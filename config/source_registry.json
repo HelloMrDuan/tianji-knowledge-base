@@ -15,6 +15,21 @@
       "notes": "八字规则表、经典摘要、神煞与大运。"
     },
     {
+      "id": "chinese-almanac-mcp",
+      "repo": "yonlandwu/chinese-almanac-mcp",
+      "domains": [
+        "zeri",
+        "almanac",
+        "ganzhi"
+      ],
+      "source_type": "scoring_engine",
+      "trust_level": "A",
+      "license_spdx": "MIT",
+      "license_policy": "ALLOW",
+      "auto_sync": true,
+      "notes": "黄历透明评分、杨公忌/三娘煞/十恶大败/四离四绝及生肖关系规则。"
+    },
+    {
       "id": "chinese-literature-dataset",
       "repo": "nursery42/ChineseliteratureDataset",
       "domains": [
@@ -64,6 +79,23 @@
       "notes": "六爻/八卦结构候选。"
     },
     {
+      "id": "fengshui-master-jackie",
+      "repo": "JackieL233/fengshui-master",
+      "domains": [
+        "fengshui",
+        "bagua",
+        "bazhai",
+        "xuan-kong",
+        "minggua"
+      ],
+      "source_type": "knowledge_rules_and_engine",
+      "trust_level": "A",
+      "license_spdx": "MIT",
+      "license_policy": "ALLOW",
+      "auto_sync": true,
+      "notes": "玄空飞星基础、八宅命卦、八卦映射与方法隔离；明确声明基础飞星脚本并非完整宅盘。"
+    },
+    {
       "id": "fengshui-skill",
       "repo": "voidforall/fengshui.skill",
       "domains": [
@@ -108,6 +140,20 @@
       "license_policy": "ALLOW",
       "auto_sync": true,
       "notes": "八卦、卦象、文言与易学计算实现；Canonical 只抽取明确字段，现代断语单独标 derived。"
+    },
+    {
+      "id": "hetu-luoshu-wuji",
+      "repo": "wuji-labs/hetu-luoshu",
+      "domains": [
+        "yijing",
+        "methodology"
+      ],
+      "source_type": "methodology_reference",
+      "trust_level": "B",
+      "license_spdx": "MIT",
+      "license_policy": "ALLOW",
+      "auto_sync": true,
+      "notes": "名称含河图洛书，但当前仓库重点是易学结构化推演方法，不含完整河图数/洛书九宫数据；不作为河图洛书事实主源。"
     },
     {
       "id": "iztro",
@@ -314,6 +360,19 @@
       "notes": "太乙候选实现，需许可证和口径复核。"
     },
     {
+      "id": "tarot-nonebot",
+      "repo": "MinatoAquaCrews/nonebot_plugin_tarot",
+      "domains": [
+        "tarot"
+      ],
+      "source_type": "structured_knowledge_data",
+      "trust_level": "A",
+      "license_spdx": "MIT",
+      "license_policy": "ALLOW",
+      "auto_sync": true,
+      "notes": "完整 78 张塔罗牌中文正逆位关键词与 9 种牌阵。图片资源不纳入知识库。"
+    },
+    {
       "id": "tarot-skill",
       "repo": "daman-ovo-0404/tarot-skill",
       "domains": [
@@ -325,6 +384,19 @@
       "license_policy": "REFERENCE_ONLY",
       "auto_sync": true,
       "notes": "塔罗牌义、牌阵、组合候选。"
+    },
+    {
+      "id": "tarot-smallteddy",
+      "repo": "SmallTeddyGames/divination-tarot",
+      "domains": [
+        "tarot"
+      ],
+      "source_type": "reference_implementation",
+      "trust_level": "C",
+      "license_spdx": "MIT",
+      "license_policy": "ALLOW",
+      "auto_sync": true,
+      "notes": "MIT，但当前 cards 数据仅为示例/不完整，不作为主塔罗知识源。"
     },
     {
       "id": "xuanxue-youngzs",
@@ -371,6 +443,21 @@
       "license_policy": "REFERENCE_ONLY",
       "auto_sync": true,
       "notes": "合婚、生肖、桃花、紫微夫妻宫。"
+    },
+    {
+      "id": "zeri-mcp",
+      "repo": "shunshi-ai/zeri-mcp",
+      "domains": [
+        "zeri",
+        "almanac",
+        "calendar"
+      ],
+      "source_type": "deterministic_engine",
+      "trust_level": "A",
+      "license_spdx": "MIT",
+      "license_policy": "ALLOW",
+      "auto_sync": true,
+      "notes": "择日确定性引擎，按黄历宜忌明示项判断，不让 LLM 猜吉凶。"
     },
     {
       "id": "zhouyi-64",
