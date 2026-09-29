@@ -1,0 +1,197 @@
+{
+  "generated_at": "2026-09-29T07:20:00Z",
+  "changed_sources": 0,
+  "sources": {
+    "lunar-python": {
+      "repo": "6tail/lunar-python",
+      "head_sha": "448f397c1695cadab3899bf460e0042cab7f0e66",
+      "license_policy": "ALLOW",
+      "domains": [
+        "calendar",
+        "ganzhi",
+        "bazi",
+        "foundations"
+      ],
+      "sync_status": "seeded"
+    },
+    "iztro": {
+      "repo": "SylarLong/iztro",
+      "head_sha": "2c7ef9be669df7b19d1799f4dce335fed3794f78",
+      "license_policy": "ALLOW",
+      "domains": [
+        "ziwei"
+      ],
+      "sync_status": "seeded"
+    },
+    "bazi-skill": {
+      "repo": "jinchenma94/bazi-skill",
+      "head_sha": "112a5d84cd1a001a0038cafca3be68d93e4c0cc9",
+      "license_policy": "ALLOW",
+      "domains": [
+        "bazi",
+        "foundations"
+      ],
+      "sync_status": "seeded"
+    },
+    "metaphysics-steward": {
+      "repo": "superzhang21/metaphysics-steward",
+      "head_sha": "0c1dcf5fd27c68debe5607f5caa697722319aed8",
+      "license_policy": "ALLOW",
+      "domains": [
+        "liuyao",
+        "meihua",
+        "yinyuan"
+      ],
+      "sync_status": "seeded"
+    },
+    "kinliuren": {
+      "repo": "kentang2017/kinliuren",
+      "head_sha": "3ba45a9540f08269b56d81508a061c7d46938785",
+      "license_policy": "ALLOW",
+      "domains": [
+        "liuren"
+      ],
+      "sync_status": "seeded"
+    },
+    "kintaiyi": {
+      "repo": "kentang2017/kintaiyi",
+      "head_sha": "626d8a5bd0f707fec2ed613c83d4b6611f56441d",
+      "license_policy": "ALLOW",
+      "domains": [
+        "taiyi"
+      ],
+      "sync_status": "seeded"
+    },
+    "qimen-qfdk": {
+      "repo": "qfdk/qimen",
+      "head_sha": "1d0d1c5b39755e67525a11e68bab9b73baae1937",
+      "license_policy": "ALLOW",
+      "domains": [
+        "qimen"
+      ],
+      "sync_status": "seeded"
+    },
+    "taibu": {
+      "repo": "hhszzzz/taibu",
+      "head_sha": "e8f636972a6fdb14f2a532ee223101f889ab4820",
+      "license_policy": "COPYLEFT",
+      "domains": [
+        "bazi",
+        "ziwei",
+        "liuyao",
+        "meihua",
+        "qimen",
+        "liuren",
+        "taiyi",
+        "tarot",
+        "yinyuan"
+      ],
+      "sync_status": "seeded"
+    },
+    "numerologist-skills": {
+      "repo": "FANzR-arch/Numerologist_skills",
+      "head_sha": "ea28c3fb7e808fa74f6b8e7b4c9ac8c8a9d44c39",
+      "license_policy": "REFERENCE_ONLY",
+      "domains": [
+        "bazi",
+        "ziwei",
+        "qimen"
+      ],
+      "sync_status": "seeded"
+    },
+    "yinyuan-skills": {
+      "repo": "Ming-H/yinyuan-skills",
+      "head_sha": "b091c8861a148b8260dedfbd06fc10daf7f886fc",
+      "license_policy": "REFERENCE_ONLY",
+      "domains": [
+        "yinyuan",
+        "bazi",
+        "ziwei",
+        "zodiac"
+      ],
+      "sync_status": "seeded"
+    },
+    "fengshui-skill": {
+      "repo": "voidforall/fengshui.skill",
+      "head_sha": "91762ccda4ea106260ff43f336df14adf08ae57d",
+      "license_policy": "REFERENCE_ONLY",
+      "domains": [
+        "fengshui",
+        "zeri",
+        "foundations"
+      ],
+      "sync_status": "seeded"
+    },
+    "tarot-skill": {
+      "repo": "daman-ovo-0404/tarot-skill",
+      "head_sha": "a9f59f02b3df8a539e9ec618fb4757d481443803",
+      "license_policy": "REFERENCE_ONLY",
+      "domains": [
+        "tarot"
+      ],
+      "sync_status": "seeded"
+    },
+    "zhouyi-64": {
+      "repo": "sunls2/zhouyi",
+      "head_sha": "695013f277dc0548eadf608a6cbabadfbb420312",
+      "license_policy": "PUBLIC_DOMAIN_EXTRACT_ONLY",
+      "domains": [
+        "yijing",
+        "bagua"
+      ],
+      "sync_status": "seeded"
+    },
+    "yijing-bazi-mcp": {
+      "repo": "SiwuXue/yijing-bazi-mcp-server",
+      "head_sha": "c71d6485169218e0ec9b755214f3875b3ffc13a2",
+      "license_policy": "REFERENCE_ONLY",
+      "domains": [
+        "yijing",
+        "bagua",
+        "bazi",
+        "foundations"
+      ],
+      "sync_status": "seeded"
+    },
+    "master-skill": {
+      "repo": "xr843/Master-skill",
+      "head_sha": "77296f6f07228513b8c37dba822a77b17e520c37",
+      "license_policy": "NON_COMMERCIAL",
+      "domains": [
+        "buddhism",
+        "classics",
+        "provenance"
+      ],
+      "sync_status": "seeded"
+    },
+    "divination-liuyao": {
+      "repo": "SmallTeddyGames/divination-liuyao",
+      "head_sha": "518b14a4a2cf8d3ad57bf665e48328783c2f3ac6",
+      "license_policy": "REFERENCE_ONLY",
+      "domains": [
+        "liuyao",
+        "bagua",
+        "yijing"
+      ],
+      "sync_status": "seeded"
+    },
+    "taiyipython": {
+      "repo": "wlhyl/taiyipython",
+      "head_sha": "5fd078994dc6b96641d87d9f0331a0304541ee01",
+      "license_policy": "REFERENCE_ONLY",
+      "domains": [
+        "taiyi"
+      ],
+      "sync_status": "seeded"
+    },
+    "meihua-mhynbnb": {
+      "repo": "mhynbnb/meihua",
+      "head_sha": "20790f5575e30f03937a8824290fe682671211ef",
+      "license_policy": "REFERENCE_ONLY",
+      "domains": [
+        "meihua"
+      ],
+      "sync_status": "seeded"
+    }
+  }
+}
