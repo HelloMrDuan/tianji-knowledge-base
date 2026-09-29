@@ -203,6 +203,46 @@
       "license": "MIT",
       "auto_refresh": true,
       "notes": "64卦整章，含彖、大象、逐爻小象；用于交叉校验和小象检索，不自动覆盖主 Canonical。"
+    },
+    {
+      "source_id": "open-iching-classics",
+      "repo": "john-walks-slow/open-iching",
+      "path": "md/系辞.md",
+      "target": "data/canonical/classics/yijing/系辞.md",
+      "ingestion": "PUBLIC_DOMAIN_CLASSIC",
+      "license": "Public Domain classical text; transport repository has no LICENSE",
+      "auto_refresh": true,
+      "notes": "Ancient classical text only; no modern commentary promoted."
+    },
+    {
+      "source_id": "open-iching-classics",
+      "repo": "john-walks-slow/open-iching",
+      "path": "md/说卦.md",
+      "target": "data/canonical/classics/yijing/说卦.md",
+      "ingestion": "PUBLIC_DOMAIN_CLASSIC",
+      "license": "Public Domain classical text; transport repository has no LICENSE",
+      "auto_refresh": true,
+      "notes": "Ancient classical text only; no modern commentary promoted."
+    },
+    {
+      "source_id": "open-iching-classics",
+      "repo": "john-walks-slow/open-iching",
+      "path": "md/序卦.md",
+      "target": "data/canonical/classics/yijing/序卦.md",
+      "ingestion": "PUBLIC_DOMAIN_CLASSIC",
+      "license": "Public Domain classical text; transport repository has no LICENSE",
+      "auto_refresh": true,
+      "notes": "Ancient classical text only; no modern commentary promoted."
+    },
+    {
+      "source_id": "open-iching-classics",
+      "repo": "john-walks-slow/open-iching",
+      "path": "md/杂卦.md",
+      "target": "data/canonical/classics/yijing/杂卦.md",
+      "ingestion": "PUBLIC_DOMAIN_CLASSIC",
+      "license": "Public Domain classical text; transport repository has no LICENSE",
+      "auto_refresh": true,
+      "notes": "Ancient classical text only; no modern commentary promoted."
     }
   ]
 }
