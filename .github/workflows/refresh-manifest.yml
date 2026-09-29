@@ -3,6 +3,13 @@ name: Refresh Audited Knowledge Files
 on:
   schedule:
     - cron: "37 */6 * * *"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/rebuild_derived.py"
+      - "scripts/refresh_manifest_sources.py"
+      - "config/source_file_manifest.json"
+      - ".github/workflows/refresh-manifest.yml"
   workflow_dispatch:
 
 permissions:
