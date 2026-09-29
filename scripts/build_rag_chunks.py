@@ -19,6 +19,34 @@ def dump_text(value: Any) -> str:
         return value.strip()
     return json.dumps(value, ensure_ascii=False, sort_keys=True)
 
+def split_text_chunks(text: str, max_chars: int = 2600) -> list[str]:
+    """Split long classical sections without changing canonical text."""
+    text = text.strip()
+    if len(text) <= max_chars:
+        return [text] if text else []
+
+    chunks: list[str] = []
+    buf: list[str] = []
+    size = 0
+    for paragraph in [x for x in text.split("\n") if x.strip()]:
+        paragraph = paragraph.strip()
+        if len(paragraph) > max_chars:
+            if buf:
+                chunks.append("\n".join(buf).strip())
+                buf, size = [], 0
+            for start in range(0, len(paragraph), max_chars):
+                chunks.append(paragraph[start:start + max_chars])
+            continue
+        added = len(paragraph) + (1 if buf else 0)
+        if buf and size + added > max_chars:
+            chunks.append("\n".join(buf).strip())
+            buf, size = [], 0
+        buf.append(paragraph)
+        size += added
+    if buf:
+        chunks.append("\n".join(buf).strip())
+    return [x for x in chunks if x]
+
 def source_meta(obj: dict) -> dict:
     p = obj.get("provenance") or {}
     if "repo" in p:
@@ -95,21 +123,51 @@ for path in sorted(CANONICAL.rglob("*.json")):
         add(domain, "ten_wings", obj.get("section", path.stem), text, obj, path, {"section": obj.get("section")})
         continue
 
-    # Public-domain classical corpora: one chapter/section per chunk.
+    # Public-domain classical corpora: split very long volumes/chapters into retrieval-size chunks.
     if obj.get("source_level") == "L0-public-domain-classic" and isinstance(obj.get("sections"), list):
         for section in obj["sections"]:
             title = section.get("title") or f"section-{section.get('id')}"
+            parts = split_text_chunks(section.get("text", ""))
+            for part_no, part in enumerate(parts, start=1):
+                suffix = f" · {part_no}/{len(parts)}" if len(parts) > 1 else ""
+                add(
+                    domain,
+                    "classic_section",
+                    f"section:{section.get('id')}:{title}:part:{part_no}",
+                    f"{obj.get('corpus','')} · {title}{suffix}\n{part}",
+                    obj,
+                    path,
+                    {
+                        "corpus": obj.get("corpus"),
+                        "section_id": section.get("id"),
+                        "section_title": title,
+                        "part": part_no,
+                        "part_count": len(parts),
+                    },
+                )
+        continue
+
+    # Fengshui 24 mountains: one sector per chunk for degree/name lookup.
+    if path.name == "twenty_four_mountains_v1.json":
+        for rec in obj.get("records", []):
+            wrap = "跨0度" if rec.get("wraps_zero") else ""
+            text_value = (
+                f"二十四山 {rec['mountain']}山 {rec['compass_label']} {rec['direction']} "
+                f"中心{rec['center_degrees']}° 范围{rec['start_degrees']}°至{rec['end_degrees']}° {wrap} "
+                f"类型{rec['type']} 五行{rec['element']} "
+                f"对宫{rec['opposite']['mountain']}山({rec['opposite']['compass_label']})"
+            )
             add(
                 domain,
-                "classic_section",
-                f"section:{section.get('id')}:{title}",
-                f"{obj.get('corpus','')} · {title}\n{section.get('text','')}",
+                "twenty_four_mountain",
+                f"mountain:{rec['index']}:{rec['mountain']}",
+                text_value,
                 obj,
                 path,
                 {
-                    "corpus": obj.get("corpus"),
-                    "section_id": section.get("id"),
-                    "section_title": title,
+                    "mountain": rec["mountain"],
+                    "compass_label": rec["compass_label"],
+                    "center_degrees": rec["center_degrees"],
                 },
             )
         continue
