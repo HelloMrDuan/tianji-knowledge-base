@@ -1,0 +1,23 @@
+name: Validate Knowledge Base
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate canonical data
+        run: |
+          export PYTHONPATH=src
+          python scripts/validate_kb.py
+          python -m unittest discover -s tests -p 'test_*.py'
+          python scripts/build_index.py
