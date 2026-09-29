@@ -252,6 +252,16 @@
         "classics"
       ],
       "sync_status": "seeded"
+    },
+    "open-iching-classics": {
+      "repo": "john-walks-slow/open-iching",
+      "head_sha": "4c5f00f8cb62c6e0d2471243d28150b473ef592f",
+      "license_policy": "PUBLIC_DOMAIN_EXTRACT_ONLY",
+      "domains": [
+        "yijing",
+        "classics"
+      ],
+      "sync_status": "seeded"
     }
   }
 }
