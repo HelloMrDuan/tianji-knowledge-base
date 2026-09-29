@@ -1,21 +1,25 @@
 {
-  "schema_version": "0.1",
+  "schema_version": "0.2",
+  "chunking": {
+    "target_chars": 1100,
+    "max_assembled_chars": 1200
+  },
   "documents": [
     {
       "doc_id": "liuyao.bushizhengzong",
       "title": "卜筮正宗",
       "char_count": 99634,
-      "chunk_count": 8,
-      "source_repo": "yaomancy/liuyao-engine",
-      "source_path": "data/卜筮正宗_ctext公有领域全文.txt"
+      "chunk_count": 94,
+      "min_chunk_chars": 338,
+      "max_chunk_chars": 1128
     },
     {
       "doc_id": "liuyao.zengshanbuyi",
       "title": "增删卜易",
       "char_count": 132885,
-      "chunk_count": 10,
-      "source_repo": "yaomancy/liuyao-engine",
-      "source_path": "data/增删卜易_ctext公有领域全文.txt"
+      "chunk_count": 125,
+      "min_chunk_chars": 297,
+      "max_chunk_chars": 1100
     }
   ]
 }
