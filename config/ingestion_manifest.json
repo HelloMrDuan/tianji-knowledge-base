@@ -81,6 +81,16 @@
       ]
     },
     {
+      "source_id": "mikaboshi-compass",
+      "paths": [
+        "docs/compass.md",
+        "src/compass.rs",
+        "json/ganzhi_stems.json",
+        "json/ganzhi_branches.json",
+        "json/bagua.json"
+      ]
+    },
+    {
       "source_id": "qimen-qfdk",
       "paths": [
         "README.md",
