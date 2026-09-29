@@ -109,6 +109,39 @@ class DomainIntegrityTests(unittest.TestCase):
         self.assertGreaterEqual(len(schools["schools"]), 7)
         self.assertIn("完整玄空宅盘", f["luoshu"]["limitation"])
 
+    def test_fengshui_24_mountains(self):
+        m = load("fengshui/twenty_four_mountains_v1.json")
+        rows = m["records"]
+        self.assertEqual(len(rows), 24)
+        self.assertEqual(len({x["mountain"] for x in rows}), 24)
+        self.assertEqual(len({x["compass_label"] for x in rows}), 24)
+        self.assertEqual(rows[0]["mountain"], "子")
+        self.assertEqual(rows[0]["compass_label"], "N2")
+        self.assertEqual(rows[0]["start_degrees"], 352.5)
+        self.assertEqual(rows[0]["end_degrees"], 7.5)
+        self.assertTrue(rows[0]["wraps_zero"])
+        self.assertEqual(rows[-1]["mountain"], "壬")
+        for x in rows:
+            self.assertEqual(x["center_degrees"], (x["index"] * 15) % 360)
+            self.assertEqual(x["opposite"]["index"], (x["index"] + 12) % 24)
+
+    def test_public_domain_bazi_classics(self):
+        dit = load("classics/bazi/ditiansui_chanwei_v1.json")
+        san = load("classics/bazi/sanming_tonghui_v1.json")
+        self.assertEqual(dit["section_count"], 63)
+        self.assertGreaterEqual(sum(len(x["text"]) for x in dit["sections"]), 120000)
+        self.assertEqual(dit["sections"][0]["title"], "通神论·一、天道")
+        self.assertEqual(dit["sections"][-1]["title"], "六亲论·二十九、贞元")
+        self.assertEqual(san["section_count"], 12)
+        self.assertEqual([x["title"] for x in san["sections"]], [
+            "卷一","卷二","卷三","卷四","卷五","卷六",
+            "卷七","卷八","卷九","卷十","卷十一","卷十二",
+        ])
+        self.assertGreaterEqual(sum(len(x["text"]) for x in san["sections"]), 450000)
+        corrections = san["cleaning"]["collation_corrections"]
+        self.assertEqual(len(corrections), 2)
+        self.assertEqual({x["to"] for x in corrections}, {"谬误甚矣", "王麟洲少卿"})
+
     def test_hetu_luoshu(self):
         h = load("foundations/hetu_luoshu_v1.json")
         pairs = h["hetu"]["pairs"]
