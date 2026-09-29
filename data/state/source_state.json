@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-29T07:42:00Z",
+  "generated_at": "2026-09-29T08:05:00Z",
   "changed_sources": 0,
   "sources": {
     "lunar-python": {
@@ -239,6 +239,17 @@
         "liuyao",
         "meihua",
         "liuren"
+      ],
+      "sync_status": "seeded"
+    },
+    "fundgao-zhouyi": {
+      "repo": "fundgao/DAO_DE_JING",
+      "head_sha": "79c241f01064778fa85f7a532073f3bfb1f779c3",
+      "license_policy": "ALLOW",
+      "domains": [
+        "yijing",
+        "bagua",
+        "classics"
       ],
       "sync_status": "seeded"
     }
