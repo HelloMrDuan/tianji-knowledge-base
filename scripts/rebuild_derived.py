@@ -225,12 +225,20 @@ def rebuild_yijing() -> dict:
             "text": f"{x['name']}{x['symbol']}；象={x['image']}；五行={x['wuxing']}；属性={x['attribute']}；后天方位={x['direction']}；先天数={x['xian_tian_num']}；后天数={x['hou_tian_num']}",
             "provenance": x["provenance"],
         })
+    tuan_by_no = {x["king_wen_no"]: x for x in tuan_xiang}
     for x in items:
         rows.append({
             "id": f"{x['id']}.core", "domain": "yijing", "layer": "L0", "topic": "卦辞/大象",
             "title": f"{x['king_wen_no']}.{x['full_name']}",
             "text": f"卦辞：{x['judgment']}\n大象：{x['great_image']}", "provenance": x["provenance"],
         })
+        tx = tuan_by_no.get(x["king_wen_no"])
+        if tx and tx.get("tuan"):
+            rows.append({
+                "id": f"{x['id']}.tuan", "domain": "yijing", "layer": "L0", "topic": "彖传",
+                "title": f"{x['king_wen_no']}.{x['full_name']} 彖传",
+                "text": tx["tuan"], "provenance": tx["provenance"],
+            })
         for i, line in enumerate(x["lines"], 1):
             rows.append({
                 "id": f"{x['id']}.line.{i}", "domain": "yijing", "layer": "L0", "topic": "爻辞",
@@ -266,6 +274,61 @@ def rebuild_yijing() -> dict:
         crosscheck_count = len(cross_rows)
 
     return {"hexagrams": 64, "lines": 384, "trigrams": 8, "yijing_index_rows": len(rows), "crosscheck_sections": crosscheck_count}
+
+
+def rebuild_yizhuan_supplement() -> dict:
+    specs = [
+        ("系辞", "data/canonical/classics/yijing/系辞.md", "md/系辞.md"),
+        ("说卦", "data/canonical/classics/yijing/说卦.md", "md/说卦.md"),
+        ("序卦", "data/canonical/classics/yijing/序卦.md", "md/序卦.md"),
+        ("杂卦", "data/canonical/classics/yijing/杂卦.md", "md/杂卦.md"),
+    ]
+    commit = source_commit("open-iching-classics")
+    works, rows = [], []
+    for work, path, source_path in specs:
+        raw = read_text(path).strip()
+        body = re.sub(r"^#\\s+[^\\n]+\\n+", "", raw, count=1).strip()
+        sections = []
+        if work == "系辞":
+            pieces = re.split(r"^##\\s+(上|下)\\s*$", body, flags=re.M)
+            if len(pieces) >= 5:
+                sections = [
+                    {"part": "上", "text": pieces[2].strip()},
+                    {"part": "下", "text": pieces[4].strip()},
+                ]
+        if not sections:
+            sections = [{"part": None, "text": body}]
+
+        works.append({
+            "work": work,
+            "source_repo": "john-walks-slow/open-iching",
+            "source_path": source_path,
+            "source_commit": commit,
+            "license": "Public Domain classical text; transport repository has no LICENSE",
+            "sections": sections,
+        })
+
+        n = 0
+        for section in sections:
+            for chunk in chunk_document(section["text"], max_chars=1000, assembled_max=1100):
+                n += 1
+                rows.append({
+                    "id": f"yijing.yizhuan.{work}.{n:03d}",
+                    "domain": "yijing", "layer": "L0", "topic": work,
+                    "part": section["part"], "chunk_no": n, "text": chunk,
+                    "source_repo": "john-walks-slow/open-iching",
+                    "source_path": source_path, "source_commit": commit,
+                    "license": "Public Domain classical text",
+                    "provenance_note": "Ancient text only; repository code/content outside these public-domain files is not reused.",
+                })
+
+    write_json("data/canonical/classics/yijing/yizhuan-supplement.json", {
+        "schema_version": "0.1",
+        "works": works,
+        "note": "Supplements the separately stored 彖传/象传/文言 data with 系辞、说卦、序卦、杂卦.",
+    })
+    write_jsonl("data/index/yijing-yizhuan.jsonl", rows)
+    return {"yizhuan_works": len(works), "yizhuan_index_rows": len(rows)}
 
 
 def rebuild_liuyao_classics() -> dict:
@@ -373,6 +436,7 @@ def rebuild_rule_indexes() -> dict:
 def main() -> None:
     stats = {}
     stats.update(rebuild_yijing())
+    stats.update(rebuild_yizhuan_supplement())
     stats.update(rebuild_liuyao_classics())
     stats.update(rebuild_bazi())
     stats.update(rebuild_rule_indexes())
