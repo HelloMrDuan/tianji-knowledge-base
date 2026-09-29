@@ -262,6 +262,71 @@
       "license_policy": "REFERENCE_ONLY",
       "auto_sync": true,
       "notes": "梅花易数候选实现，需许可证和规则复核。"
+    },
+    {
+      "id": "godcong-yi",
+      "repo": "godcong/yi",
+      "domains": [
+        "yijing",
+        "bagua",
+        "liuyao",
+        "meihua"
+      ],
+      "source_type": "structured_data_and_engine",
+      "trust_level": "A",
+      "license_spdx": "MIT",
+      "license_policy": "ALLOW",
+      "auto_sync": true,
+      "notes": "八卦、卦象、文言与易学计算实现；Canonical 只抽取明确字段，现代断语单独标 derived。"
+    },
+    {
+      "id": "liuyao-engine",
+      "repo": "yaomancy/liuyao-engine",
+      "domains": [
+        "liuyao",
+        "yijing",
+        "bagua",
+        "classics"
+      ],
+      "source_type": "engine_rules_classics",
+      "trust_level": "A",
+      "license_spdx": "Apache-2.0",
+      "license_policy": "ALLOW",
+      "auto_sync": true,
+      "notes": "六爻引擎、纳甲表、术语表；仓库包含明确标注为公有领域的《卜筮正宗》《增删卜易》全文。"
+    },
+    {
+      "id": "zhouyi-skill-qbdx",
+      "repo": "qbdx-hub/zhouyi-skill",
+      "domains": [
+        "yijing",
+        "decision_patterns"
+      ],
+      "source_type": "derived_knowledge",
+      "trust_level": "B",
+      "license_spdx": "MIT",
+      "license_policy": "ALLOW",
+      "auto_sync": true,
+      "notes": "周易结构化现实决策模式；作为现代派生知识，不冒充古典原文。"
+    },
+    {
+      "id": "zhouyilab",
+      "repo": "banderzhm/ZhouYiLab",
+      "domains": [
+        "yijing",
+        "bazi",
+        "ziwei",
+        "qimen",
+        "liuyao",
+        "meihua",
+        "liuren"
+      ],
+      "source_type": "engine_and_source_catalog",
+      "trust_level": "A",
+      "license_spdx": "MIT",
+      "license_policy": "ALLOW",
+      "auto_sync": true,
+      "notes": "多术数计算与资料来源台账；重点吸收来源治理、可复现规则和回归案例。"
     }
   ]
 }
