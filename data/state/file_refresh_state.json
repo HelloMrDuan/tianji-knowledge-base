@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-29T08:10:37.417003+00:00",
+  "generated_at": "2026-09-29T18:13:16.687348+00:00",
   "files": {
     "data/upstream/godcong-yi/bagua.json": {
       "status": "unchanged",
@@ -244,7 +244,7 @@
       "chars": 22292
     },
     "data/canonical/classics/yijing/系辞.md": {
-      "status": "updated",
+      "status": "unchanged",
       "repo": "john-walks-slow/open-iching",
       "source_path": "md/系辞.md",
       "source_commit": "4c5f00f8cb62c6e0d2471243d28150b473ef592f",
@@ -255,7 +255,7 @@
       "chars": 5744
     },
     "data/canonical/classics/yijing/说卦.md": {
-      "status": "updated",
+      "status": "unchanged",
       "repo": "john-walks-slow/open-iching",
       "source_path": "md/说卦.md",
       "source_commit": "4c5f00f8cb62c6e0d2471243d28150b473ef592f",
@@ -266,7 +266,7 @@
       "chars": 1288
     },
     "data/canonical/classics/yijing/序卦.md": {
-      "status": "updated",
+      "status": "unchanged",
       "repo": "john-walks-slow/open-iching",
       "source_path": "md/序卦.md",
       "source_commit": "4c5f00f8cb62c6e0d2471243d28150b473ef592f",
@@ -277,7 +277,7 @@
       "chars": 1416
     },
     "data/canonical/classics/yijing/杂卦.md": {
-      "status": "updated",
+      "status": "unchanged",
       "repo": "john-walks-slow/open-iching",
       "source_path": "md/杂卦.md",
       "source_commit": "4c5f00f8cb62c6e0d2471243d28150b473ef592f",
