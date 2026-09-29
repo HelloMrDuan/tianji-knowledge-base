@@ -193,6 +193,16 @@
       "ingestion": "ALLOW_SNAPSHOT",
       "license": "MIT",
       "auto_refresh": true
+    },
+    {
+      "source_id": "fundgao-zhouyi",
+      "repo": "fundgao/DAO_DE_JING",
+      "path": "周易/README.md",
+      "target": "data/upstream/fundgao-zhouyi/README.md",
+      "ingestion": "ALLOW_SNAPSHOT_CROSSCHECK",
+      "license": "MIT",
+      "auto_refresh": true,
+      "notes": "64卦整章，含彖、大象、逐爻小象；用于交叉校验和小象检索，不自动覆盖主 Canonical。"
     }
   ]
 }
