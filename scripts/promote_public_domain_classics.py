@@ -187,6 +187,17 @@ for group in MANIFEST["sources"]:
         if replacement_chars:
             raise SystemExit(f"{work_id}: unresolved replacement chars={replacement_chars}")
 
+        private_use_chars = [
+            ch for ch in text
+            if 0xE000 <= ord(ch) <= 0xF8FF
+        ]
+        if private_use_chars:
+            unique_pua = sorted({f"U+{ord(ch):04X}" for ch in private_use_chars})
+            raise SystemExit(
+                f"{work_id}: unresolved private-use glyphs={len(private_use_chars)} "
+                f"unique={len(unique_pua)} examples={unique_pua[:12]}"
+            )
+
         sections = parser(text)
         total_chars = sum(len(x["text"]) for x in sections)
         guard = thresholds.get(work_id, {})
@@ -209,6 +220,7 @@ for group in MANIFEST["sources"]:
             },
             "cleaning": {
                 "replacement_chars": replacement_chars,
+                "private_use_chars": 0,
                 "parser": parser_name,
                 "snapshot_sha256": row["sha256"],
                 "wording_policy": (
