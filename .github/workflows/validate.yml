@@ -63,3 +63,23 @@ jobs:
               print(f"{domain}/{term}: {n}")
           con.close()
           PY
+
+      - name: Citation-first context smoke
+        run: |
+          python scripts/build_context.py "月将" --domain liuren --limit 3 > /tmp/liuren_context.json
+          python scripts/build_context.py "八门" --domain taiyi --limit 3 > /tmp/taiyi_context.json
+          python - <<'PY'
+          import json
+          for path, term in [
+              ("/tmp/liuren_context.json", "月将"),
+              ("/tmp/taiyi_context.json", "八门"),
+          ]:
+              data = json.load(open(path, encoding="utf-8"))
+              if data["evidence_count"] < 1:
+                  raise SystemExit(f"context smoke failed: {term}")
+              first = data["evidence"][0]
+              citation = first["citation"]
+              if not citation.get("canonical_path") or not citation.get("repo") or not citation.get("commit"):
+                  raise SystemExit(f"citation missing provenance: {term}")
+              print(term, citation["label"], citation["commit"])
+          PY
