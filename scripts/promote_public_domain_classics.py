@@ -59,14 +59,94 @@ def parse_qiongtong(text: str) -> list[dict]:
     flush()
     return sections
 
+CHINESE_NUM = "一二三四五六七八九十百"
+
+def parse_ditiansui(text: str) -> list[dict]:
+    """Split 滴天髓阐微 into the 34 通神论 and 29 六亲论 topics."""
+    lines = [line.strip() for line in text.replace("\r", "").split("\n")]
+    try:
+        start = lines.index("通神论")
+    except ValueError as exc:
+        raise SystemExit("ditiansui: body marker 通神论 not found") from exc
+
+    numbered = re.compile(rf"^([{CHINESE_NUM}]+)[、\s]+(.{{1,24}})$")
+    sections: list[dict] = []
+    group = ""
+    current_title: str | None = None
+    current_lines: list[str] = []
+
+    def flush() -> None:
+        nonlocal current_title, current_lines
+        if current_title is None:
+            return
+        body = clean_text("\n".join(current_lines))
+        if len(body) >= 8:
+            sections.append({
+                "id": len(sections) + 1,
+                "title": f"{group}·{current_title}",
+                "group": group,
+                "text": body,
+            })
+        current_lines = []
+
+    for line in lines[start:]:
+        if line in {"通神论", "六亲论"}:
+            flush()
+            current_title = None
+            group = line
+            continue
+        match = numbered.match(line)
+        if match:
+            flush()
+            current_title = f"{match.group(1)}、{match.group(2).strip()}"
+            continue
+        if current_title is not None:
+            current_lines.append(line)
+    flush()
+    return sections
+
+SANMING_VOLUME_RE = re.compile(
+    rf"钦定四库全书\s+三命通(?:会|防)卷([{CHINESE_NUM}]+)\s+明\s*万民英\s*撰"
+)
+
+def parse_sanming(text: str) -> list[dict]:
+    """Preserve 三命通会 as twelve volume-level canonical sections."""
+    matches = list(SANMING_VOLUME_RE.finditer(text))
+    if len(matches) != 12:
+        raise SystemExit(f"sanming: expected 12 volume starts, got {len(matches)}")
+    sections = []
+    for i, match in enumerate(matches):
+        start = match.end()
+        end = matches[i + 1].start() if i + 1 < len(matches) else len(text)
+        body = text[start:end]
+        body = re.sub(r"<子部,[^>]+>", "", body)
+        body = re.sub(
+            rf"\n\s*三命通(?:会|防)卷[{CHINESE_NUM}]+\s*$",
+            "",
+            body,
+        )
+        body = clean_text(body)
+        if len(body) >= 100:
+            sections.append({
+                "id": len(sections) + 1,
+                "title": f"卷{match.group(1)}",
+                "volume": match.group(1),
+                "text": body,
+            })
+    return sections
+
 PARSERS = {
     "angle_markers": parse_angle_markers,
     "qiongtong_headings": parse_qiongtong,
+    "ditiansui_sections": parse_ditiansui,
+    "sanming_volumes": parse_sanming,
 }
 
 thresholds = {
     "yuanhai_ziping": {"min_sections": 180, "min_chars": 55000},
     "qiongtong_baojian": {"min_sections": 95, "min_chars": 30000},
+    "ditiansui_chanwei": {"min_sections": 63, "min_chars": 120000},
+    "sanming_tonghui": {"min_sections": 12, "min_chars": 450000},
 }
 
 promoted = []
@@ -87,6 +167,22 @@ for group in MANIFEST["sources"]:
 
         snapshot = ROOT / row["snapshot_path"]
         text = snapshot.read_text(encoding="utf-8")
+        corrections_applied = []
+        for correction in work.get("collation_corrections", []):
+            before = correction["from"]
+            after = correction["to"]
+            count = text.count(before)
+            if count != 1:
+                raise SystemExit(
+                    f"{work_id}: correction token must occur exactly once: {before!r}, got {count}"
+                )
+            text = text.replace(before, after, 1)
+            corrections_applied.append({
+                "from": before,
+                "to": after,
+                "evidence": correction.get("evidence"),
+            })
+
         replacement_chars = len(re.findall(r"[□�]", text))
         if replacement_chars:
             raise SystemExit(f"{work_id}: unresolved replacement chars={replacement_chars}")
@@ -100,7 +196,7 @@ for group in MANIFEST["sources"]:
             raise SystemExit(f"{work_id}: text unexpectedly short: {total_chars}")
 
         out = {
-            "schema_version": "0.1",
+            "schema_version": "0.2",
             "domain": work["domain"],
             "corpus": work["title"],
             "source_level": "L0-public-domain-classic",
@@ -115,7 +211,11 @@ for group in MANIFEST["sources"]:
                 "replacement_chars": replacement_chars,
                 "parser": parser_name,
                 "snapshot_sha256": row["sha256"],
-                "wording_policy": "Whitespace normalized; wording otherwise preserved.",
+                "wording_policy": (
+                    "Whitespace normalized; wording otherwise preserved except explicitly "
+                    "recorded collation corrections."
+                ),
+                "collation_corrections": corrections_applied,
             },
             "sections": sections,
         }
@@ -128,6 +228,7 @@ for group in MANIFEST["sources"]:
             "sections": len(sections),
             "chars": total_chars,
             "commit": row["commit"],
+            "collation_corrections": len(corrections_applied),
         })
 
 print(json.dumps({"promoted": promoted}, ensure_ascii=False, indent=2))
