@@ -142,6 +142,22 @@
       "notes": "八卦、卦象、文言与易学计算实现；Canonical 只抽取明确字段，现代断语单独标 derived。"
     },
     {
+      "id": "hetu-luoshu-jbbom",
+      "repo": "JbBom/hetu-cube-3d",
+      "domains": [
+        "hetu",
+        "luoshu",
+        "bagua",
+        "foundations"
+      ],
+      "source_type": "structured_learning_data",
+      "trust_level": "A",
+      "license_spdx": "MIT",
+      "license_policy": "ALLOW",
+      "auto_sync": true,
+      "notes": "河图1-10生成配对、洛书九宫幻方及八卦映射。只吸收数理/结构关系；上游关于古籍出处的断言需另行校勘。"
+    },
+    {
       "id": "hetu-luoshu-wuji",
       "repo": "wuji-labs/hetu-luoshu",
       "domains": [
