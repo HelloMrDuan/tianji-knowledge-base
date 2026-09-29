@@ -32,11 +32,10 @@ class CanonicalIntegrityTests(unittest.TestCase):
     def test_yijing_index(self):
         rows = load_jsonl("data/index/yijing-core.jsonl")
         ids = [x["id"] for x in rows]
-        self.assertGreaterEqual(len(rows), 473)
+        self.assertEqual(len(rows), 537)
         self.assertEqual(len(ids), len(set(ids)))
         self.assertEqual(sum(x.get("topic") == "爻辞" for x in rows), 384)
-        # Migration-safe during automatic rebuild: pre-Tuan index has 0, rebuilt index has all 64.
-        self.assertIn(sum(x.get("topic") == "彖传" for x in rows), {0, 64})
+        self.assertEqual(sum(x.get("topic") == "彖传" for x in rows), 64)
 
     def test_liuyao_classics_index(self):
         rows = load_jsonl("data/index/liuyao-classics.jsonl")
