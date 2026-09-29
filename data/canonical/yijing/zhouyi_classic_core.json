@@ -5,7 +5,7 @@
   "source_level": "L0-public-domain-classic",
   "record_count": 64,
   "line_count": 384,
-  "source_note": "Only pre-modern classical text segments were extracted from the mixed GitHub corpus. Modern commentaries, fortune-telling interpretations and contemporary author text are excluded.",
+  "source_note": "Only pre-modern classical text segments were extracted from the mixed GitHub corpus. Modern commentaries, fortune-telling interpretations and contemporary author text are excluded. Qian 用九 and Kun 用六 are preserved separately as special_use because they are not ordinary six-line positions.",
   "upstream": {
     "repo": "sunls2/zhouyi",
     "commit": "695013f277dc0548eadf608a6cbabadfbb420312",
@@ -48,6 +48,16 @@
         "path": "docs/01.乾为天/index.md",
         "upstream_commit": "695013f277dc0548eadf608a6cbabadfbb420312",
         "source_license_policy": "PUBLIC_DOMAIN_EXTRACT_ONLY"
+      },
+      "special_use": {
+        "position": "用九",
+        "text": "見群龍無首，吉。",
+        "provenance": {
+          "repo": "garychowcmu/daizhigev20",
+          "path": "易藏/易经/周易.txt",
+          "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+          "license_policy": "PUBLIC_DOMAIN_EXTRACT_ONLY"
+        }
       }
     },
     {
@@ -86,6 +96,16 @@
         "path": "docs/02.坤为地/index.md",
         "upstream_commit": "695013f277dc0548eadf608a6cbabadfbb420312",
         "source_license_policy": "PUBLIC_DOMAIN_EXTRACT_ONLY"
+      },
+      "special_use": {
+        "position": "用六",
+        "text": "利永貞。",
+        "provenance": {
+          "repo": "garychowcmu/daizhigev20",
+          "path": "易藏/易经/周易.txt",
+          "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+          "license_policy": "PUBLIC_DOMAIN_EXTRACT_ONLY"
+        }
       }
     },
     {
@@ -2444,5 +2464,7 @@
         "source_license_policy": "PUBLIC_DOMAIN_EXTRACT_ONLY"
       }
     }
-  ]
+  ],
+  "special_use_count": 2,
+  "classic_statement_count": 386
 }
