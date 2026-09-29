@@ -40,5 +40,50 @@ class DomainIntegrityTests(unittest.TestCase):
         self.assertGreaterEqual(load("liuren/classics_catalog_v1.json")["record_count"], 120)
         self.assertGreaterEqual(load("taiyi/classics_catalog_v1.json")["record_count"], 90)
 
+    def test_tarot(self):
+        t = load("tarot/rws_cn_v1.json")
+        self.assertEqual(t["record_count"], 78)
+        self.assertEqual(t["spread_count"], 9)
+        self.assertEqual(t["counts"]["MajorArcana"], 22)
+        self.assertEqual(t["counts"]["Swords"], 14)
+        self.assertEqual(t["counts"]["Wands"], 14)
+        self.assertEqual(t["counts"]["Cups"], 14)
+        self.assertEqual(t["counts"]["Pentacles"], 14)
+        self.assertTrue(all("pic" not in card for card in t["cards"]))
+
+    def test_zeri_and_almanac(self):
+        z = load("zeri/zeri_core_v1.json")
+        a = load("almanac/scoring_v1.json")
+        self.assertEqual(len(z["events"]), 10)
+        self.assertEqual(len(z["branch_clashes"]), 12)
+        self.assertEqual(len(z["sha_direction"]), 12)
+        self.assertEqual(len(a["fixed_inauspicious"]["yang_gong_13_avoid"]), 13)
+        self.assertEqual(len(a["fixed_inauspicious"]["san_niang_sha_lunar_days"]), 6)
+        self.assertEqual(len(a["fixed_inauspicious"]["shi_e_da_bai_jiazi"]), 10)
+
+    def test_fengshui(self):
+        f = load("fengshui/calculation_v1.json")
+        schools = load("fengshui/schools_v1.json")
+        self.assertEqual(len(f["san_yuan_periods"]), 9)
+        self.assertEqual(len(f["luoshu"]["palace_numbers"]), 9)
+        self.assertEqual(len(f["luoshu"]["flight_path"]), 9)
+        self.assertEqual(len(f["ming_gua"]["directions"]), 8)
+        self.assertGreaterEqual(len(schools["schools"]), 7)
+        self.assertIn("完整玄空宅盘", f["luoshu"]["limitation"])
+
+    def test_hetu_luoshu(self):
+        h = load("foundations/hetu_luoshu_v1.json")
+        pairs = h["hetu"]["pairs"]
+        self.assertEqual(len(pairs), 5)
+        self.assertTrue(all(x["completing"] - x["generating"] == 5 for x in pairs))
+        matrix = h["luoshu"]["matrix_south_up"]
+        self.assertEqual(matrix, [[4,9,2],[3,5,7],[8,1,6]])
+        rows = matrix
+        cols = [list(x) for x in zip(*matrix)]
+        diags = [[matrix[i][i] for i in range(3)], [matrix[i][2-i] for i in range(3)]]
+        self.assertTrue(all(sum(line) == 15 for line in rows + cols + diags))
+        self.assertEqual(len(h["luoshu"]["nine_palaces"]), 9)
+        self.assertEqual(h["hetu"]["textual_attribution_status"], "UNVERIFIED")
+
 if __name__ == "__main__":
     unittest.main()
