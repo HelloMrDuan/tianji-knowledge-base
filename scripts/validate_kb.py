@@ -30,9 +30,12 @@ zeri = load("zeri/zeri_core_v1.json")
 almanac = load("almanac/scoring_v1.json")
 fengshui_calc = load("fengshui/calculation_v1.json")
 fengshui_schools = load("fengshui/schools_v1.json")
+fengshui_mountains = load("fengshui/twenty_four_mountains_v1.json")
 hetu_luoshu = load("foundations/hetu_luoshu_v1.json")
 yuanhai = load("classics/bazi/yuanhai_ziping_v1.json")
 qiongtong = load("classics/bazi/qiongtong_baojian_v1.json")
+ditiansui = load("classics/bazi/ditiansui_chanwei_v1.json")
+sanming = load("classics/bazi/sanming_tonghui_v1.json")
 
 registry = json.loads((ROOT / "config/source_registry.json").read_text(encoding="utf-8"))["sources"]
 ingestion = json.loads((ROOT / "config/ingestion_manifest.json").read_text(encoding="utf-8"))
@@ -159,6 +162,14 @@ check(len(luoshu_calc.get("palace_numbers", {})) == 9, "Fengshui Luo Shu must co
 check(len(luoshu_calc.get("flight_path", [])) == 9, "Fengshui Luo Shu flight path must contain 9 palaces")
 check(len(fengshui_calc.get("ming_gua", {}).get("directions", {})) == 8, "Eight Mansions Ming Gua must contain 8 non-center gua mappings")
 check(len(fengshui_schools.get("schools", [])) >= 7, "Fengshui school separation must list at least 7 methods")
+mountains = fengshui_mountains.get("records", [])
+check(len(mountains) == 24, "Fengshui 24-mountain compass must contain 24 sectors")
+check(len({x.get("mountain") for x in mountains}) == 24, "Fengshui 24 mountains must be unique")
+check(len({x.get("compass_label") for x in mountains}) == 24, "Fengshui compass labels must be unique")
+check(all(x.get("center_degrees") == (x.get("index") * 15) % 360 for x in mountains), "Fengshui mountain center degrees must advance by 15 degrees")
+check(all(x.get("opposite", {}).get("index") == (x.get("index") + 12) % 24 for x in mountains), "Fengshui opposite mountains must differ by 180 degrees")
+check(mountains[0].get("mountain") == "子" and mountains[0].get("compass_label") == "N2", "Fengshui 24 mountains must start from 子/N2")
+check(mountains[-1].get("mountain") == "壬" and mountains[-1].get("compass_label") == "N1", "Fengshui 24 mountains must end at 壬/N1")
 
 # Hetu / Luoshu
 hetu_pairs = hetu_luoshu.get("hetu", {}).get("pairs", [])
@@ -180,6 +191,15 @@ check(qiongtong.get("source_level") == "L0-public-domain-classic", "Qiongtong Ba
 check(qiongtong.get("section_count", 0) >= 95, "Qiongtong Baojian section count unexpectedly small")
 check(sum(len(x.get("text", "")) for x in qiongtong.get("sections", [])) >= 30000, "Qiongtong Baojian text unexpectedly short")
 check(qiongtong.get("cleaning", {}).get("replacement_chars") == 0, "Qiongtong Baojian contains unresolved replacement chars")
+check(ditiansui.get("source_level") == "L0-public-domain-classic", "Ditiansui Chanwei must be L0 classic")
+check(ditiansui.get("section_count") == 63, "Ditiansui Chanwei must contain 63 topic sections")
+check(sum(len(x.get("text", "")) for x in ditiansui.get("sections", [])) >= 120000, "Ditiansui Chanwei text unexpectedly short")
+check(ditiansui.get("cleaning", {}).get("replacement_chars") == 0, "Ditiansui Chanwei contains unresolved replacement chars")
+check(sanming.get("source_level") == "L0-public-domain-classic", "Sanming Tonghui must be L0 classic")
+check(sanming.get("section_count") == 12, "Sanming Tonghui must contain 12 volumes")
+check(sum(len(x.get("text", "")) for x in sanming.get("sections", [])) >= 450000, "Sanming Tonghui text unexpectedly short")
+check(sanming.get("cleaning", {}).get("replacement_chars") == 0, "Sanming Tonghui contains unresolved replacement chars")
+check(len(sanming.get("cleaning", {}).get("collation_corrections", [])) == 2, "Sanming Tonghui must preserve two explicit collation corrections")
 
 # Licensing and ingestion guardrails
 valid_policies = {"ALLOW","REFERENCE_ONLY","PUBLIC_DOMAIN_EXTRACT_ONLY","NON_COMMERCIAL","COPYLEFT","QUARANTINE"}
@@ -224,5 +244,7 @@ print(
     f"Taiyi={taiyi_catalog['record_count']} bibliography/72+72 palace rules; "
     f"Tarot={tarot['record_count']} cards/{tarot['spread_count']} spreads; "
     f"Zeri={len(zeri['events'])} events; Hetu/Luoshu=5 pairs/9 palaces; "
-    f"Bazi classics={yuanhai['section_count']}+{qiongtong['section_count']} sections."
+    f"Fengshui=24 mountains; "
+    f"Bazi classics={yuanhai['section_count']}+{qiongtong['section_count']}+"
+    f"{ditiansui['section_count']} sections + {sanming['section_count']} Sanming volumes."
 )
