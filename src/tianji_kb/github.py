@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 import json
 import os
 import urllib.error
@@ -25,7 +26,7 @@ class GitHubClient:
     def _request(self, url: str) -> Any:
         headers = {
             "Accept": "application/vnd.github+json",
-            "User-Agent": "tianji-knowledge-base/0.1",
+            "User-Agent": "tianji-knowledge-base/0.2",
             "X-GitHub-Api-Version": "2022-11-28",
         }
         if self.token:
@@ -59,6 +60,22 @@ class GitHubClient:
             if "404" in str(exc):
                 return None
             raise
+
+    def fetch_text_file(self, full_name: str, path: str, ref: str | None = None) -> str:
+        params = {"ref": ref} if ref else None
+        payload = self.api(
+            f"/repos/{full_name}/contents/{urllib.parse.quote(path, safe='/')}",
+            params,
+        )
+        if payload.get("type") != "file":
+            raise GitHubError(f"Not a file: {full_name}/{path}")
+        encoding = payload.get("encoding")
+        content = payload.get("content") or ""
+        if encoding == "base64":
+            return base64.b64decode(content).decode("utf-8")
+        if encoding in (None, "utf-8"):
+            return str(content)
+        raise GitHubError(f"Unsupported encoding {encoding!r}: {full_name}/{path}")
 
     def search_repositories(self, query: str, per_page: int = 20, page: int = 1) -> list[dict[str, Any]]:
         payload = self.api("/search/repositories", {
