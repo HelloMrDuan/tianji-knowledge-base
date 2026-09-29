@@ -286,6 +286,22 @@
       "notes": "六爻纳甲、梅花规则与黄金案例。"
     },
     {
+      "id": "mikaboshi-compass",
+      "repo": "minagawah/mikaboshi",
+      "domains": [
+        "fengshui",
+        "compass",
+        "bagua",
+        "ganzhi"
+      ],
+      "source_type": "deterministic_compass_engine",
+      "trust_level": "A",
+      "license_spdx": "MIT",
+      "license_policy": "ALLOW",
+      "auto_sync": true,
+      "notes": "MIT 二十四山罗盘实现：24扇区、角度解析、干支/卦映射。bagua.json 的兑卦 direction 字段存在明显上游瑕疵，Canonical 不直接照搬该字段。"
+    },
+    {
       "id": "numerologist-skills",
       "repo": "FANzR-arch/Numerologist_skills",
       "domains": [
