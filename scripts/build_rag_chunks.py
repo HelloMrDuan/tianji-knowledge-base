@@ -95,6 +95,25 @@ for path in sorted(CANONICAL.rglob("*.json")):
         add(domain, "ten_wings", obj.get("section", path.stem), text, obj, path, {"section": obj.get("section")})
         continue
 
+    # Public-domain classical corpora: one chapter/section per chunk.
+    if obj.get("source_level") == "L0-public-domain-classic" and isinstance(obj.get("sections"), list):
+        for section in obj["sections"]:
+            title = section.get("title") or f"section-{section.get('id')}"
+            add(
+                domain,
+                "classic_section",
+                f"section:{section.get('id')}:{title}",
+                f"{obj.get('corpus','')} · {title}\n{section.get('text','')}",
+                obj,
+                path,
+                {
+                    "corpus": obj.get("corpus"),
+                    "section_id": section.get("id"),
+                    "section_title": title,
+                },
+            )
+        continue
+
     # Tarot: one card / spread per chunk.
     if path.name == "rws_cn_v1.json":
         for card in obj["cards"]:
