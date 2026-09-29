@@ -22,7 +22,9 @@ meihua = load("meihua/rules_v1.json")
 ziwei = load("ziwei/iztro_rules_v1.json")
 qimen = load("qimen/qfdk_maoshan_v1.json")
 liuren_catalog = load("liuren/classics_catalog_v1.json")
+liuren_rules = load("liuren/rules_v1.json")
 taiyi_catalog = load("taiyi/classics_catalog_v1.json")
+taiyi_rules = load("taiyi/rules_v1.json")
 tarot = load("tarot/rws_cn_v1.json")
 zeri = load("zeri/zeri_core_v1.json")
 almanac = load("almanac/scoring_v1.json")
@@ -114,6 +116,23 @@ check(len(qimen.get("canonical_terms", {}).get("liu_yi", [])) == 6, "Qimen liuyi
 check(liuren_catalog.get("record_count", 0) >= 120, "Daliuren bibliography unexpectedly small")
 check(taiyi_catalog.get("record_count", 0) >= 90, "Taiyi bibliography unexpectedly small")
 
+# Daliuren rules
+check(len(liuren_rules.get("month_general_by_solar_terms", [])) == 12, "Daliuren must contain 12 month-general pairs")
+check(len(liuren_rules.get("heavenly_generals", {}).get("order", [])) == 12, "Daliuren must contain 12 heavenly generals")
+check(len(liuren_rules.get("three_transmissions", {}).get("engine_selection_precedence", [])) == 8, "Daliuren engine must expose 8 transmission selection methods")
+check(len(liuren_rules.get("day_night", {}).get("day_branches", [])) == 6, "Daliuren day branches must contain 6 branches")
+check(len(liuren_rules.get("day_night", {}).get("night_branches", [])) == 6, "Daliuren night branches must contain 6 branches")
+check(set(liuren_rules.get("branch_relations", {}).get("clash", {}).keys()) == set("子丑寅卯辰巳午未申酉戌亥"), "Daliuren clash table must cover 12 branches")
+
+# Taiyi rules
+check(len(taiyi_rules.get("classical_methods", {})) == 4, "Taiyi must contain 4 main classical methods")
+check(len(taiyi_rules.get("taiyi_palace", {}).get("yang_72", [])) == 72, "Taiyi Yang Dun palace sequence must contain 72 bureaus")
+check(len(taiyi_rules.get("taiyi_palace", {}).get("yin_72", [])) == 72, "Taiyi Yin Dun palace sequence must contain 72 bureaus")
+check(set(taiyi_rules.get("taiyi_palace", {}).get("valid_palace_numbers", [])) == {1,2,3,4,6,7,8,9}, "Taiyi palace sequence must exclude center 5 and 0")
+check(taiyi_rules.get("eight_doors", {}).get("base_order") == ["开","休","生","伤","杜","景","死","惊"], "Taiyi Eight Doors base order mismatch")
+check(len(taiyi_rules.get("sixteen_palaces", [])) == 16, "Taiyi must contain 16 palaces")
+check(len(taiyi_rules.get("luoshu_outer_order", [])) == 8, "Taiyi outer Luo Shu order must contain 8 palaces")
+
 # Tarot
 check(tarot.get("record_count") == 78, "Tarot must contain 78 cards")
 check(tarot.get("spread_count") == 9, "Tarot must contain 9 spreads")
@@ -174,8 +193,8 @@ print(
     f"Zhouyi=64 hexagrams/{line_count}+2 special-use texts/386 Xiang units/5 Ten-Wings sections; "
     f"Bazi shensha={len(shensha['items'])}; Ziwei=14 major stars; "
     f"Qimen=9 palaces/24 solar-term bureaus; "
-    f"Daliuren bibliography={liuren_catalog['record_count']}; "
-    f"Taiyi bibliography={taiyi_catalog['record_count']}; "
+    f"Daliuren={liuren_catalog['record_count']} bibliography/8 transmission methods; "
+    f"Taiyi={taiyi_catalog['record_count']} bibliography/72+72 palace rules; "
     f"Tarot={tarot['record_count']} cards/{tarot['spread_count']} spreads; "
     f"Zeri={len(zeri['events'])} events; Hetu/Luoshu=5 pairs/9 palaces."
 )
