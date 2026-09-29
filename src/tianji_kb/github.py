@@ -26,7 +26,7 @@ class GitHubClient:
     def _request(self, url: str) -> Any:
         headers = {
             "Accept": "application/vnd.github+json",
-            "User-Agent": "tianji-knowledge-base/0.2",
+            "User-Agent": "tianji-knowledge-base/0.3",
             "X-GitHub-Api-Version": "2022-11-28",
         }
         if self.token:
@@ -61,7 +61,26 @@ class GitHubClient:
                 return None
             raise
 
+    @staticmethod
+    def _decode_blob(payload: dict[str, Any], full_name: str, path: str) -> str:
+        encoding = payload.get("encoding")
+        content = payload.get("content") or ""
+        if encoding == "base64":
+            try:
+                return base64.b64decode(content).decode("utf-8")
+            except (ValueError, UnicodeDecodeError) as exc:
+                raise GitHubError(f"Cannot decode UTF-8 blob: {full_name}/{path}") from exc
+        if encoding in (None, "utf-8"):
+            return str(content)
+        raise GitHubError(f"Unsupported encoding {encoding!r}: {full_name}/{path}")
+
     def fetch_text_file(self, full_name: str, path: str, ref: str | None = None) -> str:
+        """Fetch a UTF-8 text file, including files larger than the Contents API limit.
+
+        GitHub can return file metadata with an empty body for large files. In that
+        case this method transparently fetches the exact Git blob by SHA, preserving
+        commit pinning for large public-domain corpora such as 三命通会.
+        """
         params = {"ref": ref} if ref else None
         payload = self.api(
             f"/repos/{full_name}/contents/{urllib.parse.quote(path, safe='/')}",
@@ -69,13 +88,19 @@ class GitHubClient:
         )
         if payload.get("type") != "file":
             raise GitHubError(f"Not a file: {full_name}/{path}")
-        encoding = payload.get("encoding")
-        content = payload.get("content") or ""
-        if encoding == "base64":
-            return base64.b64decode(content).decode("utf-8")
-        if encoding in (None, "utf-8"):
-            return str(content)
-        raise GitHubError(f"Unsupported encoding {encoding!r}: {full_name}/{path}")
+
+        if payload.get("content"):
+            return self._decode_blob(payload, full_name, path)
+
+        sha = payload.get("sha")
+        if not sha:
+            raise GitHubError(f"File content missing and no blob SHA available: {full_name}/{path}")
+
+        blob = self.api(f"/repos/{full_name}/git/blobs/{sha}")
+        text_value = self._decode_blob(blob, full_name, path)
+        if not text_value and int(payload.get("size") or 0) > 0:
+            raise GitHubError(f"Blob fetch returned empty content: {full_name}/{path}")
+        return text_value
 
     def search_repositories(self, query: str, per_page: int = 20, page: int = 1) -> list[dict[str, Any]]:
         payload = self.api("/search/repositories", {
