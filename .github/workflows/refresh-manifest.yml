@@ -1,0 +1,38 @@
+name: Refresh Audited Knowledge Files
+
+on:
+  schedule:
+    - cron: "37 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Refresh whitelisted upstream files
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/refresh_manifest_sources.py
+      - name: Validate
+        run: |
+          export PYTHONPATH=src
+          python scripts/validate_kb.py
+          python -m unittest discover -s tests -p 'test_*.py'
+      - name: Commit audited refresh
+        shell: bash
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name "tianji-kb-bot"
+          git config user.email "tianji-kb-bot@users.noreply.github.com"
+          git add data/upstream data/canonical data/reference data/state
+          git commit -m "chore: refresh audited upstream knowledge files"
+          git push
