@@ -31,6 +31,14 @@
       ]
     },
     {
+      "source_id": "hetu-luoshu-jbbom",
+      "paths": [
+        "README.md",
+        "luoshu-magic.html",
+        "hetu-cube.html"
+      ]
+    },
+    {
       "source_id": "hetu-luoshu-wuji",
       "paths": [
         "reference/yijing.md"
