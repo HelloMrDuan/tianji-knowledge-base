@@ -127,20 +127,12 @@ class DomainIntegrityTests(unittest.TestCase):
 
     def test_public_domain_bazi_classics(self):
         dit = load("classics/bazi/ditiansui_chanwei_v1.json")
-        san = load("classics/bazi/sanming_tonghui_v1.json")
         self.assertEqual(dit["section_count"], 63)
         self.assertGreaterEqual(sum(len(x["text"]) for x in dit["sections"]), 120000)
         self.assertEqual(dit["sections"][0]["title"], "通神论·一、天道")
         self.assertEqual(dit["sections"][-1]["title"], "六亲论·二十九、贞元")
-        self.assertEqual(san["section_count"], 12)
-        self.assertEqual([x["title"] for x in san["sections"]], [
-            "卷一","卷二","卷三","卷四","卷五","卷六",
-            "卷七","卷八","卷九","卷十","卷十一","卷十二",
-        ])
-        self.assertGreaterEqual(sum(len(x["text"]) for x in san["sections"]), 450000)
-        corrections = san["cleaning"]["collation_corrections"]
-        self.assertEqual(len(corrections), 2)
-        self.assertEqual({x["to"] for x in corrections}, {"谬误甚矣", "王麟洲少卿"})
+        self.assertEqual(dit["cleaning"]["private_use_chars"], 0)
+        self.assertFalse((C / "classics/bazi/sanming_tonghui_v1.json").exists())
 
     def test_hetu_luoshu(self):
         h = load("foundations/hetu_luoshu_v1.json")

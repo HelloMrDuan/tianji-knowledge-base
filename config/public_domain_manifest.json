@@ -29,8 +29,6 @@
           "title": "三命通会",
           "path": "易藏/术数/三命通会.txt",
           "promotion": "quarantine_only",
-          "output": "data/canonical/classics/bazi/sanming_tonghui_v1.json",
-          "parser": "sanming_volumes",
           "collation_corrections": [
             {
               "from": "谬□甚矣",
@@ -55,8 +53,10 @@
           "quality_blockers": {
             "private_use_char_count": 524,
             "unique_private_use_chars": 86,
-            "note": "2026-09-30 audit: source contains 524 Unicode Private Use Area glyphs across 86 unique code points. Keep in quarantine until glyph mapping/collation is complete."
-          }
+            "note": "2026-09-30 audit: source contains 524 Unicode Private Use Area glyphs across 86 unique code points. Canonical promotion is blocked until glyph mapping/collation is complete."
+          },
+          "planned_output": "data/canonical/classics/bazi/sanming_tonghui_v1.json",
+          "planned_parser": "sanming_volumes"
         },
         {
           "id": "shenfeng_tongkao",

@@ -35,7 +35,6 @@ hetu_luoshu = load("foundations/hetu_luoshu_v1.json")
 yuanhai = load("classics/bazi/yuanhai_ziping_v1.json")
 qiongtong = load("classics/bazi/qiongtong_baojian_v1.json")
 ditiansui = load("classics/bazi/ditiansui_chanwei_v1.json")
-sanming = load("classics/bazi/sanming_tonghui_v1.json")
 
 registry = json.loads((ROOT / "config/source_registry.json").read_text(encoding="utf-8"))["sources"]
 ingestion = json.loads((ROOT / "config/ingestion_manifest.json").read_text(encoding="utf-8"))
@@ -195,11 +194,7 @@ check(ditiansui.get("source_level") == "L0-public-domain-classic", "Ditiansui Ch
 check(ditiansui.get("section_count") == 63, "Ditiansui Chanwei must contain 63 topic sections")
 check(sum(len(x.get("text", "")) for x in ditiansui.get("sections", [])) >= 120000, "Ditiansui Chanwei text unexpectedly short")
 check(ditiansui.get("cleaning", {}).get("replacement_chars") == 0, "Ditiansui Chanwei contains unresolved replacement chars")
-check(sanming.get("source_level") == "L0-public-domain-classic", "Sanming Tonghui must be L0 classic")
-check(sanming.get("section_count") == 12, "Sanming Tonghui must contain 12 volumes")
-check(sum(len(x.get("text", "")) for x in sanming.get("sections", [])) >= 450000, "Sanming Tonghui text unexpectedly short")
-check(sanming.get("cleaning", {}).get("replacement_chars") == 0, "Sanming Tonghui contains unresolved replacement chars")
-check(len(sanming.get("cleaning", {}).get("collation_corrections", [])) == 2, "Sanming Tonghui must preserve two explicit collation corrections")
+check(ditiansui.get("cleaning", {}).get("private_use_chars") == 0, "Ditiansui Chanwei contains private-use glyphs")
 
 # Licensing and ingestion guardrails
 valid_policies = {"ALLOW","REFERENCE_ONLY","PUBLIC_DOMAIN_EXTRACT_ONLY","NON_COMMERCIAL","COPYLEFT","QUARANTINE"}
@@ -224,6 +219,13 @@ for group in public_domain_manifest.get("sources", []):
         if work.get("promotion") == "canonical":
             check(bool(work.get("output")), f"canonical public-domain work missing output: {work.get('id')}")
             check(bool(work.get("parser")), f"canonical public-domain work missing parser: {work.get('id')}")
+        if work.get("promotion") == "quarantine_only":
+            planned = work.get("planned_output") or work.get("output")
+            if planned:
+                check(
+                    not (ROOT / planned).exists(),
+                    f"quarantined public-domain work leaked into canonical: {work.get('id')} -> {planned}",
+                )
 
 for entry in ingestion.get("sources", []):
     source = by_id.get(entry["source_id"])
@@ -246,5 +248,5 @@ print(
     f"Zeri={len(zeri['events'])} events; Hetu/Luoshu=5 pairs/9 palaces; "
     f"Fengshui=24 mountains; "
     f"Bazi classics={yuanhai['section_count']}+{qiongtong['section_count']}+"
-    f"{ditiansui['section_count']} sections + {sanming['section_count']} Sanming volumes."
+    f"{ditiansui['section_count']} canonical sections; Sanming=quarantine."
 )
