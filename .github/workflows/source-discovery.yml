@@ -1,0 +1,36 @@
+name: Discover Knowledge Sources
+
+on:
+  schedule:
+    - cron: "41 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Discover candidate repositories
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          export PYTHONPATH=src
+          python scripts/discover_sources.py --limit 30
+      - name: Commit candidate refresh
+        shell: bash
+        run: |
+          if git diff --quiet -- data/registry; then exit 0; fi
+          git config user.name "tianji-kb-bot"
+          git config user.email "tianji-kb-bot@users.noreply.github.com"
+          git add data/registry
+          git commit -m "chore: refresh GitHub knowledge-source candidates"
+          git push
