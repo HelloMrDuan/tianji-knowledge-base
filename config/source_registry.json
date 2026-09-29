@@ -342,6 +342,20 @@
       "license_policy": "ALLOW",
       "auto_sync": true,
       "notes": "周易/README.md 含64卦、彖传、大象、逐爻小象；作为第二套周易校验源。"
+    },
+    {
+      "id": "open-iching-classics",
+      "repo": "john-walks-slow/open-iching",
+      "domains": [
+        "yijing",
+        "classics"
+      ],
+      "source_type": "public_domain_classical_text_transport",
+      "trust_level": "B",
+      "license_spdx": null,
+      "license_policy": "PUBLIC_DOMAIN_EXTRACT_ONLY",
+      "auto_sync": true,
+      "notes": "仓库无LICENSE；仅抽取明确公版古籍正文：系辞、说卦、序卦、杂卦，不复用代码或现代内容。"
     }
   ]
 }
