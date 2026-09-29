@@ -7,10 +7,7 @@ name = "tianji-knowledge-base"
 version = "0.1.0"
 description = "Provenance-first traditional Chinese culture and metaphysics knowledge base"
 requires-python = ">=3.10"
-license = {text = "MIT"}
+license = {text = "Apache-2.0"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
-
-[project.scripts]
-tianji-kb = "tianji_kb.cli:main"
