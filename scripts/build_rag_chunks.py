@@ -128,17 +128,46 @@ for path in sorted(CANONICAL.rglob("*.json")):
     # retrieval can answer a specific algorithm question without dragging the entire engine contract.
     if path.name == "rules_v1.json" and domain in {"liuren", "taiyi"}:
         skip = {"schema_version", "domain", "ruleset", "source_level", "license", "provenance"}
+        labels = {
+            "liuren": {
+                "inputs": "输入",
+                "month_general_by_solar_terms": "月将",
+                "stem_lodging": "十干寄宫",
+                "earth_sky_plate": "天地盘",
+                "four_lessons": "四课",
+                "three_transmissions": "三传",
+                "branch_relations": "地支关系",
+                "day_night": "昼夜",
+                "heavenly_generals": "十二天将",
+                "output_contract": "输出契约",
+            },
+            "taiyi": {
+                "calculation_modes": "计法模式",
+                "classical_methods": "古法公式",
+                "accumulated_number": "积数",
+                "board_number": "局式",
+                "taiyi_palace": "太乙落宫",
+                "luoshu_outer_order": "洛书外八宫",
+                "eight_doors": "八门",
+                "sixteen_palaces": "十六宫",
+                "principal_calculations": "主客定算",
+                "core_output": "核心输出",
+                "extended_layers": "扩展层",
+                "output_invariant": "输出约束",
+            },
+        }
         for key, value in obj.items():
             if key in skip:
                 continue
+            label = labels.get(domain, {}).get(key, key)
             add(
                 domain,
                 f"{domain}_rule",
                 f"rule:{key}",
-                f"{key}：{dump_text(value)}",
+                f"{label}（{key}）：{dump_text(value)}",
                 obj,
                 path,
-                {"rule_section": key},
+                {"rule_section": key, "rule_label": label},
             )
         continue
 
