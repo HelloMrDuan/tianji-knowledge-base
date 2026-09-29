@@ -22,9 +22,11 @@ jobs:
           python -m unittest discover -s tests -p 'test_*.py'
           python scripts/build_index.py
           python scripts/build_rag_chunks.py
+          python scripts/build_sqlite_fts.py
       - name: Show generated retrieval artifacts
         run: |
           wc -l build/rag_chunks.jsonl
+          ls -lh build/tianji_knowledge.sqlite3
           python - <<'PY'
           import json
           from pathlib import Path
@@ -35,4 +37,29 @@ jobs:
               "domain_file_counts": data.get("domain_file_counts"),
               "zhouyi": data.get("zhouyi"),
           }, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Retrieval smoke
+        run: |
+          python - <<'PY'
+          import json, sqlite3
+          from pathlib import Path
+
+          db = Path("build/tianji_knowledge.sqlite3")
+          con = sqlite3.connect(db)
+          cases = [
+              ("yijing", "乾为天"),
+              ("liuren", "月将"),
+              ("taiyi", "八门"),
+              ("tarot", "愚者"),
+          ]
+          for domain, term in cases:
+              n = con.execute(
+                  "SELECT COUNT(*) FROM chunks WHERE domain=? AND text LIKE ?",
+                  (domain, f"%{term}%"),
+              ).fetchone()[0]
+              if n < 1:
+                  raise SystemExit(f"retrieval smoke failed: {domain}/{term}")
+              print(f"{domain}/{term}: {n}")
+          con.close()
           PY
