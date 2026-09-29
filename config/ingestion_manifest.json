@@ -13,11 +13,27 @@
       ]
     },
     {
-      "source_id": "metaphysics-steward",
+      "source_id": "chinese-almanac-mcp",
       "paths": [
-        "references/liuyao_najia.md",
-        "references/meihua_notes.md",
-        "references/hehun_rules.md"
+        "src/scoring.ts",
+        "scripts/test-vectors.json"
+      ]
+    },
+    {
+      "source_id": "fengshui-master-jackie",
+      "paths": [
+        "fengshui-master/references/sources.md",
+        "fengshui-master/references/schools.md",
+        "fengshui-master/references/xuan-kong-flying-stars.md",
+        "fengshui-master/scripts/flying_stars.py",
+        "fengshui-master/scripts/minggua.py",
+        "fengshui-master/scripts/bagua_map.py"
+      ]
+    },
+    {
+      "source_id": "hetu-luoshu-wuji",
+      "paths": [
+        "reference/yijing.md"
       ]
     },
     {
@@ -33,17 +49,6 @@
       ]
     },
     {
-      "source_id": "qimen-qfdk",
-      "paths": [
-        "README.md",
-        "lib/qimen.js",
-        "lib/dipan.js",
-        "lib/jiuxing.js",
-        "lib/bamen.js",
-        "lib/bashen.js"
-      ]
-    },
-    {
       "source_id": "kinliuren",
       "paths": [
         "docs/guji.md",
@@ -55,6 +60,40 @@
       "paths": [
         "docs/guji.md",
         "src/kintaiyi/kintaiyi.py"
+      ]
+    },
+    {
+      "source_id": "metaphysics-steward",
+      "paths": [
+        "references/liuyao_najia.md",
+        "references/meihua_notes.md",
+        "references/hehun_rules.md"
+      ]
+    },
+    {
+      "source_id": "qimen-qfdk",
+      "paths": [
+        "README.md",
+        "lib/qimen.js",
+        "lib/dipan.js",
+        "lib/jiuxing.js",
+        "lib/bamen.js",
+        "lib/bashen.js"
+      ]
+    },
+    {
+      "source_id": "tarot-nonebot",
+      "paths": [
+        "nonebot_plugin_tarot/tarot.json"
+      ]
+    },
+    {
+      "source_id": "zeri-mcp",
+      "paths": [
+        "packages/zeri-core/src/index.ts",
+        "packages/zeri-core/src/lib/day.ts",
+        "packages/zeri-core/src/lib/events.ts",
+        "packages/zeri-core/src/lib/select.ts"
       ]
     }
   ]
