@@ -6,20 +6,13 @@
       "source_id": "daizhigev20",
       "works": [
         {
-          "id": "zhouyi_combined",
-          "domain": "yijing",
-          "title": "周易经传合本",
-          "path": "易藏/易经/周易.txt",
-          "promotion": "manual_collated"
-        },
-        {
-          "id": "yuanhai_ziping",
+          "id": "ditiansui_chanwei",
           "domain": "bazi",
-          "title": "渊海子平",
-          "path": "易藏/术数/渊海子平.txt",
+          "title": "滴天髓阐微",
+          "path": "易藏/术数/滴天髓阐微.txt",
           "promotion": "canonical",
-          "output": "data/canonical/classics/bazi/yuanhai_ziping_v1.json",
-          "parser": "angle_markers"
+          "output": "data/canonical/classics/bazi/ditiansui_chanwei_v1.json",
+          "parser": "ditiansui_sections"
         },
         {
           "id": "qiongtong_baojian",
@@ -31,17 +24,40 @@
           "parser": "qiongtong_headings"
         },
         {
+          "id": "sanming_tonghui",
+          "domain": "bazi",
+          "title": "三命通会",
+          "path": "易藏/术数/三命通会.txt",
+          "promotion": "canonical",
+          "output": "data/canonical/classics/bazi/sanming_tonghui_v1.json",
+          "parser": "sanming_volumes",
+          "collation_corrections": [
+            {
+              "from": "谬□甚矣",
+              "to": "谬误甚矣",
+              "evidence": {
+                "type": "github-crosscheck",
+                "repo": "shuaige121/sinan-app",
+                "path": "www/dian/data/annotated/sanming-tonghui.json",
+                "note": "独立整理文本明确作“谬误甚矣”。"
+              }
+            },
+            {
+              "from": "王麟洲少□",
+              "to": "王麟洲少卿",
+              "evidence": {
+                "type": "authority-crosscheck",
+                "url": "https://data.ascdc.tw/dnb/Agent/NO000018454",
+                "note": "中研院数字文化中心人物资料载王世懋（麟洲）擢南京太常少卿。"
+              }
+            }
+          ]
+        },
+        {
           "id": "shenfeng_tongkao",
           "domain": "bazi",
           "title": "神峰通考",
           "path": "易藏/术数/神峰通考.txt",
-          "promotion": "quarantine_only"
-        },
-        {
-          "id": "ditiansui_chanwei",
-          "domain": "bazi",
-          "title": "滴天髓阐微",
-          "path": "易藏/术数/滴天髓阐微.txt",
           "promotion": "quarantine_only"
         },
         {
@@ -50,6 +66,22 @@
           "title": "钦定协纪辨方书",
           "path": "易藏/术数/钦定协纪辨方书.txt",
           "promotion": "quarantine_only"
+        },
+        {
+          "id": "yuanhai_ziping",
+          "domain": "bazi",
+          "title": "渊海子平",
+          "path": "易藏/术数/渊海子平.txt",
+          "promotion": "canonical",
+          "output": "data/canonical/classics/bazi/yuanhai_ziping_v1.json",
+          "parser": "angle_markers"
+        },
+        {
+          "id": "zhouyi_combined",
+          "domain": "yijing",
+          "title": "周易经传合本",
+          "path": "易藏/易经/周易.txt",
+          "promotion": "manual_collated"
         }
       ]
     }
