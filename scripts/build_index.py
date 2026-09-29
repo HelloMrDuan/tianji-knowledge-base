@@ -6,29 +6,43 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-seed_path = ROOT / "data/canonical/seed.json"
-seed = json.loads(seed_path.read_text(encoding="utf-8"))
+CANONICAL = ROOT / "data/canonical"
 
+files = []
+domain_counts = {}
+for path in sorted(CANONICAL.rglob("*.json")):
+    rel = path.relative_to(ROOT).as_posix()
+    if "/batches/" in rel:
+        continue
+    try:
+        obj = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        continue
+    domain = obj.get("domain") or ("foundations" if path.name == "seed.json" else path.parent.name)
+    domain_counts[domain] = domain_counts.get(domain, 0) + 1
+    files.append({
+        "path": rel,
+        "domain": domain,
+        "schema_version": obj.get("schema_version"),
+        "source_level": obj.get("source_level"),
+        "ruleset": obj.get("ruleset"),
+        "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+        "size_bytes": path.stat().st_size,
+    })
+
+zhouyi = json.loads((CANONICAL / "yijing/zhouyi_classic_core.json").read_text(encoding="utf-8"))
 index = {
-    "schema_version": seed["schema_version"],
-    "content_sha256": hashlib.sha256(seed_path.read_bytes()).hexdigest(),
-    "domains": {
-        "foundations": {
-            "wuxing": len(seed["wuxing"]),
-            "heavenly_stems": len(seed["heavenly_stems"]),
-            "earthly_branches": len(seed["earthly_branches"]),
-        },
-        "yijing": {
-            "trigrams": len(seed["trigrams"]),
-            "hexagrams": len(seed["hexagrams"]),
-        },
-        "liuyao": {
-            "najia_trigrams": len(seed["liuyao"]["najia"]),
-            "rules": ["yao_values","six_relatives","six_spirits_start"],
-        },
+    "schema_version": "0.2",
+    "canonical_file_count": len(files),
+    "domain_file_counts": domain_counts,
+    "zhouyi": {
+        "hexagrams": len(zhouyi["records"]),
+        "line_texts": sum(len(x["lines"]) for x in zhouyi["records"]),
     },
+    "files": files,
 }
-build = ROOT / "build"
-build.mkdir(exist_ok=True)
-(build / "index.json").write_text(json.dumps(index, ensure_ascii=False, indent=2)+"\n", encoding="utf-8")
+
+build_dir = ROOT / "build"
+build_dir.mkdir(exist_ok=True)
+(build_dir / "catalog.json").write_text(json.dumps(index, ensure_ascii=False, indent=2)+"\n", encoding="utf-8")
 print(json.dumps(index, ensure_ascii=False))
