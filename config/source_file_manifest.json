@@ -101,6 +101,98 @@
       "ingestion": "DERIVED_REFERENCE",
       "license": "MIT",
       "auto_refresh": true
+    },
+    {
+      "source_id": "taibu",
+      "repo": "hhszzzz/taibu",
+      "path": "packages/core/src/data/hexagrams.ts",
+      "target": "data/upstream/taibu-core/hexagrams.ts",
+      "ingestion": "ALLOW_SUBPACKAGE_SNAPSHOT",
+      "license": "MIT (packages/core)",
+      "scope_license_verified": true,
+      "auto_refresh": true,
+      "notes": "Only packages/core scope; root AGPL is not imported."
+    },
+    {
+      "source_id": "bazi-skill",
+      "repo": "jinchenma94/bazi-skill",
+      "path": "references/classical-texts.md",
+      "target": "data/upstream/bazi-skill/classical-texts.md",
+      "ingestion": "ALLOW_SNAPSHOT",
+      "license": "MIT",
+      "auto_refresh": true
+    },
+    {
+      "source_id": "bazi-skill",
+      "repo": "jinchenma94/bazi-skill",
+      "path": "references/dayun-rules.md",
+      "target": "data/upstream/bazi-skill/dayun-rules.md",
+      "ingestion": "ALLOW_SNAPSHOT",
+      "license": "MIT",
+      "auto_refresh": true
+    },
+    {
+      "source_id": "bazi-skill",
+      "repo": "jinchenma94/bazi-skill",
+      "path": "references/shensha-table.md",
+      "target": "data/upstream/bazi-skill/shensha-table.md",
+      "ingestion": "ALLOW_SNAPSHOT",
+      "license": "MIT",
+      "auto_refresh": true
+    },
+    {
+      "source_id": "bazi-skill",
+      "repo": "jinchenma94/bazi-skill",
+      "path": "references/shichen-table.md",
+      "target": "data/upstream/bazi-skill/shichen-table.md",
+      "ingestion": "ALLOW_SNAPSHOT",
+      "license": "MIT",
+      "auto_refresh": true
+    },
+    {
+      "source_id": "bazi-skill",
+      "repo": "jinchenma94/bazi-skill",
+      "path": "references/wuxing-tables.md",
+      "target": "data/upstream/bazi-skill/wuxing-tables.md",
+      "ingestion": "ALLOW_SNAPSHOT",
+      "license": "MIT",
+      "auto_refresh": true
+    },
+    {
+      "source_id": "metaphysics-steward",
+      "repo": "superzhang21/metaphysics-steward",
+      "path": "references/liuyao_najia.md",
+      "target": "data/upstream/metaphysics-steward/liuyao_najia.md",
+      "ingestion": "ALLOW_SNAPSHOT",
+      "license": "MIT",
+      "auto_refresh": true
+    },
+    {
+      "source_id": "metaphysics-steward",
+      "repo": "superzhang21/metaphysics-steward",
+      "path": "references/meihua_notes.md",
+      "target": "data/upstream/metaphysics-steward/meihua_notes.md",
+      "ingestion": "ALLOW_SNAPSHOT",
+      "license": "MIT",
+      "auto_refresh": true
+    },
+    {
+      "source_id": "metaphysics-steward",
+      "repo": "superzhang21/metaphysics-steward",
+      "path": "references/hehun_rules.md",
+      "target": "data/upstream/metaphysics-steward/hehun_rules.md",
+      "ingestion": "ALLOW_SNAPSHOT",
+      "license": "MIT",
+      "auto_refresh": true
+    },
+    {
+      "source_id": "metaphysics-steward",
+      "repo": "superzhang21/metaphysics-steward",
+      "path": "references/liuyao_lost_items.md",
+      "target": "data/upstream/metaphysics-steward/liuyao_lost_items.md",
+      "ingestion": "ALLOW_SNAPSHOT",
+      "license": "MIT",
+      "auto_refresh": true
     }
   ]
 }
