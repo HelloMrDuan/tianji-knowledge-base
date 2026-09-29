@@ -1,0 +1,106 @@
+{
+  "schema_version": "0.1",
+  "policy": "Only whitelisted files are eligible for tracked refresh. REFERENCE_ONLY source content is never auto-promoted to canonical.",
+  "files": [
+    {
+      "source_id": "godcong-yi",
+      "repo": "godcong/yi",
+      "path": "data/bagua.json",
+      "target": "data/upstream/godcong-yi/bagua.json",
+      "ingestion": "ALLOW_SNAPSHOT",
+      "license": "MIT",
+      "auto_refresh": true
+    },
+    {
+      "source_id": "godcong-yi",
+      "repo": "godcong/yi",
+      "path": "data/wenyan.json",
+      "target": "data/upstream/godcong-yi/wenyan.json",
+      "ingestion": "ALLOW_SNAPSHOT",
+      "license": "MIT",
+      "auto_refresh": true
+    },
+    {
+      "source_id": "godcong-yi",
+      "repo": "godcong/yi",
+      "path": "data/gua.json",
+      "target": "data/upstream/godcong-yi/gua.json",
+      "ingestion": "DERIVED_REFERENCE",
+      "license": "MIT",
+      "auto_refresh": true,
+      "notes": "包含现代断语，不自动视为古典经文。"
+    },
+    {
+      "source_id": "liuyao-engine",
+      "repo": "yaomancy/liuyao-engine",
+      "path": "data/yigram-najia-tables.json",
+      "target": "data/upstream/liuyao-engine/yigram-najia-tables.json",
+      "ingestion": "ALLOW_SNAPSHOT",
+      "license": "Apache-2.0",
+      "auto_refresh": true
+    },
+    {
+      "source_id": "liuyao-engine",
+      "repo": "yaomancy/liuyao-engine",
+      "path": "data/liuyao-glossary.json",
+      "target": "data/upstream/liuyao-engine/liuyao-glossary.json",
+      "ingestion": "ALLOW_SNAPSHOT",
+      "license": "Apache-2.0",
+      "auto_refresh": true
+    },
+    {
+      "source_id": "liuyao-engine",
+      "repo": "yaomancy/liuyao-engine",
+      "path": "data/卜筮正宗_ctext公有领域全文.txt",
+      "target": "data/canonical/classics/liuyao/卜筮正宗.txt",
+      "ingestion": "PUBLIC_DOMAIN_CLASSIC",
+      "license": "Public-Domain text / Apache repository wrapper",
+      "auto_refresh": true
+    },
+    {
+      "source_id": "liuyao-engine",
+      "repo": "yaomancy/liuyao-engine",
+      "path": "data/增删卜易_ctext公有领域全文.txt",
+      "target": "data/canonical/classics/liuyao/增删卜易.txt",
+      "ingestion": "PUBLIC_DOMAIN_CLASSIC",
+      "license": "Public-Domain text / Apache repository wrapper",
+      "auto_refresh": true
+    },
+    {
+      "source_id": "zhouyi-skill-qbdx",
+      "repo": "qbdx-hub/zhouyi-skill",
+      "path": "verified.md",
+      "target": "data/upstream/zhouyi-skill-qbdx/verified.md",
+      "ingestion": "DERIVED_REFERENCE",
+      "license": "MIT",
+      "auto_refresh": true
+    },
+    {
+      "source_id": "zhouyilab",
+      "repo": "banderzhm/ZhouYiLab",
+      "path": "docs/术数资料来源总台账.md",
+      "target": "data/reference/source_catalogs/zhouyilab.md",
+      "ingestion": "SOURCE_CATALOG",
+      "license": "MIT",
+      "auto_refresh": true
+    },
+    {
+      "source_id": "zhouyilab",
+      "repo": "banderzhm/ZhouYiLab",
+      "path": "docs/六爻起课-步骤.md",
+      "target": "data/upstream/zhouyilab/六爻起课-步骤.md",
+      "ingestion": "DERIVED_REFERENCE",
+      "license": "MIT",
+      "auto_refresh": true
+    },
+    {
+      "source_id": "zhouyilab",
+      "repo": "banderzhm/ZhouYiLab",
+      "path": "docs/八字入门.md",
+      "target": "data/upstream/zhouyilab/八字入门.md",
+      "ingestion": "DERIVED_REFERENCE",
+      "license": "MIT",
+      "auto_refresh": true
+    }
+  ]
+}
