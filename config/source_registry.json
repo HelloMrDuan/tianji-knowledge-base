@@ -1,35 +1,6 @@
 {
   "sources": [
     {
-      "id": "lunar-python",
-      "repo": "6tail/lunar-python",
-      "domains": [
-        "calendar",
-        "ganzhi",
-        "bazi",
-        "foundations"
-      ],
-      "source_type": "calculation_engine",
-      "trust_level": "A",
-      "license_spdx": "MIT",
-      "license_policy": "ALLOW",
-      "auto_sync": true,
-      "notes": "历法、节气、干支、八字基础计算。"
-    },
-    {
-      "id": "iztro",
-      "repo": "SylarLong/iztro",
-      "domains": [
-        "ziwei"
-      ],
-      "source_type": "calculation_engine",
-      "trust_level": "A",
-      "license_spdx": "MIT",
-      "license_policy": "ALLOW",
-      "auto_sync": true,
-      "notes": "紫微斗数排盘与四化/宫位计算。"
-    },
-    {
       "id": "bazi-skill",
       "repo": "jinchenma94/bazi-skill",
       "domains": [
@@ -44,19 +15,112 @@
       "notes": "八字规则表、经典摘要、神煞与大运。"
     },
     {
-      "id": "metaphysics-steward",
-      "repo": "superzhang21/metaphysics-steward",
+      "id": "chinese-literature-dataset",
+      "repo": "nursery42/ChineseliteratureDataset",
+      "domains": [
+        "yijing",
+        "classics"
+      ],
+      "source_type": "structured_classical_text_crosscheck",
+      "trust_level": "B",
+      "license_spdx": null,
+      "license_policy": "PUBLIC_DOMAIN_EXTRACT_ONLY",
+      "auto_sync": true,
+      "notes": "结构化古典文学数据集，无根 LICENSE；只抽明确公版原文并用于校勘。"
+    },
+    {
+      "id": "daizhigev20",
+      "repo": "garychowcmu/daizhigev20",
+      "domains": [
+        "yijing",
+        "classics",
+        "bazi",
+        "qimen",
+        "meihua",
+        "fengshui",
+        "liuren",
+        "taiyi"
+      ],
+      "source_type": "classical_text_archive",
+      "trust_level": "A",
+      "license_spdx": null,
+      "license_policy": "PUBLIC_DOMAIN_EXTRACT_ONLY",
+      "auto_sync": true,
+      "notes": "殆知阁大规模古籍档案，无根 LICENSE；只抽明确公版古典原文，现代整理/注释不复制。"
+    },
+    {
+      "id": "divination-liuyao",
+      "repo": "SmallTeddyGames/divination-liuyao",
       "domains": [
         "liuyao",
-        "meihua",
-        "yinyuan"
+        "bagua",
+        "yijing"
       ],
-      "source_type": "knowledge_rules_and_engine",
+      "source_type": "structured_data_reference",
+      "trust_level": "C",
+      "license_spdx": null,
+      "license_policy": "REFERENCE_ONLY",
+      "auto_sync": true,
+      "notes": "六爻/八卦结构候选。"
+    },
+    {
+      "id": "fengshui-skill",
+      "repo": "voidforall/fengshui.skill",
+      "domains": [
+        "fengshui",
+        "zeri",
+        "foundations"
+      ],
+      "source_type": "knowledge_rules",
+      "trust_level": "B",
+      "license_spdx": null,
+      "license_policy": "REFERENCE_ONLY",
+      "auto_sync": true,
+      "notes": "飞星、五行干支、择日。"
+    },
+    {
+      "id": "fundgao-zhouyi",
+      "repo": "fundgao/DAO_DE_JING",
+      "domains": [
+        "yijing",
+        "bagua",
+        "classics"
+      ],
+      "source_type": "classical_text_compilation",
       "trust_level": "A",
       "license_spdx": "MIT",
       "license_policy": "ALLOW",
       "auto_sync": true,
-      "notes": "六爻纳甲、梅花规则与黄金案例。"
+      "notes": "周易/README.md 含64卦、彖传、大象、逐爻小象；作为第二套周易校验源。"
+    },
+    {
+      "id": "godcong-yi",
+      "repo": "godcong/yi",
+      "domains": [
+        "yijing",
+        "bagua",
+        "liuyao",
+        "meihua"
+      ],
+      "source_type": "structured_data_and_engine",
+      "trust_level": "A",
+      "license_spdx": "MIT",
+      "license_policy": "ALLOW",
+      "auto_sync": true,
+      "notes": "八卦、卦象、文言与易学计算实现；Canonical 只抽取明确字段，现代断语单独标 derived。"
+    },
+    {
+      "id": "iztro",
+      "repo": "SylarLong/iztro",
+      "domains": [
+        "ziwei"
+      ],
+      "source_type": "calculation_engine",
+      "trust_level": "A",
+      "license_spdx": "MIT",
+      "license_policy": "ALLOW",
+      "auto_sync": true,
+      "notes": "紫微斗数排盘与四化/宫位计算。"
     },
     {
       "id": "kinliuren",
@@ -85,6 +149,110 @@
       "notes": "太乙计算引擎。"
     },
     {
+      "id": "liuyao-engine",
+      "repo": "yaomancy/liuyao-engine",
+      "domains": [
+        "liuyao",
+        "yijing",
+        "bagua",
+        "classics"
+      ],
+      "source_type": "engine_rules_classics",
+      "trust_level": "A",
+      "license_spdx": "Apache-2.0",
+      "license_policy": "ALLOW",
+      "auto_sync": true,
+      "notes": "六爻引擎、纳甲表、术语表；仓库包含明确标注为公有领域的《卜筮正宗》《增删卜易》全文。"
+    },
+    {
+      "id": "lunar-python",
+      "repo": "6tail/lunar-python",
+      "domains": [
+        "calendar",
+        "ganzhi",
+        "bazi",
+        "foundations"
+      ],
+      "source_type": "calculation_engine",
+      "trust_level": "A",
+      "license_spdx": "MIT",
+      "license_policy": "ALLOW",
+      "auto_sync": true,
+      "notes": "历法、节气、干支、八字基础计算。"
+    },
+    {
+      "id": "master-skill",
+      "repo": "xr843/Master-skill",
+      "domains": [
+        "buddhism",
+        "classics",
+        "provenance"
+      ],
+      "source_type": "citation_architecture_reference",
+      "trust_level": "A",
+      "license_spdx": "MIT/CC-BY-NC-SA-4.0/mixed",
+      "license_policy": "NON_COMMERCIAL",
+      "auto_sync": true,
+      "notes": "学习引用/出处体系；prebuilt 商业正式库默认不导入。"
+    },
+    {
+      "id": "meihua-mhynbnb",
+      "repo": "mhynbnb/meihua",
+      "domains": [
+        "meihua"
+      ],
+      "source_type": "calculation_reference",
+      "trust_level": "C",
+      "license_spdx": null,
+      "license_policy": "REFERENCE_ONLY",
+      "auto_sync": true,
+      "notes": "梅花易数候选实现，需许可证和规则复核。"
+    },
+    {
+      "id": "metaphysics-steward",
+      "repo": "superzhang21/metaphysics-steward",
+      "domains": [
+        "liuyao",
+        "meihua",
+        "yinyuan"
+      ],
+      "source_type": "knowledge_rules_and_engine",
+      "trust_level": "A",
+      "license_spdx": "MIT",
+      "license_policy": "ALLOW",
+      "auto_sync": true,
+      "notes": "六爻纳甲、梅花规则与黄金案例。"
+    },
+    {
+      "id": "numerologist-skills",
+      "repo": "FANzR-arch/Numerologist_skills",
+      "domains": [
+        "bazi",
+        "ziwei",
+        "qimen"
+      ],
+      "source_type": "knowledge_rules",
+      "trust_level": "B",
+      "license_spdx": null,
+      "license_policy": "REFERENCE_ONLY",
+      "auto_sync": true,
+      "notes": "规则有价值，但当前根目录无明确 LICENSE。"
+    },
+    {
+      "id": "open-iching-classics",
+      "repo": "john-walks-slow/open-iching",
+      "domains": [
+        "yijing",
+        "classics"
+      ],
+      "source_type": "public_domain_classical_text_transport",
+      "trust_level": "B",
+      "license_spdx": null,
+      "license_policy": "PUBLIC_DOMAIN_EXTRACT_ONLY",
+      "auto_sync": true,
+      "notes": "仓库无LICENSE；仅抽取明确公版古籍正文：系辞、说卦、序卦、杂卦，不复用代码或现代内容。"
+    },
+    {
       "id": "qimen-qfdk",
       "repo": "qfdk/qimen",
       "domains": [
@@ -96,6 +264,20 @@
       "license_policy": "ALLOW",
       "auto_sync": true,
       "notes": "奇门排盘实现参考。"
+    },
+    {
+      "id": "reading-yijing",
+      "repo": "damaainan/Reading",
+      "domains": [
+        "yijing",
+        "classics"
+      ],
+      "source_type": "classical_text_crosscheck",
+      "trust_level": "C",
+      "license_spdx": null,
+      "license_policy": "PUBLIC_DOMAIN_EXTRACT_ONLY",
+      "auto_sync": true,
+      "notes": "周易经传文本候选，无根 LICENSE；仅作为公版原文校勘参考。"
     },
     {
       "id": "taibu",
@@ -119,50 +301,17 @@
       "notes": "根应用 AGPL；仅明确 MIT 子包可复用。"
     },
     {
-      "id": "numerologist-skills",
-      "repo": "FANzR-arch/Numerologist_skills",
+      "id": "taiyipython",
+      "repo": "wlhyl/taiyipython",
       "domains": [
-        "bazi",
-        "ziwei",
-        "qimen"
+        "taiyi"
       ],
-      "source_type": "knowledge_rules",
-      "trust_level": "B",
+      "source_type": "calculation_reference",
+      "trust_level": "C",
       "license_spdx": null,
       "license_policy": "REFERENCE_ONLY",
       "auto_sync": true,
-      "notes": "规则有价值，但当前根目录无明确 LICENSE。"
-    },
-    {
-      "id": "yinyuan-skills",
-      "repo": "Ming-H/yinyuan-skills",
-      "domains": [
-        "yinyuan",
-        "bazi",
-        "ziwei",
-        "zodiac"
-      ],
-      "source_type": "knowledge_rules",
-      "trust_level": "B",
-      "license_spdx": null,
-      "license_policy": "REFERENCE_ONLY",
-      "auto_sync": true,
-      "notes": "合婚、生肖、桃花、紫微夫妻宫。"
-    },
-    {
-      "id": "fengshui-skill",
-      "repo": "voidforall/fengshui.skill",
-      "domains": [
-        "fengshui",
-        "zeri",
-        "foundations"
-      ],
-      "source_type": "knowledge_rules",
-      "trust_level": "B",
-      "license_spdx": null,
-      "license_policy": "REFERENCE_ONLY",
-      "auto_sync": true,
-      "notes": "飞星、五行干支、择日。"
+      "notes": "太乙候选实现，需许可证和口径复核。"
     },
     {
       "id": "tarot-skill",
@@ -178,18 +327,18 @@
       "notes": "塔罗牌义、牌阵、组合候选。"
     },
     {
-      "id": "zhouyi-64",
-      "repo": "sunls2/zhouyi",
+      "id": "xuanxue-youngzs",
+      "repo": "youngzs/xuanxue",
       "domains": [
         "yijing",
-        "bagua"
+        "classics"
       ],
-      "source_type": "classical_text_mixed",
+      "source_type": "classical_text_crosscheck",
       "trust_level": "B",
       "license_spdx": null,
       "license_policy": "PUBLIC_DOMAIN_EXTRACT_ONLY",
       "auto_sync": true,
-      "notes": "只抽取明确公版《周易》古典原文/客观结构，不复制现代解说。"
+      "notes": "易传分篇结构清晰但存在少量 OCR 缺字，用于古典原文交叉校勘。"
     },
     {
       "id": "yijing-bazi-mcp",
@@ -208,92 +357,34 @@
       "notes": "结构化八卦、64卦、干支、五行数据参考。"
     },
     {
-      "id": "master-skill",
-      "repo": "xr843/Master-skill",
+      "id": "yinyuan-skills",
+      "repo": "Ming-H/yinyuan-skills",
       "domains": [
-        "buddhism",
-        "classics",
-        "provenance"
+        "yinyuan",
+        "bazi",
+        "ziwei",
+        "zodiac"
       ],
-      "source_type": "citation_architecture_reference",
-      "trust_level": "A",
-      "license_spdx": "MIT/CC-BY-NC-SA-4.0/mixed",
-      "license_policy": "NON_COMMERCIAL",
-      "auto_sync": true,
-      "notes": "学习引用/出处体系；prebuilt 商业正式库默认不导入。"
-    },
-    {
-      "id": "divination-liuyao",
-      "repo": "SmallTeddyGames/divination-liuyao",
-      "domains": [
-        "liuyao",
-        "bagua",
-        "yijing"
-      ],
-      "source_type": "structured_data_reference",
-      "trust_level": "C",
+      "source_type": "knowledge_rules",
+      "trust_level": "B",
       "license_spdx": null,
       "license_policy": "REFERENCE_ONLY",
       "auto_sync": true,
-      "notes": "六爻/八卦结构候选。"
+      "notes": "合婚、生肖、桃花、紫微夫妻宫。"
     },
     {
-      "id": "taiyipython",
-      "repo": "wlhyl/taiyipython",
-      "domains": [
-        "taiyi"
-      ],
-      "source_type": "calculation_reference",
-      "trust_level": "C",
-      "license_spdx": null,
-      "license_policy": "REFERENCE_ONLY",
-      "auto_sync": true,
-      "notes": "太乙候选实现，需许可证和口径复核。"
-    },
-    {
-      "id": "meihua-mhynbnb",
-      "repo": "mhynbnb/meihua",
-      "domains": [
-        "meihua"
-      ],
-      "source_type": "calculation_reference",
-      "trust_level": "C",
-      "license_spdx": null,
-      "license_policy": "REFERENCE_ONLY",
-      "auto_sync": true,
-      "notes": "梅花易数候选实现，需许可证和规则复核。"
-    },
-    {
-      "id": "godcong-yi",
-      "repo": "godcong/yi",
+      "id": "zhouyi-64",
+      "repo": "sunls2/zhouyi",
       "domains": [
         "yijing",
-        "bagua",
-        "liuyao",
-        "meihua"
+        "bagua"
       ],
-      "source_type": "structured_data_and_engine",
-      "trust_level": "A",
-      "license_spdx": "MIT",
-      "license_policy": "ALLOW",
+      "source_type": "classical_text_mixed",
+      "trust_level": "B",
+      "license_spdx": null,
+      "license_policy": "PUBLIC_DOMAIN_EXTRACT_ONLY",
       "auto_sync": true,
-      "notes": "八卦、卦象、文言与易学计算实现；Canonical 只抽取明确字段，现代断语单独标 derived。"
-    },
-    {
-      "id": "liuyao-engine",
-      "repo": "yaomancy/liuyao-engine",
-      "domains": [
-        "liuyao",
-        "yijing",
-        "bagua",
-        "classics"
-      ],
-      "source_type": "engine_rules_classics",
-      "trust_level": "A",
-      "license_spdx": "Apache-2.0",
-      "license_policy": "ALLOW",
-      "auto_sync": true,
-      "notes": "六爻引擎、纳甲表、术语表；仓库包含明确标注为公有领域的《卜筮正宗》《增删卜易》全文。"
+      "notes": "只抽取明确公版《周易》古典原文/客观结构，不复制现代解说。"
     },
     {
       "id": "zhouyi-skill-qbdx",
@@ -327,35 +418,6 @@
       "license_policy": "ALLOW",
       "auto_sync": true,
       "notes": "多术数计算与资料来源台账；重点吸收来源治理、可复现规则和回归案例。"
-    },
-    {
-      "id": "fundgao-zhouyi",
-      "repo": "fundgao/DAO_DE_JING",
-      "domains": [
-        "yijing",
-        "bagua",
-        "classics"
-      ],
-      "source_type": "classical_text_compilation",
-      "trust_level": "A",
-      "license_spdx": "MIT",
-      "license_policy": "ALLOW",
-      "auto_sync": true,
-      "notes": "周易/README.md 含64卦、彖传、大象、逐爻小象；作为第二套周易校验源。"
-    },
-    {
-      "id": "open-iching-classics",
-      "repo": "john-walks-slow/open-iching",
-      "domains": [
-        "yijing",
-        "classics"
-      ],
-      "source_type": "public_domain_classical_text_transport",
-      "trust_level": "B",
-      "license_spdx": null,
-      "license_policy": "PUBLIC_DOMAIN_EXTRACT_ONLY",
-      "auto_sync": true,
-      "notes": "仓库无LICENSE；仅抽取明确公版古籍正文：系辞、说卦、序卦、杂卦，不复用代码或现代内容。"
     }
   ]
 }
