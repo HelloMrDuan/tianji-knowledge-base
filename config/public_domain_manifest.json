@@ -28,7 +28,7 @@
           "domain": "bazi",
           "title": "三命通会",
           "path": "易藏/术数/三命通会.txt",
-          "promotion": "canonical",
+          "promotion": "quarantine_only",
           "output": "data/canonical/classics/bazi/sanming_tonghui_v1.json",
           "parser": "sanming_volumes",
           "collation_corrections": [
@@ -51,7 +51,12 @@
                 "note": "中研院数字文化中心人物资料载王世懋（麟洲）擢南京太常少卿。"
               }
             }
-          ]
+          ],
+          "quality_blockers": {
+            "private_use_char_count": 524,
+            "unique_private_use_chars": 86,
+            "note": "2026-09-30 audit: source contains 524 Unicode Private Use Area glyphs across 86 unique code points. Keep in quarantine until glyph mapping/collation is complete."
+          }
         },
         {
           "id": "shenfeng_tongkao",
