@@ -105,6 +105,24 @@ for path in sorted(CANONICAL.rglob("*.json")):
             add(domain, "tarot_spread", f"spread:{spread['name']}", text, obj, path, {"spread": spread["name"]})
         continue
 
+    # Daliuren/Taiyi deterministic rules: split by top-level rule section so
+    # retrieval can answer a specific algorithm question without dragging the entire engine contract.
+    if path.name == "rules_v1.json" and domain in {"liuren", "taiyi"}:
+        skip = {"schema_version", "domain", "ruleset", "source_level", "license", "provenance"}
+        for key, value in obj.items():
+            if key in skip:
+                continue
+            add(
+                domain,
+                f"{domain}_rule",
+                f"rule:{key}",
+                f"{key}：{dump_text(value)}",
+                obj,
+                path,
+                {"rule_section": key},
+            )
+        continue
+
     # Catalog/bibliography files: one record per work.
     if obj.get("source_level") == "bibliography" and isinstance(obj.get("records"), list):
         for i, rec in enumerate(obj["records"]):
