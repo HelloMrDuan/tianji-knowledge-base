@@ -67,6 +67,8 @@
       "source_id": "kintaiyi",
       "paths": [
         "docs/guji.md",
+        "src/kintaiyi/config.py",
+        "src/kintaiyi/jieqi.py",
         "src/kintaiyi/kintaiyi.py"
       ]
     },
