@@ -31,9 +31,12 @@ almanac = load("almanac/scoring_v1.json")
 fengshui_calc = load("fengshui/calculation_v1.json")
 fengshui_schools = load("fengshui/schools_v1.json")
 hetu_luoshu = load("foundations/hetu_luoshu_v1.json")
+yuanhai = load("classics/bazi/yuanhai_ziping_v1.json")
+qiongtong = load("classics/bazi/qiongtong_baojian_v1.json")
 
 registry = json.loads((ROOT / "config/source_registry.json").read_text(encoding="utf-8"))["sources"]
 ingestion = json.loads((ROOT / "config/ingestion_manifest.json").read_text(encoding="utf-8"))
+public_domain_manifest = json.loads((ROOT / "config/public_domain_manifest.json").read_text(encoding="utf-8"))
 
 errors: list[str] = []
 
@@ -168,6 +171,16 @@ if len(matrix) == 3:
     check(all(sum(line) == 15 for line in lines), "Every Luo Shu row/column/diagonal must sum to 15")
 check(len(hetu_luoshu.get("luoshu", {}).get("nine_palaces", [])) == 9, "Luo Shu must contain 9 palace mappings")
 
+# Public-domain Bazi classics
+check(yuanhai.get("source_level") == "L0-public-domain-classic", "Yuanhai Ziping must be L0 classic")
+check(yuanhai.get("section_count", 0) >= 180, "Yuanhai Ziping section count unexpectedly small")
+check(sum(len(x.get("text", "")) for x in yuanhai.get("sections", [])) >= 55000, "Yuanhai Ziping text unexpectedly short")
+check(yuanhai.get("cleaning", {}).get("replacement_chars") == 0, "Yuanhai Ziping contains unresolved replacement chars")
+check(qiongtong.get("source_level") == "L0-public-domain-classic", "Qiongtong Baojian must be L0 classic")
+check(qiongtong.get("section_count", 0) >= 95, "Qiongtong Baojian section count unexpectedly small")
+check(sum(len(x.get("text", "")) for x in qiongtong.get("sections", [])) >= 30000, "Qiongtong Baojian text unexpectedly short")
+check(qiongtong.get("cleaning", {}).get("replacement_chars") == 0, "Qiongtong Baojian contains unresolved replacement chars")
+
 # Licensing and ingestion guardrails
 valid_policies = {"ALLOW","REFERENCE_ONLY","PUBLIC_DOMAIN_EXTRACT_ONLY","NON_COMMERCIAL","COPYLEFT","QUARANTINE"}
 check(len({x["repo"] for x in registry}) == len(registry), "duplicate source repositories")
@@ -177,6 +190,20 @@ for source in registry:
     check(source["license_policy"] in valid_policies, f"invalid license policy: {source['repo']}")
     if source.get("license_spdx") is None and source["license_policy"] == "ALLOW":
         errors.append(f"unlicensed source cannot be ALLOW: {source['repo']}")
+
+for group in public_domain_manifest.get("sources", []):
+    source = by_id.get(group["source_id"])
+    check(source is not None, f"public-domain manifest references unknown source: {group['source_id']}")
+    if source:
+        check(
+            source["license_policy"] == "PUBLIC_DOMAIN_EXTRACT_ONLY",
+            f"public-domain manifest source has wrong policy: {source['repo']}",
+        )
+    for work in group.get("works", []):
+        check(bool(work.get("path")), f"public-domain work missing path: {work.get('id')}")
+        if work.get("promotion") == "canonical":
+            check(bool(work.get("output")), f"canonical public-domain work missing output: {work.get('id')}")
+            check(bool(work.get("parser")), f"canonical public-domain work missing parser: {work.get('id')}")
 
 for entry in ingestion.get("sources", []):
     source = by_id.get(entry["source_id"])
@@ -196,5 +223,6 @@ print(
     f"Daliuren={liuren_catalog['record_count']} bibliography/8 transmission methods; "
     f"Taiyi={taiyi_catalog['record_count']} bibliography/72+72 palace rules; "
     f"Tarot={tarot['record_count']} cards/{tarot['spread_count']} spreads; "
-    f"Zeri={len(zeri['events'])} events; Hetu/Luoshu=5 pairs/9 palaces."
+    f"Zeri={len(zeri['events'])} events; Hetu/Luoshu=5 pairs/9 palaces; "
+    f"Bazi classics={yuanhai['section_count']}+{qiongtong['section_count']} sections."
 )
