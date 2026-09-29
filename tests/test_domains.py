@@ -65,6 +65,19 @@ class DomainIntegrityTests(unittest.TestCase):
         self.assertTrue(all(v != 5 for v in x["taiyi_palace"]["yang_72"]))
         self.assertTrue(all(v != 5 for v in x["taiyi_palace"]["yin_72"]))
 
+    def test_bazi_public_domain_classics(self):
+        y = load("classics/bazi/yuanhai_ziping_v1.json")
+        q = load("classics/bazi/qiongtong_baojian_v1.json")
+        self.assertGreaterEqual(y["section_count"], 180)
+        self.assertGreaterEqual(sum(len(x["text"]) for x in y["sections"]), 55000)
+        self.assertEqual(y["cleaning"]["replacement_chars"], 0)
+        self.assertTrue(any(x["title"] == "论大运" for x in y["sections"]))
+        self.assertGreaterEqual(q["section_count"], 95)
+        self.assertGreaterEqual(sum(len(x["text"]) for x in q["sections"]), 30000)
+        self.assertEqual(q["cleaning"]["replacement_chars"], 0)
+        self.assertTrue(any(x["title"] == "五行总论" for x in q["sections"]))
+        self.assertTrue(any(x["title"] == "正月丙火" for x in q["sections"]))
+
     def test_tarot(self):
         t = load("tarot/rws_cn_v1.json")
         self.assertEqual(t["record_count"], 78)
