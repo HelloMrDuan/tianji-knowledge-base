@@ -1,0 +1,2122 @@
+{
+  "generated_at": "2026-09-29T07:55:00Z",
+  "batch": 1,
+  "queries": [
+    "八字 命理 bazi",
+    "紫微斗数 ziwei",
+    "奇门遁甲 qimen",
+    "六爻 liuyao",
+    "周易 易经 yijing",
+    "八卦 bagua",
+    "风水 fengshui"
+  ],
+  "candidates": [
+    {
+      "repo": "13905394878/yijing-meihua",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/13905394878/yijing-meihua",
+      "matched_queries": [
+        "周易 易经 yijing"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "1506085843/BaguaDivination",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/1506085843/BaguaDivination",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "1eakkkk/liuyao-tool",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/1eakkkk/liuyao-tool",
+      "matched_queries": [
+        "六爻 liuyao"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "2s-d/qimen",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/2s-d/qimen",
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "3166790565/LiuYao_AI",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/3166790565/LiuYao_AI",
+      "matched_queries": [
+        "六爻 liuyao"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "840450999/bagua3d",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/840450999/bagua3d",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "aaa2024-07-14/bazifuzugongju",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/aaa2024-07-14/bazifuzugongju",
+      "matched_queries": [
+        "八字 命理 bazi"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "ai-freer/fortune-skill",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/ai-freer/fortune-skill",
+      "matched_queries": [
+        "紫微斗数 ziwei"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "APOLLONLIN/YiJing",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/APOLLONLIN/YiJing",
+      "matched_queries": [
+        "周易 易经 yijing"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "babatuobao-bot/qimen-dunjia-guide",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/babatuobao-bot/qimen-dunjia-guide",
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "bagua4d/bagua",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/bagua4d/bagua",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "baguarray/bagua",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/baguarray/bagua",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "baguaxingzhe/baguaxingzhe.github.io",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/baguaxingzhe/baguaxingzhe.github.io",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "baiyanwu/liuyao-skill",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/baiyanwu/liuyao-skill",
+      "matched_queries": [
+        "六爻 liuyao"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "bingxinv5/Tarot-Cards-Birthday-Characters-Easy-Numbering-of-Plum-Blossoms-Da-Liuren-Ziping-Bazi-Qimen-Dunjia",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/bingxinv5/Tarot-Cards-Birthday-Characters-Easy-Numbering-of-Plum-Blossoms-Da-Liuren-Ziping-Bazi-Qimen-Dunjia",
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "blackapocrypha/ZiWeiDouCountsAstrologicalDivination",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/blackapocrypha/ZiWeiDouCountsAstrologicalDivination",
+      "matched_queries": [
+        "紫微斗数 ziwei"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "Brhiza/mingyu",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/Brhiza/mingyu",
+      "matched_queries": [
+        "六爻 liuyao"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "Broly789/BaziAI",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/Broly789/BaziAI",
+      "matched_queries": [
+        "八字 命理 bazi"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "chanhhuynhgia-star/bagua",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/chanhhuynhgia-star/bagua",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "ChesterRa/mingpan",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/ChesterRa/mingpan",
+      "matched_queries": [
+        "六爻 liuyao"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "Chinese-Traditional-Culture/BaGua",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/Chinese-Traditional-Culture/BaGua",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "chyroc/base8-bagua",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/chyroc/base8-bagua",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "configworld768/fengshuidashi",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/configworld768/fengshuidashi",
+      "matched_queries": [
+        "风水 fengshui"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "constbang/liuyao",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/constbang/liuyao",
+      "matched_queries": [
+        "六爻 liuyao"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "ctkqiang/YiJing",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/ctkqiang/YiJing",
+      "matched_queries": [
+        "周易 易经 yijing"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "cxhgo/Appium_Fengshui_UI",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/cxhgo/Appium_Fengshui_UI",
+      "matched_queries": [
+        "风水 fengshui"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "DadanLuo/bazi_agent",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/DadanLuo/bazi_agent",
+      "matched_queries": [
+        "八字 命理 bazi"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "dao-ai/bagua",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/dao-ai/bagua",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "DeePingXian/BaGuaLiuGuangLu",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/DeePingXian/BaGuaLiuGuangLu",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "deminzhang/qimen-go",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/deminzhang/qimen-go",
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "DestinyLinker/MingLi-Bench",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/DestinyLinker/MingLi-Bench",
+      "matched_queries": [
+        "紫微斗数 ziwei"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "dglijin-oss/fengshui-skill",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/dglijin-oss/fengshui-skill",
+      "matched_queries": [
+        "风水 fengshui"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "dhicoc/dsh-chinese-traditional-wisdom-skill",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/dhicoc/dsh-chinese-traditional-wisdom-skill",
+      "matched_queries": [
+        "风水 fengshui"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "dshxliuyu-lang/bazimbtifenxi.skill",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/dshxliuyu-lang/bazimbtifenxi.skill",
+      "matched_queries": [
+        "八字 命理 bazi"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "dujinglong2024/BaZiPaiPanGongJu",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/dujinglong2024/BaZiPaiPanGongJu",
+      "matched_queries": [
+        "八字 命理 bazi"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "dxbuyi/qimen.skill",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/dxbuyi/qimen.skill",
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "dzcmemory-web/bazi-ziwei-skills",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/dzcmemory-web/bazi-ziwei-skills",
+      "matched_queries": [
+        "紫微斗数 ziwei"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "dzmhust/bazi",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/dzmhust/bazi",
+      "matched_queries": [
+        "八字 命理 bazi"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "endlessroadddd/qimen-trading-skill",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/endlessroadddd/qimen-trading-skill",
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "fantasy-library/bazi",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/fantasy-library/bazi",
+      "matched_queries": [
+        "八字 命理 bazi"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "fckcg/bazi-skill",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/fckcg/bazi-skill",
+      "matched_queries": [
+        "八字 命理 bazi"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "feifei123221/fengshui-app",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/feifei123221/fengshui-app",
+      "matched_queries": [
+        "风水 fengshui"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "Ficere/tianji",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/Ficere/tianji",
+      "matched_queries": [
+        "八字 命理 bazi",
+        "紫微斗数 ziwei"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "frankfika/BaGua-Suanming",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/frankfika/BaGua-Suanming",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "Franklyn1987/final_qimendunjia",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/Franklyn1987/final_qimendunjia",
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "gaojunxin/yunque-qimen",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/gaojunxin/yunque-qimen",
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "glass4pk/qimen-qiju",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/glass4pk/qimen-qiju",
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "godisego/Way-of-Heaven-Agent",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/godisego/Way-of-Heaven-Agent",
+      "matched_queries": [
+        "八字 命理 bazi"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "HeiGeAi/HeiGe-SuanMing",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/HeiGeAi/HeiGe-SuanMing",
+      "matched_queries": [
+        "六爻 liuyao"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "Horace-Maxwell/Horosa-Web-App-comprehensively-improved-MacOS",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/Horace-Maxwell/Horosa-Web-App-comprehensively-improved-MacOS",
+      "matched_queries": [
+        "风水 fengshui"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "Horace-Maxwell/Horosa-Web-App-comprehensively-improved-Windows",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/Horace-Maxwell/Horosa-Web-App-comprehensively-improved-Windows",
+      "matched_queries": [
+        "风水 fengshui"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "horysk/bazi-master",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/horysk/bazi-master",
+      "matched_queries": [
+        "八字 命理 bazi"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "huaweimmp11/BaZi",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/huaweimmp11/BaZi",
+      "matched_queries": [
+        "八字 命理 bazi"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "huzoukai/hui-gesture-bagua",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/huzoukai/hui-gesture-bagua",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "hwy0829/bagua",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/hwy0829/bagua",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "hxd0818/qimen-dunjia",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/hxd0818/qimen-dunjia",
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "ichdream/BaGua",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/ichdream/BaGua",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "Jabberwocky238/bazi",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/Jabberwocky238/bazi",
+      "matched_queries": [
+        "八字 命理 bazi"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "jangviktor-web/zeng-shiqiang",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/jangviktor-web/zeng-shiqiang",
+      "matched_queries": [
+        "周易 易经 yijing"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "jiangshangwan/zhonghua-wisdom",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/jiangshangwan/zhonghua-wisdom",
+      "matched_queries": [
+        "风水 fengshui"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "JunQHuang/AI-Ziwei-Fortune-Destiny",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/JunQHuang/AI-Ziwei-Fortune-Destiny",
+      "matched_queries": [
+        "紫微斗数 ziwei"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "keenone/bazi-skill",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/keenone/bazi-skill",
+      "matched_queries": [
+        "八字 命理 bazi"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "kennycaiguo/Qimen-Dunjia-Techniques",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/kennycaiguo/Qimen-Dunjia-Techniques",
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "lbcheng888/bagua",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/lbcheng888/bagua",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "learnwithu/mingli-master",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/learnwithu/mingli-master",
+      "matched_queries": [
+        "紫微斗数 ziwei"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "lemonteaau/binary-liuyao",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/lemonteaau/binary-liuyao",
+      "matched_queries": [
+        "六爻 liuyao"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "lichanghong/liuyao",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/lichanghong/liuyao",
+      "matched_queries": [
+        "六爻 liuyao"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "limcheekin/qishui",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/limcheekin/qishui",
+      "matched_queries": [
+        "风水 fengshui"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "liuyixia-make/Qimen_nicegui",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/liuyixia-make/Qimen_nicegui",
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "liver-detox/bazi-ziwei-calculator",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/liver-detox/bazi-ziwei-calculator",
+      "matched_queries": [
+        "紫微斗数 ziwei"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "lixiaoshi2/fengshuiserver",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/lixiaoshi2/fengshuiserver",
+      "matched_queries": [
+        "风水 fengshui"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "lm130797cc-eng/bagua",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/lm130797cc-eng/bagua",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "lusing/LiuYaoApp",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/lusing/LiuYaoApp",
+      "matched_queries": [
+        "六爻 liuyao"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "lusing/qimen",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/lusing/qimen",
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "lxlj69/fengshui",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/lxlj69/fengshui",
+      "matched_queries": [
+        "风水 fengshui"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "marco99168/ziweidoushu",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/marco99168/ziweidoushu",
+      "matched_queries": [
+        "紫微斗数 ziwei"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "masterai-top/Bazi-Ziwei-Qimen-Dunjia-Divination-System-Source-Code",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/masterai-top/Bazi-Ziwei-Qimen-Dunjia-Divination-System-Source-Code",
+      "matched_queries": [
+        "紫微斗数 ziwei",
+        "奇门遁甲 qimen",
+        "周易 易经 yijing"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "matharts/ziwei",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/matharts/ziwei",
+      "matched_queries": [
+        "紫微斗数 ziwei"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "mingl0280/BaguaEncoder",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/mingl0280/BaguaEncoder",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "mingze21/bazi-ziwei-skill",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/mingze21/bazi-ziwei-skill",
+      "matched_queries": [
+        "紫微斗数 ziwei"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "miounet11/life-kline",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/miounet11/life-kline",
+      "matched_queries": [
+        "八字 命理 bazi"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "Mirochiu/BaguaMap",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/Mirochiu/BaguaMap",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "ml8s/liki",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/ml8s/liki",
+      "matched_queries": [
+        "八字 命理 bazi",
+        "六爻 liuyao",
+        "风水 fengshui"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "mylovemaliang/seo-fengshui",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/mylovemaliang/seo-fengshui",
+      "matched_queries": [
+        "风水 fengshui"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "mystilight/mystilight-8char",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/mystilight/mystilight-8char",
+      "matched_queries": [
+        "八字 命理 bazi"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "new1234cq/bazi-pro",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/new1234cq/bazi-pro",
+      "matched_queries": [
+        "八字 命理 bazi"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "niujxss/BaGua",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/niujxss/BaGua",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "NortonHuang-SUFE/MCP-Liuyao",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/NortonHuang-SUFE/MCP-Liuyao",
+      "matched_queries": [
+        "六爻 liuyao"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "oceanjustinlin/qimen",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/oceanjustinlin/qimen",
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "ownthink/Qimen",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/ownthink/Qimen",
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "pengyunzhaoisme1207-bit/bazi-ziwei-mingli-cn",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/pengyunzhaoisme1207-bit/bazi-ziwei-mingli-cn",
+      "matched_queries": [
+        "八字 命理 bazi",
+        "紫微斗数 ziwei"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "perfhelf/bigfishmarquis-qimen",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/perfhelf/bigfishmarquis-qimen",
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "piaoyunsoft/liuyao-2",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/piaoyunsoft/liuyao-2",
+      "matched_queries": [
+        "六爻 liuyao"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "pipishen/cezi-fengshui",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/pipishen/cezi-fengshui",
+      "matched_queries": [
+        "风水 fengshui"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "qianmiao888/qimendunjia",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/qianmiao888/qimendunjia",
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "qianye-wuyu/yueyuan-bazi",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/qianye-wuyu/yueyuan-bazi",
+      "matched_queries": [
+        "八字 命理 bazi"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "QiChenX/LiuYaoDivining",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/QiChenX/LiuYaoDivining",
+      "matched_queries": [
+        "六爻 liuyao"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "qigegenb/fengshui_master",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/qigegenb/fengshui_master",
+      "matched_queries": [
+        "风水 fengshui"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "qilaidev/bazi-master",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/qilaidev/bazi-master",
+      "matched_queries": [
+        "八字 命理 bazi"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "QingCheng-AI/BaGuaLu",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/QingCheng-AI/BaGuaLu",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "rdcjed/bazi-immortal",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/rdcjed/bazi-immortal",
+      "matched_queries": [
+        "八字 命理 bazi"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "redrockhorse/qimenpaipan",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/redrockhorse/qimenpaipan",
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "RedSC1/ziwei_core",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/RedSC1/ziwei_core",
+      "matched_queries": [
+        "紫微斗数 ziwei"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "Relieq/fengshui-copilot",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/Relieq/fengshui-copilot",
+      "matched_queries": [
+        "风水 fengshui"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "Renhuai123/ziwei-doushu",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/Renhuai123/ziwei-doushu",
+      "matched_queries": [
+        "紫微斗数 ziwei"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "Reone/Bagua",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/Reone/Bagua",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "RevaHuai/Taoracle-LiuyaoCasting",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/RevaHuai/Taoracle-LiuyaoCasting",
+      "matched_queries": [
+        "六爻 liuyao"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "rgvsp1993-commits/liuyao-divination",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/rgvsp1993-commits/liuyao-divination",
+      "matched_queries": [
+        "六爻 liuyao"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "rl3740/qimen-dunjia",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/rl3740/qimen-dunjia",
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "ruolanaces/YiJing",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/ruolanaces/YiJing",
+      "matched_queries": [
+        "周易 易经 yijing"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "safevisa/fengshuibaijian",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/safevisa/fengshuibaijian",
+      "matched_queries": [
+        "风水 fengshui"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "sanshanchen/ni-haixia-fengshui-skill",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/sanshanchen/ni-haixia-fengshui-skill",
+      "matched_queries": [
+        "风水 fengshui"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "ScientistPun/ziweidoushu",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/ScientistPun/ziweidoushu",
+      "matched_queries": [
+        "紫微斗数 ziwei"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "Seanding1998/liuyao-frv",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/Seanding1998/liuyao-frv",
+      "matched_queries": [
+        "六爻 liuyao"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "SerinaRica/qimen.skill",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/SerinaRica/qimen.skill",
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "shanrichard/ziwei-skill",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/shanrichard/ziwei-skill",
+      "matched_queries": [
+        "紫微斗数 ziwei"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "Shine2099/fengshui-scanner",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/Shine2099/fengshui-scanner",
+      "matched_queries": [
+        "风水 fengshui"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "shubhaviatiningsih-byte/fortune-liuyao-skill",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/shubhaviatiningsih-byte/fortune-liuyao-skill",
+      "matched_queries": [
+        "六爻 liuyao"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "Si-Bu-Xiu/qimendunjia-api",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/Si-Bu-Xiu/qimendunjia-api",
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "sinshine/AI-Fengshui",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/sinshine/AI-Fengshui",
+      "matched_queries": [
+        "风水 fengshui"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "siriusho/bazi-consultant",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/siriusho/bazi-consultant",
+      "matched_queries": [
+        "八字 命理 bazi"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "SiwuXue/ziwei-mcp",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/SiwuXue/ziwei-mcp",
+      "matched_queries": [
+        "紫微斗数 ziwei"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "smart-open/fengshuishi",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/smart-open/fengshuishi",
+      "matched_queries": [
+        "风水 fengshui"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "smogievogie/ziwei_iztro-mcpserver",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/smogievogie/ziwei_iztro-mcpserver",
+      "matched_queries": [
+        "紫微斗数 ziwei"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "Snowluo01/qimen",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/Snowluo01/qimen",
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "songgoldenwind-crypto/liuyao-skills",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/songgoldenwind-crypto/liuyao-skills",
+      "matched_queries": [
+        "六爻 liuyao"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "Sophos-Yang/ZhouyiFramework",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/Sophos-Yang/ZhouyiFramework",
+      "matched_queries": [
+        "周易 易经 yijing"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "StarWa1kin/wxapp_fengshui",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/StarWa1kin/wxapp_fengshui",
+      "matched_queries": [
+        "风水 fengshui"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "Sting9527/fengshui",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/Sting9527/fengshui",
+      "matched_queries": [
+        "风水 fengshui"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "strawberrynine/ZiWeiDouShu-Master",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/strawberrynine/ZiWeiDouShu-Master",
+      "matched_queries": [
+        "紫微斗数 ziwei"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "SylarLong/react-iztro",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/SylarLong/react-iztro",
+      "matched_queries": [
+        "紫微斗数 ziwei"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "Taogram/taobi",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/Taogram/taobi",
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "taskyoooo/ziwei-doushu-skill",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/taskyoooo/ziwei-doushu-skill",
+      "matched_queries": [
+        "紫微斗数 ziwei"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "taynpg/csp",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/taynpg/csp",
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "tcevor/ziweidoushu",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/tcevor/ziweidoushu",
+      "matched_queries": [
+        "紫微斗数 ziwei"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "TerreMou/Taiji-Bagua",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/TerreMou/Taiji-Bagua",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "tf1993614/Know-your-fate",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/tf1993614/Know-your-fate",
+      "matched_queries": [
+        "风水 fengshui"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "ThousandLine/bagua",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/ThousandLine/bagua",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "titus0710/fengshui",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/titus0710/fengshui",
+      "matched_queries": [
+        "风水 fengshui"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "Tomjuerui/Bazi",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/Tomjuerui/Bazi",
+      "matched_queries": [
+        "八字 命理 bazi"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "TVB-JINPAIJIANZHI/bazifuzugongju",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/TVB-JINPAIJIANZHI/bazifuzugongju",
+      "matched_queries": [
+        "八字 命理 bazi"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "wangchuanping123/BaguaLsland",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/wangchuanping123/BaguaLsland",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "wangtengda0310/liuyao",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/wangtengda0310/liuyao",
+      "matched_queries": [
+        "六爻 liuyao"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "WaylandGod/ZhouyiFramework",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/WaylandGod/ZhouyiFramework",
+      "matched_queries": [
+        "周易 易经 yijing"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "weig19364/Dunjia_Physics",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/weig19364/Dunjia_Physics",
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "wlhyl/ziwei",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/wlhyl/ziwei",
+      "matched_queries": [
+        "紫微斗数 ziwei"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "woaichiji/liuyao",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/woaichiji/liuyao",
+      "matched_queries": [
+        "六爻 liuyao"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "wsy555/liuyao",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/wsy555/liuyao",
+      "matched_queries": [
+        "六爻 liuyao"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "WT-Agent/ai-yijing",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/WT-Agent/ai-yijing",
+      "matched_queries": [
+        "周易 易经 yijing"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "wwwwklw/qimendunjia",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/wwwwklw/qimendunjia",
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "xiandan-erizo/ai-ziwei",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/xiandan-erizo/ai-ziwei",
+      "matched_queries": [
+        "紫微斗数 ziwei"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "XIAOEEN/lifeline-k-",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/XIAOEEN/lifeline-k-",
+      "matched_queries": [
+        "八字 命理 bazi"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "xiaoshiyilangzhao1996-droid/yinyo-liuyao",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/xiaoshiyilangzhao1996-droid/yinyo-liuyao",
+      "matched_queries": [
+        "六爻 liuyao"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "xiegen2020/liuyaonajia",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/xiegen2020/liuyaonajia",
+      "matched_queries": [
+        "六爻 liuyao"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "xielei296/bagua",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/xielei296/bagua",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "xiongdun8/liuyao",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/xiongdun8/liuyao",
+      "matched_queries": [
+        "六爻 liuyao"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "xuanhuangyiqi/fengshui",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/xuanhuangyiqi/fengshui",
+      "matched_queries": [
+        "风水 fengshui"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "xuanyuwang/QiMen",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/xuanyuwang/QiMen",
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "xuminghuisg-star/lubai-qimen",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/xuminghuisg-star/lubai-qimen",
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "xxxume/baguapan",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/xxxume/baguapan",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "yankay/wei-bagua",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/yankay/wei-bagua",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "yinfupai/LiuYaoForQuantum",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/yinfupai/LiuYaoForQuantum",
+      "matched_queries": [
+        "六爻 liuyao"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "yueyinqiu/ZhouyiFramework",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/yueyinqiu/ZhouyiFramework",
+      "matched_queries": [
+        "周易 易经 yijing"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "YuHong-Cray/tianji-fengshui",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/YuHong-Cray/tianji-fengshui",
+      "matched_queries": [
+        "风水 fengshui"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "zengyushan/baguaxiangshuyuce",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/zengyushan/baguaxiangshuyuce",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "zengzhan/rili-bazi",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/zengzhan/rili-bazi",
+      "matched_queries": [
+        "八字 命理 bazi"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "zhoudengt/HiFate-bazi",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/zhoudengt/HiFate-bazi",
+      "matched_queries": [
+        "八字 命理 bazi"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "zhouxian007/jianli-bagua",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/zhouxian007/jianli-bagua",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "zhuqinfei/bagua-1",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/zhuqinfei/bagua-1",
+      "matched_queries": [
+        "八卦 bagua"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "Zijian-Ni/tianji",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/Zijian-Ni/tianji",
+      "matched_queries": [
+        "紫微斗数 ziwei",
+        "六爻 liuyao"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "zilong007/ZhouyiFramework",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/zilong007/ZhouyiFramework",
+      "matched_queries": [
+        "周易 易经 yijing"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "ziweiknows/ziwei-chart",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/ziweiknows/ziwei-chart",
+      "matched_queries": [
+        "紫微斗数 ziwei"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "ziweiknows/ziwei-chat",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/ziweiknows/ziwei-chat",
+      "matched_queries": [
+        "紫微斗数 ziwei"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "zouni88/ziweidoushu",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/zouni88/ziweidoushu",
+      "matched_queries": [
+        "紫微斗数 ziwei"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    },
+    {
+      "repo": "zxbe/03-fengshui",
+      "description": null,
+      "stars": 0,
+      "language": null,
+      "updated_at": null,
+      "html_url": "https://github.com/zxbe/03-fengshui",
+      "matched_queries": [
+        "风水 fengshui"
+      ],
+      "status": "QUARANTINE_DISCOVERED"
+    }
+  ]
+}
