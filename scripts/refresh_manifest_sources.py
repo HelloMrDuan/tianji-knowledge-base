@@ -37,7 +37,8 @@ changed = 0
 
 for item in MANIFEST:
     source = REGISTRY[item["source_id"]]
-    if source["license_policy"] not in {"ALLOW", "PUBLIC_DOMAIN_EXTRACT_ONLY"}:
+    scope_override = bool(item.get("scope_license_verified"))
+    if source["license_policy"] not in {"ALLOW", "PUBLIC_DOMAIN_EXTRACT_ONLY"} and not scope_override:
         state["files"][item["target"]] = {"status": "skipped_policy", "repo": item["repo"]}
         continue
     if not item.get("auto_refresh", False):
@@ -70,6 +71,7 @@ for item in MANIFEST:
         "source_path": item["path"],
         "source_commit": sha,
         "license": item["license"],
+        "scope_license_verified": scope_override,
         "ingestion": item["ingestion"],
         "sha256": hashlib.sha256(content.encode("utf-8")).hexdigest(),
         "chars": len(content),
