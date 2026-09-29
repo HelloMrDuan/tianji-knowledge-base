@@ -21,3 +21,18 @@ jobs:
           python scripts/validate_kb.py
           python -m unittest discover -s tests -p 'test_*.py'
           python scripts/build_index.py
+          python scripts/build_rag_chunks.py
+      - name: Show generated retrieval artifacts
+        run: |
+          wc -l build/rag_chunks.jsonl
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path("build/catalog.json")
+          data = json.loads(p.read_text(encoding="utf-8"))
+          print(json.dumps({
+              "canonical_file_count": data.get("canonical_file_count"),
+              "domain_file_counts": data.get("domain_file_counts"),
+              "zhouyi": data.get("zhouyi"),
+          }, ensure_ascii=False, indent=2))
+          PY
