@@ -19,23 +19,35 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Validate
+
+      - name: Validate canonical knowledge
         run: |
           export PYTHONPATH=src
           python scripts/validate_kb.py
           python -m unittest discover -s tests -p 'test_*.py'
+
       - name: Sync upstream metadata
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           export PYTHONPATH=src
           python scripts/sync_sources.py
-      - name: Commit state refresh
+
+      - name: Snapshot allowlisted upstream knowledge
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          export PYTHONPATH=src
+          python scripts/sync_content.py
+
+      - name: Commit sync results
         shell: bash
         run: |
-          if git diff --quiet -- data/state; then exit 0; fi
+          if git diff --quiet -- data/state data/quarantine/source_snapshots; then
+            exit 0
+          fi
           git config user.name "tianji-kb-bot"
           git config user.email "tianji-kb-bot@users.noreply.github.com"
-          git add data/state
-          git commit -m "chore: sync upstream source metadata"
+          git add data/state data/quarantine/source_snapshots
+          git commit -m "chore: sync upstream knowledge snapshots"
           git push
