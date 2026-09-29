@@ -1,0 +1,57 @@
+{
+  "schema_version": "0.1",
+  "policy": "Only exact files listed here may be fetched from sources whose license_policy is PUBLIC_DOMAIN_EXTRACT_ONLY. Repository-level modern content is not automatically reusable.",
+  "sources": [
+    {
+      "source_id": "daizhigev20",
+      "works": [
+        {
+          "id": "zhouyi_combined",
+          "domain": "yijing",
+          "title": "周易经传合本",
+          "path": "易藏/易经/周易.txt",
+          "promotion": "manual_collated"
+        },
+        {
+          "id": "yuanhai_ziping",
+          "domain": "bazi",
+          "title": "渊海子平",
+          "path": "易藏/术数/渊海子平.txt",
+          "promotion": "canonical",
+          "output": "data/canonical/classics/bazi/yuanhai_ziping_v1.json",
+          "parser": "angle_markers"
+        },
+        {
+          "id": "qiongtong_baojian",
+          "domain": "bazi",
+          "title": "穷通宝鉴",
+          "path": "易藏/术数/穷通宝鉴.txt",
+          "promotion": "canonical",
+          "output": "data/canonical/classics/bazi/qiongtong_baojian_v1.json",
+          "parser": "qiongtong_headings"
+        },
+        {
+          "id": "shenfeng_tongkao",
+          "domain": "bazi",
+          "title": "神峰通考",
+          "path": "易藏/术数/神峰通考.txt",
+          "promotion": "quarantine_only"
+        },
+        {
+          "id": "ditiansui_chanwei",
+          "domain": "bazi",
+          "title": "滴天髓阐微",
+          "path": "易藏/术数/滴天髓阐微.txt",
+          "promotion": "quarantine_only"
+        },
+        {
+          "id": "xieji_bianfang",
+          "domain": "zeri",
+          "title": "钦定协纪辨方书",
+          "path": "易藏/术数/钦定协纪辨方书.txt",
+          "promotion": "quarantine_only"
+        }
+      ]
+    }
+  ]
+}
