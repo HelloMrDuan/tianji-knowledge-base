@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-29T07:20:00Z",
+  "generated_at": "2026-09-29T07:42:00Z",
   "changed_sources": 0,
   "sources": {
     "lunar-python": {
@@ -190,6 +190,55 @@
       "license_policy": "REFERENCE_ONLY",
       "domains": [
         "meihua"
+      ],
+      "sync_status": "seeded"
+    },
+    "godcong-yi": {
+      "repo": "godcong/yi",
+      "head_sha": "517293838bd49a7ad22edf47422074c6bf9cd656",
+      "license_policy": "ALLOW",
+      "domains": [
+        "yijing",
+        "bagua",
+        "liuyao",
+        "meihua"
+      ],
+      "sync_status": "seeded"
+    },
+    "liuyao-engine": {
+      "repo": "yaomancy/liuyao-engine",
+      "head_sha": "53291663a4c733c4cbdfa174a8d3075475c07fd3",
+      "license_policy": "ALLOW",
+      "domains": [
+        "liuyao",
+        "yijing",
+        "bagua",
+        "classics"
+      ],
+      "sync_status": "seeded"
+    },
+    "zhouyi-skill-qbdx": {
+      "repo": "qbdx-hub/zhouyi-skill",
+      "head_sha": "bacda91453fb0d6a9b0427103c0117f5a128fe69",
+      "license_policy": "ALLOW",
+      "domains": [
+        "yijing",
+        "decision_patterns"
+      ],
+      "sync_status": "seeded"
+    },
+    "zhouyilab": {
+      "repo": "banderzhm/ZhouYiLab",
+      "head_sha": "d8aea5d18c940e7f616b07144cc2b76325727519",
+      "license_policy": "ALLOW",
+      "domains": [
+        "yijing",
+        "bazi",
+        "ziwei",
+        "qimen",
+        "liuyao",
+        "meihua",
+        "liuren"
       ],
       "sync_status": "seeded"
     }
