@@ -23,6 +23,12 @@ ziwei = load("ziwei/iztro_rules_v1.json")
 qimen = load("qimen/qfdk_maoshan_v1.json")
 liuren_catalog = load("liuren/classics_catalog_v1.json")
 taiyi_catalog = load("taiyi/classics_catalog_v1.json")
+tarot = load("tarot/rws_cn_v1.json")
+zeri = load("zeri/zeri_core_v1.json")
+almanac = load("almanac/scoring_v1.json")
+fengshui_calc = load("fengshui/calculation_v1.json")
+fengshui_schools = load("fengshui/schools_v1.json")
+hetu_luoshu = load("foundations/hetu_luoshu_v1.json")
 
 registry = json.loads((ROOT / "config/source_registry.json").read_text(encoding="utf-8"))["sources"]
 ingestion = json.loads((ROOT / "config/ingestion_manifest.json").read_text(encoding="utf-8"))
@@ -108,6 +114,41 @@ check(len(qimen.get("canonical_terms", {}).get("liu_yi", [])) == 6, "Qimen liuyi
 check(liuren_catalog.get("record_count", 0) >= 120, "Daliuren bibliography unexpectedly small")
 check(taiyi_catalog.get("record_count", 0) >= 90, "Taiyi bibliography unexpectedly small")
 
+# Tarot
+check(tarot.get("record_count") == 78, "Tarot must contain 78 cards")
+check(tarot.get("spread_count") == 9, "Tarot must contain 9 spreads")
+tarot_counts = tarot.get("counts", {})
+check(tarot_counts.get("MajorArcana") == 22, "Tarot must contain 22 major arcana")
+check(sum(int(v) for v in tarot_counts.values()) == 78, "Tarot suit counts must sum to 78")
+
+# Zeri / Almanac
+check(len(zeri.get("events", {})) == 10, "Zeri must contain 10 recognized event types")
+check(len(zeri.get("branch_clashes", {})) == 12, "Zeri must cover 12 branch clashes")
+check(len(zeri.get("sha_direction", {})) == 12, "Zeri must cover 12 sha directions")
+fixed = almanac.get("fixed_inauspicious", {})
+check(len(fixed.get("yang_gong_13_avoid", [])) == 13, "Almanac Yang Gong avoid list must contain 13 dates")
+check(len(fixed.get("san_niang_sha_lunar_days", [])) == 6, "Almanac Sanniang list must contain 6 lunar days")
+check(len(fixed.get("shi_e_da_bai_jiazi", [])) == 10, "Almanac Shi E Da Bai list must contain 10 Jiazi")
+
+# Fengshui
+luoshu_calc = fengshui_calc.get("luoshu", {})
+check(len(fengshui_calc.get("san_yuan_periods", [])) == 9, "Fengshui must contain 9 San Yuan periods")
+check(len(luoshu_calc.get("palace_numbers", {})) == 9, "Fengshui Luo Shu must contain 9 palaces")
+check(len(luoshu_calc.get("flight_path", [])) == 9, "Fengshui Luo Shu flight path must contain 9 palaces")
+check(len(fengshui_calc.get("ming_gua", {}).get("directions", {})) == 8, "Eight Mansions Ming Gua must contain 8 non-center gua mappings")
+check(len(fengshui_schools.get("schools", [])) >= 7, "Fengshui school separation must list at least 7 methods")
+
+# Hetu / Luoshu
+hetu_pairs = hetu_luoshu.get("hetu", {}).get("pairs", [])
+check(len(hetu_pairs) == 5, "Hetu must contain 5 generating/completing pairs")
+check(all(x["completing"] - x["generating"] == 5 for x in hetu_pairs), "Hetu pair difference must be 5")
+matrix = hetu_luoshu.get("luoshu", {}).get("matrix_south_up", [])
+check(matrix == [[4,9,2],[3,5,7],[8,1,6]], "Luo Shu matrix mismatch")
+if len(matrix) == 3:
+    lines = matrix + [list(x) for x in zip(*matrix)] + [[matrix[i][i] for i in range(3)], [matrix[i][2-i] for i in range(3)]]
+    check(all(sum(line) == 15 for line in lines), "Every Luo Shu row/column/diagonal must sum to 15")
+check(len(hetu_luoshu.get("luoshu", {}).get("nine_palaces", [])) == 9, "Luo Shu must contain 9 palace mappings")
+
 # Licensing and ingestion guardrails
 valid_policies = {"ALLOW","REFERENCE_ONLY","PUBLIC_DOMAIN_EXTRACT_ONLY","NON_COMMERCIAL","COPYLEFT","QUARANTINE"}
 check(len({x["repo"] for x in registry}) == len(registry), "duplicate source repositories")
@@ -134,5 +175,7 @@ print(
     f"Bazi shensha={len(shensha['items'])}; Ziwei=14 major stars; "
     f"Qimen=9 palaces/24 solar-term bureaus; "
     f"Daliuren bibliography={liuren_catalog['record_count']}; "
-    f"Taiyi bibliography={taiyi_catalog['record_count']}."
+    f"Taiyi bibliography={taiyi_catalog['record_count']}; "
+    f"Tarot={tarot['record_count']} cards/{tarot['spread_count']} spreads; "
+    f"Zeri={len(zeri['events'])} events; Hetu/Luoshu=5 pairs/9 palaces."
 )
