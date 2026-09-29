@@ -327,6 +327,21 @@
       "license_policy": "ALLOW",
       "auto_sync": true,
       "notes": "多术数计算与资料来源台账；重点吸收来源治理、可复现规则和回归案例。"
+    },
+    {
+      "id": "fundgao-zhouyi",
+      "repo": "fundgao/DAO_DE_JING",
+      "domains": [
+        "yijing",
+        "bagua",
+        "classics"
+      ],
+      "source_type": "classical_text_compilation",
+      "trust_level": "A",
+      "license_spdx": "MIT",
+      "license_policy": "ALLOW",
+      "auto_sync": true,
+      "notes": "周易/README.md 含64卦、彖传、大象、逐爻小象；作为第二套周易校验源。"
     }
   ]
 }
