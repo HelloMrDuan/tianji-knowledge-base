@@ -40,6 +40,31 @@ class DomainIntegrityTests(unittest.TestCase):
         self.assertGreaterEqual(load("liuren/classics_catalog_v1.json")["record_count"], 120)
         self.assertGreaterEqual(load("taiyi/classics_catalog_v1.json")["record_count"], 90)
 
+    def test_liuren_rules(self):
+        x = load("liuren/rules_v1.json")
+        self.assertEqual(len(x["month_general_by_solar_terms"]), 12)
+        self.assertEqual(x["month_general_by_solar_terms"][0]["branch"], "亥")
+        self.assertEqual(x["month_general_by_solar_terms"][-1]["branch"], "子")
+        self.assertEqual(len(x["heavenly_generals"]["order"]), 12)
+        self.assertEqual(
+            x["three_transmissions"]["engine_selection_precedence"],
+            ["贼克","比用","涉害","遥克","昴星","别责","八专","伏吟"],
+        )
+        self.assertEqual(len(x["branch_relations"]["clash"]), 12)
+        self.assertEqual(x["branch_relations"]["clash"]["子"], "午")
+
+    def test_taiyi_rules(self):
+        x = load("taiyi/rules_v1.json")
+        self.assertEqual(len(x["classical_methods"]), 4)
+        self.assertEqual(len(x["taiyi_palace"]["yang_72"]), 72)
+        self.assertEqual(len(x["taiyi_palace"]["yin_72"]), 72)
+        self.assertEqual(set(x["taiyi_palace"]["valid_palace_numbers"]), {1,2,3,4,6,7,8,9})
+        self.assertEqual(x["eight_doors"]["base_order"], ["开","休","生","伤","杜","景","死","惊"])
+        self.assertEqual(len(x["sixteen_palaces"]), 16)
+        self.assertEqual(x["luoshu_outer_order"], [8,3,4,9,2,7,6,1])
+        self.assertTrue(all(v != 5 for v in x["taiyi_palace"]["yang_72"]))
+        self.assertTrue(all(v != 5 for v in x["taiyi_palace"]["yin_72"]))
+
     def test_tarot(self):
         t = load("tarot/rws_cn_v1.json")
         self.assertEqual(t["record_count"], 78)
