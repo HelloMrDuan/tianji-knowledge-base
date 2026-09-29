@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-29T08:05:38.301641+00:00",
+  "generated_at": "2026-09-29T08:10:37.417003+00:00",
   "files": {
     "data/upstream/godcong-yi/bagua.json": {
       "status": "unchanged",
@@ -101,7 +101,7 @@
       "chars": 17465
     },
     "data/upstream/zhouyilab/六爻起课-步骤.md": {
-      "status": "updated",
+      "status": "unchanged",
       "repo": "banderzhm/ZhouYiLab",
       "source_path": "docs/六爻起课-步骤.md",
       "source_commit": "d8aea5d18c940e7f616b07144cc2b76325727519",
@@ -112,7 +112,7 @@
       "chars": 8330
     },
     "data/upstream/zhouyilab/八字入门.md": {
-      "status": "updated",
+      "status": "unchanged",
       "repo": "banderzhm/ZhouYiLab",
       "source_path": "docs/八字入门.md",
       "source_commit": "d8aea5d18c940e7f616b07144cc2b76325727519",
@@ -242,6 +242,50 @@
       "ingestion": "ALLOW_SNAPSHOT_CROSSCHECK",
       "sha256": "5f368f0f873022e9b97fbcd2cb8de504624ab22575cc0e637dffbd67033be59d",
       "chars": 22292
+    },
+    "data/canonical/classics/yijing/系辞.md": {
+      "status": "updated",
+      "repo": "john-walks-slow/open-iching",
+      "source_path": "md/系辞.md",
+      "source_commit": "4c5f00f8cb62c6e0d2471243d28150b473ef592f",
+      "license": "Public Domain classical text; transport repository has no LICENSE",
+      "scope_license_verified": false,
+      "ingestion": "PUBLIC_DOMAIN_CLASSIC",
+      "sha256": "0a941e2fc795040307402b992e2e4e54588d174b1abc2789131c4407d1e558e4",
+      "chars": 5744
+    },
+    "data/canonical/classics/yijing/说卦.md": {
+      "status": "updated",
+      "repo": "john-walks-slow/open-iching",
+      "source_path": "md/说卦.md",
+      "source_commit": "4c5f00f8cb62c6e0d2471243d28150b473ef592f",
+      "license": "Public Domain classical text; transport repository has no LICENSE",
+      "scope_license_verified": false,
+      "ingestion": "PUBLIC_DOMAIN_CLASSIC",
+      "sha256": "1dab641bdc8a369d01899844f426c3f54abcb2a22299196bef4f9c976d91c8be",
+      "chars": 1288
+    },
+    "data/canonical/classics/yijing/序卦.md": {
+      "status": "updated",
+      "repo": "john-walks-slow/open-iching",
+      "source_path": "md/序卦.md",
+      "source_commit": "4c5f00f8cb62c6e0d2471243d28150b473ef592f",
+      "license": "Public Domain classical text; transport repository has no LICENSE",
+      "scope_license_verified": false,
+      "ingestion": "PUBLIC_DOMAIN_CLASSIC",
+      "sha256": "aedd2c7b7c9b4dd4cd9adaafa810c505c639c3e087f11d597a10cc64c8a55775",
+      "chars": 1416
+    },
+    "data/canonical/classics/yijing/杂卦.md": {
+      "status": "updated",
+      "repo": "john-walks-slow/open-iching",
+      "source_path": "md/杂卦.md",
+      "source_commit": "4c5f00f8cb62c6e0d2471243d28150b473ef592f",
+      "license": "Public Domain classical text; transport repository has no LICENSE",
+      "scope_license_verified": false,
+      "ingestion": "PUBLIC_DOMAIN_CLASSIC",
+      "sha256": "af184d94c9006b6dd4a297e1e118fee342f16c196c9e1901d1d3bbf22c26b822",
+      "chars": 588
     }
   }
 }
