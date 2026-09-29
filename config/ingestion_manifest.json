@@ -1,0 +1,61 @@
+{
+  "schema_version": "0.1",
+  "policy": "Only sources with registry license_policy=ALLOW may be auto-snapshotted. Snapshot != Canonical promotion.",
+  "sources": [
+    {
+      "source_id": "bazi-skill",
+      "paths": [
+        "references/wuxing-tables.md",
+        "references/shichen-table.md",
+        "references/dayun-rules.md",
+        "references/shensha-table.md",
+        "references/classical-texts.md"
+      ]
+    },
+    {
+      "source_id": "metaphysics-steward",
+      "paths": [
+        "references/liuyao_najia.md",
+        "references/meihua_notes.md",
+        "references/hehun_rules.md"
+      ]
+    },
+    {
+      "source_id": "iztro",
+      "paths": [
+        "src/data/constants.ts",
+        "src/data/heavenlyStems.ts",
+        "src/data/stars.ts",
+        "src/star/location.ts",
+        "src/astro/astro.ts",
+        "src/i18n/locales/zh-CN/palace.ts",
+        "src/i18n/locales/zh-CN/star.ts"
+      ]
+    },
+    {
+      "source_id": "qimen-qfdk",
+      "paths": [
+        "README.md",
+        "lib/qimen.js",
+        "lib/dipan.js",
+        "lib/jiuxing.js",
+        "lib/bamen.js",
+        "lib/bashen.js"
+      ]
+    },
+    {
+      "source_id": "kinliuren",
+      "paths": [
+        "docs/guji.md",
+        "src/kinliuren/kinliuren.py"
+      ]
+    },
+    {
+      "source_id": "kintaiyi",
+      "paths": [
+        "docs/guji.md",
+        "src/kintaiyi/kintaiyi.py"
+      ]
+    }
+  ]
+}
