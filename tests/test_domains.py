@@ -142,12 +142,12 @@ class DomainIntegrityTests(unittest.TestCase):
         summary = mapping["summary"]
         self.assertEqual(audit["total_private_use_chars"], 524)
         self.assertEqual(audit["unique_private_use_chars"], 86)
-        self.assertEqual(summary["confirmed_mappings"], 16)
-        self.assertEqual(summary["confirmed_occurrences"], 396)
-        self.assertEqual(summary["remaining_unique_codepoints"], 70)
-        self.assertEqual(summary["remaining_occurrences"], 128)
+        self.assertEqual(summary["confirmed_mappings"], 21)
+        self.assertEqual(summary["confirmed_occurrences"], 417)
+        self.assertEqual(summary["remaining_unique_codepoints"], 65)
+        self.assertEqual(summary["remaining_occurrences"], 107)
         self.assertTrue(all(x["status"] == "confirmed" for x in mapping["mappings"]))
-        self.assertIn(("U+E4BF", "琐"), {(x["codepoint"], x["replacement"]) for x in mapping["mappings"]})
+        self.assertIn(("U+E4BF", "琐"), {(x["codepoint"], x["replacement"]) for x in mapping["mappings"]})\n        self.assertIn(("U+EA40", "𠒋"), {(x["codepoint"], x["replacement"]) for x in mapping["mappings"]})\n        self.assertIn(("U+E749", "渺"), {(x["codepoint"], x["replacement"]) for x in mapping["mappings"]})
         self.assertFalse((C / "classics/bazi/sanming_tonghui_v1.json").exists())
 
     def test_hetu_luoshu(self):
