@@ -135,8 +135,8 @@ class DomainIntegrityTests(unittest.TestCase):
         text_map = json.loads(
             (ROOT / "data/quarantine/public_domain_snapshots/daizhigev20/sanming_text_collation.json").read_text(encoding="utf-8")
         )
-        self.assertEqual(text_map["summary"]["confirmed_corrections"], 62)
-        self.assertEqual(text_map["summary"]["confirmed_replacements"], 62)
+        self.assertEqual(text_map["summary"]["confirmed_corrections"], 71)
+        self.assertEqual(text_map["summary"]["confirmed_replacements"], 71)
         self.assertEqual(text_map["summary"]["review_status"], "in_progress")
         text_corrections = {x["id"]: (x["old"], x["new"]) for x in text_map["corrections"]}
         self.assertEqual(text_corrections["ocr-017"][1], "无丑戌以刑冲之则库不开难得金印")
@@ -185,6 +185,15 @@ class DomainIntegrityTests(unittest.TestCase):
         self.assertEqual(text_corrections["ocr-060"][1], "大凡亦㸔暗干与明干合气相干取用")
         self.assertEqual(text_corrections["ocr-061"][1], "又得木神䕶禄所以基本牢壮")
         self.assertEqual(text_corrections["ocr-062"][1], "又得金财以生之木印以䕶之所以基本牢壮")
+        self.assertEqual(text_corrections["ocr-063"][1], "若无官事扰定主见重䘮此之谓欤")
+        self.assertEqual(text_corrections["ocr-064"][1], "官符䘮吊白虎羊刃暴败天厄")
+        self.assertEqual(text_corrections["ocr-065"][1], "金加子午多㐫暴若是丁人又喜逢")
+        self.assertEqual(text_corrections["ocr-066"][1], "更㸔五行无土数定扶圣主掌陶镕")
+        self.assertEqual(text_corrections["ocr-067"][1], "金加子午带死败故㓙甲子甲午之类是也")
+        self.assertEqual(text_corrections["ocr-068"][1], "先强后弱必先吉而后㓙始弱终强亦始㓙而终吉")
+        self.assertEqual(text_corrections["ocr-069"][1], "中遇㓙强岂可便作㓙兆")
+        self.assertEqual(text_corrections["ocr-070"][1], "吉㓙悔吝可考而知")
+        self.assertEqual(text_corrections["ocr-071"][1], "名曰造㣲岂云小补")
         self.assertFalse(text_map["summary"]["canonical_ready"])
         corrections = {(x["old"], x["new"]) for x in text_map["corrections"]}
         self.assertIn(("若失时防局卽韬光", "若失时䘮局卽韬光"), corrections)
