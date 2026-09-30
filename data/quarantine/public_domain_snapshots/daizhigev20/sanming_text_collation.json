@@ -1308,11 +1308,89 @@
         }
       ],
       "note": "Preserve historical 㫁 from the Siku-derived witness; normalized witnesses confirm 断."
+    },
+    {
+      "id": "ocr-052",
+      "old": "亦不能埋劒防之金倘再兼行金水旺处",
+      "new": "亦不能埋劒㦸之金倘再兼行金水旺处",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "亦不能埋劒㦸之金倘再兼行金水旺處"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "亦不能埋劒㦸之金倘再兼行金水旺處"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "亦不能埋劒㦸之金倘再兼行金水旺處"
+        }
+      ],
+      "note": "Three independent Siku-derived witnesses agree on historical 㦸."
+    },
+    {
+      "id": "ocr-053",
+      "old": "若申子辰全防起水局即成江海发波涛之声也",
+      "new": "若申子辰全㑹起水局即成江海发波涛之声也",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "若申子辰全㑹起水局即成江海發波濤之聲也"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "若申子辰全㑹起水局即成江海發波濤之聲也"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "若申子辰全㑹起水局即成江海發波濤之聲也"
+        }
+      ],
+      "note": "Independent Siku-derived witnesses agree on historical 㑹."
+    },
+    {
+      "id": "ocr-054",
+      "old": "见己酉三合防起金局若人命生于丑月",
+      "new": "见己酉三合㑹起金局若人命生于丑月",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "見己酉三合㑹起金局若人命生於丑月"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "見己酉三合㑹"
+        }
+      ],
+      "note": "Preserve historical 㑹; second Siku-derived witness independently confirms the same phrase."
     }
   ],
   "summary": {
-    "confirmed_corrections": 51,
-    "confirmed_replacements": 51,
+    "confirmed_corrections": 54,
+    "confirmed_replacements": 54,
     "review_status": "in_progress",
     "canonical_ready": false
   }
