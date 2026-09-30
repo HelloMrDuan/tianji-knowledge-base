@@ -32,10 +32,12 @@
   "summary": {
     "audit_total_occurrences": 524,
     "audit_unique_codepoints": 86,
-    "confirmed_mappings": 81,
-    "confirmed_occurrences": 514,
-    "remaining_unique_codepoints": 5,
-    "remaining_occurrences": 10
+    "confirmed_mappings": 86,
+    "confirmed_occurrences": 524,
+    "remaining_unique_codepoints": 0,
+    "remaining_occurrences": 0,
+    "contextual_mapping_codepoints": 1,
+    "contextual_occurrences": 5
   },
   "mappings": [
     {
@@ -2270,6 +2272,233 @@
         }
       ],
       "note": "Preserve historical form 逄 from the Siku glyph annotation. The following 防 in the quarantine text corresponds to 㸔/看 and is a separate OCR issue."
+    },
+    {
+      "codepoint": "U+E37B",
+      "glyph": "",
+      "count": 1,
+      "replacement": "𤥣",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "丁巳周都宪"
+      ],
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-08.md",
+          "anchor": "丁巳周𤥣都憲"
+        },
+        {
+          "repo": "ShousenZHANG/chinese-fortune",
+          "commit": "e2e152c5030a0ac3f0b899cb85188b0d5df22d24",
+          "path": "knowledge/books/sanming/c008.json",
+          "anchor": "丁巳周𤥣都憲"
+        }
+      ],
+      "note": "Preserve the attested rare personal-name glyph 𤥣."
+    },
+    {
+      "codepoint": "U+E7E9",
+      "glyph": "",
+      "count": 1,
+      "replacement": "崙",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "甲午万尚书"
+      ],
+      "evidence": [
+        {
+          "repo": "ShousenZHANG/chinese-fortune",
+          "commit": "e2e152c5030a0ac3f0b899cb85188b0d5df22d24",
+          "path": "knowledge/sources/sanming/c009.wiki",
+          "anchor": "甲午萬{{SKchar|2026}}尚書"
+        },
+        {
+          "source": "Wikisource",
+          "work": "欽定古今圖書集成·藝術典·第617卷",
+          "anchor": "萬崙尚書。甲午、乙巳",
+          "url": "https://zh.wikisource.org/wiki/欽定古今圖書集成/博物彙編/藝術典/第617卷"
+        },
+        {
+          "source": "周易天地",
+          "work": "三命通会·卷九·六庚日己卯时断",
+          "anchor": "万崙尚书甲午乙巳",
+          "url": "https://64gua.com/index.php?c=son&id=486&s=book"
+        }
+      ],
+      "note": "Independent transcriptions identify the example as 萬崙尚書; preserve traditional 崙 in the collation layer."
+    },
+    {
+      "codepoint": "U+EBC1",
+      "glyph": "",
+      "count": 2,
+      "replacement": "𢡟",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "辛未毕康侍郎",
+        "丙子黄官侍郎死于乱军"
+      ],
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-08.md",
+          "anchor": "辛未畢𢡟康侍郎"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0009.md",
+          "anchor": "辛未畢𢡟康侍郎"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-09.md",
+          "anchor": "丙子黄𢡟官侍郎死於亂軍"
+        }
+      ],
+      "note": "Both personal names use the same attested rare glyph 𢡟; do not flatten it to 懋 in the collation layer."
+    },
+    {
+      "codepoint": "U+ECC7",
+      "glyph": "",
+      "count": 1,
+      "replacement": "𤇍",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "壬午胡祭酒"
+      ],
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-09.md",
+          "anchor": "壬午胡𤇍祭酒"
+        },
+        {
+          "repo": "ShousenZHANG/chinese-fortune",
+          "commit": "e2e152c5030a0ac3f0b899cb85188b0d5df22d24",
+          "path": "knowledge/sources/sanming/c009.wiki",
+          "anchor": "壬午胡{{SKchar|3272}}祭酒"
+        },
+        {
+          "source": "Wikisource",
+          "work": "三命通會·卷九",
+          "anchor": "壬午胡𤇍祭酒",
+          "url": "https://zh.wikisource.org/zh-hans/三命通會/卷九"
+        }
+      ],
+      "note": "The Siku/Wikisource glyph is 𤇍; normalized historical references identify the person as 胡杰. Preserve the attested rare glyph here."
+    }
+  ],
+  "contextual_mappings": [
+    {
+      "codepoint": "U+E7E8",
+      "glyph": "",
+      "count": 5,
+      "status": "confirmed",
+      "confidence": "high",
+      "rationale": "The same source PUA is reused for multiple distinct glyphs, so codepoint-wide replacement would corrupt the text.",
+      "replacements": [
+        {
+          "old": "韩命书",
+          "new": "韩𭹱命书",
+          "count": 1,
+          "evidence": [
+            {
+              "source": "Chinese Text Project",
+              "anchor": "韓𭹱命書有孤孀祿馬之說",
+              "url": "https://ctext.org/dictionary.pl?char=𭹱&if=gb"
+            },
+            {
+              "source": "识典古籍·三车一览",
+              "anchor": "韓𭹱命書云：祿馬同鄉者，有孤孀祿馬之説",
+              "url": "https://www.shidianguji.com/zh/book/SDZJ0478/chapter/1lcpfzx7trccf"
+            },
+            {
+              "repo": "kanripo/KR3g0042",
+              "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+              "path": "KR3g0042_003.txt",
+              "anchor": "韓&KR0008;命書有孤孀祿馬之說"
+            }
+          ],
+          "note": "𭹱 is U+2DE71, composition 王+造, directly attested in independent classical transcriptions."
+        },
+        {
+          "old": "又恐天年多",
+          "new": "又恐天年多摩罗",
+          "count": 2,
+          "evidence": [
+            {
+              "repo": "youngzs/xuanxue",
+              "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+              "path": "docs/五行精纪/005五行精纪：第四卷 论干神二.md",
+              "anchor": "又恐天年多(土摩)(土罗)"
+            },
+            {
+              "repo": "Banny-Gao/mingli-research",
+              "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+              "path": "books/五行精纪/articles/干神二/source.md",
+              "anchor": "又恐天年多(土摩)(土罗)"
+            },
+            {
+              "source": "周易天地·五行精纪",
+              "anchor": "又恐天年多摩罗",
+              "url": "https://www.64gua.com/index.php?c=son&id=99&s=book"
+            }
+          ],
+          "note": "The facsimile forms are unencoded/IDS-style 土+摩 and 土+羅. The normalized reading 摩罗 is independently transmitted and avoids inventing a Unicode character."
+        },
+        {
+          "old": "为人巧虚诈",
+          "new": "为人惯巧虚诈",
+          "count": 1,
+          "evidence": [
+            {
+              "repo": "NiuTrans/Classical-Modern",
+              "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+              "path": "古文原文/三命通会/卷八/六丙日辛卯时断/text.txt",
+              "anchor": "为人惯巧虚诈"
+            },
+            {
+              "repo": "youngzs/xuanxue",
+              "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+              "path": "docs/三命通会/195卷 八·六丙日辛卯时断.md",
+              "anchor": "为人惯巧虚诈"
+            },
+            {
+              "repo": "Banny-Gao/mingli-research",
+              "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+              "path": "books/三命通会/articles/六丙日辛卯时断/source.md",
+              "anchor": "为人惯巧虚诈"
+            }
+          ]
+        },
+        {
+          "old": "临老蛉者裔苦根甘",
+          "new": "临老蛉仃者裔苦根甘",
+          "count": 1,
+          "evidence": [
+            {
+              "source": "Wikisource·古今图书集成",
+              "anchor": "幼年建旺，而臨老伶仃者，裔苦根甘之謂也",
+              "url": "https://zh.wikisource.org/wiki/Page:Gujin_Tushu_Jicheng,_Volume_472_(1700-1725).djvu/62"
+            },
+            {
+              "source": "渊海子平·珞琭子消息赋",
+              "anchor": "幼年建旺面临老伶仃者，裔苦根甘之谓也",
+              "url": "https://sajumania.com/ebook/to01-06/to01-06-05-63.htm"
+            }
+          ],
+          "note": "This contextual replacement resolves only the PUA as 仃. The neighboring source OCR 蛉→伶 is a separate non-PUA cleanup item."
+        }
+      ]
     }
   ]
 }
