@@ -136,7 +136,7 @@ class DomainIntegrityTests(unittest.TestCase):
             (ROOT / "data/quarantine/public_domain_snapshots/daizhigev20/sanming_text_collation.json").read_text(encoding="utf-8")
         )
         self.assertEqual(text_map["summary"]["confirmed_corrections"], 25)
-        self.assertEqual(text_map["summary"]["confirmed_replacements"], 23)
+        self.assertEqual(text_map["summary"]["confirmed_replacements"], 25)
         self.assertEqual(text_map["summary"]["review_status"], "in_progress")
         text_corrections = {x["id"]: (x["old"], x["new"]) for x in text_map["corrections"]}
         self.assertEqual(text_corrections["ocr-017"][1], "无丑戌以刑冲之则库不开难得金印")
