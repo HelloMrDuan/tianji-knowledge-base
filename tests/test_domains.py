@@ -135,8 +135,8 @@ class DomainIntegrityTests(unittest.TestCase):
         text_map = json.loads(
             (ROOT / "data/quarantine/public_domain_snapshots/daizhigev20/sanming_text_collation.json").read_text(encoding="utf-8")
         )
-        self.assertEqual(text_map["summary"]["confirmed_corrections"], 41)
-        self.assertEqual(text_map["summary"]["confirmed_replacements"], 41)
+        self.assertEqual(text_map["summary"]["confirmed_corrections"], 46)
+        self.assertEqual(text_map["summary"]["confirmed_replacements"], 46)
         self.assertEqual(text_map["summary"]["review_status"], "in_progress")
         text_corrections = {x["id"]: (x["old"], x["new"]) for x in text_map["corrections"]}
         self.assertEqual(text_corrections["ocr-017"][1], "无丑戌以刑冲之则库不开难得金印")
@@ -164,6 +164,11 @@ class DomainIntegrityTests(unittest.TestCase):
         self.assertEqual(text_corrections["ocr-039"][1], "取虚露庚字亦主富贵全㸔月令何如")
         self.assertEqual(text_corrections["ocr-040"][1], "无亥卯以㑹之则形难变只作火土论")
         self.assertEqual(text_corrections["ocr-041"][1], "申宫水土长生之地入已午则逢火炼遂成剑㦸见子辰则逢水淬")
+        self.assertEqual(text_corrections["ocr-042"][1], "伤官但能去官不能留煞必湏得羊刃合方成去官㽞煞")
+        self.assertEqual(text_corrections["ocr-043"][1], "切不可见伤官格有官星便不作好命㸔又曰")
+        self.assertEqual(text_corrections["ocr-044"][1], "财旺妻荣子更强柱中若要吞㗖煞管教金殿佐君王")
+        self.assertEqual(text_corrections["ocr-045"][1], "煞乃尅我刃乃劫我命中之最㓙者肯言煞刃其知所重者欤")
+        self.assertEqual(text_corrections["ocr-046"][1], "乙木捕䑕遇子多早歩蟾宫")
         self.assertFalse(text_map["summary"]["canonical_ready"])
         corrections = {(x["old"], x["new"]) for x in text_map["corrections"]}
         self.assertIn(("若失时防局卽韬光", "若失时䘮局卽韬光"), corrections)
