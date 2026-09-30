@@ -53,7 +53,7 @@
           "quality_blockers": {
             "private_use_char_count": 524,
             "unique_private_use_chars": 86,
-            "note": "2026-09-30 PUA collation is complete (86/86, 524/524). Post-PUA text review has 204 independently cross-checked OCR corrections across 27 batches. The broad twelve-volume candidate scan is documented in docs/SANMING_OCR_REVIEW.md. Keep quarantine_only; canonical_ready remains false pending the overall review.",
+            "note": "2026-09-30 PUA collation is complete (86/86, 524/524). Post-PUA text review has 224 independently cross-checked OCR corrections across 28 batches. The broad twelve-volume candidate scan is documented in docs/SANMING_OCR_REVIEW.md. Keep quarantine_only; canonical_ready remains false pending the overall review.",
             "confirmed_private_use_mappings": 86,
             "confirmed_occurrences": 524,
             "remaining_unique_private_use_chars": 0,
@@ -61,7 +61,7 @@
             "collation_map": "data/quarantine/public_domain_snapshots/daizhigev20/sanming_pua_collation.json",
             "text_collation_map": "data/quarantine/public_domain_snapshots/daizhigev20/sanming_text_collation.json",
             "text_review_status": "in_progress",
-            "confirmed_text_corrections": 204,
+            "confirmed_text_corrections": 224,
             "canonical_ready": false
           },
           "planned_output": "data/canonical/classics/bazi/sanming_tonghui_v1.json",
