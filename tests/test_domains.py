@@ -165,6 +165,10 @@ class DomainIntegrityTests(unittest.TestCase):
         self.assertIn(("U+EA62", "备"), {(x["codepoint"], x["replacement"]) for x in mapping["mappings"]})
         self.assertIn(("U+E8AA", "恶"), {(x["codepoint"], x["replacement"]) for x in mapping["mappings"]})
         self.assertIn(("U+EA26", "兮"), {(x["codepoint"], x["replacement"]) for x in mapping["mappings"]})
+        singleton = next(x for x in mapping["mappings"] if x["codepoint"] == "U+EA62")
+        self.assertEqual(singleton["count"], 1)
+        self.assertEqual(len(singleton["source_anchors"]), 1)
+        self.assertGreaterEqual(len(singleton["evidence"]), 2)
         self.assertFalse((C / "classics/bazi/sanming_tonghui_v1.json").exists())
 
     def test_hetu_luoshu(self):
