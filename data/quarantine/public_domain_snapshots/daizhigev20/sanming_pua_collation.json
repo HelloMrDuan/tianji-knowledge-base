@@ -32,10 +32,10 @@
   "summary": {
     "audit_total_occurrences": 524,
     "audit_unique_codepoints": 86,
-    "confirmed_mappings": 21,
-    "confirmed_occurrences": 417,
-    "remaining_unique_codepoints": 65,
-    "remaining_occurrences": 107
+    "confirmed_mappings": 26,
+    "confirmed_occurrences": 438,
+    "remaining_unique_codepoints": 60,
+    "remaining_occurrences": 86
   },
   "mappings": [
     {
@@ -603,6 +603,140 @@
           "commit": "d2a447941d43fd5ac35b35194dcb0a68d4275aa7",
           "path": "01易藏-0195部/02术数-146部/渊海子平-宋-徐子平.txt",
           "anchor": "火虚有焰"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+ECDE",
+      "glyph": "",
+      "count": 5,
+      "replacement": "点",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "柱无一火气",
+        "柱中无一官星",
+        "柱无一官星"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷六/日禄归时/text.txt",
+          "anchor": "柱中无一点官星"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/090卷 六·日禄归时.md",
+          "anchor": "柱无一点官星"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+ED3F",
+      "glyph": "",
+      "count": 5,
+      "replacement": "眩",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "头目晕",
+        "诸风掉",
+        "目濇晕"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷七/论疾病先知五脏六腑所/text.txt",
+          "anchor": "外主头目眩晕"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/153卷 七·论疾病先知五脏六腑所属干支.md",
+          "anchor": "外主头目眩晕"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EA7B",
+      "glyph": "",
+      "count": 4,
+      "replacement": "冢",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "周嘉谟宰",
+        "胡松宰",
+        "乔宇宰"
+      ],
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_008.txt",
+          "anchor": "癸亥胡松冢宰"
+        },
+        {
+          "repo": "x3747991-ship-it/mingli-yuanzhuo-skillpack",
+          "commit": "d4f5eef0dc2461ee38705005d7faaffb40e6f3c6",
+          "path": "mingli-yuanzhuo/命例库/02_三命通会_命例.md",
+          "anchor": "乔宇冢宰"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EA85",
+      "glyph": "",
+      "count": 4,
+      "replacement": "刑",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "或见三或自魁罡",
+        "合者防遇印者吉"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷六/论阳刃/text.txt",
+          "anchor": "或见三刑，或自刑魁罡"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/150卷 六·论阳刃（前论羊刃煞与此参看）.md",
+          "anchor": "合刑者凶，遇印者吉"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EB8E",
+      "glyph": "",
+      "count": 3,
+      "replacement": "弦",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "因谓之乃阳将半",
+        "因谓之下谓月生之半也",
+        "断再续"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/渊海子平/赋论·三/text.txt",
+          "anchor": "弦断再续"
+        },
+        {
+          "repo": "mahavivo/scripta-sinica",
+          "commit": "d2a447941d43fd5ac35b35194dcb0a68d4275aa7",
+          "path": "01易藏-0195部/02术数-146部/渊海子平-宋-徐子平.txt",
+          "anchor": "弦断再续"
         }
       ]
     }
