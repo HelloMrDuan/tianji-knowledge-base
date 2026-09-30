@@ -32,10 +32,10 @@
   "summary": {
     "audit_total_occurrences": 524,
     "audit_unique_codepoints": 86,
-    "confirmed_mappings": 36,
-    "confirmed_occurrences": 459,
-    "remaining_unique_codepoints": 50,
-    "remaining_occurrences": 65
+    "confirmed_mappings": 42,
+    "confirmed_occurrences": 466,
+    "remaining_unique_codepoints": 44,
+    "remaining_occurrences": 58
   },
   "mappings": [
     {
@@ -1000,6 +1000,158 @@
           "anchor": "年干父兮支母，日干己兮支妻"
         }
       ]
+    },
+    {
+      "codepoint": "U+E9C7",
+      "glyph": "",
+      "count": 1,
+      "replacement": "真",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "樗木不禁利斧珠最怕明炉"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/渊海子平/赋论·五/text.txt",
+          "anchor": "真珠最怕明炉"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/《渊海子平》/《渊海子平》赋论（五）/003《五行生克赋》.md",
+          "anchor": "真珠最怕明炉"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EAC0",
+      "glyph": "",
+      "count": 1,
+      "replacement": "嗤",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "禄入空亡何所知虚名虚誉足堪是嫌亡也"
+      ],
+      "evidence": [
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/五行精纪/021五行精纪：第十五卷论禄.md",
+          "anchor": "禄入空亡何所知，虚名虚誉足堪嗤"
+        },
+        {
+          "repo": "Banny-Gao/mingli-research",
+          "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+          "path": "books/五行精纪/articles/禄/source.md",
+          "anchor": "禄入空亡何所知，虚名虚誉足堪嗤"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EAE6",
+      "glyph": "",
+      "count": 1,
+      "replacement": "涂",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "得时失地如輗损泥得时者亦能举跃"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十/巫咸撮要五/text.txt",
+          "anchor": "得时失地，如輗损涂泥"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-10-19.txt",
+          "anchor": "得时失地，如輗损涂泥"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EAF6",
+      "glyph": "",
+      "count": 1,
+      "replacement": "压",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "夏火炎炎莫作太燥有秋金鋭鋭最为奇"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/元妙论/text.txt",
+          "anchor": "夏火炎炎，莫作太燥有压"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-12-10.txt",
+          "anchor": "夏火炎炎，莫作太燥有压"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+ECD6",
+      "glyph": "",
+      "count": 2,
+      "replacement": "熬",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "双眼无瞳火土干癸水",
+        "柱中遇木火耗不成从化者多患目疾"
+      ],
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_011.txt",
+          "anchor": "雙眼無瞳火土熬乾癸水；柱中遇木火耗熬"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0012.md",
+          "anchor": "雙眼無瞳火土熬乾癸水；柱中遇木火耗熬"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EA7C",
+      "glyph": "",
+      "count": 1,
+      "replacement": "寵",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "丙逢重辛居酉子多招妾"
+      ],
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "丙逢重辛居酉子多招寵妾"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0013.md",
+          "anchor": "丙逢重辛居酉子多招寵妾"
+        }
+      ],
+      "note": "Preserve the traditional form 寵 because the collated classical witnesses use 寵; simplified witnesses render the same word as 宠."
     }
   ]
 }
