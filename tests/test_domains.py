@@ -135,8 +135,8 @@ class DomainIntegrityTests(unittest.TestCase):
         text_map = json.loads(
             (ROOT / "data/quarantine/public_domain_snapshots/daizhigev20/sanming_text_collation.json").read_text(encoding="utf-8")
         )
-        self.assertEqual(text_map["summary"]["confirmed_corrections"], 97)
-        self.assertEqual(text_map["summary"]["confirmed_replacements"], 97)
+        self.assertEqual(text_map["summary"]["confirmed_corrections"], 102)
+        self.assertEqual(text_map["summary"]["confirmed_replacements"], 102)
         self.assertEqual(text_map["summary"]["review_status"], "in_progress")
         text_corrections = {x["id"]: (x["old"], x["new"]) for x in text_map["corrections"]}
         self.assertEqual(text_corrections["ocr-017"][1], "无丑戌以刑冲之则库不开难得金印")
@@ -220,6 +220,11 @@ class DomainIntegrityTests(unittest.TestCase):
         self.assertEqual(text_corrections["ocr-095"][1], "巳酉之类谓之君臣庆㑹在两旬内")
         self.assertEqual(text_corrections["ocr-096"][1], "甲午见巳未之类谓之夫妻聚㑹")
         self.assertEqual(text_corrections["ocr-097"][1], "日月十二辰交㑹之所凡月之㑹朔日之璧于此位")
+        self.assertEqual(text_corrections["ocr-098"][1], "谓之㑹劣谓之集十二月之辰")
+        self.assertEqual(text_corrections["ocr-099"][1], "一嵗十二㑹太隂太阳隔液坎离之妙")
+        self.assertEqual(text_corrections["ocr-100"][1], "此生万转图而放㑹合得可见也")
+        self.assertEqual(text_corrections["ocr-101"][1], "故子与丑合得日月㑹同之数")
+        self.assertEqual(text_corrections["ocr-102"][1], "所以在一旬内见方曰君臣庆㑹仍要别其阳为君")
         self.assertFalse(text_map["summary"]["canonical_ready"])
         corrections = {(x["old"], x["new"]) for x in text_map["corrections"]}
         self.assertIn(("若失时防局卽韬光", "若失时䘮局卽韬光"), corrections)
