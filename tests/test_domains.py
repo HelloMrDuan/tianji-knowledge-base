@@ -147,7 +147,9 @@ class DomainIntegrityTests(unittest.TestCase):
         self.assertEqual(summary["remaining_unique_codepoints"], 65)
         self.assertEqual(summary["remaining_occurrences"], 107)
         self.assertTrue(all(x["status"] == "confirmed" for x in mapping["mappings"]))
-        self.assertIn(("U+E4BF", "琐"), {(x["codepoint"], x["replacement"]) for x in mapping["mappings"]})\n        self.assertIn(("U+EA40", "𠒋"), {(x["codepoint"], x["replacement"]) for x in mapping["mappings"]})\n        self.assertIn(("U+E749", "渺"), {(x["codepoint"], x["replacement"]) for x in mapping["mappings"]})
+        self.assertIn(("U+E4BF", "琐"), {(x["codepoint"], x["replacement"]) for x in mapping["mappings"]})
+        self.assertIn(("U+EA40", "𠒋"), {(x["codepoint"], x["replacement"]) for x in mapping["mappings"]})
+        self.assertIn(("U+E749", "渺"), {(x["codepoint"], x["replacement"]) for x in mapping["mappings"]})
         self.assertFalse((C / "classics/bazi/sanming_tonghui_v1.json").exists())
 
     def test_hetu_luoshu(self):
