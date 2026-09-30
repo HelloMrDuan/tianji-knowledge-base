@@ -17,7 +17,11 @@ rows: dict[str, dict] = {}
 
 for index, ch in enumerate(text):
     cp = ord(ch)
-    if not 0xE000 <= cp <= 0xF8FF:
+    if not (
+        0xE000 <= cp <= 0xF8FF
+        or 0xF0000 <= cp <= 0xFFFFD
+        or 0x100000 <= cp <= 0x10FFFD
+    ):
         continue
     row = rows.setdefault(ch, {
         "glyph": ch,

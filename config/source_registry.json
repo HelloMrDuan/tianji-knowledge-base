@@ -537,6 +537,21 @@
       "license_policy": "ALLOW",
       "auto_sync": true,
       "notes": "多术数计算与资料来源台账；重点吸收来源治理、可复现规则和回归案例。"
+    },
+    {
+      "id": "niutrans-classical-modern",
+      "repo": "NiuTrans/Classical-Modern",
+      "domains": [
+        "bazi",
+        "classics",
+        "collation"
+      ],
+      "source_type": "classical_text_collation",
+      "trust_tier": "B",
+      "license_spdx": "MIT",
+      "license_policy": "ALLOW",
+      "auto_sync": true,
+      "notes": "Independent structured classical-text transcription used as evidence for PUA/variant collation. Canonical promotion still requires local audit and zero unresolved private-use glyphs."
     }
   ]
 }
