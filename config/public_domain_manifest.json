@@ -53,7 +53,12 @@
           "quality_blockers": {
             "private_use_char_count": 524,
             "unique_private_use_chars": 86,
-            "note": "2026-09-30 audit: source contains 524 Unicode Private Use Area glyphs across 86 unique code points. Canonical promotion is blocked until glyph mapping/collation is complete."
+            "note": "2026-09-30 collation batch 1 confirms 16/86 PUA codepoints covering 396/524 occurrences. Canonical promotion remains blocked until all remaining PUA glyphs are independently collated.",
+            "confirmed_private_use_mappings": 16,
+            "confirmed_occurrences": 396,
+            "remaining_unique_private_use_chars": 70,
+            "remaining_private_use_chars": 128,
+            "collation_map": "data/quarantine/public_domain_snapshots/daizhigev20/sanming_pua_collation.json"
           },
           "planned_output": "data/canonical/classics/bazi/sanming_tonghui_v1.json",
           "planned_parser": "sanming_volumes"
