@@ -4610,11 +4610,679 @@
         }
       ],
       "note": "Broad twelve-volume scan: 2 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-165",
+      "old": "岁君相犯官府刑狱破财防服生于秋冬更遇夜时地",
+      "new": "岁君相犯官府刑狱破财䘮服生于秋冬更遇夜时地",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_004.txt",
+          "anchor": "歲君相犯官府刑獄破財䘮服生於秋冬更遇夜時地"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-04.md",
+          "anchor": "歲君相犯官府刑獄破財䘮服生於秋冬更遇夜時地"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/056卷 四·论十干坐支兼得月时及行运吉凶.md",
+          "anchor": "相犯官府刑狱破财丧服生于秋冬更遇夜",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-166",
+      "old": "论要分身鬼强弱定其吉防寿夭制伏得中作偏官用",
+      "new": "论要分身鬼强弱定其吉㓙寿夭制伏得中作偏官用",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_004.txt",
+          "anchor": "論要分身鬼强弱定其吉㓙壽夭制伏得中作偏官用"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-04.md",
+          "anchor": "論要分身鬼强弱定其吉㓙壽夭制伏得中作偏官用"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/056卷 四·论十干坐支兼得月时及行运吉凶.md",
+          "anchor": "分身鬼强弱定其吉凶寿夭制伏得中作偏",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-167",
+      "old": "论要分身鬼强弱定其吉防寿夭制伏中和作偏官用",
+      "new": "论要分身鬼强弱定其吉㓙寿夭制伏中和作偏官用",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_004.txt",
+          "anchor": "論要分身鬼强弱定其吉㓙壽夭制伏中和作偏官用"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-04.md",
+          "anchor": "論要分身鬼强弱定其吉㓙壽夭制伏中和作偏官用"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/056卷 四·论十干坐支兼得月时及行运吉凶.md",
+          "anchor": "分身鬼强弱定其吉凶寿夭制伏中和作偏",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-168",
+      "old": "论要分身鬼强弱定其吉防寿夭制伏得中作偏官论",
+      "new": "论要分身鬼强弱定其吉㓙寿夭制伏得中作偏官论",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_004.txt",
+          "anchor": "論要分身鬼强弱定其吉㓙壽夭制伏得中作偏官論"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-04.md",
+          "anchor": "論要分身鬼强弱定其吉㓙壽夭制伏得中作偏官論"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/056卷 四·论十干坐支兼得月时及行运吉凶.md",
+          "anchor": "分身鬼强弱定其吉凶寿夭制伏得中作偏",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-169",
+      "old": "论要分身鬼强弱定其吉防制伏得中作偏官论制过",
+      "new": "论要分身鬼强弱定其吉㐫制伏得中作偏官论制过",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_004.txt",
+          "anchor": "論要分身鬼强弱定其吉㐫制伏得中作偏官論制過"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-04.md",
+          "anchor": "論要分身鬼强弱定其吉㐫制伏得中作偏官論制過"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/056卷 四·论十干坐支兼得月时及行运吉凶.md",
+          "anchor": "分身鬼强弱定其吉凶制伏得中作偏官论",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-170",
+      "old": "杂有煞无制鬼论制太过防更详日干于月令内有无力助轻重言之运喜忌同上\n 论十二月支得日干吉防\n 子月\n 甲乙日得子月为印",
+      "new": "杂有煞无制鬼论制太过㓙更详日干于月令内有无力助轻重言之运喜忌同上\n 论十二月支得日干吉㐫\n 子月\n 甲乙日得子月为印",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_004.txt",
+          "anchor": "雜有煞無制鬼論制太過㓙更詳日干於月令内有無力助輕重言之運喜忌同上論十二月支得日干吉㐫子月甲乙日得子月為印"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-04.md",
+          "anchor": "雜有煞無制鬼論制太過㓙更詳日干於月令内有無力助輕重言之運喜忌同上論十二月支得日干吉㐫子月甲乙日得子月為印"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/056卷 四·论十干坐支兼得月时及行运吉凶.md",
+          "anchor": "煞无制鬼论制太过凶更详日干于月令内",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/057卷 四·论十二月支得日干吉凶.md",
+          "anchor": "十二月支得日干吉凶子月甲乙日得子月",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 2 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-171",
+      "old": "生又自坐禄何夭之有更防壬露无丙癸露无丁甲露",
+      "new": "生又自坐禄何夭之有更㸔壬露无丙癸露无丁甲露",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_004.txt",
+          "anchor": "生又自坐禄何夭之有更㸔壬露無丙癸露無丁甲露"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-04.md",
+          "anchor": "生又自坐禄何夭之有更㸔壬露無丙癸露無丁甲露"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/057卷 四·论十二月支得日干吉凶.md",
+          "anchor": "自坐禄何夭之有更看壬露无丙癸露无丁",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-172",
+      "old": "正官\n 论五行时地分野吉防\n 按王氏所谓二气者阴阳",
+      "new": "正官\n 论五行时地分野吉㓙\n 按王氏所谓二气者阴阳",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_004.txt",
+          "anchor": "正官論五行時地分野吉㓙按王氏所謂二氣者陰陽"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-04.md",
+          "anchor": "正官論五行時地分野吉㓙按王氏所謂二氣者陰陽"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/058卷 四·论五行时地分野吉凶.md",
+          "anchor": "论五行时地分野吉凶按王氏所谓二气者",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-173",
+      "old": "性流荡离祖迁居土金水防夭折无疑贱贫而寿逢金伐之旺处遭伤斨其生意岂天地生物之至仁耶先正有云春木虽旺不宜逢金者此也\n 三月之木正条达长茂之时春阳和照万紫千红雨水浸滛根株摇动见土则根深蒂固福寿绵延见火则木通火明文章秀发逢金伐木荆梁生者防徐扬之人富贵喜火土忌金水运喜东南西北不利夏木病已死午墓未者盖南方火盛泄其眞气故也阴雨则吉亢晴则忌\n 四月木未甚衰火未甚旺见防火则枝叶茂繁荫庇发福値盛水则水神飘荡男女滛奔见土利就名成火土同躔干支有壬癸亥子者富贵逢金尅之灾讼不免徐扬人反吉\n 五六月之木喜雨水夜生尤竒値此者富贵而寿火盛无水者贫夭夏令炎威火盛烁石流金木有枯槁之患徐扬人干火多者有疯痨荧燎之防或水制或夜生或阴雨天",
+      "new": "性流荡离祖迁居土金水㑹夭折无疑贱贫而寿逢金伐之旺处遭伤斨其生意岂天地生物之至仁耶先正有云春木虽旺不宜逢金者此也\n 三月之木正条达长茂之时春阳和照万紫千红雨水浸滛根株摇动见土则根深蒂固福寿绵延见火则木通火明文章秀发逢金伐木荆梁生者㐫徐扬之人富贵喜火土忌金水运喜东南西北不利夏木病已死午墓未者盖南方火盛泄其眞气故也阴雨则吉亢晴则忌\n 四月木未甚衰火未甚旺见㣲火则枝叶茂繁荫庇发福値盛水则水神飘荡男女滛奔见土利就名成火土同躔干支有壬癸亥子者富贵逢金尅之灾讼不免徐扬人反吉\n 五六月之木喜雨水夜生尤竒値此者富贵而寿火盛无水者贫夭夏令炎威火盛烁石流金木有枯槁之患徐扬人干火多者有疯痨荧燎之㓙或水制或夜生或阴雨天",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_004.txt",
+          "anchor": "性流蕩離祖遷居土金水㑹夭折無疑賤貧而壽逢金伐之旺處遭傷斨其生意豈天地生物之至仁耶先正有云春木雖旺不宜逢金者此也三月之木正條達長茂之時春陽和照萬紫千紅雨水浸滛根株摇動見土則根深蒂固福壽綿延見火則木通火明文章秀發逢金伐木荆梁生者㐫徐揚之人富貴喜火土忌金水運喜東南西北不利夏木病已死午墓未者蓋南方火盛泄其眞氣故也陰雨則吉亢晴則忌四月木未甚衰火未甚旺見㣲火則枝葉茂繁蔭庇發福値盛水則水神飄蕩男女滛奔見土利就名成火土同躔干支有壬癸亥子者富貴逢金尅之灾訟不免徐揚人反吉五六月之木喜雨水夜生尤竒値此者富貴而壽火盛無水者貧夭夏令炎威火盛爍石流金木有枯槁之患徐揚人干火多者有瘋癆熒燎之㓙或水制或夜生或陰雨天"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-04.md",
+          "anchor": "性流蕩離祖遷居土金水㑹夭折無疑賤貧而壽逢金伐之旺處遭傷斨其生意豈天地生物之至仁耶先正有云春木雖旺不宜逢金者此也三月之木正條達長茂之時春陽和照萬紫千紅雨水浸滛根株摇動見土則根深蒂固福壽綿延見火則木通火明文章秀發逢金伐木荆梁生者㐫徐揚之人富貴喜火土忌金水運喜東南西北不利夏木病已死午墓未者蓋南方火盛泄其眞氣故也陰雨則吉亢晴則忌四月木未甚衰火未甚旺見㣲火則枝葉茂繁蔭庇發福値盛水則水神飄蕩男女滛奔見土利就名成火土同躔干支有壬癸亥子者富貴逢金尅之灾訟不免徐揚人反吉五六月之木喜雨水夜生尤竒値此者富貴而壽火盛無水者貧夭夏令炎威火盛爍石流金木有枯槁之患徐揚人干火多者有瘋癆熒燎之㓙或水制或夜生或陰雨天"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/058卷 四·论五行时地分野吉凶.md",
+          "anchor": "荡离祖迁居土金水会夭折无疑贱贫而寿",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/058卷 四·论五行时地分野吉凶.md",
+          "anchor": "逢金伐木荆梁生者凶徐扬之人富贵喜火",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/058卷 四·论五行时地分野吉凶.md",
+          "anchor": "未甚衰火未甚旺见微火则枝叶茂繁荫庇",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/058卷 四·论五行时地分野吉凶.md",
+          "anchor": "多者有疯痨荧燎之凶或水制或夜生或阴",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 4 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-174",
+      "old": "梁生者忌之金水同行化防为吉逢土培植利就名成水盛无土冀雍飘荡无居徐扬人反防成吉八九月之木正凋零",
+      "new": "梁生者忌之金水同行化㓙为吉逢土培植利就名成水盛无土冀雍飘荡无居徐扬人反㓙成吉八九月之木正凋零",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_004.txt",
+          "anchor": "梁生者忌之金水同行化㓙為吉逢土培植利就名成水盛無土冀雍飄蕩無居徐揚人反㓙成吉八九月之木正凋零"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-04.md",
+          "anchor": "梁生者忌之金水同行化㓙為吉逢土培植利就名成水盛無土冀雍飄蕩無居徐揚人反㓙成吉八九月之木正凋零"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/058卷 四·论五行时地分野吉凶.md",
+          "anchor": "者忌之金水同行化凶为吉逢土培植利就",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/058卷 四·论五行时地分野吉凶.md",
+          "anchor": "飘荡无居徐扬人反凶成吉八九月之木正",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 2 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-175",
+      "old": "木正肃杀之时复命归根防有小春生意以见造化无终穷之理易曰硕果不食者此也生于晴明者最佳値阴雨则凝氷积雪也\n 十月之木遇火贵而有寿盖氷寒土冻仗火以温暖其根故也火土辅运富贵双全见金虽无害其根本未免骨肉参商得水则有滋助之意徐扬人利就名成冀雍人贫寒孤尅\n 若子丑月之木喜火融之与土同躔位登台鼎见水防尅盖冬水令也木寒木也",
+      "new": "木正肃杀之时复命归根㣲有小春生意以见造化无终穷之理易曰硕果不食者此也生于晴明者最佳値阴雨则凝氷积雪也\n 十月之木遇火贵而有寿盖氷寒土冻仗火以温暖其根故也火土辅运富贵双全见金虽无害其根本未免骨肉参商得水则有滋助之意徐扬人利就名成冀雍人贫寒孤尅\n 若子丑月之木喜火融之与土同躔位登台鼎见水㐫尅盖冬水令也木寒木也",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_004.txt",
+          "anchor": "木正肅殺之時復命歸根㣲有小春生意以見造化無終窮之理易曰碩果不食者此也生於晴明者最佳値陰雨則凝氷積雪也十月之木遇火貴而有壽蓋氷寒土凍仗火以温暖其根故也火土輔運富貴雙全見金雖無害其根本未免骨肉参商得水則有滋助之意徐揚人利就名成冀雍人貧寒孤尅若子丑月之木喜火融之與土同躔位登台鼎見水㐫尅蓋冬水令也木寒木也"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-04.md",
+          "anchor": "木正肅殺之時復命歸根㣲有小春生意以見造化無終窮之理易曰碩果不食者此也生於晴明者最佳値陰雨則凝氷積雪也十月之木遇火貴而有壽蓋氷寒土凍仗火以温暖其根故也火土輔運富貴雙全見金雖無害其根本未免骨肉参商得水則有滋助之意徐揚人利就名成冀雍人貧寒孤尅若子丑月之木喜火融之與土同躔位登台鼎見水㐫尅蓋冬水令也木寒木也"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/058卷 四·论五行时地分野吉凶.md",
+          "anchor": "肃杀之时复命归根微有小春生意以见造",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/058卷 四·论五行时地分野吉凶.md",
+          "anchor": "同躔位登台鼎见水凶克盖冬水令也木寒",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 2 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-176",
+      "old": "冀雍之人尤甚见土盗泄防阳浮薄卑贱二月见木败处逢生木秀火明文章富贵人也但不宜有水盖湿木不生无焰火也谷雨之后生者防水无防盖土司时木主令化防而为吉也兖青徐扬生者富贵何疑土与金正月同论但辰月土差旺耳\n 夏令之火阳气之极草木为之焦枯江河为之枯涸晴则流金烁石眞阳尽泄雨则水济其威方得中和反应荫庇发福四月火势渐盛逢日争光未能全其忠爱虽富贵亦主夭亡贫寒者寿而多子孤独艰辛见金名成利就逢土有权有谋遇木富而好礼防水济木其贵不可言也\n 五",
+      "new": "冀雍之人尤甚见土盗泄㣲阳浮薄卑贱二月见木败处逢生木秀火明文章富贵人也但不宜有水盖湿木不生无焰火也谷雨之后生者防水无㐫盖土司时木主令化防而为吉也兖青徐扬生者富贵何疑土与金正月同论但辰月土差旺耳\n 夏令之火阳气之极草木为之焦枯江河为之枯涸晴则流金烁石眞阳尽泄雨则水济其威方得中和反应荫庇发福四月火势渐盛逢日争光未能全其忠爱虽富贵亦主夭亡贫寒者寿而多子孤独艰辛见金名成利就逢土有权有谋遇木富而好礼㣲水济木其贵不可言也\n 五",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_004.txt",
+          "anchor": "冀雍之人尤甚見土盗泄㣲陽浮薄卑賤二月見木敗處逢生木秀火明文章富貴人也但不宜有水蓋濕木不生無燄火也榖雨之後生者㣲水無㐫蓋土司時木主令化㓙而為吉也兖青徐揚生者富貴何疑土與金正月同論但辰月土差旺耳夏令之火陽氣之極草木為之焦枯江河為之枯涸晴則流金爍石眞陽盡泄雨則水濟其威方得中和反應蔭庇發福四月火勢漸盛逢日争光未能全其忠愛雖富貴亦主夭亡貧寒者壽而多子孤獨艱辛見金名成利就逢土有權有謀遇木富而好禮㣲水濟木其貴不可言也五"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-04.md",
+          "anchor": "冀雍之人尤甚見土盗泄㣲陽浮薄卑賤二月見木敗處逢生木秀火明文章富貴人也但不宜有水蓋濕木不生無燄火也榖雨之後生者㣲水無㐫蓋土司時木主令化㓙而為吉也兖青徐揚生者富貴何疑土與金正月同論但辰月土差旺耳夏令之火陽氣之極草木為之焦枯江河為之枯涸晴則流金爍石眞陽盡泄雨則水濟其威方得中和反應蔭庇發福四月火勢漸盛逢日争光未能全其忠愛雖富貴亦主夭亡貧寒者壽而多子孤獨艱辛見金名成利就逢土有權有謀遇木富而好禮㣲水濟木其貴不可言也五"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/058卷 四·论五行时地分野吉凶.md",
+          "anchor": "之人尤甚见土盗泄微阳浮薄卑贱二月见",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/058卷 四·论五行时地分野吉凶.md",
+          "anchor": "后生者微水无凶盖土司时木主",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/058卷 四·论五行时地分野吉凶.md",
+          "anchor": "有谋遇木富而好礼微水济木其贵不可言",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 3 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-177",
+      "old": "利就日战月刑忠孝有亏防祸孤尅夜生减轻气运宜徃西北南东大忌\n 秋初之火炎威未退土传生气水不能尅反主贵荣见木助之徐扬兖青人干支火多者虽富贵而寿不永见金为财富贵豪侈逢土则息显达非常\n 八九月失时之火见木生生之意无穷富贵无敌金木同躔官居宰辅有金无木主弱敌强不免有争攘之事冀雍荆梁人因财致祸与土同躔泄其眞元孤刑冷退得木助之斯为美矣见水防夭运喜东南西北忌之冬月之火人多亲之晴霁则明阴雨则防故见水为防木生为贵有水无木轻者疾重者夭虽生富厚之家不免冷退徐扬兖青人得水制之无咎逢土泄之弱中又弱蹇滞终身小寒之后旺土晦其光明定主昏愚瞽目见金为财青兖徐扬人主富荆梁冀雍人助难为防谓金之子水也克其母子则乘势报仇无木觧之有刀兵狱讼之厄肿痢没溺之防干支木盛者减轻大抵冬",
+      "new": "利就日战月刑忠孝有亏㐫祸孤尅夜生减轻气运宜徃西北南东大忌\n 秋初之火炎威未退土传生气水不能尅反主贵荣见木助之徐扬兖青人干支火多者虽富贵而寿不永见金为财富贵豪侈逢土则息显达非常\n 八九月失时之火见木生生之意无穷富贵无敌金木同躔官居宰辅有金无木主弱敌强不免有争攘之事冀雍荆梁人因财致祸与土同躔泄其眞元孤刑冷退得木助之斯为美矣见水㐫夭运喜东南西北忌之冬月之火人多亲之晴霁则明阴雨则㓕故见水为㐫木生为贵有水无木轻者疾重者夭虽生富厚之家不免冷退徐扬兖青人得水制之无咎逢土泄之弱中又弱蹇滞终身小寒之后旺土晦其光明定主昏愚瞽目见金为财青兖徐扬人主富荆梁冀雍人助难为㓙谓金之子水也克其母子则乘势报仇无木觧之有刀兵狱讼之厄肿痢没溺之㓙干支木盛者减轻大抵冬",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_004.txt",
+          "anchor": "利就日戰月刑忠孝有虧㐫禍孤尅夜生减輕氣運宜徃西北南東大忌秋初之火炎威未退土傳生氣水不能尅反主貴榮見木助之徐揚兖青人干支火多者雖富貴而壽不永見金為財富貴豪侈逢土則息顯達非常八九月失時之火見木生生之意無窮富貴無敵金木同躔官居宰輔有金無木主弱敵强不免有争攘之事冀雍荆梁人因財致禍與土同躔泄其眞元孤刑冷退得木助之斯為美矣見水㐫夭運喜東南西北忌之冬月之火人多親之晴霽則明陰雨則㓕故見水為㐫木生為貴有水無木輕者疾重者夭雖生富厚之家不免冷退徐揚兖青人得水制之無咎逢土泄之弱中又弱蹇滯終身小寒之後旺土晦其光明定主昏愚瞽目見金為財青兖徐揚人主富荆梁冀雍人助難為㓙謂金之子水也克其母子則乘勢報仇無木觧之有刀兵獄訟之厄腫痢没溺之㓙干支木盛者减輕大抵冬"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-04.md",
+          "anchor": "利就日戰月刑忠孝有虧㐫禍孤尅夜生减輕氣運宜徃西北南東大忌秋初之火炎威未退土傳生氣水不能尅反主貴榮見木助之徐揚兖青人干支火多者雖富貴而壽不永見金為財富貴豪侈逢土則息顯達非常八九月失時之火見木生生之意無窮富貴無敵金木同躔官居宰輔有金無木主弱敵强不免有争攘之事冀雍荆梁人因財致禍與土同躔泄其眞元孤刑冷退得木助之斯為美矣見水㐫夭運喜東南西北忌之冬月之火人多親之晴霽則明陰雨則㓕故見水為㐫木生為貴有水無木輕者疾重者夭雖生富厚之家不免冷退徐揚兖青人得水制之無咎逢土泄之弱中又弱蹇滯終身小寒之後旺土晦其光明定主昏愚瞽目見金為財青兖徐揚人主富荆梁冀雍人助難為㓙謂金之子水也克其母子則乘勢報仇無木觧之有刀兵獄訟之厄腫痢没溺之㓙干支木盛者减輕大抵冬"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/058卷 四·论五行时地分野吉凶.md",
+          "anchor": "日战月刑忠孝有亏凶祸孤克夜生减轻气",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/058卷 四·论五行时地分野吉凶.md",
+          "anchor": "助之斯为美矣见水凶夭运喜东南西北忌",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/058卷 四·论五行时地分野吉凶.md",
+          "anchor": "之晴霁则明阴雨则灭故见水为凶木生为",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/058卷 四·论五行时地分野吉凶.md",
+          "anchor": "阴雨则灭故见水为凶木生为贵有水无木",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/058卷 四·论五行时地分野吉凶.md",
+          "anchor": "荆梁冀雍人助难为凶谓金之子水也克其",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/058卷 四·论五行时地分野吉凶.md",
+          "anchor": "讼之厄肿痢没溺之凶干支木盛者减轻大",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 6 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-178",
+      "old": "火同躔位登台鼎见水则防冀雍青兖人土浑水浊终有水涌土溃之危盖水生旺木而伤土也値此者贫寒疾夭徐扬豫人干支火者反吉见金以泄土气难免灾防\n 三月之土渐有生意盖土旺季月故也有火温燠则阳气发舒而生物茂矣见木非疾则夭徐扬豫人无害水木同度贫薄无聊冀雍兖青人尤甚见金制木反防成吉运喜南方西方次之",
+      "new": "火同躔位登台鼎见水则㓙冀雍青兖人土浑水浊终有水涌土溃之危盖水生旺木而伤土也値此者贫寒疾夭徐扬豫人干支火者反吉见金以泄土气难免灾㐫\n 三月之土渐有生意盖土旺季月故也有火温燠则阳气发舒而生物茂矣见木非疾则夭徐扬豫人无害水木同度贫薄无聊冀雍兖青人尤甚见金制木反㓙成吉运喜南方西方次之",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_004.txt",
+          "anchor": "火同躔位登台鼎見水則㓙冀雍青兖人土渾水濁終有水湧土潰之危蓋水生旺木而傷土也値此者貧寒疾夭徐揚豫人干支火者反吉見金以泄土氣難免灾㐫三月之土漸有生意蓋土旺季月故也有火温燠則陽氣發舒而生物茂矣見木非疾則夭徐揚豫人無害水木同度貧薄無聊冀雍兖青人尤甚見金制木反㓙成吉運喜南方西方次之"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-04.md",
+          "anchor": "火同躔位登台鼎見水則㓙冀雍青兖人土渾水濁終有水湧土潰之危蓋水生旺木而傷土也値此者貧寒疾夭徐揚豫人干支火者反吉見金以泄土氣難免灾㐫三月之土漸有生意蓋土旺季月故也有火温燠則陽氣發舒而生物茂矣見木非疾則夭徐揚豫人無害水木同度貧薄無聊冀雍兖青人尤甚見金制木反㓙成吉運喜南方西方次之"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/058卷 四·论五行时地分野吉凶.md",
+          "anchor": "躔位登台鼎见水则凶冀雍青兖人土浑水",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/058卷 四·论五行时地分野吉凶.md",
+          "anchor": "金以泄土气难免灾凶三月之土渐有生意",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/058卷 四·论五行时地分野吉凶.md",
+          "anchor": "人尤甚见金制木反凶成吉运喜南方西方",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 3 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-179",
+      "old": "和而万物归根矣见木则防逢金则滞遇水则主孤寒",
+      "new": "和而万物归根矣见木则㐫逢金则滞遇水则主孤寒",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_004.txt",
+          "anchor": "和而萬物歸根矣見木則㐫逢金則滯遇水則主孤寒"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-04.md",
+          "anchor": "和而萬物歸根矣見木則㐫逢金則滯遇水則主孤寒"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/058卷 四·论五行时地分野吉凶.md",
+          "anchor": "万物归根矣见木则凶逢金则滞遇水则主",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-180",
+      "old": "困滞之灾盖春木盛旺以防弱之金而欲制之是犹以",
+      "new": "困滞之灾盖春木盛旺以㣲弱之金而欲制之是犹以",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_004.txt",
+          "anchor": "困滯之灾蓋春木盛旺以㣲弱之金而欲制之是猶以"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-04.md",
+          "anchor": "困滯之灾蓋春木盛旺以㣲弱之金而欲制之是猶以"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/058卷 四·论五行时地分野吉凶.md",
+          "anchor": "之灾盖春木盛旺以微弱之金而欲制之是",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-181",
+      "old": "轻者疾重者夭得水济之防中反吉见木亦主富贵豪",
+      "new": "轻者疾重者夭得水济之㓙中反吉见木亦主富贵豪",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_004.txt",
+          "anchor": "輕者疾重者夭得水濟之㓙中反吉見木亦主富貴豪"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-04.md",
+          "anchor": "輕者疾重者夭得水濟之㓙中反吉見木亦主富貴豪"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/058卷 四·论五行时地分野吉凶.md",
+          "anchor": "疾重者夭得水济之凶中反吉见木亦主富",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-182",
+      "old": "徳未免痰疾刑伤见土虽防不防盖秋令金最能化难为福",
+      "new": "徳未免痰疾刑伤见土虽㓙不㓙盖秋令金最能化难为福",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_004.txt",
+          "anchor": "徳未免痰疾刑傷見土雖㓙不㓙蓋秋令金最能化難為福"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-04.md",
+          "anchor": "徳未免痰疾刑傷見土雖㓙不㓙蓋秋令金最能化難為福"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/058卷 四·论五行时地分野吉凶.md",
+          "anchor": "免痰疾刑伤见土虽凶不凶盖秋令金最能",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/058卷 四·论五行时地分野吉凶.md",
+          "anchor": "疾刑伤见土虽凶不凶盖秋令金最能化难",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 2 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-183",
+      "old": "父母之义故立名印绶印防也绶受也譬父母有恩徳防庇子孙子孙得受其福朝",
+      "new": "父母之义故立名印绶印䕃也绶受也譬父母有恩徳䕃庇子孙子孙得受其福朝",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_005.txt",
+          "anchor": "父母之義故立名印綬印䕃也綬受也譬父母有恩徳䕃庇子孫子孫得受其福朝"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-05.md",
+          "anchor": "父母之義故立名印綬印䕃也綬受也譬父母有恩徳䕃庇子孫子孫得受其福朝"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/059卷 五·论古人立印食官财名义.md",
+          "anchor": "之义故立名印绶印荫也绶受也譬父母有",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/059卷 五·论古人立印食官财名义.md",
+          "anchor": "受也譬父母有恩德荫庇子孙子孙得受其",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 2 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-184",
+      "old": "许一位多则不宜正官先防月令然后方防其余以五行之气惟月令",
+      "new": "许一位多则不宜正官先㸔月令然后方㸔其余以五行之气惟月令",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_005.txt",
+          "anchor": "許一位多則不宜正官先㸔月令然後方㸔其餘以五行之氣惟月令"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-05.md",
+          "anchor": "許一位多則不宜正官先㸔月令然後方㸔其餘以五行之氣惟月令"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/060卷 五·论正官.md",
+          "anchor": "位多则不宜正官先看月令然后方看其余",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/060卷 五·论正官.md",
+          "anchor": "官先看月令然后方看其余以五行之气惟",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 2 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
     }
   ],
   "summary": {
-    "confirmed_corrections": 164,
-    "confirmed_replacements": 164,
+    "confirmed_corrections": 184,
+    "confirmed_replacements": 184,
     "review_status": "in_progress",
     "canonical_ready": false
   }
