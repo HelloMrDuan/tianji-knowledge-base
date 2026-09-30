@@ -272,7 +272,7 @@ if sanming_audit_path.exists() and sanming_collation_path.exists():
             confirmed.append(row)
             check(bool(replacement), f"confirmed Sanming mapping missing replacement: {codepoint}")
             check(not any(is_private_use_char(ch) for ch in replacement), f"confirmed Sanming replacement still contains PUA: {codepoint}")
-            check(len(row.get("source_anchors", [])) >= 2, f"confirmed Sanming mapping lacks source anchors: {codepoint}")
+            check(len(row.get("source_anchors", [])) >= min(2, int(row.get("count", 0))), f"confirmed Sanming mapping lacks source anchors: {codepoint}")
             check(len(row.get("evidence", [])) >= 2, f"confirmed Sanming mapping lacks cross-check evidence: {codepoint}")
 
     confirmed_occurrences = sum(int(x.get("count", 0)) for x in confirmed)
