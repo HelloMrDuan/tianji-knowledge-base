@@ -953,8 +953,8 @@
     },
     {
       "id": "ocr-039",
-      "old": "取虚露庚字亦主富贵全防月令何如或可煞生印助",
-      "new": "取虚露庚字亦主富贵全㸔月令何如或可煞生印助",
+      "old": "取虚露庚字亦主富贵全防月令何如",
+      "new": "取虚露庚字亦主富贵全㸔月令何如",
       "status": "confirmed",
       "confidence": "high",
       "evidence": [
@@ -977,7 +977,7 @@
           "anchor": "取虚露庚字，亦主富贵，全看月令何如"
         }
       ],
-      "note": "Preserve historical 㸔 from the Siku-derived witness."
+      "note": "Preserve historical 㸔 from the Siku-derived witness; keep the neighboring unresolved 印防 untouched in this correction."
     }
   ],
   "summary": {
