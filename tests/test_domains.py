@@ -135,8 +135,8 @@ class DomainIntegrityTests(unittest.TestCase):
         text_map = json.loads(
             (ROOT / "data/quarantine/public_domain_snapshots/daizhigev20/sanming_text_collation.json").read_text(encoding="utf-8")
         )
-        self.assertEqual(text_map["summary"]["confirmed_corrections"], 51)
-        self.assertEqual(text_map["summary"]["confirmed_replacements"], 51)
+        self.assertEqual(text_map["summary"]["confirmed_corrections"], 54)
+        self.assertEqual(text_map["summary"]["confirmed_replacements"], 54)
         self.assertEqual(text_map["summary"]["review_status"], "in_progress")
         text_corrections = {x["id"]: (x["old"], x["new"]) for x in text_map["corrections"]}
         self.assertEqual(text_corrections["ocr-017"][1], "无丑戌以刑冲之则库不开难得金印")
@@ -174,6 +174,9 @@ class DomainIntegrityTests(unittest.TestCase):
         self.assertEqual(text_corrections["ocr-049"][1], "后煞神得位嵗煞并临官化为鬼䘮身必矣")
         self.assertEqual(text_corrections["ocr-050"][1], "伤官得地贵禄遭伤䘮妻尅子剥职生灾")
         self.assertEqual(text_corrections["ocr-051"][1], "须观其气而消息之方可㫁也")
+        self.assertEqual(text_corrections["ocr-052"][1], "亦不能埋劒㦸之金倘再兼行金水旺处")
+        self.assertEqual(text_corrections["ocr-053"][1], "若申子辰全㑹起水局即成江海发波涛之声也")
+        self.assertEqual(text_corrections["ocr-054"][1], "见己酉三合㑹起金局若人命生于丑月")
         self.assertFalse(text_map["summary"]["canonical_ready"])
         corrections = {(x["old"], x["new"]) for x in text_map["corrections"]}
         self.assertIn(("若失时防局卽韬光", "若失时䘮局卽韬光"), corrections)
