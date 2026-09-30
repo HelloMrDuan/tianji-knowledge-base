@@ -611,11 +611,55 @@
         }
       ],
       "note": "The raw 防 is an OCR substitution for historical 㸔/看."
+    },
+    {
+      "id": "ocr-026",
+      "old": "戊辰戊戌不为冲土得正位干守元防也",
+      "new": "戊辰戊戌不为冲土得正位干守元㑹也",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷一/释六十甲子性质吉凶三/text.txt",
+          "anchor": "戊辰、戊戌不为冲，土得正位，干守元会也"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-01.md",
+          "anchor": "戊辰戊戌不為衝土得正位干守元㑹也"
+        }
+      ],
+      "note": "Preserve historical 㑹 from the Siku-derived witness; normalized independent texts confirm the reading as 会."
+    },
+    {
+      "id": "ocr-027",
+      "old": "珞琭子云禄有三防又云得一分三",
+      "new": "珞琭子云禄有三㑹又云得一分三",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷二/论支元三合/text.txt",
+          "anchor": "《珞录子》云： 禄有三会 。《壶中子》云： 得一分三"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "珞琭子云禄有三㑹又云得一分三"
+        }
+      ],
+      "note": "Preserve historical 㑹 from the Siku-derived witness; normalized independent text confirms 三会, not 三防."
     }
   ],
   "summary": {
-    "confirmed_corrections": 25,
-    "confirmed_replacements": 25,
+    "confirmed_corrections": 27,
+    "confirmed_replacements": 27,
     "review_status": "in_progress",
     "canonical_ready": false
   }
