@@ -135,8 +135,8 @@ class DomainIntegrityTests(unittest.TestCase):
         text_map = json.loads(
             (ROOT / "data/quarantine/public_domain_snapshots/daizhigev20/sanming_text_collation.json").read_text(encoding="utf-8")
         )
-        self.assertEqual(text_map["summary"]["confirmed_corrections"], 80)
-        self.assertEqual(text_map["summary"]["confirmed_replacements"], 80)
+        self.assertEqual(text_map["summary"]["confirmed_corrections"], 89)
+        self.assertEqual(text_map["summary"]["confirmed_replacements"], 89)
         self.assertEqual(text_map["summary"]["review_status"], "in_progress")
         text_corrections = {x["id"]: (x["old"], x["new"]) for x in text_map["corrections"]}
         self.assertEqual(text_corrections["ocr-017"][1], "无丑戌以刑冲之则库不开难得金印")
@@ -203,6 +203,15 @@ class DomainIntegrityTests(unittest.TestCase):
         self.assertEqual(text_corrections["ocr-078"][1], "财帛宫多母年早䘮若见官鬼出见母反长年")
         self.assertEqual(text_corrections["ocr-079"][1], "推寻子位先㸔妻宫死絶者嫡庻难存")
         self.assertEqual(text_corrections["ocr-080"][1], "月令虽强更㸔运神向背死絶刑伤鴈行失序")
+        self.assertEqual(text_corrections["ocr-081"][1], "遭尅䧟则㓙祸不祥")
+        self.assertEqual(text_corrections["ocr-082"][1], "五行会㓙曜为灾")
+        self.assertEqual(text_corrections["ocr-083"][1], "五行无㓙煞侵犯名显声扬")
+        self.assertEqual(text_corrections["ocr-084"][1], "伤官伤尽或见官星则㓙有十八格当从善恶推求")
+        self.assertEqual(text_corrections["ocr-085"][1], "七煞官星各嫌覊绊填实则㓙忽然运到官乡")
+        self.assertEqual(text_corrections["ocr-086"][1], "如临喜处以得祸是三合而隠㓙星或逢㓙处而返祥乃九宫而露吉曜")
+        self.assertEqual(text_corrections["ocr-087"][1], "限守㓙神有根苗则不须畏惧")
+        self.assertEqual(text_corrections["ocr-088"][1], "休囚者身性卑㣲旺相者名利壮寔")
+        self.assertEqual(text_corrections["ocr-089"][1], "越外若贪必招㓙事噫甘贫养拙")
         self.assertFalse(text_map["summary"]["canonical_ready"])
         corrections = {(x["old"], x["new"]) for x in text_map["corrections"]}
         self.assertIn(("若失时防局卽韬光", "若失时䘮局卽韬光"), corrections)
