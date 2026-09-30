@@ -143,7 +143,8 @@ class DomainIntegrityTests(unittest.TestCase):
         self.assertEqual(text_corrections["ocr-018"][1], "印绶无亏享福全为官承荫有田园")
         self.assertEqual(text_corrections["ocr-020"][1], "显微阐幽尊彼往哲引伸触类")
         self.assertEqual(text_corrections["ocr-021"][1], "合刑者凶遇印者吉")
-        self.assertEqual(text_corrections["ocr-022"][1], "容貌欹邪身材琐小心性局促")
+        self.assertEqual(text_corrections["ocr-022"][1], "身材琐小")
+        self.assertTrue(next(x for x in text_map["corrections"] if x["id"] == "ocr-022").get("allow_existing_target"))
         self.assertEqual(text_corrections["ocr-023"][1], "逄煞㸔印及刃")
         self.assertFalse(text_map["summary"]["canonical_ready"])
         corrections = {(x["old"], x["new"]) for x in text_map["corrections"]}
