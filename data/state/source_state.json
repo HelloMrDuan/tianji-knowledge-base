@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-29T22:22:48.417735+00:00",
+  "generated_at": "2026-09-30T05:41:17.658791+00:00",
   "changed_sources": 0,
   "sources": {
     "bazi-skill": {
@@ -8,7 +8,7 @@
       "head_sha": "112a5d84cd1a001a0038cafca3be68d93e4c0cc9",
       "previous_sha": "112a5d84cd1a001a0038cafca3be68d93e4c0cc9",
       "changed": false,
-      "updated_at": "2026-09-29T17:18:02Z",
+      "updated_at": "2026-09-30T05:18:44Z",
       "detected_license_spdx": "MIT",
       "registry_license_spdx": "MIT",
       "license_policy": "ALLOW",
@@ -57,7 +57,7 @@
       "head_sha": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
       "previous_sha": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
       "changed": false,
-      "updated_at": "2026-09-29T19:02:38Z",
+      "updated_at": "2026-09-30T03:16:45Z",
       "detected_license_spdx": null,
       "registry_license_spdx": null,
       "license_policy": "PUBLIC_DOMAIN_EXTRACT_ONLY",
@@ -132,7 +132,7 @@
       "head_sha": "79c241f01064778fa85f7a532073f3bfb1f779c3",
       "previous_sha": "79c241f01064778fa85f7a532073f3bfb1f779c3",
       "changed": false,
-      "updated_at": "2026-09-28T14:06:37Z",
+      "updated_at": "2026-09-30T02:45:30Z",
       "detected_license_spdx": "MIT",
       "registry_license_spdx": "MIT",
       "license_policy": "ALLOW",
@@ -201,7 +201,7 @@
       "head_sha": "2c7ef9be669df7b19d1799f4dce335fed3794f78",
       "previous_sha": "2c7ef9be669df7b19d1799f4dce335fed3794f78",
       "changed": false,
-      "updated_at": "2026-09-29T18:00:53Z",
+      "updated_at": "2026-09-30T02:27:32Z",
       "detected_license_spdx": "MIT",
       "registry_license_spdx": "MIT",
       "license_policy": "ALLOW",
@@ -246,7 +246,7 @@
       "head_sha": "53291663a4c733c4cbdfa174a8d3075475c07fd3",
       "previous_sha": "53291663a4c733c4cbdfa174a8d3075475c07fd3",
       "changed": false,
-      "updated_at": "2026-09-27T13:37:24Z",
+      "updated_at": "2026-09-30T00:25:12Z",
       "detected_license_spdx": "Apache-2.0",
       "registry_license_spdx": "Apache-2.0",
       "license_policy": "ALLOW",
@@ -349,7 +349,7 @@
       "head_sha": "ea28c3fb7e808fa74f6b8e7b4c9ac8c8a9d44c39",
       "previous_sha": "ea28c3fb7e808fa74f6b8e7b4c9ac8c8a9d44c39",
       "changed": false,
-      "updated_at": "2026-09-29T15:55:29Z",
+      "updated_at": "2026-09-30T00:31:19Z",
       "detected_license_spdx": null,
       "registry_license_spdx": null,
       "license_policy": "REFERENCE_ONLY",
@@ -413,7 +413,7 @@
       "head_sha": "e8f636972a6fdb14f2a532ee223101f889ab4820",
       "previous_sha": "e8f636972a6fdb14f2a532ee223101f889ab4820",
       "changed": false,
-      "updated_at": "2026-09-29T14:18:27Z",
+      "updated_at": "2026-09-30T05:30:47Z",
       "detected_license_spdx": "NOASSERTION",
       "registry_license_spdx": "AGPL-3.0-only/MIT-mixed",
       "license_policy": "COPYLEFT",
@@ -597,7 +597,7 @@
       "head_sha": "d8aea5d18c940e7f616b07144cc2b76325727519",
       "previous_sha": "d8aea5d18c940e7f616b07144cc2b76325727519",
       "changed": false,
-      "updated_at": "2026-09-28T03:15:13Z",
+      "updated_at": "2026-09-30T03:01:56Z",
       "detected_license_spdx": "MIT",
       "registry_license_spdx": "MIT",
       "license_policy": "ALLOW",
@@ -609,6 +609,23 @@
         "liuyao",
         "meihua",
         "liuren"
+      ],
+      "sync_status": "ok"
+    },
+    "niutrans-classical-modern": {
+      "repo": "NiuTrans/Classical-Modern",
+      "branch": "main",
+      "head_sha": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+      "previous_sha": null,
+      "changed": false,
+      "updated_at": "2026-09-29T02:33:36Z",
+      "detected_license_spdx": "MIT",
+      "registry_license_spdx": "MIT",
+      "license_policy": "ALLOW",
+      "domains": [
+        "bazi",
+        "classics",
+        "collation"
       ],
       "sync_status": "ok"
     }

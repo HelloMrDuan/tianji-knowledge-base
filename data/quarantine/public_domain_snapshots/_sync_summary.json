@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-29T22:23:02.044587+00:00",
+  "generated_at": "2026-09-30T05:41:29.957381+00:00",
   "works": {
     "ditiansui_chanwei": {
       "title": "滴天髓阐微",
@@ -34,7 +34,7 @@
       "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
       "sha256": "3808d56d1f226f89cec0c8c35627c156cd624e092c4e556a9c7e565593790bcf",
       "bytes": 1342659,
-      "promotion": "canonical",
+      "promotion": "quarantine_only",
       "status": "ok"
     },
     "shenfeng_tongkao": {

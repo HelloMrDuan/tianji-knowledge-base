@@ -12,6 +12,7 @@
   },
   "cleaning": {
     "replacement_chars": 0,
+    "private_use_chars": 0,
     "parser": "angle_markers",
     "snapshot_sha256": "8773e648f89eb4e6ca114afe46e0d12e11f2115a737111d701bdb538d67658b1",
     "wording_policy": "Whitespace normalized; wording otherwise preserved except explicitly recorded collation corrections.",

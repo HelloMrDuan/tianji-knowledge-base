@@ -12,6 +12,7 @@
   },
   "cleaning": {
     "replacement_chars": 0,
+    "private_use_chars": 0,
     "parser": "qiongtong_headings",
     "snapshot_sha256": "e03f15b2a3e01b3c0e14c4ae2adb8b64f4bef1f2ad04cb71f62bd66707d0ef09",
     "wording_policy": "Whitespace normalized; wording otherwise preserved except explicitly recorded collation corrections.",
