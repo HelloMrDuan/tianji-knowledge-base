@@ -135,8 +135,8 @@ class DomainIntegrityTests(unittest.TestCase):
         text_map = json.loads(
             (ROOT / "data/quarantine/public_domain_snapshots/daizhigev20/sanming_text_collation.json").read_text(encoding="utf-8")
         )
-        self.assertEqual(text_map["summary"]["confirmed_corrections"], 89)
-        self.assertEqual(text_map["summary"]["confirmed_replacements"], 89)
+        self.assertEqual(text_map["summary"]["confirmed_corrections"], 97)
+        self.assertEqual(text_map["summary"]["confirmed_replacements"], 97)
         self.assertEqual(text_map["summary"]["review_status"], "in_progress")
         text_corrections = {x["id"]: (x["old"], x["new"]) for x in text_map["corrections"]}
         self.assertEqual(text_corrections["ocr-017"][1], "无丑戌以刑冲之则库不开难得金印")
@@ -212,6 +212,14 @@ class DomainIntegrityTests(unittest.TestCase):
         self.assertEqual(text_corrections["ocr-087"][1], "限守㓙神有根苗则不须畏惧")
         self.assertEqual(text_corrections["ocr-088"][1], "休囚者身性卑㣲旺相者名利壮寔")
         self.assertEqual(text_corrections["ocr-089"][1], "越外若贪必招㓙事噫甘贫养拙")
+        self.assertEqual(text_corrections["ocr-090"][1], "葢人自生至老必从㣲以至少壮十嵗之时方当少年")
+        self.assertEqual(text_corrections["ocr-091"][1], "欲交不交尚有㡬残之祸")
+        self.assertEqual(text_corrections["ocr-092"][1], "吉运未到先作福㓙运过去始为殃")
+        self.assertEqual(text_corrections["ocr-093"][1], "到死絶乡主骨肉死䘮自身衰祸钝闷百事蹇塞")
+        self.assertEqual(text_corrections["ocr-094"][1], "有一字者㐫半二字俱无㓙莫能觧")
+        self.assertEqual(text_corrections["ocr-095"][1], "巳酉之类谓之君臣庆㑹在两旬内")
+        self.assertEqual(text_corrections["ocr-096"][1], "甲午见巳未之类谓之夫妻聚㑹")
+        self.assertEqual(text_corrections["ocr-097"][1], "日月十二辰交㑹之所凡月之㑹朔日之璧于此位")
         self.assertFalse(text_map["summary"]["canonical_ready"])
         corrections = {(x["old"], x["new"]) for x in text_map["corrections"]}
         self.assertIn(("若失时防局卽韬光", "若失时䘮局卽韬光"), corrections)
