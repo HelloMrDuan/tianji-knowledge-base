@@ -21,7 +21,7 @@ def private_use_counts(text: str) -> Counter[str]:
 
 
 parser = argparse.ArgumentParser(
-    description="Apply only confirmed Sanming Tonghui PUA collation mappings."
+    description="Apply confirmed Sanming Tonghui PUA collation mappings."
 )
 parser.add_argument("source")
 parser.add_argument("mapping")
@@ -41,6 +41,8 @@ spec = json.loads(mapping_path.read_text(encoding="utf-8"))
 
 seen: set[str] = set()
 applied: list[dict] = []
+
+# Uniform mappings: one PUA codepoint always represents the same replacement.
 for row in spec.get("mappings", []):
     if row.get("status") != "confirmed":
         continue
@@ -65,8 +67,70 @@ for row in spec.get("mappings", []):
     text = text.replace(glyph, replacement)
     applied.append({
         "codepoint": codepoint,
+        "mode": "uniform",
         "replacement": replacement,
         "count": actual,
+    })
+
+# Contextual mappings: the same source PUA codepoint was reused for different
+# intended glyphs. Each rule is anchored by an exact, unique source substring.
+for row in spec.get("contextual_mappings", []):
+    if row.get("status") != "confirmed":
+        continue
+    glyph = row.get("glyph", "")
+    codepoint = row.get("codepoint")
+    if len(glyph) != 1 or not is_private_use(glyph):
+        raise SystemExit(f"invalid contextual PUA glyph mapping: {codepoint}")
+    if codepoint != f"U+{ord(glyph):04X}":
+        raise SystemExit(f"contextual codepoint/glyph mismatch: {codepoint}")
+    if glyph in seen:
+        raise SystemExit(f"duplicate uniform/contextual mapping for {codepoint}")
+    seen.add(glyph)
+
+    expected = int(row.get("count", -1))
+    actual_before = text.count(glyph)
+    if actual_before != expected:
+        raise SystemExit(
+            f"source drift for contextual {codepoint}: expected {expected} occurrences, found {actual_before}"
+        )
+
+    resolved = 0
+    rules = row.get("replacements", [])
+    if not rules:
+        raise SystemExit(f"contextual mapping has no replacement rules: {codepoint}")
+    for index, rule in enumerate(rules, start=1):
+        old = rule.get("old", "")
+        new = rule.get("new", "")
+        rule_count = int(rule.get("count", -1))
+        if not old or not new:
+            raise SystemExit(f"invalid contextual rule {codepoint}#{index}")
+        if any(is_private_use(ch) for ch in new):
+            raise SystemExit(f"contextual replacement still contains PUA: {codepoint}#{index}")
+        if old.count(glyph) != rule_count:
+            raise SystemExit(
+                f"contextual rule count mismatch {codepoint}#{index}: "
+                f"old anchor contains {old.count(glyph)} PUA glyphs, declared {rule_count}"
+            )
+        matches = text.count(old)
+        if matches != 1:
+            raise SystemExit(
+                f"contextual anchor drift {codepoint}#{index}: expected one exact anchor, found {matches}"
+            )
+        text = text.replace(old, new, 1)
+        resolved += rule_count
+
+    if resolved != expected:
+        raise SystemExit(
+            f"contextual replacement total mismatch for {codepoint}: "
+            f"expected {expected}, resolved {resolved}"
+        )
+    if glyph in text:
+        raise SystemExit(f"contextual mapping left unresolved occurrences for {codepoint}")
+    applied.append({
+        "codepoint": codepoint,
+        "mode": "contextual",
+        "replacement_rules": len(rules),
+        "count": resolved,
     })
 
 remaining = private_use_counts(text)
@@ -75,6 +139,7 @@ report = {
     "mapping": mapping_path.as_posix(),
     "applied_mappings": len(applied),
     "applied_occurrences": sum(x["count"] for x in applied),
+    "contextual_mappings": sum(1 for x in applied if x["mode"] == "contextual"),
     "remaining_unique_codepoints": len(remaining),
     "remaining_occurrences": sum(remaining.values()),
     "remaining": [
