@@ -1862,11 +1862,269 @@
         }
       ],
       "note": "Three Siku-derived witnesses agree on historical 㣲."
+    },
+    {
+      "id": "ocr-072",
+      "old": "人之八字全防用神",
+      "new": "人之八字全㸔用神",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "人之八字全㸔用神"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "人之八字全㸔用神"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0013.md",
+          "anchor": "人之八字全㸔用神"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㸔."
+    },
+    {
+      "id": "ocr-073",
+      "old": "木得金裁防歳成名",
+      "new": "木得金裁㓜歳成名",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "木得金裁㓜歳成名"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "木得金裁㓜歳成名"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0013.md",
+          "anchor": "木得金裁㓜歳成名"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㓜."
+    },
+    {
+      "id": "ocr-074",
+      "old": "防年失乳食神遭刑尅之宫",
+      "new": "㓜年失乳食神遭刑尅之宫",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "㓜年失乳食神遭刑尅之宫"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "㓜年失乳食神遭刑尅之宫"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0013.md",
+          "anchor": "㓜年失乳食神遭刑尅之宫"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/金玉赋/text.txt",
+          "anchor": "幼年失乳，食神逢刑克之宫"
+        }
+      ],
+      "note": "Siku witnesses preserve 㓜; normalized witness confirms 幼."
+    },
+    {
+      "id": "ocr-075",
+      "old": "惟官印最宜相防德政加封",
+      "new": "惟官印最宜相㑹德政加封",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-11.md",
+          "anchor": "惟官印最宜相㑹德政加封"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_011.txt",
+          "anchor": "惟官印最宜相㑹德政加封"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0012.md",
+          "anchor": "惟官印最宜相㑹德政加封"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十一/明通赋二/text.txt",
+          "anchor": "惟官印最宜相会，德政加封"
+        }
+      ],
+      "note": "Siku witnesses preserve 㑹; normalized witness confirms 会."
+    },
+    {
+      "id": "ocr-076",
+      "old": "更防歳运何防何吉",
+      "new": "更㸔歳运何㓙何吉",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "更㸔歳運何㓙何吉"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/金玉赋/text.txt",
+          "anchor": "更看岁运，何凶何吉"
+        }
+      ],
+      "note": "Exact context confirms two independent OCR confusions in one phrase: 防→㸔 and 防→㓙."
+    },
+    {
+      "id": "ocr-077",
+      "old": "七煞忌逢言防魄夀星欣遇曰还魂",
+      "new": "七煞忌逢言䘮魄夀星欣遇曰还魂",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "七煞忌逢言䘮魄夀星欣遇曰還魂"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0013.md",
+          "anchor": "七煞忌逢言䘮魄夀星欣遇曰還魂"
+        },
+        {
+          "repo": "Banny-Gao/mingli-research",
+          "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+          "path": "books/三命通会/articles/金玉赋/source.md",
+          "anchor": "七煞忌逢言丧魄，寿星欣遇曰还魂"
+        }
+      ],
+      "note": "Historical witnesses preserve 䘮; normalized witness confirms 丧."
+    },
+    {
+      "id": "ocr-078",
+      "old": "财帛宫多母年早防若见官鬼出见母反长年",
+      "new": "财帛宫多母年早䘮若见官鬼出见母反长年",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "財帛宫多母年早䘮若見官鬼出見母反長年"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "財帛宫多母年早䘮若見官鬼出見母反長年"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0013.md",
+          "anchor": "財帛宫多母年早䘮若見官鬼出見母反長年"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 䘮."
+    },
+    {
+      "id": "ocr-079",
+      "old": "推寻子位先防妻宫死絶者嫡庻难存",
+      "new": "推寻子位先㸔妻宫死絶者嫡庻难存",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "推尋子位先㸔妻宫死絶者嫡庻難存"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0013.md",
+          "anchor": "推尋子位先㸔妻宫死絶者嫡庻難存"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/渊海子平/赋论·三/text.txt",
+          "anchor": "推寻子位，先看妻宫"
+        }
+      ],
+      "note": "Historical witnesses preserve 㸔; normalized witness confirms 看."
+    },
+    {
+      "id": "ocr-080",
+      "old": "月令虽强更防运神向背死絶刑伤鴈行失序",
+      "new": "月令虽强更㸔运神向背死絶刑伤鴈行失序",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "月令雖強更㸔運神向背死絶刑傷鴈行失序"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0013.md",
+          "anchor": "月令雖強更㸔運神向背死絶刑傷鴈行失序"
+        },
+        {
+          "repo": "Banny-Gao/mingli-research",
+          "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+          "path": "books/三命通会/articles/金玉赋/source.md",
+          "anchor": "月令虽强，更看运神向背"
+        }
+      ],
+      "note": "Historical witnesses preserve 㸔; normalized witness confirms 看."
     }
   ],
   "summary": {
-    "confirmed_corrections": 71,
-    "confirmed_replacements": 71,
+    "confirmed_corrections": 80,
+    "confirmed_replacements": 80,
     "review_status": "in_progress",
     "canonical_ready": false
   }
