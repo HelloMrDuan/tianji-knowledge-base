@@ -134,6 +134,22 @@ class DomainIntegrityTests(unittest.TestCase):
         self.assertEqual(dit["cleaning"]["private_use_chars"], 0)
         self.assertFalse((C / "classics/bazi/sanming_tonghui_v1.json").exists())
 
+    def test_sanming_pua_collation_progress(self):
+        audit_path = ROOT / "data/quarantine/public_domain_snapshots/daizhigev20/sanming_pua_audit.json"
+        map_path = ROOT / "data/quarantine/public_domain_snapshots/daizhigev20/sanming_pua_collation.json"
+        audit = json.loads(audit_path.read_text(encoding="utf-8"))
+        mapping = json.loads(map_path.read_text(encoding="utf-8"))
+        summary = mapping["summary"]
+        self.assertEqual(audit["total_private_use_chars"], 524)
+        self.assertEqual(audit["unique_private_use_chars"], 86)
+        self.assertEqual(summary["confirmed_mappings"], 16)
+        self.assertEqual(summary["confirmed_occurrences"], 396)
+        self.assertEqual(summary["remaining_unique_codepoints"], 70)
+        self.assertEqual(summary["remaining_occurrences"], 128)
+        self.assertTrue(all(x["status"] == "confirmed" for x in mapping["mappings"]))
+        self.assertIn(("U+E4BF", "琐"), {(x["codepoint"], x["replacement"]) for x in mapping["mappings"]})
+        self.assertFalse((C / "classics/bazi/sanming_tonghui_v1.json").exists())
+
     def test_hetu_luoshu(self):
         h = load("foundations/hetu_luoshu_v1.json")
         pairs = h["hetu"]["pairs"]
