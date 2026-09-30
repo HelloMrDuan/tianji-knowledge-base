@@ -135,8 +135,8 @@ class DomainIntegrityTests(unittest.TestCase):
         text_map = json.loads(
             (ROOT / "data/quarantine/public_domain_snapshots/daizhigev20/sanming_text_collation.json").read_text(encoding="utf-8")
         )
-        self.assertEqual(text_map["summary"]["confirmed_corrections"], 107)
-        self.assertEqual(text_map["summary"]["confirmed_replacements"], 107)
+        self.assertEqual(text_map["summary"]["confirmed_corrections"], 113)
+        self.assertEqual(text_map["summary"]["confirmed_replacements"], 113)
         self.assertEqual(text_map["summary"]["review_status"], "in_progress")
         text_corrections = {x["id"]: (x["old"], x["new"]) for x in text_map["corrections"]}
         self.assertEqual(text_corrections["ocr-017"][1], "无丑戌以刑冲之则库不开难得金印")
@@ -230,6 +230,12 @@ class DomainIntegrityTests(unittest.TestCase):
         self.assertEqual(text_corrections["ocr-105"][1], "癸禄子见甲子进神禄主登科进达丙子交羊刃禄带福星贵有权戊子伏羊刃合贵禄半吉庚子印禄吉壬子正羊刃禄㐫")
         self.assertEqual(text_corrections["ocr-106"][1], "凡人命带禄或吉或㐫或贵或贱未可全靠便为吉论天乙妙㫖云")
         self.assertEqual(text_corrections["ocr-107"][1], "贵人嗔则㐫来可见命中有贵不可就为吉论要当细详")
+        self.assertEqual(text_corrections["ocr-108"][1], "庚寅谓之破禄半吉半㓙壬寅谓之正禄带截路空亡必为僧道")
+        self.assertEqual(text_corrections["ocr-109"][1], "乙禄卯见乙卯谓之喜神旺禄主吉丁卯为截路空亡主㐫己卯进神禄辛卯破禄又为交神半吉半㐫癸卯带太乙死禄虽贵终贫")
+        self.assertEqual(text_corrections["ocr-110"][1], "丙禄己见己巳九天库禄主吉辛巳截路空亡癸巳伏贵神禄半吉半㐫乙巳旺马禄丁巳库禄俱吉")
+        self.assertEqual(text_corrections["ocr-111"][1], "己禄午见庚午截路空亡壬午死鬼禄俱㐫甲午进神合禄显达之象丙午喜神禄戊午伏神羊刃禄㐫")
+        self.assertEqual(text_corrections["ocr-112"][1], "庚禄申见壬申为大败禄甲申截路空亡禄俱㐫丙申大败禄多成败")
+        self.assertEqual(text_corrections["ocr-113"][1], "辛禄酉见癸酉伏神禄水火相犯㐫乙酉破禄成败")
         self.assertFalse(text_map["summary"]["canonical_ready"])
         corrections = {(x["old"], x["new"]) for x in text_map["corrections"]}
         self.assertIn(("若失时防局卽韬光", "若失时䘮局卽韬光"), corrections)
