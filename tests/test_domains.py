@@ -135,8 +135,8 @@ class DomainIntegrityTests(unittest.TestCase):
         text_map = json.loads(
             (ROOT / "data/quarantine/public_domain_snapshots/daizhigev20/sanming_text_collation.json").read_text(encoding="utf-8")
         )
-        self.assertEqual(text_map["summary"]["confirmed_corrections"], 113)
-        self.assertEqual(text_map["summary"]["confirmed_replacements"], 113)
+        self.assertEqual(text_map["summary"]["confirmed_corrections"], 118)
+        self.assertEqual(text_map["summary"]["confirmed_replacements"], 118)
         self.assertEqual(text_map["summary"]["review_status"], "in_progress")
         text_corrections = {x["id"]: (x["old"], x["new"]) for x in text_map["corrections"]}
         self.assertEqual(text_corrections["ocr-017"][1], "无丑戌以刑冲之则库不开难得金印")
@@ -236,6 +236,11 @@ class DomainIntegrityTests(unittest.TestCase):
         self.assertEqual(text_corrections["ocr-111"][1], "己禄午见庚午截路空亡壬午死鬼禄俱㐫甲午进神合禄显达之象丙午喜神禄戊午伏神羊刃禄㐫")
         self.assertEqual(text_corrections["ocr-112"][1], "庚禄申见壬申为大败禄甲申截路空亡禄俱㐫丙申大败禄多成败")
         self.assertEqual(text_corrections["ocr-113"][1], "辛禄酉见癸酉伏神禄水火相犯㐫乙酉破禄成败")
+        self.assertEqual(text_corrections["ocr-114"][1], "八曰䭾屍十二驿马惟䭾屍最㓙见禄即屍")
+        self.assertEqual(text_corrections["ocr-115"][1], "皆䭾屍也余旬凖此")
+        self.assertEqual(text_corrections["ocr-116"][1], "乘轺则带职乘轩则三公䭾屍则得官即亡")
+        self.assertEqual(text_corrections["ocr-117"][1], "如专羊刃主眼露性急㓙暴害物亲近恶党")
+        self.assertEqual(text_corrections["ocr-118"][1], "亡神锦里一名儿女亡神岁去生他遇孤隔刼煞则㓙带禄贵则吉一重为妙又与日辰相统兼推吉㓙")
         self.assertFalse(text_map["summary"]["canonical_ready"])
         corrections = {(x["old"], x["new"]) for x in text_map["corrections"]}
         self.assertIn(("若失时防局卽韬光", "若失时䘮局卽韬光"), corrections)
