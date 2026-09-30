@@ -198,11 +198,199 @@
           "anchor": "飞廉名天瞽，支干无气，主无目"
         }
       ]
+    },
+    {
+      "id": "ocr-009",
+      "old": "诸神之领防其説有二",
+      "new": "诸神之领袖其説有二",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷二/论太岁/text.txt",
+          "anchor": "夫太岁者，乃一岁之主宰，诸神之领袖。其说有二"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/021卷 二·论太岁.md",
+          "anchor": "夫太岁者，乃一岁之主宰，诸神之领袖"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-2-15.txt",
+          "anchor": "夫太岁者，乃一岁之主宰，诸神之领袖"
+        }
+      ]
+    },
+    {
+      "id": "ocr-010",
+      "old": "大运虽防其小运却吉",
+      "new": "大运虽凶其小运却吉",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷二/论小运/text.txt",
+          "anchor": "大运虽凶，其小运却吉，未可便作凶推"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/020卷 二·论小运.md",
+          "anchor": "大运虽凶，其小运却吉，未可便作凶推"
+        }
+      ]
+    },
+    {
+      "id": "ocr-011",
+      "old": "此小运又名行年不可不防醉醒",
+      "new": "此小运又名行年不可不究醉醒",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷二/论小运/text.txt",
+          "anchor": "此小运又名行年，不可不究"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/020卷 二·论小运.md",
+          "anchor": "此小运又名行年，不可不究"
+        }
+      ],
+      "note": "Raw source runs directly into the following 醉醒子曰 section without modern punctuation; only 防→究 is corrected."
+    },
+    {
+      "id": "ocr-012",
+      "old": "身旺官防财名寡合",
+      "new": "身旺官微财名寡合",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/格局章/003格局章-正官格（下）.md",
+          "anchor": "身旺官微，财名寡合"
+        },
+        {
+          "repo": "Banny-Gao/mingli-research",
+          "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+          "path": "books/三命通会/articles/元理赋/interpretation.md",
+          "anchor": "身旺官微而复行伤官运"
+        }
+      ]
+    },
+    {
+      "id": "ocr-013",
+      "old": "身坐比肩成比局当为防度新郎",
+      "new": "身坐比肩成比局当为几度新郎",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十一/六神篇/text.txt",
+          "anchor": "身坐比肩成比局，当为几度新郎"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/神锋通考/007卷05.md",
+          "anchor": "身坐比肩成比局，当为几度新郎"
+        }
+      ]
+    },
+    {
+      "id": "ocr-014",
+      "old": "癸水相防为辛苦之经商",
+      "new": "癸水相会为辛苦之经商",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/渊海子平/格局/text.txt",
+          "anchor": "癸水相会，为辛苦之经商"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/神锋通考/006卷04.md",
+          "anchor": "癸水相会，为辛苦之经商"
+        },
+        {
+          "repo": "Banny-Gao/mingli-research",
+          "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+          "path": "books/渊海子平/articles/化气十段锦/source.md",
+          "anchor": "癸水相会，乃辛苦之经商"
+        }
+      ],
+      "note": "Independent witnesses read 相会; do not normalize by intuition to 相逢."
+    },
+    {
+      "id": "ocr-015",
+      "old": "九宫防溺怕防运又怕防年",
+      "new": "九宫陷溺怕凶运又怕凶年",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "Banny-Gao/mingli-research",
+          "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+          "path": "books/三命通会/articles/人鉴论/source.md",
+          "anchor": "九宫陷溺，怕凶运又怕凶年"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-12-9.txt",
+          "anchor": "九宫陷溺，怕凶运又怕凶年"
+        }
+      ]
+    },
+    {
+      "id": "ocr-016",
+      "old": "或以申亥包酉戌防系天干何物",
+      "new": "或以申亥包酉戌看系天干何物",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十一/气象篇三/text.txt",
+          "anchor": "或以申亥包酉戌，看系天干何物，以有用为贵"
+        },
+        {
+          "repo": "Banny-Gao/mingli-research",
+          "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+          "path": "books/三命通会/articles/气象篇三/source.md",
+          "anchor": "或以申亥包酉戌，看系天干何物，以有用为贵"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-11.md",
+          "anchor": "或以申亥包酉戌㸔係天干何物以有用為貴"
+        }
+      ]
     }
   ],
   "summary": {
-    "confirmed_corrections": 8,
-    "confirmed_replacements": 8,
+    "confirmed_corrections": 16,
+    "confirmed_replacements": 16,
     "review_status": "in_progress",
     "canonical_ready": false
   }
