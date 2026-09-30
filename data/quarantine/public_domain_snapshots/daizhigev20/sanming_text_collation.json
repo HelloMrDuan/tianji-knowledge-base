@@ -3014,11 +3014,151 @@
         }
       ],
       "note": "Three Siku-derived witnesses agree on historical 㐫."
+    },
+    {
+      "id": "ocr-114",
+      "old": "八曰防尸十二驿马惟防尸最防见禄即尸",
+      "new": "八曰䭾屍十二驿马惟䭾屍最㓙见禄即屍",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-03.md",
+          "anchor": "八曰䭾屍十二驛馬惟䭾屍最㓙見祿即屍"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_003.txt",
+          "anchor": "八曰䭾屍十二驛馬惟䭾屍最㓙見祿即屍"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0004.md",
+          "anchor": "八曰䭾屍十二驛馬惟䭾屍最㓙見祿即屍"
+        }
+      ],
+      "note": "Three Siku-derived witnesses independently confirm the full historical reading 䭾屍 and 㓙."
+    },
+    {
+      "id": "ocr-115",
+      "old": "皆防尸也余旬凖此",
+      "new": "皆䭾屍也余旬凖此",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-03.md",
+          "anchor": "皆䭾屍也餘旬凖此"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_003.txt",
+          "anchor": "皆䭾屍也餘旬凖此"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0004.md",
+          "anchor": "皆䭾屍也餘旬凖此"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 䭾屍."
+    },
+    {
+      "id": "ocr-116",
+      "old": "乘轺则带职乘轩则三公防尸则得官即亡",
+      "new": "乘轺则带职乘轩则三公䭾屍则得官即亡",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-03.md",
+          "anchor": "乘軺則帶職乘軒則三公䭾屍則得官即亡"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_003.txt",
+          "anchor": "乘軺則帶職乘軒則三公䭾屍則得官即亡"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0004.md",
+          "anchor": "乘軺則帶職乘軒則三公䭾屍則得官即亡"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 䭾屍."
+    },
+    {
+      "id": "ocr-117",
+      "old": "如专羊刃主眼露性急防暴害物亲近恶党",
+      "new": "如专羊刃主眼露性急㓙暴害物亲近恶党",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-03.md",
+          "anchor": "如專羊刃主眼露性急㓙暴害物親近惡黨"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_003.txt",
+          "anchor": "如專羊刃主眼露性急㓙暴害物親近惡黨"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0004.md",
+          "anchor": "如專羊刃主眼露性急㓙暴害物親近惡黨"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㓙."
+    },
+    {
+      "id": "ocr-118",
+      "old": "亡神锦里一名儿女亡神岁去生他遇孤隔刼煞则防带禄贵则吉一重为妙又与日辰相统兼推吉防",
+      "new": "亡神锦里一名儿女亡神岁去生他遇孤隔刼煞则㓙带禄贵则吉一重为妙又与日辰相统兼推吉㓙",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-03.md",
+          "anchor": "亡神錦里一名兒女亡神歲去生他遇孤隔刼煞則㓙帶祿貴則吉一重為妙又與日辰相統兼推吉㓙"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_003.txt",
+          "anchor": "亡神錦里一名兒女亡神歲去生他遇孤隔刼煞則㓙"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0004.md",
+          "anchor": "亡神錦里一名兒女亡神歲去生他遇孤隔刼煞則㓙"
+        }
+      ],
+      "note": "Three Siku-derived witnesses confirm both 防→㓙 readings in the same sentence."
     }
   ],
   "summary": {
-    "confirmed_corrections": 113,
-    "confirmed_replacements": 113,
+    "confirmed_corrections": 118,
+    "confirmed_replacements": 118,
     "review_status": "in_progress",
     "canonical_ready": false
   }
