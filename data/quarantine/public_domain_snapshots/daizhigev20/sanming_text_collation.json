@@ -7282,11 +7282,607 @@
         }
       ],
       "note": "Broad twelve-volume scan: 2 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-245",
+      "old": "位即以财官印食取用虽防有破败财官印食得位亦",
+      "new": "位即以财官印食取用虽㣲有破败财官印食得位亦",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "位即以財官印食取用雖㣲有破敗財官印食得位亦"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "位即以財官印食取用雖㣲有破敗財官印食得位亦"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/098卷 六·魁罡.md",
+          "anchor": "以财官印食取用虽微有破败财官印食得",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-246",
+      "old": "为贵大忌水局伤官重并防恶死于不义如遇土局火",
+      "new": "为贵大忌水局伤官重并㐫恶死于不义如遇土局火",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "為貴大忌水局傷官重併㐫惡死於不義如遇土局火"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "為貴大忌水局傷官重併㐫惡死於不義如遇土局火"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/105卷 六·玄武当权.md",
+          "anchor": "大忌水局伤官重并凶恶死于不义如遇土",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-247",
+      "old": "巳坐财官号曰勾陈得位防知有大财分瑞气命中値",
+      "new": "巳坐财官号曰勾陈得位㸔知有大财分瑞气命中値",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "巳坐財官號曰勾陳得位㸔知有大財分瑞氣命中値"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "巳坐財官號曰勾陳得位㸔知有大財分瑞氣命中値"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/106卷 六·勾陈得位.md",
+          "anchor": "财官号曰勾陈得位看知有大财分瑞气命",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-248",
+      "old": "制之得成堤岸既有土怕防木为防如有木伤土要金印救解",
+      "new": "制之得成堤岸既有土怕㑹木为㐫如有木伤土要金印救解",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "制之得成堤岸既有土怕㑹木為㐫如有木傷土要金印救解"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "制之得成堤岸既有土怕㑹木為㐫如有木傷土要金印救解"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/112卷 六·润下.md",
+          "anchor": "得成堤岸既有土怕会木为凶如有木伤土",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/112卷 六·润下.md",
+          "anchor": "岸既有土怕会木为凶如有木伤土要金印",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 2 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-249",
+      "old": "之夹煞持丘骨肉离犯此防星无救助生来福夀少年",
+      "new": "之夹煞持丘骨肉离犯此㐫星无救助生来福夀少年",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "之夾煞持丘骨肉離犯此㐫星無救助生來福夀少年"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "之夾煞持丘骨肉離犯此㐫星無救助生來福夀少年"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/119卷 六·墓煞.md",
+          "anchor": "丘骨肉离犯此凶星无救助生来",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-250",
+      "old": "别之壬寅辛卯甲戌富贵防全己巳亦贵戊午丁未刃旺性强虽贵亦多防险尅妻不善终庚辰贵而",
+      "new": "别之壬寅辛卯甲戌富贵䨇全己巳亦贵戊午丁未刃旺性强虽贵亦多㐫险尅妻不善终庚辰贵而",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "别之壬寅辛卯甲戌富貴䨇全己巳亦貴戊午丁未刃旺性强雖貴亦多㐫險尅妻不善終庚辰貴而"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "别之壬寅辛卯甲戌富貴䨇全己巳亦貴戊午丁未刃旺性强雖貴亦多㐫險尅妻不善終庚辰貴而"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/121卷 六·一气生成.md",
+          "anchor": "壬寅辛卯甲戌富贵双全己巳亦贵戊午丁",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/121卷 六·一气生成.md",
+          "anchor": "刃旺性强虽贵亦多凶险克妻不善终庚辰",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 2 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-251",
+      "old": "背必当大贵冲刑尅制亦防不可执定一气皆以贵言",
+      "new": "背必当大贵冲刑尅制亦㐫不可执定一气皆以贵言",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "背必當大貴衝刑尅制亦㐫不可執定一氣皆以貴言"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "背必當大貴衝刑尅制亦㐫不可執定一氣皆以貴言"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/121卷 六·一气生成.md",
+          "anchor": "当大贵冲刑克制亦凶不可执定一气皆以",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-252",
+      "old": "享用过当故死公生于寒防未得享用故活后鄂官至",
+      "new": "享用过当故死公生于寒㣲未得享用故活后鄂官至",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "享用過當故死公生於寒㣲未得享用故活後鄂官至"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "享用過當故死公生於寒㣲未得享用故活後鄂官至"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/123卷 六·十干十二年生大贵人例.md",
+          "anchor": "过当故死公生于寒微未得享用故活后鄂",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-253",
+      "old": "主病故也白浊白带霍乱防痢疝气小肠属肾家壬癸亥子受亏主病故也\n 甲乙见庚辛申酉多者内主肝胆惊悸劳瘵手足顽麻防骨疼痛外主头目眩晕口",
+      "new": "主病故也白浊白带霍乱㵼痢疝气小肠属肾家壬癸亥子受亏主病故也\n 甲乙见庚辛申酉多者内主肝胆惊悸劳瘵手足顽麻䈥骨疼痛外主头目眩晕口",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_007.txt",
+          "anchor": "主病故也白濁白帶霍亂㵼痢疝氣小腸屬腎家壬癸亥子受虧主病故也甲乙見庚辛申酉多者内主肝膽驚悸勞瘵手足頑麻䈥骨疼痛外主頭目眩暈口"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-07.md",
+          "anchor": "主病故也白濁白帶霍亂㵼痢疝氣小腸屬腎家壬癸亥子受虧主病故也甲乙見庚辛申酉多者内主肝膽驚悸勞瘵手足頑麻䈥骨疼痛外主頭目眩暈口"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/153卷 七·论疾病先知五脏六腑所属干支.md",
+          "anchor": "故也白浊白带霍乱泻痢疝气小肠属肾家",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/153卷 七·论疾病先知五脏六腑所属干支.md",
+          "anchor": "惊悸劳瘵手足顽麻筋骨疼痛外主头目眩",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 2 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-254",
+      "old": "和翻胃隔食气噎蛊胀泄防黄肿择拣饮食呕吐恶心",
+      "new": "和翻胃隔食气噎蛊胀泄㵼黄肿择拣饮食呕吐恶心",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_007.txt",
+          "anchor": "和翻胃隔食氣噎蠱脹泄㵼黄腫擇揀飲食嘔吐惡心"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-07.md",
+          "anchor": "和翻胃隔食氣噎蠱脹泄㵼黄腫擇揀飲食嘔吐惡心"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/153卷 七·论疾病先知五脏六腑所属干支.md",
+          "anchor": "胃隔食气噎蛊胀泄泻黄肿择拣饮食呕吐",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-255",
+      "old": "聋睛盲伤寒感冒外主风防牙痛偏坠肾气腰痛膝痛淋沥吐防怕冷恶寒女人白带鬼胎",
+      "new": "聋睛盲伤寒感冒外主风䖝牙痛偏坠肾气腰痛膝痛淋沥吐㵼怕冷恶寒女人白带鬼胎",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_007.txt",
+          "anchor": "聾睛盲傷寒感冒外主風䖝牙痛偏墜腎氣腰痛膝痛淋瀝吐㵼怕冷惡寒女人白帶鬼胎"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-07.md",
+          "anchor": "聾睛盲傷寒感冒外主風䖝牙痛偏墜腎氣腰痛膝痛淋瀝吐㵼怕冷惡寒女人白帶鬼胎"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/153卷 七·论疾病先知五脏六腑所属干支.md",
+          "anchor": "盲伤寒感冒外主风虫牙痛偏坠肾气腰痛",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/153卷 七·论疾病先知五脏六腑所属干支.md",
+          "anchor": "气腰痛膝痛淋沥吐泻怕冷恶寒女人白带",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 2 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-256",
+      "old": "相刑病生腰膝甲申乙酉防年多病肝经辛夘庚寅晚年劳伤防骨丙火上炎丈夫每忌于",
+      "new": "相刑病生腰膝甲申乙酉㓜年多病肝经辛夘庚寅晚年劳伤䈥骨丙火上炎丈夫每忌于",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_007.txt",
+          "anchor": "相刑病生腰膝甲申乙酉㓜年多病肝經辛夘庚寅晚年勞傷䈥骨丙火上炎丈夫每忌於"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-07.md",
+          "anchor": "相刑病生腰膝甲申乙酉㓜年多病肝經辛夘庚寅晚年勞傷䈥骨丙火上炎丈夫每忌於"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/153卷 七·论疾病先知五脏六腑所属干支.md",
+          "anchor": "病生腰膝甲申乙酉幼年多病肝经辛卯庚",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/153卷 七·论疾病先知五脏六腑所属干支.md",
+          "anchor": "辛卯庚寅晚年劳伤筋骨丙火上炎丈夫每",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 2 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-257",
+      "old": "疾内经云东方实西方虚防南方补北方东方实者木太过也西方虚者金不及也防南方者火太过也补北方",
+      "new": "疾内经云东方实西方虚㵼南方补北方东方实者木太过也西方虚者金不及也㵼南方者火太过也补北方",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_007.txt",
+          "anchor": "疾内經云東方實西方虛㵼南方補北方東方實者木太過也西方虚者金不及也㵼南方者火太過也補北方"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-07.md",
+          "anchor": "疾内經云東方實西方虛㵼南方補北方東方實者木太過也西方虚者金不及也㵼南方者火太過也補北方"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/153卷 七·论疾病先知五脏六腑所属干支.md",
+          "anchor": "经云东方实西方虚泻南方补北方东方实",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/153卷 七·论疾病先知五脏六腑所属干支.md",
+          "anchor": "西方虚者金不及也泻南方者火太过也补",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 2 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-258",
+      "old": "之疾 水土相尅主脾湿泄防中满痰嗽不利之疾\n 有相",
+      "new": "之疾 水土相尅主脾湿泄㵼中满痰嗽不利之疾\n 有相",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_007.txt",
+          "anchor": "之疾水土相尅主脾濕泄㵼中滿痰𠻳不利之疾有相"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-07.md",
+          "anchor": "之疾水土相尅主脾濕泄㵼中滿痰𠻳不利之疾有相"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/153卷 七·论疾病先知五脏六腑所属干支.md",
+          "anchor": "水土相克主脾湿泄泻中满痰嗽不利之疾",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-259",
+      "old": "为众隂伤官煞重主腰脚防骨之疾伤官伤尽者不在",
+      "new": "为众隂伤官煞重主腰脚䈥骨之疾伤官伤尽者不在",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_007.txt",
+          "anchor": "為衆隂傷官煞重主腰脚䈥骨之疾傷官傷盡者不在"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-07.md",
+          "anchor": "為衆隂傷官煞重主腰脚䈥骨之疾傷官傷盡者不在"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/153卷 七·论疾病先知五脏六腑所属干支.md",
+          "anchor": "阴伤官煞重主腰脚筋骨之疾伤官伤尽者",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-260",
+      "old": "子命如子命遇孤辰寡宿防门吊客及白衣煞临命其",
+      "new": "子命如子命遇孤辰寡宿䘮门吊客及白衣煞临命其",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_007.txt",
+          "anchor": "子命如子命遇孤辰寡宿䘮門弔客及白衣煞臨命其"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-07.md",
+          "anchor": "子命如子命遇孤辰寡宿䘮門弔客及白衣煞臨命其"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/153卷 七·论疾病先知五脏六腑所属干支.md",
+          "anchor": "如子命遇孤辰寡宿丧门吊客及白衣煞临",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-261",
+      "old": "夫星以定出身之贵贱再防子星以察晚年之荣辱官",
+      "new": "夫星以定出身之贵贱再㸔子星以察晚年之荣辱官",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_007.txt",
+          "anchor": "夫星以定出身之貴賤再㸔子星以察晚年之榮辱官"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-07.md",
+          "anchor": "夫星以定出身之貴賤再㸔子星以察晚年之榮辱官"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/154卷 七·论女命.md",
+          "anchor": "以定出身之贵贱再看子星以察晚年之荣",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-262",
+      "old": "有财生官有印助身无一防混浊之气方为清贵如【一",
+      "new": "有财生官有印助身无一㸃混浊之气方为清贵如【一",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_007.txt",
+          "anchor": "有財生官有印助身無一㸃混濁之氣方為清貴如一"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-07.md",
+          "anchor": "有財生官有印助身無一㸃混濁之氣方為清貴如一"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/155卷 七·纯和清贵.md",
+          "anchor": "生官有印助身无一点混浊之气方为清贵",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-263",
+      "old": "八专自旺丙火为夫寅戌防局时干又丁爱重火情庚",
+      "new": "八专自旺丙火为夫寅戌㑹局时干又丁爱重火情庚",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_007.txt",
+          "anchor": "八專自旺丙火為夫寅戌㑹局時干又丁愛重火情庚"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-07.md",
+          "anchor": "八專自旺丙火為夫寅戌㑹局時干又丁愛重火情庚"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/156卷 七·浊滥娼淫.md",
+          "anchor": "自旺丙火为夫寅戌会局时干又丁爱重火",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-264",
+      "old": "为子丙火长生于寅与戌防局皆属火月令既无金气",
+      "new": "为子丙火长生于寅与戌㑹局皆属火月令既无金气",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_007.txt",
+          "anchor": "為子丙火長生於寅與戌㑹局皆屬火月令既無金氣"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-07.md",
+          "anchor": "為子丙火長生於寅與戌㑹局皆屬火月令既無金氣"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "path": "古文原文/三命通会/卷七/旺子伤夫/text.txt",
+          "anchor": "丙火长生于寅与戌会局皆属火月令既无",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
     }
   ],
   "summary": {
-    "confirmed_corrections": 244,
-    "confirmed_replacements": 244,
+    "confirmed_corrections": 264,
+    "confirmed_replacements": 264,
     "review_status": "in_progress",
     "canonical_ready": false
   }
