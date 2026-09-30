@@ -32,10 +32,10 @@
   "summary": {
     "audit_total_occurrences": 524,
     "audit_unique_codepoints": 86,
-    "confirmed_mappings": 49,
-    "confirmed_occurrences": 475,
-    "remaining_unique_codepoints": 37,
-    "remaining_occurrences": 49
+    "confirmed_mappings": 56,
+    "confirmed_occurrences": 487,
+    "remaining_unique_codepoints": 30,
+    "remaining_occurrences": 37
   },
   "mappings": [
     {
@@ -1334,6 +1334,204 @@
           "commit": "bd5876e14892386f1baae725c908c59056031aca",
           "path": "cn/1302/-cn-1302-12-14.txt",
           "anchor": "水火原来要既济，管教名利镇山河"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+E10C",
+      "glyph": "",
+      "count": 5,
+      "replacement": "𣷉",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "申子辰年月金水秀佳",
+        "纯亥金水秀贵",
+        "纯亥金水秀多发髙科"
+      ],
+      "evidence": [
+        {
+          "repo": "ShousenZHANG/chinese-fortune",
+          "commit": "e2e152c5030a0ac3f0b899cb85188b0d5df22d24",
+          "path": "knowledge/books/sanming/c009.json",
+          "anchor": "申子辰年月金水𣷉秀佳；纯亥金水𣷉秀貴"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-09.md",
+          "anchor": "申子辰年月金水𣷉秀佳；純亥金水𣷉秀貴"
+        }
+      ],
+      "note": "Preserve the attested historical Unicode glyph 𣷉 rather than normalizing it to 清 or another modern character; two independent Sanming transcriptions agree on 𣷉."
+    },
+    {
+      "codepoint": "U+E5AB",
+      "glyph": "",
+      "count": 2,
+      "replacement": "𨽻",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "甲乙壬癸于阳而阳中四枝系焉",
+        "庚丙丁辛于隂而隂中四枝配焉"
+      ],
+      "evidence": [
+        {
+          "repo": "ShousenZHANG/chinese-fortune",
+          "commit": "e2e152c5030a0ac3f0b899cb85188b0d5df22d24",
+          "path": "knowledge/books/sanming/c002.json",
+          "anchor": "甲乙壬癸𨽻於陽而陽中四枝繫焉；庚丙丁辛𨽻於隂而隂中四枝配焉"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "甲乙壬癸𨽻於陽而陽中四枝繫焉庚丙丁辛𨽻於隂而隂中四枝配焉"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "甲乙壬癸𨽻於陽而陽中四枝繫焉庚丙丁辛𨽻於隂而隂中四枝配焉"
+        }
+      ],
+      "note": "Preserve the historical Unicode form 𨽻 attested by multiple witnesses rather than flattening it to modern 隶/隸."
+    },
+    {
+      "codepoint": "U+ED9E",
+      "glyph": "",
+      "count": 1,
+      "replacement": "簪",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "时遇丙寅则冠带缨"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十一/继善篇/text.txt",
+          "anchor": "时遇丙寅，则冠带簪缨"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-11-21.txt",
+          "anchor": "时遇丙寅，则冠带簪缨"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EE26",
+      "glyph": "",
+      "count": 1,
+      "replacement": "亏",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "印绶无享福全为官承防有田园"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷六/论印绶/text.txt",
+          "anchor": "印绶无亏享福全，为官承荫有田园"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/134卷 六·论印绶.md",
+          "anchor": "印绶无亏享福全，为官承荫有田园"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-6-56.txt",
+          "anchor": "印绶无亏享福全，为官承荫有田园"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EE6D",
+      "glyph": "",
+      "count": 1,
+      "replacement": "博",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "言行狡诈逰荡赌忘恩失信私滥奸"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷二/论咸池/text.txt",
+          "anchor": "言行狡诈，游荡赌博，忘恩失信，私滥奸淫"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/神煞章/001神煞-咸池（桃花煞）.md",
+          "anchor": "言行狡诈，游荡赌博，忘恩失信，私滥奸淫"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EF6A",
+      "glyph": "",
+      "count": 1,
+      "replacement": "惕",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "岂非有所警享用不过之所致乎"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷六/十干十二年生大贵人例/text.txt",
+          "anchor": "岂非有所警惕享用不过之所致乎"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-6-45.txt",
+          "anchor": "岂非有所警惕享用不过之所致乎"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/123卷 六·十干十二年生大贵人例.md",
+          "anchor": "岂非有所警惕享用不过之所致乎"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EF6C",
+      "glyph": "",
+      "count": 1,
+      "replacement": "场",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "听鳯鸣于高岗必鹰扬于疆是也"
+      ],
+      "evidence": [
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-11-18.txt",
+          "anchor": "听凤鸣于高岗，必鹰扬于疆场"
+        },
+        {
+          "repo": "Banny-Gao/mingli-research",
+          "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+          "path": "books/三命通会/articles/明通赋四/source.md",
+          "anchor": "听凤鸣于高岗，必鹰扬于疆场"
         }
       ]
     }
