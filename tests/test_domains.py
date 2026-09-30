@@ -161,7 +161,7 @@ class DomainIntegrityTests(unittest.TestCase):
         self.assertEqual(text_corrections["ocr-036"][1], "戊辰戊戌之土为魁罡相㑹乾坤厚徳")
         self.assertEqual(text_corrections["ocr-037"][1], "见寅虎则㑹起丙火而文章出焉")
         self.assertEqual(text_corrections["ocr-038"][1], "若重见禄位如甲日寅时又生正月财官俱弱只作建禄㸔若月日天元同")
-        self.assertEqual(text_corrections["ocr-039"][1], "取虚露庚字亦主富贵全㸔月令何如或可煞生印助")
+        self.assertEqual(text_corrections["ocr-039"][1], "取虚露庚字亦主富贵全㸔月令何如")
         self.assertFalse(text_map["summary"]["canonical_ready"])
         corrections = {(x["old"], x["new"]) for x in text_map["corrections"]}
         self.assertIn(("若失时防局卽韬光", "若失时䘮局卽韬光"), corrections)
