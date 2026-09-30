@@ -2712,11 +2712,145 @@
         }
       ],
       "note": "Three Siku-derived witnesses agree on historical 㑹."
+    },
+    {
+      "id": "ocr-103",
+      "old": "四冲生处自贫寒更值防神不足看",
+      "new": "四冲生处自贫寒更值㓙神不足看",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "四衝生處自貧寒更值㓙神不足看"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "四衝生處自貧寒更值㓙神不足看"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "四衝生處自貧寒更值㓙神不足看"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㓙."
+    },
+    {
+      "id": "ocr-104",
+      "old": "丁禄午见庚午截路空亡防壬午为徳合禄甲午为进神禄俱吉丙午喜神禄交羊刃半吉戊午伏羊刃禄多防",
+      "new": "丁禄午见庚午截路空亡㐫壬午为徳合禄甲午为进神禄俱吉丙午喜神禄交羊刃半吉戊午伏羊刃禄多㐫",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-03.md",
+          "anchor": "丁祿午見庚午截路空亡㐫壬午為徳合祿甲午為進神祿俱吉丙午喜神祿交羊刃半吉戊午伏羊刃祿多㐫"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_003.txt",
+          "anchor": "丁祿午見庚午截路空亡㐫壬午為徳合祿甲午為進神祿俱吉丙午喜神祿交羊刃半吉戊午伏羊刃祿多㐫"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0004.md",
+          "anchor": "丁祿午見庚午截路空亡㐫壬午為徳合祿甲午為進神祿俱吉丙午喜神祿交羊刃半吉戊午伏羊刃祿多㐫"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㐫 in both positions."
+    },
+    {
+      "id": "ocr-105",
+      "old": "癸禄子见甲子进神禄主登科进达丙子交羊刃禄带福星贵有权戊子伏羊刃合贵禄半吉庚子印禄吉壬子正羊刃禄防",
+      "new": "癸禄子见甲子进神禄主登科进达丙子交羊刃禄带福星贵有权戊子伏羊刃合贵禄半吉庚子印禄吉壬子正羊刃禄㐫",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-03.md",
+          "anchor": "癸祿子見甲子進神祿主登科進達丙子交羊刃祿帶福星貴有權戊子伏羊刃合貴祿半吉庚子印祿吉壬子正羊刃祿㐫"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/五行精纪/chapters/0021.md",
+          "anchor": "壬子正羊刃禄凶"
+        }
+      ],
+      "note": "Historical Sanming witness preserves 㐫; independent normalized parallel confirms 凶."
+    },
+    {
+      "id": "ocr-106",
+      "old": "凡人命带禄或吉或防或贵或贱未可全靠便为吉论天乙妙防云",
+      "new": "凡人命带禄或吉或㐫或贵或贱未可全靠便为吉论天乙妙㫖云",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-03.md",
+          "anchor": "凡人命帶祿或吉或㐫或貴或賤未可全靠便為吉論天乙妙㫖云"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_003.txt",
+          "anchor": "凡人命帶祿或吉或㐫或貴或賤未可全靠便為吉論天乙妙㫖云"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0004.md",
+          "anchor": "凡人命帶祿或吉或㐫或貴或賤未可全靠便為吉論天乙妙㫖云"
+        }
+      ],
+      "note": "Three Siku-derived witnesses independently confirm 防→㐫 and 防→㫖 in the same sentence."
+    },
+    {
+      "id": "ocr-107",
+      "old": "贵人嗔则防来可见命中有贵不可就为吉论要当细详",
+      "new": "贵人嗔则㐫来可见命中有贵不可就为吉论要当细详",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-03.md",
+          "anchor": "貴人嗔則㐫來可見命中有貴不可就為吉論要當細詳"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_003.txt",
+          "anchor": "貴人嗔則㐫來可見命中有貴不可就為吉論要當細詳"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0004.md",
+          "anchor": "貴人嗔則㐫來可見命中有貴不可就為吉論要當細詳"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㐫."
     }
   ],
   "summary": {
-    "confirmed_corrections": 102,
-    "confirmed_replacements": 102,
+    "confirmed_corrections": 107,
+    "confirmed_replacements": 107,
     "review_status": "in_progress",
     "canonical_ready": false
   }
