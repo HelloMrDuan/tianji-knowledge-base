@@ -135,8 +135,8 @@ class DomainIntegrityTests(unittest.TestCase):
         text_map = json.loads(
             (ROOT / "data/quarantine/public_domain_snapshots/daizhigev20/sanming_text_collation.json").read_text(encoding="utf-8")
         )
-        self.assertEqual(text_map["summary"]["confirmed_corrections"], 39)
-        self.assertEqual(text_map["summary"]["confirmed_replacements"], 39)
+        self.assertEqual(text_map["summary"]["confirmed_corrections"], 41)
+        self.assertEqual(text_map["summary"]["confirmed_replacements"], 41)
         self.assertEqual(text_map["summary"]["review_status"], "in_progress")
         text_corrections = {x["id"]: (x["old"], x["new"]) for x in text_map["corrections"]}
         self.assertEqual(text_corrections["ocr-017"][1], "无丑戌以刑冲之则库不开难得金印")
@@ -162,6 +162,8 @@ class DomainIntegrityTests(unittest.TestCase):
         self.assertEqual(text_corrections["ocr-037"][1], "见寅虎则㑹起丙火而文章出焉")
         self.assertEqual(text_corrections["ocr-038"][1], "若重见禄位如甲日寅时又生正月财官俱弱只作建禄㸔若月日天元同")
         self.assertEqual(text_corrections["ocr-039"][1], "取虚露庚字亦主富贵全㸔月令何如")
+        self.assertEqual(text_corrections["ocr-040"][1], "无亥卯以㑹之则形难变只作火土论")
+        self.assertEqual(text_corrections["ocr-041"][1], "申宫水土长生之地入已午则逢火炼遂成剑㦸见子辰则逢水淬")
         self.assertFalse(text_map["summary"]["canonical_ready"])
         corrections = {(x["old"], x["new"]) for x in text_map["corrections"]}
         self.assertIn(("若失时防局卽韬光", "若失时䘮局卽韬光"), corrections)
