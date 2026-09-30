@@ -135,8 +135,8 @@ class DomainIntegrityTests(unittest.TestCase):
         text_map = json.loads(
             (ROOT / "data/quarantine/public_domain_snapshots/daizhigev20/sanming_text_collation.json").read_text(encoding="utf-8")
         )
-        self.assertEqual(text_map["summary"]["confirmed_corrections"], 8)
-        self.assertEqual(text_map["summary"]["confirmed_replacements"], 8)
+        self.assertEqual(text_map["summary"]["confirmed_corrections"], 16)
+        self.assertEqual(text_map["summary"]["confirmed_replacements"], 16)
         self.assertEqual(text_map["summary"]["review_status"], "in_progress")
         self.assertFalse(text_map["summary"]["canonical_ready"])
         corrections = {(x["old"], x["new"]) for x in text_map["corrections"]}
@@ -148,6 +148,14 @@ class DomainIntegrityTests(unittest.TestCase):
         self.assertIn(("阳刄者天上之防星人间之恶煞", "阳刄者天上之凶星人间之恶煞"), corrections)
         self.assertIn(("年干父兮支母日干巳兮支妻", "年干父兮支母日干己兮支妻"), corrections)
         self.assertIn(("飞防名天瞽支干无气主无目", "飞廉名天瞽支干无气主无目"), corrections)
+        self.assertIn(("诸神之领防其説有二", "诸神之领袖其説有二"), corrections)
+        self.assertIn(("大运虽防其小运却吉", "大运虽凶其小运却吉"), corrections)
+        self.assertIn(("此小运又名行年不可不防醉醒", "此小运又名行年不可不究醉醒"), corrections)
+        self.assertIn(("身旺官防财名寡合", "身旺官微财名寡合"), corrections)
+        self.assertIn(("身坐比肩成比局当为防度新郎", "身坐比肩成比局当为几度新郎"), corrections)
+        self.assertIn(("癸水相防为辛苦之经商", "癸水相会为辛苦之经商"), corrections)
+        self.assertIn(("九宫防溺怕防运又怕防年", "九宫陷溺怕凶运又怕凶年"), corrections)
+        self.assertIn(("或以申亥包酉戌防系天干何物", "或以申亥包酉戌看系天干何物"), corrections)
         self.assertFalse((C / "classics/bazi/sanming_tonghui_v1.json").exists())
 
     def test_sanming_pua_collation_progress(self):
