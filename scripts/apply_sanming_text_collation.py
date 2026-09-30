@@ -51,7 +51,8 @@ for row in spec.get("corrections", []):
         raise SystemExit(
             f"text anchor drift for {correction_id}: expected one exact anchor, found {actual}"
         )
-    if text.count(new):
+    allow_existing_target = bool(row.get("allow_existing_target", False))
+    if text.count(new) and not allow_existing_target:
         raise SystemExit(
             f"text correction target already exists before applying {correction_id}; "
             "anchor may be stale or over-broad"
