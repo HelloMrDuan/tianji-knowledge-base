@@ -1386,11 +1386,235 @@
         }
       ],
       "note": "Preserve historical 㑹; second Siku-derived witness independently confirms the same phrase."
+    },
+    {
+      "id": "ocr-055",
+      "old": "兼起命宫防之落何宫分逐宫详断",
+      "new": "兼起命宫㸔之落何宫分逐宫详断",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "兼起命宫㸔之落何宫分逐宫詳斷"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "兼起命宫㸔之落何宫分逐宫詳斷"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "兼起命宫㸔之落何宫分逐宫詳斷"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㸔."
+    },
+    {
+      "id": "ocr-056",
+      "old": "五官防聚",
+      "new": "五官㑹聚",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-05.md",
+          "anchor": "五官㑹聚"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_005.txt",
+          "anchor": "五官㑹聚"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0006.md",
+          "anchor": "五官㑹聚"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㑹."
+    },
+    {
+      "id": "ocr-057",
+      "old": "更防喜忌何如不可执定",
+      "new": "更㸔喜忌何如不可执定",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "更㸔喜忌何如不可執定"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "更㸔喜忌何如不可執定"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0011.md",
+          "anchor": "更㸔喜忌何如不可執定"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㸔."
+    },
+    {
+      "id": "ocr-058",
+      "old": "逢印防煞但有官煞在命行官煞乡亦作贵论",
+      "new": "逢印㸔煞但有官煞在命行官煞乡亦作贵论",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "逢印㸔煞但有官煞在命行官煞鄉亦作貴論"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "逢印㸔煞但有官煞在命行官煞鄉亦作貴論"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0011.md",
+          "anchor": "逢印㸔煞但有官煞在命行官煞鄉亦作貴論"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㸔."
+    },
+    {
+      "id": "ocr-059",
+      "old": "又防巳宫却被壊了酉中辛寅中丙方取",
+      "new": "又㸔巳宫却被壊了酉中辛寅中丙方取",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "又㸔巳宫却被壊了酉中辛寅中丙方取"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "又㸔巳宫却被壊了酉中辛寅中丙方取"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "又㸔巳宫却被壊了酉中辛寅中丙方取"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㸔."
+    },
+    {
+      "id": "ocr-060",
+      "old": "大凡亦防暗干与明干合气相干取用",
+      "new": "大凡亦㸔暗干与明干合气相干取用",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "大凡亦㸔暗干與明干合氣相干取用"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "大凡亦㸔暗干與明干合氣相干取用"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "大凡亦㸔暗干與明干合氣相干取用"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㸔."
+    },
+    {
+      "id": "ocr-061",
+      "old": "又得木神防禄所以基本牢壮",
+      "new": "又得木神䕶禄所以基本牢壮",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-04.md",
+          "anchor": "又得木神䕶禄所以基本牢壮"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_004.txt",
+          "anchor": "又得木神䕶禄所以基本牢壮"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0005.md",
+          "anchor": "又得木神䕶禄所以基本牢壮"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 䕶."
+    },
+    {
+      "id": "ocr-062",
+      "old": "又得金财以生之木印以防之所以基本牢壮",
+      "new": "又得金财以生之木印以䕶之所以基本牢壮",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-04.md",
+          "anchor": "又得金財以生之木印以䕶之所以基本牢壮"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_004.txt",
+          "anchor": "又得金財以生之木印以䕶之所以基本牢壮"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0005.md",
+          "anchor": "又得金財以生之木印以䕶之所以基本牢壮"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 䕶."
     }
   ],
   "summary": {
-    "confirmed_corrections": 54,
-    "confirmed_replacements": 54,
+    "confirmed_corrections": 62,
+    "confirmed_replacements": 62,
     "review_status": "in_progress",
     "canonical_ready": false
   }
