@@ -32,10 +32,10 @@
   "summary": {
     "audit_total_occurrences": 524,
     "audit_unique_codepoints": 86,
-    "confirmed_mappings": 64,
-    "confirmed_occurrences": 495,
-    "remaining_unique_codepoints": 22,
-    "remaining_occurrences": 29
+    "confirmed_mappings": 72,
+    "confirmed_occurrences": 503,
+    "remaining_unique_codepoints": 14,
+    "remaining_occurrences": 21
   },
   "mappings": [
     {
@@ -1781,6 +1781,241 @@
           "commit": "bd5876e14892386f1baae725c908c59056031aca",
           "path": "cn/1302/-cn-1302-7-2.txt",
           "anchor": "金火相克，生旺则疡疮瘫肿，死绝则痨瘵呕血"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EA7D",
+      "glyph": "",
+      "count": 1,
+      "replacement": "凌",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "歳运欺必招横事"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/金玉赋/text.txt",
+          "anchor": "岁运欺淩，必招横事"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/《渊海子平》/《渊海子平》赋论（三）/004《金玉赋》.md",
+          "anchor": "岁运欺陵，必招横事"
+        },
+        {
+          "repo": "Banny-Gao/mingli-research",
+          "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+          "path": "books/三命通会/articles/金玉赋/interpretation.md",
+          "anchor": "岁运欺凌，必招横事"
+        }
+      ],
+      "note": "Normalize witness variants 淩/陵 to modern 凌 while preserving the lexical reading."
+    },
+    {
+      "codepoint": "U+EAA7",
+      "glyph": "",
+      "count": 1,
+      "replacement": "段",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "丙子丁丑何以取象涧下水盖气未通济高非水流之所"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷一/论纳音取象/text.txt",
+          "anchor": "盖气未通济，高段非水流之所，卑湿乃水就之乡"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/005卷 一·论纳音取象.md",
+          "anchor": "盖气未通济，高段非水流之所，卑湿乃水就之乡"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-01.md",
+          "anchor": "高[SKQS 2728: 段 -- 𠭊 or 叚 ?]非水流之所"
+        }
+      ],
+      "note": "Do not emend this to the intuitive modern phrase 高亢; independent Sanming witnesses read 段 and the Siku glyph annotation points to 段/its old-form family."
+    },
+    {
+      "codepoint": "U+EBC2",
+      "glyph": "",
+      "count": 1,
+      "replacement": "惨",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "入贵格则虐好杀好立功业"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷二/论三刑/text.txt",
+          "anchor": "入贵格则惨虐好杀，好立功业"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/031卷 二·论三刑.md",
+          "anchor": "入贵格则惨虐好杀，好立功业"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+ED94",
+      "glyph": "",
+      "count": 1,
+      "replacement": "算",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "平生不吉而夀椿松"
+      ],
+      "evidence": [
+        {
+          "repo": "Banny-Gao/mingli-research",
+          "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+          "path": "books/三命通会/articles/人鉴论/source.md",
+          "anchor": "平生不吉，而寿算椿松"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-12-9.txt",
+          "anchor": "平生不吉，而寿算椿松"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "平生不吉而夀𥮅椿松"
+        }
+      ],
+      "note": "The Siku witness preserves rare form 𥮅, while normalized independent transcriptions consistently read 算."
+    },
+    {
+      "codepoint": "U+EF17",
+      "glyph": "",
+      "count": 1,
+      "replacement": "鬓",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "重官重印緑孤眠"
+      ],
+      "evidence": [
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/神锋通考/007卷05.md",
+          "anchor": "重官重印，绿鬓孤眠"
+        },
+        {
+          "repo": "Banny-Gao/mingli-research",
+          "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+          "path": "books/神峰通考/articles/渭泾论/source.md",
+          "anchor": "重官重印，绿鬓孤眠"
+        },
+        {
+          "repo": "ShousenZHANG/chinese-fortune",
+          "commit": "e2e152c5030a0ac3f0b899cb85188b0d5df22d24",
+          "path": "knowledge/books/yuanhai/c297.json",
+          "anchor": "重官重印，绿鬓孤眠"
+        }
+      ],
+      "note": "This is 鬓, not 窗; multiple parallel witnesses of the same verse agree on 绿鬓孤眠."
+    },
+    {
+      "codepoint": "U+EF33",
+      "glyph": "",
+      "count": 1,
+      "replacement": "类",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "癸亥见壬子等俱主大贵享福"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷六/日禄归时/text.txt",
+          "anchor": "癸亥见壬子等类，俱主大贵享福"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/090卷 六·日禄归时.md",
+          "anchor": "癸亥见壬子等类，俱主大贵享福"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-6-12.txt",
+          "anchor": "癸亥见壬子等类，俱主大贵享福"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EF3F",
+      "glyph": "",
+      "count": 1,
+      "replacement": "抟",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "陈曰日阳中之阳人君之象也"
+      ],
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "陳摶曰日陽中之陽人君之象也"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "陳摶曰日陽中之陽人君之象也"
+        }
+      ],
+      "note": "Normalize traditional 摶 in the witnesses to simplified 抟, consistent with the quarantine transcription's surrounding simplified text."
+    },
+    {
+      "codepoint": "U+EF67",
+      "glyph": "",
+      "count": 1,
+      "replacement": "参",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "生尅巳定然后诸神煞则吉凶无不验矣"
+      ],
+      "evidence": [
+        {
+          "repo": "Banny-Gao/mingli-research",
+          "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+          "path": "books/渊海子平/articles/珞琭子消息赋/source.md",
+          "anchor": "生克已定，然後参诸神煞，则吉凶无不验矣"
+        },
+        {
+          "repo": "ShousenZHANG/chinese-fortune",
+          "commit": "e2e152c5030a0ac3f0b899cb85188b0d5df22d24",
+          "path": "knowledge/books/yuanhai/c279.json",
+          "anchor": "生克已定，然後参诸神煞，则吉凶无不验矣"
         }
       ]
     }
