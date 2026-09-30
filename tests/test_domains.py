@@ -135,8 +135,8 @@ class DomainIntegrityTests(unittest.TestCase):
         text_map = json.loads(
             (ROOT / "data/quarantine/public_domain_snapshots/daizhigev20/sanming_text_collation.json").read_text(encoding="utf-8")
         )
-        self.assertEqual(text_map["summary"]["confirmed_corrections"], 102)
-        self.assertEqual(text_map["summary"]["confirmed_replacements"], 102)
+        self.assertEqual(text_map["summary"]["confirmed_corrections"], 107)
+        self.assertEqual(text_map["summary"]["confirmed_replacements"], 107)
         self.assertEqual(text_map["summary"]["review_status"], "in_progress")
         text_corrections = {x["id"]: (x["old"], x["new"]) for x in text_map["corrections"]}
         self.assertEqual(text_corrections["ocr-017"][1], "无丑戌以刑冲之则库不开难得金印")
@@ -225,6 +225,11 @@ class DomainIntegrityTests(unittest.TestCase):
         self.assertEqual(text_corrections["ocr-100"][1], "此生万转图而放㑹合得可见也")
         self.assertEqual(text_corrections["ocr-101"][1], "故子与丑合得日月㑹同之数")
         self.assertEqual(text_corrections["ocr-102"][1], "所以在一旬内见方曰君臣庆㑹仍要别其阳为君")
+        self.assertEqual(text_corrections["ocr-103"][1], "四冲生处自贫寒更值㓙神不足看")
+        self.assertEqual(text_corrections["ocr-104"][1], "丁禄午见庚午截路空亡㐫壬午为徳合禄甲午为进神禄俱吉丙午喜神禄交羊刃半吉戊午伏羊刃禄多㐫")
+        self.assertEqual(text_corrections["ocr-105"][1], "癸禄子见甲子进神禄主登科进达丙子交羊刃禄带福星贵有权戊子伏羊刃合贵禄半吉庚子印禄吉壬子正羊刃禄㐫")
+        self.assertEqual(text_corrections["ocr-106"][1], "凡人命带禄或吉或㐫或贵或贱未可全靠便为吉论天乙妙㫖云")
+        self.assertEqual(text_corrections["ocr-107"][1], "贵人嗔则㐫来可见命中有贵不可就为吉论要当细详")
         self.assertFalse(text_map["summary"]["canonical_ready"])
         corrections = {(x["old"], x["new"]) for x in text_map["corrections"]}
         self.assertIn(("若失时防局卽韬光", "若失时䘮局卽韬光"), corrections)
