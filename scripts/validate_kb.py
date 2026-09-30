@@ -227,6 +227,78 @@ for group in public_domain_manifest.get("sources", []):
                     f"quarantined public-domain work leaked into canonical: {work.get('id')} -> {planned}",
                 )
 
+# Sanming Tonghui PUA collation gate
+sanming_audit_path = ROOT / "data/quarantine/public_domain_snapshots/daizhigev20/sanming_pua_audit.json"
+sanming_collation_path = ROOT / "data/quarantine/public_domain_snapshots/daizhigev20/sanming_pua_collation.json"
+sanming_source_path = ROOT / "data/quarantine/public_domain_snapshots/daizhigev20/sanming_tonghui.txt"
+
+check(sanming_audit_path.exists(), "Sanming PUA audit is missing")
+check(sanming_collation_path.exists(), "Sanming PUA collation map is missing")
+check(sanming_source_path.exists(), "Sanming quarantined source is missing")
+
+if sanming_audit_path.exists() and sanming_collation_path.exists():
+    audit = json.loads(sanming_audit_path.read_text(encoding="utf-8"))
+    collation = json.loads(sanming_collation_path.read_text(encoding="utf-8"))
+    audit_rows = {x["codepoint"]: x for x in audit.get("glyphs", [])}
+    mappings = collation.get("mappings", [])
+    codes = [x.get("codepoint") for x in mappings]
+    check(len(codes) == len(set(codes)), "Sanming collation contains duplicate codepoints")
+
+    def is_private_use_char(ch: str) -> bool:
+        cp = ord(ch)
+        return (
+            0xE000 <= cp <= 0xF8FF
+            or 0xF0000 <= cp <= 0xFFFFD
+            or 0x100000 <= cp <= 0x10FFFD
+        )
+
+    confirmed = []
+    for row in mappings:
+        codepoint = row.get("codepoint")
+        glyph = row.get("glyph", "")
+        replacement = row.get("replacement", "")
+        status = row.get("status")
+        check(status in {"confirmed", "provisional", "unresolved"}, f"invalid Sanming mapping status: {codepoint}")
+        check(codepoint in audit_rows, f"Sanming mapping not present in audit: {codepoint}")
+        if len(glyph) == 1:
+            check(is_private_use_char(glyph), f"Sanming mapping glyph is not PUA: {codepoint}")
+            check(codepoint == f"U+{ord(glyph):04X}", f"Sanming mapping codepoint/glyph mismatch: {codepoint}")
+        else:
+            check(False, f"Sanming mapping glyph must be one character: {codepoint}")
+        if codepoint in audit_rows:
+            check(row.get("count") == audit_rows[codepoint].get("count"), f"Sanming mapping count mismatch: {codepoint}")
+            check(glyph == audit_rows[codepoint].get("glyph"), f"Sanming mapping glyph mismatch with audit: {codepoint}")
+        if status == "confirmed":
+            confirmed.append(row)
+            check(bool(replacement), f"confirmed Sanming mapping missing replacement: {codepoint}")
+            check(not any(is_private_use_char(ch) for ch in replacement), f"confirmed Sanming replacement still contains PUA: {codepoint}")
+            check(len(row.get("source_anchors", [])) >= 2, f"confirmed Sanming mapping lacks source anchors: {codepoint}")
+            check(len(row.get("evidence", [])) >= 2, f"confirmed Sanming mapping lacks cross-check evidence: {codepoint}")
+
+    confirmed_occurrences = sum(int(x.get("count", 0)) for x in confirmed)
+    summary = collation.get("summary", {})
+    check(summary.get("audit_total_occurrences") == audit.get("total_private_use_chars"), "Sanming audit total drift")
+    check(summary.get("audit_unique_codepoints") == audit.get("unique_private_use_chars"), "Sanming audit unique-count drift")
+    check(summary.get("confirmed_mappings") == len(confirmed), "Sanming confirmed mapping summary mismatch")
+    check(summary.get("confirmed_occurrences") == confirmed_occurrences, "Sanming confirmed occurrence summary mismatch")
+    check(summary.get("remaining_unique_codepoints") == audit.get("unique_private_use_chars") - len(confirmed), "Sanming remaining unique-count mismatch")
+    check(summary.get("remaining_occurrences") == audit.get("total_private_use_chars") - confirmed_occurrences, "Sanming remaining occurrence mismatch")
+
+    if sanming_source_path.exists():
+        raw = sanming_source_path.read_text(encoding="utf-8")
+        for row in confirmed:
+            check(raw.count(row["glyph"]) == row["count"], f"Sanming source drift for {row['codepoint']}")
+            raw = raw.replace(row["glyph"], row["replacement"])
+        remaining = [ch for ch in raw if is_private_use_char(ch)]
+        check(len(remaining) == summary.get("remaining_occurrences"), "Sanming post-collation PUA occurrence mismatch")
+        check(len(set(remaining)) == summary.get("remaining_unique_codepoints"), "Sanming post-collation PUA unique-count mismatch")
+
+    niu = by_id.get("niutrans-classical-modern")
+    check(niu is not None, "NiuTrans collation source is not registered")
+    if niu:
+        check(niu.get("license_spdx") == "MIT", "NiuTrans source must preserve MIT license metadata")
+        check(niu.get("license_policy") == "ALLOW", "NiuTrans source must be ALLOW")
+
 for entry in ingestion.get("sources", []):
     source = by_id.get(entry["source_id"])
     check(source is not None, f"ingestion manifest references unknown source: {entry['source_id']}")
