@@ -866,11 +866,123 @@
         }
       ],
       "note": "Preserve historical 䕃 and original 陞 from the Siku-derived witness."
+    },
+    {
+      "id": "ocr-036",
+      "old": "戊辰戊戌之土为魁罡相防乾坤厚徳",
+      "new": "戊辰戊戌之土为魁罡相㑹乾坤厚徳",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-01.md",
+          "anchor": "戊辰戊戌之土為魁罡相㑹乾坤厚徳"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷一/释六十甲子性质吉凶三/text.txt",
+          "anchor": "戊辰、戊戌之土为魁罡相会"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/006卷 一·释六十甲子性质吉凶.md",
+          "anchor": "戊辰、戊戌之土为魁罡相会"
+        }
+      ],
+      "note": "Preserve historical 㑹 from the Siku-derived witness."
+    },
+    {
+      "id": "ocr-037",
+      "old": "见寅虎则防起丙火而文章出焉",
+      "new": "见寅虎则㑹起丙火而文章出焉",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "見寅虎則㑹起丙火而文章出焉"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷二/论地支/text.txt",
+          "anchor": "见寅虎则会起丙火，而文章出焉"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-2-2.txt",
+          "anchor": "见寅虎则会起丙火，而文章出焉"
+        }
+      ],
+      "note": "Preserve historical 㑹 from the Siku-derived witness."
+    },
+    {
+      "id": "ocr-038",
+      "old": "若重见禄位如甲日寅时又生正月财官俱弱只作建禄防若月日天元同",
+      "new": "若重见禄位如甲日寅时又生正月财官俱弱只作建禄㸔若月日天元同",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "財官俱弱只作建禄㸔若月日天元同"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷六/日禄归时/text.txt",
+          "anchor": "财官俱弱，只作建禄看"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/090卷 六·日禄归时.md",
+          "anchor": "财官俱弱，只作建禄看"
+        }
+      ],
+      "note": "Preserve historical 㸔 from the Siku-derived witness."
+    },
+    {
+      "id": "ocr-039",
+      "old": "取虚露庚字亦主富贵全防月令何如",
+      "new": "取虚露庚字亦主富贵全㸔月令何如",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "取虛露庚字亦主富貴全㸔月令何如或可煞生印助"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷六/子遥巳禄/text.txt",
+          "anchor": "取虚露庚字，亦主富贵，全看月令何如"
+        },
+        {
+          "repo": "Banny-Gao/mingli-research",
+          "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+          "path": "books/三命通会/articles/子遥巳禄/source.md",
+          "anchor": "取虚露庚字，亦主富贵，全看月令何如"
+        }
+      ],
+      "note": "Preserve historical 㸔 from the Siku-derived witness; keep the neighboring unresolved 印防 untouched in this correction."
     }
   ],
   "summary": {
-    "confirmed_corrections": 35,
-    "confirmed_replacements": 35,
+    "confirmed_corrections": 39,
+    "confirmed_replacements": 39,
     "review_status": "in_progress",
     "canonical_ready": false
   }
