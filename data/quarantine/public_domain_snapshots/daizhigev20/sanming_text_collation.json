@@ -507,8 +507,8 @@
     },
     {
       "id": "ocr-022",
-      "old": "身品琐小",
-      "new": "身材琐小",
+      "old": "容貌欹邪身品琐小心性局促",
+      "new": "容貌欹邪身材琐小心性局促",
       "status": "confirmed",
       "confidence": "high",
       "evidence": [
@@ -524,7 +524,8 @@
           "path": "books/三命通会/articles/论食神/source.md",
           "anchor": "身材琐小"
         }
-      ]
+      ],
+      "note": "Use a longer unique context anchor because the corrected phrase 身材琐小 also appears elsewhere in the corpus."
     },
     {
       "id": "ocr-023",
