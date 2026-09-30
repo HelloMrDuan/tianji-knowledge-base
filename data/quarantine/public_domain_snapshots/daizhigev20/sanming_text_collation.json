@@ -3154,11 +3154,185 @@
         }
       ],
       "note": "Three Siku-derived witnesses confirm both 防→㓙 readings in the same sentence."
+    },
+    {
+      "id": "ocr-119",
+      "old": "防则昏浊邪侈毒害性重宿疾刑徒兵刀折伤",
+      "new": "㐫则昏浊邪侈毒害性重宿疾刑徒兵刀折伤",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-03.md",
+          "anchor": "㐫則昏濁邪侈毒害性重宿疾刑徒兵刀折傷"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_003.txt",
+          "anchor": "㐫則昏濁邪侈毒害性重宿疾刑徒兵刀折傷"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0004.md",
+          "anchor": "㐫則昏濁邪侈毒害性重宿疾刑徒兵刀折傷"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㐫."
+    },
+    {
+      "id": "ocr-120",
+      "old": "防则褊躁性窄顚诈狂妄浮荡是非酒色风流官府狱讼疽防气血气",
+      "new": "㓙则褊躁性窄顚诈狂妄浮荡是非酒色风流官府狱讼疽㾿气血气",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-03.md",
+          "anchor": "㓙則褊躁性窄顚詐狂妄浮蕩是非酒色風流官府獄訟疽㾿氣血氣"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_003.txt",
+          "anchor": "㓙則褊躁性窄顚詐狂妄浮蕩是非酒色風流官府獄訟疽㾿氣血氣"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0004.md",
+          "anchor": "㓙則褊躁性窄顚詐狂妄浮蕩是非酒色風流官府獄訟疽㾿氣血氣"
+        }
+      ],
+      "note": "Three Siku-derived witnesses independently confirm both 防→㓙 and 防→㾿."
+    },
+    {
+      "id": "ocr-121",
+      "old": "其神最尊贵所至之处一切防煞隐然而避",
+      "new": "其神最尊贵所至之处一切㓙煞隐然而避",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-03.md",
+          "anchor": "其神最尊貴所至之處一切㓙煞隱然而避"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_003.txt",
+          "anchor": "其神最尊貴所至之處一切㓙煞隱然而避"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0004.md",
+          "anchor": "其神最尊貴所至之處一切㓙煞隱然而避"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㓙."
+    },
+    {
+      "id": "ocr-122",
+      "old": "夫徳者利物济人掩防作善之谓也",
+      "new": "夫徳者利物济人掩㓙作善之谓也",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-03.md",
+          "anchor": "夫徳者利物濟人掩㓙作善之謂也"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_003.txt",
+          "anchor": "夫徳者利物濟人掩㓙作善之謂也"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0004.md",
+          "anchor": "夫徳者利物濟人掩㓙作善之謂也"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㓙."
+    },
+    {
+      "id": "ocr-123",
+      "old": "贵神在位诸煞伏藏二徳扶持众防解散凡命中带防煞得此二徳扶化防不为甚须要日上见时上不犯尅冲刑破方吉凡人得之一生安逸不犯刑不逢盗纵遇防祸自然消散",
+      "new": "贵神在位诸煞伏藏二徳扶持众㓙解散凡命中带㓙煞得此二徳扶化㓙不为甚须要日上见时上不犯尅冲刑破方吉凡人得之一生安逸不犯刑不逢盗纵遇㓙祸自然消散",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-03.md",
+          "anchor": "貴神在位諸煞伏藏二徳扶持衆㓙解散凡命中帶㓙煞得此二徳扶化㓙不為甚"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷三/论天月德/text.txt",
+          "anchor": "贵神在位，诸煞伏藏；二德扶持，众凶解散。凡命中带凶煞，得此二德扶化，凶不为甚"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/039卷 三·论天月德.md",
+          "anchor": "二德扶持，众凶解散。凡命中带凶煞，得此二德扶化，凶不为甚"
+        }
+      ],
+      "note": "Historical witness plus independent normalized witnesses confirm four 防→㓙 substitutions in the same passage."
+    },
+    {
+      "id": "ocr-124",
+      "old": "更有月徳并者尢好纵有防煞亦主清显",
+      "new": "更有月徳并者尢好纵有㓙煞亦主清显",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-03.md",
+          "anchor": "更有月徳併者尤好縱有㓙煞亦主清顯"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_003.txt",
+          "anchor": "更有月徳併者尤好縱有㓙煞亦主清顯"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0004.md",
+          "anchor": "更有月徳併者尤好縱有㓙煞亦主清顯"
+        },
+        {
+          "repo": "Banny-Gao/mingli-research",
+          "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+          "path": "books/三命通会/articles/论天月德/source.md",
+          "anchor": "纵有凶煞，亦主清显"
+        }
+      ],
+      "note": "Siku-derived witnesses preserve 㓙; normalized witness confirms 凶."
     }
   ],
   "summary": {
-    "confirmed_corrections": 118,
-    "confirmed_replacements": 118,
+    "confirmed_corrections": 124,
+    "confirmed_replacements": 124,
     "review_status": "in_progress",
     "canonical_ready": false
   }
