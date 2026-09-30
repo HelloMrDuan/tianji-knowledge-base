@@ -1034,11 +1034,145 @@
         }
       ],
       "note": "Preserve historical 㦸 from the Siku-derived witness."
+    },
+    {
+      "id": "ocr-042",
+      "old": "伤官但能去官不能留煞必湏得羊刃合方成去官防煞",
+      "new": "伤官但能去官不能留煞必湏得羊刃合方成去官㽞煞",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-05.md",
+          "anchor": "五陽日傷官但能去官不能留煞必湏得羊刃合方成去官㽞煞"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷五/官煞去留杂论/text.txt",
+          "anchor": "五阳日伤官，但能去官，不能留煞，必须得羊刃合，方成去官留煞"
+        }
+      ],
+      "note": "Preserve historical 㽞 from the Siku-derived witness; normalized witness confirms 留."
+    },
+    {
+      "id": "ocr-043",
+      "old": "切不可见伤官格有官星便不作好命防又曰",
+      "new": "切不可见伤官格有官星便不作好命㸔又曰",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-05.md",
+          "anchor": "切不可見傷官格有官星便不作好命㸔又曰"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷六/论伤官/text.txt",
+          "anchor": "切不可见伤官格有官星，便不作好命看"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/141卷 六·论伤官.md",
+          "anchor": "切不可见伤官格有官星，便不作好命看"
+        }
+      ],
+      "note": "Preserve historical 㸔 from the Siku-derived witness."
+    },
+    {
+      "id": "ocr-044",
+      "old": "财旺妻荣子更强柱中若要吞防煞管教金殿佐君王",
+      "new": "财旺妻荣子更强柱中若要吞㗖煞管教金殿佐君王",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-05.md",
+          "anchor": "財旺妻榮子更强柱中若要吞㗖煞管教金殿佐君王"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/142卷 六·论食神.md",
+          "anchor": "财旺妻荣子更强，柱中若要吞啖煞，管教金殿佐君王"
+        },
+        {
+          "repo": "Banny-Gao/mingli-research",
+          "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+          "path": "books/三命通会/articles/论食神/source.md",
+          "anchor": "财旺妻荣子更强，柱中若要吞啖煞，管教金殿佐君王"
+        }
+      ],
+      "note": "Preserve historical 㗖 from the Siku-derived witness; normalized witnesses confirm 啖."
+    },
+    {
+      "id": "ocr-045",
+      "old": "煞乃尅我刃乃劫我命中之最防者肯言煞刃其知所重者欤",
+      "new": "煞乃尅我刃乃劫我命中之最㓙者肯言煞刃其知所重者欤",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "煞乃尅我刃乃劫我命中之最㓙者肯言煞刃其知所重者歟"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/元理赋/text.txt",
+          "anchor": "煞乃克我刃乃劫我，命中之最凶者"
+        },
+        {
+          "repo": "Banny-Gao/mingli-research",
+          "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+          "path": "books/三命通会/articles/元理赋/source.md",
+          "anchor": "煞乃克我刃乃劫我，命中之最凶者"
+        }
+      ],
+      "note": "Preserve historical 㓙 from the Siku-derived witness."
+    },
+    {
+      "id": "ocr-046",
+      "old": "乙木捕防遇子多早歩蟾宫",
+      "new": "乙木捕䑕遇子多早歩蟾宫",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "乙木捕䑕遇子多早歩蟾宫"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十/巫咸撮要四/text.txt",
+          "anchor": "乙木捕鼠遇子多，早步蟾宫"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/288卷 十·巫咸撮要.md",
+          "anchor": "乙木捕鼠遇子多，早步蟾宫"
+        }
+      ],
+      "note": "Preserve historical 䑕 from the Siku-derived witness; normalized witnesses confirm 鼠."
     }
   ],
   "summary": {
-    "confirmed_corrections": 41,
-    "confirmed_replacements": 41,
+    "confirmed_corrections": 46,
+    "confirmed_replacements": 46,
     "review_status": "in_progress",
     "canonical_ready": false
   }
