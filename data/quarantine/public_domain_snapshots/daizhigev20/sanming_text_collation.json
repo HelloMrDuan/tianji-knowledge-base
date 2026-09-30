@@ -555,11 +555,67 @@
         }
       ],
       "note": "Preserve historical 㸔 from the Siku-derived witness rather than silently modernizing to 看."
+    },
+    {
+      "id": "ocr-024",
+      "old": "经有云火明则防正谓此也",
+      "new": "经有云火明则㓕正谓此也",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷二/论天干阴阳生死/text.txt",
+          "anchor": "经云：火明则灭。正谓此也"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "經有云火明則㓕正謂此也"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "經有云火明則㓕正謂此也"
+        }
+      ],
+      "note": "Preserve historical 㓕 from Siku-derived witnesses; normalized independent text confirms the reading as 灭."
+    },
+    {
+      "id": "ocr-025",
+      "old": "偏官有制作高命防巳申酉丑月官煞重叠",
+      "new": "偏官有制作高命㸔巳申酉丑月官煞重叠",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷八/六乙日辛巳时断/text.txt",
+          "anchor": "偏官有制，作高命看。巳申酉丑月，官煞重叠"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-08.md",
+          "anchor": "偏官有制作高命㸔巳申酉丑月官煞重叠"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_008.txt",
+          "anchor": "偏官有制作高命㸔巳申酉丑月官煞重叠"
+        }
+      ],
+      "note": "The raw 防 is an OCR substitution for historical 㸔/看."
     }
   ],
   "summary": {
-    "confirmed_corrections": 23,
-    "confirmed_replacements": 23,
+    "confirmed_corrections": 25,
+    "confirmed_replacements": 25,
     "review_status": "in_progress",
     "canonical_ready": false
   }
