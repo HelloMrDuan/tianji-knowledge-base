@@ -386,11 +386,178 @@
           "anchor": "或以申亥包酉戌㸔係天干何物以有用為貴"
         }
       ]
+    },
+    {
+      "id": "ocr-017",
+      "old": "无丑戌以刑冲之则库不开难得官印力",
+      "new": "无丑戌以刑冲之则库不开难得金印",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷二/论地支/text.txt",
+          "anchor": "无丑戌以刑冲之，则库不开，难得金印"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/008卷 二·论地支.md",
+          "anchor": "无丑戌以刑冲之，则库不开，难得金印"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-2-2.txt",
+          "anchor": "无丑戌以刑冲之，则库不开，难得金印"
+        }
+      ]
+    },
+    {
+      "id": "ocr-018",
+      "old": "印绶无亏享福全为官承防有田园",
+      "new": "印绶无亏享福全为官承荫有田园",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷六/论印绶/text.txt",
+          "anchor": "印绶无亏享福全，为官承荫有田园"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/134卷 六·论印绶.md",
+          "anchor": "印绶无亏享福全，为官承荫有田园"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-6-56.txt",
+          "anchor": "印绶无亏享福全，为官承荫有田园"
+        }
+      ]
+    },
+    {
+      "id": "ocr-019",
+      "old": "显防阐幽遵彼往哲引伸触类",
+      "new": "显微阐幽遵彼往哲引伸触类",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/金声玉振赋/text.txt",
+          "anchor": "显微阐幽，尊彼往哲，引伸触类"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-12-3.txt",
+          "anchor": "显微阐幽，尊彼往哲，引伸触类"
+        }
+      ]
+    },
+    {
+      "id": "ocr-020",
+      "old": "显微阐幽遵彼往哲引伸触类",
+      "new": "显微阐幽尊彼往哲引伸触类",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/金声玉振赋/text.txt",
+          "anchor": "显微阐幽，尊彼往哲，引伸触类"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-12-3.txt",
+          "anchor": "显微阐幽，尊彼往哲，引伸触类"
+        }
+      ],
+      "note": "Applied after ocr-019 so the two independent OCR errors in the same clause remain separately auditable."
+    },
+    {
+      "id": "ocr-021",
+      "old": "合刑者防遇印者吉",
+      "new": "合刑者凶遇印者吉",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/150卷 六·论阳刃（前论羊刃煞与此参看）.md",
+          "anchor": "合刑者凶，遇印者吉"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷六/论阳刃/text.txt",
+          "anchor": "合刑者凶，遇印者吉"
+        }
+      ]
+    },
+    {
+      "id": "ocr-022",
+      "old": "身品琐小",
+      "new": "身材琐小",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷六/论食神/text.txt",
+          "anchor": "身材琐小"
+        },
+        {
+          "repo": "Banny-Gao/mingli-research",
+          "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+          "path": "books/三命通会/articles/论食神/source.md",
+          "anchor": "身材琐小"
+        }
+      ]
+    },
+    {
+      "id": "ocr-023",
+      "old": "逄煞防印及刃",
+      "new": "逄煞㸔印及刃",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-05.md",
+          "anchor": "逄煞㸔印及刃"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_005.txt",
+          "anchor": "&KR1134;煞  印及"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0006.md",
+          "anchor": "&KR1134;煞  印及"
+        }
+      ],
+      "note": "Preserve historical 㸔 from the Siku-derived witness rather than silently modernizing to 看."
     }
   ],
   "summary": {
-    "confirmed_corrections": 16,
-    "confirmed_replacements": 16,
+    "confirmed_corrections": 23,
+    "confirmed_replacements": 23,
     "review_status": "in_progress",
     "canonical_ready": false
   }
