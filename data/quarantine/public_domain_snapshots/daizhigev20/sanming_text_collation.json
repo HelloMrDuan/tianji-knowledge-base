@@ -2120,11 +2120,239 @@
         }
       ],
       "note": "Historical witnesses preserve 㸔; normalized witness confirms 看."
+    },
+    {
+      "id": "ocr-081",
+      "old": "遭尅防则防祸不祥",
+      "new": "遭尅䧟则㓙祸不祥",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "遭尅䧟則㓙禍不祥"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "遭尅䧟則㓙禍不祥"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0013.md",
+          "anchor": "遭尅䧟則㓙禍不祥"
+        }
+      ],
+      "note": "Three Siku-derived witnesses independently confirm two OCR confusions in one phrase."
+    },
+    {
+      "id": "ocr-082",
+      "old": "五行会防曜为灾",
+      "new": "五行会㓙曜为灾",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "五行會㓙曜為灾"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "五行會㓙曜為灾"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0013.md",
+          "anchor": "五行會㓙曜為灾"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㓙."
+    },
+    {
+      "id": "ocr-083",
+      "old": "五行无防煞侵犯名显声扬",
+      "new": "五行无㓙煞侵犯名显声扬",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "五行無㓙煞侵犯名顯聲揚"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "五行無㓙煞侵犯名顯聲揚"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0013.md",
+          "anchor": "五行無㓙煞侵犯名顯聲揚"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㓙."
+    },
+    {
+      "id": "ocr-084",
+      "old": "伤官伤尽或见官星则防有十八格当从善恶推求",
+      "new": "伤官伤尽或见官星则㓙有十八格当从善恶推求",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "傷官傷盡或見官星則㓙有十八格當從善惡推求"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0013.md",
+          "anchor": "傷官傷盡或見官星則㓙有十八格當從善惡推求"
+        }
+      ],
+      "note": "Two independent Siku-derived witnesses agree on historical 㓙."
+    },
+    {
+      "id": "ocr-085",
+      "old": "七煞官星各嫌覊绊填实则防忽然运到官乡",
+      "new": "七煞官星各嫌覊绊填实则㓙忽然运到官乡",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "七煞官星各嫌覊絆填實則㓙忽然運到官鄉"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0013.md",
+          "anchor": "七煞官星各嫌覊絆填實則㓙忽然運到官鄉"
+        }
+      ],
+      "note": "Two independent Siku-derived witnesses agree on historical 㓙."
+    },
+    {
+      "id": "ocr-086",
+      "old": "如临喜处以得祸是三合而隠防星或逢防处而返祥乃九宫而露吉曜",
+      "new": "如临喜处以得祸是三合而隠㓙星或逢㓙处而返祥乃九宫而露吉曜",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "如臨喜處以得禍是三合而隠㓙星或逢㓙處而返祥乃九宫而露吉曜"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0013.md",
+          "anchor": "如臨喜處以得禍是三合而隠㓙星或逢㓙處而返祥乃九宫而露吉曜"
+        }
+      ],
+      "note": "Two independent Siku-derived witnesses agree on historical 㓙 in both positions."
+    },
+    {
+      "id": "ocr-087",
+      "old": "限守防神有根苗则不须畏惧",
+      "new": "限守㓙神有根苗则不须畏惧",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "限守㓙神有根苗則不須畏懼"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "限守㓙神有根苗則不須畏懼"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0013.md",
+          "anchor": "限守㓙神有根苗則不須畏懼"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㓙."
+    },
+    {
+      "id": "ocr-088",
+      "old": "休囚者身性卑防旺相者名利壮寔",
+      "new": "休囚者身性卑㣲旺相者名利壮寔",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "休囚者身性卑㣲旺相者名利壯寔"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "休囚者身性卑㣲旺相者名利壯寔"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0013.md",
+          "anchor": "休囚者身性卑㣲旺相者名利壯寔"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㣲."
+    },
+    {
+      "id": "ocr-089",
+      "old": "越外若贪必招防事噫甘贫养拙",
+      "new": "越外若贪必招㓙事噫甘贫养拙",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "越外若貪必招㓙事噫甘貧養拙"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0013.md",
+          "anchor": "越外若貪必招㓙事噫甘貧養拙"
+        }
+      ],
+      "note": "Two independent Siku-derived witnesses agree on historical 㓙."
     }
   ],
   "summary": {
-    "confirmed_corrections": 80,
-    "confirmed_replacements": 80,
+    "confirmed_corrections": 89,
+    "confirmed_replacements": 89,
     "review_status": "in_progress",
     "canonical_ready": false
   }
