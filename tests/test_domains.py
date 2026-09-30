@@ -246,7 +246,7 @@ class DomainIntegrityTests(unittest.TestCase):
         self.assertEqual(text_corrections["ocr-121"][1], "其神最尊贵所至之处一切㓙煞隐然而避")
         self.assertEqual(text_corrections["ocr-122"][1], "夫徳者利物济人掩㓙作善之谓也")
         self.assertEqual(text_corrections["ocr-123"][1], "贵神在位诸煞伏藏二徳扶持众㓙解散凡命中带㓙煞得此二徳扶化㓙不为甚须要日上见时上不犯尅冲刑破方吉凡人得之一生安逸不犯刑不逢盗纵遇㓙祸自然消散")
-        self.assertEqual(text_corrections["ocr-124"][1], "更有月徳并者尢好纵有㓙煞亦主清显")
+        self.assertEqual(text_corrections["ocr-124"][1], "更有月徳并者尤好纵有㓙煞亦主清显")
         self.assertFalse(text_map["summary"]["canonical_ready"])
         corrections = {(x["old"], x["new"]) for x in text_map["corrections"]}
         self.assertIn(("若失时防局卽韬光", "若失时䘮局卽韬光"), corrections)
