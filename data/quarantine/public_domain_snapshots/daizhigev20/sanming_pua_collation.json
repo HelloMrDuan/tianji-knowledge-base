@@ -32,10 +32,10 @@
   "summary": {
     "audit_total_occurrences": 524,
     "audit_unique_codepoints": 86,
-    "confirmed_mappings": 42,
-    "confirmed_occurrences": 466,
-    "remaining_unique_codepoints": 44,
-    "remaining_occurrences": 58
+    "confirmed_mappings": 49,
+    "confirmed_occurrences": 475,
+    "remaining_unique_codepoints": 37,
+    "remaining_occurrences": 49
   },
   "mappings": [
     {
@@ -1152,6 +1152,190 @@
         }
       ],
       "note": "Preserve the traditional form 寵 because the collated classical witnesses use 寵; simplified witnesses render the same word as 宠."
+    },
+    {
+      "codepoint": "U+EEB8",
+      "glyph": "",
+      "count": 3,
+      "replacement": "𫑗",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "乙方近沙都宪癸丑",
+        "壬戌贼丁壬寅",
+        "子午为天地之基柱酉为日月之门户"
+      ],
+      "evidence": [
+        {
+          "repo": "ShousenZHANG/chinese-fortune",
+          "commit": "e2e152c5030a0ac3f0b899cb85188b0d5df22d24",
+          "path": "knowledge/books/sanming/c008.json",
+          "anchor": "乙𫑗方近沙都宪"
+        },
+        {
+          "repo": "Banny-Gao/mingli-research",
+          "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+          "path": "books/渊海子平/articles/明通赋/source.md",
+          "anchor": "子午为天地之基柱，卯酉为日月之门户"
+        },
+        {
+          "repo": "JunnXiann/bj-dell-rs-tool",
+          "commit": "55297bc9b3e004d7998600bce017044598fb166d",
+          "path": "web/tw/JS_reel_txt/JS1667_023.txt",
+          "anchor": "開平元年丁𫑗𥁞四年"
+        }
+      ],
+      "note": "Preserve the attested historical Unicode glyph 𫑗. The structured Sanming witness uses 𫑗 in the same annotation, while normalized witnesses render the lexical value as 卯."
+    },
+    {
+      "codepoint": "U+E59C",
+      "glyph": "",
+      "count": 1,
+      "replacement": "燥",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "喜丁火而生畏阳火而其禄到午"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷二/论天干阴阳生死/text.txt",
+          "anchor": "喜丁火而生，畏阳火而燥"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/007卷 二·论天干阴阳生死.md",
+          "anchor": "喜丁火而生，畏阳火而燥"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EBB8",
+      "glyph": "",
+      "count": 1,
+      "replacement": "博",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "水淸宝瓶益盛文章览多通荣迁来歴紫薇封"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷九/六癸日壬子时断/text.txt",
+          "anchor": "文章博览多通，荣迁来历紫薇封"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-9-49.txt",
+          "anchor": "文章博览多通，荣迁来历紫薇封"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EBDE",
+      "glyph": "",
+      "count": 1,
+      "replacement": "哲",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "显防阐幽遵彼往引伸触类存乎人也"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/金声玉振赋/text.txt",
+          "anchor": "显微阐幽，尊彼往哲，引伸触类"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-12-3.txt",
+          "anchor": "显微阐幽，尊彼往哲，引伸触类"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EDE6",
+      "glyph": "",
+      "count": 1,
+      "replacement": "苑",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "聚贵歳苗髙坐玉堂荣翰病乃魁星"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/元妙论/text.txt",
+          "anchor": "高坐玉堂荣翰苑"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-12-10.txt",
+          "anchor": "高坐玉堂荣翰苑"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+E3E5",
+      "glyph": "",
+      "count": 1,
+      "replacement": "坷",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "柱无丙戊秋冬旺坎飘流无定人"
+      ],
+      "evidence": [
+        {
+          "repo": "china-testing/bazi",
+          "commit": "33b18354d5407727640e545c3aaec0efb4bf5282",
+          "path": "sizi.py",
+          "anchor": "柱无丙戊秋冬旺，坎坷飘流无定人"
+        },
+        {
+          "repo": "d3smondwong/astronomer",
+          "commit": "ddef3b56fd7b7a4c184e6828199b9101a9b0611a",
+          "path": "apps/backend/data/san_ming_tong_hui.py",
+          "anchor": "柱无丙戊秋冬旺，坎坷飘流无定人"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+ECEC",
+      "glyph": "",
+      "count": 1,
+      "replacement": "管",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "水火原来要既济教名利镇山河"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/搜髓歌/text.txt",
+          "anchor": "水火原来要既济，管教名利镇山河"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-12-14.txt",
+          "anchor": "水火原来要既济，管教名利镇山河"
+        }
+      ]
     }
   ]
 }
