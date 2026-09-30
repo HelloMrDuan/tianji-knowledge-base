@@ -132,6 +132,22 @@ class DomainIntegrityTests(unittest.TestCase):
         self.assertEqual(dit["sections"][0]["title"], "通神论·一、天道")
         self.assertEqual(dit["sections"][-1]["title"], "六亲论·二十九、贞元")
         self.assertEqual(dit["cleaning"]["private_use_chars"], 0)
+        text_map = json.loads(
+            (ROOT / "data/quarantine/public_domain_snapshots/daizhigev20/sanming_text_collation.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual(text_map["summary"]["confirmed_corrections"], 8)
+        self.assertEqual(text_map["summary"]["confirmed_replacements"], 8)
+        self.assertEqual(text_map["summary"]["review_status"], "in_progress")
+        self.assertFalse(text_map["summary"]["canonical_ready"])
+        corrections = {(x["old"], x["new"]) for x in text_map["corrections"]}
+        self.assertIn(("若失时防局卽韬光", "若失时䘮局卽韬光"), corrections)
+        self.assertIn(("虽防𦕈之金亦不能制", "虽㣲𦕈之金亦不能制"), corrections)
+        self.assertIn(("火强燥而防𦕈水既济以寛和", "火强燥而㣲𦕈水既济以寛和"), corrections)
+        self.assertIn(("金水相停防合含光圆融皎洁", "金水相停㑹合含光圆融皎洁"), corrections)
+        self.assertIn(("临老蛉仃者裔苦根甘", "临老伶仃者裔苦根甘"), corrections)
+        self.assertIn(("阳刄者天上之防星人间之恶煞", "阳刄者天上之凶星人间之恶煞"), corrections)
+        self.assertIn(("年干父兮支母日干巳兮支妻", "年干父兮支母日干己兮支妻"), corrections)
+        self.assertIn(("飞防名天瞽支干无气主无目", "飞廉名天瞽支干无气主无目"), corrections)
         self.assertFalse((C / "classics/bazi/sanming_tonghui_v1.json").exists())
 
     def test_sanming_pua_collation_progress(self):
