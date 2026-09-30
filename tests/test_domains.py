@@ -135,7 +135,7 @@ class DomainIntegrityTests(unittest.TestCase):
         text_map = json.loads(
             (ROOT / "data/quarantine/public_domain_snapshots/daizhigev20/sanming_text_collation.json").read_text(encoding="utf-8")
         )
-        self.assertEqual(text_map["summary"]["confirmed_corrections"], 23)
+        self.assertEqual(text_map["summary"]["confirmed_corrections"], 25)
         self.assertEqual(text_map["summary"]["confirmed_replacements"], 23)
         self.assertEqual(text_map["summary"]["review_status"], "in_progress")
         text_corrections = {x["id"]: (x["old"], x["new"]) for x in text_map["corrections"]}
@@ -146,6 +146,8 @@ class DomainIntegrityTests(unittest.TestCase):
         self.assertEqual(text_corrections["ocr-022"][1], "身材琐小")
         self.assertTrue(next(x for x in text_map["corrections"] if x["id"] == "ocr-022").get("allow_existing_target"))
         self.assertEqual(text_corrections["ocr-023"][1], "逄煞㸔印及刃")
+        self.assertEqual(text_corrections["ocr-024"][1], "经有云火明则㓕正谓此也")
+        self.assertEqual(text_corrections["ocr-025"][1], "偏官有制作高命㸔巳申酉丑月官煞重叠")
         self.assertFalse(text_map["summary"]["canonical_ready"])
         corrections = {(x["old"], x["new"]) for x in text_map["corrections"]}
         self.assertIn(("若失时防局卽韬光", "若失时䘮局卽韬光"), corrections)
