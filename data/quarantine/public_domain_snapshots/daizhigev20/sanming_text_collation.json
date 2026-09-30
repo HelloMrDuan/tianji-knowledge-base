@@ -507,8 +507,8 @@
     },
     {
       "id": "ocr-022",
-      "old": "容貌欹邪身品琐小心性局促",
-      "new": "容貌欹邪身材琐小心性局促",
+      "old": "身品琐小",
+      "new": "身材琐小",
       "status": "confirmed",
       "confidence": "high",
       "evidence": [
@@ -525,7 +525,8 @@
           "anchor": "身材琐小"
         }
       ],
-      "note": "Use a longer unique context anchor because the corrected phrase 身材琐小 also appears elsewhere in the corpus."
+      "note": "The corrected phrase 身材琐小 already occurs elsewhere in the corpus; the old OCR anchor 身品琐小 is unique, so this row explicitly permits an existing target elsewhere.",
+      "allow_existing_target": true
     },
     {
       "id": "ocr-023",
