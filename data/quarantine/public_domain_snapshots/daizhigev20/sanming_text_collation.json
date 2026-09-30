@@ -2572,11 +2572,151 @@
         }
       ],
       "note": "Three Siku-derived witnesses agree on historical 㑹 in both positions."
+    },
+    {
+      "id": "ocr-098",
+      "old": "谓之防劣谓之集十二月之辰",
+      "new": "谓之㑹劣谓之集十二月之辰",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "謂之㑹劣謂之集十二月之辰"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "謂之㑹劣謂之集十二月之辰"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "謂之㑹劣謂之集十二月之辰"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㑹."
+    },
+    {
+      "id": "ocr-099",
+      "old": "一嵗十二防太隂太阳隔液坎离之妙",
+      "new": "一嵗十二㑹太隂太阳隔液坎离之妙",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "一嵗十二㑹太隂太陽隔液坎離之妙"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "一嵗十二㑹太隂太陽隔液坎離之妙"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "一嵗十二㑹太隂太陽隔液坎離之妙"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㑹."
+    },
+    {
+      "id": "ocr-100",
+      "old": "此生万转图而放防合得可见也",
+      "new": "此生万转图而放㑹合得可见也",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "此生萬轉圖而放㑹合得可見也"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "此生萬轉圖而放㑹合得可見也"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "此生萬轉圖而放㑹合得可見也"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㑹."
+    },
+    {
+      "id": "ocr-101",
+      "old": "故子与丑合得日月防同之数",
+      "new": "故子与丑合得日月㑹同之数",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "故子與丑合得日月㑹同之數"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "故子與丑合得日月㑹同之數"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "故子與丑合得日月㑹同之數"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㑹."
+    },
+    {
+      "id": "ocr-102",
+      "old": "所以在一旬内见方曰君臣庆防仍要别其阳为君",
+      "new": "所以在一旬内见方曰君臣庆㑹仍要别其阳为君",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "所以在一旬内見方曰君臣慶㑹仍要别其陽為君"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "所以在一旬内見方曰君臣慶㑹仍要别其陽為君"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "所以在一旬内見方曰君臣慶㑹仍要别其陽為君"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㑹."
     }
   ],
   "summary": {
-    "confirmed_corrections": 97,
-    "confirmed_replacements": 97,
+    "confirmed_corrections": 102,
+    "confirmed_replacements": 102,
     "review_status": "in_progress",
     "canonical_ready": false
   }
