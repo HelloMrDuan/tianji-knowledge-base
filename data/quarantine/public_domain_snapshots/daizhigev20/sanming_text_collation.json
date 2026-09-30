@@ -1610,11 +1610,263 @@
         }
       ],
       "note": "Three Siku-derived witnesses agree on historical 䕶."
+    },
+    {
+      "id": "ocr-063",
+      "old": "若无官事扰定主见重防此之谓欤",
+      "new": "若无官事扰定主见重䘮此之谓欤",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "若無官事擾定主見重䘮此之謂歟"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "若無官事擾定主見重䘮此之謂歟"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "若無官事擾定主見重䘮此之謂歟"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 䘮."
+    },
+    {
+      "id": "ocr-064",
+      "old": "官符防吊白虎羊刃暴败天厄",
+      "new": "官符䘮吊白虎羊刃暴败天厄",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "官符䘮吊白虎羊刃暴敗天厄"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "官符䘮吊白虎羊刃暴敗天厄"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "官符䘮吊白虎羊刃暴敗天厄"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 䘮."
+    },
+    {
+      "id": "ocr-065",
+      "old": "金加子午多防暴若是丁人又喜逢",
+      "new": "金加子午多㐫暴若是丁人又喜逢",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-04.md",
+          "anchor": "金加子午多㐫暴若是丁人又喜逢"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_004.txt",
+          "anchor": "金加子午多㐫暴若是丁人又喜逢"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0005.md",
+          "anchor": "金加子午多㐫暴若是丁人又喜逢"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㐫."
+    },
+    {
+      "id": "ocr-066",
+      "old": "更防五行无土数定扶圣主掌陶镕",
+      "new": "更㸔五行无土数定扶圣主掌陶镕",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-04.md",
+          "anchor": "更㸔五行無土數定扶聖主掌陶鎔"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_004.txt",
+          "anchor": "更㸔五行無土數定扶聖主掌陶鎔"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0005.md",
+          "anchor": "更㸔五行無土數定扶聖主掌陶鎔"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㸔."
+    },
+    {
+      "id": "ocr-067",
+      "old": "金加子午带死败故防甲子甲午之类是也",
+      "new": "金加子午带死败故㓙甲子甲午之类是也",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-04.md",
+          "anchor": "金加子午帶死敗故㓙甲子甲午之類是也"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_004.txt",
+          "anchor": "金加子午帶死敗故㓙甲子甲午之類是也"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0005.md",
+          "anchor": "金加子午帶死敗故㓙甲子甲午之類是也"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㓙."
+    },
+    {
+      "id": "ocr-068",
+      "old": "先强后弱必先吉而后防始弱终强亦始防而终吉",
+      "new": "先强后弱必先吉而后㓙始弱终强亦始㓙而终吉",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "先強後弱必先吉而後㓙始弱終強亦始㓙而終吉"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "先強後弱必先吉而後㓙始弱終強亦始㓙而終吉"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0013.md",
+          "anchor": "先強後弱必先吉而後㓙始弱終強亦始㓙而終吉"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㓙 in both positions."
+    },
+    {
+      "id": "ocr-069",
+      "old": "中遇防强岂可便作防兆",
+      "new": "中遇㓙强岂可便作㓙兆",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "中遇㓙強豈可便作㓙兆"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "中遇㓙強豈可便作㓙兆"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0013.md",
+          "anchor": "中遇㓙強豈可便作㓙兆"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㓙 in both positions."
+    },
+    {
+      "id": "ocr-070",
+      "old": "吉防悔吝可考而知",
+      "new": "吉㓙悔吝可考而知",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "吉㓙悔吝可考而知"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "吉㓙悔吝可考而知"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0013.md",
+          "anchor": "吉㓙悔吝可考而知"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㓙."
+    },
+    {
+      "id": "ocr-071",
+      "old": "名曰造防岂云小补",
+      "new": "名曰造㣲岂云小补",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "名曰造㣲豈云小補"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "名曰造㣲豈云小補"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0013.md",
+          "anchor": "名曰造㣲豈云小補"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㣲."
     }
   ],
   "summary": {
-    "confirmed_corrections": 62,
-    "confirmed_replacements": 62,
+    "confirmed_corrections": 71,
+    "confirmed_replacements": 71,
     "review_status": "in_progress",
     "canonical_ready": false
   }
