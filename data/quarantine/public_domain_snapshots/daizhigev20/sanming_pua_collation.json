@@ -32,10 +32,10 @@
   "summary": {
     "audit_total_occurrences": 524,
     "audit_unique_codepoints": 86,
-    "confirmed_mappings": 16,
-    "confirmed_occurrences": 396,
-    "remaining_unique_codepoints": 70,
-    "remaining_occurrences": 128
+    "confirmed_mappings": 21,
+    "confirmed_occurrences": 417,
+    "remaining_unique_codepoints": 65,
+    "remaining_occurrences": 107
   },
   "mappings": [
     {
@@ -467,6 +467,142 @@
           "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
           "path": "古文原文/三命通会/卷十/玉井奥诀九/text.txt",
           "anchor": "何派源流资格"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EBB7",
+      "glyph": "",
+      "count": 6,
+      "replacement": "惨",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "阴冷刻则耗枯",
+        "死絶主毒害伤倾覆之事",
+        "用刑酷亦主发歇不常"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷二/论六害/text.txt",
+          "anchor": "死绝主毒害、伤惨、倾覆之事"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/060卷 五·论正官.md",
+          "anchor": "用刑惨酷"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EA40",
+      "glyph": "",
+      "count": 5,
+      "replacement": "𠒋",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "性地之顽",
+        "多是徒",
+        "诸煞逢刑狠軰"
+      ],
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "金多失火嗟性地之𠒋頑"
+        },
+        {
+          "repo": "ShousenZHANG/chinese-fortune",
+          "commit": "e2e152c5030a0ac3f0b899cb85188b0d5df22d24",
+          "path": "knowledge/books/sanming/c012.json",
+          "anchor": "金多失火嗟性地之𠒋頑"
+        }
+      ],
+      "note": "Preserve the attested non-PUA historical glyph 𠒋 rather than normalizing it to modern 凶/兇."
+    },
+    {
+      "codepoint": "U+EB11",
+      "glyph": "",
+      "count": 4,
+      "replacement": "奋",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "安然发富贵者",
+        "气发通舒自若",
+        "发物我相安賔主和恊"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十/玉井奥诀四/text.txt",
+          "anchor": "有安然奋发富贵者何"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-10-24.txt",
+          "anchor": "有安然奋发富贵者何"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+E749",
+      "glyph": "",
+      "count": 3,
+      "replacement": "渺",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "发福必",
+        "化而又化竟茫归于何地",
+        "茫之气无倚"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷六/论偏财/text.txt",
+          "anchor": "纵入官乡，发福必渺"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-10-27.txt",
+          "anchor": "化而又化，竟渺茫归于何地"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+ECE6",
+      "glyph": "",
+      "count": 3,
+      "replacement": "焰",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "气发通舒自若",
+        "火虚有",
+        "湿木不生无火理固然也"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/渊海子平/赋论·三/text.txt",
+          "anchor": "火虚有焰"
+        },
+        {
+          "repo": "mahavivo/scripta-sinica",
+          "commit": "d2a447941d43fd5ac35b35194dcb0a68d4275aa7",
+          "path": "01易藏-0195部/02术数-146部/渊海子平-宋-徐子平.txt",
+          "anchor": "火虚有焰"
         }
       ]
     }
