@@ -978,11 +978,67 @@
         }
       ],
       "note": "Preserve historical 㸔 from the Siku-derived witness; keep the neighboring unresolved 印防 untouched in this correction."
+    },
+    {
+      "id": "ocr-040",
+      "old": "无亥卯以防之则形难变只作火土论",
+      "new": "无亥卯以㑹之则形难变只作火土论",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "無亥卯以㑹之則形難變只作火土論"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷二/论地支/text.txt",
+          "anchor": "无亥卯以会之，则形难变，只作火土论"
+        },
+        {
+          "repo": "Banny-Gao/mingli-research",
+          "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+          "path": "books/三命通会/articles/论地支/source.md",
+          "anchor": "无亥卯以会之，则形难变，只作火土论"
+        }
+      ],
+      "note": "Preserve historical 㑹 from the Siku-derived witness."
+    },
+    {
+      "id": "ocr-041",
+      "old": "申宫水土长生之地入已午则逢火炼遂成剑防见子辰则逢水淬",
+      "new": "申宫水土长生之地入已午则逢火炼遂成剑㦸见子辰则逢水淬",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "申宫水土長生之地入已午則逢火煉遂成劍㦸見子辰則逢水淬"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷二/论地支/text.txt",
+          "anchor": "申宫水土长生之地，入巳、午则逢火炼，遂成剑戟"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/008卷 二·论地支.md",
+          "anchor": "申宫水土长生之地，入巳、午则逢火炼，遂成剑戟"
+        }
+      ],
+      "note": "Preserve historical 㦸 from the Siku-derived witness."
     }
   ],
   "summary": {
-    "confirmed_corrections": 39,
-    "confirmed_replacements": 39,
+    "confirmed_corrections": 41,
+    "confirmed_replacements": 41,
     "review_status": "in_progress",
     "canonical_ready": false
   }
