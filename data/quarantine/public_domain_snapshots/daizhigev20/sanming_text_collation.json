@@ -6644,11 +6644,649 @@
         }
       ],
       "note": "Broad twelve-volume scan: 3 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-225",
+      "old": "见七煞七煞喜见阳刃两防互相制伏犹正官喜正印",
+      "new": "见七煞七煞喜见阳刃两㓙互相制伏犹正官喜正印",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_005.txt",
+          "anchor": "見七煞七煞喜見陽刃兩㓙互相制伏猶正官喜正印"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-05.md",
+          "anchor": "見七煞七煞喜見陽刃兩㓙互相制伏猶正官喜正印"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/150卷 六·论阳刃（前论羊刃煞与此参看）.md",
+          "anchor": "煞七煞喜见阳刃两凶互相制伏犹正官喜",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-226",
+      "old": "三日也不喜刑冲破害三防六合要有七煞相制再行官印乡便为好命赋云日刄大忌冲合喜官煞相制合刑者凶遇印者吉有煞无刃施为有勇无威有刄无煞作事浊而不显无煞遇煞窃恐祸患相侵有刄遇刄须忌灾危相犯刄生身死其年难作吉推财旺官伤此岁不作防防又曰戊午日岁月见火多",
+      "new": "三日也不喜刑冲破害三㑹六合要有七煞相制再行官印乡便为好命赋云日刄大忌冲合喜官煞相制合刑者凶遇印者吉有煞无刃施为有勇无威有刄无煞作事浊而不显无煞遇煞窃恐祸患相侵有刄遇刄须忌灾危相犯刄生身死其年难作吉推财旺官伤此岁不作㓙㫁又曰戊午日岁月见火多",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_005.txt",
+          "anchor": "三日也不喜刑衝破害三㑹六合要有七煞相制再行官印鄉便為好命賦云日刄大忌衝合喜官煞相制合刑者㓙遇印者吉有煞無刃施為有勇無威有刄無煞作事濁而不顯無煞遇煞竊恐禍患相侵有刄遇刄須忌災危相犯刄生身死其年難作吉推財旺官傷此歲不作㓙㫁又曰戊午日歲月見火多"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-05.md",
+          "anchor": "三日也不喜刑衝破害三㑹六合要有七煞相制再行官印鄉便為好命賦云日刄大忌衝合喜官煞相制合𠛬者㓙遇印者吉有煞無刃施為有勇無威有刄無煞作事濁而不顯無煞遇煞竊恐禍患相侵有刄遇刄須忌災危相犯刄生身死其年難作吉推財旺官傷此歲不作㓙㫁又曰戊午日歲月見火多"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/150卷 六·论阳刃（前论羊刃煞与此参看）.md",
+          "anchor": "也不喜刑冲破害三会六合要有七煞相制",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/150卷 六·论阳刃（前论羊刃煞与此参看）.md",
+          "anchor": "财旺官伤此岁不作凶断又曰戊午日岁月见",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 3 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-227",
+      "old": "心性气髙强刑冲太重多防厄有制方能保吉昌【又】刃逄七煞慕官乡惟怕刑冲禄不昌防合更逢财旺运预防灾祸",
+      "new": "心性气髙强刑冲太重多㓙厄有制方能保吉昌【又】刃逄七煞慕官乡惟怕刑冲禄不昌㑹合更逢财旺运预防灾祸",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_005.txt",
+          "anchor": "心性氣髙強刑衝太重多㓙厄有制方能保吉昌又刃逄七煞慕官鄉惟怕刑衝禄不昌㑹合更逢財旺運預防災禍"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-05.md",
+          "anchor": "心性氣髙強刑衝太重多㓙厄有制方能保吉昌又刃逄七煞慕官鄉惟怕刑衝禄不昌㑹合更逢財旺運預防災禍"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/150卷 六·论阳刃（前论羊刃煞与此参看）.md",
+          "anchor": "强刑冲太重多凶厄有制方能保",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/150卷 六·论阳刃（前论羊刃煞与此参看）.md",
+          "anchor": "乡惟怕刑冲禄不昌会合更逢财旺运预防",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 2 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-228",
+      "old": "前性刚果毅少慈怜不宜防合防灾至若见财星祸必纒有官有煞名显逹无冲无破禄荣迁更加刑害魁罡并发迹邉疆掌重权又离火怕重逢北方喜有功虽然宜见水犹恐对提冲如一命壬申壬子戊午乙卯自坐阳刃二壬申子财旺且多子午虽冲申子防午不能冲时官星制伏阳刃只作财官格防所以大贵又一命丙戌癸",
+      "new": "前性刚果毅少慈怜不宜㑹合防灾至若见财星祸必纒有官有煞名显逹无冲无破禄荣迁更加刑害魁罡并发迹邉疆掌重权又离火怕重逢北方喜有功虽然宜见水犹恐对提冲如一命壬申壬子戊午乙卯自坐阳刃二壬申子财旺且多子午虽冲申子㑹午不能冲时官星制伏阳刃只作财官格㸔所以大贵又一命丙戌癸",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_005.txt",
+          "anchor": "前性剛果毅少慈憐不宜㑹合防災至若見財星禍必纒有官有煞名顯逹無衝無破禄榮遷更加刑害魁罡併發跡邉疆掌重權又離火怕重逢北方喜有功雖然宜見水猶恐對提衝如一命壬申壬子戊午乙卯自坐陽刃二壬申子財旺且多子午雖衝申子㑹午不能衝時官星制伏陽刃只作財官格㸔所以大貴又一命丙戌癸"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-05.md",
+          "anchor": "前性剛果毅少慈憐不宜㑹合防災至若見財星禍必纒有官有煞名顯逹無衝無破禄榮遷更加刑害魁罡併發跡邉疆掌重權又離火怕重逢北方喜有功雖然宜見水猶恐對提衝如一命壬申壬子戊午乙卯自坐陽刃二壬申子財旺且多子午雖衝申子㑹午不能衝時官星制伏陽刃只作財官格㸔所以大貴又一命丙戌癸"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/150卷 六·论阳刃（前论羊刃煞与此参看）.md",
+          "anchor": "刚果毅少慈怜不宜会合防灾至若见财星",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "path": "古文原文/三命通会/卷六/论阳刃/text.txt",
+          "anchor": "子午虽冲申子会午不能冲时官",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "path": "古文原文/三命通会/卷六/论阳刃/text.txt",
+          "anchor": "伏阳刃只作财官格看所以大贵又一命丙",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 3 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-229",
+      "old": "若柱不见财官印食同前防丙生巳月嵗时干支水金成局运歴财官旺地亦主富贵丁生午月金败水絶财官俱背顺运尅妻逆运尅三妻若柱有巳酉丑庚辛壬癸亥申子辰运临财官旺地亦发用煞或印以多为贵若止建禄亦同前防戊日巳月年日时无水主",
+      "new": "若柱不见财官印食同前㫁丙生巳月嵗时干支水金成局运歴财官旺地亦主富贵丁生午月金败水絶财官俱背顺运尅妻逆运尅三妻若柱有巳酉丑庚辛壬癸亥申子辰运临财官旺地亦发用煞或印以多为贵若止建禄亦同前㫁戊日巳月年日时无水主",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_005.txt",
+          "anchor": "若柱不見財官印食同前㫁丙生巳月嵗時干支水金成局運歴財官旺地亦主富貴丁生午月金敗水絶財官俱背順運尅妻逆運尅三妻若柱有巳酉丑庚辛壬癸亥申子辰運臨財官旺地亦發用煞或印以多為貴若止建禄亦同前㫁戊日巳月年日時無水主"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-05.md",
+          "anchor": "若柱不見財官印食同前㫁丙生巳月嵗時干支水金成局運歴財官旺地亦主富貴丁生午月金敗水絶財官俱背順運尅妻逆運尅三妻若柱有巳酉丑庚辛壬癸亥申子辰運臨財官旺地亦發用煞或印以多為貴若止建禄亦同前㫁戊日巳月年日時無水主"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/151卷 六·论建禄（此与前论禄同参）.md",
+          "anchor": "不见财官印食同前断丙生巳月岁时干支",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/151卷 六·论建禄（此与前论禄同参）.md",
+          "anchor": "贵若止建禄亦同前断戊日巳月年日时无",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 2 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-230",
+      "old": "矣若年日时多带财好命防见丙丁巳午寅戌火局则",
+      "new": "矣若年日时多带财好命㸔见丙丁巳午寅戌火局则",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_005.txt",
+          "anchor": "矣若年日時多帶財好命㸔見丙丁巳午寅戌火局則"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-05.md",
+          "anchor": "矣若年日時多帶財好命㸔見丙丁巳午寅戌火局則"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/151卷 六·论建禄（此与前论禄同参）.md",
+          "anchor": "年日时多带财好命看见丙丁巳午寅戌火",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-231",
+      "old": "运壬申年不禄嵗运冲且防伤官煞也建禄用财官伤",
+      "new": "运壬申年不禄嵗运冲且㑹伤官煞也建禄用财官伤",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_005.txt",
+          "anchor": "運壬申年不禄嵗運衝且㑹傷官煞也建禄用財官傷"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-05.md",
+          "anchor": "運壬申年不禄嵗運衝且㑹傷官煞也建禄用財官傷"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/151卷 六·论建禄（此与前论禄同参）.md",
+          "anchor": "申年不禄岁运冲且会伤官煞也建禄用财",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-232",
+      "old": "常柱中俱有寅辰字富贵防全在庙堂【又】壬骑龙背喜",
+      "new": "常柱中俱有寅辰字富贵䨇全在庙堂【又】壬骑龙背喜",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "常柱中俱有寅辰字富貴䨇全在廟堂又壬騎龍背喜"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "常柱中俱有寅辰字富貴䨇全在廟堂又壬騎龍背喜"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/079卷 六·壬骑龙背.md",
+          "anchor": "中俱有寅辰字富贵双全在庙堂又壬骑龙",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-233",
+      "old": "得合癸是谓巳酉丑三合防起官星局年月大怕有午",
+      "new": "得合癸是谓巳酉丑三合㑹起官星局年月大怕有午",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "得合癸是謂巳酉丑三合㑹起官星局年月大怕有午"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "得合癸是謂巳酉丑三合㑹起官星局年月大怕有午"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/080卷 六·子遥巳禄.md",
+          "anchor": "癸是谓巳酉丑三合会起官星局年月大怕",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-234",
+      "old": "赋云】卯破午午破酉财官防美【又云】年日支无破官之辰月时支有破官合官之辰主贵如甲寅日无破月逄丙午时临巳已此取午破酉中辛官有巳合之又用巳中丙戌合辛为贵【诗曰】卯破午未有大官午未破酉一般防丑破巳午不为例子破卯辰用不难\n 飞财\n 日干同月干日支同时支冲出对宫之财是也得此格当发财禄忌泄气防如壬申日生时支亦申二",
+      "new": "赋云】卯破午午破酉财官䨇美【又云】年日支无破官之辰月时支有破官合官之辰主贵如甲寅日无破月逄丙午时临巳已此取午破酉中辛官有巳合之又用巳中丙戌合辛为贵【诗曰】卯破午未有大官午未破酉一般㸔丑破巳午不为例子破卯辰用不难\n 飞财\n 日干同月干日支同时支冲出对宫之财是也得此格当发财禄忌泄气㐫如壬申日生时支亦申二",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "賦云卯破午午破酉財官䨇美又云年日支無破官之辰月時支有破官合官之辰主貴如甲寅日無破月逄丙午時臨巳已此取午破酉中辛官有巳合之又用巳中丙戌合辛為貴詩曰卯破午未有大官午未破酉一般㸔丑破巳午不為例子破卯辰用不難飛財日干同月干日支同時支衝出對宫之財是也得此格當發財禄忌泄氣㐫如壬申日生時支亦申二"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "賦云卯破午午破酉財官䨇美又云年日支無破官之辰月時支有破官合官之辰主貴如甲寅日無破月逄丙午時臨巳已此取午破酉中辛官有巳合之又用巳中丙戌合辛為貴詩曰卯破午未有大官午未破酉一般㸔丑破巳午不為例子破卯辰用不難飛財日干同月干日支同時支衝出對宫之財是也得此格當發財禄忌泄氣㐫如壬申日生時支亦申二"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/083卷 六·破官.md",
+          "anchor": "卯破午午破酉财官双美又云年日支无破",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/083卷 六·破官.md",
+          "anchor": "大官午未破酉一般看丑破巳午不为例子",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/084卷 六·飞财.md",
+          "anchor": "格当发财禄忌泄气凶如壬申日生时支亦",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 3 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-235",
+      "old": "不意之财【诗曰】命里无财防破财破来财禄似山堆运行官印多多福却怕刑冲塡实灾【又】卯破午未取财防午未破酉总一般丑破巳",
+      "new": "不意之财【诗曰】命里无财㸔破财破来财禄似山堆运行官印多多福却怕刑冲塡实灾【又】卯破午未取财㸔午未破酉总一般丑破巳",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "不意之財詩曰命裏無財㸔破財破來財禄似山堆運行官印多多福却怕刑衝塡實灾又卯破午未取財㸔午未破酉總一般丑破巳"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "不意之財詩曰命裏無財㸔破財破來財禄似山堆運行官印多多福却怕刑衝塡實灾又卯破午未取財㸔午未破酉總一般丑破巳"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/085卷 六·破财.md",
+          "anchor": "之财诗曰命里无财看破财破来财禄似山",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/085卷 六·破财.md",
+          "anchor": "灾又卯破午未取财看午未破酉总一般丑",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 2 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-236",
+      "old": "云】隂木独遇子时为六乙防贵之地乙以子申为贵神独遇子者用防不用猴也乙用庚金为官星得丙子时以子上丙火遥归巳中本禄巳来合申申来动子是谓申子辰三合防贵谓申中带将庚来乙日",
+      "new": "云】隂木独遇子时为六乙䑕贵之地乙以子申为贵神独遇子者用䑕不用猴也乙用庚金为官星得丙子时以子上丙火遥归巳中本禄巳来合申申来动子是谓申子辰三合㑹贵谓申中带将庚来乙日",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "云隂木獨遇子時為六乙䑕貴之地乙以子申為貴神獨遇子者用䑕不用猴也乙用庚金為官星得丙子時以子上丙火遥歸巳中本禄巳來合申申來動子是謂申子辰三合㑹貴謂申中帶將庚來乙日"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "云隂木獨遇子時為六乙䑕貴之地乙以子申為貴神獨遇子者用䑕不用猴也乙用庚金為官星得丙子時以子上丙火遥歸巳中本禄巳來合申申來動子是謂申子辰三合㑹貴謂申中帶將庚來乙日"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/089卷 六·六乙鼠贵.md",
+          "anchor": "木独遇子时为六乙鼠贵之地乙以子申为",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/089卷 六·六乙鼠贵.md",
+          "anchor": "为贵神独遇子者用鼠不用猴也乙用庚金",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/089卷 六·六乙鼠贵.md",
+          "anchor": "子是谓申子辰三合会贵谓申中带将庚来",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 3 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-237",
+      "old": "用不以午冲子为祸如合防贵柱有未合午畧有损坏富而虚名【相心赋云】六乙防贵遇午冲而赤贫如洗【眞",
+      "new": "用不以午冲子为祸如合䑕贵柱有未合午畧有损坏富而虚名【相心赋云】六乙䑕贵遇午冲而赤贫如洗【眞",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "用不以午衝子為禍如合䑕貴柱有未合午畧有損壞富而虛名相心賦云六乙䑕貴遇午衝而赤貧如洗眞"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "用不以午衝子為禍如合䑕貴柱有未合午畧有損壞富而虛名相心賦云六乙䑕貴遇午衝而赤貧如洗眞"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/089卷 六·六乙鼠贵.md",
+          "anchor": "冲子为祸如合鼠贵柱有未合午",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/089卷 六·六乙鼠贵.md",
+          "anchor": "虚名相心赋云六乙鼠贵遇午冲而赤贫如",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 2 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-238",
+      "old": "是时上偏官不作归禄格防四柱何如若月有官星或",
+      "new": "是时上偏官不作归禄格㸔四柱何如若月有官星或",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "是時上偏官不作歸禄格㸔四柱何如若月有官星或"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "是時上偏官不作歸禄格㸔四柱何如若月有官星或"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/090卷 六·日禄归时.md",
+          "anchor": "上偏官不作归禄格看四柱何如若月有官",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-239",
+      "old": "官临巳用神坐贵得财官防美故少年及第中年拜相三曰归禄逄二德如辛亥辛卯甲寅丙寅甲专禄而得丙寅为食防禄甲为月德月令辛卯为",
+      "new": "官临巳用神坐贵得财官䨇美故少年及第中年拜相三曰归禄逄二德如辛亥辛卯甲寅丙寅甲专禄而得丙寅为食㑹禄甲为月德月令辛卯为",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "官臨巳用神坐貴得財官䨇美故少年及第中年拜相三曰歸禄逄二德如辛亥辛卯甲寅丙寅甲專禄而得丙寅為食㑹禄甲為月德月令辛卯為"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "官臨巳用神坐貴得財官䨇美故少年及第中年拜相三曰歸禄逄二德如辛亥辛卯甲寅丙寅甲專禄而得丙寅為食㑹禄甲為月德月令辛卯為"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/090卷 六·日禄归时.md",
+          "anchor": "巳用神坐贵得财官双美故少年及第中年",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/090卷 六·日禄归时.md",
+          "anchor": "专禄而得丙寅为食会禄甲为月德月令辛",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 2 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-240",
+      "old": "身申庚伤甲不能生财为防【又曰】壬日多见寅字用寅",
+      "new": "身申庚伤甲不能生财为㐫【又曰】壬日多见寅字用寅",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "身申庚傷甲不能生財為㐫又曰壬日多見寅字用寅"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "身申庚傷甲不能生財為㐫又曰壬日多見寅字用寅"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/093卷 六·六壬趋艮.md",
+          "anchor": "庚伤甲不能生财为凶又曰壬日多见寅字",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-241",
+      "old": "癸日坐向巳宫乃是财官防美禄即官财即马二句同",
+      "new": "癸日坐向巳宫乃是财官䨇美禄即官财即马二句同",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "癸日坐向巳宫乃是財官䨇美禄即官財即馬二句同"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "癸日坐向巳宫乃是財官䨇美禄即官財即馬二句同"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/095卷 六·财官双美.md",
+          "anchor": "坐向巳宫乃是财官双美禄即官财即马二",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-242",
+      "old": "生金木月贵惟忌土重若防起土尅官主富己亥日宜",
+      "new": "生金木月贵惟忌土重若㑹起土尅官主富己亥日宜",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "生金木月貴惟忌土重若㑹起土尅官主富己亥日宜"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "生金木月貴惟忌土重若㑹起土尅官主富己亥日宜"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/095卷 六·财官双美.md",
+          "anchor": "木月贵惟忌土重若会起土克官主富己亥",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-243",
+      "old": "刑冲煞刄如来见反吉为防不可当【又】癸临蛇兎是英",
+      "new": "刑冲煞刄如来见反吉为㐫不可当【又】癸临蛇兎是英",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "刑衝煞刄如來見反吉為㐫不可當又癸臨蛇兎是英"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "刑衝煞刄如來見反吉為㐫不可當又癸臨蛇兎是英"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/096卷 六·日贵.md",
+          "anchor": "如来见反吉为凶不可当又癸临",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-244",
+      "old": "一脱乎此亦能再发终力防此格只一位喜财官日徳重叠不宜见财官及刑冲破害空亡魁罡防合加临皆为大忌【诗曰】壬",
+      "new": "一脱乎此亦能再发终力㣲此格只一位喜财官日徳重叠不宜见财官及刑冲破害空亡魁罡㑹合加临皆为大忌【诗曰】壬",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "一脱乎此亦能再發終力㣲此格只一位喜財官日徳重疊不宜見財官及刑衝破害空亡魁罡㑹合加臨皆為大忌詩曰壬"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "一脱乎此亦能再發終力㣲此格只一位喜財官日徳重疊不宜見財官及刑衝破害空亡魁罡㑹合加臨皆為大忌詩曰壬"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/097卷 六·日德.md",
+          "anchor": "乎此亦能再发终力微此格只一位喜财官",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/097卷 六·日德.md",
+          "anchor": "刑冲破害空亡魁罡会合加临皆为大忌诗",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 2 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
     }
   ],
   "summary": {
-    "confirmed_corrections": 224,
-    "confirmed_replacements": 224,
+    "confirmed_corrections": 244,
+    "confirmed_replacements": 244,
     "review_status": "in_progress",
     "canonical_ready": false
   }
