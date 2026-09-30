@@ -32,10 +32,10 @@
   "summary": {
     "audit_total_occurrences": 524,
     "audit_unique_codepoints": 86,
-    "confirmed_mappings": 26,
-    "confirmed_occurrences": 438,
-    "remaining_unique_codepoints": 60,
-    "remaining_occurrences": 86
+    "confirmed_mappings": 31,
+    "confirmed_occurrences": 453,
+    "remaining_unique_codepoints": 55,
+    "remaining_occurrences": 71
   },
   "mappings": [
     {
@@ -737,6 +737,140 @@
           "commit": "d2a447941d43fd5ac35b35194dcb0a68d4275aa7",
           "path": "01易藏-0195部/02术数-146部/渊海子平-宋-徐子平.txt",
           "anchor": "弦断再续"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EE60",
+      "glyph": "",
+      "count": 4,
+      "replacement": "蒙",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "黄养侍郎",
+        "貌俊心葢是清中涵浊",
+        "生乃发之初"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十一/气象篇四/text.txt",
+          "anchor": "貌俊心蒙，盖是清中涵浊"
+        },
+        {
+          "repo": "lhw828/GuWen",
+          "commit": "fcab4e24f97e2c53a23153d0be1f36d7c091a7fe",
+          "path": "易藏/术数/神峰通考_page24.html",
+          "anchor": "貌俊心蒙，盖是清中涵浊"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EA23",
+      "glyph": "",
+      "count": 3,
+      "replacement": "胤",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "张佳尚书",
+        "黄熙现太仆",
+        "占于江文通祠"
+      ],
+      "evidence": [
+        {
+          "repo": "lhw828/GuWen",
+          "commit": "fcab4e24f97e2c53a23153d0be1f36d7c091a7fe",
+          "path": "史藏/正史/明史_page177.html",
+          "anchor": "张佳胤"
+        },
+        {
+          "repo": "qinxiaozhi/dzg2.0",
+          "commit": "42f8944f29cdb954fd838f4e558441250f0fcc70",
+          "path": "史藏/志存记录/明季遗闻.txt",
+          "anchor": "黄熙胤"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+ED92",
+      "glyph": "",
+      "count": 3,
+      "replacement": "算",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "行运至乙丑年",
+        "只要足十二个月"
+      ],
+      "evidence": [
+        {
+          "repo": "lhw828/GuWen",
+          "commit": "fcab4e24f97e2c53a23153d0be1f36d7c091a7fe",
+          "path": "易藏/术数/星学大成_page7.html",
+          "anchor": "行运算至乙丑年"
+        },
+        {
+          "repo": "kanripo/KR3g0041",
+          "commit": "6626e6d7b8337db0e966522e77dc291f54664548",
+          "path": "KR3g0041_003.txt",
+          "anchor": "只要算足十二月"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EEA1",
+      "glyph": "",
+      "count": 3,
+      "replacement": "过",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "庶出房作赘",
+        "本身若不是房庶出",
+        "金旺太则动作多凶"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十/看命口诀十二/text.txt",
+          "anchor": "亦不免庶出过房作赘"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-10-12.txt",
+          "anchor": "亦不免庶出过房作赘"
+        }
+      ],
+      "note": "Context comparison corrects the tempting but wrong visual guess 偏: the transmitted phrase is 过房."
+    },
+    {
+      "codepoint": "U+E898",
+      "glyph": "",
+      "count": 2,
+      "replacement": "瓜",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "六月甜虽熟肉黄皮青",
+        "长生根本瓞绵绵"
+      ],
+      "evidence": [
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/神锋通考/007卷05.md",
+          "anchor": "长生根本，瓜瓞绵绵"
+        },
+        {
+          "repo": "lhw828/GuWen",
+          "commit": "fcab4e24f97e2c53a23153d0be1f36d7c091a7fe",
+          "path": "易藏/术数/神峰通考_page25.html",
+          "anchor": "长生根本，瓜瓞绵绵"
         }
       ]
     }
