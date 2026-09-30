@@ -2846,11 +2846,179 @@
         }
       ],
       "note": "Three Siku-derived witnesses agree on historical 㐫."
+    },
+    {
+      "id": "ocr-108",
+      "old": "庚寅谓之破禄半吉半防壬寅谓之正禄带截路空亡必为僧道",
+      "new": "庚寅谓之破禄半吉半㓙壬寅谓之正禄带截路空亡必为僧道",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-03.md",
+          "anchor": "庚寅謂之破祿半吉半㓙"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_003.txt",
+          "anchor": "庚寅謂之破祿半吉半㓙"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0004.md",
+          "anchor": "庚寅謂之破祿半吉半㓙"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㓙."
+    },
+    {
+      "id": "ocr-109",
+      "old": "乙禄卯见乙卯谓之喜神旺禄主吉丁卯为截路空亡主防己卯进神禄辛卯破禄又为交神半吉半防癸卯带太乙死禄虽贵终贫",
+      "new": "乙禄卯见乙卯谓之喜神旺禄主吉丁卯为截路空亡主㐫己卯进神禄辛卯破禄又为交神半吉半㐫癸卯带太乙死禄虽贵终贫",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-03.md",
+          "anchor": "丁卯為截路空亡主㐫己卯進神祿辛卯破祿又為交神半吉半㐫"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_003.txt",
+          "anchor": "丁卯為截路空亡主㐫"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0004.md",
+          "anchor": "丁卯為截路空亡主㐫"
+        }
+      ],
+      "note": "Historical witnesses confirm both 防→㐫 replacements in the same line."
+    },
+    {
+      "id": "ocr-110",
+      "old": "丙禄己见己巳九天库禄主吉辛巳截路空亡癸巳伏贵神禄半吉半防乙巳旺马禄丁巳库禄俱吉",
+      "new": "丙禄己见己巳九天库禄主吉辛巳截路空亡癸巳伏贵神禄半吉半㐫乙巳旺马禄丁巳库禄俱吉",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-03.md",
+          "anchor": "癸巳伏貴神祿半吉半㐫"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_003.txt",
+          "anchor": "癸巳伏貴神祿半吉半㐫"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0004.md",
+          "anchor": "癸巳伏貴神祿半吉半㐫"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㐫."
+    },
+    {
+      "id": "ocr-111",
+      "old": "己禄午见庚午截路空亡壬午死鬼禄俱防甲午进神合禄显达之象丙午喜神禄戊午伏神羊刃禄防",
+      "new": "己禄午见庚午截路空亡壬午死鬼禄俱㐫甲午进神合禄显达之象丙午喜神禄戊午伏神羊刃禄㐫",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-03.md",
+          "anchor": "己祿午見庚午截路空亡壬午死鬼祿俱㐫甲午進神合祿顯達之象丙午喜神祿戊午伏神羊刃祿㐫"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_003.txt",
+          "anchor": "己祿午見庚午截路空亡壬午死鬼祿俱㐫"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0004.md",
+          "anchor": "己祿午見庚午截路空亡壬午死鬼祿俱㐫"
+        }
+      ],
+      "note": "Three Siku-derived witnesses confirm both 㐫 readings."
+    },
+    {
+      "id": "ocr-112",
+      "old": "庚禄申见壬申为大败禄甲申截路空亡禄俱防丙申大败禄多成败",
+      "new": "庚禄申见壬申为大败禄甲申截路空亡禄俱㐫丙申大败禄多成败",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-03.md",
+          "anchor": "庚祿申見壬申為大敗祿甲申截路空亡祿俱㐫"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_003.txt",
+          "anchor": "庚祿申見壬申為大敗祿甲申截路空亡祿俱㐫"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0004.md",
+          "anchor": "庚祿申見壬申為大敗祿甲申截路空亡祿俱㐫"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㐫."
+    },
+    {
+      "id": "ocr-113",
+      "old": "辛禄酉见癸酉伏神禄水火相犯防乙酉破禄成败",
+      "new": "辛禄酉见癸酉伏神禄水火相犯㐫乙酉破禄成败",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-03.md",
+          "anchor": "辛祿酉見癸酉伏神祿水火相犯㐫乙酉破祿成敗"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_003.txt",
+          "anchor": "辛祿酉見癸酉伏神祿水火相犯㐫乙酉破祿成敗"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0004.md",
+          "anchor": "辛祿酉見癸酉伏神祿水火相犯㐫乙酉破祿成敗"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㐫."
     }
   ],
   "summary": {
-    "confirmed_corrections": 107,
-    "confirmed_replacements": 107,
+    "confirmed_corrections": 113,
+    "confirmed_replacements": 113,
     "review_status": "in_progress",
     "canonical_ready": false
   }
