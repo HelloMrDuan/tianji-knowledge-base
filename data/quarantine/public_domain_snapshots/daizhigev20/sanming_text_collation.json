@@ -705,11 +705,67 @@
         }
       ],
       "note": "Preserve historical 䘮 from the Siku-derived witness; two normalized independent witnesses confirm 丧明."
+    },
+    {
+      "id": "ocr-030",
+      "old": "此十二位宫能回防作善乃曰天徳也",
+      "new": "此十二位宫能回㓙作善乃曰天徳也",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-03.md",
+          "anchor": "此十二位宫能回㓙作善乃曰天徳也"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷三/论天月德/text.txt",
+          "anchor": "此十二位宫，能回凶作善，乃曰天德也"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-3-7.txt",
+          "anchor": "此十二位宫，能回凶作善，乃曰天德也"
+        }
+      ],
+      "note": "Preserve historical 㓙 from the Siku-derived witness; normalized independent witnesses confirm 凶."
+    },
+    {
+      "id": "ocr-031",
+      "old": "况犯者未必皆防若内有吉神相扶贵气相辅当为吉论",
+      "new": "况犯者未必皆㐫若内有吉神相扶贵气相辅当为吉论",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-03.md",
+          "anchor": "况犯者未必皆㐫若内有吉神相扶貴氣相輔當為吉論"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷三/论十恶大败/text.txt",
+          "anchor": "况犯者未必皆凶，若内有吉神相扶，贵气相辅，当为吉论"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/054卷 三·论十恶大败.md",
+          "anchor": "况犯者未必皆凶，若内有吉神相扶，贵气相辅，当为吉论"
+        }
+      ],
+      "note": "Preserve historical 㐫 from the Siku-derived witness; normalized independent witnesses confirm 凶."
     }
   ],
   "summary": {
-    "confirmed_corrections": 29,
-    "confirmed_replacements": 29,
+    "confirmed_corrections": 31,
+    "confirmed_replacements": 31,
     "review_status": "in_progress",
     "canonical_ready": false
   }
