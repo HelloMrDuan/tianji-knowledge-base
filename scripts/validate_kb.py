@@ -241,8 +241,12 @@ if sanming_audit_path.exists() and sanming_collation_path.exists():
     collation = json.loads(sanming_collation_path.read_text(encoding="utf-8"))
     audit_rows = {x["codepoint"]: x for x in audit.get("glyphs", [])}
     mappings = collation.get("mappings", [])
+    contextual_mappings = collation.get("contextual_mappings", [])
     codes = [x.get("codepoint") for x in mappings]
-    check(len(codes) == len(set(codes)), "Sanming collation contains duplicate codepoints")
+    contextual_codes = [x.get("codepoint") for x in contextual_mappings]
+    check(len(codes) == len(set(codes)), "Sanming collation contains duplicate uniform codepoints")
+    check(len(contextual_codes) == len(set(contextual_codes)), "Sanming collation contains duplicate contextual codepoints")
+    check(not (set(codes) & set(contextual_codes)), "Sanming codepoint cannot be both uniform and contextual")
 
     def is_private_use_char(ch: str) -> bool:
         cp = ord(ch)
@@ -275,20 +279,65 @@ if sanming_audit_path.exists() and sanming_collation_path.exists():
             check(len(row.get("source_anchors", [])) >= min(2, int(row.get("count", 0))), f"confirmed Sanming mapping lacks source anchors: {codepoint}")
             check(len(row.get("evidence", [])) >= 2, f"confirmed Sanming mapping lacks cross-check evidence: {codepoint}")
 
+    confirmed_contextual = []
+    for row in contextual_mappings:
+        codepoint = row.get("codepoint")
+        glyph = row.get("glyph", "")
+        status = row.get("status")
+        check(status in {"confirmed", "provisional", "unresolved"}, f"invalid Sanming contextual status: {codepoint}")
+        check(codepoint in audit_rows, f"Sanming contextual mapping not present in audit: {codepoint}")
+        if len(glyph) == 1:
+            check(is_private_use_char(glyph), f"Sanming contextual glyph is not PUA: {codepoint}")
+            check(codepoint == f"U+{ord(glyph):04X}", f"Sanming contextual codepoint/glyph mismatch: {codepoint}")
+        else:
+            check(False, f"Sanming contextual glyph must be one character: {codepoint}")
+        if codepoint in audit_rows:
+            check(row.get("count") == audit_rows[codepoint].get("count"), f"Sanming contextual count mismatch: {codepoint}")
+            check(glyph == audit_rows[codepoint].get("glyph"), f"Sanming contextual glyph mismatch with audit: {codepoint}")
+        if status == "confirmed":
+            confirmed_contextual.append(row)
+            rules = row.get("replacements", [])
+            check(bool(rules), f"confirmed Sanming contextual mapping has no rules: {codepoint}")
+            resolved = 0
+            for idx, rule in enumerate(rules, start=1):
+                old = rule.get("old", "")
+                new = rule.get("new", "")
+                count = int(rule.get("count", -1))
+                check(bool(old) and bool(new), f"invalid Sanming contextual rule: {codepoint}#{idx}")
+                check(not any(is_private_use_char(ch) for ch in new), f"contextual replacement contains PUA: {codepoint}#{idx}")
+                check(old.count(glyph) == count, f"contextual rule PUA count mismatch: {codepoint}#{idx}")
+                check(len(rule.get("evidence", [])) >= 2, f"contextual rule lacks cross-check evidence: {codepoint}#{idx}")
+                resolved += max(count, 0)
+            check(resolved == int(row.get("count", 0)), f"contextual mapping total mismatch: {codepoint}")
+
     confirmed_occurrences = sum(int(x.get("count", 0)) for x in confirmed)
+    confirmed_contextual_occurrences = sum(int(x.get("count", 0)) for x in confirmed_contextual)
+    confirmed_codepoints = len(confirmed) + len(confirmed_contextual)
+    confirmed_total_occurrences = confirmed_occurrences + confirmed_contextual_occurrences
     summary = collation.get("summary", {})
     check(summary.get("audit_total_occurrences") == audit.get("total_private_use_chars"), "Sanming audit total drift")
     check(summary.get("audit_unique_codepoints") == audit.get("unique_private_use_chars"), "Sanming audit unique-count drift")
-    check(summary.get("confirmed_mappings") == len(confirmed), "Sanming confirmed mapping summary mismatch")
-    check(summary.get("confirmed_occurrences") == confirmed_occurrences, "Sanming confirmed occurrence summary mismatch")
-    check(summary.get("remaining_unique_codepoints") == audit.get("unique_private_use_chars") - len(confirmed), "Sanming remaining unique-count mismatch")
-    check(summary.get("remaining_occurrences") == audit.get("total_private_use_chars") - confirmed_occurrences, "Sanming remaining occurrence mismatch")
+    check(summary.get("confirmed_mappings") == confirmed_codepoints, "Sanming confirmed mapping summary mismatch")
+    check(summary.get("confirmed_occurrences") == confirmed_total_occurrences, "Sanming confirmed occurrence summary mismatch")
+    check(summary.get("remaining_unique_codepoints") == audit.get("unique_private_use_chars") - confirmed_codepoints, "Sanming remaining unique-count mismatch")
+    check(summary.get("remaining_occurrences") == audit.get("total_private_use_chars") - confirmed_total_occurrences, "Sanming remaining occurrence mismatch")
+    check(summary.get("contextual_mapping_codepoints", len(confirmed_contextual)) == len(confirmed_contextual), "Sanming contextual mapping summary mismatch")
+    check(summary.get("contextual_occurrences", confirmed_contextual_occurrences) == confirmed_contextual_occurrences, "Sanming contextual occurrence summary mismatch")
 
     if sanming_source_path.exists():
         raw = sanming_source_path.read_text(encoding="utf-8")
         for row in confirmed:
             check(raw.count(row["glyph"]) == row["count"], f"Sanming source drift for {row['codepoint']}")
             raw = raw.replace(row["glyph"], row["replacement"])
+        for row in confirmed_contextual:
+            glyph = row["glyph"]
+            check(raw.count(glyph) == row["count"], f"Sanming contextual source drift for {row['codepoint']}")
+            for idx, rule in enumerate(row.get("replacements", []), start=1):
+                old = rule["old"]
+                check(raw.count(old) == 1, f"Sanming contextual anchor drift for {row['codepoint']}#{idx}")
+                if raw.count(old) == 1:
+                    raw = raw.replace(old, rule["new"], 1)
+            check(glyph not in raw, f"Sanming contextual mapping left unresolved glyph: {row['codepoint']}")
         remaining = [ch for ch in raw if is_private_use_char(ch)]
         check(len(remaining) == summary.get("remaining_occurrences"), "Sanming post-collation PUA occurrence mismatch")
         check(len(set(remaining)) == summary.get("remaining_unique_codepoints"), "Sanming post-collation PUA unique-count mismatch")
