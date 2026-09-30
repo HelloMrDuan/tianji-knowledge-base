@@ -231,10 +231,12 @@ for group in public_domain_manifest.get("sources", []):
 sanming_audit_path = ROOT / "data/quarantine/public_domain_snapshots/daizhigev20/sanming_pua_audit.json"
 sanming_collation_path = ROOT / "data/quarantine/public_domain_snapshots/daizhigev20/sanming_pua_collation.json"
 sanming_source_path = ROOT / "data/quarantine/public_domain_snapshots/daizhigev20/sanming_tonghui.txt"
+sanming_text_collation_path = ROOT / "data/quarantine/public_domain_snapshots/daizhigev20/sanming_text_collation.json"
 
 check(sanming_audit_path.exists(), "Sanming PUA audit is missing")
 check(sanming_collation_path.exists(), "Sanming PUA collation map is missing")
 check(sanming_source_path.exists(), "Sanming quarantined source is missing")
+check(sanming_text_collation_path.exists(), "Sanming text collation map is missing")
 
 if sanming_audit_path.exists() and sanming_collation_path.exists():
     audit = json.loads(sanming_audit_path.read_text(encoding="utf-8"))
@@ -341,6 +343,33 @@ if sanming_audit_path.exists() and sanming_collation_path.exists():
         remaining = [ch for ch in raw if is_private_use_char(ch)]
         check(len(remaining) == summary.get("remaining_occurrences"), "Sanming post-collation PUA occurrence mismatch")
         check(len(set(remaining)) == summary.get("remaining_unique_codepoints"), "Sanming post-collation PUA unique-count mismatch")
+
+        if sanming_text_collation_path.exists():
+            text_collation = json.loads(sanming_text_collation_path.read_text(encoding="utf-8"))
+            corrections = text_collation.get("corrections", [])
+            correction_ids = [x.get("id") for x in corrections]
+            check(len(correction_ids) == len(set(correction_ids)), "Sanming text collation contains duplicate correction ids")
+            confirmed_text = []
+            for row in corrections:
+                correction_id = row.get("id")
+                status = row.get("status")
+                old = row.get("old", "")
+                new = row.get("new", "")
+                check(status in {"confirmed", "provisional", "unresolved"}, f"invalid Sanming text correction status: {correction_id}")
+                if status == "confirmed":
+                    confirmed_text.append(row)
+                    check(bool(old) and bool(new) and old != new, f"invalid Sanming text correction: {correction_id}")
+                    check(not any(is_private_use_char(ch) for ch in old + new), f"Sanming text correction contains PUA: {correction_id}")
+                    check(len(row.get("evidence", [])) >= 2, f"Sanming text correction lacks cross-check evidence: {correction_id}")
+                    check(raw.count(old) == 1, f"Sanming text correction anchor drift: {correction_id}")
+                    if raw.count(old) == 1:
+                        raw = raw.replace(old, new, 1)
+            text_summary = text_collation.get("summary", {})
+            check(text_summary.get("confirmed_corrections") == len(confirmed_text), "Sanming text correction summary mismatch")
+            check(text_summary.get("confirmed_replacements") == len(confirmed_text), "Sanming text replacement summary mismatch")
+            check(text_summary.get("review_status") in {"in_progress", "completed"}, "Sanming text review status invalid")
+            check(text_summary.get("canonical_ready") is False, "Sanming text collation must not mark canonical-ready before review completion")
+            check(not any(is_private_use_char(ch) for ch in raw), "Sanming text-collated result reintroduced PUA")
 
     niu = by_id.get("niutrans-classical-modern")
     check(niu is not None, "NiuTrans collation source is not registered")

@@ -1,0 +1,209 @@
+{
+  "schema_version": "0.1",
+  "work": "sanming_tonghui",
+  "stage": "post_pua_text_collation",
+  "policy": "Apply only exact context-anchored corrections backed by at least two independent witnesses. Raw snapshot remains immutable.",
+  "corrections": [
+    {
+      "id": "ocr-001",
+      "old": "若失时防局卽韬光",
+      "new": "若失时䘮局卽韬光",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "若失時䘮局卽韜光晦跡"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "若失時䘮局卽韜光晦跡"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "若失時䘮局卽韜光晦跡"
+        }
+      ],
+      "note": "Preserve historical 䘮 from Siku-derived witnesses instead of silently modernizing to 丧."
+    },
+    {
+      "id": "ocr-002",
+      "old": "虽防𦕈之金亦不能制",
+      "new": "虽㣲𦕈之金亦不能制",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "雖㣲𦕈之金亦不能制"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "雖㣲𦕈之金亦不能制"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "雖㣲𦕈之金亦不能制"
+        }
+      ]
+    },
+    {
+      "id": "ocr-003",
+      "old": "火强燥而防𦕈水既济以寛和",
+      "new": "火强燥而㣲𦕈水既济以寛和",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "火強燥而㣲𦕈水既濟以寛和"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/渊海子平/chapters/0116.md",
+          "anchor": "火强燥而微吵，水略济以宽和"
+        }
+      ],
+      "note": "Sanming Siku witness preserves 㣲𦕈; normalized parallel text independently confirms a small/subtle reading, not 防."
+    },
+    {
+      "id": "ocr-004",
+      "old": "金水相停防合含光圆融皎洁",
+      "new": "金水相停㑹合含光圆融皎洁",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "金水相停㑹合含光圓融皎潔"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "金水相停㑹合含光圓融皎潔"
+        }
+      ],
+      "note": "Preserve historical 㑹 used by the Siku-derived witnesses."
+    },
+    {
+      "id": "ocr-005",
+      "old": "临老蛉仃者裔苦根甘",
+      "new": "临老伶仃者裔苦根甘",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十一/消息赋二/text.txt",
+          "anchor": "幼年建旺而临老伶仃者"
+        },
+        {
+          "repo": "Banny-Gao/mingli-research",
+          "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+          "path": "books/三命通会/articles/消息赋二/source.md",
+          "anchor": "幼年建旺而临老伶仃者"
+        }
+      ]
+    },
+    {
+      "id": "ocr-006",
+      "old": "阳刄者天上之防星人间之恶煞",
+      "new": "阳刄者天上之凶星人间之恶煞",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷六/论阳刃/text.txt",
+          "anchor": "阳刃者，天上之凶星，人间之恶煞"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/150卷 六·论阳刃（前论羊刃煞与此参看）.md",
+          "anchor": "阳刃者，天上之凶星，人间之恶煞"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷六.txt",
+          "anchor": "陽刃者，天上之凶星，人間之惡煞"
+        }
+      ]
+    },
+    {
+      "id": "ocr-007",
+      "old": "年干父兮支母日干巳兮支妻",
+      "new": "年干父兮支母日干己兮支妻",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/络绎赋/text.txt",
+          "anchor": "年干父兮支母，日干己兮支妻"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-12-5.txt",
+          "anchor": "年干父兮支母，日干己兮支妻"
+        }
+      ]
+    },
+    {
+      "id": "ocr-008",
+      "old": "飞防名天瞽支干无气主无目",
+      "new": "飞廉名天瞽支干无气主无目",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷七/论疾病先知五脏六腑所/text.txt",
+          "anchor": "飞廉名天瞽，支干无气，主无目"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/153卷 七·论疾病先知五脏六腑所属干支.md",
+          "anchor": "飞廉名天瞽，支干无气，主无目"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-7-2.txt",
+          "anchor": "飞廉名天瞽，支干无气，主无目"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "confirmed_corrections": 8,
+    "confirmed_replacements": 8,
+    "review_status": "in_progress",
+    "canonical_ready": false
+  }
+}

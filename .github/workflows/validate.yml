@@ -20,6 +20,16 @@ jobs:
           export PYTHONPATH=src
           python scripts/validate_kb.py
           python -m unittest discover -s tests -p 'test_*.py'
+          python scripts/apply_pua_collation.py \
+            data/quarantine/public_domain_snapshots/daizhigev20/sanming_tonghui.txt \
+            data/quarantine/public_domain_snapshots/daizhigev20/sanming_pua_collation.json \
+            --output /tmp/sanming_pua_collated.txt \
+            --report /tmp/sanming_pua_report.json
+          python scripts/apply_sanming_text_collation.py \
+            /tmp/sanming_pua_collated.txt \
+            data/quarantine/public_domain_snapshots/daizhigev20/sanming_text_collation.json \
+            --output /tmp/sanming_text_collated.txt \
+            --report /tmp/sanming_text_report.json
           python scripts/build_index.py
           python scripts/build_rag_chunks.py
           python scripts/build_sqlite_fts.py
