@@ -655,11 +655,61 @@
         }
       ],
       "note": "Preserve historical 㑹 from the Siku-derived witness; normalized independent text confirms 三会, not 三防."
+    },
+    {
+      "id": "ocr-028",
+      "old": "主老年防子日犯尅妻女命时逢一生不产",
+      "new": "主老年䘮子日犯尅妻女命时逢一生不产",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0d7051c45397330bef7b0962d",
+          "path": "source/juan-02.md",
+          "anchor": "主老年䘮子日犯尅妻女命時逢一生不産"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/神煞章/006掀起你的盖头来-华盖.md",
+          "anchor": "主老年丧子。日犯克妻女，命时逢一生不产"
+        }
+      ],
+      "note": "Preserve historical 䘮 from the Siku-derived witness; an independent normalized quotation confirms 丧子."
+    },
+    {
+      "id": "ocr-029",
+      "old": "又云带辰午酉亥全中年防明又云自刑怕火",
+      "new": "又云带辰午酉亥全中年䘮明又云自刑怕火",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "又云帶辰午酉亥全中年䘮明又云自刑怕火"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷二/论三刑/text.txt",
+          "anchor": "又云： 带辰午酉亥全，中年丧明"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/031卷 二·论三刑.md",
+          "anchor": "又云：“带辰午酉亥全，中年丧明。”"
+        }
+      ],
+      "note": "Preserve historical 䘮 from the Siku-derived witness; two normalized independent witnesses confirm 丧明."
     }
   ],
   "summary": {
-    "confirmed_corrections": 27,
-    "confirmed_replacements": 27,
+    "confirmed_corrections": 29,
+    "confirmed_replacements": 29,
     "review_status": "in_progress",
     "canonical_ready": false
   }
