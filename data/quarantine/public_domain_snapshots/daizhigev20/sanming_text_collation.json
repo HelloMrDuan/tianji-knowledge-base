@@ -1168,11 +1168,151 @@
         }
       ],
       "note": "Preserve historical 䑕 from the Siku-derived witness; normalized witnesses confirm 鼠."
+    },
+    {
+      "id": "ocr-047",
+      "old": "冬子月忌三合水局水盛火防水火相停斯成旣济",
+      "new": "冬子月忌三合水局水盛火㓕水火相停斯成旣济",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-04.md",
+          "anchor": "冬子月忌三合水局水盛火㓕水火相停斯成旣濟"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷四/论十干坐支兼得月时及/text.txt",
+          "anchor": "冬子月，忘三合水局，水盛火灭。水火相停，斯成既济"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/056卷 四·论十干坐支兼得月时及行运吉凶.md",
+          "anchor": "冬子月，忘三合水局，水盛火灭"
+        }
+      ],
+      "note": "Preserve historical 㓕 from the Siku-derived witness; normalized witnesses confirm 灭."
+    },
+    {
+      "id": "ocr-048",
+      "old": "官星喜财旺以生之印旺以防之故令其人能行仁布徳",
+      "new": "官星喜财旺以生之印旺以䕶之故令其人能行仁布徳",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "官星喜財旺以生之印旺以䕶之故令其人能行仁布徳"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十/看命口诀十四/text.txt",
+          "anchor": "官星喜财旺以生之，印旺以护之"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-10-14.txt",
+          "anchor": "官星喜财旺以生之，印旺以护之"
+        }
+      ],
+      "note": "Preserve historical 䕶 from the Siku-derived witness; normalized witnesses confirm 护."
+    },
+    {
+      "id": "ocr-049",
+      "old": "后煞神得位嵗煞并临官化为鬼防身必矣",
+      "new": "后煞神得位嵗煞并临官化为鬼䘮身必矣",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "後煞神得位嵗煞併臨官化為鬼䘮身必矣"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十/看命口诀十四/text.txt",
+          "anchor": "之后煞神得位，岁煞并临，官化为鬼，丧身必矣"
+        },
+        {
+          "repo": "Banny-Gao/mingli-research",
+          "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+          "path": "books/三命通会/articles/看命口诀十四/source.md",
+          "anchor": "之后煞神得位，岁煞并临，官化为鬼，丧身必矣"
+        }
+      ],
+      "note": "Preserve historical 䘮 from the Siku-derived witness; normalized witnesses confirm 丧."
+    },
+    {
+      "id": "ocr-050",
+      "old": "伤官得地贵禄遭伤防妻尅子剥职生灾",
+      "new": "伤官得地贵禄遭伤䘮妻尅子剥职生灾",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "傷官得地貴禄遭傷䘮妻尅子剥職生灾"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十/看命口诀十四/text.txt",
+          "anchor": "伤官得地贵禄遭伤。丧妻克子，剥职生灾"
+        },
+        {
+          "repo": "Banny-Gao/mingli-research",
+          "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+          "path": "books/三命通会/articles/看命口诀十四/source.md",
+          "anchor": "伤官得地，贵禄遭伤，丧妻克子，剥职生灾"
+        }
+      ],
+      "note": "Preserve historical 䘮 from the Siku-derived witness; normalized witnesses confirm 丧."
+    },
+    {
+      "id": "ocr-051",
+      "old": "须观其气而消息之方可防也",
+      "new": "须观其气而消息之方可㫁也",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "須觀其氣而消息之方可㫁也"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十/玉井奥诀十一/text.txt",
+          "anchor": "须观其气而消息之，方可断也"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-10-31.txt",
+          "anchor": "须观其气而消息之，方可断也"
+        }
+      ],
+      "note": "Preserve historical 㫁 from the Siku-derived witness; normalized witnesses confirm 断."
     }
   ],
   "summary": {
-    "confirmed_corrections": 46,
-    "confirmed_replacements": 46,
+    "confirmed_corrections": 51,
+    "confirmed_replacements": 51,
     "review_status": "in_progress",
     "canonical_ready": false
   }
