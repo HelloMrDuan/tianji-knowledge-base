@@ -761,11 +761,116 @@
         }
       ],
       "note": "Preserve historical 㐫 from the Siku-derived witness; normalized independent witnesses confirm 凶."
+    },
+    {
+      "id": "ocr-032",
+      "old": "其日月防合之辰三合所照之方",
+      "new": "其日月会合之辰三合所照之方",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-03.md",
+          "anchor": "日月會合之辰"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷三/论天月德/text.txt",
+          "anchor": "月德者，乃三合所照之方，日月会合之辰"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/039卷 三·论天月德.md",
+          "anchor": "月德者，乃三合所照之方，日月会合之辰"
+        }
+      ]
+    },
+    {
+      "id": "ocr-033",
+      "old": "故可回防作吉壶中子云",
+      "new": "故可回㓙作吉壶中子云",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-03.md",
+          "anchor": "故可回㓙作吉壺中子云"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷三/论天月德/text.txt",
+          "anchor": "故可回凶作吉"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-3-7.txt",
+          "anchor": "故可回凶作吉"
+        }
+      ],
+      "note": "Preserve historical 㓙 from the Siku-derived witness."
+    },
+    {
+      "id": "ocr-034",
+      "old": "华盖为庇防清神主人旷逹神清",
+      "new": "华盖为庇䕃清神主人旷逹神清",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "華蓋為庇䕃清神主人曠逹神清"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/神煞章/006掀起你的盖头来-华盖.md",
+          "anchor": "华盖为庇荫清神，主人旷达神清"
+        }
+      ],
+      "note": "Preserve historical 䕃 from the Siku-derived witness; normalized quotation confirms 荫."
+    },
+    {
+      "id": "ocr-035",
+      "old": "若人遇之主早承休防官序易陞",
+      "new": "若人遇之主早承休䕃官序易陞",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-05.md",
+          "anchor": "若人遇之主早承休䕃官序易陞"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/060卷 五·论正官.md",
+          "anchor": "若人遇之，主早承休荫，官序易升"
+        },
+        {
+          "repo": "Banny-Gao/mingli-research",
+          "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+          "path": "books/三命通会/articles/论正官/source.md",
+          "anchor": "若人遇之，主早承休荫，官序易升"
+        }
+      ],
+      "note": "Preserve historical 䕃 and original 陞 from the Siku-derived witness."
     }
   ],
   "summary": {
-    "confirmed_corrections": 31,
-    "confirmed_replacements": 31,
+    "confirmed_corrections": 35,
+    "confirmed_replacements": 35,
     "review_status": "in_progress",
     "canonical_ready": false
   }
