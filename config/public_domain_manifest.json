@@ -53,11 +53,11 @@
           "quality_blockers": {
             "private_use_char_count": 524,
             "unique_private_use_chars": 86,
-            "note": "2026-09-30 collation batch 3 confirms 26/86 PUA codepoints covering 438/524 occurrences. Canonical promotion remains blocked until all remaining PUA glyphs are independently collated.",
-            "confirmed_private_use_mappings": 26,
-            "confirmed_occurrences": 438,
-            "remaining_unique_private_use_chars": 60,
-            "remaining_private_use_chars": 86,
+            "note": "2026-09-30 collation batch 4 confirms 31/86 PUA codepoints covering 453/524 occurrences. Canonical promotion remains blocked until all remaining PUA glyphs are independently collated.",
+            "confirmed_private_use_mappings": 31,
+            "confirmed_occurrences": 453,
+            "remaining_unique_private_use_chars": 55,
+            "remaining_private_use_chars": 71,
             "collation_map": "data/quarantine/public_domain_snapshots/daizhigev20/sanming_pua_collation.json"
           },
           "planned_output": "data/canonical/classics/bazi/sanming_tonghui_v1.json",
