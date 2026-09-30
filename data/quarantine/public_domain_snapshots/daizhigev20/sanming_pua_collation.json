@@ -32,10 +32,10 @@
   "summary": {
     "audit_total_occurrences": 524,
     "audit_unique_codepoints": 86,
-    "confirmed_mappings": 72,
-    "confirmed_occurrences": 503,
-    "remaining_unique_codepoints": 14,
-    "remaining_occurrences": 21
+    "confirmed_mappings": 81,
+    "confirmed_occurrences": 514,
+    "remaining_unique_codepoints": 5,
+    "remaining_occurrences": 10
   },
   "mappings": [
     {
@@ -2018,6 +2018,258 @@
           "anchor": "生克已定，然後参诸神煞，则吉凶无不验矣"
         }
       ]
+    },
+    {
+      "codepoint": "U+E5E0",
+      "glyph": "",
+      "count": 2,
+      "replacement": "𦕈",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "虽防之金亦不能制",
+        "火强燥而防水既济以寛和"
+      ],
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "若失時䘮局卽韜光晦跡而烟無存雖㣲𦕈之金亦不能制"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "若失時䘮局卽韜光晦跡而烟無存雖㣲𦕈之金亦不能制"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "火強燥而㣲𦕈水既濟以寛和"
+        }
+      ],
+      "note": "Preserve historical Unicode 𦕈. The neighboring normal glyph 防 in the quarantine text is itself an OCR corruption of 㣲, but this mapping repairs only the audited PUA codepoint."
+    },
+    {
+      "codepoint": "U+EA9F",
+      "glyph": "",
+      "count": 2,
+      "replacement": "𭅺",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "丁未廕丁卯",
+        "丁卯张汉侍癸丑"
+      ],
+      "evidence": [
+        {
+          "repo": "ShousenZHANG/chinese-fortune",
+          "commit": "e2e152c5030a0ac3f0b899cb85188b0d5df22d24",
+          "path": "knowledge/books/sanming/c008.json",
+          "anchor": "丁未廕𭅺；丁卯張漢侍𭅺"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-08.md",
+          "anchor": "丁未廕𭅺；丁卯張漢侍𭅺"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0009.md",
+          "anchor": "丁未廕郎"
+        }
+      ],
+      "note": "Preserve the attested historical Unicode form 𭅺, a form of 郎, because both Sanming witnesses use it in 廕𭅺 and 侍𭅺."
+    },
+    {
+      "codepoint": "U+E87D",
+      "glyph": "",
+      "count": 1,
+      "replacement": "曄",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "乙酉姚状元"
+      ],
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_008.txt",
+          "anchor": "乙酉姚曄狀元"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0009.md",
+          "anchor": "乙酉姚曄狀元"
+        }
+      ],
+      "note": "Preserve traditional 曄 as directly attested in the Siku-derived witnesses."
+    },
+    {
+      "codepoint": "U+E9FC",
+      "glyph": "",
+      "count": 1,
+      "replacement": "𡎊",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "癸巳史少卿死于狱"
+      ],
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-09.md",
+          "anchor": "癸巳史𡎊少卿死於獄"
+        },
+        {
+          "repo": "ShousenZHANG/chinese-fortune",
+          "commit": "e2e152c5030a0ac3f0b899cb85188b0d5df22d24",
+          "path": "knowledge/books/sanming/c009.json",
+          "anchor": "癸巳史𡎊少卿死於獄"
+        }
+      ],
+      "note": "Preserve the rare historical Unicode personal-name glyph 𡎊."
+    },
+    {
+      "codepoint": "U+EA3F",
+      "glyph": "",
+      "count": 1,
+      "replacement": "充",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "女二十肌肤盛任为人母"
+      ],
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "女二十肌膚充盛任為人母"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "女二十肌膚充盛任為人母"
+        },
+        {
+          "repo": "lhw828/GuWen",
+          "commit": "fcab4e24f97e2c53a23153d0be1f36d7c091a7fe",
+          "path": "儒藏/礼经/五礼通考_page231.html",
+          "anchor": "女二十肌肤充盛任为人母"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EA53",
+      "glyph": "",
+      "count": 1,
+      "replacement": "含",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "至于中秋金水相停防合光圆融皎洁"
+      ],
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "至於中秋金水相停㑹合含光圓融皎潔"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "至於中秋金水相停㑹合含光圓融皎潔"
+        }
+      ],
+      "note": "The following quarantine character 防 is a separate OCR corruption of 會; this mapping repairs only the audited PUA glyph."
+    },
+    {
+      "codepoint": "U+EBDB",
+      "glyph": "",
+      "count": 1,
+      "replacement": "𢫎",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "若生季夏季冬空才德难以成名"
+      ],
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "若生季夏季冬空𢫎才德難以成名"
+        },
+        {
+          "repo": "ShousenZHANG/chinese-fortune",
+          "commit": "e2e152c5030a0ac3f0b899cb85188b0d5df22d24",
+          "path": "knowledge/books/sanming/c006.json",
+          "anchor": "若生季夏季冬空𢫎才德難以成名"
+        }
+      ],
+      "note": "Preserve rare historical Unicode 𢫎 as attested by two independent Sanming transcriptions."
+    },
+    {
+      "codepoint": "U+ECA6",
+      "glyph": "",
+      "count": 1,
+      "replacement": "激",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "生旺多无归宿死絶多无五行不可太相安"
+      ],
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "生旺多無歸宿死絶多無激揚五行不可太相安"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0011.md",
+          "anchor": "生旺多無歸宿死絶多無激揚五行不可太相安"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EE9C",
+      "glyph": "",
+      "count": 1,
+      "replacement": "逄",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "论偏官【喜身旺 印绶 合煞 食制羊刃 比肩 煞防印及刃】"
+      ],
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-05.md",
+          "anchor": "比肩　[SKQS 3741: 逄]煞㸔印及刃"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_005.txt",
+          "anchor": "合煞㸔食制刃/&KR1134;煞  印及"
+        }
+      ],
+      "note": "Preserve historical form 逄 from the Siku glyph annotation. The following 防 in the quarantine text corresponds to 㸔/看 and is a separate OCR issue."
     }
   ]
 }
