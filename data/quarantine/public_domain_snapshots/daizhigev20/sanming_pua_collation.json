@@ -1,0 +1,474 @@
+{
+  "schema_version": "0.1",
+  "work_id": "sanming_tonghui",
+  "title": "三命通会",
+  "status": "PARTIAL_COLLATION",
+  "generated_at": "2026-09-30",
+  "source": {
+    "repo": "garychowcmu/daizhigev20",
+    "path": "易藏/术数/三命通会.txt",
+    "blob_sha": "c0cff182a79f773ac108ba5a6d55c6dcd2c0566c",
+    "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620"
+  },
+  "policy": {
+    "rule": "Only mappings marked confirmed may be auto-applied.",
+    "confirmation": "A confirmed mapping must agree with all sampled source contexts and have independent textual evidence; ambiguous glyphs remain unresolved.",
+    "canonical_gate": "Canonical promotion remains blocked until zero private-use glyphs remain after applying the confirmed mapping set."
+  },
+  "crosscheck_sources": [
+    {
+      "repo": "NiuTrans/Classical-Modern",
+      "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+      "license_spdx": "MIT",
+      "role": "independent structured transcription"
+    },
+    {
+      "repo": "youngzs/xuanxue",
+      "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+      "license_policy": "PUBLIC_DOMAIN_EXTRACT_ONLY",
+      "role": "independent public-domain collation cross-check"
+    }
+  ],
+  "summary": {
+    "audit_total_occurrences": 524,
+    "audit_unique_codepoints": 86,
+    "confirmed_mappings": 16,
+    "confirmed_occurrences": 396,
+    "remaining_unique_codepoints": 70,
+    "remaining_occurrences": 128
+  },
+  "mappings": [
+    {
+      "codepoint": "U+EA20",
+      "glyph": "",
+      "count": 79,
+      "replacement": "玄",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "天道远",
+        "重光黓昭阳",
+        "北方极之气"
+      ],
+      "evidence": [
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/五行精纪/002五行精纪：论六甲纳音法.md",
+          "anchor": "北方玄极之气"
+        },
+        {
+          "repo": "lhw828/GuWen",
+          "commit": "fcab4e24f97e2c53a23153d0be1f36d7c091a7fe",
+          "path": "易藏/术数/五行精纪_page3.html",
+          "anchor": "北方玄极之气"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EB07",
+      "glyph": "",
+      "count": 76,
+      "replacement": "参",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "同契",
+        "以此之",
+        "休旺要详"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷二/论小运/text.txt",
+          "anchor": "然后以此参之，无不中矣"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/020卷 二·论小运.md",
+          "anchor": "然后以此参之，无不中矣"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+E645",
+      "glyph": "",
+      "count": 55,
+      "replacement": "紧",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "日时虽为",
+        "小运亦有关",
+        "故慢不"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷二/论胎元/text.txt",
+          "anchor": "日时虽为紧"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/017卷 二·论胎元.md",
+          "anchor": "日时虽为紧"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EF6E",
+      "glyph": "",
+      "count": 35,
+      "replacement": "扬",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "体貌不",
+        "沙漠威",
+        "主威"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷二/论十干合/text.txt",
+          "anchor": "体貌不扬"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十一/气象篇三/text.txt",
+          "anchor": "飞扬姓字"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EE25",
+      "glyph": "",
+      "count": 25,
+      "replacement": "亏",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "利禄盈",
+        "小盈大",
+        "贵无"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十一/消息赋三/text.txt",
+          "anchor": "小盈大亏"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十一/气象篇三/text.txt",
+          "anchor": "风雷激烈贵无亏"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EC93",
+      "glyph": "",
+      "count": 22,
+      "replacement": "淫",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "汚家风",
+        "奸邪鄙",
+        "私滥奸"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷二/论咸池/text.txt",
+          "anchor": "其神之奸邪淫鄙"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/029卷 二·论咸池.md",
+          "anchor": "奸邪淫鄙"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+E7B5",
+      "glyph": "",
+      "count": 21,
+      "replacement": "候",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "时浅深",
+        "指物以之",
+        "五日谓之三谓之气"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/黄帝内经/素问/六节藏象论/text.txt",
+          "anchor": "五日谓之候，三候谓之气"
+        },
+        {
+          "repo": "mahavivo/scripta-sinica",
+          "commit": "d2a447941d43fd5ac35b35194dcb0a68d4275aa7",
+          "path": "09医藏-0869部/医经读-清-沈又彭.txt",
+          "anchor": "五日谓之候三候谓之气"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+E730",
+      "glyph": "",
+      "count": 17,
+      "replacement": "龟",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "田畴坼",
+        "神宿火",
+        "防火氷"
+      ],
+      "evidence": [
+        {
+          "repo": "lhw828/GuWen",
+          "commit": "fcab4e24f97e2c53a23153d0be1f36d7c091a7fe",
+          "path": "道藏/正统道藏正一部/道法会元_page180.html",
+          "anchor": "田畴龟坼"
+        },
+        {
+          "repo": "qinxiaozhi/dzg2.0",
+          "commit": "42f8944f29cdb954fd838f4e558441250f0fcc70",
+          "path": "道藏/正统道藏洞真部/方法类/清微神烈秘法.txt",
+          "anchor": "田畴龟坼"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EB64",
+      "glyph": "",
+      "count": 14,
+      "replacement": "带",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "被形煞",
+        "垂贵人",
+        "冠处"
+      ],
+      "evidence": [
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/五行精纪/016五行精纪：第十卷论年月日时胎.md",
+          "anchor": "垂带贵人"
+        },
+        {
+          "repo": "lhw828/GuWen",
+          "commit": "fcab4e24f97e2c53a23153d0be1f36d7c091a7fe",
+          "path": "易藏/术数/五行精纪_page17.html",
+          "anchor": "垂带贵人"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+E3D0",
+      "glyph": "",
+      "count": 10,
+      "replacement": "兔",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "玉东升格",
+        "壬以",
+        "癸以"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷一/释六十甲子性质吉凶三/text.txt",
+          "anchor": "玉兔东升格"
+        },
+        {
+          "repo": "Banny-Gao/mingli-research",
+          "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+          "path": "books/三命通会/articles/释六十甲子性质吉凶四/source.md",
+          "anchor": "玉兔东升格"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EA4B",
+      "glyph": "",
+      "count": 10,
+      "replacement": "死",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "生为忠臣必为明神",
+        "絶处生起",
+        "五行居墓之地"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/金声玉振赋/text.txt",
+          "anchor": "生为忠臣，死必为明神"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-12-8.txt",
+          "anchor": "死必为明神"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EA43",
+      "glyph": "",
+      "count": 9,
+      "replacement": "台",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "楼残",
+        "翰苑清要或谏",
+        "受职谏之除"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/元理赋/text.txt",
+          "anchor": "受职台谏之除"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-12-1.txt",
+          "anchor": "受职台谏之除"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+E408",
+      "glyph": "",
+      "count": 6,
+      "replacement": "嗽",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "咳面色青黯",
+        "痰火咳气喘",
+        "妇女主痰"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷七/论疾病先知五脏六腑所/text.txt",
+          "anchor": "痰火咳嗽、气喘吐血"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷七/论疾病先知五脏六腑所/text.txt",
+          "anchor": "夜啼咳嗽、面色青黯"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+E4BF",
+      "glyph": "",
+      "count": 6,
+      "replacement": "琐",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "身品小",
+        "身材小",
+        "官煞单见不遂"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷六/论食神/text.txt",
+          "anchor": "身材琐小"
+        },
+        {
+          "repo": "Banny-Gao/mingli-research",
+          "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+          "path": "books/三命通会/articles/论食神/source.md",
+          "anchor": "身材琐小"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EA1F",
+      "glyph": "",
+      "count": 6,
+      "replacement": "弘",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "器宇含",
+        "含容大",
+        "福量寛"
+      ],
+      "evidence": [
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/006卷 一·释六十甲子性质吉凶.md",
+          "anchor": "器宇含弘"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷六/论食神/text.txt",
+          "anchor": "福量宽弘"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+E880",
+      "glyph": "",
+      "count": 5,
+      "replacement": "派",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "世代宗盛衰",
+        "闲来一清冷",
+        "何源流资格"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十/玉井奥诀七/text.txt",
+          "anchor": "闲来一派清冷"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十/玉井奥诀九/text.txt",
+          "anchor": "何派源流资格"
+        }
+      ]
+    }
+  ]
+}
