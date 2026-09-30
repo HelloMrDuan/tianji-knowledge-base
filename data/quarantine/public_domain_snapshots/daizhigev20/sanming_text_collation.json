@@ -2348,11 +2348,235 @@
         }
       ],
       "note": "Two independent Siku-derived witnesses agree on historical 㓙."
+    },
+    {
+      "id": "ocr-090",
+      "old": "葢人自生至老必从防以至少壮十嵗之时方当少年",
+      "new": "葢人自生至老必从㣲以至少壮十嵗之时方当少年",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "葢人自生至老必從㣲以至少壮十嵗之時方當少年"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "葢人自生至老必從㣲以至少壮十嵗之時方當少年"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "葢人自生至老必從㣲以至少壮十嵗之時方當少年"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㣲."
+    },
+    {
+      "id": "ocr-091",
+      "old": "欲交不交尚有防残之祸",
+      "new": "欲交不交尚有㡬残之祸",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "欲交不交尚有㡬殘之禍"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "欲交不交尚有㡬殘之禍"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "欲交不交尚有㡬殘之禍"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㡬."
+    },
+    {
+      "id": "ocr-092",
+      "old": "吉运未到先作福防运过去始为殃",
+      "new": "吉运未到先作福㓙运过去始为殃",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "吉運未到先作福㓙運過去始為殃"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "吉運未到先作福㓙運過去始為殃"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "吉運未到先作福㓙運過去始為殃"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㓙."
+    },
+    {
+      "id": "ocr-093",
+      "old": "到死絶乡主骨肉死防自身衰祸钝闷百事蹇塞",
+      "new": "到死絶乡主骨肉死䘮自身衰祸钝闷百事蹇塞",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "到死絶鄉主骨肉死䘮自身衰禍鈍悶百事蹇塞"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "到死絶鄉主骨肉死䘮自身衰禍鈍悶百事蹇塞"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "到死絶鄉主骨肉死䘮自身衰禍鈍悶百事蹇塞"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 䘮."
+    },
+    {
+      "id": "ocr-094",
+      "old": "有一字者防半二字俱无防莫能觧",
+      "new": "有一字者㐫半二字俱无㓙莫能觧",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "有一字者㐫半二字俱無㓙莫能觧"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "有一字者㐫半二字俱無㓙莫能觧"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "有一字者㐫半二字俱無㓙莫能觧"
+        }
+      ],
+      "note": "Three Siku-derived witnesses independently distinguish historical 㐫 and 㓙 in the same sentence."
+    },
+    {
+      "id": "ocr-095",
+      "old": "巳酉之类谓之君臣庆防在两旬内",
+      "new": "巳酉之类谓之君臣庆㑹在两旬内",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "巳酉之類謂之君臣慶㑹在兩旬内"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "巳酉之類謂之君臣慶㑹在兩旬内"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "巳酉之類謂之君臣慶㑹在兩旬内"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㑹."
+    },
+    {
+      "id": "ocr-096",
+      "old": "甲午见巳未之类谓之夫妻聚防",
+      "new": "甲午见巳未之类谓之夫妻聚㑹",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "甲午見巳未之類謂之夫妻聚㑹"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "甲午見巳未之類謂之夫妻聚㑹"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "甲午見巳未之類謂之夫妻聚㑹"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㑹."
+    },
+    {
+      "id": "ocr-097",
+      "old": "日月十二辰交防之所凡月之防朔日之璧于此位",
+      "new": "日月十二辰交㑹之所凡月之㑹朔日之璧于此位",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-02.md",
+          "anchor": "日月十二辰交㑹之所凡月之㑹朔日之璧於此位"
+        },
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_002.txt",
+          "anchor": "日月十二辰交㑹之所凡月之㑹朔日之璧於此位"
+        },
+        {
+          "repo": "F25731/yin-yang",
+          "commit": "ee1c2b660837539a69a993ddcbc87b42087be35b",
+          "path": "corpus/04-阴阳术数/02-八字四柱/三命通會/chapters/0003.md",
+          "anchor": "日月十二辰交㑹之所凡月之㑹朔日之璧於此位"
+        }
+      ],
+      "note": "Three Siku-derived witnesses agree on historical 㑹 in both positions."
     }
   ],
   "summary": {
-    "confirmed_corrections": 89,
-    "confirmed_replacements": 89,
+    "confirmed_corrections": 97,
+    "confirmed_replacements": 97,
     "review_status": "in_progress",
     "canonical_ready": false
   }
