@@ -32,10 +32,10 @@
   "summary": {
     "audit_total_occurrences": 524,
     "audit_unique_codepoints": 86,
-    "confirmed_mappings": 56,
-    "confirmed_occurrences": 487,
-    "remaining_unique_codepoints": 30,
-    "remaining_occurrences": 37
+    "confirmed_mappings": 64,
+    "confirmed_occurrences": 495,
+    "remaining_unique_codepoints": 22,
+    "remaining_occurrences": 29
   },
   "mappings": [
     {
@@ -1532,6 +1532,255 @@
           "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
           "path": "books/三命通会/articles/明通赋四/source.md",
           "anchor": "听凤鸣于高岗，必鹰扬于疆场"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EBA5",
+      "glyph": "",
+      "count": 1,
+      "replacement": "忘",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "火死絶主膓气结塞惊悸徤精神不安之疾"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷七/论疾病先知五脏六腑所/text.txt",
+          "anchor": "火死绝，主肠气结塞、惊悸健忘，精神不安之疾"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/153卷 七·论疾病先知五脏六腑所属干支.md",
+          "anchor": "火死绝，主肠气结塞、惊悸健忘，精神不安之疾"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-7-2.txt",
+          "anchor": "火死绝，主肠气结塞、惊悸健忘，精神不安之疾"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+ECCA",
+      "glyph": "",
+      "count": 1,
+      "replacement": "烽",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "又午为马堠乃戎马兵火之处所也"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷二/十二支分配地理/text.txt",
+          "anchor": "又午为马，烽堠乃戎马兵火之处所也"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/010卷 二·十二支分配地理.md",
+          "anchor": "又午为马，烽堠乃戎马兵火之处所也"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-2-4.txt",
+          "anchor": "又午为马，烽堠乃戎马兵火之处所也"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+ED51",
+      "glyph": "",
+      "count": 1,
+      "replacement": "瞽",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "飞防名天支干无气主无目"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷七/论疾病先知五脏六腑所/text.txt",
+          "anchor": "飞廉名天瞽，支干无气，主无目"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/153卷 七·论疾病先知五脏六腑所属干支.md",
+          "anchor": "飞廉名天瞽，支干无气，主无目"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-7-2.txt",
+          "anchor": "飞廉名天瞽，支干无气，主无目"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EEA3",
+      "glyph": "",
+      "count": 1,
+      "replacement": "递",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "五行自死絶而有救相还者"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷六/还魂借气/text.txt",
+          "anchor": "五行自死绝而有救递相还者"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/107卷 六·还魂借气.md",
+          "anchor": "五行自死绝而有救递相还者"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-6-29.txt",
+          "anchor": "五行自死绝而有救递相还者"
+        }
+      ],
+      "note": "The damaged glyph is 递, not 助; multiple independent witnesses preserve the phrase 有救递相还者."
+    },
+    {
+      "codepoint": "U+EED7",
+      "glyph": "",
+      "count": 1,
+      "replacement": "开",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "无丑戌以刑冲之则库不难得官印力"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷二/论地支/text.txt",
+          "anchor": "无丑戌以刑冲之，则库不开，难得金印"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/008卷 二·论地支.md",
+          "anchor": "无丑戌以刑冲之，则库不开，难得金印"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-2-2.txt",
+          "anchor": "无丑戌以刑冲之，则库不开，难得金印"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EEE4",
+      "glyph": "",
+      "count": 1,
+      "replacement": "徒",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "七岁前羸疾七岁后肥胎犯空亡"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷七/论小儿/text.txt",
+          "anchor": "七岁前赢疾，七岁后徒肥"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/165卷 七·论小儿.md",
+          "anchor": "七岁前赢疾，七岁后徒肥"
+        },
+        {
+          "repo": "Banny-Gao/mingli-research",
+          "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+          "path": "books/三命通会/articles/论小儿/interpretation.md",
+          "anchor": "七岁前赢疾，七岁后徒肥"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EEE5",
+      "glyph": "",
+      "count": 1,
+      "replacement": "隐",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "处者也藏伏之义也"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷二/论四时节气/text.txt",
+          "anchor": "处者，隐也，藏伏之义也"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/013卷 二·论四时节气.md",
+          "anchor": "处者，隐也，藏伏之义也"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-2-7.txt",
+          "anchor": "处者，隐也，藏伏之义也"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EF6B",
+      "glyph": "",
+      "count": 1,
+      "replacement": "疡",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "金火相尅生旺则疮瘫瘇死絶则痨瘵呕血"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷七/论疾病先知五脏六腑所/text.txt",
+          "anchor": "金火相克，生旺则疡疮瘫肿，死绝则痨瘵呕血"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/153卷 七·论疾病先知五脏六腑所属干支.md",
+          "anchor": "金火相克，生旺则疡疮瘫肿，死绝则痨瘵呕血"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-7-2.txt",
+          "anchor": "金火相克，生旺则疡疮瘫肿，死绝则痨瘵呕血"
         }
       ]
     }
