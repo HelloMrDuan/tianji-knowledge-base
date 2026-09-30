@@ -32,10 +32,10 @@
   "summary": {
     "audit_total_occurrences": 524,
     "audit_unique_codepoints": 86,
-    "confirmed_mappings": 31,
-    "confirmed_occurrences": 453,
-    "remaining_unique_codepoints": 55,
-    "remaining_occurrences": 71
+    "confirmed_mappings": 36,
+    "confirmed_occurrences": 459,
+    "remaining_unique_codepoints": 50,
+    "remaining_occurrences": 65
   },
   "mappings": [
     {
@@ -871,6 +871,133 @@
           "commit": "fcab4e24f97e2c53a23153d0be1f36d7c091a7fe",
           "path": "易藏/术数/神峰通考_page25.html",
           "anchor": "长生根本，瓜瓞绵绵"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EEA6",
+      "glyph": "",
+      "count": 2,
+      "replacement": "蓬",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "飘落魄",
+        "男子飘女作尼姑"
+      ],
+      "evidence": [
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/神锋通考/006卷04.md",
+          "anchor": "飘蓬落魄，戌带杀来"
+        },
+        {
+          "repo": "lhw828/GuWen",
+          "commit": "fcab4e24f97e2c53a23153d0be1f36d7c091a7fe",
+          "path": "易藏/术数/神峰通考_page16.html",
+          "anchor": "飘蓬落魄，戌带杀来"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EA5B",
+      "glyph": "",
+      "count": 1,
+      "replacement": "传",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "尸痨瘵面阎罗"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/针灸大成/卷九/治症总要（杨氏）/text.txt",
+          "anchor": "传尸痨瘵"
+        },
+        {
+          "repo": "mahavivo/scripta-sinica",
+          "commit": "d2a447941d43fd5ac35b35194dcb0a68d4275aa7",
+          "path": "09医藏-0869部/绛囊撮要-清-云川道人.txt",
+          "anchor": "传尸痨瘵"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EA62",
+      "glyph": "",
+      "count": 1,
+      "replacement": "备",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "详陈夲末察盈后之君子幸勿忽诸"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/渊海子平/赋论·四/text.txt",
+          "anchor": "详陈本末，备察盈亏"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-12-9.txt",
+          "anchor": "详陈本末，备察盈亏"
+        }
+      ],
+      "note": "Collation evidence resolves this as 备察, not the tempting modernized reading 细察."
+    },
+    {
+      "codepoint": "U+E8AA",
+      "glyph": "",
+      "count": 1,
+      "replacement": "恶",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "阳刄者天上之防星人间之煞喜偏官印绶"
+      ],
+      "evidence": [
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/150卷 六·论阳刃（前论羊刃煞与此参看）.md",
+          "anchor": "阳刃者，天上之凶星，人间之恶煞"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷六.txt",
+          "anchor": "陽刃者，天上之凶星，人間之惡煞"
+        }
+      ]
+    },
+    {
+      "codepoint": "U+EA26",
+      "glyph": "",
+      "count": 1,
+      "replacement": "兮",
+      "status": "confirmed",
+      "confidence": "high",
+      "source_anchors": [
+        "年干父兮支母日干巳支妻月干兄兮支弟"
+      ],
+      "evidence": [
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/络绎赋/text.txt",
+          "anchor": "年干父兮支母，日干己兮支妻"
+        },
+        {
+          "repo": "dooshu/dooshu.github.io",
+          "commit": "bd5876e14892386f1baae725c908c59056031aca",
+          "path": "cn/1302/-cn-1302-12-5.txt",
+          "anchor": "年干父兮支母，日干己兮支妻"
         }
       ]
     }
