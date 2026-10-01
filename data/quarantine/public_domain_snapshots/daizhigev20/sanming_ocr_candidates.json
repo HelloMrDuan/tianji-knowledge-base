@@ -92,9 +92,9 @@
   "summary": {
     "historical_only_hold": 775,
     "variant_preserve": 47,
-    "confirmed_applied": 67,
+    "confirmed_applied": 86,
     "reading_disagreement_hold": 12,
-    "corroborated_pending_next_batch": 92
+    "corroborated_pending_next_batch": 73
   },
   "candidates": [
     {
@@ -13130,8 +13130,8 @@
       "old": "防",
       "historical_reading": "䨇",
       "context": "巳巳午癸日之纯粹再无冲绊为人淳厚富贵防全畧见损伤亦主富足若生辰戌丑未月当以",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-512",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -13395,8 +13395,8 @@
       "old": "防",
       "historical_reading": "㐫",
       "context": "日子时忌行火地西北行来则吉东南一去忧防【古歌云】辛逄戊子号朝阳运喜西方禄位昌丑",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-513",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -13484,8 +13484,8 @@
       "old": "防",
       "historical_reading": "㐫",
       "context": "木旺之地水印亦可忌见金火若歳运逄申酉防悔东方渐退午运则亡如一命壬寅辛亥乙未",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-514",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -13891,8 +13891,8 @@
       "old": "防",
       "historical_reading": "䨇",
       "context": "无财印不喜伤害忌官煞乂怕空亡【诗日】日时防拱禄中庭金匮藏珠格最清至贵至高君子命",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-515",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -13956,8 +13956,8 @@
       "old": "防",
       "historical_reading": "㸔",
       "context": "败官星不可当【又】拱禄拱贵格中稀也湏月令防支提提纲有用提纲重月令无神用此竒【又】所",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-516",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -14449,8 +14449,8 @@
       "old": "防",
       "historical_reading": "㐫",
       "context": "性尊重之名遇财官印食则吉値煞刃冲刑则防运遇魁罡为害不浅【又云】贵逄破害刑冲者生",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-517",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -14538,8 +14538,8 @@
       "old": "防",
       "historical_reading": "㑹",
       "context": "推切忌魁罡分昼夜更防刑害失尊卑运行嘉防名湏重命带空亡祸必随贵重尊严持厚德或",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-518",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -14603,8 +14603,8 @@
       "old": "防",
       "historical_reading": "㐫",
       "context": "貌魁梧有怜贫敬老之心无毒害尅剥之意逄防有救遇难有解不遭非横福必丰厚【赋云】日徳",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-519",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -14668,8 +14668,8 @@
       "old": "防",
       "historical_reading": "㐫",
       "context": "居干之首在辰为青龙在戌为禄堂有吉而无防故也此格湏叠化重逄日位加临者众以伏为",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-520",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -15141,8 +15141,8 @@
       "old": "防",
       "historical_reading": "㑹",
       "context": "字当权贵絶伦【又】天干壬癸喜冬生更値申辰防局成或是全归亥子丑等闲平歩上青云\n 稼穑",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-521",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -17062,8 +17062,8 @@
       "old": "防",
       "historical_reading": "㢘",
       "context": "其性刚其情烈旺相则英勇豪杰仗义疎财知防耻识羞恶骨肉相应体徤神清面方白净眉髙",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-522",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -17127,8 +17127,8 @@
       "old": "防",
       "historical_reading": "㤗",
       "context": "难不畏平生不以财物为吝好施与不私已奢防欢乐多情尚义防有不善终之患若命入贵格",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-523",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -17478,8 +17478,8 @@
       "old": "防",
       "historical_reading": "㤀",
       "context": "逆肢体怠惰喜卧嗜睡多思足虑耳聋神浊徤防少喜动作之疾\n 有相尅而成疾者金火相尅生",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-524",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -18067,8 +18067,8 @@
       "old": "防",
       "historical_reading": "㫖",
       "context": "夫而贫前八法以泄其玄机后八格仍明其奥防倘有缺误俟知者择焉【又云】乾道成男坤道成",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-525",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -19436,8 +19436,8 @@
       "old": "防",
       "historical_reading": "䘮",
       "context": "财重刑伤父母鬼旺后代迁荣刼财重重父早防破印太重母先亡岁月财官旺相公父显荣日",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-526",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -19909,8 +19909,8 @@
       "old": "防",
       "historical_reading": "㑹",
       "context": "不贵则富若年月癸戊一化申卯两旺己丑酉防金行木土运位至金紫【一云】发中自刑害【丁卯",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-527",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -19998,8 +19998,8 @@
       "old": "防",
       "historical_reading": "㳟",
       "context": "正天官守库乾元青年虎榜姓名传禀性温良防俭士庻妻贤子贵才人禄位陞迁南离戊癸火",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-528",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -20063,8 +20063,8 @@
       "old": "防",
       "historical_reading": "㸔",
       "context": "时春身旺冬印旺大贵夏己午秋酉戌俱贵亦防天干何如丁未甲辰生计辛苦一生遇贵丑月",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-529",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -20352,8 +20352,8 @@
       "old": "防",
       "historical_reading": "㺯",
       "context": "名昌】\n 丁丑日逢癸卯生 求名求利且中平身衰防巧翻成拙 得志须通遇贵人\n 丁日时临癸卯身",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-530",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
