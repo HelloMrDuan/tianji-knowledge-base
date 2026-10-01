@@ -12,6 +12,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+from tianji_kb.staging import stage_update
 MANIFEST = json.loads((ROOT / "config/source_file_manifest.json").read_text(encoding="utf-8"))["files"]
 REGISTRY = {x["id"]: x for x in json.loads((ROOT / "config/source_registry.json").read_text(encoding="utf-8"))["sources"]}
 STATE_PATH = ROOT / "data/state/file_refresh_state.json"
@@ -59,14 +61,13 @@ for item in MANIFEST:
         continue
 
     target = ROOT / item["target"]
-    target.parent.mkdir(parents=True, exist_ok=True)
     old = target.read_text(encoding="utf-8") if target.exists() else None
-    if old != content:
-        target.write_text(content, encoding="utf-8")
-        changed += 1
+    staged_path, staged_changed = stage_update(ROOT, item["target"], item["source_id"], sha, content)
+    changed += int(staged_changed)
 
     state["files"][item["target"]] = {
-        "status": "updated" if old != content else "unchanged",
+        "status": "quarantined_for_review" if item["target"].startswith("data/canonical/") and old != content else ("updated" if old != content else "unchanged"),
+        "candidate_path": staged_path.relative_to(ROOT).as_posix(),
         "repo": repo,
         "source_path": item["path"],
         "source_commit": sha,

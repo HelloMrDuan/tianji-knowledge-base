@@ -74,7 +74,7 @@ def validate_knowledge(root: Path, bundles: list[dict] | None = None) -> dict:
                     raise ValueError(f'Duplicate entity ID: {eid}')
                 if entity['domain'] != bundle['domain'] or not eid.startswith(bundle['domain'] + '.'):
                     raise ValueError(f'Wrong entity domain: {eid}')
-                signature = (entity['name'], entity.get('school'), entity.get('variant'))
+                signature = (entity['name'], entity.get('school'), entity.get('variant'), entity.get('classic_id'), entity.get('chapter_id'))
                 if signature in seen_names:
                     raise ValueError(f'Duplicate {collection} name/variant: {signature}')
                 seen_names.add(signature)
@@ -86,7 +86,7 @@ def validate_knowledge(root: Path, bundles: list[dict] | None = None) -> dict:
     for collection, entity in entities.values():
         eid = entity['id']
         if collection == 'classics':
-            if entity['source_id'] not in sources:
+            if any(sid not in sources for sid in [entity['source_id']] + entity.get('source_ids', [])):
                 raise ValueError(f'Unknown classic source: {eid}')
         if collection in ('chapters', 'sections'):
             classic = require(entity['classic_id'], 'classics')
@@ -97,7 +97,7 @@ def validate_knowledge(root: Path, bundles: list[dict] | None = None) -> dict:
             if chapter['classic_id'] != entity['classic_id']:
                 raise ValueError(f'Chapter/classic mismatch: {eid}')
             sid = entity['source_id']
-            if sid != classic['source_id'] or entity['text'] not in texts.get(sid, ''):
+            if sid not in [classic['source_id']] + classic.get('source_ids', []) or entity['text'] not in texts.get(sid, ''):
                 raise ValueError(f'Unverifiable classical section: {eid}')
             if sources[sid]['kind'] != 'classical' or sources[sid]['evidence_level'] == 'D':
                 raise ValueError(f'Unreviewed source in canonical section: {eid}')
