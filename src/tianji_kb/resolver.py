@@ -1,5 +1,6 @@
 """Resolve declared rules to verified classical evidence, never unreviewed bodies."""
 import hashlib
+import copy
 import json
 from pathlib import Path
 
@@ -50,6 +51,23 @@ class EvidenceResolver:
                 'classic_title':classic['name'],'chapter_id':chapter['id'],'chapter_title':chapter['name'],
                 'locator':section['locator'],'source_url':source['url'],'commit':source['commit'],
                 'sha256':source['sha256'],'evidence_level':source['evidence_level']})
+        for path in sorted((self.root/'data/canonical').glob('*/phase2_evidence.json')):
+            evidence=read_json(path)
+            for ref in evidence['records']:
+                if rule_id not in ref['rule_ids']:
+                    continue
+                source=self.sources[ref['source_id']]
+                from .knowledge import source_text
+                if ref['review_status']!='approved' or source['kind']!='classical' or source['evidence_level']=='D' or ref['original_text'] not in source_text(self.root,source):
+                    raise ValueError('Unreviewed or unverifiable supplementary evidence')
+                classic=self.entities[ref['classic_id']][1]
+                output.append({'source_id':source['source_id'],'section_id':ref['id'],
+                    'original_text':ref['original_text'],'role':'classical','rule_id':rule_id,'variant':variant,
+                    'classic_id':classic['id'],'classic_title':classic['name'],
+                    'chapter_id':ref['id']+'.chapter','chapter_title':ref['chapter_title'],
+                    'locator':ref['locator'],'source_url':source['url'],'commit':source['commit'],
+                    'sha256':source['sha256'],'evidence_level':source['evidence_level'],
+                    'independence_status':ref['independence_status']})
         return output
 
 class ExecutionTrace:
@@ -63,7 +81,7 @@ class ExecutionTrace:
         for ref in refs:
             key=hashlib.sha256(json.dumps(ref,ensure_ascii=False,sort_keys=True).encode()).hexdigest()[:24]
             self.evidence[key]=ref
-        self.steps.append({'rule_id':rule_id,'inputs':inputs,'output':output,'evidence_ids':[
+        self.steps.append({'rule_id':rule_id,'inputs':copy.deepcopy(inputs),'output':copy.deepcopy(output),'evidence_ids':[
             hashlib.sha256(json.dumps(ref,ensure_ascii=False,sort_keys=True).encode()).hexdigest()[:24] for ref in refs]})
         return output
 

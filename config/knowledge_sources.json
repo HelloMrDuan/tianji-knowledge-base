@@ -1911,6 +1911,27 @@
       "kind": "classical",
       "rights_basis": "仅保存古籍原文；不取得电子本所在仓库现代编辑内容的版权许可。旧题作者不作历史确证。",
       "review_scope": "固定版本原典短选段：逐段检查字面匹配、术语上下文；不声称整本或独立版本校勘完成。"
+    },
+    {
+      "source_id": "ziwei.source.quanshu-phase2",
+      "title": "紫微斗数全书·排盘短选段（同 Phase 1 底本）",
+      "author": "旧题陈希夷；署名未确证",
+      "era": "前现代传世文本；具体原刊本未核",
+      "repository": "hxl888/jingpan",
+      "url": "https://github.com/hxl888/jingpan/blob/d725dd16b40cb60ec3a027309933deb364054644/src/data/bookChapters.json",
+      "commit": "d725dd16b40cb60ec3a027309933deb364054644",
+      "path": "src/data/bookChapters.json",
+      "license": "Public-Domain (pre-modern text only)",
+      "public_domain": true,
+      "retrieved_at": "2026-10-01",
+      "content_path": "data/quarantine/phase2/ziwei/quanshu/additional-excerpts.txt",
+      "content_format": "text",
+      "sha256": "433969d340f2988f43ac50972b967bb54fb47f4182b292701b0ba0fcf48d1740",
+      "blob_sha": "1af7a8971e61216cb3100b4401d3393438163b08",
+      "evidence_level": "C",
+      "kind": "classical",
+      "rights_basis": "仅保存古籍原文；不取得电子本所在仓库现代编辑内容的版权许可。旧题作者不作历史确证。",
+      "review_scope": "核定仅古籍短引与原字段；与 Phase 1 同底本，不是独立版本，不升级A/B。"
     }
   ]
 }
