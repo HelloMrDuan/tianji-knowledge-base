@@ -15,10 +15,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Install validation dependencies
+        run: python -m pip install -e ".[validation]"
       - name: Validate canonical data
         run: |
           export PYTHONPATH=src
           python scripts/validate_kb.py
+          python scripts/validate_knowledge.py
           python -m unittest discover -s tests -p 'test_*.py'
           python scripts/apply_pua_collation.py \
             data/quarantine/public_domain_snapshots/daizhigev20/sanming_tonghui.txt \
