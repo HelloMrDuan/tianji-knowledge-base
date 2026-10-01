@@ -15,7 +15,7 @@
     "data/canonical/classics/liuyao/增删卜易.txt": "74d854545b6424730244815d419b26246fb61f104015c4561278ed03de05c9c9",
     "data/canonical/classics/yijing/wenyan.json": "c4206ea628f15681a6363f6552d89d6717f6d558dadba0992ae9a20476b31f1b",
     "data/canonical/classics/yijing/yizhuan-supplement.json": "ad6910af9109d114404b00aafec8a12bd3d15e16ca09fbac1c0f0a48e43e2a50",
-    "data/canonical/classics/yijing/zhouyi-64.json": "36f04ce14869c80fb5422a35c770b175f02396d8019522c143c121b7cfa8e99d",
+    "data/canonical/classics/yijing/zhouyi-64.json": "6dc6344cd3bc32ac8975b563964a3ee0c4732368586310fe3e0083cbaf226918",
     "data/canonical/classics/yijing/序卦.md": "aedd2c7b7c9b4dd4cd9adaafa810c505c639c3e087f11d597a10cc64c8a55775",
     "data/canonical/classics/yijing/杂卦.md": "af184d94c9006b6dd4a297e1e118fee342f16c196c9e1901d1d3bbf22c26b822",
     "data/canonical/classics/yijing/系辞.md": "0a941e2fc795040307402b992e2e4e54588d174b1abc2789131c4407d1e558e4",
@@ -60,5 +60,10 @@
     "data/quarantine/public_domain_snapshots/daizhigev20/sanming_pua_collation.json": "96943525453662663918965d28711a2f1b0758aef7bc9b4a3aaafb770dbfdd97",
     "data/quarantine/public_domain_snapshots/daizhigev20/sanming_text_collation.json": "e47bce8c478327b3bcb7f804c29ad4189d824b40a9d2e0ea5032ddebf39ff4ce",
     "data/quarantine/public_domain_snapshots/daizhigev20/sanming_tonghui.txt": "00e2a7db8bb59b259b99938033bb1bb77947e04a15dafc111e62b59378010c86"
+  },
+  "external_refresh_review": {
+    "commit": "0f43661",
+    "path": "data/canonical/classics/yijing/zhouyi-64.json",
+    "finding": "Only 64 provenance commit references changed; all classical text and attributes identical. No Phase 1 edits to this file."
   }
 }

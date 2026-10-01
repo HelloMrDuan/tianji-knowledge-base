@@ -30,18 +30,19 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Install validation dependencies
+        run: python -m pip install -e ".[validation]"
       - name: Refresh whitelisted upstream files
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python scripts/refresh_manifest_sources.py
-      - name: Rebuild canonical data and retrieval indexes
-        run: python scripts/rebuild_derived.py
       - name: Cross-check Yijing sources without overwriting canonical
         run: python scripts/audit_yijing_variants.py
-      - name: Validate rebuilt knowledge base
+      - name: Validate protected knowledge base
         run: |
           export PYTHONPATH=src
           python scripts/validate_kb.py
+          python scripts/validate_knowledge.py
           python -m unittest discover -s tests -p 'test_*.py'
           python scripts/build_index.py
       - name: Commit audited refresh
@@ -50,7 +51,7 @@ jobs:
           if git diff --quiet; then exit 0; fi
           git config user.name "tianji-kb-bot"
           git config user.email "tianji-kb-bot@users.noreply.github.com"
-          git add data/upstream data/canonical data/reference data/index data/state data/audit
+          git add data/upstream data/quarantine data/reference data/index data/state data/audit
           git commit -m "chore: refresh and rebuild audited knowledge base"
           git pull --rebase origin main
           git push origin main

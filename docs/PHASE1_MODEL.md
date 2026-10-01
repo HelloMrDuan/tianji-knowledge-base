@@ -30,3 +30,9 @@ RAW 缓存在忽略目录 `data/raw/`，固定校验和后进入 QUARANTINE，
 运行：`pip install -e '.[validation]'` 后设置 `PYTHONPATH=src`，执行
 `python scripts/validate_knowledge.py` 和 `python -m unittest discover -s tests`。
 默认生产检索仍只读取 Canonical，完整隔离文本不参与推理。
+
+自动刷新补充保护：源文件清单中的 Canonical 更新转存
+`data/quarantine/refresh_candidates/`；定时工作流不再执行 Canonical 重建
+或公版文本自动晋级。人工审核晋级仍可另开 PR。框架 PR 合并前，外部刷新
+`0f43661` 仅替换旧周易文件的 64 个来源 commit 值；已逐字段比较确认正文和
+属性完全一致，因此保护基线接受该外部元数据更新。
