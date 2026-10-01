@@ -92,9 +92,9 @@
   "summary": {
     "historical_only_hold": 775,
     "variant_preserve": 47,
-    "confirmed_applied": 86,
+    "confirmed_applied": 105,
     "reading_disagreement_hold": 12,
-    "corroborated_pending_next_batch": 73
+    "corroborated_pending_next_batch": 54
   },
   "candidates": [
     {
@@ -20405,8 +20405,8 @@
       "old": "防",
       "historical_reading": "㤗",
       "context": "其中仓库沉埋少年难发等时来丑未相冲通防不靠双亲鴈侣花开收果妻财时逢寿足福重",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-531",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -20494,8 +20494,8 @@
       "old": "防",
       "historical_reading": "㑹",
       "context": "亥时贵人捧印贵子月东方运风宪柱有己丑防财卯未防印天干透财官印者大贵\n 【辛未郭朴",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-532",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -20559,8 +20559,8 @@
       "old": "防",
       "historical_reading": "㑹",
       "context": "捧印贵子月东方运风宪柱有己丑防财卯未防印天干透财官印者大贵\n 【辛未郭朴阁老一云",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-533",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -20790,8 +20790,8 @@
       "old": "防",
       "historical_reading": "㐫",
       "context": "寅】\n 己巳日戊辰时身孤后发春官贵夏平穏秋防暴冬财旺岁运同\n 【壬戌庄仁春太守与 戊子髙",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-534",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -20903,8 +20903,8 @@
       "old": "防",
       "historical_reading": "㐫",
       "context": "孙忠烈公子己酉 如津锦衣】\n 己巳日壬申时大防刑巳酉丑月伤官行财运吉寅午戌月金神入",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-535",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -21016,8 +21016,8 @@
       "old": "防",
       "historical_reading": "㐫",
       "context": "官藏煞见未为奇\n 逢金制煞方为吉 身不旺兮防可知\n 巳日乙亥时煞见官藏巳以甲为官乙为",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-536",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -21153,8 +21153,8 @@
       "old": "防",
       "historical_reading": "䧟",
       "context": "别立基\n 庚日时逢丙子刑官背禄安身双亲尅防早艰辛鴈侣不能和顺废学经商发福田庄后",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-537",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -21554,8 +21554,8 @@
       "old": "防",
       "historical_reading": "㐫",
       "context": "北运贵申子辰行东南运极品忌己酉月孤单防丁亥月㐫刑恶死辛丑月刑\n 【壬辰曾省吾尚书",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-538",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -22035,8 +22035,8 @@
       "old": "防",
       "historical_reading": "㓛",
       "context": "气退气之由更审己发未发之义将来而速进防毕以先归一生嵗运皆凶年少早死末旬命星",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-539",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -22136,8 +22136,8 @@
       "old": "防",
       "historical_reading": "㸔",
       "context": "少金多既不能销铄反有烟防之患余例推\n 凡防命先论五行体面局势然后参以喜忌好恶旺",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-540",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -22288,8 +22288,8 @@
       "old": "防",
       "historical_reading": "㸔",
       "context": "夘时方贵【天元变化书云】乙丙丁正爱酉亥更防纳音有无交渉【又云】凡三竒三合带月令中秀",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-541",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -22380,8 +22380,8 @@
       "old": "防",
       "historical_reading": "㸔",
       "context": "从象衰而至老驱驱化象伏而平生碌碌\n 【又曰】防子平之法专论财官以月上财官为紧要发觉",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-542",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -22489,8 +22489,8 @@
       "old": "防",
       "historical_reading": "㓕",
       "context": "而成功木败不仁而妄作金衰寡义亦无恩火防无礼之軰水浊失智之人土遭木尅言常失信",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-543",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -22542,8 +22542,8 @@
       "old": "防",
       "historical_reading": "㓜",
       "context": "立月遇絶伤时对冲门户定有三迁年逢衰地防嵗艰难月在旺乡晚年不足时衰日秀有始无",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-544",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -22619,8 +22619,8 @@
       "old": "防",
       "historical_reading": "㑹",
       "context": "四合四刑刑合当明邪正七冲八击冲击喜得防藏夹贵夹邱为暗防财库官库要明冲官星在",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-545",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -22672,8 +22672,8 @@
       "old": "防",
       "historical_reading": "㑹",
       "context": "邪正七冲八击冲击喜得防藏夹贵夹邱为暗防财库官库要明冲官星在生旺之方逢则何须",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-546",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -22725,8 +22725,8 @@
       "old": "防",
       "historical_reading": "㑹",
       "context": "月下用神见处无财必受空中祸害羊刃更兼防合千里徒流用财若遇刼夺一生贫窘人生前",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-547",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -22778,8 +22778,8 @@
       "old": "防",
       "historical_reading": "㑹",
       "context": "运干生于日干也但㸔有情无情合与不合凶防吉防消详且如原有害刃则骨肉残伤原有伤",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-548",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -22831,8 +22831,8 @@
       "old": "防",
       "historical_reading": "㑹",
       "context": "生于日干也但㸔有情无情合与不合凶防吉防消详且如原有害刃则骨肉残伤原有伤煞地",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-549",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
