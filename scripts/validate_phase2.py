@@ -26,6 +26,7 @@ def validate():
             if rule['validation_status']=='validated':
                 assert (ROOT/rule['regression_test']).is_file()
                 assert all(g in passed and passed[g]['domain']==domain and passed[g]['variant']==contract['variant'] for g in rule['golden_case_ids'])
+                assert any(rule['id'] in passed[g]['rule_ids'] for g in rule['golden_case_ids']), 'No golden exercises this execution rule'
                 n+=1
     print(f'Phase 2: {len(seen)} execution rules, {n} validated, {len(passed)} golden cases passed')
 
