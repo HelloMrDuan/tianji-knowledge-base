@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-01T14:21:19.743173+00:00",
+  "generated_at": "2026-10-01T22:51:48.601758+00:00",
   "files": {
     "data/upstream/godcong-yi/bagua.json": {
       "status": "unchanged",
@@ -63,7 +63,7 @@
     },
     "data/canonical/classics/liuyao/卜筮正宗.txt": {
       "status": "unchanged",
-      "candidate_path": "data/quarantine/refresh_candidates/liuyao-engine/53291663a4c733c4cbdfa174a8d3075475c07fd3/baaa62d2e74e5d8c-卜筮正宗.txt",
+      "candidate_path": "data/canonical/classics/liuyao/卜筮正宗.txt",
       "repo": "yaomancy/liuyao-engine",
       "source_path": "data/卜筮正宗_ctext公有领域全文.txt",
       "source_commit": "53291663a4c733c4cbdfa174a8d3075475c07fd3",
@@ -75,7 +75,7 @@
     },
     "data/canonical/classics/liuyao/增删卜易.txt": {
       "status": "unchanged",
-      "candidate_path": "data/quarantine/refresh_candidates/liuyao-engine/53291663a4c733c4cbdfa174a8d3075475c07fd3/6e0db5733703c2d8-增删卜易.txt",
+      "candidate_path": "data/canonical/classics/liuyao/增删卜易.txt",
       "repo": "yaomancy/liuyao-engine",
       "source_path": "data/增删卜易_ctext公有领域全文.txt",
       "source_commit": "53291663a4c733c4cbdfa174a8d3075475c07fd3",
@@ -267,7 +267,7 @@
     },
     "data/canonical/classics/yijing/系辞.md": {
       "status": "unchanged",
-      "candidate_path": "data/quarantine/refresh_candidates/open-iching-classics/4c5f00f8cb62c6e0d2471243d28150b473ef592f/a1e4726d75f0b69b-系辞.md",
+      "candidate_path": "data/canonical/classics/yijing/系辞.md",
       "repo": "john-walks-slow/open-iching",
       "source_path": "md/系辞.md",
       "source_commit": "4c5f00f8cb62c6e0d2471243d28150b473ef592f",
@@ -279,7 +279,7 @@
     },
     "data/canonical/classics/yijing/说卦.md": {
       "status": "unchanged",
-      "candidate_path": "data/quarantine/refresh_candidates/open-iching-classics/4c5f00f8cb62c6e0d2471243d28150b473ef592f/f1e31232732228cd-说卦.md",
+      "candidate_path": "data/canonical/classics/yijing/说卦.md",
       "repo": "john-walks-slow/open-iching",
       "source_path": "md/说卦.md",
       "source_commit": "4c5f00f8cb62c6e0d2471243d28150b473ef592f",
@@ -291,7 +291,7 @@
     },
     "data/canonical/classics/yijing/序卦.md": {
       "status": "unchanged",
-      "candidate_path": "data/quarantine/refresh_candidates/open-iching-classics/4c5f00f8cb62c6e0d2471243d28150b473ef592f/2fe5e8f1a3f4443a-序卦.md",
+      "candidate_path": "data/canonical/classics/yijing/序卦.md",
       "repo": "john-walks-slow/open-iching",
       "source_path": "md/序卦.md",
       "source_commit": "4c5f00f8cb62c6e0d2471243d28150b473ef592f",
@@ -303,7 +303,7 @@
     },
     "data/canonical/classics/yijing/杂卦.md": {
       "status": "unchanged",
-      "candidate_path": "data/quarantine/refresh_candidates/open-iching-classics/4c5f00f8cb62c6e0d2471243d28150b473ef592f/b04adfb766ea6c20-杂卦.md",
+      "candidate_path": "data/canonical/classics/yijing/杂卦.md",
       "repo": "john-walks-slow/open-iching",
       "source_path": "md/杂卦.md",
       "source_commit": "4c5f00f8cb62c6e0d2471243d28150b473ef592f",
