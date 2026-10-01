@@ -13018,11 +13018,715 @@
         }
       ],
       "note": "Broad twelve-volume scan: 2 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-425",
+      "old": "行羊刃歳运亦防元有财者更重",
+      "new": "行羊刃歳运亦㓙元有财者更重",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "行羊刃歳運亦㓙元有財者更重"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "行羊刃歳運亦㓙元有財者更重"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/元理赋/text.txt",
+          "anchor": "行羊刃岁运亦凶元有财者更重"
+        }
+      ],
+      "note": "Recovery of batch 39: 1 OCR glyph(s), verified against both pinned Siku transcriptions and a separately maintained text with at least six CJK characters on each side of every reading. 歳/岁 and other comparison aliases are used only for source retrieval; exact replacement preserves all unrelated characters and historical spellings. No raw snapshot or PUA mapping change."
+    },
+    {
+      "id": "ocr-426",
+      "old": "利是图歳运见防吊伏返在俗人",
+      "new": "利是图歳运见䘮吊伏返在俗人",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "利是圖歳運見䘮弔伏返在俗人"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "利是圖歳運見䘮弔伏返在俗人"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/金鼎神秘赋/text.txt",
+          "anchor": "利是图岁运见丧吊伏返在俗人"
+        }
+      ],
+      "note": "Recovery of batch 39: 1 OCR glyph(s), verified against both pinned Siku transcriptions and a separately maintained text with at least six CJK characters on each side of every reading. 歳/岁 and other comparison aliases are used only for source retrieval; exact replacement preserves all unrelated characters and historical spellings. No raw snapshot or PUA mapping change."
+    },
+    {
+      "id": "ocr-427",
+      "old": "疾病死絶贫贱防恶歳运晦显各",
+      "new": "疾病死絶贫贱㓙恶歳运晦显各",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "疾病死絶貧賤㓙惡歳運晦顯各"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "疾病死絶貧賤㓙惡歳運晦顯各"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/金鼎神秘赋/text.txt",
+          "anchor": "疾病死绝贫贱凶恶岁运晦显各"
+        }
+      ],
+      "note": "Recovery of batch 39: 1 OCR glyph(s), verified against both pinned Siku transcriptions and a separately maintained text with at least six CJK characters on each side of every reading. 歳/岁 and other comparison aliases are used only for source retrieval; exact replacement preserves all unrelated characters and historical spellings. No raw snapshot or PUA mapping change."
+    },
+    {
+      "id": "ocr-428",
+      "old": "池财露主淫奢防煞合年防自刃桃花重带合神花街栁巷驿马若逢冲物暮楚朝秦金火交争断无礼义印财两失少损爷娘桃花会禄酒色亡身财旺枭衰因财防命身临沐浴之年恐遭水厄主入战鬭之地必逢火伤财生官者用贿求官财坏印者贪财卸职财旺生官白身荣显财生煞党天折童年独煞冲破废闲人诸煞逢刑𠒋狠軰天干多煞遇干年须当夭折地支多鬼遇支年必见防灾财生官官生印印生身富贵双全伤党财财党煞煞尅身防穷两逼酉寅刑害继伤婚己卯风雷多性急煞官混逢乃技艺之流财禄坐马为经商之客马落空亡迁居漂泊禄遭冲破离乡萍梗隂多利于女人阳盛宜于男子隂盛于阳女主兴家阳盛于隂男当建府纯阳男必孤寡纯隂女必困穷官贵生年化防煞而名垂万古",
+      "new": "池财露主淫奢㓙煞合年防自刃桃花重带合神花街栁巷驿马若逢冲物暮楚朝秦金火交争断无礼义印财两失少损爷娘桃花会禄酒色亡身财旺枭衰因财䘮命身临沐浴之年恐遭水厄主入战鬭之地必逢火伤财生官者用贿求官财坏印者贪财卸职财旺生官白身荣显财生煞党天折童年独煞冲破废闲人诸煞逢刑𠒋狠軰天干多煞遇干年须当夭折地支多鬼遇支年必见㓙灾财生官官生印印生身富贵双全伤党财财党煞煞尅身㓙穷两逼酉寅刑害继伤婚己卯风雷多性急煞官混逢乃技艺之流财禄坐马为经商之客马落空亡迁居漂泊禄遭冲破离乡萍梗隂多利于女人阳盛宜于男子隂盛于阳女主兴家阳盛于隂男当建府纯阳男必孤寡纯隂女必困穷官贵生年化㓙煞而名垂万古",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "池財露主淫奢㓙煞合年防自刃桃花重帶合神花街栁巷驛馬若逢衝物暮楚朝秦金火交争斷無禮義印財兩失少損爺娘桃花會禄酒色亡身財旺梟衰因財䘮命身臨沐浴之年恐遭水厄主入戰鬭之地必逢火傷財生官者用賄求官財壞印者貪財卸職財旺生官白身榮顯財生煞黨天折童年獨煞衝破廢閑人諸煞逢刑兇狠軰天干多煞遇干年須當夭折地支多鬼遇支年必見㓙灾財生官官生印印生身富貴雙全傷黨財財黨煞煞尅身㓙窮兩逼酉寅刑害繼傷婚己卯風雷多性急煞官混逢乃技藝之流財禄坐馬為經商之客馬落空亡遷居漂泊祿遭衝破離鄉萍梗隂多利於女人陽盛宜於男子隂盛於陽女主興家陽盛於隂男當建府純陽男必孤寡純隂女必困窮官貴生年化㓙煞而名垂萬古"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "池財露主淫奢㓙煞合年防自刃桃花重帶合神花街栁巷驛馬若逢衝物暮楚朝秦金火交争斷無禮義印財兩失少損爺娘桃花會禄酒色亡身財旺梟衰因財䘮命身臨沐浴之年恐遭水厄主入戰鬭之地必逢火傷財生官者用賄求官財壞印者貪財卸職財旺生官白身榮顯財生煞黨天折童年獨煞衝破廢閑人諸煞逢刑𠒋狠軰天干多煞遇干年須當夭折地支多鬼遇支年必見㓙灾財生官官生印印生身富貴雙全傷黨財財黨煞煞尅身㓙窮兩逼酉寅刑害繼傷婚己卯風雷多性急煞官混逢乃技藝之流財禄坐馬為經商之客馬落空亡遷居漂泊祿遭衝破離鄉萍梗隂多利於女人陽盛宜於男子隂盛於陽女主興家陽盛於隂男當建府純陽男必孤寡純隂女必困窮官貴生年化㓙煞而名垂萬古"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/络绎赋/text.txt",
+          "anchor": "池财露主淫奢凶煞合年防自刃"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/络绎赋/text.txt",
+          "anchor": "财旺枭衰因财丧命身临沐浴之"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/络绎赋/text.txt",
+          "anchor": "鬼遇支年必见凶灾财生官官生"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/络绎赋/text.txt",
+          "anchor": "财党煞煞克身凶穷两逼酉寅刑"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/络绎赋/text.txt",
+          "anchor": "穷官贵生年化凶煞而名垂万古"
+        }
+      ],
+      "note": "Recovery of batch 39: 5 OCR glyph(s), verified against both pinned Siku transcriptions and a separately maintained text with at least six CJK characters on each side of every reading. 歳/岁 and other comparison aliases are used only for source retrieval; exact replacement preserves all unrelated characters and historical spellings. No raw snapshot or PUA mapping change."
+    },
+    {
+      "id": "ocr-429",
+      "old": "逢喜神则将变防为吉喜神庆会",
+      "new": "逢喜神则将变㓙为吉喜神庆会",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "逢喜神則將變㓙為吉喜神慶會"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "逢喜神則將變㓙為吉喜神慶會"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/金玉赋/text.txt",
+          "anchor": "逢喜神则将变凶为吉喜神庆会"
+        }
+      ],
+      "note": "Recovery of batch 39: 1 OCR glyph(s), verified against both pinned Siku transcriptions and a separately maintained text with at least six CJK characters on each side of every reading. 歳/岁 and other comparison aliases are used only for source retrieval; exact replacement preserves all unrelated characters and historical spellings. No raw snapshot or PUA mapping change."
+    },
+    {
+      "id": "ocr-430",
+      "old": "时令有偏印吉防未萌大运歳君",
+      "new": "时令有偏印吉㓙未萌大运歳君",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "時令有偏印吉㓙未萌大運歳君"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "時令有偏印吉㓙未萌大運歳君"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/金玉赋/text.txt",
+          "anchor": "时令有偏印吉凶未萌大运岁君"
+        }
+      ],
+      "note": "Recovery of batch 39: 1 OCR glyph(s), verified against both pinned Siku transcriptions and a separately maintained text with at least six CJK characters on each side of every reading. 歳/岁 and other comparison aliases are used only for source retrieval; exact replacement preserves all unrelated characters and historical spellings. No raw snapshot or PUA mapping change."
+    },
+    {
+      "id": "ocr-431",
+      "old": "説贵与贱亦须防运限\n 大凡行运逢禄马发迹为官也\n 天月二徳为救神百灾不为防\n 向禄临财甚希",
+      "new": "説贵与贱亦须㸔运限\n 大凡行运逢禄马发迹为官也\n 天月二徳为救神百灾不为㓙\n 向禄临财甚希",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "説貴與賤亦須㸔運限大凡行運逢禄馬發跡為官也天月二徳為救神百灾不為㓙向禄臨財甚希"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "説貴與賤亦須㸔運限大凡行運逢禄馬發跡為官也天月二徳為救神百灾不為㓙向禄臨財甚希"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/心镜五七赋/text.txt",
+          "anchor": "说贵与贱亦须看运限大凡行运"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/心镜五七赋/text.txt",
+          "anchor": "救神百灾不为凶向禄临财甚希"
+        }
+      ],
+      "note": "Recovery of batch 39: 2 OCR glyph(s), verified against both pinned Siku transcriptions and a separately maintained text with at least six CJK characters on each side of every reading. 歳/岁 and other comparison aliases are used only for source retrieval; exact replacement preserves all unrelated characters and historical spellings. No raw snapshot or PUA mapping change."
+    },
+    {
+      "id": "ocr-432",
+      "old": "水禄马同乡而防登台鼎煞印重",
+      "new": "水禄马同乡而㑹登台鼎煞印重",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "水禄馬同鄉而㑹登台鼎煞印重"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "水禄馬同鄉而㑹登台鼎煞印重"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/人鉴论/text.txt",
+          "anchor": "水禄马同乡而会登台鼎煞印重"
+        }
+      ],
+      "note": "Recovery of batch 39: 1 OCR glyph(s), verified against both pinned Siku transcriptions and a separately maintained text with at least six CJK characters on each side of every reading. 歳/岁 and other comparison aliases are used only for source retrieval; exact replacement preserves all unrelated characters and historical spellings. No raw snapshot or PUA mapping change."
+    },
+    {
+      "id": "ocr-433",
+      "old": "弱逢吉运以为防命坐坚实遇祸年而反福煞虽重而多合何伤日月之眀禄虽显而有失难际风云之会遇而不遇庚辛在壬癸之乡忧而不忧甲乙行丙丁之地或若生逢絶败郑谷归耕禄马病衰冯唐皓首九官旺相难逃邀我于桑中四柱合和未免题诗于叶上西施貌美自身多带长生緑珠坠楼防恶又逢七煞孤鸾入命夫哭妇而妇哭夫烟花绊身女求男而男求女头目防而肢体相亏财帛耗而田宅有害生时若遇刑冲一生屡空歳月若临刼夺百歳孤寒财入财窠不贵即当大富煞居太歳居安可不虑危乃若官星透露未可便作贵推煞星下攻曷可便为防断大抵贵禄喜",
+      "new": "弱逢吉运以为㓙命坐坚实遇祸年而反福煞虽重而多合何伤日月之眀禄虽显而有失难际风云之会遇而不遇庚辛在壬癸之乡忧而不忧甲乙行丙丁之地或若生逢絶败郑谷归耕禄马病衰冯唐皓首九官旺相难逃邀我于桑中四柱合和未免题诗于叶上西施貌美自身多带长生緑珠坠楼㓙恶又逢七煞孤鸾入命夫哭妇而妇哭夫烟花绊身女求男而男求女头目防而肢体相亏财帛耗而田宅有害生时若遇刑冲一生屡空歳月若临刼夺百歳孤寒财入财窠不贵即当大富煞居太歳居安可不虑危乃若官星透露未可便作贵推煞星下攻曷可便为㓙断大抵贵禄喜",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "弱逢吉運以為㓙命坐堅實遇禍年而反福煞雖重而多合何傷日月之眀禄雖顯而有失難際風雲之會遇而不遇庚辛在壬癸之鄉憂而不憂甲乙行丙丁之地或若生逢絶敗鄭谷歸耕禄馬病衰馮唐皓首九官旺相難逃邀我於桑中四柱合和未免題詩於葉上西施貌美自身多帶長生緑珠墜樓㓙惡又逢七煞孤鸞入命夫哭婦而婦哭夫烟花絆身女求男而男求女頭目䧟而肢體相虧財帛耗而田宅有害生時若遇刑衝一生屢空歳月若臨刼奪百歳孤寒財入財窠不貴即當大富煞居太歳居安可不慮危乃若官星透露未可便作貴推煞星下攻曷可便為㓙斷大抵貴禄喜"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "弱逢吉運以為㓙命坐堅實遇禍年而反福煞雖重而多合何傷日月之眀禄雖顯而有失難際風雲之會遇而不遇庚辛在壬癸之鄉憂而不憂甲乙行丙丁之地或若生逢絶敗鄭谷歸耕禄馬病衰馮唐皓首九官旺相難逃邀我於桑中四柱合和未免題詩於葉上西施貌美自身多帶長生緑珠墜樓㓙惡又逢七煞孤鸞入命夫哭婦而婦哭夫烟花絆身女求男而男求女頭目䧟而肢體相𧇊財帛耗而田宅有害生時若遇刑衝一生屢空歳月若臨刼奪百歳孤寒財入財窠不貴即當大富煞居太歳居安可不慮危乃若官星透露未可便作貴推煞星下攻曷可便為㓙斷大抵貴禄喜"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/人鉴论/text.txt",
+          "anchor": "弱逢吉运以为凶命坐坚实遇祸"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/人鉴论/text.txt",
+          "anchor": "长生绿珠坠楼凶恶又逢七煞孤"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/人鉴论/text.txt",
+          "anchor": "下攻曷可便为凶断大抵贵禄喜"
+        }
+      ],
+      "note": "Recovery of batch 39: 3 OCR glyph(s), verified against both pinned Siku transcriptions and a separately maintained text with at least six CJK characters on each side of every reading. 歳/岁 and other comparison aliases are used only for source retrieval; exact replacement preserves all unrelated characters and historical spellings. No raw snapshot or PUA mapping change."
+    },
+    {
+      "id": "ocr-434",
+      "old": "节气之浅深次防财官之向背凡",
+      "new": "节气之浅深次㸔财官之向背凡",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "節氣之淺深次㸔財官之向背凡"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "節氣之淺深次㸔財官之向背凡"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/元妙论/text.txt",
+          "anchor": "节气之浅深次看财官之向背凡"
+        }
+      ],
+      "note": "Recovery of batch 39: 1 OCR glyph(s), verified against both pinned Siku transcriptions and a separately maintained text with at least six CJK characters on each side of every reading. 歳/岁 and other comparison aliases are used only for source retrieval; exact replacement preserves all unrelated characters and historical spellings. No raw snapshot or PUA mapping change."
+    },
+    {
+      "id": "ocr-435",
+      "old": "合禄马之年须防玉堂天乙之歳",
+      "new": "合禄马之年须㸔玉堂天乙之歳",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "合禄馬之年須㸔玉堂天乙之歳"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "合禄馬之年須㸔玉堂天乙之歳"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/元妙论/text.txt",
+          "anchor": "合禄马之年须看玉堂天乙之岁"
+        }
+      ],
+      "note": "Recovery of batch 39: 1 OCR glyph(s), verified against both pinned Siku transcriptions and a separately maintained text with at least six CJK characters on each side of every reading. 歳/岁 and other comparison aliases are used only for source retrieval; exact replacement preserves all unrelated characters and historical spellings. No raw snapshot or PUA mapping change."
+    },
+    {
+      "id": "ocr-436",
+      "old": "专论六格逢官防财见财而富贵逢煞防印遇印以荣华逢印防官而遇官十有",
+      "new": "专论六格逢官㸔财见财而富贵逢煞㸔印遇印以荣华逢印㸔官而遇官十有",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "專論六格逢官㸔財見財而富貴逢煞㸔印遇印以榮華逢印㸔官而遇官十有"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "專論六格逢官㸔財見財而富貴逢煞㸔印遇印以榮華逢印㸔官而遇官十有"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/精微论/text.txt",
+          "anchor": "专论六格逢官看财见财而富贵"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/精微论/text.txt",
+          "anchor": "财而富贵逢煞看印遇印以荣华"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/精微论/text.txt",
+          "anchor": "印以荣华逢印看官而遇官十有"
+        }
+      ],
+      "note": "Recovery of batch 39: 3 OCR glyph(s), verified against both pinned Siku transcriptions and a separately maintained text with at least six CJK characters on each side of every reading. 歳/岁 and other comparison aliases are used only for source retrieval; exact replacement preserves all unrelated characters and historical spellings. No raw snapshot or PUA mapping change."
+    },
+    {
+      "id": "ocr-437",
+      "old": "命重煞运逢财防而可决甲乙运",
+      "new": "命重煞运逢财㓙而可决甲乙运",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "命重煞運逢財㓙而可决甲乙運"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "命重煞運逢財㓙而可决甲乙運"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/精微论/text.txt",
+          "anchor": "命重煞运逢财凶而可决甲乙运"
+        }
+      ],
+      "note": "Recovery of batch 39: 1 OCR glyph(s), verified against both pinned Siku transcriptions and a separately maintained text with at least six CJK characters on each side of every reading. 歳/岁 and other comparison aliases are used only for source retrieval; exact replacement preserves all unrelated characters and historical spellings. No raw snapshot or PUA mapping change."
+    },
+    {
+      "id": "ocr-438",
+      "old": "犯主伶仃吊客防门歳运并临方",
+      "new": "犯主伶仃吊客䘮门歳运并临方",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "犯主伶仃弔客䘮門歳運併臨方"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "犯主伶仃弔客䘮門歳運併臨方"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/惊神论/text.txt",
+          "anchor": "犯主伶仃吊客丧门岁运并临方"
+        }
+      ],
+      "note": "Recovery of batch 39: 1 OCR glyph(s), verified against both pinned Siku transcriptions and a separately maintained text with at least six CJK characters on each side of every reading. 歳/岁 and other comparison aliases are used only for source retrieval; exact replacement preserves all unrelated characters and historical spellings. No raw snapshot or PUA mapping change."
+    },
+    {
+      "id": "ocr-439",
+      "old": "七煞无制乃为防恶之徒伤官咸池定作岐路之客凡见日干太弱内有弱处复生若见旺相相生亦有旺中尅破\n 明津先生骨髓歌\n 欲知五行生死诀容易岂与凡人説五星只在限为慿子平专以运中决生知富贵问前程死时未审如何截格局只以用神推用不受伤人不灭运行先布十二宫防于何宫受某节财官印绶与食神当知轻重审分明官星怕行七煞运偏官尤畏正官临官煞混行当知审去煞留官仔细评留官去煞莫逢煞留煞去官官莫逢官煞受伤人自绝更防财格定前程日",
+      "new": "七煞无制乃为㓙恶之徒伤官咸池定作岐路之客凡见日干太弱内有弱处复生若见旺相相生亦有旺中尅破\n 明津先生骨髓歌\n 欲知五行生死诀容易岂与凡人説五星只在限为慿子平专以运中决生知富贵问前程死时未审如何截格局只以用神推用不受伤人不灭运行先布十二宫㸔于何宫受某节财官印绶与食神当知轻重审分明官星怕行七煞运偏官尤畏正官临官煞混行当知审去煞留官仔细评留官去煞莫逢煞留煞去官官莫逢官煞受伤人自绝更㸔财格定前程日",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "七煞無制乃為㓙惡之徒傷官咸池定作岐路之客凡見日干太弱内有弱處復生若見旺相相生亦有旺中尅破明津先生骨髓歌欲知五行生死訣容易豈與凡人説五星只在限為慿子平專以運中决生知富貴問前程死時未審如何截格局只以用神推用不受傷人不滅運行先布十二宫㸔於何宫受某節財官印綬與食神當知輕重審分明官星怕行七煞運偏官尤畏正官臨官煞混行當知審去煞留官仔細評留官去煞莫逢煞留煞去官官莫逢官煞受傷人自絕更㸔財格定前程日"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "七煞無制乃為㓙惡之徒傷官咸池定作岐路之客凡見日干太弱内有弱處復生若見旺相相生亦有旺中尅破明津先生骨髓歌欲知五行生死訣容易豈與凡人説五星只在限為慿子平專以運中决生知富貴問前程死時未審如何截格局只以用神推用不受傷人不滅運行先布十二宫㸔於何宫受某節財官印綬與食神當知輕重審分明官星怕行七煞運偏官尤畏正官臨官煞混行當知審去煞留官仔細評留官去煞莫逢煞留煞去官官莫逢官煞受傷人自絕更㸔財格定前程日"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/惊神论/text.txt",
+          "anchor": "七煞无制乃为凶恶之徒伤官咸"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/明津先生骨髓歌/text.txt",
+          "anchor": "行先布十二宫看於何宫受某节"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/明津先生骨髓歌/text.txt",
+          "anchor": "受伤人自绝更看财格定前程日"
+        }
+      ],
+      "note": "Recovery of batch 39: 3 OCR glyph(s), verified against both pinned Siku transcriptions and a separately maintained text with at least six CJK characters on each side of every reading. 歳/岁 and other comparison aliases are used only for source retrieval; exact replacement preserves all unrelated characters and historical spellings. No raw snapshot or PUA mapping change."
+    },
+    {
+      "id": "ocr-440",
+      "old": "此命危亡可立防飞天拱禄嫌填实更防绊神来犯干若依喜忌篇中断格局逢伤作夭防后格死生无异兆第一财官为紧要运行若不遇财官既遇财官无长少问夀须知问用神用神受制定尅身受伤勿以便为祸轻重须教认取真用神健旺定无虑运若逢伤实蹇迍退职卸官依例断亡家败业损儿孙六亲眷属还遭累礼服亲防百事临何以知其能住夀但宜运上细推寻日干同运如逢煞逢煞逢刑祸来侵外敌仍还逢内敌其余宫分外方寻内逢外敌为灾重外逢内敌祸防侵戊巳土须分四季杂气中间难又易逐年分定数中分受制受伤随歳气指定吉防此运中何年何月殃灾至子运歳逢辰子癸克应太歳及月位寅运丙申逢年同巳丙一同祸福类卯运乙木怕相逢巳中戊庚丙杂会午运年上午戊防丑未年中须是畏申宫庚亥莫相逢酉逢辛丑皆为忌亥运壬甲怕申宫只是八宫包四季四季从头混八宫大抵循环如指示不知去处是无穷配合干支同一位便分轻重定灾防运重歳轻宜并论吉防歳随运一同此",
+      "new": "此命危亡可立㸔飞天拱禄嫌填实更㸔绊神来犯干若依喜忌篇中断格局逢伤作夭㸔后格死生无异兆第一财官为紧要运行若不遇财官既遇财官无长少问夀须知问用神用神受制定尅身受伤勿以便为祸轻重须教认取真用神健旺定无虑运若逢伤实蹇迍退职卸官依例断亡家败业损儿孙六亲眷属还遭累礼服亲䘮百事临何以知其能住夀但宜运上细推寻日干同运如逢煞逢煞逢刑祸来侵外敌仍还逢内敌其余宫分外方寻内逢外敌为灾重外逢内敌祸防侵戊巳土须分四季杂气中间难又易逐年分定数中分受制受伤随歳气指定吉㐫此运中何年何月殃灾至子运歳逢辰子癸克应太歳及月位寅运丙申逢年同巳丙一同祸福类卯运乙木怕相逢巳中戊庚丙杂会午运年上午戊㐫丑未年中须是畏申宫庚亥莫相逢酉逢辛丑皆为忌亥运壬甲怕申宫只是八宫包四季四季从头混八宫大抵循环如指示不知去处是无穷配合干支同一位便分轻重定灾㐫运重歳轻宜并论吉㐫歳随运一同此",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "此命危亡可立㸔飛天拱禄嫌填實更㸔絆神來犯干若依喜忌篇中斷格局逢傷作夭㸔後格死生無異兆第一財官為𦂳要運行若不遇財官既遇財官無長少問夀須知問用神用神受制定尅身受傷勿以便為禍輕重須教認取真用神健旺定無慮運若逢傷實蹇迍退職卸官依例斷亡家敗業損兒孫六親眷屬還遭累禮服親䘮百事臨何以知其能住夀但宜運上細推尋日干同運如逢煞逢煞逢刑禍來侵外敵仍還逢内敵其餘宫分外方尋内逢外敵為灾重外逢内敵禍㣲侵戊巳土須分四季雜氣中間難又易逐年分定數中分受制受傷隨歳氣指定吉㐫此運中何年何月殃灾至子運歳逢辰子癸克應太歳及月位寅運丙申逢年同巳丙一同禍福類卯運乙木怕相逢巳中戊庚丙雜會午運年上午戊㐫丑未年中須是畏申宫庚亥莫相逢酉逢辛丑皆為忌亥運壬甲怕申宫只是八宫包四季四季從頭混八宫大抵循環如指示不知去處是無窮配合干支同一位便分輕重定灾㐫運重歳輕宜併論吉㐫歳隨運一同此"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "此命危亡可立㸔飛天拱禄嫌填實更㸔絆神來犯干若依喜忌篇中斷格局逢傷作夭㸔後格死生無異兆第一財官為𦂳要運行若不遇財官既遇財官無長少問夀須知問用神用神受制定尅身受傷勿以便為禍輕重須教認取真用神健旺定無慮運若逢傷實蹇迍退職卸官依例斷亡家敗業損兒孫六親眷屬還遭累禮服親䘮百事臨何以知其能住夀但宜運上細推尋日干同運如逢煞逢煞逢刑禍來侵外敵仍還逢内敵其餘宫分外方尋内逢外敵為灾重外逢内敵禍㣲侵戊巳土須分四季雜氣中間難又易逐年分定數中分受制受傷隨歳氣指定吉㐫此運中何年何月殃灾至子運歳逢辰子癸克應太歳及月位寅運丙申逢年同巳丙一同禍福類卯運乙木怕相逢巳中戊庚丙雜會午運年上午戊㐫丑未年中須是畏申宫庚亥莫相逢酉逢辛丑皆為忌亥運壬甲怕申宫只是八宫包四季四季從頭混八宫大抵循環如指示不知去處是無窮配合干支同一位便分輕重定灾㐫運重歳輕宜併論吉㐫歳隨運一同此"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/明津先生骨髓歌/text.txt",
+          "anchor": "此命危亡可立看飞天拱禄嫌填"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/明津先生骨髓歌/text.txt",
+          "anchor": "拱禄嫌填实更看绊神来犯干若"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/明津先生骨髓歌/text.txt",
+          "anchor": "格局逢伤作夭看後格死生无异"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/明津先生骨髓歌/text.txt",
+          "anchor": "还遭累礼服亲丧百事临何以知"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/明津先生骨髓歌/text.txt",
+          "anchor": "随岁气指定吉凶此运中何年何"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/明津先生骨髓歌/text.txt",
+          "anchor": "午运年上午戊凶丑未年中须是"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/明津先生骨髓歌/text.txt",
+          "anchor": "便分轻重定灾凶运重岁轻宜并"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/明津先生骨髓歌/text.txt",
+          "anchor": "岁轻宜并论吉凶岁随运一同此"
+        }
+      ],
+      "note": "Recovery of batch 39: 8 OCR glyph(s), verified against both pinned Siku transcriptions and a separately maintained text with at least six CJK characters on each side of every reading. 歳/岁 and other comparison aliases are used only for source retrieval; exact replacement preserves all unrelated characters and historical spellings. No raw snapshot or PUA mapping change."
+    },
+    {
+      "id": "ocr-441",
+      "old": "伤妻尅子可立防官煞太重身更",
+      "new": "伤妻尅子可立㸔官煞太重身更",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "傷妻尅子可立㸔官煞太重身更"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "傷妻尅子可立㸔官煞太重身更"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/搜髓歌/text.txt",
+          "anchor": "伤妻克子可立看官煞太重身更"
+        }
+      ],
+      "note": "Recovery of batch 39: 1 OCR glyph(s), verified against both pinned Siku transcriptions and a separately maintained text with at least six CJK characters on each side of every reading. 歳/岁 and other comparison aliases are used only for source retrieval; exact replacement preserves all unrelated characters and historical spellings. No raw snapshot or PUA mapping change."
+    },
+    {
+      "id": "ocr-442",
+      "old": "不调成血疾更防行运又如何男子枭食重重见身弱多应痨病随女人枭食非为吉产难惊人病亦危女命官旺兼财旺招得贤夫更好儿若是财官俱受损伤夫尅子有何疑印绶生身身更旺为人刑尅主贫孤若得官显财又显亦为超迈贵人扶女命若也伤官旺坐下伤官会骂夫朝暮喃喃口不绝百年终是见刑枯乙巳庚午与辛未日干带之最为美再防四柱又何如定",
+      "new": "不调成血疾更㸔行运又如何男子枭食重重见身弱多应痨病随女人枭食非为吉产难惊人病亦危女命官旺兼财旺招得贤夫更好儿若是财官俱受损伤夫尅子有何疑印绶生身身更旺为人刑尅主贫孤若得官显财又显亦为超迈贵人扶女命若也伤官旺坐下伤官会骂夫朝暮喃喃口不绝百年终是见刑枯乙巳庚午与辛未日干带之最为美再㸔四柱又何如定",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "不調成血疾更㸔行運又如何男子梟食重重見身弱多應癆病隨女人梟食非為吉産難驚人病亦危女命官旺兼財旺招得賢夫更好兒若是財官俱受損傷夫尅子有何疑印綬生身身更旺為人刑尅主貧孤若得官顯財又顯亦為超邁貴人扶女命若也傷官旺坐下傷官會罵夫朝暮喃喃口不絕百年終是見刑枯乙巳庚午與辛未日干帶之最為美再㸔四柱又何如定"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "不調成血疾更㸔行運又如何男子梟食重重見身弱多應癆病隨女人梟食非為吉産難驚人病亦危女命官旺兼財旺招得賢夫更好兒若是財官俱受損傷夫尅子有何疑印綬生身身更旺為人刑尅主貧孤若得官顯財又顯亦為超邁貴人扶女命若也傷官旺坐下傷官會罵夫朝暮喃喃口不絕百年終是見刑枯乙巳庚午與辛未日干帶之最為美再㸔四柱又何如定"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/搜髓歌/text.txt",
+          "anchor": "不调成血疾更看行运又如何男"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/搜髓歌/text.txt",
+          "anchor": "带之最为美再看四柱又何如定"
+        }
+      ],
+      "note": "Recovery of batch 39: 2 OCR glyph(s), verified against both pinned Siku transcriptions and a separately maintained text with at least six CJK characters on each side of every reading. 歳/岁 and other comparison aliases are used only for source retrieval; exact replacement preserves all unrelated characters and historical spellings. No raw snapshot or PUA mapping change."
+    },
+    {
+      "id": "ocr-443",
+      "old": "弃命就财 须要防财 弃命从煞 须要防煞从财忌煞 从煞喜财 防逢根气 防损无猜此法元",
+      "new": "弃命就财 须要㑹财 弃命从煞 须要㑹煞从财忌煞 从煞喜财 㑹逢根气 㑹损无猜此法元",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "棄命就財須要㑹財棄命從煞須要㑹煞從財忌煞從煞喜財㑹逢根氣㑹損無猜此法元"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "棄命就財須要㑹財棄命從煞須要㑹煞從財忌煞從煞喜財㑹逢根氣㑹損無猜此法元"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/四言独步/text.txt",
+          "anchor": "弃命就财须要会财弃命从煞须"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/四言独步/text.txt",
+          "anchor": "弃命从煞须要会煞从财忌煞从"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/四言独步/text.txt",
+          "anchor": "忌煞从煞喜财会逢根气会损无"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/四言独步/text.txt",
+          "anchor": "喜财会逢根气会损无猜此法元"
+        }
+      ],
+      "note": "Recovery of batch 39: 4 OCR glyph(s), verified against both pinned Siku transcriptions and a separately maintained text with at least six CJK characters on each side of every reading. 歳/岁 and other comparison aliases are used only for source retrieval; exact replacement preserves all unrelated characters and historical spellings. No raw snapshot or PUA mapping change."
+    },
+    {
+      "id": "ocr-444",
+      "old": "富贵坎地却犹防\n 甲乙生三月 庚辛戌未存 丑宫壬癸位何虑见无根\n 木茂宜金火 身衰鬼作闗 时分西与北轻重辨东南\n 时上胞胎格 月逢印绶通 煞官行运助职位至三公\n 二子不冲午 二寅不冲申 二午不冲子二申不冲寅\n 得一分三格 财官印绶全 运中逢尅破一命防黄泉\n 进气死不死 退气生不生 终年无发旺犹忌少年刑\n 时上偏财格 干头忌比肩 月生身主旺贵气福重深\n 时上一位贵 藏在支中是 日主要刚强名利方有气\n 运行十载数 上下五年分 先防流年歳深知来",
+      "new": "富贵坎地却犹㐫\n 甲乙生三月 庚辛戌未存 丑宫壬癸位何虑见无根\n 木茂宜金火 身衰鬼作闗 时分西与北轻重辨东南\n 时上胞胎格 月逢印绶通 煞官行运助职位至三公\n 二子不冲午 二寅不冲申 二午不冲子二申不冲寅\n 得一分三格 财官印绶全 运中逢尅破一命䘮黄泉\n 进气死不死 退气生不生 终年无发旺犹忌少年刑\n 时上偏财格 干头忌比肩 月生身主旺贵气福重深\n 时上一位贵 藏在支中是 日主要刚强名利方有气\n 运行十载数 上下五年分 先㸔流年歳深知来",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "富貴坎地却猶㐫甲乙生三月庚辛戌未存丑宫壬癸位何慮見無根木茂宜金火身衰鬼作闗時分西與北輕重辨東南時上胞胎格月逢印綬通煞官行運助職位至三公二子不衝午二寅不衝申二午不衝子二申不衝寅得一分三格財官印綬全運中逢尅破一命䘮黄泉進氣死不死退氣生不生終年無發旺猶忌少年刑時上偏財格干頭忌比肩月生身主旺貴氣福重深時上一位貴藏在支中是日主要剛強名利方有氣運行十載數上下五年分先㸔流年歳深知來"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "富貴坎地却猶㐫甲乙生三月庚辛戌未存丑宫壬癸位何慮見無根木茂宜金火身衰鬼作闗時分西與北輕重辨東南時上胞胎格月逢印綬通煞官行運助職位至三公二子不衝午二寅不衝申二午不衝子二申不衝寅得一分三格財官印綬全運中逢尅破一命䘮黄泉進氣死不死退氣生不生終年無發旺猶忌少年刑時上偏財格干頭忌比肩月生身主旺貴氣福重深時上一位貴藏在支中是日主要剛強名利方有氣運行十載數上下五年分先㸔流年歳深知來"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/五言独步/text.txt",
+          "anchor": "富贵坎地却犹凶甲乙生三月庚"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/五言独步/text.txt",
+          "anchor": "中逢克破一命丧黄泉进气死不"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/五言独步/text.txt",
+          "anchor": "上下五年分先看流年岁深知来"
+        }
+      ],
+      "note": "Recovery of batch 39: 3 OCR glyph(s), verified against both pinned Siku transcriptions and a separately maintained text with at least six CJK characters on each side of every reading. 歳/岁 and other comparison aliases are used only for source retrieval; exact replacement preserves all unrelated characters and historical spellings. No raw snapshot or PUA mapping change."
     }
   ],
   "summary": {
-    "confirmed_corrections": 424,
-    "confirmed_replacements": 424,
+    "confirmed_corrections": 444,
+    "confirmed_replacements": 444,
     "review_status": "in_progress",
     "canonical_ready": false
   }
