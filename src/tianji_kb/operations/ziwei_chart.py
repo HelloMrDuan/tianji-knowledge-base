@@ -34,10 +34,10 @@ def compute(year_ganzhi,lunar_month,lunar_day,hour_branch):
     major={name:branch(z+offset) for name,offset in [('紫微',0),('天机',-1),('太阳',-3),('武曲',-4),('天同',-5),('廉贞',-8)]}
     major.update({name:branch(f+offset) for name,offset in [('天府',0),('太阴',1),('贪狼',2),('巨门',3),('天相',4),('天梁',5),('七杀',6),('破军',10)]})
     l=BRANCHES.index(lucun(year_ganzhi[0]))
-    aux={'左辅':branch(4+lunar_month-1),'右弼':branch(10-lunar_month+1),'文昌':branch(10-hour),'文曲':branch(4+hour),'禄存':branch(l),'擎羊':branch(l+1),'陀罗':branch(l-1),'天马':tianma(year_ganzhi[1]),'地劫':branch(11+hour),'地空':branch(11-hour)}
+    aux={'左辅':branch(4+lunar_month-1),'右弼':branch(10-lunar_month+1),'文昌':branch(10-hour),'文曲':branch(4+hour),'禄存':branch(l),'擎羊':branch(l+1),'陀罗':branch(l-1),'天马':tianma(year_ganzhi[1]),'地劫':branch(11+hour),'天空':branch(11-hour)}
     return {'life_palace':branch(life),'body_palace':branch(body),'life_ganzhi':life_stem+branch(life),
         'bureau':bureau,'palaces':{name:branch(life-i) for i,name in enumerate(PALACES)},
-        'major_stars':major,'auxiliary_stars':aux,'four_transformations':four_transformations(year_ganzhi[0],'iztro-default-v2'),
+        'major_stars':major,'auxiliary_stars':aux,'auxiliary_variant':'quanshu-kongjie-tiankong-v1','four_transformations':four_transformations(year_ganzhi[0],'iztro-default-v2'),
         'mutagen_variant':'iztro-default-v2','mutagen_evidence':'D implementation table; classical types are C; 壬府/辅 unresolved',
         'input_scope':'显式非闰月农历；年干支由调用方按约定年界提供；无大限流年或庙旺吉凶'}
 

@@ -25,7 +25,8 @@
         "fengshui.gen-boundary",
         "fengshui.research-period-transition"
       ],
-      "regression_test": "tests/test_phase2_fengshui.py"
+      "regression_test": "tests/test_phase2_fengshui.py",
+      "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。"
     },
     {
       "id": "fengshui.phase2.relative_period",
@@ -43,7 +44,8 @@
         "fengshui.gen-boundary",
         "fengshui.research-period-transition"
       ],
-      "regression_test": "tests/test_phase2_fengshui.py"
+      "regression_test": "tests/test_phase2_fengshui.py",
+      "evidence_scope": "C 原文证明每元60年、每运20年及顺序；绝对epoch与年界假设未核，D，production_eligible=false。"
     }
   ]
 }

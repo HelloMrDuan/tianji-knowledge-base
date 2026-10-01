@@ -26,7 +26,8 @@
         "qimen.summer-at",
         "qimen.late-zi-midnight"
       ],
-      "regression_test": "tests/test_phase2_qimen.py"
+      "regression_test": "tests/test_phase2_qimen.py",
+      "evidence_scope": "C 古典节气选择关系；精确节气时刻、历法转换由 lunar-python 1.4.8 软件提供，现代实现证据 D。"
     },
     {
       "id": "qimen.phase2.bureau",
@@ -44,7 +45,8 @@
         "qimen.summer-at",
         "qimen.late-zi-midnight"
       ],
-      "regression_test": "tests/test_phase2_qimen.py"
+      "regression_test": "tests/test_phase2_qimen.py",
+      "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。"
     },
     {
       "id": "qimen.phase2.earth",
@@ -62,7 +64,8 @@
         "qimen.summer-at",
         "qimen.late-zi-midnight"
       ],
-      "regression_test": "tests/test_phase2_qimen.py"
+      "regression_test": "tests/test_phase2_qimen.py",
+      "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。"
     },
     {
       "id": "qimen.phase2.chiefs",
@@ -80,7 +83,8 @@
         "qimen.summer-at",
         "qimen.late-zi-midnight"
       ],
-      "regression_test": "tests/test_phase2_qimen.py"
+      "regression_test": "tests/test_phase2_qimen.py",
+      "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。"
     },
     {
       "id": "qimen.phase2.plates",
@@ -98,7 +102,8 @@
         "qimen.summer-at",
         "qimen.late-zi-midnight"
       ],
-      "regression_test": "tests/test_phase2_qimen.py"
+      "regression_test": "tests/test_phase2_qimen.py",
+      "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。"
     }
   ]
 }

@@ -19,6 +19,8 @@ class ZiweiExecutionTests(unittest.TestCase):
                 self.assertEqual(BRANCHES.index(result['palaces']['迁移']),(BRANCHES.index(result['life_palace'])+6)%12)
                 self.assertEqual(len(result['major_stars']),14)
                 self.assertEqual(len(result['auxiliary_stars']),10)
+                self.assertIn('天空',result['auxiliary_stars'])
+                self.assertNotIn('地空',result['auxiliary_stars'])
 
     def test_nayin_all_sixty_pairs_and_ziwei_tianfu_mirror(self):
         expected_elements=['金','火','木','土','金','火','水','土','金','木','水','土','火','木','水','金','火','木','土','金','火','水','土','金','木','水','土','火','木','水']

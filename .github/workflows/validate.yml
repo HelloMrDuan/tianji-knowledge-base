@@ -23,6 +23,7 @@ jobs:
           python scripts/validate_kb.py
           python scripts/validate_knowledge.py
           python scripts/validate_phase2.py
+          python scripts/build_phase2_coverage.py > /tmp/phase2_coverage.json
           python scripts/build_phase1_coverage.py --check
           python -m unittest discover -s tests -p 'test_*.py'
           python scripts/apply_pua_collation.py \

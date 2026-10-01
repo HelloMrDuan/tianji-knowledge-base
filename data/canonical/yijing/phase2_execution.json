@@ -22,7 +22,8 @@
         "yijing.tai-relations",
         "yijing.zhun-nuclear"
       ],
-      "regression_test": "tests/test_phase2_yijing.py"
+      "regression_test": "tests/test_phase2_yijing.py",
+      "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。"
     },
     {
       "id": "yijing.phase2.change",
@@ -39,7 +40,8 @@
         "yijing.tai-relations",
         "yijing.zhun-nuclear"
       ],
-      "regression_test": "tests/test_phase2_yijing.py"
+      "regression_test": "tests/test_phase2_yijing.py",
+      "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。"
     },
     {
       "id": "yijing.phase2.opposite",
@@ -56,7 +58,8 @@
         "yijing.tai-relations",
         "yijing.zhun-nuclear"
       ],
-      "regression_test": "tests/test_phase2_yijing.py"
+      "regression_test": "tests/test_phase2_yijing.py",
+      "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。"
     },
     {
       "id": "yijing.phase2.inverse",
@@ -73,7 +76,8 @@
         "yijing.tai-relations",
         "yijing.zhun-nuclear"
       ],
-      "regression_test": "tests/test_phase2_yijing.py"
+      "regression_test": "tests/test_phase2_yijing.py",
+      "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。"
     },
     {
       "id": "yijing.phase2.nuclear",
@@ -90,7 +94,8 @@
         "yijing.tai-relations",
         "yijing.zhun-nuclear"
       ],
-      "regression_test": "tests/test_phase2_yijing.py"
+      "regression_test": "tests/test_phase2_yijing.py",
+      "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。"
     }
   ]
 }
