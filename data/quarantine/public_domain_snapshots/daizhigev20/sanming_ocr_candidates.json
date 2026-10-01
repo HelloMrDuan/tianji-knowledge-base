@@ -92,9 +92,8 @@
   "summary": {
     "historical_only_hold": 775,
     "variant_preserve": 47,
-    "confirmed_applied": 143,
-    "reading_disagreement_hold": 12,
-    "corroborated_pending_next_batch": 16
+    "confirmed_applied": 159,
+    "reading_disagreement_hold": 12
   },
   "candidates": [
     {
@@ -27841,8 +27840,8 @@
       "old": "防",
       "historical_reading": "㸔",
       "context": "卒而任总戎然以煞为重则不可诬焉者也\n 再防商贾其命何慿日时并临子午三元都值寅申",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-588",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -27882,8 +27881,8 @@
       "old": "防",
       "historical_reading": "㓙",
       "context": "带干鬼则名利之心不㤀值尅害太甚而更遇防煞则凡俗之还不免咸池为酒色之星犯之则",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-589",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -27947,8 +27946,8 @@
       "old": "防",
       "historical_reading": "䕃",
       "context": "先富后贫日强而夲根不利先贫后富生来受防年月在财官之乡末主孤寒日时犯空破之地",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-590",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -27988,8 +27987,8 @@
       "old": "防",
       "historical_reading": "㓜",
       "context": "乡末主孤寒日时犯空破之地年月逢财无气防年窘廹日时遇食有气老景欢忻四柱衰防平",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-591",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -28029,8 +28028,8 @@
       "old": "防",
       "historical_reading": "㣲",
       "context": "气防年窘廹日时遇食有气老景欢忻四柱衰防平生不遂背禄逐马一世恓惶若夫干头财露",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-592",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -28070,8 +28069,8 @@
       "old": "防",
       "historical_reading": "䟦",
       "context": "处重重鬼害累累刑空运拙时乖兮别闾里而防踄程途命蹇日衰兮辞亲戚而往来岐路再论",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-593",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -28135,8 +28134,8 @@
       "old": "防",
       "historical_reading": "㣲",
       "context": "丰因托别房父母此只论其大槩尚未得其精防命之理㣲悟在心得若夫疾病死絶贫贱㓙恶",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-594",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -28312,8 +28311,8 @@
       "old": "防",
       "historical_reading": "㸔",
       "context": "身弱者忌见财官得时俱为旺论失令更作衰防四柱无根得时为旺日干无气遇刼为强身弱",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-595",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -28489,8 +28488,8 @@
       "old": "链",
       "historical_reading": "鍊",
       "context": "防土重而无木疏通遂归愚浊金坚而无火鍜链终是防顽至若金脆火炎多则损巳木柔金重",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-596",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -28530,8 +28529,8 @@
       "old": "防",
       "historical_reading": "㓙",
       "context": "而无木疏通遂归愚浊金坚而无火鍜链终是防顽至若金脆火炎多则损巳木柔金重利则伤",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-597",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -28571,8 +28570,8 @@
       "old": "防",
       "historical_reading": "㑹",
       "context": "伸夀永年髙皆是禄临帝旺职崇位显为縁马防官星华葢逢空偏宜僧道学堂遇贵惟利师儒",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-598",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -28692,8 +28691,8 @@
       "old": "防",
       "historical_reading": "㸔",
       "context": "方遇戊巳翻为贵断甲乙秋生透丙丁莫作伤防戊巳夏产露庚辛当为贵论火带水多贵行木",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-599",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -28769,8 +28768,8 @@
       "old": "防",
       "historical_reading": "㣲",
       "context": "余宫分外方寻内逢外敌为灾重外逢内敌祸防侵戊巳土须分四季杂气中间难又易逐年分",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-600",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -28834,8 +28833,8 @@
       "old": "防",
       "historical_reading": "㣲",
       "context": "不难总把财官为紧要早年富贵禄髙攀财官防薄身太旺太旺无依受孤寒更有印来比刼助",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-601",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -28931,8 +28930,8 @@
       "old": "防",
       "historical_reading": "㑹",
       "context": "火神无气 多水多金 眼昏目闭年干会火 日时防金 巳干用印 官彻名清秋金生午 丙火透露 运",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-602",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -28972,8 +28971,8 @@
       "old": "防",
       "historical_reading": "㑹",
       "context": "煞星桃花 朝刼暮巴庚日申时 柱中金局 支无防合 伤官刼妻癸日寅提 壬日亥日 莫犯提纲 祸",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-603",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
