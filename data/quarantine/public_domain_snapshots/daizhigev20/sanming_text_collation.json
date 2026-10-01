@@ -18202,11 +18202,543 @@
         }
       ],
       "note": "Batch 46: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-569",
+      "old": "丧亡横祸殊不知五阴伤官于此返防无咎刃乃幇身之物大怕身旺逢之",
+      "new": "丧亡横祸殊不知五阴伤官于此返䰟无咎刃乃幇身之物大怕身旺逢之",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_011.txt",
+          "anchor": "陰傷官於此返䰟無咎刃乃幇身"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-11.md",
+          "anchor": "陰傷官於此返䰟無咎刃乃幇身"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十一/六神篇/text.txt",
+          "anchor": "阴伤官于此返魂无咎刃乃帮身之物大怕身旺逢之得一重"
+        }
+      ],
+      "note": "Batch 47: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-570",
+      "old": "臣者对君之称兰野地名自叙所出防慕真风则其志大矣悬壶化杖乃壶",
+      "new": "臣者对君之称兰野地名自叙所出㓜慕真风则其志大矣悬壶化杖乃壶",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_011.txt",
+          "anchor": "地名自敘所出㓜慕真風則其志"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-11.md",
+          "anchor": "地名自敘所出㓜慕真風則其志"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十一/消息赋二/text.txt",
+          "anchor": "行而通道臣者对君之称兰野地名自敍所出幼慕真风则其志"
+        }
+      ],
+      "note": "Batch 47: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-571",
+      "old": "之时有冬逢炎热夏草遭霜类有阴防栖氷神龟宿火\n 【此言阴阳五",
+      "new": "之时有冬逢炎热夏草遭霜类有阴䑕栖氷神龟宿火\n 【此言阴阳五",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_011.txt",
+          "anchor": "草遭霜類有陰䑕棲氷神龜宿火"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-11.md",
+          "anchor": "草遭霜類有陰䑕棲氷神龜宿火"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十一/消息赋二/text.txt",
+          "anchor": "草遭霜类有阴鼠栖冰神龟宿火此言阴阳五行之道微妙难通"
+        }
+      ],
+      "note": "Batch 47: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-572",
+      "old": "非其时而行其令是可以常理拘乎防火龟氷此理之有类之宜也阴防栖",
+      "new": "非其时而行其令是可以常理拘乎䑕火龟氷此理之有类之宜也阴防栖",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_011.txt",
+          "anchor": "可以常理拘乎䑕火龜氷此理之"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-11.md",
+          "anchor": "可以常理拘乎䑕火龜氷此理之"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十一/消息赋二/text.txt",
+          "anchor": "可以常理拘乎鼠火龟冰此理之有类之宜也阴鼠栖冰神龟宿"
+        }
+      ],
+      "note": "Batch 47: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-573",
+      "old": "乎䑕火龟氷此理之有类之宜也阴防栖氷神龟宿火则非其类矣非其类",
+      "new": "乎䑕火龟氷此理之有类之宜也阴䑕栖氷神龟宿火则非其类矣非其类",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_011.txt",
+          "anchor": "有類之宜也陰䑕棲氷神龜宿火"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-11.md",
+          "anchor": "有類之宜也陰䑕棲氷神龜宿火"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十一/消息赋二/text.txt",
+          "anchor": "有类之宜也阴鼠栖冰神龟宿火则非其类矣非其类而居其所"
+        }
+      ],
+      "note": "Batch 47: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-574",
+      "old": "禄在已为人元癸以戊为官印为阴防栖氷神龟宿火恐非赋义】\n 是",
+      "new": "禄在已为人元癸以戊为官印为阴䑕栖氷神龟宿火恐非赋义】\n 是",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_011.txt",
+          "anchor": "戊為官印為陰䑕棲氷神龜宿火"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-11.md",
+          "anchor": "戊為官印為陰䑕棲氷神龜宿火"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十一/消息赋二/text.txt",
+          "anchor": "戊为官印为阴鼠栖冰神龟宿火恐非赋义是以阴阳罕测志物"
+        }
+      ],
+      "note": "Batch 47: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-575",
+      "old": "其八九\n 【上文言冬热夏霜氷防火龟非阴阳常理物类相感故云罕",
+      "new": "其八九\n 【上文言冬热夏霜氷䑕火龟非阴阳常理物类相感故云罕",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_011.txt",
+          "anchor": "言冬熱夏霜氷䑕火龜非陰陽常"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-11.md",
+          "anchor": "言冬熱夏霜氷䑕火龜非陰陽常"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十一/消息赋二/text.txt",
+          "anchor": "有若祺祥术士希其八九上文言冬热夏霜冰鼠火龟非阴阳常"
+        }
+      ],
+      "note": "Batch 47: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-576",
+      "old": "神煞又谓之迫神煞主人窥窃逼迫防害其或三元刑战岁运不和是五行",
+      "new": "神煞又谓之迫神煞主人窥窃逼迫䧟害其或三元刑战岁运不和是五行",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_011.txt",
+          "anchor": "主人窺竊逼迫䧟害其或三元刑"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-11.md",
+          "anchor": "主人窺竊逼迫䧟害其或三元刑"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十一/消息赋六/text.txt",
+          "anchor": "主人窥窃逼迫陷害其或三元克我岁运不和是五行禄马为害"
+        }
+      ],
+      "note": "Batch 47: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-577",
+      "old": "贵贱灾福虑有特杰非常之人似氷防火龟难穷罕测之资则三元五行不",
+      "new": "贵贱灾福虑有特杰非常之人似氷䑕火龟难穷罕测之资则三元五行不",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_011.txt",
+          "anchor": "非常之人似氷䑕火龜難窮罕測"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-11.md",
+          "anchor": "非常之人似氷䑕火龜難窮罕測"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十一/消息赋八/text.txt",
+          "anchor": "定命见其贵贱灾福虑有特杰非常之人似冰鼠火龟难穷罕测"
+        }
+      ],
+      "note": "Batch 47: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-578",
+      "old": "大发财禄白手成家一云月中正禄防财元身强豹变与此少异】\n 年",
+      "new": "大发财禄白手成家一云月中正禄㑹财元身强豹变与此少异】\n 年",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_011.txt",
+          "anchor": "一云月中正祿㑹財元身强豹變"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-11.md",
+          "anchor": "一云月中正祿㑹財元身强豹變"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十一/明通赋二/text.txt",
+          "anchor": "一云月中正禄会财源身强豹变与此少异年见正禄正印正财"
+        }
+      ],
+      "note": "Batch 47: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-579",
+      "old": "为凶尤甚】\n 吞㗖全排家人消防空亡徧见亲属离伤\n 【吞㗖空",
+      "new": "为凶尤甚】\n 吞㗖全排家人消㪚空亡徧见亲属离伤\n 【吞㗖空",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_011.txt",
+          "anchor": "㗖全排家人消㪚空亡徧見親屬"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-11.md",
+          "anchor": "㗖全排家人消㪚空亡徧見親屬"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十一/明通赋三/text.txt",
+          "anchor": "啖全排家人消散空亡遍见亲属离伤吞啖空亡二煞乃克害孤"
+        }
+      ],
+      "note": "Batch 47: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-580",
+      "old": "然】\n 官禄尅破夭死兮库墓冲防无食兮忌重破而无依喜比肩而可",
+      "new": "然】\n 官禄尅破夭死兮库墓冲㪚无食兮忌重破而无依喜比肩而可",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_011.txt",
+          "anchor": "夭死兮庫墓衝㪚無食兮忌重破"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-11.md",
+          "anchor": "夭死兮庫墓衝㪚無食兮忌重破"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十一/明通赋五/text.txt",
+          "anchor": "夭死兮库墓冲散无餐兮忌重破而无依喜比肩而可救官官星"
+        }
+      ],
+      "note": "Batch 47: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-581",
+      "old": "制化之中体幽用显轻重有无而吉防动静否泰盈亏皆自此而生之也妙",
+      "new": "制化之中体幽用显轻重有无而吉㓙动静否泰盈亏皆自此而生之也妙",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "輕重有無而吉㓙動静否泰盈虧"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "輕重有無而吉㓙動静否泰盈𧇊"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/元理赋/text.txt",
+          "anchor": "轻重有无而吉凶动静否在盈亏皆自此而生之也妙在识其通"
+        }
+      ],
+      "note": "Batch 47: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-582",
+      "old": "混杂有去留亦吉若错乱则伤身为防女命偏正错乱尤为不吉择妇者须",
+      "new": "混杂有去留亦吉若错乱则伤身为㓙女命偏正错乱尤为不吉择妇者须",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "錯亂則傷身為㓙女命偏正錯亂"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "錯亂則傷身為㓙女命偏正錯亂"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/元理赋/text.txt",
+          "anchor": "错乱则伤身为凶女个偏正错乱尤为不吉择妇者须知之或曰"
+        }
+      ],
+      "note": "Batch 47: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-583",
+      "old": "方白虎之神爱亥卯未邀合巳字为防风则贵若见填实又无云雨谓之旱",
+      "new": "方白虎之神爱亥卯未邀合巳字为㢲风则贵若见填实又无云雨谓之旱",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "未邀合巳字為㢲風則貴若見填"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "未邀合巳字為㢲風則貴若見填"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/真宝赋/text.txt",
+          "anchor": "一字为西方白虎之神爱亥卯未逢合巳字为巽风则贵若见填"
+        }
+      ],
+      "note": "Batch 47: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-584",
+      "old": "天火在天上无所不照命有斯象自防至老贵显崇髙掌兵刑之任上佐天",
+      "new": "天火在天上无所不照命有斯象自㓜至老贵显崇髙掌兵刑之任上佐天",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "照命有斯象自㓜至老貴顯崇髙"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "照命有斯象自㓜至老貴顯崇髙"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/真宝赋/text.txt",
+          "anchor": "照命有斯象自幼至老贵显崇高掌兵刑之任上佐天子下顺四"
+        }
+      ],
+      "note": "Batch 47: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-585",
+      "old": "\n 【此言命中有官星贵神不忌防神恶煞葢邪不胜正也须得令扶身",
+      "new": "\n 【此言命中有官星贵神不忌㓙神恶煞葢邪不胜正也须得令扶身",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "官星貴神不忌㓙神惡煞葢邪不"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "官星貴神不忌㓙神惡煞葢邪不"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/金声玉振赋/text.txt",
+          "anchor": "官星贵神不忌凶神恶煞在邪不胜正也须得令扶身方准赋文"
+        }
+      ],
+      "note": "Batch 47: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-586",
+      "old": "破之贫夭无疑一经财地逐去枭神防中反吉此等命多依他人取富】\n",
+      "new": "破之贫夭无疑一经财地逐去枭神㓙中反吉此等命多依他人取富】\n",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "財地逐去梟神㓙中反吉此等命"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "財地逐去梟神㓙中反吉此等命"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/金声玉振赋/text.txt",
+          "anchor": "财地逐去枭神凶中反吉此命多依他人取富六乙鼠贵爱见"
+        }
+      ],
+      "note": "Batch 47: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-587",
+      "old": "午壬癸宜于巳卯此谓暗中得贵更防官印弱强甲逢酉位乙到坤方丙得",
+      "new": "午壬癸宜于巳卯此谓暗中得贵更㸔官印弱强甲逢酉位乙到坤方丙得",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "謂暗中得貴更㸔官印弱強甲逢"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "謂暗中得貴更㸔官印弱強甲逢"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/金鼎神秘赋/text.txt",
+          "anchor": "辛喜於寅午壬癸宜於巳卯此为暗中得贵更看官印弱强甲逢"
+        }
+      ],
+      "note": "Batch 47: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
     }
   ],
   "summary": {
-    "confirmed_corrections": 568,
-    "confirmed_replacements": 568,
+    "confirmed_corrections": 587,
+    "confirmed_replacements": 587,
     "review_status": "in_progress",
     "canonical_ready": false
   }

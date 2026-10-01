@@ -92,9 +92,9 @@
   "summary": {
     "historical_only_hold": 775,
     "variant_preserve": 47,
-    "confirmed_applied": 124,
+    "confirmed_applied": 143,
     "reading_disagreement_hold": 12,
-    "corroborated_pending_next_batch": 35
+    "corroborated_pending_next_batch": 16
   },
   "candidates": [
     {
@@ -25342,8 +25342,8 @@
       "old": "防",
       "historical_reading": "䰟",
       "context": "逢之多见丧亡横祸殊不知五阴伤官于此返防无咎刃乃幇身之物大怕身旺逢之得一重煞",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-569",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -25783,8 +25783,8 @@
       "old": "防",
       "historical_reading": "㓜",
       "context": "行而通道\n 【臣者对君之称兰野地名自叙所出防慕真风则其志大矣悬壶化杖乃壶公费长房",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-570",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -25872,8 +25872,8 @@
       "old": "防",
       "historical_reading": "䑕",
       "context": "一理而推之时有冬逢炎热夏草遭霜类有阴防栖氷神龟宿火\n 【此言阴阳五行之道微妙难通",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-571",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -25913,8 +25913,8 @@
       "old": "防",
       "historical_reading": "䑕",
       "context": "非其时矣非其时而行其令是可以常理拘乎防火龟氷此理之有类之宜也阴防栖氷神龟宿",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-572",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -25954,8 +25954,8 @@
       "old": "防",
       "historical_reading": "䑕",
       "context": "以常理拘乎防火龟氷此理之有类之宜也阴防栖氷神龟宿火则非其类矣非其类而居其所",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-573",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -26019,8 +26019,8 @@
       "old": "防",
       "historical_reading": "䑕",
       "context": "为官印戊禄在已为人元癸以戊为官印为阴防栖氷神龟宿火恐非赋义】\n 是以阴阳罕测志物",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-574",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -26060,8 +26060,8 @@
       "old": "防",
       "historical_reading": "䑕",
       "context": "有若禨祥术士希其八九\n 【上文言冬热夏霜氷防火龟非阴阳常理物类相感故云罕测难穷此",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-575",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -26589,8 +26589,8 @@
       "old": "防",
       "historical_reading": "䧟",
       "context": "人谓之窥神煞又谓之迫神煞主人窥窃逼迫防害其或三元刑战岁运不和是五行禄马为害",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-576",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -26806,8 +26806,8 @@
       "old": "防",
       "historical_reading": "䑕",
       "context": "定命见其贵贱灾福虑有特杰非常之人似氷防火龟难穷罕测之资则三元五行不足以尽之",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-577",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -26943,8 +26943,8 @@
       "old": "防",
       "historical_reading": "㑹",
       "context": "方运必然大发财禄白手成家一云月中正禄防财元身强豹变与此少异】\n 年见正禄正印正财",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-578",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -27128,8 +27128,8 @@
       "old": "防",
       "historical_reading": "㪚",
       "context": "运不和三元刑战为凶尤甚】\n 吞㗖全排家人消防空亡徧见亲属离伤\n 【吞㗖空亡二煞乃尅害孤",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-579",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -27217,8 +27217,8 @@
       "old": "防",
       "historical_reading": "㪚",
       "context": "发福正印正财亦然】\n 官禄尅破夭死兮库墓冲防无食兮忌重破而无依喜比肩而可救\n 【官官星",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-580",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -27338,8 +27338,8 @@
       "old": "防",
       "historical_reading": "㓙",
       "context": "隂阳生尅制化之中体幽用显轻重有无而吉防动静否泰盈亏皆自此而生之也妙在识其通",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-581",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -27499,8 +27499,8 @@
       "old": "防",
       "historical_reading": "㓙",
       "context": "此论官煞混杂有去留亦吉若错乱则伤身为防女命偏正错乱尤为不吉择妇者须知之或曰",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-582",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -27540,8 +27540,8 @@
       "old": "防",
       "historical_reading": "㢲",
       "context": "一字为西方白虎之神爱亥卯未邀合巳字为防风则贵若见填实又无云雨谓之旱龙有阳而",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-583",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -27605,8 +27605,8 @@
       "old": "防",
       "historical_reading": "㓜",
       "context": "亥属干为天火在天上无所不照命有斯象自防至老贵显崇髙掌兵刑之任上佐天子下顺四",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-584",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -27694,8 +27694,8 @@
       "old": "防",
       "historical_reading": "㓙",
       "context": "人扶身解脱百厄\n 【此言命中有官星贵神不忌防神恶煞葢邪不胜正也须得令扶身方准赋文",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-585",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -27735,8 +27735,8 @@
       "old": "防",
       "historical_reading": "㓙",
       "context": "夀星枭印破之贫夭无疑一经财地逐去枭神防中反吉此等命多依他人取富】\n 六乙鼠贵爱见",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-586",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -27800,8 +27800,8 @@
       "old": "防",
       "historical_reading": "㸔",
       "context": "辛喜乎寅午壬癸宜于巳卯此谓暗中得贵更防官印弱强甲逢酉位乙到坤方丙得子宫必显",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-587",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
