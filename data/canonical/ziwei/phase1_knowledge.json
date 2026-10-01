@@ -800,7 +800,7 @@
       "related_terms": [],
       "confidence": "medium",
       "attributes": {
-        "definition_kind": "classical_excerpt",
+        "definition_kind": "source_grounded_summary",
         "category": "十二宫",
         "source_name": "命宮",
         "sequence": 1
@@ -825,7 +825,7 @@
       "related_terms": [],
       "confidence": "medium",
       "attributes": {
-        "definition_kind": "classical_excerpt",
+        "definition_kind": "source_grounded_summary",
         "category": "十二宫",
         "source_name": "兄弟",
         "sequence": 2
@@ -850,7 +850,7 @@
       "related_terms": [],
       "confidence": "medium",
       "attributes": {
-        "definition_kind": "classical_excerpt",
+        "definition_kind": "source_grounded_summary",
         "category": "十二宫",
         "source_name": "妻妾",
         "sequence": 3
@@ -875,7 +875,7 @@
       "related_terms": [],
       "confidence": "medium",
       "attributes": {
-        "definition_kind": "classical_excerpt",
+        "definition_kind": "source_grounded_summary",
         "category": "十二宫",
         "source_name": "子女",
         "sequence": 4
@@ -900,7 +900,7 @@
       "related_terms": [],
       "confidence": "medium",
       "attributes": {
-        "definition_kind": "classical_excerpt",
+        "definition_kind": "source_grounded_summary",
         "category": "十二宫",
         "source_name": "財帛",
         "sequence": 5
@@ -925,7 +925,7 @@
       "related_terms": [],
       "confidence": "medium",
       "attributes": {
-        "definition_kind": "classical_excerpt",
+        "definition_kind": "source_grounded_summary",
         "category": "十二宫",
         "source_name": "疾厄",
         "sequence": 6
@@ -950,7 +950,7 @@
       "related_terms": [],
       "confidence": "medium",
       "attributes": {
-        "definition_kind": "classical_excerpt",
+        "definition_kind": "source_grounded_summary",
         "category": "十二宫",
         "source_name": "遷移",
         "sequence": 7
@@ -977,7 +977,7 @@
       "related_terms": [],
       "confidence": "medium",
       "attributes": {
-        "definition_kind": "classical_excerpt",
+        "definition_kind": "source_grounded_summary",
         "category": "十二宫",
         "source_name": "奴僕",
         "sequence": 8
@@ -1002,7 +1002,7 @@
       "related_terms": [],
       "confidence": "medium",
       "attributes": {
-        "definition_kind": "classical_excerpt",
+        "definition_kind": "source_grounded_summary",
         "category": "十二宫",
         "source_name": "官祿",
         "sequence": 9
@@ -1027,7 +1027,7 @@
       "related_terms": [],
       "confidence": "medium",
       "attributes": {
-        "definition_kind": "classical_excerpt",
+        "definition_kind": "source_grounded_summary",
         "category": "十二宫",
         "source_name": "田宅",
         "sequence": 10
@@ -1052,7 +1052,7 @@
       "related_terms": [],
       "confidence": "medium",
       "attributes": {
-        "definition_kind": "classical_excerpt",
+        "definition_kind": "source_grounded_summary",
         "category": "十二宫",
         "source_name": "福德",
         "sequence": 11
@@ -1077,7 +1077,7 @@
       "related_terms": [],
       "confidence": "medium",
       "attributes": {
-        "definition_kind": "classical_excerpt",
+        "definition_kind": "source_grounded_summary",
         "category": "十二宫",
         "source_name": "父母",
         "sequence": 12
@@ -1630,7 +1630,7 @@
       "related_terms": [],
       "confidence": "medium",
       "attributes": {
-        "definition_kind": "classical_excerpt",
+        "definition_kind": "source_grounded_summary",
         "category": "辅助星曜",
         "alias_scope": "仅全书安空劫诀"
       }
@@ -1718,7 +1718,7 @@
       "related_terms": [],
       "confidence": "medium",
       "attributes": {
-        "definition_kind": "classical_excerpt"
+        "definition_kind": "source_grounded_summary"
       }
     },
     {
@@ -1738,7 +1738,7 @@
       "related_terms": [],
       "confidence": "medium",
       "attributes": {
-        "definition_kind": "classical_excerpt"
+        "definition_kind": "source_grounded_summary"
       }
     },
     {
@@ -1758,7 +1758,7 @@
       "related_terms": [],
       "confidence": "medium",
       "attributes": {
-        "definition_kind": "classical_excerpt"
+        "definition_kind": "source_grounded_summary"
       }
     },
     {
@@ -1778,7 +1778,7 @@
       "related_terms": [],
       "confidence": "medium",
       "attributes": {
-        "definition_kind": "classical_excerpt"
+        "definition_kind": "source_grounded_summary"
       }
     },
     {

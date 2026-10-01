@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["schema_version", "domains"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "domains": {
+      "type": "array", "minItems": 6, "maxItems": 6,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "name", "knowledge_path", "status", "production_stage"],
+        "properties": {
+          "id": {"enum": ["yijing", "liuyao", "qimen", "ziwei", "fengshui", "liuren"]},
+          "name": {"type": "string", "minLength": 1},
+          "knowledge_path": {"type": "string", "pattern": "^data/canonical/[a-z]+/phase1_knowledge\\.json$"},
+          "status": {"enum": ["in_progress", "phase1_complete"]},
+          "production_stage": {"const": "canonical"}
+        }
+      }
+    }
+  }
+}

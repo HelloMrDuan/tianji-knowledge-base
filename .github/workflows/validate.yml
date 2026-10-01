@@ -22,6 +22,7 @@ jobs:
           export PYTHONPATH=src
           python scripts/validate_kb.py
           python scripts/validate_knowledge.py
+          python scripts/build_phase1_coverage.py --check
           python -m unittest discover -s tests -p 'test_*.py'
           python scripts/apply_pua_collation.py \
             data/quarantine/public_domain_snapshots/daizhigev20/sanming_tonghui.txt \
@@ -62,6 +63,10 @@ jobs:
           con = sqlite3.connect(db)
           cases = [
               ("yijing", "乾为天"),
+              ("liuyao", "用神"),
+              ("qimen", "值符"),
+              ("ziwei", "化禄"),
+              ("fengshui", "明堂"),
               ("liuren", "月将"),
               ("taiyi", "八门"),
               ("tarot", "愚者"),
@@ -95,4 +100,23 @@ jobs:
               if not citation.get("canonical_path") or not citation.get("repo") or not citation.get("commit"):
                   raise SystemExit(f"citation missing provenance: {term}")
               print(term, citation["label"], citation["commit"])
+          PY
+
+      - name: Six-domain reviewed entity context smoke
+        run: |
+          python - <<'PY'
+          from tianji_kb.evidence import build_bundle
+          from tianji_kb.retrieval import RagIndex
+          index = RagIndex("build/rag_chunks.jsonl")
+          for domain, term in [("yijing", "阴爻"), ("liuyao", "用神"),
+                               ("qimen", "值符"), ("ziwei", "化禄"),
+                               ("fengshui", "明堂"), ("liuren", "月将")]:
+              rows = index.search(term, domain=domain, topic="knowledge_term", limit=1)
+              assert rows and rows[0]["metadata"]["name"] == term, (domain, term)
+              citation = build_bundle(term, rows)["evidence"][0]["citation"]
+              assert citation["evidence_level"] == "C"
+              assert citation["canonical_path"].startswith("data/canonical/")
+              for ref in citation["source_refs"]:
+                  assert all(ref[k] for k in ("classic_id", "chapter_id", "section_id", "original_text", "commit", "sha256"))
+              print(domain, term, citation["label"])
           PY

@@ -15,6 +15,12 @@ class Citation:
     ruleset: str | None = None
     school: str | None = None
     license: str | None = None
+    entity_id: str | None = None
+    source_refs: list[dict[str, Any]] | None = None
+    evidence_level: str | None = None
+    variant: str | None = None
+    execution_status: str | None = None
+    implementation_source: dict[str, Any] | None = None
 
     @classmethod
     def from_metadata(cls, metadata: dict[str, Any]) -> "Citation":
@@ -28,6 +34,12 @@ class Citation:
             ruleset=metadata.get("ruleset"),
             school=metadata.get("school"),
             license=metadata.get("license"),
+            entity_id=metadata.get("entity_id"),
+            source_refs=metadata.get("source_refs"),
+            evidence_level=metadata.get("evidence_level"),
+            variant=metadata.get("variant"),
+            execution_status=metadata.get("execution_status"),
+            implementation_source=metadata.get("implementation_source"),
         )
 
     def label(self) -> str:
@@ -64,6 +76,7 @@ def evidence_item(row: dict[str, Any], max_chars: int = 3000) -> dict[str, Any]:
             "domain": metadata.get("domain"),
             "topic": metadata.get("topic"),
             "source_level": metadata.get("source_level"),
+            "confidence": metadata.get("confidence"),
         },
     }
 
@@ -76,6 +89,9 @@ def build_bundle(query: str, rows: list[dict[str, Any]], max_chars: int = 3000) 
         "generation_contract": {
             "must_ground_claims_in_evidence": True,
             "must_preserve_school_and_ruleset": True,
+            "must_preserve_variant_and_execution_status": True,
+            "must_preserve_evidence_level": True,
+            "must_not_treat_implementation_references_as_classical_evidence": True,
             "must_not_invent_classical_quotes": True,
             "must_not_recompute_deterministic_chart_results_with_llm": True,
             "when_evidence_missing": "明确说明知识库未检索到足够依据，不补造古籍、规则、出处或断语。",

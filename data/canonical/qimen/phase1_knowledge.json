@@ -757,7 +757,7 @@
       "related_terms": [],
       "confidence": "medium",
       "attributes": {
-        "definition_kind": "classical_excerpt"
+        "definition_kind": "source_grounded_summary"
       }
     },
     {
@@ -1647,12 +1647,6 @@
           "source_id": "qimen.source.baojian",
           "section_id": "qimen.section.s007",
           "original_text": "本局地盘不动，以天盘甲子戊加乙于九宫。",
-          "role": "classical"
-        },
-        {
-          "source_id": "qimen.source.tongzong",
-          "section_id": "qimen.section.s009",
-          "original_text": "地盘旬首所临之宫，其星即为值符，其门即为值使。",
           "role": "classical"
         },
         {
