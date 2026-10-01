@@ -1932,6 +1932,27 @@
       "kind": "classical",
       "rights_basis": "仅保存古籍原文；不取得电子本所在仓库现代编辑内容的版权许可。旧题作者不作历史确证。",
       "review_scope": "核定仅古籍短引与原字段；与 Phase 1 同底本，不是独立版本，不升级A/B。"
+    },
+    {
+      "source_id": "fengshui.source.zhaifa-phase2",
+      "title": "宅法举隅·三元大小运短引",
+      "author": "朱旭轮",
+      "era": "清道光",
+      "repository": "garychowcmu/daizhigev20",
+      "url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E5%AE%85%E6%B3%95%E4%B8%BE%E9%9A%85.txt",
+      "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+      "path": "易藏/术数/宅法举隅.txt",
+      "license": "Public-Domain (pre-modern text only)",
+      "public_domain": true,
+      "retrieved_at": "2026-10-01",
+      "content_path": "data/quarantine/phase2/fengshui/zhaifa/period-duration.txt",
+      "content_format": "text",
+      "sha256": "5535280683da785213390383ce27b9751d9853e2aad3cbd793d5e2412cb10090",
+      "blob_sha": null,
+      "evidence_level": "C",
+      "kind": "classical",
+      "rights_basis": "仅保存古籍原文；不取得电子本所在仓库现代编辑内容的版权许可。旧题作者不作历史确证。",
+      "review_scope": "原文直接证明每元60年、每运20年；未证明1864绝对锚点或立春交界；不同著作不等于独立底本确证。"
     }
   ]
 }

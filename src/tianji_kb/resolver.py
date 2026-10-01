@@ -14,6 +14,12 @@ class EvidenceResolver:
         self.model=validate_knowledge(self.root)
         self.sources=self.model['sources']
         self.entities=self.model['entities']
+        self.supplementary_classics={}
+        for path in sorted((self.root/'data/canonical').glob('*/phase2_evidence.json')):
+            for classic in read_json(path).get('classics',[]):
+                if classic['id'] in self.entities or classic['id'] in self.supplementary_classics or classic['domain'] not in self.model['domains']:
+                    raise ValueError('Invalid supplementary classic')
+                self.supplementary_classics[classic['id']]=classic
         self.contracts={}
         for path in sorted((self.root/'data/canonical').glob('*/phase2_execution.json')):
             obj=read_json(path)
@@ -60,7 +66,7 @@ class EvidenceResolver:
                 from .knowledge import source_text
                 if ref['review_status']!='approved' or source['kind']!='classical' or source['evidence_level']=='D' or ref['original_text'] not in source_text(self.root,source):
                     raise ValueError('Unreviewed or unverifiable supplementary evidence')
-                classic=self.entities[ref['classic_id']][1]
+                classic=self.entities[ref['classic_id']][1] if ref['classic_id'] in self.entities else self.supplementary_classics[ref['classic_id']]
                 output.append({'source_id':source['source_id'],'section_id':ref['id'],
                     'original_text':ref['original_text'],'role':'classical','rule_id':rule_id,'variant':variant,
                     'classic_id':classic['id'],'classic_title':classic['name'],
