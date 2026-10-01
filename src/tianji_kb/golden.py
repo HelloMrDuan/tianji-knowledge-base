@@ -36,5 +36,5 @@ def run_cases(root=ROOT,domain=None):
             assert_subset(execution['result'],case['expected'])
             if not execution['trace'] or not execution['evidence']:
                 raise AssertionError('Golden execution lacks trace/evidence')
-            results.append({'id':case['id'],'domain':obj['domain'],'variant':execution['variant'],'passed':True})
+            results.append({'id':case['id'],'domain':obj['domain'],'variant':execution['variant'],'passed':True,'rule_ids':[step['rule_id'] for step in execution['trace']]})
     return results
