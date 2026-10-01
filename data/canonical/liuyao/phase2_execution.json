@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.0",
+  "model": "phase2-execution",
+  "domain": "liuyao",
+  "variant": "jingfang-eight-palaces-v1",
+  "provider": "tianji_kb.operations.liuyao_chart.chart",
+  "rules": [
+    {
+      "id": "liuyao.phase2.najia",
+      "domain": "liuyao",
+      "name": "najia",
+      "variant": "jingfang-eight-palaces-v1",
+      "execution_status": "executable",
+      "phase1_rule_refs": [
+        "liuyao.rule.r001"
+      ],
+      "validation_status": "validated",
+      "golden_case_ids": [
+        "liuyao.qian-static",
+        "liuyao.qian-to-gou",
+        "liuyao.tai-to-sheng"
+      ],
+      "regression_test": "tests/test_phase2_liuyao.py"
+    },
+    {
+      "id": "liuyao.phase2.relatives",
+      "domain": "liuyao",
+      "name": "relatives",
+      "variant": "jingfang-eight-palaces-v1",
+      "execution_status": "executable",
+      "phase1_rule_refs": [
+        "liuyao.rule.r002"
+      ],
+      "validation_status": "validated",
+      "golden_case_ids": [
+        "liuyao.qian-static",
+        "liuyao.qian-to-gou",
+        "liuyao.tai-to-sheng"
+      ],
+      "regression_test": "tests/test_phase2_liuyao.py"
+    },
+    {
+      "id": "liuyao.phase2.palace",
+      "domain": "liuyao",
+      "name": "palace",
+      "variant": "jingfang-eight-palaces-v1",
+      "execution_status": "executable",
+      "phase1_rule_refs": [
+        "liuyao.rule.r004"
+      ],
+      "validation_status": "validated",
+      "golden_case_ids": [
+        "liuyao.qian-static",
+        "liuyao.qian-to-gou",
+        "liuyao.tai-to-sheng"
+      ],
+      "regression_test": "tests/test_phase2_liuyao.py"
+    },
+    {
+      "id": "liuyao.phase2.spirits",
+      "domain": "liuyao",
+      "name": "spirits",
+      "variant": "jingfang-eight-palaces-v1",
+      "execution_status": "executable",
+      "phase1_rule_refs": [
+        "liuyao.rule.r003"
+      ],
+      "validation_status": "validated",
+      "golden_case_ids": [
+        "liuyao.qian-static",
+        "liuyao.qian-to-gou",
+        "liuyao.tai-to-sheng"
+      ],
+      "regression_test": "tests/test_phase2_liuyao.py"
+    },
+    {
+      "id": "liuyao.phase2.empty",
+      "domain": "liuyao",
+      "name": "empty",
+      "variant": "jingfang-eight-palaces-v1",
+      "execution_status": "executable",
+      "phase1_rule_refs": [
+        "liuyao.rule.r005"
+      ],
+      "validation_status": "validated",
+      "golden_case_ids": [
+        "liuyao.qian-static",
+        "liuyao.qian-to-gou",
+        "liuyao.tai-to-sheng"
+      ],
+      "regression_test": "tests/test_phase2_liuyao.py"
+    },
+    {
+      "id": "liuyao.phase2.month_break",
+      "domain": "liuyao",
+      "name": "month_break",
+      "variant": "jingfang-eight-palaces-v1",
+      "execution_status": "executable",
+      "phase1_rule_refs": [
+        "liuyao.rule.r019"
+      ],
+      "validation_status": "validated",
+      "golden_case_ids": [
+        "liuyao.qian-static",
+        "liuyao.qian-to-gou",
+        "liuyao.tai-to-sheng"
+      ],
+      "regression_test": "tests/test_phase2_liuyao.py"
+    },
+    {
+      "id": "liuyao.phase2.motion",
+      "domain": "liuyao",
+      "name": "motion",
+      "variant": "jingfang-eight-palaces-v1",
+      "execution_status": "executable",
+      "phase1_rule_refs": [
+        "liuyao.rule.r008",
+        "liuyao.rule.r009",
+        "liuyao.rule.r010"
+      ],
+      "validation_status": "validated",
+      "golden_case_ids": [
+        "liuyao.qian-static",
+        "liuyao.qian-to-gou",
+        "liuyao.tai-to-sheng"
+      ],
+      "regression_test": "tests/test_phase2_liuyao.py"
+    }
+  ]
+}
