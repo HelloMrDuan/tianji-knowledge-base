@@ -14214,11 +14214,433 @@
         }
       ],
       "note": "Batch 40: one OCR glyph verified in both pinned Siku transcriptions and a separately maintained text with six CJK characters on each side. Comparison-only historical glyph aliases locate the reading; replacement preserves all neighboring characters and spacing. The two Siku repositories share an edition family; no claim of three independent editions."
+    },
+    {
+      "id": "ocr-460",
+      "old": "官煞混杂反为贫贱又曰年月日时防有四位官四位煞当以明者用之藏",
+      "new": "官煞混杂反为贫贱又曰年月日时㦯有四位官四位煞当以明者用之藏",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_005.txt",
+          "anchor": "又曰年月日時㦯有四位官四位"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-05.md",
+          "anchor": "又曰年月日時㦯有四位官四位"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷五/官煞去留杂论/text.txt",
+          "anchor": "又曰年月日时或有四位官四位"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/078卷 五·官煞去留杂论.md",
+          "anchor": "又曰年月日时或有四位官四位"
+        }
+      ],
+      "note": "Batch 41: one OCR glyph verified in both pinned Siku transcriptions and a separately maintained text with six CJK characters on each side. Comparison-only historical glyph aliases locate the reading; replacement preserves all neighboring characters and spacing. The two Siku repositories share an edition family; no claim of three independent editions."
+    },
+    {
+      "id": "ocr-461",
+      "old": "禄竒【又】乙日生人得子时名为防贵最为竒切嫌午字来冲破辛酉庚",
+      "new": "禄竒【又】乙日生人得子时名为䑕贵最为竒切嫌午字来冲破辛酉庚",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "人得子時名為䑕貴最為竒切嫌"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "人得子時名為䑕貴最為竒切嫌"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷六/六乙鼠贵/text.txt",
+          "anchor": "人得子时名为鼠贵最为奇切嫌"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/089卷 六·六乙鼠贵.md",
+          "anchor": "人得子时名为鼠贵最为奇切嫌"
+        }
+      ],
+      "note": "Batch 41: one OCR glyph verified in both pinned Siku transcriptions and a separately maintained text with six CJK characters on each side. Comparison-only historical glyph aliases locate the reading; replacement preserves all neighboring characters and spacing. The two Siku repositories share an edition family; no claim of three independent editions."
+    },
+    {
+      "id": "ocr-462",
+      "old": "兮百年安逸逄辛兮一世优游富贵防全喜甲临于天秤禄逄防美欣巳共",
+      "new": "兮百年安逸逄辛兮一世优游富贵䨇全喜甲临于天秤禄逄防美欣巳共",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "一世優游富貴䨇全喜甲臨於天"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "一世優游富貴䨇全喜甲臨於天"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/渊海子平/格局/text.txt",
+          "anchor": "一世优游富贵双全喜甲临于天"
+        }
+      ],
+      "note": "Batch 41: one OCR glyph verified in both pinned Siku transcriptions and a separately maintained text with six CJK characters on each side. Comparison-only historical glyph aliases locate the reading; replacement preserves all neighboring characters and spacing. The two Siku repositories share an edition family; no claim of three independent editions."
+    },
+    {
+      "id": "ocr-463",
+      "old": "己未壬申乙未甲申乙以庚为夫庚防到申以丁为子丁旺于未以壬为印",
+      "new": "己未壬申乙未甲申乙以庚为夫庚䘵到申以丁为子丁旺于未以壬为印",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_007.txt",
+          "anchor": "乙以庚為夫庚䘵到申以丁為子"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-07.md",
+          "anchor": "乙以庚為夫庚䘵到申以丁為子"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷七/清/text.txt",
+          "anchor": "乙以庚为夫庚禄到申以丁为子"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/155卷 七·纯和清贵.md",
+          "anchor": "乙以庚为夫庚禄到申以丁为子"
+        }
+      ],
+      "note": "Batch 41: one OCR glyph verified in both pinned Siku transcriptions and a separately maintained text with six CJK characters on each side. Comparison-only historical glyph aliases locate the reading; replacement preserves all neighboring characters and spacing. The two Siku repositories share an edition family; no claim of three independent editions."
+    },
+    {
+      "id": "ocr-464",
+      "old": "亦有功名年月干止透甲三竒地支防局或止寅辰皆贵\n 戊子日庚申",
+      "new": "亦有功名年月干止透甲三竒地支㑹局或止寅辰皆贵\n 戊子日庚申",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_008.txt",
+          "anchor": "透甲三竒地支㑹局或止寅辰皆"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-08.md",
+          "anchor": "透甲三竒地支㑹局或止寅辰皆"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷八/六戊日庚申时断/text.txt",
+          "anchor": "透甲三奇地支会局或止寅辰皆"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/223卷 八·六戊日庚申时断.md",
+          "anchor": "透甲三奇地支会局或止寅辰皆"
+        }
+      ],
+      "note": "Batch 41: one OCR glyph verified in both pinned Siku transcriptions and a separately maintained text with six CJK characters on each side. Comparison-only historical glyph aliases locate the reading; replacement preserves all neighboring characters and spacing. The two Siku repositories share an edition family; no claim of three independent editions."
+    },
+    {
+      "id": "ocr-465",
+      "old": " 刃带墓刑吉而夀弥福厚凶而破防单衣\n 【羊刃飞刃犯墓刑二位",
+      "new": " 刃带墓刑吉而夀弥福厚凶而破㡌单衣\n 【羊刃飞刃犯墓刑二位",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "彌福厚凶而破㡌單衣羊刃飛刃"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "彌福厚凶而破㡌單衣羊刃飛刃"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十/玉井奥诀二十/text.txt",
+          "anchor": "弥福厚凶而破帽单衣羊刃飞刃"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/289卷 十·玉井奧訣.md",
+          "anchor": "彌福厚凶而破帽單衣羊刃飛刃"
+        }
+      ],
+      "note": "Batch 41: one OCR glyph verified in both pinned Siku transcriptions and a separately maintained text with six CJK characters on each side. Comparison-only historical glyph aliases locate the reading; replacement preserves all neighboring characters and spacing. The two Siku repositories share an edition family; no claim of three independent editions."
+    },
+    {
+      "id": "ocr-466",
+      "old": "等日之类是禄马同居与上官印相防皆为三竒格也须要本身力旺或遇",
+      "new": "等日之类是禄马同居与上官印相㑹皆为三竒格也须要本身力旺或遇",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_011.txt",
+          "anchor": "居與上官印相㑹皆為三竒格也"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-11.md",
+          "anchor": "居與上官印相㑹皆為三竒格也"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十一/明通赋二/text.txt",
+          "anchor": "居与上官印相会皆为三奇格也"
+        }
+      ],
+      "note": "Batch 41: one OCR glyph verified in both pinned Siku transcriptions and a separately maintained text with six CJK characters on each side. Comparison-only historical glyph aliases locate the reading; replacement preserves all neighboring characters and spacing. The two Siku repositories share an edition family; no claim of three independent editions."
+    },
+    {
+      "id": "ocr-467",
+      "old": "能生木木盛水缩木能生火火多木防火能生土土多火晦土能生金金多",
+      "new": "能生木木盛水缩木能生火火多木㷊火能生土土多火晦土能生金金多",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "能生火火多木㷊火能生土土多"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "能生火火多木㷊火能生土土多"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/元理赋/text.txt",
+          "anchor": "能生火火多木焚火能生土土多"
+        }
+      ],
+      "note": "Batch 41: one OCR glyph verified in both pinned Siku transcriptions and a separately maintained text with six CJK characters on each side. Comparison-only historical glyph aliases locate the reading; replacement preserves all neighboring characters and spacing. The two Siku repositories share an edition family; no claim of three independent editions."
+    },
+    {
+      "id": "ocr-468",
+      "old": "比劫伤官尅妻害子女犯伤官偏印防子刑夫防失双亲财星太重为人孤",
+      "new": "比劫伤官尅妻害子女犯伤官偏印䘮子刑夫防失双亲财星太重为人孤",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "女犯傷官偏印䘮子刑夫㓜失雙"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "女犯傷官偏印䘮子刑夫㓜失雙"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/渊海子平/赋论·三/text.txt",
+          "anchor": "女犯伤官偏印丧子刑夫幼失双"
+        }
+      ],
+      "note": "Batch 41: one OCR glyph verified in both pinned Siku transcriptions and a separately maintained text with six CJK characters on each side. Comparison-only historical glyph aliases locate the reading; replacement preserves all neighboring characters and spacing. The two Siku repositories share an edition family; no claim of three independent editions."
+    },
+    {
+      "id": "ocr-469",
+      "old": "尅妻害子女犯伤官偏印䘮子刑夫防失双亲财星太重为人孤尅身旺无",
+      "new": "尅妻害子女犯伤官偏印䘮子刑夫㓜失双亲财星太重为人孤尅身旺无",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "偏印䘮子刑夫㓜失雙親財星太"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "偏印䘮子刑夫㓜失雙親財星太"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/渊海子平/赋论·三/text.txt",
+          "anchor": "偏印丧子刑夫幼失双亲财星太"
+        }
+      ],
+      "note": "Batch 41: one OCR glyph verified in both pinned Siku transcriptions and a separately maintained text with six CJK characters on each side. Comparison-only historical glyph aliases locate the reading; replacement preserves all neighboring characters and spacing. The two Siku repositories share an edition family; no claim of three independent editions."
+    },
+    {
+      "id": "ocr-470",
+      "old": "多而有害福不为祥煞虽重而无伤防不为祸三竒弗遇才髙难解成名六",
+      "new": "多而有害福不为祥煞虽重而无伤㓙不为祸三竒弗遇才髙难解成名六",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "煞雖重而無傷㓙不為禍三竒弗"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "煞雖重而無傷㓙不為禍三竒弗"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/造微论/text.txt",
+          "anchor": "煞虽重而无伤凶不为祸三奇弗"
+        }
+      ],
+      "note": "Batch 41: one OCR glyph verified in both pinned Siku transcriptions and a separately maintained text with six CJK characters on each side. Comparison-only historical glyph aliases locate the reading; replacement preserves all neighboring characters and spacing. The two Siku repositories share an edition family; no claim of three independent editions."
+    },
+    {
+      "id": "ocr-471",
+      "old": "是频遭编配是以登仕途者莫逢吞防爵禄亏停当兵权者勿遇天中身权",
+      "new": "是频遭编配是以登仕途者莫逢吞㗖爵禄亏停当兵权者勿遇天中身权",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "仕途者莫逢吞㗖爵禄虧停當兵"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "仕途者莫逢吞㗖爵禄虧停當兵"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/造微论/text.txt",
+          "anchor": "仕途者莫逢吞啗爵禄亏停当兵"
+        }
+      ],
+      "note": "Batch 41: one OCR glyph verified in both pinned Siku transcriptions and a separately maintained text with six CJK characters on each side. Comparison-only historical glyph aliases locate the reading; replacement preserves all neighboring characters and spacing. The two Siku repositories share an edition family; no claim of three independent editions."
+    },
+    {
+      "id": "ocr-472",
+      "old": "夫烟花绊身女求男而男求女头目防而肢体相亏财帛耗而田宅有害生",
+      "new": "夫烟花绊身女求男而男求女头目䧟而肢体相亏财帛耗而田宅有害生",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "而男求女頭目䧟而肢體相虧財"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "而男求女頭目䧟而肢體相𧇊財"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/人鉴论/text.txt",
+          "anchor": "而男求女头目陷而肢体相亏财"
+        }
+      ],
+      "note": "Batch 41: one OCR glyph verified in both pinned Siku transcriptions and a separately maintained text with six CJK characters on each side. Comparison-only historical glyph aliases locate the reading; replacement preserves all neighboring characters and spacing. The two Siku repositories share an edition family; no claim of three independent editions."
+    },
+    {
+      "id": "ocr-473",
+      "old": " 最怕刑冲 冲运则缓 冲用则防三竒透露 日主专强 寄根有力",
+      "new": " 最怕刑冲 冲运则缓 冲用则㐫三竒透露 日主专强 寄根有力",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_012.txt",
+          "anchor": "運則緩衝用則㐫三竒透露日主"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-12.md",
+          "anchor": "運則緩衝用則㐫三竒透露日主"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十二/四言独步/text.txt",
+          "anchor": "运则缓冲用则凶三奇透露日主"
+        }
+      ],
+      "note": "Batch 41: one OCR glyph verified in both pinned Siku transcriptions and a separately maintained text with six CJK characters on each side. Comparison-only historical glyph aliases locate the reading; replacement preserves all neighboring characters and spacing. The two Siku repositories share an edition family; no claim of three independent editions."
     }
   ],
   "summary": {
-    "confirmed_corrections": 459,
-    "confirmed_replacements": 459,
+    "confirmed_corrections": 473,
+    "confirmed_replacements": 473,
     "review_status": "in_progress",
     "canonical_ready": false
   }
