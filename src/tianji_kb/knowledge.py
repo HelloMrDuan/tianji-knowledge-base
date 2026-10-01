@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import hashlib
+import importlib
 import json
 from pathlib import Path
 from typing import Any
@@ -41,10 +42,19 @@ def source_text(root: Path, source: dict) -> str:
 
 def validate_knowledge(root: Path, bundles: list[dict] | None = None) -> dict:
     """Validate schemas, provenance, citations and all model relationships."""
-    registry = read_json(root / 'config/domain_registry.json')['domains']
+    registry_obj = read_json(root / 'config/domain_registry.json')
+    Draft202012Validator(read_json(root / 'schemas/knowledge/domains.schema.json')).validate(registry_obj)
+    registry = registry_obj['domains']
     domains = {x['id']: x for x in registry}
     if len(domains) != len(registry):
         raise ValueError('Duplicate domain IDs')
+    for domain in registry:
+        name = domain['knowledge_path']
+        if name != f'data/canonical/{domain["id"]}/phase1_knowledge.json':
+            raise ValueError(f'Wrong production domain path: {name}')
+        path = local_path(root, name)
+        if domain["status"] == "phase1_complete" and not path.is_file():
+            raise ValueError(f'Completed domain bundle missing: {domain["id"]}')
     sources_obj = read_json(root / 'config/knowledge_sources.json')
     Draft202012Validator(read_json(root / 'schemas/knowledge/sources.schema.json')).validate(sources_obj)
     sources = {x['source_id']: x for x in sources_obj['sources']}
@@ -64,8 +74,13 @@ def validate_knowledge(root: Path, bundles: list[dict] | None = None) -> dict:
         bundles = [read_json(root / x['knowledge_path']) for x in registry if (root / x['knowledge_path']).exists()]
     validator = Draft202012Validator(read_json(root / 'schemas/knowledge/bundle.schema.json'))
     entities = {}
+    bundle_domains = [bundle['domain'] for bundle in bundles]
+    if len(bundle_domains) != len(set(bundle_domains)):
+        raise ValueError('Duplicate domain bundles')
     for bundle in bundles:
         validator.validate(bundle)
+        if bundle['domain'] not in domains:
+            raise ValueError('Unregistered bundle domain')
         for collection in COLLECTIONS:
             seen_names = set()
             for entity in bundle[collection]:
@@ -101,11 +116,37 @@ def validate_knowledge(root: Path, bundles: list[dict] | None = None) -> dict:
                 raise ValueError(f'Unverifiable classical section: {eid}')
             if sources[sid]['kind'] != 'classical' or sources[sid]['evidence_level'] == 'D':
                 raise ValueError(f'Unreviewed source in canonical section: {eid}')
+        for key, target_collection in (('classic_id', 'classics'), ('chapter_id', 'chapters')):
+            if key in entity:
+                target = require(entity[key], target_collection)
+                if target['domain'] != entity['domain']:
+                    raise ValueError(f'Cross-domain hierarchy: {eid}')
         for tid in entity.get('term_refs', []) + entity.get('related_terms', []):
             require(tid, 'terms')
-        implementation_id = entity.get('operation', {}).get('source_id')
-        if implementation_id and implementation_id not in sources:
-            raise ValueError(f'Unknown implementation source: {implementation_id}')
+        operation = entity.get('operation', {})
+        provider = operation.get('provider')
+        if entity.get('execution_status') == 'executable' and not provider:
+            raise ValueError(f'Executable rule has no provider: {eid}')
+        if provider:
+            if not provider.startswith('tianji_kb.operations.'):
+                raise ValueError(f'Unregistered operation provider: {eid}')
+            module, name = provider.rsplit('.', 1)
+            try:
+                function = getattr(importlib.import_module(module), name)
+            except (ImportError, AttributeError) as exc:
+                raise ValueError(f'Unresolvable provider: {eid}') from exc
+            if not callable(function):
+                raise ValueError(f'Noncallable provider: {eid}')
+        for key in ('source_id', 'calendar_source_id'):
+            sid = operation.get('parameters', {}).get(key)
+            if sid and sid not in sources:
+                raise ValueError(f'Unknown auxiliary source: {eid}/{sid}')
+        implementation_id = operation.get('source_id')
+        if implementation_id:
+            if implementation_id not in sources:
+                raise ValueError(f'Unknown implementation source: {implementation_id}')
+            if sources[implementation_id]['kind'] != 'implementation':
+                raise ValueError(f'Operation implementation source has wrong kind: {eid}')
         refs = entity.get('source_refs', [])
         if collection in ('terms', 'rules', 'concepts'):
             if not any(ref['role'] == 'classical' for ref in refs):
@@ -117,6 +158,8 @@ def validate_knowledge(root: Path, bundles: list[dict] | None = None) -> dict:
             section = require(ref['section_id'], 'sections')
             if section['source_id'] != sid or ref['original_text'] not in section['text']:
                 raise ValueError(f'Quote/section mismatch: {eid}')
+            if sources[sid]['kind'] != 'classical' or ref['role'] != 'classical':
+                raise ValueError(f'Nonclassical canonical citation: {eid}')
             if sources[sid]['evidence_level'] == 'D':
                 raise ValueError(f'D evidence cannot be promoted: {eid}')
     return {'domains': domains, 'sources': sources, 'bundles': bundles, 'entities': entities}

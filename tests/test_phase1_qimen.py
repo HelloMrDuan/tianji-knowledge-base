@@ -32,7 +32,8 @@ class QimenPhase1Tests(unittest.TestCase):
 
     @unittest.skipUnless(shutil.which('node'),'Node oracle unavailable')
     def test_transferred_plate_operations_match_fixed_upstream_modules(self):
-        snapshot=ROOT/'data/quarantine/source_snapshots/qimen-qfdk/lib'
+        snapshot=ROOT/next(s['content_path'] for s in json.loads((ROOT/'config/knowledge_sources.json').read_text())['sources'] if s['source_id']=='qimen.source.qfdk-implementation')
+        snapshot=snapshot.parent
         cases=[]
         for term in ['冬至','夏至']:
             for day in ['甲子','己巳','甲戌']:

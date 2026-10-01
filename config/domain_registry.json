@@ -5,42 +5,42 @@
       "id": "yijing",
       "name": "周易 / 易经",
       "knowledge_path": "data/canonical/yijing/phase1_knowledge.json",
-      "status": "in_progress",
+      "status": "phase1_complete",
       "production_stage": "canonical"
     },
     {
       "id": "liuyao",
       "name": "六爻",
       "knowledge_path": "data/canonical/liuyao/phase1_knowledge.json",
-      "status": "in_progress",
+      "status": "phase1_complete",
       "production_stage": "canonical"
     },
     {
       "id": "qimen",
       "name": "奇门遁甲",
       "knowledge_path": "data/canonical/qimen/phase1_knowledge.json",
-      "status": "in_progress",
+      "status": "phase1_complete",
       "production_stage": "canonical"
     },
     {
       "id": "ziwei",
       "name": "紫微斗数",
       "knowledge_path": "data/canonical/ziwei/phase1_knowledge.json",
-      "status": "in_progress",
+      "status": "phase1_complete",
       "production_stage": "canonical"
     },
     {
       "id": "fengshui",
       "name": "风水",
       "knowledge_path": "data/canonical/fengshui/phase1_knowledge.json",
-      "status": "in_progress",
+      "status": "phase1_complete",
       "production_stage": "canonical"
     },
     {
       "id": "liuren",
       "name": "大六壬",
       "knowledge_path": "data/canonical/liuren/phase1_knowledge.json",
-      "status": "in_progress",
+      "status": "phase1_complete",
       "production_stage": "canonical"
     }
   ]

@@ -5,6 +5,8 @@ import hashlib
 import json
 from pathlib import Path
 
+from tianji_kb.knowledge_index import iter_phase1_chunks
+
 ROOT = Path(__file__).resolve().parents[1]
 CANONICAL = ROOT / "data/canonical"
 
@@ -46,3 +48,7 @@ build_dir = ROOT / "build"
 build_dir.mkdir(exist_ok=True)
 (build_dir / "catalog.json").write_text(json.dumps(index, ensure_ascii=False, indent=2)+"\n", encoding="utf-8")
 print(json.dumps(index, ensure_ascii=False))
+
+with (build_dir / "phase1_knowledge.jsonl").open("w", encoding="utf-8") as handle:
+    for chunk in iter_phase1_chunks(ROOT):
+        handle.write(json.dumps(chunk, ensure_ascii=False) + "\n")

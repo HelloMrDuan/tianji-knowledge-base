@@ -6,16 +6,17 @@
     {
       "id": "yijing.classic.shuogua",
       "domain": "yijing",
-      "name": "易传·说卦",
+      "name": "易传（十翼）",
       "source_id": "yijing.source.shuogua",
-      "body_stage": "canonical"
-    },
-    {
-      "id": "yijing.classic.xici",
-      "domain": "yijing",
-      "name": "易传·系辞上",
-      "source_id": "yijing.source.xici",
-      "body_stage": "canonical"
+      "body_stage": "canonical",
+      "source_ids": [
+        "yijing.source.shuogua",
+        "yijing.source.xici",
+        "yijing.source.xici_xia",
+        "yijing.source.xugua",
+        "yijing.source.zagua",
+        "yijing.source.tuan_xiang_wenyan"
+      ]
     },
     {
       "id": "yijing.classic.meihua",
@@ -108,15 +109,15 @@
     {
       "id": "yijing.chapter.shuogua.8cff2b9d",
       "domain": "yijing",
-      "name": "基础选段（编者定位）",
+      "name": "说卦·基础选段（编者定位）",
       "classic_id": "yijing.classic.shuogua",
       "locator": "基础选段（编者定位）"
     },
     {
       "id": "yijing.chapter.xici.8cff2b9d",
       "domain": "yijing",
-      "name": "基础选段（编者定位）",
-      "classic_id": "yijing.classic.xici",
+      "name": "系辞上·基础选段（编者定位）",
+      "classic_id": "yijing.classic.shuogua",
       "locator": "基础选段（编者定位）"
     },
     {
@@ -627,7 +628,7 @@
       "id": "yijing.chapter.xici.bd49dc9c",
       "domain": "yijing",
       "name": "系辞上·大衍之数",
-      "classic_id": "yijing.classic.xici",
+      "classic_id": "yijing.classic.shuogua",
       "locator": "系辞上·大衍之数"
     },
     {
@@ -636,6 +637,69 @@
       "name": "卷一·互卦起例",
       "classic_id": "yijing.classic.meihua",
       "locator": "卷一·互卦起例"
+    },
+    {
+      "id": "yijing.chapter.final076",
+      "domain": "yijing",
+      "name": "系辞下",
+      "classic_id": "yijing.classic.shuogua",
+      "locator": "data/canonical/yijing/ten_wings/xici_xia.json#normalized_text: opening sentence"
+    },
+    {
+      "id": "yijing.chapter.final077",
+      "domain": "yijing",
+      "name": "序卦",
+      "classic_id": "yijing.classic.shuogua",
+      "locator": "data/canonical/yijing/ten_wings/xugua.json#normalized_text: opening sentence"
+    },
+    {
+      "id": "yijing.chapter.final078",
+      "domain": "yijing",
+      "name": "杂卦",
+      "classic_id": "yijing.classic.shuogua",
+      "locator": "data/canonical/yijing/ten_wings/zagua.json#normalized_text: opening sentence"
+    },
+    {
+      "id": "yijing.chapter.final079",
+      "domain": "yijing",
+      "name": "彖·乾",
+      "classic_id": "yijing.classic.shuogua",
+      "locator": "data/canonical/yijing/tuan_xiang_wenyan_v1.json#records[number=1].tuan"
+    },
+    {
+      "id": "yijing.chapter.final080",
+      "domain": "yijing",
+      "name": "象·乾",
+      "classic_id": "yijing.classic.shuogua",
+      "locator": "data/canonical/yijing/tuan_xiang_wenyan_v1.json#records[number=1].great_image"
+    },
+    {
+      "id": "yijing.chapter.final081",
+      "domain": "yijing",
+      "name": "文言·乾",
+      "classic_id": "yijing.classic.shuogua",
+      "locator": "data/canonical/yijing/tuan_xiang_wenyan_v1.json#records[number=1].wenyan"
+    },
+    {
+      "id": "yijing.chapter.final082",
+      "domain": "yijing",
+      "name": "后天起卦之数（原典称“今人多以”）",
+      "classic_id": "yijing.classic.meihua",
+      "locator": "原典后天起卦论；raw character interval (14605, 14640)"
+    },
+    {
+      "id": "yijing.chapter.final083",
+      "domain": "yijing",
+      "name": "说卦·后天八卦顺序",
+      "classic_id": "yijing.classic.shuogua",
+      "locator": "说卦#normalized_text; 帝出乎震段"
+    },
+    {
+      "id": "yijing.chapter.final084",
+      "domain": "yijing",
+      "name": "说卦·后天方位释文",
+      "classic_id": "yijing.classic.shuogua",
+      "locator": "说卦#normalized_text; 万物出乎震段"
     }
   ],
   "sections": [
@@ -688,7 +752,7 @@
       "id": "yijing.section.s004",
       "domain": "yijing",
       "name": "基础选段（编者定位）·选段4",
-      "classic_id": "yijing.classic.xici",
+      "classic_id": "yijing.classic.shuogua",
       "chapter_id": "yijing.chapter.xici.8cff2b9d",
       "source_id": "yijing.source.xici",
       "text": "爻者，言乎变者也",
@@ -703,7 +767,7 @@
       "id": "yijing.section.s005",
       "domain": "yijing",
       "name": "基础选段（编者定位）·选段5",
-      "classic_id": "yijing.classic.xici",
+      "classic_id": "yijing.classic.shuogua",
       "chapter_id": "yijing.chapter.xici.8cff2b9d",
       "source_id": "yijing.source.xici",
       "text": "彖者，言乎象者也",
@@ -718,7 +782,7 @@
       "id": "yijing.section.s006",
       "domain": "yijing",
       "name": "基础选段（编者定位）·选段6",
-      "classic_id": "yijing.classic.xici",
+      "classic_id": "yijing.classic.shuogua",
       "chapter_id": "yijing.chapter.xici.8cff2b9d",
       "source_id": "yijing.source.xici",
       "text": "圣人设卦观象，系辞焉而明吉凶",
@@ -793,7 +857,7 @@
       "id": "yijing.section.s011",
       "domain": "yijing",
       "name": "基础选段（编者定位）·选段11",
-      "classic_id": "yijing.classic.xici",
+      "classic_id": "yijing.classic.shuogua",
       "chapter_id": "yijing.chapter.xici.8cff2b9d",
       "source_id": "yijing.source.xici",
       "text": "参伍以变，错综其数",
@@ -2038,7 +2102,7 @@
       "id": "yijing.section.s094",
       "domain": "yijing",
       "name": "系辞上·大衍之数·选段94",
-      "classic_id": "yijing.classic.xici",
+      "classic_id": "yijing.classic.shuogua",
       "chapter_id": "yijing.chapter.xici.bd49dc9c",
       "source_id": "yijing.source.xici",
       "text": "八卦而小成。引而伸之，触类而长之",
@@ -2062,6 +2126,141 @@
         "status": "approved",
         "method": "逐字核对固定证据文件；限定选段；显著缺文、PUA 和现代注释不晋级。",
         "scope": "仅本选段；不推广为整本校勘或现实吉凶结论。"
+      }
+    },
+    {
+      "id": "yijing.section.s096",
+      "domain": "yijing",
+      "name": "系辞下·已核选段",
+      "classic_id": "yijing.classic.shuogua",
+      "chapter_id": "yijing.chapter.final076",
+      "source_id": "yijing.source.xici_xia",
+      "text": "八卦成列，象在其中矣；因而重之，爻在其中矣；刚柔相推，变在其中焉；系辞焉而命之，动在其中矣。",
+      "locator": "data/canonical/yijing/ten_wings/xici_xia.json#normalized_text: opening sentence",
+      "review": {
+        "status": "approved",
+        "method": "核对固定原典上下文与字面；复用旧 Canonical 或公版短引，不修改历史正文。",
+        "scope": "仅本选段及其来源定位；不声明独立版本校勘。"
+      }
+    },
+    {
+      "id": "yijing.section.s097",
+      "domain": "yijing",
+      "name": "序卦·已核选段",
+      "classic_id": "yijing.classic.shuogua",
+      "chapter_id": "yijing.chapter.final077",
+      "source_id": "yijing.source.xugua",
+      "text": "有天地，然后万物生焉。",
+      "locator": "data/canonical/yijing/ten_wings/xugua.json#normalized_text: opening sentence",
+      "review": {
+        "status": "approved",
+        "method": "核对固定原典上下文与字面；复用旧 Canonical 或公版短引，不修改历史正文。",
+        "scope": "仅本选段及其来源定位；不声明独立版本校勘。"
+      }
+    },
+    {
+      "id": "yijing.section.s098",
+      "domain": "yijing",
+      "name": "杂卦·已核选段",
+      "classic_id": "yijing.classic.shuogua",
+      "chapter_id": "yijing.chapter.final078",
+      "source_id": "yijing.source.zagua",
+      "text": "《乾》刚《坤》柔，《比》乐《师》忧；《临》《观》之义，或与或求。",
+      "locator": "data/canonical/yijing/ten_wings/zagua.json#normalized_text: opening sentence",
+      "review": {
+        "status": "approved",
+        "method": "核对固定原典上下文与字面；复用旧 Canonical 或公版短引，不修改历史正文。",
+        "scope": "仅本选段及其来源定位；不声明独立版本校勘。"
+      }
+    },
+    {
+      "id": "yijing.section.s099",
+      "domain": "yijing",
+      "name": "彖·乾·已核选段",
+      "classic_id": "yijing.classic.shuogua",
+      "chapter_id": "yijing.chapter.final079",
+      "source_id": "yijing.source.tuan_xiang_wenyan",
+      "text": "大哉乾元，万物资始，乃统天。",
+      "locator": "data/canonical/yijing/tuan_xiang_wenyan_v1.json#records[number=1].tuan",
+      "review": {
+        "status": "approved",
+        "method": "核对固定原典上下文与字面；复用旧 Canonical 或公版短引，不修改历史正文。",
+        "scope": "仅本选段及其来源定位；不声明独立版本校勘。"
+      }
+    },
+    {
+      "id": "yijing.section.s100",
+      "domain": "yijing",
+      "name": "象·乾·已核选段",
+      "classic_id": "yijing.classic.shuogua",
+      "chapter_id": "yijing.chapter.final080",
+      "source_id": "yijing.source.tuan_xiang_wenyan",
+      "text": "天行健，君子以自强不息。",
+      "locator": "data/canonical/yijing/tuan_xiang_wenyan_v1.json#records[number=1].great_image",
+      "review": {
+        "status": "approved",
+        "method": "核对固定原典上下文与字面；复用旧 Canonical 或公版短引，不修改历史正文。",
+        "scope": "仅本选段及其来源定位；不声明独立版本校勘。"
+      }
+    },
+    {
+      "id": "yijing.section.s101",
+      "domain": "yijing",
+      "name": "文言·乾·已核选段",
+      "classic_id": "yijing.classic.shuogua",
+      "chapter_id": "yijing.chapter.final081",
+      "source_id": "yijing.source.tuan_xiang_wenyan",
+      "text": "“元”者，善之长也；“亨”者，嘉之会也；“利”者，义之和也；“贞”者，事之干也。",
+      "locator": "data/canonical/yijing/tuan_xiang_wenyan_v1.json#records[number=1].wenyan",
+      "review": {
+        "status": "approved",
+        "method": "核对固定原典上下文与字面；复用旧 Canonical 或公版短引，不修改历史正文。",
+        "scope": "仅本选段及其来源定位；不声明独立版本校勘。"
+      }
+    },
+    {
+      "id": "yijing.section.s102",
+      "domain": "yijing",
+      "name": "后天起卦之数（原典称“今人多以”）·已核选段",
+      "classic_id": "yijing.classic.meihua",
+      "chapter_id": "yijing.chapter.final082",
+      "source_id": "yijing.source.meihua",
+      "text": "今人多以坎一、坤二、震三、巽四、中五、干六、兑七、艮八、离九之数为用。",
+      "locator": "原典后天起卦论；raw character interval (14605, 14640)",
+      "review": {
+        "status": "approved",
+        "method": "核对固定原典上下文与字面；复用旧 Canonical 或公版短引，不修改历史正文。",
+        "scope": "仅本选段及其来源定位；不声明独立版本校勘。"
+      }
+    },
+    {
+      "id": "yijing.section.s103",
+      "domain": "yijing",
+      "name": "说卦·后天八卦顺序·已核选段",
+      "classic_id": "yijing.classic.shuogua",
+      "chapter_id": "yijing.chapter.final083",
+      "source_id": "yijing.source.shuogua",
+      "text": "帝出乎震，齐乎巽，相见乎离，致役乎坤，说言乎兑，战乎乾，劳乎坎，成言乎艮",
+      "locator": "说卦#normalized_text; 帝出乎震段",
+      "review": {
+        "status": "approved",
+        "method": "核对固定原典上下文与字面；复用旧 Canonical 或公版短引，不修改历史正文。",
+        "scope": "仅本选段及其来源定位；不声明独立版本校勘。"
+      }
+    },
+    {
+      "id": "yijing.section.s104",
+      "domain": "yijing",
+      "name": "说卦·后天方位释文·已核选段",
+      "classic_id": "yijing.classic.shuogua",
+      "chapter_id": "yijing.chapter.final084",
+      "source_id": "yijing.source.shuogua",
+      "text": "万物出乎震，震东方也。齐乎巽，巽东南也；齐也者，言万物之絜齐也。\n　　离也者，明也，万物皆相见，南方之卦也，圣人南面而听天下，向明而治，盖取诸此也。坤也者，地也，万物皆致养焉，故曰：致役乎坤。兑，正秋也，万物之所说也，故曰：说言乎兑。战乎乾，乾西北之卦也，言阴阳相薄也。坎者水也，正北方之卦也，劳卦也，万物之所归也，故曰：劳乎坎。艮，东北之卦也。万物之所成终而成始也，故曰：成言乎艮",
+      "locator": "说卦#normalized_text; 万物出乎震段",
+      "review": {
+        "status": "approved",
+        "method": "核对固定原典上下文与字面；复用旧 Canonical 或公版短引，不修改历史正文。",
+        "scope": "仅本选段及其来源定位；不声明独立版本校勘。"
       }
     }
   ],
@@ -2263,7 +2462,7 @@
       "related_terms": [],
       "confidence": "medium",
       "attributes": {
-        "definition_kind": "classical_excerpt"
+        "definition_kind": "source_grounded_summary"
       }
     },
     {
@@ -2283,7 +2482,7 @@
       "related_terms": [],
       "confidence": "medium",
       "attributes": {
-        "definition_kind": "classical_excerpt"
+        "definition_kind": "source_grounded_summary"
       }
     },
     {
@@ -2722,7 +2921,8 @@
         "yin_yang": "阳",
         "earlier_heaven_number": 1,
         "later_heaven_number": 6,
-        "convention": "乾为三阳；坤为三阴；其余据独爻性别。数字、方位、阴阳均明确区分；说卦未直接规定五行归属。"
+        "convention": "乾为三阳；坤为三阴；其余据独爻性别。数字、方位、阴阳均明确区分；说卦未直接规定五行归属。",
+        "later_heaven_number_scope": "传世梅花文本记载的常用后天数；本书另倡先天数，保留差异。"
       },
       "source_refs": [
         {
@@ -2762,9 +2962,21 @@
           "role": "classical"
         },
         {
+          "source_id": "yijing.source.meihua",
+          "section_id": "yijing.section.s102",
+          "original_text": "今人多以坎一、坤二、震三、巽四、中五、干六、兑七、艮八、离九之数为用。",
+          "role": "classical"
+        },
+        {
           "source_id": "yijing.source.shuogua",
-          "section_id": "yijing.section.s017",
-          "original_text": "乾为天，为圆，为君，为父",
+          "section_id": "yijing.section.s103",
+          "original_text": "帝出乎震，齐乎巽，相见乎离，致役乎坤，说言乎兑，战乎乾，劳乎坎，成言乎艮",
+          "role": "classical"
+        },
+        {
+          "source_id": "yijing.source.shuogua",
+          "section_id": "yijing.section.s104",
+          "original_text": "万物出乎震，震东方也。齐乎巽，巽东南也；齐也者，言万物之絜齐也。\n　　离也者，明也，万物皆相见，南方之卦也，圣人南面而听天下，向明而治，盖取诸此也。坤也者，地也，万物皆致养焉，故曰：致役乎坤。兑，正秋也，万物之所说也，故曰：说言乎兑。战乎乾，乾西北之卦也，言阴阳相薄也。坎者水也，正北方之卦也，劳卦也，万物之所归也，故曰：劳乎坎。艮，东北之卦也。万物之所成终而成始也，故曰：成言乎艮",
           "role": "classical"
         }
       ],
@@ -2787,7 +2999,8 @@
         "yin_yang": "阴",
         "earlier_heaven_number": 2,
         "later_heaven_number": 7,
-        "convention": "乾为三阳；坤为三阴；其余据独爻性别。数字、方位、阴阳均明确区分；说卦未直接规定五行归属。"
+        "convention": "乾为三阳；坤为三阴；其余据独爻性别。数字、方位、阴阳均明确区分；说卦未直接规定五行归属。",
+        "later_heaven_number_scope": "传世梅花文本记载的常用后天数；本书另倡先天数，保留差异。"
       },
       "source_refs": [
         {
@@ -2831,6 +3044,24 @@
           "section_id": "yijing.section.s019",
           "original_text": "兑三索而得女，故谓之少女",
           "role": "classical"
+        },
+        {
+          "source_id": "yijing.source.meihua",
+          "section_id": "yijing.section.s102",
+          "original_text": "今人多以坎一、坤二、震三、巽四、中五、干六、兑七、艮八、离九之数为用。",
+          "role": "classical"
+        },
+        {
+          "source_id": "yijing.source.shuogua",
+          "section_id": "yijing.section.s103",
+          "original_text": "帝出乎震，齐乎巽，相见乎离，致役乎坤，说言乎兑，战乎乾，劳乎坎，成言乎艮",
+          "role": "classical"
+        },
+        {
+          "source_id": "yijing.source.shuogua",
+          "section_id": "yijing.section.s104",
+          "original_text": "万物出乎震，震东方也。齐乎巽，巽东南也；齐也者，言万物之絜齐也。\n　　离也者，明也，万物皆相见，南方之卦也，圣人南面而听天下，向明而治，盖取诸此也。坤也者，地也，万物皆致养焉，故曰：致役乎坤。兑，正秋也，万物之所说也，故曰：说言乎兑。战乎乾，乾西北之卦也，言阴阳相薄也。坎者水也，正北方之卦也，劳卦也，万物之所归也，故曰：劳乎坎。艮，东北之卦也。万物之所成终而成始也，故曰：成言乎艮",
+          "role": "classical"
         }
       ],
       "confidence": "medium"
@@ -2852,7 +3083,8 @@
         "yin_yang": "阴",
         "earlier_heaven_number": 3,
         "later_heaven_number": 9,
-        "convention": "乾为三阳；坤为三阴；其余据独爻性别。数字、方位、阴阳均明确区分；说卦未直接规定五行归属。"
+        "convention": "乾为三阳；坤为三阴；其余据独爻性别。数字、方位、阴阳均明确区分；说卦未直接规定五行归属。",
+        "later_heaven_number_scope": "传世梅花文本记载的常用后天数；本书另倡先天数，保留差异。"
       },
       "source_refs": [
         {
@@ -2896,6 +3128,24 @@
           "section_id": "yijing.section.s021",
           "original_text": "离再索而得女，故谓之中女",
           "role": "classical"
+        },
+        {
+          "source_id": "yijing.source.meihua",
+          "section_id": "yijing.section.s102",
+          "original_text": "今人多以坎一、坤二、震三、巽四、中五、干六、兑七、艮八、离九之数为用。",
+          "role": "classical"
+        },
+        {
+          "source_id": "yijing.source.shuogua",
+          "section_id": "yijing.section.s103",
+          "original_text": "帝出乎震，齐乎巽，相见乎离，致役乎坤，说言乎兑，战乎乾，劳乎坎，成言乎艮",
+          "role": "classical"
+        },
+        {
+          "source_id": "yijing.source.shuogua",
+          "section_id": "yijing.section.s104",
+          "original_text": "万物出乎震，震东方也。齐乎巽，巽东南也；齐也者，言万物之絜齐也。\n　　离也者，明也，万物皆相见，南方之卦也，圣人南面而听天下，向明而治，盖取诸此也。坤也者，地也，万物皆致养焉，故曰：致役乎坤。兑，正秋也，万物之所说也，故曰：说言乎兑。战乎乾，乾西北之卦也，言阴阳相薄也。坎者水也，正北方之卦也，劳卦也，万物之所归也，故曰：劳乎坎。艮，东北之卦也。万物之所成终而成始也，故曰：成言乎艮",
+          "role": "classical"
         }
       ],
       "confidence": "medium"
@@ -2917,7 +3167,8 @@
         "yin_yang": "阳",
         "earlier_heaven_number": 4,
         "later_heaven_number": 3,
-        "convention": "乾为三阳；坤为三阴；其余据独爻性别。数字、方位、阴阳均明确区分；说卦未直接规定五行归属。"
+        "convention": "乾为三阳；坤为三阴；其余据独爻性别。数字、方位、阴阳均明确区分；说卦未直接规定五行归属。",
+        "later_heaven_number_scope": "传世梅花文本记载的常用后天数；本书另倡先天数，保留差异。"
       },
       "source_refs": [
         {
@@ -2961,6 +3212,24 @@
           "section_id": "yijing.section.s023",
           "original_text": "震一索而得男，故谓之长男",
           "role": "classical"
+        },
+        {
+          "source_id": "yijing.source.meihua",
+          "section_id": "yijing.section.s102",
+          "original_text": "今人多以坎一、坤二、震三、巽四、中五、干六、兑七、艮八、离九之数为用。",
+          "role": "classical"
+        },
+        {
+          "source_id": "yijing.source.shuogua",
+          "section_id": "yijing.section.s103",
+          "original_text": "帝出乎震，齐乎巽，相见乎离，致役乎坤，说言乎兑，战乎乾，劳乎坎，成言乎艮",
+          "role": "classical"
+        },
+        {
+          "source_id": "yijing.source.shuogua",
+          "section_id": "yijing.section.s104",
+          "original_text": "万物出乎震，震东方也。齐乎巽，巽东南也；齐也者，言万物之絜齐也。\n　　离也者，明也，万物皆相见，南方之卦也，圣人南面而听天下，向明而治，盖取诸此也。坤也者，地也，万物皆致养焉，故曰：致役乎坤。兑，正秋也，万物之所说也，故曰：说言乎兑。战乎乾，乾西北之卦也，言阴阳相薄也。坎者水也，正北方之卦也，劳卦也，万物之所归也，故曰：劳乎坎。艮，东北之卦也。万物之所成终而成始也，故曰：成言乎艮",
+          "role": "classical"
         }
       ],
       "confidence": "medium"
@@ -2982,7 +3251,8 @@
         "yin_yang": "阴",
         "earlier_heaven_number": 5,
         "later_heaven_number": 4,
-        "convention": "乾为三阳；坤为三阴；其余据独爻性别。数字、方位、阴阳均明确区分；说卦未直接规定五行归属。"
+        "convention": "乾为三阳；坤为三阴；其余据独爻性别。数字、方位、阴阳均明确区分；说卦未直接规定五行归属。",
+        "later_heaven_number_scope": "传世梅花文本记载的常用后天数；本书另倡先天数，保留差异。"
       },
       "source_refs": [
         {
@@ -3022,9 +3292,21 @@
           "role": "classical"
         },
         {
+          "source_id": "yijing.source.meihua",
+          "section_id": "yijing.section.s102",
+          "original_text": "今人多以坎一、坤二、震三、巽四、中五、干六、兑七、艮八、离九之数为用。",
+          "role": "classical"
+        },
+        {
           "source_id": "yijing.source.shuogua",
-          "section_id": "yijing.section.s024",
-          "original_text": "巽为木，为风，为长女",
+          "section_id": "yijing.section.s103",
+          "original_text": "帝出乎震，齐乎巽，相见乎离，致役乎坤，说言乎兑，战乎乾，劳乎坎，成言乎艮",
+          "role": "classical"
+        },
+        {
+          "source_id": "yijing.source.shuogua",
+          "section_id": "yijing.section.s104",
+          "original_text": "万物出乎震，震东方也。齐乎巽，巽东南也；齐也者，言万物之絜齐也。\n　　离也者，明也，万物皆相见，南方之卦也，圣人南面而听天下，向明而治，盖取诸此也。坤也者，地也，万物皆致养焉，故曰：致役乎坤。兑，正秋也，万物之所说也，故曰：说言乎兑。战乎乾，乾西北之卦也，言阴阳相薄也。坎者水也，正北方之卦也，劳卦也，万物之所归也，故曰：劳乎坎。艮，东北之卦也。万物之所成终而成始也，故曰：成言乎艮",
           "role": "classical"
         }
       ],
@@ -3047,7 +3329,8 @@
         "yin_yang": "阳",
         "earlier_heaven_number": 6,
         "later_heaven_number": 1,
-        "convention": "乾为三阳；坤为三阴；其余据独爻性别。数字、方位、阴阳均明确区分；说卦未直接规定五行归属。"
+        "convention": "乾为三阳；坤为三阴；其余据独爻性别。数字、方位、阴阳均明确区分；说卦未直接规定五行归属。",
+        "later_heaven_number_scope": "传世梅花文本记载的常用后天数；本书另倡先天数，保留差异。"
       },
       "source_refs": [
         {
@@ -3091,6 +3374,24 @@
           "section_id": "yijing.section.s026",
           "original_text": "坎再索而得男。故谓之中男",
           "role": "classical"
+        },
+        {
+          "source_id": "yijing.source.meihua",
+          "section_id": "yijing.section.s102",
+          "original_text": "今人多以坎一、坤二、震三、巽四、中五、干六、兑七、艮八、离九之数为用。",
+          "role": "classical"
+        },
+        {
+          "source_id": "yijing.source.shuogua",
+          "section_id": "yijing.section.s103",
+          "original_text": "帝出乎震，齐乎巽，相见乎离，致役乎坤，说言乎兑，战乎乾，劳乎坎，成言乎艮",
+          "role": "classical"
+        },
+        {
+          "source_id": "yijing.source.shuogua",
+          "section_id": "yijing.section.s104",
+          "original_text": "万物出乎震，震东方也。齐乎巽，巽东南也；齐也者，言万物之絜齐也。\n　　离也者，明也，万物皆相见，南方之卦也，圣人南面而听天下，向明而治，盖取诸此也。坤也者，地也，万物皆致养焉，故曰：致役乎坤。兑，正秋也，万物之所说也，故曰：说言乎兑。战乎乾，乾西北之卦也，言阴阳相薄也。坎者水也，正北方之卦也，劳卦也，万物之所归也，故曰：劳乎坎。艮，东北之卦也。万物之所成终而成始也，故曰：成言乎艮",
+          "role": "classical"
         }
       ],
       "confidence": "medium"
@@ -3112,7 +3413,8 @@
         "yin_yang": "阳",
         "earlier_heaven_number": 7,
         "later_heaven_number": 8,
-        "convention": "乾为三阳；坤为三阴；其余据独爻性别。数字、方位、阴阳均明确区分；说卦未直接规定五行归属。"
+        "convention": "乾为三阳；坤为三阴；其余据独爻性别。数字、方位、阴阳均明确区分；说卦未直接规定五行归属。",
+        "later_heaven_number_scope": "传世梅花文本记载的常用后天数；本书另倡先天数，保留差异。"
       },
       "source_refs": [
         {
@@ -3156,6 +3458,24 @@
           "section_id": "yijing.section.s028",
           "original_text": "艮三索而得男，故谓之少男",
           "role": "classical"
+        },
+        {
+          "source_id": "yijing.source.meihua",
+          "section_id": "yijing.section.s102",
+          "original_text": "今人多以坎一、坤二、震三、巽四、中五、干六、兑七、艮八、离九之数为用。",
+          "role": "classical"
+        },
+        {
+          "source_id": "yijing.source.shuogua",
+          "section_id": "yijing.section.s103",
+          "original_text": "帝出乎震，齐乎巽，相见乎离，致役乎坤，说言乎兑，战乎乾，劳乎坎，成言乎艮",
+          "role": "classical"
+        },
+        {
+          "source_id": "yijing.source.shuogua",
+          "section_id": "yijing.section.s104",
+          "original_text": "万物出乎震，震东方也。齐乎巽，巽东南也；齐也者，言万物之絜齐也。\n　　离也者，明也，万物皆相见，南方之卦也，圣人南面而听天下，向明而治，盖取诸此也。坤也者，地也，万物皆致养焉，故曰：致役乎坤。兑，正秋也，万物之所说也，故曰：说言乎兑。战乎乾，乾西北之卦也，言阴阳相薄也。坎者水也，正北方之卦也，劳卦也，万物之所归也，故曰：劳乎坎。艮，东北之卦也。万物之所成终而成始也，故曰：成言乎艮",
+          "role": "classical"
         }
       ],
       "confidence": "medium"
@@ -3177,7 +3497,8 @@
         "yin_yang": "阴",
         "earlier_heaven_number": 8,
         "later_heaven_number": 2,
-        "convention": "乾为三阳；坤为三阴；其余据独爻性别。数字、方位、阴阳均明确区分；说卦未直接规定五行归属。"
+        "convention": "乾为三阳；坤为三阴；其余据独爻性别。数字、方位、阴阳均明确区分；说卦未直接规定五行归属。",
+        "later_heaven_number_scope": "传世梅花文本记载的常用后天数；本书另倡先天数，保留差异。"
       },
       "source_refs": [
         {
@@ -3217,9 +3538,21 @@
           "role": "classical"
         },
         {
+          "source_id": "yijing.source.meihua",
+          "section_id": "yijing.section.s102",
+          "original_text": "今人多以坎一、坤二、震三、巽四、中五、干六、兑七、艮八、离九之数为用。",
+          "role": "classical"
+        },
+        {
           "source_id": "yijing.source.shuogua",
-          "section_id": "yijing.section.s029",
-          "original_text": "坤为地，为母",
+          "section_id": "yijing.section.s103",
+          "original_text": "帝出乎震，齐乎巽，相见乎离，致役乎坤，说言乎兑，战乎乾，劳乎坎，成言乎艮",
+          "role": "classical"
+        },
+        {
+          "source_id": "yijing.source.shuogua",
+          "section_id": "yijing.section.s104",
+          "original_text": "万物出乎震，震东方也。齐乎巽，巽东南也；齐也者，言万物之絜齐也。\n　　离也者，明也，万物皆相见，南方之卦也，圣人南面而听天下，向明而治，盖取诸此也。坤也者，地也，万物皆致养焉，故曰：致役乎坤。兑，正秋也，万物之所说也，故曰：说言乎兑。战乎乾，乾西北之卦也，言阴阳相薄也。坎者水也，正北方之卦也，劳卦也，万物之所归也，故曰：劳乎坎。艮，东北之卦也。万物之所成终而成始也，故曰：成言乎艮",
           "role": "classical"
         }
       ],
@@ -6932,6 +7265,86 @@
           "source_id": "yijing.source.zhouyi64",
           "section_id": "yijing.section.s093",
           "original_text": "未濟。 亨。小狐汔濟，濡其尾，無攸利。",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "yijing.concept.ten_wings_catalog",
+      "domain": "yijing",
+      "name": "易传·十翼正式数据定位",
+      "kind": "classic_structure",
+      "attributes": {
+        "canonical_paths": [
+          "data/canonical/yijing/ten_wings/xici_xia.json",
+          "data/canonical/yijing/ten_wings/xugua.json",
+          "data/canonical/yijing/ten_wings/zagua.json",
+          "data/canonical/yijing/tuan_xiang_wenyan_v1.json",
+          "data/canonical/yijing/ten_wings/shuogua.json",
+          "data/canonical/yijing/ten_wings/xici_shang.json"
+        ],
+        "sections": [
+          "彖上",
+          "彖下",
+          "象上",
+          "象下",
+          "文言",
+          "系辞上",
+          "系辞下",
+          "说卦",
+          "序卦",
+          "杂卦"
+        ],
+        "reuse_policy": "复用原 Canonical 全文与结构；此处仅增加定位图与短引。"
+      },
+      "source_refs": [
+        {
+          "source_id": "yijing.source.xici_xia",
+          "section_id": "yijing.section.s096",
+          "original_text": "八卦成列，象在其中矣；因而重之，爻在其中矣；刚柔相推，变在其中焉；系辞焉而命之，动在其中矣。",
+          "role": "classical"
+        },
+        {
+          "source_id": "yijing.source.xugua",
+          "section_id": "yijing.section.s097",
+          "original_text": "有天地，然后万物生焉。",
+          "role": "classical"
+        },
+        {
+          "source_id": "yijing.source.zagua",
+          "section_id": "yijing.section.s098",
+          "original_text": "《乾》刚《坤》柔，《比》乐《师》忧；《临》《观》之义，或与或求。",
+          "role": "classical"
+        },
+        {
+          "source_id": "yijing.source.tuan_xiang_wenyan",
+          "section_id": "yijing.section.s099",
+          "original_text": "大哉乾元，万物资始，乃统天。",
+          "role": "classical"
+        },
+        {
+          "source_id": "yijing.source.tuan_xiang_wenyan",
+          "section_id": "yijing.section.s100",
+          "original_text": "天行健，君子以自强不息。",
+          "role": "classical"
+        },
+        {
+          "source_id": "yijing.source.tuan_xiang_wenyan",
+          "section_id": "yijing.section.s101",
+          "original_text": "“元”者，善之长也；“亨”者，嘉之会也；“利”者，义之和也；“贞”者，事之干也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "yijing.source.shuogua",
+          "section_id": "yijing.section.s001",
+          "original_text": "立天之道曰阴与阳，立地之道曰柔与刚",
+          "role": "classical"
+        },
+        {
+          "source_id": "yijing.source.xici",
+          "section_id": "yijing.section.s004",
+          "original_text": "爻者，言乎变者也",
           "role": "classical"
         }
       ],

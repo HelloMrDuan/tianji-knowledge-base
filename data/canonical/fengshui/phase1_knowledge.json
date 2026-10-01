@@ -635,7 +635,7 @@
       "related_terms": [],
       "confidence": "medium",
       "attributes": {
-        "definition_kind": "classical_excerpt",
+        "definition_kind": "source_grounded_summary",
         "definition_scope": "原典选段或明确注明的简短释名，非现实吉凶结论。"
       }
     },
@@ -805,7 +805,7 @@
       "related_terms": [],
       "confidence": "medium",
       "attributes": {
-        "definition_kind": "classical_excerpt",
+        "definition_kind": "source_grounded_summary",
         "definition_scope": "原典选段或明确注明的简短释名，非现实吉凶结论。"
       }
     },
@@ -826,7 +826,7 @@
       "related_terms": [],
       "confidence": "medium",
       "attributes": {
-        "definition_kind": "classical_excerpt",
+        "definition_kind": "source_grounded_summary",
         "definition_scope": "原典选段或明确注明的简短释名，非现实吉凶结论。"
       }
     },
@@ -847,7 +847,7 @@
       "related_terms": [],
       "confidence": "medium",
       "attributes": {
-        "definition_kind": "classical_excerpt",
+        "definition_kind": "source_grounded_summary",
         "definition_scope": "原典选段或明确注明的简短释名，非现实吉凶结论。"
       }
     },
@@ -1199,7 +1199,7 @@
       "related_terms": [],
       "confidence": "medium",
       "attributes": {
-        "definition_kind": "classical_excerpt"
+        "definition_kind": "source_grounded_summary"
       }
     },
     {
@@ -1219,7 +1219,7 @@
       "related_terms": [],
       "confidence": "medium",
       "attributes": {
-        "definition_kind": "classical_excerpt"
+        "definition_kind": "source_grounded_summary"
       }
     }
   ],

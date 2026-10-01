@@ -69,6 +69,9 @@ class RagIndex:
             text = str(row.get("text") or "")
             hay = text.lower()
             score = 0.0
+            # Prefer an exact entity name over incidental mentions in long evidence quotes.
+            if q and str(meta.get("name") or "").lower() == q:
+                score += 20.0
             if q and q in hay:
                 score += 8.0 + hay.count(q)
             for tok in tokens:
