@@ -1,11 +1,7 @@
 import json
 from pathlib import Path
 
-STEMS = '甲乙丙丁戊己庚辛壬癸'
-BRANCHES = '子丑寅卯辰巳午未申酉戌亥'
-ELEMENTS = '木火土金水'
-GENERATES = dict(zip(ELEMENTS, '火土金水木'))
-CONTROLS = dict(zip(ELEMENTS, '土金水木火'))
+from ..foundations import STEMS, BRANCHES, ELEMENTS, GENERATES, CONTROLS
 
 
 def base():

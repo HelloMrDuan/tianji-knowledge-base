@@ -97,7 +97,7 @@ for path in sorted(CANONICAL.rglob("*.json")):
     topic = obj.get("topic") or obj.get("corpus") or obj.get("ruleset") or path.stem
 
     # Reviewed Phase 1 entities are emitted separately with resolved citations.
-    if obj.get("model") == "phase1-knowledge":
+    if (obj.get("model") == "phase1-knowledge" or str(obj.get("model", "")).startswith("phase2-")):
         continue
 
     # Zhouyi 64 hexagrams.
