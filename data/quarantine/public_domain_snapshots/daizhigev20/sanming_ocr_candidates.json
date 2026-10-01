@@ -90,11 +90,10 @@
     "啗": "啖"
   },
   "summary": {
-    "historical_only_hold": 934,
-    "confirmed_applied": 15,
-    "variant_preserve": 18,
-    "reading_disagreement_hold": 12,
-    "corroborated_pending_next_batch": 14
+    "historical_only_hold": 905,
+    "variant_preserve": 47,
+    "confirmed_applied": 29,
+    "reading_disagreement_hold": 12
   },
   "candidates": [
     {
@@ -439,7 +438,7 @@
       "old": "着",
       "historical_reading": "著",
       "context": "甲子其花字诚为奥妙圣人借意而喻之不可着意执泥夫自子至亥十二宫各有金木水火土",
-      "status": "historical_only_hold",
+      "status": "variant_preserve",
       "correction_id": null,
       "historical_evidence": [
         {
@@ -455,7 +454,15 @@
           "anchor": "意而喻之不可著意執泥夫自子"
         }
       ],
-      "crosscheck_evidence": []
+      "crosscheck_evidence": [
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷一.txt",
+          "anchor": "意而喻之不可著意執泥夫自子",
+          "observed": "著"
+        }
+      ]
     },
     {
       "volume": 1,
@@ -781,6 +788,13 @@
           "path": "docs/三命通会/006卷 一·释六十甲子性质吉凶.md",
           "anchor": "帝司权刚由百炼红光射于斗牛",
           "observed": "炼"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷一.txt",
+          "anchor": "帝司權剛由百鍊紅光射於鬥牛",
+          "observed": "鍊"
         }
       ]
     },
@@ -838,7 +852,7 @@
       "old": "绕",
       "historical_reading": "遶",
       "context": "壬寅戊申遇之柱中更加水助乃地天交泰水绕山环大格主贵己酉见庚戌癸卯稍次砂金造",
-      "status": "historical_only_hold",
+      "status": "variant_preserve",
       "correction_id": null,
       "historical_evidence": [
         {
@@ -854,7 +868,15 @@
           "anchor": "乃地天交泰水遶山環大格主貴"
         }
       ],
-      "crosscheck_evidence": []
+      "crosscheck_evidence": [
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷一.txt",
+          "anchor": "乃地天交泰水繞山環大格主貴",
+          "observed": "繞"
+        }
+      ]
     },
     {
       "volume": 1,
@@ -862,7 +884,7 @@
       "old": "绕",
       "historical_reading": "遶",
       "context": "徒被漂荡惟桑柘木壬子有坎癸丑为山为水绕山环之贵内甲寅人见壬子吉乙卯人见癸丑",
-      "status": "historical_only_hold",
+      "status": "variant_preserve",
       "correction_id": null,
       "historical_evidence": [
         {
@@ -878,7 +900,15 @@
           "anchor": "癸丑為山為水遶山環之貴内甲"
         }
       ],
-      "crosscheck_evidence": []
+      "crosscheck_evidence": [
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷一.txt",
+          "anchor": "癸丑為山為水繞山環之貴內甲",
+          "observed": "繞"
+        }
+      ]
     },
     {
       "volume": 1,
@@ -886,7 +916,7 @@
       "old": "绕",
       "historical_reading": "遶",
       "context": "丑为山杨柳癸未为园年时得此水围之为水绕花堤大贵格也松柏石榴天干有金相生大林",
-      "status": "historical_only_hold",
+      "status": "variant_preserve",
       "correction_id": null,
       "historical_evidence": [
         {
@@ -902,7 +932,15 @@
           "anchor": "此水圍之為水遶花堤大貴格也"
         }
       ],
-      "crosscheck_evidence": []
+      "crosscheck_evidence": [
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷一.txt",
+          "anchor": "此水圍之為水繞花堤大貴格也",
+          "observed": "繞"
+        }
+      ]
     },
     {
       "volume": 1,
@@ -910,7 +948,7 @@
       "old": "绕",
       "historical_reading": "遶",
       "context": "互换最吉如二水在年时二木在月日谓之水绕花堤乃贵格也\n 壬戌癸亥大海水\n 大海水者总",
-      "status": "historical_only_hold",
+      "status": "variant_preserve",
       "correction_id": null,
       "historical_evidence": [
         {
@@ -926,7 +964,15 @@
           "anchor": "在月日謂之水遶花堤乃貴格也"
         }
       ],
-      "crosscheck_evidence": []
+      "crosscheck_evidence": [
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷一.txt",
+          "anchor": "在月日謂之水繞花堤乃貴格也",
+          "observed": "繞"
+        }
+      ]
     },
     {
       "volume": 1,
@@ -1414,7 +1460,7 @@
       "old": "着",
       "historical_reading": "著",
       "context": "寅乃艮方艮为山戊土长生于是而广谷之义着矣然寅宫有虎寅生人而时戊辰者谓之虎啸",
-      "status": "historical_only_hold",
+      "status": "variant_preserve",
       "correction_id": null,
       "historical_evidence": [
         {
@@ -1430,7 +1476,15 @@
           "anchor": "是而廣谷之義著矣然寅宫有虎"
         }
       ],
-      "crosscheck_evidence": []
+      "crosscheck_evidence": [
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷二.txt",
+          "anchor": "是而廣谷之義著矣然寅宮有虎",
+          "observed": "著"
+        }
+      ]
     },
     {
       "volume": 2,
@@ -1438,7 +1492,7 @@
       "old": "绕",
       "historical_reading": "遶",
       "context": "都者帝王所居申宫壬水生又与艮山对是水绕山环也凡命爱申年亥时乃地天交㤗\n 已为大",
-      "status": "historical_only_hold",
+      "status": "variant_preserve",
       "correction_id": null,
       "historical_evidence": [
         {
@@ -1454,7 +1508,15 @@
           "anchor": "與艮山對是水遶山環也凡命愛"
         }
       ],
-      "crosscheck_evidence": []
+      "crosscheck_evidence": [
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷二.txt",
+          "anchor": "與艮山對是水繞山環也凡命愛",
+          "observed": "繞"
+        }
+      ]
     },
     {
       "volume": 2,
@@ -1563,6 +1625,13 @@
           "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
           "path": "docs/三命通会/011卷 二·论地支属相.md",
           "anchor": "盛衰之用奇者鼠虎龙马猴犬一",
+          "observed": "鼠"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷二.txt",
+          "anchor": "盛衰之用奇者鼠虎龍馬猴犬一",
           "observed": "鼠"
         }
       ]
@@ -1765,7 +1834,7 @@
       "old": "谷",
       "historical_reading": "榖",
       "context": "巽为风也巽洁齐而曰清明清明乃洁齐之义谷雨三月中自雨水后土膏脉动至此又雨则土",
-      "status": "historical_only_hold",
+      "status": "variant_preserve",
       "correction_id": null,
       "historical_evidence": [
         {
@@ -1781,7 +1850,15 @@
           "anchor": "明乃潔齊之義榖雨三月中自雨"
         }
       ],
-      "crosscheck_evidence": []
+      "crosscheck_evidence": [
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷二.txt",
+          "anchor": "明乃潔齊之義穀雨三月中自雨",
+          "observed": "穀"
+        }
+      ]
     },
     {
       "volume": 2,
@@ -1789,7 +1866,7 @@
       "old": "谷",
       "historical_reading": "榖",
       "context": "后土膏脉动至此又雨则土脉生物所以滋五谷之种也小满四月中先儒云小雪后阳一日生",
-      "status": "historical_only_hold",
+      "status": "variant_preserve",
       "correction_id": null,
       "historical_evidence": [
         {
@@ -1805,7 +1882,15 @@
           "anchor": "生物所以滋五榖之種也小滿四"
         }
       ],
-      "crosscheck_evidence": []
+      "crosscheck_evidence": [
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷二.txt",
+          "anchor": "生物所以滋五穀之種也小滿四",
+          "observed": "穀"
+        }
+      ]
     },
     {
       "volume": 2,
@@ -1909,7 +1994,7 @@
       "old": "隐",
       "historical_reading": "𨼆",
       "context": "之终寒之始大火西流暑气于是乎处矣处者隐也藏伏之义也白露八月节寒露九月节秋本",
-      "status": "historical_only_hold",
+      "status": "variant_preserve",
       "correction_id": null,
       "historical_evidence": [
         {
@@ -1925,7 +2010,15 @@
           "anchor": "是乎處矣處者𨼆也藏伏之義也"
         }
       ],
-      "crosscheck_evidence": []
+      "crosscheck_evidence": [
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷二.txt",
+          "anchor": "是乎處矣處者隱也藏伏之義也",
+          "observed": "隱"
+        }
+      ]
     },
     {
       "volume": 2,
@@ -2173,7 +2266,7 @@
       "old": "带",
       "historical_reading": "𢃄",
       "context": "支干五行不顺反尅冲破为伤本主无夀被形带煞及生月日时者主损本气破伤祖业六亲冷",
-      "status": "historical_only_hold",
+      "status": "variant_preserve",
       "correction_id": null,
       "historical_evidence": [
         {
@@ -2189,7 +2282,15 @@
           "anchor": "本主無夀被形𢃄煞及生月日時"
         }
       ],
-      "crosscheck_evidence": []
+      "crosscheck_evidence": [
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷二.txt",
+          "anchor": "本主無壽被形帶煞及生月日時",
+          "observed": "帶"
+        }
+      ]
     },
     {
       "volume": 2,
@@ -2227,6 +2328,13 @@
           "path": "docs/三命通会/016卷 二·论年月日时.md",
           "anchor": "位而诸位乘吉会之气者谓之帝",
           "observed": "会"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷二.txt",
+          "anchor": "位而諸位乘吉會之氣者謂之帝",
+          "observed": "會"
         }
       ]
     },
@@ -2266,6 +2374,13 @@
           "path": "docs/三命通会/016卷 二·论年月日时.md",
           "anchor": "贱寿夭穷通得丧只在生时之辨",
           "observed": "丧"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷二.txt",
+          "anchor": "賤壽夭窮通得喪只在生時之辨",
+          "observed": "喪"
         }
       ]
     },
@@ -2347,7 +2462,7 @@
       "old": "紧",
       "historical_reading": "𦂳",
       "context": "月为重殊不思胎月是四柱之根苗日时虽为紧若不犯破胎月或乘旺气禄马之处则为福尤",
-      "status": "historical_only_hold",
+      "status": "variant_preserve",
       "correction_id": null,
       "historical_evidence": [
         {
@@ -2363,7 +2478,15 @@
           "anchor": "根苗日時雖為𦂳若不犯破胎月"
         }
       ],
-      "crosscheck_evidence": []
+      "crosscheck_evidence": [
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷二.txt",
+          "anchor": "根苗日時雖為緊若不犯破胎月",
+          "observed": "緊"
+        }
+      ]
     },
     {
       "volume": 2,
@@ -2539,7 +2662,7 @@
       "old": "带",
       "historical_reading": "𢃄",
       "context": "到败运主落魄懒惰酒色昏迷到胎库成形冠带之乡百事得中安康平易凡行运至夹贵华葢",
-      "status": "historical_only_hold",
+      "status": "variant_preserve",
       "correction_id": null,
       "historical_evidence": [
         {
@@ -2555,7 +2678,15 @@
           "anchor": "到胎庫成形冠𢃄之鄉百事得中"
         }
       ],
-      "crosscheck_evidence": []
+      "crosscheck_evidence": [
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷二.txt",
+          "anchor": "到胎庫成形冠帶之鄉百事得中",
+          "observed": "帶"
+        }
+      ]
     },
     {
       "volume": 2,
@@ -2635,7 +2766,7 @@
       "old": "紧",
       "historical_reading": "𦂳",
       "context": "今之谈命者只以大运为用殊不知小运亦有紧关大运虽吉其小运不通未可便言吉利如大",
-      "status": "historical_only_hold",
+      "status": "variant_preserve",
       "correction_id": null,
       "historical_evidence": [
         {
@@ -2651,7 +2782,15 @@
           "anchor": "不知小運亦有𦂳關大運雖吉其"
         }
       ],
-      "crosscheck_evidence": []
+      "crosscheck_evidence": [
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷二.txt",
+          "anchor": "不知小運亦有緊關大運雖吉其",
+          "observed": "緊"
+        }
+      ]
     },
     {
       "volume": 2,
@@ -3043,7 +3182,7 @@
       "old": "带",
       "historical_reading": "𢃄",
       "context": "带库墓而不带正印员郎以上既不带墓又不带正印止有华葢常调之禄也带华印而正建驿",
-      "status": "historical_only_hold",
+      "status": "variant_preserve",
       "correction_id": null,
       "historical_evidence": [
         {
@@ -3059,7 +3198,15 @@
           "anchor": "既不帶墓又不𢃄正印止有華葢"
         }
       ],
-      "crosscheck_evidence": []
+      "crosscheck_evidence": [
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷二.txt",
+          "anchor": "既不帶墓又不帶正印止有華蓋",
+          "observed": "帶"
+        }
+      ]
     },
     {
       "volume": 2,
@@ -3067,7 +3214,7 @@
       "old": "带",
       "historical_reading": "𢃄",
       "context": "既不带墓又不带正印止有华葢常调之禄也带华印而正建驿马名曰节印主旌节之贵若嵗",
-      "status": "historical_only_hold",
+      "status": "variant_preserve",
       "correction_id": null,
       "historical_evidence": [
         {
@@ -3083,7 +3230,15 @@
           "anchor": "葢常調之禄也𢃄華印而正建驛"
         }
       ],
-      "crosscheck_evidence": []
+      "crosscheck_evidence": [
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷二.txt",
+          "anchor": "蓋常調之祿也帶華印而正建驛",
+          "observed": "帶"
+        }
+      ]
     },
     {
       "volume": 2,
@@ -3115,7 +3270,7 @@
       "old": "紧",
       "historical_reading": "𦂳",
       "context": "亦欺可见命犯六害大忌干支相伤日时上最紧身命宫次之便是贵格贵自贵害自害两不相",
-      "status": "historical_only_hold",
+      "status": "variant_preserve",
       "correction_id": null,
       "historical_evidence": [
         {
@@ -3131,7 +3286,15 @@
           "anchor": "相傷日時上最𦂳身命宫次之便"
         }
       ],
-      "crosscheck_evidence": []
+      "crosscheck_evidence": [
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷二.txt",
+          "anchor": "相傷日時上最緊身命宮次之便",
+          "observed": "緊"
+        }
+      ]
     },
     {
       "volume": 2,
@@ -3168,6 +3331,13 @@
           "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
           "path": "docs/三命通会/031卷 二·论三刑.md",
           "anchor": "久入贱格则悖凶暴多招刑祸辰",
+          "observed": "凶"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷二.txt",
+          "anchor": "久入賤格則悖凶暴多招刑禍辰",
           "observed": "凶"
         }
       ]
@@ -3322,7 +3492,7 @@
       "old": "带",
       "historical_reading": "𢃄",
       "context": "无刑先论太嵗葢言人命恶见三刑若月日时带煞而太嵗不干预者不论故曰先论太嵗又云",
-      "status": "historical_only_hold",
+      "status": "variant_preserve",
       "correction_id": null,
       "historical_evidence": [
         {
@@ -3338,7 +3508,15 @@
           "anchor": "三刑若月日時𢃄煞而太嵗不干"
         }
       ],
-      "crosscheck_evidence": []
+      "crosscheck_evidence": [
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷二.txt",
+          "anchor": "三刑若月日時帶煞而太歲不干",
+          "observed": "帶"
+        }
+      ]
     },
     {
       "volume": 2,
@@ -3346,7 +3524,7 @@
       "old": "带",
       "historical_reading": "𢃄",
       "context": "刑而却无刑故曰以煞止煞\n 古歌云三刑之位带三竒天乙兼得在日时刑若等分干遇徳官居",
-      "status": "historical_only_hold",
+      "status": "variant_preserve",
       "correction_id": null,
       "historical_evidence": [
         {
@@ -3362,7 +3540,15 @@
           "anchor": "歌云三刑之位𢃄三竒天乙兼得"
         }
       ],
-      "crosscheck_evidence": []
+      "crosscheck_evidence": [
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷二.txt",
+          "anchor": "歌云三刑之位帶三奇天乙兼得",
+          "observed": "帶"
+        }
+      ]
     },
     {
       "volume": 2,
@@ -3616,6 +3802,13 @@
           "path": "docs/三命通会/035卷 三·论驿马.md",
           "anchor": "有一在此名曰驮尸亦如亥卯未",
           "observed": "驮"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷三.txt",
+          "anchor": "有一在此名曰馱屍亦如亥卯未",
+          "observed": "馱"
         }
       ]
     },
@@ -3726,6 +3919,13 @@
           "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
           "path": "docs/三命通会/038卷 三·论三奇.md",
           "anchor": "云重犯奇仪蕴藉抱出群之器遁",
+          "observed": "藉"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷三.txt",
+          "anchor": "云重犯奇儀蘊藉抱出群之器遁",
           "observed": "藉"
         }
       ]
@@ -4024,7 +4224,7 @@
       "old": "紧",
       "historical_reading": "𦂳",
       "context": "俗之士夫空亡不言太岁见生日旬中空亡极紧若太岁与日互换空亡更不佳以实为空则实",
-      "status": "historical_only_hold",
+      "status": "variant_preserve",
       "correction_id": null,
       "historical_evidence": [
         {
@@ -4040,7 +4240,15 @@
           "anchor": "日旬中空亡極𦂳若太歲與日互"
         }
       ],
-      "crosscheck_evidence": []
+      "crosscheck_evidence": [
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷三.txt",
+          "anchor": "日旬中空亡極緊若太歲與日互",
+          "observed": "緊"
+        }
+      ]
     },
     {
       "volume": 3,
@@ -4072,7 +4280,7 @@
       "old": "紧",
       "historical_reading": "𦂳",
       "context": "生财物耗散大破家宅余仿此若日时互换时紧日慢若日犯而时却刑害冲破时犯而日却刑",
-      "status": "historical_only_hold",
+      "status": "variant_preserve",
       "correction_id": null,
       "historical_evidence": [
         {
@@ -4088,7 +4296,15 @@
           "anchor": "若日時互換時𦂳日慢若日犯而"
         }
       ],
-      "crosscheck_evidence": []
+      "crosscheck_evidence": [
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷三.txt",
+          "anchor": "若日時互換時緊日慢若日犯而",
+          "observed": "緊"
+        }
+      ]
     },
     {
       "volume": 3,
@@ -4432,7 +4648,7 @@
       "old": "紧",
       "historical_reading": "𦂳",
       "context": "则轻惟太岁纳音尅煞则吉如人命已入贵格紧要处带煞有福神助之则名为权柄无福神助",
-      "status": "historical_only_hold",
+      "status": "variant_preserve",
       "correction_id": null,
       "historical_evidence": [
         {
@@ -4448,7 +4664,15 @@
           "anchor": "人命已入貴格𦂳要處帶煞有福"
         }
       ],
-      "crosscheck_evidence": []
+      "crosscheck_evidence": [
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷三.txt",
+          "anchor": "人命已入貴格緊要處帶煞有福",
+          "observed": "緊"
+        }
+      ]
     },
     {
       "volume": 3,
@@ -5680,7 +5904,7 @@
       "old": "着",
       "historical_reading": "著",
       "context": "奔也东方次之\n 论火\n 三春之火其气温然而始着也晴则借木而明雨则湿木而晦正月防阳之",
-      "status": "historical_only_hold",
+      "status": "variant_preserve",
       "correction_id": null,
       "historical_evidence": [
         {
@@ -5696,7 +5920,15 @@
           "anchor": "其氣温然而始著也晴則借木而"
         }
       ],
-      "crosscheck_evidence": []
+      "crosscheck_evidence": [
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷四.txt",
+          "anchor": "其氣溫然而始著也晴則借木而",
+          "observed": "著"
+        }
+      ]
     },
     {
       "volume": 4,
@@ -8206,6 +8438,13 @@
           "path": "docs/三命通会/060卷 五·论正官.md",
           "anchor": "三奇之贵大要看官食虚实何如",
           "observed": "看"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷五.txt",
+          "anchor": "三奇之貴大要看官食虛實何如",
+          "observed": "看"
         }
       ]
     },
@@ -8406,6 +8645,13 @@
           "path": "古文原文/三命通会/卷五/天元作禄/text.txt",
           "anchor": "最是奇多因祖荫见根基若还行",
           "observed": "荫"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷五.txt",
+          "anchor": "最是奇多因祖蔭見根基若還行",
+          "observed": "蔭"
         }
       ]
     },
@@ -8901,6 +9147,13 @@
           "path": "docs/三命通会/073卷 五·时上一位贵.md",
           "anchor": "有制身强好命者制过喜行煞旺",
           "observed": "者"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷五.txt",
+          "anchor": "有制身強好命者制過喜行煞旺",
+          "observed": "者"
         }
       ]
     },
@@ -9005,6 +9258,13 @@
           "path": "古文原文/三命通会/卷五/官煞混杂/text.txt",
           "anchor": "从壬化亥卯未会局水木清奇甲",
           "observed": "会"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷五.txt",
+          "anchor": "從壬化亥卯未會局水木清奇甲",
+          "observed": "會"
         }
       ]
     },
@@ -9188,6 +9448,13 @@
           "path": "docs/三命通会/078卷 五·官煞去留杂论.md",
           "anchor": "神能去煞又能留官五阳日伤官",
           "observed": "留"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷五.txt",
+          "anchor": "神能去煞又能留官五陽日傷官",
+          "observed": "留"
         }
       ]
     },
@@ -9227,6 +9494,13 @@
           "path": "docs/三命通会/078卷 五·官煞去留杂论.md",
           "anchor": "贵合七煞不为凶盖言合官是柱",
           "observed": "凶"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷五.txt",
+          "anchor": "貴合七煞不為凶蓋言合官是柱",
+          "observed": "凶"
         }
       ]
     },
@@ -9236,8 +9510,8 @@
       "old": "防",
       "historical_reading": "㦯",
       "context": "破害即是官煞混杂反为贫贱又曰年月日时防有四位官四位煞当以明者用之藏者舍之明",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-460",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -9265,6 +9539,13 @@
           "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
           "path": "docs/三命通会/078卷 五·官煞去留杂论.md",
           "anchor": "又曰年月日时或有四位官四位",
+          "observed": "或"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷五.txt",
+          "anchor": "又曰年月日時或有四位官四位",
           "observed": "或"
         }
       ]
@@ -9545,6 +9826,13 @@
           "path": "docs/三命通会/129卷 六·论偏财.md",
           "anchor": "受伯叔祖考产业丰隆或外祖产",
           "observed": "业"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷六.txt",
+          "anchor": "受伯叔祖考產業豐隆或外祖產",
+          "observed": "業"
         }
       ]
     },
@@ -9962,7 +10250,7 @@
       "old": "荫",
       "historical_reading": "䕃",
       "context": "再行财运百无成【又】印绶无亏享福全为官承荫有田园官膺宣勅盈财谷日用盘餐费万钱【又",
-      "status": "historical_only_hold",
+      "status": "variant_preserve",
       "correction_id": null,
       "historical_evidence": [
         {
@@ -9978,7 +10266,15 @@
           "anchor": "享福全為官承䕃有田園官膺宣"
         }
       ],
-      "crosscheck_evidence": []
+      "crosscheck_evidence": [
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷六.txt",
+          "anchor": "享福全為官承蔭有田園官膺宣",
+          "observed": "蔭"
+        }
+      ]
     },
     {
       "volume": 5,
@@ -10450,7 +10746,7 @@
       "old": "紧",
       "historical_reading": "𦂳",
       "context": "方水旺之地发财必厚东方木旺之乡发福必紧细论之庚以壬为食长生于申当㫁申地福重",
-      "status": "historical_only_hold",
+      "status": "variant_preserve",
       "correction_id": null,
       "historical_evidence": [
         {
@@ -10466,7 +10762,15 @@
           "anchor": "旺之鄉發福必𦂳細論之庚以壬"
         }
       ],
-      "crosscheck_evidence": []
+      "crosscheck_evidence": [
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷六.txt",
+          "anchor": "旺之鄉發福必緊細論之庚以壬",
+          "observed": "緊"
+        }
+      ]
     },
     {
       "volume": 5,
@@ -10743,6 +11047,13 @@
           "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
           "path": "docs/三命通会/150卷 六·论阳刃（前论羊刃煞与此参看）.md",
           "anchor": "是合岁君阳刃凶煞也太岁凶神",
+          "observed": "凶"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷六.txt",
+          "anchor": "是合歲君陽刃凶煞也太歲凶神",
           "observed": "凶"
         }
       ]
@@ -11136,6 +11447,13 @@
           "path": "古文原文/三命通会/卷六/论阳刃/text.txt",
           "anchor": "午虽羊刃所以获禄又印绶化刃",
           "observed": "获"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷六.txt",
+          "anchor": "午雖羊刃所以獲祿又印綬化刃",
+          "observed": "獲"
         }
       ]
     },
@@ -11409,7 +11727,7 @@
       "old": "紧",
       "historical_reading": "𦂳",
       "context": "辛酉壬子癸亥以上十日本身健旺冲禄元最紧壬辰壬戌戊辰巳丑冲禄则慢其余干不用【如",
-      "status": "historical_only_hold",
+      "status": "variant_preserve",
       "correction_id": null,
       "historical_evidence": [
         {
@@ -11425,7 +11743,15 @@
           "anchor": "健旺衝禄元最𦂳壬辰壬戌戊辰"
         }
       ],
-      "crosscheck_evidence": []
+      "crosscheck_evidence": [
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷六.txt",
+          "anchor": "健旺沖祿元最緊壬辰壬戌戊辰",
+          "observed": "緊"
+        }
+      ]
     },
     {
       "volume": 6,
@@ -11649,8 +11975,8 @@
       "old": "防",
       "historical_reading": "䑕",
       "context": "木方可当元利禄竒【又】乙日生人得子时名为防贵最为竒切嫌午字来冲破辛酉庚申总不宜",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-461",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -11678,6 +12004,13 @@
           "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
           "path": "docs/三命通会/089卷 六·六乙鼠贵.md",
           "anchor": "人得子时名为鼠贵最为奇切嫌",
+          "observed": "鼠"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷六.txt",
+          "anchor": "人得子時名為鼠貴最為奇切嫌",
           "observed": "鼠"
         }
       ]
@@ -11760,7 +12093,7 @@
       "old": "类",
       "historical_reading": "𩔖",
       "context": "庚寅乙酉见辛卯壬午见丁亥癸亥见壬子等类俱主大贵享福若重见禄位如甲日寅时又生",
-      "status": "historical_only_hold",
+      "status": "variant_preserve",
       "correction_id": null,
       "historical_evidence": [
         {
@@ -11776,7 +12109,15 @@
           "anchor": "癸亥見壬子等𩔖俱主大貴享福"
         }
       ],
-      "crosscheck_evidence": []
+      "crosscheck_evidence": [
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷六.txt",
+          "anchor": "癸亥見壬子等類俱主大貴享福",
+          "observed": "類"
+        }
+      ]
     },
     {
       "volume": 6,
@@ -12030,6 +12371,13 @@
           "path": "docs/三命通会/095卷 六·财官双美.md",
           "anchor": "若得金刚火强炼成锋刃之器秋",
           "observed": "炼"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷六.txt",
+          "anchor": "若得金剛火強煉成鋒刃之器秋",
+          "observed": "煉"
         }
       ]
     },
@@ -12381,6 +12729,13 @@
           "path": "docs/三命通会/096卷 六·日贵.md",
           "anchor": "遇前忌太岁加会更见魁罡定主",
           "observed": "会"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷六.txt",
+          "anchor": "遇前忌太歲加會更見魁罡定主",
+          "observed": "會"
         }
       ]
     },
@@ -13686,8 +14041,8 @@
       "old": "防",
       "historical_reading": "䨇",
       "context": "阳壬见丙兮百年安逸逄辛兮一世优游富贵防全喜甲临于天秤禄逄防美欣巳共于金牛活",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-462",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -15092,6 +15447,13 @@
           "path": "docs/三命通会/153卷 七·论疾病先知五脏六腑所属干支.md",
           "anchor": "财纵然头面无癍癞定主其人眼",
           "observed": "癍"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷七.txt",
+          "anchor": "財縱然頭面無癍癩定主其人眼",
+          "observed": "癍"
         }
       ]
     },
@@ -15203,6 +15565,13 @@
           "path": "docs/三命通会/153卷 七·论疾病先知五脏六腑所属干支.md",
           "anchor": "肌肉死绝肠鸣茧作凡水土木相",
           "observed": "茧"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷七.txt",
+          "anchor": "肌肉死絕腸鳴繭作凡水土木相",
+          "observed": "繭"
         }
       ]
     },
@@ -15428,8 +15797,8 @@
       "old": "防",
       "historical_reading": "䘵",
       "context": "贵如【一命】己未壬申乙未甲申乙以庚为夫庚防到申以丁为子丁旺于未以壬为印壬生于申",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-463",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -15458,6 +15827,13 @@
           "path": "docs/三命通会/155卷 七·纯和清贵.md",
           "anchor": "乙以庚为夫庚禄到申以丁为子",
           "observed": "禄"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷七.txt",
+          "anchor": "乙以庚為夫庚祿到申以丁為子",
+          "observed": "祿"
         }
       ]
     },
@@ -16427,7 +16803,7 @@
       "old": "紧",
       "historical_reading": "𦂳",
       "context": "多主疝气偏坠是子时者无不应壬子丙子尤紧生时与胎同在辰上者亦然带火多主少年浓",
-      "status": "historical_only_hold",
+      "status": "variant_preserve",
       "correction_id": null,
       "historical_evidence": [
         {
@@ -16443,7 +16819,15 @@
           "anchor": "應壬子丙子尤𦂳生時與胎同在"
         }
       ],
-      "crosscheck_evidence": []
+      "crosscheck_evidence": [
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷七.txt",
+          "anchor": "應壬子丙子尤緊生時與胎同在",
+          "observed": "緊"
+        }
+      ]
     },
     {
       "volume": 7,
@@ -17699,7 +18083,7 @@
       "old": "着",
       "historical_reading": "著",
       "context": "匙钥难言富刑冲运至遇髙人 发迹他乡名誉着\n 丁日时逢辛丑偏财库喜刑冲若还不显有虚",
-      "status": "historical_only_hold",
+      "status": "variant_preserve",
       "correction_id": null,
       "historical_evidence": [
         {
@@ -17715,7 +18099,15 @@
           "anchor": "發跡他鄉名譽著丁日時逢辛丑"
         }
       ],
-      "crosscheck_evidence": []
+      "crosscheck_evidence": [
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷八.txt",
+          "anchor": "發跡他鄉名譽著丁日時逢辛丑",
+          "observed": "著"
+        }
+      ]
     },
     {
       "volume": 8,
@@ -17891,8 +18283,8 @@
       "old": "防",
       "historical_reading": "㑹",
       "context": "为人反覆亦有功名年月干止透甲三竒地支防局或止寅辰皆贵\n 戊子日庚申时若生亥子月",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-464",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -17921,6 +18313,13 @@
           "path": "docs/三命通会/223卷 八·六戊日庚申时断.md",
           "anchor": "透甲三奇地支会局或止寅辰皆",
           "observed": "会"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷八.txt",
+          "anchor": "透甲三奇地支會局或止寅辰皆",
+          "observed": "會"
         }
       ]
     },
@@ -20885,8 +21284,8 @@
       "old": "防",
       "historical_reading": "㡌",
       "context": "生自守空房】\n 刃带墓刑吉而夀弥福厚凶而破防单衣\n 【羊刃飞刃犯墓刑二位须有华盖始吉及",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-465",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -23043,8 +23442,8 @@
       "old": "防",
       "historical_reading": "㑹",
       "context": "壬午癸巳等日之类是禄马同居与上官印相防皆为三竒格也须要本身力旺或遇时气可称",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-466",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -23275,8 +23674,8 @@
       "old": "防",
       "historical_reading": "㷊",
       "context": "多金沉水能生木木盛水缩木能生火火多木防火能生土土多火晦土能生金金多土变金能",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-467",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -23979,8 +24378,8 @@
       "old": "防",
       "historical_reading": "䘮",
       "context": "财乡男逢比劫伤官尅妻害子女犯伤官偏印防子刑夫防失双亲财星太重为人孤尅身旺无",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-468",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -24011,8 +24410,8 @@
       "old": "防",
       "historical_reading": "㓜",
       "context": "比劫伤官尅妻害子女犯伤官偏印防子刑夫防失双亲财星太重为人孤尅身旺无依年冲月",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-469",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -24115,8 +24514,8 @@
       "old": "防",
       "historical_reading": "㓙",
       "context": "翰苑禄虽多而有害福不为祥煞虽重而无伤防不为祸三竒弗遇才髙难解成名六合正逢家",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-470",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -24171,8 +24570,8 @@
       "old": "防",
       "historical_reading": "㗖",
       "context": "于三刑应是频遭编配是以登仕途者莫逢吞防爵禄亏停当兵权者勿遇天中身权退失胸襟",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-471",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -24275,8 +24674,8 @@
       "old": "防",
       "historical_reading": "䧟",
       "context": "妇而妇哭夫烟花绊身女求男而男求女头目防而肢体相亏财帛耗而田宅有害生时若遇刑",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-472",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -24499,8 +24898,8 @@
       "old": "防",
       "historical_reading": "㐫",
       "context": "行相合提纲有用 最怕刑冲 冲运则缓 冲用则防三竒透露 日主专强 寄根有力 福禄荣昌十干",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-473",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -24597,5 +24996,53 @@
       ],
       "crosscheck_evidence": []
     }
-  ]
+  ],
+  "additional_crosscheck": {
+    "repo": "michiboo/Classical_Chinese_Wikisource",
+    "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+    "scope": "Complete available pinned book subtree: 10 files, nine partially transcribed volumes plus a contents file; does not cover all twelve volumes.",
+    "source_files": [
+      {
+        "path": "三命通會/三命通會.txt",
+        "sha": "4d70a738edfda7fddea7b1bf62b30a4ae8015cd7"
+      },
+      {
+        "path": "三命通會/卷一.txt",
+        "sha": "e35df869cf9caac25691786dbd7164919ec786b9"
+      },
+      {
+        "path": "三命通會/卷七.txt",
+        "sha": "0901c5bc78c5e025df40b55030dfb68cfd7ec689"
+      },
+      {
+        "path": "三命通會/卷三.txt",
+        "sha": "fa9ecf62e5eecd7af10967367bf43e0dc1deb314"
+      },
+      {
+        "path": "三命通會/卷九.txt",
+        "sha": "4d7b772e2cb5045c2b81cab34c3ac281a1988ef7"
+      },
+      {
+        "path": "三命通會/卷二.txt",
+        "sha": "2ff1a78b2d495335f14838c99d193ca254b13395"
+      },
+      {
+        "path": "三命通會/卷五.txt",
+        "sha": "1f5630e4bd9de0d734f113d787dee6378c716773"
+      },
+      {
+        "path": "三命通會/卷八.txt",
+        "sha": "11bd5148fa71581bc9deedf32df6e8f24c9185ed"
+      },
+      {
+        "path": "三命通會/卷六.txt",
+        "sha": "8945c629e6f1653f92e89338e901df4430b0e84e"
+      },
+      {
+        "path": "三命通會/卷四.txt",
+        "sha": "a9de8ae95ce413cd7eb06d44c1a34e76577ef827"
+      }
+    ],
+    "result": "29 additional historical glyph or spelling differences preserved; no additional OCR candidate met the six-flank and reading-agreement gate."
+  }
 }

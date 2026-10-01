@@ -32,7 +32,7 @@
           "quality_blockers": {
             "private_use_char_count": 524,
             "unique_private_use_chars": 86,
-            "note": "2026-10-01 PUA collation remains complete (86/86, 524/524). Text review has 459 correction anchors through batch 40. Full-review candidate audit is persisted; held differences are not confirmed errors. Keep quarantine_only and canonical_ready=false; two missing-character proposals are unconfirmed and not executable.",
+            "note": "2026-10-01 PUA collation remains complete (86/86, 524/524). Text review has 473 correction anchors through batch 41. Full-review candidate audit is persisted; held differences are not confirmed errors. Keep quarantine_only and canonical_ready=false; two missing-character proposals are unconfirmed and not executable.",
             "confirmed_private_use_mappings": 86,
             "confirmed_occurrences": 524,
             "remaining_unique_private_use_chars": 0,
@@ -40,7 +40,7 @@
             "collation_map": "data/quarantine/public_domain_snapshots/daizhigev20/sanming_pua_collation.json",
             "text_collation_map": "data/quarantine/public_domain_snapshots/daizhigev20/sanming_text_collation.json",
             "text_review_status": "in_progress",
-            "confirmed_text_corrections": 459,
+            "confirmed_text_corrections": 473,
             "canonical_ready": false,
             "text_candidate_audit": "data/quarantine/public_domain_snapshots/daizhigev20/sanming_ocr_candidates.json",
             "unresolved_text_gaps": 2
