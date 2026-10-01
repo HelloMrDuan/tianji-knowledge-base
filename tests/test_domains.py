@@ -135,8 +135,8 @@ class DomainIntegrityTests(unittest.TestCase):
         text_map = json.loads(
             (ROOT / "data/quarantine/public_domain_snapshots/daizhigev20/sanming_text_collation.json").read_text(encoding="utf-8")
         )
-        self.assertEqual(text_map["summary"]["confirmed_corrections"], 473)
-        self.assertEqual(text_map["summary"]["confirmed_replacements"], 473)
+        self.assertEqual(text_map["summary"]["confirmed_corrections"], 492)
+        self.assertEqual(text_map["summary"]["confirmed_replacements"], 492)
         self.assertEqual(text_map["summary"]["review_status"], "in_progress")
         text_corrections = {x["id"]: (x["old"], x["new"]) for x in text_map["corrections"]}
         self.assertEqual(text_corrections["ocr-017"][1], "无丑戌以刑冲之则库不开难得金印")
@@ -567,6 +567,7 @@ class DomainIntegrityTests(unittest.TestCase):
         self.assertEqual(text_corrections['ocr-442'][1], '不调成血疾更㸔行运又如何男子枭食重重见身弱多应痨病随女人枭食非为吉产难惊人病亦危女命官旺兼财旺招得贤夫更好儿若是财官俱受损伤夫尅子有何疑印绶生身身更旺为人刑尅主贫孤若得官显财又显亦为超迈贵人扶女命若也伤官旺坐下伤官会骂夫朝暮喃喃口不绝百年终是见刑枯乙巳庚午与辛未日干带之最为美再㸔四柱又何如定')
         self.assertEqual(text_corrections['ocr-443'][1], '弃命就财 须要㑹财 弃命从煞 须要㑹煞从财忌煞 从煞喜财 㑹逢根气 㑹损无猜此法元')
         self.assertEqual(text_corrections['ocr-444'][1], '富贵坎地却犹㐫\n 甲乙生三月 庚辛戌未存 丑宫壬癸位何虑见无根\n 木茂宜金火 身衰鬼作闗 时分西与北轻重辨东南\n 时上胞胎格 月逢印绶通 煞官行运助职位至三公\n 二子不冲午 二寅不冲申 二午不冲子二申不冲寅\n 得一分三格 财官印绶全 运中逢尅破一命䘮黄泉\n 进气死不死 退气生不生 终年无发旺犹忌少年刑\n 时上偏财格 干头忌比肩 月生身主旺贵气福重深\n 时上一位贵 藏在支中是 日主要刚强名利方有气\n 运行十载数 上下五年分 先㸔流年歳深知来')
+        self.assertEqual(text_corrections['ocr-474'][1], '生火火旺而木必焚矣故有灰飞烟㓕之患且午属离火火頼木生木爲火')
         self.assertFalse(text_map["summary"]["canonical_ready"])
         self.assertIn("百鍊", text_corrections["ocr-445"][1])
         self.assertIn("太歳加㑹", text_corrections["ocr-451"][1])
