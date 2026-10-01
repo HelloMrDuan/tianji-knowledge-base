@@ -92,9 +92,9 @@
   "summary": {
     "historical_only_hold": 775,
     "variant_preserve": 47,
-    "confirmed_applied": 48,
-    "corroborated_pending_next_batch": 111,
-    "reading_disagreement_hold": 12
+    "confirmed_applied": 67,
+    "reading_disagreement_hold": 12,
+    "corroborated_pending_next_batch": 92
   },
   "candidates": [
     {
@@ -9561,8 +9561,8 @@
       "old": "防",
       "historical_reading": "㸔",
       "context": "为贵本有阳刃配合即经云煞无刃不显逄煞防刃是也以上诸制合生化须要无太过不及是",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-493",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -9614,8 +9614,8 @@
       "old": "防",
       "historical_reading": "㷔",
       "context": "乙遇辛伤消乏本根苗损炎炎丙火遇壬而黒防无光灿灿丁红见癸而煇光自防戊临甲位湏",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-494",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -9883,8 +9883,8 @@
       "old": "防",
       "historical_reading": "㓙",
       "context": "来临大有功金水运行身有祸子来冲破最为防【又】六乙生逄巳酉丑局中却忌财星守忽然行",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-495",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -10117,8 +10117,8 @@
       "old": "防",
       "historical_reading": "㑹",
       "context": "午辛日巳丙为官二午丁为煞喜旺专禄己酉防局胜煞虽无制伏初行西方身益旺故贵观三",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-496",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -10512,8 +10512,8 @@
       "old": "防",
       "historical_reading": "㸔",
       "context": "徤旺富贵双全如干支见煞亦能享用即逄财防煞之义大怕枭夺则不能生刃刼则不能享库",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-497",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -10577,8 +10577,8 @@
       "old": "防",
       "historical_reading": "㳺",
       "context": "妻秉男权持家干蛊又主有好子替力反得优防之乐运行比刼妻妾多危独步云财旺生官富",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-498",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -10808,8 +10808,8 @@
       "old": "防",
       "historical_reading": "㓙",
       "context": "主少年富贵若生时不得地或有刼败更运临防地晚年祖财破尽终身困穷先富后贫若年月",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-499",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -10873,8 +10873,8 @@
       "old": "防",
       "historical_reading": "㫖",
       "context": "系如此惊神赋云偏财身旺趂求商贾之人奥防云偏财能益算延年千里马云出现偏财少爱",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-500",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -11010,8 +11010,8 @@
       "old": "防",
       "historical_reading": "䑕",
       "context": "又不可専言印绶若印绶复遇拱禄専禄归禄防贵夹贵时贵等格尤为竒特但主少子或无子",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-501",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -11595,8 +11595,8 @@
       "old": "防",
       "historical_reading": "䕃",
       "context": "者富透官者贵印绶享父祖见成之福受宣勅防庇之贵如无透出冲刑少许兼身旺为妙忌身",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-502",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -11780,8 +11780,8 @@
       "old": "防",
       "historical_reading": "㣲",
       "context": "例大要日主徤旺再临伤官运可发名利日主防弱运厯财官乡祸不可言又曰伤官如甲日见",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-503",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -12165,8 +12165,8 @@
       "old": "防",
       "historical_reading": "㐫",
       "context": "其庚妻庚乃甲之七煞刼财冲官合煞所以至防惟甲丙戊庚壬五阳干有刃乙丁己辛癸五阴",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-504",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -12276,8 +12276,8 @@
       "old": "防",
       "historical_reading": "㓙",
       "context": "相扶合则吉若阳刃㓙煞来冲合岁君是谓攅防聚煞其祸难免经云阳刃冲合岁君勃然祸至",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-505",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -12341,8 +12341,8 @@
       "old": "防",
       "historical_reading": "㓙",
       "context": "合其祸减半论又曰日干无气时逄阳刃不为防言生日天元临死絶衰病暴败之地不通月气",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-506",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -12406,8 +12406,8 @@
       "old": "防",
       "historical_reading": "㓙",
       "context": "㓙为吉兆是也余干例此又曰六甲日逄乙卯防辛卯吉甲申丁卯不为刃申中有庚合卯中乙",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-507",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -12471,8 +12471,8 @@
       "old": "防",
       "historical_reading": "㓙",
       "context": "地原带伤官财星歳运再逄祸害极重身弱尤防又曰日刄止有三日戊午丙午壬子与阳刃同",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-508",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -12536,8 +12536,8 @@
       "old": "防",
       "historical_reading": "䑕",
       "context": "午丙午壬子与阳刃同法经曰赤黄马独卧黒防守空房男妨妻女妨夫指此三日也不喜刑冲",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-509",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -12880,8 +12880,8 @@
       "old": "防",
       "historical_reading": "㸔",
       "context": "不养多主贫贱颇宜时带偏官偏财或食神更防年时上露多者取用若略见财官反争夺不吉",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-510",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -13065,8 +13065,8 @@
       "old": "防",
       "historical_reading": "㫑",
       "context": "露庚字亦主富贵全㸔月令何如或可煞生印防若成此格湏忌尤怕南方运如樊继祖尚书庚",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-511",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
