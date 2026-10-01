@@ -29,31 +29,10 @@
           "title": "三命通会",
           "path": "易藏/术数/三命通会.txt",
           "promotion": "quarantine_only",
-          "collation_corrections": [
-            {
-              "from": "谬□甚矣",
-              "to": "谬误甚矣",
-              "evidence": {
-                "type": "github-crosscheck",
-                "repo": "shuaige121/sinan-app",
-                "path": "www/dian/data/annotated/sanming-tonghui.json",
-                "note": "独立整理文本明确作“谬误甚矣”。"
-              }
-            },
-            {
-              "from": "王麟洲少□",
-              "to": "王麟洲少卿",
-              "evidence": {
-                "type": "authority-crosscheck",
-                "url": "https://data.ascdc.tw/dnb/Agent/NO000018454",
-                "note": "中研院数字文化中心人物资料载王世懋（麟洲）擢南京太常少卿。"
-              }
-            }
-          ],
           "quality_blockers": {
             "private_use_char_count": 524,
             "unique_private_use_chars": 86,
-            "note": "2026-10-01 PUA collation remains complete (86/86, 524/524). Post-PUA text review has 444 cross-checked OCR correction anchors across 39 batches. Recovery verification confirmed 44 remaining glyph positions (9 more than the previous aggregate report) using pinned Siku transcriptions and independently maintained text. Keep quarantine_only and canonical_ready=false pending the overall review; candidate census and scope are documented in docs/SANMING_OCR_REVIEW.md.",
+            "note": "2026-10-01 PUA collation remains complete (86/86, 524/524). Text review has 459 correction anchors through batch 40. Full-review candidate audit is persisted; held differences are not confirmed errors. Keep quarantine_only and canonical_ready=false; two missing-character proposals are unconfirmed and not executable.",
             "confirmed_private_use_mappings": 86,
             "confirmed_occurrences": 524,
             "remaining_unique_private_use_chars": 0,
@@ -61,11 +40,38 @@
             "collation_map": "data/quarantine/public_domain_snapshots/daizhigev20/sanming_pua_collation.json",
             "text_collation_map": "data/quarantine/public_domain_snapshots/daizhigev20/sanming_text_collation.json",
             "text_review_status": "in_progress",
-            "confirmed_text_corrections": 444,
-            "canonical_ready": false
+            "confirmed_text_corrections": 459,
+            "canonical_ready": false,
+            "text_candidate_audit": "data/quarantine/public_domain_snapshots/daizhigev20/sanming_ocr_candidates.json",
+            "unresolved_text_gaps": 2
           },
           "planned_output": "data/canonical/classics/bazi/sanming_tonghui_v1.json",
-          "planned_parser": "sanming_volumes"
+          "planned_parser": "sanming_volumes",
+          "unconfirmed_text_gaps": [
+            {
+              "from": "谬□甚矣",
+              "evidence": {
+                "type": "github-crosscheck",
+                "repo": "shuaige121/sinan-app",
+                "path": "www/dian/data/annotated/sanming-tonghui.json",
+                "note": "Pinned file has a modern paraphrase reading 谬误甚矣; both checked Siku transcriptions retain 謬□甚矣. Insufficient base-text evidence to restore the missing character.",
+                "commit": "d21468ba8a26c6b17e5c36b6b78bd467b8539510",
+                "anchor": "阴阳间隔，谬误甚矣。"
+              },
+              "proposed_reading": "谬误甚矣",
+              "status": "needs_base_text_evidence_do_not_apply"
+            },
+            {
+              "from": "王麟洲少□",
+              "evidence": {
+                "type": "authority-crosscheck",
+                "url": "https://data.ascdc.tw/dnb/Agent/NO000018454",
+                "note": "中研院数字文化中心人物资料载王世懋（麟洲）擢南京太常少卿。 人物履历不能证明本句缺字，保留为待核，不执行补字。"
+              },
+              "proposed_reading": "王麟洲少卿",
+              "status": "needs_base_text_evidence_do_not_apply"
+            }
+          ]
         },
         {
           "id": "shenfeng_tongkao",

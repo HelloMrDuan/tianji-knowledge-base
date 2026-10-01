@@ -135,8 +135,8 @@ class DomainIntegrityTests(unittest.TestCase):
         text_map = json.loads(
             (ROOT / "data/quarantine/public_domain_snapshots/daizhigev20/sanming_text_collation.json").read_text(encoding="utf-8")
         )
-        self.assertEqual(text_map["summary"]["confirmed_corrections"], 444)
-        self.assertEqual(text_map["summary"]["confirmed_replacements"], 444)
+        self.assertEqual(text_map["summary"]["confirmed_corrections"], 459)
+        self.assertEqual(text_map["summary"]["confirmed_replacements"], 459)
         self.assertEqual(text_map["summary"]["review_status"], "in_progress")
         text_corrections = {x["id"]: (x["old"], x["new"]) for x in text_map["corrections"]}
         self.assertEqual(text_corrections["ocr-017"][1], "无丑戌以刑冲之则库不开难得金印")
@@ -568,6 +568,23 @@ class DomainIntegrityTests(unittest.TestCase):
         self.assertEqual(text_corrections['ocr-443'][1], '弃命就财 须要㑹财 弃命从煞 须要㑹煞从财忌煞 从煞喜财 㑹逢根气 㑹损无猜此法元')
         self.assertEqual(text_corrections['ocr-444'][1], '富贵坎地却犹㐫\n 甲乙生三月 庚辛戌未存 丑宫壬癸位何虑见无根\n 木茂宜金火 身衰鬼作闗 时分西与北轻重辨东南\n 时上胞胎格 月逢印绶通 煞官行运助职位至三公\n 二子不冲午 二寅不冲申 二午不冲子二申不冲寅\n 得一分三格 财官印绶全 运中逢尅破一命䘮黄泉\n 进气死不死 退气生不生 终年无发旺犹忌少年刑\n 时上偏财格 干头忌比肩 月生身主旺贵气福重深\n 时上一位贵 藏在支中是 日主要刚强名利方有气\n 运行十载数 上下五年分 先㸔流年歳深知来')
         self.assertFalse(text_map["summary"]["canonical_ready"])
+        manifest = json.loads((ROOT / "config/public_domain_manifest.json").read_text(encoding="utf-8"))
+        sanming = next(
+            work for source in manifest["sources"] for work in source["works"]
+            if work["id"] == "sanming_tonghui"
+        )
+        self.assertEqual(sanming["promotion"], "quarantine_only")
+        self.assertFalse(sanming.get("collation_corrections"))
+        self.assertTrue(all(
+            gap["status"] == "needs_base_text_evidence_do_not_apply"
+            for gap in sanming["unconfirmed_text_gaps"]
+        ))
+        candidate_audit = json.loads((ROOT / sanming["quality_blockers"]["text_candidate_audit"]).read_text(encoding="utf-8"))
+        for candidate in candidate_audit["candidates"]:
+            if candidate["status"] == "confirmed_applied":
+                self.assertIn(candidate["correction_id"], text_corrections)
+            else:
+                self.assertIsNone(candidate["correction_id"])
         corrections = {(x["old"], x["new"]) for x in text_map["corrections"]}
         self.assertIn(("若失时防局卽韬光", "若失时䘮局卽韬光"), corrections)
         self.assertIn(("虽防𦕈之金亦不能制", "虽㣲𦕈之金亦不能制"), corrections)
