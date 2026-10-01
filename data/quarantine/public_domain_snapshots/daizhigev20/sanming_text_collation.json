@@ -17568,11 +17568,645 @@
         }
       ],
       "note": "Batch 45: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-550",
+      "old": "支神四㸔其力势合起是何支神五防地支綂摄此法是空中立有者也论",
+      "new": "支神四㸔其力势合起是何支神五㸔地支綂摄此法是空中立有者也论",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "起是何支神五㸔地支綂攝此法"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "起是何支神五㸔地支綂攝此法"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十/玉井奥诀一/text.txt",
+          "anchor": "起是何支神五看地支统摄此法是空中立有者也论地支冲拱"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/289卷 十·玉井奧訣.md",
+          "anchor": "起是何支神五看地支統攝此法是空中立有者也論地支沖拱"
+        }
+      ],
+      "note": "Batch 46: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-551",
+      "old": "合我亦无异也】\n 年干綂摄次防月时时如权衡分毫加减\n 【㸔",
+      "new": "合我亦无异也】\n 年干綂摄次㸔月时时如权衡分毫加减\n 【㸔",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "也年干綂攝次㸔月時時如權衡"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "也年干綂攝次㸔月時時如權衡"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/289卷 十·玉井奧訣.md",
+          "anchor": "氣生我剋我刑我合我亦無異也年干統攝次看月時時如權衡"
+        }
+      ],
+      "note": "Batch 46: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-552",
+      "old": "煞若更用神与嵗君和全贵无疑次防月时二干之闗系不可竟作差慢不",
+      "new": "煞若更用神与嵗君和全贵无疑次㸔月时二干之闗系不可竟作差慢不",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "和全貴無疑次㸔月時二干之闗"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "和全貴無疑次㸔月時二干之闗"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十/玉井奥诀二/text.txt",
+          "anchor": "和全贵无疑次看月时二干之关系不可竟作差慢不来扳揽柱"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/289卷 十·玉井奧訣.md",
+          "anchor": "和全貴無疑次看月時二干之關係不可竟作差慢不來扳攬柱"
+        }
+      ],
+      "note": "Batch 46: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-553",
+      "old": "功贵气往来不杂必非寻常格调又防八字大意体叚过于清则或寒或薄",
+      "new": "功贵气往来不杂必非寻常格调又㸔八字大意体叚过于清则或寒或薄",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "非尋常格調又㸔八字大意體叚"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "非尋常格調又㸔八字大意體叚"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十/玉井奥诀三/text.txt",
+          "anchor": "非寻常格调又看八字大意体段过于清则或寒或薄过于厚则"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十/玉井奥诀四/text.txt",
+          "anchor": "非寻常格调又看八字大意体段过于清则或寒或薄过于厚则"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/289卷 十·玉井奧訣.md",
+          "anchor": "非尋常格調又看八字大意體段過於清則或寒或薄過於厚則"
+        }
+      ],
+      "note": "Batch 46: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-554",
+      "old": "露于干或泛滥于支物盛不祥还得防多火土能隄防倚赖哉余仿此推则",
+      "new": "露于干或泛滥于支物盛不祥还得㡬多火土能隄防倚赖哉余仿此推则",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "物盛不祥還得㡬多火土能隄防"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "物盛不祥還得㡬多火土能隄防"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十/玉井奥诀三/text.txt",
+          "anchor": "物盛不祥还得几多火土能堤防倚赖哉余仿此推则造化盈亏"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十/玉井奥诀四/text.txt",
+          "anchor": "物盛不祥还得几多火土能堤防倚赖哉余仿此推则造化盈亏"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/289卷 十·玉井奧訣.md",
+          "anchor": "物盛不祥還得幾多火土能堤防倚賴哉餘仿此推則造化盈虧"
+        }
+      ],
+      "note": "Batch 46: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-555",
+      "old": "豁方明轻重\n 【此一叚须要先防四支一一将所藏干气提豁出来细",
+      "new": "豁方明轻重\n 【此一叚须要先㸔四支一一将所藏干气提豁出来细",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "此一叚須要先㸔四支一一將所"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "此一叚須要先㸔四支一一將所"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/289卷 十·玉井奧訣.md",
+          "anchor": "庶不差誤物須提豁方明輕重此一段須要先看四支一一將所"
+        }
+      ],
+      "note": "Batch 46: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-556",
+      "old": "可又用水来滋助渺茫之气无倚却防运引或有隄防驭制之道方能为福",
+      "new": "可又用水来滋助渺茫之气无倚却㸔运引或有隄防驭制之道方能为福",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "茫之氣無倚却㸔運引或有隄防"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "茫之氣無倚却㸔運引或有隄防"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十/玉井奥诀七/text.txt",
+          "anchor": "茫之气无倚却看运引或有堤防驭制之道方能为福若遇转生"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/289卷 十·玉井奧訣.md",
+          "anchor": "茫之氣無倚卻看運引或有堤防馭制之道方能為福若遇轉生"
+        }
+      ],
+      "note": "Batch 46: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-557",
+      "old": "各有所赖丙用癸官壬用丁财已官防余神扶何者为急何者非急拱夹虽",
+      "new": "各有所赖丙用癸官壬用丁财已官㸔余神扶何者为急何者非急拱夹虽",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "壬用丁財已官㸔餘神扶何者為"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "壬用丁財已官㸔餘神扶何者為"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十/玉井奥诀七/text.txt",
+          "anchor": "午见壬子各有所赖丙用癸官壬用丁财己官看余神扶何者为"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/289卷 十·玉井奧訣.md",
+          "anchor": "午見壬子各有所賴丙用癸官壬用丁財己官看餘神扶何者為"
+        }
+      ],
+      "note": "Batch 46: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-558",
+      "old": "废精英转加时雨\n 【天干相合防支神吉凶为要支神有力则自然非",
+      "new": "废精英转加时雨\n 【天干相合㸔支神吉凶为要支神有力则自然非",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "時雨天干相合㸔支神吉凶為要"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "時雨天干相合㸔支神吉凶為要"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十/玉井奥诀七/text.txt",
+          "anchor": "力露莫作等闲脱废精英转加时用天干相合看支神吉凶为要"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/289卷 十·玉井奧訣.md",
+          "anchor": "力露莫作等閑脫廢精英轉加時用天干相合看支神吉凶為要"
+        }
+      ],
+      "note": "Batch 46: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-559",
+      "old": "支神有力则自然非常如地支相合防所乘之干力力重愈精神也一云上",
+      "new": "支神有力则自然非常如地支相合㸔所乘之干力力重愈精神也一云上",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "常如地支相合㸔所乘之干力力"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "常如地支相合㸔所乘之干力力"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十/玉井奥诀七/text.txt",
+          "anchor": "吉凶为要支神有力则自然非常和地支相合看所乘之干力力"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/289卷 十·玉井奧訣.md",
+          "anchor": "吉凶為要支神有力則自然非常和地支相合看所乘之干力力"
+        }
+      ],
+      "note": "Batch 46: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-560",
+      "old": "起恶陷之气兼㑹煞局者即为沉沦防败悔吝破失之气类也甚则死无葬",
+      "new": "起恶陷之气兼㑹煞局者即为沉沦䘮败悔吝破失之气类也甚则死无葬",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "局者即為沉淪䘮敗悔吝破失之"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "局者即為沉淪䘮敗悔吝破失之"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十/玉井奥诀九/text.txt",
+          "anchor": "岁运上扶起恶陷之气兼会煞局者即为沉论丧败悔吝破失之"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/289卷 十·玉井奧訣.md",
+          "anchor": "歲運上扶起惡陷之氣兼會煞局者即為沉論喪敗悔吝破失之"
+        }
+      ],
+      "note": "Batch 46: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-561",
+      "old": "须运扶衰者方可一善恶虽能均配防运扶何者以别吉凶一虽有用神一",
+      "new": "须运扶衰者方可一善恶虽能均配㸔运扶何者以别吉凶一虽有用神一",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "善惡雖能均配㸔運扶何者以别"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "善惡雖能均配㸔運扶何者以别"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十/玉井奥诀十二/text.txt",
+          "anchor": "衰神有用须运扶衰者方可二善恶离能均配看运扶何者以别"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/289卷 十·玉井奧訣.md",
+          "anchor": "衰神有用須運扶衰者方可二善惡離能均配看運扶何者以別"
+        }
+      ],
+      "note": "Batch 46: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-562",
+      "old": "遁禄上之干名为禄賔如无年禄须防遁至禄官干神为用主禄最切却㸔",
+      "new": "遁禄上之干名为禄賔如无年禄须㸔遁至禄官干神为用主禄最切却㸔",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "賔如無年禄須㸔遁至禄官干神"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "賔如無年禄須㸔遁至禄官干神"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十/玉井奥诀十二/text.txt",
+          "anchor": "马将为元遁禄上之干名为禄宾如无年禄须看遁至禄官干神"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/289卷 十·玉井奧訣.md",
+          "anchor": "馬將為元遁祿上之干名為祿賓如無年祿須看遁至祿官干神"
+        }
+      ],
+      "note": "Batch 46: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-563",
+      "old": "柱中嵗运有刃旺之地未敢如此议防须别详之干合多偏如乙见三庚二",
+      "new": "柱中嵗运有刃旺之地未敢如此议㫁须别详之干合多偏如乙见三庚二",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "地未敢如此議㫁須别詳之干合"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "地未敢如此議㫁須别詳之干合"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十/玉井奥诀十四/text.txt",
+          "anchor": "能聚财若柱中岁运有刃旺之地未敢如此论断须别详之干合"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/289卷 十·玉井奧訣.md",
+          "anchor": "能聚財若柱中歲運有刃旺之地未敢如此論斷須別詳之干合"
+        }
+      ],
+      "note": "Batch 46: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-564",
+      "old": "拱夹者准上文】\n 金水文华而防萃土金阜富以成高\n 【金水二",
+      "new": "拱夹者准上文】\n 金水文华而㧞萃土金阜富以成高\n 【金水二",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "文金水文華而㧞萃土金阜富以"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "文金水文華而㧞萃土金阜富以"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十/玉井奥诀二十一/text.txt",
+          "anchor": "文金水文华而拔萃土金皇富以成高金水二象若清无其余之"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/289卷 十·玉井奧訣.md",
+          "anchor": "文金水文華而拔萃土金皇富以成高金水二象若清無其餘之"
+        }
+      ],
+      "note": "Batch 46: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-565",
+      "old": "无冲刑尅害仍得夘处有吉者同前防】\n 阴阳偏用贵崇奋极品之尊",
+      "new": "无冲刑尅害仍得夘处有吉者同前㫁】\n 阴阳偏用贵崇奋极品之尊",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "處有吉者同前㫁陰陽偏用貴崇"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "處有吉者同前㫁陰陽偏用貴崇"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十/玉井奥诀二十一/text.txt",
+          "anchor": "贵旺相扶持无冲刑克害仍得卯处有吉同前断阴阳偏用贵崇"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/289卷 十·玉井奧訣.md",
+          "anchor": "貴旺相扶持無衝刑剋害仍得卯處有吉同前斷陰陽偏用貴崇"
+        }
+      ],
+      "note": "Batch 46: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-566",
+      "old": "徳秀二气者合主文章才业大噐秀防英杰之人也】\n 用拙而运扶枯",
+      "new": "徳秀二气者合主文章才业大噐秀㧞英杰之人也】\n 用拙而运扶枯",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "章才業大噐秀㧞英傑之人也用"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "章才業大噐秀㧞英傑之人也用"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十/玉井奥诀二十一/text.txt",
+          "anchor": "在日时见德秀二气者合主文章才业大器秀拔英杰之人也用"
+        }
+      ],
+      "note": "Batch 46: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-567",
+      "old": "物则宜扶之须要与当生支神贯穿防其本末乖顺何如若只详用神轻重",
+      "new": "物则宜扶之须要与当生支神贯穿㸔其本末乖顺何如若只详用神轻重",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "當生支神貫穿㸔其本末乖順何"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "當生支神貫穿㸔其本末乖順何"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十/玉井奥诀二十二/text.txt",
+          "anchor": "当生支神贯穿看其本未乖顺何如若只详用神轻重扶抑者亦"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/289卷 十·玉井奧訣.md",
+          "anchor": "當生支神貫穿看其本未乖順何如若只詳用神輕重扶抑者亦"
+        }
+      ],
+      "note": "Batch 46: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-568",
+      "old": "审其中有暗藏之物如浊中流出一防孤清则人虽朴陋多见性情颖悟机",
+      "new": "审其中有暗藏之物如浊中流出一㸃孤清则人虽朴陋多见性情颖悟机",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_011.txt",
+          "anchor": "如濁中流出一㸃孤清則人雖朴"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-11.md",
+          "anchor": "如濁中流出一㸃孤清則人雖朴"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷十一/气象篇四/text.txt",
+          "anchor": "如浊中流出一点抓清则人虽朴陋多见性情颖悟机谋异常若"
+        }
+      ],
+      "note": "Batch 46: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
     }
   ],
   "summary": {
-    "confirmed_corrections": 549,
-    "confirmed_replacements": 549,
+    "confirmed_corrections": 568,
+    "confirmed_replacements": 568,
     "review_status": "in_progress",
     "canonical_ready": false
   }

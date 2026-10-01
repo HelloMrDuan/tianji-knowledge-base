@@ -92,9 +92,9 @@
   "summary": {
     "historical_only_hold": 775,
     "variant_preserve": 47,
-    "confirmed_applied": 105,
+    "confirmed_applied": 124,
     "reading_disagreement_hold": 12,
-    "corroborated_pending_next_batch": 54
+    "corroborated_pending_next_batch": 35
   },
   "candidates": [
     {
@@ -22908,8 +22908,8 @@
       "old": "防",
       "historical_reading": "㸔",
       "context": "刑起是何支神四㸔其力势合起是何支神五防地支綂摄此法是空中立有者也论地支冲拱",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-550",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -22961,8 +22961,8 @@
       "old": "防",
       "historical_reading": "㸔",
       "context": "气生我尅我刑我合我亦无异也】\n 年干綂摄次防月时时如权衡分毫加减\n 【㸔年干所乘何支与",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-551",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -23002,8 +23002,8 @@
       "old": "防",
       "historical_reading": "㸔",
       "context": "何吉凶神煞若更用神与嵗君和全贵无疑次防月时二干之闗系不可竟作差慢不来扳搅柱",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-552",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -23087,8 +23087,8 @@
       "old": "防",
       "historical_reading": "㸔",
       "context": "逆化而有功贵气往来不杂必非寻常格调又防八字大意体叚过于清则或寒或薄过于厚则",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-553",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -23200,8 +23200,8 @@
       "old": "防",
       "historical_reading": "㡬",
       "context": "水神既显露于干或泛滥于支物盛不祥还得防多火土能隄防倚赖哉余仿此推则造化盈亏",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-554",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -23441,8 +23441,8 @@
       "old": "防",
       "historical_reading": "㸔",
       "context": "庶不差悮】\n 物须提豁方明轻重\n 【此一叚须要先防四支一一将所藏干气提豁出来细推何者党",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-555",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -23610,8 +23610,8 @@
       "old": "防",
       "historical_reading": "㸔",
       "context": "养之木安可又用水来滋助渺茫之气无倚却防运引或有隄防驭制之道方能为福若遇转生",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-556",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -23711,8 +23711,8 @@
       "old": "防",
       "historical_reading": "㸔",
       "context": "午见壬子各有所赖丙用癸官壬用丁财已官防余神扶何者为急何者非急拱夹虽真如乙人",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-557",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -23764,8 +23764,8 @@
       "old": "防",
       "historical_reading": "㸔",
       "context": "力露莫作等闲脱废精英转加时雨\n 【天干相合防支神吉凶为要支神有力则自然非常如地支",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-558",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -23817,8 +23817,8 @@
       "old": "防",
       "historical_reading": "㸔",
       "context": "吉凶为要支神有力则自然非常如地支相合防所乘之干力力重愈精神也一云上下俱合有",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-559",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -23965,8 +23965,8 @@
       "old": "防",
       "historical_reading": "䘮",
       "context": "嵗运上扶起恶陷之气兼㑹煞局者即为沉沦防败悔吝破失之气类也甚则死无葬身之地须",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-560",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -24137,8 +24137,8 @@
       "old": "防",
       "historical_reading": "㸔",
       "context": "衰神有用须运扶衰者方可一善恶虽能均配防运扶何者以别吉凶一虽有用神一兴一衰偏",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-561",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -24246,8 +24246,8 @@
       "old": "防",
       "historical_reading": "㸔",
       "context": "马将爲元\n 【遁禄上之干名为禄賔如无年禄须防遁至禄官干神为用主禄最切却㸔日辰用为",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-562",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -24379,8 +24379,8 @@
       "old": "防",
       "historical_reading": "㫁",
       "context": "能聚财若柱中嵗运有刃旺之地未敢如此议防须别详之干合多偏如乙见三庚二庚合者岂",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-563",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -24678,8 +24678,8 @@
       "old": "防",
       "historical_reading": "㧞",
       "context": "俱空闲而却各有拱夹者准上文】\n 金水文华而防萃土金阜富以成高\n 【金水二象若清无其余之",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-564",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -24731,8 +24731,8 @@
       "old": "防",
       "historical_reading": "㫁",
       "context": "旺相扶持无冲刑尅害仍得夘处有吉者同前防】\n 阴阳偏用贵崇奋极品之尊夘酉正门权辅领",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-565",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -24784,8 +24784,8 @@
       "old": "防",
       "historical_reading": "㧞",
       "context": "在日时见徳秀二气者合主文章才业大噐秀防英杰之人也】\n 用拙而运扶枯鳞济水用强而运",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-566",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -24825,8 +24825,8 @@
       "old": "防",
       "historical_reading": "㸔",
       "context": "之不及之物则宜扶之须要与当生支神贯穿防其本末乖顺何如若只详用神轻重扶抑者亦",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-567",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",
@@ -25133,8 +25133,8 @@
       "old": "防",
       "historical_reading": "㸃",
       "context": "而无用当审其中有暗藏之物如浊中流出一防孤清则人虽朴陋多见性情颖悟机谋异常若",
-      "status": "corroborated_pending_next_batch",
-      "correction_id": null,
+      "status": "confirmed_applied",
+      "correction_id": "ocr-568",
       "historical_evidence": [
         {
           "repo": "kanripo/KR3g0042",

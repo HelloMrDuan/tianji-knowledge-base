@@ -135,8 +135,8 @@ class DomainIntegrityTests(unittest.TestCase):
         text_map = json.loads(
             (ROOT / "data/quarantine/public_domain_snapshots/daizhigev20/sanming_text_collation.json").read_text(encoding="utf-8")
         )
-        self.assertEqual(text_map["summary"]["confirmed_corrections"], 549)
-        self.assertEqual(text_map["summary"]["confirmed_replacements"], 549)
+        self.assertEqual(text_map["summary"]["confirmed_corrections"], 568)
+        self.assertEqual(text_map["summary"]["confirmed_replacements"], 568)
         self.assertEqual(text_map["summary"]["review_status"], "in_progress")
         text_corrections = {x["id"]: (x["old"], x["new"]) for x in text_map["corrections"]}
         self.assertEqual(text_corrections["ocr-017"][1], "无丑戌以刑冲之则库不开难得金印")
@@ -571,6 +571,7 @@ class DomainIntegrityTests(unittest.TestCase):
         self.assertEqual(text_corrections['ocr-493'][1], '阳刃配合即经云煞无刃不显逄煞㸔刃是也以上诸制合生化须要无太')
         self.assertEqual(text_corrections['ocr-512'][1], '日之纯粹再无冲绊为人淳厚富贵䨇全畧见损伤亦主富足若生辰戌丑')
         self.assertEqual(text_corrections['ocr-531'][1], '沉埋少年难发等时来丑未相冲通㤗不靠双亲鴈侣花开收果妻财时逢')
+        self.assertEqual(text_corrections['ocr-550'][1], '支神四㸔其力势合起是何支神五㸔地支綂摄此法是空中立有者也论')
         self.assertFalse(text_map["summary"]["canonical_ready"])
         self.assertIn("百鍊", text_corrections["ocr-445"][1])
         self.assertIn("太歳加㑹", text_corrections["ocr-451"][1])
