@@ -16126,11 +16126,765 @@
         }
       ],
       "note": "Batch 43: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-512",
+      "old": "日之纯粹再无冲绊为人淳厚富贵防全畧见损伤亦主富足若生辰戌丑",
+      "new": "日之纯粹再无冲绊为人淳厚富贵䨇全畧见损伤亦主富足若生辰戌丑",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "為人淳厚富貴䨇全畧見損傷亦"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "為人淳厚富貴䨇全畧見損傷亦"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷六/丑遥巳禄/text.txt",
+          "anchor": "为人淳厚富贵双全略见损伤亦主富足若生辰戌丑未月当以"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/081卷 六·丑遥巳禄.md",
+          "anchor": "为人淳厚富贵双全略见损伤亦主富足若生辰戌丑未月当以"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷六.txt",
+          "anchor": "為人淳厚富貴雙全略見損傷亦主富足若生辰戌丑未月當以"
+        }
+      ],
+      "note": "Batch 44: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-513",
+      "old": "行火地西北行来则吉东南一去忧防【古歌云】辛逄戊子号朝阳运喜",
+      "new": "行火地西北行来则吉东南一去忧㐫【古歌云】辛逄戊子号朝阳运喜",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "吉東南一去憂㐫古歌云辛逄戊"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "吉東南一去憂㐫古歌云辛逄戊"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷六/六阴朝阳/text.txt",
+          "anchor": "吉东南一去忧凶古歌云辛逢戊子号朝阳运喜西方禄位昌丑"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/088卷 六·六阴朝阳.md",
+          "anchor": "吉东南一去忧凶古歌云辛逢戊子号朝阳运喜西方禄位昌丑"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷六.txt",
+          "anchor": "吉東南一去憂凶古歌云辛逢戊子號朝陽運喜西方祿位昌丑"
+        }
+      ],
+      "note": "Batch 44: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-514",
+      "old": "水印亦可忌见金火若歳运逄申酉防悔东方渐退午运则亡如一命壬寅",
+      "new": "水印亦可忌见金火若歳运逄申酉㐫悔东方渐退午运则亡如一命壬寅",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "若歳運逄申酉㐫悔東方漸退午"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "若歳運逄申酉㐫悔東方漸退午"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷六/六乙鼠贵/text.txt",
+          "anchor": "木旺之地水印亦可忌见金火若岁运逢申酉凶悔东方渐退午"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/089卷 六·六乙鼠贵.md",
+          "anchor": "木旺之地浮水印亦可忌见金火若岁运逢申酉凶悔东方渐退午"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷六.txt",
+          "anchor": "木旺之地水印亦可忌見金火若歲運逢申酉凶悔東方漸退午"
+        }
+      ],
+      "note": "Batch 44: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-515",
+      "old": "害忌官煞乂怕空亡【诗日】日时防拱禄中庭金匮藏珠格最清至贵至",
+      "new": "害忌官煞乂怕空亡【诗日】日时䨇拱禄中庭金匮藏珠格最清至贵至",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "空亡詩日日時䨇拱禄中庭金匱"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "空亡詩日日時䨇拱禄中庭金匱"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷六/拱禄拱贵/text.txt",
+          "anchor": "无财印不喜伤害忌官煞又怕空亡诗曰日时双拱禄中庭金匮"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/091卷 六·拱禄拱贵.md",
+          "anchor": "无财印不喜伤害忌官煞又怕空亡诗曰日时双拱禄中庭金匮"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷六.txt",
+          "anchor": "無財印不喜傷害忌官煞又怕空亡詩曰日時雙拱祿中庭金匱"
+        }
+      ],
+      "note": "Batch 44: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-516",
+      "old": "【又】拱禄拱贵格中稀也湏月令防支提提纲有用提纲重月令无神用",
+      "new": "【又】拱禄拱贵格中稀也湏月令㸔支提提纲有用提纲重月令无神用",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "中稀也湏月令㸔支提提綱有用"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "中稀也湏月令㸔支提提綱有用"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷六/拱禄拱贵/text.txt",
+          "anchor": "败官星不可当又拱禄拱贵格中稀也须月令看支提提纲有用"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/091卷 六·拱禄拱贵.md",
+          "anchor": "败官星不可当又拱禄拱贵格中稀也须月令看支提提纲有用"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷六.txt",
+          "anchor": "敗官星不可當又拱祿拱貴格中稀也須月令看支提提綱有用"
+        }
+      ],
+      "note": "Batch 44: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-517",
+      "old": "名遇财官印食则吉値煞刃冲刑则防运遇魁罡为害不浅【又云】贵逄",
+      "new": "名遇财官印食则吉値煞刃冲刑则㐫运遇魁罡为害不浅【又云】贵逄",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "値煞刃衝刑則㐫運遇魁罡為害"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "値煞刃衝刑則㐫運遇魁罡為害"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷六/日贵/text.txt",
+          "anchor": "性尊重之名遇财官印食则吉值煞刃冲刑则凶运遇魁罡为害"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/096卷 六·日贵.md",
+          "anchor": "性尊重之名遇财官印食则吉值煞刃冲刑则凶运遇魁罡为害"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷六.txt",
+          "anchor": "性尊重之名遇財官印食則吉值煞刃沖刑則凶運遇魁罡為害"
+        }
+      ],
+      "note": "Batch 44: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-518",
+      "old": "罡分昼夜更防刑害失尊卑运行嘉防名湏重命带空亡祸必随贵重尊严",
+      "new": "罡分昼夜更防刑害失尊卑运行嘉㑹名湏重命带空亡祸必随贵重尊严",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "失尊卑運行嘉㑹名湏重命帶空"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "失尊卑運行嘉㑹名湏重命帶空"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷六/日贵/text.txt",
+          "anchor": "失尊卑运行嘉会名须重命带空亡祸必随贵重尊严持厚德或"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/096卷 六·日贵.md",
+          "anchor": "失尊卑运行嘉会名须重命带空亡祸必随贵重尊严持厚德或"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷六.txt",
+          "anchor": "失尊卑運行嘉會名須重命帶空亡禍必隨貴重尊嚴持厚德或"
+        }
+      ],
+      "note": "Batch 44: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-519",
+      "old": "怜贫敬老之心无毒害尅剥之意逄防有救遇难有解不遭非横福必丰厚",
+      "new": "怜贫敬老之心无毒害尅剥之意逄㐫有救遇难有解不遭非横福必丰厚",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "害尅剥之意逄㐫有救遇難有解"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "害尅剥之意逄㐫有救遇難有解"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷六/日德/text.txt",
+          "anchor": "貌魁梧有怜贫敬老之心无毒害克剥之意逢凶有救遇难有解"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/097卷 六·日德.md",
+          "anchor": "貌魁梧有怜贫敬老之心无毒害克剥之意逢凶有救遇难有解"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷六.txt",
+          "anchor": "貌魁梧有憐貧敬老之心無毒害剋剝之意逢凶有救遇難有解"
+        }
+      ],
+      "note": "Batch 44: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-520",
+      "old": "在辰为青龙在戌为禄堂有吉而无防故也此格湏叠化重逄日位加临者",
+      "new": "在辰为青龙在戌为禄堂有吉而无㐫故也此格湏叠化重逄日位加临者",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "禄堂有吉而無㐫故也此格湏叠"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "禄堂有吉而無㐫故也此格湏叠"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷六/魁罡/text.txt",
+          "anchor": "禄堂有吉而无凶故也此格须叠化重逢日位加临者众以伏为"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/098卷 六·魁罡.md",
+          "anchor": "禄堂有吉而无凶故也此格须叠化重逢日位加临者众以伏为"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷六.txt",
+          "anchor": "祿堂有吉而無凶故也此格須疊化重逢日位加臨者眾以伏為"
+        }
+      ],
+      "note": "Batch 44: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-521",
+      "old": "【又】天干壬癸喜冬生更値申辰防局成或是全归亥子丑等闲平歩上",
+      "new": "【又】天干壬癸喜冬生更値申辰㑹局成或是全归亥子丑等闲平歩上",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_006.txt",
+          "anchor": "冬生更値申辰㑹局成或是全歸"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-06.md",
+          "anchor": "冬生更値申辰㑹局成或是全歸"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷六/润下/text.txt",
+          "anchor": "字当权贵绝伦又天干壬癸喜冬生更值申辰会局成或是全归"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/112卷 六·润下.md",
+          "anchor": "字当权贵绝伦又天干壬癸喜冬生更值申辰会局成或是全归"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷六.txt",
+          "anchor": "字當權貴絕倫又天干壬癸喜冬生更值申辰會局成或是全歸"
+        }
+      ],
+      "note": "Batch 44: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-522",
+      "old": "情烈旺相则英勇豪杰仗义疎财知防耻识羞恶骨肉相应体徤神清面方",
+      "new": "情烈旺相则英勇豪杰仗义疎财知㢘耻识羞恶骨肉相应体徤神清面方",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_007.txt",
+          "anchor": "傑仗義疎財知㢘耻識羞惡骨肉"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-07.md",
+          "anchor": "傑仗義疎財知㢘耻識羞惡骨肉"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷七/论性情相貌/text.txt",
+          "anchor": "其性刚其情烈旺相则英勇豪杰仗义疏财知廉耻识羞恶骨肉"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/152卷 七·论性情相貌.md",
+          "anchor": "其性刚其情烈旺相则英勇豪杰仗义疏财知廉耻识羞恶骨肉"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷七.txt",
+          "anchor": "其性剛其情烈旺相則英勇豪傑仗義疏財知廉恥識羞惡骨肉"
+        }
+      ],
+      "note": "Batch 44: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-523",
+      "old": "生不以财物为吝好施与不私已奢防欢乐多情尚义防有不善终之患若",
+      "new": "生不以财物为吝好施与不私已奢㤗欢乐多情尚义防有不善终之患若",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_007.txt",
+          "anchor": "施與不私已奢㤗歡樂多情尚義"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-07.md",
+          "anchor": "施與不私已奢㤗歡樂多情尚義"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷七/论性情相貌/text.txt",
+          "anchor": "难不畏平生不以财物为吝好施与不私己奢泰欢乐多情尚义"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/152卷 七·论性情相貌.md",
+          "anchor": "难不畏平生不以财物为吝好施与不私己奢泰欢乐多情尚义"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷七.txt",
+          "anchor": "難不畏平生不以財物為吝好施與不私己奢泰歡樂多情尚義"
+        }
+      ],
+      "note": "Batch 44: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-524",
+      "old": "惰喜卧嗜睡多思足虑耳聋神浊徤防少喜动作之疾\n 有相尅而成疾",
+      "new": "惰喜卧嗜睡多思足虑耳聋神浊徤㤀少喜动作之疾\n 有相尅而成疾",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_007.txt",
+          "anchor": "慮耳聾神濁徤㤀少喜動作之疾"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-07.md",
+          "anchor": "慮耳聾神濁徤㤀少喜動作之疾"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷七/论疾病先知五脏六腑所/text.txt",
+          "anchor": "逆肢体怠惰喜卧嗜睡多思足虑耳聋神浊健忘少喜动作之疾"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/153卷 七·论疾病先知五脏六腑所属干支.md",
+          "anchor": "逆肢体怠惰喜卧嗜睡多思足虑耳聋神浊健忘少喜动作之疾"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷七.txt",
+          "anchor": "逆肢體怠惰喜臥嗜睡多思足慮耳聾神濁健忘少喜動作之疾"
+        }
+      ],
+      "note": "Batch 44: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-525",
+      "old": "八法以泄其玄机后八格仍明其奥防倘有缺误俟知者择焉【又云】乾",
+      "new": "八法以泄其玄机后八格仍明其奥㫖倘有缺误俟知者择焉【又云】乾",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_007.txt",
+          "anchor": "八格仍明其奥㫖倘有缺誤俟知"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-07.md",
+          "anchor": "八格仍明其奥㫖倘有缺誤俟知"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷七/招嫁不定/text.txt",
+          "anchor": "夫而贫前八法以泄其玄机后八格乃明其奥旨倘有缺误俟知"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/164卷 七·招嫁不定.md",
+          "anchor": "夫而贫前八法以泄其玄机后八格乃明其奥旨倘有缺误俟知"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷七.txt",
+          "anchor": "夫而貧前八法以泄其玄機後八格乃明其奧旨倘有缺誤俟知"
+        }
+      ],
+      "note": "Batch 44: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-526",
+      "old": "父母鬼旺后代迁荣刼财重重父早防破印太重母先亡岁月财官旺相公",
+      "new": "父母鬼旺后代迁荣刼财重重父早䘮破印太重母先亡岁月财官旺相公",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_007.txt",
+          "anchor": "刼財重重父早䘮破印太重母先"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-07.md",
+          "anchor": "刼財重重父早䘮破印太重母先"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷七/论六亲/text.txt",
+          "anchor": "财重刑伤父母鬼旺后代迂荣劫财重重父早丧破印太重母先"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/166卷 七·论六亲.md",
+          "anchor": "财重刑伤父母鬼旺后代迂荣劫财重重父早丧破印太重母先"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷七.txt",
+          "anchor": "財重刑傷父母鬼旺後代迂榮劫財重重父早喪破印太重母先"
+        }
+      ],
+      "note": "Batch 44: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-527",
+      "old": "若年月癸戊一化申卯两旺己丑酉防金行木土运位至金紫【一云】发",
+      "new": "若年月癸戊一化申卯两旺己丑酉㑹金行木土运位至金紫【一云】发",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_008.txt",
+          "anchor": "卯兩旺己丑酉㑹金行木土運位"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-08.md",
+          "anchor": "卯兩旺己丑酉㑹金行木土運位"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷八/六乙日庚辰时断/text.txt",
+          "anchor": "不贵则富若年月癸戊一化申卯两旺巳丑酉会金行木土运位"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/184卷 八·六乙日庚辰时断.md",
+          "anchor": "不贵则富若年月癸戊一化申卯两旺巳丑酉会金行木土运位"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷八.txt",
+          "anchor": "不貴則富若年月癸戊一化申卯兩旺巳丑酉會金行木土運位"
+        }
+      ],
+      "note": "Batch 44: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-528",
+      "old": "库乾元青年虎榜姓名传禀性温良防俭士庻妻贤子贵才人禄位陞迁南",
+      "new": "库乾元青年虎榜姓名传禀性温良㳟俭士庻妻贤子贵才人禄位陞迁南",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_008.txt",
+          "anchor": "名傳禀性温良㳟儉士庻妻賢子"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-08.md",
+          "anchor": "名傳禀性温良㳟儉士庻妻賢子"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷八/六乙日庚辰时断/text.txt",
+          "anchor": "名传禀性温良恭俭士庶妻贤子贵财人禄位升迁南离戊癸火"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/184卷 八·六乙日庚辰时断.md",
+          "anchor": "名传禀性温良恭俭士庶妻贤子贵财人禄位升迁南离戊癸火"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷八.txt",
+          "anchor": "名傳稟性溫良恭儉士庶妻賢子貴財人祿位升遷南離戊癸火"
+        }
+      ],
+      "note": "Batch 44: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-529",
+      "old": "冬印旺大贵夏己午秋酉戌俱贵亦防天干何如丁未甲辰生计辛苦一生",
+      "new": "冬印旺大贵夏己午秋酉戌俱贵亦㸔天干何如丁未甲辰生计辛苦一生",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_008.txt",
+          "anchor": "秋酉戌俱貴亦㸔天干何如丁未"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-08.md",
+          "anchor": "秋酉戌俱貴亦㸔天干何如丁未"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷八/六乙日丙戌时断/text.txt",
+          "anchor": "秋酉戌俱贵亦看天干如何丁未甲辰生计辛苦一生遇贵丑月"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+          "path": "docs/三命通会/190卷 八·六乙日丙戌时断.md",
+          "anchor": "秋酉戌俱贵亦看天干如何丁未甲辰生计辛苦一生遇贵丑月"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷八.txt",
+          "anchor": "秋酉戌俱貴亦看天干如何丁未甲辰生計辛苦一生遇貴丑月"
+        }
+      ],
+      "note": "Batch 44: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
+    },
+    {
+      "id": "ocr-530",
+      "old": "逢癸卯生 求名求利且中平身衰防巧翻成拙 得志须通遇贵人\n ",
+      "new": "逢癸卯生 求名求利且中平身衰㺯巧翻成拙 得志须通遇贵人\n ",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_008.txt",
+          "anchor": "利且中平身衰㺯巧翻成拙得志"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-08.md",
+          "anchor": "利且中平身衰㺯巧翻成拙得志"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+          "path": "古文原文/三命通会/卷八/六丁日癸卯时断/text.txt",
+          "anchor": "利且中平身衰弄巧反成拙得志须通遇贵人丁日时临癸卯身"
+        },
+        {
+          "repo": "michiboo/Classical_Chinese_Wikisource",
+          "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+          "path": "三命通會/卷八.txt",
+          "anchor": "利且中平身衰弄巧反成拙得志須通遇貴人丁日時臨癸卯身"
+        }
+      ],
+      "note": "Batch 44: target glyph agrees in both pinned Siku transcriptions and a separately maintained text. Longer source context resolves nearby variants or source transcription errors; see the persisted candidate audit for exact flanks and manually reviewed neighbouring differences. Only the target changes; all raw neighbours, spacing and historical glyphs are preserved. The Siku repositories share an edition family, not independent editions."
     }
   ],
   "summary": {
-    "confirmed_corrections": 511,
-    "confirmed_replacements": 511,
+    "confirmed_corrections": 530,
+    "confirmed_replacements": 530,
     "review_status": "in_progress",
     "canonical_ready": false
   }
