@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-01T06:26:21.023571+00:00",
+  "generated_at": "2026-10-01T13:47:53.908941+00:00",
   "files": {
     "data/upstream/godcong-yi/bagua.json": {
       "status": "unchanged",
@@ -126,7 +126,7 @@
       "status": "unchanged",
       "repo": "hhszzzz/taibu",
       "source_path": "packages/core/src/data/hexagrams.ts",
-      "source_commit": "baff3c160a73767fa32c3305511787c896485873",
+      "source_commit": "0d188be179d4ea0d938d2b73d351bf6f51afa60a",
       "license": "MIT (packages/core)",
       "scope_license_verified": true,
       "ingestion": "ALLOW_SUBPACKAGE_SNAPSHOT",
