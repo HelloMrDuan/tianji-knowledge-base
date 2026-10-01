@@ -5,6 +5,17 @@ from tianji_kb.operations.liuren import *
 
 ROOT=Path(__file__).resolve().parents[1]
 class LiurenPhase1Tests(unittest.TestCase):
+    def test_production_entities_retain_classical_citations(self):
+        from tianji_kb.knowledge_index import iter_phase1_chunks
+        chunks=[c for c in iter_phase1_chunks(ROOT) if c["metadata"]["domain"]=="liuren"]
+        self.assertTrue(chunks)
+        for chunk in chunks:
+            meta=chunk["metadata"]
+            self.assertTrue(meta["canonical_path"].startswith("data/canonical/liuren/"))
+            self.assertEqual(meta["evidence_level"],"C")
+            self.assertTrue(meta["repo"] and meta["commit"] and meta["source_refs"])
+            self.assertTrue(all(c["classic_id"] and c["chapter_id"] and c["original_text"] for c in meta["source_refs"]))
+
     def test_month_generals_cover_all_terms_once(self):
         rows=base()['month_general_by_solar_terms']
         terms=[term for row in rows for term in row['terms']]

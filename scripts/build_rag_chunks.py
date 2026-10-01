@@ -6,6 +6,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+from tianji_kb.knowledge_index import iter_phase1_chunks
+
 ROOT = Path(__file__).resolve().parents[1]
 CANONICAL = ROOT / "data/canonical"
 OUT = ROOT / "build/rag_chunks.jsonl"
@@ -93,6 +95,10 @@ for path in sorted(CANONICAL.rglob("*.json")):
     obj = json.loads(path.read_text(encoding="utf-8"))
     domain = obj.get("domain") or path.parent.name
     topic = obj.get("topic") or obj.get("corpus") or obj.get("ruleset") or path.stem
+
+    # Reviewed Phase 1 entities are emitted separately with resolved citations.
+    if obj.get("model") == "phase1-knowledge":
+        continue
 
     # Zhouyi 64 hexagrams.
     if path.name == "zhouyi_classic_core.json":
@@ -237,6 +243,8 @@ for path in sorted(CANONICAL.rglob("*.json")):
 
     # Generic canonical file: preserve the entire structured object as a retrievable chunk.
     add(domain, str(topic), "document", dump_text(obj), obj, path)
+
+chunks.extend(iter_phase1_chunks(ROOT))
 
 OUT.parent.mkdir(parents=True, exist_ok=True)
 with OUT.open("w", encoding="utf-8") as f:
