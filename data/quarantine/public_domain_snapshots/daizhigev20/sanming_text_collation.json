@@ -9708,11 +9708,661 @@
         }
       ],
       "note": "Broad twelve-volume scan: 4 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-325",
+      "old": "得子孙之力反此则否\n 凡防命以日干用为天元是以干为禄日支月攴用为地元是以支为命假如壬癸日己未月干支透出财官是也财官论原有原无地支原有财官天干不露出者不问若地支无财官只是天干透出虽行好运亦不济事防流年嵗君只用天元若行运虽重地支亦要防运天元人命柱中或有官",
+      "new": "得子孙之力反此则否\n 凡㸔命以日干用为天元是以干为禄日支月攴用为地元是以支为命假如壬癸日己未月干支透出财官是也财官论原有原无地支原有财官天干不露出者不问若地支无财官只是天干透出虽行好运亦不济事㸔流年嵗君只用天元若行运虽重地支亦要㸔运天元人命柱中或有官",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "得子孫之力反此則否凡㸔命以日干用為天元是以干為禄日支月攴用為地元是以支為命假如壬癸日己未月干支透出財官是也財官論原有原無地支原有財官天干不露出者不問若地支無財官只是天干透出雖行好運亦不濟事㸔流年嵗君只用天元若行運雖重地支亦要㸔運天元人命柱中或有官"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "得子孫之力反此則否凡㸔命以日干用為天元是以干為禄日支月攴用為地元是以支為命假如壬癸日己未月干支透出財官是也財官論原有原無地支原有財官天干不露出者不問若地支無財官只是天干透出雖行好運亦不濟事㸔流年嵗君只用天元若行運雖重地支亦要㸔運天元人命柱中或有官"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "孫之力反此則否凡看命以日干用為天元",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "雖行好運亦不濟事看流年歲君只用天元",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "行運雖重地支亦要看運天元人命柱中或",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 3 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-326",
+      "old": "基少年便行官禄运多是防年拜命早发功名年月无财官日时有之则是自已成立人命以财官为本柱中但得其一亦可发福若四柱原无官星不入他格年月日时干支财多又行财旺运亦能成就功名以财旺自能生官须身旺方许年月无财官防年又行不好运多是出身卑微破祖伤父无见成之福凡命官煞混杂伤官合神重男子犯之躭迷酒色女人逢之不媒自嫁\n 凡防命专以日干为主取提纲所用之物为命譬月令以金木水火土为用但有一件取其节气先后轻重浅深成局破冲细加考究曰官曰印曰财曰煞曰食神曰伤官以此六法消息之逢官防财逢煞防印逢印防官取四者不偏不倚生克",
+      "new": "基少年便行官禄运多是㓜年拜命早发功名年月无财官日时有之则是自已成立人命以财官为本柱中但得其一亦可发福若四柱原无官星不入他格年月日时干支财多又行财旺运亦能成就功名以财旺自能生官须身旺方许年月无财官㓜年又行不好运多是出身卑微破祖伤父无见成之福凡命官煞混杂伤官合神重男子犯之躭迷酒色女人逢之不媒自嫁\n 凡㸔命专以日干为主取提纲所用之物为命譬月令以金木水火土为用但有一件取其节气先后轻重浅深成局破冲细加考究曰官曰印曰财曰煞曰食神曰伤官以此六法消息之逢官㸔财逢煞㸔印逢印㸔官取四者不偏不倚生克",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "基少年便行官禄運多是㓜年拜命早發功名年月無財官日時有之則是自已成立人命以財官為本柱中但得其一亦可發福若四柱原無官星不入他格年月日時干支財多又行財旺運亦能成就功名以財旺自能生官須身旺方許年月無財官㓜年又行不好運多是出身卑微破祖傷父無見成之福凡命官煞混雜傷官合神重男子犯之躭迷酒色女人逢之不媒自嫁凡㸔命專以日干為主取提綱所用之物為命譬月令以金木水火土為用但有一件取其節氣先後輕重淺深成局破衝細加考究曰官曰印曰財曰煞曰食神曰傷官以此六法消息之逢官㸔財逢煞㸔印逢印㸔官取四者不偏不倚生剋"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "基少年便行官禄運多是㓜年拜命早發功名年月無財官日時有之則是自已成立人命以財官為本柱中但得其一亦可發福若四柱原無官星不入他格年月日時干支財多又行財旺運亦能成就功名以財旺自能生官須身旺方許年月無財官㓜年又行不好運多是出身卑微破祖傷父無見成之福凡命官煞混雜傷官合神重男子犯之躭迷酒色女人逢之不媒自嫁凡㸔命專以日干為主取提綱所用之物為命譬月令以金木水火土為用但有一件取其節氣先後輕重淺深成局破衝細加考究曰官曰印曰財曰煞曰食神曰傷官以此六法消息之逢官㸔財逢煞㸔印逢印㸔官取四者不偏不倚生剋"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "年便行官祿運多是幼年拜命早發功名年",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "旺方許年月無財官幼年又行不好運多是",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "人逢之不媒自嫁凡看命專以日干為主取",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "此六法消息之逢官看財逢煞看印逢印看",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "息之逢官看財逢煞看印逢印看官取四者",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "看財逢煞看印逢印看官取四者不偏不倚",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 6 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-327",
+      "old": "言凡格以煞为重\n 凡命先防干神有无尅制支神有无",
+      "new": "言凡格以煞为重\n 凡命先㸔干神有无尅制支神有无",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "言凡格以煞為重凡命先㸔干神有無尅制支神有無"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "言凡格以煞為重凡命先㸔干神有無尅制支神有無"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "格以煞為重凡命先看干神有無剋制支神",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-328",
+      "old": "干昼生为本体夜生作化防五阴干夜生为本体昼生作化防六般阳命男犯禄鬼倒食",
+      "new": "干昼生为本体夜生作化㸔五阴干夜生为本体昼生作化㸔六般阳命男犯禄鬼倒食",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "干晝生為本體夜生作化㸔五陰干夜生為本體晝生作化㸔六般陽命男犯禄鬼倒食"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "干晝生為本體夜生作化㸔五陰干夜生為本體晝生作化㸔六般陽命男犯禄鬼倒食"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "生為本體夜生作化看五陰干夜生為本體",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "生為本體晝生作化看六般陽命男犯祿鬼",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 2 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-329",
+      "old": "凶不贫即夭余以例推\n 凡防命伤官见官而早死七煞",
+      "new": "凶不贫即夭余以例推\n 凡㸔命伤官见官而早死七煞",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "凶不貧即夭餘以例推凡㸔命傷官見官而早死七煞"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "凶不貧即夭餘以例推凡㸔命傷官見官而早死七煞"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "貧即夭餘以例推凡看命傷官見官而早死",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-330",
+      "old": "倾五行之内宜细消详\n 凡防命五行太过不及固不为",
+      "new": "倾五行之内宜细消详\n 凡㸔命五行太过不及固不为",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "傾五行之内宜細消詳凡㸔命五行太過不及固不為"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "傾五行之内宜細消詳凡㸔命五行太過不及固不為"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "行之內宜細消詳凡看命五行太過不及固",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-331",
+      "old": "互破无药可医遇空亡庶防嵗运亦忌之\n 凡命主本逢",
+      "new": "互破无药可医遇空亡庶㡬嵗运亦忌之\n 凡命主本逢",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "互破無藥可醫遇空亡庶㡬嵗運亦忌之凡命主本逢"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "互破無藥可醫遇空亡庶㡬嵗運亦忌之凡命主本逢"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "無藥可醫遇空亡庶幾歲運亦忌之凡命主",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-332",
+      "old": "富贵定知日后厌年华\n 凡防命取胎生旺库为四贵死",
+      "new": "富贵定知日后厌年华\n 凡㸔命取胎生旺库为四贵死",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "富貴定知日後厭年華凡㸔命取胎生旺庫為四貴死"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "富貴定知日後厭年華凡㸔命取胎生旺庫為四貴死"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "定知日後厭年華凡看命取胎生旺庫為四",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-333",
+      "old": "遇辰戌丑未皆以贵论\n 凡防命分五行生旺死絶如甲",
+      "new": "遇辰戌丑未皆以贵论\n 凡㸔命分五行生旺死絶如甲",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "遇辰戌丑未皆以貴論凡㸔命分五行生旺死絶如甲"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "遇辰戌丑未皆以貴論凡㸔命分五行生旺死絶如甲"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "戌丑未皆以貴論凡看命分五行生旺死絕",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-334",
+      "old": "天之道无可絶焉干支适防巳絶则更生凡遇此者忧喜未定如癸巳絶水得癸酉旺金扶之是谓絶水逢生尤为吉庆凡命带上死絶生旺库墓等不可就以所带言之须防月令以辨清浊清者有制",
+      "new": "天之道无可絶焉干支适㑹巳絶则更生凡遇此者忧喜未定如癸巳絶水得癸酉旺金扶之是谓絶水逢生尤为吉庆凡命带上死絶生旺库墓等不可就以所带言之须㸔月令以辨清浊清者有制",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "天之道無可絶焉干支適㑹巳絶則更生凡遇此者憂喜未定如癸巳絶水得癸酉旺金扶之是謂絶水逢生尤為吉慶凡命帶上死絶生旺庫墓等不可就以所帶言之須㸔月令以辨清濁清者有制"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "天之道無可絶焉干支適㑹巳絶則更生凡遇此者憂喜未定如癸巳絶水得癸酉旺金扶之是謂絶水逢生尤為吉慶凡命帶上死絶生旺庫墓等不可就以所帶言之須㸔月令以辨清濁清者有制"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "道無可絕焉干支適會巳絕則更生凡遇此",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "NiuTrans/Classical-Modern",
+          "path": "古文原文/三命通会/卷十/看命口诀十/text.txt",
+          "anchor": "可就以所带言之须看月令以辨清浊清者",
+          "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 2 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-335",
+      "old": "邜更在春生最吉若三合防木局全不须春生多主仁",
+      "new": "邜更在春生最吉若三合㑹木局全不须春生多主仁",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "邜更在春生最吉若三合㑹木局全不須春生多主仁"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "邜更在春生最吉若三合㑹木局全不須春生多主仁"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "在春生最吉若三合會木局全不須春生多",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-336",
+      "old": "父祖产业或客死他乡又防宅纳音与本命纳音相生",
+      "new": "父祖产业或客死他乡又㸔宅纳音与本命纳音相生",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "父祖産業或客死他鄉又㸔宅納音與本命納音相生"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "父祖産業或客死他鄉又㸔宅納音與本命納音相生"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "產業或客死他鄉又看宅納音與本命納音",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-337",
+      "old": "年亦须破须是为长方可防如丙子人得辛巳金为宅",
+      "new": "年亦须破须是为长方可㫁如丙子人得辛巳金为宅",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "年亦須破須是為長方可㫁如丙子人得辛巳金為宅"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "年亦須破須是為長方可㫁如丙子人得辛巳金為宅"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "須破須是為長方可斷如丙子人得辛巳金",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-338",
+      "old": "元辰】干合无厄【六厄】旺无防【防门】衰无吊【吊客】妻无刃【羊",
+      "new": "元辰】干合无厄【六厄】旺无䘮【䘮门】衰无吊【吊客】妻无刃【羊",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "元辰干合無厄六厄旺無䘮䘮門衰無弔弔客妻無刃羊"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "元辰干合無厄六厄旺無䘮䘮門衰無弔弔客妻無刃羊"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "干合無厄六厄旺無喪喪門衰無弔弔客妻無",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 2 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-339",
+      "old": "之谓也【或问】人生有始终防名富贵有一旦崛起忽然骤兴有始终剥落而中间奋发有半世淹蹇而晚年成就其故何也【荅曰】莫非命也其始终富贵乃柱中身主专旺其所用吉神或官印财食俱各带禄得令不偏不党无刑冲尅害出门行运歩歩皆吉故能成材能振耀绍前人之基业立当代之功名不招防谤不致伤害保其终始是",
+      "new": "之谓也【或问】人生有始终㓛名富贵有一旦崛起忽然骤兴有始终剥落而中间奋发有半世淹蹇而晚年成就其故何也【荅曰】莫非命也其始终富贵乃柱中身主专旺其所用吉神或官印财食俱各带禄得令不偏不党无刑冲尅害出门行运歩歩皆吉故能成材能振耀绍前人之基业立当代之功名不招䜛谤不致伤害保其终始是",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "之謂也或問人生有始終㓛名富貴有一旦崛起忽然驟興有始終剥落而中間奮發有半世淹蹇而晚年成就其故何也荅曰莫非命也其始終富貴乃柱中身主專旺其所用吉神或官印財食俱各帶禄得令不偏不黨無刑衝尅害出門行運歩歩皆吉故能成材能振耀紹前人之基業立當代之功名不招䜛謗不致傷害保其終始是"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "之謂也或問人生有始終㓛名富貴有一旦崛起忽然驟興有始終剥落而中間奮發有半世淹蹇而晚年成就其故何也荅曰莫非命也其始終富貴乃柱中身主專旺其所用吉神或官印財食俱各帶禄得令不偏不黨無刑衝尅害出門行運歩歩皆吉故能成材能振耀紹前人之基業立當代之功名不招䜛謗不致傷害保其終始是"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "也或問人生有始終功名富貴有一旦崛起",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "立當代之功名不招讒謗不致傷害保其終",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 2 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-340",
+      "old": "隆积财聚富但少贵耳再防行运何如如逢官禄旺乡富贵双全设有不幸财神脱局羊刃相逢更遇流年冲合羊刃财神尽伤元命衰絶羊刃生灾败亡必矣生死则以格局论如印绶见财行财运又兼死絶必入黄泉柱有比肩庶防有解正官见煞及伤官刑冲破害嵗运相并必死正财偏财见比肩分夺羊刃刼财嵗运冲合必死伤官之格财旺身弱官煞重见混杂冲刃嵗运又见必死制则伤残拱禄拱贵填实又见官煞刼亡冲刃嵗运重见即死日禄归时刑冲破害见七煞官星空亡冲刃必死煞官大忌嵗运相并必死其余诸格并忌煞及填实嵗运并临必死防诸凶神恶煞勾绞元辰亡神刼煞吊客墓病死宫诸煞九死一生财官太多身弱元犯七煞身轻如丙丁日干年月时庚辛加酉运或庚辛年必死甲乙日干庚辛月时夹杂年运见庚辛必死若有救则吉无救定凶五行神煞金多夭折水盛飘流木旺则夭土多痴呆火多愚顽太过不及作此论一不可拘二须敢防求其生死决定无疑至若五行生死如壬日生在二月行申运即死生在七月行邜运即死乃遇生怕死既死怕生造化与人事一也须并防之\n 尝谓人之生死年月日",
+      "new": "隆积财聚富但少贵耳再㸔行运何如如逢官禄旺乡富贵双全设有不幸财神脱局羊刃相逢更遇流年冲合羊刃财神尽伤元命衰絶羊刃生灾败亡必矣生死则以格局论如印绶见财行财运又兼死絶必入黄泉柱有比肩庶㡬有解正官见煞及伤官刑冲破害嵗运相并必死正财偏财见比肩分夺羊刃刼财嵗运冲合必死伤官之格财旺身弱官煞重见混杂冲刃嵗运又见必死制则伤残拱禄拱贵填实又见官煞刼亡冲刃嵗运重见即死日禄归时刑冲破害见七煞官星空亡冲刃必死煞官大忌嵗运相并必死其余诸格并忌煞及填实嵗运并临必死㑹诸凶神恶煞勾绞元辰亡神刼煞吊客墓病死宫诸煞九死一生财官太多身弱元犯七煞身轻如丙丁日干年月时庚辛加酉运或庚辛年必死甲乙日干庚辛月时夹杂年运见庚辛必死若有救则吉无救定凶五行神煞金多夭折水盛飘流木旺则夭土多痴呆火多愚顽太过不及作此论一不可拘二须敢㫁求其生死决定无疑至若五行生死如壬日生在二月行申运即死生在七月行邜运即死乃遇生怕死既死怕生造化与人事一也须并㸔之\n 尝谓人之生死年月日",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "隆積財聚富但少貴耳再㸔行運何如如逢官禄旺鄉富貴雙全設有不幸財神脱局羊刃相逢更遇流年衝合羊刃財神盡傷元命衰絶羊刃生災敗亡必矣生死則以格局論如印綬見財行財運又兼死絶必入黄泉柱有比肩庶㡬有解正官見煞及傷官刑衝破害嵗運相併必死正財偏財見比肩分奪羊刃刼財嵗運衝合必死傷官之格財旺身弱官煞重見混雜衝刃嵗運又見必死制則傷殘拱禄拱貴填實又見官煞刼亡衝刃嵗運重見即死日禄歸時刑衝破害見七煞官星空亡衝刃必死煞官大忌嵗運相併必死其餘諸格並忌煞及填實嵗運併臨必死㑹諸凶神惡煞勾絞元辰亡神刼煞弔客墓病死宫諸煞九死一生財官太多身弱元犯七煞身輕如丙丁日干年月時庚辛加酉運或庚辛年必死甲乙日干庚辛月時夾雜年運見庚辛必死若有救則吉無救定凶五行神煞金多夭折水盛飄流木旺則夭土多痴呆火多愚頑太過不及作此論一不可拘二須敢㫁求其生死决定無疑至若五行生死如壬日生在二月行申運即死生在七月行邜運即死乃遇生怕死既死怕生造化與人事一也須並㸔之嘗謂人之生死年月日"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "隆積財聚富但少貴耳再㸔行運何如如逢官禄旺鄉富貴雙全設有不幸財神脱局羊刃相逢更遇流年衝合羊刃財神盡傷元命衰絶羊刃生災敗亡必矣生死則以格局論如印綬見財行財運又兼死絶必入黄泉柱有比肩庶㡬有解正官見煞及傷官刑衝破害嵗運相併必死正財偏財見比肩分奪羊刃刼財嵗運衝合必死傷官之格財旺身弱官煞重見混雜衝刃嵗運又見必死制則傷殘拱禄拱貴填實又見官煞刼亡衝刃嵗運重見即死日禄歸時刑衝破害見七煞官星空亡衝刃必死煞官大忌嵗運相併必死其餘諸格並忌煞及填實嵗運併臨必死㑹諸凶神惡煞勾絞元辰亡神刼煞弔客墓病死宫諸煞九死一生財官太多身弱元犯七煞身輕如丙丁日干年月時庚辛加酉運或庚辛年必死甲乙日干庚辛月時夾雜年運見庚辛必死若有救則吉無救定凶五行神煞金多夭折水盛飄流木旺則夭土多痴呆火多愚頑太過不及作此論一不可拘二須敢㫁求其生死决定無疑至若五行生死如壬日生在二月行申運即死生在七月行邜運即死乃遇生怕死既死怕生造化與人事一也須並㸔之嘗謂人之生死年月日"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "財聚富但少貴耳再看行運何如如逢官祿",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "入黃泉柱有比肩庶幾有解正官見煞及傷",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "填實歲運併臨必死會諸凶神惡煞勾絞元",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "論一不可拘二須敢斷求其生死決定無疑",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "化與人事一也須並看之嘗謂人之生死年",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 5 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-341",
+      "old": "重辛邜又逢隂又白鸡银防应辛酉庚子之祥白鸡在酉值太嵗不起之兆由上数事观之人之生死信前定矣哉若尹子常梦巳达午厄寅防后见蛇入穴得金坠马虎",
+      "new": "重辛邜又逢隂又白鸡银䑕应辛酉庚子之祥白鸡在酉值太嵗不起之兆由上数事观之人之生死信前定矣哉若尹子常梦巳达午厄寅㓕后见蛇入穴得金坠马虎",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "重辛邜又逢隂又白雞銀䑕應辛酉庚子之祥白雞在酉值太嵗不起之兆由上數事觀之人之生死信前定矣哉若尹子常夢巳達午厄寅㓕後見蛇入穴得金墜馬虎"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "重辛邜又逢隂又白雞銀䑕應辛酉庚子之祥白雞在酉值太嵗不起之兆由上數事觀之人之生死信前定矣哉若尹子常夢巳達午厄寅㓕後見蛇入穴得金墜馬虎"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "逢陰又白雞銀鼠應辛酉庚子之",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "子常夢巳達午厄寅滅後見蛇入穴得金墜",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 2 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-342",
+      "old": "三十八年生死隔风云际防总无常其后生死年月日",
+      "new": "三十八年生死隔风云际㑹总无常其后生死年月日",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "三十八年生死隔風雲際㑹總無常其後生死年月日"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "三十八年生死隔風雲際㑹總無常其後生死年月日"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/287卷 十·看命口訣.md",
+          "anchor": "八年生死隔風雲際會總無常其後生死年",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-343",
+      "old": "支中先分南北与东西次防三合内别认详六亲者从",
+      "new": "支中先分南北与东西次㸔三合内别认详六亲者从",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "支中先分南北與東西次㸔三合内别認詳六親者從"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "支中先分南北與東西次㸔三合内别認詳六親者從"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/288卷 十·巫咸撮要.md",
+          "anchor": "先分南北與東西次看三合內別認詳六親",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
+    },
+    {
+      "id": "ocr-344",
+      "old": "相残为道无终火明木秀防年显达朝廷火炎水涸终",
+      "new": "相残为道无终火明木秀㓜年显达朝廷火炎水涸终",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence": [
+        {
+          "repo": "kanripo/KR3g0042",
+          "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+          "path": "KR3g0042_010.txt",
+          "anchor": "相殘為道無終火明木秀㓜年顯達朝廷火炎水涸終"
+        },
+        {
+          "repo": "mikkokotila/Sanming-Tongshui",
+          "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+          "path": "source/juan-10.md",
+          "anchor": "相殘為道無終火明木秀㓜年顯達朝廷火炎水涸終"
+        },
+        {
+          "repo": "youngzs/xuanxue",
+          "path": "docs/三命通会/288卷 十·巫咸撮要.md",
+          "anchor": "為道無終火明木秀幼年顯達朝廷火炎水",
+          "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff"
+        }
+      ],
+      "note": "Broad twelve-volume scan: 1 OCR glyph(s) in this exact, unique context. Siku witnesses establish the historical glyph; a separately maintained normalized text confirms each reading with at least six characters on each side. Comparison aliases were used for discovery only; other historical spellings and variants in the anchor are preserved."
     }
   ],
   "summary": {
-    "confirmed_corrections": 324,
-    "confirmed_replacements": 324,
+    "confirmed_corrections": 344,
+    "confirmed_replacements": 344,
     "review_status": "in_progress",
     "canonical_ready": false
   }
