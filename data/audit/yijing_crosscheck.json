@@ -879,7 +879,7 @@
       "primary_source": {
         "repo": "hhszzzz/taibu",
         "path": "packages/core/src/data/hexagrams.ts",
-        "commit": "e8f636972a6fdb14f2a532ee223101f889ab4820",
+        "commit": "baff3c160a73767fa32c3305511787c896485873",
         "license": "MIT (packages/core)"
       },
       "secondary_source": {
@@ -899,7 +899,7 @@
       "primary_source": {
         "repo": "hhszzzz/taibu",
         "path": "packages/core/src/data/hexagrams.ts",
-        "commit": "e8f636972a6fdb14f2a532ee223101f889ab4820",
+        "commit": "baff3c160a73767fa32c3305511787c896485873",
         "license": "MIT (packages/core)"
       },
       "secondary_source": {
