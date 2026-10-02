@@ -1,6 +1,6 @@
 # Phase 2 本轮交付与未核边界
 
-从 main `bca1036` 开始，按六爻 → 奇门 → 六壬 → 紫微 → 风水 → 周易逐批交付，再接统一接口。PR #70–75 为六域批次；最后一批为证据治理与统一网关。每批等待 PR CI success 后合并。
+从 main `bca1036` 开始，按六爻 → 奇门 → 六壬 → 紫微 → 风水 → 周易逐批交付，再接统一接口。PR #70–75 为六域批次；PR #76为证据治理与统一网关，#77补齐奇门九星具名星位表达。每批等待 PR CI success 后合并。
 
 可重复统计：`PYTHONPATH=src python scripts/build_phase2_coverage.py`；结果同时写入 `build/phase2_coverage.json`。CI 每次重新执行，不以手填覆盖率代替检查。
 
@@ -35,4 +35,4 @@ Quarantine：原整书/PUA/OCR问题及所有待核段落继续隔离；六壬�
 
 网站现在可调用 `engine.execute` 的上述范围，取得可重放计算、RuleMatch和逐步原典引用，再交AI解释。完整源独立性、风水绝对年界仍未达到本阶段目标；这些缺口明确保留，不能以绿CI宣称已完成原刊校勘。接口接入方式见 [API.md](API.md)。
 
-本地最终验证：103 个单元/回归测试全部通过；Canonical/六域模型/执行契约/来源审计/Phase 1保护检查通过；28固定案例通过；《三命通会》PUA映射及603条普通OCR已确认修订重放通过（仍 `canonical_ready=false`）；RAG及SQLite FTS均为2421条，六域引用检索和JSON CLI smoke通过。GitHub CI运行同类全链检查，最终状态以各PR checks和main工作流为准。
+本地最终验证：104 个单元/回归测试全部通过；Canonical/六域模型/执行契约/来源审计/Phase 1保护检查通过；28固定案例通过；《三命通会》PUA映射及603条普通OCR已确认修订重放通过（仍 `canonical_ready=false`）；RAG及SQLite FTS均为2421条，六域引用检索和JSON CLI smoke通过。GitHub CI运行同类全链检查，最终状态以各PR checks和main工作流为准。

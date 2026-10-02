@@ -35,3 +35,16 @@ class QimenExecutionTests(unittest.TestCase):
         self.assertEqual(len(result['trace']),5)
         self.assertTrue(all(step['evidence_ids'] for step in result['trace']))
         with self.assertRaises(ValueError):chart('2000-01-07T12:00:00+08:00','超接置闰')
+
+class NamedQimenStarsTests(unittest.TestCase):
+    def test_nine_named_stars_and_eight_doors_gods_are_exposed(self):
+        from tianji_kb.operations.qimen_chart import chart,named_stars
+        output=chart('2000-01-07T12:00:00+08:00')
+        result=output['result'];positions=result['star_positions']
+        self.assertEqual(set(positions),{'天蓬','天任','天冲','天辅','天英','天禽','天芮','天柱','天心'})
+        self.assertEqual(positions['天禽'],positions['天芮'])
+        self.assertEqual(len(set(positions.values())),8)
+        self.assertEqual(len(result['door_positions']),8)
+        self.assertEqual(len(result['deity_positions']),8)
+        self.assertEqual(output['trace'][-1]['output']['star_positions'],positions)
+        with self.assertRaises(ValueError):named_stars({'1':'天蓬'})

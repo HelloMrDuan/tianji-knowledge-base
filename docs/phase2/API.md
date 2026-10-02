@@ -24,3 +24,5 @@ AI 在这之后解释这些事实、关系与原文，禁止重算盘面、填�
 风水生产入口拒绝绝对元运年份；研究入口须同时使用 `allow_research=True`、`research=True` 和显式 `epoch_year`。结果的绝对纪元为 D，`production_eligible=false`。没有读取隔离年表或自动晋级的路径。
 
 默认检索仍只收 Phase 1 已审 Canonical；契约、Golden 与 Phase 2 证据文件不被通用 RAG 自动展开。新增的已审短引由 EvidenceResolver 按规则返回；完整隔离正文和现代源代码不进入生产检索或计算。D 约定在结果/trace 标记，不能用所附 C 类型原句来掩盖。
+
+奇门另外输出 `star_positions`（九星，天禽随天芮）、`door_positions`（八门）、`deity_positions`（八神），便于网站按具名对象展示。
