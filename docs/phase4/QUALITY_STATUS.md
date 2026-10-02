@@ -1,6 +1,6 @@
 # Phase 4 quality status
 
-The explanation evaluation and safeguards are implemented. **Real-model calibration is blocked by missing provider URL/model/API key and permitted model-host network configuration.** No commercial model requests, human semantic reviews or real-model pass/hallucination measurements have occurred. N/A does not mean zero failures.
+The explanation evaluation and safeguards are implemented. **Real-model calibration is blocked by network policy: the requested https://api.qnaigc.com/v1 returned proxy403 before authentication. Its Base URL and session credential were supplied; the cloud draft now declares the exact domain and secure environment credential requirement, but runtime access/binding has not been activated and no model is verified.** No authenticated commercial model requests, human semantic reviews or real-model pass/hallucination measurements have occurred. N/A does not mean zero failures.
 
 | Domain | Fixed explanation cases | Guard cases | Real pass rate | Citation accuracy | Chart fidelity | Unsupported claims | Hallucinations | AI release status |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
