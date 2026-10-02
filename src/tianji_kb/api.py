@@ -1,15 +1,19 @@
 """Unified HTTP transport for the existing six-domain deterministic engine."""
-import copy
+import copy,os,hashlib
 from typing import Any,Literal
 from fastapi import FastAPI,HTTPException
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel,ConfigDict,Field,StrictBool,StrictStr
 from starlette.concurrency import run_in_threadpool
 from .engine import execute,PROVIDERS
 from .resolver import EvidenceResolver
 from .runtime_catalog import RuntimeUnavailable
 from .explanation import ExplanationService,ExplanationFailure
+from .ai_providers import provider_from_environment,provider_configured,timeout_from_environment,DRIVERS
+from .runtime_catalog import load_catalog
+from .resolver import ROOT
 
 Domain=Literal['liuyao','qimen','liuren','ziwei','fengshui','yijing']
 Mode=Literal['production','research']
@@ -29,6 +33,34 @@ class ExecuteRequest(BaseModel):
     explain:StrictBool=False
     mode:Mode='production'
 
+class ExplanationQuote(BaseModel):
+    model_config=ConfigDict(extra='forbid')
+    evidence_id:str
+    text:str
+
+class ExplanationCitation(BaseModel):
+    model_config=ConfigDict(extra='forbid')
+    evidence_id:str
+    source_ref:dict[str,Any]
+
+class ExplanationClaim(BaseModel):
+    model_config=ConfigDict(extra='forbid')
+    fact_ref:str
+    fact_value:Any
+    text:str
+    evidence_ids:list[str]
+    quotes:list[ExplanationQuote]
+    citations:list[ExplanationCitation]
+
+class ExplanationResponse(BaseModel):
+    model_config=ConfigDict(extra='forbid')
+    domain:Domain
+    variant:str
+    mode:Mode
+    chart_digest:str
+    claims:list[ExplanationClaim]
+    rag:list[dict[str,Any]]
+
 class ExecuteResponse(BaseModel):
     model_config=ConfigDict(extra='forbid')
     domain:Domain
@@ -41,7 +73,7 @@ class ExecuteResponse(BaseModel):
     evidence:dict[str,dict[str,Any]]
     warnings:list[str]
     limitations:list[str]
-    explanation:dict[str,Any]|None=None
+    explanation:ExplanationResponse|None=None
     explanation_status:Literal['disabled','succeeded','failed']='disabled'
     explanation_error:str|None=None
     calendar:dict[str,Any]|None=None
@@ -58,10 +90,12 @@ def response_for(raw):
         calendar=raw.get('input_calendar') or raw['result'].get('calendar'))
 
 
-def create_app(provider=None,*,explanation_timeout=20):
+def create_app(provider=None,*,explanation_timeout=None):
     app=FastAPI(title='Tianji deterministic knowledge API',version='1.0.0',
         description='Canonical calculation → RuleMatch → trace → Evidence; AI may explain but may not compute charts.')
     app.state.provider=provider
+    origins=[origin.strip() for origin in os.environ.get('TIANJI_CORS_ORIGINS','').split(',') if origin.strip()]
+    if origins:app.add_middleware(CORSMiddleware,allow_origins=origins,allow_methods=['GET','POST'],allow_headers=['Content-Type'])
 
     @app.exception_handler(RequestValidationError)
     async def invalid_request(request,error):
@@ -75,13 +109,17 @@ def create_app(provider=None,*,explanation_timeout=20):
     @app.get('/health',tags=['system'])
     def health():
         resolver=EvidenceResolver()
+        payload=load_catalog(ROOT);path=ROOT/'build/production_rag.jsonl'
+        rag_ready=path.is_file() and hashlib.sha256(path.read_bytes()).hexdigest()==payload['retrieval_index_sha256']
         return {'status':'ok','engine':'ready','domains':list(PROVIDERS),
-                'production_runtime':'reviewed','explanation_configured':app.state.provider is not None}
+                'production_runtime':'reviewed','rag_ready':rag_ready,
+                'explanation_configured':app.state.provider is not None or provider_configured()}
 
     @app.get('/api/v1/capabilities',tags=['system'])
     def capabilities():
         resolver=EvidenceResolver()
         return {'api_version':'v1','default_mode':'production','ai_may_compute_chart':False,
+            'explanation':{'provider_drivers':list(DRIVERS),'configured':app.state.provider is not None or provider_configured(),'keys_in_request':False},
             'domains':[{'domain':domain,'variants':[c['variant']],'default_variant':c['variant'],
                         'scope':c.get('scope',''),'limitations':c.get('unresolved',[]),
                         'example':{'domain':domain,'variant':c['variant'],'input':EXAMPLES[domain],'explain':False,'mode':'production'}}
@@ -102,9 +140,11 @@ def create_app(provider=None,*,explanation_timeout=20):
         result=response_for(raw)
         if request.explain:
             try:
-                if app.state.provider is None:raise ExplanationFailure('provider_not_configured')
-                service=ExplanationService(app.state.provider,timeout=explanation_timeout)
-                result.explanation=await service.explain(copy.deepcopy(raw))
+                selected_provider=app.state.provider if app.state.provider is not None else provider_from_environment()
+                if selected_provider is None:raise ExplanationFailure('provider_not_configured')
+                timeout=explanation_timeout if explanation_timeout is not None else timeout_from_environment()
+                service=ExplanationService(selected_provider,timeout=timeout)
+                result.explanation=ExplanationResponse.model_validate(await service.explain(copy.deepcopy(raw)))
                 result.explanation_status='succeeded'
             except Exception as error:
                 result.explanation_status='failed'
