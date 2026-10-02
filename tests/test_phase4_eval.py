@@ -45,6 +45,6 @@ class EvalTests(unittest.TestCase):
         class Broken:
             async def explain(self,context):raise RuntimeError('secret-value-never-report')
         suite=copy.deepcopy(load_suite());suite['cases']=[next(c for c in suite['cases'] if c.get('context_fault')=='source_conflict')]
-        report=asyncio.run(evaluate_suite(Broken(),suite=suite))
+        report=asyncio.run(evaluate_suite(Broken(),suite=suite,prompt_version='explanation-prompt-v1'))
         self.assertEqual(report['cases'][0]['status'],'failed')
         self.assertNotIn('secret-value-never-report',str(report))

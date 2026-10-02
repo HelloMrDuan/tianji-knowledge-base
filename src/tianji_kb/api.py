@@ -14,6 +14,7 @@ from .explanation import ExplanationService,ExplanationFailure
 from .ai_providers import provider_from_environment,provider_configured,timeout_from_environment,DRIVERS
 from .runtime_catalog import load_catalog
 from .resolver import ROOT
+from .prompts import DEFAULT_PROMPT,PROMPTS
 
 Domain=Literal['liuyao','qimen','liuren','ziwei','fengshui','yijing']
 Mode=Literal['production','research']
@@ -51,6 +52,10 @@ class ExplanationClaim(BaseModel):
     evidence_ids:list[str]
     quotes:list[ExplanationQuote]
     citations:list[ExplanationCitation]
+    kind:Literal['deterministic_fact','rule_match','classical_evidence','synthesis','uncertainty']|None=None
+    rule_ids:list[str]=Field(default_factory=list)
+    strength:Literal['computed','conditional','unverified']|None=None
+    uncertainty_refs:list[int]=Field(default_factory=list)
 
 class ExplanationResponse(BaseModel):
     model_config=ConfigDict(extra='forbid')
@@ -60,6 +65,13 @@ class ExplanationResponse(BaseModel):
     chart_digest:str
     claims:list[ExplanationClaim]
     rag:list[dict[str,Any]]
+    prompt_version:str
+    prompt_sha256:str
+    quality_status:Literal['legacy_requires_review','degraded_requires_review','requires_semantic_review']
+    semantic_review_required:bool
+    automatic_release_allowed:bool
+    uncertainty_notes:list[str]
+    sections:dict[str,list[int]]
 
 class ExecuteResponse(BaseModel):
     model_config=ConfigDict(extra='forbid')
@@ -119,7 +131,7 @@ def create_app(provider=None,*,explanation_timeout=None):
     def capabilities():
         resolver=EvidenceResolver()
         return {'api_version':'v1','default_mode':'production','ai_may_compute_chart':False,
-            'explanation':{'provider_drivers':list(DRIVERS),'configured':app.state.provider is not None or provider_configured(),'keys_in_request':False},
+            'explanation':{'provider_drivers':list(DRIVERS),'configured':app.state.provider is not None or provider_configured(),'keys_in_request':False,'prompt_versions':list(PROMPTS),'default_prompt':os.environ.get('TIANJI_EXPLANATION_PROMPT_VERSION',DEFAULT_PROMPT),'automatic_release_allowed':False,'production_prompt_versions':[DEFAULT_PROMPT]},
             'domains':[{'domain':domain,'variants':[c['variant']],'default_variant':c['variant'],
                         'scope':c.get('scope',''),'limitations':c.get('unresolved',[]),
                         'example':{'domain':domain,'variant':c['variant'],'input':EXAMPLES[domain],'explain':False,'mode':'production'}}
@@ -143,7 +155,9 @@ def create_app(provider=None,*,explanation_timeout=None):
                 selected_provider=app.state.provider if app.state.provider is not None else provider_from_environment()
                 if selected_provider is None:raise ExplanationFailure('provider_not_configured')
                 timeout=explanation_timeout if explanation_timeout is not None else timeout_from_environment()
-                service=ExplanationService(selected_provider,timeout=timeout)
+                selected_prompt=os.environ.get('TIANJI_EXPLANATION_PROMPT_VERSION',DEFAULT_PROMPT)
+                if request.mode=='production' and selected_prompt=='explanation-prompt-v1':raise ExplanationFailure('prompt_not_production_eligible')
+                service=ExplanationService(selected_provider,timeout=timeout,prompt_version=selected_prompt)
                 result.explanation=ExplanationResponse.model_validate(await service.explain(copy.deepcopy(raw)))
                 result.explanation_status='succeeded'
             except Exception as error:

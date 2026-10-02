@@ -2,7 +2,7 @@
 import asyncio,copy,json,statistics
 from pathlib import Path
 from .engine import execute
-from .explanation import ExplanationService,ExplanationFailure,validate_reply
+from .explanation import ExplanationService,ExplanationFailure,validate_reply,validate_citations
 from .prompts import get_prompt
 from .resolver import ROOT
 from .runtime_catalog import digest
@@ -51,8 +51,9 @@ def score_reply(reply,context):
     claims=reply.get('claims',[]) if isinstance(reply,dict) else []
     claims=[c for c in claims if isinstance(c,dict)] if isinstance(claims,list) else []
     facts=context['facts'];evidence=context['evidence'];rules={r['rule_id']:r for r in context['rules']}
-    fact_checks=[];rule_checks=[];citation_checks=[];ground_checks=[];hallucinations=0;contradictions=0
+    fact_checks=[];rule_checks=[];citation_checks=[];ground_checks=[];hallucinations=0;contradictions=0;hallucinated_claims=0;variant_claim_error=False
     for claim in claims:
+        before=hallucinations
         pointer=claim.get('fact_ref');valid_fact=isinstance(pointer,str) and pointer in facts and digest(claim.get('fact_value'))==digest(facts[pointer])
         fact_checks.append(valid_fact)
         if not valid_fact:hallucinations+=1;contradictions+=1
@@ -71,15 +72,38 @@ def score_reply(reply,context):
             citation_checks.append(ok);valid_quotes=valid_quotes and ok;hallucinations+=not ok
         allowed={e for r in ids if isinstance(r,str) and r in rules for e in rules[r]['evidence_ids']}
         ground_checks.append(valid_fact and valid_rules and valid_refs and valid_quotes and set(refs)<=allowed)
+        try:validate_citations(claim,evidence)
+        except (ExplanationFailure,KeyError,TypeError):
+            citation_checks.append(False);ground_checks[-1]=False;hallucinations+=1
+        if 'explanation_policy' in context:
+            from .explanation_policy import validate_claim_policy
+            try:validate_claim_policy(claim,context)
+            except ExplanationFailure as error:
+                ground_checks[-1]=False
+                if error.code in ('unmatched_rule_claim','rule_fact_binding_mismatch'):rule_checks[-1]=False
+                if error.code=='variant_policy_mismatch':variant_claim_error=True
+                if error.code=='chart_text_contradiction':fact_checks[-1]=False;contradictions+=1
+                if error.code in ('unsupported_certainty','out_of_scope_claim','variant_policy_mismatch','chart_text_contradiction'):hallucinations+=1
+            except (KeyError,TypeError):ground_checks[-1]=False
+        hallucinated_claims+=hallucinations>before
     valid_variant=isinstance(reply,dict) and all(reply.get(k)==context[k] for k in ('domain','variant','mode','chart_digest'))
     if not valid_variant:hallucinations+=1
+    if variant_claim_error:valid_variant=False
     kinds={c.get('kind') for c in claims if isinstance(c.get('kind'),str)}
     complete=len(kinds&KINDS)/len(KINDS)
+    if 'explanation_policy' in context:
+        policy=context['explanation_policy']
+        covered_facts={c.get('fact_ref') for c in claims if c.get('kind')=='deterministic_fact' and isinstance(c.get('fact_ref'),str)}
+        covered_rules={rid for c in claims if c.get('kind')=='rule_match' and isinstance(c.get('rule_ids'),list) for rid in c['rule_ids'] if isinstance(rid,str)}
+        covered_notes={index for c in claims if c.get('kind')=='uncertainty' and isinstance(c.get('uncertainty_refs'),list) for index in c['uncertainty_refs'] if type(index) is int}
+        coverage=lambda expected,actual:len(set(expected)&actual)/max(len(expected),1)
+        complete=min(complete,coverage(policy['required_fact_refs'],covered_facts),
+                     coverage(policy['required_rule_ids'],covered_rules),coverage(range(len(policy['uncertainty_notes'])),covered_notes))
     average=lambda values:sum(values)/len(values) if values else 0.0
     n=max(len(claims),1)
     metrics={'chart_fidelity':average(fact_checks),'rule_fidelity':average(rule_checks),
         'citation_validity':average(citation_checks),'evidence_grounding':average(ground_checks),
-        'variant_consistency':float(valid_variant),'hallucination_rate':hallucinations/n,
+        'variant_consistency':float(valid_variant),'hallucination_rate':hallucinated_claims/n if valid_variant else 1.0,
         'unsupported_claim_rate':sum(not v for v in ground_checks)/n,
         'contradiction_rate':contradictions/n,'explanation_completeness':complete}
     try:validate_reply(reply,context);validation_error=None
