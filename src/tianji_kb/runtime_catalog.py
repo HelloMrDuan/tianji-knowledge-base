@@ -21,7 +21,9 @@ def build_catalog(root):
     from .resolver import EvidenceResolver
     root=Path(root).resolve()
     resolver=EvidenceResolver(root,review_sources=True)
-    payload={'model':resolver.model,'contracts':resolver.contracts,
+    from .rag_context import write_reviewed_index
+    rag_digest=write_reviewed_index(resolver)
+    payload={'retrieval_index_sha256':rag_digest,'model':resolver.model,'contracts':resolver.contracts,
              'supplementary_classics':resolver.supplementary_classics,
              'supplementary_records':resolver.supplementary_records}
     # Hash only repository-controlled Canonical, configuration, schemas and code.
