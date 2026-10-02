@@ -1,4 +1,4 @@
-import copy,asyncio,unittest
+import copy,asyncio,unittest,tempfile
 from pathlib import Path
 from unittest.mock import patch
 from fastapi.testclient import TestClient
@@ -103,3 +103,14 @@ class GroundedExplanationTests(unittest.TestCase):
             for row in rows:row['metadata']={**row['metadata'],'variant':'unregistered-school'}
             return rows
         with patch.object(RagIndex,'search',mix):self.assertEqual(retriever.retrieve(raw),[])
+
+    def test_first_build_creates_output_directory_in_clean_workspace(self):
+        from tianji_kb.resolver import EvidenceResolver
+        from tianji_kb.rag_context import write_reviewed_index
+        resolver=copy.copy(EvidenceResolver())
+        with tempfile.TemporaryDirectory() as directory:
+            resolver.root=Path(directory)
+            self.assertFalse((resolver.root/'build').exists())
+            digest=write_reviewed_index(resolver)
+            self.assertTrue((resolver.root/'build/production_rag.jsonl').is_file())
+            self.assertEqual(len(digest),64)

@@ -23,7 +23,8 @@ def reviewed_rows(resolver):
 def write_reviewed_index(resolver):
     rows=reviewed_rows(resolver)
     content=''.join(json.dumps(row,ensure_ascii=False,sort_keys=True)+'\n' for row in rows).encode()
-    path=resolver.root/'build/production_rag.jsonl';tmp=path.with_suffix('.tmp')
+    path=resolver.root/'build/production_rag.jsonl';path.parent.mkdir(parents=True,exist_ok=True)
+    tmp=path.with_suffix('.tmp')
     tmp.write_bytes(content);tmp.replace(path)
     return hashlib.sha256(content).hexdigest()
 
