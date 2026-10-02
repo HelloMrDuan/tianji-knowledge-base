@@ -51,9 +51,9 @@ def score_reply(reply,context):
     claims=reply.get('claims',[]) if isinstance(reply,dict) else []
     claims=[c for c in claims if isinstance(c,dict)] if isinstance(claims,list) else []
     facts=context['facts'];evidence=context['evidence'];rules={r['rule_id']:r for r in context['rules']}
-    fact_checks=[];rule_checks=[];citation_checks=[];ground_checks=[];hallucinations=0;contradictions=0;hallucinated_claims=0;variant_claim_error=False
+    fact_checks=[];rule_checks=[];citation_checks=[];ground_checks=[];hallucinations=0;contradictions=0;hallucinated_claims=0;contradictory_claims=0;variant_claim_error=False
     for claim in claims:
-        before=hallucinations
+        before=hallucinations;before_contradictions=contradictions
         pointer=claim.get('fact_ref');valid_fact=isinstance(pointer,str) and pointer in facts and digest(claim.get('fact_value'))==digest(facts[pointer])
         fact_checks.append(valid_fact)
         if not valid_fact:hallucinations+=1;contradictions+=1
@@ -86,6 +86,7 @@ def score_reply(reply,context):
                 if error.code in ('unsupported_certainty','out_of_scope_claim','variant_policy_mismatch','chart_text_contradiction'):hallucinations+=1
             except (KeyError,TypeError):ground_checks[-1]=False
         hallucinated_claims+=hallucinations>before
+        contradictory_claims+=contradictions>before_contradictions
     valid_variant=isinstance(reply,dict) and all(reply.get(k)==context[k] for k in ('domain','variant','mode','chart_digest'))
     if not valid_variant:hallucinations+=1
     if variant_claim_error:valid_variant=False
@@ -105,7 +106,7 @@ def score_reply(reply,context):
         'citation_validity':average(citation_checks),'evidence_grounding':average(ground_checks),
         'variant_consistency':float(valid_variant),'hallucination_rate':hallucinated_claims/n if valid_variant else 1.0,
         'unsupported_claim_rate':sum(not v for v in ground_checks)/n,
-        'contradiction_rate':contradictions/n,'explanation_completeness':complete}
+        'contradiction_rate':contradictory_claims/n,'explanation_completeness':complete}
     try:validate_reply(reply,context);validation_error=None
     except ExplanationFailure as error:validation_error=error.code
     # A passing transport/validator alone is insufficient for the stricter eval gates.
@@ -143,6 +144,7 @@ async def evaluate_suite(provider=None,*,prompt_version='explanation-prompt-v1',
         try:
             validated=await ExplanationService(recording,timeout=timeout,prompt_version=prompt_version).explain(raw)
             row['reply_sha256']=digest(recording.reply)
+            row['context_sha256']=digest(recording.context);row['review_context']=recording.context;row['model_reply']=recording.reply
             row['explanation']=validated
             row['scores']=score_reply(recording.reply,recording.context)
             row['status']='passed' if case['expected']=='explanation' and row['scores']['passed'] else 'failed'
@@ -152,6 +154,7 @@ async def evaluate_suite(provider=None,*,prompt_version='explanation-prompt-v1',
             row.update(status='passed' if case['expected']=='refused' and error.code==expected else 'failed',error=error.code)
             if recording.reply is not None:
                 row['reply_sha256']=digest(recording.reply);row['rejected_reply']=recording.reply
+                row['context_sha256']=digest(recording.context);row['review_context']=recording.context;row['model_reply']=recording.reply
                 row['scores']=score_reply(recording.reply,recording.context)
         results.append(row)
     reports={}
@@ -164,10 +167,12 @@ async def evaluate_suite(provider=None,*,prompt_version='explanation-prompt-v1',
             'metrics':{k:avg(k) for k in DIMENSIONS},'citation_accuracy':avg('citation_validity'),
             'chart_fidelity':avg('chart_fidelity'),'unsupported_claims':sum(s['unsupported_claims'] for s in scored) if scored else None,
             'hallucination_count':sum(s['hallucination_count'] for s in scored) if scored else None,
-            'control_pass_rate':sum(r['status']=='passed' for r in rows if r['expected']!='explanation')/max(sum(r['expected']!='explanation' for r in rows),1),
+            'control_pass_rate':None if any(r['status']=='not_run' for r in rows if r['expected']!='explanation') else sum(r['status']=='passed' for r in rows if r['expected']!='explanation')/max(sum(r['expected']!='explanation' for r in rows),1),
             'not_run':[r['id'] for r in rows if r['status']=='not_run'],
             'failures':[{'id':r['id'],'error':r.get('error') or (r.get('scores',{}).get('validation_error')) or 'eval_gate_failed'} for r in rows if r['status']=='failed'],
-            'online_ready':False,'semantic_review':'required; automatic bindings do not certify free prose'}
+            'online_ready':False,'semantic_review':'required; automatic bindings do not certify free prose',
+            'semantic_metrics':{k:None for k in DIMENSIONS},'semantic_hallucination_count':None,
+            'semantic_unsupported_claims':None,'semantic_contradiction_count':None}
     return {'schema_version':'1.0','suite_id':suite['suite_id'],'suite_sha256':digest(suite),'prompt':prompt,
             'run_kind':run_kind,'model':model,'real_model_evaluation':run_kind=='configured_external_http' and provider is not None,
             'reports':reports,'cases':results,'online_ready':False}
@@ -186,4 +191,8 @@ def markdown_report(report):
         lines.extend(f"- {failure['id']}: {failure['error']}" for failure in row['failures'])
         if row['not_run']:lines.append('- Not run: '+', '.join(row['not_run']))
         if not row['failures'] and not row['not_run']:lines.append('- No automatically detected failure; semantic review remains required.')
+        lines.append('- Semantic review: '+row['semantic_review']+'; online readiness: '+str(row['online_ready']))
+        if report.get('manual_review'):
+            lines.append('- Human semantic metrics (reviewed claims only): '+json.dumps(row['semantic_metrics'],ensure_ascii=False))
+            lines.extend('- Human failure '+failure['id']+': '+failure['notes'] for failure in row.get('semantic_failures',[]))
     return '\n'.join(lines)+'\n'
