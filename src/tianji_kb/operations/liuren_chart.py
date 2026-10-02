@@ -108,4 +108,4 @@ def chart(solar_term,day_ganzhi,hour_branch,variant=VARIANT):
     method=result['method']
     trace.add('liuren.phase2.'+{'贼克':'zeike','比用':'biyong','涉害':'shehai','遥克':'yaoke','昴星':'maoxing','别责':'bieze','八专':'bazhuan','伏吟':'fuyin','返吟':'fanyin'}[method],
         {'four_lessons':result['four_lessons'],'selection':result['selection']},result['transmissions'])
-    return trace.finish(result,[{'rule_id':'liuren.rule.'+METHOD_RULE[method],'method':method,'matched':True}])
+    return trace.finish(result,[{'rule_id':trace.steps[-1]['rule_id'],'phase1_rule_id':'liuren.rule.'+METHOD_RULE[method],'method':method,'matched':True}])

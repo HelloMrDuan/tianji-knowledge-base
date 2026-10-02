@@ -41,7 +41,8 @@ class LiuyaoExecutionTests(unittest.TestCase):
         args=([7]*6,'甲子','午')
         self.assertEqual(chart(*args),chart(*args))
         output=chart(*args)
-        self.assertEqual(output['rule_matches'][0]['line'],1)
+        month_matches=[m for m in output['rule_matches'] if m['rule_id']=='liuyao.phase2.month_break' and m['kind']=='algorithm_selection']
+        self.assertEqual(month_matches[0]['line'],1)
         self.assertFalse(output['interpretation_contract']['ai_may_compute_chart'])
         resolver=EvidenceResolver()
         with self.assertRaises(ValueError):resolver.resolve('liuyao.phase2.najia','other')

@@ -26,7 +26,8 @@
         "ziwei.chou-hour-mirror",
         "ziwei.ren-explicit-iztro"
       ],
-      "regression_test": "tests/test_phase2_ziwei.py"
+      "regression_test": "tests/test_phase2_ziwei.py",
+      "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。"
     },
     {
       "id": "ziwei.phase2.bureau",
@@ -43,7 +44,8 @@
         "ziwei.chou-hour-mirror",
         "ziwei.ren-explicit-iztro"
       ],
-      "regression_test": "tests/test_phase2_ziwei.py"
+      "regression_test": "tests/test_phase2_ziwei.py",
+      "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。"
     },
     {
       "id": "ziwei.phase2.palaces",
@@ -60,7 +62,8 @@
         "ziwei.chou-hour-mirror",
         "ziwei.ren-explicit-iztro"
       ],
-      "regression_test": "tests/test_phase2_ziwei.py"
+      "regression_test": "tests/test_phase2_ziwei.py",
+      "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。"
     },
     {
       "id": "ziwei.phase2.major_stars",
@@ -77,7 +80,8 @@
         "ziwei.chou-hour-mirror",
         "ziwei.ren-explicit-iztro"
       ],
-      "regression_test": "tests/test_phase2_ziwei.py"
+      "regression_test": "tests/test_phase2_ziwei.py",
+      "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。"
     },
     {
       "id": "ziwei.phase2.auxiliary_stars",
@@ -98,7 +102,8 @@
         "ziwei.chou-hour-mirror",
         "ziwei.ren-explicit-iztro"
       ],
-      "regression_test": "tests/test_phase2_ziwei.py"
+      "regression_test": "tests/test_phase2_ziwei.py",
+      "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。"
     },
     {
       "id": "ziwei.phase2.mutagens",
@@ -115,7 +120,8 @@
         "ziwei.chou-hour-mirror",
         "ziwei.ren-explicit-iztro"
       ],
-      "regression_test": "tests/test_phase2_ziwei.py"
+      "regression_test": "tests/test_phase2_ziwei.py",
+      "evidence_scope": "C 仅证明四化类型；逐干四化星表为 iztro-default-v2 软件约定 D；壬府/辅尚未裁定。"
     }
   ]
 }

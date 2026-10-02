@@ -89,7 +89,8 @@
             "month_break": false
           }
         ]
-      }
+      },
+      "variant": "jingfang-eight-palaces-v1"
     },
     {
       "id": "liuyao.qian-to-gou",
@@ -130,7 +131,8 @@
           "戌",
           "亥"
         ]
-      }
+      },
+      "variant": "jingfang-eight-palaces-v1"
     },
     {
       "id": "liuyao.tai-to-sheng",
@@ -168,7 +170,8 @@
         "changing_lines": [
           1
         ]
-      }
+      },
+      "variant": "jingfang-eight-palaces-v1"
     }
   ]
 }

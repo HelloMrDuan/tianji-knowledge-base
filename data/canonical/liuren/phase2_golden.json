@@ -19,7 +19,8 @@
           "申",
           "午"
         ]
-      }
+      },
+      "variant": "daquan-nine-methods-lodged-stems-v1"
     },
     {
       "id": "liuren.biyong",
@@ -35,7 +36,8 @@
           "亥",
           "戌"
         ]
-      }
+      },
+      "variant": "daquan-nine-methods-lodged-stems-v1"
     },
     {
       "id": "liuren.shehai",
@@ -51,7 +53,8 @@
           "酉",
           "未"
         ]
-      }
+      },
+      "variant": "daquan-nine-methods-lodged-stems-v1"
     },
     {
       "id": "liuren.yaoke",
@@ -67,7 +70,8 @@
           "申",
           "巳"
         ]
-      }
+      },
+      "variant": "daquan-nine-methods-lodged-stems-v1"
     },
     {
       "id": "liuren.maoxing",
@@ -83,7 +87,8 @@
           "申",
           "午"
         ]
-      }
+      },
+      "variant": "daquan-nine-methods-lodged-stems-v1"
     },
     {
       "id": "liuren.bieze",
@@ -99,7 +104,8 @@
           "午",
           "午"
         ]
-      }
+      },
+      "variant": "daquan-nine-methods-lodged-stems-v1"
     },
     {
       "id": "liuren.bazhuan",
@@ -115,7 +121,8 @@
           "午",
           "午"
         ]
-      }
+      },
+      "variant": "daquan-nine-methods-lodged-stems-v1"
     },
     {
       "id": "liuren.fuyin",
@@ -131,7 +138,8 @@
           "巳",
           "申"
         ]
-      }
+      },
+      "variant": "daquan-nine-methods-lodged-stems-v1"
     },
     {
       "id": "liuren.fanyin",
@@ -147,7 +155,8 @@
           "申",
           "寅"
         ]
-      }
+      },
+      "variant": "daquan-nine-methods-lodged-stems-v1"
     },
     {
       "id": "liuren.fanyin-no-controls",
@@ -163,7 +172,8 @@
           "未",
           "辰"
         ]
-      }
+      },
+      "variant": "daquan-nine-methods-lodged-stems-v1"
     },
     {
       "id": "liuren.biyong-upstream-crash",
@@ -179,7 +189,8 @@
           "戌",
           "巳"
         ]
-      }
+      },
+      "variant": "daquan-nine-methods-lodged-stems-v1"
     }
   ]
 }

@@ -70,7 +70,8 @@
           "8": "九地",
           "9": "腾蛇"
         }
-      }
+      },
+      "variant": "qfdk-exact-term-midnight-v2"
     },
     {
       "id": "qimen.summer-before",
@@ -81,7 +82,8 @@
         "solar_term": "芒种",
         "dun": "阳",
         "bureau": 6
-      }
+      },
+      "variant": "qfdk-exact-term-midnight-v2"
     },
     {
       "id": "qimen.summer-at",
@@ -92,7 +94,8 @@
         "solar_term": "夏至",
         "dun": "阴",
         "bureau": 9
-      }
+      },
+      "variant": "qfdk-exact-term-midnight-v2"
     },
     {
       "id": "qimen.late-zi-midnight",
@@ -105,7 +108,8 @@
         "calendar": {
           "day_boundary": "midnight"
         }
-      }
+      },
+      "variant": "qfdk-exact-term-midnight-v2"
     }
   ]
 }

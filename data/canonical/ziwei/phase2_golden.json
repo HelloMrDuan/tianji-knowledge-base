@@ -47,7 +47,7 @@
           "陀罗": "丑",
           "天马": "寅",
           "地劫": "亥",
-          "地空": "亥"
+          "天空": "亥"
         },
         "four_transformations": {
           "化禄": "廉贞",
@@ -55,7 +55,8 @@
           "化科": "武曲",
           "化忌": "太阳"
         }
-      }
+      },
+      "variant": "quanshu-lunar-iztro-mutagen-v1"
     },
     {
       "id": "ziwei.chou-hour-mirror",
@@ -77,7 +78,8 @@
           "紫微": "丑",
           "天府": "卯"
         }
-      }
+      },
+      "variant": "quanshu-lunar-iztro-mutagen-v1"
     },
     {
       "id": "ziwei.ren-explicit-iztro",
@@ -101,7 +103,8 @@
           "化忌": "武曲"
         },
         "mutagen_variant": "iztro-default-v2"
-      }
+      },
+      "variant": "quanshu-lunar-iztro-mutagen-v1"
     }
   ]
 }

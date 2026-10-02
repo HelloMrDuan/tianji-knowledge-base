@@ -1,0 +1,133 @@
+{
+  "schema_version": "1.0",
+  "model": "phase2-rule-promotions",
+  "promotions": [
+    {
+      "phase1_rule_id": "liuyao.rule.r019",
+      "execution_rule_ids": [
+        "liuyao.phase2.month_break"
+      ],
+      "variant": "jingfang-eight-palaces-v1",
+      "scope": "仅指定 variant 的排盘计算关系；不晋级吉凶解释、跨派裁定或源文件证据等级。"
+    },
+    {
+      "phase1_rule_id": "liuren.rule.r001",
+      "execution_rule_ids": [
+        "liuren.phase2.zeike"
+      ],
+      "variant": "daquan-nine-methods-lodged-stems-v1",
+      "scope": "仅指定 variant 的排盘计算关系；不晋级吉凶解释、跨派裁定或源文件证据等级。"
+    },
+    {
+      "phase1_rule_id": "liuren.rule.r002",
+      "execution_rule_ids": [
+        "liuren.phase2.biyong"
+      ],
+      "variant": "daquan-nine-methods-lodged-stems-v1",
+      "scope": "仅指定 variant 的排盘计算关系；不晋级吉凶解释、跨派裁定或源文件证据等级。"
+    },
+    {
+      "phase1_rule_id": "liuren.rule.r003",
+      "execution_rule_ids": [
+        "liuren.phase2.shehai"
+      ],
+      "variant": "daquan-nine-methods-lodged-stems-v1",
+      "scope": "仅指定 variant 的排盘计算关系；不晋级吉凶解释、跨派裁定或源文件证据等级。"
+    },
+    {
+      "phase1_rule_id": "liuren.rule.r004",
+      "execution_rule_ids": [
+        "liuren.phase2.yaoke"
+      ],
+      "variant": "daquan-nine-methods-lodged-stems-v1",
+      "scope": "仅指定 variant 的排盘计算关系；不晋级吉凶解释、跨派裁定或源文件证据等级。"
+    },
+    {
+      "phase1_rule_id": "liuren.rule.r005",
+      "execution_rule_ids": [
+        "liuren.phase2.maoxing"
+      ],
+      "variant": "daquan-nine-methods-lodged-stems-v1",
+      "scope": "仅指定 variant 的排盘计算关系；不晋级吉凶解释、跨派裁定或源文件证据等级。"
+    },
+    {
+      "phase1_rule_id": "liuren.rule.r006",
+      "execution_rule_ids": [
+        "liuren.phase2.bieze"
+      ],
+      "variant": "daquan-nine-methods-lodged-stems-v1",
+      "scope": "仅指定 variant 的排盘计算关系；不晋级吉凶解释、跨派裁定或源文件证据等级。"
+    },
+    {
+      "phase1_rule_id": "liuren.rule.r007",
+      "execution_rule_ids": [
+        "liuren.phase2.bazhuan"
+      ],
+      "variant": "daquan-nine-methods-lodged-stems-v1",
+      "scope": "仅指定 variant 的排盘计算关系；不晋级吉凶解释、跨派裁定或源文件证据等级。"
+    },
+    {
+      "phase1_rule_id": "liuren.rule.r008",
+      "execution_rule_ids": [
+        "liuren.phase2.fuyin"
+      ],
+      "variant": "daquan-nine-methods-lodged-stems-v1",
+      "scope": "仅指定 variant 的排盘计算关系；不晋级吉凶解释、跨派裁定或源文件证据等级。"
+    },
+    {
+      "phase1_rule_id": "liuren.rule.r009",
+      "execution_rule_ids": [
+        "liuren.phase2.fanyin"
+      ],
+      "variant": "daquan-nine-methods-lodged-stems-v1",
+      "scope": "仅指定 variant 的排盘计算关系；不晋级吉凶解释、跨派裁定或源文件证据等级。"
+    },
+    {
+      "phase1_rule_id": "ziwei.rule.r003",
+      "execution_rule_ids": [
+        "ziwei.phase2.life_body",
+        "ziwei.phase2.palaces"
+      ],
+      "variant": "quanshu-lunar-iztro-mutagen-v1",
+      "scope": "仅指定 variant 的排盘计算关系；不晋级吉凶解释、跨派裁定或源文件证据等级。"
+    },
+    {
+      "phase1_rule_id": "ziwei.rule.r004",
+      "execution_rule_ids": [
+        "ziwei.phase2.bureau",
+        "ziwei.phase2.major_stars"
+      ],
+      "variant": "quanshu-lunar-iztro-mutagen-v1",
+      "scope": "仅指定 variant 的排盘计算关系；不晋级吉凶解释、跨派裁定或源文件证据等级。"
+    },
+    {
+      "phase1_rule_id": "ziwei.rule.r005",
+      "execution_rule_ids": [
+        "ziwei.phase2.auxiliary_stars"
+      ],
+      "variant": "quanshu-lunar-iztro-mutagen-v1",
+      "scope": "仅指定 variant 的排盘计算关系；不晋级吉凶解释、跨派裁定或源文件证据等级。"
+    },
+    {
+      "phase1_rule_id": "ziwei.rule.r006",
+      "execution_rule_ids": [
+        "ziwei.phase2.auxiliary_stars"
+      ],
+      "variant": "quanshu-lunar-iztro-mutagen-v1",
+      "scope": "仅指定 variant 的排盘计算关系；不晋级吉凶解释、跨派裁定或源文件证据等级。"
+    },
+    {
+      "phase1_rule_id": "ziwei.rule.r009",
+      "execution_rule_ids": [
+        "ziwei.phase2.auxiliary_stars"
+      ],
+      "variant": "quanshu-lunar-iztro-mutagen-v1",
+      "scope": "仅指定 variant 的排盘计算关系；不晋级吉凶解释、跨派裁定或源文件证据等级。"
+    }
+  ],
+  "excluded": [
+    "ziwei.rule.r011：软件表D，未裁定古典异文",
+    "fengshui.rule.r008：只证明相对长度，绝对纪元与交运年界未核",
+    "liuyao.rule.r008/r009/r010：未执行月建/日辰旺衰解释"
+  ]
+}

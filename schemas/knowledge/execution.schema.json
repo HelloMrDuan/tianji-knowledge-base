@@ -1,26 +1,134 @@
 {
-  "$schema":"https://json-schema.org/draft/2020-12/schema",
-  "type":"object","additionalProperties":false,
-  "required":["schema_version","model","domain","variant","provider","rules"],
-  "properties":{
-    "schema_version":{"const":"1.0"},"model":{"const":"phase2-execution"},
-    "domain":{"enum":["liuyao","qimen","liuren","ziwei","fengshui","yijing"]},
-    "variant":{"type":"string","minLength":1},"provider":{"type":"string","pattern":"^tianji_kb\\.operations\\."},
-    "scope":{"type":"string"},"unresolved":{"type":"array","items":{"type":"string"}},
-    "rules":{"type":"array","minItems":1,"items":{
-      "type":"object","additionalProperties":false,
-      "required":["id","domain","name","variant","execution_status","phase1_rule_refs","validation_status"],
-      "properties":{
-        "id":{"type":"string","pattern":"^[a-z]+\\.phase2\\.[a-z_]+$"},
-        "domain":{"type":"string"},"name":{"type":"string"},"variant":{"type":"string"},
-        "execution_status":{"enum":["executable","partially_structured"]},
-        "validation_status":{"enum":["pending","validated"]},
-        "phase1_rule_refs":{"type":"array","minItems":1,"items":{"type":"string"},"uniqueItems":true},
-        "golden_case_ids":{"type":"array","minItems":1,"items":{"type":"string"},"uniqueItems":true},
-        "regression_test":{"type":"string","pattern":"^tests/test_phase2_[a-z]+\\.py$"}
-      },
-      "if":{"properties":{"validation_status":{"const":"validated"}}},
-      "then":{"required":["golden_case_ids","regression_test"],"properties":{"execution_status":{"const":"executable"}}}
-    }}
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "model",
+    "domain",
+    "variant",
+    "provider",
+    "rules"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "model": {
+      "const": "phase2-execution"
+    },
+    "domain": {
+      "enum": [
+        "liuyao",
+        "qimen",
+        "liuren",
+        "ziwei",
+        "fengshui",
+        "yijing"
+      ]
+    },
+    "variant": {
+      "type": "string",
+      "minLength": 1
+    },
+    "provider": {
+      "type": "string",
+      "pattern": "^tianji_kb\\.operations\\."
+    },
+    "scope": {
+      "type": "string"
+    },
+    "unresolved": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "domain",
+          "name",
+          "variant",
+          "execution_status",
+          "phase1_rule_refs",
+          "validation_status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z]+\\.phase2\\.[a-z_]+$"
+          },
+          "domain": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "variant": {
+            "type": "string"
+          },
+          "execution_status": {
+            "enum": [
+              "executable",
+              "partially_structured"
+            ]
+          },
+          "validation_status": {
+            "enum": [
+              "pending",
+              "validated"
+            ]
+          },
+          "phase1_rule_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "golden_case_ids": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "regression_test": {
+            "type": "string",
+            "pattern": "^tests/test_phase2_[a-z]+\\.py$"
+          },
+          "evidence_scope": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "if": {
+          "properties": {
+            "validation_status": {
+              "const": "validated"
+            }
+          }
+        },
+        "then": {
+          "required": [
+            "golden_case_ids",
+            "regression_test"
+          ],
+          "properties": {
+            "execution_status": {
+              "const": "executable"
+            }
+          }
+        }
+      }
+    }
   }
 }

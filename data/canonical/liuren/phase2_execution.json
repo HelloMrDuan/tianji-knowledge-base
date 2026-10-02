@@ -34,7 +34,8 @@
         "liuren.fanyin-no-controls",
         "liuren.biyong-upstream-crash"
       ],
-      "regression_test": "tests/test_phase2_liuren.py"
+      "regression_test": "tests/test_phase2_liuren.py",
+      "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。"
     },
     {
       "id": "liuren.phase2.plates",
@@ -59,7 +60,8 @@
         "liuren.fanyin-no-controls",
         "liuren.biyong-upstream-crash"
       ],
-      "regression_test": "tests/test_phase2_liuren.py"
+      "regression_test": "tests/test_phase2_liuren.py",
+      "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。"
     },
     {
       "id": "liuren.phase2.lessons",
@@ -84,7 +86,8 @@
         "liuren.fanyin-no-controls",
         "liuren.biyong-upstream-crash"
       ],
-      "regression_test": "tests/test_phase2_liuren.py"
+      "regression_test": "tests/test_phase2_liuren.py",
+      "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。"
     },
     {
       "id": "liuren.phase2.zeike",
@@ -109,7 +112,8 @@
         "liuren.fanyin-no-controls",
         "liuren.biyong-upstream-crash"
       ],
-      "regression_test": "tests/test_phase2_liuren.py"
+      "regression_test": "tests/test_phase2_liuren.py",
+      "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。"
     },
     {
       "id": "liuren.phase2.biyong",
@@ -134,7 +138,8 @@
         "liuren.fanyin-no-controls",
         "liuren.biyong-upstream-crash"
       ],
-      "regression_test": "tests/test_phase2_liuren.py"
+      "regression_test": "tests/test_phase2_liuren.py",
+      "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。"
     },
     {
       "id": "liuren.phase2.shehai",
@@ -159,7 +164,8 @@
         "liuren.fanyin-no-controls",
         "liuren.biyong-upstream-crash"
       ],
-      "regression_test": "tests/test_phase2_liuren.py"
+      "regression_test": "tests/test_phase2_liuren.py",
+      "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。"
     },
     {
       "id": "liuren.phase2.yaoke",
@@ -184,7 +190,8 @@
         "liuren.fanyin-no-controls",
         "liuren.biyong-upstream-crash"
       ],
-      "regression_test": "tests/test_phase2_liuren.py"
+      "regression_test": "tests/test_phase2_liuren.py",
+      "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。"
     },
     {
       "id": "liuren.phase2.maoxing",
@@ -209,7 +216,8 @@
         "liuren.fanyin-no-controls",
         "liuren.biyong-upstream-crash"
       ],
-      "regression_test": "tests/test_phase2_liuren.py"
+      "regression_test": "tests/test_phase2_liuren.py",
+      "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。"
     },
     {
       "id": "liuren.phase2.bieze",
@@ -234,7 +242,8 @@
         "liuren.fanyin-no-controls",
         "liuren.biyong-upstream-crash"
       ],
-      "regression_test": "tests/test_phase2_liuren.py"
+      "regression_test": "tests/test_phase2_liuren.py",
+      "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。"
     },
     {
       "id": "liuren.phase2.bazhuan",
@@ -259,7 +268,8 @@
         "liuren.fanyin-no-controls",
         "liuren.biyong-upstream-crash"
       ],
-      "regression_test": "tests/test_phase2_liuren.py"
+      "regression_test": "tests/test_phase2_liuren.py",
+      "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。"
     },
     {
       "id": "liuren.phase2.fuyin",
@@ -284,7 +294,8 @@
         "liuren.fanyin-no-controls",
         "liuren.biyong-upstream-crash"
       ],
-      "regression_test": "tests/test_phase2_liuren.py"
+      "regression_test": "tests/test_phase2_liuren.py",
+      "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。"
     },
     {
       "id": "liuren.phase2.fanyin",
@@ -309,7 +320,8 @@
         "liuren.fanyin-no-controls",
         "liuren.biyong-upstream-crash"
       ],
-      "regression_test": "tests/test_phase2_liuren.py"
+      "regression_test": "tests/test_phase2_liuren.py",
+      "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。"
     }
   ]
 }
