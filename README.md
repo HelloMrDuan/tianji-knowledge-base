@@ -57,3 +57,15 @@ python scripts/sync_sources.py
 ## 许可证
 
 本仓库自身代码采用 Apache-2.0。第三方资料不自动继承本仓库许可证，详见 `docs/LICENSING.md` 与 `THIRD_PARTY_NOTICES.md`。
+
+## Phase 3 统一后端
+
+```bash
+python -m pip install -e '.[validation,calendar,api]'
+PYTHONPATH=src python scripts/build_production_runtime.py
+PYTHONPATH=src python -m uvicorn tianji_kb.api:app --host 127.0.0.1 --port 8000
+```
+
+统一入口 `POST /api/v1/execute`；能力清单 `GET /api/v1/capabilities`；健康检查 `GET /health`；OpenAPI `/openapi.json`、`/docs`。六域复用现有 engine，返回盘面、RuleMatch、trace、Evidence、限制和可选AI解释。
+
+生产请求只读取已审运行快照与Canonical检索制品；`explain=false`完全不调用模型。模型失败或未知引用会拒绝解释，确定性结果仍正常返回。调用示例见 [Phase 3 API](docs/phase3/API.md)，模型环境配置见 [providers](docs/phase3/PROVIDERS.md)。

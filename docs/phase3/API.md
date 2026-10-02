@@ -11,3 +11,7 @@ All domains call the same `engine.execute` through the transport. Response conta
 Production does not open quarantine. To evaluate Fengshui absolute-period assumptions use `mode=research`, an explicit `year` and `epoch_year` in input; the API supplies the internal research flag and returns warnings/D epoch evidence. `input.research` is rejected; mode cannot be bypassed through nested input. Research mode does not automatically ingest or promote quarantine sources.
 
 `GET /health` checks the reviewed runtime. OpenAPI is at `/openapi.json`, interactive documentation at `/docs` and `/redoc`. This adds no frontend, account/payment subsystem or seventh domain.
+
+Configure AI/CORS using [PROVIDERS.md](PROVIDERS.md) and the variable names in `.env.api.example`. Explanation claims, quotations and server-generated source citations are represented in OpenAPI. The `deterministic` flag applies to chart/rules/trace/evidence, not to byte-identical AI prose.
+
+For a live service readiness check run `python scripts/check_api.py`. It checks health, reviewed RAG, all six capability examples, deterministic repeats and OpenAPI without invoking a model. Deploy by stopping the old service, rebuilding release artifacts and starting the new process; do not change code or artifacts underneath a running release.
