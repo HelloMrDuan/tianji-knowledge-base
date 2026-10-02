@@ -153,6 +153,7 @@ test("original music requires a gesture, persists volume, pauses globally and on
       .evaluate((audio: HTMLAudioElement) => audio.paused),
   ).toBe(false);
   await page.getByRole("button", { name: "全局暂停音乐" }).click();
+  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("tianji.prototype.music") || "{}").optedIn)).toBe(false);
   expect(
     await page
       .locator("audio")

@@ -38,11 +38,15 @@ export function MusicPlayer() {
       audio?.pause();
     };
   }, []);
+  const pauseByChoice = () => {
+    audioRef.current?.pause();
+    setOptedIn(false);
+  };
   const toggle = async () => {
     const audio = audioRef.current;
     if (!audio) return;
     if (!audio.paused) {
-      audio.pause();
+      pauseByChoice();
       return;
     }
     try {
@@ -84,7 +88,7 @@ export function MusicPlayer() {
         <button
           className="music-global-pause icon-button"
           aria-label="全局暂停音乐"
-          onClick={() => audioRef.current?.pause()}
+          onClick={pauseByChoice}
         >
           <Icon name="pause" size={16} />
         </button>
