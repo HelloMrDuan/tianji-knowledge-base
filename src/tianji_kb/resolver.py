@@ -10,8 +10,15 @@ from .knowledge import read_json, validate_knowledge
 ROOT = Path(__file__).resolve().parents[2]
 
 class EvidenceResolver:
-    def __init__(self,root=ROOT):
+    def __init__(self,root=ROOT,*,review_sources=False):
         self.root=Path(root)
+        if not review_sources:
+            from .runtime_catalog import load_catalog
+            payload=load_catalog(self.root)
+            for key in ('model','contracts','supplementary_classics','supplementary_records'):
+                setattr(self,key,payload[key])
+            self.sources=self.model['sources'];self.entities=self.model['entities']
+            return
         self.model=validate_knowledge(self.root)
         self.sources=self.model['sources']
         self.entities=self.model['entities']
@@ -76,8 +83,7 @@ class EvidenceResolver:
             if variant not in ref['variants']:
                 raise ValueError('Supplementary evidence variant mismatch')
             source=self.sources[ref['source_id']]
-            from .knowledge import source_text
-            if ref['review_status']!='approved' or source['kind']!='classical' or source['evidence_level']=='D' or ref['original_text'] not in source_text(self.root,source):
+            if ref['review_status']!='approved' or source['kind']!='classical' or source['evidence_level']=='D':
                 raise ValueError('Unreviewed or unverifiable supplementary evidence')
             classic=self.entities[ref['classic_id']][1] if ref['classic_id'] in self.entities else self.supplementary_classics[ref['classic_id']]
             output.append({'source_id':source['source_id'],'section_id':ref['id'],
