@@ -27,6 +27,7 @@ jobs:
           python scripts/build_phase2_coverage.py > /tmp/phase2_coverage.json
           python scripts/build_phase1_coverage.py --check
           python -m unittest discover -s tests -p 'test_*.py'
+          python scripts/evaluate_explanations.py --dry-run --output /tmp/explanation-evals
           python scripts/apply_pua_collation.py \
             data/quarantine/public_domain_snapshots/daizhigev20/sanming_tonghui.txt \
             data/quarantine/public_domain_snapshots/daizhigev20/sanming_pua_collation.json \

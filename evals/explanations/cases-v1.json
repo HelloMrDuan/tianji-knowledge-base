@@ -1,0 +1,3024 @@
+{
+  "schema_version": "1.0",
+  "suite_id": "six-domain-explanation-eval-v1",
+  "cases": [
+    {
+      "id": "fengshui.north-wrap",
+      "domain": "fengshui",
+      "variant": "compass-half-open-explicit-epoch-v1",
+      "input": {
+        "degrees": 360
+      },
+      "mode": "production",
+      "tags": [
+        "golden",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "golden_ref": {
+        "path": "data/canonical/fengshui/phase2_golden.json",
+        "id": "fengshui.north-wrap",
+        "sha256": "fcd9c05e95a8bacc7f3d84a034dc7d94aa69a68467f1473768860021d38728bb"
+      },
+      "expected_chart_subset": {
+        "mountain": "子",
+        "mountain_element": "水",
+        "trigram": "坎",
+        "trigram_element": "水",
+        "opposite": "午",
+        "period": null
+      },
+      "expected": "explanation",
+      "expected_chart_sha256": "c5ab8282ef64a69a8c6063adb744973f72178462108b22640754d4f9885a133b",
+      "expected_rule_ids": [
+        "fengshui.phase2.compass"
+      ]
+    },
+    {
+      "id": "fengshui.boundary-gui",
+      "domain": "fengshui",
+      "variant": "compass-half-open-explicit-epoch-v1",
+      "input": {
+        "degrees": 7.5
+      },
+      "mode": "production",
+      "tags": [
+        "golden",
+        "low_evidence",
+        "variant_limitations",
+        "boundary"
+      ],
+      "golden_ref": {
+        "path": "data/canonical/fengshui/phase2_golden.json",
+        "id": "fengshui.boundary-gui",
+        "sha256": "fcd9c05e95a8bacc7f3d84a034dc7d94aa69a68467f1473768860021d38728bb"
+      },
+      "expected_chart_subset": {
+        "mountain": "癸",
+        "trigram": "坎",
+        "opposite": "丁"
+      },
+      "expected": "explanation",
+      "expected_chart_sha256": "6e88729b049e605c140d486e35d1173da3aa341f7ccdd08824d626e5c4d7d812",
+      "expected_rule_ids": [
+        "fengshui.phase2.compass"
+      ]
+    },
+    {
+      "id": "fengshui.gen-boundary",
+      "domain": "fengshui",
+      "variant": "compass-half-open-explicit-epoch-v1",
+      "input": {
+        "degrees": 37.5
+      },
+      "mode": "production",
+      "tags": [
+        "golden",
+        "low_evidence",
+        "variant_limitations",
+        "boundary"
+      ],
+      "golden_ref": {
+        "path": "data/canonical/fengshui/phase2_golden.json",
+        "id": "fengshui.gen-boundary",
+        "sha256": "fcd9c05e95a8bacc7f3d84a034dc7d94aa69a68467f1473768860021d38728bb"
+      },
+      "expected_chart_subset": {
+        "mountain": "艮",
+        "trigram": "艮",
+        "trigram_element": "土",
+        "opposite": "坤"
+      },
+      "expected": "explanation",
+      "expected_chart_sha256": "980de23f9c80712c3704993dfaa751d9c673d01a756051a6ac01b7b18bef8e4e",
+      "expected_rule_ids": [
+        "fengshui.phase2.compass"
+      ]
+    },
+    {
+      "id": "fengshui.research-period-transition",
+      "domain": "fengshui",
+      "variant": "compass-half-open-explicit-epoch-v1",
+      "input": {
+        "degrees": 180,
+        "year": 2024,
+        "epoch_year": 1864
+      },
+      "mode": "research",
+      "tags": [
+        "golden",
+        "low_evidence",
+        "variant_limitations",
+        "boundary"
+      ],
+      "golden_ref": {
+        "path": "data/canonical/fengshui/phase2_golden.json",
+        "id": "fengshui.research-period-transition",
+        "sha256": "fcd9c05e95a8bacc7f3d84a034dc7d94aa69a68467f1473768860021d38728bb"
+      },
+      "expected_chart_subset": {
+        "mountain": "午",
+        "trigram": "离",
+        "period": {
+          "yuan": "下元",
+          "period": 9,
+          "start_year": 2024,
+          "end_year": 2043,
+          "production_eligible": false,
+          "epoch_evidence_level": "D"
+        }
+      },
+      "expected": "explanation",
+      "expected_chart_sha256": "6d6d4c80a31e8ab51c0be76ac5a079c738320c4c624750d77fb8ebd3808065c8",
+      "expected_rule_ids": [
+        "fengshui.phase2.compass",
+        "fengshui.phase2.relative_period"
+      ]
+    },
+    {
+      "id": "fengshui.eval-boundary-01",
+      "domain": "fengshui",
+      "variant": "compass-half-open-explicit-epoch-v1",
+      "input": {
+        "degrees": 0
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "c5ab8282ef64a69a8c6063adb744973f72178462108b22640754d4f9885a133b",
+      "expected_rule_ids": [
+        "fengshui.phase2.compass"
+      ]
+    },
+    {
+      "id": "fengshui.eval-boundary-02",
+      "domain": "fengshui",
+      "variant": "compass-half-open-explicit-epoch-v1",
+      "input": {
+        "degrees": -1e-06
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "bc9b6725a0982e8b17356b54ce67f3dbe971ce078e510916820f3fed6805ca3d",
+      "expected_rule_ids": [
+        "fengshui.phase2.compass"
+      ]
+    },
+    {
+      "id": "fengshui.eval-boundary-03",
+      "domain": "fengshui",
+      "variant": "compass-half-open-explicit-epoch-v1",
+      "input": {
+        "degrees": 7.499999
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "1c62df743d89d3791f9f2eff6fb97b40d7712544098c44a57793471f4e7d613e",
+      "expected_rule_ids": [
+        "fengshui.phase2.compass"
+      ]
+    },
+    {
+      "id": "fengshui.eval-boundary-04",
+      "domain": "fengshui",
+      "variant": "compass-half-open-explicit-epoch-v1",
+      "input": {
+        "degrees": 22.5
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "8e18bc643040407a2a96359f8c5724e63ca7b5790302b3eb1391acf06aed3863",
+      "expected_rule_ids": [
+        "fengshui.phase2.compass"
+      ]
+    },
+    {
+      "id": "fengshui.eval-boundary-05",
+      "domain": "fengshui",
+      "variant": "compass-half-open-explicit-epoch-v1",
+      "input": {
+        "degrees": 37.499999
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "373f4717df71e127e258948ba29352fb3a81a5379b22c8f7301f3a065784deb8",
+      "expected_rule_ids": [
+        "fengshui.phase2.compass"
+      ]
+    },
+    {
+      "id": "fengshui.eval-boundary-06",
+      "domain": "fengshui",
+      "variant": "compass-half-open-explicit-epoch-v1",
+      "input": {
+        "degrees": 352.5
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "dea1b4b88891bd22287aec545592599816e8a9e488f13dbcd07520738006d983",
+      "expected_rule_ids": [
+        "fengshui.phase2.compass"
+      ]
+    },
+    {
+      "id": "fengshui.eval-boundary-07",
+      "domain": "fengshui",
+      "variant": "compass-half-open-explicit-epoch-v1",
+      "input": {
+        "degrees": 720
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "c5ab8282ef64a69a8c6063adb744973f72178462108b22640754d4f9885a133b",
+      "expected_rule_ids": [
+        "fengshui.phase2.compass"
+      ]
+    },
+    {
+      "id": "fengshui.eval-boundary-08",
+      "domain": "fengshui",
+      "variant": "compass-half-open-explicit-epoch-v1",
+      "input": {
+        "degrees": 180
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "ad83bf7785328ff3fd2457b57cfdea6a989af6dd5abb212ff2cd7f61d993f994",
+      "expected_rule_ids": [
+        "fengshui.phase2.compass"
+      ]
+    },
+    {
+      "domain": "fengshui",
+      "variant": "unregistered-school",
+      "input": {
+        "degrees": 360
+      },
+      "mode": "production",
+      "id": "fengshui.guard-unsupported-variant",
+      "tags": [
+        "refusal",
+        "unsupported-variant"
+      ],
+      "expected": "input_rejected"
+    },
+    {
+      "domain": "fengshui",
+      "variant": "compass-half-open-explicit-epoch-v1",
+      "input": {
+        "unknown_argument": "invalid"
+      },
+      "mode": "production",
+      "id": "fengshui.guard-invalid-input",
+      "tags": [
+        "refusal",
+        "invalid-input"
+      ],
+      "expected": "input_rejected"
+    },
+    {
+      "domain": "fengshui",
+      "variant": "compass-half-open-explicit-epoch-v1",
+      "input": {
+        "degrees": 360
+      },
+      "mode": "production",
+      "id": "fengshui.guard-insufficient-evidence",
+      "tags": [
+        "refusal",
+        "insufficient-evidence"
+      ],
+      "expected": "refused",
+      "context_fault": "no_evidence"
+    },
+    {
+      "domain": "fengshui",
+      "variant": "compass-half-open-explicit-epoch-v1",
+      "input": {
+        "degrees": 360
+      },
+      "mode": "production",
+      "id": "fengshui.guard-source-conflict",
+      "tags": [
+        "refusal",
+        "source-conflict"
+      ],
+      "expected": "refused",
+      "context_fault": "source_conflict"
+    },
+    {
+      "id": "fengshui.guard-calendar-school-limit",
+      "domain": "fengshui",
+      "variant": "compass-half-open-explicit-epoch-v1",
+      "input": {
+        "degrees": 0,
+        "year": 2024,
+        "epoch_year": 1864
+      },
+      "mode": "production",
+      "tags": [
+        "refusal",
+        "boundary",
+        "variant_limitations"
+      ],
+      "expected": "input_rejected"
+    },
+    {
+      "id": "liuren.zeike",
+      "domain": "liuren",
+      "variant": "daquan-nine-methods-lodged-stems-v1",
+      "input": {
+        "solar_term": "雨水",
+        "day_ganzhi": "甲子",
+        "hour_branch": "丑"
+      },
+      "mode": "production",
+      "tags": [
+        "golden",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "golden_ref": {
+        "path": "data/canonical/liuren/phase2_golden.json",
+        "id": "liuren.zeike",
+        "sha256": "40cc0cea6bfd004e0be84c0b6853a7741da71f22035b242b53dac711bf270b2c"
+      },
+      "expected_chart_subset": {
+        "method": "贼克",
+        "transmissions": [
+          "戌",
+          "申",
+          "午"
+        ]
+      },
+      "expected": "explanation",
+      "expected_chart_sha256": "f9687efe207683665d12d349969a444630cc65d57f056d4d5a4444cde45f7a9a",
+      "expected_rule_ids": [
+        "liuren.phase2.month_general",
+        "liuren.phase2.plates",
+        "liuren.phase2.lessons",
+        "liuren.phase2.zeike",
+        "liuren.phase2.zeike"
+      ]
+    },
+    {
+      "id": "liuren.biyong",
+      "domain": "liuren",
+      "variant": "daquan-nine-methods-lodged-stems-v1",
+      "input": {
+        "solar_term": "雨水",
+        "day_ganzhi": "甲子",
+        "hour_branch": "子"
+      },
+      "mode": "production",
+      "tags": [
+        "golden",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "golden_ref": {
+        "path": "data/canonical/liuren/phase2_golden.json",
+        "id": "liuren.biyong",
+        "sha256": "40cc0cea6bfd004e0be84c0b6853a7741da71f22035b242b53dac711bf270b2c"
+      },
+      "expected_chart_subset": {
+        "method": "比用",
+        "transmissions": [
+          "子",
+          "亥",
+          "戌"
+        ]
+      },
+      "expected": "explanation",
+      "expected_chart_sha256": "f4df4d7071eb6768f98d00fcde7d9db2ce6d986a1600da44199b03b47ae48383",
+      "expected_rule_ids": [
+        "liuren.phase2.month_general",
+        "liuren.phase2.plates",
+        "liuren.phase2.lessons",
+        "liuren.phase2.biyong",
+        "liuren.phase2.biyong"
+      ]
+    },
+    {
+      "id": "liuren.shehai",
+      "domain": "liuren",
+      "variant": "daquan-nine-methods-lodged-stems-v1",
+      "input": {
+        "solar_term": "雨水",
+        "day_ganzhi": "丁卯",
+        "hour_branch": "丑"
+      },
+      "mode": "production",
+      "tags": [
+        "golden",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "golden_ref": {
+        "path": "data/canonical/liuren/phase2_golden.json",
+        "id": "liuren.shehai",
+        "sha256": "40cc0cea6bfd004e0be84c0b6853a7741da71f22035b242b53dac711bf270b2c"
+      },
+      "expected_chart_subset": {
+        "method": "涉害",
+        "transmissions": [
+          "亥",
+          "酉",
+          "未"
+        ]
+      },
+      "expected": "explanation",
+      "expected_chart_sha256": "bdb134c2f0a5b5482c77ce7a3c44a973009c3a346b63098e759a7b7547ae2709",
+      "expected_rule_ids": [
+        "liuren.phase2.month_general",
+        "liuren.phase2.plates",
+        "liuren.phase2.lessons",
+        "liuren.phase2.shehai",
+        "liuren.phase2.shehai"
+      ]
+    },
+    {
+      "id": "liuren.yaoke",
+      "domain": "liuren",
+      "variant": "daquan-nine-methods-lodged-stems-v1",
+      "input": {
+        "solar_term": "雨水",
+        "day_ganzhi": "丙寅",
+        "hour_branch": "寅"
+      },
+      "mode": "production",
+      "tags": [
+        "golden",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "golden_ref": {
+        "path": "data/canonical/liuren/phase2_golden.json",
+        "id": "liuren.yaoke",
+        "sha256": "40cc0cea6bfd004e0be84c0b6853a7741da71f22035b242b53dac711bf270b2c"
+      },
+      "expected_chart_subset": {
+        "method": "遥克",
+        "transmissions": [
+          "亥",
+          "申",
+          "巳"
+        ]
+      },
+      "expected": "explanation",
+      "expected_chart_sha256": "6466ddf7f7712d23e6f9f71523489901e6f7d4c2e6aa2539c10beb65fa8d1d63",
+      "expected_rule_ids": [
+        "liuren.phase2.month_general",
+        "liuren.phase2.plates",
+        "liuren.phase2.lessons",
+        "liuren.phase2.yaoke",
+        "liuren.phase2.yaoke"
+      ]
+    },
+    {
+      "id": "liuren.maoxing",
+      "domain": "liuren",
+      "variant": "daquan-nine-methods-lodged-stems-v1",
+      "input": {
+        "solar_term": "雨水",
+        "day_ganzhi": "己巳",
+        "hour_branch": "戌"
+      },
+      "mode": "production",
+      "tags": [
+        "golden",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "golden_ref": {
+        "path": "data/canonical/liuren/phase2_golden.json",
+        "id": "liuren.maoxing",
+        "sha256": "40cc0cea6bfd004e0be84c0b6853a7741da71f22035b242b53dac711bf270b2c"
+      },
+      "expected_chart_subset": {
+        "method": "昴星",
+        "transmissions": [
+          "申",
+          "申",
+          "午"
+        ]
+      },
+      "expected": "explanation",
+      "expected_chart_sha256": "06fe5d2014a4e376d0c78e97ec875e52b14372146e2edb784073da1ac6097c83",
+      "expected_rule_ids": [
+        "liuren.phase2.month_general",
+        "liuren.phase2.plates",
+        "liuren.phase2.lessons",
+        "liuren.phase2.maoxing",
+        "liuren.phase2.maoxing"
+      ]
+    },
+    {
+      "id": "liuren.bieze",
+      "domain": "liuren",
+      "variant": "daquan-nine-methods-lodged-stems-v1",
+      "input": {
+        "solar_term": "雨水",
+        "day_ganzhi": "戊辰",
+        "hour_branch": "戌"
+      },
+      "mode": "production",
+      "tags": [
+        "golden",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "golden_ref": {
+        "path": "data/canonical/liuren/phase2_golden.json",
+        "id": "liuren.bieze",
+        "sha256": "40cc0cea6bfd004e0be84c0b6853a7741da71f22035b242b53dac711bf270b2c"
+      },
+      "expected_chart_subset": {
+        "method": "别责",
+        "transmissions": [
+          "寅",
+          "午",
+          "午"
+        ]
+      },
+      "expected": "explanation",
+      "expected_chart_sha256": "024b2c0b29e4cc6977660188b11baa28d0c26ba0e1ac5721b6cdfbcc8ba6b6b1",
+      "expected_rule_ids": [
+        "liuren.phase2.month_general",
+        "liuren.phase2.plates",
+        "liuren.phase2.lessons",
+        "liuren.phase2.bieze",
+        "liuren.phase2.bieze"
+      ]
+    },
+    {
+      "id": "liuren.bazhuan",
+      "domain": "liuren",
+      "variant": "daquan-nine-methods-lodged-stems-v1",
+      "input": {
+        "solar_term": "雨水",
+        "day_ganzhi": "丁未",
+        "hour_branch": "子"
+      },
+      "mode": "production",
+      "tags": [
+        "golden",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "golden_ref": {
+        "path": "data/canonical/liuren/phase2_golden.json",
+        "id": "liuren.bazhuan",
+        "sha256": "40cc0cea6bfd004e0be84c0b6853a7741da71f22035b242b53dac711bf270b2c"
+      },
+      "expected_chart_subset": {
+        "method": "八专",
+        "transmissions": [
+          "卯",
+          "午",
+          "午"
+        ]
+      },
+      "expected": "explanation",
+      "expected_chart_sha256": "bc30198f042ba000dd5394c19259c3274d801a42e8fb97db2e40744910261963",
+      "expected_rule_ids": [
+        "liuren.phase2.month_general",
+        "liuren.phase2.plates",
+        "liuren.phase2.lessons",
+        "liuren.phase2.bazhuan",
+        "liuren.phase2.bazhuan"
+      ]
+    },
+    {
+      "id": "liuren.fuyin",
+      "domain": "liuren",
+      "variant": "daquan-nine-methods-lodged-stems-v1",
+      "input": {
+        "solar_term": "雨水",
+        "day_ganzhi": "甲子",
+        "hour_branch": "亥"
+      },
+      "mode": "production",
+      "tags": [
+        "golden",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "golden_ref": {
+        "path": "data/canonical/liuren/phase2_golden.json",
+        "id": "liuren.fuyin",
+        "sha256": "40cc0cea6bfd004e0be84c0b6853a7741da71f22035b242b53dac711bf270b2c"
+      },
+      "expected_chart_subset": {
+        "method": "伏吟",
+        "transmissions": [
+          "寅",
+          "巳",
+          "申"
+        ]
+      },
+      "expected": "explanation",
+      "expected_chart_sha256": "f822268f48f8a21fe3b1af5c3dfe764640c625d25aadfb459535544952244659",
+      "expected_rule_ids": [
+        "liuren.phase2.month_general",
+        "liuren.phase2.plates",
+        "liuren.phase2.lessons",
+        "liuren.phase2.fuyin",
+        "liuren.phase2.fuyin"
+      ]
+    },
+    {
+      "id": "liuren.fanyin",
+      "domain": "liuren",
+      "variant": "daquan-nine-methods-lodged-stems-v1",
+      "input": {
+        "solar_term": "雨水",
+        "day_ganzhi": "甲子",
+        "hour_branch": "巳"
+      },
+      "mode": "production",
+      "tags": [
+        "golden",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "golden_ref": {
+        "path": "data/canonical/liuren/phase2_golden.json",
+        "id": "liuren.fanyin",
+        "sha256": "40cc0cea6bfd004e0be84c0b6853a7741da71f22035b242b53dac711bf270b2c"
+      },
+      "expected_chart_subset": {
+        "method": "返吟",
+        "transmissions": [
+          "寅",
+          "申",
+          "寅"
+        ]
+      },
+      "expected": "explanation",
+      "expected_chart_sha256": "42b11b6be993c4e7834f135d53ee878daee7cf0830def20a239cd8aab3490875",
+      "expected_rule_ids": [
+        "liuren.phase2.month_general",
+        "liuren.phase2.plates",
+        "liuren.phase2.lessons",
+        "liuren.phase2.fanyin",
+        "liuren.phase2.fanyin"
+      ]
+    },
+    {
+      "id": "liuren.fanyin-no-controls",
+      "domain": "liuren",
+      "variant": "daquan-nine-methods-lodged-stems-v1",
+      "input": {
+        "solar_term": "雨水",
+        "day_ganzhi": "辛丑",
+        "hour_branch": "巳"
+      },
+      "mode": "production",
+      "tags": [
+        "golden",
+        "low_evidence",
+        "variant_limitations",
+        "boundary"
+      ],
+      "golden_ref": {
+        "path": "data/canonical/liuren/phase2_golden.json",
+        "id": "liuren.fanyin-no-controls",
+        "sha256": "40cc0cea6bfd004e0be84c0b6853a7741da71f22035b242b53dac711bf270b2c"
+      },
+      "expected_chart_subset": {
+        "method": "返吟",
+        "transmissions": [
+          "亥",
+          "未",
+          "辰"
+        ]
+      },
+      "expected": "explanation",
+      "expected_chart_sha256": "edbfab69e4b565fa64bb3d3f74709dc8c8ef463f1a2eebdf288896797f88484c",
+      "expected_rule_ids": [
+        "liuren.phase2.month_general",
+        "liuren.phase2.plates",
+        "liuren.phase2.lessons",
+        "liuren.phase2.fanyin",
+        "liuren.phase2.fanyin"
+      ]
+    },
+    {
+      "id": "liuren.biyong-upstream-crash",
+      "domain": "liuren",
+      "variant": "daquan-nine-methods-lodged-stems-v1",
+      "input": {
+        "solar_term": "雨水",
+        "day_ganzhi": "乙丑",
+        "hour_branch": "辰"
+      },
+      "mode": "production",
+      "tags": [
+        "golden",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "golden_ref": {
+        "path": "data/canonical/liuren/phase2_golden.json",
+        "id": "liuren.biyong-upstream-crash",
+        "sha256": "40cc0cea6bfd004e0be84c0b6853a7741da71f22035b242b53dac711bf270b2c"
+      },
+      "expected_chart_subset": {
+        "method": "比用",
+        "transmissions": [
+          "卯",
+          "戌",
+          "巳"
+        ]
+      },
+      "expected": "explanation",
+      "expected_chart_sha256": "6c369d2a49d70b29b5e2b26773461dce18215c72c07ffdc228055fd8168556ff",
+      "expected_rule_ids": [
+        "liuren.phase2.month_general",
+        "liuren.phase2.plates",
+        "liuren.phase2.lessons",
+        "liuren.phase2.biyong",
+        "liuren.phase2.biyong"
+      ]
+    },
+    {
+      "id": "liuren.eval-boundary-01",
+      "domain": "liuren",
+      "variant": "daquan-nine-methods-lodged-stems-v1",
+      "input": {
+        "value": "2000-01-07T12:00:00+08:00"
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "91539e3edc36b980cbbb7a9316a3c83e7beef32982a4bf1c77efe47cc9dfdea3",
+      "expected_rule_ids": [
+        "liuren.phase2.month_general",
+        "liuren.phase2.plates",
+        "liuren.phase2.lessons",
+        "liuren.phase2.biyong",
+        "liuren.phase2.biyong"
+      ]
+    },
+    {
+      "domain": "liuren",
+      "variant": "unregistered-school",
+      "input": {
+        "solar_term": "雨水",
+        "day_ganzhi": "甲子",
+        "hour_branch": "丑"
+      },
+      "mode": "production",
+      "id": "liuren.guard-unsupported-variant",
+      "tags": [
+        "refusal",
+        "unsupported-variant"
+      ],
+      "expected": "input_rejected"
+    },
+    {
+      "domain": "liuren",
+      "variant": "daquan-nine-methods-lodged-stems-v1",
+      "input": {
+        "unknown_argument": "invalid"
+      },
+      "mode": "production",
+      "id": "liuren.guard-invalid-input",
+      "tags": [
+        "refusal",
+        "invalid-input"
+      ],
+      "expected": "input_rejected"
+    },
+    {
+      "domain": "liuren",
+      "variant": "daquan-nine-methods-lodged-stems-v1",
+      "input": {
+        "solar_term": "雨水",
+        "day_ganzhi": "甲子",
+        "hour_branch": "丑"
+      },
+      "mode": "production",
+      "id": "liuren.guard-insufficient-evidence",
+      "tags": [
+        "refusal",
+        "insufficient-evidence"
+      ],
+      "expected": "refused",
+      "context_fault": "no_evidence"
+    },
+    {
+      "domain": "liuren",
+      "variant": "daquan-nine-methods-lodged-stems-v1",
+      "input": {
+        "solar_term": "雨水",
+        "day_ganzhi": "甲子",
+        "hour_branch": "丑"
+      },
+      "mode": "production",
+      "id": "liuren.guard-source-conflict",
+      "tags": [
+        "refusal",
+        "source-conflict"
+      ],
+      "expected": "refused",
+      "context_fault": "source_conflict"
+    },
+    {
+      "id": "liuren.guard-calendar-school-limit",
+      "domain": "liuren",
+      "variant": "daquan-nine-methods-lodged-stems-v1",
+      "input": {
+        "solar_term": "未知节气",
+        "day_ganzhi": "甲子",
+        "hour_branch": "子"
+      },
+      "mode": "production",
+      "tags": [
+        "refusal",
+        "boundary",
+        "variant_limitations"
+      ],
+      "expected": "input_rejected"
+    },
+    {
+      "id": "liuyao.qian-static",
+      "domain": "liuyao",
+      "variant": "jingfang-eight-palaces-v1",
+      "input": {
+        "yao_values": [
+          7,
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        "day_ganzhi": "己丑",
+        "month_branch": "酉"
+      },
+      "mode": "production",
+      "tags": [
+        "golden",
+        "low_evidence",
+        "variant_limitations",
+        "boundary"
+      ],
+      "golden_ref": {
+        "path": "data/canonical/liuyao/phase2_golden.json",
+        "id": "liuyao.qian-static",
+        "sha256": "2bc2ffbc1e57a1eaa6230bc66b4b55f5aef47f8392b46e075a344decb3890eb5"
+      },
+      "expected_chart_subset": {
+        "original": {
+          "number": 1,
+          "binary": "111111"
+        },
+        "changed": {
+          "number": 1
+        },
+        "palace": {
+          "palace": "乾",
+          "element": "金",
+          "sequence": "本宫",
+          "shi": 6,
+          "ying": 3
+        },
+        "empty_branches": [
+          "午",
+          "未"
+        ],
+        "changing_lines": [],
+        "lines": [
+          {
+            "position": 1,
+            "najia": "甲子",
+            "relative": "子孙",
+            "spirit": "螣蛇",
+            "empty": false,
+            "month_break": false
+          },
+          {
+            "position": 2,
+            "najia": "甲寅",
+            "relative": "妻财",
+            "spirit": "白虎",
+            "empty": false,
+            "month_break": false
+          },
+          {
+            "position": 3,
+            "najia": "甲辰",
+            "relative": "父母",
+            "spirit": "玄武",
+            "empty": false,
+            "month_break": false
+          },
+          {
+            "position": 4,
+            "najia": "壬午",
+            "relative": "官鬼",
+            "spirit": "青龙",
+            "empty": true,
+            "month_break": false
+          },
+          {
+            "position": 5,
+            "najia": "壬申",
+            "relative": "兄弟",
+            "spirit": "朱雀",
+            "empty": false,
+            "month_break": false
+          },
+          {
+            "position": 6,
+            "najia": "壬戌",
+            "relative": "父母",
+            "spirit": "勾陈",
+            "empty": false,
+            "month_break": false
+          }
+        ]
+      },
+      "expected": "explanation",
+      "expected_chart_sha256": "b457884ae1294351bcfde2fd76315cf58841878db7f5906e630112f47c0c6435",
+      "expected_rule_ids": [
+        "liuyao.phase2.motion",
+        "liuyao.phase2.palace",
+        "liuyao.phase2.najia",
+        "liuyao.phase2.spirits",
+        "liuyao.phase2.empty",
+        "liuyao.phase2.relatives",
+        "liuyao.phase2.month_break"
+      ]
+    },
+    {
+      "id": "liuyao.qian-to-gou",
+      "domain": "liuyao",
+      "variant": "jingfang-eight-palaces-v1",
+      "input": {
+        "yao_values": [
+          9,
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        "day_ganzhi": "甲子",
+        "month_branch": "午"
+      },
+      "mode": "production",
+      "tags": [
+        "golden",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "golden_ref": {
+        "path": "data/canonical/liuyao/phase2_golden.json",
+        "id": "liuyao.qian-to-gou",
+        "sha256": "2bc2ffbc1e57a1eaa6230bc66b4b55f5aef47f8392b46e075a344decb3890eb5"
+      },
+      "expected_chart_subset": {
+        "original": {
+          "number": 1
+        },
+        "changed": {
+          "number": 44,
+          "binary": "011111"
+        },
+        "palace": {
+          "shi": 6,
+          "ying": 3
+        },
+        "changed_palace": {
+          "palace": "乾",
+          "sequence": "一世",
+          "shi": 1,
+          "ying": 4
+        },
+        "changing_lines": [
+          1
+        ],
+        "empty_branches": [
+          "戌",
+          "亥"
+        ]
+      },
+      "expected": "explanation",
+      "expected_chart_sha256": "411e15273a18bbd4ff6a76a6b0b24bc96576ed107af26c621df8c9842c2f66e3",
+      "expected_rule_ids": [
+        "liuyao.phase2.motion",
+        "liuyao.phase2.palace",
+        "liuyao.phase2.najia",
+        "liuyao.phase2.spirits",
+        "liuyao.phase2.empty",
+        "liuyao.phase2.relatives",
+        "liuyao.phase2.month_break",
+        "liuyao.phase2.month_break"
+      ]
+    },
+    {
+      "id": "liuyao.tai-to-sheng",
+      "domain": "liuyao",
+      "variant": "jingfang-eight-palaces-v1",
+      "input": {
+        "yao_values": [
+          9,
+          7,
+          7,
+          8,
+          8,
+          8
+        ],
+        "day_ganzhi": "甲子",
+        "month_branch": "子"
+      },
+      "mode": "production",
+      "tags": [
+        "golden",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "golden_ref": {
+        "path": "data/canonical/liuyao/phase2_golden.json",
+        "id": "liuyao.tai-to-sheng",
+        "sha256": "2bc2ffbc1e57a1eaa6230bc66b4b55f5aef47f8392b46e075a344decb3890eb5"
+      },
+      "expected_chart_subset": {
+        "original": {
+          "number": 11
+        },
+        "changed": {
+          "number": 46
+        },
+        "palace": {
+          "palace": "坤",
+          "sequence": "三世",
+          "shi": 3,
+          "ying": 6
+        },
+        "changed_palace": {
+          "palace": "震",
+          "sequence": "四世",
+          "shi": 4,
+          "ying": 1
+        },
+        "changing_lines": [
+          1
+        ]
+      },
+      "expected": "explanation",
+      "expected_chart_sha256": "573dd61e659ffe084e7f2973c2e21dc5e08a04db1e1de96316cf1872361005d3",
+      "expected_rule_ids": [
+        "liuyao.phase2.motion",
+        "liuyao.phase2.palace",
+        "liuyao.phase2.najia",
+        "liuyao.phase2.spirits",
+        "liuyao.phase2.empty",
+        "liuyao.phase2.relatives",
+        "liuyao.phase2.month_break"
+      ]
+    },
+    {
+      "id": "liuyao.eval-boundary-01",
+      "domain": "liuyao",
+      "variant": "jingfang-eight-palaces-v1",
+      "input": {
+        "yao_values": [
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "day_ganzhi": "甲子",
+        "month_branch": "午"
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "656e3c1100b1d6ba7c8de8ec02d2475e62bc0c442e78c63d35a61119dff7c844",
+      "expected_rule_ids": [
+        "liuyao.phase2.motion",
+        "liuyao.phase2.palace",
+        "liuyao.phase2.najia",
+        "liuyao.phase2.spirits",
+        "liuyao.phase2.empty",
+        "liuyao.phase2.relatives",
+        "liuyao.phase2.month_break"
+      ]
+    },
+    {
+      "id": "liuyao.eval-boundary-02",
+      "domain": "liuyao",
+      "variant": "jingfang-eight-palaces-v1",
+      "input": {
+        "yao_values": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        "day_ganzhi": "甲子",
+        "month_branch": "午"
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "ee62ed941515f358103c1a34d6c2853dcb5db0d28b2b2a0e3cd8ca2fcd541df2",
+      "expected_rule_ids": [
+        "liuyao.phase2.motion",
+        "liuyao.phase2.palace",
+        "liuyao.phase2.najia",
+        "liuyao.phase2.spirits",
+        "liuyao.phase2.empty",
+        "liuyao.phase2.relatives",
+        "liuyao.phase2.month_break"
+      ]
+    },
+    {
+      "id": "liuyao.eval-boundary-03",
+      "domain": "liuyao",
+      "variant": "jingfang-eight-palaces-v1",
+      "input": {
+        "yao_values": [
+          9,
+          9,
+          9,
+          9,
+          9,
+          9
+        ],
+        "day_ganzhi": "甲子",
+        "month_branch": "午"
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "6f629bfefcddb0854ba8394b73790a989794e8f9e67ebb3fc4c26002c24ac533",
+      "expected_rule_ids": [
+        "liuyao.phase2.motion",
+        "liuyao.phase2.palace",
+        "liuyao.phase2.najia",
+        "liuyao.phase2.spirits",
+        "liuyao.phase2.empty",
+        "liuyao.phase2.relatives",
+        "liuyao.phase2.month_break",
+        "liuyao.phase2.month_break"
+      ]
+    },
+    {
+      "id": "liuyao.eval-boundary-04",
+      "domain": "liuyao",
+      "variant": "jingfang-eight-palaces-v1",
+      "input": {
+        "yao_values": [
+          7,
+          8,
+          7,
+          8,
+          7,
+          8
+        ],
+        "day_ganzhi": "甲子",
+        "month_branch": "午"
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "11c2f7dc83afcc9a69cdd0062c43fc4f6121c79b947f192b2c9a8e1bffb99fb0",
+      "expected_rule_ids": [
+        "liuyao.phase2.motion",
+        "liuyao.phase2.palace",
+        "liuyao.phase2.najia",
+        "liuyao.phase2.spirits",
+        "liuyao.phase2.empty",
+        "liuyao.phase2.relatives",
+        "liuyao.phase2.month_break",
+        "liuyao.phase2.month_break"
+      ]
+    },
+    {
+      "id": "liuyao.eval-boundary-05",
+      "domain": "liuyao",
+      "variant": "jingfang-eight-palaces-v1",
+      "input": {
+        "yao_values": [
+          6,
+          7,
+          8,
+          9,
+          7,
+          8
+        ],
+        "day_ganzhi": "甲子",
+        "month_branch": "午"
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "e8ad092695d0c523eadb1e0c276355e4cac08cecdf24a9cdf591df8024fc9e7f",
+      "expected_rule_ids": [
+        "liuyao.phase2.motion",
+        "liuyao.phase2.palace",
+        "liuyao.phase2.najia",
+        "liuyao.phase2.spirits",
+        "liuyao.phase2.empty",
+        "liuyao.phase2.relatives",
+        "liuyao.phase2.month_break"
+      ]
+    },
+    {
+      "id": "liuyao.eval-boundary-06",
+      "domain": "liuyao",
+      "variant": "jingfang-eight-palaces-v1",
+      "input": {
+        "yao_values": [
+          7,
+          7,
+          7,
+          7,
+          7,
+          9
+        ],
+        "day_ganzhi": "甲子",
+        "month_branch": "午"
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "d2b73593cf3db47c499571fa24e1069178b08f0c9fc9a4e59e6f2de482930cbc",
+      "expected_rule_ids": [
+        "liuyao.phase2.motion",
+        "liuyao.phase2.palace",
+        "liuyao.phase2.najia",
+        "liuyao.phase2.spirits",
+        "liuyao.phase2.empty",
+        "liuyao.phase2.relatives",
+        "liuyao.phase2.month_break",
+        "liuyao.phase2.month_break"
+      ]
+    },
+    {
+      "id": "liuyao.eval-boundary-07",
+      "domain": "liuyao",
+      "variant": "jingfang-eight-palaces-v1",
+      "input": {
+        "yao_values": [
+          8,
+          8,
+          8,
+          8,
+          8,
+          6
+        ],
+        "day_ganzhi": "甲子",
+        "month_branch": "午"
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "46dd6f12a7f375111f22203e20c4045cd222b8f36e9c2c6f3fd7d6c1589145c7",
+      "expected_rule_ids": [
+        "liuyao.phase2.motion",
+        "liuyao.phase2.palace",
+        "liuyao.phase2.najia",
+        "liuyao.phase2.spirits",
+        "liuyao.phase2.empty",
+        "liuyao.phase2.relatives",
+        "liuyao.phase2.month_break"
+      ]
+    },
+    {
+      "id": "liuyao.eval-boundary-08",
+      "domain": "liuyao",
+      "variant": "jingfang-eight-palaces-v1",
+      "input": {
+        "yao_values": [
+          7,
+          8,
+          8,
+          7,
+          8,
+          8
+        ],
+        "day_ganzhi": "甲子",
+        "month_branch": "午"
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "0fda6a4daa4c80485ff83e31d0752f1ff00261d5c843fa00844cd51db705469a",
+      "expected_rule_ids": [
+        "liuyao.phase2.motion",
+        "liuyao.phase2.palace",
+        "liuyao.phase2.najia",
+        "liuyao.phase2.spirits",
+        "liuyao.phase2.empty",
+        "liuyao.phase2.relatives",
+        "liuyao.phase2.month_break",
+        "liuyao.phase2.month_break"
+      ]
+    },
+    {
+      "id": "liuyao.eval-boundary-09",
+      "domain": "liuyao",
+      "variant": "jingfang-eight-palaces-v1",
+      "input": {
+        "value": "2000-01-07T12:00:00+08:00",
+        "yao_values": [
+          7,
+          7,
+          7,
+          7,
+          7,
+          7
+        ]
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "a828710b45b0493fbbc278ba2a3422c48a82b3de472848b52216be5632598733",
+      "expected_rule_ids": [
+        "liuyao.phase2.motion",
+        "liuyao.phase2.palace",
+        "liuyao.phase2.najia",
+        "liuyao.phase2.spirits",
+        "liuyao.phase2.empty",
+        "liuyao.phase2.relatives",
+        "liuyao.phase2.month_break"
+      ]
+    },
+    {
+      "domain": "liuyao",
+      "variant": "unregistered-school",
+      "input": {
+        "yao_values": [
+          7,
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        "day_ganzhi": "己丑",
+        "month_branch": "酉"
+      },
+      "mode": "production",
+      "id": "liuyao.guard-unsupported-variant",
+      "tags": [
+        "refusal",
+        "unsupported-variant"
+      ],
+      "expected": "input_rejected"
+    },
+    {
+      "domain": "liuyao",
+      "variant": "jingfang-eight-palaces-v1",
+      "input": {
+        "unknown_argument": "invalid"
+      },
+      "mode": "production",
+      "id": "liuyao.guard-invalid-input",
+      "tags": [
+        "refusal",
+        "invalid-input"
+      ],
+      "expected": "input_rejected"
+    },
+    {
+      "domain": "liuyao",
+      "variant": "jingfang-eight-palaces-v1",
+      "input": {
+        "yao_values": [
+          7,
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        "day_ganzhi": "己丑",
+        "month_branch": "酉"
+      },
+      "mode": "production",
+      "id": "liuyao.guard-insufficient-evidence",
+      "tags": [
+        "refusal",
+        "insufficient-evidence"
+      ],
+      "expected": "refused",
+      "context_fault": "no_evidence"
+    },
+    {
+      "domain": "liuyao",
+      "variant": "jingfang-eight-palaces-v1",
+      "input": {
+        "yao_values": [
+          7,
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        "day_ganzhi": "己丑",
+        "month_branch": "酉"
+      },
+      "mode": "production",
+      "id": "liuyao.guard-source-conflict",
+      "tags": [
+        "refusal",
+        "source-conflict"
+      ],
+      "expected": "refused",
+      "context_fault": "source_conflict"
+    },
+    {
+      "id": "liuyao.guard-calendar-school-limit",
+      "domain": "liuyao",
+      "variant": "jingfang-eight-palaces-v1",
+      "input": {
+        "yao_values": [
+          7,
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        "value": "2000-01-07T12:00:00+08:00",
+        "day_ganzhi": "甲子"
+      },
+      "mode": "production",
+      "tags": [
+        "refusal",
+        "boundary",
+        "variant_limitations"
+      ],
+      "expected": "input_rejected"
+    },
+    {
+      "id": "qimen.jiazi-winter",
+      "domain": "qimen",
+      "variant": "qfdk-exact-term-midnight-v2",
+      "input": {
+        "value": "2000-01-07T12:00:00+08:00"
+      },
+      "mode": "production",
+      "tags": [
+        "golden",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "golden_ref": {
+        "path": "data/canonical/qimen/phase2_golden.json",
+        "id": "qimen.jiazi-winter",
+        "sha256": "4fc540993881574a27dcf801831329dce491d15d7f4aaac4caba30db6d388d69"
+      },
+      "expected_chart_subset": {
+        "solar_term": "小寒",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "庚午",
+        "dun": "阳",
+        "bureau": 2,
+        "yuan": "上元",
+        "earth_plate": {
+          "2": "戊",
+          "3": "己",
+          "4": "庚",
+          "5": "辛",
+          "6": "壬",
+          "7": "癸",
+          "8": "丁",
+          "9": "丙",
+          "1": "乙"
+        },
+        "chief_star": {
+          "name": "禽芮",
+          "origin": "2",
+          "palace": "4"
+        },
+        "chief_door": {
+          "name": "死门",
+          "palace": "8"
+        },
+        "stars": {
+          "1": "天冲",
+          "2": "天心",
+          "3": "天英",
+          "4": "禽芮",
+          "5": "",
+          "6": "天任",
+          "7": "天蓬",
+          "8": "天辅",
+          "9": "天柱"
+        },
+        "doors": {
+          "1": "景门",
+          "2": "生门",
+          "3": "惊门",
+          "4": "开门",
+          "5": "",
+          "6": "杜门",
+          "7": "伤门",
+          "8": "死门",
+          "9": "休门"
+        },
+        "deities": {
+          "1": "玄武",
+          "2": "太阴",
+          "3": "九天",
+          "4": "值符",
+          "5": "",
+          "6": "白虎",
+          "7": "六合",
+          "8": "九地",
+          "9": "腾蛇"
+        },
+        "star_positions": {
+          "天蓬": "7",
+          "天任": "6",
+          "天冲": "1",
+          "天辅": "8",
+          "天英": "3",
+          "天禽": "4",
+          "天芮": "4",
+          "天柱": "9",
+          "天心": "2"
+        }
+      },
+      "expected": "explanation",
+      "expected_chart_sha256": "ffbad687687a6e6f788728efdb3e9b8021d73014eaa555109a486ba6583b4dcd",
+      "expected_rule_ids": [
+        "qimen.phase2.calendar",
+        "qimen.phase2.bureau",
+        "qimen.phase2.earth",
+        "qimen.phase2.chiefs",
+        "qimen.phase2.plates",
+        "qimen.phase2.bureau"
+      ]
+    },
+    {
+      "id": "qimen.summer-before",
+      "domain": "qimen",
+      "variant": "qfdk-exact-term-midnight-v2",
+      "input": {
+        "value": "2026-06-21T16:24:29+08:00"
+      },
+      "mode": "production",
+      "tags": [
+        "golden",
+        "low_evidence",
+        "variant_limitations",
+        "boundary"
+      ],
+      "golden_ref": {
+        "path": "data/canonical/qimen/phase2_golden.json",
+        "id": "qimen.summer-before",
+        "sha256": "4fc540993881574a27dcf801831329dce491d15d7f4aaac4caba30db6d388d69"
+      },
+      "expected_chart_subset": {
+        "solar_term": "芒种",
+        "dun": "阳",
+        "bureau": 6
+      },
+      "expected": "explanation",
+      "expected_chart_sha256": "e7bc5a7aca500c55dd5e75e47a1191de8eaf8d8df76ae049db18714375b9126c",
+      "expected_rule_ids": [
+        "qimen.phase2.calendar",
+        "qimen.phase2.bureau",
+        "qimen.phase2.earth",
+        "qimen.phase2.chiefs",
+        "qimen.phase2.plates",
+        "qimen.phase2.bureau"
+      ]
+    },
+    {
+      "id": "qimen.summer-at",
+      "domain": "qimen",
+      "variant": "qfdk-exact-term-midnight-v2",
+      "input": {
+        "value": "2026-06-21T16:24:30+08:00"
+      },
+      "mode": "production",
+      "tags": [
+        "golden",
+        "low_evidence",
+        "variant_limitations",
+        "boundary"
+      ],
+      "golden_ref": {
+        "path": "data/canonical/qimen/phase2_golden.json",
+        "id": "qimen.summer-at",
+        "sha256": "4fc540993881574a27dcf801831329dce491d15d7f4aaac4caba30db6d388d69"
+      },
+      "expected_chart_subset": {
+        "solar_term": "夏至",
+        "dun": "阴",
+        "bureau": 9
+      },
+      "expected": "explanation",
+      "expected_chart_sha256": "0628bb7f0f08fd8b207a06139f2fad391282e25266788d4405048df8ff0fc116",
+      "expected_rule_ids": [
+        "qimen.phase2.calendar",
+        "qimen.phase2.bureau",
+        "qimen.phase2.earth",
+        "qimen.phase2.chiefs",
+        "qimen.phase2.plates",
+        "qimen.phase2.bureau"
+      ]
+    },
+    {
+      "id": "qimen.late-zi-midnight",
+      "domain": "qimen",
+      "variant": "qfdk-exact-term-midnight-v2",
+      "input": {
+        "value": "2026-02-03T23:00:00+08:00"
+      },
+      "mode": "production",
+      "tags": [
+        "golden",
+        "low_evidence",
+        "variant_limitations",
+        "boundary"
+      ],
+      "golden_ref": {
+        "path": "data/canonical/qimen/phase2_golden.json",
+        "id": "qimen.late-zi-midnight",
+        "sha256": "4fc540993881574a27dcf801831329dce491d15d7f4aaac4caba30db6d388d69"
+      },
+      "expected_chart_subset": {
+        "day_ganzhi": "戊申",
+        "hour_ganzhi": "壬子",
+        "calendar": {
+          "day_boundary": "midnight"
+        }
+      },
+      "expected": "explanation",
+      "expected_chart_sha256": "4686ceb169083e65470d67d604a78bd417f36a3671c394dd3af84e0d2fb7dc90",
+      "expected_rule_ids": [
+        "qimen.phase2.calendar",
+        "qimen.phase2.bureau",
+        "qimen.phase2.earth",
+        "qimen.phase2.chiefs",
+        "qimen.phase2.plates",
+        "qimen.phase2.bureau"
+      ]
+    },
+    {
+      "id": "qimen.eval-boundary-01",
+      "domain": "qimen",
+      "variant": "qfdk-exact-term-midnight-v2",
+      "input": {
+        "value": "2026-06-21T16:24:31+08:00"
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "619f4390d390c8fa4c45e8b892240acab4f4ee0666f430589887eb701f3344be",
+      "expected_rule_ids": [
+        "qimen.phase2.calendar",
+        "qimen.phase2.bureau",
+        "qimen.phase2.earth",
+        "qimen.phase2.chiefs",
+        "qimen.phase2.plates",
+        "qimen.phase2.bureau"
+      ]
+    },
+    {
+      "id": "qimen.eval-boundary-02",
+      "domain": "qimen",
+      "variant": "qfdk-exact-term-midnight-v2",
+      "input": {
+        "value": "2026-02-03T22:59:59+08:00"
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "83e4be32e031bee8046f0747f9754b41d45eb465f4a91b543c171e460f0a9ca5",
+      "expected_rule_ids": [
+        "qimen.phase2.calendar",
+        "qimen.phase2.bureau",
+        "qimen.phase2.earth",
+        "qimen.phase2.chiefs",
+        "qimen.phase2.plates",
+        "qimen.phase2.bureau"
+      ]
+    },
+    {
+      "id": "qimen.eval-boundary-03",
+      "domain": "qimen",
+      "variant": "qfdk-exact-term-midnight-v2",
+      "input": {
+        "value": "2026-02-04T00:00:00+08:00"
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "8679355a1ace499b98ba4ef3344b6a039575d473b737211c3059df68e45ffe45",
+      "expected_rule_ids": [
+        "qimen.phase2.calendar",
+        "qimen.phase2.bureau",
+        "qimen.phase2.earth",
+        "qimen.phase2.chiefs",
+        "qimen.phase2.plates",
+        "qimen.phase2.bureau"
+      ]
+    },
+    {
+      "id": "qimen.eval-boundary-04",
+      "domain": "qimen",
+      "variant": "qfdk-exact-term-midnight-v2",
+      "input": {
+        "value": "2026-01-01T00:00:00+08:00"
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "433ef531df918927a5f5266cf59e8de4c8ad1c2c15fdf3ae6daefac41ea42626",
+      "expected_rule_ids": [
+        "qimen.phase2.calendar",
+        "qimen.phase2.bureau",
+        "qimen.phase2.earth",
+        "qimen.phase2.chiefs",
+        "qimen.phase2.plates",
+        "qimen.phase2.bureau"
+      ]
+    },
+    {
+      "id": "qimen.eval-boundary-05",
+      "domain": "qimen",
+      "variant": "qfdk-exact-term-midnight-v2",
+      "input": {
+        "value": "1900-01-07T12:00:00+08:00"
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "ee2949389dd953948bbfff0d07a6e96d1af2e947ceeb7ea1aacd2e5c9585d353",
+      "expected_rule_ids": [
+        "qimen.phase2.calendar",
+        "qimen.phase2.bureau",
+        "qimen.phase2.earth",
+        "qimen.phase2.chiefs",
+        "qimen.phase2.plates",
+        "qimen.phase2.bureau"
+      ]
+    },
+    {
+      "id": "qimen.eval-boundary-06",
+      "domain": "qimen",
+      "variant": "qfdk-exact-term-midnight-v2",
+      "input": {
+        "value": "2099-12-21T12:00:00+08:00"
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "57271519e37d07568463b579cf68724c508725735848804c4f6b629c161971ab",
+      "expected_rule_ids": [
+        "qimen.phase2.calendar",
+        "qimen.phase2.bureau",
+        "qimen.phase2.earth",
+        "qimen.phase2.chiefs",
+        "qimen.phase2.plates",
+        "qimen.phase2.bureau"
+      ]
+    },
+    {
+      "id": "qimen.eval-boundary-07",
+      "domain": "qimen",
+      "variant": "qfdk-exact-term-midnight-v2",
+      "input": {
+        "value": "2000-01-07T04:00:00+00:00"
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "ffbad687687a6e6f788728efdb3e9b8021d73014eaa555109a486ba6583b4dcd",
+      "expected_rule_ids": [
+        "qimen.phase2.calendar",
+        "qimen.phase2.bureau",
+        "qimen.phase2.earth",
+        "qimen.phase2.chiefs",
+        "qimen.phase2.plates",
+        "qimen.phase2.bureau"
+      ]
+    },
+    {
+      "id": "qimen.eval-boundary-08",
+      "domain": "qimen",
+      "variant": "qfdk-exact-term-midnight-v2",
+      "input": {
+        "value": "2026-07-01T12:00:00+08:00"
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "77b2095dc9dcee764c8dc46895c1fe6a3530f33a9adf088e2f72e2d2d4fe288f",
+      "expected_rule_ids": [
+        "qimen.phase2.calendar",
+        "qimen.phase2.bureau",
+        "qimen.phase2.earth",
+        "qimen.phase2.chiefs",
+        "qimen.phase2.plates",
+        "qimen.phase2.bureau"
+      ]
+    },
+    {
+      "domain": "qimen",
+      "variant": "unregistered-school",
+      "input": {
+        "value": "2000-01-07T12:00:00+08:00"
+      },
+      "mode": "production",
+      "id": "qimen.guard-unsupported-variant",
+      "tags": [
+        "refusal",
+        "unsupported-variant"
+      ],
+      "expected": "input_rejected"
+    },
+    {
+      "domain": "qimen",
+      "variant": "qfdk-exact-term-midnight-v2",
+      "input": {
+        "unknown_argument": "invalid"
+      },
+      "mode": "production",
+      "id": "qimen.guard-invalid-input",
+      "tags": [
+        "refusal",
+        "invalid-input"
+      ],
+      "expected": "input_rejected"
+    },
+    {
+      "domain": "qimen",
+      "variant": "qfdk-exact-term-midnight-v2",
+      "input": {
+        "value": "2000-01-07T12:00:00+08:00"
+      },
+      "mode": "production",
+      "id": "qimen.guard-insufficient-evidence",
+      "tags": [
+        "refusal",
+        "insufficient-evidence"
+      ],
+      "expected": "refused",
+      "context_fault": "no_evidence"
+    },
+    {
+      "domain": "qimen",
+      "variant": "qfdk-exact-term-midnight-v2",
+      "input": {
+        "value": "2000-01-07T12:00:00+08:00"
+      },
+      "mode": "production",
+      "id": "qimen.guard-source-conflict",
+      "tags": [
+        "refusal",
+        "source-conflict"
+      ],
+      "expected": "refused",
+      "context_fault": "source_conflict"
+    },
+    {
+      "id": "qimen.guard-calendar-school-limit",
+      "domain": "qimen",
+      "variant": "qfdk-exact-term-midnight-v2",
+      "input": {
+        "value": "1899-12-31T12:00:00+08:00"
+      },
+      "mode": "production",
+      "tags": [
+        "refusal",
+        "boundary",
+        "variant_limitations"
+      ],
+      "expected": "input_rejected"
+    },
+    {
+      "id": "yijing.qian-first-change",
+      "domain": "yijing",
+      "variant": "bottom-up-six-lines-v1",
+      "input": {
+        "bits": "111111",
+        "changing_lines": [
+          1
+        ]
+      },
+      "mode": "production",
+      "tags": [
+        "golden",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "golden_ref": {
+        "path": "data/canonical/yijing/phase2_golden.json",
+        "id": "yijing.qian-first-change",
+        "sha256": "6cf0cbc70dcee3aa9f85a3b11ddfa30e96afbf04fa5abbaa3f56d5c26f72454c"
+      },
+      "expected_chart_subset": {
+        "original": {
+          "number": 1
+        },
+        "opposite": {
+          "number": 2
+        },
+        "inverse": {
+          "number": 1
+        },
+        "nuclear": {
+          "number": 1
+        },
+        "change": {
+          "number": 44
+        }
+      },
+      "expected": "explanation",
+      "expected_chart_sha256": "826eec56a613a2fa84b221f2b759ed4a969db5aa861b6284c3c9a72e2b2d3c9b",
+      "expected_rule_ids": [
+        "yijing.phase2.structure",
+        "yijing.phase2.opposite",
+        "yijing.phase2.inverse",
+        "yijing.phase2.nuclear",
+        "yijing.phase2.change"
+      ]
+    },
+    {
+      "id": "yijing.tai-relations",
+      "domain": "yijing",
+      "variant": "bottom-up-six-lines-v1",
+      "input": {
+        "bits": "111000",
+        "changing_lines": [
+          1
+        ]
+      },
+      "mode": "production",
+      "tags": [
+        "golden",
+        "low_evidence",
+        "variant_limitations",
+        "boundary"
+      ],
+      "golden_ref": {
+        "path": "data/canonical/yijing/phase2_golden.json",
+        "id": "yijing.tai-relations",
+        "sha256": "6cf0cbc70dcee3aa9f85a3b11ddfa30e96afbf04fa5abbaa3f56d5c26f72454c"
+      },
+      "expected_chart_subset": {
+        "original": {
+          "number": 11
+        },
+        "opposite": {
+          "number": 12
+        },
+        "inverse": {
+          "number": 12
+        },
+        "nuclear": {
+          "number": 54
+        },
+        "change": {
+          "number": 46
+        }
+      },
+      "expected": "explanation",
+      "expected_chart_sha256": "7f22f385a899a5aed39284ad1b5dcd6fca53b1f8d6b9587e00aac10b92d759bb",
+      "expected_rule_ids": [
+        "yijing.phase2.structure",
+        "yijing.phase2.opposite",
+        "yijing.phase2.inverse",
+        "yijing.phase2.nuclear",
+        "yijing.phase2.change"
+      ]
+    },
+    {
+      "id": "yijing.zhun-nuclear",
+      "domain": "yijing",
+      "variant": "bottom-up-six-lines-v1",
+      "input": {
+        "bits": "100010"
+      },
+      "mode": "production",
+      "tags": [
+        "golden",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "golden_ref": {
+        "path": "data/canonical/yijing/phase2_golden.json",
+        "id": "yijing.zhun-nuclear",
+        "sha256": "6cf0cbc70dcee3aa9f85a3b11ddfa30e96afbf04fa5abbaa3f56d5c26f72454c"
+      },
+      "expected_chart_subset": {
+        "original": {
+          "number": 3
+        },
+        "opposite": {
+          "number": 50
+        },
+        "inverse": {
+          "number": 4
+        },
+        "nuclear": {
+          "number": 23
+        },
+        "change": {
+          "number": 3
+        }
+      },
+      "expected": "explanation",
+      "expected_chart_sha256": "3e5074c5f7db3ae227d3cfca549070040539bdf4db54ab4bfb940a8fe6bffb70",
+      "expected_rule_ids": [
+        "yijing.phase2.structure",
+        "yijing.phase2.opposite",
+        "yijing.phase2.inverse",
+        "yijing.phase2.nuclear",
+        "yijing.phase2.change"
+      ]
+    },
+    {
+      "id": "yijing.eval-boundary-01",
+      "domain": "yijing",
+      "variant": "bottom-up-six-lines-v1",
+      "input": {
+        "bits": "000000",
+        "changing_lines": []
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "74c8aa66f802363a0fa1b35c084523208965e39584206eda9b488b3a1b904978",
+      "expected_rule_ids": [
+        "yijing.phase2.structure",
+        "yijing.phase2.opposite",
+        "yijing.phase2.inverse",
+        "yijing.phase2.nuclear",
+        "yijing.phase2.change"
+      ]
+    },
+    {
+      "id": "yijing.eval-boundary-02",
+      "domain": "yijing",
+      "variant": "bottom-up-six-lines-v1",
+      "input": {
+        "bits": "111111",
+        "changing_lines": []
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "cf702782539351b8564f3dfe9cf7e51530640eed02232cace3956a2a700d40e0",
+      "expected_rule_ids": [
+        "yijing.phase2.structure",
+        "yijing.phase2.opposite",
+        "yijing.phase2.inverse",
+        "yijing.phase2.nuclear",
+        "yijing.phase2.change"
+      ]
+    },
+    {
+      "id": "yijing.eval-boundary-03",
+      "domain": "yijing",
+      "variant": "bottom-up-six-lines-v1",
+      "input": {
+        "bits": "000000",
+        "changing_lines": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "516363c5a692752d4b7baa909a06ed3d8fbc8abf104049860c57908ebecce890",
+      "expected_rule_ids": [
+        "yijing.phase2.structure",
+        "yijing.phase2.opposite",
+        "yijing.phase2.inverse",
+        "yijing.phase2.nuclear",
+        "yijing.phase2.change"
+      ]
+    },
+    {
+      "id": "yijing.eval-boundary-04",
+      "domain": "yijing",
+      "variant": "bottom-up-six-lines-v1",
+      "input": {
+        "bits": "111111",
+        "changing_lines": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "03c4c0f4cab0763d0fb5732e5d80e0b6d25b588f1806642b0d376195ce6f99c7",
+      "expected_rule_ids": [
+        "yijing.phase2.structure",
+        "yijing.phase2.opposite",
+        "yijing.phase2.inverse",
+        "yijing.phase2.nuclear",
+        "yijing.phase2.change"
+      ]
+    },
+    {
+      "id": "yijing.eval-boundary-05",
+      "domain": "yijing",
+      "variant": "bottom-up-six-lines-v1",
+      "input": {
+        "bits": "010101",
+        "changing_lines": [
+          6
+        ]
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "753a7bbf435eff05efc0435c0e5fb8d9e97703596a1ee13ac3adbf81f6228a6d",
+      "expected_rule_ids": [
+        "yijing.phase2.structure",
+        "yijing.phase2.opposite",
+        "yijing.phase2.inverse",
+        "yijing.phase2.nuclear",
+        "yijing.phase2.change"
+      ]
+    },
+    {
+      "id": "yijing.eval-boundary-06",
+      "domain": "yijing",
+      "variant": "bottom-up-six-lines-v1",
+      "input": {
+        "bits": "101010",
+        "changing_lines": [
+          1,
+          6
+        ]
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "98a37fc3f8e75681bcabaa8eb65e55009b83e9e998b758463a8fb065b6198340",
+      "expected_rule_ids": [
+        "yijing.phase2.structure",
+        "yijing.phase2.opposite",
+        "yijing.phase2.inverse",
+        "yijing.phase2.nuclear",
+        "yijing.phase2.change"
+      ]
+    },
+    {
+      "id": "yijing.eval-boundary-07",
+      "domain": "yijing",
+      "variant": "bottom-up-six-lines-v1",
+      "input": {
+        "bits": "000001",
+        "changing_lines": [
+          6
+        ]
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "aadece8db8665661936cc9612f5ecf7dc1a4aec53dea806b76c3df928fa01aba",
+      "expected_rule_ids": [
+        "yijing.phase2.structure",
+        "yijing.phase2.opposite",
+        "yijing.phase2.inverse",
+        "yijing.phase2.nuclear",
+        "yijing.phase2.change"
+      ]
+    },
+    {
+      "id": "yijing.eval-boundary-08",
+      "domain": "yijing",
+      "variant": "bottom-up-six-lines-v1",
+      "input": {
+        "bits": "100000",
+        "changing_lines": [
+          1
+        ]
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "bd67e5218f6be29de517f0c85e14ceb5ccf5eb28dc98055e5717228d46c2fa4f",
+      "expected_rule_ids": [
+        "yijing.phase2.structure",
+        "yijing.phase2.opposite",
+        "yijing.phase2.inverse",
+        "yijing.phase2.nuclear",
+        "yijing.phase2.change"
+      ]
+    },
+    {
+      "id": "yijing.eval-boundary-09",
+      "domain": "yijing",
+      "variant": "bottom-up-six-lines-v1",
+      "input": {
+        "bits": "100010",
+        "changing_lines": [
+          2,
+          5
+        ]
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "6a338046883f99c01116842d9cafb18216ff03670871219111ac948e869c51d7",
+      "expected_rule_ids": [
+        "yijing.phase2.structure",
+        "yijing.phase2.opposite",
+        "yijing.phase2.inverse",
+        "yijing.phase2.nuclear",
+        "yijing.phase2.change"
+      ]
+    },
+    {
+      "domain": "yijing",
+      "variant": "unregistered-school",
+      "input": {
+        "bits": "111111",
+        "changing_lines": [
+          1
+        ]
+      },
+      "mode": "production",
+      "id": "yijing.guard-unsupported-variant",
+      "tags": [
+        "refusal",
+        "unsupported-variant"
+      ],
+      "expected": "input_rejected"
+    },
+    {
+      "domain": "yijing",
+      "variant": "bottom-up-six-lines-v1",
+      "input": {
+        "unknown_argument": "invalid"
+      },
+      "mode": "production",
+      "id": "yijing.guard-invalid-input",
+      "tags": [
+        "refusal",
+        "invalid-input"
+      ],
+      "expected": "input_rejected"
+    },
+    {
+      "domain": "yijing",
+      "variant": "bottom-up-six-lines-v1",
+      "input": {
+        "bits": "111111",
+        "changing_lines": [
+          1
+        ]
+      },
+      "mode": "production",
+      "id": "yijing.guard-insufficient-evidence",
+      "tags": [
+        "refusal",
+        "insufficient-evidence"
+      ],
+      "expected": "refused",
+      "context_fault": "no_evidence"
+    },
+    {
+      "domain": "yijing",
+      "variant": "bottom-up-six-lines-v1",
+      "input": {
+        "bits": "111111",
+        "changing_lines": [
+          1
+        ]
+      },
+      "mode": "production",
+      "id": "yijing.guard-source-conflict",
+      "tags": [
+        "refusal",
+        "source-conflict"
+      ],
+      "expected": "refused",
+      "context_fault": "source_conflict"
+    },
+    {
+      "id": "yijing.guard-calendar-school-limit",
+      "domain": "yijing",
+      "variant": "bottom-up-six-lines-v1",
+      "input": {
+        "bits": "111111",
+        "changing_lines": [
+          0
+        ]
+      },
+      "mode": "production",
+      "tags": [
+        "refusal",
+        "boundary",
+        "variant_limitations"
+      ],
+      "expected": "input_rejected"
+    },
+    {
+      "id": "ziwei.quanshu-fire-first-day",
+      "domain": "ziwei",
+      "variant": "quanshu-lunar-iztro-mutagen-v1",
+      "input": {
+        "year_ganzhi": "甲子",
+        "lunar_month": 1,
+        "lunar_day": 1,
+        "hour_branch": "子"
+      },
+      "mode": "production",
+      "tags": [
+        "golden",
+        "low_evidence",
+        "variant_limitations",
+        "boundary"
+      ],
+      "golden_ref": {
+        "path": "data/canonical/ziwei/phase2_golden.json",
+        "id": "ziwei.quanshu-fire-first-day",
+        "sha256": "bd857327c59d14ad0b73e5f471aac17eea694f45a03d402e3cb9c0b260dcad2e"
+      },
+      "expected_chart_subset": {
+        "life_palace": "寅",
+        "body_palace": "寅",
+        "life_ganzhi": "丙寅",
+        "bureau": {
+          "element": "火",
+          "number": 6
+        },
+        "major_stars": {
+          "紫微": "酉",
+          "天府": "未",
+          "天机": "申",
+          "太阳": "午",
+          "武曲": "巳",
+          "天同": "辰",
+          "廉贞": "丑",
+          "太阴": "申",
+          "贪狼": "酉",
+          "巨门": "戌",
+          "天相": "亥",
+          "天梁": "子",
+          "七杀": "丑",
+          "破军": "巳"
+        },
+        "auxiliary_stars": {
+          "左辅": "辰",
+          "右弼": "戌",
+          "文昌": "戌",
+          "文曲": "辰",
+          "禄存": "寅",
+          "擎羊": "卯",
+          "陀罗": "丑",
+          "天马": "寅",
+          "地劫": "亥",
+          "天空": "亥"
+        },
+        "four_transformations": {
+          "化禄": "廉贞",
+          "化权": "破军",
+          "化科": "武曲",
+          "化忌": "太阳"
+        }
+      },
+      "expected": "explanation",
+      "expected_chart_sha256": "e837489c8a15d69e9a0d2c06bd3d7cf2bf4c540187407ae4121921807101ccab",
+      "expected_rule_ids": [
+        "ziwei.phase2.life_body",
+        "ziwei.phase2.bureau",
+        "ziwei.phase2.palaces",
+        "ziwei.phase2.major_stars",
+        "ziwei.phase2.auxiliary_stars",
+        "ziwei.phase2.mutagens"
+      ]
+    },
+    {
+      "id": "ziwei.chou-hour-mirror",
+      "domain": "ziwei",
+      "variant": "quanshu-lunar-iztro-mutagen-v1",
+      "input": {
+        "year_ganzhi": "甲子",
+        "lunar_month": 1,
+        "lunar_day": 1,
+        "hour_branch": "丑"
+      },
+      "mode": "production",
+      "tags": [
+        "golden",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "golden_ref": {
+        "path": "data/canonical/ziwei/phase2_golden.json",
+        "id": "ziwei.chou-hour-mirror",
+        "sha256": "bd857327c59d14ad0b73e5f471aac17eea694f45a03d402e3cb9c0b260dcad2e"
+      },
+      "expected_chart_subset": {
+        "life_palace": "丑",
+        "body_palace": "卯",
+        "life_ganzhi": "丁丑",
+        "bureau": {
+          "element": "水",
+          "number": 2
+        },
+        "major_stars": {
+          "紫微": "丑",
+          "天府": "卯"
+        }
+      },
+      "expected": "explanation",
+      "expected_chart_sha256": "a3d604669c789839be63ca2399a3e948dd3b2a96672aa51ffc55044ec8b119b2",
+      "expected_rule_ids": [
+        "ziwei.phase2.life_body",
+        "ziwei.phase2.bureau",
+        "ziwei.phase2.palaces",
+        "ziwei.phase2.major_stars",
+        "ziwei.phase2.auxiliary_stars",
+        "ziwei.phase2.mutagens"
+      ]
+    },
+    {
+      "id": "ziwei.ren-explicit-iztro",
+      "domain": "ziwei",
+      "variant": "quanshu-lunar-iztro-mutagen-v1",
+      "input": {
+        "year_ganzhi": "壬申",
+        "lunar_month": 1,
+        "lunar_day": 30,
+        "hour_branch": "子"
+      },
+      "mode": "production",
+      "tags": [
+        "golden",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "golden_ref": {
+        "path": "data/canonical/ziwei/phase2_golden.json",
+        "id": "ziwei.ren-explicit-iztro",
+        "sha256": "bd857327c59d14ad0b73e5f471aac17eea694f45a03d402e3cb9c0b260dcad2e"
+      },
+      "expected_chart_subset": {
+        "life_palace": "寅",
+        "life_ganzhi": "壬寅",
+        "bureau": {
+          "element": "金",
+          "number": 4
+        },
+        "four_transformations": {
+          "化禄": "天梁",
+          "化权": "紫微",
+          "化科": "左辅",
+          "化忌": "武曲"
+        },
+        "mutagen_variant": "iztro-default-v2"
+      },
+      "expected": "explanation",
+      "expected_chart_sha256": "bedd2e689e3036a1ca631b3774c42728a811ae00d340ba22b56e85d954e6e5c9",
+      "expected_rule_ids": [
+        "ziwei.phase2.life_body",
+        "ziwei.phase2.bureau",
+        "ziwei.phase2.palaces",
+        "ziwei.phase2.major_stars",
+        "ziwei.phase2.auxiliary_stars",
+        "ziwei.phase2.mutagens"
+      ]
+    },
+    {
+      "id": "ziwei.eval-boundary-01",
+      "domain": "ziwei",
+      "variant": "quanshu-lunar-iztro-mutagen-v1",
+      "input": {
+        "year_ganzhi": "乙丑",
+        "lunar_month": 1,
+        "lunar_day": 1,
+        "hour_branch": "子"
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "0ce755226007776874e26d2d1b30e4fba0cb340714e99adccf6f7cc8794e4668",
+      "expected_rule_ids": [
+        "ziwei.phase2.life_body",
+        "ziwei.phase2.bureau",
+        "ziwei.phase2.palaces",
+        "ziwei.phase2.major_stars",
+        "ziwei.phase2.auxiliary_stars",
+        "ziwei.phase2.mutagens"
+      ]
+    },
+    {
+      "id": "ziwei.eval-boundary-02",
+      "domain": "ziwei",
+      "variant": "quanshu-lunar-iztro-mutagen-v1",
+      "input": {
+        "year_ganzhi": "丙寅",
+        "lunar_month": 12,
+        "lunar_day": 30,
+        "hour_branch": "亥"
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "44642e8c4f69f2840475a149a9b82c6024246c51e89ff56d16b5d3b9d12e6396",
+      "expected_rule_ids": [
+        "ziwei.phase2.life_body",
+        "ziwei.phase2.bureau",
+        "ziwei.phase2.palaces",
+        "ziwei.phase2.major_stars",
+        "ziwei.phase2.auxiliary_stars",
+        "ziwei.phase2.mutagens"
+      ]
+    },
+    {
+      "id": "ziwei.eval-boundary-03",
+      "domain": "ziwei",
+      "variant": "quanshu-lunar-iztro-mutagen-v1",
+      "input": {
+        "year_ganzhi": "丁卯",
+        "lunar_month": 6,
+        "lunar_day": 15,
+        "hour_branch": "午"
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "62382f5c89b236d55bdf90d249d6a6ac5e3712b3f5fb37b8bfee3da4bbd0fa3d",
+      "expected_rule_ids": [
+        "ziwei.phase2.life_body",
+        "ziwei.phase2.bureau",
+        "ziwei.phase2.palaces",
+        "ziwei.phase2.major_stars",
+        "ziwei.phase2.auxiliary_stars",
+        "ziwei.phase2.mutagens"
+      ]
+    },
+    {
+      "id": "ziwei.eval-boundary-04",
+      "domain": "ziwei",
+      "variant": "quanshu-lunar-iztro-mutagen-v1",
+      "input": {
+        "year_ganzhi": "戊辰",
+        "lunar_month": 1,
+        "lunar_day": 30,
+        "hour_branch": "卯"
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "b711477cc6cda8bde347433a8a91bff4f6cbac50dc175820a15ef3f9dbf716f7",
+      "expected_rule_ids": [
+        "ziwei.phase2.life_body",
+        "ziwei.phase2.bureau",
+        "ziwei.phase2.palaces",
+        "ziwei.phase2.major_stars",
+        "ziwei.phase2.auxiliary_stars",
+        "ziwei.phase2.mutagens"
+      ]
+    },
+    {
+      "id": "ziwei.eval-boundary-05",
+      "domain": "ziwei",
+      "variant": "quanshu-lunar-iztro-mutagen-v1",
+      "input": {
+        "year_ganzhi": "己巳",
+        "lunar_month": 12,
+        "lunar_day": 1,
+        "hour_branch": "酉"
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "32e8f0a1433d4116ac0392d92e962e3583c79d45c56c95ca323e8741bb688274",
+      "expected_rule_ids": [
+        "ziwei.phase2.life_body",
+        "ziwei.phase2.bureau",
+        "ziwei.phase2.palaces",
+        "ziwei.phase2.major_stars",
+        "ziwei.phase2.auxiliary_stars",
+        "ziwei.phase2.mutagens"
+      ]
+    },
+    {
+      "id": "ziwei.eval-boundary-06",
+      "domain": "ziwei",
+      "variant": "quanshu-lunar-iztro-mutagen-v1",
+      "input": {
+        "year_ganzhi": "庚午",
+        "lunar_month": 3,
+        "lunar_day": 1,
+        "hour_branch": "丑"
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "99fe16068a93c166f5e2c8222cd8ad0b416d834635925a9ebaa6c50db15871d3",
+      "expected_rule_ids": [
+        "ziwei.phase2.life_body",
+        "ziwei.phase2.bureau",
+        "ziwei.phase2.palaces",
+        "ziwei.phase2.major_stars",
+        "ziwei.phase2.auxiliary_stars",
+        "ziwei.phase2.mutagens"
+      ]
+    },
+    {
+      "id": "ziwei.eval-boundary-07",
+      "domain": "ziwei",
+      "variant": "quanshu-lunar-iztro-mutagen-v1",
+      "input": {
+        "year_ganzhi": "辛未",
+        "lunar_month": 4,
+        "lunar_day": 29,
+        "hour_branch": "未"
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "91f103c4ed5a44fd60023d12878aea39ef030f94057cf98f1edd25deb7da62cd",
+      "expected_rule_ids": [
+        "ziwei.phase2.life_body",
+        "ziwei.phase2.bureau",
+        "ziwei.phase2.palaces",
+        "ziwei.phase2.major_stars",
+        "ziwei.phase2.auxiliary_stars",
+        "ziwei.phase2.mutagens"
+      ]
+    },
+    {
+      "id": "ziwei.eval-boundary-08",
+      "domain": "ziwei",
+      "variant": "quanshu-lunar-iztro-mutagen-v1",
+      "input": {
+        "year_ganzhi": "癸酉",
+        "lunar_month": 9,
+        "lunar_day": 15,
+        "hour_branch": "辰"
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "c1aaf90bb581580139f1ff4917707444893fcd857cc6a2d6605a58d0d02c8769",
+      "expected_rule_ids": [
+        "ziwei.phase2.life_body",
+        "ziwei.phase2.bureau",
+        "ziwei.phase2.palaces",
+        "ziwei.phase2.major_stars",
+        "ziwei.phase2.auxiliary_stars",
+        "ziwei.phase2.mutagens"
+      ]
+    },
+    {
+      "id": "ziwei.eval-boundary-09",
+      "domain": "ziwei",
+      "variant": "quanshu-lunar-iztro-mutagen-v1",
+      "input": {
+        "value": "1999-02-16T00:00:00+08:00",
+        "year_boundary": "lunar-new-year"
+      },
+      "mode": "production",
+      "tags": [
+        "boundary",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
+      "expected": "explanation",
+      "expected_chart_sha256": "8fecdcca58ab29b679969ed4aa05ee0771e62bfa76509773f0fce0e3e69adc7c",
+      "expected_rule_ids": [
+        "ziwei.phase2.life_body",
+        "ziwei.phase2.bureau",
+        "ziwei.phase2.palaces",
+        "ziwei.phase2.major_stars",
+        "ziwei.phase2.auxiliary_stars",
+        "ziwei.phase2.mutagens"
+      ]
+    },
+    {
+      "domain": "ziwei",
+      "variant": "unregistered-school",
+      "input": {
+        "year_ganzhi": "甲子",
+        "lunar_month": 1,
+        "lunar_day": 1,
+        "hour_branch": "子"
+      },
+      "mode": "production",
+      "id": "ziwei.guard-unsupported-variant",
+      "tags": [
+        "refusal",
+        "unsupported-variant"
+      ],
+      "expected": "input_rejected"
+    },
+    {
+      "domain": "ziwei",
+      "variant": "quanshu-lunar-iztro-mutagen-v1",
+      "input": {
+        "unknown_argument": "invalid"
+      },
+      "mode": "production",
+      "id": "ziwei.guard-invalid-input",
+      "tags": [
+        "refusal",
+        "invalid-input"
+      ],
+      "expected": "input_rejected"
+    },
+    {
+      "domain": "ziwei",
+      "variant": "quanshu-lunar-iztro-mutagen-v1",
+      "input": {
+        "year_ganzhi": "甲子",
+        "lunar_month": 1,
+        "lunar_day": 1,
+        "hour_branch": "子"
+      },
+      "mode": "production",
+      "id": "ziwei.guard-insufficient-evidence",
+      "tags": [
+        "refusal",
+        "insufficient-evidence"
+      ],
+      "expected": "refused",
+      "context_fault": "no_evidence"
+    },
+    {
+      "domain": "ziwei",
+      "variant": "quanshu-lunar-iztro-mutagen-v1",
+      "input": {
+        "year_ganzhi": "甲子",
+        "lunar_month": 1,
+        "lunar_day": 1,
+        "hour_branch": "子"
+      },
+      "mode": "production",
+      "id": "ziwei.guard-source-conflict",
+      "tags": [
+        "refusal",
+        "source-conflict"
+      ],
+      "expected": "refused",
+      "context_fault": "source_conflict"
+    },
+    {
+      "id": "ziwei.guard-calendar-school-limit",
+      "domain": "ziwei",
+      "variant": "quanshu-lunar-iztro-mutagen-v1",
+      "input": {
+        "value": "2023-03-22T12:00:00+08:00",
+        "year_boundary": "lunar-new-year"
+      },
+      "mode": "production",
+      "tags": [
+        "refusal",
+        "boundary",
+        "variant_limitations"
+      ],
+      "expected": "input_rejected"
+    }
+  ]
+}
