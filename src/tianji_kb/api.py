@@ -1,4 +1,5 @@
 """Unified HTTP transport for the existing six-domain deterministic engine."""
+import copy
 from typing import Any,Literal
 from fastapi import FastAPI,HTTPException
 from fastapi.exceptions import RequestValidationError
@@ -8,6 +9,7 @@ from starlette.concurrency import run_in_threadpool
 from .engine import execute,PROVIDERS
 from .resolver import EvidenceResolver
 from .runtime_catalog import RuntimeUnavailable
+from .explanation import ExplanationService,ExplanationFailure
 
 Domain=Literal['liuyao','qimen','liuren','ziwei','fengshui','yijing']
 Mode=Literal['production','research']
@@ -56,10 +58,10 @@ def response_for(raw):
         calendar=raw.get('input_calendar') or raw['result'].get('calendar'))
 
 
-def create_app(explanation_service=None):
+def create_app(provider=None,*,explanation_timeout=20):
     app=FastAPI(title='Tianji deterministic knowledge API',version='1.0.0',
         description='Canonical calculation → RuleMatch → trace → Evidence; AI may explain but may not compute charts.')
-    app.state.explanation_service=explanation_service
+    app.state.provider=provider
 
     @app.exception_handler(RequestValidationError)
     async def invalid_request(request,error):
@@ -74,7 +76,7 @@ def create_app(explanation_service=None):
     def health():
         resolver=EvidenceResolver()
         return {'status':'ok','engine':'ready','domains':list(PROVIDERS),
-                'production_runtime':'reviewed','explanation_configured':app.state.explanation_service is not None}
+                'production_runtime':'reviewed','explanation_configured':app.state.provider is not None}
 
     @app.get('/api/v1/capabilities',tags=['system'])
     def capabilities():
@@ -99,9 +101,15 @@ def create_app(explanation_service=None):
             raise HTTPException(422,detail={'code':'invalid_input','message':str(error)}) from error
         result=response_for(raw)
         if request.explain:
-            result.explanation_status='failed'
-            result.explanation_error='provider_not_configured'
-            result.warnings.append('解释暂不可用；确定性盘面、规则与证据仍正常返回。')
+            try:
+                if app.state.provider is None:raise ExplanationFailure('provider_not_configured')
+                service=ExplanationService(app.state.provider,timeout=explanation_timeout)
+                result.explanation=await service.explain(copy.deepcopy(raw))
+                result.explanation_status='succeeded'
+            except Exception as error:
+                result.explanation_status='failed'
+                result.explanation_error=error.code if isinstance(error,ExplanationFailure) else 'explanation_failed'
+                result.warnings.append('解释暂不可用或未通过引用校验；确定性盘面、规则与证据仍正常返回。')
         return result
 
     return app
