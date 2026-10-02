@@ -25,9 +25,10 @@ REPLY_SCHEMA={
 
 INSTRUCTION=get_prompt()['instruction']
 
-def fact_map(chart):
+def fact_map(chart,*,include_containers=False):
     facts={}
     def walk(value,path):
+        if include_containers:facts[path]=copy.deepcopy(value)
         if isinstance(value,dict):
             for key,item in value.items():walk(item,path+'/'+str(key).replace('~','~0').replace('/','~1'))
         elif isinstance(value,list):
@@ -37,15 +38,36 @@ def fact_map(chart):
 
 def context_for(raw,rows,prompt_version=DEFAULT_PROMPT):
     prompt=get_prompt(prompt_version)
-    return {'domain':raw['domain'],'variant':raw['variant'],'mode':raw['mode'],
+    context={'domain':raw['domain'],'variant':raw['variant'],'mode':raw['mode'],
         'chart_digest':digest(raw['result']),'chart':copy.deepcopy(raw['result']),
-        'facts':fact_map(raw['result']),'rules':copy.deepcopy(raw['rule_matches']),
+        'facts':fact_map(raw['result'],include_containers=prompt_version=='explanation-prompt-v2'),'rules':copy.deepcopy(raw['rule_matches']),
         'trace':copy.deepcopy(raw['trace']),'evidence':copy.deepcopy(raw['evidence']),
         'rag':rows,'limitations':[raw.get('scope',''),*raw.get('unresolved',[])],
         'instructions':prompt['instruction'],'prompt_version':prompt['version'],'prompt_sha256':prompt['sha256'],'response_schema':REPLY_SCHEMA}
+    if prompt_version=='explanation-prompt-v2':
+        from .explanation_policy import add_policy,reply_schema
+        context=add_policy(context);context['response_schema']=reply_schema(REPLY_SCHEMA)
+    return context
+
+def validate_citations(claim,evidence):
+    if any(eid not in evidence for eid in claim['evidence_ids']):raise ExplanationFailure('citation_rejected')
+    refs=[evidence[eid] for eid in claim['evidence_ids']]
+    for quote in claim['quotes']:
+        if not quote['text'].strip() or quote['evidence_id'] not in claim['evidence_ids'] or quote['text'] not in evidence[quote['evidence_id']]['original_text']:
+            raise ExplanationFailure('citation_rejected')
+    titles={ref['classic_title'] for ref in refs}|{ref['classic_title'].split('·')[0] for ref in refs}
+    if any(title not in titles for title in re.findall(r'《([^》]+)》',claim['text'])):
+        raise ExplanationFailure('citation_rejected')
+    markers=re.findall(r'\[\[([^\]]+)\]\]|\[([^\]]+)\]',claim['text'])
+    if any((a or b) not in claim['evidence_ids'] for a,b in markers):raise ExplanationFailure('citation_rejected')
+    quotes=re.findall(r'「([^」]+)」|“([^”]+)”|『([^』]+)』',claim['text'])
+    if any(not any(next(x for x in quote if x) in ref['original_text'] for ref in refs) for quote in quotes):
+        raise ExplanationFailure('citation_rejected')
+    urls=re.findall(r'https?://[^\s<>]+',claim['text'])
+    if any(url not in {ref['source_url'] for ref in refs} for url in urls):raise ExplanationFailure('citation_rejected')
 
 def validate_reply(reply,context):
-    try:Draft202012Validator(REPLY_SCHEMA).validate(reply)
+    try:Draft202012Validator(context['response_schema']).validate(reply)
     except ValidationError as error:raise ExplanationFailure('invalid_model_response') from error
     for key in ['domain','variant','mode','chart_digest']:
         if reply[key]!=context[key]:raise ExplanationFailure('immutable_context_mismatch')
@@ -54,29 +76,29 @@ def validate_reply(reply,context):
         pointer=claim['fact_ref']
         if pointer not in context['facts'] or digest(claim['fact_value'])!=digest(context['facts'][pointer]):
             raise ExplanationFailure('chart_fact_mismatch')
-        if any(eid not in evidence for eid in claim['evidence_ids']):raise ExplanationFailure('citation_rejected')
-        refs=[evidence[eid] for eid in claim['evidence_ids']]
-        for quote in claim['quotes']:
-            if quote['evidence_id'] not in claim['evidence_ids'] or quote['text'] not in evidence[quote['evidence_id']]['original_text']:
-                raise ExplanationFailure('citation_rejected')
-        titles={ref['classic_title'] for ref in refs}|{ref['classic_title'].split('·')[0] for ref in refs}
-        if any(title not in titles for title in re.findall(r'《([^》]+)》',claim['text'])):
-            raise ExplanationFailure('citation_rejected')
-        markers=re.findall(r'\[\[([^\]]+)\]\]|\[([^\]]+)\]',claim['text'])
-        if any((a or b) not in claim['evidence_ids'] for a,b in markers):raise ExplanationFailure('citation_rejected')
-        quotes=re.findall(r'「([^」]+)」|“([^”]+)”|『([^』]+)』',claim['text'])
-        if any(not any(next(x for x in quote if x) in ref['original_text'] for ref in refs) for quote in quotes):
-            raise ExplanationFailure('citation_rejected')
-        urls=re.findall(r'https?://[^\s<>]+',claim['text'])
-        if any(url not in {ref['source_url'] for ref in refs} for url in urls):raise ExplanationFailure('citation_rejected')
+        validate_citations(claim,evidence)
         claims.append({**copy.deepcopy(claim),'fact_value':copy.deepcopy(context['facts'][pointer]),
             'citations':[{'evidence_id':eid,'source_ref':copy.deepcopy(evidence[eid])} for eid in claim['evidence_ids']]})
-    return {key:reply[key] for key in ['domain','variant','mode','chart_digest']}|{'claims':claims,'rag':context['rag']}
+    output={key:reply[key] for key in ['domain','variant','mode','chart_digest']}|{'claims':claims,'rag':context['rag']}
+    if context['prompt_version']=='explanation-prompt-v2':
+        from .explanation_policy import validate_policy,response_policy
+        validate_policy(reply,context);output.update(response_policy(reply,context))
+    else:
+        output.update(prompt_version=context['prompt_version'],prompt_sha256=context['prompt_sha256'],
+            quality_status='legacy_requires_review',semantic_review_required=True,automatic_release_allowed=False,
+            uncertainty_notes=context['limitations'],sections={})
+    return output
 
 class ExplanationService:
     def __init__(self,provider:ExplanationProvider,*,retriever=None,timeout=20,prompt_version=DEFAULT_PROMPT):
         self.provider=provider;self.retriever=retriever or CanonicalRetriever();self.timeout=timeout;self.prompt_version=prompt_version
     async def explain(self,raw):
+        # Version selection and refusal gates run before retrieval/model invocation.
+        try:get_prompt(self.prompt_version)
+        except ValueError as error:raise ExplanationFailure('prompt_configuration_invalid') from error
+        if self.prompt_version=='explanation-prompt-v2':
+            from .explanation_policy import preflight
+            preflight(raw)
         try:rows=await run_in_threadpool(self.retriever.retrieve,raw)
         except (RetrievalUnavailable,OSError,ValueError) as error:raise ExplanationFailure('retrieval_unavailable') from error
         if not rows:raise ExplanationFailure('insufficient_evidence')

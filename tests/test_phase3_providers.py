@@ -11,10 +11,7 @@ from tianji_kb.rag_context import CanonicalRetriever
 ENV={'TIANJI_AI_PROVIDER':'json-http','TIANJI_AI_BASE_URL':'https://model.example.test/explain',
      'TIANJI_AI_API_KEY':'test-only-key','TIANJI_AI_MODEL':'test-model','TIANJI_AI_TIMEOUT_SECONDS':'2'}
 
-def valid_reply(context):
-    fact=next(iter(context['facts']));eid=next(iter(context['evidence']))
-    return {**{k:context[k] for k in ['domain','variant','mode','chart_digest']},'claims':[{
-        'fact_ref':fact,'fact_value':context['facts'][fact],'text':'解释已计算字段的传统关系。','evidence_ids':[eid],'quotes':[]}]}
+from phase4_helpers import valid_reply
 
 class ProviderTests(unittest.TestCase):
     @classmethod

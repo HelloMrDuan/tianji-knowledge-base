@@ -15,3 +15,5 @@ Production does not open quarantine. To evaluate Fengshui absolute-period assump
 Configure AI/CORS using [PROVIDERS.md](PROVIDERS.md) and the variable names in `.env.api.example`. Explanation claims, quotations and server-generated source citations are represented in OpenAPI. The `deterministic` flag applies to chart/rules/trace/evidence, not to byte-identical AI prose.
 
 For a live service readiness check run `python scripts/check_api.py`. It checks health, reviewed RAG, all six capability examples, deterministic repeats and OpenAPI without invoking a model. Deploy by stopping the old service, rebuilding release artifacts and starting the new process; do not change code or artifacts underneath a running release.
+
+Phase 4 explanations add versioned prompt hashes, five typed claim categories, rule-to-fact/evidence bindings, source-strength checks, server-generated section indexes and review metadata. See [Phase 4 contract](../phase4/PROMPTS.md) and [batch evaluation](../phase4/EVALUATION.md). V2 is the trial default; production blocks legacy v1. Structural success is not an automatic AI release approval.

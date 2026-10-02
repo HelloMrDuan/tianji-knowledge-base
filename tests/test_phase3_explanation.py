@@ -5,16 +5,13 @@ from fastapi.testclient import TestClient
 from tianji_kb.api import create_app,EXAMPLES
 from tianji_kb.engine import execute
 from tianji_kb.rag_context import CanonicalRetriever
+from phase4_helpers import valid_reply
 
 class FixedProvider:
     def __init__(self,mutate=None):self.contexts=[];self.mutate=mutate
     async def explain(self,context):
         self.contexts.append(copy.deepcopy(context))
-        fact=next(iter(context['facts']));eid=next(iter(context['evidence']))
-        reply={key:context[key] for key in ['domain','variant','mode','chart_digest']}
-        reply['claims']=[{'fact_ref':fact,'fact_value':context['facts'][fact],
-            'text':'仅解释程序已计算的字段与所附原典关系。','evidence_ids':[eid],
-            'quotes':[{'evidence_id':eid,'text':context['evidence'][eid]['original_text'][:20]}]}]
+        reply=valid_reply(context)
         if self.mutate:self.mutate(reply,context)
         return reply
 
