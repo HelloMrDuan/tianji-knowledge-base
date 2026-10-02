@@ -1,0 +1,22 @@
+{
+  "baseline_main_sha": "73cccbd9ee09f52d5075a1d32223d6dab5cb7ceb",
+  "algorithm_files": {
+    "src/tianji_kb/calendar.py": "29e71a684a6718b9f73db770804198ba58b5d5b969b643a5ebe00b8da03d542c",
+    "src/tianji_kb/engine.py": "cdeb1a419600b2f2f08f30c60b7f3986a8d3096d474fb9c6d83705fbabd93b42",
+    "src/tianji_kb/foundations.py": "f69a57a7b413d10b2caf02b21e301b2745da40cb1470da91d46e0d56e170fdcc",
+    "src/tianji_kb/operations/__init__.py": "5bc023d2bdd5b1833372c2bef684cbdc811658ac159aa45ec1999cd34a4ec228",
+    "src/tianji_kb/operations/fengshui.py": "6ad8512d9788e9ed2599f9dbb85b44dc21ee6a77090a990f0799dda095086a42",
+    "src/tianji_kb/operations/fengshui_chart.py": "b0d5526ab6e4158c1c333e832f8902b676e6541b41b23e6b0200cad626bf219d",
+    "src/tianji_kb/operations/liuren.py": "39bbcfa818a456598dd0cd370899f199e6dcb2e35f58bd808c5d3bbd3fd287ef",
+    "src/tianji_kb/operations/liuren_chart.py": "4c380a3cd8f435632dc83165210d438e03b49bd98938f3c12f6012ac0a1c07a4",
+    "src/tianji_kb/operations/liuyao.py": "34230e18cde3e83f2e45b21b7bf4ca1ad6ef4ace2eb16aab6aa1ce4e82f02cb2",
+    "src/tianji_kb/operations/liuyao_chart.py": "39f8bbea8e81b2d7eed3a18edf093231c5b0003974ce6a8e7b5ebf9452094171",
+    "src/tianji_kb/operations/qimen.py": "97165238a0cc4de9af4b5a7fdf8b52f972668f98da0c7c4f059dfb0192fee400",
+    "src/tianji_kb/operations/qimen_chart.py": "8caa65201600fc7294393446666fa2ec24679e918731da211eee7db156d39d57",
+    "src/tianji_kb/operations/yijing.py": "b84e61fab186398d684b61e1124bd4895df13cc3c4f1358e158cdabf9ff060d1",
+    "src/tianji_kb/operations/yijing_chart.py": "e66eafab85fc58793550a59a0f5c76b9bc397dc3ef6ddbc3db57cb51fed63adb",
+    "src/tianji_kb/operations/ziwei.py": "7731286e53662f59942fd7a00c36a01db7a3da75e55ab9a67fc6ffee94dc058f",
+    "src/tianji_kb/operations/ziwei_chart.py": "24b389403a05ed7db68d06aa734bf67a63d68912088016ab420ac8609a936828",
+    "src/tianji_kb/resolver.py": "62a045b720fd49e3b81e078380970a99a7dfc02764456288047e7f92d10eeecc"
+  }
+}
