@@ -14,7 +14,7 @@ def timeout_from_environment():
     return value
 
 
-def settings_from_environment():
+def settings_from_environment(*,require_model=True):
     driver=os.environ.get('TIANJI_AI_PROVIDER','disabled')
     if driver=='disabled':return None
     if driver not in DRIVERS:raise ExplanationFailure('provider_configuration_invalid')
@@ -25,7 +25,7 @@ def settings_from_environment():
     except ValueError as error:raise ExplanationFailure('provider_configuration_invalid') from error
     if not 256<=max_tokens<=16384:raise ExplanationFailure('provider_configuration_invalid')
     parsed=urlsplit(endpoint)
-    if not endpoint or not key or (driver=='openai-compatible' and not model):
+    if not endpoint or not key or (driver=='openai-compatible' and require_model and not model):
         raise ExplanationFailure('provider_not_configured')
     if parsed.scheme not in ('http','https') or not parsed.hostname or parsed.username or parsed.password or parsed.query or parsed.fragment:
         raise ExplanationFailure('provider_configuration_invalid')
@@ -41,11 +41,11 @@ def provider_configured():
 class HttpProvider:
     def __init__(self,settings,*,transport=None):
         self.settings=settings;self.transport=transport
-    async def post(self,url,body):
+    async def request(self,method,url,body=None):
         # Preserve inherited TLS CA and proxy configuration; never follow credential redirects.
         async with httpx.AsyncClient(timeout=self.settings['timeout'],trust_env=True,transport=self.transport,
                                      follow_redirects=False) as client:
-            async with client.stream('POST',url,json=body,headers={'Authorization':'Bearer '+self.settings['key'],
+            async with client.stream(method,url,json=body,headers={'Authorization':'Bearer '+self.settings['key'],
                     'Accept':'application/json'}) as response:
                 response.raise_for_status()
                 if 300<=response.status_code<400:raise ValueError('Provider redirects are not followed')
@@ -55,6 +55,9 @@ class HttpProvider:
                     if size>262144:raise ValueError('Provider response exceeds allowed size')
                     parts.append(block)
                 return json.loads(b''.join(parts))
+
+    async def post(self,url,body):return await self.request('POST',url,body)
+    async def get(self,url):return await self.request('GET',url)
 
 class JsonHttpProvider(HttpProvider):
     async def explain(self,context):
