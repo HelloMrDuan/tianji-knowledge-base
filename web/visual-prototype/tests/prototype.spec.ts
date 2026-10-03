@@ -1,4 +1,6 @@
 import { test, expect } from "@playwright/test";
+import { domainPages } from "../src/public/domainPages";
+import { modules } from "../src/admin/modules";
 
 const routes = [
   "/",
@@ -7,6 +9,13 @@ const routes = [
   "/admin/classics",
   "/admin/rules",
   "/admin/evidence",
+  "/history",
+  "/favorites",
+  ...domainPages.map((page) => "/" + page.id),
+  ...domainPages
+    .filter((page) => page.id !== "liuyao")
+    .map((page) => "/" + page.id + "/result"),
+  ...modules.map((module) => "/admin/" + module.id),
 ];
 for (const width of [1440, 390, 360]) {
   for (const route of routes) {
@@ -51,9 +60,11 @@ test("public tools and reserved paths cannot expose internal asset pages", async
   await page
     .locator(".tool-card")
     .filter({ hasText: "八字" })
-    .getByRole("button")
+    .getByRole("link")
     .click();
-  await expect(page.locator(".public-toast")).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "录入出生资料" }),
+  ).toBeVisible();
   for (const path of [
     "/knowledge",
     "/raw",
@@ -113,15 +124,14 @@ test("sample favorites persist locally and history stays labelled as example", a
   );
   await page
     .locator(".public-nav")
-    .getByRole("button", { name: "收藏" })
+    .getByRole("link", { name: "收藏", exact: true })
     .click();
-  await expect(page.getByRole("dialog")).toContainText("乾为天");
-  await page.keyboard.press("Escape");
+  await expect(page.locator("main")).toContainText("乾为天");
   await page
     .locator(".public-nav")
-    .getByRole("button", { name: "历史记录" })
+    .getByRole("link", { name: "历史记录" })
     .click();
-  await expect(page.getByRole("dialog")).toContainText("静态");
+  await expect(page.locator("main")).toContainText("静态");
 });
 
 test("original music requires a gesture, persists volume, pauses globally and on admin transition", async ({
@@ -153,7 +163,15 @@ test("original music requires a gesture, persists volume, pauses globally and on
       .evaluate((audio: HTMLAudioElement) => audio.paused),
   ).toBe(false);
   await page.getByRole("button", { name: "全局暂停音乐" }).click();
-  await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("tianji.prototype.music") || "{}").optedIn)).toBe(false);
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () =>
+          JSON.parse(localStorage.getItem("tianji.prototype.music") || "{}")
+            .optedIn,
+      ),
+    )
+    .toBe(false);
   expect(
     await page
       .locator("audio")
@@ -208,7 +226,7 @@ for (const kind of ["classics", "rules", "evidence"]) {
   });
 }
 
-test("mobile admin menu keeps planned modules visibly unimplemented", async ({
+test("mobile admin menu opens implemented Prompt workspace", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
@@ -217,6 +235,10 @@ test("mobile admin menu keeps planned modules visibly unimplemented", async ({
   await expect(
     page.getByRole("navigation", { name: "后台管理导航" }),
   ).toBeVisible();
-  await page.getByRole("button", { name: "Prompt 版本 规划" }).click();
-  await expect(page.getByRole("dialog")).toContainText("本轮不实现");
+  await page.getByRole("link", { name: "Prompt 版本", exact: true }).click();
+  await expect(
+    page.getByRole("heading", { name: "Prompt 版本", exact: true }),
+  ).toBeVisible();
+  await expect(page.getByLabel("指令内容")).toBeVisible();
+  await expect(page.locator(".admin-sidebar")).not.toHaveClass(/is-open/);
 });

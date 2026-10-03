@@ -42,6 +42,7 @@ export function LiuyaoResultPage({
   onToggleFavorite: () => void;
 }) {
   const [selectedLine, setSelectedLine] = useState<number | null>(null);
+  const [fullChart, setFullChart] = useState(false);
   const [selectedRule, setSelectedRule] = useState<number | null>(null);
   const [selectedEvidence, setSelectedEvidence] = useState<string | null>(null);
   const closeLine = useCallback(() => setSelectedLine(null), []);
@@ -98,12 +99,35 @@ export function LiuyaoResultPage({
               静态视觉示例：时间与干支为展示资料，未进行真实排盘。
             </p>
           </section>
-          <section className="chart-panel" id="chart">
+          <section
+            className={"chart-panel" + (fullChart ? " chart-panel-full" : "")}
+            id="chart"
+          >
             <SectionTitle
               number="二"
               title="核心盘面"
               note="点选一爻，查看完整信息"
             />
+            <div
+              className="chart-view-switch"
+              role="group"
+              aria-label="盘面显示方式"
+            >
+              <button
+                type="button"
+                aria-pressed={!fullChart}
+                onClick={() => setFullChart(false)}
+              >
+                简洁盘面
+              </button>
+              <button
+                type="button"
+                aria-pressed={fullChart}
+                onClick={() => setFullChart(true)}
+              >
+                完整盘面
+              </button>
+            </div>
             <div className="chart-summary">
               <div>
                 <span className="small-label">本卦 · 乾宫</span>

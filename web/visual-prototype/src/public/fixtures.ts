@@ -1,48 +1,4 @@
 /** Hand-authored visual samples only. No API transport, model response or internal catalog. */
-export const tools = [
-  {
-    name: "八字",
-    glyph: "八",
-    subtitle: "四柱之间，观照人生",
-    available: false,
-  },
-  {
-    name: "六爻",
-    glyph: "爻",
-    subtitle: "一卦六爻，循象明理",
-    available: true,
-  },
-  {
-    name: "奇门遁甲",
-    glyph: "门",
-    subtitle: "九宫相映，察时知位",
-    available: false,
-  },
-  {
-    name: "紫微斗数",
-    glyph: "星",
-    subtitle: "星曜入宫，各有其序",
-    available: false,
-  },
-  {
-    name: "大六壬",
-    glyph: "壬",
-    subtitle: "四课三传，层层有据",
-    available: false,
-  },
-  {
-    name: "周易",
-    glyph: "易",
-    subtitle: "观卦知变，溯其本义",
-    available: false,
-  },
-  {
-    name: "风水",
-    glyph: "山",
-    subtitle: "辨山识向，理解方位",
-    available: false,
-  },
-];
 export const sampleLines = [
   {
     position: 6,

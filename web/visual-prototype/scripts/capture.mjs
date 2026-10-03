@@ -25,14 +25,42 @@ try {
       reducedMotion: "reduce",
     });
     const page = await context.newPage();
-    for (const [name, route] of [
+    const routes = [
       ["home", "/"],
-      ["liuyao-result", "/liuyao/result"],
+      ...[
+        "bazi",
+        "liuyao",
+        "qimen",
+        "ziwei",
+        "liuren",
+        "yijing",
+        "fengshui",
+      ].flatMap((id) => [
+        [id + "-home", "/" + id],
+        [id + "-result", "/" + id + "/result"],
+      ]),
+      ["history", "/history"],
+      ["favorites", "/favorites"],
       ["admin-dashboard", "/admin"],
-      ["admin-classics", "/admin/classics"],
-      ["admin-rules", "/admin/rules"],
-      ["admin-evidence", "/admin/evidence"],
-    ]) {
+      ...[
+        "classics",
+        "rules",
+        "evidence",
+        "chapters",
+        "terms",
+        "sources",
+        "layers",
+        "conflicts",
+        "algorithms",
+        "providers",
+        "prompts",
+        "evaluations",
+        "failures",
+        "users",
+        "logs",
+      ].map((id) => ["admin-" + id, "/admin/" + id]),
+    ];
+    for (const [name, route] of routes) {
       await page.goto(`${baseURL}${route}`);
       await page.locator("main h1").waitFor();
       await page.evaluate(() => document.fonts.ready);
@@ -50,8 +78,15 @@ try {
         });
       if (device === "mobile" && name === "liuyao-result") {
         await page.locator("#chart").scrollIntoViewIfNeeded();
-        await page.evaluate(() => document.querySelector("#chart").scrollIntoView({ block: "start", behavior: "instant" }));
-        await page.screenshot({ path: `${target}/liuyao-chart-mobile.png`, animations: "disabled" });
+        await page.evaluate(() =>
+          document
+            .querySelector("#chart")
+            .scrollIntoView({ block: "start", behavior: "instant" }),
+        );
+        await page.screenshot({
+          path: `${target}/liuyao-chart-mobile.png`,
+          animations: "disabled",
+        });
       }
     }
     await context.close();

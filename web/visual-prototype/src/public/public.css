@@ -1,7 +1,7 @@
 .public-app {
   --ink: #173f36;
-  --ink-soft: #466055;
-  --gold: #a17c3d;
+  --ink-soft: #435d50;
+  --gold: #8c6831;
   --paper: #f7f4ec;
   --hair: #dddcd1;
   min-height: 100dvh;
@@ -99,7 +99,7 @@
   gap: 23px;
 }
 .prototype-badge {
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 1px;
   color: #6c786c;
   padding: 3px 9px;
@@ -113,8 +113,8 @@
 }
 .public-hero {
   position: relative;
-  min-height: 392px;
-  padding: 53px 0 32px;
+  min-height: 340px;
+  padding: 36px 0 30px;
   border-bottom: 1px solid var(--hair);
 }
 .hero-copy {
@@ -124,7 +124,7 @@
 }
 .eyebrow {
   color: var(--gold);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 2px;
   font-weight: 500;
 }
@@ -197,7 +197,7 @@
   display: flex;
   align-items: center;
   gap: 9px;
-  font-size: 10px;
+  font-size: 12px;
   color: #6f7a6b;
   letter-spacing: 1px;
   margin-top: 20px;
@@ -236,7 +236,7 @@
 .landscape-caption span {
   margin-top: 20px;
   color: var(--gold);
-  font-size: 11px;
+  font-size: 12px;
 }
 .tools-section,
 .recent-section {
@@ -257,10 +257,10 @@
   margin: 4px 0 0;
 }
 .section-heading .eyebrow {
-  font-size: 10px;
+  font-size: 12px;
 }
 .quiet-label {
-  font-size: 10px;
+  font-size: 12px;
   color: #7b8073;
   padding-bottom: 5px;
 }
@@ -314,7 +314,7 @@
 }
 .tool-card p {
   color: #6c786a;
-  font-size: 11px;
+  font-size: 12px;
   margin: 0 0 17px;
 }
 .tool-action {
@@ -326,7 +326,7 @@
   justify-content: space-between;
   padding: 0;
   min-height: 28px;
-  font-size: 11px;
+  font-size: 12px;
   color: var(--ink);
 }
 .tool-action.muted {
@@ -368,7 +368,7 @@
   margin: 8px 0;
 }
 .tool-philosophy small {
-  font-size: 9px;
+  font-size: 12px;
   letter-spacing: 2px;
   color: #969b8c;
 }
@@ -400,7 +400,7 @@
   flex: 1;
 }
 .small-label {
-  font-size: 10px;
+  font-size: 12px;
   color: #7a816f;
 }
 .recent-card h3 {
@@ -410,7 +410,7 @@
   font-weight: 500;
 }
 .recent-card p {
-  font-size: 10px;
+  font-size: 12px;
   color: #7a816f;
   margin: 0;
 }
@@ -449,7 +449,7 @@
   letter-spacing: 1px;
 }
 .example-banner p {
-  font-size: 11px;
+  font-size: 12px;
   color: #697b67;
   margin: 0;
 }
@@ -472,7 +472,7 @@
 }
 .product-principles p {
   margin: 0;
-  font-size: 11px;
+  font-size: 12px;
   color: #75816e;
 }
 .public-footer {
@@ -499,7 +499,7 @@
 }
 .public-footer p,
 .public-footer small {
-  font-size: 9px;
+  font-size: 12px;
   color: #8a917e;
   margin: 0;
 }
@@ -531,7 +531,7 @@
 }
 .sample-note {
   color: #8a8069;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.8;
 }
 .history-item {
@@ -550,7 +550,7 @@
 }
 .history-item span {
   display: block;
-  font-size: 11px;
+  font-size: 12px;
   color: #75806e;
   margin-top: 4px;
 }
@@ -578,7 +578,7 @@
   align-items: center;
   gap: 7px;
   color: #6d725c;
-  font-size: 11px;
+  font-size: 12px;
   min-height: 44px;
 }
 .music-global-pause {
@@ -625,7 +625,7 @@
   font-size: 13px;
 }
 .music-title small {
-  font-size: 9px;
+  font-size: 12px;
   color: #8b927e;
   margin-top: 3px;
 }
@@ -634,7 +634,7 @@
   height: 32px;
 }
 .music-popover p {
-  font-size: 10px;
+  font-size: 12px;
   color: #7b846f;
   margin: 17px 0;
 }
@@ -655,7 +655,7 @@
   background: var(--ink);
   color: #f5f5e8;
   min-height: 40px;
-  font-size: 11px;
+  font-size: 12px;
 }
 .music-controls input {
   min-width: 0;
@@ -710,7 +710,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 10px;
+  font-size: 12px;
   color: #89927e;
 }
 .result-page-title {
@@ -729,7 +729,7 @@
 .result-page-title p {
   margin: 0;
   color: #7f886f;
-  font-size: 11px;
+  font-size: 12px;
 }
 .favorite-button {
   gap: 8px;
@@ -771,7 +771,7 @@
   letter-spacing: 1px;
 }
 .result-section-heading > small {
-  font-size: 9px;
+  font-size: 12px;
   color: #889078;
 }
 .result-basic {
@@ -789,11 +789,11 @@
 .basic-grid span {
   display: block;
   color: #8c947f;
-  font-size: 9px;
+  font-size: 12px;
   margin-bottom: 5px;
 }
 .basic-grid strong {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 400;
 }
 .result-basic .sample-note {
@@ -841,7 +841,7 @@
   justify-content: center;
   gap: 7px;
   color: #a0844a;
-  font-size: 10px;
+  font-size: 12px;
 }
 .chart-table-head,
 .chart-line {
@@ -851,7 +851,7 @@
   gap: 11px;
 }
 .chart-table-head {
-  font-size: 9px;
+  font-size: 12px;
   color: #8b957e;
   padding: 10px 5px;
   border-top: 1px solid #d9dfcc;
@@ -871,7 +871,7 @@
   border-bottom: 1px solid #e2e6d7;
   padding: 5px;
   text-align: left;
-  font-size: 11px;
+  font-size: 12px;
 }
 .chart-line:hover {
   background: #e6edde70;
@@ -880,18 +880,18 @@
   background: #eee8d965;
 }
 .line-position {
-  font-size: 10px;
+  font-size: 12px;
   color: #778670;
 }
 .line-spirit {
-  font-size: 11px;
+  font-size: 12px;
 }
 .line-relative {
-  font-size: 11px;
+  font-size: 12px;
 }
 .line-relative small {
   display: block;
-  font-size: 9px;
+  font-size: 12px;
   margin-top: 1px;
   color: #8a957d;
 }
@@ -919,7 +919,7 @@
   line-height: 1;
 }
 .line-marker {
-  font-size: 9px;
+  font-size: 12px;
   color: #9ba58a;
   text-align: center;
 }
@@ -929,7 +929,7 @@
   padding: 3px 5px;
   border: 1px solid #bdcbb0;
   border-radius: 2px;
-  font-size: 10px;
+  font-size: 12px;
 }
 .chart-legend {
   display: flex;
@@ -937,7 +937,7 @@
   flex-wrap: wrap;
   gap: 17px;
   padding: 15px 0;
-  font-size: 9px;
+  font-size: 12px;
   color: #8c977d;
 }
 .chart-legend > span {
@@ -973,7 +973,7 @@
   display: flex;
   justify-content: space-between;
   gap: 10px;
-  font-size: 9px;
+  font-size: 12px;
   color: #78886d;
 }
 .conclusions-section,
@@ -1004,7 +1004,7 @@
   margin: 7px 0 8px;
 }
 .conclusion-grid p {
-  font-size: 10px;
+  font-size: 12px;
   color: #7e8b73;
   line-height: 1.85;
   margin: 0;
@@ -1051,12 +1051,12 @@
 }
 .rule-item p {
   margin: 4px 0 0;
-  font-size: 10px;
+  font-size: 12px;
   color: #7c8970;
 }
 .rule-reference {
   color: #8b977d;
-  font-size: 9px;
+  font-size: 12px;
 }
 .evidence-cards {
   display: grid;
@@ -1073,7 +1073,7 @@
   display: flex;
   justify-content: space-between;
   gap: 8px;
-  font-size: 10px;
+  font-size: 12px;
   color: #697f60;
 }
 .source-level {
@@ -1112,7 +1112,7 @@
   justify-content: space-between;
   gap: 7px;
   color: #8e967d;
-  font-size: 9px;
+  font-size: 12px;
 }
 .evidence-card-bottom button {
   display: flex;
@@ -1122,11 +1122,11 @@
   background: transparent;
   padding: 4px 0;
   color: #587448;
-  font-size: 9px;
+  font-size: 12px;
   min-height: 28px;
 }
 .evidence-boundary {
-  font-size: 9px;
+  font-size: 12px;
   color: #8b937b;
   margin: 12px 0 0;
 }
@@ -1157,15 +1157,15 @@
 }
 .ai-quiet-panel p {
   margin: 0 0 4px;
-  font-size: 10px;
+  font-size: 12px;
   color: #8b967b;
 }
 .ai-quiet-panel small {
-  font-size: 9px;
+  font-size: 12px;
   color: #98a089;
 }
 .quiet-status {
-  font-size: 9px;
+  font-size: 12px;
   color: #8e967e;
   white-space: nowrap;
 }
@@ -1191,12 +1191,12 @@
 }
 .trace-section summary strong {
   display: block;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
 }
 .trace-section summary small {
   display: block;
-  font-size: 9px;
+  font-size: 12px;
   color: #8b957b;
   margin-top: 3px;
 }
@@ -1215,7 +1215,7 @@
 .trace-section li {
   padding: 13px 0;
   border-bottom: 1px solid #e4e7d9;
-  font-size: 11px;
+  font-size: 12px;
   color: #677a5d;
 }
 .trace-section li span {
@@ -1250,7 +1250,7 @@
   gap: 12px;
   min-height: 44px;
   border-bottom: 1px solid #e2e5d7;
-  font-size: 11px;
+  font-size: 12px;
 }
 .result-toc nav a > span {
   color: #a88f5c;
@@ -1264,7 +1264,7 @@
 }
 .result-toc p {
   color: #8b967b;
-  font-size: 10px;
+  font-size: 12px;
   margin: 22px 0 0;
   line-height: 2;
 }
@@ -1281,7 +1281,7 @@
   color: #8e977b;
 }
 .aside-note p {
-  font-size: 10px;
+  font-size: 12px;
   color: #9aa189;
   margin: 12px 0 0;
   line-height: 2;
@@ -1296,7 +1296,7 @@
   display: block;
 }
 .line-detail-grid small {
-  font-size: 11px;
+  font-size: 12px;
   color: #86917a;
 }
 .line-detail-grid strong {
@@ -1400,7 +1400,7 @@
     padding: 18px 18px 13px;
   }
   .tool-card p {
-    font-size: 10px;
+    font-size: 12px;
   }
   .tool-card h3 {
     font-size: 18px;
@@ -1438,7 +1438,7 @@
     gap: 15px;
   }
   .product-principles p {
-    font-size: 10px;
+    font-size: 12px;
   }
   .public-footer {
     display: block;
@@ -1470,7 +1470,7 @@
     border: 0;
     background: transparent;
     color: #8a967c;
-    font-size: 9px;
+    font-size: 12px;
   }
   .mobile-bottom-nav > .active {
     color: #2d563e;
@@ -1500,7 +1500,7 @@
     gap: 16px;
   }
   .basic-grid strong {
-    font-size: 11px;
+    font-size: 12px;
   }
   .chart-panel {
     padding: 21px 18px 0;
@@ -1533,7 +1533,7 @@
     font-size: 13px;
   }
   .conclusion-grid p {
-    font-size: 10px;
+    font-size: 12px;
   }
   .evidence-card {
     padding: 16px 15px 0;
@@ -1572,7 +1572,7 @@
     padding: 0 18px;
   }
   .prototype-badge {
-    font-size: 9px;
+    font-size: 12px;
     padding: 2px 7px;
   }
   .music-trigger {
@@ -1611,12 +1611,12 @@
     font-size: 25px;
   }
   .hero-copy > p {
-    font-size: 11px;
+    font-size: 12px;
     max-width: 290px;
     line-height: 1.9;
   }
   .hero-copy .eyebrow {
-    font-size: 9px;
+    font-size: 12px;
   }
   .hero-actions {
     gap: 16px;
@@ -1624,14 +1624,14 @@
   .hero-actions .button {
     padding: 10px 15px;
     gap: 11px;
-    font-size: 11px;
+    font-size: 12px;
   }
   .text-action {
-    font-size: 10px;
+    font-size: 12px;
     gap: 3px;
   }
   .hero-footnote {
-    font-size: 9px;
+    font-size: 12px;
     letter-spacing: 0;
   }
   .ink-landscape {
@@ -1672,18 +1672,18 @@
     margin-top: 10px;
   }
   .tool-card p {
-    font-size: 9px;
+    font-size: 12px;
     margin-bottom: 9px;
   }
   .tool-action {
     min-height: 34px;
-    font-size: 10px;
+    font-size: 12px;
   }
   .tool-philosophy {
     min-height: 173px;
   }
   .tool-philosophy p {
-    font-size: 11px;
+    font-size: 12px;
   }
   .recent-grid {
     grid-template-columns: 1fr;
@@ -1705,11 +1705,11 @@
     font-size: 17px;
   }
   .example-banner p {
-    font-size: 10px;
+    font-size: 12px;
   }
   .example-banner .button {
     margin-left: 56px;
-    font-size: 11px;
+    font-size: 12px;
     padding: 8px 15px;
   }
   .product-principles {
@@ -1745,15 +1745,15 @@
     letter-spacing: 1px;
   }
   .result-page-title .eyebrow {
-    font-size: 9px;
+    font-size: 12px;
   }
   .result-page-title p {
-    font-size: 10px;
+    font-size: 12px;
   }
   .favorite-button {
     padding: 7px 10px;
     gap: 5px;
-    font-size: 10px;
+    font-size: 12px;
     min-height: 40px;
     flex-shrink: 0;
   }
@@ -1814,7 +1814,7 @@
     font-size: 14px;
   }
   .conclusion-grid p {
-    font-size: 10px;
+    font-size: 12px;
   }
   .evidence-cards {
     grid-template-columns: 1fr;
@@ -1830,7 +1830,7 @@
   }
   .evidence-card-bottom button {
     min-height: 34px;
-    font-size: 10px;
+    font-size: 12px;
   }
   .evidence-card h3 {
     font-size: 14px;
@@ -1888,9 +1888,157 @@
     font-size: 12px;
   }
   .evidence-card-bottom span {
-    font-size: 11px;
+    font-size: 12px;
   }
   .tool-action {
     min-height: 44px;
+  }
+}
+
+/* Compact mobile opening and full chart keep the reading controls within reach. */
+.public-nav a {
+  border-bottom-color: transparent;
+  color: var(--ink-soft);
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+.public-nav a[aria-current="page"] {
+  border-bottom-color: var(--ink);
+  color: var(--ink);
+}
+.public-app .button,
+.public-app .text-action {
+  font-size: 14px;
+}
+.public-app .hero-footnote,
+.public-app .sample-note,
+.public-app .public-footer p,
+.public-app .public-footer small {
+  color: #596657;
+  font-size: 12px;
+}
+.tool-card p {
+  font-size: 13px;
+  color: #596657;
+}
+.chart-view-switch {
+  display: flex;
+  gap: 8px;
+  margin: 16px 0;
+}
+.chart-view-switch button {
+  padding: 8px 12px;
+  min-height: 40px;
+  background: none;
+  border: 1px solid #b8c1b3;
+  color: var(--ink);
+  font-size: 13px;
+}
+.chart-view-switch button[aria-pressed="true"] {
+  background: var(--ink);
+  color: #fffdf7;
+}
+@media (max-width: 760px) {
+  .public-hero {
+    min-height: 0;
+    padding: 26px 0 24px;
+  }
+  .hero-copy h1 {
+    font-size: 30px;
+    line-height: 1.5;
+    margin: 14px 0;
+  }
+  .hero-copy h1 span {
+    font-size: 25px;
+  }
+  .hero-copy > p {
+    font-size: 13px;
+    line-height: 1.8;
+    margin: 12px 0 20px;
+  }
+  .hero-footnote {
+    margin-top: 20px;
+  }
+  .ink-landscape {
+    top: 60px;
+    width: 69%;
+    opacity: 0.33;
+  }
+  .tool-card p {
+    font-size: 12px;
+  }
+  .tool-card {
+    min-height: 190px;
+  }
+  .chart-panel-full .chart-extra {
+    display: block;
+  }
+  .chart-panel-full .chart-table-head,
+  .chart-panel-full .chart-line {
+    grid-template-columns: 34px 30px minmax(58px, 1fr) 44px 18px 44px 24px;
+    gap: 4px;
+  }
+  .chart-panel-full .chart-line {
+    min-height: 74px;
+  }
+  .chart-panel-full .yao {
+    width: 44px;
+  }
+  .chart-panel-full .line-spirit,
+  .chart-panel-full .line-position,
+  .chart-panel-full .line-relative,
+  .chart-panel-full .line-relative small {
+    font-size: 12px;
+  }
+  .chart-panel-full .chart-table-head {
+    font-size: 11px;
+  }
+  .chart-panel-full .line-marker {
+    font-size: 12px;
+  }
+  .chart-panel-full .chart-table-head > span:nth-child(3) {
+    white-space: normal;
+  }
+  .result-section-heading small {
+    font-size: 12px;
+  }
+  .result-basic .sample-note {
+    font-size: 12px;
+  }
+  .hero-actions .button {
+    font-size: 13px;
+  }
+  .hero-actions {
+    gap: 14px;
+  }
+  .public-app .hero-footnote {
+    font-size: 12px;
+  }
+}
+@media (max-width: 390px) {
+  .chart-panel-full .chart-table-head,
+  .chart-panel-full .chart-line {
+    grid-template-columns: 30px 27px minmax(48px, 1fr) 37px 15px 37px 21px;
+    gap: 4px;
+  }
+  .chart-panel-full .yao {
+    width: 37px;
+  }
+  .hero-copy h1 {
+    font-size: 29px;
+  }
+  .hero-copy h1 span {
+    font-size: 25px;
+  }
+  .public-app .hero-copy > p {
+    font-size: 13px;
+  }
+  .hero-actions .button {
+    padding: 10px 13px;
+    gap: 10px;
+  }
+  .tool-card p {
+    font-size: 12px;
   }
 }

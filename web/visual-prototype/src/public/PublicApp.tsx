@@ -1,11 +1,14 @@
-import { useCallback, useEffect, useState } from "react";
-import { Dialog } from "../shared/Dialog";
+import { useEffect, useState } from "react";
 import { Icon } from "../shared/Icon";
 import { Link, NoticeContext, usePath } from "../shared/router";
 import { HomePage } from "./HomePage";
+import { DomainHomePage } from "./DomainHomePage";
+import { getDomainPage } from "./domainPages";
 import { LiuyaoResultPage } from "./LiuyaoResultPage";
 import { MusicPlayer } from "./MusicPlayer";
-import { recentSamples } from "./fixtures";
+import { ResultTemplatePage } from "./ResultTemplatePage";
+import { LibraryPage } from "./LibraryPage";
+import { domainPages } from "./domainPages";
 import "./public.css";
 
 const favoriteKey = "tianji.prototype.favorite";
@@ -18,10 +21,10 @@ function initialFavorite() {
 }
 export function PublicApp() {
   const path = usePath();
-  const [panel, setPanel] = useState<"history" | "favorites" | null>(null);
+  const domainPage = getDomainPage(path);
+  const resultPage = domainPages.find((item) => path === `/${item.id}/result`);
   const [favorite, setFavorite] = useState(initialFavorite);
   const [notice, setNotice] = useState("");
-  const closePanel = useCallback(() => setPanel(null), []);
   useEffect(() => {
     try {
       localStorage.setItem(favoriteKey, String(favorite));
@@ -36,8 +39,13 @@ export function PublicApp() {
   }, [notice]);
   useEffect(() => {
     document.title =
-      path === "/liuyao/result" ? "六爻示例 · 天机" : "天机 · 观象循理";
-    setPanel(null);
+      (domainPage?.name ||
+        resultPage?.name ||
+        (path === "/history"
+          ? "历史记录"
+          : path === "/favorites"
+            ? "我的收藏"
+            : "观象循理")) + " · 天机";
   }, [path]);
   return (
     <NoticeContext.Provider value={setNotice}>
@@ -55,8 +63,18 @@ export function PublicApp() {
           </Link>
           <nav className="public-nav" aria-label="前台导航">
             <Link href="/">推演工具</Link>
-            <button onClick={() => setPanel("history")}>历史记录</button>
-            <button onClick={() => setPanel("favorites")}>收藏</button>
+            <Link
+              href="/history"
+              aria-current={path === "/history" ? "page" : undefined}
+            >
+              历史记录
+            </Link>
+            <Link
+              href="/favorites"
+              aria-current={path === "/favorites" ? "page" : undefined}
+            >
+              收藏
+            </Link>
           </nav>
           <div className="public-header-end">
             <span className="prototype-badge">视觉样稿</span>
@@ -66,8 +84,19 @@ export function PublicApp() {
         <main className="public-main">
           {path === "/" ? (
             <HomePage />
+          ) : domainPage ? (
+            <DomainHomePage key={domainPage.id} page={domainPage} />
           ) : path === "/liuyao/result" ? (
             <LiuyaoResultPage
+              favorite={favorite}
+              onToggleFavorite={() => setFavorite(!favorite)}
+            />
+          ) : resultPage ? (
+            <ResultTemplatePage key={resultPage.id} page={resultPage} />
+          ) : path === "/history" || path === "/favorites" ? (
+            <LibraryPage
+              key={path}
+              kind={path === "/history" ? "history" : "favorites"}
               favorite={favorite}
               onToggleFavorite={() => setFavorite(!favorite)}
             />
@@ -95,68 +124,22 @@ export function PublicApp() {
             <Icon name="grid" size={20} />
             <span>首页</span>
           </Link>
-          <button onClick={() => setPanel("history")}>
+          <Link href="/history" className={path === "/history" ? "active" : ""}>
             <Icon name="clock" size={20} />
             <span>历史</span>
-          </button>
-          <button onClick={() => setPanel("favorites")}>
+          </Link>
+          <Link
+            href="/favorites"
+            className={path === "/favorites" ? "active" : ""}
+          >
             <Icon name="star" size={20} />
             <span>收藏</span>
-          </button>
+          </Link>
         </nav>
         {notice && (
           <div className="public-toast" role="status">
             {notice}
           </div>
-        )}
-        {panel && (
-          <Dialog
-            title={panel === "history" ? "历史记录" : "我的收藏"}
-            onClose={closePanel}
-            className="public-dialog"
-          >
-            <p className="sample-note">
-              这里只展示本轮静态示例，不代表已保存真实推演。
-            </p>
-            {panel === "history" ? (
-              recentSamples.map((item) => (
-                <Link
-                  href={item.href}
-                  className="history-item"
-                  key={item.name}
-                  onClick={closePanel}
-                >
-                  <Icon name="clock" />
-                  <div>
-                    <strong>{item.name}</strong>
-                    <span>
-                      {item.when} · {item.subtitle}
-                    </span>
-                  </div>
-                  <Icon name="chevron" size={16} />
-                </Link>
-              ))
-            ) : favorite ? (
-              <Link
-                href="/liuyao/result"
-                className="history-item"
-                onClick={closePanel}
-              >
-                <Icon name="star" />
-                <div>
-                  <strong>乾为天 · 天风姤</strong>
-                  <span>收藏的视觉示例</span>
-                </div>
-                <Icon name="chevron" size={16} />
-              </Link>
-            ) : (
-              <div className="empty-state">
-                <Icon name="star" size={32} />
-                <h3>还没有收藏</h3>
-                <p>在六爻示例页点“收藏”，便于再次查看。</p>
-              </div>
-            )}
-          </Dialog>
         )}
       </div>
     </NoticeContext.Provider>

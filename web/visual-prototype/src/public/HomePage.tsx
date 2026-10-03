@@ -1,10 +1,10 @@
 import { Icon } from "../shared/Icon";
-import { Link, useNotice } from "../shared/router";
+import { Link } from "../shared/router";
 import { InkLandscape } from "./InkLandscape";
-import { recentSamples, tools } from "./fixtures";
+import { recentSamples } from "./fixtures";
+import { domainPages } from "./domainPages";
 
 export function HomePage() {
-  const notice = useNotice();
   return (
     <>
       <section className="public-hero">
@@ -50,35 +50,28 @@ export function HomePage() {
             <span className="eyebrow">七种入口 · 各循其法</span>
             <h2>择一门，开始推演</h2>
           </div>
-          <span className="quiet-label">当前开放六爻视觉示例</span>
+          <span className="quiet-label">七个工具首页 · 设计预览</span>
         </div>
         <div className="tool-grid">
-          {tools.map((tool, index) => (
+          {domainPages.map((tool, index) => (
             <article
               key={tool.name}
-              className={`tool-card ${tool.available ? "featured" : ""}`}
+              className={`tool-card ${tool.id === "liuyao" ? "featured" : ""}`}
             >
               <div className="tool-top">
                 <span className="tool-glyph">{tool.glyph}</span>
                 <span className="tool-index">0{index + 1}</span>
               </div>
               <h3>{tool.name}</h3>
-              <p>{tool.subtitle}</p>
-              {tool.available ? (
-                <Link href="/liuyao/result" className="tool-action">
-                  查看示例
-                  <Icon name="arrow" size={17} />
-                </Link>
-              ) : (
-                <button
-                  className="tool-action muted"
-                  onClick={() =>
-                    notice("此工具尚未开放。本轮可以先查看六爻示例。")
-                  }
-                >
-                  尚未开放<span>—</span>
-                </button>
-              )}
+              <p>{tool.tags.slice(0, 2).join(" · ")}</p>
+              <Link
+                href={"/" + tool.id}
+                className="tool-action"
+                aria-label={"进入" + tool.name + "首页"}
+              >
+                进入工具
+                <Icon name="arrow" size={17} />
+              </Link>
             </article>
           ))}
           <div className="tool-philosophy">

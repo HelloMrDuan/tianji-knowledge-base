@@ -1,120 +1,90 @@
-# Phase 5 第一轮 · 前台与后台视觉验收
+# Phase 5 · 整站页面设计与验收
 
-基线：远端 main `9433a8b659d288bfa4b769e2d278221f2f1b3cef`。本轮只提交可交互的静态视觉原型，未改动确定性引擎、Prompt、来源等级或知识资产，未调用排盘接口或模型服务。
+整站共 **33 个主页面：17 个前台页面、16 个后台页面**。12 个新增后台模块另有可直达的记录详情（每模块 3 条 DEMO 记录），支持字段、关联关系、审核轨迹切换。三个既有资产模块保留可访问的详情弹窗。
 
-## 评审范围与路由
+本轮为可交互设计原型：表单、校验、筛选、详情、状态切换和本地收藏可操作。没有接入排盘、AI、认证、真实资产读写或生产部署。全部后台记录为虚构 DEMO 数据；原型不改变引擎、知识资产、来源等级、生产 Prompt 或任何晋级状态。
 
-| 产品 | 路由 | 本轮内容 |
-|---|---|---|
-| 用户前台 | `/` | 品牌、简洁山水 Hero、七个工具入口、最近使用、示例推演、能力说明、音乐 |
-| 用户前台 | `/liuyao/result` | 一套完整的六爻示例结果结构，支持爻位、规则与相关典籍详情 |
-| 管理后台 | `/admin` | 仪表盘、审核队列、发布边界、管理入口与示例审核记录 |
-| 管理后台 | `/admin/classics` | 古籍管理示例：搜索、领域/状态筛选、书目与关联章节、详情 |
-| 管理后台 | `/admin/rules` | 规则管理示例：执行范围、流派约定、关联 Evidence 与审核状态 |
-| 管理后台 | `/admin/evidence` | Evidence 管理示例：必要原文、章节、对应规则、C/D 等级、审核状态 |
+## 页面与截图
 
-其他前台路径只显示未开放页面；其他后台模块标记“规划”，点击说明本轮不实现。八字、奇门、紫微、六壬、周易与风水入口不跳转到复制出的六套页面，也不假称其输入流程已经完成。七个产品入口不代表增加第七个排盘引擎。
+截图从实际运行页面捕获，桌面视口 1440 × 1000、手机视口 390 × 844；桌面图为长图，手机图为首屏。浏览器截取内容区时可能排除滚动条宽度。下表覆盖全部主页面。
 
-## Desktop / Mobile 截图
+| 前台页面 | 路由 | 内容 | 桌面 | 手机 |
+|---|---|---|---|---|
+| 总首页 | `/` | 七个工具入口、山水、示例、音乐 | [查看](visual-prototype/screenshots/home-desktop.png) | [查看](visual-prototype/screenshots/home-mobile.png) |
+| 历史记录 | `/history` | 搜索、工具筛选、固定示例 | [查看](visual-prototype/screenshots/history-desktop.png) | [查看](visual-prototype/screenshots/history-mobile.png) |
+| 收藏 | `/favorites` | 本地收藏、取消收藏、空状态 | [查看](visual-prototype/screenshots/favorites-desktop.png) | [查看](visual-prototype/screenshots/favorites-mobile.png) |
+| 八字首页 | `/bazi` | 专属输入表单、示意图、输入校验与资料摘要 | [查看](visual-prototype/screenshots/bazi-home-desktop.png) | [查看](visual-prototype/screenshots/bazi-home-mobile.png) |
+| 八字结果 | `/bazi/result` | 领域结果布局、等待 / 计算中 / 失败状态 | [查看](visual-prototype/screenshots/bazi-result-desktop.png) | [查看](visual-prototype/screenshots/bazi-result-mobile.png) |
+| 六爻首页 | `/liuyao` | 专属输入表单、示意图、输入校验与资料摘要 | [查看](visual-prototype/screenshots/liuyao-home-desktop.png) | [查看](visual-prototype/screenshots/liuyao-home-mobile.png) |
+| 六爻结果 | `/liuyao/result` | 固定六爻示例与详情 | [查看](visual-prototype/screenshots/liuyao-result-desktop.png) | [查看](visual-prototype/screenshots/liuyao-result-mobile.png) |
+| 奇门遁甲首页 | `/qimen` | 专属输入表单、示意图、输入校验与资料摘要 | [查看](visual-prototype/screenshots/qimen-home-desktop.png) | [查看](visual-prototype/screenshots/qimen-home-mobile.png) |
+| 奇门遁甲结果 | `/qimen/result` | 领域结果布局、等待 / 计算中 / 失败状态 | [查看](visual-prototype/screenshots/qimen-result-desktop.png) | [查看](visual-prototype/screenshots/qimen-result-mobile.png) |
+| 紫微斗数首页 | `/ziwei` | 专属输入表单、示意图、输入校验与资料摘要 | [查看](visual-prototype/screenshots/ziwei-home-desktop.png) | [查看](visual-prototype/screenshots/ziwei-home-mobile.png) |
+| 紫微斗数结果 | `/ziwei/result` | 领域结果布局、等待 / 计算中 / 失败状态 | [查看](visual-prototype/screenshots/ziwei-result-desktop.png) | [查看](visual-prototype/screenshots/ziwei-result-mobile.png) |
+| 大六壬首页 | `/liuren` | 专属输入表单、示意图、输入校验与资料摘要 | [查看](visual-prototype/screenshots/liuren-home-desktop.png) | [查看](visual-prototype/screenshots/liuren-home-mobile.png) |
+| 大六壬结果 | `/liuren/result` | 领域结果布局、等待 / 计算中 / 失败状态 | [查看](visual-prototype/screenshots/liuren-result-desktop.png) | [查看](visual-prototype/screenshots/liuren-result-mobile.png) |
+| 周易首页 | `/yijing` | 专属输入表单、示意图、输入校验与资料摘要 | [查看](visual-prototype/screenshots/yijing-home-desktop.png) | [查看](visual-prototype/screenshots/yijing-home-mobile.png) |
+| 周易结果 | `/yijing/result` | 领域结果布局、等待 / 计算中 / 失败状态 | [查看](visual-prototype/screenshots/yijing-result-desktop.png) | [查看](visual-prototype/screenshots/yijing-result-mobile.png) |
+| 风水首页 | `/fengshui` | 专属输入表单、示意图、输入校验与资料摘要 | [查看](visual-prototype/screenshots/fengshui-home-desktop.png) | [查看](visual-prototype/screenshots/fengshui-home-mobile.png) |
+| 风水结果 | `/fengshui/result` | 领域结果布局、等待 / 计算中 / 失败状态 | [查看](visual-prototype/screenshots/fengshui-result-desktop.png) | [查看](visual-prototype/screenshots/fengshui-result-mobile.png) |
 
-截图由 Chromium 从代码运行页面直接捕获，不是设计稿渲染或后期合成。桌面 1440 × 1000 视口，保留完整页面；手机首屏 390 × 844。手机长截图的固定底栏位置对应截取时的视口底部，实际滚动时底栏始终贴屏。
+| 后台页面 | 路由 | 内容 | 桌面 | 手机 |
+|---|---|---|---|---|
+| 仪表盘 | `/admin` | 审核队列与治理概览 | [查看](visual-prototype/screenshots/admin-dashboard-desktop.png) | [查看](visual-prototype/screenshots/admin-dashboard-mobile.png) |
+| 古籍管理 | `/admin/classics` | 筛选、章节范围与只读详情 | [查看](visual-prototype/screenshots/admin-classics-desktop.png) | [查看](visual-prototype/screenshots/admin-classics-mobile.png) |
+| 章节管理 | `/admin/chapters` | 章节锚点、文本范围与审核 | [查看](visual-prototype/screenshots/admin-chapters-desktop.png) | [查看](visual-prototype/screenshots/admin-chapters-mobile.png) |
+| 术语管理 | `/admin/terms` | 写法、释义与关联 | [查看](visual-prototype/screenshots/admin-terms-desktop.png) | [查看](visual-prototype/screenshots/admin-terms-mobile.png) |
+| 规则管理 | `/admin/rules` | 算法口径、关联依据与详情 | [查看](visual-prototype/screenshots/admin-rules-desktop.png) | [查看](visual-prototype/screenshots/admin-rules-mobile.png) |
+| Evidence 管理 | `/admin/evidence` | 必要片段、等级与审核 | [查看](visual-prototype/screenshots/admin-evidence-desktop.png) | [查看](visual-prototype/screenshots/admin-evidence-mobile.png) |
+| 来源管理 | `/admin/sources` | 类型、版本与独立性 | [查看](visual-prototype/screenshots/admin-sources-desktop.png) | [查看](visual-prototype/screenshots/admin-sources-mobile.png) |
+| RAW / Quarantine / Canonical | `/admin/layers` | 审核流程、分层与晋级门槛 | [查看](visual-prototype/screenshots/admin-layers-desktop.png) | [查看](visual-prototype/screenshots/admin-layers-mobile.png) |
+| 流派与冲突 | `/admin/conflicts` | 并列口径比较与处理策略 | [查看](visual-prototype/screenshots/admin-conflicts-desktop.png) | [查看](visual-prototype/screenshots/admin-conflicts-mobile.png) |
+| 算法与 Variant | `/admin/algorithms` | 领域、约定与验证关系 | [查看](visual-prototype/screenshots/admin-algorithms-desktop.png) | [查看](visual-prototype/screenshots/admin-algorithms-mobile.png) |
+| AI Provider / Model | `/admin/providers` | 连接配置预览、用途与超时 | [查看](visual-prototype/screenshots/admin-providers-desktop.png) | [查看](visual-prototype/screenshots/admin-providers-mobile.png) |
+| Prompt 版本 | `/admin/prompts` | 指令草稿编辑与版本阅读 | [查看](visual-prototype/screenshots/admin-prompts-desktop.png) | [查看](visual-prototype/screenshots/admin-prompts-mobile.png) |
+| Eval / Golden Cases | `/admin/evaluations` | 状态阅读板与评测案例 | [查看](visual-prototype/screenshots/admin-evaluations-desktop.png) | [查看](visual-prototype/screenshots/admin-evaluations-mobile.png) |
+| 失败案例 | `/admin/failures` | 错误阶段、复现说明与跟进 | [查看](visual-prototype/screenshots/admin-failures-desktop.png) | [查看](visual-prototype/screenshots/admin-failures-mobile.png) |
+| 用户与权限 | `/admin/users` | 角色矩阵与敏感操作边界 | [查看](visual-prototype/screenshots/admin-users-desktop.png) | [查看](visual-prototype/screenshots/admin-users-mobile.png) |
+| API / 系统日志 | `/admin/logs` | 请求阶段时间线与追踪记录 | [查看](visual-prototype/screenshots/admin-logs-desktop.png) | [查看](visual-prototype/screenshots/admin-logs-mobile.png) |
 
-| 页面 | Desktop 完整页面 | Mobile 首屏 | Mobile 完整内容 |
-|---|---|---|---|
-| 用户首页 | [截图](visual-prototype/screenshots/home-desktop.png) | [截图](visual-prototype/screenshots/home-mobile.png) | [长图](visual-prototype/screenshots/home-mobile-full.png) |
-| 六爻结果 | [截图](visual-prototype/screenshots/liuyao-result-desktop.png) | [截图](visual-prototype/screenshots/liuyao-result-mobile.png) | [长图](visual-prototype/screenshots/liuyao-result-mobile-full.png) |
-| 后台首页 | [截图](visual-prototype/screenshots/admin-dashboard-desktop.png) | [截图](visual-prototype/screenshots/admin-dashboard-mobile.png) | [长图](visual-prototype/screenshots/admin-dashboard-mobile-full.png) |
-| 古籍管理 | [截图](visual-prototype/screenshots/admin-classics-desktop.png) | [截图](visual-prototype/screenshots/admin-classics-mobile.png) | [长图](visual-prototype/screenshots/admin-classics-mobile-full.png) |
-| 规则管理 | [截图](visual-prototype/screenshots/admin-rules-desktop.png) | [截图](visual-prototype/screenshots/admin-rules-mobile.png) | [长图](visual-prototype/screenshots/admin-rules-mobile-full.png) |
-| Evidence 管理 | [截图](visual-prototype/screenshots/admin-evidence-desktop.png) | [截图](visual-prototype/screenshots/admin-evidence-mobile.png) | [长图](visual-prototype/screenshots/admin-evidence-mobile-full.png) |
+后台详情地址采用 `/admin/{模块}/{DEMO 编号}`。例如 `/admin/prompts/DEMO-PR001`、`/admin/layers/DEMO-L002`、`/admin/logs/DEMO-LG001`。刷新可直达，未知编号显示缺失记录页。章节、术语、来源、分层、冲突、算法、模型、Prompt、评测、失败、权限和日志均具备详情视图。
 
-另附 [手机核心盘面截图](visual-prototype/screenshots/liuyao-chart-mobile.png)，用于检查本变卦逐爻对照、世应与动爻信息的可读性。
+[手机完整六爻盘面](visual-prototype/screenshots/liuyao-chart-mobile.png)。总首页、六爻结果、仪表盘和三个资产管理页还保留 `-mobile-full.png` 长图。固定移动导航在长截图里的位置对应截图时的视口，实际滚动时保持贴屏。
 
-## 设计与信息层级
+## 设计方向
 
-前台使用米白纸色、深青文字与少量金色提示；原创向量山水只出现在首页 Hero，结果区域保持安静清晰。中文衬线用于标题，正文采用系统无衬线字体。没有广告式吉凶标签、运势排行榜、资源数量宣传或知识库入口。
+前台采用编辑式排版：米白纸色、深青文字、铜色小印、中文衬线标题与系统无衬线正文。山水改为曲线轮廓，移动首页压缩开场区域，重要提示与辅助正文提高字号。七个领域共用间距、表单和导航体系，各自配四柱、六爻、九宫、十二宫、四课三传、八卦或罗盘结构图。所有结构图明确为固定示意。
 
-首页直接呈现七个工具入口，六爻示例优先；其余入口明确未开放。手机采用双列工具卡片、单列最近使用与底部首页/历史/收藏导航。收藏只在浏览器本地记录“此视觉示例”的收藏状态；历史是固定示例列表，不伪装成账号历史服务。
+后台采用独立的浅灰与白色工作台，不含前台纹理、山水或音乐。管理列表、可横向滚动表格与移动抽屉统一；审核流程、口径比较、模型设置、指令编辑、评测阅读板、权限矩阵与日志时间线分别适配用途。DEMO 状态不能被误认为生产审核或测试结果。
 
-六爻结果严格按用户指定顺序组织：
+## 输入、结果与状态
 
-1. 基础信息：时间、干支、装卦口径、示例范围，并标注资料未经过真实排盘。
-2. 核心盘面：本卦、变卦、逐爻对照、动爻与世应；移动端保留主要爻位，点选补充六神、六亲、纳甲及旬空资料。
-3. 核心结论：只概括样例结构，不增加现实事情的吉凶断语。
-4. 规则命中：示例规则与结构关系，详情明确说明不是引擎实际返回的命中。
-5. 典籍依据：只保留本例两个相关必要片段，含古籍、章节、等级与对应规则；第三条规则的依据标为待核，不虚构额外引用。
-6. AI 解读：次要位置的未开放状态，不生成或模拟 AI 文字。
-7. 查看推演过程：原生折叠区，默认收起；仅给出人可读步骤，不展示内部 JSON、错误栈或工程调试资料。
+- 出生类表单：历法、日期、时间、传统性别口径与时区；农历选择显示闰月字段。紫微增加安星和晚子时口径。日期控件录入数字日期，本轮不做农历合法性或公农历转换验证。
+- 占时类表单：日期、时刻、时区、明确口径和选填问题。六爻按初爻至上爻录入 6/7/8/9，缺少任一值不提交。
+- 周易：六十四卦、爻位和研究方向；风水：角度采用 [0, 360) 范围，区分坐向与朝向。
+- 确认资料只展示输入摘要；修改、清空或跨工具切换清除摘要。出生和占时资料不写入 localStorage、历史或服务器。
+- 六爻结果保留基础信息、盘面、结构结论、规则、必要典籍片段、AI 待接入与默认折叠的推演过程。手机可切换简洁 / 完整盘面，后者直接显示六神、六亲与纳甲。
+- 其余六个结果页已具备领域结构、字段位置和等待 / 计算中 / 失败设计，没有虚构命盘、规则命中、来源或 AI 内容。状态按钮只展示布局，没有计算请求。
+- 历史列表为固定样例；收藏仅保存“是否收藏六爻样例”的本地偏好。空列表与无匹配记录有明确返回路径。
+- 管理列表提供查询、状态筛选和缺失结果反馈；模型配置和 Prompt 草稿可在页面内预览，刷新后清除，不采集密钥，不执行保存、发布或调用。
 
-后台使用独立的浅灰/白管理布局、紧凑导航、汇总卡片、筛选区及数据表，没有山水、纹理、音乐或古风大背景。手机导航改为抽屉，表格在自身区域横向滚动，并给出滑动提示，不撑宽整页。等级与审核状态是两个不同字段；示例一律只有 C/D，未创造 A/B 来源。
+## 组件与边界
 
-## 参考关系与原创范围
+`src/public/domainPages.ts` 定义七域输入和阅读内容；`DomainHomePage.tsx` 实现工具资料页；`ResultTemplatePage.tsx` 实现六域结果与状态设计；`LibraryPage.tsx` 实现历史和收藏。
 
-此前 [Benchmark 草稿 PR #86](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/86) 尚未合并；商业产品中未能公开验证的页面不作为已观察事实。本轮以用户的新边界要求为准，舍弃前台知识库浏览架构。
+`src/admin/modules.ts` 定义 12 个模块的虚构记录；`ModulePage.tsx` 实现专属工作区、列表与独立详情。原有 `AssetPage.tsx` 保留古籍、规则和 Evidence 三种管理示例。所有后台导航入口已关联实现页面；真正未知的路由仍显示未找到页。
 
-| 设计点 | 参考对象 / 来源 | 为什么，以及本轮采用范围 |
-|---|---|---|
-| 工具入口直达示例，避免先读长介绍 | Chinese-Metaphysics-Platform 的模块入口；用户首页要求 | 将选工具作为首页第一任务；只开放一个示例验证层级 |
-| 盘面置于解释之前 | mingyu 的盘面/助手分区；用户结果顺序 | 普通用户先读结构，AI 不占首屏主视觉；MingPan 是计算库，不当作网站布局来源 |
-| 密集盘面按位置对齐，手机逐爻补充信息 | mingyu 的盘面详情与移动分层；MingPan 的逐爻文本 renderer | 保留排盘的相对位置，手机点选详情；元亨实际页面未验证，不声称复制其布局 |
-| 领域入口与公共结果结构分离 | Chinese-Metaphysics-Platform 的工具模块组织 | 后续复用一个结果信息框架，而非复制六套交互；本轮不实现领域适配层 |
-| 手机主要任务短路径 | 问真、易百查为 Benchmark 参考对象；用户移动优先要求 | 本轮设计来自用户要求与常见交互模式，未声称其未经验证的手机页面具备某具体行为 |
-| 典籍仅作为本次结果的依据 | 本项目 chart / rules / evidence 能力与用户限制 | 不借鉴公开资源浏览器；必要片段与对应规则紧邻 |
-| 前台新中式与后台现代管理完全分离 | 用户本轮明确要求 | 色彩、版式、SVG、图标、文案与合成音乐均为本项目创作 |
+前台仅提供工具与当前结果相关必要片段，没有完整古籍、RAW、Quarantine、全量证据或 Prompt 浏览入口。后台当前尚无认证或服务端授权，只有虚构 DEMO 数据；真实内部数据接入前需要真实权限服务。静态路由分离不是生产安全边界。
 
-没有复制参考产品的品牌、图片、代码、文案或 UI 素材；新增 npm 包仅为通用框架与构建/浏览器验证工具。典籍短句属于既有公版文本展示，不是竞争产品文案。
+《三命通会》的 raw snapshot、PUA / OCR collation、`quarantine_only`、`canonical_ready=false` 与 Canonical 缺失状态均未修改。C/D 来源不因视觉设计变为 A/B。
 
-## 组件结构
+音乐默认关闭、需要主动播放，支持全局暂停与音量偏好，进入后台时停止；SVG 图形和音乐沿用本项目原创素材，不加载外部资源。此前 Benchmark PR #86 仅为架构参考，本轮新增页面由本项目实现，没有声称观察或复制未验证的竞品页面。
 
-```text
-web/visual-prototype/
-├── src/main.tsx                  路由选择；按需加载后台
-├── src/shared/
-│   ├── router.tsx                页面导航与轻量提示
-│   ├── Icon.tsx                  原创 SVG 图标
-│   ├── Dialog.tsx                原生弹窗、键盘关闭与焦点恢复
-│   └── base.css                  基础样式与减少动画支持
-├── src/public/
-│   ├── PublicApp.tsx             前台壳、导航、历史/收藏、页脚
-│   ├── HomePage.tsx              Hero、七工具入口、最近使用、示例
-│   ├── InkLandscape.tsx          原创山水 SVG
-│   ├── LiuyaoResultPage.tsx       七段结果、逐爻详情、必要依据
-│   ├── MusicPlayer.tsx           显式播放、全局暂停、音量与偏好
-│   ├── fixtures.ts               手工静态展示资料；无内部全量资产
-│   └── public.css                前台独立视觉与移动布局
-├── src/admin/
-│   ├── AdminApp.tsx              后台壳、模块导航与规划说明
-│   ├── Dashboard.tsx             仪表盘示例
-│   ├── AssetPage.tsx             三页共用搜索/筛选/表格/详情
-│   ├── fixtures.ts               虚构 DEMO 记录；不读取真实资产
-│   └── admin.css                 后台独立专业管理样式
-├── public/music/quiet-waters.ogg  原创合成音乐
-├── scripts/                      原创音乐生成、浏览器截图
-└── tests/                        页面、边界、交互、移动与音乐验证
-```
+## 验证与交付
 
-后台导航已规划仪表盘、古籍、章节、术语、规则、Evidence、来源、RAW/Quarantine/Canonical、流派冲突、算法/Variant、AI Provider/Model、Prompt、Eval/Golden Cases、失败案例、用户/权限、API/系统日志。只有本轮指定的四个后台路由实现示例，其他模块不提供操作能力。
+- `npm ci` 与 `npm run build` 通过。
+- **137 项 Playwright 检查通过**：33 个主路由 × 1440/390/360 三种宽度，无整页横向溢出、运行错误、外部或 API 请求；验证输入边界、隐私资料清除、完整盘面、结果状态、历史收藏、详情直达、筛选、草稿预览和音乐。
+- 66 张主页面桌面 / 手机截图、6 张手机长图及 1 张完整盘面截图已从运行页面更新。
+- 原型 PR 保持草稿；当前完成页面设计，不部署、不合并上线。真实引擎与服务接入需后续独立开发与验证。
 
-## 前后台边界与接入约束
-
-| 内容 | 前台 | 后台 |
-|---|---|---|
-| 七类工具、历史、收藏、AI | 允许，当前只有明确标注的六爻样例 | 不占管理主导航 |
-| 当前结果命中的规则与必要 Evidence | 允许，不能由详情跳到全量列表 | 可管理其来源与关联 |
-| 完整古籍/章节/术语/规则/Evidence 库 | 无入口、搜索或浏览路由 | 仅后台规划和样例 |
-| RAW、Quarantine、来源、Prompt、内部算法与图谱 | 不提供浏览 | 后台规划；本轮不接真实资产 |
-| Trace | 结果底部默认折叠，人可读过程 | 算法/日志规划另行设计 |
-
-**当前是视觉和路由分离，不是上线安全边界。** `/admin` 尚无认证或服务端权限验证，所有展示记录为虚构 DEMO 数据；不可将真实内部数据导入这个静态站再依赖隐藏导航保护。正式后台必须先建立服务端认证、角色授权及独立资产接口。前台真实接口只返回当前执行允许公开的命中内容，不能下载或直连内部资产索引。
-
-原型没有 `fetch`、API 封装、Mock 服务或 provider；静态资料并未模拟 `/api/v1/execute` 响应。待用户确认后，另开小 PR 直接消费真实接口，按真实 chart / rule_matches / trace / evidence 等字段展示，移除展示 fixtures。前台“未开放”是当前设计阶段状态，不代表后台引擎不能执行。A/B/C/D 来源质量、真实模型校准结果没有因视觉原型而变化。
-
-音乐默认关闭，点击播放才加载并启动本地音频；公开页面间导航保持播放与音量。页面右上角可以随时暂停；进入后台时停止。音量与最近一次主动播放/暂停的选择保存在本地，但刷新不自动发声。没有外链音乐、API Key 或模型配置。
-
-## 验证与评审节点
-
-已执行构建/类型检查，以及 26 项 Playwright 浏览器检查：六个路由 × 1440/390/360 三种宽度、整页不溢出、无外部/API 请求、前台未开放路径、结果顺序/折叠/详情/焦点恢复、收藏与历史标识、音乐显式播放/全局暂停/偏好/后台停止、三个管理页筛选/空状态/详情与规划导航。
-
-GitHub PR 同时运行原有知识库校验和新增视觉原型构建/浏览器 CI。截图文件是此原型的交付物，不是正在运行的正式网站。
-
-本轮结束于设计确认：评审首页视觉、六爻盘面密度、手机布局、后台表格与前后台边界。确认后才能继续真实接口联调；本轮不部署、合并上线、接 AI 或补全其他领域页面。
+运行方式见 [原型 README](../../web/visual-prototype/README.md)。本地预览服务：`npm run dev -- --host 127.0.0.1 --port 4174 --strictPort`。
