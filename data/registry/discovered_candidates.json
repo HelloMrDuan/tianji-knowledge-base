@@ -5,45 +5,27 @@
       "html_url": "https://github.com/Renhuai123/ziwei-doushu",
       "description": "紫微斗数开源排盘引擎 — 基于倪海夏《天纪》体系，含完整排盘算法、四化系统、格局知识库、古籍原文数据",
       "stars": 4331,
-      "updated_at": "2026-10-02T07:50:08Z",
+      "updated_at": "2026-10-03T06:43:59Z",
       "language": "TypeScript",
       "matched_queries": [
         "紫微斗数 ziwei"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-21T05:57:14Z",
-      "forks_count": 870,
-      "open_issues_count": 7,
-      "license_audit_at": "2026-10-02T10:26:39.869006+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "Brhiza/mingyu",
       "html_url": "https://github.com/Brhiza/mingyu",
       "description": "八字、紫微、星盘、六爻、梅花、奇门、大六壬、小六壬、塔罗、雷诺曼、灵签、择日一站式玄学算命占卜工具包，输出结构化提示词与数据。提供公开 API、MCP Server 与 skill。",
-      "stars": 465,
-      "updated_at": "2026-10-02T06:35:15Z",
+      "stars": 466,
+      "updated_at": "2026-10-03T08:12:57Z",
       "language": "TypeScript",
       "matched_queries": [
         "六爻 liuyao",
         "tarot divination"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "AGPL-3.0",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-10-02T08:37:33Z",
-      "forks_count": 122,
-      "open_issues_count": 5,
-      "license_audit_at": "2026-10-02T10:26:40.347414+00:00",
-      "audit_status": "COPYLEFT_REVIEW"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "ziweiknows/ziwei-chart",
@@ -56,62 +38,35 @@
         "紫微斗数 ziwei"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "GPL-3.0",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-20T15:48:48Z",
-      "forks_count": 150,
-      "open_issues_count": 9,
-      "license_audit_at": "2026-10-02T10:26:40.807880+00:00",
-      "audit_status": "COPYLEFT_REVIEW"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "Horace-Maxwell/Horosa-Web-App-comprehensively-improved-MacOS",
       "html_url": "https://github.com/Horace-Maxwell/Horosa-Web-App-comprehensively-improved-MacOS",
       "description": "十项全能玄学术数 Mac 工作站：命·卜·工具三区 26 门主技法、60+ 子技法流派。占星/八字/紫微/七政/印占/合盘/铁板神数/河洛/策天飞星/演禽/一掌经；含正统主限法在内 20+ 推运技法；六壬/奇门/六爻/太乙/三式合一/风水 17 派/金口诀/地占/塔罗/灵棋经等 15+ 卜法；多模型 AI 分析、3D 天文馆、黄历择日、玄学史、高质量生时数据库。技法全目录见 README。于旧星阙 Horosa 基础上改良制作，请不要忘记爽哥和郑大哥的贡献。",
-      "stars": 385,
-      "updated_at": "2026-09-30T23:18:37Z",
+      "stars": 387,
+      "updated_at": "2026-10-02T21:47:41Z",
       "language": "JavaScript",
       "matched_queries": [
         "风水 fengshui",
         "tarot divination"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "AGPL-3.0",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-30T23:28:05Z",
-      "forks_count": 56,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:26:41.312847+00:00",
-      "audit_status": "COPYLEFT_REVIEW"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "Horace-Maxwell/Horosa-Web-App-comprehensively-improved-Windows",
       "html_url": "https://github.com/Horace-Maxwell/Horosa-Web-App-comprehensively-improved-Windows",
       "description": "十项全能玄学术数 Windows 工作站：命·卜·工具三区 26 门主技法、60+ 子技法流派。占星/八字/紫微/七政/印占/合盘/铁板神数/河洛/策天飞星/演禽/一掌经；含正统主限法在内 20+ 推运技法；六壬/奇门/六爻/太乙/三式合一/风水 17 派/金口诀/地占/塔罗/灵棋经等 15+ 卜法；多模型 AI 分析、3D 天文馆、黄历择日、玄学史、高质量生时数据库。技法全目录见 README。于旧星阙 Horosa 基础上改良制作，请不要忘记爽哥和郑大哥的贡献。",
-      "stars": 380,
-      "updated_at": "2026-10-01T04:14:03Z",
+      "stars": 381,
+      "updated_at": "2026-10-02T15:47:44Z",
       "language": "JavaScript",
       "matched_queries": [
         "风水 fengshui",
         "tarot divination"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "AGPL-3.0",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-10-01T04:13:59Z",
-      "forks_count": 73,
-      "open_issues_count": 3,
-      "license_audit_at": "2026-10-02T10:26:41.826508+00:00",
-      "audit_status": "COPYLEFT_REVIEW"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "ChesterRa/mingpan",
@@ -124,16 +79,7 @@
         "六爻 liuyao"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "Apache-2.0",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-29T16:03:29Z",
-      "forks_count": 38,
-      "open_issues_count": 1,
-      "license_audit_at": "2026-10-02T10:26:42.242422+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "ml8s/liki",
@@ -148,16 +94,7 @@
         "风水 fengshui"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "master",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-27T22:42:40Z",
-      "forks_count": 12,
-      "open_issues_count": 9,
-      "license_audit_at": "2026-10-02T10:26:42.647271+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "masterai-top/Bazi-Ziwei-Qimen-Dunjia-Divination-System-Source-Code",
@@ -172,16 +109,7 @@
         "周易 易经 yijing"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-29T03:42:14Z",
-      "forks_count": 15,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:26:43.098858+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "taynpg/csp",
@@ -194,16 +122,7 @@
         "奇门遁甲 qimen"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-08-31T05:46:13Z",
-      "forks_count": 14,
-      "open_issues_count": 1,
-      "license_audit_at": "2026-10-02T10:26:43.515931+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "HeiGeAi/HeiGe-SuanMing",
@@ -216,38 +135,20 @@
         "六爻 liuyao"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-23T05:51:00Z",
-      "forks_count": 19,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:26:43.947027+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "dhicoc/dsh-chinese-traditional-wisdom-skill",
       "html_url": "https://github.com/dhicoc/dsh-chinese-traditional-wisdom-skill",
       "description": "中华传统智慧（玄枢）AI Agent 技能包的 DeepSeek Harness（dsh）Cordis 插件：八字/紫微/六爻/梅花/奇门/风水/五运六气/体质全融合，本地确定性引擎 + 可视化 Dashboard，一行 dsh plugin add 安装。",
-      "stars": 47,
-      "updated_at": "2026-10-01T15:36:59Z",
+      "stars": 48,
+      "updated_at": "2026-10-03T05:12:48Z",
       "language": "TypeScript",
       "matched_queries": [
         "风水 fengshui"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-29T14:40:22Z",
-      "forks_count": 9,
-      "open_issues_count": 3,
-      "license_audit_at": "2026-10-02T10:26:44.708742+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "ziweiknows/ziwei-chat",
@@ -260,16 +161,7 @@
         "紫微斗数 ziwei"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "Apache-2.0",
-      "default_branch": "master",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-29T03:48:46Z",
-      "forks_count": 5,
-      "open_issues_count": 15,
-      "license_audit_at": "2026-10-02T10:26:45.149882+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "godisego/Way-of-Heaven-Agent",
@@ -282,16 +174,7 @@
         "八字 命理 bazi"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-29T01:49:09Z",
-      "forks_count": 7,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:26:45.706573+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "RedSC1/ziwei_core",
@@ -304,16 +187,7 @@
         "紫微斗数 ziwei"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MPL-2.0",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-11T16:04:14Z",
-      "forks_count": 5,
-      "open_issues_count": 1,
-      "license_audit_at": "2026-10-02T10:26:46.138474+00:00",
-      "audit_status": "COPYLEFT_REVIEW"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "oceanjustinlin/qimen",
@@ -326,16 +200,7 @@
         "奇门遁甲 qimen"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-11T09:32:29Z",
-      "forks_count": 10,
-      "open_issues_count": 2,
-      "license_audit_at": "2026-10-02T10:26:46.583205+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "jangviktor-web/zeng-shiqiang",
@@ -348,16 +213,7 @@
         "周易 易经 yijing"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "auto-optimize/20260825-zeng-srcquality",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-08-27T15:34:56Z",
-      "forks_count": 2,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:26:46.987847+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "huzoukai/hui-gesture-bagua",
@@ -370,16 +226,7 @@
         "八卦 bagua"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-08-30T09:15:51Z",
-      "forks_count": 3,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:26:47.497428+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "tf1993614/Know-your-fate",
@@ -392,16 +239,7 @@
         "风水 fengshui"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-07-15T10:31:14Z",
-      "forks_count": 5,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:26:48.097786+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "ShousenZHANG/chinese-fortune",
@@ -414,60 +252,20 @@
         "tarot divination"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-28T06:49:46Z",
-      "forks_count": 3,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:26:48.567285+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "1eakkkk/liuyao-tool",
       "html_url": "https://github.com/1eakkkk/liuyao-tool",
       "description": "六爻排盘 + AI 解卦,基于火珠林纳甲法,网页/安卓/Windows 三端,打开即用",
       "stars": 10,
-      "updated_at": "2026-10-02T08:20:48Z",
+      "updated_at": "2026-10-03T07:11:51Z",
       "language": "JavaScript",
       "matched_queries": [
         "六爻 liuyao"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-10-02T09:39:26Z",
-      "forks_count": 2,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:26:49.035412+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
-    },
-    {
-      "repo": "Linden-TR/ziwei-doushu-skill",
-      "html_url": "https://github.com/Linden-TR/ziwei-doushu-skill",
-      "description": "Ziwei Doushu (Purple Star Astrology) — Claude Code skill for Chinese destiny analysis.      Multi-school: San He, Fei Xing, He Luo, Qin Tian Si Hua. Discover ancient Chinese           metaphysics, Taoist astrology, Eastern fortune-telling. Powered by @mingai/mcp. 紫微斗数 算命 命理",
-      "stars": 10,
-      "updated_at": "2026-09-27T08:20:13Z",
-      "language": null,
-      "matched_queries": [
-        "chinese astrology metaphysics"
-      ],
-      "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "master",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-05-27T17:45:03Z",
-      "forks_count": 1,
-      "open_issues_count": 1,
-      "license_audit_at": "2026-10-02T10:26:50.496142+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "liver-detox/bazi-ziwei-calculator",
@@ -480,16 +278,20 @@
         "紫微斗数 ziwei"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-17T11:43:35Z",
-      "forks_count": 2,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:26:50.933092+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
+    },
+    {
+      "repo": "Linden-TR/ziwei-doushu-skill",
+      "html_url": "https://github.com/Linden-TR/ziwei-doushu-skill",
+      "description": "Ziwei Doushu (Purple Star Astrology) — Claude Code skill for Chinese destiny analysis.      Multi-school: San He, Fei Xing, He Luo, Qin Tian Si Hua. Discover ancient Chinese           metaphysics, Taoist astrology, Eastern fortune-telling. Powered by @mingai/mcp. 紫微斗数 算命 命理",
+      "stars": 9,
+      "updated_at": "2026-10-02T22:40:31Z",
+      "language": null,
+      "matched_queries": [
+        "chinese astrology metaphysics"
+      ],
+      "status": "candidate",
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "Brhiza/sydf",
@@ -502,16 +304,7 @@
         "tarot divination"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-10T18:45:19Z",
-      "forks_count": 6,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:26:51.347538+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "lemonteaau/binary-liuyao",
@@ -524,16 +317,7 @@
         "六爻 liuyao"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-30T21:06:12Z",
-      "forks_count": 1,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:26:51.846779+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "2021291696/high-confidence-mingli-skill",
@@ -547,16 +331,7 @@
         "紫微斗数 ziwei"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-10-02T02:52:10Z",
-      "forks_count": 1,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:26:52.391870+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "Fyrgo8/meihua-divination-skill",
@@ -569,16 +344,7 @@
         "梅花易数 meihua"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-23T16:33:50Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:26:52.826464+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "Timmy9527/agentziwei",
@@ -591,16 +357,7 @@
         "紫微斗数 ziwei"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-10-01T14:42:16Z",
-      "forks_count": 1,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:26:53.301255+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "hedanbaomi/tarot-divination-site",
@@ -613,38 +370,20 @@
         "tarot divination"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-22T02:56:23Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:26:53.738232+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "matharts/ziwei",
       "html_url": "https://github.com/matharts/ziwei",
       "description": "MathArts 开源生态的标准驱动紫微斗数排盘引擎",
       "stars": 7,
-      "updated_at": "2026-09-29T19:53:08Z",
-      "language": "Rust",
+      "updated_at": "2026-10-02T21:33:05Z",
+      "language": null,
       "matched_queries": [
         "紫微斗数 ziwei"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-10-02T00:42:47Z",
-      "forks_count": 4,
-      "open_issues_count": 13,
-      "license_audit_at": "2026-10-02T10:26:54.196274+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "DeePingXian/BaGuaLiuGuangLu",
@@ -657,38 +396,7 @@
         "八卦 bagua"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-06-19T23:45:47Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:26:54.712125+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
-    },
-    {
-      "repo": "x-haose/x-iztro",
-      "html_url": "https://github.com/x-haose/x-iztro",
-      "description": "紫微斗数排盘引擎 · Zi Wei Dou Shu (Purple Star Astrology) chart engine in Rust with Python & Go bindings. Field-for-field parity with iztro v2.5.8 (716,314 golden cases), plus 64 pattern rules, knowledge packs, BaZi reverse lookup and LLM-ready output.",
-      "stars": 5,
-      "updated_at": "2026-09-30T02:53:48Z",
-      "language": "Rust",
-      "matched_queries": [
-        "紫微斗数 ziwei"
-      ],
-      "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-08T06:50:33Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:26:55.260808+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "985892345/astrbot_plugin_meihua",
@@ -701,16 +409,7 @@
         "梅花易数 meihua"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-07-16T15:55:37Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:26:55.783144+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "RubyCcll/guanwei",
@@ -724,16 +423,7 @@
         "tarot divination"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-10-01T13:31:47Z",
-      "forks_count": 0,
-      "open_issues_count": 10,
-      "license_audit_at": "2026-10-02T10:26:56.326659+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "YuHong-Cray/tianji-fengshui",
@@ -746,16 +436,7 @@
         "风水 fengshui"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "master",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-08-21T10:34:14Z",
-      "forks_count": 1,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:26:56.765602+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "bingxinv5/Tarot-Cards-Birthday-Characters-Easy-Numbering-of-Plum-Blossoms-Da-Liuren-Ziping-Bazi-Qimen-Dunjia",
@@ -768,38 +449,7 @@
         "大六壬 liuren"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-05-02T12:30:53Z",
-      "forks_count": 2,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:26:57.091035+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
-    },
-    {
-      "repo": "hermeticai/tarot-agent-skill",
-      "html_url": "https://github.com/hermeticai/tarot-agent-skill",
-      "description": "Give your agent the ability to run tarot readings with real shuffles and live-sourced meanings.",
-      "stars": 4,
-      "updated_at": "2026-09-10T17:47:58Z",
-      "language": "Python",
-      "matched_queries": [
-        "tarot divination"
-      ],
-      "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-07T18:20:26Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:26:57.536317+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "x3747991-ship-it/tieban-shenshu-skillpack",
@@ -812,16 +462,20 @@
         "八字 命理 bazi"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-22T22:35:12Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:26:57.936623+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
+    },
+    {
+      "repo": "xuminghuisg-star/lubai-qimen",
+      "html_url": "https://github.com/xuminghuisg-star/lubai-qimen",
+      "description": "奇门遁甲解卦助手",
+      "stars": 4,
+      "updated_at": "2026-10-02T12:00:56Z",
+      "language": null,
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "candidate",
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "xuquangeo/ai-meihua-yishu-codex-plugin",
@@ -834,16 +488,7 @@
         "梅花易数 meihua"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-07-02T08:03:37Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:26:58.415588+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "yueyinqiu/ZhouyiFramework",
@@ -856,16 +501,7 @@
         "周易 易经 yijing"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "master",
-      "archived": true,
-      "fork": false,
-      "pushed_at": "2023-08-10T03:26:17Z",
-      "forks_count": 3,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:26:58.959900+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE_ARCHIVED"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "zhongwubushui/ziwei-doushu",
@@ -878,16 +514,7 @@
         "紫微斗数 ziwei"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-12T17:19:32Z",
-      "forks_count": 1,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:26:59.404050+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "zlZayn/Tarot",
@@ -900,16 +527,7 @@
         "tarot divination"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-29T09:56:22Z",
-      "forks_count": 1,
-      "open_issues_count": 1,
-      "license_audit_at": "2026-10-02T10:27:00.919456+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "1111111u/bazi-ziwei",
@@ -922,16 +540,7 @@
         "紫微斗数 ziwei"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-09T05:36:20Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:01.390531+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "LeslieAn726/qimen-assistant",
@@ -944,16 +553,7 @@
         "奇门遁甲 qimen"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-21T10:53:38Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:01.762265+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "ctkqiang/YiJing",
@@ -966,16 +566,7 @@
         "周易 易经 yijing"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2025-02-20T17:26:07Z",
-      "forks_count": 2,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:02.239828+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "dglijin-oss/liuren-skill",
@@ -988,16 +579,7 @@
         "大六壬 liuren"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-07-02T08:20:20Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:02.685360+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "konglong87/xuanxue-skills",
@@ -1010,16 +592,7 @@
         "风水 fengshui"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-28T00:21:13Z",
-      "forks_count": 1,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:03.206300+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "misakaikato/rime-shushu-dict",
@@ -1033,38 +606,7 @@
         "tarot divination"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-09T16:47:17Z",
-      "forks_count": 0,
-      "open_issues_count": 1,
-      "license_audit_at": "2026-10-02T10:27:03.550206+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
-    },
-    {
-      "repo": "xuminghuisg-star/lubai-qimen",
-      "html_url": "https://github.com/xuminghuisg-star/lubai-qimen",
-      "description": "奇门遁甲解卦助手",
-      "stars": 3,
-      "updated_at": "2026-07-26T06:27:08Z",
-      "language": null,
-      "matched_queries": [
-        "奇门遁甲 qimen"
-      ],
-      "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-07-26T06:27:04Z",
-      "forks_count": 1,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:03.889210+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "y001j/zhouyi",
@@ -1077,16 +619,7 @@
         "大六壬 liuren"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "Apache-2.0",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-05-31T15:32:52Z",
-      "forks_count": 1,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:04.470448+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "13905394878/yijing-meihua",
@@ -1099,16 +632,7 @@
         "周易 易经 yijing"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-05-08T10:32:24Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:04.919059+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "BeaconCat/Arcanum",
@@ -1121,16 +645,7 @@
         "tarot divination"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "GPL-3.0",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-28T09:29:05Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:05.303891+00:00",
-      "audit_status": "COPYLEFT_REVIEW"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "Broly789/BaziAI",
@@ -1143,16 +658,7 @@
         "八字 命理 bazi"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-09T08:59:46Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:05.650575+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "Goldmann1995/AIbazi",
@@ -1165,16 +671,7 @@
         "chinese astrology metaphysics"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "AGPL-3.0",
-      "default_branch": "master",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2025-01-13T06:11:45Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:06.148649+00:00",
-      "audit_status": "COPYLEFT_REVIEW"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "Jason-Lee051/Evander-s-Mysticism-Toolkit_qimen-meihua",
@@ -1189,16 +686,7 @@
         "tarot divination"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-16T09:23:16Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:06.544028+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "Jockeyvb/CompassEx",
@@ -1211,16 +699,7 @@
         "风水 fengshui"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "AGPL-3.0",
-      "default_branch": "master",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-12T14:42:20Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:07.103829+00:00",
-      "audit_status": "COPYLEFT_REVIEW"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "PeiOrange888/meihua-lottery",
@@ -1233,16 +712,7 @@
         "梅花易数 meihua"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-07-22T04:26:29Z",
-      "forks_count": 2,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:07.685000+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "PimpinPumpkin/Arcana",
@@ -1255,16 +725,7 @@
         "tarot divination"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "GPL-3.0",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-10-02T00:41:26Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:08.138564+00:00",
-      "audit_status": "COPYLEFT_REVIEW"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "RedSC1/opendestiny-web",
@@ -1278,16 +739,7 @@
         "tarot divination"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "Apache-2.0",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-12T15:34:28Z",
-      "forks_count": 1,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:08.619781+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "SpenserCai/qimen-rs",
@@ -1300,38 +752,7 @@
         "奇门遁甲 qimen"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-28T09:16:59Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:09.054885+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
-    },
-    {
-      "repo": "UnseenAnchor/guan_xiang",
-      "html_url": "https://github.com/UnseenAnchor/guan_xiang",
-      "description": "观象 · 本地优先的四柱八字排盘与命理知识展示网页：四柱十神、大运流年、神煞、古籍参照，纯本地运行 | Local-first BaZi (Four Pillars of Destiny) charting & Chinese metaphysics knowledge viewer",
-      "stars": 2,
-      "updated_at": "2026-09-28T11:36:54Z",
-      "language": "Python",
-      "matched_queries": [
-        "八字 命理 bazi"
-      ],
-      "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-06T12:38:26Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:09.591936+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "Yahao277/Webapp-liuren",
@@ -1344,16 +765,7 @@
         "大六壬 liuren"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2021-03-23T15:23:13Z",
-      "forks_count": 3,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:10.983739+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "airen3339/BaZiPaiPan",
@@ -1366,16 +778,7 @@
         "八字 命理 bazi"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-10-02T07:34:40Z",
-      "forks_count": 0,
-      "open_issues_count": 1,
-      "license_audit_at": "2026-10-02T10:27:11.384609+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "airp2018/fengshuidashi",
@@ -1388,16 +791,7 @@
         "风水 fengshui"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-07-30T09:06:10Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:11.802177+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "alibabamayun888/CosmicChart-Metaphysics-Engine",
@@ -1411,16 +805,7 @@
         "chinese astrology metaphysics"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-01T08:56:50Z",
-      "forks_count": 1,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:12.161987+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "fjyazsw-eng/qimen-analysis-skill",
@@ -1433,16 +818,7 @@
         "奇门遁甲 qimen"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-21T14:40:45Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:12.624104+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "songgoldenwind-crypto/meihua-skills",
@@ -1455,16 +831,7 @@
         "梅花易数 meihua"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-25T03:17:12Z",
-      "forks_count": 1,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:13.189208+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "x3747991-ship-it/wuxing-jingji-zhushi",
@@ -1477,16 +844,7 @@
         "八字 命理 bazi"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-08T23:33:21Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:13.536146+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "yuluo-feather/astrbot_plugin_star_feather",
@@ -1499,16 +857,7 @@
         "tarot divination"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "AGPL-3.0",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-10-01T18:41:38Z",
-      "forks_count": 0,
-      "open_issues_count": 1,
-      "license_audit_at": "2026-10-02T10:27:14.048615+00:00",
-      "audit_status": "COPYLEFT_REVIEW"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "AndyOliverR/FutureSeer",
@@ -1521,16 +870,7 @@
         "tarot divination"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-10-01T11:18:22Z",
-      "forks_count": 0,
-      "open_issues_count": 43,
-      "license_audit_at": "2026-10-02T10:27:14.541088+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "Biuegz/MeiHuaYiShuApp",
@@ -1543,16 +883,7 @@
         "梅花易数 meihua"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-30T08:45:59Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:14.954011+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "CHK768/fengshui-app",
@@ -1565,16 +896,7 @@
         "风水 fengshui"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-08-09T07:00:16Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:15.299927+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "JuneLikesYogurt/liuyao-web",
@@ -1587,16 +909,7 @@
         "六爻 liuyao"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-30T08:48:59Z",
-      "forks_count": 1,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:15.697813+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "LK666-A11Y/bazi-finance-skill",
@@ -1609,16 +922,7 @@
         "紫微斗数 ziwei"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": true,
-      "fork": false,
-      "pushed_at": "2026-09-30T08:39:25Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:16.053889+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY_ARCHIVED"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "MickChu/bazi-analyzer",
@@ -1631,16 +935,7 @@
         "八字 命理 bazi"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-27T21:49:34Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:16.410201+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "QF331816/hui-gesture-bagua",
@@ -1653,16 +948,7 @@
         "八卦 bagua"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-02T08:12:02Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:16.857025+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "Seanding1998/yangzhai-fengshui",
@@ -1675,16 +961,7 @@
         "风水 fengshui"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-19T12:19:30Z",
-      "forks_count": 1,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:17.338372+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "SuperGODOG/ziwei-doushu",
@@ -1697,16 +974,7 @@
         "紫微斗数 ziwei"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-10T14:17:18Z",
-      "forks_count": 1,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:17.857798+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "aicher-wang/desk-fengshui",
@@ -1719,16 +987,7 @@
         "风水 fengshui"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-10T10:18:52Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:18.303449+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "austinnie/meihua_yishu",
@@ -1741,16 +1000,20 @@
         "梅花易数 meihua"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-08-16T12:39:07Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:18.713353+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
+    },
+    {
+      "repo": "banxia-126/hexagram-lab",
+      "html_url": "https://github.com/banxia-126/hexagram-lab",
+      "description": "术数排盘工具：小六壬 · 六爻 · 梅花易数（面向方屏手表的网页 demo）",
+      "stars": 1,
+      "updated_at": "2026-10-03T08:16:15Z",
+      "language": "JavaScript",
+      "matched_queries": [
+        "梅花易数 meihua"
+      ],
+      "status": "candidate",
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "bigprince97/liuren",
@@ -1763,16 +1026,7 @@
         "大六壬 liuren"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2025-02-09T13:14:11Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:19.124633+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "bigprince97/liuren_and_ai",
@@ -1785,16 +1039,7 @@
         "大六壬 liuren"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2024-11-09T10:11:07Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:20.471618+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "bingchuH/meihuayishu-skill",
@@ -1807,16 +1052,7 @@
         "梅花易数 meihua"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-07-02T02:25:23Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:20.874850+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "chenhanxue0831/Astrology-metaphysics",
@@ -1829,16 +1065,7 @@
         "chinese astrology metaphysics"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2023-11-25T20:49:58Z",
-      "forks_count": 0,
-      "open_issues_count": 1,
-      "license_audit_at": "2026-10-02T10:27:21.224864+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "chenyjie/qimen-predict-skill",
@@ -1851,16 +1078,7 @@
         "奇门遁甲 qimen"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-08-10T08:59:08Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:21.753132+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "dglijin-oss/taiyi-skill",
@@ -1873,16 +1091,7 @@
         "太乙神数 taiyi"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-07-02T08:20:30Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:22.210874+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "hackninety/python-taiyi",
@@ -1895,16 +1104,7 @@
         "太乙神数 taiyi"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-07-03T17:41:11Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:22.546382+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "hackninety/react-liuren",
@@ -1917,16 +1117,7 @@
         "大六壬 liuren"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-07-31T15:29:22Z",
-      "forks_count": 1,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:22.932473+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "jinlio/liuyao-skill",
@@ -1939,16 +1130,7 @@
         "六爻 liuyao"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-30T08:15:53Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:23.392268+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "kaecer68/liuren-zenith",
@@ -1961,16 +1143,7 @@
         "大六壬 liuren"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-05-02T13:58:04Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:23.881773+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "lusing/liuren",
@@ -1983,16 +1156,7 @@
         "大六壬 liuren"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "master",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2022-10-14T19:22:11Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:24.285963+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "masonweb3/liuyao",
@@ -2005,16 +1169,7 @@
         "六爻 liuyao"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-10-02T02:37:31Z",
-      "forks_count": 0,
-      "open_issues_count": 1,
-      "license_audit_at": "2026-10-02T10:27:24.748409+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "minimal553/TenYearsOneRun-Balatro",
@@ -2027,16 +1182,7 @@
         "八字 命理 bazi"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-23T04:06:39Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:25.226613+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "oneliuss/astrbot_plugin_qimen_yunshi",
@@ -2049,16 +1195,7 @@
         "奇门遁甲 qimen"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-08-04T07:39:33Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:25.620563+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "oneliuss/qimenduangua",
@@ -2071,16 +1208,7 @@
         "奇门遁甲 qimen"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "GPL-3.0",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-04T08:05:53Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:26.049043+00:00",
-      "audit_status": "COPYLEFT_REVIEW"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "richard3153/xiangshu-therapy",
@@ -2093,16 +1221,7 @@
         "八卦 bagua"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-08-09T09:31:06Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:26.395494+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "ruoxuer/Fuxi-64gua-Wu-Xing-Five-Elements",
@@ -2115,16 +1234,7 @@
         "八卦 bagua"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-01-10T12:17:01Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:26.839859+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "shiyi-ly/stardao-platform",
@@ -2137,16 +1247,7 @@
         "chinese astrology metaphysics"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2025-03-27T08:35:16Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:27.213484+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "the-404/meihua-skill",
@@ -2159,16 +1260,7 @@
         "梅花易数 meihua"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": null,
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-07-21T15:57:32Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:27.548126+00:00",
-      "audit_status": "NO_LICENSE_REFERENCE_ONLY"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "uiYzzi/fengshui",
@@ -2181,16 +1273,7 @@
         "风水 fengshui"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-07-23T15:17:20Z",
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:28.021300+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "wrz1911/daojiayinpan",
@@ -2203,16 +1286,20 @@
         "奇门遁甲 qimen"
       ],
       "status": "candidate",
-      "license_policy": "QUARANTINE",
-      "license_spdx": "MIT",
-      "default_branch": "main",
-      "archived": false,
-      "fork": false,
-      "pushed_at": "2026-09-29T09:00:53Z",
-      "forks_count": 1,
-      "open_issues_count": 0,
-      "license_audit_at": "2026-10-02T10:27:28.523845+00:00",
-      "audit_status": "ELIGIBLE_PERMISSIVE"
+      "license_policy": "QUARANTINE"
+    },
+    {
+      "repo": "wwwwklw/qimendunjia",
+      "html_url": "https://github.com/wwwwklw/qimendunjia",
+      "description": "奇门遁甲知识库",
+      "stars": 1,
+      "updated_at": "2026-10-02T12:04:39Z",
+      "language": "Python",
+      "matched_queries": [
+        "奇门遁甲 qimen"
+      ],
+      "status": "candidate",
+      "license_policy": "QUARANTINE"
     },
     {
       "repo": "x2014903150-creator/meihua--app",
@@ -2442,7 +1529,7 @@
       "html_url": "https://github.com/AliothChen555-star/qimen-jiepan-skill",
       "description": "奇门遁甲排盘+解盘的Agent Skill",
       "stars": 0,
-      "updated_at": "2026-09-21T03:10:57Z",
+      "updated_at": "2026-10-02T14:08:39Z",
       "language": "Python",
       "matched_queries": [
         "奇门遁甲 qimen"
@@ -2503,6 +1590,19 @@
       "license_policy": "QUARANTINE"
     },
     {
+      "repo": "DivineAPI/tarot-api",
+      "html_url": "https://github.com/DivineAPI/tarot-api",
+      "description": "Tarot API with card images: daily tarot, yes or no, love and career readings in 25 languages, as JSON. By DivineAPI.",
+      "stars": 0,
+      "updated_at": "2026-10-03T07:10:38Z",
+      "language": null,
+      "matched_queries": [
+        "tarot divination"
+      ],
+      "status": "candidate",
+      "license_policy": "QUARANTINE"
+    },
+    {
       "repo": "Fridolph/qimen-learning-app",
       "html_url": "https://github.com/Fridolph/qimen-learning-app",
       "description": "用来学习奇门遁甲起局和排盘的自制APP",
@@ -2523,6 +1623,20 @@
       "updated_at": "2026-08-28T12:20:31Z",
       "language": "JavaScript",
       "matched_queries": [
+        "风水 fengshui"
+      ],
+      "status": "candidate",
+      "license_policy": "QUARANTINE"
+    },
+    {
+      "repo": "GaoRenYouShu/XuanJiPaiPan",
+      "html_url": "https://github.com/GaoRenYouShu/XuanJiPaiPan",
+      "description": "玄机排盘：传统命理、历法与占卜文化研究演示站，35 个纯前端排盘工具（八字、紫微斗数、六爻、奇门遁甲、风水、老黄历等），打开即用、离线可用。Pure front-end, offline-ready Chinese divination toolkit. MIT 开源",
+      "stars": 0,
+      "updated_at": "2026-10-02T18:21:36Z",
+      "language": "JavaScript",
+      "matched_queries": [
+        "八字 命理 bazi",
         "风水 fengshui"
       ],
       "status": "candidate",
@@ -2559,7 +1673,7 @@
       "html_url": "https://github.com/JohnnyHaiYoung/liuyao",
       "description": "六爻",
       "stars": 0,
-      "updated_at": "2026-10-01T17:19:14Z",
+      "updated_at": "2026-10-02T15:17:27Z",
       "language": "TypeScript",
       "matched_queries": [
         "六爻 liuyao"
@@ -2754,7 +1868,7 @@
       "html_url": "https://github.com/NeverGiveUp0618/liuren-game",
       "description": "大六壬日学 · 壬式神煞学习App",
       "stars": 0,
-      "updated_at": "2026-08-30T10:38:32Z",
+      "updated_at": "2026-10-03T02:28:45Z",
       "language": "HTML",
       "matched_queries": [
         "大六壬 liuren"
@@ -2789,11 +1903,24 @@
       "license_policy": "QUARANTINE"
     },
     {
+      "repo": "Rapman007/bazi-agent-skill",
+      "html_url": "https://github.com/Rapman007/bazi-agent-skill",
+      "description": "Agent Skill：四柱八字排盘与命理分析 —— 排盘不靠 AI、断语必须可证伪、不打档不排名",
+      "stars": 0,
+      "updated_at": "2026-10-03T06:20:04Z",
+      "language": "Python",
+      "matched_queries": [
+        "八字 命理 bazi"
+      ],
+      "status": "candidate",
+      "license_policy": "QUARANTINE"
+    },
+    {
       "repo": "RioMaker/astrbot_plugin_liuyao",
       "html_url": "https://github.com/RioMaker/astrbot_plugin_liuyao",
       "description": "六爻插件，支持LLM调用",
       "stars": 0,
-      "updated_at": "2026-09-29T06:16:54Z",
+      "updated_at": "2026-10-02T12:56:34Z",
       "language": "Python",
       "matched_queries": [
         "六爻 liuyao"
@@ -2836,19 +1963,6 @@
       "language": "Python",
       "matched_queries": [
         "八卦 bagua"
-      ],
-      "status": "candidate",
-      "license_policy": "QUARANTINE"
-    },
-    {
-      "repo": "SylarLong/openai-iztro-agents-js",
-      "html_url": "https://github.com/SylarLong/openai-iztro-agents-js",
-      "description": "Build your own Ziwei (Purple Star Astrology / 紫微斗数) agent on the OpenAI Agents SDK — TypeScript port. Hosted brain + iztro, with your own local tools, MCP, and human-in-the-loop.",
-      "stars": 0,
-      "updated_at": "2026-09-06T16:21:50Z",
-      "language": "TypeScript",
-      "matched_queries": [
-        "紫微斗数 ziwei"
       ],
       "status": "candidate",
       "license_policy": "QUARANTINE"
@@ -2932,6 +2046,19 @@
       "license_policy": "QUARANTINE"
     },
     {
+      "repo": "aiyangdie/ziwei-chat",
+      "html_url": "https://github.com/aiyangdie/ziwei-chat",
+      "description": "紫微斗数排盘 + Agnes AI 对话解读（基于 ziwei-doushu 开源引擎）",
+      "stars": 0,
+      "updated_at": "2026-10-02T12:13:40Z",
+      "language": "TypeScript",
+      "matched_queries": [
+        "紫微斗数 ziwei"
+      ],
+      "status": "candidate",
+      "license_policy": "QUARANTINE"
+    },
+    {
       "repo": "anjing0524/liuyao-h5",
       "html_url": "https://github.com/anjing0524/liuyao-h5",
       "description": "六爻卜卦 H5 项目（Vite + PixiJS + Rust/Wasm）",
@@ -2992,19 +2119,6 @@
       "language": "JavaScript",
       "matched_queries": [
         "紫微斗数 ziwei"
-      ],
-      "status": "candidate",
-      "license_policy": "QUARANTINE"
-    },
-    {
-      "repo": "banxia-126/hexagram-lab",
-      "html_url": "https://github.com/banxia-126/hexagram-lab",
-      "description": "术数排盘工具：小六壬 · 六爻 · 梅花易数（面向方屏手表的网页 demo）",
-      "stars": 0,
-      "updated_at": "2026-09-19T11:13:02Z",
-      "language": "JavaScript",
-      "matched_queries": [
-        "梅花易数 meihua"
       ],
       "status": "candidate",
       "license_policy": "QUARANTINE"
@@ -3244,19 +2358,6 @@
       "license_policy": "QUARANTINE"
     },
     {
-      "repo": "iPythoning/bazi-fengshui-skill",
-      "html_url": "https://github.com/iPythoning/bazi-fengshui-skill",
-      "description": "八字风水分析 WorkBuddy Skill — 输入出生年月日，自动推算八字喜忌五行，生成个性化方位吉凶判断、板块推荐、风水优化与搬迁规划。含交互式可视化 UI。",
-      "stars": 0,
-      "updated_at": "2026-07-10T13:29:16Z",
-      "language": null,
-      "matched_queries": [
-        "风水 fengshui"
-      ],
-      "status": "candidate",
-      "license_policy": "QUARANTINE"
-    },
-    {
       "repo": "idavailable/liuyao",
       "html_url": "https://github.com/idavailable/liuyao",
       "description": "六爻排盘 · 京房纳甲 · CF Pages + D1 + LLM 断卦",
@@ -3352,7 +2453,7 @@
       "html_url": "https://github.com/kennycaiguo/Qimen-Dunjia-Techniques",
       "description": "学习奇门遁甲",
       "stars": 0,
-      "updated_at": "2026-10-01T13:40:04Z",
+      "updated_at": "2026-10-02T13:41:13Z",
       "language": null,
       "matched_queries": [
         "奇门遁甲 qimen"
@@ -3391,7 +2492,7 @@
       "html_url": "https://github.com/lachlanchen/LazyOracle",
       "description": "Eight divination practices computed on your own device: tarot, BaZi, I Ching, astrology, feng shui, palmistry and face reading, narrated by a local model.",
       "stars": 0,
-      "updated_at": "2026-09-29T00:03:53Z",
+      "updated_at": "2026-10-03T01:44:58Z",
       "language": "TypeScript",
       "matched_queries": [
         "tarot divination"
@@ -3404,7 +2505,7 @@
       "html_url": "https://github.com/lctfwyt/dsh-liuyao",
       "description": "Six-Line Divination (liuyao) for DeepSeek Harness — one-click casting, eight-palace najia chart, AI interpretation, chart card and case archive. DeepSeek Harness 六爻插件：六爻起卦 · AI 解卦：一键起卦、纳甲装卦、按所问事项断卦。",
       "stars": 0,
-      "updated_at": "2026-09-30T18:11:38Z",
+      "updated_at": "2026-10-02T17:25:00Z",
       "language": "JavaScript",
       "matched_queries": [
         "六爻 liuyao"
@@ -3589,11 +2690,24 @@
       "license_policy": "QUARANTINE"
     },
     {
+      "repo": "nosleepcassette/augury",
+      "html_url": "https://github.com/nosleepcassette/augury",
+      "description": "Tarot & I Ching divination in your terminal with a robust set of related tools & integrations",
+      "stars": 0,
+      "updated_at": "2026-10-02T17:45:00Z",
+      "language": "Python",
+      "matched_queries": [
+        "tarot divination"
+      ],
+      "status": "candidate",
+      "license_policy": "QUARANTINE"
+    },
+    {
       "repo": "okuyamashin/colorsforthefool",
       "html_url": "https://github.com/okuyamashin/colorsforthefool",
       "description": "Draw a major arcana card and find today's lucky color at the end of the story. Japanese and English.",
       "stars": 0,
-      "updated_at": "2026-10-01T05:48:14Z",
+      "updated_at": "2026-10-03T06:05:06Z",
       "language": "HTML",
       "matched_queries": [
         "tarot divination"
@@ -3675,19 +2789,6 @@
       "language": "Python",
       "matched_queries": [
         "风水 fengshui"
-      ],
-      "status": "candidate",
-      "license_policy": "QUARANTINE"
-    },
-    {
-      "repo": "qilaidev/metaphysics-engine",
-      "html_url": "https://github.com/qilaidev/metaphysics-engine",
-      "description": "Divination engine as API/CLI/MCP: BaZi, Zi Wei, I Ching, Qimen, Tarot. 术数算法能力层（HTTP API + CLI + MCP）。",
-      "stars": 0,
-      "updated_at": "2026-09-08T20:31:18Z",
-      "language": "JavaScript",
-      "matched_queries": [
-        "tarot divination"
       ],
       "status": "candidate",
       "license_policy": "QUARANTINE"
@@ -3862,6 +2963,19 @@
       "license_policy": "QUARANTINE"
     },
     {
+      "repo": "tom365a/ziwei",
+      "html_url": "https://github.com/tom365a/ziwei",
+      "description": "紫微斗数",
+      "stars": 0,
+      "updated_at": "2026-10-02T15:11:49Z",
+      "language": "TypeScript",
+      "matched_queries": [
+        "紫微斗数 ziwei"
+      ],
+      "status": "candidate",
+      "license_policy": "QUARANTINE"
+    },
+    {
       "repo": "vabpf/omnifate",
       "html_url": "https://github.com/vabpf/omnifate",
       "description": "A comprehensive metaphysical portal integrating Eastern and Western systems: Numerology, Astrology, Birth Charts, Zi Wei (Chinese Astrology), BaZi, and Human Design, with AI-powered interpretations.",
@@ -3923,19 +3037,6 @@
       "matched_queries": [
         "奇门遁甲 qimen",
         "大六壬 liuren"
-      ],
-      "status": "candidate",
-      "license_policy": "QUARANTINE"
-    },
-    {
-      "repo": "wwwwklw/qimendunjia",
-      "html_url": "https://github.com/wwwwklw/qimendunjia",
-      "description": "奇门遁甲知识库",
-      "stars": 0,
-      "updated_at": "2026-08-25T05:13:13Z",
-      "language": "Python",
-      "matched_queries": [
-        "奇门遁甲 qimen"
       ],
       "status": "candidate",
       "license_policy": "QUARANTINE"
@@ -4027,19 +3128,6 @@
       "language": "JavaScript",
       "matched_queries": [
         "梅花易数 meihua"
-      ],
-      "status": "candidate",
-      "license_policy": "QUARANTINE"
-    },
-    {
-      "repo": "y4Nkk/bazi-ai",
-      "html_url": "https://github.com/y4Nkk/bazi-ai",
-      "description": "命轨：把八字命盘、大运流年和趋势图放在一起，帮你看懂每个阶段的命理线索。",
-      "stars": 0,
-      "updated_at": "2026-09-04T10:04:50Z",
-      "language": "TypeScript",
-      "matched_queries": [
-        "八字 命理 bazi"
       ],
       "status": "candidate",
       "license_policy": "QUARANTINE"
@@ -4148,7 +3236,5 @@
       "status": "candidate",
       "license_policy": "QUARANTINE"
     }
-  ],
-  "license_audit_generated_at": "2026-10-02T10:27:29.524022+00:00",
-  "license_audited_count": 100
+  ]
 }
