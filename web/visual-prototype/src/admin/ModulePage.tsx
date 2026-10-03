@@ -60,7 +60,7 @@ function FeaturePanel({ module }: { module: ModuleDefinition }) {
         >
           <label>
             调用用途
-            <select aria-label="调用用途">
+            <select aria-label="调用用途" onChange={() => setSaved(false)}>
               <option>结构化结果解释</option>
               <option>依据摘要</option>
             </select>

@@ -146,6 +146,8 @@ test("configuration previews and prompt drafts clear on reload and never request
   await page.getByLabel("超时（毫秒）").fill("4000");
   await page.getByRole("button", { name: "确认配置预览" }).click();
   await expect(page.getByRole("status")).toContainText("未发送连接请求");
+  await page.getByLabel("调用用途").selectOption("依据摘要");
+  await expect(page.getByRole("status")).toHaveCount(0);
   await page.reload();
   await expect(page.getByLabel("超时（毫秒）")).toHaveValue("3000");
   expect(requests).toEqual([]);

@@ -111,7 +111,7 @@ export function ResultTemplatePage({ page }: { page: DomainPage }) {
                     ? "失败时不展示旧盘面或生成替代结论。可返回录入页重新核对。"
                     : state === "loading"
                       ? "此状态用于展示等待布局，没有发起计算请求。"
-                      : "实际结果尚未接入。右侧结构仅帮助理解各部分的位置。"}
+                      : "实际结果尚未接入。结构图仅帮助理解各部分的位置。"}
                 </p>
                 <Link className="text-action" href={"/" + page.id}>
                   前往资料录入
