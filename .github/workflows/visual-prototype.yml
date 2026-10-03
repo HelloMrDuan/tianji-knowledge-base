@@ -1,0 +1,33 @@
+name: Validate Visual Prototype
+
+on:
+  pull_request:
+    branches: [main]
+    paths: ["web/visual-prototype/**", ".github/workflows/visual-prototype.yml"]
+  push:
+    branches: [main]
+    paths: ["web/visual-prototype/**", ".github/workflows/visual-prototype.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  visual-prototype:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web/visual-prototype
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: web/visual-prototype/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm test
+        env:
+          CI: "true"
