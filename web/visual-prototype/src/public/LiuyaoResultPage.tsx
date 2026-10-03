@@ -78,7 +78,7 @@ export function LiuyaoResultPage({
             <SectionTitle number="一" title="基础信息" />
             <div className="basic-grid">
               <div>
-                <span>推演时间</span>
+                <span>推演时间（北京时间）</span>
                 <strong>2026年10月2日 09:30</strong>
               </div>
               <div>

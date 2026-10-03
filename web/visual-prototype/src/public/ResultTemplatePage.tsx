@@ -72,8 +72,16 @@ export function ResultTemplatePage({ page }: { page: DomainPage }) {
                 <strong>随真实结果返回</strong>
               </div>
               <div>
-                <span>输入与时区</span>
-                <strong>待核对</strong>
+                <span>
+                  {page.fields.some((field) => field.id === "timezone")
+                    ? "固定时区"
+                    : "输入资料"}
+                </span>
+                <strong>
+                  {page.fields.some((field) => field.id === "timezone")
+                    ? "北京时间（UTC+8）"
+                    : "待核对"}
+                </strong>
               </div>
               <div>
                 <span>服务连接</span>

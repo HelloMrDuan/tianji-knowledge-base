@@ -875,3 +875,11 @@
     display: none;
   }
 }
+
+.entry-field input[readonly] {
+  background: #edf0e7;
+  border-color: #d5dccf;
+  color: #435d50;
+  font-size: 14px;
+  cursor: default;
+}

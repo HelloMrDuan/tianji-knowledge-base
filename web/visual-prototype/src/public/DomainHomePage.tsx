@@ -15,7 +15,10 @@ const lineNames: Record<string, string> = {
 };
 function initialValues(page: DomainPage) {
   return Object.fromEntries(
-    page.fields.map((field) => [field.id, field.options?.[0] || ""]),
+    page.fields.map((field) => [
+      field.id,
+      field.fixedValue || field.options?.[0] || "",
+    ]),
   );
 }
 export function Diagram({ page }: { page: DomainPage }) {
@@ -174,7 +177,8 @@ function Field({
         <input
           id={id}
           type={field.kind || "text"}
-          value={value}
+          value={field.fixedValue || value}
+          readOnly={Boolean(field.fixedValue)}
           onChange={(e) => onChange(e.target.value)}
           placeholder={field.placeholder}
           required={field.required}
@@ -208,8 +212,8 @@ export function DomainHomePage({ page }: { page: DomainPage }) {
     }
     const entries: [string, string][] = page.fields
       .filter((field) => field.id !== "leapMonth" || values.calendar === "农历")
-      .filter((field) => values[field.id])
-      .map((field) => [field.label, values[field.id]]);
+      .filter((field) => field.fixedValue || values[field.id])
+      .map((field) => [field.label, field.fixedValue || values[field.id]]);
     if (page.id === "liuyao")
       entries.push(["爻值（初爻 → 上爻）", lines.join(" · ")]);
     setSummary(entries);

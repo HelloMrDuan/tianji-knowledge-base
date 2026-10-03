@@ -7,6 +7,18 @@ for (const domain of domainPages) {
     page,
   }) => {
     await page.goto("/" + domain.id);
+    if (domain.fields.some((field) => field.id === "timezone")) {
+      await expect(page.getByLabel("时区", { exact: true })).toHaveValue(
+        "北京时间（UTC+8）",
+      );
+      await expect(page.getByLabel("时区", { exact: true })).toHaveAttribute(
+        "readonly",
+        "",
+      );
+      await expect(
+        page.getByRole("combobox", { name: "时区", exact: true }),
+      ).toHaveCount(0);
+    }
     if (domain.id !== "yijing") {
       await page.getByRole("button", { name: "确认资料", exact: true }).click();
       await expect(
@@ -17,10 +29,16 @@ for (const domain of domainPages) {
     await page.getByRole("button", { name: "确认资料", exact: true }).click();
     const summary = page.getByRole("status", { name: "输入资料摘要" });
     await expect(summary).toContainText("尚未计算");
+    if (domain.fields.some((field) => field.id === "timezone"))
+      await expect(summary).toContainText("北京时间（UTC+8）");
     if (domain.id === "liuyao")
       await expect(summary).toContainText("9 · 7 · 7 · 7 · 7 · 7");
     await page.getByRole("button", { name: "清空", exact: true }).click();
     await expect(summary).toHaveCount(0);
+    if (domain.fields.some((field) => field.id === "timezone"))
+      await expect(page.getByLabel("时区", { exact: true })).toHaveValue(
+        "北京时间（UTC+8）",
+      );
     if (domain.id === "fengshui")
       await expect(page.getByLabel("测量角度（°）")).toHaveValue("");
   });

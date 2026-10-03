@@ -17,6 +17,7 @@ export type FieldSpec = {
   min?: number;
   max?: number;
   step?: string;
+  fixedValue?: string;
 };
 export type DomainPage = {
   id: DomainId;
@@ -49,8 +50,8 @@ const time: FieldSpec = {
 const zone: FieldSpec = {
   id: "timezone",
   label: "时区",
-  kind: "select",
-  options: ["Asia/Shanghai · UTC+8", "UTC · 世界协调时"],
+  kind: "text",
+  fixedValue: "北京时间（UTC+8）",
 };
 const subject: FieldSpec = {
   id: "subject",
@@ -94,7 +95,7 @@ export const domainPages: DomainPage[] = [
     title: "四时有序，观其相生。",
     introduction: "从出生资料出发，按年月日时读懂四柱之间的关系。",
     formTitle: "录入出生资料",
-    formNote: "先确认历法与时区，再核对出生时刻。",
+    formNote: "采用北京时间，先确认历法，再核对出生时刻。",
     fields: [
       ...birthFields,
       {
@@ -109,7 +110,7 @@ export const domainPages: DomainPage[] = [
       date: "1996-05-18",
       time: "09:30",
       gender: "女",
-      timezone: "Asia/Shanghai · UTC+8",
+      timezone: "北京时间（UTC+8）",
       place: "江苏南京",
       leapMonth: "非闰月",
     },
@@ -144,7 +145,7 @@ export const domainPages: DomainPage[] = [
     sample: {
       date: "2026-10-03",
       time: "09:30",
-      timezone: "Asia/Shanghai · UTC+8",
+      timezone: "北京时间（UTC+8）",
       subject: "学习本卦与变卦的结构关系",
     },
     diagram: "六爻录入示意",
@@ -190,7 +191,7 @@ export const domainPages: DomainPage[] = [
     sample: {
       date: "2026-10-03",
       time: "09:30",
-      timezone: "Asia/Shanghai · UTC+8",
+      timezone: "北京时间（UTC+8）",
       school: "茅山派 · 转盘",
       subject: "学习九宫与星门的对应结构",
     },
@@ -241,7 +242,7 @@ export const domainPages: DomainPage[] = [
       date: "1996-05-18",
       time: "09:30",
       gender: "女",
-      timezone: "Asia/Shanghai · UTC+8",
+      timezone: "北京时间（UTC+8）",
       leapMonth: "非闰月",
       school: "默认全书系",
       ratHour: "按当日",
@@ -288,7 +289,7 @@ export const domainPages: DomainPage[] = [
     sample: {
       date: "2026-10-03",
       time: "09:30",
-      timezone: "Asia/Shanghai · UTC+8",
+      timezone: "北京时间（UTC+8）",
       noble: "引擎默认口径",
       subject: "理解四课与三传的形成顺序",
     },
