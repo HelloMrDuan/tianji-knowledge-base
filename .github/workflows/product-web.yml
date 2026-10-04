@@ -1,0 +1,73 @@
+name: Validate Product Web
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "web/visual-prototype/**"
+      - ".github/workflows/product-web.yml"
+  push:
+    branches: [main]
+    paths:
+      - "web/visual-prototype/**"
+      - ".github/workflows/product-web.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  product-web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Prepare real deterministic API
+        run: |
+          python -m pip install -e ".[validation,calendar,api]"
+          PYTHONPATH=src python scripts/build_production_runtime.py
+          PYTHONPATH=src uvicorn tianji_kb.api:app --host 127.0.0.1 --port 8000 >/tmp/tianji-api.log 2>&1 &
+          echo $! >/tmp/tianji-api.pid
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: web/visual-prototype/package-lock.json
+
+      - name: Install frontend dependencies
+        working-directory: web/visual-prototype
+        run: npm ci
+
+      - name: Typecheck and build
+        working-directory: web/visual-prototype
+        run: npm run build
+
+      - name: Start frontend with API proxy
+        working-directory: web/visual-prototype
+        run: |
+          npm run dev -- --host 127.0.0.1 >/tmp/tianji-web.log 2>&1 &
+          echo $! >/tmp/tianji-web.pid
+
+      - name: Verify real frontend-to-API Liuyao flow
+        run: |
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:5173/health >/tmp/health.json; then break; fi
+            sleep 1
+          done
+          curl -fsS -X POST http://127.0.0.1:5173/api/v1/execute             -H 'Content-Type: application/json'             -d '{"domain":"liuyao","variant":"jingfang-eight-palaces-v1","input":{"value":"2000-01-07T12:00:00+08:00","yao_values":[9,7,7,7,7,7]},"explain":false,"mode":"production"}'             >/tmp/liuyao.json
+          python - <<'PY'
+          import json
+          data=json.load(open("/tmp/liuyao.json",encoding="utf-8"))
+          assert data["domain"]=="liuyao"
+          assert data["variant"]=="jingfang-eight-palaces-v1"
+          assert data["deterministic"] is True
+          assert data["chart"]["changing_lines"]==[1]
+          assert data["chart"]["changed"]["number"]==44
+          assert data["evidence"]
+          assert data["explanation_status"]=="disabled"
+          print("real frontend proxy -> API -> deterministic Liuyao: ok")
+          PY

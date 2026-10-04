@@ -1,0 +1,127 @@
+/** Hand-authored visual samples only. No API transport, model response or internal catalog. */
+export const sampleLines = [
+  {
+    position: 6,
+    label: "上爻",
+    spirit: "玄武",
+    relative: "父母",
+    branch: "壬戌土",
+    marker: "世",
+    yang: true,
+    moving: false,
+    empty: true,
+  },
+  {
+    position: 5,
+    label: "五爻",
+    spirit: "白虎",
+    relative: "兄弟",
+    branch: "壬申金",
+    marker: "",
+    yang: true,
+    moving: false,
+    empty: false,
+  },
+  {
+    position: 4,
+    label: "四爻",
+    spirit: "螣蛇",
+    relative: "官鬼",
+    branch: "壬午火",
+    marker: "",
+    yang: true,
+    moving: false,
+    empty: false,
+  },
+  {
+    position: 3,
+    label: "三爻",
+    spirit: "勾陈",
+    relative: "父母",
+    branch: "甲辰土",
+    marker: "应",
+    yang: true,
+    moving: false,
+    empty: false,
+  },
+  {
+    position: 2,
+    label: "二爻",
+    spirit: "朱雀",
+    relative: "妻财",
+    branch: "甲寅木",
+    marker: "",
+    yang: true,
+    moving: false,
+    empty: false,
+  },
+  {
+    position: 1,
+    label: "初爻",
+    spirit: "青龙",
+    relative: "子孙",
+    branch: "甲子水",
+    marker: "",
+    yang: true,
+    moving: true,
+    empty: false,
+  },
+];
+export const sampleRules = [
+  {
+    title: "动爻与变卦",
+    brief: "初爻为动爻，阳爻转阴，形成天风姤。",
+    detail:
+      "示例中只有初爻发生变化，其余五爻保持原状。本卦与变卦按相同爻位逐行对照。",
+    evidence: "动变章",
+  },
+  {
+    title: "八宫与世应",
+    brief: "本卦为乾宫本宫卦，世在上爻，应在三爻。",
+    detail: "世应标记用于说明本卦的结构位置；不等同于事情的最终判断。",
+    evidence: "世应章",
+  },
+  {
+    title: "纳甲与六亲",
+    brief: "六亲按本卦宫五行定位，变爻沿用本卦参照。",
+    detail:
+      "六亲为盘面关系的名称。本轮只展示规则信息层级；这条示例尚未关联核定的典籍片段，不提供未核实引用。",
+    evidence: "待核片段",
+  },
+];
+export const matchedEvidence = [
+  {
+    id: "movement",
+    book: "增删卜易",
+    chapter: "动变章第七",
+    quote: "六爻不動則不變，動則必變。",
+    note: "标点在本视觉样稿中整理。正式联调须逐字使用当前命中证据的原文片段。",
+    rule: "动爻与变卦",
+    level: "C",
+  },
+  {
+    id: "palace",
+    book: "增删卜易",
+    chapter: "世应章第六",
+    quote: "乾為天「世」在六。",
+    note: "这里只展示与本例世应位置相关的必要片段，不提供整书阅读入口。",
+    rule: "八宫与世应",
+    level: "C",
+  },
+];
+export const recentSamples = [
+  {
+    name: "乾为天 · 天风姤",
+    type: "六爻",
+    when: "今日 09:30",
+    subtitle: "初爻动 · 乾宫",
+    href: "/liuyao/result",
+  },
+  {
+    name: "六爻入门示例",
+    type: "六爻",
+    when: "公开示例",
+    subtitle: "从盘面到典籍依据",
+    href: "/liuyao/result",
+  },
+];
