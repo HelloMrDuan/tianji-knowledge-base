@@ -170,3 +170,26 @@ jobs:
               assert forbidden not in blob
           print("real frontend proxy -> Scenario Engine -> life overview: ok")
           PY
+
+          curl -fsS -X POST http://127.0.0.1:5173/api/v1/scenarios/execute \
+            -H 'Content-Type: application/json' \
+            -d '{"scenario_id":"daily","input":{"birth_value":"2000-01-07T12:00:00+08:00","target_date":"2026-10-04"}}' \
+            >/tmp/daily.json
+          python - <<'PY'
+          import json
+          data=json.load(open("/tmp/daily.json",encoding="utf-8"))
+          assert data["scenario_id"]=="daily"
+          assert data["status"]=="production_limited"
+          assert data["public_release"] is False
+          assert data["deterministic"] is True
+          assert data["result"]["release_scope"]=="daily_structure_only"
+          assert data["result"]["target_day"]["date"]=="2026-10-04"
+          assert len(data["result"]["target_day"]["ganzhi"])==2
+          assert data["result"]["target_day"]["stem_ten_god"]
+          assert set(data["result"]["xianchi"]["target_day_activation"])=={"year_branch_basis","day_branch_basis"}
+          assert data["evidence"]
+          blob=str(data["result"])
+          for forbidden in ("fortune_score","daily_score","investment_advice","health_advice","auspicious"):
+              assert forbidden not in blob
+          print("real frontend proxy -> Scenario Engine -> daily structure: ok")
+          PY
