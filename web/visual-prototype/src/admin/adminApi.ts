@@ -249,3 +249,24 @@ export type AdminSourceRecord = {
 export function fetchAdminSources(token: string): Promise<AdminSourceRecord[]> {
   return fetchProtectedRecords<AdminSourceRecord>("/api/v1/admin/governance/sources", token);
 }
+
+
+export type AdminLayerRecord = {
+  id: "raw" | "quarantine" | "canonical";
+  name: string;
+  tracked_file_count: number;
+  classic_count: number;
+  entity_count: number;
+  domain_count: number;
+  domains: string[];
+  protected_file_count: number;
+  registered_ingestion_sources: number;
+  ingestion_modes: Record<string, number>;
+  production_queryable: boolean;
+  promotion_policy: string;
+  release_policy: string;
+};
+
+export function fetchAdminLayers(token: string): Promise<AdminLayerRecord[]> {
+  return fetchProtectedRecords<AdminLayerRecord>("/api/v1/admin/governance/layers", token);
+}
