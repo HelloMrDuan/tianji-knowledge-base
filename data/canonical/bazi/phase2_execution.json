@@ -4,7 +4,7 @@
   "domain": "bazi",
   "variant": "ziping-structural-v1",
   "provider": "tianji_kb.operations.bazi_chart.chart",
-  "scope": "生产范围含四柱、日主、十神、藏干；显式 include_xianchi=true 时可返回咸池四组结构查表；显式 include_relations=true 时可返回已审核的五合、六合、六害、六冲、三合与日支传统配偶宫结构位；显式 traditional_role=male|female 时可返回传统配偶星候选位置。所有结构事实均不输出旺衰、喜用、格局、关系评分或婚恋吉凶。",
+  "scope": "生产范围含四柱、日主、十神、藏干；显式 include_xianchi=true 时可返回咸池四组结构查表；显式 include_relations=true 时可返回已审核的五合、六合、六害、六冲、三合与日支传统配偶宫结构位；显式 traditional_role=male|female 时可返回传统配偶星候选位置。所有结构事实均不输出旺衰、喜用、格局、关系评分或婚恋吉凶。 显式 strength_variant=ditiansui-root-visibility-v1 时可返回月支藏干、通根候选与透藏结构；整体旺衰分类未完成。",
   "unresolved": [
     "真太阳时未实现。",
     "旺衰、格局、喜用神、调候与大运起运规则尚未完成证据裁定。",
@@ -14,7 +14,8 @@
     "五合/六合命中不代表化气成立；六害/六冲命中不代表现实关系受害、分手、争执或凶断。",
     "传统配偶星 lens 只在调用方显式选择 traditional_role=male|female 时启用；不推断用户性别，也不把古籍妻妾/偏夫身份标签映射到现代关系身份。",
     "《滴天髓阐微》明确反对女命机械专执官星论夫；本规则仅定位候选十神位置，不执行配偶质量、正缘、婚期或婚恋吉凶。",
-    "三刑存在明确流派分歧，当前不进入统一 executable 规则。"
+    "三刑存在明确流派分歧，当前不进入统一 executable 规则。",
+    "月令/通根/透藏因素已执行，不等于完整旺衰算法；司令分日原典异文未裁定，仍不能输出身强身弱。"
   ],
   "rules": [
     {
@@ -193,6 +194,69 @@
       ],
       "regression_test": "tests/test_phase2_bazi.py",
       "evidence_scope": "C：《渊海子平》六亲总篇 + 《滴天髓阐微》夫妻/女命边界短引；只做用户显式选择后的财星或官杀候选位置扫描，不输出婚恋结论。"
+    },
+    {
+      "id": "bazi.phase2.month_command_factors",
+      "domain": "bazi",
+      "name": "月支藏干观察",
+      "variant": "ziping-structural-v1",
+      "execution_status": "executable",
+      "phase1_rule_refs": [
+        "bazi.rule.r013"
+      ],
+      "validation_status": "validated",
+      "golden_case_ids": [
+        "bazi.factors-normal",
+        "bazi.factors-tomb-boundary",
+        "bazi.factors-many-stems-no-root",
+        "bazi.factors-few-stems-with-root",
+        "bazi.factors-clash-not-erasure",
+        "bazi.factors-siling-unresolved"
+      ],
+      "regression_test": "tests/test_phase2_bazistrength.py",
+      "evidence_scope": "C：已核原典短引和藏遁歌；因素子范围 ditiansui-root-visibility-v1；只核结构，不输出整体旺衰、喜用或权重。"
+    },
+    {
+      "id": "bazi.phase2.root_candidates",
+      "domain": "bazi",
+      "name": "通根候选观察",
+      "variant": "ziping-structural-v1",
+      "execution_status": "executable",
+      "phase1_rule_refs": [
+        "bazi.rule.r014"
+      ],
+      "validation_status": "validated",
+      "golden_case_ids": [
+        "bazi.factors-normal",
+        "bazi.factors-tomb-boundary",
+        "bazi.factors-many-stems-no-root",
+        "bazi.factors-few-stems-with-root",
+        "bazi.factors-clash-not-erasure",
+        "bazi.factors-siling-unresolved"
+      ],
+      "regression_test": "tests/test_phase2_bazistrength.py",
+      "evidence_scope": "C：已核原典短引和藏遁歌；因素子范围 ditiansui-root-visibility-v1；只核结构，不输出整体旺衰、喜用或权重。"
+    },
+    {
+      "id": "bazi.phase2.hidden_to_visible",
+      "domain": "bazi",
+      "name": "透藏观察",
+      "variant": "ziping-structural-v1",
+      "execution_status": "executable",
+      "phase1_rule_refs": [
+        "bazi.rule.r015"
+      ],
+      "validation_status": "validated",
+      "golden_case_ids": [
+        "bazi.factors-normal",
+        "bazi.factors-tomb-boundary",
+        "bazi.factors-many-stems-no-root",
+        "bazi.factors-few-stems-with-root",
+        "bazi.factors-clash-not-erasure",
+        "bazi.factors-siling-unresolved"
+      ],
+      "regression_test": "tests/test_phase2_bazistrength.py",
+      "evidence_scope": "C：已核原典短引和藏遁歌；因素子范围 ditiansui-root-visibility-v1；只核结构，不输出整体旺衰、喜用或权重。"
     }
   ]
 }

@@ -9,7 +9,9 @@ from tianji_kb.prompts import PROMPTS,DEFAULT_PROMPT,get_prompt
 class UnifiedApiTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.client=TestClient(create_app());cls.contracts=EvidenceResolver().contracts
+        # Start the event loop before the network-denial mock: Windows creates
+        # a local socket pair for loop wakeups, independently of model calls.
+        cls.client=cls.enterClassContext(TestClient(create_app()));cls.contracts=EvidenceResolver().contracts
     def request(self,domain,**kwargs):return {'domain':domain,'input':EXAMPLES[domain],**kwargs}
     def test_all_six_normal_and_deterministic_with_model_disabled(self):
         with patch('socket.socket.connect',side_effect=AssertionError('Network model call forbidden')):

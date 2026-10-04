@@ -32,12 +32,12 @@ class ProductCoverageTests(unittest.TestCase):
     def test_all_requested_products_and_specialist_tools_have_no_fake_authorization(self):
         rows = build_product_coverage(ROOT)
         self.assertEqual(len(rows) - 1, 16)
-        self.assertEqual(sum(len(e['rules']) for e in rows['_audit']['engines'].values()), 48)
-        self.assertEqual(sum(len(e['golden_ids']) for e in rows['_audit']['engines'].values()), 34)
+        self.assertEqual(sum(len(e['rules']) for e in rows['_audit']['engines'].values()), 51)
+        self.assertEqual(sum(len(e['golden_ids']) for e in rows['_audit']['engines'].values()), 40)
         self.assertTrue(rows['_audit']['engines']['bazi']['registered'])
         self.assertEqual(rows['_audit']['engines']['bazi']['variant'], 'ziping-structural-v1')
         self.assertEqual(rows['_audit']['source_grades'], {'C': 91, 'D': 6})
-        self.assertEqual(len(rows['_audit']['conflict_entities']), 2)
+        self.assertEqual(len(rows['_audit']['conflict_entities']), 3)
         self.assertTrue(rows['compatibility']['scenario_status']['runtime_implemented'])
         self.assertTrue(rows['bazi-reading']['scenario_status']['structural_public_release'])
         for pid, row in rows.items():

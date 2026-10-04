@@ -6,7 +6,7 @@ READY 表示指定结构 claim 的执行契约、证据、Golden 和测试绑定
 
 | 产品 | 状态 | 已接入的结构 claim 数 | 现有结构公开标志 |
 |---|---|---:|---|
-| 八字详批 | PRODUCTIZABLE | 4 | True |
+| 八字详批 | PRODUCTIZABLE | 7 | True |
 | 今日运势 | PARTIAL | 1 | False |
 | 本周运势 | PARTIAL | 1 | False |
 | 本月运势 | PARTIAL | 1 | False |
@@ -25,7 +25,7 @@ READY 表示指定结构 claim 的执行契约、证据、Golden 和测试绑定
 
 能力逐项追踪、原典定位与下一批工作见 [KNOWLEDGE_CAPABILITY_MAP.md](KNOWLEDGE_CAPABILITY_MAP.md)。依赖图见 `data/product/knowledge_dependencies.json`。
 
-现有 7 个确定性引擎；48 条 Phase2 Rule；34 个 Golden。
+现有 7 个确定性引擎；51 条 Phase2 Rule；40 个 Golden。
 证据来源等级 {"C": 91, "D": 6}。GitHub 实现参考不能成为古籍证据；通用 RAG 可检索不代表已授权推断。
 
 结构 claim 由实际 RuleMatch facts 绑定，并核对 Variant、当前 Golden 和逐字 Evidence。不得升级为吉凶、适配分、婚期或财富保证。AI 质量尚未批准，结构可用与 AI 放行分别检查。
@@ -38,7 +38,7 @@ Source → RAW → Quarantine → Review → Canonical → Terms/Rules → Evide
 
 ## 冲突和隔离
 
-沿用既有governance.school_conflicts：传统配偶星口径已限定范围，三刑争议未解决；Rule difference/exceptions、执行unresolved与来源审计继续保留。
+沿用既有 governance.school_conflicts：寅月司令分日异文=unresolved；传统配偶星观察口径差异=bounded；三刑 / 自刑口径冲突=unresolved。保留 Rule difference/exceptions、执行 unresolved 与来源审计。
 《三命通会》维持 quarantine_only / canonical_ready=false；PUA 完成不代表整本可晋级。原始 snapshot 不改动。
 
 ## 来源与待审材料

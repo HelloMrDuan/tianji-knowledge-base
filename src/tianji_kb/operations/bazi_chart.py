@@ -1,8 +1,18 @@
 """Evidence-bound Bazi structural chart. No strength, useful-god or fortune judgement."""
 from ..bazi_core import VARIANT, chart_from_pillars, reviewed_relations, traditional_spouse_star_lens
 from ..resolver import ExecutionTrace
+from ..bazi_strength import FACTOR_VARIANT, factors as _strength_factors
 
-def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=False, include_relations=False, traditional_role=None, variant=VARIANT):
+
+def strength_factors(pillars, day_master, *, factor_variant=FACTOR_VARIANT, output_key=None):
+    observed = _strength_factors(pillars, day_master, variant=factor_variant)
+    if output_key is None:
+        return observed
+    if output_key not in ('month_command', 'root_candidates', 'hidden_to_visible'):
+        raise ValueError('Unsupported factor output')
+    return observed[output_key]
+
+def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=False, include_relations=False, traditional_role=None, strength_variant=None, variant=VARIANT):
     if variant != VARIANT:
         raise ValueError("Unsupported Bazi variant")
     if type(include_xianchi) is not bool:
@@ -11,6 +21,8 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
         raise ValueError("include_relations must be boolean")
     if traditional_role is not None and traditional_role not in ("male", "female"):
         raise ValueError("traditional_role must be male or female")
+    if strength_variant is not None and strength_variant != FACTOR_VARIANT:
+        raise ValueError("Unsupported strength factor variant")
     raw = chart_from_pillars(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, variant=variant)
     trace = ExecutionTrace("bazi", variant)
 
@@ -107,4 +119,13 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
     if spouse_star_lens is not None:
         result["traditional_spouse_star_lens"] = spouse_star_lens
         result["production_scope"] += "；可选传统配偶星候选位置（用户显式选择口径，仅定位星位，不作婚恋解释）"
+    if strength_variant is not None:
+        observed = strength_factors(raw['pillars'], raw['day_master']['stem'], factor_variant=strength_variant)
+        for rule, key in (('month_command_factors', 'month_command'),
+                          ('root_candidates', 'root_candidates'),
+                          ('hidden_to_visible', 'hidden_to_visible')):
+            trace.add('bazi.phase2.' + rule, {'factor_variant': strength_variant,
+                      'ganzhi': [year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi]}, observed[key])
+        result['strength_factors'] = observed
+        result['production_scope'] += '；可选月支、通根候选与透藏结构观察（整体旺衰分类未完成）'
     return trace.finish(result)

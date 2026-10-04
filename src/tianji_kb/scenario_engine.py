@@ -87,10 +87,10 @@ def _require_with_optional(inputs, required, optional):
 
 
 def _bazi_profile(inputs):
-    _require_exact(inputs, {"value"})
+    _require_with_optional(inputs, {"value"}, {"strength_variant"})
     if not isinstance(inputs["value"], str):
         raise ValueError("value must be an ISO datetime string")
-    return _normalize_raw("bazi-profile", execute("bazi", {"value": inputs["value"]}))
+    return _normalize_raw("bazi-profile", execute("bazi", inputs))
 
 
 def _question(inputs):

@@ -131,6 +131,30 @@
       ],
       "variant": "ziping-structural-v1",
       "scope": "仅四组咸池目标支结构查表；年支与日支分别报告。不得晋级婚恋吉凶、性格、疾病、事件应期、纳音附加条件或单一基准裁定。"
+    },
+    {
+      "phase1_rule_id": "bazi.rule.r013",
+      "execution_rule_ids": [
+        "bazi.phase2.month_command_factors"
+      ],
+      "variant": "ziping-structural-v1",
+      "scope": "显式启用因素子范围 ditiansui-root-visibility-v1；仅月支/根候选/透藏，不授权司令、整体旺衰、喜用、格局或预测。"
+    },
+    {
+      "phase1_rule_id": "bazi.rule.r014",
+      "execution_rule_ids": [
+        "bazi.phase2.root_candidates"
+      ],
+      "variant": "ziping-structural-v1",
+      "scope": "显式启用因素子范围 ditiansui-root-visibility-v1；仅月支/根候选/透藏，不授权司令、整体旺衰、喜用、格局或预测。"
+    },
+    {
+      "phase1_rule_id": "bazi.rule.r015",
+      "execution_rule_ids": [
+        "bazi.phase2.hidden_to_visible"
+      ],
+      "variant": "ziping-structural-v1",
+      "scope": "显式启用因素子范围 ditiansui-root-visibility-v1；仅月支/根候选/透藏，不授权司令、整体旺衰、喜用、格局或预测。"
     }
   ],
   "excluded": [

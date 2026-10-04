@@ -30,8 +30,12 @@
         "bazi-foundation",
         "bazi-ten-gods"
       ],
-      "ready_execution_rule_ids": [],
-      "missing": "已审核任氏知命篇对机械喜财官食印的描述性限制；仍缺具体旺衰算法的school/variant、通根/月令条件、权重依据、冲突与解释Golden。不能用五行数量判断强弱。"
+      "ready_execution_rule_ids": [
+        "bazi.phase2.month_command_factors",
+        "bazi.phase2.root_candidates",
+        "bazi.phase2.hidden_to_visible"
+      ],
+      "missing": "月令/通根候选/透藏因素 v1 已按原模型执行，有正常/墓库边界/干多无根/干少有根/冲根/分日冲突 Golden；整体强弱分类仍缺季节司令、根力、得势、生扶克泄耗效力与从化边界，不能用数量或自创权重填补。"
     },
     "bazi-pattern": {
       "name": "格局",
@@ -257,7 +261,10 @@
       "ready_claims": [
         "bazi.day_master",
         "bazi.hidden_stems",
+        "bazi.hidden_to_visible",
+        "bazi.month_command_factors",
         "bazi.pillars",
+        "bazi.root_candidates",
         "bazi.ten_gods"
       ],
       "missing_dependencies": [

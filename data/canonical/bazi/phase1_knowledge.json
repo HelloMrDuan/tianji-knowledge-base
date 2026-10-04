@@ -109,6 +109,20 @@
       "name": "知命·条件解释边界",
       "classic_id": "bazi.classic.ditiansui",
       "locator": "通神论·四、知命；任氏曰前段，编者按语之前"
+    },
+    {
+      "id": "bazi.chapter.strength_factors",
+      "domain": "bazi",
+      "name": "月令、通根与透藏观察边界",
+      "classic_id": "bazi.classic.ditiansui",
+      "locator": "通神论·月令/衰旺；仅审核短引"
+    },
+    {
+      "id": "bazi.chapter.siling_difference",
+      "domain": "bazi",
+      "name": "司令分日异文待审",
+      "classic_id": "bazi.classic.yuanhai",
+      "locator": "论天干地支暗藏总诀"
     }
   ],
   "sections": [
@@ -441,6 +455,111 @@
         "method": "与重新获取的固定commit原文经既有normalize_text后逐字匹配；核对原典上下文，仅选任氏曰前段。",
         "scope": "只确认原文反对忽略日主强弱、机械以财官/食印论吉凶；不复制后段若思按与新增内容，不提供旺衰算法或权重。"
       }
+    },
+    {
+      "id": "bazi.section.s023",
+      "domain": "bazi",
+      "name": "月令提纲",
+      "classic_id": "bazi.classic.ditiansui",
+      "chapter_id": "bazi.chapter.strength_factors",
+      "source_id": "bazi.source.ditiansui-spouse",
+      "text": "月令乃提纲之府,譬之宅也,人元为用事之神,宅之定向也,不可以不卜。",
+      "locator": "《滴天髓阐微》通神论·月令；固定原文字符位置 37963；月令提纲",
+      "review": {
+        "status": "approved",
+        "method": "固定原典快照逐字核对；滴天髓另核现有 acquisition.stage_candidate 的固定 commit RAW，经 normalize_text 匹配；不采纳若思按/新增。",
+        "scope": "仅字面短引与结构观察；电子本谱系未证实，C级；分日疑字不擅改、不推权重或整体旺衰。"
+      }
+    },
+    {
+      "id": "bazi.section.s024",
+      "domain": "bazi",
+      "name": "寅月司令分日",
+      "classic_id": "bazi.classic.ditiansui",
+      "chapter_id": "bazi.chapter.strength_factors",
+      "source_id": "bazi.source.ditiansui-spouse",
+      "text": "如寅月生人,立春后七日前,皆值戊土用事;八日后十四日前者,丙火用事 ;十五日后,甲木用事。",
+      "locator": "《滴天髓阐微》通神论·月令；固定原文字符位置 38056；寅月司令分日",
+      "review": {
+        "status": "approved",
+        "method": "固定原典快照逐字核对；滴天髓另核现有 acquisition.stage_candidate 的固定 commit RAW，经 normalize_text 匹配；不采纳若思按/新增。",
+        "scope": "仅字面短引与结构观察；电子本谱系未证实，C级；分日疑字不擅改、不推权重或整体旺衰。"
+      }
+    },
+    {
+      "id": "bazi.section.s025",
+      "domain": "bazi",
+      "name": "比肩与地支根不可数量等同",
+      "classic_id": "bazi.classic.ditiansui",
+      "chapter_id": "bazi.chapter.strength_factors",
+      "source_id": "bazi.source.ditiansui-spouse",
+      "text": "天干得一比肩,不如地支得一余气墓库。",
+      "locator": "《滴天髓阐微》通神论·衰旺；固定原文字符位置 39989；比肩与地支根不可数量等同",
+      "review": {
+        "status": "approved",
+        "method": "固定原典快照逐字核对；滴天髓另核现有 acquisition.stage_candidate 的固定 commit RAW，经 normalize_text 匹配；不采纳若思按/新增。",
+        "scope": "仅字面短引与结构观察；电子本谱系未证实，C级；分日疑字不擅改、不推权重或整体旺衰。"
+      }
+    },
+    {
+      "id": "bazi.section.s026",
+      "domain": "bazi",
+      "name": "余气与长生禄旺根示例",
+      "classic_id": "bazi.classic.ditiansui",
+      "chapter_id": "bazi.chapter.strength_factors",
+      "source_id": "bazi.source.ditiansui-spouse",
+      "text": "余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。",
+      "locator": "《滴天髓阐微》通神论·衰旺；固定原文字符位置 40063；余气与长生禄旺根示例",
+      "review": {
+        "status": "approved",
+        "method": "固定原典快照逐字核对；滴天髓另核现有 acquisition.stage_candidate 的固定 commit RAW，经 normalize_text 匹配；不采纳若思按/新增。",
+        "scope": "仅字面短引与结构观察；电子本谱系未证实，C级；分日疑字不擅改、不推权重或整体旺衰。"
+      }
+    },
+    {
+      "id": "bazi.section.s027",
+      "domain": "bazi",
+      "name": "藏干与显干引助",
+      "classic_id": "bazi.classic.ditiansui",
+      "chapter_id": "bazi.chapter.strength_factors",
+      "source_id": "bazi.source.ditiansui-spouse",
+      "text": "故知地支人元必得天干引助,天干为用,必要地支司令。",
+      "locator": "《滴天髓阐微》通神论·月令；固定原文字符位置 38284；藏干与显干引助",
+      "review": {
+        "status": "approved",
+        "method": "固定原典快照逐字核对；滴天髓另核现有 acquisition.stage_candidate 的固定 commit RAW，经 normalize_text 匹配；不采纳若思按/新增。",
+        "scope": "仅字面短引与结构观察；电子本谱系未证实，C级；分日疑字不擅改、不推权重或整体旺衰。"
+      }
+    },
+    {
+      "id": "bazi.section.s028",
+      "domain": "bazi",
+      "name": "不可得令即旺失令即弱",
+      "classic_id": "bazi.classic.ditiansui",
+      "chapter_id": "bazi.chapter.strength_factors",
+      "source_id": "bazi.source.ditiansui-spouse",
+      "text": "得时俱为旺论,失令便作衰看,虽是至理,亦死法也。",
+      "locator": "《滴天髓阐微》通神论·衰旺；固定原文字符位置 39648；不可得令即旺失令即弱",
+      "review": {
+        "status": "approved",
+        "method": "固定原典快照逐字核对；滴天髓另核现有 acquisition.stage_candidate 的固定 commit RAW，经 normalize_text 匹配；不采纳若思按/新增。",
+        "scope": "仅字面短引与结构观察；电子本谱系未证实，C级；分日疑字不擅改、不推权重或整体旺衰。"
+      }
+    },
+    {
+      "id": "bazi.section.s029",
+      "domain": "bazi",
+      "name": "渊海寅月分日异文",
+      "classic_id": "bazi.classic.yuanhai",
+      "chapter_id": "bazi.chapter.siling_difference",
+      "source_id": "bazi.source.yuanhai",
+      "text": "立春念三丙火用,餘日甲木旺提纲。",
+      "locator": "《渊海子平》论天干地支暗藏总诀；固定原文字符位置 409；渊海寅月分日异文",
+      "review": {
+        "status": "approved",
+        "method": "固定原典快照逐字核对；滴天髓另核现有 acquisition.stage_candidate 的固定 commit RAW，经 normalize_text 匹配；不采纳若思按/新增。",
+        "scope": "仅字面短引与结构观察；电子本谱系未证实，C级；分日疑字不擅改、不推权重或整体旺衰。"
+      }
     }
   ],
   "terms": [
@@ -767,6 +886,129 @@
       "attributes": {
         "production_interpretation": false,
         "algorithm_available": false
+      }
+    },
+    {
+      "id": "bazi.term.month_command",
+      "domain": "bazi",
+      "name": "月令",
+      "aliases": [
+        "提纲"
+      ],
+      "definition": "以月柱地支观察提纲及藏干；司令分日、得令与整体旺衰另须裁定。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s023",
+          "original_text": "月令乃提纲之府,譬之宅也,人元为用事之神,宅之定向也,不可以不卜。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s024",
+          "original_text": "如寅月生人,立春后七日前,皆值戊土用事;八日后十四日前者,丙火用事 ;十五日后,甲木用事。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s028",
+          "original_text": "得时俱为旺论,失令便作衰看,虽是至理,亦死法也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s004",
+          "original_text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+          "role": "classical"
+        }
+      ],
+      "related_terms": [
+        "bazi.term.day_master",
+        "bazi.term.hidden_stems"
+      ],
+      "confidence": "medium",
+      "attributes": {
+        "definition_kind": "reviewed_bounded_structural_summary",
+        "factor_variant": "ditiansui-root-visibility-v1",
+        "production_strength_judgement": false
+      }
+    },
+    {
+      "id": "bazi.term.root_candidates",
+      "domain": "bazi",
+      "name": "通根",
+      "aliases": [
+        "通根候选"
+      ],
+      "definition": "核对支中是否有日干同五行藏干，只列候选位置；阴阳生死、有效根力、受损与权重未裁定。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s025",
+          "original_text": "天干得一比肩,不如地支得一余气墓库。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s026",
+          "original_text": "余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s028",
+          "original_text": "得时俱为旺论,失令便作衰看,虽是至理,亦死法也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s004",
+          "original_text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+          "role": "classical"
+        }
+      ],
+      "related_terms": [
+        "bazi.term.day_master",
+        "bazi.term.hidden_stems"
+      ],
+      "confidence": "medium",
+      "attributes": {
+        "definition_kind": "reviewed_bounded_structural_summary",
+        "factor_variant": "ditiansui-root-visibility-v1",
+        "production_strength_judgement": false
+      }
+    },
+    {
+      "id": "bazi.term.hidden_to_visible",
+      "domain": "bazi",
+      "name": "透干",
+      "aliases": [
+        "透藏结构"
+      ],
+      "definition": "核对藏干在年、月、时天干同字显现；日干是参照，不作为另一个透干证据；显干未必司令，不据此取格取用。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s027",
+          "original_text": "故知地支人元必得天干引助,天干为用,必要地支司令。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s004",
+          "original_text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+          "role": "classical"
+        }
+      ],
+      "related_terms": [
+        "bazi.term.day_master",
+        "bazi.term.hidden_stems"
+      ],
+      "confidence": "medium",
+      "attributes": {
+        "definition_kind": "reviewed_bounded_structural_summary",
+        "factor_variant": "ditiansui-root-visibility-v1",
+        "production_strength_judgement": false
       }
     }
   ],
@@ -1326,6 +1568,198 @@
         "bazi.term.day_master",
         "bazi.term.ten_gods"
       ]
+    },
+    {
+      "id": "bazi.rule.r013",
+      "domain": "bazi",
+      "name": "月支藏干与司令未决观察",
+      "conditions": [
+        "四个合法六十甲子干支，年/月/日/时顺序固定",
+        "显式 strength_variant=ditiansui-root-visibility-v1",
+        "只返回结构因素，不执行整体旺衰或喜用判断"
+      ],
+      "inputs": {
+        "pillars": "已验证四柱结构",
+        "day_master": "日干"
+      },
+      "operation": {
+        "kind": "structural_factor_observation",
+        "provider": "tianji_kb.operations.bazi_chart.strength_factors",
+        "parameters": {
+          "factor_variant": "ditiansui-root-visibility-v1",
+          "output_key": "month_command"
+        }
+      },
+      "result": {
+        "facts": "month_command",
+        "overall_strength": null
+      },
+      "exceptions": [
+        "月支藏干同类不等于人元司令或得令。",
+        "通根候选不等于有效根力，干数/藏干数不能当强弱评分。",
+        "透藏逐字对应不等于取格、用神或得势。",
+        "司令分日、根受冲刑、十二长生与从化尚未裁定。"
+      ],
+      "execution_status": "executable",
+      "school": "子平·任氏因素观察边界",
+      "variant": "ziping-structural-v1",
+      "difference": "沿现有八字执行 Variant 显式启用 ditiansui-root-visibility-v1 因素子范围；不宣称完整旺衰分类器已完成。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s023",
+          "original_text": "月令乃提纲之府,譬之宅也,人元为用事之神,宅之定向也,不可以不卜。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s024",
+          "original_text": "如寅月生人,立春后七日前,皆值戊土用事;八日后十四日前者,丙火用事 ;十五日后,甲木用事。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s028",
+          "original_text": "得时俱为旺论,失令便作衰看,虽是至理,亦死法也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s004",
+          "original_text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium",
+      "term_refs": [
+        "bazi.term.month_command",
+        "bazi.term.day_master",
+        "bazi.term.hidden_stems"
+      ]
+    },
+    {
+      "id": "bazi.rule.r014",
+      "domain": "bazi",
+      "name": "同五行藏干通根候选位置",
+      "conditions": [
+        "四个合法六十甲子干支，年/月/日/时顺序固定",
+        "显式 strength_variant=ditiansui-root-visibility-v1",
+        "只返回结构因素，不执行整体旺衰或喜用判断"
+      ],
+      "inputs": {
+        "pillars": "已验证四柱结构",
+        "day_master": "日干"
+      },
+      "operation": {
+        "kind": "structural_factor_observation",
+        "provider": "tianji_kb.operations.bazi_chart.strength_factors",
+        "parameters": {
+          "factor_variant": "ditiansui-root-visibility-v1",
+          "output_key": "root_candidates"
+        }
+      },
+      "result": {
+        "facts": "root_candidates",
+        "overall_strength": null
+      },
+      "exceptions": [
+        "月支藏干同类不等于人元司令或得令。",
+        "通根候选不等于有效根力，干数/藏干数不能当强弱评分。",
+        "透藏逐字对应不等于取格、用神或得势。",
+        "司令分日、根受冲刑、十二长生与从化尚未裁定。"
+      ],
+      "execution_status": "executable",
+      "school": "子平·任氏因素观察边界",
+      "variant": "ziping-structural-v1",
+      "difference": "沿现有八字执行 Variant 显式启用 ditiansui-root-visibility-v1 因素子范围；不宣称完整旺衰分类器已完成。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s025",
+          "original_text": "天干得一比肩,不如地支得一余气墓库。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s026",
+          "original_text": "余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s028",
+          "original_text": "得时俱为旺论,失令便作衰看,虽是至理,亦死法也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s004",
+          "original_text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium",
+      "term_refs": [
+        "bazi.term.root_candidates",
+        "bazi.term.day_master",
+        "bazi.term.hidden_stems"
+      ]
+    },
+    {
+      "id": "bazi.rule.r015",
+      "domain": "bazi",
+      "name": "藏干与年/月/时显干逐字对照",
+      "conditions": [
+        "四个合法六十甲子干支，年/月/日/时顺序固定",
+        "显式 strength_variant=ditiansui-root-visibility-v1",
+        "只返回结构因素，不执行整体旺衰或喜用判断"
+      ],
+      "inputs": {
+        "pillars": "已验证四柱结构",
+        "day_master": "日干"
+      },
+      "operation": {
+        "kind": "structural_factor_observation",
+        "provider": "tianji_kb.operations.bazi_chart.strength_factors",
+        "parameters": {
+          "factor_variant": "ditiansui-root-visibility-v1",
+          "output_key": "hidden_to_visible"
+        }
+      },
+      "result": {
+        "facts": "hidden_to_visible",
+        "overall_strength": null
+      },
+      "exceptions": [
+        "月支藏干同类不等于人元司令或得令。",
+        "通根候选不等于有效根力，干数/藏干数不能当强弱评分。",
+        "透藏逐字对应不等于取格、用神或得势。",
+        "司令分日、根受冲刑、十二长生与从化尚未裁定。"
+      ],
+      "execution_status": "executable",
+      "school": "子平·任氏因素观察边界",
+      "variant": "ziping-structural-v1",
+      "difference": "沿现有八字执行 Variant 显式启用 ditiansui-root-visibility-v1 因素子范围；不宣称完整旺衰分类器已完成。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s027",
+          "original_text": "故知地支人元必得天干引助,天干为用,必要地支司令。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s004",
+          "original_text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium",
+      "term_refs": [
+        "bazi.term.hidden_to_visible",
+        "bazi.term.day_master",
+        "bazi.term.hidden_stems"
+      ]
     }
   ],
   "concepts": [
@@ -1452,6 +1886,107 @@
           "source_id": "bazi.source.ditiansui-spouse",
           "section_id": "bazi.section.s021",
           "original_text": "刑之义无所取,如亥刑亥、辰刑辰、酉刑酉、午刑午,谓之自刑,本支见本支,自谓同气,何以相刑?子刑卯,卯刑子,是谓相生,何以相刑?戌刑未,未刑丑,皆为土气,更不当刑。寅刑巳,亦是相生,寅申相刑,即冲何必再刑?又曰子卯一刑也,寅巳申二刑也,丑戌未三刑也,故称三刑,又有自刑,此皆俗谬,姑置之。",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "bazi.concept.conflict_siling_days",
+      "domain": "bazi",
+      "name": "寅月司令分日异文",
+      "kind": "school_conflict",
+      "attributes": {
+        "dimension": "立春后寅月用事日数",
+        "status": "unresolved",
+        "positions": [
+          {
+            "id": "ditiansui-siling",
+            "label": "滴天髓阐微现存电子文本",
+            "position": "戊七日前、丙八日至十四日前、甲十五日后。",
+            "section_ids": [
+              "bazi.section.s024"
+            ]
+          },
+          {
+            "id": "yuanhai-siling",
+            "label": "渊海子平现存电子文本",
+            "position": "保留“立春念三丙火用”；字形及断句待独立刊本核查，不换算天数。",
+            "section_ids": [
+              "bazi.section.s029"
+            ]
+          }
+        ],
+        "production_policy": "不得按未裁定分日表输出司令、得令或整体旺衰。",
+        "executable_policy": "month_branch_and_hidden_stems_only"
+      },
+      "source_refs": [
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s024",
+          "original_text": "如寅月生人,立春后七日前,皆值戊土用事;八日后十四日前者,丙火用事 ;十五日后,甲木用事。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s029",
+          "original_text": "立春念三丙火用,餘日甲木旺提纲。",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "bazi.concept.strength_factor_variant_v1",
+      "domain": "bazi",
+      "name": "任氏月令通根透藏因素观察v1",
+      "kind": "algorithm_variant",
+      "variant": "ditiansui-root-visibility-v1",
+      "attributes": {
+        "maturity": "PARTIAL",
+        "execution_parent_variant": "ziping-structural-v1",
+        "input_option": "strength_variant",
+        "scope": [
+          "月支及藏干",
+          "同五行藏干通根候选",
+          "藏干在年/月/时天干的同字位置"
+        ],
+        "full_strength_classifier_ready": false,
+        "overall_strength": null,
+        "weights_available": false,
+        "unsupported": [
+          "整体身强身弱",
+          "司令分日",
+          "十二长生阴阳顺逆",
+          "根受损效力",
+          "得势权重",
+          "从化旺极衰极",
+          "喜用神"
+        ]
+      },
+      "source_refs": [
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s023",
+          "original_text": "月令乃提纲之府,譬之宅也,人元为用事之神,宅之定向也,不可以不卜。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s025",
+          "original_text": "天干得一比肩,不如地支得一余气墓库。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s027",
+          "original_text": "故知地支人元必得天干引助,天干为用,必要地支司令。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s028",
+          "original_text": "得时俱为旺论,失令便作衰看,虽是至理,亦死法也。",
           "role": "classical"
         }
       ],

@@ -3,7 +3,7 @@
   "model": "phase2-golden",
   "domain": "bazi",
   "provider": "tianji_kb.operations.bazi_chart.chart",
-  "review_basis": "固定四柱人工核对：逐项核对天干十神、藏干、咸池、五合/六合/六害/六冲/三合、日支传统配偶宫结构位，以及用户显式选择后的传统配偶星候选位置；不含旺衰、喜用、婚恋吉凶。",
+  "review_basis": "固定四柱人工核对：逐项核对天干十神、藏干、咸池、五合/六合/六害/六冲/三合、日支传统配偶宫结构位，以及用户显式选择后的传统配偶星候选位置；不含旺衰、喜用、婚恋吉凶。 月令/通根/透藏因素v1按原典短引和藏干表人工固定期望；新增正常、墓库边界、干多无根、干少有根、冲根未裁定、司令异文六例；整体旺衰保持未支持。",
   "cases": [
     {
       "id": "bazi.structural-basic",
@@ -353,6 +353,312 @@
             }
           ],
           "interpretation_allowed": false
+        }
+      }
+    },
+    {
+      "id": "bazi.factors-normal",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲寅",
+        "month_ganzhi": "丙寅",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "乙丑",
+        "strength_variant": "ditiansui-root-visibility-v1"
+      },
+      "expected": {
+        "strength_factors": {
+          "factor_variant": "ditiansui-root-visibility-v1",
+          "maturity": "PARTIAL",
+          "overall_strength": null,
+          "full_strength_classifier_ready": false,
+          "month_command": {
+            "month_branch": "寅",
+            "siling_by_days": null,
+            "de_ling": null,
+            "hidden_stems": [
+              "甲",
+              "丙",
+              "戊"
+            ]
+          },
+          "root_candidates": {
+            "positions": [
+              {
+                "pillar": "year",
+                "branch": "寅",
+                "hidden_stem": "甲",
+                "same_stem": true
+              },
+              {
+                "pillar": "month",
+                "branch": "寅",
+                "hidden_stem": "甲",
+                "same_stem": true
+              }
+            ],
+            "present_structurally": true,
+            "effective_strength": null
+          },
+          "hidden_to_visible": {
+            "day_stem_excluded": true,
+            "siling_proven": false,
+            "positions": [
+              {
+                "hidden_pillar": "year",
+                "branch": "寅",
+                "hidden_stem": "甲",
+                "visible_pillars": [
+                  "year"
+                ]
+              },
+              {
+                "hidden_pillar": "year",
+                "branch": "寅",
+                "hidden_stem": "丙",
+                "visible_pillars": [
+                  "month"
+                ]
+              },
+              {
+                "hidden_pillar": "month",
+                "branch": "寅",
+                "hidden_stem": "甲",
+                "visible_pillars": [
+                  "year"
+                ]
+              },
+              {
+                "hidden_pillar": "month",
+                "branch": "寅",
+                "hidden_stem": "丙",
+                "visible_pillars": [
+                  "month"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.factors-tomb-boundary",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "庚申",
+        "month_ganzhi": "辛酉",
+        "day_ganzhi": "乙未",
+        "hour_ganzhi": "壬辰",
+        "strength_variant": "ditiansui-root-visibility-v1"
+      },
+      "expected": {
+        "strength_factors": {
+          "factor_variant": "ditiansui-root-visibility-v1",
+          "maturity": "PARTIAL",
+          "overall_strength": null,
+          "full_strength_classifier_ready": false,
+          "month_command": {
+            "month_branch": "酉",
+            "siling_by_days": null,
+            "de_ling": null
+          },
+          "root_candidates": {
+            "positions": [
+              {
+                "pillar": "day",
+                "branch": "未",
+                "hidden_stem": "乙",
+                "same_stem": true
+              },
+              {
+                "pillar": "hour",
+                "branch": "辰",
+                "hidden_stem": "乙",
+                "same_stem": true
+              }
+            ],
+            "present_structurally": true,
+            "effective_strength": null
+          },
+          "hidden_to_visible": {
+            "day_stem_excluded": true,
+            "siling_proven": false
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.factors-many-stems-no-root",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲申",
+        "month_ganzhi": "甲子",
+        "day_ganzhi": "甲申",
+        "hour_ganzhi": "甲戌",
+        "strength_variant": "ditiansui-root-visibility-v1"
+      },
+      "expected": {
+        "strength_factors": {
+          "factor_variant": "ditiansui-root-visibility-v1",
+          "maturity": "PARTIAL",
+          "overall_strength": null,
+          "full_strength_classifier_ready": false,
+          "month_command": {
+            "month_branch": "子",
+            "siling_by_days": null,
+            "de_ling": null
+          },
+          "root_candidates": {
+            "positions": [],
+            "present_structurally": false,
+            "effective_strength": null
+          },
+          "hidden_to_visible": {
+            "day_stem_excluded": true,
+            "siling_proven": false
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.factors-few-stems-with-root",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "庚申",
+        "month_ganzhi": "辛酉",
+        "day_ganzhi": "甲寅",
+        "hour_ganzhi": "壬子",
+        "strength_variant": "ditiansui-root-visibility-v1"
+      },
+      "expected": {
+        "strength_factors": {
+          "factor_variant": "ditiansui-root-visibility-v1",
+          "maturity": "PARTIAL",
+          "overall_strength": null,
+          "full_strength_classifier_ready": false,
+          "month_command": {
+            "month_branch": "酉",
+            "siling_by_days": null,
+            "de_ling": null
+          },
+          "root_candidates": {
+            "positions": [
+              {
+                "pillar": "day",
+                "branch": "寅",
+                "hidden_stem": "甲",
+                "same_stem": true
+              }
+            ],
+            "present_structurally": true,
+            "effective_strength": null
+          },
+          "hidden_to_visible": {
+            "day_stem_excluded": true,
+            "siling_proven": false
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.factors-clash-not-erasure",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲寅",
+        "month_ganzhi": "庚申",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "辛酉",
+        "strength_variant": "ditiansui-root-visibility-v1",
+        "include_relations": true
+      },
+      "expected": {
+        "strength_factors": {
+          "factor_variant": "ditiansui-root-visibility-v1",
+          "maturity": "PARTIAL",
+          "overall_strength": null,
+          "full_strength_classifier_ready": false,
+          "month_command": {
+            "month_branch": "申",
+            "siling_by_days": null,
+            "de_ling": null
+          },
+          "root_candidates": {
+            "positions": [
+              {
+                "pillar": "year",
+                "branch": "寅",
+                "hidden_stem": "甲",
+                "same_stem": true
+              }
+            ],
+            "present_structurally": true,
+            "effective_strength": null
+          },
+          "hidden_to_visible": {
+            "day_stem_excluded": true,
+            "siling_proven": false
+          }
+        },
+        "reviewed_relations": {
+          "branch_six_clashes": [
+            {
+              "pillars": [
+                "year",
+                "month"
+              ],
+              "branches": [
+                "寅",
+                "申"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "bazi.factors-siling-unresolved",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "戊寅",
+        "month_ganzhi": "丁巳",
+        "day_ganzhi": "庚申",
+        "hour_ganzhi": "己卯",
+        "strength_variant": "ditiansui-root-visibility-v1",
+        "include_relations": true
+      },
+      "expected": {
+        "strength_factors": {
+          "factor_variant": "ditiansui-root-visibility-v1",
+          "maturity": "PARTIAL",
+          "overall_strength": null,
+          "full_strength_classifier_ready": false,
+          "month_command": {
+            "month_branch": "巳",
+            "siling_by_days": null,
+            "de_ling": null
+          },
+          "root_candidates": {
+            "positions": [
+              {
+                "pillar": "month",
+                "branch": "巳",
+                "hidden_stem": "庚",
+                "same_stem": true
+              },
+              {
+                "pillar": "day",
+                "branch": "申",
+                "hidden_stem": "庚",
+                "same_stem": true
+              }
+            ],
+            "present_structurally": true,
+            "effective_strength": null
+          },
+          "hidden_to_visible": {
+            "day_stem_excluded": true,
+            "siling_proven": false
+          }
         }
       }
     }
