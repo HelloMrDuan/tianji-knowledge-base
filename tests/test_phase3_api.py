@@ -4,6 +4,7 @@ from fastapi.testclient import TestClient
 from tianji_kb.api import create_app,EXAMPLES
 from tianji_kb.engine import PROVIDERS
 from tianji_kb.resolver import EvidenceResolver
+from tianji_kb.prompts import PROMPTS,DEFAULT_PROMPT,get_prompt
 
 class UnifiedApiTests(unittest.TestCase):
     @classmethod
@@ -242,6 +243,28 @@ class UnifiedApiTests(unittest.TestCase):
             serialized=str(record)
             self.assertNotIn('super-secret-provider-key',serialized)
             self.assertNotIn('private-path',serialized)
+
+    def test_admin_prompt_registry_is_real_immutable_and_versioned(self):
+        with patch.dict('os.environ',{'TIANJI_EXPLANATION_PROMPT_VERSION':DEFAULT_PROMPT},clear=False):
+            client=TestClient(create_app(admin_read_token='review-token'))
+            path='/api/v1/admin/system/prompts'
+            self.assertEqual(client.get(path).status_code,401)
+            response=client.get(path,headers={'Authorization':'Bearer review-token'})
+            self.assertEqual(response.status_code,200,response.text)
+            records={row['version']:row for row in response.json()['records']}
+            self.assertEqual(set(records),set(PROMPTS))
+            for version,row in records.items():
+                expected=get_prompt(version)
+                self.assertEqual(row['sha256'],expected['sha256'])
+                self.assertEqual(row['instruction'],expected['instruction'])
+                self.assertEqual(row['instruction_length'],len(expected['instruction']))
+                self.assertTrue(row['immutable'])
+                self.assertFalse(row['automatic_release_allowed'])
+                self.assertEqual(row['configured_selection'],DEFAULT_PROMPT)
+                self.assertTrue(row['selection_registered'])
+            self.assertTrue(records[DEFAULT_PROMPT]['selected'])
+            self.assertFalse(records['explanation-prompt-v1']['production_eligible'])
+            self.assertTrue(records['explanation-prompt-v2']['production_eligible'])
 
     def test_admin_rules_and_evidence_are_token_gated_reviewed_assets(self):
         client=TestClient(create_app(admin_read_token='review-token'))

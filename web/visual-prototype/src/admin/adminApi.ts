@@ -315,3 +315,23 @@ export type AdminProviderRecord = {
 export function fetchAdminProvider(token: string): Promise<AdminProviderRecord[]> {
   return fetchProtectedRecords<AdminProviderRecord>("/api/v1/admin/system/provider", token);
 }
+
+
+export type AdminPromptRecord = {
+  id: string;
+  version: string;
+  sha256: string;
+  instruction: string;
+  instruction_length: number;
+  selected: boolean;
+  configured_selection: string;
+  selection_registered: boolean;
+  default: boolean;
+  production_eligible: boolean;
+  immutable: boolean;
+  automatic_release_allowed: false;
+};
+
+export function fetchAdminPrompts(token: string): Promise<AdminPromptRecord[]> {
+  return fetchProtectedRecords<AdminPromptRecord>("/api/v1/admin/system/prompts", token);
+}

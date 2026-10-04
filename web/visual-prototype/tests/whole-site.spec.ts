@@ -259,21 +259,22 @@ test("admin provider never requests configuration before explicit authorization"
   expect(apiRequests).toEqual([]);
 });
 
-test("prompt drafts clear on reload and never request a service", async ({
+test("admin prompts never requests registry before explicit authorization", async ({
   page,
 }) => {
-  const requests: string[] = [];
+  const apiRequests: string[] = [];
   page.on("request", (request) => {
-    if (request.url().includes("/api/")) requests.push(request.url());
+    if (request.url().includes("/api/v1/admin/system/prompts"))
+      apiRequests.push(request.url());
   });
   await page.goto("/admin/prompts");
-  await page.getByLabel("指令内容").fill("DEMO review text");
-  await page.getByRole("button", { name: "确认草稿预览" }).click();
-  await expect(page.getByRole("status")).toContainText("仅当前页面");
-  await page.reload();
-  await expect(page.getByLabel("指令内容")).not.toHaveValue("DEMO review text");
-  expect(requests).toEqual([]);
+  await expect(page.getByRole("heading", { name: "Prompt 版本", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "需要内部只读授权" })).toBeVisible();
+  await expect(page.getByLabel("后台只读令牌")).toHaveAttribute("type", "password");
+  await expect(page.locator("main")).toContainText("不再提供页面内假编辑器");
+  expect(apiRequests).toEqual([]);
 });
+
 test("library filtering, empty favorites and favorite removal work across pages", async ({
   page,
 }) => {

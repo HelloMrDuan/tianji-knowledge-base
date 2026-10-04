@@ -9,6 +9,7 @@ from .resolver import EvidenceResolver
 from .knowledge import read_json
 from .ai_providers import DRIVERS, settings_from_environment
 from .explanation import ExplanationFailure
+from .prompts import PROMPTS, DEFAULT_PROMPT, get_prompt
 
 
 def _evidence_from_ref(resolver: EvidenceResolver, ref: dict) -> dict:
@@ -605,3 +606,26 @@ def provider_configuration() -> list[dict]:
         "live_connectivity_verified": False,
         "automatic_release_allowed": False,
     }]
+
+
+def prompt_registry() -> list[dict]:
+    """Return immutable explanation prompt registry metadata and text for internal review."""
+    selected = os.environ.get("TIANJI_EXPLANATION_PROMPT_VERSION", DEFAULT_PROMPT)
+    rows = []
+    for version in PROMPTS:
+        prompt = get_prompt(version)
+        rows.append({
+            "id": version,
+            "version": version,
+            "sha256": prompt["sha256"],
+            "instruction": prompt["instruction"],
+            "instruction_length": len(prompt["instruction"]),
+            "selected": version == selected,
+            "configured_selection": selected,
+            "selection_registered": selected in PROMPTS,
+            "default": version == DEFAULT_PROMPT,
+            "production_eligible": version != "explanation-prompt-v1",
+            "immutable": True,
+            "automatic_release_allowed": False,
+        })
+    return rows
