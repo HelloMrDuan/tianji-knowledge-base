@@ -183,7 +183,7 @@ class ScenarioEngineTests(unittest.TestCase):
         self.assertEqual(output["status"], "production_limited")
         self.assertFalse(output["public_release"])
         self.assertEqual(output["result"]["release_scope"], "two_person_structure_only")
-        self.assertEqual(output["result"]["report_version"], "compatibility-structure-v3")
+        self.assertEqual(output["result"]["report_version"], "compatibility-structure-v4")
         relations = output["result"]["day_master_relations"]
         self.assertEqual(relations["a_sees_b"]["ten_god"], "正财")
         self.assertEqual(relations["b_sees_a"]["ten_god"], "正官")
@@ -205,6 +205,22 @@ class ScenarioEngineTests(unittest.TestCase):
         self.assertIn("natal_triple_harmonies", output["result"]["person_b"])
         self.assertIsNone(output["result"]["person_a"]["traditional_spouse_star_lens"])
         self.assertIsNone(output["result"]["person_b"]["traditional_spouse_star_lens"])
+        matrix=output["result"]["relation_evidence_matrix"]
+        self.assertEqual(
+            {item["id"] for item in matrix},
+            {
+                "cross-day-master-ten-gods",
+                "day-master-five-combination",
+                "spouse-palace-pair-relations",
+                "xianchi-a-to-b",
+                "xianchi-b-to-a",
+                "person-a-natal-triple-harmonies",
+                "person-b-natal-triple-harmonies",
+            },
+        )
+        self.assertTrue(all(item["interpretation_allowed"] is False for item in matrix))
+        self.assertTrue(all(item["derived_from_rule_ids"] for item in matrix))
+        self.assertTrue(all(set(item["evidence_ids"]) <= set(output["evidence"]) for item in matrix))
         self.assertTrue(output["evidence"])
         self.assertEqual(
             output["rule_matches"][0]["derived_from_rule_ids"],
@@ -233,7 +249,7 @@ class ScenarioEngineTests(unittest.TestCase):
             "person_a_traditional_role": "male",
             "person_b_traditional_role": "female",
         })
-        self.assertEqual(output["result"]["report_version"], "compatibility-structure-v3")
+        self.assertEqual(output["result"]["report_version"], "compatibility-structure-v4")
         a_lens = output["result"]["person_a"]["traditional_spouse_star_lens"]
         b_lens = output["result"]["person_b"]["traditional_spouse_star_lens"]
         self.assertEqual(a_lens["traditional_role"], "male")
@@ -242,6 +258,11 @@ class ScenarioEngineTests(unittest.TestCase):
         self.assertEqual(b_lens["candidate_ten_gods"], ["正官", "七杀"])
         self.assertFalse(a_lens["interpretation_allowed"])
         self.assertFalse(b_lens["interpretation_allowed"])
+        matrix={item["id"]:item for item in output["result"]["relation_evidence_matrix"]}
+        self.assertIn("person-a-traditional-spouse-star-lens",matrix)
+        self.assertIn("person-b-traditional-spouse-star-lens",matrix)
+        self.assertFalse(matrix["person-a-traditional-spouse-star-lens"]["interpretation_allowed"])
+        self.assertFalse(matrix["person-b-traditional-spouse-star-lens"]["interpretation_allowed"])
         self.assertIn("bazi.phase2.spouse_star_lens", output["rule_matches"][0]["derived_from_rule_ids"])
         self.assertTrue(any(step["step"] == "traditional_spouse_star_lenses" for step in output["trace"]))
         serialized = str(output["result"])
