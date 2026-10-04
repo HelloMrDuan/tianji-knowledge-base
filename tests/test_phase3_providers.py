@@ -70,7 +70,7 @@ class ProviderTests(unittest.TestCase):
             self.assertNotIn('access-control-allow-origin',rejected.headers)
             self.assertIn('json-http',client.get('/api/v1/capabilities').json()['explanation']['provider_drivers'])
             self.assertTrue(client.get('/health').json()['rag_ready'])
-    def test_real_http_adapter_loop_for_all_six_and_failure_downgrade(self):
+    def test_real_http_adapter_loop_for_all_registered_domains_and_failure_downgrade(self):
         import threading
         from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
         calls=[];fail=[False]
@@ -95,7 +95,7 @@ class ProviderTests(unittest.TestCase):
                     self.assertEqual(response.status_code,200)
                     self.assertEqual(response.json()['explanation_status'],'succeeded',response.text)
                     self.assertTrue(calls[-1]['rag']);self.assertEqual(calls[-1]['domain'],domain)
-                self.assertEqual(len(calls),6)
+                self.assertEqual(len(calls),7)
                 fail[0]=True
                 response=client.post('/api/v1/execute',json={'domain':'yijing','input':EXAMPLES['yijing'],'explain':True})
                 self.assertEqual(response.status_code,200);self.assertEqual(response.json()['explanation_error'],'provider_failed')
