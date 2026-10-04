@@ -4,13 +4,14 @@
   "domain": "bazi",
   "variant": "ziping-structural-v1",
   "provider": "tianji_kb.operations.bazi_chart.chart",
-  "scope": "生产范围含四柱、日主、十神、藏干；显式 include_xianchi=true 时可返回咸池四组结构查表；显式 include_relations=true 时可返回已审核的天干五合、地支六合/六害与日支传统配偶宫结构位。所有结构事实均不输出旺衰、喜用、格局、关系评分或婚恋吉凶。",
+  "scope": "生产范围含四柱、日主、十神、藏干；显式 include_xianchi=true 时可返回咸池四组结构查表；显式 include_relations=true 时可返回已审核的天干五合、地支六合/六害/六冲/三合与日支传统配偶宫结构位。所有结构事实均不输出旺衰、喜用、格局、关系评分或婚恋吉凶。",
   "unresolved": [
     "真太阳时未实现。",
     "旺衰、格局、喜用神、调候与大运起运规则尚未完成证据裁定。",
     "咸池四组目标支已核；年支与日支只分别报告，不裁定单一优先基准；纳音附加条件及桃花/婚恋解释仍未裁定。",
-    "本轮只晋级天干五合、地支六合、六害与日支传统配偶宫结构位；六冲、三刑、三合用于合盘的正式 Evidence 绑定仍待独立审核。",
-    "五合/六合命中不代表化气成立；六害命中不代表现实关系受害、分手或凶断。"
+    "本轮新增六冲与三合结构：六冲只按固定对宫配对；三合只按四组完整成员检测。半合、拱合、成化条件与吉凶解释未裁定。",
+    "三刑存在明确流派分歧，当前不进入统一 executable 规则。",
+    "五合/六合命中不代表化气成立；六害/六冲命中不代表现实关系受害、分手、争执或凶断。"
   ],
   "rules": [
     {
@@ -140,6 +141,38 @@
       ],
       "regression_test": "tests/test_phase2_bazi.py",
       "evidence_scope": "C：《渊海子平·络绎赋》固定短引；只标记日支的传统结构角色，产品使用中性“配偶宫结构位”称呼。"
+    },
+    {
+      "id": "bazi.phase2.branch_six_clashes",
+      "domain": "bazi",
+      "name": "地支六冲固定配对",
+      "variant": "ziping-structural-v1",
+      "execution_status": "executable",
+      "phase1_rule_refs": [
+        "bazi.rule.r009"
+      ],
+      "validation_status": "validated",
+      "golden_case_ids": [
+        "bazi.relations-expanded"
+      ],
+      "regression_test": "tests/test_phase2_bazi.py",
+      "evidence_scope": "C：《钦定协纪辨方书》“对七为冲”及卯酉/辰戌实例；只确认六组固定对冲，不输出吉凶或关系事件。"
+    },
+    {
+      "id": "bazi.phase2.branch_triple_harmonies",
+      "domain": "bazi",
+      "name": "地支三合四局",
+      "variant": "ziping-structural-v1",
+      "execution_status": "executable",
+      "phase1_rule_refs": [
+        "bazi.rule.r010"
+      ],
+      "validation_status": "validated",
+      "golden_case_ids": [
+        "bazi.relations-expanded"
+      ],
+      "regression_test": "tests/test_phase2_bazi.py",
+      "evidence_scope": "C：《钦定协纪辨方书》固定短引；只确认申子辰水、巳酉丑金、寅午戌火、亥卯未木四组三合完整结构，不判断半合、成化或吉凶。"
     }
   ]
 }
