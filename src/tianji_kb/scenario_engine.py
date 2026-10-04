@@ -44,7 +44,7 @@ SCENARIOS = [
     {"id": "monthly", "name": "本月结构", "status": "production_limited", "public_release": False, "execution": "scenario_api", "depends_on": ["bazi.phase2.ten_gods", "bazi.phase2.xianchi_lookup", "calendar/lunar-python==1.4.8"], "scope": "列出目标公历月每日干支、十神结构与咸池日级命中，并做结构频次汇总；不输出月运吉凶。"},
     {"id": "romance", "name": "桃花结构", "status": "production_limited", "public_release": False, "execution": "scenario_api", "depends_on": ["bazi/ziping-structural-v1", "bazi.phase2.xianchi_lookup"], "scope": "分别按年支、日支返回咸池目标支、原局命中与目标年份地支激活；不输出婚恋吉凶。"},
     {"id": "career", "name": "事业财运结构", "status": "production_limited", "public_release": False, "execution": "scenario_api", "depends_on": ["bazi.phase2.ten_gods", "bazi.phase2.hidden_stems", "calendar/lunar-python==1.4.8"], "scope": "聚合原局财星、官杀、食伤、印星、比劫的位置事实，并显示目标年天干十神；不输出事业财运吉凶或评分。"},
-    {"id": "compatibility", "name": "缘分合盘结构", "status": "production_limited", "public_release": False, "execution": "scenario_api", "depends_on": ["bazi.phase2.ten_gods", "bazi.phase2.xianchi_lookup", "bazi.phase2.stem_five_combinations", "bazi.phase2.branch_six_harmonies", "bazi.phase2.branch_six_harms", "bazi.phase2.branch_six_clashes", "bazi.phase2.branch_triple_harmonies", "bazi.phase2.spouse_palace_day_branch", "bazi.phase2.spouse_star_lens"], "scope": "双人四柱并列、双方日主互看十神、咸池交叉匹配、五合、日支六合/六害/六冲、双方原局三合、日支传统配偶宫结构位；用户显式选择传统口径时可附加财星/官杀候选位置。"},
+    {"id": "compatibility", "name": "缘分合盘结构", "status": "production_limited", "public_release": False, "execution": "scenario_api", "depends_on": ["bazi.phase2.ten_gods", "bazi.phase2.xianchi_lookup", "bazi.phase2.stem_five_combinations", "bazi.phase2.branch_six_harmonies", "bazi.phase2.branch_six_harms", "bazi.phase2.branch_six_clashes", "bazi.phase2.branch_triple_harmonies", "bazi.phase2.spouse_palace_day_branch", "bazi.phase2.spouse_star_lens"], "scope": "双人四柱并列、双方日主互看十神、咸池交叉匹配、五合、日支六合/六害/六冲、双方原局三合、跨柱关系矩阵、日支传统配偶宫结构位；用户显式选择传统口径时可附加财星/官杀候选位置。"},
     {"id": "dream", "name": "AI 解梦", "status": "research", "public_release": False, "execution": None, "depends_on": ["dream-rag", "ai"], "scope": "待梦境语料与真实模型校准。"},
     {"id": "life", "name": "人生总览", "status": "production_limited", "public_release": False, "execution": "scenario_api", "depends_on": ["bazi-profile", "yearly", "romance", "career"], "scope": "聚合八字基础、年度结构、桃花结构、事业财运结构为一份可读总览；不新增任何吉凶判断。"},
 ]
@@ -876,6 +876,75 @@ def _cross_xianchi(subject_xianchi, other_pillars):
     }
 
 
+def _cross_relation_matrix(person_a_pillars, person_b_pillars):
+    """Return reviewed cross-chart relation hits without assigning weights or scores."""
+    hits = []
+    summary = {
+        "core": 0,
+        "day_context": 0,
+        "supplemental": 0,
+        "stem_five_combination": 0,
+        "six_harmony": 0,
+        "harm": 0,
+        "clash": 0,
+    }
+
+    for a in person_a_pillars:
+        for b in person_b_pillars:
+            a_name = a["name"]
+            b_name = b["name"]
+            if a_name == "day" and b_name == "day":
+                tier = "core"
+            elif "day" in (a_name, b_name):
+                tier = "day_context"
+            else:
+                tier = "supplemental"
+
+            stem_relation = stem_five_combination(a["stem"]["value"], b["stem"]["value"])
+            if stem_relation["matched"]:
+                hits.append({
+                    "tier": tier,
+                    "relation_type": "stem_five_combination",
+                    "rule_id": "bazi.phase2.stem_five_combinations",
+                    "person_a_pillar": a_name,
+                    "person_b_pillar": b_name,
+                    "stems": stem_relation["stems"],
+                    "traditional_result_element": stem_relation["traditional_result_element"],
+                })
+                summary[tier] += 1
+                summary["stem_five_combination"] += 1
+
+            for relation in reviewed_branch_pair_relations(a["branch"]["value"], b["branch"]["value"]):
+                row = {
+                    "tier": tier,
+                    "relation_type": relation["kind"],
+                    "rule_id": {
+                        "six_harmony": "bazi.phase2.branch_six_harmonies",
+                        "harm": "bazi.phase2.branch_six_harms",
+                        "clash": "bazi.phase2.branch_six_clashes",
+                    }[relation["kind"]],
+                    "person_a_pillar": a_name,
+                    "person_b_pillar": b_name,
+                    "branches": relation["branches"],
+                }
+                if relation["kind"] == "six_harmony":
+                    row["traditional_result_element"] = relation["traditional_result_element"]
+                hits.append(row)
+                summary[tier] += 1
+                summary[relation["kind"]] += 1
+
+    return {
+        "hits": hits,
+        "summary": summary,
+        "tier_policy": {
+            "core": "双方日柱直接关系",
+            "day_context": "一方日柱与另一方其他柱关系",
+            "supplemental": "双方其他柱之间的辅助结构",
+        },
+        "interpretation_allowed": False,
+    }
+
+
 def _compatibility(inputs):
     _require_with_optional(
         inputs,
@@ -923,6 +992,8 @@ def _compatibility(inputs):
         ),
     }
 
+    cross_relation_matrix = _cross_relation_matrix(chart_a["pillars"], chart_b["pillars"])
+
     evidence = {}
     evidence_ids = []
     relation_rule_ids = [
@@ -948,7 +1019,7 @@ def _compatibility(inputs):
                     evidence[eid] = copy.deepcopy(chart["evidence"][eid])
 
     result = {
-        "report_version": "compatibility-structure-v3",
+        "report_version": "compatibility-structure-v4",
         "person_a": {
             "pillars": copy.deepcopy(chart_a["pillars"]),
             "day_master": copy.deepcopy(chart_a["day_master"]),
@@ -985,6 +1056,7 @@ def _compatibility(inputs):
             "day_master_five_combination": day_master_five_combination,
             "spouse_palace_relation": spouse_palace_relation,
         },
+        "cross_relation_matrix": cross_relation_matrix,
         "release_scope": "two_person_structure_only",
     }
     rule_match = {
@@ -993,7 +1065,7 @@ def _compatibility(inputs):
         "variant": "ziping-structural-v1",
         "matched": True,
         "kind": "scenario_composition",
-        "evidence_scope": "复用已验证十神、咸池、五合/六合/六害/六冲/三合及可选传统配偶星 Evidence；只做双人结构对照，不输出关系质量、婚恋吉凶或缘分分数。",
+        "evidence_scope": "复用已验证十神、咸池、五合/六合/六害/六冲/三合及可选传统配偶星 Evidence；跨柱矩阵只分结构层级，不赋权重、不打分、不输出关系质量或婚恋吉凶。",
         "facts": {
             "a_sees_b_ten_god": a_sees_b,
             "b_sees_a_ten_god": b_sees_a,
@@ -1001,6 +1073,7 @@ def _compatibility(inputs):
             "b_xianchi_cross_match_count": len(b_cross["matches"]),
             "day_master_five_combination": copy.deepcopy(day_master_five_combination),
             "spouse_palace_relation": copy.deepcopy(spouse_palace_relation),
+            "cross_relation_matrix_summary": copy.deepcopy(cross_relation_matrix["summary"]),
             "person_a_traditional_spouse_star_lens": copy.deepcopy(chart_a.get("traditional_spouse_star_lens")),
             "person_b_traditional_spouse_star_lens": copy.deepcopy(chart_b.get("traditional_spouse_star_lens")),
         },
@@ -1027,6 +1100,17 @@ def _compatibility(inputs):
             "step": "cross_xianchi_targets",
             "derived_from_rule_id": "bazi.phase2.xianchi_lookup",
             "facts": copy.deepcopy(result["xianchi_cross_matches"]),
+            "evidence_ids": evidence_ids,
+        },
+        {
+            "step": "cross_relation_matrix",
+            "derived_from_rule_ids": [
+                "bazi.phase2.stem_five_combinations",
+                "bazi.phase2.branch_six_harmonies",
+                "bazi.phase2.branch_six_harms",
+                "bazi.phase2.branch_six_clashes",
+            ],
+            "facts": copy.deepcopy(result["cross_relation_matrix"]),
             "evidence_ids": evidence_ids,
         },
         {
@@ -1072,6 +1156,8 @@ def _compatibility(inputs):
             "三刑存在明确流派分歧，当前不作为统一 executable 规则。",
             "五合或六合命中不代表化气成立，也不代表适合；六害或六冲命中不等于现实关系受害、分手、争执或凶断。",
             "配偶星只在用户显式选择传统男命/女命口径时定位财星或官杀候选位置；《滴天髓阐微》明确反对机械专执官星论夫，因此不把候选星位等同于真实配偶或婚姻结论。",
+            "跨柱关系矩阵按“日柱核心 / 日柱相关 / 其他辅助”分层，只为降低信息噪声；层级不是吉凶权重，也不是关系重要性评分。",
+            "矩阵中的合、冲、害只代表已审核固定结构命中；不得据命中数量推导适配度、冲突度或缘分高低。",
             "尚未纳入旺衰喜忌、大运流年与紫微交叉判断。",
             "不输出缘分百分比、配对分数、正缘结论、结婚时间或分手风险。",
             "AI 不参与本场景计算。",
