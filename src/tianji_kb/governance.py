@@ -621,6 +621,8 @@ def prompt_registry() -> list[dict]:
             "instruction": prompt["instruction"],
             "instruction_length": len(prompt["instruction"]),
             "selected": version == selected,
+            "configured_selection": selected,
+            "selection_registered": selected in PROMPTS,
             "default": version == DEFAULT_PROMPT,
             "production_eligible": version != "explanation-prompt-v1",
             "immutable": True,
