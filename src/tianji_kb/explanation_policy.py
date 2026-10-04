@@ -77,10 +77,10 @@ def add_policy(context):
     return context
 
 
-def reply_schema(base):
+def reply_schema(base,prompt_version='explanation-prompt-v2'):
     schema=copy.deepcopy(base)
     schema['required']+=['prompt_version','prompt_sha256']
-    schema['properties'].update(prompt_version={'const':'explanation-prompt-v2'},prompt_sha256={'type':'string'})
+    schema['properties'].update(prompt_version={'const':prompt_version},prompt_sha256={'type':'string'})
     claims=schema['properties']['claims'];claims.update(minItems=5,maxItems=40)
     item=claims['items'];item['required']+=['kind','rule_ids','strength','uncertainty_refs']
     item['properties'].update(kind={'enum':list(KINDS)},rule_ids={'type':'array','minItems':1,'uniqueItems':True,'items':{'type':'string'}},
