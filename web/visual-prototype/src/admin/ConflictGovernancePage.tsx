@@ -1,4 +1,5 @@
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { fetchAdminConflicts, type AdminConflictRecord } from "./adminApi";
 import "./conflicts.css";
