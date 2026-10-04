@@ -144,6 +144,26 @@ class UnifiedApiTests(unittest.TestCase):
         self.assertNotIn('content_path',serialized)
         self.assertNotIn('TIANJI_ADMIN_READ_TOKEN',serialized)
 
+    def test_admin_sources_are_token_gated_provenance_only(self):
+        client=TestClient(create_app(admin_read_token='review-token'))
+        path='/api/v1/admin/governance/sources'
+        self.assertEqual(client.get(path).status_code,401)
+        response=client.get(path,headers={'Authorization':'Bearer review-token'})
+        self.assertEqual(response.status_code,200,response.text)
+        data=response.json()
+        self.assertTrue(data['read_only'])
+        self.assertFalse(data['public_release'])
+        records=data['records']
+        self.assertTrue(records)
+        self.assertTrue(any(row['repository'] for row in records))
+        self.assertTrue(any(row['section_count'] > 0 for row in records))
+        self.assertTrue(all(row['evidence_level'] in ('A','B','C','D') for row in records))
+        serialized=str(records)
+        self.assertNotIn('content_path',serialized)
+        self.assertNotIn('sha256',serialized)
+        self.assertNotIn('data/quarantine/',serialized)
+        self.assertNotIn('TIANJI_ADMIN_READ_TOKEN',serialized)
+
     def test_admin_rules_and_evidence_are_token_gated_reviewed_assets(self):
         client=TestClient(create_app(admin_read_token='review-token'))
         for path in (
