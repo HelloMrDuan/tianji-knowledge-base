@@ -20,29 +20,12 @@ import { PeriodStructurePage } from "./PeriodStructurePage";
 import { CompatibilityStructurePage } from "./CompatibilityStructurePage";
 import "./public.css";
 
-const favoriteKey = "tianji.product.favorite";
-function initialFavorite() {
-  try {
-    return localStorage.getItem(favoriteKey) === "true";
-  } catch {
-    return false;
-  }
-}
-
 export function PublicApp() {
   const path = usePath();
   const domainPage = getDomainPage(path);
   const resultPage = domainPages.find((item) => path === `/${item.id}/result`);
-  const [favorite, setFavorite] = useState(initialFavorite);
   const [notice, setNotice] = useState("");
 
-  useEffect(() => {
-    try {
-      localStorage.setItem(favoriteKey, String(favorite));
-    } catch {
-      /* Optional local preference. */
-    }
-  }, [favorite]);
 
   useEffect(() => {
     if (!notice) return;
@@ -131,18 +114,13 @@ export function PublicApp() {
           ) : domainPage ? (
             <DomainHomePage key={domainPage.id} page={domainPage} />
           ) : path === "/liuyao/result" ? (
-            <LiuyaoResultPage
-              favorite={favorite}
-              onToggleFavorite={() => setFavorite(!favorite)}
-            />
+            <LiuyaoResultPage />
           ) : resultPage ? (
             <ResultTemplatePage key={resultPage.id} page={resultPage} />
           ) : path === "/history" || path === "/favorites" ? (
             <LibraryPage
               key={path}
               kind={path === "/history" ? "history" : "favorites"}
-              favorite={favorite}
-              onToggleFavorite={() => setFavorite(!favorite)}
             />
           ) : (
             <section className="public-not-found">
