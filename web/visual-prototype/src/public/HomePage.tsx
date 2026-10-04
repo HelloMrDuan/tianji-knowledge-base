@@ -8,6 +8,7 @@ import "./scenarios.css";
 export function HomePage() {
   const question = scenarioProducts.find((item) => item.id === "question")!;
   const baziProfile = scenarioProducts.find((item) => item.id === "bazi-profile")!;
+  const yearly = scenarioProducts.find((item) => item.id === "yearly")!;
   return (
     <div className="scenario-home">
       <section className="scenario-hero">
@@ -88,17 +89,20 @@ export function HomePage() {
 
         <div className="scenario-featured">
           <div>
-            <span className="eyebrow">两条真实闭环</span>
-            <h3>{baziProfile.name} + {question.name}</h3>
+            <span className="eyebrow">三条真实闭环</span>
+            <h3>{baziProfile.name} + {question.name} + {yearly.name}</h3>
             <p>
-              八字基础档案与六爻一事占问都直接调用现有 <code>/api/v1/execute</code>，
-              返回真实确定性结果、RuleMatch、Evidence 和 Trace。后端不可用就明确报错，
-              不拿静态示例冒充结果。
+              八字基础档案与六爻一事占问调用 <code>/api/v1/execute</code>，
+              2026 流年结构调用真实 Scenario Engine。三条链路都返回确定性结果、规则、
+              Evidence 和 Trace；后端不可用就明确报错，不拿静态示例冒充结果。
             </p>
           </div>
           <div className="scenario-featured-actions">
             <Link className="button outlined" href="/bazi-profile">
               建立八字档案
+            </Link>
+            <Link className="button outlined" href="/yearly-structure">
+              看 2026 结构
             </Link>
             <Link className="button primary" href="/ask">
               开始占问

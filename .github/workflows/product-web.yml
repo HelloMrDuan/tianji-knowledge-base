@@ -88,3 +88,21 @@ jobs:
           assert data["explanation_status"]=="disabled"
           print("real frontend proxy -> API -> deterministic Bazi: ok")
           PY
+
+          curl -fsS -X POST http://127.0.0.1:5173/api/v1/scenarios/execute \
+            -H 'Content-Type: application/json' \
+            -d '{"scenario_id":"yearly","input":{"birth_value":"2000-01-07T12:00:00+08:00","target_year":2026}}' \
+            >/tmp/yearly.json
+          python - <<'PY'
+          import json
+          data=json.load(open("/tmp/yearly.json",encoding="utf-8"))
+          assert data["scenario_id"]=="yearly"
+          assert data["status"]=="production_limited"
+          assert data["public_release"] is False
+          assert data["deterministic"] is True
+          assert data["result"]["target_year"]["ganzhi"]=="丙午"
+          assert data["result"]["target_year"]["stem_ten_god"]=="食神"
+          assert data["evidence"]
+          assert data["limitations"]
+          print("real frontend proxy -> Scenario Engine -> 2026 annual structure: ok")
+          PY

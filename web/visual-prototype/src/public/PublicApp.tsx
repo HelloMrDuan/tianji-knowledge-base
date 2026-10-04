@@ -11,6 +11,7 @@ import { LibraryPage } from "./LibraryPage";
 import { domainPages } from "./domainPages";
 import { QuestionPage } from "./QuestionPage";
 import { BaziProfilePage } from "./BaziProfilePage";
+import { YearlyStructurePage } from "./YearlyStructurePage";
 import "./public.css";
 
 const favoriteKey = "tianji.product.favorite";
@@ -51,7 +52,9 @@ export function PublicApp() {
           ? "一事占问"
           : path === "/bazi-profile"
             ? "八字基础档案"
-            : domainPage?.name ||
+            : path === "/yearly-structure"
+              ? "2026 流年结构"
+              : domainPage?.name ||
             resultPage?.name ||
             (path === "/history"
               ? "历史记录"
@@ -89,6 +92,8 @@ export function PublicApp() {
             <QuestionPage />
           ) : path === "/bazi-profile" ? (
             <BaziProfilePage />
+          ) : path === "/yearly-structure" ? (
+            <YearlyStructurePage />
           ) : domainPage ? (
             <DomainHomePage key={domainPage.id} page={domainPage} />
           ) : path === "/liuyao/result" ? (
