@@ -18,7 +18,7 @@ class BaziPhase1Tests(unittest.TestCase):
         }.issubset(classic_ids))
         xieji=next(item for item in self.bundle["classics"] if item["id"]=="bazi.classic.xieji")
         self.assertEqual(xieji["body_stage"],"quarantine")
-        self.assertGreaterEqual(len(self.bundle["sections"]),19)
+        self.assertGreaterEqual(len(self.bundle["sections"]),21)
         self.assertGreaterEqual(len(self.bundle["rules"]),11)
         self.assertTrue(all(r["execution_status"]=="partially_structured" for r in self.bundle["rules"]))
         self.assertEqual(
@@ -30,6 +30,31 @@ class BaziPhase1Tests(unittest.TestCase):
                 "bazi.source.ditiansui-spouse",
             },
         )
+
+    def test_school_conflicts_remain_evidence_bound_and_non_executable(self):
+        conflicts={
+            item["id"]:item
+            for item in self.bundle["concepts"]
+            if item.get("kind")=="school_conflict"
+        }
+        self.assertIn("bazi.concept.conflict_spouse_star_lens",conflicts)
+        self.assertIn("bazi.concept.conflict_three_punishments",conflicts)
+        spouse=conflicts["bazi.concept.conflict_spouse_star_lens"]
+        punishment=conflicts["bazi.concept.conflict_three_punishments"]
+        self.assertEqual(spouse["attributes"]["status"],"bounded")
+        self.assertEqual(punishment["attributes"]["status"],"unresolved")
+        self.assertEqual(
+            punishment["attributes"]["executable_policy"],
+            "blocked_pending_school_resolution",
+        )
+        self.assertEqual(
+            {ref["source_id"] for ref in punishment["source_refs"]},
+            {"bazi.source.yuanhai","bazi.source.ditiansui-spouse"},
+        )
+        self.assertFalse(any(
+            rule["id"].startswith("bazi.rule.") and "punish" in rule["id"]
+            for rule in self.bundle["rules"]
+        ))
 
     def test_xianchi_table_is_reviewed_but_not_promoted_to_fortune_logic(self):
         rule=next(r for r in self.bundle["rules"] if r["id"]=="bazi.rule.r004")
