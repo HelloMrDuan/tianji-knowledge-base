@@ -143,3 +143,117 @@ def reviewed_evidence(resolver: EvidenceResolver | None = None) -> list[dict]:
             "phase2_rule_ids": phase2_ids,
         })
     return rows
+
+
+
+def reviewed_classics(resolver: EvidenceResolver | None = None) -> list[dict]:
+    """Return classic metadata and reviewed coverage counts without book bodies."""
+    resolver = resolver or EvidenceResolver()
+    chapters_by_classic: dict[str, list[str]] = {}
+    sections_by_classic: dict[str, list[str]] = {}
+    for entity_id, pair in resolver.entities.items():
+        collection, entity = pair
+        if collection == "chapters":
+            chapters_by_classic.setdefault(entity["classic_id"], []).append(entity_id)
+        elif collection == "sections":
+            sections_by_classic.setdefault(entity["classic_id"], []).append(entity_id)
+
+    rows = []
+    for entity_id, pair in sorted(resolver.entities.items()):
+        collection, entity = pair
+        if collection != "classics":
+            continue
+        source = resolver.sources[entity["source_id"]]
+        rows.append({
+            "id": entity_id,
+            "domain": entity["domain"],
+            "name": entity["name"],
+            "body_stage": entity["body_stage"],
+            "source_id": entity["source_id"],
+            "source_title": source["title"],
+            "evidence_level": source["evidence_level"],
+            "kind": source["kind"],
+            "public_domain": source["public_domain"],
+            "chapter_count": len(chapters_by_classic.get(entity_id, [])),
+            "reviewed_section_count": len(sections_by_classic.get(entity_id, [])),
+        })
+    return rows
+
+
+def reviewed_chapters(resolver: EvidenceResolver | None = None) -> list[dict]:
+    """Return chapter metadata and reviewed section counts without full chapter bodies."""
+    resolver = resolver or EvidenceResolver()
+    sections_by_chapter: dict[str, list[str]] = {}
+    for entity_id, pair in resolver.entities.items():
+        collection, entity = pair
+        if collection == "sections":
+            sections_by_chapter.setdefault(entity["chapter_id"], []).append(entity_id)
+
+    rows = []
+    for entity_id, pair in sorted(resolver.entities.items()):
+        collection, entity = pair
+        if collection != "chapters":
+            continue
+        classic = resolver.entities[entity["classic_id"]][1]
+        rows.append({
+            "id": entity_id,
+            "domain": entity["domain"],
+            "name": entity["name"],
+            "classic_id": classic["id"],
+            "classic_title": classic["name"],
+            "locator": entity["locator"],
+            "reviewed_section_count": len(sections_by_chapter.get(entity_id, [])),
+        })
+    return rows
+
+
+def reviewed_terms(resolver: EvidenceResolver | None = None) -> list[dict]:
+    """Return reviewed term definitions with short evidence references."""
+    resolver = resolver or EvidenceResolver()
+    rows = []
+    for entity_id, pair in sorted(resolver.entities.items()):
+        collection, entity = pair
+        if collection != "terms":
+            continue
+        rows.append({
+            "id": entity_id,
+            "domain": entity["domain"],
+            "name": entity["name"],
+            "aliases": copy.deepcopy(entity.get("aliases", [])),
+            "definition": entity["definition"],
+            "related_terms": copy.deepcopy(entity.get("related_terms", [])),
+            "confidence": entity["confidence"],
+            "attributes": copy.deepcopy(entity.get("attributes", {})),
+            "evidence": [_evidence_from_ref(resolver, ref) for ref in entity.get("source_refs", [])],
+        })
+    return rows
+
+
+def reviewed_sources(resolver: EvidenceResolver | None = None) -> list[dict]:
+    """Return only source metadata used by reviewed Canonical entities."""
+    resolver = resolver or EvidenceResolver()
+    used_source_ids: set[str] = set()
+    for _, entity in resolver.entities.values():
+        source_id = entity.get("source_id")
+        if source_id:
+            used_source_ids.add(source_id)
+        for ref in entity.get("source_refs", []):
+            used_source_ids.add(ref["source_id"])
+
+    rows = []
+    for source_id in sorted(used_source_ids):
+        source = resolver.sources[source_id]
+        rows.append({
+            "id": source_id,
+            "title": source["title"],
+            "evidence_level": source["evidence_level"],
+            "kind": source["kind"],
+            "public_domain": source["public_domain"],
+            "repository": source.get("repository"),
+            "url": source["url"],
+            "commit": source.get("commit"),
+            "license": source.get("license"),
+            "rights_basis": source.get("rights_basis", ""),
+            "review_scope": source.get("review_scope", ""),
+        })
+    return rows
