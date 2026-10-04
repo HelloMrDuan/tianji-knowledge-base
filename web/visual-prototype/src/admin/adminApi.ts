@@ -134,3 +134,34 @@ export function fetchAdminRules(token: string): Promise<AdminRuleRecord[]> {
 export function fetchAdminEvidence(token: string): Promise<AdminEvidenceRecord[]> {
   return fetchProtectedRecords<AdminEvidenceRecord>("/api/v1/admin/governance/evidence", token);
 }
+
+
+export type AdminClassicChapter = {
+  id: string;
+  name: string;
+  locator: string;
+  reviewed_section_count: number;
+  section_ids: string[];
+};
+
+export type AdminClassicRecord = {
+  id: string;
+  domain: string;
+  name: string;
+  body_stage: string;
+  source_id: string;
+  source_title: string;
+  evidence_level: string;
+  source_url: string;
+  commit: string;
+  rights_basis: string;
+  review_scope: string;
+  chapter_count: number;
+  reviewed_section_count: number;
+  phase2_rule_ids: string[];
+  chapters: AdminClassicChapter[];
+};
+
+export function fetchAdminClassics(token: string): Promise<AdminClassicRecord[]> {
+  return fetchProtectedRecords<AdminClassicRecord>("/api/v1/admin/governance/classics", token);
+}

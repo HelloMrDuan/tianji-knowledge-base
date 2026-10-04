@@ -199,37 +199,10 @@ test("original music requires a gesture, persists volume, pauses globally and on
   await expect(page.locator("audio")).toHaveCount(0);
 });
 
-for (const kind of ["classics"]) {
-  test(`admin ${kind} supports filtering, empty states and read-only details`, async ({
-    page,
-  }) => {
-    await page.goto(`/admin/${kind}`);
-    await expect(page.locator(".asset-table tbody tr")).toHaveCount(6);
-    await page.getByRole("combobox", { name: "领域筛选" }).selectOption("六爻");
-    expect(await page.locator(".asset-table tbody tr").count()).toBeGreaterThan(
-      0,
-    );
-    await page.getByRole("textbox").fill("no-matching-record");
-    await expect(page.getByText("没有匹配的示例记录")).toBeVisible();
-    await page.getByRole("button", { name: "清除筛选" }).click();
-    await expect(page.locator(".asset-table tbody tr")).toHaveCount(6);
-    await page
-      .getByRole("button", { name: "详情", exact: true })
-      .first()
-      .click();
-    await expect(page.getByRole("dialog")).toContainText("DEMO-");
-    await expect(page.getByRole("dialog")).toContainText("不提供编辑");
-    await page.keyboard.press("Escape");
-    await expect(
-      page.locator(".ink-landscape, audio, .public-nav"),
-    ).toHaveCount(0);
-  });
-}
-
-test("real rules and evidence admin stay sealed until explicit authorization", async ({
+test("real classics, rules and evidence admin stay sealed until explicit authorization", async ({
   page,
 }) => {
-  for (const route of ["/admin/rules", "/admin/evidence"]) {
+  for (const route of ["/admin/classics", "/admin/rules", "/admin/evidence"]) {
     const requests: string[] = [];
     const listener = (request: any) => {
       if (request.url().includes("/api/v1/admin/governance/"))
@@ -237,7 +210,8 @@ test("real rules and evidence admin stay sealed until explicit authorization", a
     };
     page.on("request", listener);
     await page.goto(route);
-    await expect(page.getByRole("heading", { name: route.endsWith("rules") ? "规则管理" : "Evidence 管理", exact: true })).toBeVisible();
+    const heading = route.endsWith("classics") ? "古籍管理" : route.endsWith("rules") ? "规则管理" : "Evidence 管理";
+    await expect(page.getByRole("heading", { name: heading, exact: true })).toBeVisible();
     await expect(page.getByRole("heading", { name: "需要内部只读授权" })).toBeVisible();
     await expect(page.getByLabel("后台只读令牌")).toHaveAttribute("type", "password");
     expect(requests).toEqual([]);

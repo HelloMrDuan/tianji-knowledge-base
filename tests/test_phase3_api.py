@@ -82,6 +82,28 @@ class UnifiedApiTests(unittest.TestCase):
             for evidence in row['evidence']
         ))
 
+    def test_admin_classics_are_token_gated_metadata_only(self):
+        client=TestClient(create_app(admin_read_token='review-token'))
+        path='/api/v1/admin/governance/classics'
+        self.assertEqual(client.get(path).status_code,401)
+        response=client.get(path,headers={'Authorization':'Bearer review-token'})
+        self.assertEqual(response.status_code,200,response.text)
+        data=response.json()
+        self.assertTrue(data['read_only'])
+        self.assertFalse(data['public_release'])
+        records=data['records']
+        self.assertTrue(records)
+        self.assertTrue(any(row['id']=='bazi.classic.yuanhai' for row in records))
+        self.assertTrue(any(row['chapter_count'] > 0 for row in records))
+        self.assertTrue(any(row['reviewed_section_count'] > 0 for row in records))
+        self.assertTrue(all(row['evidence_level'] in ('A','B','C','D') for row in records))
+        self.assertTrue(all(row['body_stage'] in ('canonical','quarantine') for row in records))
+        serialized=str(records)
+        self.assertNotIn('original_text',serialized)
+        self.assertNotIn('data/quarantine/',serialized)
+        self.assertNotIn('content_path',serialized)
+        self.assertNotIn('TIANJI_ADMIN_READ_TOKEN',serialized)
+
     def test_admin_rules_and_evidence_are_token_gated_reviewed_assets(self):
         client=TestClient(create_app(admin_read_token='review-token'))
         for path in (
