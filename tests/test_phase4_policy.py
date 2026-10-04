@@ -121,7 +121,7 @@ class PolicyTests(unittest.TestCase):
 
     def test_v2_prompt_hash_is_frozen(self):
         self.assertEqual(get_prompt()['sha256'],'e1bd1a809e8f494d9ff5eeba6723b34c3d59cc67fe1e5b779022f6722696a886')
-    def test_real_openai_compatible_http_protocol_uses_v2_system_instruction_all_six(self):
+    def test_real_openai_compatible_http_protocol_uses_v2_system_instruction_all_registered_domains(self):
         calls=[]
         class Handler(BaseHTTPRequestHandler):
             def log_message(self,*args):pass
@@ -141,5 +141,5 @@ class PolicyTests(unittest.TestCase):
                     self.assertEqual(calls[-1][0]['messages'][0]['content'],get_prompt()['instruction'])
                     self.assertEqual(calls[-1][1]['prompt_version'],'explanation-prompt-v2')
                     self.assertNotIn('test-only-credential',json.dumps(calls[-1]))
-                self.assertEqual(len(calls),6)
+                self.assertEqual(len(calls),7)
         finally:server.shutdown();server.server_close();worker.join(timeout=2)
