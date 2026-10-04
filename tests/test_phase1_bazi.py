@@ -14,11 +14,12 @@ class BaziPhase1Tests(unittest.TestCase):
             "bazi.classic.yuanhai",
             "bazi.classic.sanming_tonghui",
             "bazi.classic.xieji",
+            "bazi.classic.ditiansui",
         }.issubset(classic_ids))
         xieji=next(item for item in self.bundle["classics"] if item["id"]=="bazi.classic.xieji")
         self.assertEqual(xieji["body_stage"],"quarantine")
-        self.assertGreaterEqual(len(self.bundle["sections"]),13)
-        self.assertGreaterEqual(len(self.bundle["rules"]),8)
+        self.assertGreaterEqual(len(self.bundle["sections"]),19)
+        self.assertGreaterEqual(len(self.bundle["rules"]),11)
         self.assertTrue(all(r["execution_status"]=="partially_structured" for r in self.bundle["rules"]))
         self.assertEqual(
             {ref["source_id"] for r in self.bundle["rules"] for ref in r["source_refs"]},
@@ -26,6 +27,7 @@ class BaziPhase1Tests(unittest.TestCase):
                 "bazi.source.yuanhai",
                 "bazi.source.sanming-xianchi-niutrans",
                 "bazi.source.xieji-relations",
+                "bazi.source.ditiansui-spouse",
             },
         )
 
