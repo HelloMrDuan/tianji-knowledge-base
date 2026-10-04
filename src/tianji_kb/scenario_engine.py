@@ -44,7 +44,7 @@ SCENARIOS = [
     {"id": "career", "name": "事业财运结构", "status": "production_limited", "public_release": False, "execution": "scenario_api", "depends_on": ["bazi.phase2.ten_gods", "bazi.phase2.hidden_stems", "calendar/lunar-python==1.4.8"], "scope": "聚合原局财星、官杀、食伤、印星、比劫的位置事实，并显示目标年天干十神；不输出事业财运吉凶或评分。"},
     {"id": "compatibility", "name": "缘分合盘", "status": "building", "public_release": False, "execution": None, "depends_on": ["bazi"], "scope": "待双人比较规则与证据。"},
     {"id": "dream", "name": "AI 解梦", "status": "research", "public_release": False, "execution": None, "depends_on": ["dream-rag", "ai"], "scope": "待梦境语料与真实模型校准。"},
-    {"id": "life", "name": "人生全盘", "status": "building", "public_release": False, "execution": None, "depends_on": ["bazi"], "scope": "基础档案可用，完整人生报告待补。"},
+    {"id": "life", "name": "人生总览", "status": "production_limited", "public_release": False, "execution": "scenario_api", "depends_on": ["bazi-profile", "yearly", "romance", "career"], "scope": "聚合八字基础、年度结构、桃花结构、事业财运结构为一份可读总览；不新增任何吉凶判断。"},
 ]
 
 _BY_ID = {item["id"]: item for item in SCENARIOS}
@@ -460,12 +460,140 @@ def _career(inputs):
     }
 
 
+
+def _dedupe_strings(items):
+    seen = set()
+    output = []
+    for item in items:
+        if item and item not in seen:
+            seen.add(item)
+            output.append(item)
+    return output
+
+
+def _life(inputs):
+    _require_exact(inputs, {"birth_value", "target_year"})
+    birth_value = inputs["birth_value"]
+    target_year = inputs["target_year"]
+    if not isinstance(birth_value, str):
+        raise ValueError("birth_value must be an ISO datetime string")
+    if type(target_year) is not int or not 1900 <= target_year <= 2100:
+        raise ValueError("target_year must be an integer from 1900 through 2100")
+
+    profile = _bazi_profile({"value": birth_value})
+    yearly = _yearly({"birth_value": birth_value, "target_year": target_year})
+    romance = _romance({"birth_value": birth_value, "target_year": target_year})
+    career = _career({"birth_value": birth_value, "target_year": target_year})
+
+    evidence = {}
+    for section in (profile, yearly, romance, career):
+        for eid, record in section["evidence"].items():
+            evidence.setdefault(eid, copy.deepcopy(record))
+
+    pillars = profile["result"]["pillars"]
+    day_master = profile["result"]["day_master"]
+    target = yearly["result"]["target_year"]
+    romance_result = romance["result"]
+    career_result = career["result"]
+
+    year_basis = romance_result["target_year_activation"]["year_branch_basis"]
+    day_basis = romance_result["target_year_activation"]["day_branch_basis"]
+    romance_activation_count = int(bool(year_basis["matched"])) + int(bool(day_basis["matched"]))
+
+    highlights = [
+        {
+            "id": "foundation",
+            "title": "命盘基础",
+            "text": f"四柱为{' · '.join(item['ganzhi'] for item in pillars)}；日主为{day_master['stem']}（{day_master['element']}，{day_master['polarity']}）。",
+            "fact_paths": ["/profile/pillars", "/profile/day_master"],
+        },
+        {
+            "id": "yearly",
+            "title": f"{target_year} 年结构",
+            "text": f"{target_year} 干支为{target['ganzhi']}；流年天干{target['stem']}相对日主{day_master['stem']}为{target['stem_ten_god']}。",
+            "fact_paths": ["/yearly/target_year/ganzhi", "/yearly/target_year/stem_ten_god"],
+        },
+        {
+            "id": "romance",
+            "title": "桃花结构",
+            "text": (
+                f"年支基准咸池目标为{romance_result['xianchi']['targets']['year_branch']}，"
+                f"日支基准目标为{romance_result['xianchi']['targets']['day_branch']}；"
+                f"{target_year} 年地支{romance_result['target_year']['branch']}命中 {romance_activation_count} 个基准。"
+            ),
+            "fact_paths": ["/romance/xianchi/targets", "/romance/target_year_activation"],
+        },
+        {
+            "id": "career",
+            "title": "事业财运结构",
+            "text": (
+                f"{target_year} 流年天干{career_result['target_year']['stem']}对应"
+                f"{career_result['target_year']['stem_ten_god']}，归入"
+                f"{career_result['target_year']['structure_group_label'] or '未分组'}结构。"
+            ),
+            "fact_paths": ["/career/target_year/stem_ten_god", "/career/target_year/structure_group"],
+        },
+    ]
+
+    rule_matches = []
+    trace = []
+    for section_id, section in (
+        ("profile", profile),
+        ("yearly", yearly),
+        ("romance", romance),
+        ("career", career),
+    ):
+        for rule in section["rule_matches"]:
+            item = copy.deepcopy(rule)
+            item["scenario_section"] = section_id
+            rule_matches.append(item)
+        for step in section["trace"]:
+            item = copy.deepcopy(step)
+            item["scenario_section"] = section_id
+            trace.append(item)
+
+    return {
+        "scenario_id": "life",
+        "status": "production_limited",
+        "public_release": False,
+        "deterministic": True,
+        "result": {
+            "report_version": "life-overview-v1",
+            "target_year": target_year,
+            "highlights": highlights,
+            "profile": {
+                "pillars": copy.deepcopy(pillars),
+                "day_master": copy.deepcopy(day_master),
+            },
+            "yearly": copy.deepcopy(yearly["result"]),
+            "romance": copy.deepcopy(romance["result"]),
+            "career": copy.deepcopy(career["result"]),
+            "release_scope": "deterministic_aggregate_only",
+        },
+        "rule_matches": rule_matches,
+        "trace": trace,
+        "evidence": evidence,
+        "warnings": _dedupe_strings(
+            profile["warnings"] + yearly["warnings"] + romance["warnings"] + career["warnings"]
+        ),
+        "limitations": _dedupe_strings([
+            "人生总览只聚合已经通过校验的结构事实，不新增任何吉凶、性格或人生事件推断。",
+            *profile["limitations"],
+            *yearly["limitations"],
+            *romance["limitations"],
+            *career["limitations"],
+            "AI 不参与本总览计算。",
+        ]),
+    }
+
+
 _EXECUTORS = {
     "bazi-profile": _bazi_profile,
     "question": _question,
     "yearly": _yearly,
     "romance": _romance,
     "career": _career,
+    "life": _life,
 }
 
 

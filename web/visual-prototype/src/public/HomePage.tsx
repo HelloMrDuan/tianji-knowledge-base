@@ -11,6 +11,7 @@ export function HomePage() {
   const yearly = scenarioProducts.find((item) => item.id === "yearly")!;
   const romance = scenarioProducts.find((item) => item.id === "romance")!;
   const career = scenarioProducts.find((item) => item.id === "career")!;
+  const life = scenarioProducts.find((item) => item.id === "life")!;
   return (
     <div className="scenario-home">
       <section className="scenario-hero">
@@ -26,9 +27,12 @@ export function HomePage() {
             后台再选择已经验证的确定性引擎、规则与典籍依据。
           </p>
           <div className="scenario-hero-actions">
-            <Link className="button primary" href="/ask">
-              一事占问
+            <Link className="button primary" href="/life-overview">
+              生成我的人生总览
               <Icon name="arrow" size={18} />
+            </Link>
+            <Link className="button outlined" href="/ask">
+              一事占问
             </Link>
             <a className="text-action" href="#scenarios">
               看全部场景
@@ -91,30 +95,21 @@ export function HomePage() {
 
         <div className="scenario-featured">
           <div>
-            <span className="eyebrow">五条真实闭环</span>
-            <h3>{baziProfile.name} + {question.name} + {yearly.name} + {romance.name} + {career.name}</h3>
+            <span className="eyebrow">从散点能力到一份总览</span>
+            <h3>{life.name} · 把 {baziProfile.name}、{yearly.name}、{romance.name}、{career.name} 聚到一起</h3>
             <p>
-              八字基础档案与六爻一事占问调用 <code>/api/v1/execute</code>，
-              2026 流年、桃花姻缘与事业财运结构都调用真实 Scenario Engine。五条链路均返回确定性结果、规则、
-              Evidence 和 Trace；后端不可用就明确报错，不拿静态示例冒充结果。
+              现在不需要在多个页面之间来回拼答案。人生总览会一次调用真实 Scenario Engine，
+              聚合四条已经验证的确定性链路，并保留 RuleMatch、Evidence 和 Trace。
+              {question.name} 继续作为遇到具体事情时的即时入口。
             </p>
           </div>
           <div className="scenario-featured-actions">
-            <Link className="button outlined" href="/bazi-profile">
-              建立八字档案
-            </Link>
-            <Link className="button outlined" href="/yearly-structure">
-              看 2026 结构
-            </Link>
-            <Link className="button outlined" href="/romance-structure">
-              看桃花结构
-            </Link>
-            <Link className="button outlined" href="/career-wealth-structure">
-              看事业财运结构
-            </Link>
-            <Link className="button primary" href="/ask">
-              开始占问
+            <Link className="button primary" href="/life-overview">
+              生成人生总览
               <Icon name="arrow" size={18} />
+            </Link>
+            <Link className="button outlined" href="/ask">
+              有具体问题再占问
             </Link>
           </div>
         </div>
