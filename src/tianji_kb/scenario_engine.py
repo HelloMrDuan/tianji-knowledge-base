@@ -37,7 +37,7 @@ SCENARIOS = [
         "depends_on": ["bazi/ziping-structural-v1", "calendar/lunar-python==1.4.8"],
         "scope": "原局四柱 + 目标干支年 + 流年天干相对日主的十神结构；不输出年度吉凶。",
     },
-    {"id": "daily", "name": "今日运势", "status": "building", "public_release": False, "execution": None, "depends_on": ["bazi"], "scope": "待日运规则与证据。"},
+    {"id": "daily", "name": "今日结构", "status": "production_limited", "public_release": False, "execution": "scenario_api", "depends_on": ["bazi.phase2.ten_gods", "calendar/lunar-python==1.4.8"], "scope": "出生原局 + 目标日干支 + 目标日天干相对日主的十神结构；不输出今日吉凶。"},
     {"id": "weekly", "name": "本周运势", "status": "building", "public_release": False, "execution": None, "depends_on": ["bazi"], "scope": "待周运规则与证据。"},
     {"id": "monthly", "name": "本月运势", "status": "building", "public_release": False, "execution": None, "depends_on": ["bazi"], "scope": "待流月规则与证据。"},
     {"id": "romance", "name": "桃花结构", "status": "production_limited", "public_release": False, "execution": "scenario_api", "depends_on": ["bazi/ziping-structural-v1", "bazi.phase2.xianchi_lookup"], "scope": "分别按年支、日支返回咸池目标支、原局命中与目标年份地支激活；不输出婚恋吉凶。"},
@@ -86,6 +86,103 @@ def _bazi_profile(inputs):
 def _question(inputs):
     _require_exact(inputs, {"value", "yao_values"})
     return _normalize_raw("question", execute("liuyao", inputs))
+
+
+def _daily(inputs):
+    _require_exact(inputs, {"birth_value", "target_value"})
+    birth_value = inputs["birth_value"]
+    target_value = inputs["target_value"]
+    if not isinstance(birth_value, str) or not isinstance(target_value, str):
+        raise ValueError("birth_value and target_value must be ISO datetime strings")
+
+    natal = execute("bazi", {"value": birth_value})
+    target_calendar = calendar(target_value)
+    day_ganzhi = target_calendar["day_ganzhi"]
+    day_stem, day_branch = day_ganzhi
+    day_master = natal["result"]["day_master"]["stem"]
+    target_ten_god = ten_god(day_master, day_stem)
+
+    base_rule = next(
+        rule for rule in natal["rule_matches"] if rule["rule_id"] == "bazi.phase2.ten_gods"
+    )
+    evidence_ids = list(base_rule["evidence_ids"])
+    evidence = {eid: copy.deepcopy(natal["evidence"][eid]) for eid in evidence_ids}
+
+    result = {
+        "natal": {
+            "pillars": copy.deepcopy(natal["result"]["pillars"]),
+            "day_master": copy.deepcopy(natal["result"]["day_master"]),
+        },
+        "target_day": {
+            "value": target_value,
+            "ganzhi": day_ganzhi,
+            "stem": day_stem,
+            "branch": day_branch,
+            "stem_ten_god": target_ten_god,
+            "solar_term": target_calendar["solar_term"],
+            "calendar_provider": target_calendar["calendar_provider"],
+            "day_boundary": target_calendar["day_boundary"],
+        },
+        "release_scope": "daily_structure_only",
+    }
+    rule_match = {
+        "rule_id": "bazi.scenario.daily_stem_ten_god",
+        "derived_from_rule_id": "bazi.phase2.ten_gods",
+        "variant": "ziping-structural-v1",
+        "matched": True,
+        "kind": "scenario_composition",
+        "evidence_scope": base_rule["evidence_scope"],
+        "facts": {
+            "day_master": day_master,
+            "target_day_ganzhi": day_ganzhi,
+            "target_day_stem": day_stem,
+            "target_day_branch": day_branch,
+            "target_day_stem_ten_god": target_ten_god,
+        },
+        "evidence_ids": evidence_ids,
+    }
+    trace = [
+        {
+            "step": "natal_bazi",
+            "provider": "bazi/ziping-structural-v1",
+            "facts": {"day_master": copy.deepcopy(natal["result"]["day_master"])},
+        },
+        {
+            "step": "target_day_calendar",
+            "provider": target_calendar["calendar_provider"],
+            "inputs": {"target_value": target_value},
+            "facts": {
+                "day_ganzhi": day_ganzhi,
+                "solar_term": target_calendar["solar_term"],
+                "day_boundary": target_calendar["day_boundary"],
+            },
+        },
+        {
+            "step": "target_day_ten_god",
+            "derived_from_rule_id": "bazi.phase2.ten_gods",
+            "facts": copy.deepcopy(rule_match["facts"]),
+            "evidence_ids": evidence_ids,
+        },
+    ]
+    return {
+        "scenario_id": "daily",
+        "status": "production_limited",
+        "public_release": False,
+        "deterministic": True,
+        "result": result,
+        "rule_matches": [rule_match],
+        "trace": trace,
+        "evidence": evidence,
+        "warnings": [
+            "今日结构运行层已可用，但当前不对普通用户自动发布今日吉凶或行动建议。",
+        ],
+        "limitations": [
+            "当前只描述目标日干支及其天干相对日主的十神结构，不等同于今日运势。",
+            "尚未纳入旺衰、喜用、格局、岁运/月令/日支互动、吉凶神煞与事件应期。",
+            "不输出今日幸运指数、宜忌、财运/桃花/事业评分或行动建议。",
+            "AI 不参与本场景计算。",
+        ],
+    }
 
 
 def _yearly(inputs):
@@ -463,6 +560,7 @@ def _career(inputs):
 _EXECUTORS = {
     "bazi-profile": _bazi_profile,
     "question": _question,
+    "daily": _daily,
     "yearly": _yearly,
     "romance": _romance,
     "career": _career,
