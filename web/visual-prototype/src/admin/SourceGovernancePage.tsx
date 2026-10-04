@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Dialog } from "../shared/Dialog";
-import { fetchAdminClassics, type AdminClassicRecord } from "./adminApi";
+import { fetchAdminSources, type AdminSourceRecord } from "./adminApi";
 import "./governance-assets.css";
 
 const tokenKey = "tianji.admin.read.token.v1";
@@ -15,16 +15,16 @@ function readToken() {
   }
 }
 
-export function ClassicGovernancePage() {
+export function SourceGovernancePage() {
   const [token, setToken] = useState(readToken);
-  const [records, setRecords] = useState<AdminClassicRecord[]>([]);
+  const [records, setRecords] = useState<AdminSourceRecord[]>([]);
   const [connected, setConnected] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [query, setQuery] = useState("");
   const [domain, setDomain] = useState("全部领域");
-  const [stage, setStage] = useState("全部状态");
-  const [selected, setSelected] = useState<AdminClassicRecord | null>(null);
+  const [stage, setStage] = useState("全部等级");
+  const [selected, setSelected] = useState<AdminSourceRecord | null>(null);
 
   async function load(nextToken: string) {
     if (!nextToken.trim()) {
@@ -34,7 +34,7 @@ export function ClassicGovernancePage() {
     setLoading(true);
     setError("");
     try {
-      setRecords(await fetchAdminClassics(nextToken.trim()));
+      setRecords(await fetchAdminSources(nextToken.trim()));
       setConnected(true);
       try {
         sessionStorage.setItem(tokenKey, nextToken.trim());
@@ -44,7 +44,7 @@ export function ClassicGovernancePage() {
     } catch (err) {
       setConnected(false);
       setRecords([]);
-      setError(err instanceof Error ? err.message : "后台古籍治理数据读取失败。");
+      setError(err instanceof Error ? err.message : "后台来源治理数据读取失败。");
       try {
         sessionStorage.removeItem(tokenKey);
       } catch {
@@ -80,20 +80,20 @@ export function ClassicGovernancePage() {
   }
 
   const domains = useMemo(
-    () => ["全部领域", ...Array.from(new Set(records.map((row) => row.domain))).sort()],
+    () => ["全部领域", ...Array.from(new Set(records.flatMap((row) => row.domains))).sort()],
     [records],
   );
   const stages = useMemo(
-    () => ["全部状态", ...Array.from(new Set(records.map((row) => row.body_stage))).sort()],
+    () => ["全部等级", ...Array.from(new Set(records.map((row) => row.evidence_level))).sort()],
     [records],
   );
   const visible = useMemo(
     () =>
       records.filter(
         (row) =>
-          (domain === "全部领域" || row.domain === domain) &&
-          (stage === "全部状态" || row.body_stage === stage) &&
-          `${row.name} ${row.id} ${row.source_title} ${row.source_id}`
+          (domain === "全部领域" || row.domains.includes(domain)) &&
+          (stage === "全部等级" || row.evidence_level === stage) &&
+          `${row.title} ${row.id} ${row.repository || ""} ${row.license || ""}`
             .toLowerCase()
             .includes(query.trim().toLowerCase()),
       ),
@@ -105,8 +105,8 @@ export function ClassicGovernancePage() {
       <>
         <div className="admin-page-heading">
           <div>
-            <h1>古籍管理</h1>
-            <p>真实读取 Canonical 书目、章节元数据与审核覆盖；不提供整书浏览。</p>
+            <h1>来源管理</h1>
+            <p>真实读取已登记证据来源、固定版本、许可与审核边界；不返回内部文件路径。</p>
           </div>
           <span className="admin-readonly">
             <Icon name="shield" size={16} />
@@ -119,7 +119,7 @@ export function ClassicGovernancePage() {
             <div>
               <h2>需要内部只读授权</h2>
               <p>
-                未授权时页面不会请求任何真实书目或章节资产。服务端令牌由
+                未授权时页面不会请求任何真实来源资产。服务端令牌由
                 <code> TIANJI_ADMIN_READ_TOKEN </code>配置。
               </p>
             </div>
@@ -137,27 +137,27 @@ export function ClassicGovernancePage() {
               />
             </label>
             <button className="admin-button" disabled={loading}>
-              {loading ? "正在验证…" : "读取真实古籍"}
+              {loading ? "正在验证…" : "读取真实来源"}
             </button>
           </form>
           {error && <p className="governance-auth-error" role="alert">{error}</p>}
           <div className="module-gate">
-            接口只返回书目/章节元数据、审核范围和统计；完整古籍正文、RAW、Quarantine 文件与内部路径不会通过此页返回。
+            接口只返回来源治理元数据与使用统计；正文、RAW/Quarantine 内容、content_path 和内部文件路径不会通过此页返回。
           </div>
         </section>
       </>
     );
   }
 
-  const reviewedSections = records.reduce((sum, row) => sum + row.reviewed_section_count, 0);
-  const phase2Rules = new Set(records.flatMap((row) => row.phase2_rule_ids)).size;
+  const reviewedSections = records.reduce((sum, row) => sum + row.section_count, 0);
+  const repositories = new Set(records.map((row) => row.repository).filter(Boolean)).size;
 
   return (
     <>
       <div className="admin-page-heading">
         <div>
-          <h1>古籍管理</h1>
-          <p>真实 Canonical 书目、章节元数据与审核覆盖；完整书体仍保持内部隔离。</p>
+          <h1>来源管理</h1>
+          <p>真实证据来源、固定版本和权利边界；知识正文仍保持内部隔离。</p>
         </div>
         <div className="governance-heading-actions">
           <span className="admin-status success">真实数据 · 只读</span>
@@ -166,10 +166,10 @@ export function ClassicGovernancePage() {
       </div>
 
       <div className="asset-summary">
-        <div><span>真实书目</span><strong>{records.length}</strong></div>
+        <div><span>真实来源</span><strong>{records.length}</strong></div>
         <div><span>当前筛选</span><strong>{visible.length}</strong></div>
-        <div><span>审核短引</span><strong>{reviewedSections}</strong></div>
-        <div><span>Phase2 关联</span><strong>{phase2Rules}</strong></div>
+        <div><span>审核选段</span><strong>{reviewedSections}</strong></div>
+        <div><span>上游仓库</span><strong>{repositories}</strong></div>
       </div>
 
       <section className="admin-card governance-asset-card">
@@ -177,83 +177,81 @@ export function ClassicGovernancePage() {
           <div className="asset-search">
             <Icon name="search" size={17} />
             <input
-              aria-label="搜索古籍管理"
+              aria-label="搜索来源管理"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="搜索书名、ID 或来源"
+              placeholder="搜索来源、ID、仓库或许可"
             />
           </div>
           <div className="asset-filters">
             <select aria-label="领域筛选" value={domain} onChange={(event) => setDomain(event.target.value)}>
               {domains.map((item) => <option key={item}>{item}</option>)}
             </select>
-            <select aria-label="状态筛选" value={stage} onChange={(event) => setStage(event.target.value)}>
+            <select aria-label="Evidence 等级筛选" value={stage} onChange={(event) => setStage(event.target.value)}>
               {stages.map((item) => <option key={item}>{item}</option>)}
             </select>
           </div>
         </div>
 
-        <div className="asset-table-scroll" role="region" aria-label="古籍管理真实记录表" tabIndex={0}>
+        <div className="asset-table-scroll" role="region" aria-label="来源管理真实记录表" tabIndex={0}>
           <table className="asset-table governance-table">
             <thead>
               <tr>
-                <th>书目 / ID</th><th>领域</th><th>Body Stage</th><th>来源 / 等级</th><th>章节</th><th>审核短引</th><th>Phase2</th><th>操作</th>
+                <th>来源 / ID</th><th>领域</th><th>类型 / 等级</th><th>许可</th><th>书目</th><th>审核选段</th><th>引用实体</th><th>操作</th>
               </tr>
             </thead>
             <tbody>
               {visible.map((row) => (
                 <tr key={row.id}>
-                  <td><strong>{row.name}</strong><small className="asset-id">{row.id}</small></td>
-                  <td><span className="domain-label">{row.domain}</span></td>
-                  <td><span className={`admin-status ${row.body_stage === "canonical" ? "success" : "warning"}`}>{row.body_stage}</span></td>
-                  <td className="secondary-cell">{row.source_title}<small>{row.evidence_level} · {row.source_id}</small></td>
-                  <td className="count-cell">{row.chapter_count}</td>
-                  <td className="count-cell">{row.reviewed_section_count}</td>
-                  <td className="count-cell">{row.phase2_rule_ids.length}</td>
+                  <td><strong>{row.title}</strong><small className="asset-id">{row.id}</small></td>
+                  <td className="secondary-cell">{row.domains.join(" · ") || "—"}</td>
+                  <td className="secondary-cell">{row.kind}<small>{row.evidence_level}</small></td>
+                  <td className="secondary-cell">{row.license || "未登记"}<small>{row.public_domain === true ? "Public Domain" : row.public_domain === false ? "非公版" : "未声明"}</small></td>
+                  <td className="count-cell">{row.classic_ids.length}</td>
+                  <td className="count-cell">{row.section_count}</td>
+                  <td className="count-cell">{row.entity_count}</td>
                   <td><button className="table-action" onClick={() => setSelected(row)}>详情 <Icon name="chevron" size={12} /></button></td>
                 </tr>
               ))}
             </tbody>
           </table>
           {visible.length === 0 && (
-            <div className="admin-empty-results"><Icon name="search" size={26} /><p>没有匹配的真实书目</p></div>
+            <div className="admin-empty-results"><Icon name="search" size={26} /><p>没有匹配的真实来源</p></div>
           )}
         </div>
         <div className="asset-table-footer">
           <span>共 {visible.length} / {records.length} 条</span>
-          <span>内部只读 · 不返回整书正文</span>
+          <span>内部只读 · 不返回正文与内部路径</span>
         </div>
       </section>
 
       {selected && (
-        <Dialog title="真实书目详情" onClose={() => setSelected(null)} className="admin-detail-dialog">
+        <Dialog title="真实来源详情" onClose={() => setSelected(null)} className="admin-detail-dialog">
           <div className="governance-detail">
             <h3>{selected.name}</h3>
             <code>{selected.id}</code>
             <dl className="admin-detail-fields">
-              <div><dt>领域</dt><dd>{selected.domain}</dd></div>
-              <div><dt>Body Stage</dt><dd>{selected.body_stage}</dd></div>
               <div><dt>Evidence 等级</dt><dd>{selected.evidence_level}</dd></div>
-              <div><dt>章节 / 短引</dt><dd>{selected.chapter_count} / {selected.reviewed_section_count}</dd></div>
+              <div><dt>类型</dt><dd>{selected.kind}</dd></div>
+              <div><dt>许可</dt><dd>{selected.license || "未登记"}</dd></div>
+              <div><dt>公版标记</dt><dd>{selected.public_domain === true ? "是" : selected.public_domain === false ? "否" : "未声明"}</dd></div>
+              <div><dt>抓取日期</dt><dd>{selected.retrieved_at || "未登记"}</dd></div>
+              <div><dt>使用选段</dt><dd>{selected.section_count}</dd></div>
             </dl>
-            <h4>来源</h4>
-            <p>{selected.source_title} · {selected.source_id}</p>
-            <p>固定提交：<code>{selected.commit}</code></p>
-            <h4>审核范围</h4>
-            <p>{selected.review_scope || "当前来源未登记额外审核说明。"}</p>
+            <h4>上游与固定版本</h4>
+            <p>{selected.repository || "未登记仓库"} · <code>{selected.commit}</code></p>
+            <p>{selected.author || "作者未确证"} · {selected.era || "时代未登记"}</p>
             <h4>权利边界</h4>
-            <p>{selected.rights_basis || "按来源登记策略处理。"}</p>
-            <h4>章节摘要</h4>
-            {selected.chapters.length ? selected.chapters.map((chapter) => (
-              <article className="governance-binding" key={chapter.id}>
-                <strong>{chapter.name}</strong><span>{chapter.reviewed_section_count} 个审核短引</span>
-                <small>{chapter.locator || chapter.id}</small>
-              </article>
-            )) : <p>当前没有进入治理模型的章节实体。</p>}
-            <h4>Phase2 关联</h4>
-            <p>{selected.phase2_rule_ids.join(" · ") || "当前未进入 Phase2 executable。"}</p>
+            <p>{selected.rights_basis || "未登记额外权利说明。"}</p>
+            <h4>审核范围</h4>
+            <p>{selected.review_scope || "未登记额外审核范围。"}</p>
+            <h4>领域</h4>
+            <p>{selected.domains.join(" · ") || "当前未绑定领域。"}</p>
+            <h4>关联书目 / 章节</h4>
+            <p>{selected.classic_ids.join(" · ") || "无书目关联。"}</p>
+            <p>{selected.chapter_ids.join(" · ") || "无章节关联。"}</p>
             <div className="module-gate">
-              详情页不返回章节正文、完整古籍、RAW/Quarantine 文件内容或内部文件路径。
+              详情页不返回来源正文、RAW/Quarantine 文件内容、content_path、sha256 或内部文件路径。
             </div>
           </div>
         </Dialog>
@@ -262,8 +260,8 @@ export function ClassicGovernancePage() {
       <div className="asset-boundary-note">
         <Icon name="shield" size={18} />
         <div>
-          <strong>书目治理与公开阅读严格分离</strong>
-          <p>后台可看真实书目与审核覆盖，公开前台仍然只能获得当前推演实际命中的必要 Evidence。</p>
+          <strong>来源治理与公开产品严格分离</strong>
+          <p>后台可看真实来源、固定版本、许可与审核边界；公开前台不提供来源库浏览。</p>
         </div>
       </div>
     </>
