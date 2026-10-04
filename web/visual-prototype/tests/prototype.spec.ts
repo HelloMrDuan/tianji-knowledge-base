@@ -112,26 +112,45 @@ test("result hierarchy, collapsed process, related evidence and accessible detai
   await expect(page.locator(".trace-section li")).toHaveCount(5);
 });
 
-test("sample favorites persist locally and history stays labelled as example", async ({
+test("real local reading history and favorites persist without demo records", async ({
   page,
 }) => {
-  await page.goto("/liuyao/result");
-  await page.getByRole("button", { name: "收藏示例", exact: true }).click();
+  await page.goto("/");
+  await page.evaluate(() => {
+    localStorage.setItem(
+      "tianji.product.readings.v1",
+      JSON.stringify([
+        {
+          id: "reading-real-1",
+          scenarioId: "daily",
+          label: "今日结构",
+          glyph: "今",
+          title: "2026-10-04 · 甲子",
+          subtitle: "正财 · 咸池命中 1 个基准",
+          href: "/daily-structure",
+          createdAt: "2026-10-04T07:00:00.000Z",
+          favorite: false,
+          storage: "browser-local",
+        },
+      ]),
+    );
+  });
+
+  await page.goto("/history");
+  await expect(page.locator("main")).toContainText("真实推演，才会留下记录");
+  await expect(page.locator(".journal-row")).toHaveCount(1);
+  await expect(page.locator(".journal-row")).toContainText("2026-10-04 · 甲子");
+  await expect(page.locator("main")).not.toContainText("乾为天 → 天风姤");
+
+  await page.getByRole("button", { name: "收藏：2026-10-04 · 甲子" }).click();
+  await page.goto("/favorites");
+  await expect(page.locator(".journal-row")).toHaveCount(1);
+  await expect(page.locator(".journal-row")).toContainText("当前浏览器");
+
   await page.reload();
-  await expect(page.getByRole("button", { name: "已收藏" })).toHaveAttribute(
-    "aria-pressed",
-    "true",
-  );
-  await page
-    .locator(".public-nav")
-    .getByRole("link", { name: "收藏", exact: true })
-    .click();
-  await expect(page.locator("main")).toContainText("乾为天");
-  await page
-    .locator(".public-nav")
-    .getByRole("link", { name: "历史记录" })
-    .click();
-  await expect(page.locator("main")).toContainText("静态");
+  await expect(page.locator(".journal-row")).toHaveCount(1);
+  await page.getByRole("button", { name: "删除记录：2026-10-04 · 甲子" }).click();
+  await expect(page.getByRole("heading", { name: "还没有真实收藏" })).toBeVisible();
 });
 
 test("original music requires a gesture, persists volume, pauses globally and on admin transition", async ({
