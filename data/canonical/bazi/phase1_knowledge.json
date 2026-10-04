@@ -23,6 +23,13 @@
       "name": "钦定协纪辨方书",
       "source_id": "bazi.source.xieji-relations",
       "body_stage": "quarantine"
+    },
+    {
+      "id": "bazi.classic.ditiansui",
+      "domain": "bazi",
+      "name": "滴天髓阐微",
+      "source_id": "bazi.source.ditiansui-spouse",
+      "body_stage": "canonical"
     }
   ],
   "chapters": [
@@ -67,6 +74,20 @@
       "name": "络绎赋·日支妻位",
       "classic_id": "bazi.classic.yuanhai",
       "locator": "《渊海子平》妖祥后《络绎赋》"
+    },
+    {
+      "id": "bazi.chapter.spouse_stars",
+      "domain": "bazi",
+      "name": "传统配偶星观察口径",
+      "classic_id": "bazi.classic.yuanhai",
+      "locator": "《渊海子平》六亲总篇"
+    },
+    {
+      "id": "bazi.chapter.ditiansui_spouse_boundary",
+      "domain": "bazi",
+      "name": "夫妻与女命观察边界",
+      "classic_id": "bazi.classic.ditiansui",
+      "locator": "《滴天髓阐微》六亲论·夫妻、女命章"
     }
   ],
   "sections": [
@@ -308,6 +329,51 @@
         "status": "approved",
         "method": "逐字核对固定公版电子快照；结构表将“夘”规范为“卯”。",
         "scope": "只确认申子辰水、巳酉丑金、寅午戌火、亥卯未木四组三合结构；不据成局自动输出吉凶或婚恋结论。"
+      }
+    },
+    {
+      "id": "bazi.section.s017",
+      "domain": "bazi",
+      "name": "渊海·传统配偶星口径",
+      "classic_id": "bazi.classic.yuanhai",
+      "chapter_id": "bazi.chapter.spouse_stars",
+      "source_id": "bazi.source.yuanhai",
+      "text": "用日干为主:正印正母;偏印偏母及祖父也;偏财是父,乃母之夫星也,亦为偏妻;正财为妻;偏财为妾,为父是也;比肩为兄弟姐妹也;七杀是男;正官是女;食神是男孙;伤官是女孙及祖母也。\n 妇人命取六亲,与男命不同:取官星为夫星;七杀是偏夫;食神是男;伤官是女。",
+      "locator": "《渊海子平》六亲总篇；固定短引",
+      "review": {
+        "status": "approved",
+        "method": "逐字核对已 Canonical《渊海子平》固定段。",
+        "scope": "只确认传统文本中男命以财、女命以官杀作为配偶观察的一种口径。产品不采用“妻妾/偏夫”等历史身份标签，也不据星位直接判断婚姻。"
+      }
+    },
+    {
+      "id": "bazi.section.s018",
+      "domain": "bazi",
+      "name": "滴天髓·不可专执官星论夫",
+      "classic_id": "bazi.classic.ditiansui",
+      "chapter_id": "bazi.chapter.ditiansui_spouse_boundary",
+      "source_id": "bazi.source.ditiansui-spouse",
+      "text": "不必专执官星而论夫。专执伤食而论子。但以安祥顺静为贵,二德三奇不必论,咸池驿马纵有验,总之于理不长。其中究论,不可不详。",
+      "locator": "《滴天髓阐微》六亲论·女命章；固定短引",
+      "review": {
+        "status": "approved",
+        "method": "逐字核对固定公版电子快照与 Canonical 清洗版。",
+        "scope": "作为反机械化边界：即使启用传统女命口径，也只能定位官杀星位，不能把官杀自动等同于真实配偶质量或婚姻结果。"
+      }
+    },
+    {
+      "id": "bazi.section.s019",
+      "domain": "bazi",
+      "name": "滴天髓·财星看妻亦须活法",
+      "classic_id": "bazi.classic.ditiansui",
+      "chapter_id": "bazi.chapter.ditiansui_spouse_boundary",
+      "source_id": "bazi.source.ditiansui-spouse",
+      "text": "子平之法,以财为妻,财是我克。人以财来侍我,此理出于正论",
+      "locator": "《滴天髓阐微》六亲论·夫妻；固定短引",
+      "review": {
+        "status": "approved",
+        "method": "逐字核对固定公版电子快照与 Canonical 清洗版。",
+        "scope": "只确认传统财星配偶观察口径；同章明确要求结合日主衰旺喜忌活看，本轮不执行旺衰与喜忌。"
       }
     }
   ],
@@ -565,6 +631,47 @@
       "attributes": {
         "definition_kind": "reviewed_structural_summary",
         "production_interpretation": false
+      }
+    },
+    {
+      "id": "bazi.term.traditional_spouse_star_lens",
+      "domain": "bazi",
+      "name": "传统配偶星观察口径",
+      "aliases": [
+        "配偶星",
+        "妻星",
+        "夫星"
+      ],
+      "definition": "在用户显式选择传统男命口径时，以正财/偏财作为配偶星候选；显式选择传统女命口径时，以正官/七杀作为候选。该口径只定位星位，不等同于现代关系身份、关系质量或婚恋结论。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s017",
+          "original_text": "用日干为主:正印正母;偏印偏母及祖父也;偏财是父,乃母之夫星也,亦为偏妻;正财为妻;偏财为妾,为父是也;比肩为兄弟姐妹也;七杀是男;正官是女;食神是男孙;伤官是女孙及祖母也。\n 妇人命取六亲,与男命不同:取官星为夫星;七杀是偏夫;食神是男;伤官是女。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s018",
+          "original_text": "不必专执官星而论夫。专执伤食而论子。但以安祥顺静为贵,二德三奇不必论,咸池驿马纵有验,总之于理不长。其中究论,不可不详。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s019",
+          "original_text": "子平之法,以财为妻,财是我克。人以财来侍我,此理出于正论",
+          "role": "classical"
+        }
+      ],
+      "related_terms": [
+        "bazi.term.ten_gods",
+        "bazi.term.spouse_palace_day_branch"
+      ],
+      "confidence": "medium",
+      "attributes": {
+        "definition_kind": "reviewed_structural_summary",
+        "production_interpretation": false,
+        "user_selection_required": true
       }
     }
   ],
@@ -1023,6 +1130,63 @@
       "confidence": "medium",
       "term_refs": [
         "bazi.term.branch_triple_harmonies"
+      ]
+    },
+    {
+      "id": "bazi.rule.r011",
+      "domain": "bazi",
+      "name": "传统配偶星候选定位",
+      "conditions": [
+        "调用方必须显式选择 traditional_role=male 或 traditional_role=female",
+        "male 仅采用正财/偏财候选；female 仅采用正官/七杀候选",
+        "只扫描四柱天干与藏干中的已验证十神结构"
+      ],
+      "inputs": {
+        "traditional_role": "male 或 female；仅表示传统观察口径",
+        "pillars": "已验证四柱与十神结构"
+      },
+      "operation": {
+        "kind": "relation"
+      },
+      "result": {
+        "candidate_ten_gods": "传统候选十神",
+        "visible_positions": "天干命中位置",
+        "hidden_positions": "藏干命中位置"
+      },
+      "exceptions": [
+        "不得从姓名、生日、称呼或其他字段推断 traditional_role。",
+        "不得把偏正财对应到现代妻妾身份，也不得把正官/七杀对应到现代配偶身份等级。",
+        "《滴天髓阐微》明确反对女命机械专执官星论夫；因此本规则只做候选星位定位。",
+        "不得据候选星数量、位置或缺失输出婚姻吉凶、正缘、配偶性格、结婚时间或关系评分。"
+      ],
+      "execution_status": "partially_structured",
+      "school": "子平六亲·传统观察口径",
+      "variant": "ziping-structural-v1",
+      "difference": "把古籍中的性别化配偶星规则降格为用户显式选择的传统观察 lens；不参与现代关系身份推断。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s017",
+          "original_text": "用日干为主:正印正母;偏印偏母及祖父也;偏财是父,乃母之夫星也,亦为偏妻;正财为妻;偏财为妾,为父是也;比肩为兄弟姐妹也;七杀是男;正官是女;食神是男孙;伤官是女孙及祖母也。\n 妇人命取六亲,与男命不同:取官星为夫星;七杀是偏夫;食神是男;伤官是女。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s018",
+          "original_text": "不必专执官星而论夫。专执伤食而论子。但以安祥顺静为贵,二德三奇不必论,咸池驿马纵有验,总之于理不长。其中究论,不可不详。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s019",
+          "original_text": "子平之法,以财为妻,财是我克。人以财来侍我,此理出于正论",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium",
+      "term_refs": [
+        "bazi.term.traditional_spouse_star_lens",
+        "bazi.term.ten_gods"
       ]
     }
   ],
