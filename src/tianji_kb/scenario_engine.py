@@ -44,7 +44,7 @@ SCENARIOS = [
     {"id": "monthly", "name": "本月结构", "status": "production_limited", "public_release": False, "execution": "scenario_api", "depends_on": ["bazi.phase2.ten_gods", "bazi.phase2.xianchi_lookup", "calendar/lunar-python==1.4.8"], "scope": "列出目标公历月每日干支、十神结构与咸池日级命中，并做结构频次汇总；不输出月运吉凶。"},
     {"id": "romance", "name": "桃花结构", "status": "production_limited", "public_release": False, "execution": "scenario_api", "depends_on": ["bazi/ziping-structural-v1", "bazi.phase2.xianchi_lookup"], "scope": "分别按年支、日支返回咸池目标支、原局命中与目标年份地支激活；不输出婚恋吉凶。"},
     {"id": "career", "name": "事业财运结构", "status": "production_limited", "public_release": False, "execution": "scenario_api", "depends_on": ["bazi.phase2.ten_gods", "bazi.phase2.hidden_stems", "calendar/lunar-python==1.4.8"], "scope": "聚合原局财星、官杀、食伤、印星、比劫的位置事实，并显示目标年天干十神；不输出事业财运吉凶或评分。"},
-    {"id": "compatibility", "name": "缘分合盘", "status": "building", "public_release": False, "execution": None, "depends_on": ["bazi"], "scope": "待双人比较规则与证据。"},
+    {"id": "compatibility", "name": "缘分合盘结构", "status": "production_limited", "public_release": False, "execution": "scenario_api", "depends_on": ["bazi.phase2.ten_gods", "bazi.phase2.xianchi_lookup"], "scope": "双人四柱并列、双方日主互看十神、双方年/日支对彼此咸池目标的固定结构匹配；不输出缘分分数或关系吉凶。"},
     {"id": "dream", "name": "AI 解梦", "status": "research", "public_release": False, "execution": None, "depends_on": ["dream-rag", "ai"], "scope": "待梦境语料与真实模型校准。"},
     {"id": "life", "name": "人生总览", "status": "production_limited", "public_release": False, "execution": "scenario_api", "depends_on": ["bazi-profile", "yearly", "romance", "career"], "scope": "聚合八字基础、年度结构、桃花结构、事业财运结构为一份可读总览；不新增任何吉凶判断。"},
 ]
@@ -845,6 +845,149 @@ def _career(inputs):
 
 
 
+
+def _cross_xianchi(subject_xianchi, other_pillars):
+    other_branches = {
+        "year_branch": other_pillars[0]["branch"]["value"],
+        "day_branch": other_pillars[2]["branch"]["value"],
+    }
+    matches = []
+    for basis, target in subject_xianchi["targets"].items():
+        for other_basis, branch in other_branches.items():
+            if branch == target:
+                matches.append({
+                    "subject_basis": basis,
+                    "target_branch": target,
+                    "other_basis": other_basis,
+                    "other_branch": branch,
+                })
+    return {
+        "targets": copy.deepcopy(subject_xianchi["targets"]),
+        "other_branches": other_branches,
+        "matches": matches,
+    }
+
+
+def _compatibility(inputs):
+    _require_exact(inputs, {"person_a_birth_value", "person_b_birth_value"})
+    person_a_birth_value = inputs["person_a_birth_value"]
+    person_b_birth_value = inputs["person_b_birth_value"]
+    if not isinstance(person_a_birth_value, str) or not isinstance(person_b_birth_value, str):
+        raise ValueError("Both birth values must be ISO datetime strings")
+
+    person_a = execute("bazi", {"value": person_a_birth_value, "include_xianchi": True})
+    person_b = execute("bazi", {"value": person_b_birth_value, "include_xianchi": True})
+    chart_a = person_a["result"]
+    chart_b = person_b["result"]
+
+    a_stem = chart_a["day_master"]["stem"]
+    b_stem = chart_b["day_master"]["stem"]
+    a_sees_b = ten_god(a_stem, b_stem)
+    b_sees_a = ten_god(b_stem, a_stem)
+
+    a_cross = _cross_xianchi(chart_a["xianchi_lookup"], chart_b["pillars"])
+    b_cross = _cross_xianchi(chart_b["xianchi_lookup"], chart_a["pillars"])
+
+    evidence = {}
+    evidence_ids = []
+    for chart in (person_a, person_b):
+        for rule_id in ("bazi.phase2.ten_gods", "bazi.phase2.xianchi_lookup"):
+            rule = next(rule for rule in chart["rule_matches"] if rule["rule_id"] == rule_id)
+            for eid in rule["evidence_ids"]:
+                if eid not in evidence_ids:
+                    evidence_ids.append(eid)
+                    evidence[eid] = copy.deepcopy(chart["evidence"][eid])
+
+    result = {
+        "person_a": {
+            "pillars": copy.deepcopy(chart_a["pillars"]),
+            "day_master": copy.deepcopy(chart_a["day_master"]),
+            "xianchi_targets": copy.deepcopy(chart_a["xianchi_lookup"]["targets"]),
+        },
+        "person_b": {
+            "pillars": copy.deepcopy(chart_b["pillars"]),
+            "day_master": copy.deepcopy(chart_b["day_master"]),
+            "xianchi_targets": copy.deepcopy(chart_b["xianchi_lookup"]["targets"]),
+        },
+        "day_master_relations": {
+            "a_sees_b": {
+                "subject_day_master": a_stem,
+                "other_day_master": b_stem,
+                "ten_god": a_sees_b,
+            },
+            "b_sees_a": {
+                "subject_day_master": b_stem,
+                "other_day_master": a_stem,
+                "ten_god": b_sees_a,
+            },
+        },
+        "xianchi_cross_matches": {
+            "a_targets_vs_b": a_cross,
+            "b_targets_vs_a": b_cross,
+        },
+        "release_scope": "two_person_structure_only",
+    }
+    rule_match = {
+        "rule_id": "bazi.scenario.compatibility_structure",
+        "derived_from_rule_ids": ["bazi.phase2.ten_gods", "bazi.phase2.xianchi_lookup"],
+        "variant": "ziping-structural-v1",
+        "matched": True,
+        "kind": "scenario_composition",
+        "evidence_scope": "复用已验证十神与咸池 Evidence；只做双人结构对照，不输出关系质量、婚恋吉凶或缘分分数。",
+        "facts": {
+            "a_sees_b_ten_god": a_sees_b,
+            "b_sees_a_ten_god": b_sees_a,
+            "a_xianchi_cross_match_count": len(a_cross["matches"]),
+            "b_xianchi_cross_match_count": len(b_cross["matches"]),
+        },
+        "evidence_ids": evidence_ids,
+    }
+    trace = [
+        {
+            "step": "person_a_bazi",
+            "provider": "bazi/ziping-structural-v1",
+            "facts": {"day_master": copy.deepcopy(chart_a["day_master"])},
+        },
+        {
+            "step": "person_b_bazi",
+            "provider": "bazi/ziping-structural-v1",
+            "facts": {"day_master": copy.deepcopy(chart_b["day_master"])},
+        },
+        {
+            "step": "cross_day_master_ten_gods",
+            "derived_from_rule_id": "bazi.phase2.ten_gods",
+            "facts": copy.deepcopy(result["day_master_relations"]),
+            "evidence_ids": evidence_ids,
+        },
+        {
+            "step": "cross_xianchi_targets",
+            "derived_from_rule_id": "bazi.phase2.xianchi_lookup",
+            "facts": copy.deepcopy(result["xianchi_cross_matches"]),
+            "evidence_ids": evidence_ids,
+        },
+    ]
+    return {
+        "scenario_id": "compatibility",
+        "status": "production_limited",
+        "public_release": False,
+        "deterministic": True,
+        "result": result,
+        "rule_matches": [rule_match],
+        "trace": trace,
+        "evidence": evidence,
+        "warnings": [
+            "缘分合盘结构已可执行，但当前只做双方确定性结构对照，不自动发布婚恋吉凶、适配度或关系建议。",
+        ],
+        "limitations": [
+            "双方日主互看十神只表示五行生克与阴阳关系，不等同于感情适合或不适合。",
+            "对方年支/日支落入咸池目标，只表示固定查表结构匹配，不等同于吸引力、正缘或婚姻结果。",
+            "尚未纳入夫妻宫、配偶星、合冲刑害、旺衰喜忌、大运流年与紫微交叉判断。",
+            "不输出缘分百分比、配对分数、正缘结论、结婚时间或分手风险。",
+            "AI 不参与本场景计算。",
+        ],
+    }
+
+
 def _dedupe_strings(items):
     seen = set()
     output = []
@@ -980,6 +1123,7 @@ _EXECUTORS = {
     "yearly": _yearly,
     "romance": _romance,
     "career": _career,
+    "compatibility": _compatibility,
     "life": _life,
 }
 

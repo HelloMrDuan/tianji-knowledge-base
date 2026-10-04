@@ -29,6 +29,8 @@ class ScenarioEngineTests(unittest.TestCase):
         self.assertFalse(rows["romance"]["public_release"])
         self.assertEqual(rows["career"]["status"], "production_limited")
         self.assertFalse(rows["career"]["public_release"])
+        self.assertEqual(rows["compatibility"]["status"], "production_limited")
+        self.assertFalse(rows["compatibility"]["public_release"])
         self.assertEqual(rows["life"]["status"], "production_limited")
         self.assertFalse(rows["life"]["public_release"])
         self.assertEqual(rows["dream"]["status"], "research")
@@ -173,6 +175,33 @@ class ScenarioEngineTests(unittest.TestCase):
         for forbidden in ["career_score", "wealth_score", "income", "investment_advice", "auspicious"]:
             self.assertNotIn(forbidden, serialized)
 
+    def test_compatibility_structure_is_bidirectional_and_non_scoring(self):
+        output = execute_scenario("compatibility", {
+            "person_a_birth_value": "2000-01-07T12:00:00+08:00",
+            "person_b_birth_value": "2000-01-07T18:00:00+08:00",
+        })
+        self.assertEqual(output["status"], "production_limited")
+        self.assertFalse(output["public_release"])
+        self.assertEqual(output["result"]["release_scope"], "two_person_structure_only")
+        relations = output["result"]["day_master_relations"]
+        self.assertEqual(relations["a_sees_b"]["ten_god"], "比肩")
+        self.assertEqual(relations["b_sees_a"]["ten_god"], "比肩")
+        self.assertEqual(
+            set(output["result"]["xianchi_cross_matches"]),
+            {"a_targets_vs_b", "b_targets_vs_a"},
+        )
+        self.assertTrue(output["evidence"])
+        self.assertEqual(
+            output["rule_matches"][0]["derived_from_rule_ids"],
+            ["bazi.phase2.ten_gods", "bazi.phase2.xianchi_lookup"],
+        )
+        serialized = str(output["result"])
+        for forbidden in [
+            "compatibility_score", "match_score", "love_score", "marriage_score",
+            "auspicious", "relationship_advice", "breakup_risk",
+        ]:
+            self.assertNotIn(forbidden, serialized)
+
     def test_life_overview_aggregates_only_validated_sections(self):
         output = execute_scenario("life", {
             "birth_value": "2000-01-07T12:00:00+08:00",
@@ -283,6 +312,23 @@ class ScenarioEngineTests(unittest.TestCase):
         self.assertFalse(data["public_release"])
         self.assertTrue(data["evidence"])
 
+    def test_http_compatibility_structure_never_calls_model(self):
+        with patch("socket.socket.connect", side_effect=AssertionError("Network model call forbidden")):
+            response = self.client.post("/api/v1/scenarios/execute", json={
+                "scenario_id": "compatibility",
+                "input": {
+                    "person_a_birth_value": "2000-01-07T12:00:00+08:00",
+                    "person_b_birth_value": "2000-01-07T18:00:00+08:00",
+                },
+            })
+        self.assertEqual(response.status_code, 200, response.text)
+        data = response.json()
+        self.assertEqual(data["scenario_id"], "compatibility")
+        self.assertEqual(data["result"]["release_scope"], "two_person_structure_only")
+        self.assertEqual(data["result"]["day_master_relations"]["a_sees_b"]["ten_god"], "比肩")
+        self.assertFalse(data["public_release"])
+        self.assertTrue(data["evidence"])
+
     def test_http_life_overview_never_calls_model(self):
         with patch("socket.socket.connect", side_effect=AssertionError("Network model call forbidden")):
             response = self.client.post("/api/v1/scenarios/execute", json={
@@ -301,7 +347,12 @@ class ScenarioEngineTests(unittest.TestCase):
         self.assertTrue(data["evidence"])
 
     def test_http_rejects_unimplemented_and_unknown_inputs(self):
-        response = self.client.post("/api/v1/scenarios/execute", json={"scenario_id": "compatibility", "input": {}})
+        response = self.client.post("/api/v1/scenarios/execute", json={"scenario_id": "dream", "input": {}})
+        self.assertEqual(response.status_code, 422)
+        response = self.client.post("/api/v1/scenarios/execute", json={
+            "scenario_id": "compatibility",
+            "input": {"person_a_birth_value": "2000-01-07T12:00:00+08:00"},
+        })
         self.assertEqual(response.status_code, 422)
         response = self.client.post("/api/v1/scenarios/execute", json={
             "scenario_id": "yearly",
