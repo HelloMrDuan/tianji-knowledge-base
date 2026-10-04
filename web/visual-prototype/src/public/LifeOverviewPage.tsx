@@ -292,6 +292,8 @@ export function LifeOverviewPage() {
             </div>
             <div className="life-next-actions">
               <Link href="/daily-structure">今日结构</Link>
+              <Link href="/weekly-structure">本周结构</Link>
+              <Link href="/monthly-structure">本月结构</Link>
               <Link href="/yearly-structure">2026 流年</Link>
               <Link href="/romance-structure">桃花姻缘</Link>
               <Link href="/career-wealth-structure">事业财运</Link>

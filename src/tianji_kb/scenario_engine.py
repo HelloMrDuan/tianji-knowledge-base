@@ -4,7 +4,8 @@ The scenario layer may compose already-validated facts. It must not invent chart
 facts, promote research material, or turn structural signals into fortune claims.
 """
 import copy
-from datetime import date
+from calendar import monthrange
+from datetime import date, timedelta
 
 from .bazi_core import ten_god
 from .calendar import calendar
@@ -39,8 +40,8 @@ SCENARIOS = [
         "scope": "原局四柱 + 目标干支年 + 流年天干相对日主的十神结构；不输出年度吉凶。",
     },
     {"id": "daily", "name": "今日结构", "status": "production_limited", "public_release": False, "execution": "scenario_api", "depends_on": ["bazi.phase2.ten_gods", "bazi.phase2.xianchi_lookup", "calendar/lunar-python==1.4.8"], "scope": "返回目标日干支、日干相对日主的十神结构，以及两套咸池目标支是否被当日地支命中；不输出今日吉凶。"},
-    {"id": "weekly", "name": "本周运势", "status": "building", "public_release": False, "execution": None, "depends_on": ["bazi"], "scope": "待周运规则与证据。"},
-    {"id": "monthly", "name": "本月运势", "status": "building", "public_release": False, "execution": None, "depends_on": ["bazi"], "scope": "待流月规则与证据。"},
+    {"id": "weekly", "name": "本周结构", "status": "production_limited", "public_release": False, "execution": "scenario_api", "depends_on": ["bazi.phase2.ten_gods", "bazi.phase2.xianchi_lookup", "calendar/lunar-python==1.4.8"], "scope": "按北京时间周一至周日列出每日干支、日干十神结构与咸池日级命中；不输出周运吉凶。"},
+    {"id": "monthly", "name": "本月结构", "status": "production_limited", "public_release": False, "execution": "scenario_api", "depends_on": ["bazi.phase2.ten_gods", "bazi.phase2.xianchi_lookup", "calendar/lunar-python==1.4.8"], "scope": "列出目标公历月每日干支、十神结构与咸池日级命中，并做结构频次汇总；不输出月运吉凶。"},
     {"id": "romance", "name": "桃花结构", "status": "production_limited", "public_release": False, "execution": "scenario_api", "depends_on": ["bazi/ziping-structural-v1", "bazi.phase2.xianchi_lookup"], "scope": "分别按年支、日支返回咸池目标支、原局命中与目标年份地支激活；不输出婚恋吉凶。"},
     {"id": "career", "name": "事业财运结构", "status": "production_limited", "public_release": False, "execution": "scenario_api", "depends_on": ["bazi.phase2.ten_gods", "bazi.phase2.hidden_stems", "calendar/lunar-python==1.4.8"], "scope": "聚合原局财星、官杀、食伤、印星、比劫的位置事实，并显示目标年天干十神；不输出事业财运吉凶或评分。"},
     {"id": "compatibility", "name": "缘分合盘", "status": "building", "public_release": False, "execution": None, "depends_on": ["bazi"], "scope": "待双人比较规则与证据。"},
@@ -456,6 +457,242 @@ def _ten_god_group(ten_god_name):
     return None
 
 
+
+def _period_context(birth_value):
+    if not isinstance(birth_value, str):
+        raise ValueError("birth_value must be an ISO datetime string")
+    natal = execute("bazi", {"value": birth_value, "include_xianchi": True})
+    source_rules = [
+        next(rule for rule in natal["rule_matches"] if rule["rule_id"] == "bazi.phase2.ten_gods"),
+        next(rule for rule in natal["rule_matches"] if rule["rule_id"] == "bazi.phase2.xianchi_lookup"),
+    ]
+    evidence_ids = []
+    for rule in source_rules:
+        for eid in rule["evidence_ids"]:
+            if eid not in evidence_ids:
+                evidence_ids.append(eid)
+    evidence = {eid: copy.deepcopy(natal["evidence"][eid]) for eid in evidence_ids}
+    return natal, evidence_ids, evidence
+
+
+def _period_day_fact(natal, target_date):
+    result_chart = natal["result"]
+    day_master = result_chart["day_master"]["stem"]
+    xianchi = result_chart["xianchi_lookup"]
+    target_value = f"{target_date}T12:00:00+08:00"
+    target_calendar = calendar(target_value)
+    day_ganzhi = target_calendar["day_ganzhi"]
+    day_stem, day_branch = day_ganzhi
+    day_ten_god = ten_god(day_master, day_stem)
+    day_group = _ten_god_group(day_ten_god)
+    activation = {
+        "year_branch_basis": {
+            "target_branch": xianchi["targets"]["year_branch"],
+            "matched": day_branch == xianchi["targets"]["year_branch"],
+        },
+        "day_branch_basis": {
+            "target_branch": xianchi["targets"]["day_branch"],
+            "matched": day_branch == xianchi["targets"]["day_branch"],
+        },
+    }
+    hit_count = sum(int(bool(item["matched"])) for item in activation.values())
+    return {
+        "date": target_date,
+        "ganzhi": day_ganzhi,
+        "stem": day_stem,
+        "branch": day_branch,
+        "stem_ten_god": day_ten_god,
+        "structure_group": day_group,
+        "structure_group_label": _TEN_GOD_GROUPS[day_group]["label"] if day_group else None,
+        "xianchi_activation": activation,
+        "xianchi_hit_count": hit_count,
+        "calendar_provider": target_calendar["calendar_provider"],
+    }
+
+
+def _period_summary(days):
+    group_counts = {key: 0 for key in _TEN_GOD_GROUPS}
+    xianchi_dates = []
+    for item in days:
+        group = item["structure_group"]
+        if group:
+            group_counts[group] += 1
+        if item["xianchi_hit_count"]:
+            xianchi_dates.append({
+                "date": item["date"],
+                "ganzhi": item["ganzhi"],
+                "hit_count": item["xianchi_hit_count"],
+            })
+    return {
+        "structure_group_counts": group_counts,
+        "xianchi_hit_dates": xianchi_dates,
+    }
+
+
+def _weekly(inputs):
+    _require_exact(inputs, {"birth_value", "anchor_date"})
+    birth_value = inputs["birth_value"]
+    anchor_date = inputs["anchor_date"]
+    if not isinstance(anchor_date, str):
+        raise ValueError("anchor_date must be YYYY-MM-DD")
+    try:
+        anchor = date.fromisoformat(anchor_date)
+    except ValueError as error:
+        raise ValueError("anchor_date must be YYYY-MM-DD") from error
+    if not 1900 <= anchor.year <= 2100:
+        raise ValueError("anchor_date year must be from 1900 through 2100")
+
+    natal, evidence_ids, evidence = _period_context(birth_value)
+    week_start = anchor - timedelta(days=anchor.weekday())
+    dates = [week_start + timedelta(days=offset) for offset in range(7)]
+    days = [_period_day_fact(natal, item.isoformat()) for item in dates]
+    summary = _period_summary(days)
+
+    rule_match = {
+        "rule_id": "bazi.scenario.weekly_structure",
+        "derived_from_rule_ids": ["bazi.phase2.ten_gods", "bazi.phase2.xianchi_lookup"],
+        "variant": "ziping-structural-v1",
+        "matched": True,
+        "kind": "scenario_composition",
+        "evidence_scope": "复用已验证十神与咸池 Evidence；按自然周聚合每日结构，不输出周运吉凶。",
+        "facts": {
+            "week_start": dates[0].isoformat(),
+            "week_end": dates[-1].isoformat(),
+            "structure_group_counts": copy.deepcopy(summary["structure_group_counts"]),
+            "xianchi_hit_dates": copy.deepcopy(summary["xianchi_hit_dates"]),
+        },
+        "evidence_ids": evidence_ids,
+    }
+    trace = [
+        {
+            "step": "weekly_day_structure",
+            "date": item["date"],
+            "facts": {
+                "ganzhi": item["ganzhi"],
+                "ten_god": item["stem_ten_god"],
+                "structure_group": item["structure_group"],
+                "xianchi_hit_count": item["xianchi_hit_count"],
+            },
+            "evidence_ids": evidence_ids,
+        }
+        for item in days
+    ]
+    return {
+        "scenario_id": "weekly",
+        "status": "production_limited",
+        "public_release": False,
+        "deterministic": True,
+        "result": {
+            "natal": {
+                "day_master": copy.deepcopy(natal["result"]["day_master"]),
+            },
+            "week": {
+                "anchor_date": anchor_date,
+                "start_date": dates[0].isoformat(),
+                "end_date": dates[-1].isoformat(),
+                "days": days,
+            },
+            "summary": summary,
+            "release_scope": "weekly_structure_only",
+        },
+        "rule_matches": [rule_match],
+        "trace": trace,
+        "evidence": evidence,
+        "warnings": [
+            "本周结构只是七个日级结构的确定性聚合，不等同于周运吉凶、宜忌或事件预测。",
+        ],
+        "limitations": [
+            "一周内十神结构出现次数只是日期分布，不代表某类力量更旺、更吉或更凶。",
+            "咸池命中日只表示固定查表结构相同，不等于当天发生感情事件。",
+            "尚未纳入旺衰、喜用神、大运、流月、流日支互动与时辰变化。",
+            "不提供投资、健康、法律、安全等现实决策建议。",
+            "AI 不参与本场景计算。",
+        ],
+    }
+
+
+def _monthly(inputs):
+    _require_exact(inputs, {"birth_value", "target_month"})
+    birth_value = inputs["birth_value"]
+    target_month = inputs["target_month"]
+    if not isinstance(target_month, str) or len(target_month) != 7:
+        raise ValueError("target_month must be YYYY-MM")
+    try:
+        first_day = date.fromisoformat(target_month + "-01")
+    except ValueError as error:
+        raise ValueError("target_month must be YYYY-MM") from error
+    if not 1900 <= first_day.year <= 2100:
+        raise ValueError("target_month year must be from 1900 through 2100")
+
+    natal, evidence_ids, evidence = _period_context(birth_value)
+    total_days = monthrange(first_day.year, first_day.month)[1]
+    dates = [first_day + timedelta(days=offset) for offset in range(total_days)]
+    days = [_period_day_fact(natal, item.isoformat()) for item in dates]
+    summary = _period_summary(days)
+
+    rule_match = {
+        "rule_id": "bazi.scenario.monthly_structure",
+        "derived_from_rule_ids": ["bazi.phase2.ten_gods", "bazi.phase2.xianchi_lookup"],
+        "variant": "ziping-structural-v1",
+        "matched": True,
+        "kind": "scenario_composition",
+        "evidence_scope": "复用已验证十神与咸池 Evidence；按公历月聚合每日结构，不输出月运吉凶。",
+        "facts": {
+            "target_month": target_month,
+            "day_count": total_days,
+            "structure_group_counts": copy.deepcopy(summary["structure_group_counts"]),
+            "xianchi_hit_dates": copy.deepcopy(summary["xianchi_hit_dates"]),
+        },
+        "evidence_ids": evidence_ids,
+    }
+    trace = [
+        {
+            "step": "monthly_day_structure",
+            "date": item["date"],
+            "facts": {
+                "ganzhi": item["ganzhi"],
+                "ten_god": item["stem_ten_god"],
+                "structure_group": item["structure_group"],
+                "xianchi_hit_count": item["xianchi_hit_count"],
+            },
+            "evidence_ids": evidence_ids,
+        }
+        for item in days
+    ]
+    return {
+        "scenario_id": "monthly",
+        "status": "production_limited",
+        "public_release": False,
+        "deterministic": True,
+        "result": {
+            "natal": {
+                "day_master": copy.deepcopy(natal["result"]["day_master"]),
+            },
+            "month": {
+                "target_month": target_month,
+                "day_count": total_days,
+                "days": days,
+            },
+            "summary": summary,
+            "release_scope": "monthly_structure_only",
+        },
+        "rule_matches": [rule_match],
+        "trace": trace,
+        "evidence": evidence,
+        "warnings": [
+            "本月结构只是日级结构的确定性聚合，不等同于月运吉凶、宜忌或事件预测。",
+        ],
+        "limitations": [
+            "一个月内十神结构出现次数只是日期分布，不代表某类力量更旺、更吉或更凶。",
+            "咸池命中日只表示固定查表结构相同，不等于当天发生感情事件。",
+            "当前按公历月聚合；尚未实现完整节气月/流月命理规则。",
+            "尚未纳入旺衰、喜用神、大运、流月支互动、时辰变化与完整择日体系。",
+            "不提供投资、健康、法律、安全等现实决策建议。",
+            "AI 不参与本场景计算。",
+        ],
+    }
+
+
 def _career(inputs):
     _require_exact(inputs, {"birth_value", "target_year"})
     birth_value = inputs["birth_value"]
@@ -738,6 +975,8 @@ _EXECUTORS = {
     "bazi-profile": _bazi_profile,
     "question": _question,
     "daily": _daily,
+    "weekly": _weekly,
+    "monthly": _monthly,
     "yearly": _yearly,
     "romance": _romance,
     "career": _career,

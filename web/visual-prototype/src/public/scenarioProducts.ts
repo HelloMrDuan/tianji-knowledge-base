@@ -12,8 +12,8 @@ export type ScenarioProduct = {
 export const scenarioProducts: ScenarioProduct[] = [
   { id: "bazi-profile", name: "八字基础档案", glyph: "八", tagline: "先看清自己的四柱结构", description: "真实计算四柱、日主、十神、藏干，并返回规则与典籍依据。", status: "available", href: "/bazi-profile", badge: "真实可用" },
   { id: "daily", name: "今日运势 · 结构版", glyph: "今", tagline: "每天回来直接看今天", description: "真实计算当日干支、日干十神与咸池结构命中；当前不输出吉凶或宜忌。", status: "available", href: "/daily-structure", badge: "每日可看" },
-  { id: "weekly", name: "本周运势", glyph: "周", tagline: "这一周怎么走", description: "周运能力依赖八字与场景规则补齐。", status: "building", badge: "筹备中" },
-  { id: "monthly", name: "本月运势", glyph: "月", tagline: "把握当月起伏", description: "月运能力依赖八字与流月规则补齐。", status: "building", badge: "筹备中" },
+  { id: "weekly", name: "本周运势 · 结构版", glyph: "周", tagline: "把七天摊开来看", description: "真实计算周一至周日的日干支、十神结构与咸池命中；不输出周运吉凶。", status: "available", href: "/weekly-structure", badge: "周期内测" },
+  { id: "monthly", name: "本月运势 · 结构版", glyph: "月", tagline: "一个月的日结构分布", description: "真实展开整月每日干支、十神结构与咸池命中，并做频次汇总；不输出月运吉凶。", status: "available", href: "/monthly-structure", badge: "周期内测" },
   { id: "yearly", name: "2026 流年结构", glyph: "年", tagline: "年运底座先给你看", description: "真实计算 2026 干支与日主十神结构；不等同于全年吉凶。", status: "available", href: "/yearly-structure", badge: "结构内测" },
   { id: "romance", name: "桃花姻缘", glyph: "缘", tagline: "先看真实桃花结构", description: "年支、日支两套咸池结构分别计算，并检查原局与 2026 流年是否命中；不等同于婚恋吉凶。", status: "available", href: "/romance-structure", badge: "结构内测" },
   { id: "career", name: "事业财运", glyph: "业", tagline: "先看真实事业财运结构", description: "聚合财星、官杀、食伤、印星、比劫的位置，并显示 2026 流年天干十神；不等同于吉凶或收益预测。", status: "available", href: "/career-wealth-structure", badge: "结构内测" },

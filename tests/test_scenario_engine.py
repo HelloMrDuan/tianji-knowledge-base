@@ -19,6 +19,10 @@ class ScenarioEngineTests(unittest.TestCase):
         self.assertTrue(rows["question"]["public_release"])
         self.assertEqual(rows["daily"]["status"], "production_limited")
         self.assertFalse(rows["daily"]["public_release"])
+        self.assertEqual(rows["weekly"]["status"], "production_limited")
+        self.assertEqual(rows["monthly"]["status"], "production_limited")
+        self.assertFalse(rows["weekly"]["public_release"])
+        self.assertFalse(rows["monthly"]["public_release"])
         self.assertFalse(rows["yearly"]["public_release"])
         self.assertEqual(rows["yearly"]["status"], "production_limited")
         self.assertEqual(rows["romance"]["status"], "production_limited")
@@ -72,6 +76,46 @@ class ScenarioEngineTests(unittest.TestCase):
             "fortune_score", "daily_score", "auspicious", "investment_advice",
             "health_advice", "relationship_advice",
         ]:
+            self.assertNotIn(forbidden, serialized)
+
+    def test_weekly_structure_has_exact_monday_to_sunday_window(self):
+        output = execute_scenario("weekly", {
+            "birth_value": "2000-01-07T12:00:00+08:00",
+            "anchor_date": "2026-10-04",
+        })
+        self.assertEqual(output["status"], "production_limited")
+        self.assertFalse(output["public_release"])
+        self.assertEqual(output["result"]["release_scope"], "weekly_structure_only")
+        self.assertEqual(output["result"]["week"]["start_date"], "2026-09-28")
+        self.assertEqual(output["result"]["week"]["end_date"], "2026-10-04")
+        self.assertEqual(len(output["result"]["week"]["days"]), 7)
+        self.assertTrue(output["evidence"])
+        self.assertEqual(
+            output["rule_matches"][0]["derived_from_rule_ids"],
+            ["bazi.phase2.ten_gods", "bazi.phase2.xianchi_lookup"],
+        )
+        serialized = str(output["result"])
+        for forbidden in ["fortune_score", "weekly_score", "auspicious", "investment_advice"]:
+            self.assertNotIn(forbidden, serialized)
+
+    def test_monthly_structure_has_every_calendar_day_and_summary(self):
+        output = execute_scenario("monthly", {
+            "birth_value": "2000-01-07T12:00:00+08:00",
+            "target_month": "2026-10",
+        })
+        self.assertEqual(output["status"], "production_limited")
+        self.assertFalse(output["public_release"])
+        self.assertEqual(output["result"]["release_scope"], "monthly_structure_only")
+        self.assertEqual(output["result"]["month"]["target_month"], "2026-10")
+        self.assertEqual(output["result"]["month"]["day_count"], 31)
+        self.assertEqual(len(output["result"]["month"]["days"]), 31)
+        self.assertEqual(
+            sum(output["result"]["summary"]["structure_group_counts"].values()),
+            31,
+        )
+        self.assertTrue(output["evidence"])
+        serialized = str(output["result"])
+        for forbidden in ["fortune_score", "monthly_score", "auspicious", "investment_advice"]:
             self.assertNotIn(forbidden, serialized)
 
     def test_2026_yearly_structure_is_limited_and_evidence_bound(self):
@@ -199,6 +243,29 @@ class ScenarioEngineTests(unittest.TestCase):
         self.assertFalse(data["public_release"])
         self.assertTrue(data["evidence"])
 
+    def test_http_weekly_and_monthly_structure_never_call_model(self):
+        with patch("socket.socket.connect", side_effect=AssertionError("Network model call forbidden")):
+            weekly = self.client.post("/api/v1/scenarios/execute", json={
+                "scenario_id": "weekly",
+                "input": {
+                    "birth_value": "2000-01-07T12:00:00+08:00",
+                    "anchor_date": "2026-10-04",
+                },
+            })
+            monthly = self.client.post("/api/v1/scenarios/execute", json={
+                "scenario_id": "monthly",
+                "input": {
+                    "birth_value": "2000-01-07T12:00:00+08:00",
+                    "target_month": "2026-10",
+                },
+            })
+        self.assertEqual(weekly.status_code, 200, weekly.text)
+        self.assertEqual(monthly.status_code, 200, monthly.text)
+        self.assertEqual(len(weekly.json()["result"]["week"]["days"]), 7)
+        self.assertEqual(monthly.json()["result"]["month"]["day_count"], 31)
+        self.assertFalse(weekly.json()["public_release"])
+        self.assertFalse(monthly.json()["public_release"])
+
     def test_http_daily_structure_never_calls_model(self):
         with patch("socket.socket.connect", side_effect=AssertionError("Network model call forbidden")):
             response = self.client.post("/api/v1/scenarios/execute", json={
@@ -244,6 +311,16 @@ class ScenarioEngineTests(unittest.TestCase):
         response = self.client.post("/api/v1/scenarios/execute", json={
             "scenario_id": "daily",
             "input": {"birth_value": "2000-01-07T12:00:00+08:00", "target_date": "2026/10/04"},
+        })
+        self.assertEqual(response.status_code, 422)
+        response = self.client.post("/api/v1/scenarios/execute", json={
+            "scenario_id": "weekly",
+            "input": {"birth_value": "2000-01-07T12:00:00+08:00", "anchor_date": "bad-date"},
+        })
+        self.assertEqual(response.status_code, 422)
+        response = self.client.post("/api/v1/scenarios/execute", json={
+            "scenario_id": "monthly",
+            "input": {"birth_value": "2000-01-07T12:00:00+08:00", "target_month": "2026/10"},
         })
         self.assertEqual(response.status_code, 422)
 

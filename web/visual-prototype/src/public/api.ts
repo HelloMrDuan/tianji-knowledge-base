@@ -208,3 +208,52 @@ export async function executeDailyScenario(input: {
   }
   return data as ScenarioExecuteResponse;
 }
+
+
+export async function executeWeeklyScenario(input: {
+  birth_value: string;
+  anchor_date: string;
+}): Promise<ScenarioExecuteResponse> {
+  const response = await fetch(`${apiBase}/api/v1/scenarios/execute`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      scenario_id: "weekly",
+      input,
+    }),
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    const message =
+      data?.detail?.message ||
+      data?.detail?.[0]?.msg ||
+      data?.detail?.code ||
+      `请求失败（HTTP ${response.status}）`;
+    throw new Error(message);
+  }
+  return data as ScenarioExecuteResponse;
+}
+
+export async function executeMonthlyScenario(input: {
+  birth_value: string;
+  target_month: string;
+}): Promise<ScenarioExecuteResponse> {
+  const response = await fetch(`${apiBase}/api/v1/scenarios/execute`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      scenario_id: "monthly",
+      input,
+    }),
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    const message =
+      data?.detail?.message ||
+      data?.detail?.[0]?.msg ||
+      data?.detail?.code ||
+      `请求失败（HTTP ${response.status}）`;
+    throw new Error(message);
+  }
+  return data as ScenarioExecuteResponse;
+}
