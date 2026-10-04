@@ -183,7 +183,7 @@ class ScenarioEngineTests(unittest.TestCase):
         self.assertEqual(output["status"], "production_limited")
         self.assertFalse(output["public_release"])
         self.assertEqual(output["result"]["release_scope"], "two_person_structure_only")
-        self.assertEqual(output["result"]["report_version"], "compatibility-structure-v3")
+        self.assertEqual(output["result"]["report_version"], "compatibility-structure-v4")
         relations = output["result"]["day_master_relations"]
         self.assertEqual(relations["a_sees_b"]["ten_god"], "正财")
         self.assertEqual(relations["b_sees_a"]["ten_god"], "正官")
@@ -201,6 +201,18 @@ class ScenarioEngineTests(unittest.TestCase):
         )
         self.assertEqual(output["result"]["person_a"]["spouse_palace"]["day_branch"], "子")
         self.assertEqual(output["result"]["person_b"]["spouse_palace"]["day_branch"], "丑")
+        matrix = output["result"]["cross_relation_matrix"]
+        self.assertFalse(matrix["interpretation_allowed"])
+        self.assertGreaterEqual(matrix["summary"]["core"], 1)
+        self.assertTrue(any(
+            hit["tier"] == "core"
+            and hit["relation_type"] == "six_harmony"
+            and hit["person_a_pillar"] == "day"
+            and hit["person_b_pillar"] == "day"
+            and hit["branches"] == ["子", "丑"]
+            for hit in matrix["hits"]
+        ))
+        self.assertTrue(any(step["step"] == "cross_relation_matrix" for step in output["trace"]))
         self.assertIn("natal_triple_harmonies", output["result"]["person_a"])
         self.assertIn("natal_triple_harmonies", output["result"]["person_b"])
         self.assertIsNone(output["result"]["person_a"]["traditional_spouse_star_lens"])
@@ -223,6 +235,7 @@ class ScenarioEngineTests(unittest.TestCase):
         for forbidden in [
             "compatibility_score", "match_score", "love_score", "marriage_score",
             "auspicious", "relationship_advice", "breakup_risk",
+            "compatibility_weight", "relation_score",
         ]:
             self.assertNotIn(forbidden, serialized)
 
@@ -233,7 +246,7 @@ class ScenarioEngineTests(unittest.TestCase):
             "person_a_traditional_role": "male",
             "person_b_traditional_role": "female",
         })
-        self.assertEqual(output["result"]["report_version"], "compatibility-structure-v3")
+        self.assertEqual(output["result"]["report_version"], "compatibility-structure-v4")
         a_lens = output["result"]["person_a"]["traditional_spouse_star_lens"]
         b_lens = output["result"]["person_b"]["traditional_spouse_star_lens"]
         self.assertEqual(a_lens["traditional_role"], "male")
@@ -379,7 +392,7 @@ class ScenarioEngineTests(unittest.TestCase):
         data = response.json()
         self.assertEqual(data["scenario_id"], "compatibility")
         self.assertEqual(data["result"]["release_scope"], "two_person_structure_only")
-        self.assertEqual(data["result"]["report_version"], "compatibility-structure-v3")
+        self.assertEqual(data["result"]["report_version"], "compatibility-structure-v4")
         self.assertEqual(data["result"]["day_master_relations"]["a_sees_b"]["ten_god"], "正财")
         self.assertTrue(data["result"]["reviewed_cross_relations"]["day_master_five_combination"]["matched"])
         self.assertEqual(
