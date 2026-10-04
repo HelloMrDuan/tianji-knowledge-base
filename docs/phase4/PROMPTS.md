@@ -11,3 +11,8 @@ Missing evidence, an explicit unresolved source conflict or a mismatched evidenc
 Automatic checks do not prove all free-prose entailment. V2 returns `semantic_review_required=true` and `automatic_release_allowed=false`; the frontend must show uncertainty and review state. V1 is for internal comparison or explicit research; production HTTP explanations reject it. API keys, provider, model and `TIANJI_EXPLANATION_PROMPT_VERSION` are environment-only. The compatible adapter's `TIANJI_AI_MAX_OUTPUT_TOKENS` defaults to4096, configurable256..16384; timeout remains20s by default.
 
 Both versions are run on the identical suite in CI with a deliberately mechanical test provider. This proves contract/refusal regression, not actual model quality or superiority of v2. Real configured models must run the CLI on the same suite and receive human semantic review before any release recommendation. No commercial model has been configured in this cloud environment.
+
+
+## Internal admin registry view
+
+The internal read-only endpoint `GET /api/v1/admin/system/prompts` exposes the actual immutable registry entries for review: version, exact instruction, server-computed SHA256, current environment selection, whether that selection is registered, default status and production eligibility. The admin UI does not edit Prompt text in browser state. A Prompt change requires a new version in code plus the fixed evaluation suite and review process described above.
