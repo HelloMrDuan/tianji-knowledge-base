@@ -3,6 +3,7 @@ import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeDailyScenario, type ScenarioExecuteResponse } from "./api";
+import { recordReading } from "./readingLibrary";
 import "./daily-structure.css";
 
 const profileKey = "tianji.profile.birth.v1";
@@ -87,6 +88,18 @@ export function DailyStructurePage() {
       } catch {
         /* Local preference is optional. */
       }
+      const target = next.result?.target_day || {};
+      const activation = next.result?.xianchi?.target_day_activation || {};
+      const hitCount = Number(Boolean(activation.year_branch_basis?.matched)) + Number(Boolean(activation.day_branch_basis?.matched));
+      recordReading({
+        scenarioId: "daily",
+        label: "今日结构",
+        glyph: "今",
+        title: `${target.date || targetDate} · ${target.ganzhi || "日结构"}`,
+        subtitle: `${target.stem_ten_god || "十神结构"} · 咸池命中 ${hitCount} 个基准`,
+        href: "/daily-structure",
+        resultVersion: next.result?.report_version || next.status,
+      });
       setResult(next);
     } catch (err) {
       setError(err instanceof Error ? err.message : "今日结构计算失败。");
