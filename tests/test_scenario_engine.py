@@ -379,7 +379,7 @@ class ScenarioEngineTests(unittest.TestCase):
         data = response.json()
         self.assertEqual(data["scenario_id"], "compatibility")
         self.assertEqual(data["result"]["release_scope"], "two_person_structure_only")
-        self.assertEqual(data["result"]["report_version"], "compatibility-structure-v2")
+        self.assertEqual(data["result"]["report_version"], "compatibility-structure-v3")
         self.assertEqual(data["result"]["day_master_relations"]["a_sees_b"]["ten_god"], "正财")
         self.assertTrue(data["result"]["reviewed_cross_relations"]["day_master_five_combination"]["matched"])
         self.assertEqual(
