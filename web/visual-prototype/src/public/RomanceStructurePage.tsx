@@ -32,6 +32,13 @@ function displayEvidence(id: string, evidence: Record<string, any>) {
   };
 }
 
+function relationLabel(kind: string) {
+  if (kind === "six_harmony") return "六合";
+  if (kind === "harm") return "六害";
+  if (kind === "clash") return "六冲";
+  return kind;
+}
+
 function basisLabel(value: string) {
   return value === "year_branch" ? "年支起查" : value === "day_branch" ? "日支起查" : value;
 }
@@ -77,6 +84,9 @@ export function RomanceStructurePage() {
   const natalMatches = Array.isArray(xianchi.natal_matches) ? xianchi.natal_matches : [];
   const activation = payload.target_year_activation || {};
   const targetYear = payload.target_year || {};
+  const flowRelations = Array.isArray(payload.flow_branch_relations) ? payload.flow_branch_relations : [];
+  const spouseInteraction = payload.spouse_palace_interaction || {};
+  const spouseRelations = Array.isArray(spouseInteraction.relations) ? spouseInteraction.relations : [];
   const evidence = result
     ? Object.entries(result.evidence).map(([id, value]) => displayEvidence(id, value))
     : [];
@@ -97,9 +107,9 @@ export function RomanceStructurePage() {
           <span className="eyebrow">桃花姻缘 · 第一层真实能力</span>
           <h1>先看“桃花结构”有没有命中，再谈它意味着什么。</h1>
           <p>
-            当前只做一件可靠的事：依据已审核的《三命通会》咸池四组，
-            把年支和日支两套起查结果分别列出来，并检查原局与 2026 流年地支是否命中。
-            不用一个神煞就替你下婚恋结论。
+            当前把两层已审核结构放到一起：先按《三命通会》分别列出年支、日支两套咸池目标，
+            再检查 2026 流年支与原局、尤其日支传统配偶宫是否命中六合、六害或六冲。
+            所有命中都只作为结构事实，不替你下婚恋结论。
           </p>
         </div>
         <div className="romance-mark" aria-hidden="true">
@@ -151,7 +161,7 @@ export function RomanceStructurePage() {
             <li>不根据古籍旧式断语推断性格、疾病</li>
             <li>不使用 AI 补齐缺失规则</li>
           </ul>
-          <p>后续会在配偶星、夫妻宫、合冲刑害、旺衰喜忌等证据完成后再逐层扩展。</p>
+          <p>配偶宫与固定六合/六害/六冲已经接入；配偶星目前只在合盘里由用户显式选择传统口径。旺衰喜忌、三刑与紫微交叉仍待后续裁定。</p>
         </aside>
       </section>
 
@@ -221,9 +231,38 @@ export function RomanceStructurePage() {
             </article>
           </div>
 
+          <section className="romance-flow-relations">
+            <div className="result-section-heading">
+              <div><span>合</span><h2>2026 流年支 × 原局关系</h2></div>
+              <small>六合 · 六害 · 六冲</small>
+            </div>
+            <div className="romance-spouse-focus">
+              <small>{spouseInteraction.label || "日支（传统配偶宫结构位）"}</small>
+              <strong>{spouseInteraction.day_branch || "—"} × {spouseInteraction.target_year_branch || targetYear.branch || "—"}</strong>
+              <span>
+                {spouseRelations.length
+                  ? spouseRelations.map((item: any) => relationLabel(item.kind)).join("、")
+                  : "当前无已审核关系命中"}
+              </span>
+              <em>这里只标记结构，不等于适合、不适合、争执、分手或婚姻结果。</em>
+            </div>
+            {flowRelations.length > 0 && (
+              <div className="romance-flow-grid">
+                {flowRelations.map((item: any, index: number) => (
+                  <article key={index} className={item.natal_pillar === "day" ? "day-relation" : ""}>
+                    <small>{pillarNames[item.natal_pillar] || item.natal_pillar}</small>
+                    <strong>{item.natal_branch} · {item.flow_branch}</strong>
+                    <span>{relationLabel(item.kind)}</span>
+                    {item.traditional_result_element && <em>传统表字段：{item.traditional_result_element}</em>}
+                  </article>
+                ))}
+              </div>
+            )}
+          </section>
+
           <section className="romance-natal">
             <div className="result-section-heading">
-              <div><span>一</span><h2>你的原局四柱</h2></div>
+              <div><span>二</span><h2>你的原局四柱</h2></div>
               <small>只用于结构定位</small>
             </div>
             <div className="romance-pillars">
@@ -239,7 +278,7 @@ export function RomanceStructurePage() {
 
           <div className="romance-two-columns">
             <section className="live-section">
-              <div className="result-section-heading"><div><span>二</span><h2>典籍依据</h2></div></div>
+              <div className="result-section-heading"><div><span>三</span><h2>典籍依据</h2></div></div>
               {evidence.map((item) => (
                 <article className="live-evidence" key={item.id}>
                   <div><strong>{item.title}</strong><span>{item.grade}</span></div>
@@ -250,7 +289,7 @@ export function RomanceStructurePage() {
             </section>
 
             <section className="live-section romance-limits">
-              <div className="result-section-heading"><div><span>三</span><h2>边界与下一步</h2></div></div>
+              <div className="result-section-heading"><div><span>四</span><h2>边界与下一步</h2></div></div>
               {result.limitations.map((item, index) => <p key={index}>{item}</p>)}
               {result.warnings.map((item, index) => <div className="live-warning" key={index}>{item}</div>)}
             </section>
@@ -259,7 +298,7 @@ export function RomanceStructurePage() {
           <details className="trace-section romance-trace">
             <summary>
               <span className="trace-icon"><Icon name="layers" size={19} /></span>
-              <div><strong>查看计算过程</strong><small>咸池查表 → 目标年 → 双基准命中</small></div>
+              <div><strong>查看计算过程</strong><small>咸池查表 → 目标年 → 双基准命中 → 流年支关系</small></div>
               <Icon name="chevron" size={18} />
             </summary>
             <ol>
@@ -277,8 +316,8 @@ export function RomanceStructurePage() {
             <div>
               <h3>下一层才是真正的“桃花姻缘报告”</h3>
               <p>
-                接下来继续补配偶星、夫妻宫、合冲刑害和流年互动，再考虑紫微交叉证据。
-                这些完成前，本页只叫“结构内测”。
+                咸池、日支传统配偶宫、六合/六害/六冲与流年互动已经进入本页。
+                下一阶段主要是可选配偶星 lens、旺衰喜忌、三刑流派裁定与紫微交叉证据。
               </p>
             </div>
           </div>
