@@ -9,13 +9,24 @@ class BaziPhase1Tests(unittest.TestCase):
         cls.bundle=next(x for x in cls.model["bundles"] if x["domain"]=="bazi")
 
     def test_bazi_entities_are_reviewed_and_isolated(self):
-        self.assertEqual(len(self.bundle["classics"]),2)
-        self.assertGreaterEqual(len(self.bundle["sections"]),9)
-        self.assertEqual(len(self.bundle["rules"]),4)
+        classic_ids={item["id"] for item in self.bundle["classics"]}
+        self.assertTrue({
+            "bazi.classic.yuanhai",
+            "bazi.classic.sanming-xianchi",
+            "bazi.classic.xieji",
+        }.issubset(classic_ids))
+        xieji=next(item for item in self.bundle["classics"] if item["id"]=="bazi.classic.xieji")
+        self.assertEqual(xieji["body_stage"],"quarantine")
+        self.assertGreaterEqual(len(self.bundle["sections"]),13)
+        self.assertGreaterEqual(len(self.bundle["rules"]),8)
         self.assertTrue(all(r["execution_status"]=="partially_structured" for r in self.bundle["rules"]))
         self.assertEqual(
             {ref["source_id"] for r in self.bundle["rules"] for ref in r["source_refs"]},
-            {"bazi.source.yuanhai","bazi.source.sanming-xianchi-niutrans"},
+            {
+                "bazi.source.yuanhai",
+                "bazi.source.sanming-xianchi-niutrans",
+                "bazi.source.xieji-relations",
+            },
         )
 
     def test_xianchi_table_is_reviewed_but_not_promoted_to_fortune_logic(self):
