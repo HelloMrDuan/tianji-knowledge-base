@@ -768,6 +768,14 @@
       "authority_status": "unverified",
       "grade_ceiling": "C",
       "review_basis": "固定 commit 的古籍短篇可追溯；与其他网络转写存在“已/巳”形近字问题，底本与独立版本关系未确证。"
+    },
+    {
+      "source_id": "bazi.source.xieji-relations",
+      "lineage_group": "garychowcmu/daizhigev20:易藏/术数/钦定协纪辨方书.txt",
+      "edition_status": "unverified",
+      "authority_status": "unverified",
+      "grade_ceiling": "C",
+      "review_basis": "固定公版电子快照的五合、六合、六害短段已逐字核对；独立刊本与版本谱系未核，不升级 A/B。"
     }
   ],
   "claim_comparisons": [
