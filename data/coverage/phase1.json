@@ -382,14 +382,14 @@
         "with_reviewed_excerpts": 3
       },
       "chapters": 6,
-      "sections": 13,
+      "sections": 16,
       "terms": {
-        "canonical": 8
+        "canonical": 10
       },
       "concepts": 1,
       "rules": {
         "executable": 0,
-        "partially_structured": 8,
+        "partially_structured": 10,
         "descriptive_only": 0
       },
       "sources": {
@@ -404,7 +404,7 @@
         "bazi.source.yuanhai"
       ],
       "tests": 2,
-      "production_chunks": 30,
+      "production_chunks": 37,
       "completion_criteria": {
         "domain_definition": true,
         "source_registry": true,
@@ -417,7 +417,7 @@
         "production_isolation": true
       },
       "pending_evidence": [
-        "生产范围含四柱、日主、十神、藏干；咸池四组及五合/六合/六害/日支传统配偶宫结构位已核；六冲、三刑、三合用于合盘的 Evidence、旺衰、格局、喜用、调候、大运起运及关系解释尚未裁定。"
+        "生产范围含四柱、日主、十神、藏干；咸池四组及五合/六合/六害/六冲/三合/日支传统配偶宫结构位已核；三刑存在流派分歧，跨盘三合口径、旺衰、格局、喜用、调候、大运起运及关系解释尚未裁定。"
       ],
       "status": "phase1_complete"
     }
