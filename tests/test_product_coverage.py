@@ -9,7 +9,7 @@ from phase4_helpers import valid_reply
 from tianji_kb.engine import execute
 from tianji_kb.explanation import ExplanationFailure, validate_reply
 from tianji_kb.knowledge import read_json
-from tianji_kb.product_coverage import build_product_coverage
+from tianji_kb.product_coverage import build_product_coverage, inventory
 from tianji_kb.product_claims import product_preflight, validate_calculation_basis, ProductExplanationService
 from tianji_kb.prompts import get_prompt
 from tianji_kb.resolver import EvidenceResolver
@@ -57,6 +57,11 @@ class ProductCoverageTests(unittest.TestCase):
         with patch('tianji_kb.product_coverage.read_json', side_effect=reader):
             with self.assertRaisesRegex(ValueError, 'unknown execution Rule'):
                 build_product_coverage(ROOT)
+
+    def test_inventory_is_case_sensitive_portable_and_matches_exact_input_bytes(self):
+        rows=inventory(ROOT)
+        paths=[row['path'] for row in rows]
+        self.assertEqual(paths,sorted(paths))
 
     def test_every_current_product_refuses_before_model_or_retriever_invocation(self):
         class ForbiddenProvider:

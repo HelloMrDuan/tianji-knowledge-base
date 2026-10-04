@@ -265,6 +265,17 @@ class UnifiedApiTests(unittest.TestCase):
             self.assertTrue(records[DEFAULT_PROMPT]['selected'])
             self.assertFalse(records['explanation-prompt-v1']['production_eligible'])
             self.assertTrue(records['explanation-prompt-v2']['production_eligible'])
+            self.assertFalse(records['explanation-prompt-v3']['production_eligible'])
+
+    def test_new_uncalibrated_prompt_cannot_open_production_model_calls(self):
+        class ForbiddenProvider:
+            async def explain(self,context):
+                raise AssertionError('Uncalibrated prompt must not call AI in production')
+        with patch.dict('os.environ',{'TIANJI_EXPLANATION_PROMPT_VERSION':'explanation-prompt-v3'},clear=False):
+            client=TestClient(create_app(provider=ForbiddenProvider()))
+            reply=client.post('/api/v1/execute',json=self.request('yijing',explain=True)).json()
+            self.assertEqual(reply['explanation_status'],'failed')
+            self.assertEqual(reply['explanation_error'],'prompt_not_production_eligible')
 
     def test_admin_rules_and_evidence_are_token_gated_reviewed_assets(self):
         client=TestClient(create_app(admin_read_token='review-token'))

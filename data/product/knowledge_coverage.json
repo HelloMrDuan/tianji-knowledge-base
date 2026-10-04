@@ -46,8 +46,8 @@
         "topic_id": "bazi-strength",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
+        "terms": 1,
+        "phase1_rules": 1,
         "phase2_rules": 0
       },
       {
@@ -94,7 +94,7 @@
       },
       {
         "topic_id": "bazi-strength",
-        "reason": "缺命名 school/variant、通根与月令条件、权重依据、冲突记录、执行与反例 Golden；不能用五行数量判断强弱。"
+        "reason": "已审核任氏知命篇对机械喜财官食印的描述性限制；仍缺具体旺衰算法的school/variant、通根/月令条件、权重依据、冲突与解释Golden。不能用五行数量判断强弱。"
       },
       {
         "topic_id": "bazi-pattern",
@@ -140,6 +140,7 @@
       "已实现结构Scenario不等于运势/占断；完整解释与发布绑定尚未完成"
     ],
     "recommended_sources": [
+      "bazi.source.ditiansui-spouse",
       "bazi.source.xieji-relations",
       "bazi.source.yuanhai",
       "data/canonical/classics/bazi/ditiansui_chanwei_v1.json",
@@ -186,8 +187,8 @@
         "topic_id": "bazi-strength",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
+        "terms": 1,
+        "phase1_rules": 1,
         "phase2_rules": 0
       },
       {
@@ -230,7 +231,7 @@
       },
       {
         "topic_id": "bazi-strength",
-        "reason": "缺命名 school/variant、通根与月令条件、权重依据、冲突记录、执行与反例 Golden；不能用五行数量判断强弱。"
+        "reason": "已审核任氏知命篇对机械喜财官食印的描述性限制；仍缺具体旺衰算法的school/variant、通根/月令条件、权重依据、冲突与解释Golden。不能用五行数量判断强弱。"
       },
       {
         "topic_id": "bazi-useful-god",
@@ -277,6 +278,7 @@
       "已实现结构Scenario不等于运势/占断；完整解释与发布绑定尚未完成"
     ],
     "recommended_sources": [
+      "bazi.source.ditiansui-spouse",
       "bazi.source.xieji-relations",
       "bazi.source.yuanhai",
       "data/canonical/classics/bazi/ditiansui_chanwei_v1.json",
@@ -323,8 +325,8 @@
         "topic_id": "bazi-strength",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
+        "terms": 1,
+        "phase1_rules": 1,
         "phase2_rules": 0
       },
       {
@@ -367,7 +369,7 @@
       },
       {
         "topic_id": "bazi-strength",
-        "reason": "缺命名 school/variant、通根与月令条件、权重依据、冲突记录、执行与反例 Golden；不能用五行数量判断强弱。"
+        "reason": "已审核任氏知命篇对机械喜财官食印的描述性限制；仍缺具体旺衰算法的school/variant、通根/月令条件、权重依据、冲突与解释Golden。不能用五行数量判断强弱。"
       },
       {
         "topic_id": "bazi-useful-god",
@@ -414,6 +416,7 @@
       "已实现结构Scenario不等于运势/占断；完整解释与发布绑定尚未完成"
     ],
     "recommended_sources": [
+      "bazi.source.ditiansui-spouse",
       "bazi.source.xieji-relations",
       "bazi.source.yuanhai",
       "data/canonical/classics/bazi/ditiansui_chanwei_v1.json",
@@ -461,8 +464,8 @@
         "topic_id": "bazi-strength",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
+        "terms": 1,
+        "phase1_rules": 1,
         "phase2_rules": 0
       },
       {
@@ -513,7 +516,7 @@
       },
       {
         "topic_id": "bazi-strength",
-        "reason": "缺命名 school/variant、通根与月令条件、权重依据、冲突记录、执行与反例 Golden；不能用五行数量判断强弱。"
+        "reason": "已审核任氏知命篇对机械喜财官食印的描述性限制；仍缺具体旺衰算法的school/variant、通根/月令条件、权重依据、冲突与解释Golden。不能用五行数量判断强弱。"
       },
       {
         "topic_id": "bazi-useful-god",
@@ -564,6 +567,7 @@
       "已实现结构Scenario不等于运势/占断；完整解释与发布绑定尚未完成"
     ],
     "recommended_sources": [
+      "bazi.source.ditiansui-spouse",
       "bazi.source.xieji-relations",
       "bazi.source.yuanhai",
       "data/canonical/classics/bazi/ditiansui_chanwei_v1.json",
@@ -609,8 +613,8 @@
         "topic_id": "bazi-strength",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
+        "terms": 1,
+        "phase1_rules": 1,
         "phase2_rules": 0
       },
       {
@@ -645,7 +649,7 @@
       },
       {
         "topic_id": "bazi-strength",
-        "reason": "缺命名 school/variant、通根与月令条件、权重依据、冲突记录、执行与反例 Golden；不能用五行数量判断强弱。"
+        "reason": "已审核任氏知命篇对机械喜财官食印的描述性限制；仍缺具体旺衰算法的school/variant、通根/月令条件、权重依据、冲突与解释Golden。不能用五行数量判断强弱。"
       },
       {
         "topic_id": "bazi-useful-god",
@@ -687,6 +691,7 @@
       "已实现结构Scenario不等于运势/占断；完整解释与发布绑定尚未完成"
     ],
     "recommended_sources": [
+      "bazi.source.ditiansui-spouse",
       "bazi.source.xieji-relations",
       "bazi.source.yuanhai",
       "data/canonical/classics/bazi/ditiansui_chanwei_v1.json",
@@ -740,8 +745,8 @@
         "topic_id": "bazi-strength",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
+        "terms": 1,
+        "phase1_rules": 1,
         "phase2_rules": 0
       },
       {
@@ -776,7 +781,7 @@
       },
       {
         "topic_id": "bazi-strength",
-        "reason": "缺命名 school/variant、通根与月令条件、权重依据、冲突记录、执行与反例 Golden；不能用五行数量判断强弱。"
+        "reason": "已审核任氏知命篇对机械喜财官食印的描述性限制；仍缺具体旺衰算法的school/variant、通根/月令条件、权重依据、冲突与解释Golden。不能用五行数量判断强弱。"
       },
       {
         "topic_id": "bazi-useful-god",
@@ -877,8 +882,8 @@
         "topic_id": "bazi-strength",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
+        "terms": 1,
+        "phase1_rules": 1,
         "phase2_rules": 0
       },
       {
@@ -933,7 +938,7 @@
       },
       {
         "topic_id": "bazi-strength",
-        "reason": "缺命名 school/variant、通根与月令条件、权重依据、冲突记录、执行与反例 Golden；不能用五行数量判断强弱。"
+        "reason": "已审核任氏知命篇对机械喜财官食印的描述性限制；仍缺具体旺衰算法的school/variant、通根/月令条件、权重依据、冲突与解释Golden。不能用五行数量判断强弱。"
       },
       {
         "topic_id": "bazi-pattern",
@@ -985,6 +990,7 @@
       "已实现结构Scenario不等于运势/占断；完整解释与发布绑定尚未完成"
     ],
     "recommended_sources": [
+      "bazi.source.ditiansui-spouse",
       "bazi.source.xieji-relations",
       "bazi.source.yuanhai",
       "data/canonical/classics/bazi/ditiansui_chanwei_v1.json",
@@ -1038,8 +1044,8 @@
         "topic_id": "bazi-strength",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
+        "terms": 1,
+        "phase1_rules": 1,
         "phase2_rules": 0
       },
       {
@@ -1074,7 +1080,7 @@
       },
       {
         "topic_id": "bazi-strength",
-        "reason": "缺命名 school/variant、通根与月令条件、权重依据、冲突记录、执行与反例 Golden；不能用五行数量判断强弱。"
+        "reason": "已审核任氏知命篇对机械喜财官食印的描述性限制；仍缺具体旺衰算法的school/variant、通根/月令条件、权重依据、冲突与解释Golden。不能用五行数量判断强弱。"
       },
       {
         "topic_id": "bazi-romance",
@@ -1183,8 +1189,8 @@
         "topic_id": "bazi-strength",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
+        "terms": 1,
+        "phase1_rules": 1,
         "phase2_rules": 0
       },
       {
@@ -1251,7 +1257,7 @@
       },
       {
         "topic_id": "bazi-strength",
-        "reason": "缺命名 school/variant、通根与月令条件、权重依据、冲突记录、执行与反例 Golden；不能用五行数量判断强弱。"
+        "reason": "已审核任氏知命篇对机械喜财官食印的描述性限制；仍缺具体旺衰算法的school/variant、通根/月令条件、权重依据、冲突与解释Golden。不能用五行数量判断强弱。"
       },
       {
         "topic_id": "bazi-pattern",
@@ -2597,15 +2603,15 @@
         "stage": "quarantine"
       },
       {
-        "path": "data/quarantine/phase1/fengshui/implementations/fengshui-implementation/2666304c5cb4ac13091c8c1fcdd4e40c218b275a/flying_stars.py",
-        "sha256": "c17d1441de0619b293b432ae9e610606867fe2db18bac34b402486d835b862d0",
-        "bytes": 3807,
-        "stage": "quarantine"
-      },
-      {
         "path": "data/quarantine/phase1/fengshui/implementations/fengshui-implementation/2666304c5cb4ac13091c8c1fcdd4e40c218b275a/LICENSE",
         "sha256": "d467a5b49e8c37a290fd3f88126fe44d0e02c106ad1cf2c2bb4e1babaaa89020",
         "bytes": 1085,
+        "stage": "quarantine"
+      },
+      {
+        "path": "data/quarantine/phase1/fengshui/implementations/fengshui-implementation/2666304c5cb4ac13091c8c1fcdd4e40c218b275a/flying_stars.py",
+        "sha256": "c17d1441de0619b293b432ae9e610606867fe2db18bac34b402486d835b862d0",
+        "bytes": 3807,
         "stage": "quarantine"
       },
       {
@@ -2653,15 +2659,15 @@
         "stage": "quarantine"
       },
       {
-        "path": "data/quarantine/phase1/liuren/implementations/kinliuren-implementation/3ba45a9540f08269b56d81508a061c7d46938785/kinliuren.py",
-        "sha256": "f9d93f01239f29a9ed29e5595d7e90aebd363e7715d76f9a769370ffc09ff1a6",
-        "bytes": 112316,
-        "stage": "quarantine"
-      },
-      {
         "path": "data/quarantine/phase1/liuren/implementations/kinliuren-implementation/3ba45a9540f08269b56d81508a061c7d46938785/LICENSE",
         "sha256": "e3bf50050f67e58c7025303f0e730c553662c029217fe132f3a8842bb2ba3b93",
         "bytes": 1065,
+        "stage": "quarantine"
+      },
+      {
+        "path": "data/quarantine/phase1/liuren/implementations/kinliuren-implementation/3ba45a9540f08269b56d81508a061c7d46938785/kinliuren.py",
+        "sha256": "f9d93f01239f29a9ed29e5595d7e90aebd363e7715d76f9a769370ffc09ff1a6",
+        "bytes": 112316,
         "stage": "quarantine"
       },
       {
@@ -2689,6 +2695,12 @@
         "stage": "quarantine"
       },
       {
+        "path": "data/quarantine/phase1/qimen/implementations/qfdk-implementation/1d0d1c5b39755e67525a11e68bab9b73baae1937/LICENSE",
+        "sha256": "afb11426e09da40a1ae4f8fa17ddcc6b6a52d14df04c29bc5bcd06eb8730624d",
+        "bytes": 1057,
+        "stage": "quarantine"
+      },
+      {
         "path": "data/quarantine/phase1/qimen/implementations/qfdk-implementation/1d0d1c5b39755e67525a11e68bab9b73baae1937/bamen.js",
         "sha256": "c0ae005e53def6f62a0c90e445ce99d5862a0535c2bc37685303153b684e039f",
         "bytes": 2537,
@@ -2710,12 +2722,6 @@
         "path": "data/quarantine/phase1/qimen/implementations/qfdk-implementation/1d0d1c5b39755e67525a11e68bab9b73baae1937/jiuxing.js",
         "sha256": "4ea6d4de86fc54ed206e752c56519bf90b74e328986a0e2836eb57bfe3834171",
         "bytes": 2738,
-        "stage": "quarantine"
-      },
-      {
-        "path": "data/quarantine/phase1/qimen/implementations/qfdk-implementation/1d0d1c5b39755e67525a11e68bab9b73baae1937/LICENSE",
-        "sha256": "afb11426e09da40a1ae4f8fa17ddcc6b6a52d14df04c29bc5bcd06eb8730624d",
-        "bytes": 1057,
         "stage": "quarantine"
       },
       {
@@ -2755,15 +2761,15 @@
         "stage": "quarantine"
       },
       {
-        "path": "data/quarantine/phase1/ziwei/implementations/iztro-implementation/2c7ef9be669df7b19d1799f4dce335fed3794f78/heavenlyStems.ts",
-        "sha256": "ad105e3d477750f122cd1756a0696c12e41ebbc6c444d408d39ff1017d7860a7",
-        "bytes": 2087,
-        "stage": "quarantine"
-      },
-      {
         "path": "data/quarantine/phase1/ziwei/implementations/iztro-implementation/2c7ef9be669df7b19d1799f4dce335fed3794f78/LICENSE",
         "sha256": "e6c7b6e313cbda3135b41bccc66c98be132cb8319d0d465903d17e669e748b36",
         "bytes": 1073,
+        "stage": "quarantine"
+      },
+      {
+        "path": "data/quarantine/phase1/ziwei/implementations/iztro-implementation/2c7ef9be669df7b19d1799f4dce335fed3794f78/heavenlyStems.ts",
+        "sha256": "ad105e3d477750f122cd1756a0696c12e41ebbc6c444d408d39ff1017d7860a7",
+        "bytes": 2087,
         "stage": "quarantine"
       },
       {
@@ -3071,6 +3077,12 @@
         "stage": "quarantine"
       },
       {
+        "path": "data/quarantine/source_snapshots/hetu-luoshu-jbbom/README.md",
+        "sha256": "5452b72933a9039c3d1c87f3ec830a25efe7501310bd6d2cc21a8457552b3db5",
+        "bytes": 10046,
+        "stage": "quarantine"
+      },
+      {
         "path": "data/quarantine/source_snapshots/hetu-luoshu-jbbom/_snapshot_manifest.json",
         "sha256": "aff49fc70a18203ef34bfa72b244ef12f8534a69ac69020991cf03f1c5d56c40",
         "bytes": 1258,
@@ -3090,12 +3102,6 @@
         "path": "data/quarantine/source_snapshots/hetu-luoshu-jbbom/luoshu-magic.html",
         "sha256": "9c532ba973d630eeec2595c09aa8aa9cce7d8bf6df1228685c0d3a25c2a37892",
         "bytes": 14713,
-        "stage": "quarantine"
-      },
-      {
-        "path": "data/quarantine/source_snapshots/hetu-luoshu-jbbom/README.md",
-        "sha256": "5452b72933a9039c3d1c87f3ec830a25efe7501310bd6d2cc21a8457552b3db5",
-        "bytes": 10046,
         "stage": "quarantine"
       },
       {
@@ -3294,6 +3300,12 @@
         "stage": "quarantine"
       },
       {
+        "path": "data/quarantine/source_snapshots/qimen-qfdk/README.md",
+        "sha256": "d842b7143ef12236de61232685bafda63afa5729f20d30ecd5b3ce4d6d7c09d3",
+        "bytes": 2885,
+        "stage": "quarantine"
+      },
+      {
         "path": "data/quarantine/source_snapshots/qimen-qfdk/_snapshot_manifest.json",
         "sha256": "f47f4b2d413d65bfa1e22bf028763fdb62241884f522819551155483c9f00136",
         "bytes": 1880,
@@ -3331,12 +3343,6 @@
         "path": "data/quarantine/source_snapshots/qimen-qfdk/lib/qimen.js",
         "sha256": "acedf8169466efa668ca98a8613c6232dd8a2434130a47f61cecad657abf0768",
         "bytes": 27962,
-        "stage": "quarantine"
-      },
-      {
-        "path": "data/quarantine/source_snapshots/qimen-qfdk/README.md",
-        "sha256": "d842b7143ef12236de61232685bafda63afa5729f20d30ecd5b3ce4d6d7c09d3",
-        "bytes": 2885,
         "stage": "quarantine"
       },
       {
@@ -3411,7 +3417,7 @@
       },
       {
         "path": "config/product_requirements.json",
-        "sha256": "de41cfc799d2cd49aea130d9cd77125788bb69a101ef164d783a6df29229f1a1"
+        "sha256": "a6c4217edfee32f9b329804119120b8696388c09e4879572b111e59ab0a4ea14"
       },
       {
         "path": "config/public_domain_manifest.json",
@@ -3463,7 +3469,7 @@
       },
       {
         "path": "src/tianji_kb/api.py",
-        "sha256": "619d87ee902ca779d7fa7ee430703b0b92a0122f269aa859f388fd661e328ce2"
+        "sha256": "d9bdf7b37e681f4eb5df11f5aee458ca08cafba354f222464eabf41ce357842c"
       },
       {
         "path": "src/tianji_kb/bazi_core.py",
@@ -3515,7 +3521,7 @@
       },
       {
         "path": "src/tianji_kb/governance.py",
-        "sha256": "495d17dd77c9a201c3bf5d327dbefe0d671c7ec4d2a08cab474006f36f9e3f47"
+        "sha256": "ad9ac3018b2c72685e3f6b3698dc22abe9ae23450ce5a65709acd8a4556d6e84"
       },
       {
         "path": "src/tianji_kb/knowledge.py",
@@ -3599,7 +3605,7 @@
       },
       {
         "path": "src/tianji_kb/product_coverage.py",
-        "sha256": "2ad00e810a384bc740ef94b9f0b8a0d934d93c10d2b067470009ab75c07772b7"
+        "sha256": "c3c7c1328518cae9da129ecb5d3a174c2f0e2f8eedff2e1cfad758c2a9e739dc"
       },
       {
         "path": "src/tianji_kb/prompts.py",
@@ -3707,7 +3713,7 @@
       },
       {
         "path": "tests/test_phase3_api.py",
-        "sha256": "dedd137e907f4a4480cf5aa7131bec2b94f3b44fcaf66287c9b7bc8ef02a2992"
+        "sha256": "fcada4be7c54c8529cea2d5cbbf9030cd4e6734a661804baa7ea4d8eff266df9"
       },
       {
         "path": "tests/test_phase3_explanation.py",
@@ -8463,9 +8469,23 @@
           "扶抑",
           "月令",
           "身强",
-          "身弱"
+          "身弱",
+          "旺衰"
         ],
-        "reviewed_terms": [],
+        "reviewed_terms": [
+          {
+            "id": "bazi.term.strength_review_boundary",
+            "name": "旺衰",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s022",
+                "original_text": "不论日主之衰旺,总以财官为喜,伤杀为憎,定人终身;不管日主之强弱,尽以食印为福,枭劫为殃,不知财官等名,为六亲取用而列,竟认作财可养命,官可荣身,何其愚也!如财可养命,则财多身弱者,不为富屋贫人,而成巨富;官可荣身,则身衰官重者,不至夭贱,而成显贵。余详考古书,子平之法,全在四柱五行。察其衰旺,究其顺悖,审其进退,论其喜忌,是谓理会。",
+                "role": "classical"
+              }
+            ]
+          }
+        ],
         "terms_not_structured": [
           "得令",
           "得地",
@@ -8477,8 +8497,12 @@
           "身强",
           "身弱"
         ],
-        "phase1_rule_ids": [],
-        "phase1_execution_status": {},
+        "phase1_rule_ids": [
+          "bazi.rule.r012"
+        ],
+        "phase1_execution_status": {
+          "descriptive_only": 1
+        },
         "phase2_rule_ids": [],
         "legacy_references": [],
         "classical_text_candidates": [
@@ -8564,7 +8588,7 @@
               "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
               "license_policy": "PUBLIC_DOMAIN_EXTRACT_ONLY"
             },
-            "hit_count": 51,
+            "hit_count": 52,
             "examples": [
               {
                 "pointer": "/sections/4/text",
@@ -8593,7 +8617,7 @@
           }
         ],
         "explanation_ready": false,
-        "missing": "缺命名 school/variant、通根与月令条件、权重依据、冲突记录、执行与反例 Golden；不能用五行数量判断强弱。"
+        "missing": "已审核任氏知命篇对机械喜财官食印的描述性限制；仍缺具体旺衰算法的school/variant、通根/月令条件、权重依据、冲突与解释Golden。不能用五行数量判断强弱。"
       },
       "bazi-pattern": {
         "name": "格局",

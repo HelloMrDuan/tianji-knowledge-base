@@ -73,10 +73,11 @@
         "扶抑",
         "月令",
         "身强",
-        "身弱"
+        "身弱",
+        "旺衰"
       ],
       "legacy_paths": [],
-      "missing": "缺命名 school/variant、通根与月令条件、权重依据、冲突记录、执行与反例 Golden；不能用五行数量判断强弱。"
+      "missing": "已审核任氏知命篇对机械喜财官食印的描述性限制；仍缺具体旺衰算法的school/variant、通根/月令条件、权重依据、冲突与解释Golden。不能用五行数量判断强弱。"
     },
     "bazi-pattern": {
       "priority": "P0",

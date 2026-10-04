@@ -23,7 +23,7 @@ def inventory(root):
     """Include every tracked-area file; parse JSON instead of inferring from docs."""
     rows = []
     for area in ('data/canonical', 'data/quarantine'):
-        for path in sorted((root / area).rglob('*')):
+        for path in sorted((root / area).rglob('*'), key=lambda p: p.relative_to(root).as_posix()):
             if not path.is_file():
                 continue
             row = {'path': path.relative_to(root).as_posix(), 'sha256': sha(path),

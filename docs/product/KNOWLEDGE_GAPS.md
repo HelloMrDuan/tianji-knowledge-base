@@ -99,10 +99,10 @@ P1：六爻解释深化、流月、流日、人生聚合；P2：紫微、奇门�
   原文候选 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/6/text`；17 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/qiongtong_baojian_v1.json#/sections/3/text`；33 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/yuanhai_ziping_v1.json#/sections/12/text`；10 个字段命中，仅作待审查定位。
-- 旺衰及流派边界：术语 0，关联 Phase1 Rule 0，列入结构映射的 Phase2 Rule 0。
+- 旺衰及流派边界：术语 1，关联 Phase1 Rule 1，列入结构映射的 Phase2 Rule 0。
   原文候选 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text`；55 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/qiongtong_baojian_v1.json#/sections/3/text`；33 个字段命中，仅作待审查定位。
-  原文候选 `data/canonical/classics/bazi/yuanhai_ziping_v1.json#/sections/4/text`；51 个字段命中，仅作待审查定位。
+  原文候选 `data/canonical/classics/bazi/yuanhai_ziping_v1.json#/sections/4/text`；52 个字段命中，仅作待审查定位。
 - 格局：术语 0，关联 Phase1 Rule 0，列入结构映射的 Phase2 Rule 0。
   原文候选 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/7/text`；13 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/qiongtong_baojian_v1.json#/sections/3/text`；14 个字段命中，仅作待审查定位。
@@ -123,7 +123,7 @@ P1：六爻解释深化、流月、流日、人生聚合；P2：紫微、奇门�
 
 - 八字基础与十神映射：四柱/日主/十神/藏干已接入既有模型和执行Golden；仍缺十二长生、月令解释及基础结构到个人结论的条件规则；真太阳时尚未实现。旧表权重不作通用古典结论。
 - 十神结构与条件解释：映射不等于组合、位置、透藏、月令条件下的解释；须补原典规则、限制及反例。
-- 旺衰及流派边界：缺命名 school/variant、通根与月令条件、权重依据、冲突记录、执行与反例 Golden；不能用五行数量判断强弱。
+- 旺衰及流派边界：已审核任氏知命篇对机械喜财官食印的描述性限制；仍缺具体旺衰算法的school/variant、通根/月令条件、权重依据、冲突与解释Golden。不能用五行数量判断强弱。
 - 格局：正文提及不等于结构规则；缺成格/破格/兼格条件、流派限制和 Golden。
 - 喜用神分体系治理：调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。
 - 大运：旧说明不是执行；须核顺逆/起运法/节界/岁数换算/原局作用及不同 Variant。
@@ -139,6 +139,7 @@ P1：六爻解释深化、流月、流日、人生聚合；P2：紫微、奇门�
 
 推荐复核来源（本地已存在；不因列在这里自动升 Evidence）：
 
+- `bazi.source.ditiansui-spouse`
 - `bazi.source.xieji-relations`
 - `bazi.source.yuanhai`
 - `data/canonical/classics/bazi/ditiansui_chanwei_v1.json`
@@ -157,10 +158,10 @@ P1：六爻解释深化、流月、流日、人生聚合；P2：紫微、奇门�
   原文候选 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/0/text`；66 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/qiongtong_baojian_v1.json#/sections/0/title`；51 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/yuanhai_ziping_v1.json#/sections/0/text`；135 个字段命中，仅作待审查定位。
-- 旺衰及流派边界：术语 0，关联 Phase1 Rule 0，列入结构映射的 Phase2 Rule 0。
+- 旺衰及流派边界：术语 1，关联 Phase1 Rule 1，列入结构映射的 Phase2 Rule 0。
   原文候选 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text`；55 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/qiongtong_baojian_v1.json#/sections/3/text`；33 个字段命中，仅作待审查定位。
-  原文候选 `data/canonical/classics/bazi/yuanhai_ziping_v1.json#/sections/4/text`；51 个字段命中，仅作待审查定位。
+  原文候选 `data/canonical/classics/bazi/yuanhai_ziping_v1.json#/sections/4/text`；52 个字段命中，仅作待审查定位。
 - 喜用神分体系治理：术语 0，关联 Phase1 Rule 0，列入结构映射的 Phase2 Rule 0。
 - 大运：术语 0，关联 Phase1 Rule 0，列入结构映射的 Phase2 Rule 0。
   旧资料 `data/canonical/bazi/dayun_v1.json`（实现/描述参考，未授权解释）。
@@ -178,7 +179,7 @@ P1：六爻解释深化、流月、流日、人生聚合；P2：紫微、奇门�
 缺失：
 
 - 八字基础与十神映射：四柱/日主/十神/藏干已接入既有模型和执行Golden；仍缺十二长生、月令解释及基础结构到个人结论的条件规则；真太阳时尚未实现。旧表权重不作通用古典结论。
-- 旺衰及流派边界：缺命名 school/variant、通根与月令条件、权重依据、冲突记录、执行与反例 Golden；不能用五行数量判断强弱。
+- 旺衰及流派边界：已审核任氏知命篇对机械喜财官食印的描述性限制；仍缺具体旺衰算法的school/variant、通根/月令条件、权重依据、冲突与解释Golden。不能用五行数量判断强弱。
 - 喜用神分体系治理：调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。
 - 大运：旧说明不是执行；须核顺逆/起运法/节界/岁数换算/原局作用及不同 Variant。
 - 流年与岁运作用：日历干支不等于运势；缺原局、大运、流年作用图及强弱/喜忌条件规则。
@@ -194,6 +195,7 @@ P1：六爻解释深化、流月、流日、人生聚合；P2：紫微、奇门�
 
 推荐复核来源（本地已存在；不因列在这里自动升 Evidence）：
 
+- `bazi.source.ditiansui-spouse`
 - `bazi.source.xieji-relations`
 - `bazi.source.yuanhai`
 - `data/canonical/classics/bazi/ditiansui_chanwei_v1.json`
@@ -212,10 +214,10 @@ P1：六爻解释深化、流月、流日、人生聚合；P2：紫微、奇门�
   原文候选 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/0/text`；66 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/qiongtong_baojian_v1.json#/sections/0/title`；51 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/yuanhai_ziping_v1.json#/sections/0/text`；135 个字段命中，仅作待审查定位。
-- 旺衰及流派边界：术语 0，关联 Phase1 Rule 0，列入结构映射的 Phase2 Rule 0。
+- 旺衰及流派边界：术语 1，关联 Phase1 Rule 1，列入结构映射的 Phase2 Rule 0。
   原文候选 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text`；55 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/qiongtong_baojian_v1.json#/sections/3/text`；33 个字段命中，仅作待审查定位。
-  原文候选 `data/canonical/classics/bazi/yuanhai_ziping_v1.json#/sections/4/text`；51 个字段命中，仅作待审查定位。
+  原文候选 `data/canonical/classics/bazi/yuanhai_ziping_v1.json#/sections/4/text`；52 个字段命中，仅作待审查定位。
 - 喜用神分体系治理：术语 0，关联 Phase1 Rule 0，列入结构映射的 Phase2 Rule 0。
 - 大运：术语 0，关联 Phase1 Rule 0，列入结构映射的 Phase2 Rule 0。
   旧资料 `data/canonical/bazi/dayun_v1.json`（实现/描述参考，未授权解释）。
@@ -233,7 +235,7 @@ P1：六爻解释深化、流月、流日、人生聚合；P2：紫微、奇门�
 缺失：
 
 - 八字基础与十神映射：四柱/日主/十神/藏干已接入既有模型和执行Golden；仍缺十二长生、月令解释及基础结构到个人结论的条件规则；真太阳时尚未实现。旧表权重不作通用古典结论。
-- 旺衰及流派边界：缺命名 school/variant、通根与月令条件、权重依据、冲突记录、执行与反例 Golden；不能用五行数量判断强弱。
+- 旺衰及流派边界：已审核任氏知命篇对机械喜财官食印的描述性限制；仍缺具体旺衰算法的school/variant、通根/月令条件、权重依据、冲突与解释Golden。不能用五行数量判断强弱。
 - 喜用神分体系治理：调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。
 - 大运：旧说明不是执行；须核顺逆/起运法/节界/岁数换算/原局作用及不同 Variant。
 - 流年与岁运作用：日历干支不等于运势；缺原局、大运、流年作用图及强弱/喜忌条件规则。
@@ -249,6 +251,7 @@ P1：六爻解释深化、流月、流日、人生聚合；P2：紫微、奇门�
 
 推荐复核来源（本地已存在；不因列在这里自动升 Evidence）：
 
+- `bazi.source.ditiansui-spouse`
 - `bazi.source.xieji-relations`
 - `bazi.source.yuanhai`
 - `data/canonical/classics/bazi/ditiansui_chanwei_v1.json`
@@ -267,10 +270,10 @@ P1：六爻解释深化、流月、流日、人生聚合；P2：紫微、奇门�
   原文候选 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/0/text`；66 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/qiongtong_baojian_v1.json#/sections/0/title`；51 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/yuanhai_ziping_v1.json#/sections/0/text`；135 个字段命中，仅作待审查定位。
-- 旺衰及流派边界：术语 0，关联 Phase1 Rule 0，列入结构映射的 Phase2 Rule 0。
+- 旺衰及流派边界：术语 1，关联 Phase1 Rule 1，列入结构映射的 Phase2 Rule 0。
   原文候选 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text`；55 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/qiongtong_baojian_v1.json#/sections/3/text`；33 个字段命中，仅作待审查定位。
-  原文候选 `data/canonical/classics/bazi/yuanhai_ziping_v1.json#/sections/4/text`；51 个字段命中，仅作待审查定位。
+  原文候选 `data/canonical/classics/bazi/yuanhai_ziping_v1.json#/sections/4/text`；52 个字段命中，仅作待审查定位。
 - 喜用神分体系治理：术语 0，关联 Phase1 Rule 0，列入结构映射的 Phase2 Rule 0。
 - 大运：术语 0，关联 Phase1 Rule 0，列入结构映射的 Phase2 Rule 0。
   旧资料 `data/canonical/bazi/dayun_v1.json`（实现/描述参考，未授权解释）。
@@ -291,7 +294,7 @@ P1：六爻解释深化、流月、流日、人生聚合；P2：紫微、奇门�
 缺失：
 
 - 八字基础与十神映射：四柱/日主/十神/藏干已接入既有模型和执行Golden；仍缺十二长生、月令解释及基础结构到个人结论的条件规则；真太阳时尚未实现。旧表权重不作通用古典结论。
-- 旺衰及流派边界：缺命名 school/variant、通根与月令条件、权重依据、冲突记录、执行与反例 Golden；不能用五行数量判断强弱。
+- 旺衰及流派边界：已审核任氏知命篇对机械喜财官食印的描述性限制；仍缺具体旺衰算法的school/variant、通根/月令条件、权重依据、冲突与解释Golden。不能用五行数量判断强弱。
 - 喜用神分体系治理：调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。
 - 大运：旧说明不是执行；须核顺逆/起运法/节界/岁数换算/原局作用及不同 Variant。
 - 流年与岁运作用：日历干支不等于运势；缺原局、大运、流年作用图及强弱/喜忌条件规则。
@@ -308,6 +311,7 @@ P1：六爻解释深化、流月、流日、人生聚合；P2：紫微、奇门�
 
 推荐复核来源（本地已存在；不因列在这里自动升 Evidence）：
 
+- `bazi.source.ditiansui-spouse`
 - `bazi.source.xieji-relations`
 - `bazi.source.yuanhai`
 - `data/canonical/classics/bazi/ditiansui_chanwei_v1.json`
@@ -326,10 +330,10 @@ P1：六爻解释深化、流月、流日、人生聚合；P2：紫微、奇门�
   原文候选 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/0/text`；66 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/qiongtong_baojian_v1.json#/sections/0/title`；51 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/yuanhai_ziping_v1.json#/sections/0/text`；135 个字段命中，仅作待审查定位。
-- 旺衰及流派边界：术语 0，关联 Phase1 Rule 0，列入结构映射的 Phase2 Rule 0。
+- 旺衰及流派边界：术语 1，关联 Phase1 Rule 1，列入结构映射的 Phase2 Rule 0。
   原文候选 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text`；55 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/qiongtong_baojian_v1.json#/sections/3/text`；33 个字段命中，仅作待审查定位。
-  原文候选 `data/canonical/classics/bazi/yuanhai_ziping_v1.json#/sections/4/text`；51 个字段命中，仅作待审查定位。
+  原文候选 `data/canonical/classics/bazi/yuanhai_ziping_v1.json#/sections/4/text`；52 个字段命中，仅作待审查定位。
 - 喜用神分体系治理：术语 0，关联 Phase1 Rule 0，列入结构映射的 Phase2 Rule 0。
 - 大运：术语 0，关联 Phase1 Rule 0，列入结构映射的 Phase2 Rule 0。
   旧资料 `data/canonical/bazi/dayun_v1.json`（实现/描述参考，未授权解释）。
@@ -345,7 +349,7 @@ P1：六爻解释深化、流月、流日、人生聚合；P2：紫微、奇门�
 缺失：
 
 - 八字基础与十神映射：四柱/日主/十神/藏干已接入既有模型和执行Golden；仍缺十二长生、月令解释及基础结构到个人结论的条件规则；真太阳时尚未实现。旧表权重不作通用古典结论。
-- 旺衰及流派边界：缺命名 school/variant、通根与月令条件、权重依据、冲突记录、执行与反例 Golden；不能用五行数量判断强弱。
+- 旺衰及流派边界：已审核任氏知命篇对机械喜财官食印的描述性限制；仍缺具体旺衰算法的school/variant、通根/月令条件、权重依据、冲突与解释Golden。不能用五行数量判断强弱。
 - 喜用神分体系治理：调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。
 - 大运：旧说明不是执行；须核顺逆/起运法/节界/岁数换算/原局作用及不同 Variant。
 - 流年与岁运作用：日历干支不等于运势；缺原局、大运、流年作用图及强弱/喜忌条件规则。
@@ -360,6 +364,7 @@ P1：六爻解释深化、流月、流日、人生聚合；P2：紫微、奇门�
 
 推荐复核来源（本地已存在；不因列在这里自动升 Evidence）：
 
+- `bazi.source.ditiansui-spouse`
 - `bazi.source.xieji-relations`
 - `bazi.source.yuanhai`
 - `data/canonical/classics/bazi/ditiansui_chanwei_v1.json`
@@ -378,10 +383,10 @@ P1：六爻解释深化、流月、流日、人生聚合；P2：紫微、奇门�
   原文候选 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/0/text`；66 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/qiongtong_baojian_v1.json#/sections/0/title`；51 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/yuanhai_ziping_v1.json#/sections/0/text`；135 个字段命中，仅作待审查定位。
-- 旺衰及流派边界：术语 0，关联 Phase1 Rule 0，列入结构映射的 Phase2 Rule 0。
+- 旺衰及流派边界：术语 1，关联 Phase1 Rule 1，列入结构映射的 Phase2 Rule 0。
   原文候选 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text`；55 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/qiongtong_baojian_v1.json#/sections/3/text`；33 个字段命中，仅作待审查定位。
-  原文候选 `data/canonical/classics/bazi/yuanhai_ziping_v1.json#/sections/4/text`；51 个字段命中，仅作待审查定位。
+  原文候选 `data/canonical/classics/bazi/yuanhai_ziping_v1.json#/sections/4/text`；52 个字段命中，仅作待审查定位。
 - 喜用神分体系治理：术语 0，关联 Phase1 Rule 0，列入结构映射的 Phase2 Rule 0。
 - 流年与岁运作用：术语 1，关联 Phase1 Rule 1，列入结构映射的 Phase2 Rule 0。
   旧资料 `data/canonical/bazi/foundations_v1.json`（实现/描述参考，未授权解释）。
@@ -397,7 +402,7 @@ P1：六爻解释深化、流月、流日、人生聚合；P2：紫微、奇门�
 缺失：
 
 - 八字基础与十神映射：四柱/日主/十神/藏干已接入既有模型和执行Golden；仍缺十二长生、月令解释及基础结构到个人结论的条件规则；真太阳时尚未实现。旧表权重不作通用古典结论。
-- 旺衰及流派边界：缺命名 school/variant、通根与月令条件、权重依据、冲突记录、执行与反例 Golden；不能用五行数量判断强弱。
+- 旺衰及流派边界：已审核任氏知命篇对机械喜财官食印的描述性限制；仍缺具体旺衰算法的school/variant、通根/月令条件、权重依据、冲突与解释Golden。不能用五行数量判断强弱。
 - 喜用神分体系治理：调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。
 - 流年与岁运作用：日历干支不等于运势；缺原局、大运、流年作用图及强弱/喜忌条件规则。
 - 婚恋专题：咸池、日支传统配偶宫结构位、显式财星/官杀lens及五合/六合/六害/六冲/三合结构已核；缺红鸾天喜天姚、旺衰格局喜用与岁运婚恋解释；三刑争议仍阻塞；禁止命中结构直接断现代婚姻。
@@ -437,10 +442,10 @@ P1：六爻解释深化、流月、流日、人生聚合；P2：紫微、奇门�
   原文候选 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/6/text`；17 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/qiongtong_baojian_v1.json#/sections/3/text`；33 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/yuanhai_ziping_v1.json#/sections/12/text`；10 个字段命中，仅作待审查定位。
-- 旺衰及流派边界：术语 0，关联 Phase1 Rule 0，列入结构映射的 Phase2 Rule 0。
+- 旺衰及流派边界：术语 1，关联 Phase1 Rule 1，列入结构映射的 Phase2 Rule 0。
   原文候选 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text`；55 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/qiongtong_baojian_v1.json#/sections/3/text`；33 个字段命中，仅作待审查定位。
-  原文候选 `data/canonical/classics/bazi/yuanhai_ziping_v1.json#/sections/4/text`；51 个字段命中，仅作待审查定位。
+  原文候选 `data/canonical/classics/bazi/yuanhai_ziping_v1.json#/sections/4/text`；52 个字段命中，仅作待审查定位。
 - 格局：术语 0，关联 Phase1 Rule 0，列入结构映射的 Phase2 Rule 0。
   原文候选 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/7/text`；13 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/qiongtong_baojian_v1.json#/sections/3/text`；14 个字段命中，仅作待审查定位。
@@ -465,7 +470,7 @@ P1：六爻解释深化、流月、流日、人生聚合；P2：紫微、奇门�
 
 - 八字基础与十神映射：四柱/日主/十神/藏干已接入既有模型和执行Golden；仍缺十二长生、月令解释及基础结构到个人结论的条件规则；真太阳时尚未实现。旧表权重不作通用古典结论。
 - 十神结构与条件解释：映射不等于组合、位置、透藏、月令条件下的解释；须补原典规则、限制及反例。
-- 旺衰及流派边界：缺命名 school/variant、通根与月令条件、权重依据、冲突记录、执行与反例 Golden；不能用五行数量判断强弱。
+- 旺衰及流派边界：已审核任氏知命篇对机械喜财官食印的描述性限制；仍缺具体旺衰算法的school/variant、通根/月令条件、权重依据、冲突与解释Golden。不能用五行数量判断强弱。
 - 格局：正文提及不等于结构规则；缺成格/破格/兼格条件、流派限制和 Golden。
 - 喜用神分体系治理：调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。
 - 大运：旧说明不是执行；须核顺逆/起运法/节界/岁数换算/原局作用及不同 Variant。
@@ -482,6 +487,7 @@ P1：六爻解释深化、流月、流日、人生聚合；P2：紫微、奇门�
 
 推荐复核来源（本地已存在；不因列在这里自动升 Evidence）：
 
+- `bazi.source.ditiansui-spouse`
 - `bazi.source.xieji-relations`
 - `bazi.source.yuanhai`
 - `data/canonical/classics/bazi/ditiansui_chanwei_v1.json`
@@ -500,10 +506,10 @@ P1：六爻解释深化、流月、流日、人生聚合；P2：紫微、奇门�
   原文候选 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/0/text`；66 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/qiongtong_baojian_v1.json#/sections/0/title`；51 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/yuanhai_ziping_v1.json#/sections/0/text`；135 个字段命中，仅作待审查定位。
-- 旺衰及流派边界：术语 0，关联 Phase1 Rule 0，列入结构映射的 Phase2 Rule 0。
+- 旺衰及流派边界：术语 1，关联 Phase1 Rule 1，列入结构映射的 Phase2 Rule 0。
   原文候选 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text`；55 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/qiongtong_baojian_v1.json#/sections/3/text`；33 个字段命中，仅作待审查定位。
-  原文候选 `data/canonical/classics/bazi/yuanhai_ziping_v1.json#/sections/4/text`；51 个字段命中，仅作待审查定位。
+  原文候选 `data/canonical/classics/bazi/yuanhai_ziping_v1.json#/sections/4/text`；52 个字段命中，仅作待审查定位。
 - 婚恋专题：术语 8，关联 Phase1 Rule 8，列入结构映射的 Phase2 Rule 8。
   旧资料 `data/canonical/bazi/shensha_v1.json`（实现/描述参考，未授权解释）。
   原文候选 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/3/text`；37 个字段命中，仅作待审查定位。
@@ -523,7 +529,7 @@ P1：六爻解释深化、流月、流日、人生聚合；P2：紫微、奇门�
 缺失：
 
 - 八字基础与十神映射：四柱/日主/十神/藏干已接入既有模型和执行Golden；仍缺十二长生、月令解释及基础结构到个人结论的条件规则；真太阳时尚未实现。旧表权重不作通用古典结论。
-- 旺衰及流派边界：缺命名 school/variant、通根与月令条件、权重依据、冲突记录、执行与反例 Golden；不能用五行数量判断强弱。
+- 旺衰及流派边界：已审核任氏知命篇对机械喜财官食印的描述性限制；仍缺具体旺衰算法的school/variant、通根/月令条件、权重依据、冲突与解释Golden。不能用五行数量判断强弱。
 - 婚恋专题：咸池、日支传统配偶宫结构位、显式财星/官杀lens及五合/六合/六害/六冲/三合结构已核；缺红鸾天喜天姚、旺衰格局喜用与岁运婚恋解释；三刑争议仍阻塞；禁止命中结构直接断现代婚姻。
 - 流年与岁运作用：日历干支不等于运势；缺原局、大运、流年作用图及强弱/喜忌条件规则。
 - 双人关系：已有真实双人Scenario、十神镜像、咸池交叉、干支关系矩阵与传统配偶星候选位置；缺双方旺衰/喜忌与共同岁运解释、用户关系结论Golden及发布授权；旧60分不可复用。
@@ -558,10 +564,10 @@ P1：六爻解释深化、流月、流日、人生聚合；P2：紫微、奇门�
   原文候选 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/0/text`；66 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/qiongtong_baojian_v1.json#/sections/0/title`；51 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/yuanhai_ziping_v1.json#/sections/0/text`；135 个字段命中，仅作待审查定位。
-- 旺衰及流派边界：术语 0，关联 Phase1 Rule 0，列入结构映射的 Phase2 Rule 0。
+- 旺衰及流派边界：术语 1，关联 Phase1 Rule 1，列入结构映射的 Phase2 Rule 0。
   原文候选 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text`；55 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/qiongtong_baojian_v1.json#/sections/3/text`；33 个字段命中，仅作待审查定位。
-  原文候选 `data/canonical/classics/bazi/yuanhai_ziping_v1.json#/sections/4/text`；51 个字段命中，仅作待审查定位。
+  原文候选 `data/canonical/classics/bazi/yuanhai_ziping_v1.json#/sections/4/text`；52 个字段命中，仅作待审查定位。
 - 格局：术语 0，关联 Phase1 Rule 0，列入结构映射的 Phase2 Rule 0。
   原文候选 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/7/text`；13 个字段命中，仅作待审查定位。
   原文候选 `data/canonical/classics/bazi/qiongtong_baojian_v1.json#/sections/3/text`；14 个字段命中，仅作待审查定位。
@@ -591,7 +597,7 @@ P1：六爻解释深化、流月、流日、人生聚合；P2：紫微、奇门�
 缺失：
 
 - 八字基础与十神映射：四柱/日主/十神/藏干已接入既有模型和执行Golden；仍缺十二长生、月令解释及基础结构到个人结论的条件规则；真太阳时尚未实现。旧表权重不作通用古典结论。
-- 旺衰及流派边界：缺命名 school/variant、通根与月令条件、权重依据、冲突记录、执行与反例 Golden；不能用五行数量判断强弱。
+- 旺衰及流派边界：已审核任氏知命篇对机械喜财官食印的描述性限制；仍缺具体旺衰算法的school/variant、通根/月令条件、权重依据、冲突与解释Golden。不能用五行数量判断强弱。
 - 格局：正文提及不等于结构规则；缺成格/破格/兼格条件、流派限制和 Golden。
 - 喜用神分体系治理：调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。
 - 大运：旧说明不是执行；须核顺逆/起运法/节界/岁数换算/原局作用及不同 Variant。
