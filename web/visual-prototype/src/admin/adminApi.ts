@@ -222,3 +222,30 @@ export type AdminTermRecord = {
 export function fetchAdminTerms(token: string): Promise<AdminTermRecord[]> {
   return fetchProtectedRecords<AdminTermRecord>("/api/v1/admin/governance/terms", token);
 }
+
+
+export type AdminSourceRecord = {
+  id: string;
+  title: string;
+  author: string | null;
+  era: string | null;
+  repository: string | null;
+  url: string;
+  commit: string;
+  license: string | null;
+  public_domain: boolean | null;
+  retrieved_at: string | null;
+  evidence_level: string;
+  kind: string;
+  rights_basis: string;
+  review_scope: string;
+  domains: string[];
+  classic_ids: string[];
+  chapter_ids: string[];
+  section_count: number;
+  entity_count: number;
+};
+
+export function fetchAdminSources(token: string): Promise<AdminSourceRecord[]> {
+  return fetchProtectedRecords<AdminSourceRecord>("/api/v1/admin/governance/sources", token);
+}
