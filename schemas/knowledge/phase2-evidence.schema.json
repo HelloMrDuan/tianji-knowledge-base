@@ -19,7 +19,8 @@
         "liuren",
         "ziwei",
         "fengshui",
-        "yijing"
+        "yijing",
+        "bazi"
       ]
     },
     "model": {
@@ -52,7 +53,8 @@
               "liuren",
               "ziwei",
               "fengshui",
-              "yijing"
+              "yijing",
+              "bazi"
             ]
           },
           "source_id": {
