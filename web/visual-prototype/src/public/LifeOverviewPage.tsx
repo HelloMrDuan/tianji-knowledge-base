@@ -3,6 +3,7 @@ import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeLifeScenario, type ScenarioExecuteResponse } from "./api";
+import { recordReading } from "./readingLibrary";
 import "./life-overview.css";
 
 const profileKey = "tianji.profile.birth.v1";
@@ -63,6 +64,16 @@ export function LifeOverviewPage() {
       } catch {
         /* Preference persistence is optional. */
       }
+      const dayMaster = next.result?.profile?.day_master?.stem;
+      recordReading({
+        scenarioId: "life",
+        label: "人生总览",
+        glyph: "命",
+        title: "2026 人生结构总览",
+        subtitle: dayMaster ? `日主 ${dayMaster} · 八字 / 流年 / 桃花 / 事业财运已聚合` : "四条真实结构主线已聚合",
+        href: "/life-overview",
+        resultVersion: next.result?.report_version || next.status,
+      });
       setResult(next);
     } catch (err) {
       setError(err instanceof Error ? err.message : "人生总览生成失败。");
