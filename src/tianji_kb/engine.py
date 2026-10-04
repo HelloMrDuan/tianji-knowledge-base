@@ -4,20 +4,22 @@ from .resolver import EvidenceResolver
 from .calendar import calendar
 from .foundations import CYCLE
 
-PROVIDERS={domain:f'tianji_kb.operations.{domain}_chart.chart' for domain in ('liuyao','qimen','liuren','ziwei','fengshui','yijing')}
+PROVIDERS={domain:f'tianji_kb.operations.{domain}_chart.chart' for domain in ('liuyao','qimen','liuren','ziwei','fengshui','yijing','bazi')}
 
 def prepare_inputs(domain,inputs):
     inputs=dict(inputs)
-    if domain not in ('liuyao','liuren','ziwei') or 'value' not in inputs:
+    if domain not in ('liuyao','liuren','ziwei','bazi') or 'value' not in inputs:
         return inputs,None
     value=inputs.pop('value')
     derived={'liuyao':{'day_ganzhi','month_branch'},'liuren':{'solar_term','day_ganzhi','hour_branch'},
-             'ziwei':{'year_ganzhi','lunar_month','lunar_day','hour_branch'}}[domain]
+             'ziwei':{'year_ganzhi','lunar_month','lunar_day','hour_branch'},
+             'bazi':{'year_ganzhi','month_ganzhi','day_ganzhi','hour_ganzhi'}}[domain]
     if derived.intersection(inputs):raise ValueError('Datetime and manually supplied calendar pillars cannot be mixed')
     if domain=='ziwei' and inputs.pop('year_boundary',None)!='lunar-new-year':
         raise ValueError('Ziwei datetime input requires explicit year_boundary=lunar-new-year')
     cal=calendar(value)
     if domain=='liuyao':inputs.update(day_ganzhi=cal['day_ganzhi'],month_branch=cal['month_ganzhi'][1])
+    elif domain=='bazi':inputs.update(year_ganzhi=cal['year_ganzhi'],month_ganzhi=cal['month_ganzhi'],day_ganzhi=cal['day_ganzhi'],hour_ganzhi=cal['hour_ganzhi'])
     elif domain=='liuren':inputs.update(solar_term=cal['solar_term'],day_ganzhi=cal['day_ganzhi'],hour_branch=cal['hour_ganzhi'][1])
     else:
         if cal['lunar_month']<0:raise ValueError('Leap-lunar-month convention is unresolved; datetime chart rejected')
