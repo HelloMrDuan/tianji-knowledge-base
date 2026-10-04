@@ -1,14 +1,16 @@
 """Evidence-bound Bazi structural chart. No strength, useful-god or fortune judgement."""
-from ..bazi_core import VARIANT, chart_from_pillars, reviewed_relations
+from ..bazi_core import VARIANT, chart_from_pillars, reviewed_relations, traditional_spouse_star_lens
 from ..resolver import ExecutionTrace
 
-def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=False, include_relations=False, variant=VARIANT):
+def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=False, include_relations=False, traditional_role=None, variant=VARIANT):
     if variant != VARIANT:
         raise ValueError("Unsupported Bazi variant")
     if type(include_xianchi) is not bool:
         raise ValueError("include_xianchi must be boolean")
     if type(include_relations) is not bool:
         raise ValueError("include_relations must be boolean")
+    if traditional_role is not None and traditional_role not in ("male", "female"):
+        raise ValueError("traditional_role must be male or female")
     raw = chart_from_pillars(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, variant=variant)
     trace = ExecutionTrace("bazi", variant)
 
@@ -38,6 +40,18 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
                 "branches": [year_ganzhi[1], month_ganzhi[1], day_ganzhi[1], hour_ganzhi[1]],
             },
             raw["auxiliary"]["taohua"],
+        )
+
+    spouse_star_lens = None
+    if traditional_role is not None:
+        spouse_star_lens = traditional_spouse_star_lens(raw["pillars"], traditional_role)
+        trace.add(
+            "bazi.phase2.spouse_star_lens",
+            {
+                "traditional_role": traditional_role,
+                "candidate_ten_gods": spouse_star_lens["candidate_ten_gods"],
+            },
+            spouse_star_lens,
         )
 
     relation_facts = None
@@ -90,4 +104,7 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
     if relation_facts is not None:
         result["reviewed_relations"] = relation_facts
         result["production_scope"] += "；可选已审核五合、六合、六害、六冲、三合与日支传统配偶宫结构位（只报结构，不作关系吉凶解释）"
+    if spouse_star_lens is not None:
+        result["traditional_spouse_star_lens"] = spouse_star_lens
+        result["production_scope"] += "；可选传统配偶星候选位置（用户显式选择口径，仅定位星位，不作婚恋解释）"
     return trace.finish(result)
