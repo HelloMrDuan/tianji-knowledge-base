@@ -273,3 +273,66 @@ def reviewed_chapters(resolver: EvidenceResolver | None = None) -> list[dict]:
             "phase2_rule_ids": phase2_ids,
         })
     return rows
+
+
+def reviewed_terms(resolver: EvidenceResolver | None = None) -> list[dict]:
+    """Return Canonical term definitions and provenance metadata without source bodies."""
+    resolver = resolver or EvidenceResolver()
+
+    rule_ids_by_section: dict[str, list[str]] = {}
+    phase2_by_phase1: dict[str, list[str]] = {}
+    for contract in resolver.contracts.values():
+        for rule in contract.get("rules", []):
+            for phase1_id in rule.get("phase1_rule_refs", []):
+                phase2_by_phase1.setdefault(phase1_id, []).append(rule["id"])
+
+    for entity_id, pair in resolver.entities.items():
+        collection, entity = pair
+        if collection != "rules":
+            continue
+        for ref in entity.get("source_refs", []):
+            rule_ids_by_section.setdefault(ref["section_id"], []).append(entity_id)
+
+    rows = []
+    for entity_id, pair in sorted(resolver.entities.items()):
+        collection, term = pair
+        if collection != "terms":
+            continue
+        evidence = []
+        related_rule_ids: set[str] = set()
+        for ref in term.get("source_refs", []):
+            source = resolver.sources[ref["source_id"]]
+            section = resolver.entities[ref["section_id"]][1]
+            chapter = resolver.entities[section["chapter_id"]][1]
+            classic = resolver.entities[section["classic_id"]][1]
+            related_rule_ids.update(rule_ids_by_section.get(ref["section_id"], []))
+            evidence.append({
+                "source_id": ref["source_id"],
+                "section_id": ref["section_id"],
+                "classic_id": classic["id"],
+                "classic_title": classic["name"],
+                "chapter_id": chapter["id"],
+                "chapter_title": chapter["name"],
+                "locator": section["locator"],
+                "evidence_level": source["evidence_level"],
+            })
+        phase2_ids = sorted({
+            phase2_id
+            for rule_id in related_rule_ids
+            for phase2_id in phase2_by_phase1.get(rule_id, [])
+        })
+        rows.append({
+            "id": entity_id,
+            "domain": term["domain"],
+            "name": term["name"],
+            "aliases": copy.deepcopy(term.get("aliases", [])),
+            "definition": term.get("definition", ""),
+            "confidence": term["confidence"],
+            "definition_kind": term.get("attributes", {}).get("definition_kind", ""),
+            "production_interpretation": term.get("attributes", {}).get("production_interpretation"),
+            "related_terms": copy.deepcopy(term.get("related_terms", [])),
+            "related_rule_ids": sorted(related_rule_ids),
+            "phase2_rule_ids": phase2_ids,
+            "evidence": evidence,
+        })
+    return rows
