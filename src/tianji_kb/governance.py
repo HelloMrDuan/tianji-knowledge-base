@@ -211,3 +211,61 @@ def reviewed_classics(resolver: EvidenceResolver | None = None) -> list[dict]:
             "chapters": chapter_rows,
         })
     return rows
+
+
+def reviewed_chapters(resolver: EvidenceResolver | None = None) -> list[dict]:
+    """Return Canonical chapter metadata and review coverage without chapter bodies."""
+    resolver = resolver or EvidenceResolver()
+
+    sections_by_chapter: dict[str, list[dict]] = {}
+    used_by_section: dict[str, list[str]] = {}
+    phase2_by_phase1: dict[str, list[str]] = {}
+
+    for contract in resolver.contracts.values():
+        for rule in contract.get("rules", []):
+            for phase1_id in rule.get("phase1_rule_refs", []):
+                phase2_by_phase1.setdefault(phase1_id, []).append(rule["id"])
+
+    for entity_id, pair in resolver.entities.items():
+        collection, entity = pair
+        if collection == "sections":
+            sections_by_chapter.setdefault(entity["chapter_id"], []).append(entity)
+        elif collection in ("terms", "rules", "concepts"):
+            for ref in entity.get("source_refs", []):
+                used_by_section.setdefault(ref["section_id"], []).append(entity_id)
+
+    rows = []
+    for entity_id, pair in sorted(resolver.entities.items()):
+        collection, chapter = pair
+        if collection != "chapters":
+            continue
+        classic = resolver.entities[chapter["classic_id"]][1]
+        source = resolver.sources[classic["source_id"]]
+        sections = sections_by_chapter.get(entity_id, [])
+        used_entities = sorted({
+            used_id
+            for section in sections
+            for used_id in used_by_section.get(section["id"], [])
+        })
+        phase2_ids = sorted({
+            phase2_id
+            for used_id in used_entities
+            for phase2_id in phase2_by_phase1.get(used_id, [])
+        })
+        rows.append({
+            "id": entity_id,
+            "domain": chapter["domain"],
+            "name": chapter["name"],
+            "locator": chapter.get("locator", ""),
+            "classic_id": classic["id"],
+            "classic_title": classic["name"],
+            "body_stage": classic.get("body_stage", "canonical"),
+            "source_id": classic["source_id"],
+            "source_title": source["title"],
+            "evidence_level": source["evidence_level"],
+            "reviewed_section_count": len(sections),
+            "section_ids": sorted(section["id"] for section in sections),
+            "used_by_entity_ids": used_entities,
+            "phase2_rule_ids": phase2_ids,
+        })
+    return rows
