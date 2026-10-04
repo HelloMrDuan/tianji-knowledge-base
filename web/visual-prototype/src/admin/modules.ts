@@ -84,41 +84,6 @@ export const modules: ModuleDefinition[] = [
     ],
   },
   {
-    id: "providers",
-    title: "AI Provider / Model",
-    description: "管理解释模型的连接状态、超时和调用边界。",
-    mode: "settings",
-    columns: ["模型标识", "连接状态", "用途"],
-    records: [
-      record(
-        "P001",
-        "解释服务甲",
-        "未连接",
-        ["DEMO-model-a", "无凭据", "结构说明"],
-        "模型名称为演示占位，不构成供应商推荐。",
-      ),
-      record(
-        "P002",
-        "解释服务乙",
-        "未连接",
-        ["DEMO-model-b", "无凭据", "备用解释"],
-        "此页面不采集 API Key，也不发起模型请求。",
-      ),
-      record(
-        "P003",
-        "本地说明模板",
-        "演示配置",
-        ["DEMO-template", "无需联网", "缺省提示"],
-        "模板只说明界面状态，不能替代真实推演。",
-      ),
-    ],
-    guide: [
-      ["凭据管理", "生产密钥应由服务端托管。"],
-      ["调用边界", "只允许解释已确认的结构化结果。"],
-      ["失败回退", "超时后保留盘面，不生成猜测答案。"],
-    ],
-  },
-  {
     id: "prompts",
     title: "Prompt 版本",
     description: "把解释指令、关联模型与审核版本一起复核。",
