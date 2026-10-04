@@ -381,14 +381,14 @@
         "metadata_only": 0,
         "with_reviewed_excerpts": 4
       },
-      "chapters": 11,
-      "sections": 22,
+      "chapters": 13,
+      "sections": 29,
       "terms": {
-        "canonical": 12
+        "canonical": 15
       },
-      "concepts": 3,
+      "concepts": 5,
       "rules": {
-        "executable": 0,
+        "executable": 3,
         "partially_structured": 11,
         "descriptive_only": 1
       },
@@ -405,7 +405,7 @@
         "bazi.source.yuanhai"
       ],
       "tests": 4,
-      "production_chunks": 49,
+      "production_chunks": 64,
       "completion_criteria": {
         "domain_definition": true,
         "source_registry": true,

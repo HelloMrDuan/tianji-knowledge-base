@@ -10,7 +10,9 @@ from tianji_kb.scenario_engine import execute_scenario, registry
 class ScenarioEngineTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.client = TestClient(create_app())
+        # Initialize Windows' local event-loop socket pair before forbidding
+        # subsequent network connects; keep every model-denial assertion.
+        cls.client = cls.enterClassContext(TestClient(create_app()))
 
     def test_registry_keeps_product_status_explicit(self):
         rows = {item["id"]: item for item in registry()}

@@ -21,6 +21,9 @@ SCENARIO_CLAIMS = {
         'bazi.day_master': _binding(B + 'pillars', [B + 'pillars'], '/day_master'),
         'bazi.ten_gods': _binding(B + 'ten_gods', [B + 'ten_gods']),
         'bazi.hidden_stems': _binding(B + 'hidden_stems', [B + 'hidden_stems']),
+        'bazi.month_command_factors': _binding(B + 'month_command_factors', [B + 'month_command_factors']),
+        'bazi.root_candidates': _binding(B + 'root_candidates', [B + 'root_candidates']),
+        'bazi.hidden_to_visible': _binding(B + 'hidden_to_visible', [B + 'hidden_to_visible']),
     },
     'romance': {
         'romance.xianchi_structure': _binding('bazi.scenario.xianchi_structure', [B + 'xianchi_lookup']),
@@ -56,6 +59,9 @@ SCENARIO_CLAIMS = {
         'career.ten_god_positions': _binding('bazi.scenario.career_wealth_structure', [B + 'ten_gods', B + 'hidden_stems']),
     },
 }
+
+for cid in ('bazi.month_command_factors', 'bazi.root_candidates', 'bazi.hidden_to_visible'):
+    SCENARIO_CLAIMS['bazi-profile'][cid]['required_input_option'] = {'strength_variant': 'ditiansui-root-visibility-v1'}
 
 # Every liuyao calculation RuleMatch already has reviewed evidence and a Golden.
 SCENARIO_CLAIMS['question'] = {

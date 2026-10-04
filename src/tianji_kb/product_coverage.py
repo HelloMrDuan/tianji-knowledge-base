@@ -241,7 +241,7 @@ def build_product_coverage(root: Path, *, rag_rows=None):
                          'phase1': {d: {key: len(b[key]) for key in ('classics', 'chapters', 'sections', 'terms', 'rules', 'concepts')} for d, b in bundles.items()},
                          'engines': engines, 'topics': topic_rows,
                          'conflict_entities': school_conflicts(resolver),
-                         'conflict_status': '沿用既有governance.school_conflicts：传统配偶星口径已限定范围，三刑争议未解决；Rule difference/exceptions、执行unresolved与来源审计继续保留。',
+                         'conflict_status': '沿用既有 governance.school_conflicts：' + '；'.join(c['name'] + '=' + c['status'] for c in school_conflicts(resolver)) + '。保留 Rule difference/exceptions、执行 unresolved 与来源审计。',
                          'source_comparisons': source_audit['claim_comparisons'],
                          'rule_promotions': read_json(root / 'config/phase2_rule_promotions.json')['promotions'],
                          'editorial_review_flags': editorial_flags,
@@ -256,7 +256,7 @@ def build_product_coverage(root: Path, *, rag_rows=None):
                              {'entity_id': eid, 'collection': resolver.entities[eid][0]}
                              for eid in ('bazi.chapter.zhiming_boundary', 'bazi.section.s022', 'bazi.term.strength_review_boundary', 'bazi.rule.r012')
                              if eid in resolver.entities],
-                         'new_execution_promotions': 0}
+                         'bounded_strength_factors': resolver.entities.get('bazi.concept.strength_factor_variant_v1', (None, {}))[1].get('attributes', {})}
     return output
 
 
@@ -339,6 +339,9 @@ def capability_map(report):
                     lines.append(f"  Evidence {ref['evidence_level']}：`{ref['source_id']}` / {ref['classic_title']} / {ref['chapter_title']} / `{ref['locator']}`，引文：{ref['original_text']}。")
         lines += ['', '当前场景可输出结论（只描述事实，不追加吉凶含义）：', '']
         lines += [f"- `{cid}`：READY；匹配 `{c['match_rule_id']}`，事实路径 `{c['fact_path'] or '/'}`；{c['scope']}。" for cid, c in p['claim_capabilities'].items()] or ['- 无已接入的结构 claim；引擎能力如上，场景接线须另审。']
+        for cid, c in p['claim_capabilities'].items():
+            if c.get('required_input_option'):
+                lines.append(f"  `{cid}` 仅在显式输入 `{json.dumps(c['required_input_option'], ensure_ascii=False)}` 且对应 RuleMatch 实际执行时可用。")
         if pid == 'romance':
             lines += ['- 引擎另有配偶宫、传统配偶星 lens、五合/六合/六害/六冲/三合；当前 romance 只接咸池，这些其他能力已在 compatibility 接入，不能宣称 romance 已输出。']
         lines += ['', '当前禁止结论：' + '；'.join(p['blocked_claims']) + '。', '', '缺失能力 / 依赖 / 下一批：', '']
