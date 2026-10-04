@@ -5,8 +5,8 @@ counts. This v1 records inspectable factors, never invents weights or classifies
 an entire chart as strong/weak. Its scope is narrower than a completed strength
 classifier; keep that missing dependency visible.
 """
-from .bazi_core import PILLAR_NAMES, foundations
-from .foundations import stem_element
+from .bazi_core import PILLAR_NAMES, foundations, ten_god
+from .foundations import CONTROLS, GENERATES, stem_element
 
 FACTOR_VARIANT = 'ditiansui-root-visibility-v1'
 
@@ -42,8 +42,39 @@ def factors(pillars, day_master, *, variant=FACTOR_VARIANT):
              'scope': '只核同五行藏干通根候选；不赋本气中气余气权重，不以冲刑自动消根'}
     visible = {'positions': visible_positions, 'day_stem_excluded': True,
                'siling_proven': False, 'scope': '支中藏干与年/月/时干同字显现，不等于取格、取用或得势'}
+    # Reuse the original five-element graph and stem metadata. A directional
+    # relation is not a judgement about its efficacy in this chart.
+    stem_rows = {r['stem']: r for r in foundations()['heavenly_stems']}
+    def relation(stem):
+        target = stem_element(stem)
+        if target == element:
+            kind = 'same_element'
+        elif GENERATES[target] == element:
+            kind = 'generates_me'
+        elif GENERATES[element] == target:
+            kind = 'i_generate'
+        elif CONTROLS[target] == element:
+            kind = 'controls_me'
+        elif CONTROLS[element] == target:
+            kind = 'i_control'
+        else:
+            raise ValueError('Unresolvable five-element relation')
+        return {'stem': stem, 'element': target,
+                'polarity': stem_rows[stem]['polarity'], 'relation': kind,
+                'ten_god': ten_god(day_master, stem)}
+    support = {
+        'day_master': {'stem': day_master, 'element': element,
+                       'polarity': stem_rows[day_master]['polarity']},
+        'visible_positions': [{'pillar': PILLAR_NAMES[i], **relation(s)}
+                              for i, s in enumerate(stems) if i != 2],
+        'hidden_positions': [{'pillar': PILLAR_NAMES[i], 'branch': branch, **relation(s)}
+                             for i, branch in enumerate(branches) for s in table[branch]],
+        'day_stem_excluded_from_visible': True, 'effective_support': None,
+        'de_shi': None, 'overall_strength': None,
+        'scope': '只标明同类、生我、我生、克我、我克的位置；不计算生扶克泄耗效力或得势，不作强弱喜忌断语',
+    }
     return {'factor_variant': variant, 'month_command': month, 'root_candidates': roots,
-            'hidden_to_visible': visible, 'overall_strength': None,
+            'hidden_to_visible': visible, 'support_relations': support, 'overall_strength': None,
             'maturity': 'PARTIAL', 'full_strength_classifier_ready': False,
             'unresolved': ['司令分日有原典口径差异，未裁定。',
                            '季节旺相休囚与得令不等于整局强弱。',

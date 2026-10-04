@@ -661,6 +661,295 @@
           }
         }
       }
+    },
+    {
+      "id": "bazi.support-normal",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲寅",
+        "month_ganzhi": "丙寅",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "戊辰",
+        "strength_variant": "ditiansui-root-visibility-v1"
+      },
+      "expected": {
+        "strength_factors": {
+          "support_relations": {
+            "visible_positions": [
+              {
+                "pillar": "year",
+                "stem": "甲",
+                "element": "木",
+                "polarity": "阳",
+                "relation": "same_element",
+                "ten_god": "比肩"
+              },
+              {
+                "pillar": "month",
+                "stem": "丙",
+                "element": "火",
+                "polarity": "阳",
+                "relation": "i_generate",
+                "ten_god": "食神"
+              },
+              {
+                "pillar": "hour",
+                "stem": "戊",
+                "element": "土",
+                "polarity": "阳",
+                "relation": "i_control",
+                "ten_god": "偏财"
+              }
+            ],
+            "day_stem_excluded_from_visible": true,
+            "effective_support": null,
+            "de_shi": null,
+            "overall_strength": null,
+            "hidden_positions": [
+              {
+                "branch": "寅",
+                "pillar": "year",
+                "stem": "甲",
+                "element": "木",
+                "polarity": "阳",
+                "relation": "same_element",
+                "ten_god": "比肩"
+              },
+              {
+                "branch": "寅",
+                "pillar": "year",
+                "stem": "丙",
+                "element": "火",
+                "polarity": "阳",
+                "relation": "i_generate",
+                "ten_god": "食神"
+              },
+              {
+                "branch": "寅",
+                "pillar": "year",
+                "stem": "戊",
+                "element": "土",
+                "polarity": "阳",
+                "relation": "i_control",
+                "ten_god": "偏财"
+              },
+              {
+                "branch": "寅",
+                "pillar": "month",
+                "stem": "甲",
+                "element": "木",
+                "polarity": "阳",
+                "relation": "same_element",
+                "ten_god": "比肩"
+              },
+              {
+                "branch": "寅",
+                "pillar": "month",
+                "stem": "丙",
+                "element": "火",
+                "polarity": "阳",
+                "relation": "i_generate",
+                "ten_god": "食神"
+              },
+              {
+                "branch": "寅",
+                "pillar": "month",
+                "stem": "戊",
+                "element": "土",
+                "polarity": "阳",
+                "relation": "i_control",
+                "ten_god": "偏财"
+              },
+              {
+                "branch": "子",
+                "pillar": "day",
+                "stem": "癸",
+                "element": "水",
+                "polarity": "阴",
+                "relation": "generates_me",
+                "ten_god": "正印"
+              },
+              {
+                "branch": "辰",
+                "pillar": "hour",
+                "stem": "戊",
+                "element": "土",
+                "polarity": "阳",
+                "relation": "i_control",
+                "ten_god": "偏财"
+              },
+              {
+                "branch": "辰",
+                "pillar": "hour",
+                "stem": "乙",
+                "element": "木",
+                "polarity": "阴",
+                "relation": "same_element",
+                "ten_god": "劫财"
+              },
+              {
+                "branch": "辰",
+                "pillar": "hour",
+                "stem": "癸",
+                "element": "水",
+                "polarity": "阴",
+                "relation": "generates_me",
+                "ten_god": "正印"
+              }
+            ]
+          },
+          "overall_strength": null,
+          "full_strength_classifier_ready": false
+        }
+      }
+    },
+    {
+      "id": "bazi.support-yin",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "庚申",
+        "month_ganzhi": "壬寅",
+        "day_ganzhi": "乙酉",
+        "hour_ganzhi": "庚子",
+        "strength_variant": "ditiansui-root-visibility-v1"
+      },
+      "expected": {
+        "strength_factors": {
+          "support_relations": {
+            "visible_positions": [
+              {
+                "pillar": "year",
+                "stem": "庚",
+                "element": "金",
+                "polarity": "阳",
+                "relation": "controls_me",
+                "ten_god": "正官"
+              },
+              {
+                "pillar": "month",
+                "stem": "壬",
+                "element": "水",
+                "polarity": "阳",
+                "relation": "generates_me",
+                "ten_god": "正印"
+              },
+              {
+                "pillar": "hour",
+                "stem": "庚",
+                "element": "金",
+                "polarity": "阳",
+                "relation": "controls_me",
+                "ten_god": "正官"
+              }
+            ],
+            "day_stem_excluded_from_visible": true,
+            "effective_support": null,
+            "de_shi": null,
+            "overall_strength": null
+          },
+          "overall_strength": null,
+          "full_strength_classifier_ready": false
+        }
+      }
+    },
+    {
+      "id": "bazi.support-visible-peers",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲申",
+        "month_ganzhi": "甲子",
+        "day_ganzhi": "甲申",
+        "hour_ganzhi": "甲戌",
+        "strength_variant": "ditiansui-root-visibility-v1"
+      },
+      "expected": {
+        "strength_factors": {
+          "support_relations": {
+            "visible_positions": [
+              {
+                "pillar": "year",
+                "stem": "甲",
+                "element": "木",
+                "polarity": "阳",
+                "relation": "same_element",
+                "ten_god": "比肩"
+              },
+              {
+                "pillar": "month",
+                "stem": "甲",
+                "element": "木",
+                "polarity": "阳",
+                "relation": "same_element",
+                "ten_god": "比肩"
+              },
+              {
+                "pillar": "hour",
+                "stem": "甲",
+                "element": "木",
+                "polarity": "阳",
+                "relation": "same_element",
+                "ten_god": "比肩"
+              }
+            ],
+            "day_stem_excluded_from_visible": true,
+            "effective_support": null,
+            "de_shi": null,
+            "overall_strength": null
+          },
+          "overall_strength": null,
+          "full_strength_classifier_ready": false
+        }
+      }
+    },
+    {
+      "id": "bazi.support-conflict",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲寅",
+        "month_ganzhi": "庚申",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "辛酉",
+        "strength_variant": "ditiansui-root-visibility-v1",
+        "include_relations": true
+      },
+      "expected": {
+        "strength_factors": {
+          "support_relations": {
+            "visible_positions": [
+              {
+                "pillar": "year",
+                "stem": "甲",
+                "element": "木",
+                "polarity": "阳",
+                "relation": "same_element",
+                "ten_god": "比肩"
+              },
+              {
+                "pillar": "month",
+                "stem": "庚",
+                "element": "金",
+                "polarity": "阳",
+                "relation": "controls_me",
+                "ten_god": "七杀"
+              },
+              {
+                "pillar": "hour",
+                "stem": "辛",
+                "element": "金",
+                "polarity": "阴",
+                "relation": "controls_me",
+                "ten_god": "正官"
+              }
+            ],
+            "day_stem_excluded_from_visible": true,
+            "effective_support": null,
+            "de_shi": null,
+            "overall_strength": null
+          },
+          "overall_strength": null,
+          "full_strength_classifier_ready": false
+        }
+      }
     }
   ]
 }

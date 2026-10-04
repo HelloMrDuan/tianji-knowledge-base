@@ -32,8 +32,8 @@ class ProductCoverageTests(unittest.TestCase):
     def test_all_requested_products_and_specialist_tools_have_no_fake_authorization(self):
         rows = build_product_coverage(ROOT)
         self.assertEqual(len(rows) - 1, 16)
-        self.assertEqual(sum(len(e['rules']) for e in rows['_audit']['engines'].values()), 51)
-        self.assertEqual(sum(len(e['golden_ids']) for e in rows['_audit']['engines'].values()), 40)
+        self.assertEqual(sum(len(e['rules']) for e in rows['_audit']['engines'].values()), 52)
+        self.assertEqual(sum(len(e['golden_ids']) for e in rows['_audit']['engines'].values()), 44)
         self.assertTrue(rows['_audit']['engines']['bazi']['registered'])
         self.assertEqual(rows['_audit']['engines']['bazi']['variant'], 'ziping-structural-v1')
         self.assertEqual(rows['_audit']['source_grades'], {'C': 91, 'D': 6})
