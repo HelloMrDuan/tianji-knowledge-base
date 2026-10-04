@@ -7,6 +7,7 @@ import { adminGroups } from "./fixtures";
 import { Dashboard } from "./Dashboard";
 import { AssetPage } from "./AssetPage";
 import { ConflictGovernancePage } from "./ConflictGovernancePage";
+import { GovernanceAssetPage } from "./GovernanceAssetPage";
 import type { AssetKind } from "./fixtures";
 import "./admin.css";
 import "./modules.css";
@@ -106,9 +107,12 @@ export default function AdminApp() {
             <Dashboard />
           ) : path.startsWith("/admin/conflicts") ? (
             <ConflictGovernancePage />
-          ) : ["classics", "rules", "evidence"].includes(kind) &&
-            path === `/admin/${kind}` ? (
-            <AssetPage kind={kind} key={kind} />
+          ) : path === "/admin/rules" ? (
+            <GovernanceAssetPage kind="rules" />
+          ) : path === "/admin/evidence" ? (
+            <GovernanceAssetPage kind="evidence" />
+          ) : kind === "classics" && path === "/admin/classics" ? (
+            <AssetPage kind="classics" />
           ) : module && path.split("/").length <= 4 ? (
             <ModulePage key={path} module={module} recordId={recordId} />
           ) : (
