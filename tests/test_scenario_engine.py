@@ -121,6 +121,23 @@ class ScenarioEngineTests(unittest.TestCase):
         self.assertFalse(data["public_release"])
         self.assertTrue(data["limitations"])
 
+    def test_http_career_structure_never_calls_model(self):
+        with patch("socket.socket.connect", side_effect=AssertionError("Network model call forbidden")):
+            response = self.client.post("/api/v1/scenarios/execute", json={
+                "scenario_id": "career",
+                "input": {
+                    "birth_value": "2000-01-07T12:00:00+08:00",
+                    "target_year": 2026,
+                },
+            })
+        self.assertEqual(response.status_code, 200, response.text)
+        data = response.json()
+        self.assertEqual(data["scenario_id"], "career")
+        self.assertEqual(data["result"]["target_year"]["stem_ten_god"], "食神")
+        self.assertEqual(data["result"]["release_scope"], "career_wealth_structure_only")
+        self.assertFalse(data["public_release"])
+        self.assertTrue(data["evidence"])
+
     def test_http_rejects_unimplemented_and_unknown_inputs(self):
         response = self.client.post("/api/v1/scenarios/execute", json={"scenario_id": "compatibility", "input": {}})
         self.assertEqual(response.status_code, 422)
