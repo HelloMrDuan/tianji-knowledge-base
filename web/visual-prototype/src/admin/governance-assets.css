@@ -1,0 +1,25 @@
+.governance-auth{display:grid;gap:18px;max-width:780px;margin:0 auto}
+.governance-auth-copy{display:flex;gap:14px;align-items:flex-start}
+.governance-auth-copy>span{width:46px;height:46px;border:1px solid #d9ddd5;border-radius:11px;display:grid;place-items:center;background:#f7f8f4;color:#536b59;flex:0 0 auto}
+.governance-auth-copy h2{margin:0 0 6px;font-size:20px}
+.governance-auth-copy p{margin:0;color:#707870;line-height:1.7}
+.governance-auth form{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:end}
+.governance-auth label{display:grid;gap:7px;color:#667166;font-size:12px}
+.governance-auth input{width:100%;box-sizing:border-box;border:1px solid #d6dbd4;border-radius:7px;background:#fff;padding:11px 12px;font:inherit}
+.governance-auth-error{margin:0;color:#9c4a44}
+.governance-heading-actions{display:flex;gap:10px;align-items:center}
+.governance-asset-card{overflow:hidden}
+.governance-table td strong{display:block;font-weight:500;color:#43564a}
+.governance-table .secondary-cell small{display:block;margin-top:4px;color:#92988f}
+.governance-detail h3{margin:0 0 6px;font-size:20px}
+.governance-detail>code{display:block;margin-bottom:15px;color:#8a9189;word-break:break-all}
+.governance-detail h4{margin:18px 0 8px;font-size:13px;color:#526257}
+.governance-detail blockquote{margin:9px 0;padding:11px 13px;border-left:2px solid #c8b78f;background:#faf7ef;color:#5f5a50;line-height:1.75;font-size:12px}
+.governance-detail blockquote small{display:block;margin-top:8px;color:#948c7d}
+.governance-limit{margin:6px 0;padding:8px 10px;background:#f8f8f4;border-left:2px solid #d0d7ce;color:#657066}
+.governance-binding{padding:10px 12px;border:1px solid #e0e3dc;border-radius:6px;margin:7px 0;background:#fafbf8}
+.governance-binding strong,.governance-binding span,.governance-binding small{display:block}
+.governance-binding strong{font-size:11px;word-break:break-all}
+.governance-binding span{font-size:10px;color:#55705a;margin-top:4px}
+.governance-binding small{font-size:9px;color:#939991;margin-top:4px}
+@media(max-width:800px){.governance-auth form{grid-template-columns:1fr}.governance-heading-actions{align-items:flex-end;flex-direction:column}}

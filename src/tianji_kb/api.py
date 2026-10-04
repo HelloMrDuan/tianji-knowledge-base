@@ -16,7 +16,7 @@ from .runtime_catalog import load_catalog
 from .resolver import ROOT
 from .prompts import DEFAULT_PROMPT,PROMPTS
 from .scenario_engine import execute_scenario,registry as scenario_registry
-from .governance import school_conflicts
+from .governance import school_conflicts,reviewed_rules,reviewed_evidence
 
 Domain=Literal['liuyao','qimen','liuren','ziwei','fengshui','yijing','bazi']
 Mode=Literal['production','research']
@@ -182,6 +182,26 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None):
             'read_only':True,
             'public_release':False,
             'records':school_conflicts(),
+        }
+
+    @app.get('/api/v1/admin/governance/rules',tags=['admin'])
+    def admin_governance_rules(authorization: str | None = Header(default=None)):
+        require_admin_read_token(authorization)
+        return {
+            'api_version':'v1',
+            'read_only':True,
+            'public_release':False,
+            'records':reviewed_rules(),
+        }
+
+    @app.get('/api/v1/admin/governance/evidence',tags=['admin'])
+    def admin_governance_evidence(authorization: str | None = Header(default=None)):
+        require_admin_read_token(authorization)
+        return {
+            'api_version':'v1',
+            'read_only':True,
+            'public_release':False,
+            'records':reviewed_evidence(),
         }
 
     @app.post('/api/v1/scenarios/execute',response_model=ScenarioExecuteResponse,tags=['scenarios'])

@@ -199,7 +199,7 @@ test("original music requires a gesture, persists volume, pauses globally and on
   await expect(page.locator("audio")).toHaveCount(0);
 });
 
-for (const kind of ["classics", "rules", "evidence"]) {
+for (const kind of ["classics"]) {
   test(`admin ${kind} supports filtering, empty states and read-only details`, async ({
     page,
   }) => {
@@ -225,6 +225,25 @@ for (const kind of ["classics", "rules", "evidence"]) {
     ).toHaveCount(0);
   });
 }
+
+test("real rules and evidence admin stay sealed until explicit authorization", async ({
+  page,
+}) => {
+  for (const route of ["/admin/rules", "/admin/evidence"]) {
+    const requests: string[] = [];
+    const listener = (request: any) => {
+      if (request.url().includes("/api/v1/admin/governance/"))
+        requests.push(request.url());
+    };
+    page.on("request", listener);
+    await page.goto(route);
+    await expect(page.getByRole("heading", { name: route.endsWith("rules") ? "规则管理" : "Evidence 管理", exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "需要内部只读授权" })).toBeVisible();
+    await expect(page.getByLabel("后台只读令牌")).toHaveAttribute("type", "password");
+    expect(requests).toEqual([]);
+    page.off("request", listener);
+  }
+});
 
 test("mobile admin menu opens implemented Prompt workspace", async ({
   page,
