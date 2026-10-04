@@ -760,6 +760,14 @@
       "authority_status": "unverified",
       "grade_ceiling": "C",
       "review_basis": "固定电子来源与短引字面已核；独立刊本与底本链未确证，不升级 A/B。"
+    },
+    {
+      "source_id": "bazi.source.sanming-xianchi-niutrans",
+      "lineage_group": "NiuTrans/Classical-Modern:三命通会/卷二/论咸池",
+      "edition_status": "unverified",
+      "authority_status": "unverified",
+      "grade_ceiling": "C",
+      "review_basis": "固定 commit 的古籍短篇可追溯；与其他网络转写存在“已/巳”形近字问题，底本与独立版本关系未确证。"
     }
   ],
   "claim_comparisons": [

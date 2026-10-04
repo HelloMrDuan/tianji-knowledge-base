@@ -9,6 +9,13 @@
       "name": "渊海子平",
       "source_id": "bazi.source.yuanhai",
       "body_stage": "canonical"
+    },
+    {
+      "id": "bazi.classic.sanming_tonghui",
+      "domain": "bazi",
+      "name": "三命通会",
+      "source_id": "bazi.source.sanming-xianchi-niutrans",
+      "body_stage": "quarantine"
     }
   ],
   "chapters": [
@@ -32,6 +39,13 @@
       "name": "喜忌篇",
       "classic_id": "bazi.classic.yuanhai",
       "locator": "喜忌篇"
+    },
+    {
+      "id": "bazi.chapter.sanming_xianchi",
+      "domain": "bazi",
+      "name": "卷二·论咸池",
+      "classic_id": "bazi.classic.sanming_tonghui",
+      "locator": "卷二·论咸池"
     }
   ],
   "sections": [
@@ -154,6 +168,21 @@
         "method": "逐字核对固定公有领域快照；只晋级本轮确定性结构所需短引。",
         "scope": "仅四柱、日主、十神与地支藏干；不推广为旺衰、喜忌、格局或人生吉凶结论。"
       }
+    },
+    {
+      "id": "bazi.section.s009",
+      "domain": "bazi",
+      "name": "三命通会·论咸池四组",
+      "classic_id": "bazi.classic.sanming_tonghui",
+      "chapter_id": "bazi.chapter.sanming_xianchi",
+      "source_id": "bazi.source.sanming-xianchi-niutrans",
+      "text": "《淮南子》曰： 日出扶桑，入于咸池。 故五行沐浴之地，名咸池。是取日人之义，万物暗昧之时。寅午戌卯、已酉丑午、申子辰酉、亥卯未子即长生第二位沐浴之宫是也。一名败神，一名桃花煞",
+      "locator": "《三命通会》卷二·论咸池；固定短引",
+      "review": {
+        "status": "approved",
+        "method": "逐字核对固定 commit 文本，并用公开扫描校核卡交叉检查四组查表；原文引用保持电子本字面，不静默改字。",
+        "scope": "只确认咸池/桃花煞名称与四组三合局目标支。电子本“已酉丑午”疑为“巳酉丑午”形近转写；基准采用年支还是日支、纳音附加条件及所有吉凶断语均不在本轮裁定。"
+      }
     }
   ],
   "terms": [
@@ -235,6 +264,30 @@
       "confidence": "medium",
       "attributes": {
         "definition_kind": "classical_excerpt"
+      }
+    },
+    {
+      "id": "bazi.term.xianchi",
+      "domain": "bazi",
+      "name": "咸池",
+      "aliases": [
+        "桃花煞",
+        "桃花"
+      ],
+      "definition": "《三命通会》称五行沐浴之地为咸池，又名桃花煞。本轮只登记四组结构查表，不把名称直接解释成婚恋吉凶。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.sanming-xianchi-niutrans",
+          "section_id": "bazi.section.s009",
+          "original_text": "《淮南子》曰： 日出扶桑，入于咸池。 故五行沐浴之地，名咸池。是取日人之义，万物暗昧之时。寅午戌卯、已酉丑午、申子辰酉、亥卯未子即长生第二位沐浴之宫是也。一名败神，一名桃花煞",
+          "role": "classical"
+        }
+      ],
+      "related_terms": [],
+      "confidence": "medium",
+      "attributes": {
+        "definition_kind": "reviewed_structural_summary",
+        "production_interpretation": false
       }
     }
   ],
@@ -386,6 +439,50 @@
       "term_refs": [
         "bazi.term.hidden_stems",
         "bazi.term.ten_gods"
+      ]
+    },
+    {
+      "id": "bazi.rule.r004",
+      "domain": "bazi",
+      "name": "咸池四组三合查表",
+      "conditions": [
+        "给定一个已明确来源语义的基准地支",
+        "只返回该三合组对应的咸池目标支"
+      ],
+      "inputs": {
+        "basis_branch": "基准地支；调用方必须显式说明取年支或日支，当前规则本身不裁定基准"
+      },
+      "operation": {
+        "kind": "table_lookup",
+        "parameters": {
+          "data_path": "data/canonical/bazi/shensha_v1.json",
+          "item": "桃花/咸池"
+        }
+      },
+      "result": {
+        "target_branch": "寅午戌→卯；巳酉丑→午；申子辰→酉；亥卯未→子"
+      },
+      "exceptions": [
+        "当前不裁定起查基准：年支、日支或两者分别起查；production 场景不得偷偷默认。",
+        "当前电子本作“已酉丑午”；扫描校核资料核为“巳酉丑午”。原典引用保留原电子本文字，结构表记录校核后的地支。",
+        "《三命通会》相关段落另有纳音附加条件争议，本轮不纳入自动规则。",
+        "禁止仅据咸池标记生成桃花运、婚恋吉凶、性格、疾病或事件判断。"
+      ],
+      "execution_status": "partially_structured",
+      "school": "子平神煞·咸池",
+      "variant": "ziping-xianchi-table-v0",
+      "difference": "四组目标支已核；起查基准与附加条件尚未裁定，所以不进入现有 bazi production execution contract。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.sanming-xianchi-niutrans",
+          "section_id": "bazi.section.s009",
+          "original_text": "《淮南子》曰： 日出扶桑，入于咸池。 故五行沐浴之地，名咸池。是取日人之义，万物暗昧之时。寅午戌卯、已酉丑午、申子辰酉、亥卯未子即长生第二位沐浴之宫是也。一名败神，一名桃花煞",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium",
+      "term_refs": [
+        "bazi.term.xianchi"
       ]
     }
   ],

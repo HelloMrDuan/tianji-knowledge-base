@@ -1974,6 +1974,27 @@
       "kind": "classical",
       "rights_basis": "仅保存并引用公有领域古籍原文；不取得电子仓库现代编辑内容的版权许可。",
       "review_scope": "固定版本原典短选段：逐字核对四柱、日主、十神与藏干相关段落；不声称整本版本校勘或旺衰喜忌已裁定。"
+    },
+    {
+      "source_id": "bazi.source.sanming-xianchi-niutrans",
+      "title": "三命通会·卷二·论咸池",
+      "author": "万民英",
+      "era": "明；古籍正文为公有领域，当前电子转写版本不等同于独立刊本校勘",
+      "repository": "NiuTrans/Classical-Modern",
+      "url": "https://github.com/NiuTrans/Classical-Modern/blob/4e746ea9fa99c3c0d7051c45397330bef7b0962d/%E5%8F%A4%E6%96%87%E5%8E%9F%E6%96%87/%E4%B8%89%E5%91%BD%E9%80%9A%E4%BC%9A/%E5%8D%B7%E4%BA%8C/%E8%AE%BA%E5%92%B8%E6%B1%A0/text.txt",
+      "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+      "path": "古文原文/三命通会/卷二/论咸池/text.txt",
+      "license": "MIT repository; pre-modern text excerpt only",
+      "public_domain": true,
+      "retrieved_at": "2026-10-04",
+      "content_path": "data/quarantine/public_domain_snapshots/niutrans/sanming_tonghui_juan2_xianchi.txt",
+      "content_format": "text",
+      "sha256": "839fd40f82fccc2ca527039bb61e2db426d0fd65a2476c0ee425954600b7d7ec",
+      "blob_sha": "71eac55663be244459fb3aeaffc4f3dded4dfe48",
+      "evidence_level": "C",
+      "kind": "classical",
+      "rights_basis": "《三命通会》为前现代古籍；仅保存固定古文原文短篇快照。NiuTrans 仓库声明 MIT，但 README 同时说明语料来自互联网，因此不据仓库许可证推断底本权利或版本权威。",
+      "review_scope": "只审核卷二《论咸池》固定文本与四组查表。电子本把“巳酉丑午”转写为“已酉丑午”的疑字单独登记；独立刊本谱系未确证，不升级 A/B。"
     }
   ]
 }
