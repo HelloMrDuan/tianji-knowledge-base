@@ -1,0 +1,185 @@
+"""Deterministic Bazi structural facts.
+
+This module intentionally stops before strength (旺衰), useful-god selection,
+pattern judgement, auspiciousness, Dayun start age, or life-event prediction.
+It only derives reproducible structure from the existing canonical tables.
+"""
+import json
+from functools import lru_cache
+from pathlib import Path
+
+from .calendar import calendar
+from .foundations import BRANCHES, CONTROLS, GENERATES, STEMS, ganzhi_index, stem_element
+
+ROOT = Path(__file__).resolve().parents[2]
+VARIANT = "ziping-structural-v1"
+PILLAR_NAMES = ("year", "month", "day", "hour")
+
+
+@lru_cache(maxsize=1)
+def foundations():
+    return json.loads((ROOT / "data/canonical/bazi/foundations_v1.json").read_text(encoding="utf-8"))
+
+
+@lru_cache(maxsize=1)
+def shensha():
+    return json.loads((ROOT / "data/canonical/bazi/shensha_v1.json").read_text(encoding="utf-8"))
+
+
+def _stem_row(stem):
+    if stem not in STEMS:
+        raise ValueError("Expected one heavenly stem")
+    return next(row for row in foundations()["heavenly_stems"] if row["stem"] == stem)
+
+
+def ten_god(day_stem, target_stem):
+    """Return the Ten-God relation of target_stem relative to day_stem."""
+    day = _stem_row(day_stem)
+    target = _stem_row(target_stem)
+    day_element = day["element"]
+    target_element = target["element"]
+    same_polarity = day["polarity"] == target["polarity"]
+    rules = foundations()["ten_gods_rule"]
+
+    if day_element == target_element:
+        relation = "same_element"
+    elif GENERATES[target_element] == day_element:
+        relation = "generates_me"
+    elif GENERATES[day_element] == target_element:
+        relation = "i_generate"
+    elif CONTROLS[target_element] == day_element:
+        relation = "controls_me"
+    elif CONTROLS[day_element] == target_element:
+        relation = "i_control"
+    else:  # The five-element graph should make this unreachable.
+        raise ValueError("Unresolvable five-element relation")
+    return rules[relation]["same_polarity" if same_polarity else "different_polarity"]
+
+
+def hidden_stems(branch, day_stem):
+    table = foundations()["hidden_stems"]
+    if branch not in table:
+        raise ValueError("Expected one earthly branch")
+    return [{"stem": stem, "ten_god": ten_god(day_stem, stem)} for stem in table[branch]]
+
+
+def _pair_members(rows):
+    return {frozenset(row[:2]): row[2:] for row in rows}
+
+
+def branch_relations(branches):
+    """Return only structural branch relations present in the four pillars."""
+    if not isinstance(branches, (list, tuple)) or len(branches) != 4:
+        raise ValueError("Expected four earthly branches")
+    if any(branch not in BRANCHES for branch in branches):
+        raise ValueError("Invalid earthly branch")
+
+    relation = foundations()["earthly_branch_relations"]
+    clashes = _pair_members(relation["clashes"])
+    harmonies = _pair_members(relation["six_harmonies"])
+    harms = _pair_members(relation["harms"])
+    pairs = []
+    for i in range(4):
+        for j in range(i + 1, 4):
+            key = frozenset((branches[i], branches[j]))
+            if key in clashes:
+                pairs.append({"kind": "clash", "pillars": [PILLAR_NAMES[i], PILLAR_NAMES[j]], "branches": [branches[i], branches[j]]})
+            if key in harmonies:
+                extra = harmonies[key]
+                pairs.append({"kind": "six_harmony", "pillars": [PILLAR_NAMES[i], PILLAR_NAMES[j]], "branches": [branches[i], branches[j]], "result_element": extra[0] if extra else None})
+            if key in harms:
+                pairs.append({"kind": "harm", "pillars": [PILLAR_NAMES[i], PILLAR_NAMES[j]], "branches": [branches[i], branches[j]]})
+
+    branch_set = set(branches)
+    groups = []
+    for kind, key in (("triple_harmony", "triple_harmonies"), ("directional_meeting", "directional_meetings")):
+        for row in relation[key]:
+            needed = set(row[:3])
+            if needed.issubset(branch_set):
+                groups.append({"kind": kind, "branches": row[:3], "result_element": row[3]})
+    return {"pairs": pairs, "groups": groups}
+
+
+def taohua_matches(year_branch, day_branch, branches):
+    """Compute only the fixed 桃花/咸池 lookup from the reviewed table."""
+    if any(branch not in BRANCHES for branch in (year_branch, day_branch, *branches)):
+        raise ValueError("Invalid earthly branch")
+    item = next(x for x in shensha()["items"] if x["name"] == "桃花/咸池")
+    table = item["table"]
+
+    def target_for(basis):
+        for group, target in table.items():
+            if basis in group:
+                return target
+        raise ValueError("Incomplete 桃花 table")
+
+    targets = {"year_branch": target_for(year_branch), "day_branch": target_for(day_branch)}
+    matches = []
+    for basis, target in targets.items():
+        for index, branch in enumerate(branches):
+            if branch == target:
+                matches.append({"basis": basis, "target_branch": target, "pillar": PILLAR_NAMES[index]})
+    return {"targets": targets, "matches": matches, "warning": shensha()["warning"]}
+
+
+def chart_from_pillars(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, *, variant=VARIANT):
+    if variant != VARIANT:
+        raise ValueError("Unsupported Bazi variant")
+    pillars = [year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi]
+    for pillar in pillars:
+        ganzhi_index(pillar)
+
+    day_stem = day_ganzhi[0]
+    structured = []
+    for name, pillar in zip(PILLAR_NAMES, pillars):
+        stem, branch = pillar
+        structured.append({
+            "name": name,
+            "ganzhi": pillar,
+            "stem": {
+                "value": stem,
+                "element": stem_element(stem),
+                "polarity": _stem_row(stem)["polarity"],
+                "ten_god": "日主" if name == "day" else ten_god(day_stem, stem),
+            },
+            "branch": {
+                "value": branch,
+                "hidden_stems": hidden_stems(branch, day_stem),
+            },
+        })
+
+    branches = [pillar[1] for pillar in pillars]
+    return {
+        "domain": "bazi",
+        "variant": variant,
+        "deterministic": True,
+        "pillars": structured,
+        "day_master": {
+            "stem": day_stem,
+            "element": stem_element(day_stem),
+            "polarity": _stem_row(day_stem)["polarity"],
+        },
+        "branch_relations": branch_relations(branches),
+        "auxiliary": {
+            "taohua": taohua_matches(year_ganzhi[1], day_ganzhi[1], branches),
+        },
+        "limitations": [
+            "不计算旺衰强弱。",
+            "不选择喜用神、格局或调候结论。",
+            "不输出吉凶、婚恋、事业、财富或健康断语。",
+            "不计算大运起运岁数。",
+            "神煞仅保留固定查表事实，不作为独立结论。",
+        ],
+    }
+
+
+def chart_from_datetime(value, *, day_boundary="midnight", variant=VARIANT):
+    cal = calendar(value, day_boundary=day_boundary)
+    result = chart_from_pillars(
+        cal["year_ganzhi"],
+        cal["month_ganzhi"],
+        cal["day_ganzhi"],
+        cal["hour_ganzhi"],
+        variant=variant,
+    )
+    return {**result, "calendar": cal}
