@@ -16,7 +16,7 @@ from .runtime_catalog import load_catalog
 from .resolver import ROOT
 from .prompts import DEFAULT_PROMPT,PROMPTS
 from .scenario_engine import execute_scenario,registry as scenario_registry
-from .governance import school_conflicts,reviewed_rules,reviewed_evidence
+from .governance import school_conflicts,reviewed_rules,reviewed_evidence,reviewed_classics,reviewed_chapters,reviewed_terms,reviewed_sources
 
 Domain=Literal['liuyao','qimen','liuren','ziwei','fengshui','yijing','bazi']
 Mode=Literal['production','research']
@@ -203,6 +203,26 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None):
             'public_release':False,
             'records':reviewed_evidence(),
         }
+
+    @app.get('/api/v1/admin/governance/classics',tags=['admin'])
+    def admin_governance_classics(authorization: str | None = Header(default=None)):
+        require_admin_read_token(authorization)
+        return {'api_version':'v1','read_only':True,'public_release':False,'records':reviewed_classics()}
+
+    @app.get('/api/v1/admin/governance/chapters',tags=['admin'])
+    def admin_governance_chapters(authorization: str | None = Header(default=None)):
+        require_admin_read_token(authorization)
+        return {'api_version':'v1','read_only':True,'public_release':False,'records':reviewed_chapters()}
+
+    @app.get('/api/v1/admin/governance/terms',tags=['admin'])
+    def admin_governance_terms(authorization: str | None = Header(default=None)):
+        require_admin_read_token(authorization)
+        return {'api_version':'v1','read_only':True,'public_release':False,'records':reviewed_terms()}
+
+    @app.get('/api/v1/admin/governance/sources',tags=['admin'])
+    def admin_governance_sources(authorization: str | None = Header(default=None)):
+        require_admin_read_token(authorization)
+        return {'api_version':'v1','read_only':True,'public_release':False,'records':reviewed_sources()}
 
     @app.post('/api/v1/scenarios/execute',response_model=ScenarioExecuteResponse,tags=['scenarios'])
     async def execute_scenario_request(request:ScenarioExecuteRequest):
