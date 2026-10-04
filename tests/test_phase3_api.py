@@ -266,6 +266,28 @@ class UnifiedApiTests(unittest.TestCase):
             self.assertFalse(records['explanation-prompt-v1']['production_eligible'])
             self.assertTrue(records['explanation-prompt-v2']['production_eligible'])
 
+    def test_admin_evaluation_registry_never_fabricates_live_scores(self):
+        client=TestClient(create_app(admin_read_token='review-token'))
+        path='/api/v1/admin/system/evaluations'
+        self.assertEqual(client.get(path).status_code,401)
+        response=client.get(path,headers={'Authorization':'Bearer review-token'})
+        self.assertEqual(response.status_code,200,response.text)
+        records=response.json()['records']
+        self.assertEqual({row['domain'] for row in records},set(PROVIDERS))
+        self.assertTrue(all(row['fixed_suite'] for row in records))
+        self.assertTrue(all(row['tracked_status']=='fixture_only' for row in records))
+        self.assertTrue(all(not row['live_model_quality_verified'] for row in records))
+        self.assertTrue(all(row['human_semantic_review_required'] for row in records))
+        self.assertTrue(all(not row['automatic_release_allowed'] for row in records))
+        self.assertTrue(all(not row['online_ready'] for row in records))
+        self.assertGreater(sum(row['eval_case_count'] for row in records),0)
+        self.assertGreater(sum(row['refusal_control_count'] for row in records),0)
+        self.assertGreater(sum(row['phase2_golden_count'] for row in records),0)
+        self.assertTrue(any(row['suite_golden_ref_count'] > 0 for row in records))
+        serialized=str(records)
+        self.assertNotIn('online_ready\': True',serialized)
+        self.assertNotIn('live_model_quality_verified\': True',serialized)
+
     def test_admin_rules_and_evidence_are_token_gated_reviewed_assets(self):
         client=TestClient(create_app(admin_read_token='review-token'))
         for path in (
