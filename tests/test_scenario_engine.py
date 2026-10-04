@@ -23,6 +23,8 @@ class ScenarioEngineTests(unittest.TestCase):
         self.assertFalse(rows["romance"]["public_release"])
         self.assertEqual(rows["career"]["status"], "production_limited")
         self.assertFalse(rows["career"]["public_release"])
+        self.assertEqual(rows["life"]["status"], "production_limited")
+        self.assertFalse(rows["life"]["public_release"])
         self.assertEqual(rows["dream"]["status"], "research")
 
     def test_bazi_profile_scenario_delegates_to_reviewed_engine(self):
@@ -95,6 +97,33 @@ class ScenarioEngineTests(unittest.TestCase):
         for forbidden in ["career_score", "wealth_score", "income", "investment_advice", "auspicious"]:
             self.assertNotIn(forbidden, serialized)
 
+    def test_life_overview_aggregates_only_validated_sections(self):
+        output = execute_scenario("life", {
+            "birth_value": "2000-01-07T12:00:00+08:00",
+            "target_year": 2026,
+        })
+        self.assertEqual(output["scenario_id"], "life")
+        self.assertEqual(output["status"], "production_limited")
+        self.assertFalse(output["public_release"])
+        self.assertEqual(output["result"]["report_version"], "life-overview-v1")
+        self.assertEqual(output["result"]["release_scope"], "deterministic_aggregate_only")
+        self.assertEqual(output["result"]["yearly"]["target_year"]["ganzhi"], "丙午")
+        self.assertIn("romance", output["result"])
+        self.assertIn("career", output["result"])
+        self.assertEqual(
+            {item["id"] for item in output["result"]["highlights"]},
+            {"foundation", "yearly", "romance", "career"},
+        )
+        self.assertTrue(output["evidence"])
+        self.assertTrue(output["rule_matches"])
+        self.assertTrue(output["trace"])
+        serialized = str(output["result"])
+        for forbidden in [
+            "fortune_score", "romance_score", "marriage_score", "career_score",
+            "wealth_score", "income", "investment_advice", "auspicious",
+        ]:
+            self.assertNotIn(forbidden, serialized)
+
     def test_scenario_inputs_fail_closed(self):
         with self.assertRaises(ValueError):
             execute_scenario("yearly", {"birth_value": "x", "target_year": 2026, "extra": True})
@@ -135,6 +164,23 @@ class ScenarioEngineTests(unittest.TestCase):
         self.assertEqual(data["scenario_id"], "career")
         self.assertEqual(data["result"]["target_year"]["stem_ten_god"], "食神")
         self.assertEqual(data["result"]["release_scope"], "career_wealth_structure_only")
+        self.assertFalse(data["public_release"])
+        self.assertTrue(data["evidence"])
+
+    def test_http_life_overview_never_calls_model(self):
+        with patch("socket.socket.connect", side_effect=AssertionError("Network model call forbidden")):
+            response = self.client.post("/api/v1/scenarios/execute", json={
+                "scenario_id": "life",
+                "input": {
+                    "birth_value": "2000-01-07T12:00:00+08:00",
+                    "target_year": 2026,
+                },
+            })
+        self.assertEqual(response.status_code, 200, response.text)
+        data = response.json()
+        self.assertEqual(data["scenario_id"], "life")
+        self.assertEqual(data["result"]["report_version"], "life-overview-v1")
+        self.assertEqual(data["result"]["yearly"]["target_year"]["ganzhi"], "丙午")
         self.assertFalse(data["public_release"])
         self.assertTrue(data["evidence"])
 
