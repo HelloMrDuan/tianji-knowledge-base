@@ -27,6 +27,24 @@ class BaziPhase2Tests(unittest.TestCase):
         for key in ("strength","useful_god","pattern","fortune_score","taohua","branch_relations"):
             self.assertNotIn(key,out)
 
+    def test_explicit_xianchi_lookup_is_evidence_bound_and_non_interpretive(self):
+        out=chart("甲寅","甲子","甲申","乙卯",include_xianchi=True)
+        lookup=out["result"]["xianchi_lookup"]
+        self.assertEqual(lookup["targets"],{"year_branch":"卯","day_branch":"酉"})
+        self.assertEqual(lookup["matches"],[{"basis":"year_branch","target_branch":"卯","pillar":"hour"}])
+        step=next(x for x in out["trace"] if x["rule_id"]=="bazi.phase2.xianchi_lookup")
+        self.assertTrue(step["evidence_ids"])
+        self.assertIn("分别",out["result"]["production_scope"])
+        serialized=str(out["result"])
+        for forbidden in ("romance_score","marriage_score","auspicious","fortune_score"):
+            self.assertNotIn(forbidden,serialized)
+
+    def test_xianchi_is_opt_in_and_boolean_only(self):
+        plain=chart("甲寅","甲子","甲申","乙卯")
+        self.assertNotIn("xianchi_lookup",plain["result"])
+        with self.assertRaises(ValueError):
+            chart("甲寅","甲子","甲申","乙卯",include_xianchi="yes")
+
     def test_unknown_variant_rejected(self):
         with self.assertRaises(ValueError):
             chart("庚辰","己丑","甲子","庚午",variant="unknown")

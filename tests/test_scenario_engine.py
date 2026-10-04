@@ -19,6 +19,8 @@ class ScenarioEngineTests(unittest.TestCase):
         self.assertTrue(rows["question"]["public_release"])
         self.assertFalse(rows["yearly"]["public_release"])
         self.assertEqual(rows["yearly"]["status"], "production_limited")
+        self.assertEqual(rows["romance"]["status"], "production_limited")
+        self.assertFalse(rows["romance"]["public_release"])
         self.assertEqual(rows["dream"]["status"], "research")
 
     def test_bazi_profile_scenario_delegates_to_reviewed_engine(self):
@@ -53,6 +55,22 @@ class ScenarioEngineTests(unittest.TestCase):
         for forbidden in ["fortune_score", "auspicious", "taohua_activation", "career_score", "wealth_score"]:
             self.assertNotIn(forbidden, serialized)
 
+    def test_romance_structure_reports_year_and_day_basis_separately(self):
+        output = execute_scenario("romance", {
+            "birth_value": "2000-01-07T12:00:00+08:00",
+            "target_year": 2026,
+        })
+        self.assertEqual(output["status"], "production_limited")
+        self.assertFalse(output["public_release"])
+        self.assertEqual(output["result"]["release_scope"], "xianchi_structure_only")
+        self.assertEqual(output["result"]["xianchi"]["basis_policy"], "year_and_day_reported_separately")
+        self.assertEqual(set(output["result"]["target_year_activation"]), {"year_branch_basis", "day_branch_basis"})
+        self.assertTrue(output["evidence"])
+        self.assertEqual(output["rule_matches"][0]["derived_from_rule_id"], "bazi.phase2.xianchi_lookup")
+        serialized = str(output["result"])
+        for forbidden in ["romance_score", "marriage_score", "auspicious", "fortune_score", "relationship_advice"]:
+            self.assertNotIn(forbidden, serialized)
+
     def test_scenario_inputs_fail_closed(self):
         with self.assertRaises(ValueError):
             execute_scenario("yearly", {"birth_value": "x", "target_year": 2026, "extra": True})
@@ -80,7 +98,7 @@ class ScenarioEngineTests(unittest.TestCase):
         self.assertTrue(data["limitations"])
 
     def test_http_rejects_unimplemented_and_unknown_inputs(self):
-        response = self.client.post("/api/v1/scenarios/execute", json={"scenario_id": "romance", "input": {}})
+        response = self.client.post("/api/v1/scenarios/execute", json={"scenario_id": "career", "input": {}})
         self.assertEqual(response.status_code, 422)
         response = self.client.post("/api/v1/scenarios/execute", json={
             "scenario_id": "yearly",

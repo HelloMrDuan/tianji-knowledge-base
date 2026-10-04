@@ -40,7 +40,7 @@ SCENARIOS = [
     {"id": "daily", "name": "今日运势", "status": "building", "public_release": False, "execution": None, "depends_on": ["bazi"], "scope": "待日运规则与证据。"},
     {"id": "weekly", "name": "本周运势", "status": "building", "public_release": False, "execution": None, "depends_on": ["bazi"], "scope": "待周运规则与证据。"},
     {"id": "monthly", "name": "本月运势", "status": "building", "public_release": False, "execution": None, "depends_on": ["bazi"], "scope": "待流月规则与证据。"},
-    {"id": "romance", "name": "桃花姻缘", "status": "building", "public_release": False, "execution": None, "depends_on": ["bazi", "ziwei"], "scope": "待姻缘场景规则与证据。"},
+    {"id": "romance", "name": "桃花结构", "status": "production_limited", "public_release": False, "execution": "scenario_api", "depends_on": ["bazi/ziping-structural-v1", "bazi.phase2.xianchi_lookup"], "scope": "分别按年支、日支返回咸池目标支、原局命中与目标年份地支激活；不输出婚恋吉凶。"},
     {"id": "career", "name": "事业财运", "status": "building", "public_release": False, "execution": None, "depends_on": ["bazi", "ziwei"], "scope": "待事业财运聚合规则与证据。"},
     {"id": "compatibility", "name": "缘分合盘", "status": "building", "public_release": False, "execution": None, "depends_on": ["bazi"], "scope": "待双人比较规则与证据。"},
     {"id": "dream", "name": "AI 解梦", "status": "research", "public_release": False, "execution": None, "depends_on": ["dream-rag", "ai"], "scope": "待梦境语料与真实模型校准。"},
@@ -179,10 +179,125 @@ def _yearly(inputs):
     }
 
 
+def _romance(inputs):
+    _require_exact(inputs, {"birth_value", "target_year"})
+    birth_value = inputs["birth_value"]
+    target_year = inputs["target_year"]
+    if not isinstance(birth_value, str):
+        raise ValueError("birth_value must be an ISO datetime string")
+    if type(target_year) is not int or not 1900 <= target_year <= 2100:
+        raise ValueError("target_year must be an integer from 1900 through 2100")
+
+    natal = execute("bazi", {"value": birth_value, "include_xianchi": True})
+    xianchi = copy.deepcopy(natal["result"]["xianchi_lookup"])
+    xianchi_rule = next(
+        rule for rule in natal["rule_matches"] if rule["rule_id"] == "bazi.phase2.xianchi_lookup"
+    )
+    evidence_ids = list(xianchi_rule["evidence_ids"])
+    evidence = {eid: copy.deepcopy(natal["evidence"][eid]) for eid in evidence_ids}
+
+    reference = f"{target_year:04d}-07-01T12:00:00+08:00"
+    target_calendar = calendar(reference)
+    flow_ganzhi = target_calendar["year_ganzhi"]
+    flow_branch = flow_ganzhi[1]
+    activation = {
+        "year_branch_basis": {
+            "target_branch": xianchi["targets"]["year_branch"],
+            "target_year_branch": flow_branch,
+            "matched": flow_branch == xianchi["targets"]["year_branch"],
+        },
+        "day_branch_basis": {
+            "target_branch": xianchi["targets"]["day_branch"],
+            "target_year_branch": flow_branch,
+            "matched": flow_branch == xianchi["targets"]["day_branch"],
+        },
+    }
+    result = {
+        "natal": {
+            "pillars": copy.deepcopy(natal["result"]["pillars"]),
+            "day_master": copy.deepcopy(natal["result"]["day_master"]),
+        },
+        "xianchi": {
+            "basis_policy": "year_and_day_reported_separately",
+            "targets": copy.deepcopy(xianchi["targets"]),
+            "natal_matches": copy.deepcopy(xianchi["matches"]),
+            "source_warning": xianchi["warning"],
+        },
+        "target_year": {
+            "year": target_year,
+            "ganzhi": flow_ganzhi,
+            "branch": flow_branch,
+            "calendar_provider": target_calendar["calendar_provider"],
+            "year_boundary": "solar-term year; reference date fixed to July 1 for stable annual branch selection",
+        },
+        "target_year_activation": activation,
+        "release_scope": "xianchi_structure_only",
+    }
+    rule_match = {
+        "rule_id": "bazi.scenario.xianchi_structure",
+        "derived_from_rule_id": "bazi.phase2.xianchi_lookup",
+        "variant": "ziping-structural-v1",
+        "matched": True,
+        "kind": "scenario_composition",
+        "evidence_scope": xianchi_rule["evidence_scope"],
+        "facts": {
+            "targets": copy.deepcopy(xianchi["targets"]),
+            "natal_matches": copy.deepcopy(xianchi["matches"]),
+            "target_year_branch": flow_branch,
+            "target_year_activation": copy.deepcopy(activation),
+        },
+        "evidence_ids": evidence_ids,
+    }
+    trace = [
+        {
+            "step": "natal_xianchi_lookup",
+            "derived_from_rule_id": "bazi.phase2.xianchi_lookup",
+            "facts": {
+                "targets": copy.deepcopy(xianchi["targets"]),
+                "natal_matches": copy.deepcopy(xianchi["matches"]),
+            },
+            "evidence_ids": evidence_ids,
+        },
+        {
+            "step": "target_year_calendar",
+            "provider": target_calendar["calendar_provider"],
+            "inputs": {"target_year": target_year, "reference": reference},
+            "facts": {"year_ganzhi": flow_ganzhi, "year_branch": flow_branch},
+        },
+        {
+            "step": "xianchi_target_year_activation",
+            "basis_policy": "year_and_day_reported_separately",
+            "facts": copy.deepcopy(activation),
+            "evidence_ids": evidence_ids,
+        },
+    ]
+    return {
+        "scenario_id": "romance",
+        "status": "production_limited",
+        "public_release": False,
+        "deterministic": True,
+        "result": result,
+        "rule_matches": [rule_match],
+        "trace": trace,
+        "evidence": evidence,
+        "warnings": [
+            "桃花结构运行层已可用，但当前只报告咸池查表事实，不对普通用户自动发布婚恋吉凶解释。",
+        ],
+        "limitations": [
+            "年支与日支两个起查基准分别展示，不裁定其中任何一个为唯一标准。",
+            "目标年份是否落在咸池目标支，只表示固定查表结构命中，不等同于桃花旺、恋爱发生或婚姻结果。",
+            "《三命通会》相关纳音附加条件尚未纳入自动规则。",
+            "尚未组合配偶星、夫妻宫、合冲刑害、旺衰喜忌、紫微等其他婚恋判断体系。",
+            "AI 不参与本场景计算。",
+        ],
+    }
+
+
 _EXECUTORS = {
     "bazi-profile": _bazi_profile,
     "question": _question,
     "yearly": _yearly,
+    "romance": _romance,
 }
 
 

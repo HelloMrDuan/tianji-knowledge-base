@@ -3,7 +3,7 @@
   "model": "phase2-golden",
   "domain": "bazi",
   "provider": "tianji_kb.operations.bazi_chart.chart",
-  "review_basis": "固定四柱人工核对：以甲日为日主，逐项核对天干十神与《渊海子平》藏干表；不含旺衰、喜用与吉凶。",
+  "review_basis": "固定四柱人工核对：逐项核对天干十神、藏干与咸池四组结构查表；不含旺衰、喜用、婚恋吉凶。",
   "cases": [
     {
       "id": "bazi.structural-basic",
@@ -110,6 +110,37 @@
             }
           }
         ]
+      }
+    },
+    {
+      "id": "bazi.xianchi-explicit-dual-basis",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲寅",
+        "month_ganzhi": "甲子",
+        "day_ganzhi": "甲申",
+        "hour_ganzhi": "乙卯",
+        "include_xianchi": true
+      },
+      "expected": {
+        "day_master": {
+          "stem": "甲",
+          "element": "木",
+          "polarity": "阳"
+        },
+        "xianchi_lookup": {
+          "targets": {
+            "year_branch": "卯",
+            "day_branch": "酉"
+          },
+          "matches": [
+            {
+              "basis": "year_branch",
+              "target_branch": "卯",
+              "pillar": "hour"
+            }
+          ]
+        }
       }
     }
   ]
