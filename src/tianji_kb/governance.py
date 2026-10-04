@@ -143,3 +143,71 @@ def reviewed_evidence(resolver: EvidenceResolver | None = None) -> list[dict]:
             "phase2_rule_ids": phase2_ids,
         })
     return rows
+
+
+def reviewed_classics(resolver: EvidenceResolver | None = None) -> list[dict]:
+    """Return Canonical book/chapter metadata without exposing full book bodies."""
+    resolver = resolver or EvidenceResolver()
+
+    sections_by_classic: dict[str, list[dict]] = {}
+    chapters_by_classic: dict[str, list[dict]] = {}
+    used_by_section: dict[str, list[str]] = {}
+    phase2_by_phase1: dict[str, list[str]] = {}
+
+    for contract in resolver.contracts.values():
+        for rule in contract.get("rules", []):
+            for phase1_id in rule.get("phase1_rule_refs", []):
+                phase2_by_phase1.setdefault(phase1_id, []).append(rule["id"])
+
+    for entity_id, pair in resolver.entities.items():
+        collection, entity = pair
+        if collection == "sections":
+            sections_by_classic.setdefault(entity["classic_id"], []).append(entity)
+        elif collection == "chapters":
+            chapters_by_classic.setdefault(entity["classic_id"], []).append(entity)
+        elif collection in ("terms", "rules", "concepts"):
+            for ref in entity.get("source_refs", []):
+                used_by_section.setdefault(ref["section_id"], []).append(entity_id)
+
+    rows = []
+    for entity_id, pair in sorted(resolver.entities.items()):
+        collection, classic = pair
+        if collection != "classics":
+            continue
+        source = resolver.sources[classic["source_id"]]
+        sections = sections_by_classic.get(entity_id, [])
+        chapters = chapters_by_classic.get(entity_id, [])
+        phase2_ids = sorted({
+            phase2_id
+            for section in sections
+            for user_id in used_by_section.get(section["id"], [])
+            for phase2_id in phase2_by_phase1.get(user_id, [])
+        })
+        chapter_rows = []
+        for chapter in sorted(chapters, key=lambda item: item["id"]):
+            chapter_sections = [section for section in sections if section["chapter_id"] == chapter["id"]]
+            chapter_rows.append({
+                "id": chapter["id"],
+                "name": chapter["name"],
+                "locator": chapter.get("locator", ""),
+                "reviewed_section_count": len(chapter_sections),
+                "section_ids": sorted(section["id"] for section in chapter_sections),
+            })
+        rows.append({
+            "id": entity_id,
+            "domain": classic["domain"],
+            "name": classic["name"],
+            "body_stage": classic.get("body_stage", "canonical"),
+            "source_id": classic["source_id"],
+            "source_title": source["title"],
+            "evidence_level": source["evidence_level"],
+            "source_url": source["url"],
+            "commit": source["commit"],
+            "rights_basis": source.get("rights_basis", ""),
+            "review_scope": source.get("review_scope", ""),
+            "chapter_count": len(chapter_rows),
+            "reviewed_section_count": len(sections),
+            "phase2_rule_ids": phase2_ids,
+            "chapters": chapter_rows,
+        })
+    return rows
