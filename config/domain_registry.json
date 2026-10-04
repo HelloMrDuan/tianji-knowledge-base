@@ -42,6 +42,13 @@
       "knowledge_path": "data/canonical/liuren/phase1_knowledge.json",
       "status": "phase1_complete",
       "production_stage": "canonical"
+    },
+    {
+      "id": "bazi",
+      "name": "八字 / 子平",
+      "knowledge_path": "data/canonical/bazi/phase1_knowledge.json",
+      "status": "phase1_complete",
+      "production_stage": "canonical"
     }
   ]
 }
