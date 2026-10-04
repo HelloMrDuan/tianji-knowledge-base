@@ -381,16 +381,16 @@
         "metadata_only": 0,
         "with_reviewed_excerpts": 4
       },
-      "chapters": 10,
-      "sections": 21,
+      "chapters": 11,
+      "sections": 22,
       "terms": {
-        "canonical": 11
+        "canonical": 12
       },
       "concepts": 3,
       "rules": {
         "executable": 0,
         "partially_structured": 11,
-        "descriptive_only": 0
+        "descriptive_only": 1
       },
       "sources": {
         "A": 0,
@@ -404,8 +404,8 @@
         "bazi.source.xieji-relations",
         "bazi.source.yuanhai"
       ],
-      "tests": 3,
-      "production_chunks": 46,
+      "tests": 4,
+      "production_chunks": 49,
       "completion_criteria": {
         "domain_definition": true,
         "source_registry": true,

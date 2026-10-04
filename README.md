@@ -11,6 +11,7 @@
 - **三层隔离**：RAW → QUARANTINE → CANONICAL。
 - **不同流派并存**：规则冲突不互相覆盖，以 school/ruleset 区分。
 - **AI 只负责解释**：平台先计算、再检索知识库、最后由 LLM 组织语言。
+- **知识空缺必须补库**：沿用现有来源/隔离/审核/规则/证据/Golden 流程，不用模型先验填补。产品覆盖见 [KNOWLEDGE_GAPS.md](docs/product/KNOWLEDGE_GAPS.md)，运行 `python scripts/build_product_coverage.py --check` 检查机器报告。
 - **持续增长**：已登记仓库定时检查最新 commit；GitHub 全网持续发现候选源。
 - **版权隔离**：无 LICENSE、NC、AGPL 混合项目不会自动进入商业正式知识库。
 

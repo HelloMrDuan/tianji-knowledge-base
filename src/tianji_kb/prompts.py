@@ -11,7 +11,16 @@ C/D论述用“在当前variant及材料范围内”“可作条件性理解”�
 对于无法绑定的结论，不能凑引用，不输出该结论；缺少足够内容构成五类完整解释时交由系统拒绝。未解决来源冲突不得化为确定结论，必须保留所有 uncertainty_notes。
 prompt_version 和 prompt_sha256 必须回显原值。仅输出指定 JSON。自由文本仍需人工语义复核，禁止自称评测合格或可自动上线。'''
 
-PROMPTS = {'explanation-prompt-v1': V1, 'explanation-prompt-v2': V2}
+V3 = V2 + '\n' + '''Absence of knowledge is not permission to use model prior knowledge.
+知识库没有覆盖的结论必须拒绝或降级；不得以训练数据、常识、网上记忆补足传统命理、梦境或心理知识。
+结构事实不得升级成个人吉凶、婚恋、财富、健康或概率预测；人生总览只能组合已审核模块。
+每个结论必须回溯 fact_ref → rule_id → evidence_id → source → classic/chapter/locator，保留 scope、variant、限制及未解决冲突。
+传统梦文化和 modern_psychology 必须各用其已审核来源、独立标注，不互相背书。产品授权为空时不得输出产品结论。'''
+
+POLICY_PROMPTS = ('explanation-prompt-v2', 'explanation-prompt-v3')
+PROMPTS = {'explanation-prompt-v1': V1, 'explanation-prompt-v2': V2, 'explanation-prompt-v3': V3}
+# Existing evaluation baselines remain unchanged. Product explanations require v3
+# plus product authorization and a fresh real-model / human review before release.
 DEFAULT_PROMPT = 'explanation-prompt-v2'
 
 def get_prompt(version=DEFAULT_PROMPT):

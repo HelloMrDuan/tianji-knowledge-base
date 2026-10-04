@@ -20,7 +20,7 @@ class BaziPhase1Tests(unittest.TestCase):
         self.assertEqual(xieji["body_stage"],"quarantine")
         self.assertGreaterEqual(len(self.bundle["sections"]),21)
         self.assertGreaterEqual(len(self.bundle["rules"]),11)
-        self.assertTrue(all(r["execution_status"]=="partially_structured" for r in self.bundle["rules"]))
+        self.assertTrue(all(r["execution_status"]=="partially_structured" for r in self.bundle["rules"] if r['id']!='bazi.rule.r012'))
         self.assertEqual(
             {ref["source_id"] for r in self.bundle["rules"] for ref in r["source_refs"]},
             {
@@ -71,5 +71,23 @@ class BaziPhase1Tests(unittest.TestCase):
         self.assertNotIn("巳酉丑午",section["text"])
         term=next(t for t in self.bundle["terms"] if t["id"]=="bazi.term.xianchi")
         self.assertFalse(term["attributes"]["production_interpretation"])
+
+    def test_zhiming_boundary_has_real_excerpt_and_cannot_become_strength_algorithm(self):
+        from tianji_kb.knowledge import read_json
+        section=next(s for s in self.bundle['sections'] if s['id']=='bazi.section.s022')
+        corpus=read_json(ROOT/'data/canonical/classics/bazi/ditiansui_chanwei_v1.json')['sections'][3]['text']
+        self.assertIn(section['text'],corpus)
+        self.assertIn('不论日主之衰旺',section['text'])
+        self.assertNotIn('若思按',section['text'])
+        self.assertNotIn('新增',section['text'])
+        rule=next(r for r in self.bundle['rules'] if r['id']=='bazi.rule.r012')
+        self.assertEqual(rule['execution_status'],'descriptive_only')
+        self.assertNotIn('provider',rule['operation'])
+        contract=read_json(ROOT/'data/canonical/bazi/phase2_execution.json')
+        self.assertFalse(any(rule['id'] in r['phase1_rule_refs'] for r in contract['rules']))
+        self.assertEqual(rule['source_refs'][0]['section_id'],section['id'])
+        term=next(t for t in self.bundle['terms'] if t['id']=='bazi.term.strength_review_boundary')
+        self.assertFalse(term['attributes']['algorithm_available'])
+        self.assertFalse(term['attributes']['production_interpretation'])
 
 if __name__=="__main__":unittest.main()

@@ -312,7 +312,7 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None):
                 if selected_provider is None:raise ExplanationFailure('provider_not_configured')
                 timeout=explanation_timeout if explanation_timeout is not None else timeout_from_environment()
                 selected_prompt=os.environ.get('TIANJI_EXPLANATION_PROMPT_VERSION',DEFAULT_PROMPT)
-                if request.mode=='production' and selected_prompt=='explanation-prompt-v1':raise ExplanationFailure('prompt_not_production_eligible')
+                if request.mode=='production' and selected_prompt in ('explanation-prompt-v1','explanation-prompt-v3'):raise ExplanationFailure('prompt_not_production_eligible')
                 service=ExplanationService(selected_provider,timeout=timeout,prompt_version=selected_prompt)
                 result.explanation=ExplanationResponse.model_validate(await service.explain(copy.deepcopy(raw)))
                 result.explanation_status='succeeded'

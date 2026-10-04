@@ -95,6 +95,7 @@ def build_bundle(query: str, rows: list[dict[str, Any]], max_chars: int = 3000) 
             "must_not_invent_classical_quotes": True,
             "must_not_recompute_deterministic_chart_results_with_llm": True,
             "when_evidence_missing": "明确说明知识库未检索到足够依据，不补造古籍、规则、出处或断语。",
+            "knowledge_boundary": "Absence of knowledge is not permission to use model prior knowledge.",
             "interpretation_scope": "传统文化/术数知识解释；不得包装为科学验证的未来预测。",
         },
     }

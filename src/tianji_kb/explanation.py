@@ -5,7 +5,7 @@ from jsonschema import Draft202012Validator,ValidationError
 from starlette.concurrency import run_in_threadpool
 from .rag_context import CanonicalRetriever,RetrievalUnavailable
 from .runtime_catalog import digest
-from .prompts import get_prompt,DEFAULT_PROMPT
+from .prompts import get_prompt,DEFAULT_PROMPT,POLICY_PROMPTS
 
 class ExplanationProvider(Protocol):
     async def explain(self,context:dict)->dict:...
@@ -40,13 +40,13 @@ def context_for(raw,rows,prompt_version=DEFAULT_PROMPT):
     prompt=get_prompt(prompt_version)
     context={'domain':raw['domain'],'variant':raw['variant'],'mode':raw['mode'],
         'chart_digest':digest(raw['result']),'chart':copy.deepcopy(raw['result']),
-        'facts':fact_map(raw['result'],include_containers=prompt_version=='explanation-prompt-v2'),'rules':copy.deepcopy(raw['rule_matches']),
+        'facts':fact_map(raw['result'],include_containers=prompt_version in POLICY_PROMPTS),'rules':copy.deepcopy(raw['rule_matches']),
         'trace':copy.deepcopy(raw['trace']),'evidence':copy.deepcopy(raw['evidence']),
         'rag':rows,'limitations':[raw.get('scope',''),*raw.get('unresolved',[])],
         'instructions':prompt['instruction'],'prompt_version':prompt['version'],'prompt_sha256':prompt['sha256'],'response_schema':REPLY_SCHEMA}
-    if prompt_version=='explanation-prompt-v2':
+    if prompt_version in POLICY_PROMPTS:
         from .explanation_policy import add_policy,reply_schema
-        context=add_policy(context);context['response_schema']=reply_schema(REPLY_SCHEMA)
+        context=add_policy(context);context['response_schema']=reply_schema(REPLY_SCHEMA,prompt_version)
     return context
 
 def validate_citations(claim,evidence):
@@ -80,7 +80,7 @@ def validate_reply(reply,context):
         claims.append({**copy.deepcopy(claim),'fact_value':copy.deepcopy(context['facts'][pointer]),
             'citations':[{'evidence_id':eid,'source_ref':copy.deepcopy(evidence[eid])} for eid in claim['evidence_ids']]})
     output={key:reply[key] for key in ['domain','variant','mode','chart_digest']}|{'claims':claims,'rag':context['rag']}
-    if context['prompt_version']=='explanation-prompt-v2':
+    if context['prompt_version'] in POLICY_PROMPTS:
         from .explanation_policy import validate_policy,response_policy
         validate_policy(reply,context);output.update(response_policy(reply,context))
     else:
@@ -96,7 +96,7 @@ class ExplanationService:
         # Version selection and refusal gates run before retrieval/model invocation.
         try:get_prompt(self.prompt_version)
         except ValueError as error:raise ExplanationFailure('prompt_configuration_invalid') from error
-        if self.prompt_version=='explanation-prompt-v2':
+        if self.prompt_version in POLICY_PROMPTS:
             from .explanation_policy import preflight
             preflight(raw)
         try:rows=await run_in_threadpool(self.retriever.retrieve,raw)
