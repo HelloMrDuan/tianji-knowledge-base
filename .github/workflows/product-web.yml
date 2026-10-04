@@ -239,3 +239,26 @@ jobs:
               assert forbidden not in blob
           print("real frontend proxy -> Scenario Engine -> monthly structure: ok")
           PY
+
+
+          curl -fsS -X POST http://127.0.0.1:5173/api/v1/scenarios/execute \
+            -H 'Content-Type: application/json' \
+            -d '{"scenario_id":"compatibility","input":{"person_a_birth_value":"2000-01-07T12:00:00+08:00","person_b_birth_value":"2000-01-07T18:00:00+08:00"}}' \
+            >/tmp/compatibility.json
+          python - <<'PY'
+          import json
+          data=json.load(open("/tmp/compatibility.json",encoding="utf-8"))
+          assert data["scenario_id"]=="compatibility"
+          assert data["status"]=="production_limited"
+          assert data["public_release"] is False
+          assert data["deterministic"] is True
+          assert data["result"]["release_scope"]=="two_person_structure_only"
+          assert data["result"]["day_master_relations"]["a_sees_b"]["ten_god"]=="比肩"
+          assert data["result"]["day_master_relations"]["b_sees_a"]["ten_god"]=="比肩"
+          assert set(data["result"]["xianchi_cross_matches"])=={"a_targets_vs_b","b_targets_vs_a"}
+          assert data["evidence"]
+          blob=str(data["result"])
+          for forbidden in ("compatibility_score","match_score","love_score","marriage_score","auspicious","breakup_risk"):
+              assert forbidden not in blob
+          print("real frontend proxy -> Scenario Engine -> compatibility structure: ok")
+          PY
