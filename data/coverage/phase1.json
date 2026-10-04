@@ -377,32 +377,33 @@
       "name": "八字 / 子平",
       "classics": {
         "canonical": 1,
-        "quarantine": 0,
+        "quarantine": 1,
         "metadata_only": 0,
-        "with_reviewed_excerpts": 1
+        "with_reviewed_excerpts": 2
       },
-      "chapters": 3,
-      "sections": 8,
+      "chapters": 4,
+      "sections": 9,
       "terms": {
-        "canonical": 3
+        "canonical": 4
       },
       "concepts": 1,
       "rules": {
         "executable": 0,
-        "partially_structured": 3,
+        "partially_structured": 4,
         "descriptive_only": 0
       },
       "sources": {
         "A": 0,
         "B": 0,
-        "C": 1,
+        "C": 2,
         "D": 0
       },
       "source_ids": [
+        "bazi.source.sanming-xianchi-niutrans",
         "bazi.source.yuanhai"
       ],
-      "tests": 1,
-      "production_chunks": 15,
+      "tests": 2,
+      "production_chunks": 18,
       "completion_criteria": {
         "domain_definition": true,
         "source_registry": true,
@@ -415,7 +416,7 @@
         "production_isolation": true
       },
       "pending_evidence": [
-        "生产范围暂限四柱、日主、十神、藏干；旺衰、格局、喜用、调候、大运起运及神煞解释尚未裁定。"
+        "生产范围暂限四柱、日主、十神、藏干；咸池四格已核但起查基准/纳音附加条件未裁；旺衰、格局、喜用、调候、大运起运及神煞解释尚未裁定。"
       ],
       "status": "phase1_complete"
     }
