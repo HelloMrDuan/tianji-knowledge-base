@@ -61,6 +61,16 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
             relation_facts["branch_six_harms"],
         )
         trace.add(
+            "bazi.phase2.branch_six_clashes",
+            {"branches": branches},
+            relation_facts["branch_six_clashes"],
+        )
+        trace.add(
+            "bazi.phase2.branch_triple_harmonies",
+            {"branches": branches},
+            relation_facts["branch_triple_harmonies"],
+        )
+        trace.add(
             "bazi.phase2.spouse_palace_day_branch",
             {"day_ganzhi": day_ganzhi},
             relation_facts["spouse_palace"],
@@ -79,5 +89,5 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
         result["production_scope"] += "；可选咸池四组结构查表（年支/日支分别报告，不作婚恋吉凶解释）"
     if relation_facts is not None:
         result["reviewed_relations"] = relation_facts
-        result["production_scope"] += "；可选已审核五合、六合、六害与日支传统配偶宫结构位（只报结构，不作关系吉凶解释）"
+        result["production_scope"] += "；可选已审核五合、六合、六害、六冲、三合与日支传统配偶宫结构位（只报结构，不作关系吉凶解释）"
     return trace.finish(result)

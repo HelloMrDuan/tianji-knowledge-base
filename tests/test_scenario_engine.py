@@ -201,6 +201,8 @@ class ScenarioEngineTests(unittest.TestCase):
         )
         self.assertEqual(output["result"]["person_a"]["spouse_palace"]["day_branch"], "子")
         self.assertEqual(output["result"]["person_b"]["spouse_palace"]["day_branch"], "丑")
+        self.assertIn("natal_triple_harmonies", output["result"]["person_a"])
+        self.assertIn("natal_triple_harmonies", output["result"]["person_b"])
         self.assertTrue(output["evidence"])
         self.assertEqual(
             output["rule_matches"][0]["derived_from_rule_ids"],
@@ -210,6 +212,8 @@ class ScenarioEngineTests(unittest.TestCase):
                 "bazi.phase2.stem_five_combinations",
                 "bazi.phase2.branch_six_harmonies",
                 "bazi.phase2.branch_six_harms",
+                "bazi.phase2.branch_six_clashes",
+                "bazi.phase2.branch_triple_harmonies",
                 "bazi.phase2.spouse_palace_day_branch",
             ],
         )

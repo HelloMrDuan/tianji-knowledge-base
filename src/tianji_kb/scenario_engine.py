@@ -44,7 +44,7 @@ SCENARIOS = [
     {"id": "monthly", "name": "本月结构", "status": "production_limited", "public_release": False, "execution": "scenario_api", "depends_on": ["bazi.phase2.ten_gods", "bazi.phase2.xianchi_lookup", "calendar/lunar-python==1.4.8"], "scope": "列出目标公历月每日干支、十神结构与咸池日级命中，并做结构频次汇总；不输出月运吉凶。"},
     {"id": "romance", "name": "桃花结构", "status": "production_limited", "public_release": False, "execution": "scenario_api", "depends_on": ["bazi/ziping-structural-v1", "bazi.phase2.xianchi_lookup"], "scope": "分别按年支、日支返回咸池目标支、原局命中与目标年份地支激活；不输出婚恋吉凶。"},
     {"id": "career", "name": "事业财运结构", "status": "production_limited", "public_release": False, "execution": "scenario_api", "depends_on": ["bazi.phase2.ten_gods", "bazi.phase2.hidden_stems", "calendar/lunar-python==1.4.8"], "scope": "聚合原局财星、官杀、食伤、印星、比劫的位置事实，并显示目标年天干十神；不输出事业财运吉凶或评分。"},
-    {"id": "compatibility", "name": "缘分合盘结构", "status": "production_limited", "public_release": False, "execution": "scenario_api", "depends_on": ["bazi.phase2.ten_gods", "bazi.phase2.xianchi_lookup", "bazi.phase2.stem_five_combinations", "bazi.phase2.branch_six_harmonies", "bazi.phase2.branch_six_harms", "bazi.phase2.spouse_palace_day_branch"], "scope": "双人四柱并列、双方日主互看十神、咸池交叉匹配、日主五合、日支六合/六害与双方日支传统配偶宫结构位；不输出缘分分数或关系吉凶。"},
+    {"id": "compatibility", "name": "缘分合盘结构", "status": "production_limited", "public_release": False, "execution": "scenario_api", "depends_on": ["bazi.phase2.ten_gods", "bazi.phase2.xianchi_lookup", "bazi.phase2.stem_five_combinations", "bazi.phase2.branch_six_harmonies", "bazi.phase2.branch_six_harms", "bazi.phase2.branch_six_clashes", "bazi.phase2.branch_triple_harmonies", "bazi.phase2.spouse_palace_day_branch"], "scope": "双人四柱并列、双方日主互看十神、咸池交叉匹配、日主五合、日支六合/六害/六冲、双方原局三合与日支传统配偶宫结构位；不输出缘分分数或关系吉凶。"},
     {"id": "dream", "name": "AI 解梦", "status": "research", "public_release": False, "execution": None, "depends_on": ["dream-rag", "ai"], "scope": "待梦境语料与真实模型校准。"},
     {"id": "life", "name": "人生总览", "status": "production_limited", "public_release": False, "execution": "scenario_api", "depends_on": ["bazi-profile", "yearly", "romance", "career"], "scope": "聚合八字基础、年度结构、桃花结构、事业财运结构为一份可读总览；不新增任何吉凶判断。"},
 ]
@@ -908,6 +908,8 @@ def _compatibility(inputs):
         "bazi.phase2.stem_five_combinations",
         "bazi.phase2.branch_six_harmonies",
         "bazi.phase2.branch_six_harms",
+        "bazi.phase2.branch_six_clashes",
+        "bazi.phase2.branch_triple_harmonies",
         "bazi.phase2.spouse_palace_day_branch",
     )
     for chart in (person_a, person_b):
@@ -925,12 +927,14 @@ def _compatibility(inputs):
             "day_master": copy.deepcopy(chart_a["day_master"]),
             "xianchi_targets": copy.deepcopy(chart_a["xianchi_lookup"]["targets"]),
             "spouse_palace": a_spouse_palace,
+            "natal_triple_harmonies": copy.deepcopy(chart_a["reviewed_relations"]["branch_triple_harmonies"]),
         },
         "person_b": {
             "pillars": copy.deepcopy(chart_b["pillars"]),
             "day_master": copy.deepcopy(chart_b["day_master"]),
             "xianchi_targets": copy.deepcopy(chart_b["xianchi_lookup"]["targets"]),
             "spouse_palace": b_spouse_palace,
+            "natal_triple_harmonies": copy.deepcopy(chart_b["reviewed_relations"]["branch_triple_harmonies"]),
         },
         "day_master_relations": {
             "a_sees_b": {
@@ -960,7 +964,7 @@ def _compatibility(inputs):
         "variant": "ziping-structural-v1",
         "matched": True,
         "kind": "scenario_composition",
-        "evidence_scope": "复用已验证十神与咸池 Evidence；只做双人结构对照，不输出关系质量、婚恋吉凶或缘分分数。",
+        "evidence_scope": "复用已验证十神、咸池及五合/六合/六害/六冲/三合 Evidence；只做双人结构对照，不输出关系质量、婚恋吉凶或缘分分数。",
         "facts": {
             "a_sees_b_ten_god": a_sees_b,
             "b_sees_a_ten_god": b_sees_a,
@@ -1000,6 +1004,8 @@ def _compatibility(inputs):
                 "bazi.phase2.stem_five_combinations",
                 "bazi.phase2.branch_six_harmonies",
                 "bazi.phase2.branch_six_harms",
+                "bazi.phase2.branch_six_clashes",
+                "bazi.phase2.branch_triple_harmonies",
                 "bazi.phase2.spouse_palace_day_branch",
             ],
             "facts": copy.deepcopy(result["reviewed_cross_relations"]),
@@ -1021,8 +1027,9 @@ def _compatibility(inputs):
         "limitations": [
             "双方日主互看十神只表示五行生克与阴阳关系，不等同于感情适合或不适合。",
             "对方年支/日支落入咸池目标，只表示固定查表结构匹配，不等同于吸引力、正缘或婚姻结果。",
-            "本版已纳入日支传统配偶宫结构位、日主五合、日支六合与六害；六冲、三刑、三合用于合盘的正式 Evidence 绑定仍未晋级。",
-            "五合或六合命中不代表化气成立，也不代表适合；六害命中不等于现实关系受害、分手或凶断。",
+            "本版已纳入日支传统配偶宫结构位、日主五合、日支六合/六害/六冲，以及双方各自原局三合结构；跨两张命盘拼接三合的口径尚未定义。",
+            "三刑存在明确流派分歧，当前不作为统一 executable 规则。",
+            "五合或六合命中不代表化气成立，也不代表适合；六害或六冲命中不等于现实关系受害、分手、争执或凶断。",
             "尚未纳入配偶星、旺衰喜忌、大运流年与紫微交叉判断。",
             "不输出缘分百分比、配对分数、正缘结论、结婚时间或分手风险。",
             "AI 不参与本场景计算。",

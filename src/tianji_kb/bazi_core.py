@@ -87,6 +87,7 @@ def reviewed_branch_pair_relations(left_branch, right_branch):
     relation = foundations()["earthly_branch_relations"]
     harmonies = _pair_members(relation["six_harmonies"])
     harms = _pair_members(relation["harms"])
+    clashes = _pair_members(relation["clashes"])
     key = frozenset((left_branch, right_branch))
     output = []
     if key in harmonies:
@@ -98,6 +99,8 @@ def reviewed_branch_pair_relations(left_branch, right_branch):
         })
     if key in harms:
         output.append({"kind": "harm", "branches": [left_branch, right_branch]})
+    if key in clashes:
+        output.append({"kind": "clash", "branches": [left_branch, right_branch]})
     return output
 
 
@@ -115,6 +118,7 @@ def reviewed_relations(stems, branches):
     stem_pairs = []
     harmonies = []
     harms = []
+    clashes = []
     for i in range(4):
         for j in range(i + 1, 4):
             stem_relation = stem_five_combination(stems[i], stems[j])
@@ -134,11 +138,25 @@ def reviewed_relations(stems, branches):
                     harmonies.append(row)
                 elif item["kind"] == "harm":
                     harms.append(row)
+                elif item["kind"] == "clash":
+                    clashes.append(row)
+
+    triple_harmonies = []
+    for item in foundations()["earthly_branch_relations"]["triple_harmonies"]:
+        members = item[:3]
+        if all(branch in branches for branch in members):
+            triple_harmonies.append({
+                "pillars": [PILLAR_NAMES[branches.index(branch)] for branch in members],
+                "branches": members,
+                "traditional_result_element": item[3],
+            })
 
     return {
         "stem_five_combinations": stem_pairs,
         "branch_six_harmonies": harmonies,
         "branch_six_harms": harms,
+        "branch_six_clashes": clashes,
+        "branch_triple_harmonies": triple_harmonies,
         "spouse_palace": {
             "pillar": "day",
             "day_branch": branches[2],

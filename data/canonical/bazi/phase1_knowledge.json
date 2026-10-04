@@ -264,6 +264,51 @@
         "method": "逐字核对固定《渊海子平》公版快照。",
         "scope": "只确认传统文本把日支视作妻位的结构表达；现代产品中中性显示为“日支（传统配偶宫结构位）”，不据此作性别角色或婚姻吉凶结论。"
       }
+    },
+    {
+      "id": "bazi.section.s014",
+      "domain": "bazi",
+      "name": "协纪·对七为冲",
+      "classic_id": "bazi.classic.xieji",
+      "chapter_id": "bazi.chapter.relations",
+      "source_id": "bazi.source.xieji-relations",
+      "text": "洞源经曰对七为冲隔三为破选择家所谓辰破丑而丑冲未亥破寅而寅冲申午破夘而夘冲酉酉破子而子冲午申破巳而巳冲亥戌破未而未冲丑是也",
+      "locator": "《钦定协纪辨方书》月建相关条；固定短引",
+      "review": {
+        "status": "approved",
+        "method": "逐字核对固定公版电子快照；保留原快照“夘”等字形，结构表规范为卯。",
+        "scope": "只确认“对七为冲”的固定对冲结构；不把六冲直接解释为凶、分手、冲突事件或婚恋结论。"
+      }
+    },
+    {
+      "id": "bazi.section.s015",
+      "domain": "bazi",
+      "name": "协纪·卯酉辰戌冲例",
+      "classic_id": "bazi.classic.xieji",
+      "chapter_id": "bazi.chapter.relations",
+      "source_id": "bazi.source.xieji-relations",
+      "text": "假如建在子前三为平为夘后三为收为酉夘酉冲也建在丑前三为平为辰后三为收为戌辰戌冲也推之十二辰莫不皆然",
+      "locator": "《钦定协纪辨方书》月建相关条；固定短引",
+      "review": {
+        "status": "approved",
+        "method": "逐字核对固定公版电子快照。",
+        "scope": "作为“对七为冲”规则的卯酉、辰戌实例与十二支普遍性补证；仍只用于结构判断。"
+      }
+    },
+    {
+      "id": "bazi.section.s016",
+      "domain": "bazi",
+      "name": "协纪·三合四局",
+      "classic_id": "bazi.classic.xieji",
+      "chapter_id": "bazi.chapter.relations",
+      "source_id": "bazi.source.xieji-relations",
+      "text": "考原曰大煞子年在子丑年在酉寅年在午夘年在夘辰年又在子如是逆行四正盖申子辰三合为水水旺于子也巳酉丑三合为金金旺于酉也寅午戌三合为火火旺于午也亥夘未三合为木木旺于夘也",
+      "locator": "《钦定协纪辨方书》大煞条；固定短引",
+      "review": {
+        "status": "approved",
+        "method": "逐字核对固定公版电子快照；结构表将“夘”规范为“卯”。",
+        "scope": "只确认申子辰水、巳酉丑金、寅午戌火、亥卯未木四组三合结构；不据成局自动输出吉凶或婚恋结论。"
+      }
     }
   ],
   "terms": [
@@ -462,6 +507,60 @@
       "related_terms": [
         "bazi.term.day_master"
       ],
+      "confidence": "medium",
+      "attributes": {
+        "definition_kind": "reviewed_structural_summary",
+        "production_interpretation": false
+      }
+    },
+    {
+      "id": "bazi.term.branch_six_clashes",
+      "domain": "bazi",
+      "name": "地支六冲",
+      "aliases": [
+        "六冲",
+        "对冲"
+      ],
+      "definition": "十二地支按“对七为冲”形成六组对冲：子午、丑未、寅申、卯酉、辰戌、巳亥；命中仅为结构事实。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.xieji-relations",
+          "section_id": "bazi.section.s014",
+          "original_text": "洞源经曰对七为冲隔三为破选择家所谓辰破丑而丑冲未亥破寅而寅冲申午破夘而夘冲酉酉破子而子冲午申破巳而巳冲亥戌破未而未冲丑是也",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.xieji-relations",
+          "section_id": "bazi.section.s015",
+          "original_text": "假如建在子前三为平为夘后三为收为酉夘酉冲也建在丑前三为平为辰后三为收为戌辰戌冲也推之十二辰莫不皆然",
+          "role": "classical"
+        }
+      ],
+      "related_terms": [],
+      "confidence": "medium",
+      "attributes": {
+        "definition_kind": "reviewed_structural_summary",
+        "production_interpretation": false
+      }
+    },
+    {
+      "id": "bazi.term.branch_triple_harmonies",
+      "domain": "bazi",
+      "name": "地支三合",
+      "aliases": [
+        "三合",
+        "三合局"
+      ],
+      "definition": "申子辰为水、巳酉丑为金、寅午戌为火、亥卯未为木四组三支组合；本库只登记结构命中与传统结果五行。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.xieji-relations",
+          "section_id": "bazi.section.s016",
+          "original_text": "考原曰大煞子年在子丑年在酉寅年在午夘年在夘辰年又在子如是逆行四正盖申子辰三合为水水旺于子也巳酉丑三合为金金旺于酉也寅午戌三合为火火旺于午也亥夘未三合为木木旺于夘也",
+          "role": "classical"
+        }
+      ],
+      "related_terms": [],
       "confidence": "medium",
       "attributes": {
         "definition_kind": "reviewed_structural_summary",
@@ -833,6 +932,97 @@
       "confidence": "medium",
       "term_refs": [
         "bazi.term.spouse_palace_day_branch"
+      ]
+    },
+    {
+      "id": "bazi.rule.r009",
+      "domain": "bazi",
+      "name": "地支六冲固定配对",
+      "conditions": [
+        "输入为两个合法地支",
+        "只判断是否为十二支对宫固定配对"
+      ],
+      "inputs": {
+        "left_branch": "地支A",
+        "right_branch": "地支B"
+      },
+      "operation": {
+        "kind": "table_lookup",
+        "parameters": {
+          "data_path": "data/canonical/bazi/foundations_v1.json",
+          "item": "earthly_branch_relations.clashes"
+        }
+      },
+      "result": {
+        "matched": "是否命中六冲",
+        "pair": "命中时返回两支"
+      },
+      "exceptions": [
+        "六冲命中仅是结构关系，不等于凶、分手、争执或现实事件。"
+      ],
+      "execution_status": "partially_structured",
+      "school": "子平基础",
+      "variant": "ziping-structural-v1",
+      "difference": "采用固定对宫配对，只执行结构命中；不执行旺衰、制化与吉凶解释。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.xieji-relations",
+          "section_id": "bazi.section.s014",
+          "original_text": "洞源经曰对七为冲隔三为破选择家所谓辰破丑而丑冲未亥破寅而寅冲申午破夘而夘冲酉酉破子而子冲午申破巳而巳冲亥戌破未而未冲丑是也",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.xieji-relations",
+          "section_id": "bazi.section.s015",
+          "original_text": "假如建在子前三为平为夘后三为收为酉夘酉冲也建在丑前三为平为辰后三为收为戌辰戌冲也推之十二辰莫不皆然",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium",
+      "term_refs": [
+        "bazi.term.branch_six_clashes"
+      ]
+    },
+    {
+      "id": "bazi.rule.r010",
+      "domain": "bazi",
+      "name": "地支三合四局固定查表",
+      "conditions": [
+        "输入包含三个或以上合法地支",
+        "只判断是否完整包含四组三合之一"
+      ],
+      "inputs": {
+        "branches": "地支集合"
+      },
+      "operation": {
+        "kind": "table_lookup",
+        "parameters": {
+          "data_path": "data/canonical/bazi/foundations_v1.json",
+          "item": "earthly_branch_relations.triple_harmonies"
+        }
+      },
+      "result": {
+        "matched_groups": "命中的三支组合及传统结果五行"
+      },
+      "exceptions": [
+        "三合结构命中不等于自动成化，也不等于吉凶或关系适配。",
+        "双人合盘如何组合双方多柱形成跨盘三合，尚未定义统一产品口径。"
+      ],
+      "execution_status": "partially_structured",
+      "school": "子平基础",
+      "variant": "ziping-structural-v1",
+      "difference": "只执行四组三合完整成员检测；半合、拱合、成化条件与吉凶解释均不在本规则。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.xieji-relations",
+          "section_id": "bazi.section.s016",
+          "original_text": "考原曰大煞子年在子丑年在酉寅年在午夘年在夘辰年又在子如是逆行四正盖申子辰三合为水水旺于子也巳酉丑三合为金金旺于酉也寅午戌三合为火火旺于午也亥夘未三合为木木旺于夘也",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium",
+      "term_refs": [
+        "bazi.term.branch_triple_harmonies"
       ]
     }
   ],

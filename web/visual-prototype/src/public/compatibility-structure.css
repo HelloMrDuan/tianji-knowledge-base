@@ -9,3 +9,8 @@
 .compat-reviewed-grid span{font-size:12px;color:#45604d;margin-bottom:6px}
 .compat-reviewed-grid em{font-style:normal;font-size:10px;color:#8b734d;margin-top:4px}
 @media(max-width:850px){.compat-reviewed-grid{grid-template-columns:1fr}}
+
+.compat-triples{margin-top:9px;padding:9px 10px;border:1px dashed #d9ddd2;border-radius:5px;background:#f8f7ef}
+.compat-triples small,.compat-triples span{display:block}
+.compat-triples small{font-size:9px;color:#8d9487;margin-bottom:5px}
+.compat-triples span{font-size:10px;color:#7a6848;line-height:1.6}

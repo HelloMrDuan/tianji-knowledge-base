@@ -3,7 +3,7 @@
   "model": "phase2-golden",
   "domain": "bazi",
   "provider": "tianji_kb.operations.bazi_chart.chart",
-  "review_basis": "固定四柱人工核对：逐项核对天干十神、藏干、咸池四组结构查表，以及已审核的天干五合、地支六合/六害与日支传统配偶宫结构位；不含旺衰、喜用、婚恋吉凶。",
+  "review_basis": "固定四柱人工核对：逐项核对天干十神、藏干、咸池四组结构查表，以及已审核的天干五合、地支六合/六害/六冲/三合与日支传统配偶宫结构位；不含旺衰、喜用、婚恋吉凶。",
   "cases": [
     {
       "id": "bazi.structural-basic",
@@ -207,6 +207,53 @@
           "spouse_palace": {
             "pillar": "day",
             "day_branch": "寅",
+            "label": "日支（传统配偶宫结构位）"
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.relations-expanded",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "庚申",
+        "month_ganzhi": "戊子",
+        "day_ganzhi": "壬辰",
+        "hour_ganzhi": "庚午",
+        "include_relations": true
+      },
+      "expected": {
+        "reviewed_relations": {
+          "branch_six_clashes": [
+            {
+              "pillars": [
+                "month",
+                "hour"
+              ],
+              "branches": [
+                "子",
+                "午"
+              ]
+            }
+          ],
+          "branch_triple_harmonies": [
+            {
+              "pillars": [
+                "year",
+                "month",
+                "day"
+              ],
+              "branches": [
+                "申",
+                "子",
+                "辰"
+              ],
+              "traditional_result_element": "水"
+            }
+          ],
+          "spouse_palace": {
+            "pillar": "day",
+            "day_branch": "辰",
             "label": "日支（传统配偶宫结构位）"
           }
         }
