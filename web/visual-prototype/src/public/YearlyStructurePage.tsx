@@ -12,6 +12,13 @@ const pillarNames: Record<string, string> = {
   hour: "时柱",
 };
 
+function relationLabel(kind: string) {
+  if (kind === "six_harmony") return "六合";
+  if (kind === "harm") return "六害";
+  if (kind === "clash") return "六冲";
+  return kind;
+}
+
 function displayEvidence(id: string, evidence: Record<string, any>) {
   return {
     id,
@@ -68,6 +75,7 @@ export function YearlyStructurePage() {
   const annual = result?.result?.target_year || {};
   const natal = result?.result?.natal || {};
   const pillars = Array.isArray(natal.pillars) ? natal.pillars : [];
+  const branchRelations = Array.isArray(annual.branch_relations) ? annual.branch_relations : [];
   const evidence = result
     ? Object.entries(result.evidence).map(([id, value]) => displayEvidence(id, value))
     : [];
@@ -85,8 +93,8 @@ export function YearlyStructurePage() {
           <span className="eyebrow">2026 · 流年结构内测</span>
           <h1>先看 2026 与你的日主，发生了什么结构关系。</h1>
           <p>
-            这一版已经是真实计算，但还不是“全年吉凶报告”。它只把出生四柱、2026
-            干支与流年天干相对日主的十神关系放到一起，并给出来源和边界。
+            这一版已经是真实计算，但还不是“全年吉凶报告”。它把出生四柱、2026 干支、
+            流年天干十神，以及流年地支与原局的六合、六害、六冲固定结构放到一起，并给出来源和边界。
           </p>
         </div>
         <div className="yearly-seal" aria-hidden="true">
@@ -137,7 +145,8 @@ export function YearlyStructurePage() {
             <li>你的出生四柱与日主</li>
             <li>2026 的干支</li>
             <li>流年天干相对日主的十神</li>
-            <li>这条关系引用了哪条审核规则</li>
+            <li>流年地支与原局四支的六合 / 六害 / 六冲</li>
+            <li>这些结构引用了哪条审核规则</li>
           </ul>
           <p>旺衰、喜用、格局、桃花、事业、财富、健康、应期均未进入当前公开结论。</p>
         </aside>
@@ -192,6 +201,28 @@ export function YearlyStructurePage() {
             </div>
           </div>
 
+          <section className="yearly-branch-relations">
+            <div className="result-section-heading">
+              <div><span>支</span><h2>2026 流年地支 × 原局</h2></div>
+              <small>只显示已审核固定关系</small>
+            </div>
+            {branchRelations.length ? (
+              <div className="yearly-relation-grid">
+                {branchRelations.map((item: any, index: number) => (
+                  <article key={index}>
+                    <small>{pillarNames[item.natal_pillar] || item.natal_pillar}</small>
+                    <strong>{item.natal_branch} · {annual.branch}</strong>
+                    <span>{relationLabel(item.kind)}</span>
+                    {item.traditional_result_element && <em>传统表字段：{item.traditional_result_element}</em>}
+                  </article>
+                ))}
+              </div>
+            ) : (
+              <p className="yearly-no-relation">2026 流年支与原局四支当前没有六合、六害或六冲命中。</p>
+            )}
+            <p className="compat-note">“合、害、冲”只表示固定结构；这里不把它们翻译成吉凶或现实事件。</p>
+          </section>
+
           <section className="yearly-rule">
             <div className="result-section-heading">
               <div><span>一</span><h2>本次结构关系</h2></div>
@@ -204,7 +235,7 @@ export function YearlyStructurePage() {
                   流年天干：{rule.facts?.flow_year_stem || "—"} ·
                   十神：{rule.facts?.flow_year_stem_ten_god || "—"}
                 </p>
-                <small>来源于：{rule.derived_from_rule_id || "—"}</small>
+                <small>来源于：{(rule.derived_from_rule_ids || [rule.derived_from_rule_id]).filter(Boolean).join(" · ") || "—"}</small>
               </article>
             ))}
           </section>
@@ -248,7 +279,7 @@ export function YearlyStructurePage() {
             <span>运</span>
             <div>
               <h3>完整“2026 年运势”还差什么？</h3>
-              <p>要继续补旺衰/格局/喜用与流年支互动等证据，再分别形成桃花、事业财运等场景规则。现在不会用一个“食神”就给你下全年吉凶结论。</p>
+              <p>固定六合、六害、六冲已经进入这一层；下一步仍需旺衰/格局/喜用、大运、三合跨年成局与三刑流派裁定。现在不会拿单一“食神”或一次冲合就下全年吉凶结论。</p>
             </div>
           </div>
         </section>
