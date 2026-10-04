@@ -58,6 +58,8 @@ class BaziPhase2Tests(unittest.TestCase):
         self.assertEqual(relations["branch_six_harms"],[
             {"pillars":["day","hour"],"branches":["寅","巳"]},
         ])
+        self.assertEqual(relations["branch_six_clashes"],[])
+        self.assertEqual(relations["branch_triple_harmonies"],[])
         self.assertEqual(relations["spouse_palace"],{
             "pillar":"day","day_branch":"寅","label":"日支（传统配偶宫结构位）",
         })
@@ -65,13 +67,36 @@ class BaziPhase2Tests(unittest.TestCase):
             "bazi.phase2.stem_five_combinations",
             "bazi.phase2.branch_six_harmonies",
             "bazi.phase2.branch_six_harms",
+            "bazi.phase2.branch_six_clashes",
+            "bazi.phase2.branch_triple_harmonies",
             "bazi.phase2.spouse_palace_day_branch",
         }]
-        self.assertEqual(len(relation_steps),4)
+        self.assertEqual(len(relation_steps),6)
         self.assertTrue(all(x["evidence_ids"] for x in relation_steps))
         self.assertTrue(all(v["evidence_level"]=="C" for v in out["evidence"].values()))
         serialized=str(relations)
         for forbidden in ("compatibility_score","marriage_score","auspicious","breakup_risk"):
+            self.assertNotIn(forbidden,serialized)
+
+    def test_clash_and_triple_harmony_are_reviewed_structural_facts(self):
+        out=chart("庚申","戊子","壬辰","庚午",include_relations=True)
+        relations=out["result"]["reviewed_relations"]
+        self.assertEqual(relations["branch_six_clashes"],[
+            {"pillars":["month","hour"],"branches":["子","午"]},
+        ])
+        self.assertEqual(relations["branch_triple_harmonies"],[
+            {
+                "pillars":["year","month","day"],
+                "branches":["申","子","辰"],
+                "traditional_result_element":"水",
+            },
+        ])
+        clash_step=next(x for x in out["trace"] if x["rule_id"]=="bazi.phase2.branch_six_clashes")
+        triple_step=next(x for x in out["trace"] if x["rule_id"]=="bazi.phase2.branch_triple_harmonies")
+        self.assertTrue(clash_step["evidence_ids"])
+        self.assertTrue(triple_step["evidence_ids"])
+        serialized=str(relations)
+        for forbidden in ("conflict_score","auspicious","relationship_advice","breakup_risk"):
             self.assertNotIn(forbidden,serialized)
 
     def test_relations_are_opt_in_and_boolean_only(self):
