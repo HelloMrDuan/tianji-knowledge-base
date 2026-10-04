@@ -276,6 +276,25 @@
       ],
       "regression_test": "tests/test_phase2_bazisupport.py",
       "evidence_scope": "C：十干阴阳五行、生克方向、十神与藏干短引；只核位置，不判效力、得势、旺衰或喜用。"
+    },
+    {
+      "id": "bazi.phase2.month_command_variant",
+      "domain": "bazi",
+      "name": "月令本气与司令候选审计",
+      "variant": "ziping-structural-v1",
+      "execution_status": "executable",
+      "phase1_rule_refs": [
+        "bazi.rule.r017"
+      ],
+      "validation_status": "validated",
+      "golden_case_ids": [
+        "bazi.commander-conflict",
+        "bazi.commander-single-hidden",
+        "bazi.commander-principal-not-first",
+        "bazi.commander-unreviewed-tomb"
+      ],
+      "regression_test": "tests/test_phase2_bazicommander.py",
+      "evidence_scope": "C：既有藏遁及任氏本气、寅月分日、渊海节气歌短引；显式 bazi-strength-month-command-v1，候选不等于某日司令，根力与旺衰未裁定。"
     }
   ]
 }

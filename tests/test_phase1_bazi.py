@@ -20,8 +20,8 @@ class BaziPhase1Tests(unittest.TestCase):
         self.assertEqual(xieji["body_stage"],"quarantine")
         self.assertGreaterEqual(len(self.bundle["sections"]),21)
         self.assertGreaterEqual(len(self.bundle["rules"]),11)
-        self.assertTrue(all(r["execution_status"]=="partially_structured" for r in self.bundle["rules"] if r['id'] not in {'bazi.rule.r012','bazi.rule.r013','bazi.rule.r014','bazi.rule.r015','bazi.rule.r016'}))
-        self.assertTrue(all(r['execution_status']=='executable' for r in self.bundle['rules'] if r['id'] in {'bazi.rule.r013','bazi.rule.r014','bazi.rule.r015','bazi.rule.r016'}))
+        self.assertTrue(all(r["execution_status"]=="partially_structured" for r in self.bundle["rules"] if r['id'] not in {'bazi.rule.r012','bazi.rule.r013','bazi.rule.r014','bazi.rule.r015','bazi.rule.r016','bazi.rule.r017'}))
+        self.assertTrue(all(r['execution_status']=='executable' for r in self.bundle['rules'] if r['id'] in {'bazi.rule.r013','bazi.rule.r014','bazi.rule.r015','bazi.rule.r016','bazi.rule.r017'}))
         self.assertEqual(
             {ref["source_id"] for r in self.bundle["rules"] for ref in r["source_refs"]},
             {

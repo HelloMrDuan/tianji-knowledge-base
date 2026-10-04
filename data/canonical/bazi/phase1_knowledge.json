@@ -634,6 +634,66 @@
         "method": "既有固定原典快照逐字核对，保留剋等字形；不改 RAW，不采用新增/若思现代按语。",
         "scope": "仅十干阴阳五行分类及生克方向，C级单一可追溯版本；生克实际效力、季节强弱和个人吉凶未裁定。"
       }
+    },
+    {
+      "id": "bazi.section.s034",
+      "domain": "bazi",
+      "name": "本气取用阴阳说明",
+      "classic_id": "bazi.classic.ditiansui",
+      "chapter_id": "bazi.chapter.strength_factors",
+      "source_id": "bazi.source.ditiansui-spouse",
+      "text": "若子从癸、午从丁,是体阳而用阴也;巳从丙,亥从壬,是体阴而用阳也。",
+      "locator": "滴天髓阐微·地支/干支总论/月令；固定原文字符位置 10034",
+      "review": {
+        "status": "approved",
+        "method": "既有固定快照逐字核对；不改字、不采用若思现代按语。",
+        "scope": "C级单一可追溯电子本；只审核本气结构及具体日司令的条件边界。"
+      }
+    },
+    {
+      "id": "bazi.section.s035",
+      "domain": "bazi",
+      "name": "寅申本气优先",
+      "classic_id": "bazi.classic.ditiansui",
+      "chapter_id": "bazi.chapter.strength_factors",
+      "source_id": "bazi.source.ditiansui-spouse",
+      "text": "然以本气为主,寅必先甲而后及丙,申必先庚而后及壬,余支皆然。",
+      "locator": "滴天髓阐微·地支/干支总论/月令；固定原文字符位置 10113",
+      "review": {
+        "status": "approved",
+        "method": "既有固定快照逐字核对；不改字、不采用若思现代按语。",
+        "scope": "C级单一可追溯电子本；只审核本气结构及具体日司令的条件边界。"
+      }
+    },
+    {
+      "id": "bazi.section.s036",
+      "domain": "bazi",
+      "name": "本气与藏干次序边界",
+      "classic_id": "bazi.classic.ditiansui",
+      "chapter_id": "bazi.chapter.strength_factors",
+      "source_id": "bazi.source.ditiansui-spouse",
+      "text": "若甲午日,则午必先丁而后己,己土岂能专权而合甲?己亥日,亥必先壬而后甲,甲岂能出而合己?癸巳日,巳必先丙而后戊,戊岂能越过而合癸?",
+      "locator": "滴天髓阐微·地支/干支总论/月令；固定原文字符位置 20509",
+      "review": {
+        "status": "approved",
+        "method": "既有固定快照逐字核对；不改字、不采用若思现代按语。",
+        "scope": "C级单一可追溯电子本；只审核本气结构及具体日司令的条件边界。"
+      }
+    },
+    {
+      "id": "bazi.section.s037",
+      "domain": "bazi",
+      "name": "司令的日时条件",
+      "classic_id": "bazi.classic.ditiansui",
+      "chapter_id": "bazi.chapter.strength_factors",
+      "source_id": "bazi.source.ditiansui-spouse",
+      "text": "人元用事者,即此月此日之司令神也,如宅中之向道,不可不卜。",
+      "locator": "滴天髓阐微·地支/干支总论/月令；固定原文字符位置 38165",
+      "review": {
+        "status": "approved",
+        "method": "既有固定快照逐字核对；不改字、不采用若思现代按语。",
+        "scope": "C级单一可追溯电子本；只审核本气结构及具体日司令的条件边界。"
+      }
     }
   ],
   "terms": [
@@ -1238,6 +1298,51 @@
         "definition_kind": "reviewed_bounded_structural_summary",
         "factor_variant": "ditiansui-root-visibility-v1",
         "production_strength_judgement": false
+      }
+    },
+    {
+      "id": "bazi.term.month_commander",
+      "domain": "bazi",
+      "name": "人元司令",
+      "aliases": [
+        "分日司令",
+        "人元用事"
+      ],
+      "definition": "传统月令中具体月日的用事神；主气、月支藏干与分日候选分别报告，不裁定具体日期。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s023",
+          "original_text": "月令乃提纲之府,譬之宅也,人元为用事之神,宅之定向也,不可以不卜。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s024",
+          "original_text": "如寅月生人,立春后七日前,皆值戊土用事;八日后十四日前者,丙火用事 ;十五日后,甲木用事。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s029",
+          "original_text": "立春念三丙火用,餘日甲木旺提纲。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s037",
+          "original_text": "人元用事者,即此月此日之司令神也,如宅中之向道,不可不卜。",
+          "role": "classical"
+        }
+      ],
+      "related_terms": [
+        "bazi.term.hidden_stems"
+      ],
+      "confidence": "medium",
+      "attributes": {
+        "variant": "bazi-strength-month-command-v1",
+        "commander_status": "unresolved",
+        "interpretation_enabled": false
       }
     }
   ],
@@ -2105,6 +2210,104 @@
         "bazi.term.day_master",
         "bazi.term.hidden_stems"
       ]
+    },
+    {
+      "id": "bazi.rule.r017",
+      "domain": "bazi",
+      "name": "月令本气与分日节气候选隔离",
+      "conditions": [
+        "四个合法六十甲子干支，年/月/日/时顺序固定",
+        "显式 month_command_variant=bazi-strength-month-command-v1",
+        "本气按已审核字段；各分日/节气子口径独立，日期判定未实现"
+      ],
+      "inputs": {
+        "pillars": "已验证四柱结构",
+        "day_master": "日干"
+      },
+      "operation": {
+        "kind": "bounded_month_command_policy",
+        "provider": "tianji_kb.operations.bazi_chart.month_command",
+        "parameters": {
+          "command_variant": "bazi-strength-month-command-v1"
+        }
+      },
+      "result": {
+        "facts": "month_command_variant",
+        "commander_status": "unresolved",
+        "de_ling": null,
+        "overall_strength": null
+      },
+      "exceptions": [
+        "藏干顺序不是本气排序；辰戌丑未本气本批未审核，不据数组首位取值。",
+        "单一藏干也不能证明具体日司令；不以月支或本气替代日期和原典口径。",
+        "寅月异文保持 unresolved；未审核月份的候选为空，不表示没有司令或来源一致。",
+        "不输入节后天数，不解析念三，不拼接全年分日表。"
+      ],
+      "execution_status": "executable",
+      "school": "子平·月令口径隔离",
+      "variant": "ziping-structural-v1",
+      "difference": "ziping-structural-v1 内显式启用独立月令审计子 Variant；不是完整旺衰分类器。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s004",
+          "original_text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s023",
+          "original_text": "月令乃提纲之府,譬之宅也,人元为用事之神,宅之定向也,不可以不卜。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s024",
+          "original_text": "如寅月生人,立春后七日前,皆值戊土用事;八日后十四日前者,丙火用事 ;十五日后,甲木用事。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s028",
+          "original_text": "得时俱为旺论,失令便作衰看,虽是至理,亦死法也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s029",
+          "original_text": "立春念三丙火用,餘日甲木旺提纲。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s034",
+          "original_text": "若子从癸、午从丁,是体阳而用阴也;巳从丙,亥从壬,是体阴而用阳也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s035",
+          "original_text": "然以本气为主,寅必先甲而后及丙,申必先庚而后及壬,余支皆然。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s036",
+          "original_text": "若甲午日,则午必先丁而后己,己土岂能专权而合甲?己亥日,亥必先壬而后甲,甲岂能出而合己?癸巳日,巳必先丙而后戊,戊岂能越过而合癸?",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s037",
+          "original_text": "人元用事者,即此月此日之司令神也,如宅中之向道,不可不卜。",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium",
+      "term_refs": [
+        "bazi.term.month_commander",
+        "bazi.term.hidden_stems"
+      ]
     }
   ],
   "concepts": [
@@ -2357,6 +2560,269 @@
           "source_id": "bazi.source.ditiansui-spouse",
           "section_id": "bazi.section.s033",
           "original_text": "甲乙一木也,丙丁一火也,戊己一土也,庚辛一金也,壬癸一水也,即分别所用,不过阳刚阴柔,阳健阴顺而已。",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "bazi.concept.month_command_variant_v1",
+      "domain": "bazi",
+      "name": "月令本气与司令候选审计v1",
+      "kind": "algorithm_variant",
+      "variant": "bazi-strength-month-command-v1",
+      "attributes": {
+        "maturity": "PARTIAL",
+        "execution_parent_variant": "ziping-structural-v1",
+        "input_option": "month_command_variant",
+        "principal_qi": {
+          "子": {
+            "stem": "癸",
+            "section_ids": [
+              "bazi.section.s034"
+            ]
+          },
+          "午": {
+            "stem": "丁",
+            "section_ids": [
+              "bazi.section.s034"
+            ]
+          },
+          "巳": {
+            "stem": "丙",
+            "section_ids": [
+              "bazi.section.s034"
+            ]
+          },
+          "亥": {
+            "stem": "壬",
+            "section_ids": [
+              "bazi.section.s034"
+            ]
+          },
+          "寅": {
+            "stem": "甲",
+            "section_ids": [
+              "bazi.section.s035"
+            ]
+          },
+          "申": {
+            "stem": "庚",
+            "section_ids": [
+              "bazi.section.s035"
+            ]
+          },
+          "卯": {
+            "stem": "乙",
+            "section_ids": [
+              "bazi.section.s004"
+            ]
+          },
+          "酉": {
+            "stem": "辛",
+            "section_ids": [
+              "bazi.section.s004"
+            ]
+          }
+        },
+        "principal_policy": "ditiansui-principal-qi-v1",
+        "unreviewed_principal_branches": [
+          "丑",
+          "辰",
+          "未",
+          "戌"
+        ],
+        "commander_profiles": [
+          {
+            "variant": "ditiansui-day-segment-candidates-v1",
+            "basis": "原注分日例；未审核日期边界，不换算节后天数",
+            "months": {
+              "寅": {
+                "candidates": [
+                  "戊",
+                  "丙",
+                  "甲"
+                ],
+                "section_ids": [
+                  "bazi.section.s024"
+                ]
+              }
+            }
+          },
+          {
+            "variant": "yuanhai-solar-term-candidates-v1",
+            "basis": "暗藏总诀节气文本；念三保留，不猜测天数",
+            "months": {
+              "寅": {
+                "candidates": [
+                  "丙",
+                  "甲"
+                ],
+                "section_ids": [
+                  "bazi.section.s029"
+                ]
+              }
+            }
+          }
+        ],
+        "conflicts": [
+          {
+            "id": "bazi.concept.conflict_siling_days",
+            "month_branches": [
+              "寅"
+            ]
+          }
+        ],
+        "commander_status": "unresolved",
+        "date_resolution_supported": false,
+        "weights_available": false,
+        "full_strength_classifier_ready": false,
+        "source_grade_ceiling": "C",
+        "source_independence": "unverified"
+      },
+      "source_refs": [
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s004",
+          "original_text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s023",
+          "original_text": "月令乃提纲之府,譬之宅也,人元为用事之神,宅之定向也,不可以不卜。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s024",
+          "original_text": "如寅月生人,立春后七日前,皆值戊土用事;八日后十四日前者,丙火用事 ;十五日后,甲木用事。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s028",
+          "original_text": "得时俱为旺论,失令便作衰看,虽是至理,亦死法也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s029",
+          "original_text": "立春念三丙火用,餘日甲木旺提纲。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s034",
+          "original_text": "若子从癸、午从丁,是体阳而用阴也;巳从丙,亥从壬,是体阴而用阳也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s035",
+          "original_text": "然以本气为主,寅必先甲而后及丙,申必先庚而后及壬,余支皆然。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s036",
+          "original_text": "若甲午日,则午必先丁而后己,己土岂能专权而合甲?己亥日,亥必先壬而后甲,甲岂能出而合己?癸巳日,巳必先丙而后戊,戊岂能越过而合癸?",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s037",
+          "original_text": "人元用事者,即此月此日之司令神也,如宅中之向道,不可不卜。",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "bazi.concept.ditiansui_principal_qi_v1",
+      "domain": "bazi",
+      "name": "任氏本气结构口径",
+      "kind": "algorithm_variant",
+      "variant": "ditiansui-principal-qi-v1",
+      "attributes": {
+        "scope": "月令审计子口径；不替换主排盘 Variant，不输出某日司令或得令",
+        "status": "bounded_candidates_only",
+        "date_resolution_supported": false,
+        "parent_command_variant": "bazi-strength-month-command-v1"
+      },
+      "source_refs": [
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s004",
+          "original_text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s034",
+          "original_text": "若子从癸、午从丁,是体阳而用阴也;巳从丙,亥从壬,是体阴而用阳也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s035",
+          "original_text": "然以本气为主,寅必先甲而后及丙,申必先庚而后及壬,余支皆然。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s036",
+          "original_text": "若甲午日,则午必先丁而后己,己土岂能专权而合甲?己亥日,亥必先壬而后甲,甲岂能出而合己?癸巳日,巳必先丙而后戊,戊岂能越过而合癸?",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "bazi.concept.ditiansui_day_segment_candidates_v1",
+      "domain": "bazi",
+      "name": "滴天髓寅月分日候选口径",
+      "kind": "algorithm_variant",
+      "variant": "ditiansui-day-segment-candidates-v1",
+      "attributes": {
+        "scope": "月令审计子口径；不替换主排盘 Variant，不输出某日司令或得令",
+        "status": "bounded_candidates_only",
+        "date_resolution_supported": false,
+        "parent_command_variant": "bazi-strength-month-command-v1"
+      },
+      "source_refs": [
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s024",
+          "original_text": "如寅月生人,立春后七日前,皆值戊土用事;八日后十四日前者,丙火用事 ;十五日后,甲木用事。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s037",
+          "original_text": "人元用事者,即此月此日之司令神也,如宅中之向道,不可不卜。",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "bazi.concept.yuanhai_solar_term_candidates_v1",
+      "domain": "bazi",
+      "name": "渊海节气歌寅月候选口径",
+      "kind": "algorithm_variant",
+      "variant": "yuanhai-solar-term-candidates-v1",
+      "attributes": {
+        "scope": "月令审计子口径；不替换主排盘 Variant，不输出某日司令或得令",
+        "status": "bounded_candidates_only",
+        "date_resolution_supported": false,
+        "parent_command_variant": "bazi-strength-month-command-v1"
+      },
+      "source_refs": [
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s029",
+          "original_text": "立春念三丙火用,餘日甲木旺提纲。",
           "role": "classical"
         }
       ],

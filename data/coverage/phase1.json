@@ -382,13 +382,13 @@
         "with_reviewed_excerpts": 4
       },
       "chapters": 15,
-      "sections": 33,
+      "sections": 37,
       "terms": {
-        "canonical": 20
+        "canonical": 21
       },
-      "concepts": 5,
+      "concepts": 9,
       "rules": {
-        "executable": 4,
+        "executable": 5,
         "partially_structured": 11,
         "descriptive_only": 1
       },
@@ -405,7 +405,7 @@
         "bazi.source.yuanhai"
       ],
       "tests": 4,
-      "production_chunks": 74,
+      "production_chunks": 84,
       "completion_criteria": {
         "domain_definition": true,
         "source_registry": true,
