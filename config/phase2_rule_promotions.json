@@ -123,6 +123,14 @@
       ],
       "variant": "quanshu-lunar-iztro-mutagen-v1",
       "scope": "仅指定 variant 的排盘计算关系；不晋级吉凶解释、跨派裁定或源文件证据等级。"
+    },
+    {
+      "phase1_rule_id": "bazi.rule.r004",
+      "execution_rule_ids": [
+        "bazi.phase2.xianchi_lookup"
+      ],
+      "variant": "ziping-structural-v1",
+      "scope": "仅四组咸池目标支结构查表；年支与日支分别报告。不得晋级婚恋吉凶、性格、疾病、事件应期、纳音附加条件或单一基准裁定。"
     }
   ],
   "excluded": [
