@@ -227,6 +227,22 @@ test("admin layers never requests internal assets before explicit authorization"
   expect(apiRequests).toEqual([]);
 });
 
+test("admin algorithms never requests contracts before explicit authorization", async ({
+  page,
+}) => {
+  const apiRequests: string[] = [];
+  page.on("request", (request) => {
+    if (request.url().includes("/api/v1/admin/governance/algorithms"))
+      apiRequests.push(request.url());
+  });
+  await page.goto("/admin/algorithms");
+  await expect(page.getByRole("heading", { name: "算法与 Variant", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "需要内部只读授权" })).toBeVisible();
+  await expect(page.getByLabel("后台只读令牌")).toHaveAttribute("type", "password");
+  await expect(page.locator("main")).toContainText("真实读取 Phase2 execution contracts");
+  expect(apiRequests).toEqual([]);
+});
+
 test("configuration previews and prompt drafts clear on reload and never request a service", async ({
   page,
 }) => {

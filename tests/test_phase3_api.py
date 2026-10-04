@@ -188,6 +188,28 @@ class UnifiedApiTests(unittest.TestCase):
         self.assertNotIn('sha256',serialized)
         self.assertNotIn('TIANJI_ADMIN_READ_TOKEN',serialized)
 
+    def test_admin_algorithms_are_real_reviewed_contracts(self):
+        client=TestClient(create_app(admin_read_token='review-token'))
+        path='/api/v1/admin/governance/algorithms'
+        self.assertEqual(client.get(path).status_code,401)
+        response=client.get(path,headers={'Authorization':'Bearer review-token'})
+        self.assertEqual(response.status_code,200,response.text)
+        data=response.json()
+        self.assertTrue(data['read_only'])
+        self.assertFalse(data['public_release'])
+        records=data['records']
+        self.assertEqual({row['domain'] for row in records},set(PROVIDERS))
+        self.assertTrue(all(row['deterministic'] for row in records))
+        self.assertTrue(all(not row['ai_may_compute_chart'] for row in records))
+        self.assertTrue(all(row['rule_count'] > 0 for row in records))
+        self.assertTrue(all(row['executable_rule_count'] == row['rule_count'] for row in records))
+        self.assertTrue(all(row['validated_rule_count'] == row['rule_count'] for row in records))
+        self.assertTrue(any(row['unresolved'] for row in records))
+        self.assertTrue(any(row['golden_case_ids'] for row in records))
+        serialized=str(records)
+        self.assertNotIn('DEMO-',serialized)
+        self.assertNotIn('TIANJI_ADMIN_READ_TOKEN',serialized)
+
     def test_admin_rules_and_evidence_are_token_gated_reviewed_assets(self):
         client=TestClient(create_app(admin_read_token='review-token'))
         for path in (

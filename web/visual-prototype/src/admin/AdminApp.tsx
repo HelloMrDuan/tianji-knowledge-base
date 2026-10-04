@@ -12,6 +12,7 @@ import { ChapterGovernancePage } from "./ChapterGovernancePage";
 import { TermGovernancePage } from "./TermGovernancePage";
 import { SourceGovernancePage } from "./SourceGovernancePage";
 import { LayerGovernancePage } from "./LayerGovernancePage";
+import { AlgorithmGovernancePage } from "./AlgorithmGovernancePage";
 import "./admin.css";
 import "./modules.css";
 
@@ -22,6 +23,7 @@ const titles: Record<string, string> = {
   "/admin/terms": "术语管理",
   "/admin/sources": "来源管理",
   "/admin/layers": "RAW / Quarantine / Canonical",
+  "/admin/algorithms": "算法与 Variant",
   "/admin/rules": "规则管理",
   "/admin/evidence": "Evidence 管理",
   "/admin/conflicts": "流派与冲突",
@@ -127,6 +129,8 @@ export default function AdminApp() {
             <SourceGovernancePage />
           ) : path === "/admin/layers" ? (
             <LayerGovernancePage />
+          ) : path === "/admin/algorithms" ? (
+            <AlgorithmGovernancePage />
           ) : module && path.split("/").length <= 4 ? (
             <ModulePage key={path} module={module} recordId={recordId} />
           ) : (

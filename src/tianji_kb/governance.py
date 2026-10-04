@@ -495,3 +495,40 @@ def reviewed_layers(resolver: EvidenceResolver | None = None) -> list[dict]:
             "release_policy": "可进入生产检索，但仍受具体领域、Variant、Evidence 与产品发布边界约束。",
         },
     ]
+
+
+def reviewed_algorithms(resolver: EvidenceResolver | None = None) -> list[dict]:
+    """Return the real reviewed execution contracts used by the deterministic engine."""
+    resolver = resolver or EvidenceResolver()
+    rows = []
+    for domain, contract in sorted(resolver.contracts.items()):
+        rules = contract.get("rules", [])
+        golden_case_ids = sorted({
+            case_id
+            for rule in rules
+            for case_id in rule.get("golden_case_ids", [])
+        })
+        phase1_rule_ids = sorted({
+            rule_id
+            for rule in rules
+            for rule_id in rule.get("phase1_rule_refs", [])
+        })
+        executable_count = sum(1 for rule in rules if rule.get("execution_status") == "executable")
+        validated_count = sum(1 for rule in rules if rule.get("validation_status") == "validated")
+        rows.append({
+            "id": f"{domain}:{contract['variant']}",
+            "domain": domain,
+            "variant": contract["variant"],
+            "provider": contract.get("provider", ""),
+            "scope": contract.get("scope", ""),
+            "unresolved": copy.deepcopy(contract.get("unresolved", [])),
+            "rule_count": len(rules),
+            "executable_rule_count": executable_count,
+            "validated_rule_count": validated_count,
+            "golden_case_ids": golden_case_ids,
+            "phase1_rule_ids": phase1_rule_ids,
+            "production_ready": bool(rules) and executable_count == len(rules) and validated_count == len(rules),
+            "deterministic": True,
+            "ai_may_compute_chart": False,
+        })
+    return rows
