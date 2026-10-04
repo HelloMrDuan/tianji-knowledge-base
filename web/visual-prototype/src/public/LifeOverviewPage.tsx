@@ -296,6 +296,7 @@ export function LifeOverviewPage() {
               <Link href="/monthly-structure">本月结构</Link>
               <Link href="/yearly-structure">2026 流年</Link>
               <Link href="/romance-structure">桃花姻缘</Link>
+              <Link href="/compatibility-structure">缘分合盘</Link>
               <Link href="/career-wealth-structure">事业财运</Link>
               <Link href="/ask">一事占问</Link>
             </div>
