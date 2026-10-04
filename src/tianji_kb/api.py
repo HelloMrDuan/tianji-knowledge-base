@@ -15,6 +15,7 @@ from .ai_providers import provider_from_environment,provider_configured,timeout_
 from .runtime_catalog import load_catalog
 from .resolver import ROOT
 from .prompts import DEFAULT_PROMPT,PROMPTS
+from .scenario_engine import execute_scenario,registry as scenario_registry
 
 Domain=Literal['liuyao','qimen','liuren','ziwei','fengshui','yijing','bazi']
 Mode=Literal['production','research']
@@ -34,6 +35,24 @@ class ExecuteRequest(BaseModel):
     input:dict[str,Any]
     explain:StrictBool=False
     mode:Mode='production'
+
+class ScenarioExecuteRequest(BaseModel):
+    model_config=ConfigDict(extra='forbid')
+    scenario_id:StrictStr=Field(min_length=1,max_length=120)
+    input:dict[str,Any]
+
+class ScenarioExecuteResponse(BaseModel):
+    model_config=ConfigDict(extra='forbid')
+    scenario_id:str
+    status:str
+    public_release:bool
+    deterministic:bool
+    result:dict[str,Any]
+    rule_matches:list[dict[str,Any]]
+    trace:list[dict[str,Any]]
+    evidence:dict[str,dict[str,Any]]
+    warnings:list[str]
+    limitations:list[str]
 
 class ExplanationQuote(BaseModel):
     model_config=ConfigDict(extra='forbid')
@@ -137,6 +156,19 @@ def create_app(provider=None,*,explanation_timeout=None):
                         'scope':c.get('scope',''),'limitations':c.get('unresolved',[]),
                         'example':{'domain':domain,'variant':c['variant'],'input':EXAMPLES[domain],'explain':False,'mode':'production'}}
                        for domain,c in sorted(resolver.contracts.items())]}
+
+    @app.get('/api/v1/scenarios',tags=['scenarios'])
+    def scenarios():
+        return {'api_version':'v1','scenarios':scenario_registry()}
+
+    @app.post('/api/v1/scenarios/execute',response_model=ScenarioExecuteResponse,tags=['scenarios'])
+    async def execute_scenario_request(request:ScenarioExecuteRequest):
+        try:
+            return ScenarioExecuteResponse.model_validate(
+                await run_in_threadpool(execute_scenario,request.scenario_id,dict(request.input))
+            )
+        except (ValueError,TypeError) as error:
+            raise HTTPException(422,detail={'code':'invalid_scenario_input','message':str(error)}) from error
 
     @app.post('/api/v1/execute',response_model=ExecuteResponse,tags=['execution'])
     async def execute_request(request:ExecuteRequest):
