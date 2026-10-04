@@ -20,3 +20,8 @@ The JSON HTTP adapter posts `{context, instruction, response_schema, model}` and
 Provider availability in `/health` means configuration is complete; it is not a live model or network readiness claim. Six-domain real HTTP adapter loops were verified against a local test model service; no commercial model key, live model quality or external connectivity was verified in this environment.
 
 Phase 4: `TIANJI_EXPLANATION_PROMPT_VERSION=explanation-prompt-v2` is the trial default. `TIANJI_AI_MAX_OUTPUT_TOKENS=4096` controls the compatible adapter's response budget. The actual provider system instruction follows the selected version; use `scripts/evaluate_explanations.py` for identical-suite comparisons. No provider/model recommendation has been established by real-model evaluation yet.
+
+
+## Internal admin status view
+
+The protected read-only endpoint `GET /api/v1/admin/system/provider` exposes only non-secret configuration state for the internal admin UI. It reports the selected driver, whether configuration is complete, the endpoint origin/hostname, model ID, timeout/output limits, prompt version and whether a credential is present. It never returns `TIANJI_AI_API_KEY`, never returns the full endpoint path, and does not make a live provider request. A `configured` status therefore means configuration completeness only, not network reachability or model-quality approval.
