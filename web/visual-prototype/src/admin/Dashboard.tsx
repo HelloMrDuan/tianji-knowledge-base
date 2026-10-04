@@ -24,8 +24,8 @@ export function Dashboard() {
       <div className="admin-stats">
         {[
           ["典籍资产", "24", "6 个术数分类", "book"],
-          ["规则记录", "128", "18 条待复核", "layers"],
-          ["Evidence", "326", "C / D 分级记录", "shield"],
+          ["规则记录", "—", "授权后读取真实 Canonical", "layers"],
+          ["Evidence", "—", "授权后读取审核短引", "shield"],
           ["治理事项", "—", "真实冲突需授权读取", "file"],
         ].map(([label, value, note, icon]) => (
           <article className="admin-stat" key={label}>
@@ -35,7 +35,7 @@ export function Dashboard() {
             </div>
             <strong>
               {value}
-              <small>演示</small>
+              <small>{value === "—" ? "受保护" : "演示"}</small>
             </strong>
             <p>{note}</p>
           </article>
@@ -138,7 +138,7 @@ export function Dashboard() {
         <div className="admin-card-heading">
           <div>
             <h2>资产管理入口</h2>
-            <p>本轮开放的三个管理页示例</p>
+            <p>古籍仍为展示页；规则与 Evidence 已接真实受保护数据</p>
           </div>
           <span className="admin-small-muted">只读展示</span>
         </div>
