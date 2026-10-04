@@ -88,6 +88,20 @@
       "name": "夫妻与女命观察边界",
       "classic_id": "bazi.classic.ditiansui",
       "locator": "《滴天髓阐微》六亲论·夫妻、女命章"
+    },
+    {
+      "id": "bazi.chapter.yuanhai_punishment_usage",
+      "domain": "bazi",
+      "name": "三刑与自刑传统用法短引",
+      "classic_id": "bazi.classic.yuanhai",
+      "locator": "《渊海子平》论日刃"
+    },
+    {
+      "id": "bazi.chapter.ditiansui_punishment_boundary",
+      "domain": "bazi",
+      "name": "地支刑法批评",
+      "classic_id": "bazi.classic.ditiansui",
+      "locator": "《滴天髓阐微》通神论·八、地支"
     }
   ],
   "sections": [
@@ -374,6 +388,36 @@
         "status": "approved",
         "method": "逐字核对固定公版电子快照与 Canonical 清洗版。",
         "scope": "只确认传统财星配偶观察口径；同章明确要求结合日主衰旺喜忌活看，本轮不执行旺衰与喜忌。"
+      }
+    },
+    {
+      "id": "bazi.section.s020",
+      "domain": "bazi",
+      "name": "渊海·三刑自刑传统用法",
+      "classic_id": "bazi.classic.yuanhai",
+      "chapter_id": "bazi.chapter.yuanhai_punishment_usage",
+      "source_id": "bazi.source.yuanhai",
+      "text": "三刑自刑魁罡全,发跡疆场。",
+      "locator": "《渊海子平》论日刃；固定短引",
+      "review": {
+        "status": "approved",
+        "method": "逐字核对固定公版电子快照。",
+        "scope": "只确认《渊海子平》确实把“三刑/自刑”作为传统判断因子使用；不晋级其吉凶断语，也不据此建立统一 executable。"
+      }
+    },
+    {
+      "id": "bazi.section.s021",
+      "domain": "bazi",
+      "name": "滴天髓·三刑自刑批评",
+      "classic_id": "bazi.classic.ditiansui",
+      "chapter_id": "bazi.chapter.ditiansui_punishment_boundary",
+      "source_id": "bazi.source.ditiansui-spouse",
+      "text": "刑之义无所取,如亥刑亥、辰刑辰、酉刑酉、午刑午,谓之自刑,本支见本支,自谓同气,何以相刑?子刑卯,卯刑子,是谓相生,何以相刑?戌刑未,未刑丑,皆为土气,更不当刑。寅刑巳,亦是相生,寅申相刑,即冲何必再刑?又曰子卯一刑也,寅巳申二刑也,丑戌未三刑也,故称三刑,又有自刑,此皆俗谬,姑置之。",
+      "locator": "《滴天髓阐微》通神论·八、地支；固定短引",
+      "review": {
+        "status": "approved",
+        "method": "逐字核对固定公版电子快照。",
+        "scope": "只确认任氏明确反对机械采用三刑/自刑体系，主张回到地支生克旺衰分析；不据此宣称所有传统刑法均无效。"
       }
     }
   ],
@@ -1217,6 +1261,103 @@
           "source_id": "bazi.source.yuanhai",
           "section_id": "bazi.section.s001",
           "original_text": "四柱排定,三才次分,专以日上天元,配合八字支干;有见不见之形,无时不有;神煞相绊,轻重较量。",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "bazi.concept.conflict_spouse_star_lens",
+      "domain": "bazi",
+      "name": "传统配偶星观察口径差异",
+      "kind": "school_conflict",
+      "attributes": {
+        "dimension": "配偶星是否可按固定财星/官杀口径直接解释",
+        "status": "bounded",
+        "positions": [
+          {
+            "id": "yuanhai-fixed-role-lens",
+            "label": "《渊海子平》传统六亲口径",
+            "position": "男命以财星观察妻位；妇人命以官星、七杀观察夫星。",
+            "section_ids": [
+              "bazi.section.s017"
+            ]
+          },
+          {
+            "id": "ditiansui-contextual-lens",
+            "label": "《滴天髓阐微》条件化口径",
+            "position": "承认财星看妻的传统关系，但明确反对女命机械专执官星论夫，要求结合整体格局与用神。",
+            "section_ids": [
+              "bazi.section.s018",
+              "bazi.section.s019"
+            ]
+          }
+        ],
+        "production_policy": "只在用户显式选择传统 male/female role 时返回候选财星或官杀位置；不得把候选星位等同于现实配偶、婚姻质量、正缘或婚期。",
+        "executable_policy": "允许受限 lens；禁止自动推断用户性别或把传统角色口径转化为现代身份判断。"
+      },
+      "source_refs": [
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s017",
+          "original_text": "用日干为主:正印正母;偏印偏母及祖父也;偏财是父,乃母之夫星也,亦为偏妻;正财为妻;偏财为妾,为父是也;比肩为兄弟姐妹也;七杀是男;正官是女;食神是男孙;伤官是女孙及祖母也。\n 妇人命取六亲,与男命不同:取官星为夫星;七杀是偏夫;食神是男;伤官是女。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s018",
+          "original_text": "不必专执官星而论夫。专执伤食而论子。但以安祥顺静为贵,二德三奇不必论,咸池驿马纵有验,总之于理不长。其中究论,不可不详。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s019",
+          "original_text": "子平之法,以财为妻,财是我克。人以财来侍我,此理出于正论",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "bazi.concept.conflict_three_punishments",
+      "domain": "bazi",
+      "name": "三刑 / 自刑口径冲突",
+      "kind": "school_conflict",
+      "attributes": {
+        "dimension": "是否将三刑与自刑作为独立、可机械套用的命理结构",
+        "status": "unresolved",
+        "positions": [
+          {
+            "id": "yuanhai-uses-punishment",
+            "label": "《渊海子平》传统使用",
+            "position": "文本明确使用“三刑”“自刑”作为传统判断因子。",
+            "section_ids": [
+              "bazi.section.s020"
+            ]
+          },
+          {
+            "id": "ditiansui-rejects-mechanical-punishment",
+            "label": "《滴天髓阐微》批评",
+            "position": "任氏认为自刑、子卯刑、寅巳申刑、丑戌未刑等机械套法多属俗谬，应回到地支生克与旺衰分析。",
+            "section_ids": [
+              "bazi.section.s021"
+            ]
+          }
+        ],
+        "production_policy": "当前不建立统一三刑 executable，不在合盘前台输出“刑=凶”“相刑=关系冲突”等结论。",
+        "executable_policy": "blocked_pending_school_resolution"
+      },
+      "source_refs": [
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s020",
+          "original_text": "三刑自刑魁罡全,发跡疆场。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s021",
+          "original_text": "刑之义无所取,如亥刑亥、辰刑辰、酉刑酉、午刑午,谓之自刑,本支见本支,自谓同气,何以相刑?子刑卯,卯刑子,是谓相生,何以相刑?戌刑未,未刑丑,皆为土气,更不当刑。寅刑巳,亦是相生,寅申相刑,即冲何必再刑?又曰子卯一刑也,寅巳申二刑也,丑戌未三刑也,故称三刑,又有自刑,此皆俗谬,姑置之。",
           "role": "classical"
         }
       ],
