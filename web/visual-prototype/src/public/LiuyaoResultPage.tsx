@@ -34,13 +34,7 @@ function SectionTitle({
     </div>
   );
 }
-export function LiuyaoResultPage({
-  favorite,
-  onToggleFavorite,
-}: {
-  favorite: boolean;
-  onToggleFavorite: () => void;
-}) {
+export function LiuyaoResultPage() {
   const [selectedLine, setSelectedLine] = useState<number | null>(null);
   const [fullChart, setFullChart] = useState(false);
   const [selectedRule, setSelectedRule] = useState<number | null>(null);
@@ -63,14 +57,7 @@ export function LiuyaoResultPage({
           <h1>一爻之变，循其来由</h1>
           <p>乾为天 · 初爻动 · 天风姤</p>
         </div>
-        <button
-          className={`button outlined favorite-button ${favorite ? "saved" : ""}`}
-          onClick={onToggleFavorite}
-          aria-pressed={favorite}
-        >
-          <Icon name="star" size={18} />
-          {favorite ? "已收藏" : "收藏示例"}
-        </button>
+        <span className="sample-only-badge">静态视觉示例 · 不进入历史/收藏</span>
       </div>
       <div className="result-layout">
         <div className="result-content">
