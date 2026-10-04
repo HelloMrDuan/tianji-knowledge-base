@@ -1,24 +1,55 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
-import { domainPages } from "./domainPages";
+import {
+  loadReadings,
+  removeReading,
+  subscribeReadings,
+  toggleReadingFavorite,
+  type ReadingRecord,
+} from "./readingLibrary";
 import "./pages.css";
 
-export function LibraryPage({
-  kind,
-  favorite,
-  onToggleFavorite,
-}: {
-  kind: "history" | "favorites";
-  favorite: boolean;
-  onToggleFavorite: () => void;
-}) {
+function formatWhen(value: string) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "本地记录";
+  return new Intl.DateTimeFormat("zh-CN", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(date);
+}
+
+export function LibraryPage({ kind }: { kind: "history" | "favorites" }) {
   const [query, setQuery] = useState("");
-  const [domain, setDomain] = useState("全部工具");
-  const visible =
-    (kind === "history" || favorite) &&
-    (domain === "全部工具" || domain === "六爻") &&
-    "乾为天 天风姤 六爻 固定视觉示例".includes(query.trim());
+  const [scenario, setScenario] = useState("全部场景");
+  const [records, setRecords] = useState<ReadingRecord[]>(() => loadReadings());
+
+  useEffect(() => subscribeReadings(() => setRecords(loadReadings())), []);
+
+  const source = kind === "favorites" ? records.filter((item) => item.favorite) : records;
+  const scenarioOptions = useMemo(
+    () => ["全部场景", ...Array.from(new Set(source.map((item) => item.label)))],
+    [source],
+  );
+  const visible = source.filter((item) => {
+    const matchesScenario = scenario === "全部场景" || item.label === scenario;
+    const needle = query.trim().toLowerCase();
+    const matchesQuery =
+      !needle ||
+      [item.label, item.title, item.subtitle]
+        .join(" ")
+        .toLowerCase()
+        .includes(needle);
+    return matchesScenario && matchesQuery;
+  });
+
+  function refresh(next: ReadingRecord[]) {
+    setRecords(next);
+  }
+
   return (
     <div className="library-page">
       <div className="breadcrumb">
@@ -29,21 +60,27 @@ export function LibraryPage({
       <header className="library-heading">
         <div>
           <span className="eyebrow">
-            {kind === "history" ? "READING JOURNAL" : "SAVED READINGS"}
+            {kind === "history" ? "LOCAL READING JOURNAL" : "LOCAL FAVORITES"}
           </span>
           <h1>
             {kind === "history"
-              ? "让每一次研究，有迹可循。"
-              : "把值得回看的，留在手边。"}
+              ? "真实推演，才会留下记录。"
+              : "把真正算过的结果，留在手边。"}
           </h1>
           <p>
             {kind === "history"
-              ? "这里展示固定静态样例，不代表保存过真实推演。"
-              : "收藏状态仅保存在当前浏览器，不保存出生或占时资料。"}
+              ? "这里只记录当前浏览器里成功完成的真实计算摘要；计算失败、静态示例都不会进入历史。"
+              : "收藏来自真实历史记录，只保存在当前浏览器，不同步到账号或服务器。"}
           </p>
         </div>
         <Icon name={kind === "history" ? "clock" : "star"} size={48} />
       </header>
+
+      <div className="library-privacy-note">
+        <Icon name="check" size={15} />
+        <span>本地存储：不保存完整 Evidence / Trace，也不会额外复制出生时间或占问文本。</span>
+      </div>
+
       <div className="library-toolbar">
         <label>
           <Icon name="search" size={18} />
@@ -51,82 +88,91 @@ export function LibraryPage({
             aria-label="搜索记录"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="搜索卦名或示例"
+            placeholder="搜索场景或结果摘要"
           />
         </label>
         <select
-          aria-label="工具筛选"
-          value={domain}
-          onChange={(e) => setDomain(e.target.value)}
+          aria-label="场景筛选"
+          value={scenario}
+          onChange={(e) => setScenario(e.target.value)}
         >
-          {["全部工具", ...domainPages.map((p) => p.name)].map((name) => (
-            <option key={name}>{name}</option>
-          ))}
+          {scenarioOptions.map((name) => <option key={name}>{name}</option>)}
         </select>
       </div>
-      {visible ? (
+
+      {visible.length ? (
         <section className="journal-list">
           <div className="journal-date">
-            <span>演示记录</span>
-            <small>DEMO · 固定样例</small>
+            <span>{kind === "history" ? "真实本地记录" : "已收藏记录"}</span>
+            <small>{visible.length} 条 · 当前浏览器</small>
           </div>
-          <article className="journal-row">
-            <span className="journal-glyph">爻</span>
-            <div>
-              <span className="eyebrow">六爻 · 结构研究</span>
-              <h2>
-                <Link href="/liuyao/result">乾为天 → 天风姤</Link>
-              </h2>
-              <p>初爻动 · 京房八宫 · 静态视觉示例</p>
-            </div>
-            <button
-              className="journal-save"
-              aria-label={favorite ? "取消收藏示例" : "收藏示例"}
-              aria-pressed={favorite}
-              onClick={onToggleFavorite}
-            >
-              <Icon name="star" size={20} />
-            </button>
-            <Link className="journal-open" href="/liuyao/result">
-              查看
-              <Icon name="arrow" size={18} />
-            </Link>
-          </article>
+          {visible.map((item) => (
+            <article className="journal-row" key={item.id}>
+              <span className="journal-glyph">{item.glyph}</span>
+              <div>
+                <span className="eyebrow">{item.label} · 真实计算</span>
+                <h2>{item.title}</h2>
+                <p>{item.subtitle} · {formatWhen(item.createdAt)}</p>
+              </div>
+              <button
+                className={"journal-save" + (item.favorite ? " saved" : "")}
+                aria-label={item.favorite ? `取消收藏：${item.title}` : `收藏：${item.title}`}
+                aria-pressed={item.favorite}
+                onClick={() => refresh(toggleReadingFavorite(item.id))}
+              >
+                <Icon name="star" size={20} />
+              </button>
+              <Link className="journal-open" href={item.href}>
+                打开工具
+                <Icon name="arrow" size={18} />
+              </Link>
+              <button
+                className="journal-delete"
+                aria-label={`删除记录：${item.title}`}
+                onClick={() => refresh(removeReading(item.id))}
+              >
+                删除
+              </button>
+            </article>
+          ))}
         </section>
       ) : (
         <div className="library-empty">
-          <Icon name={kind === "favorites" ? "star" : "search"} size={42} />
+          <Icon name={kind === "favorites" ? "star" : "clock"} size={42} />
           <h2>
-            {kind === "favorites" && !favorite
-              ? "还没有收藏"
+            {source.length === 0
+              ? kind === "favorites" ? "还没有真实收藏" : "还没有真实推演记录"
               : "没有匹配的记录"}
           </h2>
           <p>
-            {kind === "favorites" && !favorite
-              ? "在六爻示例页点“收藏”，方便下次回看。"
-              : "试试其他卦名，或者清除当前筛选。"}
+            {source.length === 0
+              ? "完成一次真实排盘或场景计算后，这里才会出现记录。"
+              : "试试其他关键词，或者清除当前筛选。"}
           </p>
-          <Link className="button primary" href="/liuyao/result">
-            查看六爻示例
+          <Link className="button primary" href="/">
+            开始一次真实推演
             <Icon name="arrow" size={16} />
           </Link>
-          <button
-            className="entry-reset"
-            onClick={() => {
-              setDomain("全部工具");
-              setQuery("");
-            }}
-          >
-            清除筛选
-          </button>
+          {(query || scenario !== "全部场景") && (
+            <button
+              className="entry-reset"
+              onClick={() => {
+                setScenario("全部场景");
+                setQuery("");
+              }}
+            >
+              清除筛选
+            </button>
+          )}
         </div>
       )}
+
       <div className="entry-return">
         <Link className="text-action" href="/">
           开始新的研究
           <Icon name="arrow" size={16} />
         </Link>
-        <p>演示记录与真实推演记录分别呈现。</p>
+        <p>这里只展示真实执行后生成的本地摘要，不混入固定 Demo。</p>
       </div>
     </div>
   );
