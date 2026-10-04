@@ -177,7 +177,7 @@ export function ChapterGovernancePage() {
           <div className="asset-search">
             <Icon name="search" size={17} />
             <input
-              aria-label="搜索古籍管理"
+              aria-label="搜索章节管理"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="搜索章节、ID、书目或定位"
