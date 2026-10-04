@@ -270,3 +270,25 @@ export type AdminLayerRecord = {
 export function fetchAdminLayers(token: string): Promise<AdminLayerRecord[]> {
   return fetchProtectedRecords<AdminLayerRecord>("/api/v1/admin/governance/layers", token);
 }
+
+
+export type AdminAlgorithmRecord = {
+  id: string;
+  domain: string;
+  variant: string;
+  provider: string;
+  scope: string;
+  unresolved: string[];
+  rule_count: number;
+  executable_rule_count: number;
+  validated_rule_count: number;
+  golden_case_ids: string[];
+  phase1_rule_ids: string[];
+  production_ready: boolean;
+  deterministic: boolean;
+  ai_may_compute_chart: boolean;
+};
+
+export function fetchAdminAlgorithms(token: string): Promise<AdminAlgorithmRecord[]> {
+  return fetchProtectedRecords<AdminAlgorithmRecord>("/api/v1/admin/governance/algorithms", token);
+}
