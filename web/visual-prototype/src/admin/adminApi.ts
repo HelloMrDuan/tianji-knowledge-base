@@ -191,3 +191,34 @@ export type AdminChapterRecord = {
 export function fetchAdminChapters(token: string): Promise<AdminChapterRecord[]> {
   return fetchProtectedRecords<AdminChapterRecord>("/api/v1/admin/governance/chapters", token);
 }
+
+
+export type AdminTermEvidence = {
+  source_id: string;
+  section_id: string;
+  classic_id: string;
+  classic_title: string;
+  chapter_id: string;
+  chapter_title: string;
+  locator: string;
+  evidence_level: string;
+};
+
+export type AdminTermRecord = {
+  id: string;
+  domain: string;
+  name: string;
+  aliases: string[];
+  definition: string;
+  confidence: string;
+  definition_kind: string;
+  production_interpretation: boolean | null;
+  related_terms: string[];
+  related_rule_ids: string[];
+  phase2_rule_ids: string[];
+  evidence: AdminTermEvidence[];
+};
+
+export function fetchAdminTerms(token: string): Promise<AdminTermRecord[]> {
+  return fetchProtectedRecords<AdminTermRecord>("/api/v1/admin/governance/terms", token);
+}

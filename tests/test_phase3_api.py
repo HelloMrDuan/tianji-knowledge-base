@@ -124,6 +124,26 @@ class UnifiedApiTests(unittest.TestCase):
         self.assertNotIn('content_path',serialized)
         self.assertNotIn('TIANJI_ADMIN_READ_TOKEN',serialized)
 
+    def test_admin_terms_are_token_gated_without_source_bodies(self):
+        client=TestClient(create_app(admin_read_token='review-token'))
+        path='/api/v1/admin/governance/terms'
+        self.assertEqual(client.get(path).status_code,401)
+        response=client.get(path,headers={'Authorization':'Bearer review-token'})
+        self.assertEqual(response.status_code,200,response.text)
+        data=response.json()
+        self.assertTrue(data['read_only'])
+        self.assertFalse(data['public_release'])
+        records=data['records']
+        self.assertTrue(records)
+        self.assertTrue(any(row['aliases'] for row in records))
+        self.assertTrue(any(row['evidence'] for row in records))
+        self.assertTrue(all('definition' in row for row in records))
+        serialized=str(records)
+        self.assertNotIn('original_text',serialized)
+        self.assertNotIn('data/quarantine/',serialized)
+        self.assertNotIn('content_path',serialized)
+        self.assertNotIn('TIANJI_ADMIN_READ_TOKEN',serialized)
+
     def test_admin_rules_and_evidence_are_token_gated_reviewed_assets(self):
         client=TestClient(create_app(admin_read_token='review-token'))
         for path in (

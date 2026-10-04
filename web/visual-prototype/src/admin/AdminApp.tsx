@@ -9,6 +9,7 @@ import { ConflictGovernancePage } from "./ConflictGovernancePage";
 import { GovernanceAssetPage } from "./GovernanceAssetPage";
 import { ClassicGovernancePage } from "./ClassicGovernancePage";
 import { ChapterGovernancePage } from "./ChapterGovernancePage";
+import { TermGovernancePage } from "./TermGovernancePage";
 import "./admin.css";
 import "./modules.css";
 
@@ -16,6 +17,7 @@ const titles: Record<string, string> = {
   "/admin": "仪表盘",
   "/admin/classics": "古籍管理",
   "/admin/chapters": "章节管理",
+  "/admin/terms": "术语管理",
   "/admin/rules": "规则管理",
   "/admin/evidence": "Evidence 管理",
   "/admin/conflicts": "流派与冲突",
@@ -115,6 +117,8 @@ export default function AdminApp() {
             <ClassicGovernancePage />
           ) : path === "/admin/chapters" ? (
             <ChapterGovernancePage />
+          ) : path === "/admin/terms" ? (
+            <TermGovernancePage />
           ) : module && path.split("/").length <= 4 ? (
             <ModulePage key={path} module={module} recordId={recordId} />
           ) : (
