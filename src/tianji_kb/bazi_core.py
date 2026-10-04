@@ -183,3 +183,58 @@ def chart_from_datetime(value, *, day_boundary="midnight", variant=VARIANT):
         variant=variant,
     )
     return {**result, "calendar": cal}
+
+
+def annual_context_from_datetime(birth_value, target_value, *, day_boundary="midnight", variant=VARIANT):
+    """Return structural natal-vs-flow-year facts only.
+
+    target_value should be a real date in the year being inspected; the pinned
+    calendar adapter therefore preserves the actual solar-term year boundary.
+    """
+    natal = chart_from_datetime(birth_value, day_boundary=day_boundary, variant=variant)
+    target_calendar = calendar(target_value, day_boundary=day_boundary)
+    flow = target_calendar["year_ganzhi"]
+    flow_stem, flow_branch = flow
+    day_stem = natal["day_master"]["stem"]
+    natal_branches = [item["branch"]["value"] for item in natal["pillars"]]
+
+    pair_relations = []
+    relation = foundations()["earthly_branch_relations"]
+    clashes = _pair_members(relation["clashes"])
+    harmonies = _pair_members(relation["six_harmonies"])
+    harms = _pair_members(relation["harms"])
+    for index, branch in enumerate(natal_branches):
+        key = frozenset((branch, flow_branch))
+        if key in clashes:
+            pair_relations.append({"kind": "clash", "natal_pillar": PILLAR_NAMES[index], "natal_branch": branch, "flow_branch": flow_branch})
+        if key in harmonies:
+            extra = harmonies[key]
+            pair_relations.append({"kind": "six_harmony", "natal_pillar": PILLAR_NAMES[index], "natal_branch": branch, "flow_branch": flow_branch, "result_element": extra[0] if extra else None})
+        if key in harms:
+            pair_relations.append({"kind": "harm", "natal_pillar": PILLAR_NAMES[index], "natal_branch": branch, "flow_branch": flow_branch})
+
+    taohua = natal["auxiliary"]["taohua"]["targets"]
+    return {
+        "domain": "bazi",
+        "variant": variant,
+        "deterministic": True,
+        "natal": natal,
+        "flow_year": {
+            "ganzhi": flow,
+            "stem": flow_stem,
+            "branch": flow_branch,
+            "stem_ten_god": ten_god(day_stem, flow_stem),
+            "calendar": target_calendar,
+        },
+        "structural_interactions": pair_relations,
+        "taohua_activation": {
+            "year_branch_basis": flow_branch == taohua["year_branch"],
+            "day_branch_basis": flow_branch == taohua["day_branch"],
+            "target_branches": taohua,
+        },
+        "limitations": [
+            "这里只描述流年干支与原局的结构关系，不等同于年度吉凶。",
+            "不根据单一冲合、十神或桃花标记生成财运、婚恋、事业结论。",
+            "完整年度报告仍需旺衰/格局等争议规则完成证据裁定后再开放。",
+        ],
+    }
