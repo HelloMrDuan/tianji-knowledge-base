@@ -9,7 +9,8 @@ KEY_FACTS={
  'liuren':['/month_general','/method','/transmissions'],
  'ziwei':['/life_palace','/body_palace','/bureau','/major_stars','/four_transformations'],
  'fengshui':['/mountain','/trigram','/opposite','/period'],
- 'yijing':['/original/number','/opposite/number','/inverse/number','/nuclear/number','/change/number']}
+ 'yijing':['/original/number','/opposite/number','/inverse/number','/nuclear/number','/change/number'],
+ 'bazi':['/day_master/stem','/stem_ten_gods','/hidden_stems']}
 ROOTS={
  'liuyao':{'motion':['original','changed','changing_lines'],'palace':['palace','changed_palace'],
            'najia':['lines/*/najia','lines/*/changed_najia'],'spirits':['lines/*/spirit'],
@@ -24,7 +25,9 @@ ROOTS={
           'mutagens':['four_transformations','mutagen_variant','mutagen_evidence']},
  'fengshui':{'compass':['degrees','mountain','mountain_element','trigram','trigram_element','opposite'],
              'relative_period':['period']},
- 'yijing':{'structure':['original'],'opposite':['opposite'],'inverse':['inverse'],'nuclear':['nuclear'],'change':['change']}}
+ 'yijing':{'structure':['original'],'opposite':['opposite'],'inverse':['inverse'],'nuclear':['nuclear'],'change':['change']},
+ 'bazi':{'pillars':['pillars','day_master'],'ten_gods':['stem_ten_gods','pillars/*/stem/ten_god'],
+         'hidden_stems':['hidden_stems','pillars/*/branch/hidden_stems']}}
 
 
 def fail(code):
