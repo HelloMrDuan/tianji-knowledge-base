@@ -75,7 +75,7 @@ export function MusicPlayer() {
         aria-label="背景音乐设置"
       >
         <Icon name="music" size={18} />
-        <span>听一曲</span>
+        <span>古风音乐</span>
         {playing && (
           <span className="sound-bars" aria-label="正在播放">
             <i />
@@ -98,8 +98,8 @@ export function MusicPlayer() {
           <div className="music-title">
             <span className="music-art">弦</span>
             <div>
-              <strong>静水弦音</strong>
-              <small>原创合成弦音 · 循环</small>
+              <strong>静水弦音 · 古风背景音乐</strong>
+              <small>项目内原创合成弦音 · 循环</small>
             </div>
             <button
               className="icon-button"
