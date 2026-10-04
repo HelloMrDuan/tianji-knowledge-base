@@ -16,6 +16,7 @@ import { RomanceStructurePage } from "./RomanceStructurePage";
 import { CareerWealthStructurePage } from "./CareerWealthStructurePage";
 import { LifeOverviewPage } from "./LifeOverviewPage";
 import { DailyStructurePage } from "./DailyStructurePage";
+import { PeriodStructurePage } from "./PeriodStructurePage";
 import "./public.css";
 
 const favoriteKey = "tianji.product.favorite";
@@ -66,7 +67,11 @@ export function PublicApp() {
                     ? "人生总览"
                     : path === "/daily-structure"
                       ? "今日运势 · 结构版"
-                      : domainPage?.name ||
+                      : path === "/weekly-structure"
+                        ? "本周运势 · 结构版"
+                        : path === "/monthly-structure"
+                          ? "本月运势 · 结构版"
+                          : domainPage?.name ||
             resultPage?.name ||
             (path === "/history"
               ? "历史记录"
@@ -114,6 +119,10 @@ export function PublicApp() {
             <LifeOverviewPage />
           ) : path === "/daily-structure" ? (
             <DailyStructurePage />
+          ) : path === "/weekly-structure" ? (
+            <PeriodStructurePage mode="weekly" />
+          ) : path === "/monthly-structure" ? (
+            <PeriodStructurePage mode="monthly" />
           ) : domainPage ? (
             <DomainHomePage key={domainPage.id} page={domainPage} />
           ) : path === "/liuyao/result" ? (
