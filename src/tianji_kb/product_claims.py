@@ -11,6 +11,7 @@ from .prompts import get_prompt
 from .resolver import EvidenceResolver
 from .runtime_catalog import digest
 from .scenario_engine import registry as scenario_registry, _EXECUTORS
+from .claim_capabilities import SCENARIO_CLAIMS, bind_structural_claim
 
 
 PRODUCT_PROMPT = 'explanation-prompt-v3'
@@ -56,8 +57,8 @@ def validate_calculation_basis(root, raw, *, resolver=None):
     return context_for(verified_raw, [], PRODUCT_PROMPT)
 
 
-def product_preflight(root, product_id, raw):
-    """Run BEFORE model invocation. Current derived report authorizes no products."""
+def _product(root, product_id):
+    """Fresh derived inventory is necessary, never sufficient for release."""
     root = Path(root).resolve()
     report = read_json(root / 'data/product/knowledge_coverage.json')
     if report.get('_audit', {}).get('publication_authority') is not False:
@@ -69,19 +70,31 @@ def product_preflight(root, product_id, raw):
     product = report.get(product_id)
     if not product or product_id.startswith('_'):
         _reject('unknown_product')
-    # The report is derived, not an authorization contract. Opening a product
-    # requires a reviewed Scenario and existing AI semantic-review artifacts;
-    # no such product release contract exists in this repository yet.
-    if not product['production_ready'] or not product['public_enabled'] or not product['production_claims']:
+    return product
+
+
+def authorize_structural_claim(root, product_id, raw, claim_id, *, resolver=None):
+    """Reviewed server Scenario facts can be used independently of AI release."""
+    product = _product(root, product_id)
+    if raw.get('scenario_id') != product['scenario_id'] or claim_id not in product['ready_claims']:
+        _reject('product_claim_unavailable')
+    try:
+        return bind_structural_claim(raw, claim_id, resolver or EvidenceResolver(root, review_sources=True))
+    except ValueError as error:
+        _reject(str(error))
+
+
+def product_preflight(root, product_id, raw):
+    """AI gate, separate from structural readiness; run before model invocation."""
+    product = _product(root, product_id)
+    if not SCENARIO_CLAIMS.get(product['scenario_id']):
         _reject('product_claim_unavailable')
     scenario = next((s for s in scenario_registry() if s['id'] == product['scenario_id']), None)
     if not scenario or scenario['id'] not in _EXECUTORS or scenario['public_release'] is not True:
         _reject('scenario_claim_unavailable')
-    if product['ai_enabled'] is not True:
-        _reject('ai_quality_not_approved')
-    # Do not trust edited booleans in a derived JSON report as human/model review.
-    # Intentionally closed until an existing-model product release is reviewed.
-    _reject('product_release_contract_missing')
+    # The current v3 prompt is research-only in existing prompt governance.
+    # Edited report flags cannot override missing model/semantic calibration.
+    _reject('ai_quality_not_approved')
 
 
 def validate_product_reply(root, product_id, raw, reply, *, rag_rows):

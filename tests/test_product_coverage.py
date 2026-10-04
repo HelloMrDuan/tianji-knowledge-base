@@ -9,11 +9,12 @@ from phase4_helpers import valid_reply
 from tianji_kb.engine import execute
 from tianji_kb.explanation import ExplanationFailure, validate_reply
 from tianji_kb.knowledge import read_json
-from tianji_kb.product_coverage import build_product_coverage, inventory
-from tianji_kb.product_claims import product_preflight, validate_calculation_basis, ProductExplanationService
+from tianji_kb.product_coverage import build_product_coverage, inventory, dependency_report
+from tianji_kb.product_claims import product_preflight, validate_calculation_basis, ProductExplanationService, authorize_structural_claim
+from tianji_kb.claim_capabilities import bind_structural_claim
 from tianji_kb.prompts import get_prompt
 from tianji_kb.resolver import EvidenceResolver
-from tianji_kb.scenario_engine import registry as scenario_registry
+from tianji_kb.scenario_engine import registry as scenario_registry, execute_scenario
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -41,10 +42,13 @@ class ProductCoverageTests(unittest.TestCase):
         self.assertTrue(rows['bazi-reading']['scenario_status']['structural_public_release'])
         for pid, row in rows.items():
             if pid.startswith('_'): continue
-            self.assertFalse(row['production_ready'])
-            self.assertEqual(row['production_claims'], [])
+            self.assertFalse(row['full_interpretation_ready'])
+            self.assertEqual(row['production_claims'], row['ready_claims'])
             self.assertFalse(row['ai_enabled'])
-        self.assertEqual(rows['dream']['status'], 'missing')
+        self.assertEqual(rows['dream']['status'], 'NOT_BUILT')
+        self.assertEqual(rows['compatibility']['status'], 'PRODUCTIZABLE')
+        self.assertEqual(rows['romance']['ready_claims'], ['romance.xianchi_structure'])
+        self.assertIn('relationship.branch_clash', rows['compatibility']['ready_claims'])
         self.assertTrue(rows['_audit']['topics']['bazi-strength']['classical_text_candidates'])
         self.assertFalse(rows['_audit']['topics']['bazi-strength']['explanation_ready'])
 
@@ -73,7 +77,7 @@ class ProductCoverageTests(unittest.TestCase):
         service = ProductExplanationService(ROOT, ForbiddenProvider(), retriever=ForbiddenRetriever())
         for pid in self.report:
             if pid.startswith('_'): continue
-            with self.assertRaisesRegex(ExplanationFailure, 'product_claim_unavailable'):
+            with self.assertRaisesRegex(ExplanationFailure, 'product_claim_unavailable|scenario_claim_unavailable|ai_quality_not_approved'):
                 asyncio.run(service.explain(pid, self.raw))
 
     def test_stale_coverage_and_edited_booleans_never_release_product(self):
@@ -89,8 +93,43 @@ class ProductCoverageTests(unittest.TestCase):
         for s in scenarios:
             s.update(public_release=True)
         with patch('tianji_kb.product_claims.read_json', return_value=report), patch('tianji_kb.product_claims.scenario_registry', return_value=scenarios):
-            with self.assertRaisesRegex(ExplanationFailure, 'product_release_contract_missing'):
+            with self.assertRaisesRegex(ExplanationFailure, 'ai_quality_not_approved'):
                 product_preflight(ROOT, 'one-question', self.raw)
+
+    def test_ready_claims_bind_actual_scenario_facts_without_opening_advanced_predictions(self):
+        with patch('tianji_kb.engine.EvidenceResolver', return_value=self.resolver), patch('tianji_kb.resolver.EvidenceResolver', return_value=self.resolver):
+            profile = execute_scenario('bazi-profile', {'value': '2000-01-01T12:00:00+08:00'})
+            romance = execute_scenario('romance', {'birth_value': '2000-01-01T12:00:00+08:00', 'target_year': 2026})
+            pair = execute_scenario('compatibility', {'person_a_birth_value': '2000-01-01T12:00:00+08:00', 'person_b_birth_value': '2001-01-01T12:00:00+08:00'})
+        claim = authorize_structural_claim(ROOT, 'bazi-reading', profile, 'bazi.day_master', resolver=self.resolver)
+        self.assertEqual(claim['fact_value'], profile['result']['day_master'])
+        self.assertTrue(claim['evidence'])
+        self.assertFalse(claim['ai_enabled'])
+        self.assertTrue(authorize_structural_claim(ROOT, 'romance', romance, 'romance.xianchi_structure', resolver=self.resolver)['evidence'])
+        clash = authorize_structural_claim(ROOT, 'compatibility', pair, 'relationship.branch_clash', resolver=self.resolver)
+        self.assertTrue(all(r['kind'] == 'clash' for r in clash['fact_value']))
+        for forbidden in ('bazi.yongshen', 'fortune.year_good_bad', 'marriage.marriage_date'):
+            with self.assertRaisesRegex(ExplanationFailure, 'product_claim_unavailable'):
+                authorize_structural_claim(ROOT, 'bazi-reading', profile, forbidden, resolver=self.resolver)
+        bad = copy.deepcopy(profile); bad['rule_matches'][0]['matched'] = False
+        with self.assertRaisesRegex(ValueError, 'claim_rule_not_fired'):
+            bind_structural_claim(bad, 'bazi.pillars', self.resolver)
+        bad = copy.deepcopy(romance); bad['rule_matches'][0]['derived_from_rule_id'] = 'bazi.phase2.pillars'
+        with self.assertRaisesRegex(ValueError, 'claim_composition_mismatch'):
+            bind_structural_claim(bad, 'romance.xianchi_structure', self.resolver)
+        bad = copy.deepcopy(profile); bad['evidence'][next(iter(bad['evidence']))]['original_text'] = '伪造'
+        with self.assertRaisesRegex(ValueError, 'claim_evidence_mismatch'):
+            bind_structural_claim(bad, 'bazi.pillars', self.resolver)
+
+    def test_dependency_graph_preserves_structural_readiness_and_rejects_cycles(self):
+        spec = read_json(ROOT / 'config/product_requirements.json')
+        graph = dependency_report(self.report, spec)
+        self.assertIn('bazi-strength', graph['topics']['bazi-pattern']['depends_on'])
+        self.assertIn('bazi.pillars', graph['products']['bazi-reading']['ready_claims'])
+        self.assertFalse(graph['knowledge_authority'])
+        spec['topic_dependencies']['bazi-foundation'] = ['bazi-pattern']
+        with self.assertRaisesRegex(ValueError, 'dependency cycle'):
+            dependency_report(self.report, spec)
 
     def test_new_prompt_preserves_frozen_versions_and_validates_existing_claim_chain(self):
         self.assertEqual(get_prompt('explanation-prompt-v1')['sha256'], 'b831f0e70ad357f627fa5ad546edc3ba72c96c2585cd4f6196dcde7cc76b06af')

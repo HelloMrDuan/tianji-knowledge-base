@@ -13,6 +13,7 @@ from .knowledge_index import iter_phase1_chunks
 from .resolver import EvidenceResolver
 from .scenario_engine import registry as scenario_registry, _EXECUTORS
 from .governance import school_conflicts
+from .claim_capabilities import ready_bindings
 
 
 def sha(path):
@@ -152,7 +153,25 @@ def build_product_coverage(root: Path, *, rag_rows=None):
                     supported.append({'kind': 'deterministic_structure', 'engine_id': d,
                                       'variant': engines[d]['variant'], 'rule_ids': rule_ids,
                                       'availability': 'existing_engine_and_structural_scenario_only'})
-        output[pid] = {'name': p['name'], 'status': 'partial' if supported or any(t['legacy_references'] or t['reviewed_terms'] for t in topics) else 'missing',
+        claims = ready_bindings(p['scenario_id'], engines)
+        if not supported and not claims:
+            status = 'NOT_BUILT'
+        elif pid in ('bazi-reading', 'romance', 'compatibility', 'one-question'):
+            status = 'PRODUCTIZABLE'
+        elif pid == 'life-overview':
+            status = 'BLOCKED_ADVANCED'
+        else:
+            status = 'PARTIAL'
+        claim_rows = {}
+        for cid, binding in claims.items():
+            rule_rows = [r for e in engines.values() for r in e['rules'] if r['id'] in binding['execution_rule_ids']]
+            claim_rows[cid] = {**binding, 'status': 'READY',
+                               'golden_case_ids': sorted({g for r in rule_rows for g in r['golden_case_ids']}),
+                               'regression_tests': sorted({r['regression_test'] for r in rule_rows}),
+                               'scenario_test': 'tests/test_scenario_engine.py',
+                               'evidence': [ref for r in rule_rows for ref in r['evidence']],
+                               'execution_validation': 'existing_phase2_validated_contract; static_audit_does_not_run_tests'}
+        output[pid] = {'name': p['name'], 'status': status,
                        'scenario_id': p['scenario_id'], 'required_topics': p['topics'],
                        'supported_capabilities': supported,
                        'existing_knowledge': [{'topic_id': tid, 'legacy_files': len(topic_rows[tid]['legacy_references']),
@@ -161,8 +180,12 @@ def build_product_coverage(root: Path, *, rag_rows=None):
                                                'phase1_rules': len(topic_rows[tid]['phase1_rule_ids']),
                                                'phase2_rules': len(topic_rows[tid]['phase2_rule_ids'])} for tid in p['topics']],
                        'missing_capabilities': [{'topic_id': tid, 'reason': topic_rows[tid]['missing']} for tid in p['topics']],
-                       'production_claims': [], 'blocked_claims': p['blocked_claims'],
-                       'production_ready': False, 'public_enabled': False, 'ai_enabled': False,
+                       'ready_claims': sorted(claims), 'claim_capabilities': claim_rows,
+                       'production_claims': sorted(claims), 'production_claims_scope': 'deterministic_structure_only',
+                       'blocked_claims': p['blocked_claims'],
+                       'missing_dependencies': [tid for tid in p['topics'] if topic_rows[tid]['missing']],
+                       'full_interpretation_ready': False,
+                       'public_enabled': bool(scenario and scenario['public_release']), 'ai_enabled': False,
                        'scenario_status': {'registered': scenario is not None,
                                            'runtime_implemented': bool(scenario and scenario['id'] in _EXECUTORS),
                                            'structural_public_release': bool(scenario and scenario['public_release']),
@@ -170,8 +193,7 @@ def build_product_coverage(root: Path, *, rag_rows=None):
                                            'scope': scenario['scope'] if scenario else None,
                                            'depends_on': scenario['depends_on'] if scenario else [],
                                            'ai_enabled': False},
-                       'blockers': ['所需解释模块尚无产品级审核授权', 'AI未完成真实质量校准及人工语义复核',
-                                    '已实现结构Scenario不等于运势/占断；完整解释与发布绑定尚未完成'],
+                       'blockers': [t['missing'] for t in topics if t['missing']] + ['AI未完成真实质量校准及人工语义复核'],
                        'recommended_sources': sorted({ref['source_id'] for t in topics for e in t['reviewed_terms'] for ref in e['source_refs']} |
                                                      {ref['path'] for t in topics for ref in t['classical_text_candidates']}),
                        'degraded_message': '当前已实现的结构能力可供专业参考；该项深入解释仍在知识审核中。' if supported else '当前版本尚未开放，相关知识、规则与证据仍在校核中。'}
@@ -238,74 +260,99 @@ def build_product_coverage(root: Path, *, rag_rows=None):
     return output
 
 
+def dependency_report(report, spec):
+    """Derived product requirements DAG; not a Rule/Evidence source."""
+    edges = spec['topic_dependencies']
+    visiting, done = set(), set()
+    def visit(tid):
+        if tid not in spec['topics']:
+            raise ValueError('Unknown dependency topic')
+        if tid in visiting:
+            raise ValueError('Knowledge dependency cycle')
+        if tid in done:
+            return
+        visiting.add(tid)
+        for parent in edges.get(tid, []):
+            visit(parent)
+        visiting.remove(tid)
+        done.add(tid)
+    for tid in spec['topics']:
+        visit(tid)
+    return {'artifact_kind': 'derived_product_dependency_graph', 'knowledge_authority': False,
+            'scope': 'advanced_interpretation_requirements; existing structural claims do not require every advanced module',
+            'topics': {tid: {'name': t['label'], 'depends_on': edges.get(tid, []),
+                             'ready_execution_rule_ids': report['_audit']['topics'][tid]['phase2_rule_ids'],
+                             'missing': t['missing']} for tid, t in spec['topics'].items()},
+            'products': {pid: {'required_topics': p['required_topics'], 'ready_claims': p['ready_claims'],
+                               'missing_dependencies': p['missing_dependencies']} for pid, p in report.items() if not pid.startswith('_')}}
+
+
 def markdown_report(report):
     a = report['_audit']
-    lines = ['# 测算产品 × 知识库覆盖及缺口', '',
-             '由 `scripts/build_product_coverage.py` 扫描实际 JSON、来源、执行契约、Golden、代码和 RAG 自动生成。运行 `--check` 检查漂移。', '',
-             '这是现有知识库的派生报告，不是新知识模型、Rule 或上线授权。所有产品解释均未开放；结构计算与完整测算报告分开评估。', '',
-             f"实际文件：Canonical {a['inventory_counts']['canonical']}，Quarantine {a['inventory_counts']['quarantine']}；来源登记 {a['legacy_source_registry_count']}；逐项证据来源 {len(a['knowledge_sources'])}。",
-             f"已注册确定性引擎 {sum(e['registered'] for e in a['engines'].values())} 个，Phase2 Rule {sum(len(e['rules']) for e in a['engines'].values())} 条，Golden {sum(len(e['golden_ids']) for e in a['engines'].values())} 个；八字结构已注册，梦境未建立。",
-             f"证据等级 {json.dumps(a['source_grades'], ensure_ascii=False)}；旧 registry trust_level A/B 不等于独立古典 Evidence A/B。",
-             f"RAG：已审核实体 {a['retrieval']['reviewed_entity_chunks']} 块；通用 {a['retrieval']['general_rag_chunks']} 块，含旧资料，不能代替执行命中。", '',
-             '| 产品 | 所需专题 | 已有 | 缺失/阻塞 | 完整产品可生产 |',
-             '|---|---|---|---|---|']
+    lines = ['# 产品知识覆盖与缺口', '',
+             '由既有来源、Phase1/Phase2、Golden 与 Scenario 派生。报告不是知识库或发布授权；`--check` 检查漂移。', '',
+             'READY 表示指定结构 claim 的执行契约、证据、Golden 和测试绑定齐全；PRODUCTIZABLE 表示可做有限结构产品；PARTIAL 表示仍缺关键解释；BLOCKED_ADVANCED 表示聚合基础可用但高级解释受阻；NOT_BUILT 表示没有对应执行链。静态审计不冒充测试执行。', '',
+             '| 产品 | 状态 | 已接入的结构 claim 数 | 现有结构公开标志 |', '|---|---|---:|---|']
+    for pid, p in report.items():
+        if not pid.startswith('_'):
+            lines.append(f"| {p['name']} | {p['status']} | {len(p['ready_claims'])} | {p['public_enabled']} |")
+    lines += ['', '能力逐项追踪、原典定位与下一批工作见 [KNOWLEDGE_CAPABILITY_MAP.md](KNOWLEDGE_CAPABILITY_MAP.md)。依赖图见 `data/product/knowledge_dependencies.json`。', '',
+              f"现有 {sum(e['registered'] for e in a['engines'].values())} 个确定性引擎；{sum(len(e['rules']) for e in a['engines'].values())} 条 Phase2 Rule；{sum(len(e['golden_ids']) for e in a['engines'].values())} 个 Golden。",
+              f"证据来源等级 {json.dumps(a['source_grades'], ensure_ascii=False)}。GitHub 实现参考不能成为古籍证据；通用 RAG 可检索不代表已授权推断。", '',
+              '结构 claim 由实际 RuleMatch facts 绑定，并核对 Variant、当前 Golden 和逐字 Evidence。不得升级为吉凶、适配分、婚期或财富保证。AI 质量尚未批准，结构可用与 AI 放行分别检查。', '',
+              '## 既有治理与开发顺序', '',
+              'Source → RAW → Quarantine → Review → Canonical → Terms/Rules → Evidence → Variant/Conflict → Golden → Phase2 → Scenario。沿用现有 schema、来源登记、晋级记录和校验器，禁止另建旁路知识库。',
+              '暂停公开页面开发。保留十一产品入口、古风视觉、背景音乐播放/暂停/音量/路由持续播放、后台静音与山水云雾水墨动画需求，待底层阶段验收后实施。',
+              '每批一个专题：基础/月令/通根/透干 → 单一旺衰 Variant → 核心格局 → 喜用体系分别治理 → 大运/流年作用 → 婚恋/事业/双人条件解释。梦境来源审查可独立开展，传统与现代心理证据分开。', '',
+              '## 冲突和隔离', '', a['conflict_status'],
+              '《三命通会》维持 quarantine_only / canonical_ready=false；PUA 完成不代表整本可晋级。原始 snapshot 不改动。', '',
+              '## 来源与待审材料', '']
+    for row in a['staged_source_candidates']:
+        lines.append(f"- `{row['source_path']}` @ `{row['candidate_commit']}`：整本 pending，Quarantine，不能因下载而晋级。")
+    for row in a['editorial_review_flags']:
+        lines.append(f"- `{row['path']}#{row['pointer']}` 含 {'、'.join(row['markers'])}：逐段排除未审核现代注释。")
+    lines += ['', '知命前段新增描述性规则 `bazi.rule.r012` 只禁止机械套财官食印，没有编造旺衰算法或权重。后续 executable 仍须独立完成证据、反例与测试。', '']
+    return '\n'.join(lines)
+
+
+def capability_map(report):
+    a = report['_audit']
+    lines = ['# 产品知识能力图', '',
+             '范围按已实现的 Scenario 与确定性引擎区分。结构事实可用不等于完整预测、前台发布或 AI 校准完成。所有条目由现有注册项派生，不另建知识模型。', '']
     for pid, p in report.items():
         if pid.startswith('_'):
             continue
-        supported = ', '.join(s['engine_id'] + '结构' for s in p['supported_capabilities'])
-        if not supported:
-            supported = '旧表/正文候选' if p['status'] == 'partial' else '未建立'
-        lines.append(f"| {p['name']} | {'、'.join(a['topics'][tid]['name'] for tid in p['required_topics'])} | {supported} | 缺产品解释及门控链路，详见下文 | 否 |")
-    lines += ['', '## 现有治理路径', '',
-              '补库只走已有 Source → RAW → Quarantine → Review → Canonical → Terms/Rules → Evidence → Variant/Conflict → Golden → Phase2 → Scenario。',
-              '使用 `config/source_registry.json` / `source_file_manifest.json` / `public_domain_manifest.json` 的既有采纳范围；固定来源通过 `stage_phase1_sources.py` / `acquisition.stage_candidate` 隔离。',
-              '现有七域（包括八字）`phase1_knowledge.json` 与 `knowledge_sources.json` 使用既有 schema / `validate_knowledge`；Phase2 用既有执行、补充证据、来源审计、晋级记录、Golden 和 `validate_phase2.py`。',
-              '八字结构与条件化配偶星口径已接入同一模型；梦境尚未接入。补库必须沿用既有模型及校验，不另外造知识结构；本批不修改 schema、不自动晋级。', '',
-              '## 迭代顺序与小批量验收', '',
-              'P0：八字基础/十神 → 旺衰（先选并核单一 Variant）→ 格局 → 四套喜用体系分别治理 → 大运/流年 → 婚恋/事业财富 → 双人关系；梦境来源审查可独立进行。',
-              'P1：六爻解释深化、流月、流日、人生聚合；P2：紫微、奇门、六壬、风水扩展、周易专业。',
-              '首批优先复核现有《滴天髓阐微》知命/夫妻/女命、《渊海子平》月令/大运及《穷通宝鉴》月令材料。先抽少量原文与限制，保存反例；不得从整本存在直接推规则已审核。',
-              '每批只处理一个明确条件关系及反例：检查来源权利/版本/字面 → 已有模型引用 → 命名 Variant 与适用边界 → 固定 Golden/反例 → 测试 → 执行晋级记录；缺任何一步继续隔离。',
-              '六爻优先复用已登记《增删卜易》《卜筮正宗》；专业域优先复用下列真实 source_id。梦境当前无已登记专库，先做来源/权利审核，不能借命理语料或模型先验填充。', '',
-              '## 结论能力门控', '',
-              '`product_claims.py` 复用 EvidenceResolver、现有 explanation_policy 和 validate_reply；检查事实存在、可执行 Rule、Golden、等级/Variant、来源冲突。产品入口在模型调用前拒绝尚未审核的完整解释。现有结构API继续按原范围工作。',
-              '完整产品授权/claim白名单与模型人工复核绑定契约尚未实现；当前不接受改几个布尔值作为发布授权。此门控保持关闭，不宣称已完成全部生产放行能力。',
-              '当前全部 `production_claims=[]`，公开解释一律拒绝。新 Prompt v3 明示 “Absence of knowledge is not permission to use model prior knowledge.”；旧 v1/v2 保持不可变，仅供既有评测比较。',
-              '自由文本的语义蕴涵不能只靠 JSON/关键词证明；现有人工语义审核仍是必要步骤，门控测试不等于模型质量达标。', '',
-              '## 冲突与隔离边界', '', a['conflict_status'],
-              '《三命通会》保持 quarantine_only / canonical_ready=false；原始 snapshot、已确认 PUA/OCR 映射未修改，不能进入 Canonical/RAG。', '',
-              '## 实查现有模型', '', '| 域 | Classics | Chapters | Sections | Terms | Rules | Concepts |', '|---|---:|---:|---:|---:|---:|---:|']
-    for d, counts in a['phase1'].items():
-        lines.append('| ' + d + ' | ' + ' | '.join(str(counts[k]) for k in ('classics', 'chapters', 'sections', 'terms', 'rules', 'concepts')) + ' |')
-    lines += ['', '## 首批来源隔离及编辑标记审核', '',
-              '已按现有 `acquisition.stage_candidate` 保存以下固定来源的 RAW（忽略缓存）及 Quarantine 元数据；Git blob校验通过，整本review_status=pending，promotion_allowed=false。仅知命前段单独审核后入既有Phase1模型，整本不晋级，来源等级不变。', '']
-    lines += ['- `' + row['source_path'] + '` @ `' + row['candidate_commit'] + '`，blob `' + row['blob_sha'] + '`。' for row in a['staged_source_candidates']]
-    lines += ['', '原典审核前须处理下列编者/增补标记（定位到实际 JSON；不自动删改旧文件）：', '']
-    lines += ['- `' + row['path'] + '#' + row['pointer'] + '`：' + '、'.join(row['markers']) + '。' for row in a['editorial_review_flags']]
-    lines += ['', f"现有来源 schema 未显式包含 edition；{len(a['knowledge_sources'])}条来源的 edition 不可从书名推定。版本核验仍按现有来源审计记录，正式扩展应保持同一治理模型。", '',
-              '实查 API：' + '；'.join(row['method'] + ' `' + row['path'] + '`' for row in a['api_routes']) + '。已有真实Scenario执行与后台只读治理 API；历史记录与管理写入尚未完成。']
-    for pid, p in report.items():
-        if pid.startswith('_'):
-            continue
-        lines += ['', '## ' + p['name'], '', '已有：', '']
-        state = p['scenario_status']
-        if state['registered']:
-            lines.append(f"- 现有 Scenario `{p['scenario_id']}`：{state['status']}，结构执行={state['runtime_implemented']}，结构公开标志={state['structural_public_release']}；{state['scope']}")
+        s = p['scenario_status']
+        lines += [f"## {p['name']} · {p['status']}", '',
+                  f"Scenario：`{p['scenario_id']}`；已执行={s['runtime_implemented']}；现有结构公开标志={s['structural_public_release']}；AI=false。", '',
+                  '已有知识、Rule 与 Evidence：', '']
         for tid in p['required_topics']:
             t = a['topics'][tid]
-            lines.append(f"- {t['name']}：术语 {len(t['reviewed_terms'])}，关联 Phase1 Rule {len(t['phase1_rule_ids'])}，列入结构映射的 Phase2 Rule {len(t['phase2_rule_ids'])}。")
-            for ref in t['legacy_references']:
-                lines.append(f"  旧资料 `{ref['path']}`（实现/描述参考，未授权解释）。")
-            for ref in t['classical_text_candidates']:
-                example = ref['examples'][0]
-                lines.append(f"  原文候选 `{ref['path']}#{example['pointer']}`；{ref['hit_count']} 个字段命中，仅作待审查定位。")
-        lines += ['', '缺失：', ''] + [f"- {a['topics'][tid]['name']}：{a['topics'][tid]['missing']}" for tid in p['required_topics']]
-        lines += ['', '阻塞：', ''] + ['- ' + reason for reason in p['blockers']]
-        lines += ['', '禁止结论：' + '；'.join(p['blocked_claims']) + '。', '', '推荐复核来源（本地已存在；不因列在这里自动升 Evidence）：', '']
-        lines += ['- `' + s + '`' for s in p['recommended_sources']] or ['- 当前无已审核专属来源；先来源登记与 Quarantine，不编造书名/摘录。']
-        lines += ['', '前台降级：' + p['degraded_message']]
-    lines += ['', '## 本批范围及未完成项', '',
-              '本批完成实查报告、两部既有来源的隔离复核候选、知命前段一条描述性解释边界及失败即拒绝的产品解释门控；未新增可执行推断、未开放产品、未上线 AI。',
-              '新增 `bazi.rule.r012`、`bazi.term.strength_review_boundary`、`bazi.section.s022` 与章节均沿用既有模型。规则保持descriptive_only，不参与执行RuleMatch，不伪造算法或Golden；已有34个结构Golden保留，解释性Golden与Phase2编译继续阻塞。',
-              '八字旺衰/格局/喜用/岁运解释治理、独立梦境资料、解释性 Golden、产品授权与模型质量校准仍须按上述批次完成。', '']
+            lines.append(f"- {t['name']}：Terms {', '.join('`'+r['id']+'`' for r in t['reviewed_terms']) or '尚无对应审核术语'}；Phase1 Rule {', '.join('`'+r+'`' for r in t['phase1_rule_ids']) or '尚无对应审核规则'}。")
+        lines += ['', '已有 Phase2 / Golden / Variant：', '']
+        for cap in p['supported_capabilities']:
+            for r in a['engines'][cap['engine_id']]['rules']:
+                if r['id'] not in cap['rule_ids']:
+                    continue
+                lines.append(f"- `{r['id']}` / `{r['variant']}`；Golden：{', '.join('`'+g+'`' for g in r['golden_case_ids'])}；测试 `{r['regression_test']}`。")
+                for ref in r['evidence']:
+                    lines.append(f"  Evidence {ref['evidence_level']}：`{ref['source_id']}` / {ref['classic_title']} / {ref['chapter_title']} / `{ref['locator']}`，引文：{ref['original_text']}。")
+        lines += ['', '当前场景可输出结论（只描述事实，不追加吉凶含义）：', '']
+        lines += [f"- `{cid}`：READY；匹配 `{c['match_rule_id']}`，事实路径 `{c['fact_path'] or '/'}`；{c['scope']}。" for cid, c in p['claim_capabilities'].items()] or ['- 无已接入的结构 claim；引擎能力如上，场景接线须另审。']
+        if pid == 'romance':
+            lines += ['- 引擎另有配偶宫、传统配偶星 lens、五合/六合/六害/六冲/三合；当前 romance 只接咸池，这些其他能力已在 compatibility 接入，不能宣称 romance 已输出。']
+        lines += ['', '当前禁止结论：' + '；'.join(p['blocked_claims']) + '。', '', '缺失能力 / 依赖 / 下一批：', '']
+        for tid in p['missing_dependencies']:
+            t = a['topics'][tid]
+            lines.append(f"- `{tid}`：{t['missing']}")
+            if t['classical_text_candidates']:
+                ref = t['classical_text_candidates'][0]
+                ex = ref['examples'][0]
+                lines.append(f"  下一批从 `{ref['path']}#{ex['pointer']}` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。")
+            elif t['reviewed_terms']:
+                refs = sorted({ref['source_id'] for term in t['reviewed_terms'] for ref in term['source_refs']})
+                lines.append(f"  下一批复核现有 {', '.join('`'+sid+'`' for sid in refs)}，沿原模型补规则条件及 Golden。")
+            else:
+                lines.append('  下一批先登记来源及权利，保存 RAW/Quarantine；无审核引文时保持未支持。')
+        lines += ['']
     return '\n'.join(lines)

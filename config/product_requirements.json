@@ -796,5 +796,62 @@
         "后世术数冒充原义"
       ]
     }
+  },
+  "topic_dependencies": {
+    "bazi-foundation": [],
+    "bazi-ten-gods": [
+      "bazi-foundation"
+    ],
+    "bazi-strength": [
+      "bazi-foundation",
+      "bazi-ten-gods"
+    ],
+    "bazi-pattern": [
+      "bazi-strength",
+      "bazi-ten-gods"
+    ],
+    "bazi-useful-god": [
+      "bazi-strength",
+      "bazi-pattern"
+    ],
+    "bazi-dayun": [
+      "bazi-foundation"
+    ],
+    "bazi-annual": [
+      "bazi-dayun",
+      "bazi-strength",
+      "bazi-useful-god"
+    ],
+    "bazi-romance": [
+      "bazi-strength",
+      "bazi-useful-god",
+      "bazi-annual"
+    ],
+    "bazi-career-wealth": [
+      "bazi-ten-gods",
+      "bazi-strength",
+      "bazi-pattern",
+      "bazi-useful-god",
+      "bazi-annual"
+    ],
+    "bazi-pair": [
+      "bazi-strength",
+      "bazi-useful-god",
+      "bazi-romance",
+      "bazi-annual"
+    ],
+    "life-aggregation": [
+      "bazi-pattern",
+      "bazi-useful-god",
+      "bazi-annual",
+      "bazi-romance",
+      "bazi-career-wealth"
+    ],
+    "bazi-month": [
+      "bazi-annual"
+    ],
+    "bazi-day": [
+      "bazi-month"
+    ]
   }
 }
