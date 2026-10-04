@@ -183,7 +183,7 @@ class ScenarioEngineTests(unittest.TestCase):
         self.assertEqual(output["status"], "production_limited")
         self.assertFalse(output["public_release"])
         self.assertEqual(output["result"]["release_scope"], "two_person_structure_only")
-        self.assertEqual(output["result"]["report_version"], "compatibility-structure-v2")
+        self.assertEqual(output["result"]["report_version"], "compatibility-structure-v3")
         relations = output["result"]["day_master_relations"]
         self.assertEqual(relations["a_sees_b"]["ten_god"], "正财")
         self.assertEqual(relations["b_sees_a"]["ten_god"], "正官")
@@ -203,6 +203,8 @@ class ScenarioEngineTests(unittest.TestCase):
         self.assertEqual(output["result"]["person_b"]["spouse_palace"]["day_branch"], "丑")
         self.assertIn("natal_triple_harmonies", output["result"]["person_a"])
         self.assertIn("natal_triple_harmonies", output["result"]["person_b"])
+        self.assertIsNone(output["result"]["person_a"]["traditional_spouse_star_lens"])
+        self.assertIsNone(output["result"]["person_b"]["traditional_spouse_star_lens"])
         self.assertTrue(output["evidence"])
         self.assertEqual(
             output["rule_matches"][0]["derived_from_rule_ids"],
@@ -223,6 +225,36 @@ class ScenarioEngineTests(unittest.TestCase):
             "auspicious", "relationship_advice", "breakup_risk",
         ]:
             self.assertNotIn(forbidden, serialized)
+
+    def test_compatibility_optional_spouse_star_lenses_are_user_selected(self):
+        output = execute_scenario("compatibility", {
+            "person_a_birth_value": "2000-01-07T12:00:00+08:00",
+            "person_b_birth_value": "2000-02-01T12:00:00+08:00",
+            "person_a_traditional_role": "male",
+            "person_b_traditional_role": "female",
+        })
+        self.assertEqual(output["result"]["report_version"], "compatibility-structure-v3")
+        a_lens = output["result"]["person_a"]["traditional_spouse_star_lens"]
+        b_lens = output["result"]["person_b"]["traditional_spouse_star_lens"]
+        self.assertEqual(a_lens["traditional_role"], "male")
+        self.assertEqual(a_lens["candidate_ten_gods"], ["正财", "偏财"])
+        self.assertEqual(b_lens["traditional_role"], "female")
+        self.assertEqual(b_lens["candidate_ten_gods"], ["正官", "七杀"])
+        self.assertFalse(a_lens["interpretation_allowed"])
+        self.assertFalse(b_lens["interpretation_allowed"])
+        self.assertIn("bazi.phase2.spouse_star_lens", output["rule_matches"][0]["derived_from_rule_ids"])
+        self.assertTrue(any(step["step"] == "traditional_spouse_star_lenses" for step in output["trace"]))
+        serialized = str(output["result"])
+        for forbidden in ["spouse_score", "marriage_score", "match_score", "relationship_advice"]:
+            self.assertNotIn(forbidden, serialized)
+
+    def test_compatibility_rejects_inferred_or_unknown_traditional_role(self):
+        with self.assertRaises(ValueError):
+            execute_scenario("compatibility", {
+                "person_a_birth_value": "2000-01-07T12:00:00+08:00",
+                "person_b_birth_value": "2000-02-01T12:00:00+08:00",
+                "person_a_traditional_role": "unknown",
+            })
 
     def test_life_overview_aggregates_only_validated_sections(self):
         output = execute_scenario("life", {
