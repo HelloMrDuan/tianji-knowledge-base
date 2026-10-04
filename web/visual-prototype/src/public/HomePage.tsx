@@ -23,13 +23,16 @@ export function HomePage() {
             <span>把复杂术数，收进一个可读的答案里。</span>
           </h1>
           <p>
-            不要求你懂八字、六爻或奇门。先从你真正关心的问题开始，
-            后台再选择已经验证的确定性引擎、规则与典籍依据。
+            不要求你懂八字、六爻或奇门。先生成一次人生总览，之后每天回来可直接看“今日结构”；
+            遇到具体问题，再进入一事占问。
           </p>
           <div className="scenario-hero-actions">
             <Link className="button primary" href="/life-overview">
               生成我的人生总览
               <Icon name="arrow" size={18} />
+            </Link>
+            <Link className="button outlined" href="/daily-structure">
+              今日结构
             </Link>
             <Link className="button outlined" href="/ask">
               一事占问
@@ -42,6 +45,7 @@ export function HomePage() {
           <div className="scenario-proof">
             <span><i />确定性计算先行</span>
             <span><i />规则与典籍可追溯</span>
+            <span><i />每日结构可重复计算</span>
             <span><i />AI 未校准前不自动公开</span>
           </div>
         </div>

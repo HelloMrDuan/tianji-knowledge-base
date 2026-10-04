@@ -1,0 +1,300 @@
+import { useMemo, useState } from "react";
+import type { FormEvent } from "react";
+import { Icon } from "../shared/Icon";
+import { Link } from "../shared/router";
+import { executeDailyScenario, type ScenarioExecuteResponse } from "./api";
+import "./daily-structure.css";
+
+const profileKey = "tianji.profile.birth.v1";
+
+function beijingToday() {
+  const formatter = new Intl.DateTimeFormat("zh-CN", {
+    timeZone: "Asia/Shanghai",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+  const parts = Object.fromEntries(
+    formatter.formatToParts(new Date()).map((part) => [part.type, part.value]),
+  );
+  return `${parts.year}-${parts.month}-${parts.day}`;
+}
+
+function readProfile() {
+  try {
+    const raw = localStorage.getItem(profileKey);
+    if (!raw) return { date: "", time: "" };
+    const parsed = JSON.parse(raw);
+    return {
+      date: typeof parsed.date === "string" ? parsed.date : "",
+      time: typeof parsed.time === "string" ? parsed.time : "",
+    };
+  } catch {
+    return { date: "", time: "" };
+  }
+}
+
+function displayEvidence(id: string, evidence: Record<string, any>) {
+  return {
+    id,
+    title: String(
+      evidence.classic_title ||
+      evidence.title ||
+      evidence.classic ||
+      evidence.source_title ||
+      "古籍依据",
+    ),
+    quote: String(
+      evidence.original_text ||
+      evidence.quote ||
+      evidence.text ||
+      "该证据已由服务端绑定。",
+    ),
+    grade: String(evidence.evidence_level || evidence.grade || "—"),
+  };
+}
+
+export function DailyStructurePage() {
+  const saved = useMemo(readProfile, []);
+  const today = useMemo(beijingToday, []);
+  const [birthDate, setBirthDate] = useState(saved.date);
+  const [birthTime, setBirthTime] = useState(saved.time);
+  const [targetDate, setTargetDate] = useState(today);
+  const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  function fillSample() {
+    setBirthDate("2000-01-07");
+    setBirthTime("12:00");
+    setTargetDate(today);
+    setResult(null);
+    setError("");
+  }
+
+  async function submit(event: FormEvent) {
+    event.preventDefault();
+    setLoading(true);
+    setError("");
+    setResult(null);
+    try {
+      const next = await executeDailyScenario({
+        birth_value: `${birthDate}T${birthTime}:00+08:00`,
+        target_date: targetDate,
+      });
+      try {
+        localStorage.setItem(profileKey, JSON.stringify({ date: birthDate, time: birthTime }));
+      } catch {
+        /* Local preference is optional. */
+      }
+      setResult(next);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "今日结构计算失败。");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const payload = result?.result || {};
+  const target = payload.target_day || {};
+  const natal = payload.natal || {};
+  const xianchi = payload.xianchi || {};
+  const activation = xianchi.target_day_activation || {};
+  const evidence = result
+    ? Object.entries(result.evidence).map(([id, value]) => displayEvidence(id, value))
+    : [];
+  const hitCount =
+    Number(Boolean(activation.year_branch_basis?.matched)) +
+    Number(Boolean(activation.day_branch_basis?.matched));
+
+  return (
+    <div className="daily-page">
+      <div className="breadcrumb">
+        <Link href="/">生活场景</Link>
+        <Icon name="chevron" size={12} />
+        <span>今日结构</span>
+      </div>
+
+      <section className="daily-hero">
+        <div>
+          <span className="eyebrow">每日回访入口 · 今日结构</span>
+          <h1>不用重新排一遍，今天回来直接看今天。</h1>
+          <p>
+            如果你已经做过“人生总览”，出生资料会自动带入。这里每天只更新目标日干支、
+            当日天干相对日主的十神，以及当日地支是否命中两套咸池目标。
+          </p>
+        </div>
+        <div className="daily-date-mark">
+          <strong>{targetDate.slice(5).replace("-", "·")}</strong>
+          <span>北京时间</span>
+          <small>每日可重算</small>
+        </div>
+      </section>
+
+      <section className="daily-entry">
+        <form onSubmit={submit}>
+          <div className="daily-entry-head">
+            <div>
+              <span className="eyebrow">{saved.date && saved.time ? "已带入上次资料" : "建立每日档案"}</span>
+              <h2>查看当天结构</h2>
+            </div>
+            <button type="button" className="sample-fill" onClick={fillSample}>填入示例</button>
+          </div>
+
+          <div className="daily-input-grid">
+            <label>
+              <span>出生日期</span>
+              <input type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} required />
+            </label>
+            <label>
+              <span>出生时间</span>
+              <input type="time" value={birthTime} onChange={(e) => setBirthTime(e.target.value)} required />
+            </label>
+            <label>
+              <span>查看日期</span>
+              <input type="date" value={targetDate} onChange={(e) => setTargetDate(e.target.value)} required />
+            </label>
+          </div>
+
+          <div className="daily-entry-note">
+            <Icon name="shield" size={16} />
+            <span>目标日固定取北京时间中午计算日干支，避免时区与日界混淆；AI 不参与计算。</span>
+          </div>
+          <button className="button primary daily-submit" type="submit" disabled={loading}>
+            {loading ? "正在计算…" : targetDate === today ? "查看今日结构" : "查看这一天的结构"}
+            {!loading && <Icon name="arrow" size={18} />}
+          </button>
+          {error && <p className="question-error" role="alert">{error}</p>}
+        </form>
+
+        <aside>
+          <span className="eyebrow">每天真正变化的部分</span>
+          <h2>日干支 + 十神关系 + 咸池结构</h2>
+          <ul>
+            <li>当天是什么干支</li>
+            <li>当天的天干与你日主是什么十神</li>
+            <li>当天地支是否等于年支基准咸池目标</li>
+            <li>当天地支是否等于日支基准咸池目标</li>
+          </ul>
+          <p>当前不会把这些信号换算成“幸运指数”或宜忌清单。</p>
+        </aside>
+      </section>
+
+      {!result && !loading && (
+        <section className="daily-empty">
+          <span>今</span>
+          <div>
+            <h2>{saved.date ? "你的出生资料已经准备好" : "先填一次出生资料"}</h2>
+            <p>{saved.date ? "直接点击上方按钮，就能生成今天的真实结构。" : "生成后会保存在当前浏览器，明天回来无需重复填写。"}</p>
+          </div>
+        </section>
+      )}
+
+      {result && (
+        <section className="daily-result">
+          <header className="daily-result-head">
+            <div>
+              <span className="eyebrow">真实 Scenario Engine · daily_structure_only</span>
+              <h2>{target.date || targetDate} · {target.ganzhi || "—"}</h2>
+              <p>
+                日主 <strong>{natal.day_master?.stem || "—"}</strong>
+                <span> × </span>
+                当日天干 <strong>{target.stem || "—"}</strong>
+              </p>
+            </div>
+            <span className="daily-limited">每日结构</span>
+          </header>
+
+          <section className="daily-main-card">
+            <div className="daily-ganzhi">
+              <small>目标日干支</small>
+              <strong>{target.ganzhi || "—"}</strong>
+              <span>{target.structure_group_label || "—"}结构</span>
+            </div>
+            <div className="daily-relation">
+              <span className="eyebrow">当天最核心的确定性关系</span>
+              <h3>{target.stem || "—"} 相对 {natal.day_master?.stem || "—"} 为 {target.stem_ten_god || "—"}</h3>
+              <p>{payload.summary?.text || "该关系由已审核十神规则计算。"}</p>
+            </div>
+          </section>
+
+          <div className="daily-double">
+            <section className="daily-section">
+              <div className="result-section-heading">
+                <div><span>一</span><h2>今日桃花结构</h2></div>
+                <small>{hitCount} 个基准命中</small>
+              </div>
+              <div className="daily-xianchi-grid">
+                {[
+                  ["year_branch_basis", "年支基准"],
+                  ["day_branch_basis", "日支基准"],
+                ].map(([key, label]) => {
+                  const item = activation[key] || {};
+                  return (
+                    <article key={key} className={item.matched ? "matched" : ""}>
+                      <small>{label}</small>
+                      <strong>{item.target_branch || "—"}</strong>
+                      <span>今日地支 {item.target_day_branch || target.branch || "—"}</span>
+                      <em>{item.matched ? "结构命中" : "未命中"}</em>
+                    </article>
+                  );
+                })}
+              </div>
+              <p className="daily-note">结构命中不等于今天一定有桃花、恋爱或关系事件。</p>
+              <Link className="text-action" href="/romance-structure">看 2026 桃花结构 <Icon name="arrow" size={15} /></Link>
+            </section>
+
+            <section className="daily-section">
+              <div className="result-section-heading">
+                <div><span>二</span><h2>典籍依据</h2></div>
+                <small>{evidence.length} 条去重 Evidence</small>
+              </div>
+              <div className="daily-evidence-list">
+                {evidence.slice(0, 4).map((item) => (
+                  <article className="live-evidence" key={item.id}>
+                    <div><strong>{item.title}</strong><span>{item.grade}</span></div>
+                    <blockquote>{item.quote}</blockquote>
+                    <small>{item.id}</small>
+                  </article>
+                ))}
+              </div>
+            </section>
+          </div>
+
+          <section className="daily-return">
+            <div>
+              <span className="eyebrow">明天回来</span>
+              <h2>出生资料不用再填，日结构会随日期变化。</h2>
+              <p>这才是网站的每日回访入口；遇到具体事情时，再转到一事占问。</p>
+            </div>
+            <div>
+              <Link className="button outlined" href="/life-overview">返回人生总览</Link>
+              <Link className="button primary" href="/ask">有事就问 <Icon name="arrow" size={16} /></Link>
+            </div>
+          </section>
+
+          <details className="trace-section daily-trace">
+            <summary>
+              <span className="trace-icon"><Icon name="layers" size={19} /></span>
+              <div><strong>查看今日计算过程</strong><small>{result.trace.length} 个 deterministic steps</small></div>
+              <Icon name="chevron" size={18} />
+            </summary>
+            <ol>
+              {result.trace.map((step, index) => (
+                <li key={index}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  {step.step || step.rule_id || "deterministic"}
+                </li>
+              ))}
+            </ol>
+          </details>
+
+          <section className="daily-boundary">
+            <strong>当前不是“今日吉凶”</strong>
+            <p>{result.limitations.join(" ")}</p>
+          </section>
+        </section>
+      )}
+    </div>
+  );
+}

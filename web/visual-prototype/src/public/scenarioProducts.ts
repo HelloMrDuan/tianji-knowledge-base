@@ -11,7 +11,7 @@ export type ScenarioProduct = {
 
 export const scenarioProducts: ScenarioProduct[] = [
   { id: "bazi-profile", name: "八字基础档案", glyph: "八", tagline: "先看清自己的四柱结构", description: "真实计算四柱、日主、十神、藏干，并返回规则与典籍依据。", status: "available", href: "/bazi-profile", badge: "真实可用" },
-  { id: "daily", name: "今日运势", glyph: "今", tagline: "看今天的节奏", description: "日运能力依赖八字生产引擎补齐。", status: "building", badge: "筹备中" },
+  { id: "daily", name: "今日运势 · 结构版", glyph: "今", tagline: "每天回来直接看今天", description: "真实计算当日干支、日干十神与咸池结构命中；当前不输出吉凶或宜忌。", status: "available", href: "/daily-structure", badge: "每日可看" },
   { id: "weekly", name: "本周运势", glyph: "周", tagline: "这一周怎么走", description: "周运能力依赖八字与场景规则补齐。", status: "building", badge: "筹备中" },
   { id: "monthly", name: "本月运势", glyph: "月", tagline: "把握当月起伏", description: "月运能力依赖八字与流月规则补齐。", status: "building", badge: "筹备中" },
   { id: "yearly", name: "2026 流年结构", glyph: "年", tagline: "年运底座先给你看", description: "真实计算 2026 干支与日主十神结构；不等同于全年吉凶。", status: "available", href: "/yearly-structure", badge: "结构内测" },
