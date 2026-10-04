@@ -381,12 +381,12 @@
         "metadata_only": 0,
         "with_reviewed_excerpts": 4
       },
-      "chapters": 8,
-      "sections": 19,
+      "chapters": 10,
+      "sections": 21,
       "terms": {
         "canonical": 11
       },
-      "concepts": 1,
+      "concepts": 3,
       "rules": {
         "executable": 0,
         "partially_structured": 11,
@@ -404,8 +404,8 @@
         "bazi.source.xieji-relations",
         "bazi.source.yuanhai"
       ],
-      "tests": 2,
-      "production_chunks": 42,
+      "tests": 3,
+      "production_chunks": 46,
       "completion_criteria": {
         "domain_definition": true,
         "source_registry": true,
@@ -418,7 +418,7 @@
         "production_isolation": true
       },
       "pending_evidence": [
-        "生产范围含四柱、日主、十神、藏干；咸池、五合/六合/六害/六冲/三合、日支传统配偶宫结构位及用户显式选择的传统配偶星候选位置已核；三刑存在流派分歧，跨盘三合、旺衰、格局、喜用、调候、大运起运及婚恋解释尚未裁定。"
+        "生产范围含四柱、日主、十神、藏干；咸池、五合/六合/六害/六冲/三合、日支传统配偶宫结构位及用户显式选择的传统配偶星候选位置已核；配偶星口径差异已设受限边界，三刑/自刑已登记为未裁定流派冲突且禁止统一 executable；跨盘三合、旺衰、格局、喜用、调候、大运起运及婚恋解释尚未裁定。"
       ],
       "status": "phase1_complete"
     }
