@@ -193,3 +193,49 @@ jobs:
               assert forbidden not in blob
           print("real frontend proxy -> Scenario Engine -> daily structure: ok")
           PY
+
+
+          curl -fsS -X POST http://127.0.0.1:5173/api/v1/scenarios/execute \
+            -H 'Content-Type: application/json' \
+            -d '{"scenario_id":"weekly","input":{"birth_value":"2000-01-07T12:00:00+08:00","anchor_date":"2026-10-04"}}' \
+            >/tmp/weekly.json
+          python - <<'PY'
+          import json
+          data=json.load(open("/tmp/weekly.json",encoding="utf-8"))
+          assert data["scenario_id"]=="weekly"
+          assert data["status"]=="production_limited"
+          assert data["public_release"] is False
+          assert data["deterministic"] is True
+          assert data["result"]["release_scope"]=="weekly_structure_only"
+          assert data["result"]["week"]["start_date"]=="2026-09-28"
+          assert data["result"]["week"]["end_date"]=="2026-10-04"
+          assert len(data["result"]["week"]["days"])==7
+          assert data["evidence"]
+          blob=str(data["result"])
+          for forbidden in ("fortune_score","weekly_score","auspicious","investment_advice"):
+              assert forbidden not in blob
+          print("real frontend proxy -> Scenario Engine -> weekly structure: ok")
+          PY
+
+          curl -fsS -X POST http://127.0.0.1:5173/api/v1/scenarios/execute \
+            -H 'Content-Type: application/json' \
+            -d '{"scenario_id":"monthly","input":{"birth_value":"2000-01-07T12:00:00+08:00","target_month":"2026-10"}}' \
+            >/tmp/monthly.json
+          python - <<'PY'
+          import json
+          data=json.load(open("/tmp/monthly.json",encoding="utf-8"))
+          assert data["scenario_id"]=="monthly"
+          assert data["status"]=="production_limited"
+          assert data["public_release"] is False
+          assert data["deterministic"] is True
+          assert data["result"]["release_scope"]=="monthly_structure_only"
+          assert data["result"]["month"]["target_month"]=="2026-10"
+          assert data["result"]["month"]["day_count"]==31
+          assert len(data["result"]["month"]["days"])==31
+          assert sum(data["result"]["summary"]["structure_group_counts"].values())==31
+          assert data["evidence"]
+          blob=str(data["result"])
+          for forbidden in ("fortune_score","monthly_score","auspicious","investment_advice"):
+              assert forbidden not in blob
+          print("real frontend proxy -> Scenario Engine -> monthly structure: ok")
+          PY
