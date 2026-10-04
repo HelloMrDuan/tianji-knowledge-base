@@ -14,6 +14,7 @@ import { SourceGovernancePage } from "./SourceGovernancePage";
 import { LayerGovernancePage } from "./LayerGovernancePage";
 import { AlgorithmGovernancePage } from "./AlgorithmGovernancePage";
 import { ProviderGovernancePage } from "./ProviderGovernancePage";
+import { PromptGovernancePage } from "./PromptGovernancePage";
 import "./admin.css";
 import "./modules.css";
 
@@ -26,6 +27,7 @@ const titles: Record<string, string> = {
   "/admin/layers": "RAW / Quarantine / Canonical",
   "/admin/algorithms": "算法与 Variant",
   "/admin/providers": "AI Provider / Model",
+  "/admin/prompts": "Prompt 版本",
   "/admin/rules": "规则管理",
   "/admin/evidence": "Evidence 管理",
   "/admin/conflicts": "流派与冲突",
@@ -135,6 +137,8 @@ export default function AdminApp() {
             <AlgorithmGovernancePage />
           ) : path === "/admin/providers" ? (
             <ProviderGovernancePage />
+          ) : path === "/admin/prompts" ? (
+            <PromptGovernancePage />
           ) : module && path.split("/").length <= 4 ? (
             <ModulePage key={path} module={module} recordId={recordId} />
           ) : (
