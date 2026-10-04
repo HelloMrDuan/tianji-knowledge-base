@@ -16,6 +16,13 @@
       "name": "三命通会",
       "source_id": "bazi.source.sanming-xianchi-niutrans",
       "body_stage": "quarantine"
+    },
+    {
+      "id": "bazi.classic.xieji",
+      "domain": "bazi",
+      "name": "钦定协纪辨方书",
+      "source_id": "bazi.source.xieji-relations",
+      "body_stage": "quarantine"
     }
   ],
   "chapters": [
@@ -46,6 +53,20 @@
       "name": "卷二·论咸池",
       "classic_id": "bazi.classic.sanming_tonghui",
       "locator": "卷二·论咸池"
+    },
+    {
+      "id": "bazi.chapter.relations",
+      "domain": "bazi",
+      "name": "五合六合六害结构短引",
+      "classic_id": "bazi.classic.xieji",
+      "locator": "卷一·五行关系相关段"
+    },
+    {
+      "id": "bazi.chapter.spouse_palace",
+      "domain": "bazi",
+      "name": "络绎赋·日支妻位",
+      "classic_id": "bazi.classic.yuanhai",
+      "locator": "《渊海子平》妖祥后《络绎赋》"
     }
   ],
   "sections": [
@@ -183,6 +204,66 @@
         "method": "逐字核对固定 commit 文本，并用公开扫描校核卡交叉检查四组查表；原文引用保持电子本字面，不静默改字。",
         "scope": "只确认咸池/桃花煞名称与四组三合局目标支。电子本“已酉丑午”疑为“巳酉丑午”形近转写；基准采用年支还是日支、纳音附加条件及所有吉凶断语均不在本轮裁定。"
       }
+    },
+    {
+      "id": "bazi.section.s010",
+      "domain": "bazi",
+      "name": "协纪·天干五合",
+      "classic_id": "bazi.classic.xieji",
+      "chapter_id": "bazi.chapter.relations",
+      "source_id": "bazi.source.xieji-relations",
+      "text": "甲与己合乙与庚合丙与辛合丁与壬合戊与癸合",
+      "locator": "《钦定协纪辨方书》卷一·五合；固定短引",
+      "review": {
+        "status": "approved",
+        "method": "逐字核对固定公版电子快照。",
+        "scope": "只确认五组天干相合配对；不自动采用化气成败、婚恋吉凶或关系评分。"
+      }
+    },
+    {
+      "id": "bazi.section.s011",
+      "domain": "bazi",
+      "name": "协纪·地支六合",
+      "classic_id": "bazi.classic.xieji",
+      "chapter_id": "bazi.chapter.relations",
+      "source_id": "bazi.source.xieji-relations",
+      "text": "子与丑合寅与亥合卯与戌合辰与酉合巳与申合午与未合",
+      "locator": "《钦定协纪辨方书》卷一·六合；固定短引",
+      "review": {
+        "status": "approved",
+        "method": "逐字核对固定公版电子快照。",
+        "scope": "只确认六组地支六合配对；不把六合直接解释为适合、吉、婚姻稳定或缘分高。"
+      }
+    },
+    {
+      "id": "bazi.section.s012",
+      "domain": "bazi",
+      "name": "协纪·地支六害",
+      "classic_id": "bazi.classic.xieji",
+      "chapter_id": "bazi.chapter.relations",
+      "source_id": "bazi.source.xieji-relations",
+      "text": "月害者月中六害也假令夘辰相害者夘以乙旺之木害辰墓之土辰以墓土却害夘中癸水也寅巳相害者谓寅以旺甲害巳中戊土而巳以生庚害寅中旺甲也丑午相害者丑以癸水害午中丁火午以巳土害丑中癸水也子未相害者子以所生之辛金害未中墓木未以旺土害子中旺水也申亥相害者亥以生木害申中生土申以旺金害亥中生木又以生土害亥中旺水也酉戌相害者戌以墓火害酉之旺金酉以所生丁火害戌中辛金也",
+      "locator": "《钦定协纪辨方书》月害条；固定短引",
+      "review": {
+        "status": "approved",
+        "method": "逐字核对固定公版电子快照；保留原快照“夘”等字形，结构表规范为卯。",
+        "scope": "只确认六组地支相害配对；不把“害”直接解释为感情伤害、分手风险或凶断。"
+      }
+    },
+    {
+      "id": "bazi.section.s013",
+      "domain": "bazi",
+      "name": "渊海·日支妻位",
+      "classic_id": "bazi.classic.yuanhai",
+      "chapter_id": "bazi.chapter.spouse_palace",
+      "source_id": "bazi.source.yuanhai",
+      "text": "年干父兮支母。\n 日干己兮支妻。\n 月干兄兮支弟。\n 时支女兮干儿。",
+      "locator": "《渊海子平》络绎赋；固定短引",
+      "review": {
+        "status": "approved",
+        "method": "逐字核对固定《渊海子平》公版快照。",
+        "scope": "只确认传统文本把日支视作妻位的结构表达；现代产品中中性显示为“日支（传统配偶宫结构位）”，不据此作性别角色或婚姻吉凶结论。"
+      }
     }
   ],
   "terms": [
@@ -284,6 +365,103 @@
         }
       ],
       "related_terms": [],
+      "confidence": "medium",
+      "attributes": {
+        "definition_kind": "reviewed_structural_summary",
+        "production_interpretation": false
+      }
+    },
+    {
+      "id": "bazi.term.stem_five_combinations",
+      "domain": "bazi",
+      "name": "天干五合",
+      "aliases": [
+        "五合"
+      ],
+      "definition": "甲己、乙庚、丙辛、丁壬、戊癸五组天干配对关系；本库仅登记结构命中，不自动判断化气是否成立。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.xieji-relations",
+          "section_id": "bazi.section.s010",
+          "original_text": "甲与己合乙与庚合丙与辛合丁与壬合戊与癸合",
+          "role": "classical"
+        }
+      ],
+      "related_terms": [
+        "bazi.term.day_master"
+      ],
+      "confidence": "medium",
+      "attributes": {
+        "definition_kind": "reviewed_structural_summary",
+        "production_interpretation": false
+      }
+    },
+    {
+      "id": "bazi.term.branch_six_harmonies",
+      "domain": "bazi",
+      "name": "地支六合",
+      "aliases": [
+        "六合"
+      ],
+      "definition": "子丑、寅亥、卯戌、辰酉、巳申、午未六组地支配对关系；命中仅是结构事实。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.xieji-relations",
+          "section_id": "bazi.section.s011",
+          "original_text": "子与丑合寅与亥合卯与戌合辰与酉合巳与申合午与未合",
+          "role": "classical"
+        }
+      ],
+      "related_terms": [],
+      "confidence": "medium",
+      "attributes": {
+        "definition_kind": "reviewed_structural_summary",
+        "production_interpretation": false
+      }
+    },
+    {
+      "id": "bazi.term.branch_six_harms",
+      "domain": "bazi",
+      "name": "地支六害",
+      "aliases": [
+        "六害"
+      ],
+      "definition": "卯辰、寅巳、丑午、子未、申亥、酉戌六组地支相害关系；命中仅是结构事实。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.xieji-relations",
+          "section_id": "bazi.section.s012",
+          "original_text": "月害者月中六害也假令夘辰相害者夘以乙旺之木害辰墓之土辰以墓土却害夘中癸水也寅巳相害者谓寅以旺甲害巳中戊土而巳以生庚害寅中旺甲也丑午相害者丑以癸水害午中丁火午以巳土害丑中癸水也子未相害者子以所生之辛金害未中墓木未以旺土害子中旺水也申亥相害者亥以生木害申中生土申以旺金害亥中生木又以生土害亥中旺水也酉戌相害者戌以墓火害酉之旺金酉以所生丁火害戌中辛金也",
+          "role": "classical"
+        }
+      ],
+      "related_terms": [],
+      "confidence": "medium",
+      "attributes": {
+        "definition_kind": "reviewed_structural_summary",
+        "production_interpretation": false
+      }
+    },
+    {
+      "id": "bazi.term.spouse_palace_day_branch",
+      "domain": "bazi",
+      "name": "日支配偶宫结构位",
+      "aliases": [
+        "日支妻位",
+        "妻宫"
+      ],
+      "definition": "《渊海子平》有“日干己兮支妻”的传统表达。本库只把日支作为可追溯的传统配偶宫结构位展示，不据此独立判断婚姻。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s013",
+          "original_text": "年干父兮支母。\n 日干己兮支妻。\n 月干兄兮支弟。\n 时支女兮干儿。",
+          "role": "classical"
+        }
+      ],
+      "related_terms": [
+        "bazi.term.day_master"
+      ],
       "confidence": "medium",
       "attributes": {
         "definition_kind": "reviewed_structural_summary",
@@ -483,6 +661,178 @@
       "confidence": "medium",
       "term_refs": [
         "bazi.term.xianchi"
+      ]
+    },
+    {
+      "id": "bazi.rule.r005",
+      "domain": "bazi",
+      "name": "天干五合固定配对",
+      "conditions": [
+        "输入为两个合法天干",
+        "只判断是否属于五组固定配对"
+      ],
+      "inputs": {
+        "left_stem": "天干A",
+        "right_stem": "天干B"
+      },
+      "operation": {
+        "kind": "table_lookup",
+        "parameters": {
+          "data_path": "data/canonical/bazi/foundations_v1.json",
+          "item": "stem_combinations"
+        }
+      },
+      "result": {
+        "matched": "是否命中五合",
+        "pair": "命中时返回两干",
+        "traditional_result_element": "表中传统化气五行，仅作表字段，不判断化成"
+      },
+      "exceptions": [
+        "命中五合不等于化气成立。",
+        "不得据五合直接输出感情适配、吉凶或关系评分。"
+      ],
+      "execution_status": "partially_structured",
+      "school": "子平基础",
+      "variant": "ziping-structural-v1",
+      "difference": "只执行固定配对；化气成败条件、争合妒合及吉凶解释不在本规则。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.xieji-relations",
+          "section_id": "bazi.section.s010",
+          "original_text": "甲与己合乙与庚合丙与辛合丁与壬合戊与癸合",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium",
+      "term_refs": [
+        "bazi.term.stem_five_combinations"
+      ]
+    },
+    {
+      "id": "bazi.rule.r006",
+      "domain": "bazi",
+      "name": "地支六合固定配对",
+      "conditions": [
+        "输入为两个合法地支",
+        "只判断是否属于六组固定配对"
+      ],
+      "inputs": {
+        "left_branch": "地支A",
+        "right_branch": "地支B"
+      },
+      "operation": {
+        "kind": "table_lookup",
+        "parameters": {
+          "data_path": "data/canonical/bazi/foundations_v1.json",
+          "item": "earthly_branch_relations.six_harmonies"
+        }
+      },
+      "result": {
+        "matched": "是否命中六合",
+        "pair": "命中时返回两支",
+        "traditional_result_element": "表中传统合化五行，仅作表字段，不判断合化成立"
+      },
+      "exceptions": [
+        "六合命中不等于关系适合、婚姻吉或现实事件。",
+        "午未结果元素在现有表中保留争议标记，不裁定唯一合化五行。"
+      ],
+      "execution_status": "partially_structured",
+      "school": "子平基础",
+      "variant": "ziping-structural-v1",
+      "difference": "只执行固定六合配对；不执行合化成败或吉凶解释。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.xieji-relations",
+          "section_id": "bazi.section.s011",
+          "original_text": "子与丑合寅与亥合卯与戌合辰与酉合巳与申合午与未合",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium",
+      "term_refs": [
+        "bazi.term.branch_six_harmonies"
+      ]
+    },
+    {
+      "id": "bazi.rule.r007",
+      "domain": "bazi",
+      "name": "地支六害固定配对",
+      "conditions": [
+        "输入为两个合法地支",
+        "只判断是否属于六组固定配对"
+      ],
+      "inputs": {
+        "left_branch": "地支A",
+        "right_branch": "地支B"
+      },
+      "operation": {
+        "kind": "table_lookup",
+        "parameters": {
+          "data_path": "data/canonical/bazi/foundations_v1.json",
+          "item": "earthly_branch_relations.harms"
+        }
+      },
+      "result": {
+        "matched": "是否命中六害",
+        "pair": "命中时返回两支"
+      },
+      "exceptions": [
+        "六害命中仅为传统结构关系，不等同于感情受害、分手或凶断。"
+      ],
+      "execution_status": "partially_structured",
+      "school": "子平基础",
+      "variant": "ziping-structural-v1",
+      "difference": "只执行固定六害配对；不执行现实关系解释。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.xieji-relations",
+          "section_id": "bazi.section.s012",
+          "original_text": "月害者月中六害也假令夘辰相害者夘以乙旺之木害辰墓之土辰以墓土却害夘中癸水也寅巳相害者谓寅以旺甲害巳中戊土而巳以生庚害寅中旺甲也丑午相害者丑以癸水害午中丁火午以巳土害丑中癸水也子未相害者子以所生之辛金害未中墓木未以旺土害子中旺水也申亥相害者亥以生木害申中生土申以旺金害亥中生木又以生土害亥中旺水也酉戌相害者戌以墓火害酉之旺金酉以所生丁火害戌中辛金也",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium",
+      "term_refs": [
+        "bazi.term.branch_six_harms"
+      ]
+    },
+    {
+      "id": "bazi.rule.r008",
+      "domain": "bazi",
+      "name": "日支传统配偶宫结构位",
+      "conditions": [
+        "已有合法四柱",
+        "只读取日柱地支"
+      ],
+      "inputs": {
+        "day_ganzhi": "日柱"
+      },
+      "operation": {
+        "kind": "structure"
+      },
+      "result": {
+        "day_branch": "日支",
+        "traditional_role": "传统文本中的妻位/产品中性标记为配偶宫结构位"
+      },
+      "exceptions": [
+        "传统文本带有历史性别角色表达；产品只做中性结构标签。",
+        "不得据日支单独生成婚姻吉凶、配偶性格或结婚时间。"
+      ],
+      "execution_status": "partially_structured",
+      "school": "子平基础",
+      "variant": "ziping-structural-v1",
+      "difference": "只标记日支的传统结构角色，不执行婚姻解释。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s013",
+          "original_text": "年干父兮支母。\n 日干己兮支妻。\n 月干兄兮支弟。\n 时支女兮干儿。",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium",
+      "term_refs": [
+        "bazi.term.spouse_palace_day_branch"
       ]
     }
   ],
