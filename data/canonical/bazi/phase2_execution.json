@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "model": "phase2-execution",
+  "domain": "bazi",
+  "variant": "ziping-structural-v1",
+  "provider": "tianji_kb.operations.bazi_chart.chart",
+  "scope": "生产范围仅含四柱、日主、十神、藏干的确定性结构事实；不输出旺衰、喜用、格局或吉凶。",
+  "unresolved": [
+    "真太阳时未实现。",
+    "旺衰、格局、喜用神、调候与大运起运规则尚未完成证据裁定。",
+    "桃花等神煞仅保留研究模块，不进入本生产 contract。"
+  ],
+  "rules": [
+    {
+      "id": "bazi.phase2.pillars",
+      "domain": "bazi",
+      "name": "四柱与日主结构",
+      "variant": "ziping-structural-v1",
+      "execution_status": "executable",
+      "phase1_rule_refs": [
+        "bazi.rule.r001"
+      ],
+      "validation_status": "validated",
+      "golden_case_ids": [
+        "bazi.structural-basic"
+      ],
+      "regression_test": "tests/test_phase2_bazi.py",
+      "evidence_scope": "C：单一可追溯《渊海子平》短引；仅结构事实。"
+    },
+    {
+      "id": "bazi.phase2.ten_gods",
+      "domain": "bazi",
+      "name": "十神结构映射",
+      "variant": "ziping-structural-v1",
+      "execution_status": "executable",
+      "phase1_rule_refs": [
+        "bazi.rule.r002"
+      ],
+      "validation_status": "validated",
+      "golden_case_ids": [
+        "bazi.structural-basic"
+      ],
+      "regression_test": "tests/test_phase2_bazi.py",
+      "evidence_scope": "C：单一可追溯《渊海子平》短引；禁止据单项十神直接占断。"
+    },
+    {
+      "id": "bazi.phase2.hidden_stems",
+      "domain": "bazi",
+      "name": "地支藏干与相对十神",
+      "variant": "ziping-structural-v1",
+      "execution_status": "executable",
+      "phase1_rule_refs": [
+        "bazi.rule.r003"
+      ],
+      "validation_status": "validated",
+      "golden_case_ids": [
+        "bazi.structural-basic"
+      ],
+      "regression_test": "tests/test_phase2_bazi.py",
+      "evidence_scope": "C：单一可追溯《渊海子平》藏遁歌；仅固定表。"
+    }
+  ]
+}

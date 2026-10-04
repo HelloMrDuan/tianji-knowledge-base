@@ -1,0 +1,425 @@
+{
+  "schema_version": "1.0",
+  "model": "phase1-knowledge",
+  "domain": "bazi",
+  "classics": [
+    {
+      "id": "bazi.classic.yuanhai",
+      "domain": "bazi",
+      "name": "渊海子平",
+      "source_id": "bazi.source.yuanhai",
+      "body_stage": "canonical"
+    }
+  ],
+  "chapters": [
+    {
+      "id": "bazi.chapter.basic",
+      "domain": "bazi",
+      "name": "基础与藏遁",
+      "classic_id": "bazi.classic.yuanhai",
+      "locator": "基础；又地支藏遁歌"
+    },
+    {
+      "id": "bazi.chapter.ten_gods",
+      "domain": "bazi",
+      "name": "十神关系选段",
+      "classic_id": "bazi.classic.yuanhai",
+      "locator": "论伤官；论正财；正官论；论印绶"
+    },
+    {
+      "id": "bazi.chapter.xiji",
+      "domain": "bazi",
+      "name": "喜忌篇",
+      "classic_id": "bazi.classic.yuanhai",
+      "locator": "喜忌篇"
+    }
+  ],
+  "sections": [
+    {
+      "id": "bazi.section.s001",
+      "domain": "bazi",
+      "name": "喜忌篇·四柱日主",
+      "classic_id": "bazi.classic.yuanhai",
+      "chapter_id": "bazi.chapter.xiji",
+      "source_id": "bazi.source.yuanhai",
+      "text": "四柱排定,三才次分,专以日上天元,配合八字支干;有见不见之形,无时不有;神煞相绊,轻重较量。",
+      "locator": "《渊海子平》喜忌篇；本轮固定短引",
+      "review": {
+        "status": "approved",
+        "method": "逐字核对固定公有领域快照；只晋级本轮确定性结构所需短引。",
+        "scope": "仅四柱、日主、十神与地支藏干；不推广为旺衰、喜忌、格局或人生吉凶结论。"
+      }
+    },
+    {
+      "id": "bazi.section.s002",
+      "domain": "bazi",
+      "name": "基础·甲日十神示例",
+      "classic_id": "bazi.classic.yuanhai",
+      "chapter_id": "bazi.chapter.basic",
+      "source_id": "bazi.source.yuanhai",
+      "text": "以甲为例★见甲:为比肩、兄弟。\n 见乙:为劫财、败财,剋父及妻。\n 见丙:为食神、天厨、寿星,为男。\n 见丁:为伤官、退财、耗气,子甥。\n 见戊:为偏财、偏妻、偏妾,剋子。\n 见己:为正财、正妻,剋母,为合神。\n 见庚:为偏官、七杀、官鬼、将星。\n 见辛:为正官、禄马、荣神,父母。\n 见壬:为倒食、偏印、梟神,剋女。\n 见癸:为印綬、正人、君子,产业。",
+      "locator": "《渊海子平》基础；本轮固定短引",
+      "review": {
+        "status": "approved",
+        "method": "逐字核对固定公有领域快照；只晋级本轮确定性结构所需短引。",
+        "scope": "仅四柱、日主、十神与地支藏干；不推广为旺衰、喜忌、格局或人生吉凶结论。"
+      }
+    },
+    {
+      "id": "bazi.section.s003",
+      "domain": "bazi",
+      "name": "基础·乙日十神示例",
+      "classic_id": "bazi.classic.yuanhai",
+      "chapter_id": "bazi.chapter.basic",
+      "source_id": "bazi.source.yuanhai",
+      "text": "以乙为例★见甲:为劫财、逐马,剋妻。\n 见乙:为比肩、兄弟、朋友。\n 见丙:为伤官、小人、盗气,为姪。\n 见丁:为食神、天厨、寿星,子孙。\n 见戊:为正财、正妻,剋母。\n 见己:为偏财、偏妻、偏妾,剋子。\n 见庚:为正官、禄马,剋父母。\n 见辛:为偏官、七杀、官鬼,媒人。\n 见壬:为印綬、正人、君子,忌杀。\n 见癸:为倒食、偏印、梟神,剋母。",
+      "locator": "《渊海子平》基础；本轮固定短引",
+      "review": {
+        "status": "approved",
+        "method": "逐字核对固定公有领域快照；只晋级本轮确定性结构所需短引。",
+        "scope": "仅四柱、日主、十神与地支藏干；不推广为旺衰、喜忌、格局或人生吉凶结论。"
+      }
+    },
+    {
+      "id": "bazi.section.s004",
+      "domain": "bazi",
+      "name": "又地支藏遁歌",
+      "classic_id": "bazi.classic.yuanhai",
+      "chapter_id": "bazi.chapter.basic",
+      "source_id": "bazi.source.yuanhai",
+      "text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+      "locator": "《渊海子平》又地支藏遁歌；本轮固定短引",
+      "review": {
+        "status": "approved",
+        "method": "逐字核对固定公有领域快照；只晋级本轮确定性结构所需短引。",
+        "scope": "仅四柱、日主、十神与地支藏干；不推广为旺衰、喜忌、格局或人生吉凶结论。"
+      }
+    },
+    {
+      "id": "bazi.section.s005",
+      "domain": "bazi",
+      "name": "论伤官·关系定义",
+      "classic_id": "bazi.classic.yuanhai",
+      "chapter_id": "bazi.chapter.ten_gods",
+      "source_id": "bazi.source.yuanhai",
+      "text": "又云,伤官者,我生彼之谓也;以阳见阴,阴见阳,亦名盗气。",
+      "locator": "《渊海子平》论伤官；本轮固定短引",
+      "review": {
+        "status": "approved",
+        "method": "逐字核对固定公有领域快照；只晋级本轮确定性结构所需短引。",
+        "scope": "仅四柱、日主、十神与地支藏干；不推广为旺衰、喜忌、格局或人生吉凶结论。"
+      }
+    },
+    {
+      "id": "bazi.section.s006",
+      "domain": "bazi",
+      "name": "论正财·阴阳定义",
+      "classic_id": "bazi.classic.yuanhai",
+      "chapter_id": "bazi.chapter.ten_gods",
+      "source_id": "bazi.source.yuanhai",
+      "text": "何谓之正财?犹如正官之意;是阴见阳财,阳见阴财。",
+      "locator": "《渊海子平》论正财；本轮固定短引",
+      "review": {
+        "status": "approved",
+        "method": "逐字核对固定公有领域快照；只晋级本轮确定性结构所需短引。",
+        "scope": "仅四柱、日主、十神与地支藏干；不推广为旺衰、喜忌、格局或人生吉凶结论。"
+      }
+    },
+    {
+      "id": "bazi.section.s007",
+      "domain": "bazi",
+      "name": "正官论·阴阳定义",
+      "classic_id": "bazi.classic.yuanhai",
+      "chapter_id": "bazi.chapter.ten_gods",
+      "source_id": "bazi.source.yuanhai",
+      "text": "夫正官者,甲见辛之类;乃阴见阳为官,阳见阴为鬼,阴阳配合成其道也。",
+      "locator": "《渊海子平》正官论；本轮固定短引",
+      "review": {
+        "status": "approved",
+        "method": "逐字核对固定公有领域快照；只晋级本轮确定性结构所需短引。",
+        "scope": "仅四柱、日主、十神与地支藏干；不推广为旺衰、喜忌、格局或人生吉凶结论。"
+      }
+    },
+    {
+      "id": "bazi.section.s008",
+      "domain": "bazi",
+      "name": "论印绶·阴阳定义",
+      "classic_id": "bazi.classic.yuanhai",
+      "chapter_id": "bazi.chapter.ten_gods",
+      "source_id": "bazi.source.yuanhai",
+      "text": "夫印綬者,生我之谓也,亦名生气。以阳见阴,以阴见阳,谓之正印;阳见阳,阴见阴,谓之偏印。",
+      "locator": "《渊海子平》论印绶；本轮固定短引",
+      "review": {
+        "status": "approved",
+        "method": "逐字核对固定公有领域快照；只晋级本轮确定性结构所需短引。",
+        "scope": "仅四柱、日主、十神与地支藏干；不推广为旺衰、喜忌、格局或人生吉凶结论。"
+      }
+    }
+  ],
+  "terms": [
+    {
+      "id": "bazi.term.day_master",
+      "domain": "bazi",
+      "name": "日主",
+      "aliases": [
+        "日干",
+        "日上天元"
+      ],
+      "definition": "四柱排定,三才次分,专以日上天元,配合八字支干;有见不见之形,无时不有;神煞相绊,轻重较量。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s001",
+          "original_text": "四柱排定,三才次分,专以日上天元,配合八字支干;有见不见之形,无时不有;神煞相绊,轻重较量。",
+          "role": "classical"
+        }
+      ],
+      "related_terms": [
+        "bazi.term.ten_gods"
+      ],
+      "confidence": "medium",
+      "attributes": {
+        "definition_kind": "classical_excerpt"
+      }
+    },
+    {
+      "id": "bazi.term.ten_gods",
+      "domain": "bazi",
+      "name": "十神",
+      "aliases": [
+        "财官印食伤比劫"
+      ],
+      "definition": "以日干为参照，按五行生克与阴阳同异形成比劫、食伤、财、官杀、印等关系。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s002",
+          "original_text": "以甲为例★见甲:为比肩、兄弟。\n 见乙:为劫财、败财,剋父及妻。\n 见丙:为食神、天厨、寿星,为男。\n 见丁:为伤官、退财、耗气,子甥。\n 见戊:为偏财、偏妻、偏妾,剋子。\n 见己:为正财、正妻,剋母,为合神。\n 见庚:为偏官、七杀、官鬼、将星。\n 见辛:为正官、禄马、荣神,父母。\n 见壬:为倒食、偏印、梟神,剋女。\n 见癸:为印綬、正人、君子,产业。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s003",
+          "original_text": "以乙为例★见甲:为劫财、逐马,剋妻。\n 见乙:为比肩、兄弟、朋友。\n 见丙:为伤官、小人、盗气,为姪。\n 见丁:为食神、天厨、寿星,子孙。\n 见戊:为正财、正妻,剋母。\n 见己:为偏财、偏妻、偏妾,剋子。\n 见庚:为正官、禄马,剋父母。\n 见辛:为偏官、七杀、官鬼,媒人。\n 见壬:为印綬、正人、君子,忌杀。\n 见癸:为倒食、偏印、梟神,剋母。",
+          "role": "classical"
+        }
+      ],
+      "related_terms": [
+        "bazi.term.day_master",
+        "bazi.term.hidden_stems"
+      ],
+      "confidence": "medium",
+      "attributes": {
+        "definition_kind": "reviewed_structural_summary"
+      }
+    },
+    {
+      "id": "bazi.term.hidden_stems",
+      "domain": "bazi",
+      "name": "藏干",
+      "aliases": [
+        "地支藏遁"
+      ],
+      "definition": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s004",
+          "original_text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+          "role": "classical"
+        }
+      ],
+      "related_terms": [
+        "bazi.term.ten_gods"
+      ],
+      "confidence": "medium",
+      "attributes": {
+        "definition_kind": "classical_excerpt"
+      }
+    }
+  ],
+  "rules": [
+    {
+      "id": "bazi.rule.r001",
+      "domain": "bazi",
+      "name": "四柱以日干为主",
+      "conditions": [
+        "输入为四个合法六十甲子干支"
+      ],
+      "inputs": {
+        "year_ganzhi": "年柱",
+        "month_ganzhi": "月柱",
+        "day_ganzhi": "日柱",
+        "hour_ganzhi": "时柱"
+      },
+      "operation": {
+        "kind": "structure"
+      },
+      "result": {
+        "day_master": "日柱天干"
+      },
+      "exceptions": [
+        "仅建立四柱与日主结构，不判断强弱吉凶。"
+      ],
+      "execution_status": "partially_structured",
+      "school": "子平基础",
+      "variant": "ziping-structural-v1",
+      "difference": "本变体采用固定北京时间与 midnight 日界；真太阳时和其他日界约定未纳入。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s001",
+          "original_text": "四柱排定,三才次分,专以日上天元,配合八字支干;有见不见之形,无时不有;神煞相绊,轻重较量。",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium",
+      "term_refs": [
+        "bazi.term.day_master"
+      ]
+    },
+    {
+      "id": "bazi.rule.r002",
+      "domain": "bazi",
+      "name": "十神结构映射",
+      "conditions": [
+        "以日干为参照",
+        "只计算五行生克与阴阳同异"
+      ],
+      "inputs": {
+        "day_stem": "日干",
+        "target_stem": "目标天干"
+      },
+      "operation": {
+        "kind": "relation"
+      },
+      "result": {
+        "ten_god": "十神结构名称"
+      },
+      "exceptions": [
+        "不据单个十神生成婚恋、财运、事业或健康结论。"
+      ],
+      "execution_status": "partially_structured",
+      "school": "子平基础",
+      "variant": "ziping-structural-v1",
+      "difference": "固定结构映射；不包含旺衰、格局与喜忌裁定。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s002",
+          "original_text": "以甲为例★见甲:为比肩、兄弟。\n 见乙:为劫财、败财,剋父及妻。\n 见丙:为食神、天厨、寿星,为男。\n 见丁:为伤官、退财、耗气,子甥。\n 见戊:为偏财、偏妻、偏妾,剋子。\n 见己:为正财、正妻,剋母,为合神。\n 见庚:为偏官、七杀、官鬼、将星。\n 见辛:为正官、禄马、荣神,父母。\n 见壬:为倒食、偏印、梟神,剋女。\n 见癸:为印綬、正人、君子,产业。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s003",
+          "original_text": "以乙为例★见甲:为劫财、逐马,剋妻。\n 见乙:为比肩、兄弟、朋友。\n 见丙:为伤官、小人、盗气,为姪。\n 见丁:为食神、天厨、寿星,子孙。\n 见戊:为正财、正妻,剋母。\n 见己:为偏财、偏妻、偏妾,剋子。\n 见庚:为正官、禄马,剋父母。\n 见辛:为偏官、七杀、官鬼,媒人。\n 见壬:为印綬、正人、君子,忌杀。\n 见癸:为倒食、偏印、梟神,剋母。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s005",
+          "original_text": "又云,伤官者,我生彼之谓也;以阳见阴,阴见阳,亦名盗气。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s006",
+          "original_text": "何谓之正财?犹如正官之意;是阴见阳财,阳见阴财。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s007",
+          "original_text": "夫正官者,甲见辛之类;乃阴见阳为官,阳见阴为鬼,阴阳配合成其道也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s008",
+          "original_text": "夫印綬者,生我之谓也,亦名生气。以阳见阴,以阴见阳,谓之正印;阳见阳,阴见阴,谓之偏印。",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium",
+      "term_refs": [
+        "bazi.term.day_master",
+        "bazi.term.ten_gods"
+      ]
+    },
+    {
+      "id": "bazi.rule.r003",
+      "domain": "bazi",
+      "name": "地支藏干表",
+      "conditions": [
+        "输入为十二地支之一"
+      ],
+      "inputs": {
+        "branch": "地支",
+        "day_stem": "日干"
+      },
+      "operation": {
+        "kind": "table_lookup",
+        "parameters": {
+          "data_path": "data/canonical/bazi/foundations_v1.json"
+        }
+      },
+      "result": {
+        "hidden_stems": "藏干及相对日主十神"
+      },
+      "exceptions": [
+        "只返回固定藏干表与结构关系，不引申旺衰或取用。"
+      ],
+      "execution_status": "partially_structured",
+      "school": "子平基础",
+      "variant": "ziping-structural-v1",
+      "difference": "藏干次序沿用现有 foundations_v1 固定表。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s004",
+          "original_text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium",
+      "term_refs": [
+        "bazi.term.hidden_stems",
+        "bazi.term.ten_gods"
+      ]
+    }
+  ],
+  "concepts": [
+    {
+      "id": "bazi.concept.structural_boundary",
+      "domain": "bazi",
+      "name": "八字结构层边界",
+      "kind": "production_boundary",
+      "attributes": {
+        "includes": [
+          "四柱",
+          "日主",
+          "十神",
+          "藏干"
+        ],
+        "excludes": [
+          "旺衰",
+          "喜用神",
+          "格局",
+          "调候",
+          "吉凶断语",
+          "大运起运岁数"
+        ]
+      },
+      "source_refs": [
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s001",
+          "original_text": "四柱排定,三才次分,专以日上天元,配合八字支干;有见不见之形,无时不有;神煞相绊,轻重较量。",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium"
+    }
+  ]
+}
