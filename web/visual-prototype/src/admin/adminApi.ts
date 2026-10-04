@@ -59,3 +59,78 @@ export async function fetchAdminConflicts(token: string): Promise<AdminConflictR
   }
   return data as AdminConflictResponse;
 }
+
+
+export type AdminRuleBinding = {
+  id: string;
+  domain: string;
+  name: string;
+  variant: string;
+  execution_status: string;
+  validation_status: string;
+  golden_case_ids: string[];
+  evidence_scope: string;
+};
+
+export type AdminRuleRecord = {
+  id: string;
+  domain: string;
+  name: string;
+  execution_status: string;
+  school: string;
+  variant: string;
+  difference: string;
+  exceptions: string[];
+  confidence: string;
+  phase2_bindings: AdminRuleBinding[];
+  evidence: AdminConflictEvidence[];
+};
+
+export type AdminEvidenceRecord = {
+  id: string;
+  domain: string;
+  name: string;
+  classic_id: string;
+  classic_title: string;
+  chapter_id: string;
+  chapter_title: string;
+  source_id: string;
+  locator: string;
+  original_text: string;
+  evidence_level: string;
+  source_url: string;
+  commit: string;
+  review: {
+    status: string;
+    method: string;
+    scope: string;
+  };
+  used_by_entity_ids: string[];
+  phase2_rule_ids: string[];
+};
+
+async function fetchProtectedRecords<T>(path: string, token: string): Promise<T[]> {
+  const response = await fetch(`${apiBase}${path}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    const code = data?.detail?.code;
+    const message =
+      code === "admin_auth_not_configured"
+        ? "服务端尚未配置后台只读令牌。"
+        : code === "admin_unauthorized"
+          ? "后台访问令牌无效。"
+          : data?.detail?.message || `请求失败（HTTP ${response.status}）`;
+    throw new Error(message);
+  }
+  return Array.isArray(data?.records) ? (data.records as T[]) : [];
+}
+
+export function fetchAdminRules(token: string): Promise<AdminRuleRecord[]> {
+  return fetchProtectedRecords<AdminRuleRecord>("/api/v1/admin/governance/rules", token);
+}
+
+export function fetchAdminEvidence(token: string): Promise<AdminEvidenceRecord[]> {
+  return fetchProtectedRecords<AdminEvidenceRecord>("/api/v1/admin/governance/evidence", token);
+}
