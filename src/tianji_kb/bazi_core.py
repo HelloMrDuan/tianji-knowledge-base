@@ -165,6 +165,43 @@ def reviewed_relations(stems, branches):
     }
 
 
+def traditional_spouse_star_lens(pillars, traditional_role):
+    """Locate traditional spouse-star candidates without inferring relationship outcomes."""
+    if traditional_role not in ("male", "female"):
+        raise ValueError("traditional_role must be male or female")
+    if not isinstance(pillars, (list, tuple)) or len(pillars) != 4:
+        raise ValueError("Expected four structured pillars")
+
+    candidates = ("正财", "偏财") if traditional_role == "male" else ("正官", "七杀")
+    visible = []
+    hidden = []
+    for pillar in pillars:
+        stem = pillar["stem"]
+        if stem["ten_god"] in candidates:
+            visible.append({
+                "pillar": pillar["name"],
+                "stem": stem["value"],
+                "ten_god": stem["ten_god"],
+            })
+        for item in pillar["branch"]["hidden_stems"]:
+            if item["ten_god"] in candidates:
+                hidden.append({
+                    "pillar": pillar["name"],
+                    "branch": pillar["branch"]["value"],
+                    "stem": item["stem"],
+                    "ten_god": item["ten_god"],
+                })
+
+    return {
+        "traditional_role": traditional_role,
+        "role_basis": "user_selected_traditional_lens",
+        "candidate_ten_gods": list(candidates),
+        "visible_positions": visible,
+        "hidden_positions": hidden,
+        "interpretation_allowed": False,
+    }
+
+
 def branch_relations(branches):
     """Return only structural branch relations present in the four pillars."""
     if not isinstance(branches, (list, tuple)) or len(branches) != 4:
