@@ -102,6 +102,13 @@
       "name": "地支刑法批评",
       "classic_id": "bazi.classic.ditiansui",
       "locator": "《滴天髓阐微》通神论·八、地支"
+    },
+    {
+      "id": "bazi.chapter.zhiming_boundary",
+      "domain": "bazi",
+      "name": "知命·条件解释边界",
+      "classic_id": "bazi.classic.ditiansui",
+      "locator": "通神论·四、知命；任氏曰前段，编者按语之前"
     }
   ],
   "sections": [
@@ -419,6 +426,21 @@
         "method": "逐字核对固定公版电子快照。",
         "scope": "只确认任氏明确反对机械采用三刑/自刑体系，主张回到地支生克旺衰分析；不据此宣称所有传统刑法均无效。"
       }
+    },
+    {
+      "id": "bazi.section.s022",
+      "domain": "bazi",
+      "name": "知命·不可机械喜财官食印",
+      "classic_id": "bazi.classic.ditiansui",
+      "chapter_id": "bazi.chapter.zhiming_boundary",
+      "source_id": "bazi.source.ditiansui-spouse",
+      "text": "不论日主之衰旺,总以财官为喜,伤杀为憎,定人终身;不管日主之强弱,尽以食印为福,枭劫为殃,不知财官等名,为六亲取用而列,竟认作财可养命,官可荣身,何其愚也!如财可养命,则财多身弱者,不为富屋贫人,而成巨富;官可荣身,则身衰官重者,不至夭贱,而成显贵。余详考古书,子平之法,全在四柱五行。察其衰旺,究其顺悖,审其进退,论其喜忌,是谓理会。",
+      "locator": "data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/3/text；不论日主之衰旺至是谓理会",
+      "review": {
+        "status": "approved",
+        "method": "与重新获取的固定commit原文经既有normalize_text后逐字匹配；核对原典上下文，仅选任氏曰前段。",
+        "scope": "只确认原文反对忽略日主强弱、机械以财官/食印论吉凶；不复制后段若思按与新增内容，不提供旺衰算法或权重。"
+      }
     }
   ],
   "terms": [
@@ -716,6 +738,35 @@
         "definition_kind": "reviewed_structural_summary",
         "production_interpretation": false,
         "user_selection_required": true
+      }
+    },
+    {
+      "id": "bazi.term.strength_review_boundary",
+      "domain": "bazi",
+      "name": "旺衰",
+      "definition": "本段要求考察日主衰旺、顺悖、进退与喜忌；没有给出可执行的旺衰衡量算法或数值权重。",
+      "aliases": [
+        "衰旺",
+        "日主强弱"
+      ],
+      "source_refs": [
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s022",
+          "original_text": "不论日主之衰旺,总以财官为喜,伤杀为憎,定人终身;不管日主之强弱,尽以食印为福,枭劫为殃,不知财官等名,为六亲取用而列,竟认作财可养命,官可荣身,何其愚也!如财可养命,则财多身弱者,不为富屋贫人,而成巨富;官可荣身,则身衰官重者,不至夭贱,而成显贵。余详考古书,子平之法,全在四柱五行。察其衰旺,究其顺悖,审其进退,论其喜忌,是谓理会。",
+          "role": "classical"
+        }
+      ],
+      "related_terms": [
+        "bazi.term.day_master",
+        "bazi.term.ten_gods"
+      ],
+      "confidence": "medium",
+      "school": "子平·任氏解释边界",
+      "variant": "ziping-structural-v1",
+      "attributes": {
+        "production_interpretation": false,
+        "algorithm_available": false
       }
     }
   ],
@@ -1230,6 +1281,49 @@
       "confidence": "medium",
       "term_refs": [
         "bazi.term.traditional_spouse_star_lens",
+        "bazi.term.ten_gods"
+      ]
+    },
+    {
+      "id": "bazi.rule.r012",
+      "domain": "bazi",
+      "name": "不以单项财官食印机械定人终身",
+      "conditions": [
+        "讨论财官食印对个人吉凶、财富或人生的解释",
+        "尚未完成日主衰旺与喜忌的条件审核"
+      ],
+      "inputs": {
+        "context": "单项十神结构或数量",
+        "strength_and_preferences": "尚未审核的衰旺、喜忌条件"
+      },
+      "operation": {
+        "kind": "textual"
+      },
+      "result": {
+        "interpretation_boundary": "原文反对忽略日主强弱而固定以财官为喜、伤杀为憎或食印为福；本段只作为解释限制，不产生个人断语。"
+      },
+      "exceptions": [
+        "本段没有给出统一旺衰算法、月令权重或喜用神求解方法。",
+        "这是任氏论述边界，不裁定其他流派全部无效。",
+        "财星、官星、食神、印星的结构映射与位置计算可继续；不得据其单项数量直接断财富、事业、婚恋或健康。",
+        "本规则为描述性知识，不能伪装成执行RuleMatch或作为运势产品开放依据。"
+      ],
+      "execution_status": "descriptive_only",
+      "school": "子平·任氏解释边界",
+      "variant": "ziping-structural-v1",
+      "difference": "沿用当前结构variant作为受限解释上下文；尚未编译旺衰、喜用或格局规则。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s022",
+          "original_text": "不论日主之衰旺,总以财官为喜,伤杀为憎,定人终身;不管日主之强弱,尽以食印为福,枭劫为殃,不知财官等名,为六亲取用而列,竟认作财可养命,官可荣身,何其愚也!如财可养命,则财多身弱者,不为富屋贫人,而成巨富;官可荣身,则身衰官重者,不至夭贱,而成显贵。余详考古书,子平之法,全在四柱五行。察其衰旺,究其顺悖,审其进退,论其喜忌,是谓理会。",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium",
+      "term_refs": [
+        "bazi.term.strength_review_boundary",
+        "bazi.term.day_master",
         "bazi.term.ten_gods"
       ]
     }

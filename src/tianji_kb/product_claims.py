@@ -10,6 +10,7 @@ from .knowledge import read_json
 from .prompts import get_prompt
 from .resolver import EvidenceResolver
 from .runtime_catalog import digest
+from .scenario_engine import registry as scenario_registry, _EXECUTORS
 
 
 PRODUCT_PROMPT = 'explanation-prompt-v3'
@@ -73,9 +74,8 @@ def product_preflight(root, product_id, raw):
     # no such product release contract exists in this repository yet.
     if not product['production_ready'] or not product['public_enabled'] or not product['production_claims']:
         _reject('product_claim_unavailable')
-    scenarios = read_json(root / 'config/scenarios/registry.json')
-    scenario = next((s for s in scenarios['scenarios'] if s['scenario_id'] == product['scenario_id']), None)
-    if not scenario or not all(scenario[k] is True for k in ('runtime_implemented', 'public_enabled', 'ai_enabled')):
+    scenario = next((s for s in scenario_registry() if s['id'] == product['scenario_id']), None)
+    if not scenario or scenario['id'] not in _EXECUTORS or scenario['public_release'] is not True:
         _reject('scenario_claim_unavailable')
     if product['ai_enabled'] is not True:
         _reject('ai_quality_not_approved')

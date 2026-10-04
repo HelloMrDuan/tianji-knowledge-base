@@ -11,6 +11,8 @@ from .engine import PROVIDERS
 from .knowledge import read_json, validate_protected_files
 from .knowledge_index import iter_phase1_chunks
 from .resolver import EvidenceResolver
+from .scenario_engine import registry as scenario_registry, _EXECUTORS
+from .governance import school_conflicts
 
 
 def sha(path):
@@ -55,25 +57,12 @@ def _references(obj, words, prefix=''):
     return hits
 
 
-def _conflicts(bundles):
-    # Existing model does not require a school_conflict collection. Absence is a gap.
-    rows = []
-    for b in bundles:
-        for collection in ('concepts', 'rules', 'terms'):
-            for e in b[collection]:
-                if e.get('kind') in ('school_conflict', 'school-conflict') or 'school_conflict' in e:
-                    rows.append({'domain': b['domain'], 'entity_id': e['id'],
-                                 'kind': e.get('kind'), 'record': e.get('school_conflict')})
-    return rows
-
-
 def build_product_coverage(root: Path, *, rag_rows=None):
     root = Path(root).resolve()
     validate_protected_files(root)
     resolver = EvidenceResolver(root, review_sources=True)
     spec = read_json(root / 'config/product_requirements.json')
-    scenario_registry = read_json(root / 'config/scenarios/registry.json')
-    scenarios = {s['scenario_id']: s for s in scenario_registry['scenarios']}
+    scenarios = {s['id']: s for s in scenario_registry()}
     bundles = {b['domain']: b for b in resolver.model['bundles']}
     inv = inventory(root)
     by_path = {r['path']: r for r in inv}
@@ -104,6 +93,8 @@ def build_product_coverage(root: Path, *, rag_rows=None):
                            'test_execution': 'not_asserted_by_static_audit'}
     # Do not conflate calendar helpers / legacy operation references with registered engines.
     for domain in ('bazi', 'dream'):
+        if domain in engines:
+            continue
         engines[domain] = {'registered': domain in PROVIDERS,
                            'provider': PROVIDERS.get(domain), 'variant': None, 'rules': [],
                            'golden_ids': [], 'test_execution': 'unavailable'}
@@ -160,7 +151,7 @@ def build_product_coverage(root: Path, *, rag_rows=None):
                 if rule_ids:
                     supported.append({'kind': 'deterministic_structure', 'engine_id': d,
                                       'variant': engines[d]['variant'], 'rule_ids': rule_ids,
-                                      'availability': 'engine_only_not_public_product_report'})
+                                      'availability': 'existing_engine_and_structural_scenario_only'})
         output[pid] = {'name': p['name'], 'status': 'partial' if supported or any(t['legacy_references'] or t['reviewed_terms'] for t in topics) else 'missing',
                        'scenario_id': p['scenario_id'], 'required_topics': p['topics'],
                        'supported_capabilities': supported,
@@ -173,12 +164,14 @@ def build_product_coverage(root: Path, *, rag_rows=None):
                        'production_claims': [], 'blocked_claims': p['blocked_claims'],
                        'production_ready': False, 'public_enabled': False, 'ai_enabled': False,
                        'scenario_status': {'registered': scenario is not None,
-                                           'runtime_implemented': bool(scenario and scenario['runtime_implemented']),
-                                           'public_enabled': bool(scenario and scenario['public_enabled']),
-                                           'ai_enabled': bool(scenario and scenario['ai_enabled']),
-                                           'scenario_rules': scenario['scenario_rules'] if scenario else []},
+                                           'runtime_implemented': bool(scenario and scenario['id'] in _EXECUTORS),
+                                           'structural_public_release': bool(scenario and scenario['public_release']),
+                                           'status': scenario['status'] if scenario else None,
+                                           'scope': scenario['scope'] if scenario else None,
+                                           'depends_on': scenario['depends_on'] if scenario else [],
+                                           'ai_enabled': False},
                        'blockers': ['所需解释模块尚无产品级审核授权', 'AI未完成真实质量校准及人工语义复核',
-                                    'Scenario尚未实现并验证完整聚合/检索/门控链路'],
+                                    '已实现结构Scenario不等于运势/占断；完整解释与发布绑定尚未完成'],
                        'recommended_sources': sorted({ref['source_id'] for t in topics for e in t['reviewed_terms'] for ref in e['source_refs']} |
                                                      {ref['path'] for t in topics for ref in t['classical_text_candidates']}),
                        'degraded_message': '当前已实现的结构能力可供专业参考；该项深入解释仍在知识审核中。' if supported else '当前版本尚未开放，相关知识、规则与证据仍在校核中。'}
@@ -208,7 +201,7 @@ def build_product_coverage(root: Path, *, rag_rows=None):
         raise ValueError('Sanming isolation violated')
     controls = ['config/source_registry.json', 'config/source_file_manifest.json', 'config/knowledge_sources.json',
                 'config/domain_registry.json', 'config/phase2_source_audit.json', 'config/phase2_rule_promotions.json',
-                'config/public_domain_manifest.json', 'config/product_requirements.json', 'config/scenarios/registry.json']
+                'config/public_domain_manifest.json', 'config/product_requirements.json']
     controls += [p.relative_to(root).as_posix() for p in sorted((root / 'src/tianji_kb').rglob('*.py'))]
     controls += [p.relative_to(root).as_posix() for p in sorted((root / 'schemas/knowledge').glob('*.json'))]
     controls += [p.relative_to(root).as_posix() for p in sorted((root / 'tests').glob('test_phase*.py'))]
@@ -225,8 +218,8 @@ def build_product_coverage(root: Path, *, rag_rows=None):
                          'source_grades': dict(Counter(s['evidence_level'] for s in resolver.sources.values())),
                          'phase1': {d: {key: len(b[key]) for key in ('classics', 'chapters', 'sections', 'terms', 'rules', 'concepts')} for d, b in bundles.items()},
                          'engines': engines, 'topics': topic_rows,
-                         'conflict_entities': _conflicts(resolver.model['bundles']),
-                         'conflict_status': '当前无独立school_conflict实体；已有Rule difference/exceptions、执行unresolved与来源审计，不能把空集合解释为无流派冲突。',
+                         'conflict_entities': school_conflicts(resolver),
+                         'conflict_status': '沿用既有governance.school_conflicts：传统配偶星口径已限定范围，三刑争议未解决；Rule difference/exceptions、执行unresolved与来源审计继续保留。',
                          'source_comparisons': source_audit['claim_comparisons'],
                          'rule_promotions': read_json(root / 'config/phase2_rule_promotions.json')['promotions'],
                          'editorial_review_flags': editorial_flags,
@@ -237,7 +230,11 @@ def build_product_coverage(root: Path, *, rag_rows=None):
                                        'general_rag_domains': dict(Counter(r['metadata']['domain'] for r in rag)),
                                        'warning': '通用RAG包括旧Canonical资料；可检索不等于RuleMatch命中或解释授权。生产解释仍用现有CanonicalRetriever及EvidenceResolver。'},
                          'scenario_count': len(scenarios), 'sanming': sanming['quality_blockers'],
-                         'new_knowledge_promoted': 0}
+                         'reviewed_knowledge_batch': [
+                             {'entity_id': eid, 'collection': resolver.entities[eid][0]}
+                             for eid in ('bazi.chapter.zhiming_boundary', 'bazi.section.s022', 'bazi.term.strength_review_boundary', 'bazi.rule.r012')
+                             if eid in resolver.entities],
+                         'new_execution_promotions': 0}
     return output
 
 
@@ -247,7 +244,7 @@ def markdown_report(report):
              '由 `scripts/build_product_coverage.py` 扫描实际 JSON、来源、执行契约、Golden、代码和 RAG 自动生成。运行 `--check` 检查漂移。', '',
              '这是现有知识库的派生报告，不是新知识模型、Rule 或上线授权。所有产品解释均未开放；结构计算与完整测算报告分开评估。', '',
              f"实际文件：Canonical {a['inventory_counts']['canonical']}，Quarantine {a['inventory_counts']['quarantine']}；来源登记 {a['legacy_source_registry_count']}；逐项证据来源 {len(a['knowledge_sources'])}。",
-             f"已注册确定性引擎 6 个，Phase2 Rule {sum(len(e['rules']) for e in a['engines'].values())} 条，Golden {sum(len(e['golden_ids']) for e in a['engines'].values())} 个；八字与梦境引擎未注册。",
+             f"已注册确定性引擎 {sum(e['registered'] for e in a['engines'].values())} 个，Phase2 Rule {sum(len(e['rules']) for e in a['engines'].values())} 条，Golden {sum(len(e['golden_ids']) for e in a['engines'].values())} 个；八字结构已注册，梦境未建立。",
              f"证据等级 {json.dumps(a['source_grades'], ensure_ascii=False)}；旧 registry trust_level A/B 不等于独立古典 Evidence A/B。",
              f"RAG：已审核实体 {a['retrieval']['reviewed_entity_chunks']} 块；通用 {a['retrieval']['general_rag_chunks']} 块，含旧资料，不能代替执行命中。", '',
              '| 产品 | 所需专题 | 已有 | 缺失/阻塞 | 完整产品可生产 |',
@@ -262,8 +259,8 @@ def markdown_report(report):
     lines += ['', '## 现有治理路径', '',
               '补库只走已有 Source → RAW → Quarantine → Review → Canonical → Terms/Rules → Evidence → Variant/Conflict → Golden → Phase2 → Scenario。',
               '使用 `config/source_registry.json` / `source_file_manifest.json` / `public_domain_manifest.json` 的既有采纳范围；固定来源通过 `stage_phase1_sources.py` / `acquisition.stage_candidate` 隔离。',
-              '现有六域 `phase1_knowledge.json` 与 `knowledge_sources.json` 使用既有 schema / `validate_knowledge`；Phase2 用既有执行、补充证据、来源审计、晋级记录、Golden 和 `validate_phase2.py`。',
-              '当前 Phase1 schema 与 domain registry 明确限于六域；八字、梦境尚未接入。后续应审核扩展同一模型的领域枚举及既有校验，不另外造一套知识结构；本批不修改 schema、不自动晋级。', '',
+              '现有七域（包括八字）`phase1_knowledge.json` 与 `knowledge_sources.json` 使用既有 schema / `validate_knowledge`；Phase2 用既有执行、补充证据、来源审计、晋级记录、Golden 和 `validate_phase2.py`。',
+              '八字结构与条件化配偶星口径已接入同一模型；梦境尚未接入。补库必须沿用既有模型及校验，不另外造知识结构；本批不修改 schema、不自动晋级。', '',
               '## 迭代顺序与小批量验收', '',
               'P0：八字基础/十神 → 旺衰（先选并核单一 Variant）→ 格局 → 四套喜用体系分别治理 → 大运/流年 → 婚恋/事业财富 → 双人关系；梦境来源审查可独立进行。',
               'P1：六爻解释深化、流月、流日、人生聚合；P2：紫微、奇门、六壬、风水扩展、周易专业。',
@@ -271,26 +268,29 @@ def markdown_report(report):
               '每批只处理一个明确条件关系及反例：检查来源权利/版本/字面 → 已有模型引用 → 命名 Variant 与适用边界 → 固定 Golden/反例 → 测试 → 执行晋级记录；缺任何一步继续隔离。',
               '六爻优先复用已登记《增删卜易》《卜筮正宗》；专业域优先复用下列真实 source_id。梦境当前无已登记专库，先做来源/权利审核，不能借命理语料或模型先验填充。', '',
               '## 结论能力门控', '',
-              '`product_claims.py` 复用 EvidenceResolver、现有 explanation_policy 和 validate_reply；检查事实存在、可执行 Rule、Golden、等级/Variant、来源冲突。产品入口在模型调用前拒绝未开放的 Scenario。',
+              '`product_claims.py` 复用 EvidenceResolver、现有 explanation_policy 和 validate_reply；检查事实存在、可执行 Rule、Golden、等级/Variant、来源冲突。产品入口在模型调用前拒绝尚未审核的完整解释。现有结构API继续按原范围工作。',
               '完整产品授权/claim白名单与模型人工复核绑定契约尚未实现；当前不接受改几个布尔值作为发布授权。此门控保持关闭，不宣称已完成全部生产放行能力。',
               '当前全部 `production_claims=[]`，公开解释一律拒绝。新 Prompt v3 明示 “Absence of knowledge is not permission to use model prior knowledge.”；旧 v1/v2 保持不可变，仅供既有评测比较。',
               '自由文本的语义蕴涵不能只靠 JSON/关键词证明；现有人工语义审核仍是必要步骤，门控测试不等于模型质量达标。', '',
               '## 冲突与隔离边界', '', a['conflict_status'],
               '《三命通会》保持 quarantine_only / canonical_ready=false；原始 snapshot、已确认 PUA/OCR 映射未修改，不能进入 Canonical/RAG。', '',
-              '## 实查六域模型', '', '| 域 | Classics | Chapters | Sections | Terms | Rules | Concepts |', '|---|---:|---:|---:|---:|---:|---:|']
+              '## 实查现有模型', '', '| 域 | Classics | Chapters | Sections | Terms | Rules | Concepts |', '|---|---:|---:|---:|---:|---:|---:|']
     for d, counts in a['phase1'].items():
         lines.append('| ' + d + ' | ' + ' | '.join(str(counts[k]) for k in ('classics', 'chapters', 'sections', 'terms', 'rules', 'concepts')) + ' |')
     lines += ['', '## 首批来源隔离及编辑标记审核', '',
-              '已按现有 `acquisition.stage_candidate` 保存以下固定来源的 RAW（忽略缓存）及 Quarantine 元数据；Git blob校验通过，review_status=pending，promotion_allowed=false。没有新增正式知识或来源等级。', '']
+              '已按现有 `acquisition.stage_candidate` 保存以下固定来源的 RAW（忽略缓存）及 Quarantine 元数据；Git blob校验通过，整本review_status=pending，promotion_allowed=false。仅知命前段单独审核后入既有Phase1模型，整本不晋级，来源等级不变。', '']
     lines += ['- `' + row['source_path'] + '` @ `' + row['candidate_commit'] + '`，blob `' + row['blob_sha'] + '`。' for row in a['staged_source_candidates']]
     lines += ['', '原典审核前须处理下列编者/增补标记（定位到实际 JSON；不自动删改旧文件）：', '']
     lines += ['- `' + row['path'] + '#' + row['pointer'] + '`：' + '、'.join(row['markers']) + '。' for row in a['editorial_review_flags']]
-    lines += ['', '现有来源 schema 未显式包含 edition；93条来源的 edition 不可从书名推定。版本核验仍按现有来源审计记录，正式扩展应保持同一治理模型。', '',
-              '实查 API：' + '；'.join(row['method'] + ' `' + row['path'] + '`' for row in a['api_routes']) + '。尚无产品 Scenario/历史记录/管理写入 API。']
+    lines += ['', f"现有来源 schema 未显式包含 edition；{len(a['knowledge_sources'])}条来源的 edition 不可从书名推定。版本核验仍按现有来源审计记录，正式扩展应保持同一治理模型。", '',
+              '实查 API：' + '；'.join(row['method'] + ' `' + row['path'] + '`' for row in a['api_routes']) + '。已有真实Scenario执行与后台只读治理 API；历史记录与管理写入尚未完成。']
     for pid, p in report.items():
         if pid.startswith('_'):
             continue
         lines += ['', '## ' + p['name'], '', '已有：', '']
+        state = p['scenario_status']
+        if state['registered']:
+            lines.append(f"- 现有 Scenario `{p['scenario_id']}`：{state['status']}，结构执行={state['runtime_implemented']}，结构公开标志={state['structural_public_release']}；{state['scope']}")
         for tid in p['required_topics']:
             t = a['topics'][tid]
             lines.append(f"- {t['name']}：术语 {len(t['reviewed_terms'])}，关联 Phase1 Rule {len(t['phase1_rule_ids'])}，列入结构映射的 Phase2 Rule {len(t['phase2_rule_ids'])}。")
@@ -305,6 +305,7 @@ def markdown_report(report):
         lines += ['- `' + s + '`' for s in p['recommended_sources']] or ['- 当前无已审核专属来源；先来源登记与 Quarantine，不编造书名/摘录。']
         lines += ['', '前台降级：' + p['degraded_message']]
     lines += ['', '## 本批范围及未完成项', '',
-              '本批完成实查报告、两部既有来源的隔离复核候选及失败即拒绝的产品解释门控；未新增/晋级知识、未开放产品、未上线 AI。',
-              '八字逐项术语/规则治理、独立梦境资料、解释性 Golden、Scenario 运行与模型质量校准仍须按上述批次完成。', '']
+              '本批完成实查报告、两部既有来源的隔离复核候选、知命前段一条描述性解释边界及失败即拒绝的产品解释门控；未新增可执行推断、未开放产品、未上线 AI。',
+              '新增 `bazi.rule.r012`、`bazi.term.strength_review_boundary`、`bazi.section.s022` 与章节均沿用既有模型。规则保持descriptive_only，不参与执行RuleMatch，不伪造算法或Golden；已有34个结构Golden保留，解释性Golden与Phase2编译继续阻塞。',
+              '八字旺衰/格局/喜用/岁运解释治理、独立梦境资料、解释性 Golden、产品授权与模型质量校准仍须按上述批次完成。', '']
     return '\n'.join(lines)

@@ -13,6 +13,7 @@ from tianji_kb.product_coverage import build_product_coverage
 from tianji_kb.product_claims import product_preflight, validate_calculation_basis, ProductExplanationService
 from tianji_kb.prompts import get_prompt
 from tianji_kb.resolver import EvidenceResolver
+from tianji_kb.scenario_engine import registry as scenario_registry
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -30,10 +31,14 @@ class ProductCoverageTests(unittest.TestCase):
     def test_all_requested_products_and_specialist_tools_have_no_fake_authorization(self):
         rows = build_product_coverage(ROOT)
         self.assertEqual(len(rows) - 1, 16)
-        self.assertEqual(sum(len(e['rules']) for e in rows['_audit']['engines'].values()), 37)
-        self.assertEqual(sum(len(e['golden_ids']) for e in rows['_audit']['engines'].values()), 28)
-        self.assertFalse(rows['_audit']['engines']['bazi']['registered'])
-        self.assertEqual(rows['_audit']['source_grades'], {'C': 87, 'D': 6})
+        self.assertEqual(sum(len(e['rules']) for e in rows['_audit']['engines'].values()), 48)
+        self.assertEqual(sum(len(e['golden_ids']) for e in rows['_audit']['engines'].values()), 34)
+        self.assertTrue(rows['_audit']['engines']['bazi']['registered'])
+        self.assertEqual(rows['_audit']['engines']['bazi']['variant'], 'ziping-structural-v1')
+        self.assertEqual(rows['_audit']['source_grades'], {'C': 91, 'D': 6})
+        self.assertEqual(len(rows['_audit']['conflict_entities']), 2)
+        self.assertTrue(rows['compatibility']['scenario_status']['runtime_implemented'])
+        self.assertTrue(rows['bazi-reading']['scenario_status']['structural_public_release'])
         for pid, row in rows.items():
             if pid.startswith('_'): continue
             self.assertFalse(row['production_ready'])
@@ -75,12 +80,10 @@ class ProductCoverageTests(unittest.TestCase):
         report = copy.deepcopy(self.report)
         report['one-question'].update(production_ready=True, public_enabled=True, ai_enabled=True,
                                       production_claims=['invented-permission'])
-        scenarios = read_json(ROOT / 'config/scenarios/registry.json')
-        for s in scenarios['scenarios']:
-            s.update(runtime_implemented=True, public_enabled=True, ai_enabled=True)
-        def reader(path):
-            return scenarios if path == ROOT / 'config/scenarios/registry.json' else report
-        with patch('tianji_kb.product_claims.read_json', side_effect=reader):
+        scenarios = scenario_registry()
+        for s in scenarios:
+            s.update(public_release=True)
+        with patch('tianji_kb.product_claims.read_json', return_value=report), patch('tianji_kb.product_claims.scenario_registry', return_value=scenarios):
             with self.assertRaisesRegex(ExplanationFailure, 'product_release_contract_missing'):
                 product_preflight(ROOT, 'one-question', self.raw)
 

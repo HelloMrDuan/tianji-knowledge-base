@@ -2,7 +2,7 @@
   "bazi-reading": {
     "name": "八字详批",
     "status": "partial",
-    "scenario_id": null,
+    "scenario_id": "bazi-profile",
     "required_topics": [
       "bazi-foundation",
       "bazi-ten-gods",
@@ -12,23 +12,35 @@
       "bazi-dayun",
       "bazi-annual"
     ],
-    "supported_capabilities": [],
+    "supported_capabilities": [
+      {
+        "kind": "deterministic_structure",
+        "engine_id": "bazi",
+        "variant": "ziping-structural-v1",
+        "rule_ids": [
+          "bazi.phase2.hidden_stems",
+          "bazi.phase2.pillars",
+          "bazi.phase2.ten_gods"
+        ],
+        "availability": "existing_engine_and_structural_scenario_only"
+      }
+    ],
     "existing_knowledge": [
       {
         "topic_id": "bazi-foundation",
         "legacy_files": 1,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
-        "phase2_rules": 0
+        "terms": 3,
+        "phase1_rules": 5,
+        "phase2_rules": 3
       },
       {
         "topic_id": "bazi-ten-gods",
         "legacy_files": 1,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
-        "phase2_rules": 0
+        "terms": 1,
+        "phase1_rules": 4,
+        "phase2_rules": 2
       },
       {
         "topic_id": "bazi-strength",
@@ -66,15 +78,15 @@
         "topic_id": "bazi-annual",
         "legacy_files": 1,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
+        "terms": 1,
+        "phase1_rules": 1,
         "phase2_rules": 0
       }
     ],
     "missing_capabilities": [
       {
         "topic_id": "bazi-foundation",
-        "reason": "缺八字 Phase1 注册、原典逐项绑定、出生时间/四柱执行契约及 Golden；旧实现表的权重不作通用古典结论。"
+        "reason": "四柱/日主/十神/藏干已接入既有模型和执行Golden；仍缺十二长生、月令解释及基础结构到个人结论的条件规则；真太阳时尚未实现。旧表权重不作通用古典结论。"
       },
       {
         "topic_id": "bazi-ten-gods",
@@ -112,28 +124,34 @@
     "public_enabled": false,
     "ai_enabled": false,
     "scenario_status": {
-      "registered": false,
-      "runtime_implemented": false,
-      "public_enabled": false,
-      "ai_enabled": false,
-      "scenario_rules": []
+      "registered": true,
+      "runtime_implemented": true,
+      "structural_public_release": true,
+      "status": "production",
+      "scope": "四柱、日主、十神、藏干结构事实。",
+      "depends_on": [
+        "bazi/ziping-structural-v1"
+      ],
+      "ai_enabled": false
     },
     "blockers": [
       "所需解释模块尚无产品级审核授权",
       "AI未完成真实质量校准及人工语义复核",
-      "Scenario尚未实现并验证完整聚合/检索/门控链路"
+      "已实现结构Scenario不等于运势/占断；完整解释与发布绑定尚未完成"
     ],
     "recommended_sources": [
+      "bazi.source.xieji-relations",
+      "bazi.source.yuanhai",
       "data/canonical/classics/bazi/ditiansui_chanwei_v1.json",
       "data/canonical/classics/bazi/qiongtong_baojian_v1.json",
       "data/canonical/classics/bazi/yuanhai_ziping_v1.json"
     ],
-    "degraded_message": "当前版本尚未开放，相关知识、规则与证据仍在校核中。"
+    "degraded_message": "当前已实现的结构能力可供专业参考；该项深入解释仍在知识审核中。"
   },
   "daily-fortune": {
     "name": "今日运势",
     "status": "partial",
-    "scenario_id": "daily_fortune",
+    "scenario_id": "daily",
     "required_topics": [
       "bazi-foundation",
       "bazi-strength",
@@ -142,15 +160,27 @@
       "bazi-annual",
       "bazi-day"
     ],
-    "supported_capabilities": [],
+    "supported_capabilities": [
+      {
+        "kind": "deterministic_structure",
+        "engine_id": "bazi",
+        "variant": "ziping-structural-v1",
+        "rule_ids": [
+          "bazi.phase2.hidden_stems",
+          "bazi.phase2.pillars",
+          "bazi.phase2.ten_gods"
+        ],
+        "availability": "existing_engine_and_structural_scenario_only"
+      }
+    ],
     "existing_knowledge": [
       {
         "topic_id": "bazi-foundation",
         "legacy_files": 1,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
-        "phase2_rules": 0
+        "terms": 3,
+        "phase1_rules": 5,
+        "phase2_rules": 3
       },
       {
         "topic_id": "bazi-strength",
@@ -180,8 +210,8 @@
         "topic_id": "bazi-annual",
         "legacy_files": 1,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
+        "terms": 1,
+        "phase1_rules": 1,
         "phase2_rules": 0
       },
       {
@@ -196,7 +226,7 @@
     "missing_capabilities": [
       {
         "topic_id": "bazi-foundation",
-        "reason": "缺八字 Phase1 注册、原典逐项绑定、出生时间/四柱执行契约及 Golden；旧实现表的权重不作通用古典结论。"
+        "reason": "四柱/日主/十神/藏干已接入既有模型和执行Golden；仍缺十二长生、月令解释及基础结构到个人结论的条件规则；真太阳时尚未实现。旧表权重不作通用古典结论。"
       },
       {
         "topic_id": "bazi-strength",
@@ -230,27 +260,35 @@
     "ai_enabled": false,
     "scenario_status": {
       "registered": true,
-      "runtime_implemented": false,
-      "public_enabled": false,
-      "ai_enabled": false,
-      "scenario_rules": []
+      "runtime_implemented": true,
+      "structural_public_release": false,
+      "status": "production_limited",
+      "scope": "返回目标日干支、日干相对日主的十神结构，以及两套咸池目标支是否被当日地支命中；不输出今日吉凶。",
+      "depends_on": [
+        "bazi.phase2.ten_gods",
+        "bazi.phase2.xianchi_lookup",
+        "calendar/lunar-python==1.4.8"
+      ],
+      "ai_enabled": false
     },
     "blockers": [
       "所需解释模块尚无产品级审核授权",
       "AI未完成真实质量校准及人工语义复核",
-      "Scenario尚未实现并验证完整聚合/检索/门控链路"
+      "已实现结构Scenario不等于运势/占断；完整解释与发布绑定尚未完成"
     ],
     "recommended_sources": [
+      "bazi.source.xieji-relations",
+      "bazi.source.yuanhai",
       "data/canonical/classics/bazi/ditiansui_chanwei_v1.json",
       "data/canonical/classics/bazi/qiongtong_baojian_v1.json",
       "data/canonical/classics/bazi/yuanhai_ziping_v1.json"
     ],
-    "degraded_message": "当前版本尚未开放，相关知识、规则与证据仍在校核中。"
+    "degraded_message": "当前已实现的结构能力可供专业参考；该项深入解释仍在知识审核中。"
   },
   "weekly-fortune": {
     "name": "本周运势",
     "status": "partial",
-    "scenario_id": "weekly_fortune",
+    "scenario_id": "weekly",
     "required_topics": [
       "bazi-foundation",
       "bazi-strength",
@@ -259,15 +297,27 @@
       "bazi-annual",
       "bazi-day"
     ],
-    "supported_capabilities": [],
+    "supported_capabilities": [
+      {
+        "kind": "deterministic_structure",
+        "engine_id": "bazi",
+        "variant": "ziping-structural-v1",
+        "rule_ids": [
+          "bazi.phase2.hidden_stems",
+          "bazi.phase2.pillars",
+          "bazi.phase2.ten_gods"
+        ],
+        "availability": "existing_engine_and_structural_scenario_only"
+      }
+    ],
     "existing_knowledge": [
       {
         "topic_id": "bazi-foundation",
         "legacy_files": 1,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
-        "phase2_rules": 0
+        "terms": 3,
+        "phase1_rules": 5,
+        "phase2_rules": 3
       },
       {
         "topic_id": "bazi-strength",
@@ -297,8 +347,8 @@
         "topic_id": "bazi-annual",
         "legacy_files": 1,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
+        "terms": 1,
+        "phase1_rules": 1,
         "phase2_rules": 0
       },
       {
@@ -313,7 +363,7 @@
     "missing_capabilities": [
       {
         "topic_id": "bazi-foundation",
-        "reason": "缺八字 Phase1 注册、原典逐项绑定、出生时间/四柱执行契约及 Golden；旧实现表的权重不作通用古典结论。"
+        "reason": "四柱/日主/十神/藏干已接入既有模型和执行Golden；仍缺十二长生、月令解释及基础结构到个人结论的条件规则；真太阳时尚未实现。旧表权重不作通用古典结论。"
       },
       {
         "topic_id": "bazi-strength",
@@ -347,27 +397,35 @@
     "ai_enabled": false,
     "scenario_status": {
       "registered": true,
-      "runtime_implemented": false,
-      "public_enabled": false,
-      "ai_enabled": false,
-      "scenario_rules": []
+      "runtime_implemented": true,
+      "structural_public_release": false,
+      "status": "production_limited",
+      "scope": "按北京时间周一至周日列出每日干支、日干十神结构与咸池日级命中；不输出周运吉凶。",
+      "depends_on": [
+        "bazi.phase2.ten_gods",
+        "bazi.phase2.xianchi_lookup",
+        "calendar/lunar-python==1.4.8"
+      ],
+      "ai_enabled": false
     },
     "blockers": [
       "所需解释模块尚无产品级审核授权",
       "AI未完成真实质量校准及人工语义复核",
-      "Scenario尚未实现并验证完整聚合/检索/门控链路"
+      "已实现结构Scenario不等于运势/占断；完整解释与发布绑定尚未完成"
     ],
     "recommended_sources": [
+      "bazi.source.xieji-relations",
+      "bazi.source.yuanhai",
       "data/canonical/classics/bazi/ditiansui_chanwei_v1.json",
       "data/canonical/classics/bazi/qiongtong_baojian_v1.json",
       "data/canonical/classics/bazi/yuanhai_ziping_v1.json"
     ],
-    "degraded_message": "当前版本尚未开放，相关知识、规则与证据仍在校核中。"
+    "degraded_message": "当前已实现的结构能力可供专业参考；该项深入解释仍在知识审核中。"
   },
   "monthly-fortune": {
     "name": "本月运势",
     "status": "partial",
-    "scenario_id": "monthly_fortune",
+    "scenario_id": "monthly",
     "required_topics": [
       "bazi-foundation",
       "bazi-strength",
@@ -377,15 +435,27 @@
       "bazi-month",
       "bazi-day"
     ],
-    "supported_capabilities": [],
+    "supported_capabilities": [
+      {
+        "kind": "deterministic_structure",
+        "engine_id": "bazi",
+        "variant": "ziping-structural-v1",
+        "rule_ids": [
+          "bazi.phase2.hidden_stems",
+          "bazi.phase2.pillars",
+          "bazi.phase2.ten_gods"
+        ],
+        "availability": "existing_engine_and_structural_scenario_only"
+      }
+    ],
     "existing_knowledge": [
       {
         "topic_id": "bazi-foundation",
         "legacy_files": 1,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
-        "phase2_rules": 0
+        "terms": 3,
+        "phase1_rules": 5,
+        "phase2_rules": 3
       },
       {
         "topic_id": "bazi-strength",
@@ -415,8 +485,8 @@
         "topic_id": "bazi-annual",
         "legacy_files": 1,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
+        "terms": 1,
+        "phase1_rules": 1,
         "phase2_rules": 0
       },
       {
@@ -439,7 +509,7 @@
     "missing_capabilities": [
       {
         "topic_id": "bazi-foundation",
-        "reason": "缺八字 Phase1 注册、原典逐项绑定、出生时间/四柱执行契约及 Golden；旧实现表的权重不作通用古典结论。"
+        "reason": "四柱/日主/十神/藏干已接入既有模型和执行Golden；仍缺十二长生、月令解释及基础结构到个人结论的条件规则；真太阳时尚未实现。旧表权重不作通用古典结论。"
       },
       {
         "topic_id": "bazi-strength",
@@ -477,27 +547,35 @@
     "ai_enabled": false,
     "scenario_status": {
       "registered": true,
-      "runtime_implemented": false,
-      "public_enabled": false,
-      "ai_enabled": false,
-      "scenario_rules": []
+      "runtime_implemented": true,
+      "structural_public_release": false,
+      "status": "production_limited",
+      "scope": "列出目标公历月每日干支、十神结构与咸池日级命中，并做结构频次汇总；不输出月运吉凶。",
+      "depends_on": [
+        "bazi.phase2.ten_gods",
+        "bazi.phase2.xianchi_lookup",
+        "calendar/lunar-python==1.4.8"
+      ],
+      "ai_enabled": false
     },
     "blockers": [
       "所需解释模块尚无产品级审核授权",
       "AI未完成真实质量校准及人工语义复核",
-      "Scenario尚未实现并验证完整聚合/检索/门控链路"
+      "已实现结构Scenario不等于运势/占断；完整解释与发布绑定尚未完成"
     ],
     "recommended_sources": [
+      "bazi.source.xieji-relations",
+      "bazi.source.yuanhai",
       "data/canonical/classics/bazi/ditiansui_chanwei_v1.json",
       "data/canonical/classics/bazi/qiongtong_baojian_v1.json",
       "data/canonical/classics/bazi/yuanhai_ziping_v1.json"
     ],
-    "degraded_message": "当前版本尚未开放，相关知识、规则与证据仍在校核中。"
+    "degraded_message": "当前已实现的结构能力可供专业参考；该项深入解释仍在知识审核中。"
   },
   "annual-fortune": {
     "name": "今年运势",
     "status": "partial",
-    "scenario_id": "annual_fortune",
+    "scenario_id": "yearly",
     "required_topics": [
       "bazi-foundation",
       "bazi-strength",
@@ -505,15 +583,27 @@
       "bazi-dayun",
       "bazi-annual"
     ],
-    "supported_capabilities": [],
+    "supported_capabilities": [
+      {
+        "kind": "deterministic_structure",
+        "engine_id": "bazi",
+        "variant": "ziping-structural-v1",
+        "rule_ids": [
+          "bazi.phase2.hidden_stems",
+          "bazi.phase2.pillars",
+          "bazi.phase2.ten_gods"
+        ],
+        "availability": "existing_engine_and_structural_scenario_only"
+      }
+    ],
     "existing_knowledge": [
       {
         "topic_id": "bazi-foundation",
         "legacy_files": 1,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
-        "phase2_rules": 0
+        "terms": 3,
+        "phase1_rules": 5,
+        "phase2_rules": 3
       },
       {
         "topic_id": "bazi-strength",
@@ -543,15 +633,15 @@
         "topic_id": "bazi-annual",
         "legacy_files": 1,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
+        "terms": 1,
+        "phase1_rules": 1,
         "phase2_rules": 0
       }
     ],
     "missing_capabilities": [
       {
         "topic_id": "bazi-foundation",
-        "reason": "缺八字 Phase1 注册、原典逐项绑定、出生时间/四柱执行契约及 Golden；旧实现表的权重不作通用古典结论。"
+        "reason": "四柱/日主/十神/藏干已接入既有模型和执行Golden；仍缺十二长生、月令解释及基础结构到个人结论的条件规则；真太阳时尚未实现。旧表权重不作通用古典结论。"
       },
       {
         "topic_id": "bazi-strength",
@@ -581,22 +671,29 @@
     "ai_enabled": false,
     "scenario_status": {
       "registered": true,
-      "runtime_implemented": false,
-      "public_enabled": false,
-      "ai_enabled": false,
-      "scenario_rules": []
+      "runtime_implemented": true,
+      "structural_public_release": false,
+      "status": "production_limited",
+      "scope": "原局四柱 + 目标干支年 + 流年天干相对日主的十神结构；不输出年度吉凶。",
+      "depends_on": [
+        "bazi/ziping-structural-v1",
+        "calendar/lunar-python==1.4.8"
+      ],
+      "ai_enabled": false
     },
     "blockers": [
       "所需解释模块尚无产品级审核授权",
       "AI未完成真实质量校准及人工语义复核",
-      "Scenario尚未实现并验证完整聚合/检索/门控链路"
+      "已实现结构Scenario不等于运势/占断；完整解释与发布绑定尚未完成"
     ],
     "recommended_sources": [
+      "bazi.source.xieji-relations",
+      "bazi.source.yuanhai",
       "data/canonical/classics/bazi/ditiansui_chanwei_v1.json",
       "data/canonical/classics/bazi/qiongtong_baojian_v1.json",
       "data/canonical/classics/bazi/yuanhai_ziping_v1.json"
     ],
-    "degraded_message": "当前版本尚未开放，相关知识、规则与证据仍在校核中。"
+    "degraded_message": "当前已实现的结构能力可供专业参考；该项深入解释仍在知识审核中。"
   },
   "romance": {
     "name": "桃花姻缘",
@@ -609,15 +706,35 @@
       "bazi-annual",
       "bazi-romance"
     ],
-    "supported_capabilities": [],
+    "supported_capabilities": [
+      {
+        "kind": "deterministic_structure",
+        "engine_id": "bazi",
+        "variant": "ziping-structural-v1",
+        "rule_ids": [
+          "bazi.phase2.branch_six_clashes",
+          "bazi.phase2.branch_six_harmonies",
+          "bazi.phase2.branch_six_harms",
+          "bazi.phase2.branch_triple_harmonies",
+          "bazi.phase2.hidden_stems",
+          "bazi.phase2.pillars",
+          "bazi.phase2.spouse_palace_day_branch",
+          "bazi.phase2.spouse_star_lens",
+          "bazi.phase2.stem_five_combinations",
+          "bazi.phase2.ten_gods",
+          "bazi.phase2.xianchi_lookup"
+        ],
+        "availability": "existing_engine_and_structural_scenario_only"
+      }
+    ],
     "existing_knowledge": [
       {
         "topic_id": "bazi-foundation",
         "legacy_files": 1,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
-        "phase2_rules": 0
+        "terms": 3,
+        "phase1_rules": 5,
+        "phase2_rules": 3
       },
       {
         "topic_id": "bazi-strength",
@@ -639,23 +756,23 @@
         "topic_id": "bazi-annual",
         "legacy_files": 1,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
+        "terms": 1,
+        "phase1_rules": 1,
         "phase2_rules": 0
       },
       {
         "topic_id": "bazi-romance",
         "legacy_files": 1,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
-        "phase2_rules": 0
+        "terms": 8,
+        "phase1_rules": 8,
+        "phase2_rules": 8
       }
     ],
     "missing_capabilities": [
       {
         "topic_id": "bazi-foundation",
-        "reason": "缺八字 Phase1 注册、原典逐项绑定、出生时间/四柱执行契约及 Golden；旧实现表的权重不作通用古典结论。"
+        "reason": "四柱/日主/十神/藏干已接入既有模型和执行Golden；仍缺十二长生、月令解释及基础结构到个人结论的条件规则；真太阳时尚未实现。旧表权重不作通用古典结论。"
       },
       {
         "topic_id": "bazi-strength",
@@ -671,7 +788,7 @@
       },
       {
         "topic_id": "bazi-romance",
-        "reason": "缺配偶宫/星的条件规则与岁运触发；保存传统性别 lens 与批判材料，现代中性表达另审，不以咸池或官星断人品/婚姻。"
+        "reason": "咸池、日支传统配偶宫结构位、显式财星/官杀lens及五合/六合/六害/六冲/三合结构已核；缺红鸾天喜天姚、旺衰格局喜用与岁运婚恋解释；三刑争议仍阻塞；禁止命中结构直接断现代婚姻。"
       }
     ],
     "production_claims": [],
@@ -686,27 +803,36 @@
     "ai_enabled": false,
     "scenario_status": {
       "registered": true,
-      "runtime_implemented": false,
-      "public_enabled": false,
-      "ai_enabled": false,
-      "scenario_rules": []
+      "runtime_implemented": true,
+      "structural_public_release": false,
+      "status": "production_limited",
+      "scope": "分别按年支、日支返回咸池目标支、原局命中与目标年份地支激活；不输出婚恋吉凶。",
+      "depends_on": [
+        "bazi/ziping-structural-v1",
+        "bazi.phase2.xianchi_lookup"
+      ],
+      "ai_enabled": false
     },
     "blockers": [
       "所需解释模块尚无产品级审核授权",
       "AI未完成真实质量校准及人工语义复核",
-      "Scenario尚未实现并验证完整聚合/检索/门控链路"
+      "已实现结构Scenario不等于运势/占断；完整解释与发布绑定尚未完成"
     ],
     "recommended_sources": [
+      "bazi.source.ditiansui-spouse",
+      "bazi.source.sanming-xianchi-niutrans",
+      "bazi.source.xieji-relations",
+      "bazi.source.yuanhai",
       "data/canonical/classics/bazi/ditiansui_chanwei_v1.json",
       "data/canonical/classics/bazi/qiongtong_baojian_v1.json",
       "data/canonical/classics/bazi/yuanhai_ziping_v1.json"
     ],
-    "degraded_message": "当前版本尚未开放，相关知识、规则与证据仍在校核中。"
+    "degraded_message": "当前已实现的结构能力可供专业参考；该项深入解释仍在知识审核中。"
   },
   "career-wealth": {
     "name": "事业财运",
     "status": "partial",
-    "scenario_id": "career_wealth",
+    "scenario_id": "career",
     "required_topics": [
       "bazi-foundation",
       "bazi-ten-gods",
@@ -717,23 +843,35 @@
       "bazi-annual",
       "bazi-career-wealth"
     ],
-    "supported_capabilities": [],
+    "supported_capabilities": [
+      {
+        "kind": "deterministic_structure",
+        "engine_id": "bazi",
+        "variant": "ziping-structural-v1",
+        "rule_ids": [
+          "bazi.phase2.hidden_stems",
+          "bazi.phase2.pillars",
+          "bazi.phase2.ten_gods"
+        ],
+        "availability": "existing_engine_and_structural_scenario_only"
+      }
+    ],
     "existing_knowledge": [
       {
         "topic_id": "bazi-foundation",
         "legacy_files": 1,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
-        "phase2_rules": 0
+        "terms": 3,
+        "phase1_rules": 5,
+        "phase2_rules": 3
       },
       {
         "topic_id": "bazi-ten-gods",
         "legacy_files": 1,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
-        "phase2_rules": 0
+        "terms": 1,
+        "phase1_rules": 4,
+        "phase2_rules": 2
       },
       {
         "topic_id": "bazi-strength",
@@ -771,8 +909,8 @@
         "topic_id": "bazi-annual",
         "legacy_files": 1,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
+        "terms": 1,
+        "phase1_rules": 1,
         "phase2_rules": 0
       },
       {
@@ -781,13 +919,13 @@
         "text_candidate_files": 3,
         "terms": 0,
         "phase1_rules": 0,
-        "phase2_rules": 0
+        "phase2_rules": 2
       }
     ],
     "missing_capabilities": [
       {
         "topic_id": "bazi-foundation",
-        "reason": "缺八字 Phase1 注册、原典逐项绑定、出生时间/四柱执行契约及 Golden；旧实现表的权重不作通用古典结论。"
+        "reason": "四柱/日主/十神/藏干已接入既有模型和执行Golden；仍缺十二长生、月令解释及基础结构到个人结论的条件规则；真太阳时尚未实现。旧表权重不作通用古典结论。"
       },
       {
         "topic_id": "bazi-ten-gods",
@@ -830,22 +968,30 @@
     "ai_enabled": false,
     "scenario_status": {
       "registered": true,
-      "runtime_implemented": false,
-      "public_enabled": false,
-      "ai_enabled": false,
-      "scenario_rules": []
+      "runtime_implemented": true,
+      "structural_public_release": false,
+      "status": "production_limited",
+      "scope": "聚合原局财星、官杀、食伤、印星、比劫的位置事实，并显示目标年天干十神；不输出事业财运吉凶或评分。",
+      "depends_on": [
+        "bazi.phase2.ten_gods",
+        "bazi.phase2.hidden_stems",
+        "calendar/lunar-python==1.4.8"
+      ],
+      "ai_enabled": false
     },
     "blockers": [
       "所需解释模块尚无产品级审核授权",
       "AI未完成真实质量校准及人工语义复核",
-      "Scenario尚未实现并验证完整聚合/检索/门控链路"
+      "已实现结构Scenario不等于运势/占断；完整解释与发布绑定尚未完成"
     ],
     "recommended_sources": [
+      "bazi.source.xieji-relations",
+      "bazi.source.yuanhai",
       "data/canonical/classics/bazi/ditiansui_chanwei_v1.json",
       "data/canonical/classics/bazi/qiongtong_baojian_v1.json",
       "data/canonical/classics/bazi/yuanhai_ziping_v1.json"
     ],
-    "degraded_message": "当前版本尚未开放，相关知识、规则与证据仍在校核中。"
+    "degraded_message": "当前已实现的结构能力可供专业参考；该项深入解释仍在知识审核中。"
   },
   "compatibility": {
     "name": "缘分合盘",
@@ -858,15 +1004,35 @@
       "bazi-annual",
       "bazi-pair"
     ],
-    "supported_capabilities": [],
+    "supported_capabilities": [
+      {
+        "kind": "deterministic_structure",
+        "engine_id": "bazi",
+        "variant": "ziping-structural-v1",
+        "rule_ids": [
+          "bazi.phase2.branch_six_clashes",
+          "bazi.phase2.branch_six_harmonies",
+          "bazi.phase2.branch_six_harms",
+          "bazi.phase2.branch_triple_harmonies",
+          "bazi.phase2.hidden_stems",
+          "bazi.phase2.pillars",
+          "bazi.phase2.spouse_palace_day_branch",
+          "bazi.phase2.spouse_star_lens",
+          "bazi.phase2.stem_five_combinations",
+          "bazi.phase2.ten_gods",
+          "bazi.phase2.xianchi_lookup"
+        ],
+        "availability": "existing_engine_and_structural_scenario_only"
+      }
+    ],
     "existing_knowledge": [
       {
         "topic_id": "bazi-foundation",
         "legacy_files": 1,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
-        "phase2_rules": 0
+        "terms": 3,
+        "phase1_rules": 5,
+        "phase2_rules": 3
       },
       {
         "topic_id": "bazi-strength",
@@ -880,31 +1046,31 @@
         "topic_id": "bazi-romance",
         "legacy_files": 1,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
-        "phase2_rules": 0
+        "terms": 8,
+        "phase1_rules": 8,
+        "phase2_rules": 8
       },
       {
         "topic_id": "bazi-annual",
         "legacy_files": 1,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
+        "terms": 1,
+        "phase1_rules": 1,
         "phase2_rules": 0
       },
       {
         "topic_id": "bazi-pair",
         "legacy_files": 1,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
-        "phase2_rules": 0
+        "terms": 10,
+        "phase1_rules": 12,
+        "phase2_rules": 9
       }
     ],
     "missing_capabilities": [
       {
         "topic_id": "bazi-foundation",
-        "reason": "缺八字 Phase1 注册、原典逐项绑定、出生时间/四柱执行契约及 Golden；旧实现表的权重不作通用古典结论。"
+        "reason": "四柱/日主/十神/藏干已接入既有模型和执行Golden；仍缺十二长生、月令解释及基础结构到个人结论的条件规则；真太阳时尚未实现。旧表权重不作通用古典结论。"
       },
       {
         "topic_id": "bazi-strength",
@@ -912,7 +1078,7 @@
       },
       {
         "topic_id": "bazi-romance",
-        "reason": "缺配偶宫/星的条件规则与岁运触发；保存传统性别 lens 与批判材料，现代中性表达另审，不以咸池或官星断人品/婚姻。"
+        "reason": "咸池、日支传统配偶宫结构位、显式财星/官杀lens及五合/六合/六害/六冲/三合结构已核；缺红鸾天喜天姚、旺衰格局喜用与岁运婚恋解释；三刑争议仍阻塞；禁止命中结构直接断现代婚姻。"
       },
       {
         "topic_id": "bazi-annual",
@@ -920,7 +1086,7 @@
       },
       {
         "topic_id": "bazi-pair",
-        "reason": "旧合盘60分为实现约定；缺双人镜像/方向与对称关系/共同岁运规则及双人 Golden；六合不推适婚，六冲不推分手。"
+        "reason": "已有真实双人Scenario、十神镜像、咸池交叉、干支关系矩阵与传统配偶星候选位置；缺双方旺衰/喜忌与共同岁运解释、用户关系结论Golden及发布授权；旧60分不可复用。"
       }
     ],
     "production_claims": [],
@@ -935,27 +1101,43 @@
     "ai_enabled": false,
     "scenario_status": {
       "registered": true,
-      "runtime_implemented": false,
-      "public_enabled": false,
-      "ai_enabled": false,
-      "scenario_rules": []
+      "runtime_implemented": true,
+      "structural_public_release": false,
+      "status": "production_limited",
+      "scope": "双人四柱并列、双方日主互看十神、咸池交叉匹配、五合、日支六合/六害/六冲、双方原局三合、跨柱关系矩阵、日支传统配偶宫结构位；用户显式选择传统口径时可附加财星/官杀候选位置。",
+      "depends_on": [
+        "bazi.phase2.ten_gods",
+        "bazi.phase2.xianchi_lookup",
+        "bazi.phase2.stem_five_combinations",
+        "bazi.phase2.branch_six_harmonies",
+        "bazi.phase2.branch_six_harms",
+        "bazi.phase2.branch_six_clashes",
+        "bazi.phase2.branch_triple_harmonies",
+        "bazi.phase2.spouse_palace_day_branch",
+        "bazi.phase2.spouse_star_lens"
+      ],
+      "ai_enabled": false
     },
     "blockers": [
       "所需解释模块尚无产品级审核授权",
       "AI未完成真实质量校准及人工语义复核",
-      "Scenario尚未实现并验证完整聚合/检索/门控链路"
+      "已实现结构Scenario不等于运势/占断；完整解释与发布绑定尚未完成"
     ],
     "recommended_sources": [
+      "bazi.source.ditiansui-spouse",
+      "bazi.source.sanming-xianchi-niutrans",
+      "bazi.source.xieji-relations",
+      "bazi.source.yuanhai",
       "data/canonical/classics/bazi/ditiansui_chanwei_v1.json",
       "data/canonical/classics/bazi/qiongtong_baojian_v1.json",
       "data/canonical/classics/bazi/yuanhai_ziping_v1.json"
     ],
-    "degraded_message": "当前版本尚未开放，相关知识、规则与证据仍在校核中。"
+    "degraded_message": "当前已实现的结构能力可供专业参考；该项深入解释仍在知识审核中。"
   },
   "life-overview": {
     "name": "人生总览",
     "status": "partial",
-    "scenario_id": "life_overview",
+    "scenario_id": "life",
     "required_topics": [
       "bazi-foundation",
       "bazi-strength",
@@ -967,15 +1149,35 @@
       "bazi-career-wealth",
       "life-aggregation"
     ],
-    "supported_capabilities": [],
+    "supported_capabilities": [
+      {
+        "kind": "deterministic_structure",
+        "engine_id": "bazi",
+        "variant": "ziping-structural-v1",
+        "rule_ids": [
+          "bazi.phase2.branch_six_clashes",
+          "bazi.phase2.branch_six_harmonies",
+          "bazi.phase2.branch_six_harms",
+          "bazi.phase2.branch_triple_harmonies",
+          "bazi.phase2.hidden_stems",
+          "bazi.phase2.pillars",
+          "bazi.phase2.spouse_palace_day_branch",
+          "bazi.phase2.spouse_star_lens",
+          "bazi.phase2.stem_five_combinations",
+          "bazi.phase2.ten_gods",
+          "bazi.phase2.xianchi_lookup"
+        ],
+        "availability": "existing_engine_and_structural_scenario_only"
+      }
+    ],
     "existing_knowledge": [
       {
         "topic_id": "bazi-foundation",
         "legacy_files": 1,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
-        "phase2_rules": 0
+        "terms": 3,
+        "phase1_rules": 5,
+        "phase2_rules": 3
       },
       {
         "topic_id": "bazi-strength",
@@ -1013,17 +1215,17 @@
         "topic_id": "bazi-annual",
         "legacy_files": 1,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
+        "terms": 1,
+        "phase1_rules": 1,
         "phase2_rules": 0
       },
       {
         "topic_id": "bazi-romance",
         "legacy_files": 1,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
-        "phase2_rules": 0
+        "terms": 8,
+        "phase1_rules": 8,
+        "phase2_rules": 8
       },
       {
         "topic_id": "bazi-career-wealth",
@@ -1031,7 +1233,7 @@
         "text_candidate_files": 3,
         "terms": 0,
         "phase1_rules": 0,
-        "phase2_rules": 0
+        "phase2_rules": 2
       },
       {
         "topic_id": "life-aggregation",
@@ -1045,7 +1247,7 @@
     "missing_capabilities": [
       {
         "topic_id": "bazi-foundation",
-        "reason": "缺八字 Phase1 注册、原典逐项绑定、出生时间/四柱执行契约及 Golden；旧实现表的权重不作通用古典结论。"
+        "reason": "四柱/日主/十神/藏干已接入既有模型和执行Golden；仍缺十二长生、月令解释及基础结构到个人结论的条件规则；真太阳时尚未实现。旧表权重不作通用古典结论。"
       },
       {
         "topic_id": "bazi-strength",
@@ -1069,7 +1271,7 @@
       },
       {
         "topic_id": "bazi-romance",
-        "reason": "缺配偶宫/星的条件规则与岁运触发；保存传统性别 lens 与批判材料，现代中性表达另审，不以咸池或官星断人品/婚姻。"
+        "reason": "咸池、日支传统配偶宫结构位、显式财星/官杀lens及五合/六合/六害/六冲/三合结构已核；缺红鸾天喜天姚、旺衰格局喜用与岁运婚恋解释；三刑争议仍阻塞；禁止命中结构直接断现代婚姻。"
       },
       {
         "topic_id": "bazi-career-wealth",
@@ -1091,22 +1293,33 @@
     "ai_enabled": false,
     "scenario_status": {
       "registered": true,
-      "runtime_implemented": false,
-      "public_enabled": false,
-      "ai_enabled": false,
-      "scenario_rules": []
+      "runtime_implemented": true,
+      "structural_public_release": false,
+      "status": "production_limited",
+      "scope": "聚合八字基础、年度结构、桃花结构、事业财运结构为一份可读总览；不新增任何吉凶判断。",
+      "depends_on": [
+        "bazi-profile",
+        "yearly",
+        "romance",
+        "career"
+      ],
+      "ai_enabled": false
     },
     "blockers": [
       "所需解释模块尚无产品级审核授权",
       "AI未完成真实质量校准及人工语义复核",
-      "Scenario尚未实现并验证完整聚合/检索/门控链路"
+      "已实现结构Scenario不等于运势/占断；完整解释与发布绑定尚未完成"
     ],
     "recommended_sources": [
+      "bazi.source.ditiansui-spouse",
+      "bazi.source.sanming-xianchi-niutrans",
+      "bazi.source.xieji-relations",
+      "bazi.source.yuanhai",
       "data/canonical/classics/bazi/ditiansui_chanwei_v1.json",
       "data/canonical/classics/bazi/qiongtong_baojian_v1.json",
       "data/canonical/classics/bazi/yuanhai_ziping_v1.json"
     ],
-    "degraded_message": "当前版本尚未开放，相关知识、规则与证据仍在校核中。"
+    "degraded_message": "当前已实现的结构能力可供专业参考；该项深入解释仍在知识审核中。"
   },
   "dream": {
     "name": "AI解梦",
@@ -1158,14 +1371,19 @@
     "scenario_status": {
       "registered": true,
       "runtime_implemented": false,
-      "public_enabled": false,
-      "ai_enabled": false,
-      "scenario_rules": []
+      "structural_public_release": false,
+      "status": "research",
+      "scope": "待梦境语料与真实模型校准。",
+      "depends_on": [
+        "dream-rag",
+        "ai"
+      ],
+      "ai_enabled": false
     },
     "blockers": [
       "所需解释模块尚无产品级审核授权",
       "AI未完成真实质量校准及人工语义复核",
-      "Scenario尚未实现并验证完整聚合/检索/门控链路"
+      "已实现结构Scenario不等于运势/占断；完整解释与发布绑定尚未完成"
     ],
     "recommended_sources": [],
     "degraded_message": "当前版本尚未开放，相关知识、规则与证据仍在校核中。"
@@ -1173,7 +1391,7 @@
   "one-question": {
     "name": "一事占问",
     "status": "partial",
-    "scenario_id": "one_question",
+    "scenario_id": "question",
     "required_topics": [
       "liuyao-inquiry",
       "qimen-professional"
@@ -1192,7 +1410,7 @@
           "liuyao.phase2.relatives",
           "liuyao.phase2.spirits"
         ],
-        "availability": "engine_only_not_public_product_report"
+        "availability": "existing_engine_and_structural_scenario_only"
       },
       {
         "kind": "deterministic_structure",
@@ -1205,7 +1423,7 @@
           "qimen.phase2.earth",
           "qimen.phase2.plates"
         ],
-        "availability": "engine_only_not_public_product_report"
+        "availability": "existing_engine_and_structural_scenario_only"
       }
     ],
     "existing_knowledge": [
@@ -1247,15 +1465,19 @@
     "ai_enabled": false,
     "scenario_status": {
       "registered": true,
-      "runtime_implemented": false,
-      "public_enabled": false,
-      "ai_enabled": false,
-      "scenario_rules": []
+      "runtime_implemented": true,
+      "structural_public_release": true,
+      "status": "production",
+      "scope": "六爻确定性盘面、规则、典籍依据与 Trace。",
+      "depends_on": [
+        "liuyao/jingfang-eight-palaces-v1"
+      ],
+      "ai_enabled": false
     },
     "blockers": [
       "所需解释模块尚无产品级审核授权",
       "AI未完成真实质量校准及人工语义复核",
-      "Scenario尚未实现并验证完整聚合/检索/门控链路"
+      "已实现结构Scenario不等于运势/占断；完整解释与发布绑定尚未完成"
     ],
     "recommended_sources": [
       "liuyao.source.bushi",
@@ -1285,7 +1507,7 @@
           "ziwei.phase2.mutagens",
           "ziwei.phase2.palaces"
         ],
-        "availability": "engine_only_not_public_product_report"
+        "availability": "existing_engine_and_structural_scenario_only"
       }
     ],
     "existing_knowledge": [
@@ -1316,14 +1538,16 @@
     "scenario_status": {
       "registered": false,
       "runtime_implemented": false,
-      "public_enabled": false,
-      "ai_enabled": false,
-      "scenario_rules": []
+      "structural_public_release": false,
+      "status": null,
+      "scope": null,
+      "depends_on": [],
+      "ai_enabled": false
     },
     "blockers": [
       "所需解释模块尚无产品级审核授权",
       "AI未完成真实质量校准及人工语义复核",
-      "Scenario尚未实现并验证完整聚合/检索/门控链路"
+      "已实现结构Scenario不等于运势/占断；完整解释与发布绑定尚未完成"
     ],
     "recommended_sources": [
       "ziwei.source.quanshu"
@@ -1349,7 +1573,7 @@
           "qimen.phase2.earth",
           "qimen.phase2.plates"
         ],
-        "availability": "engine_only_not_public_product_report"
+        "availability": "existing_engine_and_structural_scenario_only"
       }
     ],
     "existing_knowledge": [
@@ -1380,14 +1604,16 @@
     "scenario_status": {
       "registered": false,
       "runtime_implemented": false,
-      "public_enabled": false,
-      "ai_enabled": false,
-      "scenario_rules": []
+      "structural_public_release": false,
+      "status": null,
+      "scope": null,
+      "depends_on": [],
+      "ai_enabled": false
     },
     "blockers": [
       "所需解释模块尚无产品级审核授权",
       "AI未完成真实质量校准及人工语义复核",
-      "Scenario尚未实现并验证完整聚合/检索/门控链路"
+      "已实现结构Scenario不等于运势/占断；完整解释与发布绑定尚未完成"
     ],
     "recommended_sources": [
       "qimen.source.baojian",
@@ -1421,7 +1647,7 @@
           "liuren.phase2.yaoke",
           "liuren.phase2.zeike"
         ],
-        "availability": "engine_only_not_public_product_report"
+        "availability": "existing_engine_and_structural_scenario_only"
       }
     ],
     "existing_knowledge": [
@@ -1452,14 +1678,16 @@
     "scenario_status": {
       "registered": false,
       "runtime_implemented": false,
-      "public_enabled": false,
-      "ai_enabled": false,
-      "scenario_rules": []
+      "structural_public_release": false,
+      "status": null,
+      "scope": null,
+      "depends_on": [],
+      "ai_enabled": false
     },
     "blockers": [
       "所需解释模块尚无产品级审核授权",
       "AI未完成真实质量校准及人工语义复核",
-      "Scenario尚未实现并验证完整聚合/检索/门控链路"
+      "已实现结构Scenario不等于运势/占断；完整解释与发布绑定尚未完成"
     ],
     "recommended_sources": [
       "liuren.source.daquan",
@@ -1482,7 +1710,7 @@
         "rule_ids": [
           "fengshui.phase2.compass"
         ],
-        "availability": "engine_only_not_public_product_report"
+        "availability": "existing_engine_and_structural_scenario_only"
       }
     ],
     "existing_knowledge": [
@@ -1513,14 +1741,16 @@
     "scenario_status": {
       "registered": false,
       "runtime_implemented": false,
-      "public_enabled": false,
-      "ai_enabled": false,
-      "scenario_rules": []
+      "structural_public_release": false,
+      "status": null,
+      "scope": null,
+      "depends_on": [],
+      "ai_enabled": false
     },
     "blockers": [
       "所需解释模块尚无产品级审核授权",
       "AI未完成真实质量校准及人工语义复核",
-      "Scenario尚未实现并验证完整聚合/检索/门控链路"
+      "已实现结构Scenario不等于运势/占断；完整解释与发布绑定尚未完成"
     ],
     "recommended_sources": [
       "fengshui.source.dibian",
@@ -1547,7 +1777,7 @@
           "yijing.phase2.opposite",
           "yijing.phase2.structure"
         ],
-        "availability": "engine_only_not_public_product_report"
+        "availability": "existing_engine_and_structural_scenario_only"
       }
     ],
     "existing_knowledge": [
@@ -1578,14 +1808,16 @@
     "scenario_status": {
       "registered": false,
       "runtime_implemented": false,
-      "public_enabled": false,
-      "ai_enabled": false,
-      "scenario_rules": []
+      "structural_public_release": false,
+      "status": null,
+      "scope": null,
+      "depends_on": [],
+      "ai_enabled": false
     },
     "blockers": [
       "所需解释模块尚无产品级审核授权",
       "AI未完成真实质量校准及人工语义复核",
-      "Scenario尚未实现并验证完整聚合/检索/门控链路"
+      "已实现结构Scenario不等于运势/占断；完整解释与发布绑定尚未完成"
     ],
     "recommended_sources": [
       "yijing.source.meihua",
@@ -1639,6 +1871,36 @@
         "domain": "bazi",
         "model": null,
         "schema_version": "0.1"
+      },
+      {
+        "path": "data/canonical/bazi/phase1_knowledge.json",
+        "sha256": "917e0bbe057f0b97e70e258dc4e52686c5df6633b298a19eabd7bb3502080662",
+        "bytes": 64361,
+        "stage": "canonical",
+        "json_type": "dict",
+        "domain": "bazi",
+        "model": "phase1-knowledge",
+        "schema_version": "1.0"
+      },
+      {
+        "path": "data/canonical/bazi/phase2_execution.json",
+        "sha256": "5a3f0355968b3c55370507ad459dafe0e40008e988ef35a167b678a274087a0e",
+        "bytes": 8198,
+        "stage": "canonical",
+        "json_type": "dict",
+        "domain": "bazi",
+        "model": "phase2-execution",
+        "schema_version": "1.0"
+      },
+      {
+        "path": "data/canonical/bazi/phase2_golden.json",
+        "sha256": "3d7e1549474244d50498ab5a34a3b189ac637b2cd6feceee969fd85ae5c957c7",
+        "bytes": 9055,
+        "stage": "canonical",
+        "json_type": "dict",
+        "domain": "bazi",
+        "model": "phase2-golden",
+        "schema_version": "1.0"
       },
       {
         "path": "data/canonical/bazi/shensha_v1.json",
@@ -2645,6 +2907,12 @@
         "stage": "quarantine"
       },
       {
+        "path": "data/quarantine/public_domain_snapshots/niutrans/sanming_tonghui_juan2_xianchi.txt",
+        "sha256": "839fd40f82fccc2ca527039bb61e2db426d0fd65a2476c0ee425954600b7d7ec",
+        "bytes": 775,
+        "stage": "quarantine"
+      },
+      {
         "path": "data/quarantine/refresh_candidates/liuyao-engine/53291663a4c733c4cbdfa174a8d3075475c07fd3/6e0db5733703c2d8-增删卜易.txt",
         "sha256": "74d854545b6424730244815d419b26246fb61f104015c4561278ed03de05c9c9",
         "bytes": 390333,
@@ -3127,31 +3395,27 @@
       },
       {
         "path": "config/domain_registry.json",
-        "sha256": "d603e09ea586934d1dbddc6d1d65765e1467a9282cbdc6a1e24c93a0febd556e"
+        "sha256": "3f706d79c59f989f29804af561186c3dbbfaee94114966d3a667943dde6b22cb"
       },
       {
         "path": "config/knowledge_sources.json",
-        "sha256": "4d381bdceb517379822e51734f2a6e43b46c9413e113b1f8719981317f338fed"
+        "sha256": "c124d0add759756c6a6056995fba7452042eeb06eeb1dc33b0b9eba894c0ead4"
       },
       {
         "path": "config/phase2_rule_promotions.json",
-        "sha256": "fdfe9be78ee9a42e8bcb4ac774af1dfdcf0d30bf27fd04243d1240447dfca548"
+        "sha256": "4933936843b6de46ddbb152396cc07e079049102c064489f6c8995288fd0a987"
       },
       {
         "path": "config/phase2_source_audit.json",
-        "sha256": "accd9edb688e4e154fdcf1d34149e2995da96cee9ea35909597802be58743e2f"
+        "sha256": "b0339740b07a637b6058af231d3e9845e6bd83c5a684fbc376c48e700cb4ad6d"
       },
       {
         "path": "config/product_requirements.json",
-        "sha256": "22211c01630626fa1b2b0404425042ea382ecaf09b9c92d02617a7c2e62fedf1"
+        "sha256": "de41cfc799d2cd49aea130d9cd77125788bb69a101ef164d783a6df29229f1a1"
       },
       {
         "path": "config/public_domain_manifest.json",
         "sha256": "5c06536c27218895b3038e8d8b31a1a13f8446267254799cb759cd646767296a"
-      },
-      {
-        "path": "config/scenarios/registry.json",
-        "sha256": "34a4d59e1db0d50699f1cfb1df67de1f61d396eeecc812ad03c32c68969b7dac"
       },
       {
         "path": "config/source_file_manifest.json",
@@ -3163,23 +3427,23 @@
       },
       {
         "path": "schemas/knowledge/bundle.schema.json",
-        "sha256": "0bd1fe9e3f54c19f280058bdbb1aab267b238544db325ac8baacce6621d0139e"
+        "sha256": "ccc3bc7a6db96fdd379d83b3f57863cb2ed307f5ea43e7a5b6c0db1b1438b2ea"
       },
       {
         "path": "schemas/knowledge/domains.schema.json",
-        "sha256": "1260b17100cdee08d96d221c22ccb5b3003f8d34b881bc1c6e6d27f5bea0117e"
+        "sha256": "f0ec9d95ee568aa2f2d2b1a756e06fb59bc0b04cf6182f3288b1dc4d2a95b0cb"
       },
       {
         "path": "schemas/knowledge/execution.schema.json",
-        "sha256": "bb5fe06e34ba6ee5901b2411776a93aff06fcd2ea6e38afeb1f7e8e706e8db84"
+        "sha256": "2be1389d190c8110c6ae5c9a878054f4fd1a5219fe072e5dca660e0db3399d67"
       },
       {
         "path": "schemas/knowledge/phase2-evidence.schema.json",
-        "sha256": "422e93da97c517e17a09696bc876aa9ff4728f9d904ca8b73f5ed310ed0fa709"
+        "sha256": "c0a25714bc394300cdbba37e5a6444cb2f462b37f44da9bad26146ab0af233ca"
       },
       {
         "path": "schemas/knowledge/phase2-golden.schema.json",
-        "sha256": "fa495c3ffb7898f9989a2a1138b81d770d30414b80293551692c8ef023609732"
+        "sha256": "bcde5224a44038806fea7139bfd42ff7018c22e33dde6825ea37d2b88288158e"
       },
       {
         "path": "schemas/knowledge/sources.schema.json",
@@ -3199,7 +3463,11 @@
       },
       {
         "path": "src/tianji_kb/api.py",
-        "sha256": "c074b58717bc96d5afa28452f8ef2fefa2b299ca561886ce99d7e22e1ceedd32"
+        "sha256": "619d87ee902ca779d7fa7ee430703b0b92a0122f269aa859f388fd661e328ce2"
+      },
+      {
+        "path": "src/tianji_kb/bazi_core.py",
+        "sha256": "30e96bf49fb65c37073c012fe6ce7f225903ee91f1c53a92114e890bfa6b8114"
       },
       {
         "path": "src/tianji_kb/calendar.py",
@@ -3207,11 +3475,11 @@
       },
       {
         "path": "src/tianji_kb/coverage.py",
-        "sha256": "d51fc3ed2bc1ba6fa9753797d56f95310953cd3e24465985821126404d31ff6d"
+        "sha256": "b7f89fa7a21021b9fc9927f7bd86a82f1bf85a0bf4bef0a983793d37ad5b9a19"
       },
       {
         "path": "src/tianji_kb/engine.py",
-        "sha256": "cdeb1a419600b2f2f08f30c60b7f3986a8d3096d474fb9c6d83705fbabd93b42"
+        "sha256": "0b6d4ebbc69e6927d3d0e8357c4dd5790641ac6d5e523e64811adeedb23d53ac"
       },
       {
         "path": "src/tianji_kb/evidence.py",
@@ -3227,7 +3495,7 @@
       },
       {
         "path": "src/tianji_kb/explanation_policy.py",
-        "sha256": "4a4e2183ba53c4ac6ad1cf52e3dbc1fbb616412db57d61162c90b1d8352d20bd"
+        "sha256": "ef3efb7a8487f1283b9c270ac93fa4cf4c8cf6025ebf166a01c172b73b9d373f"
       },
       {
         "path": "src/tianji_kb/explanation_review.py",
@@ -3244,6 +3512,10 @@
       {
         "path": "src/tianji_kb/golden.py",
         "sha256": "0fb742f541d84e6fd3617d332d0da41d095d53599dfb16ff8b1c5b7c0186730f"
+      },
+      {
+        "path": "src/tianji_kb/governance.py",
+        "sha256": "495d17dd77c9a201c3bf5d327dbefe0d671c7ec4d2a08cab474006f36f9e3f47"
       },
       {
         "path": "src/tianji_kb/knowledge.py",
@@ -3264,6 +3536,10 @@
       {
         "path": "src/tianji_kb/operations/__init__.py",
         "sha256": "5bc023d2bdd5b1833372c2bef684cbdc811658ac159aa45ec1999cd34a4ec228"
+      },
+      {
+        "path": "src/tianji_kb/operations/bazi_chart.py",
+        "sha256": "1ac0bb0d44e62624cf7595b48f8399e5e39cdbb87fa1b54c6607878833ca60d8"
       },
       {
         "path": "src/tianji_kb/operations/fengshui.py",
@@ -3319,11 +3595,11 @@
       },
       {
         "path": "src/tianji_kb/product_claims.py",
-        "sha256": "09430e54866935302a15ef8115445920f073ff6d9bb381fdeca7c021537eb0eb"
+        "sha256": "82ca476ba7460c65bf948fdf410783adc40b338984372692d29b3bcdd547417d"
       },
       {
         "path": "src/tianji_kb/product_coverage.py",
-        "sha256": "013f85265c3548f0f8e2fabd1691edc3a4f432530104f1d753b41f240e095207"
+        "sha256": "2ad00e810a384bc740ef94b9f0b8a0d934d93c10d2b067470009ab75c07772b7"
       },
       {
         "path": "src/tianji_kb/prompts.py",
@@ -3350,6 +3626,10 @@
         "sha256": "586c3f53316ef2cef5eca1f8b5ca20d3f58762ea95eaa1c68cf01fb879aa2f88"
       },
       {
+        "path": "src/tianji_kb/scenario_engine.py",
+        "sha256": "f7b1ef8167fe1e0a8b5abc0d7104daabce719d24db5f89735956882f253158e6"
+      },
+      {
         "path": "src/tianji_kb/search.py",
         "sha256": "8746b0dca16c493bf54b65dafc83f968b615cdb76acdb23470cc6c2e100f8dd5"
       },
@@ -3362,8 +3642,12 @@
         "sha256": "1a4327c50f32b8df0b3b9e8f559d14af2e3d8ce91119c1f8abd82c38c5dee7b0"
       },
       {
+        "path": "tests/test_phase1_bazi.py",
+        "sha256": "bb7b62ede472fc6e365462735bcef2e4875274c48da37dc2de5b597e1311ad71"
+      },
+      {
         "path": "tests/test_phase1_cross_domain.py",
-        "sha256": "c382e141c66fe40b52d04362a572f253d9dca7cded9bbf217ebc1b20376f4602"
+        "sha256": "8208fb178f83f41fd99fd34732c526a9c80b420f20eccbf431f3fbf1c3ba6738"
       },
       {
         "path": "tests/test_phase1_fengshui.py",
@@ -3388,6 +3672,10 @@
       {
         "path": "tests/test_phase1_ziwei.py",
         "sha256": "e8259309894ff2d62ea9bf5f35492b2113733140c47f00e2fda915c53b7d94f2"
+      },
+      {
+        "path": "tests/test_phase2_bazi.py",
+        "sha256": "faf2cdf12f4ee8c1902df4de875a48d2849bfd94e5f6243d59cfe854d4f91831"
       },
       {
         "path": "tests/test_phase2_fengshui.py",
@@ -3419,15 +3707,15 @@
       },
       {
         "path": "tests/test_phase3_api.py",
-        "sha256": "aead0f943583c17b35652249647665344157268bce255452c598d0ac26186fae"
+        "sha256": "dedd137e907f4a4480cf5aa7131bec2b94f3b44fcaf66287c9b7bc8ef02a2992"
       },
       {
         "path": "tests/test_phase3_explanation.py",
-        "sha256": "af99645d7669b9ef8b2069b0888fdfd0d0523171e4845a54ef318bcb2f284184"
+        "sha256": "d6dcc23eeeec2081da94e25cae1cba15beeb043dfa97f905656d74818cd396ad"
       },
       {
         "path": "tests/test_phase3_providers.py",
-        "sha256": "959b0f96c904f4d9e06de8d21fca1aa011e67ba17d11596549337a650f2ae697"
+        "sha256": "17cf903d3f5ed8bb022b623296d82d5daa4d4173c3cd8f840c015c0b5df78cb6"
       },
       {
         "path": "tests/test_phase3_runtime.py",
@@ -3443,20 +3731,24 @@
       },
       {
         "path": "tests/test_phase4_policy.py",
-        "sha256": "b846861f72f21dc4ac84ea67f50a7e914323973f2b98965a5f4724323d39da87"
+        "sha256": "5ada0c2e5859abb86260ba8e63bca4ee502a6cd5b5e30e6752727b79fcd6bafc"
       },
       {
         "path": "tests/test_phase4_review.py",
-        "sha256": "7d2e209af79ad87f2ef7b3eaf5b44275fd74aa08fc90fb8e0064bd691736e2a5"
+        "sha256": "7f9499f1ed12b8b29b1e14c05b56f6d1308aa55aced3168e480b52eb44178d69"
       }
     ],
     "inventory_counts": {
-      "canonical": 74,
-      "quarantine": 117
+      "canonical": 77,
+      "quarantine": 118
     },
     "legacy_source_registry_count": 37,
     "source_metadata_gaps": {
       "edition_not_explicit": [
+        "bazi.source.ditiansui-spouse",
+        "bazi.source.sanming-xianchi-niutrans",
+        "bazi.source.xieji-relations",
+        "bazi.source.yuanhai",
         "fengshui.source.benyi",
         "fengshui.source.dibian",
         "fengshui.source.fengshui-implementation",
@@ -4670,10 +4962,58 @@
         "public_domain": true,
         "rights_basis": "仅保存古籍原文；不取得电子本所在仓库现代编辑内容的版权许可。旧题作者不作历史确证。",
         "sha256": "5535280683da785213390383ce27b9751d9853e2aad3cbd793d5e2412cb10090"
+      },
+      {
+        "source_id": "bazi.source.yuanhai",
+        "kind": "classical",
+        "evidence_level": "C",
+        "repository": "garychowcmu/daizhigev20",
+        "path": "易藏/术数/渊海子平.txt",
+        "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+        "license": "Public-Domain (pre-modern text only)",
+        "public_domain": true,
+        "rights_basis": "仅保存并引用公有领域古籍原文；不取得电子仓库现代编辑内容的版权许可。",
+        "sha256": "c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9"
+      },
+      {
+        "source_id": "bazi.source.sanming-xianchi-niutrans",
+        "kind": "classical",
+        "evidence_level": "C",
+        "repository": "NiuTrans/Classical-Modern",
+        "path": "古文原文/三命通会/卷二/论咸池/text.txt",
+        "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+        "license": "MIT repository; pre-modern text excerpt only",
+        "public_domain": true,
+        "rights_basis": "《三命通会》为前现代古籍；仅保存固定古文原文短篇快照。NiuTrans 仓库声明 MIT，但 README 同时说明语料来自互联网，因此不据仓库许可证推断底本权利或版本权威。",
+        "sha256": "839fd40f82fccc2ca527039bb61e2db426d0fd65a2476c0ee425954600b7d7ec"
+      },
+      {
+        "source_id": "bazi.source.xieji-relations",
+        "kind": "classical",
+        "evidence_level": "C",
+        "repository": "garychowcmu/daizhigev20",
+        "path": "易藏/术数/钦定协纪辨方书.txt",
+        "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+        "license": "Public-Domain (pre-modern text only)",
+        "public_domain": true,
+        "rights_basis": "仅保存并引用公有领域古籍原文短引；完整电子快照仍留在 quarantine，不因本轮短引审核整体晋级。",
+        "sha256": "c192fc641494e0da4b1f857bc21243f14c49d10839cd9a8cff9439616c0c87ff"
+      },
+      {
+        "source_id": "bazi.source.ditiansui-spouse",
+        "kind": "classical",
+        "evidence_level": "C",
+        "repository": "garychowcmu/daizhigev20",
+        "path": "易藏/术数/滴天髓阐微.txt",
+        "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+        "license": "Public-Domain (pre-modern text only)",
+        "public_domain": true,
+        "rights_basis": "仅保存并引用公有领域古籍原文；完整清洗版另有 Canonical，但本 Source 仍锚定固定原始快照。",
+        "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795"
       }
     ],
     "source_grades": {
-      "C": 87,
+      "C": 91,
       "D": 6
     },
     "phase1": {
@@ -4724,9 +5064,568 @@
         "terms": 42,
         "rules": 14,
         "concepts": 12
+      },
+      "bazi": {
+        "classics": 4,
+        "chapters": 11,
+        "sections": 22,
+        "terms": 12,
+        "rules": 12,
+        "concepts": 3
       }
     },
     "engines": {
+      "bazi": {
+        "registered": true,
+        "provider": "tianji_kb.operations.bazi_chart.chart",
+        "variant": "ziping-structural-v1",
+        "scope": "生产范围含四柱、日主、十神、藏干；显式 include_xianchi=true 时可返回咸池四组结构查表；显式 include_relations=true 时可返回已审核的五合、六合、六害、六冲、三合与日支传统配偶宫结构位；显式 traditional_role=male|female 时可返回传统配偶星候选位置。所有结构事实均不输出旺衰、喜用、格局、关系评分或婚恋吉凶。",
+        "unresolved": [
+          "真太阳时未实现。",
+          "旺衰、格局、喜用神、调候与大运起运规则尚未完成证据裁定。",
+          "咸池四组目标支已核；年支与日支只分别报告，不裁定单一优先基准；纳音附加条件及桃花/婚恋解释仍未裁定。",
+          "本轮新增六冲与三合结构：六冲只按固定对宫配对；三合只按四组完整成员检测。半合、拱合、成化条件与吉凶解释未裁定。",
+          "三刑存在明确流派分歧，当前不进入统一 executable 规则。",
+          "五合/六合命中不代表化气成立；六害/六冲命中不代表现实关系受害、分手、争执或凶断。",
+          "传统配偶星 lens 只在调用方显式选择 traditional_role=male|female 时启用；不推断用户性别，也不把古籍妻妾/偏夫身份标签映射到现代关系身份。",
+          "《滴天髓阐微》明确反对女命机械专执官星论夫；本规则仅定位候选十神位置，不执行配偶质量、正缘、婚期或婚恋吉凶。",
+          "三刑存在明确流派分歧，当前不进入统一 executable 规则。"
+        ],
+        "rules": [
+          {
+            "id": "bazi.phase2.pillars",
+            "domain": "bazi",
+            "name": "四柱与日主结构",
+            "variant": "ziping-structural-v1",
+            "execution_status": "executable",
+            "phase1_rule_refs": [
+              "bazi.rule.r001"
+            ],
+            "validation_status": "validated",
+            "golden_case_ids": [
+              "bazi.structural-basic"
+            ],
+            "regression_test": "tests/test_phase2_bazi.py",
+            "evidence_scope": "C：单一可追溯《渊海子平》短引；仅结构事实。",
+            "evidence": [
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s001",
+                "original_text": "四柱排定,三才次分,专以日上天元,配合八字支干;有见不见之形,无时不有;神煞相绊,轻重较量。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.pillars",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.yuanhai",
+                "classic_title": "渊海子平",
+                "chapter_id": "bazi.chapter.xiji",
+                "chapter_title": "喜忌篇",
+                "locator": "《渊海子平》喜忌篇；本轮固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%B8%8A%E6%B5%B7%E5%AD%90%E5%B9%B3.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9",
+                "evidence_level": "C"
+              }
+            ]
+          },
+          {
+            "id": "bazi.phase2.ten_gods",
+            "domain": "bazi",
+            "name": "十神结构映射",
+            "variant": "ziping-structural-v1",
+            "execution_status": "executable",
+            "phase1_rule_refs": [
+              "bazi.rule.r002"
+            ],
+            "validation_status": "validated",
+            "golden_case_ids": [
+              "bazi.structural-basic"
+            ],
+            "regression_test": "tests/test_phase2_bazi.py",
+            "evidence_scope": "C：单一可追溯《渊海子平》短引；禁止据单项十神直接占断。",
+            "evidence": [
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s002",
+                "original_text": "以甲为例★见甲:为比肩、兄弟。\n 见乙:为劫财、败财,剋父及妻。\n 见丙:为食神、天厨、寿星,为男。\n 见丁:为伤官、退财、耗气,子甥。\n 见戊:为偏财、偏妻、偏妾,剋子。\n 见己:为正财、正妻,剋母,为合神。\n 见庚:为偏官、七杀、官鬼、将星。\n 见辛:为正官、禄马、荣神,父母。\n 见壬:为倒食、偏印、梟神,剋女。\n 见癸:为印綬、正人、君子,产业。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.ten_gods",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.yuanhai",
+                "classic_title": "渊海子平",
+                "chapter_id": "bazi.chapter.basic",
+                "chapter_title": "基础与藏遁",
+                "locator": "《渊海子平》基础；本轮固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%B8%8A%E6%B5%B7%E5%AD%90%E5%B9%B3.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s003",
+                "original_text": "以乙为例★见甲:为劫财、逐马,剋妻。\n 见乙:为比肩、兄弟、朋友。\n 见丙:为伤官、小人、盗气,为姪。\n 见丁:为食神、天厨、寿星,子孙。\n 见戊:为正财、正妻,剋母。\n 见己:为偏财、偏妻、偏妾,剋子。\n 见庚:为正官、禄马,剋父母。\n 见辛:为偏官、七杀、官鬼,媒人。\n 见壬:为印綬、正人、君子,忌杀。\n 见癸:为倒食、偏印、梟神,剋母。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.ten_gods",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.yuanhai",
+                "classic_title": "渊海子平",
+                "chapter_id": "bazi.chapter.basic",
+                "chapter_title": "基础与藏遁",
+                "locator": "《渊海子平》基础；本轮固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%B8%8A%E6%B5%B7%E5%AD%90%E5%B9%B3.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s005",
+                "original_text": "又云,伤官者,我生彼之谓也;以阳见阴,阴见阳,亦名盗气。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.ten_gods",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.yuanhai",
+                "classic_title": "渊海子平",
+                "chapter_id": "bazi.chapter.ten_gods",
+                "chapter_title": "十神关系选段",
+                "locator": "《渊海子平》论伤官；本轮固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%B8%8A%E6%B5%B7%E5%AD%90%E5%B9%B3.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s006",
+                "original_text": "何谓之正财?犹如正官之意;是阴见阳财,阳见阴财。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.ten_gods",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.yuanhai",
+                "classic_title": "渊海子平",
+                "chapter_id": "bazi.chapter.ten_gods",
+                "chapter_title": "十神关系选段",
+                "locator": "《渊海子平》论正财；本轮固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%B8%8A%E6%B5%B7%E5%AD%90%E5%B9%B3.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s007",
+                "original_text": "夫正官者,甲见辛之类;乃阴见阳为官,阳见阴为鬼,阴阳配合成其道也。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.ten_gods",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.yuanhai",
+                "classic_title": "渊海子平",
+                "chapter_id": "bazi.chapter.ten_gods",
+                "chapter_title": "十神关系选段",
+                "locator": "《渊海子平》正官论；本轮固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%B8%8A%E6%B5%B7%E5%AD%90%E5%B9%B3.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s008",
+                "original_text": "夫印綬者,生我之谓也,亦名生气。以阳见阴,以阴见阳,谓之正印;阳见阳,阴见阴,谓之偏印。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.ten_gods",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.yuanhai",
+                "classic_title": "渊海子平",
+                "chapter_id": "bazi.chapter.ten_gods",
+                "chapter_title": "十神关系选段",
+                "locator": "《渊海子平》论印绶；本轮固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%B8%8A%E6%B5%B7%E5%AD%90%E5%B9%B3.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9",
+                "evidence_level": "C"
+              }
+            ]
+          },
+          {
+            "id": "bazi.phase2.hidden_stems",
+            "domain": "bazi",
+            "name": "地支藏干与相对十神",
+            "variant": "ziping-structural-v1",
+            "execution_status": "executable",
+            "phase1_rule_refs": [
+              "bazi.rule.r003"
+            ],
+            "validation_status": "validated",
+            "golden_case_ids": [
+              "bazi.structural-basic"
+            ],
+            "regression_test": "tests/test_phase2_bazi.py",
+            "evidence_scope": "C：单一可追溯《渊海子平》藏遁歌；仅固定表。",
+            "evidence": [
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s004",
+                "original_text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.hidden_stems",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.yuanhai",
+                "classic_title": "渊海子平",
+                "chapter_id": "bazi.chapter.basic",
+                "chapter_title": "基础与藏遁",
+                "locator": "《渊海子平》又地支藏遁歌；本轮固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%B8%8A%E6%B5%B7%E5%AD%90%E5%B9%B3.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9",
+                "evidence_level": "C"
+              }
+            ]
+          },
+          {
+            "id": "bazi.phase2.xianchi_lookup",
+            "domain": "bazi",
+            "name": "咸池四组结构查表",
+            "variant": "ziping-structural-v1",
+            "execution_status": "executable",
+            "phase1_rule_refs": [
+              "bazi.rule.r004"
+            ],
+            "validation_status": "validated",
+            "golden_case_ids": [
+              "bazi.xianchi-explicit-dual-basis"
+            ],
+            "regression_test": "tests/test_phase2_bazi.py",
+            "evidence_scope": "C：《三命通会·卷二·论咸池》固定短引；只确认四组目标支。年支与日支分别起查，不据命中直接生成桃花或婚恋吉凶。",
+            "evidence": [
+              {
+                "source_id": "bazi.source.sanming-xianchi-niutrans",
+                "section_id": "bazi.section.s009",
+                "original_text": "《淮南子》曰： 日出扶桑，入于咸池。 故五行沐浴之地，名咸池。是取日人之义，万物暗昧之时。寅午戌卯、已酉丑午、申子辰酉、亥卯未子即长生第二位沐浴之宫是也。一名败神，一名桃花煞",
+                "role": "classical",
+                "rule_id": "bazi.phase2.xianchi_lookup",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.sanming_tonghui",
+                "classic_title": "三命通会",
+                "chapter_id": "bazi.chapter.sanming_xianchi",
+                "chapter_title": "卷二·论咸池",
+                "locator": "《三命通会》卷二·论咸池；固定短引",
+                "source_url": "https://github.com/NiuTrans/Classical-Modern/blob/4e746ea9fa99c3c0d7051c45397330bef7b0962d/%E5%8F%A4%E6%96%87%E5%8E%9F%E6%96%87/%E4%B8%89%E5%91%BD%E9%80%9A%E4%BC%9A/%E5%8D%B7%E4%BA%8C/%E8%AE%BA%E5%92%B8%E6%B1%A0/text.txt",
+                "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+                "sha256": "839fd40f82fccc2ca527039bb61e2db426d0fd65a2476c0ee425954600b7d7ec",
+                "evidence_level": "C"
+              }
+            ]
+          },
+          {
+            "id": "bazi.phase2.stem_five_combinations",
+            "domain": "bazi",
+            "name": "天干五合固定配对",
+            "variant": "ziping-structural-v1",
+            "execution_status": "executable",
+            "phase1_rule_refs": [
+              "bazi.rule.r005"
+            ],
+            "validation_status": "validated",
+            "golden_case_ids": [
+              "bazi.relations-core"
+            ],
+            "regression_test": "tests/test_phase2_bazi.py",
+            "evidence_scope": "C：《钦定协纪辨方书》固定短引；只确认甲己、乙庚、丙辛、丁壬、戊癸五组配对，不判断化气成败或吉凶。",
+            "evidence": [
+              {
+                "source_id": "bazi.source.xieji-relations",
+                "section_id": "bazi.section.s010",
+                "original_text": "甲与己合乙与庚合丙与辛合丁与壬合戊与癸合",
+                "role": "classical",
+                "rule_id": "bazi.phase2.stem_five_combinations",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.xieji",
+                "classic_title": "钦定协纪辨方书",
+                "chapter_id": "bazi.chapter.relations",
+                "chapter_title": "五合六合六害结构短引",
+                "locator": "《钦定协纪辨方书》卷一·五合；固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E9%92%A6%E5%AE%9A%E5%8D%8F%E7%BA%AA%E8%BE%A8%E6%96%B9%E4%B9%A6.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c192fc641494e0da4b1f857bc21243f14c49d10839cd9a8cff9439616c0c87ff",
+                "evidence_level": "C"
+              }
+            ]
+          },
+          {
+            "id": "bazi.phase2.branch_six_harmonies",
+            "domain": "bazi",
+            "name": "地支六合固定配对",
+            "variant": "ziping-structural-v1",
+            "execution_status": "executable",
+            "phase1_rule_refs": [
+              "bazi.rule.r006"
+            ],
+            "validation_status": "validated",
+            "golden_case_ids": [
+              "bazi.relations-core"
+            ],
+            "regression_test": "tests/test_phase2_bazi.py",
+            "evidence_scope": "C：《钦定协纪辨方书》固定短引；只确认六组六合配对，不解释关系适配、吉凶或婚姻结果。",
+            "evidence": [
+              {
+                "source_id": "bazi.source.xieji-relations",
+                "section_id": "bazi.section.s011",
+                "original_text": "子与丑合寅与亥合卯与戌合辰与酉合巳与申合午与未合",
+                "role": "classical",
+                "rule_id": "bazi.phase2.branch_six_harmonies",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.xieji",
+                "classic_title": "钦定协纪辨方书",
+                "chapter_id": "bazi.chapter.relations",
+                "chapter_title": "五合六合六害结构短引",
+                "locator": "《钦定协纪辨方书》卷一·六合；固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E9%92%A6%E5%AE%9A%E5%8D%8F%E7%BA%AA%E8%BE%A8%E6%96%B9%E4%B9%A6.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c192fc641494e0da4b1f857bc21243f14c49d10839cd9a8cff9439616c0c87ff",
+                "evidence_level": "C"
+              }
+            ]
+          },
+          {
+            "id": "bazi.phase2.branch_six_harms",
+            "domain": "bazi",
+            "name": "地支六害固定配对",
+            "variant": "ziping-structural-v1",
+            "execution_status": "executable",
+            "phase1_rule_refs": [
+              "bazi.rule.r007"
+            ],
+            "validation_status": "validated",
+            "golden_case_ids": [
+              "bazi.relations-core"
+            ],
+            "regression_test": "tests/test_phase2_bazi.py",
+            "evidence_scope": "C：《钦定协纪辨方书》月害条固定短引；只确认六组相害配对，不输出现实关系伤害或凶断。",
+            "evidence": [
+              {
+                "source_id": "bazi.source.xieji-relations",
+                "section_id": "bazi.section.s012",
+                "original_text": "月害者月中六害也假令夘辰相害者夘以乙旺之木害辰墓之土辰以墓土却害夘中癸水也寅巳相害者谓寅以旺甲害巳中戊土而巳以生庚害寅中旺甲也丑午相害者丑以癸水害午中丁火午以巳土害丑中癸水也子未相害者子以所生之辛金害未中墓木未以旺土害子中旺水也申亥相害者亥以生木害申中生土申以旺金害亥中生木又以生土害亥中旺水也酉戌相害者戌以墓火害酉之旺金酉以所生丁火害戌中辛金也",
+                "role": "classical",
+                "rule_id": "bazi.phase2.branch_six_harms",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.xieji",
+                "classic_title": "钦定协纪辨方书",
+                "chapter_id": "bazi.chapter.relations",
+                "chapter_title": "五合六合六害结构短引",
+                "locator": "《钦定协纪辨方书》月害条；固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E9%92%A6%E5%AE%9A%E5%8D%8F%E7%BA%AA%E8%BE%A8%E6%96%B9%E4%B9%A6.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c192fc641494e0da4b1f857bc21243f14c49d10839cd9a8cff9439616c0c87ff",
+                "evidence_level": "C"
+              }
+            ]
+          },
+          {
+            "id": "bazi.phase2.spouse_palace_day_branch",
+            "domain": "bazi",
+            "name": "日支传统配偶宫结构位",
+            "variant": "ziping-structural-v1",
+            "execution_status": "executable",
+            "phase1_rule_refs": [
+              "bazi.rule.r008"
+            ],
+            "validation_status": "validated",
+            "golden_case_ids": [
+              "bazi.relations-core"
+            ],
+            "regression_test": "tests/test_phase2_bazi.py",
+            "evidence_scope": "C：《渊海子平·络绎赋》固定短引；只标记日支的传统结构角色，产品使用中性“配偶宫结构位”称呼。",
+            "evidence": [
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s013",
+                "original_text": "年干父兮支母。\n 日干己兮支妻。\n 月干兄兮支弟。\n 时支女兮干儿。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.spouse_palace_day_branch",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.yuanhai",
+                "classic_title": "渊海子平",
+                "chapter_id": "bazi.chapter.spouse_palace",
+                "chapter_title": "络绎赋·日支妻位",
+                "locator": "《渊海子平》络绎赋；固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%B8%8A%E6%B5%B7%E5%AD%90%E5%B9%B3.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9",
+                "evidence_level": "C"
+              }
+            ]
+          },
+          {
+            "id": "bazi.phase2.branch_six_clashes",
+            "domain": "bazi",
+            "name": "地支六冲固定配对",
+            "variant": "ziping-structural-v1",
+            "execution_status": "executable",
+            "phase1_rule_refs": [
+              "bazi.rule.r009"
+            ],
+            "validation_status": "validated",
+            "golden_case_ids": [
+              "bazi.relations-expanded"
+            ],
+            "regression_test": "tests/test_phase2_bazi.py",
+            "evidence_scope": "C：《钦定协纪辨方书》“对七为冲”及卯酉/辰戌实例；只确认六组固定对冲，不输出吉凶或关系事件。",
+            "evidence": [
+              {
+                "source_id": "bazi.source.xieji-relations",
+                "section_id": "bazi.section.s014",
+                "original_text": "洞源经曰对七为冲隔三为破选择家所谓辰破丑而丑冲未亥破寅而寅冲申午破夘而夘冲酉酉破子而子冲午申破巳而巳冲亥戌破未而未冲丑是也",
+                "role": "classical",
+                "rule_id": "bazi.phase2.branch_six_clashes",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.xieji",
+                "classic_title": "钦定协纪辨方书",
+                "chapter_id": "bazi.chapter.relations",
+                "chapter_title": "五合六合六害结构短引",
+                "locator": "《钦定协纪辨方书》月建相关条；固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E9%92%A6%E5%AE%9A%E5%8D%8F%E7%BA%AA%E8%BE%A8%E6%96%B9%E4%B9%A6.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c192fc641494e0da4b1f857bc21243f14c49d10839cd9a8cff9439616c0c87ff",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.xieji-relations",
+                "section_id": "bazi.section.s015",
+                "original_text": "假如建在子前三为平为夘后三为收为酉夘酉冲也建在丑前三为平为辰后三为收为戌辰戌冲也推之十二辰莫不皆然",
+                "role": "classical",
+                "rule_id": "bazi.phase2.branch_six_clashes",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.xieji",
+                "classic_title": "钦定协纪辨方书",
+                "chapter_id": "bazi.chapter.relations",
+                "chapter_title": "五合六合六害结构短引",
+                "locator": "《钦定协纪辨方书》月建相关条；固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E9%92%A6%E5%AE%9A%E5%8D%8F%E7%BA%AA%E8%BE%A8%E6%96%B9%E4%B9%A6.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c192fc641494e0da4b1f857bc21243f14c49d10839cd9a8cff9439616c0c87ff",
+                "evidence_level": "C"
+              }
+            ]
+          },
+          {
+            "id": "bazi.phase2.branch_triple_harmonies",
+            "domain": "bazi",
+            "name": "地支三合四局",
+            "variant": "ziping-structural-v1",
+            "execution_status": "executable",
+            "phase1_rule_refs": [
+              "bazi.rule.r010"
+            ],
+            "validation_status": "validated",
+            "golden_case_ids": [
+              "bazi.relations-expanded"
+            ],
+            "regression_test": "tests/test_phase2_bazi.py",
+            "evidence_scope": "C：《钦定协纪辨方书》固定短引；只确认申子辰水、巳酉丑金、寅午戌火、亥卯未木四组三合完整结构，不判断半合、成化或吉凶。",
+            "evidence": [
+              {
+                "source_id": "bazi.source.xieji-relations",
+                "section_id": "bazi.section.s016",
+                "original_text": "考原曰大煞子年在子丑年在酉寅年在午夘年在夘辰年又在子如是逆行四正盖申子辰三合为水水旺于子也巳酉丑三合为金金旺于酉也寅午戌三合为火火旺于午也亥夘未三合为木木旺于夘也",
+                "role": "classical",
+                "rule_id": "bazi.phase2.branch_triple_harmonies",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.xieji",
+                "classic_title": "钦定协纪辨方书",
+                "chapter_id": "bazi.chapter.relations",
+                "chapter_title": "五合六合六害结构短引",
+                "locator": "《钦定协纪辨方书》大煞条；固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E9%92%A6%E5%AE%9A%E5%8D%8F%E7%BA%AA%E8%BE%A8%E6%96%B9%E4%B9%A6.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c192fc641494e0da4b1f857bc21243f14c49d10839cd9a8cff9439616c0c87ff",
+                "evidence_level": "C"
+              }
+            ]
+          },
+          {
+            "id": "bazi.phase2.spouse_star_lens",
+            "domain": "bazi",
+            "name": "传统配偶星候选定位",
+            "variant": "ziping-structural-v1",
+            "execution_status": "executable",
+            "phase1_rule_refs": [
+              "bazi.rule.r011"
+            ],
+            "validation_status": "validated",
+            "golden_case_ids": [
+              "bazi.spouse-star-lens-male",
+              "bazi.spouse-star-lens-female"
+            ],
+            "regression_test": "tests/test_phase2_bazi.py",
+            "evidence_scope": "C：《渊海子平》六亲总篇 + 《滴天髓阐微》夫妻/女命边界短引；只做用户显式选择后的财星或官杀候选位置扫描，不输出婚恋结论。",
+            "evidence": [
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s017",
+                "original_text": "用日干为主:正印正母;偏印偏母及祖父也;偏财是父,乃母之夫星也,亦为偏妻;正财为妻;偏财为妾,为父是也;比肩为兄弟姐妹也;七杀是男;正官是女;食神是男孙;伤官是女孙及祖母也。\n 妇人命取六亲,与男命不同:取官星为夫星;七杀是偏夫;食神是男;伤官是女。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.spouse_star_lens",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.yuanhai",
+                "classic_title": "渊海子平",
+                "chapter_id": "bazi.chapter.spouse_stars",
+                "chapter_title": "传统配偶星观察口径",
+                "locator": "《渊海子平》六亲总篇；固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%B8%8A%E6%B5%B7%E5%AD%90%E5%B9%B3.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s018",
+                "original_text": "不必专执官星而论夫。专执伤食而论子。但以安祥顺静为贵,二德三奇不必论,咸池驿马纵有验,总之于理不长。其中究论,不可不详。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.spouse_star_lens",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.ditiansui_spouse_boundary",
+                "chapter_title": "夫妻与女命观察边界",
+                "locator": "《滴天髓阐微》六亲论·女命章；固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s019",
+                "original_text": "子平之法,以财为妻,财是我克。人以财来侍我,此理出于正论",
+                "role": "classical",
+                "rule_id": "bazi.phase2.spouse_star_lens",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.ditiansui_spouse_boundary",
+                "chapter_title": "夫妻与女命观察边界",
+                "locator": "《滴天髓阐微》六亲论·夫妻；固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              }
+            ]
+          }
+        ],
+        "golden_path": "data/canonical/bazi/phase2_golden.json",
+        "golden_ids": [
+          "bazi.relations-core",
+          "bazi.relations-expanded",
+          "bazi.spouse-star-lens-female",
+          "bazi.spouse-star-lens-male",
+          "bazi.structural-basic",
+          "bazi.xianchi-explicit-dual-basis"
+        ],
+        "test_execution": "not_asserted_by_static_audit"
+      },
       "fengshui": {
         "registered": true,
         "provider": "tianji_kb.operations.fengshui_chart.chart",
@@ -7127,14 +8026,6 @@
         ],
         "test_execution": "not_asserted_by_static_audit"
       },
-      "bazi": {
-        "registered": false,
-        "provider": null,
-        "variant": null,
-        "rules": [],
-        "golden_ids": [],
-        "test_execution": "unavailable"
-      },
       "dream": {
         "registered": false,
         "provider": null,
@@ -7170,9 +8061,53 @@
           "正官",
           "七杀",
           "正印",
-          "偏印"
+          "偏印",
+          "十神"
         ],
-        "reviewed_terms": [],
+        "reviewed_terms": [
+          {
+            "id": "bazi.term.day_master",
+            "name": "日主",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s001",
+                "original_text": "四柱排定,三才次分,专以日上天元,配合八字支干;有见不见之形,无时不有;神煞相绊,轻重较量。",
+                "role": "classical"
+              }
+            ]
+          },
+          {
+            "id": "bazi.term.ten_gods",
+            "name": "十神",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s002",
+                "original_text": "以甲为例★见甲:为比肩、兄弟。\n 见乙:为劫财、败财,剋父及妻。\n 见丙:为食神、天厨、寿星,为男。\n 见丁:为伤官、退财、耗气,子甥。\n 见戊:为偏财、偏妻、偏妾,剋子。\n 见己:为正财、正妻,剋母,为合神。\n 见庚:为偏官、七杀、官鬼、将星。\n 见辛:为正官、禄马、荣神,父母。\n 见壬:为倒食、偏印、梟神,剋女。\n 见癸:为印綬、正人、君子,产业。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s003",
+                "original_text": "以乙为例★见甲:为劫财、逐马,剋妻。\n 见乙:为比肩、兄弟、朋友。\n 见丙:为伤官、小人、盗气,为姪。\n 见丁:为食神、天厨、寿星,子孙。\n 见戊:为正财、正妻,剋母。\n 见己:为偏财、偏妻、偏妾,剋子。\n 见庚:为正官、禄马,剋父母。\n 见辛:为偏官、七杀、官鬼,媒人。\n 见壬:为印綬、正人、君子,忌杀。\n 见癸:为倒食、偏印、梟神,剋母。",
+                "role": "classical"
+              }
+            ]
+          },
+          {
+            "id": "bazi.term.hidden_stems",
+            "name": "藏干",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s004",
+                "original_text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+                "role": "classical"
+              }
+            ]
+          }
+        ],
         "terms_not_structured": [
           "天干",
           "地支",
@@ -7180,11 +8115,9 @@
           "五行",
           "生克",
           "十二长生",
-          "藏干",
           "月令",
           "节气",
           "四柱",
-          "日主",
           "比肩",
           "劫财",
           "食神",
@@ -7196,9 +8129,22 @@
           "正印",
           "偏印"
         ],
-        "phase1_rule_ids": [],
-        "phase1_execution_status": {},
-        "phase2_rule_ids": [],
+        "phase1_rule_ids": [
+          "bazi.rule.r001",
+          "bazi.rule.r002",
+          "bazi.rule.r003",
+          "bazi.rule.r011",
+          "bazi.rule.r012"
+        ],
+        "phase1_execution_status": {
+          "partially_structured": 4,
+          "descriptive_only": 1
+        },
+        "phase2_rule_ids": [
+          "bazi.phase2.pillars",
+          "bazi.phase2.ten_gods",
+          "bazi.phase2.hidden_stems"
+        ],
         "legacy_references": [
           {
             "path": "data/canonical/bazi/foundations_v1.json",
@@ -7331,7 +8277,7 @@
           }
         ],
         "explanation_ready": false,
-        "missing": "缺八字 Phase1 注册、原典逐项绑定、出生时间/四柱执行契约及 Golden；旧实现表的权重不作通用古典结论。"
+        "missing": "四柱/日主/十神/藏干已接入既有模型和执行Golden；仍缺十二长生、月令解释及基础结构到个人结论的条件规则；真太阳时尚未实现。旧表权重不作通用古典结论。"
       },
       "bazi-ten-gods": {
         "name": "十神结构与条件解释",
@@ -7344,17 +8290,46 @@
           "失令",
           "藏支"
         ],
-        "reviewed_terms": [],
+        "reviewed_terms": [
+          {
+            "id": "bazi.term.ten_gods",
+            "name": "十神",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s002",
+                "original_text": "以甲为例★见甲:为比肩、兄弟。\n 见乙:为劫财、败财,剋父及妻。\n 见丙:为食神、天厨、寿星,为男。\n 见丁:为伤官、退财、耗气,子甥。\n 见戊:为偏财、偏妻、偏妾,剋子。\n 见己:为正财、正妻,剋母,为合神。\n 见庚:为偏官、七杀、官鬼、将星。\n 见辛:为正官、禄马、荣神,父母。\n 见壬:为倒食、偏印、梟神,剋女。\n 见癸:为印綬、正人、君子,产业。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s003",
+                "original_text": "以乙为例★见甲:为劫财、逐马,剋妻。\n 见乙:为比肩、兄弟、朋友。\n 见丙:为伤官、小人、盗气,为姪。\n 见丁:为食神、天厨、寿星,子孙。\n 见戊:为正财、正妻,剋母。\n 见己:为偏财、偏妻、偏妾,剋子。\n 见庚:为正官、禄马,剋父母。\n 见辛:为偏官、七杀、官鬼,媒人。\n 见壬:为印綬、正人、君子,忌杀。\n 见癸:为倒食、偏印、梟神,剋母。",
+                "role": "classical"
+              }
+            ]
+          }
+        ],
         "terms_not_structured": [
-          "十神",
           "透干",
           "得令",
           "失令",
           "藏支"
         ],
-        "phase1_rule_ids": [],
-        "phase1_execution_status": {},
-        "phase2_rule_ids": [],
+        "phase1_rule_ids": [
+          "bazi.rule.r002",
+          "bazi.rule.r003",
+          "bazi.rule.r011",
+          "bazi.rule.r012"
+        ],
+        "phase1_execution_status": {
+          "partially_structured": 3,
+          "descriptive_only": 1
+        },
+        "phase2_rule_ids": [
+          "bazi.phase2.ten_gods",
+          "bazi.phase2.hidden_stems"
+        ],
         "legacy_references": [
           {
             "path": "data/canonical/bazi/foundations_v1.json",
@@ -7930,7 +8905,20 @@
           "三会",
           "天克地冲"
         ],
-        "reviewed_terms": [],
+        "reviewed_terms": [
+          {
+            "id": "bazi.term.branch_triple_harmonies",
+            "name": "地支三合",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.xieji-relations",
+                "section_id": "bazi.section.s016",
+                "original_text": "考原曰大煞子年在子丑年在酉寅年在午夘年在夘辰年又在子如是逆行四正盖申子辰三合为水水旺于子也巳酉丑三合为金金旺于酉也寅午戌三合为火火旺于午也亥夘未三合为木木旺于夘也",
+                "role": "classical"
+              }
+            ]
+          }
+        ],
         "terms_not_structured": [
           "流年",
           "岁运",
@@ -7939,12 +8927,15 @@
           "刑",
           "害",
           "破",
-          "三合",
           "三会",
           "天克地冲"
         ],
-        "phase1_rule_ids": [],
-        "phase1_execution_status": {},
+        "phase1_rule_ids": [
+          "bazi.rule.r010"
+        ],
+        "phase1_execution_status": {
+          "partially_structured": 1
+        },
         "phase2_rule_ids": [],
         "legacy_references": [
           {
@@ -8086,13 +9077,134 @@
           "财星",
           "官星",
           "透藏",
-          "三刑"
+          "三刑",
+          "天干五合",
+          "地支六合",
+          "地支六害",
+          "地支六冲",
+          "地支三合",
+          "日支配偶宫结构位",
+          "传统配偶星观察口径"
         ],
-        "reviewed_terms": [],
+        "reviewed_terms": [
+          {
+            "id": "bazi.term.xianchi",
+            "name": "咸池",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.sanming-xianchi-niutrans",
+                "section_id": "bazi.section.s009",
+                "original_text": "《淮南子》曰： 日出扶桑，入于咸池。 故五行沐浴之地，名咸池。是取日人之义，万物暗昧之时。寅午戌卯、已酉丑午、申子辰酉、亥卯未子即长生第二位沐浴之宫是也。一名败神，一名桃花煞",
+                "role": "classical"
+              }
+            ]
+          },
+          {
+            "id": "bazi.term.stem_five_combinations",
+            "name": "天干五合",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.xieji-relations",
+                "section_id": "bazi.section.s010",
+                "original_text": "甲与己合乙与庚合丙与辛合丁与壬合戊与癸合",
+                "role": "classical"
+              }
+            ]
+          },
+          {
+            "id": "bazi.term.branch_six_harmonies",
+            "name": "地支六合",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.xieji-relations",
+                "section_id": "bazi.section.s011",
+                "original_text": "子与丑合寅与亥合卯与戌合辰与酉合巳与申合午与未合",
+                "role": "classical"
+              }
+            ]
+          },
+          {
+            "id": "bazi.term.branch_six_harms",
+            "name": "地支六害",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.xieji-relations",
+                "section_id": "bazi.section.s012",
+                "original_text": "月害者月中六害也假令夘辰相害者夘以乙旺之木害辰墓之土辰以墓土却害夘中癸水也寅巳相害者谓寅以旺甲害巳中戊土而巳以生庚害寅中旺甲也丑午相害者丑以癸水害午中丁火午以巳土害丑中癸水也子未相害者子以所生之辛金害未中墓木未以旺土害子中旺水也申亥相害者亥以生木害申中生土申以旺金害亥中生木又以生土害亥中旺水也酉戌相害者戌以墓火害酉之旺金酉以所生丁火害戌中辛金也",
+                "role": "classical"
+              }
+            ]
+          },
+          {
+            "id": "bazi.term.spouse_palace_day_branch",
+            "name": "日支配偶宫结构位",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s013",
+                "original_text": "年干父兮支母。\n 日干己兮支妻。\n 月干兄兮支弟。\n 时支女兮干儿。",
+                "role": "classical"
+              }
+            ]
+          },
+          {
+            "id": "bazi.term.branch_six_clashes",
+            "name": "地支六冲",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.xieji-relations",
+                "section_id": "bazi.section.s014",
+                "original_text": "洞源经曰对七为冲隔三为破选择家所谓辰破丑而丑冲未亥破寅而寅冲申午破夘而夘冲酉酉破子而子冲午申破巳而巳冲亥戌破未而未冲丑是也",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.xieji-relations",
+                "section_id": "bazi.section.s015",
+                "original_text": "假如建在子前三为平为夘后三为收为酉夘酉冲也建在丑前三为平为辰后三为收为戌辰戌冲也推之十二辰莫不皆然",
+                "role": "classical"
+              }
+            ]
+          },
+          {
+            "id": "bazi.term.branch_triple_harmonies",
+            "name": "地支三合",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.xieji-relations",
+                "section_id": "bazi.section.s016",
+                "original_text": "考原曰大煞子年在子丑年在酉寅年在午夘年在夘辰年又在子如是逆行四正盖申子辰三合为水水旺于子也巳酉丑三合为金金旺于酉也寅午戌三合为火火旺于午也亥夘未三合为木木旺于夘也",
+                "role": "classical"
+              }
+            ]
+          },
+          {
+            "id": "bazi.term.traditional_spouse_star_lens",
+            "name": "传统配偶星观察口径",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s017",
+                "original_text": "用日干为主:正印正母;偏印偏母及祖父也;偏财是父,乃母之夫星也,亦为偏妻;正财为妻;偏财为妾,为父是也;比肩为兄弟姐妹也;七杀是男;正官是女;食神是男孙;伤官是女孙及祖母也。\n 妇人命取六亲,与男命不同:取官星为夫星;七杀是偏夫;食神是男;伤官是女。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s018",
+                "original_text": "不必专执官星而论夫。专执伤食而论子。但以安祥顺静为贵,二德三奇不必论,咸池驿马纵有验,总之于理不长。其中究论,不可不详。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s019",
+                "original_text": "子平之法,以财为妻,财是我克。人以财来侍我,此理出于正论",
+                "role": "classical"
+              }
+            ]
+          }
+        ],
         "terms_not_structured": [
           "夫妻",
           "配偶",
-          "咸池",
           "红鸾",
           "天喜",
           "天姚",
@@ -8101,9 +9213,29 @@
           "透藏",
           "三刑"
         ],
-        "phase1_rule_ids": [],
-        "phase1_execution_status": {},
-        "phase2_rule_ids": [],
+        "phase1_rule_ids": [
+          "bazi.rule.r004",
+          "bazi.rule.r005",
+          "bazi.rule.r006",
+          "bazi.rule.r007",
+          "bazi.rule.r008",
+          "bazi.rule.r009",
+          "bazi.rule.r010",
+          "bazi.rule.r011"
+        ],
+        "phase1_execution_status": {
+          "partially_structured": 8
+        },
+        "phase2_rule_ids": [
+          "bazi.phase2.xianchi_lookup",
+          "bazi.phase2.spouse_palace_day_branch",
+          "bazi.phase2.spouse_star_lens",
+          "bazi.phase2.stem_five_combinations",
+          "bazi.phase2.branch_six_harmonies",
+          "bazi.phase2.branch_six_harms",
+          "bazi.phase2.branch_six_clashes",
+          "bazi.phase2.branch_triple_harmonies"
+        ],
         "legacy_references": [
           {
             "path": "data/canonical/bazi/shensha_v1.json",
@@ -8208,7 +9340,7 @@
           }
         ],
         "explanation_ready": false,
-        "missing": "缺配偶宫/星的条件规则与岁运触发；保存传统性别 lens 与批判材料，现代中性表达另审，不以咸池或官星断人品/婚姻。"
+        "missing": "咸池、日支传统配偶宫结构位、显式财星/官杀lens及五合/六合/六害/六冲/三合结构已核；缺红鸾天喜天姚、旺衰格局喜用与岁运婚恋解释；三刑争议仍阻塞；禁止命中结构直接断现代婚姻。"
       },
       "bazi-career-wealth": {
         "name": "事业财富专题",
@@ -8237,7 +9369,10 @@
         ],
         "phase1_rule_ids": [],
         "phase1_execution_status": {},
-        "phase2_rule_ids": [],
+        "phase2_rule_ids": [
+          "bazi.phase2.ten_gods",
+          "bazi.phase2.hidden_stems"
+        ],
         "legacy_references": [],
         "classical_text_candidates": [
           {
@@ -8364,20 +9499,197 @@
           "配偶",
           "十神",
           "桃花",
-          "岁运"
+          "岁运",
+          "天干五合",
+          "地支六合",
+          "地支六害",
+          "地支六冲",
+          "地支三合",
+          "日支配偶宫结构位",
+          "传统配偶星观察口径",
+          "十神",
+          "咸池"
         ],
-        "reviewed_terms": [],
+        "reviewed_terms": [
+          {
+            "id": "bazi.term.day_master",
+            "name": "日主",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s001",
+                "original_text": "四柱排定,三才次分,专以日上天元,配合八字支干;有见不见之形,无时不有;神煞相绊,轻重较量。",
+                "role": "classical"
+              }
+            ]
+          },
+          {
+            "id": "bazi.term.ten_gods",
+            "name": "十神",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s002",
+                "original_text": "以甲为例★见甲:为比肩、兄弟。\n 见乙:为劫财、败财,剋父及妻。\n 见丙:为食神、天厨、寿星,为男。\n 见丁:为伤官、退财、耗气,子甥。\n 见戊:为偏财、偏妻、偏妾,剋子。\n 见己:为正财、正妻,剋母,为合神。\n 见庚:为偏官、七杀、官鬼、将星。\n 见辛:为正官、禄马、荣神,父母。\n 见壬:为倒食、偏印、梟神,剋女。\n 见癸:为印綬、正人、君子,产业。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s003",
+                "original_text": "以乙为例★见甲:为劫财、逐马,剋妻。\n 见乙:为比肩、兄弟、朋友。\n 见丙:为伤官、小人、盗气,为姪。\n 见丁:为食神、天厨、寿星,子孙。\n 见戊:为正财、正妻,剋母。\n 见己:为偏财、偏妻、偏妾,剋子。\n 见庚:为正官、禄马,剋父母。\n 见辛:为偏官、七杀、官鬼,媒人。\n 见壬:为印綬、正人、君子,忌杀。\n 见癸:为倒食、偏印、梟神,剋母。",
+                "role": "classical"
+              }
+            ]
+          },
+          {
+            "id": "bazi.term.xianchi",
+            "name": "咸池",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.sanming-xianchi-niutrans",
+                "section_id": "bazi.section.s009",
+                "original_text": "《淮南子》曰： 日出扶桑，入于咸池。 故五行沐浴之地，名咸池。是取日人之义，万物暗昧之时。寅午戌卯、已酉丑午、申子辰酉、亥卯未子即长生第二位沐浴之宫是也。一名败神，一名桃花煞",
+                "role": "classical"
+              }
+            ]
+          },
+          {
+            "id": "bazi.term.stem_five_combinations",
+            "name": "天干五合",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.xieji-relations",
+                "section_id": "bazi.section.s010",
+                "original_text": "甲与己合乙与庚合丙与辛合丁与壬合戊与癸合",
+                "role": "classical"
+              }
+            ]
+          },
+          {
+            "id": "bazi.term.branch_six_harmonies",
+            "name": "地支六合",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.xieji-relations",
+                "section_id": "bazi.section.s011",
+                "original_text": "子与丑合寅与亥合卯与戌合辰与酉合巳与申合午与未合",
+                "role": "classical"
+              }
+            ]
+          },
+          {
+            "id": "bazi.term.branch_six_harms",
+            "name": "地支六害",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.xieji-relations",
+                "section_id": "bazi.section.s012",
+                "original_text": "月害者月中六害也假令夘辰相害者夘以乙旺之木害辰墓之土辰以墓土却害夘中癸水也寅巳相害者谓寅以旺甲害巳中戊土而巳以生庚害寅中旺甲也丑午相害者丑以癸水害午中丁火午以巳土害丑中癸水也子未相害者子以所生之辛金害未中墓木未以旺土害子中旺水也申亥相害者亥以生木害申中生土申以旺金害亥中生木又以生土害亥中旺水也酉戌相害者戌以墓火害酉之旺金酉以所生丁火害戌中辛金也",
+                "role": "classical"
+              }
+            ]
+          },
+          {
+            "id": "bazi.term.spouse_palace_day_branch",
+            "name": "日支配偶宫结构位",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s013",
+                "original_text": "年干父兮支母。\n 日干己兮支妻。\n 月干兄兮支弟。\n 时支女兮干儿。",
+                "role": "classical"
+              }
+            ]
+          },
+          {
+            "id": "bazi.term.branch_six_clashes",
+            "name": "地支六冲",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.xieji-relations",
+                "section_id": "bazi.section.s014",
+                "original_text": "洞源经曰对七为冲隔三为破选择家所谓辰破丑而丑冲未亥破寅而寅冲申午破夘而夘冲酉酉破子而子冲午申破巳而巳冲亥戌破未而未冲丑是也",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.xieji-relations",
+                "section_id": "bazi.section.s015",
+                "original_text": "假如建在子前三为平为夘后三为收为酉夘酉冲也建在丑前三为平为辰后三为收为戌辰戌冲也推之十二辰莫不皆然",
+                "role": "classical"
+              }
+            ]
+          },
+          {
+            "id": "bazi.term.branch_triple_harmonies",
+            "name": "地支三合",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.xieji-relations",
+                "section_id": "bazi.section.s016",
+                "original_text": "考原曰大煞子年在子丑年在酉寅年在午夘年在夘辰年又在子如是逆行四正盖申子辰三合为水水旺于子也巳酉丑三合为金金旺于酉也寅午戌三合为火火旺于午也亥夘未三合为木木旺于夘也",
+                "role": "classical"
+              }
+            ]
+          },
+          {
+            "id": "bazi.term.traditional_spouse_star_lens",
+            "name": "传统配偶星观察口径",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s017",
+                "original_text": "用日干为主:正印正母;偏印偏母及祖父也;偏财是父,乃母之夫星也,亦为偏妻;正财为妻;偏财为妾,为父是也;比肩为兄弟姐妹也;七杀是男;正官是女;食神是男孙;伤官是女孙及祖母也。\n 妇人命取六亲,与男命不同:取官星为夫星;七杀是偏夫;食神是男;伤官是女。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s018",
+                "original_text": "不必专执官星而论夫。专执伤食而论子。但以安祥顺静为贵,二德三奇不必论,咸池驿马纵有验,总之于理不长。其中究论,不可不详。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s019",
+                "original_text": "子平之法,以财为妻,财是我克。人以财来侍我,此理出于正论",
+                "role": "classical"
+              }
+            ]
+          }
+        ],
         "terms_not_structured": [
-          "日主",
           "日支",
           "配偶",
-          "十神",
-          "桃花",
           "岁运"
         ],
-        "phase1_rule_ids": [],
-        "phase1_execution_status": {},
-        "phase2_rule_ids": [],
+        "phase1_rule_ids": [
+          "bazi.rule.r001",
+          "bazi.rule.r002",
+          "bazi.rule.r003",
+          "bazi.rule.r004",
+          "bazi.rule.r005",
+          "bazi.rule.r006",
+          "bazi.rule.r007",
+          "bazi.rule.r008",
+          "bazi.rule.r009",
+          "bazi.rule.r010",
+          "bazi.rule.r011",
+          "bazi.rule.r012"
+        ],
+        "phase1_execution_status": {
+          "partially_structured": 11,
+          "descriptive_only": 1
+        },
+        "phase2_rule_ids": [
+          "bazi.phase2.ten_gods",
+          "bazi.phase2.xianchi_lookup",
+          "bazi.phase2.stem_five_combinations",
+          "bazi.phase2.branch_six_harmonies",
+          "bazi.phase2.branch_six_harms",
+          "bazi.phase2.branch_six_clashes",
+          "bazi.phase2.branch_triple_harmonies",
+          "bazi.phase2.spouse_palace_day_branch",
+          "bazi.phase2.spouse_star_lens"
+        ],
         "legacy_references": [
           {
             "path": "data/canonical/yinyuan/hehun_rules_v1.json",
@@ -8401,7 +9713,8 @@
                 "pointer": "/sections/3/text",
                 "matched_terms": [
                   "日主",
-                  "桃花"
+                  "桃花",
+                  "咸池"
                 ],
                 "excerpt": "人命,贻误不浅,混看奇格异局,一切神杀,荒唐取用,桃花咸池,专论女命邪淫,受责鬼神;金锁铁蛇,谬指小儿关煞,忧人父母;不论日主之衰旺,总以财官为喜,伤杀为憎,定人终身;不管日主之强弱,尽以食印为福,枭劫为殃,不知财官等名,为六亲取用而列,竟认作财可养"
               },
@@ -8466,7 +9779,7 @@
               "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
               "license_policy": "PUBLIC_DOMAIN_EXTRACT_ONLY"
             },
-            "hit_count": 49,
+            "hit_count": 50,
             "examples": [
               {
                 "pointer": "/sections/4/text",
@@ -8479,9 +9792,10 @@
               {
                 "pointer": "/sections/6/text",
                 "matched_terms": [
-                  "岁运"
+                  "岁运",
+                  "咸池"
                 ],
-                "excerpt": "临,轻重推之。\n 日干虽不剋岁,犹恐运剋岁君,若加岁运冲刑、阳刃冲合,主破耗丧事;倘有贵人、禄马,解之稍吉,八字有救无虞。\n 故云:『太岁乃众杀之主,入命未必为灾;若遇战斗之乡,必主刑于本命。』"
+                "excerpt": "凶丧、剋妻妾及破财是非、犯上之悔;加以勾绞、空亡、咸池、宅墓、病符、死符、白虎、阳刃诸杀併临,祸患百出。神煞加临,轻重推之。\n 日干虽不剋岁,犹恐运剋岁君,若加岁运冲刑、阳刃冲合,主破耗丧事;倘有贵人、禄马,解之稍吉,八字有救无虞。\n 故云:『太岁乃"
               },
               {
                 "pointer": "/sections/7/text",
@@ -8495,7 +9809,7 @@
           }
         ],
         "explanation_ready": false,
-        "missing": "旧合盘60分为实现约定；缺双人镜像/方向与对称关系/共同岁运规则及双人 Golden；六合不推适婚，六冲不推分手。"
+        "missing": "已有真实双人Scenario、十神镜像、咸池交叉、干支关系矩阵与传统配偶星候选位置；缺双方旺衰/喜忌与共同岁运解释、用户关系结论Golden及发布授权；旧60分不可复用。"
       },
       "dream-traditional": {
         "name": "传统梦文化",
@@ -10033,8 +11347,137 @@
         "missing": "结构和卦爻文本可追溯；缺面向事件的解释规则；经典原义与后世术数解释必须分开。"
       }
     },
-    "conflict_entities": [],
-    "conflict_status": "当前无独立school_conflict实体；已有Rule difference/exceptions、执行unresolved与来源审计，不能把空集合解释为无流派冲突。",
+    "conflict_entities": [
+      {
+        "id": "bazi.concept.conflict_spouse_star_lens",
+        "domain": "bazi",
+        "name": "传统配偶星观察口径差异",
+        "kind": "school_conflict",
+        "status": "bounded",
+        "dimension": "配偶星是否可按固定财星/官杀口径直接解释",
+        "positions": [
+          {
+            "id": "yuanhai-fixed-role-lens",
+            "label": "《渊海子平》传统六亲口径",
+            "position": "男命以财星观察妻位；妇人命以官星、七杀观察夫星。",
+            "section_ids": [
+              "bazi.section.s017"
+            ]
+          },
+          {
+            "id": "ditiansui-contextual-lens",
+            "label": "《滴天髓阐微》条件化口径",
+            "position": "承认财星看妻的传统关系，但明确反对女命机械专执官星论夫，要求结合整体格局与用神。",
+            "section_ids": [
+              "bazi.section.s018",
+              "bazi.section.s019"
+            ]
+          }
+        ],
+        "production_policy": "只在用户显式选择传统 male/female role 时返回候选财星或官杀位置；不得把候选星位等同于现实配偶、婚姻质量、正缘或婚期。",
+        "executable_policy": "允许受限 lens；禁止自动推断用户性别或把传统角色口径转化为现代身份判断。",
+        "confidence": "medium",
+        "evidence": [
+          {
+            "source_id": "bazi.source.yuanhai",
+            "section_id": "bazi.section.s017",
+            "classic_id": "bazi.classic.yuanhai",
+            "classic_title": "渊海子平",
+            "chapter_id": "bazi.chapter.spouse_stars",
+            "chapter_title": "传统配偶星观察口径",
+            "locator": "《渊海子平》六亲总篇；固定短引",
+            "original_text": "用日干为主:正印正母;偏印偏母及祖父也;偏财是父,乃母之夫星也,亦为偏妻;正财为妻;偏财为妾,为父是也;比肩为兄弟姐妹也;七杀是男;正官是女;食神是男孙;伤官是女孙及祖母也。\n 妇人命取六亲,与男命不同:取官星为夫星;七杀是偏夫;食神是男;伤官是女。",
+            "evidence_level": "C",
+            "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%B8%8A%E6%B5%B7%E5%AD%90%E5%B9%B3.txt",
+            "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620"
+          },
+          {
+            "source_id": "bazi.source.ditiansui-spouse",
+            "section_id": "bazi.section.s018",
+            "classic_id": "bazi.classic.ditiansui",
+            "classic_title": "滴天髓阐微",
+            "chapter_id": "bazi.chapter.ditiansui_spouse_boundary",
+            "chapter_title": "夫妻与女命观察边界",
+            "locator": "《滴天髓阐微》六亲论·女命章；固定短引",
+            "original_text": "不必专执官星而论夫。专执伤食而论子。但以安祥顺静为贵,二德三奇不必论,咸池驿马纵有验,总之于理不长。其中究论,不可不详。",
+            "evidence_level": "C",
+            "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+            "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620"
+          },
+          {
+            "source_id": "bazi.source.ditiansui-spouse",
+            "section_id": "bazi.section.s019",
+            "classic_id": "bazi.classic.ditiansui",
+            "classic_title": "滴天髓阐微",
+            "chapter_id": "bazi.chapter.ditiansui_spouse_boundary",
+            "chapter_title": "夫妻与女命观察边界",
+            "locator": "《滴天髓阐微》六亲论·夫妻；固定短引",
+            "original_text": "子平之法,以财为妻,财是我克。人以财来侍我,此理出于正论",
+            "evidence_level": "C",
+            "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+            "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620"
+          }
+        ]
+      },
+      {
+        "id": "bazi.concept.conflict_three_punishments",
+        "domain": "bazi",
+        "name": "三刑 / 自刑口径冲突",
+        "kind": "school_conflict",
+        "status": "unresolved",
+        "dimension": "是否将三刑与自刑作为独立、可机械套用的命理结构",
+        "positions": [
+          {
+            "id": "yuanhai-uses-punishment",
+            "label": "《渊海子平》传统使用",
+            "position": "文本明确使用“三刑”“自刑”作为传统判断因子。",
+            "section_ids": [
+              "bazi.section.s020"
+            ]
+          },
+          {
+            "id": "ditiansui-rejects-mechanical-punishment",
+            "label": "《滴天髓阐微》批评",
+            "position": "任氏认为自刑、子卯刑、寅巳申刑、丑戌未刑等机械套法多属俗谬，应回到地支生克与旺衰分析。",
+            "section_ids": [
+              "bazi.section.s021"
+            ]
+          }
+        ],
+        "production_policy": "当前不建立统一三刑 executable，不在合盘前台输出“刑=凶”“相刑=关系冲突”等结论。",
+        "executable_policy": "blocked_pending_school_resolution",
+        "confidence": "medium",
+        "evidence": [
+          {
+            "source_id": "bazi.source.yuanhai",
+            "section_id": "bazi.section.s020",
+            "classic_id": "bazi.classic.yuanhai",
+            "classic_title": "渊海子平",
+            "chapter_id": "bazi.chapter.yuanhai_punishment_usage",
+            "chapter_title": "三刑与自刑传统用法短引",
+            "locator": "《渊海子平》论日刃；固定短引",
+            "original_text": "三刑自刑魁罡全,发跡疆场。",
+            "evidence_level": "C",
+            "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%B8%8A%E6%B5%B7%E5%AD%90%E5%B9%B3.txt",
+            "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620"
+          },
+          {
+            "source_id": "bazi.source.ditiansui-spouse",
+            "section_id": "bazi.section.s021",
+            "classic_id": "bazi.classic.ditiansui",
+            "classic_title": "滴天髓阐微",
+            "chapter_id": "bazi.chapter.ditiansui_punishment_boundary",
+            "chapter_title": "地支刑法批评",
+            "locator": "《滴天髓阐微》通神论·八、地支；固定短引",
+            "original_text": "刑之义无所取,如亥刑亥、辰刑辰、酉刑酉、午刑午,谓之自刑,本支见本支,自谓同气,何以相刑?子刑卯,卯刑子,是谓相生,何以相刑?戌刑未,未刑丑,皆为土气,更不当刑。寅刑巳,亦是相生,寅申相刑,即冲何必再刑?又曰子卯一刑也,寅巳申二刑也,丑戌未三刑也,故称三刑,又有自刑,此皆俗谬,姑置之。",
+            "evidence_level": "C",
+            "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+            "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620"
+          }
+        ]
+      }
+    ],
+    "conflict_status": "沿用既有governance.school_conflicts：传统配偶星口径已限定范围，三刑争议未解决；Rule difference/exceptions、执行unresolved与来源审计继续保留。",
     "source_comparisons": [
       {
         "rule_id": "liuyao.phase2.relatives",
@@ -10249,6 +11692,14 @@
         ],
         "variant": "quanshu-lunar-iztro-mutagen-v1",
         "scope": "仅指定 variant 的排盘计算关系；不晋级吉凶解释、跨派裁定或源文件证据等级。"
+      },
+      {
+        "phase1_rule_id": "bazi.rule.r004",
+        "execution_rule_ids": [
+          "bazi.phase2.xianchi_lookup"
+        ],
+        "variant": "ziping-structural-v1",
+        "scope": "仅四组咸池目标支结构查表；年支与日支分别报告。不得晋级婚恋吉凶、性格、疾病、事件应期、纳音附加条件或单一基准裁定。"
       }
     ],
     "editorial_review_flags": [
@@ -10287,6 +11738,61 @@
     "api_routes": [
       {
         "method": "GET",
+        "path": "/api/v1/admin/governance/algorithms",
+        "handler": "admin_governance_algorithms"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/admin/governance/chapters",
+        "handler": "admin_governance_chapters"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/admin/governance/classics",
+        "handler": "admin_governance_classics"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/admin/governance/conflicts",
+        "handler": "admin_governance_conflicts"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/admin/governance/evidence",
+        "handler": "admin_governance_evidence"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/admin/governance/layers",
+        "handler": "admin_governance_layers"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/admin/governance/rules",
+        "handler": "admin_governance_rules"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/admin/governance/sources",
+        "handler": "admin_governance_sources"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/admin/governance/terms",
+        "handler": "admin_governance_terms"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/admin/system/prompts",
+        "handler": "admin_prompt_registry"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/admin/system/provider",
+        "handler": "admin_provider_configuration"
+      },
+      {
+        "method": "GET",
         "path": "/api/v1/capabilities",
         "handler": "capabilities"
       },
@@ -10294,6 +11800,16 @@
         "method": "POST",
         "path": "/api/v1/execute",
         "handler": "execute_request"
+      },
+      {
+        "method": "GET",
+        "path": "/api/v1/scenarios",
+        "handler": "scenarios"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/scenarios/execute",
+        "handler": "execute_scenario_request"
       },
       {
         "method": "GET",
@@ -10348,11 +11864,11 @@
       }
     ],
     "retrieval": {
-      "reviewed_entity_chunks": 692,
-      "general_rag_chunks": 2421,
+      "reviewed_entity_chunks": 741,
+      "general_rag_chunks": 2470,
       "general_rag_domains": {
         "almanac": 1,
-        "bazi": 388,
+        "bazi": 437,
         "liuyao": 102,
         "yijing": 1179,
         "engines": 1,
@@ -10369,7 +11885,7 @@
       },
       "warning": "通用RAG包括旧Canonical资料；可检索不等于RuleMatch命中或解释授权。生产解释仍用现有CanonicalRetriever及EvidenceResolver。"
     },
-    "scenario_count": 10,
+    "scenario_count": 11,
     "sanming": {
       "private_use_char_count": 524,
       "unique_private_use_chars": 86,
@@ -10386,6 +11902,24 @@
       "text_candidate_audit": "data/quarantine/public_domain_snapshots/daizhigev20/sanming_ocr_candidates.json",
       "unresolved_text_gaps": 2
     },
-    "new_knowledge_promoted": 0
+    "reviewed_knowledge_batch": [
+      {
+        "entity_id": "bazi.chapter.zhiming_boundary",
+        "collection": "chapters"
+      },
+      {
+        "entity_id": "bazi.section.s022",
+        "collection": "sections"
+      },
+      {
+        "entity_id": "bazi.term.strength_review_boundary",
+        "collection": "terms"
+      },
+      {
+        "entity_id": "bazi.rule.r012",
+        "collection": "rules"
+      }
+    ],
+    "new_execution_promotions": 0
   }
 }
