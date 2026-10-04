@@ -163,6 +163,22 @@ test("admin conflicts never requests internal assets before explicit authorizati
   expect(apiRequests).toEqual([]);
 });
 
+test("admin chapters never requests internal assets before explicit authorization", async ({
+  page,
+}) => {
+  const apiRequests: string[] = [];
+  page.on("request", (request) => {
+    if (request.url().includes("/api/v1/admin/governance/chapters"))
+      apiRequests.push(request.url());
+  });
+  await page.goto("/admin/chapters");
+  await expect(page.getByRole("heading", { name: "章节管理", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "需要内部只读授权" })).toBeVisible();
+  await expect(page.getByLabel("后台只读令牌")).toHaveAttribute("type", "password");
+  await expect(page.locator("main")).toContainText("不会返回章节正文");
+  expect(apiRequests).toEqual([]);
+});
+
 test("configuration previews and prompt drafts clear on reload and never request a service", async ({
   page,
 }) => {
