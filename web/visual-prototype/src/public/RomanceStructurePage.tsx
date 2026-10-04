@@ -3,6 +3,7 @@ import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeRomanceScenario, type ScenarioExecuteResponse } from "./api";
+import { recordReading } from "./readingLibrary";
 import "./romance-structure.css";
 
 const pillarNames: Record<string, string> = {
@@ -56,12 +57,23 @@ export function RomanceStructurePage() {
     setError("");
     setResult(null);
     try {
-      setResult(
-        await executeRomanceScenario({
-          birth_value: `${date}T${time}:00+08:00`,
-          target_year: 2026,
-        }),
-      );
+      const next = await executeRomanceScenario({
+        birth_value: `${date}T${time}:00+08:00`,
+        target_year: 2026,
+      });
+      const target = next.result?.target_year || {};
+      const activation = next.result?.target_year_activation || {};
+      const hitCount = ["year_branch_basis", "day_branch_basis"].filter((key) => activation[key]?.matched).length;
+      recordReading({
+        scenarioId: "romance",
+        label: "桃花姻缘",
+        glyph: "缘",
+        title: `2026 ${target.ganzhi || "桃花结构"}`,
+        subtitle: `咸池结构命中 ${hitCount} 个基准 · 仅结构事实`,
+        href: "/romance-structure",
+        resultVersion: next.result?.report_version || next.status,
+      });
+      setResult(next);
     } catch (err) {
       setError(err instanceof Error ? err.message : "桃花结构计算失败。");
     } finally {
