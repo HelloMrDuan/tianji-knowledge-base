@@ -178,22 +178,40 @@ class ScenarioEngineTests(unittest.TestCase):
     def test_compatibility_structure_is_bidirectional_and_non_scoring(self):
         output = execute_scenario("compatibility", {
             "person_a_birth_value": "2000-01-07T12:00:00+08:00",
-            "person_b_birth_value": "2000-01-07T18:00:00+08:00",
+            "person_b_birth_value": "2000-02-01T12:00:00+08:00",
         })
         self.assertEqual(output["status"], "production_limited")
         self.assertFalse(output["public_release"])
         self.assertEqual(output["result"]["release_scope"], "two_person_structure_only")
+        self.assertEqual(output["result"]["report_version"], "compatibility-structure-v2")
         relations = output["result"]["day_master_relations"]
-        self.assertEqual(relations["a_sees_b"]["ten_god"], "比肩")
-        self.assertEqual(relations["b_sees_a"]["ten_god"], "比肩")
+        self.assertEqual(relations["a_sees_b"]["ten_god"], "正财")
+        self.assertEqual(relations["b_sees_a"]["ten_god"], "正官")
         self.assertEqual(
             set(output["result"]["xianchi_cross_matches"]),
             {"a_targets_vs_b", "b_targets_vs_a"},
         )
+        reviewed = output["result"]["reviewed_cross_relations"]
+        self.assertTrue(reviewed["day_master_five_combination"]["matched"])
+        self.assertEqual(reviewed["day_master_five_combination"]["stems"], ["甲", "己"])
+        self.assertEqual(reviewed["day_master_five_combination"]["traditional_result_element"], "土")
+        self.assertEqual(
+            reviewed["spouse_palace_relation"]["relations"],
+            [{"kind": "six_harmony", "branches": ["子", "丑"], "traditional_result_element": "土"}],
+        )
+        self.assertEqual(output["result"]["person_a"]["spouse_palace"]["day_branch"], "子")
+        self.assertEqual(output["result"]["person_b"]["spouse_palace"]["day_branch"], "丑")
         self.assertTrue(output["evidence"])
         self.assertEqual(
             output["rule_matches"][0]["derived_from_rule_ids"],
-            ["bazi.phase2.ten_gods", "bazi.phase2.xianchi_lookup"],
+            [
+                "bazi.phase2.ten_gods",
+                "bazi.phase2.xianchi_lookup",
+                "bazi.phase2.stem_five_combinations",
+                "bazi.phase2.branch_six_harmonies",
+                "bazi.phase2.branch_six_harms",
+                "bazi.phase2.spouse_palace_day_branch",
+            ],
         )
         serialized = str(output["result"])
         for forbidden in [
@@ -318,14 +336,20 @@ class ScenarioEngineTests(unittest.TestCase):
                 "scenario_id": "compatibility",
                 "input": {
                     "person_a_birth_value": "2000-01-07T12:00:00+08:00",
-                    "person_b_birth_value": "2000-01-07T18:00:00+08:00",
+                    "person_b_birth_value": "2000-02-01T12:00:00+08:00",
                 },
             })
         self.assertEqual(response.status_code, 200, response.text)
         data = response.json()
         self.assertEqual(data["scenario_id"], "compatibility")
         self.assertEqual(data["result"]["release_scope"], "two_person_structure_only")
-        self.assertEqual(data["result"]["day_master_relations"]["a_sees_b"]["ten_god"], "比肩")
+        self.assertEqual(data["result"]["report_version"], "compatibility-structure-v2")
+        self.assertEqual(data["result"]["day_master_relations"]["a_sees_b"]["ten_god"], "正财")
+        self.assertTrue(data["result"]["reviewed_cross_relations"]["day_master_five_combination"]["matched"])
+        self.assertEqual(
+            data["result"]["reviewed_cross_relations"]["spouse_palace_relation"]["relations"][0]["kind"],
+            "six_harmony",
+        )
         self.assertFalse(data["public_release"])
         self.assertTrue(data["evidence"])
 

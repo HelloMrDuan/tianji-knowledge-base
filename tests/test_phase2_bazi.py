@@ -45,6 +45,41 @@ class BaziPhase2Tests(unittest.TestCase):
         with self.assertRaises(ValueError):
             chart("甲寅","甲子","甲申","乙卯",include_xianchi="yes")
 
+    def test_reviewed_relations_are_opt_in_evidence_bound_and_non_interpretive(self):
+        out=chart("甲子","己丑","丙寅","辛巳",include_relations=True)
+        relations=out["result"]["reviewed_relations"]
+        self.assertEqual(relations["stem_five_combinations"],[
+            {"pillars":["year","month"],"stems":["甲","己"],"traditional_result_element":"土"},
+            {"pillars":["day","hour"],"stems":["丙","辛"],"traditional_result_element":"水"},
+        ])
+        self.assertEqual(relations["branch_six_harmonies"],[
+            {"pillars":["year","month"],"branches":["子","丑"],"traditional_result_element":"土"},
+        ])
+        self.assertEqual(relations["branch_six_harms"],[
+            {"pillars":["day","hour"],"branches":["寅","巳"]},
+        ])
+        self.assertEqual(relations["spouse_palace"],{
+            "pillar":"day","day_branch":"寅","label":"日支（传统配偶宫结构位）",
+        })
+        relation_steps=[x for x in out["trace"] if x["rule_id"] in {
+            "bazi.phase2.stem_five_combinations",
+            "bazi.phase2.branch_six_harmonies",
+            "bazi.phase2.branch_six_harms",
+            "bazi.phase2.spouse_palace_day_branch",
+        }]
+        self.assertEqual(len(relation_steps),4)
+        self.assertTrue(all(x["evidence_ids"] for x in relation_steps))
+        self.assertTrue(all(v["evidence_level"]=="C" for v in out["evidence"].values()))
+        serialized=str(relations)
+        for forbidden in ("compatibility_score","marriage_score","auspicious","breakup_risk"):
+            self.assertNotIn(forbidden,serialized)
+
+    def test_relations_are_opt_in_and_boolean_only(self):
+        plain=chart("甲子","己丑","丙寅","辛巳")
+        self.assertNotIn("reviewed_relations",plain["result"])
+        with self.assertRaises(ValueError):
+            chart("甲子","己丑","丙寅","辛巳",include_relations="yes")
+
     def test_unknown_variant_rejected(self):
         with self.assertRaises(ValueError):
             chart("庚辰","己丑","甲子","庚午",variant="unknown")

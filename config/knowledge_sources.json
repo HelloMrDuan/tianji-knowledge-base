@@ -1995,6 +1995,27 @@
       "kind": "classical",
       "rights_basis": "《三命通会》为前现代古籍；仅保存固定古文原文短篇快照。NiuTrans 仓库声明 MIT，但 README 同时说明语料来自互联网，因此不据仓库许可证推断底本权利或版本权威。",
       "review_scope": "只审核卷二《论咸池》固定文本与四组查表。电子本把“巳酉丑午”转写为“已酉丑午”的疑字单独登记；独立刊本谱系未确证，不升级 A/B。"
+    },
+    {
+      "source_id": "bazi.source.xieji-relations",
+      "title": "钦定协纪辨方书·五行关系短引",
+      "author": null,
+      "era": "清代官修术数文献；本轮仅审核五合、六合、六害结构短引",
+      "repository": "garychowcmu/daizhigev20",
+      "url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E9%92%A6%E5%AE%9A%E5%8D%8F%E7%BA%AA%E8%BE%A8%E6%96%B9%E4%B9%A6.txt",
+      "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+      "path": "易藏/术数/钦定协纪辨方书.txt",
+      "license": "Public-Domain (pre-modern text only)",
+      "public_domain": true,
+      "retrieved_at": "2026-10-04",
+      "content_path": "data/quarantine/public_domain_snapshots/daizhigev20/xieji_bianfang.txt",
+      "content_format": "text",
+      "sha256": "c192fc641494e0da4b1f857bc21243f14c49d10839cd9a8cff9439616c0c87ff",
+      "blob_sha": null,
+      "evidence_level": "C",
+      "kind": "classical",
+      "rights_basis": "仅保存并引用公有领域古籍原文短引；完整电子快照仍留在 quarantine，不因本轮短引审核整体晋级。",
+      "review_scope": "逐字核对固定 commit 中天干五合、地支六合、六害相关短段；仅用于结构查表，不据合害关系输出婚恋吉凶。"
     }
   ]
 }

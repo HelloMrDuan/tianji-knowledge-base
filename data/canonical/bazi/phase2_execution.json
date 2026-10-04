@@ -4,11 +4,13 @@
   "domain": "bazi",
   "variant": "ziping-structural-v1",
   "provider": "tianji_kb.operations.bazi_chart.chart",
-  "scope": "生产范围含四柱、日主、十神、藏干；显式 include_xianchi=true 时可返回咸池四组结构查表。所有结构事实均不输出旺衰、喜用、格局或婚恋吉凶。",
+  "scope": "生产范围含四柱、日主、十神、藏干；显式 include_xianchi=true 时可返回咸池四组结构查表；显式 include_relations=true 时可返回已审核的天干五合、地支六合/六害与日支传统配偶宫结构位。所有结构事实均不输出旺衰、喜用、格局、关系评分或婚恋吉凶。",
   "unresolved": [
     "真太阳时未实现。",
     "旺衰、格局、喜用神、调候与大运起运规则尚未完成证据裁定。",
-    "咸池四组目标支已核；年支与日支只分别报告，不裁定单一优先基准；纳音附加条件及桃花/婚恋解释仍未裁定。"
+    "咸池四组目标支已核；年支与日支只分别报告，不裁定单一优先基准；纳音附加条件及桃花/婚恋解释仍未裁定。",
+    "本轮只晋级天干五合、地支六合、六害与日支传统配偶宫结构位；六冲、三刑、三合用于合盘的正式 Evidence 绑定仍待独立审核。",
+    "五合/六合命中不代表化气成立；六害命中不代表现实关系受害、分手或凶断。"
   ],
   "rules": [
     {
@@ -74,6 +76,70 @@
       ],
       "regression_test": "tests/test_phase2_bazi.py",
       "evidence_scope": "C：《三命通会·卷二·论咸池》固定短引；只确认四组目标支。年支与日支分别起查，不据命中直接生成桃花或婚恋吉凶。"
+    },
+    {
+      "id": "bazi.phase2.stem_five_combinations",
+      "domain": "bazi",
+      "name": "天干五合固定配对",
+      "variant": "ziping-structural-v1",
+      "execution_status": "executable",
+      "phase1_rule_refs": [
+        "bazi.rule.r005"
+      ],
+      "validation_status": "validated",
+      "golden_case_ids": [
+        "bazi.relations-core"
+      ],
+      "regression_test": "tests/test_phase2_bazi.py",
+      "evidence_scope": "C：《钦定协纪辨方书》固定短引；只确认甲己、乙庚、丙辛、丁壬、戊癸五组配对，不判断化气成败或吉凶。"
+    },
+    {
+      "id": "bazi.phase2.branch_six_harmonies",
+      "domain": "bazi",
+      "name": "地支六合固定配对",
+      "variant": "ziping-structural-v1",
+      "execution_status": "executable",
+      "phase1_rule_refs": [
+        "bazi.rule.r006"
+      ],
+      "validation_status": "validated",
+      "golden_case_ids": [
+        "bazi.relations-core"
+      ],
+      "regression_test": "tests/test_phase2_bazi.py",
+      "evidence_scope": "C：《钦定协纪辨方书》固定短引；只确认六组六合配对，不解释关系适配、吉凶或婚姻结果。"
+    },
+    {
+      "id": "bazi.phase2.branch_six_harms",
+      "domain": "bazi",
+      "name": "地支六害固定配对",
+      "variant": "ziping-structural-v1",
+      "execution_status": "executable",
+      "phase1_rule_refs": [
+        "bazi.rule.r007"
+      ],
+      "validation_status": "validated",
+      "golden_case_ids": [
+        "bazi.relations-core"
+      ],
+      "regression_test": "tests/test_phase2_bazi.py",
+      "evidence_scope": "C：《钦定协纪辨方书》月害条固定短引；只确认六组相害配对，不输出现实关系伤害或凶断。"
+    },
+    {
+      "id": "bazi.phase2.spouse_palace_day_branch",
+      "domain": "bazi",
+      "name": "日支传统配偶宫结构位",
+      "variant": "ziping-structural-v1",
+      "execution_status": "executable",
+      "phase1_rule_refs": [
+        "bazi.rule.r008"
+      ],
+      "validation_status": "validated",
+      "golden_case_ids": [
+        "bazi.relations-core"
+      ],
+      "regression_test": "tests/test_phase2_bazi.py",
+      "evidence_scope": "C：《渊海子平·络绎赋》固定短引；只标记日支的传统结构角色，产品使用中性“配偶宫结构位”称呼。"
     }
   ]
 }

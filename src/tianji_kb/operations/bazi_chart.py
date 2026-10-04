@@ -1,12 +1,14 @@
 """Evidence-bound Bazi structural chart. No strength, useful-god or fortune judgement."""
-from ..bazi_core import VARIANT, chart_from_pillars
+from ..bazi_core import VARIANT, chart_from_pillars, reviewed_relations
 from ..resolver import ExecutionTrace
 
-def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=False, variant=VARIANT):
+def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=False, include_relations=False, variant=VARIANT):
     if variant != VARIANT:
         raise ValueError("Unsupported Bazi variant")
     if type(include_xianchi) is not bool:
         raise ValueError("include_xianchi must be boolean")
+    if type(include_relations) is not bool:
+        raise ValueError("include_relations must be boolean")
     raw = chart_from_pillars(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, variant=variant)
     trace = ExecutionTrace("bazi", variant)
 
@@ -38,6 +40,32 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
             raw["auxiliary"]["taohua"],
         )
 
+    relation_facts = None
+    if include_relations:
+        stems = [year_ganzhi[0], month_ganzhi[0], day_ganzhi[0], hour_ganzhi[0]]
+        branches = [year_ganzhi[1], month_ganzhi[1], day_ganzhi[1], hour_ganzhi[1]]
+        relation_facts = reviewed_relations(stems, branches)
+        trace.add(
+            "bazi.phase2.stem_five_combinations",
+            {"stems": stems},
+            relation_facts["stem_five_combinations"],
+        )
+        trace.add(
+            "bazi.phase2.branch_six_harmonies",
+            {"branches": branches},
+            relation_facts["branch_six_harmonies"],
+        )
+        trace.add(
+            "bazi.phase2.branch_six_harms",
+            {"branches": branches},
+            relation_facts["branch_six_harms"],
+        )
+        trace.add(
+            "bazi.phase2.spouse_palace_day_branch",
+            {"day_ganzhi": day_ganzhi},
+            relation_facts["spouse_palace"],
+        )
+
     result = {
         "pillars": raw["pillars"],
         "day_master": raw["day_master"],
@@ -49,4 +77,7 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
     if xianchi is not None:
         result["xianchi_lookup"] = xianchi
         result["production_scope"] += "；可选咸池四组结构查表（年支/日支分别报告，不作婚恋吉凶解释）"
+    if relation_facts is not None:
+        result["reviewed_relations"] = relation_facts
+        result["production_scope"] += "；可选已审核五合、六合、六害与日支传统配偶宫结构位（只报结构，不作关系吉凶解释）"
     return trace.finish(result)
