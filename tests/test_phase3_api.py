@@ -43,6 +43,45 @@ class UnifiedApiTests(unittest.TestCase):
         self.assertFalse(research.json()['chart']['period']['production_eligible'])
         self.assertEqual(research.json()['chart']['period']['epoch_evidence_level'],'D')
         self.assertEqual(self.client.post('/api/v1/execute',json={'domain':'fengshui','input':{'degrees':0,'research':True}}).status_code,422)
+    def test_admin_conflicts_are_server_token_gated_and_canonical(self):
+        disabled=TestClient(create_app(admin_read_token=""))
+        unavailable=disabled.get('/api/v1/admin/governance/conflicts')
+        self.assertEqual(unavailable.status_code,503)
+        self.assertEqual(unavailable.json()['detail']['code'],'admin_auth_not_configured')
+
+        client=TestClient(create_app(admin_read_token='review-token'))
+        self.assertEqual(client.get('/api/v1/admin/governance/conflicts').status_code,401)
+        self.assertEqual(
+            client.get(
+                '/api/v1/admin/governance/conflicts',
+                headers={'Authorization':'Bearer wrong-token'},
+            ).status_code,
+            401,
+        )
+        response=client.get(
+            '/api/v1/admin/governance/conflicts',
+            headers={'Authorization':'Bearer review-token'},
+        )
+        self.assertEqual(response.status_code,200,response.text)
+        data=response.json()
+        self.assertTrue(data['read_only'])
+        self.assertFalse(data['public_release'])
+        records={row['id']:row for row in data['records']}
+        self.assertIn('bazi.concept.conflict_spouse_star_lens',records)
+        self.assertIn('bazi.concept.conflict_three_punishments',records)
+        self.assertEqual(records['bazi.concept.conflict_spouse_star_lens']['status'],'bounded')
+        self.assertEqual(records['bazi.concept.conflict_three_punishments']['status'],'unresolved')
+        self.assertEqual(
+            records['bazi.concept.conflict_three_punishments']['executable_policy'],
+            'blocked_pending_school_resolution',
+        )
+        self.assertTrue(all(row['evidence'] for row in records.values()))
+        self.assertTrue(all(
+            evidence['evidence_level']=='C'
+            for row in records.values()
+            for evidence in row['evidence']
+        ))
+
     def test_health_capabilities_and_openapi(self):
         self.assertEqual(self.client.get('/health').json()['status'],'ok')
         capabilities=self.client.get('/api/v1/capabilities').json()
