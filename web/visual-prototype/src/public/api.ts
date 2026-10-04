@@ -43,3 +43,30 @@ export async function executeLiuyao(input: {
   }
   return data as ExecuteResponse;
 }
+
+
+export async function executeBazi(input: {
+  value: string;
+}): Promise<ExecuteResponse> {
+  const response = await fetch(`${apiBase}/api/v1/execute`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      domain: "bazi",
+      variant: "ziping-structural-v1",
+      input,
+      explain: false,
+      mode: "production",
+    }),
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    const message =
+      data?.detail?.message ||
+      data?.detail?.[0]?.msg ||
+      data?.detail?.code ||
+      `请求失败（HTTP ${response.status}）`;
+    throw new Error(message);
+  }
+  return data as ExecuteResponse;
+}

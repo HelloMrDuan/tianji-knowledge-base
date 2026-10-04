@@ -10,6 +10,7 @@ import { ResultTemplatePage } from "./ResultTemplatePage";
 import { LibraryPage } from "./LibraryPage";
 import { domainPages } from "./domainPages";
 import { QuestionPage } from "./QuestionPage";
+import { BaziProfilePage } from "./BaziProfilePage";
 import "./public.css";
 
 const favoriteKey = "tianji.product.favorite";
@@ -48,7 +49,9 @@ export function PublicApp() {
         ? "天机"
         : path === "/ask"
           ? "一事占问"
-          : domainPage?.name ||
+          : path === "/bazi-profile"
+            ? "八字基础档案"
+            : domainPage?.name ||
             resultPage?.name ||
             (path === "/history"
               ? "历史记录"
@@ -84,6 +87,8 @@ export function PublicApp() {
             <HomePage />
           ) : path === "/ask" ? (
             <QuestionPage />
+          ) : path === "/bazi-profile" ? (
+            <BaziProfilePage />
           ) : domainPage ? (
             <DomainHomePage key={domainPage.id} page={domainPage} />
           ) : path === "/liuyao/result" ? (

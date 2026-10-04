@@ -71,3 +71,20 @@ jobs:
           assert data["explanation_status"]=="disabled"
           print("real frontend proxy -> API -> deterministic Liuyao: ok")
           PY
+
+          curl -fsS -X POST http://127.0.0.1:5173/api/v1/execute \
+            -H 'Content-Type: application/json' \
+            -d '{"domain":"bazi","variant":"ziping-structural-v1","input":{"value":"2000-01-07T12:00:00+08:00"},"explain":false,"mode":"production"}' \
+            >/tmp/bazi.json
+          python - <<'PY'
+          import json
+          data=json.load(open("/tmp/bazi.json",encoding="utf-8"))
+          assert data["domain"]=="bazi"
+          assert data["variant"]=="ziping-structural-v1"
+          assert data["deterministic"] is True
+          assert data["chart"]["day_master"]["stem"]=="甲"
+          assert len(data["chart"]["pillars"])==4
+          assert data["evidence"]
+          assert data["explanation_status"]=="disabled"
+          print("real frontend proxy -> API -> deterministic Bazi: ok")
+          PY
