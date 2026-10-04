@@ -291,6 +291,7 @@ export function LifeOverviewPage() {
               <h2>从总览继续深入，而不是从头再填。</h2>
             </div>
             <div className="life-next-actions">
+              <Link href="/daily-structure">今日结构</Link>
               <Link href="/yearly-structure">2026 流年</Link>
               <Link href="/romance-structure">桃花姻缘</Link>
               <Link href="/career-wealth-structure">事业财运</Link>
