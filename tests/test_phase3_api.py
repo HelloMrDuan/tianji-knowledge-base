@@ -164,6 +164,30 @@ class UnifiedApiTests(unittest.TestCase):
         self.assertNotIn('data/quarantine/',serialized)
         self.assertNotIn('TIANJI_ADMIN_READ_TOKEN',serialized)
 
+    def test_admin_layers_are_token_gated_aggregate_only(self):
+        client=TestClient(create_app(admin_read_token='review-token'))
+        path='/api/v1/admin/governance/layers'
+        self.assertEqual(client.get(path).status_code,401)
+        response=client.get(path,headers={'Authorization':'Bearer review-token'})
+        self.assertEqual(response.status_code,200,response.text)
+        data=response.json()
+        self.assertTrue(data['read_only'])
+        self.assertFalse(data['public_release'])
+        records={row['id']:row for row in data['records']}
+        self.assertEqual(set(records),{'raw','quarantine','canonical'})
+        self.assertFalse(records['raw']['production_queryable'])
+        self.assertFalse(records['quarantine']['production_queryable'])
+        self.assertTrue(records['canonical']['production_queryable'])
+        self.assertGreater(records['quarantine']['tracked_file_count'],0)
+        self.assertGreater(records['canonical']['tracked_file_count'],0)
+        self.assertGreater(records['canonical']['protected_file_count'],0)
+        serialized=str(records)
+        self.assertNotIn('data/quarantine/',serialized)
+        self.assertNotIn('data/canonical/',serialized)
+        self.assertNotIn('content_path',serialized)
+        self.assertNotIn('sha256',serialized)
+        self.assertNotIn('TIANJI_ADMIN_READ_TOKEN',serialized)
+
     def test_admin_rules_and_evidence_are_token_gated_reviewed_assets(self):
         client=TestClient(create_app(admin_read_token='review-token'))
         for path in (

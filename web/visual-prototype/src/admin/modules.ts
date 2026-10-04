@@ -72,41 +72,6 @@ export const modules: ModuleDefinition[] = [
     ],
   },
   {
-    id: "layers",
-    title: "RAW / Quarantine / Canonical",
-    description: "查看分层、审核门槛与阻断原因，晋级必须独立审核。",
-    mode: "pipeline",
-    columns: ["当前层", "晋级条件", "发布许可"],
-    records: [
-      record(
-        "L001",
-        "原始快照 · 样例",
-        "只读",
-        ["RAW", "保留原始文件", "未核"],
-        "原始快照不可在此覆盖。",
-      ),
-      record(
-        "L002",
-        "待校文本 · 样例",
-        "隔离",
-        ["Quarantine", "来源与文本复核", "禁止发布"],
-        "quarantine_only=true；canonical_ready=false。这里仅呈现流程，不执行晋级。",
-      ),
-      record(
-        "L003",
-        "获准选段 · 样例",
-        "已审示例",
-        ["Canonical", "人工审核示例", "仅示例"],
-        "此行是虚构记录，不代表真实资产晋级。",
-      ),
-    ],
-    guide: [
-      ["原始层", "保存原文，不覆盖快照。"],
-      ["隔离层", "校勘与来源核对逐项留痕。"],
-      ["规范层", "就绪、许可与人工审核全部通过后再评估。"],
-    ],
-  },
-  {
     id: "conflicts",
     title: "流派与冲突",
     description: "读取受保护的 Canonical school_conflict 资产；未授权时不返回内部记录。",
