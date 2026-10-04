@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "scope": "六域最小完整骨架；不等于完整排盘、占断或整本校勘",
+  "scope": "七域最小完整骨架；不等于完整排盘、占断或整本校勘",
   "domains": [
     {
       "domain": "yijing",
@@ -369,6 +369,53 @@
       },
       "pending_evidence": [
         "九宗门初传分支未完整编译；贵人两表及天后位置异文待逐句核定。"
+      ],
+      "status": "phase1_complete"
+    },
+    {
+      "domain": "bazi",
+      "name": "八字 / 子平",
+      "classics": {
+        "canonical": 1,
+        "quarantine": 0,
+        "metadata_only": 0,
+        "with_reviewed_excerpts": 1
+      },
+      "chapters": 3,
+      "sections": 8,
+      "terms": {
+        "canonical": 3
+      },
+      "concepts": 1,
+      "rules": {
+        "executable": 0,
+        "partially_structured": 3,
+        "descriptive_only": 0
+      },
+      "sources": {
+        "A": 0,
+        "B": 0,
+        "C": 1,
+        "D": 0
+      },
+      "source_ids": [
+        "bazi.source.yuanhai"
+      ],
+      "tests": 1,
+      "production_chunks": 15,
+      "completion_criteria": {
+        "domain_definition": true,
+        "source_registry": true,
+        "reviewed_core_material": true,
+        "terms": true,
+        "structured_rules": true,
+        "resolved_evidence": true,
+        "domain_tests": true,
+        "coverage_report": true,
+        "production_isolation": true
+      },
+      "pending_evidence": [
+        "生产范围暂限四柱、日主、十神、藏干；旺衰、格局、喜用、调候、大运起运及神煞解释尚未裁定。"
       ],
       "status": "phase1_complete"
     }
