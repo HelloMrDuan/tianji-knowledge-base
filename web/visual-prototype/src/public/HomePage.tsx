@@ -7,6 +7,7 @@ import "./scenarios.css";
 
 export function HomePage() {
   const question = scenarioProducts.find((item) => item.id === "question")!;
+  const baziProfile = scenarioProducts.find((item) => item.id === "bazi-profile")!;
   return (
     <div className="scenario-home">
       <section className="scenario-hero">
@@ -87,15 +88,18 @@ export function HomePage() {
 
         <div className="scenario-featured">
           <div>
-            <span className="eyebrow">第一条真实闭环</span>
-            <h3>{question.name} · 从一个具体问题开始</h3>
+            <span className="eyebrow">两条真实闭环</span>
+            <h3>{baziProfile.name} + {question.name}</h3>
             <p>
-              录入六爻后直接调用现有 <code>/api/v1/execute</code>，
-              返回真实盘面、RuleMatch、Evidence 和 Trace。后端不可用就明确报错，
+              八字基础档案与六爻一事占问都直接调用现有 <code>/api/v1/execute</code>，
+              返回真实确定性结果、RuleMatch、Evidence 和 Trace。后端不可用就明确报错，
               不拿静态示例冒充结果。
             </p>
           </div>
           <div className="scenario-featured-actions">
+            <Link className="button outlined" href="/bazi-profile">
+              建立八字档案
+            </Link>
             <Link className="button primary" href="/ask">
               开始占问
               <Icon name="arrow" size={18} />
@@ -133,7 +137,7 @@ export function HomePage() {
           ))}
         </div>
         <p className="professional-note">
-          八字目前仍缺少生产级确定性引擎，因此年运、桃花、事业财运和合盘不会提前包装成“已可用”。
+          八字四柱、日主、十神、藏干已进入生产链路；年运、桃花、事业财运和合盘仍不会提前包装成“已可用”。
         </p>
       </section>
 
