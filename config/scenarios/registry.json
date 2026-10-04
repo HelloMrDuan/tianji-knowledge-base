@@ -1,0 +1,1682 @@
+{
+  "schema_version": "1.0",
+  "artifact_kind": "design_only",
+  "version": "scenario-design-v1",
+  "timezone": "Asia/Shanghai",
+  "core_count": 10,
+  "entry_count": 11,
+  "runtime_implemented": false,
+  "public_enabled": false,
+  "ai_policy": {
+    "enabled": false,
+    "may_compute_chart": false,
+    "may_fill_missing_metrics": false,
+    "requires_scenario_evaluation": true
+  },
+  "score_policy": {
+    "status": "unavailable",
+    "policy_id": null,
+    "value": null,
+    "note": "没有已核场景聚合权重；展示 —，不显示 0/60/默认好运或伪概率。"
+  },
+  "scenarios": [
+    {
+      "scenario_id": "daily_fortune",
+      "title": "今日运势",
+      "user_goal": "个人每日变化与复访",
+      "entries": [
+        {
+          "entry_id": "daily_fortune",
+          "label": "今日运势",
+          "view": "default"
+        }
+      ],
+      "period_kind": "day",
+      "inputs": [
+        {
+          "name": "birth_profile",
+          "label": "出生资料",
+          "type": "birth_profile",
+          "required": true,
+          "note": "北京时间；出生时刻精度与规则口径单独记录。无时辰不猜测。"
+        },
+        {
+          "name": "target_date",
+          "label": "查看日期",
+          "type": "date",
+          "required": true,
+          "note": ""
+        }
+      ],
+      "dependencies": [
+        {
+          "engine_id": "bazi",
+          "registered": false,
+          "variant": null,
+          "rule_ids": [],
+          "role": "required",
+          "scope": "待补强的八字执行契约",
+          "invocation_condition": "满足本引擎输入/年界/非闰月要求"
+        },
+        {
+          "engine_id": "ziwei",
+          "registered": true,
+          "variant": "quanshu-lunar-iztro-mutagen-v1",
+          "rule_ids": [
+            "ziwei.phase2.life_body",
+            "ziwei.phase2.bureau",
+            "ziwei.phase2.palaces",
+            "ziwei.phase2.major_stars",
+            "ziwei.phase2.auxiliary_stars",
+            "ziwei.phase2.mutagens"
+          ],
+          "role": "supporting",
+          "scope": "基础结构；不是场景判读规则",
+          "invocation_condition": "满足本引擎输入/年界/非闰月要求"
+        }
+      ],
+      "scenario_rules": [],
+      "evidence": {
+        "existing_structural_refs": [
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.life_body",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/0",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.bureau",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/1",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.palaces",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/2",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.major_stars",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/3",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.auxiliary_stars",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/4",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.mutagens",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/5",
+            "grades": [
+              "C"
+            ]
+          }
+        ],
+        "scenario_conclusion_refs": [],
+        "required_new_knowledge": [
+          "场景判读与聚合依据"
+        ]
+      },
+      "maturity": "blocked_bazi",
+      "status": "blocked",
+      "public_enabled": false,
+      "runtime_implemented": false,
+      "ai_enabled": false,
+      "report_template": "scenario-report-v1",
+      "score_policy_id": null,
+      "forecast_available": false,
+      "current_limit": "运势趋势尚未可算；可以展示日历事实，不能称为个人好运",
+      "blockers": [
+        "四柱/流日",
+        "场景解释规则",
+        "历史与复访服务"
+      ],
+      "priority": null,
+      "history": {
+        "supported_now": false,
+        "design_key": [
+          "owner_id",
+          "scenario_id",
+          "view",
+          "profile_versions",
+          "period_start",
+          "period_end",
+          "registry_version",
+          "engine_versions",
+          "rule_versions",
+          "input_digest"
+        ],
+        "periodic_revisit": true,
+        "on_version_change": "new_revision_preserve_old",
+        "reroll_on_refresh": false
+      }
+    },
+    {
+      "scenario_id": "weekly_fortune",
+      "title": "本周运势",
+      "user_goal": "一周关注点和日程复盘",
+      "entries": [
+        {
+          "entry_id": "weekly_fortune",
+          "label": "本周运势",
+          "view": "default"
+        }
+      ],
+      "period_kind": "week",
+      "inputs": [
+        {
+          "name": "birth_profile",
+          "label": "出生资料",
+          "type": "birth_profile",
+          "required": true,
+          "note": "北京时间；出生时刻精度与规则口径单独记录。无时辰不猜测。"
+        },
+        {
+          "name": "week_start",
+          "label": "本周周一",
+          "type": "date",
+          "required": true,
+          "note": ""
+        }
+      ],
+      "dependencies": [
+        {
+          "engine_id": "bazi",
+          "registered": false,
+          "variant": null,
+          "rule_ids": [],
+          "role": "required",
+          "scope": "待补强的八字执行契约",
+          "invocation_condition": "满足本引擎输入/年界/非闰月要求"
+        },
+        {
+          "engine_id": "ziwei",
+          "registered": true,
+          "variant": "quanshu-lunar-iztro-mutagen-v1",
+          "rule_ids": [
+            "ziwei.phase2.life_body",
+            "ziwei.phase2.bureau",
+            "ziwei.phase2.palaces",
+            "ziwei.phase2.major_stars",
+            "ziwei.phase2.auxiliary_stars",
+            "ziwei.phase2.mutagens"
+          ],
+          "role": "supporting",
+          "scope": "基础结构；不是场景判读规则",
+          "invocation_condition": "满足本引擎输入/年界/非闰月要求"
+        }
+      ],
+      "scenario_rules": [],
+      "evidence": {
+        "existing_structural_refs": [
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.life_body",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/0",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.bureau",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/1",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.palaces",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/2",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.major_stars",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/3",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.auxiliary_stars",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/4",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.mutagens",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/5",
+            "grades": [
+              "C"
+            ]
+          }
+        ],
+        "scenario_conclusion_refs": [],
+        "required_new_knowledge": [
+          "场景判读与聚合依据"
+        ]
+      },
+      "maturity": "blocked_bazi",
+      "status": "blocked",
+      "public_enabled": false,
+      "runtime_implemented": false,
+      "ai_enabled": false,
+      "report_template": "scenario-report-v1",
+      "score_policy_id": null,
+      "forecast_available": false,
+      "current_limit": "不能把七天伪分数平均成周运势",
+      "blockers": [
+        "流日/流月联动",
+        "周报告聚合规则",
+        "历史与复访服务"
+      ],
+      "priority": null,
+      "history": {
+        "supported_now": false,
+        "design_key": [
+          "owner_id",
+          "scenario_id",
+          "view",
+          "profile_versions",
+          "period_start",
+          "period_end",
+          "registry_version",
+          "engine_versions",
+          "rule_versions",
+          "input_digest"
+        ],
+        "periodic_revisit": true,
+        "on_version_change": "new_revision_preserve_old",
+        "reroll_on_refresh": false
+      }
+    },
+    {
+      "scenario_id": "monthly_fortune",
+      "title": "本月运势",
+      "user_goal": "本月主题、分段与回顾",
+      "entries": [
+        {
+          "entry_id": "monthly_fortune",
+          "label": "本月运势",
+          "view": "default"
+        }
+      ],
+      "period_kind": "month",
+      "inputs": [
+        {
+          "name": "birth_profile",
+          "label": "出生资料",
+          "type": "birth_profile",
+          "required": true,
+          "note": "北京时间；出生时刻精度与规则口径单独记录。无时辰不猜测。"
+        },
+        {
+          "name": "target_month",
+          "label": "查看月份",
+          "type": "month",
+          "required": true,
+          "note": ""
+        }
+      ],
+      "dependencies": [
+        {
+          "engine_id": "bazi",
+          "registered": false,
+          "variant": null,
+          "rule_ids": [],
+          "role": "required",
+          "scope": "待补强的八字执行契约",
+          "invocation_condition": "满足本引擎输入/年界/非闰月要求"
+        },
+        {
+          "engine_id": "ziwei",
+          "registered": true,
+          "variant": "quanshu-lunar-iztro-mutagen-v1",
+          "rule_ids": [
+            "ziwei.phase2.life_body",
+            "ziwei.phase2.bureau",
+            "ziwei.phase2.palaces",
+            "ziwei.phase2.major_stars",
+            "ziwei.phase2.auxiliary_stars",
+            "ziwei.phase2.mutagens"
+          ],
+          "role": "supporting",
+          "scope": "基础结构；不是场景判读规则",
+          "invocation_condition": "满足本引擎输入/年界/非闰月要求"
+        }
+      ],
+      "scenario_rules": [],
+      "evidence": {
+        "existing_structural_refs": [
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.life_body",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/0",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.bureau",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/1",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.palaces",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/2",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.major_stars",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/3",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.auxiliary_stars",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/4",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.mutagens",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/5",
+            "grades": [
+              "C"
+            ]
+          }
+        ],
+        "scenario_conclusion_refs": [],
+        "required_new_knowledge": [
+          "场景判读与聚合依据"
+        ]
+      },
+      "maturity": "blocked_bazi",
+      "status": "blocked",
+      "public_enabled": false,
+      "runtime_implemented": false,
+      "ai_enabled": false,
+      "report_template": "scenario-report-v1",
+      "score_policy_id": null,
+      "forecast_available": false,
+      "current_limit": "公历月份用于阅读窗口，命理月界必须按锁定节气口径",
+      "blockers": [
+        "流月/流日",
+        "窗口分段规则",
+        "历史与复访服务"
+      ],
+      "priority": null,
+      "history": {
+        "supported_now": false,
+        "design_key": [
+          "owner_id",
+          "scenario_id",
+          "view",
+          "profile_versions",
+          "period_start",
+          "period_end",
+          "registry_version",
+          "engine_versions",
+          "rule_versions",
+          "input_digest"
+        ],
+        "periodic_revisit": true,
+        "on_version_change": "new_revision_preserve_old",
+        "reroll_on_refresh": false
+      }
+    },
+    {
+      "scenario_id": "annual_fortune",
+      "title": "2026 年运势",
+      "user_goal": "年度主题与关键边界",
+      "entries": [
+        {
+          "entry_id": "annual_fortune",
+          "label": "2026 年运势",
+          "view": "default"
+        }
+      ],
+      "period_kind": "year",
+      "inputs": [
+        {
+          "name": "birth_profile",
+          "label": "出生资料",
+          "type": "birth_profile",
+          "required": true,
+          "note": "北京时间；出生时刻精度与规则口径单独记录。无时辰不猜测。"
+        },
+        {
+          "name": "target_year",
+          "label": "查看年份",
+          "type": "year",
+          "required": true,
+          "note": "2026 是视图默认值，不是独立算法"
+        }
+      ],
+      "dependencies": [
+        {
+          "engine_id": "bazi",
+          "registered": false,
+          "variant": null,
+          "rule_ids": [],
+          "role": "required",
+          "scope": "待补强的八字执行契约",
+          "invocation_condition": "满足本引擎输入/年界/非闰月要求"
+        },
+        {
+          "engine_id": "ziwei",
+          "registered": true,
+          "variant": "quanshu-lunar-iztro-mutagen-v1",
+          "rule_ids": [
+            "ziwei.phase2.life_body",
+            "ziwei.phase2.bureau",
+            "ziwei.phase2.palaces",
+            "ziwei.phase2.major_stars",
+            "ziwei.phase2.auxiliary_stars",
+            "ziwei.phase2.mutagens"
+          ],
+          "role": "supporting",
+          "scope": "基础结构；不是场景判读规则",
+          "invocation_condition": "满足本引擎输入/年界/非闰月要求"
+        }
+      ],
+      "scenario_rules": [],
+      "evidence": {
+        "existing_structural_refs": [
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.life_body",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/0",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.bureau",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/1",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.palaces",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/2",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.major_stars",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/3",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.auxiliary_stars",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/4",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.mutagens",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/5",
+            "grades": [
+              "C"
+            ]
+          }
+        ],
+        "scenario_conclusion_refs": [],
+        "required_new_knowledge": [
+          "场景判读与聚合依据"
+        ]
+      },
+      "maturity": "blocked_bazi",
+      "status": "blocked",
+      "public_enabled": false,
+      "runtime_implemented": false,
+      "ai_enabled": false,
+      "report_template": "scenario-report-v1",
+      "score_policy_id": null,
+      "forecast_available": false,
+      "current_limit": "不能只用出生生肖或四化表生成全年走势",
+      "blockers": [
+        "大运/流年/流月",
+        "年度场景规则",
+        "争议时间边界证据"
+      ],
+      "priority": null,
+      "history": {
+        "supported_now": false,
+        "design_key": [
+          "owner_id",
+          "scenario_id",
+          "view",
+          "profile_versions",
+          "period_start",
+          "period_end",
+          "registry_version",
+          "engine_versions",
+          "rule_versions",
+          "input_digest"
+        ],
+        "periodic_revisit": false,
+        "on_version_change": "new_revision_preserve_old",
+        "reroll_on_refresh": false
+      }
+    },
+    {
+      "scenario_id": "romance",
+      "title": "桃花姻缘",
+      "user_goal": "关系关注点与条件性参考",
+      "entries": [
+        {
+          "entry_id": "romance",
+          "label": "桃花姻缘",
+          "view": "default"
+        }
+      ],
+      "period_kind": null,
+      "inputs": [
+        {
+          "name": "birth_profile",
+          "label": "出生资料",
+          "type": "birth_profile",
+          "required": true,
+          "note": "北京时间；出生时刻精度与规则口径单独记录。无时辰不猜测。"
+        },
+        {
+          "name": "relationship_context",
+          "label": "关系状态",
+          "type": "enum",
+          "required": false,
+          "note": "可选；不用于暗自改动排盘口径"
+        },
+        {
+          "name": "target_window",
+          "label": "关注时间范围",
+          "type": "date_range",
+          "required": true,
+          "note": ""
+        }
+      ],
+      "dependencies": [
+        {
+          "engine_id": "bazi",
+          "registered": false,
+          "variant": null,
+          "rule_ids": [],
+          "role": "required",
+          "scope": "待补强的八字执行契约",
+          "invocation_condition": "满足本引擎输入/年界/非闰月要求"
+        },
+        {
+          "engine_id": "ziwei",
+          "registered": true,
+          "variant": "quanshu-lunar-iztro-mutagen-v1",
+          "rule_ids": [
+            "ziwei.phase2.life_body",
+            "ziwei.phase2.bureau",
+            "ziwei.phase2.palaces",
+            "ziwei.phase2.major_stars",
+            "ziwei.phase2.auxiliary_stars",
+            "ziwei.phase2.mutagens"
+          ],
+          "role": "supporting",
+          "scope": "基础结构；不是场景判读规则",
+          "invocation_condition": "满足本引擎输入/年界/非闰月要求"
+        }
+      ],
+      "scenario_rules": [],
+      "evidence": {
+        "existing_structural_refs": [
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.life_body",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/0",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.bureau",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/1",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.palaces",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/2",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.major_stars",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/3",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.auxiliary_stars",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/4",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.mutagens",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/5",
+            "grades": [
+              "C"
+            ]
+          }
+        ],
+        "scenario_conclusion_refs": [],
+        "required_new_knowledge": [
+          "场景判读与聚合依据"
+        ]
+      },
+      "maturity": "blocked_bazi",
+      "status": "blocked",
+      "public_enabled": false,
+      "runtime_implemented": false,
+      "ai_enabled": false,
+      "report_template": "scenario-report-v1",
+      "score_policy_id": null,
+      "forecast_available": false,
+      "current_limit": "咸池命中或夫妻宫有星不等于桃花好坏、恋爱概率或对象出现日期",
+      "blockers": [
+        "桃花规则原典与条件",
+        "流年/大运",
+        "紫微相关宫位判读规则"
+      ],
+      "priority": 2,
+      "history": {
+        "supported_now": false,
+        "design_key": [
+          "owner_id",
+          "scenario_id",
+          "view",
+          "profile_versions",
+          "period_start",
+          "period_end",
+          "registry_version",
+          "engine_versions",
+          "rule_versions",
+          "input_digest"
+        ],
+        "periodic_revisit": false,
+        "on_version_change": "new_revision_preserve_old",
+        "reroll_on_refresh": false
+      }
+    },
+    {
+      "scenario_id": "career_wealth",
+      "title": "事业前程／财运分析",
+      "user_goal": "事业方向与财务关注点",
+      "entries": [
+        {
+          "entry_id": "career",
+          "label": "事业前程",
+          "view": "career"
+        },
+        {
+          "entry_id": "wealth",
+          "label": "财运分析",
+          "view": "wealth"
+        }
+      ],
+      "period_kind": null,
+      "inputs": [
+        {
+          "name": "birth_profile",
+          "label": "出生资料",
+          "type": "birth_profile",
+          "required": true,
+          "note": "北京时间；出生时刻精度与规则口径单独记录。无时辰不猜测。"
+        },
+        {
+          "name": "report_view",
+          "label": "报告视图",
+          "type": "enum",
+          "required": true,
+          "note": "career / wealth"
+        },
+        {
+          "name": "target_window",
+          "label": "关注时间范围",
+          "type": "date_range",
+          "required": true,
+          "note": ""
+        },
+        {
+          "name": "specific_question",
+          "label": "具体事项",
+          "type": "text",
+          "required": false,
+          "note": ""
+        }
+      ],
+      "dependencies": [
+        {
+          "engine_id": "bazi",
+          "registered": false,
+          "variant": null,
+          "rule_ids": [],
+          "role": "required",
+          "scope": "待补强的八字执行契约",
+          "invocation_condition": "满足本引擎输入/年界/非闰月要求"
+        },
+        {
+          "engine_id": "ziwei",
+          "registered": true,
+          "variant": "quanshu-lunar-iztro-mutagen-v1",
+          "rule_ids": [
+            "ziwei.phase2.life_body",
+            "ziwei.phase2.bureau",
+            "ziwei.phase2.palaces",
+            "ziwei.phase2.major_stars",
+            "ziwei.phase2.auxiliary_stars",
+            "ziwei.phase2.mutagens"
+          ],
+          "role": "supporting",
+          "scope": "基础结构；不是场景判读规则",
+          "invocation_condition": "满足本引擎输入/年界/非闰月要求"
+        },
+        {
+          "engine_id": "qimen",
+          "registered": true,
+          "variant": "qfdk-exact-term-midnight-v2",
+          "rule_ids": [
+            "qimen.phase2.calendar",
+            "qimen.phase2.bureau",
+            "qimen.phase2.earth",
+            "qimen.phase2.chiefs",
+            "qimen.phase2.plates"
+          ],
+          "role": "conditional",
+          "scope": "基础结构；不是场景判读规则",
+          "invocation_condition": "用户另起具体事项并确认时刻"
+        }
+      ],
+      "scenario_rules": [],
+      "evidence": {
+        "existing_structural_refs": [
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.life_body",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/0",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.bureau",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/1",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.palaces",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/2",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.major_stars",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/3",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.auxiliary_stars",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/4",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.mutagens",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/5",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "qimen",
+            "rule_id": "qimen.phase2.calendar",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/3/rules/0",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "qimen",
+            "rule_id": "qimen.phase2.bureau",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/3/rules/1",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "qimen",
+            "rule_id": "qimen.phase2.earth",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/3/rules/2",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "qimen",
+            "rule_id": "qimen.phase2.chiefs",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/3/rules/3",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "qimen",
+            "rule_id": "qimen.phase2.plates",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/3/rules/4",
+            "grades": [
+              "C"
+            ]
+          }
+        ],
+        "scenario_conclusion_refs": [],
+        "required_new_knowledge": [
+          "场景判读与聚合依据"
+        ]
+      },
+      "maturity": "blocked_bazi",
+      "status": "blocked",
+      "public_enabled": false,
+      "runtime_implemented": false,
+      "ai_enabled": false,
+      "report_template": "scenario-report-v1",
+      "score_policy_id": null,
+      "forecast_available": false,
+      "current_limit": "本命官禄/财帛位置不是事业或收益预测；奇门只在用户另起一事时调用",
+      "blockers": [
+        "财官印食规则编译",
+        "旺衰/喜忌未决问题",
+        "大运/流年联动",
+        "按场景验证的聚合规则"
+      ],
+      "priority": 3,
+      "history": {
+        "supported_now": false,
+        "design_key": [
+          "owner_id",
+          "scenario_id",
+          "view",
+          "profile_versions",
+          "period_start",
+          "period_end",
+          "registry_version",
+          "engine_versions",
+          "rule_versions",
+          "input_digest"
+        ],
+        "periodic_revisit": false,
+        "on_version_change": "new_revision_preserve_old",
+        "reroll_on_refresh": false
+      }
+    },
+    {
+      "scenario_id": "compatibility",
+      "title": "缘分合盘",
+      "user_goal": "两个人的差异与关系条件对照",
+      "entries": [
+        {
+          "entry_id": "compatibility",
+          "label": "缘分合盘",
+          "view": "default"
+        }
+      ],
+      "period_kind": null,
+      "inputs": [
+        {
+          "name": "participants",
+          "label": "两个人的出生资料",
+          "type": "two_profiles",
+          "required": true,
+          "note": "双方同意；A/B 资料和版本独立保存"
+        },
+        {
+          "name": "comparison_context",
+          "label": "对比主题",
+          "type": "enum",
+          "required": true,
+          "note": ""
+        },
+        {
+          "name": "target_window",
+          "label": "关注时间范围",
+          "type": "date_range",
+          "required": false,
+          "note": ""
+        }
+      ],
+      "dependencies": [
+        {
+          "engine_id": "bazi",
+          "registered": false,
+          "variant": null,
+          "rule_ids": [],
+          "role": "required",
+          "scope": "待补强的八字执行契约",
+          "invocation_condition": "满足本引擎输入/年界/非闰月要求"
+        },
+        {
+          "engine_id": "ziwei",
+          "registered": true,
+          "variant": "quanshu-lunar-iztro-mutagen-v1",
+          "rule_ids": [
+            "ziwei.phase2.life_body",
+            "ziwei.phase2.bureau",
+            "ziwei.phase2.palaces",
+            "ziwei.phase2.major_stars",
+            "ziwei.phase2.auxiliary_stars",
+            "ziwei.phase2.mutagens"
+          ],
+          "role": "supporting",
+          "scope": "基础结构；不是场景判读规则",
+          "invocation_condition": "满足本引擎输入/年界/非闰月要求"
+        }
+      ],
+      "scenario_rules": [],
+      "evidence": {
+        "existing_structural_refs": [
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.life_body",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/0",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.bureau",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/1",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.palaces",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/2",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.major_stars",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/3",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.auxiliary_stars",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/4",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.mutagens",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/5",
+            "grades": [
+              "C"
+            ]
+          }
+        ],
+        "scenario_conclusion_refs": [],
+        "required_new_knowledge": [
+          "场景判读与聚合依据"
+        ]
+      },
+      "maturity": "blocked_bazi",
+      "status": "blocked",
+      "public_enabled": false,
+      "runtime_implemented": false,
+      "ai_enabled": false,
+      "report_template": "scenario-report-v1",
+      "score_policy_id": null,
+      "forecast_available": false,
+      "current_limit": "已有 baseline=60 的开源评分不是经核婚配算法；不得照搬为百分比",
+      "blockers": [
+        "双人八字",
+        "成对规则与主客方向",
+        "合盘证据",
+        "缺时辰与不完整输入策略"
+      ],
+      "priority": null,
+      "history": {
+        "supported_now": false,
+        "design_key": [
+          "owner_id",
+          "scenario_id",
+          "view",
+          "profile_versions",
+          "period_start",
+          "period_end",
+          "registry_version",
+          "engine_versions",
+          "rule_versions",
+          "input_digest"
+        ],
+        "periodic_revisit": false,
+        "on_version_change": "new_revision_preserve_old",
+        "reroll_on_refresh": false
+      }
+    },
+    {
+      "scenario_id": "one_question",
+      "title": "一事占问",
+      "user_goal": "一件事的结构参考与可核依据",
+      "entries": [
+        {
+          "entry_id": "one_question",
+          "label": "一事占问",
+          "view": "default"
+        }
+      ],
+      "period_kind": null,
+      "inputs": [
+        {
+          "name": "question",
+          "label": "想问的一件事",
+          "type": "text",
+          "required": true,
+          "note": ""
+        },
+        {
+          "name": "casting_time",
+          "label": "记录时刻",
+          "type": "datetime",
+          "required": true,
+          "note": ""
+        },
+        {
+          "name": "method_preference",
+          "label": "方式偏好",
+          "type": "enum",
+          "required": false,
+          "note": "推荐只按资料可用性，不按预测准确性"
+        },
+        {
+          "name": "yao_values",
+          "label": "六次投掷结果",
+          "type": "six_yao",
+          "required": false,
+          "note": "初爻至上爻；选择六爻时必填；缺值不随机补"
+        },
+        {
+          "name": "casting_provenance",
+          "label": "起卦记录来源",
+          "type": "enum",
+          "required": false,
+          "note": ""
+        }
+      ],
+      "dependencies": [
+        {
+          "engine_id": "liuyao",
+          "registered": true,
+          "variant": "jingfang-eight-palaces-v1",
+          "rule_ids": [
+            "liuyao.phase2.najia",
+            "liuyao.phase2.relatives",
+            "liuyao.phase2.palace",
+            "liuyao.phase2.spirits",
+            "liuyao.phase2.empty",
+            "liuyao.phase2.month_break",
+            "liuyao.phase2.motion"
+          ],
+          "role": "supporting",
+          "scope": "基础结构；不是场景判读规则",
+          "invocation_condition": "满足本引擎输入/年界/非闰月要求"
+        },
+        {
+          "engine_id": "qimen",
+          "registered": true,
+          "variant": "qfdk-exact-term-midnight-v2",
+          "rule_ids": [
+            "qimen.phase2.calendar",
+            "qimen.phase2.bureau",
+            "qimen.phase2.earth",
+            "qimen.phase2.chiefs",
+            "qimen.phase2.plates"
+          ],
+          "role": "conditional",
+          "scope": "基础结构；不是场景判读规则",
+          "invocation_condition": "用户选择时盘且确认时刻"
+        },
+        {
+          "engine_id": "yijing",
+          "registered": true,
+          "variant": "bottom-up-six-lines-v1",
+          "rule_ids": [
+            "yijing.phase2.structure",
+            "yijing.phase2.change",
+            "yijing.phase2.opposite",
+            "yijing.phase2.inverse",
+            "yijing.phase2.nuclear"
+          ],
+          "role": "supporting",
+          "scope": "基础结构；不是场景判读规则",
+          "invocation_condition": "满足本引擎输入/年界/非闰月要求"
+        }
+      ],
+      "scenario_rules": [],
+      "evidence": {
+        "existing_structural_refs": [
+          {
+            "engine_id": "liuyao",
+            "rule_id": "liuyao.phase2.najia",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/2/rules/0",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "liuyao",
+            "rule_id": "liuyao.phase2.relatives",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/2/rules/1",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "liuyao",
+            "rule_id": "liuyao.phase2.palace",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/2/rules/2",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "liuyao",
+            "rule_id": "liuyao.phase2.spirits",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/2/rules/3",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "liuyao",
+            "rule_id": "liuyao.phase2.empty",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/2/rules/4",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "liuyao",
+            "rule_id": "liuyao.phase2.month_break",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/2/rules/5",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "liuyao",
+            "rule_id": "liuyao.phase2.motion",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/2/rules/6",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "qimen",
+            "rule_id": "qimen.phase2.calendar",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/3/rules/0",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "qimen",
+            "rule_id": "qimen.phase2.bureau",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/3/rules/1",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "qimen",
+            "rule_id": "qimen.phase2.earth",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/3/rules/2",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "qimen",
+            "rule_id": "qimen.phase2.chiefs",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/3/rules/3",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "qimen",
+            "rule_id": "qimen.phase2.plates",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/3/rules/4",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "yijing",
+            "rule_id": "yijing.phase2.structure",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/4/rules/0",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "yijing",
+            "rule_id": "yijing.phase2.change",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/4/rules/1",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "yijing",
+            "rule_id": "yijing.phase2.opposite",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/4/rules/2",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "yijing",
+            "rule_id": "yijing.phase2.inverse",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/4/rules/3",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "yijing",
+            "rule_id": "yijing.phase2.nuclear",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/4/rules/4",
+            "grades": [
+              "C"
+            ]
+          }
+        ],
+        "scenario_conclusion_refs": [],
+        "required_new_knowledge": [
+          "场景判读与聚合依据"
+        ]
+      },
+      "maturity": "partial_structure",
+      "status": "production_candidate_limited",
+      "public_enabled": false,
+      "runtime_implemented": false,
+      "ai_enabled": false,
+      "report_template": "scenario-report-v1",
+      "score_policy_id": null,
+      "forecast_available": false,
+      "current_limit": "现可生成卦变或时盘结构；不能回答会不会成功、吉凶或应期",
+      "blockers": [
+        "场景适配/报告模板",
+        "用户记录服务",
+        "用神/旺衰/格局/应期判读另行补强"
+      ],
+      "priority": 1,
+      "history": {
+        "supported_now": false,
+        "design_key": [
+          "owner_id",
+          "scenario_id",
+          "view",
+          "profile_versions",
+          "period_start",
+          "period_end",
+          "registry_version",
+          "engine_versions",
+          "rule_versions",
+          "input_digest"
+        ],
+        "periodic_revisit": false,
+        "on_version_change": "new_revision_preserve_old",
+        "reroll_on_refresh": false
+      }
+    },
+    {
+      "scenario_id": "dream",
+      "title": "AI 解梦",
+      "user_goal": "传统象征、出处与自我联想",
+      "entries": [
+        {
+          "entry_id": "dream",
+          "label": "AI 解梦",
+          "view": "default"
+        }
+      ],
+      "period_kind": null,
+      "inputs": [
+        {
+          "name": "dream_text",
+          "label": "梦境描述",
+          "type": "text",
+          "required": true,
+          "note": ""
+        },
+        {
+          "name": "felt_emotion",
+          "label": "醒来感受",
+          "type": "text",
+          "required": false,
+          "note": ""
+        },
+        {
+          "name": "dream_date",
+          "label": "梦境日期",
+          "type": "date",
+          "required": false,
+          "note": ""
+        },
+        {
+          "name": "reflection_context",
+          "label": "近期联想",
+          "type": "text",
+          "required": false,
+          "note": ""
+        }
+      ],
+      "dependencies": [],
+      "scenario_rules": [],
+      "evidence": {
+        "existing_structural_refs": [],
+        "scenario_conclusion_refs": [],
+        "required_new_knowledge": [
+          "授权/公版资料审核",
+          "梦境词条、上下文与否定语义",
+          "独立检索/来源等级",
+          "梦境解释真实模型校准"
+        ]
+      },
+      "maturity": "blocked_knowledge",
+      "status": "research",
+      "public_enabled": false,
+      "runtime_implemented": false,
+      "ai_enabled": false,
+      "report_template": "scenario-report-v1",
+      "score_policy_id": null,
+      "forecast_available": false,
+      "current_limit": "独立 RAG 文化解读，不排盘，不计算未来吉凶，不据梦境诊断",
+      "blockers": [
+        "授权/公版资料审核",
+        "梦境词条、上下文与否定语义",
+        "独立检索/来源等级",
+        "梦境解释真实模型校准"
+      ],
+      "priority": null,
+      "history": {
+        "supported_now": false,
+        "design_key": [
+          "owner_id",
+          "scenario_id",
+          "view",
+          "profile_versions",
+          "period_start",
+          "period_end",
+          "registry_version",
+          "engine_versions",
+          "rule_versions",
+          "input_digest"
+        ],
+        "periodic_revisit": false,
+        "on_version_change": "new_revision_preserve_old",
+        "reroll_on_refresh": false
+      }
+    },
+    {
+      "scenario_id": "life_overview",
+      "title": "人生全盘",
+      "user_goal": "长期主题与基础档案",
+      "entries": [
+        {
+          "entry_id": "life_overview",
+          "label": "人生全盘",
+          "view": "default"
+        }
+      ],
+      "period_kind": null,
+      "inputs": [
+        {
+          "name": "birth_profile",
+          "label": "出生资料",
+          "type": "birth_profile",
+          "required": true,
+          "note": "北京时间；出生时刻精度与规则口径单独记录。无时辰不猜测。"
+        },
+        {
+          "name": "focus_topics",
+          "label": "关注主题",
+          "type": "enum_list",
+          "required": true,
+          "note": ""
+        },
+        {
+          "name": "life_window",
+          "label": "关注阶段",
+          "type": "date_range",
+          "required": false,
+          "note": ""
+        },
+        {
+          "name": "space_orientation",
+          "label": "居住方向信息",
+          "type": "degrees",
+          "required": false,
+          "note": "只用于可选方位分支；非默认人生判断"
+        }
+      ],
+      "dependencies": [
+        {
+          "engine_id": "bazi",
+          "registered": false,
+          "variant": null,
+          "rule_ids": [],
+          "role": "required",
+          "scope": "待补强的八字执行契约",
+          "invocation_condition": "满足本引擎输入/年界/非闰月要求"
+        },
+        {
+          "engine_id": "ziwei",
+          "registered": true,
+          "variant": "quanshu-lunar-iztro-mutagen-v1",
+          "rule_ids": [
+            "ziwei.phase2.life_body",
+            "ziwei.phase2.bureau",
+            "ziwei.phase2.palaces",
+            "ziwei.phase2.major_stars",
+            "ziwei.phase2.auxiliary_stars",
+            "ziwei.phase2.mutagens"
+          ],
+          "role": "supporting",
+          "scope": "基础结构；不是场景判读规则",
+          "invocation_condition": "满足本引擎输入/年界/非闰月要求"
+        },
+        {
+          "engine_id": "fengshui",
+          "registered": true,
+          "variant": "compass-half-open-explicit-epoch-v1",
+          "rule_ids": [
+            "fengshui.phase2.compass"
+          ],
+          "role": "conditional",
+          "scope": "基础结构；不是场景判读规则",
+          "invocation_condition": "明确提供方向输入的可选空间分支"
+        }
+      ],
+      "scenario_rules": [],
+      "evidence": {
+        "existing_structural_refs": [
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.life_body",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/0",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.bureau",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/1",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.palaces",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/2",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.major_stars",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/3",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.auxiliary_stars",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/4",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "ziwei",
+            "rule_id": "ziwei.phase2.mutagens",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/5/rules/5",
+            "grades": [
+              "C"
+            ]
+          },
+          {
+            "engine_id": "fengshui",
+            "rule_id": "fengshui.phase2.compass",
+            "audit_ref": "config/scenarios/capability_snapshot.json#/engines/0/rules/0",
+            "grades": [
+              "C"
+            ]
+          }
+        ],
+        "scenario_conclusion_refs": [],
+        "required_new_knowledge": [
+          "场景判读与聚合依据"
+        ]
+      },
+      "maturity": "partial_structure",
+      "status": "production_candidate_limited",
+      "public_enabled": false,
+      "runtime_implemented": false,
+      "ai_enabled": false,
+      "report_template": "scenario-report-v1",
+      "score_policy_id": null,
+      "forecast_available": false,
+      "current_limit": "现在只能给紫微基本安星；全人生走势、健康/财富结论及人生评分未实现",
+      "blockers": [
+        "八字本命/大运",
+        "紫微大限流年和判读",
+        "跨引擎主题聚合",
+        "完整人生报告的语义复核"
+      ],
+      "priority": null,
+      "history": {
+        "supported_now": false,
+        "design_key": [
+          "owner_id",
+          "scenario_id",
+          "view",
+          "profile_versions",
+          "period_start",
+          "period_end",
+          "registry_version",
+          "engine_versions",
+          "rule_versions",
+          "input_digest"
+        ],
+        "periodic_revisit": false,
+        "on_version_change": "new_revision_preserve_old",
+        "reroll_on_refresh": false
+      }
+    }
+  ]
+}

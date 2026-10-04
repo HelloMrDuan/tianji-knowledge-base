@@ -1,0 +1,1285 @@
+{
+  "schema_version": "1.0",
+  "artifact_kind": "design_audit",
+  "audited_at": "2026-10-04",
+  "baseline_commit": "a9bc0fd3549e5be44296e1e23161d9fe6da7211c",
+  "source_hashes": {
+    "src/tianji_kb/engine.py": "cdeb1a419600b2f2f08f30c60b7f3986a8d3096d474fb9c6d83705fbabd93b42",
+    "src/tianji_kb/api.py": "c074b58717bc96d5afa28452f8ef2fefa2b299ca561886ce99d7e22e1ceedd32",
+    "src/tianji_kb/calendar.py": "29e71a684a6718b9f73db770804198ba58b5d5b969b643a5ebe00b8da03d542c",
+    "src/tianji_kb/runtime_catalog.py": "586c3f53316ef2cef5eca1f8b5ca20d3f58762ea95eaa1c68cf01fb879aa2f88",
+    "data/canonical/fengshui/phase2_execution.json": "54ed877414d9e58d8a8de2b94eec70335bf42ca0ef64e49a8021be4878ad4cdb",
+    "data/canonical/liuren/phase2_execution.json": "9dbafdebd1d0095a7b6039268b1deb49bdc0b2fc5d38a6b5d5a4f003395a8a8e",
+    "data/canonical/liuyao/phase2_execution.json": "97bc069629ae677b9c2b83f62e50b1a2ddb8fbbd1d67d333b1b15469883e53b3",
+    "data/canonical/qimen/phase2_execution.json": "82022ead45c3c81dc4da04a08389702a8520d8794af5bed8acdbc58db36d713d",
+    "data/canonical/yijing/phase2_execution.json": "e3f280a538e1d3f6d200bd2300b5ad220c30b8b3f6d3238ac1c6d5e38eff4a34",
+    "data/canonical/ziwei/phase2_execution.json": "11a8c0c1cd59e6eec004b5412726b12028a1a96431372a3f3936b6fdf3723c53",
+    "config/phase2_source_audit.json": "accd9edb688e4e154fdcf1d34149e2995da96cee9ea35909597802be58743e2f",
+    "config/phase2_rule_promotions.json": "fdfe9be78ee9a42e8bcb4ac774af1dfdcf0d30bf27fd04243d1240447dfca548",
+    "data/canonical/bazi/foundations_v1.json": "cb1c980127d0dfb210e91bf540ba7a4dc1092e7ea3ec34f510162e1e848398de",
+    "data/canonical/bazi/dayun_v1.json": "206ca91611a19c0b9121d58aa4306bca445f7c8ffa25c7b446211f464bf26a7a",
+    "data/canonical/bazi/shensha_v1.json": "29d1ce42c12d1ec2f1acb0394c8e5f2b935e300354b52ba7f0ceb0fca2015101",
+    "data/canonical/yinyuan/hehun_rules_v1.json": "2e4f1ad471920a66077b738c3b528a272357fcb35dc1ac532b58e628e0b89de1"
+  },
+  "engines": [
+    {
+      "engine_id": "fengshui",
+      "registered": true,
+      "variant": "compass-half-open-explicit-epoch-v1",
+      "provider": "tianji_kb.operations.fengshui_chart.chart",
+      "contract_path": "data/canonical/fengshui/phase2_execution.json",
+      "scope": "角度确定性生产链；元运仅显式epoch研究链",
+      "limitations": [
+        "1864/1804绝对纪元未证；元运交界立春/农历/公历未裁定；飞星与吉凶不实施"
+      ],
+      "rules": [
+        {
+          "rule_id": "fengshui.phase2.compass",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "fengshui.rule.r002"
+          ],
+          "golden_case_ids": [
+            "fengshui.north-wrap",
+            "fengshui.boundary-gui",
+            "fengshui.gen-boundary",
+            "fengshui.research-period-transition"
+          ],
+          "evidence": [
+            {
+              "source_id": "fengshui.source.dibian",
+              "section_id": "fengshui.section.s012",
+              "grade": "C",
+              "quote_sha256": "f8eb231cf206b31fb4983d57c0f8e5ba73938148c1afab910e0e6f75239c387f"
+            }
+          ]
+        },
+        {
+          "rule_id": "fengshui.phase2.relative_period",
+          "evidence_scope": "C 原文证明每元60年、每运20年及顺序；绝对epoch与年界假设未核，D，production_eligible=false。",
+          "phase1_rule_refs": [
+            "fengshui.rule.r008"
+          ],
+          "golden_case_ids": [
+            "fengshui.north-wrap",
+            "fengshui.boundary-gui",
+            "fengshui.gen-boundary",
+            "fengshui.research-period-transition"
+          ],
+          "evidence": [
+            {
+              "source_id": "fengshui.source.yangzhai",
+              "section_id": "fengshui.section.s016",
+              "grade": "C",
+              "quote_sha256": "60b8e59373bc5d03365abb6f1ffebfa51c0b724ad352d9b305701dd90cb1c619"
+            },
+            {
+              "source_id": "fengshui.source.zhaifa-phase2",
+              "section_id": "fengshui.evidence.phase2.period-duration",
+              "grade": "C",
+              "quote_sha256": "9f7302c235b8b6953fc112ac1835df36ba740421f736abab7b14d87b8863c818"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "engine_id": "liuren",
+      "registered": true,
+      "variant": "daquan-nine-methods-lodged-stems-v1",
+      "provider": "tianji_kb.operations.liuren_chart.chart",
+      "contract_path": "data/canonical/liuren/phase2_execution.json",
+      "scope": "输入明确节气、日干支、时支；完成九宗门结构取传，不计算天将吉凶。",
+      "limitations": [
+        "涉害寄干计数/孟仲季/同深取日辰的规则锁定此 variant",
+        "返吟沿用先下贼上后上克下，与旧 kinliuren 部分返回值有差异，旧输出不作为古籍真值",
+        "贵人昼夜双表与天后位置异文未核；不混入九宗门算法"
+      ],
+      "rules": [
+        {
+          "rule_id": "liuren.phase2.month_general",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "liuren.rule.r010"
+          ],
+          "golden_case_ids": [
+            "liuren.zeike",
+            "liuren.biyong",
+            "liuren.shehai",
+            "liuren.yaoke",
+            "liuren.maoxing",
+            "liuren.bieze",
+            "liuren.bazhuan",
+            "liuren.fuyin",
+            "liuren.fanyin",
+            "liuren.fanyin-no-controls",
+            "liuren.biyong-upstream-crash"
+          ],
+          "evidence": [
+            {
+              "source_id": "liuren.source.daquan",
+              "section_id": "liuren.section.s001",
+              "grade": "C",
+              "quote_sha256": "2b20b6015a11d1dc9e1cf377d53c55e33a6a9c3c438653a28bbd3edaf48f835b"
+            }
+          ]
+        },
+        {
+          "rule_id": "liuren.phase2.plates",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "liuren.rule.r011"
+          ],
+          "golden_case_ids": [
+            "liuren.zeike",
+            "liuren.biyong",
+            "liuren.shehai",
+            "liuren.yaoke",
+            "liuren.maoxing",
+            "liuren.bieze",
+            "liuren.bazhuan",
+            "liuren.fuyin",
+            "liuren.fanyin",
+            "liuren.fanyin-no-controls",
+            "liuren.biyong-upstream-crash"
+          ],
+          "evidence": [
+            {
+              "source_id": "liuren.source.daquan",
+              "section_id": "liuren.section.s001",
+              "grade": "C",
+              "quote_sha256": "2b20b6015a11d1dc9e1cf377d53c55e33a6a9c3c438653a28bbd3edaf48f835b"
+            }
+          ]
+        },
+        {
+          "rule_id": "liuren.phase2.lessons",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "liuren.rule.r012"
+          ],
+          "golden_case_ids": [
+            "liuren.zeike",
+            "liuren.biyong",
+            "liuren.shehai",
+            "liuren.yaoke",
+            "liuren.maoxing",
+            "liuren.bieze",
+            "liuren.bazhuan",
+            "liuren.fuyin",
+            "liuren.fanyin",
+            "liuren.fanyin-no-controls",
+            "liuren.biyong-upstream-crash"
+          ],
+          "evidence": [
+            {
+              "source_id": "liuren.source.daquan",
+              "section_id": "liuren.section.s007",
+              "grade": "C",
+              "quote_sha256": "d99f3cbae48c51623c3fdc12284a3f7318f5361b500fe068f03242fe523597cc"
+            },
+            {
+              "source_id": "liuren.source.zhinan",
+              "section_id": "liuren.section.s003",
+              "grade": "C",
+              "quote_sha256": "4d927e87953caef03648f2c5d70f50fc38323523f237cc6265c8374fc4bc201d"
+            }
+          ]
+        },
+        {
+          "rule_id": "liuren.phase2.zeike",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "liuren.rule.r001"
+          ],
+          "golden_case_ids": [
+            "liuren.zeike",
+            "liuren.biyong",
+            "liuren.shehai",
+            "liuren.yaoke",
+            "liuren.maoxing",
+            "liuren.bieze",
+            "liuren.bazhuan",
+            "liuren.fuyin",
+            "liuren.fanyin",
+            "liuren.fanyin-no-controls",
+            "liuren.biyong-upstream-crash"
+          ],
+          "evidence": [
+            {
+              "source_id": "liuren.source.daquan",
+              "section_id": "liuren.section.s010",
+              "grade": "C",
+              "quote_sha256": "33d25e59b2e552cb71a034f339c6ad56ecb951371eb46a1297aa8742b761f1f2"
+            }
+          ]
+        },
+        {
+          "rule_id": "liuren.phase2.biyong",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "liuren.rule.r002"
+          ],
+          "golden_case_ids": [
+            "liuren.zeike",
+            "liuren.biyong",
+            "liuren.shehai",
+            "liuren.yaoke",
+            "liuren.maoxing",
+            "liuren.bieze",
+            "liuren.bazhuan",
+            "liuren.fuyin",
+            "liuren.fanyin",
+            "liuren.fanyin-no-controls",
+            "liuren.biyong-upstream-crash"
+          ],
+          "evidence": [
+            {
+              "source_id": "liuren.source.daquan",
+              "section_id": "liuren.section.s011",
+              "grade": "C",
+              "quote_sha256": "2ca4a8f068d082592f978e5ce5713e7858893db3a5b3ea22eb863ee897342ffc"
+            }
+          ]
+        },
+        {
+          "rule_id": "liuren.phase2.shehai",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "liuren.rule.r003"
+          ],
+          "golden_case_ids": [
+            "liuren.zeike",
+            "liuren.biyong",
+            "liuren.shehai",
+            "liuren.yaoke",
+            "liuren.maoxing",
+            "liuren.bieze",
+            "liuren.bazhuan",
+            "liuren.fuyin",
+            "liuren.fanyin",
+            "liuren.fanyin-no-controls",
+            "liuren.biyong-upstream-crash"
+          ],
+          "evidence": [
+            {
+              "source_id": "liuren.source.daquan",
+              "section_id": "liuren.section.s012",
+              "grade": "C",
+              "quote_sha256": "8c4ed488bdce6082ff5d8528577fed7eab6d04c3b2fdad03586a2ce1d4ae5939"
+            }
+          ]
+        },
+        {
+          "rule_id": "liuren.phase2.yaoke",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "liuren.rule.r004"
+          ],
+          "golden_case_ids": [
+            "liuren.zeike",
+            "liuren.biyong",
+            "liuren.shehai",
+            "liuren.yaoke",
+            "liuren.maoxing",
+            "liuren.bieze",
+            "liuren.bazhuan",
+            "liuren.fuyin",
+            "liuren.fanyin",
+            "liuren.fanyin-no-controls",
+            "liuren.biyong-upstream-crash"
+          ],
+          "evidence": [
+            {
+              "source_id": "liuren.source.daquan",
+              "section_id": "liuren.section.s013",
+              "grade": "C",
+              "quote_sha256": "e70c8521530bfad485507c05219f988cdcd51a583d60ac5b2dff74ce95973ff3"
+            }
+          ]
+        },
+        {
+          "rule_id": "liuren.phase2.maoxing",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "liuren.rule.r005"
+          ],
+          "golden_case_ids": [
+            "liuren.zeike",
+            "liuren.biyong",
+            "liuren.shehai",
+            "liuren.yaoke",
+            "liuren.maoxing",
+            "liuren.bieze",
+            "liuren.bazhuan",
+            "liuren.fuyin",
+            "liuren.fanyin",
+            "liuren.fanyin-no-controls",
+            "liuren.biyong-upstream-crash"
+          ],
+          "evidence": [
+            {
+              "source_id": "liuren.source.daquan",
+              "section_id": "liuren.section.s014",
+              "grade": "C",
+              "quote_sha256": "7d6e4dc1fd81353676028f77be49d6961707def068b32946d4996e82fef198df"
+            }
+          ]
+        },
+        {
+          "rule_id": "liuren.phase2.bieze",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "liuren.rule.r006"
+          ],
+          "golden_case_ids": [
+            "liuren.zeike",
+            "liuren.biyong",
+            "liuren.shehai",
+            "liuren.yaoke",
+            "liuren.maoxing",
+            "liuren.bieze",
+            "liuren.bazhuan",
+            "liuren.fuyin",
+            "liuren.fanyin",
+            "liuren.fanyin-no-controls",
+            "liuren.biyong-upstream-crash"
+          ],
+          "evidence": [
+            {
+              "source_id": "liuren.source.daquan",
+              "section_id": "liuren.section.s015",
+              "grade": "C",
+              "quote_sha256": "d54cf982c11ee47647c3a6a37ee09b1b7f5adfe545c56ad50cd2944d6cb4855a"
+            }
+          ]
+        },
+        {
+          "rule_id": "liuren.phase2.bazhuan",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "liuren.rule.r007"
+          ],
+          "golden_case_ids": [
+            "liuren.zeike",
+            "liuren.biyong",
+            "liuren.shehai",
+            "liuren.yaoke",
+            "liuren.maoxing",
+            "liuren.bieze",
+            "liuren.bazhuan",
+            "liuren.fuyin",
+            "liuren.fanyin",
+            "liuren.fanyin-no-controls",
+            "liuren.biyong-upstream-crash"
+          ],
+          "evidence": [
+            {
+              "source_id": "liuren.source.daquan",
+              "section_id": "liuren.section.s016",
+              "grade": "C",
+              "quote_sha256": "e869f1d98b67fa04e1c8a958f4931e4782591358640747c933fe4ca828d343fa"
+            }
+          ]
+        },
+        {
+          "rule_id": "liuren.phase2.fuyin",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "liuren.rule.r008"
+          ],
+          "golden_case_ids": [
+            "liuren.zeike",
+            "liuren.biyong",
+            "liuren.shehai",
+            "liuren.yaoke",
+            "liuren.maoxing",
+            "liuren.bieze",
+            "liuren.bazhuan",
+            "liuren.fuyin",
+            "liuren.fanyin",
+            "liuren.fanyin-no-controls",
+            "liuren.biyong-upstream-crash"
+          ],
+          "evidence": [
+            {
+              "source_id": "liuren.source.daquan",
+              "section_id": "liuren.section.s017",
+              "grade": "C",
+              "quote_sha256": "899a0972f4d83025c40b2dc5f406ed18f25de9a9cdbc2750f0924b52f90a5928"
+            }
+          ]
+        },
+        {
+          "rule_id": "liuren.phase2.fanyin",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "liuren.rule.r009"
+          ],
+          "golden_case_ids": [
+            "liuren.zeike",
+            "liuren.biyong",
+            "liuren.shehai",
+            "liuren.yaoke",
+            "liuren.maoxing",
+            "liuren.bieze",
+            "liuren.bazhuan",
+            "liuren.fuyin",
+            "liuren.fanyin",
+            "liuren.fanyin-no-controls",
+            "liuren.biyong-upstream-crash"
+          ],
+          "evidence": [
+            {
+              "source_id": "liuren.source.daquan",
+              "section_id": "liuren.section.s018",
+              "grade": "C",
+              "quote_sha256": "13e56c81519f8063f234d47382efcccaf47af8edc4ef6e548561fa659427773b"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "engine_id": "liuyao",
+      "registered": true,
+      "variant": "jingfang-eight-palaces-v1",
+      "provider": "tianji_kb.operations.liuyao_chart.chart",
+      "contract_path": "data/canonical/liuyao/phase2_execution.json",
+      "scope": "；动变仅逐爻阴阳翻转，不宣称月建/日辰/旺衰解释规则已 executable。",
+      "limitations": [],
+      "rules": [
+        {
+          "rule_id": "liuyao.phase2.najia",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "liuyao.rule.r001"
+          ],
+          "golden_case_ids": [
+            "liuyao.qian-static",
+            "liuyao.qian-to-gou",
+            "liuyao.tai-to-sheng"
+          ],
+          "evidence": [
+            {
+              "source_id": "liuyao.source.zengshan",
+              "section_id": "liuyao.section.s031",
+              "grade": "C",
+              "quote_sha256": "fabe7ee2e821536b9f2eeef40d2ef7867539b5e42a06890735d52935b5382f51"
+            },
+            {
+              "source_id": "liuyao.source.zengshan",
+              "section_id": "liuyao.section.s032",
+              "grade": "C",
+              "quote_sha256": "f3aea31b15d859caf6f2fe2f2e860c1be45edc373ba2e81a9b2bdb53b697558b"
+            },
+            {
+              "source_id": "liuyao.source.zengshan",
+              "section_id": "liuyao.section.s033",
+              "grade": "C",
+              "quote_sha256": "ab58e63cff322062f85f3f44707616965fdd46a799d30bac32fee0f38d2c7ede"
+            },
+            {
+              "source_id": "liuyao.source.zengshan",
+              "section_id": "liuyao.section.s034",
+              "grade": "C",
+              "quote_sha256": "2d23182c6afea4c033e9523b3f7fc7593d1a470ee6bd7e72cc9f25f1a9a8226c"
+            },
+            {
+              "source_id": "liuyao.source.zengshan",
+              "section_id": "liuyao.section.s035",
+              "grade": "C",
+              "quote_sha256": "a8b953b5beea0db7b75276fff4bf27ce89e3956c0a10138b7536d607912c6d04"
+            },
+            {
+              "source_id": "liuyao.source.zengshan",
+              "section_id": "liuyao.section.s036",
+              "grade": "C",
+              "quote_sha256": "a6aa26c841520eccb434ff7ff32f7c2099b70291a3a5a4f6071afaa9b7adc4a1"
+            },
+            {
+              "source_id": "liuyao.source.bushi",
+              "section_id": "liuyao.section.s037",
+              "grade": "C",
+              "quote_sha256": "db4ef2c6af35412573b33c9286127bf011bdb9d160dbc311e729489c5395a5d7"
+            },
+            {
+              "source_id": "liuyao.source.zengshan",
+              "section_id": "liuyao.section.s038",
+              "grade": "C",
+              "quote_sha256": "37741a930f548acdec88405959fbcfb17983b38abfad712aac3ab374ab1dd0b3"
+            }
+          ]
+        },
+        {
+          "rule_id": "liuyao.phase2.relatives",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "liuyao.rule.r002"
+          ],
+          "golden_case_ids": [
+            "liuyao.qian-static",
+            "liuyao.qian-to-gou",
+            "liuyao.tai-to-sheng"
+          ],
+          "evidence": [
+            {
+              "source_id": "liuyao.source.bushi",
+              "section_id": "liuyao.section.s005",
+              "grade": "C",
+              "quote_sha256": "ac7d09c7a4d0068b611edade872586d38183c8383322fc7c7a1f230eb5024602"
+            },
+            {
+              "source_id": "liuyao.source.zengshan",
+              "section_id": "liuyao.evidence.phase2.zs01",
+              "grade": "C",
+              "quote_sha256": "3197737865f75db3374493010da691d12e8188942e4b1dd83cdd3db924088645"
+            }
+          ]
+        },
+        {
+          "rule_id": "liuyao.phase2.palace",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "liuyao.rule.r004"
+          ],
+          "golden_case_ids": [
+            "liuyao.qian-static",
+            "liuyao.qian-to-gou",
+            "liuyao.tai-to-sheng"
+          ],
+          "evidence": [
+            {
+              "source_id": "liuyao.source.zengshan",
+              "section_id": "liuyao.section.s003",
+              "grade": "C",
+              "quote_sha256": "d1b1c218c5c44313b1d737f139303ab73840662b9eab9590a25ba5bac33903bb"
+            },
+            {
+              "source_id": "liuyao.source.zengshan",
+              "section_id": "liuyao.section.s004",
+              "grade": "C",
+              "quote_sha256": "ff1d5cb9ec6346e4d28ab598561bd2f9db3ab31560f3859e741aa5b92c021e3b"
+            },
+            {
+              "source_id": "liuyao.source.zengshan",
+              "section_id": "liuyao.evidence.phase2.zs02",
+              "grade": "C",
+              "quote_sha256": "5066498d12abc15f200425cab6cdba6071561c50af250ab2d7f95f056f8f8cc5"
+            },
+            {
+              "source_id": "liuyao.source.bushi",
+              "section_id": "liuyao.evidence.phase2.bs-shiying",
+              "grade": "C",
+              "quote_sha256": "aea9c8516391a1d443c9a186d594f294670ffb2134a02f4b6d517a1e15b66025"
+            }
+          ]
+        },
+        {
+          "rule_id": "liuyao.phase2.spirits",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "liuyao.rule.r003"
+          ],
+          "golden_case_ids": [
+            "liuyao.qian-static",
+            "liuyao.qian-to-gou",
+            "liuyao.tai-to-sheng"
+          ],
+          "evidence": [
+            {
+              "source_id": "liuyao.source.bushi",
+              "section_id": "liuyao.section.s006",
+              "grade": "C",
+              "quote_sha256": "eec7e56152d378977ee43e259d6b51d53a65b5c500709de8766ad0965bf5ec6b"
+            },
+            {
+              "source_id": "liuyao.source.zengshan",
+              "section_id": "liuyao.evidence.phase2.zs03",
+              "grade": "C",
+              "quote_sha256": "9f581f840d735a205c47b569c289a47d3fcf2a8ab2fbf35a37a0b796e5ce3f04"
+            }
+          ]
+        },
+        {
+          "rule_id": "liuyao.phase2.empty",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "liuyao.rule.r005"
+          ],
+          "golden_case_ids": [
+            "liuyao.qian-static",
+            "liuyao.qian-to-gou",
+            "liuyao.tai-to-sheng"
+          ],
+          "evidence": [
+            {
+              "source_id": "liuyao.source.bushi",
+              "section_id": "liuyao.section.s019",
+              "grade": "C",
+              "quote_sha256": "b56b226cc94fe345efc13a81f0258ee0bbe927cdc9111ab0b78f3c66155ea470"
+            },
+            {
+              "source_id": "liuyao.source.zengshan",
+              "section_id": "liuyao.evidence.phase2.zs04",
+              "grade": "C",
+              "quote_sha256": "39642281dfefecacb99ab837ae42ad0111030d1cc9e25f5f8463717577b94b78"
+            }
+          ]
+        },
+        {
+          "rule_id": "liuyao.phase2.month_break",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "liuyao.rule.r019"
+          ],
+          "golden_case_ids": [
+            "liuyao.qian-static",
+            "liuyao.qian-to-gou",
+            "liuyao.tai-to-sheng"
+          ],
+          "evidence": [
+            {
+              "source_id": "liuyao.source.bushi",
+              "section_id": "liuyao.section.s020",
+              "grade": "C",
+              "quote_sha256": "011490f989ce60c7598d80ef812e550c3d931c242a1035a6897307454d2b0361"
+            },
+            {
+              "source_id": "liuyao.source.zengshan",
+              "section_id": "liuyao.evidence.phase2.zs05",
+              "grade": "C",
+              "quote_sha256": "26256b97dc17ba56234ae2f6754ddf8a8310c200f709db479b13cbde559c1808"
+            }
+          ]
+        },
+        {
+          "rule_id": "liuyao.phase2.motion",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "yijing.rule.r002"
+          ],
+          "golden_case_ids": [
+            "liuyao.qian-static",
+            "liuyao.qian-to-gou",
+            "liuyao.tai-to-sheng"
+          ],
+          "evidence": [
+            {
+              "source_id": "yijing.source.meihua",
+              "section_id": "yijing.section.s007",
+              "grade": "C",
+              "quote_sha256": "17f2d9a2bb8683da86e9d82ba4dde17658e2af55f531fefb3f06b8565e02aee6"
+            },
+            {
+              "source_id": "liuyao.source.zengshan",
+              "section_id": "liuyao.evidence.phase2.zs06",
+              "grade": "C",
+              "quote_sha256": "1633541cf38b614575073727365a2794df0c9c7eeb0b381f78a904159d80c54f"
+            },
+            {
+              "source_id": "liuyao.source.zengshan",
+              "section_id": "liuyao.evidence.phase2.zs07",
+              "grade": "C",
+              "quote_sha256": "9804adf647f980d3245e2800fb4270e3550e1aed0c600e85ef0d3be7f5641481"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "engine_id": "qimen",
+      "registered": true,
+      "variant": "qfdk-exact-term-midnight-v2",
+      "provider": "tianji_kb.operations.qimen_chart.chart",
+      "contract_path": "data/canonical/qimen/phase2_execution.json",
+      "scope": "单一精确节气转盘；午夜换日配套五鼠遁时干；天禽寄坤。",
+      "limitations": [
+        "置闰/超接未实现；古八神名单差异保留",
+        "与 Phase 1 混合23时日/时干口径为不同 variant，不覆盖旧算法"
+      ],
+      "rules": [
+        {
+          "rule_id": "qimen.phase2.calendar",
+          "evidence_scope": "C 古典节气选择关系；精确节气时刻、历法转换由 lunar-python 1.4.8 软件提供，现代实现证据 D。",
+          "phase1_rule_refs": [
+            "qimen.rule.r004"
+          ],
+          "golden_case_ids": [
+            "qimen.jiazi-winter",
+            "qimen.summer-before",
+            "qimen.summer-at",
+            "qimen.late-zi-midnight"
+          ],
+          "evidence": [
+            {
+              "source_id": "qimen.source.baojian",
+              "section_id": "qimen.section.s013",
+              "grade": "C",
+              "quote_sha256": "39bc6deb91a8dcad96e1c89b3d17d348283c899110ef4b95a0d2785e15a7bd21"
+            },
+            {
+              "source_id": "qimen.source.tongzong",
+              "section_id": "qimen.section.s012",
+              "grade": "C",
+              "quote_sha256": "43540dbb9ec2e055816887799a42b0e8ef4faab294dec41b63434ef6cafd3355"
+            },
+            {
+              "source_id": "qimen.source.baojian",
+              "section_id": "qimen.section.s007",
+              "grade": "C",
+              "quote_sha256": "130a066013fcb4932d1191ab8337e3f95d6c36428406942950ddabec83e0f926"
+            }
+          ]
+        },
+        {
+          "rule_id": "qimen.phase2.bureau",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "qimen.rule.r001"
+          ],
+          "golden_case_ids": [
+            "qimen.jiazi-winter",
+            "qimen.summer-before",
+            "qimen.summer-at",
+            "qimen.late-zi-midnight"
+          ],
+          "evidence": [
+            {
+              "source_id": "qimen.source.tongzong",
+              "section_id": "qimen.section.s012",
+              "grade": "C",
+              "quote_sha256": "43540dbb9ec2e055816887799a42b0e8ef4faab294dec41b63434ef6cafd3355"
+            },
+            {
+              "source_id": "qimen.source.tongzong",
+              "section_id": "qimen.section.s014",
+              "grade": "C",
+              "quote_sha256": "c5468d85cae11ce0b56c33b877f73eb41f5520cad0afa51bb013411208476246"
+            },
+            {
+              "source_id": "qimen.source.tongzong",
+              "section_id": "qimen.section.s011",
+              "grade": "C",
+              "quote_sha256": "0fdc9444fb0f8a5497c0a4e74cb65e9137d96b0804a045aef51c5233692dea73"
+            },
+            {
+              "source_id": "qimen.source.tongzong",
+              "section_id": "qimen.section.s010",
+              "grade": "C",
+              "quote_sha256": "e40eea6ce0cb8c9f25fdab176bc3e5f5cc4db1c72a4ed7b351f3c5373418fee5"
+            }
+          ]
+        },
+        {
+          "rule_id": "qimen.phase2.earth",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "qimen.rule.r002"
+          ],
+          "golden_case_ids": [
+            "qimen.jiazi-winter",
+            "qimen.summer-before",
+            "qimen.summer-at",
+            "qimen.late-zi-midnight"
+          ],
+          "evidence": [
+            {
+              "source_id": "qimen.source.baojian",
+              "section_id": "qimen.section.s005",
+              "grade": "C",
+              "quote_sha256": "58d25bad7163511c06c8434b70c5087275a8b52ac885d489748e11382c09c1be"
+            },
+            {
+              "source_id": "qimen.source.baojian",
+              "section_id": "qimen.section.s006",
+              "grade": "C",
+              "quote_sha256": "7acae0900d2118cda58e7ad838b81a28ba27e745975319aa6706dcfc9081c1dd"
+            }
+          ]
+        },
+        {
+          "rule_id": "qimen.phase2.chiefs",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "qimen.rule.r003"
+          ],
+          "golden_case_ids": [
+            "qimen.jiazi-winter",
+            "qimen.summer-before",
+            "qimen.summer-at",
+            "qimen.late-zi-midnight"
+          ],
+          "evidence": [
+            {
+              "source_id": "qimen.source.baojian",
+              "section_id": "qimen.section.s007",
+              "grade": "C",
+              "quote_sha256": "130a066013fcb4932d1191ab8337e3f95d6c36428406942950ddabec83e0f926"
+            },
+            {
+              "source_id": "qimen.source.tongzong",
+              "section_id": "qimen.section.s009",
+              "grade": "C",
+              "quote_sha256": "59356429548660203cd416bdc7c6c9464839649f06339ab3b144c0dae4c3e389"
+            },
+            {
+              "source_id": "qimen.source.baojian",
+              "section_id": "qimen.section.s004",
+              "grade": "C",
+              "quote_sha256": "66666279f8f435c871e6503ec66c83953299ad7a8ec1d7bec595e4007529d596"
+            }
+          ]
+        },
+        {
+          "rule_id": "qimen.phase2.plates",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "qimen.rule.r003"
+          ],
+          "golden_case_ids": [
+            "qimen.jiazi-winter",
+            "qimen.summer-before",
+            "qimen.summer-at",
+            "qimen.late-zi-midnight"
+          ],
+          "evidence": [
+            {
+              "source_id": "qimen.source.baojian",
+              "section_id": "qimen.section.s007",
+              "grade": "C",
+              "quote_sha256": "130a066013fcb4932d1191ab8337e3f95d6c36428406942950ddabec83e0f926"
+            },
+            {
+              "source_id": "qimen.source.tongzong",
+              "section_id": "qimen.section.s009",
+              "grade": "C",
+              "quote_sha256": "59356429548660203cd416bdc7c6c9464839649f06339ab3b144c0dae4c3e389"
+            },
+            {
+              "source_id": "qimen.source.baojian",
+              "section_id": "qimen.section.s004",
+              "grade": "C",
+              "quote_sha256": "66666279f8f435c871e6503ec66c83953299ad7a8ec1d7bec595e4007529d596"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "engine_id": "yijing",
+      "registered": true,
+      "variant": "bottom-up-six-lines-v1",
+      "provider": "tianji_kb.operations.yijing_chart.chart",
+      "contract_path": "data/canonical/yijing/phase2_execution.json",
+      "scope": "六爻结构；不编译断语；乾坤无互文本例外单独保留",
+      "limitations": [],
+      "rules": [
+        {
+          "rule_id": "yijing.phase2.structure",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "yijing.rule.r001"
+          ],
+          "golden_case_ids": [
+            "yijing.qian-first-change",
+            "yijing.tai-relations",
+            "yijing.zhun-nuclear"
+          ],
+          "evidence": [
+            {
+              "source_id": "yijing.source.xici",
+              "section_id": "yijing.section.s094",
+              "grade": "C",
+              "quote_sha256": "b2d6c7008931fb5d77ee653efa02bb8ba10a17838d667b8bf73e23f976e5d8d6"
+            }
+          ]
+        },
+        {
+          "rule_id": "yijing.phase2.change",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "yijing.rule.r002"
+          ],
+          "golden_case_ids": [
+            "yijing.qian-first-change",
+            "yijing.tai-relations",
+            "yijing.zhun-nuclear"
+          ],
+          "evidence": [
+            {
+              "source_id": "yijing.source.meihua",
+              "section_id": "yijing.section.s007",
+              "grade": "C",
+              "quote_sha256": "17f2d9a2bb8683da86e9d82ba4dde17658e2af55f531fefb3f06b8565e02aee6"
+            }
+          ]
+        },
+        {
+          "rule_id": "yijing.phase2.opposite",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "yijing.rule.r003"
+          ],
+          "golden_case_ids": [
+            "yijing.qian-first-change",
+            "yijing.tai-relations",
+            "yijing.zhun-nuclear"
+          ],
+          "evidence": [
+            {
+              "source_id": "yijing.source.shuogua",
+              "section_id": "yijing.section.s010",
+              "grade": "C",
+              "quote_sha256": "e83fb342d24c415aaea6554784e6273934d9a6855deb59237826f935d1d35f02"
+            }
+          ]
+        },
+        {
+          "rule_id": "yijing.phase2.inverse",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "yijing.rule.r004"
+          ],
+          "golden_case_ids": [
+            "yijing.qian-first-change",
+            "yijing.tai-relations",
+            "yijing.zhun-nuclear"
+          ],
+          "evidence": [
+            {
+              "source_id": "yijing.source.xici",
+              "section_id": "yijing.section.s011",
+              "grade": "C",
+              "quote_sha256": "7f5289966521bd135011271552a0ee9e1062db85164f4c667349c27a46989abe"
+            }
+          ]
+        },
+        {
+          "rule_id": "yijing.phase2.nuclear",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "yijing.rule.r005"
+          ],
+          "golden_case_ids": [
+            "yijing.qian-first-change",
+            "yijing.tai-relations",
+            "yijing.zhun-nuclear"
+          ],
+          "evidence": [
+            {
+              "source_id": "yijing.source.meihua",
+              "section_id": "yijing.section.s008",
+              "grade": "C",
+              "quote_sha256": "def9737f43183f98937a01101e8bbb9bc2668e62674d273b0af33707a7a747f7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "engine_id": "ziwei",
+      "registered": true,
+      "variant": "quanshu-lunar-iztro-mutagen-v1",
+      "provider": "tianji_kb.operations.ziwei_chart.chart",
+      "contract_path": "data/canonical/ziwei/phase2_execution.json",
+      "scope": "非闰月农历输入的基本安星链；年界与换日由调用方明确提供。",
+      "limitations": [
+        "四化使用命名 iztro 版本，D 软件辅助证据未升古籍等级；壬府/辅仍隔离",
+        "天魁钺、火铃疑文和十二长生方向仍待版本核定",
+        "闰月、历法转换、大限流年、亮度与吉凶不在此基本盘中"
+      ],
+      "rules": [
+        {
+          "rule_id": "ziwei.phase2.life_body",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "ziwei.rule.r003"
+          ],
+          "golden_case_ids": [
+            "ziwei.quanshu-fire-first-day",
+            "ziwei.chou-hour-mirror",
+            "ziwei.ren-explicit-iztro"
+          ],
+          "evidence": [
+            {
+              "source_id": "ziwei.source.quanshu",
+              "section_id": "ziwei.section.s001",
+              "grade": "C",
+              "quote_sha256": "200b29786f6204e9dddeb33c5b2a6c97796e53ab50684d1c627e1952e9b24266"
+            },
+            {
+              "source_id": "ziwei.source.quanshu-phase2",
+              "section_id": "ziwei.evidence.phase2.q01",
+              "grade": "C",
+              "quote_sha256": "617d85fd0a5c230bcb01e46fa345f5920d899432440759343033864d112258cf"
+            },
+            {
+              "source_id": "ziwei.source.quanshu-phase2",
+              "section_id": "ziwei.evidence.phase2.q02",
+              "grade": "C",
+              "quote_sha256": "f9bd53bf2953f705645d85f3b587387365e84d1661ed1517cb4a0fff1d54cd07"
+            },
+            {
+              "source_id": "ziwei.source.quanshu-phase2",
+              "section_id": "ziwei.evidence.phase2.q03",
+              "grade": "C",
+              "quote_sha256": "141da81b0c6955a8f52b84ef69a6a3292bd589f2668662d94611fbd8e79bbee8"
+            }
+          ]
+        },
+        {
+          "rule_id": "ziwei.phase2.bureau",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "ziwei.rule.r004"
+          ],
+          "golden_case_ids": [
+            "ziwei.quanshu-fire-first-day",
+            "ziwei.chou-hour-mirror",
+            "ziwei.ren-explicit-iztro"
+          ],
+          "evidence": [
+            {
+              "source_id": "ziwei.source.quanshu",
+              "section_id": "ziwei.section.s042",
+              "grade": "C",
+              "quote_sha256": "de649e89a7347b1278684440f24341083839d65a41a5257df764176a586b0c7d"
+            },
+            {
+              "source_id": "ziwei.source.quanshu-phase2",
+              "section_id": "ziwei.evidence.phase2.q05",
+              "grade": "C",
+              "quote_sha256": "e1efc361b0848e42a954839be96e07541942d8585c5e575ebd39f011f8e29bf6"
+            },
+            {
+              "source_id": "ziwei.source.quanshu-phase2",
+              "section_id": "ziwei.evidence.phase2.q06",
+              "grade": "C",
+              "quote_sha256": "25c6b32fbc344a71981a6b8d0e7295bdd024dec3b6797c09e15f1a5f404ae524"
+            },
+            {
+              "source_id": "ziwei.source.quanshu-phase2",
+              "section_id": "ziwei.evidence.phase2.q07",
+              "grade": "C",
+              "quote_sha256": "6e7bfe1c6e78e231a22ba3bc75cf7b96a2a467b3ba992a24a0f96a48fa482857"
+            },
+            {
+              "source_id": "ziwei.source.quanshu-phase2",
+              "section_id": "ziwei.evidence.phase2.q08",
+              "grade": "C",
+              "quote_sha256": "ec2ed9bc0fab96cd8e626cc24fc72d856802f80cc4d9320af97ee2c24aa7d024"
+            },
+            {
+              "source_id": "ziwei.source.quanshu-phase2",
+              "section_id": "ziwei.evidence.phase2.q09",
+              "grade": "C",
+              "quote_sha256": "bc53de65379d863bbdda436cf4b1aad6110f8d859fc2efa6c9c19b55c2ed730a"
+            },
+            {
+              "source_id": "ziwei.source.quanshu-phase2",
+              "section_id": "ziwei.evidence.phase2.q10",
+              "grade": "C",
+              "quote_sha256": "609fd7ce5105a07672005bda263f3a1558929dd2ab3e502d828de1165a8e844e"
+            },
+            {
+              "source_id": "ziwei.source.quanshu-phase2",
+              "section_id": "ziwei.evidence.phase2.q11",
+              "grade": "C",
+              "quote_sha256": "62300a61a53722c14c6df6277c81a2a3cd52c7254cefd474a82eef8c749f0dd5"
+            }
+          ]
+        },
+        {
+          "rule_id": "ziwei.phase2.palaces",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "ziwei.rule.r003"
+          ],
+          "golden_case_ids": [
+            "ziwei.quanshu-fire-first-day",
+            "ziwei.chou-hour-mirror",
+            "ziwei.ren-explicit-iztro"
+          ],
+          "evidence": [
+            {
+              "source_id": "ziwei.source.quanshu",
+              "section_id": "ziwei.section.s001",
+              "grade": "C",
+              "quote_sha256": "200b29786f6204e9dddeb33c5b2a6c97796e53ab50684d1c627e1952e9b24266"
+            },
+            {
+              "source_id": "ziwei.source.quanshu-phase2",
+              "section_id": "ziwei.evidence.phase2.q04",
+              "grade": "C",
+              "quote_sha256": "200b29786f6204e9dddeb33c5b2a6c97796e53ab50684d1c627e1952e9b24266"
+            }
+          ]
+        },
+        {
+          "rule_id": "ziwei.phase2.major_stars",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "ziwei.rule.r004"
+          ],
+          "golden_case_ids": [
+            "ziwei.quanshu-fire-first-day",
+            "ziwei.chou-hour-mirror",
+            "ziwei.ren-explicit-iztro"
+          ],
+          "evidence": [
+            {
+              "source_id": "ziwei.source.quanshu",
+              "section_id": "ziwei.section.s042",
+              "grade": "C",
+              "quote_sha256": "de649e89a7347b1278684440f24341083839d65a41a5257df764176a586b0c7d"
+            },
+            {
+              "source_id": "ziwei.source.quanshu-phase2",
+              "section_id": "ziwei.evidence.phase2.q12",
+              "grade": "C",
+              "quote_sha256": "de649e89a7347b1278684440f24341083839d65a41a5257df764176a586b0c7d"
+            },
+            {
+              "source_id": "ziwei.source.quanshu-phase2",
+              "section_id": "ziwei.evidence.phase2.q13",
+              "grade": "C",
+              "quote_sha256": "31a652f42b209c1c3324980e0baed31aa8005a327a07c337eaa0acfe96ca0f95"
+            },
+            {
+              "source_id": "ziwei.source.quanshu-phase2",
+              "section_id": "ziwei.evidence.phase2.q14",
+              "grade": "C",
+              "quote_sha256": "b0d7a8d54af353514f74bf3ef45e80557b1ad0a56b8f425df90e1f96631b1124"
+            }
+          ]
+        },
+        {
+          "rule_id": "ziwei.phase2.auxiliary_stars",
+          "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+          "phase1_rule_refs": [
+            "ziwei.rule.r001",
+            "ziwei.rule.r002",
+            "ziwei.rule.r005",
+            "ziwei.rule.r006",
+            "ziwei.rule.r009"
+          ],
+          "golden_case_ids": [
+            "ziwei.quanshu-fire-first-day",
+            "ziwei.chou-hour-mirror",
+            "ziwei.ren-explicit-iztro"
+          ],
+          "evidence": [
+            {
+              "source_id": "ziwei.source.quanshu",
+              "section_id": "ziwei.section.s036",
+              "grade": "C",
+              "quote_sha256": "7d6d1163ca19ffd864a73b879e4ec662075d54830a8e85d040ae9d5476e06c9e"
+            },
+            {
+              "source_id": "ziwei.source.quanshu",
+              "section_id": "ziwei.section.s037",
+              "grade": "C",
+              "quote_sha256": "4ac2314d534d9688cc8e6d354fe2044b3a78f65639deddb6f1e445f4456dac19"
+            },
+            {
+              "source_id": "ziwei.source.quanshu",
+              "section_id": "ziwei.section.s043",
+              "grade": "C",
+              "quote_sha256": "0f3ff588d2f951ba99025c23a43eb2a4685e23988bbeda37bb1299c57e9be95b"
+            },
+            {
+              "source_id": "ziwei.source.quanshu",
+              "section_id": "ziwei.section.s031",
+              "grade": "C",
+              "quote_sha256": "a381d9caec3b6b221b0c6577cd31dd433282d9d188018feca35ed8659f2ba4c3"
+            },
+            {
+              "source_id": "ziwei.source.quanshu",
+              "section_id": "ziwei.section.s035",
+              "grade": "C",
+              "quote_sha256": "83b2c2ffb0e2ec52b2fecd0da5fc37671359bde5f4e4c38894b282f88e20c79c"
+            }
+          ]
+        },
+        {
+          "rule_id": "ziwei.phase2.mutagens",
+          "evidence_scope": "C 仅证明四化类型；逐干四化星表为 iztro-default-v2 软件约定 D；壬府/辅尚未裁定。",
+          "phase1_rule_refs": [
+            "ziwei.rule.r011"
+          ],
+          "golden_case_ids": [
+            "ziwei.quanshu-fire-first-day",
+            "ziwei.chou-hour-mirror",
+            "ziwei.ren-explicit-iztro"
+          ],
+          "evidence": [
+            {
+              "source_id": "ziwei.source.quanshu",
+              "section_id": "ziwei.section.s038",
+              "grade": "C",
+              "quote_sha256": "99eda1e56f1264480eb46cee72ad8a6f5628fa1be38ee5c62f3bed62737d48b8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "engine_id": "bazi",
+      "registered": false,
+      "variant": null,
+      "provider": null,
+      "contract_path": null,
+      "scope": "存在 legacy 0.1 数据和可复用历法函数；没有执行契约、网关注册或八字 Golden suite",
+      "limitations": [
+        "四柱规范化、十神藏干执行、精确起运、大小运与流年流月流日联动未注册",
+        "旺衰/喜忌、场景桃花/事业/财运判读和跨人关系判读未验证"
+      ],
+      "rules": []
+    }
+  ],
+  "execution_rules": 37,
+  "golden_cases": 28,
+  "source_grades": {
+    "C": 87,
+    "D": 6
+  },
+  "implemented_api": [
+    "GET /health",
+    "GET /api/v1/capabilities",
+    "POST /api/v1/execute"
+  ],
+  "scenario_api_implemented": false,
+  "history_api_implemented": false,
+  "admin_write_api_implemented": false,
+  "dedicated_dream_knowledge_present": false,
+  "legacy_data": [
+    "data/canonical/bazi/foundations_v1.json",
+    "data/canonical/bazi/dayun_v1.json",
+    "data/canonical/bazi/shensha_v1.json",
+    "data/canonical/yinyuan/hehun_rules_v1.json"
+  ],
+  "probe_provenance": {
+    "checkout_commit": "e133cd31bd9bc7bc8a1fcca7a49c567aa7f7b3fb",
+    "branch": "quality/backend-readiness",
+    "pull_request": 88,
+    "execution_and_calendar_code_matches_baseline": true,
+    "note": "Windows main runtime path guard currently rejects native separators; PR88 portable runtime fixes used for sample execution. No source patch or main-runtime success claim."
+  },
+  "frontend_reference": {
+    "pull_request": 87,
+    "commit": "8412304",
+    "merged": false,
+    "scope": "static prototype; no API, authentication or durable history"
+  },
+  "ai": {
+    "quality_qualified": false,
+    "production_enabled": false,
+    "scenario_prompt_implemented": false
+  },
+  "sanming": {
+    "quarantine_only": true,
+    "canonical_ready": false,
+    "canonical_file_exists": false
+  }
+}

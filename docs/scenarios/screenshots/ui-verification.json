@@ -1,0 +1,166 @@
+{
+  "artifact_kind": "design_ui_observations",
+  "checked_at": "2026-10-04",
+  "desktop": [
+    {
+      "entry": "daily_fortune",
+      "aiDisabled": true,
+      "overflow": false,
+      "readonly": true,
+      "sections": 7,
+      "title": "今日运势"
+    },
+    {
+      "entry": "weekly_fortune",
+      "aiDisabled": true,
+      "overflow": false,
+      "readonly": true,
+      "sections": 7,
+      "title": "本周运势"
+    },
+    {
+      "entry": "monthly_fortune",
+      "aiDisabled": true,
+      "overflow": false,
+      "readonly": true,
+      "sections": 7,
+      "title": "本月运势"
+    },
+    {
+      "entry": "annual_fortune",
+      "aiDisabled": true,
+      "overflow": false,
+      "readonly": true,
+      "sections": 7,
+      "title": "2026 年运势"
+    },
+    {
+      "entry": "romance",
+      "aiDisabled": true,
+      "overflow": false,
+      "readonly": true,
+      "sections": 7,
+      "title": "桃花姻缘"
+    },
+    {
+      "entry": "career",
+      "aiDisabled": true,
+      "overflow": false,
+      "readonly": true,
+      "sections": 7,
+      "title": "事业前程"
+    },
+    {
+      "entry": "wealth",
+      "aiDisabled": true,
+      "overflow": false,
+      "readonly": true,
+      "sections": 7,
+      "title": "财运分析"
+    },
+    {
+      "entry": "compatibility",
+      "aiDisabled": true,
+      "overflow": false,
+      "readonly": true,
+      "sections": 7,
+      "title": "缘分合盘"
+    },
+    {
+      "entry": "one_question",
+      "aiDisabled": true,
+      "overflow": false,
+      "readonly": true,
+      "sections": 7,
+      "title": "一事占问"
+    },
+    {
+      "entry": "dream",
+      "aiDisabled": true,
+      "overflow": false,
+      "readonly": true,
+      "sections": 7,
+      "title": "AI 解梦"
+    },
+    {
+      "entry": "life_overview",
+      "aiDisabled": true,
+      "overflow": false,
+      "readonly": true,
+      "sections": 7,
+      "title": "人生全盘"
+    }
+  ],
+  "mobile": [
+    {
+      "entry": "daily_fortune",
+      "overflow": false,
+      "sections": 7,
+      "title": "今日运势"
+    },
+    {
+      "entry": "weekly_fortune",
+      "overflow": false,
+      "sections": 7,
+      "title": "本周运势"
+    },
+    {
+      "entry": "monthly_fortune",
+      "overflow": false,
+      "sections": 7,
+      "title": "本月运势"
+    },
+    {
+      "entry": "annual_fortune",
+      "overflow": false,
+      "sections": 7,
+      "title": "2026 年运势"
+    },
+    {
+      "entry": "romance",
+      "overflow": false,
+      "sections": 7,
+      "title": "桃花姻缘"
+    },
+    {
+      "entry": "career",
+      "overflow": false,
+      "sections": 7,
+      "title": "事业前程"
+    },
+    {
+      "entry": "wealth",
+      "overflow": false,
+      "sections": 7,
+      "title": "财运分析"
+    },
+    {
+      "entry": "compatibility",
+      "overflow": false,
+      "sections": 7,
+      "title": "缘分合盘"
+    },
+    {
+      "entry": "one_question",
+      "overflow": false,
+      "sections": 7,
+      "title": "一事占问"
+    },
+    {
+      "entry": "dream",
+      "overflow": false,
+      "sections": 7,
+      "title": "AI 解梦"
+    },
+    {
+      "entry": "life_overview",
+      "overflow": false,
+      "sections": 7,
+      "title": "人生全盘"
+    }
+  ],
+  "admin_rows": 10,
+  "admin_actions_disabled": true,
+  "console_errors": [],
+  "scope": "fixed offline board; not scenario execution or AI qualification"
+}

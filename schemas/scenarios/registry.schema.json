@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Unreleased scenario design registry v1",
+  "type": "object",
+  "required": ["schema_version", "artifact_kind", "version", "timezone", "core_count", "entry_count", "runtime_implemented", "public_enabled", "ai_policy", "score_policy", "scenarios"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "artifact_kind": {"const": "design_only"},
+    "version": {"const": "scenario-design-v1"},
+    "timezone": {"const": "Asia/Shanghai"},
+    "core_count": {"const": 10},
+    "entry_count": {"const": 11},
+    "runtime_implemented": {"const": false},
+    "public_enabled": {"const": false},
+    "ai_policy": {
+      "type": "object",
+      "required": ["enabled", "may_compute_chart", "may_fill_missing_metrics", "requires_scenario_evaluation"],
+      "properties": {"enabled": {"const": false}, "may_compute_chart": {"const": false}, "may_fill_missing_metrics": {"const": false}, "requires_scenario_evaluation": {"const": true}},
+      "additionalProperties": false
+    },
+    "score_policy": {
+      "type": "object",
+      "required": ["status", "policy_id", "value", "note"],
+      "properties": {"status": {"const": "unavailable"}, "policy_id": {"const": null}, "value": {"const": null}, "note": {"type": "string"}},
+      "additionalProperties": false
+    },
+    "scenarios": {
+      "type": "array", "minItems": 10, "maxItems": 10,
+      "items": {
+        "type": "object",
+        "required": ["scenario_id", "title", "user_goal", "entries", "period_kind", "inputs", "dependencies", "scenario_rules", "evidence", "maturity", "status", "public_enabled", "runtime_implemented", "ai_enabled", "report_template", "score_policy_id", "forecast_available", "current_limit", "blockers", "priority", "history"],
+        "properties": {
+          "scenario_id": {"type": "string", "pattern": "^[a-z][a-z_]+$"},
+          "title": {"type": "string", "minLength": 1},
+          "user_goal": {"type": "string", "minLength": 1},
+          "entries": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["entry_id", "label", "view"], "properties": {"entry_id": {"type": "string"}, "label": {"type": "string"}, "view": {"type": "string"}}, "additionalProperties": false}},
+          "period_kind": {"enum": [null, "day", "week", "month", "year"]},
+          "inputs": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["name", "label", "type", "required", "note"], "properties": {"name": {"type": "string"}, "label": {"type": "string"}, "type": {"type": "string"}, "required": {"type": "boolean"}, "note": {"type": "string"}}, "additionalProperties": false}},
+          "dependencies": {"type": "array", "items": {"type": "object", "required": ["engine_id", "registered", "variant", "rule_ids", "role", "scope", "invocation_condition"], "properties": {"engine_id": {"type": "string"}, "registered": {"type": "boolean"}, "variant": {"type": ["string", "null"]}, "rule_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}, "role": {"enum": ["required", "supporting", "conditional"]}, "scope": {"type": "string"}, "invocation_condition": {"type": "string"}}, "additionalProperties": false}},
+          "scenario_rules": {"type": "array", "maxItems": 0},
+          "evidence": {"type": "object", "required": ["existing_structural_refs", "scenario_conclusion_refs", "required_new_knowledge"], "properties": {"existing_structural_refs": {"type": "array"}, "scenario_conclusion_refs": {"type": "array", "maxItems": 0}, "required_new_knowledge": {"type": "array", "items": {"type": "string"}}}, "additionalProperties": false},
+          "maturity": {"enum": ["blocked_bazi", "blocked_knowledge", "partial_structure"]},
+          "status": {"enum": ["blocked", "research", "production_candidate_limited"]},
+          "public_enabled": {"const": false},
+          "runtime_implemented": {"const": false},
+          "ai_enabled": {"const": false},
+          "report_template": {"const": "scenario-report-v1"},
+          "score_policy_id": {"const": null},
+          "forecast_available": {"const": false},
+          "current_limit": {"type": "string", "minLength": 1},
+          "blockers": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+          "priority": {"enum": [null, 1, 2, 3]},
+          "history": {"type": "object", "required": ["supported_now", "design_key", "periodic_revisit", "on_version_change", "reroll_on_refresh"], "properties": {"supported_now": {"const": false}, "design_key": {"type": "array", "items": {"type": "string"}}, "periodic_revisit": {"type": "boolean"}, "on_version_change": {"const": "new_revision_preserve_old"}, "reroll_on_refresh": {"const": false}}, "additionalProperties": false}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

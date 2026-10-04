@@ -71,3 +71,9 @@ PYTHONPATH=src python -m uvicorn tianji_kb.api:app --host 127.0.0.1 --port 8000
 生产请求只读取已审运行快照与Canonical检索制品；`explain=false`完全不调用模型。模型失败或未知引用会拒绝解释，确定性结果仍正常返回。调用示例见 [Phase 3 API](docs/phase3/API.md)，模型环境配置见 [providers](docs/phase3/PROVIDERS.md)。
 
 Phase 4 adds versioned explanation contracts and a fixed 102-case, six-domain evaluation suite. See [evaluation and human review](docs/phase4/EVALUATION.md), [prompt policy](docs/phase4/PROMPTS.md), and [current quality status](docs/phase4/QUALITY_STATUS.md). Live-model scores are N/A until an environment-configured provider is actually evaluated; test providers never establish AI release readiness.
+
+## 场景产品设计
+
+下一阶段以今日/周/月/年度、关系、事业财运、合盘、一事占问、梦境和人生档案组织前台，专业术数入口下沉。当前交付 10 个核心场景、11 个前台入口的产品矩阵、真实能力映射、Scenario Engine 契约与输入输出原型，见 [场景设计交付](docs/scenarios/README.md) 和 [单页设计板](docs/scenarios/prototype.html)。这些是设计资产：尚无场景运行器/历史/后台写入，也不开放 AI 或编造指数。
+
+校验 `PYTHONPATH=src python scripts/validate_scenarios.py`；刷新设计板数据 `python scripts/build_scenario_design_board.py`。这两个命令不计算个人场景报告、不调用模型。

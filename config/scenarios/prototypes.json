@@ -1,0 +1,2001 @@
+{
+  "schema_version": "1.0",
+  "artifact_kind": "design_only",
+  "timezone": "Asia/Shanghai",
+  "prototypes": [
+    {
+      "scenario_id": "daily_fortune",
+      "input_example": {
+        "birth_profile": {
+          "profile_id": "DEMO-A",
+          "calendar": "gregorian",
+          "value": "1999-02-16T00:00:00+08:00",
+          "timezone": "Asia/Shanghai",
+          "time_precision": "minute",
+          "year_boundary": "lunar-new-year",
+          "gender_for_variant": null
+        },
+        "target_date": "2026-10-04"
+      },
+      "input_fields": [
+        {
+          "name": "birth_profile",
+          "label": "出生资料",
+          "type": "birth_profile",
+          "required": true,
+          "note": "北京时间；出生时刻精度与规则口径单独记录。无时辰不猜测。"
+        },
+        {
+          "name": "target_date",
+          "label": "查看日期",
+          "type": "date",
+          "required": true,
+          "note": ""
+        }
+      ],
+      "output_example": {
+        "report_id": "DEMO-daily_fortune",
+        "scenario_id": "daily_fortune",
+        "view": "default",
+        "status": "blocked",
+        "generated_by": "design_fixture",
+        "overview": "运势趋势尚未可算；可以展示日历事实，不能称为个人好运",
+        "comprehensive_index": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "缺少已核评分策略；不显示默认分数"
+        },
+        "current_trend": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "缺少场景判读与时序规则"
+        },
+        "key_times": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "没有已核应期规则；日期边界不当作吉凶时点"
+        },
+        "favorable_factors": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "结构事实不可直接解释为利好"
+        },
+        "risk_reminders": {
+          "status": "available",
+          "value": null,
+          "items": [
+            "运势趋势尚未可算；可以展示日历事实，不能称为个人好运"
+          ],
+          "reason": "能力限制，不是预测风险"
+        },
+        "classical_basis": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "本样例未执行相应场景判读"
+        },
+        "uncertainty": {
+          "status": "available",
+          "value": null,
+          "items": [
+            "四柱/流日",
+            "场景解释规则",
+            "历史与复访服务"
+          ],
+          "reason": "按模块显示缺口"
+        },
+        "facts": [],
+        "comparison": null,
+        "computed_engine_runs": [],
+        "ai": {
+          "status": "disabled",
+          "explanation": null,
+          "quality_qualified": false
+        },
+        "history": {
+          "record_created": false,
+          "owner_id": null,
+          "revision": 1,
+          "profile_versions": [
+            "DEMO-A@1"
+          ],
+          "period": {
+            "kind": "day",
+            "civil_start": "2026-10-04T00:00:00+08:00",
+            "civil_end_exclusive": "2026-10-05T00:00:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "astrological_boundaries": "separate_variant_defined_segments_not_implemented"
+          }
+        },
+        "next_step": "保留资料草稿，等待依赖审核；本原型不保存个人资料"
+      },
+      "target_report_sections": [
+        "综合指数",
+        "当前趋势",
+        "关键时间",
+        "有利因素",
+        "风险提醒",
+        "典籍依据",
+        "不确定性"
+      ],
+      "acceptance_cases": [
+        "依赖不存在→blocked",
+        "评分策略不存在→null，不造分",
+        "AI未合格→disabled",
+        "资料缺失→追问，不猜测"
+      ],
+      "fixture_notice": "虚构输入或固定引擎样例；修改输入不会重新计算，本原型不提交、不保存、不联网。"
+    },
+    {
+      "scenario_id": "weekly_fortune",
+      "input_example": {
+        "birth_profile": {
+          "profile_id": "DEMO-A",
+          "calendar": "gregorian",
+          "value": "1999-02-16T00:00:00+08:00",
+          "timezone": "Asia/Shanghai",
+          "time_precision": "minute",
+          "year_boundary": "lunar-new-year",
+          "gender_for_variant": null
+        },
+        "week_start": "2026-09-28"
+      },
+      "input_fields": [
+        {
+          "name": "birth_profile",
+          "label": "出生资料",
+          "type": "birth_profile",
+          "required": true,
+          "note": "北京时间；出生时刻精度与规则口径单独记录。无时辰不猜测。"
+        },
+        {
+          "name": "week_start",
+          "label": "本周周一",
+          "type": "date",
+          "required": true,
+          "note": ""
+        }
+      ],
+      "output_example": {
+        "report_id": "DEMO-weekly_fortune",
+        "scenario_id": "weekly_fortune",
+        "view": "default",
+        "status": "blocked",
+        "generated_by": "design_fixture",
+        "overview": "不能把七天伪分数平均成周运势",
+        "comprehensive_index": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "缺少已核评分策略；不显示默认分数"
+        },
+        "current_trend": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "缺少场景判读与时序规则"
+        },
+        "key_times": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "没有已核应期规则；日期边界不当作吉凶时点"
+        },
+        "favorable_factors": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "结构事实不可直接解释为利好"
+        },
+        "risk_reminders": {
+          "status": "available",
+          "value": null,
+          "items": [
+            "不能把七天伪分数平均成周运势"
+          ],
+          "reason": "能力限制，不是预测风险"
+        },
+        "classical_basis": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "本样例未执行相应场景判读"
+        },
+        "uncertainty": {
+          "status": "available",
+          "value": null,
+          "items": [
+            "流日/流月联动",
+            "周报告聚合规则",
+            "历史与复访服务"
+          ],
+          "reason": "按模块显示缺口"
+        },
+        "facts": [],
+        "comparison": null,
+        "computed_engine_runs": [],
+        "ai": {
+          "status": "disabled",
+          "explanation": null,
+          "quality_qualified": false
+        },
+        "history": {
+          "record_created": false,
+          "owner_id": null,
+          "revision": 1,
+          "profile_versions": [
+            "DEMO-A@1"
+          ],
+          "period": {
+            "kind": "week",
+            "civil_start": "2026-09-28T00:00:00+08:00",
+            "civil_end_exclusive": "2026-10-05T00:00:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "astrological_boundaries": "separate_variant_defined_segments_not_implemented"
+          }
+        },
+        "next_step": "保留资料草稿，等待依赖审核；本原型不保存个人资料"
+      },
+      "target_report_sections": [
+        "综合指数",
+        "当前趋势",
+        "关键时间",
+        "有利因素",
+        "风险提醒",
+        "典籍依据",
+        "不确定性"
+      ],
+      "acceptance_cases": [
+        "依赖不存在→blocked",
+        "评分策略不存在→null，不造分",
+        "AI未合格→disabled",
+        "资料缺失→追问，不猜测"
+      ],
+      "fixture_notice": "虚构输入或固定引擎样例；修改输入不会重新计算，本原型不提交、不保存、不联网。"
+    },
+    {
+      "scenario_id": "monthly_fortune",
+      "input_example": {
+        "birth_profile": {
+          "profile_id": "DEMO-A",
+          "calendar": "gregorian",
+          "value": "1999-02-16T00:00:00+08:00",
+          "timezone": "Asia/Shanghai",
+          "time_precision": "minute",
+          "year_boundary": "lunar-new-year",
+          "gender_for_variant": null
+        },
+        "target_month": "2026-10"
+      },
+      "input_fields": [
+        {
+          "name": "birth_profile",
+          "label": "出生资料",
+          "type": "birth_profile",
+          "required": true,
+          "note": "北京时间；出生时刻精度与规则口径单独记录。无时辰不猜测。"
+        },
+        {
+          "name": "target_month",
+          "label": "查看月份",
+          "type": "month",
+          "required": true,
+          "note": ""
+        }
+      ],
+      "output_example": {
+        "report_id": "DEMO-monthly_fortune",
+        "scenario_id": "monthly_fortune",
+        "view": "default",
+        "status": "blocked",
+        "generated_by": "design_fixture",
+        "overview": "公历月份用于阅读窗口，命理月界必须按锁定节气口径",
+        "comprehensive_index": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "缺少已核评分策略；不显示默认分数"
+        },
+        "current_trend": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "缺少场景判读与时序规则"
+        },
+        "key_times": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "没有已核应期规则；日期边界不当作吉凶时点"
+        },
+        "favorable_factors": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "结构事实不可直接解释为利好"
+        },
+        "risk_reminders": {
+          "status": "available",
+          "value": null,
+          "items": [
+            "公历月份用于阅读窗口，命理月界必须按锁定节气口径"
+          ],
+          "reason": "能力限制，不是预测风险"
+        },
+        "classical_basis": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "本样例未执行相应场景判读"
+        },
+        "uncertainty": {
+          "status": "available",
+          "value": null,
+          "items": [
+            "流月/流日",
+            "窗口分段规则",
+            "历史与复访服务"
+          ],
+          "reason": "按模块显示缺口"
+        },
+        "facts": [],
+        "comparison": null,
+        "computed_engine_runs": [],
+        "ai": {
+          "status": "disabled",
+          "explanation": null,
+          "quality_qualified": false
+        },
+        "history": {
+          "record_created": false,
+          "owner_id": null,
+          "revision": 1,
+          "profile_versions": [
+            "DEMO-A@1"
+          ],
+          "period": {
+            "kind": "month",
+            "civil_start": "2026-10-01T00:00:00+08:00",
+            "civil_end_exclusive": "2026-11-01T00:00:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "astrological_boundaries": "separate_variant_defined_segments_not_implemented"
+          }
+        },
+        "next_step": "保留资料草稿，等待依赖审核；本原型不保存个人资料"
+      },
+      "target_report_sections": [
+        "综合指数",
+        "当前趋势",
+        "关键时间",
+        "有利因素",
+        "风险提醒",
+        "典籍依据",
+        "不确定性"
+      ],
+      "acceptance_cases": [
+        "依赖不存在→blocked",
+        "评分策略不存在→null，不造分",
+        "AI未合格→disabled",
+        "资料缺失→追问，不猜测"
+      ],
+      "fixture_notice": "虚构输入或固定引擎样例；修改输入不会重新计算，本原型不提交、不保存、不联网。"
+    },
+    {
+      "scenario_id": "annual_fortune",
+      "input_example": {
+        "birth_profile": {
+          "profile_id": "DEMO-A",
+          "calendar": "gregorian",
+          "value": "1999-02-16T00:00:00+08:00",
+          "timezone": "Asia/Shanghai",
+          "time_precision": "minute",
+          "year_boundary": "lunar-new-year",
+          "gender_for_variant": null
+        },
+        "target_year": 2026
+      },
+      "input_fields": [
+        {
+          "name": "birth_profile",
+          "label": "出生资料",
+          "type": "birth_profile",
+          "required": true,
+          "note": "北京时间；出生时刻精度与规则口径单独记录。无时辰不猜测。"
+        },
+        {
+          "name": "target_year",
+          "label": "查看年份",
+          "type": "year",
+          "required": true,
+          "note": "2026 是视图默认值，不是独立算法"
+        }
+      ],
+      "output_example": {
+        "report_id": "DEMO-annual_fortune",
+        "scenario_id": "annual_fortune",
+        "view": "default",
+        "status": "blocked",
+        "generated_by": "design_fixture",
+        "overview": "不能只用出生生肖或四化表生成全年走势",
+        "comprehensive_index": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "缺少已核评分策略；不显示默认分数"
+        },
+        "current_trend": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "缺少场景判读与时序规则"
+        },
+        "key_times": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "没有已核应期规则；日期边界不当作吉凶时点"
+        },
+        "favorable_factors": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "结构事实不可直接解释为利好"
+        },
+        "risk_reminders": {
+          "status": "available",
+          "value": null,
+          "items": [
+            "不能只用出生生肖或四化表生成全年走势"
+          ],
+          "reason": "能力限制，不是预测风险"
+        },
+        "classical_basis": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "本样例未执行相应场景判读"
+        },
+        "uncertainty": {
+          "status": "available",
+          "value": null,
+          "items": [
+            "大运/流年/流月",
+            "年度场景规则",
+            "争议时间边界证据"
+          ],
+          "reason": "按模块显示缺口"
+        },
+        "facts": [],
+        "comparison": null,
+        "computed_engine_runs": [],
+        "ai": {
+          "status": "disabled",
+          "explanation": null,
+          "quality_qualified": false
+        },
+        "history": {
+          "record_created": false,
+          "owner_id": null,
+          "revision": 1,
+          "profile_versions": [
+            "DEMO-A@1"
+          ],
+          "period": {
+            "kind": "year",
+            "civil_start": "2026-01-01T00:00:00+08:00",
+            "civil_end_exclusive": "2027-01-01T00:00:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "astrological_boundaries": "separate_variant_defined_segments_not_implemented"
+          }
+        },
+        "next_step": "保留资料草稿，等待依赖审核；本原型不保存个人资料"
+      },
+      "target_report_sections": [
+        "综合指数",
+        "当前趋势",
+        "关键时间",
+        "有利因素",
+        "风险提醒",
+        "典籍依据",
+        "不确定性"
+      ],
+      "acceptance_cases": [
+        "依赖不存在→blocked",
+        "评分策略不存在→null，不造分",
+        "AI未合格→disabled",
+        "资料缺失→追问，不猜测"
+      ],
+      "fixture_notice": "虚构输入或固定引擎样例；修改输入不会重新计算，本原型不提交、不保存、不联网。"
+    },
+    {
+      "scenario_id": "romance",
+      "input_example": {
+        "birth_profile": {
+          "profile_id": "DEMO-A",
+          "calendar": "gregorian",
+          "value": "1999-02-16T00:00:00+08:00",
+          "timezone": "Asia/Shanghai",
+          "time_precision": "minute",
+          "year_boundary": "lunar-new-year",
+          "gender_for_variant": null
+        },
+        "target_window": {
+          "start": "2026-10-01",
+          "end_exclusive": "2026-11-01"
+        },
+        "relationship_context": "未提供"
+      },
+      "input_fields": [
+        {
+          "name": "birth_profile",
+          "label": "出生资料",
+          "type": "birth_profile",
+          "required": true,
+          "note": "北京时间；出生时刻精度与规则口径单独记录。无时辰不猜测。"
+        },
+        {
+          "name": "relationship_context",
+          "label": "关系状态",
+          "type": "enum",
+          "required": false,
+          "note": "可选；不用于暗自改动排盘口径"
+        },
+        {
+          "name": "target_window",
+          "label": "关注时间范围",
+          "type": "date_range",
+          "required": true,
+          "note": ""
+        }
+      ],
+      "output_example": {
+        "report_id": "DEMO-romance",
+        "scenario_id": "romance",
+        "view": "default",
+        "status": "blocked",
+        "generated_by": "design_fixture",
+        "overview": "咸池命中或夫妻宫有星不等于桃花好坏、恋爱概率或对象出现日期",
+        "comprehensive_index": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "缺少已核评分策略；不显示默认分数"
+        },
+        "current_trend": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "缺少场景判读与时序规则"
+        },
+        "key_times": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "没有已核应期规则；日期边界不当作吉凶时点"
+        },
+        "favorable_factors": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "结构事实不可直接解释为利好"
+        },
+        "risk_reminders": {
+          "status": "available",
+          "value": null,
+          "items": [
+            "咸池命中或夫妻宫有星不等于桃花好坏、恋爱概率或对象出现日期"
+          ],
+          "reason": "能力限制，不是预测风险"
+        },
+        "classical_basis": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "本样例未执行相应场景判读"
+        },
+        "uncertainty": {
+          "status": "available",
+          "value": null,
+          "items": [
+            "桃花规则原典与条件",
+            "流年/大运",
+            "紫微相关宫位判读规则"
+          ],
+          "reason": "按模块显示缺口"
+        },
+        "facts": [],
+        "comparison": null,
+        "computed_engine_runs": [],
+        "ai": {
+          "status": "disabled",
+          "explanation": null,
+          "quality_qualified": false
+        },
+        "history": {
+          "record_created": false,
+          "owner_id": null,
+          "revision": 1,
+          "profile_versions": [
+            "DEMO-A@1"
+          ],
+          "period": null
+        },
+        "next_step": "保留资料草稿，等待依赖审核；本原型不保存个人资料"
+      },
+      "target_report_sections": [
+        "综合指数",
+        "当前趋势",
+        "关键时间",
+        "有利因素",
+        "风险提醒",
+        "典籍依据",
+        "不确定性"
+      ],
+      "acceptance_cases": [
+        "依赖不存在→blocked",
+        "评分策略不存在→null，不造分",
+        "AI未合格→disabled",
+        "资料缺失→追问，不猜测"
+      ],
+      "fixture_notice": "虚构输入或固定引擎样例；修改输入不会重新计算，本原型不提交、不保存、不联网。"
+    },
+    {
+      "scenario_id": "career_wealth",
+      "input_example": {
+        "birth_profile": {
+          "profile_id": "DEMO-A",
+          "calendar": "gregorian",
+          "value": "1999-02-16T00:00:00+08:00",
+          "timezone": "Asia/Shanghai",
+          "time_precision": "minute",
+          "year_boundary": "lunar-new-year",
+          "gender_for_variant": null
+        },
+        "target_window": {
+          "start": "2026-10-01",
+          "end_exclusive": "2026-11-01"
+        },
+        "report_view": "career"
+      },
+      "input_fields": [
+        {
+          "name": "birth_profile",
+          "label": "出生资料",
+          "type": "birth_profile",
+          "required": true,
+          "note": "北京时间；出生时刻精度与规则口径单独记录。无时辰不猜测。"
+        },
+        {
+          "name": "report_view",
+          "label": "报告视图",
+          "type": "enum",
+          "required": true,
+          "note": "career / wealth"
+        },
+        {
+          "name": "target_window",
+          "label": "关注时间范围",
+          "type": "date_range",
+          "required": true,
+          "note": ""
+        },
+        {
+          "name": "specific_question",
+          "label": "具体事项",
+          "type": "text",
+          "required": false,
+          "note": ""
+        }
+      ],
+      "output_example": {
+        "report_id": "DEMO-career_wealth",
+        "scenario_id": "career_wealth",
+        "view": "career",
+        "status": "blocked",
+        "generated_by": "design_fixture",
+        "overview": "本命官禄/财帛位置不是事业或收益预测；奇门只在用户另起一事时调用",
+        "comprehensive_index": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "缺少已核评分策略；不显示默认分数"
+        },
+        "current_trend": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "缺少场景判读与时序规则"
+        },
+        "key_times": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "没有已核应期规则；日期边界不当作吉凶时点"
+        },
+        "favorable_factors": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "结构事实不可直接解释为利好"
+        },
+        "risk_reminders": {
+          "status": "available",
+          "value": null,
+          "items": [
+            "本命官禄/财帛位置不是事业或收益预测；奇门只在用户另起一事时调用"
+          ],
+          "reason": "能力限制，不是预测风险"
+        },
+        "classical_basis": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "本样例未执行相应场景判读"
+        },
+        "uncertainty": {
+          "status": "available",
+          "value": null,
+          "items": [
+            "财官印食规则编译",
+            "旺衰/喜忌未决问题",
+            "大运/流年联动",
+            "按场景验证的聚合规则"
+          ],
+          "reason": "按模块显示缺口"
+        },
+        "facts": [],
+        "comparison": null,
+        "computed_engine_runs": [],
+        "ai": {
+          "status": "disabled",
+          "explanation": null,
+          "quality_qualified": false
+        },
+        "history": {
+          "record_created": false,
+          "owner_id": null,
+          "revision": 1,
+          "profile_versions": [
+            "DEMO-A@1"
+          ],
+          "period": null
+        },
+        "next_step": "保留资料草稿，等待依赖审核；本原型不保存个人资料"
+      },
+      "target_report_sections": [
+        "综合指数",
+        "当前趋势",
+        "关键时间",
+        "有利因素",
+        "风险提醒",
+        "典籍依据",
+        "不确定性"
+      ],
+      "acceptance_cases": [
+        "依赖不存在→blocked",
+        "评分策略不存在→null，不造分",
+        "AI未合格→disabled",
+        "资料缺失→追问，不猜测"
+      ],
+      "fixture_notice": "虚构输入或固定引擎样例；修改输入不会重新计算，本原型不提交、不保存、不联网。"
+    },
+    {
+      "scenario_id": "compatibility",
+      "input_example": {
+        "participants": {
+          "a": {
+            "profile_id": "DEMO-A",
+            "calendar": "gregorian",
+            "value": "1999-02-16T00:00:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "time_precision": "minute",
+            "year_boundary": "lunar-new-year",
+            "gender_for_variant": null
+          },
+          "b": {
+            "profile_id": "DEMO-B",
+            "calendar": "gregorian",
+            "value": "2000-06-01T12:00:00+08:00",
+            "timezone": "Asia/Shanghai",
+            "time_precision": "minute",
+            "year_boundary": "lunar-new-year",
+            "gender_for_variant": null
+          }
+        },
+        "comparison_context": "沟通与关系",
+        "consent_scope": "demo_only"
+      },
+      "input_fields": [
+        {
+          "name": "participants",
+          "label": "两个人的出生资料",
+          "type": "two_profiles",
+          "required": true,
+          "note": "双方同意；A/B 资料和版本独立保存"
+        },
+        {
+          "name": "comparison_context",
+          "label": "对比主题",
+          "type": "enum",
+          "required": true,
+          "note": ""
+        },
+        {
+          "name": "target_window",
+          "label": "关注时间范围",
+          "type": "date_range",
+          "required": false,
+          "note": ""
+        }
+      ],
+      "output_example": {
+        "report_id": "DEMO-compatibility",
+        "scenario_id": "compatibility",
+        "view": "default",
+        "status": "blocked",
+        "generated_by": "design_fixture",
+        "overview": "已有 baseline=60 的开源评分不是经核婚配算法；不得照搬为百分比",
+        "comprehensive_index": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "缺少已核评分策略；不显示默认分数"
+        },
+        "current_trend": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "缺少场景判读与时序规则"
+        },
+        "key_times": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "没有已核应期规则；日期边界不当作吉凶时点"
+        },
+        "favorable_factors": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "结构事实不可直接解释为利好"
+        },
+        "risk_reminders": {
+          "status": "available",
+          "value": null,
+          "items": [
+            "已有 baseline=60 的开源评分不是经核婚配算法；不得照搬为百分比"
+          ],
+          "reason": "能力限制，不是预测风险"
+        },
+        "classical_basis": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "本样例未执行相应场景判读"
+        },
+        "uncertainty": {
+          "status": "available",
+          "value": null,
+          "items": [
+            "双人八字",
+            "成对规则与主客方向",
+            "合盘证据",
+            "缺时辰与不完整输入策略"
+          ],
+          "reason": "按模块显示缺口"
+        },
+        "facts": [],
+        "comparison": {
+          "participants": [
+            "a",
+            "b"
+          ],
+          "status": "unavailable",
+          "dimensions": [
+            {
+              "id": "day_branch_relation",
+              "a": null,
+              "b": null,
+              "relation": null,
+              "status": "unavailable",
+              "reason": "双人执行/对比规则未注册"
+            },
+            {
+              "id": "element_relation",
+              "a": null,
+              "b": null,
+              "relation": null,
+              "status": "unavailable",
+              "reason": "双人执行/对比规则未注册"
+            },
+            {
+              "id": "period_alignment",
+              "a": null,
+              "b": null,
+              "relation": null,
+              "status": "unavailable",
+              "reason": "双人执行/对比规则未注册"
+            }
+          ],
+          "score": null,
+          "swapping_policy": "对称关系须 invariant；方向关系须保留主客，不互换解释"
+        },
+        "computed_engine_runs": [],
+        "ai": {
+          "status": "disabled",
+          "explanation": null,
+          "quality_qualified": false
+        },
+        "history": {
+          "record_created": false,
+          "owner_id": null,
+          "revision": 1,
+          "profile_versions": [
+            "DEMO-A@1",
+            "DEMO-B@1"
+          ],
+          "period": null
+        },
+        "next_step": "保留资料草稿，等待依赖审核；本原型不保存个人资料"
+      },
+      "target_report_sections": [
+        "综合指数",
+        "当前趋势",
+        "关键时间",
+        "有利因素",
+        "风险提醒",
+        "典籍依据",
+        "不确定性"
+      ],
+      "acceptance_cases": [
+        "依赖不存在→blocked",
+        "评分策略不存在→null，不造分",
+        "AI未合格→disabled",
+        "资料缺失→追问，不猜测"
+      ],
+      "fixture_notice": "虚构输入或固定引擎样例；修改输入不会重新计算，本原型不提交、不保存、不联网。"
+    },
+    {
+      "scenario_id": "one_question",
+      "input_example": {
+        "question": "是否适合推进当前合作？（虚构示例）",
+        "casting_time": "2026-10-04T12:00:00+08:00",
+        "method_preference": "six_casts",
+        "yao_values": [
+          7,
+          7,
+          7,
+          7,
+          7,
+          9
+        ],
+        "casting_provenance": "fixed_demo_not_user_cast"
+      },
+      "input_fields": [
+        {
+          "name": "question",
+          "label": "想问的一件事",
+          "type": "text",
+          "required": true,
+          "note": ""
+        },
+        {
+          "name": "casting_time",
+          "label": "记录时刻",
+          "type": "datetime",
+          "required": true,
+          "note": ""
+        },
+        {
+          "name": "method_preference",
+          "label": "方式偏好",
+          "type": "enum",
+          "required": false,
+          "note": "推荐只按资料可用性，不按预测准确性"
+        },
+        {
+          "name": "yao_values",
+          "label": "六次投掷结果",
+          "type": "six_yao",
+          "required": false,
+          "note": "初爻至上爻；选择六爻时必填；缺值不随机补"
+        },
+        {
+          "name": "casting_provenance",
+          "label": "起卦记录来源",
+          "type": "enum",
+          "required": false,
+          "note": ""
+        }
+      ],
+      "output_example": {
+        "report_id": "DEMO-one_question",
+        "scenario_id": "one_question",
+        "view": "default",
+        "status": "structural_preview",
+        "generated_by": "design_fixture",
+        "overview": "本次结构为乾为天，第6爻变化后为泽天夬。这些是输入对应的程序结果，尚不能判断合作成败。",
+        "comprehensive_index": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "缺少已核评分策略；不显示默认分数"
+        },
+        "current_trend": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "缺少场景判读与时序规则"
+        },
+        "key_times": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "没有已核应期规则；日期边界不当作吉凶时点"
+        },
+        "favorable_factors": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "结构事实不可直接解释为利好"
+        },
+        "risk_reminders": {
+          "status": "available",
+          "value": null,
+          "items": [
+            "现可生成卦变或时盘结构；不能回答会不会成功、吉凶或应期"
+          ],
+          "reason": "能力限制，不是预测风险"
+        },
+        "classical_basis": {
+          "status": "available",
+          "value": null,
+          "items": [
+            {
+              "evidence_id": "088da5f57e4c1a4c0191833a",
+              "source_id": "yijing.source.meihua",
+              "section_id": "yijing.section.s007",
+              "original_text": "若一爻动，则看此一爻，是阳爻则变阴爻，阴爻则变阳爻。",
+              "role": "classical",
+              "rule_id": "liuyao.phase2.motion",
+              "variant": "jingfang-eight-palaces-v1",
+              "classic_id": "yijing.classic.meihua",
+              "classic_title": "梅花易数",
+              "chapter_id": "yijing.chapter.meihua.8cff2b9d",
+              "chapter_title": "基础选段（编者定位）",
+              "locator": "基础选段（编者定位）; decoded-character interval [2433,2459)",
+              "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%A2%85%E8%8A%B1%E6%98%93%E6%95%B0.txt",
+              "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+              "sha256": "6b13e23373022006072603d1955e34919454ace12b60d9db28dbb2124e792c33",
+              "evidence_level": "C"
+            },
+            {
+              "evidence_id": "b48827d89f227565c411f7fa",
+              "source_id": "liuyao.source.zengshan",
+              "section_id": "liuyao.section.s003",
+              "original_text": "乾為天「世」在六﹐天風姤「世」在初﹐天山遁「世」在二﹐天地否「世」在三﹐天地觀「世」在四﹐山地剝「世」在五﹐火地晉「世」在四﹐火天大有「世」退在三。",
+              "role": "classical",
+              "rule_id": "liuyao.phase2.palace",
+              "variant": "jingfang-eight-palaces-v1",
+              "classic_id": "liuyao.classic.zengshan",
+              "classic_title": "增删卜易",
+              "chapter_id": "liuyao.chapter.zengshan.8cff2b9d",
+              "chapter_title": "基础选段（编者定位）",
+              "locator": "基础选段（编者定位）; decoded-character interval [14811,14885)",
+              "source_url": "https://github.com/yaomancy/liuyao-engine/blob/53291663a4c733c4cbdfa174a8d3075475c07fd3/data/%E5%A2%9E%E5%88%A0%E5%8D%9C%E6%98%93_ctext%E5%85%AC%E6%9C%89%E9%A2%86%E5%9F%9F%E5%85%A8%E6%96%87.txt",
+              "commit": "53291663a4c733c4cbdfa174a8d3075475c07fd3",
+              "sha256": "74d854545b6424730244815d419b26246fb61f104015c4561278ed03de05c9c9",
+              "evidence_level": "C"
+            }
+          ],
+          "reason": "只支持已执行结构规则；不支持问题成败或人生趋势。C/D 等级不升级。"
+        },
+        "uncertainty": {
+          "status": "available",
+          "value": null,
+          "items": [
+            "场景适配/报告模板",
+            "用户记录服务",
+            "用神/旺衰/格局/应期判读另行补强"
+          ],
+          "reason": "按模块显示缺口"
+        },
+        "facts": [
+          {
+            "label": "本次卦象",
+            "value": "乾为天",
+            "fact_ref": "/original/name",
+            "rule_ids": [
+              "liuyao.phase2.motion",
+              "liuyao.phase2.palace"
+            ]
+          },
+          {
+            "label": "变化位置",
+            "value": [
+              6
+            ],
+            "fact_ref": "/changing_lines",
+            "rule_ids": [
+              "liuyao.phase2.motion"
+            ]
+          },
+          {
+            "label": "变化后结构",
+            "value": "泽天夬",
+            "fact_ref": "/changed/name",
+            "rule_ids": [
+              "liuyao.phase2.motion"
+            ]
+          }
+        ],
+        "comparison": null,
+        "computed_engine_runs": [
+          {
+            "engine_id": "liuyao",
+            "variant": "jingfang-eight-palaces-v1",
+            "inputs": {
+              "value": "2026-10-04T12:00:00+08:00",
+              "yao_values": [
+                7,
+                7,
+                7,
+                7,
+                7,
+                9
+              ]
+            },
+            "result": {
+              "original": {
+                "number": 1,
+                "name": "乾为天",
+                "binary": "111111",
+                "lower": "乾",
+                "upper": "乾"
+              },
+              "changed": {
+                "number": 43,
+                "name": "泽天夬",
+                "binary": "111110",
+                "lower": "乾",
+                "upper": "兑"
+              },
+              "changing_lines": [
+                6
+              ],
+              "palace": {
+                "palace": "乾",
+                "element": "金",
+                "sequence": "本宫",
+                "shi": 6,
+                "ying": 3
+              },
+              "changed_palace": {
+                "palace": "坤",
+                "element": "土",
+                "sequence": "五世",
+                "shi": 5,
+                "ying": 2
+              },
+              "lines": [
+                {
+                  "position": 1,
+                  "value": 7,
+                  "moving": false,
+                  "najia": "甲子",
+                  "element": "水",
+                  "relative": "子孙",
+                  "spirit": "白虎",
+                  "empty": false,
+                  "month_break": false,
+                  "changed_najia": "甲子",
+                  "changed_relative_to_original_palace": "子孙"
+                },
+                {
+                  "position": 2,
+                  "value": 7,
+                  "moving": false,
+                  "najia": "甲寅",
+                  "element": "木",
+                  "relative": "妻财",
+                  "spirit": "玄武",
+                  "empty": true,
+                  "month_break": false,
+                  "changed_najia": "甲寅",
+                  "changed_relative_to_original_palace": "妻财"
+                },
+                {
+                  "position": 3,
+                  "value": 7,
+                  "moving": false,
+                  "najia": "甲辰",
+                  "element": "土",
+                  "relative": "父母",
+                  "spirit": "青龙",
+                  "empty": false,
+                  "month_break": false,
+                  "changed_najia": "甲辰",
+                  "changed_relative_to_original_palace": "父母"
+                },
+                {
+                  "position": 4,
+                  "value": 7,
+                  "moving": false,
+                  "najia": "壬午",
+                  "element": "火",
+                  "relative": "官鬼",
+                  "spirit": "朱雀",
+                  "empty": false,
+                  "month_break": false,
+                  "changed_najia": "丁亥",
+                  "changed_relative_to_original_palace": "子孙"
+                },
+                {
+                  "position": 5,
+                  "value": 7,
+                  "moving": false,
+                  "najia": "壬申",
+                  "element": "金",
+                  "relative": "兄弟",
+                  "spirit": "勾陈",
+                  "empty": false,
+                  "month_break": false,
+                  "changed_najia": "丁酉",
+                  "changed_relative_to_original_palace": "兄弟"
+                },
+                {
+                  "position": 6,
+                  "value": 9,
+                  "moving": true,
+                  "najia": "壬戌",
+                  "element": "土",
+                  "relative": "父母",
+                  "spirit": "螣蛇",
+                  "empty": false,
+                  "month_break": false,
+                  "changed_najia": "丁未",
+                  "changed_relative_to_original_palace": "父母"
+                }
+              ],
+              "empty_branches": [
+                "寅",
+                "卯"
+              ]
+            },
+            "rule_matches": [
+              {
+                "rule_id": "liuyao.phase2.motion",
+                "variant": "jingfang-eight-palaces-v1",
+                "matched": true,
+                "kind": "executed_calculation",
+                "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+                "facts": {
+                  "original": {
+                    "number": 1,
+                    "name": "乾为天",
+                    "binary": "111111",
+                    "lower": "乾",
+                    "upper": "乾"
+                  },
+                  "changed": {
+                    "number": 43,
+                    "name": "泽天夬",
+                    "binary": "111110",
+                    "lower": "乾",
+                    "upper": "兑"
+                  },
+                  "changing_lines": [
+                    6
+                  ]
+                },
+                "evidence_ids": [
+                  "088da5f57e4c1a4c0191833a",
+                  "e7232198835cc01ce9588cf3",
+                  "676a153a014af749d179bc3e"
+                ]
+              },
+              {
+                "rule_id": "liuyao.phase2.palace",
+                "variant": "jingfang-eight-palaces-v1",
+                "matched": true,
+                "kind": "executed_calculation",
+                "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+                "facts": {
+                  "palace": "乾",
+                  "element": "金",
+                  "sequence": "本宫",
+                  "shi": 6,
+                  "ying": 3
+                },
+                "evidence_ids": [
+                  "b48827d89f227565c411f7fa",
+                  "bffc65144bc167a5bd3e66bb",
+                  "f06d72e62abf7ff0ca7d1f12",
+                  "14e36aa8affc8a36dce2ef3e"
+                ]
+              },
+              {
+                "rule_id": "liuyao.phase2.najia",
+                "variant": "jingfang-eight-palaces-v1",
+                "matched": true,
+                "kind": "executed_calculation",
+                "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+                "facts": [
+                  "甲子",
+                  "甲寅",
+                  "甲辰",
+                  "壬午",
+                  "壬申",
+                  "壬戌"
+                ],
+                "evidence_ids": [
+                  "e749deb2d39c280331a22eae",
+                  "edeb8a9cf6db6a74bf1bcb3b",
+                  "e845902499f490f004134298",
+                  "59063e266be5859206f21b9e",
+                  "0e0a3f9c406599c2893a7299",
+                  "5e9b0682fb9d148294ae83dc",
+                  "b79f6f13e5a17cd2c608d540",
+                  "93a941adfd38450ccff2b29f"
+                ]
+              },
+              {
+                "rule_id": "liuyao.phase2.spirits",
+                "variant": "jingfang-eight-palaces-v1",
+                "matched": true,
+                "kind": "executed_calculation",
+                "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+                "facts": [
+                  "白虎",
+                  "玄武",
+                  "青龙",
+                  "朱雀",
+                  "勾陈",
+                  "螣蛇"
+                ],
+                "evidence_ids": [
+                  "24cf24f680c98dbbb8dad4b1",
+                  "2bc9fe9247a4015c75103b4d"
+                ]
+              },
+              {
+                "rule_id": "liuyao.phase2.empty",
+                "variant": "jingfang-eight-palaces-v1",
+                "matched": true,
+                "kind": "executed_calculation",
+                "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+                "facts": [
+                  "寅",
+                  "卯"
+                ],
+                "evidence_ids": [
+                  "86045d7443c71b6fb20dcdb1",
+                  "e511d5fa2c3032e1c2c1cd0e"
+                ]
+              },
+              {
+                "rule_id": "liuyao.phase2.relatives",
+                "variant": "jingfang-eight-palaces-v1",
+                "matched": true,
+                "kind": "executed_calculation",
+                "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+                "facts": [
+                  "子孙",
+                  "妻财",
+                  "父母",
+                  "官鬼",
+                  "兄弟",
+                  "父母"
+                ],
+                "evidence_ids": [
+                  "875068a9ba5bfdf16c6c63fb",
+                  "f0c877038ac43f5b1533b347"
+                ]
+              },
+              {
+                "rule_id": "liuyao.phase2.month_break",
+                "variant": "jingfang-eight-palaces-v1",
+                "matched": true,
+                "kind": "executed_calculation",
+                "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+                "facts": [],
+                "evidence_ids": [
+                  "e3b83366ef011426dec58147",
+                  "9c4f62f500ca6434532980b2"
+                ]
+              }
+            ],
+            "provenance": {
+              "checkout_commit": "e133cd31bd9bc7bc8a1fcca7a49c567aa7f7b3fb",
+              "branch": "quality/backend-readiness",
+              "pull_request": 88,
+              "execution_and_calendar_code_matches_baseline": true,
+              "note": "Windows main runtime path guard currently rejects native separators; PR88 portable runtime fixes used for sample execution. No source patch or main-runtime success claim."
+            },
+            "result_sha256": "b8dc5ad5dca614b595e2b35a075ef8171b355cb0040ffe4d192594265571967d",
+            "evidence_ids": [
+              "088da5f57e4c1a4c0191833a",
+              "b48827d89f227565c411f7fa"
+            ]
+          }
+        ],
+        "ai": {
+          "status": "disabled",
+          "explanation": null,
+          "quality_qualified": false
+        },
+        "history": {
+          "record_created": false,
+          "owner_id": null,
+          "revision": 1,
+          "profile_versions": [
+            "DEMO-A@1"
+          ],
+          "period": null
+        },
+        "next_step": "查看已有结构参考"
+      },
+      "target_report_sections": [
+        "综合指数",
+        "当前趋势",
+        "关键时间",
+        "有利因素",
+        "风险提醒",
+        "典籍依据",
+        "不确定性"
+      ],
+      "acceptance_cases": [
+        "依赖不存在→blocked",
+        "评分策略不存在→null，不造分",
+        "AI未合格→disabled",
+        "资料缺失→追问，不猜测"
+      ],
+      "fixture_notice": "虚构输入或固定引擎样例；修改输入不会重新计算，本原型不提交、不保存、不联网。"
+    },
+    {
+      "scenario_id": "dream",
+      "input_example": {
+        "dream_text": "梦见沿河行走，醒来感到平静。（虚构描述）",
+        "felt_emotion": "平静",
+        "dream_date": "2026-10-04"
+      },
+      "input_fields": [
+        {
+          "name": "dream_text",
+          "label": "梦境描述",
+          "type": "text",
+          "required": true,
+          "note": ""
+        },
+        {
+          "name": "felt_emotion",
+          "label": "醒来感受",
+          "type": "text",
+          "required": false,
+          "note": ""
+        },
+        {
+          "name": "dream_date",
+          "label": "梦境日期",
+          "type": "date",
+          "required": false,
+          "note": ""
+        },
+        {
+          "name": "reflection_context",
+          "label": "近期联想",
+          "type": "text",
+          "required": false,
+          "note": ""
+        }
+      ],
+      "output_example": {
+        "report_id": "DEMO-dream",
+        "scenario_id": "dream",
+        "view": "default",
+        "status": "blocked",
+        "generated_by": "design_fixture",
+        "overview": "独立 RAG 文化解读，不排盘，不计算未来吉凶，不据梦境诊断",
+        "comprehensive_index": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "缺少已核评分策略；不显示默认分数"
+        },
+        "current_trend": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "缺少场景判读与时序规则"
+        },
+        "key_times": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "没有已核应期规则；日期边界不当作吉凶时点"
+        },
+        "favorable_factors": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "结构事实不可直接解释为利好"
+        },
+        "risk_reminders": {
+          "status": "available",
+          "value": null,
+          "items": [
+            "独立 RAG 文化解读，不排盘，不计算未来吉凶，不据梦境诊断"
+          ],
+          "reason": "能力限制，不是预测风险"
+        },
+        "classical_basis": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "本样例未执行相应场景判读"
+        },
+        "uncertainty": {
+          "status": "available",
+          "value": null,
+          "items": [
+            "授权/公版资料审核",
+            "梦境词条、上下文与否定语义",
+            "独立检索/来源等级",
+            "梦境解释真实模型校准"
+          ],
+          "reason": "按模块显示缺口"
+        },
+        "facts": [],
+        "comparison": null,
+        "computed_engine_runs": [],
+        "ai": {
+          "status": "disabled",
+          "explanation": null,
+          "quality_qualified": false
+        },
+        "history": {
+          "record_created": false,
+          "owner_id": null,
+          "revision": 1,
+          "profile_versions": [],
+          "period": null
+        },
+        "next_step": "保留资料草稿，等待依赖审核；本原型不保存个人资料"
+      },
+      "target_report_sections": [
+        "综合指数",
+        "当前趋势",
+        "关键时间",
+        "有利因素",
+        "风险提醒",
+        "典籍依据",
+        "不确定性"
+      ],
+      "acceptance_cases": [
+        "依赖不存在→blocked",
+        "评分策略不存在→null，不造分",
+        "AI未合格→disabled",
+        "资料缺失→追问，不猜测"
+      ],
+      "fixture_notice": "虚构输入或固定引擎样例；修改输入不会重新计算，本原型不提交、不保存、不联网。"
+    },
+    {
+      "scenario_id": "life_overview",
+      "input_example": {
+        "birth_profile": {
+          "profile_id": "DEMO-A",
+          "calendar": "gregorian",
+          "value": "1999-02-16T00:00:00+08:00",
+          "timezone": "Asia/Shanghai",
+          "time_precision": "minute",
+          "year_boundary": "lunar-new-year",
+          "gender_for_variant": null
+        },
+        "focus_topics": [
+          "长期档案",
+          "关系",
+          "事业"
+        ]
+      },
+      "input_fields": [
+        {
+          "name": "birth_profile",
+          "label": "出生资料",
+          "type": "birth_profile",
+          "required": true,
+          "note": "北京时间；出生时刻精度与规则口径单独记录。无时辰不猜测。"
+        },
+        {
+          "name": "focus_topics",
+          "label": "关注主题",
+          "type": "enum_list",
+          "required": true,
+          "note": ""
+        },
+        {
+          "name": "life_window",
+          "label": "关注阶段",
+          "type": "date_range",
+          "required": false,
+          "note": ""
+        },
+        {
+          "name": "space_orientation",
+          "label": "居住方向信息",
+          "type": "degrees",
+          "required": false,
+          "note": "只用于可选方位分支；非默认人生判断"
+        }
+      ],
+      "output_example": {
+        "report_id": "DEMO-life_overview",
+        "scenario_id": "life_overview",
+        "view": "default",
+        "status": "structural_preview",
+        "generated_by": "design_fixture",
+        "overview": "基础档案已能定位命身宫、十二宫和已实现星曜。此处列出关系、事业、财务的资料位置，便于后续复核；不等同于完整人生评断。",
+        "comprehensive_index": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "缺少已核评分策略；不显示默认分数"
+        },
+        "current_trend": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "缺少场景判读与时序规则"
+        },
+        "key_times": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "没有已核应期规则；日期边界不当作吉凶时点"
+        },
+        "favorable_factors": {
+          "status": "unavailable",
+          "value": null,
+          "items": [],
+          "reason": "结构事实不可直接解释为利好"
+        },
+        "risk_reminders": {
+          "status": "available",
+          "value": null,
+          "items": [
+            "现在只能给紫微基本安星；全人生走势、健康/财富结论及人生评分未实现"
+          ],
+          "reason": "能力限制，不是预测风险"
+        },
+        "classical_basis": {
+          "status": "available",
+          "value": null,
+          "items": [
+            {
+              "evidence_id": "4468e67a64b5ddf99b6cc9cc",
+              "source_id": "ziwei.source.quanshu",
+              "section_id": "ziwei.section.s001",
+              "original_text": "一 命宮、二兄弟、三妻妾、四子女、五財帛、六疾厄、七遷移、八奴僕、九官祿、十田宅、十一福德、十二父母",
+              "role": "classical",
+              "rule_id": "ziwei.phase2.palaces",
+              "variant": "quanshu-lunar-iztro-mutagen-v1",
+              "classic_id": "ziwei.classic.quanshu",
+              "classic_title": "紫微斗数全书·古籍短选段（非现代白话）",
+              "chapter_id": "ziwei.chapter.quanshu.a5d6b669",
+              "chapter_title": "安十二宮例",
+              "locator": "安十二宮例; decoded-character interval [51577,51627)",
+              "source_url": "https://github.com/hxl888/jingpan/blob/d725dd16b40cb60ec3a027309933deb364054644/src/data/bookChapters.json",
+              "commit": "d725dd16b40cb60ec3a027309933deb364054644",
+              "sha256": "3fc01609f6e1bbc3ea92b99dbd3e2665c879ace6e4a7a3ac0a38292ae3cb27a8",
+              "evidence_level": "C"
+            }
+          ],
+          "reason": "只支持已执行结构规则；不支持问题成败或人生趋势。C/D 等级不升级。"
+        },
+        "uncertainty": {
+          "status": "available",
+          "value": null,
+          "items": [
+            "八字本命/大运",
+            "紫微大限流年和判读",
+            "跨引擎主题聚合",
+            "完整人生报告的语义复核"
+          ],
+          "reason": "按模块显示缺口"
+        },
+        "facts": [
+          {
+            "label": "关系资料位置",
+            "value": "子",
+            "fact_ref": "/palaces/夫妻",
+            "rule_ids": [
+              "ziwei.phase2.palaces"
+            ]
+          },
+          {
+            "label": "事业资料位置",
+            "value": "午",
+            "fact_ref": "/palaces/官禄",
+            "rule_ids": [
+              "ziwei.phase2.palaces"
+            ]
+          },
+          {
+            "label": "财务资料位置",
+            "value": "戌",
+            "fact_ref": "/palaces/财帛",
+            "rule_ids": [
+              "ziwei.phase2.palaces"
+            ]
+          }
+        ],
+        "comparison": null,
+        "computed_engine_runs": [
+          {
+            "engine_id": "ziwei",
+            "variant": "quanshu-lunar-iztro-mutagen-v1",
+            "inputs": {
+              "value": "1999-02-16T00:00:00+08:00",
+              "year_boundary": "lunar-new-year"
+            },
+            "result": {
+              "life_palace": "寅",
+              "body_palace": "寅",
+              "life_ganzhi": "丙寅",
+              "bureau": {
+                "element": "火",
+                "number": 6
+              },
+              "palaces": {
+                "命宫": "寅",
+                "兄弟": "丑",
+                "夫妻": "子",
+                "子女": "亥",
+                "财帛": "戌",
+                "疾厄": "酉",
+                "迁移": "申",
+                "仆役": "未",
+                "官禄": "午",
+                "田宅": "巳",
+                "福德": "辰",
+                "父母": "卯"
+              },
+              "major_stars": {
+                "紫微": "酉",
+                "天机": "申",
+                "太阳": "午",
+                "武曲": "巳",
+                "天同": "辰",
+                "廉贞": "丑",
+                "天府": "未",
+                "太阴": "申",
+                "贪狼": "酉",
+                "巨门": "戌",
+                "天相": "亥",
+                "天梁": "子",
+                "七杀": "丑",
+                "破军": "巳"
+              },
+              "auxiliary_stars": {
+                "左辅": "辰",
+                "右弼": "戌",
+                "文昌": "戌",
+                "文曲": "辰",
+                "禄存": "午",
+                "擎羊": "未",
+                "陀罗": "巳",
+                "天马": "巳",
+                "地劫": "亥",
+                "天空": "亥"
+              },
+              "auxiliary_variant": "quanshu-kongjie-tiankong-v1",
+              "four_transformations": {
+                "化禄": "武曲",
+                "化权": "贪狼",
+                "化科": "天梁",
+                "化忌": "文曲"
+              },
+              "mutagen_variant": "iztro-default-v2",
+              "mutagen_evidence": "D implementation table; classical types are C; 壬府/辅 unresolved",
+              "input_scope": "显式非闰月农历；年干支由调用方按约定年界提供；无大限流年或庙旺吉凶"
+            },
+            "rule_matches": [
+              {
+                "rule_id": "ziwei.phase2.life_body",
+                "variant": "quanshu-lunar-iztro-mutagen-v1",
+                "matched": true,
+                "kind": "executed_calculation",
+                "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+                "facts": {
+                  "life_palace": "寅",
+                  "body_palace": "寅"
+                },
+                "evidence_ids": [
+                  "25d1b38f6ffa65f068d92185",
+                  "630a105acfbc5be60c00e411",
+                  "01b7a9510de1fdacf6c97a6c",
+                  "8ffabfcc778e3d34b7e52e1d"
+                ]
+              },
+              {
+                "rule_id": "ziwei.phase2.bureau",
+                "variant": "quanshu-lunar-iztro-mutagen-v1",
+                "matched": true,
+                "kind": "executed_calculation",
+                "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+                "facts": {
+                  "life_ganzhi": "丙寅",
+                  "bureau": {
+                    "element": "火",
+                    "number": 6
+                  }
+                },
+                "evidence_ids": [
+                  "af6b9ae6496784110e3c7fcc",
+                  "8982c962c2bb512c16596a0b",
+                  "bbc378bc36264856e942349b",
+                  "7cb59073a7a9505fdc9f613f",
+                  "619e103715abad801067f089",
+                  "0d89c8c6220515af6f563a45",
+                  "be94c64792485fd41cf7e297",
+                  "731b53a311a8c32684bd0e01"
+                ]
+              },
+              {
+                "rule_id": "ziwei.phase2.palaces",
+                "variant": "quanshu-lunar-iztro-mutagen-v1",
+                "matched": true,
+                "kind": "executed_calculation",
+                "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+                "facts": {
+                  "palaces": {
+                    "命宫": "寅",
+                    "兄弟": "丑",
+                    "夫妻": "子",
+                    "子女": "亥",
+                    "财帛": "戌",
+                    "疾厄": "酉",
+                    "迁移": "申",
+                    "仆役": "未",
+                    "官禄": "午",
+                    "田宅": "巳",
+                    "福德": "辰",
+                    "父母": "卯"
+                  }
+                },
+                "evidence_ids": [
+                  "4468e67a64b5ddf99b6cc9cc",
+                  "3a459c718a8710396018c1a5"
+                ]
+              },
+              {
+                "rule_id": "ziwei.phase2.major_stars",
+                "variant": "quanshu-lunar-iztro-mutagen-v1",
+                "matched": true,
+                "kind": "executed_calculation",
+                "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+                "facts": {
+                  "major_stars": {
+                    "紫微": "酉",
+                    "天机": "申",
+                    "太阳": "午",
+                    "武曲": "巳",
+                    "天同": "辰",
+                    "廉贞": "丑",
+                    "天府": "未",
+                    "太阴": "申",
+                    "贪狼": "酉",
+                    "巨门": "戌",
+                    "天相": "亥",
+                    "天梁": "子",
+                    "七杀": "丑",
+                    "破军": "巳"
+                  }
+                },
+                "evidence_ids": [
+                  "11dba760eeaf2f31a4910c72",
+                  "a49cfad98ef87711a73ac034",
+                  "32676a8d543f997ba9b11701",
+                  "4769544942736b1f3b5cc587"
+                ]
+              },
+              {
+                "rule_id": "ziwei.phase2.auxiliary_stars",
+                "variant": "quanshu-lunar-iztro-mutagen-v1",
+                "matched": true,
+                "kind": "executed_calculation",
+                "evidence_scope": "C 可追溯古典关系与人工固定案例；现代数学形式化仅在指定 variant/输入范围内经回归验证。",
+                "facts": {
+                  "auxiliary_stars": {
+                    "左辅": "辰",
+                    "右弼": "戌",
+                    "文昌": "戌",
+                    "文曲": "辰",
+                    "禄存": "午",
+                    "擎羊": "未",
+                    "陀罗": "巳",
+                    "天马": "巳",
+                    "地劫": "亥",
+                    "天空": "亥"
+                  }
+                },
+                "evidence_ids": [
+                  "57bfe23ad417b0edbe16cbf1",
+                  "5d4bac9ff62278f614fe34c3",
+                  "cde9a9b7c1c19a5594713b9d",
+                  "95989450394f9ffc8ee98afa",
+                  "7ec985fe1264291a2bee5d2b"
+                ]
+              },
+              {
+                "rule_id": "ziwei.phase2.mutagens",
+                "variant": "quanshu-lunar-iztro-mutagen-v1",
+                "matched": true,
+                "kind": "executed_calculation",
+                "evidence_scope": "C 仅证明四化类型；逐干四化星表为 iztro-default-v2 软件约定 D；壬府/辅尚未裁定。",
+                "facts": {
+                  "four_transformations": {
+                    "化禄": "武曲",
+                    "化权": "贪狼",
+                    "化科": "天梁",
+                    "化忌": "文曲"
+                  },
+                  "mutagen_variant": "iztro-default-v2",
+                  "mutagen_evidence": "D implementation table; classical types are C; 壬府/辅 unresolved"
+                },
+                "evidence_ids": [
+                  "859231de36c5cc1b3ec86094"
+                ]
+              }
+            ],
+            "provenance": {
+              "checkout_commit": "e133cd31bd9bc7bc8a1fcca7a49c567aa7f7b3fb",
+              "branch": "quality/backend-readiness",
+              "pull_request": 88,
+              "execution_and_calendar_code_matches_baseline": true,
+              "note": "Windows main runtime path guard currently rejects native separators; PR88 portable runtime fixes used for sample execution. No source patch or main-runtime success claim."
+            },
+            "result_sha256": "8fecdcca58ab29b679969ed4aa05ee0771e62bfa76509773f0fce0e3e69adc7c",
+            "evidence_ids": [
+              "4468e67a64b5ddf99b6cc9cc"
+            ]
+          }
+        ],
+        "ai": {
+          "status": "disabled",
+          "explanation": null,
+          "quality_qualified": false
+        },
+        "history": {
+          "record_created": false,
+          "owner_id": null,
+          "revision": 1,
+          "profile_versions": [
+            "DEMO-A@1"
+          ],
+          "period": null
+        },
+        "next_step": "查看已有结构参考"
+      },
+      "target_report_sections": [
+        "综合指数",
+        "当前趋势",
+        "关键时间",
+        "有利因素",
+        "风险提醒",
+        "典籍依据",
+        "不确定性"
+      ],
+      "acceptance_cases": [
+        "依赖不存在→blocked",
+        "评分策略不存在→null，不造分",
+        "AI未合格→disabled",
+        "资料缺失→追问，不猜测"
+      ],
+      "fixture_notice": "虚构输入或固定引擎样例；修改输入不会重新计算，本原型不提交、不保存、不联网。"
+    }
+  ]
+}
