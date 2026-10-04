@@ -336,3 +336,75 @@ def reviewed_terms(resolver: EvidenceResolver | None = None) -> list[dict]:
             "evidence": evidence,
         })
     return rows
+
+
+def reviewed_sources(resolver: EvidenceResolver | None = None) -> list[dict]:
+    """Return reviewed source provenance and usage metadata without internal file paths."""
+    resolver = resolver or EvidenceResolver()
+
+    usage: dict[str, dict[str, set[str]]] = {
+        source_id: {
+            "domains": set(),
+            "classic_ids": set(),
+            "chapter_ids": set(),
+            "section_ids": set(),
+            "entity_ids": set(),
+        }
+        for source_id in resolver.sources
+    }
+
+    for entity_id, pair in resolver.entities.items():
+        collection, entity = pair
+        domain = entity.get("domain")
+        source_ids: set[str] = set()
+        if collection == "classics" and entity.get("source_id"):
+            source_ids.add(entity["source_id"])
+            usage.setdefault(entity["source_id"], {
+                "domains": set(), "classic_ids": set(), "chapter_ids": set(),
+                "section_ids": set(), "entity_ids": set(),
+            })["classic_ids"].add(entity_id)
+        if collection == "sections" and entity.get("source_id"):
+            source_ids.add(entity["source_id"])
+            item = usage.setdefault(entity["source_id"], {
+                "domains": set(), "classic_ids": set(), "chapter_ids": set(),
+                "section_ids": set(), "entity_ids": set(),
+            })
+            item["section_ids"].add(entity_id)
+            item["chapter_ids"].add(entity["chapter_id"])
+            item["classic_ids"].add(entity["classic_id"])
+        for ref in entity.get("source_refs", []):
+            source_ids.add(ref["source_id"])
+        for source_id in source_ids:
+            item = usage.setdefault(source_id, {
+                "domains": set(), "classic_ids": set(), "chapter_ids": set(),
+                "section_ids": set(), "entity_ids": set(),
+            })
+            if domain:
+                item["domains"].add(domain)
+            item["entity_ids"].add(entity_id)
+
+    rows = []
+    for source_id, source in sorted(resolver.sources.items()):
+        item = usage.get(source_id, {})
+        rows.append({
+            "id": source_id,
+            "title": source["title"],
+            "author": source.get("author"),
+            "era": source.get("era"),
+            "repository": source.get("repository"),
+            "url": source["url"],
+            "commit": source["commit"],
+            "license": source.get("license"),
+            "public_domain": source.get("public_domain"),
+            "retrieved_at": source.get("retrieved_at"),
+            "evidence_level": source["evidence_level"],
+            "kind": source["kind"],
+            "rights_basis": source.get("rights_basis", ""),
+            "review_scope": source.get("review_scope", ""),
+            "domains": sorted(item.get("domains", set())),
+            "classic_ids": sorted(item.get("classic_ids", set())),
+            "chapter_ids": sorted(item.get("chapter_ids", set())),
+            "section_count": len(item.get("section_ids", set())),
+            "entity_count": len(item.get("entity_ids", set())),
+        })
+    return rows
