@@ -4,11 +4,11 @@
   "domain": "bazi",
   "variant": "ziping-structural-v1",
   "provider": "tianji_kb.operations.bazi_chart.chart",
-  "scope": "生产范围仅含四柱、日主、十神、藏干的确定性结构事实；不输出旺衰、喜用、格局或吉凶。",
+  "scope": "生产范围含四柱、日主、十神、藏干；显式 include_xianchi=true 时可返回咸池四组结构查表。所有结构事实均不输出旺衰、喜用、格局或婚恋吉凶。",
   "unresolved": [
     "真太阳时未实现。",
     "旺衰、格局、喜用神、调候与大运起运规则尚未完成证据裁定。",
-    "桃花等神煞仅保留研究模块，不进入本生产 contract。"
+    "咸池四组目标支已核；年支与日支只分别报告，不裁定单一优先基准；纳音附加条件及桃花/婚恋解释仍未裁定。"
   ],
   "rules": [
     {
@@ -58,6 +58,22 @@
       ],
       "regression_test": "tests/test_phase2_bazi.py",
       "evidence_scope": "C：单一可追溯《渊海子平》藏遁歌；仅固定表。"
+    },
+    {
+      "id": "bazi.phase2.xianchi_lookup",
+      "domain": "bazi",
+      "name": "咸池四组结构查表",
+      "variant": "ziping-structural-v1",
+      "execution_status": "executable",
+      "phase1_rule_refs": [
+        "bazi.rule.r004"
+      ],
+      "validation_status": "validated",
+      "golden_case_ids": [
+        "bazi.xianchi-explicit-dual-basis"
+      ],
+      "regression_test": "tests/test_phase2_bazi.py",
+      "evidence_scope": "C：《三命通会·卷二·论咸池》固定短引；只确认四组目标支。年支与日支分别起查，不据命中直接生成桃花或婚恋吉凶。"
     }
   ]
 }
