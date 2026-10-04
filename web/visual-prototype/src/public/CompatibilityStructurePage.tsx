@@ -97,6 +97,8 @@ export function CompatibilityStructurePage() {
   const fiveCombination = reviewed.day_master_five_combination || {};
   const spouseRelation = reviewed.spouse_palace_relation || {};
   const spouseRelations = Array.isArray(spouseRelation.relations) ? spouseRelation.relations : [];
+  const matrix = payload.cross_relation_matrix || {};
+  const matrixHits = Array.isArray(matrix.hits) ? matrix.hits : [];
   const cross = payload.xianchi_cross_matches || {};
   const evidence = result
     ? Object.entries(result.evidence).map(([id, value]) => evidenceLabel(id, value))
@@ -309,7 +311,51 @@ export function CompatibilityStructurePage() {
 
           <section className="compat-section">
             <div className="result-section-heading">
-              <div><span>三</span><h2>咸池目标交叉匹配</h2></div>
+              <div><span>三</span><h2>跨柱关系矩阵</h2></div>
+              <small>日柱核心 · 日柱相关 · 其他辅助</small>
+            </div>
+            <div className="compat-matrix-summary">
+              <span>日柱核心 <b>{matrix.summary?.core || 0}</b></span>
+              <span>日柱相关 <b>{matrix.summary?.day_context || 0}</b></span>
+              <span>其他辅助 <b>{matrix.summary?.supplemental || 0}</b></span>
+            </div>
+            <div className="compat-matrix-groups">
+              {[
+                { id: "core", title: "日柱核心", note: "双方日柱直接结构" },
+                { id: "day_context", title: "日柱相关", note: "一方日柱与另一方其他柱" },
+                { id: "supplemental", title: "其他辅助", note: "双方其他柱之间，仅作补充" },
+              ].map((tier) => {
+                const rows = matrixHits.filter((item: any) => item.tier === tier.id);
+                return (
+                  <article key={tier.id}>
+                    <header><strong>{tier.title}</strong><small>{tier.note}</small></header>
+                    {rows.length ? rows.map((item: any, index: number) => {
+                      const relationName =
+                        item.relation_type === "stem_five_combination" ? "天干五合" :
+                        item.relation_type === "six_harmony" ? "地支六合" :
+                        item.relation_type === "harm" ? "地支六害" :
+                        item.relation_type === "clash" ? "地支六冲" : item.relation_type;
+                      const values = item.stems || item.branches || [];
+                      return (
+                        <div className="compat-matrix-hit" key={index}>
+                          <span>{pillarNames[item.person_a_pillar] || item.person_a_pillar} × {pillarNames[item.person_b_pillar] || item.person_b_pillar}</span>
+                          <strong>{relationName}</strong>
+                          <em>{values.join(" · ")}</em>
+                        </div>
+                      );
+                    }) : <p>当前没有已审核结构命中</p>}
+                  </article>
+                );
+              })}
+            </div>
+            <p className="compat-note">
+              这里的“核心 / 相关 / 辅助”只是阅读层级，不是权重、分数或吉凶排序；命中数量也不能换算成缘分高低。
+            </p>
+          </section>
+
+          <section className="compat-section">
+            <div className="result-section-heading">
+              <div><span>四</span><h2>咸池目标交叉匹配</h2></div>
               <small>只看固定查表是否相等</small>
             </div>
             <div className="compat-cross">
@@ -344,7 +390,7 @@ export function CompatibilityStructurePage() {
 
           <div className="compat-two-columns">
             <section className="compat-section">
-              <div className="result-section-heading"><div><span>四</span><h2>典籍依据</h2></div></div>
+              <div className="result-section-heading"><div><span>五</span><h2>典籍依据</h2></div></div>
               {evidence.slice(0, 12).map((item) => (
                 <article className="live-evidence" key={item.id}>
                   <div><strong>{item.title}</strong><span>{item.grade}</span></div>
@@ -354,7 +400,7 @@ export function CompatibilityStructurePage() {
               ))}
             </section>
             <section className="compat-section">
-              <div className="result-section-heading"><div><span>五</span><h2>当前不能说什么</h2></div></div>
+              <div className="result-section-heading"><div><span>六</span><h2>当前不能说什么</h2></div></div>
               <div className="compat-limit-list">
                 {result.limitations.map((item, index) => <p key={index}>{item}</p>)}
               </div>
