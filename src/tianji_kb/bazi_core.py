@@ -67,6 +67,86 @@ def _pair_members(rows):
     return {frozenset(row[:2]): row[2:] for row in rows}
 
 
+def stem_five_combination(left_stem, right_stem):
+    """Return the reviewed fixed 五合 pair fact for two stems, if present."""
+    if left_stem not in STEMS or right_stem not in STEMS:
+        raise ValueError("Expected two heavenly stems")
+    table = _pair_members(foundations()["stem_combinations"])
+    extra = table.get(frozenset((left_stem, right_stem)))
+    return {
+        "matched": extra is not None,
+        "stems": [left_stem, right_stem],
+        "traditional_result_element": extra[0] if extra else None,
+    }
+
+
+def reviewed_branch_pair_relations(left_branch, right_branch):
+    """Return only branch pair relations that have reviewed production evidence."""
+    if left_branch not in BRANCHES or right_branch not in BRANCHES:
+        raise ValueError("Expected two earthly branches")
+    relation = foundations()["earthly_branch_relations"]
+    harmonies = _pair_members(relation["six_harmonies"])
+    harms = _pair_members(relation["harms"])
+    key = frozenset((left_branch, right_branch))
+    output = []
+    if key in harmonies:
+        extra = harmonies[key]
+        output.append({
+            "kind": "six_harmony",
+            "branches": [left_branch, right_branch],
+            "traditional_result_element": extra[0] if extra else None,
+        })
+    if key in harms:
+        output.append({"kind": "harm", "branches": [left_branch, right_branch]})
+    return output
+
+
+def reviewed_relations(stems, branches):
+    """Return evidence-backed relation facts among four pillars only."""
+    if not isinstance(stems, (list, tuple)) or len(stems) != 4:
+        raise ValueError("Expected four heavenly stems")
+    if not isinstance(branches, (list, tuple)) or len(branches) != 4:
+        raise ValueError("Expected four earthly branches")
+    if any(stem not in STEMS for stem in stems):
+        raise ValueError("Invalid heavenly stem")
+    if any(branch not in BRANCHES for branch in branches):
+        raise ValueError("Invalid earthly branch")
+
+    stem_pairs = []
+    harmonies = []
+    harms = []
+    for i in range(4):
+        for j in range(i + 1, 4):
+            stem_relation = stem_five_combination(stems[i], stems[j])
+            if stem_relation["matched"]:
+                stem_pairs.append({
+                    "pillars": [PILLAR_NAMES[i], PILLAR_NAMES[j]],
+                    "stems": [stems[i], stems[j]],
+                    "traditional_result_element": stem_relation["traditional_result_element"],
+                })
+            for item in reviewed_branch_pair_relations(branches[i], branches[j]):
+                row = {
+                    "pillars": [PILLAR_NAMES[i], PILLAR_NAMES[j]],
+                    "branches": [branches[i], branches[j]],
+                }
+                if item["kind"] == "six_harmony":
+                    row["traditional_result_element"] = item["traditional_result_element"]
+                    harmonies.append(row)
+                elif item["kind"] == "harm":
+                    harms.append(row)
+
+    return {
+        "stem_five_combinations": stem_pairs,
+        "branch_six_harmonies": harmonies,
+        "branch_six_harms": harms,
+        "spouse_palace": {
+            "pillar": "day",
+            "day_branch": branches[2],
+            "label": "日支（传统配偶宫结构位）",
+        },
+    }
+
+
 def branch_relations(branches):
     """Return only structural branch relations present in the four pillars."""
     if not isinstance(branches, (list, tuple)) or len(branches) != 4:
