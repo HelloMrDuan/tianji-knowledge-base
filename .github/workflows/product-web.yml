@@ -127,3 +127,25 @@ jobs:
               assert forbidden not in blob
           print("real frontend proxy -> Scenario Engine -> romance structure: ok")
           PY
+
+          curl -fsS -X POST http://127.0.0.1:5173/api/v1/scenarios/execute \
+            -H 'Content-Type: application/json' \
+            -d '{"scenario_id":"career","input":{"birth_value":"2000-01-07T12:00:00+08:00","target_year":2026}}' \
+            >/tmp/career.json
+          python - <<'PY'
+          import json
+          data=json.load(open("/tmp/career.json",encoding="utf-8"))
+          assert data["scenario_id"]=="career"
+          assert data["status"]=="production_limited"
+          assert data["public_release"] is False
+          assert data["deterministic"] is True
+          assert data["result"]["release_scope"]=="career_wealth_structure_only"
+          assert data["result"]["target_year"]["ganzhi"]=="丙午"
+          assert data["result"]["target_year"]["stem_ten_god"]=="食神"
+          assert data["result"]["target_year"]["structure_group"]=="output"
+          assert data["evidence"]
+          blob=str(data["result"])
+          for forbidden in ("career_score","wealth_score","income","investment_advice","auspicious"):
+              assert forbidden not in blob
+          print("real frontend proxy -> Scenario Engine -> career wealth structure: ok")
+          PY

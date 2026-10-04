@@ -10,6 +10,7 @@ export function HomePage() {
   const baziProfile = scenarioProducts.find((item) => item.id === "bazi-profile")!;
   const yearly = scenarioProducts.find((item) => item.id === "yearly")!;
   const romance = scenarioProducts.find((item) => item.id === "romance")!;
+  const career = scenarioProducts.find((item) => item.id === "career")!;
   return (
     <div className="scenario-home">
       <section className="scenario-hero">
@@ -90,11 +91,11 @@ export function HomePage() {
 
         <div className="scenario-featured">
           <div>
-            <span className="eyebrow">四条真实闭环</span>
-            <h3>{baziProfile.name} + {question.name} + {yearly.name} + {romance.name}</h3>
+            <span className="eyebrow">五条真实闭环</span>
+            <h3>{baziProfile.name} + {question.name} + {yearly.name} + {romance.name} + {career.name}</h3>
             <p>
               八字基础档案与六爻一事占问调用 <code>/api/v1/execute</code>，
-              2026 流年结构与桃花姻缘结构都调用真实 Scenario Engine。四条链路均返回确定性结果、规则、
+              2026 流年、桃花姻缘与事业财运结构都调用真实 Scenario Engine。五条链路均返回确定性结果、规则、
               Evidence 和 Trace；后端不可用就明确报错，不拿静态示例冒充结果。
             </p>
           </div>
@@ -107,6 +108,9 @@ export function HomePage() {
             </Link>
             <Link className="button outlined" href="/romance-structure">
               看桃花结构
+            </Link>
+            <Link className="button outlined" href="/career-wealth-structure">
+              看事业财运结构
             </Link>
             <Link className="button primary" href="/ask">
               开始占问
@@ -145,7 +149,7 @@ export function HomePage() {
           ))}
         </div>
         <p className="professional-note">
-          八字基础、年度结构和咸池桃花结构已进入真实链路；完整年运、婚恋吉凶、事业财运和合盘仍不会提前包装成“已可用”。
+          八字基础、年度、桃花与事业财运结构已进入真实链路；完整吉凶报告、合盘和应期仍不会提前包装成“已可用”。
         </p>
       </section>
 
