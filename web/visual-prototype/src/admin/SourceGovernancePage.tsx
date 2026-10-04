@@ -228,7 +228,7 @@ export function SourceGovernancePage() {
       {selected && (
         <Dialog title="真实来源详情" onClose={() => setSelected(null)} className="admin-detail-dialog">
           <div className="governance-detail">
-            <h3>{selected.name}</h3>
+            <h3>{selected.title}</h3>
             <code>{selected.id}</code>
             <dl className="admin-detail-fields">
               <div><dt>Evidence 等级</dt><dd>{selected.evidence_level}</dd></div>
