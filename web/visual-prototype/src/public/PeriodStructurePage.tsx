@@ -7,6 +7,7 @@ import {
   executeWeeklyScenario,
   type ScenarioExecuteResponse,
 } from "./api";
+import { recordReading } from "./readingLibrary";
 import "./period-structure.css";
 
 const profileKey = "tianji.profile.birth.v1";
@@ -77,6 +78,20 @@ export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
       } catch {
         /* Local preference is optional. */
       }
+      const period = isWeekly ? next.result?.week || {} : next.result?.month || {};
+      const summary = next.result?.summary || {};
+      const hits = Array.isArray(summary.xianchi_hit_dates) ? summary.xianchi_hit_dates.length : 0;
+      recordReading({
+        scenarioId: isWeekly ? "weekly" : "monthly",
+        label: isWeekly ? "本周结构" : "本月结构",
+        glyph,
+        title: isWeekly
+          ? `${period.start_date || anchorDate} → ${period.end_date || "本周"}`
+          : `${period.target_month || targetMonth} · 月度结构`,
+        subtitle: `真实周期结构已生成 · 咸池命中日 ${hits} 天`,
+        href: isWeekly ? "/weekly-structure" : "/monthly-structure",
+        resultVersion: next.result?.report_version || next.status,
+      });
       setResult(next);
     } catch (err) {
       setError(err instanceof Error ? err.message : `${title}计算失败。`);
