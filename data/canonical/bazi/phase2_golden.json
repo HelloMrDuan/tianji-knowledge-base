@@ -950,6 +950,137 @@
           "full_strength_classifier_ready": false
         }
       }
+    },
+    {
+      "id": "bazi.commander-conflict",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲子",
+        "month_ganzhi": "丙寅",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "乙丑",
+        "month_command_variant": "bazi-strength-month-command-v1"
+      },
+      "expected": {
+        "month_command_variant": {
+          "month_branch": "寅",
+          "hidden_stems": [
+            "甲",
+            "丙",
+            "戊"
+          ],
+          "principal_qi": "甲",
+          "principal_qi_status": "reviewed_structural",
+          "commander_status": "unresolved",
+          "commander": null,
+          "source_conflict": [
+            "bazi.concept.conflict_siling_days"
+          ],
+          "de_ling": null,
+          "overall_strength": null
+        },
+        "strength_factor_graph": {
+          "overall_strength": "indeterminate",
+          "weights_available": false,
+          "full_strength_classifier_ready": false
+        }
+      }
+    },
+    {
+      "id": "bazi.commander-single-hidden",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲子",
+        "month_ganzhi": "丁卯",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "乙丑",
+        "month_command_variant": "bazi-strength-month-command-v1"
+      },
+      "expected": {
+        "month_command_variant": {
+          "month_branch": "卯",
+          "hidden_stems": [
+            "乙"
+          ],
+          "principal_qi": "乙",
+          "principal_qi_status": "reviewed_structural",
+          "commander_status": "unresolved",
+          "commander": null,
+          "source_conflict": [],
+          "de_ling": null,
+          "overall_strength": null
+        },
+        "strength_factor_graph": {
+          "overall_strength": "indeterminate",
+          "weights_available": false,
+          "full_strength_classifier_ready": false
+        }
+      }
+    },
+    {
+      "id": "bazi.commander-principal-not-first",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲子",
+        "month_ganzhi": "己亥",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "乙丑",
+        "month_command_variant": "bazi-strength-month-command-v1"
+      },
+      "expected": {
+        "month_command_variant": {
+          "month_branch": "亥",
+          "hidden_stems": [
+            "壬",
+            "甲"
+          ],
+          "principal_qi": "壬",
+          "principal_qi_status": "reviewed_structural",
+          "commander_status": "unresolved",
+          "commander": null,
+          "source_conflict": [],
+          "de_ling": null,
+          "overall_strength": null
+        },
+        "strength_factor_graph": {
+          "overall_strength": "indeterminate",
+          "weights_available": false,
+          "full_strength_classifier_ready": false
+        }
+      }
+    },
+    {
+      "id": "bazi.commander-unreviewed-tomb",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲子",
+        "month_ganzhi": "戊辰",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "乙丑",
+        "month_command_variant": "bazi-strength-month-command-v1"
+      },
+      "expected": {
+        "month_command_variant": {
+          "month_branch": "辰",
+          "hidden_stems": [
+            "戊",
+            "乙",
+            "癸"
+          ],
+          "principal_qi": null,
+          "principal_qi_status": "not_reviewed",
+          "commander_status": "unresolved",
+          "commander": null,
+          "source_conflict": [],
+          "de_ling": null,
+          "overall_strength": null
+        },
+        "strength_factor_graph": {
+          "overall_strength": "indeterminate",
+          "weights_available": false,
+          "full_strength_classifier_ready": false
+        }
+      }
     }
   ]
 }

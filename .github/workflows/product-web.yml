@@ -3,14 +3,8 @@ name: Validate Product Web
 on:
   pull_request:
     branches: [main]
-    paths:
-      - "web/visual-prototype/**"
-      - ".github/workflows/product-web.yml"
   push:
     branches: [main]
-    paths:
-      - "web/visual-prototype/**"
-      - ".github/workflows/product-web.yml"
   workflow_dispatch:
 
 permissions:
@@ -262,3 +256,9 @@ jobs:
               assert forbidden not in blob
           print("real frontend proxy -> Scenario Engine -> compatibility structure: ok")
           PY
+
+      - name: Existing frontend browser regression
+        working-directory: web/visual-prototype
+        run: |
+          npx playwright install --with-deps chromium
+          npm test

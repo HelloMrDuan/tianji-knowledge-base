@@ -89,7 +89,7 @@ LLM 负责解释
 | ziwei | 0/1 | 44 | 48 | 2/9/0 | 0/0/1/1 | phase1_complete |
 | fengshui | 0/6 | 22 | 37 | 3/4/1 | 0/0/9/1 | phase1_complete |
 | liuren | 0/2 | 42 | 42 | 4/10/0 | 0/0/2/1 | phase1_complete |
-| bazi | 2/2 | 33 | 20 | 4/11/1 | 0/0/4/0 | phase1_complete |
+| bazi | 2/2 | 37 | 21 | 5/11/1 | 0/0/4/0 | phase1_complete |
 
 经典正式/隔离按 `body_stage` 分开计数；隔离经典也可拥有逐段审核通过的正式短引，
 并不表示其整本已晋级。经典实体包括《周易》《易传》等传世文献单元，

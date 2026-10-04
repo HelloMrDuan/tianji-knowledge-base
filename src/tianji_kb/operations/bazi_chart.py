@@ -1,6 +1,7 @@
 """Evidence-bound Bazi structural chart. No strength, useful-god or fortune judgement."""
 from ..bazi_core import VARIANT, chart_from_pillars, reviewed_relations, traditional_spouse_star_lens
 from ..resolver import ExecutionTrace
+from ..bazi_commander import COMMAND_VARIANT, month_command, month_factor_graph
 from ..bazi_strength import FACTOR_VARIANT, factors as _strength_factors
 
 
@@ -12,7 +13,7 @@ def strength_factors(pillars, day_master, *, factor_variant=FACTOR_VARIANT, outp
         raise ValueError('Unsupported factor output')
     return observed[output_key]
 
-def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=False, include_relations=False, traditional_role=None, strength_variant=None, variant=VARIANT):
+def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=False, include_relations=False, traditional_role=None, strength_variant=None, month_command_variant=None, variant=VARIANT):
     if variant != VARIANT:
         raise ValueError("Unsupported Bazi variant")
     if type(include_xianchi) is not bool:
@@ -23,6 +24,8 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
         raise ValueError("traditional_role must be male or female")
     if strength_variant is not None and strength_variant != FACTOR_VARIANT:
         raise ValueError("Unsupported strength factor variant")
+    if month_command_variant is not None and month_command_variant != COMMAND_VARIANT:
+        raise ValueError('Unsupported month command variant')
     raw = chart_from_pillars(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, variant=variant)
     trace = ExecutionTrace("bazi", variant)
 
@@ -129,4 +132,11 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
                       'ganzhi': [year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi]}, observed[key])
         result['strength_factors'] = observed
         result['production_scope'] += '；可选月支、通根候选、透藏与生克位置观察（整体旺衰分类未完成）'
+    if month_command_variant is not None:
+        command = month_command(raw['pillars'], raw['day_master']['stem'], command_variant=month_command_variant)
+        trace.add('bazi.phase2.month_command_variant',
+                  {'command_variant': month_command_variant, 'month_branch': month_ganzhi[1]}, command)
+        result['month_command_variant'] = command
+        result['strength_factor_graph'] = month_factor_graph(trace, command)
+        result['production_scope'] += '；可选独立月令口径审计（具体日司令 unresolved）'
     return trace.finish(result)

@@ -175,7 +175,7 @@ test("admin chapters never requests internal assets before explicit authorizatio
   await expect(page.getByRole("heading", { name: "章节管理", exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "需要内部只读授权" })).toBeVisible();
   await expect(page.getByLabel("后台只读令牌")).toHaveAttribute("type", "password");
-  await expect(page.locator("main")).toContainText("不会返回章节正文");
+  await expect(page.locator("main")).toContainText("不返回章节正文");
   expect(apiRequests).toEqual([]);
 });
 
@@ -223,7 +223,7 @@ test("admin layers never requests internal assets before explicit authorization"
   await expect(page.getByRole("heading", { name: "RAW / Quarantine / Canonical", exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "需要内部只读授权" })).toBeVisible();
   await expect(page.getByLabel("后台只读令牌")).toHaveAttribute("type", "password");
-  await expect(page.locator("main")).toContainText("不会返回任何内部文件路径或隔离正文");
+  await expect(page.locator("main")).toContainText("不返回任何内部文件路径或隔离正文");
   expect(apiRequests).toEqual([]);
 });
 

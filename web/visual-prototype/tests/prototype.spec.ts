@@ -74,7 +74,7 @@ test("public tools and reserved paths cannot expose internal asset pages", async
   ]) {
     await page.goto(path);
     await expect(
-      page.getByRole("heading", { name: "回到推演的起点" }),
+      page.getByRole("heading", { name: "回到你真正关心的事" }),
     ).toBeVisible();
     await expect(page.locator(".admin-sidebar, .asset-table")).toHaveCount(0);
   }
@@ -156,7 +156,7 @@ test("original music requires a gesture, persists volume, pauses globally and on
     )
     .toBe(true);
   await page.getByRole("button", { name: "关闭音乐设置" }).click();
-  await page.getByRole("link", { name: "查看六爻示例" }).click();
+  await page.getByRole("link", { name: "进入六爻专业页" }).click();
   expect(
     await page
       .locator("audio")
@@ -232,6 +232,8 @@ test("mobile admin menu opens implemented Prompt workspace", async ({
   await expect(
     page.getByRole("heading", { name: "Prompt 版本", exact: true }),
   ).toBeVisible();
-  await expect(page.getByLabel("指令内容")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "需要内部只读授权" })).toBeVisible();
+  await expect(page.getByLabel("后台只读令牌")).toHaveAttribute("type", "password");
+  await expect(page.getByLabel("指令内容")).toHaveCount(0);
   await expect(page.locator(".admin-sidebar")).not.toHaveClass(/is-open/);
 });
