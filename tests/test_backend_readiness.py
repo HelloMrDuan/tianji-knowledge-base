@@ -1,10 +1,14 @@
 import importlib.util
+import asyncio
+import contextlib
+import io
 import json
 import os
 from pathlib import Path
 import tempfile
 import unittest
 from unittest.mock import patch
+import httpx
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -18,9 +22,28 @@ def script(name):
 
 readiness = script('check_backend_readiness')
 calibration = script('calibrate_qiniu')
+evaluation = script('evaluate_explanations')
 
 
 class BackendReadinessTests(unittest.TestCase):
+    def test_transport_progress_cannot_echo_headers_or_error_body_and_is_not_quality_score(self):
+        class Broken:
+            async def explain(self,context):
+                request=httpx.Request('POST','https://example.invalid',headers={'Authorization':'Bearer private-test-key'})
+                response=httpx.Response(401,request=request,text='private-test-key')
+                raise httpx.HTTPStatusError('private-test-key',request=request,response=response)
+        with tempfile.TemporaryDirectory() as directory:
+            path=Path(directory)/'progress.jsonl';output=io.StringIO()
+            with contextlib.redirect_stdout(output):
+                with self.assertRaises(httpx.HTTPStatusError):
+                    asyncio.run(evaluation.ProgressProvider(Broken(),path,'explanation-prompt-v2').explain({'domain':'yijing'}))
+            recorded=path.read_text();event=json.loads(recorded)
+            self.assertNotIn('private-test-key',recorded+output.getvalue())
+            self.assertEqual(event['http_status'],401)
+            self.assertEqual(event['outcome'],'http_error')
+            self.assertNotIn('passed',event)
+            self.assertNotIn('quality',event)
+
     def test_offline_check_keeps_configured_model_unscored_and_never_contacts_network(self):
         env = {'TIANJI_AI_PROVIDER': 'openai-compatible', 'TIANJI_AI_BASE_URL': calibration.BASE_URL,
                'TIANJI_AI_MODEL': 'test-model', 'TIANJI_AI_API_KEY': 'private-test-key'}

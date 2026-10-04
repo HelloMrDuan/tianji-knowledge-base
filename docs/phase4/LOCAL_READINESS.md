@@ -60,6 +60,8 @@ Windows 依赖安装包括 `tzdata`，让既有 `Asia/Shanghai` 历法转换可�
 
 `--evaluate` 按 v1/v2 各 102 案例执行，共 204 个评测案例，正常案例会调用真实服务。结果按运行独立存放在 `build/provider-discovery/<run-id>/`，防止误用旧报告；输出中不含密钥。模型发现/评测只使用校准子进程环境，选中模型不会自动变成 API 服务的默认模型。上线配置须后续选定实测和复核合格的准确模型 ID。
 
+控制台会输出每次模型请求开始和结束，`<prompt>-progress.jsonl` 记录请求序号、耗时和有限状态码，不记录请求头、密钥或错误正文。`reply_received` 仅表示拿到回复，不是案例通过或准确性认证。每版完整 JSON/Markdown 报告在该版全部案例结束后写出；不能把模型探针完成当成整轮评测完成。旧版本运行没有逐请求进度时，应保持窗口打开并等待完整报告。
+
 v2 未评分模板位于该运行的 `explanation-evals/human-review-v2.json`。按 [固定评测和人工复核流程](EVALUATION.md) 审阅实际回复与上下文，记录复核人、时间、完整性和逐条语义判断，再用 `review_explanations.py --reviews` 绑定原报告。空模板、机械 fixture、缺失回复和连通性探针都不具备发布资格。未实测及未完成复核前，真实模型指标是 N/A；生产保持 AI disabled/`explain=false`。
 
 ## 网站后续接入
