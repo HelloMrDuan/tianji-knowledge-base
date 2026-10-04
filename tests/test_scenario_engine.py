@@ -17,6 +17,8 @@ class ScenarioEngineTests(unittest.TestCase):
         self.assertEqual(len(rows), 11)
         self.assertTrue(rows["bazi-profile"]["public_release"])
         self.assertTrue(rows["question"]["public_release"])
+        self.assertEqual(rows["daily"]["status"], "production_limited")
+        self.assertFalse(rows["daily"]["public_release"])
         self.assertFalse(rows["yearly"]["public_release"])
         self.assertEqual(rows["yearly"]["status"], "production_limited")
         self.assertEqual(rows["romance"]["status"], "production_limited")
@@ -41,6 +43,36 @@ class ScenarioEngineTests(unittest.TestCase):
         self.assertEqual(output["result"]["changing_lines"], [1])
         self.assertEqual(output["result"]["changed"]["number"], 44)
         self.assertTrue(output["evidence"])
+
+    def test_daily_structure_is_repeatable_and_evidence_bound(self):
+        payload = {
+            "birth_value": "2000-01-07T12:00:00+08:00",
+            "target_date": "2026-10-04",
+        }
+        first = execute_scenario("daily", payload)
+        second = execute_scenario("daily", payload)
+        self.assertEqual(first, second)
+        self.assertEqual(first["status"], "production_limited")
+        self.assertFalse(first["public_release"])
+        self.assertEqual(first["result"]["release_scope"], "daily_structure_only")
+        self.assertEqual(first["result"]["target_day"]["date"], "2026-10-04")
+        self.assertEqual(len(first["result"]["target_day"]["ganzhi"]), 2)
+        self.assertTrue(first["result"]["target_day"]["stem_ten_god"])
+        self.assertEqual(
+            set(first["result"]["xianchi"]["target_day_activation"]),
+            {"year_branch_basis", "day_branch_basis"},
+        )
+        self.assertTrue(first["evidence"])
+        self.assertEqual(
+            first["rule_matches"][0]["derived_from_rule_ids"],
+            ["bazi.phase2.ten_gods", "bazi.phase2.xianchi_lookup"],
+        )
+        serialized = str(first["result"])
+        for forbidden in [
+            "fortune_score", "daily_score", "auspicious", "investment_advice",
+            "health_advice", "relationship_advice",
+        ]:
+            self.assertNotIn(forbidden, serialized)
 
     def test_2026_yearly_structure_is_limited_and_evidence_bound(self):
         output = execute_scenario("yearly", {
@@ -167,6 +199,23 @@ class ScenarioEngineTests(unittest.TestCase):
         self.assertFalse(data["public_release"])
         self.assertTrue(data["evidence"])
 
+    def test_http_daily_structure_never_calls_model(self):
+        with patch("socket.socket.connect", side_effect=AssertionError("Network model call forbidden")):
+            response = self.client.post("/api/v1/scenarios/execute", json={
+                "scenario_id": "daily",
+                "input": {
+                    "birth_value": "2000-01-07T12:00:00+08:00",
+                    "target_date": "2026-10-04",
+                },
+            })
+        self.assertEqual(response.status_code, 200, response.text)
+        data = response.json()
+        self.assertEqual(data["scenario_id"], "daily")
+        self.assertEqual(data["result"]["target_day"]["date"], "2026-10-04")
+        self.assertEqual(data["result"]["release_scope"], "daily_structure_only")
+        self.assertFalse(data["public_release"])
+        self.assertTrue(data["evidence"])
+
     def test_http_life_overview_never_calls_model(self):
         with patch("socket.socket.connect", side_effect=AssertionError("Network model call forbidden")):
             response = self.client.post("/api/v1/scenarios/execute", json={
@@ -190,6 +239,11 @@ class ScenarioEngineTests(unittest.TestCase):
         response = self.client.post("/api/v1/scenarios/execute", json={
             "scenario_id": "yearly",
             "input": {"birth_value": "2000-01-07T12:00:00+08:00", "target_year": "2026"},
+        })
+        self.assertEqual(response.status_code, 422)
+        response = self.client.post("/api/v1/scenarios/execute", json={
+            "scenario_id": "daily",
+            "input": {"birth_value": "2000-01-07T12:00:00+08:00", "target_date": "2026/10/04"},
         })
         self.assertEqual(response.status_code, 422)
 
