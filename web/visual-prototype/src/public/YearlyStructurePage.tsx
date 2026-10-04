@@ -3,6 +3,7 @@ import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeYearlyScenario, type ScenarioExecuteResponse } from "./api";
+import { recordReading } from "./readingLibrary";
 import "./yearly-structure.css";
 
 const pillarNames: Record<string, string> = {
@@ -52,12 +53,21 @@ export function YearlyStructurePage() {
     setError("");
     setResult(null);
     try {
-      setResult(
-        await executeYearlyScenario({
-          birth_value: `${date}T${time}:00+08:00`,
-          target_year: 2026,
-        }),
-      );
+      const next = await executeYearlyScenario({
+        birth_value: `${date}T${time}:00+08:00`,
+        target_year: 2026,
+      });
+      const target = next.result?.target_year || {};
+      recordReading({
+        scenarioId: "yearly",
+        label: "2026 流年结构",
+        glyph: "年",
+        title: `2026 ${target.ganzhi || "流年结构"}`,
+        subtitle: target.stem_ten_god ? `流年天干十神：${target.stem_ten_god}` : "真实流年结构已生成",
+        href: "/yearly-structure",
+        resultVersion: next.result?.report_version || next.status,
+      });
+      setResult(next);
     } catch (err) {
       setError(err instanceof Error ? err.message : "年度结构计算失败。");
     } finally {
