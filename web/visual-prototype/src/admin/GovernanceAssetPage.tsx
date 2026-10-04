@@ -257,7 +257,7 @@ export function GovernanceAssetPage({ kind }: { kind: GovernanceKind }) {
                     <td><strong>{row.name}</strong><small className="asset-id">{row.id}</small></td>
                     <td><span className="domain-label">{row.domain}</span></td>
                     <td className="secondary-cell">{row.classic_title}<small>{row.chapter_title}</small></td>
-                    <td><span className="level-tag level-C">{row.evidence_level}</span></td>
+                    <td><span className={`level-tag level-${row.evidence_level}`}>{row.evidence_level}</span></td>
                     <td className="count-cell">{row.used_by_entity_ids.length}</td>
                     <td className="count-cell">{row.phase2_rule_ids.length}</td>
                     <td><button className="table-action" onClick={() => setSelectedEvidence(row)}>详情 <Icon name="chevron" size={12} /></button></td>
