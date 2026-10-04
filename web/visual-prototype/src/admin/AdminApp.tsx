@@ -5,10 +5,9 @@ import { moduleForPath } from "./modules";
 import { Link, usePath } from "../shared/router";
 import { adminGroups } from "./fixtures";
 import { Dashboard } from "./Dashboard";
-import { AssetPage } from "./AssetPage";
 import { ConflictGovernancePage } from "./ConflictGovernancePage";
 import { GovernanceAssetPage } from "./GovernanceAssetPage";
-import type { AssetKind } from "./fixtures";
+import { ClassicGovernancePage } from "./ClassicGovernancePage";
 import "./admin.css";
 import "./modules.css";
 
@@ -24,7 +23,6 @@ export default function AdminApp() {
   const [menuOpen, setMenuOpen] = useState(false);
   const module = moduleForPath(path);
   const recordId = path.split("/")[3];
-  const kind = path.split("/")[2] as AssetKind;
   useEffect(() => {
     document.title = `${titles[path] || module?.title || "页面未找到"} · 天机管理`;
     setMenuOpen(false);
@@ -111,8 +109,8 @@ export default function AdminApp() {
             <GovernanceAssetPage kind="rules" />
           ) : path === "/admin/evidence" ? (
             <GovernanceAssetPage kind="evidence" />
-          ) : kind === "classics" && path === "/admin/classics" ? (
-            <AssetPage kind="classics" />
+          ) : path === "/admin/classics" ? (
+            <ClassicGovernancePage />
           ) : module && path.split("/").length <= 4 ? (
             <ModulePage key={path} module={module} recordId={recordId} />
           ) : (
