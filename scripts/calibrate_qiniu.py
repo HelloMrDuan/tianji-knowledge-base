@@ -18,7 +18,8 @@ def calibration_environment(key):
         raise ValueError('credential_missing')
     environment = dict(os.environ)
     environment.update(TIANJI_AI_PROVIDER='openai-compatible', TIANJI_AI_BASE_URL=BASE_URL,
-                       TIANJI_AI_API_KEY=key, TIANJI_AI_MODEL='', PYTHONUTF8='1')
+                       TIANJI_AI_API_KEY=key, TIANJI_AI_MODEL='', PYTHONUTF8='1',
+                       PYTHONPATH=str(ROOT / 'src'))
     return environment
 
 
