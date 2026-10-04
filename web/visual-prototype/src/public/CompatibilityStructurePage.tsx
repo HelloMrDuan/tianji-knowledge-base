@@ -48,8 +48,8 @@ export function CompatibilityStructurePage() {
   function fillSample() {
     setADate("2000-01-07");
     setATime("12:00");
-    setBDate("2000-01-07");
-    setBTime("18:00");
+    setBDate("2000-02-01");
+    setBTime("12:00");
     setResult(null);
     setError("");
   }
@@ -81,6 +81,10 @@ export function CompatibilityStructurePage() {
   const a = payload.person_a || {};
   const b = payload.person_b || {};
   const relations = payload.day_master_relations || {};
+  const reviewed = payload.reviewed_cross_relations || {};
+  const fiveCombination = reviewed.day_master_five_combination || {};
+  const spouseRelation = reviewed.spouse_palace_relation || {};
+  const spouseRelations = Array.isArray(spouseRelation.relations) ? spouseRelation.relations : [];
   const cross = payload.xianchi_cross_matches || {};
   const evidence = result
     ? Object.entries(result.evidence).map(([id, value]) => evidenceLabel(id, value))
@@ -119,8 +123,8 @@ export function CompatibilityStructurePage() {
           <span className="eyebrow">双人合盘 · 结构内测</span>
           <h1>把两个人放在同一张结构图里看。</h1>
           <p>
-            当前先比较双方真实四柱、双方日主互看十神，以及双方年支/日支是否落入对方的咸池目标。
-            不使用“缘分 98 分”这种无法追溯的评分。
+            当前比较双方真实四柱、双方日主互看十神、日主五合、日支六合/六害、传统配偶宫结构位，
+            以及双方年支/日支是否落入对方的咸池目标。不使用“缘分 98 分”这种无法追溯的评分。
           </p>
         </div>
         <div className="compat-mark" aria-hidden="true">
@@ -200,6 +204,10 @@ export function CompatibilityStructurePage() {
                     </article>
                   ))}
                 </div>
+                <p className="compat-palace-line">
+                  <span>传统配偶宫结构位</span>
+                  <strong>日支 {person.data.spouse_palace?.day_branch || "—"}</strong>
+                </p>
               </section>
             ))}
           </div>
@@ -227,7 +235,41 @@ export function CompatibilityStructurePage() {
 
           <section className="compat-section">
             <div className="result-section-heading">
-              <div><span>二</span><h2>咸池目标交叉匹配</h2></div>
+              <div><span>二</span><h2>已审核的双人关系结构</h2></div>
+              <small>五合 · 六合 · 六害 · 日支结构位</small>
+            </div>
+            <div className="compat-reviewed-grid">
+              <article>
+                <small>双方日主 · 天干五合</small>
+                <strong>{(fiveCombination.stems || []).join(" · ") || "—"}</strong>
+                <span>{fiveCombination.matched ? "命中五合结构" : "未命中五合结构"}</span>
+                {fiveCombination.matched && fiveCombination.traditional_result_element && (
+                  <em>传统表字段：{fiveCombination.traditional_result_element}</em>
+                )}
+              </article>
+              <article>
+                <small>双方日支 · 传统配偶宫结构位</small>
+                <strong>{spouseRelation.person_a_day_branch || "—"} · {spouseRelation.person_b_day_branch || "—"}</strong>
+                <span>
+                  {spouseRelations.length
+                    ? spouseRelations.map((item: any) => item.kind === "six_harmony" ? "六合" : item.kind === "harm" ? "六害" : item.kind).join("、")
+                    : "当前无已审核关系命中"}
+                </span>
+                {spouseRelations.map((item: any, index: number) => (
+                  <em key={index}>
+                    {item.kind === "six_harmony" ? "六合" : "六害"}：{(item.branches || []).join(" · ")}
+                  </em>
+                ))}
+              </article>
+            </div>
+            <p className="compat-note">
+              “合”只表示固定结构配对，“害”也只表示传统结构关系；这里不把它们翻译成适合、不适合、感情好坏或分手风险。
+            </p>
+          </section>
+
+          <section className="compat-section">
+            <div className="result-section-heading">
+              <div><span>三</span><h2>咸池目标交叉匹配</h2></div>
               <small>只看固定查表是否相等</small>
             </div>
             <div className="compat-cross">
@@ -262,8 +304,8 @@ export function CompatibilityStructurePage() {
 
           <div className="compat-two-columns">
             <section className="compat-section">
-              <div className="result-section-heading"><div><span>三</span><h2>典籍依据</h2></div></div>
-              {evidence.slice(0, 6).map((item) => (
+              <div className="result-section-heading"><div><span>四</span><h2>典籍依据</h2></div></div>
+              {evidence.slice(0, 12).map((item) => (
                 <article className="live-evidence" key={item.id}>
                   <div><strong>{item.title}</strong><span>{item.grade}</span></div>
                   <blockquote>{item.quote}</blockquote>
@@ -272,7 +314,7 @@ export function CompatibilityStructurePage() {
               ))}
             </section>
             <section className="compat-section">
-              <div className="result-section-heading"><div><span>四</span><h2>当前不能说什么</h2></div></div>
+              <div className="result-section-heading"><div><span>五</span><h2>当前不能说什么</h2></div></div>
               <div className="compat-limit-list">
                 {result.limitations.map((item, index) => <p key={index}>{item}</p>)}
               </div>
