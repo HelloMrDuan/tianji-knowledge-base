@@ -82,6 +82,34 @@ class UnifiedApiTests(unittest.TestCase):
             for evidence in row['evidence']
         ))
 
+    def test_admin_rules_and_evidence_are_token_gated_reviewed_assets(self):
+        client=TestClient(create_app(admin_read_token='review-token'))
+        for path in (
+            '/api/v1/admin/governance/rules',
+            '/api/v1/admin/governance/evidence',
+        ):
+            self.assertEqual(client.get(path).status_code,401)
+
+        headers={'Authorization':'Bearer review-token'}
+        rules_response=client.get('/api/v1/admin/governance/rules',headers=headers)
+        evidence_response=client.get('/api/v1/admin/governance/evidence',headers=headers)
+        self.assertEqual(rules_response.status_code,200,rules_response.text)
+        self.assertEqual(evidence_response.status_code,200,evidence_response.text)
+
+        rules=rules_response.json()['records']
+        evidence=evidence_response.json()['records']
+        self.assertTrue(rules)
+        self.assertTrue(evidence)
+        self.assertTrue(all(row['evidence'] for row in rules))
+        self.assertTrue(all(row['evidence_level'] in ('A','B','C') for row in evidence))
+        self.assertTrue(any(row['phase2_bindings'] for row in rules))
+        self.assertTrue(any(row['phase2_rule_ids'] for row in evidence))
+        self.assertTrue(any(row['id']=='bazi.rule.r011' for row in rules))
+        self.assertTrue(any(row['id']=='bazi.section.s017' for row in evidence))
+        serialized=str({'rules':rules,'evidence':evidence})
+        self.assertNotIn('data/quarantine/public_domain_snapshots',serialized)
+        self.assertNotIn('TIANJI_ADMIN_READ_TOKEN',serialized)
+
     def test_health_capabilities_and_openapi(self):
         self.assertEqual(self.client.get('/health').json()['status'],'ok')
         capabilities=self.client.get('/api/v1/capabilities').json()
