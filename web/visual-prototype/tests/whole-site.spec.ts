@@ -243,7 +243,23 @@ test("admin algorithms never requests contracts before explicit authorization", 
   expect(apiRequests).toEqual([]);
 });
 
-test("configuration previews and prompt drafts clear on reload and never request a service", async ({
+test("admin provider never requests configuration before explicit authorization", async ({
+  page,
+}) => {
+  const apiRequests: string[] = [];
+  page.on("request", (request) => {
+    if (request.url().includes("/api/v1/admin/system/provider"))
+      apiRequests.push(request.url());
+  });
+  await page.goto("/admin/providers");
+  await expect(page.getByRole("heading", { name: "AI Provider / Model", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "需要内部只读授权" })).toBeVisible();
+  await expect(page.getByLabel("后台只读令牌")).toHaveAttribute("type", "password");
+  await expect(page.locator("main")).toContainText("不读取、不返回也不编辑 API Key");
+  expect(apiRequests).toEqual([]);
+});
+
+test("prompt drafts clear on reload and never request a service", async ({
   page,
 }) => {
   const requests: string[] = [];
@@ -256,14 +272,6 @@ test("configuration previews and prompt drafts clear on reload and never request
   await expect(page.getByRole("status")).toContainText("仅当前页面");
   await page.reload();
   await expect(page.getByLabel("指令内容")).not.toHaveValue("DEMO review text");
-  await page.goto("/admin/providers");
-  await page.getByLabel("超时（毫秒）").fill("4000");
-  await page.getByRole("button", { name: "确认配置预览" }).click();
-  await expect(page.getByRole("status")).toContainText("未发送连接请求");
-  await page.getByLabel("调用用途").selectOption("依据摘要");
-  await expect(page.getByRole("status")).toHaveCount(0);
-  await page.reload();
-  await expect(page.getByLabel("超时（毫秒）")).toHaveValue("3000");
   expect(requests).toEqual([]);
 });
 test("library filtering, empty favorites and favorite removal work across pages", async ({

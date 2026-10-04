@@ -2,9 +2,13 @@
 from __future__ import annotations
 
 import copy
+import os
+from urllib.parse import urlsplit
 
 from .resolver import EvidenceResolver
 from .knowledge import read_json
+from .ai_providers import DRIVERS, settings_from_environment
+from .explanation import ExplanationFailure
 
 
 def _evidence_from_ref(resolver: EvidenceResolver, ref: dict) -> dict:
@@ -532,3 +536,72 @@ def reviewed_algorithms(resolver: EvidenceResolver | None = None) -> list[dict]:
             "ai_may_compute_chart": False,
         })
     return rows
+
+
+def provider_configuration() -> list[dict]:
+    """Return non-secret explanation-provider configuration metadata without probing the network."""
+    driver = os.environ.get("TIANJI_AI_PROVIDER", "disabled")
+    endpoint = os.environ.get("TIANJI_AI_BASE_URL", "")
+    model = os.environ.get("TIANJI_AI_MODEL", "")
+    key_present = bool(os.environ.get("TIANJI_AI_API_KEY", ""))
+    prompt_version = os.environ.get("TIANJI_EXPLANATION_PROMPT_VERSION", "explanation-prompt-v2")
+    endpoint_origin = ""
+    endpoint_host = ""
+    if endpoint:
+        try:
+            parsed = urlsplit(endpoint)
+            endpoint_host = parsed.hostname or ""
+            if parsed.scheme and endpoint_host:
+                port = parsed.port
+                endpoint_origin = f"{parsed.scheme}://{endpoint_host}" + (f":{port}" if port else "")
+        except ValueError:
+            endpoint_origin = ""
+            endpoint_host = ""
+
+    configured = False
+    status = "disabled" if driver == "disabled" else "incomplete"
+    timeout_seconds = None
+    max_output_tokens = None
+    if driver != "disabled":
+        if driver not in DRIVERS:
+            status = "invalid"
+        else:
+            try:
+                settings = settings_from_environment()
+                configured = settings is not None
+                if settings is not None:
+                    status = "configured"
+                    timeout_seconds = settings["timeout"]
+                    max_output_tokens = settings["max_tokens"]
+                    model = settings["model"]
+            except ExplanationFailure as error:
+                status = "incomplete" if error.code == "provider_not_configured" else "invalid"
+
+    if timeout_seconds is None:
+        try:
+            timeout_seconds = float(os.environ.get("TIANJI_AI_TIMEOUT_SECONDS", "20"))
+        except ValueError:
+            timeout_seconds = None
+    if max_output_tokens is None:
+        try:
+            max_output_tokens = int(os.environ.get("TIANJI_AI_MAX_OUTPUT_TOKENS", "4096"))
+        except ValueError:
+            max_output_tokens = None
+
+    return [{
+        "id": "explanation-provider",
+        "driver": driver,
+        "allowed_drivers": list(DRIVERS),
+        "status": status,
+        "configured": configured,
+        "endpoint_origin": endpoint_origin,
+        "endpoint_host": endpoint_host,
+        "model": model,
+        "api_key_present": key_present,
+        "api_key_exposed": False,
+        "timeout_seconds": timeout_seconds,
+        "max_output_tokens": max_output_tokens,
+        "prompt_version": prompt_version,
+        "live_connectivity_verified": False,
+        "automatic_release_allowed": False,
+    }]

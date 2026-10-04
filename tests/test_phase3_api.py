@@ -210,6 +210,39 @@ class UnifiedApiTests(unittest.TestCase):
         self.assertNotIn('DEMO-',serialized)
         self.assertNotIn('TIANJI_ADMIN_READ_TOKEN',serialized)
 
+    def test_admin_provider_configuration_never_exposes_credentials(self):
+        env={
+            'TIANJI_AI_PROVIDER':'openai-compatible',
+            'TIANJI_AI_BASE_URL':'https://provider.example.invalid/v1/private-path',
+            'TIANJI_AI_MODEL':'example-model',
+            'TIANJI_AI_API_KEY':'super-secret-provider-key',
+            'TIANJI_AI_TIMEOUT_SECONDS':'25',
+            'TIANJI_AI_MAX_OUTPUT_TOKENS':'2048',
+            'TIANJI_EXPLANATION_PROMPT_VERSION':'explanation-prompt-v2',
+        }
+        with patch.dict('os.environ',env,clear=False):
+            client=TestClient(create_app(admin_read_token='review-token'))
+            path='/api/v1/admin/system/provider'
+            self.assertEqual(client.get(path).status_code,401)
+            response=client.get(path,headers={'Authorization':'Bearer review-token'})
+            self.assertEqual(response.status_code,200,response.text)
+            record=response.json()['records'][0]
+            self.assertEqual(record['driver'],'openai-compatible')
+            self.assertEqual(record['status'],'configured')
+            self.assertTrue(record['configured'])
+            self.assertEqual(record['endpoint_origin'],'https://provider.example.invalid')
+            self.assertEqual(record['endpoint_host'],'provider.example.invalid')
+            self.assertEqual(record['model'],'example-model')
+            self.assertTrue(record['api_key_present'])
+            self.assertFalse(record['api_key_exposed'])
+            self.assertEqual(record['timeout_seconds'],25)
+            self.assertEqual(record['max_output_tokens'],2048)
+            self.assertFalse(record['live_connectivity_verified'])
+            self.assertFalse(record['automatic_release_allowed'])
+            serialized=str(record)
+            self.assertNotIn('super-secret-provider-key',serialized)
+            self.assertNotIn('private-path',serialized)
+
     def test_admin_rules_and_evidence_are_token_gated_reviewed_assets(self):
         client=TestClient(create_app(admin_read_token='review-token'))
         for path in (

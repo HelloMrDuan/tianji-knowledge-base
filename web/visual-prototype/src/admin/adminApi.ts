@@ -292,3 +292,26 @@ export type AdminAlgorithmRecord = {
 export function fetchAdminAlgorithms(token: string): Promise<AdminAlgorithmRecord[]> {
   return fetchProtectedRecords<AdminAlgorithmRecord>("/api/v1/admin/governance/algorithms", token);
 }
+
+
+export type AdminProviderRecord = {
+  id: string;
+  driver: string;
+  allowed_drivers: string[];
+  status: "disabled" | "incomplete" | "invalid" | "configured";
+  configured: boolean;
+  endpoint_origin: string;
+  endpoint_host: string;
+  model: string;
+  api_key_present: boolean;
+  api_key_exposed: false;
+  timeout_seconds: number | null;
+  max_output_tokens: number | null;
+  prompt_version: string;
+  live_connectivity_verified: false;
+  automatic_release_allowed: false;
+};
+
+export function fetchAdminProvider(token: string): Promise<AdminProviderRecord[]> {
+  return fetchProtectedRecords<AdminProviderRecord>("/api/v1/admin/system/provider", token);
+}
