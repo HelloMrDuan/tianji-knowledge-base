@@ -1,63 +1,120 @@
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { InkLandscape } from "./InkLandscape";
-import { recentSamples } from "./fixtures";
 import { domainPages } from "./domainPages";
+import { scenarioProducts } from "./scenarioProducts";
+import "./scenarios.css";
 
 export function HomePage() {
+  const question = scenarioProducts.find((item) => item.id === "question")!;
   return (
-    <>
-      <section className="public-hero">
+    <div className="scenario-home">
+      <section className="scenario-hero">
         <InkLandscape />
-        <div className="hero-copy">
-          <div className="eyebrow">
-            <span />
-            东方术数 · 当代表达
-          </div>
+        <div className="scenario-hero-copy">
+          <div className="eyebrow"><span />天机 · 生活场景</div>
           <h1>
-            观象，循理。
-            <br />
-            <span>让推演有据可寻。</span>
+            今天，你最想看哪一件事？
+            <span>把复杂术数，收进一个可读的答案里。</span>
           </h1>
           <p>
-            从一张清晰的盘面出发，读懂规则，核对典籍。
-            <br className="desktop-only" />
-            把每一步的来由，留在结果之中。
+            不要求你懂八字、六爻或奇门。先从你真正关心的问题开始，
+            后台再选择已经验证的确定性引擎、规则与典籍依据。
           </p>
-          <div className="hero-actions">
-            <Link className="button primary" href="/liuyao/result">
-              查看六爻示例
+          <div className="scenario-hero-actions">
+            <Link className="button primary" href="/ask">
+              一事占问
               <Icon name="arrow" size={18} />
             </Link>
-            <a className="text-action" href="#tools">
-              选择推演工具
+            <a className="text-action" href="#scenarios">
+              看全部场景
               <Icon name="chevron" size={16} />
             </a>
           </div>
-          <div className="hero-footnote">
-            <span className="tiny-seal">序</span>排盘有序 · 规则有迹 · 典籍有据
+          <div className="scenario-proof">
+            <span><i />确定性计算先行</span>
+            <span><i />规则与典籍可追溯</span>
+            <span><i />AI 未校准前不自动公开</span>
           </div>
-        </div>
-        <div className="landscape-caption">
-          山静水长
-          <br />
-          <span>以象见理</span>
         </div>
       </section>
-      <section id="tools" className="tools-section">
+
+      <section className="scenario-section" id="scenarios">
         <div className="section-heading">
           <div>
-            <span className="eyebrow">七种入口 · 各循其法</span>
-            <h2>择一门，开始推演</h2>
+            <span className="eyebrow">先选你关心的事</span>
+            <h2>生活场景</h2>
           </div>
-          <span className="quiet-label">七个工具首页 · 设计预览</span>
+          <span className="quiet-label">可用能力先开放，其余不伪造</span>
+        </div>
+        <div className="scenario-grid">
+          {scenarioProducts.map((item) => {
+            const card = (
+              <>
+                <div className="scenario-card-top">
+                  <span className="scenario-glyph">{item.glyph}</span>
+                  <span className="scenario-state">{item.badge}</span>
+                </div>
+                <h3>{item.name}</h3>
+                <span className="scenario-tagline">{item.tagline}</span>
+                <p>{item.description}</p>
+                {item.status === "available" ? (
+                  <span className="scenario-enter">
+                    现在体验 <Icon name="arrow" size={15} />
+                  </span>
+                ) : (
+                  <span className="scenario-disabled">
+                    {item.status === "research" ? "研究中" : "能力补齐中"}
+                  </span>
+                )}
+              </>
+            );
+            return item.href ? (
+              <Link
+                key={item.id}
+                href={item.href}
+                className={"scenario-card " + item.status}
+              >
+                {card}
+              </Link>
+            ) : (
+              <article key={item.id} className={"scenario-card " + item.status}>
+                {card}
+              </article>
+            );
+          })}
+        </div>
+
+        <div className="scenario-featured">
+          <div>
+            <span className="eyebrow">第一条真实闭环</span>
+            <h3>{question.name} · 从一个具体问题开始</h3>
+            <p>
+              录入六爻后直接调用现有 <code>/api/v1/execute</code>，
+              返回真实盘面、RuleMatch、Evidence 和 Trace。后端不可用就明确报错，
+              不拿静态示例冒充结果。
+            </p>
+          </div>
+          <div className="scenario-featured-actions">
+            <Link className="button primary" href="/ask">
+              开始占问
+              <Icon name="arrow" size={18} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="professional-section" id="professional">
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow">懂术数的人仍可直接进入</span>
+            <h2>专业排盘</h2>
+          </div>
+          <span className="quiet-label">退到第二层，不再占据首页主入口</span>
         </div>
         <div className="tool-grid">
           {domainPages.map((tool, index) => (
-            <article
-              key={tool.name}
-              className={`tool-card ${tool.id === "liuyao" ? "featured" : ""}`}
-            >
+            <article key={tool.name} className="tool-card">
               <div className="tool-top">
                 <span className="tool-glyph">{tool.glyph}</span>
                 <span className="tool-index">0{index + 1}</span>
@@ -67,93 +124,26 @@ export function HomePage() {
               <Link
                 href={"/" + tool.id}
                 className="tool-action"
-                aria-label={"进入" + tool.name + "首页"}
+                aria-label={"进入" + tool.name + "专业页"}
               >
-                进入工具
+                专业入口
                 <Icon name="arrow" size={17} />
               </Link>
             </article>
           ))}
-          <div className="tool-philosophy">
-            <span>循</span>
-            <p>
-              不急于一句结论，
-              <br />
-              先看清推演的来由。
-            </p>
-            <small>天机 · 观象循理</small>
-          </div>
         </div>
+        <p className="professional-note">
+          八字目前仍缺少生产级确定性引擎，因此年运、桃花、事业财运和合盘不会提前包装成“已可用”。
+        </p>
       </section>
-      <section className="recent-section" id="recent">
-        <div className="section-heading">
-          <div>
-            <span className="eyebrow">留住每一次思考</span>
-            <h2>最近使用</h2>
-          </div>
-          <span className="quiet-label">静态示例记录</span>
+
+      <section className="home-music-hint">
+        <div>
+          <strong>古风背景音乐已经保留在全站右上角</strong>
+          <small>默认关闭。你主动播放后，页面内切换路由不会中断，并会记住音量。</small>
         </div>
-        <div className="recent-grid">
-          {recentSamples.map((item, index) => (
-            <Link className="recent-card" href={item.href} key={item.name}>
-              <span className="recent-symbol">{index === 0 ? "䷀" : "爻"}</span>
-              <div>
-                <span className="small-label">
-                  {item.type} · {item.when}
-                </span>
-                <h3>{item.name}</h3>
-                <p>{item.subtitle}</p>
-              </div>
-              <Icon name="arrow" size={19} />
-            </Link>
-          ))}
-        </div>
+        <span className="eyebrow">听一曲 · 再问一事</span>
       </section>
-      <section className="example-banner">
-        <div className="mini-hexagram" aria-hidden="true">
-          {[1, 1, 1, 1, 1, 1].map((_, i) => (
-            <span key={i} className={i === 5 ? "gold-line" : ""} />
-          ))}
-        </div>
-        <div>
-          <span className="eyebrow">一例知其序</span>
-          <h2>从乾为天，到天风姤</h2>
-          <p>查看一爻之变如何落在盘面、规则与典籍依据中。</p>
-        </div>
-        <Link className="button outlined" href="/liuyao/result">
-          展开示例
-          <Icon name="arrow" size={18} />
-        </Link>
-      </section>
-      <section className="product-principles">
-        <div>
-          <Icon name="grid" size={24} />
-          <h3>盘面为先</h3>
-          <p>
-            结构清晰，位置明确。
-            <br />
-            解释始终围绕当前盘面。
-          </p>
-        </div>
-        <div>
-          <Icon name="book" size={24} />
-          <h3>典籍为据</h3>
-          <p>
-            只展示本次推演相关片段，
-            <br />
-            让规则与依据相互对应。
-          </p>
-        </div>
-        <div>
-          <Icon name="shield" size={24} />
-          <h3>边界清楚</h3>
-          <p>
-            计算事实与综合解释分开，
-            <br />
-            未确定之处如实保留。
-          </p>
-        </div>
-      </section>
-    </>
+    </div>
   );
 }
