@@ -1,6 +1,6 @@
 # Phase 4 quality status
 
-The explanation evaluation and safeguards are implemented. **Real-model calibration is blocked by network policy: the requested https://api.qnaigc.com/v1 returned proxy403 before authentication. Its Base URL and session credential were supplied; the cloud draft now declares the exact domain and secure environment credential requirement, but runtime access/binding has not been activated and no model is verified.** No authenticated commercial model requests, human semantic reviews or real-model pass/hallucination measurements have occurred. N/A does not mean zero failures.
+The explanation evaluation and safeguards are implemented. **Real-model calibration remains incomplete. The earlier cloud attempt to reach https://api.qnaigc.com/v1 returned proxy403 before authentication; that was a historical cloud restriction. The Windows local check on 2026-10-04 reached `/models` with HTTP 200 without credentials. The user confirmed Qiniu as the provider, but no backend API key is available in the current environment and no model is verified.** No authenticated commercial model requests, human semantic reviews or real-model pass/hallucination measurements have occurred. N/A does not mean zero failures. See [local readiness and private-key calibration](LOCAL_READINESS.md).
 
 | Domain | Fixed explanation cases | Guard cases | Real pass rate | Citation accuracy | Chart fidelity | Unsupported claims | Hallucinations | AI release status |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |

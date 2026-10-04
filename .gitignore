@@ -9,4 +9,6 @@ build/
 dist/
 *.egg-info/
 .env
+.env.*
+!.env.api.example
 .DS_Store

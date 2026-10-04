@@ -23,6 +23,7 @@ jobs:
           python scripts/validate_kb.py
           python scripts/validate_knowledge.py
           python scripts/build_production_runtime.py
+          python scripts/check_backend_readiness.py
           python scripts/validate_phase2.py
           python scripts/build_phase2_coverage.py > /tmp/phase2_coverage.json
           python scripts/build_phase1_coverage.py --check
@@ -124,3 +125,34 @@ jobs:
                   assert all(ref[k] for k in ("classic_id", "chapter_id", "section_id", "original_text", "commit", "sha256"))
               print(domain, term, citation["label"])
           PY
+
+  windows-runtime:
+    runs-on: windows-latest
+    env:
+      PYTHONUTF8: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install local backend dependencies
+        run: python -m pip install -e ".[validation,calendar,api]"
+      - name: Validate Windows runtime and six-domain transport
+        run: |
+          python scripts/validate_kb.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python scripts/validate_knowledge.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python scripts/build_production_runtime.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python scripts/validate_phase2.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python scripts/check_backend_readiness.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m unittest discover -s tests -p 'test_phase3_*.py'
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m unittest discover -s tests -p 'test_phase4_model_discovery.py'
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -m unittest discover -s tests -p 'test_backend_readiness.py'
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python scripts/evaluate_explanations.py --dry-run --prompts explanation-prompt-v2

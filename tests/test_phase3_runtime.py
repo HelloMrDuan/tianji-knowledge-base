@@ -6,10 +6,15 @@ from tianji_kb.resolver import ROOT
 from tianji_kb.runtime_catalog import load_catalog,RuntimeUnavailable,digest
 
 class ProductionRuntimeTests(unittest.TestCase):
+    def test_manifest_uses_portable_paths_and_loads_on_native_platform(self):
+        artifact=json.loads((ROOT/'build/production_runtime.json').read_text())
+        self.assertTrue(all('\\' not in name for name in artifact['manifest']))
+        self.assertEqual(set(load_catalog(ROOT)['contracts']),set(PROVIDERS))
+
     def test_all_six_execute_without_opening_quarantine(self):
         original=Path.open
         def guarded(path,*args,**kwargs):
-            if '/data/quarantine/' in str(path):raise AssertionError('Production attempted to open quarantine')
+            if '/data/quarantine/' in path.as_posix():raise AssertionError('Production attempted to open quarantine')
             return original(path,*args,**kwargs)
         with patch.object(Path,'open',guarded):
             for domain in PROVIDERS:

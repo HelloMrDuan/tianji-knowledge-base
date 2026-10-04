@@ -27,7 +27,7 @@ def build_catalog(root):
              'supplementary_classics':resolver.supplementary_classics,
              'supplementary_records':resolver.supplementary_records}
     # Hash only repository-controlled Canonical, configuration, schemas and code.
-    manifest={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in release_paths(root)}
+    manifest={p.relative_to(root).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in release_paths(root)}
     artifact={'schema_version':'1.0','model':'phase3-production-runtime','manifest':manifest,
               'payload':payload,'payload_sha256':digest(payload),'manifest_sha256':digest(manifest)}
     path=root/'build/production_runtime.json';path.parent.mkdir(exist_ok=True)
@@ -45,11 +45,11 @@ def load_catalog(root):
             raise RuntimeUnavailable('Unsupported production runtime version')
         if digest(artifact['payload'])!=artifact['payload_sha256'] or digest(artifact['manifest'])!=artifact['manifest_sha256']:
             raise RuntimeUnavailable('Production runtime integrity check failed')
-        expected={str(p.relative_to(root)) for p in release_paths(root)}
+        expected={p.relative_to(root).as_posix() for p in release_paths(root)}
         if set(artifact['manifest'])!=expected:raise RuntimeUnavailable('Production runtime release files changed; rebuild required')
         for name,checksum in artifact['manifest'].items():
             candidate=(root/name).resolve()
-            if not candidate.is_relative_to(root) or not name.startswith(('data/canonical/','config/','schemas/knowledge/','src/tianji_kb/')) or not str(candidate.relative_to(root)).startswith(('data/canonical/','config/','schemas/knowledge/','src/tianji_kb/')):
+            if not candidate.is_relative_to(root) or not name.startswith(('data/canonical/','config/','schemas/knowledge/','src/tianji_kb/')) or not candidate.relative_to(root).as_posix().startswith(('data/canonical/','config/','schemas/knowledge/','src/tianji_kb/')):
                 raise RuntimeUnavailable('Unsafe runtime manifest path')
             if hashlib.sha256(candidate.read_bytes()).hexdigest()!=checksum:
                 raise RuntimeUnavailable('Production runtime is stale; rebuild required')
