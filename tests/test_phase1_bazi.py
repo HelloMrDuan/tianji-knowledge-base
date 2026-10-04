@@ -12,7 +12,7 @@ class BaziPhase1Tests(unittest.TestCase):
         classic_ids={item["id"] for item in self.bundle["classics"]}
         self.assertTrue({
             "bazi.classic.yuanhai",
-            "bazi.classic.sanming-xianchi",
+            "bazi.classic.sanming_tonghui",
             "bazi.classic.xieji",
         }.issubset(classic_ids))
         xieji=next(item for item in self.bundle["classics"] if item["id"]=="bazi.classic.xieji")
