@@ -3,6 +3,7 @@ import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeCareerScenario, type ScenarioExecuteResponse } from "./api";
+import { recordReading } from "./readingLibrary";
 import "./career-wealth-structure.css";
 
 const groupOrder = ["wealth", "authority", "output", "resource", "peers"];
@@ -60,12 +61,21 @@ export function CareerWealthStructurePage() {
     setError("");
     setResult(null);
     try {
-      setResult(
-        await executeCareerScenario({
-          birth_value: `${date}T${time}:00+08:00`,
-          target_year: 2026,
-        }),
-      );
+      const next = await executeCareerScenario({
+        birth_value: `${date}T${time}:00+08:00`,
+        target_year: 2026,
+      });
+      const target = next.result?.target_year || {};
+      recordReading({
+        scenarioId: "career",
+        label: "事业财运",
+        glyph: "业",
+        title: `2026 ${target.ganzhi || "事业财运结构"}`,
+        subtitle: target.stem_ten_god ? `流年天干十神：${target.stem_ten_god} · 不作收益预测` : "真实事业财运结构已生成",
+        href: "/career-wealth-structure",
+        resultVersion: next.result?.report_version || next.status,
+      });
+      setResult(next);
     } catch (err) {
       setError(err instanceof Error ? err.message : "事业财运结构计算失败。");
     } finally {
