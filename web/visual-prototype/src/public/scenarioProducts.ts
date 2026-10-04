@@ -20,7 +20,7 @@ export const scenarioProducts: ScenarioProduct[] = [
   { id: "compatibility", name: "缘分合盘", glyph: "合", tagline: "两个人放在一起看", description: "需要双人输入、八字引擎及合盘规则。", status: "building", badge: "筹备中" },
   { id: "question", name: "一事占问", glyph: "问", tagline: "现在就问一件具体的事", description: "先以六爻确定性排盘打通真实闭环。", status: "available", href: "/ask", badge: "先行体验" },
   { id: "dream", name: "AI 解梦", glyph: "梦", tagline: "从梦境意象找线索", description: "等待专门梦境语料与真实 AI 校准。", status: "research", badge: "研究中" },
-  { id: "life", name: "人生全盘", glyph: "命", tagline: "建立长期个人档案", description: "基础四柱档案已可用；完整人生报告仍需更多规则、证据与长期场景聚合。", status: "building", badge: "筹备中" },
+  { id: "life", name: "人生总览", glyph: "命", tagline: "一次输入，看四条真实主线", description: "聚合八字基础、2026、桃花、事业财运结构；不另造吉凶结论。", status: "available", href: "/life-overview", badge: "聚合内测" },
 ];
 
 export const featuredScenarioIds = ["question", "romance", "career"];
