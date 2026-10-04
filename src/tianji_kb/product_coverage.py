@@ -258,7 +258,8 @@ def build_product_coverage(root: Path, *, rag_rows=None):
                              if eid in resolver.entities],
                          'conditional_strength_variants': {cid: resolver.entities[cid][1]['attributes']
                              for cid in ('bazi.concept.month_command_variant_v1',
-                                         'bazi.concept.root_conditions_variant_v1') if cid in resolver.entities},
+                                         'bazi.concept.root_conditions_variant_v1',
+                                         'bazi.concept.action_conditions_variant_v1') if cid in resolver.entities},
                          'bounded_strength_factors': resolver.entities.get('bazi.concept.strength_factor_variant_v1', (None, {}))[1].get('attributes', {})}
     return output
 

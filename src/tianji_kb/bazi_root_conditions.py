@@ -59,7 +59,7 @@ def root_conditions(pillars, day_master, *, relations, month_command,
 
 def conditional_factor_graph(trace):
     factors = []
-    keys = ('month_command_variant', 'root_conditions')
+    keys = ('month_command_variant', 'root_conditions', 'action_conditions')
     for i, step in enumerate(trace.steps):
         key = step['rule_id'].removeprefix('bazi.phase2.')
         if key not in keys:
@@ -68,9 +68,26 @@ def conditional_factor_graph(trace):
                         'rule_id': step['rule_id'],
                         'evidence_id': step['evidence_ids'][0],
                         'evidence_ids': list(step['evidence_ids']),
-                        'variant': step['output'].get('command_variant', step['output'].get('root_variant')),
+                        'variant': step['output'].get('command_variant', step['output'].get('root_variant', step['output'].get('action_variant'))),
                         'status': 'structural_and_conditional',
                         'interpretation_status': 'unresolved', 'effect': None})
-    return {'variant': STRENGTH_VARIANT, 'factors': factors,
+    edges = []
+    for i, step in enumerate(trace.steps):
+        if step['rule_id'] != 'bazi.phase2.action_conditions':
+            continue
+        for visibility in ('visible', 'hidden'):
+            for j, row in enumerate(step['output'][visibility + '_relations']):
+                fact = row['fact']
+                position = visibility + ':' + fact['pillar'] + ':' + fact['stem']
+                outward = fact['relation'] in ('i_generate', 'i_control')
+                edges.append({'from': 'day_master' if outward else position,
+                              'to': position if outward else 'day_master', 'relation': fact['relation'],
+                              'visibility': visibility,
+                              'fact_ref': f'#/trace/{i}/output/{visibility}_relations/{j}/fact',
+                              'rule_id': step['rule_id'], 'evidence_id': step['evidence_ids'][0],
+                              'evidence_ids': list(step['evidence_ids']),
+                              'variant': step['output']['action_variant'],
+                              'status': 'direction_only', 'effect': None})
+    return {'variant': STRENGTH_VARIANT, 'factors': factors, 'edges': edges,
             'overall_strength': 'indeterminate', 'weights_available': False,
             'maturity': 'PARTIAL', 'full_strength_classifier_ready': False}

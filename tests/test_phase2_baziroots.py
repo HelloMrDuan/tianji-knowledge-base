@@ -49,7 +49,7 @@ class ConditionalRootTests(unittest.TestCase):
         out = execute('bazi', {'value': '2026-02-10T12:00:00+08:00', 'strength_variant': STRENGTH_VARIANT})
         graph = out['result']['strength_factor_graph']
         self.assertEqual(graph['variant'], STRENGTH_VARIANT)
-        self.assertEqual({f['id'] for f in graph['factors']}, {'month_command_variant', 'root_conditions'})
+        self.assertEqual({f['id'] for f in graph['factors']}, {'month_command_variant', 'root_conditions', 'action_conditions'})
         for f in graph['factors']:
             step = out['trace'][int(f['fact_ref'].split('/')[2])]
             self.assertEqual(step['rule_id'], f['rule_id'])

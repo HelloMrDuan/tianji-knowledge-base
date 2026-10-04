@@ -19,7 +19,7 @@ SCENARIOS = [
         "public_release": True,
         "execution": "scenario_api",
         "depends_on": ["bazi/ziping-structural-v1"],
-        "scope": "四柱、日主、十神、藏干结构事实；显式选择 strength_variant=ditiansui-root-visibility-v1 时增加月支、通根候选、透藏与生克位置观察，不判断整体旺衰。",
+        "scope": "四柱、日主、十神、藏干结构事实；显式选择 strength_variant=ditiansui-root-visibility-v1 时增加月支、通根候选、透藏与生克位置观察，不判断整体旺衰；bazi-strength-conditions-v1 可另列月令口径、根与作用条件图，效力及分类未裁定。",
     },
     {
         "id": "question",

@@ -1305,6 +1305,246 @@
           "full_strength_classifier_ready": false
         }
       }
+    },
+    {
+      "id": "bazi.actions-visible-rooted",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲寅",
+        "month_ganzhi": "丙寅",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "戊辰",
+        "strength_variant": "bazi-strength-conditions-v1"
+      },
+      "expected": {
+        "action_conditions": {
+          "visible_relations": [
+            {
+              "fact": {
+                "pillar": "year",
+                "stem": "甲",
+                "visibility": "visible",
+                "pillar_distance_to_day": 2,
+                "adjacent_to_day": false,
+                "rooted_visible_candidate": true
+              },
+              "effective_action": null,
+              "effect_status": "unresolved"
+            },
+            {
+              "fact": {
+                "pillar": "month",
+                "stem": "丙",
+                "visibility": "visible",
+                "pillar_distance_to_day": 1,
+                "adjacent_to_day": true,
+                "rooted_visible_candidate": true
+              },
+              "effective_action": null,
+              "effect_status": "unresolved"
+            },
+            {
+              "fact": {
+                "pillar": "hour",
+                "stem": "戊",
+                "visibility": "visible",
+                "pillar_distance_to_day": 1,
+                "adjacent_to_day": true,
+                "rooted_visible_candidate": true
+              },
+              "effective_action": null,
+              "effect_status": "unresolved"
+            }
+          ],
+          "hidden_visible_equivalence_applied": false,
+          "de_shi": null,
+          "overall_strength": null
+        },
+        "strength_factor_graph": {
+          "overall_strength": "indeterminate",
+          "weights_available": false
+        }
+      }
+    },
+    {
+      "id": "bazi.actions-visible-unrooted",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲申",
+        "month_ganzhi": "甲子",
+        "day_ganzhi": "甲申",
+        "hour_ganzhi": "甲戌",
+        "strength_variant": "bazi-strength-conditions-v1"
+      },
+      "expected": {
+        "action_conditions": {
+          "visible_relations": [
+            {
+              "fact": {
+                "pillar": "year",
+                "stem": "甲",
+                "visibility": "visible",
+                "pillar_distance_to_day": 2,
+                "adjacent_to_day": false,
+                "rooted_visible_candidate": false
+              },
+              "effective_action": null,
+              "effect_status": "unresolved"
+            },
+            {
+              "fact": {
+                "pillar": "month",
+                "stem": "甲",
+                "visibility": "visible",
+                "pillar_distance_to_day": 1,
+                "adjacent_to_day": true,
+                "rooted_visible_candidate": false
+              },
+              "effective_action": null,
+              "effect_status": "unresolved"
+            },
+            {
+              "fact": {
+                "pillar": "hour",
+                "stem": "甲",
+                "visibility": "visible",
+                "pillar_distance_to_day": 1,
+                "adjacent_to_day": true,
+                "rooted_visible_candidate": false
+              },
+              "effective_action": null,
+              "effect_status": "unresolved"
+            }
+          ],
+          "hidden_visible_equivalence_applied": false,
+          "de_shi": null,
+          "overall_strength": null
+        },
+        "strength_factor_graph": {
+          "overall_strength": "indeterminate",
+          "weights_available": false
+        }
+      }
+    },
+    {
+      "id": "bazi.actions-root-clash",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲寅",
+        "month_ganzhi": "庚申",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "辛酉",
+        "strength_variant": "bazi-strength-conditions-v1"
+      },
+      "expected": {
+        "action_conditions": {
+          "visible_relations": [
+            {
+              "fact": {
+                "pillar": "year",
+                "stem": "甲",
+                "visibility": "visible",
+                "pillar_distance_to_day": 2,
+                "adjacent_to_day": false,
+                "rooted_visible_candidate": true
+              },
+              "effective_action": null,
+              "effect_status": "unresolved"
+            },
+            {
+              "fact": {
+                "pillar": "month",
+                "stem": "庚",
+                "visibility": "visible",
+                "pillar_distance_to_day": 1,
+                "adjacent_to_day": true,
+                "rooted_visible_candidate": true
+              },
+              "effective_action": null,
+              "effect_status": "unresolved"
+            },
+            {
+              "fact": {
+                "pillar": "hour",
+                "stem": "辛",
+                "visibility": "visible",
+                "pillar_distance_to_day": 1,
+                "adjacent_to_day": true,
+                "rooted_visible_candidate": true
+              },
+              "effective_action": null,
+              "effect_status": "unresolved"
+            }
+          ],
+          "hidden_visible_equivalence_applied": false,
+          "de_shi": null,
+          "overall_strength": null
+        },
+        "strength_factor_graph": {
+          "overall_strength": "indeterminate",
+          "weights_available": false
+        }
+      }
+    },
+    {
+      "id": "bazi.actions-yin-reference",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "庚申",
+        "month_ganzhi": "壬寅",
+        "day_ganzhi": "乙酉",
+        "hour_ganzhi": "庚子",
+        "strength_variant": "bazi-strength-conditions-v1"
+      },
+      "expected": {
+        "action_conditions": {
+          "visible_relations": [
+            {
+              "fact": {
+                "pillar": "year",
+                "stem": "庚",
+                "visibility": "visible",
+                "pillar_distance_to_day": 2,
+                "adjacent_to_day": false,
+                "rooted_visible_candidate": true
+              },
+              "effective_action": null,
+              "effect_status": "unresolved"
+            },
+            {
+              "fact": {
+                "pillar": "month",
+                "stem": "壬",
+                "visibility": "visible",
+                "pillar_distance_to_day": 1,
+                "adjacent_to_day": true,
+                "rooted_visible_candidate": true
+              },
+              "effective_action": null,
+              "effect_status": "unresolved"
+            },
+            {
+              "fact": {
+                "pillar": "hour",
+                "stem": "庚",
+                "visibility": "visible",
+                "pillar_distance_to_day": 1,
+                "adjacent_to_day": true,
+                "rooted_visible_candidate": true
+              },
+              "effective_action": null,
+              "effect_status": "unresolved"
+            }
+          ],
+          "hidden_visible_equivalence_applied": false,
+          "de_shi": null,
+          "overall_strength": null
+        },
+        "strength_factor_graph": {
+          "overall_strength": "indeterminate",
+          "weights_available": false
+        }
+      }
     }
   ]
 }
