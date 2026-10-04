@@ -14,6 +14,12 @@ Production does not open quarantine. To evaluate Fengshui absolute-period assump
 
 Configure AI/CORS using [PROVIDERS.md](PROVIDERS.md) and the variable names in `.env.api.example`. Explanation claims, quotations and server-generated source citations are represented in OpenAPI. The `deterministic` flag applies to chart/rules/trace/evidence, not to byte-identical AI prose.
 
+## Protected Admin governance read API
+
+Internal knowledge governance is not exposed through the public product API. `GET /api/v1/admin/governance/conflicts` returns only reviewed `school_conflict` concepts and their approved short Evidence excerpts, and only when the server has `TIANJI_ADMIN_READ_TOKEN` configured and the request carries `Authorization: Bearer <token>`.
+
+If the server token is not configured the endpoint fails closed with HTTP 503. Missing or incorrect credentials return HTTP 401. The endpoint is read-only, never returns full book bodies, RAW/Quarantine corpora, prompts or unrestricted Evidence, and does not provide any mutation operation. The web admin keeps the manually entered token in `sessionStorage` only for the current browser session; it is not bundled into frontend assets or committed to the repository. This token gate is an interim internal access boundary, not a replacement for the future user/role authentication service.
+
 For a live service readiness check run `python scripts/check_api.py`. It checks health, reviewed RAG, all registered capability examples, deterministic repeats and OpenAPI without invoking a model. Deploy by stopping the old service, rebuilding release artifacts and starting the new process; do not change code or artifacts underneath a running release.
 
 Phase 4 explanations add versioned prompt hashes, five typed claim categories, rule-to-fact/evidence bindings, source-strength checks, server-generated section indexes and review metadata. See [Phase 4 contract](../phase4/PROMPTS.md) and [batch evaluation](../phase4/EVALUATION.md). V2 is the trial default; production blocks legacy v1. Structural success is not an automatic AI release approval.

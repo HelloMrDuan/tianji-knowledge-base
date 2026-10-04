@@ -1,7 +1,7 @@
 """Unified HTTP transport for the existing six-domain deterministic engine."""
-import copy,os,hashlib
+import copy,os,hashlib,secrets
 from typing import Any,Literal
-from fastapi import FastAPI,HTTPException
+from fastapi import FastAPI,HTTPException,Header
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -16,6 +16,7 @@ from .runtime_catalog import load_catalog
 from .resolver import ROOT
 from .prompts import DEFAULT_PROMPT,PROMPTS
 from .scenario_engine import execute_scenario,registry as scenario_registry
+from .governance import school_conflicts
 
 Domain=Literal['liuyao','qimen','liuren','ziwei','fengshui','yijing','bazi']
 Mode=Literal['production','research']
@@ -122,12 +123,13 @@ def response_for(raw):
         calendar=raw.get('input_calendar') or raw['result'].get('calendar'))
 
 
-def create_app(provider=None,*,explanation_timeout=None):
+def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None):
     app=FastAPI(title='Tianji deterministic knowledge API',version='1.0.0',
         description='Canonical calculation → RuleMatch → trace → Evidence; AI may explain but may not compute charts.')
     app.state.provider=provider
+    app.state.admin_read_token=admin_read_token if admin_read_token is not None else os.environ.get('TIANJI_ADMIN_READ_TOKEN')
     origins=[origin.strip() for origin in os.environ.get('TIANJI_CORS_ORIGINS','').split(',') if origin.strip()]
-    if origins:app.add_middleware(CORSMiddleware,allow_origins=origins,allow_methods=['GET','POST'],allow_headers=['Content-Type'])
+    if origins:app.add_middleware(CORSMiddleware,allow_origins=origins,allow_methods=['GET','POST'],allow_headers=['Content-Type','Authorization'])
 
     @app.exception_handler(RequestValidationError)
     async def invalid_request(request,error):
@@ -160,6 +162,27 @@ def create_app(provider=None,*,explanation_timeout=None):
     @app.get('/api/v1/scenarios',tags=['scenarios'])
     def scenarios():
         return {'api_version':'v1','scenarios':scenario_registry()}
+
+    def require_admin_read_token(authorization):
+        configured=app.state.admin_read_token
+        if not configured:
+            raise HTTPException(503,detail={'code':'admin_auth_not_configured','message':'Admin read access is not configured'})
+        prefix='Bearer '
+        if not authorization or not authorization.startswith(prefix):
+            raise HTTPException(401,detail={'code':'admin_unauthorized','message':'Admin bearer token required'},headers={'WWW-Authenticate':'Bearer'})
+        supplied=authorization[len(prefix):]
+        if not supplied or not secrets.compare_digest(supplied,configured):
+            raise HTTPException(401,detail={'code':'admin_unauthorized','message':'Invalid admin bearer token'},headers={'WWW-Authenticate':'Bearer'})
+
+    @app.get('/api/v1/admin/governance/conflicts',tags=['admin'])
+    def admin_governance_conflicts(authorization: str | None = Header(default=None)):
+        require_admin_read_token(authorization)
+        return {
+            'api_version':'v1',
+            'read_only':True,
+            'public_release':False,
+            'records':school_conflicts(),
+        }
 
     @app.post('/api/v1/scenarios/execute',response_model=ScenarioExecuteResponse,tags=['scenarios'])
     async def execute_scenario_request(request:ScenarioExecuteRequest):

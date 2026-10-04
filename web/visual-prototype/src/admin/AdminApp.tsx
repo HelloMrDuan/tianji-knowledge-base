@@ -6,6 +6,7 @@ import { Link, usePath } from "../shared/router";
 import { adminGroups } from "./fixtures";
 import { Dashboard } from "./Dashboard";
 import { AssetPage } from "./AssetPage";
+import { ConflictGovernancePage } from "./ConflictGovernancePage";
 import type { AssetKind } from "./fixtures";
 import "./admin.css";
 import "./modules.css";
@@ -15,6 +16,7 @@ const titles: Record<string, string> = {
   "/admin/classics": "古籍管理",
   "/admin/rules": "规则管理",
   "/admin/evidence": "Evidence 管理",
+  "/admin/conflicts": "流派与冲突",
 };
 export default function AdminApp() {
   const path = usePath();
@@ -102,6 +104,8 @@ export default function AdminApp() {
         <main className="admin-main">
           {path === "/admin" ? (
             <Dashboard />
+          ) : path.startsWith("/admin/conflicts") ? (
+            <ConflictGovernancePage />
           ) : ["classics", "rules", "evidence"].includes(kind) &&
             path === `/admin/${kind}` ? (
             <AssetPage kind={kind} key={kind} />

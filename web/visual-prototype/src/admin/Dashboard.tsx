@@ -26,7 +26,7 @@ export function Dashboard() {
           ["典籍资产", "24", "6 个术数分类", "book"],
           ["规则记录", "128", "18 条待复核", "layers"],
           ["Evidence", "326", "C / D 分级记录", "shield"],
-          ["待审事项", "12", "4 条流派冲突", "file"],
+          ["治理事项", "—", "真实冲突需授权读取", "file"],
         ].map(([label, value, note, icon]) => (
           <article className="admin-stat" key={label}>
             <div>
