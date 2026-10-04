@@ -752,6 +752,14 @@
       "authority_status": "unverified",
       "grade_ceiling": "C",
       "review_basis": "固定电子来源与摘录字面已核；原刊/可靠整理本底本链未核，不以网址或commit差异投独立票。"
+    },
+    {
+      "source_id": "bazi.source.yuanhai",
+      "lineage_group": "garychowcmu/daizhigev20:易藏/术数/渊海子平.txt",
+      "edition_status": "unverified",
+      "authority_status": "unverified",
+      "grade_ceiling": "C",
+      "review_basis": "固定电子来源与短引字面已核；独立刊本与底本链未确证，不升级 A/B。"
     }
   ],
   "claim_comparisons": [
