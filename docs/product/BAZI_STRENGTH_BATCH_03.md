@@ -51,3 +51,5 @@ StrengthFactorGraph 本批建立月令节点的真实 trace JSON pointer、rule_
 产品 Web CI 改为每个 PR 都执行，保留真实 API 代理回归，并增加现有 Playwright 浏览器回归；用于本阶段每批完整检查。
 
 旺衰继续 PARTIAL，根力条件、实际效力及分类器未闭环。未实现模块不产生 strong/weak/balanced，不进入格局或喜用神。所有 raw、已确认 PUA/OCR、三命 quarantine_only、AI 门控保持现有要求。
+
+浏览器首轮112通过、5失败：旧未开放页标题、首页专业入口名称、Prompt 假编辑器断言、两处只读文案已过期。仅修正测试定位与只读授权断言，不改页面；保留未授权零 API 请求、无内部资产页、音乐路由行为等原有回归。
