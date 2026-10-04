@@ -3,6 +3,7 @@ import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeCompatibilityScenario, type ScenarioExecuteResponse } from "./api";
+import { recordReading } from "./readingLibrary";
 import "./compatibility-structure.css";
 
 const profileKey = "tianji.profile.birth.v1";
@@ -81,6 +82,18 @@ export function CompatibilityStructurePage() {
       } catch {
         /* optional */
       }
+      const matrixHits = Array.isArray(next.result?.cross_relation_matrix?.hits)
+        ? next.result.cross_relation_matrix.hits.length
+        : 0;
+      recordReading({
+        scenarioId: "compatibility",
+        label: "缘分合盘",
+        glyph: "合",
+        title: "双人结构合盘",
+        subtitle: `跨柱已审核结构命中 ${matrixHits} 处 · 不计分`,
+        href: "/compatibility-structure",
+        resultVersion: next.result?.report_version || next.status,
+      });
       setResult(next);
     } catch (err) {
       setError(err instanceof Error ? err.message : "合盘结构计算失败。");
