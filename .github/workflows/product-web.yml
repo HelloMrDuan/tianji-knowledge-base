@@ -52,7 +52,7 @@ jobs:
           npm run dev -- --host 127.0.0.1 >/tmp/tianji-web.log 2>&1 &
           echo $! >/tmp/tianji-web.pid
 
-      - name: Verify real frontend-to-API Liuyao flow
+      - name: Verify real frontend-to-API product flows
         run: |
           for i in {1..30}; do
             if curl -fsS http://127.0.0.1:5173/health >/tmp/health.json; then break; fi
@@ -105,4 +105,25 @@ jobs:
           assert data["evidence"]
           assert data["limitations"]
           print("real frontend proxy -> Scenario Engine -> 2026 annual structure: ok")
+          PY
+
+          curl -fsS -X POST http://127.0.0.1:5173/api/v1/scenarios/execute \
+            -H 'Content-Type: application/json' \
+            -d '{"scenario_id":"romance","input":{"birth_value":"2000-01-07T12:00:00+08:00","target_year":2026}}' \
+            >/tmp/romance.json
+          python - <<'PY'
+          import json
+          data=json.load(open("/tmp/romance.json",encoding="utf-8"))
+          assert data["scenario_id"]=="romance"
+          assert data["status"]=="production_limited"
+          assert data["public_release"] is False
+          assert data["deterministic"] is True
+          assert data["result"]["release_scope"]=="xianchi_structure_only"
+          assert data["result"]["xianchi"]["basis_policy"]=="year_and_day_reported_separately"
+          assert set(data["result"]["target_year_activation"])=={"year_branch_basis","day_branch_basis"}
+          assert data["evidence"]
+          blob=str(data["result"])
+          for forbidden in ("romance_score","marriage_score","fortune_score","auspicious"):
+              assert forbidden not in blob
+          print("real frontend proxy -> Scenario Engine -> romance structure: ok")
           PY
