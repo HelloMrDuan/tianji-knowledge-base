@@ -335,3 +335,31 @@ export type AdminPromptRecord = {
 export function fetchAdminPrompts(token: string): Promise<AdminPromptRecord[]> {
   return fetchProtectedRecords<AdminPromptRecord>("/api/v1/admin/system/prompts", token);
 }
+
+
+export type AdminEvaluationRecord = {
+  id: string;
+  domain: string;
+  suite_id: string;
+  variants: string[];
+  eval_case_count: number;
+  explanation_case_count: number;
+  refusal_control_count: number;
+  suite_golden_ref_count: number;
+  phase2_golden_count: number;
+  phase2_golden_ids: string[];
+  eval_case_ids: string[];
+  tag_counts: Record<string, number>;
+  engine_baseline_main_sha: string;
+  engine_baseline_file_count: number;
+  fixed_suite: true;
+  tracked_status: "fixture_only";
+  live_model_quality_verified: false;
+  human_semantic_review_required: true;
+  automatic_release_allowed: false;
+  online_ready: false;
+};
+
+export function fetchAdminEvaluations(token: string): Promise<AdminEvaluationRecord[]> {
+  return fetchProtectedRecords<AdminEvaluationRecord>("/api/v1/admin/system/evaluations", token);
+}
