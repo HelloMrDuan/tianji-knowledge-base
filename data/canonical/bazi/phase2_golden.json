@@ -1081,6 +1081,230 @@
           "full_strength_classifier_ready": false
         }
       }
+    },
+    {
+      "id": "bazi.roots-growth",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "庚申",
+        "month_ganzhi": "辛酉",
+        "day_ganzhi": "甲寅",
+        "hour_ganzhi": "壬子",
+        "strength_variant": "bazi-strength-conditions-v1"
+      },
+      "expected": {
+        "root_conditions": {
+          "roots": [
+            {
+              "fact": {
+                "pillar": "day",
+                "branch": "寅",
+                "hidden_stem": "甲",
+                "present_structurally": true
+              },
+              "availability_status": "unresolved",
+              "effective_strength": null,
+              "interpretation_candidates": [
+                {
+                  "kind": "growth_luwang_example",
+                  "status": "candidate_only",
+                  "section_ids": [
+                    "bazi.section.s026"
+                  ]
+                }
+              ]
+            }
+          ],
+          "present_structurally": true,
+          "root_erasure_applied": false,
+          "overall_strength": null
+        },
+        "strength_factor_graph": {
+          "overall_strength": "indeterminate",
+          "full_strength_classifier_ready": false
+        }
+      }
+    },
+    {
+      "id": "bazi.roots-residual",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "庚申",
+        "month_ganzhi": "辛酉",
+        "day_ganzhi": "乙未",
+        "hour_ganzhi": "壬辰",
+        "strength_variant": "bazi-strength-conditions-v1"
+      },
+      "expected": {
+        "root_conditions": {
+          "roots": [
+            {
+              "fact": {
+                "pillar": "day",
+                "branch": "未",
+                "hidden_stem": "乙",
+                "present_structurally": true
+              },
+              "availability_status": "unresolved",
+              "effective_strength": null
+            },
+            {
+              "fact": {
+                "pillar": "hour",
+                "branch": "辰",
+                "hidden_stem": "乙",
+                "present_structurally": true
+              },
+              "availability_status": "unresolved",
+              "effective_strength": null,
+              "interpretation_candidates": [
+                {
+                  "kind": "residual_qi_candidate",
+                  "status": "candidate_only",
+                  "section_ids": [
+                    "bazi.section.s026"
+                  ]
+                }
+              ]
+            }
+          ],
+          "present_structurally": true,
+          "root_erasure_applied": false,
+          "overall_strength": null
+        },
+        "strength_factor_graph": {
+          "overall_strength": "indeterminate",
+          "full_strength_classifier_ready": false
+        }
+      }
+    },
+    {
+      "id": "bazi.roots-clash-not-erasure",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲寅",
+        "month_ganzhi": "庚申",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "辛酉",
+        "strength_variant": "bazi-strength-conditions-v1"
+      },
+      "expected": {
+        "root_conditions": {
+          "roots": [
+            {
+              "fact": {
+                "pillar": "year",
+                "branch": "寅",
+                "hidden_stem": "甲",
+                "present_structurally": true
+              },
+              "availability_status": "unresolved",
+              "effective_strength": null,
+              "interpretation_candidates": [
+                {
+                  "kind": "growth_luwang_example",
+                  "status": "candidate_only",
+                  "section_ids": [
+                    "bazi.section.s026"
+                  ]
+                }
+              ]
+            }
+          ],
+          "present_structurally": true,
+          "root_erasure_applied": false,
+          "overall_strength": null
+        },
+        "strength_factor_graph": {
+          "overall_strength": "indeterminate",
+          "full_strength_classifier_ready": false
+        }
+      }
+    },
+    {
+      "id": "bazi.roots-harmony-not-transformation",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲寅",
+        "month_ganzhi": "丁亥",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "辛酉",
+        "strength_variant": "bazi-strength-conditions-v1"
+      },
+      "expected": {
+        "root_conditions": {
+          "roots": [
+            {
+              "fact": {
+                "pillar": "year",
+                "branch": "寅",
+                "hidden_stem": "甲",
+                "present_structurally": true
+              },
+              "availability_status": "unresolved",
+              "effective_strength": null,
+              "interpretation_candidates": [
+                {
+                  "kind": "growth_luwang_example",
+                  "status": "candidate_only",
+                  "section_ids": [
+                    "bazi.section.s026"
+                  ]
+                }
+              ]
+            },
+            {
+              "fact": {
+                "pillar": "month",
+                "branch": "亥",
+                "hidden_stem": "甲",
+                "present_structurally": true
+              },
+              "availability_status": "unresolved",
+              "effective_strength": null,
+              "interpretation_candidates": [
+                {
+                  "kind": "growth_luwang_example",
+                  "status": "candidate_only",
+                  "section_ids": [
+                    "bazi.section.s026"
+                  ]
+                }
+              ]
+            }
+          ],
+          "present_structurally": true,
+          "root_erasure_applied": false,
+          "overall_strength": null
+        },
+        "strength_factor_graph": {
+          "overall_strength": "indeterminate",
+          "full_strength_classifier_ready": false
+        }
+      }
+    },
+    {
+      "id": "bazi.roots-absent",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲申",
+        "month_ganzhi": "甲子",
+        "day_ganzhi": "甲申",
+        "hour_ganzhi": "甲戌",
+        "strength_variant": "bazi-strength-conditions-v1"
+      },
+      "expected": {
+        "root_conditions": {
+          "roots": [],
+          "present_structurally": false,
+          "root_erasure_applied": false,
+          "overall_strength": null
+        },
+        "strength_factor_graph": {
+          "overall_strength": "indeterminate",
+          "full_strength_classifier_ready": false
+        }
+      }
     }
   ]
 }

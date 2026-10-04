@@ -2,6 +2,7 @@
 from ..bazi_core import VARIANT, chart_from_pillars, reviewed_relations, traditional_spouse_star_lens
 from ..resolver import ExecutionTrace
 from ..bazi_commander import COMMAND_VARIANT, month_command, month_factor_graph
+from ..bazi_root_conditions import STRENGTH_VARIANT, root_conditions, conditional_factor_graph
 from ..bazi_strength import FACTOR_VARIANT, factors as _strength_factors
 
 
@@ -22,7 +23,7 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
         raise ValueError("include_relations must be boolean")
     if traditional_role is not None and traditional_role not in ("male", "female"):
         raise ValueError("traditional_role must be male or female")
-    if strength_variant is not None and strength_variant != FACTOR_VARIANT:
+    if strength_variant is not None and strength_variant not in (FACTOR_VARIANT, STRENGTH_VARIANT):
         raise ValueError("Unsupported strength factor variant")
     if month_command_variant is not None and month_command_variant != COMMAND_VARIANT:
         raise ValueError('Unsupported month command variant')
@@ -70,7 +71,7 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
         )
 
     relation_facts = None
-    if include_relations:
+    if include_relations or strength_variant == STRENGTH_VARIANT:
         stems = [year_ganzhi[0], month_ganzhi[0], day_ganzhi[0], hour_ganzhi[0]]
         branches = [year_ganzhi[1], month_ganzhi[1], day_ganzhi[1], hour_ganzhi[1]]
         relation_facts = reviewed_relations(stems, branches)
@@ -123,20 +124,28 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
         result["traditional_spouse_star_lens"] = spouse_star_lens
         result["production_scope"] += "；可选传统配偶星候选位置（用户显式选择口径，仅定位星位，不作婚恋解释）"
     if strength_variant is not None:
-        observed = strength_factors(raw['pillars'], raw['day_master']['stem'], factor_variant=strength_variant)
+        observed = strength_factors(raw['pillars'], raw['day_master']['stem'], factor_variant=FACTOR_VARIANT)
         for rule, key in (('month_command_factors', 'month_command'),
                           ('root_candidates', 'root_candidates'),
                           ('hidden_to_visible', 'hidden_to_visible'),
                           ('support_relations', 'support_relations')):
-            trace.add('bazi.phase2.' + rule, {'factor_variant': strength_variant,
+            trace.add('bazi.phase2.' + rule, {'factor_variant': FACTOR_VARIANT,
                       'ganzhi': [year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi]}, observed[key])
         result['strength_factors'] = observed
         result['production_scope'] += '；可选月支、通根候选、透藏与生克位置观察（整体旺衰分类未完成）'
-    if month_command_variant is not None:
-        command = month_command(raw['pillars'], raw['day_master']['stem'], command_variant=month_command_variant)
+    if month_command_variant is not None or strength_variant == STRENGTH_VARIANT:
+        command = month_command(raw['pillars'], raw['day_master']['stem'], command_variant=COMMAND_VARIANT)
         trace.add('bazi.phase2.month_command_variant',
-                  {'command_variant': month_command_variant, 'month_branch': month_ganzhi[1]}, command)
+                  {'command_variant': COMMAND_VARIANT, 'month_branch': month_ganzhi[1]}, command)
         result['month_command_variant'] = command
         result['strength_factor_graph'] = month_factor_graph(trace, command)
         result['production_scope'] += '；可选独立月令口径审计（具体日司令 unresolved）'
+    if strength_variant == STRENGTH_VARIANT:
+        roots = root_conditions(raw['pillars'], raw['day_master']['stem'],
+                                relations=relation_facts, month_command=command)
+        trace.add('bazi.phase2.root_conditions', {'strength_variant': strength_variant,
+                  'ganzhi': [year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi]}, roots)
+        result['root_conditions'] = roots
+        result['strength_factor_graph'] = conditional_factor_graph(trace)
+        result['production_scope'] += '；条件化根候选（可用性与实际根力未裁定）'
     return trace.finish(result)

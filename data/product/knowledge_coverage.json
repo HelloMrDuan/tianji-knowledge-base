@@ -35,7 +35,7 @@
         "legacy_files": 1,
         "text_candidate_files": 3,
         "terms": 10,
-        "phase1_rules": 10,
+        "phase1_rules": 11,
         "phase2_rules": 4
       },
       {
@@ -924,7 +924,7 @@
         "legacy_files": 1,
         "text_candidate_files": 3,
         "terms": 10,
-        "phase1_rules": 10,
+        "phase1_rules": 11,
         "phase2_rules": 4
       },
       {
@@ -1227,7 +1227,7 @@
         "legacy_files": 1,
         "text_candidate_files": 3,
         "terms": 10,
-        "phase1_rules": 10,
+        "phase1_rules": 11,
         "phase2_rules": 4
       },
       {
@@ -1531,7 +1531,7 @@
         "legacy_files": 1,
         "text_candidate_files": 3,
         "terms": 10,
-        "phase1_rules": 10,
+        "phase1_rules": 11,
         "phase2_rules": 4
       },
       {
@@ -1847,7 +1847,7 @@
         "legacy_files": 1,
         "text_candidate_files": 3,
         "terms": 10,
-        "phase1_rules": 10,
+        "phase1_rules": 11,
         "phase2_rules": 4
       },
       {
@@ -2123,7 +2123,7 @@
         "legacy_files": 1,
         "text_candidate_files": 3,
         "terms": 10,
-        "phase1_rules": 10,
+        "phase1_rules": 11,
         "phase2_rules": 4
       },
       {
@@ -2311,7 +2311,7 @@
         "legacy_files": 1,
         "text_candidate_files": 3,
         "terms": 10,
-        "phase1_rules": 10,
+        "phase1_rules": 11,
         "phase2_rules": 4
       },
       {
@@ -2649,7 +2649,7 @@
         "legacy_files": 1,
         "text_candidate_files": 3,
         "terms": 10,
-        "phase1_rules": 10,
+        "phase1_rules": 11,
         "phase2_rules": 4
       },
       {
@@ -3346,7 +3346,7 @@
         "legacy_files": 1,
         "text_candidate_files": 3,
         "terms": 10,
-        "phase1_rules": 10,
+        "phase1_rules": 11,
         "phase2_rules": 4
       },
       {
@@ -4936,8 +4936,8 @@
       },
       {
         "path": "data/canonical/bazi/phase1_knowledge.json",
-        "sha256": "a85a4a50d5cc262eddac8269878125b6385c67ecafb8a2abe252efd6e67f6e90",
-        "bytes": 123731,
+        "sha256": "1c02b2206322b0a309d57204a43ebcce9816b93b1b5e8807f649cdc69a977b2c",
+        "bytes": 149959,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -4946,8 +4946,8 @@
       },
       {
         "path": "data/canonical/bazi/phase2_execution.json",
-        "sha256": "c348359d97c3acc1a887d7480576b1efadbfe2f01d81ccb5d739126b9ab0ce3e",
-        "bytes": 12439,
+        "sha256": "c57a712ec75312265a07cd846a37ddffdbaef4c55d5ce058f6a27a4cdf27fe0a",
+        "bytes": 13229,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -4956,8 +4956,8 @@
       },
       {
         "path": "data/canonical/bazi/phase2_golden.json",
-        "sha256": "0d1f213628761c6c4cb4d0e06e95afc1f4992bb0196dfa6c43d9dc72622db7fc",
-        "bytes": 30509,
+        "sha256": "6590150067bf27c178c6bd9df3f99045c3db1c06297c5bea1a4e1ba1bdb6bd5a",
+        "bytes": 37164,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -6556,6 +6556,10 @@
         "sha256": "30e96bf49fb65c37073c012fe6ce7f225903ee91f1c53a92114e890bfa6b8114"
       },
       {
+        "path": "src/tianji_kb/bazi_root_conditions.py",
+        "sha256": "bede8b324525d4b2ffcf3d148f272a830f123c1da7b837a7daa5b340424cd631"
+      },
+      {
         "path": "src/tianji_kb/bazi_strength.py",
         "sha256": "f05571626079461bef20aac12739ef546816620e016c1a282132bc5f804e18e8"
       },
@@ -6633,7 +6637,7 @@
       },
       {
         "path": "src/tianji_kb/operations/bazi_chart.py",
-        "sha256": "8b26b9526fce7a4cde4e92904c19696c5aff8b872c121513acb271f4f23e2416"
+        "sha256": "7ef87d620a0a2b7cb3a68f65dbdd967b515ba0f90bb640525c3149650c85630a"
       },
       {
         "path": "src/tianji_kb/operations/fengshui.py",
@@ -6693,7 +6697,7 @@
       },
       {
         "path": "src/tianji_kb/product_coverage.py",
-        "sha256": "c59e36182f114d13f687b93adf093ed565cde9d5760efa61ef15d1efffcdaed4"
+        "sha256": "6932ecc3faf2e8a56bb16e3a1550b7f9a87e1a12dbe1e1ffd06df99dc57f8b39"
       },
       {
         "path": "src/tianji_kb/prompts.py",
@@ -6737,7 +6741,7 @@
       },
       {
         "path": "tests/test_phase1_bazi.py",
-        "sha256": "c9b77880d3953b45f352f2bb7d9dfe598211e6f96987efc9d4cdc7ce69fb7be3"
+        "sha256": "53f6d5a5260b0fb67851c38e7db62027324ae6432cd1981be044ddbc2320c6e1"
       },
       {
         "path": "tests/test_phase1_cross_domain.py",
@@ -6774,6 +6778,10 @@
       {
         "path": "tests/test_phase2_bazicommander.py",
         "sha256": "a75b13a2e5daa03a3482fb04ce6b4089d728188b2863252913b28477be7de0cc"
+      },
+      {
+        "path": "tests/test_phase2_baziroots.py",
+        "sha256": "ae637d51a303c9ad96fbd6ba0a860152c796a75519559388412d869ecacea1b4"
       },
       {
         "path": "tests/test_phase2_bazistrength.py",
@@ -8174,10 +8182,10 @@
       "bazi": {
         "classics": 4,
         "chapters": 15,
-        "sections": 37,
-        "terms": 21,
-        "rules": 17,
-        "concepts": 9
+        "sections": 41,
+        "terms": 22,
+        "rules": 18,
+        "concepts": 11
       }
     },
     "engines": {
@@ -9341,6 +9349,334 @@
                 "evidence_level": "C"
               }
             ]
+          },
+          {
+            "id": "bazi.phase2.root_conditions",
+            "domain": "bazi",
+            "name": "通根类型与冲合条件审计",
+            "variant": "ziping-structural-v1",
+            "execution_status": "executable",
+            "phase1_rule_refs": [
+              "bazi.rule.r018"
+            ],
+            "validation_status": "validated",
+            "golden_case_ids": [
+              "bazi.roots-growth",
+              "bazi.roots-residual",
+              "bazi.roots-clash-not-erasure",
+              "bazi.roots-harmony-not-transformation",
+              "bazi.roots-absent"
+            ],
+            "regression_test": "tests/test_phase2_baziroots.py",
+            "evidence_scope": "C：根、余气例、四库与冲的条件短引及既有关系证据；显式 ditiansui-root-conditions-v1；保留类型重复段冲突，不裁定根力、消根或旺衰。",
+            "evidence": [
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s004",
+                "original_text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.root_conditions",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.yuanhai",
+                "classic_title": "渊海子平",
+                "chapter_id": "bazi.chapter.basic",
+                "chapter_title": "基础与藏遁",
+                "locator": "《渊海子平》又地支藏遁歌；本轮固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%B8%8A%E6%B5%B7%E5%AD%90%E5%B9%B3.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s025",
+                "original_text": "天干得一比肩,不如地支得一余气墓库。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.root_conditions",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.strength_factors",
+                "chapter_title": "月令、通根与透藏观察边界",
+                "locator": "《滴天髓阐微》通神论·衰旺；固定原文字符位置 39989；比肩与地支根不可数量等同",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s026",
+                "original_text": "余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.root_conditions",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.strength_factors",
+                "chapter_title": "月令、通根与透藏观察边界",
+                "locator": "《滴天髓阐微》通神论·衰旺；固定原文字符位置 40063；余气与长生禄旺根示例",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s027",
+                "original_text": "故知地支人元必得天干引助,天干为用,必要地支司令。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.root_conditions",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.strength_factors",
+                "chapter_title": "月令、通根与透藏观察边界",
+                "locator": "《滴天髓阐微》通神论·月令；固定原文字符位置 38284；藏干与显干引助",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s028",
+                "original_text": "得时俱为旺论,失令便作衰看,虽是至理,亦死法也。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.root_conditions",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.strength_factors",
+                "chapter_title": "月令、通根与透藏观察边界",
+                "locator": "《滴天髓阐微》通神论·衰旺；固定原文字符位置 39648；不可得令即旺失令即弱",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s038",
+                "original_text": "地支逢冲,犹天干之相克也,须视其强弱喜忌而论之。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.root_conditions",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.strength_factors",
+                "chapter_title": "月令、通根与透藏观察边界",
+                "locator": "滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 11399",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s039",
+                "original_text": "得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.root_conditions",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.strength_factors",
+                "chapter_title": "月令、通根与透藏观察边界",
+                "locator": "滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 13864",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s040",
+                "original_text": "辰、戌、丑、未四库也,宜冲开。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.root_conditions",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.strength_factors",
+                "chapter_title": "月令、通根与透藏观察边界",
+                "locator": "滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 10220",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s041",
+                "original_text": "余气者,如丙丁逢未,丙丁逢戌,庚辛逢丑,壬癸逢辰之类是也。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.root_conditions",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.strength_factors",
+                "chapter_title": "月令、通根与透藏观察边界",
+                "locator": "滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 40034",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s021",
+                "original_text": "刑之义无所取,如亥刑亥、辰刑辰、酉刑酉、午刑午,谓之自刑,本支见本支,自谓同气,何以相刑?子刑卯,卯刑子,是谓相生,何以相刑?戌刑未,未刑丑,皆为土气,更不当刑。寅刑巳,亦是相生,寅申相刑,即冲何必再刑?又曰子卯一刑也,寅巳申二刑也,丑戌未三刑也,故称三刑,又有自刑,此皆俗谬,姑置之。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.root_conditions",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.ditiansui_punishment_boundary",
+                "chapter_title": "地支刑法批评",
+                "locator": "《滴天髓阐微》通神论·八、地支；固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.xieji-relations",
+                "section_id": "bazi.section.s011",
+                "original_text": "子与丑合寅与亥合卯与戌合辰与酉合巳与申合午与未合",
+                "role": "classical",
+                "rule_id": "bazi.phase2.root_conditions",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.xieji",
+                "classic_title": "钦定协纪辨方书",
+                "chapter_id": "bazi.chapter.relations",
+                "chapter_title": "五合六合六害结构短引",
+                "locator": "《钦定协纪辨方书》卷一·六合；固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E9%92%A6%E5%AE%9A%E5%8D%8F%E7%BA%AA%E8%BE%A8%E6%96%B9%E4%B9%A6.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c192fc641494e0da4b1f857bc21243f14c49d10839cd9a8cff9439616c0c87ff",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.xieji-relations",
+                "section_id": "bazi.section.s012",
+                "original_text": "月害者月中六害也假令夘辰相害者夘以乙旺之木害辰墓之土辰以墓土却害夘中癸水也寅巳相害者谓寅以旺甲害巳中戊土而巳以生庚害寅中旺甲也丑午相害者丑以癸水害午中丁火午以巳土害丑中癸水也子未相害者子以所生之辛金害未中墓木未以旺土害子中旺水也申亥相害者亥以生木害申中生土申以旺金害亥中生木又以生土害亥中旺水也酉戌相害者戌以墓火害酉之旺金酉以所生丁火害戌中辛金也",
+                "role": "classical",
+                "rule_id": "bazi.phase2.root_conditions",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.xieji",
+                "classic_title": "钦定协纪辨方书",
+                "chapter_id": "bazi.chapter.relations",
+                "chapter_title": "五合六合六害结构短引",
+                "locator": "《钦定协纪辨方书》月害条；固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E9%92%A6%E5%AE%9A%E5%8D%8F%E7%BA%AA%E8%BE%A8%E6%96%B9%E4%B9%A6.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c192fc641494e0da4b1f857bc21243f14c49d10839cd9a8cff9439616c0c87ff",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.xieji-relations",
+                "section_id": "bazi.section.s014",
+                "original_text": "洞源经曰对七为冲隔三为破选择家所谓辰破丑而丑冲未亥破寅而寅冲申午破夘而夘冲酉酉破子而子冲午申破巳而巳冲亥戌破未而未冲丑是也",
+                "role": "classical",
+                "rule_id": "bazi.phase2.root_conditions",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.xieji",
+                "classic_title": "钦定协纪辨方书",
+                "chapter_id": "bazi.chapter.relations",
+                "chapter_title": "五合六合六害结构短引",
+                "locator": "《钦定协纪辨方书》月建相关条；固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E9%92%A6%E5%AE%9A%E5%8D%8F%E7%BA%AA%E8%BE%A8%E6%96%B9%E4%B9%A6.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c192fc641494e0da4b1f857bc21243f14c49d10839cd9a8cff9439616c0c87ff",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.xieji-relations",
+                "section_id": "bazi.section.s015",
+                "original_text": "假如建在子前三为平为夘后三为收为酉夘酉冲也建在丑前三为平为辰后三为收为戌辰戌冲也推之十二辰莫不皆然",
+                "role": "classical",
+                "rule_id": "bazi.phase2.root_conditions",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.xieji",
+                "classic_title": "钦定协纪辨方书",
+                "chapter_id": "bazi.chapter.relations",
+                "chapter_title": "五合六合六害结构短引",
+                "locator": "《钦定协纪辨方书》月建相关条；固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E9%92%A6%E5%AE%9A%E5%8D%8F%E7%BA%AA%E8%BE%A8%E6%96%B9%E4%B9%A6.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c192fc641494e0da4b1f857bc21243f14c49d10839cd9a8cff9439616c0c87ff",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.xieji-relations",
+                "section_id": "bazi.section.s016",
+                "original_text": "考原曰大煞子年在子丑年在酉寅年在午夘年在夘辰年又在子如是逆行四正盖申子辰三合为水水旺于子也巳酉丑三合为金金旺于酉也寅午戌三合为火火旺于午也亥夘未三合为木木旺于夘也",
+                "role": "classical",
+                "rule_id": "bazi.phase2.root_conditions",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.xieji",
+                "classic_title": "钦定协纪辨方书",
+                "chapter_id": "bazi.chapter.relations",
+                "chapter_title": "五合六合六害结构短引",
+                "locator": "《钦定协纪辨方书》大煞条；固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E9%92%A6%E5%AE%9A%E5%8D%8F%E7%BA%AA%E8%BE%A8%E6%96%B9%E4%B9%A6.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c192fc641494e0da4b1f857bc21243f14c49d10839cd9a8cff9439616c0c87ff",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s034",
+                "original_text": "若子从癸、午从丁,是体阳而用阴也;巳从丙,亥从壬,是体阴而用阳也。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.root_conditions",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.strength_factors",
+                "chapter_title": "月令、通根与透藏观察边界",
+                "locator": "滴天髓阐微·地支/干支总论/月令；固定原文字符位置 10034",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s035",
+                "original_text": "然以本气为主,寅必先甲而后及丙,申必先庚而后及壬,余支皆然。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.root_conditions",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.strength_factors",
+                "chapter_title": "月令、通根与透藏观察边界",
+                "locator": "滴天髓阐微·地支/干支总论/月令；固定原文字符位置 10113",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s036",
+                "original_text": "若甲午日,则午必先丁而后己,己土岂能专权而合甲?己亥日,亥必先壬而后甲,甲岂能出而合己?癸巳日,巳必先丙而后戊,戊岂能越过而合癸?",
+                "role": "classical",
+                "rule_id": "bazi.phase2.root_conditions",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.strength_factors",
+                "chapter_title": "月令、通根与透藏观察边界",
+                "locator": "滴天髓阐微·地支/干支总论/月令；固定原文字符位置 20509",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              }
+            ]
           }
         ],
         "golden_path": "data/canonical/bazi/phase2_golden.json",
@@ -9357,6 +9693,11 @@
           "bazi.factors-tomb-boundary",
           "bazi.relations-core",
           "bazi.relations-expanded",
+          "bazi.roots-absent",
+          "bazi.roots-clash-not-erasure",
+          "bazi.roots-growth",
+          "bazi.roots-harmony-not-transformation",
+          "bazi.roots-residual",
           "bazi.spouse-star-lens-female",
           "bazi.spouse-star-lens-male",
           "bazi.structural-basic",
@@ -12016,12 +12357,13 @@
           "bazi.rule.r014",
           "bazi.rule.r015",
           "bazi.rule.r016",
-          "bazi.rule.r017"
+          "bazi.rule.r017",
+          "bazi.rule.r018"
         ],
         "phase1_execution_status": {
           "partially_structured": 4,
           "descriptive_only": 1,
-          "executable": 5
+          "executable": 6
         },
         "phase2_rule_ids": [
           "bazi.phase2.pillars",
@@ -15395,6 +15737,63 @@
     },
     "conflict_entities": [
       {
+        "id": "bazi.concept.conflict_root_type_readings",
+        "domain": "bazi",
+        "name": "衰旺余气重复段字形及类型边界",
+        "kind": "school_conflict",
+        "status": "unresolved",
+        "dimension": "同一电子本先后两段余气列表不一致，不推定为两种独立流派",
+        "positions": [
+          {
+            "id": "duplicate-reading",
+            "label": "重复余气段",
+            "position": "丙丁未/戌、庚辛丑、壬癸辰并列，疑与前段墓库叠行；保留原字。",
+            "section_ids": [
+              "bazi.section.s041"
+            ]
+          },
+          {
+            "id": "existing-reviewed-reading",
+            "label": "后段余气候选",
+            "position": "丙丁未、甲乙辰、庚辛戌、壬癸丑；可记录候选，不凭同本片段给强弱等级。",
+            "section_ids": [
+              "bazi.section.s026"
+            ]
+          }
+        ],
+        "production_policy": "不改 RAW，不选择性隐藏重复段，不宣布完整十二支根力分级。",
+        "executable_policy": "candidate_types_only_no_rank_or_strength",
+        "confidence": "medium",
+        "evidence": [
+          {
+            "source_id": "bazi.source.ditiansui-spouse",
+            "section_id": "bazi.section.s041",
+            "classic_id": "bazi.classic.ditiansui",
+            "classic_title": "滴天髓阐微",
+            "chapter_id": "bazi.chapter.strength_factors",
+            "chapter_title": "月令、通根与透藏观察边界",
+            "locator": "滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 40034",
+            "original_text": "余气者,如丙丁逢未,丙丁逢戌,庚辛逢丑,壬癸逢辰之类是也。",
+            "evidence_level": "C",
+            "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+            "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620"
+          },
+          {
+            "source_id": "bazi.source.ditiansui-spouse",
+            "section_id": "bazi.section.s026",
+            "classic_id": "bazi.classic.ditiansui",
+            "classic_title": "滴天髓阐微",
+            "chapter_id": "bazi.chapter.strength_factors",
+            "chapter_title": "月令、通根与透藏观察边界",
+            "locator": "《滴天髓阐微》通神论·衰旺；固定原文字符位置 40063；余气与长生禄旺根示例",
+            "original_text": "余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。",
+            "evidence_level": "C",
+            "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+            "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620"
+          }
+        ]
+      },
+      {
         "id": "bazi.concept.conflict_siling_days",
         "domain": "bazi",
         "name": "寅月司令分日异文",
@@ -15580,7 +15979,7 @@
         ]
       }
     ],
-    "conflict_status": "沿用既有 governance.school_conflicts：寅月司令分日异文=unresolved；传统配偶星观察口径差异=bounded；三刑 / 自刑口径冲突=unresolved。保留 Rule difference/exceptions、执行 unresolved 与来源审计。",
+    "conflict_status": "沿用既有 governance.school_conflicts：衰旺余气重复段字形及类型边界=unresolved；寅月司令分日异文=unresolved；传统配偶星观察口径差异=bounded；三刑 / 自刑口径冲突=unresolved。保留 Rule difference/exceptions、执行 unresolved 与来源审计。",
     "source_comparisons": [
       {
         "rule_id": "liuyao.phase2.relatives",
@@ -15989,11 +16388,11 @@
       }
     ],
     "retrieval": {
-      "reviewed_entity_chunks": 776,
-      "general_rag_chunks": 2505,
+      "reviewed_entity_chunks": 784,
+      "general_rag_chunks": 2513,
       "general_rag_domains": {
         "almanac": 1,
-        "bazi": 472,
+        "bazi": 480,
         "liuyao": 102,
         "yijing": 1179,
         "engines": 1,
@@ -16045,6 +16444,245 @@
         "collection": "rules"
       }
     ],
+    "conditional_strength_variants": {
+      "bazi.concept.month_command_variant_v1": {
+        "maturity": "PARTIAL",
+        "execution_parent_variant": "ziping-structural-v1",
+        "input_option": "month_command_variant",
+        "principal_qi": {
+          "子": {
+            "stem": "癸",
+            "section_ids": [
+              "bazi.section.s034"
+            ]
+          },
+          "午": {
+            "stem": "丁",
+            "section_ids": [
+              "bazi.section.s034"
+            ]
+          },
+          "巳": {
+            "stem": "丙",
+            "section_ids": [
+              "bazi.section.s034"
+            ]
+          },
+          "亥": {
+            "stem": "壬",
+            "section_ids": [
+              "bazi.section.s034"
+            ]
+          },
+          "寅": {
+            "stem": "甲",
+            "section_ids": [
+              "bazi.section.s035"
+            ]
+          },
+          "申": {
+            "stem": "庚",
+            "section_ids": [
+              "bazi.section.s035"
+            ]
+          },
+          "卯": {
+            "stem": "乙",
+            "section_ids": [
+              "bazi.section.s004"
+            ]
+          },
+          "酉": {
+            "stem": "辛",
+            "section_ids": [
+              "bazi.section.s004"
+            ]
+          }
+        },
+        "principal_policy": "ditiansui-principal-qi-v1",
+        "unreviewed_principal_branches": [
+          "丑",
+          "辰",
+          "未",
+          "戌"
+        ],
+        "commander_profiles": [
+          {
+            "variant": "ditiansui-day-segment-candidates-v1",
+            "basis": "原注分日例；未审核日期边界，不换算节后天数",
+            "months": {
+              "寅": {
+                "candidates": [
+                  "戊",
+                  "丙",
+                  "甲"
+                ],
+                "section_ids": [
+                  "bazi.section.s024"
+                ]
+              }
+            }
+          },
+          {
+            "variant": "yuanhai-solar-term-candidates-v1",
+            "basis": "暗藏总诀节气文本；念三保留，不猜测天数",
+            "months": {
+              "寅": {
+                "candidates": [
+                  "丙",
+                  "甲"
+                ],
+                "section_ids": [
+                  "bazi.section.s029"
+                ]
+              }
+            }
+          }
+        ],
+        "conflicts": [
+          {
+            "id": "bazi.concept.conflict_siling_days",
+            "month_branches": [
+              "寅"
+            ]
+          }
+        ],
+        "commander_status": "unresolved",
+        "date_resolution_supported": false,
+        "weights_available": false,
+        "full_strength_classifier_ready": false,
+        "source_grade_ceiling": "C",
+        "source_independence": "unverified"
+      },
+      "bazi.concept.root_conditions_variant_v1": {
+        "maturity": "PARTIAL",
+        "execution_parent_variant": "ziping-structural-v1",
+        "strength_variant": "bazi-strength-conditions-v1",
+        "principal_qi": {
+          "子": {
+            "stem": "癸",
+            "section_ids": [
+              "bazi.section.s034"
+            ]
+          },
+          "午": {
+            "stem": "丁",
+            "section_ids": [
+              "bazi.section.s034"
+            ]
+          },
+          "巳": {
+            "stem": "丙",
+            "section_ids": [
+              "bazi.section.s034"
+            ]
+          },
+          "亥": {
+            "stem": "壬",
+            "section_ids": [
+              "bazi.section.s034"
+            ]
+          },
+          "寅": {
+            "stem": "甲",
+            "section_ids": [
+              "bazi.section.s035"
+            ]
+          },
+          "申": {
+            "stem": "庚",
+            "section_ids": [
+              "bazi.section.s035"
+            ]
+          },
+          "卯": {
+            "stem": "乙",
+            "section_ids": [
+              "bazi.section.s004"
+            ]
+          },
+          "酉": {
+            "stem": "辛",
+            "section_ids": [
+              "bazi.section.s004"
+            ]
+          }
+        },
+        "tomb_branches": [
+          "辰",
+          "戌",
+          "丑",
+          "未"
+        ],
+        "reviewed_type_candidates": [
+          {
+            "element": "木",
+            "branches": [
+              "亥",
+              "寅",
+              "卯"
+            ],
+            "kind": "growth_luwang_example",
+            "section_ids": [
+              "bazi.section.s026"
+            ]
+          },
+          {
+            "element": "火",
+            "branches": [
+              "未"
+            ],
+            "kind": "residual_qi_candidate",
+            "section_ids": [
+              "bazi.section.s026"
+            ]
+          },
+          {
+            "element": "木",
+            "branches": [
+              "辰"
+            ],
+            "kind": "residual_qi_candidate",
+            "section_ids": [
+              "bazi.section.s026"
+            ]
+          },
+          {
+            "element": "金",
+            "branches": [
+              "戌"
+            ],
+            "kind": "residual_qi_candidate",
+            "section_ids": [
+              "bazi.section.s026"
+            ]
+          },
+          {
+            "element": "水",
+            "branches": [
+              "丑"
+            ],
+            "kind": "residual_qi_candidate",
+            "section_ids": [
+              "bazi.section.s026"
+            ]
+          }
+        ],
+        "type_conflict": "bazi.concept.conflict_root_type_readings",
+        "availability_status": "unresolved",
+        "weights_available": false,
+        "full_strength_classifier_ready": false,
+        "overall_strength": null,
+        "unsupported": [
+          "按年/月/日/时加权",
+          "本气中气余气统一强弱等级",
+          "无条件消根",
+          "刑害吉凶",
+          "墓库冲开自动可用",
+          "得令或通根即身旺"
+        ]
+      }
+    },
     "bounded_strength_factors": {
       "maturity": "PARTIAL",
       "execution_parent_variant": "ziping-structural-v1",

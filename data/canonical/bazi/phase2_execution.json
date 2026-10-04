@@ -295,6 +295,26 @@
       ],
       "regression_test": "tests/test_phase2_bazicommander.py",
       "evidence_scope": "C：既有藏遁及任氏本气、寅月分日、渊海节气歌短引；显式 bazi-strength-month-command-v1，候选不等于某日司令，根力与旺衰未裁定。"
+    },
+    {
+      "id": "bazi.phase2.root_conditions",
+      "domain": "bazi",
+      "name": "通根类型与冲合条件审计",
+      "variant": "ziping-structural-v1",
+      "execution_status": "executable",
+      "phase1_rule_refs": [
+        "bazi.rule.r018"
+      ],
+      "validation_status": "validated",
+      "golden_case_ids": [
+        "bazi.roots-growth",
+        "bazi.roots-residual",
+        "bazi.roots-clash-not-erasure",
+        "bazi.roots-harmony-not-transformation",
+        "bazi.roots-absent"
+      ],
+      "regression_test": "tests/test_phase2_baziroots.py",
+      "evidence_scope": "C：根、余气例、四库与冲的条件短引及既有关系证据；显式 ditiansui-root-conditions-v1；保留类型重复段冲突，不裁定根力、消根或旺衰。"
     }
   ]
 }
