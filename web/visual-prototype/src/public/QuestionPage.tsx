@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";\nimport type { FormEvent } from "react";
+import { useMemo, useState } from "react";
+import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeLiuyao, type ExecuteResponse } from "./api";
