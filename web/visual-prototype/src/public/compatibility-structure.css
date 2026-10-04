@@ -22,3 +22,18 @@
 .compat-spouse-stars strong{font-size:13px;font-weight:500;color:#5d543e;margin:5px 0}
 .compat-spouse-stars span{font-size:10px;color:#786f5d}
 .compat-spouse-stars em{font-style:normal;font-size:9px;line-height:1.55;color:#9a8d75;margin-top:5px}
+
+.compat-matrix-summary{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.compat-matrix-summary span{border:1px solid #d8ddd2;border-radius:14px;background:#f7f7ef;padding:6px 10px;font-size:10px;color:#6f7a6f}
+.compat-matrix-summary b{font-size:12px;font-weight:600;color:#46614d;margin-left:4px}
+.compat-matrix-groups{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.compat-matrix-groups>article{border:1px solid #dedfd6;border-radius:6px;background:#fbfaf5;padding:14px}
+.compat-matrix-groups header strong,.compat-matrix-groups header small{display:block}
+.compat-matrix-groups header strong{font-size:12px;font-weight:500;color:#405847}
+.compat-matrix-groups header small{font-size:9px;color:#979d91;margin-top:3px}
+.compat-matrix-groups>article>p{font-size:10px;color:#9b9f96;margin:12px 0 0}
+.compat-matrix-hit{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:center;border-top:1px dashed #dedfd6;padding-top:9px;margin-top:9px}
+.compat-matrix-hit span{font-size:9px;color:#8b9387}
+.compat-matrix-hit strong{font-size:11px;font-weight:500;color:#5b684f}
+.compat-matrix-hit em{grid-column:1/-1;font-style:normal;font-size:10px;color:#876f49}
+@media(max-width:850px){.compat-matrix-groups{grid-template-columns:1fr}}
