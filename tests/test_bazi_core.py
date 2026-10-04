@@ -2,6 +2,7 @@ import unittest
 
 from tianji_kb.bazi_core import (
     VARIANT,
+    annual_context_from_datetime,
     branch_relations,
     chart_from_datetime,
     chart_from_pillars,
@@ -80,6 +81,18 @@ class BaziDeterministicCoreTests(unittest.TestCase):
         self.assertEqual(first, second)
         self.assertEqual(first["calendar"]["calendar_provider"], "lunar-python==1.4.8")
         self.assertEqual(first["calendar"]["day_boundary"], "midnight")
+
+    def test_2026_annual_context_is_structural_only(self):
+        output = annual_context_from_datetime(
+            "2000-01-07T12:00:00+08:00",
+            "2026-07-01T12:00:00+08:00",
+        )
+        self.assertEqual(output["flow_year"]["ganzhi"], "丙午")
+        self.assertEqual(output["flow_year"]["stem_ten_god"], "食神")
+        self.assertTrue(output["deterministic"])
+        self.assertTrue(output["limitations"])
+        self.assertNotIn("fortune_score", output)
+        self.assertNotIn("auspicious", output)
 
     def test_invalid_inputs_and_variant_rejected(self):
         with self.assertRaises(ValueError):
