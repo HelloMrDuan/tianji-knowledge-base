@@ -11,7 +11,8 @@ class UnifiedApiTests(unittest.TestCase):
         cls.client=TestClient(create_app());cls.contracts=EvidenceResolver().contracts
     def request(self,domain,**kwargs):return {'domain':domain,'input':EXAMPLES[domain],**kwargs}
     def test_all_six_normal_and_deterministic_with_model_disabled(self):
-        with patch('socket.socket.connect',side_effect=AssertionError('Network model call forbidden')):
+        # Windows' event loop uses an internal socket pair; block provider I/O directly.
+        with patch('tianji_kb.ai_providers.HttpProvider.request',side_effect=AssertionError('Network model call forbidden')):
             for domain in PROVIDERS:
                 first=self.client.post('/api/v1/execute',json=self.request(domain,explain=False))
                 self.assertEqual(first.status_code,200,first.text)

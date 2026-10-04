@@ -71,3 +71,5 @@ PYTHONPATH=src python -m uvicorn tianji_kb.api:app --host 127.0.0.1 --port 8000
 生产请求只读取已审运行快照与Canonical检索制品；`explain=false`完全不调用模型。模型失败或未知引用会拒绝解释，确定性结果仍正常返回。调用示例见 [Phase 3 API](docs/phase3/API.md)，模型环境配置见 [providers](docs/phase3/PROVIDERS.md)。
 
 Phase 4 adds versioned explanation contracts and a fixed 102-case, six-domain evaluation suite. See [evaluation and human review](docs/phase4/EVALUATION.md), [prompt policy](docs/phase4/PROMPTS.md), and [current quality status](docs/phase4/QUALITY_STATUS.md). Live-model scores are N/A until an environment-configured provider is actually evaluated; test providers never establish AI release readiness.
+
+Windows 本地环境、六域可执行范围、七牛接口安全配置与实测步骤见 [后端就绪检查与模型校准](docs/phase4/LOCAL_READINESS.md)。离线检查 `python scripts/check_backend_readiness.py` 不调用模型，也不会根据密钥已配置就宣称模型质量达标。

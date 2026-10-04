@@ -1,0 +1,4 @@
+# Evidence/protected SHA256 values refer to repository bytes on every platform.
+* text=auto eol=lf
+# Snapshots are immutable bytes, including any historical line endings.
+data/quarantine/** -text
