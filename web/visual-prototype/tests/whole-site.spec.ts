@@ -117,7 +117,7 @@ for (const domain of domainPages.filter((d) => d.id !== "liuyao")) {
     await expect(page.locator(".template-state")).toContainText("不展示旧盘面");
   });
 }
-for (const module of modules) {
+for (const module of modules.filter((item) => item.id !== "conflicts")) {
   test(`admin ${module.id} filters records, opens details and switches review views`, async ({
     page,
   }) => {
@@ -147,6 +147,22 @@ for (const module of modules) {
     ).toBe(true);
   });
 }
+test("admin conflicts never requests internal assets before explicit authorization", async ({
+  page,
+}) => {
+  const apiRequests: string[] = [];
+  page.on("request", (request) => {
+    if (request.url().includes("/api/v1/admin/governance/conflicts"))
+      apiRequests.push(request.url());
+  });
+  await page.goto("/admin/conflicts");
+  await expect(page.getByRole("heading", { name: "流派与冲突", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "需要内部只读授权" })).toBeVisible();
+  await expect(page.getByLabel("后台只读令牌")).toHaveAttribute("type", "password");
+  await expect(page.locator("main")).toContainText("未授权时不返回任何内部冲突记录");
+  expect(apiRequests).toEqual([]);
+});
+
 test("configuration previews and prompt drafts clear on reload and never request a service", async ({
   page,
 }) => {
