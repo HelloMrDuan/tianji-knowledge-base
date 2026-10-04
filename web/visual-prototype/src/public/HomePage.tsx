@@ -23,7 +23,7 @@ export function HomePage() {
             <span>把复杂术数，收进一个可读的答案里。</span>
           </h1>
           <p>
-            不要求你懂八字、六爻或奇门。先生成一次人生总览，之后每天回来可直接看“今日结构”；
+            不要求你懂八字、六爻或奇门。先生成一次人生总览，之后可直接看今日、本周、本月和 2026 周期结构；
             遇到具体问题，再进入一事占问。
           </p>
           <div className="scenario-hero-actions">
@@ -45,7 +45,7 @@ export function HomePage() {
           <div className="scenario-proof">
             <span><i />确定性计算先行</span>
             <span><i />规则与典籍可追溯</span>
-            <span><i />每日结构可重复计算</span>
+            <span><i />今日 / 本周 / 本月 / 年度可重复计算</span>
             <span><i />AI 未校准前不自动公开</span>
           </div>
         </div>
