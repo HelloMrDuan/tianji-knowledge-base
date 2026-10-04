@@ -41,7 +41,7 @@ SCENARIOS = [
     {"id": "weekly", "name": "本周运势", "status": "building", "public_release": False, "execution": None, "depends_on": ["bazi"], "scope": "待周运规则与证据。"},
     {"id": "monthly", "name": "本月运势", "status": "building", "public_release": False, "execution": None, "depends_on": ["bazi"], "scope": "待流月规则与证据。"},
     {"id": "romance", "name": "桃花结构", "status": "production_limited", "public_release": False, "execution": "scenario_api", "depends_on": ["bazi/ziping-structural-v1", "bazi.phase2.xianchi_lookup"], "scope": "分别按年支、日支返回咸池目标支、原局命中与目标年份地支激活；不输出婚恋吉凶。"},
-    {"id": "career", "name": "事业财运", "status": "building", "public_release": False, "execution": None, "depends_on": ["bazi", "ziwei"], "scope": "待事业财运聚合规则与证据。"},
+    {"id": "career", "name": "事业财运结构", "status": "production_limited", "public_release": False, "execution": "scenario_api", "depends_on": ["bazi.phase2.ten_gods", "bazi.phase2.hidden_stems", "calendar/lunar-python==1.4.8"], "scope": "聚合原局财星、官杀、食伤、印星、比劫的位置事实，并显示目标年天干十神；不输出事业财运吉凶或评分。"},
     {"id": "compatibility", "name": "缘分合盘", "status": "building", "public_release": False, "execution": None, "depends_on": ["bazi"], "scope": "待双人比较规则与证据。"},
     {"id": "dream", "name": "AI 解梦", "status": "research", "public_release": False, "execution": None, "depends_on": ["dream-rag", "ai"], "scope": "待梦境语料与真实模型校准。"},
     {"id": "life", "name": "人生全盘", "status": "building", "public_release": False, "execution": None, "depends_on": ["bazi"], "scope": "基础档案可用，完整人生报告待补。"},
@@ -293,11 +293,179 @@ def _romance(inputs):
     }
 
 
+_TEN_GOD_GROUPS = {
+    "wealth": {"label": "财星", "ten_gods": ("正财", "偏财")},
+    "authority": {"label": "官杀", "ten_gods": ("正官", "七杀")},
+    "output": {"label": "食伤", "ten_gods": ("食神", "伤官")},
+    "resource": {"label": "印星", "ten_gods": ("正印", "偏印")},
+    "peers": {"label": "比劫", "ten_gods": ("比肩", "劫财")},
+}
+
+
+def _ten_god_group(ten_god_name):
+    for group_id, meta in _TEN_GOD_GROUPS.items():
+        if ten_god_name in meta["ten_gods"]:
+            return group_id
+    return None
+
+
+def _career(inputs):
+    _require_exact(inputs, {"birth_value", "target_year"})
+    birth_value = inputs["birth_value"]
+    target_year = inputs["target_year"]
+    if not isinstance(birth_value, str):
+        raise ValueError("birth_value must be an ISO datetime string")
+    if type(target_year) is not int or not 1900 <= target_year <= 2100:
+        raise ValueError("target_year must be an integer from 1900 through 2100")
+
+    natal = execute("bazi", {"value": birth_value})
+    result_chart = natal["result"]
+    groups = {
+        group_id: {
+            "label": meta["label"],
+            "ten_gods": list(meta["ten_gods"]),
+            "occurrences": [],
+            "visible_count": 0,
+            "hidden_count": 0,
+        }
+        for group_id, meta in _TEN_GOD_GROUPS.items()
+    }
+
+    for pillar in result_chart["pillars"]:
+        stem = pillar["stem"]
+        group_id = _ten_god_group(stem["ten_god"])
+        if group_id:
+            groups[group_id]["occurrences"].append({
+                "pillar": pillar["name"],
+                "layer": "visible_stem",
+                "stem": stem["value"],
+                "ten_god": stem["ten_god"],
+            })
+            groups[group_id]["visible_count"] += 1
+        for hidden in pillar["branch"]["hidden_stems"]:
+            group_id = _ten_god_group(hidden["ten_god"])
+            if group_id:
+                groups[group_id]["occurrences"].append({
+                    "pillar": pillar["name"],
+                    "layer": "hidden_stem",
+                    "branch": pillar["branch"]["value"],
+                    "stem": hidden["stem"],
+                    "ten_god": hidden["ten_god"],
+                })
+                groups[group_id]["hidden_count"] += 1
+
+    reference = f"{target_year:04d}-07-01T12:00:00+08:00"
+    target_calendar = calendar(reference)
+    flow_ganzhi = target_calendar["year_ganzhi"]
+    flow_stem, flow_branch = flow_ganzhi
+    day_master = result_chart["day_master"]["stem"]
+    flow_ten_god = ten_god(day_master, flow_stem)
+    flow_group = _ten_god_group(flow_ten_god)
+
+    source_rules = [
+        next(rule for rule in natal["rule_matches"] if rule["rule_id"] == "bazi.phase2.ten_gods"),
+        next(rule for rule in natal["rule_matches"] if rule["rule_id"] == "bazi.phase2.hidden_stems"),
+    ]
+    evidence_ids = []
+    for rule in source_rules:
+        for eid in rule["evidence_ids"]:
+            if eid not in evidence_ids:
+                evidence_ids.append(eid)
+    evidence = {eid: copy.deepcopy(natal["evidence"][eid]) for eid in evidence_ids}
+
+    result = {
+        "natal": {
+            "pillars": copy.deepcopy(result_chart["pillars"]),
+            "day_master": copy.deepcopy(result_chart["day_master"]),
+        },
+        "structure_groups": groups,
+        "target_year": {
+            "year": target_year,
+            "ganzhi": flow_ganzhi,
+            "stem": flow_stem,
+            "branch": flow_branch,
+            "stem_ten_god": flow_ten_god,
+            "structure_group": flow_group,
+            "structure_group_label": groups[flow_group]["label"] if flow_group else None,
+            "calendar_provider": target_calendar["calendar_provider"],
+            "year_boundary": "solar-term year; reference date fixed to July 1 for stable annual stem/branch selection",
+        },
+        "release_scope": "career_wealth_structure_only",
+    }
+    rule_match = {
+        "rule_id": "bazi.scenario.career_wealth_structure",
+        "derived_from_rule_ids": ["bazi.phase2.ten_gods", "bazi.phase2.hidden_stems"],
+        "variant": "ziping-structural-v1",
+        "matched": True,
+        "kind": "scenario_composition",
+        "evidence_scope": "复用已验证十神与藏干 Evidence；仅聚合位置事实，不作旺衰或事业财运断语。",
+        "facts": {
+            "group_counts": {
+                key: {
+                    "visible_count": value["visible_count"],
+                    "hidden_count": value["hidden_count"],
+                }
+                for key, value in groups.items()
+            },
+            "target_year_stem": flow_stem,
+            "target_year_ten_god": flow_ten_god,
+            "target_year_group": flow_group,
+        },
+        "evidence_ids": evidence_ids,
+    }
+    trace = [
+        {
+            "step": "natal_ten_god_locations",
+            "derived_from_rule_ids": ["bazi.phase2.ten_gods", "bazi.phase2.hidden_stems"],
+            "facts": copy.deepcopy(rule_match["facts"]["group_counts"]),
+            "evidence_ids": evidence_ids,
+        },
+        {
+            "step": "target_year_calendar",
+            "provider": target_calendar["calendar_provider"],
+            "inputs": {"target_year": target_year, "reference": reference},
+            "facts": {"year_ganzhi": flow_ganzhi},
+        },
+        {
+            "step": "target_year_ten_god",
+            "derived_from_rule_id": "bazi.phase2.ten_gods",
+            "facts": {
+                "day_master": day_master,
+                "target_year_stem": flow_stem,
+                "ten_god": flow_ten_god,
+                "structure_group": flow_group,
+            },
+            "evidence_ids": evidence_ids,
+        },
+    ]
+    return {
+        "scenario_id": "career",
+        "status": "production_limited",
+        "public_release": False,
+        "deterministic": True,
+        "result": result,
+        "rule_matches": [rule_match],
+        "trace": trace,
+        "evidence": evidence,
+        "warnings": [
+            "事业财运结构运行层已可用，但当前位置数量不代表强弱、吉凶或财富/职业水平。",
+        ],
+        "limitations": [
+            "财星、官杀、食伤、印星、比劫仅按已验证十神映射聚合其出现位置，不比较旺衰、月令权重或组合成败。",
+            "目标年天干十神只表示结构关系，不等同于升职、赚钱、失业、投资收益或风险。",
+            "尚未纳入格局、喜用神、身强身弱、大运、流年支互动、行业映射与紫微交叉判断。",
+            "不输出事业指数、财运指数、收入金额或投资建议。",
+            "AI 不参与本场景计算。",
+        ],
+    }
+
+
 _EXECUTORS = {
     "bazi-profile": _bazi_profile,
     "question": _question,
     "yearly": _yearly,
     "romance": _romance,
+    "career": _career,
 }
 
 

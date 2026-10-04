@@ -21,6 +21,8 @@ class ScenarioEngineTests(unittest.TestCase):
         self.assertEqual(rows["yearly"]["status"], "production_limited")
         self.assertEqual(rows["romance"]["status"], "production_limited")
         self.assertFalse(rows["romance"]["public_release"])
+        self.assertEqual(rows["career"]["status"], "production_limited")
+        self.assertFalse(rows["career"]["public_release"])
         self.assertEqual(rows["dream"]["status"], "research")
 
     def test_bazi_profile_scenario_delegates_to_reviewed_engine(self):
@@ -71,6 +73,28 @@ class ScenarioEngineTests(unittest.TestCase):
         for forbidden in ["romance_score", "marriage_score", "auspicious", "fortune_score", "relationship_advice"]:
             self.assertNotIn(forbidden, serialized)
 
+    def test_career_wealth_structure_is_position_only_and_evidence_bound(self):
+        output = execute_scenario("career", {
+            "birth_value": "2000-01-07T12:00:00+08:00",
+            "target_year": 2026,
+        })
+        self.assertEqual(output["status"], "production_limited")
+        self.assertFalse(output["public_release"])
+        self.assertEqual(output["result"]["release_scope"], "career_wealth_structure_only")
+        groups = output["result"]["structure_groups"]
+        self.assertEqual(set(groups), {"wealth", "authority", "output", "resource", "peers"})
+        self.assertEqual(output["result"]["target_year"]["ganzhi"], "丙午")
+        self.assertEqual(output["result"]["target_year"]["stem_ten_god"], "食神")
+        self.assertEqual(output["result"]["target_year"]["structure_group"], "output")
+        self.assertTrue(output["evidence"])
+        self.assertEqual(
+            output["rule_matches"][0]["derived_from_rule_ids"],
+            ["bazi.phase2.ten_gods", "bazi.phase2.hidden_stems"],
+        )
+        serialized = str(output["result"])
+        for forbidden in ["career_score", "wealth_score", "income", "investment_advice", "auspicious"]:
+            self.assertNotIn(forbidden, serialized)
+
     def test_scenario_inputs_fail_closed(self):
         with self.assertRaises(ValueError):
             execute_scenario("yearly", {"birth_value": "x", "target_year": 2026, "extra": True})
@@ -97,8 +121,25 @@ class ScenarioEngineTests(unittest.TestCase):
         self.assertFalse(data["public_release"])
         self.assertTrue(data["limitations"])
 
+    def test_http_career_structure_never_calls_model(self):
+        with patch("socket.socket.connect", side_effect=AssertionError("Network model call forbidden")):
+            response = self.client.post("/api/v1/scenarios/execute", json={
+                "scenario_id": "career",
+                "input": {
+                    "birth_value": "2000-01-07T12:00:00+08:00",
+                    "target_year": 2026,
+                },
+            })
+        self.assertEqual(response.status_code, 200, response.text)
+        data = response.json()
+        self.assertEqual(data["scenario_id"], "career")
+        self.assertEqual(data["result"]["target_year"]["stem_ten_god"], "食神")
+        self.assertEqual(data["result"]["release_scope"], "career_wealth_structure_only")
+        self.assertFalse(data["public_release"])
+        self.assertTrue(data["evidence"])
+
     def test_http_rejects_unimplemented_and_unknown_inputs(self):
-        response = self.client.post("/api/v1/scenarios/execute", json={"scenario_id": "career", "input": {}})
+        response = self.client.post("/api/v1/scenarios/execute", json={"scenario_id": "compatibility", "input": {}})
         self.assertEqual(response.status_code, 422)
         response = self.client.post("/api/v1/scenarios/execute", json={
             "scenario_id": "yearly",
