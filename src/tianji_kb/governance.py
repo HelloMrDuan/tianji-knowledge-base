@@ -233,12 +233,18 @@ def reviewed_sources(resolver: EvidenceResolver | None = None) -> list[dict]:
     """Return only source metadata used by reviewed Canonical entities."""
     resolver = resolver or EvidenceResolver()
     used_source_ids: set[str] = set()
+    used_domains: dict[str, set[str]] = {}
     for _, entity in resolver.entities.values():
+        domain = entity.get("domain")
         source_id = entity.get("source_id")
         if source_id:
             used_source_ids.add(source_id)
+            if domain:
+                used_domains.setdefault(source_id, set()).add(domain)
         for ref in entity.get("source_refs", []):
             used_source_ids.add(ref["source_id"])
+            if domain:
+                used_domains.setdefault(ref["source_id"], set()).add(domain)
 
     rows = []
     for source_id in sorted(used_source_ids):
@@ -246,6 +252,7 @@ def reviewed_sources(resolver: EvidenceResolver | None = None) -> list[dict]:
         rows.append({
             "id": source_id,
             "title": source["title"],
+            "domains": sorted(used_domains.get(source_id, set())),
             "evidence_level": source["evidence_level"],
             "kind": source["kind"],
             "public_domain": source["public_domain"],
