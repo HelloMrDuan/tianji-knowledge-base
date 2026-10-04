@@ -6241,7 +6241,7 @@
       },
       {
         "path": "config/phase2_rule_promotions.json",
-        "sha256": "21c1f849a893a577e5a21948c81c84798827d2dd51324884a3e108879624e915"
+        "sha256": "4933936843b6de46ddbb152396cc07e079049102c064489f6c8995288fd0a987"
       },
       {
         "path": "config/phase2_source_audit.json",
@@ -15096,30 +15096,6 @@
         ],
         "variant": "ziping-structural-v1",
         "scope": "仅四组咸池目标支结构查表；年支与日支分别报告。不得晋级婚恋吉凶、性格、疾病、事件应期、纳音附加条件或单一基准裁定。"
-      },
-      {
-        "phase1_rule_id": "bazi.rule.r013",
-        "execution_rule_ids": [
-          "bazi.phase2.month_command_factors"
-        ],
-        "variant": "ziping-structural-v1",
-        "scope": "显式启用因素子范围 ditiansui-root-visibility-v1；仅月支/根候选/透藏，不授权司令、整体旺衰、喜用、格局或预测。"
-      },
-      {
-        "phase1_rule_id": "bazi.rule.r014",
-        "execution_rule_ids": [
-          "bazi.phase2.root_candidates"
-        ],
-        "variant": "ziping-structural-v1",
-        "scope": "显式启用因素子范围 ditiansui-root-visibility-v1；仅月支/根候选/透藏，不授权司令、整体旺衰、喜用、格局或预测。"
-      },
-      {
-        "phase1_rule_id": "bazi.rule.r015",
-        "execution_rule_ids": [
-          "bazi.phase2.hidden_to_visible"
-        ],
-        "variant": "ziping-structural-v1",
-        "scope": "显式启用因素子范围 ditiansui-root-visibility-v1；仅月支/根候选/透藏，不授权司令、整体旺衰、喜用、格局或预测。"
       }
     ],
     "editorial_review_flags": [
