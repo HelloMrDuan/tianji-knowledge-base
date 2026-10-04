@@ -178,6 +178,10 @@ export type AdminChapterRecord = {
   source_id: string;
   source_title: string;
   evidence_level: string;
+  source_url: string;
+  commit: string;
+  rights_basis: string;
+  review_scope: string;
   reviewed_section_count: number;
   section_ids: string[];
   used_by_entity_ids: string[];
