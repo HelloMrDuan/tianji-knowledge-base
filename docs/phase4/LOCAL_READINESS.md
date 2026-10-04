@@ -64,6 +64,22 @@ Windows 依赖安装包括 `tzdata`，让既有 `Asia/Shanghai` 历法转换可�
 
 v2 未评分模板位于该运行的 `explanation-evals/human-review-v2.json`。按 [固定评测和人工复核流程](EVALUATION.md) 审阅实际回复与上下文，记录复核人、时间、完整性和逐条语义判断，再用 `review_explanations.py --reviews` 绑定原报告。空模板、机械 fixture、缺失回复和连通性探针都不具备发布资格。未实测及未完成复核前，真实模型指标是 N/A；生产保持 AI disabled/`explain=false`。
 
+## 单例排错与私密校准会话
+
+2026-10-04 首轮 v1 实测在 20 秒 / 4096 输出 token 配置下，77 次超时、一次其他调用故障，72 个正常案例没有可评分回复。此时应先定位调用配置，再运行整批评测；没有回复不能记作零幻觉，也不能据此判断模型内容准确率。
+
+```powershell
+& .\.venv\Scripts\python.exe scripts/qiniu_calibration_session.py --smoke-domain yijing
+```
+
+该入口隐藏输入一次密钥，只在当前私密校准进程中保留，先重新验证公开模型/JSON 探针，再自动用 90 秒、8192 输出 token 测一个固定易经正常案例及该域全部对照。收到回复仍需接受原盘面、引用与规则校验。小样本使用不同 suite digest，缺少完整域案例，不能取得发布资格。新诊断同时记录有限 `finish_reason`、回复/思考文本长度和数字 token 用量，排除密钥、响应正文、响应 ID 和请求头。
+
+会话在 `build/provider-discovery/<session-id>/session.json` 登记状态，在该目录消费 `job.json`；仅接受受限的 `smoke`、`full`、`exit` 动作、已注册域/提示词、0～120 秒内超时和 256～16384 输出 token。可选 `model` 必须是实际公布的聊天模型 ID，或 `lightweight` 对照选择器；未知参数、命令、路径、重复 job ID 或越界配置会拒绝。结果存于独立 job ID 目录，`last-job.json` 登记退出状态；任务可继续提交排错作业，避免反复输入密钥。关闭窗口结束会话。密钥不写文件、不进入系统持久环境，也不启用生产 API。
+
+已有进程保持启动时的代码；无需再次输入密钥即可给旧会话的下一作业写入 `job-model.json`，内容仅含 `job_id` 和 `model`，且 job ID 必须与输出目录一致。此记录只在仓库 `build/provider-discovery/<session-id>/<job-id>` 范围生效。新版会话直接在作业中设置 `model`，评测命令也支持 `--model`。对照开始前使用当前私密凭据读取 `/models`，只接受实际公布且符合聊天候选筛选的 ID；选型记录不保存密钥，不覆盖生产环境或默认模型。`lightweight` 根据 Flash/Turbo/小参数量名称筛选、排除明确的思考/实验/多模态变体，名称只用于安排对照，不能证明参数规模、速度或准确性。
+
+每个模型使用相同固定输入、证据、提示词和检查标准。不得减少必需事实、篡改预期盘面或放宽引用检查来提高通过率；小样本与不同模型之间均不能继承发布资格。若连续小样本仍超时，应停止整批调用并排查传输/请求契约。
+
 ## 网站后续接入
 
 默认启动确定性服务：

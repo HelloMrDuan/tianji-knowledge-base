@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import tempfile
+import sys
 import unittest
 from unittest.mock import patch
 import httpx
@@ -23,9 +24,71 @@ def script(name):
 readiness = script('check_backend_readiness')
 calibration = script('calibrate_qiniu')
 evaluation = script('evaluate_explanations')
+with patch.object(sys,'path',[str(ROOT/'scripts'),*sys.path]):
+    session = script('qiniu_calibration_session')
 
 
 class BackendReadinessTests(unittest.TestCase):
+    def test_private_model_override_is_bound_to_exact_job_and_cannot_override_normal_eval_output(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);job_id='b'*32
+            session_path=root/'build/provider-discovery'/('a'*32);session_path.mkdir(parents=True)
+            request=session_path/'job-model.json'
+            request.write_text(json.dumps({'job_id':job_id,'model':'qwen/test-flash'}))
+            with patch.object(evaluation,'__file__',str(root/'scripts/evaluate_explanations.py')):
+                self.assertEqual(evaluation.private_model_request(session_path/job_id),'qwen/test-flash')
+                self.assertIsNone(evaluation.private_model_request(session_path/('c'*32)))
+                self.assertIsNone(evaluation.private_model_request(root/'build/explanation-evals'/job_id))
+                request.write_text(json.dumps({'job_id':job_id,'model':'qwen/test-flash','endpoint':'https://other.invalid'}))
+                with self.assertRaises(ValueError):evaluation.private_model_request(session_path/job_id)
+
+    def test_comparison_model_must_be_advertised_and_does_not_persist_key_or_change_original_settings(self):
+        class Fake:
+            settings={'driver':'openai-compatible','endpoint':'https://example.invalid/v1',
+                      'key':'private-test-key','model':'original'}
+            async def get(self,url):
+                return {'data':[{'id':'qwen/test-flash'},{'id':'qwen/test-thinking-flash'},
+                                {'id':'private-test-key'},{'id':'embedding-flash'}]}
+        with tempfile.TemporaryDirectory() as directory:
+            provider=Fake();original=provider.settings;output=Path(directory)
+            model=asyncio.run(evaluation.select_comparison_model(provider,'lightweight',output))
+            self.assertEqual(model,'qwen/test-flash');self.assertEqual(original['model'],'original')
+            self.assertNotIn('private-test-key',(output/'model-selection.json').read_text())
+            with self.assertRaises(ValueError):
+                asyncio.run(evaluation.select_comparison_model(provider,'not-advertised',output))
+            self.assertEqual(provider.settings['model'],'qwen/test-flash')
+
+    def test_smoke_keeps_fixed_oracles_and_all_controls_without_full_suite_digest(self):
+        from tianji_kb.explanation_eval import load_suite
+        from tianji_kb.runtime_catalog import digest
+        from collections import Counter
+        suite=load_suite();smoke=evaluation.smoke_suite(suite)
+        self.assertEqual(Counter(c['domain'] for c in smoke['cases'] if c['expected']=='explanation'),
+            {domain:1 for domain in ('liuyao','qimen','liuren','ziwei','fengshui','yijing')})
+        self.assertEqual([c for c in smoke['cases'] if c['expected']!='explanation'],
+            [c for c in suite['cases'] if c['expected']!='explanation'])
+        self.assertNotEqual(digest(smoke),digest(suite))
+        self.assertTrue(all(c in suite['cases'] for c in smoke['cases']))
+
+    def test_response_audit_excludes_body_headers_ids_and_nonstandard_metadata(self):
+        result=evaluation.response_metadata({'id':'private-test-key','headers':{'authorization':'private-test-key'},
+            'choices':[{'finish_reason':'private-test-key','message':{'content':'private-test-key',
+                'reasoning_content':'private-test-key'}}],
+            'usage':{'completion_tokens':27,'total_tokens':True,'api_key':'private-test-key'}})
+        self.assertNotIn('private-test-key',json.dumps(result))
+        self.assertEqual(result['finish_reason'],'unrecognized')
+        self.assertEqual(result['usage'],{'completion_tokens':27})
+
+    def test_private_session_rejects_arbitrary_commands_paths_and_unbounded_requests(self):
+        good={'id':'a'*32,'kind':'smoke','domains':['yijing'],'timeout_seconds':90,'max_output_tokens':8192}
+        args,timeout,tokens=session.job_arguments(good)
+        self.assertIn('--smoke',args);self.assertEqual(timeout,'90');self.assertEqual(tokens,'8192')
+        self.assertIn('qwen/test-flash',session.job_arguments({**good,'model':'qwen/test-flash'})[0])
+        for change in ({'command':'private-test-key'},{'id':'../escape'},{'domains':['bazi']},
+                       {'timeout_seconds':float('nan')},{'timeout_seconds':121},{'max_output_tokens':999999},
+                       {'kind':'shell'},{'prompts':['unknown']},{'model':'../ path'},{'model':'embedding-flash'}):
+            with self.assertRaisesRegex(ValueError,'^invalid_job$'):session.job_arguments({**good,**change})
+
     def test_transport_progress_cannot_echo_headers_or_error_body_and_is_not_quality_score(self):
         class Broken:
             async def explain(self,context):
