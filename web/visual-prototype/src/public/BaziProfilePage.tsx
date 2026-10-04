@@ -3,6 +3,7 @@ import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeBazi, type ExecuteResponse } from "./api";
+import { recordReading } from "./readingLibrary";
 import "./bazi-profile.css";
 
 const pillarNames: Record<string, string> = {
@@ -55,7 +56,18 @@ export function BaziProfilePage() {
     setError("");
     setResult(null);
     try {
-      setResult(await executeBazi({ value: `${date}T${time}:00+08:00` }));
+      const next = await executeBazi({ value: `${date}T${time}:00+08:00` });
+      const pillars = Array.isArray(next.chart?.pillars) ? next.chart.pillars : [];
+      recordReading({
+        scenarioId: "bazi-profile",
+        label: "八字基础档案",
+        glyph: "八",
+        title: "八字基础档案",
+        subtitle: `日主 ${next.chart?.day_master?.stem || "—"} · ${pillars.length ? pillars.map((item: any) => item.ganzhi).join(" · ") : "四柱结构已生成"}`,
+        href: "/bazi-profile",
+        resultVersion: next.variant,
+      });
+      setResult(next);
     } catch (err) {
       setError(err instanceof Error ? err.message : "八字计算失败，请检查后端服务。");
     } finally {
