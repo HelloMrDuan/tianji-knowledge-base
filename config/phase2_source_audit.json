@@ -776,6 +776,14 @@
       "authority_status": "unverified",
       "grade_ceiling": "C",
       "review_basis": "固定公版电子快照的五合、六合、六害、六冲与三合短段已逐字核对；独立刊本与版本谱系未核，不升级 A/B。"
+    },
+    {
+      "source_id": "bazi.source.ditiansui-spouse",
+      "lineage_group": "garychowcmu/daizhigev20:易藏/术数/滴天髓阐微.txt",
+      "edition_status": "unverified",
+      "authority_status": "unverified",
+      "grade_ceiling": "C",
+      "review_basis": "固定公版电子快照的夫妻论与女命章短引已逐字核对；独立刊本与版本谱系未核，不升级 A/B。"
     }
   ],
   "claim_comparisons": [

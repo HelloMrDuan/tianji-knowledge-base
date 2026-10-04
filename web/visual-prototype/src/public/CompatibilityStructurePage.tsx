@@ -39,8 +39,10 @@ export function CompatibilityStructurePage() {
   const [bName, setBName] = useState("对方");
   const [aDate, setADate] = useState(saved.date);
   const [aTime, setATime] = useState(saved.time);
+  const [aRole, setARole] = useState<"" | "male" | "female">("");
   const [bDate, setBDate] = useState("");
   const [bTime, setBTime] = useState("");
+  const [bRole, setBRole] = useState<"" | "male" | "female">("");
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -50,6 +52,8 @@ export function CompatibilityStructurePage() {
     setATime("12:00");
     setBDate("2000-02-01");
     setBTime("12:00");
+    setARole("male");
+    setBRole("female");
     setResult(null);
     setError("");
   }
@@ -60,10 +64,18 @@ export function CompatibilityStructurePage() {
     setError("");
     setResult(null);
     try {
-      const next = await executeCompatibilityScenario({
+      const input: {
+        person_a_birth_value: string;
+        person_b_birth_value: string;
+        person_a_traditional_role?: "male" | "female";
+        person_b_traditional_role?: "male" | "female";
+      } = {
         person_a_birth_value: `${aDate}T${aTime}:00+08:00`,
         person_b_birth_value: `${bDate}T${bTime}:00+08:00`,
-      });
+      };
+      if (aRole) input.person_a_traditional_role = aRole;
+      if (bRole) input.person_b_traditional_role = bRole;
+      const next = await executeCompatibilityScenario(input);
       try {
         localStorage.setItem(profileKey, JSON.stringify({ date: aDate, time: aTime }));
       } catch {
@@ -124,7 +136,7 @@ export function CompatibilityStructurePage() {
           <h1>把两个人放在同一张结构图里看。</h1>
           <p>
             当前比较双方真实四柱、双方日主互看十神、日主五合、日支六合/六害/六冲、传统配偶宫结构位，
-            并展示双方各自原局三合结构与咸池交叉命中。不使用“缘分 98 分”这种无法追溯的评分。
+            并展示双方各自原局三合结构与咸池交叉命中。你也可以主动开启传统配偶星观察，但系统不会替你推断口径。
           </p>
         </div>
         <div className="compat-mark" aria-hidden="true">
@@ -136,8 +148,8 @@ export function CompatibilityStructurePage() {
 
       <form className="compat-input" onSubmit={submit}>
         {[
-          { side: "A", name: aName, setName: setAName, date: aDate, setDate: setADate, time: aTime, setTime: setATime, saved: Boolean(saved.date) },
-          { side: "B", name: bName, setName: setBName, date: bDate, setDate: setBDate, time: bTime, setTime: setBTime, saved: false },
+          { side: "A", name: aName, setName: setAName, date: aDate, setDate: setADate, time: aTime, setTime: setATime, role: aRole, setRole: setARole, saved: Boolean(saved.date) },
+          { side: "B", name: bName, setName: setBName, date: bDate, setDate: setBDate, time: bTime, setTime: setBTime, role: bRole, setRole: setBRole, saved: false },
         ].map((person) => (
           <section className="compat-person-input" key={person.side}>
             <span className="eyebrow">{person.side} · {person.saved ? "已带入我的资料" : "出生资料"}</span>
@@ -155,6 +167,15 @@ export function CompatibilityStructurePage() {
                 <input type="time" value={person.time} onChange={(e) => person.setTime(e.target.value)} required />
               </label>
             </div>
+            <label>
+              <span>传统配偶星观察口径（可选）</span>
+              <select value={person.role} onChange={(e) => person.setRole(e.target.value as "" | "male" | "female")}>
+                <option value="">不启用</option>
+                <option value="male">传统男命口径 · 看财星</option>
+                <option value="female">传统女命口径 · 看官杀</option>
+              </select>
+              <small>只用于古籍传统结构观察，不用于判断或推断你的现代性别身份。</small>
+            </label>
           </section>
         ))}
         <div className="compat-submit-wrap">
@@ -214,6 +235,17 @@ export function CompatibilityStructurePage() {
                     {person.data.natal_triple_harmonies.map((item: any, index: number) => (
                       <span key={index}>{(item.branches || []).join(" · ")} → {item.traditional_result_element || "—"}</span>
                     ))}
+                  </div>
+                )}
+                {person.data.traditional_spouse_star_lens && (
+                  <div className="compat-spouse-stars">
+                    <small>传统配偶星观察</small>
+                    <strong>{(person.data.traditional_spouse_star_lens.candidate_ten_gods || []).join(" · ")}</strong>
+                    <span>
+                      明见 {(person.data.traditional_spouse_star_lens.visible_positions || []).length} 处 ·
+                      藏干 {(person.data.traditional_spouse_star_lens.hidden_positions || []).length} 处
+                    </span>
+                    <em>仅定位候选星位，不代表真实配偶、正缘或婚姻质量。</em>
                   </div>
                 )}
               </section>

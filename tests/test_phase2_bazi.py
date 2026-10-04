@@ -99,6 +99,40 @@ class BaziPhase2Tests(unittest.TestCase):
         for forbidden in ("conflict_score","auspicious","relationship_advice","breakup_risk"):
             self.assertNotIn(forbidden,serialized)
 
+    def test_traditional_spouse_star_lens_requires_explicit_role_and_is_evidence_bound(self):
+        male=chart("己丑","戊辰","甲子","庚申",traditional_role="male")
+        lens=male["result"]["traditional_spouse_star_lens"]
+        self.assertEqual(lens["candidate_ten_gods"],["正财","偏财"])
+        self.assertEqual(lens["visible_positions"],[
+            {"pillar":"year","stem":"己","ten_god":"正财"},
+            {"pillar":"month","stem":"戊","ten_god":"偏财"},
+        ])
+        self.assertEqual(lens["hidden_positions"],[
+            {"pillar":"year","branch":"丑","stem":"己","ten_god":"正财"},
+            {"pillar":"month","branch":"辰","stem":"戊","ten_god":"偏财"},
+            {"pillar":"hour","branch":"申","stem":"戊","ten_god":"偏财"},
+        ])
+        step=next(x for x in male["trace"] if x["rule_id"]=="bazi.phase2.spouse_star_lens")
+        self.assertTrue(step["evidence_ids"])
+        self.assertFalse(lens["interpretation_allowed"])
+        self.assertTrue(all(v["evidence_level"]=="C" for v in male["evidence"].values()))
+
+        female=chart("己丑","戊辰","甲子","庚申",traditional_role="female")
+        self.assertEqual(female["result"]["traditional_spouse_star_lens"]["candidate_ten_gods"],["正官","七杀"])
+        self.assertEqual(female["result"]["traditional_spouse_star_lens"]["visible_positions"],[
+            {"pillar":"hour","stem":"庚","ten_god":"七杀"},
+        ])
+        self.assertEqual(female["result"]["traditional_spouse_star_lens"]["hidden_positions"],[
+            {"pillar":"year","branch":"丑","stem":"辛","ten_god":"正官"},
+            {"pillar":"hour","branch":"申","stem":"庚","ten_god":"七杀"},
+        ])
+
+    def test_traditional_spouse_star_lens_is_opt_in_and_role_is_strict(self):
+        plain=chart("己丑","戊辰","甲子","庚申")
+        self.assertNotIn("traditional_spouse_star_lens",plain["result"])
+        with self.assertRaises(ValueError):
+            chart("己丑","戊辰","甲子","庚申",traditional_role="unknown")
+
     def test_relations_are_opt_in_and_boolean_only(self):
         plain=chart("甲子","己丑","丙寅","辛巳")
         self.assertNotIn("reviewed_relations",plain["result"])

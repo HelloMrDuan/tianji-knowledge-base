@@ -262,6 +262,8 @@ export async function executeMonthlyScenario(input: {
 export async function executeCompatibilityScenario(input: {
   person_a_birth_value: string;
   person_b_birth_value: string;
+  person_a_traditional_role?: "male" | "female";
+  person_b_traditional_role?: "male" | "female";
 }): Promise<ScenarioExecuteResponse> {
   const response = await fetch(`${apiBase}/api/v1/scenarios/execute`, {
     method: "POST",
