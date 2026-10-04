@@ -127,11 +127,25 @@ class ScenarioEngineTests(unittest.TestCase):
         })
         self.assertEqual(output["result"]["target_year"]["ganzhi"], "丙午")
         self.assertEqual(output["result"]["target_year"]["stem_ten_god"], "食神")
-        self.assertEqual(output["result"]["release_scope"], "annual_structure_only")
+        self.assertEqual(output["result"]["release_scope"], "annual_structure_v2")
         self.assertFalse(output["public_release"])
         self.assertTrue(output["evidence"])
+        relations = output["result"]["target_year"]["branch_relations"]
+        self.assertIn(
+            {"kind": "clash", "natal_pillar": "day", "natal_branch": "子", "flow_branch": "午"},
+            relations,
+        )
         rule = output["rule_matches"][0]
         self.assertEqual(rule["derived_from_rule_id"], "bazi.phase2.ten_gods")
+        self.assertEqual(
+            rule["derived_from_rule_ids"],
+            [
+                "bazi.phase2.ten_gods",
+                "bazi.phase2.branch_six_harmonies",
+                "bazi.phase2.branch_six_harms",
+                "bazi.phase2.branch_six_clashes",
+            ],
+        )
         self.assertTrue(set(rule["evidence_ids"]) <= set(output["evidence"]))
         serialized = str(output["result"])
         for forbidden in ["fortune_score", "auspicious", "taohua_activation", "career_score", "wealth_score"]:
@@ -144,11 +158,27 @@ class ScenarioEngineTests(unittest.TestCase):
         })
         self.assertEqual(output["status"], "production_limited")
         self.assertFalse(output["public_release"])
-        self.assertEqual(output["result"]["release_scope"], "xianchi_structure_only")
+        self.assertEqual(output["result"]["release_scope"], "romance_structure_v2")
         self.assertEqual(output["result"]["xianchi"]["basis_policy"], "year_and_day_reported_separately")
         self.assertEqual(set(output["result"]["target_year_activation"]), {"year_branch_basis", "day_branch_basis"})
+        self.assertEqual(output["result"]["spouse_palace_interaction"]["day_branch"], "子")
+        self.assertEqual(output["result"]["spouse_palace_interaction"]["target_year_branch"], "午")
+        self.assertEqual(
+            output["result"]["spouse_palace_interaction"]["relations"],
+            [{"kind": "clash", "natal_pillar": "day", "natal_branch": "子", "flow_branch": "午"}],
+        )
         self.assertTrue(output["evidence"])
         self.assertEqual(output["rule_matches"][0]["derived_from_rule_id"], "bazi.phase2.xianchi_lookup")
+        self.assertEqual(
+            output["rule_matches"][0]["derived_from_rule_ids"],
+            [
+                "bazi.phase2.xianchi_lookup",
+                "bazi.phase2.spouse_palace_day_branch",
+                "bazi.phase2.branch_six_harmonies",
+                "bazi.phase2.branch_six_harms",
+                "bazi.phase2.branch_six_clashes",
+            ],
+        )
         serialized = str(output["result"])
         for forbidden in ["romance_score", "marriage_score", "auspicious", "fortune_score", "relationship_advice"]:
             self.assertNotIn(forbidden, serialized)
@@ -306,6 +336,10 @@ class ScenarioEngineTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200, response.text)
         data = response.json()
         self.assertEqual(data["result"]["target_year"]["ganzhi"], "丙午")
+        self.assertIn(
+            {"kind": "clash", "natal_pillar": "day", "natal_branch": "子", "flow_branch": "午"},
+            data["result"]["target_year"]["branch_relations"],
+        )
         self.assertFalse(data["public_release"])
         self.assertTrue(data["limitations"])
 
