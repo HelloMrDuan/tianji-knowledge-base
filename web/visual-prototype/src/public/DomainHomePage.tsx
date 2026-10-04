@@ -351,7 +351,9 @@ export function DomainHomePage({ page }: { page: DomainPage }) {
             </div>
             <p className="entry-status">
               <Icon name="shield" size={15} />
-              当前为设计预览，仅展示输入摘要；不生成真实盘面。
+              {page.id === "bazi"
+                ? "八字基础档案已接入真实计算；此专业首页仍只做资料说明。"
+                : "当前为设计预览，仅展示输入摘要；不生成真实盘面。"}
             </p>
           </form>
           {summary && (
@@ -374,10 +376,12 @@ export function DomainHomePage({ page }: { page: DomainPage }) {
                 ))}
               </dl>
               <p>以上是你在当前页面填写的资料。真实计算与解读服务尚未接入。</p>
-              <Link href={"/" + page.id + "/result"} className="text-action">
-                {page.id === "liuyao"
-                  ? "另外查看固定六爻样例"
-                  : "查看结果页设计"}
+              <Link href={page.id === "bazi" ? "/bazi-profile" : "/" + page.id + "/result"} className="text-action">
+                {page.id === "bazi"
+                  ? "进入真实八字基础档案"
+                  : page.id === "liuyao"
+                    ? "另外查看固定六爻样例"
+                    : "查看结果页设计"}
                 <Icon name="arrow" size={16} />
               </Link>
             </section>
@@ -405,15 +409,17 @@ export function DomainHomePage({ page }: { page: DomainPage }) {
               ))}
             </ol>
           </div>
-          <Link className="entry-example" href={"/" + page.id + "/result"}>
+          <Link className="entry-example" href={page.id === "bazi" ? "/bazi-profile" : "/" + page.id + "/result"}>
             <span>从结构开始</span>
             <strong>
-              {page.id === "liuyao" ? "乾为天 → 天风姤" : page.name + "结果页"}
+              {page.id === "bazi" ? "真实四柱基础档案" : page.id === "liuyao" ? "乾为天 → 天风姤" : page.name + "结果页"}
             </strong>
             <p>
-              {page.id === "liuyao"
-                ? "完整固定视觉示例"
-                : "查看布局与等待、失败状态"}
+              {page.id === "bazi"
+                ? "真实 API · 四柱 / 十神 / 藏干 / Evidence"
+                : page.id === "liuyao"
+                  ? "完整固定视觉示例"
+                  : "查看布局与等待、失败状态"}
             </p>
             <Icon name="arrow" size={20} />
           </Link>
