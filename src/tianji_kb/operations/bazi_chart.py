@@ -8,7 +8,7 @@ def strength_factors(pillars, day_master, *, factor_variant=FACTOR_VARIANT, outp
     observed = _strength_factors(pillars, day_master, variant=factor_variant)
     if output_key is None:
         return observed
-    if output_key not in ('month_command', 'root_candidates', 'hidden_to_visible'):
+    if output_key not in ('month_command', 'root_candidates', 'hidden_to_visible', 'support_relations'):
         raise ValueError('Unsupported factor output')
     return observed[output_key]
 
@@ -123,9 +123,10 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
         observed = strength_factors(raw['pillars'], raw['day_master']['stem'], factor_variant=strength_variant)
         for rule, key in (('month_command_factors', 'month_command'),
                           ('root_candidates', 'root_candidates'),
-                          ('hidden_to_visible', 'hidden_to_visible')):
+                          ('hidden_to_visible', 'hidden_to_visible'),
+                          ('support_relations', 'support_relations')):
             trace.add('bazi.phase2.' + rule, {'factor_variant': strength_variant,
                       'ganzhi': [year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi]}, observed[key])
         result['strength_factors'] = observed
-        result['production_scope'] += '；可选月支、通根候选与透藏结构观察（整体旺衰分类未完成）'
+        result['production_scope'] += '；可选月支、通根候选、透藏与生克位置观察（整体旺衰分类未完成）'
     return trace.finish(result)

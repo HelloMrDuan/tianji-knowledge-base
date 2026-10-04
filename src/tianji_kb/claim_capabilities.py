@@ -24,6 +24,7 @@ SCENARIO_CLAIMS = {
         'bazi.month_command_factors': _binding(B + 'month_command_factors', [B + 'month_command_factors']),
         'bazi.root_candidates': _binding(B + 'root_candidates', [B + 'root_candidates']),
         'bazi.hidden_to_visible': _binding(B + 'hidden_to_visible', [B + 'hidden_to_visible']),
+        'bazi.support_relations': _binding(B + 'support_relations', [B + 'support_relations']),
     },
     'romance': {
         'romance.xianchi_structure': _binding('bazi.scenario.xianchi_structure', [B + 'xianchi_lookup']),
@@ -60,7 +61,7 @@ SCENARIO_CLAIMS = {
     },
 }
 
-for cid in ('bazi.month_command_factors', 'bazi.root_candidates', 'bazi.hidden_to_visible'):
+for cid in ('bazi.month_command_factors', 'bazi.root_candidates', 'bazi.hidden_to_visible', 'bazi.support_relations'):
     SCENARIO_CLAIMS['bazi-profile'][cid]['required_input_option'] = {'strength_variant': 'ditiansui-root-visibility-v1'}
 
 # Every liuyao calculation RuleMatch already has reviewed evidence and a Golden.

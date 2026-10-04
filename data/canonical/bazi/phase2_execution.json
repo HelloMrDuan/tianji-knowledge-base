@@ -4,7 +4,7 @@
   "domain": "bazi",
   "variant": "ziping-structural-v1",
   "provider": "tianji_kb.operations.bazi_chart.chart",
-  "scope": "生产范围含四柱、日主、十神、藏干；显式 include_xianchi=true 时可返回咸池四组结构查表；显式 include_relations=true 时可返回已审核的五合、六合、六害、六冲、三合与日支传统配偶宫结构位；显式 traditional_role=male|female 时可返回传统配偶星候选位置。所有结构事实均不输出旺衰、喜用、格局、关系评分或婚恋吉凶。 显式 strength_variant=ditiansui-root-visibility-v1 时可返回月支藏干、通根候选与透藏结构；整体旺衰分类未完成。",
+  "scope": "生产范围含四柱、日主、十神、藏干；显式 include_xianchi=true 时可返回咸池四组结构查表；显式 include_relations=true 时可返回已审核的五合、六合、六害、六冲、三合与日支传统配偶宫结构位；显式 traditional_role=male|female 时可返回传统配偶星候选位置。所有结构事实均不输出旺衰、喜用、格局、关系评分或婚恋吉凶。 显式 strength_variant=ditiansui-root-visibility-v1 时可返回月支藏干、通根候选与透藏结构；整体旺衰分类未完成。 同一显式因素选项增加生克方向位置，实际效力继续未裁定。",
   "unresolved": [
     "真太阳时未实现。",
     "旺衰、格局、喜用神、调候与大运起运规则尚未完成证据裁定。",
@@ -257,6 +257,25 @@
       ],
       "regression_test": "tests/test_phase2_bazistrength.py",
       "evidence_scope": "C：已核原典短引和藏遁歌；因素子范围 ditiansui-root-visibility-v1；只核结构，不输出整体旺衰、喜用或权重。"
+    },
+    {
+      "id": "bazi.phase2.support_relations",
+      "domain": "bazi",
+      "name": "生扶克泄耗方向位置",
+      "variant": "ziping-structural-v1",
+      "execution_status": "executable",
+      "phase1_rule_refs": [
+        "bazi.rule.r016"
+      ],
+      "validation_status": "validated",
+      "golden_case_ids": [
+        "bazi.support-normal",
+        "bazi.support-yin",
+        "bazi.support-visible-peers",
+        "bazi.support-conflict"
+      ],
+      "regression_test": "tests/test_phase2_bazisupport.py",
+      "evidence_scope": "C：十干阴阳五行、生克方向、十神与藏干短引；只核位置，不判效力、得势、旺衰或喜用。"
     }
   ]
 }

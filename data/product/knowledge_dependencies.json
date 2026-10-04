@@ -9,9 +9,10 @@
       "ready_execution_rule_ids": [
         "bazi.phase2.pillars",
         "bazi.phase2.ten_gods",
-        "bazi.phase2.hidden_stems"
+        "bazi.phase2.hidden_stems",
+        "bazi.phase2.support_relations"
       ],
-      "missing": "四柱/日主/十神/藏干已接入既有模型和执行Golden；仍缺十二长生、月令解释及基础结构到个人结论的条件规则；真太阳时尚未实现。旧表权重不作通用古典结论。"
+      "missing": "十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。"
     },
     "bazi-ten-gods": {
       "name": "十神结构与条件解释",
@@ -33,9 +34,10 @@
       "ready_execution_rule_ids": [
         "bazi.phase2.month_command_factors",
         "bazi.phase2.root_candidates",
-        "bazi.phase2.hidden_to_visible"
+        "bazi.phase2.hidden_to_visible",
+        "bazi.phase2.support_relations"
       ],
-      "missing": "月令/通根候选/透藏因素 v1 已按原模型执行，有正常/墓库边界/干多无根/干少有根/冲根/分日冲突 Golden；整体强弱分类仍缺季节司令、根力、得势、生扶克泄耗效力与从化边界，不能用数量或自创权重填补。"
+      "missing": "月令/通根候选/透藏/生克方向位置 v1 已按原模型执行，含正常/阴日干/多比肩不判强/冲克不定凶及分日冲突反例。整体强弱仍缺季节司令、根力、得势、生扶克泄耗效力与从化边界，不以数量或自创权重填补。"
     },
     "bazi-pattern": {
       "name": "格局",
@@ -265,6 +267,7 @@
         "bazi.month_command_factors",
         "bazi.pillars",
         "bazi.root_candidates",
+        "bazi.support_relations",
         "bazi.ten_gods"
       ],
       "missing_dependencies": [
