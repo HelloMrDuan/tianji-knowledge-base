@@ -3580,11 +3580,11 @@
     "missing_capabilities": [
       {
         "topic_id": "dream-traditional",
-        "reason": "缺独立梦境来源、实体/象征/关系、source_ref、interpretation/type/confidence/cultural_context；现有文本偶见梦字不计覆盖。"
+        "reason": "已登记固定 daizhigev20 周公解梦 RAW/Quarantine 调查候选并核 17 类输入：11 个直接场景定位、5 个仅相近语境、1 个未找到；0 个已确认解释。底本、权利/编者、异文与场景条件仍须审核；尚无梦域 Terms/Rules/Evidence/Golden、RAG 解释或执行，不把吉凶短句变成个人预测。"
       },
       {
         "topic_id": "dream-psychology",
-        "reason": "缺独立研究资料及许可审核；不得借古籍背书心理理论，不诊断、不从梦推怀孕/疾病/未来；与传统文化分段展示。"
+        "reason": "dream-modern-psychology 已有独立学术来源调查清单，含可核查研究及许可信息；尚未入既有 Source/Review 模型，未形成已审核证据或执行。文化梦书研究不作临床心理证据，不从梦诊断精神疾病、怀孕或预测必然未来。"
       }
     ],
     "ready_claims": [],
@@ -3617,8 +3617,8 @@
       "ai_enabled": false
     },
     "blockers": [
-      "缺独立梦境来源、实体/象征/关系、source_ref、interpretation/type/confidence/cultural_context；现有文本偶见梦字不计覆盖。",
-      "缺独立研究资料及许可审核；不得借古籍背书心理理论，不诊断、不从梦推怀孕/疾病/未来；与传统文化分段展示。",
+      "已登记固定 daizhigev20 周公解梦 RAW/Quarantine 调查候选并核 17 类输入：11 个直接场景定位、5 个仅相近语境、1 个未找到；0 个已确认解释。底本、权利/编者、异文与场景条件仍须审核；尚无梦域 Terms/Rules/Evidence/Golden、RAG 解释或执行，不把吉凶短句变成个人预测。",
+      "dream-modern-psychology 已有独立学术来源调查清单，含可核查研究及许可信息；尚未入既有 Source/Review 模型，未形成已审核证据或执行。文化梦书研究不作临床心理证据，不从梦诊断精神疾病、怀孕或预测必然未来。",
       "AI未完成真实质量校准及人工语义复核"
     ],
     "recommended_sources": [],
@@ -5621,6 +5621,16 @@
         "schema_version": null
       },
       {
+        "path": "data/quarantine/phase1_candidates/daizhigev20/4a6d6f2088825f132521d848c2ea86cf9c9a7620/0c7b0823265c4ff00465f833e0be28f1bf0f2175.json",
+        "sha256": "a19ada3526e896e5bef8250e26985a605383fbd0b39b31997de7bc93bd9819ec",
+        "bytes": 1364,
+        "stage": "quarantine",
+        "json_type": "dict",
+        "domain": null,
+        "model": null,
+        "schema_version": null
+      },
+      {
         "path": "data/quarantine/phase1_candidates/daizhigev20/4a6d6f2088825f132521d848c2ea86cf9c9a7620/c7de6ab493e19460f5efba49085d20437c17e1d4.json",
         "sha256": "c39f18216b18c560ede3035259f6b26fa314dc1c4d95af379dd018fc466d28ce",
         "bytes": 1231,
@@ -5737,6 +5747,16 @@
         "sha256": "c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9",
         "bytes": 154655,
         "stage": "quarantine"
+      },
+      {
+        "path": "data/quarantine/public_domain_snapshots/daizhigev20/zhougong_dream_candidates.json",
+        "sha256": "85f423ecf615efa327af4cac7234cc7cefdec917785cfd2ecaf8bf97da5cf9fb",
+        "bytes": 15218,
+        "stage": "quarantine",
+        "json_type": "dict",
+        "domain": "dream",
+        "model": null,
+        "schema_version": "0.1"
       },
       {
         "path": "data/quarantine/public_domain_snapshots/daizhigev20/zhouyi_combined.txt",
@@ -6249,11 +6269,11 @@
       },
       {
         "path": "config/product_requirements.json",
-        "sha256": "8fe0cf367ea9a650de50b6ecaa545a9c8236d2dc36f23cbcfa4590ad81dad2ec"
+        "sha256": "33af713641e164f3441de8c2f4cae4e0f9f35d8c494852c9e87118ca40591b0a"
       },
       {
         "path": "config/public_domain_manifest.json",
-        "sha256": "5c06536c27218895b3038e8d8b31a1a13f8446267254799cb759cd646767296a"
+        "sha256": "d2356fdc1cd6f25bebf1d7bf3ea94e37425312f6dc40dfb2fa32acec40254a26"
       },
       {
         "path": "config/source_file_manifest.json",
@@ -6261,7 +6281,7 @@
       },
       {
         "path": "config/source_registry.json",
-        "sha256": "768249e2213774648ba7b96393bbcd2fe174b01ea17fdfb90a0518ed0ffb8194"
+        "sha256": "76ec338b1c1c6ddfb872faf6dff9dcdb5585d9b6bb63b2f99f6fa0f04524726d"
       },
       {
         "path": "schemas/knowledge/bundle.schema.json",
@@ -6590,7 +6610,7 @@
     ],
     "inventory_counts": {
       "canonical": 77,
-      "quarantine": 118
+      "quarantine": 120
     },
     "legacy_source_registry_count": 37,
     "source_metadata_gaps": {
@@ -13243,7 +13263,7 @@
         "legacy_references": [],
         "classical_text_candidates": [],
         "explanation_ready": false,
-        "missing": "缺独立梦境来源、实体/象征/关系、source_ref、interpretation/type/confidence/cultural_context；现有文本偶见梦字不计覆盖。"
+        "missing": "已登记固定 daizhigev20 周公解梦 RAW/Quarantine 调查候选并核 17 类输入：11 个直接场景定位、5 个仅相近语境、1 个未找到；0 个已确认解释。底本、权利/编者、异文与场景条件仍须审核；尚无梦域 Terms/Rules/Evidence/Golden、RAG 解释或执行，不把吉凶短句变成个人预测。"
       },
       "dream-psychology": {
         "name": "现代心理梦研究",
@@ -13262,7 +13282,7 @@
         "legacy_references": [],
         "classical_text_candidates": [],
         "explanation_ready": false,
-        "missing": "缺独立研究资料及许可审核；不得借古籍背书心理理论，不诊断、不从梦推怀孕/疾病/未来；与传统文化分段展示。"
+        "missing": "dream-modern-psychology 已有独立学术来源调查清单，含可核查研究及许可信息；尚未入既有 Source/Review 模型，未形成已审核证据或执行。文化梦书研究不作临床心理证据，不从梦诊断精神疾病、怀孕或预测必然未来。"
       },
       "liuyao-inquiry": {
         "name": "六爻占问深化",
@@ -15214,6 +15234,28 @@
       }
     ],
     "staged_source_candidates": [
+      {
+        "source_id": "daizhigev20",
+        "repository": "garychowcmu/daizhigev20",
+        "source_path": "易藏/术数/周公解梦.txt",
+        "pinned_commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+        "candidate_commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+        "baseline_blob_sha": "0c7b0823265c4ff00465f833e0be28f1bf0f2175",
+        "blob_sha": "0c7b0823265c4ff00465f833e0be28f1bf0f2175",
+        "sha256": "d80c42b0b8f44f5b8cf2c4e1c286b200388b65dcd321347eb7ac1011d0be5e97",
+        "bytes": 23527,
+        "raw_path": "data/raw/phase1_candidates/daizhigev20/4a6d6f2088825f132521d848c2ea86cf9c9a7620/0c7b0823265c4ff00465f833e0be28f1bf0f2175.raw",
+        "stage": "quarantine",
+        "evidence_level": "D",
+        "review_status": "pending",
+        "promotion_allowed": false,
+        "body_saved_to_quarantine": false,
+        "file_changed": false,
+        "rights_scope": "沿用现有 PUBLIC_DOMAIN_EXTRACT_ONLY 的古典材料调查范围；RAW 仅作隔离复核缓存，不发布全文；仅传统条目可能采纳，底本、署名、电子编辑与现代注释权利须另审，不能因采集视为整本公版确证。",
+        "rights_status": "approved_acquisition_scope_only",
+        "retrieved_at": "2026-10-04T11:43:53.744772+00:00",
+        "review_note": "RAW 忽略缓存；这里只存来源与差异元数据。正文、版权、异文均须另开审核 PR；不写 Canonical 或已审核证据。"
+      },
       {
         "source_id": "daizhigev20",
         "repository": "garychowcmu/daizhigev20",

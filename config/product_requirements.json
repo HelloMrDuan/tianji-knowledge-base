@@ -313,7 +313,7 @@
         "分离"
       ],
       "legacy_paths": [],
-      "missing": "缺独立梦境来源、实体/象征/关系、source_ref、interpretation/type/confidence/cultural_context；现有文本偶见梦字不计覆盖。"
+      "missing": "已登记固定 daizhigev20 周公解梦 RAW/Quarantine 调查候选并核 17 类输入：11 个直接场景定位、5 个仅相近语境、1 个未找到；0 个已确认解释。底本、权利/编者、异文与场景条件仍须审核；尚无梦域 Terms/Rules/Evidence/Golden、RAG 解释或执行，不把吉凶短句变成个人预测。"
     },
     "dream-psychology": {
       "priority": "P0",
@@ -323,7 +323,7 @@
         "modern_psychology"
       ],
       "legacy_paths": [],
-      "missing": "缺独立研究资料及许可审核；不得借古籍背书心理理论，不诊断、不从梦推怀孕/疾病/未来；与传统文化分段展示。"
+      "missing": "dream-modern-psychology 已有独立学术来源调查清单，含可核查研究及许可信息；尚未入既有 Source/Review 模型，未形成已审核证据或执行。文化梦书研究不作临床心理证据，不从梦诊断精神疾病、怀孕或预测必然未来。"
     },
     "liuyao-inquiry": {
       "priority": "P1",
