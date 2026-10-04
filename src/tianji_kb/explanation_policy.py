@@ -108,7 +108,8 @@ TEXT_FACTS={
           (r'身宫(?:为|在|是|[:：])\s*([子丑寅卯辰巳午未申酉戌亥])','/chart/body_palace')],
  'fengshui':[(r'坐山(?:为|是|[:：])\s*([壬子癸丑艮寅甲卯乙辰巽巳丙午丁未坤申庚酉辛戌乾亥])','/chart/mountain')],
  'yijing':[(r'本卦编号(?:为|是|[:：])\s*([0-9]+)','/chart/original/number'),
-           (r'变卦编号(?:为|是|[:：])\s*([0-9]+)','/chart/change/number')]}
+           (r'变卦编号(?:为|是|[:：])\s*([0-9]+)','/chart/change/number')],
+ 'bazi':[(r'日主(?:为|是|[:：])\s*([甲乙丙丁戊己庚辛壬癸])','/chart/day_master/stem')]}
 
 def validate_text_facts(claim,context):
     text=claim['text']
