@@ -16,7 +16,7 @@ from .runtime_catalog import load_catalog
 from .resolver import ROOT
 from .prompts import DEFAULT_PROMPT,PROMPTS
 
-Domain=Literal['liuyao','qimen','liuren','ziwei','fengshui','yijing']
+Domain=Literal['liuyao','qimen','liuren','ziwei','fengshui','yijing','bazi']
 Mode=Literal['production','research']
 EXAMPLES={
  'liuyao':{'value':'2000-01-07T12:00:00+08:00','yao_values':[7]*6},
@@ -24,6 +24,7 @@ EXAMPLES={
  'liuren':{'value':'2000-01-07T12:00:00+08:00'},
  'ziwei':{'value':'1999-02-16T00:00:00+08:00','year_boundary':'lunar-new-year'},
  'fengshui':{'degrees':37.5},'yijing':{'bits':'111000','changing_lines':[1]},
+ 'bazi':{'value':'2000-01-07T12:00:00+08:00'},
 }
 
 class ExecuteRequest(BaseModel):
