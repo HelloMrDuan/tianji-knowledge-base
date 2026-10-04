@@ -102,6 +102,36 @@
           "title": "周易经传合本",
           "path": "易藏/易经/周易.txt",
           "promotion": "manual_collated"
+        },
+        {
+          "id": "zhougong_jiemeng",
+          "domain": "dream",
+          "title": "周公解梦（电子本题名；作者与底本待核）",
+          "path": "易藏/术数/周公解梦.txt",
+          "promotion": "quarantine_only",
+          "planned_output": "data/canonical/dream/phase1_knowledge.json",
+          "pinned_commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+          "blob_sha": "0c7b0823265c4ff00465f833e0be28f1bf0f2175",
+          "candidate_metadata": "data/quarantine/phase1_candidates/daizhigev20/4a6d6f2088825f132521d848c2ea86cf9c9a7620/0c7b0823265c4ff00465f833e0be28f1bf0f2175.json",
+          "candidate_audit": "data/quarantine/public_domain_snapshots/daizhigev20/zhougong_dream_candidates.json",
+          "quality_blockers": {
+            "canonical_ready": false,
+            "review_status": "pending",
+            "evidence_level": "D",
+            "edition_confirmed": false,
+            "author_confirmed": false,
+            "rights_scope": "沿用现有 PUBLIC_DOMAIN_EXTRACT_ONLY 的古典材料调查范围；RAW 仅作隔离复核缓存，不发布全文；仅传统条目可能采纳，底本、署名、电子编辑与现代注释权利须另审，不能因采集视为整本公版确证。",
+            "source_independence_confirmed": false,
+            "ocr_review_complete": false,
+            "symbol_coverage": {
+              "requested": 17,
+              "direct_scene_candidates": 11,
+              "related_only": 5,
+              "not_found": 1,
+              "confirmed_interpretations": 0
+            },
+            "note": "传统来源调查已登记，不等于知识库已建立；使用现有知识模型逐段审核前，不增加 Canonical、Rule、Golden 或 Scenario 执行；不得套用疾病/怀孕/必然未来断语。"
+          }
         }
       ]
     }

@@ -54,14 +54,15 @@
         "meihua",
         "fengshui",
         "liuren",
-        "taiyi"
+        "taiyi",
+        "dream"
       ],
       "source_type": "classical_text_archive",
       "trust_level": "A",
       "license_spdx": null,
       "license_policy": "PUBLIC_DOMAIN_EXTRACT_ONLY",
       "auto_sync": true,
-      "notes": "殆知阁大规模古籍档案，无根 LICENSE；只抽明确公版古典原文，现代整理/注释不复制。"
+      "notes": "殆知阁大规模古籍档案，无根 LICENSE；只抽明确公版古典原文，现代整理/注释不复制。 周公解梦仅登记固定版本的隔离调查候选；电子本作者、底本与独立来源待核，不因旧 trust_level=A 成为古典 A 级 Evidence。"
     },
     {
       "id": "divination-liuyao",

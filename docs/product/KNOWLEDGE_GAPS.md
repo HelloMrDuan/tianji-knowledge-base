@@ -43,6 +43,7 @@ Source → RAW → Quarantine → Review → Canonical → Terms/Rules → Evide
 
 ## 来源与待审材料
 
+- `易藏/术数/周公解梦.txt` @ `4a6d6f2088825f132521d848c2ea86cf9c9a7620`：整本 pending，Quarantine，不能因下载而晋级。
 - `易藏/术数/渊海子平.txt` @ `4a6d6f2088825f132521d848c2ea86cf9c9a7620`：整本 pending，Quarantine，不能因下载而晋级。
 - `易藏/术数/滴天髓阐微.txt` @ `4a6d6f2088825f132521d848c2ea86cf9c9a7620`：整本 pending，Quarantine，不能因下载而晋级。
 - `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/3/text` 含 若思按、(新增)：逐段排除未审核现代注释。
