@@ -15,7 +15,7 @@ export const scenarioProducts: ScenarioProduct[] = [
   { id: "weekly", name: "本周运势", glyph: "周", tagline: "这一周怎么走", description: "周运能力依赖八字与场景规则补齐。", status: "building", badge: "筹备中" },
   { id: "monthly", name: "本月运势", glyph: "月", tagline: "把握当月起伏", description: "月运能力依赖八字与流月规则补齐。", status: "building", badge: "筹备中" },
   { id: "yearly", name: "2026 流年结构", glyph: "年", tagline: "年运底座先给你看", description: "真实计算 2026 干支与日主十神结构；不等同于全年吉凶。", status: "available", href: "/yearly-structure", badge: "结构内测" },
-  { id: "romance", name: "桃花姻缘", glyph: "缘", tagline: "关系与缘分趋势", description: "将组合八字、紫微与审核后的姻缘规则。", status: "building", badge: "重点建设" },
+  { id: "romance", name: "桃花姻缘", glyph: "缘", tagline: "先看真实桃花结构", description: "年支、日支两套咸池结构分别计算，并检查原局与 2026 流年是否命中；不等同于婚恋吉凶。", status: "available", href: "/romance-structure", badge: "结构内测" },
   { id: "career", name: "事业财运", glyph: "业", tagline: "工作、选择与财务节奏", description: "将组合八字、紫微与场景证据。", status: "building", badge: "重点建设" },
   { id: "compatibility", name: "缘分合盘", glyph: "合", tagline: "两个人放在一起看", description: "需要双人输入、八字引擎及合盘规则。", status: "building", badge: "筹备中" },
   { id: "question", name: "一事占问", glyph: "问", tagline: "现在就问一件具体的事", description: "先以六爻确定性排盘打通真实闭环。", status: "available", href: "/ask", badge: "先行体验" },
