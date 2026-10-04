@@ -376,35 +376,36 @@
       "domain": "bazi",
       "name": "八字 / 子平",
       "classics": {
-        "canonical": 1,
+        "canonical": 2,
         "quarantine": 2,
         "metadata_only": 0,
-        "with_reviewed_excerpts": 3
+        "with_reviewed_excerpts": 4
       },
-      "chapters": 6,
-      "sections": 16,
+      "chapters": 8,
+      "sections": 19,
       "terms": {
-        "canonical": 10
+        "canonical": 11
       },
       "concepts": 1,
       "rules": {
         "executable": 0,
-        "partially_structured": 10,
+        "partially_structured": 11,
         "descriptive_only": 0
       },
       "sources": {
         "A": 0,
         "B": 0,
-        "C": 3,
+        "C": 4,
         "D": 0
       },
       "source_ids": [
+        "bazi.source.ditiansui-spouse",
         "bazi.source.sanming-xianchi-niutrans",
         "bazi.source.xieji-relations",
         "bazi.source.yuanhai"
       ],
       "tests": 2,
-      "production_chunks": 37,
+      "production_chunks": 42,
       "completion_criteria": {
         "domain_definition": true,
         "source_registry": true,
@@ -417,7 +418,7 @@
         "production_isolation": true
       },
       "pending_evidence": [
-        "生产范围含四柱、日主、十神、藏干；咸池四组及五合/六合/六害/六冲/三合/日支传统配偶宫结构位已核；三刑存在流派分歧，跨盘三合口径、旺衰、格局、喜用、调候、大运起运及关系解释尚未裁定。"
+        "生产范围含四柱、日主、十神、藏干；咸池、五合/六合/六害/六冲/三合、日支传统配偶宫结构位及用户显式选择的传统配偶星候选位置已核；三刑存在流派分歧，跨盘三合、旺衰、格局、喜用、调候、大运起运及婚恋解释尚未裁定。"
       ],
       "status": "phase1_complete"
     }
