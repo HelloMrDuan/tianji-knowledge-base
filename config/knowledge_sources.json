@@ -1953,6 +1953,27 @@
       "kind": "classical",
       "rights_basis": "仅保存古籍原文；不取得电子本所在仓库现代编辑内容的版权许可。旧题作者不作历史确证。",
       "review_scope": "原文直接证明每元60年、每运20年；未证明1864绝对锚点或立春交界；不同著作不等于独立底本确证。"
+    },
+    {
+      "source_id": "bazi.source.yuanhai",
+      "title": "渊海子平",
+      "author": null,
+      "era": "前现代子平命理传世文献；具体成书与版本问题不在本轮裁定",
+      "repository": "garychowcmu/daizhigev20",
+      "url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%B8%8A%E6%B5%B7%E5%AD%90%E5%B9%B3.txt",
+      "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+      "path": "易藏/术数/渊海子平.txt",
+      "license": "Public-Domain (pre-modern text only)",
+      "public_domain": true,
+      "retrieved_at": "2026-10-04",
+      "content_path": "data/quarantine/public_domain_snapshots/daizhigev20/yuanhai_ziping.txt",
+      "content_format": "text",
+      "sha256": "c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9",
+      "blob_sha": "f945a48cbedf5883808a72bb6f544a4dca603cb3",
+      "evidence_level": "C",
+      "kind": "classical",
+      "rights_basis": "仅保存并引用公有领域古籍原文；不取得电子仓库现代编辑内容的版权许可。",
+      "review_scope": "固定版本原典短选段：逐字核对四柱、日主、十神与藏干相关段落；不声称整本版本校勘或旺衰喜忌已裁定。"
     }
   ]
 }

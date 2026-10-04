@@ -112,7 +112,7 @@ class CrossDomainTests(unittest.TestCase):
         report = build_coverage(ROOT)
         self.assertEqual(report,read_json(ROOT/'data/coverage/phase1.json'))
         self.assertIn(markdown_coverage(report).strip(),(ROOT/'docs/COVERAGE.md').read_text())
-        self.assertEqual(len(report['domains']),6)
+        self.assertEqual(len(report['domains']),7)
         self.assertTrue(all(d['status']=='phase1_complete' and all(d['completion_criteria'].values()) for d in report['domains']))
         for domain in report['domains']:
             self.assertEqual(domain['sources']['A']+domain['sources']['B'],0)

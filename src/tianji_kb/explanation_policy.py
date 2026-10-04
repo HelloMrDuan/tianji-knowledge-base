@@ -9,7 +9,8 @@ KEY_FACTS={
  'liuren':['/month_general','/method','/transmissions'],
  'ziwei':['/life_palace','/body_palace','/bureau','/major_stars','/four_transformations'],
  'fengshui':['/mountain','/trigram','/opposite','/period'],
- 'yijing':['/original/number','/opposite/number','/inverse/number','/nuclear/number','/change/number']}
+ 'yijing':['/original/number','/opposite/number','/inverse/number','/nuclear/number','/change/number'],
+ 'bazi':['/day_master/stem','/stem_ten_gods','/hidden_stems']}
 ROOTS={
  'liuyao':{'motion':['original','changed','changing_lines'],'palace':['palace','changed_palace'],
            'najia':['lines/*/najia','lines/*/changed_najia'],'spirits':['lines/*/spirit'],
@@ -24,7 +25,9 @@ ROOTS={
           'mutagens':['four_transformations','mutagen_variant','mutagen_evidence']},
  'fengshui':{'compass':['degrees','mountain','mountain_element','trigram','trigram_element','opposite'],
              'relative_period':['period']},
- 'yijing':{'structure':['original'],'opposite':['opposite'],'inverse':['inverse'],'nuclear':['nuclear'],'change':['change']}}
+ 'yijing':{'structure':['original'],'opposite':['opposite'],'inverse':['inverse'],'nuclear':['nuclear'],'change':['change']},
+ 'bazi':{'pillars':['pillars','day_master'],'ten_gods':['stem_ten_gods','pillars/*/stem/ten_god'],
+         'hidden_stems':['hidden_stems','pillars/*/branch/hidden_stems']}}
 
 
 def fail(code):
@@ -105,7 +108,8 @@ TEXT_FACTS={
           (r'身宫(?:为|在|是|[:：])\s*([子丑寅卯辰巳午未申酉戌亥])','/chart/body_palace')],
  'fengshui':[(r'坐山(?:为|是|[:：])\s*([壬子癸丑艮寅甲卯乙辰巽巳丙午丁未坤申庚酉辛戌乾亥])','/chart/mountain')],
  'yijing':[(r'本卦编号(?:为|是|[:：])\s*([0-9]+)','/chart/original/number'),
-           (r'变卦编号(?:为|是|[:：])\s*([0-9]+)','/chart/change/number')]}
+           (r'变卦编号(?:为|是|[:：])\s*([0-9]+)','/chart/change/number')],
+ 'bazi':[(r'日主(?:为|是|[:：])\s*([甲乙丙丁戊己庚辛壬癸])','/chart/day_master/stem')]}
 
 def validate_text_facts(claim,context):
     text=claim['text']

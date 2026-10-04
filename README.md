@@ -66,8 +66,8 @@ PYTHONPATH=src python scripts/build_production_runtime.py
 PYTHONPATH=src python -m uvicorn tianji_kb.api:app --host 127.0.0.1 --port 8000
 ```
 
-统一入口 `POST /api/v1/execute`；能力清单 `GET /api/v1/capabilities`；健康检查 `GET /health`；OpenAPI `/openapi.json`、`/docs`。六域复用现有 engine，返回盘面、RuleMatch、trace、Evidence、限制和可选AI解释。
+统一入口 `POST /api/v1/execute`；能力清单 `GET /api/v1/capabilities`；健康检查 `GET /health`；OpenAPI `/openapi.json`、`/docs`。七域复用同一 engine，返回盘面、RuleMatch、trace、Evidence、限制和可选AI解释。
 
 生产请求只读取已审运行快照与Canonical检索制品；`explain=false`完全不调用模型。模型失败或未知引用会拒绝解释，确定性结果仍正常返回。调用示例见 [Phase 3 API](docs/phase3/API.md)，模型环境配置见 [providers](docs/phase3/PROVIDERS.md)。
 
-Phase 4 adds versioned explanation contracts and a fixed 102-case, six-domain evaluation suite. See [evaluation and human review](docs/phase4/EVALUATION.md), [prompt policy](docs/phase4/PROMPTS.md), and [current quality status](docs/phase4/QUALITY_STATUS.md). Live-model scores are N/A until an environment-configured provider is actually evaluated; test providers never establish AI release readiness.
+Phase 4 adds versioned explanation contracts and a fixed 102-case, six-domain evaluation suite (the historical Phase 4 suite remains frozen; Bazi requires its own later model-evaluation cases). See [evaluation and human review](docs/phase4/EVALUATION.md), [prompt policy](docs/phase4/PROMPTS.md), and [current quality status](docs/phase4/QUALITY_STATUS.md). Live-model scores are N/A until an environment-configured provider is actually evaluated; test providers never establish AI release readiness.

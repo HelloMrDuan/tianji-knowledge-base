@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.0",
+  "model": "phase2-golden",
+  "domain": "bazi",
+  "provider": "tianji_kb.operations.bazi_chart.chart",
+  "review_basis": "固定四柱人工核对：以甲日为日主，逐项核对天干十神与《渊海子平》藏干表；不含旺衰、喜用与吉凶。",
+  "cases": [
+    {
+      "id": "bazi.structural-basic",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "庚辰",
+        "month_ganzhi": "己丑",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "庚午"
+      },
+      "expected": {
+        "day_master": {
+          "stem": "甲",
+          "element": "木",
+          "polarity": "阳"
+        },
+        "pillars": [
+          {
+            "name": "year",
+            "ganzhi": "庚辰",
+            "stem": {
+              "value": "庚",
+              "ten_god": "七杀"
+            },
+            "branch": {
+              "value": "辰",
+              "hidden_stems": [
+                {
+                  "stem": "戊",
+                  "ten_god": "偏财"
+                },
+                {
+                  "stem": "乙",
+                  "ten_god": "劫财"
+                },
+                {
+                  "stem": "癸",
+                  "ten_god": "正印"
+                }
+              ]
+            }
+          },
+          {
+            "name": "month",
+            "ganzhi": "己丑",
+            "stem": {
+              "value": "己",
+              "ten_god": "正财"
+            },
+            "branch": {
+              "value": "丑",
+              "hidden_stems": [
+                {
+                  "stem": "己",
+                  "ten_god": "正财"
+                },
+                {
+                  "stem": "癸",
+                  "ten_god": "正印"
+                },
+                {
+                  "stem": "辛",
+                  "ten_god": "正官"
+                }
+              ]
+            }
+          },
+          {
+            "name": "day",
+            "ganzhi": "甲子",
+            "stem": {
+              "value": "甲",
+              "ten_god": "日主"
+            },
+            "branch": {
+              "value": "子",
+              "hidden_stems": [
+                {
+                  "stem": "癸",
+                  "ten_god": "正印"
+                }
+              ]
+            }
+          },
+          {
+            "name": "hour",
+            "ganzhi": "庚午",
+            "stem": {
+              "value": "庚",
+              "ten_god": "七杀"
+            },
+            "branch": {
+              "value": "午",
+              "hidden_stems": [
+                {
+                  "stem": "丁",
+                  "ten_god": "伤官"
+                },
+                {
+                  "stem": "己",
+                  "ten_god": "正财"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -17,7 +17,7 @@ class FixedProvider:
 
 class GroundedExplanationTests(unittest.TestCase):
     def body(self,domain,**extra):return {'domain':domain,'input':EXAMPLES[domain],'explain':True,**extra}
-    def test_all_six_explain_after_canonical_rag_and_bind_real_sources(self):
+    def test_all_registered_domains_explain_after_canonical_rag_and_bind_real_sources(self):
         provider=FixedProvider();client=TestClient(create_app(provider))
         original=Path.open
         def guarded(path,*args,**kwargs):
@@ -57,7 +57,7 @@ class GroundedExplanationTests(unittest.TestCase):
             data=TestClient(create_app(FixedProvider(mutation))).post('/api/v1/execute',json=self.body('yijing')).json()
             self.assertEqual(data['explanation_status'],'failed');self.assertIsNone(data['explanation'])
             for key in ['chart','rule_matches','trace','evidence']:self.assertEqual(data[key],plain[key])
-    def test_model_failure_and_timeout_preserve_all_six_charts(self):
+    def test_model_failure_and_timeout_preserve_all_registered_charts(self):
         class Broken:
             async def explain(self,c):raise RuntimeError('api_key=DO-NOT-EXPOSE')
         client=TestClient(create_app(Broken()))

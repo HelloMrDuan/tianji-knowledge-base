@@ -66,7 +66,13 @@ class ReviewTests(unittest.TestCase):
         self.assertTrue(output['reports']['yijing']['online_ready'])
         self.assertEqual(output['reports']['yijing']['readiness'],'eligible_for_supervised_beta')
         self.assertIn('not all arbitrary user inputs',output['release_scope'])
-    def test_phase4_has_not_changed_phase3_deterministic_engine(self):
+    def test_phase4_baseline_still_freezes_original_domain_algorithms(self):
         manifest=json.loads((ROOT/'evals/explanations/engine-baseline-v1.json').read_text())
         self.assertEqual(manifest['baseline_main_sha'],'73cccbd9ee09f52d5075a1d32223d6dab5cb7ceb')
-        for name,expected in manifest['algorithm_files'].items():self.assertEqual(hashlib.sha256((ROOT/name).read_bytes()).hexdigest(),expected,name)
+        # The v1 baseline records the historical Phase 3 dispatcher too. Later reviewed
+        # domain registration may extend engine.py, but must not rewrite the six algorithms
+        # whose outputs the Phase 4 evaluation suite was frozen against.
+        frozen={name:expected for name,expected in manifest['algorithm_files'].items() if name!='src/tianji_kb/engine.py'}
+        self.assertTrue(any('/operations/' in name for name in frozen))
+        for name,expected in frozen.items():
+            self.assertEqual(hashlib.sha256((ROOT/name).read_bytes()).hexdigest(),expected,name)
