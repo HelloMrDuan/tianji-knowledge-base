@@ -220,7 +220,10 @@ export const assets: Record<AssetKind, AssetRecord[]> = {
 export const adminGroups = [
   {
     title: "工作台",
-    items: [{ label: "仪表盘", icon: "grid", path: "/admin" }],
+    items: [
+      { label: "仪表盘", icon: "grid", path: "/admin" },
+      { label: "Scenario 管理", icon: "layers", path: "/admin/scenarios" },
+    ],
   },
   {
     title: "知识资产",

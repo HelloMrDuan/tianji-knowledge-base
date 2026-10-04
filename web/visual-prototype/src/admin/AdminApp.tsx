@@ -73,7 +73,7 @@ export default function AdminApp() {
         </nav>
         <div className="admin-sidebar-bottom">
           <span className="status-dot" />
-          <span>静态原型 · 无数据写入</span>
+          <span>管理工作台 · 当前只读</span>
         </div>
       </aside>
       <div className="admin-workspace">
@@ -91,7 +91,7 @@ export default function AdminApp() {
             <strong>{titles[path] || module?.title || "页面未找到"}</strong>
           </div>
           <div className="admin-header-right">
-            <span className="admin-demo-tag">演示模式</span>
+            <span className="admin-demo-tag">只读模式</span>
             <Link href="/" className="admin-public-link">
               查看前台
               <Icon name="external" size={14} />
@@ -110,7 +110,7 @@ export default function AdminApp() {
           ) : (
             <section className="admin-card admin-empty">
               <h1>页面未找到</h1>
-              <p>请从管理导航选择一个页面。所有管理模块均提供设计预览。</p>
+              <p>请从管理导航选择一个页面。请从管理导航选择一个页面。</p>
               <Link className="admin-button" href="/admin">
                 返回仪表盘
               </Link>
@@ -118,7 +118,7 @@ export default function AdminApp() {
           )}
         </main>
         <footer className="admin-footer">
-          天机内部资产管理 · 视觉原型，不具备认证、权限或真实管理能力
+          天机内部资产管理 · 当前阶段只读，写入、认证与权限服务待后续接入
         </footer>
       </div>
     </div>

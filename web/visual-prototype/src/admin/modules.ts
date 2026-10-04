@@ -31,6 +31,47 @@ const record = (
 ): ModuleRecord => ({ id: "DEMO-" + id, name, state, values, detail });
 export const modules: ModuleDefinition[] = [
   {
+    id: "scenarios",
+    title: "Scenario 管理",
+    description: "管理前台场景入口、依赖引擎、开放状态与产品边界；未具备真实能力的场景不得发布。",
+    columns: ["前台状态", "依赖能力", "开放策略"],
+    records: [
+      record(
+        "SC001",
+        "一事占问",
+        "先行体验",
+        ["六爻", "jingfang-eight-palaces-v1", "production"],
+        "当前第一条真实闭环。前台调用统一 execute API，AI 默认关闭。",
+      ),
+      record(
+        "SC002",
+        "桃花姻缘",
+        "能力补齐中",
+        ["八字 + 紫微", "缺八字生产引擎", "暂不发布"],
+        "等待八字确定性引擎与审核后的桃花场景规则，不允许用静态分数替代。",
+      ),
+      record(
+        "SC003",
+        "事业财运",
+        "能力补齐中",
+        ["八字 + 紫微", "缺八字生产引擎", "暂不发布"],
+        "和桃花一样先补确定性基础，再形成聚合报告。",
+      ),
+      record(
+        "SC004",
+        "AI 解梦",
+        "研究中",
+        ["专门梦境语料", "RAG + AI", "research"],
+        "必须建立独立梦境语料和真实模型评测，不能伪装成确定性排盘。",
+      ),
+    ],
+    guide: [
+      ["先看能力", "场景开放状态必须由真实 engine、rules、evidence 能力决定。"],
+      ["再看产品", "前台只展示用户可理解的聚合结果，不暴露完整内部知识库。"],
+      ["最后开放", "AI 与 research 内容需独立通过评测和人工审核。"],
+    ],
+  },
+  {
     id: "chapters",
     title: "章节管理",
     description: "把章节顺序、选段范围与审核记录放在同一处。",
