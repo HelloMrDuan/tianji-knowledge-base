@@ -175,6 +175,7 @@ export type AdminTermRecord = {
 export type AdminSourceRecord = {
   id: string;
   title: string;
+  domains: string[];
   evidence_level: string;
   kind: string;
   public_domain: boolean;
