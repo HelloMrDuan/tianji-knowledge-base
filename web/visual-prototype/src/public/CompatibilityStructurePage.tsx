@@ -123,8 +123,8 @@ export function CompatibilityStructurePage() {
           <span className="eyebrow">双人合盘 · 结构内测</span>
           <h1>把两个人放在同一张结构图里看。</h1>
           <p>
-            当前比较双方真实四柱、双方日主互看十神、日主五合、日支六合/六害、传统配偶宫结构位，
-            以及双方年支/日支是否落入对方的咸池目标。不使用“缘分 98 分”这种无法追溯的评分。
+            当前比较双方真实四柱、双方日主互看十神、日主五合、日支六合/六害/六冲、传统配偶宫结构位，
+            并展示双方各自原局三合结构与咸池交叉命中。不使用“缘分 98 分”这种无法追溯的评分。
           </p>
         </div>
         <div className="compat-mark" aria-hidden="true">
@@ -208,6 +208,14 @@ export function CompatibilityStructurePage() {
                   <span>传统配偶宫结构位</span>
                   <strong>日支 {person.data.spouse_palace?.day_branch || "—"}</strong>
                 </p>
+                {Array.isArray(person.data.natal_triple_harmonies) && person.data.natal_triple_harmonies.length > 0 && (
+                  <div className="compat-triples">
+                    <small>原局三合结构</small>
+                    {person.data.natal_triple_harmonies.map((item: any, index: number) => (
+                      <span key={index}>{(item.branches || []).join(" · ")} → {item.traditional_result_element || "—"}</span>
+                    ))}
+                  </div>
+                )}
               </section>
             ))}
           </div>
@@ -236,7 +244,7 @@ export function CompatibilityStructurePage() {
           <section className="compat-section">
             <div className="result-section-heading">
               <div><span>二</span><h2>已审核的双人关系结构</h2></div>
-              <small>五合 · 六合 · 六害 · 日支结构位</small>
+              <small>五合 · 六合 · 六害 · 六冲 · 原局三合 · 日支结构位</small>
             </div>
             <div className="compat-reviewed-grid">
               <article>
@@ -252,18 +260,18 @@ export function CompatibilityStructurePage() {
                 <strong>{spouseRelation.person_a_day_branch || "—"} · {spouseRelation.person_b_day_branch || "—"}</strong>
                 <span>
                   {spouseRelations.length
-                    ? spouseRelations.map((item: any) => item.kind === "six_harmony" ? "六合" : item.kind === "harm" ? "六害" : item.kind).join("、")
+                    ? spouseRelations.map((item: any) => item.kind === "six_harmony" ? "六合" : item.kind === "harm" ? "六害" : item.kind === "clash" ? "六冲" : item.kind).join("、")
                     : "当前无已审核关系命中"}
                 </span>
                 {spouseRelations.map((item: any, index: number) => (
                   <em key={index}>
-                    {item.kind === "six_harmony" ? "六合" : "六害"}：{(item.branches || []).join(" · ")}
+                    {item.kind === "six_harmony" ? "六合" : item.kind === "harm" ? "六害" : item.kind === "clash" ? "六冲" : item.kind}：{(item.branches || []).join(" · ")}
                   </em>
                 ))}
               </article>
             </div>
             <p className="compat-note">
-              “合”只表示固定结构配对，“害”也只表示传统结构关系；这里不把它们翻译成适合、不适合、感情好坏或分手风险。
+              “合 / 害 / 冲”都只表示固定结构命中；原局三合也只表示完整三支组合。这里不把这些结构翻译成适合、不适合、感情好坏、争执或分手风险。
             </p>
           </section>
 
