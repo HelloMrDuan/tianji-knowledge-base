@@ -4,6 +4,7 @@ from __future__ import annotations
 import copy
 
 from .resolver import EvidenceResolver
+from .knowledge import read_json
 
 
 def _evidence_from_ref(resolver: EvidenceResolver, ref: dict) -> dict:
@@ -408,3 +409,89 @@ def reviewed_sources(resolver: EvidenceResolver | None = None) -> list[dict]:
             "entity_count": len(item.get("entity_ids", set())),
         })
     return rows
+
+
+def reviewed_layers(resolver: EvidenceResolver | None = None) -> list[dict]:
+    """Return aggregate RAW/Quarantine/Canonical governance state without asset paths or bodies."""
+    resolver = resolver or EvidenceResolver()
+    root = resolver.root
+
+    def tracked_file_count(relative: str) -> int:
+        base = root / relative
+        if not base.is_dir():
+            return 0
+        return sum(1 for path in base.rglob("*") if path.is_file())
+
+    source_file_manifest = read_json(root / "config/source_file_manifest.json")
+    ingestion_manifest = read_json(root / "config/ingestion_manifest.json")
+    protected_manifest = read_json(root / "config/phase1_protected_files.json")
+
+    ingestion_modes: dict[str, int] = {}
+    for item in source_file_manifest.get("files", []):
+        mode = item.get("ingestion", "UNSPECIFIED")
+        ingestion_modes[mode] = ingestion_modes.get(mode, 0) + 1
+
+    classic_counts = {"canonical": 0, "quarantine": 0}
+    stage_domains: dict[str, set[str]] = {"canonical": set(), "quarantine": set()}
+    for _, pair in resolver.entities.items():
+        collection, entity = pair
+        if collection != "classics":
+            continue
+        stage = entity.get("body_stage", "canonical")
+        if stage in classic_counts:
+            classic_counts[stage] += 1
+            stage_domains[stage].add(entity["domain"])
+
+    canonical_domains = sorted({
+        entity.get("domain")
+        for _, entity in resolver.entities.values()
+        if entity.get("domain")
+    })
+
+    return [
+        {
+            "id": "raw",
+            "name": "RAW",
+            "tracked_file_count": tracked_file_count("data/raw"),
+            "classic_count": 0,
+            "entity_count": 0,
+            "domain_count": 0,
+            "domains": [],
+            "protected_file_count": 0,
+            "registered_ingestion_sources": len(ingestion_manifest.get("sources", [])),
+            "ingestion_modes": copy.deepcopy(ingestion_modes),
+            "production_queryable": False,
+            "promotion_policy": "原始抓取缓存只做来源保全；默认不提交 Git，不直接进入检索。",
+            "release_policy": "禁止直接发布；必须先形成可审计快照并进入 Quarantine/独立审核。",
+        },
+        {
+            "id": "quarantine",
+            "name": "QUARANTINE",
+            "tracked_file_count": tracked_file_count("data/quarantine"),
+            "classic_count": classic_counts["quarantine"],
+            "entity_count": 0,
+            "domain_count": len(stage_domains["quarantine"]),
+            "domains": sorted(stage_domains["quarantine"]),
+            "protected_file_count": 0,
+            "registered_ingestion_sources": 0,
+            "ingestion_modes": {},
+            "production_queryable": False,
+            "promotion_policy": "来源、许可、文本、冲突与规则边界必须独立复核；候选资料不得自动晋级。",
+            "release_policy": "生产模式不读取 Quarantine；研究使用也不得自动写回 Canonical。",
+        },
+        {
+            "id": "canonical",
+            "name": "CANONICAL",
+            "tracked_file_count": tracked_file_count("data/canonical"),
+            "classic_count": classic_counts["canonical"],
+            "entity_count": len(resolver.entities),
+            "domain_count": len(canonical_domains),
+            "domains": canonical_domains,
+            "protected_file_count": len(protected_manifest.get("sha256", {})),
+            "registered_ingestion_sources": 0,
+            "ingestion_modes": {},
+            "production_queryable": True,
+            "promotion_policy": "只有通过来源、许可、结构、冲突与测试审核的资产才可进入 Canonical。",
+            "release_policy": "可进入生产检索，但仍受具体领域、Variant、Evidence 与产品发布边界约束。",
+        },
+    ]
