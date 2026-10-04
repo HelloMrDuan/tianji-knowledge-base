@@ -1,6 +1,33 @@
-# 天机 Phase 5 · 整站页面设计原型
+# 天机 · 场景化产品 Web
 
-包含 17 个前台页面、16 个后台页面和管理记录详情；七个工具首页、七个结果页、历史、收藏及所有后台导航模块均可查看。数据是明确标注的手工展示资料，没有 API 客户端、拦截服务或模拟模型。不得将此包作为真实排盘或后台资产发布。
+这一目录已经从“纯视觉原型”演进为场景化产品前端。当前不是所有页面都属于生产能力，但主产品链路已经开始真实调用后端 API，不能再按静态 Demo 理解。
+
+## 当前真实链路
+
+以下场景已经接入确定性后端，不使用 Mock 代替计算：
+
+- 八字基础档案：`/bazi-profile`
+- 一事占问：`/ask`
+- 今日结构：`/daily-structure`
+- 本周结构：`/weekly-structure`
+- 本月结构：`/monthly-structure`
+- 2026 流年结构：`/yearly-structure`
+- 桃花姻缘结构：`/romance-structure`
+- 事业财运结构：`/career-wealth-structure`
+- 人生总览：`/life-overview`
+- 缘分合盘：`/compatibility-structure`
+
+前端通过现有 `/api/v1/execute` 与 `/api/v1/scenarios/execute` 调用正式确定性引擎。后端失败时页面明确报错，不用静态盘面冒充真实结果。
+
+AI 自动解释仍未作为公开生产能力开启。当前场景计算以确定性规则、RuleMatch、Evidence 与 Trace 为准。
+
+## 能力边界
+
+“今日 / 本周 / 本月 / 流年 / 桃花 / 事业财运 / 合盘”等当前均属于结构化产品，不等同于完整吉凶预测。不得从前端自行补出旺衰、喜用神、格局、正缘时间、结婚时间、收益预测、健康判断、投资建议或事件应期。
+
+管理后台仍以知识治理与产品管理界面为主，部分数据是展示/设计资料；不能把尚未接入真实写服务的后台操作宣称为已落库能力。
+
+## 本地运行
 
 ```bash
 cd web/visual-prototype
@@ -8,9 +35,9 @@ npm ci
 npm run dev
 ```
 
-环境：Node.js 22.12+ 或 24、npm；构建使用固定版本的 React、TypeScript、Vite。音乐和山水 SVG 都为本项目原创，字体使用系统已有字体，没有第三方资源请求。
+环境：Node.js 22.12+ 或 24、npm。构建使用固定版本的 React、TypeScript、Vite。
 
-托管云环境若用户目录不可写，安装时使用 `npm ci --cache /workspace/.onboarding/npm-cache`，不改动系统目录或降低包校验。
+Vite 开发环境会通过项目现有代理访问后端 API。需要真实体验时，应同时启动后端服务；不要为“页面能显示”而退回 Mock。
 
 ```bash
 npm run build
@@ -24,18 +51,22 @@ npm test
 PROTOTYPE_CHROMIUM=/usr/bin/chromium npm test
 ```
 
-重现截图先启动开发服务，再执行截图脚本；长截图保留原生固定导航，因此导航的位置对应截取时的屏幕底部。
+## 视觉与音乐
+
+前台继续使用新中式 / 古风视觉体系。全局音乐播放器支持跨前台路由保持播放状态与音量设置；浏览器自动播放限制仍以用户主动开启为准。
+
+项目内 `public/music/quiet-waters.ogg` 可由：
 
 ```bash
-npm run dev -- --host 127.0.0.1 --port 4174 --strictPort
-# 在另一个终端执行
-npm run screenshots
-# 有系统 Chromium 时
-PROTOTYPE_CHROMIUM=/usr/bin/chromium npm run screenshots
+python scripts/generate_music.py
 ```
 
-截图保存在 `docs/phase5/visual-prototype/screenshots/`，由真实浏览器直接捕获。覆盖 33 个主页面，桌面为 1440 × 1000 视口长截图；手机为 390 × 844 视口截图，并可输出 `-mobile-full.png` 完整内容。
+重现。它是项目自编五声音阶合成拨弦循环，不使用第三方录音样本。
 
-原声音频可通过 `python scripts/generate_music.py` 重现（需 ffmpeg）。这是自编五声音阶合成拨弦循环，不使用录音、样本或第三方音乐。
+## 前后台边界
 
-页面路由、组件结构、交互与前后台边界见 [设计验收说明](../../docs/phase5/VISUAL_PROTOTYPE.md)。当前已完成页面设计，真实 `/api/v1/execute`、模型、写入与权限服务需单独联调。六个新结果页只展示结构与状态，不伪造计算值。
+公开前台只展示用户本次计算需要的盘面、规则命中、必要 Evidence、限制说明和可折叠 Trace，不提供完整内部知识库浏览。
+
+`/admin` 用于知识资产、规则、Evidence、来源、分层、算法 Variant、Prompt、评测和系统治理等管理视图。RAW、Quarantine、完整规则库、内部 Prompt、全量 Evidence 与知识图谱不作为公开前台资源。
+
+具体场景运行边界见 `docs/scenarios/RUNTIME.md`。
