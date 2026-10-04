@@ -3,6 +3,7 @@ import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeLiuyao, type ExecuteResponse } from "./api";
+import { recordReading } from "./readingLibrary";
 import "./question.css";
 
 const labels = ["初爻", "二爻", "三爻", "四爻", "五爻", "上爻"];
@@ -83,7 +84,20 @@ export function QuestionPage() {
     setResult(null);
     try {
       const value = `${date}T${time}:00+08:00`;
-      setResult(await executeLiuyao({ value, yao_values: yaoValues }));
+      const next = await executeLiuyao({ value, yao_values: yaoValues });
+      const originalName = next.chart?.original?.name || next.chart?.original?.hexagram_name || "本卦";
+      const changedName = next.chart?.changed?.name || next.chart?.changed?.hexagram_name || "变卦";
+      const movingCount = yaoValues.filter((value) => value === 6 || value === 9).length;
+      recordReading({
+        scenarioId: "question",
+        label: "一事占问",
+        glyph: "问",
+        title: `${originalName} → ${changedName}`,
+        subtitle: `${movingCount} 个动爻 · 占问文本未写入历史`,
+        href: "/ask",
+        resultVersion: next.variant,
+      });
+      setResult(next);
     } catch (err) {
       setError(err instanceof Error ? err.message : "排盘请求失败，请检查后端服务。");
     } finally {
