@@ -629,3 +629,63 @@ def prompt_registry() -> list[dict]:
             "automatic_release_allowed": False,
         })
     return rows
+
+
+def evaluation_registry(resolver: EvidenceResolver | None = None) -> list[dict]:
+    """Return tracked evaluation fixtures and Golden Case coverage without inventing live-model scores."""
+    resolver = resolver or EvidenceResolver()
+    root = resolver.root
+    suite = read_json(root / "evals/explanations/cases-v1.json")
+    baseline = read_json(root / "evals/explanations/engine-baseline-v1.json")
+
+    cases_by_domain: dict[str, list[dict]] = {}
+    for case in suite.get("cases", []):
+        cases_by_domain.setdefault(case["domain"], []).append(case)
+
+    golden_by_domain: dict[str, dict] = {}
+    for path in sorted((root / "data/canonical").glob("*/phase2_golden.json")):
+        payload = read_json(path)
+        golden_by_domain[payload["domain"]] = payload
+
+    domains = sorted(set(resolver.contracts) | set(cases_by_domain) | set(golden_by_domain))
+    rows = []
+    for domain in domains:
+        cases = cases_by_domain.get(domain, [])
+        golden = golden_by_domain.get(domain, {})
+        tags: dict[str, int] = {}
+        for case in cases:
+            for tag in case.get("tags", []):
+                tags[tag] = tags.get(tag, 0) + 1
+        variants = sorted({
+            case.get("variant")
+            for case in cases
+            if case.get("variant")
+        })
+        contract = resolver.contracts.get(domain)
+        if contract and contract.get("variant") not in variants:
+            variants.append(contract["variant"])
+            variants.sort()
+        golden_cases = golden.get("cases", [])
+        rows.append({
+            "id": domain,
+            "domain": domain,
+            "suite_id": suite.get("suite_id", ""),
+            "variants": variants,
+            "eval_case_count": len(cases),
+            "explanation_case_count": sum(1 for case in cases if case.get("expected") == "explanation"),
+            "refusal_control_count": sum(1 for case in cases if case.get("expected") != "explanation"),
+            "suite_golden_ref_count": sum(1 for case in cases if case.get("golden_ref")),
+            "phase2_golden_count": len(golden_cases),
+            "phase2_golden_ids": [case["id"] for case in golden_cases],
+            "eval_case_ids": [case["id"] for case in cases],
+            "tag_counts": tags,
+            "engine_baseline_main_sha": baseline.get("baseline_main_sha", ""),
+            "engine_baseline_file_count": len(baseline.get("algorithm_files", {})),
+            "fixed_suite": True,
+            "tracked_status": "fixture_only",
+            "live_model_quality_verified": False,
+            "human_semantic_review_required": True,
+            "automatic_release_allowed": False,
+            "online_ready": False,
+        })
+    return rows
