@@ -98,6 +98,7 @@ export function CompatibilityStructurePage() {
   const spouseRelation = reviewed.spouse_palace_relation || {};
   const spouseRelations = Array.isArray(spouseRelation.relations) ? spouseRelation.relations : [];
   const cross = payload.xianchi_cross_matches || {};
+  const matrix = Array.isArray(payload.relation_evidence_matrix) ? payload.relation_evidence_matrix : [];
   const evidence = result
     ? Object.entries(result.evidence).map(([id, value]) => evidenceLabel(id, value))
     : [];
@@ -342,9 +343,33 @@ export function CompatibilityStructurePage() {
             <p className="compat-note">命中只表示枝支与咸池固定目标相等，不等于吸引力、正缘或婚姻结果。</p>
           </section>
 
+          <section className="compat-section">
+            <div className="result-section-heading">
+              <div><span>四</span><h2>关系证据矩阵</h2></div>
+              <small>Fact → Rule → Evidence</small>
+            </div>
+            <div className="compat-matrix">
+              {matrix.map((item: any) => (
+                <article key={item.id}>
+                  <div>
+                    <strong>{item.label}</strong>
+                    <span className={item.status === "matched" ? "matched" : item.status === "observed" ? "observed" : ""}>
+                      {item.status === "matched" ? "命中" : item.status === "observed" ? "已观察" : "未命中"}
+                    </span>
+                  </div>
+                  <small>{(item.derived_from_rule_ids || []).join(" · ")}</small>
+                  <p>Evidence {(item.evidence_ids || []).length} 条 · 解释权限：关闭</p>
+                </article>
+              ))}
+            </div>
+            <p className="compat-note">
+              这里把每条结构事实绑定到具体 Rule 与 Evidence；矩阵不会把多条命中累加成缘分分数，也不会自动生成吉凶解释。
+            </p>
+          </section>
+
           <div className="compat-two-columns">
             <section className="compat-section">
-              <div className="result-section-heading"><div><span>四</span><h2>典籍依据</h2></div></div>
+              <div className="result-section-heading"><div><span>五</span><h2>典籍依据</h2></div></div>
               {evidence.slice(0, 12).map((item) => (
                 <article className="live-evidence" key={item.id}>
                   <div><strong>{item.title}</strong><span>{item.grade}</span></div>
@@ -354,7 +379,7 @@ export function CompatibilityStructurePage() {
               ))}
             </section>
             <section className="compat-section">
-              <div className="result-section-heading"><div><span>五</span><h2>当前不能说什么</h2></div></div>
+              <div className="result-section-heading"><div><span>六</span><h2>当前不能说什么</h2></div></div>
               <div className="compat-limit-list">
                 {result.limitations.map((item, index) => <p key={index}>{item}</p>)}
               </div>

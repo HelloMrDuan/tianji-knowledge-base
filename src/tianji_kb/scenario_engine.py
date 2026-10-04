@@ -925,6 +925,7 @@ def _compatibility(inputs):
 
     evidence = {}
     evidence_ids = []
+    rule_evidence_ids = {}
     relation_rule_ids = [
         "bazi.phase2.ten_gods",
         "bazi.phase2.xianchi_lookup",
@@ -942,13 +943,119 @@ def _compatibility(inputs):
             rule = next((rule for rule in chart["rule_matches"] if rule["rule_id"] == rule_id), None)
             if rule is None:
                 continue
+            rule_evidence_ids.setdefault(rule_id, [])
             for eid in rule["evidence_ids"]:
+                if eid not in rule_evidence_ids[rule_id]:
+                    rule_evidence_ids[rule_id].append(eid)
                 if eid not in evidence_ids:
                     evidence_ids.append(eid)
                     evidence[eid] = copy.deepcopy(chart["evidence"][eid])
 
+    def matrix_item(item_id, label, scope, status, facts, rule_ids):
+        item_evidence_ids = []
+        for rule_id in rule_ids:
+            for eid in rule_evidence_ids.get(rule_id, []):
+                if eid not in item_evidence_ids:
+                    item_evidence_ids.append(eid)
+        return {
+            "id": item_id,
+            "label": label,
+            "scope": scope,
+            "status": status,
+            "facts": copy.deepcopy(facts),
+            "derived_from_rule_ids": list(rule_ids),
+            "evidence_ids": item_evidence_ids,
+            "interpretation_allowed": False,
+        }
+
+    spouse_relation_rule_ids = ["bazi.phase2.spouse_palace_day_branch"]
+    spouse_relation_kinds = {item["kind"] for item in spouse_palace_relation["relations"]}
+    if "six_harmony" in spouse_relation_kinds:
+        spouse_relation_rule_ids.append("bazi.phase2.branch_six_harmonies")
+    if "harm" in spouse_relation_kinds:
+        spouse_relation_rule_ids.append("bazi.phase2.branch_six_harms")
+    if "clash" in spouse_relation_kinds:
+        spouse_relation_rule_ids.append("bazi.phase2.branch_six_clashes")
+
+    relation_evidence_matrix = [
+        matrix_item(
+            "cross-day-master-ten-gods",
+            "双方日主互看十神",
+            "cross",
+            "observed",
+            {"a_sees_b": a_sees_b, "b_sees_a": b_sees_a},
+            ["bazi.phase2.ten_gods"],
+        ),
+        matrix_item(
+            "day-master-five-combination",
+            "双方日主天干五合",
+            "cross",
+            "matched" if day_master_five_combination["matched"] else "not_matched",
+            day_master_five_combination,
+            ["bazi.phase2.stem_five_combinations"],
+        ),
+        matrix_item(
+            "spouse-palace-pair-relations",
+            "双方日支结构关系",
+            "cross",
+            "matched" if spouse_palace_relation["relations"] else "not_matched",
+            spouse_palace_relation,
+            spouse_relation_rule_ids,
+        ),
+        matrix_item(
+            "xianchi-a-to-b",
+            "A 咸池目标对照 B",
+            "cross",
+            "matched" if a_cross["matches"] else "not_matched",
+            a_cross,
+            ["bazi.phase2.xianchi_lookup"],
+        ),
+        matrix_item(
+            "xianchi-b-to-a",
+            "B 咸池目标对照 A",
+            "cross",
+            "matched" if b_cross["matches"] else "not_matched",
+            b_cross,
+            ["bazi.phase2.xianchi_lookup"],
+        ),
+        matrix_item(
+            "person-a-natal-triple-harmonies",
+            "A 原局三合",
+            "person_a",
+            "matched" if chart_a["reviewed_relations"]["branch_triple_harmonies"] else "not_matched",
+            chart_a["reviewed_relations"]["branch_triple_harmonies"],
+            ["bazi.phase2.branch_triple_harmonies"],
+        ),
+        matrix_item(
+            "person-b-natal-triple-harmonies",
+            "B 原局三合",
+            "person_b",
+            "matched" if chart_b["reviewed_relations"]["branch_triple_harmonies"] else "not_matched",
+            chart_b["reviewed_relations"]["branch_triple_harmonies"],
+            ["bazi.phase2.branch_triple_harmonies"],
+        ),
+    ]
+    if person_a_role is not None:
+        relation_evidence_matrix.append(matrix_item(
+            "person-a-traditional-spouse-star-lens",
+            "A 传统配偶星观察",
+            "person_a",
+            "observed",
+            chart_a.get("traditional_spouse_star_lens"),
+            ["bazi.phase2.spouse_star_lens"],
+        ))
+    if person_b_role is not None:
+        relation_evidence_matrix.append(matrix_item(
+            "person-b-traditional-spouse-star-lens",
+            "B 传统配偶星观察",
+            "person_b",
+            "observed",
+            chart_b.get("traditional_spouse_star_lens"),
+            ["bazi.phase2.spouse_star_lens"],
+        ))
+
     result = {
-        "report_version": "compatibility-structure-v3",
+        "report_version": "compatibility-structure-v4",
         "person_a": {
             "pillars": copy.deepcopy(chart_a["pillars"]),
             "day_master": copy.deepcopy(chart_a["day_master"]),
@@ -985,6 +1092,7 @@ def _compatibility(inputs):
             "day_master_five_combination": day_master_five_combination,
             "spouse_palace_relation": spouse_palace_relation,
         },
+        "relation_evidence_matrix": relation_evidence_matrix,
         "release_scope": "two_person_structure_only",
     }
     rule_match = {
@@ -1003,6 +1111,7 @@ def _compatibility(inputs):
             "spouse_palace_relation": copy.deepcopy(spouse_palace_relation),
             "person_a_traditional_spouse_star_lens": copy.deepcopy(chart_a.get("traditional_spouse_star_lens")),
             "person_b_traditional_spouse_star_lens": copy.deepcopy(chart_b.get("traditional_spouse_star_lens")),
+            "relation_evidence_matrix": copy.deepcopy(relation_evidence_matrix),
         },
         "evidence_ids": evidence_ids,
     }
@@ -1043,6 +1152,12 @@ def _compatibility(inputs):
             "evidence_ids": evidence_ids,
         },
     ]
+    trace.append({
+        "step": "compose_relation_evidence_matrix",
+        "derived_from_rule_ids": list(relation_rule_ids),
+        "facts": copy.deepcopy(relation_evidence_matrix),
+        "evidence_ids": evidence_ids,
+    })
     if person_a_role is not None or person_b_role is not None:
         trace.append({
             "step": "traditional_spouse_star_lenses",
@@ -1072,6 +1187,7 @@ def _compatibility(inputs):
             "三刑存在明确流派分歧，当前不作为统一 executable 规则。",
             "五合或六合命中不代表化气成立，也不代表适合；六害或六冲命中不等于现实关系受害、分手、争执或凶断。",
             "配偶星只在用户显式选择传统男命/女命口径时定位财星或官杀候选位置；《滴天髓阐微》明确反对机械专执官星论夫，因此不把候选星位等同于真实配偶或婚姻结论。",
+            "关系证据矩阵只统一现有结构事实、规则与 Evidence，不把多个命中累加成评分或强弱结论。",
             "尚未纳入旺衰喜忌、大运流年与紫微交叉判断。",
             "不输出缘分百分比、配对分数、正缘结论、结婚时间或分手风险。",
             "AI 不参与本场景计算。",
