@@ -134,3 +134,70 @@ export function fetchAdminRules(token: string): Promise<AdminRuleRecord[]> {
 export function fetchAdminEvidence(token: string): Promise<AdminEvidenceRecord[]> {
   return fetchProtectedRecords<AdminEvidenceRecord>("/api/v1/admin/governance/evidence", token);
 }
+
+
+export type AdminClassicRecord = {
+  id: string;
+  domain: string;
+  name: string;
+  body_stage: string;
+  source_id: string;
+  source_title: string;
+  evidence_level: string;
+  kind: string;
+  public_domain: boolean;
+  chapter_count: number;
+  reviewed_section_count: number;
+};
+
+export type AdminChapterRecord = {
+  id: string;
+  domain: string;
+  name: string;
+  classic_id: string;
+  classic_title: string;
+  locator: string;
+  reviewed_section_count: number;
+};
+
+export type AdminTermRecord = {
+  id: string;
+  domain: string;
+  name: string;
+  aliases: string[];
+  definition: string;
+  related_terms: string[];
+  confidence: string;
+  attributes: Record<string, any>;
+  evidence: AdminConflictEvidence[];
+};
+
+export type AdminSourceRecord = {
+  id: string;
+  title: string;
+  evidence_level: string;
+  kind: string;
+  public_domain: boolean;
+  repository?: string | null;
+  url: string;
+  commit?: string | null;
+  license?: string | null;
+  rights_basis: string;
+  review_scope: string;
+};
+
+export function fetchAdminClassics(token: string): Promise<AdminClassicRecord[]> {
+  return fetchProtectedRecords<AdminClassicRecord>("/api/v1/admin/governance/classics", token);
+}
+
+export function fetchAdminChapters(token: string): Promise<AdminChapterRecord[]> {
+  return fetchProtectedRecords<AdminChapterRecord>("/api/v1/admin/governance/chapters", token);
+}
+
+export function fetchAdminTerms(token: string): Promise<AdminTermRecord[]> {
+  return fetchProtectedRecords<AdminTermRecord>("/api/v1/admin/governance/terms", token);
+}
+
+export function fetchAdminSources(token: string): Promise<AdminSourceRecord[]> {
+  return fetchProtectedRecords<AdminSourceRecord>("/api/v1/admin/governance/sources", token);
+}
