@@ -215,6 +215,14 @@ AI 不参与计算。
 
 响应同时返回 `relation_evidence_matrix`。矩阵把每一个合盘结构项明确绑定到 `derived_from_rule_ids` 与 `evidence_ids`，并固定 `interpretation_allowed=false`。它是前台、后台和未来解释层共用的审计合同，不会把命中数量累加成分数，也不新增任何命理判断。
 
+V5 在此基础上新增 `cross_relation_matrix`：A/B 四柱做 4×4 结构扫描，只检查已经进入生产 Evidence 的天干五合、地支六合、六害、六冲，只返回实际命中项，并分为三层：
+
+- `core`：双方日柱直接关系；
+- `day_context`：一方日柱与另一方年/月/时柱；
+- `supplemental`：双方非日柱之间的辅助结构。
+
+三层只是前台阅读降噪，不是命理权重、吉凶权重或适配度评分。命中数量不能换算成“缘分更高”或“冲突更多”。`cross_relation_matrix` 同时作为 `relation_evidence_matrix` 的一个审计项，继续绑定到已验证 Rule 与 Evidence。三合仍只展示双方各自原局，不把两张命盘的不同柱拼成跨盘三合。
+
 当前不输出：
 
 - 缘分百分比；
