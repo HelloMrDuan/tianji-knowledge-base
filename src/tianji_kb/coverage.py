@@ -15,6 +15,7 @@ PENDING = {
     'ziwei': ['壬年府/辅疑字待刊本；四化、亮度、长生及完整排盘仍保留版本差异。'],
     'fengshui': ['1864锚点/20年九运年份表为 D，显式研究模式；古籍与时间边界待核。'],
     'liuren': ['九宗门初传分支未完整编译；贵人两表及天后位置异文待逐句核定。'],
+    'dream': ['仅五个具体传统梦场景；来源底本和独立性未核，通用梦象和现代心理尚缺，公开产品及 AI 未开放。'],
     'bazi': ['生产范围含四柱、日主、十神、藏干；咸池、五合/六合/六害/六冲/三合、日支传统配偶宫结构位及用户显式选择的传统配偶星候选位置已核；配偶星口径差异已设受限边界，三刑/自刑已登记为未裁定流派冲突且禁止统一 executable；跨盘三合、旺衰、格局、喜用、调候、大运起运及婚恋解释尚未裁定。'],
 }
 
@@ -23,7 +24,7 @@ def build_coverage(root: Path) -> dict:
     validate_protected_files(root)
     model = validate_knowledge(root)
     chunks = list(iter_phase1_chunks(root, model))
-    report = {'schema_version': '1.0', 'scope': '七域最小完整骨架；不等于完整排盘、占断或整本校勘', 'domains': []}
+    report = {'schema_version': '1.0', 'scope': '既有七域与梦文化域最小骨架；不等于完整排盘、个人预测或整本校勘', 'domains': []}
     for bundle in model['bundles']:
         domain = bundle['domain']
         source_ids = set()
@@ -72,7 +73,7 @@ def build_coverage(root: Path) -> dict:
 
 def markdown_coverage(report: dict) -> str:
     lines = [
-        '<!-- PHASE1_COVERAGE_START -->', '## 七域横向扩充 Phase 1', '',
+        '<!-- PHASE1_COVERAGE_START -->', '## 七域与梦文化域 Phase 1', '',
         '完成状态按本轮九项最小骨架标准核验；不等于所有流派算法、整本校勘或完整占断已完成。',
         '机器报告：`data/coverage/phase1.json`；运行 `python scripts/build_phase1_coverage.py --check` 检查统计一致。', '',
         '| 域 | 经典正文正式/隔离 | 已核选段 | 术语 | 规则：执行/部分/描述 | 来源：A/B/C/D | 状态 |',
@@ -93,5 +94,5 @@ def markdown_coverage(report: dict) -> str:
         '待核事项：', '',
     ]
     lines += [f"- {d['domain']}：{'；'.join(d['pending_evidence'])}" for d in report['domains']]
-    lines += ['', 'Phase 1 至此收束。后续先评估七域覆盖，再决定 Phase 2 优先级；不自动继续深挖单书。', '<!-- PHASE1_COVERAGE_END -->']
+    lines += ['', 'Phase 1 为已审核知识骨架；新域仍按同一模型审核。骨架完成不等于产品成熟度或 AI 授权。', '<!-- PHASE1_COVERAGE_END -->']
     return '\n'.join(lines) + '\n'

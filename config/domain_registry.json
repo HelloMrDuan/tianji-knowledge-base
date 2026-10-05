@@ -49,6 +49,13 @@
       "knowledge_path": "data/canonical/bazi/phase1_knowledge.json",
       "status": "phase1_complete",
       "production_stage": "canonical"
+    },
+    {
+      "id": "dream",
+      "name": "传统梦文化（研究检索）",
+      "knowledge_path": "data/canonical/dream/phase1_knowledge.json",
+      "status": "phase1_complete",
+      "production_stage": "canonical"
     }
   ]
 }

@@ -784,6 +784,14 @@
       "authority_status": "unverified",
       "grade_ceiling": "C",
       "review_basis": "固定公版电子快照的夫妻论、女命章与地支篇三刑/自刑批评短引已逐字核对；独立刊本与版本谱系未核，不升级 A/B。"
+    },
+    {
+      "source_id": "dream.source.zhougong-scenes",
+      "lineage_group": "garychowcmu/daizhigev20:易藏/术数/周公解梦.txt",
+      "edition_status": "unverified",
+      "authority_status": "unverified",
+      "grade_ceiling": "C",
+      "review_basis": "只审核固定版本五个短条目的字面、梦语境与文化解释；外部电子文本没有已核独立刊本证明，不投独立票。"
     }
   ],
   "claim_comparisons": [

@@ -109,7 +109,7 @@
           "title": "周公解梦（电子本题名；作者与底本待核）",
           "path": "易藏/术数/周公解梦.txt",
           "promotion": "quarantine_only",
-          "planned_output": "data/canonical/dream/phase1_knowledge.json",
+          "planned_output": "data/canonical/classics/dream/zhougong_jiemeng_v1.json",
           "pinned_commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
           "blob_sha": "0c7b0823265c4ff00465f833e0be28f1bf0f2175",
           "candidate_metadata": "data/quarantine/phase1_candidates/daizhigev20/4a6d6f2088825f132521d848c2ea86cf9c9a7620/0c7b0823265c4ff00465f833e0be28f1bf0f2175.json",
@@ -128,10 +128,11 @@
               "direct_scene_candidates": 11,
               "related_only": 5,
               "not_found": 1,
-              "confirmed_interpretations": 0
+              "confirmed_interpretations": 5
             },
-            "note": "传统来源调查已登记，不等于知识库已建立；使用现有知识模型逐段审核前，不增加 Canonical、Rule、Golden 或 Scenario 执行；不得套用疾病/怀孕/必然未来断语。"
-          }
+            "note": "五个具体场景另经 Source/Section/Term/Rule 审核为 C 级传统文化摘录，只支持 research 检索；整本版本、作者、独立性与 OCR 未闭环，quarantine_only/canonical_ready=false。现代心理未入库，AI未开放，不作病孕/未来预测。"
+          },
+          "reviewed_excerpt_output": "data/canonical/dream/phase1_knowledge.json"
         }
       ]
     }

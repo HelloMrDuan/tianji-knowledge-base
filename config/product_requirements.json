@@ -315,7 +315,7 @@
         "分离"
       ],
       "legacy_paths": [],
-      "missing": "已登记固定 daizhigev20 周公解梦 RAW/Quarantine 调查候选并核 17 类输入：11 个直接场景定位、5 个仅相近语境、1 个未找到；0 个已确认解释。底本、权利/编者、异文与场景条件仍须审核；尚无梦域 Terms/Rules/Evidence/Golden、RAG 解释或执行，不把吉凶短句变成个人预测。"
+      "missing": "已沿用既有 Phase1 模型审核蛇咬人、自在水中、身在火中、人飞上天、人坠井五个具体场景，C级文化检索 helper 可运行；通用梦象、版本独立性和现代心理仍缺，公开 Scenario 与 AI 未开放，不能把实体出现当梦义或作个人预测。"
     },
     "dream-psychology": {
       "priority": "P0",

@@ -3788,8 +3788,8 @@
         "topic_id": "dream-traditional",
         "legacy_files": 0,
         "text_candidate_files": 0,
-        "terms": 0,
-        "phase1_rules": 0,
+        "terms": 5,
+        "phase1_rules": 5,
         "phase2_rules": 0
       },
       {
@@ -3804,7 +3804,7 @@
     "missing_capabilities": [
       {
         "topic_id": "dream-traditional",
-        "reason": "已登记固定 daizhigev20 周公解梦 RAW/Quarantine 调查候选并核 17 类输入：11 个直接场景定位、5 个仅相近语境、1 个未找到；0 个已确认解释。底本、权利/编者、异文与场景条件仍须审核；尚无梦域 Terms/Rules/Evidence/Golden、RAG 解释或执行，不把吉凶短句变成个人预测。"
+        "reason": "已沿用既有 Phase1 模型审核蛇咬人、自在水中、身在火中、人飞上天、人坠井五个具体场景，C级文化检索 helper 可运行；通用梦象、版本独立性和现代心理仍缺，公开 Scenario 与 AI 未开放，不能把实体出现当梦义或作个人预测。"
       },
       {
         "topic_id": "dream-psychology",
@@ -3841,12 +3841,15 @@
       "ai_enabled": false
     },
     "blockers": [
-      "已登记固定 daizhigev20 周公解梦 RAW/Quarantine 调查候选并核 17 类输入：11 个直接场景定位、5 个仅相近语境、1 个未找到；0 个已确认解释。底本、权利/编者、异文与场景条件仍须审核；尚无梦域 Terms/Rules/Evidence/Golden、RAG 解释或执行，不把吉凶短句变成个人预测。",
+      "已沿用既有 Phase1 模型审核蛇咬人、自在水中、身在火中、人飞上天、人坠井五个具体场景，C级文化检索 helper 可运行；通用梦象、版本独立性和现代心理仍缺，公开 Scenario 与 AI 未开放，不能把实体出现当梦义或作个人预测。",
       "dream-modern-psychology 已有独立学术来源调查清单，含可核查研究及许可信息；尚未入既有 Source/Review 模型，未形成已审核证据或执行。文化梦书研究不作临床心理证据，不从梦诊断精神疾病、怀孕或预测必然未来。",
       "AI未完成真实质量校准及人工语义复核"
     ],
-    "recommended_sources": [],
-    "degraded_message": "当前版本尚未开放，相关知识、规则与证据仍在校核中。"
+    "recommended_sources": [
+      "dream.source.zhougong-scenes"
+    ],
+    "degraded_message": "当前版本尚未开放，相关知识、规则与证据仍在校核中。",
+    "knowledge_stage": "PARTIAL"
   },
   "one-question": {
     "name": "一事占问",
@@ -5081,6 +5084,16 @@
         "stage": "canonical"
       },
       {
+        "path": "data/canonical/dream/phase1_knowledge.json",
+        "sha256": "ceb502dcceb77ccf7513542f53880c49e4e122fc0bee58fded2b346f24d636c5",
+        "bytes": 32553,
+        "stage": "canonical",
+        "json_type": "dict",
+        "domain": "dream",
+        "model": "phase1-knowledge",
+        "schema_version": "1.0"
+      },
+      {
         "path": "data/canonical/engines/registry.json",
         "sha256": "0b3bb59395119243909b2d5a31d001fcf9cb8ad6eb49d03a2fde5d64bb79304b",
         "bytes": 3154,
@@ -5974,13 +5987,19 @@
       },
       {
         "path": "data/quarantine/public_domain_snapshots/daizhigev20/zhougong_dream_candidates.json",
-        "sha256": "85f423ecf615efa327af4cac7234cc7cefdec917785cfd2ecaf8bf97da5cf9fb",
-        "bytes": 15218,
+        "sha256": "efe38f271d9a635e309c1b8c2b5923e6c85e763dfb10e5cb4078232738e79d91",
+        "bytes": 16489,
         "stage": "quarantine",
         "json_type": "dict",
         "domain": "dream",
         "model": null,
         "schema_version": "0.1"
+      },
+      {
+        "path": "data/quarantine/public_domain_snapshots/daizhigev20/zhougong_reviewed_excerpts.txt",
+        "sha256": "5867fadd099c6601172539ec9f6abcc054803212b6ac27641a1747ad4b7824b3",
+        "bytes": 336,
+        "stage": "quarantine"
       },
       {
         "path": "data/quarantine/public_domain_snapshots/daizhigev20/zhouyi_combined.txt",
@@ -6477,11 +6496,11 @@
       },
       {
         "path": "config/domain_registry.json",
-        "sha256": "3f706d79c59f989f29804af561186c3dbbfaee94114966d3a667943dde6b22cb"
+        "sha256": "468f5f00a53be183105ae027a4c626ccc5c4061605cdf8bf880b0bd359a03294"
       },
       {
         "path": "config/knowledge_sources.json",
-        "sha256": "11710b37f75eef708bb252d673216d6d9754db735195c6c5dbb7b2c80c19d8be"
+        "sha256": "64c39526390b7ee142eb3d39f30cd70933c40cdef40399fcef39fd752985dc9e"
       },
       {
         "path": "config/phase2_rule_promotions.json",
@@ -6489,15 +6508,15 @@
       },
       {
         "path": "config/phase2_source_audit.json",
-        "sha256": "b0339740b07a637b6058af231d3e9845e6bd83c5a684fbc376c48e700cb4ad6d"
+        "sha256": "61a44fcc14ca5b062dcbf528637065202e0fef38aa20552526740b50e718fe8e"
       },
       {
         "path": "config/product_requirements.json",
-        "sha256": "0b37514bd3aaec69427f4195c6e635941631821ad8c42ed0e92da16a47abffe9"
+        "sha256": "4a7ecb83aa871c5f5a5d913f0da73bdeb3c5deffb35cacf67f32cb0f478f6dd9"
       },
       {
         "path": "config/public_domain_manifest.json",
-        "sha256": "d2356fdc1cd6f25bebf1d7bf3ea94e37425312f6dc40dfb2fa32acec40254a26"
+        "sha256": "e452da2658380cc88883ba8d9b42bc845303abbe43739afad2f718c9ff0dcf41"
       },
       {
         "path": "config/source_file_manifest.json",
@@ -6509,11 +6528,11 @@
       },
       {
         "path": "schemas/knowledge/bundle.schema.json",
-        "sha256": "ccc3bc7a6db96fdd379d83b3f57863cb2ed307f5ea43e7a5b6c0db1b1438b2ea"
+        "sha256": "3bb6e5336e16be827ad33230b17ceca219cc97dadb222057bb886d5b67ceefb6"
       },
       {
         "path": "schemas/knowledge/domains.schema.json",
-        "sha256": "f0ec9d95ee568aa2f2d2b1a756e06fb59bc0b04cf6182f3288b1dc4d2a95b0cb"
+        "sha256": "6c1785fbbeff4eb50f3242219a6cc711057f4322717f88deb20aed4b365b04b0"
       },
       {
         "path": "schemas/knowledge/execution.schema.json",
@@ -6581,7 +6600,7 @@
       },
       {
         "path": "src/tianji_kb/coverage.py",
-        "sha256": "b7f89fa7a21021b9fc9927f7bd86a82f1bf85a0bf4bef0a983793d37ad5b9a19"
+        "sha256": "cda7192c4e7d58c61b431dd6a1e41ee9c745caacd677a29115ba863db2875b7b"
       },
       {
         "path": "src/tianji_kb/engine.py",
@@ -6648,6 +6667,10 @@
         "sha256": "a76ff7d5c843d07f579f1db53b0900f5befa3b6ce2ca2e09114fcc96ff9c0a1f"
       },
       {
+        "path": "src/tianji_kb/operations/dream_knowledge.py",
+        "sha256": "4e93b5fc08ba00bd4bf064fd417aeaa37c11ffd42068350493f6491be3ae5baf"
+      },
+      {
         "path": "src/tianji_kb/operations/fengshui.py",
         "sha256": "6ad8512d9788e9ed2599f9dbb85b44dc21ee6a77090a990f0799dda095086a42"
       },
@@ -6705,7 +6728,7 @@
       },
       {
         "path": "src/tianji_kb/product_coverage.py",
-        "sha256": "9db388eef7e864d3a314a889a81429f7c4c5e96a26b7b7a56768efd9a4347bab"
+        "sha256": "2ed7d4331e412a8675f5c454069c021f9ddb7257b305ea09619ec78ea93629e1"
       },
       {
         "path": "src/tianji_kb/prompts.py",
@@ -6713,7 +6736,7 @@
       },
       {
         "path": "src/tianji_kb/rag_context.py",
-        "sha256": "ac464c7035f59240be6a7bbeb5a251111d3c0ed9ebc4f7d1f46298ef2a8499a1"
+        "sha256": "e0b11988d396d9c2b074ec154576ed7b9fe8f7eb51b4f4510758fe25d6d49ebf"
       },
       {
         "path": "src/tianji_kb/registry.py",
@@ -6753,7 +6776,11 @@
       },
       {
         "path": "tests/test_phase1_cross_domain.py",
-        "sha256": "8208fb178f83f41fd99fd34732c526a9c80b420f20eccbf431f3fbf1c3ba6738"
+        "sha256": "d6082a84971db99e7d064560129a40a6f99402d352d45ef490ece1ffe51e9480"
+      },
+      {
+        "path": "tests/test_phase1_dream.py",
+        "sha256": "228a7b48f34c0ce66580a99b11e31910e5ecc98ca2c4c847edf6c9e7ada0b1ce"
       },
       {
         "path": "tests/test_phase1_fengshui.py",
@@ -6869,8 +6896,8 @@
       }
     ],
     "inventory_counts": {
-      "canonical": 77,
-      "quarantine": 120
+      "canonical": 78,
+      "quarantine": 121
     },
     "legacy_source_registry_count": 37,
     "source_metadata_gaps": {
@@ -6879,6 +6906,7 @@
         "bazi.source.sanming-xianchi-niutrans",
         "bazi.source.xieji-relations",
         "bazi.source.yuanhai",
+        "dream.source.zhougong-scenes",
         "fengshui.source.benyi",
         "fengshui.source.dibian",
         "fengshui.source.fengshui-implementation",
@@ -8140,10 +8168,22 @@
         "public_domain": true,
         "rights_basis": "仅保存并引用公有领域古籍原文；完整清洗版另有 Canonical，但本 Source 仍锚定固定原始快照。",
         "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795"
+      },
+      {
+        "source_id": "dream.source.zhougong-scenes",
+        "kind": "classical",
+        "evidence_level": "C",
+        "repository": "garychowcmu/daizhigev20",
+        "path": "易藏/术数/周公解梦.txt",
+        "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+        "license": "Public-Domain (pre-modern short excerpts only)",
+        "public_domain": true,
+        "rights_basis": "沿用 PUBLIC_DOMAIN_EXTRACT_ONLY，只审核并保存简短前现代占梦条目及必要原文语境；不复制现代注解或取得电子整理版权，不认定题名作者。",
+        "sha256": "5867fadd099c6601172539ec9f6abcc054803212b6ac27641a1747ad4b7824b3"
       }
     ],
     "source_grades": {
-      "C": 91,
+      "C": 92,
       "D": 6
     },
     "phase1": {
@@ -8202,6 +8242,14 @@
         "terms": 24,
         "rules": 20,
         "concepts": 13
+      },
+      "dream": {
+        "classics": 1,
+        "chapters": 5,
+        "sections": 6,
+        "terms": 5,
+        "rules": 5,
+        "concepts": 1
       }
     },
     "engines": {
@@ -14826,7 +14874,98 @@
           "重逢",
           "分离"
         ],
-        "reviewed_terms": [],
+        "reviewed_terms": [
+          {
+            "id": "dream.term.snake",
+            "name": "蛇",
+            "source_refs": [
+              {
+                "source_id": "dream.source.zhougong-scenes",
+                "section_id": "dream.section.s002",
+                "original_text": "蛇咬人主得大财",
+                "role": "classical"
+              },
+              {
+                "source_id": "dream.source.zhougong-scenes",
+                "section_id": "dream.section.s001",
+                "original_text": "周公解梦\n　　诗曰:\n　　夜有纷纷梦 神魂预吉凶 庄周虚化蝶 吕望兆飞熊",
+                "role": "classical"
+              }
+            ]
+          },
+          {
+            "id": "dream.term.water",
+            "name": "水",
+            "source_refs": [
+              {
+                "source_id": "dream.source.zhougong-scenes",
+                "section_id": "dream.section.s003",
+                "original_text": "自在水中大吉利",
+                "role": "classical"
+              },
+              {
+                "source_id": "dream.source.zhougong-scenes",
+                "section_id": "dream.section.s001",
+                "original_text": "周公解梦\n　　诗曰:\n　　夜有纷纷梦 神魂预吉凶 庄周虚化蝶 吕望兆飞熊",
+                "role": "classical"
+              }
+            ]
+          },
+          {
+            "id": "dream.term.fire",
+            "name": "火",
+            "source_refs": [
+              {
+                "source_id": "dream.source.zhougong-scenes",
+                "section_id": "dream.section.s004",
+                "original_text": "身在火中贵人扶",
+                "role": "classical"
+              },
+              {
+                "source_id": "dream.source.zhougong-scenes",
+                "section_id": "dream.section.s001",
+                "original_text": "周公解梦\n　　诗曰:\n　　夜有纷纷梦 神魂预吉凶 庄周虚化蝶 吕望兆飞熊",
+                "role": "classical"
+              }
+            ]
+          },
+          {
+            "id": "dream.term.flying",
+            "name": "飞翔",
+            "source_refs": [
+              {
+                "source_id": "dream.source.zhougong-scenes",
+                "section_id": "dream.section.s005",
+                "original_text": "飞上天富贵大吉",
+                "role": "classical"
+              },
+              {
+                "source_id": "dream.source.zhougong-scenes",
+                "section_id": "dream.section.s001",
+                "original_text": "周公解梦\n　　诗曰:\n　　夜有纷纷梦 神魂预吉凶 庄周虚化蝶 吕望兆飞熊",
+                "role": "classical"
+              }
+            ]
+          },
+          {
+            "id": "dream.term.falling",
+            "name": "坠落",
+            "source_refs": [
+              {
+                "source_id": "dream.source.zhougong-scenes",
+                "section_id": "dream.section.s006",
+                "original_text": "身坠井中疾病凶",
+                "role": "classical"
+              },
+              {
+                "source_id": "dream.source.zhougong-scenes",
+                "section_id": "dream.section.s001",
+                "original_text": "周公解梦\n　　诗曰:\n　　夜有纷纷梦 神魂预吉凶 庄周虚化蝶 吕望兆飞熊",
+                "role": "classical"
+              }
+            ]
+          }
+        ],
         "terms_not_structured": [
           "人",
           "家人",
@@ -14834,7 +14973,6 @@
           "故人",
           "小孩",
           "老人",
-          "蛇",
           "龙",
           "鱼",
           "虎",
@@ -14844,10 +14982,8 @@
           "猫",
           "鸟",
           "虫",
-          "水",
           "河",
           "海",
-          "火",
           "山",
           "雨",
           "雷",
@@ -14866,8 +15002,6 @@
           "飞机",
           "奔跑",
           "被追",
-          "飞翔",
-          "坠落",
           "游泳",
           "逃跑",
           "打斗",
@@ -14885,13 +15019,21 @@
           "重逢",
           "分离"
         ],
-        "phase1_rule_ids": [],
-        "phase1_execution_status": {},
+        "phase1_rule_ids": [
+          "dream.rule.snake",
+          "dream.rule.water",
+          "dream.rule.fire",
+          "dream.rule.flying",
+          "dream.rule.falling"
+        ],
+        "phase1_execution_status": {
+          "partially_structured": 5
+        },
         "phase2_rule_ids": [],
         "legacy_references": [],
         "classical_text_candidates": [],
         "explanation_ready": false,
-        "missing": "已登记固定 daizhigev20 周公解梦 RAW/Quarantine 调查候选并核 17 类输入：11 个直接场景定位、5 个仅相近语境、1 个未找到；0 个已确认解释。底本、权利/编者、异文与场景条件仍须审核；尚无梦域 Terms/Rules/Evidence/Golden、RAG 解释或执行，不把吉凶短句变成个人预测。"
+        "missing": "已沿用既有 Phase1 模型审核蛇咬人、自在水中、身在火中、人飞上天、人坠井五个具体场景，C级文化检索 helper 可运行；通用梦象、版本独立性和现代心理仍缺，公开 Scenario 与 AI 未开放，不能把实体出现当梦义或作个人预测。"
       },
       "dream-psychology": {
         "name": "现代心理梦研究",
@@ -16987,8 +17129,8 @@
       }
     ],
     "retrieval": {
-      "reviewed_entity_chunks": 795,
-      "general_rag_chunks": 2524,
+      "reviewed_entity_chunks": 812,
+      "general_rag_chunks": 2541,
       "general_rag_domains": {
         "almanac": 1,
         "bazi": 491,
@@ -17004,7 +17146,8 @@
         "tarot": 87,
         "yinyuan": 1,
         "zeri": 1,
-        "ziwei": 118
+        "ziwei": 118,
+        "dream": 17
       },
       "warning": "通用RAG包括旧Canonical资料；可检索不等于RuleMatch命中或解释授权。生产解释仍用现有CanonicalRetriever及EvidenceResolver。"
     },
@@ -17383,6 +17526,25 @@
         "从化旺极衰极",
         "喜用神"
       ]
+    },
+    "reviewed_dream_retrieval": {
+      "knowledge_model": "existing_phase1_knowledge",
+      "reviewed_term_ids": [
+        "dream.term.snake",
+        "dream.term.water",
+        "dream.term.fire",
+        "dream.term.flying",
+        "dream.term.falling"
+      ],
+      "reviewed_scene_count": 5,
+      "helper_available": true,
+      "helper": "tianji_kb.operations.dream_knowledge.retrieve",
+      "variant": "traditional_chinese_dream",
+      "mode": "research",
+      "phase2_chart_engine_registered": false,
+      "public_enabled": false,
+      "ai_enabled": false,
+      "scope": "五个具体文化场景；实体出现不等于解释命中；完整公开解梦产品仍未建立。"
     }
   }
 }

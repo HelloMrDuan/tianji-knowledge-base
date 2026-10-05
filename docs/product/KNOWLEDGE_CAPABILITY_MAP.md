@@ -1091,7 +1091,7 @@ Scenario：`dream`；已执行=False；现有结构公开标志=False；AI=false
 
 已有知识、Rule 与 Evidence：
 
-- 传统梦文化：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
+- 传统梦文化：Terms `dream.term.snake`, `dream.term.water`, `dream.term.fire`, `dream.term.flying`, `dream.term.falling`；Phase1 Rule `dream.rule.snake`, `dream.rule.water`, `dream.rule.fire`, `dream.rule.flying`, `dream.rule.falling`。
 - 现代心理梦研究：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
 
 已有 Phase2 / Golden / Variant：
@@ -1105,8 +1105,8 @@ Scenario：`dream`；已执行=False；现有结构公开标志=False；AI=false
 
 缺失能力 / 依赖 / 下一批：
 
-- `dream-traditional`：已登记固定 daizhigev20 周公解梦 RAW/Quarantine 调查候选并核 17 类输入：11 个直接场景定位、5 个仅相近语境、1 个未找到；0 个已确认解释。底本、权利/编者、异文与场景条件仍须审核；尚无梦域 Terms/Rules/Evidence/Golden、RAG 解释或执行，不把吉凶短句变成个人预测。
-  下一批先登记来源及权利，保存 RAW/Quarantine；无审核引文时保持未支持。
+- `dream-traditional`：已沿用既有 Phase1 模型审核蛇咬人、自在水中、身在火中、人飞上天、人坠井五个具体场景，C级文化检索 helper 可运行；通用梦象、版本独立性和现代心理仍缺，公开 Scenario 与 AI 未开放，不能把实体出现当梦义或作个人预测。
+  下一批复核现有 `dream.source.zhougong-scenes`，沿原模型补规则条件及 Golden。
 - `dream-psychology`：dream-modern-psychology 已有独立学术来源调查清单，含可核查研究及许可信息；尚未入既有 Source/Review 模型，未形成已审核证据或执行。文化梦书研究不作临床心理证据，不从梦诊断精神疾病、怀孕或预测必然未来。
   下一批先登记来源及权利，保存 RAW/Quarantine；无审核引文时保持未支持。
 
