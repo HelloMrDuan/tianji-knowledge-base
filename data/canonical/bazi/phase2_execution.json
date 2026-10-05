@@ -356,6 +356,43 @@
       ],
       "regression_test": "tests/test_phase2_baziadjudication.py",
       "evidence_scope": "C：月令非单因子、根气及喜忌条件边界；汇总真实未裁定条件。强弱古例独立复核，不按四柱记忆标签；仍无通用强弱分类。"
+    },
+    {
+      "id": "bazi.phase2.principal_month",
+      "domain": "bazi",
+      "name": "月支本气关系",
+      "variant": "ziping-structural-v1",
+      "execution_status": "executable",
+      "phase1_rule_refs": [
+        "bazi.rule.r021"
+      ],
+      "validation_status": "validated",
+      "golden_case_ids": [
+        "bazi.principal-same",
+        "bazi.principal-generate",
+        "bazi.principal-control",
+        "bazi.principal-unreviewed"
+      ],
+      "regression_test": "tests/test_phase2_baziavailability.py",
+      "evidence_scope": "C：仅已审核本气关系或任氏木根条件；分日冲突保留，冲合不消根，整体旺衰未裁定。"
+    },
+    {
+      "id": "bazi.phase2.root_availability",
+      "domain": "bazi",
+      "name": "通根可用性",
+      "variant": "ziping-structural-v1",
+      "execution_status": "executable",
+      "phase1_rule_refs": [
+        "bazi.rule.r022"
+      ],
+      "validation_status": "validated",
+      "golden_case_ids": [
+        "bazi.availability-wood",
+        "bazi.availability-clash",
+        "bazi.availability-harmony"
+      ],
+      "regression_test": "tests/test_phase2_baziavailability.py",
+      "evidence_scope": "C：仅已审核本气关系或任氏木根条件；分日冲突保留，冲合不消根，整体旺衰未裁定。"
     }
   ]
 }

@@ -1727,6 +1727,164 @@
           "weights_available": false
         }
       }
+    },
+    {
+      "id": "bazi.principal-same",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "癸亥",
+        "month_ganzhi": "乙卯",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "乙亥",
+        "month_command_variant": "month-command-principal-qi-v1"
+      },
+      "expected": {
+        "principal_month": {
+          "principal_qi": "乙",
+          "relation": "same_element",
+          "dated_commander_required": false
+        }
+      }
+    },
+    {
+      "id": "bazi.principal-generate",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲子",
+        "month_ganzhi": "丙子",
+        "day_ganzhi": "甲午",
+        "hour_ganzhi": "庚午",
+        "month_command_variant": "month-command-principal-qi-v1"
+      },
+      "expected": {
+        "principal_month": {
+          "principal_qi": "癸",
+          "relation": "generates_me"
+        }
+      }
+    },
+    {
+      "id": "bazi.principal-control",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "戊午",
+        "month_ganzhi": "辛酉",
+        "day_ganzhi": "甲午",
+        "hour_ganzhi": "庚午",
+        "month_command_variant": "month-command-principal-qi-v1"
+      },
+      "expected": {
+        "principal_month": {
+          "principal_qi": "辛",
+          "relation": "controls_me"
+        }
+      }
+    },
+    {
+      "id": "bazi.principal-unreviewed",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲子",
+        "month_ganzhi": "戊辰",
+        "day_ganzhi": "甲午",
+        "hour_ganzhi": "庚午",
+        "month_command_variant": "month-command-principal-qi-v1"
+      },
+      "expected": {
+        "principal_month": {
+          "principal_qi": null,
+          "relation": null,
+          "status": "not_reviewed"
+        }
+      }
+    },
+    {
+      "id": "bazi.availability-wood",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "癸亥",
+        "month_ganzhi": "乙卯",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "乙亥",
+        "strength_variant": "bazi-strength-conditions-v1",
+        "root_availability_variant": "ditiansui-wood-root-availability-v1"
+      },
+      "expected": {
+        "root_availability": {
+          "root_erasure_applied": false,
+          "weights_available": false,
+          "root_presence": true,
+          "roots": [
+            {
+              "root_availability": "effective",
+              "same_stem": true
+            },
+            {
+              "root_availability": "effective",
+              "same_stem": false
+            },
+            {
+              "root_availability": "effective",
+              "same_stem": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "bazi.availability-clash",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲寅",
+        "month_ganzhi": "庚申",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "辛酉",
+        "strength_variant": "bazi-strength-conditions-v1",
+        "root_availability_variant": "ditiansui-wood-root-availability-v1"
+      },
+      "expected": {
+        "root_availability": {
+          "root_erasure_applied": false,
+          "weights_available": false,
+          "root_presence": true,
+          "roots": [
+            {
+              "root_availability": "conditional",
+              "root_effect": null
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "bazi.availability-harmony",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "癸亥",
+        "month_ganzhi": "乙卯",
+        "day_ganzhi": "甲戌",
+        "hour_ganzhi": "乙亥",
+        "strength_variant": "bazi-strength-conditions-v1",
+        "root_availability_variant": "ditiansui-wood-root-availability-v1"
+      },
+      "expected": {
+        "root_availability": {
+          "root_erasure_applied": false,
+          "weights_available": false,
+          "root_presence": true,
+          "roots": [
+            {
+              "root_availability": "effective"
+            },
+            {
+              "root_availability": "conditional"
+            },
+            {
+              "root_availability": "effective"
+            }
+          ]
+        }
+      }
     }
   ]
 }

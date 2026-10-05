@@ -1,9 +1,38 @@
 """Reviewed month policies: principal qi is not a dated commander or strength."""
 from .bazi_core import PILLAR_NAMES, foundations
 from .resolver import EvidenceResolver
+from .foundations import CONTROLS, GENERATES, stem_element
 
 COMMAND_VARIANT = 'bazi-strength-month-command-v1'
+PRINCIPAL_VARIANT = 'month-command-principal-qi-v1'
 POLICY_CONCEPT = 'bazi.concept.month_command_variant_v1'
+
+
+def principal_month(observed, day_master, *, command_variant=PRINCIPAL_VARIANT):
+    """An independent principal-qi relation, never a resolved day commander."""
+    if command_variant != PRINCIPAL_VARIANT:
+        raise ValueError('Unsupported principal month variant')
+    stem = observed['principal_qi']
+    relation = None
+    if stem is not None:
+        target, reference = stem_element(stem), stem_element(day_master)
+        if target == reference:
+            relation = 'same_element'
+        elif GENERATES[target] == reference:
+            relation = 'generates_me'
+        elif GENERATES[reference] == target:
+            relation = 'i_generate'
+        elif CONTROLS[target] == reference:
+            relation = 'controls_me'
+        else:
+            relation = 'i_control'
+    return {'command_variant': command_variant, 'month_branch': observed['month_branch'],
+            'principal_qi': stem, 'principal_qi_section_ids': observed['principal_qi_section_ids'],
+            'day_master': day_master, 'relation': relation,
+            'status': 'reviewed_relation' if stem else 'not_reviewed',
+            'dated_commander_required': False, 'commander': None, 'de_ling': None,
+            'overall_strength': None, 'dated_source_conflicts': list(observed['source_conflict']),
+            'scope': '任氏已审本气关系；独立于分日口径，关系不单独证明旺衰，四库本气未审。'}
 
 
 def month_command(pillars, day_master, *, command_variant=COMMAND_VARIANT):
