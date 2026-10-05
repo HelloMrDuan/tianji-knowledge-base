@@ -1673,6 +1673,165 @@
         "maturity": "PARTIAL",
         "supported_classifications": []
       }
+    },
+    {
+      "id": "bazi.term.principal_month_v1",
+      "domain": "bazi",
+      "name": "月支本气关系",
+      "aliases": [],
+      "definition": "已审核的有限条件执行；原典充分条件之外保持未裁定，不用于数值根力、整体旺衰或吉凶。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s033",
+          "original_text": "甲乙一木也,丙丁一火也,戊己一土也,庚辛一金也,壬癸一水也,即分别所用,不过阳刚阴柔,阳健阴顺而已。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s034",
+          "original_text": "若子从癸、午从丁,是体阳而用阴也;巳从丙,亥从壬,是体阴而用阳也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s035",
+          "original_text": "然以本气为主,寅必先甲而后及丙,申必先庚而后及壬,余支皆然。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s036",
+          "original_text": "若甲午日,则午必先丁而后己,己土岂能专权而合甲?己亥日,亥必先壬而后甲,甲岂能出而合己?癸巳日,巳必先丙而后戊,戊岂能越过而合癸?",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s028",
+          "original_text": "得时俱为旺论,失令便作衰看,虽是至理,亦死法也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s030",
+          "original_text": "金能生水,水多金沉;水能生木,木盛水缩;木能生火,火多木焚;火能生土,土多火埋;土能生金,金多土变。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s031",
+          "original_text": "金能剋木,木坚金缺;木能剋土,土重木折;土能剋水,水多土流;水能剋火,火多水热;火能剋金,金多火熄。",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium",
+      "attributes": {
+        "variant": "month-command-principal-qi-v1",
+        "maturity": "PARTIAL",
+        "status": "bounded_executable",
+        "dated_commander_required": false,
+        "reviewed_branches": [
+          "子",
+          "午",
+          "巳",
+          "亥",
+          "寅",
+          "申",
+          "卯",
+          "酉"
+        ],
+        "unreviewed_branches": [
+          "丑",
+          "辰",
+          "未",
+          "戌"
+        ],
+        "overall_strength_available": false,
+        "dated_variants_status": "BLOCKED",
+        "dated_blocked_by": [
+          "source_conflict",
+          "unreviewed_day_boundaries"
+        ]
+      },
+      "related_terms": [
+        "bazi.term.root_conditions"
+      ]
+    },
+    {
+      "id": "bazi.term.root_availability_v1",
+      "domain": "bazi",
+      "name": "通根可用性",
+      "aliases": [],
+      "definition": "已审核的有限条件执行；原典充分条件之外保持未裁定，不用于数值根力、整体旺衰或吉凶。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s026",
+          "original_text": "余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s033",
+          "original_text": "甲乙一木也,丙丁一火也,戊己一土也,庚辛一金也,壬癸一水也,即分别所用,不过阳刚阴柔,阳健阴顺而已。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s021",
+          "original_text": "刑之义无所取,如亥刑亥、辰刑辰、酉刑酉、午刑午,谓之自刑,本支见本支,自谓同气,何以相刑?子刑卯,卯刑子,是谓相生,何以相刑?戌刑未,未刑丑,皆为土气,更不当刑。寅刑巳,亦是相生,寅申相刑,即冲何必再刑?又曰子卯一刑也,寅巳申二刑也,丑戌未三刑也,故称三刑,又有自刑,此皆俗谬,姑置之。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s038",
+          "original_text": "地支逢冲,犹天干之相克也,须视其强弱喜忌而论之。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s039",
+          "original_text": "得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s040",
+          "original_text": "辰、戌、丑、未四库也,宜冲开。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s041",
+          "original_text": "余气者,如丙丁逢未,丙丁逢戌,庚辛逢丑,壬癸逢辰之类是也。",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium",
+      "attributes": {
+        "variant": "ditiansui-wood-root-availability-v1",
+        "maturity": "PARTIAL",
+        "status": "bounded_executable",
+        "element": "木",
+        "branches": [
+          "亥",
+          "寅",
+          "卯"
+        ],
+        "available_statuses": [
+          "effective",
+          "conditional",
+          "unresolved"
+        ],
+        "punishment_policy": "ren_explicit_school_not_applied",
+        "cross_school_conflict_status": "unresolved",
+        "polarity_equivalence_assumed": false,
+        "weights_available": false,
+        "root_erasure_applied": false
+      },
+      "related_terms": [
+        "bazi.term.root_conditions"
+      ]
     }
   ],
   "rules": [
@@ -3069,6 +3228,167 @@
         "bazi.term.root_conditions",
         "bazi.term.action_conditions"
       ]
+    },
+    {
+      "id": "bazi.rule.r021",
+      "domain": "bazi",
+      "name": "月支本气关系",
+      "conditions": [
+        "显式 month-command-principal-qi-v1",
+        "月支本气属于八支已审核范围"
+      ],
+      "inputs": {
+        "observed": "已执行的服务端月令/根条件事实"
+      },
+      "operation": {
+        "kind": "bounded_conditional_observation",
+        "provider": "tianji_kb.operations.bazi_chart.principal_month",
+        "parameters": {
+          "command_variant": "month-command-principal-qi-v1"
+        }
+      },
+      "result": {
+        "facts": "principal_month",
+        "overall_strength": null
+      },
+      "exceptions": [
+        "不使用或覆盖具体日司令；寅月分日冲突仍保留。",
+        "四库本气未审核；关系不能单独证明得令、身强或身弱。"
+      ],
+      "execution_status": "executable",
+      "school": "子平·显式任氏限定口径",
+      "variant": "ziping-structural-v1",
+      "difference": "独立子 Variant，不覆盖其他体系，不宣称完整旺衰。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s033",
+          "original_text": "甲乙一木也,丙丁一火也,戊己一土也,庚辛一金也,壬癸一水也,即分别所用,不过阳刚阴柔,阳健阴顺而已。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s034",
+          "original_text": "若子从癸、午从丁,是体阳而用阴也;巳从丙,亥从壬,是体阴而用阳也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s035",
+          "original_text": "然以本气为主,寅必先甲而后及丙,申必先庚而后及壬,余支皆然。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s036",
+          "original_text": "若甲午日,则午必先丁而后己,己土岂能专权而合甲?己亥日,亥必先壬而后甲,甲岂能出而合己?癸巳日,巳必先丙而后戊,戊岂能越过而合癸?",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s028",
+          "original_text": "得时俱为旺论,失令便作衰看,虽是至理,亦死法也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s030",
+          "original_text": "金能生水,水多金沉;水能生木,木盛水缩;木能生火,火多木焚;火能生土,土多火埋;土能生金,金多土变。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s031",
+          "original_text": "金能剋木,木坚金缺;木能剋土,土重木折;土能剋水,水多土流;水能剋火,火多水热;火能剋金,金多火熄。",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium",
+      "term_refs": [
+        "bazi.term.principal_month_v1"
+      ]
+    },
+    {
+      "id": "bazi.rule.r022",
+      "domain": "bazi",
+      "name": "通根可用性",
+      "conditions": [
+        "显式 ditiansui-wood-root-availability-v1",
+        "已执行结构根与干支关系",
+        "木根亥寅卯无未解冲合害时可用于定性通根"
+      ],
+      "inputs": {
+        "observed": "已执行的服务端月令/根条件事实"
+      },
+      "operation": {
+        "kind": "bounded_conditional_observation",
+        "provider": "tianji_kb.operations.bazi_chart.root_availability",
+        "parameters": {
+          "root_variant": "ditiansui-wood-root-availability-v1"
+        }
+      },
+      "result": {
+        "facts": "root_availability",
+        "overall_strength": null
+      },
+      "exceptions": [
+        "限定任氏口径不机械用刑消根；其他流派冲突仍 unresolved。",
+        "冲合害相关根 conditional；未审核根型 unresolved；类型异文保留。",
+        "同干与异阴阳分别记录，不设等值强度或位置权重。",
+        "没有根不自动判弱；不伪造 ineffective。"
+      ],
+      "execution_status": "executable",
+      "school": "子平·显式任氏限定口径",
+      "variant": "ziping-structural-v1",
+      "difference": "独立子 Variant，不覆盖其他体系，不宣称完整旺衰。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s026",
+          "original_text": "余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s033",
+          "original_text": "甲乙一木也,丙丁一火也,戊己一土也,庚辛一金也,壬癸一水也,即分别所用,不过阳刚阴柔,阳健阴顺而已。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s021",
+          "original_text": "刑之义无所取,如亥刑亥、辰刑辰、酉刑酉、午刑午,谓之自刑,本支见本支,自谓同气,何以相刑?子刑卯,卯刑子,是谓相生,何以相刑?戌刑未,未刑丑,皆为土气,更不当刑。寅刑巳,亦是相生,寅申相刑,即冲何必再刑?又曰子卯一刑也,寅巳申二刑也,丑戌未三刑也,故称三刑,又有自刑,此皆俗谬,姑置之。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s038",
+          "original_text": "地支逢冲,犹天干之相克也,须视其强弱喜忌而论之。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s039",
+          "original_text": "得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s040",
+          "original_text": "辰、戌、丑、未四库也,宜冲开。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s041",
+          "original_text": "余气者,如丙丁逢未,丙丁逢戌,庚辛逢丑,壬癸逢辰之类是也。",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium",
+      "term_refs": [
+        "bazi.term.root_availability_v1"
+      ]
     }
   ],
   "concepts": [
@@ -4148,6 +4468,157 @@
           "source_id": "bazi.source.ditiansui-spouse",
           "section_id": "bazi.section.s028",
           "original_text": "得时俱为旺论,失令便作衰看,虽是至理,亦死法也。",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "bazi.concept.principal_month_v1",
+      "domain": "bazi",
+      "name": "月支本气关系v1",
+      "kind": "algorithm_variant",
+      "variant": "month-command-principal-qi-v1",
+      "attributes": {
+        "maturity": "PARTIAL",
+        "status": "bounded_executable",
+        "dated_commander_required": false,
+        "reviewed_branches": [
+          "子",
+          "午",
+          "巳",
+          "亥",
+          "寅",
+          "申",
+          "卯",
+          "酉"
+        ],
+        "unreviewed_branches": [
+          "丑",
+          "辰",
+          "未",
+          "戌"
+        ],
+        "overall_strength_available": false,
+        "dated_variants_status": "BLOCKED",
+        "dated_blocked_by": [
+          "source_conflict",
+          "unreviewed_day_boundaries"
+        ]
+      },
+      "source_refs": [
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s033",
+          "original_text": "甲乙一木也,丙丁一火也,戊己一土也,庚辛一金也,壬癸一水也,即分别所用,不过阳刚阴柔,阳健阴顺而已。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s034",
+          "original_text": "若子从癸、午从丁,是体阳而用阴也;巳从丙,亥从壬,是体阴而用阳也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s035",
+          "original_text": "然以本气为主,寅必先甲而后及丙,申必先庚而后及壬,余支皆然。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s036",
+          "original_text": "若甲午日,则午必先丁而后己,己土岂能专权而合甲?己亥日,亥必先壬而后甲,甲岂能出而合己?癸巳日,巳必先丙而后戊,戊岂能越过而合癸?",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s028",
+          "original_text": "得时俱为旺论,失令便作衰看,虽是至理,亦死法也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s030",
+          "original_text": "金能生水,水多金沉;水能生木,木盛水缩;木能生火,火多木焚;火能生土,土多火埋;土能生金,金多土变。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s031",
+          "original_text": "金能剋木,木坚金缺;木能剋土,土重木折;土能剋水,水多土流;水能剋火,火多水热;火能剋金,金多火熄。",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "bazi.concept.root_availability_v1",
+      "domain": "bazi",
+      "name": "通根可用性v1",
+      "kind": "algorithm_variant",
+      "variant": "ditiansui-wood-root-availability-v1",
+      "attributes": {
+        "maturity": "PARTIAL",
+        "status": "bounded_executable",
+        "element": "木",
+        "branches": [
+          "亥",
+          "寅",
+          "卯"
+        ],
+        "available_statuses": [
+          "effective",
+          "conditional",
+          "unresolved"
+        ],
+        "punishment_policy": "ren_explicit_school_not_applied",
+        "cross_school_conflict_status": "unresolved",
+        "polarity_equivalence_assumed": false,
+        "weights_available": false,
+        "root_erasure_applied": false
+      },
+      "source_refs": [
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s026",
+          "original_text": "余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s033",
+          "original_text": "甲乙一木也,丙丁一火也,戊己一土也,庚辛一金也,壬癸一水也,即分别所用,不过阳刚阴柔,阳健阴顺而已。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s021",
+          "original_text": "刑之义无所取,如亥刑亥、辰刑辰、酉刑酉、午刑午,谓之自刑,本支见本支,自谓同气,何以相刑?子刑卯,卯刑子,是谓相生,何以相刑?戌刑未,未刑丑,皆为土气,更不当刑。寅刑巳,亦是相生,寅申相刑,即冲何必再刑?又曰子卯一刑也,寅巳申二刑也,丑戌未三刑也,故称三刑,又有自刑,此皆俗谬,姑置之。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s038",
+          "original_text": "地支逢冲,犹天干之相克也,须视其强弱喜忌而论之。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s039",
+          "original_text": "得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s040",
+          "original_text": "辰、戌、丑、未四库也,宜冲开。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s041",
+          "original_text": "余气者,如丙丁逢未,丙丁逢戌,庚辛逢丑,壬癸逢辰之类是也。",
           "role": "classical"
         }
       ],

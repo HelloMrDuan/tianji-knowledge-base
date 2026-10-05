@@ -5,6 +5,41 @@ from .resolver import EvidenceResolver
 
 STRENGTH_VARIANT = 'bazi-strength-conditions-v1'
 ROOT_VARIANT = 'ditiansui-root-conditions-v1'
+AVAILABILITY_VARIANT = 'ditiansui-wood-root-availability-v1'
+
+
+def root_availability(observed, *, root_variant=AVAILABILITY_VARIANT):
+    """Qualitative participation of reviewed wood roots in the selected school."""
+    if root_variant != AVAILABILITY_VARIANT:
+        raise ValueError('Unsupported root availability variant')
+    policy = EvidenceResolver().entities['bazi.concept.root_availability_v1'][1]['attributes']
+    rows = []
+    for index, root in enumerate(observed['roots']):
+        fact = root['fact']
+        reviewed = observed['element'] == policy['element'] and fact['branch'] in policy['branches']
+        reasons = []
+        if not reviewed:
+            reasons.append('root_type_not_in_reviewed_scope')
+        if root['type_source_conflict']:
+            reasons.append('root_type_source_conflict')
+        if root['conditions']['branch_relations']:
+            reasons.append('branch_interaction_effect_unresolved')
+        status = 'effective' if not reasons else ('conditional' if reviewed or root['type_source_conflict'] else 'unresolved')
+        rows.append({'root_index': index, 'root_presence': dict(fact),
+                     'root_availability': status,
+                     'root_effect': 'same_element_support' if status == 'effective' else None,
+                     'availability_status': status, 'effective_strength': None,
+                     'same_stem': fact['same_stem'], 'polarity_equivalence_assumed': False,
+                     'blockers': reasons,
+                     'branch_relations': root['conditions']['branch_relations'],
+                     'type_source_conflict': root['type_source_conflict'],
+                     'punishment_policy': 'not_applied_in_selected_ren_school',
+                     'reported_school_conflicts': ['bazi.concept.conflict_three_punishments']})
+    return {'root_variant': root_variant, 'day_master': observed['day_master'],
+            'roots': rows, 'root_presence': observed['present_structurally'],
+            'root_effect': None, 'root_erasure_applied': False, 'weights_available': False,
+            'position_weights_available': False, 'overall_strength': None,
+            'scope': '仅木根亥寅卯、无未解冲合害条件的定性可用性；刑依显式任氏口径不机械消根，跨流派争议仍未解；无根不等于弱。'}
 
 
 def root_conditions(pillars, day_master, *, relations, month_command,

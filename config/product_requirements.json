@@ -81,10 +81,12 @@
         "人元司令",
         "通根作用条件",
         "生扶克泄作用条件",
-        "旺衰未裁定出口"
+        "旺衰未裁定出口",
+        "月支本气关系",
+        "通根可用性"
       ],
       "legacy_paths": [],
-      "missing": "当前八条已审执行规则覆盖月支/藏干/透藏/方向、司令候选与异文、根作用条件、显藏有根作用链和证据绑定的 indeterminate 出口；按真实 trace 逐项说明缺口。整体旺衰仍 PARTIAL：具体日司令、有效根力、实际作用效力以及可通用复算的 strong/weak 正例未闭环，balanced 无充分规则。古例强弱裁语仅是独立参照，不能查表冒充算法，不以数量或自创权重补齐；格局/喜用/行运及 AI 仍关闭。",
+      "missing": "已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。",
       "execution_rules": [
         "bazi.phase2.month_command_factors",
         "bazi.phase2.root_candidates",
@@ -93,7 +95,9 @@
         "bazi.phase2.month_command_variant",
         "bazi.phase2.root_conditions",
         "bazi.phase2.action_conditions",
-        "bazi.phase2.strength_adjudication"
+        "bazi.phase2.strength_adjudication",
+        "bazi.phase2.principal_month",
+        "bazi.phase2.root_availability"
       ]
     },
     "bazi-pattern": {

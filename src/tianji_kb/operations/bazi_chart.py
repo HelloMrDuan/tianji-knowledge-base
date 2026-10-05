@@ -1,10 +1,10 @@
 """Evidence-bound Bazi structural chart. No strength, useful-god or fortune judgement."""
 from ..bazi_core import VARIANT, chart_from_pillars, reviewed_relations, traditional_spouse_star_lens
 from ..resolver import ExecutionTrace
-from ..bazi_commander import COMMAND_VARIANT, month_command, month_factor_graph
+from ..bazi_commander import COMMAND_VARIANT, PRINCIPAL_VARIANT, month_command, principal_month, month_factor_graph
 from ..bazi_action_conditions import action_conditions
 from ..bazi_adjudication import strength_assessment
-from ..bazi_root_conditions import STRENGTH_VARIANT, root_conditions, conditional_factor_graph
+from ..bazi_root_conditions import STRENGTH_VARIANT, AVAILABILITY_VARIANT, root_conditions, root_availability, conditional_factor_graph
 from ..bazi_strength import FACTOR_VARIANT, factors as _strength_factors
 
 
@@ -16,7 +16,7 @@ def strength_factors(pillars, day_master, *, factor_variant=FACTOR_VARIANT, outp
         raise ValueError('Unsupported factor output')
     return observed[output_key]
 
-def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=False, include_relations=False, traditional_role=None, strength_variant=None, month_command_variant=None, variant=VARIANT):
+def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=False, include_relations=False, traditional_role=None, strength_variant=None, month_command_variant=None, root_availability_variant=None, variant=VARIANT):
     if variant != VARIANT:
         raise ValueError("Unsupported Bazi variant")
     if type(include_xianchi) is not bool:
@@ -27,8 +27,10 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
         raise ValueError("traditional_role must be male or female")
     if strength_variant is not None and strength_variant not in (FACTOR_VARIANT, STRENGTH_VARIANT):
         raise ValueError("Unsupported strength factor variant")
-    if month_command_variant is not None and month_command_variant != COMMAND_VARIANT:
+    if month_command_variant is not None and month_command_variant not in (COMMAND_VARIANT, PRINCIPAL_VARIANT):
         raise ValueError('Unsupported month command variant')
+    if root_availability_variant is not None and (root_availability_variant != AVAILABILITY_VARIANT or strength_variant != STRENGTH_VARIANT):
+        raise ValueError('Root availability requires its explicit variant and conditional strength factors')
     raw = chart_from_pillars(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, variant=variant)
     trace = ExecutionTrace("bazi", variant)
 
@@ -142,12 +144,20 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
         result['month_command_variant'] = command
         result['strength_factor_graph'] = month_factor_graph(trace, command)
         result['production_scope'] += '；可选独立月令口径审计（具体日司令 unresolved）'
+        if month_command_variant == PRINCIPAL_VARIANT or root_availability_variant is not None:
+            principal = principal_month(command, raw['day_master']['stem'])
+            trace.add('bazi.phase2.principal_month', {'command_variant': PRINCIPAL_VARIANT}, principal)
+            result['principal_month'] = principal
     if strength_variant == STRENGTH_VARIANT:
         roots = root_conditions(raw['pillars'], raw['day_master']['stem'],
                                 relations=relation_facts, month_command=command)
         trace.add('bazi.phase2.root_conditions', {'strength_variant': strength_variant,
                   'ganzhi': [year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi]}, roots)
         result['root_conditions'] = roots
+        if root_availability_variant is not None:
+            availability = root_availability(roots, root_variant=root_availability_variant)
+            trace.add('bazi.phase2.root_availability', {'root_variant': root_availability_variant}, availability)
+            result['root_availability'] = availability
         action = action_conditions(raw['pillars'], raw['day_master']['stem'],
                                    support=observed['support_relations'],
                                    relations=relation_facts, month_command=command)
