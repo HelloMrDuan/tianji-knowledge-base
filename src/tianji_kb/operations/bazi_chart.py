@@ -2,6 +2,7 @@
 from ..bazi_core import VARIANT, chart_from_pillars, reviewed_relations, traditional_spouse_star_lens
 from ..resolver import ExecutionTrace
 from ..bazi_commander import COMMAND_VARIANT, month_command, month_factor_graph
+from ..bazi_action_conditions import action_conditions
 from ..bazi_root_conditions import STRENGTH_VARIANT, root_conditions, conditional_factor_graph
 from ..bazi_strength import FACTOR_VARIANT, factors as _strength_factors
 
@@ -146,6 +147,12 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
         trace.add('bazi.phase2.root_conditions', {'strength_variant': strength_variant,
                   'ganzhi': [year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi]}, roots)
         result['root_conditions'] = roots
+        action = action_conditions(raw['pillars'], raw['day_master']['stem'],
+                                   support=observed['support_relations'],
+                                   relations=relation_facts, month_command=command)
+        trace.add('bazi.phase2.action_conditions', {'strength_variant': strength_variant,
+                  'ganzhi': [year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi]}, action)
+        result['action_conditions'] = action
         result['strength_factor_graph'] = conditional_factor_graph(trace)
         result['production_scope'] += '；条件化根候选（可用性与实际根力未裁定）'
     return trace.finish(result)

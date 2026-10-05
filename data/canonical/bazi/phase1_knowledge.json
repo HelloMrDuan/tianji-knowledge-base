@@ -754,6 +754,36 @@
         "method": "固定快照逐字核对，不改异文、不采用现代若思按语。",
         "scope": "C级单本；核查条件及版本差异，不据古例自动判根力或吉凶。"
       }
+    },
+    {
+      "id": "bazi.section.s042",
+      "domain": "bazi",
+      "name": "贴身远隔须先审喜忌",
+      "classic_id": "bazi.classic.ditiansui",
+      "chapter_id": "bazi.chapter.strength_factors",
+      "source_id": "bazi.source.ditiansui-spouse",
+      "text": "总之喜神宜得地逢生,与日主紧贴者佳;忌神宜失势临绝。与日主远隔者美。日主喜印,印星贴身,或坐下印绶,此即日主之精神也;官星贴印,或坐下官星,此即印绶之精神。余可类推。",
+      "locator": "滴天髓阐微·清气/众寡；固定原文字符位置 57762",
+      "review": {
+        "status": "approved",
+        "method": "既有固定原典快照逐字核对，排除若思现代按语；不修改 RAW。",
+        "scope": "C级单一版本的作用条件；通根得气、喜忌与实际效力未裁定，不自动断吉凶。"
+      }
+    },
+    {
+      "id": "bazi.section.s043",
+      "domain": "bazi",
+      "name": "生土需先审通根得气",
+      "classic_id": "bazi.classic.ditiansui",
+      "chapter_id": "bazi.chapter.strength_factors",
+      "source_id": "bazi.source.ditiansui-spouse",
+      "text": "日主是火,亦要通根得气,则能生土,或有木而克土,则日主自能化木,转转相生,所谓日主符合者也。",
+      "locator": "滴天髓阐微·清气/众寡；固定原文字符位置 66762",
+      "review": {
+        "status": "approved",
+        "method": "既有固定原典快照逐字核对，排除若思现代按语；不修改 RAW。",
+        "scope": "C级单一版本的作用条件；通根得气、喜忌与实际效力未裁定，不自动断吉凶。"
+      }
     }
   ],
   "terms": [
@@ -1482,6 +1512,57 @@
       "attributes": {
         "variant": "ditiansui-root-conditions-v1",
         "effect_status": "unresolved"
+      }
+    },
+    {
+      "id": "bazi.term.action_conditions",
+      "domain": "bazi",
+      "name": "生扶克泄作用条件",
+      "aliases": [
+        "生克效力条件"
+      ],
+      "definition": "方向以外分别观察显干、藏干、显干同五行根候选、柱距、透藏与合冲；实际效力仍需司令、根的可用性、喜忌等条件，不能只凭关系方向裁定。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s027",
+          "original_text": "故知地支人元必得天干引助,天干为用,必要地支司令。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s030",
+          "original_text": "金能生水,水多金沉;水能生木,木盛水缩;木能生火,火多木焚;火能生土,土多火埋;土能生金,金多土变。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s031",
+          "original_text": "金能剋木,木坚金缺;木能剋土,土重木折;土能剋水,水多土流;水能剋火,火多水热;火能剋金,金多火熄。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s042",
+          "original_text": "总之喜神宜得地逢生,与日主紧贴者佳;忌神宜失势临绝。与日主远隔者美。日主喜印,印星贴身,或坐下印绶,此即日主之精神也;官星贴印,或坐下官星,此即印绶之精神。余可类推。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s043",
+          "original_text": "日主是火,亦要通根得气,则能生土,或有木而克土,则日主自能化木,转转相生,所谓日主符合者也。",
+          "role": "classical"
+        }
+      ],
+      "related_terms": [
+        "bazi.term.support_relations",
+        "bazi.term.root_conditions"
+      ],
+      "confidence": "medium",
+      "attributes": {
+        "variant": "ditiansui-action-conditions-v1",
+        "effect_status": "unresolved",
+        "hidden_equals_visible": false
       }
     }
   ],
@@ -2601,6 +2682,205 @@
         "bazi.term.root_conditions",
         "bazi.term.hidden_stems"
       ]
+    },
+    {
+      "id": "bazi.rule.r019",
+      "domain": "bazi",
+      "name": "显藏有根及生克作用条件链",
+      "conditions": [
+        "显式 strength_variant=bazi-strength-conditions-v1",
+        "输入为真实四柱、既有方向与关系执行结果，不接受用户提交作用效力",
+        "日干作参照，显干与藏干分别记录"
+      ],
+      "inputs": {
+        "pillars": "四柱结构",
+        "day_master": "日干",
+        "support": "已审同类/生我/我生/克我/我克位置",
+        "relations": "已审干支关系",
+        "month_command": "月令口径审计"
+      },
+      "operation": {
+        "kind": "conditional_action_observation",
+        "provider": "tianji_kb.operations.bazi_chart.action_conditions",
+        "parameters": {
+          "action_variant": "ditiansui-action-conditions-v1"
+        }
+      },
+      "result": {
+        "facts": "action_conditions",
+        "effective_action": null,
+        "de_shi": null,
+        "overall_strength": null
+      },
+      "exceptions": [
+        "显干有同五行藏根只作 rooted_visible_candidate；不等于实际生克有效。",
+        "藏干同字显现另列；隐藏关系不视作等价显干。",
+        "相邻柱及柱距是位置事实；原典喜神/忌神前提未判，不能直接以远近判断利弊或作用成败。",
+        "五合和支冲合仅作为条件，未审合化、根力和司令时实际效力 unresolved。",
+        "不加权，不合并显藏计数，不据生我判吉或克我判凶。"
+      ],
+      "execution_status": "executable",
+      "school": "子平·任氏条件作用边界",
+      "variant": "ziping-structural-v1",
+      "difference": "组合既有旺衰条件子 Variant，图仅含事实、候选及未裁定效力；不宣称完整旺衰。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s030",
+          "original_text": "金能生水,水多金沉;水能生木,木盛水缩;木能生火,火多木焚;火能生土,土多火埋;土能生金,金多土变。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s031",
+          "original_text": "金能剋木,木坚金缺;木能剋土,土重木折;土能剋水,水多土流;水能剋火,火多水热;火能剋金,金多火熄。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s032",
+          "original_text": "甲、丙、戊、庚、壬为阳,独丙火秉阳之精,而为阳中之阳;乙、丁、己、辛、癸为阴,独癸水秉阴之精,而为阴中之阴。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s033",
+          "original_text": "甲乙一木也,丙丁一火也,戊己一土也,庚辛一金也,壬癸一水也,即分别所用,不过阳刚阴柔,阳健阴顺而已。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s002",
+          "original_text": "以甲为例★见甲:为比肩、兄弟。\n 见乙:为劫财、败财,剋父及妻。\n 见丙:为食神、天厨、寿星,为男。\n 见丁:为伤官、退财、耗气,子甥。\n 见戊:为偏财、偏妻、偏妾,剋子。\n 见己:为正财、正妻,剋母,为合神。\n 见庚:为偏官、七杀、官鬼、将星。\n 见辛:为正官、禄马、荣神,父母。\n 见壬:为倒食、偏印、梟神,剋女。\n 见癸:为印綬、正人、君子,产业。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s003",
+          "original_text": "以乙为例★见甲:为劫财、逐马,剋妻。\n 见乙:为比肩、兄弟、朋友。\n 见丙:为伤官、小人、盗气,为姪。\n 见丁:为食神、天厨、寿星,子孙。\n 见戊:为正财、正妻,剋母。\n 见己:为偏财、偏妻、偏妾,剋子。\n 见庚:为正官、禄马,剋父母。\n 见辛:为偏官、七杀、官鬼,媒人。\n 见壬:为印綬、正人、君子,忌杀。\n 见癸:为倒食、偏印、梟神,剋母。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s005",
+          "original_text": "又云,伤官者,我生彼之谓也;以阳见阴,阴见阳,亦名盗气。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s006",
+          "original_text": "何谓之正财?犹如正官之意;是阴见阳财,阳见阴财。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s007",
+          "original_text": "夫正官者,甲见辛之类;乃阴见阳为官,阳见阴为鬼,阴阳配合成其道也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s008",
+          "original_text": "夫印綬者,生我之谓也,亦名生气。以阳见阴,以阴见阳,谓之正印;阳见阳,阴见阴,谓之偏印。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s004",
+          "original_text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s025",
+          "original_text": "天干得一比肩,不如地支得一余气墓库。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s026",
+          "original_text": "余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s027",
+          "original_text": "故知地支人元必得天干引助,天干为用,必要地支司令。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s028",
+          "original_text": "得时俱为旺论,失令便作衰看,虽是至理,亦死法也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s038",
+          "original_text": "地支逢冲,犹天干之相克也,须视其强弱喜忌而论之。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s039",
+          "original_text": "得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s042",
+          "original_text": "总之喜神宜得地逢生,与日主紧贴者佳;忌神宜失势临绝。与日主远隔者美。日主喜印,印星贴身,或坐下印绶,此即日主之精神也;官星贴印,或坐下官星,此即印绶之精神。余可类推。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s043",
+          "original_text": "日主是火,亦要通根得气,则能生土,或有木而克土,则日主自能化木,转转相生,所谓日主符合者也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.xieji-relations",
+          "section_id": "bazi.section.s010",
+          "original_text": "甲与己合乙与庚合丙与辛合丁与壬合戊与癸合",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.xieji-relations",
+          "section_id": "bazi.section.s011",
+          "original_text": "子与丑合寅与亥合卯与戌合辰与酉合巳与申合午与未合",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.xieji-relations",
+          "section_id": "bazi.section.s012",
+          "original_text": "月害者月中六害也假令夘辰相害者夘以乙旺之木害辰墓之土辰以墓土却害夘中癸水也寅巳相害者谓寅以旺甲害巳中戊土而巳以生庚害寅中旺甲也丑午相害者丑以癸水害午中丁火午以巳土害丑中癸水也子未相害者子以所生之辛金害未中墓木未以旺土害子中旺水也申亥相害者亥以生木害申中生土申以旺金害亥中生木又以生土害亥中旺水也酉戌相害者戌以墓火害酉之旺金酉以所生丁火害戌中辛金也",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.xieji-relations",
+          "section_id": "bazi.section.s014",
+          "original_text": "洞源经曰对七为冲隔三为破选择家所谓辰破丑而丑冲未亥破寅而寅冲申午破夘而夘冲酉酉破子而子冲午申破巳而巳冲亥戌破未而未冲丑是也",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.xieji-relations",
+          "section_id": "bazi.section.s015",
+          "original_text": "假如建在子前三为平为夘后三为收为酉夘酉冲也建在丑前三为平为辰后三为收为戌辰戌冲也推之十二辰莫不皆然",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.xieji-relations",
+          "section_id": "bazi.section.s016",
+          "original_text": "考原曰大煞子年在子丑年在酉寅年在午夘年在夘辰年又在子如是逆行四正盖申子辰三合为水水旺于子也巳酉丑三合为金金旺于酉也寅午戌三合为火火旺于午也亥夘未三合为木木旺于夘也",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium",
+      "term_refs": [
+        "bazi.term.action_conditions",
+        "bazi.term.support_relations",
+        "bazi.term.root_conditions"
+      ]
     }
   ],
   "concepts": [
@@ -3407,6 +3687,198 @@
           "source_id": "bazi.source.ditiansui-spouse",
           "section_id": "bazi.section.s026",
           "original_text": "余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "bazi.concept.action_conditions_variant_v1",
+      "domain": "bazi",
+      "name": "任氏生克条件链观察v1",
+      "kind": "algorithm_variant",
+      "variant": "ditiansui-action-conditions-v1",
+      "attributes": {
+        "maturity": "PARTIAL",
+        "execution_parent_variant": "ziping-structural-v1",
+        "strength_variant": "bazi-strength-conditions-v1",
+        "layers": [
+          "visible_stem",
+          "hidden_stem",
+          "rooted_visible_candidate"
+        ],
+        "computed_conditions": [
+          "同五行根位置",
+          "同字透藏位置",
+          "柱位距离",
+          "相邻柱事实",
+          "天干五合",
+          "根支冲合害三合"
+        ],
+        "unresolved_conditions": [
+          "具体日司令",
+          "有效根力",
+          "季节效力",
+          "合化",
+          "距离实际效力",
+          "神的喜忌",
+          "生克实际成功"
+        ],
+        "weights_available": false,
+        "de_shi": null,
+        "overall_strength": null,
+        "full_strength_classifier_ready": false,
+        "hidden_visible_equivalence_applied": false
+      },
+      "source_refs": [
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s030",
+          "original_text": "金能生水,水多金沉;水能生木,木盛水缩;木能生火,火多木焚;火能生土,土多火埋;土能生金,金多土变。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s031",
+          "original_text": "金能剋木,木坚金缺;木能剋土,土重木折;土能剋水,水多土流;水能剋火,火多水热;火能剋金,金多火熄。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s032",
+          "original_text": "甲、丙、戊、庚、壬为阳,独丙火秉阳之精,而为阳中之阳;乙、丁、己、辛、癸为阴,独癸水秉阴之精,而为阴中之阴。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s033",
+          "original_text": "甲乙一木也,丙丁一火也,戊己一土也,庚辛一金也,壬癸一水也,即分别所用,不过阳刚阴柔,阳健阴顺而已。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s002",
+          "original_text": "以甲为例★见甲:为比肩、兄弟。\n 见乙:为劫财、败财,剋父及妻。\n 见丙:为食神、天厨、寿星,为男。\n 见丁:为伤官、退财、耗气,子甥。\n 见戊:为偏财、偏妻、偏妾,剋子。\n 见己:为正财、正妻,剋母,为合神。\n 见庚:为偏官、七杀、官鬼、将星。\n 见辛:为正官、禄马、荣神,父母。\n 见壬:为倒食、偏印、梟神,剋女。\n 见癸:为印綬、正人、君子,产业。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s003",
+          "original_text": "以乙为例★见甲:为劫财、逐马,剋妻。\n 见乙:为比肩、兄弟、朋友。\n 见丙:为伤官、小人、盗气,为姪。\n 见丁:为食神、天厨、寿星,子孙。\n 见戊:为正财、正妻,剋母。\n 见己:为偏财、偏妻、偏妾,剋子。\n 见庚:为正官、禄马,剋父母。\n 见辛:为偏官、七杀、官鬼,媒人。\n 见壬:为印綬、正人、君子,忌杀。\n 见癸:为倒食、偏印、梟神,剋母。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s005",
+          "original_text": "又云,伤官者,我生彼之谓也;以阳见阴,阴见阳,亦名盗气。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s006",
+          "original_text": "何谓之正财?犹如正官之意;是阴见阳财,阳见阴财。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s007",
+          "original_text": "夫正官者,甲见辛之类;乃阴见阳为官,阳见阴为鬼,阴阳配合成其道也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s008",
+          "original_text": "夫印綬者,生我之谓也,亦名生气。以阳见阴,以阴见阳,谓之正印;阳见阳,阴见阴,谓之偏印。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s004",
+          "original_text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s025",
+          "original_text": "天干得一比肩,不如地支得一余气墓库。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s026",
+          "original_text": "余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s027",
+          "original_text": "故知地支人元必得天干引助,天干为用,必要地支司令。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s028",
+          "original_text": "得时俱为旺论,失令便作衰看,虽是至理,亦死法也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s038",
+          "original_text": "地支逢冲,犹天干之相克也,须视其强弱喜忌而论之。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s039",
+          "original_text": "得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s042",
+          "original_text": "总之喜神宜得地逢生,与日主紧贴者佳;忌神宜失势临绝。与日主远隔者美。日主喜印,印星贴身,或坐下印绶,此即日主之精神也;官星贴印,或坐下官星,此即印绶之精神。余可类推。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s043",
+          "original_text": "日主是火,亦要通根得气,则能生土,或有木而克土,则日主自能化木,转转相生,所谓日主符合者也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.xieji-relations",
+          "section_id": "bazi.section.s010",
+          "original_text": "甲与己合乙与庚合丙与辛合丁与壬合戊与癸合",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.xieji-relations",
+          "section_id": "bazi.section.s011",
+          "original_text": "子与丑合寅与亥合卯与戌合辰与酉合巳与申合午与未合",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.xieji-relations",
+          "section_id": "bazi.section.s012",
+          "original_text": "月害者月中六害也假令夘辰相害者夘以乙旺之木害辰墓之土辰以墓土却害夘中癸水也寅巳相害者谓寅以旺甲害巳中戊土而巳以生庚害寅中旺甲也丑午相害者丑以癸水害午中丁火午以巳土害丑中癸水也子未相害者子以所生之辛金害未中墓木未以旺土害子中旺水也申亥相害者亥以生木害申中生土申以旺金害亥中生木又以生土害亥中旺水也酉戌相害者戌以墓火害酉之旺金酉以所生丁火害戌中辛金也",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.xieji-relations",
+          "section_id": "bazi.section.s014",
+          "original_text": "洞源经曰对七为冲隔三为破选择家所谓辰破丑而丑冲未亥破寅而寅冲申午破夘而夘冲酉酉破子而子冲午申破巳而巳冲亥戌破未而未冲丑是也",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.xieji-relations",
+          "section_id": "bazi.section.s015",
+          "original_text": "假如建在子前三为平为夘后三为收为酉夘酉冲也建在丑前三为平为辰后三为收为戌辰戌冲也推之十二辰莫不皆然",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.xieji-relations",
+          "section_id": "bazi.section.s016",
+          "original_text": "考原曰大煞子年在子丑年在酉寅年在午夘年在夘辰年又在子如是逆行四正盖申子辰三合为水水旺于子也巳酉丑三合为金金旺于酉也寅午戌三合为火火旺于午也亥夘未三合为木木旺于夘也",
           "role": "classical"
         }
       ],
