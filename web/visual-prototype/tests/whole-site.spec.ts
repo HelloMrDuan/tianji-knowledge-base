@@ -275,6 +275,22 @@ test("admin prompts never requests registry before explicit authorization", asyn
   expect(apiRequests).toEqual([]);
 });
 
+test("admin evaluations never requests fixtures before explicit authorization", async ({
+  page,
+}) => {
+  const apiRequests: string[] = [];
+  page.on("request", (request) => {
+    if (request.url().includes("/api/v1/admin/system/evaluations"))
+      apiRequests.push(request.url());
+  });
+  await page.goto("/admin/evaluations");
+  await expect(page.getByRole("heading", { name: "Eval / Golden Cases", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "需要内部只读授权" })).toBeVisible();
+  await expect(page.getByLabel("后台只读令牌")).toHaveAttribute("type", "password");
+  await expect(page.locator("main")).toContainText("不会伪造通过分数");
+  expect(apiRequests).toEqual([]);
+});
+
 test("library filtering, empty favorites and favorite removal work across pages", async ({
   page,
 }) => {

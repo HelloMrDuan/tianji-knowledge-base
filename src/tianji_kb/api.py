@@ -16,7 +16,7 @@ from .runtime_catalog import load_catalog
 from .resolver import ROOT
 from .prompts import DEFAULT_PROMPT,PROMPTS
 from .scenario_engine import execute_scenario,registry as scenario_registry
-from .governance import school_conflicts,reviewed_rules,reviewed_evidence,reviewed_classics,reviewed_chapters,reviewed_terms,reviewed_sources,reviewed_layers,reviewed_algorithms,provider_configuration,prompt_registry
+from .governance import school_conflicts,reviewed_rules,reviewed_evidence,reviewed_classics,reviewed_chapters,reviewed_terms,reviewed_sources,reviewed_layers,reviewed_algorithms,provider_configuration,prompt_registry,evaluation_registry
 
 Domain=Literal['liuyao','qimen','liuren','ziwei','fengshui','yijing','bazi']
 Mode=Literal['production','research']
@@ -282,6 +282,16 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None):
             'read_only':True,
             'public_release':False,
             'records':prompt_registry(),
+        }
+
+    @app.get('/api/v1/admin/system/evaluations',tags=['admin'])
+    def admin_evaluation_registry(authorization: str | None = Header(default=None)):
+        require_admin_read_token(authorization)
+        return {
+            'api_version':'v1',
+            'read_only':True,
+            'public_release':False,
+            'records':evaluation_registry(),
         }
 
     @app.post('/api/v1/scenarios/execute',response_model=ScenarioExecuteResponse,tags=['scenarios'])
