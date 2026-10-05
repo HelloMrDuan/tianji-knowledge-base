@@ -137,6 +137,13 @@
       "name": "天干阴阳五行分类",
       "classic_id": "bazi.classic.ditiansui",
       "locator": "七、天干"
+    },
+    {
+      "id": "bazi.chapter.strength_reference_yuanhai",
+      "domain": "bazi",
+      "name": "论财中的强弱古例参照",
+      "classic_id": "bazi.classic.yuanhai",
+      "locator": "论财"
     }
   ],
   "sections": [
@@ -783,6 +790,51 @@
         "status": "approved",
         "method": "既有固定原典快照逐字核对，排除若思现代按语；不修改 RAW。",
         "scope": "C级单一版本的作用条件；通根得气、喜忌与实际效力未裁定，不自动断吉凶。"
+      }
+    },
+    {
+      "id": "bazi.section.s044",
+      "domain": "bazi",
+      "name": "成方透元神的强例参照",
+      "classic_id": "bazi.classic.ditiansui",
+      "chapter_id": "bazi.chapter.strength_factors",
+      "source_id": "bazi.source.ditiansui-spouse",
+      "text": "戊寅\n甲寅\n甲辰\n丁卯乙卯\n丙辰\n丁巳\n戊午\n己未\n庚申\n此成方,干透元神,四柱不杂金水,时干丁火吐秀,纯粹可观。",
+      "locator": "滴天髓阐微·方局；固定原文字符位置 30550",
+      "review": {
+        "status": "approved",
+        "method": "固定原文逐字核对；手工核对古例四柱及裁语；不修改 RAW。",
+        "scope": "仅作传统强弱参照，不作为按古例四柱查表返回结论的 executable 算法。"
+      }
+    },
+    {
+      "id": "bazi.section.s045",
+      "domain": "bazi",
+      "name": "财旺日弱的弱例参照",
+      "classic_id": "bazi.classic.yuanhai",
+      "chapter_id": "bazi.chapter.strength_reference_yuanhai",
+      "source_id": "bazi.source.yuanhai",
+      "text": "如【庚申,乙酉,丙申,丙申】:此命丙日见三申为财,岂不美哉!丙用癸官,用辛为财,见三申一酉为财,故旺。盖缘日弱,火病申死酉,乃为无气,运行西方金乡,身弱太甚;",
+      "locator": "渊海子平·论财；固定原文字符位置 8899",
+      "review": {
+        "status": "approved",
+        "method": "固定原文逐字核对；手工核对古例四柱及裁语；不修改 RAW。",
+        "scope": "仅作传统强弱参照，不作为按古例四柱查表返回结论的 executable 算法。"
+      }
+    },
+    {
+      "id": "bazi.section.s046",
+      "domain": "bazi",
+      "name": "成方旺论及不可一例而推",
+      "classic_id": "bazi.classic.ditiansui",
+      "chapter_id": "bazi.chapter.strength_factors",
+      "source_id": "bazi.source.ditiansui-spouse",
+      "text": "成方干透元神者,日主即方之气也。如木方日主是木,火方日主是火,即为元神透出也。生地库地皆非福者,身旺不宜再助也,然亦要看其气势,不可一例而推。成方透元神,旺可知矣,固不宜再行生地库地,以帮方也。",
+      "locator": "滴天髓阐微·方局；固定原文字符位置 30357",
+      "review": {
+        "status": "approved",
+        "method": "固定原文逐字核对，排除若思现代按语；不修改 RAW。",
+        "scope": "结构成方与旺论参照；须看气势，尚未裁定通用算法；不输出从格、喜用或行运。"
       }
     }
   ],
@@ -1563,6 +1615,63 @@
         "variant": "ditiansui-action-conditions-v1",
         "effect_status": "unresolved",
         "hidden_equals_visible": false
+      }
+    },
+    {
+      "id": "bazi.term.strength_adjudication",
+      "domain": "bazi",
+      "name": "旺衰未裁定出口",
+      "aliases": [
+        "旺衰弃判"
+      ],
+      "definition": "将已执行的司令、根及生克条件缺口绑定真实事实和证据，未有充分裁定 Rule 时返回 indeterminate；古例明确强弱不能等价于引擎已具备通用判定。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s024",
+          "original_text": "如寅月生人,立春后七日前,皆值戊土用事;八日后十四日前者,丙火用事 ;十五日后,甲木用事。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s028",
+          "original_text": "得时俱为旺论,失令便作衰看,虽是至理,亦死法也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s038",
+          "original_text": "地支逢冲,犹天干之相克也,须视其强弱喜忌而论之。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s039",
+          "original_text": "得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s042",
+          "original_text": "总之喜神宜得地逢生,与日主紧贴者佳;忌神宜失势临绝。与日主远隔者美。日主喜印,印星贴身,或坐下印绶,此即日主之精神也;官星贴印,或坐下官星,此即印绶之精神。余可类推。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s043",
+          "original_text": "日主是火,亦要通根得气,则能生土,或有木而克土,则日主自能化木,转转相生,所谓日主符合者也。",
+          "role": "classical"
+        }
+      ],
+      "related_terms": [
+        "bazi.term.action_conditions",
+        "bazi.term.root_conditions"
+      ],
+      "confidence": "medium",
+      "attributes": {
+        "variant": "bazi-strength-conditions-v1",
+        "maturity": "PARTIAL",
+        "supported_classifications": []
       }
     }
   ],
@@ -2881,6 +2990,85 @@
         "bazi.term.support_relations",
         "bazi.term.root_conditions"
       ]
+    },
+    {
+      "id": "bazi.rule.r020",
+      "domain": "bazi",
+      "name": "旺衰条件缺口证据绑定与未裁定出口",
+      "conditions": [
+        "显式 strength_variant=bazi-strength-conditions-v1",
+        "司令、条件根、生克条件已在当前服务端 trace 执行",
+        "无足够可通用复算的强弱/平衡 Rule"
+      ],
+      "inputs": {
+        "trace": "当前服务端执行轨迹，不接受调用方输入结论或证据"
+      },
+      "operation": {
+        "kind": "evidence_bound_abstention",
+        "provider": "tianji_kb.operations.bazi_chart.strength_assessment",
+        "parameters": {
+          "strength_variant": "bazi-strength-conditions-v1"
+        }
+      },
+      "result": {
+        "classification": "indeterminate",
+        "decision_status": "insufficient_reviewed_rules",
+        "supported_classifications": []
+      },
+      "exceptions": [
+        "古例裁语只能作为独立来源参照，禁止按命盘查表伪装通用分类。",
+        "没有通根候选不等于身弱，有根或得月支本气不等于身强。",
+        "显藏不等价；关系方向不证明作用成败；当前规则不足以裁定 balanced。",
+        "仅执行缺口汇总，不宣称完整旺衰 v1 或开放后续格局/喜用/行运。"
+      ],
+      "execution_status": "executable",
+      "school": "子平·任氏条件作用边界",
+      "variant": "ziping-structural-v1",
+      "difference": "未裁定是正常输出；每一缺口绑定真实 trace、Rule、Evidence、子 Variant；成熟度仍为 PARTIAL。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s024",
+          "original_text": "如寅月生人,立春后七日前,皆值戊土用事;八日后十四日前者,丙火用事 ;十五日后,甲木用事。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s028",
+          "original_text": "得时俱为旺论,失令便作衰看,虽是至理,亦死法也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s038",
+          "original_text": "地支逢冲,犹天干之相克也,须视其强弱喜忌而论之。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s039",
+          "original_text": "得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s042",
+          "original_text": "总之喜神宜得地逢生,与日主紧贴者佳;忌神宜失势临绝。与日主远隔者美。日主喜印,印星贴身,或坐下印绶,此即日主之精神也;官星贴印,或坐下官星,此即印绶之精神。余可类推。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s043",
+          "original_text": "日主是火,亦要通根得气,则能生土,或有木而克土,则日主自能化木,转转相生,所谓日主符合者也。",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium",
+      "term_refs": [
+        "bazi.term.strength_adjudication",
+        "bazi.term.root_conditions",
+        "bazi.term.action_conditions"
+      ]
     }
   ],
   "concepts": [
@@ -3879,6 +4067,87 @@
           "source_id": "bazi.source.xieji-relations",
           "section_id": "bazi.section.s016",
           "original_text": "考原曰大煞子年在子丑年在酉寅年在午夘年在夘辰年又在子如是逆行四正盖申子辰三合为水水旺于子也巳酉丑三合为金金旺于酉也寅午戌三合为火火旺于午也亥夘未三合为木木旺于夘也",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "bazi.concept.strength_adjudication_v1",
+      "domain": "bazi",
+      "name": "旺衰条件判定出口与古例参照v1",
+      "kind": "algorithm_variant",
+      "variant": "bazi-strength-conditions-v1",
+      "attributes": {
+        "maturity": "PARTIAL",
+        "supported_classifications": [],
+        "full_strength_classifier_ready": false,
+        "weights_available": false,
+        "source_case_lookup_used": false,
+        "reference_cases": [
+          {
+            "id": "classical-strong-wood-direction",
+            "pillars": [
+              "戊寅",
+              "甲寅",
+              "甲辰",
+              "丁卯"
+            ],
+            "source_classification": "strong",
+            "section_ids": [
+              "bazi.section.s044",
+              "bazi.section.s046"
+            ],
+            "engine_classification": "indeterminate",
+            "note": "原文时柱丁卯后紧接大运乙卯；保留原排版。成方和气势通用作用规则未闭环。"
+          },
+          {
+            "id": "classical-weak-fire-metal",
+            "pillars": [
+              "庚申",
+              "乙酉",
+              "丙申",
+              "丙申"
+            ],
+            "source_classification": "weak",
+            "section_ids": [
+              "bazi.section.s045"
+            ],
+            "engine_classification": "indeterminate",
+            "note": "原典财旺与日弱分别陈述；显干乙与藏壬不能直接删除生扶，也不能等效计数。"
+          }
+        ],
+        "unfinished_acceptance_criteria": [
+          "可通用复算的 strong 正例",
+          "可通用复算的 weak 正例",
+          "有依据的 balanced 分类",
+          "司令、根的可用性及实际效力的判定闭环"
+        ],
+        "next_stage_allowed": false
+      },
+      "source_refs": [
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s044",
+          "original_text": "戊寅\n甲寅\n甲辰\n丁卯乙卯\n丙辰\n丁巳\n戊午\n己未\n庚申\n此成方,干透元神,四柱不杂金水,时干丁火吐秀,纯粹可观。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s045",
+          "original_text": "如【庚申,乙酉,丙申,丙申】:此命丙日见三申为财,岂不美哉!丙用癸官,用辛为财,见三申一酉为财,故旺。盖缘日弱,火病申死酉,乃为无气,运行西方金乡,身弱太甚;",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s046",
+          "original_text": "成方干透元神者,日主即方之气也。如木方日主是木,火方日主是火,即为元神透出也。生地库地皆非福者,身旺不宜再助也,然亦要看其气势,不可一例而推。成方透元神,旺可知矣,固不宜再行生地库地,以帮方也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s028",
+          "original_text": "得时俱为旺论,失令便作衰看,虽是至理,亦死法也。",
           "role": "classical"
         }
       ],
