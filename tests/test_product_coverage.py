@@ -51,6 +51,12 @@ class ProductCoverageTests(unittest.TestCase):
         self.assertIn('relationship.branch_clash', rows['compatibility']['ready_claims'])
         self.assertTrue(rows['_audit']['topics']['bazi-strength']['classical_text_candidates'])
         self.assertFalse(rows['_audit']['topics']['bazi-strength']['explanation_ready'])
+        strength = rows['_audit']['topics']['bazi-strength']
+        self.assertEqual(len(strength['phase2_rule_ids']), 8)
+        self.assertTrue({'bazi.rule.r017','bazi.rule.r018','bazi.rule.r019','bazi.rule.r020'} <= set(strength['phase1_rule_ids']))
+        self.assertTrue({'bazi.phase2.month_command_variant','bazi.phase2.root_conditions','bazi.phase2.action_conditions','bazi.phase2.strength_adjudication'} <= set(strength['phase2_rule_ids']))
+        self.assertIn('PARTIAL', strength['missing'])
+        self.assertFalse(rows['bazi-reading']['full_interpretation_ready'])
 
     def test_missing_or_forged_rule_reference_is_not_counted_as_supported(self):
         spec = read_json(ROOT / 'config/product_requirements.json')
