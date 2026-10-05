@@ -30,13 +30,18 @@ def write_reviewed_index(resolver):
 
 def ref_key(ref):return (ref['source_id'],ref['section_id'],ref['original_text'])
 
+def verified_reviewed_index(resolver):
+    """Reuse the released Canonical-only corpus for chart and cultural retrieval."""
+    payload=load_catalog(resolver.root);path=resolver.root/'build/production_rag.jsonl'
+    if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest()!=payload.get('retrieval_index_sha256'):
+        raise RetrievalUnavailable('Reviewed Canonical RAG index missing or stale')
+    return RagIndex(path)
+
 class CanonicalRetriever:
     def __init__(self,root=ROOT):self.root=Path(root)
     def retrieve(self,raw,limit=6):
         resolver=EvidenceResolver(self.root)
-        payload=load_catalog(self.root);path=self.root/'build/production_rag.jsonl'
-        if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest()!=payload.get('retrieval_index_sha256'):
-            raise RetrievalUnavailable('Reviewed Canonical RAG index missing or stale')
+        index=verified_reviewed_index(resolver)
         contract=resolver.contracts[raw['domain']]
         if raw['variant']!=contract['variant']:raise RetrievalUnavailable('Retrieval variant mismatch')
         rule_ids={step['rule_id'] for step in raw['trace']}
@@ -45,7 +50,7 @@ class CanonicalRetriever:
         evidence_keys={}
         for evidence_id,ref in raw['evidence'].items():evidence_keys.setdefault(ref_key(ref),[]).append(evidence_id)
         trusted={row['id']:row for row in reviewed_rows(resolver)}
-        index=RagIndex(path);output={}
+        output={}
         queries=[resolver.rule(rid)['name'] for rid in sorted(legacy)]
         queries.extend(ref['chapter_title'] for ref in resolver.supplementary_records if rule_ids.intersection(ref['rule_ids']))
         for query in dict.fromkeys(queries):

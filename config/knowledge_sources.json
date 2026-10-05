@@ -2037,6 +2037,27 @@
       "kind": "classical",
       "rights_basis": "仅保存并引用公有领域古籍原文；完整清洗版另有 Canonical，但本 Source 仍锚定固定原始快照。",
       "review_scope": "逐字核对夫妻论、女命章与地支篇固定短引；用于说明传统财星/官杀观察口径、不可专执官星论夫，以及对三刑/自刑机械套用的批评边界；不自动生成婚恋或刑冲吉凶。 本批追加知命前段固定短引，反对忽略衰旺、喜忌而机械以财官食印定人终身；仅解释边界，未实现旺衰算法；后段若思按与新增材料不采纳。 本批核月令、衰旺短引，仅月支/根候选/透藏事实，司令分日差异与整体强弱继续未决；不升证据等级。 本批追加固定生克或十干阴阳五行短引，仅分类和方向位置；实际效力与整体旺衰仍未裁定。 本阶段续核地支、干支总论、清气、众寡与衰旺固定短引：本气与分日候选分开；冲和生克需条件；保留重复余气段冲突；只执行结构及条件记录，不裁定实际效力与整体强弱。"
+    },
+    {
+      "source_id": "dream.source.zhougong-scenes",
+      "title": "周公解梦·五个具体场景短摘录（电子本题名）",
+      "author": null,
+      "era": "前现代传世占梦条目；具体编纂年代和刊本待核",
+      "repository": "garychowcmu/daizhigev20",
+      "url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E5%91%A8%E5%85%AC%E8%A7%A3%E6%A2%A6.txt",
+      "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+      "path": "易藏/术数/周公解梦.txt",
+      "license": "Public-Domain (pre-modern short excerpts only)",
+      "public_domain": true,
+      "retrieved_at": "2026-10-05",
+      "content_path": "data/quarantine/public_domain_snapshots/daizhigev20/zhougong_reviewed_excerpts.txt",
+      "content_format": "text",
+      "sha256": "5867fadd099c6601172539ec9f6abcc054803212b6ac27641a1747ad4b7824b3",
+      "blob_sha": "0c7b0823265c4ff00465f833e0be28f1bf0f2175",
+      "evidence_level": "C",
+      "kind": "classical",
+      "rights_basis": "沿用 PUBLIC_DOMAIN_EXTRACT_ONLY，只审核并保存简短前现代占梦条目及必要原文语境；不复制现代注解或取得电子整理版权，不认定题名作者。",
+      "review_scope": "固定 RAW 字节/commit/blob 校验后逐字核对题名、梦语境、章节、具体场景及梦象—解释关系；C级单一电子版本文化检索，非现实预测。整书版本、作者、OCR及独立性仍未核；蛇条目外部电子本咬/蛟异字未决。"
     }
   ]
 }

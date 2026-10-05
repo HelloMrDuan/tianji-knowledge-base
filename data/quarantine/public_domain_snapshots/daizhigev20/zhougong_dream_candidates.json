@@ -13,13 +13,13 @@
   "canonical_ready": false,
   "promotion": "quarantine_only",
   "body_saved": false,
-  "scope": "17 类产品输入的调查候选，不是 Terms/Rules/Evidence 实体或已确认梦义。短 anchor 仅定位审核，原文吉凶不可直接发布为用户结论。",
+  "scope": "17 类产品输入调查；五个具体场景已另经既有模型审核为 C 级文化摘录，其余保持待核。整本仍 D/pending/quarantine_only；所有候选均无生产预测授权。",
   "summary": {
     "requested": 17,
     "direct_scene_candidates": 11,
     "related_only": 5,
     "not_found": 1,
-    "confirmed_interpretations": 0
+    "confirmed_interpretations": 5
   },
   "candidates": [
     {
@@ -32,13 +32,15 @@
       "raw_unicode_offset": 7513,
       "raw_line": 286,
       "match_scope": "direct_scene",
-      "review_status": "pending",
-      "evidence_level": "D",
-      "confidence": "unconfirmed",
-      "interpretation": null,
+      "review_status": "approved_cultural_excerpt",
+      "evidence_level": "C",
+      "confidence": "medium",
+      "interpretation": "此条目将蛇咬人的梦象关联得财，是传统占梦文本中的象征说法。",
       "production_allowed": false,
       "cultural_context": "传统占梦条目；记为文化文本，不作当代个人预测。",
-      "note": "只记录蛇咬人的具体古代条目，不推广成所有蛇梦的含义。"
+      "note": "只记录蛇咬人的具体古代条目，不推广成所有蛇梦的含义。",
+      "reviewed_term_id": "dream.term.snake",
+      "reviewed_rule_id": "dream.rule.snake"
     },
     {
       "id": "dragon",
@@ -86,13 +88,15 @@
       "raw_unicode_offset": 7029,
       "raw_line": 267,
       "match_scope": "direct_scene",
-      "review_status": "pending",
-      "evidence_level": "D",
-      "confidence": "unconfirmed",
-      "interpretation": null,
+      "review_status": "approved_cultural_excerpt",
+      "evidence_level": "C",
+      "confidence": "medium",
+      "interpretation": "此条目将自在身处水中的梦象归入大吉利，是传统梦文化的吉象记载。",
       "production_allowed": false,
       "cultural_context": "传统占梦条目；记为文化文本，不作当代个人预测。",
-      "note": "在水中的具体场景；与落水、饮水分别处理。"
+      "note": "在水中的具体场景；与落水、饮水分别处理。",
+      "reviewed_term_id": "dream.term.water",
+      "reviewed_rule_id": "dream.rule.water"
     },
     {
       "id": "fire",
@@ -104,13 +108,15 @@
       "raw_unicode_offset": 7165,
       "raw_line": 271,
       "match_scope": "direct_scene",
-      "review_status": "pending",
-      "evidence_level": "D",
-      "confidence": "unconfirmed",
-      "interpretation": null,
+      "review_status": "approved_cultural_excerpt",
+      "evidence_level": "C",
+      "confidence": "medium",
+      "interpretation": "此条目将身在火中的梦象关联贵人扶助，是传统占梦中的助力象征。",
       "production_allowed": false,
       "cultural_context": "传统占梦条目；记为文化文本，不作当代个人预测。",
-      "note": "身在火中场景；不承诺帮助或安全。"
+      "note": "身在火中场景；不承诺帮助或安全。",
+      "reviewed_term_id": "dream.term.fire",
+      "reviewed_rule_id": "dream.rule.fire"
     },
     {
       "id": "house",
@@ -194,13 +200,15 @@
       "raw_unicode_offset": 3035,
       "raw_line": 109,
       "match_scope": "direct_scene",
-      "review_status": "pending",
-      "evidence_level": "D",
-      "confidence": "unconfirmed",
-      "interpretation": null,
+      "review_status": "approved_cultural_excerpt",
+      "evidence_level": "C",
+      "confidence": "medium",
+      "interpretation": "此条目把人坠井中的梦象记为疾病凶的传统负面象征；这里只说明古代文化文本的说法。",
       "production_allowed": false,
       "cultural_context": "传统占梦条目；记为文化文本，不作当代个人预测。",
-      "note": "仅坠井场景，不代表坠落所有情形；不输出疾病诊断。"
+      "note": "仅坠井场景，不代表坠落所有情形；不输出疾病诊断。",
+      "reviewed_term_id": "dream.term.falling",
+      "reviewed_rule_id": "dream.rule.falling"
     },
     {
       "id": "flying",
@@ -212,13 +220,15 @@
       "raw_unicode_offset": 153,
       "raw_line": 9,
       "match_scope": "direct_scene",
-      "review_status": "pending",
-      "evidence_level": "D",
-      "confidence": "unconfirmed",
-      "interpretation": null,
+      "review_status": "approved_cultural_excerpt",
+      "evidence_level": "C",
+      "confidence": "medium",
+      "interpretation": "此条目将人飞上天的梦象归入富贵大吉，是传统梦文化的上升意象。",
       "production_allowed": false,
       "cultural_context": "传统占梦条目；记为文化文本，不作当代个人预测。",
-      "note": "人飞上天场景，不能用飞熊、龙飞或鸟飞填充。"
+      "note": "人飞上天场景，不能用飞熊、龙飞或鸟飞填充。",
+      "reviewed_term_id": "dream.term.flying",
+      "reviewed_rule_id": "dream.rule.flying"
     },
     {
       "id": "death",
@@ -328,5 +338,12 @@
       "cultural_context": "传统占梦条目；记为文化文本，不作当代个人预测。",
       "note": "读书写字不等于考试；得历日者中黄甲等疑字暂不解释。"
     }
-  ]
+  ],
+  "reviewed_excerpt_projection": {
+    "knowledge_path": "data/canonical/dream/phase1_knowledge.json",
+    "source_id": "dream.source.zhougong-scenes",
+    "confirmed_cultural_scenes": 5,
+    "mode": "research",
+    "full_book_promoted": false
+  }
 }

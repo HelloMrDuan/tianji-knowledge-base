@@ -17,14 +17,17 @@ class DreamSourceReviewTests(unittest.TestCase):
         report = build_product_coverage(ROOT)
         dream = report['dream']
         self.assertEqual(dream['status'], 'NOT_BUILT')
+        self.assertEqual(dream['knowledge_stage'], 'PARTIAL')
+        self.assertEqual(report['_audit']['reviewed_dream_retrieval']['reviewed_scene_count'], 5)
+        self.assertTrue(report['_audit']['reviewed_dream_retrieval']['helper_available'])
         self.assertEqual(dream['ready_claims'], [])
         self.assertFalse(dream['public_enabled'])
         self.assertFalse(dream['ai_enabled'])
         self.assertNotIn('dream', PROVIDERS)
         self.assertNotIn('dream', _EXECUTORS)
         self.assertFalse(next(s for s in registry() if s['id'] == 'dream')['public_release'])
-        self.assertEqual(report['_audit']['source_grades'], {'C': 91, 'D': 6})
-        self.assertFalse((ROOT / 'data/canonical/dream/phase1_knowledge.json').exists())
+        self.assertEqual(report['_audit']['source_grades'], {'C': 92, 'D': 6})
+        self.assertTrue((ROOT / 'data/canonical/dream/phase1_knowledge.json').exists())
         candidate = next(c for c in report['_audit']['staged_source_candidates']
                          if c['source_path'] == '易藏/术数/周公解梦.txt')
         self.assertEqual(candidate['evidence_level'], 'D')
@@ -42,9 +45,16 @@ class DreamSourceReviewTests(unittest.TestCase):
         self.assertIsNone(by_id['chased']['exact_anchor'])
         self.assertIsNone(by_id['chased']['raw_unicode_offset'])
         for item in by_id.values():
-            self.assertIsNone(item['interpretation'])
             self.assertFalse(item['production_allowed'])
-            self.assertEqual(item['confidence'], 'unconfirmed')
+            if item['id'] in {'snake','water','fire','flying','falling'}:
+                self.assertTrue(item['interpretation'])
+                self.assertEqual(item['confidence'], 'medium')
+                self.assertEqual(item['review_status'], 'approved_cultural_excerpt')
+                self.assertEqual(item['evidence_level'], 'C')
+            else:
+                self.assertIsNone(item['interpretation'])
+                self.assertEqual(item['confidence'], 'unconfirmed')
+        self.assertEqual(audit['summary']['confirmed_interpretations'], 5)
 
     def test_existing_validator_rejects_candidate_metadata_as_classical_evidence(self):
         # Pretend to promote the D metadata and cite a metadata string as a

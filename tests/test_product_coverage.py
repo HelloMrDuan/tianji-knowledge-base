@@ -36,7 +36,7 @@ class ProductCoverageTests(unittest.TestCase):
         self.assertEqual(sum(len(e['golden_ids']) for e in rows['_audit']['engines'].values()), 64)
         self.assertTrue(rows['_audit']['engines']['bazi']['registered'])
         self.assertEqual(rows['_audit']['engines']['bazi']['variant'], 'ziping-structural-v1')
-        self.assertEqual(rows['_audit']['source_grades'], {'C': 91, 'D': 6})
+        self.assertEqual(rows['_audit']['source_grades'], {'C': 92, 'D': 6})
         self.assertEqual(len(rows['_audit']['conflict_entities']), 4)
         self.assertTrue(rows['compatibility']['scenario_status']['runtime_implemented'])
         self.assertTrue(rows['bazi-reading']['scenario_status']['structural_public_release'])

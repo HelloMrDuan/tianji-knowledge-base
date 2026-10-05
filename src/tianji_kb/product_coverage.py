@@ -198,6 +198,8 @@ def build_product_coverage(root: Path, *, rag_rows=None):
                                                      {ref['path'] for t in topics for ref in t['classical_text_candidates']}),
                        'degraded_message': '当前已实现的结构能力可供专业参考；该项深入解释仍在知识审核中。' if supported else '当前版本尚未开放，相关知识、规则与证据仍在校核中。'}
     chunks = list(iter_phase1_chunks(root, resolver.model))
+    dream_terms = bundles.get('dream', {}).get('terms', [])
+    output['dream']['knowledge_stage'] = 'PARTIAL' if dream_terms else 'NOT_BUILT'
     rag = rag_rows if rag_rows is not None else []
     source_registry = read_json(root / 'config/source_registry.json')
     source_audit = read_json(root / 'config/phase2_source_audit.json')
@@ -262,6 +264,17 @@ def build_product_coverage(root: Path, *, rag_rows=None):
                                          'bazi.concept.action_conditions_variant_v1',
                                          'bazi.concept.strength_adjudication_v1') if cid in resolver.entities},
                          'bounded_strength_factors': resolver.entities.get('bazi.concept.strength_factor_variant_v1', (None, {}))[1].get('attributes', {})}
+    from .operations.dream_knowledge import retrieve as dream_retrieve
+    output['_audit']['reviewed_dream_retrieval'] = {
+        'knowledge_model': 'existing_phase1_knowledge',
+        'reviewed_term_ids': [t['id'] for t in dream_terms],
+        'reviewed_scene_count': len(dream_terms),
+        'helper_available': bool(dream_terms) and callable(dream_retrieve),
+        'helper': 'tianji_kb.operations.dream_knowledge.retrieve',
+        'variant': 'traditional_chinese_dream', 'mode': 'research',
+        'phase2_chart_engine_registered': 'dream' in PROVIDERS,
+        'public_enabled': False, 'ai_enabled': False,
+        'scope': '五个具体文化场景；实体出现不等于解释命中；完整公开解梦产品仍未建立。'}
     return output
 
 
