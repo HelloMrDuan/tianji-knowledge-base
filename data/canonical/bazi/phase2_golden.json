@@ -1885,6 +1885,97 @@
           ]
         }
       }
+    },
+    {
+      "id": "bazi.effects-pure-support",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "癸卯",
+        "month_ganzhi": "乙卯",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "乙亥",
+        "strength_variant": "bazi-strength-conditions-v1",
+        "action_effect_variant": "ditiansui-bounded-action-effects-v1"
+      },
+      "expected": {
+        "action_effects": {
+          "weights_available": false,
+          "hidden_visible_equivalence_applied": false,
+          "stem_erasure_applied": false,
+          "overall_strength": null,
+          "pure_support_scope_met": true,
+          "isolated_control_scope_met": false,
+          "transformation_status": "not_present"
+        }
+      }
+    },
+    {
+      "id": "bazi.effects-isolated-control",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "戊午",
+        "month_ganzhi": "辛酉",
+        "day_ganzhi": "甲午",
+        "hour_ganzhi": "庚午",
+        "strength_variant": "bazi-strength-conditions-v1",
+        "action_effect_variant": "ditiansui-bounded-action-effects-v1"
+      },
+      "expected": {
+        "action_effects": {
+          "weights_available": false,
+          "hidden_visible_equivalence_applied": false,
+          "stem_erasure_applied": false,
+          "overall_strength": null,
+          "pure_support_scope_met": false,
+          "isolated_control_scope_met": true,
+          "transformation_status": "not_present"
+        }
+      }
+    },
+    {
+      "id": "bazi.effects-five-combination",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "癸卯",
+        "month_ganzhi": "乙卯",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "己巳",
+        "strength_variant": "bazi-strength-conditions-v1",
+        "action_effect_variant": "ditiansui-bounded-action-effects-v1"
+      },
+      "expected": {
+        "action_effects": {
+          "weights_available": false,
+          "hidden_visible_equivalence_applied": false,
+          "stem_erasure_applied": false,
+          "overall_strength": null,
+          "pure_support_scope_met": false,
+          "isolated_control_scope_met": false,
+          "transformation_status": "unresolved"
+        }
+      }
+    },
+    {
+      "id": "bazi.effects-clashed-root",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "癸卯",
+        "month_ganzhi": "乙卯",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "癸酉",
+        "strength_variant": "bazi-strength-conditions-v1",
+        "action_effect_variant": "ditiansui-bounded-action-effects-v1"
+      },
+      "expected": {
+        "action_effects": {
+          "weights_available": false,
+          "hidden_visible_equivalence_applied": false,
+          "stem_erasure_applied": false,
+          "overall_strength": null,
+          "pure_support_scope_met": false,
+          "isolated_control_scope_met": false
+        }
+      }
     }
   ]
 }

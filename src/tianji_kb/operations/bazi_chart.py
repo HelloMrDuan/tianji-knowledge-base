@@ -2,7 +2,7 @@
 from ..bazi_core import VARIANT, chart_from_pillars, reviewed_relations, traditional_spouse_star_lens
 from ..resolver import ExecutionTrace
 from ..bazi_commander import COMMAND_VARIANT, PRINCIPAL_VARIANT, month_command, principal_month, month_factor_graph
-from ..bazi_action_conditions import action_conditions
+from ..bazi_action_conditions import EFFECT_VARIANT, action_conditions, action_effects
 from ..bazi_adjudication import strength_assessment
 from ..bazi_root_conditions import STRENGTH_VARIANT, AVAILABILITY_VARIANT, root_conditions, root_availability, conditional_factor_graph
 from ..bazi_strength import FACTOR_VARIANT, factors as _strength_factors
@@ -16,7 +16,7 @@ def strength_factors(pillars, day_master, *, factor_variant=FACTOR_VARIANT, outp
         raise ValueError('Unsupported factor output')
     return observed[output_key]
 
-def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=False, include_relations=False, traditional_role=None, strength_variant=None, month_command_variant=None, root_availability_variant=None, variant=VARIANT):
+def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=False, include_relations=False, traditional_role=None, strength_variant=None, month_command_variant=None, root_availability_variant=None, action_effect_variant=None, variant=VARIANT):
     if variant != VARIANT:
         raise ValueError("Unsupported Bazi variant")
     if type(include_xianchi) is not bool:
@@ -31,6 +31,10 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
         raise ValueError('Unsupported month command variant')
     if root_availability_variant is not None and (root_availability_variant != AVAILABILITY_VARIANT or strength_variant != STRENGTH_VARIANT):
         raise ValueError('Root availability requires its explicit variant and conditional strength factors')
+    if action_effect_variant is not None:
+        if action_effect_variant != EFFECT_VARIANT or strength_variant != STRENGTH_VARIANT:
+            raise ValueError('Action effects require their explicit variant and conditional strength factors')
+        root_availability_variant = AVAILABILITY_VARIANT
     raw = chart_from_pillars(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, variant=variant)
     trace = ExecutionTrace("bazi", variant)
 
@@ -164,6 +168,11 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
         trace.add('bazi.phase2.action_conditions', {'strength_variant': strength_variant,
                   'ganzhi': [year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi]}, action)
         result['action_conditions'] = action
+        if action_effect_variant is not None:
+            effects = action_effects(raw['pillars'], observed=action, relations=relation_facts,
+                                     principal=principal, availability=availability)
+            trace.add('bazi.phase2.action_effects', {'action_variant': action_effect_variant}, effects)
+            result['action_effects'] = effects
         result['strength_factor_graph'] = conditional_factor_graph(trace)
         assessment = strength_assessment(trace, strength_variant=strength_variant)
         trace.add('bazi.phase2.strength_adjudication',

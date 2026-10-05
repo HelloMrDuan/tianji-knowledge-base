@@ -32,8 +32,8 @@ class ProductCoverageTests(unittest.TestCase):
     def test_all_requested_products_and_specialist_tools_have_no_fake_authorization(self):
         rows = build_product_coverage(ROOT)
         self.assertEqual(len(rows) - 1, 16)
-        self.assertEqual(sum(len(e['rules']) for e in rows['_audit']['engines'].values()), 58)
-        self.assertEqual(sum(len(e['golden_ids']) for e in rows['_audit']['engines'].values()), 71)
+        self.assertEqual(sum(len(e['rules']) for e in rows['_audit']['engines'].values()), 59)
+        self.assertEqual(sum(len(e['golden_ids']) for e in rows['_audit']['engines'].values()), 75)
         self.assertTrue(rows['_audit']['engines']['bazi']['registered'])
         self.assertEqual(rows['_audit']['engines']['bazi']['variant'], 'ziping-structural-v1')
         self.assertEqual(rows['_audit']['source_grades'], {'C': 92, 'D': 6})
@@ -52,7 +52,7 @@ class ProductCoverageTests(unittest.TestCase):
         self.assertTrue(rows['_audit']['topics']['bazi-strength']['classical_text_candidates'])
         self.assertFalse(rows['_audit']['topics']['bazi-strength']['explanation_ready'])
         strength = rows['_audit']['topics']['bazi-strength']
-        self.assertEqual(len(strength['phase2_rule_ids']), 10)
+        self.assertEqual(len(strength['phase2_rule_ids']), 11)
         self.assertTrue({'bazi.rule.r017','bazi.rule.r018','bazi.rule.r019','bazi.rule.r020'} <= set(strength['phase1_rule_ids']))
         self.assertTrue({'bazi.phase2.month_command_variant','bazi.phase2.root_conditions','bazi.phase2.action_conditions','bazi.phase2.strength_adjudication'} <= set(strength['phase2_rule_ids']))
         self.assertIn('PARTIAL', strength['missing'])
