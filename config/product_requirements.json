@@ -77,15 +77,23 @@
         "月令",
         "身强",
         "身弱",
-        "旺衰"
+        "旺衰",
+        "人元司令",
+        "通根作用条件",
+        "生扶克泄作用条件",
+        "旺衰未裁定出口"
       ],
       "legacy_paths": [],
-      "missing": "月令/通根候选/透藏/生克方向位置 v1 已按原模型执行，含正常/阴日干/多比肩不判强/冲克不定凶及分日冲突反例。整体强弱仍缺季节司令、根力、得势、生扶克泄耗效力与从化边界，不以数量或自创权重填补。",
+      "missing": "当前八条已审执行规则覆盖月支/藏干/透藏/方向、司令候选与异文、根作用条件、显藏有根作用链和证据绑定的 indeterminate 出口；按真实 trace 逐项说明缺口。整体旺衰仍 PARTIAL：具体日司令、有效根力、实际作用效力以及可通用复算的 strong/weak 正例未闭环，balanced 无充分规则。古例强弱裁语仅是独立参照，不能查表冒充算法，不以数量或自创权重补齐；格局/喜用/行运及 AI 仍关闭。",
       "execution_rules": [
         "bazi.phase2.month_command_factors",
         "bazi.phase2.root_candidates",
         "bazi.phase2.hidden_to_visible",
-        "bazi.phase2.support_relations"
+        "bazi.phase2.support_relations",
+        "bazi.phase2.month_command_variant",
+        "bazi.phase2.root_conditions",
+        "bazi.phase2.action_conditions",
+        "bazi.phase2.strength_adjudication"
       ]
     },
     "bazi-pattern": {

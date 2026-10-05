@@ -18,11 +18,15 @@
         "engine_id": "bazi",
         "variant": "ziping-structural-v1",
         "rule_ids": [
+          "bazi.phase2.action_conditions",
           "bazi.phase2.hidden_stems",
           "bazi.phase2.hidden_to_visible",
           "bazi.phase2.month_command_factors",
+          "bazi.phase2.month_command_variant",
           "bazi.phase2.pillars",
           "bazi.phase2.root_candidates",
+          "bazi.phase2.root_conditions",
+          "bazi.phase2.strength_adjudication",
           "bazi.phase2.support_relations",
           "bazi.phase2.ten_gods"
         ],
@@ -50,9 +54,9 @@
         "topic_id": "bazi-strength",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 4,
-        "phase1_rules": 4,
-        "phase2_rules": 4
+        "terms": 8,
+        "phase1_rules": 8,
+        "phase2_rules": 8
       },
       {
         "topic_id": "bazi-pattern",
@@ -98,7 +102,7 @@
       },
       {
         "topic_id": "bazi-strength",
-        "reason": "月令/通根候选/透藏/生克方向位置 v1 已按原模型执行，含正常/阴日干/多比肩不判强/冲克不定凶及分日冲突反例。整体强弱仍缺季节司令、根力、得势、生扶克泄耗效力与从化边界，不以数量或自创权重填补。"
+        "reason": "当前八条已审执行规则覆盖月支/藏干/透藏/方向、司令候选与异文、根作用条件、显藏有根作用链和证据绑定的 indeterminate 出口；按真实 trace 逐项说明缺口。整体旺衰仍 PARTIAL：具体日司令、有效根力、实际作用效力以及可通用复算的 strong/weak 正例未闭环，balanced 无充分规则。古例强弱裁语仅是独立参照，不能查表冒充算法，不以数量或自创权重补齐；格局/喜用/行运及 AI 仍关闭。"
       },
       {
         "topic_id": "bazi-pattern",
@@ -872,7 +876,7 @@
     "blockers": [
       "十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。",
       "映射不等于组合、位置、透藏、月令条件下的解释；须补原典规则、限制及反例。",
-      "月令/通根候选/透藏/生克方向位置 v1 已按原模型执行，含正常/阴日干/多比肩不判强/冲克不定凶及分日冲突反例。整体强弱仍缺季节司令、根力、得势、生扶克泄耗效力与从化边界，不以数量或自创权重填补。",
+      "当前八条已审执行规则覆盖月支/藏干/透藏/方向、司令候选与异文、根作用条件、显藏有根作用链和证据绑定的 indeterminate 出口；按真实 trace 逐项说明缺口。整体旺衰仍 PARTIAL：具体日司令、有效根力、实际作用效力以及可通用复算的 strong/weak 正例未闭环，balanced 无充分规则。古例强弱裁语仅是独立参照，不能查表冒充算法，不以数量或自创权重补齐；格局/喜用/行运及 AI 仍关闭。",
       "正文提及不等于结构规则；缺成格/破格/兼格条件、流派限制和 Golden。",
       "调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。",
       "旧说明不是执行；须核顺逆/起运法/节界/岁数换算/原局作用及不同 Variant。",
@@ -907,11 +911,15 @@
         "engine_id": "bazi",
         "variant": "ziping-structural-v1",
         "rule_ids": [
+          "bazi.phase2.action_conditions",
           "bazi.phase2.hidden_stems",
           "bazi.phase2.hidden_to_visible",
           "bazi.phase2.month_command_factors",
+          "bazi.phase2.month_command_variant",
           "bazi.phase2.pillars",
           "bazi.phase2.root_candidates",
+          "bazi.phase2.root_conditions",
+          "bazi.phase2.strength_adjudication",
           "bazi.phase2.support_relations",
           "bazi.phase2.ten_gods"
         ],
@@ -931,9 +939,9 @@
         "topic_id": "bazi-strength",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 4,
-        "phase1_rules": 4,
-        "phase2_rules": 4
+        "terms": 8,
+        "phase1_rules": 8,
+        "phase2_rules": 8
       },
       {
         "topic_id": "bazi-useful-god",
@@ -975,7 +983,7 @@
       },
       {
         "topic_id": "bazi-strength",
-        "reason": "月令/通根候选/透藏/生克方向位置 v1 已按原模型执行，含正常/阴日干/多比肩不判强/冲克不定凶及分日冲突反例。整体强弱仍缺季节司令、根力、得势、生扶克泄耗效力与从化边界，不以数量或自创权重填补。"
+        "reason": "当前八条已审执行规则覆盖月支/藏干/透藏/方向、司令候选与异文、根作用条件、显藏有根作用链和证据绑定的 indeterminate 出口；按真实 trace 逐项说明缺口。整体旺衰仍 PARTIAL：具体日司令、有效根力、实际作用效力以及可通用复算的 strong/weak 正例未闭环，balanced 无充分规则。古例强弱裁语仅是独立参照，不能查表冒充算法，不以数量或自创权重补齐；格局/喜用/行运及 AI 仍关闭。"
       },
       {
         "topic_id": "bazi-useful-god",
@@ -1175,7 +1183,7 @@
     },
     "blockers": [
       "十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。",
-      "月令/通根候选/透藏/生克方向位置 v1 已按原模型执行，含正常/阴日干/多比肩不判强/冲克不定凶及分日冲突反例。整体强弱仍缺季节司令、根力、得势、生扶克泄耗效力与从化边界，不以数量或自创权重填补。",
+      "当前八条已审执行规则覆盖月支/藏干/透藏/方向、司令候选与异文、根作用条件、显藏有根作用链和证据绑定的 indeterminate 出口；按真实 trace 逐项说明缺口。整体旺衰仍 PARTIAL：具体日司令、有效根力、实际作用效力以及可通用复算的 strong/weak 正例未闭环，balanced 无充分规则。古例强弱裁语仅是独立参照，不能查表冒充算法，不以数量或自创权重补齐；格局/喜用/行运及 AI 仍关闭。",
       "调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。",
       "旧说明不是执行；须核顺逆/起运法/节界/岁数换算/原局作用及不同 Variant。",
       "日历干支不等于运势；缺原局、大运、流年作用图及强弱/喜忌条件规则。",
@@ -1210,11 +1218,15 @@
         "engine_id": "bazi",
         "variant": "ziping-structural-v1",
         "rule_ids": [
+          "bazi.phase2.action_conditions",
           "bazi.phase2.hidden_stems",
           "bazi.phase2.hidden_to_visible",
           "bazi.phase2.month_command_factors",
+          "bazi.phase2.month_command_variant",
           "bazi.phase2.pillars",
           "bazi.phase2.root_candidates",
+          "bazi.phase2.root_conditions",
+          "bazi.phase2.strength_adjudication",
           "bazi.phase2.support_relations",
           "bazi.phase2.ten_gods"
         ],
@@ -1234,9 +1246,9 @@
         "topic_id": "bazi-strength",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 4,
-        "phase1_rules": 4,
-        "phase2_rules": 4
+        "terms": 8,
+        "phase1_rules": 8,
+        "phase2_rules": 8
       },
       {
         "topic_id": "bazi-useful-god",
@@ -1278,7 +1290,7 @@
       },
       {
         "topic_id": "bazi-strength",
-        "reason": "月令/通根候选/透藏/生克方向位置 v1 已按原模型执行，含正常/阴日干/多比肩不判强/冲克不定凶及分日冲突反例。整体强弱仍缺季节司令、根力、得势、生扶克泄耗效力与从化边界，不以数量或自创权重填补。"
+        "reason": "当前八条已审执行规则覆盖月支/藏干/透藏/方向、司令候选与异文、根作用条件、显藏有根作用链和证据绑定的 indeterminate 出口；按真实 trace 逐项说明缺口。整体旺衰仍 PARTIAL：具体日司令、有效根力、实际作用效力以及可通用复算的 strong/weak 正例未闭环，balanced 无充分规则。古例强弱裁语仅是独立参照，不能查表冒充算法，不以数量或自创权重补齐；格局/喜用/行运及 AI 仍关闭。"
       },
       {
         "topic_id": "bazi-useful-god",
@@ -1478,7 +1490,7 @@
     },
     "blockers": [
       "十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。",
-      "月令/通根候选/透藏/生克方向位置 v1 已按原模型执行，含正常/阴日干/多比肩不判强/冲克不定凶及分日冲突反例。整体强弱仍缺季节司令、根力、得势、生扶克泄耗效力与从化边界，不以数量或自创权重填补。",
+      "当前八条已审执行规则覆盖月支/藏干/透藏/方向、司令候选与异文、根作用条件、显藏有根作用链和证据绑定的 indeterminate 出口；按真实 trace 逐项说明缺口。整体旺衰仍 PARTIAL：具体日司令、有效根力、实际作用效力以及可通用复算的 strong/weak 正例未闭环，balanced 无充分规则。古例强弱裁语仅是独立参照，不能查表冒充算法，不以数量或自创权重补齐；格局/喜用/行运及 AI 仍关闭。",
       "调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。",
       "旧说明不是执行；须核顺逆/起运法/节界/岁数换算/原局作用及不同 Variant。",
       "日历干支不等于运势；缺原局、大运、流年作用图及强弱/喜忌条件规则。",
@@ -1514,11 +1526,15 @@
         "engine_id": "bazi",
         "variant": "ziping-structural-v1",
         "rule_ids": [
+          "bazi.phase2.action_conditions",
           "bazi.phase2.hidden_stems",
           "bazi.phase2.hidden_to_visible",
           "bazi.phase2.month_command_factors",
+          "bazi.phase2.month_command_variant",
           "bazi.phase2.pillars",
           "bazi.phase2.root_candidates",
+          "bazi.phase2.root_conditions",
+          "bazi.phase2.strength_adjudication",
           "bazi.phase2.support_relations",
           "bazi.phase2.ten_gods"
         ],
@@ -1538,9 +1554,9 @@
         "topic_id": "bazi-strength",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 4,
-        "phase1_rules": 4,
-        "phase2_rules": 4
+        "terms": 8,
+        "phase1_rules": 8,
+        "phase2_rules": 8
       },
       {
         "topic_id": "bazi-useful-god",
@@ -1590,7 +1606,7 @@
       },
       {
         "topic_id": "bazi-strength",
-        "reason": "月令/通根候选/透藏/生克方向位置 v1 已按原模型执行，含正常/阴日干/多比肩不判强/冲克不定凶及分日冲突反例。整体强弱仍缺季节司令、根力、得势、生扶克泄耗效力与从化边界，不以数量或自创权重填补。"
+        "reason": "当前八条已审执行规则覆盖月支/藏干/透藏/方向、司令候选与异文、根作用条件、显藏有根作用链和证据绑定的 indeterminate 出口；按真实 trace 逐项说明缺口。整体旺衰仍 PARTIAL：具体日司令、有效根力、实际作用效力以及可通用复算的 strong/weak 正例未闭环，balanced 无充分规则。古例强弱裁语仅是独立参照，不能查表冒充算法，不以数量或自创权重补齐；格局/喜用/行运及 AI 仍关闭。"
       },
       {
         "topic_id": "bazi-useful-god",
@@ -1795,7 +1811,7 @@
     },
     "blockers": [
       "十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。",
-      "月令/通根候选/透藏/生克方向位置 v1 已按原模型执行，含正常/阴日干/多比肩不判强/冲克不定凶及分日冲突反例。整体强弱仍缺季节司令、根力、得势、生扶克泄耗效力与从化边界，不以数量或自创权重填补。",
+      "当前八条已审执行规则覆盖月支/藏干/透藏/方向、司令候选与异文、根作用条件、显藏有根作用链和证据绑定的 indeterminate 出口；按真实 trace 逐项说明缺口。整体旺衰仍 PARTIAL：具体日司令、有效根力、实际作用效力以及可通用复算的 strong/weak 正例未闭环，balanced 无充分规则。古例强弱裁语仅是独立参照，不能查表冒充算法，不以数量或自创权重补齐；格局/喜用/行运及 AI 仍关闭。",
       "调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。",
       "旧说明不是执行；须核顺逆/起运法/节界/岁数换算/原局作用及不同 Variant。",
       "日历干支不等于运势；缺原局、大运、流年作用图及强弱/喜忌条件规则。",
@@ -1830,11 +1846,15 @@
         "engine_id": "bazi",
         "variant": "ziping-structural-v1",
         "rule_ids": [
+          "bazi.phase2.action_conditions",
           "bazi.phase2.hidden_stems",
           "bazi.phase2.hidden_to_visible",
           "bazi.phase2.month_command_factors",
+          "bazi.phase2.month_command_variant",
           "bazi.phase2.pillars",
           "bazi.phase2.root_candidates",
+          "bazi.phase2.root_conditions",
+          "bazi.phase2.strength_adjudication",
           "bazi.phase2.support_relations",
           "bazi.phase2.ten_gods"
         ],
@@ -1854,9 +1874,9 @@
         "topic_id": "bazi-strength",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 4,
-        "phase1_rules": 4,
-        "phase2_rules": 4
+        "terms": 8,
+        "phase1_rules": 8,
+        "phase2_rules": 8
       },
       {
         "topic_id": "bazi-useful-god",
@@ -1890,7 +1910,7 @@
       },
       {
         "topic_id": "bazi-strength",
-        "reason": "月令/通根候选/透藏/生克方向位置 v1 已按原模型执行，含正常/阴日干/多比肩不判强/冲克不定凶及分日冲突反例。整体强弱仍缺季节司令、根力、得势、生扶克泄耗效力与从化边界，不以数量或自创权重填补。"
+        "reason": "当前八条已审执行规则覆盖月支/藏干/透藏/方向、司令候选与异文、根作用条件、显藏有根作用链和证据绑定的 indeterminate 出口；按真实 trace 逐项说明缺口。整体旺衰仍 PARTIAL：具体日司令、有效根力、实际作用效力以及可通用复算的 strong/weak 正例未闭环，balanced 无充分规则。古例强弱裁语仅是独立参照，不能查表冒充算法，不以数量或自创权重补齐；格局/喜用/行运及 AI 仍关闭。"
       },
       {
         "topic_id": "bazi-useful-god",
@@ -2065,7 +2085,7 @@
     },
     "blockers": [
       "十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。",
-      "月令/通根候选/透藏/生克方向位置 v1 已按原模型执行，含正常/阴日干/多比肩不判强/冲克不定凶及分日冲突反例。整体强弱仍缺季节司令、根力、得势、生扶克泄耗效力与从化边界，不以数量或自创权重填补。",
+      "当前八条已审执行规则覆盖月支/藏干/透藏/方向、司令候选与异文、根作用条件、显藏有根作用链和证据绑定的 indeterminate 出口；按真实 trace 逐项说明缺口。整体旺衰仍 PARTIAL：具体日司令、有效根力、实际作用效力以及可通用复算的 strong/weak 正例未闭环，balanced 无充分规则。古例强弱裁语仅是独立参照，不能查表冒充算法，不以数量或自创权重补齐；格局/喜用/行运及 AI 仍关闭。",
       "调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。",
       "旧说明不是执行；须核顺逆/起运法/节界/岁数换算/原局作用及不同 Variant。",
       "日历干支不等于运势；缺原局、大运、流年作用图及强弱/喜忌条件规则。",
@@ -2098,6 +2118,7 @@
         "engine_id": "bazi",
         "variant": "ziping-structural-v1",
         "rule_ids": [
+          "bazi.phase2.action_conditions",
           "bazi.phase2.branch_six_clashes",
           "bazi.phase2.branch_six_harmonies",
           "bazi.phase2.branch_six_harms",
@@ -2105,11 +2126,14 @@
           "bazi.phase2.hidden_stems",
           "bazi.phase2.hidden_to_visible",
           "bazi.phase2.month_command_factors",
+          "bazi.phase2.month_command_variant",
           "bazi.phase2.pillars",
           "bazi.phase2.root_candidates",
+          "bazi.phase2.root_conditions",
           "bazi.phase2.spouse_palace_day_branch",
           "bazi.phase2.spouse_star_lens",
           "bazi.phase2.stem_five_combinations",
+          "bazi.phase2.strength_adjudication",
           "bazi.phase2.support_relations",
           "bazi.phase2.ten_gods",
           "bazi.phase2.xianchi_lookup"
@@ -2130,9 +2154,9 @@
         "topic_id": "bazi-strength",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 4,
-        "phase1_rules": 4,
-        "phase2_rules": 4
+        "terms": 8,
+        "phase1_rules": 8,
+        "phase2_rules": 8
       },
       {
         "topic_id": "bazi-useful-god",
@@ -2166,7 +2190,7 @@
       },
       {
         "topic_id": "bazi-strength",
-        "reason": "月令/通根候选/透藏/生克方向位置 v1 已按原模型执行，含正常/阴日干/多比肩不判强/冲克不定凶及分日冲突反例。整体强弱仍缺季节司令、根力、得势、生扶克泄耗效力与从化边界，不以数量或自创权重填补。"
+        "reason": "当前八条已审执行规则覆盖月支/藏干/透藏/方向、司令候选与异文、根作用条件、显藏有根作用链和证据绑定的 indeterminate 出口；按真实 trace 逐项说明缺口。整体旺衰仍 PARTIAL：具体日司令、有效根力、实际作用效力以及可通用复算的 strong/weak 正例未闭环，balanced 无充分规则。古例强弱裁语仅是独立参照，不能查表冒充算法，不以数量或自创权重补齐；格局/喜用/行运及 AI 仍关闭。"
       },
       {
         "topic_id": "bazi-useful-god",
@@ -2257,7 +2281,7 @@
     },
     "blockers": [
       "十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。",
-      "月令/通根候选/透藏/生克方向位置 v1 已按原模型执行，含正常/阴日干/多比肩不判强/冲克不定凶及分日冲突反例。整体强弱仍缺季节司令、根力、得势、生扶克泄耗效力与从化边界，不以数量或自创权重填补。",
+      "当前八条已审执行规则覆盖月支/藏干/透藏/方向、司令候选与异文、根作用条件、显藏有根作用链和证据绑定的 indeterminate 出口；按真实 trace 逐项说明缺口。整体旺衰仍 PARTIAL：具体日司令、有效根力、实际作用效力以及可通用复算的 strong/weak 正例未闭环，balanced 无充分规则。古例强弱裁语仅是独立参照，不能查表冒充算法，不以数量或自创权重补齐；格局/喜用/行运及 AI 仍关闭。",
       "调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。",
       "日历干支不等于运势；缺原局、大运、流年作用图及强弱/喜忌条件规则。",
       "咸池、日支传统配偶宫结构位、显式财星/官杀lens及五合/六合/六害/六冲/三合结构已核；缺红鸾天喜天姚、旺衰格局喜用与岁运婚恋解释；三刑争议仍阻塞；禁止命中结构直接断现代婚姻。",
@@ -2294,11 +2318,15 @@
         "engine_id": "bazi",
         "variant": "ziping-structural-v1",
         "rule_ids": [
+          "bazi.phase2.action_conditions",
           "bazi.phase2.hidden_stems",
           "bazi.phase2.hidden_to_visible",
           "bazi.phase2.month_command_factors",
+          "bazi.phase2.month_command_variant",
           "bazi.phase2.pillars",
           "bazi.phase2.root_candidates",
+          "bazi.phase2.root_conditions",
+          "bazi.phase2.strength_adjudication",
           "bazi.phase2.support_relations",
           "bazi.phase2.ten_gods"
         ],
@@ -2326,9 +2354,9 @@
         "topic_id": "bazi-strength",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 4,
-        "phase1_rules": 4,
-        "phase2_rules": 4
+        "terms": 8,
+        "phase1_rules": 8,
+        "phase2_rules": 8
       },
       {
         "topic_id": "bazi-pattern",
@@ -2382,7 +2410,7 @@
       },
       {
         "topic_id": "bazi-strength",
-        "reason": "月令/通根候选/透藏/生克方向位置 v1 已按原模型执行，含正常/阴日干/多比肩不判强/冲克不定凶及分日冲突反例。整体强弱仍缺季节司令、根力、得势、生扶克泄耗效力与从化边界，不以数量或自创权重填补。"
+        "reason": "当前八条已审执行规则覆盖月支/藏干/透藏/方向、司令候选与异文、根作用条件、显藏有根作用链和证据绑定的 indeterminate 出口；按真实 trace 逐项说明缺口。整体旺衰仍 PARTIAL：具体日司令、有效根力、实际作用效力以及可通用复算的 strong/weak 正例未闭环，balanced 无充分规则。古例强弱裁语仅是独立参照，不能查表冒充算法，不以数量或自创权重补齐；格局/喜用/行运及 AI 仍关闭。"
       },
       {
         "topic_id": "bazi-pattern",
@@ -2589,7 +2617,7 @@
     "blockers": [
       "十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。",
       "映射不等于组合、位置、透藏、月令条件下的解释；须补原典规则、限制及反例。",
-      "月令/通根候选/透藏/生克方向位置 v1 已按原模型执行，含正常/阴日干/多比肩不判强/冲克不定凶及分日冲突反例。整体强弱仍缺季节司令、根力、得势、生扶克泄耗效力与从化边界，不以数量或自创权重填补。",
+      "当前八条已审执行规则覆盖月支/藏干/透藏/方向、司令候选与异文、根作用条件、显藏有根作用链和证据绑定的 indeterminate 出口；按真实 trace 逐项说明缺口。整体旺衰仍 PARTIAL：具体日司令、有效根力、实际作用效力以及可通用复算的 strong/weak 正例未闭环，balanced 无充分规则。古例强弱裁语仅是独立参照，不能查表冒充算法，不以数量或自创权重补齐；格局/喜用/行运及 AI 仍关闭。",
       "正文提及不等于结构规则；缺成格/破格/兼格条件、流派限制和 Golden。",
       "调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。",
       "旧说明不是执行；须核顺逆/起运法/节界/岁数换算/原局作用及不同 Variant。",
@@ -2624,6 +2652,7 @@
         "engine_id": "bazi",
         "variant": "ziping-structural-v1",
         "rule_ids": [
+          "bazi.phase2.action_conditions",
           "bazi.phase2.branch_six_clashes",
           "bazi.phase2.branch_six_harmonies",
           "bazi.phase2.branch_six_harms",
@@ -2631,11 +2660,14 @@
           "bazi.phase2.hidden_stems",
           "bazi.phase2.hidden_to_visible",
           "bazi.phase2.month_command_factors",
+          "bazi.phase2.month_command_variant",
           "bazi.phase2.pillars",
           "bazi.phase2.root_candidates",
+          "bazi.phase2.root_conditions",
           "bazi.phase2.spouse_palace_day_branch",
           "bazi.phase2.spouse_star_lens",
           "bazi.phase2.stem_five_combinations",
+          "bazi.phase2.strength_adjudication",
           "bazi.phase2.support_relations",
           "bazi.phase2.ten_gods",
           "bazi.phase2.xianchi_lookup"
@@ -2656,9 +2688,9 @@
         "topic_id": "bazi-strength",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 4,
-        "phase1_rules": 4,
-        "phase2_rules": 4
+        "terms": 8,
+        "phase1_rules": 8,
+        "phase2_rules": 8
       },
       {
         "topic_id": "bazi-romance",
@@ -2692,7 +2724,7 @@
       },
       {
         "topic_id": "bazi-strength",
-        "reason": "月令/通根候选/透藏/生克方向位置 v1 已按原模型执行，含正常/阴日干/多比肩不判强/冲克不定凶及分日冲突反例。整体强弱仍缺季节司令、根力、得势、生扶克泄耗效力与从化边界，不以数量或自创权重填补。"
+        "reason": "当前八条已审执行规则覆盖月支/藏干/透藏/方向、司令候选与异文、根作用条件、显藏有根作用链和证据绑定的 indeterminate 出口；按真实 trace 逐项说明缺口。整体旺衰仍 PARTIAL：具体日司令、有效根力、实际作用效力以及可通用复算的 strong/weak 正例未闭环，balanced 无充分规则。古例强弱裁语仅是独立参照，不能查表冒充算法，不以数量或自创权重补齐；格局/喜用/行运及 AI 仍关闭。"
       },
       {
         "topic_id": "bazi-romance",
@@ -3283,7 +3315,7 @@
     },
     "blockers": [
       "十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。",
-      "月令/通根候选/透藏/生克方向位置 v1 已按原模型执行，含正常/阴日干/多比肩不判强/冲克不定凶及分日冲突反例。整体强弱仍缺季节司令、根力、得势、生扶克泄耗效力与从化边界，不以数量或自创权重填补。",
+      "当前八条已审执行规则覆盖月支/藏干/透藏/方向、司令候选与异文、根作用条件、显藏有根作用链和证据绑定的 indeterminate 出口；按真实 trace 逐项说明缺口。整体旺衰仍 PARTIAL：具体日司令、有效根力、实际作用效力以及可通用复算的 strong/weak 正例未闭环，balanced 无充分规则。古例强弱裁语仅是独立参照，不能查表冒充算法，不以数量或自创权重补齐；格局/喜用/行运及 AI 仍关闭。",
       "咸池、日支传统配偶宫结构位、显式财星/官杀lens及五合/六合/六害/六冲/三合结构已核；缺红鸾天喜天姚、旺衰格局喜用与岁运婚恋解释；三刑争议仍阻塞；禁止命中结构直接断现代婚姻。",
       "日历干支不等于运势；缺原局、大运、流年作用图及强弱/喜忌条件规则。",
       "已有真实双人Scenario、十神镜像、咸池交叉、干支关系矩阵与传统配偶星候选位置；缺双方旺衰/喜忌与共同岁运解释、用户关系结论Golden及发布授权；旧60分不可复用。",
@@ -3321,6 +3353,7 @@
         "engine_id": "bazi",
         "variant": "ziping-structural-v1",
         "rule_ids": [
+          "bazi.phase2.action_conditions",
           "bazi.phase2.branch_six_clashes",
           "bazi.phase2.branch_six_harmonies",
           "bazi.phase2.branch_six_harms",
@@ -3328,11 +3361,14 @@
           "bazi.phase2.hidden_stems",
           "bazi.phase2.hidden_to_visible",
           "bazi.phase2.month_command_factors",
+          "bazi.phase2.month_command_variant",
           "bazi.phase2.pillars",
           "bazi.phase2.root_candidates",
+          "bazi.phase2.root_conditions",
           "bazi.phase2.spouse_palace_day_branch",
           "bazi.phase2.spouse_star_lens",
           "bazi.phase2.stem_five_combinations",
+          "bazi.phase2.strength_adjudication",
           "bazi.phase2.support_relations",
           "bazi.phase2.ten_gods",
           "bazi.phase2.xianchi_lookup"
@@ -3353,9 +3389,9 @@
         "topic_id": "bazi-strength",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 4,
-        "phase1_rules": 4,
-        "phase2_rules": 4
+        "terms": 8,
+        "phase1_rules": 8,
+        "phase2_rules": 8
       },
       {
         "topic_id": "bazi-pattern",
@@ -3421,7 +3457,7 @@
       },
       {
         "topic_id": "bazi-strength",
-        "reason": "月令/通根候选/透藏/生克方向位置 v1 已按原模型执行，含正常/阴日干/多比肩不判强/冲克不定凶及分日冲突反例。整体强弱仍缺季节司令、根力、得势、生扶克泄耗效力与从化边界，不以数量或自创权重填补。"
+        "reason": "当前八条已审执行规则覆盖月支/藏干/透藏/方向、司令候选与异文、根作用条件、显藏有根作用链和证据绑定的 indeterminate 出口；按真实 trace 逐项说明缺口。整体旺衰仍 PARTIAL：具体日司令、有效根力、实际作用效力以及可通用复算的 strong/weak 正例未闭环，balanced 无充分规则。古例强弱裁语仅是独立参照，不能查表冒充算法，不以数量或自创权重补齐；格局/喜用/行运及 AI 仍关闭。"
       },
       {
         "topic_id": "bazi-pattern",
@@ -3753,7 +3789,7 @@
     },
     "blockers": [
       "十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。",
-      "月令/通根候选/透藏/生克方向位置 v1 已按原模型执行，含正常/阴日干/多比肩不判强/冲克不定凶及分日冲突反例。整体强弱仍缺季节司令、根力、得势、生扶克泄耗效力与从化边界，不以数量或自创权重填补。",
+      "当前八条已审执行规则覆盖月支/藏干/透藏/方向、司令候选与异文、根作用条件、显藏有根作用链和证据绑定的 indeterminate 出口；按真实 trace 逐项说明缺口。整体旺衰仍 PARTIAL：具体日司令、有效根力、实际作用效力以及可通用复算的 strong/weak 正例未闭环，balanced 无充分规则。古例强弱裁语仅是独立参照，不能查表冒充算法，不以数量或自创权重补齐；格局/喜用/行运及 AI 仍关闭。",
       "正文提及不等于结构规则；缺成格/破格/兼格条件、流派限制和 Golden。",
       "调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。",
       "旧说明不是执行；须核顺逆/起运法/节界/岁数换算/原局作用及不同 Variant。",
@@ -6512,7 +6548,7 @@
       },
       {
         "path": "config/product_requirements.json",
-        "sha256": "4a7ecb83aa871c5f5a5d913f0da73bdeb3c5deffb35cacf67f32cb0f478f6dd9"
+        "sha256": "8fcc5ac680816a64edea80b9f20cf66fda230c83b9373a436599ebf9abcff895"
       },
       {
         "path": "config/public_domain_manifest.json",
@@ -13358,7 +13394,11 @@
           "月令",
           "身强",
           "身弱",
-          "旺衰"
+          "旺衰",
+          "人元司令",
+          "通根作用条件",
+          "生扶克泄作用条件",
+          "旺衰未裁定出口"
         ],
         "reviewed_terms": [
           {
@@ -13450,6 +13490,180 @@
                 "role": "classical"
               }
             ]
+          },
+          {
+            "id": "bazi.term.month_commander",
+            "name": "人元司令",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s023",
+                "original_text": "月令乃提纲之府,譬之宅也,人元为用事之神,宅之定向也,不可以不卜。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s024",
+                "original_text": "如寅月生人,立春后七日前,皆值戊土用事;八日后十四日前者,丙火用事 ;十五日后,甲木用事。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s029",
+                "original_text": "立春念三丙火用,餘日甲木旺提纲。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s037",
+                "original_text": "人元用事者,即此月此日之司令神也,如宅中之向道,不可不卜。",
+                "role": "classical"
+              }
+            ]
+          },
+          {
+            "id": "bazi.term.root_conditions",
+            "name": "通根作用条件",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s004",
+                "original_text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s025",
+                "original_text": "天干得一比肩,不如地支得一余气墓库。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s026",
+                "original_text": "余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s027",
+                "original_text": "故知地支人元必得天干引助,天干为用,必要地支司令。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s028",
+                "original_text": "得时俱为旺论,失令便作衰看,虽是至理,亦死法也。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s038",
+                "original_text": "地支逢冲,犹天干之相克也,须视其强弱喜忌而论之。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s039",
+                "original_text": "得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s040",
+                "original_text": "辰、戌、丑、未四库也,宜冲开。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s041",
+                "original_text": "余气者,如丙丁逢未,丙丁逢戌,庚辛逢丑,壬癸逢辰之类是也。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s021",
+                "original_text": "刑之义无所取,如亥刑亥、辰刑辰、酉刑酉、午刑午,谓之自刑,本支见本支,自谓同气,何以相刑?子刑卯,卯刑子,是谓相生,何以相刑?戌刑未,未刑丑,皆为土气,更不当刑。寅刑巳,亦是相生,寅申相刑,即冲何必再刑?又曰子卯一刑也,寅巳申二刑也,丑戌未三刑也,故称三刑,又有自刑,此皆俗谬,姑置之。",
+                "role": "classical"
+              }
+            ]
+          },
+          {
+            "id": "bazi.term.action_conditions",
+            "name": "生扶克泄作用条件",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s027",
+                "original_text": "故知地支人元必得天干引助,天干为用,必要地支司令。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s030",
+                "original_text": "金能生水,水多金沉;水能生木,木盛水缩;木能生火,火多木焚;火能生土,土多火埋;土能生金,金多土变。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s031",
+                "original_text": "金能剋木,木坚金缺;木能剋土,土重木折;土能剋水,水多土流;水能剋火,火多水热;火能剋金,金多火熄。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s042",
+                "original_text": "总之喜神宜得地逢生,与日主紧贴者佳;忌神宜失势临绝。与日主远隔者美。日主喜印,印星贴身,或坐下印绶,此即日主之精神也;官星贴印,或坐下官星,此即印绶之精神。余可类推。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s043",
+                "original_text": "日主是火,亦要通根得气,则能生土,或有木而克土,则日主自能化木,转转相生,所谓日主符合者也。",
+                "role": "classical"
+              }
+            ]
+          },
+          {
+            "id": "bazi.term.strength_adjudication",
+            "name": "旺衰未裁定出口",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s024",
+                "original_text": "如寅月生人,立春后七日前,皆值戊土用事;八日后十四日前者,丙火用事 ;十五日后,甲木用事。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s028",
+                "original_text": "得时俱为旺论,失令便作衰看,虽是至理,亦死法也。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s038",
+                "original_text": "地支逢冲,犹天干之相克也,须视其强弱喜忌而论之。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s039",
+                "original_text": "得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s042",
+                "original_text": "总之喜神宜得地逢生,与日主紧贴者佳;忌神宜失势临绝。与日主远隔者美。日主喜印,印星贴身,或坐下印绶,此即日主之精神也;官星贴印,或坐下官星,此即印绶之精神。余可类推。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s043",
+                "original_text": "日主是火,亦要通根得气,则能生土,或有木而克土,则日主自能化木,转转相生,所谓日主符合者也。",
+                "role": "classical"
+              }
+            ]
           }
         ],
         "terms_not_structured": [
@@ -13464,17 +13678,25 @@
           "bazi.rule.r012",
           "bazi.rule.r013",
           "bazi.rule.r014",
-          "bazi.rule.r015"
+          "bazi.rule.r015",
+          "bazi.rule.r017",
+          "bazi.rule.r018",
+          "bazi.rule.r019",
+          "bazi.rule.r020"
         ],
         "phase1_execution_status": {
           "descriptive_only": 1,
-          "executable": 3
+          "executable": 7
         },
         "phase2_rule_ids": [
           "bazi.phase2.month_command_factors",
           "bazi.phase2.root_candidates",
           "bazi.phase2.hidden_to_visible",
-          "bazi.phase2.support_relations"
+          "bazi.phase2.support_relations",
+          "bazi.phase2.month_command_variant",
+          "bazi.phase2.root_conditions",
+          "bazi.phase2.action_conditions",
+          "bazi.phase2.strength_adjudication"
         ],
         "legacy_references": [],
         "classical_text_candidates": [
@@ -13589,7 +13811,7 @@
           }
         ],
         "explanation_ready": false,
-        "missing": "月令/通根候选/透藏/生克方向位置 v1 已按原模型执行，含正常/阴日干/多比肩不判强/冲克不定凶及分日冲突反例。整体强弱仍缺季节司令、根力、得势、生扶克泄耗效力与从化边界，不以数量或自创权重填补。"
+        "missing": "当前八条已审执行规则覆盖月支/藏干/透藏/方向、司令候选与异文、根作用条件、显藏有根作用链和证据绑定的 indeterminate 出口；按真实 trace 逐项说明缺口。整体旺衰仍 PARTIAL：具体日司令、有效根力、实际作用效力以及可通用复算的 strong/weak 正例未闭环，balanced 无充分规则。古例强弱裁语仅是独立参照，不能查表冒充算法，不以数量或自创权重补齐；格局/喜用/行运及 AI 仍关闭。"
       },
       "bazi-pattern": {
         "name": "格局",
