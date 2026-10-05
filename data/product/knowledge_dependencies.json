@@ -41,9 +41,10 @@
         "bazi.phase2.action_conditions",
         "bazi.phase2.strength_adjudication",
         "bazi.phase2.principal_month",
-        "bazi.phase2.root_availability"
+        "bazi.phase2.root_availability",
+        "bazi.phase2.action_effects"
       ],
-      "missing": "已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。"
+      "missing": "已有十一条已审执行规则，独立本气、木根可用性与纯印比/孤立语境的有限实际作用可复算。整体旺衰仍 PARTIAL：正向强弱裁决未接入，其他根型和一般作用未完成；分日体系冲突保留，无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。"
     },
     "bazi-pattern": {
       "name": "格局",

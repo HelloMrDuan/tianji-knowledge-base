@@ -19,6 +19,7 @@
         "variant": "ziping-structural-v1",
         "rule_ids": [
           "bazi.phase2.action_conditions",
+          "bazi.phase2.action_effects",
           "bazi.phase2.hidden_stems",
           "bazi.phase2.hidden_to_visible",
           "bazi.phase2.month_command_factors",
@@ -56,9 +57,9 @@
         "topic_id": "bazi-strength",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 10,
-        "phase1_rules": 10,
-        "phase2_rules": 10
+        "terms": 11,
+        "phase1_rules": 11,
+        "phase2_rules": 11
       },
       {
         "topic_id": "bazi-pattern",
@@ -104,7 +105,7 @@
       },
       {
         "topic_id": "bazi-strength",
-        "reason": "已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。"
+        "reason": "已有十一条已审执行规则，独立本气、木根可用性与纯印比/孤立语境的有限实际作用可复算。整体旺衰仍 PARTIAL：正向强弱裁决未接入，其他根型和一般作用未完成；分日体系冲突保留，无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。"
       },
       {
         "topic_id": "bazi-pattern",
@@ -878,7 +879,7 @@
     "blockers": [
       "十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。",
       "映射不等于组合、位置、透藏、月令条件下的解释；须补原典规则、限制及反例。",
-      "已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。",
+      "已有十一条已审执行规则，独立本气、木根可用性与纯印比/孤立语境的有限实际作用可复算。整体旺衰仍 PARTIAL：正向强弱裁决未接入，其他根型和一般作用未完成；分日体系冲突保留，无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。",
       "正文提及不等于结构规则；缺成格/破格/兼格条件、流派限制和 Golden。",
       "调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。",
       "旧说明不是执行；须核顺逆/起运法/节界/岁数换算/原局作用及不同 Variant。",
@@ -914,6 +915,7 @@
         "variant": "ziping-structural-v1",
         "rule_ids": [
           "bazi.phase2.action_conditions",
+          "bazi.phase2.action_effects",
           "bazi.phase2.hidden_stems",
           "bazi.phase2.hidden_to_visible",
           "bazi.phase2.month_command_factors",
@@ -943,9 +945,9 @@
         "topic_id": "bazi-strength",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 10,
-        "phase1_rules": 10,
-        "phase2_rules": 10
+        "terms": 11,
+        "phase1_rules": 11,
+        "phase2_rules": 11
       },
       {
         "topic_id": "bazi-useful-god",
@@ -987,7 +989,7 @@
       },
       {
         "topic_id": "bazi-strength",
-        "reason": "已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。"
+        "reason": "已有十一条已审执行规则，独立本气、木根可用性与纯印比/孤立语境的有限实际作用可复算。整体旺衰仍 PARTIAL：正向强弱裁决未接入，其他根型和一般作用未完成；分日体系冲突保留，无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。"
       },
       {
         "topic_id": "bazi-useful-god",
@@ -1187,7 +1189,7 @@
     },
     "blockers": [
       "十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。",
-      "已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。",
+      "已有十一条已审执行规则，独立本气、木根可用性与纯印比/孤立语境的有限实际作用可复算。整体旺衰仍 PARTIAL：正向强弱裁决未接入，其他根型和一般作用未完成；分日体系冲突保留，无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。",
       "调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。",
       "旧说明不是执行；须核顺逆/起运法/节界/岁数换算/原局作用及不同 Variant。",
       "日历干支不等于运势；缺原局、大运、流年作用图及强弱/喜忌条件规则。",
@@ -1223,6 +1225,7 @@
         "variant": "ziping-structural-v1",
         "rule_ids": [
           "bazi.phase2.action_conditions",
+          "bazi.phase2.action_effects",
           "bazi.phase2.hidden_stems",
           "bazi.phase2.hidden_to_visible",
           "bazi.phase2.month_command_factors",
@@ -1252,9 +1255,9 @@
         "topic_id": "bazi-strength",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 10,
-        "phase1_rules": 10,
-        "phase2_rules": 10
+        "terms": 11,
+        "phase1_rules": 11,
+        "phase2_rules": 11
       },
       {
         "topic_id": "bazi-useful-god",
@@ -1296,7 +1299,7 @@
       },
       {
         "topic_id": "bazi-strength",
-        "reason": "已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。"
+        "reason": "已有十一条已审执行规则，独立本气、木根可用性与纯印比/孤立语境的有限实际作用可复算。整体旺衰仍 PARTIAL：正向强弱裁决未接入，其他根型和一般作用未完成；分日体系冲突保留，无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。"
       },
       {
         "topic_id": "bazi-useful-god",
@@ -1496,7 +1499,7 @@
     },
     "blockers": [
       "十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。",
-      "已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。",
+      "已有十一条已审执行规则，独立本气、木根可用性与纯印比/孤立语境的有限实际作用可复算。整体旺衰仍 PARTIAL：正向强弱裁决未接入，其他根型和一般作用未完成；分日体系冲突保留，无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。",
       "调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。",
       "旧说明不是执行；须核顺逆/起运法/节界/岁数换算/原局作用及不同 Variant。",
       "日历干支不等于运势；缺原局、大运、流年作用图及强弱/喜忌条件规则。",
@@ -1533,6 +1536,7 @@
         "variant": "ziping-structural-v1",
         "rule_ids": [
           "bazi.phase2.action_conditions",
+          "bazi.phase2.action_effects",
           "bazi.phase2.hidden_stems",
           "bazi.phase2.hidden_to_visible",
           "bazi.phase2.month_command_factors",
@@ -1562,9 +1566,9 @@
         "topic_id": "bazi-strength",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 10,
-        "phase1_rules": 10,
-        "phase2_rules": 10
+        "terms": 11,
+        "phase1_rules": 11,
+        "phase2_rules": 11
       },
       {
         "topic_id": "bazi-useful-god",
@@ -1614,7 +1618,7 @@
       },
       {
         "topic_id": "bazi-strength",
-        "reason": "已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。"
+        "reason": "已有十一条已审执行规则，独立本气、木根可用性与纯印比/孤立语境的有限实际作用可复算。整体旺衰仍 PARTIAL：正向强弱裁决未接入，其他根型和一般作用未完成；分日体系冲突保留，无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。"
       },
       {
         "topic_id": "bazi-useful-god",
@@ -1819,7 +1823,7 @@
     },
     "blockers": [
       "十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。",
-      "已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。",
+      "已有十一条已审执行规则，独立本气、木根可用性与纯印比/孤立语境的有限实际作用可复算。整体旺衰仍 PARTIAL：正向强弱裁决未接入，其他根型和一般作用未完成；分日体系冲突保留，无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。",
       "调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。",
       "旧说明不是执行；须核顺逆/起运法/节界/岁数换算/原局作用及不同 Variant。",
       "日历干支不等于运势；缺原局、大运、流年作用图及强弱/喜忌条件规则。",
@@ -1855,6 +1859,7 @@
         "variant": "ziping-structural-v1",
         "rule_ids": [
           "bazi.phase2.action_conditions",
+          "bazi.phase2.action_effects",
           "bazi.phase2.hidden_stems",
           "bazi.phase2.hidden_to_visible",
           "bazi.phase2.month_command_factors",
@@ -1884,9 +1889,9 @@
         "topic_id": "bazi-strength",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 10,
-        "phase1_rules": 10,
-        "phase2_rules": 10
+        "terms": 11,
+        "phase1_rules": 11,
+        "phase2_rules": 11
       },
       {
         "topic_id": "bazi-useful-god",
@@ -1920,7 +1925,7 @@
       },
       {
         "topic_id": "bazi-strength",
-        "reason": "已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。"
+        "reason": "已有十一条已审执行规则，独立本气、木根可用性与纯印比/孤立语境的有限实际作用可复算。整体旺衰仍 PARTIAL：正向强弱裁决未接入，其他根型和一般作用未完成；分日体系冲突保留，无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。"
       },
       {
         "topic_id": "bazi-useful-god",
@@ -2095,7 +2100,7 @@
     },
     "blockers": [
       "十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。",
-      "已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。",
+      "已有十一条已审执行规则，独立本气、木根可用性与纯印比/孤立语境的有限实际作用可复算。整体旺衰仍 PARTIAL：正向强弱裁决未接入，其他根型和一般作用未完成；分日体系冲突保留，无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。",
       "调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。",
       "旧说明不是执行；须核顺逆/起运法/节界/岁数换算/原局作用及不同 Variant。",
       "日历干支不等于运势；缺原局、大运、流年作用图及强弱/喜忌条件规则。",
@@ -2129,6 +2134,7 @@
         "variant": "ziping-structural-v1",
         "rule_ids": [
           "bazi.phase2.action_conditions",
+          "bazi.phase2.action_effects",
           "bazi.phase2.branch_six_clashes",
           "bazi.phase2.branch_six_harmonies",
           "bazi.phase2.branch_six_harms",
@@ -2166,9 +2172,9 @@
         "topic_id": "bazi-strength",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 10,
-        "phase1_rules": 10,
-        "phase2_rules": 10
+        "terms": 11,
+        "phase1_rules": 11,
+        "phase2_rules": 11
       },
       {
         "topic_id": "bazi-useful-god",
@@ -2202,7 +2208,7 @@
       },
       {
         "topic_id": "bazi-strength",
-        "reason": "已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。"
+        "reason": "已有十一条已审执行规则，独立本气、木根可用性与纯印比/孤立语境的有限实际作用可复算。整体旺衰仍 PARTIAL：正向强弱裁决未接入，其他根型和一般作用未完成；分日体系冲突保留，无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。"
       },
       {
         "topic_id": "bazi-useful-god",
@@ -2293,7 +2299,7 @@
     },
     "blockers": [
       "十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。",
-      "已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。",
+      "已有十一条已审执行规则，独立本气、木根可用性与纯印比/孤立语境的有限实际作用可复算。整体旺衰仍 PARTIAL：正向强弱裁决未接入，其他根型和一般作用未完成；分日体系冲突保留，无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。",
       "调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。",
       "日历干支不等于运势；缺原局、大运、流年作用图及强弱/喜忌条件规则。",
       "咸池、日支传统配偶宫结构位、显式财星/官杀lens及五合/六合/六害/六冲/三合结构已核；缺红鸾天喜天姚、旺衰格局喜用与岁运婚恋解释；三刑争议仍阻塞；禁止命中结构直接断现代婚姻。",
@@ -2331,6 +2337,7 @@
         "variant": "ziping-structural-v1",
         "rule_ids": [
           "bazi.phase2.action_conditions",
+          "bazi.phase2.action_effects",
           "bazi.phase2.hidden_stems",
           "bazi.phase2.hidden_to_visible",
           "bazi.phase2.month_command_factors",
@@ -2368,9 +2375,9 @@
         "topic_id": "bazi-strength",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 10,
-        "phase1_rules": 10,
-        "phase2_rules": 10
+        "terms": 11,
+        "phase1_rules": 11,
+        "phase2_rules": 11
       },
       {
         "topic_id": "bazi-pattern",
@@ -2424,7 +2431,7 @@
       },
       {
         "topic_id": "bazi-strength",
-        "reason": "已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。"
+        "reason": "已有十一条已审执行规则，独立本气、木根可用性与纯印比/孤立语境的有限实际作用可复算。整体旺衰仍 PARTIAL：正向强弱裁决未接入，其他根型和一般作用未完成；分日体系冲突保留，无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。"
       },
       {
         "topic_id": "bazi-pattern",
@@ -2631,7 +2638,7 @@
     "blockers": [
       "十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。",
       "映射不等于组合、位置、透藏、月令条件下的解释；须补原典规则、限制及反例。",
-      "已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。",
+      "已有十一条已审执行规则，独立本气、木根可用性与纯印比/孤立语境的有限实际作用可复算。整体旺衰仍 PARTIAL：正向强弱裁决未接入，其他根型和一般作用未完成；分日体系冲突保留，无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。",
       "正文提及不等于结构规则；缺成格/破格/兼格条件、流派限制和 Golden。",
       "调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。",
       "旧说明不是执行；须核顺逆/起运法/节界/岁数换算/原局作用及不同 Variant。",
@@ -2667,6 +2674,7 @@
         "variant": "ziping-structural-v1",
         "rule_ids": [
           "bazi.phase2.action_conditions",
+          "bazi.phase2.action_effects",
           "bazi.phase2.branch_six_clashes",
           "bazi.phase2.branch_six_harmonies",
           "bazi.phase2.branch_six_harms",
@@ -2704,9 +2712,9 @@
         "topic_id": "bazi-strength",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 10,
-        "phase1_rules": 10,
-        "phase2_rules": 10
+        "terms": 11,
+        "phase1_rules": 11,
+        "phase2_rules": 11
       },
       {
         "topic_id": "bazi-romance",
@@ -2740,7 +2748,7 @@
       },
       {
         "topic_id": "bazi-strength",
-        "reason": "已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。"
+        "reason": "已有十一条已审执行规则，独立本气、木根可用性与纯印比/孤立语境的有限实际作用可复算。整体旺衰仍 PARTIAL：正向强弱裁决未接入，其他根型和一般作用未完成；分日体系冲突保留，无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。"
       },
       {
         "topic_id": "bazi-romance",
@@ -3331,7 +3339,7 @@
     },
     "blockers": [
       "十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。",
-      "已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。",
+      "已有十一条已审执行规则，独立本气、木根可用性与纯印比/孤立语境的有限实际作用可复算。整体旺衰仍 PARTIAL：正向强弱裁决未接入，其他根型和一般作用未完成；分日体系冲突保留，无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。",
       "咸池、日支传统配偶宫结构位、显式财星/官杀lens及五合/六合/六害/六冲/三合结构已核；缺红鸾天喜天姚、旺衰格局喜用与岁运婚恋解释；三刑争议仍阻塞；禁止命中结构直接断现代婚姻。",
       "日历干支不等于运势；缺原局、大运、流年作用图及强弱/喜忌条件规则。",
       "已有真实双人Scenario、十神镜像、咸池交叉、干支关系矩阵与传统配偶星候选位置；缺双方旺衰/喜忌与共同岁运解释、用户关系结论Golden及发布授权；旧60分不可复用。",
@@ -3370,6 +3378,7 @@
         "variant": "ziping-structural-v1",
         "rule_ids": [
           "bazi.phase2.action_conditions",
+          "bazi.phase2.action_effects",
           "bazi.phase2.branch_six_clashes",
           "bazi.phase2.branch_six_harmonies",
           "bazi.phase2.branch_six_harms",
@@ -3407,9 +3416,9 @@
         "topic_id": "bazi-strength",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 10,
-        "phase1_rules": 10,
-        "phase2_rules": 10
+        "terms": 11,
+        "phase1_rules": 11,
+        "phase2_rules": 11
       },
       {
         "topic_id": "bazi-pattern",
@@ -3475,7 +3484,7 @@
       },
       {
         "topic_id": "bazi-strength",
-        "reason": "已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。"
+        "reason": "已有十一条已审执行规则，独立本气、木根可用性与纯印比/孤立语境的有限实际作用可复算。整体旺衰仍 PARTIAL：正向强弱裁决未接入，其他根型和一般作用未完成；分日体系冲突保留，无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。"
       },
       {
         "topic_id": "bazi-pattern",
@@ -3807,7 +3816,7 @@
     },
     "blockers": [
       "十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。",
-      "已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。",
+      "已有十一条已审执行规则，独立本气、木根可用性与纯印比/孤立语境的有限实际作用可复算。整体旺衰仍 PARTIAL：正向强弱裁决未接入，其他根型和一般作用未完成；分日体系冲突保留，无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。",
       "正文提及不等于结构规则；缺成格/破格/兼格条件、流派限制和 Golden。",
       "调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。",
       "旧说明不是执行；须核顺逆/起运法/节界/岁数换算/原局作用及不同 Variant。",
@@ -4993,8 +5002,8 @@
       },
       {
         "path": "data/canonical/bazi/phase1_knowledge.json",
-        "sha256": "b3089f34513a6d7f979e656c00bfa4990ee57e2bb858a4cd3ccfec7ce788774d",
-        "bytes": 206884,
+        "sha256": "78486c8ba7c1ae7b41ce6b0316c6fd201e6ae87f1c01a2c02146b9082049ac5c",
+        "bytes": 231438,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -5003,8 +5012,8 @@
       },
       {
         "path": "data/canonical/bazi/phase2_execution.json",
-        "sha256": "80c45a4c4b3c375a554678ad4b536aa60ce7220fc1366dbe6cbccec80d35e749",
-        "bytes": 16239,
+        "sha256": "ea730d083a3dff45b1481459a08cb9c14910914da77c6b9bf077f9e388dc532d",
+        "bytes": 16937,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -5013,8 +5022,8 @@
       },
       {
         "path": "data/canonical/bazi/phase2_golden.json",
-        "sha256": "f956aa0b79ba78517369f0bfe5d980edcabe507d2759430edb6dd22a0de3ea48",
-        "bytes": 54703,
+        "sha256": "d149d2fe03dbb07693cfb66e5f2f5585ff10b3a0f77605f7cde9b88f49b0671d",
+        "bytes": 57690,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -6554,7 +6563,7 @@
       },
       {
         "path": "config/knowledge_sources.json",
-        "sha256": "64c39526390b7ee142eb3d39f30cd70933c40cdef40399fcef39fd752985dc9e"
+        "sha256": "b09949ac812b02f06a37affd1fd8168d229872a8cc411f2d68991df145d7dfc8"
       },
       {
         "path": "config/phase2_rule_promotions.json",
@@ -6566,7 +6575,7 @@
       },
       {
         "path": "config/product_requirements.json",
-        "sha256": "8e254dbd2ce361b3467c0d83e2e74e7cad0af736f2105e0e62800d1de8cf2372"
+        "sha256": "54ecc29b9b798dfdcba1a69e07eaa4d8bea906a6bc04a563687bf1131778ea4a"
       },
       {
         "path": "config/public_domain_manifest.json",
@@ -6622,7 +6631,7 @@
       },
       {
         "path": "src/tianji_kb/bazi_action_conditions.py",
-        "sha256": "b18f1372b3e0b5feac6dfaeca0959d776a7800576d348a7eabba40d93127ebcd"
+        "sha256": "449a8cd66db210cbd523c78e8a189b204aa3cabe322b02e180063f4963c6aa32"
       },
       {
         "path": "src/tianji_kb/bazi_adjudication.py",
@@ -6718,7 +6727,7 @@
       },
       {
         "path": "src/tianji_kb/operations/bazi_chart.py",
-        "sha256": "365284b301e17632fd332d668c09a5a75f2552b8d0f32739bab0edd53be689c3"
+        "sha256": "c55db1a6548b7cc78ee3a30bc4bc548822e298739353cd0bc700c3f7be3f7289"
       },
       {
         "path": "src/tianji_kb/operations/dream_knowledge.py",
@@ -6782,7 +6791,7 @@
       },
       {
         "path": "src/tianji_kb/product_coverage.py",
-        "sha256": "1f2373012f5eb7686433eeee39a718cfbc17fd7c13c6ff55a77a0c2905b99c28"
+        "sha256": "f420cac5b406f690c59459ec3e03fab46eba21eeff344013f73f94680b8477a9"
       },
       {
         "path": "src/tianji_kb/prompts.py",
@@ -6826,7 +6835,7 @@
       },
       {
         "path": "tests/test_phase1_bazi.py",
-        "sha256": "e8c91cbce115cc12bc82f34fc6b4386ba6f66f426e407cec3155cb059493dc35"
+        "sha256": "df989e0060d8bb2fa1fb02d92d23d7f63fef830ef2f78b88a00809f1ce62991c"
       },
       {
         "path": "tests/test_phase1_cross_domain.py",
@@ -6879,6 +6888,10 @@
       {
         "path": "tests/test_phase2_bazicommander.py",
         "sha256": "a75b13a2e5daa03a3482fb04ce6b4089d728188b2863252913b28477be7de0cc"
+      },
+      {
+        "path": "tests/test_phase2_bazieffects.py",
+        "sha256": "d684a69596e5628d7cfdb953e73d2ee710ead5c8d3cae2222429d473d4080b8b"
       },
       {
         "path": "tests/test_phase2_baziroots.py",
@@ -8295,11 +8308,11 @@
       },
       "bazi": {
         "classics": 4,
-        "chapters": 16,
-        "sections": 46,
-        "terms": 26,
-        "rules": 22,
-        "concepts": 15
+        "chapters": 17,
+        "sections": 50,
+        "terms": 27,
+        "rules": 23,
+        "concepts": 16
       },
       "dream": {
         "classics": 1,
@@ -10509,6 +10522,23 @@
                 "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
                 "sha256": "c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9",
                 "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s004",
+                "original_text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.principal_month",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.yuanhai",
+                "classic_title": "渊海子平",
+                "chapter_id": "bazi.chapter.basic",
+                "chapter_title": "基础与藏遁",
+                "locator": "《渊海子平》又地支藏遁歌；本轮固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%B8%8A%E6%B5%B7%E5%AD%90%E5%B9%B3.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9",
+                "evidence_level": "C"
               }
             ]
           },
@@ -10650,6 +10680,248 @@
                 "evidence_level": "C"
               }
             ]
+          },
+          {
+            "id": "bazi.phase2.action_effects",
+            "domain": "bazi",
+            "name": "有限条件实际作用",
+            "variant": "ziping-structural-v1",
+            "execution_status": "executable",
+            "phase1_rule_refs": [
+              "bazi.rule.r023"
+            ],
+            "validation_status": "validated",
+            "golden_case_ids": [
+              "bazi.effects-pure-support",
+              "bazi.effects-isolated-control",
+              "bazi.effects-five-combination",
+              "bazi.effects-clashed-root"
+            ],
+            "regression_test": "tests/test_phase2_bazieffects.py",
+            "evidence_scope": "C：任氏从象、众寡与既有根本气结构短引；有限作用，不执行从格、整体旺衰或喜用。",
+            "evidence": [
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s047",
+                "original_text": "从旺者,四柱皆比劫,无官杀之制,有印绶之生,旺之极者,从其旺神也。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.action_effects",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.extreme_strength_context",
+                "chapter_title": "任氏从象与条件作用充分语境",
+                "locator": "《滴天髓阐微》固定快照；unicode char 96521",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s048",
+                "original_text": "从强者,四柱印绶重重,比劫叠叠,日主又当令。绝无一毫财星官杀之气,谓二人同心,强之极矣,可顺而不可逆也。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.action_effects",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.extreme_strength_context",
+                "chapter_title": "任氏从象与条件作用充分语境",
+                "locator": "《滴天髓阐微》固定快照；unicode char 96605",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s049",
+                "original_text": "任氏曰:从象不一,非专论财官而已也。日主孤立无气,四柱无生扶之意,满局官星,谓之从官,满局财星,谓之从财。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.action_effects",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.extreme_strength_context",
+                "chapter_title": "任氏从象与条件作用充分语境",
+                "locator": "《滴天髓阐微》固定快照；unicode char 96325",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s050",
+                "original_text": "日主是火,亦要通根得气,则能生土,或有木而克土,则日主自能化木,转转相生,所谓日主符合者也。官星是水,虽不及时,却有财生助,或财星当令,或成财局,此官星虽寡,得财星扶则强,岁运宜扶寡而抑众者吉。虽举财官而论,其余皆同此论。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.action_effects",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.extreme_strength_context",
+                "chapter_title": "任氏从象与条件作用充分语境",
+                "locator": "《滴天髓阐微》固定快照；unicode char 66762",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s026",
+                "original_text": "余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.action_effects",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.strength_factors",
+                "chapter_title": "月令、通根与透藏观察边界",
+                "locator": "《滴天髓阐微》通神论·衰旺；固定原文字符位置 40063；余气与长生禄旺根示例",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s033",
+                "original_text": "甲乙一木也,丙丁一火也,戊己一土也,庚辛一金也,壬癸一水也,即分别所用,不过阳刚阴柔,阳健阴顺而已。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.action_effects",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.stem_categories",
+                "chapter_title": "天干阴阳五行分类",
+                "locator": "《滴天髓阐微·审核短引》十干五行短引；固定原文字符位置 5159",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s034",
+                "original_text": "若子从癸、午从丁,是体阳而用阴也;巳从丙,亥从壬,是体阴而用阳也。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.action_effects",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.strength_factors",
+                "chapter_title": "月令、通根与透藏观察边界",
+                "locator": "滴天髓阐微·地支/干支总论/月令；固定原文字符位置 10034",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s035",
+                "original_text": "然以本气为主,寅必先甲而后及丙,申必先庚而后及壬,余支皆然。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.action_effects",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.strength_factors",
+                "chapter_title": "月令、通根与透藏观察边界",
+                "locator": "滴天髓阐微·地支/干支总论/月令；固定原文字符位置 10113",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s004",
+                "original_text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.action_effects",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.yuanhai",
+                "classic_title": "渊海子平",
+                "chapter_id": "bazi.chapter.basic",
+                "chapter_title": "基础与藏遁",
+                "locator": "《渊海子平》又地支藏遁歌；本轮固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%B8%8A%E6%B5%B7%E5%AD%90%E5%B9%B3.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s021",
+                "original_text": "刑之义无所取,如亥刑亥、辰刑辰、酉刑酉、午刑午,谓之自刑,本支见本支,自谓同气,何以相刑?子刑卯,卯刑子,是谓相生,何以相刑?戌刑未,未刑丑,皆为土气,更不当刑。寅刑巳,亦是相生,寅申相刑,即冲何必再刑?又曰子卯一刑也,寅巳申二刑也,丑戌未三刑也,故称三刑,又有自刑,此皆俗谬,姑置之。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.action_effects",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.ditiansui_punishment_boundary",
+                "chapter_title": "地支刑法批评",
+                "locator": "《滴天髓阐微》通神论·八、地支；固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s038",
+                "original_text": "地支逢冲,犹天干之相克也,须视其强弱喜忌而论之。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.action_effects",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.strength_factors",
+                "chapter_title": "月令、通根与透藏观察边界",
+                "locator": "滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 11399",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s039",
+                "original_text": "得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.action_effects",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.strength_factors",
+                "chapter_title": "月令、通根与透藏观察边界",
+                "locator": "滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 13864",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s031",
+                "original_text": "金能剋木,木坚金缺;木能剋土,土重木折;土能剋水,水多土流;水能剋火,火多水热;火能剋金,金多火熄。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.action_effects",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.yuanhai",
+                "classic_title": "渊海子平",
+                "chapter_id": "bazi.chapter.generation_control",
+                "chapter_title": "生克关系与效力界限",
+                "locator": "《渊海子平》五行相克及条件界限；固定原文字符位置 1016",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%B8%8A%E6%B5%B7%E5%AD%90%E5%B9%B3.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9",
+                "evidence_level": "C"
+              }
+            ]
           }
         ],
         "golden_path": "data/canonical/bazi/phase2_golden.json",
@@ -10665,6 +10937,10 @@
           "bazi.commander-principal-not-first",
           "bazi.commander-single-hidden",
           "bazi.commander-unreviewed-tomb",
+          "bazi.effects-clashed-root",
+          "bazi.effects-five-combination",
+          "bazi.effects-isolated-control",
+          "bazi.effects-pure-support",
           "bazi.factors-clash-not-erasure",
           "bazi.factors-few-stems-with-root",
           "bazi.factors-many-stems-no-root",
@@ -13708,7 +13984,8 @@
           "生扶克泄作用条件",
           "旺衰未裁定出口",
           "月支本气关系",
-          "通根可用性"
+          "通根可用性",
+          "有限条件实际作用"
         ],
         "reviewed_terms": [
           {
@@ -14020,6 +14297,12 @@
                 "section_id": "bazi.section.s031",
                 "original_text": "金能剋木,木坚金缺;木能剋土,土重木折;土能剋水,水多土流;水能剋火,火多水热;火能剋金,金多火熄。",
                 "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s004",
+                "original_text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+                "role": "classical"
               }
             ]
           },
@@ -14070,6 +14353,90 @@
                 "role": "classical"
               }
             ]
+          },
+          {
+            "id": "bazi.term.action_effects_v1",
+            "name": "有限条件实际作用",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s047",
+                "original_text": "从旺者,四柱皆比劫,无官杀之制,有印绶之生,旺之极者,从其旺神也。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s048",
+                "original_text": "从强者,四柱印绶重重,比劫叠叠,日主又当令。绝无一毫财星官杀之气,谓二人同心,强之极矣,可顺而不可逆也。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s049",
+                "original_text": "任氏曰:从象不一,非专论财官而已也。日主孤立无气,四柱无生扶之意,满局官星,谓之从官,满局财星,谓之从财。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s050",
+                "original_text": "日主是火,亦要通根得气,则能生土,或有木而克土,则日主自能化木,转转相生,所谓日主符合者也。官星是水,虽不及时,却有财生助,或财星当令,或成财局,此官星虽寡,得财星扶则强,岁运宜扶寡而抑众者吉。虽举财官而论,其余皆同此论。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s026",
+                "original_text": "余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s033",
+                "original_text": "甲乙一木也,丙丁一火也,戊己一土也,庚辛一金也,壬癸一水也,即分别所用,不过阳刚阴柔,阳健阴顺而已。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s034",
+                "original_text": "若子从癸、午从丁,是体阳而用阴也;巳从丙,亥从壬,是体阴而用阳也。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s035",
+                "original_text": "然以本气为主,寅必先甲而后及丙,申必先庚而后及壬,余支皆然。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s004",
+                "original_text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s021",
+                "original_text": "刑之义无所取,如亥刑亥、辰刑辰、酉刑酉、午刑午,谓之自刑,本支见本支,自谓同气,何以相刑?子刑卯,卯刑子,是谓相生,何以相刑?戌刑未,未刑丑,皆为土气,更不当刑。寅刑巳,亦是相生,寅申相刑,即冲何必再刑?又曰子卯一刑也,寅巳申二刑也,丑戌未三刑也,故称三刑,又有自刑,此皆俗谬,姑置之。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s038",
+                "original_text": "地支逢冲,犹天干之相克也,须视其强弱喜忌而论之。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s039",
+                "original_text": "得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s031",
+                "original_text": "金能剋木,木坚金缺;木能剋土,土重木折;土能剋水,水多土流;水能剋火,火多水热;火能剋金,金多火熄。",
+                "role": "classical"
+              }
+            ]
           }
         ],
         "terms_not_structured": [
@@ -14090,11 +14457,12 @@
           "bazi.rule.r019",
           "bazi.rule.r020",
           "bazi.rule.r021",
-          "bazi.rule.r022"
+          "bazi.rule.r022",
+          "bazi.rule.r023"
         ],
         "phase1_execution_status": {
           "descriptive_only": 1,
-          "executable": 9
+          "executable": 10
         },
         "phase2_rule_ids": [
           "bazi.phase2.month_command_factors",
@@ -14106,7 +14474,8 @@
           "bazi.phase2.action_conditions",
           "bazi.phase2.strength_adjudication",
           "bazi.phase2.principal_month",
-          "bazi.phase2.root_availability"
+          "bazi.phase2.root_availability",
+          "bazi.phase2.action_effects"
         ],
         "legacy_references": [],
         "classical_text_candidates": [
@@ -14221,7 +14590,7 @@
           }
         ],
         "explanation_ready": false,
-        "missing": "已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。"
+        "missing": "已有十一条已审执行规则，独立本气、木根可用性与纯印比/孤立语境的有限实际作用可复算。整体旺衰仍 PARTIAL：正向强弱裁决未接入，其他根型和一般作用未完成；分日体系冲突保留，无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。"
       },
       "bazi-pattern": {
         "name": "格局",
@@ -17761,11 +18130,11 @@
       }
     ],
     "retrieval": {
-      "reviewed_entity_chunks": 818,
-      "general_rag_chunks": 2547,
+      "reviewed_entity_chunks": 825,
+      "general_rag_chunks": 2554,
       "general_rag_domains": {
         "almanac": 1,
-        "bazi": 497,
+        "bazi": 504,
         "liuyao": 102,
         "yijing": 1179,
         "engines": 1,
@@ -18181,6 +18550,51 @@
         "polarity_equivalence_assumed": false,
         "weights_available": false,
         "root_erasure_applied": false
+      },
+      "bazi.concept.action_effects_v1": {
+        "maturity": "PARTIAL",
+        "status": "bounded_executable",
+        "day_master_element": "木",
+        "pure_months": [
+          "卯"
+        ],
+        "isolated_months": [
+          "酉"
+        ],
+        "support_relations": [
+          "same_element",
+          "generates_me"
+        ],
+        "reviewed_root_branches": {
+          "木": [
+            "亥",
+            "寅",
+            "卯"
+          ],
+          "水": [
+            "亥",
+            "子"
+          ],
+          "金": [
+            "酉"
+          ]
+        },
+        "unresolved_interactions": [
+          "stem_five_combinations",
+          "branch_six_clashes",
+          "branch_six_harmonies",
+          "branch_six_harms",
+          "branch_triple_harmonies"
+        ],
+        "hidden_equivalent_to_visible": false,
+        "weights_available": false,
+        "overall_strength_available": false,
+        "limitations": [
+          "只证明限定充分语境的作用，不给一般生克力度。",
+          "水木单纯本身不够：须木月卯、有效木根、有根显印与显比、无未解干支改变。",
+          "孤立月酉语境须全局无根无扶、天干只有土金、辛主气在月干透出且有根；不判其他干效力。",
+          "重重/叠叠不定义数量阈值；强状态不等于吉，藏干不等价显干。"
+        ]
       }
     },
     "bounded_strength_factors": {

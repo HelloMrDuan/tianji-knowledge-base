@@ -393,6 +393,25 @@
       ],
       "regression_test": "tests/test_phase2_baziavailability.py",
       "evidence_scope": "C：仅已审核本气关系或任氏木根条件；分日冲突保留，冲合不消根，整体旺衰未裁定。"
+    },
+    {
+      "id": "bazi.phase2.action_effects",
+      "domain": "bazi",
+      "name": "有限条件实际作用",
+      "variant": "ziping-structural-v1",
+      "execution_status": "executable",
+      "phase1_rule_refs": [
+        "bazi.rule.r023"
+      ],
+      "validation_status": "validated",
+      "golden_case_ids": [
+        "bazi.effects-pure-support",
+        "bazi.effects-isolated-control",
+        "bazi.effects-five-combination",
+        "bazi.effects-clashed-root"
+      ],
+      "regression_test": "tests/test_phase2_bazieffects.py",
+      "evidence_scope": "C：任氏从象、众寡与既有根本气结构短引；有限作用，不执行从格、整体旺衰或喜用。"
     }
   ]
 }

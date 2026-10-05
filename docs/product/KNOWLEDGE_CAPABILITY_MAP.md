@@ -10,7 +10,7 @@ Scenario：`bazi-profile`；已执行=True；现有结构公开标志=True；AI=
 
 - 八字基础与十神映射：Terms `bazi.term.day_master`, `bazi.term.ten_gods`, `bazi.term.hidden_stems`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.heavenly_stems`, `bazi.term.stem_polarity`, `bazi.term.five_elements`, `bazi.term.generation_control`；Phase1 Rule `bazi.rule.r001`, `bazi.rule.r002`, `bazi.rule.r003`, `bazi.rule.r011`, `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r016`, `bazi.rule.r017`, `bazi.rule.r018`。
 - 十神结构与条件解释：Terms `bazi.term.ten_gods`, `bazi.term.hidden_to_visible`；Phase1 Rule `bazi.rule.r002`, `bazi.rule.r003`, `bazi.rule.r011`, `bazi.rule.r012`, `bazi.rule.r015`。
-- 旺衰及流派边界：Terms `bazi.term.strength_review_boundary`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.month_commander`, `bazi.term.root_conditions`, `bazi.term.action_conditions`, `bazi.term.strength_adjudication`, `bazi.term.principal_month_v1`, `bazi.term.root_availability_v1`；Phase1 Rule `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r017`, `bazi.rule.r018`, `bazi.rule.r019`, `bazi.rule.r020`, `bazi.rule.r021`, `bazi.rule.r022`。
+- 旺衰及流派边界：Terms `bazi.term.strength_review_boundary`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.month_commander`, `bazi.term.root_conditions`, `bazi.term.action_conditions`, `bazi.term.strength_adjudication`, `bazi.term.principal_month_v1`, `bazi.term.root_availability_v1`, `bazi.term.action_effects_v1`；Phase1 Rule `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r017`, `bazi.rule.r018`, `bazi.rule.r019`, `bazi.rule.r020`, `bazi.rule.r021`, `bazi.rule.r022`, `bazi.rule.r023`。
 - 格局：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
 - 喜用神分体系治理：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
 - 大运：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
@@ -178,6 +178,7 @@ Scenario：`bazi-profile`；已执行=True；现有结构公开标志=True；AI=
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `《滴天髓阐微》通神论·衰旺；固定原文字符位置 39648；不可得令即旺失令即弱`，引文：得时俱为旺论,失令便作衰看,虽是至理,亦死法也。。
   Evidence C：`bazi.source.yuanhai` / 渊海子平 / 生克关系与效力界限 / `《渊海子平》五行相生及条件界限；固定原文字符位置 964`，引文：金能生水,水多金沉;水能生木,木盛水缩;木能生火,火多木焚;火能生土,土多火埋;土能生金,金多土变。。
   Evidence C：`bazi.source.yuanhai` / 渊海子平 / 生克关系与效力界限 / `《渊海子平》五行相克及条件界限；固定原文字符位置 1016`，引文：金能剋木,木坚金缺;木能剋土,土重木折;土能剋水,水多土流;水能剋火,火多水热;火能剋金,金多火熄。。
+  Evidence C：`bazi.source.yuanhai` / 渊海子平 / 基础与藏遁 / `《渊海子平》又地支藏遁歌；本轮固定短引`，引文：子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。。
 - `bazi.phase2.root_availability` / `ziping-structural-v1`；Golden：`bazi.availability-wood`, `bazi.availability-clash`, `bazi.availability-harmony`；测试 `tests/test_phase2_baziavailability.py`。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `《滴天髓阐微》通神论·衰旺；固定原文字符位置 40063；余气与长生禄旺根示例`，引文：余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 天干阴阳五行分类 / `《滴天髓阐微·审核短引》十干五行短引；固定原文字符位置 5159`，引文：甲乙一木也,丙丁一火也,戊己一土也,庚辛一金也,壬癸一水也,即分别所用,不过阳刚阴柔,阳健阴顺而已。。
@@ -186,6 +187,20 @@ Scenario：`bazi-profile`；已执行=True；现有结构公开标志=True；AI=
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 13864`，引文：得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 10220`，引文：辰、戌、丑、未四库也,宜冲开。。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 40034`，引文：余气者,如丙丁逢未,丙丁逢戌,庚辛逢丑,壬癸逢辰之类是也。。
+- `bazi.phase2.action_effects` / `ziping-structural-v1`；Golden：`bazi.effects-pure-support`, `bazi.effects-isolated-control`, `bazi.effects-five-combination`, `bazi.effects-clashed-root`；测试 `tests/test_phase2_bazieffects.py`。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 96521`，引文：从旺者,四柱皆比劫,无官杀之制,有印绶之生,旺之极者,从其旺神也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 96605`，引文：从强者,四柱印绶重重,比劫叠叠,日主又当令。绝无一毫财星官杀之气,谓二人同心,强之极矣,可顺而不可逆也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 96325`，引文：任氏曰:从象不一,非专论财官而已也。日主孤立无气,四柱无生扶之意,满局官星,谓之从官,满局财星,谓之从财。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 66762`，引文：日主是火,亦要通根得气,则能生土,或有木而克土,则日主自能化木,转转相生,所谓日主符合者也。官星是水,虽不及时,却有财生助,或财星当令,或成财局,此官星虽寡,得财星扶则强,岁运宜扶寡而抑众者吉。虽举财官而论,其余皆同此论。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `《滴天髓阐微》通神论·衰旺；固定原文字符位置 40063；余气与长生禄旺根示例`，引文：余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 天干阴阳五行分类 / `《滴天髓阐微·审核短引》十干五行短引；固定原文字符位置 5159`，引文：甲乙一木也,丙丁一火也,戊己一土也,庚辛一金也,壬癸一水也,即分别所用,不过阳刚阴柔,阳健阴顺而已。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/月令；固定原文字符位置 10034`，引文：若子从癸、午从丁,是体阳而用阴也;巳从丙,亥从壬,是体阴而用阳也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/月令；固定原文字符位置 10113`，引文：然以本气为主,寅必先甲而后及丙,申必先庚而后及壬,余支皆然。。
+  Evidence C：`bazi.source.yuanhai` / 渊海子平 / 基础与藏遁 / `《渊海子平》又地支藏遁歌；本轮固定短引`，引文：子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 地支刑法批评 / `《滴天髓阐微》通神论·八、地支；固定短引`，引文：刑之义无所取,如亥刑亥、辰刑辰、酉刑酉、午刑午,谓之自刑,本支见本支,自谓同气,何以相刑?子刑卯,卯刑子,是谓相生,何以相刑?戌刑未,未刑丑,皆为土气,更不当刑。寅刑巳,亦是相生,寅申相刑,即冲何必再刑?又曰子卯一刑也,寅巳申二刑也,丑戌未三刑也,故称三刑,又有自刑,此皆俗谬,姑置之。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 11399`，引文：地支逢冲,犹天干之相克也,须视其强弱喜忌而论之。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 13864`，引文：得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。。
+  Evidence C：`bazi.source.yuanhai` / 渊海子平 / 生克关系与效力界限 / `《渊海子平》五行相克及条件界限；固定原文字符位置 1016`，引文：金能剋木,木坚金缺;木能剋土,土重木折;土能剋水,水多土流;水能剋火,火多水热;火能剋金,金多火熄。。
 
 当前场景可输出结论（只描述事实，不追加吉凶含义）：
 
@@ -210,7 +225,7 @@ Scenario：`bazi-profile`；已执行=True；现有结构公开标志=True；AI=
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/0/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-ten-gods`：映射不等于组合、位置、透藏、月令条件下的解释；须补原典规则、限制及反例。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/6/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
-- `bazi-strength`：已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。
+- `bazi-strength`：已有十一条已审执行规则，独立本气、木根可用性与纯印比/孤立语境的有限实际作用可复算。整体旺衰仍 PARTIAL：正向强弱裁决未接入，其他根型和一般作用未完成；分日体系冲突保留，无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-pattern`：正文提及不等于结构规则；缺成格/破格/兼格条件、流派限制和 Golden。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/7/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
@@ -228,7 +243,7 @@ Scenario：`daily`；已执行=True；现有结构公开标志=False；AI=false�
 已有知识、Rule 与 Evidence：
 
 - 八字基础与十神映射：Terms `bazi.term.day_master`, `bazi.term.ten_gods`, `bazi.term.hidden_stems`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.heavenly_stems`, `bazi.term.stem_polarity`, `bazi.term.five_elements`, `bazi.term.generation_control`；Phase1 Rule `bazi.rule.r001`, `bazi.rule.r002`, `bazi.rule.r003`, `bazi.rule.r011`, `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r016`, `bazi.rule.r017`, `bazi.rule.r018`。
-- 旺衰及流派边界：Terms `bazi.term.strength_review_boundary`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.month_commander`, `bazi.term.root_conditions`, `bazi.term.action_conditions`, `bazi.term.strength_adjudication`, `bazi.term.principal_month_v1`, `bazi.term.root_availability_v1`；Phase1 Rule `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r017`, `bazi.rule.r018`, `bazi.rule.r019`, `bazi.rule.r020`, `bazi.rule.r021`, `bazi.rule.r022`。
+- 旺衰及流派边界：Terms `bazi.term.strength_review_boundary`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.month_commander`, `bazi.term.root_conditions`, `bazi.term.action_conditions`, `bazi.term.strength_adjudication`, `bazi.term.principal_month_v1`, `bazi.term.root_availability_v1`, `bazi.term.action_effects_v1`；Phase1 Rule `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r017`, `bazi.rule.r018`, `bazi.rule.r019`, `bazi.rule.r020`, `bazi.rule.r021`, `bazi.rule.r022`, `bazi.rule.r023`。
 - 喜用神分体系治理：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
 - 大运：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
 - 流年与岁运作用：Terms `bazi.term.branch_triple_harmonies`；Phase1 Rule `bazi.rule.r010`。
@@ -396,6 +411,7 @@ Scenario：`daily`；已执行=True；现有结构公开标志=False；AI=false�
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `《滴天髓阐微》通神论·衰旺；固定原文字符位置 39648；不可得令即旺失令即弱`，引文：得时俱为旺论,失令便作衰看,虽是至理,亦死法也。。
   Evidence C：`bazi.source.yuanhai` / 渊海子平 / 生克关系与效力界限 / `《渊海子平》五行相生及条件界限；固定原文字符位置 964`，引文：金能生水,水多金沉;水能生木,木盛水缩;木能生火,火多木焚;火能生土,土多火埋;土能生金,金多土变。。
   Evidence C：`bazi.source.yuanhai` / 渊海子平 / 生克关系与效力界限 / `《渊海子平》五行相克及条件界限；固定原文字符位置 1016`，引文：金能剋木,木坚金缺;木能剋土,土重木折;土能剋水,水多土流;水能剋火,火多水热;火能剋金,金多火熄。。
+  Evidence C：`bazi.source.yuanhai` / 渊海子平 / 基础与藏遁 / `《渊海子平》又地支藏遁歌；本轮固定短引`，引文：子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。。
 - `bazi.phase2.root_availability` / `ziping-structural-v1`；Golden：`bazi.availability-wood`, `bazi.availability-clash`, `bazi.availability-harmony`；测试 `tests/test_phase2_baziavailability.py`。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `《滴天髓阐微》通神论·衰旺；固定原文字符位置 40063；余气与长生禄旺根示例`，引文：余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 天干阴阳五行分类 / `《滴天髓阐微·审核短引》十干五行短引；固定原文字符位置 5159`，引文：甲乙一木也,丙丁一火也,戊己一土也,庚辛一金也,壬癸一水也,即分别所用,不过阳刚阴柔,阳健阴顺而已。。
@@ -404,6 +420,20 @@ Scenario：`daily`；已执行=True；现有结构公开标志=False；AI=false�
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 13864`，引文：得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 10220`，引文：辰、戌、丑、未四库也,宜冲开。。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 40034`，引文：余气者,如丙丁逢未,丙丁逢戌,庚辛逢丑,壬癸逢辰之类是也。。
+- `bazi.phase2.action_effects` / `ziping-structural-v1`；Golden：`bazi.effects-pure-support`, `bazi.effects-isolated-control`, `bazi.effects-five-combination`, `bazi.effects-clashed-root`；测试 `tests/test_phase2_bazieffects.py`。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 96521`，引文：从旺者,四柱皆比劫,无官杀之制,有印绶之生,旺之极者,从其旺神也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 96605`，引文：从强者,四柱印绶重重,比劫叠叠,日主又当令。绝无一毫财星官杀之气,谓二人同心,强之极矣,可顺而不可逆也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 96325`，引文：任氏曰:从象不一,非专论财官而已也。日主孤立无气,四柱无生扶之意,满局官星,谓之从官,满局财星,谓之从财。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 66762`，引文：日主是火,亦要通根得气,则能生土,或有木而克土,则日主自能化木,转转相生,所谓日主符合者也。官星是水,虽不及时,却有财生助,或财星当令,或成财局,此官星虽寡,得财星扶则强,岁运宜扶寡而抑众者吉。虽举财官而论,其余皆同此论。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `《滴天髓阐微》通神论·衰旺；固定原文字符位置 40063；余气与长生禄旺根示例`，引文：余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 天干阴阳五行分类 / `《滴天髓阐微·审核短引》十干五行短引；固定原文字符位置 5159`，引文：甲乙一木也,丙丁一火也,戊己一土也,庚辛一金也,壬癸一水也,即分别所用,不过阳刚阴柔,阳健阴顺而已。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/月令；固定原文字符位置 10034`，引文：若子从癸、午从丁,是体阳而用阴也;巳从丙,亥从壬,是体阴而用阳也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/月令；固定原文字符位置 10113`，引文：然以本气为主,寅必先甲而后及丙,申必先庚而后及壬,余支皆然。。
+  Evidence C：`bazi.source.yuanhai` / 渊海子平 / 基础与藏遁 / `《渊海子平》又地支藏遁歌；本轮固定短引`，引文：子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 地支刑法批评 / `《滴天髓阐微》通神论·八、地支；固定短引`，引文：刑之义无所取,如亥刑亥、辰刑辰、酉刑酉、午刑午,谓之自刑,本支见本支,自谓同气,何以相刑?子刑卯,卯刑子,是谓相生,何以相刑?戌刑未,未刑丑,皆为土气,更不当刑。寅刑巳,亦是相生,寅申相刑,即冲何必再刑?又曰子卯一刑也,寅巳申二刑也,丑戌未三刑也,故称三刑,又有自刑,此皆俗谬,姑置之。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 11399`，引文：地支逢冲,犹天干之相克也,须视其强弱喜忌而论之。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 13864`，引文：得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。。
+  Evidence C：`bazi.source.yuanhai` / 渊海子平 / 生克关系与效力界限 / `《渊海子平》五行相克及条件界限；固定原文字符位置 1016`，引文：金能剋木,木坚金缺;木能剋土,土重木折;土能剋水,水多土流;水能剋火,火多水热;火能剋金,金多火熄。。
 
 当前场景可输出结论（只描述事实，不追加吉凶含义）：
 
@@ -415,7 +445,7 @@ Scenario：`daily`；已执行=True；现有结构公开标志=False；AI=false�
 
 - `bazi-foundation`：十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/0/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
-- `bazi-strength`：已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。
+- `bazi-strength`：已有十一条已审执行规则，独立本气、木根可用性与纯印比/孤立语境的有限实际作用可复算。整体旺衰仍 PARTIAL：正向强弱裁决未接入，其他根型和一般作用未完成；分日体系冲突保留，无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-useful-god`：调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。
   下一批先登记来源及权利，保存 RAW/Quarantine；无审核引文时保持未支持。
@@ -433,7 +463,7 @@ Scenario：`weekly`；已执行=True；现有结构公开标志=False；AI=false
 已有知识、Rule 与 Evidence：
 
 - 八字基础与十神映射：Terms `bazi.term.day_master`, `bazi.term.ten_gods`, `bazi.term.hidden_stems`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.heavenly_stems`, `bazi.term.stem_polarity`, `bazi.term.five_elements`, `bazi.term.generation_control`；Phase1 Rule `bazi.rule.r001`, `bazi.rule.r002`, `bazi.rule.r003`, `bazi.rule.r011`, `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r016`, `bazi.rule.r017`, `bazi.rule.r018`。
-- 旺衰及流派边界：Terms `bazi.term.strength_review_boundary`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.month_commander`, `bazi.term.root_conditions`, `bazi.term.action_conditions`, `bazi.term.strength_adjudication`, `bazi.term.principal_month_v1`, `bazi.term.root_availability_v1`；Phase1 Rule `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r017`, `bazi.rule.r018`, `bazi.rule.r019`, `bazi.rule.r020`, `bazi.rule.r021`, `bazi.rule.r022`。
+- 旺衰及流派边界：Terms `bazi.term.strength_review_boundary`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.month_commander`, `bazi.term.root_conditions`, `bazi.term.action_conditions`, `bazi.term.strength_adjudication`, `bazi.term.principal_month_v1`, `bazi.term.root_availability_v1`, `bazi.term.action_effects_v1`；Phase1 Rule `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r017`, `bazi.rule.r018`, `bazi.rule.r019`, `bazi.rule.r020`, `bazi.rule.r021`, `bazi.rule.r022`, `bazi.rule.r023`。
 - 喜用神分体系治理：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
 - 大运：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
 - 流年与岁运作用：Terms `bazi.term.branch_triple_harmonies`；Phase1 Rule `bazi.rule.r010`。
@@ -601,6 +631,7 @@ Scenario：`weekly`；已执行=True；现有结构公开标志=False；AI=false
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `《滴天髓阐微》通神论·衰旺；固定原文字符位置 39648；不可得令即旺失令即弱`，引文：得时俱为旺论,失令便作衰看,虽是至理,亦死法也。。
   Evidence C：`bazi.source.yuanhai` / 渊海子平 / 生克关系与效力界限 / `《渊海子平》五行相生及条件界限；固定原文字符位置 964`，引文：金能生水,水多金沉;水能生木,木盛水缩;木能生火,火多木焚;火能生土,土多火埋;土能生金,金多土变。。
   Evidence C：`bazi.source.yuanhai` / 渊海子平 / 生克关系与效力界限 / `《渊海子平》五行相克及条件界限；固定原文字符位置 1016`，引文：金能剋木,木坚金缺;木能剋土,土重木折;土能剋水,水多土流;水能剋火,火多水热;火能剋金,金多火熄。。
+  Evidence C：`bazi.source.yuanhai` / 渊海子平 / 基础与藏遁 / `《渊海子平》又地支藏遁歌；本轮固定短引`，引文：子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。。
 - `bazi.phase2.root_availability` / `ziping-structural-v1`；Golden：`bazi.availability-wood`, `bazi.availability-clash`, `bazi.availability-harmony`；测试 `tests/test_phase2_baziavailability.py`。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `《滴天髓阐微》通神论·衰旺；固定原文字符位置 40063；余气与长生禄旺根示例`，引文：余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 天干阴阳五行分类 / `《滴天髓阐微·审核短引》十干五行短引；固定原文字符位置 5159`，引文：甲乙一木也,丙丁一火也,戊己一土也,庚辛一金也,壬癸一水也,即分别所用,不过阳刚阴柔,阳健阴顺而已。。
@@ -609,6 +640,20 @@ Scenario：`weekly`；已执行=True；现有结构公开标志=False；AI=false
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 13864`，引文：得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 10220`，引文：辰、戌、丑、未四库也,宜冲开。。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 40034`，引文：余气者,如丙丁逢未,丙丁逢戌,庚辛逢丑,壬癸逢辰之类是也。。
+- `bazi.phase2.action_effects` / `ziping-structural-v1`；Golden：`bazi.effects-pure-support`, `bazi.effects-isolated-control`, `bazi.effects-five-combination`, `bazi.effects-clashed-root`；测试 `tests/test_phase2_bazieffects.py`。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 96521`，引文：从旺者,四柱皆比劫,无官杀之制,有印绶之生,旺之极者,从其旺神也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 96605`，引文：从强者,四柱印绶重重,比劫叠叠,日主又当令。绝无一毫财星官杀之气,谓二人同心,强之极矣,可顺而不可逆也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 96325`，引文：任氏曰:从象不一,非专论财官而已也。日主孤立无气,四柱无生扶之意,满局官星,谓之从官,满局财星,谓之从财。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 66762`，引文：日主是火,亦要通根得气,则能生土,或有木而克土,则日主自能化木,转转相生,所谓日主符合者也。官星是水,虽不及时,却有财生助,或财星当令,或成财局,此官星虽寡,得财星扶则强,岁运宜扶寡而抑众者吉。虽举财官而论,其余皆同此论。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `《滴天髓阐微》通神论·衰旺；固定原文字符位置 40063；余气与长生禄旺根示例`，引文：余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 天干阴阳五行分类 / `《滴天髓阐微·审核短引》十干五行短引；固定原文字符位置 5159`，引文：甲乙一木也,丙丁一火也,戊己一土也,庚辛一金也,壬癸一水也,即分别所用,不过阳刚阴柔,阳健阴顺而已。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/月令；固定原文字符位置 10034`，引文：若子从癸、午从丁,是体阳而用阴也;巳从丙,亥从壬,是体阴而用阳也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/月令；固定原文字符位置 10113`，引文：然以本气为主,寅必先甲而后及丙,申必先庚而后及壬,余支皆然。。
+  Evidence C：`bazi.source.yuanhai` / 渊海子平 / 基础与藏遁 / `《渊海子平》又地支藏遁歌；本轮固定短引`，引文：子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 地支刑法批评 / `《滴天髓阐微》通神论·八、地支；固定短引`，引文：刑之义无所取,如亥刑亥、辰刑辰、酉刑酉、午刑午,谓之自刑,本支见本支,自谓同气,何以相刑?子刑卯,卯刑子,是谓相生,何以相刑?戌刑未,未刑丑,皆为土气,更不当刑。寅刑巳,亦是相生,寅申相刑,即冲何必再刑?又曰子卯一刑也,寅巳申二刑也,丑戌未三刑也,故称三刑,又有自刑,此皆俗谬,姑置之。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 11399`，引文：地支逢冲,犹天干之相克也,须视其强弱喜忌而论之。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 13864`，引文：得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。。
+  Evidence C：`bazi.source.yuanhai` / 渊海子平 / 生克关系与效力界限 / `《渊海子平》五行相克及条件界限；固定原文字符位置 1016`，引文：金能剋木,木坚金缺;木能剋土,土重木折;土能剋水,水多土流;水能剋火,火多水热;火能剋金,金多火熄。。
 
 当前场景可输出结论（只描述事实，不追加吉凶含义）：
 
@@ -620,7 +665,7 @@ Scenario：`weekly`；已执行=True；现有结构公开标志=False；AI=false
 
 - `bazi-foundation`：十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/0/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
-- `bazi-strength`：已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。
+- `bazi-strength`：已有十一条已审执行规则，独立本气、木根可用性与纯印比/孤立语境的有限实际作用可复算。整体旺衰仍 PARTIAL：正向强弱裁决未接入，其他根型和一般作用未完成；分日体系冲突保留，无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-useful-god`：调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。
   下一批先登记来源及权利，保存 RAW/Quarantine；无审核引文时保持未支持。
@@ -638,7 +683,7 @@ Scenario：`monthly`；已执行=True；现有结构公开标志=False；AI=fals
 已有知识、Rule 与 Evidence：
 
 - 八字基础与十神映射：Terms `bazi.term.day_master`, `bazi.term.ten_gods`, `bazi.term.hidden_stems`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.heavenly_stems`, `bazi.term.stem_polarity`, `bazi.term.five_elements`, `bazi.term.generation_control`；Phase1 Rule `bazi.rule.r001`, `bazi.rule.r002`, `bazi.rule.r003`, `bazi.rule.r011`, `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r016`, `bazi.rule.r017`, `bazi.rule.r018`。
-- 旺衰及流派边界：Terms `bazi.term.strength_review_boundary`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.month_commander`, `bazi.term.root_conditions`, `bazi.term.action_conditions`, `bazi.term.strength_adjudication`, `bazi.term.principal_month_v1`, `bazi.term.root_availability_v1`；Phase1 Rule `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r017`, `bazi.rule.r018`, `bazi.rule.r019`, `bazi.rule.r020`, `bazi.rule.r021`, `bazi.rule.r022`。
+- 旺衰及流派边界：Terms `bazi.term.strength_review_boundary`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.month_commander`, `bazi.term.root_conditions`, `bazi.term.action_conditions`, `bazi.term.strength_adjudication`, `bazi.term.principal_month_v1`, `bazi.term.root_availability_v1`, `bazi.term.action_effects_v1`；Phase1 Rule `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r017`, `bazi.rule.r018`, `bazi.rule.r019`, `bazi.rule.r020`, `bazi.rule.r021`, `bazi.rule.r022`, `bazi.rule.r023`。
 - 喜用神分体系治理：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
 - 大运：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
 - 流年与岁运作用：Terms `bazi.term.branch_triple_harmonies`；Phase1 Rule `bazi.rule.r010`。
@@ -807,6 +852,7 @@ Scenario：`monthly`；已执行=True；现有结构公开标志=False；AI=fals
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `《滴天髓阐微》通神论·衰旺；固定原文字符位置 39648；不可得令即旺失令即弱`，引文：得时俱为旺论,失令便作衰看,虽是至理,亦死法也。。
   Evidence C：`bazi.source.yuanhai` / 渊海子平 / 生克关系与效力界限 / `《渊海子平》五行相生及条件界限；固定原文字符位置 964`，引文：金能生水,水多金沉;水能生木,木盛水缩;木能生火,火多木焚;火能生土,土多火埋;土能生金,金多土变。。
   Evidence C：`bazi.source.yuanhai` / 渊海子平 / 生克关系与效力界限 / `《渊海子平》五行相克及条件界限；固定原文字符位置 1016`，引文：金能剋木,木坚金缺;木能剋土,土重木折;土能剋水,水多土流;水能剋火,火多水热;火能剋金,金多火熄。。
+  Evidence C：`bazi.source.yuanhai` / 渊海子平 / 基础与藏遁 / `《渊海子平》又地支藏遁歌；本轮固定短引`，引文：子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。。
 - `bazi.phase2.root_availability` / `ziping-structural-v1`；Golden：`bazi.availability-wood`, `bazi.availability-clash`, `bazi.availability-harmony`；测试 `tests/test_phase2_baziavailability.py`。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `《滴天髓阐微》通神论·衰旺；固定原文字符位置 40063；余气与长生禄旺根示例`，引文：余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 天干阴阳五行分类 / `《滴天髓阐微·审核短引》十干五行短引；固定原文字符位置 5159`，引文：甲乙一木也,丙丁一火也,戊己一土也,庚辛一金也,壬癸一水也,即分别所用,不过阳刚阴柔,阳健阴顺而已。。
@@ -815,6 +861,20 @@ Scenario：`monthly`；已执行=True；现有结构公开标志=False；AI=fals
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 13864`，引文：得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 10220`，引文：辰、戌、丑、未四库也,宜冲开。。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 40034`，引文：余气者,如丙丁逢未,丙丁逢戌,庚辛逢丑,壬癸逢辰之类是也。。
+- `bazi.phase2.action_effects` / `ziping-structural-v1`；Golden：`bazi.effects-pure-support`, `bazi.effects-isolated-control`, `bazi.effects-five-combination`, `bazi.effects-clashed-root`；测试 `tests/test_phase2_bazieffects.py`。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 96521`，引文：从旺者,四柱皆比劫,无官杀之制,有印绶之生,旺之极者,从其旺神也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 96605`，引文：从强者,四柱印绶重重,比劫叠叠,日主又当令。绝无一毫财星官杀之气,谓二人同心,强之极矣,可顺而不可逆也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 96325`，引文：任氏曰:从象不一,非专论财官而已也。日主孤立无气,四柱无生扶之意,满局官星,谓之从官,满局财星,谓之从财。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 66762`，引文：日主是火,亦要通根得气,则能生土,或有木而克土,则日主自能化木,转转相生,所谓日主符合者也。官星是水,虽不及时,却有财生助,或财星当令,或成财局,此官星虽寡,得财星扶则强,岁运宜扶寡而抑众者吉。虽举财官而论,其余皆同此论。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `《滴天髓阐微》通神论·衰旺；固定原文字符位置 40063；余气与长生禄旺根示例`，引文：余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 天干阴阳五行分类 / `《滴天髓阐微·审核短引》十干五行短引；固定原文字符位置 5159`，引文：甲乙一木也,丙丁一火也,戊己一土也,庚辛一金也,壬癸一水也,即分别所用,不过阳刚阴柔,阳健阴顺而已。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/月令；固定原文字符位置 10034`，引文：若子从癸、午从丁,是体阳而用阴也;巳从丙,亥从壬,是体阴而用阳也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/月令；固定原文字符位置 10113`，引文：然以本气为主,寅必先甲而后及丙,申必先庚而后及壬,余支皆然。。
+  Evidence C：`bazi.source.yuanhai` / 渊海子平 / 基础与藏遁 / `《渊海子平》又地支藏遁歌；本轮固定短引`，引文：子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 地支刑法批评 / `《滴天髓阐微》通神论·八、地支；固定短引`，引文：刑之义无所取,如亥刑亥、辰刑辰、酉刑酉、午刑午,谓之自刑,本支见本支,自谓同气,何以相刑?子刑卯,卯刑子,是谓相生,何以相刑?戌刑未,未刑丑,皆为土气,更不当刑。寅刑巳,亦是相生,寅申相刑,即冲何必再刑?又曰子卯一刑也,寅巳申二刑也,丑戌未三刑也,故称三刑,又有自刑,此皆俗谬,姑置之。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 11399`，引文：地支逢冲,犹天干之相克也,须视其强弱喜忌而论之。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 13864`，引文：得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。。
+  Evidence C：`bazi.source.yuanhai` / 渊海子平 / 生克关系与效力界限 / `《渊海子平》五行相克及条件界限；固定原文字符位置 1016`，引文：金能剋木,木坚金缺;木能剋土,土重木折;土能剋水,水多土流;水能剋火,火多水热;火能剋金,金多火熄。。
 
 当前场景可输出结论（只描述事实，不追加吉凶含义）：
 
@@ -826,7 +886,7 @@ Scenario：`monthly`；已执行=True；现有结构公开标志=False；AI=fals
 
 - `bazi-foundation`：十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/0/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
-- `bazi-strength`：已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。
+- `bazi-strength`：已有十一条已审执行规则，独立本气、木根可用性与纯印比/孤立语境的有限实际作用可复算。整体旺衰仍 PARTIAL：正向强弱裁决未接入，其他根型和一般作用未完成；分日体系冲突保留，无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-useful-god`：调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。
   下一批先登记来源及权利，保存 RAW/Quarantine；无审核引文时保持未支持。
@@ -846,7 +906,7 @@ Scenario：`yearly`；已执行=True；现有结构公开标志=False；AI=false
 已有知识、Rule 与 Evidence：
 
 - 八字基础与十神映射：Terms `bazi.term.day_master`, `bazi.term.ten_gods`, `bazi.term.hidden_stems`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.heavenly_stems`, `bazi.term.stem_polarity`, `bazi.term.five_elements`, `bazi.term.generation_control`；Phase1 Rule `bazi.rule.r001`, `bazi.rule.r002`, `bazi.rule.r003`, `bazi.rule.r011`, `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r016`, `bazi.rule.r017`, `bazi.rule.r018`。
-- 旺衰及流派边界：Terms `bazi.term.strength_review_boundary`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.month_commander`, `bazi.term.root_conditions`, `bazi.term.action_conditions`, `bazi.term.strength_adjudication`, `bazi.term.principal_month_v1`, `bazi.term.root_availability_v1`；Phase1 Rule `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r017`, `bazi.rule.r018`, `bazi.rule.r019`, `bazi.rule.r020`, `bazi.rule.r021`, `bazi.rule.r022`。
+- 旺衰及流派边界：Terms `bazi.term.strength_review_boundary`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.month_commander`, `bazi.term.root_conditions`, `bazi.term.action_conditions`, `bazi.term.strength_adjudication`, `bazi.term.principal_month_v1`, `bazi.term.root_availability_v1`, `bazi.term.action_effects_v1`；Phase1 Rule `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r017`, `bazi.rule.r018`, `bazi.rule.r019`, `bazi.rule.r020`, `bazi.rule.r021`, `bazi.rule.r022`, `bazi.rule.r023`。
 - 喜用神分体系治理：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
 - 大运：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
 - 流年与岁运作用：Terms `bazi.term.branch_triple_harmonies`；Phase1 Rule `bazi.rule.r010`。
@@ -1013,6 +1073,7 @@ Scenario：`yearly`；已执行=True；现有结构公开标志=False；AI=false
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `《滴天髓阐微》通神论·衰旺；固定原文字符位置 39648；不可得令即旺失令即弱`，引文：得时俱为旺论,失令便作衰看,虽是至理,亦死法也。。
   Evidence C：`bazi.source.yuanhai` / 渊海子平 / 生克关系与效力界限 / `《渊海子平》五行相生及条件界限；固定原文字符位置 964`，引文：金能生水,水多金沉;水能生木,木盛水缩;木能生火,火多木焚;火能生土,土多火埋;土能生金,金多土变。。
   Evidence C：`bazi.source.yuanhai` / 渊海子平 / 生克关系与效力界限 / `《渊海子平》五行相克及条件界限；固定原文字符位置 1016`，引文：金能剋木,木坚金缺;木能剋土,土重木折;土能剋水,水多土流;水能剋火,火多水热;火能剋金,金多火熄。。
+  Evidence C：`bazi.source.yuanhai` / 渊海子平 / 基础与藏遁 / `《渊海子平》又地支藏遁歌；本轮固定短引`，引文：子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。。
 - `bazi.phase2.root_availability` / `ziping-structural-v1`；Golden：`bazi.availability-wood`, `bazi.availability-clash`, `bazi.availability-harmony`；测试 `tests/test_phase2_baziavailability.py`。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `《滴天髓阐微》通神论·衰旺；固定原文字符位置 40063；余气与长生禄旺根示例`，引文：余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 天干阴阳五行分类 / `《滴天髓阐微·审核短引》十干五行短引；固定原文字符位置 5159`，引文：甲乙一木也,丙丁一火也,戊己一土也,庚辛一金也,壬癸一水也,即分别所用,不过阳刚阴柔,阳健阴顺而已。。
@@ -1021,6 +1082,20 @@ Scenario：`yearly`；已执行=True；现有结构公开标志=False；AI=false
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 13864`，引文：得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 10220`，引文：辰、戌、丑、未四库也,宜冲开。。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 40034`，引文：余气者,如丙丁逢未,丙丁逢戌,庚辛逢丑,壬癸逢辰之类是也。。
+- `bazi.phase2.action_effects` / `ziping-structural-v1`；Golden：`bazi.effects-pure-support`, `bazi.effects-isolated-control`, `bazi.effects-five-combination`, `bazi.effects-clashed-root`；测试 `tests/test_phase2_bazieffects.py`。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 96521`，引文：从旺者,四柱皆比劫,无官杀之制,有印绶之生,旺之极者,从其旺神也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 96605`，引文：从强者,四柱印绶重重,比劫叠叠,日主又当令。绝无一毫财星官杀之气,谓二人同心,强之极矣,可顺而不可逆也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 96325`，引文：任氏曰:从象不一,非专论财官而已也。日主孤立无气,四柱无生扶之意,满局官星,谓之从官,满局财星,谓之从财。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 66762`，引文：日主是火,亦要通根得气,则能生土,或有木而克土,则日主自能化木,转转相生,所谓日主符合者也。官星是水,虽不及时,却有财生助,或财星当令,或成财局,此官星虽寡,得财星扶则强,岁运宜扶寡而抑众者吉。虽举财官而论,其余皆同此论。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `《滴天髓阐微》通神论·衰旺；固定原文字符位置 40063；余气与长生禄旺根示例`，引文：余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 天干阴阳五行分类 / `《滴天髓阐微·审核短引》十干五行短引；固定原文字符位置 5159`，引文：甲乙一木也,丙丁一火也,戊己一土也,庚辛一金也,壬癸一水也,即分别所用,不过阳刚阴柔,阳健阴顺而已。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/月令；固定原文字符位置 10034`，引文：若子从癸、午从丁,是体阳而用阴也;巳从丙,亥从壬,是体阴而用阳也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/月令；固定原文字符位置 10113`，引文：然以本气为主,寅必先甲而后及丙,申必先庚而后及壬,余支皆然。。
+  Evidence C：`bazi.source.yuanhai` / 渊海子平 / 基础与藏遁 / `《渊海子平》又地支藏遁歌；本轮固定短引`，引文：子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 地支刑法批评 / `《滴天髓阐微》通神论·八、地支；固定短引`，引文：刑之义无所取,如亥刑亥、辰刑辰、酉刑酉、午刑午,谓之自刑,本支见本支,自谓同气,何以相刑?子刑卯,卯刑子,是谓相生,何以相刑?戌刑未,未刑丑,皆为土气,更不当刑。寅刑巳,亦是相生,寅申相刑,即冲何必再刑?又曰子卯一刑也,寅巳申二刑也,丑戌未三刑也,故称三刑,又有自刑,此皆俗谬,姑置之。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 11399`，引文：地支逢冲,犹天干之相克也,须视其强弱喜忌而论之。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 13864`，引文：得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。。
+  Evidence C：`bazi.source.yuanhai` / 渊海子平 / 生克关系与效力界限 / `《渊海子平》五行相克及条件界限；固定原文字符位置 1016`，引文：金能剋木,木坚金缺;木能剋土,土重木折;土能剋水,水多土流;水能剋火,火多水热;火能剋金,金多火熄。。
 
 当前场景可输出结论（只描述事实，不追加吉凶含义）：
 
@@ -1032,7 +1107,7 @@ Scenario：`yearly`；已执行=True；现有结构公开标志=False；AI=false
 
 - `bazi-foundation`：十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/0/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
-- `bazi-strength`：已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。
+- `bazi-strength`：已有十一条已审执行规则，独立本气、木根可用性与纯印比/孤立语境的有限实际作用可复算。整体旺衰仍 PARTIAL：正向强弱裁决未接入，其他根型和一般作用未完成；分日体系冲突保留，无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-useful-god`：调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。
   下一批先登记来源及权利，保存 RAW/Quarantine；无审核引文时保持未支持。
@@ -1048,7 +1123,7 @@ Scenario：`romance`；已执行=True；现有结构公开标志=False；AI=fals
 已有知识、Rule 与 Evidence：
 
 - 八字基础与十神映射：Terms `bazi.term.day_master`, `bazi.term.ten_gods`, `bazi.term.hidden_stems`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.heavenly_stems`, `bazi.term.stem_polarity`, `bazi.term.five_elements`, `bazi.term.generation_control`；Phase1 Rule `bazi.rule.r001`, `bazi.rule.r002`, `bazi.rule.r003`, `bazi.rule.r011`, `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r016`, `bazi.rule.r017`, `bazi.rule.r018`。
-- 旺衰及流派边界：Terms `bazi.term.strength_review_boundary`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.month_commander`, `bazi.term.root_conditions`, `bazi.term.action_conditions`, `bazi.term.strength_adjudication`, `bazi.term.principal_month_v1`, `bazi.term.root_availability_v1`；Phase1 Rule `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r017`, `bazi.rule.r018`, `bazi.rule.r019`, `bazi.rule.r020`, `bazi.rule.r021`, `bazi.rule.r022`。
+- 旺衰及流派边界：Terms `bazi.term.strength_review_boundary`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.month_commander`, `bazi.term.root_conditions`, `bazi.term.action_conditions`, `bazi.term.strength_adjudication`, `bazi.term.principal_month_v1`, `bazi.term.root_availability_v1`, `bazi.term.action_effects_v1`；Phase1 Rule `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r017`, `bazi.rule.r018`, `bazi.rule.r019`, `bazi.rule.r020`, `bazi.rule.r021`, `bazi.rule.r022`, `bazi.rule.r023`。
 - 喜用神分体系治理：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
 - 流年与岁运作用：Terms `bazi.term.branch_triple_harmonies`；Phase1 Rule `bazi.rule.r010`。
 - 婚恋专题：Terms `bazi.term.xianchi`, `bazi.term.stem_five_combinations`, `bazi.term.branch_six_harmonies`, `bazi.term.branch_six_harms`, `bazi.term.spouse_palace_day_branch`, `bazi.term.branch_six_clashes`, `bazi.term.branch_triple_harmonies`, `bazi.term.traditional_spouse_star_lens`；Phase1 Rule `bazi.rule.r004`, `bazi.rule.r005`, `bazi.rule.r006`, `bazi.rule.r007`, `bazi.rule.r008`, `bazi.rule.r009`, `bazi.rule.r010`, `bazi.rule.r011`。
@@ -1238,6 +1313,7 @@ Scenario：`romance`；已执行=True；现有结构公开标志=False；AI=fals
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `《滴天髓阐微》通神论·衰旺；固定原文字符位置 39648；不可得令即旺失令即弱`，引文：得时俱为旺论,失令便作衰看,虽是至理,亦死法也。。
   Evidence C：`bazi.source.yuanhai` / 渊海子平 / 生克关系与效力界限 / `《渊海子平》五行相生及条件界限；固定原文字符位置 964`，引文：金能生水,水多金沉;水能生木,木盛水缩;木能生火,火多木焚;火能生土,土多火埋;土能生金,金多土变。。
   Evidence C：`bazi.source.yuanhai` / 渊海子平 / 生克关系与效力界限 / `《渊海子平》五行相克及条件界限；固定原文字符位置 1016`，引文：金能剋木,木坚金缺;木能剋土,土重木折;土能剋水,水多土流;水能剋火,火多水热;火能剋金,金多火熄。。
+  Evidence C：`bazi.source.yuanhai` / 渊海子平 / 基础与藏遁 / `《渊海子平》又地支藏遁歌；本轮固定短引`，引文：子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。。
 - `bazi.phase2.root_availability` / `ziping-structural-v1`；Golden：`bazi.availability-wood`, `bazi.availability-clash`, `bazi.availability-harmony`；测试 `tests/test_phase2_baziavailability.py`。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `《滴天髓阐微》通神论·衰旺；固定原文字符位置 40063；余气与长生禄旺根示例`，引文：余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 天干阴阳五行分类 / `《滴天髓阐微·审核短引》十干五行短引；固定原文字符位置 5159`，引文：甲乙一木也,丙丁一火也,戊己一土也,庚辛一金也,壬癸一水也,即分别所用,不过阳刚阴柔,阳健阴顺而已。。
@@ -1246,6 +1322,20 @@ Scenario：`romance`；已执行=True；现有结构公开标志=False；AI=fals
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 13864`，引文：得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 10220`，引文：辰、戌、丑、未四库也,宜冲开。。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 40034`，引文：余气者,如丙丁逢未,丙丁逢戌,庚辛逢丑,壬癸逢辰之类是也。。
+- `bazi.phase2.action_effects` / `ziping-structural-v1`；Golden：`bazi.effects-pure-support`, `bazi.effects-isolated-control`, `bazi.effects-five-combination`, `bazi.effects-clashed-root`；测试 `tests/test_phase2_bazieffects.py`。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 96521`，引文：从旺者,四柱皆比劫,无官杀之制,有印绶之生,旺之极者,从其旺神也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 96605`，引文：从强者,四柱印绶重重,比劫叠叠,日主又当令。绝无一毫财星官杀之气,谓二人同心,强之极矣,可顺而不可逆也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 96325`，引文：任氏曰:从象不一,非专论财官而已也。日主孤立无气,四柱无生扶之意,满局官星,谓之从官,满局财星,谓之从财。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 66762`，引文：日主是火,亦要通根得气,则能生土,或有木而克土,则日主自能化木,转转相生,所谓日主符合者也。官星是水,虽不及时,却有财生助,或财星当令,或成财局,此官星虽寡,得财星扶则强,岁运宜扶寡而抑众者吉。虽举财官而论,其余皆同此论。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `《滴天髓阐微》通神论·衰旺；固定原文字符位置 40063；余气与长生禄旺根示例`，引文：余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 天干阴阳五行分类 / `《滴天髓阐微·审核短引》十干五行短引；固定原文字符位置 5159`，引文：甲乙一木也,丙丁一火也,戊己一土也,庚辛一金也,壬癸一水也,即分别所用,不过阳刚阴柔,阳健阴顺而已。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/月令；固定原文字符位置 10034`，引文：若子从癸、午从丁,是体阳而用阴也;巳从丙,亥从壬,是体阴而用阳也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/月令；固定原文字符位置 10113`，引文：然以本气为主,寅必先甲而后及丙,申必先庚而后及壬,余支皆然。。
+  Evidence C：`bazi.source.yuanhai` / 渊海子平 / 基础与藏遁 / `《渊海子平》又地支藏遁歌；本轮固定短引`，引文：子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 地支刑法批评 / `《滴天髓阐微》通神论·八、地支；固定短引`，引文：刑之义无所取,如亥刑亥、辰刑辰、酉刑酉、午刑午,谓之自刑,本支见本支,自谓同气,何以相刑?子刑卯,卯刑子,是谓相生,何以相刑?戌刑未,未刑丑,皆为土气,更不当刑。寅刑巳,亦是相生,寅申相刑,即冲何必再刑?又曰子卯一刑也,寅巳申二刑也,丑戌未三刑也,故称三刑,又有自刑,此皆俗谬,姑置之。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 11399`，引文：地支逢冲,犹天干之相克也,须视其强弱喜忌而论之。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 13864`，引文：得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。。
+  Evidence C：`bazi.source.yuanhai` / 渊海子平 / 生克关系与效力界限 / `《渊海子平》五行相克及条件界限；固定原文字符位置 1016`，引文：金能剋木,木坚金缺;木能剋土,土重木折;土能剋水,水多土流;水能剋火,火多水热;火能剋金,金多火熄。。
 
 当前场景可输出结论（只描述事实，不追加吉凶含义）：
 
@@ -1258,7 +1348,7 @@ Scenario：`romance`；已执行=True；现有结构公开标志=False；AI=fals
 
 - `bazi-foundation`：十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/0/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
-- `bazi-strength`：已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。
+- `bazi-strength`：已有十一条已审执行规则，独立本气、木根可用性与纯印比/孤立语境的有限实际作用可复算。整体旺衰仍 PARTIAL：正向强弱裁决未接入，其他根型和一般作用未完成；分日体系冲突保留，无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-useful-god`：调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。
   下一批先登记来源及权利，保存 RAW/Quarantine；无审核引文时保持未支持。
@@ -1275,7 +1365,7 @@ Scenario：`career`；已执行=True；现有结构公开标志=False；AI=false
 
 - 八字基础与十神映射：Terms `bazi.term.day_master`, `bazi.term.ten_gods`, `bazi.term.hidden_stems`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.heavenly_stems`, `bazi.term.stem_polarity`, `bazi.term.five_elements`, `bazi.term.generation_control`；Phase1 Rule `bazi.rule.r001`, `bazi.rule.r002`, `bazi.rule.r003`, `bazi.rule.r011`, `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r016`, `bazi.rule.r017`, `bazi.rule.r018`。
 - 十神结构与条件解释：Terms `bazi.term.ten_gods`, `bazi.term.hidden_to_visible`；Phase1 Rule `bazi.rule.r002`, `bazi.rule.r003`, `bazi.rule.r011`, `bazi.rule.r012`, `bazi.rule.r015`。
-- 旺衰及流派边界：Terms `bazi.term.strength_review_boundary`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.month_commander`, `bazi.term.root_conditions`, `bazi.term.action_conditions`, `bazi.term.strength_adjudication`, `bazi.term.principal_month_v1`, `bazi.term.root_availability_v1`；Phase1 Rule `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r017`, `bazi.rule.r018`, `bazi.rule.r019`, `bazi.rule.r020`, `bazi.rule.r021`, `bazi.rule.r022`。
+- 旺衰及流派边界：Terms `bazi.term.strength_review_boundary`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.month_commander`, `bazi.term.root_conditions`, `bazi.term.action_conditions`, `bazi.term.strength_adjudication`, `bazi.term.principal_month_v1`, `bazi.term.root_availability_v1`, `bazi.term.action_effects_v1`；Phase1 Rule `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r017`, `bazi.rule.r018`, `bazi.rule.r019`, `bazi.rule.r020`, `bazi.rule.r021`, `bazi.rule.r022`, `bazi.rule.r023`。
 - 格局：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
 - 喜用神分体系治理：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
 - 大运：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
@@ -1444,6 +1534,7 @@ Scenario：`career`；已执行=True；现有结构公开标志=False；AI=false
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `《滴天髓阐微》通神论·衰旺；固定原文字符位置 39648；不可得令即旺失令即弱`，引文：得时俱为旺论,失令便作衰看,虽是至理,亦死法也。。
   Evidence C：`bazi.source.yuanhai` / 渊海子平 / 生克关系与效力界限 / `《渊海子平》五行相生及条件界限；固定原文字符位置 964`，引文：金能生水,水多金沉;水能生木,木盛水缩;木能生火,火多木焚;火能生土,土多火埋;土能生金,金多土变。。
   Evidence C：`bazi.source.yuanhai` / 渊海子平 / 生克关系与效力界限 / `《渊海子平》五行相克及条件界限；固定原文字符位置 1016`，引文：金能剋木,木坚金缺;木能剋土,土重木折;土能剋水,水多土流;水能剋火,火多水热;火能剋金,金多火熄。。
+  Evidence C：`bazi.source.yuanhai` / 渊海子平 / 基础与藏遁 / `《渊海子平》又地支藏遁歌；本轮固定短引`，引文：子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。。
 - `bazi.phase2.root_availability` / `ziping-structural-v1`；Golden：`bazi.availability-wood`, `bazi.availability-clash`, `bazi.availability-harmony`；测试 `tests/test_phase2_baziavailability.py`。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `《滴天髓阐微》通神论·衰旺；固定原文字符位置 40063；余气与长生禄旺根示例`，引文：余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 天干阴阳五行分类 / `《滴天髓阐微·审核短引》十干五行短引；固定原文字符位置 5159`，引文：甲乙一木也,丙丁一火也,戊己一土也,庚辛一金也,壬癸一水也,即分别所用,不过阳刚阴柔,阳健阴顺而已。。
@@ -1452,6 +1543,20 @@ Scenario：`career`；已执行=True；现有结构公开标志=False；AI=false
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 13864`，引文：得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 10220`，引文：辰、戌、丑、未四库也,宜冲开。。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 40034`，引文：余气者,如丙丁逢未,丙丁逢戌,庚辛逢丑,壬癸逢辰之类是也。。
+- `bazi.phase2.action_effects` / `ziping-structural-v1`；Golden：`bazi.effects-pure-support`, `bazi.effects-isolated-control`, `bazi.effects-five-combination`, `bazi.effects-clashed-root`；测试 `tests/test_phase2_bazieffects.py`。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 96521`，引文：从旺者,四柱皆比劫,无官杀之制,有印绶之生,旺之极者,从其旺神也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 96605`，引文：从强者,四柱印绶重重,比劫叠叠,日主又当令。绝无一毫财星官杀之气,谓二人同心,强之极矣,可顺而不可逆也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 96325`，引文：任氏曰:从象不一,非专论财官而已也。日主孤立无气,四柱无生扶之意,满局官星,谓之从官,满局财星,谓之从财。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 66762`，引文：日主是火,亦要通根得气,则能生土,或有木而克土,则日主自能化木,转转相生,所谓日主符合者也。官星是水,虽不及时,却有财生助,或财星当令,或成财局,此官星虽寡,得财星扶则强,岁运宜扶寡而抑众者吉。虽举财官而论,其余皆同此论。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `《滴天髓阐微》通神论·衰旺；固定原文字符位置 40063；余气与长生禄旺根示例`，引文：余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 天干阴阳五行分类 / `《滴天髓阐微·审核短引》十干五行短引；固定原文字符位置 5159`，引文：甲乙一木也,丙丁一火也,戊己一土也,庚辛一金也,壬癸一水也,即分别所用,不过阳刚阴柔,阳健阴顺而已。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/月令；固定原文字符位置 10034`，引文：若子从癸、午从丁,是体阳而用阴也;巳从丙,亥从壬,是体阴而用阳也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/月令；固定原文字符位置 10113`，引文：然以本气为主,寅必先甲而后及丙,申必先庚而后及壬,余支皆然。。
+  Evidence C：`bazi.source.yuanhai` / 渊海子平 / 基础与藏遁 / `《渊海子平》又地支藏遁歌；本轮固定短引`，引文：子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 地支刑法批评 / `《滴天髓阐微》通神论·八、地支；固定短引`，引文：刑之义无所取,如亥刑亥、辰刑辰、酉刑酉、午刑午,谓之自刑,本支见本支,自谓同气,何以相刑?子刑卯,卯刑子,是谓相生,何以相刑?戌刑未,未刑丑,皆为土气,更不当刑。寅刑巳,亦是相生,寅申相刑,即冲何必再刑?又曰子卯一刑也,寅巳申二刑也,丑戌未三刑也,故称三刑,又有自刑,此皆俗谬,姑置之。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 11399`，引文：地支逢冲,犹天干之相克也,须视其强弱喜忌而论之。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 13864`，引文：得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。。
+  Evidence C：`bazi.source.yuanhai` / 渊海子平 / 生克关系与效力界限 / `《渊海子平》五行相克及条件界限；固定原文字符位置 1016`，引文：金能剋木,木坚金缺;木能剋土,土重木折;土能剋水,水多土流;水能剋火,火多水热;火能剋金,金多火熄。。
 
 当前场景可输出结论（只描述事实，不追加吉凶含义）：
 
@@ -1465,7 +1570,7 @@ Scenario：`career`；已执行=True；现有结构公开标志=False；AI=false
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/0/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-ten-gods`：映射不等于组合、位置、透藏、月令条件下的解释；须补原典规则、限制及反例。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/6/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
-- `bazi-strength`：已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。
+- `bazi-strength`：已有十一条已审执行规则，独立本气、木根可用性与纯印比/孤立语境的有限实际作用可复算。整体旺衰仍 PARTIAL：正向强弱裁决未接入，其他根型和一般作用未完成；分日体系冲突保留，无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-pattern`：正文提及不等于结构规则；缺成格/破格/兼格条件、流派限制和 Golden。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/7/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
@@ -1485,7 +1590,7 @@ Scenario：`compatibility`；已执行=True；现有结构公开标志=False；A
 已有知识、Rule 与 Evidence：
 
 - 八字基础与十神映射：Terms `bazi.term.day_master`, `bazi.term.ten_gods`, `bazi.term.hidden_stems`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.heavenly_stems`, `bazi.term.stem_polarity`, `bazi.term.five_elements`, `bazi.term.generation_control`；Phase1 Rule `bazi.rule.r001`, `bazi.rule.r002`, `bazi.rule.r003`, `bazi.rule.r011`, `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r016`, `bazi.rule.r017`, `bazi.rule.r018`。
-- 旺衰及流派边界：Terms `bazi.term.strength_review_boundary`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.month_commander`, `bazi.term.root_conditions`, `bazi.term.action_conditions`, `bazi.term.strength_adjudication`, `bazi.term.principal_month_v1`, `bazi.term.root_availability_v1`；Phase1 Rule `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r017`, `bazi.rule.r018`, `bazi.rule.r019`, `bazi.rule.r020`, `bazi.rule.r021`, `bazi.rule.r022`。
+- 旺衰及流派边界：Terms `bazi.term.strength_review_boundary`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.month_commander`, `bazi.term.root_conditions`, `bazi.term.action_conditions`, `bazi.term.strength_adjudication`, `bazi.term.principal_month_v1`, `bazi.term.root_availability_v1`, `bazi.term.action_effects_v1`；Phase1 Rule `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r017`, `bazi.rule.r018`, `bazi.rule.r019`, `bazi.rule.r020`, `bazi.rule.r021`, `bazi.rule.r022`, `bazi.rule.r023`。
 - 婚恋专题：Terms `bazi.term.xianchi`, `bazi.term.stem_five_combinations`, `bazi.term.branch_six_harmonies`, `bazi.term.branch_six_harms`, `bazi.term.spouse_palace_day_branch`, `bazi.term.branch_six_clashes`, `bazi.term.branch_triple_harmonies`, `bazi.term.traditional_spouse_star_lens`；Phase1 Rule `bazi.rule.r004`, `bazi.rule.r005`, `bazi.rule.r006`, `bazi.rule.r007`, `bazi.rule.r008`, `bazi.rule.r009`, `bazi.rule.r010`, `bazi.rule.r011`。
 - 流年与岁运作用：Terms `bazi.term.branch_triple_harmonies`；Phase1 Rule `bazi.rule.r010`。
 - 双人关系：Terms `bazi.term.day_master`, `bazi.term.ten_gods`, `bazi.term.xianchi`, `bazi.term.stem_five_combinations`, `bazi.term.branch_six_harmonies`, `bazi.term.branch_six_harms`, `bazi.term.spouse_palace_day_branch`, `bazi.term.branch_six_clashes`, `bazi.term.branch_triple_harmonies`, `bazi.term.traditional_spouse_star_lens`；Phase1 Rule `bazi.rule.r001`, `bazi.rule.r002`, `bazi.rule.r003`, `bazi.rule.r004`, `bazi.rule.r005`, `bazi.rule.r006`, `bazi.rule.r007`, `bazi.rule.r008`, `bazi.rule.r009`, `bazi.rule.r010`, `bazi.rule.r011`, `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r016`。
@@ -1675,6 +1780,7 @@ Scenario：`compatibility`；已执行=True；现有结构公开标志=False；A
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `《滴天髓阐微》通神论·衰旺；固定原文字符位置 39648；不可得令即旺失令即弱`，引文：得时俱为旺论,失令便作衰看,虽是至理,亦死法也。。
   Evidence C：`bazi.source.yuanhai` / 渊海子平 / 生克关系与效力界限 / `《渊海子平》五行相生及条件界限；固定原文字符位置 964`，引文：金能生水,水多金沉;水能生木,木盛水缩;木能生火,火多木焚;火能生土,土多火埋;土能生金,金多土变。。
   Evidence C：`bazi.source.yuanhai` / 渊海子平 / 生克关系与效力界限 / `《渊海子平》五行相克及条件界限；固定原文字符位置 1016`，引文：金能剋木,木坚金缺;木能剋土,土重木折;土能剋水,水多土流;水能剋火,火多水热;火能剋金,金多火熄。。
+  Evidence C：`bazi.source.yuanhai` / 渊海子平 / 基础与藏遁 / `《渊海子平》又地支藏遁歌；本轮固定短引`，引文：子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。。
 - `bazi.phase2.root_availability` / `ziping-structural-v1`；Golden：`bazi.availability-wood`, `bazi.availability-clash`, `bazi.availability-harmony`；测试 `tests/test_phase2_baziavailability.py`。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `《滴天髓阐微》通神论·衰旺；固定原文字符位置 40063；余气与长生禄旺根示例`，引文：余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 天干阴阳五行分类 / `《滴天髓阐微·审核短引》十干五行短引；固定原文字符位置 5159`，引文：甲乙一木也,丙丁一火也,戊己一土也,庚辛一金也,壬癸一水也,即分别所用,不过阳刚阴柔,阳健阴顺而已。。
@@ -1683,6 +1789,20 @@ Scenario：`compatibility`；已执行=True；现有结构公开标志=False；A
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 13864`，引文：得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 10220`，引文：辰、戌、丑、未四库也,宜冲开。。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 40034`，引文：余气者,如丙丁逢未,丙丁逢戌,庚辛逢丑,壬癸逢辰之类是也。。
+- `bazi.phase2.action_effects` / `ziping-structural-v1`；Golden：`bazi.effects-pure-support`, `bazi.effects-isolated-control`, `bazi.effects-five-combination`, `bazi.effects-clashed-root`；测试 `tests/test_phase2_bazieffects.py`。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 96521`，引文：从旺者,四柱皆比劫,无官杀之制,有印绶之生,旺之极者,从其旺神也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 96605`，引文：从强者,四柱印绶重重,比劫叠叠,日主又当令。绝无一毫财星官杀之气,谓二人同心,强之极矣,可顺而不可逆也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 96325`，引文：任氏曰:从象不一,非专论财官而已也。日主孤立无气,四柱无生扶之意,满局官星,谓之从官,满局财星,谓之从财。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 66762`，引文：日主是火,亦要通根得气,则能生土,或有木而克土,则日主自能化木,转转相生,所谓日主符合者也。官星是水,虽不及时,却有财生助,或财星当令,或成财局,此官星虽寡,得财星扶则强,岁运宜扶寡而抑众者吉。虽举财官而论,其余皆同此论。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `《滴天髓阐微》通神论·衰旺；固定原文字符位置 40063；余气与长生禄旺根示例`，引文：余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 天干阴阳五行分类 / `《滴天髓阐微·审核短引》十干五行短引；固定原文字符位置 5159`，引文：甲乙一木也,丙丁一火也,戊己一土也,庚辛一金也,壬癸一水也,即分别所用,不过阳刚阴柔,阳健阴顺而已。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/月令；固定原文字符位置 10034`，引文：若子从癸、午从丁,是体阳而用阴也;巳从丙,亥从壬,是体阴而用阳也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/月令；固定原文字符位置 10113`，引文：然以本气为主,寅必先甲而后及丙,申必先庚而后及壬,余支皆然。。
+  Evidence C：`bazi.source.yuanhai` / 渊海子平 / 基础与藏遁 / `《渊海子平》又地支藏遁歌；本轮固定短引`，引文：子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 地支刑法批评 / `《滴天髓阐微》通神论·八、地支；固定短引`，引文：刑之义无所取,如亥刑亥、辰刑辰、酉刑酉、午刑午,谓之自刑,本支见本支,自谓同气,何以相刑?子刑卯,卯刑子,是谓相生,何以相刑?戌刑未,未刑丑,皆为土气,更不当刑。寅刑巳,亦是相生,寅申相刑,即冲何必再刑?又曰子卯一刑也,寅巳申二刑也,丑戌未三刑也,故称三刑,又有自刑,此皆俗谬,姑置之。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 11399`，引文：地支逢冲,犹天干之相克也,须视其强弱喜忌而论之。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 13864`，引文：得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。。
+  Evidence C：`bazi.source.yuanhai` / 渊海子平 / 生克关系与效力界限 / `《渊海子平》五行相克及条件界限；固定原文字符位置 1016`，引文：金能剋木,木坚金缺;木能剋土,土重木折;土能剋水,水多土流;水能剋火,火多水热;火能剋金,金多火熄。。
 
 当前场景可输出结论（只描述事实，不追加吉凶含义）：
 
@@ -1700,7 +1820,7 @@ Scenario：`compatibility`；已执行=True；现有结构公开标志=False；A
 
 - `bazi-foundation`：十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/0/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
-- `bazi-strength`：已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。
+- `bazi-strength`：已有十一条已审执行规则，独立本气、木根可用性与纯印比/孤立语境的有限实际作用可复算。整体旺衰仍 PARTIAL：正向强弱裁决未接入，其他根型和一般作用未完成；分日体系冲突保留，无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-romance`：咸池、日支传统配偶宫结构位、显式财星/官杀lens及五合/六合/六害/六冲/三合结构已核；缺红鸾天喜天姚、旺衰格局喜用与岁运婚恋解释；三刑争议仍阻塞；禁止命中结构直接断现代婚姻。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/3/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
@@ -1716,7 +1836,7 @@ Scenario：`life`；已执行=True；现有结构公开标志=False；AI=false�
 已有知识、Rule 与 Evidence：
 
 - 八字基础与十神映射：Terms `bazi.term.day_master`, `bazi.term.ten_gods`, `bazi.term.hidden_stems`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.heavenly_stems`, `bazi.term.stem_polarity`, `bazi.term.five_elements`, `bazi.term.generation_control`；Phase1 Rule `bazi.rule.r001`, `bazi.rule.r002`, `bazi.rule.r003`, `bazi.rule.r011`, `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r016`, `bazi.rule.r017`, `bazi.rule.r018`。
-- 旺衰及流派边界：Terms `bazi.term.strength_review_boundary`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.month_commander`, `bazi.term.root_conditions`, `bazi.term.action_conditions`, `bazi.term.strength_adjudication`, `bazi.term.principal_month_v1`, `bazi.term.root_availability_v1`；Phase1 Rule `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r017`, `bazi.rule.r018`, `bazi.rule.r019`, `bazi.rule.r020`, `bazi.rule.r021`, `bazi.rule.r022`。
+- 旺衰及流派边界：Terms `bazi.term.strength_review_boundary`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.month_commander`, `bazi.term.root_conditions`, `bazi.term.action_conditions`, `bazi.term.strength_adjudication`, `bazi.term.principal_month_v1`, `bazi.term.root_availability_v1`, `bazi.term.action_effects_v1`；Phase1 Rule `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r017`, `bazi.rule.r018`, `bazi.rule.r019`, `bazi.rule.r020`, `bazi.rule.r021`, `bazi.rule.r022`, `bazi.rule.r023`。
 - 格局：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
 - 喜用神分体系治理：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
 - 大运：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
@@ -1910,6 +2030,7 @@ Scenario：`life`；已执行=True；现有结构公开标志=False；AI=false�
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `《滴天髓阐微》通神论·衰旺；固定原文字符位置 39648；不可得令即旺失令即弱`，引文：得时俱为旺论,失令便作衰看,虽是至理,亦死法也。。
   Evidence C：`bazi.source.yuanhai` / 渊海子平 / 生克关系与效力界限 / `《渊海子平》五行相生及条件界限；固定原文字符位置 964`，引文：金能生水,水多金沉;水能生木,木盛水缩;木能生火,火多木焚;火能生土,土多火埋;土能生金,金多土变。。
   Evidence C：`bazi.source.yuanhai` / 渊海子平 / 生克关系与效力界限 / `《渊海子平》五行相克及条件界限；固定原文字符位置 1016`，引文：金能剋木,木坚金缺;木能剋土,土重木折;土能剋水,水多土流;水能剋火,火多水热;火能剋金,金多火熄。。
+  Evidence C：`bazi.source.yuanhai` / 渊海子平 / 基础与藏遁 / `《渊海子平》又地支藏遁歌；本轮固定短引`，引文：子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。。
 - `bazi.phase2.root_availability` / `ziping-structural-v1`；Golden：`bazi.availability-wood`, `bazi.availability-clash`, `bazi.availability-harmony`；测试 `tests/test_phase2_baziavailability.py`。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `《滴天髓阐微》通神论·衰旺；固定原文字符位置 40063；余气与长生禄旺根示例`，引文：余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 天干阴阳五行分类 / `《滴天髓阐微·审核短引》十干五行短引；固定原文字符位置 5159`，引文：甲乙一木也,丙丁一火也,戊己一土也,庚辛一金也,壬癸一水也,即分别所用,不过阳刚阴柔,阳健阴顺而已。。
@@ -1918,6 +2039,20 @@ Scenario：`life`；已执行=True；现有结构公开标志=False；AI=false�
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 13864`，引文：得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 10220`，引文：辰、戌、丑、未四库也,宜冲开。。
   Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 40034`，引文：余气者,如丙丁逢未,丙丁逢戌,庚辛逢丑,壬癸逢辰之类是也。。
+- `bazi.phase2.action_effects` / `ziping-structural-v1`；Golden：`bazi.effects-pure-support`, `bazi.effects-isolated-control`, `bazi.effects-five-combination`, `bazi.effects-clashed-root`；测试 `tests/test_phase2_bazieffects.py`。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 96521`，引文：从旺者,四柱皆比劫,无官杀之制,有印绶之生,旺之极者,从其旺神也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 96605`，引文：从强者,四柱印绶重重,比劫叠叠,日主又当令。绝无一毫财星官杀之气,谓二人同心,强之极矣,可顺而不可逆也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 96325`，引文：任氏曰:从象不一,非专论财官而已也。日主孤立无气,四柱无生扶之意,满局官星,谓之从官,满局财星,谓之从财。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 任氏从象与条件作用充分语境 / `《滴天髓阐微》固定快照；unicode char 66762`，引文：日主是火,亦要通根得气,则能生土,或有木而克土,则日主自能化木,转转相生,所谓日主符合者也。官星是水,虽不及时,却有财生助,或财星当令,或成财局,此官星虽寡,得财星扶则强,岁运宜扶寡而抑众者吉。虽举财官而论,其余皆同此论。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `《滴天髓阐微》通神论·衰旺；固定原文字符位置 40063；余气与长生禄旺根示例`，引文：余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 天干阴阳五行分类 / `《滴天髓阐微·审核短引》十干五行短引；固定原文字符位置 5159`，引文：甲乙一木也,丙丁一火也,戊己一土也,庚辛一金也,壬癸一水也,即分别所用,不过阳刚阴柔,阳健阴顺而已。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/月令；固定原文字符位置 10034`，引文：若子从癸、午从丁,是体阳而用阴也;巳从丙,亥从壬,是体阴而用阳也。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/月令；固定原文字符位置 10113`，引文：然以本气为主,寅必先甲而后及丙,申必先庚而后及壬,余支皆然。。
+  Evidence C：`bazi.source.yuanhai` / 渊海子平 / 基础与藏遁 / `《渊海子平》又地支藏遁歌；本轮固定短引`，引文：子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 地支刑法批评 / `《滴天髓阐微》通神论·八、地支；固定短引`，引文：刑之义无所取,如亥刑亥、辰刑辰、酉刑酉、午刑午,谓之自刑,本支见本支,自谓同气,何以相刑?子刑卯,卯刑子,是谓相生,何以相刑?戌刑未,未刑丑,皆为土气,更不当刑。寅刑巳,亦是相生,寅申相刑,即冲何必再刑?又曰子卯一刑也,寅巳申二刑也,丑戌未三刑也,故称三刑,又有自刑,此皆俗谬,姑置之。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 11399`，引文：地支逢冲,犹天干之相克也,须视其强弱喜忌而论之。。
+  Evidence C：`bazi.source.ditiansui-spouse` / 滴天髓阐微 / 月令、通根与透藏观察边界 / `滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 13864`，引文：得令者冲衰则拔,失时者冲旺无伤。冲之者有力,则能去之,去凶神则利,去吉神则不利;冲之者无力,则反激之,激凶神则为祸,激吉神虽不为祸,亦不能获福也。。
+  Evidence C：`bazi.source.yuanhai` / 渊海子平 / 生克关系与效力界限 / `《渊海子平》五行相克及条件界限；固定原文字符位置 1016`，引文：金能剋木,木坚金缺;木能剋土,土重木折;土能剋水,水多土流;水能剋火,火多水热;火能剋金,金多火熄。。
 
 当前场景可输出结论（只描述事实，不追加吉凶含义）：
 
@@ -1932,7 +2067,7 @@ Scenario：`life`；已执行=True；现有结构公开标志=False；AI=false�
 
 - `bazi-foundation`：十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/0/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
-- `bazi-strength`：已有十条已审执行规则；增加独立本气关系及任氏限定木根可用性。整体旺衰仍 PARTIAL：具体日司令、其他根型、一般实际作用及可复算强弱正例仍未闭环；无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。
+- `bazi-strength`：已有十一条已审执行规则，独立本气、木根可用性与纯印比/孤立语境的有限实际作用可复算。整体旺衰仍 PARTIAL：正向强弱裁决未接入，其他根型和一般作用未完成；分日体系冲突保留，无 balanced、分数或计票，格局/喜用/行运及 AI 仍关闭。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-pattern`：正文提及不等于结构规则；缺成格/破格/兼格条件、流派限制和 Golden。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/7/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。

@@ -264,7 +264,8 @@ def build_product_coverage(root: Path, *, rag_rows=None):
                                          'bazi.concept.action_conditions_variant_v1',
                                          'bazi.concept.strength_adjudication_v1',
                                          'bazi.concept.principal_month_v1',
-                                         'bazi.concept.root_availability_v1') if cid in resolver.entities},
+                                         'bazi.concept.root_availability_v1',
+                                         'bazi.concept.action_effects_v1') if cid in resolver.entities},
                          'bounded_strength_factors': resolver.entities.get('bazi.concept.strength_factor_variant_v1', (None, {}))[1].get('attributes', {})}
     from .operations.dream_knowledge import retrieve as dream_retrieve
     output['_audit']['reviewed_dream_retrieval'] = {
