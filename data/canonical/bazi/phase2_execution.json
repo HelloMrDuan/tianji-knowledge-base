@@ -334,6 +334,28 @@
       ],
       "regression_test": "tests/test_phase2_baziactions.py",
       "evidence_scope": "C：生克方向、根气、透藏、贴身远隔的喜忌前提与真实合冲结构；ditiansui-action-conditions-v1 只记录条件，效力及得势 unresolved，显藏不等价。"
+    },
+    {
+      "id": "bazi.phase2.strength_adjudication",
+      "domain": "bazi",
+      "name": "旺衰证据缺口与未裁定出口",
+      "variant": "ziping-structural-v1",
+      "execution_status": "executable",
+      "phase1_rule_refs": [
+        "bazi.rule.r020"
+      ],
+      "validation_status": "validated",
+      "golden_case_ids": [
+        "bazi.strength-reference-strong",
+        "bazi.strength-reference-weak",
+        "bazi.strength-boundary",
+        "bazi.strength-commander-conflict",
+        "bazi.strength-principal-unreviewed",
+        "bazi.strength-root-conflict",
+        "bazi.strength-action-unresolved"
+      ],
+      "regression_test": "tests/test_phase2_baziadjudication.py",
+      "evidence_scope": "C：月令非单因子、根气及喜忌条件边界；汇总真实未裁定条件。强弱古例独立复核，不按四柱记忆标签；仍无通用强弱分类。"
     }
   ]
 }
