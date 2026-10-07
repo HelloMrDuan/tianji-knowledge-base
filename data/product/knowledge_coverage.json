@@ -47,6 +47,16 @@
         ],
         "research_only": true,
         "scenario_public_enabled": false
+      },
+      {
+        "engine_id": "bazi",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1",
+        "rule_ids": [
+          "bazi.phase2.official_pattern_candidates",
+          "bazi.phase2.resource_pattern_candidates"
+        ],
+        "research_only": true,
+        "scenario_public_enabled": false
       }
     ],
     "existing_knowledge": [
@@ -78,9 +88,9 @@
         "topic_id": "bazi-pattern",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
-        "phase2_rules": 0
+        "terms": 2,
+        "phase1_rules": 2,
+        "phase2_rules": 2
       },
       {
         "topic_id": "bazi-useful-god",
@@ -122,7 +132,7 @@
       },
       {
         "topic_id": "bazi-pattern",
-        "reason": "BAZI_PATTERN_AUDIT.md 已核既有来源与有限旺衰边界；格局仍 NOT_BUILT，无已审 Term/Rule、执行或 Golden。正官/印綬仅为后续两个结构候选审核范围，尚未实现；月令透藏不等于定格，任氏取格仍依赖未裁定司令。杂气冲法、官杀去留、一般旺衰/作用、禄刃/从化资格与成败喜用须分别补原典、Variant/Conflict 和四类 Golden；AI 与公开格局继续关闭。"
+        "reason": "已有正官/印绶月藏透干位置的显式研究候选，两条执行规则、四类固定 Golden；完整格局仍 NOT_BUILT。候选观察不定格，任氏真假仍依赖未解司令；禄刃杂气、官杀去留、财旺破印、一般旺衰/作用及成败喜用待原典/Variant/Conflict 审核。无评分、吉凶或喜用，公共 Scenario、产品 claim 与 AI 不开放。"
       },
       {
         "topic_id": "bazi-useful-god",
@@ -893,7 +903,7 @@
       "十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。",
       "映射不等于组合、位置、透藏、月令条件下的解释；须补原典规则、限制及反例。",
       "已有十四条已审执行规则；显式任氏研究 bazi-strength-adjudication-v1 在木月卯纯印比、有根实际生扶或木月酉无根无扶透辛的充分语境可判 strong/weak，其余 indeterminate，四类固定 Golden 同口径覆盖。整体仍 PARTIAL：仅有限研究范围，不是全覆盖分类；分日体系 BLOCKED，其他根型和一般作用未完成，无 balanced、评分或计票，格局/喜用/行运/前台及 AI 仍关闭。",
-      "BAZI_PATTERN_AUDIT.md 已核既有来源与有限旺衰边界；格局仍 NOT_BUILT，无已审 Term/Rule、执行或 Golden。正官/印綬仅为后续两个结构候选审核范围，尚未实现；月令透藏不等于定格，任氏取格仍依赖未裁定司令。杂气冲法、官杀去留、一般旺衰/作用、禄刃/从化资格与成败喜用须分别补原典、Variant/Conflict 和四类 Golden；AI 与公开格局继续关闭。",
+      "已有正官/印绶月藏透干位置的显式研究候选，两条执行规则、四类固定 Golden；完整格局仍 NOT_BUILT。候选观察不定格，任氏真假仍依赖未解司令；禄刃杂气、官杀去留、财旺破印、一般旺衰/作用及成败喜用待原典/Variant/Conflict 审核。无评分、吉凶或喜用，公共 Scenario、产品 claim 与 AI 不开放。",
       "调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。",
       "旧说明不是执行；须核顺逆/起运法/节界/岁数换算/原局作用及不同 Variant。",
       "日历干支不等于运势；缺原局、大运、流年作用图及强弱/喜忌条件规则。",
@@ -2443,6 +2453,16 @@
         ],
         "research_only": true,
         "scenario_public_enabled": false
+      },
+      {
+        "engine_id": "bazi",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1",
+        "rule_ids": [
+          "bazi.phase2.official_pattern_candidates",
+          "bazi.phase2.resource_pattern_candidates"
+        ],
+        "research_only": true,
+        "scenario_public_enabled": false
       }
     ],
     "existing_knowledge": [
@@ -2474,9 +2494,9 @@
         "topic_id": "bazi-pattern",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
-        "phase2_rules": 0
+        "terms": 2,
+        "phase1_rules": 2,
+        "phase2_rules": 2
       },
       {
         "topic_id": "bazi-useful-god",
@@ -2526,7 +2546,7 @@
       },
       {
         "topic_id": "bazi-pattern",
-        "reason": "BAZI_PATTERN_AUDIT.md 已核既有来源与有限旺衰边界；格局仍 NOT_BUILT，无已审 Term/Rule、执行或 Golden。正官/印綬仅为后续两个结构候选审核范围，尚未实现；月令透藏不等于定格，任氏取格仍依赖未裁定司令。杂气冲法、官杀去留、一般旺衰/作用、禄刃/从化资格与成败喜用须分别补原典、Variant/Conflict 和四类 Golden；AI 与公开格局继续关闭。"
+        "reason": "已有正官/印绶月藏透干位置的显式研究候选，两条执行规则、四类固定 Golden；完整格局仍 NOT_BUILT。候选观察不定格，任氏真假仍依赖未解司令；禄刃杂气、官杀去留、财旺破印、一般旺衰/作用及成败喜用待原典/Variant/Conflict 审核。无评分、吉凶或喜用，公共 Scenario、产品 claim 与 AI 不开放。"
       },
       {
         "topic_id": "bazi-useful-god",
@@ -2730,7 +2750,7 @@
       "十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。",
       "映射不等于组合、位置、透藏、月令条件下的解释；须补原典规则、限制及反例。",
       "已有十四条已审执行规则；显式任氏研究 bazi-strength-adjudication-v1 在木月卯纯印比、有根实际生扶或木月酉无根无扶透辛的充分语境可判 strong/weak，其余 indeterminate，四类固定 Golden 同口径覆盖。整体仍 PARTIAL：仅有限研究范围，不是全覆盖分类；分日体系 BLOCKED，其他根型和一般作用未完成，无 balanced、评分或计票，格局/喜用/行运/前台及 AI 仍关闭。",
-      "BAZI_PATTERN_AUDIT.md 已核既有来源与有限旺衰边界；格局仍 NOT_BUILT，无已审 Term/Rule、执行或 Golden。正官/印綬仅为后续两个结构候选审核范围，尚未实现；月令透藏不等于定格，任氏取格仍依赖未裁定司令。杂气冲法、官杀去留、一般旺衰/作用、禄刃/从化资格与成败喜用须分别补原典、Variant/Conflict 和四类 Golden；AI 与公开格局继续关闭。",
+      "已有正官/印绶月藏透干位置的显式研究候选，两条执行规则、四类固定 Golden；完整格局仍 NOT_BUILT。候选观察不定格，任氏真假仍依赖未解司令；禄刃杂气、官杀去留、财旺破印、一般旺衰/作用及成败喜用待原典/Variant/Conflict 审核。无评分、吉凶或喜用，公共 Scenario、产品 claim 与 AI 不开放。",
       "调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。",
       "旧说明不是执行；须核顺逆/起运法/节界/岁数换算/原局作用及不同 Variant。",
       "日历干支不等于运势；缺原局、大运、流年作用图及强弱/喜忌条件规则。",
@@ -3518,6 +3538,16 @@
         ],
         "research_only": true,
         "scenario_public_enabled": false
+      },
+      {
+        "engine_id": "bazi",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1",
+        "rule_ids": [
+          "bazi.phase2.official_pattern_candidates",
+          "bazi.phase2.resource_pattern_candidates"
+        ],
+        "research_only": true,
+        "scenario_public_enabled": false
       }
     ],
     "existing_knowledge": [
@@ -3541,9 +3571,9 @@
         "topic_id": "bazi-pattern",
         "legacy_files": 0,
         "text_candidate_files": 3,
-        "terms": 0,
-        "phase1_rules": 0,
-        "phase2_rules": 0
+        "terms": 2,
+        "phase1_rules": 2,
+        "phase2_rules": 2
       },
       {
         "topic_id": "bazi-useful-god",
@@ -3605,7 +3635,7 @@
       },
       {
         "topic_id": "bazi-pattern",
-        "reason": "BAZI_PATTERN_AUDIT.md 已核既有来源与有限旺衰边界；格局仍 NOT_BUILT，无已审 Term/Rule、执行或 Golden。正官/印綬仅为后续两个结构候选审核范围，尚未实现；月令透藏不等于定格，任氏取格仍依赖未裁定司令。杂气冲法、官杀去留、一般旺衰/作用、禄刃/从化资格与成败喜用须分别补原典、Variant/Conflict 和四类 Golden；AI 与公开格局继续关闭。"
+        "reason": "已有正官/印绶月藏透干位置的显式研究候选，两条执行规则、四类固定 Golden；完整格局仍 NOT_BUILT。候选观察不定格，任氏真假仍依赖未解司令；禄刃杂气、官杀去留、财旺破印、一般旺衰/作用及成败喜用待原典/Variant/Conflict 审核。无评分、吉凶或喜用，公共 Scenario、产品 claim 与 AI 不开放。"
       },
       {
         "topic_id": "bazi-useful-god",
@@ -3934,7 +3964,7 @@
     "blockers": [
       "十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。",
       "已有十四条已审执行规则；显式任氏研究 bazi-strength-adjudication-v1 在木月卯纯印比、有根实际生扶或木月酉无根无扶透辛的充分语境可判 strong/weak，其余 indeterminate，四类固定 Golden 同口径覆盖。整体仍 PARTIAL：仅有限研究范围，不是全覆盖分类；分日体系 BLOCKED，其他根型和一般作用未完成，无 balanced、评分或计票，格局/喜用/行运/前台及 AI 仍关闭。",
-      "BAZI_PATTERN_AUDIT.md 已核既有来源与有限旺衰边界；格局仍 NOT_BUILT，无已审 Term/Rule、执行或 Golden。正官/印綬仅为后续两个结构候选审核范围，尚未实现；月令透藏不等于定格，任氏取格仍依赖未裁定司令。杂气冲法、官杀去留、一般旺衰/作用、禄刃/从化资格与成败喜用须分别补原典、Variant/Conflict 和四类 Golden；AI 与公开格局继续关闭。",
+      "已有正官/印绶月藏透干位置的显式研究候选，两条执行规则、四类固定 Golden；完整格局仍 NOT_BUILT。候选观察不定格，任氏真假仍依赖未解司令；禄刃杂气、官杀去留、财旺破印、一般旺衰/作用及成败喜用待原典/Variant/Conflict 审核。无评分、吉凶或喜用，公共 Scenario、产品 claim 与 AI 不开放。",
       "调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。",
       "旧说明不是执行；须核顺逆/起运法/节界/岁数换算/原局作用及不同 Variant。",
       "日历干支不等于运势；缺原局、大运、流年作用图及强弱/喜忌条件规则。",
@@ -5126,8 +5156,8 @@
       },
       {
         "path": "data/canonical/bazi/phase1_knowledge.json",
-        "sha256": "6932a77b679b69b33273c9d3243c125ddf724587f2891f2c9877b82dd89fb330",
-        "bytes": 264331,
+        "sha256": "982556c9c48e6ecb20315e3b865cdecb89fa525eb20a2eb9ee8c8d0c02240ae7",
+        "bytes": 289521,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -5136,8 +5166,8 @@
       },
       {
         "path": "data/canonical/bazi/phase2_execution.json",
-        "sha256": "12d016082aa33a7aa310a29b6c2cb2b58f6e3bb105dad7dd2414a751536aeb6c",
-        "bytes": 19234,
+        "sha256": "d8aaabf470ca300afebc6d47db0f8c68e4217abd4a7d7c17b360227923ad0f75",
+        "bytes": 21034,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -5146,8 +5176,8 @@
       },
       {
         "path": "data/canonical/bazi/phase2_golden.json",
-        "sha256": "6fa972d395f1c11693c5915ca6878cc579059e48e2d9fdb99493852524860fce",
-        "bytes": 67216,
+        "sha256": "ed77d805b765b191dfe7413011d0d1dc3c275bd4fb70fd66e89852fee37f2352",
+        "bytes": 88256,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -6687,7 +6717,7 @@
       },
       {
         "path": "config/knowledge_sources.json",
-        "sha256": "3d5ef2495b879eb58294abe3a71bebcc6adddaf218efbc7a226c93594d521740"
+        "sha256": "f338e4c5043b5576a859c9973bd609c7470f5560f45a3638f3e9146c09104b73"
       },
       {
         "path": "config/phase2_rule_promotions.json",
@@ -6699,7 +6729,7 @@
       },
       {
         "path": "config/product_requirements.json",
-        "sha256": "6ebd2ab99e7039380fdf7eaa920916e72cdbc953625bfe20bf1fb9668eeb5553"
+        "sha256": "b0e849a8005b838f0d002d6af2b147c44477634cba2c56a51aee5ae3dbe6de51"
       },
       {
         "path": "config/public_domain_manifest.json",
@@ -6770,6 +6800,10 @@
         "sha256": "30e96bf49fb65c37073c012fe6ce7f225903ee91f1c53a92114e890bfa6b8114"
       },
       {
+        "path": "src/tianji_kb/bazi_pattern.py",
+        "sha256": "cc10c09b6a5e931f4886848d3b39dc9465ff28ec7682201af1cc3c16158b6518"
+      },
+      {
         "path": "src/tianji_kb/bazi_root_conditions.py",
         "sha256": "34debc23334d34c3528c1f3fc383455df894c187f68c2792872b64d45b5110ec"
       },
@@ -6791,7 +6825,7 @@
       },
       {
         "path": "src/tianji_kb/engine.py",
-        "sha256": "c731d74d33ff04a3b78a350e747979e9bbb5e088a371c6761b2a71ee2b70f12b"
+        "sha256": "91f559d2e8bd176f37516fc6f9a252c8ad8fc5de78385c014ff196eb16a63676"
       },
       {
         "path": "src/tianji_kb/evidence.py",
@@ -6851,7 +6885,7 @@
       },
       {
         "path": "src/tianji_kb/operations/bazi_chart.py",
-        "sha256": "d37e7ea6fa41a2106589af76c694511f58cdcf0cc03a8b6f6fcaf7097c80a3d3"
+        "sha256": "8040b2a2a9a64a12ac8aa59a690340c6806f68aff50267f889c1a50808d8e7b3"
       },
       {
         "path": "src/tianji_kb/operations/dream_knowledge.py",
@@ -6915,7 +6949,7 @@
       },
       {
         "path": "src/tianji_kb/product_coverage.py",
-        "sha256": "d6c3ae48f214db012c59999576eae7d5e0b5dfdd41b2c92d4d88613c9342d752"
+        "sha256": "674e4e2c5beebd003fc948d3705b946958367b64d7154aae3e88b6fb4afd4f32"
       },
       {
         "path": "src/tianji_kb/prompts.py",
@@ -6959,7 +6993,7 @@
       },
       {
         "path": "tests/test_phase1_bazi.py",
-        "sha256": "b358730322425769bc22f4d8dcec4324804b56b7881184dc27ecca0c90e1b974"
+        "sha256": "80951adb6f6a9175067479610f00d4a924649d23bcf6dcab5db63fbf95aec2d4"
       },
       {
         "path": "tests/test_phase1_cross_domain.py",
@@ -7016,6 +7050,10 @@
       {
         "path": "tests/test_phase2_bazieffects.py",
         "sha256": "d684a69596e5628d7cfdb953e73d2ee710ead5c8d3cae2222429d473d4080b8b"
+      },
+      {
+        "path": "tests/test_phase2_bazipattern.py",
+        "sha256": "004bb942bf4ad0b1e016dad784c1aff3821cf928a1b120a1801d46a60c7477c9"
       },
       {
         "path": "tests/test_phase2_bazipositive.py",
@@ -8436,11 +8474,11 @@
       },
       "bazi": {
         "classics": 4,
-        "chapters": 17,
-        "sections": 52,
-        "terms": 28,
-        "rules": 26,
-        "concepts": 17
+        "chapters": 20,
+        "sections": 59,
+        "terms": 30,
+        "rules": 28,
+        "concepts": 18
       },
       "dream": {
         "classics": 1,
@@ -11505,6 +11543,243 @@
                 "evidence_level": "C"
               }
             ]
+          },
+          {
+            "id": "bazi.phase2.official_pattern_candidates",
+            "domain": "bazi",
+            "name": "正官结构候选研究观察",
+            "variant": "ziping-structural-v1",
+            "execution_status": "executable",
+            "phase1_rule_refs": [
+              "bazi.rule.r027"
+            ],
+            "validation_status": "validated",
+            "golden_case_ids": [
+              "bazi.pattern-official-exposed",
+              "bazi.pattern-resource-zheng",
+              "bazi.pattern-resource-pian",
+              "bazi.pattern-yin-day",
+              "bazi.pattern-not-month",
+              "bazi.pattern-unexposed",
+              "bazi.pattern-miscellaneous",
+              "bazi.pattern-commander-conflict"
+            ],
+            "regression_test": "tests/test_phase2_bazipattern.py",
+            "evidence_scope": "C：显式研究月藏十神与逐字透干位置；司令、禄刃杂气、官杀/破印、真假成败喜用均未裁定；AI 和公开产品不授权。",
+            "evidence": [
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s004",
+                "original_text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.official_pattern_candidates",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.yuanhai",
+                "classic_title": "渊海子平",
+                "chapter_id": "bazi.chapter.basic",
+                "chapter_title": "基础与藏遁",
+                "locator": "《渊海子平》又地支藏遁歌；本轮固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%B8%8A%E6%B5%B7%E5%AD%90%E5%B9%B3.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s053",
+                "original_text": "格之真者,月支之神,透于天干也。以散乱之天干,而寻其得所附于提纲,非格也。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.official_pattern_candidates",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.pattern_bage",
+                "chapter_title": "八格·原注与任氏取格边界",
+                "locator": "固定快照 Unicode char [31580,31617)；line 1384；pattern_bage",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s054",
+                "original_text": "任氏曰:八格者,命中之正理也。先观月令所得何支,次看天干透出何神,再究司令以定真假,然后取用,以分清浊,此实依经顺理,若月逢禄刃,无格可取,须审日主之喜忌另寻别支透出天干者,借以为用。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.official_pattern_candidates",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.pattern_bage",
+                "chapter_title": "八格·原注与任氏取格边界",
+                "locator": "固定快照 Unicode char [31681,31773)；line 1385；pattern_bage",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s055",
+                "original_text": "若月令中有正官,时干支有偏官,便难以正官言之。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.official_pattern_candidates",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.yuanhai",
+                "classic_title": "渊海子平",
+                "chapter_id": "bazi.chapter.pattern_official",
+                "chapter_title": "正官论·结构与限制",
+                "locator": "固定快照 Unicode char [10124,10147)；line 279；pattern_official",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%B8%8A%E6%B5%B7%E5%AD%90%E5%B9%B3.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s056",
+                "original_text": "且如甲用辛为官,生于八月中气之后,金旺在酉,故谓之正官;如天干不透出辛字,却地支有巳酉丑,虽不能于八月中气之后,亦可言官。大要身旺,时辰归于甲木旺处。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.official_pattern_candidates",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.yuanhai",
+                "classic_title": "渊海子平",
+                "chapter_id": "bazi.chapter.pattern_official",
+                "chapter_title": "正官论·结构与限制",
+                "locator": "固定快照 Unicode char [10149,10224)；line 280；pattern_official",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%B8%8A%E6%B5%B7%E5%AD%90%E5%B9%B3.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9",
+                "evidence_level": "C"
+              }
+            ]
+          },
+          {
+            "id": "bazi.phase2.resource_pattern_candidates",
+            "domain": "bazi",
+            "name": "印绶结构候选研究观察",
+            "variant": "ziping-structural-v1",
+            "execution_status": "executable",
+            "phase1_rule_refs": [
+              "bazi.rule.r028"
+            ],
+            "validation_status": "validated",
+            "golden_case_ids": [
+              "bazi.pattern-official-exposed",
+              "bazi.pattern-resource-zheng",
+              "bazi.pattern-resource-pian",
+              "bazi.pattern-yin-day",
+              "bazi.pattern-not-month",
+              "bazi.pattern-unexposed",
+              "bazi.pattern-miscellaneous",
+              "bazi.pattern-commander-conflict"
+            ],
+            "regression_test": "tests/test_phase2_bazipattern.py",
+            "evidence_scope": "C：显式研究月藏十神与逐字透干位置；司令、禄刃杂气、官杀/破印、真假成败喜用均未裁定；AI 和公开产品不授权。",
+            "evidence": [
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s004",
+                "original_text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.resource_pattern_candidates",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.yuanhai",
+                "classic_title": "渊海子平",
+                "chapter_id": "bazi.chapter.basic",
+                "chapter_title": "基础与藏遁",
+                "locator": "《渊海子平》又地支藏遁歌；本轮固定短引",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%B8%8A%E6%B5%B7%E5%AD%90%E5%B9%B3.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s053",
+                "original_text": "格之真者,月支之神,透于天干也。以散乱之天干,而寻其得所附于提纲,非格也。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.resource_pattern_candidates",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.pattern_bage",
+                "chapter_title": "八格·原注与任氏取格边界",
+                "locator": "固定快照 Unicode char [31580,31617)；line 1384；pattern_bage",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s054",
+                "original_text": "任氏曰:八格者,命中之正理也。先观月令所得何支,次看天干透出何神,再究司令以定真假,然后取用,以分清浊,此实依经顺理,若月逢禄刃,无格可取,须审日主之喜忌另寻别支透出天干者,借以为用。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.resource_pattern_candidates",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.pattern_bage",
+                "chapter_title": "八格·原注与任氏取格边界",
+                "locator": "固定快照 Unicode char [31681,31773)；line 1385；pattern_bage",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s057",
+                "original_text": "夫印綬者,生我之谓也,亦名生气。以阳见阴,以阴见阳,谓之正印;阳见阳,阴见阴,谓之偏印。喜官星生印,忌财旺破印。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.resource_pattern_candidates",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.yuanhai",
+                "classic_title": "渊海子平",
+                "chapter_id": "bazi.chapter.pattern_resource",
+                "chapter_title": "论印綬·结构与限制",
+                "locator": "固定快照 Unicode char [12841,12897)；line 351；pattern_resource",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%B8%8A%E6%B5%B7%E5%AD%90%E5%B9%B3.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s058",
+                "original_text": "若官鬼多,或入别格,又不可专以印綬论。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.resource_pattern_candidates",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.yuanhai",
+                "classic_title": "渊海子平",
+                "chapter_id": "bazi.chapter.pattern_resource",
+                "chapter_title": "论印綬·结构与限制",
+                "locator": "固定快照 Unicode char [13012,13031)；line 355；pattern_resource",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%B8%8A%E6%B5%B7%E5%AD%90%E5%B9%B3.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s059",
+                "original_text": "假如,甲乙日得亥子月生,丙丁日得寅卯月生,戊己日得巳午月生,庚辛日得辰戌丑未月生,壬癸日得申酉月生者是也,其餘以类言之。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.resource_pattern_candidates",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.yuanhai",
+                "classic_title": "渊海子平",
+                "chapter_id": "bazi.chapter.pattern_resource",
+                "chapter_title": "论印綬·结构与限制",
+                "locator": "固定快照 Unicode char [12746,12806)；line 350；pattern_resource",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%B8%8A%E6%B5%B7%E5%AD%90%E5%B9%B3.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9",
+                "evidence_level": "C"
+              }
+            ]
           }
         ],
         "golden_path": "data/canonical/bazi/phase2_golden.json",
@@ -11539,6 +11814,14 @@
           "bazi.factors-normal",
           "bazi.factors-siling-unresolved",
           "bazi.factors-tomb-boundary",
+          "bazi.pattern-commander-conflict",
+          "bazi.pattern-miscellaneous",
+          "bazi.pattern-not-month",
+          "bazi.pattern-official-exposed",
+          "bazi.pattern-resource-pian",
+          "bazi.pattern-resource-zheng",
+          "bazi.pattern-unexposed",
+          "bazi.pattern-yin-day",
           "bazi.principal-control",
           "bazi.principal-generate",
           "bazi.principal-same",
@@ -15314,9 +15597,90 @@
           "羊刃",
           "从格",
           "化格",
-          "专旺"
+          "专旺",
+          "正官结构候选",
+          "印绶结构候选"
         ],
-        "reviewed_terms": [],
+        "reviewed_terms": [
+          {
+            "id": "bazi.term.official_pattern_candidates",
+            "name": "正官结构候选",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s004",
+                "original_text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s053",
+                "original_text": "格之真者,月支之神,透于天干也。以散乱之天干,而寻其得所附于提纲,非格也。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s054",
+                "original_text": "任氏曰:八格者,命中之正理也。先观月令所得何支,次看天干透出何神,再究司令以定真假,然后取用,以分清浊,此实依经顺理,若月逢禄刃,无格可取,须审日主之喜忌另寻别支透出天干者,借以为用。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s055",
+                "original_text": "若月令中有正官,时干支有偏官,便难以正官言之。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s056",
+                "original_text": "且如甲用辛为官,生于八月中气之后,金旺在酉,故谓之正官;如天干不透出辛字,却地支有巳酉丑,虽不能于八月中气之后,亦可言官。大要身旺,时辰归于甲木旺处。",
+                "role": "classical"
+              }
+            ]
+          },
+          {
+            "id": "bazi.term.resource_pattern_candidates",
+            "name": "印绶结构候选",
+            "source_refs": [
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s004",
+                "original_text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s053",
+                "original_text": "格之真者,月支之神,透于天干也。以散乱之天干,而寻其得所附于提纲,非格也。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s054",
+                "original_text": "任氏曰:八格者,命中之正理也。先观月令所得何支,次看天干透出何神,再究司令以定真假,然后取用,以分清浊,此实依经顺理,若月逢禄刃,无格可取,须审日主之喜忌另寻别支透出天干者,借以为用。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s057",
+                "original_text": "夫印綬者,生我之谓也,亦名生气。以阳见阴,以阴见阳,谓之正印;阳见阳,阴见阴,谓之偏印。喜官星生印,忌财旺破印。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s058",
+                "original_text": "若官鬼多,或入别格,又不可专以印綬论。",
+                "role": "classical"
+              },
+              {
+                "source_id": "bazi.source.yuanhai",
+                "section_id": "bazi.section.s059",
+                "original_text": "假如,甲乙日得亥子月生,丙丁日得寅卯月生,戊己日得巳午月生,庚辛日得辰戌丑未月生,壬癸日得申酉月生者是也,其餘以类言之。",
+                "role": "classical"
+              }
+            ]
+          }
+        ],
         "terms_not_structured": [
           "正官格",
           "七杀格",
@@ -15330,9 +15694,17 @@
           "化格",
           "专旺"
         ],
-        "phase1_rule_ids": [],
-        "phase1_execution_status": {},
-        "phase2_rule_ids": [],
+        "phase1_rule_ids": [
+          "bazi.rule.r027",
+          "bazi.rule.r028"
+        ],
+        "phase1_execution_status": {
+          "executable": 2
+        },
+        "phase2_rule_ids": [
+          "bazi.phase2.official_pattern_candidates",
+          "bazi.phase2.resource_pattern_candidates"
+        ],
         "legacy_references": [],
         "classical_text_candidates": [
           {
@@ -15444,7 +15816,7 @@
           }
         ],
         "explanation_ready": false,
-        "missing": "BAZI_PATTERN_AUDIT.md 已核既有来源与有限旺衰边界；格局仍 NOT_BUILT，无已审 Term/Rule、执行或 Golden。正官/印綬仅为后续两个结构候选审核范围，尚未实现；月令透藏不等于定格，任氏取格仍依赖未裁定司令。杂气冲法、官杀去留、一般旺衰/作用、禄刃/从化资格与成败喜用须分别补原典、Variant/Conflict 和四类 Golden；AI 与公开格局继续关闭。"
+        "missing": "已有正官/印绶月藏透干位置的显式研究候选，两条执行规则、四类固定 Golden；完整格局仍 NOT_BUILT。候选观察不定格，任氏真假仍依赖未解司令；禄刃杂气、官杀去留、财旺破印、一般旺衰/作用及成败喜用待原典/Variant/Conflict 审核。无评分、吉凶或喜用，公共 Scenario、产品 claim 与 AI 不开放。"
       },
       "bazi-useful-god": {
         "name": "喜用神分体系治理",
@@ -18909,11 +19281,11 @@
       }
     ],
     "retrieval": {
-      "reviewed_entity_chunks": 847,
-      "general_rag_chunks": 2576,
+      "reviewed_entity_chunks": 859,
+      "general_rag_chunks": 2588,
       "general_rag_domains": {
         "almanac": 1,
-        "bazi": 511,
+        "bazi": 523,
         "liuyao": 102,
         "yijing": 1179,
         "engines": 1,
@@ -19579,6 +19951,67 @@
             "未",
             "戌"
           ]
+        }
+      }
+    },
+    "pattern": {
+      "status": "NOT_BUILT",
+      "scope": "完整定格仍未实现；以下仅结构候选研究",
+      "variants": {
+        "bazi-pattern-structure-candidates-v1": {
+          "variant": "bazi-pattern-structure-candidates-v1",
+          "status": "RESEARCH_VALIDATED",
+          "maturity": "PARTIAL",
+          "research_only": true,
+          "public_enabled": false,
+          "ai_enabled": false,
+          "pattern_determination_available": false,
+          "execution_rule_ids": [
+            "bazi.phase2.official_pattern_candidates",
+            "bazi.phase2.resource_pattern_candidates"
+          ],
+          "golden_case_groups": {
+            "positive": [
+              "bazi.pattern-official-exposed",
+              "bazi.pattern-resource-zheng",
+              "bazi.pattern-resource-pian",
+              "bazi.pattern-yin-day"
+            ],
+            "negative": [
+              "bazi.pattern-not-month"
+            ],
+            "abstention": [
+              "bazi.pattern-unexposed",
+              "bazi.pattern-miscellaneous"
+            ],
+            "conflict": [
+              "bazi.pattern-commander-conflict"
+            ]
+          },
+          "dependencies": [
+            "pillars",
+            "ten_gods",
+            "hidden_stems",
+            "hidden_to_visible",
+            "month_command_variant"
+          ],
+          "dated_commander_required_for_determination": true,
+          "limitations": [
+            "这是现代形式化的结构观察，不是原典完整取格算法。",
+            "月藏十神或透干不能独自定格；不透干仅报告未透，不否定渊海地支官局等未覆盖分支。",
+            "必须审查司令才能按任氏口径定真假；现有分日冲突与具体司令未解，本气豁免不能用于定格。",
+            "禄刃、杂气、官杀去留、财旺破印、别格和一般旺衰实际作用均未执行。",
+            "藏干不等于显干，官鬼多/财旺等未定义数值阈值；无评分、概率、喜用、成败或个人吉凶。",
+            "仅研究模式，不开放公共 Scenario、产品 claim 或 AI；来源仍 C，不计独立底本票。"
+          ],
+          "golden_categories": {
+            "positive": 4,
+            "negative": 1,
+            "abstention": 2,
+            "conflict": 1
+          },
+          "validation_basis": "reviewed_contract_and_fixed_golden_definitions; static_report_does_not_run_tests",
+          "publication_authority": false
         }
       }
     }

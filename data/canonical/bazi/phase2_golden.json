@@ -2282,6 +2282,655 @@
           "weights_available": false
         }
       }
+    },
+    {
+      "id": "bazi.pattern-official-exposed",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "戊午",
+        "month_ganzhi": "辛酉",
+        "day_ganzhi": "甲午",
+        "hour_ganzhi": "庚午",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "official": {
+            "variant": "bazi-pattern-structure-candidates-v1",
+            "family": "official",
+            "month_branch": "酉",
+            "status": "structural_observation_only",
+            "observations": [
+              {
+                "stem": "辛",
+                "ten_god": "正官",
+                "exposed": true,
+                "visible_positions": [
+                  {
+                    "pillar": "month",
+                    "stem": "辛",
+                    "ten_god": "正官"
+                  }
+                ]
+              }
+            ],
+            "dated_commander": {
+              "status": "unresolved",
+              "value": null,
+              "conflict_ids": [],
+              "required_for_ren_pattern_determination": true,
+              "blocks_structural_observation": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "true_false": null,
+              "success_failure": null,
+              "useful_god": null
+            },
+            "special_month_conditions_reviewed": false,
+            "research_only": true,
+            "public_enabled": false,
+            "ai_enabled": false
+          },
+          "resource": {
+            "variant": "bazi-pattern-structure-candidates-v1",
+            "family": "resource",
+            "month_branch": "酉",
+            "status": "no_month_candidate",
+            "observations": [],
+            "dated_commander": {
+              "status": "unresolved",
+              "value": null,
+              "conflict_ids": [],
+              "required_for_ren_pattern_determination": true,
+              "blocks_structural_observation": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "true_false": null,
+              "success_failure": null,
+              "useful_god": null
+            },
+            "special_month_conditions_reviewed": false,
+            "research_only": true,
+            "public_enabled": false,
+            "ai_enabled": false
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.pattern-resource-zheng",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "癸亥",
+        "month_ganzhi": "壬子",
+        "day_ganzhi": "甲寅",
+        "hour_ganzhi": "癸酉",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "official": {
+            "variant": "bazi-pattern-structure-candidates-v1",
+            "family": "official",
+            "month_branch": "子",
+            "status": "no_month_candidate",
+            "observations": [],
+            "dated_commander": {
+              "status": "unresolved",
+              "value": null,
+              "conflict_ids": [],
+              "required_for_ren_pattern_determination": true,
+              "blocks_structural_observation": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "true_false": null,
+              "success_failure": null,
+              "useful_god": null
+            },
+            "special_month_conditions_reviewed": false,
+            "research_only": true,
+            "public_enabled": false,
+            "ai_enabled": false
+          },
+          "resource": {
+            "variant": "bazi-pattern-structure-candidates-v1",
+            "family": "resource",
+            "month_branch": "子",
+            "status": "structural_observation_only",
+            "observations": [
+              {
+                "stem": "癸",
+                "ten_god": "正印",
+                "exposed": true,
+                "visible_positions": [
+                  {
+                    "pillar": "year",
+                    "stem": "癸",
+                    "ten_god": "正印"
+                  },
+                  {
+                    "pillar": "hour",
+                    "stem": "癸",
+                    "ten_god": "正印"
+                  }
+                ]
+              }
+            ],
+            "dated_commander": {
+              "status": "unresolved",
+              "value": null,
+              "conflict_ids": [],
+              "required_for_ren_pattern_determination": true,
+              "blocks_structural_observation": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "true_false": null,
+              "success_failure": null,
+              "useful_god": null
+            },
+            "special_month_conditions_reviewed": false,
+            "research_only": true,
+            "public_enabled": false,
+            "ai_enabled": false
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.pattern-resource-pian",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "壬申",
+        "month_ganzhi": "丁亥",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "壬申",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "official": {
+            "variant": "bazi-pattern-structure-candidates-v1",
+            "family": "official",
+            "month_branch": "亥",
+            "status": "no_month_candidate",
+            "observations": [],
+            "dated_commander": {
+              "status": "unresolved",
+              "value": null,
+              "conflict_ids": [],
+              "required_for_ren_pattern_determination": true,
+              "blocks_structural_observation": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "true_false": null,
+              "success_failure": null,
+              "useful_god": null
+            },
+            "special_month_conditions_reviewed": false,
+            "research_only": true,
+            "public_enabled": false,
+            "ai_enabled": false
+          },
+          "resource": {
+            "variant": "bazi-pattern-structure-candidates-v1",
+            "family": "resource",
+            "month_branch": "亥",
+            "status": "structural_observation_only",
+            "observations": [
+              {
+                "stem": "壬",
+                "ten_god": "偏印",
+                "exposed": true,
+                "visible_positions": [
+                  {
+                    "pillar": "year",
+                    "stem": "壬",
+                    "ten_god": "偏印"
+                  },
+                  {
+                    "pillar": "hour",
+                    "stem": "壬",
+                    "ten_god": "偏印"
+                  }
+                ]
+              }
+            ],
+            "dated_commander": {
+              "status": "unresolved",
+              "value": null,
+              "conflict_ids": [],
+              "required_for_ren_pattern_determination": true,
+              "blocks_structural_observation": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "true_false": null,
+              "success_failure": null,
+              "useful_god": null
+            },
+            "special_month_conditions_reviewed": false,
+            "research_only": true,
+            "public_enabled": false,
+            "ai_enabled": false
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.pattern-yin-day",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "庚申",
+        "month_ganzhi": "甲申",
+        "day_ganzhi": "乙丑",
+        "hour_ganzhi": "壬午",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "official": {
+            "variant": "bazi-pattern-structure-candidates-v1",
+            "family": "official",
+            "month_branch": "申",
+            "status": "structural_observation_only",
+            "observations": [
+              {
+                "stem": "庚",
+                "ten_god": "正官",
+                "exposed": true,
+                "visible_positions": [
+                  {
+                    "pillar": "year",
+                    "stem": "庚",
+                    "ten_god": "正官"
+                  }
+                ]
+              }
+            ],
+            "dated_commander": {
+              "status": "unresolved",
+              "value": null,
+              "conflict_ids": [],
+              "required_for_ren_pattern_determination": true,
+              "blocks_structural_observation": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "true_false": null,
+              "success_failure": null,
+              "useful_god": null
+            },
+            "special_month_conditions_reviewed": false,
+            "research_only": true,
+            "public_enabled": false,
+            "ai_enabled": false
+          },
+          "resource": {
+            "variant": "bazi-pattern-structure-candidates-v1",
+            "family": "resource",
+            "month_branch": "申",
+            "status": "structural_observation_only",
+            "observations": [
+              {
+                "stem": "壬",
+                "ten_god": "正印",
+                "exposed": true,
+                "visible_positions": [
+                  {
+                    "pillar": "hour",
+                    "stem": "壬",
+                    "ten_god": "正印"
+                  }
+                ]
+              }
+            ],
+            "dated_commander": {
+              "status": "unresolved",
+              "value": null,
+              "conflict_ids": [],
+              "required_for_ren_pattern_determination": true,
+              "blocks_structural_observation": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "true_false": null,
+              "success_failure": null,
+              "useful_god": null
+            },
+            "special_month_conditions_reviewed": false,
+            "research_only": true,
+            "public_enabled": false,
+            "ai_enabled": false
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.pattern-not-month",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "辛酉",
+        "month_ganzhi": "丙寅",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "庚午",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "official": {
+            "variant": "bazi-pattern-structure-candidates-v1",
+            "family": "official",
+            "month_branch": "寅",
+            "status": "no_month_candidate",
+            "observations": [],
+            "dated_commander": {
+              "status": "unresolved",
+              "value": null,
+              "conflict_ids": [
+                "bazi.concept.conflict_siling_days"
+              ],
+              "required_for_ren_pattern_determination": true,
+              "blocks_structural_observation": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "true_false": null,
+              "success_failure": null,
+              "useful_god": null
+            },
+            "special_month_conditions_reviewed": false,
+            "research_only": true,
+            "public_enabled": false,
+            "ai_enabled": false
+          },
+          "resource": {
+            "variant": "bazi-pattern-structure-candidates-v1",
+            "family": "resource",
+            "month_branch": "寅",
+            "status": "no_month_candidate",
+            "observations": [],
+            "dated_commander": {
+              "status": "unresolved",
+              "value": null,
+              "conflict_ids": [
+                "bazi.concept.conflict_siling_days"
+              ],
+              "required_for_ren_pattern_determination": true,
+              "blocks_structural_observation": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "true_false": null,
+              "success_failure": null,
+              "useful_god": null
+            },
+            "special_month_conditions_reviewed": false,
+            "research_only": true,
+            "public_enabled": false,
+            "ai_enabled": false
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.pattern-unexposed",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "戊午",
+        "month_ganzhi": "丁酉",
+        "day_ganzhi": "甲午",
+        "hour_ganzhi": "丙午",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "official": {
+            "variant": "bazi-pattern-structure-candidates-v1",
+            "family": "official",
+            "month_branch": "酉",
+            "status": "structural_observation_only",
+            "observations": [
+              {
+                "stem": "辛",
+                "ten_god": "正官",
+                "exposed": false,
+                "visible_positions": []
+              }
+            ],
+            "dated_commander": {
+              "status": "unresolved",
+              "value": null,
+              "conflict_ids": [],
+              "required_for_ren_pattern_determination": true,
+              "blocks_structural_observation": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "true_false": null,
+              "success_failure": null,
+              "useful_god": null
+            },
+            "special_month_conditions_reviewed": false,
+            "research_only": true,
+            "public_enabled": false,
+            "ai_enabled": false
+          },
+          "resource": {
+            "variant": "bazi-pattern-structure-candidates-v1",
+            "family": "resource",
+            "month_branch": "酉",
+            "status": "no_month_candidate",
+            "observations": [],
+            "dated_commander": {
+              "status": "unresolved",
+              "value": null,
+              "conflict_ids": [],
+              "required_for_ren_pattern_determination": true,
+              "blocks_structural_observation": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "true_false": null,
+              "success_failure": null,
+              "useful_god": null
+            },
+            "special_month_conditions_reviewed": false,
+            "research_only": true,
+            "public_enabled": false,
+            "ai_enabled": false
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.pattern-miscellaneous",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "辛酉",
+        "month_ganzhi": "丁丑",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "癸亥",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "official": {
+            "variant": "bazi-pattern-structure-candidates-v1",
+            "family": "official",
+            "month_branch": "丑",
+            "status": "structural_observation_only",
+            "observations": [
+              {
+                "stem": "辛",
+                "ten_god": "正官",
+                "exposed": true,
+                "visible_positions": [
+                  {
+                    "pillar": "year",
+                    "stem": "辛",
+                    "ten_god": "正官"
+                  }
+                ]
+              }
+            ],
+            "dated_commander": {
+              "status": "unresolved",
+              "value": null,
+              "conflict_ids": [],
+              "required_for_ren_pattern_determination": true,
+              "blocks_structural_observation": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "true_false": null,
+              "success_failure": null,
+              "useful_god": null
+            },
+            "special_month_conditions_reviewed": false,
+            "research_only": true,
+            "public_enabled": false,
+            "ai_enabled": false
+          },
+          "resource": {
+            "variant": "bazi-pattern-structure-candidates-v1",
+            "family": "resource",
+            "month_branch": "丑",
+            "status": "structural_observation_only",
+            "observations": [
+              {
+                "stem": "癸",
+                "ten_god": "正印",
+                "exposed": true,
+                "visible_positions": [
+                  {
+                    "pillar": "hour",
+                    "stem": "癸",
+                    "ten_god": "正印"
+                  }
+                ]
+              }
+            ],
+            "dated_commander": {
+              "status": "unresolved",
+              "value": null,
+              "conflict_ids": [],
+              "required_for_ren_pattern_determination": true,
+              "blocks_structural_observation": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "true_false": null,
+              "success_failure": null,
+              "useful_god": null
+            },
+            "special_month_conditions_reviewed": false,
+            "research_only": true,
+            "public_enabled": false,
+            "ai_enabled": false
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.pattern-commander-conflict",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲子",
+        "month_ganzhi": "丙寅",
+        "day_ganzhi": "丙午",
+        "hour_ganzhi": "乙亥",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "official": {
+            "variant": "bazi-pattern-structure-candidates-v1",
+            "family": "official",
+            "month_branch": "寅",
+            "status": "no_month_candidate",
+            "observations": [],
+            "dated_commander": {
+              "status": "unresolved",
+              "value": null,
+              "conflict_ids": [
+                "bazi.concept.conflict_siling_days"
+              ],
+              "required_for_ren_pattern_determination": true,
+              "blocks_structural_observation": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "true_false": null,
+              "success_failure": null,
+              "useful_god": null
+            },
+            "special_month_conditions_reviewed": false,
+            "research_only": true,
+            "public_enabled": false,
+            "ai_enabled": false
+          },
+          "resource": {
+            "variant": "bazi-pattern-structure-candidates-v1",
+            "family": "resource",
+            "month_branch": "寅",
+            "status": "structural_observation_only",
+            "observations": [
+              {
+                "stem": "甲",
+                "ten_god": "偏印",
+                "exposed": true,
+                "visible_positions": [
+                  {
+                    "pillar": "year",
+                    "stem": "甲",
+                    "ten_god": "偏印"
+                  }
+                ]
+              }
+            ],
+            "dated_commander": {
+              "status": "unresolved",
+              "value": null,
+              "conflict_ids": [
+                "bazi.concept.conflict_siling_days"
+              ],
+              "required_for_ren_pattern_determination": true,
+              "blocks_structural_observation": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "true_false": null,
+              "success_failure": null,
+              "useful_god": null
+            },
+            "special_month_conditions_reviewed": false,
+            "research_only": true,
+            "public_enabled": false,
+            "ai_enabled": false
+          }
+        }
+      }
     }
   ]
 }
