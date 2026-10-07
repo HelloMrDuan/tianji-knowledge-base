@@ -13,13 +13,13 @@
   "canonical_ready": false,
   "promotion": "quarantine_only",
   "body_saved": false,
-  "scope": "17 类产品输入调查；五个具体场景已另经既有模型审核为 C 级文化摘录，其余保持待核。整本仍 D/pending/quarantine_only；所有候选均无生产预测授权。",
+  "scope": "17 类产品输入调查；十个具体场景另经既有模型审核为 C 级文化摘录，其余保持待核。整本仍 D/pending/quarantine_only；所有候选均无生产预测授权。",
   "summary": {
     "requested": 17,
     "direct_scene_candidates": 11,
     "related_only": 5,
     "not_found": 1,
-    "confirmed_interpretations": 5
+    "confirmed_interpretations": 10
   },
   "candidates": [
     {
@@ -52,13 +52,15 @@
       "raw_unicode_offset": 7403,
       "raw_line": 283,
       "match_scope": "direct_scene",
-      "review_status": "pending",
-      "evidence_level": "D",
-      "confidence": "unconfirmed",
-      "interpretation": null,
+      "review_status": "approved_cultural_excerpt",
+      "evidence_level": "C",
+      "confidence": "medium",
+      "interpretation": "此条目将乘龙入水的梦象联系贵位，是该传统占梦文本的文化象征说法。",
       "production_allowed": false,
       "cultural_context": "传统占梦条目；记为文化文本，不作当代个人预测。",
-      "note": "条目限定乘龙入水，不等同于龙出现即有统一含义。"
+      "note": "条目限定乘龙入水，不等同于龙出现即有统一含义。",
+      "reviewed_term_id": "dream.term.dragon",
+      "reviewed_rule_id": "dream.rule.dragon"
     },
     {
       "id": "fish",
@@ -70,13 +72,15 @@
       "raw_unicode_offset": 8383,
       "raw_line": 315,
       "match_scope": "direct_scene",
-      "review_status": "pending",
-      "evidence_level": "D",
-      "confidence": "unconfirmed",
-      "interpretation": null,
+      "review_status": "approved_cultural_excerpt",
+      "evidence_level": "C",
+      "confidence": "medium",
+      "interpretation": "此条目将群鱼游水的梦象联系有财，仅记录该传统文化条目的文本释义。",
       "production_allowed": false,
       "cultural_context": "传统占梦条目；记为文化文本，不作当代个人预测。",
-      "note": "群鱼游水场景；不作为现实财富预测。"
+      "note": "群鱼游水场景；不作为现实财富预测。",
+      "reviewed_term_id": "dream.term.fish",
+      "reviewed_rule_id": "dream.rule.fish"
     },
     {
       "id": "water",
@@ -128,13 +132,15 @@
       "raw_unicode_offset": 2555,
       "raw_line": 93,
       "match_scope": "direct_scene",
-      "review_status": "pending",
-      "evidence_level": "D",
-      "confidence": "unconfirmed",
-      "interpretation": null,
+      "review_status": "approved_cultural_excerpt",
+      "evidence_level": "C",
+      "confidence": "medium",
+      "interpretation": "此条目将屋宅更新的梦象归入大吉，属于传统占梦文本中的吉象记载。",
       "production_allowed": false,
       "cultural_context": "传统占梦条目；记为文化文本，不作当代个人预测。",
-      "note": "更新屋宅场景，不将所有房屋梦合成同一解释。"
+      "note": "更新屋宅场景，不将所有房屋梦合成同一解释。",
+      "reviewed_term_id": "dream.term.house",
+      "reviewed_rule_id": "dream.rule.house"
     },
     {
       "id": "family",
@@ -146,13 +152,15 @@
       "raw_unicode_offset": 6315,
       "raw_line": 238,
       "match_scope": "direct_scene",
-      "review_status": "pending",
-      "evidence_level": "D",
-      "confidence": "unconfirmed",
-      "interpretation": null,
+      "review_status": "approved_cultural_excerpt",
+      "evidence_level": "C",
+      "confidence": "medium",
+      "interpretation": "此条目将兄弟相打的梦象归入大吉，只记录这一具体传统占梦条目。",
       "production_allowed": false,
       "cultural_context": "传统占梦条目；记为文化文本，不作当代个人预测。",
-      "note": "仅兄弟相打的亲属场景；不推断一般家人梦或关系会改善。"
+      "note": "仅兄弟相打的亲属场景；不推断一般家人梦或关系会改善。",
+      "reviewed_term_id": "dream.term.family",
+      "reviewed_rule_id": "dream.rule.family"
     },
     {
       "id": "deceased",
@@ -294,13 +302,15 @@
       "raw_unicode_offset": 3398,
       "raw_line": 122,
       "match_scope": "direct_scene",
-      "review_status": "pending",
-      "evidence_level": "D",
-      "confidence": "unconfirmed",
-      "interpretation": null,
+      "review_status": "approved_cultural_excerpt",
+      "evidence_level": "C",
+      "confidence": "medium",
+      "interpretation": "此条目将拾得钱物的梦象归入大吉，属于传统梦文化中的文本释义。",
       "production_allowed": false,
       "cultural_context": "传统占梦条目；记为文化文本，不作当代个人预测。",
-      "note": "仅拾钱场景，不产生财富保证。"
+      "note": "仅拾钱场景，不产生财富保证。",
+      "reviewed_term_id": "dream.term.money",
+      "reviewed_rule_id": "dream.rule.money"
     },
     {
       "id": "work",

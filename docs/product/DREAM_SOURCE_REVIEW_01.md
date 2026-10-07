@@ -1,6 +1,6 @@
 # 解梦来源首批：隔离登记与 17 类输入核查
 
-本批为 #127 的历史审核记录。当前五个文化场景的实际建设见 [Dream Knowledge 首批](DREAM_KNOWLEDGE_BATCH_01.md)。以下描述 #127 当时的状态。
+本批为 #127 的历史审核记录。当前十个文化场景的实际建设见 [Dream Knowledge 首批](DREAM_KNOWLEDGE_BATCH_01.md)及[第二批](DREAM_KNOWLEDGE_BATCH_02.md)。以下描述 #127 当时的状态。
 
 本批是来源调查和候选审核准备，**传统梦文化知识库仍为 NOT_BUILT，已确认解释为 0**。不增加已审核 Source、Canonical 实体、执行规则或解梦接口，不改变 AI 门控。调查记录不具有 Evidence 发布资格。
 

@@ -431,15 +431,15 @@
         "metadata_only": 0,
         "with_reviewed_excerpts": 1
       },
-      "chapters": 5,
-      "sections": 6,
+      "chapters": 9,
+      "sections": 11,
       "terms": {
-        "canonical": 5
+        "canonical": 10
       },
       "concepts": 1,
       "rules": {
         "executable": 0,
-        "partially_structured": 5,
+        "partially_structured": 10,
         "descriptive_only": 0
       },
       "sources": {
@@ -452,7 +452,7 @@
         "dream.source.zhougong-scenes"
       ],
       "tests": 8,
-      "production_chunks": 17,
+      "production_chunks": 32,
       "completion_criteria": {
         "domain_definition": true,
         "source_registry": true,

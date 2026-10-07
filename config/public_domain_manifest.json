@@ -128,9 +128,9 @@
               "direct_scene_candidates": 11,
               "related_only": 5,
               "not_found": 1,
-              "confirmed_interpretations": 5
+              "confirmed_interpretations": 10
             },
-            "note": "五个具体场景另经 Source/Section/Term/Rule 审核为 C 级传统文化摘录，只支持 research 检索；整本版本、作者、独立性与 OCR 未闭环，quarantine_only/canonical_ready=false。现代心理未入库，AI未开放，不作病孕/未来预测。"
+            "note": "十个具体场景另经 Source/Section/Term/Rule 审核为 C 级传统文化摘录，只支持 research 检索；整本版本、作者、独立性与 OCR 未闭环，quarantine_only/canonical_ready=false。现代心理未入库，AI未开放，不作病孕/未来预测。"
           },
           "reviewed_excerpt_output": "data/canonical/dream/phase1_knowledge.json"
         }

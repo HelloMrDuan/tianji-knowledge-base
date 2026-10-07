@@ -3969,8 +3969,8 @@
         "topic_id": "dream-traditional",
         "legacy_files": 0,
         "text_candidate_files": 0,
-        "terms": 5,
-        "phase1_rules": 5,
+        "terms": 9,
+        "phase1_rules": 9,
         "phase2_rules": 0
       },
       {
@@ -3985,7 +3985,7 @@
     "missing_capabilities": [
       {
         "topic_id": "dream-traditional",
-        "reason": "已沿用既有 Phase1 模型审核蛇咬人、自在水中、身在火中、人飞上天、人坠井五个具体场景，C级文化检索 helper 可运行；通用梦象、版本独立性和现代心理仍缺，公开 Scenario 与 AI 未开放，不能把实体出现当梦义或作个人预测。"
+        "reason": "已沿用既有 Phase1 模型审核十个具体场景，新增乘龙入水、群鱼游水、屋宅更新、兄弟相打、拾得钱物；C级文化检索 helper 返回独立 matched_interpretations，有限相邻句式可辨单蛇追我后咬我，被追只记输入观察。通用梦象、组合解释、版本独立性和现代心理仍缺，公开 Scenario 与 AI 未开放，不把实体出现当梦义或作个人预测。"
       },
       {
         "topic_id": "dream-psychology",
@@ -4022,7 +4022,7 @@
       "ai_enabled": false
     },
     "blockers": [
-      "已沿用既有 Phase1 模型审核蛇咬人、自在水中、身在火中、人飞上天、人坠井五个具体场景，C级文化检索 helper 可运行；通用梦象、版本独立性和现代心理仍缺，公开 Scenario 与 AI 未开放，不能把实体出现当梦义或作个人预测。",
+      "已沿用既有 Phase1 模型审核十个具体场景，新增乘龙入水、群鱼游水、屋宅更新、兄弟相打、拾得钱物；C级文化检索 helper 返回独立 matched_interpretations，有限相邻句式可辨单蛇追我后咬我，被追只记输入观察。通用梦象、组合解释、版本独立性和现代心理仍缺，公开 Scenario 与 AI 未开放，不把实体出现当梦义或作个人预测。",
       "dream-modern-psychology 已有独立学术来源调查清单，含可核查研究及许可信息；尚未入既有 Source/Review 模型，未形成已审核证据或执行。文化梦书研究不作临床心理证据，不从梦诊断精神疾病、怀孕或预测必然未来。",
       "AI未完成真实质量校准及人工语义复核"
     ],
@@ -5272,8 +5272,8 @@
       },
       {
         "path": "data/canonical/dream/phase1_knowledge.json",
-        "sha256": "ceb502dcceb77ccf7513542f53880c49e4e122fc0bee58fded2b346f24d636c5",
-        "bytes": 32553,
+        "sha256": "48712bf66389887177c32e3d5c6897f3b0ad4f3b7aab816ac77ebe4298f4b9d1",
+        "bytes": 63990,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "dream",
@@ -6174,8 +6174,8 @@
       },
       {
         "path": "data/quarantine/public_domain_snapshots/daizhigev20/zhougong_dream_candidates.json",
-        "sha256": "efe38f271d9a635e309c1b8c2b5923e6c85e763dfb10e5cb4078232738e79d91",
-        "bytes": 16489,
+        "sha256": "ae20ae50dc725c12fccace57d7893d0c488055e6878303cdb642767e846ea724",
+        "bytes": 17469,
         "stage": "quarantine",
         "json_type": "dict",
         "domain": "dream",
@@ -6184,8 +6184,8 @@
       },
       {
         "path": "data/quarantine/public_domain_snapshots/daizhigev20/zhougong_reviewed_excerpts.txt",
-        "sha256": "5867fadd099c6601172539ec9f6abcc054803212b6ac27641a1747ad4b7824b3",
-        "bytes": 336,
+        "sha256": "7ac0992280d996be091572927e06763bcebbeab0bcb2802b01d253472e739821",
+        "bytes": 572,
         "stage": "quarantine"
       },
       {
@@ -6687,7 +6687,7 @@
       },
       {
         "path": "config/knowledge_sources.json",
-        "sha256": "29d813f1835335a282a3ac73175b54c6ce53a8f4639e15c5b24bdae1f0962e7e"
+        "sha256": "3d5ef2495b879eb58294abe3a71bebcc6adddaf218efbc7a226c93594d521740"
       },
       {
         "path": "config/phase2_rule_promotions.json",
@@ -6699,11 +6699,11 @@
       },
       {
         "path": "config/product_requirements.json",
-        "sha256": "bf89b9b6e809a2e3116b80bd0371f1587be43317c5f2729250fea060210e5308"
+        "sha256": "91ca459722f45f27aad42efb3f41fa27bc0ae50a1ec4a02eafae3e6c414195cc"
       },
       {
         "path": "config/public_domain_manifest.json",
-        "sha256": "e452da2658380cc88883ba8d9b42bc845303abbe43739afad2f718c9ff0dcf41"
+        "sha256": "167c55d327361d69a78e6eda9c9a3297a95c1a2302353724e481e0ee2945e72e"
       },
       {
         "path": "config/source_file_manifest.json",
@@ -6855,7 +6855,7 @@
       },
       {
         "path": "src/tianji_kb/operations/dream_knowledge.py",
-        "sha256": "4e93b5fc08ba00bd4bf064fd417aeaa37c11ffd42068350493f6491be3ae5baf"
+        "sha256": "cf332497f7a9f9757ac0588168032c5a29ddf0efacdd3d1e42d3109e80cc5b44"
       },
       {
         "path": "src/tianji_kb/operations/fengshui.py",
@@ -6915,7 +6915,7 @@
       },
       {
         "path": "src/tianji_kb/product_coverage.py",
-        "sha256": "1f48ec45b93fc6cc9aa1b44e3798901c9d0fe468348c74e0d07bae3c59169d17"
+        "sha256": "d6c3ae48f214db012c59999576eae7d5e0b5dfdd41b2c92d4d88613c9342d752"
       },
       {
         "path": "src/tianji_kb/prompts.py",
@@ -6967,7 +6967,7 @@
       },
       {
         "path": "tests/test_phase1_dream.py",
-        "sha256": "228a7b48f34c0ce66580a99b11e31910e5ecc98ca2c4c847edf6c9e7ada0b1ce"
+        "sha256": "3a4f926174fd75b3e9f9edc656930c9c0354b146ec706560e7f3c7663406de2f"
       },
       {
         "path": "tests/test_phase1_fengshui.py",
@@ -8378,7 +8378,7 @@
         "license": "Public-Domain (pre-modern short excerpts only)",
         "public_domain": true,
         "rights_basis": "沿用 PUBLIC_DOMAIN_EXTRACT_ONLY，只审核并保存简短前现代占梦条目及必要原文语境；不复制现代注解或取得电子整理版权，不认定题名作者。",
-        "sha256": "5867fadd099c6601172539ec9f6abcc054803212b6ac27641a1747ad4b7824b3"
+        "sha256": "7ac0992280d996be091572927e06763bcebbeab0bcb2802b01d253472e739821"
       }
     ],
     "source_grades": {
@@ -8444,10 +8444,10 @@
       },
       "dream": {
         "classics": 1,
-        "chapters": 5,
-        "sections": 6,
-        "terms": 5,
-        "rules": 5,
+        "chapters": 9,
+        "sections": 11,
+        "terms": 10,
+        "rules": 10,
         "concepts": 1
       }
     },
@@ -16672,17 +16672,86 @@
                 "role": "classical"
               }
             ]
+          },
+          {
+            "id": "dream.term.dragon",
+            "name": "龙",
+            "source_refs": [
+              {
+                "source_id": "dream.source.zhougong-scenes",
+                "section_id": "dream.section.s007",
+                "original_text": "乘龙入水有贵位",
+                "role": "classical"
+              },
+              {
+                "source_id": "dream.source.zhougong-scenes",
+                "section_id": "dream.section.s001",
+                "original_text": "周公解梦\n　　诗曰:\n　　夜有纷纷梦 神魂预吉凶 庄周虚化蝶 吕望兆飞熊",
+                "role": "classical"
+              }
+            ]
+          },
+          {
+            "id": "dream.term.fish",
+            "name": "鱼",
+            "source_refs": [
+              {
+                "source_id": "dream.source.zhougong-scenes",
+                "section_id": "dream.section.s008",
+                "original_text": "群鱼游水主有财",
+                "role": "classical"
+              },
+              {
+                "source_id": "dream.source.zhougong-scenes",
+                "section_id": "dream.section.s001",
+                "original_text": "周公解梦\n　　诗曰:\n　　夜有纷纷梦 神魂预吉凶 庄周虚化蝶 吕望兆飞熊",
+                "role": "classical"
+              }
+            ]
+          },
+          {
+            "id": "dream.term.house",
+            "name": "房屋",
+            "source_refs": [
+              {
+                "source_id": "dream.source.zhougong-scenes",
+                "section_id": "dream.section.s009",
+                "original_text": "屋宅更新主大吉",
+                "role": "classical"
+              },
+              {
+                "source_id": "dream.source.zhougong-scenes",
+                "section_id": "dream.section.s001",
+                "original_text": "周公解梦\n　　诗曰:\n　　夜有纷纷梦 神魂预吉凶 庄周虚化蝶 吕望兆飞熊",
+                "role": "classical"
+              }
+            ]
+          },
+          {
+            "id": "dream.term.family",
+            "name": "家人",
+            "source_refs": [
+              {
+                "source_id": "dream.source.zhougong-scenes",
+                "section_id": "dream.section.s010",
+                "original_text": "兄弟相打大吉利",
+                "role": "classical"
+              },
+              {
+                "source_id": "dream.source.zhougong-scenes",
+                "section_id": "dream.section.s001",
+                "original_text": "周公解梦\n　　诗曰:\n　　夜有纷纷梦 神魂预吉凶 庄周虚化蝶 吕望兆飞熊",
+                "role": "classical"
+              }
+            ]
           }
         ],
         "terms_not_structured": [
           "人",
-          "家人",
           "陌生人",
           "故人",
           "小孩",
           "老人",
-          "龙",
-          "鱼",
           "虎",
           "马",
           "牛",
@@ -16698,7 +16767,6 @@
           "风",
           "雪",
           "天空",
-          "房屋",
           "学校",
           "公司",
           "医院",
@@ -16732,16 +16800,20 @@
           "dream.rule.water",
           "dream.rule.fire",
           "dream.rule.flying",
-          "dream.rule.falling"
+          "dream.rule.falling",
+          "dream.rule.dragon",
+          "dream.rule.fish",
+          "dream.rule.house",
+          "dream.rule.family"
         ],
         "phase1_execution_status": {
-          "partially_structured": 5
+          "partially_structured": 9
         },
         "phase2_rule_ids": [],
         "legacy_references": [],
         "classical_text_candidates": [],
         "explanation_ready": false,
-        "missing": "已沿用既有 Phase1 模型审核蛇咬人、自在水中、身在火中、人飞上天、人坠井五个具体场景，C级文化检索 helper 可运行；通用梦象、版本独立性和现代心理仍缺，公开 Scenario 与 AI 未开放，不能把实体出现当梦义或作个人预测。"
+        "missing": "已沿用既有 Phase1 模型审核十个具体场景，新增乘龙入水、群鱼游水、屋宅更新、兄弟相打、拾得钱物；C级文化检索 helper 返回独立 matched_interpretations，有限相邻句式可辨单蛇追我后咬我，被追只记输入观察。通用梦象、组合解释、版本独立性和现代心理仍缺，公开 Scenario 与 AI 未开放，不把实体出现当梦义或作个人预测。"
       },
       "dream-psychology": {
         "name": "现代心理梦研究",
@@ -18837,8 +18909,8 @@
       }
     ],
     "retrieval": {
-      "reviewed_entity_chunks": 832,
-      "general_rag_chunks": 2561,
+      "reviewed_entity_chunks": 847,
+      "general_rag_chunks": 2576,
       "general_rag_domains": {
         "almanac": 1,
         "bazi": 511,
@@ -18855,7 +18927,7 @@
         "yinyuan": 1,
         "zeri": 1,
         "ziwei": 118,
-        "dream": 17
+        "dream": 32
       },
       "warning": "通用RAG包括旧Canonical资料；可检索不等于RuleMatch命中或解释授权。生产解释仍用现有CanonicalRetriever及EvidenceResolver。"
     },
@@ -19396,9 +19468,14 @@
         "dream.term.water",
         "dream.term.fire",
         "dream.term.flying",
-        "dream.term.falling"
+        "dream.term.falling",
+        "dream.term.dragon",
+        "dream.term.fish",
+        "dream.term.house",
+        "dream.term.family",
+        "dream.term.money"
       ],
-      "reviewed_scene_count": 5,
+      "reviewed_scene_count": 10,
       "helper_available": true,
       "helper": "tianji_kb.operations.dream_knowledge.retrieve",
       "variant": "traditional_chinese_dream",
@@ -19406,7 +19483,7 @@
       "phase2_chart_engine_registered": false,
       "public_enabled": false,
       "ai_enabled": false,
-      "scope": "五个具体文化场景；实体出现不等于解释命中；完整公开解梦产品仍未建立。"
+      "scope": "10 个具体文化场景；实体出现不等于解释命中；只返回各场景匹配，完整公开解梦产品仍未建立。"
     },
     "strength": {
       "status": "PARTIAL",
