@@ -17,9 +17,9 @@ class DreamKnowledgeTests(unittest.TestCase):
         cls.model = validate_knowledge(ROOT)
         cls.bundle = next(b for b in cls.model['bundles'] if b['domain'] == 'dream')
 
-    def test_five_reviewed_scenes_extend_existing_model_without_a_chart_engine(self):
-        self.assertEqual(len(self.bundle['terms']), 5)
-        self.assertEqual(len(self.bundle['rules']), 5)
+    def test_ten_reviewed_scenes_extend_existing_model_without_a_chart_engine(self):
+        self.assertEqual(len(self.bundle['terms']), 10)
+        self.assertEqual(len(self.bundle['rules']), 10)
         self.assertEqual(self.bundle['classics'][0]['body_stage'], 'quarantine')
         self.assertNotIn('dream', PROVIDERS)
         self.assertTrue(all(r['execution_status'] == 'partially_structured' for r in self.bundle['rules']))
@@ -111,7 +111,7 @@ class DreamKnowledgeTests(unittest.TestCase):
         self.assertEqual(book['promotion'], 'quarantine_only')
         self.assertFalse(book['quality_blockers']['canonical_ready'])
         self.assertFalse((ROOT / book['planned_output']).exists())
-        self.assertEqual(book['quality_blockers']['symbol_coverage']['confirmed_interpretations'], 5)
+        self.assertEqual(book['quality_blockers']['symbol_coverage']['confirmed_interpretations'], 10)
 
     def test_new_domain_cannot_displace_any_existing_core_domain(self):
         from jsonschema import ValidationError

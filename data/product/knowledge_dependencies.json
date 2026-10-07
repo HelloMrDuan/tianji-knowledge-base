@@ -144,7 +144,7 @@
       "name": "传统梦文化",
       "depends_on": [],
       "ready_execution_rule_ids": [],
-      "missing": "已沿用既有 Phase1 模型审核蛇咬人、自在水中、身在火中、人飞上天、人坠井五个具体场景，C级文化检索 helper 可运行；通用梦象、版本独立性和现代心理仍缺，公开 Scenario 与 AI 未开放，不能把实体出现当梦义或作个人预测。"
+      "missing": "已沿用既有 Phase1 模型审核十个具体场景，新增乘龙入水、群鱼游水、屋宅更新、兄弟相打、拾得钱物；C级文化检索 helper 返回独立 matched_interpretations，有限相邻句式可辨单蛇追我后咬我，被追只记输入观察。通用梦象、组合解释、版本独立性和现代心理仍缺，公开 Scenario 与 AI 未开放，不把实体出现当梦义或作个人预测。"
     },
     "dream-psychology": {
       "name": "现代心理梦研究",

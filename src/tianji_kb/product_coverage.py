@@ -285,7 +285,7 @@ def build_product_coverage(root: Path, *, rag_rows=None):
         'variant': 'traditional_chinese_dream', 'mode': 'research',
         'phase2_chart_engine_registered': 'dream' in PROVIDERS,
         'public_enabled': False, 'ai_enabled': False,
-        'scope': '五个具体文化场景；实体出现不等于解释命中；完整公开解梦产品仍未建立。'}
+        'scope': f'{len(dream_terms)} 个具体文化场景；实体出现不等于解释命中；只返回各场景匹配，完整公开解梦产品仍未建立。'}
     if bounded_policy:
         cases = {c['id']:c for c in read_json(root / 'data/canonical/bazi/phase2_golden.json')['cases']}
         rules = {r['id']:r for r in resolver.contracts['bazi']['rules']}

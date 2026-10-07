@@ -9,8 +9,83 @@ from ..resolver import EvidenceResolver, ROOT
 
 VARIANT = 'traditional_chinese_dream'
 _UNRESOLVED_NARRATION = re.compile(
-    r'没有|没|不曾|未曾|并未|不是|差点|险些|好像|似乎|可能|如果|假如|听说|说|电影|小说')
+    r'没有|没|不曾|未曾|并未|不是|未发生|差点|险些|好像|似乎|可能|如果|假如|害怕|担心|会被|听说|讲述|说|电影|小说')
+_REPORTED_CONTEXT = re.compile(r'听说|讲述|说|电影|小说|故事|视频')
+_OTHER_SUBJECT = re.compile(r'别人|他人|有人|人家|他|她|朋友|哥哥|弟弟|姐姐|妹妹|爸爸|妈妈|父亲|母亲')
+_OTHER_ANIMAL = re.compile(r'狗|犬|猫|虎|狼|龙|鱼|鸟|熊|狮|狐狸|兔|马|牛|羊|猪')
+_CHASE = re.compile(r'蛇[^，,。.!！？?；;\n]{0,12}(?:追我|追着我)')
+_LATER_BITE = re.compile(r'(?:后来|然后|接着)(?:它)?咬了我(?:的(?:手|脚))?(?:了)?$')
 
+
+def _narrative_clauses(text):
+    clauses = []
+    reported = False
+    for match in re.finditer(r'[^，,。.!！？?；;\n]+', text):
+        clause = match.group()
+        if _REPORTED_CONTEXT.search(clause):
+            reported = True
+        elif re.search(r'(?:我|自己)(?:又)?梦见', clause):
+            reported = False
+        clauses.append({'text':clause, 'start':match.start(), 'end':match.end(),
+                        'reported_context':reported})
+    return clauses
+
+
+def _affirmed(clauses, index):
+    clause = clauses[index]
+    if clause['reported_context'] or _UNRESOLVED_NARRATION.search(clause['text']):
+        return False
+    if _OTHER_SUBJECT.search(clause['text']):
+        return False
+    if index + 1 < len(clauses) and re.match(
+            r'\s*(?:但|但是|可是|其实|不过)?(?:并)?(?:没发生|没有发生|未发生|只是想象)',
+            clauses[index+1]['text']):
+        return False
+    return True
+
+
+def _span(clause, quote=None):
+    if quote is None:
+        return {key:clause[key] for key in ('start','end','text')}
+    start = clause['start'] + clause['text'].index(quote)
+    return {'start':start, 'end':start+len(quote), 'text':quote}
+
+
+def _scene_matches(term_id, attrs, clauses):
+    matches = []
+    for index, clause in enumerate(clauses):
+        if not _affirmed(clauses, index):
+            continue
+        for alias in attrs['scene_aliases']:
+            if alias in clause['text']:
+                if term_id == 'dream.term.snake' and alias.startswith('被'):
+                    prefix = clause['text'].split(alias,1)[0].strip()
+                    if not re.fullmatch(r'(?:(?:我)?梦见)?(?:我|自己)?',prefix):
+                        continue
+                matches.append({'method':'literal_reviewed_scene_alias', 'alias':alias,
+                                'input_spans':[_span(clause,alias)]})
+        # Only this reviewed snake-bite scene has a bounded two-clause pattern.
+        # It never supplies a separate meaning for water or being chased.
+        if (term_id == 'dream.term.snake' and index > 0
+                and _LATER_BITE.fullmatch(clause['text'].strip())
+                and _affirmed(clauses, index-1)):
+            previous = clauses[index-1]
+            if (previous['text'].count('蛇') == 1 and _CHASE.search(previous['text'])
+                    and not _OTHER_ANIMAL.search(previous['text'])
+                    and not re.search(r'群蛇|几条蛇|多条蛇|两条蛇|还有|另外|和|与',previous['text'])):
+                matches.append({'method':'bounded_adjacent_snake_chase_then_self_bite',
+                                'alias':None, 'input_spans':[_span(previous),_span(clause)]})
+    return matches
+
+
+def _narrative_observations(clauses):
+    observations = []
+    for index, clause in enumerate(clauses):
+        if _affirmed(clauses,index) and _CHASE.search(clause['text']):
+            observations.append({'action':'being_chased', 'subject':'dreamer',
+                'input_spans':[_span(clause)], 'status':'input_observation_only',
+                'reviewed_interpretation_available':False, 'evidence_ids':[]})
+    return observations
 
 def retrieve(dream_text, *, variant=VARIANT, root=ROOT):
     if variant != VARIANT:
@@ -22,7 +97,7 @@ def retrieve(dream_text, *, variant=VARIANT, root=ROOT):
     index = verified_reviewed_index(resolver)
     trusted = {row['id']: row for row in iter_phase1_chunks(resolver.root, resolver.model)
                if row['metadata']['domain'] == 'dream'}
-    clauses = re.split(r'[，,。.!！？?；;\n]', dream_text)
+    clauses = _narrative_clauses(dream_text)
     entities, candidates, evidence, retrieved = [], [], {}, []
     for term_id in policy['reviewed_term_ids']:
         collection, term = resolver.entities[term_id]
@@ -35,10 +110,9 @@ def retrieve(dream_text, *, variant=VARIANT, root=ROOT):
             entities.append({'term_id': term_id, 'symbol': attrs['symbol'],
                              'entity': attrs['entity'], 'mentions': mentions,
                              'status': 'literal_mentions_only'})
-        scene_hits = [alias for alias in attrs['scene_aliases']
-                      if any(alias in clause and not _UNRESOLVED_NARRATION.search(clause)
-                             for clause in clauses)]
-        if not scene_hits:
+        input_matches = _scene_matches(term_id, attrs, clauses)
+        scene_hits = list(dict.fromkeys(hit['alias'] for hit in input_matches if hit['alias']))
+        if not input_matches:
             continue
         rule = resolver.rule(attrs['rule_id'])
         if rule['domain'] != 'dream' or rule['variant'] != variant or term_id not in rule['term_refs']:
@@ -62,7 +136,7 @@ def retrieve(dream_text, *, variant=VARIANT, root=ROOT):
             evidence[eid] = ref
             ids.append(eid)
         candidates.append({'term_id': term_id, 'symbol': attrs['symbol'], 'scene': attrs['scene'],
-                           'scene_alias_hits': scene_hits, 'rule_id': rule['id'],
+                           'scene_alias_hits': scene_hits, 'input_matches': input_matches, 'rule_id': rule['id'],
                            'match_kind': 'reviewed_cultural_scene_retrieval',
                            **{key: attrs[key] for key in ('source', 'locator', 'original_text_short_quote',
                                'interpretation', 'interpretation_type', 'limitations', 'confidence', 'cultural_context')},
@@ -72,10 +146,12 @@ def retrieve(dream_text, *, variant=VARIANT, root=ROOT):
                           'canonical_path': row['metadata']['canonical_path'], 'evidence_ids': ids})
     return {'domain': 'dream', 'variant': variant, 'mode': 'research',
             'status': 'reviewed_interpretation_candidates' if candidates else 'no_reviewed_interpretation',
-            'entities': entities, 'interpretation_candidates': candidates,
+            'entities': entities, 'matched_interpretations': candidates,
+            'interpretation_candidates': candidates, 'narrative_observations': _narrative_observations(clauses),
             'evidence': evidence, 'retrieval': retrieved,
-            'retrieval_method': 'literal_scene_alias_and_reviewed_rag',
+            'retrieval_method': 'bounded_scene_match_and_reviewed_rag',
             'chart_generated': False, 'public_enabled': False, 'ai_enabled': False,
-            'limitations': ['仅审核五个具体传统梦场景；字面识别不是完整自然语言理解。',
+            'limitations': [f"仅审核 {len(policy['reviewed_term_ids'])} 个具体传统梦场景；有限句式识别不是完整自然语言理解。",
                             '否定、假设、间接叙述或语义不清时保守不采纳；同一实体不等于同一梦义。',
-                            '未命中返回 no_reviewed_interpretation，不调用 LLM；文化解释不证明现实预测。']}
+                            '仅支持明确单蛇追我与紧邻后来咬了我的跨句式；不作一般指代推理或组合释义。',
+                            '被追只是输入动作观察，不生成文化解释；未命中不调用 LLM。']}
