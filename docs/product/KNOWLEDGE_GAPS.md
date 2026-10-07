@@ -25,7 +25,7 @@ READY 表示指定结构 claim 的执行契约、证据、Golden 和测试绑定
 
 能力逐项追踪、原典定位与下一批工作见 [KNOWLEDGE_CAPABILITY_MAP.md](KNOWLEDGE_CAPABILITY_MAP.md)。依赖图见 `data/product/knowledge_dependencies.json`。
 
-现有 7 个确定性引擎；59 条 Phase2 Rule；75 个 Golden。
+现有 7 个确定性引擎；62 条 Phase2 Rule；84 个 Golden。
 证据来源等级 {"C": 92, "D": 6}。GitHub 实现参考不能成为古籍证据；通用 RAG 可检索不代表已授权推断。
 
 结构 claim 由实际 RuleMatch facts 绑定，并核对 Variant、当前 Golden 和逐字 Evidence。不得升级为吉凶、适配分、婚期或财富保证。AI 质量尚未批准，结构可用与 AI 放行分别检查。
@@ -51,3 +51,8 @@ Source → RAW → Quarantine → Review → Canonical → Terms/Rules → Evide
 - `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/7/text` 含 若思按：逐段排除未审核现代注释。
 
 知命前段新增描述性规则 `bazi.rule.r012` 只禁止机械套财官食印，没有编造旺衰算法或权重。后续 executable 仍须独立完成证据、反例与测试。
+
+## 有限旺衰研究 Variant
+
+`bazi-strength-adjudication-v1` 仅木月卯纯印比、木月酉无根无扶透辛的充分语境可判 strong / weak；其他 indeterminate。同一 Variant 的强、弱、弃判、冲突固定 Golden 已绑定执行规则。整体仍 PARTIAL，研究入口须显式选择，公共 Scenario 与 AI 不因此开放。
+分日司令体系 BLOCKED；本气关系独立但不单独给强弱。静态报告核对契约及固定预期，实际测试结果须以 CI 为准。

@@ -308,6 +308,8 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None):
         result=response_for(raw)
         if request.explain:
             try:
+                if raw.get('interpretation_contract', {}).get('ai_may_explain') is False:
+                    raise ExplanationFailure('interpretation_not_authorized')
                 selected_provider=app.state.provider if app.state.provider is not None else provider_from_environment()
                 if selected_provider is None:raise ExplanationFailure('provider_not_configured')
                 timeout=explanation_timeout if explanation_timeout is not None else timeout_from_environment()
