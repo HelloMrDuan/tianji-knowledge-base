@@ -5156,8 +5156,8 @@
       },
       {
         "path": "data/canonical/bazi/phase1_knowledge.json",
-        "sha256": "982556c9c48e6ecb20315e3b865cdecb89fa525eb20a2eb9ee8c8d0c02240ae7",
-        "bytes": 289521,
+        "sha256": "1cc0e2c3337b9bf0f21d6f7384889ef77cc53482fe0fe69a0b6792b112d3ea72",
+        "bytes": 289702,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",

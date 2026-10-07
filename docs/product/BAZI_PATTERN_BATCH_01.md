@@ -34,6 +34,8 @@
 
 候选观察包含 `observations`（藏干、十神、是否透出、各透出柱）、`context_positions`（相关官杀/财印位置）、`dated_commander`（状态、实际冲突 ID、trace 引用）与 `unresolved_conditions`。上下文只报事实，不把存在当成作用，也不推官鬼多、财旺或破格。藏干没有变成显干或参与权重计票。
 
+复用的 r015 透藏规则同步明确服务端 `factor_variant` 条件与研究候选入口；仍执行同一逐字位置操作，避免新入口的 trace 与旧文字条件不一致。原有强弱入口保持其范围，公共入口不因此开放候选。
+
 有月藏命中时状态为 `structural_observation_only`；没有命中为 `no_month_candidate`。两种情况的 `determination` 都为 unresolved，`pattern / true_false / success_failure / useful_god` 都为 null。“本范围没候选”不表示原典所有取格分支均不成立。
 
 未解条件显式保留：具体司令、禄刃/杂气例外、官杀去留或财旺破印/别格、一般旺衰及实际作用、原典分支选择。即使组合现有有限强弱研究得 strong，也不替代这些定格条件；依赖之间各自保留自己的授权范围。

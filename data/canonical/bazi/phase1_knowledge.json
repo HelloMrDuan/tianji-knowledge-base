@@ -3186,7 +3186,7 @@
       "name": "藏干与年/月/时显干逐字对照",
       "conditions": [
         "四个合法六十甲子干支，年/月/日/时顺序固定",
-        "显式 strength_variant=ditiansui-root-visibility-v1",
+        "服务端显式 factor_variant=ditiansui-root-visibility-v1；由既有强弱因素入口或显式研究 pattern_variant=bazi-pattern-structure-candidates-v1 触发",
         "只返回结构因素，不执行整体旺衰或喜用判断"
       ],
       "inputs": {
@@ -3214,7 +3214,7 @@
       "execution_status": "executable",
       "school": "子平·任氏因素观察边界",
       "variant": "ziping-structural-v1",
-      "difference": "沿现有八字执行 Variant 显式启用 ditiansui-root-visibility-v1 因素子范围；不宣称完整旺衰分类器已完成。",
+      "difference": "沿现有八字执行 Variant 复用同一 ditiansui-root-visibility-v1 透藏操作；研究候选入口只读取此逐字位置事实，不改变透藏算法，不宣称完整旺衰或格局完成。",
       "source_refs": [
         {
           "source_id": "bazi.source.ditiansui-spouse",
