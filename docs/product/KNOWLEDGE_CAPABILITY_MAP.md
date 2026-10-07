@@ -227,7 +227,7 @@ Scenario：`bazi-profile`；已执行=True；现有结构公开标志=True；AI=
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/6/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-strength`：已有十四条已审执行规则；显式任氏研究 bazi-strength-adjudication-v1 在木月卯纯印比、有根实际生扶或木月酉无根无扶透辛的充分语境可判 strong/weak，其余 indeterminate，四类固定 Golden 同口径覆盖。整体仍 PARTIAL：仅有限研究范围，不是全覆盖分类；分日体系 BLOCKED，其他根型和一般作用未完成，无 balanced、评分或计票，格局/喜用/行运/前台及 AI 仍关闭。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
-- `bazi-pattern`：正文提及不等于结构规则；缺成格/破格/兼格条件、流派限制和 Golden。
+- `bazi-pattern`：BAZI_PATTERN_AUDIT.md 已核既有来源与有限旺衰边界；格局仍 NOT_BUILT，无已审 Term/Rule、执行或 Golden。正官/印綬仅为后续两个结构候选审核范围，尚未实现；月令透藏不等于定格，任氏取格仍依赖未裁定司令。杂气冲法、官杀去留、一般旺衰/作用、禄刃/从化资格与成败喜用须分别补原典、Variant/Conflict 和四类 Golden；AI 与公开格局继续关闭。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/7/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-useful-god`：调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。
   下一批先登记来源及权利，保存 RAW/Quarantine；无审核引文时保持未支持。
@@ -1572,7 +1572,7 @@ Scenario：`career`；已执行=True；现有结构公开标志=False；AI=false
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/6/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-strength`：已有十四条已审执行规则；显式任氏研究 bazi-strength-adjudication-v1 在木月卯纯印比、有根实际生扶或木月酉无根无扶透辛的充分语境可判 strong/weak，其余 indeterminate，四类固定 Golden 同口径覆盖。整体仍 PARTIAL：仅有限研究范围，不是全覆盖分类；分日体系 BLOCKED，其他根型和一般作用未完成，无 balanced、评分或计票，格局/喜用/行运/前台及 AI 仍关闭。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
-- `bazi-pattern`：正文提及不等于结构规则；缺成格/破格/兼格条件、流派限制和 Golden。
+- `bazi-pattern`：BAZI_PATTERN_AUDIT.md 已核既有来源与有限旺衰边界；格局仍 NOT_BUILT，无已审 Term/Rule、执行或 Golden。正官/印綬仅为后续两个结构候选审核范围，尚未实现；月令透藏不等于定格，任氏取格仍依赖未裁定司令。杂气冲法、官杀去留、一般旺衰/作用、禄刃/从化资格与成败喜用须分别补原典、Variant/Conflict 和四类 Golden；AI 与公开格局继续关闭。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/7/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-useful-god`：调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。
   下一批先登记来源及权利，保存 RAW/Quarantine；无审核引文时保持未支持。
@@ -2069,7 +2069,7 @@ Scenario：`life`；已执行=True；现有结构公开标志=False；AI=false�
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/0/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-strength`：已有十四条已审执行规则；显式任氏研究 bazi-strength-adjudication-v1 在木月卯纯印比、有根实际生扶或木月酉无根无扶透辛的充分语境可判 strong/weak，其余 indeterminate，四类固定 Golden 同口径覆盖。整体仍 PARTIAL：仅有限研究范围，不是全覆盖分类；分日体系 BLOCKED，其他根型和一般作用未完成，无 balanced、评分或计票，格局/喜用/行运/前台及 AI 仍关闭。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
-- `bazi-pattern`：正文提及不等于结构规则；缺成格/破格/兼格条件、流派限制和 Golden。
+- `bazi-pattern`：BAZI_PATTERN_AUDIT.md 已核既有来源与有限旺衰边界；格局仍 NOT_BUILT，无已审 Term/Rule、执行或 Golden。正官/印綬仅为后续两个结构候选审核范围，尚未实现；月令透藏不等于定格，任氏取格仍依赖未裁定司令。杂气冲法、官杀去留、一般旺衰/作用、禄刃/从化资格与成败喜用须分别补原典、Variant/Conflict 和四类 Golden；AI 与公开格局继续关闭。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/7/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-useful-god`：调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。
   下一批先登记来源及权利，保存 RAW/Quarantine；无审核引文时保持未支持。
