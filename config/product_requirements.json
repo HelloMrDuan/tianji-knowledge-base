@@ -124,7 +124,7 @@
         "专旺"
       ],
       "legacy_paths": [],
-      "missing": "正文提及不等于结构规则；缺成格/破格/兼格条件、流派限制和 Golden。"
+      "missing": "BAZI_PATTERN_AUDIT.md 已核既有来源与有限旺衰边界；格局仍 NOT_BUILT，无已审 Term/Rule、执行或 Golden。正官/印綬仅为后续两个结构候选审核范围，尚未实现；月令透藏不等于定格，任氏取格仍依赖未裁定司令。杂气冲法、官杀去留、一般旺衰/作用、禄刃/从化资格与成败喜用须分别补原典、Variant/Conflict 和四类 Golden；AI 与公开格局继续关闭。"
     },
     "bazi-useful-god": {
       "priority": "P0",

@@ -1,5 +1,7 @@
 # 八字基础逐项审计
 
+本页保留基础审计当时的范围。后续有限强弱进展见[第九批裁决闭环](BAZI_STRENGTH_BATCH_09.md)，当前格局证据与旺衰边界见[格局审计](BAZI_PATTERN_AUDIT.md)；旧表未完成项不能覆盖后续明确限定的研究能力，也不代表一般格局已完成。
+
 Terms/Rules/Evidence/Variant/Golden 必须一起核查。现有表可作实现输入，不因表存在而宣称对应个人判断完整。以下只反映本批确证的范围，完整强弱、格局、喜用仍未支持。
 
 | 项目 | Terms / Rule | Evidence | Variant / Golden / 测试 | 成熟度与缺口 |
