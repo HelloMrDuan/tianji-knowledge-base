@@ -94,6 +94,8 @@ class ExplanationService:
         self.provider=provider;self.retriever=retriever or CanonicalRetriever();self.timeout=timeout;self.prompt_version=prompt_version
     async def explain(self,raw):
         # Version selection and refusal gates run before retrieval/model invocation.
+        if raw.get('interpretation_contract', {}).get('ai_may_explain') is False:
+            raise ExplanationFailure('interpretation_not_authorized')
         try:get_prompt(self.prompt_version)
         except ValueError as error:raise ExplanationFailure('prompt_configuration_invalid') from error
         if self.prompt_version in POLICY_PROMPTS:

@@ -3,7 +3,7 @@ from ..bazi_core import VARIANT, chart_from_pillars, reviewed_relations, traditi
 from ..resolver import ExecutionTrace
 from ..bazi_commander import COMMAND_VARIANT, PRINCIPAL_VARIANT, month_command, principal_month, month_factor_graph
 from ..bazi_action_conditions import EFFECT_VARIANT, action_conditions, action_effects
-from ..bazi_adjudication import strength_assessment
+from ..bazi_adjudication import ADJUDICATION_VARIANT, strength_assessment
 from ..bazi_root_conditions import STRENGTH_VARIANT, AVAILABILITY_VARIANT, root_conditions, root_availability, conditional_factor_graph
 from ..bazi_strength import FACTOR_VARIANT, factors as _strength_factors
 
@@ -25,16 +25,23 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
         raise ValueError("include_relations must be boolean")
     if traditional_role is not None and traditional_role not in ("male", "female"):
         raise ValueError("traditional_role must be male or female")
-    if strength_variant is not None and strength_variant not in (FACTOR_VARIANT, STRENGTH_VARIANT):
+    conditional_strength = strength_variant in (STRENGTH_VARIANT, ADJUDICATION_VARIANT)
+    if strength_variant is not None and strength_variant not in (FACTOR_VARIANT, STRENGTH_VARIANT, ADJUDICATION_VARIANT):
         raise ValueError("Unsupported strength factor variant")
     if month_command_variant is not None and month_command_variant not in (COMMAND_VARIANT, PRINCIPAL_VARIANT):
         raise ValueError('Unsupported month command variant')
-    if root_availability_variant is not None and (root_availability_variant != AVAILABILITY_VARIANT or strength_variant != STRENGTH_VARIANT):
+    if root_availability_variant is not None and (root_availability_variant != AVAILABILITY_VARIANT or not conditional_strength):
         raise ValueError('Root availability requires its explicit variant and conditional strength factors')
     if action_effect_variant is not None:
-        if action_effect_variant != EFFECT_VARIANT or strength_variant != STRENGTH_VARIANT:
+        if action_effect_variant != EFFECT_VARIANT or not conditional_strength:
             raise ValueError('Action effects require their explicit variant and conditional strength factors')
         root_availability_variant = AVAILABILITY_VARIANT
+    if strength_variant == ADJUDICATION_VARIANT:
+        if month_command_variant not in (None, PRINCIPAL_VARIANT):
+            raise ValueError('Bounded strength requires the explicit principal-qi policy')
+        month_command_variant = PRINCIPAL_VARIANT
+        root_availability_variant = AVAILABILITY_VARIANT
+        action_effect_variant = EFFECT_VARIANT
     raw = chart_from_pillars(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, variant=variant)
     trace = ExecutionTrace("bazi", variant)
 
@@ -79,7 +86,7 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
         )
 
     relation_facts = None
-    if include_relations or strength_variant == STRENGTH_VARIANT:
+    if include_relations or conditional_strength:
         stems = [year_ganzhi[0], month_ganzhi[0], day_ganzhi[0], hour_ganzhi[0]]
         branches = [year_ganzhi[1], month_ganzhi[1], day_ganzhi[1], hour_ganzhi[1]]
         relation_facts = reviewed_relations(stems, branches)
@@ -141,7 +148,7 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
                       'ganzhi': [year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi]}, observed[key])
         result['strength_factors'] = observed
         result['production_scope'] += '；可选月支、通根候选、透藏与生克位置观察（整体旺衰分类未完成）'
-    if month_command_variant is not None or strength_variant == STRENGTH_VARIANT:
+    if month_command_variant is not None or conditional_strength:
         command = month_command(raw['pillars'], raw['day_master']['stem'], command_variant=COMMAND_VARIANT)
         trace.add('bazi.phase2.month_command_variant',
                   {'command_variant': COMMAND_VARIANT, 'month_branch': month_ganzhi[1]}, command)
@@ -152,7 +159,7 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
             principal = principal_month(command, raw['day_master']['stem'])
             trace.add('bazi.phase2.principal_month', {'command_variant': PRINCIPAL_VARIANT}, principal)
             result['principal_month'] = principal
-    if strength_variant == STRENGTH_VARIANT:
+    if conditional_strength:
         roots = root_conditions(raw['pillars'], raw['day_master']['stem'],
                                 relations=relation_facts, month_command=command)
         trace.add('bazi.phase2.root_conditions', {'strength_variant': strength_variant,
@@ -175,8 +182,27 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
             result['action_effects'] = effects
         result['strength_factor_graph'] = conditional_factor_graph(trace)
         assessment = strength_assessment(trace, strength_variant=strength_variant)
-        trace.add('bazi.phase2.strength_adjudication',
+        gate = 'strength_bounded_adjudication' if strength_variant == ADJUDICATION_VARIANT else 'strength_adjudication'
+        trace.add('bazi.phase2.' + gate,
                   {'strength_variant': strength_variant}, assessment)
         result['strength_assessment'] = assessment
-        result['production_scope'] += '；条件化根候选（可用性与实际根力未裁定）'
-    return trace.finish(result)
+        if strength_variant == ADJUDICATION_VARIANT:
+            graph = result['strength_factor_graph']
+            graph['variant'] = strength_variant
+            graph['overall_strength'] = assessment['classification']
+            graph['variant_dependencies'] = assessment['variant_dependencies']
+            graph['adjudication_fact_ref'] = f'#/trace/{len(trace.steps)-1}/output'
+            for i, step in enumerate(trace.steps):
+                if step['rule_id'] in ('bazi.phase2.principal_month','bazi.phase2.root_availability','bazi.phase2.action_effects'):
+                    graph['factors'].append({'id':step['rule_id'].removeprefix('bazi.phase2.'),
+                        'fact_ref':f'#/trace/{i}/output','rule_id':step['rule_id'],
+                        'evidence_ids':step['evidence_ids'],'status':'bounded_conditional',
+                        'variant':step['output'].get('command_variant',step['output'].get('root_variant',step['output'].get('action_variant')))})
+        result['production_scope'] += ('；定性木根可用性与有限实际作用，通用根力仍未裁定'
+            if strength_variant == ADJUDICATION_VARIANT else '；条件化根候选（可用性与实际根力未裁定）')
+    output = trace.finish(result)
+    if strength_variant == ADJUDICATION_VARIANT:
+        output['interpretation_contract']['ai_may_explain'] = False
+        output['research_only'] = True
+        result['production_scope'] += '；显式研究 Variant 增加有限充分条件强弱裁决，不授权公开深度解释'
+    return output

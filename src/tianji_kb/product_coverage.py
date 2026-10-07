@@ -138,6 +138,10 @@ def build_product_coverage(root: Path, *, rag_rows=None):
                           'classical_text_candidates': text_hits,
                           'explanation_ready': False, 'missing': t['missing']}
 
+    bounded_policy = resolver.entities.get('bazi.concept.bounded_strength_adjudication_v1', (None, {}))[1].get('attributes', {})
+    research_rule_ids = set(bounded_policy.get('positive_rule_ids', []))
+    if bounded_policy.get('gate_rule_id'):
+        research_rule_ids.add(bounded_policy['gate_rule_id'])
     output = {}
     for pid, p in spec['products'].items():
         topics = [topic_rows[tid] for tid in p['topics']]
@@ -148,7 +152,7 @@ def build_product_coverage(root: Path, *, rag_rows=None):
         supported = []
         for d in dependencies:
             if engines[d]['registered']:
-                rule_ids = sorted({rid for t in topics for rid in t['phase2_rule_ids'] if rid.startswith(d + '.')})
+                rule_ids = sorted({rid for t in topics for rid in t['phase2_rule_ids'] if rid.startswith(d + '.') and rid not in research_rule_ids})
                 if rule_ids:
                     supported.append({'kind': 'deterministic_structure', 'engine_id': d,
                                       'variant': engines[d]['variant'], 'rule_ids': rule_ids,
@@ -174,6 +178,9 @@ def build_product_coverage(root: Path, *, rag_rows=None):
         output[pid] = {'name': p['name'], 'status': status,
                        'scenario_id': p['scenario_id'], 'required_topics': p['topics'],
                        'supported_capabilities': supported,
+                       'research_capabilities': [{'engine_id':'bazi','strength_variant':'bazi-strength-adjudication-v1',
+                           'rule_ids':sorted(research_rule_ids),'research_only':True,'scenario_public_enabled':False}]
+                           if research_rule_ids and 'bazi-strength' in p['topics'] else [],
                        'existing_knowledge': [{'topic_id': tid, 'legacy_files': len(topic_rows[tid]['legacy_references']),
                                                'text_candidate_files': len(topic_rows[tid]['classical_text_candidates']),
                                                'terms': len(topic_rows[tid]['reviewed_terms']),
@@ -265,7 +272,8 @@ def build_product_coverage(root: Path, *, rag_rows=None):
                                          'bazi.concept.strength_adjudication_v1',
                                          'bazi.concept.principal_month_v1',
                                          'bazi.concept.root_availability_v1',
-                                         'bazi.concept.action_effects_v1') if cid in resolver.entities},
+                                         'bazi.concept.action_effects_v1',
+                                         'bazi.concept.bounded_strength_adjudication_v1') if cid in resolver.entities},
                          'bounded_strength_factors': resolver.entities.get('bazi.concept.strength_factor_variant_v1', (None, {}))[1].get('attributes', {})}
     from .operations.dream_knowledge import retrieve as dream_retrieve
     output['_audit']['reviewed_dream_retrieval'] = {
@@ -278,6 +286,29 @@ def build_product_coverage(root: Path, *, rag_rows=None):
         'phase2_chart_engine_registered': 'dream' in PROVIDERS,
         'public_enabled': False, 'ai_enabled': False,
         'scope': '五个具体文化场景；实体出现不等于解释命中；完整公开解梦产品仍未建立。'}
+    if bounded_policy:
+        cases = {c['id']:c for c in read_json(root / 'data/canonical/bazi/phase2_golden.json')['cases']}
+        rules = {r['id']:r for r in resolver.contracts['bazi']['rules']}
+        groups = bounded_policy['golden_case_groups']
+        definitions_verified = all(ids and all(cid in cases
+            and cases[cid]['input'].get('strength_variant') == 'bazi-strength-adjudication-v1'
+            and cases[cid]['expected']['strength_assessment']['variant'] == 'bazi-strength-adjudication-v1'
+            and cases[cid]['expected']['strength_assessment']['classification'] == (
+                'strong' if group == 'strong-positive' else 'weak' if group == 'weak-positive' else 'indeterminate')
+            for cid in ids) for group,ids in groups.items())
+        definitions_verified = definitions_verified and all(rid in rules
+            and rules[rid]['validation_status'] == 'validated' for rid in research_rule_ids)
+        output['_audit']['strength'] = {'status':'PARTIAL','variants':{
+            'bazi-strength-adjudication-v1':{**bounded_policy,
+                'status':'RESEARCH_VALIDATED' if definitions_verified else 'BLOCKED',
+                'golden_categories':{group:sum(cid in cases for cid in ids) for group,ids in groups.items()},
+                'validation_basis':'reviewed_phase2_contract_and_fixed_golden_definitions; static_report_does_not_run_tests',
+                'publication_authority':False},
+            'bazi-strength-month-command-v1':{'status':'BLOCKED','supported_classifications':[],
+                'blocked_by':['source_conflict','unreviewed_day_boundaries'],
+                'conflict_ids':['bazi.concept.conflict_siling_days']},
+            'month-command-principal-qi-v1':{'status':'BOUNDED_FACTOR_ONLY','dated_commander_required':False,
+                'supported_classifications':[],'unreviewed_branches':['丑','辰','未','戌']}}}
     return output
 
 
@@ -333,6 +364,10 @@ def markdown_report(report):
     for row in a['editorial_review_flags']:
         lines.append(f"- `{row['path']}#{row['pointer']}` 含 {'、'.join(row['markers'])}：逐段排除未审核现代注释。")
     lines += ['', '知命前段新增描述性规则 `bazi.rule.r012` 只禁止机械套财官食印，没有编造旺衰算法或权重。后续 executable 仍须独立完成证据、反例与测试。', '']
+    if 'strength' in a:
+        lines += ['## 有限旺衰研究 Variant', '',
+            '`bazi-strength-adjudication-v1` 仅木月卯纯印比、木月酉无根无扶透辛的充分语境可判 strong / weak；其他 indeterminate。同一 Variant 的强、弱、弃判、冲突固定 Golden 已绑定执行规则。整体仍 PARTIAL，研究入口须显式选择，公共 Scenario 与 AI 不因此开放。',
+            '分日司令体系 BLOCKED；本气关系独立但不单独给强弱。静态报告核对契约及固定预期，实际测试结果须以 CI 为准。', '']
     return '\n'.join(lines)
 
 

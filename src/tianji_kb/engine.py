@@ -3,6 +3,7 @@ import importlib
 from .resolver import EvidenceResolver
 from .calendar import calendar
 from .foundations import CYCLE
+from .bazi_adjudication import ADJUDICATION_VARIANT
 
 PROVIDERS={domain:f'tianji_kb.operations.{domain}_chart.chart' for domain in ('liuyao','qimen','liuren','ziwei','fengshui','yijing','bazi')}
 
@@ -32,6 +33,8 @@ def execute(domain,inputs,variant=None,*,allow_research=False):
     if domain not in PROVIDERS or not isinstance(inputs,dict):
         raise ValueError('Expected a registered Phase 2 domain and JSON object inputs')
     if type(allow_research) is not bool:raise ValueError('allow_research must be boolean')
+    if domain == 'bazi' and inputs.get('strength_variant') == ADJUDICATION_VARIANT and not allow_research:
+        raise ValueError('Bounded strength adjudication requires explicit research mode')
     contract=EvidenceResolver().contracts[domain]
     if contract['provider']!=PROVIDERS[domain]:raise ValueError('Provider differs from reviewed allowlist')
     selected=variant if variant is not None else contract['variant']

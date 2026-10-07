@@ -1976,6 +1976,312 @@
           "isolated_control_scope_met": false
         }
       }
+    },
+    {
+      "id": "bazi.adjudication-strong-wood-sites",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "癸卯",
+        "month_ganzhi": "乙卯",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "乙亥",
+        "strength_variant": "bazi-strength-adjudication-v1"
+      },
+      "expected": {
+        "strength_assessment": {
+          "variant": "bazi-strength-adjudication-v1",
+          "classification": "strong",
+          "supported_classifications": [
+            "strong",
+            "weak",
+            "indeterminate"
+          ],
+          "maturity": "PARTIAL",
+          "source_case_lookup_used": false,
+          "weights_available": false,
+          "research_only": true,
+          "public_enabled": false,
+          "ai_enabled": false,
+          "full_strength_classifier_ready": false
+        },
+        "strength_factor_graph": {
+          "variant": "bazi-strength-adjudication-v1",
+          "overall_strength": "strong",
+          "weights_available": false
+        }
+      }
+    },
+    {
+      "id": "bazi.adjudication-strong-water-sites",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "癸亥",
+        "month_ganzhi": "乙卯",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "乙亥",
+        "strength_variant": "bazi-strength-adjudication-v1"
+      },
+      "expected": {
+        "strength_assessment": {
+          "variant": "bazi-strength-adjudication-v1",
+          "classification": "strong",
+          "supported_classifications": [
+            "strong",
+            "weak",
+            "indeterminate"
+          ],
+          "maturity": "PARTIAL",
+          "source_case_lookup_used": false,
+          "weights_available": false,
+          "research_only": true,
+          "public_enabled": false,
+          "ai_enabled": false,
+          "full_strength_classifier_ready": false
+        },
+        "strength_factor_graph": {
+          "variant": "bazi-strength-adjudication-v1",
+          "overall_strength": "strong",
+          "weights_available": false
+        }
+      }
+    },
+    {
+      "id": "bazi.adjudication-weak-yang",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "戊午",
+        "month_ganzhi": "辛酉",
+        "day_ganzhi": "甲午",
+        "hour_ganzhi": "庚午",
+        "strength_variant": "bazi-strength-adjudication-v1"
+      },
+      "expected": {
+        "strength_assessment": {
+          "variant": "bazi-strength-adjudication-v1",
+          "classification": "weak",
+          "supported_classifications": [
+            "strong",
+            "weak",
+            "indeterminate"
+          ],
+          "maturity": "PARTIAL",
+          "source_case_lookup_used": false,
+          "weights_available": false,
+          "research_only": true,
+          "public_enabled": false,
+          "ai_enabled": false,
+          "full_strength_classifier_ready": false
+        },
+        "strength_factor_graph": {
+          "variant": "bazi-strength-adjudication-v1",
+          "overall_strength": "weak",
+          "weights_available": false
+        }
+      }
+    },
+    {
+      "id": "bazi.adjudication-weak-yin",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "戊午",
+        "month_ganzhi": "辛酉",
+        "day_ganzhi": "乙酉",
+        "hour_ganzhi": "辛巳",
+        "strength_variant": "bazi-strength-adjudication-v1"
+      },
+      "expected": {
+        "strength_assessment": {
+          "variant": "bazi-strength-adjudication-v1",
+          "classification": "weak",
+          "supported_classifications": [
+            "strong",
+            "weak",
+            "indeterminate"
+          ],
+          "maturity": "PARTIAL",
+          "source_case_lookup_used": false,
+          "weights_available": false,
+          "research_only": true,
+          "public_enabled": false,
+          "ai_enabled": false,
+          "full_strength_classifier_ready": false
+        },
+        "strength_factor_graph": {
+          "variant": "bazi-strength-adjudication-v1",
+          "overall_strength": "weak",
+          "weights_available": false
+        }
+      }
+    },
+    {
+      "id": "bazi.adjudication-abstain-unrooted-resource",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "戊午",
+        "month_ganzhi": "辛酉",
+        "day_ganzhi": "甲午",
+        "hour_ganzhi": "癸酉",
+        "strength_variant": "bazi-strength-adjudication-v1"
+      },
+      "expected": {
+        "strength_assessment": {
+          "variant": "bazi-strength-adjudication-v1",
+          "classification": "indeterminate",
+          "supported_classifications": [
+            "strong",
+            "weak",
+            "indeterminate"
+          ],
+          "maturity": "PARTIAL",
+          "source_case_lookup_used": false,
+          "weights_available": false,
+          "research_only": true,
+          "public_enabled": false,
+          "ai_enabled": false,
+          "full_strength_classifier_ready": false
+        },
+        "strength_factor_graph": {
+          "variant": "bazi-strength-adjudication-v1",
+          "overall_strength": "indeterminate",
+          "weights_available": false
+        }
+      }
+    },
+    {
+      "id": "bazi.adjudication-abstain-nonwood",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "丙午",
+        "month_ganzhi": "甲午",
+        "day_ganzhi": "丙午",
+        "hour_ganzhi": "甲午",
+        "strength_variant": "bazi-strength-adjudication-v1"
+      },
+      "expected": {
+        "strength_assessment": {
+          "variant": "bazi-strength-adjudication-v1",
+          "classification": "indeterminate",
+          "supported_classifications": [
+            "strong",
+            "weak",
+            "indeterminate"
+          ],
+          "maturity": "PARTIAL",
+          "source_case_lookup_used": false,
+          "weights_available": false,
+          "research_only": true,
+          "public_enabled": false,
+          "ai_enabled": false,
+          "full_strength_classifier_ready": false
+        },
+        "strength_factor_graph": {
+          "variant": "bazi-strength-adjudication-v1",
+          "overall_strength": "indeterminate",
+          "weights_available": false
+        }
+      }
+    },
+    {
+      "id": "bazi.adjudication-abstain-five-combination",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "癸卯",
+        "month_ganzhi": "乙卯",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "己巳",
+        "strength_variant": "bazi-strength-adjudication-v1"
+      },
+      "expected": {
+        "strength_assessment": {
+          "variant": "bazi-strength-adjudication-v1",
+          "classification": "indeterminate",
+          "supported_classifications": [
+            "strong",
+            "weak",
+            "indeterminate"
+          ],
+          "maturity": "PARTIAL",
+          "source_case_lookup_used": false,
+          "weights_available": false,
+          "research_only": true,
+          "public_enabled": false,
+          "ai_enabled": false,
+          "full_strength_classifier_ready": false
+        },
+        "strength_factor_graph": {
+          "variant": "bazi-strength-adjudication-v1",
+          "overall_strength": "indeterminate",
+          "weights_available": false
+        }
+      }
+    },
+    {
+      "id": "bazi.adjudication-conflict-root-reading",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲子",
+        "month_ganzhi": "丙寅",
+        "day_ganzhi": "甲辰",
+        "hour_ganzhi": "戊辰",
+        "strength_variant": "bazi-strength-adjudication-v1"
+      },
+      "expected": {
+        "strength_assessment": {
+          "variant": "bazi-strength-adjudication-v1",
+          "classification": "indeterminate",
+          "supported_classifications": [
+            "strong",
+            "weak",
+            "indeterminate"
+          ],
+          "maturity": "PARTIAL",
+          "source_case_lookup_used": false,
+          "weights_available": false,
+          "research_only": true,
+          "public_enabled": false,
+          "ai_enabled": false,
+          "full_strength_classifier_ready": false
+        },
+        "strength_factor_graph": {
+          "variant": "bazi-strength-adjudication-v1",
+          "overall_strength": "indeterminate",
+          "weights_available": false
+        }
+      }
+    },
+    {
+      "id": "bazi.adjudication-conflict-mao-residual",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "癸卯",
+        "month_ganzhi": "乙卯",
+        "day_ganzhi": "甲辰",
+        "hour_ganzhi": "乙亥",
+        "strength_variant": "bazi-strength-adjudication-v1"
+      },
+      "expected": {
+        "strength_assessment": {
+          "variant": "bazi-strength-adjudication-v1",
+          "classification": "indeterminate",
+          "supported_classifications": [
+            "strong",
+            "weak",
+            "indeterminate"
+          ],
+          "maturity": "PARTIAL",
+          "source_case_lookup_used": false,
+          "weights_available": false,
+          "research_only": true,
+          "public_enabled": false,
+          "ai_enabled": false,
+          "full_strength_classifier_ready": false
+        },
+        "strength_factor_graph": {
+          "variant": "bazi-strength-adjudication-v1",
+          "overall_strength": "indeterminate",
+          "weights_available": false
+        }
+      }
     }
   ]
 }
