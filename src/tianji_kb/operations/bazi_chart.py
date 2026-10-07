@@ -6,6 +6,7 @@ from ..bazi_action_conditions import EFFECT_VARIANT, action_conditions, action_e
 from ..bazi_adjudication import ADJUDICATION_VARIANT, strength_assessment
 from ..bazi_root_conditions import STRENGTH_VARIANT, AVAILABILITY_VARIANT, root_conditions, root_availability, conditional_factor_graph
 from ..bazi_strength import FACTOR_VARIANT, factors as _strength_factors
+from ..bazi_pattern import PATTERN_VARIANT, candidates as pattern_candidates
 
 
 def strength_factors(pillars, day_master, *, factor_variant=FACTOR_VARIANT, output_key=None):
@@ -16,7 +17,7 @@ def strength_factors(pillars, day_master, *, factor_variant=FACTOR_VARIANT, outp
         raise ValueError('Unsupported factor output')
     return observed[output_key]
 
-def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=False, include_relations=False, traditional_role=None, strength_variant=None, month_command_variant=None, root_availability_variant=None, action_effect_variant=None, variant=VARIANT):
+def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=False, include_relations=False, traditional_role=None, strength_variant=None, month_command_variant=None, root_availability_variant=None, action_effect_variant=None, variant=VARIANT, *, pattern_variant=None):
     if variant != VARIANT:
         raise ValueError("Unsupported Bazi variant")
     if type(include_xianchi) is not bool:
@@ -25,6 +26,9 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
         raise ValueError("include_relations must be boolean")
     if traditional_role is not None and traditional_role not in ("male", "female"):
         raise ValueError("traditional_role must be male or female")
+    if pattern_variant is not None:
+        if pattern_variant != PATTERN_VARIANT:
+            raise ValueError('Unsupported pattern candidate variant')
     conditional_strength = strength_variant in (STRENGTH_VARIANT, ADJUDICATION_VARIANT)
     if strength_variant is not None and strength_variant not in (FACTOR_VARIANT, STRENGTH_VARIANT, ADJUDICATION_VARIANT):
         raise ValueError("Unsupported strength factor variant")
@@ -42,6 +46,8 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
         month_command_variant = PRINCIPAL_VARIANT
         root_availability_variant = AVAILABILITY_VARIANT
         action_effect_variant = EFFECT_VARIANT
+    if pattern_variant is not None and month_command_variant is None:
+        month_command_variant = COMMAND_VARIANT
     raw = chart_from_pillars(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, variant=variant)
     trace = ExecutionTrace("bazi", variant)
 
@@ -138,16 +144,19 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
     if spouse_star_lens is not None:
         result["traditional_spouse_star_lens"] = spouse_star_lens
         result["production_scope"] += "；可选传统配偶星候选位置（用户显式选择口径，仅定位星位，不作婚恋解释）"
-    if strength_variant is not None:
+    if strength_variant is not None or pattern_variant is not None:
         observed = strength_factors(raw['pillars'], raw['day_master']['stem'], factor_variant=FACTOR_VARIANT)
         for rule, key in (('month_command_factors', 'month_command'),
                           ('root_candidates', 'root_candidates'),
                           ('hidden_to_visible', 'hidden_to_visible'),
                           ('support_relations', 'support_relations')):
+            if strength_variant is None and rule != 'hidden_to_visible':
+                continue
             trace.add('bazi.phase2.' + rule, {'factor_variant': FACTOR_VARIANT,
                       'ganzhi': [year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi]}, observed[key])
-        result['strength_factors'] = observed
-        result['production_scope'] += '；可选月支、通根候选、透藏与生克位置观察（整体旺衰分类未完成）'
+        if strength_variant is not None:
+            result['strength_factors'] = observed
+            result['production_scope'] += '；可选月支、通根候选、透藏与生克位置观察（整体旺衰分类未完成）'
     if month_command_variant is not None or conditional_strength:
         command = month_command(raw['pillars'], raw['day_master']['stem'], command_variant=COMMAND_VARIANT)
         trace.add('bazi.phase2.month_command_variant',
@@ -200,9 +209,18 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
                         'variant':step['output'].get('command_variant',step['output'].get('root_variant',step['output'].get('action_variant')))})
         result['production_scope'] += ('；定性木根可用性与有限实际作用，通用根力仍未裁定'
             if strength_variant == ADJUDICATION_VARIANT else '；条件化根候选（可用性与实际根力未裁定）')
+    if pattern_variant is not None:
+        result['pattern_candidates'] = {}
+        for family in ('official', 'resource'):
+            observation = pattern_candidates(trace, family=family, pattern_variant=pattern_variant)
+            trace.add('bazi.phase2.' + family + '_pattern_candidates',
+                      {'pattern_variant': pattern_variant, 'family': family}, observation)
+            result['pattern_candidates'][family] = observation
+        result['production_scope'] += '；研究用正官/印绶月藏透干候选位置，不定格或判断成败喜用'
     output = trace.finish(result)
-    if strength_variant == ADJUDICATION_VARIANT:
+    if strength_variant == ADJUDICATION_VARIANT or pattern_variant is not None:
         output['interpretation_contract']['ai_may_explain'] = False
         output['research_only'] = True
+    if strength_variant == ADJUDICATION_VARIANT:
         result['production_scope'] += '；显式研究 Variant 增加有限充分条件强弱裁决，不授权公开深度解释'
     return output

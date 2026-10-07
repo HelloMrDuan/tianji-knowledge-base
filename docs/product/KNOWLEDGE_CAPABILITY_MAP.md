@@ -11,7 +11,7 @@ Scenario：`bazi-profile`；已执行=True；现有结构公开标志=True；AI=
 - 八字基础与十神映射：Terms `bazi.term.day_master`, `bazi.term.ten_gods`, `bazi.term.hidden_stems`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.heavenly_stems`, `bazi.term.stem_polarity`, `bazi.term.five_elements`, `bazi.term.generation_control`；Phase1 Rule `bazi.rule.r001`, `bazi.rule.r002`, `bazi.rule.r003`, `bazi.rule.r011`, `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r016`, `bazi.rule.r017`, `bazi.rule.r018`。
 - 十神结构与条件解释：Terms `bazi.term.ten_gods`, `bazi.term.hidden_to_visible`；Phase1 Rule `bazi.rule.r002`, `bazi.rule.r003`, `bazi.rule.r011`, `bazi.rule.r012`, `bazi.rule.r015`。
 - 旺衰及流派边界：Terms `bazi.term.strength_review_boundary`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.month_commander`, `bazi.term.root_conditions`, `bazi.term.action_conditions`, `bazi.term.strength_adjudication`, `bazi.term.principal_month_v1`, `bazi.term.root_availability_v1`, `bazi.term.action_effects_v1`, `bazi.term.bounded_strength_adjudication_v1`；Phase1 Rule `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r017`, `bazi.rule.r018`, `bazi.rule.r019`, `bazi.rule.r020`, `bazi.rule.r021`, `bazi.rule.r022`, `bazi.rule.r023`, `bazi.rule.r024`, `bazi.rule.r025`, `bazi.rule.r026`。
-- 格局：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
+- 格局：Terms `bazi.term.official_pattern_candidates`, `bazi.term.resource_pattern_candidates`；Phase1 Rule `bazi.rule.r027`, `bazi.rule.r028`。
 - 喜用神分体系治理：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
 - 大运：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
 - 流年与岁运作用：Terms `bazi.term.branch_triple_harmonies`；Phase1 Rule `bazi.rule.r010`。
@@ -227,7 +227,7 @@ Scenario：`bazi-profile`；已执行=True；现有结构公开标志=True；AI=
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/6/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-strength`：已有十四条已审执行规则；显式任氏研究 bazi-strength-adjudication-v1 在木月卯纯印比、有根实际生扶或木月酉无根无扶透辛的充分语境可判 strong/weak，其余 indeterminate，四类固定 Golden 同口径覆盖。整体仍 PARTIAL：仅有限研究范围，不是全覆盖分类；分日体系 BLOCKED，其他根型和一般作用未完成，无 balanced、评分或计票，格局/喜用/行运/前台及 AI 仍关闭。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
-- `bazi-pattern`：BAZI_PATTERN_AUDIT.md 已核既有来源与有限旺衰边界；格局仍 NOT_BUILT，无已审 Term/Rule、执行或 Golden。正官/印綬仅为后续两个结构候选审核范围，尚未实现；月令透藏不等于定格，任氏取格仍依赖未裁定司令。杂气冲法、官杀去留、一般旺衰/作用、禄刃/从化资格与成败喜用须分别补原典、Variant/Conflict 和四类 Golden；AI 与公开格局继续关闭。
+- `bazi-pattern`：已有正官/印绶月藏透干位置的显式研究候选，两条执行规则、四类固定 Golden；完整格局仍 NOT_BUILT。候选观察不定格，任氏真假仍依赖未解司令；禄刃杂气、官杀去留、财旺破印、一般旺衰/作用及成败喜用待原典/Variant/Conflict 审核。无评分、吉凶或喜用，公共 Scenario、产品 claim 与 AI 不开放。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/7/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-useful-god`：调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。
   下一批先登记来源及权利，保存 RAW/Quarantine；无审核引文时保持未支持。
@@ -1366,7 +1366,7 @@ Scenario：`career`；已执行=True；现有结构公开标志=False；AI=false
 - 八字基础与十神映射：Terms `bazi.term.day_master`, `bazi.term.ten_gods`, `bazi.term.hidden_stems`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.heavenly_stems`, `bazi.term.stem_polarity`, `bazi.term.five_elements`, `bazi.term.generation_control`；Phase1 Rule `bazi.rule.r001`, `bazi.rule.r002`, `bazi.rule.r003`, `bazi.rule.r011`, `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r016`, `bazi.rule.r017`, `bazi.rule.r018`。
 - 十神结构与条件解释：Terms `bazi.term.ten_gods`, `bazi.term.hidden_to_visible`；Phase1 Rule `bazi.rule.r002`, `bazi.rule.r003`, `bazi.rule.r011`, `bazi.rule.r012`, `bazi.rule.r015`。
 - 旺衰及流派边界：Terms `bazi.term.strength_review_boundary`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.month_commander`, `bazi.term.root_conditions`, `bazi.term.action_conditions`, `bazi.term.strength_adjudication`, `bazi.term.principal_month_v1`, `bazi.term.root_availability_v1`, `bazi.term.action_effects_v1`, `bazi.term.bounded_strength_adjudication_v1`；Phase1 Rule `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r017`, `bazi.rule.r018`, `bazi.rule.r019`, `bazi.rule.r020`, `bazi.rule.r021`, `bazi.rule.r022`, `bazi.rule.r023`, `bazi.rule.r024`, `bazi.rule.r025`, `bazi.rule.r026`。
-- 格局：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
+- 格局：Terms `bazi.term.official_pattern_candidates`, `bazi.term.resource_pattern_candidates`；Phase1 Rule `bazi.rule.r027`, `bazi.rule.r028`。
 - 喜用神分体系治理：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
 - 大运：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
 - 流年与岁运作用：Terms `bazi.term.branch_triple_harmonies`；Phase1 Rule `bazi.rule.r010`。
@@ -1572,7 +1572,7 @@ Scenario：`career`；已执行=True；现有结构公开标志=False；AI=false
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/6/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-strength`：已有十四条已审执行规则；显式任氏研究 bazi-strength-adjudication-v1 在木月卯纯印比、有根实际生扶或木月酉无根无扶透辛的充分语境可判 strong/weak，其余 indeterminate，四类固定 Golden 同口径覆盖。整体仍 PARTIAL：仅有限研究范围，不是全覆盖分类；分日体系 BLOCKED，其他根型和一般作用未完成，无 balanced、评分或计票，格局/喜用/行运/前台及 AI 仍关闭。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
-- `bazi-pattern`：BAZI_PATTERN_AUDIT.md 已核既有来源与有限旺衰边界；格局仍 NOT_BUILT，无已审 Term/Rule、执行或 Golden。正官/印綬仅为后续两个结构候选审核范围，尚未实现；月令透藏不等于定格，任氏取格仍依赖未裁定司令。杂气冲法、官杀去留、一般旺衰/作用、禄刃/从化资格与成败喜用须分别补原典、Variant/Conflict 和四类 Golden；AI 与公开格局继续关闭。
+- `bazi-pattern`：已有正官/印绶月藏透干位置的显式研究候选，两条执行规则、四类固定 Golden；完整格局仍 NOT_BUILT。候选观察不定格，任氏真假仍依赖未解司令；禄刃杂气、官杀去留、财旺破印、一般旺衰/作用及成败喜用待原典/Variant/Conflict 审核。无评分、吉凶或喜用，公共 Scenario、产品 claim 与 AI 不开放。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/7/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-useful-god`：调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。
   下一批先登记来源及权利，保存 RAW/Quarantine；无审核引文时保持未支持。
@@ -1837,7 +1837,7 @@ Scenario：`life`；已执行=True；现有结构公开标志=False；AI=false�
 
 - 八字基础与十神映射：Terms `bazi.term.day_master`, `bazi.term.ten_gods`, `bazi.term.hidden_stems`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.heavenly_stems`, `bazi.term.stem_polarity`, `bazi.term.five_elements`, `bazi.term.generation_control`；Phase1 Rule `bazi.rule.r001`, `bazi.rule.r002`, `bazi.rule.r003`, `bazi.rule.r011`, `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r016`, `bazi.rule.r017`, `bazi.rule.r018`。
 - 旺衰及流派边界：Terms `bazi.term.strength_review_boundary`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.month_commander`, `bazi.term.root_conditions`, `bazi.term.action_conditions`, `bazi.term.strength_adjudication`, `bazi.term.principal_month_v1`, `bazi.term.root_availability_v1`, `bazi.term.action_effects_v1`, `bazi.term.bounded_strength_adjudication_v1`；Phase1 Rule `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r017`, `bazi.rule.r018`, `bazi.rule.r019`, `bazi.rule.r020`, `bazi.rule.r021`, `bazi.rule.r022`, `bazi.rule.r023`, `bazi.rule.r024`, `bazi.rule.r025`, `bazi.rule.r026`。
-- 格局：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
+- 格局：Terms `bazi.term.official_pattern_candidates`, `bazi.term.resource_pattern_candidates`；Phase1 Rule `bazi.rule.r027`, `bazi.rule.r028`。
 - 喜用神分体系治理：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
 - 大运：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
 - 流年与岁运作用：Terms `bazi.term.branch_triple_harmonies`；Phase1 Rule `bazi.rule.r010`。
@@ -2069,7 +2069,7 @@ Scenario：`life`；已执行=True；现有结构公开标志=False；AI=false�
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/0/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-strength`：已有十四条已审执行规则；显式任氏研究 bazi-strength-adjudication-v1 在木月卯纯印比、有根实际生扶或木月酉无根无扶透辛的充分语境可判 strong/weak，其余 indeterminate，四类固定 Golden 同口径覆盖。整体仍 PARTIAL：仅有限研究范围，不是全覆盖分类；分日体系 BLOCKED，其他根型和一般作用未完成，无 balanced、评分或计票，格局/喜用/行运/前台及 AI 仍关闭。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
-- `bazi-pattern`：BAZI_PATTERN_AUDIT.md 已核既有来源与有限旺衰边界；格局仍 NOT_BUILT，无已审 Term/Rule、执行或 Golden。正官/印綬仅为后续两个结构候选审核范围，尚未实现；月令透藏不等于定格，任氏取格仍依赖未裁定司令。杂气冲法、官杀去留、一般旺衰/作用、禄刃/从化资格与成败喜用须分别补原典、Variant/Conflict 和四类 Golden；AI 与公开格局继续关闭。
+- `bazi-pattern`：已有正官/印绶月藏透干位置的显式研究候选，两条执行规则、四类固定 Golden；完整格局仍 NOT_BUILT。候选观察不定格，任氏真假仍依赖未解司令；禄刃杂气、官杀去留、财旺破印、一般旺衰/作用及成败喜用待原典/Variant/Conflict 审核。无评分、吉凶或喜用，公共 Scenario、产品 claim 与 AI 不开放。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/7/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-useful-god`：调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。
   下一批先登记来源及权利，保存 RAW/Quarantine；无审核引文时保持未支持。

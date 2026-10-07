@@ -142,6 +142,10 @@ def build_product_coverage(root: Path, *, rag_rows=None):
     research_rule_ids = set(bounded_policy.get('positive_rule_ids', []))
     if bounded_policy.get('gate_rule_id'):
         research_rule_ids.add(bounded_policy['gate_rule_id'])
+    strength_research_rule_ids = set(research_rule_ids)
+    pattern_policy = resolver.entities.get('bazi.concept.pattern_candidates_v1', (None, {}))[1].get('attributes', {})
+    pattern_rule_ids = set(pattern_policy.get('execution_rule_ids', []))
+    research_rule_ids.update(pattern_rule_ids)
     output = {}
     for pid, p in spec['products'].items():
         topics = [topic_rows[tid] for tid in p['topics']]
@@ -178,9 +182,12 @@ def build_product_coverage(root: Path, *, rag_rows=None):
         output[pid] = {'name': p['name'], 'status': status,
                        'scenario_id': p['scenario_id'], 'required_topics': p['topics'],
                        'supported_capabilities': supported,
-                       'research_capabilities': [{'engine_id':'bazi','strength_variant':'bazi-strength-adjudication-v1',
-                           'rule_ids':sorted(research_rule_ids),'research_only':True,'scenario_public_enabled':False}]
-                           if research_rule_ids and 'bazi-strength' in p['topics'] else [],
+                       'research_capabilities': ([{'engine_id':'bazi','strength_variant':'bazi-strength-adjudication-v1',
+                           'rule_ids':sorted(strength_research_rule_ids),'research_only':True,'scenario_public_enabled':False}]
+                           if strength_research_rule_ids and 'bazi-strength' in p['topics'] else []) + (
+                           [{'engine_id':'bazi','pattern_variant':pattern_policy['variant'],
+                             'rule_ids':sorted(pattern_rule_ids),'research_only':True,'scenario_public_enabled':False}]
+                           if pattern_rule_ids and 'bazi-pattern' in p['topics'] else []),
                        'existing_knowledge': [{'topic_id': tid, 'legacy_files': len(topic_rows[tid]['legacy_references']),
                                                'text_candidate_files': len(topic_rows[tid]['classical_text_candidates']),
                                                'terms': len(topic_rows[tid]['reviewed_terms']),
@@ -297,7 +304,7 @@ def build_product_coverage(root: Path, *, rag_rows=None):
                 'strong' if group == 'strong-positive' else 'weak' if group == 'weak-positive' else 'indeterminate')
             for cid in ids) for group,ids in groups.items())
         definitions_verified = definitions_verified and all(rid in rules
-            and rules[rid]['validation_status'] == 'validated' for rid in research_rule_ids)
+            and rules[rid]['validation_status'] == 'validated' for rid in strength_research_rule_ids)
         output['_audit']['strength'] = {'status':'PARTIAL','variants':{
             'bazi-strength-adjudication-v1':{**bounded_policy,
                 'status':'RESEARCH_VALIDATED' if definitions_verified else 'BLOCKED',
@@ -309,6 +316,22 @@ def build_product_coverage(root: Path, *, rag_rows=None):
                 'conflict_ids':['bazi.concept.conflict_siling_days']},
             'month-command-principal-qi-v1':{'status':'BOUNDED_FACTOR_ONLY','dated_commander_required':False,
                 'supported_classifications':[],'unreviewed_branches':['丑','辰','未','戌']}}}
+    if pattern_policy:
+        cases = {c['id']:c for c in read_json(root / 'data/canonical/bazi/phase2_golden.json')['cases']}
+        rules = {r['id']:r for r in resolver.contracts['bazi']['rules']}
+        groups = pattern_policy['golden_case_groups']
+        definitions_verified = set(groups) == {'positive','negative','abstention','conflict'} and all(
+            ids and all(cid in cases and cases[cid]['input'].get('pattern_variant') == pattern_policy['variant']
+                and all(cases[cid]['expected']['pattern_candidates'][family]['determination']['status'] == 'unresolved'
+                        for family in ('official','resource')) for cid in ids) for ids in groups.values())
+        definitions_verified = definitions_verified and all(rid in rules and rules[rid]['validation_status'] == 'validated'
+            and {cid for ids in groups.values() for cid in ids} <= set(rules[rid]['golden_case_ids']) for rid in pattern_rule_ids)
+        output['_audit']['pattern'] = {'status':'NOT_BUILT','scope':'完整定格仍未实现；以下仅结构候选研究',
+            'variants':{pattern_policy['variant']:{**pattern_policy,
+                'status':'RESEARCH_VALIDATED' if definitions_verified else 'BLOCKED',
+                'golden_categories':{group:len(ids) for group,ids in groups.items()},
+                'validation_basis':'reviewed_contract_and_fixed_golden_definitions; static_report_does_not_run_tests',
+                'publication_authority':False}}}
     return output
 
 
@@ -368,6 +391,10 @@ def markdown_report(report):
         lines += ['## 有限旺衰研究 Variant', '',
             '`bazi-strength-adjudication-v1` 仅木月卯纯印比、木月酉无根无扶透辛的充分语境可判 strong / weak；其他 indeterminate。同一 Variant 的强、弱、弃判、冲突固定 Golden 已绑定执行规则。整体仍 PARTIAL，研究入口须显式选择，公共 Scenario 与 AI 不因此开放。',
             '分日司令体系 BLOCKED；本气关系独立但不单独给强弱。静态报告核对契约及固定预期，实际测试结果须以 CI 为准。', '']
+    if 'pattern' in a:
+        lines += ['## 格局结构候选研究 Variant', '',
+            '`bazi-pattern-structure-candidates-v1` 只观察正官/印绶月藏、正偏与逐字透干位置；已有四类固定 Golden 定义。完整格局仍 NOT_BUILT，司令、禄刃杂气、官杀去留与破印作用未裁定，真假成败喜用始终 unresolved。',
+            '必须显式研究模式；公共 Scenario、产品 claim 与 AI 不开放。原典新短引沿既有 Phase1 模型，不把现代结构过滤当古籍完整算法。', '']
     return '\n'.join(lines)
 
 

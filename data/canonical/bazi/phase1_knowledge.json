@@ -151,6 +151,27 @@
       "name": "任氏从象与条件作用充分语境",
       "classic_id": "bazi.classic.ditiansui",
       "locator": "从象；众寡"
+    },
+    {
+      "id": "bazi.chapter.pattern_bage",
+      "domain": "bazi",
+      "name": "八格·原注与任氏取格边界",
+      "classic_id": "bazi.classic.ditiansui",
+      "locator": "十二、八格（仅固定短引；原注/任氏分别标明）"
+    },
+    {
+      "id": "bazi.chapter.pattern_official",
+      "domain": "bazi",
+      "name": "正官论·结构与限制",
+      "classic_id": "bazi.classic.yuanhai",
+      "locator": "正 官 论（章名编辑去空格；不沿用旧整书分段）"
+    },
+    {
+      "id": "bazi.chapter.pattern_resource",
+      "domain": "bazi",
+      "name": "论印綬·结构与限制",
+      "classic_id": "bazi.classic.yuanhai",
+      "locator": "论 印 綬》（正文标题缺开括号，编辑划定章边界；不沿用旧误分段）"
     }
   ],
   "sections": [
@@ -932,6 +953,111 @@
         "status": "approved",
         "method": "逐字核对已有全文审核中的唯一短引，RAW 不改。",
         "scope": "只绑定甲乙春木同季旺气的原典语境；单项不足边界同时见 s028，不能把季令替换具体日司令或单独判强。"
+      }
+    },
+    {
+      "id": "bazi.section.s053",
+      "domain": "bazi",
+      "name": "月支之神透干与散乱显干限制",
+      "classic_id": "bazi.classic.ditiansui",
+      "chapter_id": "bazi.chapter.pattern_bage",
+      "source_id": "bazi.source.ditiansui-spouse",
+      "text": "格之真者,月支之神,透于天干也。以散乱之天干,而寻其得所附于提纲,非格也。",
+      "locator": "固定快照 Unicode char [31580,31617)；line 1384；pattern_bage",
+      "review": {
+        "status": "approved",
+        "method": "2026-10-07 逐字核对固定 Quarantine 快照唯一短引与章内前后文，保留原字形；原文件不改。",
+        "scope": "仅批准月藏十神、逐字透干观察及未解条件的证据；原典定格、真假、成败、喜忌和吉凶均未执行。原注与任氏分别保留，渊海地支官局分支不合并成默认定格算法。"
+      }
+    },
+    {
+      "id": "bazi.section.s054",
+      "domain": "bazi",
+      "name": "任氏司令真假与禄刃例外",
+      "classic_id": "bazi.classic.ditiansui",
+      "chapter_id": "bazi.chapter.pattern_bage",
+      "source_id": "bazi.source.ditiansui-spouse",
+      "text": "任氏曰:八格者,命中之正理也。先观月令所得何支,次看天干透出何神,再究司令以定真假,然后取用,以分清浊,此实依经顺理,若月逢禄刃,无格可取,须审日主之喜忌另寻别支透出天干者,借以为用。",
+      "locator": "固定快照 Unicode char [31681,31773)；line 1385；pattern_bage",
+      "review": {
+        "status": "approved",
+        "method": "2026-10-07 逐字核对固定 Quarantine 快照唯一短引与章内前后文，保留原字形；原文件不改。",
+        "scope": "仅批准月藏十神、逐字透干观察及未解条件的证据；原典定格、真假、成败、喜忌和吉凶均未执行。原注与任氏分别保留，渊海地支官局分支不合并成默认定格算法。"
+      }
+    },
+    {
+      "id": "bazi.section.s055",
+      "domain": "bazi",
+      "name": "月令正官与时见偏官限制",
+      "classic_id": "bazi.classic.yuanhai",
+      "chapter_id": "bazi.chapter.pattern_official",
+      "source_id": "bazi.source.yuanhai",
+      "text": "若月令中有正官,时干支有偏官,便难以正官言之。",
+      "locator": "固定快照 Unicode char [10124,10147)；line 279；pattern_official",
+      "review": {
+        "status": "approved",
+        "method": "2026-10-07 逐字核对固定 Quarantine 快照唯一短引与章内前后文，保留原字形；原文件不改。",
+        "scope": "仅批准月藏十神、逐字透干观察及未解条件的证据；原典定格、真假、成败、喜忌和吉凶均未执行。原注与任氏分别保留，渊海地支官局分支不合并成默认定格算法。"
+      }
+    },
+    {
+      "id": "bazi.section.s056",
+      "domain": "bazi",
+      "name": "甲用辛的透干与地支官局分支",
+      "classic_id": "bazi.classic.yuanhai",
+      "chapter_id": "bazi.chapter.pattern_official",
+      "source_id": "bazi.source.yuanhai",
+      "text": "且如甲用辛为官,生于八月中气之后,金旺在酉,故谓之正官;如天干不透出辛字,却地支有巳酉丑,虽不能于八月中气之后,亦可言官。大要身旺,时辰归于甲木旺处。",
+      "locator": "固定快照 Unicode char [10149,10224)；line 280；pattern_official",
+      "review": {
+        "status": "approved",
+        "method": "2026-10-07 逐字核对固定 Quarantine 快照唯一短引与章内前后文，保留原字形；原文件不改。",
+        "scope": "仅批准月藏十神、逐字透干观察及未解条件的证据；原典定格、真假、成败、喜忌和吉凶均未执行。原注与任氏分别保留，渊海地支官局分支不合并成默认定格算法。"
+      }
+    },
+    {
+      "id": "bazi.section.s057",
+      "domain": "bazi",
+      "name": "正偏印定义及财旺破印条件",
+      "classic_id": "bazi.classic.yuanhai",
+      "chapter_id": "bazi.chapter.pattern_resource",
+      "source_id": "bazi.source.yuanhai",
+      "text": "夫印綬者,生我之谓也,亦名生气。以阳见阴,以阴见阳,谓之正印;阳见阳,阴见阴,谓之偏印。喜官星生印,忌财旺破印。",
+      "locator": "固定快照 Unicode char [12841,12897)；line 351；pattern_resource",
+      "review": {
+        "status": "approved",
+        "method": "2026-10-07 逐字核对固定 Quarantine 快照唯一短引与章内前后文，保留原字形；原文件不改。",
+        "scope": "仅批准月藏十神、逐字透干观察及未解条件的证据；原典定格、真假、成败、喜忌和吉凶均未执行。原注与任氏分别保留，渊海地支官局分支不合并成默认定格算法。"
+      }
+    },
+    {
+      "id": "bazi.section.s058",
+      "domain": "bazi",
+      "name": "官鬼多与别格限制专论印綬",
+      "classic_id": "bazi.classic.yuanhai",
+      "chapter_id": "bazi.chapter.pattern_resource",
+      "source_id": "bazi.source.yuanhai",
+      "text": "若官鬼多,或入别格,又不可专以印綬论。",
+      "locator": "固定快照 Unicode char [13012,13031)；line 355；pattern_resource",
+      "review": {
+        "status": "approved",
+        "method": "2026-10-07 逐字核对固定 Quarantine 快照唯一短引与章内前后文，保留原字形；原文件不改。",
+        "scope": "仅批准月藏十神、逐字透干观察及未解条件的证据；原典定格、真假、成败、喜忌和吉凶均未执行。原注与任氏分别保留，渊海地支官局分支不合并成默认定格算法。"
+      }
+    },
+    {
+      "id": "bazi.section.s059",
+      "domain": "bazi",
+      "name": "印綬月份生我语境",
+      "classic_id": "bazi.classic.yuanhai",
+      "chapter_id": "bazi.chapter.pattern_resource",
+      "source_id": "bazi.source.yuanhai",
+      "text": "假如,甲乙日得亥子月生,丙丁日得寅卯月生,戊己日得巳午月生,庚辛日得辰戌丑未月生,壬癸日得申酉月生者是也,其餘以类言之。",
+      "locator": "固定快照 Unicode char [12746,12806)；line 350；pattern_resource",
+      "review": {
+        "status": "approved",
+        "method": "2026-10-07 逐字核对固定 Quarantine 快照唯一短引与章内前后文，保留原字形；原文件不改。",
+        "scope": "仅批准月藏十神、逐字透干观察及未解条件的证据；原典定格、真假、成败、喜忌和吉凶均未执行。原注与任氏分别保留，渊海地支官局分支不合并成默认定格算法。"
       }
     }
   ],
@@ -2253,6 +2379,112 @@
           "暗合、半合拱夹及其他学派刑法不在此口径；结构藏干保留。"
         ]
       }
+    },
+    {
+      "id": "bazi.term.official_pattern_candidates",
+      "domain": "bazi",
+      "name": "正官结构候选",
+      "aliases": [],
+      "definition": "月支所藏的正官及该干在年/月/时透出的位置观察；不宣称正官格/印格成立。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s004",
+          "original_text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s053",
+          "original_text": "格之真者,月支之神,透于天干也。以散乱之天干,而寻其得所附于提纲,非格也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s054",
+          "original_text": "任氏曰:八格者,命中之正理也。先观月令所得何支,次看天干透出何神,再究司令以定真假,然后取用,以分清浊,此实依经顺理,若月逢禄刃,无格可取,须审日主之喜忌另寻别支透出天干者,借以为用。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s055",
+          "original_text": "若月令中有正官,时干支有偏官,便难以正官言之。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s056",
+          "original_text": "且如甲用辛为官,生于八月中气之后,金旺在酉,故谓之正官;如天干不透出辛字,却地支有巳酉丑,虽不能于八月中气之后,亦可言官。大要身旺,时辰归于甲木旺处。",
+          "role": "classical"
+        }
+      ],
+      "related_terms": [
+        "bazi.term.day_master",
+        "bazi.term.hidden_stems"
+      ],
+      "confidence": "medium",
+      "attributes": {
+        "variant": "bazi-pattern-structure-candidates-v1",
+        "research_only": true,
+        "production_interpretation": false,
+        "pattern_determination_available": false
+      }
+    },
+    {
+      "id": "bazi.term.resource_pattern_candidates",
+      "domain": "bazi",
+      "name": "印绶结构候选",
+      "aliases": [],
+      "definition": "月支所藏的正印/偏印及该干在年/月/时透出的位置观察；不宣称正官格/印格成立。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s004",
+          "original_text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s053",
+          "original_text": "格之真者,月支之神,透于天干也。以散乱之天干,而寻其得所附于提纲,非格也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s054",
+          "original_text": "任氏曰:八格者,命中之正理也。先观月令所得何支,次看天干透出何神,再究司令以定真假,然后取用,以分清浊,此实依经顺理,若月逢禄刃,无格可取,须审日主之喜忌另寻别支透出天干者,借以为用。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s057",
+          "original_text": "夫印綬者,生我之谓也,亦名生气。以阳见阴,以阴见阳,谓之正印;阳见阳,阴见阴,谓之偏印。喜官星生印,忌财旺破印。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s058",
+          "original_text": "若官鬼多,或入别格,又不可专以印綬论。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s059",
+          "original_text": "假如,甲乙日得亥子月生,丙丁日得寅卯月生,戊己日得巳午月生,庚辛日得辰戌丑未月生,壬癸日得申酉月生者是也,其餘以类言之。",
+          "role": "classical"
+        }
+      ],
+      "related_terms": [
+        "bazi.term.day_master",
+        "bazi.term.hidden_stems"
+      ],
+      "confidence": "medium",
+      "attributes": {
+        "variant": "bazi-pattern-structure-candidates-v1",
+        "research_only": true,
+        "production_interpretation": false,
+        "pattern_determination_available": false
+      }
     }
   ],
   "rules": [
@@ -2954,7 +3186,7 @@
       "name": "藏干与年/月/时显干逐字对照",
       "conditions": [
         "四个合法六十甲子干支，年/月/日/时顺序固定",
-        "显式 strength_variant=ditiansui-root-visibility-v1",
+        "服务端显式 factor_variant=ditiansui-root-visibility-v1；由既有强弱因素入口或显式研究 pattern_variant=bazi-pattern-structure-candidates-v1 触发",
         "只返回结构因素，不执行整体旺衰或喜用判断"
       ],
       "inputs": {
@@ -2982,7 +3214,7 @@
       "execution_status": "executable",
       "school": "子平·任氏因素观察边界",
       "variant": "ziping-structural-v1",
-      "difference": "沿现有八字执行 Variant 显式启用 ditiansui-root-visibility-v1 因素子范围；不宣称完整旺衰分类器已完成。",
+      "difference": "沿现有八字执行 Variant 复用同一 ditiansui-root-visibility-v1 透藏操作；研究候选入口只读取此逐字位置事实，不改变透藏算法，不宣称完整旺衰或格局完成。",
       "source_refs": [
         {
           "source_id": "bazi.source.ditiansui-spouse",
@@ -4220,6 +4452,160 @@
       "confidence": "medium",
       "term_refs": [
         "bazi.term.bounded_strength_adjudication_v1"
+      ]
+    },
+    {
+      "id": "bazi.rule.r027",
+      "domain": "bazi",
+      "name": "正官结构候选的月藏透干观察",
+      "conditions": [
+        "四柱、日主、十神、藏干、透藏和月令口径均已真实执行并有 Evidence",
+        "显式 pattern_variant=bazi-pattern-structure-candidates-v1",
+        "仅研究结构观察，不将必要条件解释成充分定格条件"
+      ],
+      "inputs": {
+        "trace": "服务端已执行轨迹，拒绝外部盘面结论与伪造 Evidence"
+      },
+      "operation": {
+        "kind": "research_month_hidden_visibility_observation",
+        "provider": "tianji_kb.operations.bazi_chart.pattern_candidates",
+        "parameters": {
+          "pattern_variant": "bazi-pattern-structure-candidates-v1",
+          "family": "official"
+        }
+      },
+      "result": {
+        "facts": "official_pattern_candidates",
+        "pattern": null,
+        "research_only": true
+      },
+      "exceptions": [
+        "这是现代形式化的结构观察，不是原典完整取格算法。",
+        "月藏十神或透干不能独自定格；不透干仅报告未透，不否定渊海地支官局等未覆盖分支。",
+        "必须审查司令才能按任氏口径定真假；现有分日冲突与具体司令未解，本气豁免不能用于定格。",
+        "禄刃、杂气、官杀去留、财旺破印、别格和一般旺衰实际作用均未执行。",
+        "藏干不等于显干，官鬼多/财旺等未定义数值阈值；无评分、概率、喜用、成败或个人吉凶。",
+        "仅研究模式，不开放公共 Scenario、产品 claim 或 AI；来源仍 C，不计独立底本票。"
+      ],
+      "execution_status": "executable",
+      "school": "子平·结构观察（原注/任氏/渊海取格分支未合并）",
+      "variant": "ziping-structural-v1",
+      "difference": "显式研究子口径只过滤既有十神/藏干/透藏事实；真实定格条件始终未解，不实现另类格局算法。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s004",
+          "original_text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s053",
+          "original_text": "格之真者,月支之神,透于天干也。以散乱之天干,而寻其得所附于提纲,非格也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s054",
+          "original_text": "任氏曰:八格者,命中之正理也。先观月令所得何支,次看天干透出何神,再究司令以定真假,然后取用,以分清浊,此实依经顺理,若月逢禄刃,无格可取,须审日主之喜忌另寻别支透出天干者,借以为用。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s055",
+          "original_text": "若月令中有正官,时干支有偏官,便难以正官言之。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s056",
+          "original_text": "且如甲用辛为官,生于八月中气之后,金旺在酉,故谓之正官;如天干不透出辛字,却地支有巳酉丑,虽不能于八月中气之后,亦可言官。大要身旺,时辰归于甲木旺处。",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium",
+      "term_refs": [
+        "bazi.term.official_pattern_candidates"
+      ]
+    },
+    {
+      "id": "bazi.rule.r028",
+      "domain": "bazi",
+      "name": "印绶结构候选的月藏透干观察",
+      "conditions": [
+        "四柱、日主、十神、藏干、透藏和月令口径均已真实执行并有 Evidence",
+        "显式 pattern_variant=bazi-pattern-structure-candidates-v1",
+        "仅研究结构观察，不将必要条件解释成充分定格条件"
+      ],
+      "inputs": {
+        "trace": "服务端已执行轨迹，拒绝外部盘面结论与伪造 Evidence"
+      },
+      "operation": {
+        "kind": "research_month_hidden_visibility_observation",
+        "provider": "tianji_kb.operations.bazi_chart.pattern_candidates",
+        "parameters": {
+          "pattern_variant": "bazi-pattern-structure-candidates-v1",
+          "family": "resource"
+        }
+      },
+      "result": {
+        "facts": "resource_pattern_candidates",
+        "pattern": null,
+        "research_only": true
+      },
+      "exceptions": [
+        "这是现代形式化的结构观察，不是原典完整取格算法。",
+        "月藏十神或透干不能独自定格；不透干仅报告未透，不否定渊海地支官局等未覆盖分支。",
+        "必须审查司令才能按任氏口径定真假；现有分日冲突与具体司令未解，本气豁免不能用于定格。",
+        "禄刃、杂气、官杀去留、财旺破印、别格和一般旺衰实际作用均未执行。",
+        "藏干不等于显干，官鬼多/财旺等未定义数值阈值；无评分、概率、喜用、成败或个人吉凶。",
+        "仅研究模式，不开放公共 Scenario、产品 claim 或 AI；来源仍 C，不计独立底本票。"
+      ],
+      "execution_status": "executable",
+      "school": "子平·结构观察（原注/任氏/渊海取格分支未合并）",
+      "variant": "ziping-structural-v1",
+      "difference": "显式研究子口径只过滤既有十神/藏干/透藏事实；真实定格条件始终未解，不实现另类格局算法。",
+      "source_refs": [
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s004",
+          "original_text": "子宫癸水在其中,丑癸辛金己土同;寅宫甲木兼丙戊,卯宫乙木独相逢。辰藏乙戊三分癸,巳中庚金丙戊丛;午宫丁火并己土,未宫乙己丁共宗。申位庚金壬水戊,酉宫辛金独丰隆;戌宫辛金及丁戊,亥藏壬甲是真踪。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s053",
+          "original_text": "格之真者,月支之神,透于天干也。以散乱之天干,而寻其得所附于提纲,非格也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s054",
+          "original_text": "任氏曰:八格者,命中之正理也。先观月令所得何支,次看天干透出何神,再究司令以定真假,然后取用,以分清浊,此实依经顺理,若月逢禄刃,无格可取,须审日主之喜忌另寻别支透出天干者,借以为用。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s057",
+          "original_text": "夫印綬者,生我之谓也,亦名生气。以阳见阴,以阴见阳,谓之正印;阳见阳,阴见阴,谓之偏印。喜官星生印,忌财旺破印。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s058",
+          "original_text": "若官鬼多,或入别格,又不可专以印綬论。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s059",
+          "original_text": "假如,甲乙日得亥子月生,丙丁日得寅卯月生,戊己日得巳午月生,庚辛日得辰戌丑未月生,壬癸日得申酉月生者是也,其餘以类言之。",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium",
+      "term_refs": [
+        "bazi.term.resource_pattern_candidates"
       ]
     }
   ],
@@ -5764,6 +6150,105 @@
           "source_id": "bazi.source.ditiansui-spouse",
           "section_id": "bazi.section.s041",
           "original_text": "余气者,如丙丁逢未,丙丁逢戌,庚辛逢丑,壬癸逢辰之类是也。",
+          "role": "classical"
+        }
+      ],
+      "confidence": "medium"
+    },
+    {
+      "id": "bazi.concept.pattern_candidates_v1",
+      "domain": "bazi",
+      "name": "格局结构候选研究口径v1",
+      "kind": "algorithm_variant",
+      "variant": "bazi-pattern-structure-candidates-v1",
+      "attributes": {
+        "variant": "bazi-pattern-structure-candidates-v1",
+        "status": "RESEARCH_VALIDATED",
+        "maturity": "PARTIAL",
+        "research_only": true,
+        "public_enabled": false,
+        "ai_enabled": false,
+        "pattern_determination_available": false,
+        "execution_rule_ids": [
+          "bazi.phase2.official_pattern_candidates",
+          "bazi.phase2.resource_pattern_candidates"
+        ],
+        "golden_case_groups": {
+          "positive": [
+            "bazi.pattern-official-exposed",
+            "bazi.pattern-resource-zheng",
+            "bazi.pattern-resource-pian",
+            "bazi.pattern-yin-day"
+          ],
+          "negative": [
+            "bazi.pattern-not-month"
+          ],
+          "abstention": [
+            "bazi.pattern-unexposed",
+            "bazi.pattern-miscellaneous"
+          ],
+          "conflict": [
+            "bazi.pattern-commander-conflict"
+          ]
+        },
+        "dependencies": [
+          "pillars",
+          "ten_gods",
+          "hidden_stems",
+          "hidden_to_visible",
+          "month_command_variant"
+        ],
+        "dated_commander_required_for_determination": true,
+        "limitations": [
+          "这是现代形式化的结构观察，不是原典完整取格算法。",
+          "月藏十神或透干不能独自定格；不透干仅报告未透，不否定渊海地支官局等未覆盖分支。",
+          "必须审查司令才能按任氏口径定真假；现有分日冲突与具体司令未解，本气豁免不能用于定格。",
+          "禄刃、杂气、官杀去留、财旺破印、别格和一般旺衰实际作用均未执行。",
+          "藏干不等于显干，官鬼多/财旺等未定义数值阈值；无评分、概率、喜用、成败或个人吉凶。",
+          "仅研究模式，不开放公共 Scenario、产品 claim 或 AI；来源仍 C，不计独立底本票。"
+        ]
+      },
+      "source_refs": [
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s053",
+          "original_text": "格之真者,月支之神,透于天干也。以散乱之天干,而寻其得所附于提纲,非格也。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "section_id": "bazi.section.s054",
+          "original_text": "任氏曰:八格者,命中之正理也。先观月令所得何支,次看天干透出何神,再究司令以定真假,然后取用,以分清浊,此实依经顺理,若月逢禄刃,无格可取,须审日主之喜忌另寻别支透出天干者,借以为用。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s055",
+          "original_text": "若月令中有正官,时干支有偏官,便难以正官言之。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s056",
+          "original_text": "且如甲用辛为官,生于八月中气之后,金旺在酉,故谓之正官;如天干不透出辛字,却地支有巳酉丑,虽不能于八月中气之后,亦可言官。大要身旺,时辰归于甲木旺处。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s057",
+          "original_text": "夫印綬者,生我之谓也,亦名生气。以阳见阴,以阴见阳,谓之正印;阳见阳,阴见阴,谓之偏印。喜官星生印,忌财旺破印。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s058",
+          "original_text": "若官鬼多,或入别格,又不可专以印綬论。",
+          "role": "classical"
+        },
+        {
+          "source_id": "bazi.source.yuanhai",
+          "section_id": "bazi.section.s059",
+          "original_text": "假如,甲乙日得亥子月生,丙丁日得寅卯月生,戊己日得巳午月生,庚辛日得辰戌丑未月生,壬癸日得申酉月生者是也,其餘以类言之。",
           "role": "classical"
         }
       ],

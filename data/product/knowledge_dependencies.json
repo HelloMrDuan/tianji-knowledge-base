@@ -55,8 +55,11 @@
         "bazi-strength",
         "bazi-ten-gods"
       ],
-      "ready_execution_rule_ids": [],
-      "missing": "BAZI_PATTERN_AUDIT.md 已核既有来源与有限旺衰边界；格局仍 NOT_BUILT，无已审 Term/Rule、执行或 Golden。正官/印綬仅为后续两个结构候选审核范围，尚未实现；月令透藏不等于定格，任氏取格仍依赖未裁定司令。杂气冲法、官杀去留、一般旺衰/作用、禄刃/从化资格与成败喜用须分别补原典、Variant/Conflict 和四类 Golden；AI 与公开格局继续关闭。"
+      "ready_execution_rule_ids": [
+        "bazi.phase2.official_pattern_candidates",
+        "bazi.phase2.resource_pattern_candidates"
+      ],
+      "missing": "已有正官/印绶月藏透干位置的显式研究候选，两条执行规则、四类固定 Golden；完整格局仍 NOT_BUILT。候选观察不定格，任氏真假仍依赖未解司令；禄刃杂气、官杀去留、财旺破印、一般旺衰/作用及成败喜用待原典/Variant/Conflict 审核。无评分、吉凶或喜用，公共 Scenario、产品 claim 与 AI 不开放。"
     },
     "bazi-useful-god": {
       "name": "喜用神分体系治理",

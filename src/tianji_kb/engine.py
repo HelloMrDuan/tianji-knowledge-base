@@ -35,6 +35,8 @@ def execute(domain,inputs,variant=None,*,allow_research=False):
     if type(allow_research) is not bool:raise ValueError('allow_research must be boolean')
     if domain == 'bazi' and inputs.get('strength_variant') == ADJUDICATION_VARIANT and not allow_research:
         raise ValueError('Bounded strength adjudication requires explicit research mode')
+    if domain == 'bazi' and inputs.get('pattern_variant') is not None and not allow_research:
+        raise ValueError('Pattern candidate observations require explicit research mode')
     contract=EvidenceResolver().contracts[domain]
     if contract['provider']!=PROVIDERS[domain]:raise ValueError('Provider differs from reviewed allowlist')
     selected=variant if variant is not None else contract['variant']
