@@ -5176,8 +5176,8 @@
       },
       {
         "path": "data/canonical/bazi/phase2_golden.json",
-        "sha256": "50ca164f9e54e5157afbf938d6cd64a34c726fc8440c7c82d062a9b2ed1b4313",
-        "bytes": 109525,
+        "sha256": "68a903c563b3bd3f2127c6cec9f445b84529978030b37963b70bcad245e59858",
+        "bytes": 109524,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
