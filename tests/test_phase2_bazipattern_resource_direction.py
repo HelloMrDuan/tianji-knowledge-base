@@ -323,6 +323,137 @@ class ResourceDirectionGateTests(unittest.TestCase):
         self.assertFalse(any(gate['element_root_candidate_summary'].values()))
         self.assertEqual(gate['relation_candidates'], [])
 
+    def test_reviewed_root_type_examples_keep_source_variant_conflict(self):
+        # 任氏 s026: 庚辛逢戌余气，甲乙逢亥寅卯长生禄旺。
+        # 戌中辛并不使年干庚自动有“有效根”。
+        out = chart('庚戌', '甲寅', '丙午', '戊子',
+                    pattern_variant=PATTERN_VARIANT)
+        gate = out['result']['pattern_candidates']['resource'][
+            'yuanhai_resource_competing_context']['elemental_causal_gate']
+        pair = next(x for x in gate['relation_candidates']
+                    if x['actor_category'] == 'visible_wealth'
+                    and x['actor']['stem'] == '庚'
+                    and x['target']['stem'] == '甲')
+        actor = next(x for x in pair['actor_element_root_candidates']
+                     if x['branch'] == '戌' and x['stem'] == '辛')
+        resource = next(x for x in pair['resource_element_root_candidates']
+                        if x['branch'] == '寅' and x['stem'] == '甲')
+        self.assertFalse(actor['same_stem'])
+        self.assertEqual(actor['reviewed_root_type_examples'], [{
+            'kind': 'residual_qi_candidate',
+            'source_section_ids': ['bazi.section.s026'],
+            'status': 'reviewed_type_example_only',
+        }])
+        self.assertEqual(actor['principal_qi_review']['status'], 'unreviewed')
+        self.assertEqual(actor['residual_type_conflict'], {
+            'status': 'unresolved_source_variant',
+            'conflict_id': 'bazi.concept.conflict_root_type_readings',
+            'competing_section_id': 'bazi.section.s041',
+            'source_variant_examples_separated': True,
+        })
+        self.assertTrue(resource['same_stem'])
+        self.assertEqual(resource['reviewed_root_type_examples'], [{
+            'kind': 'growth_luwang_example',
+            'source_section_ids': ['bazi.section.s026'],
+            'status': 'reviewed_type_example_only',
+        }])
+        self.assertEqual(resource['principal_qi_review']['stem'], '甲')
+        self.assertTrue(resource['principal_qi_review']['same_stem'])
+        self.assertEqual(pair['reviewed_root_type_comparison'], {
+            'actor_reviewed_examples': True,
+            'resource_reviewed_examples': True,
+            'residual_type_conflict_present': True,
+            'unreviewed_principal_qi_sites': True,
+            'actor_effective_root_strength': None,
+            'resource_effective_root_strength': None,
+            'actual_pairwise_effect': None,
+        })
+        for site in [actor, resource]:
+            self.assertIsNone(site['effective_root_strength'])
+            self.assertTrue(site['root_type_is_not_root_effect'])
+            fact = out
+            for token in site['fact_ref'][2:].split('/'):
+                fact = fact[int(token)] if isinstance(fact, list) else fact[token]
+            self.assertEqual(fact['stem'], site['stem'])
+        step = next(s for s in out['trace']
+                    if s['rule_id'] == 'bazi.phase2.resource_pattern_candidates')
+        sections = {out['evidence'][eid]['section_id'] for eid in step['evidence_ids']}
+        self.assertTrue({'bazi.section.s026', 'bazi.section.s027',
+                         'bazi.section.s041', 'bazi.section.s057',
+                         'bazi.section.s058'} <= sections)
+        self.assertEqual(pair['effect_status'], 'indeterminate')
+        self.assertIsNone(gate['effect_gate']['wealth_damages_resource'])
+        self.assertFalse(out['interpretation_contract']['ai_may_explain'])
+
+    def test_conflicting_residual_variants_are_both_visible(self):
+        # 任氏 s026 给出壬癸逢丑，s041 则列壬癸逢辰；
+        # 必须保留两处不同底本段字例，不能默默归并或取票决定。
+        out = chart('戊辰', '癸丑', '甲子', '癸酉',
+                    pattern_variant=PATTERN_VARIANT)
+        gate = out['result']['pattern_candidates']['resource'][
+            'yuanhai_resource_competing_context']['elemental_causal_gate']
+        pair = next(p for p in gate['relation_candidates']
+                    if p['actor_category'] == 'visible_wealth'
+                    and p['actor']['stem'] == '戊' and p['target']['stem'] == '癸')
+        roots = pair['resource_element_root_candidates']
+        chen = next(x for x in roots if x['branch'] == '辰')
+        chou = next(x for x in roots if x['branch'] == '丑')
+        self.assertEqual(chen['reviewed_root_type_examples'], [])
+        self.assertEqual(chen['alternative_root_type_examples'], [{
+            'kind': 'residual_qi_candidate',
+            'source_section_ids': ['bazi.section.s041'],
+            'variant': 'ren-residual-alternate-text',
+            'status': 'alternative_source_example_only',
+        }])
+        self.assertEqual(chou['reviewed_root_type_examples'][0]['source_section_ids'],
+                         ['bazi.section.s026'])
+        self.assertEqual(chou['alternative_root_type_examples'], [])
+        for root in (chen, chou):
+            self.assertEqual(root['residual_type_conflict']['status'],
+                             'unresolved_source_variant')
+            self.assertTrue(root['residual_type_conflict']['source_variant_examples_separated'])
+            self.assertIsNone(root['effective_root_strength'])
+        self.assertTrue(pair['reviewed_root_type_comparison']['residual_type_conflict_present'])
+        self.assertIsNone(pair['reviewed_root_type_comparison']['actual_pairwise_effect'])
+        # 财星戊本身未命中原典类型例，但藏官辛金的丑支命中 s041；
+        # 汇总的 actor=true 来自这个真实官星候选，不能抹去它。
+        official = next(p for p in gate['relation_candidates']
+                        if p['actor_category'] == 'hidden_official'
+                        and p['actor']['stem'] == '辛'
+                        and p['target']['stem'] == '癸')
+        official_root = next(site for site in official['actor_element_root_candidates']
+                             if site['branch'] == '丑' and site['stem'] == '辛')
+        self.assertEqual(official_root['alternative_root_type_examples'][0][
+            'source_section_ids'], ['bazi.section.s041'])
+        self.assertTrue(gate['reviewed_root_type_summary']['actor_reviewed_examples_observed'])
+        self.assertFalse(gate['reviewed_root_type_summary']['effective_pairwise_action_established'])
+        self.assertFalse(out['interpretation_contract']['ai_may_explain'])
+
+    def test_unreviewed_root_type_does_not_become_negative_proof(self):
+        # 戊年财、壬月印、子月藏癸：财无同五行藏气候选，
+        # 不是财星实际无力或印必旺的判断。
+        out = chart('戊子', '壬子', '甲子', '壬子',
+                    pattern_variant=PATTERN_VARIANT)
+        gate = out['result']['pattern_candidates']['resource'][
+            'yuanhai_resource_competing_context']['elemental_causal_gate']
+        pair = next(x for x in gate['relation_candidates']
+                    if x['actor_category'] == 'visible_wealth')
+        self.assertEqual(pair['actor_element_root_candidates'], [])
+        self.assertTrue(all(
+            site['root_type_review_status'] == 'not_covered_by_reviewed_examples'
+            for site in pair['resource_element_root_candidates']))
+        self.assertEqual(pair['reviewed_root_type_comparison'], {
+            'actor_reviewed_examples': False,
+            'resource_reviewed_examples': False,
+            'residual_type_conflict_present': False,
+            'unreviewed_principal_qi_sites': False,
+            'actor_effective_root_strength': None,
+            'resource_effective_root_strength': None,
+            'actual_pairwise_effect': None,
+        })
+        self.assertEqual(pair['actor_strength'], None)
+        self.assertEqual(pair['adjudication'], 'indeterminate')
+
     def test_source_and_production_gates(self):
         out=chart('辛亥','壬子','甲子','壬子',pattern_variant=PATTERN_VARIANT)
         step=next(s for s in out['trace'] if s['rule_id']=='bazi.phase2.resource_pattern_candidates')
