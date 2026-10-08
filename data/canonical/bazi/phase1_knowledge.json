@@ -5284,6 +5284,42 @@
           "刑害吉凶",
           "墓库冲开自动可用",
           "得令或通根即身旺"
+        ],
+        "alternative_residual_type_candidates": [
+          {
+            "element": "火",
+            "branches": [
+              "未",
+              "戌"
+            ],
+            "kind": "residual_qi_candidate",
+            "section_ids": [
+              "bazi.section.s041"
+            ],
+            "variant": "ren-residual-alternate-text"
+          },
+          {
+            "element": "金",
+            "branches": [
+              "丑"
+            ],
+            "kind": "residual_qi_candidate",
+            "section_ids": [
+              "bazi.section.s041"
+            ],
+            "variant": "ren-residual-alternate-text"
+          },
+          {
+            "element": "水",
+            "branches": [
+              "辰"
+            ],
+            "kind": "residual_qi_candidate",
+            "section_ids": [
+              "bazi.section.s041"
+            ],
+            "variant": "ren-residual-alternate-text"
+          }
         ]
       },
       "source_refs": [
