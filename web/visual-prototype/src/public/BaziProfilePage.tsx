@@ -3,6 +3,7 @@ import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeBazi, type ExecuteResponse } from "./api";
+import { readSavedBirthProfile, saveBirthProfile, clearBirthProfile } from "./birthProfile";
 import "./bazi-profile.css";
 
 const pillarNames: Record<string, string> = {
@@ -35,8 +36,8 @@ function displayEvidence(id: string, evidence: Record<string, any>) {
 }
 
 export function BaziProfilePage() {
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
+  const [date, setDate] = useState(() => readSavedBirthProfile().date);
+  const [time, setTime] = useState(() => readSavedBirthProfile().time);
   const [result, setResult] = useState<ExecuteResponse | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -55,7 +56,9 @@ export function BaziProfilePage() {
     setError("");
     setResult(null);
     try {
-      setResult(await executeBazi({ value: `${date}T${time}:00+08:00` }));
+      const response = await executeBazi({ value: `${date}T${time}:00+08:00` });
+      saveBirthProfile({ date, time });
+      setResult(response);
     } catch (err) {
       setError(err instanceof Error ? err.message : "八字计算失败，请检查后端服务。");
     } finally {
@@ -102,7 +105,10 @@ export function BaziProfilePage() {
               <span className="eyebrow">一 · 出生资料</span>
               <h2>公历出生时间</h2>
             </div>
-            <button type="button" className="sample-fill" onClick={fillSample}>填入示例</button>
+            <div className="bazi-profile-actions">
+              <button type="button" className="sample-fill" onClick={fillSample}>填入示例</button>
+              <button type="button" className="sample-fill" onClick={() => { clearBirthProfile(); setDate(""); setTime(""); setResult(null); setError(""); }}>清除本机资料</button>
+            </div>
           </div>
 
           <div className="bazi-input-grid">
@@ -118,7 +124,7 @@ export function BaziProfilePage() {
 
           <div className="bazi-input-note">
             <Icon name="shield" size={16} />
-            <span>当前固定按北京时间 UTC+8 计算；真太阳时、农历直接输入、晚子时变体尚未进入本生产口径。</span>
+            <span>当前固定按北京时间 UTC+8 计算；计算成功后出生资料仅保存在本浏览器以便其他场景复用，可随时清除。真太阳时与晚子时变体尚未开放。</span>
           </div>
 
           <button className="button primary bazi-submit" type="submit" disabled={loading}>
@@ -234,7 +240,13 @@ export function BaziProfilePage() {
               <h3>从基础档案走向“2026 流年 / 桃花 / 事业财运”</h3>
               <p>这些场景会复用现在这份真实四柱结构，但必须等相应规则与证据补齐后才开放。</p>
             </div>
-            <Link className="text-action" href="/">返回场景首页 <Icon name="arrow" size={16} /></Link>
+            <div className="bazi-journey-links">
+              <Link href="/life-overview">人生总览</Link>
+              <Link href="/yearly-structure">流年结构</Link>
+              <Link href="/romance-structure">桃花姻缘</Link>
+              <Link href="/career-wealth-structure">事业财运</Link>
+              <Link href="/daily-structure">今日结构</Link>
+            </div>
           </div>
         </section>
       )}
