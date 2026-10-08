@@ -15,7 +15,8 @@
     "传统配偶星 lens 只在调用方显式选择 traditional_role=male|female 时启用；不推断用户性别，也不把古籍妻妾/偏夫身份标签映射到现代关系身份。",
     "《滴天髓阐微》明确反对女命机械专执官星论夫；本规则仅定位候选十神位置，不执行配偶质量、正缘、婚期或婚恋吉凶。",
     "三刑存在明确流派分歧，当前不进入统一 executable 规则。",
-    "月令/通根/透藏因素已执行，不等于完整旺衰算法；司令分日原典异文未裁定，旧因素/条件口径仍未裁定；独立本气充分条件强弱仅在显式研究 Variant 中执行。"
+    "月令/通根/透藏因素已执行，不等于完整旺衰算法；司令分日原典异文未裁定，旧因素/条件口径仍未裁定；独立本气充分条件强弱仅在显式研究 Variant 中执行。",
+    "指定年份的流年干支参照仅采用公历7月1日中午真实日历采样；立春精确起止时间、交运与完整年度岁运作用未审核，不得等同运势解释。"
   ],
   "rules": [
     {
@@ -562,6 +563,24 @@
       ],
       "regression_test": "tests/test_phase2_bazipattern.py",
       "evidence_scope": "C：显式研究月藏十神与逐字透干位置；司令、禄刃杂气、官杀/破印、真假成败喜用均未裁定；AI 和公开产品不授权。；并观察《渊海》s059已有的十日干/月支月份生我例（不定印格）。；s057/s058 月令印及财/官杀显藏共现的条件事实，财旺破印、官印相生、官鬼多均 indeterminate。；财对月藏印五行克方向、正官/七杀对印五行生方向仅作为结构候选；成效门控始终拒判。；对财/官与月藏印额外登记同五行藏干根候选及实际落支冲合的 Phase2 Fact/Evidence 指针；同干/同五行根候选不等于根力有效、受冲消根或发生财克印、官印相生。；经审 s026/s027/s041 作为通根类型例、必要司令条件与余气异文证据，只给根型候选和来源冲突，不裁定具体根力或成对财印生克。；余气 s026/s041 双文本分别列举，不覆盖另一口径，原典未裁定时保持冲突及作用拒判。"
+    },
+    {
+      "id": "bazi.phase2.annual_reference_facts",
+      "domain": "bazi",
+      "name": "指定公历年份七月一日干支与日主十神研究参照",
+      "variant": "ziping-structural-v1",
+      "execution_status": "executable",
+      "phase1_rule_refs": [
+        "bazi.rule.r001",
+        "bazi.rule.r002"
+      ],
+      "validation_status": "validated",
+      "golden_case_ids": [
+        "bazi.annual-reference-midyear-2024-2026",
+        "bazi.annual-reference-midyear-2026-2027"
+      ],
+      "regression_test": "tests/test_phase2_baziannual.py",
+      "evidence_scope": "C：既有四柱日主/十神映射短引；干支纪年具体计算由固定 lunar-python==1.4.8 的 7月1日中国时区中午真实历法输出。仅研究代表时点，不声称元旦至年末同干支、立春精确界、起运、岁运作用或吉凶。"
     }
   ]
 }
