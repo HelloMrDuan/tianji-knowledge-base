@@ -1,6 +1,7 @@
 """Research observations from executed month/ten-god/visibility facts, never 定格."""
 
 from .foundations import CONTROLS, GENERATES, stem_element
+from .resolver import EvidenceResolver
 
 PATTERN_VARIANT = 'bazi-pattern-structure-candidates-v1'
 
@@ -290,6 +291,21 @@ def resource_elemental_causal_gate(context):
                         'root_loss_inferred_from_clash': False,
                         'pairwise_effect_proved_by_root_sites': False,
                     },
+                    'reviewed_root_type_comparison': {
+                        'actor_reviewed_examples': any(
+                            site['reviewed_root_type_examples'] for site in actor_roots),
+                        'resource_reviewed_examples': any(
+                            site['reviewed_root_type_examples'] for site in target_roots),
+                        'residual_type_conflict_present': any(
+                            site['residual_type_conflict']['conflict_id']
+                            for site in actor_roots + target_roots),
+                        'unreviewed_principal_qi_sites': any(
+                            site['principal_qi_review']['status'] == 'unreviewed'
+                            for site in actor_roots + target_roots),
+                        'actor_effective_root_strength': None,
+                        'resource_effective_root_strength': None,
+                        'actual_pairwise_effect': None,
+                    },
                     'actual_root_strength_status': 'indeterminate',
                     'elemental_direction_observed': True,
                     'effective_interaction': None,
@@ -416,16 +432,47 @@ def yuanhai_resource_competing_context(trace):
                 'branch': row['branch'],
                 'fact_ref': pointer('hidden_stems', f'/{pi}/hidden_stems/{hi}'),
             })
+    root_policy = EvidenceResolver().entities[
+        'bazi.concept.root_conditions_variant_v1'][1]['attributes']
     element_root_sites = {element: [] for element in ('木', '火', '土', '金', '水')}
     for pi, pillar in enumerate(hidden):
         for hi, stem_row in enumerate(pillar['hidden_stems']):
             stem = stem_row['stem']
             element = stem_element(stem)
+            branch = pillar['branch']
+            principal = root_policy['principal_qi'].get(branch)
+            examples = [
+                {'kind': candidate['kind'],
+                 'source_section_ids': list(candidate['section_ids']),
+                 'status': 'reviewed_type_example_only'}
+                for candidate in root_policy['reviewed_type_candidates']
+                if candidate['element'] == element and branch in candidate['branches']
+            ]
+            residual_example = any(
+                candidate['kind'] == 'residual_qi_candidate'
+                for candidate in examples)
             element_root_sites[element].append({
-                'pillar': pillar['pillar'], 'branch': pillar['branch'],
+                'pillar': pillar['pillar'], 'branch': branch,
                 'stem': stem, 'element': element,
                 'fact_ref': pointer('hidden_stems', f'/{pi}/hidden_stems/{hi}'),
                 'structural_candidate_only': True,
+                'reviewed_root_type_examples': examples,
+                'root_type_review_status': 'example_only' if examples
+                                           else 'not_covered_by_reviewed_examples',
+                'principal_qi_review': {
+                    'status': 'reviewed' if principal else 'unreviewed',
+                    'stem': principal['stem'] if principal else None,
+                    'same_stem': stem == principal['stem'] if principal else None,
+                    'source_section_ids': list(principal['section_ids']) if principal else [],
+                },
+                'residual_type_conflict': {
+                    'status': 'unresolved_source_variant' if residual_example
+                              else 'not_applicable_to_reviewed_example',
+                    'conflict_id': root_policy['type_conflict'] if residual_example else None,
+                    'competing_section_id': 'bazi.section.s041' if residual_example else None,
+                },
+                'effective_root_strength': None,
+                'root_type_is_not_root_effect': True,
             })
     groups = {'month_resource': [], 'visible_wealth': [], 'hidden_wealth': [],
               'visible_official': [], 'hidden_official': [],
