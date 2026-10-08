@@ -5176,8 +5176,8 @@
       },
       {
         "path": "data/canonical/bazi/phase2_golden.json",
-        "sha256": "68f697e55522b8ec182a3c2a98143b81cf2d0ac04e39b7193d6d4ccd463a1f39",
-        "bytes": 172005,
+        "sha256": "5ade6fa4c87543dd31bd118c3be6551c28d7c00e8c9d97fb01cf905052f0e01e",
+        "bytes": 172004,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -7069,7 +7069,7 @@
       },
       {
         "path": "tests/test_phase2_bazipattern_resource_direction.py",
-        "sha256": "f61da314aa496abb75ee0509d32ccd1e603a4c0dab6c2e376334f198c4577feb"
+        "sha256": "f90158ca4e01895f545b288388c3f684832ed0ee121163924ef06e4af84e73d5"
       },
       {
         "path": "tests/test_phase2_bazipattern_resource_month.py",
