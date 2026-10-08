@@ -5156,8 +5156,8 @@
       },
       {
         "path": "data/canonical/bazi/phase1_knowledge.json",
-        "sha256": "c04768d6663b6591ea736c17e39d16fa62aeea82ae1312d7d2c8f0ae84def55b",
-        "bytes": 291973,
+        "sha256": "09cf7b42f3417a8bfd03cc7116f564562f081fd5878115ef79a155ccbf89ff55",
+        "bytes": 292589,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -5166,8 +5166,8 @@
       },
       {
         "path": "data/canonical/bazi/phase2_execution.json",
-        "sha256": "2dac4b42c06bc40ad367902ec56804388b76cbad8d56e537eab20755f407cd98",
-        "bytes": 22919,
+        "sha256": "f9567f324e28b301b969e28080e2f6c732ae0cf8010d872bc3893e5e44f670cf",
+        "bytes": 23383,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -5176,8 +5176,8 @@
       },
       {
         "path": "data/canonical/bazi/phase2_golden.json",
-        "sha256": "6f047413d402b3c086f7a5db75e3c4f9f765d6d6561abe80e1e6b4e239ce6fa7",
-        "bytes": 136818,
+        "sha256": "074a65b7a00bda9bc4aa318cdc5c1b44e9f66474eacfa88c3f138fc3ca31cb49",
+        "bytes": 150403,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -6801,7 +6801,7 @@
       },
       {
         "path": "src/tianji_kb/bazi_pattern.py",
-        "sha256": "ef60732f624b18d5bf396439a125de258be68a8c880965732d15fcb1ed745c81"
+        "sha256": "710c6a0931749229e2d067b8521fecd48ce582ee0b3d770f0f14e20f3f43ef06"
       },
       {
         "path": "src/tianji_kb/bazi_root_conditions.py",
@@ -7066,6 +7066,10 @@
       {
         "path": "tests/test_phase2_bazipattern_resource_context.py",
         "sha256": "75ac9b99d16149d0612a88ebe35909aa0c830eddc9ce1a04f45962651dbcd830"
+      },
+      {
+        "path": "tests/test_phase2_bazipattern_resource_direction.py",
+        "sha256": "7ec1bfe895730afcce4d6b3edf0c8494acccc9a1617026cc5a676d61c6be3642"
       },
       {
         "path": "tests/test_phase2_bazipattern_resource_month.py",
@@ -11722,10 +11726,17 @@
               "bazi.resource-context-hidden-official",
               "bazi.resource-context-visible-killing",
               "bazi.resource-context-hidden-killing",
-              "bazi.resource-context-no-month-resource"
+              "bazi.resource-context-no-month-resource",
+              "bazi.resource-direction-none",
+              "bazi.resource-direction-wealth-visible",
+              "bazi.resource-direction-wealth-hidden",
+              "bazi.resource-direction-official-visible",
+              "bazi.resource-direction-official-hidden",
+              "bazi.resource-direction-killing-only",
+              "bazi.resource-direction-no-month-resource"
             ],
             "regression_test": "tests/test_phase2_bazipattern.py",
-            "evidence_scope": "C：显式研究月藏十神与逐字透干位置；司令、禄刃杂气、官杀/破印、真假成败喜用均未裁定；AI 和公开产品不授权。；并观察《渊海》s059已有的十日干/月支月份生我例（不定印格）。；s057/s058 月令印及财/官杀显藏共现的条件事实，财旺破印、官印相生、官鬼多均 indeterminate。",
+            "evidence_scope": "C：显式研究月藏十神与逐字透干位置；司令、禄刃杂气、官杀/破印、真假成败喜用均未裁定；AI 和公开产品不授权。；并观察《渊海》s059已有的十日干/月支月份生我例（不定印格）。；s057/s058 月令印及财/官杀显藏共现的条件事实，财旺破印、官印相生、官鬼多均 indeterminate。；财对月藏印五行克方向、正官/七杀对印五行生方向仅作为结构候选；成效门控始终拒判。",
             "evidence": [
               {
                 "source_id": "bazi.source.yuanhai",
@@ -11908,6 +11919,13 @@
           "bazi.resource-context-visible-killing",
           "bazi.resource-context-visible-official",
           "bazi.resource-context-visible-wealth",
+          "bazi.resource-direction-killing-only",
+          "bazi.resource-direction-no-month-resource",
+          "bazi.resource-direction-none",
+          "bazi.resource-direction-official-hidden",
+          "bazi.resource-direction-official-visible",
+          "bazi.resource-direction-wealth-hidden",
+          "bazi.resource-direction-wealth-visible",
           "bazi.roots-absent",
           "bazi.roots-clash-not-erasure",
           "bazi.roots-growth",
@@ -20088,6 +20106,7 @@
           "yuanhai_resource_month_scope": "s059五类日干与对应月支的月份生我例，只观测，不定印格",
           "yuanhai_hour_killing_scope": "月支藏正官且时干为七杀或时支藏七杀，限 s055 传统限制，未定官杀去留/成败。",
           "yuanhai_resource_competition_scope": "s057/s058月藏印与正偏财、正官、七杀各柱显干/藏干共现；财旺、破印、官印相生、官鬼多均不予裁决。",
+          "yuanhai_resource_direction_gate_scope": "仅已执行十神/藏干和种子五行生克表证明结构方向；根力/旺衰/实际作用/流派条件未审核，所有因果效力拒判。",
           "golden_categories": {
             "positive": 4,
             "negative": 1,
