@@ -182,6 +182,84 @@ def yuanhai_hour_killing_restriction(trace):
     }
 
 
+def yuanhai_resource_competing_context(trace):
+    """Bounded co-presence facts for Yuanhai s057/s058, never 财旺破印 or 官印相生.
+
+    A visible 十神 and an unexposed hidden 十神 are different observations.
+    Neither occurrence nor frequency establishes strength, activation, or effect.
+    """
+    steps = {row['rule_id']: (i, row) for i, row in enumerate(trace.steps)}
+    required = ('ten_gods', 'hidden_stems')
+    if any('bazi.phase2.' + rule not in steps for rule in required):
+        raise ValueError('Resource competition requires executed ten-god and hidden-stem facts')
+    for rule in required:
+        step = steps['bazi.phase2.' + rule][1]
+        if not step['evidence_ids'] or any(ref not in trace.evidence for ref in step['evidence_ids']):
+            raise ValueError('Resource competition lacks executed evidence')
+
+    def pointer(rule, suffix=''):
+        return f"#/trace/{steps['bazi.phase2.' + rule][0]}/output" + suffix
+
+    visible = steps['bazi.phase2.ten_gods'][1]['output']
+    hidden = steps['bazi.phase2.hidden_stems'][1]['output']
+    groups = {'month_resource': [], 'visible_wealth': [], 'hidden_wealth': [],
+              'visible_official': [], 'hidden_official': [],
+              'visible_killing': [], 'hidden_killing': []}
+    # Do not treat the day-master as a separate competing visible stem.
+    for i, row in enumerate(visible):
+        if row['pillar'] == 'day':
+            continue
+        category = {'正财': 'visible_wealth', '偏财': 'visible_wealth',
+                    '正官': 'visible_official', '七杀': 'visible_killing'}.get(row['ten_god'])
+        if category:
+            groups[category].append({'pillar': row['pillar'], 'stem': row['stem'],
+                                     'ten_god': row['ten_god'], 'fact_ref': pointer('ten_gods', f'/{i}')})
+    for pi, pillar in enumerate(hidden):
+        for hi, row in enumerate(pillar['hidden_stems']):
+            category = {'正财': 'hidden_wealth', '偏财': 'hidden_wealth',
+                        '正官': 'hidden_official', '七杀': 'hidden_killing'}.get(row['ten_god'])
+            if pillar['pillar'] == 'month' and row['ten_god'] in ('正印', '偏印'):
+                groups['month_resource'].append({
+                    'pillar': 'month', 'stem': row['stem'], 'ten_god': row['ten_god'],
+                    'fact_ref': pointer('hidden_stems', f'/{pi}/hidden_stems/{hi}')})
+            if category:
+                groups[category].append({
+                    'pillar': pillar['pillar'], 'stem': row['stem'], 'ten_god': row['ten_god'],
+                    'fact_ref': pointer('hidden_stems', f'/{pi}/hidden_stems/{hi}')})
+    related = ('visible_wealth', 'hidden_wealth', 'visible_official',
+               'hidden_official', 'visible_killing', 'hidden_killing')
+    if not groups['month_resource']:
+        status = 'outside_month_resource_branch'
+    elif any(groups[key] for key in related):
+        status = 'related_facts_observed'
+    else:
+        status = 'no_related_facts_observed'
+    return {
+        'variant': PATTERN_VARIANT,
+        'school_branch': 'yuanhai-印绶官财条件未裁决',
+        'status': status,
+        'positions': groups,
+        'conditions': [
+            {'id': key, 'observed': bool(groups[key]),
+             'fact_refs': [position['fact_ref'] for position in groups[key]]}
+            for key in ('month_resource',) + related
+        ],
+        'source_section_ids': ['bazi.section.s057', 'bazi.section.s058'],
+        'source_level': 'C',
+        'adjudications': {
+            'wealth_strong_enough_to_damage_resource': 'indeterminate',
+            'official_actually_generates_resource': 'indeterminate',
+            'many_officials_or_competing_pattern': 'indeterminate',
+        },
+        'unresolved': ['strength_definition', 'effective_action', 'official_resource_generation',
+                       'wealth_resource_conflict', 'dated_commander', 'other_pattern_selection'],
+        'qualified_for_determination': False,
+        'determination': None,
+        'research_only': True, 'public_enabled': False, 'ai_enabled': False,
+        'scope': '月藏印及各柱官财显干/藏干的共现事实；不按数量推财旺、官鬼多、破印、官印相生、成格、吉凶或喜用。',
+    }
+
+
 def qualification(trace, *, family, observation):
     """Evidence-linked pre-determination checklist, NOT a final pattern verdict.
 
@@ -319,5 +397,6 @@ def candidates(trace, *, family, pattern_variant=PATTERN_VARIANT):
         result['yuanhai_hour_killing_restriction'] = yuanhai_hour_killing_restriction(trace)
     if family == 'resource':
         result['yuanhai_resource_month_example'] = yuanhai_resource_month_example(trace)
+        result['yuanhai_resource_competing_context'] = yuanhai_resource_competing_context(trace)
     result['qualification'] = qualification(trace, family=family, observation=result)
     return result

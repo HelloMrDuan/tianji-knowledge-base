@@ -3961,6 +3961,558 @@
           }
         }
       }
+    },
+    {
+      "id": "bazi.resource-context-none",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲子",
+        "month_ganzhi": "壬子",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "壬子",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "resource": {
+            "yuanhai_resource_competing_context": {
+              "status": "no_related_facts_observed",
+              "source_section_ids": [
+                "bazi.section.s057",
+                "bazi.section.s058"
+              ],
+              "conditions": [
+                {
+                  "id": "month_resource",
+                  "observed": true
+                },
+                {
+                  "id": "visible_wealth",
+                  "observed": false
+                },
+                {
+                  "id": "hidden_wealth",
+                  "observed": false
+                },
+                {
+                  "id": "visible_official",
+                  "observed": false
+                },
+                {
+                  "id": "hidden_official",
+                  "observed": false
+                },
+                {
+                  "id": "visible_killing",
+                  "observed": false
+                },
+                {
+                  "id": "hidden_killing",
+                  "observed": false
+                }
+              ],
+              "adjudications": {
+                "wealth_strong_enough_to_damage_resource": "indeterminate",
+                "official_actually_generates_resource": "indeterminate",
+                "many_officials_or_competing_pattern": "indeterminate"
+              },
+              "qualified_for_determination": false,
+              "determination": null,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.resource-context-visible-wealth",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "戊子",
+        "month_ganzhi": "壬子",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "壬子",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "resource": {
+            "yuanhai_resource_competing_context": {
+              "status": "related_facts_observed",
+              "source_section_ids": [
+                "bazi.section.s057",
+                "bazi.section.s058"
+              ],
+              "conditions": [
+                {
+                  "id": "month_resource",
+                  "observed": true
+                },
+                {
+                  "id": "visible_wealth",
+                  "observed": true
+                },
+                {
+                  "id": "hidden_wealth",
+                  "observed": false
+                },
+                {
+                  "id": "visible_official",
+                  "observed": false
+                },
+                {
+                  "id": "hidden_official",
+                  "observed": false
+                },
+                {
+                  "id": "visible_killing",
+                  "observed": false
+                },
+                {
+                  "id": "hidden_killing",
+                  "observed": false
+                }
+              ],
+              "adjudications": {
+                "wealth_strong_enough_to_damage_resource": "indeterminate",
+                "official_actually_generates_resource": "indeterminate",
+                "many_officials_or_competing_pattern": "indeterminate"
+              },
+              "qualified_for_determination": false,
+              "determination": null,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.resource-context-hidden-wealth",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "丙辰",
+        "month_ganzhi": "壬子",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "壬子",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "resource": {
+            "yuanhai_resource_competing_context": {
+              "status": "related_facts_observed",
+              "source_section_ids": [
+                "bazi.section.s057",
+                "bazi.section.s058"
+              ],
+              "conditions": [
+                {
+                  "id": "month_resource",
+                  "observed": true
+                },
+                {
+                  "id": "visible_wealth",
+                  "observed": false
+                },
+                {
+                  "id": "hidden_wealth",
+                  "observed": true
+                },
+                {
+                  "id": "visible_official",
+                  "observed": false
+                },
+                {
+                  "id": "hidden_official",
+                  "observed": false
+                },
+                {
+                  "id": "visible_killing",
+                  "observed": false
+                },
+                {
+                  "id": "hidden_killing",
+                  "observed": false
+                }
+              ],
+              "adjudications": {
+                "wealth_strong_enough_to_damage_resource": "indeterminate",
+                "official_actually_generates_resource": "indeterminate",
+                "many_officials_or_competing_pattern": "indeterminate"
+              },
+              "qualified_for_determination": false,
+              "determination": null,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.resource-context-visible-official",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "辛亥",
+        "month_ganzhi": "壬子",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "壬子",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "resource": {
+            "yuanhai_resource_competing_context": {
+              "status": "related_facts_observed",
+              "source_section_ids": [
+                "bazi.section.s057",
+                "bazi.section.s058"
+              ],
+              "conditions": [
+                {
+                  "id": "month_resource",
+                  "observed": true
+                },
+                {
+                  "id": "visible_wealth",
+                  "observed": false
+                },
+                {
+                  "id": "hidden_wealth",
+                  "observed": false
+                },
+                {
+                  "id": "visible_official",
+                  "observed": true
+                },
+                {
+                  "id": "hidden_official",
+                  "observed": false
+                },
+                {
+                  "id": "visible_killing",
+                  "observed": false
+                },
+                {
+                  "id": "hidden_killing",
+                  "observed": false
+                }
+              ],
+              "adjudications": {
+                "wealth_strong_enough_to_damage_resource": "indeterminate",
+                "official_actually_generates_resource": "indeterminate",
+                "many_officials_or_competing_pattern": "indeterminate"
+              },
+              "qualified_for_determination": false,
+              "determination": null,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.resource-context-hidden-official",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "乙酉",
+        "month_ganzhi": "壬子",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "壬子",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "resource": {
+            "yuanhai_resource_competing_context": {
+              "status": "related_facts_observed",
+              "source_section_ids": [
+                "bazi.section.s057",
+                "bazi.section.s058"
+              ],
+              "conditions": [
+                {
+                  "id": "month_resource",
+                  "observed": true
+                },
+                {
+                  "id": "visible_wealth",
+                  "observed": false
+                },
+                {
+                  "id": "hidden_wealth",
+                  "observed": false
+                },
+                {
+                  "id": "visible_official",
+                  "observed": false
+                },
+                {
+                  "id": "hidden_official",
+                  "observed": true
+                },
+                {
+                  "id": "visible_killing",
+                  "observed": false
+                },
+                {
+                  "id": "hidden_killing",
+                  "observed": false
+                }
+              ],
+              "adjudications": {
+                "wealth_strong_enough_to_damage_resource": "indeterminate",
+                "official_actually_generates_resource": "indeterminate",
+                "many_officials_or_competing_pattern": "indeterminate"
+              },
+              "qualified_for_determination": false,
+              "determination": null,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.resource-context-visible-killing",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "庚子",
+        "month_ganzhi": "壬子",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "壬子",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "resource": {
+            "yuanhai_resource_competing_context": {
+              "status": "related_facts_observed",
+              "source_section_ids": [
+                "bazi.section.s057",
+                "bazi.section.s058"
+              ],
+              "conditions": [
+                {
+                  "id": "month_resource",
+                  "observed": true
+                },
+                {
+                  "id": "visible_wealth",
+                  "observed": false
+                },
+                {
+                  "id": "hidden_wealth",
+                  "observed": false
+                },
+                {
+                  "id": "visible_official",
+                  "observed": false
+                },
+                {
+                  "id": "hidden_official",
+                  "observed": false
+                },
+                {
+                  "id": "visible_killing",
+                  "observed": true
+                },
+                {
+                  "id": "hidden_killing",
+                  "observed": false
+                }
+              ],
+              "adjudications": {
+                "wealth_strong_enough_to_damage_resource": "indeterminate",
+                "official_actually_generates_resource": "indeterminate",
+                "many_officials_or_competing_pattern": "indeterminate"
+              },
+              "qualified_for_determination": false,
+              "determination": null,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.resource-context-hidden-killing",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲申",
+        "month_ganzhi": "壬子",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "壬子",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "resource": {
+            "yuanhai_resource_competing_context": {
+              "status": "related_facts_observed",
+              "source_section_ids": [
+                "bazi.section.s057",
+                "bazi.section.s058"
+              ],
+              "conditions": [
+                {
+                  "id": "month_resource",
+                  "observed": true
+                },
+                {
+                  "id": "visible_wealth",
+                  "observed": false
+                },
+                {
+                  "id": "hidden_wealth",
+                  "observed": true
+                },
+                {
+                  "id": "visible_official",
+                  "observed": false
+                },
+                {
+                  "id": "hidden_official",
+                  "observed": false
+                },
+                {
+                  "id": "visible_killing",
+                  "observed": false
+                },
+                {
+                  "id": "hidden_killing",
+                  "observed": true
+                }
+              ],
+              "adjudications": {
+                "wealth_strong_enough_to_damage_resource": "indeterminate",
+                "official_actually_generates_resource": "indeterminate",
+                "many_officials_or_competing_pattern": "indeterminate"
+              },
+              "qualified_for_determination": false,
+              "determination": null,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.resource-context-no-month-resource",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "戊子",
+        "month_ganzhi": "丙寅",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "庚子",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "resource": {
+            "yuanhai_resource_competing_context": {
+              "status": "outside_month_resource_branch",
+              "source_section_ids": [
+                "bazi.section.s057",
+                "bazi.section.s058"
+              ],
+              "conditions": [
+                {
+                  "id": "month_resource",
+                  "observed": false
+                },
+                {
+                  "id": "visible_wealth",
+                  "observed": true
+                },
+                {
+                  "id": "hidden_wealth",
+                  "observed": true
+                },
+                {
+                  "id": "visible_official",
+                  "observed": false
+                },
+                {
+                  "id": "hidden_official",
+                  "observed": false
+                },
+                {
+                  "id": "visible_killing",
+                  "observed": true
+                },
+                {
+                  "id": "hidden_killing",
+                  "observed": false
+                }
+              ],
+              "adjudications": {
+                "wealth_strong_enough_to_damage_resource": "indeterminate",
+                "official_actually_generates_resource": "indeterminate",
+                "many_officials_or_competing_pattern": "indeterminate"
+              },
+              "qualified_for_determination": false,
+              "determination": null,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
     }
   ]
 }
