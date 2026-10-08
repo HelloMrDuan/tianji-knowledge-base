@@ -77,10 +77,9 @@ class AdminDreamResearchAPITests(unittest.TestCase):
             {"dream_text": "梦见蛇", "explain": True},
         ]
         for payload in invalid:
-            with self.subTest(payload_keys=list(payload)), self.assertEqual(
-                self.client.post(ENDPOINT, json=payload, headers=self.headers).status_code, 422
-            ):
-                pass
+            with self.subTest(payload_keys=list(payload)):
+                response = self.client.post(ENDPOINT, json=payload, headers=self.headers)
+                self.assertEqual(response.status_code, 422, response.text)
 
 
 if __name__ == "__main__":
