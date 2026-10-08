@@ -172,6 +172,61 @@ class ResourceDirectionGateTests(unittest.TestCase):
             self.assertFalse(any(gate['relation_summary'].values()))
             self.assertFalse(out['interpretation_contract']['ai_may_explain'])
 
+    def test_exact_stem_sites_trace_without_effect_or_strength(self):
+        # Independent expected sites from the four given pillars:
+        # 辰藏戊与年干戊相同；丑藏癸与月/时干癸相同。
+        out = chart('戊辰', '癸丑', '甲子', '癸酉',
+                    pattern_variant=PATTERN_VARIANT)
+        gate = out['result']['pattern_candidates']['resource'][
+            'yuanhai_resource_competing_context']['elemental_causal_gate']
+        self.assertEqual(gate['exact_stem_site_summary'], {
+            'visible_actor_with_same_stem_hidden_site': True,
+            'month_resource_with_same_stem_visible_site': True,
+            'effective_root_inferred': False,
+            'numeric_root_weight_applied': False,
+        })
+        pair = next(p for p in gate['relation_candidates']
+                    if p['actor_category'] == 'visible_wealth'
+                    and p['actor']['stem'] == '戊'
+                    and p['target']['stem'] == '癸')
+        self.assertEqual([s['pillar'] for s in pair['actor_exact_stem_sites']['hidden']], ['year'])
+        self.assertEqual([s['pillar'] for s in pair['resource_exact_stem_sites']['visible']],
+                         ['month', 'hour'])
+        self.assertEqual([s['pillar'] for s in pair['resource_exact_stem_sites']['hidden']],
+                         ['year', 'month', 'day'])
+        for side, expected_stem in [('actor_exact_stem_sites', '戊'),
+                                    ('resource_exact_stem_sites', '癸')]:
+            for visibility in ('visible', 'hidden'):
+                for site in pair[side][visibility]:
+                    ref = site['fact_ref']
+                    value = out
+                    for token in ref[2:].split('/'):
+                        value = value[int(token)] if isinstance(value, list) else value[token]
+                    self.assertEqual(value['stem'], expected_stem)
+        self.assertTrue(pair['same_stem_presence_is_not_effective_root'])
+        self.assertEqual(pair['actual_root_strength_status'], 'indeterminate')
+        self.assertEqual(pair['effect_status'], 'indeterminate')
+        self.assertIsNone(pair['effective_interaction'])
+        self.assertFalse(out['interpretation_contract']['ai_may_explain'])
+
+    def test_no_exact_stem_hidden_root_is_not_a_strength_verdict(self):
+        out = chart('戊子', '壬子', '甲子', '壬子',
+                    pattern_variant=PATTERN_VARIANT)
+        gate = out['result']['pattern_candidates']['resource'][
+            'yuanhai_resource_competing_context']['elemental_causal_gate']
+        pair = next(p for p in gate['relation_candidates']
+                    if p['actor_category'] == 'visible_wealth')
+        self.assertEqual(pair['actor_exact_stem_sites']['hidden'], [])
+        self.assertEqual(pair['resource_exact_stem_sites']['visible'], [])
+        self.assertEqual(gate['exact_stem_site_summary'], {
+            'visible_actor_with_same_stem_hidden_site': False,
+            'month_resource_with_same_stem_visible_site': False,
+            'effective_root_inferred': False,
+            'numeric_root_weight_applied': False,
+        })
+        self.assertEqual(pair['actual_root_strength_status'], 'indeterminate')
+        self.assertEqual(pair['effect_status'], 'indeterminate')
+
     def test_source_and_production_gates(self):
         out=chart('辛亥','壬子','甲子','壬子',pattern_variant=PATTERN_VARIANT)
         step=next(s for s in out['trace'] if s['rule_id']=='bazi.phase2.resource_pattern_candidates')

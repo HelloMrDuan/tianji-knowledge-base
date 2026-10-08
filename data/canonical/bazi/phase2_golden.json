@@ -5060,6 +5060,82 @@
           }
         }
       }
+    },
+    {
+      "id": "bazi.resource-sites-unexposed",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "戊子",
+        "month_ganzhi": "壬子",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "壬子",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "resource": {
+            "yuanhai_resource_competing_context": {
+              "elemental_causal_gate": {
+                "status": "direction_observed_effect_unresolved",
+                "exact_stem_site_summary": {
+                  "visible_actor_with_same_stem_hidden_site": false,
+                  "month_resource_with_same_stem_visible_site": false,
+                  "effective_root_inferred": false,
+                  "numeric_root_weight_applied": false
+                },
+                "effect_gate": {
+                  "status": "indeterminate",
+                  "wealth_damages_resource": null,
+                  "official_actually_generates_resource": null
+                }
+              },
+              "adjudications": {
+                "wealth_strong_enough_to_damage_resource": "indeterminate",
+                "official_actually_generates_resource": "indeterminate",
+                "many_officials_or_competing_pattern": "indeterminate"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.resource-sites-correspondence",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "戊辰",
+        "month_ganzhi": "癸丑",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "癸酉",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "resource": {
+            "yuanhai_resource_competing_context": {
+              "elemental_causal_gate": {
+                "status": "direction_observed_effect_unresolved",
+                "exact_stem_site_summary": {
+                  "visible_actor_with_same_stem_hidden_site": true,
+                  "month_resource_with_same_stem_visible_site": true,
+                  "effective_root_inferred": false,
+                  "numeric_root_weight_applied": false
+                },
+                "effect_gate": {
+                  "status": "indeterminate",
+                  "wealth_damages_resource": null,
+                  "official_actually_generates_resource": null
+                }
+              },
+              "adjudications": {
+                "wealth_strong_enough_to_damage_resource": "indeterminate",
+                "official_actually_generates_resource": "indeterminate",
+                "many_officials_or_competing_pattern": "indeterminate"
+              }
+            }
+          }
+        }
+      }
     }
   ]
 }

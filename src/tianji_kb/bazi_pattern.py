@@ -200,6 +200,9 @@ def resource_elemental_causal_gate(context):
                ('visible_killing', 'killing_generates_resource_element_only'),
                ('hidden_killing', 'killing_generates_resource_element_only'))
     candidates = []
+    # Structural co-occurrence is a reproducible fact, not a root-strength
+    # rating or proof of effective action. Sites retain original trace refs.
+    stem_sites = context['exact_stem_sites']
     summary = {'wealth_element_controls_resource': False,
                'visible_wealth_direction': False,
                'hidden_wealth_direction': False,
@@ -250,6 +253,16 @@ def resource_elemental_causal_gate(context):
                     'actor_visibility': 'visible' if category.startswith('visible') else 'hidden',
                     'actor': dict(source), 'target': dict(target),
                     'actor_element': actor_element, 'target_element': target_element,
+                    'actor_exact_stem_sites': {
+                        'visible': list(stem_sites[source['stem']]['visible']),
+                        'hidden': list(stem_sites[source['stem']]['hidden']),
+                    },
+                    'resource_exact_stem_sites': {
+                        'visible': list(stem_sites[target['stem']]['visible']),
+                        'hidden': list(stem_sites[target['stem']]['hidden']),
+                    },
+                    'same_stem_presence_is_not_effective_root': True,
+                    'actual_root_strength_status': 'indeterminate',
                     'elemental_direction_observed': True,
                     'effective_interaction': None,
                     'effective_interaction_status': 'indeterminate',
@@ -281,6 +294,15 @@ def resource_elemental_causal_gate(context):
         'status': status,
         'relation_candidates': candidates,
         'relation_summary': summary,
+        'exact_stem_site_summary': {
+            'visible_actor_with_same_stem_hidden_site': any(
+                p['actor_visibility'] == 'visible' and p['actor_exact_stem_sites']['hidden']
+                for p in candidates),
+            'month_resource_with_same_stem_visible_site': any(
+                p['resource_exact_stem_sites']['visible'] for p in candidates),
+            'effective_root_inferred': False,
+            'numeric_root_weight_applied': False,
+        },
         'effect_gate': {
             'status': 'not_applicable_without_month_resource' if not targets
                       else 'indeterminate',
@@ -328,6 +350,25 @@ def yuanhai_resource_competing_context(trace):
 
     visible = steps['bazi.phase2.ten_gods'][1]['output']
     hidden = steps['bazi.phase2.hidden_stems'][1]['output']
+    # Inventory exact-stem visibility and hidden sites from the two already
+    # executed facts; exclude the day-master as an exposed competing actor.
+    # This has a different meaning from effective rooting or dated commander.
+    exact_stem_sites = {}
+    def site_bucket(stem):
+        return exact_stem_sites.setdefault(stem, {'visible': [], 'hidden': []})
+    for vi, row in enumerate(visible):
+        if row['pillar'] != 'day':
+            site_bucket(row['stem'])['visible'].append({
+                'pillar': row['pillar'],
+                'fact_ref': pointer('ten_gods', f'/{vi}'),
+            })
+    for pi, row in enumerate(hidden):
+        for hi, hidden_row in enumerate(row['hidden_stems']):
+            site_bucket(hidden_row['stem'])['hidden'].append({
+                'pillar': row['pillar'],
+                'branch': row['branch'],
+                'fact_ref': pointer('hidden_stems', f'/{pi}/hidden_stems/{hi}'),
+            })
     groups = {'month_resource': [], 'visible_wealth': [], 'hidden_wealth': [],
               'visible_official': [], 'hidden_official': [],
               'visible_killing': [], 'hidden_killing': []}
@@ -381,7 +422,7 @@ def yuanhai_resource_competing_context(trace):
                         | set(steps['bazi.phase2.hidden_stems'][1]['evidence_ids']))
     causal = resource_elemental_causal_gate({
         'positions': groups, 'observed_interactions': interactions,
-        'evidence_ids': provenance,
+        'evidence_ids': provenance, 'exact_stem_sites': exact_stem_sites,
     })
     return {
         'variant': PATTERN_VARIANT,
