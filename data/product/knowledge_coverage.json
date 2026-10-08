@@ -6781,7 +6781,7 @@
       },
       {
         "path": "src/tianji_kb/api.py",
-        "sha256": "a0d36ac386e013b3a1c1265c59e9ea5f33ebc63b8c8c9625a4e73789dfaa6d28"
+        "sha256": "0d9918ce8fadcaa87dc7702d672c9270e80ee5617d64b27ffbbbd111d42fd81e"
       },
       {
         "path": "src/tianji_kb/bazi_action_conditions.py",
@@ -7198,6 +7198,10 @@
       {
         "path": "tests/test_phase4_review.py",
         "sha256": "7f9499f1ed12b8b29b1e14c05b56f6d1308aa55aced3168e480b52eb44178d69"
+      },
+      {
+        "path": "tests/test_private_dream_api.py",
+        "sha256": "cd5f2e33e237f8522582d490850113596c006c21402c7eed6d0bfe868620f9c0"
       }
     ],
     "inventory_counts": {
