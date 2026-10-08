@@ -322,6 +322,25 @@ def resource_elemental_causal_gate(context):
         'status': status,
         'relation_candidates': candidates,
         'relation_summary': summary,
+        'element_root_candidate_summary': {
+            'actor_candidate_observed': any(p['actor_element_root_candidates'] for p in candidates),
+            'resource_candidate_observed': any(p['resource_element_root_candidates'] for p in candidates),
+            'other_stem_same_element_observed': any(
+                p['root_candidate_comparison']['actor_has_other_stem_same_element_site']
+                or p['root_candidate_comparison']['resource_has_other_stem_same_element_site']
+                for p in candidates),
+            'root_branch_interaction_observed': any(
+                site['branch_interactions']
+                for p in candidates
+                for site in p['actor_element_root_candidates']
+            ) or any(
+                site['branch_interactions']
+                for p in candidates
+                for site in p['resource_element_root_candidates']
+            ),
+            'actual_root_strength_inferred': False,
+            'actual_effect_inferred': False,
+        },
         'exact_stem_site_summary': {
             'visible_actor_with_same_stem_hidden_site': any(
                 p['actor_visibility'] == 'visible' and p['actor_exact_stem_sites']['hidden']
