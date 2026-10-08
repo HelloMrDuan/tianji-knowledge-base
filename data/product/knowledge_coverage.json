@@ -6801,7 +6801,7 @@
       },
       {
         "path": "src/tianji_kb/bazi_pattern.py",
-        "sha256": "9dcbe2207dc7bcb87b4f45870c2598b8e6b7adb2e7930f4dd005aebacbf6d72e"
+        "sha256": "5682edcf98aab847828e9facd19965a86acf86f83b004e07880228c0a7469a96"
       },
       {
         "path": "src/tianji_kb/bazi_root_conditions.py",
@@ -7069,7 +7069,7 @@
       },
       {
         "path": "tests/test_phase2_bazipattern_resource_direction.py",
-        "sha256": "903ea480d3abcd2e1fe89e9bac64e804780cbe12970083fb789dc88c93cfd7b4"
+        "sha256": "7e87367827ccc3c52ce85e1db96335bf9dfb089473a5c4067ecfae0b3b5186af"
       },
       {
         "path": "tests/test_phase2_bazipattern_resource_month.py",
