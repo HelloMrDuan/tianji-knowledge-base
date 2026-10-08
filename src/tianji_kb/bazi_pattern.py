@@ -219,6 +219,31 @@ def resource_elemental_causal_gate(context):
                 # seed element table; a mismatch is a data defect, not a verdict.
                 if not holds:
                     raise ValueError('Ten-god elemental relation contradicts reviewed seed')
+                # These blocks are evidence-scoped missing prerequisites, not
+                # negative judgments about the strength or activation of a stem.
+                fact_refs = [source['fact_ref'], target['fact_ref']]
+                blocker_ids = (
+                    'actor_effective_strength_unresolved',
+                    'resource_effective_strength_unresolved',
+                    'dated_commander_unresolved',
+                    'pairwise_effect_rule_not_reviewed',
+                    'school_scope_unresolved',
+                )
+                blockers = [{'id': reason, 'fact_refs': list(fact_refs)}
+                            for reason in blocker_ids]
+                if category.startswith('hidden'):
+                    blockers.append({
+                        'id': 'hidden_stem_activation_not_proven',
+                        'fact_refs': [source['fact_ref']],
+                    })
+                if context.get('observed_interactions'):
+                    blockers.append({
+                        'id': 'observed_interaction_effect_unresolved',
+                        'fact_refs': [r['fact_ref'] for r in context['observed_interactions']],
+                        'rule_ids': [r['rule_id'] for r in context['observed_interactions']],
+                        'evidence_ids': sorted({e for r in context['observed_interactions']
+                                                for e in r['evidence_ids']}),
+                    })
                 candidate = {
                     'kind': kind,
                     'actor_category': category,
@@ -230,6 +255,15 @@ def resource_elemental_causal_gate(context):
                     'effective_interaction_status': 'indeterminate',
                     'actor_strength': None, 'target_strength': None,
                     'stem_or_hidden_equivalence_assumed': False,
+                    'structural_presence': True,
+                    'elemental_relation_direction': kind,
+                    'effect_status': 'indeterminate',
+                    'effect_blockers': blockers,
+                    'fact_refs': fact_refs,
+                    'evidence_ids': context.get('evidence_ids', []),
+                    'source_refs': ['bazi.section.s057', 'bazi.section.s058'],
+                    'variant': PATTERN_VARIANT,
+                    'adjudication': 'indeterminate',
                 }
                 candidates.append(candidate)
                 if category in ('visible_wealth', 'hidden_wealth'):
@@ -324,7 +358,22 @@ def yuanhai_resource_competing_context(trace):
         status = 'related_facts_observed'
     else:
         status = 'no_related_facts_observed'
-    causal = resource_elemental_causal_gate({'positions': groups})
+    relation_rules = ('stem_five_combinations', 'branch_six_harmonies',
+                      'branch_six_clashes', 'branch_triple_harmonies')
+    interactions = [
+        {'rule_id': 'bazi.phase2.' + key,
+         'fact_ref': pointer(key),
+         'evidence_ids': list(steps['bazi.phase2.' + key][1]['evidence_ids'])}
+        for key in relation_rules
+        if 'bazi.phase2.' + key in steps
+        and steps['bazi.phase2.' + key][1]['output']
+    ]
+    provenance = sorted(set(steps['bazi.phase2.ten_gods'][1]['evidence_ids'])
+                        | set(steps['bazi.phase2.hidden_stems'][1]['evidence_ids']))
+    causal = resource_elemental_causal_gate({
+        'positions': groups, 'observed_interactions': interactions,
+        'evidence_ids': provenance,
+    })
     return {
         'variant': PATTERN_VARIANT,
         'school_branch': 'yuanhai-印绶官财条件未裁决',

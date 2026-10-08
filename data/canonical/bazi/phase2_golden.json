@@ -4877,6 +4877,189 @@
           }
         }
       }
+    },
+    {
+      "id": "bazi.resource-direction-wealth-and-official",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "戊子",
+        "month_ganzhi": "壬子",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "辛酉",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "resource": {
+            "yuanhai_resource_competing_context": {
+              "elemental_causal_gate": {
+                "status": "direction_observed_effect_unresolved",
+                "source_section_ids": [
+                  "bazi.section.s057",
+                  "bazi.section.s058"
+                ],
+                "relation_summary": {
+                  "wealth_element_controls_resource": true,
+                  "visible_wealth_direction": true,
+                  "hidden_wealth_direction": false,
+                  "official_element_generates_resource": true,
+                  "visible_official_direction": true,
+                  "hidden_official_direction": true,
+                  "killing_element_generates_resource_only": false
+                },
+                "effect_gate": {
+                  "status": "indeterminate",
+                  "wealth_damages_resource": null,
+                  "official_actually_generates_resource": null,
+                  "killing_equivalent_to_official_in_source": null,
+                  "general_day_master_action_effects_reused": false,
+                  "numeric_weights_applied": false,
+                  "source_case_lookup_used": false
+                },
+                "research_only": true,
+                "public_enabled": false,
+                "ai_enabled": false
+              },
+              "adjudications": {
+                "wealth_strong_enough_to_damage_resource": "indeterminate",
+                "official_actually_generates_resource": "indeterminate",
+                "many_officials_or_competing_pattern": "indeterminate"
+              },
+              "determination": null,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.resource-direction-clash-effect-unresolved",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "戊午",
+        "month_ganzhi": "壬子",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "壬子",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "resource": {
+            "yuanhai_resource_competing_context": {
+              "elemental_causal_gate": {
+                "status": "direction_observed_effect_unresolved",
+                "source_section_ids": [
+                  "bazi.section.s057",
+                  "bazi.section.s058"
+                ],
+                "relation_summary": {
+                  "wealth_element_controls_resource": true,
+                  "visible_wealth_direction": true,
+                  "hidden_wealth_direction": true,
+                  "official_element_generates_resource": false,
+                  "visible_official_direction": false,
+                  "hidden_official_direction": false,
+                  "killing_element_generates_resource_only": false
+                },
+                "effect_gate": {
+                  "status": "indeterminate",
+                  "wealth_damages_resource": null,
+                  "official_actually_generates_resource": null,
+                  "killing_equivalent_to_official_in_source": null,
+                  "general_day_master_action_effects_reused": false,
+                  "numeric_weights_applied": false,
+                  "source_case_lookup_used": false
+                },
+                "research_only": true,
+                "public_enabled": false,
+                "ai_enabled": false
+              },
+              "adjudications": {
+                "wealth_strong_enough_to_damage_resource": "indeterminate",
+                "official_actually_generates_resource": "indeterminate",
+                "many_officials_or_competing_pattern": "indeterminate"
+              },
+              "determination": null,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.resource-direction-wealth-with-killing",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "戊子",
+        "month_ganzhi": "壬子",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "庚申",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "resource": {
+            "yuanhai_resource_competing_context": {
+              "elemental_causal_gate": {
+                "status": "direction_observed_effect_unresolved",
+                "source_section_ids": [
+                  "bazi.section.s057",
+                  "bazi.section.s058"
+                ],
+                "relation_summary": {
+                  "wealth_element_controls_resource": true,
+                  "visible_wealth_direction": true,
+                  "hidden_wealth_direction": true,
+                  "official_element_generates_resource": false,
+                  "visible_official_direction": false,
+                  "hidden_official_direction": false,
+                  "killing_element_generates_resource_only": true
+                },
+                "effect_gate": {
+                  "status": "indeterminate",
+                  "wealth_damages_resource": null,
+                  "official_actually_generates_resource": null,
+                  "killing_equivalent_to_official_in_source": null,
+                  "general_day_master_action_effects_reused": false,
+                  "numeric_weights_applied": false,
+                  "source_case_lookup_used": false
+                },
+                "research_only": true,
+                "public_enabled": false,
+                "ai_enabled": false
+              },
+              "adjudications": {
+                "wealth_strong_enough_to_damage_resource": "indeterminate",
+                "official_actually_generates_resource": "indeterminate",
+                "many_officials_or_competing_pattern": "indeterminate"
+              },
+              "determination": null,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
     }
   ]
 }
