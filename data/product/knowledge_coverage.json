@@ -5166,8 +5166,8 @@
       },
       {
         "path": "data/canonical/bazi/phase2_execution.json",
-        "sha256": "f9567f324e28b301b969e28080e2f6c732ae0cf8010d872bc3893e5e44f670cf",
-        "bytes": 23383,
+        "sha256": "6af48f837ce673a55ba5583d17b24c9c3df7f63e3af7c3ec7f7d585d8ba58233",
+        "bytes": 23470,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -5176,8 +5176,8 @@
       },
       {
         "path": "data/canonical/bazi/phase2_golden.json",
-        "sha256": "3deb1192969ffb8625c78020628139a2c9f1fc3cacd9efc573eea6a212990157",
-        "bytes": 157490,
+        "sha256": "34f39272e03ccf2452c062efc71d1d8207103d170b6e181e9c979859c2040d97",
+        "bytes": 160311,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -6801,7 +6801,7 @@
       },
       {
         "path": "src/tianji_kb/bazi_pattern.py",
-        "sha256": "5682edcf98aab847828e9facd19965a86acf86f83b004e07880228c0a7469a96"
+        "sha256": "9e1f0d3ed44fa485d599cbc985ab687ee568c29c13b16f4b0ee46eaa3da0bd91"
       },
       {
         "path": "src/tianji_kb/bazi_root_conditions.py",
@@ -7069,7 +7069,7 @@
       },
       {
         "path": "tests/test_phase2_bazipattern_resource_direction.py",
-        "sha256": "7e87367827ccc3c52ce85e1db96335bf9dfb089473a5c4067ecfae0b3b5186af"
+        "sha256": "1c3b0f7dba8669ffa1f6d807d47d0ee487eb94d5c2775ba2b1f101362032c01d"
       },
       {
         "path": "tests/test_phase2_bazipattern_resource_month.py",
@@ -11733,7 +11733,9 @@
               "bazi.resource-direction-official-visible",
               "bazi.resource-direction-official-hidden",
               "bazi.resource-direction-killing-only",
-              "bazi.resource-direction-no-month-resource"
+              "bazi.resource-direction-no-month-resource",
+              "bazi.resource-sites-unexposed",
+              "bazi.resource-sites-correspondence"
             ],
             "regression_test": "tests/test_phase2_bazipattern.py",
             "evidence_scope": "C：显式研究月藏十神与逐字透干位置；司令、禄刃杂气、官杀/破印、真假成败喜用均未裁定；AI 和公开产品不授权。；并观察《渊海》s059已有的十日干/月支月份生我例（不定印格）。；s057/s058 月令印及财/官杀显藏共现的条件事实，财旺破印、官印相生、官鬼多均 indeterminate。；财对月藏印五行克方向、正官/七杀对印五行生方向仅作为结构候选；成效门控始终拒判。",
@@ -11929,6 +11931,8 @@
           "bazi.resource-direction-wealth-hidden",
           "bazi.resource-direction-wealth-visible",
           "bazi.resource-direction-wealth-with-killing",
+          "bazi.resource-sites-correspondence",
+          "bazi.resource-sites-unexposed",
           "bazi.roots-absent",
           "bazi.roots-clash-not-erasure",
           "bazi.roots-growth",

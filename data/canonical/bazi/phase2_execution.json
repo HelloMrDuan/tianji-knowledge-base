@@ -549,7 +549,9 @@
         "bazi.resource-direction-official-visible",
         "bazi.resource-direction-official-hidden",
         "bazi.resource-direction-killing-only",
-        "bazi.resource-direction-no-month-resource"
+        "bazi.resource-direction-no-month-resource",
+        "bazi.resource-sites-unexposed",
+        "bazi.resource-sites-correspondence"
       ],
       "regression_test": "tests/test_phase2_bazipattern.py",
       "evidence_scope": "C：显式研究月藏十神与逐字透干位置；司令、禄刃杂气、官杀/破印、真假成败喜用均未裁定；AI 和公开产品不授权。；并观察《渊海》s059已有的十日干/月支月份生我例（不定印格）。；s057/s058 月令印及财/官杀显藏共现的条件事实，财旺破印、官印相生、官鬼多均 indeterminate。；财对月藏印五行克方向、正官/七杀对印五行生方向仅作为结构候选；成效门控始终拒判。"
