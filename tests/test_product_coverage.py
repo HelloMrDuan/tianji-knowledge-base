@@ -32,7 +32,21 @@ class ProductCoverageTests(unittest.TestCase):
     def test_all_requested_products_and_specialist_tools_have_no_fake_authorization(self):
         rows = build_product_coverage(ROOT)
         self.assertEqual(len(rows) - 1, 16)
-        self.assertEqual(sum(len(e['rules']) for e in rows['_audit']['engines'].values()), 64)
+        # Use the actual reviewed Phase2 contracts, not a stale magic count.
+        registered = sum(len(contract['rules']) for contract in self.resolver.contracts.values())
+        self.assertEqual(sum(len(e['rules']) for e in rows['_audit']['engines'].values()), registered)
+        annual_id = 'bazi.phase2.annual_reference_facts'
+        annual = next(rule for rule in rows['_audit']['engines']['bazi']['rules']
+                      if rule['id'] == annual_id)
+        self.assertEqual(len(annual['golden_case_ids']), 2)
+        self.assertEqual(annual['execution_status'], 'executable')
+        self.assertTrue(annual['evidence'])
+        # Research calendar references do not grant a public Scenario claim.
+        public_rule_ids = {
+            rule_id for product in rows.values() if 'supported_capabilities' in product
+            for cap in product['supported_capabilities'] for rule_id in cap['rule_ids']
+        }
+        self.assertNotIn(annual_id, public_rule_ids)
         self.assertEqual(sum(len(e['golden_ids']) for e in rows['_audit']['engines'].values()),
                          sum(len(read_json(ROOT / e['golden_path'])['cases'])
                              for e in rows['_audit']['engines'].values() if e['registered']))
