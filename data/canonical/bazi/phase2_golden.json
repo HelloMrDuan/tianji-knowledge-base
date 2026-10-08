@@ -3615,7 +3615,7 @@
                 },
                 {
                   "id": "reviewed_month_hidden_resource",
-                  "observed": false
+                  "observed": true
                 }
               ],
               "qualified_for_determination": false,
