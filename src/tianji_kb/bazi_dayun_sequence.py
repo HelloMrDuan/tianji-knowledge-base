@@ -18,7 +18,7 @@ def candidate_sequence(month_ganzhi, day_master, *, direction, periods=8):
         raise ValueError("dayun_sequence_direction must be forward or backward")
     if type(periods) is not int or not 1 <= periods <= MAX_PERIODS:
         raise ValueError("dayun_sequence_count must be an integer from 1 to 12")
-    if day_master not in STEMS or type(day_master) is not str:
+    if type(day_master) is not str or day_master not in STEMS:
         raise ValueError("Expected a valid natal day stem")
     month_index = ganzhi_index(month_ganzhi)
     sign = 1 if direction == "forward" else -1
