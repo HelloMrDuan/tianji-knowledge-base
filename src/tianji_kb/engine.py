@@ -5,6 +5,7 @@ from .calendar import calendar
 from .foundations import CYCLE
 from .bazi_adjudication import ADJUDICATION_VARIANT
 from .bazi_dayun_jie import adjacent_jie_distance
+from .bazi_dayun_direction import VARIANT as DAYUN_DIRECTION_VARIANT, traditional_direction
 from .bazi_dayun_simulation import VARIANT as DAYUN_SIM_VARIANT, simulate_dayun_age_and_timeline
 
 PROVIDERS={domain:f'tianji_kb.operations.{domain}_chart.chart' for domain in ('liuyao','qimen','liuren','ziwei','fengshui','yijing','bazi')}
@@ -45,19 +46,28 @@ def execute(domain,inputs,variant=None,*,allow_research=False):
         raise ValueError('Li Chun annual boundaries require explicit research mode')
     if domain == 'bazi' and (inputs.get('dayun_sequence_direction') is not None or 'dayun_sequence_count' in inputs) and not allow_research:
         raise ValueError('Dayun sequence candidates require explicit research mode')
+    if domain == 'bazi' and 'dayun_direction_policy' in inputs:
+        if not allow_research:
+            raise ValueError('Dayun traditional direction requires explicit research mode')
+        if type(inputs['dayun_direction_policy']) is not str or inputs['dayun_direction_policy'] != DAYUN_DIRECTION_VARIANT:
+            raise ValueError('Unsupported Dayun direction research variant')
+        if 'dayun_sequence_direction' in inputs:
+            raise ValueError('Choose either explicit direction or traditional-role policy, not both')
+        if type(inputs.get('traditional_role')) is not str or inputs['traditional_role'] not in ('male', 'female'):
+            raise ValueError('Dayun traditional direction requires explicit traditional_role')
     if domain == 'bazi' and 'dayun_jie_distance' in inputs:
         if not allow_research:
             raise ValueError('Dayun Jie distance requires explicit research mode')
         if type(inputs['dayun_jie_distance']) is not bool or inputs['dayun_jie_distance'] is not True:
             raise ValueError('dayun_jie_distance must be true when supplied')
-        if 'value' not in inputs or inputs.get('dayun_sequence_direction') is None:
+        if 'value' not in inputs or (inputs.get('dayun_sequence_direction') is None and 'dayun_direction_policy' not in inputs):
             raise ValueError('Dayun Jie distance requires actual birth value and explicit direction')
     if domain == 'bazi' and 'dayun_age_simulation' in inputs:
         if not allow_research:
             raise ValueError('Dayun age simulation requires explicit research mode')
         if type(inputs['dayun_age_simulation']) is not str or inputs['dayun_age_simulation'] != DAYUN_SIM_VARIANT:
             raise ValueError('Unsupported Dayun age simulation variant')
-        if inputs.get('dayun_jie_distance') is not True or 'value' not in inputs or inputs.get('dayun_sequence_direction') is None:
+        if inputs.get('dayun_jie_distance') is not True or 'value' not in inputs or (inputs.get('dayun_sequence_direction') is None and 'dayun_direction_policy' not in inputs):
             raise ValueError('Dayun age simulation requires birth, direction and measured Jie distance')
     contract=EvidenceResolver().contracts[domain]
     if contract['provider']!=PROVIDERS[domain]:raise ValueError('Provider differs from reviewed allowlist')
@@ -70,10 +80,25 @@ def execute(domain,inputs,variant=None,*,allow_research=False):
     prepared,cal=prepare_inputs(domain,inputs)
     prepared.pop('dayun_jie_distance', None)
     prepared.pop('dayun_age_simulation', None)
+    direction_policy = prepared.pop('dayun_direction_policy', None)
+    direction_candidate = None
+    if domain == 'bazi' and direction_policy == DAYUN_DIRECTION_VARIANT:
+        direction_candidate = traditional_direction(
+            prepared['year_ganzhi'], traditional_role=prepared['traditional_role'])
+        prepared['dayun_sequence_direction'] = direction_candidate['direction]
     module,name=PROVIDERS[domain].rsplit('.',1)
     result=getattr(importlib.import_module(module),name)(**prepared,variant=selected)
     if result['variant']!=selected or not result['deterministic']:
         raise ValueError('Execution contract mismatch')
+    if direction_candidate is not None:
+        # This research-only historical role was explicitly selected by caller;
+        # the direction mapping is NOT an approved Phase2 RuleMatch/Evidence.
+        research = result['result']['dayun_sequence_research']
+        if research['direction'] != direction_candidate['direction']:
+            raise ValueError('Dayun candidate direction mismatch')
+        research['direction_origin'] = direction_candidate['direction_origin']
+        research['direction_from_natal_attributes_calculated'] = True
+        research['direction_research'] = direction_candidate
     if birth_for_jie is not None:
         # This is NOT a reviewed Dayun Phase2 Rule or classical Evidence.
         # Only provider calendar facts; explicitly excluded from RuleMatch.
