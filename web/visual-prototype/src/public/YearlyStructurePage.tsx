@@ -3,6 +3,7 @@ import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeYearlyScenario, type ScenarioExecuteResponse } from "./api";
+import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
 import "./yearly-structure.css";
 
 const pillarNames: Record<string, string> = {
@@ -33,8 +34,8 @@ function displayEvidence(id: string, evidence: Record<string, any>) {
 }
 
 export function YearlyStructurePage() {
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
+  const [date, setDate] = useState(() => readSavedBirthProfile().date);
+  const [time, setTime] = useState(() => readSavedBirthProfile().time);
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -52,12 +53,12 @@ export function YearlyStructurePage() {
     setError("");
     setResult(null);
     try {
-      setResult(
-        await executeYearlyScenario({
-          birth_value: `${date}T${time}:00+08:00`,
-          target_year: 2026,
-        }),
-      );
+      const response = await executeYearlyScenario({
+        birth_value: `${date}T${time}:00+08:00`,
+        target_year: 2026,
+      });
+      saveBirthProfile({ date, time });
+      setResult(response);
     } catch (err) {
       setError(err instanceof Error ? err.message : "年度结构计算失败。");
     } finally {
