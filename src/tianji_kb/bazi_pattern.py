@@ -3,6 +3,69 @@
 PATTERN_VARIANT = 'bazi-pattern-structure-candidates-v1'
 
 
+def qualification(trace, *, family, observation):
+    """Evidence-linked pre-determination checklist, NOT a final pattern verdict.
+
+    Disqualification only means this particular monthly hidden-stem observation
+    route found no candidate; it never excludes other classical selection routes.
+    """
+    if family not in ('official', 'resource'):
+        raise ValueError('Unknown pattern family')
+    month = observation['month_branch']
+    candidates = observation['observations']
+    commander = observation['dated_commander']
+    refs = [row['hidden_fact_ref'] for row in candidates]
+    refs.extend(p['fact_ref'] for row in candidates for p in row['visible_positions'])
+    context = observation['context_positions']
+    related = ('正官', '七杀') if family == 'official' else ('正财', '偏财', '正官', '七杀')
+    relevant = [row for row in context if row['ten_god'] in related]
+    steps = {s['rule_id']: s for s in trace.steps}
+    prereqs = ('pillars', 'ten_gods', 'hidden_stems', 'hidden_to_visible', 'month_command_variant')
+    evidence = sorted({e for name in prereqs
+                       for e in steps['bazi.phase2.' + name]['evidence_ids']})
+    if not evidence or any(e not in trace.evidence for e in evidence):
+        raise ValueError('Pattern qualification lacks executed evidence')
+
+    requirements = [
+        {'id': 'monthly_hidden_stem_candidate', 'status': 'observed' if candidates else 'not_observed',
+         'fact_refs': refs, 'note': '仅此月藏候选支路；不否定地支官局或其他取格法'},
+        {'id': 'literal_exposure', 'status': 'observed' if any(r['exposed'] for r in candidates) else 'not_observed',
+         'fact_refs': [p['fact_ref'] for r in candidates for p in r['visible_positions']],
+         'note': '透出是结构事实；未透不能自动排除别支取格'},
+        {'id': 'dated_commander', 'status': 'source_conflict' if commander['conflict_ids'] else 'unresolved',
+         'fact_refs': [commander['fact_ref']],
+         'note': '本气及无冲突登记都不能取代实际分日司令'},
+        {'id': 'luren_miscellaneous_month_exceptions', 'status': 'unresolved',
+         'fact_refs': [observation['month_fact_ref']],
+         'known_miscellaneous_branch': month in ('辰', '戌', '丑', '未'),
+         'note': '禄刃须结合日主专项审查；杂气月不得套普通月令捷径'},
+        {'id': 'family_specific_competing_conditions', 'status': 'unresolved',
+         'fact_refs': [row['fact_ref'] for row in relevant],
+         'note': '官杀去留/混杂' if family == 'official' else '财旺破印/别格/官鬼多'},
+        {'id': 'general_strength_and_effects', 'status': 'unresolved',
+         'fact_refs': [], 'note': '有限强弱强/弱不自动授予定格资格'},
+        {'id': 'classical_branch_selection', 'status': 'unresolved', 'fact_refs': [],
+         'note': '任氏及渊海口径不可合并成无差别判断'},
+    ]
+    for req in requirements:
+        for pointer in req['fact_refs']:
+            if not pointer.startswith('#/trace/'):
+                raise ValueError('Qualification contains an invalid fact reference')
+    return {
+        'variant': observation['variant'],
+        'family': family,
+        'branch': 'monthly_hidden_stem_observation_only',
+        'qualification_status': 'indeterminate' if candidates else 'disqualified_for_this_branch',
+        'family_determination_status': 'unresolved',
+        'requirements': requirements,
+        'evidence_ids': evidence,
+        'evidence_scope': 'executed_structural_dependencies_only',
+        'conflict_ids': list(commander['conflict_ids']),
+        'research_only': True, 'public_enabled': False, 'ai_enabled': False,
+        'scope': '仅审已实现的月藏十神候选路线；资格未完成，不定真假、成败、喜用或任何其他取格支路。',
+    }
+
+
 def candidates(trace, *, family, pattern_variant=PATTERN_VARIANT):
     if pattern_variant != PATTERN_VARIANT or family not in ('official', 'resource'):
         raise ValueError('Unsupported pattern candidate variant or family')
@@ -57,7 +120,7 @@ def candidates(trace, *, family, pattern_variant=PATTERN_VARIANT):
                     'stem': row['stem'], 'ten_god': row['ten_god'], 'visibility': 'hidden',
                     'fact_ref': pointer('hidden_stems', f'/{pi}/hidden_stems/{hi}')})
     command = output('month_command_variant')
-    return {'variant': pattern_variant, 'family': family,
+    result = {'variant': pattern_variant, 'family': family,
         'status': 'structural_observation_only' if observations else 'no_month_candidate',
         'month_branch': month_row['branch'], 'month_fact_ref': pointer('hidden_stems', f'/{mi}'),
         'observations': observations, 'context_positions': context,
@@ -72,3 +135,5 @@ def candidates(trace, *, family, pattern_variant=PATTERN_VARIANT):
             'general_strength_and_actual_effects', 'source_branch_selection'],
         'research_only': True, 'public_enabled': False, 'ai_enabled': False,
         'scope': '现代形式化的月藏十神与逐字透干位置观察；不覆盖地支官局等另支取官，不定格、不取用、不判断成败吉凶。'}
+    result['qualification'] = qualification(trace, family=family, observation=result)
+    return result

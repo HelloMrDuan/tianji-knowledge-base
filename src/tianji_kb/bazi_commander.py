@@ -35,6 +35,40 @@ def principal_month(observed, day_master, *, command_variant=PRINCIPAL_VARIANT):
             'scope': '任氏已审本气关系；独立于分日口径，关系不单独证明旺衰，四库本气未审。'}
 
 
+MONTH_BRANCHES = ('寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥', '子', '丑')
+
+
+def commander_review_matrix(*, policy=None):
+    """Twelve independently scoped review states, not a day-command lookup table.
+
+    A reviewed principal qi or absence of recorded disagreement NEVER resolves
+    a dated commander. This is derived from the existing audited Concept only.
+    """
+    if policy is None:
+        policy = EvidenceResolver().entities[POLICY_CONCEPT][1]['attributes']
+    rows = []
+    for branch in MONTH_BRANCHES:
+        principal = policy['principal_qi'].get(branch)
+        profiles = [
+            {'variant': p['variant'], 'section_ids': list(p['months'][branch]['section_ids'])}
+            for p in policy['commander_profiles'] if branch in p['months']
+        ]
+        conflicts = [c['id'] for c in policy['conflicts'] if branch in c['month_branches']]
+        rows.append({
+            'month_branch': branch,
+            'principal_qi': principal['stem'] if principal else None,
+            'principal_qi_status': 'reviewed_structural' if principal else 'not_reviewed',
+            'candidate_profiles': profiles,
+            'candidate_review_status': 'reviewed_candidates' if profiles else 'not_reviewed',
+            'source_comparison_status': 'source_conflict' if conflicts else 'not_reviewed',
+            'dated_boundary_status': 'insufficient_text' if profiles else 'not_reviewed',
+            'exact_day_commander': None,
+            'commander_status': 'unresolved',
+            'conflict_ids': conflicts,
+        })
+    return rows
+
+
 def month_command(pillars, day_master, *, command_variant=COMMAND_VARIANT):
     if command_variant != COMMAND_VARIANT:
         raise ValueError('Unsupported month command variant')
@@ -53,6 +87,8 @@ def month_command(pillars, day_master, *, command_variant=COMMAND_VARIANT):
                          'status': 'candidates_only' if row else 'not_reviewed',
                          'exact_day_commander': None})
     conflicts = [c['id'] for c in policy['conflicts'] if branch in c['month_branches']]
+    dated_review = next(row for row in commander_review_matrix(policy=policy)
+                        if row['month_branch'] == branch)
     return {
         'command_variant': command_variant, 'month_branch': branch,
         'hidden_stems': hidden,
@@ -61,6 +97,7 @@ def month_command(pillars, day_master, *, command_variant=COMMAND_VARIANT):
         'principal_qi_section_ids': list(principal['section_ids']) if principal else [],
         'commander_candidates': profiles, 'source_conflict': conflicts,
         'source_comparison_status': 'unresolved' if conflicts else 'not_reviewed',
+        'dated_review': dated_review,
         'commander': None, 'commander_status': 'unresolved',
         'determinacy': 'structural_only', 'day_master': day_master,
         'de_ling': None, 'overall_strength': None,
