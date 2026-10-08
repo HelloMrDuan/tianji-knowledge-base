@@ -203,6 +203,19 @@ def resource_elemental_causal_gate(context):
     # Structural co-occurrence is a reproducible fact, not a root-strength
     # rating or proof of effective action. Sites retain original trace refs.
     stem_sites = context['exact_stem_sites']
+    element_root_sites = context['element_root_sites']
+    branch_root_interactions = context['branch_root_interactions']
+    def candidates_for(stem):
+        element = stem_element(stem)
+        return [
+            {**site, 'same_stem': site['stem'] == stem,
+             'match_type': 'same_stem' if site['stem'] == stem else 'same_element_only',
+             'root_effect_status': 'indeterminate',
+             'branch_interactions': [dict(interaction) for interaction in
+                                     branch_root_interactions
+                                     if site['pillar'] in interaction['pillars']]}
+            for site in element_root_sites[element]
+        ]
     summary = {'wealth_element_controls_resource': False,
                'visible_wealth_direction': False,
                'hidden_wealth_direction': False,
@@ -222,8 +235,10 @@ def resource_elemental_causal_gate(context):
                 # seed element table; a mismatch is a data defect, not a verdict.
                 if not holds:
                     raise ValueError('Ten-god elemental relation contradicts reviewed seed')
-                # These blocks are evidence-scoped missing prerequisites, not
-                # negative judgments about the strength or activation of a stem.
+                # Same-element hidden sites are root *candidates* only.
+                # A same-stem site is not a strength/effect decision.
+                actor_roots = candidates_for(source['stem'])
+                target_roots = candidates_for(target['stem'])
                 fact_refs = [source['fact_ref'], target['fact_ref']]
                 blocker_ids = (
                     'actor_effective_strength_unresolved',
@@ -262,6 +277,19 @@ def resource_elemental_causal_gate(context):
                         'hidden': list(stem_sites[target['stem']]['hidden']),
                     },
                     'same_stem_presence_is_not_effective_root': True,
+                    'actor_element_root_candidates': actor_roots,
+                    'resource_element_root_candidates': target_roots,
+                    'root_candidate_comparison': {
+                        'actor_has_same_stem_site': any(x['same_stem'] for x in actor_roots),
+                        'actor_has_other_stem_same_element_site': any(
+                            not x['same_stem'] for x in actor_roots),
+                        'resource_has_same_stem_site': any(x['same_stem'] for x in target_roots),
+                        'resource_has_other_stem_same_element_site': any(
+                            not x['same_stem'] for x in target_roots),
+                        'root_effect_status': 'indeterminate',
+                        'root_loss_inferred_from_clash': False,
+                        'pairwise_effect_proved_by_root_sites': False,
+                    },
                     'actual_root_strength_status': 'indeterminate',
                     'elemental_direction_observed': True,
                     'effective_interaction': None,
@@ -369,6 +397,17 @@ def yuanhai_resource_competing_context(trace):
                 'branch': row['branch'],
                 'fact_ref': pointer('hidden_stems', f'/{pi}/hidden_stems/{hi}'),
             })
+    element_root_sites = {element: [] for element in ('木', '火', '土', '金', '水')}
+    for pi, pillar in enumerate(hidden):
+        for hi, stem_row in enumerate(pillar['hidden_stems']):
+            stem = stem_row['stem']
+            element = stem_element(stem)
+            element_root_sites[element].append({
+                'pillar': pillar['pillar'], 'branch': pillar['branch'],
+                'stem': stem, 'element': element,
+                'fact_ref': pointer('hidden_stems', f'/{pi}/hidden_stems/{hi}'),
+                'structural_candidate_only': True,
+            })
     groups = {'month_resource': [], 'visible_wealth': [], 'hidden_wealth': [],
               'visible_official': [], 'hidden_official': [],
               'visible_killing': [], 'hidden_killing': []}
@@ -418,11 +457,35 @@ def yuanhai_resource_competing_context(trace):
             'fact_ref': pointer(key),
             'evidence_ids': list(evidence_ids),
         })
+    branch_root_interactions = []
+    for key in ('branch_six_clashes', 'branch_six_harmonies',
+                'branch_triple_harmonies'):
+        rule_id = 'bazi.phase2.' + key
+        if rule_id not in steps:
+            continue
+        step = steps[rule_id][1]
+        if step['output'] and (
+            not step['evidence_ids'] or
+            any(e not in trace.evidence for e in step['evidence_ids'])
+        ):
+            raise ValueError('Resource root interaction lacks executed evidence: ' + rule_id)
+        for index, item in enumerate(step['output']):
+            if not item.get('pillars'):
+                raise ValueError('Resource root interaction lacks pillar positions: ' + rule_id)
+            branch_root_interactions.append({
+                'rule_id': rule_id,
+                'pillars': list(item['pillars']),
+                'fact_ref': pointer(key, f'/{index}'),
+                'evidence_ids': list(step['evidence_ids']),
+                'effect_status': 'indeterminate',
+            })
     provenance = sorted(set(steps['bazi.phase2.ten_gods'][1]['evidence_ids'])
                         | set(steps['bazi.phase2.hidden_stems'][1]['evidence_ids']))
     causal = resource_elemental_causal_gate({
         'positions': groups, 'observed_interactions': interactions,
         'evidence_ids': provenance, 'exact_stem_sites': exact_stem_sites,
+        'element_root_sites': element_root_sites,
+        'branch_root_interactions': branch_root_interactions,
     })
     return {
         'variant': PATTERN_VARIANT,
