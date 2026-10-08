@@ -5,6 +5,7 @@ from .calendar import calendar
 from .foundations import CYCLE
 from .bazi_adjudication import ADJUDICATION_VARIANT
 from .bazi_dayun_jie import adjacent_jie_distance
+from .bazi_dayun_simulation import VARIANT as DAYUN_SIM_VARIANT, simulate_dayun_age_and_timeline
 
 PROVIDERS={domain:f'tianji_kb.operations.{domain}_chart.chart' for domain in ('liuyao','qimen','liuren','ziwei','fengshui','yijing','bazi')}
 
@@ -51,6 +52,13 @@ def execute(domain,inputs,variant=None,*,allow_research=False):
             raise ValueError('dayun_jie_distance must be true when supplied')
         if 'value' not in inputs or inputs.get('dayun_sequence_direction') is None:
             raise ValueError('Dayun Jie distance requires actual birth value and explicit direction')
+    if domain == 'bazi' and 'dayun_age_simulation' in inputs:
+        if not allow_research:
+            raise ValueError('Dayun age simulation requires explicit research mode')
+        if type(inputs['dayun_age_simulation']) is not str or inputs['dayun_age_simulation'] != DAYUN_SIM_VARIANT:
+            raise ValueError('Unsupported Dayun age simulation variant')
+        if inputs.get('dayun_jie_distance') is not True or 'value' not in inputs or inputs.get('dayun_sequence_direction') is None:
+            raise ValueError('Dayun age simulation requires birth, direction and measured Jie distance')
     contract=EvidenceResolver().contracts[domain]
     if contract['provider']!=PROVIDERS[domain]:raise ValueError('Provider differs from reviewed allowlist')
     selected=variant if variant is not None else contract['variant']
@@ -61,6 +69,7 @@ def execute(domain,inputs,variant=None,*,allow_research=False):
     birth_for_jie = inputs.get('value') if domain == 'bazi' and inputs.get('dayun_jie_distance') is True else None
     prepared,cal=prepare_inputs(domain,inputs)
     prepared.pop('dayun_jie_distance', None)
+    prepared.pop('dayun_age_simulation', None)
     module,name=PROVIDERS[domain].rsplit('.',1)
     result=getattr(importlib.import_module(module),name)(**prepared,variant=selected)
     if result['variant']!=selected or not result['deterministic']:
@@ -72,6 +81,10 @@ def execute(domain,inputs,variant=None,*,allow_research=False):
         research['jie_distance'] = adjacent_jie_distance(
             birth_for_jie, research['direction'],
             expected_month_ganzhi=prepared['month_ganzhi'])
+        if inputs.get('dayun_age_simulation') == DAYUN_SIM_VARIANT:
+            research['age_simulation'] = simulate_dayun_age_and_timeline(
+                research['jie_distance']['birth_local_datetime'],
+                research['jie_distance'], research['rows'])
     if cal is not None:result['input_calendar']=cal
     result['scope']=contract.get('scope','')
     result['unresolved']=contract.get('unresolved',[])
