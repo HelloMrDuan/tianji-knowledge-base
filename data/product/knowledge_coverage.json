@@ -5176,8 +5176,8 @@
       },
       {
         "path": "data/canonical/bazi/phase2_golden.json",
-        "sha256": "074a65b7a00bda9bc4aa318cdc5c1b44e9f66474eacfa88c3f138fc3ca31cb49",
-        "bytes": 150403,
+        "sha256": "3deb1192969ffb8625c78020628139a2c9f1fc3cacd9efc573eea6a212990157",
+        "bytes": 157490,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -6801,7 +6801,7 @@
       },
       {
         "path": "src/tianji_kb/bazi_pattern.py",
-        "sha256": "710c6a0931749229e2d067b8521fecd48ce582ee0b3d770f0f14e20f3f43ef06"
+        "sha256": "a64152bbea64505e2217fddbd6c8c5650e50e2835531917c416fd2d8a85570c4"
       },
       {
         "path": "src/tianji_kb/bazi_root_conditions.py",
@@ -7069,7 +7069,7 @@
       },
       {
         "path": "tests/test_phase2_bazipattern_resource_direction.py",
-        "sha256": "7ec1bfe895730afcce4d6b3edf0c8494acccc9a1617026cc5a676d61c6be3642"
+        "sha256": "04a20e8992f66716f742867cbf7f767feff91931d178c3b1852d3c13fa58fcb4"
       },
       {
         "path": "tests/test_phase2_bazipattern_resource_month.py",
@@ -11919,13 +11919,16 @@
           "bazi.resource-context-visible-killing",
           "bazi.resource-context-visible-official",
           "bazi.resource-context-visible-wealth",
+          "bazi.resource-direction-clash-effect-unresolved",
           "bazi.resource-direction-killing-only",
           "bazi.resource-direction-no-month-resource",
           "bazi.resource-direction-none",
           "bazi.resource-direction-official-hidden",
           "bazi.resource-direction-official-visible",
+          "bazi.resource-direction-wealth-and-official",
           "bazi.resource-direction-wealth-hidden",
           "bazi.resource-direction-wealth-visible",
+          "bazi.resource-direction-wealth-with-killing",
           "bazi.roots-absent",
           "bazi.roots-clash-not-erasure",
           "bazi.roots-growth",
