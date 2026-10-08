@@ -108,6 +108,32 @@ jobs:
             -d '{"domain":"bazi","mode":"production","explain":false,"input":{"year_ganzhi":"庚辰","month_ganzhi":"己丑","day_ganzhi":"甲子","hour_ganzhi":"庚午","dayun_sequence_direction":"forward"}}')
           test "$STATUS" = "422"
 
+          curl -fsS -X POST http://127.0.0.1:5173/api/v1/execute \
+            -H 'Content-Type: application/json' \
+            -d '{"domain":"bazi","mode":"research","explain":false,"input":{"value":"2000-01-07T12:00:00+08:00","dayun_sequence_direction":"forward","dayun_jie_distance":true,"dayun_sequence_count":3}}' \
+            >/tmp/dayun-jie-research.json
+          python - <<'PY'
+          import json
+          from datetime import datetime
+          data=json.load(open("/tmp/dayun-jie-research.json",encoding="utf-8"))
+          assert data["domain"]=="bazi"
+          assert data["explanation_status"]=="disabled"
+          research=data["chart"]["dayun_sequence_research"]
+          assert len(research["rows"])==3
+          distance=research["jie_distance"]
+          birth=datetime.fromisoformat(distance["birth_local_datetime"])
+          previous=datetime.fromisoformat(distance["previous_jie"]["at"])
+          next_jie=datetime.fromisoformat(distance["next_jie"]["at"])
+          assert previous <= birth < next_jie
+          assert distance["selected_jie"]==distance["next_jie"]
+          assert distance["elapsed_seconds"]==int((next_jie-birth).total_seconds())
+          assert distance["start_age"] is None
+          assert distance["handover_datetime"] is None
+          assert distance["dayun_conversion_rule_review_status"]=="unreviewed"
+          assert distance["public_enabled"] is False
+          print("real frontend proxy -> API -> research-only adjacent Jie seconds: ok")
+          PY
+
           curl -fsS -X POST http://127.0.0.1:5173/api/v1/scenarios/execute \
             -H 'Content-Type: application/json' \
             -d '{"scenario_id":"yearly","input":{"birth_value":"2000-01-07T12:00:00+08:00","target_year":2026}}' \
