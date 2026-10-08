@@ -5402,6 +5402,44 @@
           }
         }
       }
+    },
+    {
+      "id": "bazi.resource-reviewed-root-types-disputed-water-residual",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "戊辰",
+        "month_ganzhi": "癸丑",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "癸酉",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "resource": {
+            "yuanhai_resource_competing_context": {
+              "elemental_causal_gate": {
+                "status": "direction_observed_effect_unresolved",
+                "reviewed_root_type_summary": {
+                  "actor_reviewed_examples_observed": false,
+                  "resource_reviewed_examples_observed": true,
+                  "residual_source_conflict_observed": true,
+                  "unreviewed_principal_qi_observed": true,
+                  "effective_strength_established": false,
+                  "effective_pairwise_action_established": false
+                },
+                "effect_gate": {
+                  "wealth_damages_resource": null,
+                  "official_actually_generates_resource": null
+                }
+              },
+              "adjudications": {
+                "wealth_strong_enough_to_damage_resource": "indeterminate",
+                "official_actually_generates_resource": "indeterminate"
+              }
+            }
+          }
+        }
+      }
     }
   ]
 }
