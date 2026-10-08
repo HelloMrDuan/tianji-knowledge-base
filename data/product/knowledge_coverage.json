@@ -6805,7 +6805,7 @@
       },
       {
         "path": "src/tianji_kb/bazi_dayun_jie.py",
-        "sha256": "a8fa0f94ba543091d441c54195d8412ebaeb89bd30797cad611b01e260f42925"
+        "sha256": "64822b541597823517c1990062acd0e04531a6fdf80a263126a2f2a1b3e57633"
       },
       {
         "path": "src/tianji_kb/bazi_dayun_sequence.py",
