@@ -3,6 +3,7 @@ import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeCareerScenario, type ScenarioExecuteResponse } from "./api";
+import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
 import "./career-wealth-structure.css";
 
 const groupOrder = ["wealth", "authority", "output", "resource", "peers"];
@@ -41,8 +42,8 @@ function displayEvidence(id: string, evidence: Record<string, any>) {
 }
 
 export function CareerWealthStructurePage() {
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
+  const [date, setDate] = useState(() => readSavedBirthProfile().date);
+  const [time, setTime] = useState(() => readSavedBirthProfile().time);
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -60,12 +61,12 @@ export function CareerWealthStructurePage() {
     setError("");
     setResult(null);
     try {
-      setResult(
-        await executeCareerScenario({
-          birth_value: `${date}T${time}:00+08:00`,
-          target_year: 2026,
-        }),
-      );
+      const response = await executeCareerScenario({
+        birth_value: `${date}T${time}:00+08:00`,
+        target_year: 2026,
+      });
+      saveBirthProfile({ date, time });
+      setResult(response);
     } catch (err) {
       setError(err instanceof Error ? err.message : "事业财运结构计算失败。");
     } finally {
