@@ -335,3 +335,64 @@ export type AdminPromptRecord = {
 export function fetchAdminPrompts(token: string): Promise<AdminPromptRecord[]> {
   return fetchProtectedRecords<AdminPromptRecord>("/api/v1/admin/system/prompts", token);
 }
+
+export type AdminDreamResearchCandidate = {
+  term_id: string;
+  symbol: string;
+  scene: string;
+  original_text_short_quote: string;
+  interpretation: string;
+  evidence_level: string;
+  evidence_ids: string[];
+  personal_prediction: false;
+};
+
+export type AdminDreamResearchResponse = {
+  api_version: "v1";
+  read_only: true;
+  public_release: false;
+  research_only: true;
+  result: {
+    domain: "dream";
+    mode: "research";
+    status: string;
+    matched_interpretations: AdminDreamResearchCandidate[];
+    evidence: Record<string, Record<string, unknown>>;
+    limitations: string[];
+    public_enabled: false;
+    ai_enabled: false;
+    chart_generated: false;
+  };
+};
+
+export async function runAdminDreamResearch(
+  token: string,
+  dreamText: string,
+): Promise<AdminDreamResearchResponse> {
+  const response = await fetch(`${apiBase}/api/v1/admin/research/dream`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ dream_text: dreamText }),
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    const code = data?.detail?.code;
+    throw new Error(
+      code === "admin_auth_not_configured"
+        ? "服务端尚未配置后台只读令牌。"
+        : code === "admin_unauthorized"
+          ? "访问令牌无效或缺失。"
+          : code === "reviewed_retrieval_unavailable"
+            ? "已审核梦象检索索引不可用，请先验证生产运行时。"
+            : data?.detail?.message || `检索失败（HTTP ${response.status}）`
+    );
+  }
+  if (data?.public_release !== false || data?.research_only !== true ||
+      data?.result?.public_enabled !== false || data?.result?.ai_enabled !== false) {
+    throw new Error("服务端未遵守解梦研究权限合同，拒绝展示。");
+  }
+  return data as AdminDreamResearchResponse;
+}
