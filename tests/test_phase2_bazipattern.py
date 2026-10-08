@@ -35,7 +35,8 @@ class BaziPatternTests(unittest.TestCase):
         return chart(*ps, pattern_variant=PATTERN_VARIANT, **kwargs)
 
     def test_eight_fixed_goldens_cover_observation_negative_abstention_and_conflict(self):
-        rows = [r for r in run_cases(ROOT, 'bazi') if r['id'].startswith('bazi.pattern-')]
+        rows = [r for r in run_cases(ROOT, 'bazi') if r['id'].startswith('bazi.pattern-')
+                and not r['id'].startswith('bazi.pattern-yuanhai-')]
         self.assertEqual(len(rows), 8)
         self.assertTrue(all(RULES <= set(r['rule_ids']) for r in rows))
         policy = next(c['attributes'] for c in read_json(ROOT/'data/canonical/bazi/phase1_knowledge.json')['concepts']

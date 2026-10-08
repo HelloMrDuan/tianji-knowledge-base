@@ -92,7 +92,7 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
         )
 
     relation_facts = None
-    if include_relations or conditional_strength:
+    if include_relations or conditional_strength or pattern_variant is not None:
         stems = [year_ganzhi[0], month_ganzhi[0], day_ganzhi[0], hour_ganzhi[0]]
         branches = [year_ganzhi[1], month_ganzhi[1], day_ganzhi[1], hour_ganzhi[1]]
         relation_facts = reviewed_relations(stems, branches)

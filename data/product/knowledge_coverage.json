@@ -5156,8 +5156,8 @@
       },
       {
         "path": "data/canonical/bazi/phase1_knowledge.json",
-        "sha256": "fad0658a54841685fb5c282ac02a35c68bad196bea1277931e4751d2761cf65d",
-        "bytes": 289789,
+        "sha256": "d24941a26819b8467fd549fba6ef497ee6df6f973a5ded1592ba2e4afac3f497",
+        "bytes": 290421,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -5166,8 +5166,8 @@
       },
       {
         "path": "data/canonical/bazi/phase2_execution.json",
-        "sha256": "d8aaabf470ca300afebc6d47db0f8c68e4217abd4a7d7c17b360227923ad0f75",
-        "bytes": 21034,
+        "sha256": "4f6e69d6475230cc8fc3010fa6f49c4cd1aa3246884dc5c8e8b0d87f9c1b5870",
+        "bytes": 21382,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -5176,8 +5176,8 @@
       },
       {
         "path": "data/canonical/bazi/phase2_golden.json",
-        "sha256": "ed77d805b765b191dfe7413011d0d1dc3c275bd4fb70fd66e89852fee37f2352",
-        "bytes": 88256,
+        "sha256": "00862a5d23dba833124d56b08e6c7b86079078806ad963ebfe0922b6b44e83dc",
+        "bytes": 96312,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -6801,7 +6801,7 @@
       },
       {
         "path": "src/tianji_kb/bazi_pattern.py",
-        "sha256": "405f2489f580ec112cc071fadb64a05501112a8f686cccd457a5405af50b2b7c"
+        "sha256": "2f12073c118eaac21d8754aae23980f00d463b719ab62880164a3889458c5149"
       },
       {
         "path": "src/tianji_kb/bazi_root_conditions.py",
@@ -6885,7 +6885,7 @@
       },
       {
         "path": "src/tianji_kb/operations/bazi_chart.py",
-        "sha256": "8040b2a2a9a64a12ac8aa59a690340c6806f68aff50267f889c1a50808d8e7b3"
+        "sha256": "ab51f80f39e30f550867a03507646956672c9c3412ad4fd813da9ebb22f5f905"
       },
       {
         "path": "src/tianji_kb/operations/dream_knowledge.py",
@@ -7053,11 +7053,15 @@
       },
       {
         "path": "tests/test_phase2_bazipattern.py",
-        "sha256": "004bb942bf4ad0b1e016dad784c1aff3821cf928a1b120a1801d46a60c7477c9"
+        "sha256": "a7ecd4fb72b5dac59a7baff35ff5c1bf9f910a14eb2aa6f23adb4ec1c25cf621"
       },
       {
         "path": "tests/test_phase2_bazipattern_qualification.py",
         "sha256": "7fe03f1547fe4b7039648e8a6d26fb0b511af9ec11b6c590f78ac61df1507181"
+      },
+      {
+        "path": "tests/test_phase2_bazipattern_yuanhai.py",
+        "sha256": "49b89ee08e73f125b2813d8e6aa14e220e11bf0184dfe5f827aa4f29364202ba"
       },
       {
         "path": "tests/test_phase2_bazipositive.py",
@@ -11566,10 +11570,15 @@
               "bazi.pattern-not-month",
               "bazi.pattern-unexposed",
               "bazi.pattern-miscellaneous",
-              "bazi.pattern-commander-conflict"
+              "bazi.pattern-commander-conflict",
+              "bazi.pattern-yuanhai-full-unexposed",
+              "bazi.pattern-yuanhai-missing-branch",
+              "bazi.pattern-yuanhai-exposed-xin",
+              "bazi.pattern-yuanhai-non-you-month",
+              "bazi.pattern-yuanhai-non-jia-day"
             ],
             "regression_test": "tests/test_phase2_bazipattern.py",
-            "evidence_scope": "C：显式研究月藏十神与逐字透干位置；司令、禄刃杂气、官杀/破印、真假成败喜用均未裁定；AI 和公开产品不授权。",
+            "evidence_scope": "C：显式研究月藏十神与逐字透干位置；司令、禄刃杂气、官杀/破印、真假成败喜用均未裁定；AI 和公开产品不授权。；新增《渊海》甲日酉月辛未透但地支巳酉丑齐备的单例完整成员观察，仅研究，不定格。",
             "evidence": [
               {
                 "source_id": "bazi.source.yuanhai",
@@ -11826,6 +11835,11 @@
           "bazi.pattern-resource-zheng",
           "bazi.pattern-unexposed",
           "bazi.pattern-yin-day",
+          "bazi.pattern-yuanhai-exposed-xin",
+          "bazi.pattern-yuanhai-full-unexposed",
+          "bazi.pattern-yuanhai-missing-branch",
+          "bazi.pattern-yuanhai-non-jia-day",
+          "bazi.pattern-yuanhai-non-you-month",
           "bazi.principal-control",
           "bazi.principal-generate",
           "bazi.principal-same",
@@ -20002,12 +20016,13 @@
           "dated_commander_required_for_determination": true,
           "limitations": [
             "这是现代形式化的结构观察，不是原典完整取格算法。",
-            "月藏十神或透干不能独自定格；不透干仅报告未透，不否定渊海地支官局等未覆盖分支。",
+            "未透干只报告未透；《渊海》甲日酉月辛不透且巳酉丑齐备的单例分支只观察完整成员，不能据此定格。",
             "必须审查司令才能按任氏口径定真假；现有分日冲突与具体司令未解，本气豁免不能用于定格。",
             "禄刃、杂气、官杀去留、财旺破印、别格和一般旺衰实际作用均未执行。",
             "藏干不等于显干，官鬼多/财旺等未定义数值阈值；无评分、概率、喜用、成败或个人吉凶。",
             "仅研究模式，不开放公共 Scenario、产品 claim 或 AI；来源仍 C，不计独立底本票。"
           ],
+          "yuanhai_example_scope": "仅甲日、酉月、辛未透、四柱见巳酉丑完整成员的古籍单例；候选仍不定格。",
           "golden_categories": {
             "positive": 4,
             "negative": 1,

@@ -3,6 +3,59 @@
 PATTERN_VARIANT = 'bazi-pattern-structure-candidates-v1'
 
 
+def yuanhai_unexposed_official(trace):
+    """Read the already-reviewed Yuanhai 甲辛/巳酉丑 example as structure only.
+
+    This is a *single source example*, not a general algorithm for 官格 or
+    an alternative to 任氏 dated commander requirements.
+    """
+    steps = {row['rule_id']: (i, row) for i, row in enumerate(trace.steps)}
+    required = ('pillars', 'ten_gods', 'branch_triple_harmonies')
+    if any('bazi.phase2.' + name not in steps for name in required):
+        raise ValueError('Yuanhai branch observation requires executed pillar, stem and harmony facts')
+    for name in required:
+        step = steps['bazi.phase2.' + name][1]
+        if not step['evidence_ids'] or any(e not in trace.evidence for e in step['evidence_ids']):
+            raise ValueError('Yuanhai branch observation lacks executed evidence')
+
+    def fact_ref(name, suffix=''):
+        return f"#/trace/{steps['bazi.phase2.' + name][0]}/output" + suffix
+
+    pillars = steps['bazi.phase2.pillars'][1]['output']
+    stems = steps['bazi.phase2.ten_gods'][1]['output']
+    groups = steps['bazi.phase2.branch_triple_harmonies'][1]['output']
+    day_wood = pillars['day_master']['stem'] == '甲'
+    month_you = pillars['ganzhi'][1][1] == '酉'
+    unexposed_xin = all(row['stem'] != '辛' for row in stems)
+    match = next(((i, group) for i, group in enumerate(groups)
+                  if set(group['branches']) == {'巳', '酉', '丑'}
+                  and group['traditional_result_element'] == '金'), None)
+    complete = match is not None
+    conditions = [
+        {'id': 'jia_day', 'observed': day_wood, 'fact_ref': fact_ref('pillars', '/day_master/stem')},
+        {'id': 'you_month', 'observed': month_you, 'fact_ref': fact_ref('pillars', '/ganzhi/1')},
+        {'id': 'no_visible_xin', 'observed': unexposed_xin, 'fact_ref': fact_ref('ten_gods'),
+         'visible_xin_positions': [row['pillar'] for row in stems if row['stem'] == '辛']},
+        {'id': 'complete_si_you_chou', 'observed': complete,
+         'fact_ref': fact_ref('branch_triple_harmonies', f'/{match[0]}') if complete
+         else fact_ref('branch_triple_harmonies')},
+    ]
+    return {
+        'variant': PATTERN_VARIANT, 'school_branch': 'yuanhai-甲辛-酉月不透地支官局例',
+        'status': 'reviewed_structural_candidate' if all(c['observed'] for c in conditions)
+                  else 'not_observed',
+        'conditions': conditions, 'full_metal_group': list(match[1]['branches']) if complete else [],
+        'source_section_id': 'bazi.section.s056', 'source_level': 'C',
+        'source_scope': '《渊海子平》甲日辛官、酉月不透辛而有巳酉丑的单例观察',
+        'unresolved': ['general_strength', 'hour_branch_wood_strength',
+                       'source_scope_generalization', 'dated_month_boundary',
+                       'official_killing_selection', 'actual_harmony_transformation'],
+        'determination': None, 'qualified_for_determination': False,
+        'research_only': True, 'public_enabled': False, 'ai_enabled': False,
+        'scope': '仅完整巳酉丑三合成员结构，不据此认定合化、身旺、正官格、真假成败、吉凶或喜用；其他日主/月令不外推。',
+    }
+
+
 def qualification(trace, *, family, observation):
     """Evidence-linked pre-determination checklist, NOT a final pattern verdict.
 
@@ -135,5 +188,7 @@ def candidates(trace, *, family, pattern_variant=PATTERN_VARIANT):
             'general_strength_and_actual_effects', 'source_branch_selection'],
         'research_only': True, 'public_enabled': False, 'ai_enabled': False,
         'scope': '现代形式化的月藏十神与逐字透干位置观察；不覆盖地支官局等另支取官，不定格、不取用、不判断成败吉凶。'}
+    if family == 'official':
+        result['yuanhai_unexposed_official_branch'] = yuanhai_unexposed_official(trace)
     result['qualification'] = qualification(trace, family=family, observation=result)
     return result

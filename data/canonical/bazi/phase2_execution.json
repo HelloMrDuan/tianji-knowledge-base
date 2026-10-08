@@ -489,10 +489,15 @@
         "bazi.pattern-not-month",
         "bazi.pattern-unexposed",
         "bazi.pattern-miscellaneous",
-        "bazi.pattern-commander-conflict"
+        "bazi.pattern-commander-conflict",
+        "bazi.pattern-yuanhai-full-unexposed",
+        "bazi.pattern-yuanhai-missing-branch",
+        "bazi.pattern-yuanhai-exposed-xin",
+        "bazi.pattern-yuanhai-non-you-month",
+        "bazi.pattern-yuanhai-non-jia-day"
       ],
       "regression_test": "tests/test_phase2_bazipattern.py",
-      "evidence_scope": "C：显式研究月藏十神与逐字透干位置；司令、禄刃杂气、官杀/破印、真假成败喜用均未裁定；AI 和公开产品不授权。"
+      "evidence_scope": "C：显式研究月藏十神与逐字透干位置；司令、禄刃杂气、官杀/破印、真假成败喜用均未裁定；AI 和公开产品不授权。；新增《渊海》甲日酉月辛未透但地支巳酉丑齐备的单例完整成员观察，仅研究，不定格。"
     },
     {
       "id": "bazi.phase2.resource_pattern_candidates",

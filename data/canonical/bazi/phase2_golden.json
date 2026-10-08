@@ -2931,6 +2931,277 @@
           }
         }
       }
+    },
+    {
+      "id": "bazi.pattern-yuanhai-full-unexposed",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "丁巳",
+        "month_ganzhi": "己酉",
+        "day_ganzhi": "甲寅",
+        "hour_ganzhi": "乙丑",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "official": {
+            "yuanhai_unexposed_official_branch": {
+              "variant": "bazi-pattern-structure-candidates-v1",
+              "status": "reviewed_structural_candidate",
+              "source_section_id": "bazi.section.s056",
+              "conditions": [
+                {
+                  "id": "jia_day",
+                  "observed": true
+                },
+                {
+                  "id": "you_month",
+                  "observed": true
+                },
+                {
+                  "id": "no_visible_xin",
+                  "observed": true
+                },
+                {
+                  "id": "complete_si_you_chou",
+                  "observed": true
+                }
+              ],
+              "full_metal_group": [
+                "巳",
+                "酉",
+                "丑"
+              ],
+              "determination": null,
+              "qualified_for_determination": false,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.pattern-yuanhai-missing-branch",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "丁巳",
+        "month_ganzhi": "己酉",
+        "day_ganzhi": "甲寅",
+        "hour_ganzhi": "乙亥",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "official": {
+            "yuanhai_unexposed_official_branch": {
+              "variant": "bazi-pattern-structure-candidates-v1",
+              "status": "not_observed",
+              "source_section_id": "bazi.section.s056",
+              "conditions": [
+                {
+                  "id": "jia_day",
+                  "observed": true
+                },
+                {
+                  "id": "you_month",
+                  "observed": true
+                },
+                {
+                  "id": "no_visible_xin",
+                  "observed": true
+                },
+                {
+                  "id": "complete_si_you_chou",
+                  "observed": false
+                }
+              ],
+              "full_metal_group": [],
+              "determination": null,
+              "qualified_for_determination": false,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.pattern-yuanhai-exposed-xin",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "辛巳",
+        "month_ganzhi": "己酉",
+        "day_ganzhi": "甲寅",
+        "hour_ganzhi": "乙丑",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "official": {
+            "yuanhai_unexposed_official_branch": {
+              "variant": "bazi-pattern-structure-candidates-v1",
+              "status": "not_observed",
+              "source_section_id": "bazi.section.s056",
+              "conditions": [
+                {
+                  "id": "jia_day",
+                  "observed": true
+                },
+                {
+                  "id": "you_month",
+                  "observed": true
+                },
+                {
+                  "id": "no_visible_xin",
+                  "observed": false
+                },
+                {
+                  "id": "complete_si_you_chou",
+                  "observed": true
+                }
+              ],
+              "full_metal_group": [
+                "巳",
+                "酉",
+                "丑"
+              ],
+              "determination": null,
+              "qualified_for_determination": false,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.pattern-yuanhai-non-you-month",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "丁巳",
+        "month_ganzhi": "己丑",
+        "day_ganzhi": "甲寅",
+        "hour_ganzhi": "乙酉",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "official": {
+            "yuanhai_unexposed_official_branch": {
+              "variant": "bazi-pattern-structure-candidates-v1",
+              "status": "not_observed",
+              "source_section_id": "bazi.section.s056",
+              "conditions": [
+                {
+                  "id": "jia_day",
+                  "observed": true
+                },
+                {
+                  "id": "you_month",
+                  "observed": false
+                },
+                {
+                  "id": "no_visible_xin",
+                  "observed": true
+                },
+                {
+                  "id": "complete_si_you_chou",
+                  "observed": true
+                }
+              ],
+              "full_metal_group": [
+                "巳",
+                "酉",
+                "丑"
+              ],
+              "determination": null,
+              "qualified_for_determination": false,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.pattern-yuanhai-non-jia-day",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "丁巳",
+        "month_ganzhi": "己酉",
+        "day_ganzhi": "乙卯",
+        "hour_ganzhi": "乙丑",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "official": {
+            "yuanhai_unexposed_official_branch": {
+              "variant": "bazi-pattern-structure-candidates-v1",
+              "status": "not_observed",
+              "source_section_id": "bazi.section.s056",
+              "conditions": [
+                {
+                  "id": "jia_day",
+                  "observed": false
+                },
+                {
+                  "id": "you_month",
+                  "observed": true
+                },
+                {
+                  "id": "no_visible_xin",
+                  "observed": true
+                },
+                {
+                  "id": "complete_si_you_chou",
+                  "observed": true
+                }
+              ],
+              "full_metal_group": [
+                "巳",
+                "酉",
+                "丑"
+              ],
+              "determination": null,
+              "qualified_for_determination": false,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
     }
   ]
 }
