@@ -349,6 +349,7 @@ class ResourceDirectionGateTests(unittest.TestCase):
             'status': 'unresolved_source_variant',
             'conflict_id': 'bazi.concept.conflict_root_type_readings',
             'competing_section_id': 'bazi.section.s041',
+            'source_variant_examples_separated': True,
         })
         self.assertTrue(resource['same_stem'])
         self.assertEqual(resource['reviewed_root_type_examples'], [{
@@ -382,6 +383,38 @@ class ResourceDirectionGateTests(unittest.TestCase):
                          'bazi.section.s058'} <= sections)
         self.assertEqual(pair['effect_status'], 'indeterminate')
         self.assertIsNone(gate['effect_gate']['wealth_damages_resource'])
+        self.assertFalse(out['interpretation_contract']['ai_may_explain'])
+
+    def test_conflicting_residual_variants_are_both_visible(self):
+        # 任氏 s026 给出壬癸逢丑，s041 则列壬癸逢辰；
+        # 必须保留两处不同底本段字例，不能默默归并或取票决定。
+        out = chart('戊辰', '癸丑', '甲子', '癸酉',
+                    pattern_variant=PATTERN_VARIANT)
+        gate = out['result']['pattern_candidates']['resource'][
+            'yuanhai_resource_competing_context']['elemental_causal_gate']
+        pair = next(p for p in gate['relation_candidates']
+                    if p['actor_category'] == 'visible_wealth'
+                    and p['actor']['stem'] == '戊' and p['target']['stem'] == '癸')
+        roots = pair['resource_element_root_candidates']
+        chen = next(x for x in roots if x['branch'] == '辰')
+        chou = next(x for x in roots if x['branch'] == '丑')
+        self.assertEqual(chen['reviewed_root_type_examples'], [])
+        self.assertEqual(chen['alternative_root_type_examples'], [{
+            'kind': 'residual_qi_candidate',
+            'source_section_ids': ['bazi.section.s041'],
+            'variant': 'ren-residual-alternate-text',
+            'status': 'alternative_source_example_only',
+        }])
+        self.assertEqual(chou['reviewed_root_type_examples'][0]['source_section_ids'],
+                         ['bazi.section.s026'])
+        self.assertEqual(chou['alternative_root_type_examples'], [])
+        for root in (chen, chou):
+            self.assertEqual(root['residual_type_conflict']['status'],
+                             'unresolved_source_variant')
+            self.assertTrue(root['residual_type_conflict']['source_variant_examples_separated'])
+            self.assertIsNone(root['effective_root_strength'])
+        self.assertTrue(pair['reviewed_root_type_comparison']['residual_type_conflict_present'])
+        self.assertIsNone(pair['reviewed_root_type_comparison']['actual_pairwise_effect'])
         self.assertFalse(out['interpretation_contract']['ai_may_explain'])
 
     def test_unreviewed_root_type_does_not_become_negative_proof(self):
