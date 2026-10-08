@@ -5156,8 +5156,8 @@
       },
       {
         "path": "data/canonical/bazi/phase1_knowledge.json",
-        "sha256": "09cf7b42f3417a8bfd03cc7116f564562f081fd5878115ef79a155ccbf89ff55",
-        "bytes": 292589,
+        "sha256": "c827b657f1d193a41596665681a4233ef174941b4be432dcaa35b12eed1bac38",
+        "bytes": 293765,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -5166,8 +5166,8 @@
       },
       {
         "path": "data/canonical/bazi/phase2_execution.json",
-        "sha256": "dcad1d8b6250d919d03b5beb89aa9348f8bc4859225b49aadfff8815021cd890",
-        "bytes": 23880,
+        "sha256": "03099b8681af1921edd7440728b9450ccebe741e8247505d20ad6f78000c5a05",
+        "bytes": 24168,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -5176,8 +5176,8 @@
       },
       {
         "path": "data/canonical/bazi/phase2_golden.json",
-        "sha256": "755d4c16a9c5ddccac8874d8b192fdcf293d20c8d5082830f6d218a76a1a0b0b",
-        "bytes": 167208,
+        "sha256": "25bca9474df4b9cafabff516d47b5d33a39cd73f371103dae3261f0e55793f1c",
+        "bytes": 170560,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -6801,7 +6801,7 @@
       },
       {
         "path": "src/tianji_kb/bazi_pattern.py",
-        "sha256": "b2f5ee77ac87a1579a013cab02f4ec8312ce886a94231fc7fe837005f21ab5b6"
+        "sha256": "baeaa287b5fb66d4012115d8c66528065a1a8900d712c4fe3789459ad0754ebf"
       },
       {
         "path": "src/tianji_kb/bazi_root_conditions.py",
@@ -7069,7 +7069,7 @@
       },
       {
         "path": "tests/test_phase2_bazipattern_resource_direction.py",
-        "sha256": "52d8bf11d8ab3c977a002af958762ca5f19329fbc3f5225e91ae591ade76ce2c"
+        "sha256": "10b7040b26e658c964eb0349f6a3534390f642915d6927b48729ec0615ccd999"
       },
       {
         "path": "tests/test_phase2_bazipattern_resource_month.py",
@@ -11739,10 +11739,12 @@
               "bazi.resource-element-roots-no-actor",
               "bazi.resource-element-roots-same-and-other",
               "bazi.resource-element-roots-clashed",
-              "bazi.resource-element-roots-no-month"
+              "bazi.resource-element-roots-no-month",
+              "bazi.resource-reviewed-root-types-residual-growth",
+              "bazi.resource-reviewed-root-types-uncovered"
             ],
             "regression_test": "tests/test_phase2_bazipattern.py",
-            "evidence_scope": "C：显式研究月藏十神与逐字透干位置；司令、禄刃杂气、官杀/破印、真假成败喜用均未裁定；AI 和公开产品不授权。；并观察《渊海》s059已有的十日干/月支月份生我例（不定印格）。；s057/s058 月令印及财/官杀显藏共现的条件事实，财旺破印、官印相生、官鬼多均 indeterminate。；财对月藏印五行克方向、正官/七杀对印五行生方向仅作为结构候选；成效门控始终拒判。；对财/官与月藏印额外登记同五行藏干根候选及实际落支冲合的 Phase2 Fact/Evidence 指针；同干/同五行根候选不等于根力有效、受冲消根或发生财克印、官印相生。",
+            "evidence_scope": "C：显式研究月藏十神与逐字透干位置；司令、禄刃杂气、官杀/破印、真假成败喜用均未裁定；AI 和公开产品不授权。；并观察《渊海》s059已有的十日干/月支月份生我例（不定印格）。；s057/s058 月令印及财/官杀显藏共现的条件事实，财旺破印、官印相生、官鬼多均 indeterminate。；财对月藏印五行克方向、正官/七杀对印五行生方向仅作为结构候选；成效门控始终拒判。；对财/官与月藏印额外登记同五行藏干根候选及实际落支冲合的 Phase2 Fact/Evidence 指针；同干/同五行根候选不等于根力有效、受冲消根或发生财克印、官印相生。；经审 s026/s027/s041 作为通根类型例、必要司令条件与余气异文证据，只给根型候选和来源冲突，不裁定具体根力或成对财印生克。",
             "evidence": [
               {
                 "source_id": "bazi.source.yuanhai",
@@ -11845,6 +11847,57 @@
                 "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
                 "sha256": "c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9",
                 "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s026",
+                "original_text": "余气者,如丙丁逢未,甲乙逢辰,庚辛逢戌,壬癸逢丑之类是也,得二比肩,不如支中得一长生禄旺,如甲乙逢亥寅卯之类是也。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.resource_pattern_candidates",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.strength_factors",
+                "chapter_title": "月令、通根与透藏观察边界",
+                "locator": "《滴天髓阐微》通神论·衰旺；固定原文字符位置 40063；余气与长生禄旺根示例",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s027",
+                "original_text": "故知地支人元必得天干引助,天干为用,必要地支司令。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.resource_pattern_candidates",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.strength_factors",
+                "chapter_title": "月令、通根与透藏观察边界",
+                "locator": "《滴天髓阐微》通神论·月令；固定原文字符位置 38284；藏干与显干引助",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
+              },
+              {
+                "source_id": "bazi.source.ditiansui-spouse",
+                "section_id": "bazi.section.s041",
+                "original_text": "余气者,如丙丁逢未,丙丁逢戌,庚辛逢丑,壬癸逢辰之类是也。",
+                "role": "classical",
+                "rule_id": "bazi.phase2.resource_pattern_candidates",
+                "variant": "ziping-structural-v1",
+                "classic_id": "bazi.classic.ditiansui",
+                "classic_title": "滴天髓阐微",
+                "chapter_id": "bazi.chapter.strength_factors",
+                "chapter_title": "月令、通根与透藏观察边界",
+                "locator": "滴天髓阐微·地支/干支总论/衰旺；固定原文字符位置 40034",
+                "source_url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E6%BB%B4%E5%A4%A9%E9%AB%93%E9%98%90%E5%BE%AE.txt",
+                "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+                "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+                "evidence_level": "C"
               }
             ]
           }
@@ -11939,6 +11992,8 @@
           "bazi.resource-element-roots-no-actor",
           "bazi.resource-element-roots-no-month",
           "bazi.resource-element-roots-same-and-other",
+          "bazi.resource-reviewed-root-types-residual-growth",
+          "bazi.resource-reviewed-root-types-uncovered",
           "bazi.resource-sites-correspondence",
           "bazi.resource-sites-unexposed",
           "bazi.roots-absent",
