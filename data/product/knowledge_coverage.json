@@ -5156,8 +5156,8 @@
       },
       {
         "path": "data/canonical/bazi/phase1_knowledge.json",
-        "sha256": "1cc0e2c3337b9bf0f21d6f7384889ef77cc53482fe0fe69a0b6792b112d3ea72",
-        "bytes": 289702,
+        "sha256": "fad0658a54841685fb5c282ac02a35c68bad196bea1277931e4751d2761cf65d",
+        "bytes": 289789,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -6793,7 +6793,7 @@
       },
       {
         "path": "src/tianji_kb/bazi_commander.py",
-        "sha256": "170826134090c0763b5300aade464c399f3f422d1cca6a0caa6e6e20cb408afc"
+        "sha256": "7c51fc6972398434a02f44f5d7baa4b6e03fffc9d3aa68630b58f49d585483ec"
       },
       {
         "path": "src/tianji_kb/bazi_core.py",
@@ -6801,7 +6801,7 @@
       },
       {
         "path": "src/tianji_kb/bazi_pattern.py",
-        "sha256": "cc10c09b6a5e931f4886848d3b39dc9465ff28ec7682201af1cc3c16158b6518"
+        "sha256": "405f2489f580ec112cc071fadb64a05501112a8f686cccd457a5405af50b2b7c"
       },
       {
         "path": "src/tianji_kb/bazi_root_conditions.py",
@@ -7054,6 +7054,10 @@
       {
         "path": "tests/test_phase2_bazipattern.py",
         "sha256": "004bb942bf4ad0b1e016dad784c1aff3821cf928a1b120a1801d46a60c7477c9"
+      },
+      {
+        "path": "tests/test_phase2_bazipattern_qualification.py",
+        "sha256": "7fe03f1547fe4b7039648e8a6d26fb0b511af9ec11b6c590f78ac61df1507181"
       },
       {
         "path": "tests/test_phase2_bazipositive.py",
@@ -18697,7 +18701,7 @@
           {
             "id": "ditiansui-siling",
             "label": "滴天髓阐微现存电子文本",
-            "position": "戊七日前、丙八日至十四日前、甲十五日后。",
+            "position": "立春后七日前戊土用事；八日后十四日前丙火用事；十五日后甲木用事（原文“八日后”不可省为“八日”）。",
             "section_ids": [
               "bazi.section.s024"
             ]
