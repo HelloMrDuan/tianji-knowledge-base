@@ -3,6 +3,7 @@ import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeRomanceScenario, type ScenarioExecuteResponse } from "./api";
+import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
 import "./romance-structure.css";
 
 const pillarNames: Record<string, string> = {
@@ -37,8 +38,8 @@ function basisLabel(value: string) {
 }
 
 export function RomanceStructurePage() {
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
+  const [date, setDate] = useState(() => readSavedBirthProfile().date);
+  const [time, setTime] = useState(() => readSavedBirthProfile().time);
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -56,12 +57,12 @@ export function RomanceStructurePage() {
     setError("");
     setResult(null);
     try {
-      setResult(
-        await executeRomanceScenario({
-          birth_value: `${date}T${time}:00+08:00`,
-          target_year: 2026,
-        }),
-      );
+      const response = await executeRomanceScenario({
+        birth_value: `${date}T${time}:00+08:00`,
+        target_year: 2026,
+      });
+      saveBirthProfile({ date, time });
+      setResult(response);
     } catch (err) {
       setError(err instanceof Error ? err.message : "桃花结构计算失败。");
     } finally {
