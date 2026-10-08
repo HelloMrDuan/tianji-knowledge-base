@@ -107,6 +107,23 @@ class ResourceDirectionGateTests(unittest.TestCase):
             self.assertIsNone(pair['effective_interaction'])
             self.assertEqual(pair['effect_status'],'indeterminate')
 
+    def test_duplicate_executed_rule_id_is_rejected(self):
+        from copy import deepcopy
+        from types import SimpleNamespace
+        from tianji_kb.bazi_pattern import yuanhai_resource_competing_context
+
+        out = chart('戊午', '壬子', '甲子', '壬子',
+                    pattern_variant=PATTERN_VARIANT)
+        steps = deepcopy(out['trace'])
+        # A duplicate ID must not overwrite its predecessor in the trace map.
+        # Even identical copies cannot be accepted as unique executed facts.
+        copied = deepcopy(next(row for row in steps
+                               if row['rule_id'] == 'bazi.phase2.ten_gods'))
+        steps.append(copied)
+        with self.assertRaisesRegex(ValueError, 'duplicate executed rule identifiers'):
+            yuanhai_resource_competing_context(
+                SimpleNamespace(steps=steps, evidence=out['evidence']))
+
     def test_unverified_interaction_evidence_is_rejected(self):
         from copy import deepcopy
         from types import SimpleNamespace
