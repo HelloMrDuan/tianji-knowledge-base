@@ -7053,7 +7053,7 @@
       },
       {
         "path": "tests/test_phase2_bazipattern.py",
-        "sha256": "004bb942bf4ad0b1e016dad784c1aff3821cf928a1b120a1801d46a60c7477c9"
+        "sha256": "a7ecd4fb72b5dac59a7baff35ff5c1bf9f910a14eb2aa6f23adb4ec1c25cf621"
       },
       {
         "path": "tests/test_phase2_bazipattern_qualification.py",
