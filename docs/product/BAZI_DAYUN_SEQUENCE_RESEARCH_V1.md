@@ -35,3 +35,22 @@
 `tests/test_phase2_bazidayun.py` 提供固定向前、向后、循环折返及错误输入回归；**不是** `data/canonical/bazi/phase2_golden.json` 中已审核 Golden。产品覆盖的「bazi-dayun」仍应保持缺口状态，不升级为 READY。新增 Python 文件纳入已有运行时 Manifest/校验链，必须由 CI 实测通过后才能合并。
 
 此批不公开知识库内部原文，不改变知识库权限与 AI 放行。
+
+## 第 157 批：出生时刻到相邻十二节的真实历法库间隔
+
+在第 156 批研究请求中额外提交 `"dayun_jie_distance": true`，必须同时有 **实际出生时间 `value`** 和显式 `dayun_sequence_direction=forward|backward`；人工四柱因缺出生瞬间会被拒绝。研究模式和 AI 禁用要求不变。返回 `result.dayun_sequence_research.jie_distance`，包含当地出生时刻、上一节、下一节、方向对应所选节、原始秒数、整日与余秒、交节当秒 `zero_distance`，并保留独立源版本、范围和未审核声明。
+
+使用固定 `lunar-python==1.4.8` 的 `getPrevJie(False)`、`getNextJie(False)`：只接受十二个真正的**节**，不把雨水、春分等中气当作下一月令。算法按 `Asia/Shanghai` 归一出生时间并以 UTC 时间差计算实际秒数，兼顾时区偏移，随后使用该版本的 `getMonthInGanZhiExact` 间接经 `calendar` 对节交界前一秒、当秒、下一节前一秒及当秒进行交叉验证；不一致直接报错。
+
+**精度与适用界限**：出生时刻必须是带时区的整秒，当前只支持中国当地 1901..2098 的出生年，避免跨过历法适用边界；节令秒值来自软件计算，未经独立天文校核。历法库对中国历史夏令时、地方时、真太阳时的对应关系仍未独立审计，标记为 `historical_timezone_independently_verified=false`。零距离的起运处理口径待审核，不能从它推断零岁交运。此研究操作**绝不运行三日折岁或计算交运日期**，这些字段显式为 `null`。出生到节的连续秒值属于事实测量，按何种传统规则折算大运年龄属于另一个尚未审核的判断。
+
+### 原典审核待办（不能自动晋级）
+
+《三命通会·卷二·论大运》有关于「阳男阴女」「阴男阳女」「未来/过去节气日时」「三日为年」的传统文字。已找到公开文本定位：
+
+- `https://www.shidianguji.com/book/HY1521/chapter/1knwemh3lrtpj`
+- `https://shuyuan.zhiming.life/read/三命通会/17`
+
+这些是待审索引，**尚未核对项目固定 RAW 底本、版本、可发布权利与具体字符 SHA**。仓库内《三命通会》全文仍维持 `quarantine_only`，不因为找到网页短引就更新 Phase1 `source_refs`、Phase2、Golden 或对外声明“已审核”。应另批登记逐字短引、版本来源、冲突政策、边界实测及权利审批。
+
+`tests/test_phase2_bazidayunjie.py` 含真实历法库的出生前后节边界、立春前一秒/当秒/后一秒、时区等价、非法输入和生产模式拒绝测试。现有 66 条已审核 Phase2 及 145 个 Golden 保持不变。
