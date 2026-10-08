@@ -54,3 +54,30 @@
 这些是待审索引，**尚未核对项目固定 RAW 底本、版本、可发布权利与具体字符 SHA**。仓库内《三命通会》全文仍维持 `quarantine_only`，不因为找到网页短引就更新 Phase1 `source_refs`、Phase2、Golden 或对外声明“已审核”。应另批登记逐字短引、版本来源、冲突政策、边界实测及权利审批。
 
 `tests/test_phase2_bazidayunjie.py` 含真实历法库的出生前后节边界、立春前一秒/当秒/后一秒、时区等价、非法输入和生产模式拒绝测试。现有 66 条已审核 Phase2 及 145 个 Golden 保持不变。
+
+## 第 158 批：显式研究模式的折岁模拟、拟制时间轴（非交运裁定）
+
+本批允许在出生时间 `value`、`dayun_sequence_direction`、`dayun_jie_distance=true` 同时存在时，再显式设置：
+
+```json
+"dayun_age_simulation": "bazi-dayun-three-days-mean-year-research-v1"
+```
+
+返回 `result.dayun_sequence_research.age_simulation`。在已经测出的真实十二节时间差 `elapsed_seconds` 基础上，将 **每 3 个完整的 24h 日长对应 1 个象征性年** 作为独立的研究 Variant。用不可约分数 `elapsed_seconds / 259200` 保存 `age_years_exact`，另有六位小数供展示。为演算一个可复算的**非权威模拟日历锚点**，采用固定公历平均年 `365.2425 × 86400 = 31,556,952 秒`；按有理数舍入到最近秒（正值 0.5 向上）后加到公历出生的 UTC 瞬间，再按每 10 个平均公历年延伸。它严格是人为声明的现代计时映射，不是古籍直接给出的换算公式。每一项输出 `simulated_start`、`simulated_end_exclusive` 和既有候选干支/十神。
+
+- 原先的 `rows[].start_date/end_date/start_age/end_age`、真实 `jie_distance.start_age/handover_datetime` 保持 **null**。
+- `actual_start_age_adjudicated=false`、`verified_handover_dates_calculated=false`、`classical_method_reviewed=false`；这组模拟时间 **不是** 可以公示的真实起运/交运日期。
+- 不按传统男女、年干自动判断方向，不推算强弱喜忌或断吉凶；没有新增任何 Phase2 RuleMatch、Evidence 或已审核 Golden，默认公开页面也不会打开此功能。
+- 交节当秒 `elapsed_seconds=0` 的起运口径未裁定，主动拒绝生成模拟时间；原始节令事实仍可单独查询。
+
+### 可审的原典线索（非 Canonical 晋级）
+
+《渊海子平》卷一《论起大运法》能定位顺逆、节、三日一年及传统性别口径，但公开流通版本中存在异文，部分校勘页明确记录原本和改字。对照入口：
+
+- `https://www.yuceshu.cn/book/bazi/3_1_1_1_55.html`
+- `https://huamuchengxi.com/chapter/12802.html`
+- `https://www.shidianguji.com/book/SDZJ0626/chapter/1lhnc3bvvh5bo`
+
+以上只是待审的版本定位，不能取代项目固定来源快照、引文逐字校勘及权利核实，也不能推定各种余日、余时或置闰折算共享同一个十年区间规则。仓库现有《三命通会》隔离状态不变。未经历史时区、历法与古籍流派完整治理，不授权 AI 将模拟日期解释为一生事业、财富、婚姻或健康结论。
+
+固定回归测试：`tests/test_phase2_bazidayunsimulation.py` 验证真实历法库双方向、整数分数、秒级舍入、模拟区间相接、同瞬间时区一致、零距离弃判、非法 variant 拒绝和研究/生产隔离。产品 Web CI 增加真实 HTTP 请求。
