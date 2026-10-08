@@ -313,6 +313,8 @@ def yuanhai_resource_competing_context(trace):
     Neither occurrence nor frequency establishes strength, activation, or effect.
     """
     steps = {row['rule_id']: (i, row) for i, row in enumerate(trace.steps)}
+    if len(steps) != len(trace.steps):
+        raise ValueError('Resource competition has duplicate executed rule identifiers')
     required = ('ten_gods', 'hidden_stems')
     if any('bazi.phase2.' + rule not in steps for rule in required):
         raise ValueError('Resource competition requires executed ten-god and hidden-stem facts')
