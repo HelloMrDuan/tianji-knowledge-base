@@ -6816,6 +6816,10 @@
         "sha256": "b028b374ef492507f8b461763a959e789a321c51f14bcae6ee59183785892572"
       },
       {
+        "path": "src/tianji_kb/bazi_dayun_source_audit.py",
+        "sha256": "0fad706f8130a9d212adb24b93bf0819e7d3d4de61fa9276e02449c17990992c"
+      },
+      {
         "path": "src/tianji_kb/bazi_pattern.py",
         "sha256": "cd3448b3dd47a604d0d5a09f130b26fce2b5710e177e7fcf6f51c89fbc5787d1"
       },
@@ -7078,6 +7082,10 @@
       {
         "path": "tests/test_phase2_bazidayunsimulation.py",
         "sha256": "d22a7cb8b61e4280ce4046f30df41cfc10f361e91dfa4e30eb56ae650237a588"
+      },
+      {
+        "path": "tests/test_phase2_bazidayunsource.py",
+        "sha256": "346ef6c6f9902f97d27fe8b121ba45f1c93d04d7466664a45504234fbf169568"
       },
       {
         "path": "tests/test_phase2_bazieffects.py",

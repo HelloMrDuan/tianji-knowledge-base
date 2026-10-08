@@ -81,3 +81,20 @@
 以上只是待审的版本定位，不能取代项目固定来源快照、引文逐字校勘及权利核实，也不能推定各种余日、余时或置闰折算共享同一个十年区间规则。仓库现有《三命通会》隔离状态不变。未经历史时区、历法与古籍流派完整治理，不授权 AI 将模拟日期解释为一生事业、财富、婚姻或健康结论。
 
 固定回归测试：`tests/test_phase2_bazidayunsimulation.py` 验证真实历法库双方向、整数分数、秒级舍入、模拟区间相接、同瞬间时区一致、零距离弃判、非法 variant 拒绝和研究/生产隔离。产品 Web CI 增加真实 HTTP 请求。
+
+## 第 159 批：固定底本可复查的起运原典短引（来源校勘，不是完整规则晋级）
+
+新增内部离线资产 `data/research/bazi/dayun_source_collation_v1.json`、核验器 `src/tianji_kb/bazi_dayun_source_audit.py` 和不可篡改性回归 `tests/test_phase2_bazidayunsource.py`。
+
+**固定底本**：`garychowcmu/daizhigev20`，commit `4a6d6f2088825f132521d848c2ea86cf9c9a7620`，`易藏/术数/渊海子平.txt`。仓库 RAW 快照在 `data/quarantine/public_domain_snapshots/daizhigev20/yuanhai_ziping.txt`；清洗后的 Canonical 经典在 `data/canonical/classics/bazi/yuanhai_ziping_v1.json`。两份均固定 SHA-256，且四个极短引文同时逐字匹配原始 RAW 的 Unicode 字符位置和已清洗章节 ID / 标题。
+
+已核对的四处短引与边界：
+
+- `论大运`（section 10），「今运就月上起」：支持起点关联月令，不单独证明顺逆、首运起始时刻。
+- `珞琭子消息赋`（该底本收录，section 188），「运行则一辰十载。」：支持十载说法，不等于每十年固定 `365.2425 * 10` 公历日。
+- 同一 section 188，「折除乃三日为年」：支持折除说法的原文存在，不代表余数、闰日、交界秒数或取前后节的算法已经古籍审核。
+- `论大运`（section 10），「此乃死法譬喻,须随格局喜忌推之,不可执一」：限制将套表吉凶机械用在用户身上。
+
+**权限与晋级**：这是固定来源校勘 `snapshot_collated_not_classical_method_adjudicated`，而不是可执行的 Phase1/Phase2 Rule/Evidence；没有增加 Golden、改变 66 条既有已审核规则，也不在公网 API 输出原文字段。别把软件库计算结果或 #158 的现代均年时间轴称为“原典交运日期”，仍需补《三命通会》或更完整的起运顺逆版本校勘，以及余时换算、节界流派、历史时区和实历十年范围的独立审议。
+
+校验逻辑强制验证 source repo/commit、权利策略、RAW/Canonical SHA-256、原文唯一区间、section ID/title、摘要最小范围及未批准状态。任何原文篡改、偏移漂移、换来源、改执照、将研究误设为公开/AI/Golden 晋级都直接失败；CI 在真实生产 Runtime 创建后运行相同离线核验（并保持整个既有知识库校验与前端回归）。
