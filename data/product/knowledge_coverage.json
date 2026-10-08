@@ -7156,6 +7156,10 @@
         "sha256": "bca8f98f1b64f3473f6dedf7f84fc09307f963f7b81c450bb58a4163bce75097"
       },
       {
+        "path": "tests/test_phase2_private_dream_api.py",
+        "sha256": "cd5f2e33e237f8522582d490850113596c006c21402c7eed6d0bfe868620f9c0"
+      },
+      {
         "path": "tests/test_phase2_qimen.py",
         "sha256": "8e8f50878e2f3bc1d725ab32d749982bebc8c44e89e5e793a188e0d7bff88c1e"
       },
@@ -7198,10 +7202,6 @@
       {
         "path": "tests/test_phase4_review.py",
         "sha256": "7f9499f1ed12b8b29b1e14c05b56f6d1308aa55aced3168e480b52eb44178d69"
-      },
-      {
-        "path": "tests/test_private_dream_api.py",
-        "sha256": "cd5f2e33e237f8522582d490850113596c006c21402c7eed6d0bfe868620f9c0"
       }
     ],
     "inventory_counts": {
