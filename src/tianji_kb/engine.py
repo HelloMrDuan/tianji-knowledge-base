@@ -85,7 +85,7 @@ def execute(domain,inputs,variant=None,*,allow_research=False):
     if domain == 'bazi' and direction_policy == DAYUN_DIRECTION_VARIANT:
         direction_candidate = traditional_direction(
             prepared['year_ganzhi'], traditional_role=prepared['traditional_role'])
-        prepared['dayun_sequence_direction'] = direction_candidate['direction]
+        prepared['dayun_sequence_direction'] = direction_candidate['direction']
     module,name=PROVIDERS[domain].rsplit('.',1)
     result=getattr(importlib.import_module(module),name)(**prepared,variant=selected)
     if result['variant']!=selected or not result['deterministic']:
