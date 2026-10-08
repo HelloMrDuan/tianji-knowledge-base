@@ -98,3 +98,36 @@
 **权限与晋级**：这是固定来源校勘 `snapshot_collated_not_classical_method_adjudicated`，而不是可执行的 Phase1/Phase2 Rule/Evidence；没有增加 Golden、改变 66 条既有已审核规则，也不在公网 API 输出原文字段。别把软件库计算结果或 #158 的现代均年时间轴称为“原典交运日期”，仍需补《三命通会》或更完整的起运顺逆版本校勘，以及余时换算、节界流派、历史时区和实历十年范围的独立审议。
 
 校验逻辑强制验证 source repo/commit、权利策略、RAW/Canonical SHA-256、原文唯一区间、section ID/title、摘要最小范围及未批准状态。任何原文篡改、偏移漂移、换来源、改执照、将研究误设为公开/AI/Golden 晋级都直接失败；CI 在真实生产 Runtime 创建后运行相同离线核验（并保持整个既有知识库校验与前端回归）。
+
+## 第 160 批：明确选定传统分类的四象限顺逆方向与时间轴闭环
+
+原本 #156 的研究方向必须由调用者自己指定 `forward/backward`；现新增研究用 `dayun_direction_policy=bazi-dayun-year-stem-traditional-role-research-v1`，**必须主动选择 `traditional_role=male|female`**，按已存在的年干阴阳构造四象限候选：
+
+| 本命年干阴阳 | 主动选择的传统角色 | 方向候选 |
+|---|---|---|
+| 阳（甲丙戊庚壬） | male | forward |
+| 阳（甲丙戊庚壬） | female | backward |
+| 阴（乙丁己辛癸） | male | backward |
+| 阴（乙丁己辛癸） | female | forward |
+
+本功能仅还原来自 `data/canonical/bazi/dayun_v1.json` 现代开源规则线索的传统角色**研究口径**；它不是用户现实身份、性别的判断，不能隐式推导或强制用户归类。传统顺逆尚待古籍版本独立校勘；`direction_research.rule_review_status=legacy_candidate_unreviewed`、`classical_direction_evidence_approved=false`、`direction_rule_match=null`。
+
+调用方传真实出生时刻时可以和 #157 真实十二节、#158 模拟时间轴完整串联：
+
+```json
+{
+  "domain": "bazi", "mode": "research", "explain": false,
+  "input": {
+    "value": "2000-01-07T12:00:00+08:00",
+    "traditional_role": "female",
+    "dayun_direction_policy": "bazi-dayun-year-stem-traditional-role-research-v1",
+    "dayun_jie_distance": true,
+    "dayun_age_simulation": "bazi-dayun-three-days-mean-year-research-v1",
+    "dayun_sequence_count": 8
+  }
+}
+```
+
+结果通过 `result.dayun_sequence_research.direction_research` 返回方向选择、年干阴阳、传统角色来源声明；同时返回已有的 `rows`、`jie_distance` 和 `age_simulation`。两个方向来源模式互斥：不可同时输入 `dayun_sequence_direction` 与 `dayun_direction_policy`，防止属性矛盾被静默覆盖。人工合法四柱也可计算传统方向候选，但因没有真实出生秒数，不能开启节令距离及时间轴。生产模式仍拒绝此项研究请求；不启用时原四柱行为不变。
+
+**不晋级原则**：不改变任何既有 Canonical Rule/Golden，不将传统分类视为适用于所有现代个人的标准，不制造正式交运日期或预测财运、婚姻、疾病等；`start_date/start_age` 仍为 `null`、`AI/public` 仍关。固定测试 `tests/test_phase2_bazidayundirection.py` 和产品 Web 真实 HTTP 流确保以上限制。
