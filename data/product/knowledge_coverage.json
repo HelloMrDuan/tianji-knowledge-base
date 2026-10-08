@@ -5156,8 +5156,8 @@
       },
       {
         "path": "data/canonical/bazi/phase1_knowledge.json",
-        "sha256": "d24941a26819b8467fd549fba6ef497ee6df6f973a5ded1592ba2e4afac3f497",
-        "bytes": 290421,
+        "sha256": "fe47995be366c4ec4883f3c7d71fd648735f7a8d23d80d8a382ca6fa6621e1e5",
+        "bytes": 290857,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -5166,8 +5166,8 @@
       },
       {
         "path": "data/canonical/bazi/phase2_execution.json",
-        "sha256": "4f6e69d6475230cc8fc3010fa6f49c4cd1aa3246884dc5c8e8b0d87f9c1b5870",
-        "bytes": 21382,
+        "sha256": "fd8c1585c536ae61a7d7c4272d63545e6a174489f1c37b5f54ebb5cfe64ccd54",
+        "bytes": 21944,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -5176,8 +5176,8 @@
       },
       {
         "path": "data/canonical/bazi/phase2_golden.json",
-        "sha256": "00862a5d23dba833124d56b08e6c7b86079078806ad963ebfe0922b6b44e83dc",
-        "bytes": 96312,
+        "sha256": "50ca164f9e54e5157afbf938d6cd64a34c726fc8440c7c82d062a9b2ed1b4313",
+        "bytes": 109525,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -6801,7 +6801,7 @@
       },
       {
         "path": "src/tianji_kb/bazi_pattern.py",
-        "sha256": "2f12073c118eaac21d8754aae23980f00d463b719ab62880164a3889458c5149"
+        "sha256": "6b999f7e8d0219b8091438045bb8c2150e82107b39840922c22db1c1d0e4bf37"
       },
       {
         "path": "src/tianji_kb/bazi_root_conditions.py",
@@ -7053,11 +7053,15 @@
       },
       {
         "path": "tests/test_phase2_bazipattern.py",
-        "sha256": "a7ecd4fb72b5dac59a7baff35ff5c1bf9f910a14eb2aa6f23adb4ec1c25cf621"
+        "sha256": "9af199b2a05449ef76f286816e1fabca52feee3a99130f88e0d660028d2610c9"
       },
       {
         "path": "tests/test_phase2_bazipattern_qualification.py",
         "sha256": "7fe03f1547fe4b7039648e8a6d26fb0b511af9ec11b6c590f78ac61df1507181"
+      },
+      {
+        "path": "tests/test_phase2_bazipattern_resource_month.py",
+        "sha256": "40435fc281fc4e742b114784d309e4b27ad6ee827ae3ba945b02de3a65f49dfd"
       },
       {
         "path": "tests/test_phase2_bazipattern_yuanhai.py",
@@ -11685,10 +11689,20 @@
               "bazi.pattern-not-month",
               "bazi.pattern-unexposed",
               "bazi.pattern-miscellaneous",
-              "bazi.pattern-commander-conflict"
+              "bazi.pattern-commander-conflict",
+              "bazi.pattern-resource-month-jia-hai",
+              "bazi.pattern-resource-month-bing-yin",
+              "bazi.pattern-resource-month-wu-si",
+              "bazi.pattern-resource-month-geng-chen",
+              "bazi.pattern-resource-month-ren-shen",
+              "bazi.pattern-resource-month-jia-si",
+              "bazi.pattern-resource-month-bing-you",
+              "bazi.pattern-resource-month-wu-hai",
+              "bazi.pattern-resource-month-geng-mao",
+              "bazi.pattern-resource-month-ren-chou"
             ],
             "regression_test": "tests/test_phase2_bazipattern.py",
-            "evidence_scope": "C：显式研究月藏十神与逐字透干位置；司令、禄刃杂气、官杀/破印、真假成败喜用均未裁定；AI 和公开产品不授权。",
+            "evidence_scope": "C：显式研究月藏十神与逐字透干位置；司令、禄刃杂气、官杀/破印、真假成败喜用均未裁定；AI 和公开产品不授权。；并观察《渊海》s059已有的十日干/月支月份生我例（不定印格）。",
             "evidence": [
               {
                 "source_id": "bazi.source.yuanhai",
@@ -11831,6 +11845,16 @@
           "bazi.pattern-miscellaneous",
           "bazi.pattern-not-month",
           "bazi.pattern-official-exposed",
+          "bazi.pattern-resource-month-bing-yin",
+          "bazi.pattern-resource-month-bing-you",
+          "bazi.pattern-resource-month-geng-chen",
+          "bazi.pattern-resource-month-geng-mao",
+          "bazi.pattern-resource-month-jia-hai",
+          "bazi.pattern-resource-month-jia-si",
+          "bazi.pattern-resource-month-ren-chou",
+          "bazi.pattern-resource-month-ren-shen",
+          "bazi.pattern-resource-month-wu-hai",
+          "bazi.pattern-resource-month-wu-si",
           "bazi.pattern-resource-pian",
           "bazi.pattern-resource-zheng",
           "bazi.pattern-unexposed",
@@ -20023,6 +20047,7 @@
             "仅研究模式，不开放公共 Scenario、产品 claim 或 AI；来源仍 C，不计独立底本票。"
           ],
           "yuanhai_example_scope": "仅甲日、酉月、辛未透、四柱见巳酉丑完整成员的古籍单例；候选仍不定格。",
+          "yuanhai_resource_month_scope": "s059五类日干与对应月支的月份生我例，只观测，不定印格",
           "golden_categories": {
             "positive": 4,
             "negative": 1,
