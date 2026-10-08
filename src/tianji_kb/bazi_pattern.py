@@ -360,14 +360,21 @@ def yuanhai_resource_competing_context(trace):
         status = 'no_related_facts_observed'
     relation_rules = ('stem_five_combinations', 'branch_six_harmonies',
                       'branch_six_clashes', 'branch_triple_harmonies')
-    interactions = [
-        {'rule_id': 'bazi.phase2.' + key,
-         'fact_ref': pointer(key),
-         'evidence_ids': list(steps['bazi.phase2.' + key][1]['evidence_ids'])}
-        for key in relation_rules
-        if 'bazi.phase2.' + key in steps
-        and steps['bazi.phase2.' + key][1]['output']
-    ]
+    interactions = []
+    for key in relation_rules:
+        rule_id = 'bazi.phase2.' + key
+        if rule_id not in steps or not steps[rule_id][1]['output']:
+            continue
+        # An observed interaction is admissible only with executed, resolvable
+        # evidence. Unverified interactions must never enter effect blockers.
+        evidence_ids = steps[rule_id][1].get('evidence_ids', [])
+        if not evidence_ids or any(eid not in trace.evidence for eid in evidence_ids):
+            raise ValueError('Resource interaction lacks executed evidence: ' + rule_id)
+        interactions.append({
+            'rule_id': rule_id,
+            'fact_ref': pointer(key),
+            'evidence_ids': list(evidence_ids),
+        })
     provenance = sorted(set(steps['bazi.phase2.ten_gods'][1]['evidence_ids'])
                         | set(steps['bazi.phase2.hidden_stems'][1]['evidence_ids']))
     causal = resource_elemental_causal_gate({

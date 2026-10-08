@@ -107,6 +107,32 @@ class ResourceDirectionGateTests(unittest.TestCase):
             self.assertIsNone(pair['effective_interaction'])
             self.assertEqual(pair['effect_status'],'indeterminate')
 
+    def test_unverified_interaction_evidence_is_rejected(self):
+        from copy import deepcopy
+        from types import SimpleNamespace
+        from tianji_kb.bazi_pattern import yuanhai_resource_competing_context
+
+        out = chart('戊午', '壬子', '甲子', '壬子',
+                    pattern_variant=PATTERN_VARIANT)
+        original = deepcopy(out['trace'])
+        clash = next(step for step in original
+                     if step['rule_id'] == 'bazi.phase2.branch_six_clashes')
+        self.assertTrue(clash['output'])
+        self.assertTrue(clash['evidence_ids'])
+
+        # An actual clash is present, but its evidence pointer is corrupted.
+        # This must raise rather than attach a fictional citation to a blocker.
+        clash['evidence_ids'] = ['missing.interaction.evidence']
+        with self.assertRaisesRegex(ValueError, 'Resource interaction lacks executed evidence'):
+            yuanhai_resource_competing_context(
+                SimpleNamespace(steps=original, evidence=out['evidence']))
+
+        # A present interaction with an empty citation set is equally invalid.
+        clash['evidence_ids'] = []
+        with self.assertRaisesRegex(ValueError, 'Resource interaction lacks executed evidence'):
+            yuanhai_resource_competing_context(
+                SimpleNamespace(steps=original, evidence=out['evidence']))
+
     def test_wealth_with_killing_does_not_create_official_effect(self):
         out=chart('戊子','壬子','甲子','庚申',pattern_variant=PATTERN_VARIANT)
         gate=out['result']['pattern_candidates']['resource']['yuanhai_resource_competing_context']['elemental_causal_gate']
