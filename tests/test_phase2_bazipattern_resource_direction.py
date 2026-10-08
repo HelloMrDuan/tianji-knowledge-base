@@ -227,6 +227,102 @@ class ResourceDirectionGateTests(unittest.TestCase):
         self.assertEqual(pair['actual_root_strength_status'], 'indeterminate')
         self.assertEqual(pair['effect_status'], 'indeterminate')
 
+    def test_pairwise_element_root_sites_and_fact_provenance(self):
+        # 辰藏戊、乙、癸；丑藏己、癸、辛；子藏癸；酉藏辛。
+        # 同字与同五行异字都是位置事实，不是“根力有效”。
+        out = chart('戊辰', '癸丑', '甲子', '癸酉', pattern_variant=PATTERN_VARIANT)
+        gate = out['result']['pattern_candidates']['resource'][
+            'yuanhai_resource_competing_context']['elemental_causal_gate']
+        pair = next(p for p in gate['relation_candidates']
+                    if p['actor_category'] == 'visible_wealth'
+                    and p['actor']['stem'] == '戊' and p['target']['stem'] == '癸')
+        actor = pair['actor_element_root_candidates']
+        resource = pair['resource_element_root_candidates']
+        self.assertEqual([(p['pillar'], p['branch'], p['stem'], p['same_stem'])
+                          for p in actor], [
+                              ('year', '辰', '戊', True),
+                              ('month', '丑', '己', False),
+                          ])
+        self.assertEqual([(p['pillar'], p['branch'], p['stem'], p['same_stem'])
+                          for p in resource], [
+                              ('year', '辰', '癸', True),
+                              ('month', '丑', '癸', True),
+                              ('day', '子', '癸', True),
+                          ])
+        self.assertEqual(pair['root_candidate_comparison']['root_effect_status'],
+                         'indeterminate')
+        self.assertFalse(pair['root_candidate_comparison']['pairwise_effect_proved_by_root_sites'])
+        self.assertFalse(pair['root_candidate_comparison']['root_loss_inferred_from_clash'])
+        for site in actor + resource:
+            pointer = out
+            for token in site['fact_ref'][2:].split('/'):
+                pointer = pointer[int(token)] if isinstance(pointer, list) else pointer[token]
+            self.assertEqual(pointer['stem'], site['stem'])
+            self.assertTrue(site['structural_candidate_only'])
+            self.assertEqual(site['root_effect_status'], 'indeterminate')
+            for interaction in site['branch_interactions']:
+                self.assertIn(site['pillar'], interaction['pillars'])
+                self.assertEqual(interaction['effect_status'], 'indeterminate')
+                value = out
+                for token in interaction['fact_ref'][2:].split('/'):
+                    value = value[int(token)] if isinstance(value, list) else value[token]
+                self.assertEqual(value['pillars'], interaction['pillars'])
+                self.assertIn(interaction['rule_id'], [row['rule_id'] for row in out['trace']])
+                self.assertTrue(interaction['evidence_ids'])
+                self.assertTrue(all(eid in out['evidence'] for eid in interaction['evidence_ids']))
+        self.assertEqual(pair['effect_status'], 'indeterminate')
+        self.assertIsNone(pair['effective_interaction'])
+        self.assertFalse(out['interpretation_contract']['ai_may_explain'])
+
+    def test_root_candidate_absence_is_not_root_strength_verdict(self):
+        out = chart('戊子', '壬子', '甲子', '壬子', pattern_variant=PATTERN_VARIANT)
+        gate = out['result']['pattern_candidates']['resource'][
+            'yuanhai_resource_competing_context']['elemental_causal_gate']
+        pair = next(p for p in gate['relation_candidates']
+                    if p['actor_category'] == 'visible_wealth'
+                    and p['target']['stem'] == '癸')
+        self.assertEqual(pair['actor_element_root_candidates'], [])
+        self.assertEqual([site['stem'] for site in pair['resource_element_root_candidates']],
+                         ['癸', '癸', '癸', '癸'])
+        self.assertEqual(gate['element_root_candidate_summary'], {
+            'actor_candidate_observed': False,
+            'resource_candidate_observed': True,
+            'other_stem_same_element_observed': False,
+            'root_branch_interaction_observed': False,
+            'actual_root_strength_inferred': False,
+            'actual_effect_inferred': False,
+        })
+        self.assertEqual(pair['actor_strength'], None)
+        self.assertEqual(pair['effect_status'], 'indeterminate')
+
+    def test_clashed_root_branch_remains_structurally_present(self):
+        out = chart('戊午', '壬子', '甲子', '壬子', pattern_variant=PATTERN_VARIANT)
+        gate = out['result']['pattern_candidates']['resource'][
+            'yuanhai_resource_competing_context']['elemental_causal_gate']
+        pair = next(p for p in gate['relation_candidates']
+                    if p['actor_category'] == 'visible_wealth'
+                    and p['target']['stem'] == '癸')
+        actor = pair['actor_element_root_candidates']
+        self.assertEqual([(p['pillar'], p['stem'], p['same_stem']) for p in actor],
+                         [('year', '己', False)])
+        self.assertTrue(any(
+            observation['rule_id'] == 'bazi.phase2.branch_six_clashes'
+            and 'year' in observation['pillars']
+            for observation in actor[0]['branch_interactions']))
+        self.assertTrue(gate['element_root_candidate_summary']['root_branch_interaction_observed'])
+        self.assertFalse(pair['root_candidate_comparison']['root_loss_inferred_from_clash'])
+        self.assertEqual(pair['actual_root_strength_status'], 'indeterminate')
+        self.assertIsNone(pair['effective_interaction'])
+        self.assertIsNone(gate['effect_gate']['wealth_damages_resource'])
+
+    def test_month_without_resource_has_no_pair_root_summary(self):
+        out = chart('戊子', '丙寅', '甲子', '庚子', pattern_variant=PATTERN_VARIANT)
+        gate = out['result']['pattern_candidates']['resource'][
+            'yuanhai_resource_competing_context']['elemental_causal_gate']
+        self.assertEqual(gate['status'], 'outside_month_resource_branch')
+        self.assertFalse(any(gate['element_root_candidate_summary'].values()))
+        self.assertEqual(gate['relation_candidates'], [])
+
     def test_source_and_production_gates(self):
         out=chart('辛亥','壬子','甲子','壬子',pattern_variant=PATTERN_VARIANT)
         step=next(s for s in out['trace'] if s['rule_id']=='bazi.phase2.resource_pattern_candidates')
