@@ -15,7 +15,10 @@ class YuanhaiResourceMonthTests(unittest.TestCase):
         for stem, months in YUANHAI_RESOURCE_MONTHS.items():
             with self.subTest(stem=stem):
                 m=months[0]
-                out=chart('甲子', '乙'+m, stem+'子', '丙寅', pattern_variant=PATTERN_VARIANT)
+                month_ganzhi = ('乙' if m in ('亥','卯','巳','酉','未','丑') else '甲') + m
+                valid_day = dict(甲='甲子', 乙='乙丑', 丙='丙寅', 丁='丁卯', 戊='戊辰',
+                                 己='己巳', 庚='庚午', 辛='辛未', 壬='壬申', 癸='癸酉')[stem]
+                out=chart('甲子', month_ganzhi, valid_day, '丙寅', pattern_variant=PATTERN_VARIANT)
                 observation=out['result']['pattern_candidates']['resource']['yuanhai_resource_month_example']
                 self.assertEqual(observation['status'], 'reviewed_month_example')
                 self.assertFalse(observation['qualified_for_determination'])
