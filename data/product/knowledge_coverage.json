@@ -5156,8 +5156,8 @@
       },
       {
         "path": "data/canonical/bazi/phase1_knowledge.json",
-        "sha256": "c827b657f1d193a41596665681a4233ef174941b4be432dcaa35b12eed1bac38",
-        "bytes": 293765,
+        "sha256": "a637e679bd6f6544835ae0ace18f5573c958ec7041fc181349cf9aa1dfbe7598",
+        "bytes": 294722,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -5166,8 +5166,8 @@
       },
       {
         "path": "data/canonical/bazi/phase2_execution.json",
-        "sha256": "03099b8681af1921edd7440728b9450ccebe741e8247505d20ad6f78000c5a05",
-        "bytes": 24168,
+        "sha256": "d22f89a18a336c874ad8d96d82a69af45f74c9fe42ca98503a556c51c3aaec50",
+        "bytes": 24353,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -5176,8 +5176,8 @@
       },
       {
         "path": "data/canonical/bazi/phase2_golden.json",
-        "sha256": "25bca9474df4b9cafabff516d47b5d33a39cd73f371103dae3261f0e55793f1c",
-        "bytes": 170560,
+        "sha256": "68f697e55522b8ec182a3c2a98143b81cf2d0ac04e39b7193d6d4ccd463a1f39",
+        "bytes": 172005,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -6801,7 +6801,7 @@
       },
       {
         "path": "src/tianji_kb/bazi_pattern.py",
-        "sha256": "baeaa287b5fb66d4012115d8c66528065a1a8900d712c4fe3789459ad0754ebf"
+        "sha256": "cd3448b3dd47a604d0d5a09f130b26fce2b5710e177e7fcf6f51c89fbc5787d1"
       },
       {
         "path": "src/tianji_kb/bazi_root_conditions.py",
@@ -7069,7 +7069,7 @@
       },
       {
         "path": "tests/test_phase2_bazipattern_resource_direction.py",
-        "sha256": "10b7040b26e658c964eb0349f6a3534390f642915d6927b48729ec0615ccd999"
+        "sha256": "f61da314aa496abb75ee0509d32ccd1e603a4c0dab6c2e376334f198c4577feb"
       },
       {
         "path": "tests/test_phase2_bazipattern_resource_month.py",
@@ -11741,10 +11741,11 @@
               "bazi.resource-element-roots-clashed",
               "bazi.resource-element-roots-no-month",
               "bazi.resource-reviewed-root-types-residual-growth",
-              "bazi.resource-reviewed-root-types-uncovered"
+              "bazi.resource-reviewed-root-types-uncovered",
+              "bazi.resource-reviewed-root-types-disputed-water-residual"
             ],
             "regression_test": "tests/test_phase2_bazipattern.py",
-            "evidence_scope": "C：显式研究月藏十神与逐字透干位置；司令、禄刃杂气、官杀/破印、真假成败喜用均未裁定；AI 和公开产品不授权。；并观察《渊海》s059已有的十日干/月支月份生我例（不定印格）。；s057/s058 月令印及财/官杀显藏共现的条件事实，财旺破印、官印相生、官鬼多均 indeterminate。；财对月藏印五行克方向、正官/七杀对印五行生方向仅作为结构候选；成效门控始终拒判。；对财/官与月藏印额外登记同五行藏干根候选及实际落支冲合的 Phase2 Fact/Evidence 指针；同干/同五行根候选不等于根力有效、受冲消根或发生财克印、官印相生。；经审 s026/s027/s041 作为通根类型例、必要司令条件与余气异文证据，只给根型候选和来源冲突，不裁定具体根力或成对财印生克。",
+            "evidence_scope": "C：显式研究月藏十神与逐字透干位置；司令、禄刃杂气、官杀/破印、真假成败喜用均未裁定；AI 和公开产品不授权。；并观察《渊海》s059已有的十日干/月支月份生我例（不定印格）。；s057/s058 月令印及财/官杀显藏共现的条件事实，财旺破印、官印相生、官鬼多均 indeterminate。；财对月藏印五行克方向、正官/七杀对印五行生方向仅作为结构候选；成效门控始终拒判。；对财/官与月藏印额外登记同五行藏干根候选及实际落支冲合的 Phase2 Fact/Evidence 指针；同干/同五行根候选不等于根力有效、受冲消根或发生财克印、官印相生。；经审 s026/s027/s041 作为通根类型例、必要司令条件与余气异文证据，只给根型候选和来源冲突，不裁定具体根力或成对财印生克。；余气 s026/s041 双文本分别列举，不覆盖另一口径，原典未裁定时保持冲突及作用拒判。",
             "evidence": [
               {
                 "source_id": "bazi.source.yuanhai",
@@ -11992,6 +11993,7 @@
           "bazi.resource-element-roots-no-actor",
           "bazi.resource-element-roots-no-month",
           "bazi.resource-element-roots-same-and-other",
+          "bazi.resource-reviewed-root-types-disputed-water-residual",
           "bazi.resource-reviewed-root-types-residual-growth",
           "bazi.resource-reviewed-root-types-uncovered",
           "bazi.resource-sites-correspondence",
@@ -19742,6 +19744,42 @@
           "刑害吉凶",
           "墓库冲开自动可用",
           "得令或通根即身旺"
+        ],
+        "alternative_residual_type_candidates": [
+          {
+            "element": "火",
+            "branches": [
+              "未",
+              "戌"
+            ],
+            "kind": "residual_qi_candidate",
+            "section_ids": [
+              "bazi.section.s041"
+            ],
+            "variant": "ren-residual-alternate-text"
+          },
+          {
+            "element": "金",
+            "branches": [
+              "丑"
+            ],
+            "kind": "residual_qi_candidate",
+            "section_ids": [
+              "bazi.section.s041"
+            ],
+            "variant": "ren-residual-alternate-text"
+          },
+          {
+            "element": "水",
+            "branches": [
+              "辰"
+            ],
+            "kind": "residual_qi_candidate",
+            "section_ids": [
+              "bazi.section.s041"
+            ],
+            "variant": "ren-residual-alternate-text"
+          }
         ]
       },
       "bazi.concept.action_conditions_variant_v1": {
