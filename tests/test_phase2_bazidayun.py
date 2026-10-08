@@ -99,6 +99,9 @@ class DayunSequenceResearchTests(unittest.TestCase):
                 candidate_sequence(month, "甲", direction="forward")
         with self.assertRaises(ValueError):
             candidate_sequence("己丑", "X", direction="forward")
+        for bad_stem in (1, True, None, []):
+            with self.subTest(bad_stem=bad_stem), self.assertRaises(ValueError):
+                candidate_sequence("己丑", bad_stem, direction="forward")
         with self.assertRaises(ValueError):
             chart(*NATAL, dayun_sequence_direction="forward", dayun_sequence_count=13)
         with self.assertRaises(ValueError):
