@@ -7,6 +7,7 @@ from ..bazi_adjudication import ADJUDICATION_VARIANT, strength_assessment
 from ..bazi_root_conditions import STRENGTH_VARIANT, AVAILABILITY_VARIANT, root_conditions, root_availability, conditional_factor_graph
 from ..bazi_strength import FACTOR_VARIANT, factors as _strength_factors
 from ..bazi_pattern import PATTERN_VARIANT, candidates as pattern_candidates
+from ..bazi_annual_reference import annual_reference
 
 
 def strength_factors(pillars, day_master, *, factor_variant=FACTOR_VARIANT, output_key=None):
@@ -17,7 +18,7 @@ def strength_factors(pillars, day_master, *, factor_variant=FACTOR_VARIANT, outp
         raise ValueError('Unsupported factor output')
     return observed[output_key]
 
-def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=False, include_relations=False, traditional_role=None, strength_variant=None, month_command_variant=None, root_availability_variant=None, action_effect_variant=None, variant=VARIANT, *, pattern_variant=None):
+def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=False, include_relations=False, traditional_role=None, strength_variant=None, month_command_variant=None, root_availability_variant=None, action_effect_variant=None, variant=VARIANT, *, pattern_variant=None, annual_reference_years=None):
     if variant != VARIANT:
         raise ValueError("Unsupported Bazi variant")
     if type(include_xianchi) is not bool:
@@ -26,6 +27,10 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
         raise ValueError("include_relations must be boolean")
     if traditional_role is not None and traditional_role not in ("male", "female"):
         raise ValueError("traditional_role must be male or female")
+    if annual_reference_years is not None:
+        # Validate input before doing any chart computation or executing rules.
+        if type(annual_reference_years) is not list or not 1 <= len(annual_reference_years) <= 20:
+            raise ValueError('annual_reference_years must be a list of 1..20 years')
     if pattern_variant is not None:
         if pattern_variant != PATTERN_VARIANT:
             raise ValueError('Unsupported pattern candidate variant')
@@ -209,6 +214,14 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
                         'variant':step['output'].get('command_variant',step['output'].get('root_variant',step['output'].get('action_variant')))})
         result['production_scope'] += ('；定性木根可用性与有限实际作用，通用根力仍未裁定'
             if strength_variant == ADJUDICATION_VARIANT else '；条件化根候选（可用性与实际根力未裁定）')
+    if annual_reference_years is not None:
+        annual = annual_reference(raw['day_master']['stem'], annual_reference_years)
+        trace.add('bazi.phase2.annual_reference_facts',
+                  {'annual_reference_years': list(annual_reference_years),
+                   'reference_policy': annual['reference_policy']},
+                  annual)
+        result['annual_reference'] = annual
+        result['production_scope'] += '；研究用指定公历年份七月一日干支与日主十神参照（不构成流年吉凶或完整岁运）'
     if pattern_variant is not None:
         result['pattern_candidates'] = {}
         for family in ('official', 'resource'):
@@ -218,7 +231,7 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
             result['pattern_candidates'][family] = observation
         result['production_scope'] += '；研究用正官/印绶月藏透干候选位置，不定格或判断成败喜用'
     output = trace.finish(result)
-    if strength_variant == ADJUDICATION_VARIANT or pattern_variant is not None:
+    if strength_variant == ADJUDICATION_VARIANT or pattern_variant is not None or annual_reference_years is not None:
         output['interpretation_contract']['ai_may_explain'] = False
         output['research_only'] = True
     if strength_variant == ADJUDICATION_VARIANT:
