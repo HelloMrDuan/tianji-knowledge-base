@@ -14,7 +14,7 @@
 
 ## 验收
 
-`tests/test_private_dream_api.py` 使用真实 TestClient、实际 Canonical/RAG，对“蛇咬人”场景正例和考试、否定、影视转述负例、禁用权限、超长输入作验证；`web/visual-prototype/tests/admin-dream-research.spec.ts` 验证页面无自动请求、错误令牌无法获得内容、令牌不持久化。所有运行时测试仍必须通过生产构建的真实清单；不使用 Mock/假古籍证据。
+`tests/test_phase2_private_dream_api.py` 使用真实 TestClient、实际 Canonical/RAG，对“蛇咬人”场景正例和考试、否定、影视转述负例、禁用权限、超长输入作验证；`web/visual-prototype/tests/admin-dream-research.spec.ts` 验证页面无自动请求、错误令牌无法获得内容、令牌不持久化。所有运行时测试仍必须通过生产构建的真实清单；不使用 Mock/假古籍证据。
 
 ## 尚未开放的能力
 
