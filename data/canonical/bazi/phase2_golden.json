@@ -5440,6 +5440,130 @@
           }
         }
       }
+    },
+    {
+      "id": "bazi.annual-reference-midyear-2024-2026",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "庚辰",
+        "month_ganzhi": "己丑",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "庚午",
+        "annual_reference_years": [
+          2024,
+          2025,
+          2026
+        ]
+      },
+      "expected": {
+        "annual_reference": {
+          "variant": "bazi-annual-midyear-reference-v1",
+          "calendar_provider": "lunar-python==1.4.8",
+          "annual_boundary_calculated": false,
+          "dayun_start_age_calculated": false,
+          "dayun_direction_calculated": false,
+          "annual_luck_assessment": null,
+          "research_only": true,
+          "public_enabled": false,
+          "ai_enabled": false,
+          "rows": [
+            {
+              "calendar_year": 2024,
+              "reference_datetime": "2024-07-01T12:00:00+08:00",
+              "year_ganzhi_at_reference": "甲辰",
+              "year_stem": "甲",
+              "year_branch": "辰",
+              "relative_ten_god": "比肩",
+              "calendar_provider": "lunar-python==1.4.8",
+              "jieqi_boundary_of_year_resolved": false,
+              "intra_year_ganzhi_not_asserted": true,
+              "annual_natal_interaction_status": "not_evaluated",
+              "annual_luck_prediction": null
+            },
+            {
+              "calendar_year": 2025,
+              "reference_datetime": "2025-07-01T12:00:00+08:00",
+              "year_ganzhi_at_reference": "乙巳",
+              "year_stem": "乙",
+              "year_branch": "巳",
+              "relative_ten_god": "劫财",
+              "calendar_provider": "lunar-python==1.4.8",
+              "jieqi_boundary_of_year_resolved": false,
+              "intra_year_ganzhi_not_asserted": true,
+              "annual_natal_interaction_status": "not_evaluated",
+              "annual_luck_prediction": null
+            },
+            {
+              "calendar_year": 2026,
+              "reference_datetime": "2026-07-01T12:00:00+08:00",
+              "year_ganzhi_at_reference": "丙午",
+              "year_stem": "丙",
+              "year_branch": "午",
+              "relative_ten_god": "食神",
+              "calendar_provider": "lunar-python==1.4.8",
+              "jieqi_boundary_of_year_resolved": false,
+              "intra_year_ganzhi_not_asserted": true,
+              "annual_natal_interaction_status": "not_evaluated",
+              "annual_luck_prediction": null
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "bazi.annual-reference-midyear-2026-2027",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "庚辰",
+        "month_ganzhi": "己丑",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "庚午",
+        "annual_reference_years": [
+          2026,
+          2027
+        ]
+      },
+      "expected": {
+        "annual_reference": {
+          "variant": "bazi-annual-midyear-reference-v1",
+          "calendar_provider": "lunar-python==1.4.8",
+          "annual_boundary_calculated": false,
+          "dayun_start_age_calculated": false,
+          "dayun_direction_calculated": false,
+          "annual_luck_assessment": null,
+          "research_only": true,
+          "public_enabled": false,
+          "ai_enabled": false,
+          "rows": [
+            {
+              "calendar_year": 2026,
+              "reference_datetime": "2026-07-01T12:00:00+08:00",
+              "year_ganzhi_at_reference": "丙午",
+              "year_stem": "丙",
+              "year_branch": "午",
+              "relative_ten_god": "食神",
+              "calendar_provider": "lunar-python==1.4.8",
+              "jieqi_boundary_of_year_resolved": false,
+              "intra_year_ganzhi_not_asserted": true,
+              "annual_natal_interaction_status": "not_evaluated",
+              "annual_luck_prediction": null
+            },
+            {
+              "calendar_year": 2027,
+              "reference_datetime": "2027-07-01T12:00:00+08:00",
+              "year_ganzhi_at_reference": "丁未",
+              "year_stem": "丁",
+              "year_branch": "未",
+              "relative_ten_god": "伤官",
+              "calendar_provider": "lunar-python==1.4.8",
+              "jieqi_boundary_of_year_resolved": false,
+              "intra_year_ganzhi_not_asserted": true,
+              "annual_natal_interaction_status": "not_evaluated",
+              "annual_luck_prediction": null
+            }
+          ]
+        }
+      }
     }
   ]
 }
