@@ -122,6 +122,66 @@ def yuanhai_resource_month_example(trace):
     }
 
 
+def yuanhai_hour_killing_restriction(trace):
+    """Review only the Yuanhai s055 hour-pillar exception to month 正官.
+
+    The traditional text cautions against directly calling this 正官; it does
+    NOT prove 官杀混杂、破格、伤害, or decide any pattern.
+    """
+    steps = {row['rule_id']: (i, row) for i, row in enumerate(trace.steps)}
+    needed = ('ten_gods', 'hidden_stems')
+    if any('bazi.phase2.' + name not in steps for name in needed):
+        raise ValueError('Hour killing restriction requires executed ten gods and hidden stems')
+    for name in needed:
+        step = steps['bazi.phase2.' + name][1]
+        if not step['evidence_ids'] or any(k not in trace.evidence for k in step['evidence_ids']):
+            raise ValueError('Hour killing restriction lacks executed evidence')
+
+    def fact_ref(name, suffix=''):
+        return f"#/trace/{steps['bazi.phase2.' + name][0]}/output" + suffix
+
+    visible = steps['bazi.phase2.ten_gods'][1]['output']
+    hidden = steps['bazi.phase2.hidden_stems'][1]['output']
+    mi, month = next((i, r) for i, r in enumerate(hidden) if r['pillar'] == 'month')
+    hi, hour = next((i, r) for i, r in enumerate(hidden) if r['pillar'] == 'hour')
+    month_official = [
+        {'stem': row['stem'], 'fact_ref': fact_ref('hidden_stems', f'/{mi}/hidden_stems/{i}')}
+        for i, row in enumerate(month['hidden_stems']) if row['ten_god'] == '正官'
+    ]
+    hour_stem = [
+        {'stem': row['stem'], 'fact_ref': fact_ref('ten_gods', f'/{i}')}
+        for i, row in enumerate(visible) if row['pillar'] == 'hour' and row['ten_god'] == '七杀'
+    ]
+    hour_branch = [
+        {'stem': row['stem'], 'fact_ref': fact_ref('hidden_stems', f'/{hi}/hidden_stems/{i}')}
+        for i, row in enumerate(hour['hidden_stems']) if row['ten_god'] == '七杀'
+    ]
+    applies = bool(month_official and (hour_stem or hour_branch))
+    return {
+        'variant': PATTERN_VARIANT, 'school_branch': 'yuanhai-月令正官时干支偏官限制',
+        'status': 'restriction_observed' if applies else 'not_observed',
+        'month_official_positions': month_official,
+        'hour_visible_killing_positions': hour_stem,
+        'hour_hidden_killing_positions': hour_branch,
+        'conditions': [
+            {'id': 'month_hidden_official', 'observed': bool(month_official),
+             'fact_ref': fact_ref('hidden_stems', f'/{mi}')},
+            {'id': 'hour_visible_seven_killing', 'observed': bool(hour_stem),
+             'fact_ref': fact_ref('ten_gods')},
+            {'id': 'hour_hidden_seven_killing', 'observed': bool(hour_branch),
+             'fact_ref': fact_ref('hidden_stems', f'/{hi}')},
+        ],
+        'source_section_id': 'bazi.section.s055', 'source_level': 'C',
+        'selection_status': 'additional_source_review_required' if applies else 'not_observed',
+        'unresolved': ['official_killing_selection', 'removal_or_retention',
+                       'dated_commander', 'actual_strength_and_effects',
+                       'pattern_branch_comparison'],
+        'determination': None, 'qualified_for_determination': False,
+        'research_only': True, 'public_enabled': False, 'ai_enabled': False,
+        'scope': '仅限月藏正官且时干显七杀或时支藏七杀；时支藏干不是透干。不得直接定官杀混杂、破格、正官格、婚恋/事业吉凶或喜用。',
+    }
+
+
 def qualification(trace, *, family, observation):
     """Evidence-linked pre-determination checklist, NOT a final pattern verdict.
 
@@ -256,6 +316,7 @@ def candidates(trace, *, family, pattern_variant=PATTERN_VARIANT):
         'scope': '现代形式化的月藏十神与逐字透干位置观察；不覆盖地支官局等另支取官，不定格、不取用、不判断成败吉凶。'}
     if family == 'official':
         result['yuanhai_unexposed_official_branch'] = yuanhai_unexposed_official(trace)
+        result['yuanhai_hour_killing_restriction'] = yuanhai_hour_killing_restriction(trace)
     if family == 'resource':
         result['yuanhai_resource_month_example'] = yuanhai_resource_month_example(trace)
     result['qualification'] = qualification(trace, family=family, observation=result)

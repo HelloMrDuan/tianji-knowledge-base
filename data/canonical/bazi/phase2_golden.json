@@ -3632,6 +3632,335 @@
           }
         }
       }
+    },
+    {
+      "id": "bazi.pattern-hour-killing-hour-visible",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "戊午",
+        "month_ganzhi": "辛酉",
+        "day_ganzhi": "甲午",
+        "hour_ganzhi": "庚午",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "official": {
+            "yuanhai_hour_killing_restriction": {
+              "status": "restriction_observed",
+              "source_section_id": "bazi.section.s055",
+              "conditions": [
+                {
+                  "id": "month_hidden_official",
+                  "observed": true
+                },
+                {
+                  "id": "hour_visible_seven_killing",
+                  "observed": true
+                },
+                {
+                  "id": "hour_hidden_seven_killing",
+                  "observed": false
+                }
+              ],
+              "qualified_for_determination": false,
+              "determination": null,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "true_false": null,
+              "success_failure": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.pattern-hour-killing-hour-hidden",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "戊午",
+        "month_ganzhi": "辛酉",
+        "day_ganzhi": "甲午",
+        "hour_ganzhi": "壬申",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "official": {
+            "yuanhai_hour_killing_restriction": {
+              "status": "restriction_observed",
+              "source_section_id": "bazi.section.s055",
+              "conditions": [
+                {
+                  "id": "month_hidden_official",
+                  "observed": true
+                },
+                {
+                  "id": "hour_visible_seven_killing",
+                  "observed": false
+                },
+                {
+                  "id": "hour_hidden_seven_killing",
+                  "observed": true
+                }
+              ],
+              "qualified_for_determination": false,
+              "determination": null,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "true_false": null,
+              "success_failure": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.pattern-hour-killing-hour-both",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "戊午",
+        "month_ganzhi": "辛酉",
+        "day_ganzhi": "甲午",
+        "hour_ganzhi": "庚申",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "official": {
+            "yuanhai_hour_killing_restriction": {
+              "status": "restriction_observed",
+              "source_section_id": "bazi.section.s055",
+              "conditions": [
+                {
+                  "id": "month_hidden_official",
+                  "observed": true
+                },
+                {
+                  "id": "hour_visible_seven_killing",
+                  "observed": true
+                },
+                {
+                  "id": "hour_hidden_seven_killing",
+                  "observed": true
+                }
+              ],
+              "qualified_for_determination": false,
+              "determination": null,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "true_false": null,
+              "success_failure": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.pattern-hour-killing-hour-none",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "戊午",
+        "month_ganzhi": "辛酉",
+        "day_ganzhi": "甲午",
+        "hour_ganzhi": "丙寅",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "official": {
+            "yuanhai_hour_killing_restriction": {
+              "status": "not_observed",
+              "source_section_id": "bazi.section.s055",
+              "conditions": [
+                {
+                  "id": "month_hidden_official",
+                  "observed": true
+                },
+                {
+                  "id": "hour_visible_seven_killing",
+                  "observed": false
+                },
+                {
+                  "id": "hour_hidden_seven_killing",
+                  "observed": false
+                }
+              ],
+              "qualified_for_determination": false,
+              "determination": null,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "true_false": null,
+              "success_failure": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.pattern-hour-killing-non-month",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "戊午",
+        "month_ganzhi": "丙寅",
+        "day_ganzhi": "甲午",
+        "hour_ganzhi": "庚午",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "official": {
+            "yuanhai_hour_killing_restriction": {
+              "status": "not_observed",
+              "source_section_id": "bazi.section.s055",
+              "conditions": [
+                {
+                  "id": "month_hidden_official",
+                  "observed": false
+                },
+                {
+                  "id": "hour_visible_seven_killing",
+                  "observed": true
+                },
+                {
+                  "id": "hour_hidden_seven_killing",
+                  "observed": false
+                }
+              ],
+              "qualified_for_determination": false,
+              "determination": null,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "true_false": null,
+              "success_failure": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.pattern-hour-killing-other-pillar-killing",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "庚申",
+        "month_ganzhi": "辛酉",
+        "day_ganzhi": "甲午",
+        "hour_ganzhi": "丙寅",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "official": {
+            "yuanhai_hour_killing_restriction": {
+              "status": "not_observed",
+              "source_section_id": "bazi.section.s055",
+              "conditions": [
+                {
+                  "id": "month_hidden_official",
+                  "observed": true
+                },
+                {
+                  "id": "hour_visible_seven_killing",
+                  "observed": false
+                },
+                {
+                  "id": "hour_hidden_seven_killing",
+                  "observed": false
+                }
+              ],
+              "qualified_for_determination": false,
+              "determination": null,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "true_false": null,
+              "success_failure": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.pattern-hour-killing-hour-official-not-killing",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "戊午",
+        "month_ganzhi": "辛酉",
+        "day_ganzhi": "甲午",
+        "hour_ganzhi": "辛酉",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "official": {
+            "yuanhai_hour_killing_restriction": {
+              "status": "not_observed",
+              "source_section_id": "bazi.section.s055",
+              "conditions": [
+                {
+                  "id": "month_hidden_official",
+                  "observed": true
+                },
+                {
+                  "id": "hour_visible_seven_killing",
+                  "observed": false
+                },
+                {
+                  "id": "hour_hidden_seven_killing",
+                  "observed": false
+                }
+              ],
+              "qualified_for_determination": false,
+              "determination": null,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "true_false": null,
+              "success_failure": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
     }
   ]
 }
