@@ -293,9 +293,11 @@ def resource_elemental_causal_gate(context):
                     },
                     'reviewed_root_type_comparison': {
                         'actor_reviewed_examples': any(
-                            site['reviewed_root_type_examples'] for site in actor_roots),
+                            site['reviewed_root_type_examples'] or site['alternative_root_type_examples']
+                            for site in actor_roots),
                         'resource_reviewed_examples': any(
-                            site['reviewed_root_type_examples'] for site in target_roots),
+                            site['reviewed_root_type_examples'] or site['alternative_root_type_examples']
+                            for site in target_roots),
                         'residual_type_conflict_present': any(
                             site['residual_type_conflict']['conflict_id']
                             for site in actor_roots + target_roots),
@@ -464,16 +466,25 @@ def yuanhai_resource_competing_context(trace):
                 for candidate in root_policy['reviewed_type_candidates']
                 if candidate['element'] == element and branch in candidate['branches']
             ]
+            alternatives = [
+                {'kind': candidate['kind'],
+                 'source_section_ids': list(candidate['section_ids']),
+                 'variant': candidate['variant'],
+                 'status': 'alternative_source_example_only'}
+                for candidate in root_policy['alternative_residual_type_candidates']
+                if candidate['element'] == element and branch in candidate['branches']
+            ]
             residual_example = any(
                 candidate['kind'] == 'residual_qi_candidate'
-                for candidate in examples)
+                for candidate in examples + alternatives)
             element_root_sites[element].append({
                 'pillar': pillar['pillar'], 'branch': branch,
                 'stem': stem, 'element': element,
                 'fact_ref': pointer('hidden_stems', f'/{pi}/hidden_stems/{hi}'),
                 'structural_candidate_only': True,
                 'reviewed_root_type_examples': examples,
-                'root_type_review_status': 'example_only' if examples
+                'alternative_root_type_examples': alternatives,
+                'root_type_review_status': 'example_only' if examples or alternatives
                                            else 'not_covered_by_reviewed_examples',
                 'principal_qi_review': {
                     'status': 'reviewed' if principal else 'unreviewed',
@@ -486,6 +497,7 @@ def yuanhai_resource_competing_context(trace):
                               else 'not_applicable_to_reviewed_example',
                     'conflict_id': root_policy['type_conflict'] if residual_example else None,
                     'competing_section_id': 'bazi.section.s041' if residual_example else None,
+                    'source_variant_examples_separated': True,
                 },
                 'effective_root_strength': None,
                 'root_type_is_not_root_effect': True,
