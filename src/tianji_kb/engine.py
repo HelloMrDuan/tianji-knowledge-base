@@ -4,6 +4,7 @@ from .resolver import EvidenceResolver
 from .calendar import calendar
 from .foundations import CYCLE
 from .bazi_adjudication import ADJUDICATION_VARIANT
+from .bazi_dayun_jie import adjacent_jie_distance
 
 PROVIDERS={domain:f'tianji_kb.operations.{domain}_chart.chart' for domain in ('liuyao','qimen','liuren','ziwei','fengshui','yijing','bazi')}
 
@@ -43,6 +44,13 @@ def execute(domain,inputs,variant=None,*,allow_research=False):
         raise ValueError('Li Chun annual boundaries require explicit research mode')
     if domain == 'bazi' and (inputs.get('dayun_sequence_direction') is not None or 'dayun_sequence_count' in inputs) and not allow_research:
         raise ValueError('Dayun sequence candidates require explicit research mode')
+    if domain == 'bazi' and 'dayun_jie_distance' in inputs:
+        if not allow_research:
+            raise ValueError('Dayun Jie distance requires explicit research mode')
+        if type(inputs['dayun_jie_distance']) is not bool or inputs['dayun_jie_distance'] is not True:
+            raise ValueError('dayun_jie_distance must be true when supplied')
+        if 'value' not in inputs or inputs.get('dayun_sequence_direction') is None:
+            raise ValueError('Dayun Jie distance requires actual birth value and explicit direction')
     contract=EvidenceResolver().contracts[domain]
     if contract['provider']!=PROVIDERS[domain]:raise ValueError('Provider differs from reviewed allowlist')
     selected=variant if variant is not None else contract['variant']
@@ -50,11 +58,20 @@ def execute(domain,inputs,variant=None,*,allow_research=False):
     if 'variant' in inputs:raise ValueError('Specify variant separately from inputs')
     if domain=='fengshui' and (inputs.get('year') is not None or inputs.get('research')) and not allow_research:
         raise ValueError('Absolute period epochs are unavailable through the production gateway')
+    birth_for_jie = inputs.get('value') if domain == 'bazi' and inputs.get('dayun_jie_distance') is True else None
     prepared,cal=prepare_inputs(domain,inputs)
+    prepared.pop('dayun_jie_distance', None)
     module,name=PROVIDERS[domain].rsplit('.',1)
     result=getattr(importlib.import_module(module),name)(**prepared,variant=selected)
     if result['variant']!=selected or not result['deterministic']:
         raise ValueError('Execution contract mismatch')
+    if birth_for_jie is not None:
+        # This is NOT a reviewed Dayun Phase2 Rule or classical Evidence.
+        # Only provider calendar facts; explicitly excluded from RuleMatch.
+        research = result['result']['dayun_sequence_research']
+        research['jie_distance'] = adjacent_jie_distance(
+            birth_for_jie, research['direction'],
+            expected_month_ganzhi=prepared['month_ganzhi'])
     if cal is not None:result['input_calendar']=cal
     result['scope']=contract.get('scope','')
     result['unresolved']=contract.get('unresolved',[])

@@ -22,7 +22,18 @@ jobs:
       - name: Prepare real deterministic API
         run: |
           python -m pip install -e ".[validation,calendar,api]"
+          python -m compileall -q src/tianji_kb/bazi_dayun_jie.py src/tianji_kb/engine.py
           PYTHONPATH=src python scripts/build_production_runtime.py
+          PYTHONPATH=src python - <<'PY'
+          from tianji_kb.engine import execute
+          result = execute('bazi', {
+              'value': '2000-01-07T12:00:00+08:00',
+              'dayun_sequence_direction': 'forward',
+              'dayun_jie_distance': True,
+              'dayun_sequence_count': 3,
+          }, allow_research=True)
+          print('Dayun direct research Jie seconds:', result['result']['dayun_sequence_research']['jie_distance']['elapsed_seconds'])
+          PY
           PYTHONPATH=src uvicorn tianji_kb.api:app --host 127.0.0.1 --port 8000 >/tmp/tianji-api.log 2>&1 &
           echo $! >/tmp/tianji-api.pid
 
@@ -107,6 +118,37 @@ jobs:
             -H 'Content-Type: application/json' \
             -d '{"domain":"bazi","mode":"production","explain":false,"input":{"year_ganzhi":"庚辰","month_ganzhi":"己丑","day_ganzhi":"甲子","hour_ganzhi":"庚午","dayun_sequence_direction":"forward"}}')
           test "$STATUS" = "422"
+
+          if ! curl -fsS -X POST http://127.0.0.1:5173/api/v1/execute \
+            -H 'Content-Type: application/json' \
+            -d '{"domain":"bazi","mode":"research","explain":false,"input":{"value":"2000-01-07T12:00:00+08:00","dayun_sequence_direction":"forward","dayun_jie_distance":true,"dayun_sequence_count":3}}' \
+            >/tmp/dayun-jie-research.json; then
+            echo 'Dayun Jie research HTTP failed; show local backend stack trace'
+            tail -n 100 /tmp/tianji-api.log
+            tail -n 50 /tmp/tianji-web.log
+            exit 1
+          fi
+          python - <<'PY'
+          import json
+          from datetime import datetime
+          data=json.load(open("/tmp/dayun-jie-research.json",encoding="utf-8"))
+          assert data["domain"]=="bazi"
+          assert data["explanation_status"]=="disabled"
+          research=data["chart"]["dayun_sequence_research"]
+          assert len(research["rows"])==3
+          distance=research["jie_distance"]
+          birth=datetime.fromisoformat(distance["birth_local_datetime"])
+          previous=datetime.fromisoformat(distance["previous_jie"]["at"])
+          next_jie=datetime.fromisoformat(distance["next_jie"]["at"])
+          assert previous <= birth < next_jie
+          assert distance["selected_jie"]==distance["next_jie"]
+          assert distance["elapsed_seconds"]==int((next_jie-birth).total_seconds())
+          assert distance["start_age"] is None
+          assert distance["handover_datetime"] is None
+          assert distance["dayun_conversion_rule_review_status"]=="unreviewed"
+          assert distance["public_enabled"] is False
+          print("real frontend proxy -> API -> research-only adjacent Jie seconds: ok")
+          PY
 
           curl -fsS -X POST http://127.0.0.1:5173/api/v1/scenarios/execute \
             -H 'Content-Type: application/json' \
