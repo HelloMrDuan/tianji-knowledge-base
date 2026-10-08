@@ -6804,6 +6804,10 @@
         "sha256": "30e96bf49fb65c37073c012fe6ce7f225903ee91f1c53a92114e890bfa6b8114"
       },
       {
+        "path": "src/tianji_kb/bazi_dayun_direction.py",
+        "sha256": "342f310b1de9f468feb04272789d08f2293244e20a66b4dad082b4ae960b3802"
+      },
+      {
         "path": "src/tianji_kb/bazi_dayun_jie.py",
         "sha256": "64822b541597823517c1990062acd0e04531a6fdf80a263126a2f2a1b3e57633"
       },
@@ -6845,7 +6849,7 @@
       },
       {
         "path": "src/tianji_kb/engine.py",
-        "sha256": "40ac5f14e76d50aaad4298b5e0500c41db0f8710ac75305a8a6415ac6116f425"
+        "sha256": "66f3182394aa73e971779f02d8cd4d27c7ccc0a53e7670ddd4476abdc1bdb6b4"
       },
       {
         "path": "src/tianji_kb/evidence.py",
@@ -7074,6 +7078,10 @@
       {
         "path": "tests/test_phase2_bazidayun.py",
         "sha256": "01a4d733ddcbdb824ec156220939b039a74f190fc001eadb45a21f5b257eed90"
+      },
+      {
+        "path": "tests/test_phase2_bazidayundirection.py",
+        "sha256": "aabdd550534ca08905baadf6ac21269d79ab99c5759ddc85bd54228554c477ce"
       },
       {
         "path": "tests/test_phase2_bazidayunjie.py",
