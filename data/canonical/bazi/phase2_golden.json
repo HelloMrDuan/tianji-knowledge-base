@@ -5420,7 +5420,7 @@
               "elemental_causal_gate": {
                 "status": "direction_observed_effect_unresolved",
                 "reviewed_root_type_summary": {
-                  "actor_reviewed_examples_observed": false,
+                  "actor_reviewed_examples_observed": true,
                   "resource_reviewed_examples_observed": true,
                   "residual_source_conflict_observed": true,
                   "unreviewed_principal_qi_observed": true,
