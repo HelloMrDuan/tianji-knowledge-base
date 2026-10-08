@@ -1,5 +1,7 @@
 """Research observations from executed month/ten-god/visibility facts, never 定格."""
 
+from .foundations import CONTROLS, GENERATES, stem_element
+
 PATTERN_VARIANT = 'bazi-pattern-structure-candidates-v1'
 
 
@@ -182,6 +184,94 @@ def yuanhai_hour_killing_restriction(trace):
     }
 
 
+def resource_elemental_causal_gate(context):
+    """Audit five-element DIRECTION between observed 财/官 and 月藏印.
+
+    An elemental control/generation relationship is a necessary structural
+    candidate, never evidence that either actor is strong/available or acts.
+    Hidden actors are not silently promoted to exposed heavenly stems.
+    """
+    positions = context['positions']
+    targets = positions['month_resource']
+    sources = (('visible_wealth', 'wealth_controls_resource_element'),
+               ('hidden_wealth', 'wealth_controls_resource_element'),
+               ('visible_official', 'official_generates_resource_element'),
+               ('hidden_official', 'official_generates_resource_element'),
+               ('visible_killing', 'killing_generates_resource_element_only'),
+               ('hidden_killing', 'killing_generates_resource_element_only'))
+    candidates = []
+    summary = {'wealth_element_controls_resource': False,
+               'visible_wealth_direction': False,
+               'hidden_wealth_direction': False,
+               'official_element_generates_resource': False,
+               'visible_official_direction': False,
+               'hidden_official_direction': False,
+               'killing_element_generates_resource_only': False}
+    for category, kind in sources:
+        for source in positions[category]:
+            for target in targets:
+                actor_element = stem_element(source['stem'])
+                target_element = stem_element(target['stem'])
+                holds = ((CONTROLS[actor_element] == target_element)
+                         if 'wealth' in category else
+                         (GENERATES[actor_element] == target_element))
+                # Ten-god direction must agree with the independently executed
+                # seed element table; a mismatch is a data defect, not a verdict.
+                if not holds:
+                    raise ValueError('Ten-god elemental relation contradicts reviewed seed')
+                candidate = {
+                    'kind': kind,
+                    'actor_category': category,
+                    'actor_visibility': 'visible' if category.startswith('visible') else 'hidden',
+                    'actor': dict(source), 'target': dict(target),
+                    'actor_element': actor_element, 'target_element': target_element,
+                    'elemental_direction_observed': True,
+                    'effective_interaction': None,
+                    'effective_interaction_status': 'indeterminate',
+                    'actor_strength': None, 'target_strength': None,
+                    'stem_or_hidden_equivalence_assumed': False,
+                }
+                candidates.append(candidate)
+                if category in ('visible_wealth', 'hidden_wealth'):
+                    summary['wealth_element_controls_resource'] = True
+                    summary[category + '_direction'] = True
+                elif category in ('visible_official', 'hidden_official'):
+                    summary['official_element_generates_resource'] = True
+                    summary[category + '_direction'] = True
+                else:
+                    summary['killing_element_generates_resource_only'] = True
+    status = ('outside_month_resource_branch' if not targets
+              else 'direction_observed_effect_unresolved' if candidates
+              else 'no_relevant_elemental_pair')
+    return {
+        'status': status,
+        'relation_candidates': candidates,
+        'relation_summary': summary,
+        'effect_gate': {
+            'status': 'not_applicable_without_month_resource' if not targets
+                      else 'indeterminate',
+            'required_unresolved_factors': [
+                'actor_effective_strength',
+                'resource_effective_strength',
+                'visible_hidden_participation',
+                'pairwise_interaction_conditions',
+                'source_school_scope',
+                'other_pattern_competition',
+            ] if targets and candidates else [],
+            'wealth_damages_resource': None,
+            'official_actually_generates_resource': None,
+            'killing_equivalent_to_official_in_source': None,
+            'general_day_master_action_effects_reused': False,
+            'numeric_weights_applied': False,
+            'source_case_lookup_used': False,
+        },
+        'source_section_ids': ['bazi.section.s057', 'bazi.section.s058'],
+        'source_level': 'C',
+        'research_only': True, 'public_enabled': False, 'ai_enabled': False,
+        'scope': '只检查已执行十神/藏干与五行生克方向。显财/藏财、显官/藏官及七杀分别保留；方向不证明有效克印、生印、财旺、官鬼多、破格或喜用。',
+    }
+
+
 def yuanhai_resource_competing_context(trace):
     """Bounded co-presence facts for Yuanhai s057/s058, never 财旺破印 or 官印相生.
 
@@ -234,11 +324,13 @@ def yuanhai_resource_competing_context(trace):
         status = 'related_facts_observed'
     else:
         status = 'no_related_facts_observed'
+    causal = resource_elemental_causal_gate({'positions': groups})
     return {
         'variant': PATTERN_VARIANT,
         'school_branch': 'yuanhai-印绶官财条件未裁决',
         'status': status,
         'positions': groups,
+        'elemental_causal_gate': causal,
         'conditions': [
             {'id': key, 'observed': bool(groups[key]),
              'fact_refs': [position['fact_ref'] for position in groups[key]]}
