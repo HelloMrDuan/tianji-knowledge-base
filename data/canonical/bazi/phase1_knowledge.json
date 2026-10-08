@@ -2435,7 +2435,7 @@
       "domain": "bazi",
       "name": "印绶结构候选",
       "aliases": [],
-      "definition": "月支所藏的正印/偏印及该干在年/月/时透出的位置观察；不宣称正官格/印格成立。",
+      "definition": "月支所藏的正印/偏印及该干在年/月/时透出的位置观察；不宣称正官格/印格成立。；并观察《渊海》所列日干/月支生我例，不按此单独取印格。",
       "source_refs": [
         {
           "source_id": "bazi.source.yuanhai",
@@ -4536,7 +4536,8 @@
       "conditions": [
         "四柱、日主、十神、藏干、透藏和月令口径均已真实执行并有 Evidence",
         "显式 pattern_variant=bazi-pattern-structure-candidates-v1",
-        "仅研究结构观察，不将必要条件解释成充分定格条件"
+        "仅研究结构观察，不将必要条件解释成充分定格条件",
+        "沿同一显式研究入口观察《渊海》s059列举的五组日干/月支生我条件，仅得结构例，不据此定印格"
       ],
       "inputs": {
         "trace": "服务端已执行轨迹，拒绝外部盘面结论与伪造 Evidence"
@@ -4565,7 +4566,7 @@
       "execution_status": "executable",
       "school": "子平·结构观察（原注/任氏/渊海取格分支未合并）",
       "variant": "ziping-structural-v1",
-      "difference": "显式研究子口径只过滤既有十神/藏干/透藏事实；真实定格条件始终未解，不实现另类格局算法。",
+      "difference": "显式研究子口径只过滤既有十神/藏干/透藏事实；真实定格条件始终未解，不实现另类格局算法。；另将已审s059五类印绶月份生我例以独立观察字段返回，不声称取格。",
       "source_refs": [
         {
           "source_id": "bazi.source.yuanhai",
@@ -6208,7 +6209,8 @@
           "藏干不等于显干，官鬼多/财旺等未定义数值阈值；无评分、概率、喜用、成败或个人吉凶。",
           "仅研究模式，不开放公共 Scenario、产品 claim 或 AI；来源仍 C，不计独立底本票。"
         ],
-        "yuanhai_example_scope": "仅甲日、酉月、辛未透、四柱见巳酉丑完整成员的古籍单例；候选仍不定格。"
+        "yuanhai_example_scope": "仅甲日、酉月、辛未透、四柱见巳酉丑完整成员的古籍单例；候选仍不定格。",
+        "yuanhai_resource_month_scope": "s059五类日干与对应月支的月份生我例，只观测，不定印格"
       },
       "source_refs": [
         {

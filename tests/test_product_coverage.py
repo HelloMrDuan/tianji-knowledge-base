@@ -33,7 +33,9 @@ class ProductCoverageTests(unittest.TestCase):
         rows = build_product_coverage(ROOT)
         self.assertEqual(len(rows) - 1, 16)
         self.assertEqual(sum(len(e['rules']) for e in rows['_audit']['engines'].values()), 64)
-        self.assertEqual(sum(len(e['golden_ids']) for e in rows['_audit']['engines'].values()), 97)
+        self.assertEqual(sum(len(e['golden_ids']) for e in rows['_audit']['engines'].values()),
+                         sum(len(read_json(ROOT / e['golden_path'])['cases'])
+                             for e in rows['_audit']['engines'].values() if e['registered']))
         self.assertTrue(rows['_audit']['engines']['bazi']['registered'])
         self.assertEqual(rows['_audit']['engines']['bazi']['variant'], 'ziping-structural-v1')
         self.assertEqual(rows['_audit']['source_grades'], {'C': 92, 'D': 6})

@@ -35,12 +35,12 @@ class BaziPatternTests(unittest.TestCase):
         return chart(*ps, pattern_variant=PATTERN_VARIANT, **kwargs)
 
     def test_eight_fixed_goldens_cover_observation_negative_abstention_and_conflict(self):
-        rows = [r for r in run_cases(ROOT, 'bazi') if r['id'].startswith('bazi.pattern-')
-                and not r['id'].startswith('bazi.pattern-yuanhai-')]
-        self.assertEqual(len(rows), 8)
-        self.assertTrue(all(RULES <= set(r['rule_ids']) for r in rows))
         policy = next(c['attributes'] for c in read_json(ROOT/'data/canonical/bazi/phase1_knowledge.json')['concepts']
                       if c['id']=='bazi.concept.pattern_candidates_v1')
+        original_ids = {cid for ids in policy['golden_case_groups'].values() for cid in ids}
+        rows = [r for r in run_cases(ROOT, 'bazi') if r['id'] in original_ids]
+        self.assertEqual(len(rows), 8)
+        self.assertTrue(all(RULES <= set(r['rule_ids']) for r in rows))
         self.assertEqual({k:len(v) for k,v in policy['golden_case_groups'].items()},
                          {'positive':4,'negative':1,'abstention':2,'conflict':1})
 

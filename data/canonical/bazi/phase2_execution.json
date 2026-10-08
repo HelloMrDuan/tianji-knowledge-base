@@ -517,10 +517,20 @@
         "bazi.pattern-not-month",
         "bazi.pattern-unexposed",
         "bazi.pattern-miscellaneous",
-        "bazi.pattern-commander-conflict"
+        "bazi.pattern-commander-conflict",
+        "bazi.pattern-resource-month-jia-hai",
+        "bazi.pattern-resource-month-bing-yin",
+        "bazi.pattern-resource-month-wu-si",
+        "bazi.pattern-resource-month-geng-chen",
+        "bazi.pattern-resource-month-ren-shen",
+        "bazi.pattern-resource-month-jia-si",
+        "bazi.pattern-resource-month-bing-you",
+        "bazi.pattern-resource-month-wu-hai",
+        "bazi.pattern-resource-month-geng-mao",
+        "bazi.pattern-resource-month-ren-chou"
       ],
       "regression_test": "tests/test_phase2_bazipattern.py",
-      "evidence_scope": "C：显式研究月藏十神与逐字透干位置；司令、禄刃杂气、官杀/破印、真假成败喜用均未裁定；AI 和公开产品不授权。"
+      "evidence_scope": "C：显式研究月藏十神与逐字透干位置；司令、禄刃杂气、官杀/破印、真假成败喜用均未裁定；AI 和公开产品不授权。；并观察《渊海》s059已有的十日干/月支月份生我例（不定印格）。"
     }
   ]
 }

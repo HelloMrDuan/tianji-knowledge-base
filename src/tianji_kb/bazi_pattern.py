@@ -56,6 +56,72 @@ def yuanhai_unexposed_official(trace):
     }
 
 
+# Five finite birth-month groups explicitly recorded in reviewed Yuanhai s059.
+# These are textual examples of 月令生我, NOT a dated-commander or 印格 table.
+YUANHAI_RESOURCE_MONTHS = {
+    '甲': ('亥', '子'), '乙': ('亥', '子'),
+    '丙': ('寅', '卯'), '丁': ('寅', '卯'),
+    '戊': ('巳', '午'), '己': ('巳', '午'),
+    '庚': ('辰', '戌', '丑', '未'), '辛': ('辰', '戌', '丑', '未'),
+    '壬': ('申', '酉'), '癸': ('申', '酉'),
+}
+
+
+def yuanhai_resource_month_example(trace):
+    """Observe one bounded Yuanhai 月令生我 textual example; never determine 印格."""
+    steps = {row['rule_id']: (i, row) for i, row in enumerate(trace.steps)}
+    required = ('pillars', 'hidden_stems')
+    if any('bazi.phase2.' + name not in steps for name in required):
+        raise ValueError('Yuanhai resource month requires executed pillars and month hidden stems')
+    for name in required:
+        step = steps['bazi.phase2.' + name][1]
+        if not step['evidence_ids'] or any(e not in trace.evidence for e in step['evidence_ids']):
+            raise ValueError('Yuanhai resource month lacks executed evidence')
+
+    def fact_ref(name, suffix=''):
+        return f"#/trace/{steps['bazi.phase2.' + name][0]}/output" + suffix
+
+    pillars = steps['bazi.phase2.pillars'][1]['output']
+    hidden = steps['bazi.phase2.hidden_stems'][1]['output']
+    day_stem = pillars['day_master']['stem']
+    month_branch = pillars['ganzhi'][1][1]
+    expected = YUANHAI_RESOURCE_MONTHS[day_stem]
+    month_index, month_row = next((i, row) for i, row in enumerate(hidden)
+                                   if row['pillar'] == 'month')
+    if month_row['branch'] != month_branch:
+        raise ValueError('Yuanhai resource month evidence is inconsistent')
+    resource_positions = [
+        {'ten_god': item['ten_god'], 'stem': item['stem'],
+         'fact_ref': fact_ref('hidden_stems', f'/{month_index}/hidden_stems/{i}')}
+        for i, item in enumerate(month_row['hidden_stems'])
+        if item['ten_god'] in ('正印', '偏印')
+    ]
+    month_matches = month_branch in expected
+    observed = month_matches and bool(resource_positions)
+    return {
+        'variant': PATTERN_VARIANT,
+        'school_branch': 'yuanhai-印绶月份生我列举',
+        'status': 'reviewed_month_example' if observed else 'not_observed',
+        'day_stem': day_stem, 'month_branch': month_branch,
+        'reviewed_example_months': list(expected),
+        'month_resource_positions': resource_positions,
+        'conditions': [
+            {'id': 'reviewed_day_stem_month_group', 'observed': month_matches,
+             'fact_ref': fact_ref('pillars', '/ganzhi/1')},
+            {'id': 'reviewed_month_hidden_resource', 'observed': bool(resource_positions),
+             'fact_ref': fact_ref('hidden_stems', f'/{month_index}')},
+        ],
+        'source_section_id': 'bazi.section.s059',
+        'source_level': 'C',
+        'unresolved': ['dated_commander', 'root_and_strength',
+                       'wealth_damages_resource_conditions', 'many_officials_and_other_patterns',
+                       'special_tomb_month_exceptions', 'pattern_selection_school'],
+        'determination': None, 'qualified_for_determination': False,
+        'research_only': True, 'public_enabled': False, 'ai_enabled': False,
+        'scope': '仅复算渊海正偏印所属日干与月支的生我例；不推定印格、司令、旺衰、财旺破印、真假成败、吉凶或喜用。',
+    }
+
+
 def qualification(trace, *, family, observation):
     """Evidence-linked pre-determination checklist, NOT a final pattern verdict.
 
@@ -190,5 +256,7 @@ def candidates(trace, *, family, pattern_variant=PATTERN_VARIANT):
         'scope': '现代形式化的月藏十神与逐字透干位置观察；不覆盖地支官局等另支取官，不定格、不取用、不判断成败吉凶。'}
     if family == 'official':
         result['yuanhai_unexposed_official_branch'] = yuanhai_unexposed_official(trace)
+    if family == 'resource':
+        result['yuanhai_resource_month_example'] = yuanhai_resource_month_example(trace)
     result['qualification'] = qualification(trace, family=family, observation=result)
     return result

@@ -3202,6 +3202,436 @@
           }
         }
       }
+    },
+    {
+      "id": "bazi.pattern-resource-month-jia-hai",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲子",
+        "month_ganzhi": "乙亥",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "丙寅",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "resource": {
+            "yuanhai_resource_month_example": {
+              "source_section_id": "bazi.section.s059",
+              "status": "reviewed_month_example",
+              "day_stem": "甲",
+              "month_branch": "亥",
+              "conditions": [
+                {
+                  "id": "reviewed_day_stem_month_group",
+                  "observed": true
+                },
+                {
+                  "id": "reviewed_month_hidden_resource",
+                  "observed": true
+                }
+              ],
+              "qualified_for_determination": false,
+              "determination": null,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.pattern-resource-month-bing-yin",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲子",
+        "month_ganzhi": "庚寅",
+        "day_ganzhi": "丙子",
+        "hour_ganzhi": "戊戌",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "resource": {
+            "yuanhai_resource_month_example": {
+              "source_section_id": "bazi.section.s059",
+              "status": "reviewed_month_example",
+              "day_stem": "丙",
+              "month_branch": "寅",
+              "conditions": [
+                {
+                  "id": "reviewed_day_stem_month_group",
+                  "observed": true
+                },
+                {
+                  "id": "reviewed_month_hidden_resource",
+                  "observed": true
+                }
+              ],
+              "qualified_for_determination": false,
+              "determination": null,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.pattern-resource-month-wu-si",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲子",
+        "month_ganzhi": "己巳",
+        "day_ganzhi": "戊子",
+        "hour_ganzhi": "庚申",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "resource": {
+            "yuanhai_resource_month_example": {
+              "source_section_id": "bazi.section.s059",
+              "status": "reviewed_month_example",
+              "day_stem": "戊",
+              "month_branch": "巳",
+              "conditions": [
+                {
+                  "id": "reviewed_day_stem_month_group",
+                  "observed": true
+                },
+                {
+                  "id": "reviewed_month_hidden_resource",
+                  "observed": true
+                }
+              ],
+              "qualified_for_determination": false,
+              "determination": null,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.pattern-resource-month-geng-chen",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲子",
+        "month_ganzhi": "戊辰",
+        "day_ganzhi": "庚子",
+        "hour_ganzhi": "丙寅",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "resource": {
+            "yuanhai_resource_month_example": {
+              "source_section_id": "bazi.section.s059",
+              "status": "reviewed_month_example",
+              "day_stem": "庚",
+              "month_branch": "辰",
+              "conditions": [
+                {
+                  "id": "reviewed_day_stem_month_group",
+                  "observed": true
+                },
+                {
+                  "id": "reviewed_month_hidden_resource",
+                  "observed": true
+                }
+              ],
+              "qualified_for_determination": false,
+              "determination": null,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.pattern-resource-month-ren-shen",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲子",
+        "month_ganzhi": "戊申",
+        "day_ganzhi": "壬子",
+        "hour_ganzhi": "庚辰",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "resource": {
+            "yuanhai_resource_month_example": {
+              "source_section_id": "bazi.section.s059",
+              "status": "reviewed_month_example",
+              "day_stem": "壬",
+              "month_branch": "申",
+              "conditions": [
+                {
+                  "id": "reviewed_day_stem_month_group",
+                  "observed": true
+                },
+                {
+                  "id": "reviewed_month_hidden_resource",
+                  "observed": true
+                }
+              ],
+              "qualified_for_determination": false,
+              "determination": null,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.pattern-resource-month-jia-si",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲子",
+        "month_ganzhi": "己巳",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "丁卯",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "resource": {
+            "yuanhai_resource_month_example": {
+              "source_section_id": "bazi.section.s059",
+              "status": "not_observed",
+              "day_stem": "甲",
+              "month_branch": "巳",
+              "conditions": [
+                {
+                  "id": "reviewed_day_stem_month_group",
+                  "observed": false
+                },
+                {
+                  "id": "reviewed_month_hidden_resource",
+                  "observed": false
+                }
+              ],
+              "qualified_for_determination": false,
+              "determination": null,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.pattern-resource-month-bing-you",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲子",
+        "month_ganzhi": "丁酉",
+        "day_ganzhi": "丙子",
+        "hour_ganzhi": "甲午",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "resource": {
+            "yuanhai_resource_month_example": {
+              "source_section_id": "bazi.section.s059",
+              "status": "not_observed",
+              "day_stem": "丙",
+              "month_branch": "酉",
+              "conditions": [
+                {
+                  "id": "reviewed_day_stem_month_group",
+                  "observed": false
+                },
+                {
+                  "id": "reviewed_month_hidden_resource",
+                  "observed": false
+                }
+              ],
+              "qualified_for_determination": false,
+              "determination": null,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.pattern-resource-month-wu-hai",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲子",
+        "month_ganzhi": "乙亥",
+        "day_ganzhi": "戊子",
+        "hour_ganzhi": "庚午",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "resource": {
+            "yuanhai_resource_month_example": {
+              "source_section_id": "bazi.section.s059",
+              "status": "not_observed",
+              "day_stem": "戊",
+              "month_branch": "亥",
+              "conditions": [
+                {
+                  "id": "reviewed_day_stem_month_group",
+                  "observed": false
+                },
+                {
+                  "id": "reviewed_month_hidden_resource",
+                  "observed": false
+                }
+              ],
+              "qualified_for_determination": false,
+              "determination": null,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.pattern-resource-month-geng-mao",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲子",
+        "month_ganzhi": "丁卯",
+        "day_ganzhi": "庚子",
+        "hour_ganzhi": "丙寅",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "resource": {
+            "yuanhai_resource_month_example": {
+              "source_section_id": "bazi.section.s059",
+              "status": "not_observed",
+              "day_stem": "庚",
+              "month_branch": "卯",
+              "conditions": [
+                {
+                  "id": "reviewed_day_stem_month_group",
+                  "observed": false
+                },
+                {
+                  "id": "reviewed_month_hidden_resource",
+                  "observed": false
+                }
+              ],
+              "qualified_for_determination": false,
+              "determination": null,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.pattern-resource-month-ren-chou",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "甲子",
+        "month_ganzhi": "己丑",
+        "day_ganzhi": "壬子",
+        "hour_ganzhi": "庚辰",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "resource": {
+            "yuanhai_resource_month_example": {
+              "source_section_id": "bazi.section.s059",
+              "status": "not_observed",
+              "day_stem": "壬",
+              "month_branch": "丑",
+              "conditions": [
+                {
+                  "id": "reviewed_day_stem_month_group",
+                  "observed": false
+                },
+                {
+                  "id": "reviewed_month_hidden_resource",
+                  "observed": true
+                }
+              ],
+              "qualified_for_determination": false,
+              "determination": null,
+              "research_only": true,
+              "public_enabled": false,
+              "ai_enabled": false
+            },
+            "determination": {
+              "status": "unresolved",
+              "pattern": null,
+              "useful_god": null
+            }
+          }
+        }
+      }
     }
   ]
 }
