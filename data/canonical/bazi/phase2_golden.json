@@ -5316,6 +5316,92 @@
           }
         }
       }
+    },
+    {
+      "id": "bazi.resource-reviewed-root-types-residual-growth",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "庚戌",
+        "month_ganzhi": "甲寅",
+        "day_ganzhi": "丙午",
+        "hour_ganzhi": "戊子",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "resource": {
+            "yuanhai_resource_competing_context": {
+              "elemental_causal_gate": {
+                "status": "direction_observed_effect_unresolved",
+                "reviewed_root_type_summary": {
+                  "actor_reviewed_examples_observed": true,
+                  "resource_reviewed_examples_observed": true,
+                  "residual_source_conflict_observed": true,
+                  "unreviewed_principal_qi_observed": true,
+                  "effective_strength_established": false,
+                  "effective_pairwise_action_established": false
+                },
+                "effect_gate": {
+                  "wealth_damages_resource": null,
+                  "official_actually_generates_resource": null,
+                  "source_case_lookup_used": false
+                },
+                "research_only": true,
+                "public_enabled": false,
+                "ai_enabled": false
+              },
+              "adjudications": {
+                "wealth_strong_enough_to_damage_resource": "indeterminate",
+                "official_actually_generates_resource": "indeterminate",
+                "many_officials_or_competing_pattern": "indeterminate"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bazi.resource-reviewed-root-types-uncovered",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "戊子",
+        "month_ganzhi": "壬子",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "壬子",
+        "pattern_variant": "bazi-pattern-structure-candidates-v1"
+      },
+      "expected": {
+        "pattern_candidates": {
+          "resource": {
+            "yuanhai_resource_competing_context": {
+              "elemental_causal_gate": {
+                "status": "direction_observed_effect_unresolved",
+                "reviewed_root_type_summary": {
+                  "actor_reviewed_examples_observed": false,
+                  "resource_reviewed_examples_observed": false,
+                  "residual_source_conflict_observed": false,
+                  "unreviewed_principal_qi_observed": false,
+                  "effective_strength_established": false,
+                  "effective_pairwise_action_established": false
+                },
+                "effect_gate": {
+                  "wealth_damages_resource": null,
+                  "official_actually_generates_resource": null,
+                  "source_case_lookup_used": false
+                },
+                "research_only": true,
+                "public_enabled": false,
+                "ai_enabled": false
+              },
+              "adjudications": {
+                "wealth_strong_enough_to_damage_resource": "indeterminate",
+                "official_actually_generates_resource": "indeterminate",
+                "many_officials_or_competing_pattern": "indeterminate"
+              }
+            }
+          }
+        }
+      }
     }
   ]
 }
