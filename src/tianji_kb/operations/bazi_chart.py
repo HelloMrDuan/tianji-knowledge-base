@@ -8,6 +8,7 @@ from ..bazi_root_conditions import STRENGTH_VARIANT, AVAILABILITY_VARIANT, root_
 from ..bazi_strength import FACTOR_VARIANT, factors as _strength_factors
 from ..bazi_pattern import PATTERN_VARIANT, candidates as pattern_candidates
 from ..bazi_annual_reference import annual_reference, annual_lichun_boundaries
+from ..bazi_dayun_sequence import candidate_sequence
 
 
 def strength_factors(pillars, day_master, *, factor_variant=FACTOR_VARIANT, output_key=None):
@@ -18,7 +19,7 @@ def strength_factors(pillars, day_master, *, factor_variant=FACTOR_VARIANT, outp
         raise ValueError('Unsupported factor output')
     return observed[output_key]
 
-def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=False, include_relations=False, traditional_role=None, strength_variant=None, month_command_variant=None, root_availability_variant=None, action_effect_variant=None, variant=VARIANT, *, pattern_variant=None, annual_reference_years=None, annual_boundary_years=None):
+def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=False, include_relations=False, traditional_role=None, strength_variant=None, month_command_variant=None, root_availability_variant=None, action_effect_variant=None, variant=VARIANT, *, pattern_variant=None, annual_reference_years=None, annual_boundary_years=None, dayun_sequence_direction=None, dayun_sequence_count=8):
     if variant != VARIANT:
         raise ValueError("Unsupported Bazi variant")
     if type(include_xianchi) is not bool:
@@ -34,6 +35,14 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
     if annual_boundary_years is not None:
         if type(annual_boundary_years) is not list or not 1 <= len(annual_boundary_years) <= 10:
             raise ValueError('annual_boundary_years must be a list of 1..10 years')
+    if dayun_sequence_direction is None:
+        if type(dayun_sequence_count) is not int or dayun_sequence_count != 8:
+            raise ValueError("dayun_sequence_count requires explicit dayun_sequence_direction")
+    else:
+        if type(dayun_sequence_direction) is not str or dayun_sequence_direction not in ("forward", "backward"):
+            raise ValueError("dayun_sequence_direction must be forward or backward")
+        if type(dayun_sequence_count) is not int or not 1 <= dayun_sequence_count <= 12:
+            raise ValueError("dayun_sequence_count must be an integer from 1 to 12")
     if pattern_variant is not None:
         if pattern_variant != PATTERN_VARIANT:
             raise ValueError('Unsupported pattern candidate variant')
@@ -233,6 +242,13 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
                   boundary)
         result['annual_li_chun_boundaries'] = boundary
         result['production_scope'] += '；研究用精确到历法库秒级的立春干支年区间（不推断运势）'
+    if dayun_sequence_direction is not None:
+        sequence = candidate_sequence(month_ganzhi, raw['day_master']['stem'],
+                                      direction=dayun_sequence_direction, periods=dayun_sequence_count)
+        # Not an ExecutionTrace.add: a Dayun-specific classical method has NOT
+        # passed Phase1/Phase2 source review. Keep explicit month-pillar lineage.
+        result['dayun_sequence_research'] = sequence
+        result['production_scope'] += '；显式研究用月柱相邻干支候选（顺逆及起运法尚未审核，非正式大运排盘）'
     if pattern_variant is not None:
         result['pattern_candidates'] = {}
         for family in ('official', 'resource'):
@@ -242,7 +258,7 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
             result['pattern_candidates'][family] = observation
         result['production_scope'] += '；研究用正官/印绶月藏透干候选位置，不定格或判断成败喜用'
     output = trace.finish(result)
-    if strength_variant == ADJUDICATION_VARIANT or pattern_variant is not None or annual_reference_years is not None or annual_boundary_years is not None:
+    if strength_variant == ADJUDICATION_VARIANT or pattern_variant is not None or annual_reference_years is not None or annual_boundary_years is not None or dayun_sequence_direction is not None:
         output['interpretation_contract']['ai_may_explain'] = False
         output['research_only'] = True
     if strength_variant == ADJUDICATION_VARIANT:

@@ -6804,6 +6804,10 @@
         "sha256": "30e96bf49fb65c37073c012fe6ce7f225903ee91f1c53a92114e890bfa6b8114"
       },
       {
+        "path": "src/tianji_kb/bazi_dayun_sequence.py",
+        "sha256": "4f198f31e2517359bf06099416af6fe13328ebc161160472df88a9affbd27c15"
+      },
+      {
         "path": "src/tianji_kb/bazi_pattern.py",
         "sha256": "cd3448b3dd47a604d0d5a09f130b26fce2b5710e177e7fcf6f51c89fbc5787d1"
       },
@@ -6829,7 +6833,7 @@
       },
       {
         "path": "src/tianji_kb/engine.py",
-        "sha256": "1c55ec417af4503ed244dc0d46634b2c95e7062bb8f266c3b2fe1a2be307aeaf"
+        "sha256": "0796114eb8f724fc91f1e2c33fed947c28eab8e463e13b5c3a931252da7c7e60"
       },
       {
         "path": "src/tianji_kb/evidence.py",
@@ -6889,7 +6893,7 @@
       },
       {
         "path": "src/tianji_kb/operations/bazi_chart.py",
-        "sha256": "cddb65a7b3b78f069a1240f4a781a5c9cbef385a144eeb69d258c63f87a9ab70"
+        "sha256": "af18cb3eae64fb409a8668973dc018da52b565feb204496b69d6d46cbb171ba4"
       },
       {
         "path": "src/tianji_kb/operations/dream_knowledge.py",
@@ -7054,6 +7058,10 @@
       {
         "path": "tests/test_phase2_bazicommander.py",
         "sha256": "a75b13a2e5daa03a3482fb04ce6b4089d728188b2863252913b28477be7de0cc"
+      },
+      {
+        "path": "tests/test_phase2_bazidayun.py",
+        "sha256": "01a4d733ddcbdb824ec156220939b039a74f190fc001eadb45a21f5b257eed90"
       },
       {
         "path": "tests/test_phase2_bazieffects.py",

@@ -83,6 +83,31 @@ jobs:
           print("real frontend proxy -> API -> deterministic Bazi: ok")
           PY
 
+          # Research-only Dayun candidate cycles must flow through the real
+          # HTTP proxy, preserve the traced month pillar and never grant luck.
+          curl -fsS -X POST http://127.0.0.1:5173/api/v1/execute \
+            -H 'Content-Type: application/json' \
+            -d '{"domain":"bazi","mode":"research","explain":false,"variant":"ziping-structural-v1","input":{"year_ganzhi":"庚辰","month_ganzhi":"己丑","day_ganzhi":"甲子","hour_ganzhi":"庚午","dayun_sequence_direction":"forward","dayun_sequence_count":3}}' \
+            >/tmp/dayun-research.json
+          python - <<'PY'
+          import json
+          data=json.load(open("/tmp/dayun-research.json",encoding="utf-8"))
+          assert data["domain"]=="bazi"
+          candidate=data["chart"]["dayun_sequence_research"]
+          assert [r["candidate_ganzhi"] for r in candidate["rows"]]==["庚寅","辛卯","壬辰"]
+          assert [r["ten_god_relative_to_natal_day_stem"] for r in candidate["rows"]]==["七杀","正官","偏印"]
+          assert candidate["dayun_sequence_policy_review_status"]=="unreviewed"
+          assert candidate["classical_evidence_for_dayun_sequence_approved"] is False
+          assert all(r["start_date"] is None and r["luck_assessment"] is None for r in candidate["rows"])
+          assert data["explanation_status"]=="disabled"
+          print("real frontend proxy -> API -> research-only Dayun candidates: ok")
+          PY
+
+          STATUS=$(curl -s -o /tmp/dayun-production-rejected.json -w '%{http_code}' -X POST http://127.0.0.1:5173/api/v1/execute \
+            -H 'Content-Type: application/json' \
+            -d '{"domain":"bazi","mode":"production","explain":false,"input":{"year_ganzhi":"庚辰","month_ganzhi":"己丑","day_ganzhi":"甲子","hour_ganzhi":"庚午","dayun_sequence_direction":"forward"}}')
+          test "$STATUS" = "422"
+
           curl -fsS -X POST http://127.0.0.1:5173/api/v1/scenarios/execute \
             -H 'Content-Type: application/json' \
             -d '{"scenario_id":"yearly","input":{"birth_value":"2000-01-07T12:00:00+08:00","target_year":2026}}' \

@@ -41,6 +41,8 @@ def execute(domain,inputs,variant=None,*,allow_research=False):
         raise ValueError('Annual calendar references require explicit research mode')
     if domain == 'bazi' and inputs.get('annual_boundary_years') is not None and not allow_research:
         raise ValueError('Li Chun annual boundaries require explicit research mode')
+    if domain == 'bazi' and (inputs.get('dayun_sequence_direction') is not None or 'dayun_sequence_count' in inputs) and not allow_research:
+        raise ValueError('Dayun sequence candidates require explicit research mode')
     contract=EvidenceResolver().contracts[domain]
     if contract['provider']!=PROVIDERS[domain]:raise ValueError('Provider differs from reviewed allowlist')
     selected=variant if variant is not None else contract['variant']
