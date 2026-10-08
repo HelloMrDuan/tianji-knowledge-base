@@ -338,6 +338,22 @@ def resource_elemental_causal_gate(context):
         'status': status,
         'relation_candidates': candidates,
         'relation_summary': summary,
+        'reviewed_root_type_summary': {
+            'actor_reviewed_examples_observed': any(
+                p['reviewed_root_type_comparison']['actor_reviewed_examples']
+                for p in candidates),
+            'resource_reviewed_examples_observed': any(
+                p['reviewed_root_type_comparison']['resource_reviewed_examples']
+                for p in candidates),
+            'residual_source_conflict_observed': any(
+                p['reviewed_root_type_comparison']['residual_type_conflict_present']
+                for p in candidates),
+            'unreviewed_principal_qi_observed': any(
+                p['reviewed_root_type_comparison']['unreviewed_principal_qi_sites']
+                for p in candidates),
+            'effective_strength_established': False,
+            'effective_pairwise_action_established': False,
+        },
         'element_root_candidate_summary': {
             'actor_candidate_observed': any(p['actor_element_root_candidates'] for p in candidates),
             'resource_candidate_observed': any(p['resource_element_root_candidates'] for p in candidates),
