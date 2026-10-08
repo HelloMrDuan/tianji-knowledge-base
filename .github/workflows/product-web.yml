@@ -170,6 +170,27 @@ jobs:
           print("real frontend proxy -> API -> Dayun research simulation: ok")
           PY
 
+          curl -fsS -X POST http://127.0.0.1:5173/api/v1/execute \
+            -H 'Content-Type: application/json' \
+            -d '{"domain":"bazi","mode":"research","explain":false,"input":{"value":"2000-01-07T12:00:00+08:00","traditional_role":"female","dayun_direction_policy":"bazi-dayun-year-stem-traditional-role-research-v1","dayun_jie_distance":true,"dayun_age_simulation":"bazi-dayun-three-days-mean-year-research-v1","dayun_sequence_count":3}}' \
+            >/tmp/dayun-direction-policy.json
+          python - <<'PY'
+          import json
+          payload=json.load(open('/tmp/dayun-direction-policy.json',encoding='utf-8'))
+          result=payload['chart']['dayun_sequence_research']
+          d=result['direction_research']
+          assert d['traditional_role']=='female'
+          assert d['year_ganzhi']==payload['calendar']['year_ganzhi']
+          assert d['direction']==result['direction']
+          assert result['jie_distance']['direction']==result['direction']
+          assert len(result['age_simulation']['timeline'])==3
+          assert d['classical_direction_evidence_approved'] is False
+          assert result['age_simulation']['verified_handover_dates_calculated'] is False
+          assert result['rows'][0]['start_date'] is None
+          assert payload['explanation_status']=='disabled'
+          print('real frontend proxy -> API -> opt-in historical-role direction + age timeline: ok')
+          PY
+
           curl -fsS -X POST http://127.0.0.1:5173/api/v1/scenarios/execute \
             -H 'Content-Type: application/json' \
             -d '{"scenario_id":"yearly","input":{"birth_value":"2000-01-07T12:00:00+08:00","target_year":2026}}' \
