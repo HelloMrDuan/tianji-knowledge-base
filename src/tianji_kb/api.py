@@ -16,6 +16,8 @@ from .runtime_catalog import load_catalog
 from .resolver import ROOT
 from .prompts import DEFAULT_PROMPT,PROMPTS
 from .scenario_engine import execute_scenario,registry as scenario_registry
+from .operations.dream_knowledge import retrieve as retrieve_dream_culture
+from .rag_context import RetrievalUnavailable
 from .governance import school_conflicts,reviewed_rules,reviewed_evidence,reviewed_classics,reviewed_chapters,reviewed_terms,reviewed_sources,reviewed_layers,reviewed_algorithms,provider_configuration,prompt_registry
 
 Domain=Literal['liuyao','qimen','liuren','ziwei','fengshui','yijing','bazi']
@@ -28,6 +30,10 @@ EXAMPLES={
  'fengshui':{'degrees':37.5},'yijing':{'bits':'111000','changing_lines':[1]},
  'bazi':{'value':'2000-01-07T12:00:00+08:00'},
 }
+
+class AdminDreamResearchRequest(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    dream_text: StrictStr = Field(min_length=2, max_length=500)
 
 class ExecuteRequest(BaseModel):
     model_config=ConfigDict(extra='forbid')
@@ -173,6 +179,31 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None):
         supplied=authorization[len(prefix):]
         if not supplied or not secrets.compare_digest(supplied,configured):
             raise HTTPException(401,detail={'code':'admin_unauthorized','message':'Invalid admin bearer token'},headers={'WWW-Authenticate':'Bearer'})
+
+    @app.post('/api/v1/admin/research/dream',tags=['admin'])
+    async def admin_research_dream(request: AdminDreamResearchRequest,
+                                   authorization: str | None = Header(default=None)):
+        require_admin_read_token(authorization)
+        try:
+            result = await run_in_threadpool(retrieve_dream_culture, request.dream_text)
+        except RetrievalUnavailable:
+            raise HTTPException(
+                503,
+                detail={'code':'reviewed_retrieval_unavailable',
+                        'message':'Reviewed dream evidence index is unavailable'},
+            )
+        except (ValueError, TypeError):
+            raise HTTPException(
+                422,
+                detail={'code':'invalid_dream_input',
+                        'message':'Dream narrative is not valid for this research variant'},
+            )
+        if (result.get('mode') != 'research' or result.get('public_enabled') is not False
+                or result.get('ai_enabled') is not False):
+            raise HTTPException(503,detail={'code':'dream_research_contract_mismatch',
+                                           'message':'Dream release restrictions not satisfied'})
+        return {'api_version':'v1','read_only':True,'public_release':False,
+                'research_only':True,'result':result}
 
     @app.get('/api/v1/admin/governance/conflicts',tags=['admin'])
     def admin_governance_conflicts(authorization: str | None = Header(default=None)):
