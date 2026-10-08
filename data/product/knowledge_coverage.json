@@ -19730,6 +19730,11 @@
         "handler": "admin_governance_terms"
       },
       {
+        "method": "POST",
+        "path": "/api/v1/admin/research/dream",
+        "handler": "admin_research_dream"
+      },
+      {
         "method": "GET",
         "path": "/api/v1/admin/system/prompts",
         "handler": "admin_prompt_registry"
