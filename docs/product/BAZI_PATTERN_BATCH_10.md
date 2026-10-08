@@ -13,6 +13,10 @@
 - s026 和 s041 余气列举不完全一致，遇到 s026 余气根型候选必须保留 `bazi.concept.conflict_root_type_readings`，不得合并成通用无冲突的根型表。
 - 新字段 `reviewed_root_type_examples`、`principal_qi_review`、`residual_type_conflict`、`reviewed_root_type_comparison` 与 `reviewed_root_type_summary` 仅供研究解释其结构来源。
 
+## 双文本余气候选
+
+s026 的受审示例保留：丙丁未、甲乙辰、庚辛戌、壬癸丑；s041 的另一文本单独保留：丙丁未/戌、庚辛丑、壬癸辰。后一类从 `alternative_residual_type_candidates` 输出到 `alternative_root_type_examples`，每条标注 `ren-residual-alternate-text` 和 s041，不与 s026 覆盖或投票合并。两种文本相关根型皆不证明根力与生克已经有效。
+
 ## 验收与限制
 
 固定 Golden 覆盖庚戌甲寅丙午戊子（审定庚辛逢戌余气、甲乙逢寅长生禄旺及余气异文冲突）和戊子壬子甲子壬子（没有审核根型例不能反推无根或无力）。回归校验具体藏干指针和执行 Rule Evidence 中的 s026/s027/s041。
