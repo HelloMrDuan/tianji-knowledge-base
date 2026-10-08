@@ -415,6 +415,18 @@ class ResourceDirectionGateTests(unittest.TestCase):
             self.assertIsNone(root['effective_root_strength'])
         self.assertTrue(pair['reviewed_root_type_comparison']['residual_type_conflict_present'])
         self.assertIsNone(pair['reviewed_root_type_comparison']['actual_pairwise_effect'])
+        # 财星戊本身未命中原典类型例，但藏官辛金的丑支命中 s041；
+        # 汇总的 actor=true 来自这个真实官星候选，不能抹去它。
+        official = next(p for p in gate['relation_candidates']
+                        if p['actor_category'] == 'hidden_official'
+                        and p['actor']['stem'] == '辛'
+                        and p['target']['stem'] == '癸')
+        official_root = next(site for site in official['actor_element_root_candidates']
+                             if site['branch'] == '丑' and site['stem'] == '辛')
+        self.assertEqual(official_root['alternative_root_type_examples'][0][
+            'source_section_ids'], ['bazi.section.s041'])
+        self.assertTrue(gate['reviewed_root_type_summary']['actor_reviewed_examples_observed'])
+        self.assertFalse(gate['reviewed_root_type_summary']['effective_pairwise_action_established'])
         self.assertFalse(out['interpretation_contract']['ai_may_explain'])
 
     def test_unreviewed_root_type_does_not_become_negative_proof(self):
