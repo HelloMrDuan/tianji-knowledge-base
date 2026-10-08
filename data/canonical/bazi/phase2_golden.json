@@ -5564,6 +5564,132 @@
           ]
         }
       }
+    },
+    {
+      "id": "bazi.annual-lichun-boundary-2025",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "庚辰",
+        "month_ganzhi": "己丑",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "庚午",
+        "annual_boundary_years": [
+          2025
+        ]
+      },
+      "expected": {
+        "annual_li_chun_boundaries": {
+          "variant": "bazi-annual-lichun-boundary-v1",
+          "day_master": "甲",
+          "calendar_provider": "lunar-python==1.4.8",
+          "annual_boundary_calculated": true,
+          "astronomical_precision_independently_verified": false,
+          "dayun_start_age_calculated": false,
+          "dayun_direction_calculated": false,
+          "annual_luck_assessment": null,
+          "research_only": true,
+          "public_enabled": false,
+          "ai_enabled": false,
+          "rows": [
+            {
+              "gregorian_lichun_year": 2025,
+              "ganzhi_in_interval": "乙巳",
+              "year_stem": "乙",
+              "year_branch": "巳",
+              "ten_god_relative_to_natal_day_stem": "劫财",
+              "ganzhi_one_second_before_start": "甲辰",
+              "ganzhi_at_start": "乙巳",
+              "ganzhi_one_second_before_end": "乙巳",
+              "ganzhi_at_end": "丙午",
+              "boundary_precision": "provider_seconds",
+              "timezone": "Asia/Shanghai",
+              "calendar_provider": "lunar-python==1.4.8",
+              "effective_natal_interaction": null,
+              "annual_luck_prediction": null
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "bazi.annual-lichun-boundaries-2024-2026",
+      "variant": "ziping-structural-v1",
+      "input": {
+        "year_ganzhi": "庚辰",
+        "month_ganzhi": "己丑",
+        "day_ganzhi": "甲子",
+        "hour_ganzhi": "庚午",
+        "annual_boundary_years": [
+          2024,
+          2025,
+          2026
+        ]
+      },
+      "expected": {
+        "annual_li_chun_boundaries": {
+          "variant": "bazi-annual-lichun-boundary-v1",
+          "day_master": "甲",
+          "calendar_provider": "lunar-python==1.4.8",
+          "annual_boundary_calculated": true,
+          "astronomical_precision_independently_verified": false,
+          "dayun_start_age_calculated": false,
+          "dayun_direction_calculated": false,
+          "annual_luck_assessment": null,
+          "research_only": true,
+          "public_enabled": false,
+          "ai_enabled": false,
+          "rows": [
+            {
+              "gregorian_lichun_year": 2024,
+              "ganzhi_in_interval": "甲辰",
+              "year_stem": "甲",
+              "year_branch": "辰",
+              "ten_god_relative_to_natal_day_stem": "比肩",
+              "ganzhi_one_second_before_start": "癸卯",
+              "ganzhi_at_start": "甲辰",
+              "ganzhi_one_second_before_end": "甲辰",
+              "ganzhi_at_end": "乙巳",
+              "boundary_precision": "provider_seconds",
+              "timezone": "Asia/Shanghai",
+              "calendar_provider": "lunar-python==1.4.8",
+              "effective_natal_interaction": null,
+              "annual_luck_prediction": null
+            },
+            {
+              "gregorian_lichun_year": 2025,
+              "ganzhi_in_interval": "乙巳",
+              "year_stem": "乙",
+              "year_branch": "巳",
+              "ten_god_relative_to_natal_day_stem": "劫财",
+              "ganzhi_one_second_before_start": "甲辰",
+              "ganzhi_at_start": "乙巳",
+              "ganzhi_one_second_before_end": "乙巳",
+              "ganzhi_at_end": "丙午",
+              "boundary_precision": "provider_seconds",
+              "timezone": "Asia/Shanghai",
+              "calendar_provider": "lunar-python==1.4.8",
+              "effective_natal_interaction": null,
+              "annual_luck_prediction": null
+            },
+            {
+              "gregorian_lichun_year": 2026,
+              "ganzhi_in_interval": "丙午",
+              "year_stem": "丙",
+              "year_branch": "午",
+              "ten_god_relative_to_natal_day_stem": "食神",
+              "ganzhi_one_second_before_start": "乙巳",
+              "ganzhi_at_start": "丙午",
+              "ganzhi_one_second_before_end": "丙午",
+              "ganzhi_at_end": "丁未",
+              "boundary_precision": "provider_seconds",
+              "timezone": "Asia/Shanghai",
+              "calendar_provider": "lunar-python==1.4.8",
+              "effective_natal_interaction": null,
+              "annual_luck_prediction": null
+            }
+          ]
+        }
+      }
     }
   ]
 }
