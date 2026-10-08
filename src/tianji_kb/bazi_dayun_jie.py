@@ -3,7 +3,7 @@
 These are measured time distances, not an approved starting-age convention,
 start date, direction inference, or ten-year Dayun timeline.
 """
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 
 from lunar_python import Solar
@@ -65,7 +65,7 @@ def adjacent_jie_distance(value, direction, *, expected_month_ganzhi):
             or calendar(next_at - timedelta(seconds=1))["month_ganzhi"] != cal["month_ganzhi"]
             or calendar(next_at)["month_ganzhi"] == cal["month_ganzhi"]):
         raise ValueError("Pinned Jie does not match provider's month-pillar boundary")
-    offset = (next_at - local) if direction == "forward" else (local - prev_at)
+    # UTC subtraction accounts for historical offset/DST transitions.\n    offset = ((next_at.astimezone(timezone.utc) - local.astimezone(timezone.utc))\n              if direction == "forward" else\n              (local.astimezone(timezone.utc) - prev_at.astimezone(timezone.utc)))
     elapsed_seconds = int(offset.total_seconds())
     if elapsed_seconds < 0:
         raise ValueError("Negative distance to adjacent Jie")
