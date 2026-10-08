@@ -5156,8 +5156,8 @@
       },
       {
         "path": "data/canonical/bazi/phase1_knowledge.json",
-        "sha256": "fe47995be366c4ec4883f3c7d71fd648735f7a8d23d80d8a382ca6fa6621e1e5",
-        "bytes": 290857,
+        "sha256": "fde9e5529fb992f8d780e2283e4e9f4996cbd1818b60cecc34e4d15c98523998",
+        "bytes": 291385,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -5166,8 +5166,8 @@
       },
       {
         "path": "data/canonical/bazi/phase2_execution.json",
-        "sha256": "fd8c1585c536ae61a7d7c4272d63545e6a174489f1c37b5f54ebb5cfe64ccd54",
-        "bytes": 21944,
+        "sha256": "c3b5a9583b633484daf9ad267603cffa11a80320ad8cc684e933dc7ca0a1bbf8",
+        "bytes": 22415,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -5176,8 +5176,8 @@
       },
       {
         "path": "data/canonical/bazi/phase2_golden.json",
-        "sha256": "68a903c563b3bd3f2127c6cec9f445b84529978030b37963b70bcad245e59858",
-        "bytes": 109524,
+        "sha256": "8e3d807fb71b6b0c46e00f62f8dcc518d6235320f8d8915e948df72d587fa3c0",
+        "bytes": 119621,
         "stage": "canonical",
         "json_type": "dict",
         "domain": "bazi",
@@ -6801,7 +6801,7 @@
       },
       {
         "path": "src/tianji_kb/bazi_pattern.py",
-        "sha256": "6b999f7e8d0219b8091438045bb8c2150e82107b39840922c22db1c1d0e4bf37"
+        "sha256": "a8527f302be8798f3d832b45335934f199fd2352747c1564afc7e6f903f1ecca"
       },
       {
         "path": "src/tianji_kb/bazi_root_conditions.py",
@@ -7054,6 +7054,10 @@
       {
         "path": "tests/test_phase2_bazipattern.py",
         "sha256": "9af199b2a05449ef76f286816e1fabca52feee3a99130f88e0d660028d2610c9"
+      },
+      {
+        "path": "tests/test_phase2_bazipattern_hour_killing.py",
+        "sha256": "efaa697ee757db60b9bdbf7d0ee4685b053d750dfc794c6d335998ae1ae81b41"
       },
       {
         "path": "tests/test_phase2_bazipattern_qualification.py",
@@ -11579,10 +11583,17 @@
               "bazi.pattern-yuanhai-missing-branch",
               "bazi.pattern-yuanhai-exposed-xin",
               "bazi.pattern-yuanhai-non-you-month",
-              "bazi.pattern-yuanhai-non-jia-day"
+              "bazi.pattern-yuanhai-non-jia-day",
+              "bazi.pattern-hour-killing-hour-visible",
+              "bazi.pattern-hour-killing-hour-hidden",
+              "bazi.pattern-hour-killing-hour-both",
+              "bazi.pattern-hour-killing-hour-none",
+              "bazi.pattern-hour-killing-non-month",
+              "bazi.pattern-hour-killing-other-pillar-killing",
+              "bazi.pattern-hour-killing-hour-official-not-killing"
             ],
             "regression_test": "tests/test_phase2_bazipattern.py",
-            "evidence_scope": "C：显式研究月藏十神与逐字透干位置；司令、禄刃杂气、官杀/破印、真假成败喜用均未裁定；AI 和公开产品不授权。；新增《渊海》甲日酉月辛未透但地支巳酉丑齐备的单例完整成员观察，仅研究，不定格。",
+            "evidence_scope": "C：显式研究月藏十神与逐字透干位置；司令、禄刃杂气、官杀/破印、真假成败喜用均未裁定；AI 和公开产品不授权。；新增《渊海》甲日酉月辛未透但地支巳酉丑齐备的单例完整成员观察，仅研究，不定格。；s055 月令藏正官而时干或时支含七杀仅标注追加审核要求，不定官杀混杂或破格。",
             "evidence": [
               {
                 "source_id": "bazi.source.yuanhai",
@@ -11842,6 +11853,13 @@
           "bazi.factors-siling-unresolved",
           "bazi.factors-tomb-boundary",
           "bazi.pattern-commander-conflict",
+          "bazi.pattern-hour-killing-hour-both",
+          "bazi.pattern-hour-killing-hour-hidden",
+          "bazi.pattern-hour-killing-hour-none",
+          "bazi.pattern-hour-killing-hour-official-not-killing",
+          "bazi.pattern-hour-killing-hour-visible",
+          "bazi.pattern-hour-killing-non-month",
+          "bazi.pattern-hour-killing-other-pillar-killing",
           "bazi.pattern-miscellaneous",
           "bazi.pattern-not-month",
           "bazi.pattern-official-exposed",
@@ -20048,6 +20066,7 @@
           ],
           "yuanhai_example_scope": "仅甲日、酉月、辛未透、四柱见巳酉丑完整成员的古籍单例；候选仍不定格。",
           "yuanhai_resource_month_scope": "s059五类日干与对应月支的月份生我例，只观测，不定印格",
+          "yuanhai_hour_killing_scope": "月支藏正官且时干为七杀或时支藏七杀，限 s055 传统限制，未定官杀去留/成败。",
           "golden_categories": {
             "positive": 4,
             "negative": 1,
