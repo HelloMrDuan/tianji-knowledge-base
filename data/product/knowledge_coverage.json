@@ -6781,7 +6781,7 @@
       },
       {
         "path": "src/tianji_kb/api.py",
-        "sha256": "c654b4ac214f3b45ff79189c0b37d99563e7d954741b760ee80a887f4e6e986c"
+        "sha256": "8963efb1a7bf7d6433f4c57988aeea2250ca1743e8f2708618d2b5f27b36a7f6"
       },
       {
         "path": "src/tianji_kb/bazi_action_conditions.py",
@@ -6978,6 +6978,10 @@
       {
         "path": "src/tianji_kb/prompts.py",
         "sha256": "3bbb74dc10aab7f2e6c593789d7731c8b36690e225f90eeb1e78b67e054e615a"
+      },
+      {
+        "path": "src/tianji_kb/public_projection.py",
+        "sha256": "b7033f195be0f4f220be83bf075098522bfae4fc07c3e62b3ef79c00daa09a7d"
       },
       {
         "path": "src/tianji_kb/rag_context.py",
@@ -19772,6 +19776,11 @@
         "handler": "execute_request"
       },
       {
+        "method": "POST",
+        "path": "/api/v1/public/execute",
+        "handler": "public_execute_request"
+      },
+      {
         "method": "GET",
         "path": "/api/v1/scenarios",
         "handler": "scenarios"
@@ -19780,6 +19789,11 @@
         "method": "POST",
         "path": "/api/v1/scenarios/execute",
         "handler": "execute_scenario_request"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/scenarios/public",
+        "handler": "public_scenario_request"
       },
       {
         "method": "GET",

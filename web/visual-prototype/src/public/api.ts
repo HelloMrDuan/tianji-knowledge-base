@@ -21,7 +21,7 @@ export async function executeLiuyao(input: {
   value: string;
   yao_values: number[];
 }): Promise<ExecuteResponse> {
-  const response = await fetch(`${apiBase}/api/v1/execute`, {
+  const response = await fetch(`${apiBase}/api/v1/public/execute`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -48,7 +48,7 @@ export async function executeLiuyao(input: {
 export async function executeBazi(input: {
   value: string;
 }): Promise<ExecuteResponse> {
-  const response = await fetch(`${apiBase}/api/v1/execute`, {
+  const response = await fetch(`${apiBase}/api/v1/public/execute`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -89,7 +89,7 @@ export async function executeYearlyScenario(input: {
   birth_value: string;
   target_year: number;
 }): Promise<ScenarioExecuteResponse> {
-  const response = await fetch(`${apiBase}/api/v1/scenarios/execute`, {
+  const response = await fetch(`${apiBase}/api/v1/scenarios/public`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -114,7 +114,7 @@ export async function executeRomanceScenario(input: {
   birth_value: string;
   target_year: number;
 }): Promise<ScenarioExecuteResponse> {
-  const response = await fetch(`${apiBase}/api/v1/scenarios/execute`, {
+  const response = await fetch(`${apiBase}/api/v1/scenarios/public`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -139,7 +139,7 @@ export async function executeCareerScenario(input: {
   birth_value: string;
   target_year: number;
 }): Promise<ScenarioExecuteResponse> {
-  const response = await fetch(`${apiBase}/api/v1/scenarios/execute`, {
+  const response = await fetch(`${apiBase}/api/v1/scenarios/public`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -164,7 +164,7 @@ export async function executeLifeScenario(input: {
   birth_value: string;
   target_year: number;
 }): Promise<ScenarioExecuteResponse> {
-  const response = await fetch(`${apiBase}/api/v1/scenarios/execute`, {
+  const response = await fetch(`${apiBase}/api/v1/scenarios/public`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -189,7 +189,7 @@ export async function executeDailyScenario(input: {
   birth_value: string;
   target_date: string;
 }): Promise<ScenarioExecuteResponse> {
-  const response = await fetch(`${apiBase}/api/v1/scenarios/execute`, {
+  const response = await fetch(`${apiBase}/api/v1/scenarios/public`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -214,7 +214,7 @@ export async function executeWeeklyScenario(input: {
   birth_value: string;
   anchor_date: string;
 }): Promise<ScenarioExecuteResponse> {
-  const response = await fetch(`${apiBase}/api/v1/scenarios/execute`, {
+  const response = await fetch(`${apiBase}/api/v1/scenarios/public`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -238,7 +238,7 @@ export async function executeMonthlyScenario(input: {
   birth_value: string;
   target_month: string;
 }): Promise<ScenarioExecuteResponse> {
-  const response = await fetch(`${apiBase}/api/v1/scenarios/execute`, {
+  const response = await fetch(`${apiBase}/api/v1/scenarios/public`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -265,7 +265,7 @@ export async function executeCompatibilityScenario(input: {
   person_a_traditional_role?: "male" | "female";
   person_b_traditional_role?: "male" | "female";
 }): Promise<ScenarioExecuteResponse> {
-  const response = await fetch(`${apiBase}/api/v1/scenarios/execute`, {
+  const response = await fetch(`${apiBase}/api/v1/scenarios/public`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({

@@ -11,6 +11,8 @@ test("year default follows current browser year and no false Ganzhi appears befo
   await page.getByRole("button", { name: /查看 2027 流年结构/ }).click();
   await expect(page.locator(".yearly-result-head")).toContainText("2027 丁未");
   await expect(page.locator(".yearly-seal strong")).toHaveText("丁未");
+  await expect(page.locator(".yearly-rule article p")).toContainText("流年天干：丁");
+  await expect(page.locator(".yearly-rule article p")).not.toContainText("—");
 
   await page.getByLabel("目标年份").fill("2028");
   await expect(page.locator(".yearly-result")).toHaveCount(0);

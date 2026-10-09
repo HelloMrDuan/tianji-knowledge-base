@@ -207,11 +207,11 @@ export function YearlyStructurePage() {
               <article key={rule.rule_id || index}>
                 <strong>{rule.rule_id}</strong>
                 <p>
-                  日主：{rule.facts?.day_master || "—"} ·
-                  流年天干：{rule.facts?.flow_year_stem || "—"} ·
-                  十神：{rule.facts?.flow_year_stem_ten_god || "—"}
+                  日主：{natal.day_master?.stem || "—"} ·
+                  流年天干：{annual.stem || "—"} ·
+                  十神：{annual.stem_ten_god || "—"}
                 </p>
-                <small>来源于：{rule.derived_from_rule_id || "—"}</small>
+                <small>依据：已审结构规则 · 计算过程由服务端校验</small>
               </article>
             ))}
           </section>

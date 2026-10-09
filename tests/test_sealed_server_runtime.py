@@ -36,11 +36,13 @@ empty = client.post('/api/v1/dream/culture', json={'dream_text': '梦见考试'}
 assert empty.status_code == 200 and empty.json()['matches'] == []
 hidden = client.post('/api/v1/admin/research/dream', json={'dream_text': '我梦见被蛇咬了'})
 assert hidden.status_code == 401
-bazi = client.post('/api/v1/execute', json={'domain':'bazi',
+bazi = client.post('/api/v1/public/execute', json={'domain':'bazi',
         'variant':'ziping-structural-v1','input':{'value':'2000-01-07T12:00:00+08:00'},
         'mode':'production','explain':False})
 assert bazi.status_code == 200, bazi.text
 assert bazi.json()['chart']['day_master']['stem'] == '甲'
+restricted = client.post('/api/v1/execute', json={'domain':'bazi','input':{'value':'2000-01-07T12:00:00+08:00'}})
+assert restricted.status_code == 503, restricted.text
 print('sealed runtime: health, reviewed dream, no-match, admin auth, actual Bazi passed')
 """
 
