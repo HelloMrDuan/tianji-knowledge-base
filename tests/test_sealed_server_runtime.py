@@ -10,7 +10,7 @@ from unittest.mock import patch
 
 from tianji_kb.resolver import ROOT
 from tianji_kb.runtime_catalog import RuntimeUnavailable, load_catalog
-from tianji_kb.sealed_bundle import export_sealed_bundle
+from tianji_kb.sealed_bundle import export_sealed_bundle, RUNTIME_TABLES
 
 
 CHECK = """
@@ -21,8 +21,8 @@ from tianji_kb.resolver import ROOT
 from tianji_kb.runtime_catalog import load_catalog
 from tianji_kb import api as api_module
 # Both the trusted bundle AND the imported Python source tree must have no knowledge checkout.
-assert not (ROOT/'data').exists()
-assert not (Path(api_module.__file__).resolve().parents[2]/'data').exists()
+assert not (ROOT/'data/quarantine').exists()
+assert set(p.relative_to(ROOT).as_posix() for p in (ROOT/'data').rglob('*.json')) == set(__import__('tianji_kb.sealed_bundle',fromlist=['RUNTIME_TABLES']).RUNTIME_TABLES)
 assert set(p.name for p in (ROOT/'build').iterdir()) == {'production_runtime.json','production_rag.jsonl'}
 client = TestClient(create_app(admin_read_token='backend-token'))
 health = client.get('/health')
@@ -62,7 +62,8 @@ class SealedRuntimeTests(unittest.TestCase):
         return env
 
     def test_source_free_full_api_with_real_reviewed_rag(self):
-        self.assertFalse((self.path/'data').exists())
+        self.assertFalse((self.path/'data/quarantine').exists())
+        self.assertEqual({p.relative_to(self.path).as_posix() for p in (self.path/'data').rglob('*.json')}, set(RUNTIME_TABLES))
         self.assertEqual(sorted(p.name for p in (self.path/'build').iterdir()),
                          ['production_rag.jsonl', 'production_runtime.json'])
         self.assertTrue((self.path/'src/tianji_kb/api.py').is_file())
@@ -82,8 +83,14 @@ class SealedRuntimeTests(unittest.TestCase):
             with patch.dict(os.environ, self.environment()):
                 load_catalog(self.path)
         (self.path/'build'/'production_rag.jsonl').write_bytes((ROOT/'build/production_rag.jsonl').read_bytes())
-        (self.path/'data').mkdir()
         (self.path/'data'/'accidental-source.txt').write_text('must not ship')
+        with self.assertRaises(RuntimeUnavailable):
+            with patch.dict(os.environ, self.environment()):
+                load_catalog(self.path)
+
+    def test_tampered_runtime_table_is_rejected(self):
+        table = self.path / RUNTIME_TABLES[0]
+        table.write_bytes(table.read_bytes() + b' ')
         with self.assertRaises(RuntimeUnavailable):
             with patch.dict(os.environ, self.environment()):
                 load_catalog(self.path)
