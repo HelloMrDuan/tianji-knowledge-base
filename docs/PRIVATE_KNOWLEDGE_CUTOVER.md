@@ -82,3 +82,39 @@ Once private CI runs against a verified private snapshot, replace public
 Knowledge Base validation with code-only tests and a non-sensitive synthetic
 contract suite. Do not configure private repository credentials in public
 pull_request workflows.
+
+
+## Complete-data snapshot contract (batch 176)
+
+The original v1 exporter remains supported for older restricted canonical/quarantine
+copies. Its scope is **not sufficient** for private infrastructure cutover.
+
+New v2 workflow copies **all 11 current `data/` areas** (including index,
+product, upstream, provenance, state and registry), with a separate SHA256
+manifest and exact directory/file-membership verification. Only file metadata,
+not contents, is printed by the CLI.
+
+Run from the **trusted public code checkout** to a new external absolute path:
+
+```bash
+python scripts/private_data_snapshot.py --export /secure/new-complete-bundle
+python scripts/private_data_snapshot.py --verify /secure/new-complete-bundle
+```
+
+After privately transferring the bundle to the future private runner, create
+a **non-Git** workspace containing the audited application code but **no
+`data/` directory** (and no `.git` anywhere in its ancestor chain). Then:
+
+```bash
+python scripts/private_data_snapshot.py --import-from /secure/new-complete-bundle --workspace /secure/clean-application
+```
+
+The private runner must verify file hashes and execute full real knowledge,
+API and product tests against the imported data before public code-only CI is
+enabled. This repository's public CI exercises an **actual full-tree local
+export/import roundtrip**, but does not access or attest a private repository.
+
+Do not upload this bundle to public GitHub, public Actions artifacts,
+public build logs, a frontend static directory or an accessible object-store
+URL. No private remote was created by this change, and the preexisting
+public Git history remains readable.
