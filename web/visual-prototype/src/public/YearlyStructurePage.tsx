@@ -95,7 +95,7 @@ export function YearlyStructurePage() {
           </p>
         </div>
         <div className="yearly-seal" aria-hidden="true">
-          <strong>丙午</strong>
+          <strong>{result ? annual.ganzhi || "—" : "待计算"}</strong>
           <span>{targetYear}</span>
           <small>结构 · 非断语</small>
         </div>
