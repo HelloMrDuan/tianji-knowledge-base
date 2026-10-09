@@ -114,7 +114,7 @@ def _daily(inputs):
     if not 1900 <= parsed_date.year <= 2100:
         raise ValueError("target_date year must be from 1900 through 2100")
 
-    natal = execute("bazi", {"value": birth_value, "include_xianchi": True})
+    natal = execute("bazi", {"value": birth_value, "include_xianchi": True, "include_relations": True})
     result_chart = natal["result"]
     day_master = result_chart["day_master"]["stem"]
     xianchi = copy.deepcopy(result_chart["xianchi_lookup"])
@@ -139,15 +139,20 @@ def _daily(inputs):
         },
     }
 
+    branch_structure = _annual_branch_structure(natal, day_branch)
+
     source_rules = [
         next(rule for rule in natal["rule_matches"] if rule["rule_id"] == "bazi.phase2.ten_gods"),
         next(rule for rule in natal["rule_matches"] if rule["rule_id"] == "bazi.phase2.xianchi_lookup"),
+        *(next(rule for rule in natal["rule_matches"] if rule["rule_id"] == rid)
+          for rid in branch_structure["rule_ids"]),
     ]
     evidence_ids = []
     for rule in source_rules:
         for eid in rule["evidence_ids"]:
             if eid not in evidence_ids:
                 evidence_ids.append(eid)
+    base_evidence_ids = list(dict.fromkeys(eid for rule in source_rules[:2] for eid in rule["evidence_ids"]))
     evidence = {eid: copy.deepcopy(natal["evidence"][eid]) for eid in evidence_ids}
 
     result = {
@@ -171,11 +176,12 @@ def _daily(inputs):
             "targets": copy.deepcopy(xianchi["targets"]),
             "target_day_activation": activation,
         },
+        "day_branch_interactions": branch_structure,
         "summary": {
             "headline": f"{target_date} · {day_ganzhi} · {day_ten_god}",
             "text": (
                 f"目标日为{day_ganzhi}；日干{day_stem}相对日主{day_master}为{day_ten_god}。"
-                "咸池仅按年支、日支两套固定目标分别检查当日地支是否命中。"
+                "咸池依年、日双基准分别查表；另列流日地支与原局四柱的已审六合、六害、六冲，均非吉凶推断。"
             ),
         },
         "release_scope": "daily_structure_only",
@@ -194,7 +200,7 @@ def _daily(inputs):
             "day_group": day_group,
             "xianchi_activation": copy.deepcopy(activation),
         },
-        "evidence_ids": evidence_ids,
+        "evidence_ids": base_evidence_ids,
     }
     trace = [
         {
@@ -212,14 +218,14 @@ def _daily(inputs):
                 "ten_god": day_ten_god,
                 "structure_group": day_group,
             },
-            "evidence_ids": evidence_ids,
+            "evidence_ids": base_evidence_ids,
         },
         {
             "step": "target_day_xianchi_activation",
             "derived_from_rule_id": "bazi.phase2.xianchi_lookup",
             "basis_policy": "year_and_day_reported_separately",
             "facts": copy.deepcopy(activation),
-            "evidence_ids": evidence_ids,
+            "evidence_ids": base_evidence_ids,
         },
     ]
     return {
@@ -228,8 +234,33 @@ def _daily(inputs):
         "public_release": False,
         "deterministic": True,
         "result": result,
-        "rule_matches": [rule_match],
-        "trace": trace,
+        "rule_matches": [
+            rule_match,
+            {
+                "rule_id": "bazi.scenario.daily_branch_relations",
+                "derived_from_rule_ids": branch_structure["rule_ids"],
+                "variant": "ziping-structural-v1",
+                "matched": True,
+                "kind": "scenario_composition",
+                "evidence_scope": "仅核当日地支与原局四柱的六合、六害、六冲结构；不作作用效力和吉凶推断。",
+                "facts": {
+                    "target_date": target_date,
+                    "target_day_branch": day_branch,
+                    "hits": copy.deepcopy(branch_structure["hits"]),
+                    "counts": copy.deepcopy(branch_structure["counts"]),
+                },
+                "evidence_ids": list(branch_structure["evidence_ids"]),
+            },
+        ],
+        "trace": [
+            *trace,
+            {
+                "step": "reviewed_target_day_natal_branch_pairs",
+                "derived_from_rule_ids": branch_structure["rule_ids"],
+                "facts": {"date": target_date, "hits": copy.deepcopy(branch_structure["hits"])},
+                "evidence_ids": list(branch_structure["evidence_ids"]),
+            },
+        ],
         "evidence": evidence,
         "warnings": [
             "今日结构可重复计算，但当前不把十神或咸池命中转换成好运/坏运、宜忌或事件预测。",
@@ -237,7 +268,7 @@ def _daily(inputs):
         "limitations": [
             "目标日天干十神只表示与日主的结构关系，不等同于当天事业、财富、感情或健康结果。",
             "咸池当日命中只表示固定查表结构相同，不等同于今天一定有桃花或感情事件。",
-            "尚未纳入旺衰、喜用神、大运、流月、流日支互动、时辰变化与完整择日体系。",
+            "仅纳入六合、六害、六冲静态配对；旺衰、喜用神、大运、流月、三合、刑、破、合化效力、时辰变化和择日体系未裁定。",
             "不提供投资、健康、法律、安全等现实决策建议。",
             "AI 不参与本场景计算。",
         ],
@@ -246,7 +277,7 @@ def _daily(inputs):
 
 
 def _annual_branch_structure(natal, flow_branch):
-    """Review-backed flow-year/each-natal-branch relations, with no luck scores.
+    """Review-backed flow-target/each-natal-branch relations, without luck scores.
 
     Evaluate exactly four flow-to-natal pairs, not the six natal-to-natal
     pairs. A hit must cite the executed, validated Phase2 relation rule.
@@ -632,18 +663,23 @@ def _ten_god_group(ten_god_name):
 def _period_context(birth_value):
     if not isinstance(birth_value, str):
         raise ValueError("birth_value must be an ISO datetime string")
-    natal = execute("bazi", {"value": birth_value, "include_xianchi": True})
+    natal = execute("bazi", {"value": birth_value, "include_xianchi": True, "include_relations": True})
     source_rules = [
         next(rule for rule in natal["rule_matches"] if rule["rule_id"] == "bazi.phase2.ten_gods"),
         next(rule for rule in natal["rule_matches"] if rule["rule_id"] == "bazi.phase2.xianchi_lookup"),
+        *(next(rule for rule in natal["rule_matches"] if rule["rule_id"] == rid)
+          for rid in ("bazi.phase2.branch_six_harmonies",
+                      "bazi.phase2.branch_six_harms",
+                      "bazi.phase2.branch_six_clashes")),
     ]
     evidence_ids = []
     for rule in source_rules:
         for eid in rule["evidence_ids"]:
             if eid not in evidence_ids:
                 evidence_ids.append(eid)
+    base_evidence_ids = list(dict.fromkeys(eid for rule in source_rules[:2] for eid in rule["evidence_ids"]))
     evidence = {eid: copy.deepcopy(natal["evidence"][eid]) for eid in evidence_ids}
-    return natal, evidence_ids, evidence
+    return natal, base_evidence_ids, evidence
 
 
 def _period_day_fact(natal, target_date):
@@ -667,6 +703,7 @@ def _period_day_fact(natal, target_date):
         },
     }
     hit_count = sum(int(bool(item["matched"])) for item in activation.values())
+    branch_structure = _annual_branch_structure(natal, day_branch)
     return {
         "date": target_date,
         "ganzhi": day_ganzhi,
@@ -677,6 +714,7 @@ def _period_day_fact(natal, target_date):
         "structure_group_label": _TEN_GOD_GROUPS[day_group]["label"] if day_group else None,
         "xianchi_activation": activation,
         "xianchi_hit_count": hit_count,
+        "branch_interactions": branch_structure,
         "calendar_provider": target_calendar["calendar_provider"],
     }
 
@@ -684,10 +722,20 @@ def _period_day_fact(natal, target_date):
 def _period_summary(days):
     group_counts = {key: 0 for key in _TEN_GOD_GROUPS}
     xianchi_dates = []
+    branch_dates = []
+    branch_counts = {"six_harmony": 0, "harm": 0, "clash": 0}
     for item in days:
         group = item["structure_group"]
         if group:
             group_counts[group] += 1
+        for kind, count in item["branch_interactions"]["counts"].items():
+            branch_counts[kind] += count
+        if item["branch_interactions"]["hits"]:
+            branch_dates.append({
+                "date": item["date"],
+                "ganzhi": item["ganzhi"],
+                "relations": copy.deepcopy(item["branch_interactions"]["hits"]),
+            })
         if item["xianchi_hit_count"]:
             xianchi_dates.append({
                 "date": item["date"],
@@ -697,6 +745,8 @@ def _period_summary(days):
     return {
         "structure_group_counts": group_counts,
         "xianchi_hit_dates": xianchi_dates,
+        "branch_relation_counts": branch_counts,
+        "branch_relation_dates": branch_dates,
     }
 
 
@@ -747,6 +797,18 @@ def _weekly(inputs):
             "evidence_ids": evidence_ids,
         }
         for item in days
+    ] + [
+        {
+            "step": "weekly_reviewed_target_branch_pairs",
+            "date": item["date"],
+            "facts": {
+                "ganzhi": item["ganzhi"],
+                "hits": copy.deepcopy(item["branch_interactions"]["hits"]),
+                "counts": copy.deepcopy(item["branch_interactions"]["counts"]),
+            },
+            "evidence_ids": list(item["branch_interactions"]["evidence_ids"]),
+        }
+        for item in days
     ]
     return {
         "scenario_id": "weekly",
@@ -766,7 +828,27 @@ def _weekly(inputs):
             "summary": summary,
             "release_scope": "weekly_structure_only",
         },
-        "rule_matches": [rule_match],
+        "rule_matches": [
+            rule_match,
+            {
+                "rule_id": "bazi.scenario.weekly_branch_relations",
+                "derived_from_rule_ids": [
+                    "bazi.phase2.branch_six_harmonies",
+                    "bazi.phase2.branch_six_harms",
+                    "bazi.phase2.branch_six_clashes",
+                ],
+                "variant": "ziping-structural-v1",
+                "matched": True,
+                "kind": "scenario_composition",
+                "evidence_scope": "按自然周汇总每日地支与原局四柱的已审核六合、六害、六冲结构；不得推断吉凶。",
+                "facts": {
+                    "branch_relation_counts": copy.deepcopy(summary["branch_relation_counts"]),
+                    "branch_relation_dates": copy.deepcopy(summary["branch_relation_dates"]),
+                },
+                "evidence_ids": list(dict.fromkeys(
+                    eid for day in days for eid in day["branch_interactions"]["evidence_ids"])),
+            },
+        ],
         "trace": trace,
         "evidence": evidence,
         "warnings": [
@@ -775,7 +857,7 @@ def _weekly(inputs):
         "limitations": [
             "一周内十神结构出现次数只是日期分布，不代表某类力量更旺、更吉或更凶。",
             "咸池命中日只表示固定查表结构相同，不等于当天发生感情事件。",
-            "尚未纳入旺衰、喜用神、大运、流月、流日支互动与时辰变化。",
+            "流日地支仅纳入六合、六害、六冲成对结构；旺衰、喜用神、大运、流月、三合、刑、破、合化效力和时辰变化未裁定。",
             "不提供投资、健康、法律、安全等现实决策建议。",
             "AI 不参与本场景计算。",
         ],
@@ -829,6 +911,18 @@ def _monthly(inputs):
             "evidence_ids": evidence_ids,
         }
         for item in days
+    ] + [
+        {
+            "step": "monthly_reviewed_target_branch_pairs",
+            "date": item["date"],
+            "facts": {
+                "ganzhi": item["ganzhi"],
+                "hits": copy.deepcopy(item["branch_interactions"]["hits"]),
+                "counts": copy.deepcopy(item["branch_interactions"]["counts"]),
+            },
+            "evidence_ids": list(item["branch_interactions"]["evidence_ids"]),
+        }
+        for item in days
     ]
     return {
         "scenario_id": "monthly",
@@ -847,7 +941,27 @@ def _monthly(inputs):
             "summary": summary,
             "release_scope": "monthly_structure_only",
         },
-        "rule_matches": [rule_match],
+        "rule_matches": [
+            rule_match,
+            {
+                "rule_id": "bazi.scenario.monthly_branch_relations",
+                "derived_from_rule_ids": [
+                    "bazi.phase2.branch_six_harmonies",
+                    "bazi.phase2.branch_six_harms",
+                    "bazi.phase2.branch_six_clashes",
+                ],
+                "variant": "ziping-structural-v1",
+                "matched": True,
+                "kind": "scenario_composition",
+                "evidence_scope": "按公历月汇总每日地支与原局四柱的已审核六合、六害、六冲结构；不得推断吉凶。",
+                "facts": {
+                    "branch_relation_counts": copy.deepcopy(summary["branch_relation_counts"]),
+                    "branch_relation_dates": copy.deepcopy(summary["branch_relation_dates"]),
+                },
+                "evidence_ids": list(dict.fromkeys(
+                    eid for day in days for eid in day["branch_interactions"]["evidence_ids"])),
+            },
+        ],
         "trace": trace,
         "evidence": evidence,
         "warnings": [
@@ -857,7 +971,7 @@ def _monthly(inputs):
             "一个月内十神结构出现次数只是日期分布，不代表某类力量更旺、更吉或更凶。",
             "咸池命中日只表示固定查表结构相同，不等于当天发生感情事件。",
             "当前按公历月聚合；尚未实现完整节气月/流月命理规则。",
-            "尚未纳入旺衰、喜用神、大运、流月支互动、时辰变化与完整择日体系。",
+            "流日地支仅纳入六合、六害、六冲成对结构；旺衰、喜用神、大运、流月支、三合、刑、破、合化效力、时辰及择日体系未裁定。",
             "不提供投资、健康、法律、安全等现实决策建议。",
             "AI 不参与本场景计算。",
         ],
