@@ -49,3 +49,36 @@ migration**. The public Git history stays public.
 **Hard stop:** do not delete public assets, break public CI, add PATs to public
 PR jobs, or claim private hosting until a real private storage destination and
 its successful full-content CI run can be confirmed.
+
+
+## Public automated-write freeze (batch 174)
+
+Until a private destination is provisioned, this PUBLIC repository must NOT
+automatically refresh or commit new canonical, quarantine or derivative texts.
+
+- The `KB Source Sync` workflow becomes `KB Source Metadata Sync`.
+  It still checks public upstream commit and license metadata, but stages only
+  `data/state/source_state.json`. A staged-path allowlist rejects other files.
+- The `Refresh Audited Knowledge Files` workflow is retired from public HEAD.
+  New full-text source refresh and derived-index writes must move to private
+  infrastructure, with its own authenticated private CI.
+- The legacy raw-text ingestion commands fail closed if invoked in GitHub
+  Actions under `HelloMrDuan/tianji-knowledge-base`. Local/manual use outside
+  that precise public automation context does **not** mean that a destination is
+  secured; operators must still choose restricted storage.
+- Existing Actions runs that were queued **before** these changes, other
+  privileged writers, forks and the public Git history are not neutralized by
+  this change; inspect and cancel any old in-flight content-writing jobs when
+  operationally possible.
+
+This is a **write freeze, not a data migration**. Public HEAD continues to
+contain substantial knowledge-bearing surfaces outside the two export roots,
+including `data/index`, `data/product`, `data/upstream`,
+`data/reference`, `data/audit`, `data/coverage` and
+`data/research`. Review provenance and confidentiality file by file before
+removal or re-publication. Do not resume public content sync after this step.
+
+Once private CI runs against a verified private snapshot, replace public
+Knowledge Base validation with code-only tests and a non-sensitive synthetic
+contract suite. Do not configure private repository credentials in public
+pull_request workflows.
