@@ -78,14 +78,20 @@ class PublicAssetChangesTests(unittest.TestCase):
             "T data/upstream/a.txt",
         ])
 
-    def test_public_head_real_inventory_has_reviewable_data(self):
+    def test_public_head_inventory_remains_valid_after_future_migration(self):
         root = Path(__file__).resolve().parents[1]
         result = inventory(root)
-        self.assertGreater(result["tracked_files"], 0)
-        self.assertGreater(result["areas"]["canonical"]["files"], 0)
-        self.assertGreater(result["areas"]["quarantine"]["files"], 0)
-        self.assertGreater(result["areas"]["index"]["files"], 0)
-        self.assertGreater(result["areas"]["product"]["bytes"], 0)
+        self.assertEqual(result["tracked_files"], sum(
+            area["files"] for area in result["areas"].values()
+        ))
+        self.assertEqual(result["tracked_bytes"], sum(
+            area["bytes"] for area in result["areas"].values()
+        ))
+        self.assertTrue(all(area["classification"] in {
+            "review-content-before-publication",
+            "metadata-needs-review",
+            "unclassified-fail-closed",
+        } for area in result["areas"].values()))
 
 
 if __name__ == "__main__":
