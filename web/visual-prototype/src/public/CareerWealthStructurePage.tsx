@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
@@ -49,16 +49,26 @@ export function CareerWealthStructurePage() {
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const requestVersion = useRef(0);
+
+  useEffect(() => () => { requestVersion.current += 1; }, []);
+
+  function invalidateResult() {
+    requestVersion.current += 1;
+    setResult(null);
+    setError("");
+    setLoading(false);
+  }
 
   function fillSample() {
     setDate("2000-01-07");
     setTime("12:00");
-    setResult(null);
-    setError("");
+    invalidateResult();
   }
 
   async function submit(event: FormEvent) {
     event.preventDefault();
+    const version = ++requestVersion.current;
     setLoading(true);
     setError("");
     setResult(null);
@@ -68,13 +78,15 @@ export function CareerWealthStructurePage() {
         birth_value: `${date}T${time}:00+08:00`,
         target_year: targetYear,
       });
+      if (version !== requestVersion.current) return;
       saveBirthProfile({ date, time });
       saveTargetYear(targetYear);
       setResult(response);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "事业财运结构计算失败。");
+      if (version === requestVersion.current)
+        setError(err instanceof Error ? err.message : "事业财运结构计算失败。");
     } finally {
-      setLoading(false);
+      if (version === requestVersion.current) setLoading(false);
     }
   }
 
@@ -82,6 +94,7 @@ export function CareerWealthStructurePage() {
   const natal = payload.natal || {};
   const groups = payload.structure_groups || {};
   const flowYear = payload.target_year || {};
+  const cards: Array<any> = Array.isArray(payload.interpretation_cards) ? payload.interpretation_cards : [];
   const evidence = result
     ? Object.entries(result.evidence).map(([id, value]) => displayEvidence(id, value))
     : [];
@@ -121,16 +134,16 @@ export function CareerWealthStructurePage() {
           <div className="career-input-grid">
             <label>
               <span>出生日期</span>
-              <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+              <input type="date" value={date} onChange={(e) => { invalidateResult(); setDate(e.target.value); }} required />
             </label>
             <label>
               <span>出生时间</span>
-              <input type="time" value={time} onChange={(e) => setTime(e.target.value)} required />
+              <input type="time" value={time} onChange={(e) => { invalidateResult(); setTime(e.target.value); }} required />
             </label>
             <label className="career-fixed-year">
               <span>观察年份</span>
               <input type="number" min={MIN_TARGET_YEAR} max={MAX_TARGET_YEAR} step={1} value={targetYear}
-                onChange={(event) => { setTargetYear(Number(event.target.value)); setResult(null); }}
+                onChange={(event) => { invalidateResult(); setTargetYear(Number(event.target.value)); }}
                 required />
             </label>
           </div>
@@ -190,6 +203,7 @@ export function CareerWealthStructurePage() {
           <div className="career-groups">
             {groupOrder.map((groupId) => {
               const group = groups[groupId] || {};
+              const insight = cards.find((item) => item.group_id === groupId);
               const occurrences = Array.isArray(group.occurrences) ? group.occurrences : [];
               return (
                 <article key={groupId} className={flowYear.structure_group === groupId ? "flow-hit" : ""}>
@@ -214,7 +228,16 @@ export function CareerWealthStructurePage() {
                       </span>
                     )) : <em>当前结构中未见</em>}
                   </div>
-                  {flowYear.structure_group === groupId && (
+                  {insight && (
+                    <div className="career-interpretation">
+                      <strong>传统十神关系 · {insight.five_element_relation}</strong>
+                      <p>{insight.traditional_structure_definition}</p>
+                      <p>{insight.observation}</p>
+                      {insight.target_year_note && <p>{insight.target_year_note}</p>}
+                      <small>已审十神及藏干规则 · {insight.interpretation_level === "reviewed_structural_relation_only" ? "只作结构释义" : "未审核"}</small>
+                    </div>
+                  )}
+                  {flowYear.structure_group === groupId && !insight && (
                     <p>{targetYear} 流年天干落入这一结构组，仅表示十神关系命中。</p>
                   )}
                 </article>
@@ -278,7 +301,7 @@ export function CareerWealthStructurePage() {
             <div>
               <h3>下一层才会接近真正的事业财运报告</h3>
               <p>
-                还要继续补旺衰、格局、喜用、大运与流年支互动，并做跨证据验证。
+                本版补充了有规则证据的五组十神结构释义；下一步仍需补旺衰、格局、喜用、大运与流年实际作用并做跨证据验证。
                 这些完成前，只展示结构，不给收益承诺。
               </p>
             </div>

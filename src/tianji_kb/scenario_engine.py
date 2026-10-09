@@ -850,6 +850,12 @@ def _career(inputs):
         next(rule for rule in natal["rule_matches"] if rule["rule_id"] == "bazi.phase2.ten_gods"),
         next(rule for rule in natal["rule_matches"] if rule["rule_id"] == "bazi.phase2.hidden_stems"),
     ]
+    # Even the explanatory layer must fail closed if an executed source rule
+    # does not have resolved canonical evidence.
+    for rule in source_rules:
+        if (not rule.get("evidence_ids") or any(
+                eid not in natal["evidence"] for eid in rule["evidence_ids"])):
+            raise ValueError("Reviewed career Ten-God evidence is missing")
     evidence_ids = []
     for rule in source_rules:
         for eid in rule["evidence_ids"]:
@@ -857,12 +863,58 @@ def _career(inputs):
                 evidence_ids.append(eid)
     evidence = {eid: copy.deepcopy(natal["evidence"][eid]) for eid in evidence_ids}
 
+    # Traditional five-element Ten-God direction, not a score or efficacy
+    # judgement. Each explanation is built from exact fired Phase2 facts.
+    relations = {
+        "wealth": ("我克", "财星对应日主五行所克的十神关系；不能凭位置或数量判断收入和财富。"),
+        "authority": ("克我", "官杀对应克日主五行的十神关系；不能凭有无官杀判断职业、权力或升迁。"),
+        "output": ("我生", "食伤对应日主五行所生的十神关系；不能直接推断才华、作品或工作表现。"),
+        "resource": ("生我", "印星对应生日主五行的十神关系；不能直接推断学历、贵人或考试成绩。"),
+        "peers": ("同我", "比劫对应与日主同五行的十神关系；不能直接推断朋友、合伙或竞争结果。"),
+    }
+    interpretation_cards = []
+    for group_id, group in groups.items():
+        direction, definition = relations[group_id]
+        visible, hidden = group["visible_count"], group["hidden_count"]
+        if visible and hidden:
+            presence = "both_layers"
+            observation = f"原局天干明见{visible}处，地支藏干{hidden}处；仅为不同层级的结构位置。"
+        elif visible:
+            presence = "visible_only"
+            observation = f"原局天干明见{visible}处，已审藏干位置未见；不能将藏干未见解释成吉凶。"
+        elif hidden:
+            presence = "hidden_only"
+            observation = f"原局天干未明见，地支藏干{hidden}处；藏干位置不等于已经透出或实际发挥作用。"
+        else:
+            presence = "not_observed"
+            observation = "当前四柱已审天干与藏干映射中未见此组；不能推论现实能力、事业或财富缺失。"
+        interpretation_cards.append({
+            "group_id": group_id,
+            "label": group["label"],
+            "ten_gods": list(group["ten_gods"]),
+            "five_element_relation": direction,
+            "traditional_structure_definition": definition,
+            "natal_presence": presence,
+            "visible_count": visible,
+            "hidden_count": hidden,
+            "observation": observation,
+            "target_year_stem_matches_group": flow_group == group_id,
+            "target_year_note": (
+                f"{target_year}年流年天干的十神为{flow_ten_god}，按同一映射归入本组；未判定吉凶或应期。"
+                if flow_group == group_id else None),
+            "source_rule_ids": ["bazi.phase2.ten_gods", "bazi.phase2.hidden_stems"],
+            "evidence_ids": list(evidence_ids),
+            "interpretation_level": "reviewed_structural_relation_only",
+            "personal_prediction": False,
+        })
+
     result = {
         "natal": {
             "pillars": copy.deepcopy(result_chart["pillars"]),
             "day_master": copy.deepcopy(result_chart["day_master"]),
         },
         "structure_groups": groups,
+        "interpretation_cards": interpretation_cards,
         "target_year": {
             "year": target_year,
             "ganzhi": flow_ganzhi,
@@ -894,6 +946,7 @@ def _career(inputs):
             "target_year_stem": flow_stem,
             "target_year_ten_god": flow_ten_god,
             "target_year_group": flow_group,
+            "interpretation_card_count": len(interpretation_cards),
         },
         "evidence_ids": evidence_ids,
     }
@@ -936,7 +989,7 @@ def _career(inputs):
         ],
         "limitations": [
             "财星、官杀、食伤、印星、比劫仅按已验证十神映射聚合其出现位置，不比较旺衰、月令权重或组合成败。",
-            "目标年天干十神只表示结构关系，不等同于升职、赚钱、失业、投资收益或风险。",
+            "五组释义仅是已审十神生克关系与明藏位置说明，不等于实际作用效力；目标年天干十神不等同于升职、赚钱、失业或投资风险。",
             "尚未纳入格局、喜用神、身强身弱、大运、流年支互动、行业映射与紫微交叉判断。",
             "不输出事业指数、财运指数、收入金额或投资建议。",
             "AI 不参与本场景计算。",
