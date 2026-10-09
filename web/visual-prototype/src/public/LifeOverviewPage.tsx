@@ -3,6 +3,7 @@ import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeLifeScenario, type ScenarioExecuteResponse } from "./api";
+import { readSavedTargetYear, saveTargetYear, isValidTargetYear, MIN_TARGET_YEAR, MAX_TARGET_YEAR } from "./targetYear";
 import "./life-overview.css";
 
 const profileKey = "tianji.profile.birth.v1";
@@ -37,6 +38,7 @@ export function LifeOverviewPage() {
   const initial = readProfile();
   const [date, setDate] = useState(initial.date);
   const [time, setTime] = useState(initial.time);
+  const [targetYear, setTargetYear] = useState(readSavedTargetYear);
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -54,12 +56,14 @@ export function LifeOverviewPage() {
     setError("");
     setResult(null);
     try {
+      if (!isValidTargetYear(targetYear)) throw new Error("请选择 1901 至 2098 年的公历年份");
       const next = await executeLifeScenario({
         birth_value: `${date}T${time}:00+08:00`,
-        target_year: 2026,
+        target_year: targetYear,
       });
       try {
         localStorage.setItem(profileKey, JSON.stringify({ date, time }));
+        saveTargetYear(targetYear);
       } catch {
         /* Preference persistence is optional. */
       }
@@ -102,7 +106,7 @@ export function LifeOverviewPage() {
           </p>
           <div className="life-hero-proof">
             <span>四柱基础</span><i />
-            <span>2026 结构</span><i />
+            <span>{targetYear} 结构</span><i />
             <span>桃花结构</span><i />
             <span>事业财运结构</span>
           </div>
@@ -135,7 +139,9 @@ export function LifeOverviewPage() {
             </label>
             <label className="life-year">
               <span>观察年份</span>
-              <input value="2026" readOnly />
+              <input type="number" min={MIN_TARGET_YEAR} max={MAX_TARGET_YEAR} step={1} value={targetYear}
+                onChange={(event) => { setTargetYear(Number(event.target.value)); setResult(null); }}
+                required />
             </label>
           </div>
 
@@ -156,7 +162,7 @@ export function LifeOverviewPage() {
           <h2>先看一张总图，再决定往哪里深入。</h2>
           <p>总览不会重新算一套“神秘分数”，而是复用已经通过校验的真实结果。</p>
           <ul>
-            <li>想看全年：进入 2026 流年结构</li>
+            <li>想看全年：进入 {targetYear} 流年结构</li>
             <li>想看感情：进入桃花结构</li>
             <li>想看工作与钱：进入事业财运结构</li>
             <li>有具体问题：转一事占问</li>
@@ -183,7 +189,7 @@ export function LifeOverviewPage() {
               <p>
                 日主 <strong>{profile.day_master?.stem || "—"}</strong>
                 <span> · </span>
-                2026 <strong>{yearTarget.ganzhi || "—"}</strong>
+                {targetYear} <strong>{yearTarget.ganzhi || "—"}</strong>
                 <span> · </span>
                 已绑定 <strong>{evidenceCount}</strong> 条去重 Evidence
               </p>
@@ -223,7 +229,7 @@ export function LifeOverviewPage() {
           <div className="life-double">
             <section className="life-section life-focus">
               <div className="result-section-heading">
-                <div><span>二</span><h2>2026 流年结构</h2></div>
+                <div><span>二</span><h2>{targetYear} 流年结构</h2></div>
                 <Link className="text-action" href="/yearly-structure">查看详情 <Icon name="arrow" size={15} /></Link>
               </div>
               <div className="life-focus-main">
@@ -245,11 +251,11 @@ export function LifeOverviewPage() {
                 <div><small>年支基准目标</small><strong>{romanceTargets.year_branch || "—"}</strong></div>
                 <div><small>日支基准目标</small><strong>{romanceTargets.day_branch || "—"}</strong></div>
                 <div>
-                  <small>2026 年支基准</small>
+                  <small>{targetYear} 年支基准</small>
                   <strong>{activation.year_branch_basis?.matched ? "命中" : "未命中"}</strong>
                 </div>
                 <div>
-                  <small>2026 日支基准</small>
+                  <small>{targetYear} 日支基准</small>
                   <strong>{activation.day_branch_basis?.matched ? "命中" : "未命中"}</strong>
                 </div>
               </div>
@@ -277,7 +283,7 @@ export function LifeOverviewPage() {
                     <small>{label}</small>
                     <strong>{(group.visible_count || 0) + (group.hidden_count || 0)}</strong>
                     <span>明 {group.visible_count || 0} · 藏 {group.hidden_count || 0}</span>
-                    {active && <em>2026 天干结构</em>}
+                    {active && <em>{targetYear} 天干结构</em>}
                   </article>
                 );
               })}
@@ -294,7 +300,7 @@ export function LifeOverviewPage() {
               <Link href="/daily-structure">今日结构</Link>
               <Link href="/weekly-structure">本周结构</Link>
               <Link href="/monthly-structure">本月结构</Link>
-              <Link href="/yearly-structure">2026 流年</Link>
+              <Link href="/yearly-structure">{targetYear} 流年</Link>
               <Link href="/romance-structure">桃花姻缘</Link>
               <Link href="/compatibility-structure">缘分合盘</Link>
               <Link href="/career-wealth-structure">事业财运</Link>
