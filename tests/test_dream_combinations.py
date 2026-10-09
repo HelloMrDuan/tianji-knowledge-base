@@ -32,6 +32,56 @@ class DreamCombinationTests(unittest.TestCase):
                 self.assertFalse(match['personal_prediction'])
                 self.assertEqual(out['matched_interpretations'],out['interpretation_candidates'])
 
+    def test_ten_reviewed_scenes_support_bounded_first_person_paraphrases(self):
+        cases = [
+            ('梦见一条蛇咬了我的腿', 'snake', '蛇咬人主得大财'),
+            ('梦见我在水里感到很自在', 'water', '自在水中大吉利'),
+            ('我梦见我站在火里', 'fire', '身在火中贵人扶'),
+            ('梦见我飞到天上了', 'flying', '飞上天富贵大吉'),
+            ('梦见我掉到了井里', 'falling', '身坠井中疾病凶'),
+            ('梦见我骑着一条龙进入河里', 'dragon', '乘龙入水有贵位'),
+            ('梦见很多鱼在池塘里游来游去', 'fish', '群鱼游水主有财'),
+            ('梦见我家的房子正在翻修', 'house', '屋宅更新主大吉'),
+            ('梦见我的两个兄弟在打架', 'family', '兄弟相打大吉利'),
+            ('梦见我捡到一张钞票', 'money', '拾得钱物皆大吉'),
+        ]
+        for narrative, term_id, quote in cases:
+            with self.subTest(term_id=term_id):
+                result = retrieve(narrative)
+                self.assertEqual(len(result['matched_interpretations']), 1)
+                entry = result['matched_interpretations'][0]
+                self.assertEqual(entry['term_id'], 'dream.term.' + term_id)
+                self.assertEqual(entry['original_text_short_quote'], quote)
+                self.assertEqual(entry['evidence_level'], 'C')
+                self.assertFalse(entry['personal_prediction'])
+                self.assertEqual(entry['input_matches'][0]['method'],
+                                 'bounded_reviewed_scene_paraphrase')
+                for span in entry['input_matches'][0]['input_spans']:
+                    self.assertEqual(narrative[span['start']:span['end']], span['text'])
+                self.assertTrue(any(result['evidence'][eid]['original_text'] == quote
+                                    for eid in entry['evidence_ids']))
+
+    def test_bounded_paraphrases_abstain_on_other_subject_negation_or_wrong_scene(self):
+        for narrative in (
+            '梦见没有一条蛇咬我的腿',
+            '梦见蛇咬别人',
+            '梦见一条狗咬我的腿',
+            '梦见我掉进河里',
+            '梦见我在水中挣扎',
+            '梦见一个男人站在火里',
+            '梦见有条龙飞入河里',
+            '梦见一条鱼在池塘里游',
+            '梦见别人家的房子正在翻修',
+            '梦见我的姐姐与兄弟打架',
+            '梦见我丢了钱包',
+            '梦见我担心会捡到钱',
+        ):
+            with self.subTest(narrative=narrative):
+                result = retrieve(narrative)
+                self.assertEqual(result['matched_interpretations'], [])
+                self.assertEqual(result['evidence'], {})
+                self.assertFalse(result['ai_enabled'])
+
     def test_adjacent_snake_chase_then_bite_keeps_entities_actions_and_matches_separate(self):
         text='梦见一条蛇在水里追我，后来咬了我。'
         out=retrieve(text)

@@ -16,6 +16,22 @@ _OTHER_ANIMAL = re.compile(r'狗|犬|猫|虎|狼|龙|鱼|鸟|熊|狮|狐狸|兔|
 _CHASE = re.compile(r'蛇[^，,。.!！？?；;\n]{0,12}(?:追我|追着我)')
 _LATER_BITE = re.compile(r'(?:后来|然后|接着)(?:它)?咬了我(?:的(?:手|脚))?(?:了)?$')
 
+# Conservative first-person phrasing for the ten already-reviewed scenes.
+_SCENE_PARAPHRASES = {
+ 'dream.term.snake': (r'(?:一条|那条)?蛇(?:突然)?咬(?:了)?(?:我|我的(?:手|脚|腿|胳膊))',),
+ 'dream.term.water': (r'(?:我|自己)(?:在|身处)水(?:里|中)(?:感到)?(?:很)?自在',),
+ 'dream.term.fire': (r'(?:我|自己)(?:站在|坐在|身处|待在)火(?:里|中)',),
+ 'dream.term.flying': (r'(?:我|自己)飞(?:到|上)(?:了)?天(?:上)?',),
+ 'dream.term.falling': (r'(?:我|自己)(?:掉|跌|坠)(?:进|入|到)(?:了)?井(?:里|中)?',),
+ 'dream.term.dragon': (r'(?:我|自己)(?:骑|乘)(?:着|上)?(?:一条)?龙(?:潜入|进入|钻进|飞入)(?:了)?(?:水里|水中|河里|湖里)',),
+ 'dream.term.fish': (r'(?:一群|很多|许多|成群的)鱼(?:在|于)(?:水里|水中|池塘里|河里|湖里)(?:游来游去|游动|游)',),
+ 'dream.term.house': (r'(?:我的|我家的)(?:房子|房屋|住宅)(?:正在|在)?(?:翻新|翻修|重新装修)',),
+ 'dream.term.family': (r'(?:我的兄弟|我兄弟|我的两个兄弟)(?:在)?(?:互相)?(?:打架|打斗)',),
+ 'dream.term.money': (r'(?:我|自己)(?:捡到|拾到|捡起)(?:了)?(?:一张|一叠|一些)?(?:纸币|钞票|钱|硬币)',),
+}
+_SCENE_PARAPHRASES = {key: tuple(re.compile(p) for p in patterns)
+                      for key, patterns in _SCENE_PARAPHRASES.items()}
+
 
 def _narrative_clauses(text):
     clauses = []
@@ -64,6 +80,13 @@ def _scene_matches(term_id, attrs, clauses):
                         continue
                 matches.append({'method':'literal_reviewed_scene_alias', 'alias':alias,
                                 'input_spans':[_span(clause,alias)]})
+        if not any(alias in clause['text'] for alias in attrs['scene_aliases']):
+            for pattern in _SCENE_PARAPHRASES.get(term_id, ()):
+                match = pattern.search(clause['text'])
+                if match:
+                    matches.append({'method':'bounded_reviewed_scene_paraphrase',
+                                    'alias':None, 'input_spans':[_span(clause,match.group())]})
+                    break
         # Only this reviewed snake-bite scene has a bounded two-clause pattern.
         # It never supplies a separate meaning for water or being chased.
         if (term_id == 'dream.term.snake' and index > 0
@@ -153,5 +176,5 @@ def retrieve(dream_text, *, variant=VARIANT, root=ROOT):
             'chart_generated': False, 'public_enabled': False, 'ai_enabled': False,
             'limitations': [f"仅审核 {len(policy['reviewed_term_ids'])} 个具体传统梦场景；有限句式识别不是完整自然语言理解。",
                             '否定、假设、间接叙述或语义不清时保守不采纳；同一实体不等于同一梦义。',
-                            '仅支持明确单蛇追我与紧邻后来咬了我的跨句式；不作一般指代推理或组合释义。',
+                            '仅支持固定审核场景的第一人称有限同义句及单蛇追我后紧邻咬我；不作一般指代推理或组合释义。',
                             '被追只是输入动作观察，不生成文化解释；未命中不调用 LLM。']}
