@@ -1,5 +1,7 @@
 """Real deterministic public projection checks."""
 import unittest
+import os
+from unittest.mock import patch
 from fastapi.testclient import TestClient
 from tianji_kb.api import create_app
 
@@ -36,3 +38,17 @@ class ProjectionSmoke(unittest.TestCase):
             self.assertEqual(set(row),{'classic_title','original_text','evidence_level'})
         self.assertEqual(self.client.post('/api/v1/scenarios/public',
             json={'scenario_id':'dream','input':{}}).status_code,422)
+
+    def test_sealed_detailed_execution_needs_internal_configuration(self):
+        body={'domain':'bazi','input':{'value':'2000-01-07T12:00:00+08:00'}}
+        with patch.dict(os.environ,{'TIANJI_RUNTIME_MODE':'sealed'},clear=True):
+            client=TestClient(create_app())
+            self.assertEqual(client.post('/api/v1/execute',json=body).status_code,503)
+            self.assertEqual(client.post('/api/v1/scenarios/execute',
+                json={'scenario_id':'yearly','input':{}}).status_code,503)
+        with patch.dict(os.environ,{'TIANJI_RUNTIME_MODE':'sealed',
+                                      'TIANJI_INTERNAL_EXECUTE_TOKEN':'restricted'},clear=True):
+            client=TestClient(create_app())
+            self.assertEqual(client.post('/api/v1/execute',json=body).status_code,401)
+            self.assertEqual(client.post('/api/v1/scenarios/execute',
+                json={'scenario_id':'yearly','input':{}}).status_code,401)
