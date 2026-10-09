@@ -81,7 +81,7 @@ export function RomanceStructurePage() {
   const targets = xianchi.targets || {};
   const natalMatches = Array.isArray(xianchi.natal_matches) ? xianchi.natal_matches : [];
   const activation = payload.target_year_activation || {};
-  const targetYear = payload.target_year || {};
+  const flowYear = payload.target_year || {};
   const evidence = result
     ? Object.entries(result.evidence).map(([id, value]) => displayEvidence(id, value))
     : [];
@@ -183,7 +183,7 @@ export function RomanceStructurePage() {
                 日支目标 {targets.day_branch || "—"}
               </h2>
               <p>
-                {targetYear} {targetYear.ganzhi || "—"} · 流年地支 {targetYear.branch || "—"}。
+                {targetYear} {flowYear.ganzhi || "—"} · 流年地支 {flowYear.branch || "—"}。
                 两个基准分别展示，不互相覆盖。
               </p>
             </div>
