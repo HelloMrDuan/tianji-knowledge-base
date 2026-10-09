@@ -7,6 +7,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from scripts.public_knowledge_boundary import refuse_public_knowledge_write
+refuse_public_knowledge_write()
 sys.path.insert(0, str(ROOT / "src"))
 
 from tianji_kb.github import GitHubClient, GitHubError
