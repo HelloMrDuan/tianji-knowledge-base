@@ -15,6 +15,19 @@ from .runtime_catalog import load_catalog
 
 ARTIFACTS = ('production_runtime.json', 'production_rag.jsonl')
 
+RUNTIME_TABLES = (
+    'data/canonical/seed.json',
+    'data/canonical/bazi/foundations_v1.json',
+    'data/canonical/bazi/shensha_v1.json',
+    'data/canonical/liuyao/najia_v1.json',
+    'data/canonical/qimen/qfdk_maoshan_v1.json',
+    'data/canonical/ziwei/iztro_rules_v1.json',
+    'data/canonical/liuren/rules_v1.json',
+    'data/canonical/fengshui/twenty_four_mountains_v1.json',
+    'data/canonical/foundations/hetu_luoshu_v1.json',
+)
+
+
 
 def export_sealed_bundle(source_root: Path, destination: Path) -> dict[str, str]:
     source_root = Path(source_root).resolve()
@@ -52,5 +65,17 @@ def export_sealed_bundle(source_root: Path, destination: Path) -> dict[str, str]
         target.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
         with target.open('xb') as handle:
             handle.write(source.read_bytes())
+        target.chmod(0o600)
+    import json
+    artifact=json.loads(source_files[0].read_text(encoding='utf-8'))
+    for rel in RUNTIME_TABLES:
+        source=source_root / rel
+        expected=artifact['manifest'].get(rel)
+        if not expected or hashlib.sha256(source.read_bytes()).hexdigest()!=expected:
+            raise ValueError('Unverified engine lookup table: '+rel)
+        target=destination / rel
+        target.parent.mkdir(mode=0o700,parents=True,exist_ok=True)
+        with target.open('xb') as stream:
+            stream.write(source.read_bytes())
         target.chmod(0o600)
     return hashes
