@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
@@ -32,10 +32,13 @@ function chinaNow() {
   };
 }
 
-function castLine() {
+type CoinCast = { faces: [2 | 3, 2 | 3, 2 | 3]; value: number };
+
+function castThreeCoins(): CoinCast {
   const bytes = new Uint8Array(3);
   crypto.getRandomValues(bytes);
-  return Array.from(bytes).reduce((sum, value) => sum + (value % 2 ? 3 : 2), 0);
+  const faces = bytes.map((value) => (value & 1 ? 3 : 2)) as unknown as [2 | 3, 2 | 3, 2 | 3];
+  return { faces, value: faces[0] + faces[1] + faces[2] };
 }
 
 function displayEvidence(id: string, evidence: Record<string, any>) {
@@ -66,28 +69,82 @@ export function QuestionPage() {
   const [question, setQuestion] = useState("");
   const [date, setDate] = useState(initial.date);
   const [time, setTime] = useState(initial.time);
-  const [yaoValues, setYaoValues] = useState<number[]>([7, 7, 7, 7, 7, 7]);
+  const [yaoValues, setYaoValues] = useState<Array<number | null>>([null, null, null, null, null, null]);
+  const [coinHistory, setCoinHistory] = useState<Array<CoinCast | null>>([null, null, null, null, null, null]);
   const [result, setResult] = useState<ExecuteResponse | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const requestVersion = useRef(0);
+  const completed = yaoValues.filter((value) => value !== null).length;
+  const nextLine = yaoValues.findIndex((value) => value === null);
 
-  const randomCast = () => {
-    setYaoValues(Array.from({ length: 6 }, () => castLine()));
+  useEffect(() => () => { requestVersion.current += 1; }, []);
+
+  function invalidateResult() {
+    requestVersion.current += 1;
     setResult(null);
-  };
+    setError("");
+    setLoading(false);
+  }
+
+  function castNext() {
+    if (nextLine === -1) return;
+    const cast = castThreeCoins();
+    const values = [...yaoValues];
+    const history = [...coinHistory];
+    values[nextLine] = cast.value;
+    history[nextLine] = cast;
+    setYaoValues(values);
+    setCoinHistory(history);
+    invalidateResult();
+  }
+
+  function randomCast() {
+    const casts = Array.from({ length: 6 }, castThreeCoins);
+    setYaoValues(casts.map((cast) => cast.value));
+    setCoinHistory(casts);
+    invalidateResult();
+  }
+
+  function resetCasting() {
+    setYaoValues([null, null, null, null, null, null]);
+    setCoinHistory([null, null, null, null, null, null]);
+    invalidateResult();
+  }
+
+  function selectYao(index: number, raw: string) {
+    const next = [...yaoValues];
+    const history = [...coinHistory];
+    next[index] = raw === "" ? null : Number(raw);
+    history[index] = null;
+    setYaoValues(next);
+    setCoinHistory(history);
+    invalidateResult();
+  }
 
   async function submit(event: FormEvent) {
     event.preventDefault();
+    if (question.trim().length < 2) {
+      setError("请先写清楚想问的事情（至少两个字）。");
+      return;
+    }
+    if (yaoValues.length !== 6 || yaoValues.some((value) => value === null || ![6, 7, 8, 9].includes(value))) {
+      setError("请先完成六次起卦，或逐爻录入六个有效结果。");
+      return;
+    }
+    const version = ++requestVersion.current;
     setError("");
     setLoading(true);
     setResult(null);
     try {
       const value = `${date}T${time}:00+08:00`;
-      setResult(await executeLiuyao({ value, yao_values: yaoValues }));
+      const response = await executeLiuyao({ value, yao_values: yaoValues as number[] });
+      if (version === requestVersion.current) setResult(response);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "排盘请求失败，请检查后端服务。");
+      if (version === requestVersion.current)
+        setError(err instanceof Error ? err.message : "排盘请求失败，请检查后端服务。");
     } finally {
-      setLoading(false);
+      if (version === requestVersion.current) setLoading(false);
     }
   }
 
@@ -109,7 +166,7 @@ export function QuestionPage() {
         <div>
           <span className="eyebrow">一事占问 · 六爻先行版</span>
           <h1>心里有一件事，就从这一件事问起。</h1>
-          <p>把问题写清楚，录入六爻。排盘、规则和依据全部来自现有确定性后端，AI 暂不参与计算。</p>
+          <p>先写下这一件事，再从初爻到上爻掷六次铜钱。系统只把六次实际起卦结果交给已审核的六爻引擎，生成本卦、变卦和经典依据；不预设答案。</p>
         </div>
         <div className="question-boundary">
           <strong>当前边界</strong>
@@ -129,20 +186,22 @@ export function QuestionPage() {
             <span>你现在最想问什么？</span>
             <textarea
               value={question}
-              onChange={(e) => setQuestion(e.target.value)}
+              onChange={(e) => { invalidateResult(); setQuestion(e.target.value); }}
               placeholder="例如：现在这个工作机会，我是否适合继续推进？"
               maxLength={180}
+              minLength={2}
+              required
             />
             <small>问题用于当前页面阅读，不发送给排盘引擎；排盘只使用起卦时间与六爻值。</small>
           </label>
           <div className="question-time-grid">
             <label className="question-field">
               <span>起卦日期</span>
-              <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+              <input type="date" value={date} onChange={(e) => { invalidateResult(); setDate(e.target.value); }} required />
             </label>
             <label className="question-field">
               <span>起卦时间</span>
-              <input type="time" value={time} onChange={(e) => setTime(e.target.value)} required />
+              <input type="time" value={time} onChange={(e) => { invalidateResult(); setTime(e.target.value); }} required />
             </label>
           </div>
           <p className="question-zone">固定口径：北京时间（UTC+8）</p>
@@ -151,38 +210,54 @@ export function QuestionPage() {
         <section className="question-form-card">
           <div className="question-card-title">
             <div className="result-section-heading">
-              <div><span>二</span><h2>录入六爻</h2></div>
+              <div><span>二</span><h2>亲手完成六次起卦</h2></div>
             </div>
-            <button className="button outlined compact-button" type="button" onClick={randomCast}>
-              模拟投六次铜钱
-            </button>
           </div>
-          <p className="question-help">自下而上：第一次是初爻，第六次是上爻。已有实际起卦结果时，请直接手动选择。</p>
+          <p className="question-help">三枚铜钱法：每枚随机取 2 或 3，三枚相加得到 6、7、8 或 9。六次从下向上，先初爻后上爻。也可直接录入真实投币结果。</p>
+          <div className="coin-casting" aria-label="六次铜钱起卦">
+            <div className="coin-casting-progress">
+              <strong>已完成 {completed} / 6 爻</strong>
+              <div role="progressbar" aria-label="起卦进度" aria-valuemin={0} aria-valuemax={6} aria-valuenow={completed}>
+                <span style={{ width: `${completed / 6 * 100}%` }} />
+              </div>
+              <small>{nextLine === -1 ? "六爻已齐，可以查看真实排盘。" : `下一次：${labels[nextLine]}`}</small>
+            </div>
+            <div className="coin-casting-actions">
+              <button className="button primary" type="button" onClick={castNext} disabled={nextLine === -1}>
+                {nextLine === -1 ? "六次起卦已完成" : `掷第 ${nextLine + 1} 次铜钱 · ${labels[nextLine]}`}
+              </button>
+              <button className="button outlined compact-button" type="button" onClick={randomCast}>一次投完六次</button>
+              <button className="button outlined compact-button" type="button" onClick={resetCasting} disabled={completed === 0}>重新起卦</button>
+            </div>
+          </div>
           <div className="yao-input-list">
             {yaoValues.map((value, index) => (
               <label key={index} className={value === 6 || value === 9 ? "is-moving" : ""}>
                 <span className="yao-order">{labels[index]}</span>
-                <span className={"mini-yao " + (value === 7 || value === 9 ? "yang" : "yin")}>
+                <span className={"mini-yao " + (value === 7 || value === 9 ? "yang" : value === null ? "unset" : "yin")}>
                   <i /><i />
                 </span>
-                <select
-                  value={value}
-                  onChange={(e) => {
-                    const next = [...yaoValues];
-                    next[index] = Number(e.target.value);
-                    setYaoValues(next);
-                    setResult(null);
-                  }}
-                >
-                  {[6, 7, 8, 9].map((item) => <option key={item} value={item}>{item} · {yaoText[item]}</option>)}
-                </select>
+                <div className="yao-cast-value">
+                  <select
+                    aria-label={`${labels[index]}结果`}
+                    value={value ?? ""}
+                    onChange={(e) => selectYao(index, e.target.value)}
+                  >
+                    <option value="">未起卦</option>
+                    {[6, 7, 8, 9].map((item) => <option key={item} value={item}>{item} · {yaoText[item]}</option>)}
+                  </select>
+                  {coinHistory[index] && (
+                    <small>铜钱：{coinHistory[index]!.faces.join(" + ")} = {coinHistory[index]!.value}</small>
+                  )}
+                </div>
               </label>
             ))}
           </div>
-          <button className="button primary question-submit" disabled={loading} type="submit">
+          <button className="button primary question-submit" disabled={loading || completed !== 6 || question.trim().length < 2} type="submit">
             {loading ? "正在排盘…" : "开始推演"}
             {!loading && <Icon name="arrow" size={18} />}
           </button>
+          {completed !== 6 && <p className="question-help">六爻未完成：还差 {6 - completed} 爻，完成后才能进行排盘。</p>}
           {error && <div className="question-error" role="alert">{error}</div>}
         </section>
       </form>
@@ -191,7 +266,7 @@ export function QuestionPage() {
         <section className="question-empty">
           <span>问</span>
           <div>
-            <h2>先完成一次真实排盘</h2>
+            <h2>先写问题，再亲手起六爻</h2>
             <p>结果不会使用静态示例替代。后端不可用时会明确报错，不生成假的盘面。</p>
           </div>
         </section>
