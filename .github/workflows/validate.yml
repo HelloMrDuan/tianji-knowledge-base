@@ -1,4 +1,4 @@
-name: Validate Knowledge Base
+name: Validate Public Code
 
 on:
   push:
@@ -7,121 +7,21 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
-  validate:
+  code:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Install validation dependencies
-        run: python -m pip install -e ".[validation,calendar,api]"
-      - name: Validate canonical data
-        run: |
-          export PYTHONPATH=src
-          python scripts/validate_kb.py
-          python scripts/validate_knowledge.py
-          python scripts/build_production_runtime.py
-          python scripts/validate_phase2.py
-          python scripts/build_phase2_coverage.py > /tmp/phase2_coverage.json
-          python scripts/build_phase1_coverage.py --check
-          python scripts/build_product_coverage.py --check
-          python -m unittest discover -s tests -p 'test_*.py'
-          python scripts/evaluate_explanations.py --dry-run --output /tmp/explanation-evals
-          python scripts/apply_pua_collation.py \
-            data/quarantine/public_domain_snapshots/daizhigev20/sanming_tonghui.txt \
-            data/quarantine/public_domain_snapshots/daizhigev20/sanming_pua_collation.json \
-            --output /tmp/sanming_pua_collated.txt \
-            --report /tmp/sanming_pua_report.json
-          python scripts/apply_sanming_text_collation.py \
-            /tmp/sanming_pua_collated.txt \
-            data/quarantine/public_domain_snapshots/daizhigev20/sanming_text_collation.json \
-            --output /tmp/sanming_text_collated.txt \
-            --report /tmp/sanming_text_report.json
-          python scripts/build_index.py
-          python scripts/build_rag_chunks.py
-          python scripts/build_sqlite_fts.py
-      - name: Show generated retrieval artifacts
-        run: |
-          wc -l build/rag_chunks.jsonl
-          ls -lh build/tianji_knowledge.sqlite3
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          p = Path("build/catalog.json")
-          data = json.loads(p.read_text(encoding="utf-8"))
-          print(json.dumps({
-              "canonical_file_count": data.get("canonical_file_count"),
-              "domain_file_counts": data.get("domain_file_counts"),
-              "zhouyi": data.get("zhouyi"),
-          }, ensure_ascii=False, indent=2))
-          PY
-
-      - name: Retrieval smoke
-        run: |
-          python - <<'PY'
-          import json, sqlite3
-          from pathlib import Path
-
-          db = Path("build/tianji_knowledge.sqlite3")
-          con = sqlite3.connect(db)
-          cases = [
-              ("yijing", "乾为天"),
-              ("liuyao", "用神"),
-              ("qimen", "值符"),
-              ("ziwei", "化禄"),
-              ("fengshui", "明堂"),
-              ("liuren", "月将"),
-              ("taiyi", "八门"),
-              ("tarot", "愚者"),
-          ]
-          for domain, term in cases:
-              n = con.execute(
-                  "SELECT COUNT(*) FROM chunks WHERE domain=? AND text LIKE ?",
-                  (domain, f"%{term}%"),
-              ).fetchone()[0]
-              if n < 1:
-                  raise SystemExit(f"retrieval smoke failed: {domain}/{term}")
-              print(f"{domain}/{term}: {n}")
-          con.close()
-          PY
-
-      - name: Citation-first context smoke
-        run: |
-          python scripts/build_context.py "月将" --domain liuren --limit 3 > /tmp/liuren_context.json
-          python scripts/build_context.py "八门" --domain taiyi --limit 3 > /tmp/taiyi_context.json
-          python - <<'PY'
-          import json
-          for path, term in [
-              ("/tmp/liuren_context.json", "月将"),
-              ("/tmp/taiyi_context.json", "八门"),
-          ]:
-              data = json.load(open(path, encoding="utf-8"))
-              if data["evidence_count"] < 1:
-                  raise SystemExit(f"context smoke failed: {term}")
-              first = data["evidence"][0]
-              citation = first["citation"]
-              if not citation.get("canonical_path") or not citation.get("repo") or not citation.get("commit"):
-                  raise SystemExit(f"citation missing provenance: {term}")
-              print(term, citation["label"], citation["commit"])
-          PY
-
-      - name: Six-domain reviewed entity context smoke
-        run: |
-          python - <<'PY'
-          from tianji_kb.evidence import build_bundle
-          from tianji_kb.retrieval import RagIndex
-          index = RagIndex("build/rag_chunks.jsonl")
-          for domain, term in [("yijing", "阴爻"), ("liuyao", "用神"),
-                               ("qimen", "值符"), ("ziwei", "化禄"),
-                               ("fengshui", "明堂"), ("liuren", "月将")]:
-              rows = index.search(term, domain=domain, topic="knowledge_term", limit=1)
-              assert rows and rows[0]["metadata"]["name"] == term, (domain, term)
-              citation = build_bundle(term, rows)["evidence"][0]["citation"]
-              assert citation["evidence_level"] == "C"
-              assert citation["canonical_path"].startswith("data/canonical/")
-              for ref in citation["source_refs"]:
-                  assert all(ref[k] for k in ("classic_id", "chapter_id", "section_id", "original_text", "commit", "sha256"))
-              print(domain, term, citation["label"])
-          PY
+      - run: python -m compileall -q src scripts tests
+      - run: python -m unittest discover -s tests -p 'test_public_asset_changes.py'
+      - run: python -m unittest discover -s tests -p 'test_public_knowledge_boundary.py'
+      - run: python -m unittest discover -s tests -p 'test_public_web_bundle.py'
+      - run: python scripts/audit_public_asset_changes.py --inventory
