@@ -12,10 +12,12 @@ _PRIVATE_KEYS = frozenset({
     'canonical_path', 'canonical_paths', 'source_path', 'source_paths',
     'content_path', 'file_path', 'repository', 'repository_url', 'repo_url',
     'commit', 'commit_sha', 'sha256', 'manifest', 'source_refs', 'source_ref',
-    'source_url', 'retrieval', 'retrieved_chunks', 'raw_evidence',
+    'source_url', 'source_id', 'source_ids', 'source_file', 'source_record_id',
+    'locator', 'provenance', 'archive_path', 'path', 'retrieval',
+    'retrieved_chunks', 'raw_evidence', 'evidence', 'trace', 'rule_matches',
 })
-_RULE_KEYS = frozenset({'rule_id', 'derived_from_rule_id', 'gate_rule_id'})
-_RULE_LIST_KEYS = frozenset({'rule_ids', 'derived_from_rule_ids', 'execution_rule_ids'})
+_RULE_KEYS = frozenset({'rule_id', 'derived_from_rule_id', 'source_rule_id', 'gate_rule_id'})
+_RULE_LIST_KEYS = frozenset({'rule_ids', 'derived_from_rule_ids', 'execution_rule_ids', 'source_rule_ids'})
 _EVIDENCE_LIST_KEYS = frozenset({'evidence_ids'})
 
 
