@@ -34,7 +34,7 @@ def export_private_knowledge(source_root: Path, destination: Path) -> dict:
     # are intentionally create-only and refuse symlinks, links and collisions.
     if destination.exists() or destination.is_symlink():
         raise ValueError("Destination must not already exist")
-    parent = destination.parent.resolve(strict=True)
+    parent = destination.parent.resolve()
     destination = parent / destination.name
     if destination == source_root or destination.is_relative_to(source_root):
         raise ValueError("Private assets cannot be exported into a public checkout")
