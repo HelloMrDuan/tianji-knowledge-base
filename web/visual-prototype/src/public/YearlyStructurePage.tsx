@@ -20,23 +20,18 @@ const pillarNames: Record<string, string> = {
   hour: "时柱",
 };
 
-function displayEvidence(id: string, evidence: Record<string, any>) {
+function displayEvidence(id: string, source: Record<string, any>) {
+  const title = source.classic_title || source.title || source.source_title;
+  const quote = source.original_text;
+  if (typeof title !== "string" || !title.trim() ||
+      typeof quote !== "string" || !quote.trim()) {
+    return null;
+  }
   return {
     id,
-    title: String(
-      evidence.classic_title ||
-      evidence.title ||
-      evidence.classic ||
-      evidence.source_title ||
-      "《渊海子平》",
-    ),
-    quote: String(
-      evidence.original_text ||
-      evidence.quote ||
-      evidence.text ||
-      "该证据已由服务端绑定。",
-    ),
-    grade: String(evidence.evidence_level || evidence.grade || "—"),
+    title,
+    quote,
+    grade: typeof source.evidence_level === "string" ? source.evidence_level : "未标注",
   };
 }
 
@@ -95,7 +90,9 @@ export function YearlyStructurePage() {
   const pillars = Array.isArray(natal.pillars) ? natal.pillars : [];
   const evidence = result
     ? Object.entries(result.evidence).map(([id, value]) => displayEvidence(id, value))
+        .filter((item): item is NonNullable<typeof item> => item !== null)
     : [];
+  const evidenceById = new Map(evidence.map((item) => [item.id, item]));
 
   return (
     <div className="yearly-page">
@@ -227,11 +224,15 @@ export function YearlyStructurePage() {
             {result.rule_matches.map((rule, index) => (
               <article key={rule.rule_id || index}>
                 <strong>{rule.rule_id}</strong>
-                <p>
-                  日主：{natal.day_master?.stem || "—"} ·
-                  流年天干：{annual.stem || "—"} ·
-                  十神：{annual.stem_ten_god || "—"}
-                </p>
+                {rule.rule_id === "bazi.scenario.annual_branch_relations" ? (
+                  <p>流年地支：{annual.branch || "—"} · 已核原局四柱地支 · 命中 {branchHits.length} 条六合、六害或六冲</p>
+                ) : (
+                  <p>
+                    日主：{natal.day_master?.stem || "—"} ·
+                    流年天干：{annual.stem || "—"} ·
+                    十神：{annual.stem_ten_god || "—"}
+                  </p>
+                )}
                 <small>依据：已审结构规则 · 计算过程由服务端校验</small>
               </article>
             ))}
@@ -253,7 +254,26 @@ export function YearlyStructurePage() {
                     <span>{relationNames[item.relation_type] || item.relation_type}</span>
                     <strong>{item.flow_branch} ↔ {item.natal_branch}</strong>
                     <p>{pillarNames[item.natal_pillar] || item.natal_pillar}地支 · {item.rule_id}</p>
-                    <small>有来源绑定的传统结构关系；不代表吉凶或事件必然发生。</small>
+                    <small>仅为已审核的结构关系；不代表吉凶或事件必然发生。</small>
+                    {(() => {
+                      const linked = Array.isArray(item.evidence_ids)
+                        ? item.evidence_ids.map((id: string) => evidenceById.get(id))
+                            .filter((source: any) => source !== undefined)
+                        : [];
+                      return linked.length > 0 ? (
+                        <details className="yearly-branch-sources">
+                          <summary>查看本条依据（{linked.length}）</summary>
+                          {linked.map((source: any) => (
+                            <div key={source.id} className="yearly-branch-source">
+                              <p>{source.title} · 证据等级 {source.grade}</p>
+                              <blockquote>{source.quote}</blockquote>
+                            </div>
+                          ))}
+                        </details>
+                      ) : (
+                        <p className="yearly-branch-evidence-missing">本条未返回可核验的原典短引，不能据此追加解释。</p>
+                      );
+                    })()}
                   </article>
                 ))}
               </div>
