@@ -259,7 +259,7 @@ export function QuestionPage() {
           {result.limitations.length > 0 && <div className="live-limit"><strong>当前边界：</strong>{result.limitations.join("；")}</div>}
 
           <details className="trace-section">
-            <summary><span className="trace-icon"><Icon name="layers" size={19} /></span><div><strong>查看推演过程</strong><small>后端真实 trace，默认折叠</small></div><Icon name="chevron" size={18} /></summary>
+            <summary><span className="trace-icon"><Icon name="layers" size={19} /></span><div><strong>查看推演过程</strong><small>公开计算步骤摘要，默认折叠</small></div><Icon name="chevron" size={18} /></summary>
             <ol>
               {result.trace.map((step, index) => (
                 <li key={index}><span>{String(index + 1).padStart(2, "0")}</span>{step.rule_id || step.step || step.operation || JSON.stringify(step)}</li>

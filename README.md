@@ -103,3 +103,9 @@ PYTHONPATH=/secure/tianji-runtime-v1/src python -m uvicorn tianji_kb.api:app --h
 原始 `/api/v1/execute` 和 `/api/v1/scenarios/execute` 仍为**详细诊断接口**。在 `TIANJI_RUNTIME_MODE=sealed` 模式下，它们默认不可用；确需内部分析时，在服务端配置独立的 `TIANJI_INTERNAL_EXECUTE_TOKEN`，并由可信后端在 Authorization Bearer 中调用。**不得将此令牌放入网页、VITE_* 配置、浏览器代码或公开前端**。非 sealed 模式保留历史 API 兼容性，生产部署必须选用 sealed 模式才能启用这项详细接口门禁。
 
 这是 HTTP 响应最小化控制，不会让已经公开发布的 GitHub 历史资料变私有，也不能替代 API 网关、权限审计与知识资产私有迁移。
+
+### 公开证据编号（仅用于当前结果）
+
+公开响应会将内部规则、证据标识替换为本次请求内的 `R01`、`E01` 等序号，并同步替换合盘关系矩阵中的关联 ID。Trace 只公开步骤序号，不公开内部参数或规则键；私人来源文件路径、仓库提交、哈希和来源指针不随结果返回。公开页面仍展示确定性四柱、干支与经审核的短篇古籍引文。这些序号不是永久引用，不能用于后台取回资料；内部完整执行与审计仍在受保护后端完成。
+
+**重要边界：**此措施只降低 HTTP 暴露，不会撤回当前公开 GitHub 仓库及历史中已经发布过的数据。完整私有化需独立迁移知识源仓库与访问权限，不能只依赖响应投影。
