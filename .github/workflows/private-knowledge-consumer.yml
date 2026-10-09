@@ -6,16 +6,20 @@ on:
     paths:
       - "scripts/export_private_knowledge.py"
       - "scripts/restore_private_knowledge.py"
+      - "scripts/private_data_snapshot.py"
       - "tests/test_private_knowledge_export.py"
       - "tests/test_private_knowledge_restore.py"
+      - "tests/test_private_data_snapshot.py"
       - ".github/workflows/private-knowledge-consumer.yml"
   push:
     branches: [main]
     paths:
       - "scripts/export_private_knowledge.py"
       - "scripts/restore_private_knowledge.py"
+      - "scripts/private_data_snapshot.py"
       - "tests/test_private_knowledge_export.py"
       - "tests/test_private_knowledge_restore.py"
+      - "tests/test_private_data_snapshot.py"
       - ".github/workflows/private-knowledge-consumer.yml"
   workflow_dispatch:
 
@@ -34,6 +38,7 @@ jobs:
         run: |
           python -m unittest discover -s tests -p 'test_private_knowledge_export.py' -v
           python -m unittest discover -s tests -p 'test_private_knowledge_restore.py' -v
+          python -m unittest discover -s tests -p 'test_private_data_snapshot.py' -v
       - name: Roundtrip REAL tracked knowledge through restricted export
         run: |
           python - <<'PY'
@@ -53,4 +58,25 @@ jobs:
               assert restored["total_bytes"] == exported["total_bytes"]
               assert (workspace / "data/canonical/seed.json").is_file()
               print("Real knowledge export -> verified clean workspace: OK")
+          PY
+
+      - name: Roundtrip ALL real data areas to a clean isolated workspace
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from tempfile import TemporaryDirectory
+          from scripts.private_data_snapshot import AREAS, export_private_data, stage_private_data, verify_private_data
+          with TemporaryDirectory(prefix="tianji-entire-private-data-") as tmp:
+              source = Path(tmp) / "restricted-export"
+              workspace = Path(tmp) / "application"
+              workspace.mkdir()
+              exported = export_private_data(Path.cwd(), source)
+              verified = verify_private_data(source)
+              restored = stage_private_data(source, workspace)
+              assert exported == verified
+              assert restored["file_count"] == exported["file_count"]
+              assert restored["total_bytes"] == exported["total_bytes"]
+              assert {p.name for p in (workspace / "data").iterdir()} == set(AREAS)
+              assert all((workspace / "data" / area).is_dir() for area in AREAS)
+              print("Real 11-area private snapshot and isolated restore: OK")
           PY
