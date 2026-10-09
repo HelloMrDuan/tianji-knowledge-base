@@ -107,7 +107,7 @@ class RomanceYearSpousePalaceTests(unittest.TestCase):
             return result
 
         with patch.object(scenario_engine, "execute", side_effect=remove_source):
-            with self.assertRaisesRegex(ValueError, "Spouse palace source evidence is missing"):
+            with self.assertRaisesRegex(ValueError, "Reviewed spouse palace source evidence is missing"):
                 scenario_engine.execute_scenario("romance", {
                     "birth_value": BIRTH, "target_year": 2026,
                 })
