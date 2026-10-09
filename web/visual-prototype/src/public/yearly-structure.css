@@ -11,3 +11,11 @@
 .yearly-branch-hit small{font-size:11px;line-height:1.7;color:#858d7d}
 .yearly-branch-no-hit,.yearly-branch-boundary{font-size:12px;line-height:1.8;color:#748273}
 .yearly-branch-boundary{margin:13px 0 0}
+
+
+.yearly-branch-sources{margin-top:12px;border-top:1px solid #dedfd4;padding-top:10px}
+.yearly-branch-sources summary{cursor:pointer;color:#436a50;font-size:12px;font-weight:500;list-style:disclosure-closed}
+.yearly-branch-source{margin-top:10px;padding:10px;border-left:2px solid #9cab90;background:#fffdf7}
+.yearly-branch-source p{margin:0 0 5px!important;font-size:11px!important;color:#57705a}
+.yearly-branch-source blockquote{margin:0;font-size:12px;line-height:1.8;color:#405846;white-space:pre-wrap;overflow-wrap:anywhere}
+.yearly-branch-evidence-missing{margin-top:12px!important;font-size:11px!important;color:#8b623f!important}
