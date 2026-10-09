@@ -6856,6 +6856,10 @@
         "sha256": "780444b345e202ef44bf6e6b0442f9aea8d2148311b3e41d4743fc042c8ab5f9"
       },
       {
+        "path": "src/tianji_kb/explanation.py",
+        "sha256": "278d8f0b2d976beea249d815e50bc9f04760ee553492108083247d2864dfb133"
+      },
+      {
         "path": "src/tianji_kb/explanation_eval.py",
         "sha256": "65685d29b8536fe27b96673b9e8378e01289f96b9b686809f9bbf4cf11dd1600"
       },
@@ -6866,10 +6870,6 @@
       {
         "path": "src/tianji_kb/explanation_review.py",
         "sha256": "8aa150db3b6c801ab5f1824d7d18d24b5bcf52b2e38fc6d19424a017ac215a5b"
-      },
-      {
-        "path": "src/tianji_kb/explanation.py",
-        "sha256": "278d8f0b2d976beea249d815e50bc9f04760ee553492108083247d2864dfb133"
       },
       {
         "path": "src/tianji_kb/foundations.py",
@@ -6888,12 +6888,12 @@
         "sha256": "ad9ac3018b2c72685e3f6b3698dc22abe9ae23450ce5a65709acd8a4556d6e84"
       },
       {
-        "path": "src/tianji_kb/knowledge_index.py",
-        "sha256": "4c837d55ae805be8489ba4eecdf840e667955c236106110d6c736f2676f2e14a"
-      },
-      {
         "path": "src/tianji_kb/knowledge.py",
         "sha256": "8f7d9bd352f85743d467ad39defcaaa4f2a2d2b9bfb35e98dcea3320288c5673"
+      },
+      {
+        "path": "src/tianji_kb/knowledge_index.py",
+        "sha256": "4c837d55ae805be8489ba4eecdf840e667955c236106110d6c736f2676f2e14a"
       },
       {
         "path": "src/tianji_kb/model_discovery.py",
@@ -6916,52 +6916,52 @@
         "sha256": "cf332497f7a9f9757ac0588168032c5a29ddf0efacdd3d1e42d3109e80cc5b44"
       },
       {
-        "path": "src/tianji_kb/operations/fengshui_chart.py",
-        "sha256": "b0d5526ab6e4158c1c333e832f8902b676e6541b41b23e6b0200cad626bf219d"
-      },
-      {
         "path": "src/tianji_kb/operations/fengshui.py",
         "sha256": "6ad8512d9788e9ed2599f9dbb85b44dc21ee6a77090a990f0799dda095086a42"
       },
       {
-        "path": "src/tianji_kb/operations/liuren_chart.py",
-        "sha256": "4c380a3cd8f435632dc83165210d438e03b49bd98938f3c12f6012ac0a1c07a4"
+        "path": "src/tianji_kb/operations/fengshui_chart.py",
+        "sha256": "b0d5526ab6e4158c1c333e832f8902b676e6541b41b23e6b0200cad626bf219d"
       },
       {
         "path": "src/tianji_kb/operations/liuren.py",
         "sha256": "39bbcfa818a456598dd0cd370899f199e6dcb2e35f58bd808c5d3bbd3fd287ef"
       },
       {
-        "path": "src/tianji_kb/operations/liuyao_chart.py",
-        "sha256": "39f8bbea8e81b2d7eed3a18edf093231c5b0003974ce6a8e7b5ebf9452094171"
+        "path": "src/tianji_kb/operations/liuren_chart.py",
+        "sha256": "4c380a3cd8f435632dc83165210d438e03b49bd98938f3c12f6012ac0a1c07a4"
       },
       {
         "path": "src/tianji_kb/operations/liuyao.py",
         "sha256": "34230e18cde3e83f2e45b21b7bf4ca1ad6ef4ace2eb16aab6aa1ce4e82f02cb2"
       },
       {
-        "path": "src/tianji_kb/operations/qimen_chart.py",
-        "sha256": "8caa65201600fc7294393446666fa2ec24679e918731da211eee7db156d39d57"
+        "path": "src/tianji_kb/operations/liuyao_chart.py",
+        "sha256": "39f8bbea8e81b2d7eed3a18edf093231c5b0003974ce6a8e7b5ebf9452094171"
       },
       {
         "path": "src/tianji_kb/operations/qimen.py",
         "sha256": "97165238a0cc4de9af4b5a7fdf8b52f972668f98da0c7c4f059dfb0192fee400"
       },
       {
-        "path": "src/tianji_kb/operations/yijing_chart.py",
-        "sha256": "e66eafab85fc58793550a59a0f5c76b9bc397dc3ef6ddbc3db57cb51fed63adb"
+        "path": "src/tianji_kb/operations/qimen_chart.py",
+        "sha256": "8caa65201600fc7294393446666fa2ec24679e918731da211eee7db156d39d57"
       },
       {
         "path": "src/tianji_kb/operations/yijing.py",
         "sha256": "b84e61fab186398d684b61e1124bd4895df13cc3c4f1358e158cdabf9ff060d1"
       },
       {
-        "path": "src/tianji_kb/operations/ziwei_chart.py",
-        "sha256": "24b389403a05ed7db68d06aa734bf67a63d68912088016ab420ac8609a936828"
+        "path": "src/tianji_kb/operations/yijing_chart.py",
+        "sha256": "e66eafab85fc58793550a59a0f5c76b9bc397dc3ef6ddbc3db57cb51fed63adb"
       },
       {
         "path": "src/tianji_kb/operations/ziwei.py",
         "sha256": "7731286e53662f59942fd7a00c36a01db7a3da75e55ab9a67fc6ffee94dc058f"
+      },
+      {
+        "path": "src/tianji_kb/operations/ziwei_chart.py",
+        "sha256": "24b389403a05ed7db68d06aa734bf67a63d68912088016ab420ac8609a936828"
       },
       {
         "path": "src/tianji_kb/phase2_quality.py",
@@ -7108,6 +7108,10 @@
         "sha256": "16572069a7c827179f350a10d3ead393ff26adc6e7473314ad2fe040bd21ce60"
       },
       {
+        "path": "tests/test_phase2_bazipattern.py",
+        "sha256": "9af199b2a05449ef76f286816e1fabca52feee3a99130f88e0d660028d2610c9"
+      },
+      {
         "path": "tests/test_phase2_bazipattern_hour_killing.py",
         "sha256": "efaa697ee757db60b9bdbf7d0ee4685b053d750dfc794c6d335998ae1ae81b41"
       },
@@ -7130,10 +7134,6 @@
       {
         "path": "tests/test_phase2_bazipattern_yuanhai.py",
         "sha256": "49b89ee08e73f125b2813d8e6aa14e220e11bf0184dfe5f827aa4f29364202ba"
-      },
-      {
-        "path": "tests/test_phase2_bazipattern.py",
-        "sha256": "9af199b2a05449ef76f286816e1fabca52feee3a99130f88e0d660028d2610c9"
       },
       {
         "path": "tests/test_phase2_bazipositive.py",
