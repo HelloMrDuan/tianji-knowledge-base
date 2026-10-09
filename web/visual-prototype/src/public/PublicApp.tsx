@@ -59,7 +59,7 @@ export function PublicApp() {
           : path === "/bazi-profile"
             ? "八字基础档案"
             : path === "/yearly-structure"
-              ? "2026 流年结构"
+              ? "流年结构"
               : path === "/romance-structure"
                 ? "桃花姻缘 · 结构内测"
                 : path === "/career-wealth-structure"
