@@ -70,6 +70,10 @@ class DailyPeriodBranchRelationsTests(unittest.TestCase):
         self.assertEqual(out["result"]["week"]["end_date"], "2026-10-04")
         days = out["result"]["week"]["days"]
         self.assertEqual(len(days), 7)
+        self.assertEqual(len(out["trace"]), 14)
+        for step in out["trace"][7:]:
+            self.assertEqual(step["step"], "weekly_reviewed_target_branch_pairs")
+            self.assertTrue(set(step["evidence_ids"]) <= set(out["evidence"]))
         for day in days:
             current = daily(day["date"])
             self.assertEqual(day["branch_interactions"],
@@ -92,6 +96,10 @@ class DailyPeriodBranchRelationsTests(unittest.TestCase):
         self.assertEqual(out["result"]["month"]["day_count"], 31)
         days = out["result"]["month"]["days"]
         self.assertEqual(len(days), 31)
+        self.assertEqual(len(out["trace"]), 62)
+        for step in out["trace"][31:]:
+            self.assertEqual(step["step"], "monthly_reviewed_target_branch_pairs")
+            self.assertTrue(set(step["evidence_ids"]) <= set(out["evidence"]))
         self.assertEqual(days[0]["date"], "2026-10-01")
         self.assertEqual(days[-1]["date"], "2026-10-31")
         summary = out["result"]["summary"]
