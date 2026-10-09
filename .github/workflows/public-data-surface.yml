@@ -1,0 +1,35 @@
+name: Public Data Surface Gate
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gate-public-data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Git-backed gate regression tests
+        run: python -m unittest discover -s tests -p 'test_public_asset_changes.py' -v
+      - name: List public data exposure by category (paths and sizes only)
+        run: python scripts/audit_public_asset_changes.py --inventory
+      - name: Block public knowledge additions and modifications in this diff
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          if [ -n "$BASE_SHA" ] && ! [[ "$BASE_SHA" =~ ^0+$ ]]; then
+            python scripts/audit_public_asset_changes.py --base "$BASE_SHA"
+          else
+            echo "No base commit in manual run; inventory-only. PR/push gates require a base."
+          fi
