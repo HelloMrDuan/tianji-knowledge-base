@@ -1,4 +1,4 @@
-name: KB Source Sync
+name: KB Source Metadata Sync
 
 on:
   schedule:
@@ -7,10 +7,13 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
+
+concurrency:
+  group: tianji-public-source-metadata
+  cancel-in-progress: false
 
 jobs:
-  sync:
+  sync-metadata:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,55 +23,20 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install validation dependencies
-        run: python -m pip install -e ".[validation,calendar,api]"
-      - name: Validate canonical knowledge
-        run: |
-          export PYTHONPATH=src
-          python scripts/validate_kb.py
-          python scripts/validate_knowledge.py
-          python scripts/build_production_runtime.py
-          python -m unittest discover -s tests -p 'test_*.py'
-
-      - name: Sync upstream metadata
+      # Public Actions must never ingest or commit canonical/quarantine bytes.
+      - name: Refresh upstream commit and license metadata only
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          export PYTHONPATH=src
-          python scripts/sync_sources.py
+        run: PYTHONPATH=src python scripts/sync_sources.py
 
-      - name: Snapshot allowlisted upstream knowledge
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          export PYTHONPATH=src
-          python scripts/sync_content.py
-
-      - name: Snapshot curated public-domain classics
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          export PYTHONPATH=src
-          python scripts/sync_public_domain.py
-
-      - name: Validate after quarantine sync
-        run: |
-          export PYTHONPATH=src
-          python scripts/validate_kb.py
-          python scripts/validate_knowledge.py
-          python scripts/build_production_runtime.py
-          python -m unittest discover -s tests -p 'test_*.py'
-          python scripts/build_rag_chunks.py
-          python scripts/build_sqlite_fts.py
-
-      - name: Commit sync results
+      - name: Stage and audit metadata-only update
         shell: bash
         run: |
-          if git diff --quiet -- data/state data/quarantine/source_snapshots data/quarantine/public_domain_snapshots data/canonical; then
-            exit 0
-          fi
+          git add -- data/state/source_state.json
+          python scripts/public_knowledge_boundary.py
+          if git diff --cached --quiet; then exit 0; fi
           git config user.name "tianji-kb-bot"
           git config user.email "tianji-kb-bot@users.noreply.github.com"
-          git add data/state data/quarantine/source_snapshots data/quarantine/public_domain_snapshots data/canonical
-          git commit -m "chore: sync upstream knowledge snapshots"
-          git push
+          git commit -m "chore: refresh upstream source metadata only"
+          git pull --rebase origin main
+          git push origin main
