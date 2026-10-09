@@ -24,6 +24,7 @@ export const adminGroups = [
     items: [
       { label: "仪表盘", icon: "grid", path: "/admin" },
       { label: "Scenario 管理", icon: "layers", path: "/admin/scenarios" },
+      { label: "解梦知识研究", icon: "book", path: "/admin/dream-research" },
     ],
   },
   {

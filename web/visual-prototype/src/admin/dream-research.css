@@ -1,0 +1,27 @@
+.admin-dream-workspace{max-width:960px;margin:0 auto;padding-bottom:44px}
+.admin-dream-hero{padding:27px 30px;border:1px solid #d8ddcf;background:linear-gradient(120deg,#fcfbf3,#e7ece1);border-radius:10px}
+.admin-dream-hero>span{color:#9b7f47;font-size:12px;letter-spacing:2px}
+.admin-dream-hero h1{font-size:28px;font-weight:500;color:#31533c;margin:12px 0}
+.admin-dream-hero p{font-size:13px;line-height:1.9;color:#69786d;max-width:720px}
+.admin-dream-form,.admin-dream-status,.admin-dream-results{margin-top:18px;background:#fffcf6;border:1px solid #d9dfd3;border-radius:10px;padding:24px}
+.admin-dream-form{display:grid;gap:17px}
+.admin-dream-form label{display:grid;gap:8px;font-size:12px;color:#48604e}
+.admin-dream-form input,.admin-dream-form textarea{box-sizing:border-box;width:100%;background:#fff;border:1px solid #ced7c9;border-radius:6px;color:#243d2c;font:inherit;font-size:14px;padding:12px;line-height:1.6}
+.admin-dream-form textarea{resize:vertical}
+.admin-dream-actions{display:flex;flex-wrap:wrap;gap:10px}
+.admin-dream-actions button{border:1px solid #41634c;border-radius:6px;background:#385d46;color:#fff;padding:10px 17px;font-size:13px;cursor:pointer}
+.admin-dream-actions button+button{background:#fff;color:#385d46}
+.admin-dream-actions button:disabled{opacity:.6;cursor:wait}
+.admin-dream-error{color:#a13f32}
+.admin-dream-status p,.admin-dream-results p{line-height:1.9;color:#647369;font-size:13px}
+.admin-dream-results header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.admin-dream-results h2{font-size:22px;font-weight:500;color:#31533c}
+.admin-dream-results header span{font-size:12px;color:#8a7855}
+.admin-dream-result{border-top:1px solid #e0e5dc;padding:18px 0}
+.admin-dream-result h3{font-weight:500;color:#345640}
+.admin-dream-result blockquote{border-left:3px solid #b69e6b;margin:12px 0;padding-left:12px;color:#5f704e;font-family:serif}
+.admin-dream-result small{color:#889388;font-size:11px;overflow-wrap:anywhere}
+.admin-dream-empty{padding:13px;background:#f4f0e7}
+.admin-dream-results details{border-top:1px solid #e0e5dc;padding-top:15px;color:#596c5f;font-size:12px}
+.admin-dream-results li{margin:8px 0;line-height:1.7}
+@media(max-width:600px){.admin-dream-hero,.admin-dream-form,.admin-dream-status,.admin-dream-results{padding:18px}.admin-dream-hero h1{font-size:23px}}

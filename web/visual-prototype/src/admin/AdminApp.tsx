@@ -15,6 +15,7 @@ import { LayerGovernancePage } from "./LayerGovernancePage";
 import { AlgorithmGovernancePage } from "./AlgorithmGovernancePage";
 import { ProviderGovernancePage } from "./ProviderGovernancePage";
 import { PromptGovernancePage } from "./PromptGovernancePage";
+import { AdminDreamResearchPage } from "./AdminDreamResearchPage";
 import "./admin.css";
 import "./modules.css";
 
@@ -31,6 +32,7 @@ const titles: Record<string, string> = {
   "/admin/rules": "规则管理",
   "/admin/evidence": "Evidence 管理",
   "/admin/conflicts": "流派与冲突",
+  "/admin/dream-research": "解梦知识研究",
 };
 export default function AdminApp() {
   const path = usePath();
@@ -117,6 +119,8 @@ export default function AdminApp() {
         <main className="admin-main">
           {path === "/admin" ? (
             <Dashboard />
+          ) : path === "/admin/dream-research" ? (
+            <AdminDreamResearchPage />
           ) : path.startsWith("/admin/conflicts") ? (
             <ConflictGovernancePage />
           ) : path === "/admin/rules" ? (
