@@ -139,7 +139,7 @@ def _daily(inputs):
         },
     }
 
-    branch_structure = _reviewed_target_branch_structure(natal, day_branch)
+    branch_structure = _annual_branch_structure(natal, day_branch)
 
     source_rules = [
         next(rule for rule in natal["rule_matches"] if rule["rule_id"] == "bazi.phase2.ten_gods"),
@@ -276,7 +276,7 @@ def _daily(inputs):
 
 
 
-def _reviewed_target_branch_structure(natal, flow_branch):
+def _annual_branch_structure(natal, flow_branch):
     """Review-backed flow-target/each-natal-branch relations, without luck scores.
 
     Evaluate exactly four flow-to-natal pairs, not the six natal-to-natal
@@ -355,7 +355,7 @@ def _yearly(inputs):
     flow_ten_god = ten_god(day_master, flow_stem)
 
     base_rule = next(rule for rule in natal["rule_matches"] if rule["rule_id"] == "bazi.phase2.ten_gods")
-    branch_structure = _reviewed_target_branch_structure(natal, flow_branch)
+    branch_structure = _annual_branch_structure(natal, flow_branch)
     evidence_ids = list(dict.fromkeys(
         [*base_rule["evidence_ids"], *branch_structure["evidence_ids"]]))
     evidence = {eid: copy.deepcopy(natal["evidence"][eid]) for eid in evidence_ids}
@@ -632,7 +632,7 @@ def _period_day_fact(natal, target_date):
         },
     }
     hit_count = sum(int(bool(item["matched"])) for item in activation.values())
-    branch_structure = _reviewed_target_branch_structure(natal, day_branch)
+    branch_structure = _annual_branch_structure(natal, day_branch)
     return {
         "date": target_date,
         "ganzhi": day_ganzhi,
