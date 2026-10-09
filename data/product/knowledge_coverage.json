@@ -6997,11 +6997,15 @@
       },
       {
         "path": "src/tianji_kb/runtime_catalog.py",
-        "sha256": "2d2f66d66252024ddd50c7dc4432c38b06febbd4d5440a80da623485c37849bc"
+        "sha256": "555baba8b9c3606b2d1c25e09a2dd1a4db77b598ca783fdb0305a09183399312"
       },
       {
         "path": "src/tianji_kb/scenario_engine.py",
         "sha256": "8714665ec6fc22c4290a0154f90c09916483b7ded7fa6ad1732350ce7a4a85f4"
+      },
+      {
+        "path": "src/tianji_kb/sealed_bundle.py",
+        "sha256": "dae643bc6a195d86419402aac2ebbf9471a753103677b0aed4eb6c4a736a376c"
       },
       {
         "path": "src/tianji_kb/search.py",

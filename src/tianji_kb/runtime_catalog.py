@@ -1,5 +1,5 @@
 """Build-time source review; production only consumes the reviewed release artifact."""
-import hashlib,json,os
+import hashlib,json,os,re,secrets
 from pathlib import Path
 from .knowledge import read_json
 
@@ -45,6 +45,56 @@ def load_catalog(root):
             raise RuntimeUnavailable('Unsupported production runtime version')
         if digest(artifact['payload'])!=artifact['payload_sha256'] or digest(artifact['manifest'])!=artifact['manifest_sha256']:
             raise RuntimeUnavailable('Production runtime integrity check failed')
+        mode=os.environ.get('TIANJI_RUNTIME_MODE', 'source-verified')
+        if mode == 'sealed':
+            # Serving from source-free backend storage is deliberately opt-in.
+            # A pinned, independently deployed hash is required; the bundle
+            # cannot authorize arbitrary payload edits with self-hashes alone.
+            configured=os.environ.get('TIANJI_RUNTIME_ROOT', '')
+            expected_hash=os.environ.get('TIANJI_RUNTIME_SHA256', '')
+            if (not configured or not Path(configured).is_absolute()
+                    or root != Path(configured).resolve()
+                    or not re.fullmatch(r'[0-9a-f]{64}', expected_hash)):
+                raise RuntimeUnavailable('Sealed runtime requires an absolute root and SHA256 pin')
+            if not secrets.compare_digest(hashlib.sha256(path.read_bytes()).hexdigest(), expected_hash):
+                raise RuntimeUnavailable('Sealed runtime SHA256 pin mismatch')
+            rag=root/'build/production_rag.jsonl'
+            if not rag.is_file() or hashlib.sha256(rag.read_bytes()).hexdigest()!=artifact['payload'].get('retrieval_index_sha256'):
+                raise RuntimeUnavailable('Sealed reviewed retrieval index mismatch')
+            # A sealed deployment contains the Python engine and exactly two
+            # backend-only artifacts, but NO data/ Canonical/Quarantine checkout.
+            for forbidden in ('config','schemas','web','data/quarantine','data/raw','data/research','data/upstream'):
+                if (root/forbidden).exists():
+                    raise RuntimeUnavailable('Unexpected data source or public assets')
+            from .sealed_bundle import RUNTIME_TABLES
+            tables={p.relative_to(root).as_posix() for p in (root/'data').rglob('*')
+                    if p.is_file() or p.is_symlink()}
+            if tables!=set(RUNTIME_TABLES):
+                raise RuntimeUnavailable('Engine lookup table allowlist mismatch')
+            for rel in RUNTIME_TABLES:
+                candidate=root/rel
+                expected=artifact['manifest'].get(rel)
+                if (not expected or candidate.is_symlink() or
+                        hashlib.sha256(candidate.read_bytes()).hexdigest()!=expected):
+                    raise RuntimeUnavailable('Engine lookup table checksum mismatch')
+            required={'production_runtime.json', 'production_rag.jsonl'}
+            if ({p.name for p in (root/'build').iterdir()} != required
+                    or path.is_symlink() or rag.is_symlink()):
+                raise RuntimeUnavailable('Unexpected sealed runtime artifact')
+            source_root=root/'src/tianji_kb'
+            required_code={name for name in artifact['manifest']
+                           if name.startswith('src/tianji_kb/') and name.endswith('.py')}
+            actual_code={p.relative_to(root).as_posix() for p in source_root.rglob('*.py')}
+            if not required_code or actual_code!=required_code or source_root.is_symlink():
+                raise RuntimeUnavailable('Sealed runtime Python code does not match reviewed release')
+            for name in sorted(required_code):
+                code=root/name
+                if (code.is_symlink() or
+                        hashlib.sha256(code.read_bytes()).hexdigest()!=artifact['manifest'][name]):
+                    raise RuntimeUnavailable('Sealed runtime Python source checksum mismatch')
+            return artifact['payload']
+        if mode != 'source-verified':
+            raise RuntimeUnavailable('Unsupported runtime mode')
         expected={p.relative_to(root).as_posix() for p in release_paths(root)}
         if set(artifact['manifest'])!=expected:raise RuntimeUnavailable('Production runtime release files changed; rebuild required')
         for name,checksum in artifact['manifest'].items():
