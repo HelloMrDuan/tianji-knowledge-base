@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
@@ -49,16 +49,26 @@ export function CareerWealthStructurePage() {
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const requestVersion = useRef(0);
+
+  useEffect(() => () => { requestVersion.current += 1; }, []);
+
+  function invalidateResult() {
+    requestVersion.current += 1;
+    setResult(null);
+    setError("");
+    setLoading(false);
+  }
 
   function fillSample() {
     setDate("2000-01-07");
     setTime("12:00");
-    setResult(null);
-    setError("");
+    invalidateResult();
   }
 
   async function submit(event: FormEvent) {
     event.preventDefault();
+    const version = ++requestVersion.current;
     setLoading(true);
     setError("");
     setResult(null);
@@ -68,13 +78,15 @@ export function CareerWealthStructurePage() {
         birth_value: `${date}T${time}:00+08:00`,
         target_year: targetYear,
       });
+      if (version !== requestVersion.current) return;
       saveBirthProfile({ date, time });
       saveTargetYear(targetYear);
       setResult(response);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "事业财运结构计算失败。");
+      if (version === requestVersion.current)
+        setError(err instanceof Error ? err.message : "事业财运结构计算失败。");
     } finally {
-      setLoading(false);
+      if (version === requestVersion.current) setLoading(false);
     }
   }
 
@@ -122,16 +134,16 @@ export function CareerWealthStructurePage() {
           <div className="career-input-grid">
             <label>
               <span>出生日期</span>
-              <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+              <input type="date" value={date} onChange={(e) => { invalidateResult(); setDate(e.target.value); }} required />
             </label>
             <label>
               <span>出生时间</span>
-              <input type="time" value={time} onChange={(e) => setTime(e.target.value)} required />
+              <input type="time" value={time} onChange={(e) => { invalidateResult(); setTime(e.target.value); }} required />
             </label>
             <label className="career-fixed-year">
               <span>观察年份</span>
               <input type="number" min={MIN_TARGET_YEAR} max={MAX_TARGET_YEAR} step={1} value={targetYear}
-                onChange={(event) => { setTargetYear(Number(event.target.value)); setResult(null); }}
+                onChange={(event) => { invalidateResult(); setTargetYear(Number(event.target.value)); }}
                 required />
             </label>
           </div>
