@@ -46,3 +46,19 @@ test("invalid and unrelated stored year data is rejected before API calls", asyn
   expect(await page.getByLabel("目标年份").evaluate((input) => (input as HTMLInputElement).validity.rangeUnderflow)).toBe(true);
   expect(calls).toEqual([]);
 });
+
+test("life overview shows evidence-backed annual branch interactions from actual Scenario Engine", async ({ page }) => {
+  await page.goto("/life-overview");
+  await page.getByRole("button", { name: "填入示例" }).click();
+  await page.getByLabel("观察年份").fill("2026");
+  await page.getByRole("button", { name: /生成人生总览|生成我的人生总览/ }).click();
+  await expect(page.locator(".life-result")).toBeVisible();
+  await expect(page.locator(".life-annual-relations h3")).toContainText("流年地支 午");
+  await expect(page.locator(".life-annual-hit")).toHaveCount(2);
+  const evidence = page.locator(".life-annual-hit details");
+  await expect(evidence).toHaveCount(2);
+  await evidence.first().locator("summary").click();
+  await expect(evidence.first().locator("blockquote p").first()).not.toBeEmpty();
+  await expect(evidence.first().locator("blockquote")).toContainText(" · C");
+  await expect(page.locator(".life-annual-relations")).toContainText("不推断应事");
+});
