@@ -1,7 +1,7 @@
 """Unified HTTP transport for the existing six-domain deterministic engine."""
 import copy,os,hashlib,secrets
 from typing import Any,Literal
-from fastapi import FastAPI,HTTPException,Header
+from fastapi import FastAPI,HTTPException,Header,Response
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -16,6 +16,7 @@ from .runtime_catalog import load_catalog
 from .resolver import ROOT
 from .prompts import DEFAULT_PROMPT,PROMPTS
 from .scenario_engine import execute_scenario,registry as scenario_registry
+from .public_projection import project_execution,PUBLIC_EXECUTION_DOMAINS,PUBLIC_SCENARIO_STATES
 from .operations.dream_knowledge import retrieve as retrieve_dream_culture
 from .rag_context import RetrievalUnavailable
 from .governance import school_conflicts,reviewed_rules,reviewed_evidence,reviewed_classics,reviewed_chapters,reviewed_terms,reviewed_sources,reviewed_layers,reviewed_algorithms,provider_configuration,prompt_registry
@@ -203,6 +204,19 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None):
         if not supplied or not secrets.compare_digest(supplied,configured):
             raise HTTPException(401,detail={'code':'admin_unauthorized','message':'Invalid admin bearer token'},headers={'WWW-Authenticate':'Bearer'})
 
+    def require_internal_execution(authorization):
+        # Detailed Evidence / internal trace is only callable with a separate
+        # server-held credential in the sealed backend deployment.
+        if os.environ.get('TIANJI_RUNTIME_MODE') != 'sealed':
+            return
+        configured=os.environ.get('TIANJI_INTERNAL_EXECUTE_TOKEN')
+        if not configured:
+            raise HTTPException(503,detail={'code':'internal_execution_not_configured'})
+        if (not authorization or not authorization.startswith('Bearer ')
+                or not secrets.compare_digest(authorization[7:],configured)):
+            raise HTTPException(401,detail={'code':'internal_execution_unauthorized'},
+                                headers={'WWW-Authenticate':'Bearer'})
+
     @app.post('/api/v1/dream/culture',response_model=PublicDreamCultureResponse,
               tags=['public-dream'])
     async def public_dream_culture(request: PublicDreamCultureRequest):
@@ -378,8 +392,24 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None):
             'records':prompt_registry(),
         }
 
+    @app.post('/api/v1/scenarios/public',response_model=ScenarioExecuteResponse,tags=['public-execution'])
+    async def public_scenario_request(request:ScenarioExecuteRequest,response:Response):
+        available={item['id']:item for item in scenario_registry()}
+        scenario=available.get(request.scenario_id)
+        if scenario is None or scenario['status'] not in PUBLIC_SCENARIO_STATES:
+            raise HTTPException(422,detail={'code':'unsupported_public_scenario'})
+        try:
+            raw=await run_in_threadpool(execute_scenario,request.scenario_id,dict(request.input))
+        except RuntimeUnavailable:raise
+        except (ValueError,TypeError) as error:
+            raise HTTPException(422,detail={'code':'invalid_scenario_input','message':str(error)}) from error
+        response.headers['Cache-Control']='no-store'
+        return ScenarioExecuteResponse.model_validate(project_execution(raw))
+
     @app.post('/api/v1/scenarios/execute',response_model=ScenarioExecuteResponse,tags=['scenarios'])
-    async def execute_scenario_request(request:ScenarioExecuteRequest):
+    async def execute_scenario_request(request:ScenarioExecuteRequest,
+                                       authorization: str | None = Header(default=None)):
+        require_internal_execution(authorization)
         try:
             return ScenarioExecuteResponse.model_validate(
                 await run_in_threadpool(execute_scenario,request.scenario_id,dict(request.input))
@@ -387,8 +417,25 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None):
         except (ValueError,TypeError) as error:
             raise HTTPException(422,detail={'code':'invalid_scenario_input','message':str(error)}) from error
 
+    @app.post('/api/v1/public/execute',response_model=ExecuteResponse,tags=['public-execution'])
+    async def public_execute_request(request:ExecuteRequest,response:Response):
+        if request.domain not in PUBLIC_EXECUTION_DOMAINS or request.mode!='production' or request.explain:
+            raise HTTPException(422,detail={'code':'unsupported_public_execution'})
+        if 'research' in request.input:
+            raise HTTPException(422,detail={'code':'invalid_input'})
+        try:
+            raw=await run_in_threadpool(execute,request.domain,dict(request.input),
+                                        request.variant,allow_research=False)
+        except RuntimeUnavailable:raise
+        except (ValueError,TypeError) as error:
+            raise HTTPException(422,detail={'code':'invalid_input','message':str(error)}) from error
+        response.headers['Cache-Control']='no-store'
+        return ExecuteResponse.model_validate(project_execution(response_for(raw).model_dump()))
+
     @app.post('/api/v1/execute',response_model=ExecuteResponse,tags=['execution'])
-    async def execute_request(request:ExecuteRequest):
+    async def execute_request(request:ExecuteRequest,
+                              authorization: str | None = Header(default=None)):
+        require_internal_execution(authorization)
         inputs=dict(request.input)
         # The API mode is authoritative; clients cannot bypass it with an engine-only flag.
         if 'research' in inputs:raise HTTPException(422,detail={'code':'invalid_input','message':'Use request.mode to select research, not input.research'})
