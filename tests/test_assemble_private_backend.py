@@ -81,5 +81,24 @@ class AssemblePrivateBackendTests(unittest.TestCase):
         self.assertFalse(self.destination.exists())
 
 
+    def test_reject_corrupt_private_snapshot_before_copy(self):
+        (self.snapshot / "data/index/asset.txt").write_bytes(b"corrupt")
+        with self.assertRaisesRegex(ValueError, "SHA256 or size mismatch"):
+            assemble_private_backend(self.checkout, self.snapshot, self.destination)
+        self.assertFalse(self.destination.exists())
+
+    def test_reject_symlink_directory_in_public_code(self):
+        outside = self.checkout / "outside-code"
+        outside.mkdir()
+        link = self.checkout / "src/external-package"
+        try:
+            link.symlink_to(outside, target_is_directory=True)
+        except (OSError, NotImplementedError):
+            self.skipTest("Symlinks unsupported")
+        with self.assertRaisesRegex(ValueError, "Application code symlink directory"):
+            assemble_private_backend(self.checkout, self.snapshot, self.destination)
+        self.assertFalse(self.destination.exists())
+
+
 if __name__ == "__main__":
     unittest.main()
