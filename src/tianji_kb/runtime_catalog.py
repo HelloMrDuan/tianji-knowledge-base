@@ -61,10 +61,26 @@ def load_catalog(root):
             rag=root/'build/production_rag.jsonl'
             if not rag.is_file() or hashlib.sha256(rag.read_bytes()).hexdigest()!=artifact['payload'].get('retrieval_index_sha256'):
                 raise RuntimeUnavailable('Sealed reviewed retrieval index mismatch')
-            allowed={'build/production_runtime.json', 'build/production_rag.jsonl'}
-            actual={p.relative_to(root).as_posix() for p in root.rglob('*') if p.is_file() or p.is_symlink()}
-            if actual!=allowed or path.is_symlink() or rag.is_symlink():
-                raise RuntimeUnavailable('Sealed runtime directory contains unexpected files')
+            # A sealed deployment contains the Python engine and exactly two
+            # backend-only artifacts, but NO data/ Canonical/Quarantine checkout.
+            for forbidden in ('data', 'config', 'schemas', 'web'):
+                if (root/forbidden).exists():
+                    raise RuntimeUnavailable('Sealed runtime contains source knowledge or public assets')
+            required={'production_runtime.json', 'production_rag.jsonl'}
+            if ({p.name for p in (root/'build').iterdir()} != required
+                    or path.is_symlink() or rag.is_symlink()):
+                raise RuntimeUnavailable('Unexpected sealed runtime artifact')
+            source_root=root/'src/tianji_kb'
+            required_code={name for name in artifact['manifest']
+                           if name.startswith('src/tianji_kb/') and name.endswith('.py')}
+            actual_code={p.relative_to(root).as_posix() for p in source_root.rglob('*.py')}
+            if not required_code or actual_code!=required_code or source_root.is_symlink():
+                raise RuntimeUnavailable('Sealed runtime Python code does not match reviewed release')
+            for name in sorted(required_code):
+                code=root/name
+                if (code.is_symlink() or
+                        hashlib.sha256(code.read_bytes()).hexdigest()!=artifact['manifest'][name]):
+                    raise RuntimeUnavailable('Sealed runtime Python source checksum mismatch')
             return artifact['payload']
         if mode != 'source-verified':
             raise RuntimeUnavailable('Unsupported runtime mode')

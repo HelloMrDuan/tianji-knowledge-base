@@ -1,6 +1,6 @@
 """Build a source-free, server-only runtime bundle from an audited checkout.
 
-The output contains reviewed knowledge in derived form: it is confidential
+The output contains reviewed knowledge and verified engine code: it is confidential
 server material, NOT a public frontend artifact or a substitute for a private
 source repository. Do not commit or deploy it under a static web root.
 """
@@ -43,4 +43,14 @@ def export_sealed_bundle(source_root: Path, destination: Path) -> dict[str, str]
             handle.write(data)
         dest.chmod(0o600)
         hashes[src.name] = hashlib.sha256(data).hexdigest()
+    # Include verified engine code, never raw/Canonical/quarantine/source files.
+    code_root=source_root/'src/tianji_kb'
+    if not code_root.is_dir():
+        raise ValueError('Source Python package is missing')
+    for source in sorted(code_root.rglob('*.py')):
+        target=destination/source.relative_to(source_root)
+        target.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+        with target.open('xb') as handle:
+            handle.write(source.read_bytes())
+        target.chmod(0o600)
     return hashes

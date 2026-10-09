@@ -1,7 +1,6 @@
 """Real production API with no data/canonical or data/quarantine checkout at runtime."""
 import hashlib
 import os
-import shutil
 from pathlib import Path
 import subprocess
 import sys
@@ -64,17 +63,12 @@ class SealedRuntimeTests(unittest.TestCase):
 
     def test_source_free_full_api_with_real_reviewed_rag(self):
         self.assertFalse((self.path/'data').exists())
-        self.assertEqual(sorted(p.relative_to(self.path).as_posix()
-                                for p in self.path.rglob('*') if p.is_file()),
-                         ['build/production_rag.jsonl', 'build/production_runtime.json'])
-        isolated_code = Path(self.directory.name)/'isolated-code'
-        (isolated_code/'src').mkdir(parents=True)
-        shutil.copytree(ROOT/'src'/'tianji_kb', isolated_code/'src'/'tianji_kb',
-                        ignore=shutil.ignore_patterns('__pycache__', '*.pyc'))
-        self.assertFalse((isolated_code/'data').exists())
-        self.assertFalse((isolated_code/'src'/'data').exists())
-        result = subprocess.run([sys.executable, '-c', CHECK], cwd=isolated_code,
-                                env=self.environment(PYTHONPATH=str(isolated_code/'src')),
+        self.assertEqual(sorted(p.name for p in (self.path/'build').iterdir()),
+                         ['production_rag.jsonl', 'production_runtime.json'])
+        self.assertTrue((self.path/'src/tianji_kb/api.py').is_file())
+        self.assertFalse((self.path/'src'/'data').exists())
+        result = subprocess.run([sys.executable, '-c', CHECK], cwd=self.path,
+                                env=self.environment(PYTHONPATH=str(self.path/'src')),
                                 capture_output=True, text=True, timeout=100)
         self.assertEqual(result.returncode, 0, result.stdout+'\n'+result.stderr)
         self.assertIn('actual Bazi passed', result.stdout)

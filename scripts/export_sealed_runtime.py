@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Export two pinned server-only artifacts; pass an absolute destination."""
+"""Export verified Python server code and two pinned private artifacts."""
 import argparse
 import json
 from pathlib import Path
