@@ -3,6 +3,7 @@ import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeYearlyScenario, type ScenarioExecuteResponse } from "./api";
+import { readSavedTargetYear, saveTargetYear, isValidTargetYear, MIN_TARGET_YEAR, MAX_TARGET_YEAR } from "./targetYear";
 import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
 import "./yearly-structure.css";
 
@@ -36,6 +37,7 @@ function displayEvidence(id: string, evidence: Record<string, any>) {
 export function YearlyStructurePage() {
   const [date, setDate] = useState(() => readSavedBirthProfile().date);
   const [time, setTime] = useState(() => readSavedBirthProfile().time);
+  const [targetYear, setTargetYear] = useState(readSavedTargetYear);
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -53,11 +55,13 @@ export function YearlyStructurePage() {
     setError("");
     setResult(null);
     try {
+      if (!isValidTargetYear(targetYear)) throw new Error("请选择 1901 至 2098 年的公历年份");
       const response = await executeYearlyScenario({
         birth_value: `${date}T${time}:00+08:00`,
-        target_year: 2026,
+        target_year: targetYear,
       });
       saveBirthProfile({ date, time });
+      saveTargetYear(targetYear);
       setResult(response);
     } catch (err) {
       setError(err instanceof Error ? err.message : "年度结构计算失败。");
@@ -78,21 +82,21 @@ export function YearlyStructurePage() {
       <div className="breadcrumb">
         <Link href="/">生活场景</Link>
         <Icon name="chevron" size={12} />
-        <span>2026 流年结构</span>
+        <span>{targetYear} 流年结构</span>
       </div>
 
       <section className="yearly-hero">
         <div>
-          <span className="eyebrow">2026 · 流年结构内测</span>
-          <h1>先看 2026 与你的日主，发生了什么结构关系。</h1>
+          <span className="eyebrow">{targetYear} · 流年结构内测</span>
+          <h1>先看 {targetYear} 与你的日主，发生了什么结构关系。</h1>
           <p>
-            这一版已经是真实计算，但还不是“全年吉凶报告”。它只把出生四柱、2026
+            这一版已经是真实计算，但还不是“全年吉凶报告”。它只把出生四柱、{targetYear}
             干支与流年天干相对日主的十神关系放到一起，并给出来源和边界。
           </p>
         </div>
         <div className="yearly-seal" aria-hidden="true">
           <strong>丙午</strong>
-          <span>2026</span>
+          <span>{targetYear}</span>
           <small>结构 · 非断语</small>
         </div>
       </section>
@@ -102,7 +106,7 @@ export function YearlyStructurePage() {
           <div className="yearly-entry-head">
             <div>
               <span className="eyebrow">输入出生资料</span>
-              <h2>查看你的 2026 流年结构</h2>
+              <h2>查看你的 {targetYear} 流年结构</h2>
             </div>
             <button type="button" className="sample-fill" onClick={fillSample}>填入示例</button>
           </div>
@@ -117,7 +121,9 @@ export function YearlyStructurePage() {
             </label>
             <label className="yearly-fixed-year">
               <span>目标年份</span>
-              <input value="2026" readOnly />
+              <input type="number" min={MIN_TARGET_YEAR} max={MAX_TARGET_YEAR} step={1} value={targetYear}
+                onChange={(event) => { setTargetYear(Number(event.target.value)); setResult(null); }}
+                required />
             </label>
           </div>
           <div className="yearly-entry-note">
@@ -125,7 +131,7 @@ export function YearlyStructurePage() {
             <span>北京时间 UTC+8；目标年干支由固定历法适配器计算。AI 不参与排盘。</span>
           </div>
           <button className="button primary yearly-submit" type="submit" disabled={loading}>
-            {loading ? "正在生成…" : "查看 2026 流年结构"}
+            {loading ? "正在生成…" : `查看 ${targetYear} 流年结构`}
             {!loading && <Icon name="arrow" size={18} />}
           </button>
           {error && <p className="question-error" role="alert">{error}</p>}
@@ -136,7 +142,7 @@ export function YearlyStructurePage() {
           <h2>“结构是什么”，不回答“吉凶如何”</h2>
           <ul>
             <li>你的出生四柱与日主</li>
-            <li>2026 的干支</li>
+            <li>{targetYear} 的干支</li>
             <li>流年天干相对日主的十神</li>
             <li>这条关系引用了哪条审核规则</li>
           </ul>
@@ -162,7 +168,7 @@ export function YearlyStructurePage() {
               <h2>
                 日主 {natal.day_master?.stem || "—"}
                 <span> × </span>
-                2026 {annual.ganzhi || "—"}
+                {targetYear} {annual.ganzhi || "—"}
               </h2>
               <p>流年天干 {annual.stem || "—"} 相对日主：<strong>{annual.stem_ten_god || "—"}</strong></p>
             </div>
@@ -171,7 +177,7 @@ export function YearlyStructurePage() {
 
           <div className="yearly-core">
             <article className="yearly-flow-card">
-              <small>2026 流年干支</small>
+              <small>{targetYear} 流年干支</small>
               <strong>{annual.ganzhi || "—"}</strong>
               <div><span>天干</span><b>{annual.stem || "—"}</b></div>
               <div><span>地支</span><b>{annual.branch || "—"}</b></div>
@@ -248,7 +254,7 @@ export function YearlyStructurePage() {
           <div className="yearly-future">
             <span>运</span>
             <div>
-              <h3>完整“2026 年运势”还差什么？</h3>
+              <h3>完整“{targetYear} 年运势”还差什么？</h3>
               <p>要继续补旺衰/格局/喜用与流年支互动等证据，再分别形成桃花、事业财运等场景规则。现在不会用一个“食神”就给你下全年吉凶结论。</p>
             </div>
           </div>

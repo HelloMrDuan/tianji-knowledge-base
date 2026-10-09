@@ -3,6 +3,7 @@ import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeCareerScenario, type ScenarioExecuteResponse } from "./api";
+import { readSavedTargetYear, saveTargetYear, isValidTargetYear, MIN_TARGET_YEAR, MAX_TARGET_YEAR } from "./targetYear";
 import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
 import "./career-wealth-structure.css";
 
@@ -44,6 +45,7 @@ function displayEvidence(id: string, evidence: Record<string, any>) {
 export function CareerWealthStructurePage() {
   const [date, setDate] = useState(() => readSavedBirthProfile().date);
   const [time, setTime] = useState(() => readSavedBirthProfile().time);
+  const [targetYear, setTargetYear] = useState(readSavedTargetYear);
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -61,11 +63,13 @@ export function CareerWealthStructurePage() {
     setError("");
     setResult(null);
     try {
+      if (!isValidTargetYear(targetYear)) throw new Error("请选择 1901 至 2098 年的公历年份");
       const response = await executeCareerScenario({
         birth_value: `${date}T${time}:00+08:00`,
-        target_year: 2026,
+        target_year: targetYear,
       });
       saveBirthProfile({ date, time });
+      saveTargetYear(targetYear);
       setResult(response);
     } catch (err) {
       setError(err instanceof Error ? err.message : "事业财运结构计算失败。");
@@ -77,7 +81,7 @@ export function CareerWealthStructurePage() {
   const payload = result?.result || {};
   const natal = payload.natal || {};
   const groups = payload.structure_groups || {};
-  const targetYear = payload.target_year || {};
+  const flowYear = payload.target_year || {};
   const evidence = result
     ? Object.entries(result.evidence).map(([id, value]) => displayEvidence(id, value))
     : [];
@@ -96,7 +100,7 @@ export function CareerWealthStructurePage() {
           <h1>先把财、官、食伤、印、比劫的位置看清。</h1>
           <p>
             这一版只聚合已经验证的十神与藏干结构：哪些星明见在天干、哪些藏在地支，
-            以及 2026 流年天干与你日主形成什么十神。它不是“发财预测”，也不会给你编一个事业指数。
+            以及 {targetYear} 流年天干与你日主形成什么十神。它不是“发财预测”，也不会给你编一个事业指数。
           </p>
         </div>
         <div className="career-mark" aria-hidden="true">
@@ -125,7 +129,9 @@ export function CareerWealthStructurePage() {
             </label>
             <label className="career-fixed-year">
               <span>观察年份</span>
-              <input value="2026" readOnly />
+              <input type="number" min={MIN_TARGET_YEAR} max={MAX_TARGET_YEAR} step={1} value={targetYear}
+                onChange={(event) => { setTargetYear(Number(event.target.value)); setResult(null); }}
+                required />
             </label>
           </div>
           <div className="career-entry-note">
@@ -146,7 +152,7 @@ export function CareerWealthStructurePage() {
             <li>财星在什么位置出现</li>
             <li>官杀在什么位置出现</li>
             <li>食伤、印星、比劫如何分布</li>
-            <li>2026 流年天干对应什么十神</li>
+            <li>{targetYear} 流年天干对应什么十神</li>
           </ul>
           <p>升职、跳槽、收入、投资、行业推荐等结论，要等旺衰、格局、喜用、大运和更多证据补齐。</p>
         </aside>
@@ -170,12 +176,12 @@ export function CareerWealthStructurePage() {
               <h2>
                 日主 {natal.day_master?.stem || "—"}
                 <span> · </span>
-                2026 {targetYear.ganzhi || "—"}
+                {targetYear} {flowYear.ganzhi || "—"}
               </h2>
               <p>
-                流年天干 {targetYear.stem || "—"} 相对日主为
-                <strong> {targetYear.stem_ten_god || "—"} </strong>
-                · 归入 {targetYear.structure_group_label || "—"} 结构。
+                流年天干 {flowYear.stem || "—"} 相对日主为
+                <strong> {flowYear.stem_ten_god || "—"} </strong>
+                · 归入 {flowYear.structure_group_label || "—"} 结构。
               </p>
             </div>
             <span className="career-limited">结构内测</span>
@@ -186,7 +192,7 @@ export function CareerWealthStructurePage() {
               const group = groups[groupId] || {};
               const occurrences = Array.isArray(group.occurrences) ? group.occurrences : [];
               return (
-                <article key={groupId} className={targetYear.structure_group === groupId ? "flow-hit" : ""}>
+                <article key={groupId} className={flowYear.structure_group === groupId ? "flow-hit" : ""}>
                   <div className="career-group-title">
                     <span>{groupGlyph[groupId]}</span>
                     <div>
@@ -208,8 +214,8 @@ export function CareerWealthStructurePage() {
                       </span>
                     )) : <em>当前结构中未见</em>}
                   </div>
-                  {targetYear.structure_group === groupId && (
-                    <p>2026 流年天干落入这一结构组，仅表示十神关系命中。</p>
+                  {flowYear.structure_group === groupId && (
+                    <p>{targetYear} 流年天干落入这一结构组，仅表示十神关系命中。</p>
                   )}
                 </article>
               );
@@ -254,7 +260,7 @@ export function CareerWealthStructurePage() {
           <details className="trace-section career-trace">
             <summary>
               <span className="trace-icon"><Icon name="layers" size={19} /></span>
-              <div><strong>查看聚合过程</strong><small>十神位置 → 藏干 → 2026 流年天干</small></div>
+              <div><strong>查看聚合过程</strong><small>十神位置 → 藏干 → {targetYear} 流年天干</small></div>
               <Icon name="chevron" size={18} />
             </summary>
             <ol>
