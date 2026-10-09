@@ -95,3 +95,11 @@ PYTHONPATH=/secure/tianji-runtime-v1/src python -m uvicorn tianji_kb.api:app --h
 ```
 
 运行时必须核对独立部署的 SHA256 pin、审核载荷摘要、RAG 摘要、九份查表摘要和目录文件白名单。缺文件、篡改制品、缺 pin 或混入源码时拒绝服务。构建阶段仍用全部 Canonical 校验，**不能**用独立制品模式绕过知识审核。API 的公开输出仍需按产品能力分级；服务端隔离不等于公开接口可以返回内部资料。API 网关还必须确保私有目录不可通过静态 HTTP 路由访问。
+
+## 公开产品 API 与内部审计 API 分离
+
+浏览器产品页调用 `POST /api/v1/public/execute`（仅正式八字、六爻）或 `POST /api/v1/scenarios/public`（已启用的正式/受限场景）。这两个入口保留真实确定性结果、最多 120 字的审核原典短引、审核级别，以及步骤名称；不发送内部来源仓库、路径、SHA、完整 Evidence 与输入 Trace。响应设置 `Cache-Control: no-store`。研究模式、LLM 解释和未发布梦境场景不能通过此入口开启。
+
+原始 `/api/v1/execute` 和 `/api/v1/scenarios/execute` 仍为**详细诊断接口**。在 `TIANJI_RUNTIME_MODE=sealed` 模式下，它们默认不可用；确需内部分析时，在服务端配置独立的 `TIANJI_INTERNAL_EXECUTE_TOKEN`，并由可信后端在 Authorization Bearer 中调用。**不得将此令牌放入网页、VITE_* 配置、浏览器代码或公开前端**。非 sealed 模式保留历史 API 兼容性，生产部署必须选用 sealed 模式才能启用这项详细接口门禁。
+
+这是 HTTP 响应最小化控制，不会让已经公开发布的 GitHub 历史资料变私有，也不能替代 API 网关、权限审计与知识资产私有迁移。
