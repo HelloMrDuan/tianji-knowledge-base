@@ -13,26 +13,17 @@ const pillarNames: Record<string, string> = {
   hour: "时柱",
 };
 
-function displayEvidence(id: string, evidence: Record<string, any>) {
-  const title =
-    evidence.title ||
-    evidence.classic_title ||
-    evidence.classic ||
-    evidence.work ||
-    evidence.source_title ||
-    "《渊海子平》";
-  const quote =
-    evidence.original_text ||
-    evidence.quote ||
-    evidence.anchor ||
-    evidence.text ||
-    "该证据已由后端绑定到本次确定性结果。";
-  const grade =
-    evidence.evidence_level ||
-    evidence.grade ||
-    evidence.level ||
-    "—";
-  return { id, title: String(title), quote: String(quote), grade: String(grade) };
+function displayEvidence(id: string, value: Record<string, any>) {
+  const title = value.classic_title || value.title || value.source_title;
+  const quote = value.original_text;
+  if (typeof title !== "string" || !title.trim() ||
+      typeof quote !== "string" || !quote.trim()) return null;
+  return {
+    id,
+    title,
+    quote,
+    grade: typeof value.evidence_level === "string" ? value.evidence_level : "未标注",
+  };
 }
 
 export function BaziProfilePage() {
@@ -81,7 +72,11 @@ export function BaziProfilePage() {
   const chart = result?.chart || {};
   const pillars = Array.isArray(chart.pillars) ? chart.pillars : [];
   const calendar = result?.calendar || {};
-  const evidence = result ? Object.entries(result.evidence).map(([id, value]) => displayEvidence(id, value)) : [];
+  const evidence = result
+    ? Object.entries(result.evidence).map(([id, value]) => displayEvidence(id, value))
+        .filter((item): item is NonNullable<typeof item> => item !== null)
+    : [];
+  const evidenceById = new Map(evidence.map((item) => [item.id, item]));
 
   return (
     <div className="bazi-profile-page">
@@ -210,12 +205,29 @@ export function BaziProfilePage() {
           <div className="bazi-result-columns">
             <section className="live-section">
               <div className="result-section-heading"><div><span>三</span><h2>规则命中</h2></div></div>
-              {result.rule_matches.map((rule, index) => (
-                <article className="live-rule" key={rule.rule_id || index}>
-                  <strong>{rule.rule_id || `规则 ${index + 1}`}</strong>
-                  <p>{rule.evidence_scope || "本规则已由后端执行并绑定证据。"}</p>
-                </article>
-              ))}
+              {result.rule_matches.map((rule, index) => {
+                const citations = Array.isArray(rule.evidence_ids)
+                  ? rule.evidence_ids.map((id: string) => evidenceById.get(id))
+                      .filter((ref: any) => ref !== undefined)
+                  : [];
+                return (
+                  <article className="live-rule bazi-rule-evidence" key={rule.rule_id || index}>
+                    <strong>{rule.rule_id || `规则 ${index + 1}`}</strong>
+                    <p>{rule.evidence_scope || "已执行结构规则，具体适用条件以服务端为准。"}</p>
+                    {citations.length ? (
+                      <details>
+                        <summary>查看此规则对应的原典证据（{citations.length}）</summary>
+                        {citations.map((item: any) => (
+                          <blockquote key={item.id}>
+                            <b>{item.title} · 证据等级 {item.grade}</b>
+                            <p>{item.quote}</p>
+                          </blockquote>
+                        ))}
+                      </details>
+                    ) : <p className="bazi-evidence-missing">未返回可核验的古籍引文，不追加解释。</p>}
+                  </article>
+                );
+              })}
             </section>
 
             <section className="live-section">
@@ -249,7 +261,7 @@ export function BaziProfilePage() {
           <div className="bazi-next-card">
             <div>
               <span className="eyebrow">下一阶段</span>
-              <h3>从基础档案走向“2026 流年 / 桃花 / 事业财运”</h3>
+              <h3>从基础档案走向“流年 / 桃花 / 事业财运”</h3>
               <p>这些场景会复用现在这份真实四柱结构，但必须等相应规则与证据补齐后才开放。</p>
             </div>
             <div className="bazi-journey-links">

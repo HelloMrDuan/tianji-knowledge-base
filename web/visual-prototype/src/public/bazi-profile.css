@@ -6,3 +6,11 @@
 .bazi-journey-links a:focus-visible,.bazi-journey-links a:hover{border-color:#73917a;background:#e6eee3}
 @media(max-width:820px){.bazi-journey-links{justify-content:flex-start;margin-top:18px}}
 @media(max-width:500px){.bazi-profile-actions{justify-content:stretch}.bazi-profile-actions .sample-fill{flex:1;min-width:130px}}
+
+
+.bazi-rule-evidence details{margin-top:12px;padding-top:10px;border-top:1px solid #dfe4d9}
+.bazi-rule-evidence summary{cursor:pointer;color:#3f7051;font-size:12px}
+.bazi-rule-evidence blockquote{padding:10px 12px;border-left:2px solid #a7b69d;background:#fffdf8;margin:9px 0 0}
+.bazi-rule-evidence blockquote b{font-weight:500;font-size:11px;color:#587661}
+.bazi-rule-evidence blockquote p{font-size:12px;line-height:1.8;color:#485d4b;overflow-wrap:anywhere;white-space:pre-wrap}
+.bazi-evidence-missing{font-size:11px!important;color:#966e4e!important}

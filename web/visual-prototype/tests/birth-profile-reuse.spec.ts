@@ -49,3 +49,19 @@ test("stale or malformed local values do not prefill or trigger calculations", a
   }
   expect(apiRequests).toEqual([]);
 });
+
+
+test("Bazi basic chart cites actual verified classical text per executed rule", async ({ page }) => {
+  await page.goto("/bazi-profile");
+  await page.getByRole("button", { name: "填入示例" }).click();
+  await page.getByRole("button", { name: "生成基础档案" }).click();
+  await expect(page.locator(".bazi-live-result")).toBeVisible();
+  const rules = page.locator(".bazi-rule-evidence");
+  await expect(rules.first()).toBeVisible();
+  const citations = rules.locator("details");
+  await expect(citations.first()).toBeVisible();
+  await citations.first().locator("summary").click();
+  await expect(citations.first().locator("blockquote b").first()).toContainText("证据等级");
+  await expect(citations.first().locator("blockquote p").first()).not.toBeEmpty();
+  await expect(page.locator(".bazi-live-result")).not.toContainText("该证据已由后端绑定到本次确定性结果");
+});
