@@ -284,3 +284,46 @@ export async function executeCompatibilityScenario(input: {
   }
   return data as ScenarioExecuteResponse;
 }
+
+export type DreamCultureMatch = {
+  scene: string;
+  cultural_reading: string;
+  short_quote: string;
+  source_title: string;
+  evidence_level: string;
+};
+
+export type DreamCultureResponse = {
+  api_version: "v1";
+  status: "reviewed_cultural_matches" | "no_reviewed_interpretation";
+  public_release: true;
+  cultural_reference_only: true;
+  ai_enabled: false;
+  personal_prediction: false;
+  matches: DreamCultureMatch[];
+  notice: string;
+};
+
+export async function lookupDreamCulture(dreamText: string): Promise<DreamCultureResponse> {
+  const response = await fetch(`${apiBase}/api/v1/dream/culture`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    cache: "no-store",
+    body: JSON.stringify({ dream_text: dreamText }),
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(
+      response.status === 503 ? "已审核梦象检索暂不可用，请稍后再试。" :
+      response.status === 422 ? "请输入 2—500 字的梦境叙述。" :
+      `查阅失败（HTTP ${response.status}）`
+    );
+  }
+  if (data?.api_version !== "v1" || data?.public_release !== true ||
+      data?.cultural_reference_only !== true || data?.ai_enabled !== false ||
+      data?.personal_prediction !== false || !Array.isArray(data?.matches) ||
+      !["reviewed_cultural_matches", "no_reviewed_interpretation"].includes(data?.status)) {
+    throw new Error("服务端文化查阅合同不匹配，拒绝展示结果。");
+  }
+  return data as DreamCultureResponse;
+}

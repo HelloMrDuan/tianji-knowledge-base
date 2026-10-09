@@ -19,7 +19,7 @@ export const scenarioProducts: ScenarioProduct[] = [
   { id: "career", name: "事业财运", glyph: "业", tagline: "先看真实事业财运结构", description: "聚合财星、官杀、食伤、印星、比劫的位置，并显示选定年份流年天干十神；不等同于吉凶或收益预测。", status: "available", href: "/career-wealth-structure", badge: "结构内测" },
   { id: "compatibility", name: "缘分合盘 · 结构版", glyph: "合", tagline: "两个人放在一起双向看", description: "真实比较双方四柱、双向十神、五合、六合/六害/六冲、原局三合、传统配偶宫与咸池；可选传统配偶星观察，但不输出缘分分数。", status: "available", href: "/compatibility-structure", badge: "双人内测" },
   { id: "question", name: "一事占问", glyph: "问", tagline: "现在就问一件具体的事", description: "先以六爻确定性排盘打通真实闭环。", status: "available", href: "/ask", badge: "先行体验" },
-  { id: "dream", name: "AI 解梦", glyph: "梦", tagline: "从梦境意象找线索", description: "等待专门梦境语料与真实 AI 校准。", status: "research", badge: "研究中" },
+  { id: "dream", name: "传统梦象查阅", glyph: "梦", tagline: "写下梦境，看看典籍中有何记载", description: "真实匹配已审核传统梦象，展示短引与文化解释；无法匹配便明确告知。不调用 AI，也不预测现实吉凶。", status: "available", href: "/dream-culture", badge: "文化查阅" },
   { id: "life", name: "人生总览", glyph: "命", tagline: "一次输入，看四条真实主线", description: "聚合八字基础、选定年份流年、桃花、事业财运结构；不另造吉凶结论。", status: "available", href: "/life-overview", badge: "聚合内测" },
 ];
 
