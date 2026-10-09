@@ -7,6 +7,12 @@ import { readSavedTargetYear, saveTargetYear, isValidTargetYear, MIN_TARGET_YEAR
 import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
 import "./yearly-structure.css";
 
+const relationNames: Record<string, string> = {
+  six_harmony: "六合",
+  harm: "六害",
+  clash: "六冲",
+};
+
 const pillarNames: Record<string, string> = {
   year: "年柱",
   month: "月柱",
@@ -84,6 +90,8 @@ export function YearlyStructurePage() {
 
   const annual = result?.result?.target_year || {};
   const natal = result?.result?.natal || {};
+  const branchRelations = result?.result?.annual_branch_interactions;
+  const branchHits: Array<any> = Array.isArray(branchRelations?.hits) ? branchRelations.hits : [];
   const pillars = Array.isArray(natal.pillars) ? natal.pillars : [];
   const evidence = result
     ? Object.entries(result.evidence).map(([id, value]) => displayEvidence(id, value))
@@ -103,7 +111,7 @@ export function YearlyStructurePage() {
           <h1>先看 {targetYear} 与你的日主，发生了什么结构关系。</h1>
           <p>
             这一版已经是真实计算，但还不是“全年吉凶报告”。它只把出生四柱、{targetYear}
-            干支与流年天干相对日主的十神关系放到一起，并给出来源和边界。
+            干支、流年天干十神及流年地支与四柱的已审核冲合害关系放到一起，并给出来源和边界。
           </p>
         </div>
         <div className="yearly-seal" aria-hidden="true">
@@ -156,6 +164,7 @@ export function YearlyStructurePage() {
             <li>你的出生四柱与日主</li>
             <li>{targetYear} 的干支</li>
             <li>流年天干相对日主的十神</li>
+            <li>流年地支与原局四柱的六合、六冲、六害</li>
             <li>这条关系引用了哪条审核规则</li>
           </ul>
           <p>旺衰、喜用、格局、桃花、事业、财富、健康、应期均未进入当前公开结论。</p>
@@ -228,6 +237,32 @@ export function YearlyStructurePage() {
             ))}
           </section>
 
+          <section className="yearly-rule yearly-branch-section" aria-label="流年地支与原局关系">
+            <div className="result-section-heading">
+              <div><span>支</span><h2>流年地支 × 四柱冲合害</h2></div>
+            </div>
+            <p className="yearly-branch-summary">
+              流年地支 <strong>{branchRelations?.flow_branch || "—"}</strong>，逐一对照四个出生地支。
+              {branchRelations?.evaluated_pairs === 4 ? " 已核 4 组结构。 " : ""}
+              共命中 <strong>{branchHits.length}</strong> 条。
+            </p>
+            {branchHits.length ? (
+              <div className="yearly-branch-grid">
+                {branchHits.map((item, index) => (
+                  <article key={item.rule_id + "-" + item.natal_pillar + "-" + index} className="yearly-branch-hit">
+                    <span>{relationNames[item.relation_type] || item.relation_type}</span>
+                    <strong>{item.flow_branch} ↔ {item.natal_branch}</strong>
+                    <p>{pillarNames[item.natal_pillar] || item.natal_pillar}地支 · {item.rule_id}</p>
+                    <small>有来源绑定的传统结构关系；不代表吉凶或事件必然发生。</small>
+                  </article>
+                ))}
+              </div>
+            ) : (
+              <p className="yearly-branch-no-hit">四柱未命中本版审核的六合、六冲、六害成对规则，不代表不存在其他关系。</p>
+            )}
+            <p className="yearly-branch-boundary">仅展示已核验的成对结构，不包含刑、破、三合、合化效力、大运作用或应事推断。依据详见下方典籍证据。</p>
+          </section>
+
           <div className="yearly-two-columns">
             <section className="live-section">
               <div className="result-section-heading"><div><span>二</span><h2>典籍依据</h2></div></div>
@@ -267,7 +302,7 @@ export function YearlyStructurePage() {
             <span>运</span>
             <div>
               <h3>完整“{targetYear} 年运势”还差什么？</h3>
-              <p>要继续补旺衰/格局/喜用与流年支互动等证据，再分别形成桃花、事业财运等场景规则。现在不会用一个“食神”就给你下全年吉凶结论。</p>
+              <p>要继续补旺衰、格局、喜用、大运以及流年关系实际效力等证据，再分别形成桃花、事业财运等场景规则。现在不会用一个“食神”就给你下全年吉凶结论。</p>
             </div>
           </div>
         </section>

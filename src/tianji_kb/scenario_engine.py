@@ -244,6 +244,66 @@ def _daily(inputs):
     }
 
 
+
+def _annual_branch_structure(natal, flow_branch):
+    """Review-backed flow-year/each-natal-branch relations, with no luck scores.
+
+    Evaluate exactly four flow-to-natal pairs, not the six natal-to-natal
+    pairs. A hit must cite the executed, validated Phase2 relation rule.
+    """
+    rules = {
+        "six_harmony": "bazi.phase2.branch_six_harmonies",
+        "harm": "bazi.phase2.branch_six_harms",
+        "clash": "bazi.phase2.branch_six_clashes",
+    }
+    by_rule = {row["rule_id"]: row for row in natal["rule_matches"]}
+    citations = {}
+    for kind, rule_id in rules.items():
+        matched = by_rule.get(rule_id)
+        if not matched or matched.get("matched") is not True or not matched.get("evidence_ids"):
+            raise ValueError("Reviewed annual branch relation evidence is missing")
+        if any(eid not in natal["evidence"] for eid in matched["evidence_ids"]):
+            raise ValueError("Reviewed annual branch citation was not resolved")
+        citations[kind] = list(matched["evidence_ids"])
+    hits = []
+    counts = {kind: 0 for kind in rules}
+    for pillar in natal["result"]["pillars"]:
+        natal_branch = pillar["branch"]["value"]
+        for relation in reviewed_branch_pair_relations(flow_branch, natal_branch):
+            kind = relation["kind"]
+            row = {
+                "relation_type": kind,
+                "rule_id": rules[kind],
+                "flow_branch": flow_branch,
+                "natal_pillar": pillar["name"],
+                "natal_branch": natal_branch,
+                "branches": list(relation["branches"]),
+                "evidence_ids": list(citations[kind]),
+            }
+            if kind == "six_harmony":
+                row["traditional_result_element"] = relation["traditional_result_element"]
+                row["transformation_effectiveness_assessed"] = False
+            hits.append(row)
+            counts[kind] += 1
+    evidence_ids = list(dict.fromkeys(
+        eid for ids in citations.values() for eid in ids))
+    return {
+        "flow_branch": flow_branch,
+        "natal_branches_checked": [
+            {"pillar": p["name"], "branch": p["branch"]["value"]}
+            for p in natal["result"]["pillars"]
+        ],
+        "hits": hits,
+        "counts": counts,
+        "evaluated_pairs": 4,
+        "rule_ids": list(rules.values()),
+        "evidence_ids": evidence_ids,
+        "interpretation_allowed": False,
+        "policy": "Only reviewed 六冲/六合/六害 fixed pair structures. No 破/刑/三合, effects, luck, or events.",
+    }
+
+
+
 def _yearly(inputs):
     _require_exact(inputs, {"birth_value", "target_year"})
     birth_value = inputs["birth_value"]
@@ -253,7 +313,7 @@ def _yearly(inputs):
     if type(target_year) is not int or not 1900 <= target_year <= 2100:
         raise ValueError("target_year must be an integer from 1900 through 2100")
 
-    natal = execute("bazi", {"value": birth_value})
+    natal = execute("bazi", {"value": birth_value, "include_relations": True})
     # July 1 is deliberately inside the target solar-term year. The response
     # reports this convention instead of pretending a Gregorian Jan-1 boundary.
     reference = f"{target_year:04d}-07-01T12:00:00+08:00"
@@ -264,7 +324,9 @@ def _yearly(inputs):
     flow_ten_god = ten_god(day_master, flow_stem)
 
     base_rule = next(rule for rule in natal["rule_matches"] if rule["rule_id"] == "bazi.phase2.ten_gods")
-    evidence_ids = list(base_rule["evidence_ids"])
+    branch_structure = _annual_branch_structure(natal, flow_branch)
+    evidence_ids = list(dict.fromkeys(
+        [*base_rule["evidence_ids"], *branch_structure["evidence_ids"]]))
     evidence = {eid: copy.deepcopy(natal["evidence"][eid]) for eid in evidence_ids}
 
     result = {
@@ -281,6 +343,7 @@ def _yearly(inputs):
             "calendar_provider": target_calendar["calendar_provider"],
             "year_boundary": "solar-term year; reference date fixed to July 1 for stable annual stem/branch selection",
         },
+        "annual_branch_interactions": branch_structure,
         "release_scope": "annual_structure_only",
     }
     rule_match = {
@@ -322,13 +385,42 @@ def _yearly(inputs):
         "public_release": False,
         "deterministic": True,
         "result": result,
-        "rule_matches": [rule_match],
-        "trace": trace,
+        "rule_matches": [
+            rule_match,
+            {
+                "rule_id": "bazi.scenario.annual_branch_relations",
+                "derived_from_rule_ids": branch_structure["rule_ids"],
+                "variant": "ziping-structural-v1",
+                "matched": True,
+                "kind": "scenario_composition",
+                "evidence_scope": "仅复用已验证六合、六害、六冲规则的地支成对结构，不推断作用强弱和吉凶。",
+                "facts": {
+                    "flow_branch": flow_branch,
+                    "hits": copy.deepcopy(branch_structure["hits"]),
+                    "counts": copy.deepcopy(branch_structure["counts"]),
+                    "evaluated_pairs": 4,
+                },
+                "evidence_ids": list(branch_structure["evidence_ids"]),
+            },
+        ],
+        "trace": [
+            *trace,
+            {
+                "step": "reviewed_flow_year_natal_branch_pairs",
+                "derived_from_rule_ids": branch_structure["rule_ids"],
+                "facts": {
+                    "flow_branch": flow_branch,
+                    "hits": copy.deepcopy(branch_structure["hits"]),
+                    "counts": copy.deepcopy(branch_structure["counts"]),
+                },
+                "evidence_ids": list(branch_structure["evidence_ids"]),
+            },
+        ],
         "evidence": evidence,
         "warnings": ["年度结构运行层已可用，但当前不对普通用户自动发布年度吉凶解释。"],
         "limitations": [
-            "只描述目标干支年与日主的十神结构，不等同于年度运势。",
-            "尚未把旺衰、格局、喜用神、流年支与原局冲合等争议规则纳入本生产场景。",
+            "只描述目标干支年相对日主的十神，以及流年地支与原局四柱地支的已审核六合、六害、六冲结构，不等同于年度运势。",
+            "已核六合、六害、六冲仅列成对匹配；三合、刑、破、合化效力、冲害应事、旺衰、喜用神和大运均未在此裁定。",
             "不输出桃花、婚恋、事业、财富、健康或事件应期判断。",
             "AI 不参与本场景计算。",
         ],
