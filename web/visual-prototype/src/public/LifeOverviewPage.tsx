@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
@@ -7,6 +7,12 @@ import { readSavedTargetYear, saveTargetYear, isValidTargetYear, MIN_TARGET_YEAR
 import "./life-overview.css";
 
 const profileKey = "tianji.profile.birth.v1";
+const relationNames: Record<string, string> = {
+  six_harmony: "六合",
+  harm: "六害",
+  clash: "六冲",
+};
+
 const pillarNames: Record<string, string> = {
   year: "年柱",
   month: "月柱",
@@ -42,16 +48,26 @@ export function LifeOverviewPage() {
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const requestVersion = useRef(0);
+
+  useEffect(() => () => { requestVersion.current += 1; }, []);
+
+  function invalidateResult() {
+    requestVersion.current += 1;
+    setResult(null);
+    setError("");
+    setLoading(false);
+  }
 
   function fillSample() {
     setDate("2000-01-07");
     setTime("12:00");
-    setResult(null);
-    setError("");
+    invalidateResult();
   }
 
   async function submit(event: FormEvent) {
     event.preventDefault();
+    const version = ++requestVersion.current;
     setLoading(true);
     setError("");
     setResult(null);
@@ -61,6 +77,7 @@ export function LifeOverviewPage() {
         birth_value: `${date}T${time}:00+08:00`,
         target_year: targetYear,
       });
+      if (version !== requestVersion.current) return;
       try {
         localStorage.setItem(profileKey, JSON.stringify({ date, time }));
         saveTargetYear(targetYear);
@@ -69,9 +86,10 @@ export function LifeOverviewPage() {
       }
       setResult(next);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "人生总览生成失败。");
+      if (version === requestVersion.current)
+        setError(err instanceof Error ? err.message : "人生总览生成失败。");
     } finally {
-      setLoading(false);
+      if (version === requestVersion.current) setLoading(false);
     }
   }
 
@@ -84,9 +102,12 @@ export function LifeOverviewPage() {
   const pillars = Array.isArray(profile.pillars) ? profile.pillars : [];
   const careerGroups = career.structure_groups || {};
   const yearTarget = yearly.target_year || {};
+  const annualRelations = yearly.annual_branch_interactions;
+  const annualHits: Array<any> = Array.isArray(annualRelations?.hits) ? annualRelations.hits : [];
   const romanceTargets = romance.xianchi?.targets || {};
   const activation = romance.target_year_activation || {};
   const evidenceCount = result ? Object.keys(result.evidence).length : 0;
+  const reviewedEvidence = result?.evidence || {};
 
   return (
     <div className="life-page">
@@ -131,16 +152,16 @@ export function LifeOverviewPage() {
           <div className="life-input-grid">
             <label>
               <span>出生日期</span>
-              <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+              <input type="date" value={date} onChange={(e) => { invalidateResult(); setDate(e.target.value); }} required />
             </label>
             <label>
               <span>出生时间</span>
-              <input type="time" value={time} onChange={(e) => setTime(e.target.value)} required />
+              <input type="time" value={time} onChange={(e) => { invalidateResult(); setTime(e.target.value); }} required />
             </label>
             <label className="life-year">
               <span>观察年份</span>
               <input type="number" min={MIN_TARGET_YEAR} max={MAX_TARGET_YEAR} step={1} value={targetYear}
-                onChange={(event) => { setTargetYear(Number(event.target.value)); setResult(null); }}
+                onChange={(event) => { invalidateResult(); setTargetYear(Number(event.target.value)); }}
                 required />
             </label>
           </div>
@@ -240,6 +261,46 @@ export function LifeOverviewPage() {
                 </div>
               </div>
               <p>这里只复述已验证结构关系，不把单个十神直接解释为全年吉凶。</p>
+              {annualRelations && (
+                <div className="life-annual-relations" aria-label="流年冲合害来源">
+                  <h3>流年地支 {annualRelations.flow_branch} 与四柱的结构关系</h3>
+                  <p>已核对 {annualRelations.evaluated_pairs} 组地支；命中 {annualHits.length} 条六合、六害或六冲。</p>
+                  {annualHits.length ? annualHits.map((hit: any, index: number) => {
+                    const refs: Array<{ id: string; title: string; quote: string; grade: string }> =
+                      Array.isArray(hit.evidence_ids) ? hit.evidence_ids.flatMap((id: string) => {
+                        const source = reviewedEvidence[id];
+                        if (!source || typeof source.original_text !== "string" ||
+                            !source.original_text.trim() ||
+                            typeof source.classic_title !== "string" ||
+                            !source.classic_title.trim()) return [];
+                        return [{
+                          id,
+                          title: source.classic_title,
+                          quote: source.original_text,
+                          grade: typeof source.evidence_level === "string" ? source.evidence_level : "未标注",
+                        }];
+                      }) : [];
+                    return (
+                      <article className="life-annual-hit" key={hit.rule_id + "-" + hit.natal_pillar + "-" + index}>
+                        <strong>{relationNames[hit.relation_type] || hit.relation_type}</strong>
+                        <span>{hit.flow_branch} ↔ {hit.natal_branch} · {pillarNames[hit.natal_pillar] || hit.natal_pillar}</span>
+                        {refs.length ? (
+                          <details>
+                            <summary>本条古籍依据（{refs.length}）</summary>
+                            {refs.map((ref) => (
+                              <blockquote key={ref.id}>
+                                <small>{ref.title} · {ref.grade}</small>
+                                <p>{ref.quote}</p>
+                              </blockquote>
+                            ))}
+                          </details>
+                        ) : <p>未收到可核验的对应引文，不扩展解释。</p>}
+                      </article>
+                    );
+                  }) : <p>此年未命中已审核的三类成对结构，不等于全年没有变化。</p>}
+                  <small>仅是固定规则的结构命中，不推断应事、婚恋、财运或吉凶。</small>
+                </div>
+              )}
             </section>
 
             <section className="life-section life-focus">
