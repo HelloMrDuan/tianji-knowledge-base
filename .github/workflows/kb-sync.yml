@@ -27,6 +27,7 @@ jobs:
           export PYTHONPATH=src
           python scripts/validate_kb.py
           python scripts/validate_knowledge.py
+          python scripts/build_production_runtime.py
           python -m unittest discover -s tests -p 'test_*.py'
 
       - name: Sync upstream metadata
@@ -55,6 +56,7 @@ jobs:
           export PYTHONPATH=src
           python scripts/validate_kb.py
           python scripts/validate_knowledge.py
+          python scripts/build_production_runtime.py
           python -m unittest discover -s tests -p 'test_*.py'
           python scripts/build_rag_chunks.py
           python scripts/build_sqlite_fts.py
