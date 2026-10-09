@@ -850,6 +850,12 @@ def _career(inputs):
         next(rule for rule in natal["rule_matches"] if rule["rule_id"] == "bazi.phase2.ten_gods"),
         next(rule for rule in natal["rule_matches"] if rule["rule_id"] == "bazi.phase2.hidden_stems"),
     ]
+    # Even the explanatory layer must fail closed if an executed source rule
+    # does not have resolved canonical evidence.
+    for rule in source_rules:
+        if (not rule.get("evidence_ids") or any(
+                eid not in natal["evidence"] for eid in rule["evidence_ids"])):
+            raise ValueError("Reviewed career Ten-God evidence is missing")
     evidence_ids = []
     for rule in source_rules:
         for eid in rule["evidence_ids"]:
