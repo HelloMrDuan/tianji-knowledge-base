@@ -81,7 +81,7 @@ export function CareerWealthStructurePage() {
   const payload = result?.result || {};
   const natal = payload.natal || {};
   const groups = payload.structure_groups || {};
-  const targetYear = payload.target_year || {};
+  const flowYear = payload.target_year || {};
   const evidence = result
     ? Object.entries(result.evidence).map(([id, value]) => displayEvidence(id, value))
     : [];
@@ -176,12 +176,12 @@ export function CareerWealthStructurePage() {
               <h2>
                 日主 {natal.day_master?.stem || "—"}
                 <span> · </span>
-                {targetYear} {targetYear.ganzhi || "—"}
+                {targetYear} {flowYear.ganzhi || "—"}
               </h2>
               <p>
-                流年天干 {targetYear.stem || "—"} 相对日主为
-                <strong> {targetYear.stem_ten_god || "—"} </strong>
-                · 归入 {targetYear.structure_group_label || "—"} 结构。
+                流年天干 {flowYear.stem || "—"} 相对日主为
+                <strong> {flowYear.stem_ten_god || "—"} </strong>
+                · 归入 {flowYear.structure_group_label || "—"} 结构。
               </p>
             </div>
             <span className="career-limited">结构内测</span>
@@ -192,7 +192,7 @@ export function CareerWealthStructurePage() {
               const group = groups[groupId] || {};
               const occurrences = Array.isArray(group.occurrences) ? group.occurrences : [];
               return (
-                <article key={groupId} className={targetYear.structure_group === groupId ? "flow-hit" : ""}>
+                <article key={groupId} className={flowYear.structure_group === groupId ? "flow-hit" : ""}>
                   <div className="career-group-title">
                     <span>{groupGlyph[groupId]}</span>
                     <div>
@@ -214,7 +214,7 @@ export function CareerWealthStructurePage() {
                       </span>
                     )) : <em>当前结构中未见</em>}
                   </div>
-                  {targetYear.structure_group === groupId && (
+                  {flowYear.structure_group === groupId && (
                     <p>{targetYear} 流年天干落入这一结构组，仅表示十神关系命中。</p>
                   )}
                 </article>
