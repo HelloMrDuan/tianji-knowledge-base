@@ -152,6 +152,7 @@ def _daily(inputs):
         for eid in rule["evidence_ids"]:
             if eid not in evidence_ids:
                 evidence_ids.append(eid)
+    base_evidence_ids = list(dict.fromkeys(eid for rule in source_rules[:2] for eid in rule["evidence_ids"]))
     evidence = {eid: copy.deepcopy(natal["evidence"][eid]) for eid in evidence_ids}
 
     result = {
@@ -199,7 +200,7 @@ def _daily(inputs):
             "day_group": day_group,
             "xianchi_activation": copy.deepcopy(activation),
         },
-        "evidence_ids": evidence_ids,
+        "evidence_ids": base_evidence_ids,
     }
     trace = [
         {
@@ -217,14 +218,14 @@ def _daily(inputs):
                 "ten_god": day_ten_god,
                 "structure_group": day_group,
             },
-            "evidence_ids": evidence_ids,
+            "evidence_ids": base_evidence_ids,
         },
         {
             "step": "target_day_xianchi_activation",
             "derived_from_rule_id": "bazi.phase2.xianchi_lookup",
             "basis_policy": "year_and_day_reported_separately",
             "facts": copy.deepcopy(activation),
-            "evidence_ids": evidence_ids,
+            "evidence_ids": base_evidence_ids,
         },
     ]
     return {
@@ -605,8 +606,9 @@ def _period_context(birth_value):
         for eid in rule["evidence_ids"]:
             if eid not in evidence_ids:
                 evidence_ids.append(eid)
+    base_evidence_ids = list(dict.fromkeys(eid for rule in source_rules[:2] for eid in rule["evidence_ids"]))
     evidence = {eid: copy.deepcopy(natal["evidence"][eid]) for eid in evidence_ids}
-    return natal, evidence_ids, evidence
+    return natal, base_evidence_ids, evidence
 
 
 def _period_day_fact(natal, target_date):
