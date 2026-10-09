@@ -87,7 +87,9 @@ class ProjectionSmoke(unittest.TestCase):
                 'sections':[{'derived_from_rule_ids':['private.rule'],
                              'evidence_ids':['private-ref'],
                              'source_refs':[{'path':'internal'}],
-                             'sha256':'abc'}]},
+                             'sha256':'abc',
+                'trace':[{'inputs':{'private_token':'nested'}}],
+                'evidence':{'private-ref':{'source_id':'private-id'}}}]},
             'evidence':{'private-ref':{
                 'classic_title':'校勘文本',
                 'original_text':'已经审核的短引',
@@ -99,7 +101,7 @@ class ProjectionSmoke(unittest.TestCase):
         }
         public=project_execution(internal)
         serialized=json.dumps(public,ensure_ascii=False)
-        for forbidden in ('data/canonical','private.rule','private-ref',
+        for forbidden in ('data/canonical','private.rule','private-ref','private-id',
                           'private_token','source_refs','sha256'):
             self.assertNotIn(forbidden,serialized)
         self.assertEqual(public['chart']['ganzhi'],'丁未')
