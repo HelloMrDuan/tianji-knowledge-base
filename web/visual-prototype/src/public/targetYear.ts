@@ -3,9 +3,11 @@
  * actual deterministic Scenario Engine, never calculated in the browser.
  */
 const KEY = "tianji.scenario.target-year.v1";
-export const DEFAULT_TARGET_YEAR = 2026;
 export const MIN_TARGET_YEAR = 1901;
 export const MAX_TARGET_YEAR = 2098;
+// The default follows the visitor's current calendar year; explicit selection
+// remains stored only after successful real calculation.
+export const DEFAULT_TARGET_YEAR = Math.max(MIN_TARGET_YEAR, Math.min(MAX_TARGET_YEAR, new Date().getFullYear()));
 
 export function isValidTargetYear(value: unknown): value is number {
   return typeof value === "number" && Number.isInteger(value) &&
