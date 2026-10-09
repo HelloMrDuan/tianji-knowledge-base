@@ -344,7 +344,7 @@ def _yearly(inputs):
             "year_boundary": "solar-term year; reference date fixed to July 1 for stable annual stem/branch selection",
         },
         "annual_branch_interactions": branch_structure,
-        "release_scope": "annual_reviewed_branch_structure_only",
+        "release_scope": "annual_structure_only",
     }
     rule_match = {
         "rule_id": "bazi.scenario.flow_stem_ten_god",
