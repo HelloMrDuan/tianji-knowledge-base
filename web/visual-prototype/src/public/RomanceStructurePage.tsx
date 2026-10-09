@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
@@ -7,6 +7,12 @@ import { readSavedTargetYear, saveTargetYear, isValidTargetYear, MIN_TARGET_YEAR
 import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
 import "./romance-structure.css";
 
+const relationNames: Record<string, string> = {
+  six_harmony: "六合",
+  harm: "六害",
+  clash: "六冲",
+};
+
 const pillarNames: Record<string, string> = {
   year: "年柱",
   month: "月柱",
@@ -14,23 +20,16 @@ const pillarNames: Record<string, string> = {
   hour: "时柱",
 };
 
-function displayEvidence(id: string, evidence: Record<string, any>) {
+function displayEvidence(id: string, source: Record<string, any>) {
+  const title = source.classic_title || source.title || source.source_title;
+  const quote = source.original_text;
+  if (typeof title !== "string" || !title.trim() ||
+      typeof quote !== "string" || !quote.trim()) return null;
   return {
     id,
-    title: String(
-      evidence.classic_title ||
-      evidence.title ||
-      evidence.classic ||
-      evidence.source_title ||
-      "《三命通会》",
-    ),
-    quote: String(
-      evidence.original_text ||
-      evidence.quote ||
-      evidence.text ||
-      "该证据已由服务端绑定。",
-    ),
-    grade: String(evidence.evidence_level || evidence.grade || "—"),
+    title,
+    quote,
+    grade: typeof source.evidence_level === "string" ? source.evidence_level : "未标注",
   };
 }
 
@@ -45,16 +44,26 @@ export function RomanceStructurePage() {
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const requestVersion = useRef(0);
+
+  useEffect(() => () => { requestVersion.current += 1; }, []);
+
+  function invalidateResult() {
+    requestVersion.current += 1;
+    setResult(null);
+    setError("");
+    setLoading(false);
+  }
 
   function fillSample() {
     setDate("2000-01-07");
     setTime("12:00");
-    setResult(null);
-    setError("");
+    invalidateResult();
   }
 
   async function submit(event: FormEvent) {
     event.preventDefault();
+    const version = ++requestVersion.current;
     setLoading(true);
     setError("");
     setResult(null);
@@ -64,13 +73,15 @@ export function RomanceStructurePage() {
         birth_value: `${date}T${time}:00+08:00`,
         target_year: targetYear,
       });
+      if (version !== requestVersion.current) return;
       saveBirthProfile({ date, time });
       saveTargetYear(targetYear);
       setResult(response);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "桃花结构计算失败。");
+      if (version === requestVersion.current)
+        setError(err instanceof Error ? err.message : "桃花结构计算失败。");
     } finally {
-      setLoading(false);
+      if (version === requestVersion.current) setLoading(false);
     }
   }
 
@@ -82,9 +93,13 @@ export function RomanceStructurePage() {
   const natalMatches = Array.isArray(xianchi.natal_matches) ? xianchi.natal_matches : [];
   const activation = payload.target_year_activation || {};
   const flowYear = payload.target_year || {};
+  const spousePalace = payload.spouse_palace_year_relations;
+  const spouseRelations: Array<any> = Array.isArray(spousePalace?.relations) ? spousePalace.relations : [];
   const evidence = result
     ? Object.entries(result.evidence).map(([id, value]) => displayEvidence(id, value))
+        .filter((item): item is NonNullable<typeof item> => item !== null)
     : [];
+  const evidenceById = new Map(evidence.map((item) => [item.id, item]));
 
   const yearMatches = natalMatches.filter((item: any) => item.basis === "year_branch");
   const dayMatches = natalMatches.filter((item: any) => item.basis === "day_branch");
@@ -102,8 +117,8 @@ export function RomanceStructurePage() {
           <span className="eyebrow">桃花姻缘 · 第一层真实能力</span>
           <h1>先看“桃花结构”有没有命中，再谈它意味着什么。</h1>
           <p>
-            当前只做一件可靠的事：依据已审核的《三命通会》咸池四组，
-            把年支和日支两套起查结果分别列出来，并检查原局与 {targetYear} 流年地支是否命中。
+            依据已审核的传统咸池查表与地支冲合害规则，
+            分别列出年支、日支两套咸池结果，另外核对日支与 {targetYear} 流年地支的结构关系。
             不用一个神煞就替你下婚恋结论。
           </p>
         </div>
@@ -125,16 +140,16 @@ export function RomanceStructurePage() {
           <div className="romance-input-grid">
             <label>
               <span>出生日期</span>
-              <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+              <input type="date" value={date} onChange={(e) => { invalidateResult(); setDate(e.target.value); }} required />
             </label>
             <label>
               <span>出生时间</span>
-              <input type="time" value={time} onChange={(e) => setTime(e.target.value)} required />
+              <input type="time" value={time} onChange={(e) => { invalidateResult(); setTime(e.target.value); }} required />
             </label>
             <label className="romance-fixed-year">
               <span>观察年份</span>
               <input type="number" min={MIN_TARGET_YEAR} max={MAX_TARGET_YEAR} step={1} value={targetYear}
-                onChange={(event) => { setTargetYear(Number(event.target.value)); setResult(null); }}
+                onChange={(event) => { invalidateResult(); setTargetYear(Number(event.target.value)); }}
                 required />
             </label>
           </div>
@@ -158,7 +173,7 @@ export function RomanceStructurePage() {
             <li>不根据古籍旧式断语推断性格、疾病</li>
             <li>不使用 AI 补齐缺失规则</li>
           </ul>
-          <p>后续会在配偶星、夫妻宫、合冲刑害、旺衰喜忌等证据完成后再逐层扩展。</p>
+          <p>当前夫妻宫仅观察日支位置与流年的已审六合、六冲、六害，不代表现实婚恋结果。其他体系继续补充。</p>
         </aside>
       </section>
 
@@ -228,6 +243,50 @@ export function RomanceStructurePage() {
             </article>
           </div>
 
+          {spousePalace && (
+            <section className="romance-natal romance-spouse-palace" aria-label="日支与流年地支关系">
+              <div className="result-section-heading">
+                <div><span>宫</span><h2>日支（传统夫妻宫位置） × {targetYear} 流年</h2></div>
+                <small>成对规则 · 不作婚恋预测</small>
+              </div>
+              <p>
+                原局日支 <strong>{spousePalace.natal_day_branch}</strong>，流年地支
+                <strong> {spousePalace.target_year_branch}</strong>。已核对 1 组成对地支关系。
+              </p>
+              {spouseRelations.length ? (
+                <div className="romance-spouse-hits">
+                  {spouseRelations.map((item, index) => {
+                    const linked = Array.isArray(item.evidence_ids)
+                      ? item.evidence_ids.map((id: string) => evidenceById.get(id))
+                          .filter((ref: any) => ref !== undefined)
+                      : [];
+                    return (
+                      <article key={item.rule_id + "-" + index}>
+                        <strong>{relationNames[item.relation_type] || item.relation_type}</strong>
+                        <span>{item.natal_branch} ↔ {item.flow_branch}</span>
+                        <small>规则：{item.rule_id}</small>
+                        {linked.length ? (
+                          <details>
+                            <summary>查看对应古籍短引（{linked.length}）</summary>
+                            {linked.map((ref: any) => (
+                              <blockquote key={ref.id}>
+                                <b>{ref.title} · {ref.grade}</b>
+                                <p>{ref.quote}</p>
+                              </blockquote>
+                            ))}
+                          </details>
+                        ) : <p className="romance-source-missing">缺少可核验的短引，不追加推断。</p>}
+                      </article>
+                    );
+                  })}
+                </div>
+              ) : (
+                <p>当前未命中本版已审核的六合、六冲、六害成对规则；不代表婚恋缺失或没有其他结构关系。</p>
+              )}
+              <p className="romance-spouse-boundary">日支位置不等于完整婚姻判断；没有裁定合化、生克效力、配偶星、婚期或吉凶。</p>
+            </section>
+          )}
+
           <section className="romance-natal">
             <div className="result-section-heading">
               <div><span>一</span><h2>你的原局四柱</h2></div>
@@ -284,7 +343,7 @@ export function RomanceStructurePage() {
             <div>
               <h3>下一层才是真正的“桃花姻缘报告”</h3>
               <p>
-                接下来继续补配偶星、夫妻宫、合冲刑害和流年互动，再考虑紫微交叉证据。
+                本版已加入有来源的日支—流年六合、六害、六冲；仍需补配偶星、完整夫妻宫作用及其他传统体系，再考虑紫微交叉证据。
                 这些完成前，本页只叫“结构内测”。
               </p>
             </div>

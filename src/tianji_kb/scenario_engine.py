@@ -436,11 +436,21 @@ def _romance(inputs):
     if type(target_year) is not int or not 1900 <= target_year <= 2100:
         raise ValueError("target_year must be an integer from 1900 through 2100")
 
-    natal = execute("bazi", {"value": birth_value, "include_xianchi": True})
+    natal = execute("bazi", {"value": birth_value, "include_xianchi": True, "include_relations": True})
     xianchi = copy.deepcopy(natal["result"]["xianchi_lookup"])
     xianchi_rule = next(
         rule for rule in natal["rule_matches"] if rule["rule_id"] == "bazi.phase2.xianchi_lookup"
     )
+    spouse_rule = next(
+        rule for rule in natal["rule_matches"]
+        if rule["rule_id"] == "bazi.phase2.spouse_palace_day_branch"
+    )
+    if (not spouse_rule.get("evidence_ids") or
+            any(eid not in natal["evidence"] for eid in spouse_rule["evidence_ids"])):
+        raise ValueError("Reviewed spouse palace source evidence is missing")
+    if (not xianchi_rule.get("evidence_ids") or
+            any(eid not in natal["evidence"] for eid in xianchi_rule["evidence_ids"])):
+        raise ValueError("Reviewed Xianchi source evidence is missing")
     evidence_ids = list(xianchi_rule["evidence_ids"])
     evidence = {eid: copy.deepcopy(natal["evidence"][eid]) for eid in evidence_ids}
 
@@ -448,6 +458,37 @@ def _romance(inputs):
     target_calendar = calendar(reference)
     flow_ganzhi = target_calendar["year_ganzhi"]
     flow_branch = flow_ganzhi[1]
+    annual_structure = _annual_branch_structure(natal, flow_branch)
+    natal_day_branch = next(
+        pillar["branch"]["value"] for pillar in natal["result"]["pillars"]
+        if pillar["name"] == "day"
+    )
+    paired_relations = [
+        copy.deepcopy(hit) for hit in annual_structure["hits"]
+        if hit["natal_pillar"] == "day"
+    ]
+    if any(hit["natal_branch"] != natal_day_branch for hit in paired_relations):
+        raise ValueError("Spouse palace relation inconsistent with natal day branch")
+    spouse_evidence_ids = list(dict.fromkeys([
+        *spouse_rule["evidence_ids"],
+        *[eid for hit in paired_relations for eid in hit["evidence_ids"]],
+    ]))
+    for eid in spouse_evidence_ids:
+        evidence[eid] = copy.deepcopy(natal["evidence"][eid])
+    spouse_palace = {
+        "scope": "reviewed_spouse_palace_day_branch_and_year_pairs",
+        "natal_day_branch": natal_day_branch,
+        "target_year_branch": flow_branch,
+        "pairs_checked": 1,
+        "relations": paired_relations,
+        "evidence_ids": spouse_evidence_ids,
+        "reviewed_rule_ids": [
+            "bazi.phase2.spouse_palace_day_branch",
+            *annual_structure["rule_ids"],
+        ],
+        "interpretation_allowed": False,
+        "limitations": "只观察日支位置与流年地支的六合、六害、六冲；无关系命中不代表婚恋缺失，不判断合化、婚期或吉凶。",
+    }
     activation = {
         "year_branch_basis": {
             "target_branch": xianchi["targets"]["year_branch"],
@@ -479,6 +520,7 @@ def _romance(inputs):
             "year_boundary": "solar-term year; reference date fixed to July 1 for stable annual branch selection",
         },
         "target_year_activation": activation,
+        "spouse_palace_year_relations": spouse_palace,
         "release_scope": "xianchi_structure_only",
     }
     rule_match = {
@@ -525,17 +567,46 @@ def _romance(inputs):
         "public_release": False,
         "deterministic": True,
         "result": result,
-        "rule_matches": [rule_match],
-        "trace": trace,
+        "rule_matches": [
+            rule_match,
+            {
+                "rule_id": "bazi.scenario.spouse_palace_year_structure",
+                "derived_from_rule_ids": spouse_palace["reviewed_rule_ids"],
+                "variant": "ziping-structural-v1",
+                "matched": True,
+                "kind": "scenario_composition",
+                "evidence_scope": "已审夫妻宫日支位置与流年地支六合、六冲、六害；无婚恋断语。",
+                "facts": {
+                    "natal_day_branch": natal_day_branch,
+                    "target_year_branch": flow_branch,
+                    "relations": copy.deepcopy(paired_relations),
+                    "pairs_checked": 1,
+                },
+                "evidence_ids": spouse_evidence_ids,
+            },
+        ],
+        "trace": [
+            *trace,
+            {
+                "step": "reviewed_spouse_palace_target_year_branch_relations",
+                "derived_from_rule_ids": spouse_palace["reviewed_rule_ids"],
+                "facts": {
+                    "natal_day_branch": natal_day_branch,
+                    "target_year_branch": flow_branch,
+                    "relations": copy.deepcopy(paired_relations),
+                },
+                "evidence_ids": spouse_evidence_ids,
+            },
+        ],
         "evidence": evidence,
         "warnings": [
-            "桃花结构运行层已可用，但当前只报告咸池查表事实，不对普通用户自动发布婚恋吉凶解释。",
+            "桃花结构运行层已可用，包含咸池和已核夫妻宫日支与目标流年地支的成对结构；不发布婚恋吉凶解释。",
         ],
         "limitations": [
             "年支与日支两个起查基准分别展示，不裁定其中任何一个为唯一标准。",
             "目标年份是否落在咸池目标支，只表示固定查表结构命中，不等同于桃花旺、恋爱发生或婚姻结果。",
             "《三命通会》相关纳音附加条件尚未纳入自动规则。",
-            "尚未组合配偶星、夫妻宫、合冲刑害、旺衰喜忌、紫微等其他婚恋判断体系。",
+            "夫妻宫仅以日支位置配对已审六合、六冲、六害；三合、刑、破、合化效力、配偶星、旺衰喜忌、大运和紫微等未组合裁定。",
             "AI 不参与本场景计算。",
         ],
     }
