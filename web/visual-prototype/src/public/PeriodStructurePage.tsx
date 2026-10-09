@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
@@ -10,6 +10,9 @@ import {
 import "./period-structure.css";
 
 const profileKey = "tianji.profile.birth.v1";
+const relationLabel: Record<string, string> = {six_harmony: "六合", harm: "六害", clash: "六冲"};
+const pillarLabel: Record<string, string> = {year: "年柱", month: "月柱", day: "日柱", hour: "时柱"};
+
 const groupLabel: Record<string, string> = {
   wealth: "财星",
   authority: "官杀",
@@ -57,6 +60,14 @@ export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const requestVersion = useRef(0);
+  useEffect(() => () => { requestVersion.current += 1; }, []);
+  function invalidateResult() {
+    requestVersion.current += 1;
+    setResult(null);
+    setError("");
+    setLoading(false);
+  }
 
   const isWeekly = mode === "weekly";
   const title = isWeekly ? "本周结构" : "本月结构";
@@ -64,6 +75,7 @@ export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
 
   async function submit(event: FormEvent) {
     event.preventDefault();
+    const version = ++requestVersion.current;
     setLoading(true);
     setError("");
     setResult(null);
@@ -72,6 +84,7 @@ export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
       const next = isWeekly
         ? await executeWeeklyScenario({ birth_value: birthValue, anchor_date: anchorDate })
         : await executeMonthlyScenario({ birth_value: birthValue, target_month: targetMonth });
+      if (version !== requestVersion.current) return;
       try {
         localStorage.setItem(profileKey, JSON.stringify({ date: birthDate, time: birthTime }));
       } catch {
@@ -79,9 +92,10 @@ export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
       }
       setResult(next);
     } catch (err) {
-      setError(err instanceof Error ? err.message : `${title}计算失败。`);
+      if (version === requestVersion.current)
+        setError(err instanceof Error ? err.message : `${title}计算失败。`);
     } finally {
-      setLoading(false);
+      if (version === requestVersion.current) setLoading(false);
     }
   }
 
@@ -92,6 +106,9 @@ export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
   const counts = summary.structure_group_counts || {};
   const xianchiDates = Array.isArray(summary.xianchi_hit_dates) ? summary.xianchi_hit_dates : [];
   const hitSet = new Set(xianchiDates.map((item: any) => item.date));
+  const branchDates: Array<any> = Array.isArray(summary.branch_relation_dates) ? summary.branch_relation_dates : [];
+  const branchCounts = summary.branch_relation_counts || {};
+  const verifiedEvidence = result?.evidence || {};
 
   return (
     <div className="period-page">
@@ -106,7 +123,7 @@ export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
           <span className="eyebrow">{title} · 周期结构内测</span>
           <h1>{isWeekly ? "把这一周七天摊开来看。" : "把这个月每天的结构排成一张月历。"}</h1>
           <p>
-            每一天都复用真实的日干支、十神与咸池结构。这里做的是周期分布，
+            每一天都复用真实日干支、十神、咸池和已审地支冲合害。这里做的是周期分布，
             不是把出现次数换算成“好运指数”。
           </p>
         </div>
@@ -128,21 +145,21 @@ export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
           <div className="period-input-grid">
             <label>
               <span>出生日期</span>
-              <input type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} required />
+              <input type="date" value={birthDate} onChange={(e) => { invalidateResult(); setBirthDate(e.target.value); }} required />
             </label>
             <label>
               <span>出生时间</span>
-              <input type="time" value={birthTime} onChange={(e) => setBirthTime(e.target.value)} required />
+              <input type="time" value={birthTime} onChange={(e) => { invalidateResult(); setBirthTime(e.target.value); }} required />
             </label>
             {isWeekly ? (
               <label>
                 <span>本周参考日期</span>
-                <input type="date" value={anchorDate} onChange={(e) => setAnchorDate(e.target.value)} required />
+                <input type="date" value={anchorDate} onChange={(e) => { invalidateResult(); setAnchorDate(e.target.value); }} required />
               </label>
             ) : (
               <label>
                 <span>查看月份</span>
-                <input type="month" value={targetMonth} onChange={(e) => setTargetMonth(e.target.value)} required />
+                <input type="month" value={targetMonth} onChange={(e) => { invalidateResult(); setTargetMonth(e.target.value); }} required />
               </label>
             )}
           </div>
@@ -164,6 +181,7 @@ export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
             <li>每天的干支与十神关系</li>
             <li>五类十神结构在周期内出现多少天</li>
             <li>哪些日期出现咸池固定查表命中</li>
+            <li>哪些日期与出生四柱匹配六合、六冲、六害</li>
             <li>每一天都能回到底层 Evidence</li>
           </ul>
         </aside>
@@ -223,6 +241,7 @@ export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
                   <span>{item.stem_ten_god}</span>
                   <em>{item.structure_group_label || "—"}</em>
                   {item.xianchi_hit_count > 0 && <b>咸池 {item.xianchi_hit_count}</b>}
+                  {item.branch_interactions?.hits?.length > 0 && <b>冲合害 {item.branch_interactions.hits.length}</b>}
                 </article>
               ))}
             </div>
@@ -242,17 +261,62 @@ export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
             </section>
           )}
 
+          {summary.branch_relation_counts && (
+            <section className="period-section period-branch-evidence" aria-label="周期地支关系">
+              <div className="result-section-heading">
+                <div><span>支</span><h2>周期地支冲合害</h2></div>
+                <small>经过审核的静态成对关系</small>
+              </div>
+              <p>六合 {branchCounts.six_harmony || 0} 条 · 六害 {branchCounts.harm || 0} 条 · 六冲 {branchCounts.clash || 0} 条；出现于 {branchDates.length} 个日期。</p>
+              {branchDates.length ? (
+                <div className="period-branch-dates">
+                  {branchDates.map((day) => (
+                    <article key={day.date}>
+                      <strong>{day.date} · {day.ganzhi}</strong>
+                      {(Array.isArray(day.relations) ? day.relations : []).map((hit: any, index: number) => {
+                        const citations = Array.isArray(hit.evidence_ids) ? hit.evidence_ids.flatMap((id: string) => {
+                          const record = verifiedEvidence[id];
+                          if (!record || typeof record.original_text !== "string" || !record.original_text.trim()
+                              || typeof record.classic_title !== "string" || !record.classic_title.trim()) return [];
+                          return [{id, title: record.classic_title, quote: record.original_text,
+                                   grade: typeof record.evidence_level === "string" ? record.evidence_level : "未标注"}];
+                        }) : [];
+                        return (
+                          <div className="period-branch-relation" key={hit.rule_id + "-" + hit.natal_pillar + "-" + index}>
+                            <span>{relationLabel[hit.relation_type] || hit.relation_type} · {hit.flow_branch} ↔ {hit.natal_branch} · {pillarLabel[hit.natal_pillar] || hit.natal_pillar}</span>
+                            {citations.length ? (
+                              <details>
+                                <summary>对应古籍依据（{citations.length}）</summary>
+                                {citations.map((ref) => (
+                                  <blockquote key={ref.id}>
+                                    <small>{ref.title} · {ref.grade}</small>
+                                    <p>{ref.quote}</p>
+                                  </blockquote>
+                                ))}
+                              </details>
+                            ) : <small>缺少可核验的对应原典引文，不追加解释。</small>}
+                          </div>
+                        );
+                      })}
+                    </article>
+                  ))}
+                </div>
+              ) : <p>本周期未命中本版审核的三类成对结构，不等于没有其他关系。</p>}
+              <p className="period-note">只是结构分布，不判断作用效力、宜忌、财富或婚恋事件。</p>
+            </section>
+          )}
+
           <section className="period-return">
             <div>
               <span className="eyebrow">周期入口已经连起来</span>
-              <h2>今日 → 本周 → 本月 → 2026</h2>
+              <h2>今日 → 本周 → 本月 → 流年</h2>
               <p>出生资料继续复用，不需要每次重新填写。</p>
             </div>
             <div>
               <Link href="/daily-structure">今日</Link>
               <Link href="/weekly-structure">本周</Link>
               <Link href="/monthly-structure">本月</Link>
-              <Link href="/yearly-structure">2026</Link>
+              <Link href="/yearly-structure">流年</Link>
             </div>
           </section>
 
