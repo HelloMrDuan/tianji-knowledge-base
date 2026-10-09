@@ -43,6 +43,6 @@ test("invalid and unrelated stored year data is rejected before API calls", asyn
   await page.goto("/yearly-structure");
   await expect(page.getByLabel("目标年份")).toHaveValue("2026");
   await page.getByLabel("目标年份").fill("1899");
-  await expect(page.getByRole("button", { name: /流年结构/ })).toBeDisabled({ timeout: 200 }).catch(() => {});
+  expect(await page.getByLabel("目标年份").evaluate((input) => (input as HTMLInputElement).validity.rangeUnderflow)).toBe(true);
   expect(calls).toEqual([]);
 });
