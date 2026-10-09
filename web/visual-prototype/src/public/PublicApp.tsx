@@ -15,6 +15,7 @@ import { YearlyStructurePage } from "./YearlyStructurePage";
 import { RomanceStructurePage } from "./RomanceStructurePage";
 import { CareerWealthStructurePage } from "./CareerWealthStructurePage";
 import { LifeOverviewPage } from "./LifeOverviewPage";
+import { DreamCulturePage } from "./DreamCulturePage";
 import { DailyStructurePage } from "./DailyStructurePage";
 import { PeriodStructurePage } from "./PeriodStructurePage";
 import { CompatibilityStructurePage } from "./CompatibilityStructurePage";
@@ -56,6 +57,8 @@ export function PublicApp() {
         ? "天机"
         : path === "/ask"
           ? "一事占问"
+          : path === "/dream-culture"
+            ? "梦象文化查阅"
           : path === "/bazi-profile"
             ? "八字基础档案"
             : path === "/yearly-structure"
@@ -110,6 +113,8 @@ export function PublicApp() {
             <HomePage />
           ) : path === "/ask" ? (
             <QuestionPage />
+          ) : path === "/dream-culture" ? (
+            <DreamCulturePage />
           ) : path === "/bazi-profile" ? (
             <BaziProfilePage />
           ) : path === "/yearly-structure" ? (

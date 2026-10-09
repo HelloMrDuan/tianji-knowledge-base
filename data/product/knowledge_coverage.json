@@ -6781,7 +6781,7 @@
       },
       {
         "path": "src/tianji_kb/api.py",
-        "sha256": "0d9918ce8fadcaa87dc7702d672c9270e80ee5617d64b27ffbbbd111d42fd81e"
+        "sha256": "c654b4ac214f3b45ff79189c0b37d99563e7d954741b760ee80a887f4e6e986c"
       },
       {
         "path": "src/tianji_kb/bazi_action_conditions.py",
@@ -19756,6 +19756,11 @@
         "method": "GET",
         "path": "/api/v1/capabilities",
         "handler": "capabilities"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/dream/culture",
+        "handler": "public_dream_culture"
       },
       {
         "method": "POST",
