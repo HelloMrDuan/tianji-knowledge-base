@@ -743,7 +743,27 @@ def _weekly(inputs):
             "summary": summary,
             "release_scope": "weekly_structure_only",
         },
-        "rule_matches": [rule_match],
+        "rule_matches": [
+            rule_match,
+            {
+                "rule_id": "bazi.scenario.weekly_branch_relations",
+                "derived_from_rule_ids": [
+                    "bazi.phase2.branch_six_harmonies",
+                    "bazi.phase2.branch_six_harms",
+                    "bazi.phase2.branch_six_clashes",
+                ],
+                "variant": "ziping-structural-v1",
+                "matched": True,
+                "kind": "scenario_composition",
+                "evidence_scope": "按自然周汇总每日地支与原局四柱的已审核六合、六害、六冲结构；不得推断吉凶。",
+                "facts": {
+                    "branch_relation_counts": copy.deepcopy(summary["branch_relation_counts"]),
+                    "branch_relation_dates": copy.deepcopy(summary["branch_relation_dates"]),
+                },
+                "evidence_ids": list(dict.fromkeys(
+                    eid for day in days for eid in day["branch_interactions"]["evidence_ids"])),
+            },
+        ],
         "trace": trace,
         "evidence": evidence,
         "warnings": [
@@ -752,7 +772,7 @@ def _weekly(inputs):
         "limitations": [
             "一周内十神结构出现次数只是日期分布，不代表某类力量更旺、更吉或更凶。",
             "咸池命中日只表示固定查表结构相同，不等于当天发生感情事件。",
-            "尚未纳入旺衰、喜用神、大运、流月、流日支互动与时辰变化。",
+            "流日地支仅纳入六合、六害、六冲成对结构；旺衰、喜用神、大运、流月、三合、刑、破、合化效力和时辰变化未裁定。",
             "不提供投资、健康、法律、安全等现实决策建议。",
             "AI 不参与本场景计算。",
         ],
@@ -824,7 +844,27 @@ def _monthly(inputs):
             "summary": summary,
             "release_scope": "monthly_structure_only",
         },
-        "rule_matches": [rule_match],
+        "rule_matches": [
+            rule_match,
+            {
+                "rule_id": "bazi.scenario.monthly_branch_relations",
+                "derived_from_rule_ids": [
+                    "bazi.phase2.branch_six_harmonies",
+                    "bazi.phase2.branch_six_harms",
+                    "bazi.phase2.branch_six_clashes",
+                ],
+                "variant": "ziping-structural-v1",
+                "matched": True,
+                "kind": "scenario_composition",
+                "evidence_scope": "按公历月汇总每日地支与原局四柱的已审核六合、六害、六冲结构；不得推断吉凶。",
+                "facts": {
+                    "branch_relation_counts": copy.deepcopy(summary["branch_relation_counts"]),
+                    "branch_relation_dates": copy.deepcopy(summary["branch_relation_dates"]),
+                },
+                "evidence_ids": list(dict.fromkeys(
+                    eid for day in days for eid in day["branch_interactions"]["evidence_ids"])),
+            },
+        ],
         "trace": trace,
         "evidence": evidence,
         "warnings": [
@@ -834,7 +874,7 @@ def _monthly(inputs):
             "一个月内十神结构出现次数只是日期分布，不代表某类力量更旺、更吉或更凶。",
             "咸池命中日只表示固定查表结构相同，不等于当天发生感情事件。",
             "当前按公历月聚合；尚未实现完整节气月/流月命理规则。",
-            "尚未纳入旺衰、喜用神、大运、流月支互动、时辰变化与完整择日体系。",
+            "流日地支仅纳入六合、六害、六冲成对结构；旺衰、喜用神、大运、流月支、三合、刑、破、合化效力、时辰及择日体系未裁定。",
             "不提供投资、健康、法律、安全等现实决策建议。",
             "AI 不参与本场景计算。",
         ],
