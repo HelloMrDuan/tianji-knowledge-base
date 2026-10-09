@@ -82,6 +82,7 @@ export function CareerWealthStructurePage() {
   const natal = payload.natal || {};
   const groups = payload.structure_groups || {};
   const flowYear = payload.target_year || {};
+  const cards: Array<any> = Array.isArray(payload.interpretation_cards) ? payload.interpretation_cards : [];
   const evidence = result
     ? Object.entries(result.evidence).map(([id, value]) => displayEvidence(id, value))
     : [];
@@ -190,6 +191,7 @@ export function CareerWealthStructurePage() {
           <div className="career-groups">
             {groupOrder.map((groupId) => {
               const group = groups[groupId] || {};
+              const insight = cards.find((item) => item.group_id === groupId);
               const occurrences = Array.isArray(group.occurrences) ? group.occurrences : [];
               return (
                 <article key={groupId} className={flowYear.structure_group === groupId ? "flow-hit" : ""}>
@@ -214,7 +216,16 @@ export function CareerWealthStructurePage() {
                       </span>
                     )) : <em>当前结构中未见</em>}
                   </div>
-                  {flowYear.structure_group === groupId && (
+                  {insight && (
+                    <div className="career-interpretation">
+                      <strong>传统十神关系 · {insight.five_element_relation}</strong>
+                      <p>{insight.traditional_structure_definition}</p>
+                      <p>{insight.observation}</p>
+                      {insight.target_year_note && <p>{insight.target_year_note}</p>}
+                      <small>已审十神及藏干规则 · {insight.interpretation_level === "reviewed_structural_relation_only" ? "只作结构释义" : "未审核"}</small>
+                    </div>
+                  )}
+                  {flowYear.structure_group === groupId && !insight && (
                     <p>{targetYear} 流年天干落入这一结构组，仅表示十神关系命中。</p>
                   )}
                 </article>
@@ -278,7 +289,7 @@ export function CareerWealthStructurePage() {
             <div>
               <h3>下一层才会接近真正的事业财运报告</h3>
               <p>
-                还要继续补旺衰、格局、喜用、大运与流年支互动，并做跨证据验证。
+                本版补充了有规则证据的五组十神结构释义；下一步仍需补旺衰、格局、喜用、大运与流年实际作用并做跨证据验证。
                 这些完成前，只展示结构，不给收益承诺。
               </p>
             </div>
