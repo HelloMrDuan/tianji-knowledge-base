@@ -53,6 +53,20 @@ class RomanceYearSpousePalaceTests(unittest.TestCase):
         self.assertEqual(result["result"]["target_year"]["ganzhi"], "丁未")
         self.assertFalse(palace["interpretation_allowed"])
 
+    def test_no_approved_day_branch_pair_does_not_invent_romance_impact(self):
+        result = scenario_engine.execute_scenario("romance", {
+            "birth_value": BIRTH, "target_year": 2028,
+        })
+        palace = result["result"]["spouse_palace_year_relations"]
+        self.assertEqual(palace["target_year_branch"], "申")
+        self.assertEqual(palace["natal_day_branch"], "子")
+        self.assertEqual(palace["pairs_checked"], 1)
+        self.assertEqual(palace["relations"], [])
+        self.assertFalse(palace["interpretation_allowed"])
+        self.assertTrue(set(palace["evidence_ids"]) <= set(result["evidence"]))
+        self.assertEqual(result["result"]["target_year"]["ganzhi"], "戊申")
+        self.assertFalse(result["public_release"])
+
     def test_original_two_xianchi_bases_remain_separate_and_evidence_is_real(self):
         result = scenario_engine.execute_scenario("romance", {
             "birth_value": BIRTH, "target_year": 2026,
