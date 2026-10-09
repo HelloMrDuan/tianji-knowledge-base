@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 test("chosen flow year is sent to real Scenario Engine and shared across all four consumer pages", async ({ page }) => {
   const years: Array<{ url: string; year: number }> = [];
   page.on("request", (request) => {
-    if (new URL(request.url()).pathname === "/api/v1/scenarios/execute" &&
+    if (new URL(request.url()).pathname === "/api/v1/scenarios/public" &&
         request.method() === "POST") {
       const body = request.postDataJSON();
       years.push({ url: body.scenario_id, year: body.input.target_year });
