@@ -35,5 +35,9 @@ test("real daily -> weekly -> monthly calculation shows audited branch dates and
   await expect(page.locator(".period-result")).toBeVisible();
   await expect(page.locator(".period-days article")).toHaveCount(31);
   await expect(page.locator(".period-branch-evidence")).toContainText("六合");
+  const verified = page.locator(".period-branch-relation details");
+  await expect(verified.first()).toBeVisible();
+  await verified.first().locator("summary").click();
+  await expect(verified.first().locator("blockquote p").first()).not.toBeEmpty();
   await expect(page.locator(".period-branch-evidence")).toContainText("吉凶");
 });
