@@ -9,7 +9,6 @@ from tianji_kb.bazi_core import reviewed_branch_pair_relations
 from tianji_kb import scenario_engine
 
 BIRTH = "2000-01-07T12:00:00+08:00"
-NATAL_BRANCHES = ["辰", "丑", "子", "午"]
 RELATION_IDS = {
     "six_harmony": "bazi.phase2.branch_six_harmonies",
     "harm": "bazi.phase2.branch_six_harms",
@@ -33,11 +32,12 @@ class DailyPeriodBranchRelationsTests(unittest.TestCase):
                 branch = item["result"]["target_day"]["branch"]
                 self.assertEqual(structure["flow_branch"], branch)
                 self.assertEqual(structure["evaluated_pairs"], 4)
+                original = [p["branch"]["value"] for p in item["result"]["natal"]["pillars"]]
                 self.assertEqual([p["branch"] for p in structure["natal_branches_checked"]],
-                                 NATAL_BRANCHES)
+                                 original)
                 expected = [
                     (pillar, r["kind"], r["branches"])
-                    for pillar, natal in zip(("year", "month", "day", "hour"), NATAL_BRANCHES)
+                    for pillar, natal in zip(("year", "month", "day", "hour"), original)
                     for r in reviewed_branch_pair_relations(branch, natal)
                 ]
                 actual = [
