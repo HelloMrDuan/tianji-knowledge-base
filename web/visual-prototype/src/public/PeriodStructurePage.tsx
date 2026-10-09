@@ -287,7 +287,7 @@ export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
                             {citations.length ? (
                               <details>
                                 <summary>对应古籍依据（{citations.length}）</summary>
-                                {citations.map((ref) => (
+                                {citations.map((ref: {id: string; title: string; quote: string; grade: string}) => (
                                   <blockquote key={ref.id}>
                                     <small>{ref.title} · {ref.grade}</small>
                                     <p>{ref.quote}</p>
