@@ -1,6 +1,7 @@
 """Real production API with no data/canonical or data/quarantine checkout at runtime."""
 import hashlib
 import os
+import shutil
 from pathlib import Path
 import subprocess
 import sys
@@ -14,11 +15,15 @@ from tianji_kb.sealed_bundle import export_sealed_bundle
 
 
 CHECK = """
+from pathlib import Path
 from fastapi.testclient import TestClient
 from tianji_kb.api import create_app
 from tianji_kb.resolver import ROOT
 from tianji_kb.runtime_catalog import load_catalog
+from tianji_kb import api as api_module
+# Both the trusted bundle AND the imported Python source tree must have no knowledge checkout.
 assert not (ROOT/'data').exists()
+assert not (Path(api_module.__file__).resolve().parents[2]/'data').exists()
 assert set(p.name for p in (ROOT/'build').iterdir()) == {'production_runtime.json','production_rag.jsonl'}
 client = TestClient(create_app(admin_read_token='backend-token'))
 health = client.get('/health')
@@ -62,9 +67,15 @@ class SealedRuntimeTests(unittest.TestCase):
         self.assertEqual(sorted(p.relative_to(self.path).as_posix()
                                 for p in self.path.rglob('*') if p.is_file()),
                          ['build/production_rag.jsonl', 'build/production_runtime.json'])
-        result = subprocess.run([sys.executable, '-c', CHECK], cwd=ROOT,
-                                env=self.environment(), capture_output=True,
-                                text=True, timeout=100)
+        isolated_code = Path(self.directory.name)/'isolated-code'
+        (isolated_code/'src').mkdir(parents=True)
+        shutil.copytree(ROOT/'src'/'tianji_kb', isolated_code/'src'/'tianji_kb',
+                        ignore=shutil.ignore_patterns('__pycache__', '*.pyc'))
+        self.assertFalse((isolated_code/'data').exists())
+        self.assertFalse((isolated_code/'src'/'data').exists())
+        result = subprocess.run([sys.executable, '-c', CHECK], cwd=isolated_code,
+                                env=self.environment(PYTHONPATH=str(isolated_code/'src')),
+                                capture_output=True, text=True, timeout=100)
         self.assertEqual(result.returncode, 0, result.stdout+'\n'+result.stderr)
         self.assertIn('actual Bazi passed', result.stdout)
 
