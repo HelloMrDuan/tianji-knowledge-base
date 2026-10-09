@@ -726,6 +726,18 @@ def _weekly(inputs):
             "evidence_ids": evidence_ids,
         }
         for item in days
+    ] + [
+        {
+            "step": "weekly_reviewed_target_branch_pairs",
+            "date": item["date"],
+            "facts": {
+                "ganzhi": item["ganzhi"],
+                "hits": copy.deepcopy(item["branch_interactions"]["hits"]),
+                "counts": copy.deepcopy(item["branch_interactions"]["counts"]),
+            },
+            "evidence_ids": list(item["branch_interactions"]["evidence_ids"]),
+        }
+        for item in days
     ]
     return {
         "scenario_id": "weekly",
@@ -826,6 +838,18 @@ def _monthly(inputs):
                 "xianchi_hit_count": item["xianchi_hit_count"],
             },
             "evidence_ids": evidence_ids,
+        }
+        for item in days
+    ] + [
+        {
+            "step": "monthly_reviewed_target_branch_pairs",
+            "date": item["date"],
+            "facts": {
+                "ganzhi": item["ganzhi"],
+                "hits": copy.deepcopy(item["branch_interactions"]["hits"]),
+                "counts": copy.deepcopy(item["branch_interactions"]["counts"]),
+            },
+            "evidence_ids": list(item["branch_interactions"]["evidence_ids"]),
         }
         for item in days
     ]
