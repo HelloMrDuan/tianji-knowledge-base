@@ -6989,7 +6989,7 @@
       },
       {
         "path": "src/tianji_kb/resolver.py",
-        "sha256": "cefe2fe0a1515f386f23814e9d33438d3125ebcbf5132a22ddf7348e64c81def"
+        "sha256": "62a045b720fd49e3b81e078380970a99a7dfc02764456288047e7f92d10eeecc"
       },
       {
         "path": "src/tianji_kb/retrieval.py",
@@ -6997,7 +6997,7 @@
       },
       {
         "path": "src/tianji_kb/runtime_catalog.py",
-        "sha256": "7ee02caa84c958239137b6502961ffaf558e94eca571a056c4094823fc7e36cf"
+        "sha256": "7a63f686ef0cdbbff48440b63fc740c1644af348f8ebd4eb8e7dba4b4c330a4e"
       },
       {
         "path": "src/tianji_kb/scenario_engine.py",
@@ -7005,7 +7005,7 @@
       },
       {
         "path": "src/tianji_kb/sealed_bundle.py",
-        "sha256": "894eb762d11c3555ac5f43afe262df2929f25f160400437926ab9aa838b9cc0d"
+        "sha256": "09d2e58a7db1d091355b43690180e95ee35d854f5495385f056064c4fd13d263"
       },
       {
         "path": "src/tianji_kb/search.py",
