@@ -32,7 +32,9 @@ class PublicDreamCultureTests(unittest.TestCase):
         # Never leak internal RAG traces, repository paths or privileged metadata.
         for key in ("evidence", "retrieval", "canonical_path", "rule_id", "term_id",
                     "input_spans", "entities", "trace", "token", "dream_text"):
-            self.assertNotIn(key, response.text)
+            self.assertNotIn(key, data)
+            self.assertNotIn(key, match)
+        self.assertNotIn("data/canonical/", response.text)
         self.assertNotIn("private-review-secret", response.text)
 
     def test_no_interpretation_when_absent_negated_reported_or_hypothetical(self):
