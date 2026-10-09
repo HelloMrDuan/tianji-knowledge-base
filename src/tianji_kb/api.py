@@ -31,6 +31,29 @@ EXAMPLES={
  'bazi':{'value':'2000-01-07T12:00:00+08:00'},
 }
 
+class PublicDreamCultureRequest(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    dream_text: StrictStr = Field(min_length=2, max_length=500)
+
+class PublicDreamCultureMatch(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    scene: str
+    cultural_reading: str
+    short_quote: str
+    source_title: str
+    evidence_level: str
+
+class PublicDreamCultureResponse(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    api_version: Literal['v1'] = 'v1'
+    status: Literal['reviewed_cultural_matches', 'no_reviewed_interpretation']
+    public_release: Literal[True] = True
+    cultural_reference_only: Literal[True] = True
+    ai_enabled: Literal[False] = False
+    personal_prediction: Literal[False] = False
+    matches: list[PublicDreamCultureMatch]
+    notice: str = '仅展示已审核传统占梦条目，不代表个人运势、健康或未来事件。'
+
 class AdminDreamResearchRequest(BaseModel):
     model_config = ConfigDict(extra='forbid')
     dream_text: StrictStr = Field(min_length=2, max_length=500)
@@ -179,6 +202,46 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None):
         supplied=authorization[len(prefix):]
         if not supplied or not secrets.compare_digest(supplied,configured):
             raise HTTPException(401,detail={'code':'admin_unauthorized','message':'Invalid admin bearer token'},headers={'WWW-Authenticate':'Bearer'})
+
+    @app.post('/api/v1/dream/culture',response_model=PublicDreamCultureResponse,
+              tags=['public-dream'])
+    async def public_dream_culture(request: PublicDreamCultureRequest):
+        # This is a distinct public projection, not an alias to the internal research API.
+        # Never expose source refs, canonical paths, entity/rule IDs, raw text or trace.
+        if len(request.dream_text.strip()) < 2:
+            raise HTTPException(422,detail={'code':'invalid_dream_input',
+                                            'message':'Describe the dream in 2–500 characters'})
+        try:
+            reviewed = await run_in_threadpool(retrieve_dream_culture, request.dream_text.strip())
+        except RetrievalUnavailable:
+            raise HTTPException(503,detail={'code':'reviewed_retrieval_unavailable',
+                                            'message':'Reviewed dream lookup temporarily unavailable'})
+        except (ValueError,TypeError):
+            raise HTTPException(422,detail={'code':'invalid_dream_input',
+                                            'message':'Invalid dream narrative'})
+        if (reviewed.get('mode') != 'research' or reviewed.get('public_enabled') is not False
+                or reviewed.get('ai_enabled') is not False or reviewed.get('chart_generated') is not False):
+            raise HTTPException(503,detail={'code':'dream_review_contract_mismatch',
+                                            'message':'Reviewed cultural lookup unavailable'})
+        matches=[]
+        for candidate in reviewed['matched_interpretations']:
+            if (candidate.get('match_kind') != 'reviewed_cultural_scene_retrieval'
+                    or candidate.get('personal_prediction') is not False
+                    or not candidate.get('evidence_ids')
+                    or not all(eid in reviewed['evidence'] for eid in candidate['evidence_ids'])):
+                raise HTTPException(503,detail={'code':'dream_evidence_contract_mismatch',
+                                                'message':'Reviewed cultural lookup unavailable'})
+            matches.append(PublicDreamCultureMatch(
+                scene=candidate['scene'],
+                cultural_reading=candidate['interpretation'],
+                short_quote=candidate['original_text_short_quote'],
+                source_title='《周公解梦》固定电子本',
+                evidence_level=candidate['evidence_level'],
+            ))
+        response=PublicDreamCultureResponse(
+            status='reviewed_cultural_matches' if matches else 'no_reviewed_interpretation',
+            matches=matches)
+        return JSONResponse(content=response.model_dump(),headers={'Cache-Control':'no-store'})
 
     @app.post('/api/v1/admin/research/dream',tags=['admin'])
     async def admin_research_dream(request: AdminDreamResearchRequest,
