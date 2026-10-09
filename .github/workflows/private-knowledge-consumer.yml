@@ -1,0 +1,56 @@
+name: Validate Private Knowledge Consumer
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "scripts/export_private_knowledge.py"
+      - "scripts/restore_private_knowledge.py"
+      - "tests/test_private_knowledge_export.py"
+      - "tests/test_private_knowledge_restore.py"
+      - ".github/workflows/private-knowledge-consumer.yml"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/export_private_knowledge.py"
+      - "scripts/restore_private_knowledge.py"
+      - "tests/test_private_knowledge_export.py"
+      - "tests/test_private_knowledge_restore.py"
+      - ".github/workflows/private-knowledge-consumer.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-importer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Test create-only restricted export and importer
+        run: |
+          python -m unittest discover -s tests -p 'test_private_knowledge_export.py' -v
+          python -m unittest discover -s tests -p 'test_private_knowledge_restore.py' -v
+      - name: Roundtrip REAL tracked knowledge through restricted export
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from tempfile import TemporaryDirectory
+          from scripts.export_private_knowledge import export_private_knowledge
+          from scripts.restore_private_knowledge import stage_private_knowledge
+
+          public_root = Path.cwd()
+          with TemporaryDirectory(prefix="tianji-private-roundtrip-") as tmp:
+              source = Path(tmp) / "restricted-export"
+              workspace = Path(tmp) / "clean-workspace"
+              workspace.mkdir()
+              exported = export_private_knowledge(public_root, source)
+              restored = stage_private_knowledge(source, workspace)
+              assert restored["file_count"] == exported["file_count"]
+              assert restored["total_bytes"] == exported["total_bytes"]
+              assert (workspace / "data/canonical/seed.json").is_file()
+              print("Real knowledge export -> verified clean workspace: OK")
+          PY
