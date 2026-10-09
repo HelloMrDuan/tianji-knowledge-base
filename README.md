@@ -85,7 +85,7 @@ python scripts/build_production_runtime.py
 python scripts/export_sealed_runtime.py --destination /secure/tianji-runtime-v1
 ```
 
-导出内容包括校验过的后端 Python 代码，以及 `build/production_runtime.json` 与 `build/production_rag.jsonl` 两个机密运行时制品；**不会包含** `data/`、Canonical、Quarantine 或原始采集库。默认文件权限 0600。前端只部署 `web/visual-prototype/dist`，服务端持有完整的私有后端目录：
+导出内容包括校验过的后端 Python 代码、`build/production_runtime.json`、`build/production_rag.jsonl` 以及九个冻结算法必需的 Canonical 查表 JSON；**不会包含** Quarantine、原始采集库或整套 Canonical 知识语料。这九个查表文件仍属于服务端受保护知识材料，不能部署为公开静态资源。默认文件权限 0600。前端只部署 `web/visual-prototype/dist`，服务端持有完整的私有后端目录：
 
 ```bash
 export TIANJI_RUNTIME_MODE=sealed
@@ -94,4 +94,4 @@ export TIANJI_RUNTIME_SHA256=<导出打印的sha256_pin>
 PYTHONPATH=/secure/tianji-runtime-v1/src python -m uvicorn tianji_kb.api:app --host 127.0.0.1 --port 8000
 ```
 
-运行时必须核对独立部署的 SHA256 pin、审核载荷摘要、RAG 摘要和目录文件白名单。缺文件、篡改制品、缺 pin 或混入源码时拒绝服务。构建阶段仍用全部 Canonical 校验，**不能**用独立制品模式绕过知识审核。API 的公开输出仍需按产品能力分级；服务端隔离不等于公开接口可以返回内部资料。API 网关还必须确保私有目录不可通过静态 HTTP 路由访问。
+运行时必须核对独立部署的 SHA256 pin、审核载荷摘要、RAG 摘要、九份查表摘要和目录文件白名单。缺文件、篡改制品、缺 pin 或混入源码时拒绝服务。构建阶段仍用全部 Canonical 校验，**不能**用独立制品模式绕过知识审核。API 的公开输出仍需按产品能力分级；服务端隔离不等于公开接口可以返回内部资料。API 网关还必须确保私有目录不可通过静态 HTTP 路由访问。
