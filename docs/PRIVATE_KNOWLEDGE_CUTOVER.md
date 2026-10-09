@@ -118,3 +118,30 @@ Do not upload this bundle to public GitHub, public Actions artifacts,
 public build logs, a frontend static directory or an accessible object-store
 URL. No private remote was created by this change, and the preexisting
 public Git history remains readable.
+
+
+## Offline private backend assembly (batch 177)
+
+The `scripts/assemble_private_backend.py` command constructs a new backend
+workspace **outside all Git checkouts**. It copies only audited code directories
+(`config`, `src`, `scripts`, `tests`, `schemas`, `evals` and
+`pyproject.toml`) from the checkout, and obtains the complete `data/`
+directory **exclusively from a verified v2 snapshot**. It refuses preexisting
+destination paths, symlinks, unsafe source files and Git workspaces. No
+`.git`, public-checkout data folder, private token or static web distribution
+is copied into the assembled backend.
+
+After transferring a confidential snapshot into your future private runner:
+
+```bash
+python scripts/assemble_private_backend.py \
+  --snapshot /secure/new-complete-bundle \
+  --destination /secure/new-backend
+cd /secure/new-backend
+PYTHONPATH=src python scripts/validate_kb.py
+```
+
+The public consumer CI runs the same local assembly against **real current
+knowledge assets** and invokes the actual canonical validator from inside the
+isolated backend. This is a packaging proof only; real private storage, private
+CI authentication, full regression and deployment have not occurred.
