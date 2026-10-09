@@ -54,6 +54,9 @@ jobs:
         working-directory: web/visual-prototype
         run: npm run build
 
+      - name: Reject non-public assets in frontend distribution
+        run: python scripts/check_public_web_bundle.py web/visual-prototype/dist
+
       - name: Start frontend with API proxy
         working-directory: web/visual-prototype
         run: |
