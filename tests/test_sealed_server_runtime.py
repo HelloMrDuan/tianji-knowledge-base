@@ -85,13 +85,13 @@ class SealedRuntimeTests(unittest.TestCase):
                 load_catalog(self.path)
         (self.path/'build'/'production_rag.jsonl').unlink()
         with self.assertRaises(RuntimeUnavailable):
-            with unittest.mock.patch.dict(os.environ, self.environment()):
+            with patch.dict(os.environ, self.environment()):
                 load_catalog(self.path)
         (self.path/'build'/'production_rag.jsonl').write_bytes((ROOT/'build/production_rag.jsonl').read_bytes())
         (self.path/'data').mkdir()
         (self.path/'data'/'accidental-source.txt').write_text('must not ship')
         with self.assertRaises(RuntimeUnavailable):
-            with unittest.mock.patch.dict(os.environ, self.environment()):
+            with patch.dict(os.environ, self.environment()):
                 load_catalog(self.path)
 
     def test_export_rejects_public_tree_or_preexisting_destination(self):
