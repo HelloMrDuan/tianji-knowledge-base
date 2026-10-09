@@ -25,14 +25,14 @@ test("real Bazi and yearly charts clear as soon as birth inputs change", async (
 test("late real Bazi API response cannot repopulate an edited birth chart", async ({ page }) => {
   await page.goto("/bazi-profile");
   await page.getByRole("button", { name: "填入示例" }).click();
-  let responseIntercepted: (() => void) | undefined;
-  let releaseResponse: (() => void) | undefined;
+  let responseIntercepted: () => void = () => {};
+  let releaseResponse: () => void = () => {};
   const intercepted = new Promise<void>((resolve) => { responseIntercepted = resolve; });
   const released = new Promise<void>((resolve) => { releaseResponse = resolve; });
   await page.route("**/api/v1/public/execute", async (route) => {
     // Fetch the actual backend response; only delay delivery to reproduce a race.
     const actual = await route.fetch();
-    responseIntercepted?.();
+    responseIntercepted();
     await released;
     await route.fulfill({ response: actual });
   });
@@ -43,7 +43,7 @@ test("late real Bazi API response cannot repopulate an edited birth chart", asyn
   await expect(page.getByRole("button", { name: "生成基础档案" })).toBeVisible();
   const finished = page.waitForResponse((response) =>
     new URL(response.url()).pathname === "/api/v1/public/execute");
-  releaseResponse?.();
+  releaseResponse();
   await finished;
   await page.waitForTimeout(150);
   await expect(page.locator(".bazi-live-result")).toHaveCount(0);
