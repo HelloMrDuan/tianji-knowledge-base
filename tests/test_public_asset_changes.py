@@ -1,5 +1,6 @@
 """Exercises the real git diff protocol used by the public exposure gate."""
 from pathlib import Path
+import os
 import subprocess
 import tempfile
 import unittest
@@ -79,7 +80,8 @@ class PublicAssetChangesTests(unittest.TestCase):
         ])
 
     def test_public_head_inventory_remains_valid_after_future_migration(self):
-        root = Path(__file__).resolve().parents[1]
+        root = Path(os.environ.get("TIANJI_PUBLIC_CHECKOUT") or Path(__file__).resolve().parents[1])
+        self.assertTrue((root / ".git").exists(), "Inventory must run on an actual Git checkout")
         result = inventory(root)
         self.assertEqual(result["tracked_files"], sum(
             area["files"] for area in result["areas"].values()
