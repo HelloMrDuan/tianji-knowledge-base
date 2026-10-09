@@ -72,3 +72,26 @@ PYTHONPATH=src python -m uvicorn tianji_kb.api:app --host 127.0.0.1 --port 8000
 生产请求只读取已审运行快照与Canonical检索制品；`explain=false`完全不调用模型。模型失败或未知引用会拒绝解释，确定性结果仍正常返回。调用示例见 [Phase 3 API](docs/phase3/API.md)，模型环境配置见 [providers](docs/phase3/PROVIDERS.md)。
 
 Phase 4 adds versioned explanation contracts and a fixed 102-case, six-domain evaluation suite (the historical Phase 4 suite remains frozen; Bazi requires its own later model-evaluation cases). See [evaluation and human review](docs/phase4/EVALUATION.md), [prompt policy](docs/phase4/PROMPTS.md), and [current quality status](docs/phase4/QUALITY_STATUS.md). Live-model scores are N/A until an environment-configured provider is actually evaluated; test providers never establish AI release readiness.
+
+## 服务端独立运行制品（安全隔离）
+
+> 当前 GitHub 仓库 **仍为公开仓库**。已提交的 Canonical / Quarantine 及历史版本仍可公开访问，不能因为启用此功能就宣称知识库已私有化。正式保密需要迁移到私有存储/私有仓库并审查历史公开范围。
+
+以下操作在**受控构建环境**完成，服务端专用制品中包含经审核知识内容，因此**严禁**上传到静态网站、公开 Release 或公共构件存储：
+
+```bash
+export PYTHONPATH=src
+python scripts/build_production_runtime.py
+python scripts/export_sealed_runtime.py --destination /secure/tianji-runtime-v1
+```
+
+导出仅包含 `build/production_runtime.json` 和 `build/production_rag.jsonl` 两个机密运行时文件，默认文件权限 0600。部署时将代码和这两个制品放在**不同的访问区域**，前端只部署 `web/visual-prototype/dist`，服务端持有私有路径：
+
+```bash
+export TIANJI_RUNTIME_MODE=sealed
+export TIANJI_RUNTIME_ROOT=/secure/tianji-runtime-v1
+export TIANJI_RUNTIME_SHA256=<导出打印的sha256_pin>
+PYTHONPATH=src python -m uvicorn tianji_kb.api:app --host 127.0.0.1 --port 8000
+```
+
+运行时必须核对独立部署的 SHA256 pin、审核载荷摘要、RAG 摘要和目录文件白名单。缺文件、篡改制品、缺 pin 或混入源码时拒绝服务。构建阶段仍用全部 Canonical 校验，**不能**用独立制品模式绕过知识审核。API 的公开输出仍需按产品能力分级；服务端隔离不等于公开接口可以返回内部资料。API 网关还必须确保私有目录不可通过静态 HTTP 路由访问。

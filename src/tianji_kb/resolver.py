@@ -2,12 +2,18 @@
 import hashlib
 import copy
 import json
+import os
 from pathlib import Path
 from jsonschema import Draft202012Validator
 
 from .knowledge import read_json, validate_knowledge
 
-ROOT = Path(__file__).resolve().parents[2]
+# A sealed production deployment keeps the audited runtime files on a private
+# backend volume. The source checkout remains the default for builders and CI.
+ROOT = Path(os.environ["TIANJI_RUNTIME_ROOT"]).resolve() if (
+    os.environ.get("TIANJI_RUNTIME_MODE") == "sealed" and
+    os.environ.get("TIANJI_RUNTIME_ROOT")
+) else Path(__file__).resolve().parents[2]
 
 class EvidenceResolver:
     def __init__(self,root=ROOT,*,review_sources=False):
