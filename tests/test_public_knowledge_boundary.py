@@ -12,7 +12,7 @@ from scripts.public_knowledge_boundary import (
     validate_metadata_only_paths,
 )
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(os.environ.get("TIANJI_PUBLIC_CHECKOUT") or Path(__file__).resolve().parents[1])
 PUBLIC_ENV = {
     "GITHUB_ACTIONS": "true",
     "GITHUB_REPOSITORY": "HelloMrDuan/tianji-knowledge-base",
@@ -87,6 +87,7 @@ class PublicKnowledgeBoundaryTests(unittest.TestCase):
         self.assertFalse((ROOT / ".github/workflows/refresh-manifest.yml").exists())
 
     def test_public_scheduled_source_sync_is_metadata_only(self):
+        self.assertTrue((ROOT / ".git").exists(), "Must inspect a real public Git checkout")
         text = (ROOT / ".github/workflows/kb-sync.yml").read_text(encoding="utf-8")
         self.assertIn("scripts/sync_sources.py", text)
         self.assertIn("git add -- data/state/source_state.json", text)
@@ -101,6 +102,7 @@ class PublicKnowledgeBoundaryTests(unittest.TestCase):
             self.assertNotIn(forbidden, text)
 
     def test_no_public_workflow_stages_raw_knowledge(self):
+        self.assertTrue((ROOT / ".git").exists(), "Must inspect a real public Git checkout")
         for workflow in (ROOT / ".github/workflows").glob("*.yml"):
             content = workflow.read_text(encoding="utf-8")
             if "git push" not in content:
