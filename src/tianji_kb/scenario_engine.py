@@ -591,10 +591,14 @@ def _ten_god_group(ten_god_name):
 def _period_context(birth_value):
     if not isinstance(birth_value, str):
         raise ValueError("birth_value must be an ISO datetime string")
-    natal = execute("bazi", {"value": birth_value, "include_xianchi": True})
+    natal = execute("bazi", {"value": birth_value, "include_xianchi": True, "include_relations": True})
     source_rules = [
         next(rule for rule in natal["rule_matches"] if rule["rule_id"] == "bazi.phase2.ten_gods"),
         next(rule for rule in natal["rule_matches"] if rule["rule_id"] == "bazi.phase2.xianchi_lookup"),
+        *(next(rule for rule in natal["rule_matches"] if rule["rule_id"] == rid)
+          for rid in ("bazi.phase2.branch_six_harmonies",
+                      "bazi.phase2.branch_six_harms",
+                      "bazi.phase2.branch_six_clashes")),
     ]
     evidence_ids = []
     for rule in source_rules:
@@ -626,6 +630,7 @@ def _period_day_fact(natal, target_date):
         },
     }
     hit_count = sum(int(bool(item["matched"])) for item in activation.values())
+    branch_structure = _reviewed_target_branch_structure(natal, day_branch)
     return {
         "date": target_date,
         "ganzhi": day_ganzhi,
@@ -636,6 +641,7 @@ def _period_day_fact(natal, target_date):
         "structure_group_label": _TEN_GOD_GROUPS[day_group]["label"] if day_group else None,
         "xianchi_activation": activation,
         "xianchi_hit_count": hit_count,
+        "branch_interactions": branch_structure,
         "calendar_provider": target_calendar["calendar_provider"],
     }
 
@@ -643,10 +649,20 @@ def _period_day_fact(natal, target_date):
 def _period_summary(days):
     group_counts = {key: 0 for key in _TEN_GOD_GROUPS}
     xianchi_dates = []
+    branch_dates = []
+    branch_counts = {"six_harmony": 0, "harm": 0, "clash": 0}
     for item in days:
         group = item["structure_group"]
         if group:
             group_counts[group] += 1
+        for kind, count in item["branch_interactions"]["counts"].items():
+            branch_counts[kind] += count
+        if item["branch_interactions"]["hits"]:
+            branch_dates.append({
+                "date": item["date"],
+                "ganzhi": item["ganzhi"],
+                "relations": copy.deepcopy(item["branch_interactions"]["hits"]),
+            })
         if item["xianchi_hit_count"]:
             xianchi_dates.append({
                 "date": item["date"],
@@ -656,6 +672,8 @@ def _period_summary(days):
     return {
         "structure_group_counts": group_counts,
         "xianchi_hit_dates": xianchi_dates,
+        "branch_relation_counts": branch_counts,
+        "branch_relation_dates": branch_dates,
     }
 
 
