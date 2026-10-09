@@ -6981,7 +6981,7 @@
       },
       {
         "path": "src/tianji_kb/public_projection.py",
-        "sha256": "b7033f195be0f4f220be83bf075098522bfae4fc07c3e62b3ef79c00daa09a7d"
+        "sha256": "bd585658b1d2f2eaf1fa41b7bf926b201f38adb196a60da6242e146afd249670"
       },
       {
         "path": "src/tianji_kb/rag_context.py",
