@@ -15,7 +15,7 @@ import tempfile
 
 from scripts.private_data_snapshot import stage_private_data, verify_private_data
 
-CODE_DIRECTORIES = ("config", "src", "scripts", "tests", "schemas", "evals")
+CODE_DIRECTORIES = ("config", "src", "scripts", "tests", "schemas", "evals", "docs")
 CODE_FILES = ("pyproject.toml",)
 EXCLUDED_CACHE_DIRECTORIES = frozenset({
     "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache",
