@@ -63,9 +63,20 @@ def load_catalog(root):
                 raise RuntimeUnavailable('Sealed reviewed retrieval index mismatch')
             # A sealed deployment contains the Python engine and exactly two
             # backend-only artifacts, but NO data/ Canonical/Quarantine checkout.
-            for forbidden in ('data', 'config', 'schemas', 'web'):
+            for forbidden in ('config','schemas','web','data/quarantine','data/raw','data/research','data/upstream'):
                 if (root/forbidden).exists():
-                    raise RuntimeUnavailable('Sealed runtime contains source knowledge or public assets')
+                    raise RuntimeUnavailable('Unexpected data source or public assets')
+            from .sealed_bundle import RUNTIME_TABLES
+            tables={p.relative_to(root).as_posix() for p in (root/'data').rglob('*')
+                    if p.is_file() or p.is_symlink()}
+            if tables!=set(RUNTIME_TABLES):
+                raise RuntimeUnavailable('Engine lookup table allowlist mismatch')
+            for rel in RUNTIME_TABLES:
+                candidate=root/rel
+                expected=artifact['manifest'].get(rel)
+                if (not expected or candidate.is_symlink() or
+                        hashlib.sha256(candidate.read_bytes()).hexdigest()!=expected):
+                    raise RuntimeUnavailable('Engine lookup table checksum mismatch')
             required={'production_runtime.json', 'production_rag.jsonl'}
             if ({p.name for p in (root/'build').iterdir()} != required
                     or path.is_symlink() or rag.is_symlink()):
