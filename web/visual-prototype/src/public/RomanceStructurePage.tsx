@@ -3,6 +3,7 @@ import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeRomanceScenario, type ScenarioExecuteResponse } from "./api";
+import { readSavedTargetYear, saveTargetYear, isValidTargetYear, MIN_TARGET_YEAR, MAX_TARGET_YEAR } from "./targetYear";
 import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
 import "./romance-structure.css";
 
@@ -40,6 +41,7 @@ function basisLabel(value: string) {
 export function RomanceStructurePage() {
   const [date, setDate] = useState(() => readSavedBirthProfile().date);
   const [time, setTime] = useState(() => readSavedBirthProfile().time);
+  const [targetYear, setTargetYear] = useState(readSavedTargetYear);
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -57,11 +59,13 @@ export function RomanceStructurePage() {
     setError("");
     setResult(null);
     try {
+      if (!isValidTargetYear(targetYear)) throw new Error("请选择 1901 至 2098 年的公历年份");
       const response = await executeRomanceScenario({
         birth_value: `${date}T${time}:00+08:00`,
-        target_year: 2026,
+        target_year: targetYear,
       });
       saveBirthProfile({ date, time });
+      saveTargetYear(targetYear);
       setResult(response);
     } catch (err) {
       setError(err instanceof Error ? err.message : "桃花结构计算失败。");
@@ -99,7 +103,7 @@ export function RomanceStructurePage() {
           <h1>先看“桃花结构”有没有命中，再谈它意味着什么。</h1>
           <p>
             当前只做一件可靠的事：依据已审核的《三命通会》咸池四组，
-            把年支和日支两套起查结果分别列出来，并检查原局与 2026 流年地支是否命中。
+            把年支和日支两套起查结果分别列出来，并检查原局与 {targetYear} 流年地支是否命中。
             不用一个神煞就替你下婚恋结论。
           </p>
         </div>
@@ -129,7 +133,9 @@ export function RomanceStructurePage() {
             </label>
             <label className="romance-fixed-year">
               <span>观察年份</span>
-              <input value="2026" readOnly />
+              <input type="number" min={MIN_TARGET_YEAR} max={MAX_TARGET_YEAR} step={1} value={targetYear}
+                onChange={(event) => { setTargetYear(Number(event.target.value)); setResult(null); }}
+                required />
             </label>
           </div>
           <div className="romance-entry-note">
@@ -177,7 +183,7 @@ export function RomanceStructurePage() {
                 日支目标 {targets.day_branch || "—"}
               </h2>
               <p>
-                2026 {targetYear.ganzhi || "—"} · 流年地支 {targetYear.branch || "—"}。
+                {targetYear} {targetYear.ganzhi || "—"} · 流年地支 {targetYear.branch || "—"}。
                 两个基准分别展示，不互相覆盖。
               </p>
             </div>
@@ -195,7 +201,7 @@ export function RomanceStructurePage() {
                 <b>{yearMatches.length ? "有结构命中" : "未见结构命中"}</b>
               </div>
               <div className="romance-signal">
-                <span>2026 流年</span>
+                <span>{targetYear} 流年</span>
                 <b>{activation.year_branch_basis?.matched ? "命中目标支" : "未命中目标支"}</b>
               </div>
               {yearMatches.length > 0 && (
@@ -213,7 +219,7 @@ export function RomanceStructurePage() {
                 <b>{dayMatches.length ? "有结构命中" : "未见结构命中"}</b>
               </div>
               <div className="romance-signal">
-                <span>2026 流年</span>
+                <span>{targetYear} 流年</span>
                 <b>{activation.day_branch_basis?.matched ? "命中目标支" : "未命中目标支"}</b>
               </div>
               {dayMatches.length > 0 && (
