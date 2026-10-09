@@ -5115,6 +5115,38 @@
     "publication_authority": false,
     "input_files": [
       {
+        "path": "config/domain_registry.json",
+        "sha256": "468f5f00a53be183105ae027a4c626ccc5c4061605cdf8bf880b0bd359a03294"
+      },
+      {
+        "path": "config/knowledge_sources.json",
+        "sha256": "f338e4c5043b5576a859c9973bd609c7470f5560f45a3638f3e9146c09104b73"
+      },
+      {
+        "path": "config/phase2_rule_promotions.json",
+        "sha256": "4933936843b6de46ddbb152396cc07e079049102c064489f6c8995288fd0a987"
+      },
+      {
+        "path": "config/phase2_source_audit.json",
+        "sha256": "61a44fcc14ca5b062dcbf528637065202e0fef38aa20552526740b50e718fe8e"
+      },
+      {
+        "path": "config/product_requirements.json",
+        "sha256": "b0e849a8005b838f0d002d6af2b147c44477634cba2c56a51aee5ae3dbe6de51"
+      },
+      {
+        "path": "config/public_domain_manifest.json",
+        "sha256": "167c55d327361d69a78e6eda9c9a3297a95c1a2302353724e481e0ee2945e72e"
+      },
+      {
+        "path": "config/source_file_manifest.json",
+        "sha256": "a2b48691724540873533f20f17f9a7839c5ec0bfae57f88b86e1ed3f2461ff0c"
+      },
+      {
+        "path": "config/source_registry.json",
+        "sha256": "76ec338b1c1c6ddfb872faf6dff9dcdb5585d9b6bb63b2f99f6fa0f04524726d"
+      },
+      {
         "path": "data/canonical/almanac/scoring_v1.json",
         "sha256": "55951c8219c9686da8d0829b9a01f68b6908c39e67f7c19ff5784192bc1ebbba",
         "bytes": 4064,
@@ -6712,38 +6744,6 @@
         "stage": "quarantine"
       },
       {
-        "path": "config/domain_registry.json",
-        "sha256": "468f5f00a53be183105ae027a4c626ccc5c4061605cdf8bf880b0bd359a03294"
-      },
-      {
-        "path": "config/knowledge_sources.json",
-        "sha256": "f338e4c5043b5576a859c9973bd609c7470f5560f45a3638f3e9146c09104b73"
-      },
-      {
-        "path": "config/phase2_rule_promotions.json",
-        "sha256": "4933936843b6de46ddbb152396cc07e079049102c064489f6c8995288fd0a987"
-      },
-      {
-        "path": "config/phase2_source_audit.json",
-        "sha256": "61a44fcc14ca5b062dcbf528637065202e0fef38aa20552526740b50e718fe8e"
-      },
-      {
-        "path": "config/product_requirements.json",
-        "sha256": "b0e849a8005b838f0d002d6af2b147c44477634cba2c56a51aee5ae3dbe6de51"
-      },
-      {
-        "path": "config/public_domain_manifest.json",
-        "sha256": "167c55d327361d69a78e6eda9c9a3297a95c1a2302353724e481e0ee2945e72e"
-      },
-      {
-        "path": "config/source_file_manifest.json",
-        "sha256": "a2b48691724540873533f20f17f9a7839c5ec0bfae57f88b86e1ed3f2461ff0c"
-      },
-      {
-        "path": "config/source_registry.json",
-        "sha256": "76ec338b1c1c6ddfb872faf6dff9dcdb5585d9b6bb63b2f99f6fa0f04524726d"
-      },
-      {
         "path": "schemas/knowledge/bundle.schema.json",
         "sha256": "3bb6e5336e16be827ad33230b17ceca219cc97dadb222057bb886d5b67ceefb6"
       },
@@ -6781,7 +6781,7 @@
       },
       {
         "path": "src/tianji_kb/api.py",
-        "sha256": "c654b4ac214f3b45ff79189c0b37d99563e7d954741b760ee80a887f4e6e986c"
+        "sha256": "8963efb1a7bf7d6433f4c57988aeea2250ca1743e8f2708618d2b5f27b36a7f6"
       },
       {
         "path": "src/tianji_kb/bazi_action_conditions.py",
@@ -6978,6 +6978,10 @@
       {
         "path": "src/tianji_kb/prompts.py",
         "sha256": "3bbb74dc10aab7f2e6c593789d7731c8b36690e225f90eeb1e78b67e054e615a"
+      },
+      {
+        "path": "src/tianji_kb/public_projection.py",
+        "sha256": "b7033f195be0f4f220be83bf075098522bfae4fc07c3e62b3ef79c00daa09a7d"
       },
       {
         "path": "src/tianji_kb/rag_context.py",
@@ -19772,6 +19776,11 @@
         "handler": "execute_request"
       },
       {
+        "method": "POST",
+        "path": "/api/v1/public/execute",
+        "handler": "public_execute_request"
+      },
+      {
         "method": "GET",
         "path": "/api/v1/scenarios",
         "handler": "scenarios"
@@ -19780,6 +19789,11 @@
         "method": "POST",
         "path": "/api/v1/scenarios/execute",
         "handler": "execute_scenario_request"
+      },
+      {
+        "method": "POST",
+        "path": "/api/v1/scenarios/public",
+        "handler": "public_scenario_request"
       },
       {
         "method": "GET",
