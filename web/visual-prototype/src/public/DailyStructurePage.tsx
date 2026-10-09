@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
@@ -34,24 +34,15 @@ function readProfile() {
   }
 }
 
-function displayEvidence(id: string, evidence: Record<string, any>) {
-  return {
-    id,
-    title: String(
-      evidence.classic_title ||
-      evidence.title ||
-      evidence.classic ||
-      evidence.source_title ||
-      "古籍依据",
-    ),
-    quote: String(
-      evidence.original_text ||
-      evidence.quote ||
-      evidence.text ||
-      "该证据已由服务端绑定。",
-    ),
-    grade: String(evidence.evidence_level || evidence.grade || "—"),
-  };
+const relationNames: Record<string, string> = {six_harmony: "六合", harm: "六害", clash: "六冲"};
+const pillarNames: Record<string, string> = {year: "年柱", month: "月柱", day: "日柱", hour: "时柱"};
+
+function displayEvidence(id: string, source: Record<string, any>) {
+  const title = source.classic_title || source.title || source.source_title;
+  const quote = source.original_text;
+  if (typeof title !== "string" || !title.trim() ||
+      typeof quote !== "string" || !quote.trim()) return null;
+  return {id, title, quote, grade: typeof source.evidence_level === "string" ? source.evidence_level : "未标注"};
 }
 
 export function DailyStructurePage() {
@@ -63,17 +54,26 @@ export function DailyStructurePage() {
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const requestVersion = useRef(0);
+  useEffect(() => () => { requestVersion.current += 1; }, []);
+
+  function invalidateResult() {
+    requestVersion.current += 1;
+    setResult(null);
+    setError("");
+    setLoading(false);
+  }
 
   function fillSample() {
     setBirthDate("2000-01-07");
     setBirthTime("12:00");
     setTargetDate(today);
-    setResult(null);
-    setError("");
+    invalidateResult();
   }
 
   async function submit(event: FormEvent) {
     event.preventDefault();
+    const version = ++requestVersion.current;
     setLoading(true);
     setError("");
     setResult(null);
@@ -82,6 +82,7 @@ export function DailyStructurePage() {
         birth_value: `${birthDate}T${birthTime}:00+08:00`,
         target_date: targetDate,
       });
+      if (version !== requestVersion.current) return;
       try {
         localStorage.setItem(profileKey, JSON.stringify({ date: birthDate, time: birthTime }));
       } catch {
@@ -89,9 +90,10 @@ export function DailyStructurePage() {
       }
       setResult(next);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "今日结构计算失败。");
+      if (version === requestVersion.current)
+        setError(err instanceof Error ? err.message : "今日结构计算失败。");
     } finally {
-      setLoading(false);
+      if (version === requestVersion.current) setLoading(false);
     }
   }
 
@@ -102,7 +104,11 @@ export function DailyStructurePage() {
   const activation = xianchi.target_day_activation || {};
   const evidence = result
     ? Object.entries(result.evidence).map(([id, value]) => displayEvidence(id, value))
+        .filter((row): row is NonNullable<typeof row> => row !== null)
     : [];
+  const evidenceById = new Map(evidence.map((row) => [row.id, row]));
+  const branchStructure = payload.day_branch_interactions;
+  const branchHits: Array<any> = Array.isArray(branchStructure?.hits) ? branchStructure.hits : [];
   const hitCount =
     Number(Boolean(activation.year_branch_basis?.matched)) +
     Number(Boolean(activation.day_branch_basis?.matched));
@@ -121,7 +127,7 @@ export function DailyStructurePage() {
           <h1>不用重新排一遍，今天回来直接看今天。</h1>
           <p>
             如果你已经做过“人生总览”，出生资料会自动带入。这里每天只更新目标日干支、
-            当日天干相对日主的十神，以及当日地支是否命中两套咸池目标。
+            当日天干十神、两套咸池查表，以及当日地支与出生四柱的已审冲合害结构。
           </p>
         </div>
         <div className="daily-date-mark">
@@ -144,15 +150,15 @@ export function DailyStructurePage() {
           <div className="daily-input-grid">
             <label>
               <span>出生日期</span>
-              <input type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} required />
+              <input type="date" value={birthDate} onChange={(e) => { invalidateResult(); setBirthDate(e.target.value); }} required />
             </label>
             <label>
               <span>出生时间</span>
-              <input type="time" value={birthTime} onChange={(e) => setBirthTime(e.target.value)} required />
+              <input type="time" value={birthTime} onChange={(e) => { invalidateResult(); setBirthTime(e.target.value); }} required />
             </label>
             <label>
               <span>查看日期</span>
-              <input type="date" value={targetDate} onChange={(e) => setTargetDate(e.target.value)} required />
+              <input type="date" value={targetDate} onChange={(e) => { invalidateResult(); setTargetDate(e.target.value); }} required />
             </label>
           </div>
 
@@ -169,12 +175,13 @@ export function DailyStructurePage() {
 
         <aside>
           <span className="eyebrow">每天真正变化的部分</span>
-          <h2>日干支 + 十神关系 + 咸池结构</h2>
+          <h2>日干支 + 十神 + 咸池 + 地支冲合害</h2>
           <ul>
             <li>当天是什么干支</li>
             <li>当天的天干与你日主是什么十神</li>
             <li>当天地支是否等于年支基准咸池目标</li>
             <li>当天地支是否等于日支基准咸池目标</li>
+            <li>当日地支与原局四柱是否匹配已审六合、六害、六冲</li>
           </ul>
           <p>当前不会把这些信号换算成“幸运指数”或宜忌清单。</p>
         </aside>
@@ -218,6 +225,44 @@ export function DailyStructurePage() {
             </div>
           </section>
 
+          {branchStructure && (
+            <section className="daily-section daily-branch-structure" aria-label="日地支与原局关系">
+              <div className="result-section-heading">
+                <div><span>支</span><h2>今日地支 × 出生四柱</h2></div>
+                <small>已核四组关系 · 命中 {branchHits.length} 条</small>
+              </div>
+              <p>今天的地支 <strong>{branchStructure.flow_branch}</strong> 与四柱逐一对照；只呈现已审核的六合、六害、六冲结构。</p>
+              {branchHits.length ? (
+                <div className="daily-branch-hits">
+                  {branchHits.map((hit, index) => {
+                    const linked = Array.isArray(hit.evidence_ids)
+                      ? hit.evidence_ids.map((id: string) => evidenceById.get(id)).filter((ref: any) => ref !== undefined)
+                      : [];
+                    return (
+                      <article key={hit.rule_id + "-" + hit.natal_pillar + "-" + index}>
+                        <b>{relationNames[hit.relation_type] || hit.relation_type}</b>
+                        <strong>{hit.flow_branch} ↔ {hit.natal_branch}</strong>
+                        <span>{pillarNames[hit.natal_pillar] || hit.natal_pillar} · {hit.rule_id}</span>
+                        {linked.length ? (
+                          <details>
+                            <summary>对应原典依据（{linked.length}）</summary>
+                            {linked.map((ref: any) => (
+                              <blockquote key={ref.id}>
+                                <small>{ref.title} · 证据等级 {ref.grade}</small>
+                                <p>{ref.quote}</p>
+                              </blockquote>
+                            ))}
+                          </details>
+                        ) : <p>暂无可核验的原典短引，不追加解释。</p>}
+                      </article>
+                    );
+                  })}
+                </div>
+              ) : <p>当前未命中审核范围内的六合、六害、六冲；不代表没有其他关系。</p>}
+              <p className="daily-note">结构命中不是吉凶、宜忌、婚期或投资建议。</p>
+            </section>
+          )}
+
           <div className="daily-double">
             <section className="daily-section">
               <div className="result-section-heading">
@@ -241,7 +286,7 @@ export function DailyStructurePage() {
                 })}
               </div>
               <p className="daily-note">结构命中不等于今天一定有桃花、恋爱或关系事件。</p>
-              <Link className="text-action" href="/romance-structure">看 2026 桃花结构 <Icon name="arrow" size={15} /></Link>
+              <Link className="text-action" href="/romance-structure">查看桃花结构 <Icon name="arrow" size={15} /></Link>
             </section>
 
             <section className="daily-section">
