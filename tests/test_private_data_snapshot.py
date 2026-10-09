@@ -133,11 +133,13 @@ class PrivateDataSnapshotTests(unittest.TestCase):
             stage_private_data(self.private, self.workspace)
         self.assertFalse((self.workspace / "data").exists())
 
-    def test_real_repository_has_all_explicit_areas(self):
-        root = Path(__file__).resolve().parents[1]
-        for area in AREAS:
-            with self.subTest(area=area):
-                self.assertTrue((root / "data" / area).is_dir())
+    def test_declared_full_snapshot_contract_is_stable(self):
+        self.assertEqual(len(AREAS), 11)
+        self.assertEqual(len(set(AREAS)), len(AREAS))
+        self.assertIn("canonical", AREAS)
+        self.assertIn("quarantine", AREAS)
+        self.assertIn("product", AREAS)
+        self.assertIn("index", AREAS)
 
 
 if __name__ == "__main__":

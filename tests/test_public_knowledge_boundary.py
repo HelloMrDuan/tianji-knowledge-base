@@ -86,20 +86,11 @@ class PublicKnowledgeBoundaryTests(unittest.TestCase):
     def test_retire_full_text_refresh_automation(self):
         self.assertFalse((ROOT / ".github/workflows/refresh-manifest.yml").exists())
 
-    def test_public_scheduled_source_sync_is_metadata_only(self):
-        self.assertTrue((ROOT / ".git").exists(), "Must inspect a real public Git checkout")
-        text = (ROOT / ".github/workflows/kb-sync.yml").read_text(encoding="utf-8")
-        self.assertIn("scripts/sync_sources.py", text)
-        self.assertIn("git add -- data/state/source_state.json", text)
-        self.assertIn("scripts/public_knowledge_boundary.py", text)
-        for forbidden in (
-            "scripts/sync_content.py",
-            "scripts/sync_public_domain.py",
-            "scripts/refresh_manifest_sources.py",
-            "git add data/quarantine",
-            "git add data/canonical",
-        ):
-            self.assertNotIn(forbidden, text)
+    def test_public_content_writers_are_retired(self):
+        self.assertTrue((ROOT / ".git").exists(), "Must inspect real public Git checkout")
+        for name in ("kb-sync.yml", "source-discovery.yml", "audit-candidates.yml", "refresh-manifest.yml"):
+            with self.subTest(name=name):
+                self.assertFalse((ROOT / ".github/workflows" / name).exists())
 
     def test_no_public_workflow_stages_raw_knowledge(self):
         self.assertTrue((ROOT / ".git").exists(), "Must inspect a real public Git checkout")
