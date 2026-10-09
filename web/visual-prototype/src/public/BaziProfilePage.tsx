@@ -221,7 +221,7 @@ export function BaziProfilePage() {
           <details className="trace-section bazi-trace">
             <summary>
               <span className="trace-icon"><Icon name="layers" size={19} /></span>
-              <div><strong>查看计算过程</strong><small>真实 Trace，默认折叠</small></div>
+              <div><strong>查看计算过程</strong><small>公开计算步骤摘要，默认折叠</small></div>
               <Icon name="chevron" size={18} />
             </summary>
             <ol>
