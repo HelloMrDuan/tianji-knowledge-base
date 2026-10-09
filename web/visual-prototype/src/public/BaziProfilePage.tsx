@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
@@ -41,28 +41,40 @@ export function BaziProfilePage() {
   const [result, setResult] = useState<ExecuteResponse | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const requestVersion = useRef(0);
 
-  function fillSample() {
-    setDate("2000-01-07");
-    setTime("12:00");
+  useEffect(() => () => { requestVersion.current += 1; }, []);
+
+  function invalidateResult() {
+    requestVersion.current += 1;
     setResult(null);
     setError("");
+    setLoading(false);
+  }
+
+  function fillSample() {
+    invalidateResult();
+    setDate("2000-01-07");
+    setTime("12:00");
   }
 
   async function submit(event: FormEvent) {
     event.preventDefault();
     if (!date || !time) return;
+    const version = ++requestVersion.current;
     setLoading(true);
     setError("");
     setResult(null);
     try {
       const response = await executeBazi({ value: `${date}T${time}:00+08:00` });
+      if (version !== requestVersion.current) return;
       saveBirthProfile({ date, time });
       setResult(response);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "八字计算失败，请检查后端服务。");
+      if (version === requestVersion.current)
+        setError(err instanceof Error ? err.message : "八字计算失败，请检查后端服务。");
     } finally {
-      setLoading(false);
+      if (version === requestVersion.current) setLoading(false);
     }
   }
 
@@ -107,18 +119,18 @@ export function BaziProfilePage() {
             </div>
             <div className="bazi-profile-actions">
               <button type="button" className="sample-fill" onClick={fillSample}>填入示例</button>
-              <button type="button" className="sample-fill" onClick={() => { clearBirthProfile(); setDate(""); setTime(""); setResult(null); setError(""); }}>清除本机资料</button>
+              <button type="button" className="sample-fill" onClick={() => { invalidateResult(); clearBirthProfile(); setDate(""); setTime(""); }}>清除本机资料</button>
             </div>
           </div>
 
           <div className="bazi-input-grid">
             <label>
               <span>出生日期</span>
-              <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+              <input type="date" value={date} onChange={(e) => { invalidateResult(); setDate(e.target.value); }} required />
             </label>
             <label>
               <span>出生时间</span>
-              <input type="time" value={time} onChange={(e) => setTime(e.target.value)} required />
+              <input type="time" value={time} onChange={(e) => { invalidateResult(); setTime(e.target.value); }} required />
             </label>
           </div>
 
