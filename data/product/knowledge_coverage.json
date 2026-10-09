@@ -5115,6 +5115,38 @@
     "publication_authority": false,
     "input_files": [
       {
+        "path": "config/domain_registry.json",
+        "sha256": "468f5f00a53be183105ae027a4c626ccc5c4061605cdf8bf880b0bd359a03294"
+      },
+      {
+        "path": "config/knowledge_sources.json",
+        "sha256": "f338e4c5043b5576a859c9973bd609c7470f5560f45a3638f3e9146c09104b73"
+      },
+      {
+        "path": "config/phase2_rule_promotions.json",
+        "sha256": "4933936843b6de46ddbb152396cc07e079049102c064489f6c8995288fd0a987"
+      },
+      {
+        "path": "config/phase2_source_audit.json",
+        "sha256": "61a44fcc14ca5b062dcbf528637065202e0fef38aa20552526740b50e718fe8e"
+      },
+      {
+        "path": "config/product_requirements.json",
+        "sha256": "b0e849a8005b838f0d002d6af2b147c44477634cba2c56a51aee5ae3dbe6de51"
+      },
+      {
+        "path": "config/public_domain_manifest.json",
+        "sha256": "167c55d327361d69a78e6eda9c9a3297a95c1a2302353724e481e0ee2945e72e"
+      },
+      {
+        "path": "config/source_file_manifest.json",
+        "sha256": "a2b48691724540873533f20f17f9a7839c5ec0bfae57f88b86e1ed3f2461ff0c"
+      },
+      {
+        "path": "config/source_registry.json",
+        "sha256": "76ec338b1c1c6ddfb872faf6dff9dcdb5585d9b6bb63b2f99f6fa0f04524726d"
+      },
+      {
         "path": "data/canonical/almanac/scoring_v1.json",
         "sha256": "55951c8219c9686da8d0829b9a01f68b6908c39e67f7c19ff5784192bc1ebbba",
         "bytes": 4064,
@@ -6712,38 +6744,6 @@
         "stage": "quarantine"
       },
       {
-        "path": "config/domain_registry.json",
-        "sha256": "468f5f00a53be183105ae027a4c626ccc5c4061605cdf8bf880b0bd359a03294"
-      },
-      {
-        "path": "config/knowledge_sources.json",
-        "sha256": "f338e4c5043b5576a859c9973bd609c7470f5560f45a3638f3e9146c09104b73"
-      },
-      {
-        "path": "config/phase2_rule_promotions.json",
-        "sha256": "4933936843b6de46ddbb152396cc07e079049102c064489f6c8995288fd0a987"
-      },
-      {
-        "path": "config/phase2_source_audit.json",
-        "sha256": "61a44fcc14ca5b062dcbf528637065202e0fef38aa20552526740b50e718fe8e"
-      },
-      {
-        "path": "config/product_requirements.json",
-        "sha256": "b0e849a8005b838f0d002d6af2b147c44477634cba2c56a51aee5ae3dbe6de51"
-      },
-      {
-        "path": "config/public_domain_manifest.json",
-        "sha256": "167c55d327361d69a78e6eda9c9a3297a95c1a2302353724e481e0ee2945e72e"
-      },
-      {
-        "path": "config/source_file_manifest.json",
-        "sha256": "a2b48691724540873533f20f17f9a7839c5ec0bfae57f88b86e1ed3f2461ff0c"
-      },
-      {
-        "path": "config/source_registry.json",
-        "sha256": "76ec338b1c1c6ddfb872faf6dff9dcdb5585d9b6bb63b2f99f6fa0f04524726d"
-      },
-      {
         "path": "schemas/knowledge/bundle.schema.json",
         "sha256": "3bb6e5336e16be827ad33230b17ceca219cc97dadb222057bb886d5b67ceefb6"
       },
@@ -6989,7 +6989,7 @@
       },
       {
         "path": "src/tianji_kb/resolver.py",
-        "sha256": "62a045b720fd49e3b81e078380970a99a7dfc02764456288047e7f92d10eeecc"
+        "sha256": "cefe2fe0a1515f386f23814e9d33438d3125ebcbf5132a22ddf7348e64c81def"
       },
       {
         "path": "src/tianji_kb/retrieval.py",
@@ -6997,11 +6997,15 @@
       },
       {
         "path": "src/tianji_kb/runtime_catalog.py",
-        "sha256": "2d2f66d66252024ddd50c7dc4432c38b06febbd4d5440a80da623485c37849bc"
+        "sha256": "7ee02caa84c958239137b6502961ffaf558e94eca571a056c4094823fc7e36cf"
       },
       {
         "path": "src/tianji_kb/scenario_engine.py",
         "sha256": "8714665ec6fc22c4290a0154f90c09916483b7ded7fa6ad1732350ce7a4a85f4"
+      },
+      {
+        "path": "src/tianji_kb/sealed_bundle.py",
+        "sha256": "894eb762d11c3555ac5f43afe262df2929f25f160400437926ab9aa838b9cc0d"
       },
       {
         "path": "src/tianji_kb/search.py",
