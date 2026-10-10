@@ -99,6 +99,46 @@ class DreamIndependentClauseTests(unittest.TestCase):
         self.assertEqual(output["unreviewed_input_topics"][0]["evidence_ids"], [])
         self.assertFalse(output["ai_enabled"])
 
+    def test_reviewed_snake_bite_allows_first_person_mengdao_and_time_prefix(self):
+        cases = (
+            "我梦到被蛇咬",
+            "梦到被蛇咬",
+            "我昨晚梦到被蛇咬",
+            "昨晚我梦到被蛇咬",
+            "昨天晚上梦见被蛇咬",
+            "夜里梦见被蛇咬",
+        )
+        for narrative in cases:
+            with self.subTest(narrative=narrative):
+                out = retrieve(narrative)
+                matches = out["matched_interpretations"]
+                self.assertEqual([m["term_id"] for m in matches], ["dream.term.snake"])
+                self.assertEqual(matches[0]["original_text_short_quote"], "蛇咬人主得大财")
+                self.assertTrue(matches[0]["evidence_ids"])
+                self.assertEqual(matches[0]["input_matches"][0]["method"],
+                                 "literal_reviewed_scene_alias")
+                for hit in matches[0]["input_matches"]:
+                    for span in hit["input_spans"]:
+                        self.assertEqual(narrative[span["start"]:span["end"]], span["text"])
+                self.assertFalse(out["ai_enabled"])
+
+    def test_mengdao_snake_bite_denied_reported_and_other_subject_abstains(self):
+        for narrative in (
+            "我梦到没有被蛇咬",
+            "昨晚我梦到不是被蛇咬",
+            "听说我昨晚梦到被蛇咬",
+            "我梦到别人被蛇咬",
+            "昨晚我梦到朋友被蛇咬",
+            "如果我梦到被蛇咬",
+            "昨晚我梦到被狗咬",
+            "昨晚我梦到被蛇追",
+        ):
+            with self.subTest(narrative=narrative):
+                out = retrieve(narrative)
+                self.assertEqual(out["matched_interpretations"], [])
+                self.assertEqual(out["evidence"], {})
+                self.assertFalse(out["ai_enabled"])
+
     def test_retractions_are_not_separate_new_dreams(self):
         for narrative in (
             "我梦见被蛇咬了然后发现其实没有发生",
