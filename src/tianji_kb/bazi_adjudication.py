@@ -12,7 +12,7 @@ def _bounded_assessment(trace):
     # Check trace identity and uniqueness before indexing executed evidence.
     # A repeated rule ID would otherwise silently overwrite an earlier
     # observation, even if both rows carried individually valid citations.
-    if trace.domain != 'bazi' or trace.variant != BAZI_VARIANT:
+    if getattr(trace, 'domain', None) != 'bazi' or getattr(trace, 'variant', None) != BAZI_VARIANT:
         raise ValueError('Bounded strength requires the Bazi execution variant')
     rule_ids = [step['rule_id'] for step in trace.steps]
     if len(set(rule_ids)) != len(rule_ids):
