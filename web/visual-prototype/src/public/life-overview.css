@@ -51,3 +51,12 @@
 .life-integrated-report aside{border-top:1px solid #d2dbc9;margin-top:14px;padding-top:13px;color:#7d806f}
 .life-integrated-report aside strong{font-size:13px;color:#50664d}
 @media(max-width:900px){.life-integrated-grid{grid-template-columns:1fr}}
+
+.life-proof-overview { margin: 22px 0; border: 1px solid #d9dfce; border-radius: 8px; padding: 19px 22px; background: #f4f6ee; }
+.life-proof-overview h3 { font-size: 18px; margin: 0 0 8px; font-weight: 500; color: #37584c; }
+.life-proof-overview p { font-size: 13px; line-height: 1.8; color: #667b6b; }
+.life-proof-overview ul { list-style: none; margin: 12px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
+.life-proof-overview li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; padding: 11px 14px; border-radius: 5px; border: 1px solid #dee4d7; background: #fffcf5; font-size: 12px; }
+.life-proof-overview li strong { color: #3d5c4c; }
+.life-proof-overview li span { color: #748476; }
+@media (max-width: 730px) { .life-proof-overview { padding: 16px; } .life-proof-overview ul { grid-template-columns: 1fr; } }
