@@ -1,7 +1,7 @@
 """Bounded evidence rules and legacy abstention; no source-case lookup predictions."""
 
-from .bazi_root_conditions import STRENGTH_VARIANT, AVAILABILITY_VARIANT
-from .bazi_commander import PRINCIPAL_VARIANT
+from .bazi_root_conditions import STRENGTH_VARIANT, AVAILABILITY_VARIANT, root_availability
+from .bazi_commander import PRINCIPAL_VARIANT, principal_month
 from .bazi_action_conditions import EFFECT_VARIANT
 
 ADJUDICATION_VARIANT = 'bazi-strength-adjudication-v1'
@@ -77,6 +77,15 @@ def _bounded_assessment(trace):
                         reviewed.get('fact') != raw.get('fact')):
                     block('action_effects',
                           f'/{kind}_relations/{i}', 'factor_chain_inconsistent')
+    # Reconstruct both reviewed derived factors directly from their actual
+    # upstream facts, not merely by comparing a subset of output fields.
+    # Forged "effective" roots or a forged month relation otherwise preserve
+    # the evidence IDs and might incorrectly satisfy a sufficient predicate.
+    if command != principal_month(command_facts, day_master):
+        block('principal_month', '/status', 'derived_principal_replay_mismatch')
+    if roots != root_availability(root_facts):
+        block('root_availability', '/root_presence',
+              'derived_root_availability_replay_mismatch')
     for key, field, expected in [('principal_month','command_variant',PRINCIPAL_VARIANT),
                                  ('root_availability','root_variant',AVAILABILITY_VARIANT),
                                  ('action_effects','action_variant',EFFECT_VARIANT)]:
