@@ -7,6 +7,7 @@ import unittest
 from tianji_kb.bazi_dayun_source_audit import (
     ROOT, AUDIT_PATH, RAW_PATH, CANONICAL_PATH,
     validate_source_collation, verify_fixed_source_collation,
+    validate_role_terminology_appendix, ROLE_APPENDIX_ID,
 )
 
 
@@ -94,6 +95,48 @@ class FixedDayunSourceCollationTests(unittest.TestCase):
             bad["baseline"][field] = value
             with self.subTest(field=field), self.assertRaises(ValueError):
                 validate_source_collation(bad, self.raw, self.canonical)
+
+    def test_original_four_claims_remain_frozen_while_optional_role_appendix_is_checked(self):
+        # Construct only the pinned short fragment already present in the
+        # private original; do not publish or auto-promote the appended review.
+        text = self.raw.decode("utf-8")
+        quote = text[56797:56820]
+        appendix = {
+            "id": ROLE_APPENDIX_ID,
+            "source_collation_id": self.audit["id"],
+            "review_status": "historical_terminology_only",
+            "claim": {
+                "claim_id": "bazi.dayun.source.traditional-role-categories",
+                "canonical_section_id": 188,
+                "canonical_section_title": "珞琭子消息赋",
+                "raw_char_offset": 56797,
+                "exact_excerpt": quote,
+                "scope": "只证明传统术语存在，不独立证明大运顺逆或现代身份认定。",
+            },
+            "changes_to_release": copy.deepcopy(self.audit["changes_to_release"]),
+        }
+        self.assertEqual(len(self.audit["claims"]), 4)
+        valid = validate_role_terminology_appendix(
+            appendix, self.raw, self.canonical, self.audit)
+        self.assertTrue(valid["fixed_original_fragment_verified"])
+        self.assertFalse(valid["independent_edition_verified"])
+        self.assertFalse(valid["canonical_method_adjudicated"])
+        for field, value in (
+            ("scope", "足以审核并公开完整大运方向推断"),
+            ("raw_char_offset", 0),
+            ("canonical_section_id", 10),
+            ("exact_excerpt", "任意编造的阴阳方向说法"),
+        ):
+            invalid = copy.deepcopy(appendix)
+            invalid["claim"][field] = value
+            with self.subTest(field=field), self.assertRaisesRegex(ValueError, "integrity"):
+                validate_role_terminology_appendix(
+                    invalid, self.raw, self.canonical, self.audit)
+        unauthorized = copy.deepcopy(appendix)
+        unauthorized["changes_to_release"]["phase2_rule_promotions"] = 1
+        with self.assertRaisesRegex(ValueError, "cannot authorize release"):
+            validate_role_terminology_appendix(
+                unauthorized, self.raw, self.canonical, self.audit)
 
     def test_current_source_only_supports_bounded_method_facts(self):
         audit = self.audit
