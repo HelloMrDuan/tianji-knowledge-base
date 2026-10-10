@@ -73,7 +73,7 @@ def _narrative_clauses(text):
         for clause, offset in pieces:
             if _REPORTED_CONTEXT.search(clause):
                 reported = True
-            elif re.search(r'(?:我|自己)(?:又)?梦见', clause):
+            elif re.search(r'(?:我|自己)(?:又|也)?梦见|梦见(?:我|自己)', clause):
                 reported = False
             clauses.append({'text':clause, 'start':offset, 'end':offset+len(clause),
                             'reported_context':reported})
