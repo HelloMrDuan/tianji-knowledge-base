@@ -1728,7 +1728,9 @@ def _life(inputs):
         eid for rid in strength_rule_ids
         for eid in profile_rules[rid]["evidence_ids"]
     )) if all(rid in profile_rules for rid in strength_rule_ids) else []
-    if (not strength_evidence or any(eid not in profile["evidence"] for eid in strength_evidence)
+    if (not strength_evidence
+            or any(not profile_rules[rid].get("evidence_ids") for rid in strength_rule_ids)
+            or any(eid not in profile["evidence"] for eid in strength_evidence)
             or any(profile_rules[rid].get("matched") is not True for rid in strength_rule_ids)):
         raise ValueError("Reviewed strength factor RuleMatch and evidence required")
 
