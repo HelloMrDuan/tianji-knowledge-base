@@ -109,7 +109,8 @@ def execute(domain,inputs,variant=None,*,allow_research=False):
         if inputs.get('dayun_age_simulation') == DAYUN_SIM_VARIANT:
             research['age_simulation'] = simulate_dayun_age_and_timeline(
                 research['jie_distance']['birth_local_datetime'],
-                research['jie_distance'], research['rows'])
+                research['jie_distance'], research['rows'],
+                natal_day_master=research['natal_day_master'])
     if cal is not None:result['input_calendar']=cal
     result['scope']=contract.get('scope','')
     result['unresolved']=contract.get('unresolved',[])
