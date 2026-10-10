@@ -1,7 +1,7 @@
 # 天机命理平台｜产品总纲 V1.0
 
 > 版本：2026-10-11 · **后续开发统一方向基线**  
-> 文档导航：[分阶段实施计划](IMPLEMENTATION_PLAN_V1.md)｜[执行与验收台账](EXECUTION_LEDGER.md)  
+> 文档导航：[详细目录](README.md)｜[最初设计与截图](ORIGINAL_DESIGN_BASELINE_V1.md)｜[逐页规格](PAGE_SPECIFICATIONS_V1.md)｜[细化 WBS 工作包](DETAILED_DELIVERY_BACKLOG_V1.md)｜[M0–M7 实施计划](IMPLEMENTATION_PLAN_V1.md)｜[执行台账](EXECUTION_LEDGER.md)  
 > 注意：本文件是项目管理基线，**不是知识审核授权、功能完成证书或上线声明**。
 
 ## 1. 核心产品定位
@@ -81,6 +81,12 @@
 - **公开仓库 HEAD 和历史仍有知识衍生材料**；建设私有仓库不自动使既有公开数据撤回。以 `docs/PRIVATE_KNOWLEDGE_CUTOVER.md`、`docs/PUBLIC_DATA_SURFACE.md` 为迁移门禁。
 - AI 公开解释必须通过**真实模型连接、固定与对抗测试、引用准确率、人工抽审和按领域发布**；未通过就保持关闭，不能用 Mock 成绩宣布上线。
 - 健康/投资/法律等高风险实际决策不提供预测性或替代专业建议的结论。
+
+## 5.1 最初页面设计的硬约束（用户明确要求）
+
+**不得把前台重新做成无古风特色的通用卡片网站，也不得在开发中擅自替换已确认的设计。** 视觉对照以 [PR #87 最早完整 Phase5 原型、33 个页面和截图](ORIGINAL_DESIGN_BASELINE_V1.md)为基准；首页的“生活场景优先”与输入/报告信息架构以 PR #89 为基准；保持 11 场景、七域专业二级入口、古风背景音乐、前后台独立设计。
+
+**每一个改页面的 PR 都必须**引用固定原图、提交新版 1440/390/360 浏览器截图、说明差异并通过真实 UI/接口测试；只修改布局颜色没有改进真实用户行为不能作为功能完成。详见[逐页规格](PAGE_SPECIFICATIONS_V1.md)的 `UI-00～UI-A18` 和 [WBS](DETAILED_DELIVERY_BACKLOG_V1.md)的 `TJ-008.1～008.5`。
 
 ## 6. 开发的阶段目标（入口先行、知识随后闭环）
 
