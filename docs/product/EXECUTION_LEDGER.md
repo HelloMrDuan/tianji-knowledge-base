@@ -66,6 +66,12 @@
 | 29 | TJ-029 | MVP 灰度与用户行为反馈 | 待做 | 真实部署后验收 |
 | 30 | TJ-030 | 5 个专业工具按域扩展 | 待做 | P3，不能影响八字/解梦/生活场景主线 |
 
+## 细化规划已合并的记录（与页面实际修复分开）
+
+- **TJ-001.1～TJ-001.3 规划补充**：公开 [PR #221](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/221)，合并 `07165cc5be8986b7ddd7f60863619c754cc2e355`；落地原始设计基准、逐页规格、30 项工作包拆分、README 导航与标准 PR 模板。PR code/frontend-build/gate-public-data 三项成功。**这只是规划与设计基线已合并，不表示 TJ-008 页面视觉整改或 TJ-004 真实全站验收已完成。**
+- **原设计真实参考**：[PR #87](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/87)（73 个截图路径）与 [PR #89](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/89)（生活场景 IA）。已核对计划所引用的 23 个固定路径存在，**尚未完成页面的新旧图逐屏人工对比**。
+- **执行顺序不变**：先 TJ-002（私有 #50 已成功的双 CI 复核/合并），再 TJ-004.1～004.4（11 场景真实测试＋原图差异）；然后才 TJ-008.1～008.5 一批批还原页面。
+
 ## 视觉还原待检查问题（全部待验，不算已修）
 
 | UI / 参考 | 当前现状 | 接下来必须做 |
@@ -96,6 +102,7 @@
 | 日期（北京时间） | ID | 目标与用户可见变化 | 公开 PR/main SHA | 私有 PR/main SHA | 真实测试/CI | 部署状态 | 新缺口 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 2026-10-11 | TJ-001 | 三份文档、导航与计划基线（本批） | [公开 #219](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/219)，merge `897aab38ee17c95b3015e449b9bf5557f833bd55` | 无私有知识改动 | PR code/frontend-build/gate-public-data 三项 success；合并后 Actions 单独核对 | 未部署 | 下批 TJ-002、TJ-004 |
+| 2026-10-11 | TJ-001.1～001.3 | 按原设计补详细规划：视觉基线、逐页规格、WBS 和 PR 模板 | [公开 #221](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/221)，merge `07165cc5be8986b7ddd7f60863619c754cc2e355` | 无私有数据改动 | PR 三项公开 CI 全绿，合并后 CI 另行核对 | 未部署 | TJ-004.4/TJ-008 视觉对照仍待实际实施；先完成 TJ-002 |
 
 示例“已合并”的判定必须有**真实 merged PR**和 `main` SHA；如 CI 还在跑，保持 `CI待验`。无可证实的模型、上线或内部知识授权不得补写“成功”。
 
