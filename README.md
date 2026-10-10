@@ -1,5 +1,7 @@
 # 天机传统文化知识库（Tianji Knowledge Base）
 
+> **天机平台当前唯一产品路线（2026-10-11）**：先读[产品总纲 V1.0](docs/product/PRODUCT_MASTER_PLAN_V1.md)，再按[分阶段实施计划（M0–M7）](docs/product/IMPLEMENTATION_PLAN_V1.md)与[30 项执行台账](docs/product/EXECUTION_LEDGER.md)逐批开发、测试、提 PR、验收。下方旧阶段/历史状态为技术背景，不应取代这三个文件作为产品开发优先级。
+
 面向 AI / RAG / Agent 的中国传统文化与术数知识底座。
 
 目标不是收集几个 prompt，而是建立一套 **可持续更新、可追溯、可审计、可按流派隔离** 的统一知识层，为后续八字、周易、八卦、六爻、梅花易数、紫微斗数、奇门遁甲、大六壬、太乙、风水、姻缘、择日、塔罗等平台能力提供依据。
