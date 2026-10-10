@@ -14,3 +14,12 @@
 .bazi-rule-evidence blockquote b{font-weight:500;font-size:11px;color:#587661}
 .bazi-rule-evidence blockquote p{font-size:12px;line-height:1.8;color:#485d4b;overflow-wrap:anywhere;white-space:pre-wrap}
 .bazi-evidence-missing{font-size:11px!important;color:#966e4e!important}
+
+.bazi-strength-observations{margin:16px 0;border:1px solid #c4cebb;border-radius:8px;background:linear-gradient(125deg,#f9f7ec,#edf1e7);padding:23px;color:#3f5949}
+.bazi-strength-observations h3{font:23px "Noto Serif CJK SC",serif;font-weight:500;margin:7px 0 12px}
+.bazi-strength-observations>p{font-size:13px;line-height:1.85;margin:8px 0}
+.bazi-strength-observations .bazi-strength-boundary{color:#7c7b6f;font-size:12px}
+.bazi-strength-observations details{border-top:1px solid #d6ddce;margin-top:14px;padding-top:12px;font-size:12px}
+.bazi-strength-observations summary{cursor:pointer;color:#456c4e}
+.bazi-strength-observations blockquote{margin:12px 0;border-left:2px solid #a7b89a;padding:10px;background:#fffdf8}
+.bazi-strength-observations blockquote p{margin:5px 0 0;line-height:1.8}
