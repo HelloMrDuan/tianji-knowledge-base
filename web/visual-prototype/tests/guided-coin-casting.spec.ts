@@ -56,6 +56,12 @@ test("manual six-line entry, reset and edit prevent premature or stale divinatio
   await expect(page.getByRole("progressbar", { name: "起卦进度" })).toHaveAttribute("aria-valuenow", "6");
   await page.getByRole("button", { name: "开始推演" }).click();
   await expect(page.locator(".live-result")).toBeVisible();
+  const classical = page.getByLabel("本卦与动爻周易原典");
+  await expect(classical).toContainText("乾为天");
+  await expect(classical).toContainText("潛龍勿用");
+  await expect(classical.locator(".question-moving-classics blockquote")).toHaveCount(1);
+  await expect(classical.locator(".question-classic-grid blockquote")).toHaveCount(3);
+  await expect(classical).toContainText("不是针对你所提问题的吉凶判断");
   expect(requests).toHaveLength(1);
   expect(JSON.parse(requests[0]).input.yao_values).toEqual([9, 7, 7, 7, 7, 7]);
   await page.getByRole("combobox", { name: "初爻结果" }).selectOption("");

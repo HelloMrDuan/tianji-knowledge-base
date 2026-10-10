@@ -32,6 +32,60 @@ class LiuyaoExecutionTests(unittest.TestCase):
         self.assertEqual([x['position'] for x in result['lines'] if x['month_break']],[1])
         self.assertEqual([x['position'] for x in result['lines'] if x['empty']],[4])
 
+    def test_actual_traditional_text_follows_calculated_hexagrams_and_moving_lines(self):
+        import json
+        records = json.loads((ROOT / 'data/canonical/yijing/zhouyi_classic_core.json')
+                             .read_text(encoding='utf-8'))['records']
+        expected = {row['number']: row for row in records}
+        samples = ([9, 7, 7, 7, 7, 7], [7, 7, 7, 7, 7, 7],
+                   [6, 6, 6, 6, 6, 6], [6, 7, 8, 9, 7, 8])
+        for yao in samples:
+            with self.subTest(yao=yao):
+                chart_result = chart(list(yao), '甲子', '午')['result']
+                classical = chart_result['zhouyi_classic']
+                original, changed = chart_result['original'], chart_result['changed']
+                row, destination = expected[original['number']], expected[changed['number']]
+                self.assertEqual(classical['original']['number'], original['number'])
+                self.assertEqual(classical['original']['name'], row['full_name'])
+                self.assertEqual(classical['original']['judgment'], row['judgment'])
+                self.assertEqual(classical['original']['image'], row['image'])
+                self.assertEqual(classical['changed']['number'], changed['number'])
+                self.assertEqual(classical['changed']['judgment'], destination['judgment'])
+                moving = classical['original']['moving_line_texts']
+                self.assertEqual([x['line'] for x in moving],
+                                 chart_result['changing_lines'])
+                for item in moving:
+                    source = row['lines'][item['line'] - 1]
+                    self.assertEqual(item['position'], source['position'])
+                    self.assertEqual(item['text'], source['text'])
+                self.assertFalse(classical['personal_prediction'])
+                self.assertEqual(classical['scope'], 'verbatim_classical_excerpts_only')
+                self.assertNotIn('provenance', str(classical))
+                self.assertNotIn('docs/', str(classical))
+
+    def test_public_api_delivers_real_short_classics_with_no_private_source_paths(self):
+        import json
+        from fastapi.testclient import TestClient
+        from tianji_kb.api import create_app
+        with TestClient(create_app()) as client:
+            response = client.post('/api/v1/public/execute', json={
+                'domain': 'liuyao', 'variant': 'jingfang-eight-palaces-v1',
+                'input': {'value': '2026-10-09T17:30:00+08:00',
+                          'yao_values': [9, 7, 7, 7, 7, 7]},
+                'mode': 'production', 'explain': False,
+            })
+        self.assertEqual(response.status_code, 200, response.text)
+        payload = response.json()
+        classic = payload['chart']['zhouyi_classic']
+        self.assertEqual(classic['original']['name'], '乾为天')
+        self.assertEqual(classic['original']['moving_line_texts'][0]['position'], '初九')
+        self.assertTrue(classic['original']['moving_line_texts'][0]['text'])
+        self.assertTrue(classic['changed']['judgment'])
+        text = json.dumps(payload, ensure_ascii=False)
+        self.assertNotIn('data/canonical', text)
+        self.assertNotIn('upstream_commit', text)
+        self.assertNotIn('source_path', text)
+
     def test_reject_invalid_input_or_variant(self):
         for args in [([True]*6,'甲子','子'),([7]*5,'甲子','子'),([7]*6,'甲丑','子'),([7]*6,'甲子','午子')]:
             with self.assertRaises(ValueError):chart(*args)

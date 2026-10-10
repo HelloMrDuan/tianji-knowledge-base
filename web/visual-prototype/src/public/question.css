@@ -16,3 +16,23 @@
 .yao-cast-value small{display:block;font-size:10px;color:#9b7b4d;line-height:1.4;margin-top:4px}
 .question-submit:disabled{opacity:.55;cursor:not-allowed}
 @media(max-width:500px){.coin-casting-progress{grid-template-columns:1fr}.coin-casting-progress>div,.coin-casting-progress small{grid-column:1}.coin-casting-actions .button{flex:1 0 100%;width:100%;margin:0}.yao-input-list label{grid-template-columns:40px 50px minmax(0,1fr)}.yao-cast-value select{width:100%}}
+
+
+.question-classical-report{margin-top:20px;padding:23px;border:1px solid #cfd9c6;border-radius:8px;background:linear-gradient(130deg,#fbfaf3,#f2f5eb)}
+.question-classical-report header .eyebrow{font-size:10px;color:#9b7d50;letter-spacing:2px}
+.question-classical-report header h3{font-size:20px;font-weight:500;color:#365741;margin:7px 0}
+.question-classical-report header small{font-size:11px;color:#829082}
+.question-classic-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.question-classic-grid article{border:1px solid #d9dfd3;background:#fffdf8;border-radius:6px;padding:17px}
+.question-classic-grid article>span{font-size:11px;color:#947849}
+.question-classic-grid h4{font:22px "Noto Serif CJK SC",serif;font-weight:500;color:#3c5d49;margin:9px 0 15px}
+.question-classic-grid strong{display:block;font-size:12px;color:#617862;margin-top:13px}
+.question-classic-grid blockquote{font:14px/1.95 "Noto Serif CJK SC",serif;color:#3d5844;border-left:2px solid #9cad8a;padding:7px 12px;margin:7px 0;background:#f8faf3;white-space:pre-wrap;overflow-wrap:anywhere}
+.question-classic-grid article>small{display:block;color:#79897a;font-size:11px;margin-top:13px;line-height:1.7}
+.question-moving-classics{border-top:1px solid #d9dfd2;padding-top:14px}
+.question-moving-classics h4{font-size:15px;font-weight:500;color:#45674d;margin:0 0 9px}
+.question-moving-classics blockquote{padding:11px 15px;background:#fffdfa;border-left:3px solid #a58d5e;margin:9px 0}
+.question-moving-classics blockquote strong{display:block;font-size:11px;color:#997e52}
+.question-moving-classics blockquote p{font:14px/1.9 "Noto Serif CJK SC",serif;color:#405d49;margin:6px 0 0}
+.question-moving-classics>p,.question-classical-limit{font-size:11px;color:#748677;line-height:1.8}
+@media(max-width:640px){.question-classical-report{padding:16px 13px}.question-classic-grid{grid-template-columns:1fr}.question-classical-report header h3{font-size:18px}}
