@@ -57,7 +57,7 @@ export function BaziProfilePage() {
     setError("");
     setResult(null);
     try {
-      const response = await executeBazi({ value: `${date}T${time}:00+08:00` });
+      const response = await executeBazi({ value: `${date}T${time}:00+08:00`, strength_variant: "ditiansui-root-visibility-v1" });
       if (version !== requestVersion.current) return;
       saveBirthProfile({ date, time });
       setResult(response);
@@ -70,6 +70,7 @@ export function BaziProfilePage() {
   }
 
   const chart = result?.chart || {};
+  const strength = chart.strength_factors || null;
   const pillars = Array.isArray(chart.pillars) ? chart.pillars : [];
   const calendar = result?.calendar || {};
   const evidence = result
@@ -92,7 +93,7 @@ export function BaziProfilePage() {
           <h1>先把四柱看清，再谈后面的事。</h1>
           <p>
             当前正式能力只计算四柱、日主、十神与藏干，并把规则和典籍依据一起返回。
-            旺衰、喜用神、格局、桃花吉凶、事业财运等尚未完成证据裁定，因此这里不会提前生成断语。
+            已可核验月支藏干、通根候选和透藏位置；但通用旺衰、喜用神、大运起运仍未完成证据裁定，因此这里不会提前生成断语。
           </p>
         </div>
         <div className="bazi-scope-card">
@@ -145,7 +146,7 @@ export function BaziProfilePage() {
           <span className="eyebrow">二 · 能力边界</span>
           <h2>不把“能算结构”说成“能断人生”</h2>
           <ul>
-            <li>不计算旺衰强弱</li>
+            <li>仅观察旺衰相关因素，不判断身强身弱</li>
             <li>不选择喜用神</li>
             <li>不自动定格局、调候</li>
             <li>不输出婚恋、事业、财富吉凶</li>
@@ -201,6 +202,33 @@ export function BaziProfilePage() {
               </article>
             ))}
           </div>
+
+          {strength && (
+            <section className="bazi-strength-observations" aria-label="旺衰因素与通根候选">
+              <span className="eyebrow">已审核因素 · 不等于旺衰定论</span>
+              <h3>月令、通根与透藏，可以先看清哪些？</h3>
+              <p>月支 <strong>{strength.month_command?.month_branch || "—"}</strong>，藏干：
+                {(strength.month_command?.hidden_stems || []).join("、") || "—"}。</p>
+              <p>与日主同五行的通根候选：
+                {strength.root_candidates?.positions?.length
+                  ? strength.root_candidates.positions.map((item: any) =>
+                      `${pillarNames[item.pillar] || item.pillar}${item.branch}藏${item.hidden_stem}`).join("、")
+                  : "目前已核藏干没有同五行通根候选"}。</p>
+              <p>藏干在其他天干同字显现：
+                {strength.hidden_to_visible?.positions?.length || 0} 处。这不意味着该十神已经生效。</p>
+              <p className="bazi-strength-boundary">尚不能据此判断身强身弱、喜用、格局或大运吉凶；不提供虚构的旺衰分数。</p>
+              <details>
+                <summary>查看旺衰因素规则引用的真实古籍依据</summary>
+                {result.rule_matches.flatMap((rule) => Array.isArray(rule.evidence_ids)
+                  ? rule.evidence_ids.map((id: string) => evidenceById.get(id)).filter(Boolean)
+                  : []).filter((item: any, index: number, rows: any[]) =>
+                    rows.findIndex((row) => row.id === item.id) === index
+                  ).map((source: any) => (
+                  <blockquote key={source.id}><b>{source.title} · {source.grade}</b><p>{source.quote}</p></blockquote>
+                ))}
+              </details>
+            </section>
+          )}
 
           <div className="bazi-result-columns">
             <section className="live-section">
