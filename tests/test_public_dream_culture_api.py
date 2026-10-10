@@ -93,7 +93,7 @@ class PublicDreamCultureTests(unittest.TestCase):
     def test_three_sensitive_pending_topics_are_only_user_text_not_classical_readings(self):
         positives = (
             ("梦见我被追赶", "被追", "梦见我被追赶"),
-            ("梦见有人追我", "被追", "梦见有人追我"),
+            ("梦见陌生人追我", "被追", "梦见陌生人追我"),
             ("我梦见故人", "故人", "梦见故人"),
             ("我梦见已故的亲人", "故人", "梦见已故的亲人"),
             ("我梦见自己死了", "死亡", "梦见自己死了"),
@@ -118,6 +118,7 @@ class PublicDreamCultureTests(unittest.TestCase):
         for narrative in (
             "梦见我没有被追赶",
             "听说别人梦见我被追赶",
+            "梦见有人追我",
             "梦见我追别人",
             "电影里有人梦见故人",
             "如果梦见自己死了",
