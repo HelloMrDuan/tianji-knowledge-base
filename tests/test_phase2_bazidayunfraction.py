@@ -97,6 +97,32 @@ class DayunExactFractionTests(unittest.TestCase):
             with self.subTest(params=params), self.assertRaises(ValueError):
                 execute("bazi", params, allow_research=True)
 
+    def test_plausible_but_forged_calendar_measurement_is_rejected(self):
+        # The values below are syntactically valid, and some can be made
+        # internally self-consistent, but cannot be authenticated against the
+        # original pinned Jie provider.
+        original = research()["result"]["dayun_sequence_research"]["jie_distance"]
+        forged = (
+            lambda d: d.__setitem__("birth_month_ganzhi",
+                                    "甲子" if d["birth_month_ganzhi"] != "甲子" else "乙丑"),
+            lambda d: d["previous_jie"].__setitem__(
+                "name", "立春" if d["previous_jie"]["name"] != "立春" else "惊蛰"),
+            lambda d: d.__setitem__("public_enabled", True),
+            lambda d: d.__setitem__("ai_enabled", True),
+            lambda d: d.__setitem__("start_age", 3),
+            lambda d: d.__setitem__("handover_datetime", "2002-01-01T00:00:00+08:00"),
+            lambda d: d.__setitem__("astronomical_precision_independently_verified", True),
+            lambda d: d.__setitem__("direction_origin", "inferred"),
+        )
+        for index, change in enumerate(forged):
+            with self.subTest(index=index), self.assertRaises(ValueError):
+                value = copy.deepcopy(original)
+                change(value)
+                exact_three_day_ratio(value)
+        # An untouched live provider measurement remains valid.
+        self.assertEqual(exact_three_day_ratio(original)["elapsed_seconds"],
+                         original["elapsed_seconds"])
+
     def test_tampered_measurements_are_rejected_even_if_metadata_still_says_reviewed(self):
         real = research()["result"]["dayun_sequence_research"]["jie_distance"]
         mutations = (

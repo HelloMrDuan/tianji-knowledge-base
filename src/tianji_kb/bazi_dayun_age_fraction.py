@@ -9,7 +9,7 @@ from decimal import Decimal, ROUND_HALF_UP
 from fractions import Fraction
 from zoneinfo import ZoneInfo
 
-from .bazi_dayun_jie import JIE_NAMES, SECONDS_PER_DAY
+from .bazi_dayun_jie import JIE_NAMES, SECONDS_PER_DAY, adjacent_jie_distance
 from .calendar import PROVIDER
 from .foundations import ganzhi_index
 
@@ -49,6 +49,25 @@ def exact_three_day_ratio(measure):
     if type(month) is not str:
         raise ValueError("Missing source month Ganzhi")
     ganzhi_index(month)
+    # Recompute from the actual pinned provider, not just a caller-supplied
+    # mutually-consistent interval. This authenticates provider identity only;
+    # it is NOT an independent astronomical or classical method review.
+    replay = adjacent_jie_distance(birth_value, direction,
+                                   expected_month_ganzhi=month)
+    for key in ('birth_local_datetime', 'birth_month_ganzhi',
+                'previous_jie', 'next_jie', 'selected_jie',
+                'elapsed_seconds', 'elapsed_whole_days',
+                'remaining_seconds_after_whole_days',
+                'zero_distance', 'boundary_policy', 'direction_origin'):
+        if measure.get(key) != replay[key]:
+            raise ValueError('Jie research measurement differs from pinned provider')
+    if (measure.get('public_enabled') is not False or
+            measure.get('ai_enabled') is not False or
+            measure.get('astronomical_precision_independently_verified') is not False or
+            measure.get('historical_timezone_independently_verified') is not False or
+            any(measure.get(k) is not None for k in
+                ('conversion_to_start_age', 'start_age', 'handover_datetime'))):
+        raise ValueError('Unreviewed Jie measurement cannot authorize dated age')
 
     previous, following, selected = (
         measure.get("previous_jie"), measure.get("next_jie"),
