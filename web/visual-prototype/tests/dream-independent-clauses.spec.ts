@@ -48,3 +48,22 @@ test("reported snake hearsay does not suppress an independently affirmed self dr
   await expect(page.getByRole("heading", { name: "暂无可核验的对应条目" })).toBeVisible();
   await expect(matches).toHaveCount(0);
 });
+
+test("reviewed snake scene recognizes 梦到 and night-time first-person description without guessing", async ({ page }) => {
+  await page.goto("/dream-culture");
+  const narrative = page.getByLabel("梦境叙述");
+  await narrative.fill("昨晚我梦到被蛇咬");
+  await page.getByRole("button", { name: "查阅梦象" }).click();
+  await expect(page.locator(".dream-culture-match")).toHaveCount(1);
+  await expect(page.locator(".dream-culture-match")).toContainText("蛇咬人主得大财");
+  await expect(page.locator(".dream-culture-input-proof")).toContainText("被蛇咬");
+
+  await narrative.fill("昨晚我梦到朋友被蛇咬");
+  await page.getByRole("button", { name: "查阅梦象" }).click();
+  await expect(page.locator(".dream-culture-match")).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: "暂无可核验的对应条目" })).toBeVisible();
+
+  await narrative.fill("昨晚我梦到没有被蛇咬");
+  await page.getByRole("button", { name: "查阅梦象" }).click();
+  await expect(page.locator(".dream-culture-match")).toHaveCount(0);
+});
