@@ -132,6 +132,42 @@ class DayunAgeSimulationResearchTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "natal day master"):
             invoke(jie, rows, natal="unknown")
 
+    def test_reject_forged_but_internally_consistent_provider_jie(self):
+        # Shift the next Jie by one hour and recompute *all* related elapsed
+        # arithmetic; the original simulation's local checks accepted this.
+        # Only a real provider replay can expose the fabricated boundary.
+        data = research(dayun_sequence_count=3)["result"]["dayun_sequence_research"]
+        measure = copy.deepcopy(data["jie_distance"])
+        birth = datetime.fromisoformat(measure["birth_local_datetime"])
+        fake_next = datetime.fromisoformat(measure["next_jie"]["at"]) + timedelta(hours=1)
+        measure["next_jie"]["at"] = fake_next.isoformat()
+        measure["selected_jie"] = copy.deepcopy(measure["next_jie"])
+        secs = int((fake_next.astimezone(timezone.utc) -
+                    birth.astimezone(timezone.utc)).total_seconds())
+        measure["elapsed_seconds"] = secs
+        measure["elapsed_whole_days"] = secs // 86400
+        measure["remaining_seconds_after_whole_days"] = secs % 86400
+        with self.assertRaisesRegex(ValueError, "pinned provider"):
+            simulate_dayun_age_and_timeline(
+                measure["birth_local_datetime"], measure, data["rows"],
+                natal_day_master=data["natal_day_master"])
+
+    def test_reject_forged_but_internally_consistent_natal_day_master(self):
+        # Updating every period's Ten Gods alongside a false day stem is
+        # insufficient: the natal master must still agree with the birth.
+        from tianji_kb.bazi_core import ten_god
+        data = research(dayun_sequence_count=3)["result"]["dayun_sequence_research"]
+        real = data["natal_day_master"]
+        forged = "乙" if real != "乙" else "甲"
+        rows = copy.deepcopy(data["rows"])
+        for row in rows:
+            row["ten_god_relative_to_natal_day_stem"] = ten_god(
+                forged, row["stem"])
+        with self.assertRaisesRegex(ValueError, "Natal day master"):
+            simulate_dayun_age_and_timeline(
+                data["jie_distance"]["birth_local_datetime"],
+                data["jie_distance"], rows, natal_day_master=forged)
+
     def test_exact_fraction_and_rounding_no_binary_float(self):
         self.assertEqual(_half_up_fraction(Fraction(1, 2)), 1)
         self.assertEqual(_half_up_fraction(Fraction(3, 2)), 2)

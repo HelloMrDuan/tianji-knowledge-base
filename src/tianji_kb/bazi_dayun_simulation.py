@@ -10,6 +10,8 @@ from zoneinfo import ZoneInfo
 
 from .bazi_core import ten_god
 from .bazi_dayun_jie import JIE_NAMES, SECONDS_PER_DAY
+from .bazi_dayun_age_fraction import exact_three_day_ratio
+from .calendar import calendar
 from .foundations import CYCLE, STEMS, ganzhi_index
 
 VARIANT = "bazi-dayun-three-days-mean-year-research-v1"
@@ -88,9 +90,19 @@ def simulate_dayun_age_and_timeline(birth_iso, measured_jie, rows, *, natal_day_
     month_ganzhi = measured_jie.get("birth_month_ganzhi")
     if type(month_ganzhi) is not str:
         raise ValueError("Measured Jie requires source month pillar")
+    # Arithmetic self-consistency is not proof of a genuine pinned provider
+    # measurement. Replay the exact 12-Jie provider and reject forged pairs of
+    # timestamps/distances even when they agree with each other.
+    verified_ratio = exact_three_day_ratio(measured_jie)
+    if verified_ratio["elapsed_seconds"] != elapsed:
+        raise ValueError("Measured Jie differs from pinned provider")
     month_index = ganzhi_index(month_ganzhi)
     if type(natal_day_master) is not str or natal_day_master not in STEMS:
         raise ValueError("Expected validated natal day master for Ten Gods")
+    # A caller could otherwise forge both the day master and the period Ten
+    # Gods, producing a wholly self-consistent but wrong natal identity.
+    if calendar(birth_iso)["day_ganzhi"][0] != natal_day_master:
+        raise ValueError("Natal day master disagrees with pinned birth chart")
     sign = 1 if direction == "forward" else -1
     for index, row in enumerate(rows):
         expected = CYCLE[(month_index + sign * (index + 1)) % 60]
