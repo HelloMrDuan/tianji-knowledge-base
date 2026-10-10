@@ -61,6 +61,41 @@ class DreamCombinationTests(unittest.TestCase):
                 self.assertTrue(any(result['evidence'][eid]['original_text'] == quote
                                     for eid in entry['evidence_ids']))
 
+    def test_additional_bounded_scene_phrasings_retain_original_reviewed_evidence(self):
+        cases = [
+            ('我梦见一条蛇咬住我的手', 'snake', '蛇咬人主得大财'),
+            ('我梦见我飞向天空', 'flying', '飞上天富贵大吉'),
+            ('我梦见我跌落井中', 'falling', '身坠井中疾病凶'),
+            ('我梦见我拾得一枚铜钱', 'money', '拾得钱物皆大吉'),
+        ]
+        for narrative, term, quote in cases:
+            with self.subTest(narrative=narrative):
+                result = retrieve(narrative)
+                self.assertEqual(len(result['matched_interpretations']), 1)
+                match = result['matched_interpretations'][0]
+                self.assertEqual(match['term_id'], 'dream.term.' + term)
+                self.assertEqual(match['original_text_short_quote'], quote)
+                self.assertEqual(match['input_matches'][0]['method'],
+                                 'bounded_reviewed_scene_paraphrase')
+                self.assertTrue(match['evidence_ids'])
+                for span in match['input_matches'][0]['input_spans']:
+                    self.assertEqual(narrative[span['start']:span['end']], span['text'])
+                self.assertTrue(any(result['evidence'][eid]['original_text'] == quote
+                                    for eid in match['evidence_ids']))
+                self.assertFalse(result['ai_enabled'])
+
+    def test_added_paraphrases_deny_other_subject_and_unconfirmed_scenes(self):
+        for narrative in (
+            '我梦见狗咬住我的手',
+            '梦见朋友飞向天空',
+            '我梦见我没有跌落井中',
+            '听说我拾得一枚铜钱',
+        ):
+            with self.subTest(narrative=narrative):
+                result = retrieve(narrative)
+                self.assertEqual(result['matched_interpretations'], [])
+                self.assertEqual(result['evidence'], {})
+
     def test_bounded_paraphrases_abstain_on_other_subject_negation_or_wrong_scene(self):
         for narrative in (
             '梦见没有一条蛇咬我的腿',

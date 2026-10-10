@@ -59,3 +59,23 @@ test("dream lookup on mobile never renders a fabricated answer for reported or n
   }
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
+
+
+test("additional reviewed dream phrasings retrieve real citations but reject imagined events", async ({ page }) => {
+  await page.goto("/dream-culture");
+  const narrative = page.getByLabel("梦境叙述");
+  for (const [dream, excerpt] of [
+    ["我梦见一条蛇咬住我的手", "蛇咬人主得大财"],
+    ["我梦见我拾得一枚铜钱", "拾得钱物皆大吉"],
+    ["我梦见我飞向天空", "飞上天富贵大吉"],
+    ["我梦见我跌落井中", "身坠井中疾病凶"],
+  ]) {
+    await narrative.fill(dream);
+    await page.getByRole("button", { name: "查阅梦象" }).click();
+    await expect(page.locator(".dream-culture-match")).toHaveCount(1);
+    await expect(page.locator(".dream-culture-match")).toContainText(excerpt);
+  }
+  await narrative.fill("我梦见我没有跌落井中");
+  await page.getByRole("button", { name: "查阅梦象" }).click();
+  await expect(page.getByRole("heading", { name: "暂无可核验的对应条目" })).toBeVisible();
+});
