@@ -30,6 +30,36 @@
 .scenario-proof { margin-top: 31px; display: flex; gap: 22px; flex-wrap: wrap; color: #7f8979; font-size: 12px; }
 .scenario-proof span { display: inline-flex; align-items: center; gap: 7px; }
 .scenario-proof i { width: 6px; height: 6px; border-radius: 50%; background: #aa8a50; }
+.scenario-time-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-block: 1px solid var(--hair);
+  margin-top: 22px;
+}
+.scenario-time-strip a {
+  min-width: 0;
+  min-height: 84px;
+  padding: 15px 18px;
+  border-right: 1px solid var(--hair);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  transition: background-color .2s ease;
+}
+.scenario-time-strip a:last-child { border-right: 0; }
+.scenario-time-strip a:hover, .scenario-time-strip a:focus-visible {
+  background: #eaf0e5;
+}
+.scenario-time-strip strong {
+  font: 21px/1.4 "Noto Serif CJK SC", "Songti SC", serif;
+  color: var(--ink);
+  font-weight: 500;
+}
+.scenario-time-strip span {
+  color: var(--ink-soft);
+  font-size: 12px;
+}
 .scenario-section { padding-top: 42px; }
 .scenario-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
 .scenario-card {
@@ -74,6 +104,10 @@
   .professional-section .tool-grid { grid-template-columns: repeat(3, 1fr); }
 }
 @media (max-width: 760px) {
+  .scenario-time-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .scenario-time-strip a { min-height: 74px; padding: 12px 14px; }
+  .scenario-time-strip a:nth-child(2) { border-right: 0; }
+  .scenario-time-strip a:nth-child(-n+2) { border-bottom: 1px solid var(--hair); }
   .scenario-hero { min-height: 385px; padding: 34px 0 30px; }
   .scenario-hero h1 { font-size: 36px; }
   .scenario-grid { grid-template-columns: repeat(2, 1fr); }
