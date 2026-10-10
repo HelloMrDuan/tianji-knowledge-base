@@ -46,3 +46,34 @@ test("birth chart and life report display the same reviewed strength facts with 
   await expect(page.getByLabel("旺衰因素与年度综合解读")).toContainText("跨规则一致性");
   expect(calls).toContainEqual({ scenario: "life", year: 2027 });
 });
+
+test("life uses the same validated local birth profile as yearly and supports clearing it", async ({ page }) => {
+  await page.goto("/life-overview");
+  await page.getByRole("button", { name: "填入示例" }).click();
+  await page.getByLabel("观察年份").fill("2027");
+  await page.getByRole("button", { name: "生成我的人生总览" }).click();
+  await expect(page.getByLabel("四场景来源一致性核验"))
+    .toContainText("出生盘与目标年份已跨场景核对一致");
+
+  await page.goto("/yearly-structure");
+  await expect(page.getByLabel("出生日期")).toHaveValue("2000-01-07");
+  await expect(page.getByLabel("出生时间")).toHaveValue("12:00");
+  await expect(page.getByLabel("目标年份")).toHaveValue("2027");
+
+  await page.goto("/life-overview");
+  await page.getByRole("button", { name: "清除本机资料" }).click();
+  await expect(page.getByLabel("出生日期")).toHaveValue("");
+  await expect(page.getByLabel("出生时间")).toHaveValue("");
+  expect(await page.evaluate(() => localStorage.getItem("tianji.profile.birth.v1"))).toBeNull();
+
+  await page.goto("/yearly-structure");
+  await expect(page.getByLabel("出生日期")).toHaveValue("");
+  await expect(page.getByLabel("出生时间")).toHaveValue("");
+
+  // A malformed saved date must never repopulate the Life form.
+  await page.evaluate(() => localStorage.setItem("tianji.profile.birth.v1",
+    JSON.stringify({ date: "2000-02-31", time: "12:00" })));
+  await page.goto("/life-overview");
+  await expect(page.getByLabel("出生日期")).toHaveValue("");
+  await expect(page.getByLabel("出生时间")).toHaveValue("");
+});

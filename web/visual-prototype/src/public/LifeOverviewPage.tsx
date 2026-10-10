@@ -4,9 +4,9 @@ import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeLifeScenario, type ScenarioExecuteResponse } from "./api";
 import { readSavedTargetYear, saveTargetYear, isValidTargetYear, MIN_TARGET_YEAR, MAX_TARGET_YEAR } from "./targetYear";
+import { readSavedBirthProfile, saveBirthProfile, clearBirthProfile } from "./birthProfile";
 import "./life-overview.css";
 
-const profileKey = "tianji.profile.birth.v1";
 const relationNames: Record<string, string> = {
   six_harmony: "六合",
   harm: "六害",
@@ -26,19 +26,6 @@ const highlightGlyph: Record<string, string> = {
   career: "业",
 };
 
-function readProfile() {
-  try {
-    const raw = localStorage.getItem(profileKey);
-    if (!raw) return { date: "", time: "" };
-    const parsed = JSON.parse(raw);
-    return {
-      date: typeof parsed.date === "string" ? parsed.date : "",
-      time: typeof parsed.time === "string" ? parsed.time : "",
-    };
-  } catch {
-    return { date: "", time: "" };
-  }
-}
 
 type ReviewedExcerpt = { id: string; title: string; original: string; level: string };
 
@@ -58,7 +45,7 @@ function reviewedExcerpts(ids: unknown, evidence: Record<string, any>): Reviewed
 }
 
 export function LifeOverviewPage() {
-  const initial = readProfile();
+  const initial = readSavedBirthProfile();
   const [date, setDate] = useState(initial.date);
   const [time, setTime] = useState(initial.time);
   const [targetYear, setTargetYear] = useState(readSavedTargetYear);
@@ -95,12 +82,8 @@ export function LifeOverviewPage() {
         target_year: targetYear,
       });
       if (version !== requestVersion.current) return;
-      try {
-        localStorage.setItem(profileKey, JSON.stringify({ date, time }));
-        saveTargetYear(targetYear);
-      } catch {
-        /* Preference persistence is optional. */
-      }
+      saveBirthProfile({ date, time });
+      saveTargetYear(targetYear);
       setResult(next);
     } catch (err) {
       if (version === requestVersion.current)
@@ -171,6 +154,7 @@ export function LifeOverviewPage() {
               <h2>建立你的个人总览</h2>
             </div>
             <button type="button" className="sample-fill" onClick={fillSample}>填入示例</button>
+            <button type="button" className="sample-fill" onClick={() => { invalidateResult(); clearBirthProfile(); setDate(""); setTime(""); }}>清除本机资料</button>
           </div>
 
           <div className="life-input-grid">
