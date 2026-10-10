@@ -30,6 +30,11 @@ test("birth chart and life report display the same reviewed strength facts with 
   await expect(integrated).toContainText("大运方向");
   await expect(integrated).toContainText("跨规则一致性");
   await expect(integrated).toContainText("并非两份独立证据");
+  const sourceCheck = page.getByLabel("四场景来源一致性核验");
+  await expect(sourceCheck).toContainText("出生盘与目标年份已跨场景核对一致");
+  await expect(sourceCheck).toContainText("同一套证据的交叉核查");
+  for (const title of ["命盘基础", "年度结构", "桃花结构", "事业财运"])
+    await expect(sourceCheck).toContainText(title);
   await integrated.locator("summary").click();
   await expect(integrated.locator("blockquote p").first()).not.toBeEmpty();
   expect(calls).toContainEqual({ scenario: "life", year: 2026 });

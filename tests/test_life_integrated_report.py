@@ -119,6 +119,72 @@ class IntegratedLifeReportTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "Scenario year facts disagree"):
                 self.run_life()
 
+    def test_four_scenarios_and_evidence_provenance_share_verified_identity(self):
+        for year in (2026, 2027):
+            with self.subTest(year=year):
+                life = self.run_life(year)
+                audit = life["result"]["integration_provenance"]
+                self.assertEqual(audit["source_scenarios"],
+                                 ["profile", "yearly", "romance", "career"])
+                self.assertTrue(audit["all_natal_charts_identical"])
+                self.assertTrue(audit["all_target_years_identical"])
+                self.assertEqual(audit["evidence_identity_conflicts"], 0)
+                self.assertFalse(audit["independent_evidence_claim"])
+                self.assertFalse(audit["interpretation_allowed"])
+                self.assertFalse(audit["dayun_timeline_approved"])
+                self.assertFalse(audit["strength_classification_approved"])
+                self.assertEqual(audit["evidence_ids"],
+                                 life["result"]["integrated_reading"]["evidence_ids"])
+                self.assertTrue(all(eid in life["evidence"]
+                                    for eid in audit["evidence_ids"]))
+                self.assertEqual(
+                    [x["scenario"] for x in audit["evidence_contributions"]],
+                    ["profile", "yearly", "romance", "career"])
+                self.assertEqual(
+                    {eid for row in audit["evidence_contributions"]
+                     for eid in row["evidence_ids"]}, set(audit["evidence_ids"]))
+
+    def test_other_scenario_natal_chart_mismatch_fails_closed(self):
+        for scenario in ("yearly", "romance", "career"):
+            original = getattr(scenario_engine, "_" + scenario)
+
+            def corrupted(inputs, *, original=original):
+                output = copy.deepcopy(original(inputs))
+                output["result"]["natal"]["day_master"]["stem"] = "假"
+                return output
+
+            with self.subTest(scenario=scenario):
+                with patch.object(scenario_engine, "_" + scenario, side_effect=corrupted):
+                    with self.assertRaisesRegex(ValueError, "natal chart identity"):
+                        self.run_life()
+
+    def test_year_number_disagreement_fails_closed_even_if_ganzhi_matches(self):
+        for scenario in ("yearly", "romance", "career"):
+            original = getattr(scenario_engine, "_" + scenario)
+
+            def corrupted(inputs, *, original=original):
+                output = copy.deepcopy(original(inputs))
+                output["result"]["target_year"]["year"] = 1900
+                return output
+
+            with self.subTest(scenario=scenario):
+                with patch.object(scenario_engine, "_" + scenario, side_effect=corrupted):
+                    with self.assertRaisesRegex(ValueError, "target-year identity"):
+                        self.run_life(2027)
+
+    def test_reused_evidence_id_with_different_source_fails_closed(self):
+        original = scenario_engine._career
+
+        def corrupted(inputs):
+            output = copy.deepcopy(original(inputs))
+            eid = next(iter(output["evidence"]))
+            output["evidence"][eid]["original_text"] = "伪造证据（只在测试中）"
+            return output
+
+        with patch.object(scenario_engine, "_career", side_effect=corrupted):
+            with self.assertRaisesRegex(ValueError, "evidence identity collision"):
+                self.run_life()
+
     def test_public_http_projection_contains_sources_not_private_rule_identifiers(self):
         with TestClient(create_app()) as client:
             response = client.post("/api/v1/scenarios/public", json={
@@ -140,6 +206,20 @@ class IntegratedLifeReportTests(unittest.TestCase):
         self.assertNotIn("bazi.phase2", str(strength))
         self.assertIn("strength_factors", profile.json()["chart"])
         self.assertIsNone(profile.json()["chart"]["strength_factors"]["overall_strength"])
+        # Public projection must not leak original opaque evidence IDs as
+        # dictionary keys: all provenance uses response-local E aliases.
+        provenance = data["result"]["integration_provenance"]
+        self.assertEqual(
+            [row["scenario"] for row in provenance["evidence_contributions"]],
+            ["profile", "yearly", "romance", "career"])
+        self.assertTrue(all(eid.startswith("E")
+                            for row in provenance["evidence_contributions"]
+                            for eid in row["evidence_ids"]))
+        self.assertTrue(all(eid in data["evidence"]
+                            for row in provenance["evidence_contributions"]
+                            for eid in row["evidence_ids"]))
+        self.assertNotIn("evidence_scenarios", response.text)
+
 
 
 if __name__ == "__main__":

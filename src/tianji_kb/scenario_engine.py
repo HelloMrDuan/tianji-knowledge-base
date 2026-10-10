@@ -1694,16 +1694,45 @@ def _life(inputs):
     romance = _romance({"birth_value": birth_value, "target_year": target_year})
     career = _career({"birth_value": birth_value, "target_year": target_year})
 
+    sections = {"profile": profile, "yearly": yearly,
+                "romance": romance, "career": career}
     evidence = {}
-    for section in (profile, yearly, romance, career):
+    evidence_sections = {}
+    for section_id, section in sections.items():
         for eid, record in section["evidence"].items():
+            # Same opaque evidence ID MUST identify identical source bytes
+            # regardless of the scenario that first contributed it.
+            if eid in evidence and evidence[eid] != record:
+                raise ValueError("Cross-scenario evidence identity collision")
             evidence.setdefault(eid, copy.deepcopy(record))
+            evidence_sections.setdefault(eid, []).append(section_id)
 
     pillars = profile["result"]["pillars"]
     day_master = profile["result"]["day_master"]
     target = yearly["result"]["target_year"]
     romance_result = romance["result"]
     career_result = career["result"]
+
+    # The same birth input is calculated four times with different providers
+    # and optional factors. Refuse to write a combined life reading if ANY
+    # constituent natal chart disagrees, even when annual facts still agree.
+    natal_identity = {"pillars": pillars, "day_master": day_master}
+    for section_id in ("yearly", "romance", "career"):
+        natal = (sections[section_id]["result"].get("natal")
+                 if section_id != "career" else
+                 sections[section_id]["result"].get("natal"))
+        if not isinstance(natal, dict) or any(
+                natal.get(key) != natal_identity[key]
+                for key in ("pillars", "day_master")):
+            raise ValueError("Cross-scenario natal chart identity mismatch")
+
+    for section_id in ("yearly", "romance", "career"):
+        annual = sections[section_id]["result"].get("target_year")
+        if (not isinstance(annual, dict)
+                or annual.get("year") != target_year
+                or annual.get("ganzhi") != target["ganzhi"]
+                or annual.get("branch") != target["branch"]):
+            raise ValueError("Scenario year facts disagree: Cross-scenario target-year identity mismatch")
 
     year_basis = romance_result["target_year_activation"]["year_branch_basis"]
     day_basis = romance_result["target_year_activation"]["day_branch_basis"]
@@ -1840,6 +1869,28 @@ def _life(inputs):
         [*strength_evidence, *annual_career["evidence_ids"], *spouse_evidence,
          *audit_evidence]
     ))
+    if any(eid not in evidence for eid in combined_evidence):
+        raise ValueError("Cross-scenario integrated source evidence is missing")
+    integration_provenance = {
+        "source_scenarios": list(sections),
+        "all_natal_charts_identical": True,
+        "all_target_years_identical": True,
+        "evidence_identity_conflicts": 0,
+        "evidence_ids": list(combined_evidence),
+        # Use an array of named scenario contributions, never evidence IDs
+        # as JSON object keys: public_projection only remaps evidence_ids arrays.
+        "evidence_contributions": [
+            {"scenario": section_id,
+             "evidence_ids": [eid for eid in combined_evidence
+                              if section_id in evidence_sections[eid]]}
+            for section_id in sections
+        ],
+        "independent_evidence_claim": False,
+        "strength_classification_approved": False,
+        "dayun_timeline_approved": False,
+        "interpretation_allowed": False,
+        "scope": "cross_scenario_source_identity_and_composition_only",
+    }
     integrated_reading = {
         "target_year": target_year,
         "headline": f"{target_year}年 · 命局与流年联合观察",
@@ -1935,6 +1986,7 @@ def _life(inputs):
             },
             "integrated_reading": integrated_reading,
             "cross_rule_audit": cross_rule_audit,
+            "integration_provenance": integration_provenance,
             "yearly": copy.deepcopy(yearly["result"]),
             "romance": copy.deepcopy(romance["result"]),
             "career": copy.deepcopy(career["result"]),
