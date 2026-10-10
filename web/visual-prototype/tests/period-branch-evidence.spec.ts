@@ -46,5 +46,7 @@ test("real daily -> weekly -> monthly calculation shows audited branch dates and
   await expect(verified.first()).toBeVisible();
   await verified.first().locator("summary").click();
   await expect(verified.first().locator("blockquote p").first()).not.toBeEmpty();
-  await expect(page.locator(".period-branch-evidence")).toContainText("吉凶");
+  // Verify the rendered evidence boundary, not a stale keyword absent from this component.
+  await expect(page.locator(".period-branch-evidence")).toContainText("只是结构分布");
+  await expect(page.locator(".period-branch-evidence")).toContainText("不判断作用效力");
 });
