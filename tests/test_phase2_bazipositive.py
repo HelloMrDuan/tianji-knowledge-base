@@ -110,6 +110,49 @@ class PositiveStrengthTests(unittest.TestCase):
         with self.assertRaises(ValueError):strength_assessment(t,strength_variant=ADJUDICATION_VARIANT)
         with self.assertRaises(ValueError):strength_assessment(ExecutionTrace('bazi','ziping-structural-v1'),strength_variant=ADJUDICATION_VARIANT)
 
+    def test_cross_rule_factor_identity_is_required_even_with_valid_evidence_ids(self):
+        # Use a genuinely executed positive chart, not mocked upstream facts.
+        original=self.chart('癸卯','乙卯','甲子','乙亥')
+        self.assertEqual(original['result']['strength_assessment']['classification'],'strong')
+        changes=(
+            ('principal_month', lambda v: v.__setitem__('day_master','乙')),
+            ('principal_month', lambda v: v.__setitem__('month_branch','酉')),
+            ('root_availability', lambda v: v.__setitem__('root_presence',False)),
+            ('root_availability', lambda v: v['roots'][0].__setitem__('root_index',9)),
+            ('action_effects', lambda v: v['visible_relations'][0]['fact'].__setitem__('stem','辛')),
+            ('action_effects', lambda v: v['hidden_relations'].pop()),
+        )
+        for rule, change in changes:
+            with self.subTest(rule=rule, change=change.__code__.co_firstlineno):
+                trace=ExecutionTrace('bazi','ziping-structural-v1')
+                trace.steps=copy.deepcopy([s for s in original['trace']
+                                           if 'strength_' not in s['rule_id']])
+                trace.evidence=copy.deepcopy(original['evidence'])
+                step=next(s for s in trace.steps if s['rule_id']=='bazi.phase2.'+rule)
+                change(step['output'])
+                result=strength_assessment(trace,strength_variant=ADJUDICATION_VARIANT)
+                self.assertEqual(result['classification'],'indeterminate')
+                self.assertIsNone(result['why_not_indeterminate'])
+                offenders=[b for b in result['blockers']
+                           if b['reason']=='factor_chain_inconsistent']
+                self.assertTrue(offenders)
+                for b in offenders:
+                    self.assertIn(b['evidence_id'],trace.evidence)
+
+    def test_cross_rule_factor_chain_preserves_both_existing_positive_classes(self):
+        for pillars,classification in (
+            (('癸卯','乙卯','甲子','乙亥'),'strong'),
+            (('戊午','辛酉','甲午','庚午'),'weak'),
+        ):
+            with self.subTest(pillars=pillars):
+                out=self.chart(*pillars)
+                assessment=out['result']['strength_assessment']
+                self.assertEqual(assessment['classification'],classification)
+                self.assertNotIn('factor_chain_inconsistent',
+                                 {b['reason'] for b in assessment['blockers']})
+                self.assertFalse(assessment['public_enabled'])
+                self.assertFalse(assessment['ai_enabled'])
+
     def test_research_api_is_available_but_production_and_public_scenario_do_not_auto_open(self):
         inputs={'value':'1963-03-22T22:00:00+08:00','strength_variant':ADJUDICATION_VARIANT}
         with self.assertRaises(ValueError):execute('bazi',inputs)
