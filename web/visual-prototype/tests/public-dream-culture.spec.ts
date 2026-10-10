@@ -79,3 +79,19 @@ test("additional reviewed dream phrasings retrieve real citations but reject ima
   await page.getByRole("button", { name: "查阅梦象" }).click();
   await expect(page.getByRole("heading", { name: "暂无可核验的对应条目" })).toBeVisible();
 });
+
+test("mixed dream reveals unreviewed exam without fabricating a classical source", async ({ page }) => {
+  await page.goto("/dream-culture");
+  await page.getByLabel("梦境叙述").fill("我梦见我捡到了钱，后来梦见考试");
+  await page.getByRole("button", { name: "查阅梦象" }).click();
+  await expect(page.locator(".dream-culture-match")).toHaveCount(1);
+  await expect(page.locator(".dream-culture-match")).toContainText("拾得钱物皆大吉");
+  const unresolved = page.getByLabel("未获审核的梦境主题");
+  await expect(unresolved).toContainText("考试");
+  await expect(unresolved).toContainText("尚无严格对应的已审核条目");
+  await expect(unresolved).not.toContainText("古籍原文");
+  await page.getByLabel("梦境叙述").fill("听说别人梦见考试");
+  await page.getByRole("button", { name: "查阅梦象" }).click();
+  await expect(unresolved).toHaveCount(0);
+  await expect(page.locator(".dream-culture-match")).toHaveCount(0);
+});
