@@ -1732,7 +1732,7 @@ def _life(inputs):
                 or annual.get("year") != target_year
                 or annual.get("ganzhi") != target["ganzhi"]
                 or annual.get("branch") != target["branch"]):
-            raise ValueError("Cross-scenario target-year identity mismatch")
+            raise ValueError("Scenario year facts disagree: Cross-scenario target-year identity mismatch")
 
     year_basis = romance_result["target_year_activation"]["year_branch_basis"]
     day_basis = romance_result["target_year_activation"]["day_branch_basis"]
