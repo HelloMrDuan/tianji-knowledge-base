@@ -31,3 +31,20 @@ test("explicit another dream keeps the first affirmed scene even when second is 
   await page.getByRole("button", { name: "查阅梦象" }).click();
   await expect(page.getByRole("heading", { name: "暂无可核验的对应条目" })).toBeVisible();
 });
+
+test("reported snake hearsay does not suppress an independently affirmed self dream", async ({ page }) => {
+  await page.goto("/dream-culture");
+  const input = page.getByLabel("梦境叙述");
+  const matches = page.locator(".dream-culture-match");
+
+  await input.fill("听说别人被蛇咬随后我也梦见我捡到了钱");
+  await page.getByRole("button", { name: "查阅梦象" }).click();
+  await expect(matches).toHaveCount(1);
+  await expect(matches).toContainText("拾得钱物皆大吉");
+  await expect(matches).not.toContainText("蛇咬人主得大财");
+
+  await input.fill("听说别人被蛇咬随后我也梦见我没有捡到钱");
+  await page.getByRole("button", { name: "查阅梦象" }).click();
+  await expect(page.getByRole("heading", { name: "暂无可核验的对应条目" })).toBeVisible();
+  await expect(matches).toHaveCount(0);
+});
