@@ -17,7 +17,6 @@ EXPECTED_CLAIMS = {
     "bazi.dayun.source.nominal-ten-year": (188, "珞琭子消息赋"),
     "bazi.dayun.source.three-day-year": (188, "珞琭子消息赋"),
     "bazi.dayun.source.no-universal-fortune": (10, "论大运"),
-    "bazi.dayun.source.traditional-role-categories": (188, "珞琭子消息赋"),
 }
 
 
@@ -91,9 +90,6 @@ def validate_source_collation(audit, raw_bytes, canonical_bytes):
                "excerpt not uniquely contained in canonical section")
         _check(isinstance(claim.get("scope"), str) and len(claim["scope"]) >= 12,
                "missing non-generalization guard")
-        if cid == "bazi.dayun.source.traditional-role-categories":
-            _check("不独立证明大运顺逆" in claim["scope"],
-                   "traditional category quote cannot authorize direction inference")
     _check(seen == set(EXPECTED_CLAIMS), "missing source claims")
     rel = audit.get("changes_to_release", {})
     _check(rel.get("phase1_rule_promotions") == 0 and
@@ -123,3 +119,62 @@ def verify_fixed_source_collation(root=ROOT):
         audit, (base / RAW_PATH).read_bytes(),
         (base / CANONICAL_PATH).read_bytes(),
     )
+
+
+# The private review appendix is an independent, opt-in file outside the
+# immutable 235-file data snapshot. This validator only authenticates the
+# spelling of a historical role category in the pre-pinned original source.
+# Neither this appendix nor its digest is a reviewed Dayun direction rule.
+ROLE_APPENDIX_ID = "bazi.dayun.traditional-role-terminology-appendix-v1"
+ROLE_EXCERPT_SHA256 = "9ee55898732edf77f3921652823ba24ada85125ed0817e4ea6f4fe3f910fe8fd"
+
+
+def validate_role_terminology_appendix(appendix, raw_bytes, canonical_bytes, source_audit):
+    """Offline-only second collation; preserves the frozen four-claim snapshot."""
+    validate_source_collation(source_audit, raw_bytes, canonical_bytes)
+    _check(isinstance(appendix, dict)
+           and appendix.get("id") == ROLE_APPENDIX_ID
+           and appendix.get("source_collation_id") == source_audit["id"]
+           and appendix.get("review_status") == "historical_terminology_only",
+           "invalid research appendix identity")
+    claim = appendix.get("claim")
+    _check(isinstance(claim, dict)
+           and claim.get("claim_id") == "bazi.dayun.source.traditional-role-categories"
+           and claim.get("canonical_section_id") == 188
+           and claim.get("canonical_section_title") == "珞琭子消息赋",
+           "research appendix locator changed")
+    quote = claim.get("exact_excerpt")
+    offset = claim.get("raw_char_offset")
+    _check(isinstance(quote, str) and 5 <= len(quote) <= 64
+           and hashlib.sha256(quote.encode("utf-8")).hexdigest() == ROLE_EXCERPT_SHA256
+           and type(offset) is int and offset >= 0,
+           "research appendix quote digest or offset invalid")
+    raw = raw_bytes.decode("utf-8")
+    canonical = json.loads(canonical_bytes)
+    section = next((s for s in canonical["sections"] if s["id"] == 188), None)
+    _check(section is not None and section.get("title") == "珞琭子消息赋"
+           and raw[offset:offset + len(quote)] == quote
+           and raw.count(quote) == 1
+           and section["text"].count(quote) == 1,
+           "research appendix source fragment differs from pinned original")
+    _check(isinstance(claim.get("scope"), str)
+           and "不独立证明大运顺逆" in claim["scope"],
+           "terminology does not authorize direction inference")
+    release = appendix.get("changes_to_release")
+    _check(isinstance(release, dict)
+           and release.get("phase1_rule_promotions") == 0
+           and release.get("phase2_rule_promotions") == 0
+           and release.get("new_golden_promotions") == 0
+           and release.get("public_enabled") is False
+           and release.get("ai_enabled") is False
+           and release.get("source_quotations_exposed_by_api") is False,
+           "research appendix cannot authorize release")
+    return {
+        "appendix_id": ROLE_APPENDIX_ID,
+        "fixed_original_fragment_verified": True,
+        "canonical_method_adjudicated": False,
+        "independent_edition_verified": False,
+        "research_only": True,
+        "public_enabled": False,
+        "ai_enabled": False,
+    }
