@@ -57,7 +57,12 @@ def _narrative_clauses(text):
             # A temporal transition to another explicitly described dream is
             # independent. A plain contrast after an affirmed scene might be
             # its retraction, so do not split it without stronger evidence.
-            independent = contrast.group() in _TEMPORAL_NEW_DREAM
+            # The explicit "again / also dreamed" construction marks another
+            # first-person scene even after an affirmed scene; unlike a plain
+            # "but I dreamed" it does not merely retract the preceding event.
+            follow = fragment[contrast.end():]
+            independent = (contrast.group() in _TEMPORAL_NEW_DREAM
+                           or re.match(r'(?:我|自己)(?:又|也)梦见', follow) is not None)
             if before and (independent
                            or _UNRESOLVED_NARRATION.search(before)
                            or _OTHER_SUBJECT.search(before)
