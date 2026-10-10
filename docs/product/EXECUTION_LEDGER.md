@@ -11,7 +11,7 @@
 | 公开主分支 | `17e565b8c5acf2d257de33ad12a2019a049e824e`，三项公开主分支 CI success |
 | 私有主分支 | `5f810546700e9e60a2661bcf024d96719686cf85` |
 | 最近双仓已完成批次 | 公开 [#218](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/218) + 私有 [#49](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/49)，524 项 Python 测试/235 文件/真实浏览器合格 |
-| 遗留待验 PR | 私有 [#50](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/50)，两条组合 CI 均为 **success**，但 PR 仍为 **open/未合并**；下批先按原 head SHA 复核后合并 |
+| 遗留待验 PR | 私有 [#50](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/50)，两条组合 CI 均 **success**，已于本轮按准确 head SHA 合并，私有 main=`e0f95051a65dcdb5337853405a4e18a798eeb19d` |
 | 11 个生活入口 | 11 个有限体验页有入口；**并非 11 个完整测算产品** |
 | 16 产品知识分级 | 4 PRODUCTIZABLE / 10 PARTIAL / 1 BLOCKED_ADVANCED / 1 NOT_BUILT |
 | 梦境知识 | 十种具体审核文化场景；完整 AI 解梦不具备发布资格 |
@@ -36,7 +36,7 @@
 | 顺位 | ID | 任务 | 当前状态 | 前置/备注 |
 | --- | --- | --- | --- | --- |
 | 1 | TJ-001 | 合并产品总纲、分阶段计划、台账及 README 导航 | 已合并 | [公开 #219](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/219)，merge `897aab38ee17c95b3015e449b9bf5557f833bd55`；PR 三项 CI 全绿 |
-| 2 | TJ-002 | 私有 #50 最终组合回归收口 | 已提交PR | 双 CI 已 success，但 PR 仍 open；下批必须确认 head SHA/mergeability 才合并 |
+| 2 | TJ-002 | 私有 #50 最终组合回归收口 | 已合并 | 两条组合 CI 均 success；私有 [#50](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/50) 已按准确 head SHA `b9a7097` squash merge `e0f95051a65dcdb5337853405a4e18a798eeb19d` |
 | 3 | TJ-004 | 11 场景真实 API＋浏览器成功/异常清单 | 待做 | 使用既有后端和受控知识，优先识别能直接修的用户故障 |
 | 4 | TJ-003 | 公共/私有敏感数据表面、迁移和证据权利核验 | 待做 | 可与 TJ-004 的只读审查并行 |
 | 5 | TJ-006 | 多场景日期/出生资料/年份/时区一致性 | 待做 | 已有 #215/#216 等部分实现，验收尚需全流程 |
@@ -70,7 +70,7 @@
 
 - **TJ-001.1～TJ-001.3 规划补充**：公开 [PR #221](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/221)，合并 `07165cc5be8986b7ddd7f60863619c754cc2e355`；落地原始设计基准、逐页规格、30 项工作包拆分、README 导航与标准 PR 模板。PR code/frontend-build/gate-public-data 三项成功。**这只是规划与设计基线已合并，不表示 TJ-008 页面视觉整改或 TJ-004 真实全站验收已完成。**
 - **原设计真实参考**：[PR #87](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/87)（73 个截图路径）与 [PR #89](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/89)（生活场景 IA）。已核对计划所引用的 23 个固定路径存在，**尚未完成页面的新旧图逐屏人工对比**。
-- **执行顺序不变**：先 TJ-002（私有 #50 已成功的双 CI 复核/合并），再 TJ-004.1～004.4（11 场景真实测试＋原图差异）；然后才 TJ-008.1～008.5 一批批还原页面。
+- **执行顺序不变**：TJ-002 已按真实 PR/CI 合并，下一步 TJ-004.1～004.4（11 场景真实测试＋原图差异）；然后才 TJ-008.1～008.5 一批批还原页面。
 
 ## 视觉还原待检查问题（全部待验，不算已修）
 
@@ -109,3 +109,5 @@
 ## 计划变更机制
 
 如需新增或重排功能：先在[总纲](PRODUCT_MASTER_PLAN_V1.md)里说明用户价值和目标差异，再在[分阶段计划](IMPLEMENTATION_PLAN_V1.md)中列出 ID、依赖、验收，最后改本表顺序并提交 PR。只有安全紧急事件允许先修后补台账。未合并的研究内容不提升发布状态；**优先修复真实产品闭环，不继续无止境增加零散技术报告**。
+
+| 2026-10-11 | TJ-002 | 私有合并回归 PR #50 收口；没有改动古籍知识 | 无公开功能修改 | [私有 #50](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/50) merge `e0f95051a65dcdb5337853405a4e18a798eeb19d` | `merged-main-209` / `combined-main` 两条原 PR head CI success，mergeable=clean | 未部署 | 下项 TJ-004.1～004.4，逐页真实验收和原设计对照 |
