@@ -10,7 +10,11 @@ ADJUDICATION_VARIANT = 'bazi-strength-adjudication-v1'
 def _bounded_assessment(trace):
     steps = {s['rule_id']: (i, s) for i, s in enumerate(trace.steps)}
     keys = ('principal_month', 'root_availability', 'action_effects')
-    if any('bazi.phase2.' + key not in steps for key in keys):
+    # A research verdict also requires its upstream observed facts. Evidence IDs
+    # alone cannot prove that outputs belong to the same executed chart.
+    required = keys + ('pillars', 'month_command_variant', 'root_conditions',
+                       'action_conditions')
+    if any('bazi.phase2.' + key not in steps for key in required):
         raise ValueError('Bounded strength requires executed principal, availability and effect rules')
     for _, step in steps.values():
         if not step['evidence_ids'] or any(e not in trace.evidence for e in step['evidence_ids']):
@@ -30,6 +34,49 @@ def _bounded_assessment(trace):
     command = steps['bazi.phase2.principal_month'][1]['output']
     roots = steps['bazi.phase2.root_availability'][1]['output']
     effects = steps['bazi.phase2.action_effects'][1]['output']
+    # Fail closed when a downstream factor contradicts its actual upstream
+    # source. This checks computation identity, NOT a new classical school,
+    # strength threshold, effective root weight, or useful-god selection.
+    pillar_facts = steps['bazi.phase2.pillars'][1]['output']
+    command_facts = steps['bazi.phase2.month_command_variant'][1]['output']
+    root_facts = steps['bazi.phase2.root_conditions'][1]['output']
+    action_facts = steps['bazi.phase2.action_conditions'][1]['output']
+    day_master = pillar_facts['day_master']['stem']
+    month_branch = pillar_facts['ganzhi'][1][1]
+    for key, facts in (
+        ('month_command_variant', command_facts),
+        ('principal_month', command),
+        ('root_conditions', root_facts),
+        ('root_availability', roots),
+        ('action_conditions', action_facts),
+        ('action_effects', effects),
+    ):
+        if facts.get('day_master') != day_master:
+            block(key, '/day_master', 'factor_chain_inconsistent')
+    if command_facts.get('month_branch') != month_branch:
+        block('month_command_variant', '/month_branch', 'factor_chain_inconsistent')
+    if (command.get('month_branch') != month_branch or
+            command.get('principal_qi') != command_facts.get('principal_qi')):
+        block('principal_month', '/month_branch', 'factor_chain_inconsistent')
+    if roots.get('root_presence') != root_facts.get('present_structurally'):
+        block('root_availability', '/root_presence', 'factor_chain_inconsistent')
+    if len(roots['roots']) != len(root_facts['roots']):
+        block('root_availability', '/roots', 'factor_chain_inconsistent')
+    else:
+        for i, (raw, reviewed) in enumerate(zip(root_facts['roots'], roots['roots'])):
+            if reviewed.get('root_index') != i or reviewed.get('root_presence') != raw.get('fact'):
+                block('root_availability', f'/roots/{i}', 'factor_chain_inconsistent')
+    for kind in ('visible', 'hidden'):
+        observed = action_facts[kind + '_relations']
+        adjudicated = effects[kind + '_relations']
+        if len(observed) != len(adjudicated):
+            block('action_effects', '/' + kind + '_relations', 'factor_chain_inconsistent')
+        else:
+            for i, (raw, reviewed) in enumerate(zip(observed, adjudicated)):
+                if (reviewed.get('action_index') != i or
+                        reviewed.get('fact') != raw.get('fact')):
+                    block('action_effects',
+                          f'/{kind}_relations/{i}', 'factor_chain_inconsistent')
     for key, field, expected in [('principal_month','command_variant',PRINCIPAL_VARIANT),
                                  ('root_availability','root_variant',AVAILABILITY_VARIANT),
                                  ('action_effects','action_variant',EFFECT_VARIANT)]:
