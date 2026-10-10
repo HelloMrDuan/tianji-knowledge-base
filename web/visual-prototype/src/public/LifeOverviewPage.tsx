@@ -114,6 +114,7 @@ export function LifeOverviewPage() {
   const profile = payload.profile || {};
   const strengthContext = profile.strength_context || null;
   const integrated = payload.integrated_reading || null;
+  const provenance = payload.integration_provenance || null;
   const yearly = payload.yearly || {};
   const romance = payload.romance || {};
   const career = payload.career || {};
@@ -253,6 +254,27 @@ export function LifeOverviewPage() {
               {integrated.cross_rule && <p className="life-cross-rule">
                 <strong>跨规则一致性：</strong>{integrated.cross_rule}
               </p>}
+              {provenance && (
+                <section className="life-proof-overview" aria-label="四场景来源一致性核验">
+                  <h3>四场景计算来源核验</h3>
+                  <p>
+                    {provenance.all_natal_charts_identical && provenance.all_target_years_identical
+                      ? "出生盘与目标年份已跨场景核对一致。"
+                      : "场景资料存在不一致，综合解释不可用。"}
+                    {" "}这是同一套证据的交叉核查，不算新增独立印证。
+                  </p>
+                  <ul>
+                    {(Array.isArray(provenance.evidence_contributions)
+                      ? provenance.evidence_contributions : []).map((entry: any) => (
+                      <li key={entry.scenario}>
+                        <strong>{{ profile: "命盘基础", yearly: "年度结构",
+                                   romance: "桃花结构", career: "事业财运" }[entry.scenario as "profile" | "yearly" | "romance" | "career"] || "来源场景"}</strong>
+                        <span>引用 {Array.isArray(entry.evidence_ids) ? entry.evidence_ids.length : 0} 条已核验出处</span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
               <details>
                 <summary>核查以上结论引用的古籍证据</summary>
                 {reviewedExcerpts(integrated.evidence_ids, reviewedEvidence).map((item) => (
