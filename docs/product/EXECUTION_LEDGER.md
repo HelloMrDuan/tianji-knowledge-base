@@ -104,10 +104,10 @@
 | 2026-10-11 | TJ-001 | 三份文档、导航与计划基线（本批） | [公开 #219](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/219)，merge `897aab38ee17c95b3015e449b9bf5557f833bd55` | 无私有知识改动 | PR code/frontend-build/gate-public-data 三项 success；合并后 Actions 单独核对 | 未部署 | 下批 TJ-002、TJ-004 |
 | 2026-10-11 | TJ-001.1～001.3 | 按原设计补详细规划：视觉基线、逐页规格、WBS 和 PR 模板 | [公开 #221](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/221)，merge `07165cc5be8986b7ddd7f60863619c754cc2e355` | 无私有数据改动 | PR 三项公开 CI 全绿，合并后 CI 另行核对 | 未部署 | TJ-004.4/TJ-008 视觉对照仍待实际实施；先完成 TJ-002 |
 
+| 2026-10-11 | TJ-002 | 私有合并回归 PR #50 收口；没有改动古籍知识 | 无公开功能修改 | [私有 #50](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/50) merge `e0f95051a65dcdb5337853405a4e18a798eeb19d` | `merged-main-209` / `combined-main` 两条原 PR head CI success，mergeable=clean | 未部署 | 下项 TJ-004.1～004.4，逐页真实验收和原设计对照 |
 示例“已合并”的判定必须有**真实 merged PR**和 `main` SHA；如 CI 还在跑，保持 `CI待验`。无可证实的模型、上线或内部知识授权不得补写“成功”。
 
 ## 计划变更机制
 
 如需新增或重排功能：先在[总纲](PRODUCT_MASTER_PLAN_V1.md)里说明用户价值和目标差异，再在[分阶段计划](IMPLEMENTATION_PLAN_V1.md)中列出 ID、依赖、验收，最后改本表顺序并提交 PR。只有安全紧急事件允许先修后补台账。未合并的研究内容不提升发布状态；**优先修复真实产品闭环，不继续无止境增加零散技术报告**。
 
-| 2026-10-11 | TJ-002 | 私有合并回归 PR #50 收口；没有改动古籍知识 | 无公开功能修改 | [私有 #50](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/50) merge `e0f95051a65dcdb5337853405a4e18a798eeb19d` | `merged-main-209` / `combined-main` 两条原 PR head CI success，mergeable=clean | 未部署 | 下项 TJ-004.1～004.4，逐页真实验收和原设计对照 |
