@@ -44,6 +44,35 @@ _SCENE_PARAPHRASES = {
 _SCENE_PARAPHRASES = {key: tuple(re.compile(p) for p in patterns)
                       for key, patterns in _SCENE_PARAPHRASES.items()}
 
+# Input-only modern subjects are NOT classical interpretations, sourced facts,
+# or citations. This public-safe whitelist contains everyday language labels;
+# it is intentionally unrelated to pending private research candidate records.
+_UNREVIEWED_INPUT_PATTERNS = {
+    '考试': re.compile(r'(?:梦见|梦到)(?:我|自己)?(?:在|去|参加|去参加)?(?:一场)?考试'),
+    '怀孕': re.compile(r'(?:梦见|梦到)(?:我|自己)?(?:怀孕|有了身孕)'),
+    '结婚': re.compile(r'(?:梦见|梦到)(?:我|自己)?(?:结婚|举行婚礼|办婚礼)'),
+    '工作': re.compile(r'(?:梦见|梦到)(?:我|自己)?(?:在|去|参加|去参加)?(?:工作|上班|面试|失业)'),
+}
+
+
+def _unreviewed_input_topics(clauses):
+    """Label explicit dream words only; never supply unreviewed evidence."""
+    topics = []
+    for label, pattern in _UNREVIEWED_INPUT_PATTERNS.items():
+        spans = []
+        for i, clause in enumerate(clauses):
+            if not _affirmed(clauses, i):
+                continue
+            found = pattern.search(clause['text'])
+            if found:
+                spans.append(_span(clause, found.group()))
+        if spans:
+            topics.append({'label': label, 'input_spans': spans,
+                           'status': 'input_observation_only',
+                           'reviewed_interpretation_available': False,
+                           'evidence_ids': []})
+    return topics
+
 
 def _narrative_clauses(text):
     clauses = []
@@ -205,6 +234,7 @@ def retrieve(dream_text, *, variant=VARIANT, root=ROOT):
             'status': 'reviewed_interpretation_candidates' if candidates else 'no_reviewed_interpretation',
             'entities': entities, 'matched_interpretations': candidates,
             'interpretation_candidates': candidates, 'narrative_observations': _narrative_observations(clauses),
+            'unreviewed_input_topics': _unreviewed_input_topics(clauses),
             'evidence': evidence, 'retrieval': retrieved,
             'retrieval_method': 'bounded_scene_match_and_reviewed_rag',
             'chart_generated': False, 'public_enabled': False, 'ai_enabled': False,

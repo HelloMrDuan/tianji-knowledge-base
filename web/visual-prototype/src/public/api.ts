@@ -295,6 +295,11 @@ export type DreamCultureMatch = {
   evidence_level: string;
 };
 
+export type DreamUnreviewedTopic = {
+  label: "考试" | "怀孕" | "结婚" | "工作";
+  matched_texts: string[];
+};
+
 export type DreamCultureResponse = {
   api_version: "v1";
   status: "reviewed_cultural_matches" | "no_reviewed_interpretation";
@@ -303,6 +308,7 @@ export type DreamCultureResponse = {
   ai_enabled: false;
   personal_prediction: false;
   matches: DreamCultureMatch[];
+  unreviewed_topics: DreamUnreviewedTopic[];
   notice: string;
 };
 
@@ -324,6 +330,15 @@ export async function lookupDreamCulture(dreamText: string): Promise<DreamCultur
   if (data?.api_version !== "v1" || data?.public_release !== true ||
       data?.cultural_reference_only !== true || data?.ai_enabled !== false ||
       data?.personal_prediction !== false || !Array.isArray(data?.matches) ||
+      !Array.isArray(data?.unreviewed_topics) ||
+      !data.unreviewed_topics.every((item: unknown) => {
+        if (!item || typeof item !== "object") return false;
+        const topic = item as DreamUnreviewedTopic;
+        return ["考试", "怀孕", "结婚", "工作"].includes(topic.label) &&
+          Array.isArray(topic.matched_texts) &&
+          topic.matched_texts.length > 0 &&
+          topic.matched_texts.every((s) => typeof s === "string" && s.length > 0);
+      }) ||
       !["reviewed_cultural_matches", "no_reviewed_interpretation"].includes(data?.status)) {
     throw new Error("服务端文化查阅合同不匹配，拒绝展示结果。");
   }

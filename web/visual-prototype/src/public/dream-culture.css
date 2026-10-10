@@ -80,3 +80,13 @@
   .dream-culture-form-bottom button { width: 100%; justify-content: center; }
   .dream-culture-match { padding: 21px; }
 }
+
+.dream-culture-unreviewed { margin-top: 20px; padding: 22px 25px; border: 1px solid #d7d9cf; border-radius: 7px; background: #f7f5ed; }
+.dream-culture-unreviewed h3 { font-size: 19px; font-weight: 500; margin: 0 0 8px; color: #4e594a; }
+.dream-culture-unreviewed p { color: #677365; font-size: 13px; line-height: 1.8; }
+.dream-culture-unreviewed ul { margin: 16px 0 0; padding: 0; list-style: none; display: grid; gap: 9px; }
+.dream-culture-unreviewed li { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 11px 13px; background: #fffdf8; border: 1px solid #e2e3d9; border-radius: 5px; font-size: 13px; }
+.dream-culture-unreviewed li strong { color: #3b5d4d; }
+.dream-culture-unreviewed li span { color: #677365; }
+.dream-culture-unreviewed li small { margin-left: auto; color: #8a8f81; }
+@media (max-width: 730px) { .dream-culture-unreviewed { padding: 17px; } .dream-culture-unreviewed li small { margin-left: 0; width: 100%; } }
