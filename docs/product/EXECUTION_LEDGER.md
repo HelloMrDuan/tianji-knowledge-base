@@ -37,7 +37,7 @@
 | --- | --- | --- | --- | --- |
 | 1 | TJ-001 | 合并产品总纲、分阶段计划、台账及 README 导航 | 已合并 | [公开 #219](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/219)，merge `897aab38ee17c95b3015e449b9bf5557f833bd55`；PR 三项 CI 全绿 |
 | 2 | TJ-002 | 私有 #50 最终组合回归收口 | 已合并 | 两条组合 CI 均 success；私有 [#50](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/50) 已按准确 head SHA `b9a7097` squash merge `e0f95051a65dcdb5337853405a4e18a798eeb19d` |
-| 3 | TJ-004 | 11 场景真实 API＋浏览器成功/异常清单 | 进行中 | [TJ-004 初审与首页差异](TJ004_SCENARIO_AUDIT_20261011.md) 已合并；[公开 #225](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/225) + [私有 #52](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/52) 正在跑 11 场景真实 POST；完整异常矩阵仍待 TJ-004.3 |
+| 3 | TJ-004 | 11 场景真实 API＋浏览器成功/异常清单 | 进行中 | **TJ-004.1/.2 已实测通过**：[公开 #225](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/225) `a9f0b27` / [私有 #52](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/52) `416b5ef`；11/11 真实场景、12/12 浏览器、524 Python、235 文件全部 success。**TJ-004.3 全异常矩阵和 TJ-004.4 全站原图视觉对照仍未完成**；[私有 #53](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/53) 最终双组合正在跑 |
 | 4 | TJ-003 | 公共/私有敏感数据表面、迁移和证据权利核验 | 待做 | 可与 TJ-004 的只读审查并行 |
 | 5 | TJ-006 | 多场景日期/出生资料/年份/时区一致性 | 待做 | 已有 #215/#216 等部分实现，验收尚需全流程 |
 | 6 | TJ-007 | 11 入口从输入到结果/证据/弃判闭环 | 待做 | 使用 TJ-004 实际缺陷作为改代码顺序 |
@@ -105,7 +105,9 @@
 | 2026-10-11 | TJ-001.1～001.3 | 按原设计补详细规划：视觉基线、逐页规格、WBS 和 PR 模板 | [公开 #221](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/221)，merge `07165cc5be8986b7ddd7f60863619c754cc2e355` | 无私有数据改动 | PR 三项公开 CI 全绿，合并后 CI 另行核对 | 未部署 | TJ-004.4/TJ-008 视觉对照仍待实际实施；先完成 TJ-002 |
 
 | 2026-10-11 | TJ-002 | 私有合并回归 PR #50 收口；没有改动古籍知识 | 无公开功能修改 | [私有 #50](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/50) merge `e0f95051a65dcdb5337853405a4e18a798eeb19d` | `merged-main-209` / `combined-main` 两条原 PR head CI success，mergeable=clean | 未部署 | 下项 TJ-004.1～004.4，逐页真实验收和原设计对照 |
-| 2026-10-11 | TJ-004.1 / TJ-008.2 | 11 场景接口静态初审及原首页首屏修复：一事占问主 CTA、四时间导航 | [公开 #224](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/224) merge `b42a1d89f2b7bcc7b3c2a75a168299ce7128285c` | [私有 #51](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/51) merge `467fbd8dbe33c425251bebe1bf52fa839cf50aea` | 公开三门禁、私有 Canonical＋真实 Chromium 全绿；[截图工件](https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38072602895) 已生成 1440/390/360 | 未部署 | 原图完整视觉人工比对未完成；TJ-004.2 的 #225/#52 正在跑真实 11 入口 |
+| 2026-10-11 | TJ-004.1 / TJ-008.2 | 11 场景接口静态初审及原首页首屏修复：一事占问主 CTA、四时间导航 | [公开 #224](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/224) merge `b42a1d89f2b7bcc7b3c2a75a168299ce7128285c` | [私有 #51](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/51) merge `467fbd8dbe33c425251bebe1bf52fa839cf50aea` | 公开三门禁、私有 Canonical＋真实 Chromium 全绿；[截图工件](https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38072602895) 已生成 1440/390/360 | 未部署 | 原图完整视觉人工比对未完成；TJ-004.2 后续 #225/#52 已合并，参见下一行 |
+
+| 2026-10-11 | TJ-004.2 | 11 个生活入口真实用户页面分别提交后端并呈现限定结果，附 1 条出生时间必填反例 | [公开 #225](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/225) merge `a9f0b276d2b506c0cb0768fcb74f57da01de72af` | [私有 #52](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/52) merge `416b5ef98544f4ec125f2eb807593c3d4a61009e` | [私有真实 CI](https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38073174926)：11/11 实际页面 POST、12/12 浏览器、524 Python、235 私有文件均 success；公开 main 三项 success | 未部署 | [私有 #53](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/53) 固定最终合并版双回归待结束；TJ-004.3/004.4 仍需扩展 |
 
 示例“已合并”的判定必须有**真实 merged PR**和 `main` SHA；如 CI 还在跑，保持 `CI待验`。无可证实的模型、上线或内部知识授权不得补写“成功”。
 
