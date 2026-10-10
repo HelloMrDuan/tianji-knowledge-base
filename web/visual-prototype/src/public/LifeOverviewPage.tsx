@@ -112,6 +112,8 @@ export function LifeOverviewPage() {
 
   const payload = result?.result || {};
   const profile = payload.profile || {};
+  const strengthContext = profile.strength_context || null;
+  const integrated = payload.integrated_reading || null;
   const yearly = payload.yearly || {};
   const romance = payload.romance || {};
   const career = payload.career || {};
@@ -238,6 +240,28 @@ export function LifeOverviewPage() {
             </div>
             <span className="life-limited">总览内测</span>
           </header>
+
+          {integrated && strengthContext && (
+            <section className="life-integrated-report" aria-label="旺衰因素与年度综合解读">
+              <span className="eyebrow">有出处的综合观察 · 不推断吉凶</span>
+              <h2>{integrated.headline}</h2>
+              <div className="life-integrated-grid">
+                <article><h3>命盘因素</h3><p>{integrated.foundation}</p><small>{strengthContext.boundary}</small></article>
+                <article><h3>事业财运</h3><p>{integrated.career}</p></article>
+                <article><h3>桃花与夫妻宫</h3><p>{integrated.romance}</p></article>
+              </div>
+              <details>
+                <summary>核查以上结论引用的古籍证据</summary>
+                {reviewedExcerpts(integrated.evidence_ids, reviewedEvidence).map((item) => (
+                  <blockquote key={item.id}><small>{item.title} · {item.level}</small><p>{item.original}</p></blockquote>
+                ))}
+              </details>
+              <aside aria-label="大运与强弱未决边界">
+                <strong>大运与旺衰仍未裁定</strong>
+                <p>{integrated.dayun}</p><p>{integrated.boundary}</p>
+              </aside>
+            </section>
+          )}
 
           <div className="life-highlights">
             {highlights.map((item: any) => (
