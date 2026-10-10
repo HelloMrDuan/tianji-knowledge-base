@@ -85,7 +85,7 @@ test("life report uses real career structural readings and day-branch relationsh
   const career = page.getByLabel("流年十神解释卡");
   await expect(career.getByRole("heading")).toContainText("2026");
   await expect(career).toContainText("食伤");
-  await expect(career).toContainText("结构位置");
+  await expect(career).toContainText("不能直接推断");
   await career.locator("details summary").click();
   await expect(career.locator("blockquote p").first()).not.toBeEmpty();
   await page.locator(".life-other-career-readings > summary").click();
