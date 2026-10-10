@@ -9,17 +9,20 @@ from ..resolver import EvidenceResolver, ROOT
 
 VARIANT = 'traditional_chinese_dream'
 _UNRESOLVED_NARRATION = re.compile(
-    r'没有|没|不曾|未曾|并未|不是|未发生|差点|险些|好像|似乎|可能|如果|假如|害怕|担心|会被|听说|讲述|说|电影|小说')
+    r'没有|没|不曾|未曾|并未|不是|未发生|差点|险些|好像|似乎|可能|如果|假如|害怕|担心|会被|只是想象|只是幻想|其实是假的|听说|讲述|说|电影|小说')
 _REPORTED_CONTEXT = re.compile(r'听说|讲述|说|电影|小说|故事|视频')
 _OTHER_SUBJECT = re.compile(r'别人|他人|有人|人家|他|她|朋友|哥哥|弟弟|姐姐|妹妹|爸爸|妈妈|父亲|母亲')
 _OTHER_ANIMAL = re.compile(r'狗|犬|猫|虎|狼|龙|鱼|鸟|熊|狮|狐狸|兔|马|牛|羊|猪')
 _CHASE = re.compile(r'蛇[^，,。.!！？?；;\n]{0,12}(?:追我|追着我)')
 _LATER_BITE = re.compile(r'(?:后来|然后|接着)(?:它)?咬了我(?:的(?:手|脚))?(?:了)?$')
 
-# Split only when an explicitly fresh first-person dream follows a disclaimed
-# or reported clause. Never split an affirmed scene from a later retraction.
-_CONTRAST_NEW_SELF_DREAM = re.compile(
-    r'(?:但是|可是|不过|然而|但|却)(?=(?:我|自己)(?:又)?梦见|梦见(?:我|自己))')
+# A separate, explicitly first-person dream after a temporal connector is a
+# fresh scene, even when its neighbor is negated. Contrast connectors only split
+# after unresolved/reported clauses: ordinary later corrections stay attached.
+_NEW_SELF_DREAM = re.compile(
+    r'(?:但是|可是|不过|然而|但|却|然后|随后|接着|后来)'
+    r'(?=(?:我|自己)(?:又|也)?梦见|梦见(?:我|自己))')
+_TEMPORAL_NEW_DREAM = frozenset(('然后', '随后', '接着', '后来'))
 
 # Conservative first-person phrasing for the ten already-reviewed scenes.
 _SCENE_PARAPHRASES = {
@@ -49,11 +52,14 @@ def _narrative_clauses(text):
         fragment = match.group()
         pieces = []
         cursor = 0
-        for contrast in _CONTRAST_NEW_SELF_DREAM.finditer(fragment):
+        for contrast in _NEW_SELF_DREAM.finditer(fragment):
             before = fragment[cursor:contrast.start()]
-            # Only separate a fresh self-dream from an unconfirmed earlier
-            # clause; this keeps later corrections of positive scenes scoped.
-            if before and (_UNRESOLVED_NARRATION.search(before)
+            # A temporal transition to another explicitly described dream is
+            # independent. A plain contrast after an affirmed scene might be
+            # its retraction, so do not split it without stronger evidence.
+            independent = contrast.group() in _TEMPORAL_NEW_DREAM
+            if before and (independent
+                           or _UNRESOLVED_NARRATION.search(before)
                            or _OTHER_SUBJECT.search(before)
                            or _REPORTED_CONTEXT.search(before)):
                 pieces.append((before, match.start() + cursor))
