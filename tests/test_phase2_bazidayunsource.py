@@ -7,6 +7,7 @@ import unittest
 from tianji_kb.bazi_dayun_source_audit import (
     ROOT, AUDIT_PATH, RAW_PATH, CANONICAL_PATH,
     validate_source_collation, verify_fixed_source_collation,
+    validate_role_terminology_appendix, ROLE_APPENDIX_ID,
 )
 
 
@@ -19,7 +20,7 @@ class FixedDayunSourceCollationTests(unittest.TestCase):
 
     def test_real_fixed_source_and_canonical_unique_excerpt_alignment(self):
         outcome = verify_fixed_source_collation()
-        self.assertEqual(outcome["verified_claim_count"], 5)
+        self.assertEqual(outcome["verified_claim_count"], 4)
         self.assertEqual(outcome["review_status"],
                          "snapshot_collated_not_classical_method_adjudicated")
         self.assertEqual(outcome["source_sha256"], hashlib.sha256(self.raw).hexdigest())
@@ -95,19 +96,47 @@ class FixedDayunSourceCollationTests(unittest.TestCase):
             with self.subTest(field=field), self.assertRaises(ValueError):
                 validate_source_collation(bad, self.raw, self.canonical)
 
-    def test_traditional_role_phrase_is_grounded_but_cannot_authorize_direction(self):
-        item = next(claim for claim in self.audit["claims"]
-                    if claim["claim_id"] == "bazi.dayun.source.traditional-role-categories")
-        self.assertEqual(item["canonical_section_id"], 188)
-        self.assertIn("阴男阳女", item["exact_excerpt"])
-        self.assertIn("阴女阳男", item["exact_excerpt"])
-        self.assertIn("不独立证明大运顺逆", item["scope"])
-        changed = copy.deepcopy(self.audit)
-        target = next(x for x in changed["claims"]
-                      if x["claim_id"] == "bazi.dayun.source.traditional-role-categories")
-        target["scope"] = "这足以证明四种方向已经可以自动推断，不需要补充审校。"
-        with self.assertRaisesRegex(ValueError, "direction inference"):
-            validate_source_collation(changed, self.raw, self.canonical)
+    def test_original_four_claims_remain_frozen_while_optional_role_appendix_is_checked(self):
+        # Construct only the pinned short fragment already present in the
+        # private original; do not publish or auto-promote the appended review.
+        text = self.raw.decode("utf-8")
+        quote = text[56797:56820]
+        appendix = {
+            "id": ROLE_APPENDIX_ID,
+            "source_collation_id": self.audit["id"],
+            "review_status": "historical_terminology_only",
+            "claim": {
+                "claim_id": "bazi.dayun.source.traditional-role-categories",
+                "canonical_section_id": 188,
+                "canonical_section_title": "珞琭子消息赋",
+                "raw_char_offset": 56797,
+                "exact_excerpt": quote,
+                "scope": "只证明传统术语存在，不独立证明大运顺逆或现代身份认定。",
+            },
+            "changes_to_release": copy.deepcopy(self.audit["changes_to_release"]),
+        }
+        self.assertEqual(len(self.audit["claims"]), 4)
+        valid = validate_role_terminology_appendix(
+            appendix, self.raw, self.canonical, self.audit)
+        self.assertTrue(valid["fixed_original_fragment_verified"])
+        self.assertFalse(valid["independent_edition_verified"])
+        self.assertFalse(valid["canonical_method_adjudicated"])
+        for field, value in (
+            ("scope", "足以审核并公开完整大运方向推断"),
+            ("raw_char_offset", 0),
+            ("canonical_section_id", 10),
+            ("exact_excerpt", "任意编造的阴阳方向说法"),
+        ):
+            invalid = copy.deepcopy(appendix)
+            invalid["claim"][field] = value
+            with self.subTest(field=field), self.assertRaisesRegex(ValueError, "integrity"):
+                validate_role_terminology_appendix(
+                    invalid, self.raw, self.canonical, self.audit)
+        unauthorized = copy.deepcopy(appendix)
+        unauthorized["changes_to_release"]["phase2_rule_promotions"] = 1
+        with self.assertRaisesRegex(ValueError, "cannot authorize release"):
+            validate_role_terminology_appendix(
+                unauthorized, self.raw, self.canonical, self.audit)
 
     def test_current_source_only_supports_bounded_method_facts(self):
         audit = self.audit
@@ -119,7 +148,6 @@ class FixedDayunSourceCollationTests(unittest.TestCase):
             "bazi.dayun.source.nominal-ten-year",
             "bazi.dayun.source.three-day-year",
             "bazi.dayun.source.no-universal-fortune",
-            "bazi.dayun.source.traditional-role-categories",
         })
         self.assertIn("珞琭子", audit["inherited_source_distinction"])
         self.assertEqual(audit["changes_to_release"]["phase2_rule_promotions"], 0)
