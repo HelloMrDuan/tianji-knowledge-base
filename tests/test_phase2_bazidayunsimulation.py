@@ -1,4 +1,5 @@
 """Real calendar integration for optional, explicitly NON-adjudicated age simulation."""
+import copy
 import unittest
 from datetime import datetime, timedelta, timezone
 from fractions import Fraction
@@ -66,6 +67,70 @@ class DayunAgeSimulationResearchTests(unittest.TestCase):
                 self.assertFalse(any(t["rule_id"].startswith("bazi.phase2.dayun")
                                      for t in output["trace"]))
                 self.assertEqual(output, research(direction=direction))
+
+    def test_integrated_simulation_crosschecks_measured_jie_and_month_sequence(self):
+        result = research(dayun_sequence_count=4)
+        data = result["result"]["dayun_sequence_research"]
+        simulation = data["age_simulation"]
+        self.assertTrue(simulation["measured_jie_arithmetic_verified"])
+        self.assertTrue(simulation["candidate_sequence_crosschecked"])
+        self.assertFalse(simulation["provider_boundary_independently_verified"])
+        direct = simulate_dayun_age_and_timeline(
+            data["jie_distance"]["birth_local_datetime"],
+            data["jie_distance"], data["rows"],
+            natal_day_master=data["natal_day_master"])
+        self.assertEqual(simulation, direct)
+        self.assertFalse(direct["verified_handover_dates_calculated"])
+        self.assertFalse(direct["public_enabled"])
+
+    def test_research_simulation_refuses_tampered_jie_and_candidate_rows(self):
+        result = research(dayun_sequence_count=3)
+        data = result["result"]["dayun_sequence_research"]
+        birth = data["jie_distance"]["birth_local_datetime"]
+        jie = data["jie_distance"]
+        rows = data["rows"]
+        master = data["natal_day_master"]
+
+        def invoke(measure, periods, natal=master):
+            return simulate_dayun_age_and_timeline(
+                birth, measure, periods, natal_day_master=natal)
+
+        for label, mutation in (
+            ("elapsed_seconds", lambda d: d.__setitem__("elapsed_seconds",
+                                                           d["elapsed_seconds"] + 1)),
+            ("day_component", lambda d: d.__setitem__("elapsed_whole_days",
+                                                       d["elapsed_whole_days"] + 1)),
+            ("selected_jie", lambda d: d.__setitem__("selected_jie",
+                                                      copy.deepcopy(d["previous_jie"]))),
+            ("direction", lambda d: d.__setitem__("direction", "backward")),
+            ("zero_distance", lambda d: d.__setitem__("zero_distance", True)),
+            ("next_jie_instant", lambda d: d["next_jie"].__setitem__(
+                "at", (datetime.fromisoformat(d["next_jie"]["at"]) +
+                       timedelta(seconds=1)).isoformat())),
+            ("unreviewed_provider", lambda d: d.__setitem__("calendar_provider",
+                                                             "different-version")),
+        ):
+            with self.subTest(label=label):
+                mutated = copy.deepcopy(jie)
+                mutation(mutated)
+                with self.assertRaises(ValueError):
+                    invoke(mutated, rows)
+
+        for label, mutation in (
+            ("ganzhi", lambda r: r[0].__setitem__("candidate_ganzhi", "甲子")),
+            ("ten_god", lambda r: r[0].__setitem__(
+                "ten_god_relative_to_natal_day_stem", "unverified")),
+            ("period", lambda r: r[0].__setitem__("period_index", 2)),
+            ("start_age", lambda r: r[0].__setitem__("start_age", 1)),
+            ("stem", lambda r: r[0].__setitem__("stem", "甲")),
+        ):
+            with self.subTest(label=label):
+                changed = copy.deepcopy(rows)
+                mutation(changed)
+                with self.assertRaisesRegex(ValueError, "candidates"):
+                    invoke(jie, changed)
+        with self.assertRaisesRegex(ValueError, "natal day master"):
+            invoke(jie, rows, natal="unknown")
 
     def test_exact_fraction_and_rounding_no_binary_float(self):
         self.assertEqual(_half_up_fraction(Fraction(1, 2)), 1)
