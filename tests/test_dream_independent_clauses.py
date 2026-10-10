@@ -51,6 +51,26 @@ class DreamIndependentClauseTests(unittest.TestCase):
                                              span["text"])
                 self.assertFalse(out["ai_enabled"])
 
+    def test_independent_self_dream_after_reported_context_resets_scope(self):
+        cases = (
+            ("听说别人被蛇咬随后我也梦见我捡到了钱", ["dream.term.money"]),
+            ("听说别人被蛇咬然后梦见我飞向天空", ["dream.term.flying"]),
+            ("听说别人被蛇咬不过我又梦见我捡到了钱", ["dream.term.money"]),
+            ("听说别人被蛇咬随后我也梦见我没有捡到钱", []),
+        )
+        for narrative, expected in cases:
+            with self.subTest(narrative=narrative):
+                output = retrieve(narrative)
+                self.assertEqual([row["term_id"] for row in output["matched_interpretations"]],
+                                 expected)
+                for row in output["matched_interpretations"]:
+                    self.assertTrue(row["evidence_ids"])
+                    for entry in row["input_matches"]:
+                        for span in entry["input_spans"]:
+                            self.assertEqual(narrative[span["start"]:span["end"]],
+                                             span["text"])
+                self.assertFalse(output["ai_enabled"])
+
     def test_retractions_are_not_separate_new_dreams(self):
         for narrative in (
             "我梦见被蛇咬了然后发现其实没有发生",
