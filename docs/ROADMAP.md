@@ -1,3 +1,5 @@
+> **此页是早期知识库 Roadmap 的历史版本，不能用来替代现行平台产品计划。** 2026-10-11 起，以[产品总纲](product/PRODUCT_MASTER_PLAN_V1.md) → [实施计划](product/IMPLEMENTATION_PLAN_V1.md) → [执行台账](product/EXECUTION_LEDGER.md)作为开发顺序、范围和验收标准；本页保留作技术规划参考。
+
 # Roadmap
 
 ## P0 当前
