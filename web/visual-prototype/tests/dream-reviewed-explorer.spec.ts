@@ -39,5 +39,5 @@ test("verified scene cards remain readable and accessible on mobile", async ({ p
   await expect(page.getByLabel("已审核梦象示例").locator("button")).toHaveCount(10);
   await page.getByRole("button", { name: "填入游鱼梦境示例" }).click();
   await expect(page.getByLabel("梦境叙述")).toHaveValue("我梦见一群鱼在水里游");
-  await expect(page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).resolves.toBe(true);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
