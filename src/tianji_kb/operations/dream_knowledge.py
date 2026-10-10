@@ -52,6 +52,11 @@ _UNREVIEWED_INPUT_PATTERNS = {
     '怀孕': re.compile(r'(?:梦见|梦到)(?:我|自己)?(?:怀孕|有了身孕)'),
     '结婚': re.compile(r'(?:梦见|梦到)(?:我|自己)?(?:结婚|举行婚礼|办婚礼)'),
     '工作': re.compile(r'(?:梦见|梦到)(?:我|自己)?(?:在|去|参加|去参加)?(?:工作|上班|面试|失业)'),
+    # Remaining D-grade gaps are named here as input-only observations.
+    # No original-source text, grade promotion, omen, or medical claim.
+    '被追': re.compile(r'(?:梦见|梦到)(?:(?:我|自己)?被(?:陌生人|人|坏人|怪物)?追(?:赶|逐)?|(?:有人|陌生人|坏人|怪物)追(?:着)?我)'),
+    '故人': re.compile(r'(?:梦见|梦到)(?:(?:我|自己)?(?:已故|过世|去世|逝去)(?:的)?(?:亲人|故人)|(?:我|自己)?故人)'),
+    '死亡': re.compile(r'(?:梦见|梦到)(?:(?:我|自己)(?:死了|死亡|死去)|自己(?:死了|死亡|死去))'),
 }
 
 
