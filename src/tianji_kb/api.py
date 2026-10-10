@@ -45,6 +45,12 @@ class PublicDreamCultureMatch(BaseModel):
     source_title: str
     evidence_level: str
 
+class PublicDreamInputTopic(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    label: Literal['考试', '怀孕', '结婚', '工作']
+    matched_texts: list[str]
+
+
 class PublicDreamCultureResponse(BaseModel):
     model_config = ConfigDict(extra='forbid')
     api_version: Literal['v1'] = 'v1'
@@ -54,6 +60,7 @@ class PublicDreamCultureResponse(BaseModel):
     ai_enabled: Literal[False] = False
     personal_prediction: Literal[False] = False
     matches: list[PublicDreamCultureMatch]
+    unreviewed_topics: list[PublicDreamInputTopic] = Field(default_factory=list)
     notice: str = '仅展示已审核传统占梦条目，不代表个人运势、健康或未来事件。'
 
 class AdminDreamResearchRequest(BaseModel):
@@ -272,9 +279,34 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None):
                 source_title='《周公解梦》固定电子本',
                 evidence_level=candidate['evidence_level'],
             ))
+        # A mention is never a review or interpretation. Only project fixed
+        # topic labels and exact caller-owned substrings; no pending sources,
+        # source IDs, internal evidence, or raw source bodies enter the response.
+        input_topics = []
+        for item in reviewed.get('unreviewed_input_topics', []):
+            if (not isinstance(item, dict)
+                    or item.get('label') not in ('考试', '怀孕', '结婚', '工作')
+                    or item.get('status') != 'input_observation_only'
+                    or item.get('reviewed_interpretation_available') is not False
+                    or item.get('evidence_ids') != []):
+                raise HTTPException(503, detail={'code':'unreviewed_topic_contract_mismatch'})
+            original = request.dream_text.strip()
+            texts = []
+            for span in item.get('input_spans', []):
+                start, end, quote = span.get('start'), span.get('end'), span.get('text')
+                if (type(start) is not int or type(end) is not int
+                        or not isinstance(quote, str) or not quote or
+                        start < 0 or end <= start or end > len(original)
+                        or original[start:end] != quote):
+                    raise HTTPException(503, detail={'code':'unreviewed_topic_input_mismatch'})
+                if quote not in texts:
+                    texts.append(quote)
+            if not texts:
+                raise HTTPException(503, detail={'code':'unreviewed_topic_input_missing'})
+            input_topics.append(PublicDreamInputTopic(label=item['label'], matched_texts=texts))
         response=PublicDreamCultureResponse(
             status='reviewed_cultural_matches' if matches else 'no_reviewed_interpretation',
-            matches=matches)
+            matches=matches, unreviewed_topics=input_topics)
         return JSONResponse(content=response.model_dump(),headers={'Cache-Control':'no-store'})
 
     @app.post('/api/v1/admin/research/dream',tags=['admin'])
