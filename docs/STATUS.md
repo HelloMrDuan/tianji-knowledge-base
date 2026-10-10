@@ -1,3 +1,5 @@
+> **历史快照提示**：本页记录的是 2026-09-29 以前的知识库状态，不能据此判断 2026-10-11 的产品完成度。现行基线和真实 CI/PR 请见[产品总纲](product/PRODUCT_MASTER_PLAN_V1.md)与[执行台账](product/EXECUTION_LEDGER.md)。
+
 # Current Status
 
 更新时间：2026-09-29
