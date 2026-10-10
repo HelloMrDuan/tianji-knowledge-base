@@ -287,6 +287,7 @@ export async function executeCompatibilityScenario(input: {
 
 export type DreamCultureMatch = {
   scene: string;
+  matched_texts: string[];
   cultural_reading: string;
   short_quote: string;
   source_title: string;
