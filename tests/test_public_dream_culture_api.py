@@ -90,6 +90,60 @@ class PublicDreamCultureTests(unittest.TestCase):
                 if not excerpts:
                     self.assertEqual(data["status"], "no_reviewed_interpretation")
 
+    def test_three_sensitive_pending_topics_are_only_user_text_not_classical_readings(self):
+        positives = (
+            ("梦见我被追赶", "被追", "梦见我被追赶"),
+            ("梦见有人追我", "被追", "梦见有人追我"),
+            ("我梦见故人", "故人", "梦见故人"),
+            ("我梦见已故的亲人", "故人", "梦见已故的亲人"),
+            ("我梦见自己死了", "死亡", "梦见自己死了"),
+            ("梦见我死亡", "死亡", "梦见我死亡"),
+        )
+        for narrative, label, quote in positives:
+            with self.subTest(narrative=narrative):
+                response = self.client.post(PUBLIC, json={"dream_text": narrative})
+                self.assertEqual(response.status_code, 200, response.text)
+                payload = response.json()
+                self.assertEqual(payload["matches"], [])
+                self.assertEqual(payload["status"], "no_reviewed_interpretation")
+                self.assertEqual(payload["unreviewed_topics"],
+                                 [{"label": label, "matched_texts": [quote]}])
+                self.assertFalse(payload["ai_enabled"])
+                self.assertFalse(payload["personal_prediction"])
+                for forbidden in ("source_ref", "input_spans", "rule_id", "canonical_path",
+                                  "raw_unicode_offset", "interpretation_candidate"):
+                    self.assertNotIn(forbidden, response.text)
+
+    def test_sensitive_topics_are_never_inferred_from_retractions_or_reporting(self):
+        for narrative in (
+            "梦见我没有被追赶",
+            "听说别人梦见我被追赶",
+            "梦见我追别人",
+            "电影里有人梦见故人",
+            "如果梦见自己死了",
+            "我梦见自己死了但是醒来发现只是幻想",
+            "我梦见故人但其实并没有做梦",
+        ):
+            with self.subTest(narrative=narrative):
+                response = self.client.post(PUBLIC, json={"dream_text": narrative})
+                self.assertEqual(response.status_code, 200, response.text)
+                payload = response.json()
+                self.assertEqual(payload["matches"], [])
+                self.assertEqual(payload["unreviewed_topics"], [])
+                self.assertFalse(payload["ai_enabled"])
+
+    def test_mixed_reviewed_money_and_unreviewed_death_do_not_create_combined_meaning(self):
+        narrative = "我梦见我捡到了钱，后来梦见自己死了"
+        response = self.client.post(PUBLIC, json={"dream_text": narrative})
+        self.assertEqual(response.status_code, 200, response.text)
+        payload = response.json()
+        self.assertEqual([x["short_quote"] for x in payload["matches"]],
+                         ["拾得钱物皆大吉"])
+        self.assertEqual(payload["unreviewed_topics"],
+                         [{"label": "死亡", "matched_texts": ["梦见自己死了"]}])
+        self.assertNotIn("combined_interpretation", response.text)
+        self.assertFalse(payload["personal_prediction"])
+
     def test_reviewed_paraphrases_have_exact_input_provenance(self):
         cases = (
             ("我梦见我拾起一枚硬币", "拾得钱物皆大吉", "我拾起一枚硬币"),
