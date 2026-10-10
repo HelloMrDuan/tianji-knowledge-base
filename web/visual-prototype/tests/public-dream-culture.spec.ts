@@ -37,7 +37,7 @@ test("contrastive dream example sends real input and shows only the affirmed cit
   });
   await page.goto("/dream-culture");
   await page.getByRole("button", { name: "填入多场景示例" }).click();
-  const narrative = "我梦见没有被蛇咬，但我梦见我捡到了钱。";
+  const narrative = "我梦见没有被蛇咬但我梦见我捡到了钱。";
   await expect(page.getByLabel("梦境叙述")).toHaveValue(narrative);
   expect(requests).toHaveLength(0);
   await page.getByRole("button", { name: "查阅梦象" }).click();
