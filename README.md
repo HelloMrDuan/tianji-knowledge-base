@@ -1,6 +1,6 @@
 # 天机传统文化知识库（Tianji Knowledge Base）
 
-> **天机平台当前唯一产品路线（2026-10-11）**：先读[产品总纲 V1.0](docs/product/PRODUCT_MASTER_PLAN_V1.md)，再按[分阶段实施计划（M0–M7）](docs/product/IMPLEMENTATION_PLAN_V1.md)与[30 项执行台账](docs/product/EXECUTION_LEDGER.md)逐批开发、测试、提 PR、验收。下方旧阶段/历史状态为技术背景，不应取代这三个文件作为产品开发优先级。
+> **天机平台当前唯一产品路线（2026-10-11）**：先看[详细开发总目录](docs/product/README.md)。页面**忠实于最初古风设计**：[PR #87 视觉和原截图](docs/product/ORIGINAL_DESIGN_BASELINE_V1.md) + [PR #89 场景 IA](docs/product/ORIGINAL_DESIGN_BASELINE_V1.md)；按[逐页规格](docs/product/PAGE_SPECIFICATIONS_V1.md)与[细化 WBS 工作包](docs/product/DETAILED_DELIVERY_BACKLOG_V1.md)开发，再用[产品总纲](docs/product/PRODUCT_MASTER_PLAN_V1.md)、[M0–M7 实施计划](docs/product/IMPLEMENTATION_PLAN_V1.md)和[唯一执行台账](docs/product/EXECUTION_LEDGER.md)做范围和验收。其余旧计划仅作历史参考。
 
 面向 AI / RAG / Agent 的中国传统文化与术数知识底座。
 
