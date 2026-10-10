@@ -23,19 +23,19 @@ export function HomePage() {
             <span>把复杂术数，收进一个可读的答案里。</span>
           </h1>
           <p>
-            不要求你懂八字、六爻或奇门。先生成一次人生总览，之后可直接看今日、本周、本月和自选年份的流年结构；
-            遇到具体问题，再进入一事占问。
+            不要求你懂八字、六爻或奇门。先从眼前最关心的一件事开始，也可以看看桃花、事业财运。
+            已有出生资料时，今日、本周、本月和自选年份的结构都能独立查看；完整吉凶解读仍需更多证据。
           </p>
           <div className="scenario-hero-actions">
-            <Link className="button primary" href="/life-overview">
-              生成我的人生总览
+            <Link className="button primary" href="/ask">
+              一事占问
               <Icon name="arrow" size={18} />
             </Link>
-            <Link className="button outlined" href="/daily-structure">
-              今日结构
+            <Link className="button outlined" href="/romance-structure">
+              桃花姻缘
             </Link>
-            <Link className="button outlined" href="/ask">
-              一事占问
+            <Link className="button outlined" href="/career-wealth-structure">
+              事业财运
             </Link>
             <a className="text-action" href="#scenarios">
               看全部场景
@@ -50,6 +50,25 @@ export function HomePage() {
           </div>
         </div>
       </section>
+
+      <nav className="scenario-time-strip" aria-label="运势时间快捷入口">
+        <Link href="/daily-structure">
+          <strong>今日</strong>
+          <span>查看今天的结构</span>
+        </Link>
+        <Link href="/weekly-structure">
+          <strong>本周</strong>
+          <span>从周一到周日</span>
+        </Link>
+        <Link href="/monthly-structure">
+          <strong>本月</strong>
+          <span>公历月份结构</span>
+        </Link>
+        <Link href="/yearly-structure">
+          <strong>年度</strong>
+          <span>自选年份 · 真实重算</span>
+        </Link>
+      </nav>
 
       <section className="scenario-section" id="scenarios">
         <div className="section-heading">
