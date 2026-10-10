@@ -35,7 +35,7 @@
 
 | 顺位 | ID | 任务 | 当前状态 | 前置/备注 |
 | --- | --- | --- | --- | --- |
-| 1 | TJ-001 | 合并产品总纲、分阶段计划、台账及 README 导航 | 已提交PR | [公开 #219](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/219)；三项 CI 全绿且已合并才算完成 |
+| 1 | TJ-001 | 合并产品总纲、分阶段计划、台账及 README 导航 | 已合并 | [公开 #219](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/219)，merge `897aab38ee17c95b3015e449b9bf5557f833bd55`；PR 三项 CI 全绿 |
 | 2 | TJ-002 | 私有 #50 最终组合回归收口 | 已提交PR | 双 CI 已 success，但 PR 仍 open；下批必须确认 head SHA/mergeability 才合并 |
 | 3 | TJ-004 | 11 场景真实 API＋浏览器成功/异常清单 | 待做 | 使用既有后端和受控知识，优先识别能直接修的用户故障 |
 | 4 | TJ-003 | 公共/私有敏感数据表面、迁移和证据权利核验 | 待做 | 可与 TJ-004 的只读审查并行 |
@@ -81,7 +81,7 @@
 
 | 日期（北京时间） | ID | 目标与用户可见变化 | 公开 PR/main SHA | 私有 PR/main SHA | 真实测试/CI | 部署状态 | 新缺口 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 2026-10-11 | TJ-001 | 三份文档、导航与计划基线（本批） | [公开 #219](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/219)，head/merge SHA 以 GitHub 实测为准 | 无私有知识改动 | 待本 PR 的公开 code/frontend/data 检查 | 未部署 | 下批 TJ-002、TJ-004 |
+| 2026-10-11 | TJ-001 | 三份文档、导航与计划基线（本批） | [公开 #219](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/219)，merge `897aab38ee17c95b3015e449b9bf5557f833bd55` | 无私有知识改动 | PR code/frontend-build/gate-public-data 三项 success；合并后 Actions 单独核对 | 未部署 | 下批 TJ-002、TJ-004 |
 
 示例“已合并”的判定必须有**真实 merged PR**和 `main` SHA；如 CI 还在跑，保持 `CI待验`。无可证实的模型、上线或内部知识授权不得补写“成功”。
 
