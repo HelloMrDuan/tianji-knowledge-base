@@ -61,6 +61,35 @@ class PublicDreamCultureTests(unittest.TestCase):
             self.assertNotIn(forbidden, response.text)
         self.assertFalse(payload['ai_enabled'])
 
+    def test_unreviewed_subjects_and_reviewed_scene_are_distinct_in_real_api(self):
+        cases = (
+            ("梦见考试", [], [("考试", "梦见考试")]),
+            ("我梦见自己怀孕", [], [("怀孕", "梦见自己怀孕")]),
+            ("梦见我结婚", [], [("结婚", "梦见我结婚")]),
+            ("梦到我去参加面试", [], [("工作", "梦到我去参加面试")]),
+            ("我梦见我捡到了钱，后来梦见考试",
+             ["拾得钱物皆大吉"], [("考试", "梦见考试")]),
+            ("听说别人梦见考试", [], []),
+            ("梦见没有参加考试", [], []),
+        )
+        for narrative, excerpts, expected_topics in cases:
+            with self.subTest(narrative=narrative):
+                response = self.client.post(PUBLIC, json={"dream_text": narrative})
+                self.assertEqual(response.status_code, 200, response.text)
+                data = response.json()
+                self.assertEqual([x["short_quote"] for x in data["matches"]], excerpts)
+                self.assertEqual(
+                    [(x["label"], x["matched_texts"][0]) for x in data["unreviewed_topics"]],
+                    expected_topics)
+                self.assertFalse(data["ai_enabled"])
+                self.assertFalse(data["personal_prediction"])
+                self.assertNotIn("raw_unicode_offset", response.text)
+                self.assertNotIn("related_only", response.text)
+                self.assertNotIn("source_ref", response.text)
+                self.assertNotIn("input_spans", response.text)
+                if not excerpts:
+                    self.assertEqual(data["status"], "no_reviewed_interpretation")
+
     def test_reviewed_paraphrases_have_exact_input_provenance(self):
         cases = (
             ("我梦见我拾起一枚硬币", "拾得钱物皆大吉", "我拾起一枚硬币"),
