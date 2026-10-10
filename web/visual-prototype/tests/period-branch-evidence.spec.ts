@@ -16,7 +16,12 @@ test("real daily -> weekly -> monthly calculation shows audited branch dates and
     await expect(daily.first()).toContainText("证据等级");
   }
 
+  expect(await page.evaluate(() => localStorage.getItem("tianji.profile.birth.v1")))
+    .toBe('{"date":"2000-01-07","time":"12:00"}');
+
   await page.goto("/weekly-structure");
+  await expect(page.getByLabel("出生日期")).toHaveValue("2000-01-07");
+  await expect(page.getByLabel("出生时间")).toHaveValue("12:00");
   await page.getByLabel("本周参考日期").fill("2026-10-04");
   await page.getByRole("button", { name: "查看本周结构" }).click();
   await expect(page.locator(".period-result")).toBeVisible();
@@ -30,6 +35,8 @@ test("real daily -> weekly -> monthly calculation shows audited branch dates and
   }
 
   await page.goto("/monthly-structure");
+  await expect(page.getByLabel("出生日期")).toHaveValue("2000-01-07");
+  await expect(page.getByLabel("出生时间")).toHaveValue("12:00");
   await page.getByLabel("查看月份").fill("2026-10");
   await page.getByRole("button", { name: "查看本月结构" }).click();
   await expect(page.locator(".period-result")).toBeVisible();
