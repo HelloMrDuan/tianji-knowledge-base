@@ -7,9 +7,9 @@ import {
   executeWeeklyScenario,
   type ScenarioExecuteResponse,
 } from "./api";
+import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
 import "./period-structure.css";
 
-const profileKey = "tianji.profile.birth.v1";
 const relationLabel: Record<string, string> = {six_harmony: "六合", harm: "六害", clash: "六冲"};
 const pillarLabel: Record<string, string> = {year: "年柱", month: "月柱", day: "日柱", hour: "时柱"};
 
@@ -34,24 +34,11 @@ function beijingToday() {
   return `${parts.year}-${parts.month}-${parts.day}`;
 }
 
-function readProfile() {
-  try {
-    const raw = localStorage.getItem(profileKey);
-    if (!raw) return { date: "", time: "" };
-    const parsed = JSON.parse(raw);
-    return {
-      date: typeof parsed.date === "string" ? parsed.date : "",
-      time: typeof parsed.time === "string" ? parsed.time : "",
-    };
-  } catch {
-    return { date: "", time: "" };
-  }
-}
 
 type PeriodMode = "weekly" | "monthly";
 
 export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
-  const saved = useMemo(readProfile, []);
+  const saved = useMemo(readSavedBirthProfile, []);
   const today = useMemo(beijingToday, []);
   const [birthDate, setBirthDate] = useState(saved.date);
   const [birthTime, setBirthTime] = useState(saved.time);
@@ -85,11 +72,7 @@ export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
         ? await executeWeeklyScenario({ birth_value: birthValue, anchor_date: anchorDate })
         : await executeMonthlyScenario({ birth_value: birthValue, target_month: targetMonth });
       if (version !== requestVersion.current) return;
-      try {
-        localStorage.setItem(profileKey, JSON.stringify({ date: birthDate, time: birthTime }));
-      } catch {
-        /* Local preference is optional. */
-      }
+      saveBirthProfile({ date: birthDate, time: birthTime });
       setResult(next);
     } catch (err) {
       if (version === requestVersion.current)
