@@ -27,7 +27,7 @@ class PublicDreamCultureTests(unittest.TestCase):
         match = data["matches"][0]
         self.assertIn("蛇咬人", match["short_quote"])
         self.assertEqual(match["evidence_level"], "C")
-        self.assertEqual(set(match), {"scene", "cultural_reading", "short_quote",
+        self.assertEqual(set(match), {"scene", "matched_texts", "cultural_reading", "short_quote",
                                       "source_title", "evidence_level"})
         # Never leak internal RAG traces, repository paths or privileged metadata.
         for key in ("evidence", "retrieval", "canonical_path", "rule_id", "term_id",
@@ -60,6 +60,36 @@ class PublicDreamCultureTests(unittest.TestCase):
         for forbidden in ('rule_id', 'term_id', 'canonical_path', 'input_spans', 'retrieval'):
             self.assertNotIn(forbidden, response.text)
         self.assertFalse(payload['ai_enabled'])
+
+    def test_reviewed_paraphrases_have_exact_input_provenance(self):
+        cases = (
+            ("我梦见我拾起一枚硬币", "拾得钱物皆大吉", "我拾起一枚硬币"),
+            ("我梦见一群鱼儿在湖里游来游去", "群鱼游水主有财", "一群鱼儿在湖里游来游去"),
+            ("我梦见我家房屋正在重新翻修", "屋宅更新主大吉", "我家房屋正在重新翻修"),
+        )
+        for narrative, classic, matched in cases:
+            with self.subTest(narrative=narrative):
+                response = self.client.post(PUBLIC, json={"dream_text": narrative})
+                self.assertEqual(response.status_code, 200, response.text)
+                matches = response.json()["matches"]
+                self.assertEqual(len(matches), 1)
+                self.assertEqual(matches[0]["short_quote"], classic)
+                self.assertEqual(matches[0]["matched_texts"], [matched])
+                self.assertNotIn("input_spans", response.text)
+                self.assertFalse(response.json()["ai_enabled"])
+
+    def test_negations_other_people_and_wrong_actions_remain_unmatched(self):
+        for narrative in (
+            "我梦见没有拾起一枚硬币",
+            "我梦见朋友拾起一枚硬币",
+            "我梦见我扔掉一枚硬币",
+            "我梦见没有一群鱼儿在湖里游",
+            "我梦见别人家的房屋正在重新翻修",
+        ):
+            with self.subTest(narrative=narrative):
+                response = self.client.post(PUBLIC, json={"dream_text": narrative})
+                self.assertEqual(response.status_code, 200, response.text)
+                self.assertEqual(response.json()["matches"], [])
 
     def test_strict_request_contract_and_private_route_still_protected(self):
         for payload in ({}, {"dream_text": ""}, {"dream_text": "  "},
