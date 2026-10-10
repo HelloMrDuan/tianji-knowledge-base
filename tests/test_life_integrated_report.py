@@ -137,8 +137,12 @@ class IntegratedLifeReportTests(unittest.TestCase):
                                  life["result"]["integrated_reading"]["evidence_ids"])
                 self.assertTrue(all(eid in life["evidence"]
                                     for eid in audit["evidence_ids"]))
-                self.assertTrue(all(audit["evidence_scenarios"][eid]
-                                    for eid in audit["evidence_ids"]))
+                self.assertEqual(
+                    [x["scenario"] for x in audit["evidence_contributions"]],
+                    ["profile", "yearly", "romance", "career"])
+                self.assertEqual(
+                    {eid for row in audit["evidence_contributions"]
+                     for eid in row["evidence_ids"]}, set(audit["evidence_ids"]))
 
     def test_other_scenario_natal_chart_mismatch_fails_closed(self):
         for scenario in ("yearly", "romance", "career"):
@@ -202,6 +206,20 @@ class IntegratedLifeReportTests(unittest.TestCase):
         self.assertNotIn("bazi.phase2", str(strength))
         self.assertIn("strength_factors", profile.json()["chart"])
         self.assertIsNone(profile.json()["chart"]["strength_factors"]["overall_strength"])
+        # Public projection must not leak original opaque evidence IDs as
+        # dictionary keys: all provenance uses response-local E aliases.
+        provenance = data["result"]["integration_provenance"]
+        self.assertEqual(
+            [row["scenario"] for row in provenance["evidence_contributions"]],
+            ["profile", "yearly", "romance", "career"])
+        self.assertTrue(all(eid.startswith("E")
+                            for row in provenance["evidence_contributions"]
+                            for eid in row["evidence_ids"]))
+        self.assertTrue(all(eid in data["evidence"]
+                            for row in provenance["evidence_contributions"]
+                            for eid in row["evidence_ids"]))
+        self.assertNotIn("evidence_scenarios", response.text)
+
 
 
 if __name__ == "__main__":
