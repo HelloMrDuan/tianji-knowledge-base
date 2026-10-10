@@ -250,6 +250,9 @@ export function LifeOverviewPage() {
                 <article><h3>事业财运</h3><p>{integrated.career}</p></article>
                 <article><h3>桃花与夫妻宫</h3><p>{integrated.romance}</p></article>
               </div>
+              {integrated.cross_rule && <p className="life-cross-rule">
+                <strong>跨规则一致性：</strong>{integrated.cross_rule}
+              </p>}
               <details>
                 <summary>核查以上结论引用的古籍证据</summary>
                 {reviewedExcerpts(integrated.evidence_ids, reviewedEvidence).map((item) => (

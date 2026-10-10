@@ -39,6 +39,50 @@ class IntegratedLifeReportTests(unittest.TestCase):
             self.assertIn("大运方向", report["dayun"])
             self.assertNotIn("fortune_score", str(report))
 
+    def test_shared_yearly_and_spouse_pair_is_one_evidence_chain(self):
+        for year in (2026, 2027):
+            with self.subTest(year=year):
+                response = self.run_life(year)
+                data = response["result"]
+                audit = data["cross_rule_audit"]
+                annual = data["yearly"]["annual_branch_interactions"]
+                spouse = data["romance"]["spouse_palace_year_relations"]
+                day_hits = [hit for hit in annual["hits"] if hit["natal_pillar"] == "day"]
+                self.assertEqual(day_hits, spouse["relations"])
+                self.assertEqual(audit["shared_pair_count"], len(day_hits))
+                self.assertTrue(audit["yearly_and_romance_agree"])
+                self.assertFalse(audit["independent_confirmations"])
+                self.assertFalse(audit["interpretation_allowed"])
+                self.assertIn("并非两份独立证据", audit["reading"])
+                self.assertEqual(data["integrated_reading"]["cross_rule"], audit["reading"])
+                self.assertTrue(set(audit["evidence_ids"]) <= set(response["evidence"]))
+                self.assertFalse(response["result"]["integrated_reading"]["personal_prediction"])
+
+    def test_cross_rule_mismatch_fails_closed(self):
+        original = scenario_engine._romance
+
+        def corrupted(inputs):
+            result = copy.deepcopy(original(inputs))
+            result["result"]["spouse_palace_year_relations"]["natal_day_branch"] = "INVALID"
+            return result
+
+        with patch.object(scenario_engine, "_romance", side_effect=corrupted):
+            with self.assertRaisesRegex(ValueError, "Cross-scenario"):
+                self.run_life(2027)
+
+    def test_shared_pair_mismatch_fails_closed(self):
+        original = scenario_engine._romance
+
+        def corrupted(inputs):
+            result = copy.deepcopy(original(inputs))
+            result["result"]["spouse_palace_year_relations"]["relations"].append(
+                {"natal_pillar": "day", "relation_type": "clash", "evidence_ids": []})
+            return result
+
+        with patch.object(scenario_engine, "_romance", side_effect=corrupted):
+            with self.assertRaisesRegex(ValueError, "Cross-scenario"):
+                self.run_life(2026)
+
     def test_integrated_career_is_identical_to_reviewed_career_scenario_facts(self):
         life = self.run_life()["result"]
         career = scenario_engine.execute_scenario("career", {

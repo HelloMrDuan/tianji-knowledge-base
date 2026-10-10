@@ -43,6 +43,8 @@
 .life-integrated-grid h3{font:17px "Noto Serif CJK SC",serif;color:#365b43;margin:0 0 9px}
 .life-integrated-grid p,.life-integrated-report aside p{font-size:12px;line-height:1.9;color:#536757;margin:7px 0}
 .life-integrated-grid small{font-size:11px;line-height:1.8;color:#887e68}
+.life-cross-rule{margin:14px 0 0;padding:12px 14px;border-left:3px solid #91a88b;background:#f8f9f2;color:#536757;font-size:12px;line-height:1.8}
+.life-cross-rule strong{color:#365b43}
 .life-integrated-report details{border-top:1px solid #d2dbc9;padding-top:12px;margin-top:16px}
 .life-integrated-report summary{font-size:12px;cursor:pointer;color:#466951}
 .life-integrated-report blockquote{padding:10px;background:#fffdf8;border-left:2px solid #a1b496;margin:9px 0}

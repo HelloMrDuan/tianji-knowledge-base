@@ -28,6 +28,8 @@ test("birth chart and life report display the same reviewed strength facts with 
   await expect(integrated).toContainText("2026年");
   await expect(integrated).toContainText("日主");
   await expect(integrated).toContainText("大运方向");
+  await expect(integrated).toContainText("跨规则一致性");
+  await expect(integrated).toContainText("并非两份独立证据");
   await integrated.locator("summary").click();
   await expect(integrated.locator("blockquote p").first()).not.toBeEmpty();
   expect(calls).toContainEqual({ scenario: "life", year: 2026 });
@@ -36,5 +38,6 @@ test("birth chart and life report display the same reviewed strength facts with 
   await expect(integrated).toHaveCount(0);
   await page.getByRole("button", { name: /生成人生总览|生成我的人生总览/ }).click();
   await expect(page.getByLabel("旺衰因素与年度综合解读")).toContainText("2027年");
+  await expect(page.getByLabel("旺衰因素与年度综合解读")).toContainText("跨规则一致性");
   expect(calls).toContainEqual({ scenario: "life", year: 2027 });
 });
