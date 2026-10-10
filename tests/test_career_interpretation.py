@@ -83,6 +83,55 @@ class CareerInterpretationTests(unittest.TestCase):
                          "expected_salary", "good_luck", "raise_prediction"):
             self.assertNotIn(invented, serialized)
 
+    def test_annual_reading_joins_only_executed_natal_locations(self):
+        for year in (2026, 2027):
+            output = scenario_engine.execute_scenario("career", {
+                "birth_value": BIRTH, "target_year": year,
+            })
+            result = output["result"]
+            reading = result["annual_reading"]
+            group = result["structure_groups"][result["target_year"]["structure_group"]]
+            self.assertEqual(reading["year"], year)
+            self.assertEqual(reading["flow_ten_god"], result["target_year"]["stem_ten_god"])
+            self.assertEqual(reading["natal_locations"], group["occurrences"])
+            self.assertIn(f"{year}年", reading["year_context"])
+            self.assertIn(str(group["visible_count"]), reading["natal_context"])
+            self.assertIn(str(group["hidden_count"]), reading["natal_context"])
+            for occurrence in group["occurrences"]:
+                self.assertIn(occurrence["stem"], reading["natal_context"])
+                self.assertIn(occurrence["ten_god"], reading["natal_context"])
+            self.assertEqual(set(reading["source_rule_ids"]), {
+                "bazi.phase2.ten_gods", "bazi.phase2.hidden_stems"})
+            self.assertTrue(reading["evidence_ids"])
+            self.assertTrue(set(reading["evidence_ids"]) <= set(output["evidence"]))
+            self.assertFalse(reading["personal_prediction"])
+            self.assertIn("不得用它预测升迁", reading["boundary"])
+        self.assertNotEqual(
+            scenario_engine.execute_scenario("career", {
+                "birth_value": BIRTH, "target_year": 2026,
+            })["result"]["annual_reading"]["headline"],
+            scenario_engine.execute_scenario("career", {
+                "birth_value": BIRTH, "target_year": 2027,
+            })["result"]["annual_reading"]["headline"],
+        )
+
+    def test_public_annual_reading_has_aliases_and_no_private_evidence_keys(self):
+        with TestClient(create_app()) as client:
+            response = client.post("/api/v1/scenarios/public", json={
+                "scenario_id": "career",
+                "input": {"birth_value": BIRTH, "target_year": 2026},
+            })
+        self.assertEqual(response.status_code, 200, response.text)
+        data = response.json()
+        reading = data["result"]["annual_reading"]
+        self.assertTrue(reading["evidence_ids"])
+        self.assertTrue(all(item in data["evidence"] for item in reading["evidence_ids"]))
+        self.assertTrue(all(item.startswith("E") for item in reading["evidence_ids"]))
+        self.assertTrue(all(item.startswith("R") for item in reading["source_rule_ids"]))
+        self.assertNotIn("bazi.phase2", str(reading))
+        self.assertNotIn("canonical_path", str(reading))
+        self.assertFalse(reading["personal_prediction"])
+
     def test_missing_executed_canonical_evidence_abstains(self):
         actual = scenario_engine.execute
 
