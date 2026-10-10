@@ -173,6 +173,21 @@ export function DreamCulturePage() {
             <small>{item.source_title} · 审核证据等级 {item.evidence_level} · 传统文化用语</small>
           </article>
         ))}
+        {result.unreviewed_topics.length > 0 && (
+          <aside className="dream-culture-unreviewed" aria-label="未获审核的梦境主题">
+            <h3>有些梦境细节尚无审核解释</h3>
+            <p>以下只是您输入中的主题识别，不是古籍解释，也不代表这些事情会发生。</p>
+            <ul>
+              {result.unreviewed_topics.map((topic) => (
+                <li key={topic.label}>
+                  <strong>{topic.label}</strong>
+                  <span>{topic.matched_texts.join("；")}</span>
+                  <small>尚无严格对应的已审核条目</small>
+                </li>
+              ))}
+            </ul>
+          </aside>
+        )}
         <p className="dream-culture-notice">{result.notice}</p>
       </section>}
     </div>
