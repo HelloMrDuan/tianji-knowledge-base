@@ -152,6 +152,9 @@ export function QuestionPage() {
   const original = chart.original || {};
   const changed = chart.changed || {};
   const palace = chart.palace || {};
+  const classic = chart.zhouyi_classic;
+  const movingTexts: Array<{ line: number; position: string; text: string }> =
+    Array.isArray(classic?.original?.moving_line_texts) ? classic.original.moving_line_texts : [];
   const lines = Array.isArray(chart.lines) ? chart.lines : [];
 
   return (
@@ -289,6 +292,43 @@ export function QuestionPage() {
             <article><small>动爻</small><strong>{(chart.changing_lines || []).join("、") || "无"}</strong><span>自下而上计数</span></article>
             <article><small>旬空</small><strong>{(chart.empty_branches || []).join("、") || "—"}</strong><span>由后端历法计算</span></article>
           </div>
+
+          {classic?.scope === "verbatim_classical_excerpts_only" && (
+            <section className="question-classical-report" aria-label="本卦与动爻周易原典">
+              <header>
+                <span className="eyebrow">真实命盘 × 审核原典</span>
+                <h3>本次起出的卦，《周易》原文怎么说？</h3>
+                <small>{classic.title} · {classic.source_level} · 原典查阅</small>
+              </header>
+              <div className="question-classic-grid">
+                <article>
+                  <span>本卦 · 第 {classic.original.number} 卦</span>
+                  <h4>{classic.original.name}</h4>
+                  <strong>卦辞</strong>
+                  <blockquote>{classic.original.judgment}</blockquote>
+                  <strong>象辞</strong>
+                  <blockquote>{classic.original.image}</blockquote>
+                </article>
+                <article>
+                  <span>变卦 · 第 {classic.changed.number} 卦</span>
+                  <h4>{classic.changed.name}</h4>
+                  <strong>卦辞</strong>
+                  <blockquote>{classic.changed.judgment}</blockquote>
+                  <small>变卦由此次动爻翻转计算，不代表未来事件已经注定。</small>
+                </article>
+              </div>
+              <section className="question-moving-classics">
+                <h4>本次动爻原文 · {movingTexts.length} 爻</h4>
+                {movingTexts.length ? movingTexts.map((item) => (
+                  <blockquote key={item.line}>
+                    <strong>{labels[item.line - 1]} · {item.position}</strong>
+                    <p>{item.text}</p>
+                  </blockquote>
+                )) : <p>本次六爻均为静爻，无动爻原文需要单独摘录；仍可查阅本卦卦辞与象辞。</p>}
+              </section>
+              <p className="question-classical-limit">这些文字是经过收录的传世古籍原文，并不是针对你所提问题的吉凶判断。完整的用神、旺衰、应期与个人解释仍需进一步审核。</p>
+            </section>
+          )}
 
           <div className="live-section">
             <div className="result-section-heading"><div><span>三</span><h2>六爻盘面</h2></div><small>自下而上</small></div>
