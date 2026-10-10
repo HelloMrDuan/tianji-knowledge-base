@@ -37,11 +37,11 @@
 | --- | --- | --- | --- | --- |
 | 1 | TJ-001 | 合并产品总纲、分阶段计划、台账及 README 导航 | 已合并 | [公开 #219](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/219)，merge `897aab38ee17c95b3015e449b9bf5557f833bd55`；PR 三项 CI 全绿 |
 | 2 | TJ-002 | 私有 #50 最终组合回归收口 | 已合并 | 两条组合 CI 均 success；私有 [#50](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/50) 已按准确 head SHA `b9a7097` squash merge `e0f95051a65dcdb5337853405a4e18a798eeb19d` |
-| 3 | TJ-004 | 11 场景真实 API＋浏览器成功/异常清单 | 待做 | 使用既有后端和受控知识，优先识别能直接修的用户故障 |
+| 3 | TJ-004 | 11 场景真实 API＋浏览器成功/异常清单 | 进行中 | [TJ-004 初审与首页差异](TJ004_SCENARIO_AUDIT_20261011.md) 已合并；[公开 #225](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/225) + [私有 #52](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/52) 正在跑 11 场景真实 POST；完整异常矩阵仍待 TJ-004.3 |
 | 4 | TJ-003 | 公共/私有敏感数据表面、迁移和证据权利核验 | 待做 | 可与 TJ-004 的只读审查并行 |
 | 5 | TJ-006 | 多场景日期/出生资料/年份/时区一致性 | 待做 | 已有 #215/#216 等部分实现，验收尚需全流程 |
 | 6 | TJ-007 | 11 入口从输入到结果/证据/弃判闭环 | 待做 | 使用 TJ-004 实际缺陷作为改代码顺序 |
-| 7 | TJ-008 | **按最初 #87/#89 设计还原首页、报告、响应式界面** | 待做 | TJ-008.1～008.5：原图与现图差异台账、桌面/手机真实截图、视觉与功能双验收；不得擅自换主题 |
+| 7 | TJ-008 | **按最初 #87/#89 设计还原首页、报告、响应式界面** | 进行中 | **TJ-008.2 首页初步修复已合并**：公开 [#224](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/224) `b42a1d8`、私有 [#51](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/51) `467fbd8`；真实浏览器＋3 张截图，原版逐屏视觉审查、其余页面仍待验 |
 | 8 | TJ-009 | 背景音乐/路由/无障碍一致性 | 待做 | 保留现有音乐功能，不做强制自动播放 |
 | 9 | TJ-005 | 受控真实后端/公开 API 环境与可部署性 | 待做 | 须满足 TJ-003 安全门禁；不能因没有云资源伪造上线 |
 | 10 | TJ-010 | 月令、根、透干、分日冲突审核 | 待做 | 八字知识核心依赖 |
@@ -72,12 +72,12 @@
 - **原设计真实参考**：[PR #87](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/87)（73 个截图路径）与 [PR #89](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/89)（生活场景 IA）。已核对计划所引用的 23 个固定路径存在，**尚未完成页面的新旧图逐屏人工对比**。
 - **执行顺序不变**：TJ-002 已按真实 PR/CI 合并，下一步 TJ-004.1～004.4（11 场景真实测试＋原图差异）；然后才 TJ-008.1～008.5 一批批还原页面。
 
-## 视觉还原待检查问题（全部待验，不算已修）
+## 视觉还原待检查问题（首页快捷入口已修；其余仍待验）
 
 | UI / 参考 | 当前现状 | 接下来必须做 |
 | --- | --- | --- |
-| UI-00 首页 Hero | 当前主 CTA 为“生成我的人生总览”；#89 最初首页强调“一事占问” | 按 #89 CTA 层级重做差异审查，**保留 #87 古风山水和纸色** |
-| UI-00 时间带 | 原 #89 设计有今日/本周/本月/年份快速入口 | 对照当前页面结构及真实年份参数，缺失则列独立小 PR |
+| UI-00 首页 Hero | **已按 #89 恢复“一事占问”主 CTA**，桃花/事业辅助，人生总览仍在下方推荐 | #224/#51 已合并、真实截图通过；**与 #87/#89 原版逐屏人工对照仍待审** |
+| UI-00 时间带 | **已新增今日/本周/本月/年度四入口**，跳转到既有真实场景 | #224/#51 浏览器链接和布局通过；年度仍由具体页面自选，不在首页写死 2026 |
 | UI-00 场景入口 | 11 张卡已存在；#89 曾规划事业/财运分卡但共用核心 | 对照场景卡结构与底层同一次计算，避免拆成两份结果 |
 | UI-01 手机导航 | 当前为首页/占问/历史/收藏；#89 设计语义为首页/场景/记录/我的 | 设计映射、收藏兼容与安全可达，不能直接删用户入口 |
 | UI-P1～P7 | 旧专业部分页面属于固定示意/设计结果模板 | 保留最初七域图形样式，但不伪装已经实时排盘 |
@@ -105,6 +105,8 @@
 | 2026-10-11 | TJ-001.1～001.3 | 按原设计补详细规划：视觉基线、逐页规格、WBS 和 PR 模板 | [公开 #221](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/221)，merge `07165cc5be8986b7ddd7f60863619c754cc2e355` | 无私有数据改动 | PR 三项公开 CI 全绿，合并后 CI 另行核对 | 未部署 | TJ-004.4/TJ-008 视觉对照仍待实际实施；先完成 TJ-002 |
 
 | 2026-10-11 | TJ-002 | 私有合并回归 PR #50 收口；没有改动古籍知识 | 无公开功能修改 | [私有 #50](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/50) merge `e0f95051a65dcdb5337853405a4e18a798eeb19d` | `merged-main-209` / `combined-main` 两条原 PR head CI success，mergeable=clean | 未部署 | 下项 TJ-004.1～004.4，逐页真实验收和原设计对照 |
+| 2026-10-11 | TJ-004.1 / TJ-008.2 | 11 场景接口静态初审及原首页首屏修复：一事占问主 CTA、四时间导航 | [公开 #224](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/224) merge `b42a1d89f2b7bcc7b3c2a75a168299ce7128285c` | [私有 #51](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/51) merge `467fbd8dbe33c425251bebe1bf52fa839cf50aea` | 公开三门禁、私有 Canonical＋真实 Chromium 全绿；[截图工件](https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38072602895) 已生成 1440/390/360 | 未部署 | 原图完整视觉人工比对未完成；TJ-004.2 的 #225/#52 正在跑真实 11 入口 |
+
 示例“已合并”的判定必须有**真实 merged PR**和 `main` SHA；如 CI 还在跑，保持 `CI待验`。无可证实的模型、上线或内部知识授权不得补写“成功”。
 
 ## 计划变更机制
