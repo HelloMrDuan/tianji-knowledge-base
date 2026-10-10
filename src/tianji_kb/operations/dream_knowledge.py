@@ -9,7 +9,7 @@ from ..resolver import EvidenceResolver, ROOT
 
 VARIANT = 'traditional_chinese_dream'
 _UNRESOLVED_NARRATION = re.compile(
-    r'没有|没|不曾|未曾|并未|不是|未发生|差点|险些|好像|似乎|可能|如果|假如|害怕|担心|会被|听说|讲述|说|电影|小说')
+    r'没有|没|不曾|未曾|并未|不是|未发生|差点|险些|好像|似乎|可能|如果|假如|害怕|担心|会被|只是想象|只是幻想|其实是假的|听说|讲述|说|电影|小说')
 _REPORTED_CONTEXT = re.compile(r'听说|讲述|说|电影|小说|故事|视频')
 _OTHER_SUBJECT = re.compile(r'别人|他人|有人|人家|他|她|朋友|哥哥|弟弟|姐姐|妹妹|爸爸|妈妈|父亲|母亲')
 _OTHER_ANIMAL = re.compile(r'狗|犬|猫|虎|狼|龙|鱼|鸟|熊|狮|狐狸|兔|马|牛|羊|猪')
