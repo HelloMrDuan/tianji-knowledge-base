@@ -7,6 +7,34 @@
 .dream-culture-hero p { max-width: 690px; line-height: 2; color: #637668; position: relative; z-index: 1; }
 .dream-culture-stamp { position: absolute; right: 52px; top: 20px; color: #b2bba5; opacity: .3;
   font: 158px/1.4 "Noto Serif CJK SC",serif; pointer-events: none; }
+.dream-culture-library { margin: 0 0 28px; padding: 25px 28px 20px; border: 1px solid #d7dccc; border-radius: 8px; background: linear-gradient(150deg, #f9f7ef, #eef2e9); }
+.dream-culture-library-head { display: flex; justify-content: space-between; align-items: end; gap: 22px; margin-bottom: 20px; }
+.dream-culture-library-head h2 { margin: 8px 0 0; font: 26px/1.4 "Noto Serif CJK SC",serif; font-weight: 500; color: #2d5145; }
+.dream-culture-library-head p { max-width: 355px; margin: 0; color: #6e816f; font-size: 12px; line-height: 1.9; }
+.dream-culture-library-grid { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 11px; }
+.dream-culture-library-item { min-width: 0; display: flex; align-items: center; gap: 10px; padding: 14px 12px; cursor: pointer; border-radius: 7px; border: 1px solid #dce1d6; background: rgba(255,253,246,.9); color: #345f4b; text-align: left; font: inherit; transition: background .15s, border-color .15s, transform .15s; }
+.dream-culture-library-item:hover { border-color: #a4ba9e; background: #fffef9; transform: translateY(-1px); }
+.dream-culture-library-item:focus-visible { outline: 2px solid #789b7d; outline-offset: 2px; }
+.dream-culture-library-item[aria-pressed="true"] { border-color: #91af93; background: #e5eddf; }
+.dream-culture-library-glyph { flex: 0 0 33px; height: 37px; display: grid; place-items: center; border-radius: 5px; background: #edf0e4; color: #6d836b; font: 21px/1.2 "Noto Serif CJK SC",serif; }
+.dream-culture-library-copy { display: grid; min-width: 0; gap: 3px; }
+.dream-culture-library-copy strong { font-size: 14px; font-weight: 600; letter-spacing: 1px; }
+.dream-culture-library-copy small { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 11px; color: #82917f; }
+.dream-culture-library-arrow { margin-left: auto; font-size: 13px; color: #91a18f; }
+.dream-culture-library-foot { margin: 15px 0 0; font-size: 11px; line-height: 1.8; color: #778774; }
+@media (max-width: 1000px) {
+  .dream-culture-library-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+}
+@media (max-width: 730px) {
+  .dream-culture-library { padding: 20px 16px 17px; }
+  .dream-culture-library-head { display: block; }
+  .dream-culture-library-head h2 { font-size: 22px; }
+  .dream-culture-library-head p { margin-top: 9px; }
+  .dream-culture-library-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
+  .dream-culture-library-item { gap: 7px; padding: 10px 8px; }
+  .dream-culture-library-glyph { flex-basis: 28px; height: 32px; font-size: 17px; }
+  .dream-culture-library-arrow { display: none; }
+}
 .dream-culture-layout { display: grid; grid-template-columns: minmax(0,2fr) minmax(230px,1fr); gap: 20px; }
 .dream-culture-form, .dream-culture-aside { background: #fffdf68c; padding: 28px; border: 1px solid #d9dfce; border-radius: 7px; }
 .dream-culture-form label { display: block; font: 20px "Noto Serif CJK SC",serif; margin-bottom: 13px; }
