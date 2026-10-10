@@ -3,9 +3,9 @@ import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeDailyScenario, type ScenarioExecuteResponse } from "./api";
+import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
 import "./daily-structure.css";
 
-const profileKey = "tianji.profile.birth.v1";
 
 function beijingToday() {
   const formatter = new Intl.DateTimeFormat("zh-CN", {
@@ -20,19 +20,6 @@ function beijingToday() {
   return `${parts.year}-${parts.month}-${parts.day}`;
 }
 
-function readProfile() {
-  try {
-    const raw = localStorage.getItem(profileKey);
-    if (!raw) return { date: "", time: "" };
-    const parsed = JSON.parse(raw);
-    return {
-      date: typeof parsed.date === "string" ? parsed.date : "",
-      time: typeof parsed.time === "string" ? parsed.time : "",
-    };
-  } catch {
-    return { date: "", time: "" };
-  }
-}
 
 const relationNames: Record<string, string> = {six_harmony: "六合", harm: "六害", clash: "六冲"};
 const pillarNames: Record<string, string> = {year: "年柱", month: "月柱", day: "日柱", hour: "时柱"};
@@ -46,7 +33,7 @@ function displayEvidence(id: string, source: Record<string, any>) {
 }
 
 export function DailyStructurePage() {
-  const saved = useMemo(readProfile, []);
+  const saved = useMemo(readSavedBirthProfile, []);
   const today = useMemo(beijingToday, []);
   const [birthDate, setBirthDate] = useState(saved.date);
   const [birthTime, setBirthTime] = useState(saved.time);
@@ -83,11 +70,7 @@ export function DailyStructurePage() {
         target_date: targetDate,
       });
       if (version !== requestVersion.current) return;
-      try {
-        localStorage.setItem(profileKey, JSON.stringify({ date: birthDate, time: birthTime }));
-      } catch {
-        /* Local preference is optional. */
-      }
+      saveBirthProfile({ date: birthDate, time: birthTime });
       setResult(next);
     } catch (err) {
       if (version === requestVersion.current)
