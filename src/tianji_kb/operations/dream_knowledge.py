@@ -41,7 +41,7 @@ _SCENE_PARAPHRASES = {key: tuple(re.compile(p) for p in patterns)
 def _narrative_clauses(text):
     clauses = []
     reported = False
-    for match in re.finditer(r'[^，,。.!！？?；;\\n]+', text):
+    for match in re.finditer(r'[^，,。.!！？?；;\n]+', text):
         fragment = match.group()
         pieces = []
         cursor = 0
