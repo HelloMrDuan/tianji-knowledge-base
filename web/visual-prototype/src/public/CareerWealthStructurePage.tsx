@@ -95,6 +95,7 @@ export function CareerWealthStructurePage() {
   const groups = payload.structure_groups || {};
   const flowYear = payload.target_year || {};
   const cards: Array<any> = Array.isArray(payload.interpretation_cards) ? payload.interpretation_cards : [];
+  const annualReading = payload.annual_reading || null;
   const evidence = result
     ? Object.entries(result.evidence).map(([id, value]) => displayEvidence(id, value))
     : [];
@@ -199,6 +200,28 @@ export function CareerWealthStructurePage() {
             </div>
             <span className="career-limited">结构内测</span>
           </header>
+
+          {annualReading && (
+            <section className="career-annual-reading" aria-label="年度十神与原局综合解读">
+              <span className="eyebrow">年度视角 · 已审依据</span>
+              <h3>{annualReading.headline}</h3>
+              <p>{annualReading.year_context}</p>
+              <p>{annualReading.natal_context}</p>
+              <p className="career-annual-boundary">{annualReading.boundary}</p>
+              <details>
+                <summary>查阅本段所依据的古籍原文</summary>
+                {(annualReading.evidence_ids || []).map((id: string) => {
+                  const source = evidence.find((item) => item.id === id);
+                  return source ? (
+                    <blockquote key={id}>
+                      <strong>{source.title} · {source.grade}</strong>
+                      <p>{source.quote}</p>
+                    </blockquote>
+                  ) : null;
+                })}
+              </details>
+            </section>
+          )}
 
           <div className="career-groups">
             {groupOrder.map((groupId) => {
