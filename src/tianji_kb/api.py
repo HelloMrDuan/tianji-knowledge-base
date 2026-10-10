@@ -39,6 +39,7 @@ class PublicDreamCultureRequest(BaseModel):
 class PublicDreamCultureMatch(BaseModel):
     model_config = ConfigDict(extra='forbid')
     scene: str
+    matched_texts: list[str]
     cultural_reading: str
     short_quote: str
     source_title: str
@@ -245,8 +246,27 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None):
                     or not all(eid in reviewed['evidence'] for eid in candidate['evidence_ids'])):
                 raise HTTPException(503,detail={'code':'dream_evidence_contract_mismatch',
                                                 'message':'Reviewed cultural lookup unavailable'})
+            # Only echo exact portions of this caller's narrative that the
+            # reviewed scene matcher actually marked as input evidence.
+            # Reject malformed positions rather than claiming an unmatched scene.
+            matched_texts = []
+            for hit in candidate.get('input_matches', []):
+                for span in hit.get('input_spans', []):
+                    start, end, quote = span.get('start'), span.get('end'), span.get('text')
+                    if (type(start) is not int or type(end) is not int
+                            or not isinstance(quote, str) or not quote
+                            or start < 0 or end > len(request.dream_text.strip())
+                            or end <= start or request.dream_text.strip()[start:end] != quote):
+                        raise HTTPException(503,detail={'code':'dream_input_evidence_mismatch',
+                                                        'message':'Reviewed cultural lookup unavailable'})
+                    if quote not in matched_texts:
+                        matched_texts.append(quote)
+            if not matched_texts:
+                raise HTTPException(503,detail={'code':'dream_input_evidence_missing',
+                                                'message':'Reviewed cultural lookup unavailable'})
             matches.append(PublicDreamCultureMatch(
                 scene=candidate['scene'],
+                matched_texts=matched_texts,
                 cultural_reading=candidate['interpretation'],
                 short_quote=candidate['original_text_short_quote'],
                 source_title='《周公解梦》固定电子本',

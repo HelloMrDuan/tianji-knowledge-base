@@ -117,6 +117,11 @@ export function DreamCulturePage() {
           <article key={index} className="dream-culture-match">
             <span className="dream-culture-match-index">梦象 {String(index + 1).padStart(2, "0")}</span>
             <h3>{item.scene}</h3>
+            {item.matched_texts?.length > 0 && (
+              <p className="dream-culture-input-proof">
+                <strong>对应梦中原话：</strong>{item.matched_texts.join("；")}
+              </p>
+            )}
             <p>{item.cultural_reading}</p>
             <blockquote>“{item.short_quote}”</blockquote>
             <small>{item.source_title} · 审核证据等级 {item.evidence_level} · 传统文化用语</small>
