@@ -30,6 +30,27 @@ class DreamIndependentClauseTests(unittest.TestCase):
                                              span["text"])
                 self.assertFalse(out["ai_enabled"])
 
+    def test_explicit_another_dream_survives_contrast_with_denied_second_scene(self):
+        cases = (
+            ("我梦见被蛇咬了但是我又梦见我没有捡到钱",
+             ["dream.term.snake"]),
+            ("我梦见我捡到了钱可是我也梦见没有被蛇咬",
+             ["dream.term.money"]),
+            ("我梦见被蛇咬了但我梦见没有被蛇咬",
+             []),
+        )
+        for narrative, expected in cases:
+            with self.subTest(narrative=narrative):
+                out = retrieve(narrative)
+                self.assertEqual([m["term_id"] for m in out["matched_interpretations"]],
+                                 expected)
+                for item in out["matched_interpretations"]:
+                    for match in item["input_matches"]:
+                        for span in match["input_spans"]:
+                            self.assertEqual(narrative[span["start"]:span["end"]],
+                                             span["text"])
+                self.assertFalse(out["ai_enabled"])
+
     def test_retractions_are_not_separate_new_dreams(self):
         for narrative in (
             "我梦见被蛇咬了然后发现其实没有发生",
