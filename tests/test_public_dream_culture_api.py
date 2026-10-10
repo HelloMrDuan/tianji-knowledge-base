@@ -48,6 +48,19 @@ class PublicDreamCultureTests(unittest.TestCase):
                 self.assertEqual(data["matches"], [])
                 self.assertFalse(data["ai_enabled"])
 
+    def test_public_mixed_dream_only_displays_new_affirmed_reviewed_scene(self):
+        narrative = '我梦见没有被蛇咬但我梦见我捡到了钱'
+        response = self.client.post(PUBLIC, json={'dream_text': narrative})
+        self.assertEqual(response.status_code, 200, response.text)
+        payload = response.json()
+        self.assertEqual(payload['status'], 'reviewed_cultural_matches')
+        self.assertEqual(len(payload['matches']), 1)
+        self.assertIn('拾得钱物皆大吉', payload['matches'][0]['short_quote'])
+        self.assertNotIn('蛇咬人主得大财', response.text)
+        for forbidden in ('rule_id', 'term_id', 'canonical_path', 'input_spans', 'retrieval'):
+            self.assertNotIn(forbidden, response.text)
+        self.assertFalse(payload['ai_enabled'])
+
     def test_strict_request_contract_and_private_route_still_protected(self):
         for payload in ({}, {"dream_text": ""}, {"dream_text": "  "},
                         {"dream_text": 7}, {"dream_text": "梦"*501},
