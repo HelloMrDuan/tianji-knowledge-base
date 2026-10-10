@@ -27,7 +27,7 @@
 | 公开 `main` | `HelloMrDuan/tianji-knowledge-base@17e565b8c5acf2d257de33ad12a2019a049e824e`；code / frontend-build / gate-public-data 三项主分支 CI success | 全部业务已完成 |
 | 私有 `main` | `HelloMrDuan/tianji-private-knowledge@5f810546700e9e60a2661bcf024d96719686cf85` | 公开 Git 历史已保密 |
 | 最近真实联合验收 | 公开 #218、私有 #49：**524 项 Python 回归、235 个私有受保护文件校验、真实浏览器**均通过 | 所有 16 产品已有完整测试和可发布解释 |
-| 私有待收口 | [PR #50](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/50) 两条合并后组合回归仍处于本次核查的待验收状态，未按完成计 | #50 已合并 |
+| 私有待收口 | [PR #50](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/50) 两条合并后组合回归经再次核查均为 **success**，但 PR 仍为 **open**，尚未合并 | #50 已合并 |
 | 固定规则资产 | 现有静态报告列有 **66 条 Phase2 执行规则、145 个 Golden**；实际运行用例以每次 Actions 日志为准 | 所有产品要求覆盖 |
 | 知识覆盖产品 | **16** 项：4 PRODUCTIZABLE、10 PARTIAL、1 BLOCKED_ADVANCED、1 NOT_BUILT | 16 项全部落地 |
 | 生活前台 | `scenarioProducts.ts` **11** 个入口均能进入有限功能页面 | 11 个完整吉凶产品已实现 |
