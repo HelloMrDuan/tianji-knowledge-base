@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
@@ -25,12 +25,11 @@ function readProfile() {
 }
 
 function evidenceLabel(id: string, value: Record<string, any>) {
-  return {
-    id,
-    title: String(value.classic_title || value.title || value.source_title || "古籍依据"),
-    quote: String(value.original_text || value.quote || value.text || "该证据已由服务端绑定。"),
-    grade: String(value.evidence_level || value.grade || "—"),
-  };
+  const title = value.classic_title || value.title || value.source_title;
+  const quote = value.original_text;
+  if (typeof title !== "string" || !title.trim() ||
+      typeof quote !== "string" || !quote.trim()) return null;
+  return { id, title, quote, grade: typeof value.evidence_level === "string" ? value.evidence_level : "未标注" };
 }
 
 export function CompatibilityStructurePage() {
@@ -46,6 +45,17 @@ export function CompatibilityStructurePage() {
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const requestVersion = useRef(0);
+  const [resultNames, setResultNames] = useState({a: "我", b: "对方"});
+
+  useEffect(() => () => { requestVersion.current += 1; }, []);
+
+  function invalidateResult() {
+    requestVersion.current += 1;
+    setResult(null);
+    setError("");
+    setLoading(false);
+  }
 
   function fillSample() {
     setADate("2000-01-07");
@@ -54,12 +64,12 @@ export function CompatibilityStructurePage() {
     setBTime("12:00");
     setARole("male");
     setBRole("female");
-    setResult(null);
-    setError("");
+    invalidateResult();
   }
 
   async function submit(event: FormEvent) {
     event.preventDefault();
+    const version = ++requestVersion.current;
     setLoading(true);
     setError("");
     setResult(null);
@@ -76,16 +86,19 @@ export function CompatibilityStructurePage() {
       if (aRole) input.person_a_traditional_role = aRole;
       if (bRole) input.person_b_traditional_role = bRole;
       const next = await executeCompatibilityScenario(input);
+      if (version !== requestVersion.current) return;
       try {
         localStorage.setItem(profileKey, JSON.stringify({ date: aDate, time: aTime }));
       } catch {
         /* optional */
       }
+      setResultNames({a: aName.trim() || "我", b: bName.trim() || "对方"});
       setResult(next);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "合盘结构计算失败。");
+      if (version === requestVersion.current)
+        setError(err instanceof Error ? err.message : "合盘结构计算失败。");
     } finally {
-      setLoading(false);
+      if (version === requestVersion.current) setLoading(false);
     }
   }
 
@@ -103,24 +116,27 @@ export function CompatibilityStructurePage() {
   const matrix = Array.isArray(payload.relation_evidence_matrix) ? payload.relation_evidence_matrix : [];
   const evidence = result
     ? Object.entries(result.evidence).map(([id, value]) => evidenceLabel(id, value))
+        .filter((item): item is NonNullable<typeof item> => item !== null)
     : [];
 
+  const evidenceById = new Map(evidence.map((item) => [item.id, item]));
+
   const people = [
-    { id: "a", name: aName || "我", data: a },
-    { id: "b", name: bName || "对方", data: b },
+    { id: "a", name: resultNames.a, data: a },
+    { id: "b", name: resultNames.b, data: b },
   ];
 
   const crossRows = [
     {
       key: "a_targets_vs_b",
-      subject: aName || "我",
-      other: bName || "对方",
+      subject: resultNames.a,
+      other: resultNames.b,
       data: cross.a_targets_vs_b || {},
     },
     {
       key: "b_targets_vs_a",
-      subject: bName || "对方",
-      other: aName || "我",
+      subject: resultNames.b,
+      other: resultNames.a,
       data: cross.b_targets_vs_a || {},
     },
   ];
@@ -158,21 +174,21 @@ export function CompatibilityStructurePage() {
             <span className="eyebrow">{person.side} · {person.saved ? "已带入我的资料" : "出生资料"}</span>
             <label>
               <span>显示称呼</span>
-              <input value={person.name} onChange={(e) => person.setName(e.target.value)} maxLength={12} />
+              <input value={person.name} onChange={(e) => { invalidateResult(); person.setName(e.target.value); }} maxLength={12} />
             </label>
             <div>
               <label>
                 <span>出生日期</span>
-                <input type="date" value={person.date} onChange={(e) => person.setDate(e.target.value)} required />
+                <input type="date" value={person.date} onChange={(e) => { invalidateResult(); person.setDate(e.target.value); }} required />
               </label>
               <label>
                 <span>出生时间</span>
-                <input type="time" value={person.time} onChange={(e) => person.setTime(e.target.value)} required />
+                <input type="time" value={person.time} onChange={(e) => { invalidateResult(); person.setTime(e.target.value); }} required />
               </label>
             </div>
             <label>
               <span>传统配偶星观察口径（可选）</span>
-              <select value={person.role} onChange={(e) => person.setRole(e.target.value as "" | "male" | "female")}>
+              <select value={person.role} onChange={(e) => { invalidateResult(); person.setRole(e.target.value as "" | "male" | "female"); }}>
                 <option value="">不启用</option>
                 <option value="male">传统男命口径 · 看财星</option>
                 <option value="female">传统女命口径 · 看官杀</option>
@@ -206,7 +222,7 @@ export function CompatibilityStructurePage() {
           <header className="compat-result-head">
             <div>
               <span className="eyebrow">真实 Scenario Engine · two_person_structure_only</span>
-              <h2>{aName || "我"} × {bName || "对方"}</h2>
+              <h2>{resultNames.a} × {resultNames.b}</h2>
               <p>双向分别计算，不把任何一方的视角当成唯一结论。</p>
             </div>
             <span className="compat-limited">合盘结构</span>
@@ -262,13 +278,13 @@ export function CompatibilityStructurePage() {
             </div>
             <div className="compat-relations">
               <article>
-                <small>{aName || "我"} 看 {bName || "对方"}</small>
+                <small>{resultNames.a} 看 {resultNames.b}</small>
                 <strong>{relations.a_sees_b?.subject_day_master || "—"} → {relations.a_sees_b?.other_day_master || "—"}</strong>
                 <span>{relations.a_sees_b?.ten_god || "—"}</span>
               </article>
               <i>⇄</i>
               <article>
-                <small>{bName || "对方"} 看 {aName || "我"}</small>
+                <small>{resultNames.b} 看 {resultNames.a}</small>
                 <strong>{relations.b_sees_a?.subject_day_master || "—"} → {relations.b_sees_a?.other_day_master || "—"}</strong>
                 <span>{relations.b_sees_a?.ten_god || "—"}</span>
               </article>
@@ -405,6 +421,23 @@ export function CompatibilityStructurePage() {
                   </div>
                   <small>{(item.derived_from_rule_ids || []).join(" · ")}</small>
                   <p>Evidence {(item.evidence_ids || []).length} 条 · 解释权限：关闭</p>
+                  {(() => {
+                    const refs = Array.isArray(item.evidence_ids)
+                      ? item.evidence_ids.map((id: string) => evidenceById.get(id))
+                          .filter((ref: any) => ref !== undefined)
+                      : [];
+                    return refs.length ? (
+                      <details className="compat-matrix-citations">
+                        <summary>本条结构的古籍依据（{refs.length}）</summary>
+                        {refs.map((ref: any) => (
+                          <blockquote key={ref.id}>
+                            <strong>{ref.title} · {ref.grade}</strong>
+                            <p>{ref.quote}</p>
+                          </blockquote>
+                        ))}
+                      </details>
+                    ) : <small>没有对应的可核验短引，不生成解释。</small>;
+                  })()}
                 </article>
               ))}
             </div>
@@ -416,7 +449,7 @@ export function CompatibilityStructurePage() {
           <div className="compat-two-columns">
             <section className="compat-section">
               <div className="result-section-heading"><div><span>六</span><h2>典籍依据</h2></div></div>
-              {evidence.slice(0, 12).map((item) => (
+              {evidence.map((item) => (
                 <article className="live-evidence" key={item.id}>
                   <div><strong>{item.title}</strong><span>{item.grade}</span></div>
                   <blockquote>{item.quote}</blockquote>

@@ -48,3 +48,10 @@
 .compat-matrix-hit strong{font-size:11px;font-weight:500;color:#5b684f}
 .compat-matrix-hit em{grid-column:1/-1;font-style:normal;font-size:10px;color:#876f49}
 @media(max-width:850px){.compat-matrix-groups{grid-template-columns:1fr}}
+
+
+.compat-matrix-citations{margin-top:9px;border-top:1px solid #dfe4d8;padding-top:8px}
+.compat-matrix-citations summary{cursor:pointer;font-size:11px;color:#436a4c}
+.compat-matrix-citations blockquote{margin:8px 0 0;padding:9px 11px;border-left:2px solid #9fb495;background:#fffdf7}
+.compat-matrix-citations blockquote strong{font-size:11px;color:#526c56}
+.compat-matrix-citations blockquote p{font-size:12px;line-height:1.75;white-space:pre-wrap;overflow-wrap:anywhere}
