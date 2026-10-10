@@ -3,26 +3,13 @@ import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeCompatibilityScenario, type ScenarioExecuteResponse } from "./api";
+import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
 import "./compatibility-structure.css";
 
-const profileKey = "tianji.profile.birth.v1";
 const pillarNames: Record<string, string> = {
   year: "年柱", month: "月柱", day: "日柱", hour: "时柱",
 };
 
-function readProfile() {
-  try {
-    const raw = localStorage.getItem(profileKey);
-    if (!raw) return { date: "", time: "" };
-    const parsed = JSON.parse(raw);
-    return {
-      date: typeof parsed.date === "string" ? parsed.date : "",
-      time: typeof parsed.time === "string" ? parsed.time : "",
-    };
-  } catch {
-    return { date: "", time: "" };
-  }
-}
 
 function evidenceLabel(id: string, value: Record<string, any>) {
   const title = value.classic_title || value.title || value.source_title;
@@ -33,7 +20,7 @@ function evidenceLabel(id: string, value: Record<string, any>) {
 }
 
 export function CompatibilityStructurePage() {
-  const saved = useMemo(readProfile, []);
+  const saved = useMemo(readSavedBirthProfile, []);
   const [aName, setAName] = useState("我");
   const [bName, setBName] = useState("对方");
   const [aDate, setADate] = useState(saved.date);
@@ -87,11 +74,7 @@ export function CompatibilityStructurePage() {
       if (bRole) input.person_b_traditional_role = bRole;
       const next = await executeCompatibilityScenario(input);
       if (version !== requestVersion.current) return;
-      try {
-        localStorage.setItem(profileKey, JSON.stringify({ date: aDate, time: aTime }));
-      } catch {
-        /* optional */
-      }
+      saveBirthProfile({ date: aDate, time: aTime });
       setResultNames({a: aName.trim() || "我", b: bName.trim() || "对方"});
       setResult(next);
     } catch (err) {
