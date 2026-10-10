@@ -47,7 +47,7 @@ class PublicDreamCultureMatch(BaseModel):
 
 class PublicDreamInputTopic(BaseModel):
     model_config = ConfigDict(extra='forbid')
-    label: Literal['考试', '怀孕', '结婚', '工作']
+    label: Literal['考试', '怀孕', '结婚', '工作', '被追', '故人', '死亡']
     matched_texts: list[str]
 
 
@@ -285,7 +285,7 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None):
         input_topics = []
         for item in reviewed.get('unreviewed_input_topics', []):
             if (not isinstance(item, dict)
-                    or item.get('label') not in ('考试', '怀孕', '结婚', '工作')
+                    or item.get('label') not in ('考试', '怀孕', '结婚', '工作', '被追', '故人', '死亡')
                     or item.get('status') != 'input_observation_only'
                     or item.get('reviewed_interpretation_available') is not False
                     or item.get('evidence_ids') != []):
