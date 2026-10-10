@@ -21,7 +21,7 @@ _LATER_BITE = re.compile(r'(?:后来|然后|接着)(?:它)?咬了我(?:的(?:手
 # after unresolved/reported clauses: ordinary later corrections stay attached.
 _NEW_SELF_DREAM = re.compile(
     r'(?:但是|可是|不过|然而|但|却|然后|随后|接着|后来)'
-    r'(?=(?:我|自己)(?:又|也)?梦见|梦见(?:我|自己))')
+    r'(?=(?:我|自己)(?:又|也)?梦(?:见|到)|梦(?:见|到)(?:我|自己))')
 _TEMPORAL_NEW_DREAM = frozenset(('然后', '随后', '接着', '后来'))
 
 # Conservative first-person phrasing for the ten already-reviewed scenes.
@@ -96,7 +96,7 @@ def _narrative_clauses(text):
             # "but I dreamed" it does not merely retract the preceding event.
             follow = fragment[contrast.end():]
             independent = (contrast.group() in _TEMPORAL_NEW_DREAM
-                           or re.match(r'(?:我|自己)(?:又|也)梦见', follow) is not None)
+                           or re.match(r'(?:我|自己)(?:又|也)梦(?:见|到)', follow) is not None)
             if before and (independent
                            or _UNRESOLVED_NARRATION.search(before)
                            or _OTHER_SUBJECT.search(before)
@@ -107,7 +107,7 @@ def _narrative_clauses(text):
         for clause, offset in pieces:
             if _REPORTED_CONTEXT.search(clause):
                 reported = True
-            elif re.search(r'(?:我|自己)(?:又|也)?梦见|梦见(?:我|自己)', clause):
+            elif re.search(r'(?:我|自己)(?:又|也)?梦(?:见|到)|梦(?:见|到)(?:我|自己)', clause):
                 reported = False
             clauses.append({'text':clause, 'start':offset, 'end':offset+len(clause),
                             'reported_context':reported})
