@@ -17,6 +17,9 @@ test("real Bazi API establishes browser-local profile reused by yearly romance a
     ["/yearly-structure", "查看 2026 流年结构"],
     ["/romance-structure", "查看桃花结构"],
     ["/career-wealth-structure", "查看事业财运结构"],
+    ["/daily-structure", "查看今日结构"],
+    ["/weekly-structure", "查看本周结构"],
+    ["/monthly-structure", "查看本月结构"],
   ]) {
     await page.goto(route);
     await expect(page.getByLabel("出生日期")).toHaveValue("2000-01-07");
@@ -24,14 +27,24 @@ test("real Bazi API establishes browser-local profile reused by yearly romance a
     await expect(page.getByRole("button", { name: submitLabel })).toBeVisible();
   }
 
+  await page.goto("/compatibility-structure");
+  await expect(page.locator(".compat-person-input").first().locator('input[type="date"]')).toHaveValue("2000-01-07");
+  await expect(page.locator(".compat-person-input").first().locator('input[type="time"]')).toHaveValue("12:00");
+
   await page.goto("/bazi-profile");
   await expect(page.getByLabel("出生日期")).toHaveValue("2000-01-07");
   await page.getByRole("button", { name: "清除本机资料" }).click();
   await expect(page.getByLabel("出生日期")).toHaveValue("");
   await expect(page.getByLabel("出生时间")).toHaveValue("");
   expect(await page.evaluate((key) => localStorage.getItem(key), profileKey)).toBeNull();
-  await page.goto("/yearly-structure");
-  await expect(page.getByLabel("出生日期")).toHaveValue("");
+  for (const route of ["/yearly-structure", "/daily-structure", "/weekly-structure", "/monthly-structure"]) {
+    await page.goto(route);
+    await expect(page.getByLabel("出生日期")).toHaveValue("");
+    await expect(page.getByLabel("出生时间")).toHaveValue("");
+  }
+  await page.goto("/compatibility-structure");
+  await expect(page.locator(".compat-person-input").first().locator('input[type="date"]')).toHaveValue("");
+  await expect(page.locator(".compat-person-input").first().locator('input[type="time"]')).toHaveValue("");
 });
 
 test("stale or malformed local values do not prefill or trigger calculations", async ({ page }) => {
@@ -42,11 +55,15 @@ test("stale or malformed local values do not prefill or trigger calculations", a
   page.on("request", (request) => {
     if (new URL(request.url()).pathname.startsWith("/api/")) apiRequests.push(request.url());
   });
-  for (const route of ["/bazi-profile", "/yearly-structure", "/romance-structure", "/career-wealth-structure"]) {
+  for (const route of ["/bazi-profile", "/yearly-structure", "/romance-structure", "/career-wealth-structure",
+      "/daily-structure", "/weekly-structure", "/monthly-structure"]) {
     await page.goto(route);
     await expect(page.getByLabel("出生日期")).toHaveValue("");
     await expect(page.getByLabel("出生时间")).toHaveValue("");
   }
+  await page.goto("/compatibility-structure");
+  await expect(page.locator(".compat-person-input").first().locator('input[type="date"]')).toHaveValue("");
+  await expect(page.locator(".compat-person-input").first().locator('input[type="time"]')).toHaveValue("");
   expect(apiRequests).toEqual([]);
 });
 
