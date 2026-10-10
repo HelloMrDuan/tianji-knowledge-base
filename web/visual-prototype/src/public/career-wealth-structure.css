@@ -4,3 +4,13 @@
 .career-interpretation>strong{display:block;font-size:12px;font-weight:600;color:#3f604a}
 .career-interpretation>p{font-size:11px!important;line-height:1.8!important;color:#637366!important;margin:7px 0!important}
 .career-interpretation>small{display:block;font-size:10px;line-height:1.6;color:#899382}
+
+.career-annual-reading{margin:0 0 20px;padding:24px;border:1px solid #bec9b4;border-radius:7px;background:linear-gradient(130deg,#faf9ee,#eaf0e4)}
+.career-annual-reading h3{font:23px "Noto Serif CJK SC",serif;font-weight:500;color:#355943;margin:9px 0 14px}
+.career-annual-reading>p{font-size:13px;line-height:1.95;color:#445d49;margin:9px 0}
+.career-annual-reading .career-annual-boundary{font-size:12px;color:#777c70}
+.career-annual-reading details{margin-top:14px;border-top:1px solid #d2dbce;padding-top:12px}
+.career-annual-reading summary{cursor:pointer;color:#406747;font-size:12px}
+.career-annual-reading blockquote{margin:12px 0 0;padding:12px;border-left:2px solid #a9ba9c;background:#fffdf8;font-size:12px}
+.career-annual-reading blockquote strong{font-weight:500}
+.career-annual-reading blockquote p{margin:7px 0 0;line-height:1.8}

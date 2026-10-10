@@ -1093,6 +1093,51 @@ def _career(inputs):
             "personal_prediction": False,
         })
 
+    # Synthesize the selected year's reviewed Ten-God group with its actual
+    # natal positions; no standalone fortune claim or source-less inference.
+    if flow_group not in groups:
+        raise ValueError("Reviewed annual Ten-God classification is unavailable")
+    annual_group = groups[flow_group]
+    annual_card = next(card for card in interpretation_cards
+                       if card["group_id"] == flow_group)
+    natal_locations = copy.deepcopy(annual_group["occurrences"])
+    positions = [
+        f'{ {"year": "年柱", "month": "月柱", "day": "日柱", "hour": "时柱"}[item["pillar"]]}'
+        f'{"天干" if item["layer"] == "visible_stem" else "藏干"}'
+        f'（{item["stem"]}·{item["ten_god"]}）'
+        for item in natal_locations
+    ]
+    position_reading = (
+        "、".join(positions) + "。这些是原局位置，不表示该十神已经发挥作用。"
+        if positions else "原局已审核的天干和藏干位置未见同组十神；这不是现实能力或机会的缺失。"
+    )
+    annual_reading = {
+        "year": target_year,
+        "headline": f"{target_year}年{flow_ten_god} · {annual_group['label']}视角",
+        "group_id": flow_group,
+        "group_label": annual_group["label"],
+        "flow_ten_god": flow_ten_god,
+        "natal_presence": annual_card["natal_presence"],
+        "natal_locations": natal_locations,
+        "year_context": (
+            f"以日主{day_master}为参照，{target_year}年干{flow_stem}对应"
+            f"{flow_ten_god}，属于{annual_group['label']}（{annual_card['five_element_relation']}）结构。"
+        ),
+        "natal_context": (
+            f"回看原局：这组十神天干明见{annual_group['visible_count']}处、"
+            f"地支藏干{annual_group['hidden_count']}处。{position_reading}"
+        ),
+        "boundary": (
+            "流年十神与原局的对应仅是已审十神、藏干位置的联合观察；"
+            "尚未判定月令旺衰、喜用、格局、大运或流年实际效力，"
+            "不得用它预测升迁、收入或投资结果。"
+        ),
+        "evidence_ids": list(evidence_ids),
+        "source_rule_ids": ["bazi.phase2.ten_gods", "bazi.phase2.hidden_stems"],
+        "interpretation_level": "reviewed_structural_cross_context_only",
+        "personal_prediction": False,
+    }
+
     result = {
         "natal": {
             "pillars": copy.deepcopy(result_chart["pillars"]),
@@ -1100,6 +1145,7 @@ def _career(inputs):
         },
         "structure_groups": groups,
         "interpretation_cards": interpretation_cards,
+        "annual_reading": annual_reading,
         "target_year": {
             "year": target_year,
             "ganzhi": flow_ganzhi,
