@@ -16,6 +16,11 @@ _OTHER_ANIMAL = re.compile(r'狗|犬|猫|虎|狼|龙|鱼|鸟|熊|狮|狐狸|兔|
 _CHASE = re.compile(r'蛇[^，,。.!！？?；;\n]{0,12}(?:追我|追着我)')
 _LATER_BITE = re.compile(r'(?:后来|然后|接着)(?:它)?咬了我(?:的(?:手|脚))?(?:了)?$')
 
+# Split only when an explicitly fresh first-person dream follows a disclaimed
+# or reported clause. Never split an affirmed scene from a later retraction.
+_CONTRAST_NEW_SELF_DREAM = re.compile(
+    r'(?:但是|可是|不过|然而|但|却)(?=(?:我|自己)(?:又)?梦见|梦见(?:我|自己))')
+
 # Conservative first-person phrasing for the ten already-reviewed scenes.
 _SCENE_PARAPHRASES = {
  'dream.term.snake': (r'(?:一条|那条)?蛇(?:突然)?咬(?:了)?(?:我|我的(?:手|脚|腿|胳膊))',),
@@ -37,13 +42,26 @@ def _narrative_clauses(text):
     clauses = []
     reported = False
     for match in re.finditer(r'[^，,。.!！？?；;\n]+', text):
-        clause = match.group()
-        if _REPORTED_CONTEXT.search(clause):
-            reported = True
-        elif re.search(r'(?:我|自己)(?:又)?梦见', clause):
-            reported = False
-        clauses.append({'text':clause, 'start':match.start(), 'end':match.end(),
-                        'reported_context':reported})
+        fragment = match.group()
+        pieces = []
+        cursor = 0
+        for contrast in _CONTRAST_NEW_SELF_DREAM.finditer(fragment):
+            before = fragment[cursor:contrast.start()]
+            # Only separate a fresh self-dream from an unconfirmed earlier
+            # clause; this keeps later corrections of positive scenes scoped.
+            if before and (_UNRESOLVED_NARRATION.search(before)
+                           or _OTHER_SUBJECT.search(before)
+                           or _REPORTED_CONTEXT.search(before)):
+                pieces.append((before, match.start() + cursor))
+                cursor = contrast.end()
+        pieces.append((fragment[cursor:], match.start() + cursor))
+        for clause, offset in pieces:
+            if _REPORTED_CONTEXT.search(clause):
+                reported = True
+            elif re.search(r'(?:我|自己)(?:又)?梦见', clause):
+                reported = False
+            clauses.append({'text':clause, 'start':offset, 'end':offset+len(clause),
+                            'reported_context':reported})
     return clauses
 
 

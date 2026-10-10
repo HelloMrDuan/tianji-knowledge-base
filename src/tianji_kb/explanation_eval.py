@@ -33,13 +33,35 @@ def load_suite(path=SUITE_PATH):
             if match['expected']!=case['expected_chart_subset']:raise ValueError('Golden expectations differ')
     return suite
 
+def _frozen_oracle_result(domain, result):
+    """Preserve Phase 4's original calculation oracle after reviewed text addition.
+
+    PR #191 appended a classical-display object to Liuyao results. That object
+    is checked against the protected source independently; only this audited
+    presentation field is excluded from the historical *calculation* digest.
+    All original fields and their recorded expected digest remain frozen.
+    """
+    if domain != 'liuyao':
+        return result
+    from .operations.liuyao_chart import _classical_reading
+    try:
+        source = _classical_reading(result['original'], result['changed'],
+                                    result['changing_lines'])
+        if digest(result.get('zhouyi_classic')) != digest(source):
+            raise RuntimeError('Reviewed classical display has drifted')
+    except (KeyError, TypeError, ValueError) as error:
+        raise RuntimeError('Reviewed classical display missing or invalid') from error
+    return {key: value for key, value in result.items() if key != 'zhouyi_classic'}
+
+
 def execute_case(case):
     inputs=copy.deepcopy(case['input'])
     if 'research' in inputs:raise ValueError('Use eval mode, not input.research')
     if case['domain']=='fengshui' and case['mode']=='research' and inputs.get('year') is not None:inputs['research']=True
     raw=execute(case['domain'],inputs,case['variant'],allow_research=case['mode']=='research')
     if case['expected']=='explanation':
-        if digest(raw['result'])!=case['expected_chart_sha256'] or not contains(raw['result'],case.get('expected_chart_subset',{})):
+        if (digest(_frozen_oracle_result(case['domain'], raw['result']))!=case['expected_chart_sha256']
+                or not contains(raw['result'],case.get('expected_chart_subset',{}))):
             raise RuntimeError('Engine oracle drift; do not adjust engine to improve explanation score')
         if [r['rule_id'] for r in raw['rule_matches']]!=case['expected_rule_ids']:raise RuntimeError('Rule oracle drift')
     if case.get('context_fault')=='no_evidence':raw['evidence']={}

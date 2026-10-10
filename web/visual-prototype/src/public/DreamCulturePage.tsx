@@ -72,6 +72,12 @@ export function DreamCulturePage() {
             onChange={(event) => changeDream(event.target.value)}
             placeholder="例如：我梦见被蛇咬了。请尽量描述实际梦见的画面。"
           />
+          <div className="dream-culture-example">
+            <span>不知道怎么写？试试带有否定与新梦象的真实检索示例。</span>
+            <button type="button" onClick={() => changeDream("我梦见没有被蛇咬但我梦见我捡到了钱。")}>
+              填入多场景示例
+            </button>
+          </div>
           <div className="dream-culture-form-bottom">
             <span>{dream.length} / 500 字 · 内容仅用于本次查阅，不在本站保存</span>
             <button className="button primary" type="submit" disabled={loading}>

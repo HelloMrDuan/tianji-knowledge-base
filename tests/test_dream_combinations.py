@@ -123,6 +123,36 @@ class DreamCombinationTests(unittest.TestCase):
                 self.assertEqual(out['matched_interpretations'],[])
                 self.assertEqual(out['evidence'],{})
 
+    def test_negated_or_reported_clause_does_not_hide_a_new_self_dream(self):
+        cases = [
+            ('我梦见没有被蛇咬但我梦见我捡到了钱', 'dream.term.money', '拾得钱物皆大吉'),
+            ('梦见电影里有人被蛇咬但是我梦见我掉进井里', 'dream.term.falling', '身坠井中疾病凶'),
+            ('梦见朋友被蛇咬不过我梦见我捡到一张钞票', 'dream.term.money', '拾得钱物皆大吉'),
+        ]
+        for narrative, expected_id, quote in cases:
+            with self.subTest(narrative=narrative):
+                result = retrieve(narrative)
+                self.assertEqual([m['term_id'] for m in result['matched_interpretations']], [expected_id])
+                match = result['matched_interpretations'][0]
+                self.assertEqual(match['original_text_short_quote'], quote)
+                self.assertTrue(any(result['evidence'][eid]['original_text'] == quote
+                                    for eid in match['evidence_ids']))
+                for hit in match['input_matches']:
+                    for span in hit['input_spans']:
+                        self.assertEqual(narrative[span['start']:span['end']], span['text'])
+                self.assertFalse(result['ai_enabled'])
+
+    def test_later_retraction_cannot_be_split_into_a_false_positive(self):
+        for narrative in (
+            '我梦见被蛇咬但我梦见其实并没有发生',
+            '我梦见我捡到了钱但是我梦见这件事没发生',
+            '梦见电影里有人被蛇咬但我也没有梦见捡钱',
+        ):
+            with self.subTest(narrative=narrative):
+                result = retrieve(narrative)
+                self.assertEqual(result['matched_interpretations'], [])
+                self.assertEqual(result['evidence'], {})
+
     def test_multiple_affirmed_scenes_stay_distinct_and_input_spans_are_exact(self):
         text='我没有被蛇咬，但我梦见我掉进井里，我梦见我捡到了钱。'
         out=retrieve(text)

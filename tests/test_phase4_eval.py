@@ -24,6 +24,27 @@ class EvalTests(unittest.TestCase):
         self.assertIsNone(row['pass_rate']);self.assertIsNone(row['hallucination_count'])
         self.assertIsNone(row['citation_accuracy']);self.assertFalse(row['online_ready'])
         self.assertFalse(report['real_model_evaluation']);self.assertIn('N/A',markdown_report(report))
+    def test_liuyao_phase4_core_oracle_remains_frozen_and_new_quote_is_checked(self):
+        from tianji_kb.explanation_eval import _frozen_oracle_result
+        case = next(c for c in load_suite()['cases']
+                    if c['domain'] == 'liuyao' and c['expected'] == 'explanation')
+        raw = execute_case(case)
+        self.assertIn('zhouyi_classic', raw['result'])
+        self.assertEqual(digest(_frozen_oracle_result('liuyao', raw['result'])),
+                         case['expected_chart_sha256'])
+        # Tampering either the historical chart or the appended classic
+        # must still fail, rather than being silently projected away.
+        for mutation in (
+            lambda r: r['result']['palace'].update(palace='伪造宫'),
+            lambda r: r['result']['zhouyi_classic']['original'].update(judgment='伪造卦辞'),
+            lambda r: r['result'].pop('zhouyi_classic'),
+        ):
+            changed = copy.deepcopy(raw)
+            mutation(changed)
+            with patch('tianji_kb.explanation_eval.execute', return_value=changed):
+                with self.assertRaises(RuntimeError):
+                    execute_case(case)
+
     def test_oracle_drift_is_reported_without_mutating_engine(self):
         suite=copy.deepcopy(load_suite());case=next(c for c in suite['cases'] if c['expected']=='explanation')
         case['expected_chart_sha256']='changed';suite['cases']=[case]
