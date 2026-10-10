@@ -17,6 +17,7 @@ EXPECTED_CLAIMS = {
     "bazi.dayun.source.nominal-ten-year": (188, "珞琭子消息赋"),
     "bazi.dayun.source.three-day-year": (188, "珞琭子消息赋"),
     "bazi.dayun.source.no-universal-fortune": (10, "论大运"),
+    "bazi.dayun.source.traditional-role-categories": (188, "珞琭子消息赋"),
 }
 
 
@@ -90,6 +91,9 @@ def validate_source_collation(audit, raw_bytes, canonical_bytes):
                "excerpt not uniquely contained in canonical section")
         _check(isinstance(claim.get("scope"), str) and len(claim["scope"]) >= 12,
                "missing non-generalization guard")
+        if cid == "bazi.dayun.source.traditional-role-categories":
+            _check("不独立证明大运顺逆" in claim["scope"],
+                   "traditional category quote cannot authorize direction inference")
     _check(seen == set(EXPECTED_CLAIMS), "missing source claims")
     rel = audit.get("changes_to_release", {})
     _check(rel.get("phase1_rule_promotions") == 0 and
