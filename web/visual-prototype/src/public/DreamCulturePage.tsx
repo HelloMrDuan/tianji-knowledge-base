@@ -5,6 +5,22 @@ import { Link } from "../shared/router";
 import { lookupDreamCulture, type DreamCultureResponse } from "./api";
 import "./dream-culture.css";
 
+// Public examples contain only simple dream descriptions, not private source
+// records. The button must never return a canned interpretation: the normal
+// reviewed API lookup is required after the user chooses to submit.
+const REVIEWED_SCENE_EXAMPLES = [
+  { label: "蛇咬", glyph: "巳", hint: "被蛇咬住手", example: "我梦见一条蛇咬住我的手" },
+  { label: "入水", glyph: "水", hint: "身处水中自在", example: "我梦见我在水里感到很自在" },
+  { label: "火中", glyph: "火", hint: "自己站在火里", example: "我梦见我站在火里" },
+  { label: "飞天", glyph: "云", hint: "飞向天空", example: "我梦见我飞向天空" },
+  { label: "坠井", glyph: "井", hint: "掉进井里", example: "我梦见我掉进井里" },
+  { label: "乘龙", glyph: "龙", hint: "骑龙进入水中", example: "我梦见我骑着一条龙进入河里" },
+  { label: "游鱼", glyph: "鱼", hint: "群鱼游水", example: "我梦见一群鱼在水里游" },
+  { label: "新屋", glyph: "舍", hint: "自家房屋翻修", example: "我梦见我家的房子正在翻修" },
+  { label: "兄弟", glyph: "人", hint: "兄弟相打", example: "我梦见我的两个兄弟在打架" },
+  { label: "拾钱", glyph: "财", hint: "捡到钱币", example: "我梦见我捡到了钱" },
+] as const;
+
 export function DreamCulturePage() {
   const [dream, setDream] = useState("");
   const [result, setResult] = useState<DreamCultureResponse | null>(null);
@@ -55,6 +71,36 @@ export function DreamCulturePage() {
         <h1>昨夜一梦，古书如何记载？</h1>
         <p>写下你记得的梦境细节，我们仅检索已经人工审核的传统梦象条目。这里呈现的是古代文化中的象征说法，不是预测，也不是心理或医学诊断。</p>
         <span className="dream-culture-stamp" aria-hidden="true">梦</span>
+      </section>
+
+      <section className="dream-culture-library" aria-label="已审核梦象示例">
+        <div className="dream-culture-library-head">
+          <div>
+            <span className="eyebrow">十种有据可查的梦境表达</span>
+            <h2>循象入梦 · 从具体场景开始</h2>
+          </div>
+          <p>这些只是检索示例，不是梦境预言。选一项可填入描述，点击“查阅梦象”才会请求真实知识库。</p>
+        </div>
+        <div className="dream-culture-library-grid">
+          {REVIEWED_SCENE_EXAMPLES.map((item) => (
+            <button
+              key={item.label}
+              type="button"
+              className="dream-culture-library-item"
+              aria-label={`填入${item.label}梦境示例`}
+              aria-pressed={dream === item.example}
+              onClick={() => changeDream(item.example)}
+            >
+              <span className="dream-culture-library-glyph" aria-hidden="true">{item.glyph}</span>
+              <span className="dream-culture-library-copy">
+                <strong>{item.label}</strong>
+                <small>{item.hint}</small>
+              </span>
+              <span className="dream-culture-library-arrow" aria-hidden="true">↗</span>
+            </button>
+          ))}
+        </div>
+        <p className="dream-culture-library-foot">同一动物或物品的不同动作，未必对应相同古籍条目；只匹配审核过的具体场景。</p>
       </section>
 
       <section className="dream-culture-layout">
