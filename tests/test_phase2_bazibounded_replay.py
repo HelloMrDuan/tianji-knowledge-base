@@ -19,6 +19,7 @@ class BoundedReplayedFactorTests(unittest.TestCase):
         observed = {s["rule_id"]: s for s in steps}
         modify(observed)
         trace = SimpleNamespace(
+            domain=original["domain"], variant=original["variant"],
             steps=steps,
             evidence=copy.deepcopy(original["evidence"]),
             add=lambda *args, **kwargs: None,

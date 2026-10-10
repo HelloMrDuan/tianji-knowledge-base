@@ -1,5 +1,6 @@
 """Bounded evidence rules and legacy abstention; no source-case lookup predictions."""
 
+from .bazi_core import VARIANT as BAZI_VARIANT
 from .bazi_root_conditions import STRENGTH_VARIANT, AVAILABILITY_VARIANT, root_availability
 from .bazi_commander import PRINCIPAL_VARIANT, principal_month
 from .bazi_action_conditions import EFFECT_VARIANT
@@ -8,6 +9,14 @@ ADJUDICATION_VARIANT = 'bazi-strength-adjudication-v1'
 
 
 def _bounded_assessment(trace):
+    # Check trace identity and uniqueness before indexing executed evidence.
+    # A repeated rule ID would otherwise silently overwrite an earlier
+    # observation, even if both rows carried individually valid citations.
+    if getattr(trace, 'domain', None) != 'bazi' or getattr(trace, 'variant', None) != BAZI_VARIANT:
+        raise ValueError('Bounded strength requires the Bazi execution variant')
+    rule_ids = [step['rule_id'] for step in trace.steps]
+    if len(set(rule_ids)) != len(rule_ids):
+        raise ValueError('Duplicate rule ID in bounded strength trace')
     steps = {s['rule_id']: (i, s) for i, s in enumerate(trace.steps)}
     keys = ('principal_month', 'root_availability', 'action_effects')
     # A research verdict also requires its upstream observed facts. Evidence IDs

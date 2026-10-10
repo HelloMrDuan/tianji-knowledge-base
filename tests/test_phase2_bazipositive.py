@@ -110,6 +110,33 @@ class PositiveStrengthTests(unittest.TestCase):
         with self.assertRaises(ValueError):strength_assessment(t,strength_variant=ADJUDICATION_VARIANT)
         with self.assertRaises(ValueError):strength_assessment(ExecutionTrace('bazi','ziping-structural-v1'),strength_variant=ADJUDICATION_VARIANT)
 
+    def test_bounded_strength_rejects_duplicate_rules_and_foreign_trace_identity(self):
+        # All factor records and citations originate from a real executed chart.
+        source = self.chart('癸卯', '乙卯', '甲子', '乙亥')
+        self.assertEqual(source['result']['strength_assessment']['classification'], 'strong')
+        for domain, variant in [('other', 'ziping-structural-v1'),
+                                ('bazi', 'unknown-other-chart-variant')]:
+            with self.subTest(domain=domain, variant=variant):
+                trace = ExecutionTrace(domain, variant)
+                trace.steps = copy.deepcopy([s for s in source['trace']
+                                            if 'strength_' not in s['rule_id']])
+                trace.evidence = copy.deepcopy(source['evidence'])
+                with self.assertRaisesRegex(ValueError, 'Bazi execution variant'):
+                    strength_assessment(trace, strength_variant=ADJUDICATION_VARIANT)
+        for altered in (False, True):
+            with self.subTest(altered=altered):
+                trace = ExecutionTrace('bazi', 'ziping-structural-v1')
+                trace.steps = copy.deepcopy([s for s in source['trace']
+                                            if 'strength_' not in s['rule_id']])
+                trace.evidence = copy.deepcopy(source['evidence'])
+                duplicate = copy.deepcopy(next(s for s in trace.steps
+                          if s['rule_id'] == 'bazi.phase2.action_effects'))
+                if altered:
+                    duplicate['output']['pure_support_scope_conditions']['effective_day_roots'] = False
+                trace.steps.append(duplicate)
+                with self.assertRaisesRegex(ValueError, 'Duplicate rule ID'):
+                    strength_assessment(trace, strength_variant=ADJUDICATION_VARIANT)
+
     def test_cross_rule_factor_identity_is_required_even_with_valid_evidence_ids(self):
         # Use a genuinely executed positive chart, not mocked upstream facts.
         original=self.chart('癸卯','乙卯','甲子','乙亥')
