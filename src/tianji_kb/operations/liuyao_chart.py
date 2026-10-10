@@ -1,4 +1,8 @@
 """Jing Fang eight-palace chart; no auspiciousness or strength judgement."""
+import json
+from functools import lru_cache
+from pathlib import Path
+
 from ..foundations import hexagram, seed, branch_element, ganzhi_index, BRANCHES
 from ..resolver import ExecutionTrace
 from .liuyao import assign_najia, six_relative, six_spirits, shi_ying, xunkong
@@ -17,6 +21,67 @@ def palace_for(bits):
             if candidate==bits:
                 return {'palace':trigram['name'],'element':trigram['element'],'sequence':sequence,**shi_ying(sequence)}
     raise ValueError('Incomplete palace mapping')
+
+
+@lru_cache(maxsize=1)
+def _reviewed_zhouyi_core():
+    """Protected 64-hexagram classical text, never a generated fortune reading."""
+    path = Path(__file__).resolve().parents[3] / 'data/canonical/yijing/zhouyi_classic_core.json'
+    document = json.loads(path.read_text(encoding='utf-8'))
+    if (document.get('domain') != 'yijing' or document.get('corpus') != 'zhouyi_classic_core'
+            or document.get('source_level') != 'L0-public-domain-classic'
+            or document.get('record_count') != 64
+            or len(document.get('records', [])) != 64):
+        raise ValueError('Reviewed Zhouyi classic corpus is incomplete')
+    records = {}
+    for item in document['records']:
+        number = item.get('number')
+        if (type(number) is not int or not 1 <= number <= 64 or number in records
+                or not isinstance(item.get('full_name'), str) or not item['full_name'].strip()
+                or not isinstance(item.get('judgment'), str) or not item['judgment'].strip()
+                or not isinstance(item.get('image'), str) or not item['image'].strip()
+                or len(item.get('lines', [])) != 6
+                or any(not isinstance(line.get('position'), str)
+                       or not isinstance(line.get('text'), str)
+                       or not line['text'].strip() for line in item['lines'])):
+            raise ValueError('Reviewed Zhouyi classic excerpt structure is invalid')
+        records[number] = item
+    if len(records) != 64:
+        raise ValueError('A complete, unique sixty-four-hexagram corpus is required')
+    return records
+
+
+def _classical_reading(original, changed, changing_lines):
+    """Return exact historical excerpts linked to this calculated hexagram."""
+    corpus = _reviewed_zhouyi_core()
+    source = corpus[original['number']]
+    target = corpus[changed['number']]
+    # Arrays in the audited classic core run from initial line to top line.
+    if any(type(pos) is not int or pos not in range(1, 7) for pos in changing_lines):
+        raise ValueError('Invalid moving line for reviewed Zhouyi text')
+    return {
+        'title': '《周易》卦辞与爻辞',
+        'source_level': 'L0-public-domain-classic',
+        'original': {
+            'number': source['number'],
+            'name': source['full_name'],
+            'judgment': source['judgment'],
+            'image': source['image'],
+            'moving_line_texts': [
+                {'line': pos, 'position': source['lines'][pos - 1]['position'],
+                 'text': source['lines'][pos - 1]['text']}
+                for pos in changing_lines
+            ],
+        },
+        'changed': {
+            'number': target['number'],
+            'name': target['full_name'],
+            'judgment': target['judgment'],
+        },
+        'scope': 'verbatim_classical_excerpts_only',
+        'personal_prediction': False,
+        'limitations': '仅供查阅传世《周易》卦辞、象辞及本卦动爻原文；不代表已审核的事件断语。',
+    }
 
 
 def chart(yao_values,day_ganzhi,month_branch,variant=VARIANT):
@@ -44,5 +109,7 @@ def chart(yao_values,day_ganzhi,month_branch,variant=VARIANT):
             'relative':relative[i],'spirit':spirits[i],'empty':najia[i][1] in empty,'month_break':i+1 in broken,
             'changed_najia':changed_najia[i],
             'changed_relative_to_original_palace':six_relative(palace['element'],branch_element(changed_najia[i][1]))} for i,v in enumerate(yao_values)]
-    return trace.finish({**movement,'palace':palace,'changed_palace':changed_palace,'lines':lines,'empty_branches':empty},
+    classic = _classical_reading(movement['original'], movement['changed'], movement['changing_lines'])
+    return trace.finish({**movement,'palace':palace,'changed_palace':changed_palace,'lines':lines,
+                         'empty_branches':empty,'zhouyi_classic':classic},
         [{'rule_id':'liuyao.phase2.month_break','line':position,'matched':True} for position in broken])
