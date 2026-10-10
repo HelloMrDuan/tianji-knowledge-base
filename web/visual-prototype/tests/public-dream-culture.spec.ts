@@ -95,3 +95,38 @@ test("mixed dream reveals unreviewed exam without fabricating a classical source
   await expect(unresolved).toHaveCount(0);
   await expect(page.locator(".dream-culture-match")).toHaveCount(0);
 });
+
+test("pending chase, deceased and death dreams are labelled but never interpreted", async ({ page }) => {
+  const privateCalls: string[] = [];
+  page.on("request", (request) => {
+    const url = new URL(request.url()).pathname;
+    if (url.startsWith("/api/v1/admin/")) privateCalls.push(url);
+  });
+  await page.goto("/dream-culture");
+  const narration = page.getByLabel("梦境叙述");
+  const topics = page.getByLabel("未获审核的梦境主题");
+  for (const [dream, label] of [
+    ["梦见我被追赶", "被追"],
+    ["我梦见已故的亲人", "故人"],
+    ["我梦见自己死了", "死亡"],
+  ]) {
+    await narration.fill(dream);
+    await page.getByRole("button", { name: "查阅梦象" }).click();
+    await expect(page.locator(".dream-culture-match")).toHaveCount(0);
+    await expect(topics).toContainText(label);
+    await expect(topics).toContainText("尚无严格对应的已审核条目");
+    await expect(topics).not.toContainText("主有信");
+  }
+  await narration.fill("我梦见我捡到了钱，后来梦见自己死了");
+  await page.getByRole("button", { name: "查阅梦象" }).click();
+  await expect(page.locator(".dream-culture-match")).toHaveCount(1);
+  await expect(page.locator(".dream-culture-match")).toContainText("拾得钱物皆大吉");
+  await expect(topics).toContainText("死亡");
+  await expect(topics).not.toContainText("皆吉");
+
+  await narration.fill("听说别人梦见我被追赶");
+  await page.getByRole("button", { name: "查阅梦象" }).click();
+  await expect(topics).toHaveCount(0);
+  await expect(page.locator(".dream-culture-match")).toHaveCount(0);
+  expect(privateCalls).toEqual([]);
+});
