@@ -1689,7 +1689,7 @@ def _life(inputs):
     if type(target_year) is not int or not 1900 <= target_year <= 2100:
         raise ValueError("target_year must be an integer from 1900 through 2100")
 
-    profile = _bazi_profile({"value": birth_value})
+    profile = _bazi_profile({"value": birth_value, "strength_variant": "ditiansui-root-visibility-v1"})
     yearly = _yearly({"birth_value": birth_value, "target_year": target_year})
     romance = _romance({"birth_value": birth_value, "target_year": target_year})
     career = _career({"birth_value": birth_value, "target_year": target_year})
@@ -1708,6 +1708,109 @@ def _life(inputs):
     year_basis = romance_result["target_year_activation"]["year_branch_basis"]
     day_basis = romance_result["target_year_activation"]["day_branch_basis"]
     romance_activation_count = int(bool(year_basis["matched"])) + int(bool(day_basis["matched"]))
+
+    # Bring only production-reviewed factor observations into the life report.
+    # Research-only strength classifications and Dayun timelines stay excluded.
+    strength = profile["result"].get("strength_factors")
+    if (not isinstance(strength, dict)
+            or strength.get("factor_variant") != "ditiansui-root-visibility-v1"
+            or strength.get("overall_strength") is not None
+            or strength.get("full_strength_classifier_ready") is not False):
+        raise ValueError("Life report requires bounded, unclassified strength observations")
+    strength_rule_ids = (
+        "bazi.phase2.month_command_factors",
+        "bazi.phase2.root_candidates",
+        "bazi.phase2.hidden_to_visible",
+        "bazi.phase2.support_relations",
+    )
+    profile_rules = {row["rule_id"]: row for row in profile["rule_matches"]}
+    strength_evidence = list(dict.fromkeys(
+        eid for rid in strength_rule_ids
+        for eid in profile_rules[rid]["evidence_ids"]
+    )) if all(rid in profile_rules for rid in strength_rule_ids) else []
+    if (not strength_evidence or any(eid not in profile["evidence"] for eid in strength_evidence)
+            or any(profile_rules[rid].get("matched") is not True for rid in strength_rule_ids)):
+        raise ValueError("Reviewed strength factor RuleMatch and evidence required")
+
+    # Reject accidental disagreement across year-, romance- and career-specific
+    # calculators, rather than stitching conflicting year facts into prose.
+    if (target["ganzhi"] != romance_result["target_year"]["ganzhi"]
+            or target["ganzhi"] != career_result["target_year"]["ganzhi"]
+            or target["stem_ten_god"] != career_result["target_year"]["stem_ten_god"]):
+        raise ValueError("Scenario year facts disagree; combined reading withheld")
+    annual_career = career_result["annual_reading"]
+    if (annual_career["year"] != target_year or
+            annual_career["flow_ten_god"] != target["stem_ten_god"] or
+            not annual_career["evidence_ids"] or
+            any(eid not in career["evidence"] for eid in annual_career["evidence_ids"])):
+        raise ValueError("Annual career reading lacks matching reviewed evidence")
+    spouse = romance_result["spouse_palace_year_relations"]
+    spouse_hits = spouse["relations"]
+    spouse_evidence = list(dict.fromkeys(
+        eid for hit in spouse_hits for eid in hit["evidence_ids"]
+    ))
+    if any(eid not in romance["evidence"] for eid in spouse_evidence):
+        raise ValueError("Romance year relation lacks reviewed evidence")
+
+    roots = strength["root_candidates"]["positions"]
+    visible = strength["hidden_to_visible"]["positions"]
+    month = strength["month_command"]
+    root_description = (
+        "、".join(f"{ {'year':'年','month':'月','day':'日','hour':'时'}[p['pillar']]}支"
+                 f"{p['branch']}藏{p['hidden_stem']}" for p in roots)
+        if roots else "当前四柱已核藏干中没有同五行通根候选"
+    )
+    relation_names = {"six_harmony": "六合", "harm": "六害", "clash": "六冲"}
+    palace_description = (
+        "、".join(relation_names[hit["relation_type"]] for hit in spouse_hits)
+        if spouse_hits else "未命中已审核的六合、六害、六冲"
+    )
+    strength_context = {
+        "month_branch": month["month_branch"],
+        "month_hidden_stems": copy.deepcopy(month["hidden_stems"]),
+        "root_candidates": copy.deepcopy(roots),
+        "hidden_to_visible": copy.deepcopy(visible),
+        "root_present_structurally": strength["root_candidates"]["present_structurally"],
+        "reading": (
+            f"月支为{month['month_branch']}，藏干为{'、'.join(month['hidden_stems'])}；"
+            f"通根位置观察：{root_description}。"
+            f"另观察到{len(visible)}处藏干与年、月、时天干同字显现。"
+            "这些仅是已审核的位置事实，不等于得令、得势或根实际生效。"
+        ),
+        "classification": "unresolved",
+        "boundary": "现有证据不能通用判定身强身弱、喜用神、格局或实际作用效力。",
+        "evidence_ids": strength_evidence,
+        "source_rule_ids": list(strength_rule_ids),
+        "personal_prediction": False,
+    }
+    combined_evidence = list(dict.fromkeys(
+        [*strength_evidence, *annual_career["evidence_ids"], *spouse_evidence]
+    ))
+    integrated_reading = {
+        "target_year": target_year,
+        "headline": f"{target_year}年 · 命局与流年联合观察",
+        "foundation": strength_context["reading"],
+        "career": annual_career["year_context"] + annual_career["natal_context"],
+        "romance": (
+            f"日支{spouse['natal_day_branch']}与{target_year}年地支"
+            f"{spouse['target_year_branch']}核对后：{palace_description}；"
+            f"咸池年支与日支双基准中有{romance_activation_count}项结构命中。"
+            "这些不是正缘、婚期或感情走向判断。"
+        ),
+        "dayun": (
+            "大运方向、起运岁数、交运日期及岁运效力尚无完成审核的生产规则，"
+            "本总览不推算或伪造大运时间线。"
+        ),
+        "boundary": (
+            "月令与通根候选、流年十神、夫妻宫关系属于不同传统观察层次；"
+            "尚无证据将它们合成为事业、收入、婚恋吉凶或人生定论。"
+        ),
+        "evidence_ids": combined_evidence,
+        "personal_prediction": False,
+        "interpretation_level": "reviewed_cross_scenario_structure_only",
+        "dayun_timeline_approved": False,
+        "strength_classification_approved": False,
+    }
 
     highlights = [
         {
@@ -1773,7 +1876,9 @@ def _life(inputs):
             "profile": {
                 "pillars": copy.deepcopy(pillars),
                 "day_master": copy.deepcopy(day_master),
+                "strength_context": strength_context,
             },
+            "integrated_reading": integrated_reading,
             "yearly": copy.deepcopy(yearly["result"]),
             "romance": copy.deepcopy(romance["result"]),
             "career": copy.deepcopy(career["result"]),
@@ -1787,6 +1892,7 @@ def _life(inputs):
         ),
         "limitations": _dedupe_strings([
             "人生总览只聚合已经通过校验的结构事实，不新增任何吉凶、性格或人生事件推断。",
+            "八字旺衰、喜用、格局与大运真实起运仍未获得生产审核，报告不得给出这些结论。",
             *profile["limitations"],
             *yearly["limitations"],
             *romance["limitations"],
