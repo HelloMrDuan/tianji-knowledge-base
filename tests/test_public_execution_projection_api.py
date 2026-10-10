@@ -32,8 +32,34 @@ class ProjectionSmoke(unittest.TestCase):
         original=self.client.post('/api/v1/scenarios/execute',json=body)
         safe=self.client.post('/api/v1/scenarios/public',json=body)
         self.assertEqual(safe.status_code,200,safe.text)
-        self.assertEqual(original.json()['result'],safe.json()['result'])
-        self.assertEqual(safe.json()['result']['target_year']['ganzhi'],'丁未')
+        # Result facts are unchanged; internal Rule/Evidence IDs are deliberately
+        # replaced by response-local opaque IDs in the public projection.
+        detailed, public = original.json(), safe.json()
+        self.assertEqual(detailed['result']['natal'], public['result']['natal'])
+        self.assertEqual(detailed['result']['target_year'], public['result']['target_year'])
+        self.assertEqual(detailed['result']['release_scope'],
+                         public['result']['release_scope'])
+        before = detailed['result']['annual_branch_interactions']
+        after = public['result']['annual_branch_interactions']
+        for fact in ('flow_branch', 'natal_branches_checked', 'evaluated_pairs',
+                     'counts', 'interpretation_allowed', 'limitations'):
+            if fact in before:
+                self.assertEqual(before[fact], after[fact])
+        self.assertEqual(len(before['hits']), len(after['hits']))
+        for source, displayed in zip(before['hits'], after['hits']):
+            for key in ('flow_branch', 'natal_branch', 'natal_pillar',
+                        'relation_type', 'branches', 'traditional_result_element'):
+                if key in source:
+                    self.assertEqual(source[key], displayed[key])
+            self.assertTrue(displayed['rule_id'].startswith('R'))
+            self.assertTrue(all(eid.startswith('E') for eid in displayed['evidence_ids']))
+        serialized = json.dumps(public, ensure_ascii=False)
+        for private_ref in detailed['evidence']:
+            self.assertNotIn(private_ref, serialized)
+        for rule in detailed['rule_matches']:
+            self.assertNotIn(rule['rule_id'], serialized)
+        self.assertNotIn('bazi.phase2.', serialized)
+        self.assertEqual(public['result']['target_year']['ganzhi'], '丁未')
         self.assertEqual(safe.headers['cache-control'],'no-store')
         for row in safe.json()['evidence'].values():
             self.assertEqual(set(row),{'classic_title','original_text','evidence_level'})
