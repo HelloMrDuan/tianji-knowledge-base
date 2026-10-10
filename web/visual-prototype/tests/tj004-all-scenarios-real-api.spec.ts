@@ -37,7 +37,7 @@ async function provideRealInput(page: import("@playwright/test").Page, mode: typ
     await page.getByPlaceholder("例如：现在这个工作机会，我是否适合继续推进？")
       .fill("这件工作选择有什么可核验的结构参考？");
     await page.getByLabel("起卦日期").fill("2026-10-09");
-    await page.getByLabel("起卦时间").fill("17:30");
+    await page.getByLabel("起卦时间", { exact: true }).fill("17:30");
     await page.getByRole("button", { name: "一次投完六次" }).click();
     return;
   }
