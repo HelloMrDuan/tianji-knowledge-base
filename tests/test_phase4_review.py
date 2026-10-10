@@ -74,5 +74,20 @@ class ReviewTests(unittest.TestCase):
         # whose outputs the Phase 4 evaluation suite was frozen against.
         frozen={name:expected for name,expected in manifest['algorithm_files'].items() if name!='src/tianji_kb/engine.py'}
         self.assertTrue(any('/operations/' in name for name in frozen))
-        for name,expected in frozen.items():
-            self.assertEqual(hashlib.sha256((ROOT/name).read_bytes()).hexdigest(),expected,name)
+        # PR #191 added text-only reviewed Zhouyi excerpts to Liuyao without
+        # changing the original calculation fields. Keep the historical frozen
+        # hash in the manifest and pin the exact reviewed extension separately.
+        reviewed_classic_extension = {
+            'src/tianji_kb/operations/liuyao_chart.py': {
+                'historical': '39f8bbea8e81b2d7eed3a18edf093231c5b0003974ce6a8e7b5ebf9452094171',
+                'current': 'a92eaad3fb01e1e1c8338a6bc7e6e38198fe7cf001b8c8736ab63b60bd99adee',
+            },
+        }
+        for name, expected in frozen.items():
+            current = hashlib.sha256((ROOT/name).read_bytes()).hexdigest()
+            if name in reviewed_classic_extension:
+                reviewed = reviewed_classic_extension[name]
+                self.assertEqual(expected, reviewed['historical'], name)
+                self.assertEqual(current, reviewed['current'], name)
+            else:
+                self.assertEqual(current, expected, name)
