@@ -144,7 +144,7 @@ def _scene_matches(term_id, attrs, clauses):
             if alias in clause['text']:
                 if term_id == 'dream.term.snake' and alias.startswith('被'):
                     prefix = clause['text'].split(alias,1)[0].strip()
-                    if not re.fullmatch(r'(?:(?:昨天|昨天晚上|昨晚|前晚|夜里|梦里)?(?:我)?梦(?:见|到))?(?:我|自己)?',prefix):
+                    if not re.fullmatch(r'(?:(?:(?:我)?(?:昨天晚上|昨天|昨晚|前晚|夜里)(?:我)?|我)?梦(?:见|到))?(?:我|自己)?',prefix):
                         continue
                 matches.append({'method':'literal_reviewed_scene_alias', 'alias':alias,
                                 'input_spans':[_span(clause,alias)]})
