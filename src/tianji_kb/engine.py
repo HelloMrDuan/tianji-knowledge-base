@@ -5,6 +5,7 @@ from .calendar import calendar
 from .foundations import CYCLE
 from .bazi_adjudication import ADJUDICATION_VARIANT
 from .bazi_dayun_jie import adjacent_jie_distance
+from .bazi_dayun_age_fraction import VARIANT as DAYUN_RATIO_VARIANT, exact_three_day_ratio
 from .bazi_dayun_direction import VARIANT as DAYUN_DIRECTION_VARIANT, traditional_direction
 from .bazi_dayun_simulation import VARIANT as DAYUN_SIM_VARIANT, simulate_dayun_age_and_timeline
 
@@ -62,6 +63,13 @@ def execute(domain,inputs,variant=None,*,allow_research=False):
             raise ValueError('dayun_jie_distance must be true when supplied')
         if 'value' not in inputs or (inputs.get('dayun_sequence_direction') is None and 'dayun_direction_policy' not in inputs):
             raise ValueError('Dayun Jie distance requires actual birth value and explicit direction')
+    if domain == 'bazi' and 'dayun_age_fraction' in inputs:
+        if not allow_research:
+            raise ValueError('Dayun exact ratio requires explicit research mode')
+        if type(inputs['dayun_age_fraction']) is not str or inputs['dayun_age_fraction'] != DAYUN_RATIO_VARIANT:
+            raise ValueError('Unsupported Dayun exact ratio variant')
+        if inputs.get('dayun_jie_distance') is not True or 'value' not in inputs or (inputs.get('dayun_sequence_direction') is None and 'dayun_direction_policy' not in inputs):
+            raise ValueError('Dayun exact ratio requires birth, direction and measured Jie distance')
     if domain == 'bazi' and 'dayun_age_simulation' in inputs:
         if not allow_research:
             raise ValueError('Dayun age simulation requires explicit research mode')
@@ -80,6 +88,7 @@ def execute(domain,inputs,variant=None,*,allow_research=False):
     prepared,cal=prepare_inputs(domain,inputs)
     prepared.pop('dayun_jie_distance', None)
     prepared.pop('dayun_age_simulation', None)
+    prepared.pop('dayun_age_fraction', None)
     direction_policy = prepared.pop('dayun_direction_policy', None)
     direction_candidate = None
     if domain == 'bazi' and direction_policy == DAYUN_DIRECTION_VARIANT:
@@ -106,6 +115,8 @@ def execute(domain,inputs,variant=None,*,allow_research=False):
         research['jie_distance'] = adjacent_jie_distance(
             birth_for_jie, research['direction'],
             expected_month_ganzhi=prepared['month_ganzhi'])
+        if inputs.get('dayun_age_fraction') == DAYUN_RATIO_VARIANT:
+            research['age_fraction_research'] = exact_three_day_ratio(research['jie_distance'])
         if inputs.get('dayun_age_simulation') == DAYUN_SIM_VARIANT:
             research['age_simulation'] = simulate_dayun_age_and_timeline(
                 research['jie_distance']['birth_local_datetime'],
