@@ -72,7 +72,8 @@ def _affirmed(clauses, index):
     if _OTHER_SUBJECT.search(clause['text']):
         return False
     if index + 1 < len(clauses) and re.match(
-            r'\s*(?:但|但是|可是|其实|不过)?(?:并)?(?:没发生|没有发生|未发生|只是想象)',
+            r'\s*(?:但|但是|可是|其实|不过|后来|结果|醒来才发现)?(?:并)?'
+            r'(?:没发生|没有发生|未发生|并未发生|只是想象|只是幻想|并不是真的)',
             clauses[index+1]['text']):
         return False
     return True
