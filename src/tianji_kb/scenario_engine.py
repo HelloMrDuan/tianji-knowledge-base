@@ -1754,6 +1754,57 @@ def _life(inputs):
     if any(eid not in romance["evidence"] for eid in spouse_evidence):
         raise ValueError("Romance year relation lacks reviewed evidence")
 
+    # The yearly and romance views calculate the same day-branch pair
+    # independently. Fail closed if one view changes its facts or citations.
+    annual_pairs = yearly["result"]["annual_branch_interactions"]
+    day_branch = next(p["branch"]["value"] for p in pillars if p["name"] == "day")
+    if (annual_pairs["flow_branch"] != target["branch"]
+            or spouse["target_year_branch"] != target["branch"]
+            or spouse["natal_day_branch"] != day_branch):
+        raise ValueError("Cross-scenario annual and spouse-palace branches disagree")
+    annual_day_hits = [
+        hit for hit in annual_pairs["hits"] if hit["natal_pillar"] == "day"
+    ]
+    if annual_day_hits != spouse_hits:
+        raise ValueError("Cross-scenario day-branch relation facts disagree")
+    shared_pair_evidence = list(dict.fromkeys(
+        eid for hit in annual_day_hits for eid in hit["evidence_ids"]
+    ))
+    if any(eid not in yearly["evidence"] or eid not in romance["evidence"]
+           for eid in shared_pair_evidence):
+        raise ValueError("Cross-scenario day-branch pair evidence disagrees")
+    if not annual_pairs["evidence_ids"] or not spouse["evidence_ids"]:
+        raise ValueError("Cross-scenario reviewed rule evidence is missing")
+    audit_evidence = list(dict.fromkeys(
+        [*annual_pairs["evidence_ids"], *spouse["evidence_ids"]]
+    ))
+    if any(eid not in yearly["evidence"] and eid not in romance["evidence"]
+           for eid in audit_evidence):
+        raise ValueError("Cross-scenario review evidence is missing")
+    relation_labels = {"six_harmony": "六合", "harm": "六害", "clash": "六冲"}
+    cross_rule_audit = {
+        "target_year": target_year,
+        "flow_branch": target["branch"],
+        "natal_day_branch": day_branch,
+        "shared_relation_types": [hit["relation_type"] for hit in annual_day_hits],
+        "shared_pair_count": len(annual_day_hits),
+        "yearly_and_romance_agree": True,
+        "independent_confirmations": False,
+        "evidence_ids": audit_evidence,
+        "source_rule_ids": list(dict.fromkeys(
+            [*annual_pairs["rule_ids"], *spouse["reviewed_rule_ids"]]
+        )),
+        "reading": (
+            f"{target_year}年地支{target['branch']}与原局日支{day_branch}的"
+            + ("、".join(relation_labels[hit["relation_type"]] for hit in annual_day_hits)
+               if annual_day_hits else "六合、六害、六冲零命中")
+            + "，在流年和桃花夫妻宫两个入口的结构事实一致；"
+            "它们复用同一套已审核规则，并非两份独立证据。"
+            "不能由此推断婚期、事业、财运或实际应事。"
+        ),
+        "interpretation_allowed": False,
+    }
+
     roots = strength["root_candidates"]["positions"]
     visible = strength["hidden_to_visible"]["positions"]
     month = strength["month_command"]
@@ -1786,7 +1837,8 @@ def _life(inputs):
         "personal_prediction": False,
     }
     combined_evidence = list(dict.fromkeys(
-        [*strength_evidence, *annual_career["evidence_ids"], *spouse_evidence]
+        [*strength_evidence, *annual_career["evidence_ids"], *spouse_evidence,
+         *audit_evidence]
     ))
     integrated_reading = {
         "target_year": target_year,
@@ -1799,6 +1851,7 @@ def _life(inputs):
             f"咸池年支与日支双基准中有{romance_activation_count}项结构命中。"
             "这些不是正缘、婚期或感情走向判断。"
         ),
+        "cross_rule": cross_rule_audit["reading"],
         "dayun": (
             "大运方向、起运岁数、交运日期及岁运效力尚无完成审核的生产规则，"
             "本总览不推算或伪造大运时间线。"
@@ -1881,6 +1934,7 @@ def _life(inputs):
                 "strength_context": strength_context,
             },
             "integrated_reading": integrated_reading,
+            "cross_rule_audit": cross_rule_audit,
             "yearly": copy.deepcopy(yearly["result"]),
             "romance": copy.deepcopy(romance["result"]),
             "career": copy.deepcopy(career["result"]),
