@@ -47,6 +47,7 @@ export async function executeLiuyao(input: {
 
 export async function executeBazi(input: {
   value: string;
+  strength_variant?: "ditiansui-root-visibility-v1";
 }): Promise<ExecuteResponse> {
   const response = await fetch(`${apiBase}/api/v1/public/execute`, {
     method: "POST",

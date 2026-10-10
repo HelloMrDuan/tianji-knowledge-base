@@ -35,3 +35,17 @@
 .life-other-career-readings article>strong{font-size:12px;color:#456c51}
 .life-other-career-readings article>p{font-size:11px;line-height:1.75;color:#647968}
 @media(max-width:640px){.life-other-career-readings>div{grid-template-columns:1fr}.life-career-reading{padding:14px}}
+
+.life-integrated-report{margin:0 0 20px;padding:24px;border:1px solid #b7c7b0;border-radius:8px;background:linear-gradient(135deg,#faf9ed,#eaf0e5)}
+.life-integrated-report h2{font:24px "Noto Serif CJK SC",serif;color:#365b43;margin:9px 0 17px}
+.life-integrated-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.life-integrated-grid article{border:1px solid #d5dfcf;border-radius:6px;background:#fffdf8;padding:17px}
+.life-integrated-grid h3{font:17px "Noto Serif CJK SC",serif;color:#365b43;margin:0 0 9px}
+.life-integrated-grid p,.life-integrated-report aside p{font-size:12px;line-height:1.9;color:#536757;margin:7px 0}
+.life-integrated-grid small{font-size:11px;line-height:1.8;color:#887e68}
+.life-integrated-report details{border-top:1px solid #d2dbc9;padding-top:12px;margin-top:16px}
+.life-integrated-report summary{font-size:12px;cursor:pointer;color:#466951}
+.life-integrated-report blockquote{padding:10px;background:#fffdf8;border-left:2px solid #a1b496;margin:9px 0}
+.life-integrated-report aside{border-top:1px solid #d2dbc9;margin-top:14px;padding-top:13px;color:#7d806f}
+.life-integrated-report aside strong{font-size:13px;color:#50664d}
+@media(max-width:900px){.life-integrated-grid{grid-template-columns:1fr}}
