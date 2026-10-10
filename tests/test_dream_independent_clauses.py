@@ -71,6 +71,34 @@ class DreamIndependentClauseTests(unittest.TestCase):
                                              span["text"])
                 self.assertFalse(output["ai_enabled"])
 
+    def test_explicit_mengdao_transition_is_independent_with_exact_span(self):
+        cases = (
+            ("听说别人被蛇咬随后我梦到我飞向天空", ["dream.term.flying"]),
+            ("我梦到我没有被蛇咬后来我梦到我捡到了钱", ["dream.term.money"]),
+            ("我梦见被蛇咬了但是我又梦到我没有捡到钱", ["dream.term.snake"]),
+            ("我梦到我捡到了钱但我梦到没有捡到钱", []),
+        )
+        for narrative, expected in cases:
+            with self.subTest(narrative=narrative):
+                output = retrieve(narrative)
+                self.assertEqual([m["term_id"] for m in output["matched_interpretations"]], expected)
+                for item in output["matched_interpretations"]:
+                    self.assertTrue(item["evidence_ids"])
+                    for eid in item["evidence_ids"]:
+                        self.assertIn(eid, output["evidence"])
+                    for match in item["input_matches"]:
+                        for span in match["input_spans"]:
+                            self.assertEqual(narrative[span["start"]:span["end"]], span["text"])
+                self.assertFalse(output["ai_enabled"])
+
+    def test_mengdao_unreviewed_topic_after_reported_clause_has_no_interpretation(self):
+        output = retrieve("听说别人被蛇咬随后我梦到我参加考试")
+        self.assertEqual(output["matched_interpretations"], [])
+        self.assertEqual(output["evidence"], {})
+        self.assertEqual([t["label"] for t in output["unreviewed_input_topics"]], ["考试"])
+        self.assertEqual(output["unreviewed_input_topics"][0]["evidence_ids"], [])
+        self.assertFalse(output["ai_enabled"])
+
     def test_retractions_are_not_separate_new_dreams(self):
         for narrative in (
             "我梦见被蛇咬了然后发现其实没有发生",
