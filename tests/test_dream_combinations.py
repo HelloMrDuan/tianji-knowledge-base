@@ -153,6 +153,26 @@ class DreamCombinationTests(unittest.TestCase):
                 self.assertEqual(result['matched_interpretations'], [])
                 self.assertEqual(result['evidence'], {})
 
+    def test_later_explicit_retraction_abstains_without_inventing_meaning(self):
+        for narrative in (
+            '我梦见我捡到了钱，后来没有发生',
+            '梦见被蛇咬，结果没发生',
+            '我梦见我掉进井里，醒来才发现只是想象',
+        ):
+            with self.subTest(narrative=narrative):
+                result = retrieve(narrative)
+                self.assertEqual(result['matched_interpretations'], [])
+                self.assertEqual(result['evidence'], {})
+                self.assertFalse(result['ai_enabled'])
+
+    def test_unrelated_later_dream_remains_a_separate_reviewed_scene(self):
+        narrative = '我梦见我捡到了钱，后来没有发生。我梦见我掉进井里。'
+        result = retrieve(narrative)
+        self.assertEqual([m['term_id'] for m in result['matched_interpretations']],
+                         ['dream.term.falling'])
+        self.assertEqual(result['matched_interpretations'][0]['original_text_short_quote'],
+                         '身坠井中疾病凶')
+
     def test_multiple_affirmed_scenes_stay_distinct_and_input_spans_are_exact(self):
         text='我没有被蛇咬，但我梦见我掉进井里，我梦见我捡到了钱。'
         out=retrieve(text)
