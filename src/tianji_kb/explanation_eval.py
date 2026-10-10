@@ -60,7 +60,8 @@ def execute_case(case):
     if case['domain']=='fengshui' and case['mode']=='research' and inputs.get('year') is not None:inputs['research']=True
     raw=execute(case['domain'],inputs,case['variant'],allow_research=case['mode']=='research')
     if case['expected']=='explanation':
-        if digest(raw['result'])!=case['expected_chart_sha256'] or not contains(raw['result'],case.get('expected_chart_subset',{})):
+        if (digest(_frozen_oracle_result(case['domain'], raw['result']))!=case['expected_chart_sha256']
+                or not contains(raw['result'],case.get('expected_chart_subset',{}))):
             raise RuntimeError('Engine oracle drift; do not adjust engine to improve explanation score')
         if [r['rule_id'] for r in raw['rule_matches']]!=case['expected_rule_ids']:raise RuntimeError('Rule oracle drift')
     if case.get('context_fault')=='no_evidence':raw['evidence']={}
