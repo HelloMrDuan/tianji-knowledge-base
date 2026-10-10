@@ -296,7 +296,7 @@ export type DreamCultureMatch = {
 };
 
 export type DreamUnreviewedTopic = {
-  label: "考试" | "怀孕" | "结婚" | "工作";
+  label: "考试" | "怀孕" | "结婚" | "工作" | "被追" | "故人" | "死亡";
   matched_texts: string[];
 };
 
@@ -334,7 +334,7 @@ export async function lookupDreamCulture(dreamText: string): Promise<DreamCultur
       !data.unreviewed_topics.every((item: unknown) => {
         if (!item || typeof item !== "object") return false;
         const topic = item as DreamUnreviewedTopic;
-        return ["考试", "怀孕", "结婚", "工作"].includes(topic.label) &&
+        return ["考试", "怀孕", "结婚", "工作", "被追", "故人", "死亡"].includes(topic.label) &&
           Array.isArray(topic.matched_texts) &&
           topic.matched_texts.length > 0 &&
           topic.matched_texts.every((s) => typeof s === "string" && s.length > 0);
