@@ -1877,9 +1877,14 @@ def _life(inputs):
         "all_target_years_identical": True,
         "evidence_identity_conflicts": 0,
         "evidence_ids": list(combined_evidence),
-        "evidence_scenarios": {
-            eid: list(evidence_sections[eid]) for eid in combined_evidence
-        },
+        # Use an array of named scenario contributions, never evidence IDs
+        # as JSON object keys: public_projection only remaps evidence_ids arrays.
+        "evidence_contributions": [
+            {"scenario": section_id,
+             "evidence_ids": [eid for eid in combined_evidence
+                              if section_id in evidence_sections[eid]]}
+            for section_id in sections
+        ],
         "independent_evidence_claim": False,
         "strength_classification_approved": False,
         "dayun_timeline_approved": False,
