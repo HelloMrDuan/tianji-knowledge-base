@@ -19,7 +19,7 @@ class FixedDayunSourceCollationTests(unittest.TestCase):
 
     def test_real_fixed_source_and_canonical_unique_excerpt_alignment(self):
         outcome = verify_fixed_source_collation()
-        self.assertEqual(outcome["verified_claim_count"], 4)
+        self.assertEqual(outcome["verified_claim_count"], 5)
         self.assertEqual(outcome["review_status"],
                          "snapshot_collated_not_classical_method_adjudicated")
         self.assertEqual(outcome["source_sha256"], hashlib.sha256(self.raw).hexdigest())
@@ -95,6 +95,20 @@ class FixedDayunSourceCollationTests(unittest.TestCase):
             with self.subTest(field=field), self.assertRaises(ValueError):
                 validate_source_collation(bad, self.raw, self.canonical)
 
+    def test_traditional_role_phrase_is_grounded_but_cannot_authorize_direction(self):
+        item = next(claim for claim in self.audit["claims"]
+                    if claim["claim_id"] == "bazi.dayun.source.traditional-role-categories")
+        self.assertEqual(item["canonical_section_id"], 188)
+        self.assertIn("阴男阳女", item["exact_excerpt"])
+        self.assertIn("阴女阳男", item["exact_excerpt"])
+        self.assertIn("不独立证明大运顺逆", item["scope"])
+        changed = copy.deepcopy(self.audit)
+        target = next(x for x in changed["claims"]
+                      if x["claim_id"] == "bazi.dayun.source.traditional-role-categories")
+        target["scope"] = "这足以证明四种方向已经可以自动推断，不需要补充审校。"
+        with self.assertRaisesRegex(ValueError, "direction inference"):
+            validate_source_collation(changed, self.raw, self.canonical)
+
     def test_current_source_only_supports_bounded_method_facts(self):
         audit = self.audit
         self.assertEqual(audit["record_kind"], "source_fragment_alignment_not_executable_rule")
@@ -105,6 +119,7 @@ class FixedDayunSourceCollationTests(unittest.TestCase):
             "bazi.dayun.source.nominal-ten-year",
             "bazi.dayun.source.three-day-year",
             "bazi.dayun.source.no-universal-fortune",
+            "bazi.dayun.source.traditional-role-categories",
         })
         self.assertIn("珞琭子", audit["inherited_source_distinction"])
         self.assertEqual(audit["changes_to_release"]["phase2_rule_promotions"], 0)
