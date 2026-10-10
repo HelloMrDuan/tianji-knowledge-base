@@ -12,3 +12,26 @@
 .life-annual-hit blockquote{border-left:2px solid #a3b696;margin:8px 0 0;padding:5px 9px;background:#fffefa}
 .life-annual-hit blockquote small{font-size:10px;color:#60775f}
 .life-annual-hit blockquote p{font-size:11px;line-height:1.75;white-space:pre-wrap;overflow-wrap:anywhere;color:#415944}
+
+
+.life-spouse-report{margin-top:16px;padding:14px;border-radius:7px;border:1px solid #d7e1d2;background:#f9faf5}
+.life-spouse-report h3,.life-career-reading h3{font-size:16px;font-weight:500;color:#395b43;margin:2px 0 10px}
+.life-spouse-report>p,.life-career-reading>p{font-size:12px;line-height:1.8;color:#526a57}
+.life-spouse-report>small,.life-career-reading>small{display:block;font-size:10px;line-height:1.7;color:#758475;margin-top:10px}
+.life-spouse-relation{margin-top:10px;padding:12px;border:1px solid #d6ded0;border-radius:6px;background:#fffdf8}
+.life-spouse-relation>strong{font-size:14px;color:#557451;margin-right:10px}
+.life-spouse-relation>span{font-size:13px;color:#607461}
+.life-spouse-relation>small{display:block;font-size:11px;color:#997759}
+.life-spouse-relation details,.life-career-reading details,.life-other-career-readings details{margin-top:9px;border-top:1px solid #e1e5d9;padding-top:9px}
+.life-spouse-relation summary,.life-career-reading summary,.life-other-career-readings summary{font-size:11px;color:#456b4c;cursor:pointer}
+.life-spouse-report blockquote,.life-career-reading blockquote,.life-other-career-readings blockquote{margin:8px 0 0;border-left:2px solid #a1b597;padding:9px 12px;background:#fffdfa}
+.life-spouse-report blockquote small,.life-career-reading blockquote small,.life-other-career-readings blockquote small{font-size:10px;color:#748977}
+.life-spouse-report blockquote p,.life-career-reading blockquote p,.life-other-career-readings blockquote p{font-size:11px;color:#4c664f;line-height:1.7;white-space:pre-wrap;overflow-wrap:anywhere}
+.life-career-reading{margin-top:17px;padding:19px;border-radius:7px;border:1px solid #cbdac7;background:linear-gradient(135deg,#f3f7ed,#fffbf2)}
+.life-career-reading .eyebrow{display:block;color:#997d4b;font-size:10px;letter-spacing:1px;margin-bottom:7px}
+.life-other-career-readings{margin-top:12px;padding:13px;border:1px solid #dce3d7;border-radius:6px}
+.life-other-career-readings>div{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin-top:14px}
+.life-other-career-readings article{padding:12px;border-radius:5px;border:1px solid #e2e4d9;background:#fafaf6}
+.life-other-career-readings article>strong{font-size:12px;color:#456c51}
+.life-other-career-readings article>p{font-size:11px;line-height:1.75;color:#647968}
+@media(max-width:640px){.life-other-career-readings>div{grid-template-columns:1fr}.life-career-reading{padding:14px}}

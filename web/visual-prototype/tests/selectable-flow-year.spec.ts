@@ -62,3 +62,41 @@ test("life overview shows evidence-backed annual branch interactions from actual
   await expect(evidence.first().locator("blockquote")).toContainText(" · C");
   await expect(page.locator(".life-annual-relations")).toContainText("不推断应事");
 });
+
+
+test("life report uses real career structural readings and day-branch relationship, with source excerpts", async ({ page }) => {
+  const scenarios: Array<{ scenario: string; year: number }> = [];
+  page.on("request", (request) => {
+    if (new URL(request.url()).pathname === "/api/v1/scenarios/public" && request.method() === "POST") {
+      const body = request.postDataJSON();
+      scenarios.push({ scenario: body.scenario_id, year: body.input.target_year });
+    }
+  });
+  await page.goto("/life-overview");
+  await page.getByRole("button", { name: "填入示例" }).click();
+  await page.getByLabel("观察年份").fill("2026");
+  await page.getByRole("button", { name: /生成人生总览|生成我的人生总览/ }).click();
+  await expect(page.locator(".life-result")).toBeVisible();
+  const marriage = page.getByLabel("夫妻宫流年关系解读");
+  await expect(marriage).toContainText("日支是");
+  await expect(marriage.locator(".life-spouse-relation")).toContainText("六冲");
+  await marriage.locator(".life-spouse-relation details summary").first().click();
+  await expect(marriage.locator(".life-spouse-relation blockquote p").first()).not.toBeEmpty();
+  const career = page.getByLabel("流年十神解释卡");
+  await expect(career.getByRole("heading")).toContainText("2026");
+  await expect(career).toContainText("食伤");
+  await expect(career).toContainText("不能直接推断");
+  await career.locator("details summary").click();
+  await expect(career.locator("blockquote p").first()).not.toBeEmpty();
+  await page.locator(".life-other-career-readings > summary").click();
+  await expect(page.locator(".life-other-career-readings > div > article")).toHaveCount(5);
+  expect(scenarios).toContainEqual({ scenario: "life", year: 2026 });
+
+  await page.getByLabel("观察年份").fill("2027");
+  await expect(page.locator(".life-career-reading")).toHaveCount(0);
+  await page.getByRole("button", { name: /生成人生总览|生成我的人生总览/ }).click();
+  await expect(page.locator(".life-result")).toBeVisible();
+  await expect(page.getByLabel("夫妻宫流年关系解读").locator(".life-spouse-relation")).toContainText("六害");
+  await expect(page.getByLabel("流年十神解释卡")).toContainText("2027");
+  expect(scenarios).toContainEqual({ scenario: "life", year: 2027 });
+});

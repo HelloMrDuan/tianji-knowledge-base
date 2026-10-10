@@ -40,6 +40,23 @@ function readProfile() {
   }
 }
 
+type ReviewedExcerpt = { id: string; title: string; original: string; level: string };
+
+function reviewedExcerpts(ids: unknown, evidence: Record<string, any>): ReviewedExcerpt[] {
+  if (!Array.isArray(ids)) return [];
+  return ids.flatMap((id: unknown) => {
+    if (typeof id !== "string") return [];
+    const source = evidence[id];
+    if (!source || typeof source.classic_title !== "string" ||
+        !source.classic_title.trim() || typeof source.original_text !== "string" ||
+        !source.original_text.trim()) return [];
+    return [{
+      id, title: source.classic_title, original: source.original_text,
+      level: typeof source.evidence_level === "string" ? source.evidence_level : "未标注",
+    }];
+  });
+}
+
 export function LifeOverviewPage() {
   const initial = readProfile();
   const [date, setDate] = useState(initial.date);
@@ -106,6 +123,10 @@ export function LifeOverviewPage() {
   const annualHits: Array<any> = Array.isArray(annualRelations?.hits) ? annualRelations.hits : [];
   const romanceTargets = romance.xianchi?.targets || {};
   const activation = romance.target_year_activation || {};
+  const palace = romance.spouse_palace_year_relations;
+  const palaceHits: Array<any> = Array.isArray(palace?.relations) ? palace.relations : [];
+  const careerReadings: Array<any> = Array.isArray(career.interpretation_cards) ? career.interpretation_cards : [];
+  const focusReading = careerReadings.find((item) => item.group_id === career.target_year?.structure_group);
   const evidenceCount = result ? Object.keys(result.evidence).length : 0;
   const reviewedEvidence = result?.evidence || {};
 
@@ -321,6 +342,30 @@ export function LifeOverviewPage() {
                 </div>
               </div>
               <p>命中仅表示咸池固定查表结构成立，不等于恋爱发生或婚姻结果。</p>
+              {palace && (
+                <div className="life-spouse-report" aria-label="夫妻宫流年关系解读">
+                  <h3>传统夫妻宫（日支）与 {targetYear} 年</h3>
+                  <p>你的日支是 <strong>{palace.natal_day_branch}</strong>，观察年地支是 <strong>{palace.target_year_branch}</strong>。这是一组固定地支结构对照，不是婚恋事件预测。</p>
+                  {palaceHits.length ? palaceHits.map((hit: any, index: number) => {
+                    const citations = reviewedExcerpts(hit.evidence_ids, reviewedEvidence);
+                    return (
+                      <article className="life-spouse-relation" key={hit.natal_pillar + "-" + hit.relation_type + "-" + index}>
+                        <strong>{relationNames[hit.relation_type] || hit.relation_type}</strong>
+                        <span>{hit.natal_branch} ↔ {hit.flow_branch}</span>
+                        {citations.length ? (
+                          <details>
+                            <summary>查看此关系的古籍依据（{citations.length}）</summary>
+                            {citations.map((item) => (
+                              <blockquote key={item.id}><small>{item.title} · {item.level}</small><p>{item.original}</p></blockquote>
+                            ))}
+                          </details>
+                        ) : <small>这条关系没有可核验的原典短引，不进行解释。</small>}
+                      </article>
+                    );
+                  }) : <p>本年度未命中已审六合、六害、六冲，不代表婚姻或感情缺失。</p>}
+                  <small>仅观察已审核的地支关系，不能据此判断正缘、结婚年份或关系好坏。</small>
+                </div>
+              )}
             </section>
           </div>
 
@@ -350,6 +395,53 @@ export function LifeOverviewPage() {
               })}
             </div>
             <p className="life-inline-note">数量只是位置统计，不代表旺衰，更不是财运或事业评分。</p>
+            {focusReading && (
+              <div className="life-career-reading" aria-label="流年十神解释卡">
+                <span className="eyebrow">本年重点 · 已审十神关系</span>
+                <h3>{targetYear} 的{focusReading.label}，在古法中表示什么？</h3>
+                <p>{focusReading.traditional_structure_definition}</p>
+                <p>{focusReading.observation}</p>
+                {focusReading.target_year_note && <p>{focusReading.target_year_note}</p>}
+                {(() => {
+                  const refs = reviewedExcerpts(focusReading.evidence_ids, reviewedEvidence);
+                  return refs.length ? (
+                    <details>
+                      <summary>查阅这组十神结构的原典依据（{refs.length}）</summary>
+                      {refs.map((item) => (
+                        <blockquote key={item.id}>
+                          <small>{item.title} · 证据等级 {item.level}</small>
+                          <p>{item.original}</p>
+                        </blockquote>
+                      ))}
+                    </details>
+                  ) : <small>缺少可核验的原典引文，不能延伸此结构解释。</small>;
+                })()}
+                <small>不包含旺衰、用神、大运与应期判断；不能等同于实际收入、职位或工作成果。</small>
+              </div>
+            )}
+            {careerReadings.length > 0 && (
+              <details className="life-other-career-readings">
+                <summary>展开其余十神结构释义（{careerReadings.length} 组）</summary>
+                <div>
+                  {careerReadings.map((item) => (
+                    <article key={item.group_id}>
+                      <strong>{item.label} · {item.five_element_relation}</strong>
+                      <p>{item.traditional_structure_definition}</p>
+                      <p>{item.observation}</p>
+                      {(() => {
+                        const refs = reviewedExcerpts(item.evidence_ids, reviewedEvidence);
+                        return refs.length ? (
+                          <details>
+                            <summary>来源短引（{refs.length}）</summary>
+                            {refs.map((ref) => <blockquote key={ref.id}><small>{ref.title} · {ref.level}</small><p>{ref.original}</p></blockquote>)}
+                          </details>
+                        ) : <small>无可核验原典短引，不进行扩展解释。</small>;
+                      })()}
+                    </article>
+                  ))}
+                </div>
+              </details>
+            )}
           </section>
 
           <section className="life-next">
