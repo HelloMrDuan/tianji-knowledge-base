@@ -54,7 +54,7 @@
 | 4 | TJ-003 | 公共/私有敏感数据表面、迁移和证据权利核验 | 待做 | 可与 TJ-004 的只读审查并行 |
 | 5 | TJ-006 | 多场景日期/出生资料/年份/时区一致性 | 待做 | 已有 #215/#216 等部分实现，验收尚需全流程 |
 | 6 | TJ-007 | 11 入口从输入到结果/证据/弃判闭环 | 待做 | 使用 TJ-004 实际缺陷作为改代码顺序 |
-| 7 | TJ-008 | **用户关心的运势/桃花/事业优先，保留 #87 原古风设计** | 进行中 | **TJ-008.2 首页入口与响应式修复已合并**：公开 [#230](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/230) `e00137a`、私有 [#54](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/54) `b529ce6`；8/8 浏览器和 1440/390/360 首页截图通过并已查看。**TJ-008 父任务其余结果页、移动端和 TJ-004.4 全站原图仍在计划内** |
+| 7 | TJ-008 | **运势/桃花/事业用户优先与可读结果，保留古风设计** | 进行中 | **TJ-008.2、TJ-008.3 两个子项均已合并**；首页 #230/#54；四个结果页可读摘要公开 [#232](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/232) `4f00515`、私有 [#55](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/55) `5e35a87`，7/7 真实浏览器和手机图通过。**TJ-008.1/.4/.5 与 TJ-004.4 其他 UI 验收未完成，父任务不能标完成** |
 | 8 | TJ-009 | 背景音乐/路由/无障碍一致性 | 待做 | 保留现有音乐功能，不做强制自动播放 |
 | 9 | TJ-005 | 受控真实后端/公开 API 环境与可部署性 | 待做 | 须满足 TJ-003 安全门禁；不能因没有云资源伪造上线 |
 | 10 | TJ-010 | 月令、根、透干、分日冲突审核 | 待做 | 八字知识核心依赖 |
@@ -136,6 +136,13 @@
 - 公开 [PR #230](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/230) merge `e00137addfd1ddd19d9d7080b13d8095d6b895f3`；私有 [PR #54](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/54) merge `b529ce61320fd53f6fa088207d88e9dcc9ec72b4`。
 - 真实验证：公开 code/frontend-build/gate-public-data/atomic-task-tracking **4/4 success**；私有轻量真实 API + Playwright **8/8**，1440/390/360 截图已实际查看，未重复跑无需改动的 524 Python/Canonical。
 - [任务状态 TJ-008.2](TASK_STATUS.md) “已合并”，[追加记录 E0012](TASK_HISTORY.md)；**父任务 TJ-008 仍进行中**。未部署、未声称全部高级命理结论或 11 页原图视觉完成。
+
+## TJ-008.3 已合并：运势/桃花/事业财运可读结果（2026-10-11）
+
+- 公共 [PR #232](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/232) 已合并 `4f00515048d08ee92e998d08cc03a543756cfddc`，私有 [PR #55](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/55) 已合并 `5e35a87030c4c6f2b094c24d0bb02d40b74b35ff`。
+- 真实后端上的 **7/7 Playwright** 通过，四张 390px 真实结果截图已查看；包含今日、流年、桃花、事业财运、年份请求一致性、无提交不生成结果与日周月来源回归。公开四项 CI 成功。
+- 只归纳真实 Scenario 字段，缺失字段不填，公开来源短引缺失不补写；保留原典/Trace 展开和未裁定声明。**无新增旺衰喜用、大运/婚期/发财预测规则，不声称 11/11 结果报告完整或已部署。**
+- [子任务状态](TASK_STATUS.md)已记 TJ-008.3“已合并”，[追加日志](TASK_HISTORY.md)为 E0014；后续 TJ-004.3 异常矩阵、TJ-008.4 移动全站和知识缺口按各自任务推进。
 
 ## 计划变更机制
 
