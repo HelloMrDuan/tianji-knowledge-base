@@ -23,4 +23,4 @@ export const scenarioProducts: ScenarioProduct[] = [
   { id: "life", name: "人生总览", glyph: "命", tagline: "一次输入，看四条真实主线", description: "聚合八字基础、选定年份流年、桃花、事业财运结构；不另造吉凶结论。", status: "available", href: "/life-overview", badge: "聚合内测" },
 ];
 
-export const featuredScenarioIds = ["question", "romance", "career"];
+export const featuredScenarioIds = ["daily", "romance", "career"];
