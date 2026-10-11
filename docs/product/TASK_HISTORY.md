@@ -24,6 +24,8 @@
 
 | E0013 | 2026-10-11 | TJ-008.3 | 进行中 | 开发单一工作包：今日、流年、桃花、事业财运由真实 Scenario 响应生成首屏可读摘要、来源数量与无依据边界；完整 11 场景报告未宣称完成 | 当前任务 PR 正在提交 | — | — |
 
+| E0014 | 2026-10-11 | TJ-008.3 | 已合并 | 四个真实结果页先展示可读计算事实、可核对短引数量和明确不能判断的范围；公开四项 CI 与私有 7/7 Chromium、四张 390px 截图已验证；其余功能仍待完成 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/232 | 4f00515048d08ee92e998d08cc03a543756cfddc | https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38109609969 |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
