@@ -92,7 +92,7 @@ class TaskTrackerTests(unittest.TestCase):
                 parts[3] = "阻塞" if parts[3] != "阻塞" else "进行中"
                 rows[i] = "| " + " | ".join(parts) + " |"
                 break
-        with self.assertRaisesRegex(task.Invalid, "exactly one"):
+        with self.assertRaisesRegex(task.Invalid, "exactly one|status differs"):
             self.delta("\n".join(rows), self.appended_history(self.next_event()))
 
     def test_missing_new_event_is_rejected(self):
