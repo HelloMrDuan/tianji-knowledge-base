@@ -111,3 +111,59 @@ test("TJ-004.3 a late old-year API response must not overwrite the newer result"
     .toContainText(secondData.result.target_year.ganzhi);
   await expect(page.getByLabel("目标年份")).toHaveValue("2027");
 });
+
+
+for (const path of [
+  "/yearly-structure", "/romance-structure", "/career-wealth-structure", "/life-overview",
+]) {
+  test(`TJ-004.3 ${path}: unsupported year cannot reach the backend`, async ({ page }) => {
+    let count = 0;
+    page.on("request", req => { if (new URL(req.url()).pathname.startsWith("/api/")) count++; });
+    await page.goto(path);
+    await page.getByRole("button", { name: "填入示例" }).click();
+    await page.locator('form input[type="number"]').fill("2200");
+    await page.locator('form button[type="submit"]').click();
+    await expect(page.locator('form input[type="number"]')).toBeInvalid();
+    expect(count).toBe(0);
+  });
+}
+
+test("TJ-004.3 a real daily request cannot duplicate while its response is pending", async ({ page }) => {
+  await page.goto("/daily-structure");
+  await page.getByRole("button", { name: "填入示例" }).click();
+  let seen = 0;
+  let intercepted: () => void = () => {};
+  let release: () => void = () => {};
+  const captured = new Promise<void>(resolve => { intercepted = resolve; });
+  const released = new Promise<void>(resolve => { release = resolve; });
+  await page.route("**/api/v1/scenarios/public", async route => {
+    seen++;
+    const actual = await route.fetch();
+    intercepted();
+    await released;
+    await route.fulfill({ response: actual });
+  });
+  const submit = page.locator('form button[type="submit"]');
+  await submit.click();
+  await captured;
+  await expect(submit).toBeDisabled();
+  await submit.evaluate(el => (el as HTMLButtonElement).click());
+  expect(seen).toBe(1);
+  release();
+  await expect(page.locator(".daily-result")).toBeVisible();
+  expect(seen).toBe(1);
+});
+
+test("TJ-004.3 a timed-out real API request leaves a visible retry path", async ({ page }) => {
+  await page.goto("/daily-structure");
+  await page.getByRole("button", { name: "填入示例" }).click();
+  await page.route("**/api/v1/scenarios/public", route => route.abort("timedout"));
+  await page.locator('form button[type="submit"]').click();
+  await expect(page.getByRole("alert")).toBeVisible();
+  await expect(page.locator(".daily-result")).toHaveCount(0);
+  await page.unroute("**/api/v1/scenarios/public");
+  const real = page.waitForResponse(r => new URL(r.url()).pathname === "/api/v1/scenarios/public");
+  await page.locator('form button[type="submit"]').click();
+  expect((await real).ok()).toBe(true);
+  await expect(page.locator(".daily-result")).toBeVisible();
+});
