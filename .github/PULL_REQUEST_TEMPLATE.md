@@ -1,4 +1,13 @@
 <!-- 天机项目统一 PR 模板；按原产品总纲与最初设计，不能为了合并而虚构状态。 -->
+## 必填：一个原子任务、一行状态、一条日志
+
+- [ ] **本 PR 仅关联一个可验收的 TJ-xxx.y 原子任务**，不是几个任务的集合：
+- [ ] 本 PR 同步修改[逐任务状态表](../docs/product/TASK_STATUS.md)中该 ID 的一行
+- [ ] 本 PR 在[任务历史日志](../docs/product/TASK_HISTORY.md)末尾**只追加一条**该 ID 的事件
+- [ ] 有真实 PR、CI、合并 SHA 才能写“已合并”；PR 仍 open 则状态只能是进行中/已提交PR/CI待验/阻塞
+- [ ] 对照[单任务执行制度](../docs/product/TASK_EXECUTION_RULES.md)、[详细 WBS](../docs/product/DETAILED_DELIVERY_BACKLOG_V1.md)的独立 DoD
+- **任务完成与关账**：合并后以**同一任务 ID**独立更新状态和真实 main SHA；没有独立验证不能算完成
+
 ## 任务与范围
 - [ ] 关联 TJ-xxx.y / UI-xx：<!-- 真实编号；紧急安全修复注明原因 -->
 - 用户可以观察到的具体变化：
