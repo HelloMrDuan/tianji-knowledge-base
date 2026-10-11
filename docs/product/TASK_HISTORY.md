@@ -30,6 +30,8 @@
 
 | E0016 | 2026-10-11 | TJ-004.3 | 已合并 | 11 入口无效值、4 个年份非法区间、3 场景断网恢复、真实后端超时、防重复点击、缺源限界、乱序请求覆盖等回归 24/24 通过；未声称全部吉凶解释能力完成 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/234 | 283557b3e595ee8dc80be31b809a0a4315db8fa0 | https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38110293680 |
 
+| E0017 | 2026-10-11 | TJ-004.4 | 进行中 | 依据用户确认的夜景古风图存档冻结视觉与播放器位置；提交桌面/手机页面骨架、11 场景及音乐真交互；完整 11 场景与 #87/#89 逐页差异仍待执行 | 设计分支 design/tj0044-night-ink-music-20261011，PR 待创建 | — | 本地 Chromium 1440/390/360 音乐与场景交互通过；仓库 CI 待验 |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
