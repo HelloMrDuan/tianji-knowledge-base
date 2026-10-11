@@ -26,7 +26,7 @@ export function HomePage() {
         <div className="scenario-hero-copy">
           <div className="eyebrow"><span />天机 · 运势与姻缘</div>
           <h1>
-            今日运势，先看一眼。
+            今天运势如何？
             <span>桃花姻缘 · 事业财运 · 八字</span>
           </h1>
           <p>
@@ -93,7 +93,7 @@ export function HomePage() {
                   <span className="scenario-glyph">{item.glyph}</span>
                   <span className="scenario-state">{item.badge}</span>
                 </div>
-                <h3>{item.name}</h3>
+                <h3>{item.name.replace(" · 结构版", "").replace("流年结构", "流年运势")}</h3>
                 <span className="scenario-tagline">{item.tagline}</span>
                 <p>{item.description}</p>
                 {item.status === "available" ? (
