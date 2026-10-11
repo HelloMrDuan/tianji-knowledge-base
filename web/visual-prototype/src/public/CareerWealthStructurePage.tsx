@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
+import { ConsumerResultSummary } from "./ConsumerResultSummary";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeCareerScenario, type ScenarioExecuteResponse } from "./api";
@@ -111,7 +112,7 @@ export function CareerWealthStructurePage() {
       <section className="career-hero">
         <div>
           <span className="eyebrow">事业财运 · 第一层真实能力</span>
-          <h1>先把财、官、食伤、印、比劫的位置看清。</h1>
+          <h1>事业与财运，先看可核对的线索。</h1>
           <p>
             这一版只聚合已经验证的十神与藏干结构：哪些星明见在天干、哪些藏在地支，
             以及 {targetYear} 流年天干与你日主形成什么十神。它不是“发财预测”，也不会给你编一个事业指数。
@@ -184,6 +185,7 @@ export function CareerWealthStructurePage() {
 
       {result && (
         <section className="career-result">
+          <ConsumerResultSummary scenario="career" response={result} />
           <header className="career-result-head">
             <div>
               <span className="eyebrow">真实 Scenario Engine · production_limited</span>
