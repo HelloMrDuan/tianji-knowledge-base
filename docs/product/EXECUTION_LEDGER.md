@@ -50,7 +50,7 @@
 | --- | --- | --- | --- | --- |
 | 1 | TJ-001 | 合并产品总纲、分阶段计划、台账及 README 导航 | 已合并 | [公开 #219](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/219)，merge `897aab38ee17c95b3015e449b9bf5557f833bd55`；PR 三项 CI 全绿 |
 | 2 | TJ-002 | 私有 #50 最终组合回归收口 | 已合并 | 两条组合 CI 均 success；私有 [#50](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/50) 已按准确 head SHA `b9a7097` squash merge `e0f95051a65dcdb5337853405a4e18a798eeb19d` |
-| 3 | TJ-004 | 11 场景真实 API＋浏览器成功/异常清单 | 进行中 | **TJ-004.1/.2 已实测通过**：[公开 #225](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/225) `a9f0b27` / [私有 #52](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/52) `416b5ef`；11/11 真实场景、12/12 浏览器、524 Python、235 文件全部 success。**TJ-004.3 全异常矩阵和 TJ-004.4 全站原图视觉对照仍未完成**；[私有 #53](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/53) 最终双组合正在跑 |
+| 3 | TJ-004 | 11 场景真实 API＋浏览器成功/异常清单 | 进行中 | **TJ-004.1/.2/.3 已合并**：11/11 真实场景、[公开 #234](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/234) 与 [私有 #56](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/56) 异常回归 **24/24**、公开四门禁成功。**TJ-004.4 原始设计逐页视觉比对仍未完成，父任务不能标完成** |
 | 4 | TJ-003 | 公共/私有敏感数据表面、迁移和证据权利核验 | 待做 | 可与 TJ-004 的只读审查并行 |
 | 5 | TJ-006 | 多场景日期/出生资料/年份/时区一致性 | 待做 | 已有 #215/#216 等部分实现，验收尚需全流程 |
 | 6 | TJ-007 | 11 入口从输入到结果/证据/弃判闭环 | 待做 | 使用 TJ-004 实际缺陷作为改代码顺序 |
@@ -143,6 +143,13 @@
 - 真实后端上的 **7/7 Playwright** 通过，四张 390px 真实结果截图已查看；包含今日、流年、桃花、事业财运、年份请求一致性、无提交不生成结果与日周月来源回归。公开四项 CI 成功。
 - 只归纳真实 Scenario 字段，缺失字段不填，公开来源短引缺失不补写；保留原典/Trace 展开和未裁定声明。**无新增旺衰喜用、大运/婚期/发财预测规则，不声称 11/11 结果报告完整或已部署。**
 - [子任务状态](TASK_STATUS.md)已记 TJ-008.3“已合并”，[追加日志](TASK_HISTORY.md)为 E0014；后续 TJ-004.3 异常矩阵、TJ-008.4 移动全站和知识缺口按各自任务推进。
+
+## TJ-004.3 已合并：11 场景异常与边界验证（2026-10-11）
+
+- 公开 [#234](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/234) merge `283557b3e595ee8dc80be31b809a0a4315db8fa0`，私有 [#56](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/56) merge `99218de320468f3cddf3858c0a9b4cb6ea590b08`。
+- [真实工作流](https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38110293680) **24/24**，覆盖 11 类用户输入必填、目标年份越界、断网与超时重试、无 Evidence 返回、重复提交、旧响应晚回仍不能覆盖新结果；既有八字结果变化回归。全套公开 4/4 CI 通过。
+- 第一次发现测试框架无 `toBeInvalid`，已改用浏览器 `checkValidity()`；任务追踪单测中不合理的“必须始终待做”硬编码也已修正。真实计算算法/古籍正文未更改。
+- [TASK_STATUS.md](TASK_STATUS.md) 对应 TJ-004.3 “已合并”，[TASK_HISTORY.md](TASK_HISTORY.md) 追加此次完成事件。**TJ-004.4 全站古风原图验收和完整知识规则仍未完成**。
 
 ## 计划变更机制
 
