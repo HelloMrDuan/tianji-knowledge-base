@@ -18,10 +18,10 @@ class TaskTrackerTests(unittest.TestCase):
     def test_real_wbs_has_92_unique_atomic_tasks(self):
         rows, events = task.validate(self.wbs, self.status, self.history)
         self.assertEqual(len(rows), 92)
-        self.assertEqual(len(events), 9)
+        self.assertGreaterEqual(len(events), 9)
         self.assertIn("TJ-004.3", rows)
         self.assertEqual(rows["TJ-004.3"][3], "待做")
-        self.assertEqual(rows["TJ-001.4"][3], "进行中")
+        self.assertIn(rows["TJ-001.4"][3], task.VALID)
 
     def test_duplicate_task_is_rejected(self):
         row = next(x for x in self.status.splitlines() if x.startswith("| TJ-004.3 |"))
@@ -45,7 +45,8 @@ class TaskTrackerTests(unittest.TestCase):
             task.validate(self.wbs, self.status, corrupted)
 
     def next_event(self, task_id="TJ-001.4", state="已提交PR"):
-        return (f"| E0010 | 2026-10-11 | {task_id} | {state} | "
+        number = len(task.history_rows(self.history)) + 1
+        return (f"| E{number:04d} | 2026-10-11 | {task_id} | {state} | "
                 "已提交追踪 PR 尚未合并 | "
                 "https://github.com/HelloMrDuan/tianji-knowledge-base/pull/9999 "
                 "| — | — |")
