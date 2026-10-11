@@ -2,6 +2,8 @@
 
 > **天机平台当前唯一产品路线（2026-10-11）**：先看[详细开发总目录](docs/product/README.md)。页面**忠实于最初古风设计**：[PR #87 视觉和原截图](docs/product/ORIGINAL_DESIGN_BASELINE_V1.md) + [PR #89 场景 IA](docs/product/ORIGINAL_DESIGN_BASELINE_V1.md)；按[逐页规格](docs/product/PAGE_SPECIFICATIONS_V1.md)与[细化 WBS 工作包](docs/product/DETAILED_DELIVERY_BACKLOG_V1.md)开发，再用[产品总纲](docs/product/PRODUCT_MASTER_PLAN_V1.md)、[M0–M7 实施计划](docs/product/IMPLEMENTATION_PLAN_V1.md)和[唯一执行台账](docs/product/EXECUTION_LEDGER.md)做范围和验收。其余旧计划仅作历史参考。
 
+> **最新进度查看入口**：[92 项逐任务状态表](docs/product/TASK_STATUS.md) / [完成与变更日志](docs/product/TASK_HISTORY.md) / [一任务一闭环制度](docs/product/TASK_EXECUTION_RULES.md)。每次只推进一个 `TJ-xxx.y`，任务完成必须有真实合并和 CI 证据并回填 Git；阶段汇总见[台账](docs/product/EXECUTION_LEDGER.md)。
+
 面向 AI / RAG / Agent 的中国传统文化与术数知识底座。
 
 目标不是收集几个 prompt，而是建立一套 **可持续更新、可追溯、可审计、可按流派隔离** 的统一知识层，为后续八字、周易、八卦、六爻、梅花易数、紫微斗数、奇门遁甲、大六壬、太乙、风水、姻缘、择日、塔罗等平台能力提供依据。

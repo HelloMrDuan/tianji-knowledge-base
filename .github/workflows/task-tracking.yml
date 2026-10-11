@@ -1,0 +1,33 @@
+name: Enforce one atomic task and status evidence
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  atomic-task-tracking:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate WBS parity, status evidence and append-only history
+        run: python scripts/check_task_tracking.py
+      - name: Regression test all tracking failure modes
+        run: python -m unittest discover -s tests -p 'test_task_tracking.py' -v
+      - name: Reject PR without exactly one task update and one new event
+        if: github.event_name == 'pull_request'
+        env:
+          GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: python scripts/check_task_tracking.py --base "$GITHUB_BASE_SHA"
