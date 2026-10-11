@@ -20,6 +20,8 @@
 
 | E0011 | 2026-10-11 | TJ-008.2 | 进行中 | 用户明确否决旧首页“一事占问”首位；本批改运势、桃花、事业财运首屏与三张重点卡，保留 #87 水墨/11 入口；新真实截图/视觉对照仍待 CI | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/230 | — | — |
 
+| E0012 | 2026-10-11 | TJ-008.2 | 已合并 | 按用户纠偏：首页运势主入口、桃花/事业辅助、前三张重点卡、手机适配；完整 11 页面原图审核仍属后续其他任务 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/230 | e00137addfd1ddd19d9d7080b13d8095d6b895f3 | https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38106598250 |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
