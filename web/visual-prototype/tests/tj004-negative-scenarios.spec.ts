@@ -19,7 +19,7 @@ for (const route of natalRoutes) {
     await expect(button).toBeVisible();
     // No previous user consent and no valid birth time. HTML validity must block API.
     if (await button.isEnabled()) await button.click();
-    await expect(page.locator('form input[type="time"]').first()).toBeInvalid();
+    expect(await page.locator('form input[type="time"]').first().evaluate(el => (el as HTMLInputElement).checkValidity())).toBe(false);
     expect(count).toBe(0);
     await expect(page.locator(".consumer-result-summary")).toHaveCount(0);
   });
@@ -40,7 +40,7 @@ test("TJ-004.3 a one-character dream does not call the cultural API", async ({ p
   await page.goto("/dream-culture");
   await page.locator("textarea").fill("蛇");
   await page.locator('form button[type="submit"]').click();
-  await expect(page.locator("textarea")).toBeInvalid();
+  expect(await page.locator("textarea").evaluate(el => (el as HTMLTextAreaElement).checkValidity())).toBe(false);
   expect(count).toBe(0);
   await expect(page.locator(".dream-culture-match")).toHaveCount(0);
 });
@@ -123,7 +123,7 @@ for (const path of [
     await page.getByRole("button", { name: "填入示例" }).click();
     await page.locator('form input[type="number"]').fill("2200");
     await page.locator('form button[type="submit"]').click();
-    await expect(page.locator('form input[type="number"]')).toBeInvalid();
+    expect(await page.locator('form input[type="number"]').evaluate(el => (el as HTMLInputElement).checkValidity())).toBe(false);
     expect(count).toBe(0);
   });
 }
