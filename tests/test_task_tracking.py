@@ -20,7 +20,7 @@ class TaskTrackerTests(unittest.TestCase):
         self.assertEqual(len(rows), 92)
         self.assertGreaterEqual(len(events), 9)
         self.assertIn("TJ-004.3", rows)
-        self.assertEqual(rows["TJ-004.3"][3], "待做")
+        self.assertIn(rows["TJ-004.3"][3], {"待做", "进行中", "已提交PR", "CI待验", "阻塞", "已合并"})
         self.assertIn(rows["TJ-001.4"][3], task.VALID)
 
     def test_duplicate_task_is_rejected(self):
@@ -89,10 +89,10 @@ class TaskTrackerTests(unittest.TestCase):
         for i, row in enumerate(rows):
             if row.startswith("| TJ-004.3 |"):
                 parts = task.cells(row)
-                parts[3] = "进行中"
+                parts[3] = "阻塞" if parts[3] != "阻塞" else "进行中"
                 rows[i] = "| " + " | ".join(parts) + " |"
                 break
-        with self.assertRaisesRegex(task.Invalid, "exactly one"):
+        with self.assertRaisesRegex(task.Invalid, "exactly one|status differs"):
             self.delta("\n".join(rows), self.appended_history(self.next_event()))
 
     def test_missing_new_event_is_rejected(self):

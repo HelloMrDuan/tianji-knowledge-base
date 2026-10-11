@@ -26,6 +26,8 @@
 
 | E0014 | 2026-10-11 | TJ-008.3 | 已合并 | 四个真实结果页先展示可读计算事实、可核对短引数量和明确不能判断的范围；公开四项 CI 与私有 7/7 Chromium、四张 390px 截图已验证；其余功能仍待完成 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/232 | 4f00515048d08ee92e998d08cc03a543756cfddc | https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38109609969 |
 
+| E0015 | 2026-10-11 | TJ-004.3 | 进行中 | 本批补真实前台 11 入口非法资料、断网恢复、来源缺失与请求乱序负例；真实超时/重复提交仍需补充，不因测试新增即宣布关闭 | 新 PR 尚待创建 | — | — |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
