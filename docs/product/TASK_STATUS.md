@@ -31,7 +31,7 @@
 | TJ-007.3 | M1 | 一事占问/解梦/人生总览真实流程 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-007.4 | M1 | 保存/跨页/错误态的统一修复 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-008.1 | M1 | 原始视觉设计冻结与当前差异审计 | 待做 | — | — | 按 WBS 验收条件执行 |
-| TJ-008.2 | M1 | 首页视觉忠实恢复：Hero/导航/时间带/11 场景/7 专业 | 进行中 | [旧首页 #224](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/224) 已合并，但已被用户否决的占问主 CTA 正纠偏；[新首页 PR #230](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/230) 改为运势/桃花/事业财运优先，待 CI 和原图桌面/手机对照 | 2026-10-11 | 待 #230 真浏览器/视觉验收；完整前后台视觉差异另按 TJ-004.4 跟踪 |
+| TJ-008.2 | M1 | 首页视觉忠实恢复：Hero/导航/时间带/11 场景/7 专业 | 已合并 | [公开 #230](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/230) merge `e00137addfd1ddd19d9d7080b13d8095d6b895f3` · [私有 #54](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/54) merge `b529ce61320fd53f6fa088207d88e9dcc9ec72b4` · [真实 8/8 浏览器和截图](https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38106598250)；公开 4 项 CI success | 2026-10-11 | 本首页优先级与响应式修复已合并；全站 11 页面原始视觉对照仍归 TJ-004.4/TJ-008.5 后续验收 |
 | TJ-008.3 | M1 | 统一真实结果页的古风版式 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-008.4 | M1 | 移动端与无障碍 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-008.5 | M1 | 对齐原设计视觉验收并固化基线 | 待做 | — | — | 按 WBS 验收条件执行 |

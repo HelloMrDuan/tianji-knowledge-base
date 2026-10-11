@@ -54,7 +54,7 @@
 | 4 | TJ-003 | 公共/私有敏感数据表面、迁移和证据权利核验 | 待做 | 可与 TJ-004 的只读审查并行 |
 | 5 | TJ-006 | 多场景日期/出生资料/年份/时区一致性 | 待做 | 已有 #215/#216 等部分实现，验收尚需全流程 |
 | 6 | TJ-007 | 11 入口从输入到结果/证据/弃判闭环 | 待做 | 使用 TJ-004 实际缺陷作为改代码顺序 |
-| 7 | TJ-008 | **用户关心的运势/桃花/事业优先，保留 #87 原古风设计** | 进行中 | 旧 #224/#51 已合并但“一事占问首位”已被用户否决；[新首页 #230](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/230) 正改运势主 CTA 和首页三重点卡。**未完成原始视觉逐屏验收，不算 TJ-008.2 完成** |
+| 7 | TJ-008 | **用户关心的运势/桃花/事业优先，保留 #87 原古风设计** | 进行中 | **TJ-008.2 首页入口与响应式修复已合并**：公开 [#230](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/230) `e00137a`、私有 [#54](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/54) `b529ce6`；8/8 浏览器和 1440/390/360 首页截图通过并已查看。**TJ-008 父任务其余结果页、移动端和 TJ-004.4 全站原图仍在计划内** |
 | 8 | TJ-009 | 背景音乐/路由/无障碍一致性 | 待做 | 保留现有音乐功能，不做强制自动播放 |
 | 9 | TJ-005 | 受控真实后端/公开 API 环境与可部署性 | 待做 | 须满足 TJ-003 安全门禁；不能因没有云资源伪造上线 |
 | 10 | TJ-010 | 月令、根、透干、分日冲突审核 | 待做 | 八字知识核心依赖 |
@@ -102,7 +102,7 @@
 ## 2026-10-11 用户首页优先级纠偏（TJ-008.2，尚未验收）
 
 - 用户明确要求以**运势（今日/周/月/流年）→ 桃花 → 事业财运**作为产品首页主线。原 #87 是古风视觉参考；原 #89 是生活场景优先参考，**其中“一事占问主 CTA”已被用户推翻，不能再按旧计划恢复**。
-- [公开 PR #230](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/230) 实际改首页 CTA、排序、三张重点卡和新版回归用例。本次仍是 `TJ-008.2` 一项，原 WBS 与用户新要求并存；**CI/新截图/人工对照未完成前状态保持进行中**。
+- [公开 PR #230](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/230) 实际改首页 CTA、排序、三张重点卡和新版回归用例。本次仍是 `TJ-008.2` 一项，原 WBS 与用户新要求并存；**现已通过公开四项 CI、私有真实浏览器 8/8、1440/390/360 首页新图审查，并合并 #230/#54；本次只关闭 TJ-008.2，其他页面仍待验**。
 - [逐任务状态表](TASK_STATUS.md) 与[追加日志 E0011](TASK_HISTORY.md)记录本次变动；历史 #224 截图/合并事实保留，不能删除改写旧记录。
 
 ## 最近已合并的真实工作（历史事实，不重复当新任务）
@@ -129,6 +129,13 @@
 | 2026-10-11 | TJ-004.2 | 11 个生活入口真实用户页面分别提交后端并呈现限定结果，附 1 条出生时间必填反例 | [公开 #225](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/225) merge `a9f0b276d2b506c0cb0768fcb74f57da01de72af` | [私有 #52](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/52) merge `416b5ef98544f4ec125f2eb807593c3d4a61009e` | [私有真实 CI](https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38073174926)：11/11 实际页面 POST、12/12 浏览器、524 Python、235 私有文件均 success；公开 main 三项 success | 未部署 | [私有 #53](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/53) 固定最终合并版双回归待结束；TJ-004.3/004.4 仍需扩展 |
 
 示例“已合并”的判定必须有**真实 merged PR**和 `main` SHA；如 CI 还在跑，保持 `CI待验`。无可证实的模型、上线或内部知识授权不得补写“成功”。
+
+## TJ-008.2 正式完成记录（2026-10-11）
+
+- 用户纠偏已真实交付：运势主 CTA、桃花/事业次级 CTA、三张优先大卡、其余 8 场景仍可达；#87 水墨、宣纸、古风音乐与七域专业入口保留。
+- 公开 [PR #230](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/230) merge `e00137addfd1ddd19d9d7080b13d8095d6b895f3`；私有 [PR #54](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/54) merge `b529ce61320fd53f6fa088207d88e9dcc9ec72b4`。
+- 真实验证：公开 code/frontend-build/gate-public-data/atomic-task-tracking **4/4 success**；私有轻量真实 API + Playwright **8/8**，1440/390/360 截图已实际查看，未重复跑无需改动的 524 Python/Canonical。
+- [任务状态 TJ-008.2](TASK_STATUS.md) “已合并”，[追加记录 E0012](TASK_HISTORY.md)；**父任务 TJ-008 仍进行中**。未部署、未声称全部高级命理结论或 11 页原图视觉完成。
 
 ## 计划变更机制
 
