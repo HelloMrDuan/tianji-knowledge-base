@@ -18,7 +18,7 @@
 | TJ-003.3 | M0 | public API/bundle/错误/日志泄漏红线测试 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-004.1 | M0 | 获取 11 场景的全部现行路由/入参与真实 API | 已合并 | [公开 #224](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/224) · [私有 #51](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/51) | 2026-10-11 | 已合并；父任务继续 |
 | TJ-004.2 | M0 | 真实受控后端逐场景正向计算 | 已合并 | [公开 #225](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/225) · [私有 #52](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/52) | 2026-10-11 | 已合并；父任务继续 |
-| TJ-004.3 | M0 | 逐场景无效值/无证据/超时/重复提交负例 | 待做 | — | — | 按 WBS 验收条件执行 |
+| TJ-004.3 | M0 | 逐场景无效值/无证据/超时/重复提交负例 | 进行中 | [本批真实用户异常回归](https://github.com/HelloMrDuan/tianji-knowledge-base/pulls)：11 场景缺必填／问卦不完整／梦境过短、3 场景断网恢复、来源缺失与年份请求乱序，待 PR 及私有真实浏览器验收 | 2026-10-11 | 真实执行失败用例，定位并修复；额外超时/重复点击检查必要时完善后合并，仍保持本任务进行中 |
 | TJ-004.4 | M0 | 逐场景对照 PR #87/#89 截图并出差异清单 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-005.1 | M0 | 确认私有制品生成/部署路径和网关限制 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-005.2 | M0 | 前端静态包/真实接口/权限/HTTPS 冒烟 | 待做 | — | — | 按 WBS 验收条件执行 |
