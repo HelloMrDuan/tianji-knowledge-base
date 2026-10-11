@@ -1,0 +1,24 @@
+.consumer-result-summary {
+  padding: 28px 30px;
+  margin: 6px 0 24px;
+  border: 1px solid #bdc9b4;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #fffdf7 0%, #edf2e6 100%);
+  color: #244b3a;
+}
+.consumer-result-summary-header { display: flex; justify-content: space-between; gap: 16px; align-items: center; flex-wrap: wrap; }
+.consumer-result-status { border: 1px solid #c7b99e; color: #876846; padding: 5px 10px; border-radius: 999px; font-size: 12px; }
+.consumer-result-summary h2 { margin: 12px 0 8px; font: 500 clamp(22px, 3vw, 29px)/1.35 "Noto Serif CJK SC", "Songti SC", serif; }
+.consumer-result-lead { color: #566c5a; line-height: 1.85; margin: 0 0 18px; }
+.consumer-result-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 0; }
+.consumer-result-facts > div { min-width: 0; border: 1px solid #d6ddce; background: #fffdf4a8; padding: 14px; border-radius: 5px; }
+.consumer-result-facts dt { color: #667566; font-size: 12px; }
+.consumer-result-facts dd { margin: 7px 0 0; font-size: 17px; font-weight: 550; overflow-wrap: anywhere; line-height: 1.5; }
+.consumer-result-bottom { margin-top: 18px; padding: 14px 16px; background: #f6f3e9; border-left: 3px solid #947446; }
+.consumer-result-bottom p { margin: 0 0 7px; color: #565d50; line-height: 1.8; }
+.consumer-result-bottom small { color: #6d786b; line-height: 1.7; }
+@media (max-width: 600px) {
+  .consumer-result-summary { padding: 18px 16px; }
+  .consumer-result-facts { grid-template-columns: 1fr; }
+  .consumer-result-facts > div { padding: 11px 12px; }
+}

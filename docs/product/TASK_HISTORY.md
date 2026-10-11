@@ -22,6 +22,8 @@
 
 | E0012 | 2026-10-11 | TJ-008.2 | 已合并 | 按用户纠偏：首页运势主入口、桃花/事业辅助、前三张重点卡、手机适配；完整 11 页面原图审核仍属后续其他任务 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/230 | e00137addfd1ddd19d9d7080b13d8095d6b895f3 | https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38106598250 |
 
+| E0013 | 2026-10-11 | TJ-008.3 | 进行中 | 开发单一工作包：今日、流年、桃花、事业财运由真实 Scenario 响应生成首屏可读摘要、来源数量与无依据边界；完整 11 场景报告未宣称完成 | 当前任务 PR 正在提交 | — | — |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。

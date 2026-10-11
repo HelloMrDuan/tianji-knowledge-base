@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
+import { ConsumerResultSummary } from "./ConsumerResultSummary";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeRomanceScenario, type ScenarioExecuteResponse } from "./api";
@@ -115,7 +116,7 @@ export function RomanceStructurePage() {
       <section className="romance-hero">
         <div className="romance-hero-copy">
           <span className="eyebrow">桃花姻缘 · 第一层真实能力</span>
-          <h1>先看“桃花结构”有没有命中，再谈它意味着什么。</h1>
+          <h1>看看你的桃花姻缘，有哪些传统线索。</h1>
           <p>
             依据已审核的传统咸池查表与地支冲合害规则，
             分别列出年支、日支两套咸池结果，另外核对日支与 {targetYear} 流年地支的结构关系。
@@ -189,6 +190,7 @@ export function RomanceStructurePage() {
 
       {result && (
         <section className="romance-result">
+          <ConsumerResultSummary scenario="romance" response={result} />
           <header className="romance-result-head">
             <div>
               <span className="eyebrow">真实 Scenario Engine · production_limited</span>

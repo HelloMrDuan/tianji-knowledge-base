@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
+import { ConsumerResultSummary } from "./ConsumerResultSummary";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeYearlyScenario, type ScenarioExecuteResponse } from "./api";
@@ -105,7 +106,7 @@ export function YearlyStructurePage() {
       <section className="yearly-hero">
         <div>
           <span className="eyebrow">{targetYear} · 流年结构内测</span>
-          <h1>先看 {targetYear} 与你的日主，发生了什么结构关系。</h1>
+          <h1>看看 {targetYear} 年的流年运势。</h1>
           <p>
             这一版已经是真实计算，但还不是“全年吉凶报告”。它只把出生四柱、{targetYear}
             干支、流年天干十神及流年地支与四柱的已审核冲合害关系放到一起，并给出来源和边界。
@@ -180,6 +181,7 @@ export function YearlyStructurePage() {
 
       {result && (
         <section className="yearly-result">
+          <ConsumerResultSummary scenario="yearly" response={result} />
           <header className="yearly-result-head">
             <div>
               <span className="eyebrow">真实 Scenario Engine · production_limited</span>

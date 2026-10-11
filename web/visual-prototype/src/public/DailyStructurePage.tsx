@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { FormEvent } from "react";
+import { ConsumerResultSummary } from "./ConsumerResultSummary";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeDailyScenario, type ScenarioExecuteResponse } from "./api";
@@ -107,7 +108,7 @@ export function DailyStructurePage() {
       <section className="daily-hero">
         <div>
           <span className="eyebrow">每日回访入口 · 今日结构</span>
-          <h1>不用重新排一遍，今天回来直接看今天。</h1>
+          <h1>今天的运势，有什么可看的？</h1>
           <p>
             如果你已经做过“人生总览”，出生资料会自动带入。这里每天只更新目标日干支、
             当日天干十神、两套咸池查表，以及当日地支与出生四柱的已审冲合害结构。
@@ -182,6 +183,7 @@ export function DailyStructurePage() {
 
       {result && (
         <section className="daily-result">
+          <ConsumerResultSummary scenario="daily" response={result} />
           <header className="daily-result-head">
             <div>
               <span className="eyebrow">真实 Scenario Engine · daily_structure_only</span>
