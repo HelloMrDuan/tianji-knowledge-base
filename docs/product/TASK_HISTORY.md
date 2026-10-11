@@ -16,6 +16,8 @@
 | E0008 | 2026-10-11 | TJ-008.2 | 进行中 | 首页主 CTA/四时间入口已合并，但 #87/#89 原图完整人工对照未验收 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/224 | b42a1d89f2b7bcc7b3c2a75a168299ce7128285c | https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38072602895 |
 | E0009 | 2026-10-11 | TJ-001.4 | 进行中 | 本次仅认领逐任务状态/追加日志/PR 校验制度；真实合并 SHA 后续关账 | 本 PR 尚待创建 | — | — |
 
+| E0010 | 2026-10-11 | TJ-001.4 | 已合并 | 92 项独立状态表、追加式日志、逐 PR 单任务门禁和单测已通过并合并；无生产部署声明 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/228 | 6a22f29f2ec2e0b3a2bd9689c0dd9df5fd3d883d | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/38101246241 |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。

@@ -10,7 +10,7 @@
 | TJ-001.1 | M0 | 冻结 11 生活、7 专业、16 后台原设计的视觉和 IA 基线 | 已合并 | [公开 #221](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/221) · `07165cc` | 2026-10-11 | 已合并；父任务继续 |
 | TJ-001.2 | M0 | 按页输出交互/输入/结果/证据/异常状态规格 | 已合并 | [公开 #221](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/221) · `07165cc` | 2026-10-11 | 已合并；父任务继续 |
 | TJ-001.3 | M0 | 首页 README、执行台账与规范互联 | 已合并 | [公开 #221](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/221) · `07165cc` | 2026-10-11 | 已合并；父任务继续 |
-| TJ-001.4 | M0 | 一任务一闭环：建立 92 个原子子任务的状态登记、不可改写完成日志与 PR 门禁 | 进行中 | 本批：任务追踪制度/校验程序建设 | 2026-10-11 | 验证规则/合并后填写完整 SHA |
+| TJ-001.4 | M0 | 一任务一闭环：建立 92 个原子子任务的状态登记、不可改写完成日志与 PR 门禁 | 已合并 | [公开 #228](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/228) · `6a22f29f2ec2e0b3a2bd9689c0dd9df5fd3d883d` · [4 项检查通过](https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/38101246241) | 2026-10-11 | 本任务结账；下一任务按状态表独立认领 TJ-004.3 |
 | TJ-002.1 | M0 | 核对私有 #50 两条完整组合回归 | 已合并 | [私有 #50](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/50) · `e0f9505` | 2026-10-11 | 已合并；父任务继续 |
 | TJ-002.2 | M0 | 合并 #50，核对私有 main、补回执 | 已合并 | [私有 #50](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/50) · `e0f9505` | 2026-10-11 | 已合并；父任务继续 |
 | TJ-003.1 | M0 | 分区盘点公开 HEAD/历史中的内容、许可证、原文派生文件 | 待做 | — | — | 按 WBS 验收条件执行 |
