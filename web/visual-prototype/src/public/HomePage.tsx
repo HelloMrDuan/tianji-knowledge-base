@@ -2,7 +2,7 @@ import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { InkLandscape } from "./InkLandscape";
 import { NightHeroScene } from "./NightHeroScene";
-import { PaperCard } from "./PaperCard";
+import { PaperCard, MobileCardRow } from "./PaperCard";
 import { domainPages } from "./domainPages";
 import { scenarioProducts } from "./scenarioProducts";
 import "./scenarios.css";
@@ -67,6 +67,13 @@ export function HomePage() {
           <PaperCard product={romance} art="peach" />
           <PaperCard product={career} art="horse" />
           <PaperCard product={yearly} art="mountains" />
+        </div>
+        {/* 手机紧凑列表（原图手机端样式），桌面端隐藏 */}
+        <div className="mobile-card-list">
+          <MobileCardRow product={daily} art="sunrise" />
+          <MobileCardRow product={romance} art="peach" />
+          <MobileCardRow product={career} art="horse" />
+          <MobileCardRow product={yearly} art="mountains" />
         </div>
         <div className="scenario-proof">
           <span><i />确定性计算先行</span>
