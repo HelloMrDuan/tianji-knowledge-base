@@ -48,7 +48,7 @@ html[data-theme="paper"] .public-app {
 
 /* ---------- 夜景可读性兜底：浅色硬编码色面内的标题/眉题保持深墨色 ----------
    审定稿夜景即深底色+浅色卷轴卡；卡片内文字沿用宣纸墨色，本文件不重做卡片美术（归 TJ-008.7/008.8）。 */
-html[data-theme="night"] :is(.scenario-card, .question-hero, .bazi-profile-hero, .career-hero, .compat-hero, .daily-hero, .romance-hero, .dream-culture-hero, .dream-culture-library, .life-hero, .period-hero, .yearly-hero) :is(h1, h2, h3, .eyebrow),
+html[data-theme="night"] :is(.scenario-card, .scenario-featured, .question-hero, .bazi-profile-hero, .career-hero, .compat-hero, .daily-hero, .romance-hero, .dream-culture-hero, .dream-culture-library, .life-hero, .period-hero, .yearly-hero) :is(h1, h2, h3, .eyebrow),
 html[data-theme="night"] :is(.romance-entry, .career-entry, .daily-entry, .life-entry, .period-entry, .yearly-entry, .bazi-entry, .compat-entry, .ask-entry, .dream-entry) :is(h1, h2, h3) {
   color: #24382e;
 }
@@ -94,6 +94,14 @@ html[data-theme="night"] .button.primary:hover {
 }
 html[data-theme="night"] .button.outlined {
   border-color: rgba(226, 183, 121, 0.5);
+}
+/* Hero 正文与辅助说明：夜景深底上提亮至 4.5:1（宣纸主题沿用原值） */
+html[data-theme="night"] .hero-copy > p {
+  color: #a9b8a4;
+}
+html[data-theme="night"] .home-music-hint small,
+html[data-theme="night"] .professional-note {
+  color: #9fb0a0;
 }
 
 /* ---------- 主题切换按钮（双主题通用） ---------- */

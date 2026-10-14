@@ -103,18 +103,18 @@
   display: grid; grid-template-columns: 1.2fr .8fr; gap: 28px; align-items: center;
 }
 .scenario-featured h3 { margin: 7px 0 8px; font-size: 25px; font-weight: 500; }
-.scenario-featured p { color: #788372; margin: 0; line-height: 1.9; }
+.scenario-featured p { color: #46523f; margin: 0; line-height: 1.9; }
 .scenario-featured-actions { justify-self: end; display: flex; align-items: center; gap: 12px; }
 .professional-section { margin-top: 47px; border-top: 1px solid var(--hair); padding-top: 38px; }
 .professional-section .tool-grid { grid-template-columns: repeat(4, 1fr); }
 .professional-section .tool-card { min-height: 150px; }
-.professional-note { color: #8c937f; font-size: 12px; margin-top: 14px; }
+.professional-note { color: #5f6e61; font-size: 12px; margin-top: 14px; }
 .home-music-hint {
   margin-top: 35px; display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 18px 20px;
   border-top: 1px solid #deded3; border-bottom: 1px solid #deded3; color: #6d7c6d;
 }
 .home-music-hint strong { display: block; font: 15px "Noto Serif CJK SC", serif; margin-bottom: 4px; }
-.home-music-hint small { color: #919788; }
+.home-music-hint small { color: #5f6e61; }
 @media (max-width: 1050px) {
   .scenario-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
   .scenario-grid > .scenario-card { grid-column: span 3; }
