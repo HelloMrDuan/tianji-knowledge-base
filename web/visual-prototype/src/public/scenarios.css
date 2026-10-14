@@ -27,7 +27,7 @@
 }
 .scenario-hero p { color: #647365; max-width: 590px; line-height: 2; margin: 0 0 27px; }
 .scenario-hero-actions { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
-.scenario-proof { margin-top: 31px; display: flex; gap: 22px; flex-wrap: wrap; color: #7f8979; font-size: 12px; }
+.scenario-proof { margin-top: 31px; display: flex; gap: 22px; flex-wrap: wrap; color: #5f6e61; font-size: 12px; }
 .scenario-proof span { display: inline-flex; align-items: center; gap: 7px; }
 .scenario-proof i { width: 6px; height: 6px; border-radius: 50%; background: #aa8a50; }
 .scenario-time-strip {

@@ -27,8 +27,8 @@ const pages = [
 // 每页重点检查的选择器（文本必须可读）
 const KEY_SELECTORS = [
 ".public-brand", ".public-nav a", ".theme-toggle", ".music-trigger",
-"main h1", "main h2", "main h3", "main.eyebrow",
-"main.button", "main p", "main li", "main label span", "main small",
+"main h1", "main h2", "main h3", "main .eyebrow",
+"main .button", "main p", "main li", "main label span", "main small",
 ];
 
 const lum = ([r, g, b]) => {
@@ -41,6 +41,7 @@ const px = (s) => parseFloat(s) || 0;
 const browser = await chromium.launch({ args: ["--no-sandbox"]});
 const failures = [];
 const unverifiable = [];
+const keySelectorTotals = {};
 try {
 const ctx = await browser.newContext({ viewport: { width: 1440, height: 1000}, reducedMotion: "reduce"});
 const page = await ctx.newPage();
@@ -54,11 +55,14 @@ await page.reload({ waitUntil: "domcontentloaded"});
 await page.locator("main h1, main h2").first().waitFor({ timeout: 10000});
 await page.waitForTimeout(400);
 
-const items = await page.evaluate((selectors) => {
+const itemsWithHits = await page.evaluate((selectors) => {
 const seen = new Set();
 const out = [];
+const hits = {};
 for (const sel of selectors) {
-for (const el of document.querySelectorAll(sel)) {
+const matched = document.querySelectorAll(sel);
+hits[sel] = matched.length;
+for (const el of matched) {
 if (seen.has(el)) continue;
 seen.add(el);
 const r = el.getBoundingClientRect();
@@ -97,8 +101,12 @@ size: parseFloat(cs.fontSize) || 0, weight: parseFloat(cs.fontWeight) || 0,
 });
 }
 }
-return out;
+return { items: out, hits };
 }, KEY_SELECTORS);
+const { items, hits } = itemsWithHits;
+for (const [sel, n] of Object.entries(hits)) {
+  keySelectorTotals[sel] = (keySelectorTotals[sel] || 0) + n;
+}
 
 for (const it of items) {
 if (it.unverifiable) { unverifiable.push(`${route}:: ${it.sel} "${it.text}"（背景含渐变/图片：${it.unverifiable}，需人工看截图）`); continue;}
@@ -118,13 +126,14 @@ if (r < need) failures.push(`${route}:: ${it.sel} "${it.text}" 对比度 ${r.toF
 // 注意：此处重新启动浏览器（主循环已在 finally 中关闭）。
 console.log(`\n===== 对比度门禁 [${THEME}] =====`);
 console.log(`失败: ${failures.length}，不可验证（需人工看截图）: ${unverifiable.length}`);
-for (const f of failures) console.log(`FAIL ${f}`);
 const SPOT_BG = THEME === "night" ? [11, 28, 35] : [247, 244, 236];
 // 英雄区 h1 位于浅色卡片上（夜景重设为深墨色），用卡片近似底色单独校验
 const SPOT_CARD_BG = [245, 242, 234];
 const SPOT_CHECKS = [
-  ["/", ".hero-copy h1", true, SPOT_BG],
-  ["/", ".hero-copy > p", false, SPOT_BG],
+  ["/", ".scenario-hero h1", true, SPOT_BG],
+  ["/", ".scenario-hero h1 span", true, SPOT_BG],
+  ["/", ".scenario-hero p", false, SPOT_BG],
+  ["/", ".scenario-proof", false, SPOT_BG],
   ["/", ".public-nav a", false, SPOT_BG],
   ["/", ".theme-toggle", false, SPOT_BG],
   ["/", ".professional-note", false, SPOT_BG],
@@ -132,6 +141,8 @@ const SPOT_CHECKS = [
   ["/romance-structure", ".romance-hero h1", true, SPOT_CARD_BG],
   ["/daily-structure", ".daily-hero h1", true, SPOT_CARD_BG],
 ];
+// 必测选择器零匹配必须 FAIL：防止选择器写错导致空跑通过
+const selectorHits = {};
 const spotFails = [];
 {
   const browser2 = await chromium.launch({ args: ["--no-sandbox"] });
@@ -158,6 +169,7 @@ const spotFails = [];
       return out;
     }, sel);
     for (const it of items) {
+      selectorHits[sel] = (selectorHits[sel] || 0) + 1;
       const isLarge = large || it.size >= 24 || (it.size >= 18.66 && it.weight >= 700);
       const need = isLarge ? 3 : 4.5;
       const r = ratio(it.fg, bg);
@@ -173,6 +185,13 @@ const spotFails = [];
 }
 for (const f of spotFails) console.log(`FAIL ${f}`);
 if (spotFails.length) failures.push(...spotFails);
+for (const [route, sel] of SPOT_CHECKS) {
+  if (!selectorHits[sel]) failures.push(`定点抽查选择器零匹配（空跑）：${route} :: ${sel}`);
+}
+for (const sel of KEY_SELECTORS) {
+  if (!keySelectorTotals[sel]) failures.push(`重点选择器全页零匹配（空跑）：${sel}`);
+}
+for (const f of failures) console.log(`FAIL ${f}`);
 if (unverifiable.length) {
 console.log(`\n--- 不可验证项（渐变/图片背景，脚本无法准确计算）---`);
 const seen = new Set();

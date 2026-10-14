@@ -41,7 +41,7 @@ html[data-theme="paper"] .public-app {
   /* 与既有 .public-app 默认值一致；entry/shadow 系列沿用各文件原定义 */
   --ink: #173f36;
   --ink-soft: #435d50;
-  --gold: #8c6831;
+  --gold: #86612e;
   --paper: #f7f4ec;
   --hair: #dddcd1;
 }
@@ -95,10 +95,30 @@ html[data-theme="night"] .button.primary:hover {
 html[data-theme="night"] .button.outlined {
   border-color: rgba(226, 183, 121, 0.5);
 }
-/* Hero 正文与辅助说明：夜景深底上提亮至 4.5:1（宣纸主题沿用原值） */
-html[data-theme="night"] .hero-copy > p {
+/* 夜景浅色卡片内的描边按钮：保持深墨文字（宣纸主题沿用原值） */
+html[data-theme="night"] .scenario-featured .button.outlined {
+  color: #24382e;
+  border-color: #9aa394;
+}
+/* 首页 Hero 正文：#647365 在夜景下约 3.47:1，提亮至 4.5:1（宣纸主题沿用原值） */
+html[data-theme="night"] .scenario-hero p {
   color: #a9b8a4;
 }
+/* Hero 副标题：#8e6934 在夜景下偏暗，提亮保证大号文字 3:1 以上 */
+html[data-theme="night"] .scenario-hero h1 span {
+  color: #d3a05e;
+}
+/* 专业排盘卡片副标题/字形：#6c786a/#617565 在夜景下不足 4.5:1（宣纸主题沿用原值） */
+html[data-theme="night"] .tool-card p,
+html[data-theme="night"] .tool-card .tool-glyph {
+  color: #9fb0a0;
+}
+/* 举证行与页脚/示例注脚等辅助说明：#7f8979/#596657 在夜景下不足 4.5:1 */
+html[data-theme="night"] .scenario-proof,
+html[data-theme="night"] .public-app .hero-footnote,
+html[data-theme="night"] .public-app .sample-note,
+html[data-theme="night"] .public-app .public-footer p,
+html[data-theme="night"] .public-app .public-footer small,
 html[data-theme="night"] .home-music-hint small,
 html[data-theme="night"] .professional-note {
   color: #9fb0a0;
