@@ -63,6 +63,7 @@
 | **TJ-008.4** | **移动端与无障碍** | CSS、移动导航、Playwright | 390/360/768、200% 缩放、键盘与 reduced-motion，不遮挡任何核心按钮 |
 | **TJ-008.5** | **对齐原设计视觉验收并固化基线** | 原始截图引用、最新 CI artifact、审查记录 | 审美差异逐条复核；不是“做了新漂亮样式”就通过 |
 | **TJ-008.6** | **双主题基础与偏好持久化** | `theme.ts`、`theme.css`、主题切换组件、`index.html` 内联初始化、Playwright | 深青夜景默认、米白宣纸可选；桌面/手机切换入口；localStorage 持久化；首屏无闪烁；异常值回退默认；11 场景/音乐/API 无回归 |
+| **TJ-008.7** | **首页深青夜景真实视觉还原（React）** | `HomePage.tsx`、夜景 Hero 新组件/SVG 资产、`night-ink` 设计基准、`scenarios.css`/`theme.css` | 严格以 `docs/product/designs/night-ink/approved-reference.webp` 为最高基准：古风楼阁、灯笼、月色、山水、暖金标题、朱砂印、宣纸大卡；四主卡按今日运势/桃花姻缘/事业财运/流年运势排列；桌面/手机布局；保留音乐播放器、双主题切换、11 真实场景入口与现有 API；夜景默认/宣纸可切换；不得用简单深色背景或普通卡片冒充；1440/390/360 真实截图与原图逐项比对，用户认可前不宣称完成 |
 | TJ-009.1 | 原创音轨播放器持久化与默认静音 | `MusicPlayer.tsx`、`quiet-waters.ogg` | 真实手动播放/暂停、记音量、切前台路由不断流 |
 | TJ-009.2 | 进入后台停止音乐、离开后台不擅自重启 | `PublicApp` 与 `AdminApp` | 背景音乐不进入后台、静音权限和浏览器 autoplay 控制生效 |
 | TJ-009.3 | 山水/云雾动效性能与无障碍 | `InkLandscape`、CSS、浏览器回归 | 参考原水墨结构，弱网/低性能设备平稳，reduced-motion 停止 |

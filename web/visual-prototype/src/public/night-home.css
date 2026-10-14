@@ -1,0 +1,306 @@
+/**
+ * TJ-008.7 首页深青夜景视觉还原。
+ * 只影响首页（.scenario-home 内）；其他页面 / API / 音乐逻辑不动。
+ * 夜景为默认主题，纸主题（data-theme="paper"）用浅色水墨版本。
+ */
+
+/* ---------- Hero：全幅夜景 ---------- */
+.scenario-home .scenario-hero.night-hero {
+  min-height: 640px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 0;
+  background: #0b1c23;
+}
+html[data-theme="paper"] .scenario-home .scenario-hero.night-hero {
+  background: #f2eee1;
+}
+.night-hero-night,
+.night-hero-paper {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.night-hero-paper {
+  display: none;
+}
+html[data-theme="paper"] .night-hero-night {
+  display: none;
+}
+html[data-theme="paper"] .night-hero-paper {
+  display: block;
+}
+.night-hero-scene {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+/* 纸主题：复用既有 InkLandscape，做浅化全幅处理 */
+.night-hero-paper .ink-landscape {
+  position: absolute;
+  width: 130%;
+  max-width: none;
+  right: -15%;
+  top: -10%;
+  opacity: 0.5;
+}
+.night-hero-paper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(242, 238, 225, 0.25) 0%, rgba(242, 238, 225, 0) 40%, rgba(242, 238, 225, 0.55) 100%);
+}
+/* 夜景底部向页面底色过渡 */
+.night-hero-night::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(11, 28, 35, 0) 62%, rgba(11, 28, 35, 0.85) 100%);
+  pointer-events: none;
+}
+
+/* ---------- Hero 中央品牌区 ---------- */
+.night-hero-brand {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 90px 20px 110px;
+  max-width: 860px;
+}
+.brand-title {
+  margin: 0;
+  font-family: "Noto Serif CJK SC", "Songti SC", serif;
+  font-weight: 600;
+  font-size: clamp(54px, 7.5vw, 92px);
+  letter-spacing: 14px;
+  text-indent: 14px;
+  color: #f0d6a0;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.55);
+  line-height: 1.25;
+}
+html[data-theme="paper"] .brand-title {
+  color: #173f36;
+  text-shadow: none;
+}
+.brand-seal {
+  display: inline-block;
+  vertical-align: super;
+  margin-left: 14px;
+  background: #a93226;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 4px;
+  writing-mode: vertical-rl;
+  padding: 10px 6px;
+  border-radius: 4px;
+  text-indent: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+/* 覆盖 theme.css 中旧 hero 的 h1 span 夜景规则（特异性更高），保证印章为白文 */
+.night-hero-brand .brand-title .brand-seal {
+  color: #fff;
+}
+.brand-sub {
+  margin: 18px 0 0;
+  font-family: "Noto Serif CJK SC", "Songti SC", serif;
+  font-size: clamp(17px, 2.2vw, 24px);
+  letter-spacing: 10px;
+  text-indent: 10px;
+  color: #e2bb79;
+}
+html[data-theme="paper"] .brand-sub {
+  color: #86612e;
+}
+.brand-desc {
+  margin: 20px auto 0;
+  max-width: 600px;
+  font-size: 14px;
+  line-height: 2;
+  color: #b9cdc4;
+}
+html[data-theme="paper"] .brand-desc {
+  color: #435d50;
+}
+.night-hero-brand .scenario-hero-actions {
+  margin-top: 34px;
+  justify-content: center;
+}
+.night-hero-brand .text-action {
+  color: #bfa87e;
+}
+html[data-theme="paper"] .night-hero-brand .text-action {
+  color: #435d50;
+}
+
+/* ---------- 四张宣纸大卡 ---------- */
+.night-cards-section {
+  position: relative;
+  z-index: 2;
+  padding: 44px 20px 8px;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+.paper-cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+.paper-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #f6f1e2;
+  border: 1px solid #d8cfae;
+  border-radius: 10px;
+  padding: 20px 20px 22px;
+  text-decoration: none;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+html[data-theme="paper"] .paper-card {
+  box-shadow: 0 8px 22px rgba(60, 70, 50, 0.14);
+}
+.paper-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.35);
+}
+.paper-card-seal {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: #a93226;
+  color: #fff;
+  font-size: 12px;
+  letter-spacing: 3px;
+  writing-mode: vertical-rl;
+  padding: 8px 5px;
+  border-radius: 3px;
+  font-family: "Noto Serif CJK SC", "Songti SC", serif;
+}
+.paper-card-art {
+  display: grid;
+  place-items: center;
+  height: 108px;
+  margin-bottom: 6px;
+}
+.paper-card-art-svg {
+  max-height: 100%;
+  max-width: 80%;
+}
+.paper-card-title {
+  margin: 8px 0 4px;
+  text-align: center;
+  font-family: "Noto Serif CJK SC", "Songti SC", serif;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 6px;
+  text-indent: 6px;
+  color: #24382e;
+}
+.paper-card-tagline {
+  display: block;
+  text-align: center;
+  font-size: 13px;
+  color: #86612e;
+  letter-spacing: 1px;
+}
+.paper-card-desc {
+  margin: 10px 0 0;
+  flex: 1;
+  font-size: 13px;
+  line-height: 1.85;
+  color: #46523f;
+  text-align: center;
+}
+.paper-card-btn {
+  margin-top: 16px;
+  display: block;
+  text-align: center;
+  background: #24382e;
+  color: #f0d6a0;
+  font-size: 14px;
+  letter-spacing: 4px;
+  text-indent: 4px;
+  padding: 11px 0;
+  border-radius: 999px;
+}
+.paper-card:hover .paper-card-btn {
+  background: #2f4a3c;
+}
+
+/* 举证行移到卡片下方，保持原有诚实声明 */
+.night-cards-section .scenario-proof {
+  justify-content: center;
+  margin-top: 26px;
+}
+
+/* ---------- 夜景氛围动画（reduced-motion 下静态） ---------- */
+@keyframes nhs-lantern-flicker {
+  0%, 100% { opacity: 0.88; }
+  50% { opacity: 1; }
+}
+@keyframes nhs-mist-drift {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(46px); }
+}
+.nhs-lantern {
+  animation: nhs-lantern-flicker 5s ease-in-out infinite;
+}
+.nhs-mist-1 {
+  animation: nhs-mist-drift 26s ease-in-out infinite;
+}
+.nhs-mist-2 {
+  animation: nhs-mist-drift 34s ease-in-out infinite reverse;
+}
+@media (prefers-reduced-motion: reduce) {
+  .night-hero-scene .nhs-lantern,
+  .night-hero-scene .nhs-mist {
+    animation: none;
+  }
+  .paper-card,
+  .paper-card:hover {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 1050px) {
+  .paper-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 640px) {
+  .scenario-home {
+    /* 底部固定 tab 栏会遮挡内容，预留安全间距 */
+    padding-bottom: 96px;
+  }
+  .scenario-home .scenario-hero.night-hero {
+    min-height: 560px;
+  }
+  .night-hero-brand {
+    padding: 70px 16px 90px;
+  }
+  .brand-title {
+    letter-spacing: 8px;
+    text-indent: 8px;
+  }
+  .brand-seal {
+    font-size: 12px;
+    padding: 8px 5px;
+    margin-left: 8px;
+  }
+  .brand-sub {
+    letter-spacing: 6px;
+    text-indent: 6px;
+  }
+  .paper-cards {
+    grid-template-columns: 1fr;
+  }
+  .night-cards-section {
+    padding: 32px 16px 8px;
+  }
+}

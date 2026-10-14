@@ -129,10 +129,19 @@ console.log(`失败: ${failures.length}，不可验证（需人工看截图）: 
 const SPOT_BG = THEME === "night" ? [11, 28, 35] : [247, 244, 236];
 // 英雄区 h1 位于浅色卡片上（夜景重设为深墨色），用卡片近似底色单独校验
 const SPOT_CARD_BG = [245, 242, 234];
+// 宣纸大卡纸面底色（双主题一致）与深色胶囊按钮底色、朱砂印底色
+const SPOT_PAPER_BG = [246, 241, 226];
+const SPOT_DARKBTN_BG = [36, 56, 46];
+const SPOT_SEAL_BG = [169, 50, 38];
 const SPOT_CHECKS = [
-  ["/", ".scenario-hero h1", true, SPOT_BG],
-  ["/", ".scenario-hero h1 span", true, SPOT_BG],
-  ["/", ".scenario-hero p", false, SPOT_BG],
+  ["/", ".brand-title", true, SPOT_BG],
+  ["/", ".brand-sub", true, SPOT_BG],
+  ["/", ".brand-desc", false, SPOT_BG],
+  ["/", ".brand-seal", false, SPOT_SEAL_BG],
+  ["/", ".paper-card-title", false, SPOT_PAPER_BG],
+  ["/", ".paper-card-tagline", false, SPOT_PAPER_BG],
+  ["/", ".paper-card-desc", false, SPOT_PAPER_BG],
+  ["/", ".paper-card-btn", false, SPOT_DARKBTN_BG],
   ["/", ".scenario-proof", false, SPOT_BG],
   ["/", ".public-nav a", false, SPOT_BG],
   ["/", ".theme-toggle", false, SPOT_BG],

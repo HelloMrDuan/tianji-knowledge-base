@@ -1,12 +1,16 @@
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { InkLandscape } from "./InkLandscape";
+import { NightHeroScene } from "./NightHeroScene";
+import { PaperCard } from "./PaperCard";
 import { domainPages } from "./domainPages";
 import { scenarioProducts } from "./scenarioProducts";
 import "./scenarios.css";
+import "./night-home.css";
 
 export function HomePage() {
   const baziProfile = scenarioProducts.find((item) => item.id === "bazi-profile")!;
+  const daily = scenarioProducts.find((item) => item.id === "daily")!;
   const yearly = scenarioProducts.find((item) => item.id === "yearly")!;
   const romance = scenarioProducts.find((item) => item.id === "romance")!;
   const career = scenarioProducts.find((item) => item.id === "career")!;
@@ -21,16 +25,21 @@ export function HomePage() {
   const keyProducts = new Set(["daily", "romance", "career"]);
   return (
     <div className="scenario-home">
-      <section className="scenario-hero">
-        <InkLandscape />
-        <div className="scenario-hero-copy">
-          <div className="eyebrow"><span />天机 · 运势与姻缘</div>
-          <h1>
-            今天运势如何？
-            <span>桃花姻缘 · 事业财运 · 八字</span>
+      <section className="scenario-hero night-hero">
+        <div className="night-hero-night" aria-hidden="true">
+          <NightHeroScene />
+        </div>
+        <div className="night-hero-paper" aria-hidden="true">
+          <InkLandscape />
+        </div>
+        <div className="night-hero-brand">
+          <h1 className="brand-title">
+            天机命理
+            <span className="brand-seal" aria-hidden="true">天机</span>
           </h1>
-          <p>
-            看今天的运势结构，也看看桃花、事业和财运。依据真实历法计算与已审核的传统知识，
+          <p className="brand-sub">观天之道 · 知人之命</p>
+          <p className="brand-desc">
+            以真实历法计算与已审核的传统知识为据，看今天的运势结构，也看看桃花、事业和财运。
             现阶段提供结构参考；暂未证实的吉凶、婚期和收益预测不会编造。
           </p>
           <div className="scenario-hero-actions">
@@ -49,12 +58,21 @@ export function HomePage() {
               <Icon name="chevron" size={16} />
             </a>
           </div>
-          <div className="scenario-proof">
-            <span><i />确定性计算先行</span>
-            <span><i />规则与典籍可追溯</span>
-            <span><i />今日 / 本周 / 本月 / 年度可重复计算</span>
-            <span><i />AI 未校准前不自动公开</span>
-          </div>
+        </div>
+      </section>
+
+      <section className="night-cards-section" aria-label="主要测算入口">
+        <div className="paper-cards">
+          <PaperCard product={daily} art="sunrise" />
+          <PaperCard product={romance} art="peach" />
+          <PaperCard product={career} art="horse" />
+          <PaperCard product={yearly} art="mountains" />
+        </div>
+        <div className="scenario-proof">
+          <span><i />确定性计算先行</span>
+          <span><i />规则与典籍可追溯</span>
+          <span><i />今日 / 本周 / 本月 / 年度可重复计算</span>
+          <span><i />AI 未校准前不自动公开</span>
         </div>
       </section>
 
