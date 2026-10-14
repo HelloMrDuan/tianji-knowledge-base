@@ -6,7 +6,8 @@ test("TJ-008: user-first ink home prioritizes fortune, romance, career and time 
   await page.goto("/");
   const hero = page.locator(".scenario-hero");
   // TJ-008.7：夜景 hero 改为全幅 SVG 夜景（默认夜景主题）；纸主题下显示浅色水墨
-  await expect(hero.locator(".night-hero-night .night-hero-scene")).toBeVisible();
+  // 桌面/手机各一套 SVG，此处断言桌面版（默认视口）在夜景主题下可见
+  await expect(hero.locator(".night-hero-night .nhs-desktop .night-hero-scene")).toBeVisible();
   await expect(hero.locator(".scenario-hero-actions .button.primary")).toHaveText(/查看今日运势/);
   await expect(hero.locator(".scenario-hero-actions .button.primary")).toHaveAttribute("href", "/daily-structure");
   await expect(hero.locator(".scenario-hero-actions .button.outlined")).toHaveCount(2);
