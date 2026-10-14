@@ -15,9 +15,9 @@ class TaskTrackerTests(unittest.TestCase):
         cls.status = task.read(task.STATUS)
         cls.history = task.read(task.HISTORY)
 
-    def test_real_wbs_has_92_unique_atomic_tasks(self):
+    def test_real_wbs_has_93_unique_atomic_tasks(self):
         rows, events = task.validate(self.wbs, self.status, self.history)
-        self.assertEqual(len(rows), 92)
+        self.assertEqual(len(rows), 93)
         self.assertGreaterEqual(len(events), 9)
         self.assertIn("TJ-004.3", rows)
         self.assertIn(rows["TJ-004.3"][3], {"待做", "进行中", "已提交PR", "CI待验", "阻塞", "已合并"})
