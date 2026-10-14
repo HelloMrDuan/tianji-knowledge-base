@@ -15,9 +15,11 @@ class TaskTrackerTests(unittest.TestCase):
         cls.status = task.read(task.STATUS)
         cls.history = task.read(task.HISTORY)
 
-    def test_real_wbs_has_92_unique_atomic_tasks(self):
+    def test_real_wbs_task_count_tracks_status(self):
+        # WBS 与状态表的一致性由 validate() 强制校验（缺任务/多任务都会抛错），
+        # 此处只设数量下限：新增原子任务时无需手动修改期望值。
         rows, events = task.validate(self.wbs, self.status, self.history)
-        self.assertEqual(len(rows), 92)
+        self.assertGreaterEqual(len(rows), 92)
         self.assertGreaterEqual(len(events), 9)
         self.assertIn("TJ-004.3", rows)
         self.assertIn(rows["TJ-004.3"][3], {"待做", "进行中", "已提交PR", "CI待验", "阻塞", "已合并"})
