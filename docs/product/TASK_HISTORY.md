@@ -34,6 +34,8 @@
 
 | E0018 | 2026-10-14 | TJ-004.4 | 进行中 | 对 main@c615a33 构建产物真实 Chromium 取证：12 页 × 1440/390/360 共 36 张全页截图；音乐播放/暂停/音量/持久化/路由持续/默认静音/全局暂停 7/7 通过；差异台账已提交，主题级差异 D-01 待用户裁定，结果态比对待后端 | 本 PR（分支 tj-004.4-visual-diff-ledger） | — | 本地 original-design-home 5/5 通过；仓库 CI 待验 |
 
+| E0019 | 2026-10-14 | TJ-004.4 | 已合并 | 审计交付完成：差异台账 v2（#87/#89 对照、严重程度、后续任务、D-01 双主题深青默认已裁定）+ 42 张截图归档 + tj0044-capture/music 可复现脚本（36/36、18/18 含后台停止）全部入库；结果态比对缺口如实保留待受控后端，未伪造；私有库无变更 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/237 | ff9e9d11908cd27155b00cfb6595b224c5d06b98 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/38534526334 |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
