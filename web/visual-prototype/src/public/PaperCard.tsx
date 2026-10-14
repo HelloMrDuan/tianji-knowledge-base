@@ -6,18 +6,22 @@
  */
 import { Link } from "../shared/router";
 import type { ScenarioProduct } from "./scenarioProducts";
+import artSunrise from "../assets/night-home/art-sunrise.jpg";
+import artPeach from "../assets/night-home/art-peach.jpg";
+import artHorse from "../assets/night-home/art-horse.jpg";
+import artMountains from "../assets/night-home/art-mountains.jpg";
 
 export type PaperCardArt = "sunrise" | "peach" | "horse" | "mountains";
 
 /**
- * 第三轮：卡片插画改用原创 AI 水墨（public/images/night-home/art-*.jpg），
+ * 第三轮：卡片插画改用原创 AI 水墨（src/assets/night-home/），
  * 非 SVG 几何堆砌。文案仍只用 scenarioProducts 真实字段。
  */
 const ART_SRC: Record<PaperCardArt, string> = {
-  sunrise: "/images/night-home/art-sunrise.jpg",
-  peach: "/images/night-home/art-peach.jpg",
-  horse: "/images/night-home/art-horse.jpg",
-  mountains: "/images/night-home/art-mountains.jpg",
+  sunrise: artSunrise,
+  peach: artPeach,
+  horse: artHorse,
+  mountains: artMountains,
 };
 
 const ART_ALT: Record<PaperCardArt, string> = {
