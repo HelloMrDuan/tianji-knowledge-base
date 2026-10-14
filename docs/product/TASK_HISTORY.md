@@ -38,6 +38,8 @@
 
 | E0020 | 2026-10-14 | TJ-008.6 | 进行中 | 双主题技术基础开发启动：data-theme 主题机制（深青夜景默认/米白宣纸可选）、localStorage 偏好持久化、桌面+手机切换入口、index.html 内联初始化防首屏闪烁、异常值回退；WBS 已登记 TJ-008.6 | 本 PR（分支 tj-008.6-theme-foundation） | — | 真实 Chromium 三视口验证待执行；仓库 CI 待验 |
 
+| E0021 | 2026-10-14 | TJ-008.6 | 已合并 | 双主题基础交付完成：主题机制/持久化/切换入口/防闪烁；WCAG AA 对比度门禁（夜景/宣纸双通过，零匹配选择器会 FAIL）；回归单测去硬编码；Chromium 25/25、页面回归 35/35；19 张双主题截图入库；未宣称首页精确还原（归 TJ-008.7） | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/239 | 023543a9c4787333e614e1612321a83de65b21c0 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/38542003719 |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。

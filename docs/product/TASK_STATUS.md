@@ -35,7 +35,7 @@
 | TJ-008.3 | M1 | 统一真实结果页的古风版式 | 已合并 | [公开 #232](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/232) `4f00515048d08ee92e998d08cc03a543756cfddc` · [私有 #55](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/55) `5e35a87030c4c6f2b094c24d0bb02d40b74b35ff` · [真实 7/7 浏览器与四张手机版结果截图](https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38109609969)；公开 4 门禁通过 | 2026-10-11 | 四页面可读摘要已验收；其余场景 UI、全站原图/后台、旺衰/大运/预测规则各自仍未完成 |
 | TJ-008.4 | M1 | 移动端与无障碍 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-008.5 | M1 | 对齐原设计视觉验收并固化基线 | 待做 | — | — | 按 WBS 验收条件执行 |
-| TJ-008.6 | M1 | 双主题基础与偏好持久化 | 进行中 | 主题机制（data-theme/night 默认/paper 可选）+ localStorage 持久化 + 桌面/手机切换入口 + 首屏防闪烁；本 PR 开发中 | 2026-10-14 | 仅技术基础与必要基础组件适配，不宣称完成首页精确视觉还原；后续 TJ-008.7 起逐项视觉还原 |
+| TJ-008.6 | M1 | 双主题基础与偏好持久化 | 已合并 | [公开 #239](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/239) merge `023543a9c4787333e614e1612321a83de65b21c0` · 公开四门禁 success（https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/38542003719） · 私有库无变更 · 主题机制/持久化/切换入口/防闪烁/WCAG AA 对比度门禁已交付 | 2026-10-14 | 仅技术基础；首页精确视觉还原由 TJ-008.7 接续 |
 | TJ-009.1 | M1 | 原创音轨播放器持久化与默认静音 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-009.2 | M1 | 进入后台停止音乐、离开后台不擅自重启 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-009.3 | M1 | 山水/云雾动效性能与无障碍 | 待做 | — | — | 按 WBS 验收条件执行 |
