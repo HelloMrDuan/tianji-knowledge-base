@@ -1,0 +1,129 @@
+/**
+ * TJ-008.6 双主题基础。
+ *
+ * - 深青夜景（night）为默认主题：html[data-theme="night"]（或无属性时）生效。
+ * - 米白宣纸（paper）为可切换主题：html[data-theme="paper"]。
+ * - 现有组件全部沿用 var(--paper)/var(--ink)/… 语义变量；本文件只做
+ *   token 重映射 + 必要的硬编码色面夜间适配（可读性兜底）。
+ * - 精确的夜景视觉还原（楼阁/灯笼/月色美术）归 TJ-008.7，本文件不做。
+ */
+
+/* ---------- 夜景 token ---------- */
+html[data-theme="night"] {
+  color-scheme: dark;
+}
+html[data-theme="night"] body {
+  background: #0b1c23;
+}
+html[data-theme="night"] .public-app {
+  --ink: #f0d6a0;
+  --ink-soft: #bfa87e;
+  --gold: #e2bb79;
+  --paper: #0b1c23;
+  --hair: rgba(226, 183, 121, 0.25);
+  --entry-surface: rgba(240, 214, 160, 0.06);
+  --entry-border: rgba(226, 183, 121, 0.35);
+  --entry-muted: #8ba0a3;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.45);
+  background-image:
+    radial-gradient(1200px 500px at 50% -80px, rgba(46, 110, 120, 0.35), transparent 70%),
+    radial-gradient(900px 420px at 85% 110%, rgba(145, 42, 32, 0.12), transparent 70%);
+}
+
+/* ---------- 宣纸 token（显式声明，与既有 .public-app 默认值一致） ---------- */
+html[data-theme="paper"] {
+  color-scheme: light;
+}
+html[data-theme="paper"] body {
+  background: #f7f4ec;
+}
+html[data-theme="paper"] .public-app {
+  /* 与既有 .public-app 默认值一致；entry/shadow 系列沿用各文件原定义 */
+  --ink: #173f36;
+  --ink-soft: #435d50;
+  --gold: #8c6831;
+  --paper: #f7f4ec;
+  --hair: #dddcd1;
+}
+
+/* ---------- 夜景可读性兜底：浅色硬编码色面内的标题/眉题保持深墨色 ----------
+   审定稿夜景即深底色+浅色卷轴卡；卡片内文字沿用宣纸墨色，本文件不重做卡片美术（归 TJ-008.7/008.8）。 */
+html[data-theme="night"] :is(.scenario-card, .question-hero, .bazi-profile-hero, .career-hero, .compat-hero, .daily-hero, .romance-hero, .dream-culture-hero, .dream-culture-library, .life-hero, .period-hero, .yearly-hero) :is(h1, h2, h3, .eyebrow),
+html[data-theme="night"] :is(.romance-entry, .career-entry, .daily-entry, .life-entry, .period-entry, .yearly-entry, .bazi-entry, .compat-entry, .ask-entry, .dream-entry) :is(h1, h2, h3) {
+  color: #24382e;
+}
+html[data-theme="night"] .music-trigger {
+  color: #cbb37f;
+}
+html[data-theme="night"] .music-global-pause {
+  background: #1d3a44;
+  color: #e2bb79;
+}
+html[data-theme="night"] .music-popover {
+  background: #10262e;
+  border-color: rgba(226, 183, 121, 0.35);
+  color: #f0d6a0;
+  box-shadow: 0 12px 45px rgba(0, 0, 0, 0.5);
+}
+html[data-theme="night"] .music-popover .music-close {
+  color: #bfa87e;
+}
+html[data-theme="night"] .mobile-bottom-nav {
+  background: rgba(13, 33, 41, 0.96);
+  border-top-color: rgba(226, 183, 121, 0.25);
+}
+html[data-theme="night"] .mobile-bottom-nav > * {
+  color: #8ba0a3;
+}
+html[data-theme="night"] .mobile-bottom-nav > .active {
+  color: #f0d6a0;
+}
+html[data-theme="night"] .public-dialog {
+  background: #10262e;
+  color: #f0d6a0;
+}
+html[data-theme="night"] .public-brand small {
+  color: #8ba0a3;
+}
+html[data-theme="night"] .button.primary {
+  color: #12242b;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+}
+html[data-theme="night"] .button.primary:hover {
+  background: #d9ab60;
+}
+html[data-theme="night"] .button.outlined {
+  border-color: rgba(226, 183, 121, 0.5);
+}
+
+/* ---------- 主题切换按钮（双主题通用） ---------- */
+.theme-toggle {
+  border: 1px solid var(--hair);
+  background: transparent;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+  min-height: 44px;
+  color: var(--ink-soft);
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.theme-toggle:hover {
+  color: var(--ink);
+  border-color: var(--gold);
+}
+.theme-toggle-glyph {
+  font-size: 15px;
+  line-height: 1;
+}
+@media (max-width: 450px) {
+  .theme-toggle {
+    padding: 0 10px;
+  }
+  .theme-toggle-label {
+    display: none;
+  }
+}

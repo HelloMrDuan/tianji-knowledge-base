@@ -19,7 +19,10 @@ import { DreamCulturePage } from "./DreamCulturePage";
 import { DailyStructurePage } from "./DailyStructurePage";
 import { PeriodStructurePage } from "./PeriodStructurePage";
 import { CompatibilityStructurePage } from "./CompatibilityStructurePage";
+import { ThemeToggle } from "./ThemeToggle";
+import { useTheme } from "./theme";
 import "./public.css";
+import "./theme.css";
 
 const favoriteKey = "tianji.product.favorite";
 function initialFavorite() {
@@ -36,6 +39,7 @@ export function PublicApp() {
   const resultPage = domainPages.find((item) => path === `/${item.id}/result`);
   const [favorite, setFavorite] = useState(initialFavorite);
   const [notice, setNotice] = useState("");
+  const [theme, setTheme] = useTheme(); // TJ-008.6 双主题：深青夜景默认
 
   useEffect(() => {
     try {
@@ -104,6 +108,7 @@ export function PublicApp() {
           </nav>
 
           <div className="public-header-end">
+            <ThemeToggle theme={theme} onChange={setTheme} />
             <MusicPlayer />
           </div>
         </header>
