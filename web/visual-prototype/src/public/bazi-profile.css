@@ -23,3 +23,116 @@
 .bazi-strength-observations summary{cursor:pointer;color:#456c4e}
 .bazi-strength-observations blockquote{margin:12px 0;border-left:2px solid #a7b89a;padding:10px;background:#fffdf8}
 .bazi-strength-observations blockquote p{margin:5px 0 0;line-height:1.8}
+
+/* TJ-006.1 第三轮：用户友好的出生资料输入 */
+.birth-input-user {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 16px 0;
+}
+
+.birth-calendar-tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.birth-calendar-tabs button {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid var(--border, #d4c5a0);
+  background: transparent;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.birth-calendar-tabs button.active {
+  background: var(--accent, #8b0000);
+  color: white;
+  border-color: var(--accent, #8b0000);
+}
+
+.birth-date-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.birth-date-row label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.birth-date-row select {
+  padding: 8px 10px;
+  border: 1px solid var(--border, #d4c5a0);
+  border-radius: 6px;
+  font-size: 15px;
+  min-width: 90px;
+}
+
+.leap-month-check {
+  flex-direction: row !important;
+  align-items: center;
+  gap: 6px !important;
+}
+
+.birth-time-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.time-unknown-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.time-selects {
+  display: flex;
+  gap: 10px;
+}
+
+.time-selects label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.time-selects select {
+  padding: 8px 10px;
+  border: 1px solid var(--border, #d4c5a0);
+  border-radius: 6px;
+  font-size: 15px;
+  min-width: 80px;
+}
+
+.birth-region-row label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.birth-region-row select {
+  padding: 8px 10px;
+  border: 1px solid var(--border, #d4c5a0);
+  border-radius: 6px;
+  font-size: 15px;
+  max-width: 220px;
+}
+
+.birth-note {
+  font-size: 13px;
+  color: var(--muted, #888);
+  margin: 0;
+  line-height: 1.5;
+}

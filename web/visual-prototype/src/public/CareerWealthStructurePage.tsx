@@ -6,7 +6,7 @@ import { Link } from "../shared/router";
 import { executeCareerScenario, type ScenarioExecuteResponse } from "./api";
 import { readSavedTargetYear, saveTargetYear, isValidTargetYear, MIN_TARGET_YEAR, MAX_TARGET_YEAR } from "./targetYear";
 import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
-import { toApiValue } from "./birthProfile";
+import { toApiValue, fromLegacy } from "./birthProfile";
 import "./career-wealth-structure.css";
 
 const groupOrder = ["wealth", "authority", "output", "resource", "peers"];
@@ -45,9 +45,9 @@ function displayEvidence(id: string, evidence: Record<string, any>) {
 }
 
 export function CareerWealthStructurePage() {
-  const [date, setDate] = useState(() => readSavedBirthProfile().date);
+  const [date, setDate] = useState(() => { const p = readSavedBirthProfile(); return p.year ? `${p.year}-${String(p.month).padStart(2,"0")}-${String(p.day).padStart(2,"0")}` : ""; });
   const [time, setTime] = useState(() => readSavedBirthProfile().time);
-  const [timezone, setTimezone] = useState(() => readSavedBirthProfile().timezone || "Asia/Shanghai");
+  const [timezone, setTimezone] = useState(() => { const p = readSavedBirthProfile(); const m: Record<string,string> = {"中国大陆":"Asia/Shanghai","香港":"Asia/Hong_Kong","台湾":"Asia/Taipei"}; return m[p.region] || "Asia/Shanghai"; });
   const [targetYear, setTargetYear] = useState(readSavedTargetYear);
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
   const [error, setError] = useState("");
@@ -78,11 +78,11 @@ export function CareerWealthStructurePage() {
     try {
       if (!isValidTargetYear(targetYear)) throw new Error("请选择 1901 至 2098 年的公历年份");
       const response = await executeCareerScenario({
-        birth_value: toApiValue({ date, time, timezone }),
+        birth_value: toApiValue(fromLegacy(date, time, timezone)),
         target_year: targetYear,
       });
       if (version !== requestVersion.current) return;
-      saveBirthProfile({ date, time, timezone });
+      saveBirthProfile(fromLegacy(date, time, timezone));
       saveTargetYear(targetYear);
       setResult(response);
     } catch (err) {

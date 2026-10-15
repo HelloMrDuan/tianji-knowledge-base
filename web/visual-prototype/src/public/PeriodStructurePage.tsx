@@ -8,7 +8,7 @@ import {
   type ScenarioExecuteResponse,
 } from "./api";
 import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
-import { toApiValue } from "./birthProfile";
+import { toApiValue, fromLegacy } from "./birthProfile";
 import "./period-structure.css";
 
 const relationLabel: Record<string, string> = {six_harmony: "六合", harm: "六害", clash: "六冲"};
@@ -41,9 +41,9 @@ type PeriodMode = "weekly" | "monthly";
 export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
   const saved = useMemo(readSavedBirthProfile, []);
   const today = useMemo(beijingToday, []);
-  const [birthDate, setBirthDate] = useState(saved.date);
+  const [birthDate, setBirthDate] = useState(saved.year ? `${saved.year}-${String(saved.month).padStart(2,"0")}-${String(saved.day).padStart(2,"0")}` : "");
   const [birthTime, setBirthTime] = useState(saved.time);
-  const [timezone, setTimezone] = useState(() => readSavedBirthProfile().timezone || "Asia/Shanghai");
+  const [timezone, setTimezone] = useState(() => { const p = readSavedBirthProfile(); const m: Record<string,string> = {"中国大陆":"Asia/Shanghai","香港":"Asia/Hong_Kong","台湾":"Asia/Taipei"}; return m[p.region] || "Asia/Shanghai"; });
   const [anchorDate, setAnchorDate] = useState(today);
   const [targetMonth, setTargetMonth] = useState(today.slice(0, 7));
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
@@ -69,12 +69,12 @@ export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
     setError("");
     setResult(null);
     try {
-      const birthValue = toApiValue({ date: birthDate, time: birthTime, timezone });
+      const birthValue = toApiValue(fromLegacy(birthDate, birthTime, timezone));
       const next = isWeekly
         ? await executeWeeklyScenario({ birth_value: birthValue, anchor_date: anchorDate })
         : await executeMonthlyScenario({ birth_value: birthValue, target_month: targetMonth });
       if (version !== requestVersion.current) return;
-      saveBirthProfile({ date: birthDate, time: birthTime, timezone });
+      saveBirthProfile(fromLegacy(birthDate, birthTime, timezone));
       setResult(next);
     } catch (err) {
       if (version === requestVersion.current)
@@ -123,7 +123,7 @@ export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
         <form onSubmit={submit}>
           <div className="period-entry-head">
             <div>
-              <span className="eyebrow">{saved.date ? "已复用人生总览资料" : "出生资料"}</span>
+              <span className="eyebrow">{saved.year > 0 ? "已复用人生总览资料" : "出生资料"}</span>
               <h2>生成{title}</h2>
             </div>
           </div>
@@ -176,7 +176,7 @@ export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
         <section className="period-empty">
           <span>{glyph}</span>
           <div>
-            <h2>{saved.date ? "出生资料已经准备好" : "先建立一次出生资料"}</h2>
+            <h2>{saved.year > 0 ? "出生资料已经准备好" : "先建立一次出生资料"}</h2>
             <p>点击生成后才会展示真实周期结构，不使用预制周运/月运。</p>
           </div>
         </section>

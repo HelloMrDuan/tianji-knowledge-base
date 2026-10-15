@@ -5,7 +5,7 @@ import { Link } from "../shared/router";
 import { executeLifeScenario, type ScenarioExecuteResponse } from "./api";
 import { readSavedTargetYear, saveTargetYear, isValidTargetYear, MIN_TARGET_YEAR, MAX_TARGET_YEAR } from "./targetYear";
 import { readSavedBirthProfile, saveBirthProfile, clearBirthProfile } from "./birthProfile";
-import { toApiValue } from "./birthProfile";
+import { toApiValue, fromLegacy } from "./birthProfile";
 import "./life-overview.css";
 
 const relationNames: Record<string, string> = {
@@ -47,9 +47,9 @@ function reviewedExcerpts(ids: unknown, evidence: Record<string, any>): Reviewed
 
 export function LifeOverviewPage() {
   const initial = readSavedBirthProfile();
-  const [date, setDate] = useState(initial.date);
+  const [date, setDate] = useState(initial.year ? `${initial.year}-${String(initial.month).padStart(2,"0")}-${String(initial.day).padStart(2,"0")}` : "");
   const [time, setTime] = useState(initial.time);
-  const [timezone, setTimezone] = useState(() => readSavedBirthProfile().timezone || "Asia/Shanghai");
+  const [timezone, setTimezone] = useState(() => { const p = readSavedBirthProfile(); const m: Record<string,string> = {"中国大陆":"Asia/Shanghai","香港":"Asia/Hong_Kong","台湾":"Asia/Taipei"}; return m[p.region] || "Asia/Shanghai"; });
   const [targetYear, setTargetYear] = useState(readSavedTargetYear);
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
   const [error, setError] = useState("");
@@ -80,11 +80,11 @@ export function LifeOverviewPage() {
     try {
       if (!isValidTargetYear(targetYear)) throw new Error("请选择 1901 至 2098 年的公历年份");
       const next = await executeLifeScenario({
-        birth_value: toApiValue({ date, time, timezone }),
+        birth_value: toApiValue(fromLegacy(date, time, timezone)),
         target_year: targetYear,
       });
       if (version !== requestVersion.current) return;
-      saveBirthProfile({ date, time, timezone });
+      saveBirthProfile(fromLegacy(date, time, timezone));
       saveTargetYear(targetYear);
       setResult(next);
     } catch (err) {

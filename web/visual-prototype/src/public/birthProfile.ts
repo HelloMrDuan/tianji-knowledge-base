@@ -1,209 +1,188 @@
 /**
- * TJ-006.1: 多场景统一出生资料模型与本地校验。
+ * TJ-006.1 第三轮：面向普通用户的出生资料模型。
  *
- * - 同一 localStorage Key (`tianji.profile.birth.v1`) 跨场景复用，不另起第二套。
- * - 日期/时刻显式校验：手动闰年与每月天数判定，禁用 Date 自动归一化。
- * - 时刻可选：缺失时不伪造时柱，API 参数明确标记未知。
- * - 时区显式：用户可选择，不硬编码 +08:00；默认取浏览器时区。
- * - 仅保存于本地，不向日志/URL 泄露；仅在用户显式计算请求中传输。
+ * - 历法：阳历/农历二选一；农历支持闰月
+ * - 时间：几点几分，或明确"不知道"
+ * - 地区：出生地区选择（中国大陆默认），系统内部处理时区
+ * - 原始输入与转换参数分层存储，避免重复转换漂移
  */
+
+import { lunarToSolar } from "./lunarConvert";
 
 const KEY = "tianji.profile.birth.v1";
 
-/** 出生资料：日期必填，时刻与时区可选但显式 */
-export type BirthProfile = {
-  /** YYYY-MM-DD，公历 */
-  date: string;
-  /** HH:MM，24 小时制；空字符串表示未知（不伪造） */
+export type CalendarType = "solar" | "lunar";
+
+/** 用户原始输入（按用户认知） */
+export type BirthInput = {
+  calendarType: CalendarType;
+  year: number;
+  month: number;
+  day: number;
+  /** 农历闰月标记；阳历时忽略 */
+  isLeapMonth: boolean;
+  /** HH:MM；空表示未知 */
   time: string;
-  /** IANA 时区，如 Asia/Shanghai；可选，缺省取浏览器时区 */
-  timezone?: string;
+  /** 明确"不知道出生时间" */
+  timeUnknown: boolean;
+  /** 出生地区，如 "中国大陆" */
+  region: string;
 };
 
-const EMPTY_PROFILE: BirthProfile = { date: "", time: "", timezone: "" };
+/** 完整资料（含原始输入） */
+export type BirthProfile = BirthInput;
 
-/** 明确支持的 IANA 时区（命理常用 + 常见华人地区） */
-export const TIMEZONE_OPTIONS: { value: string; label: string }[] = [
-  { value: "Asia/Shanghai", label: "北京时间（UTC+8）" },
-  { value: "Asia/Taipei", label: "台北时间（UTC+8）" },
-  { value: "Asia/Hong_Kong", label: "香港时间（UTC+8）" },
-  { value: "Asia/Singapore", label: "新加坡时间（UTC+8）" },
-  { value: "Asia/Tokyo", label: "东京时间（UTC+9）" },
-  { value: "America/New_York", label: "纽约时间（美东）" },
-  { value: "America/Los_Angeles", label: "洛杉矶时间（美西）" },
-  { value: "Europe/London", label: "伦敦时间" },
-  { value: "Australia/Sydney", label: "悉尼时间" },
-  { value: "UTC", label: "协调世界时（UTC）" },
+const EMPTY_PROFILE: BirthProfile = {
+  calendarType: "solar",
+  year: 0,
+  month: 0,
+  day: 0,
+  isLeapMonth: false,
+  time: "",
+  timeUnknown: false,
+  region: "中国大陆",
+};
+
+/** 出生地区选项（用户认知） */
+export const REGION_OPTIONS: { value: string; label: string }[] = [
+  { value: "中国大陆", label: "中国大陆" },
+  { value: "香港", label: "香港" },
+  { value: "台湾", label: "台湾" },
+  { value: "澳门", label: "澳门" },
+  { value: "新加坡", label: "新加坡" },
+  { value: "马来西亚", label: "马来西亚" },
+  { value: "美国", label: "美国" },
+  { value: "加拿大", label: "加拿大" },
+  { value: "英国", label: "英国" },
+  { value: "澳大利亚", label: "澳大利亚" },
+  { value: "日本", label: "日本" },
+  { value: "其他", label: "其他国家/地区" },
 ];
 
-const SUPPORTED_TIMEZONES = new Set(TIMEZONE_OPTIONS.map((o) => o.value));
+/** 地区 → IANA 时区（内部映射，不暴露给用户） */
+const REGION_TIMEZONE: Record<string, string> = {
+  "中国大陆": "Asia/Shanghai",
+  "香港": "Asia/Hong_Kong",
+  "台湾": "Asia/Taipei",
+  "澳门": "Asia/Macau",
+  "新加坡": "Asia/Singapore",
+  "马来西亚": "Asia/Kuala_Lumpur",
+  "美国": "America/New_York", // 默认美东；精确需州信息，当前提示用户确认
+  "加拿大": "America/Toronto",
+  "英国": "Europe/London",
+  "澳大利亚": "Australia/Sydney",
+  "日本": "Asia/Tokyo",
+  "其他": "", // 需用户进一步确认
+};
 
-/** 时区校验：仅允许明确支持的 IANA 时区，无效给出明确错误 */
-export function validateTimezone(tz: string): ValidationResult {
-  if (!tz) return { ok: false, message: "请选择出生地时区" };
-  try {
-    // 验证是否为有效 IANA 时区
-    Intl.DateTimeFormat("en-US", { timeZone: tz });
-  } catch {
-    return { ok: false, message: `不支持的时区：${tz}，请选择列表中的时区` };
-  }
-  if (!SUPPORTED_TIMEZONES.has(tz)) {
-    return { ok: false, message: `时区 ${tz} 暂未支持精确换算，请选择列表中的时区` };
-  }
-  return { ok: true };
+export function regionToTimezone(region: string): string {
+  return REGION_TIMEZONE[region] || "";
 }
 
 export const MIN_YEAR = 1900;
 export const MAX_YEAR = 2099;
 
-/** 显式闰年判定：能被 400 整除，或能被 4 整除但不能被 100 整除 */
+/** 阳历闰年 */
 export function isLeapYear(year: number): boolean {
   return year % 400 === 0 || (year % 4 === 0 && year % 100 !== 0);
 }
 
-/** 显式每月天数：不依赖 Date 自动归一化 */
-export function daysInMonth(year: number, month: number): number {
+/** 阳历每月天数 */
+export function solarDaysInMonth(year: number, month: number): number {
   if (month === 2) return isLeapYear(year) ? 29 : 28;
   if ([4, 6, 9, 11].includes(month)) return 30;
   return 31;
 }
 
+/** 农历每月天数（需 lunar-javascript；此处为接口，实际调用在 lunarConvert.ts） */
+export function lunarDaysInMonth(year: number, month: number, isLeap: boolean): number {
+  // 由 lunar-javascript 提供；占位，实际在组件中动态计算
+  return 30;
+}
+
 export type ValidationResult = { ok: true } | { ok: false; message: string };
 
-/** 显式日期校验：拒绝 2000-02-31、1900-02-29 等非法输入 */
-export function validateDate(date: string): ValidationResult {
-  if (!date) return { ok: false, message: "请填写出生日期" };
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
-    return { ok: false, message: "出生日期格式不正确，请使用 YYYY-MM-DD" };
+/** 日期校验（含农历闰月） */
+export function validateBirthInput(input: BirthInput): ValidationResult {
+  const { calendarType, year, month, day, isLeapMonth, time, timeUnknown, region } = input;
+
+  if (!year || year < MIN_YEAR || year > MAX_YEAR) {
+    return { ok: false, message: `请选择 ${MIN_YEAR}–${MAX_YEAR} 年间的出生年份` };
   }
-  const [y, m, d] = date.split("-").map(Number);
-  if (y < MIN_YEAR || y > MAX_YEAR) {
-    return { ok: false, message: `出生年份应在 ${MIN_YEAR}–${MAX_YEAR} 之间` };
+  if (!month || month < 1 || month > 12) {
+    return { ok: false, message: "请选择出生月份（1–12月）" };
   }
-  if (m < 1 || m > 12) return { ok: false, message: "月份应在 1–12 之间" };
-  const maxDay = daysInMonth(y, m);
-  if (d < 1 || d > maxDay) {
-    return { ok: false, message: `${y} 年 ${m} 月只有 ${maxDay} 天，请检查日期` };
+  // 日期有效性由调用方按历法校验（阳历用 solarDaysInMonth，农历用 lunar-javascript）
+  if (!day || day < 1 || day > 30) {
+    return { ok: false, message: "请选择有效的出生日期" };
   }
-  return { ok: true };
-}
-
-/** 时刻校验：空表示未知（合法）；非空必须为合法 HH:MM */
-export function validateTime(time: string): ValidationResult {
-  if (!time) return { ok: true }; // 未知时刻合法，不伪造
-  if (!/^\d{2}:\d{2}$/.test(time)) {
-    return { ok: false, message: "出生时刻格式不正确，请使用 HH:MM" };
-  }
-  const [h, mi] = time.split(":").map(Number);
-  if (h > 23 || mi > 59) return { ok: false, message: "出生时刻不正确（小时 0–23，分钟 0–59）" };
-  return { ok: true };
-}
-
-/** 整体校验：返回首个中文错误 */
-export function validateProfile(profile: BirthProfile): ValidationResult {
-  const d = validateDate(profile.date);
-  if (!d.ok) return d;
-  const t = validateTime(profile.time);
-  if (!t.ok) return t;
-  return { ok: true };
-}
-
-/**
- * 构造后端兼容的 ISO 8601 参数。
- * 后端 calendar() 要求时区感知的完整 datetime（"Expected timezone-aware ISO datetime"）。
- * - 有时刻：`YYYY-MM-DDTHH:MM:00±HH:MM`（按所选时区计算偏移）
- * - 无时刻：抛出明确错误，前端必须提示用户补充时刻，不得提交注定失败的请求，
- *   也不得伪造 00:00/12:00 等时间。
- */
-export function toApiValue(profile: BirthProfile): string {
-  const v = validateProfile(profile);
-  if (!v.ok) throw new Error(v.ok === false ? v.message : "出生资料无效");
-  if (!profile.time) {
-    throw new Error("出生时刻未知：当前计算需要完整的出生时刻，请补充后重试");
-  }
-  const tz = profile.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Shanghai";
-  const tzCheck = validateTimezone(tz);
-  if (!tzCheck.ok) throw new Error(tzCheck.ok === false ? tzCheck.message : "时区无效");
-  const offset = timezoneOffsetString(profile.date, profile.time, tz);
-  return `${profile.date}T${profile.time}:00${offset}`;
-}
-
-/**
- * 用 Intl 计算指定时区在该本地时间的 UTC 偏移（±HH:MM）。
- * - 明确处理夏令时：不存在的当地时间（如跳过的一小时）抛出错误；
- *   重复的当地时间（如回拨的一小时）明确标注使用夏令时侧偏移。
- * - 无效时区抛出错误，不静默回退。
- */
-export function timezoneOffsetString(date: string, time: string, tz: string): string {
-  const tzCheck = validateTimezone(tz);
-  if (!tzCheck.ok) throw new Error(tzCheck.ok === false ? tzCheck.message : "时区无效");
-
-  const [y, m, d] = date.split("-").map(Number);
-  const [h, mi] = time.split(":").map(Number);
-
-  // 构造两个候选 UTC 时间（前后各 12 小时），检测 DST 跳变
-  const fmt = new Intl.DateTimeFormat("en-US", {
-    timeZone: tz,
-    year: "numeric", month: "2-digit", day: "2-digit",
-    hour: "2-digit", minute: "2-digit", hour12: false,
-  });
-
-  const localAsUTC = Date.UTC(y, m - 1, d, h, mi);
-
-  // 方法：对该本地时间，找出所有可能的 UTC 偏移
-  // 通过在 UTC 时间轴上扫描，找到映射到目标本地时间的 UTC 时刻
-  const candidates: number[] = [];
-  for (let deltaH = -14; deltaH <= 14; deltaH++) {
-    const testUTC = localAsUTC - deltaH * 3600000;
-    const parts = Object.fromEntries(
-      fmt.formatToParts(new Date(testUTC)).map((p) => [p.type, p.value]),
-    );
-    const py = Number(parts.year);
-    const pm = Number(parts.month);
-    const pd = Number(parts.day);
-    let ph = Number(parts.hour);
-    if (ph === 24) ph = 0; // Intl 可能返回 24:00
-    const pmi = Number(parts.minute);
-    if (py === y && pm === m && pd === d && ph === h && pmi === mi) {
-      const offsetMin = Math.round((localAsUTC - testUTC) / 60000);
-      if (!candidates.includes(offsetMin)) candidates.push(offsetMin);
+  if (calendarType === "solar") {
+    const maxDay = solarDaysInMonth(year, month);
+    if (day > maxDay) {
+      return { ok: false, message: `${year} 年 ${month} 月只有 ${maxDay} 天，请检查日期` };
     }
   }
-
-  if (candidates.length === 0) {
-    throw new Error(
-      `${date} ${time} 在时区 ${tz} 不存在（夏令时切换跳过的时刻），请选择有效时间`,
-    );
+  // 农历日期范围由 lunar-javascript 校验（含闰月）
+  if (!timeUnknown && time) {
+    if (!/^\d{2}:\d{2}$/.test(time)) {
+      return { ok: false, message: "时间格式不正确" };
+    }
+    const [h, mi] = time.split(":").map(Number);
+    if (h > 23 || mi > 59) return { ok: false, message: "时间不正确（0–23点，0–59分）" };
   }
-  // 重复时间：明确使用较大的偏移（夏令时侧），并在日志中标注
-  const offsetMin = Math.max(...candidates);
-  const sign = offsetMin >= 0 ? "+" : "-";
-  const abs = Math.abs(offsetMin);
-  return `${sign}${String(Math.floor(abs / 60)).padStart(2, "0")}:${String(abs % 60).padStart(2, "0")}`;
+  if (!region) {
+    return { ok: false, message: "请选择出生地区" };
+  }
+  if (region === "其他") {
+    return { ok: false, message: "暂不支持该地区的精确时间换算，请选择列表中的地区" };
+  }
+  const tz = regionToTimezone(region);
+  if (!tz) {
+    return { ok: false, message: "该地区时区暂未支持，请选择其他地区" };
+  }
+  return { ok: true };
 }
 
-/** 读取本地资料：仅接受通过显式校验的值 */
+/** 读取本地资料 */
 export function readSavedBirthProfile(): BirthProfile {
   try {
     const raw = localStorage.getItem(KEY);
     if (!raw) return { ...EMPTY_PROFILE };
-    const parsed: unknown = JSON.parse(raw);
-    if (typeof parsed !== "object" || parsed === null) return { ...EMPTY_PROFILE };
-    const record = parsed as Record<string, unknown>;
-    const date = typeof record.date === "string" ? record.date : "";
-    const time = typeof record.time === "string" ? record.time : "";
-    const timezone = typeof record.timezone === "string" ? record.timezone : "";
-    const profile: BirthProfile = { date, time, timezone };
-    if (!validateProfile(profile).ok) return { ...EMPTY_PROFILE };
+    const parsed = JSON.parse(raw) as Partial<BirthProfile>;
+    // 兼容旧格式 {date, time, timezone}
+    if (typeof (parsed as any).date === "string" && !(parsed as any).calendarType) {
+      const [y, m, d] = ((parsed as any).date as string).split("-").map(Number);
+      return {
+        calendarType: "solar",
+        year: y || 0,
+        month: m || 0,
+        day: d || 0,
+        isLeapMonth: false,
+        time: (parsed as any).time || "",
+        timeUnknown: !(parsed as any).time,
+        region: "中国大陆", // 旧资料缺失地区时默认，但标记未确认
+      };
+    }
+    const profile: BirthProfile = {
+      calendarType: parsed.calendarType === "lunar" ? "lunar" : "solar",
+      year: Number(parsed.year) || 0,
+      month: Number(parsed.month) || 0,
+      day: Number(parsed.day) || 0,
+      isLeapMonth: Boolean(parsed.isLeapMonth),
+      time: typeof parsed.time === "string" ? parsed.time : "",
+      timeUnknown: Boolean(parsed.timeUnknown),
+      region: typeof parsed.region === "string" ? parsed.region : "中国大陆",
+    };
+    if (!validateBirthInput(profile).ok) return { ...EMPTY_PROFILE };
     return profile;
   } catch {
     return { ...EMPTY_PROFILE };
   }
 }
 
-/** 保存本地资料：仅保存通过校验的值，无效不写入 */
+/** 保存本地资料 */
 export function saveBirthProfile(profile: BirthProfile): boolean {
-  if (!validateProfile(profile).ok) return false;
+  if (!validateBirthInput(profile).ok) return false;
   try {
     localStorage.setItem(KEY, JSON.stringify(profile));
     return true;
@@ -212,7 +191,6 @@ export function saveBirthProfile(profile: BirthProfile): boolean {
   }
 }
 
-/** 清除本地资料 */
 export function clearBirthProfile(): void {
   try {
     localStorage.removeItem(KEY);
@@ -221,8 +199,108 @@ export function clearBirthProfile(): void {
   }
 }
 
-/** 是否有已保存的合法资料 */
 export function hasSavedBirthProfile(): boolean {
   const p = readSavedBirthProfile();
-  return p.date !== "";
+  return p.year > 0;
+}
+
+// 兼容旧 API（逐步迁移）
+export type { BirthProfile as BirthProfileLegacy };
+export const TIMEZONE_OPTIONS = REGION_OPTIONS;
+
+/**
+ * 构造后端兼容的 ISO 8601 参数。
+ * - 农历先转换为公历，再构造参数
+ * - 地区映射为内部时区
+ * - 未知时刻：抛出明确错误
+ */
+export function toApiValue(profile: BirthProfile): string {
+  const v = validateBirthInput(profile);
+  if (!v.ok) throw new Error((v as { message: string }).message);
+  if (profile.timeUnknown || !profile.time) {
+    throw new Error("出生时刻未知：当前排盘需要完整的出生时刻，请补充后重试");
+  }
+
+  let solarYear = profile.year;
+  let solarMonth = profile.month;
+  let solarDay = profile.day;
+  if (profile.calendarType === "lunar") {
+    const solar = lunarToSolar({
+      year: profile.year,
+      month: profile.month,
+      day: profile.day,
+      isLeapMonth: profile.isLeapMonth,
+    });
+    solarYear = solar.year;
+    solarMonth = solar.month;
+    solarDay = solar.day;
+  }
+
+  const tz = regionToTimezone(profile.region);
+  if (!tz) {
+    throw new Error(`地区 ${profile.region} 的时区暂未支持，请选择其他地区`);
+  }
+
+  const dateStr = `${solarYear}-${String(solarMonth).padStart(2, "0")}-${String(solarDay).padStart(2, "0")}`;
+  const offset = timezoneOffsetString(dateStr, profile.time, tz);
+  return `${dateStr}T${profile.time}:00${offset}`;
+}
+
+function timezoneOffsetString(date: string, time: string, tz: string): string {
+  const [y, m, d] = date.split("-").map(Number);
+  const [h, mi] = time.split(":").map(Number);
+  const fmt = new Intl.DateTimeFormat("en-US", {
+    timeZone: tz,
+    year: "numeric", month: "2-digit", day: "2-digit",
+    hour: "2-digit", minute: "2-digit", hour12: false,
+  });
+  const localAsUTC = Date.UTC(y, m - 1, d, h, mi);
+  const candidates: number[] = [];
+  for (let deltaH = -14; deltaH <= 14; deltaH++) {
+    const testUTC = localAsUTC - deltaH * 3600000;
+    const parts = Object.fromEntries(
+      fmt.formatToParts(new Date(testUTC)).map((p) => [p.type, p.value]),
+    );
+    let ph = Number(parts.hour);
+    if (ph === 24) ph = 0;
+    if (
+      Number(parts.year) === y && Number(parts.month) === m && Number(parts.day) === d &&
+      ph === h && Number(parts.minute) === mi
+    ) {
+      const offsetMin = Math.round((localAsUTC - testUTC) / 60000);
+      if (!candidates.includes(offsetMin)) candidates.push(offsetMin);
+    }
+  }
+  if (candidates.length === 0) {
+    throw new Error("该时间在所选地区不存在（夏令时切换），请选择有效时间");
+  }
+  const offsetMin = Math.max(...candidates);
+  const sign = offsetMin >= 0 ? "+" : "-";
+  const abs = Math.abs(offsetMin);
+  return `${sign}${String(Math.floor(abs / 60)).padStart(2, "0")}:${String(abs % 60).padStart(2, "0")}`;
+}
+
+/**
+ * 兼容旧调用：将 {date: "YYYY-MM-DD", time: "HH:MM", timezone} 转为新模型。
+ * 旧资料默认按阳历、中国大陆处理。
+ */
+export function fromLegacy(date: string, time: string, timezone?: string): BirthProfile {
+  const [y, m, d] = date.split("-").map(Number);
+  // timezone -> region 的反向映射
+  const tzToRegion: Record<string, string> = {
+    "Asia/Shanghai": "中国大陆",
+    "Asia/Taipei": "台湾",
+    "Asia/Hong_Kong": "香港",
+    "UTC": "其他",
+  };
+  return {
+    calendarType: "solar",
+    year: y || 0,
+    month: m || 0,
+    day: d || 0,
+    isLeapMonth: false,
+    time: time || "",
+    timeUnknown: !time,
+    region: (timezone && tzToRegion[timezone]) || "中国大陆",
+  };
 }

@@ -4,7 +4,7 @@ import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeCompatibilityScenario, type ScenarioExecuteResponse } from "./api";
 import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
-import { toApiValue } from "./birthProfile";
+import { toApiValue, fromLegacy } from "./birthProfile";
 import "./compatibility-structure.css";
 
 const pillarNames: Record<string, string> = {
@@ -24,9 +24,9 @@ export function CompatibilityStructurePage() {
   const saved = useMemo(readSavedBirthProfile, []);
   const [aName, setAName] = useState("我");
   const [bName, setBName] = useState("对方");
-  const [aDate, setADate] = useState(saved.date);
+  const [aDate, setADate] = useState(saved.year ? `${saved.year}-${String(saved.month).padStart(2,"0")}-${String(saved.day).padStart(2,"0")}` : "");
   const [aTime, setATime] = useState(saved.time);
-  const [aTimezone, setATimezone] = useState(saved.timezone || "Asia/Shanghai");
+  const [aTimezone, setATimezone] = useState((() => { const m: Record<string,string> = {"中国大陆":"Asia/Shanghai","香港":"Asia/Hong_Kong","台湾":"Asia/Taipei"}; return m[saved.region] || "Asia/Shanghai"; })());
   const [aRole, setARole] = useState<"" | "male" | "female">("");
   const [bDate, setBDate] = useState("");
   const [bTime, setBTime] = useState("");
@@ -70,14 +70,14 @@ export function CompatibilityStructurePage() {
         person_a_traditional_role?: "male" | "female";
         person_b_traditional_role?: "male" | "female";
       } = {
-        person_a_birth_value: toApiValue({ date: aDate, time: aTime, timezone: aTimezone }),
-        person_b_birth_value: toApiValue({ date: bDate, time: bTime, timezone: bTimezone }),
+        person_a_birth_value: toApiValue(fromLegacy(aDate, aTime, aTimezone)),
+        person_b_birth_value: toApiValue(fromLegacy(bDate, bTime, bTimezone)),
       };
       if (aRole) input.person_a_traditional_role = aRole;
       if (bRole) input.person_b_traditional_role = bRole;
       const next = await executeCompatibilityScenario(input);
       if (version !== requestVersion.current) return;
-      saveBirthProfile({ date: aDate, time: aTime, timezone: aTimezone });
+      saveBirthProfile(fromLegacy(aDate, aTime, aTimezone));
       setResultNames({a: aName.trim() || "我", b: bName.trim() || "对方"});
       setResult(next);
     } catch (err) {
@@ -153,7 +153,7 @@ export function CompatibilityStructurePage() {
 
       <form className="compat-input" onSubmit={submit}>
         {[
-          { side: "A", name: aName, setName: setAName, date: aDate, setDate: setADate, time: aTime, setTime: setATime, role: aRole, setRole: setARole, saved: Boolean(saved.date) },
+          { side: "A", name: aName, setName: setAName, date: aDate, setDate: setADate, time: aTime, setTime: setATime, role: aRole, setRole: setARole, saved: Boolean(saved.year) },
           { side: "B", name: bName, setName: setBName, date: bDate, setDate: setBDate, time: bTime, setTime: setBTime, role: bRole, setRole: setBRole, saved: false },
         ].map((person) => (
           <section className="compat-person-input" key={person.side}>

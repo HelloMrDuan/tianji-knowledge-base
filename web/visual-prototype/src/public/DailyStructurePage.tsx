@@ -5,7 +5,7 @@ import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeDailyScenario, type ScenarioExecuteResponse } from "./api";
 import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
-import { toApiValue } from "./birthProfile";
+import { toApiValue, fromLegacy } from "./birthProfile";
 import "./daily-structure.css";
 
 
@@ -37,9 +37,9 @@ function displayEvidence(id: string, source: Record<string, any>) {
 export function DailyStructurePage() {
   const saved = useMemo(readSavedBirthProfile, []);
   const today = useMemo(beijingToday, []);
-  const [birthDate, setBirthDate] = useState(saved.date);
+  const [birthDate, setBirthDate] = useState(saved.year ? `${saved.year}-${String(saved.month).padStart(2,"0")}-${String(saved.day).padStart(2,"0")}` : "");
   const [birthTime, setBirthTime] = useState(saved.time);
-  const [timezone, setTimezone] = useState(() => readSavedBirthProfile().timezone || "Asia/Shanghai");
+  const [timezone, setTimezone] = useState(() => { const p = readSavedBirthProfile(); const m: Record<string,string> = {"中国大陆":"Asia/Shanghai","香港":"Asia/Hong_Kong","台湾":"Asia/Taipei"}; return m[p.region] || "Asia/Shanghai"; });
   const [targetDate, setTargetDate] = useState(today);
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
   const [error, setError] = useState("");
@@ -69,11 +69,11 @@ export function DailyStructurePage() {
     setResult(null);
     try {
       const next = await executeDailyScenario({
-        birth_value: toApiValue({ date: birthDate, time: birthTime, timezone }),
+        birth_value: toApiValue(fromLegacy(birthDate, birthTime, timezone)),
         target_date: targetDate,
       });
       if (version !== requestVersion.current) return;
-      saveBirthProfile({ date: birthDate, time: birthTime, timezone });
+      saveBirthProfile(fromLegacy(birthDate, birthTime, timezone));
       setResult(next);
     } catch (err) {
       if (version === requestVersion.current)
@@ -127,7 +127,7 @@ export function DailyStructurePage() {
         <form onSubmit={submit}>
           <div className="daily-entry-head">
             <div>
-              <span className="eyebrow">{saved.date && saved.time ? "已带入上次资料" : "建立每日档案"}</span>
+              <span className="eyebrow">{saved.year > 0 && saved.time ? "已带入上次资料" : "建立每日档案"}</span>
               <h2>查看当天结构</h2>
             </div>
             <button type="button" className="sample-fill" onClick={fillSample}>填入示例</button>
@@ -177,8 +177,8 @@ export function DailyStructurePage() {
         <section className="daily-empty">
           <span>今</span>
           <div>
-            <h2>{saved.date ? "你的出生资料已经准备好" : "先填一次出生资料"}</h2>
-            <p>{saved.date ? "直接点击上方按钮，就能生成今天的真实结构。" : "生成后会保存在当前浏览器，明天回来无需重复填写。"}</p>
+            <h2>{saved.year > 0 ? "你的出生资料已经准备好" : "先填一次出生资料"}</h2>
+            <p>{saved.year > 0 ? "直接点击上方按钮，就能生成今天的真实结构。" : "生成后会保存在当前浏览器，明天回来无需重复填写。"}</p>
           </div>
         </section>
       )}

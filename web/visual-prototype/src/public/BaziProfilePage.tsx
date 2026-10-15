@@ -3,7 +3,7 @@ import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeBazi, type ExecuteResponse } from "./api";
-import { readSavedBirthProfile, saveBirthProfile, clearBirthProfile, toApiValue, validateProfile, type BirthProfile } from "./birthProfile";
+import { readSavedBirthProfile, saveBirthProfile, clearBirthProfile, toApiValue, validateBirthInput, type BirthProfile } from "./birthProfile";
 import { BirthInputFields } from "./BirthInputFields";
 import "./bazi-profile.css";
 
@@ -47,9 +47,11 @@ export function BaziProfilePage() {
   function fillSample() {
     invalidateResult();
     const sample: BirthProfile = {
-      date: "2000-01-07",
-      time: "12:00",
-      timezone: "Asia/Shanghai",
+      calendarType: "solar",
+      year: 2000, month: 1, day: 7,
+      isLeapMonth: false,
+      time: "12:00", timeUnknown: false,
+      region: "中国大陆",
     };
     setProfile(sample);
     setInputError("");
@@ -57,7 +59,7 @@ export function BaziProfilePage() {
 
   async function submit(event: FormEvent) {
     event.preventDefault();
-    const v = validateProfile(profile);
+    const v = validateBirthInput(profile);
     if (!v.ok) {
       setInputError(v.ok === false ? v.message : "");
       return;
@@ -126,7 +128,7 @@ export function BaziProfilePage() {
             </div>
             <div className="bazi-profile-actions">
               <button type="button" className="sample-fill" onClick={fillSample}>填入示例</button>
-              <button type="button" className="sample-fill" onClick={() => { invalidateResult(); clearBirthProfile(); setProfile({ date: "", time: "", timezone: "" }); setInputError(""); }}>清除本机资料</button>
+              <button type="button" className="sample-fill" onClick={() => { invalidateResult(); clearBirthProfile(); setProfile({ calendarType: "solar", year: 0, month: 0, day: 0, isLeapMonth: false, time: "", timeUnknown: false, region: "中国大陆" }); setInputError(""); }}>清除本机资料</button>
             </div>
           </div>
 
