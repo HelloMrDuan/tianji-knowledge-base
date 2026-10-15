@@ -106,29 +106,38 @@ test.describe("TJ-007.4 real: contract validation", () => {
     });
   }
 
-  test("dream: real response passes contract", async ({ page }) => {
-    let body: any = null;
-    await page.route("**/api/v1/dream/culture", async (route) => {
-      const response = await route.fetch();
-      body = await response.json().catch(() => null);
-      await route.fulfill({ response });
-    });
+  test("dream: genuine reviewed lookup passes contract, shows user result, keeps AI off", async ({ page }, testInfo) => {
+    test.setTimeout(90000);
+    const pageErrors: string[] = [];
+    page.on("pageerror", err => pageErrors.push(err.message));
     await page.goto("/dream-culture");
-    await page.waitForTimeout(800);
-    const input = page.locator('textarea, input[type="text"]').first();
-    if (await input.count() > 0) {
-      await input.fill("梦见蛇");
-      const btn = page.locator('button[type="submit"]').first();
-      if (await btn.count() > 0) {
-        await btn.click().catch(() => {});
-        await page.waitForTimeout(3000);
-      }
+    const phrase = "我梦见一条蛇咬住我的手";
+    await page.getByLabel("梦境叙述").fill(phrase);
+    const pending = page.waitForResponse(r => new URL(r.url()).pathname === "/api/v1/dream/culture" &&
+      r.request().method() === "POST", { timeout: 50000 });
+    await page.getByRole("button", { name: /查阅梦象/ }).click();
+    const response = await pending;
+    expect(response.status()).toBe(200);
+    expect(response.request().postDataJSON()).toEqual({ dream_text: phrase });
+    const data = await response.json();
+    expect(data.api_version).toBe("v1");
+    expect(data.status).toBe("reviewed_cultural_matches");
+    expect(data.public_release).toBe(true);
+    expect(data.cultural_reference_only).toBe(true);
+    expect(data.ai_enabled).toBe(false);
+    expect(data.personal_prediction).toBe(false);
+    expect(data.matches).toEqual(expect.any(Array));
+    expect(data.matches.length).toBeGreaterThan(0);
+    expect(data.unreviewed_topics).toEqual(expect.any(Array));
+    for (const match of data.matches) {
+      expect(match.short_quote.length).toBeGreaterThan(0);
+      expect(match.source_title.length).toBeGreaterThan(0);
     }
-    if (body) {
-      expect(body.api_version).toBe("v1");
-      expect(body.public_release).toBe(true);
-      expect(body.ai_enabled).toBe(false);
-      expect(Array.isArray(body.matches)).toBe(true);
-    }
+    await expect(page.locator(".dream-culture-results")).toBeVisible();
+    await expect(page.locator(".dream-culture-results")).toContainText(data.matches[0].short_quote);
+    await expect(page.getByRole("alert")).toHaveCount(0);
+    expect(pageErrors).toEqual([]);
+    await page.screenshot({ path: testInfo.outputPath("tj0074-live-dream.png"),
+      fullPage: true, animations: "disabled" });
   });
 });
