@@ -7,7 +7,7 @@
  * - 原始输入与转换参数分层存储，避免重复转换漂移
  */
 
-import { lunarToSolar } from "./lunarConvert";
+import { lunarToSolar, validateLunarDate } from "./lunarConvert";
 
 const KEY = "tianji.profile.birth.v1";
 
@@ -67,12 +67,14 @@ const REGION_TIMEZONE: Record<string, string> = {
   "澳门": "Asia/Macau",
   "新加坡": "Asia/Singapore",
   "马来西亚": "Asia/Kuala_Lumpur",
-  "美国": "America/New_York", // 默认美东；精确需州信息，当前提示用户确认
-  "加拿大": "America/Toronto",
-  "英国": "Europe/London",
-  "澳大利亚": "Australia/Sydney",
   "日本": "Asia/Tokyo",
-  "其他": "", // 需用户进一步确认
+  "英国": "Europe/London",
+  // 多时区国家暂不支持精确排盘，需用户选择州/省/城市（后续任务）
+  // 不静默指定错误地点
+  "美国": "",
+  "加拿大": "",
+  "澳大利亚": "",
+  "其他": "",
 };
 
 export function regionToTimezone(region: string): string {
@@ -113,13 +115,21 @@ export function validateBirthInput(input: BirthInput): ValidationResult {
     return { ok: false, message: "请选择出生月份（1–12月）" };
   }
   // 日期有效性由调用方按历法校验（阳历用 solarDaysInMonth，农历用 lunar-javascript）
-  if (!day || day < 1 || day > 30) {
+  if (!day || day < 1) {
     return { ok: false, message: "请选择有效的出生日期" };
   }
   if (calendarType === "solar") {
+    if (day > 31) {
+      return { ok: false, message: "请选择有效的出生日期" };
+    }
     const maxDay = solarDaysInMonth(year, month);
     if (day > maxDay) {
       return { ok: false, message: `${year} 年 ${month} 月只有 ${maxDay} 天，请检查日期` };
+    }
+  } else {
+    // 农历：由真实历法库校验月大小和闰月
+    if (!validateLunarDate(year, month, day, isLeapMonth)) {
+      return { ok: false, message: `农历 ${year} 年${isLeapMonth ? "闰" : ""}${month} 月没有 ${day} 日，请检查日期` };
     }
   }
   // 农历日期范围由 lunar-javascript 校验（含闰月）
@@ -138,6 +148,9 @@ export function validateBirthInput(input: BirthInput): ValidationResult {
   }
   const tz = regionToTimezone(region);
   if (!tz) {
+    if (["美国", "加拿大", "澳大利亚"].includes(region)) {
+      return { ok: false, message: `${region}横跨多个时区，暂不支持精确排盘，请选择其他地区或等待后续支持` };
+    }
     return { ok: false, message: "该地区时区暂未支持，请选择其他地区" };
   }
   return { ok: true };
@@ -152,6 +165,21 @@ export function readSavedBirthProfile(): BirthProfile {
     // 兼容旧格式 {date, time, timezone}
     if (typeof (parsed as any).date === "string" && !(parsed as any).calendarType) {
       const [y, m, d] = ((parsed as any).date as string).split("-").map(Number);
+      const oldTz = (parsed as any).timezone as string;
+      // IANA -> 地区的反向映射
+      const tzToRegion: Record<string, string> = {
+        "Asia/Shanghai": "中国大陆",
+        "Asia/Taipei": "台湾",
+        "Asia/Hong_Kong": "香港",
+        "Asia/Macau": "澳门",
+        "Asia/Singapore": "新加坡",
+        "Asia/Kuala_Lumpur": "马来西亚",
+        "Asia/Tokyo": "日本",
+        "Europe/London": "英国",
+        "UTC": "其他",
+      };
+      const region = (oldTz && tzToRegion[oldTz]) || "中国大陆";
+      const needsConfirm = !oldTz || !tzToRegion[oldTz];
       return {
         calendarType: "solar",
         year: y || 0,
@@ -160,8 +188,10 @@ export function readSavedBirthProfile(): BirthProfile {
         isLeapMonth: false,
         time: (parsed as any).time || "",
         timeUnknown: !(parsed as any).time,
-        region: "中国大陆", // 旧资料缺失地区时默认，但标记未确认
-      };
+        region,
+        // 标记需要用户确认地区（如果原时区未知）
+        ...(needsConfirm ? { _regionNeedsConfirm: true } : {}),
+      } as BirthProfile;
     }
     const profile: BirthProfile = {
       calendarType: parsed.calendarType === "lunar" ? "lunar" : "solar",
@@ -274,7 +304,11 @@ function timezoneOffsetString(date: string, time: string, tz: string): string {
   if (candidates.length === 0) {
     throw new Error("该时间在所选地区不存在（夏令时切换），请选择有效时间");
   }
-  const offsetMin = Math.max(...candidates);
+  if (candidates.length > 1) {
+    // DST 重复时间：明确拒绝，不自动选择
+    throw new Error("该时间在所选地区存在歧义（夏令时重复），请选择其他时间");
+  }
+  const offsetMin = candidates[0];
   const sign = offsetMin >= 0 ? "+" : "-";
   const abs = Math.abs(offsetMin);
   return `${sign}${String(Math.floor(abs / 60)).padStart(2, "0")}:${String(abs % 60).padStart(2, "0")}`;
@@ -286,11 +320,16 @@ function timezoneOffsetString(date: string, time: string, tz: string): string {
  */
 export function fromLegacy(date: string, time: string, timezone?: string): BirthProfile {
   const [y, m, d] = date.split("-").map(Number);
-  // timezone -> region 的反向映射
+  // timezone -> region 的反向映射（完整）
   const tzToRegion: Record<string, string> = {
     "Asia/Shanghai": "中国大陆",
     "Asia/Taipei": "台湾",
     "Asia/Hong_Kong": "香港",
+    "Asia/Macau": "澳门",
+    "Asia/Singapore": "新加坡",
+    "Asia/Kuala_Lumpur": "马来西亚",
+    "Asia/Tokyo": "日本",
+    "Europe/London": "英国",
     "UTC": "其他",
   };
   return {
@@ -302,5 +341,49 @@ export function fromLegacy(date: string, time: string, timezone?: string): Birth
     time: time || "",
     timeUnknown: !time,
     region: (timezone && tzToRegion[timezone]) || "中国大陆",
+  };
+}
+
+/**
+ * P0-B 统一适配器：从 BirthProfile 导出用于显示的公历日期字符串。
+ * - 阳历：直接返回 YYYY-MM-DD
+ * - 农历：返回转换后的公历 YYYY-MM-DD（调用方应提示"当前显示的是换算后公历"）
+ */
+export function toSolarDateString(profile: BirthProfile): string {
+  if (profile.calendarType === "solar") {
+    if (!profile.year) return "";
+    return `${profile.year}-${String(profile.month).padStart(2, "0")}-${String(profile.day).padStart(2, "0")}`;
+  }
+  // 农历 → 公历
+  if (!profile.year) return "";
+  const solar = lunarToSolar({
+    year: profile.year,
+    month: profile.month,
+    day: profile.day,
+    isLeapMonth: profile.isLeapMonth,
+  });
+  return `${solar.year}-${String(solar.month).padStart(2, "0")}-${String(solar.day).padStart(2, "0")}`;
+}
+
+/** 是否由农历转换而来（用于显示提示） */
+export function isConvertedFromLunar(profile: BirthProfile): boolean {
+  return profile.calendarType === "lunar" && profile.year > 0;
+}
+
+/**
+ * 用户在旧表单（公历 date input）中编辑后的资料。
+ * 明确标记为阳历，因为用户编辑的是显示的公历日期。
+ */
+export function fromSolarEdit(dateStr: string, time: string, region: string): BirthProfile {
+  const [y, m, d] = dateStr.split("-").map(Number);
+  return {
+    calendarType: "solar",
+    year: y || 0,
+    month: m || 0,
+    day: d || 0,
+    isLeapMonth: false,
+    time: time || "",
+    timeUnknown: !time,
+    region: region || "中国大陆",
   };
 }

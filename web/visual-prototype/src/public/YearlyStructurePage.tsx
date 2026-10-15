@@ -6,7 +6,7 @@ import { Link } from "../shared/router";
 import { executeYearlyScenario, type ScenarioExecuteResponse } from "./api";
 import { readSavedTargetYear, saveTargetYear, isValidTargetYear, MIN_TARGET_YEAR, MAX_TARGET_YEAR } from "./targetYear";
 import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
-import { toApiValue, fromLegacy } from "./birthProfile";
+import { toApiValue, fromLegacy, toSolarDateString, isConvertedFromLunar, fromSolarEdit } from "./birthProfile";
 import "./yearly-structure.css";
 
 const relationNames: Record<string, string> = {
@@ -38,9 +38,8 @@ function displayEvidence(id: string, source: Record<string, any>) {
 }
 
 export function YearlyStructurePage() {
-  const [date, setDate] = useState(() => { const p = readSavedBirthProfile(); return p.year ? `${p.year}-${String(p.month).padStart(2,"0")}-${String(p.day).padStart(2,"0")}` : ""; });
+  const [date, setDate] = useState(() => toSolarDateString(readSavedBirthProfile()));
   const [time, setTime] = useState(() => readSavedBirthProfile().time);
-  const [timezone, setTimezone] = useState(() => { const p = readSavedBirthProfile(); const m: Record<string,string> = {"中国大陆":"Asia/Shanghai","香港":"Asia/Hong_Kong","台湾":"Asia/Taipei"}; return m[p.region] || "Asia/Shanghai"; });
   const [targetYear, setTargetYear] = useState(readSavedTargetYear);
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
   const [error, setError] = useState("");
@@ -71,11 +70,25 @@ export function YearlyStructurePage() {
     try {
       if (!isValidTargetYear(targetYear)) throw new Error("请选择 1901 至 2098 年的公历年份");
       const response = await executeYearlyScenario({
-        birth_value: toApiValue(fromLegacy(date, time, timezone)),
+        birth_value: (() => {
+        const currentProfile = readSavedBirthProfile();
+        const initialSolar = toSolarDateString(currentProfile);
+        if (date === initialSolar && time === currentProfile.time) {
+          return toApiValue(currentProfile);
+        }
+        return toApiValue(fromSolarEdit(date, time, currentProfile.region));
+      })(),
         target_year: targetYear,
       });
       if (version !== requestVersion.current) return;
-      saveBirthProfile(fromLegacy(date, time, timezone));
+      (() => {
+        const currentProfile = readSavedBirthProfile();
+        const initialSolar = toSolarDateString(currentProfile);
+        if (date === initialSolar && time === currentProfile.time) {
+          return;
+        }
+        saveBirthProfile(fromSolarEdit(date, time, currentProfile.region));
+      })();
       saveTargetYear(targetYear);
       setResult(response);
     } catch (err) {

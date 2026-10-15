@@ -62,7 +62,8 @@ export function BirthInputFields({
 
   const hours = Array.from({ length: 24 }, (_, i) => i);
   const minutes = Array.from({ length: 60 }, (_, i) => i);
-  const [curH, curM] = value.time ? value.time.split(":").map(Number) : [12, 0];
+  // 未设置时间时显示"请选择"，不偷偷默认 12:00
+  const [curH, curM] = value.time ? value.time.split(":").map(Number) : [-1, -1];
 
   return (
     <div className="birth-input-user">
@@ -114,7 +115,7 @@ export function BirthInputFields({
             ))}
           </select>
         </label>
-        {value.calendarType === "lunar" && leapMonth > 0 && (
+        {value.calendarType === "lunar" && leapMonth > 0 && value.month === leapMonth && (
           <label className="leap-month-check">
             <input
               type="checkbox"
@@ -156,9 +157,11 @@ export function BirthInputFields({
                 value={curH}
                 onChange={(e) => {
                   const h = Number(e.target.value);
-                  update({ time: `${String(h).padStart(2, "0")}:${String(curM).padStart(2, "0")}` });
+                  const m = curM >= 0 ? curM : 0;
+                  update({ time: `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}` });
                 }}
               >
+                <option value={-1}>请选择</option>
                 {hours.map((h) => (
                   <option key={h} value={h}>{h} 点</option>
                 ))}
@@ -170,9 +173,11 @@ export function BirthInputFields({
                 value={curM}
                 onChange={(e) => {
                   const mi = Number(e.target.value);
-                  update({ time: `${String(curH).padStart(2, "0")}:${String(mi).padStart(2, "0")}` });
+                  const h = curH >= 0 ? curH : 12;
+                  update({ time: `${String(h).padStart(2, "0")}:${String(mi).padStart(2, "0")}` });
                 }}
               >
+                <option value={-1}>请选择</option>
                 {minutes.map((mi) => (
                   <option key={mi} value={mi}>{mi} 分</option>
                 ))}
@@ -183,7 +188,7 @@ export function BirthInputFields({
       </div>
       {value.timeUnknown && (
         <p className="birth-note">
-          暂不知晓时刻时可先保存资料；当前排盘需要完整时刻，提交计算时请补充。
+          已选择“不知道出生时间”。可点击“保存资料”在本地保留；提交排盘计算时仍需补充具体时刻。
         </p>
       )}
 

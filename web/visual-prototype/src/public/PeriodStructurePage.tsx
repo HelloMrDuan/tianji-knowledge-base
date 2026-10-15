@@ -8,7 +8,7 @@ import {
   type ScenarioExecuteResponse,
 } from "./api";
 import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
-import { toApiValue, fromLegacy } from "./birthProfile";
+import { toApiValue, fromLegacy, toSolarDateString, isConvertedFromLunar, fromSolarEdit } from "./birthProfile";
 import "./period-structure.css";
 
 const relationLabel: Record<string, string> = {six_harmony: "六合", harm: "六害", clash: "六冲"};
@@ -41,9 +41,8 @@ type PeriodMode = "weekly" | "monthly";
 export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
   const saved = useMemo(readSavedBirthProfile, []);
   const today = useMemo(beijingToday, []);
-  const [birthDate, setBirthDate] = useState(saved.year ? `${saved.year}-${String(saved.month).padStart(2,"0")}-${String(saved.day).padStart(2,"0")}` : "");
+  const [birthDate, setBirthDate] = useState(() => toSolarDateString(saved));
   const [birthTime, setBirthTime] = useState(saved.time);
-  const [timezone, setTimezone] = useState(() => { const p = readSavedBirthProfile(); const m: Record<string,string> = {"中国大陆":"Asia/Shanghai","香港":"Asia/Hong_Kong","台湾":"Asia/Taipei"}; return m[p.region] || "Asia/Shanghai"; });
   const [anchorDate, setAnchorDate] = useState(today);
   const [targetMonth, setTargetMonth] = useState(today.slice(0, 7));
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
@@ -69,12 +68,27 @@ export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
     setError("");
     setResult(null);
     try {
-      const birthValue = toApiValue(fromLegacy(birthDate, birthTime, timezone));
+      const birthValue = (() => {
+        const currentProfile = readSavedBirthProfile();
+        const initialSolar = toSolarDateString(currentProfile);
+        // 如果用户未修改日期，使用原始档案（含农历信息）；否则按阳历编辑处理
+        if (birthDate === initialSolar && birthTime === currentProfile.time) {
+          return toApiValue(currentProfile);
+        }
+        return toApiValue(fromSolarEdit(birthDate, birthTime, currentProfile.region));
+      })();
       const next = isWeekly
         ? await executeWeeklyScenario({ birth_value: birthValue, anchor_date: anchorDate })
         : await executeMonthlyScenario({ birth_value: birthValue, target_month: targetMonth });
       if (version !== requestVersion.current) return;
-      saveBirthProfile(fromLegacy(birthDate, birthTime, timezone));
+      (() => {
+        const currentProfile = readSavedBirthProfile();
+        const initialSolar = toSolarDateString(currentProfile);
+        if (birthDate === initialSolar && birthTime === currentProfile.time) {
+          return; // 未修改，不覆写原始档案
+        }
+        saveBirthProfile(fromSolarEdit(birthDate, birthTime, currentProfile.region));
+      })();
       setResult(next);
     } catch (err) {
       if (version === requestVersion.current)

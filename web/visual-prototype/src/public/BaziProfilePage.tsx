@@ -128,6 +128,15 @@ export function BaziProfilePage() {
             </div>
             <div className="bazi-profile-actions">
               <button type="button" className="sample-fill" onClick={fillSample}>填入示例</button>
+              <button type="button" className="sample-fill" onClick={() => {
+                // 独立保存：未知时刻也可保存本地资料（仅本地存储，不提交计算）
+                if (saveBirthProfile(profile)) {
+                  setInputError("");
+                } else {
+                  const vr = validateBirthInput(profile);
+                  setInputError(vr.ok ? "保存失败" : (vr as { message: string }).message);
+                }
+              }}>保存资料</button>
               <button type="button" className="sample-fill" onClick={() => { invalidateResult(); clearBirthProfile(); setProfile({ calendarType: "solar", year: 0, month: 0, day: 0, isLeapMonth: false, time: "", timeUnknown: false, region: "中国大陆" }); setInputError(""); }}>清除本机资料</button>
             </div>
           </div>
