@@ -36,8 +36,16 @@ export class ApiError extends Error {
 }
 
 function userMessageFor(status: number, detail: any): string {
+  // 优先使用服务端的友好消息
+  const serverMsg = detail?.message;
+  if (typeof serverMsg === "string" && serverMsg.length > 0 && serverMsg.length < 200) {
+    // 过滤技术性内容
+    if (!/trace|rule id|token|stack/i.test(serverMsg)) {
+      return serverMsg;
+    }
+  }
   if (status === 400 || status === 422) {
-    const msg = detail?.message || detail?.[0]?.msg;
+    const msg = detail?.[0]?.msg;
     if (typeof msg === "string" && msg.length > 0 && msg.length < 200) return msg;
     return "输入内容有误，请检查后重试。";
   }
