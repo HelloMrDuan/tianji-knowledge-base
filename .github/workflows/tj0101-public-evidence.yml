@@ -1,0 +1,38 @@
+name: TJ-010.1 Public Evidence Boundary Tests
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "tests/test_tj0101_evidence_audit.py"
+      - "docs/product/audits/tj0101-bazi-evidence-audit.md"
+      - ".github/workflows/tj0101-public-evidence.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  public-evidence-guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Execute all six real source/boundary checks
+        run: |
+          python - <<'PY'
+          import runpy
+          mod = runpy.run_path("tests/test_tj0101_evidence_audit.py")
+          cases = sorted((name, fn) for name, fn in mod.items()
+                         if name.startswith("test_") and callable(fn))
+          assert len(cases) == 6, f"Expected six test functions; got {len(cases)}"
+          for name, fn in cases:
+              fn()
+              print("PASS", name)
+          print("TJ-010.1 public boundary", len(cases), "tests passed")
+          PY

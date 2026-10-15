@@ -72,6 +72,8 @@
 
 | E0037 | 2026-10-15 | TJ-007.4 | 已合并 | 已分离真实演示收藏与用户历史、统一 11 接口请求超时/断网/非 JSON/非法响应异常，保持重试时出生资料与年份、隐私跨标签页删除、旧请求防覆盖；独立复审发现并修复生产合同冲突：8 个用户场景既有 `production_limited`/`public_release=false`，只认可审核结构 `release_scope`，未擅自放开吉凶预测。公开功能 PR #255 merge `0304a55c41ee67d9f72c7e39bfef1a59d68cdc85`、私有真实验收 PR #60 merge `c94cd0f7cf17879f0e343ec70a51159e1ca516ec`；公开 9/9 GitHub CI success，私有 Canonical/真实 Python API/Chromium 11/11 且用户结果展示验证通过，私有截图 Artifact `11964270529`（保留一天）。无生产上线，AI 自由解梦未开放，其他 WBS 任务不关账。 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/255 · https://github.com/HelloMrDuan/tianji-private-knowledge/pull/60 | 0304a55c41ee67d9f72c7e39bfef1a59d68cdc85 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/38718130197 · https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38718147580 |
 
+| E0038 | 2026-10-15 | TJ-010.1 | 进行中 | 从公开 main 66f01371 审核月令/根和藏干来源；发现旧审计错把第三方数据 provenance 直接推断为无古籍依据。私有 phase1_knowledge.json 已有审核《渊海子平》藏遁歌 s004（仅 C级结构）及任氏月令/通根短引；须逐支核验输入表与原文、版本指纹及定位，查实差异才定针对性降级。当前不动四柱及正式规则，不宣称 TJ-010.1 完成；已恢复 E0037、TJ-007.4 及 TJ-007.4 真实合同测试，等待私有逐字审核。 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/257 | — | — |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
