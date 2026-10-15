@@ -23,7 +23,7 @@
 | TJ-005.1 | M0 | 确认私有制品生成/部署路径和网关限制 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-005.2 | M0 | 前端静态包/真实接口/权限/HTTPS 冒烟 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-005.3 | M0 | 备份、回滚、健康检测、部署文档 | 待做 | — | — | 按 WBS 验收条件执行 |
-| TJ-006.1 | M1 | 多场景统一输入与本地资料校验 | 进行中 | 分支 tj-006.1-birth-profile 开发中 | — | 按 WBS 验收条件执行 |
+| TJ-006.1 | M1 | 多场景统一输入与本地资料校验 | 已合并 | [公开 #243](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/243) merge `8a0081990bb442fb3521bbd2140056901fe14eed` · [4 项 CI success](https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/38692470766) · 本地 Playwright 55/55（开发方报告；GitHub CI 未执行 Playwright） | 2026-10-15 | 输入与跨场景复用代码已合并；真实后端 E2E 未验，留待 TJ-007.1 独立验证；父任务不结账 |
 | TJ-006.2 | M1 | 目标年/日期/边界响应一致 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-006.3 | M1 | 双人合盘隐私边界 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-007.1 | M1 | 八字/今/周/月/年真实流程 | 待做 | — | — | 按 WBS 验收条件执行 |
