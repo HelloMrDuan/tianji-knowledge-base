@@ -50,6 +50,8 @@
 
 | E0026 | 2026-10-15 | TJ-007.1 | 进行中 | 五场景真实流程实施中：前端补八字结果限制及三条请求参数观察用例；真实后端需要在私有受控环境由私有 Canonical 与公开代码组装并构建 production_runtime，当前公开工作区缺少 yijing 是源数据未装配，而非证明私有库不存在。暂未通过真实后端 E2E，不宣称完成。 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/245 | — | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/245/checks |
 
+| E0027 | 2026-10-15 | TJ-007.1 | 已合并 | 公开五场景真实流程和同任务私有生产运行时验收均已合并：公开 PR #245 merge `d80ff176156fbd7a462e5610bc8184253067c9b0`，私有 PR #57 merge `b7eab9c16dfb9b9e9e35273207c7e754205ed827`；公开 GitHub 4/4 CI success、真实受限 Canonical 装配/后端 API/Chromium 合计 35/35（基础 5、专项 15、1440/390/360 × 五场景截图 15）；私有 artifact `tj0071-live-results` ID 11955365866（受限访问，保留一天）。覆盖阳历与农历、闰月与立春前后年柱、日期/周/月/年切换、五场景档案复用及 Rule/Evidence 引用。结果属于传统命理已审核确定性结构，未宣称全量吉凶预测或生产部署；无完整私有知识向公开仓库转移。 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/245 | d80ff176156fbd7a462e5610bc8184253067c9b0 | https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38696910589 |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
