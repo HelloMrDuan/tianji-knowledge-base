@@ -60,6 +60,8 @@
 
 | E0031 | 2026-10-15 | TJ-006.3 | 已合并 | 双人合盘隐私隔离及本机资料删除完成：A/B 输入/角色/出生时区独立，B 方不写个人出生档案；增加清空 B 方信息/结果的入口，以及根组件跨标签页清除监听，避免其他已打开的运势/合盘场景保留旧资料；删除仅移除个人出生资料，保留主题、音乐、收藏偏好；防旧异步请求恢复已删数据。功能 PR #249 合并 main，6/6 GitHub CI success，独立 Chromium 隐私/跨标签页用例 8/8；受控 API 响应仅用于前端状态及请求参数验证，不冒充真实后端合盘计算。未生产部署，未变更私有 Canonical、未关闭父任务。 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/249 | 7ec43814bdf090d29be02d35dd36e6a5ed74681e | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/38701988505 |
 
+| E0032 | 2026-10-15 | TJ-007.2 | 进行中 | 从 main 3778ba0 创建分支 tj-007.2-romance-career-compat；目标桃花/事业/合盘真实计算与用户结果展示；先审计三场景现有能力 | — | — | — |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。

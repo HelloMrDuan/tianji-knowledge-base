@@ -253,12 +253,33 @@ export function CompatibilityStructurePage() {
         <section className="compat-result">
           <header className="compat-result-head">
             <div>
-              <span className="eyebrow">真实 Scenario Engine · two_person_structure_only</span>
+              <span className="eyebrow">真实双人排盘 · 结构限定版</span>
               <h2>{resultNames.a} × {resultNames.b}</h2>
               <p>双向分别计算，不把任何一方的视角当成唯一结论。</p>
             </div>
             <span className="compat-limited">合盘结构</span>
           </header>
+
+          <section className="compat-section" aria-label="本次合盘摘要">
+            <div className="result-section-heading">
+              <div><span>合</span><h2>先看两人的命理结构</h2></div>
+              <small>双方视角独立 · 仅供传统文化参考</small>
+            </div>
+            <p>
+              {resultNames.a} 的日主为 {a.day_master?.stem || "—"}，
+              {resultNames.b} 的日主为 {b.day_master?.stem || "—"}。
+              从 {resultNames.a} 看 {resultNames.b}，两位日主对应 {relations.a_sees_b?.ten_god || "—"}；
+              从 {resultNames.b} 看 {resultNames.a}，对应 {relations.b_sees_a?.ten_god || "—"}。
+            </p>
+            <p>
+              本次已审核的双方四柱交叉结构命中 {crossMatrixHits.length} 处；
+              双方日支关系命中 {spouseRelations.length} 处。
+              这些是实际排盘与固定规则对应的观察，不是缘分评分，也不代表现实婚姻结果。
+            </p>
+            <p className="compat-note">
+              下面可分别查看双方四柱、关系矩阵和真实古籍依据。缺乏审核证据的婚期、正缘和感情吉凶不作推断。
+            </p>
+          </section>
 
           <div className="compat-people">
             {people.map((person) => (
@@ -451,7 +472,6 @@ export function CompatibilityStructurePage() {
                       {item.status === "matched" ? "命中" : item.status === "observed" ? "已观察" : "未命中"}
                     </span>
                   </div>
-                  <small>{(item.derived_from_rule_ids || []).join(" · ")}</small>
                   <p>Evidence {(item.evidence_ids || []).length} 条 · 解释权限：关闭</p>
                   {(() => {
                     const refs = Array.isArray(item.evidence_ids)
@@ -485,7 +505,6 @@ export function CompatibilityStructurePage() {
                 <article className="live-evidence" key={item.id}>
                   <div><strong>{item.title}</strong><span>{item.grade}</span></div>
                   <blockquote>{item.quote}</blockquote>
-                  <small>{item.id}</small>
                 </article>
               ))}
             </section>

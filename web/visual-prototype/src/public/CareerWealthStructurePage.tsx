@@ -24,24 +24,14 @@ const pillarNames: Record<string, string> = {
   hour: "时柱",
 };
 
-function displayEvidence(id: string, evidence: Record<string, any>) {
-  return {
-    id,
-    title: String(
-      evidence.classic_title ||
-      evidence.title ||
-      evidence.classic ||
-      evidence.source_title ||
-      "古籍依据",
-    ),
-    quote: String(
-      evidence.original_text ||
-      evidence.quote ||
-      evidence.text ||
-      "该证据已由服务端绑定。",
-    ),
-    grade: String(evidence.evidence_level || evidence.grade || "—"),
-  };
+function displayEvidence(id: string, row: Record<string, any>) {
+  // Reject incomplete citations rather than fabricating titles or quotations.
+  const title = row.classic_title || row.title || row.source_title;
+  const quote = row.original_text;
+  if (typeof title !== "string" || !title.trim() ||
+      typeof quote !== "string" || !quote.trim()) return null;
+  return { id, title, quote,
+    grade: typeof row.evidence_level === "string" ? row.evidence_level : "未标注" };
 }
 
 export function CareerWealthStructurePage() {
@@ -121,6 +111,7 @@ export function CareerWealthStructurePage() {
   const annualReading = payload.annual_reading || null;
   const evidence = result
     ? Object.entries(result.evidence).map(([id, value]) => displayEvidence(id, value))
+        .filter((entry): entry is NonNullable<typeof entry> => entry !== null)
     : [];
 
   return (
@@ -311,11 +302,11 @@ export function CareerWealthStructurePage() {
           <div className="career-two-columns">
             <section className="live-section">
               <div className="result-section-heading"><div><span>二</span><h2>典籍依据</h2></div></div>
+              {!evidence.length && <p>当前没有可核验的古籍短引，不追加推断。</p>}
               {evidence.map((item) => (
                 <article className="live-evidence" key={item.id}>
                   <div><strong>{item.title}</strong><span>{item.grade}</span></div>
                   <blockquote>{item.quote}</blockquote>
-                  <small>{item.id}</small>
                 </article>
               ))}
             </section>
