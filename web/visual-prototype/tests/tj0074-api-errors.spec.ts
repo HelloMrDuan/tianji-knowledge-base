@@ -136,7 +136,7 @@ test("saved lunar date survives navigation and leaves original lunar fields inta
   for (const route of ["/daily-structure", "/yearly-structure", "/romance-structure", "/career-wealth-structure", "/life-overview"]) {
     await page.goto(route);
     const visibleDate = await page.getByLabel("出生日期").inputValue();
-    expect(visibleDate).toMatch(/^\\d{4}-\\d{2}-\\d{2}$/);
+    expect(visibleDate).toMatch(/^\d{4}-\d{2}-\d{2}$/);
     if (solarDate) expect(visibleDate).toBe(solarDate);
     else solarDate = visibleDate;
     await expect(page.getByLabel("出生时间")).toHaveValue("12:00");
