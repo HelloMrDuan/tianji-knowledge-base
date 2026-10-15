@@ -40,6 +40,8 @@
 
 | E0021 | 2026-10-14 | TJ-008.6 | 已合并 | 双主题基础交付完成：主题机制/持久化/切换入口/防闪烁；WCAG AA 对比度门禁（夜景/宣纸双通过，零匹配选择器会 FAIL）；回归单测去硬编码；Chromium 25/25、页面回归 35/35；19 张双主题截图入库；未宣称首页精确还原（归 TJ-008.7） | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/239 | 023543a9c4787333e614e1612321a83de65b21c0 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/38542003719 |
 
+| E0022 | 2026-10-14 | TJ-008.7 | 进行中 | 首页深青夜景真实视觉还原认领并登记：WBS 已新增 TJ-008.7，TASK_STATUS 标进行中；以 approved-reference.webp 为最高基准开始 React 还原 | 分支 tj-008.7-night-home-restoration（待建） | — | — |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。

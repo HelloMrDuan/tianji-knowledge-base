@@ -36,6 +36,7 @@
 | TJ-008.4 | M1 | 移动端与无障碍 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-008.5 | M1 | 对齐原设计视觉验收并固化基线 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-008.6 | M1 | 双主题基础与偏好持久化 | 已合并 | [公开 #239](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/239) merge `023543a9c4787333e614e1612321a83de65b21c0` · 公开四门禁 success（https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/38542003719） · 私有库无变更 · 主题机制/持久化/切换入口/防闪烁/WCAG AA 对比度门禁已交付 | 2026-10-14 | 仅技术基础；首页精确视觉还原由 TJ-008.7 接续 |
+| TJ-008.7 | M1 | 首页深青夜景真实视觉还原（React） | 进行中 | 以 `docs/product/designs/night-ink/approved-reference.webp` 为最高基准，开发中（分支 `tj-008.7-night-home-restoration`） | 2026-10-14 | 古风楼阁/灯笼/月色/山水/暖金标题/朱砂印/宣纸大卡；四主卡按今日运势/桃花姻缘/事业财运/流年运势；保留音乐/双主题/11 场景入口/API；夜景默认/宣纸可切换；用户认可前不宣称完成 |
 | TJ-009.1 | M1 | 原创音轨播放器持久化与默认静音 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-009.2 | M1 | 进入后台停止音乐、离开后台不擅自重启 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-009.3 | M1 | 山水/云雾动效性能与无障碍 | 待做 | — | — | 按 WBS 验收条件执行 |

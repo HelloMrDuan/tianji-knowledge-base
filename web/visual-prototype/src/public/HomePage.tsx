@@ -1,16 +1,29 @@
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { InkLandscape } from "./InkLandscape";
+import { NightHeroScene } from "./NightHeroScene";
+import { PaperCard, MobileCardRow } from "./PaperCard";
 import { domainPages } from "./domainPages";
 import { scenarioProducts } from "./scenarioProducts";
 import "./scenarios.css";
+import "./night-home.css";
 
 export function HomePage() {
   const baziProfile = scenarioProducts.find((item) => item.id === "bazi-profile")!;
+  const daily = scenarioProducts.find((item) => item.id === "daily")!;
   const yearly = scenarioProducts.find((item) => item.id === "yearly")!;
   const romance = scenarioProducts.find((item) => item.id === "romance")!;
   const career = scenarioProducts.find((item) => item.id === "career")!;
   const life = scenarioProducts.find((item) => item.id === "life")!;
+  const dream = scenarioProducts.find((item) => item.id === "dream")!;
+  const compatibility = scenarioProducts.find((item) => item.id === "compatibility")!;
+  const weekly = scenarioProducts.find((item) => item.id === "weekly")!;
+  const monthly = scenarioProducts.find((item) => item.id === "monthly")!;
+  const question = scenarioProducts.find((item) => item.id === "question")!;
+  // 第二层展示名（面向普通用户）：仅覆盖首页显示，不改 ID/路由/后端
+  const baziDisplay = { ...baziProfile, name: "八字命理" };
+  const dreamDisplay = { ...dream, name: "解梦" };
+  const compatibilityDisplay = { ...compatibility, name: "缘分合盘" };
   const homePriority = [
     "daily", "romance", "career", "yearly", "weekly", "monthly",
     "bazi-profile", "dream", "compatibility", "life", "question",
@@ -21,17 +34,21 @@ export function HomePage() {
   const keyProducts = new Set(["daily", "romance", "career"]);
   return (
     <div className="scenario-home">
-      <section className="scenario-hero">
-        <InkLandscape />
-        <div className="scenario-hero-copy">
-          <div className="eyebrow"><span />天机 · 运势与姻缘</div>
-          <h1>
-            今天运势如何？
-            <span>桃花姻缘 · 事业财运 · 八字</span>
+      <section className="scenario-hero night-hero">
+        <div className="night-hero-night" aria-hidden="true">
+          <NightHeroScene />
+        </div>
+        <div className="night-hero-paper" aria-hidden="true">
+          <InkLandscape />
+        </div>
+        <div className="night-hero-brand">
+          <h1 className="brand-title">
+            天机命理
+            <span className="brand-seal" aria-hidden="true">天机</span>
           </h1>
-          <p>
-            看今天的运势结构，也看看桃花、事业和财运。依据真实历法计算与已审核的传统知识，
-            现阶段提供结构参考；暂未证实的吉凶、婚期和收益预测不会编造。
+          <p className="brand-sub">观天之道 · 知人之命</p>
+          <p className="brand-desc">
+            以真实历法推演时序流转，参已审核的传统典籍，看今日运势结构，亦观桃花、事业与财运。
           </p>
           <div className="scenario-hero-actions">
             <Link className="button primary" href="/daily-structure">
@@ -49,99 +66,63 @@ export function HomePage() {
               <Icon name="chevron" size={16} />
             </a>
           </div>
-          <div className="scenario-proof">
-            <span><i />确定性计算先行</span>
-            <span><i />规则与典籍可追溯</span>
-            <span><i />今日 / 本周 / 本月 / 年度可重复计算</span>
-            <span><i />AI 未校准前不自动公开</span>
-          </div>
         </div>
       </section>
 
-      <nav className="scenario-time-strip" aria-label="运势时间快捷入口">
-        <Link href="/daily-structure">
-          <strong>今日运势</strong>
-          <span>每日结构参考</span>
-        </Link>
-        <Link href="/weekly-structure">
-          <strong>本周运势</strong>
-          <span>七日结构一览</span>
-        </Link>
-        <Link href="/monthly-structure">
-          <strong>本月运势</strong>
-          <span>本月每日变化</span>
-        </Link>
-        <Link href="/yearly-structure">
-          <strong>流年运势</strong>
-          <span>自选年份查看</span>
-        </Link>
-      </nav>
+      <section className="night-cards-section" aria-label="主要测算入口">
+        <div className="paper-cards">
+          <PaperCard product={daily} art="sunrise" />
+          <PaperCard product={romance} art="peach" />
+          <PaperCard product={career} art="horse" />
+          <PaperCard product={yearly} art="mountains" />
+        </div>
+        {/* 手机紧凑列表（原图手机端样式），桌面端隐藏 */}
+        <div className="mobile-card-list">
+          <MobileCardRow product={daily} art="sunrise" />
+          <MobileCardRow product={romance} art="peach" />
+          <MobileCardRow product={career} art="horse" />
+          <MobileCardRow product={yearly} art="mountains" />
+        </div>
+        <div className="scenario-proof">
+          <span><i />真实结构计算</span>
+          <span><i />典籍依据可查</span>
+          <span><i />每日皆可重看</span>
+        </div>
+      </section>
 
-      <section className="scenario-section" id="scenarios">
+      {/* 第二层：三个重点测算入口（八字/解梦/合盘） */}
+      <section className="spotlight-section" aria-label="重点测算入口">
         <div className="section-heading">
           <div>
-            <span className="eyebrow">运势 · 桃花 · 事业财运</span>
-            <h2>热门测算</h2>
+            <span className="eyebrow">命理 · 梦象 · 缘分</span>
+            <h2>深入测算</h2>
           </div>
-          <span className="quiet-label">真实结构参考 · 高级判读逐步完善</span>
         </div>
-        <div className="scenario-grid">
-          {orderedProducts.map((item) => {
-            const card = (
-              <>
-                <div className="scenario-card-top">
-                  <span className="scenario-glyph">{item.glyph}</span>
-                  <span className="scenario-state">{item.badge}</span>
-                </div>
-                <h3>{item.name.replace(" · 结构版", "").replace("流年结构", "流年运势")}</h3>
-                <span className="scenario-tagline">{item.tagline}</span>
-                <p>{item.description}</p>
-                {item.status === "available" ? (
-                  <span className="scenario-enter">
-                    现在体验 <Icon name="arrow" size={15} />
-                  </span>
-                ) : (
-                  <span className="scenario-disabled">
-                    {item.status === "research" ? "研究中" : "能力补齐中"}
-                  </span>
-                )}
-              </>
-            );
-            return item.href ? (
-              <Link
-                key={item.id}
-                href={item.href}
-                className={"scenario-card " + item.status + (keyProducts.has(item.id) ? " scenario-card-featured" : "")}
-              >
-                {card}
-              </Link>
-            ) : (
-              <article key={item.id} className={"scenario-card " + item.status}>
-                {card}
-              </article>
-            );
-          })}
+        <div className="paper-cards spotlight-cards">
+          <PaperCard product={baziDisplay} art="bazi" />
+          <PaperCard product={dreamDisplay} art="dream" />
+          <PaperCard product={compatibilityDisplay} art="compatibility" />
         </div>
+        <div className="mobile-card-list">
+          <MobileCardRow product={baziDisplay} art="bazi" />
+          <MobileCardRow product={dreamDisplay} art="dream" />
+          <MobileCardRow product={compatibilityDisplay} art="compatibility" />
+        </div>
+      </section>
 
-        <div className="scenario-featured">
+      {/* 第三层：其他四个测算场景 */}
+      <section className="tier3-section" aria-label="其他测算场景">
+        <div className="section-heading">
           <div>
-            <span className="eyebrow">进阶探索 · 多场景汇总</span>
-            <h3>{life.name} · 把 {baziProfile.name}、{yearly.name}、{romance.name}、{career.name} 聚到一起</h3>
-            <p>
-              现在不需要在多个页面之间来回拼答案。人生总览会一次调用真实 Scenario Engine，
-              聚合四条已经验证的确定性链路，并保留 RuleMatch、Evidence 和 Trace。
-              如果有一件具体的事想问，也可以使用六爻一事占问。
-            </p>
+            <span className="eyebrow">周期 · 问事 · 总览</span>
+            <h2>更多测算</h2>
           </div>
-          <div className="scenario-featured-actions">
-            <Link className="button primary" href="/life-overview">
-              生成人生总览
-              <Icon name="arrow" size={18} />
-            </Link>
-            <Link className="button outlined" href="/ask">
-              有具体问题再占问
-            </Link>
-          </div>
+        </div>
+        <div className="tier3-list">
+          <MobileCardRow product={weekly} art="sunrise" />
+          <MobileCardRow product={monthly} art="mountains" />
+          <MobileCardRow product={question} art="horse" />
+          <MobileCardRow product={life} art="peach" />
         </div>
       </section>
 
@@ -174,14 +155,14 @@ export function HomePage() {
           ))}
         </div>
         <p className="professional-note">
-          八字基础、年度、桃花与事业财运结构已进入真实链路；完整吉凶报告、合盘和应期仍不会提前包装成“已可用”。
+          传统术数工具区：六爻、奇门、紫微、周易、风水等，供深入研习。
         </p>
       </section>
 
       <section className="home-music-hint">
         <div>
-          <strong>古风背景音乐已经保留在全站右上角</strong>
-          <small>默认关闭。你主动播放后，页面内切换路由不会中断，并会记住音量。</small>
+          <strong>古风背景音乐在右上角</strong>
+          <small>点一下即可播放，切换页面不会中断。</small>
         </div>
         <span className="eyebrow">听一曲 · 再看运势</span>
       </section>
