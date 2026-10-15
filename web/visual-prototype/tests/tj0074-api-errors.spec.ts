@@ -80,6 +80,33 @@ for (const [name, body] of [["malformed JSON", "not json {{{"], ["HTTP 200 empty
   });
 }
 
+test("30-second deadline aborts an indefinitely pending request and permits retry", async ({ page }) => {
+  await saveSample(page);
+  await page.clock.install();
+  let attempts = 0;
+  await page.route("**/api/v1/scenarios/public", async route => {
+    attempts++;
+    if (attempts === 1) {
+      // No fulfill/continue: browser-side AbortController must terminate this request.
+      return;
+    }
+    const req = route.request().postDataJSON();
+    await route.fulfill({ status: 200, contentType: "application/json",
+      body: JSON.stringify(resultFor("daily", req.input.target_date)) });
+  });
+  await page.goto("/daily-structure");
+  const submit = page.locator('form button[type="submit"]').first();
+  await submit.click();
+  await expect.poll(() => attempts).toBe(1);
+  await page.clock.fastForward(30001);
+  await expect(page.getByRole("alert")).toContainText("请求超时");
+  await expect(submit).toBeEnabled();
+  await submit.click();
+  await expect(page.locator(".daily-result-head")).toBeVisible();
+  await expect(page.getByRole("alert")).toHaveCount(0);
+  expect(attempts).toBe(2);
+});
+
 test("service technical details are not copied into public alert", async ({ page }) => {
   await saveSample(page);
   let requested = 0;
