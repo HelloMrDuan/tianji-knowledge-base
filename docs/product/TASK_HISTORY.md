@@ -54,7 +54,9 @@
 
 | E0028 | 2026-10-15 | TJ-006.2 | 进行中 | 目标日、周、月、流年目标与真实 API 响应一致性沿用已合并 TJ-007.1 私有受控 35/35 验收；本任务补充 1901–2098 年份上下限设计说明，以及严格的旧请求后返、目标日期编辑清屏、非法输入禁止提交、年份范围浏览器状态测试。仅前端状态模拟，不冒充真实后端计算；待最新 CI 和独立复审，不声明已合并。 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/247 | — | https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38696910589 |
 
+
 | E0029 | 2026-10-15 | TJ-006.2 | 已合并 | 核实已有真实五场景日期/年份一致性与节气/闰年/跨周跨年证据；本任务仅增加 1901–2098 前端保守年份范围说明、4 项真实 Chromium 前端状态契约测试及专用重复验收 CI。新测试分别验证 2025 旧请求晚于 2027 返回不会覆盖最新结果、查看日期改变立即清除旧结果、空日期不发送请求、1900/2100 禁止而 1901 合法；使用受控 HTTP 回包验证竞态，不能当作真实历法测算。公开 PR #247 已合并 main，GitHub 5/5 CI success；真实命理计算复用 TJ-007.1 私有受限 35/35。未生产部署、不声明其他任务完成。 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/247 | 8b37521e7c6ab961732479540dfa2fb84f2a7b15 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/38699429188 |
+| E0030 | 2026-10-15 | TJ-006.3 | 进行中 | 从 main `2f71314031bb7b7f55c8d9627e4be82c353d1218` 建立 TJ-006.3 分支，核查 A/B 数据隔离与本机删除；B 资料仅在组件内存、独立清除，不写个人出生档案；补前台统一跨标签页资料清除通知，防止其他已打开的运势/合盘页面继续显示旧档案或异步结果；前端交互及真实 Chromium CI 待最终验收，未声称正式合并或生产部署。 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/249 | — | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/249/checks |
 
 ## 怎样追加下一条
 
