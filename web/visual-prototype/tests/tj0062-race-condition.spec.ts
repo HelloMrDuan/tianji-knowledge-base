@@ -5,7 +5,6 @@ import { expect, test, type Page } from "@playwright/test";
  * Controlled HTTP replies test concurrent requests, invalidation and validation.
  * They are NOT genuine calendrical / production Scenario Engine calculations.
  */
-const apiPath = "/api/v1/scenarios/public";
 
 async function saveSample(page: Page) {
   await page.goto("/bazi-profile");
@@ -134,7 +133,7 @@ test("daily: an empty required VIEW DATE prevents API requests", async ({ page }
   await page.goto("/daily-structure");
   const viewDate = page.getByLabel("查看日期");
   await viewDate.fill("");
-  expect(await viewDate.evaluate((el: HTMLInputElement) => el.validity.valueMissing)).toBe(true);
+  expect(await viewDate.evaluate((el) => (el as HTMLInputElement).validity.valueMissing)).toBe(true);
   await page.locator('form button[type="submit"]').first().click();
   expect(sent).toBe(0);
   await expect(page.locator(".daily-result")).toHaveCount(0);
@@ -159,17 +158,17 @@ test("yearly: 1900/2100 are blocked and 1901 is accepted by frontend bounds", as
   await expect(year).toHaveAttribute("max", "2098");
 
   await year.fill("1900");
-  expect(await year.evaluate((el: HTMLInputElement) => el.validity.rangeUnderflow)).toBe(true);
+  expect(await year.evaluate((el) => (el as HTMLInputElement).validity.rangeUnderflow)).toBe(true);
   await submit.click();
   expect(requestedYears).toEqual([]);
 
   await year.fill("2100");
-  expect(await year.evaluate((el: HTMLInputElement) => el.validity.rangeOverflow)).toBe(true);
+  expect(await year.evaluate((el) => (el as HTMLInputElement).validity.rangeOverflow)).toBe(true);
   await submit.click();
   expect(requestedYears).toEqual([]);
 
   await year.fill("1901");
-  expect(await year.evaluate((el: HTMLInputElement) => el.validity.valid)).toBe(true);
+  expect(await year.evaluate((el) => (el as HTMLInputElement).validity.valid)).toBe(true);
   await submit.click();
   await expect.poll(() => requestedYears).toEqual([1901]);
   await expect(page.locator(".yearly-result")).toBeVisible();
