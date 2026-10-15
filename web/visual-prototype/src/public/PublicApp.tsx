@@ -21,6 +21,7 @@ import { PeriodStructurePage } from "./PeriodStructurePage";
 import { CompatibilityStructurePage } from "./CompatibilityStructurePage";
 import { ThemeToggle } from "./ThemeToggle";
 import { useTheme } from "./theme";
+import { onBirthProfileCleared } from "./birthProfile";
 import "./public.css";
 import "./theme.css";
 
@@ -40,6 +41,14 @@ export function PublicApp() {
   const [favorite, setFavorite] = useState(initialFavorite);
   const [notice, setNotice] = useState("");
   const [theme, setTheme] = useTheme(); // TJ-008.6 双主题：深青夜景默认
+
+  // One listener covers EVERY mounted scene, including compatibility and result screens.
+  // Another tab removing the personal birth profile invalidates in-memory profile
+  // snapshots, results and pending callbacks by remounting the current route.
+  // Unrelated theme, music and favorite preferences are intentionally untouched.
+  useEffect(() => onBirthProfileCleared(() => {
+    window.location.reload();
+  }), []);
 
   useEffect(() => {
     try {
