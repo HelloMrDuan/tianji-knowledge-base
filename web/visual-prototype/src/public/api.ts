@@ -35,57 +35,88 @@ export class ApiError extends Error {
   }
 }
 
-function userMessageFor(status: number, detail: any): string {
-  // 优先使用服务端的友好消息
-  const serverMsg = detail?.message;
-  if (typeof serverMsg === "string" && serverMsg.length > 0 && serverMsg.length < 200) {
-    // 过滤技术性内容
-    if (!/trace|rule id|token|stack/i.test(serverMsg)) {
-      return serverMsg;
-    }
-  }
-  if (status === 400 || status === 422) {
-    const msg = detail?.[0]?.msg;
-    if (typeof msg === "string" && msg.length > 0 && msg.length < 200) return msg;
-    return "输入内容有误，请检查后重试。";
-  }
+type JsonObject = Record<string, unknown>;
+function isRecord(value: unknown): value is JsonObject {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+const INVALID_RESPONSE = "服务端返回数据不完整，暂不能展示测算结果，请稍后重试。";
+function invalidResponse(): never {
+  throw new ApiError("invalid", INVALID_RESPONSE);
+}
+
+/** No raw upstream technical messages are displayed without a conservative safe-text check. */
+function safeServerMessage(input: unknown): string | null {
+  if (typeof input !== "string") return null;
+  const message = input.trim();
+  if (!message || message.length > 120 || /[\\r\\n\\t<>\\x00-\\x1f]/.test(message)) return null;
+  if (/https?:|www\\.|[a-z]:[\\\\/]|\\/api\\/|\\/home\\/|\\/var\\/|\\/src\\/|\\.py\\b|\\.ts\\b|\\.js\\b|trace|stack|rule[_\\s-]?id|evidence[_\\s-]?id|token|exception|keyerror|internal|file\\s|line\\s?\\d|\\bsha\\b|数据库堆栈|内部路径|规则编号/i.test(message)) return null;
+  return message;
+}
+function userMessageFor(status: number, detail: unknown): string {
+  const parsed = isRecord(detail) ? detail : null;
+  const first = Array.isArray(detail) ? detail[0] : null;
+  // Custom Chinese business messages from the reviewed API are preferable to generic status text.
+  const custom = safeServerMessage(parsed?.message) ?? safeServerMessage(isRecord(first) ? first.msg : null);
+  if (custom) return custom;
+  if (status === 400 || status === 422) return "输入内容有误，请检查后重试。";
   if (status === 503) return "服务暂时繁忙，请稍后重试。";
   if (status >= 500) return "服务端出现问题，请稍后重试。";
   return "请求失败，请稍后重试。";
 }
 
-async function requestJson(path: string, body: unknown): Promise<any> {
+function assertExecuteResponse(data: unknown, domain: string): ExecuteResponse {
+  if (!isRecord(data) || data.domain !== domain || data.deterministic !== true ||
+      !isRecord(data.chart) || !isRecord(data.evidence) ||
+      !Array.isArray(data.rule_matches) || !Array.isArray(data.trace) ||
+      !Array.isArray(data.warnings) || !Array.isArray(data.limitations)) invalidResponse();
+  return data as ExecuteResponse;
+}
+
+function assertScenarioResponse(data: unknown, scenarioId: string): ScenarioExecuteResponse {
+  if (!isRecord(data) || data.scenario_id !== scenarioId || data.public_release !== true ||
+      data.deterministic !== true || typeof data.status !== "string" ||
+      !isRecord(data.result) || !isRecord(data.evidence) ||
+      !Array.isArray(data.rule_matches) || !Array.isArray(data.trace) ||
+      !Array.isArray(data.warnings) || !Array.isArray(data.limitations)) invalidResponse();
+  return data as ScenarioExecuteResponse;
+}
+
+async function requestJson(path: string, body: unknown): Promise<unknown> {
   const controller = new AbortController();
+  // Hold the deadline through response BODY consumption, not only HTTP headers.
   const timer = setTimeout(() => controller.abort(), API_TIMEOUT_MS);
-  let response: Response;
   try {
-    response = await fetch(`${apiBase}${path}`, {
+    const response = await fetch(`${apiBase}${path}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      cache: "no-store",
       body: JSON.stringify(body),
       signal: controller.signal,
     });
+    let data: unknown;
+    try {
+      const content = await response.text();
+      data = content ? JSON.parse(content) : null;
+    } catch (err) {
+      if (controller.signal.aborted) throw new ApiError("timeout", "请求超时，请检查网络后重试。");
+      if (!response.ok) throw new ApiError("server", userMessageFor(response.status, null), response.status);
+      throw new ApiError("invalid", "服务端返回数据格式异常，请稍后重试。");
+    }
+    if (!response.ok) {
+      throw new ApiError("server", userMessageFor(response.status, isRecord(data) ? data.detail : null), response.status);
+    }
+    if (!isRecord(data)) invalidResponse();
+    return data;
   } catch (err) {
-    clearTimeout(timer);
-    if (err instanceof DOMException && err.name === "AbortError") {
+    if (err instanceof ApiError) throw err;
+    if (controller.signal.aborted || (err instanceof Error && err.name === "AbortError")) {
       throw new ApiError("timeout", "请求超时，请检查网络后重试。");
     }
     throw new ApiError("network", "网络连接失败，请检查网络后重试。");
+  } finally {
+    clearTimeout(timer);
   }
-  clearTimeout(timer);
-
-  let data: any = {};
-  try {
-    const text = await response.text();
-    data = text ? JSON.parse(text) : {};
-  } catch {
-    throw new ApiError("invalid", "服务端返回数据格式异常，请稍后重试。", response.status);
-  }
-
-  if (!response.ok) {
-    throw new ApiError("server", userMessageFor(response.status, data?.detail), response.status);
-  }
-  return data;
 }
 
 export async function executeLiuyao(input: {
@@ -99,7 +130,7 @@ export async function executeLiuyao(input: {
     explain: false,
     mode: "production",
   });
-  return data as ExecuteResponse;
+  return assertExecuteResponse(data, "liuyao");
 }
 
 
@@ -114,7 +145,7 @@ export async function executeBazi(input: {
       explain: false,
       mode: "production",
   });
-  return data as ExecuteResponse;
+  return assertExecuteResponse(data, "bazi");
 }
 
 
@@ -139,7 +170,7 @@ export async function executeYearlyScenario(input: {
       scenario_id: "yearly",
       input,
   });
-  return data as ScenarioExecuteResponse;
+  return assertScenarioResponse(data, "yearly");
 }
 
 
@@ -151,7 +182,7 @@ export async function executeRomanceScenario(input: {
       scenario_id: "romance",
       input,
   });
-  return data as ScenarioExecuteResponse;
+  return assertScenarioResponse(data, "romance");
 }
 
 
@@ -163,7 +194,7 @@ export async function executeCareerScenario(input: {
       scenario_id: "career",
       input,
   });
-  return data as ScenarioExecuteResponse;
+  return assertScenarioResponse(data, "career");
 }
 
 
@@ -175,7 +206,7 @@ export async function executeLifeScenario(input: {
       scenario_id: "life",
       input,
   });
-  return data as ScenarioExecuteResponse;
+  return assertScenarioResponse(data, "life");
 }
 
 
@@ -187,7 +218,7 @@ export async function executeDailyScenario(input: {
       scenario_id: "daily",
       input,
   });
-  return data as ScenarioExecuteResponse;
+  return assertScenarioResponse(data, "daily");
 }
 
 
@@ -199,7 +230,7 @@ export async function executeWeeklyScenario(input: {
       scenario_id: "weekly",
       input,
   });
-  return data as ScenarioExecuteResponse;
+  return assertScenarioResponse(data, "weekly");
 }
 
 export async function executeMonthlyScenario(input: {
@@ -210,7 +241,7 @@ export async function executeMonthlyScenario(input: {
       scenario_id: "monthly",
       input,
   });
-  return data as ScenarioExecuteResponse;
+  return assertScenarioResponse(data, "monthly");
 }
 
 
@@ -224,7 +255,7 @@ export async function executeCompatibilityScenario(input: {
       scenario_id: "compatibility",
       input,
   });
-  return data as ScenarioExecuteResponse;
+  return assertScenarioResponse(data, "compatibility");
 }
 
 export type DreamCultureMatch = {
