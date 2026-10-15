@@ -32,7 +32,7 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Run real Chromium saved-profile, history, error/retry, race and privacy tests (stubbed API)
         working-directory: web/visual-prototype
-        run: CI=true npm test -- tests/tj0074-library-retry.spec.ts tests/tj0062-race-condition.spec.ts tests/tj0063-privacy.spec.ts
+        run: CI=true npm test -- tests/tj0074-library-retry.spec.ts tests/tj0062-race-condition.spec.ts tests/tj0063-privacy.spec.ts tests/tj0074-api-errors.spec.ts
       # Playwright clears test-results at the beginning of each invocation.
       # Upload the viewport evidence BEFORE the second targeted invocation.
       - uses: actions/upload-artifact@v4
