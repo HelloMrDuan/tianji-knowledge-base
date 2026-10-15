@@ -26,7 +26,7 @@ test.describe("TJ-007.4 real: contract validation", () => {
     await page.goto("/bazi-profile");
     await page.getByRole("button", { name: "填入示例" }).click();
     await page.getByRole("button", { name: "保存资料" }).click();
-    await page.waitForTimeout(500);
+    await expect.poll(() => page.evaluate(() => localStorage.getItem("tianji.profile.birth.v1"))).not.toBeNull();
   });
 
   for (const s of SCENARIOS) {
