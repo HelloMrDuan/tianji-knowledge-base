@@ -300,8 +300,10 @@ function timezoneOffsetString(date: string, time: string, tz: string): string {
   });
   const localAsUTC = Date.UTC(y, m - 1, d, h, mi);
   const candidates: number[] = [];
-  for (let deltaH = -14; deltaH <= 14; deltaH++) {
-    const testUTC = localAsUTC - deltaH * 3600000;
+  // P0-4: 支持半小时偏移（如新加坡 1985 年前的 +07:30）
+  // 以 30 分钟步长扫描，覆盖整小时和半小时时区
+  for (let deltaMin = -14 * 60; deltaMin <= 14 * 60; deltaMin += 30) {
+    const testUTC = localAsUTC - deltaMin * 60000;
     const parts = Object.fromEntries(
       fmt.formatToParts(new Date(testUTC)).map((p) => [p.type, p.value]),
     );

@@ -308,3 +308,83 @@ test.describe("TJ-006.1 P0-6: additional forced assertions", () => {
     await expect(bSection).toBeVisible();
   });
 });
+
+test.describe("TJ-006.1 P0-4: half-hour timezone (regression)", () => {
+  test("Singapore 1975-01-07 12:00 uses +07:30", async () => {
+    const { toApiValue } = await import("../src/public/birthProfile");
+    const profile = {
+      calendarType: "solar" as const,
+      year: 1975, month: 1, day: 7,
+      isLeapMonth: false,
+      time: "12:00", timeUnknown: false,
+      region: "新加坡",
+    };
+    const v = toApiValue(profile);
+    // 新加坡 1985 年前为 +07:30
+    expect(v).toBe("1975-01-07T12:00:00+07:30");
+  });
+});
+
+test.describe("TJ-006.1 P0-1: blank time selection", () => {
+  test("select hour then minute from blank produces HH:MM", async ({ page }) => {
+    await page.goto("/bazi-profile");
+    // 确保空白状态
+    await page.getByRole("button", { name: "清除本机资料" }).click();
+    await page.waitForTimeout(300);
+    // 先选时
+    await page.locator('.time-selects select').nth(0).selectOption("14");
+    await page.waitForTimeout(200);
+    // 此时 time 应仍为空（分未选）
+    // 再选分
+    await page.locator('.time-selects select').nth(1).selectOption("30");
+    await page.waitForTimeout(200);
+    // 验证父级 profile 已更新（通过保存后检查）
+    await page.locator('.birth-date-row select').nth(0).selectOption("2000");
+    await page.locator('.birth-date-row select').nth(1).selectOption("1");
+    await page.locator('.birth-date-row select').nth(2).selectOption("7");
+    await page.getByRole("button", { name: "保存资料" }).click();
+    await page.waitForTimeout(500);
+    const saved = await page.evaluate(() => JSON.parse(localStorage.getItem("tianji.profile.birth.v1") || "{}"));
+    expect(saved.time).toBe("14:30");
+  });
+});
+
+test.describe("TJ-006.1 P0-2: region confirm", () => {
+  test("legacy unknown timezone requires confirm", async () => {
+    const { readSavedBirthProfile, validateBirthInput, confirmRegion } = await import("../src/public/birthProfile");
+    // 模拟旧资料（无时区）
+    const legacy = {
+      calendarType: "solar" as const,
+      year: 2000, month: 1, day: 7,
+      isLeapMonth: false,
+      time: "12:00", timeUnknown: false,
+      region: "中国大陆",
+      _regionNeedsConfirm: true,
+    };
+    // 验证阻断
+    const r = validateBirthInput(legacy);
+    expect(r.ok).toBe(false);
+    if (!r.ok) expect(r.message).toMatch(/确认/);
+    // 确认后通过
+    const confirmed = confirmRegion(legacy, "中国大陆");
+    expect(confirmed._regionNeedsConfirm).toBeUndefined();
+    expect(validateBirthInput(confirmed).ok).toBe(true);
+  });
+});
+
+test.describe("TJ-006.1 P0-3: save branch preserves lunar", () => {
+  test("withUpdatedTime preserves calendarType", async () => {
+    const { withUpdatedTime } = await import("../src/public/birthProfile");
+    const lunar = {
+      calendarType: "lunar" as const,
+      year: 2000, month: 4, day: 15,
+      isLeapMonth: false,
+      time: "12:00", timeUnknown: false,
+      region: "中国大陆",
+    };
+    const updated = withUpdatedTime(lunar, "14:30");
+    expect(updated.calendarType).toBe("lunar");
+    expect(updated.isLeapMonth).toBe(false);
+    expect(updated.time).toBe("14:30");
+  });
+});

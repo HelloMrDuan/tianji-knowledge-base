@@ -1,10 +1,11 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   REGION_OPTIONS,
   MIN_YEAR,
   MAX_YEAR,
   solarDaysInMonth,
   validateBirthInput,
+  confirmRegion,
   type BirthProfile,
   type CalendarType,
 } from "./birthProfile";
@@ -62,8 +63,35 @@ export function BirthInputFields({
 
   const hours = Array.from({ length: 24 }, (_, i) => i);
   const minutes = Array.from({ length: 60 }, (_, i) => i);
-  // 未设置时间时显示"请选择"，不偷偷默认 12:00
-  const [curH, curM] = value.time ? value.time.split(":").map(Number) : [-1, -1];
+  // P0-1: 显式待选状态；从 value.time 初始化，外部变化时同步
+  const [pendingH, setPendingH] = useState<number>(() =>
+    value.time ? Number(value.time.split(":")[0]) : -1
+  );
+  const [pendingM, setPendingM] = useState<number>(() =>
+    value.time ? Number(value.time.split(":")[1]) : -1
+  );
+  // 外部 value.time 变化时同步 pending（示例/清除/恢复）
+  useEffect(() => {
+    if (value.time) {
+      const [h, m] = value.time.split(":").map(Number);
+      setPendingH(h);
+      setPendingM(m);
+    } else if (!value.timeUnknown) {
+      // 非"不知道"且 time 为空：重置为待选（但保留用户已选的一侧）
+      // 注意：不强制重置，允许用户继续选另一侧
+    }
+  }, [value.time]);
+  // 清除时重置
+  useEffect(() => {
+    if (!value.time && !value.timeUnknown && pendingH >= 0 && pendingM >= 0) {
+      // 如果外部清空了但 pending 还有值，说明是清除操作，重置
+      // 通过检查 value.year 是否为 0 来判断是否为清除
+      if (value.year === 0) {
+        setPendingH(-1);
+        setPendingM(-1);
+      }
+    }
+  }, [value.year]);
 
   return (
     <div className="birth-input-user">
@@ -145,7 +173,14 @@ export function BirthInputFields({
           <input
             type="checkbox"
             checked={value.timeUnknown}
-            onChange={(e) => update({ timeUnknown: e.target.checked, time: "" })}
+            onChange={(e) => {
+              const unknown = e.target.checked;
+              if (unknown) {
+                setPendingH(-1);
+                setPendingM(-1);
+              }
+              update({ timeUnknown: unknown, time: "" });
+            }}
           />
           <span>不知道出生时间</span>
         </label>
@@ -154,16 +189,16 @@ export function BirthInputFields({
             <label>
               <span>时</span>
               <select
-                value={curH}
+                value={pendingH}
                 onChange={(e) => {
                   const h = Number(e.target.value);
-                  // P1-5: 只有时、分都明确选择后才构造时间，不自动补
-                  if (h >= 0 && curM >= 0) {
-                    update({ time: `${String(h).padStart(2, "0")}:${String(curM).padStart(2, "0")}` });
+                  setPendingH(h);
+                  // P0-1: 两侧都选齐才通知父级
+                  if (h >= 0 && pendingM >= 0) {
+                    update({ time: `${String(h).padStart(2, "0")}:${String(pendingM).padStart(2, "0")}` });
                   } else if (h < 0) {
-                    update({ time: "" }); // 取消选择则清空
+                    update({ time: "" });
                   }
-                  // 仅选时未选分：保持 time 为空，等待用户选分
                 }}
               >
                 <option value={-1}>请选择</option>
@@ -175,12 +210,12 @@ export function BirthInputFields({
             <label>
               <span>分</span>
               <select
-                value={curM}
+                value={pendingM}
                 onChange={(e) => {
                   const mi = Number(e.target.value);
-                  // P1-5: 只有时、分都明确选择后才构造时间
-                  if (mi >= 0 && curH >= 0) {
-                    update({ time: `${String(curH).padStart(2, "0")}:${String(mi).padStart(2, "0")}` });
+                  setPendingM(mi);
+                  if (mi >= 0 && pendingH >= 0) {
+                    update({ time: `${String(pendingH).padStart(2, "0")}:${String(mi).padStart(2, "0")}` });
                   } else if (mi < 0) {
                     update({ time: "" });
                   }
@@ -214,6 +249,20 @@ export function BirthInputFields({
             ))}
           </select>
         </label>
+        {value._regionNeedsConfirm && (
+          <div className="region-confirm-box">
+            <p className="birth-note" role="alert">
+              您的旧资料缺少出生地区信息，请确认后才能计算。
+            </p>
+            <button
+              type="button"
+              className="sample-fill"
+              onClick={() => onChange(confirmRegion(value, value.region))}
+            >
+              确认出生地区：{value.region}
+            </button>
+          </div>
+        )}
       </div>
 
       {errorMsg && (

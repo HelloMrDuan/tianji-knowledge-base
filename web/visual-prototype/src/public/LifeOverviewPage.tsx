@@ -98,7 +98,11 @@ export function LifeOverviewPage() {
         const currentProfile = readSavedBirthProfile();
         const initialSolar = toSolarDateString(currentProfile);
         if (date === initialSolar && time === currentProfile.time) {
-          return; // 未修改，不覆写原始档案
+          return; // 未修改，不覆写
+        }
+        if (date === initialSolar) {
+          saveBirthProfile(withUpdatedTime(currentProfile, time));
+          return;
         }
         saveBirthProfile(fromSolarEdit(date, time, currentProfile.region));
       })();

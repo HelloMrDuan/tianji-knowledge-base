@@ -88,7 +88,11 @@ export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
         const currentProfile = readSavedBirthProfile();
         const initialSolar = toSolarDateString(currentProfile);
         if (birthDate === initialSolar && birthTime === currentProfile.time) {
-          return; // 未修改，不覆写原始档案
+          return; // 未修改，不覆写
+        }
+        if (birthDate === initialSolar) {
+          saveBirthProfile(withUpdatedTime(currentProfile, birthTime));
+          return;
         }
         saveBirthProfile(fromSolarEdit(birthDate, birthTime, currentProfile.region));
       })();
