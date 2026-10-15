@@ -64,6 +64,8 @@
 
 | E0033 | 2026-10-15 | TJ-007.2 | 已合并 | 桃花姻缘、事业财运和缘分合盘三个真实 Scenario Engine 限定版产品流程已验收并合并：公开 PR #251 merge `2a75e02e5bc07823158902626c88572bc779c8e4`，受限私有验收 PR #58 merge `caef539d7aad7a38365dcf1c157de7f7dbc71766`。本轮复用原有已审核排盘及组合规则，并修复事业财运不真实的古籍引文占位、增加合盘双方日主/方向十神/关系命中的用户可读摘要；请求精确断言、目标年重新计算、Rule/Evidence 引用与结果展示通过。公开 7/7 GitHub CI success，受限真实私有 Canonical/生产 runtime/API/Chromium 5 项专项 + 9 张三视口真实结果截图合计 14/14 success。截图仅私有 Actions Artifact `tj0072-live-results` ID 11958141052 保留 1 日。未发布未经审定的正缘、婚期、财富金额、升职与吉凶预测；无私有完整 Canonical 流向公开仓库，未生产部署，不关账父任务。 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/251 | 2a75e02e5bc07823158902626c88572bc779c8e4 | https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38705064439 |
 
+| E0034 | 2026-10-15 | TJ-007.3 | 进行中 | 一事占问、已审核梦象和人生总览四源的实际联调及浏览器验收；排盘和梦象/API 的代码已存在，本次补前端真实请求与盘面/来源断言、限定结果态截图、拒判和错误态。AI 自由解释继续关闭。此前私有 Actions 检出旧 SHA 导致 No tests found；此事件只表示正在推进，不宣称真实后端验收通过或已合并。 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/253 | — | https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38706904296 |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
