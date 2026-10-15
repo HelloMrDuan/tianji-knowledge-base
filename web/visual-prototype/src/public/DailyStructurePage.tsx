@@ -5,7 +5,7 @@ import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeDailyScenario, type ScenarioExecuteResponse } from "./api";
 import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
-import { toApiValue, fromLegacy, toSolarDateString, isConvertedFromLunar, fromSolarEdit } from "./birthProfile";
+import { toApiValue, fromLegacy, toSolarDateString, isConvertedFromLunar, fromSolarEdit, withUpdatedTime } from "./birthProfile";
 import "./daily-structure.css";
 
 
@@ -74,6 +74,9 @@ export function DailyStructurePage() {
         // 如果用户未修改日期，使用原始档案（含农历信息）；否则按阳历编辑处理
         if (birthDate === initialSolar && birthTime === currentProfile.time) {
           return toApiValue(currentProfile);
+        }
+        if (birthDate === initialSolar) {
+          return toApiValue(withUpdatedTime(currentProfile, birthTime));
         }
         return toApiValue(fromSolarEdit(birthDate, birthTime, currentProfile.region));
       })(),

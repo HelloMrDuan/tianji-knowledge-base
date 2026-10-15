@@ -6,7 +6,7 @@ import { Link } from "../shared/router";
 import { executeYearlyScenario, type ScenarioExecuteResponse } from "./api";
 import { readSavedTargetYear, saveTargetYear, isValidTargetYear, MIN_TARGET_YEAR, MAX_TARGET_YEAR } from "./targetYear";
 import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
-import { toApiValue, fromLegacy, toSolarDateString, isConvertedFromLunar, fromSolarEdit } from "./birthProfile";
+import { toApiValue, fromLegacy, toSolarDateString, isConvertedFromLunar, fromSolarEdit, withUpdatedTime } from "./birthProfile";
 import "./yearly-structure.css";
 
 const relationNames: Record<string, string> = {
@@ -76,6 +76,9 @@ export function YearlyStructurePage() {
         if (date === initialSolar && time === currentProfile.time) {
           return toApiValue(currentProfile);
         }
+        if (date === initialSolar) {
+          return toApiValue(withUpdatedTime(currentProfile, time));
+        }
         return toApiValue(fromSolarEdit(date, time, currentProfile.region));
       })(),
         target_year: targetYear,
@@ -85,6 +88,10 @@ export function YearlyStructurePage() {
         const currentProfile = readSavedBirthProfile();
         const initialSolar = toSolarDateString(currentProfile);
         if (date === initialSolar && time === currentProfile.time) {
+          return;
+        }
+        if (date === initialSolar) {
+          saveBirthProfile(withUpdatedTime(currentProfile, time));
           return;
         }
         saveBirthProfile(fromSolarEdit(date, time, currentProfile.region));

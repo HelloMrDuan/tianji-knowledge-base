@@ -157,8 +157,13 @@ export function BirthInputFields({
                 value={curH}
                 onChange={(e) => {
                   const h = Number(e.target.value);
-                  const m = curM >= 0 ? curM : 0;
-                  update({ time: `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}` });
+                  // P1-5: 只有时、分都明确选择后才构造时间，不自动补
+                  if (h >= 0 && curM >= 0) {
+                    update({ time: `${String(h).padStart(2, "0")}:${String(curM).padStart(2, "0")}` });
+                  } else if (h < 0) {
+                    update({ time: "" }); // 取消选择则清空
+                  }
+                  // 仅选时未选分：保持 time 为空，等待用户选分
                 }}
               >
                 <option value={-1}>请选择</option>
@@ -173,8 +178,12 @@ export function BirthInputFields({
                 value={curM}
                 onChange={(e) => {
                   const mi = Number(e.target.value);
-                  const h = curH >= 0 ? curH : 12;
-                  update({ time: `${String(h).padStart(2, "0")}:${String(mi).padStart(2, "0")}` });
+                  // P1-5: 只有时、分都明确选择后才构造时间
+                  if (mi >= 0 && curH >= 0) {
+                    update({ time: `${String(curH).padStart(2, "0")}:${String(mi).padStart(2, "0")}` });
+                  } else if (mi < 0) {
+                    update({ time: "" });
+                  }
                 }}
               >
                 <option value={-1}>请选择</option>

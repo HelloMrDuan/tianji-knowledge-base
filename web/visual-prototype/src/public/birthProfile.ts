@@ -27,6 +27,8 @@ export type BirthInput = {
   timeUnknown: boolean;
   /** 出生地区，如 "中国大陆" */
   region: string;
+  /** 内部标记：旧资料时区未知，需用户确认地区 */
+  _regionNeedsConfirm?: boolean;
 };
 
 /** 完整资料（含原始输入） */
@@ -81,7 +83,7 @@ export function regionToTimezone(region: string): string {
   return REGION_TIMEZONE[region] || "";
 }
 
-export const MIN_YEAR = 1900;
+export const MIN_YEAR = 1949;
 export const MAX_YEAR = 2099;
 
 /** 阳历闰年 */
@@ -142,6 +144,10 @@ export function validateBirthInput(input: BirthInput): ValidationResult {
   }
   if (!region) {
     return { ok: false, message: "请选择出生地区" };
+  }
+  // P0-4: 旧资料时区未知，需用户确认后才能计算
+  if ((input as BirthInput)._regionNeedsConfirm) {
+    return { ok: false, message: "您的旧资料缺少出生地区信息，请在下方确认出生地区后重试" };
   }
   if (region === "其他") {
     return { ok: false, message: "暂不支持该地区的精确时间换算，请选择列表中的地区" };
@@ -279,6 +285,14 @@ export function toApiValue(profile: BirthProfile): string {
 function timezoneOffsetString(date: string, time: string, tz: string): string {
   const [y, m, d] = date.split("-").map(Number);
   const [h, mi] = time.split(":").map(Number);
+
+  // P0-3: 历史时区精度限制
+  // 1949 年前中国及 1970 年前多地的时区偏移含分钟/秒级历史调整，
+  // 前端 Intl 扫描无法可靠映射。明确拒绝，不返回错误瞬时。
+  if (y < 1949) {
+    throw new Error(`暂不支持 ${y} 年的历史时间精确换算（时区历史精度无法保证），请选择 1949 年后的日期`);
+  }
+
   const fmt = new Intl.DateTimeFormat("en-US", {
     timeZone: tz,
     year: "numeric", month: "2-digit", day: "2-digit",
@@ -386,4 +400,24 @@ export function fromSolarEdit(dateStr: string, time: string, region: string): Bi
     timeUnknown: !time,
     region: region || "中国大陆",
   };
+}
+
+/**
+ * P0-2: 仅更新时刻，保留历法/日期/地区不变。
+ * 用于用户只修改出生时刻的场景。
+ */
+export function withUpdatedTime(profile: BirthProfile, newTime: string): BirthProfile {
+  return {
+    ...profile,
+    time: newTime,
+    timeUnknown: !newTime,
+  };
+}
+
+/**
+ * P0-4: 用户确认出生地区后，清除待确认标记。
+ */
+export function confirmRegion(profile: BirthProfile, region: string): BirthProfile {
+  const { _regionNeedsConfirm, ...rest } = profile;
+  return { ...rest, region };
 }

@@ -5,7 +5,7 @@ import { Link } from "../shared/router";
 import { executeLifeScenario, type ScenarioExecuteResponse } from "./api";
 import { readSavedTargetYear, saveTargetYear, isValidTargetYear, MIN_TARGET_YEAR, MAX_TARGET_YEAR } from "./targetYear";
 import { readSavedBirthProfile, saveBirthProfile, clearBirthProfile } from "./birthProfile";
-import { toApiValue, fromLegacy, toSolarDateString, isConvertedFromLunar, fromSolarEdit } from "./birthProfile";
+import { toApiValue, fromLegacy, toSolarDateString, isConvertedFromLunar, fromSolarEdit, withUpdatedTime } from "./birthProfile";
 import "./life-overview.css";
 
 const relationNames: Record<string, string> = {
@@ -85,6 +85,9 @@ export function LifeOverviewPage() {
         // 如果用户未修改日期，使用原始档案（含农历信息）；否则按阳历编辑处理
         if (date === initialSolar && time === currentProfile.time) {
           return toApiValue(currentProfile);
+        }
+        if (date === initialSolar) {
+          return toApiValue(withUpdatedTime(currentProfile, time));
         }
         return toApiValue(fromSolarEdit(date, time, currentProfile.region));
       })(),
