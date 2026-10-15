@@ -4,6 +4,7 @@ import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeCompatibilityScenario, type ScenarioExecuteResponse } from "./api";
 import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
+import { toApiValue } from "./birthProfile";
 import "./compatibility-structure.css";
 
 const pillarNames: Record<string, string> = {
@@ -67,8 +68,8 @@ export function CompatibilityStructurePage() {
         person_a_traditional_role?: "male" | "female";
         person_b_traditional_role?: "male" | "female";
       } = {
-        person_a_birth_value: `${aDate}T${aTime}:00+08:00`,
-        person_b_birth_value: `${bDate}T${bTime}:00+08:00`,
+        person_a_birth_value: toApiValue({ date: aDate, time: aTime }),
+        person_b_birth_value: toApiValue({ date: bDate, time: bTime }),
       };
       if (aRole) input.person_a_traditional_role = aRole;
       if (bRole) input.person_b_traditional_role = bRole;

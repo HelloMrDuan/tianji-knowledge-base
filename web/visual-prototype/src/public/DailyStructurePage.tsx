@@ -5,6 +5,7 @@ import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeDailyScenario, type ScenarioExecuteResponse } from "./api";
 import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
+import { toApiValue } from "./birthProfile";
 import "./daily-structure.css";
 
 
@@ -67,7 +68,7 @@ export function DailyStructurePage() {
     setResult(null);
     try {
       const next = await executeDailyScenario({
-        birth_value: `${birthDate}T${birthTime}:00+08:00`,
+        birth_value: toApiValue({ date: birthDate, time: birthTime }),
         target_date: targetDate,
       });
       if (version !== requestVersion.current) return;

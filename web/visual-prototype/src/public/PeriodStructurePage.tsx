@@ -8,6 +8,7 @@ import {
   type ScenarioExecuteResponse,
 } from "./api";
 import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
+import { toApiValue } from "./birthProfile";
 import "./period-structure.css";
 
 const relationLabel: Record<string, string> = {six_harmony: "六合", harm: "六害", clash: "六冲"};
@@ -67,7 +68,7 @@ export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
     setError("");
     setResult(null);
     try {
-      const birthValue = `${birthDate}T${birthTime}:00+08:00`;
+      const birthValue = toApiValue({ date: birthDate, time: birthTime });
       const next = isWeekly
         ? await executeWeeklyScenario({ birth_value: birthValue, anchor_date: anchorDate })
         : await executeMonthlyScenario({ birth_value: birthValue, target_month: targetMonth });

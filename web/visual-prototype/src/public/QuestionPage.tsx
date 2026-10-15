@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
+import { toApiValue } from "./birthProfile";
 import { Link } from "../shared/router";
 import { executeLiuyao, type ExecuteResponse } from "./api";
 import "./question.css";
@@ -137,7 +138,7 @@ export function QuestionPage() {
     setLoading(true);
     setResult(null);
     try {
-      const value = `${date}T${time}:00+08:00`;
+      const value = toApiValue({ date, time });
       const response = await executeLiuyao({ value, yao_values: yaoValues as number[] });
       if (version === requestVersion.current) setResult(response);
     } catch (err) {

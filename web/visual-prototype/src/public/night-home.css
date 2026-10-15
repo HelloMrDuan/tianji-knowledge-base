@@ -608,3 +608,45 @@ html[data-theme="paper"] .tier3-section h2 {
     gap: 10px;
   }
 }
+
+/* ---------- TJ-006.1: 统一出生资料输入 ---------- */
+.birth-input-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+.birth-input-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.birth-input-grid label > span {
+  font-size: 14px;
+  color: #5a4a33;
+  letter-spacing: 1px;
+}
+.birth-input-grid .required-mark {
+  font-style: normal;
+  font-size: 12px;
+  color: #b3261e;
+}
+.birth-input-grid .optional-mark {
+  font-style: normal;
+  font-size: 12px;
+  color: #6b7a68;
+}
+.birth-input-grid input,
+.birth-input-grid select {
+  padding: 10px 12px;
+  font-size: 15px;
+  border: 1px solid #d8cfae;
+  border-radius: 8px;
+  background: #fffdf6;
+  color: #1d3a34;
+}
+@media (max-width: 640px) {
+  .birth-input-grid {
+    grid-template-columns: 1fr;
+  }
+}

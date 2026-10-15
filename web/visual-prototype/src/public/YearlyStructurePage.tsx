@@ -6,6 +6,7 @@ import { Link } from "../shared/router";
 import { executeYearlyScenario, type ScenarioExecuteResponse } from "./api";
 import { readSavedTargetYear, saveTargetYear, isValidTargetYear, MIN_TARGET_YEAR, MAX_TARGET_YEAR } from "./targetYear";
 import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
+import { toApiValue } from "./birthProfile";
 import "./yearly-structure.css";
 
 const relationNames: Record<string, string> = {
@@ -69,7 +70,7 @@ export function YearlyStructurePage() {
     try {
       if (!isValidTargetYear(targetYear)) throw new Error("请选择 1901 至 2098 年的公历年份");
       const response = await executeYearlyScenario({
-        birth_value: `${date}T${time}:00+08:00`,
+        birth_value: toApiValue({ date, time }),
         target_year: targetYear,
       });
       if (version !== requestVersion.current) return;
