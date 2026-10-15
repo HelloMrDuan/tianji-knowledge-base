@@ -5,6 +5,7 @@ import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeDailyScenario, type ScenarioExecuteResponse } from "./api";
 import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
+import { toApiValue, fromLegacy, toSolarDateString, isConvertedFromLunar, fromSolarEdit, withUpdatedTime } from "./birthProfile";
 import "./daily-structure.css";
 
 
@@ -36,7 +37,7 @@ function displayEvidence(id: string, source: Record<string, any>) {
 export function DailyStructurePage() {
   const saved = useMemo(readSavedBirthProfile, []);
   const today = useMemo(beijingToday, []);
-  const [birthDate, setBirthDate] = useState(saved.date);
+  const [birthDate, setBirthDate] = useState(() => toSolarDateString(saved));
   const [birthTime, setBirthTime] = useState(saved.time);
   const [targetDate, setTargetDate] = useState(today);
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
@@ -67,11 +68,33 @@ export function DailyStructurePage() {
     setResult(null);
     try {
       const next = await executeDailyScenario({
-        birth_value: `${birthDate}T${birthTime}:00+08:00`,
+        birth_value: (() => {
+        const currentProfile = readSavedBirthProfile();
+        const initialSolar = toSolarDateString(currentProfile);
+        // 如果用户未修改日期，使用原始档案（含农历信息）；否则按阳历编辑处理
+        if (birthDate === initialSolar && birthTime === currentProfile.time) {
+          return toApiValue(currentProfile);
+        }
+        if (birthDate === initialSolar) {
+          return toApiValue(withUpdatedTime(currentProfile, birthTime));
+        }
+        return toApiValue(fromSolarEdit(birthDate, birthTime, currentProfile.region, currentProfile));
+      })(),
         target_date: targetDate,
       });
       if (version !== requestVersion.current) return;
-      saveBirthProfile({ date: birthDate, time: birthTime });
+      (() => {
+        const currentProfile = readSavedBirthProfile();
+        const initialSolar = toSolarDateString(currentProfile);
+        if (birthDate === initialSolar && birthTime === currentProfile.time) {
+          return; // 未修改，不覆写
+        }
+        if (birthDate === initialSolar) {
+          saveBirthProfile(withUpdatedTime(currentProfile, birthTime));
+          return;
+        }
+        saveBirthProfile(fromSolarEdit(birthDate, birthTime, currentProfile.region, currentProfile));
+      })();
       setResult(next);
     } catch (err) {
       if (version === requestVersion.current)
@@ -125,7 +148,7 @@ export function DailyStructurePage() {
         <form onSubmit={submit}>
           <div className="daily-entry-head">
             <div>
-              <span className="eyebrow">{saved.date && saved.time ? "已带入上次资料" : "建立每日档案"}</span>
+              <span className="eyebrow">{saved.year > 0 && saved.time ? "已带入上次资料" : "建立每日档案"}</span>
               <h2>查看当天结构</h2>
             </div>
             <button type="button" className="sample-fill" onClick={fillSample}>填入示例</button>
@@ -175,8 +198,8 @@ export function DailyStructurePage() {
         <section className="daily-empty">
           <span>今</span>
           <div>
-            <h2>{saved.date ? "你的出生资料已经准备好" : "先填一次出生资料"}</h2>
-            <p>{saved.date ? "直接点击上方按钮，就能生成今天的真实结构。" : "生成后会保存在当前浏览器，明天回来无需重复填写。"}</p>
+            <h2>{saved.year > 0 ? "你的出生资料已经准备好" : "先填一次出生资料"}</h2>
+            <p>{saved.year > 0 ? "直接点击上方按钮，就能生成今天的真实结构。" : "生成后会保存在当前浏览器，明天回来无需重复填写。"}</p>
           </div>
         </section>
       )}

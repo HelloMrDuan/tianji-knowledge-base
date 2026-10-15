@@ -4,6 +4,7 @@ import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeCompatibilityScenario, type ScenarioExecuteResponse } from "./api";
 import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
+import { toApiValue, fromLegacy, toSolarDateString, isConvertedFromLunar, fromSolarEdit, withUpdatedTime, regionToTimezone, REGION_OPTIONS } from "./birthProfile";
 import "./compatibility-structure.css";
 
 const pillarNames: Record<string, string> = {
@@ -23,11 +24,13 @@ export function CompatibilityStructurePage() {
   const saved = useMemo(readSavedBirthProfile, []);
   const [aName, setAName] = useState("我");
   const [bName, setBName] = useState("对方");
-  const [aDate, setADate] = useState(saved.date);
+  const [aDate, setADate] = useState(() => toSolarDateString(saved));
   const [aTime, setATime] = useState(saved.time);
+  // A 使用 saved.region（原始档案），不单独维护时区
   const [aRole, setARole] = useState<"" | "male" | "female">("");
   const [bDate, setBDate] = useState("");
   const [bTime, setBTime] = useState("");
+  const [bRegion, setBRegion] = useState("中国大陆");
   const [bRole, setBRole] = useState<"" | "male" | "female">("");
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
   const [loading, setLoading] = useState(false);
@@ -67,14 +70,32 @@ export function CompatibilityStructurePage() {
         person_a_traditional_role?: "male" | "female";
         person_b_traditional_role?: "male" | "female";
       } = {
-        person_a_birth_value: `${aDate}T${aTime}:00+08:00`,
-        person_b_birth_value: `${bDate}T${bTime}:00+08:00`,
+        person_a_birth_value: (() => {
+          const initialSolar = toSolarDateString(saved);
+          if (aDate === initialSolar && aTime === saved.time) {
+            return toApiValue(saved);
+          }
+          if (aDate === initialSolar) {
+            return toApiValue(withUpdatedTime(saved, aTime));
+          }
+          return toApiValue(fromSolarEdit(aDate, aTime, saved.region, saved));
+        })(),
+        person_b_birth_value: toApiValue(fromSolarEdit(bDate, bTime, bRegion)),
       };
       if (aRole) input.person_a_traditional_role = aRole;
       if (bRole) input.person_b_traditional_role = bRole;
       const next = await executeCompatibilityScenario(input);
       if (version !== requestVersion.current) return;
-      saveBirthProfile({ date: aDate, time: aTime });
+      // A：仅用户显式修改后才更新；未修改不覆写原始档案
+      (() => {
+        const initialSolar = toSolarDateString(saved);
+        if (aDate === initialSolar && aTime === saved.time) return;
+        if (aDate === initialSolar) {
+          saveBirthProfile(withUpdatedTime(saved, aTime));
+          return;
+        }
+        saveBirthProfile(fromSolarEdit(aDate, aTime, saved.region, saved));
+      })();
       setResultNames({a: aName.trim() || "我", b: bName.trim() || "对方"});
       setResult(next);
     } catch (err) {
@@ -150,8 +171,8 @@ export function CompatibilityStructurePage() {
 
       <form className="compat-input" onSubmit={submit}>
         {[
-          { side: "A", name: aName, setName: setAName, date: aDate, setDate: setADate, time: aTime, setTime: setATime, role: aRole, setRole: setARole, saved: Boolean(saved.date) },
-          { side: "B", name: bName, setName: setBName, date: bDate, setDate: setBDate, time: bTime, setTime: setBTime, role: bRole, setRole: setBRole, saved: false },
+          { side: "A", name: aName, setName: setAName, date: aDate, setDate: setADate, time: aTime, setTime: setATime, role: aRole, setRole: setARole, saved: Boolean(saved.year), region: saved.region, setRegion: null, isLunar: isConvertedFromLunar(saved) },
+          { side: "B", name: bName, setName: setBName, date: bDate, setDate: setBDate, time: bTime, setTime: setBTime, role: bRole, setRole: setBRole, saved: false, region: bRegion, setRegion: setBRegion, isLunar: false },
         ].map((person) => (
           <section className="compat-person-input" key={person.side}>
             <span className="eyebrow">{person.side} · {person.saved ? "已带入我的资料" : "出生资料"}</span>
@@ -169,6 +190,18 @@ export function CompatibilityStructurePage() {
                 <input type="time" value={person.time} onChange={(e) => { invalidateResult(); person.setTime(e.target.value); }} required />
               </label>
             </div>
+            {person.setRegion ? (
+              <label>
+                <span>出生地区</span>
+                <select value={person.region} onChange={(e) => { invalidateResult(); person.setRegion(e.target.value); }}>
+                  {REGION_OPTIONS.map((o) => (
+                    <option key={o.value} value={o.value}>{o.label}</option>
+                  ))}
+                </select>
+              </label>
+            ) : (
+              <p className="birth-note">出生地区：{person.region}{person.isLunar ? "（当前显示的是换算后公历）" : ""}</p>
+            )}
             <label>
               <span>传统配偶星观察口径（可选）</span>
               <select value={person.role} onChange={(e) => { invalidateResult(); person.setRole(e.target.value as "" | "male" | "female"); }}>

@@ -3,7 +3,8 @@ import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeBazi, type ExecuteResponse } from "./api";
-import { readSavedBirthProfile, saveBirthProfile, clearBirthProfile } from "./birthProfile";
+import { readSavedBirthProfile, saveBirthProfile, clearBirthProfile, toApiValue, validateBirthInput, type BirthProfile } from "./birthProfile";
+import { BirthInputFields } from "./BirthInputFields";
 import "./bazi-profile.css";
 
 const pillarNames: Record<string, string> = {
@@ -27,8 +28,8 @@ function displayEvidence(id: string, value: Record<string, any>) {
 }
 
 export function BaziProfilePage() {
-  const [date, setDate] = useState(() => readSavedBirthProfile().date);
-  const [time, setTime] = useState(() => readSavedBirthProfile().time);
+  const [profile, setProfile] = useState<BirthProfile>(() => readSavedBirthProfile());
+  const [inputError, setInputError] = useState("");
   const [result, setResult] = useState<ExecuteResponse | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -45,21 +46,33 @@ export function BaziProfilePage() {
 
   function fillSample() {
     invalidateResult();
-    setDate("2000-01-07");
-    setTime("12:00");
+    const sample: BirthProfile = {
+      calendarType: "solar",
+      year: 2000, month: 1, day: 7,
+      isLeapMonth: false,
+      time: "12:00", timeUnknown: false,
+      region: "中国大陆",
+    };
+    setProfile(sample);
+    setInputError("");
   }
 
   async function submit(event: FormEvent) {
     event.preventDefault();
-    if (!date || !time) return;
+    const v = validateBirthInput(profile);
+    if (!v.ok) {
+      setInputError(v.ok === false ? v.message : "");
+      return;
+    }
+    setInputError("");
     const version = ++requestVersion.current;
     setLoading(true);
     setError("");
     setResult(null);
     try {
-      const response = await executeBazi({ value: `${date}T${time}:00+08:00`, strength_variant: "ditiansui-root-visibility-v1" });
+      const response = await executeBazi({ value: toApiValue(profile), strength_variant: "ditiansui-root-visibility-v1" });
       if (version !== requestVersion.current) return;
-      saveBirthProfile({ date, time });
+      saveBirthProfile(profile);
       setResult(response);
     } catch (err) {
       if (version === requestVersion.current)
@@ -115,24 +128,28 @@ export function BaziProfilePage() {
             </div>
             <div className="bazi-profile-actions">
               <button type="button" className="sample-fill" onClick={fillSample}>填入示例</button>
-              <button type="button" className="sample-fill" onClick={() => { invalidateResult(); clearBirthProfile(); setDate(""); setTime(""); }}>清除本机资料</button>
+              <button type="button" className="sample-fill" onClick={() => {
+                // 独立保存：未知时刻也可保存本地资料（仅本地存储，不提交计算）
+                if (saveBirthProfile(profile)) {
+                  setInputError("");
+                } else {
+                  const vr = validateBirthInput(profile);
+                  setInputError(vr.ok ? "保存失败" : (vr as { message: string }).message);
+                }
+              }}>保存资料</button>
+              <button type="button" className="sample-fill" onClick={() => { invalidateResult(); clearBirthProfile(); setProfile({ calendarType: "solar", year: 0, month: 0, day: 0, isLeapMonth: false, time: "", timeUnknown: false, region: "中国大陆" }); setInputError(""); }}>清除本机资料</button>
             </div>
           </div>
 
-          <div className="bazi-input-grid">
-            <label>
-              <span>出生日期</span>
-              <input type="date" value={date} onChange={(e) => { invalidateResult(); setDate(e.target.value); }} required />
-            </label>
-            <label>
-              <span>出生时间</span>
-              <input type="time" value={time} onChange={(e) => { invalidateResult(); setTime(e.target.value); }} required />
-            </label>
-          </div>
+          <BirthInputFields
+            value={profile}
+            onChange={(p) => { invalidateResult(); setProfile(p); setInputError(""); }}
+          />
+          {inputError && <p className="question-error" role="alert">{inputError}</p>}
 
           <div className="bazi-input-note">
             <Icon name="shield" size={16} />
-            <span>当前固定按北京时间 UTC+8 计算；计算成功后出生资料仅保存在本浏览器以便其他场景复用，可随时清除。真太阳时与晚子时变体尚未开放。</span>
+            <span>计算成功后出生资料仅保存在本浏览器以便其他场景复用，可随时清除。真太阳时与晚子时变体尚未开放。</span>
           </div>
 
           <button className="button primary bazi-submit" type="submit" disabled={loading}>

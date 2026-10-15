@@ -44,6 +44,8 @@
 
 | E0023 | 2026-10-15 | TJ-008.7 | 已合并 | 首页深青夜景真实视觉还原交付完成：11 场景四层架构（4 核心卡/3 重点/4 其他/专业工具）、深青夜景默认/宣纸可切换、9 张原创 AI 水墨、古风音乐播放器、手机首屏四入口几何测试无遮挡；Playwright 50/50、GitHub 4/4 CI；用户最终视觉验收通过 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/241 | f4ff245cacdc74c12b07afe6b5b8b9f0a40fc6fe | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/38668854631 |
 
+| E0024 | 2026-10-15 | TJ-006.1 | 进行中 | 多场景统一输入与本地资料校验认领并登记：WBS 已登记 TJ-006.1，TASK_STATUS 标进行中；统一 birthProfile 模型、日期/时区显式校验、跨场景复用 | 分支 tj-006.1-birth-profile（待建） | — | — |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。

@@ -8,6 +8,7 @@ import {
   type ScenarioExecuteResponse,
 } from "./api";
 import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
+import { toApiValue, fromLegacy, toSolarDateString, isConvertedFromLunar, fromSolarEdit, withUpdatedTime } from "./birthProfile";
 import "./period-structure.css";
 
 const relationLabel: Record<string, string> = {six_harmony: "六合", harm: "六害", clash: "六冲"};
@@ -40,7 +41,7 @@ type PeriodMode = "weekly" | "monthly";
 export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
   const saved = useMemo(readSavedBirthProfile, []);
   const today = useMemo(beijingToday, []);
-  const [birthDate, setBirthDate] = useState(saved.date);
+  const [birthDate, setBirthDate] = useState(() => toSolarDateString(saved));
   const [birthTime, setBirthTime] = useState(saved.time);
   const [anchorDate, setAnchorDate] = useState(today);
   const [targetMonth, setTargetMonth] = useState(today.slice(0, 7));
@@ -67,12 +68,34 @@ export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
     setError("");
     setResult(null);
     try {
-      const birthValue = `${birthDate}T${birthTime}:00+08:00`;
+      const birthValue = (() => {
+        const currentProfile = readSavedBirthProfile();
+        const initialSolar = toSolarDateString(currentProfile);
+        // 如果用户未修改日期，使用原始档案（含农历信息）；否则按阳历编辑处理
+        if (birthDate === initialSolar && birthTime === currentProfile.time) {
+          return toApiValue(currentProfile);
+        }
+        if (birthDate === initialSolar) {
+          return toApiValue(withUpdatedTime(currentProfile, birthTime));
+        }
+        return toApiValue(fromSolarEdit(birthDate, birthTime, currentProfile.region, currentProfile));
+      })();
       const next = isWeekly
         ? await executeWeeklyScenario({ birth_value: birthValue, anchor_date: anchorDate })
         : await executeMonthlyScenario({ birth_value: birthValue, target_month: targetMonth });
       if (version !== requestVersion.current) return;
-      saveBirthProfile({ date: birthDate, time: birthTime });
+      (() => {
+        const currentProfile = readSavedBirthProfile();
+        const initialSolar = toSolarDateString(currentProfile);
+        if (birthDate === initialSolar && birthTime === currentProfile.time) {
+          return; // 未修改，不覆写
+        }
+        if (birthDate === initialSolar) {
+          saveBirthProfile(withUpdatedTime(currentProfile, birthTime));
+          return;
+        }
+        saveBirthProfile(fromSolarEdit(birthDate, birthTime, currentProfile.region, currentProfile));
+      })();
       setResult(next);
     } catch (err) {
       if (version === requestVersion.current)
@@ -121,7 +144,7 @@ export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
         <form onSubmit={submit}>
           <div className="period-entry-head">
             <div>
-              <span className="eyebrow">{saved.date ? "已复用人生总览资料" : "出生资料"}</span>
+              <span className="eyebrow">{saved.year > 0 ? "已复用人生总览资料" : "出生资料"}</span>
               <h2>生成{title}</h2>
             </div>
           </div>
@@ -174,7 +197,7 @@ export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
         <section className="period-empty">
           <span>{glyph}</span>
           <div>
-            <h2>{saved.date ? "出生资料已经准备好" : "先建立一次出生资料"}</h2>
+            <h2>{saved.year > 0 ? "出生资料已经准备好" : "先建立一次出生资料"}</h2>
             <p>点击生成后才会展示真实周期结构，不使用预制周运/月运。</p>
           </div>
         </section>

@@ -5,6 +5,7 @@ import { Link } from "../shared/router";
 import { executeLifeScenario, type ScenarioExecuteResponse } from "./api";
 import { readSavedTargetYear, saveTargetYear, isValidTargetYear, MIN_TARGET_YEAR, MAX_TARGET_YEAR } from "./targetYear";
 import { readSavedBirthProfile, saveBirthProfile, clearBirthProfile } from "./birthProfile";
+import { toApiValue, fromLegacy, toSolarDateString, isConvertedFromLunar, fromSolarEdit, withUpdatedTime } from "./birthProfile";
 import "./life-overview.css";
 
 const relationNames: Record<string, string> = {
@@ -46,7 +47,7 @@ function reviewedExcerpts(ids: unknown, evidence: Record<string, any>): Reviewed
 
 export function LifeOverviewPage() {
   const initial = readSavedBirthProfile();
-  const [date, setDate] = useState(initial.date);
+  const [date, setDate] = useState(() => toSolarDateString(initial));
   const [time, setTime] = useState(initial.time);
   const [targetYear, setTargetYear] = useState(readSavedTargetYear);
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
@@ -78,11 +79,33 @@ export function LifeOverviewPage() {
     try {
       if (!isValidTargetYear(targetYear)) throw new Error("请选择 1901 至 2098 年的公历年份");
       const next = await executeLifeScenario({
-        birth_value: `${date}T${time}:00+08:00`,
+        birth_value: (() => {
+        const currentProfile = readSavedBirthProfile();
+        const initialSolar = toSolarDateString(currentProfile);
+        // 如果用户未修改日期，使用原始档案（含农历信息）；否则按阳历编辑处理
+        if (date === initialSolar && time === currentProfile.time) {
+          return toApiValue(currentProfile);
+        }
+        if (date === initialSolar) {
+          return toApiValue(withUpdatedTime(currentProfile, time));
+        }
+        return toApiValue(fromSolarEdit(date, time, currentProfile.region, currentProfile));
+      })(),
         target_year: targetYear,
       });
       if (version !== requestVersion.current) return;
-      saveBirthProfile({ date, time });
+      (() => {
+        const currentProfile = readSavedBirthProfile();
+        const initialSolar = toSolarDateString(currentProfile);
+        if (date === initialSolar && time === currentProfile.time) {
+          return; // 未修改，不覆写
+        }
+        if (date === initialSolar) {
+          saveBirthProfile(withUpdatedTime(currentProfile, time));
+          return;
+        }
+        saveBirthProfile(fromSolarEdit(date, time, currentProfile.region, currentProfile));
+      })();
       saveTargetYear(targetYear);
       setResult(next);
     } catch (err) {
