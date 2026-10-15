@@ -229,6 +229,7 @@ export function CompatibilityStructurePage() {
               setBTime("");
               setBRegion("中国大陆");
               setBRole("");
+              setResultNames({ a: "我", b: "对方" });
               setError("");
             }}
           >
