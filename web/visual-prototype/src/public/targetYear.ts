@@ -1,6 +1,12 @@
 /** A shared, bounded year for the four live consumer scenario pages.
  * This preference is browser-local; the calculation is always served by the
  * actual deterministic Scenario Engine, never calculated in the browser.
+ *
+ * Range 1901-2098 is intentionally narrower than the backend's 1900-2100:
+ * lunar-calendar and solar-term calculations at the extreme boundaries
+ * (1900, 2099-2100) have not been verified against the reviewed canonical
+ * data. The conservative frontend bound prevents untested edge cases
+ * from reaching the API. Do not widen without TJ-006.2 boundary verification.
  */
 const KEY = "tianji.scenario.target-year.v1";
 export const MIN_TARGET_YEAR = 1901;
