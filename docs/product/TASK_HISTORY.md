@@ -48,6 +48,8 @@
 
 | E0025 | 2026-10-15 | TJ-006.1 | 已合并 | 多场景统一出生资料输入已合并：阳历/农历及闰月严格校验、自然语言出生地区、无时刻不伪造、原始农历跨页复用及旧资料地区显式确认。PR #243 head cb18e67ffca29ca3c15fb2a86e7a2fb1c9c57ce8 经 GitHub 四项 CI success，最终合并 main；Muse 本地报告 55/55，GitHub CI 未执行 Playwright；真实后端 E2E 尚未验证、美国/加拿大/澳大利亚精确地区与 1949 年前时区仍受限，须后续独立任务验证。私有知识库未修改，非生产部署 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/243 | 8a0081990bb442fb3521bbd2140056901fe14eed | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/38692470766 |
 
+| E0026 | 2026-10-15 | TJ-007.1 | 进行中 | 五场景真实流程实施中：前端补八字结果限制及三条请求参数观察用例；真实后端需要在私有受控环境由私有 Canonical 与公开代码组装并构建 production_runtime，当前公开工作区缺少 yijing 是源数据未装配，而非证明私有库不存在。暂未通过真实后端 E2E，不宣称完成。 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/245 | — | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/245/checks |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
@@ -57,8 +59,3 @@
 5. GitHub PR 必须运行 `python scripts/check_task_tracking.py --base <base-commit>`，确认本次恰好一个任务、一个新事件。PR 合并成功后再以**同一任务**单独做关账更新，补齐实际 main SHA。
 
 **验收警戒线**：WBS 全部子任务数量 ≠ 已完成功能数量；公开 PR 合并 ≠ 私有 Canonical 完成；静态截图 ≠ 人工视觉还原；推送成功 ≠ 生产部署完成。
-
-## E0024 — TJ-007.1 启动（2026-10-15）
-- 从 main 46691e4 创建分支 tj-007.1-real-flows
-- 目标：八字/今日/本周/本月/流年五条真实计算流程
-- 阻塞：本地后端需私有知识库构建 production_runtime.json
