@@ -471,3 +471,140 @@ html[data-theme="paper"] .paper-card {
     font-size: 13px;
   }
 }
+
+/* ---------- 第二层：重点测算（八字/解梦/合盘） ---------- */
+.spotlight-section {
+  position: relative;
+  z-index: 2;
+  padding: 36px 20px 8px;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+.spotlight-section .section-heading {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.spotlight-section .eyebrow {
+  font-size: 12px;
+  letter-spacing: 6px;
+  color: #8a6a45;
+}
+.spotlight-section h2 {
+  font-family: "Noto Serif CJK SC", "Songti SC", serif;
+  font-size: 28px;
+  letter-spacing: 8px;
+  text-indent: 8px;
+  color: #f0d6a0;
+  margin: 6px 0 0;
+}
+html[data-theme="paper"] .spotlight-section h2 {
+  color: #1d3a34;
+}
+.spotlight-cards {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 1020px;
+  margin: 0 auto;
+}
+/* 第二层手机也用紧凑列表 */
+@media (max-width: 640px) {
+  .spotlight-section .paper-cards {
+    display: none;
+  }
+  .spotlight-section .mobile-card-list {
+    display: flex;
+  }
+}
+
+/* ---------- 第三层：其他场景（紧凑横排） ---------- */
+.tier3-section {
+  position: relative;
+  z-index: 2;
+  padding: 36px 20px 40px;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+.tier3-section .section-heading {
+  text-align: center;
+  margin-bottom: 18px;
+}
+.tier3-section .eyebrow {
+  font-size: 12px;
+  letter-spacing: 6px;
+  color: #8a6a45;
+}
+.tier3-section h2 {
+  font-family: "Noto Serif CJK SC", "Songti SC", serif;
+  font-size: 24px;
+  letter-spacing: 8px;
+  text-indent: 8px;
+  color: #f0d6a0;
+  margin: 6px 0 0;
+}
+html[data-theme="paper"] .tier3-section h2 {
+  color: #1d3a34;
+}
+/* 第三层桌面端也用紧凑行（与手机列表同一样式，常显） */
+.tier3-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  max-width: 1020px;
+  margin: 0 auto;
+}
+.tier3-list .mobile-card-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f6f1e2;
+  border: 1px solid #d8cfae;
+  border-radius: 10px;
+  padding: 8px 14px 8px 8px;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+}
+.tier3-list .mobile-card-thumb {
+  flex: none;
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #d8cfae;
+}
+.tier3-list .mobile-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.tier3-list .mobile-card-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.tier3-list .mobile-card-text strong {
+  font-family: "Noto Serif CJK SC", "Songti SC", serif;
+  font-size: 16px;
+  letter-spacing: 2px;
+  color: #1d3a34;
+}
+.tier3-list .mobile-card-text small {
+  font-size: 12px;
+  color: #6b7a68;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tier3-list .mobile-card-arrow {
+  flex: none;
+  font-size: 22px;
+  color: #8a6a45;
+  line-height: 1;
+}
+@media (max-width: 640px) {
+  .tier3-list {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}

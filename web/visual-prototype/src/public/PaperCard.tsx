@@ -10,8 +10,13 @@ import artSunrise from "../assets/night-home/art-sunrise.jpg";
 import artPeach from "../assets/night-home/art-peach.jpg";
 import artHorse from "../assets/night-home/art-horse.jpg";
 import artMountains from "../assets/night-home/art-mountains.jpg";
+import artBazi from "../assets/night-home/art-bazi.jpg";
+import artDream from "../assets/night-home/art-dream.jpg";
+import artCompatibility from "../assets/night-home/art-compatibility.jpg";
 
-export type PaperCardArt = "sunrise" | "peach" | "horse" | "mountains";
+export type PaperCardArt =
+  | "sunrise" | "peach" | "horse" | "mountains"
+  | "bazi" | "dream" | "compatibility";
 
 /**
  * 第三轮：卡片插画改用原创 AI 水墨（src/assets/night-home/），
@@ -22,6 +27,9 @@ const ART_SRC: Record<PaperCardArt, string> = {
   peach: artPeach,
   horse: artHorse,
   mountains: artMountains,
+  bazi: artBazi,
+  dream: artDream,
+  compatibility: artCompatibility,
 };
 
 const ART_ALT: Record<PaperCardArt, string> = {
@@ -29,6 +37,9 @@ const ART_ALT: Record<PaperCardArt, string> = {
   peach: "桃花树水墨",
   horse: "策马人物水墨",
   mountains: "层峦山水水墨",
+  bazi: "八字典籍水墨",
+  dream: "梦境云月水墨",
+  compatibility: "鸳鸯合盘水墨",
 };
 
 function CardArt({ art }: { art: PaperCardArt }) {

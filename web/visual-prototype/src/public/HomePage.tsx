@@ -15,6 +15,11 @@ export function HomePage() {
   const romance = scenarioProducts.find((item) => item.id === "romance")!;
   const career = scenarioProducts.find((item) => item.id === "career")!;
   const life = scenarioProducts.find((item) => item.id === "life")!;
+  const dream = scenarioProducts.find((item) => item.id === "dream")!;
+  const compatibility = scenarioProducts.find((item) => item.id === "compatibility")!;
+  const weekly = scenarioProducts.find((item) => item.id === "weekly")!;
+  const monthly = scenarioProducts.find((item) => item.id === "monthly")!;
+  const question = scenarioProducts.find((item) => item.id === "question")!;
   const homePriority = [
     "daily", "romance", "career", "yearly", "weekly", "monthly",
     "bazi-profile", "dream", "compatibility", "life", "question",
@@ -82,90 +87,39 @@ export function HomePage() {
         </div>
       </section>
 
-      <nav className="scenario-time-strip" aria-label="运势时间快捷入口">
-        <Link href="/daily-structure">
-          <strong>今日运势</strong>
-          <span>每日结构参考</span>
-        </Link>
-        <Link href="/weekly-structure">
-          <strong>本周运势</strong>
-          <span>七日结构一览</span>
-        </Link>
-        <Link href="/monthly-structure">
-          <strong>本月运势</strong>
-          <span>本月每日变化</span>
-        </Link>
-        <Link href="/yearly-structure">
-          <strong>流年运势</strong>
-          <span>自选年份查看</span>
-        </Link>
-      </nav>
-
-      <section className="scenario-section" id="scenarios">
+      {/* 第二层：三个重点测算入口（八字/解梦/合盘） */}
+      <section className="spotlight-section" aria-label="重点测算入口">
         <div className="section-heading">
           <div>
-            <span className="eyebrow">运势 · 桃花 · 事业财运</span>
-            <h2>热门测算</h2>
+            <span className="eyebrow">命理 · 梦象 · 缘分</span>
+            <h2>深入测算</h2>
           </div>
-          <span className="quiet-label">真实结构参考 · 高级判读逐步完善</span>
         </div>
-        <div className="scenario-grid">
-          {orderedProducts.map((item) => {
-            const card = (
-              <>
-                <div className="scenario-card-top">
-                  <span className="scenario-glyph">{item.glyph}</span>
-                  <span className="scenario-state">{item.badge}</span>
-                </div>
-                <h3>{item.name.replace(" · 结构版", "").replace("流年结构", "流年运势")}</h3>
-                <span className="scenario-tagline">{item.tagline}</span>
-                <p>{item.description}</p>
-                {item.status === "available" ? (
-                  <span className="scenario-enter">
-                    现在体验 <Icon name="arrow" size={15} />
-                  </span>
-                ) : (
-                  <span className="scenario-disabled">
-                    {item.status === "research" ? "研究中" : "能力补齐中"}
-                  </span>
-                )}
-              </>
-            );
-            return item.href ? (
-              <Link
-                key={item.id}
-                href={item.href}
-                className={"scenario-card " + item.status + (keyProducts.has(item.id) ? " scenario-card-featured" : "")}
-              >
-                {card}
-              </Link>
-            ) : (
-              <article key={item.id} className={"scenario-card " + item.status}>
-                {card}
-              </article>
-            );
-          })}
+        <div className="paper-cards spotlight-cards">
+          <PaperCard product={baziProfile} art="bazi" />
+          <PaperCard product={dream} art="dream" />
+          <PaperCard product={compatibility} art="compatibility" />
         </div>
+        <div className="mobile-card-list">
+          <MobileCardRow product={baziProfile} art="bazi" />
+          <MobileCardRow product={dream} art="dream" />
+          <MobileCardRow product={compatibility} art="compatibility" />
+        </div>
+      </section>
 
-        <div className="scenario-featured">
+      {/* 第三层：其他四个测算场景 */}
+      <section className="tier3-section" aria-label="其他测算场景">
+        <div className="section-heading">
           <div>
-            <span className="eyebrow">进阶探索 · 多场景汇总</span>
-            <h3>{life.name} · 把 {baziProfile.name}、{yearly.name}、{romance.name}、{career.name} 聚到一起</h3>
-            <p>
-              现在不需要在多个页面之间来回拼答案。人生总览会一次调用真实 Scenario Engine，
-              聚合四条已经验证的确定性链路，并保留 RuleMatch、Evidence 和 Trace。
-              如果有一件具体的事想问，也可以使用六爻一事占问。
-            </p>
+            <span className="eyebrow">周期 · 问事 · 总览</span>
+            <h2>更多测算</h2>
           </div>
-          <div className="scenario-featured-actions">
-            <Link className="button primary" href="/life-overview">
-              生成人生总览
-              <Icon name="arrow" size={18} />
-            </Link>
-            <Link className="button outlined" href="/ask">
-              有具体问题再占问
-            </Link>
-          </div>
+        </div>
+        <div className="tier3-list">
+          <MobileCardRow product={weekly} art="sunrise" />
+          <MobileCardRow product={monthly} art="mountains" />
+          <MobileCardRow product={question} art="horse" />
+          <MobileCardRow product={life} art="peach" />
         </div>
       </section>
 

@@ -12,23 +12,41 @@ test("TJ-008: user-first ink home prioritizes fortune, romance, career and time 
   await expect(hero.locator(".scenario-hero-actions .button.outlined")).toHaveCount(2);
   await expect(hero.locator('a[href="/romance-structure"]')).toBeVisible();
   await expect(hero.locator('a[href="/career-wealth-structure"]')).toBeVisible();
-  const quick = page.getByRole("navigation", { name: "运势时间快捷入口" });
-  await expect(quick.getByRole("link")).toHaveCount(4);
-  const paths = ["/daily-structure", "/weekly-structure", "/monthly-structure", "/yearly-structure"];
-  for (const path of paths) await expect(quick.locator(`a[href="${path}"]`)).toBeVisible();
-  await expect(page.locator(".scenario-card")).toHaveCount(scenarioProducts.length);
-  const cards = page.locator(".scenario-grid .scenario-card");
-  await expect(cards.nth(0)).toContainText("今日运势");
-  await expect(cards.nth(1)).toContainText("桃花姻缘");
-  await expect(cards.nth(2)).toContainText("事业财运");
-  await expect(cards.nth(0)).toHaveClass(/scenario-card-featured/);
-  await expect(cards.nth(1)).toHaveClass(/scenario-card-featured/);
-  await expect(cards.nth(2)).toHaveClass(/scenario-card-featured/);
-  await expect(page.locator('a.scenario-card[href="/ask"]')).toHaveCount(1);
+  // 第一层：四张核心卡（桌面大卡）
+  const layer1 = page.locator(".night-cards-section .paper-cards .paper-card");
+  await expect(layer1).toHaveCount(4);
+  await expect(layer1.nth(0)).toContainText("今日运势");
+  await expect(layer1.nth(1)).toContainText("桃花姻缘");
+  await expect(layer1.nth(2)).toContainText("事业财运");
+  await expect(layer1.nth(3)).toContainText("流年运势");
+  await expect(layer1.nth(0).locator('a, [href]')).toHaveCount(0); // paper-card is the link
+  await expect(page.locator('.night-cards-section .paper-cards a[href="/daily-structure"]')).toHaveCount(1);
+  await expect(page.locator('.night-cards-section .paper-cards a[href="/romance-structure"]')).toHaveCount(1);
+  await expect(page.locator('.night-cards-section .paper-cards a[href="/career-wealth-structure"]')).toHaveCount(1);
+  await expect(page.locator('.night-cards-section .paper-cards a[href="/yearly-structure"]')).toHaveCount(1);
+  // 第二层：八字/解梦/合盘重点入口
+  const layer2 = page.locator(".spotlight-section .spotlight-cards .paper-card");
+  await expect(layer2).toHaveCount(3);
+  await expect(page.locator('.spotlight-section .spotlight-cards a[href="/bazi-profile"]')).toHaveCount(1);
+  await expect(page.locator('.spotlight-section .spotlight-cards a[href="/dream-culture"]')).toHaveCount(1);
+  await expect(page.locator('.spotlight-section .spotlight-cards a[href="/compatibility-structure"]')).toHaveCount(1);
+  // 第三层：本周/本月/一事占问/人生总览
+  const layer3 = page.locator(".tier3-section .tier3-list a");
+  await expect(layer3).toHaveCount(4);
+  await expect(page.locator('.tier3-section a[href="/weekly-structure"]')).toHaveCount(1);
+  await expect(page.locator('.tier3-section a[href="/monthly-structure"]')).toHaveCount(1);
+  await expect(page.locator('.tier3-section a[href="/ask"]')).toHaveCount(1);
+  await expect(page.locator('.tier3-section a[href="/life-overview"]')).toHaveCount(1);
+  // 无重复大型卡片区
+  await expect(page.locator(".scenario-time-strip")).toHaveCount(0);
+  await expect(page.locator(".scenario-grid")).toHaveCount(0);
+  await expect(page.locator(".scenario-featured")).toHaveCount(0);
+  // 11/11 场景全部可达
+  const hrefs = ["/daily-structure","/romance-structure","/career-wealth-structure","/yearly-structure","/bazi-profile","/dream-culture","/compatibility-structure","/weekly-structure","/monthly-structure","/ask","/life-overview"];
+  for (const h of hrefs) await expect(page.locator(`main a[href="${h}"]`).first()).toBeAttached();
   await expect(page.locator('.scenario-hero a.button.primary[href="/daily-structure"]')).toBeVisible();
   await expect(page.locator('.scenario-hero a[href="/bazi-profile"]')).toBeVisible();
   await expect(page.locator(".professional-section .tool-card")).toHaveCount(domainPages.length);
-  await expect(page.locator(".scenario-featured a[href='/life-overview']")).toBeVisible();
   await expect(page.getByRole("button", { name: "背景音乐设置" })).toBeVisible();
   const local = await page.evaluate(() => Object.keys(localStorage).filter(k => k.includes("birth")));
   expect(local).toEqual([]);
@@ -39,15 +57,15 @@ for (const width of [1440, 390, 360]) {
     await page.setViewportSize({ width, height: width === 1440 ? 1000 : 844 });
     await page.goto("/");
     await expect(page.locator(".scenario-hero h1")).toBeVisible();
-    await expect(page.getByRole("navigation", { name: "运势时间快捷入口" })).toBeVisible();
-    await expect(page.locator(".scenario-grid .scenario-card-featured")).toHaveCount(3);
-    // 第三轮：窄屏显示紧凑列表（4 行），桌面显示 4 张大卡
+    // 第一层：桌面 4 大卡，窄屏 4 紧凑行
     if (width <= 640) {
-      await expect(page.locator(".mobile-card-list .mobile-card-row")).toHaveCount(4);
-      await expect(page.locator(".mobile-card-list .mobile-card-row").first()).toBeVisible();
+      await expect(page.locator(".night-cards-section .mobile-card-list .mobile-card-row")).toHaveCount(4);
     } else {
-      await expect(page.locator(".paper-cards .paper-card")).toHaveCount(4);
+      await expect(page.locator(".night-cards-section .paper-cards .paper-card")).toHaveCount(4);
     }
+    // 第二层 3 重点 + 第三层 4 其他
+    await expect(page.locator(".spotlight-section")).toBeAttached();
+    await expect(page.locator(".tier3-section .tier3-list a")).toHaveCount(4);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     expect(overflow).toBeLessThanOrEqual(1);
     await page.screenshot({ path: `test-results/tj008-home-${width}.png`, fullPage: true, animations: "disabled" });
@@ -59,8 +77,10 @@ test("TJ-008: all four time links really open the corresponding scenario form", 
     "/daily-structure", "/weekly-structure", "/monthly-structure", "/yearly-structure",
   ]) {
     await page.goto("/");
-    await page.locator(`.scenario-time-strip a[href="${path}"]`).click();
-    await expect(page).toHaveURL(new RegExp(path + "$"));
+    const link = page.locator(`main a[href="${path}"]`).first();
+    await link.waitFor({ state: "visible", timeout: 10000 });
+    await link.click();
+    await expect(page).toHaveURL(new RegExp(path + "$"), { timeout: 10000 });
     await expect(page.locator("main h1")).toBeVisible();
   }
 });
@@ -81,7 +101,7 @@ for (const theme of ["night", "paper"] as const) {
       const geom = await page.evaluate(() => {
         const nav = document.querySelector(".mobile-bottom-nav");
         const navTop = nav ? nav.getBoundingClientRect().top : window.innerHeight;
-        const rows = [...document.querySelectorAll(".mobile-card-row")];
+        const rows = [...document.querySelectorAll(".night-cards-section .mobile-card-list .mobile-card-row")];
         return {
           navTop,
           rows: rows.map((r) => {
