@@ -123,3 +123,38 @@ for (const theme of ["night", "paper"] as const) {
     });
   }
 }
+
+// TJ-008.7 收尾：11/11 场景真实点击导航（非仅链接存在）。
+// 每个场景：从首页真实入口点击 → URL 变化 → 页面真实渲染 → 标题对应 → 无 JS 异常。
+const SCENARIOS = [
+  { name: "今日运势", href: "/daily-structure", title: /今日结构/ },
+  { name: "桃花姻缘", href: "/romance-structure", title: /桃花/ },
+  { name: "事业财运", href: "/career-wealth-structure", title: /事业财运/ },
+  { name: "流年运势", href: "/yearly-structure", title: /流年/ },
+  { name: "八字命理", href: "/bazi-profile", title: /八字/ },
+  { name: "解梦", href: "/dream-culture", title: /梦/ },
+  { name: "缘分合盘", href: "/compatibility-structure", title: /合盘/ },
+  { name: "本周运势", href: "/weekly-structure", title: /本周/ },
+  { name: "本月运势", href: "/monthly-structure", title: /本月/ },
+  { name: "一事占问", href: "/ask", title: /占问|一事/ },
+  { name: "人生总览", href: "/life-overview", title: /人生总览/ },
+];
+
+for (const s of SCENARIOS) {
+  test(`TJ-008.7: click-navigate ${s.name} -> ${s.href}`, async ({ page }) => {
+    const errors: string[] = [];
+    page.on("pageerror", (e) => errors.push(String(e)));
+    await page.goto("/");
+    const link = page.locator(`main a[href="${s.href}"]`).first();
+    await link.waitFor({ state: "visible", timeout: 10000 });
+    await link.click();
+    await expect(page).toHaveURL(new RegExp(s.href.replace(/\//g, "\\/") + "$"), { timeout: 10000 });
+    // 页面真实渲染：main 有标题且内容与目标场景对应、非空白
+    const main = page.locator("main");
+    await main.locator("h1, h2").first().waitFor({ timeout: 10000 });
+    await expect(main).toContainText(s.title);
+    const bodyText = await main.innerText();
+    expect(bodyText.trim().length).toBeGreaterThan(20);
+    expect(errors).toEqual([]);
+  });
+}

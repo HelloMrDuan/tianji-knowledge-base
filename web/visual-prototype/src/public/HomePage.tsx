@@ -20,6 +20,10 @@ export function HomePage() {
   const weekly = scenarioProducts.find((item) => item.id === "weekly")!;
   const monthly = scenarioProducts.find((item) => item.id === "monthly")!;
   const question = scenarioProducts.find((item) => item.id === "question")!;
+  // 第二层展示名（面向普通用户）：仅覆盖首页显示，不改 ID/路由/后端
+  const baziDisplay = { ...baziProfile, name: "八字命理" };
+  const dreamDisplay = { ...dream, name: "解梦" };
+  const compatibilityDisplay = { ...compatibility, name: "缘分合盘" };
   const homePriority = [
     "daily", "romance", "career", "yearly", "weekly", "monthly",
     "bazi-profile", "dream", "compatibility", "life", "question",
@@ -80,10 +84,9 @@ export function HomePage() {
           <MobileCardRow product={yearly} art="mountains" />
         </div>
         <div className="scenario-proof">
-          <span><i />确定性计算先行</span>
-          <span><i />规则与典籍可追溯</span>
-          <span><i />今日 / 本周 / 本月 / 年度可重复计算</span>
-          <span><i />AI 未校准前不自动公开</span>
+          <span><i />真实结构计算</span>
+          <span><i />典籍依据可查</span>
+          <span><i />每日皆可重看</span>
         </div>
       </section>
 
@@ -96,14 +99,14 @@ export function HomePage() {
           </div>
         </div>
         <div className="paper-cards spotlight-cards">
-          <PaperCard product={baziProfile} art="bazi" />
-          <PaperCard product={dream} art="dream" />
-          <PaperCard product={compatibility} art="compatibility" />
+          <PaperCard product={baziDisplay} art="bazi" />
+          <PaperCard product={dreamDisplay} art="dream" />
+          <PaperCard product={compatibilityDisplay} art="compatibility" />
         </div>
         <div className="mobile-card-list">
-          <MobileCardRow product={baziProfile} art="bazi" />
-          <MobileCardRow product={dream} art="dream" />
-          <MobileCardRow product={compatibility} art="compatibility" />
+          <MobileCardRow product={baziDisplay} art="bazi" />
+          <MobileCardRow product={dreamDisplay} art="dream" />
+          <MobileCardRow product={compatibilityDisplay} art="compatibility" />
         </div>
       </section>
 
@@ -152,14 +155,14 @@ export function HomePage() {
           ))}
         </div>
         <p className="professional-note">
-          八字基础、年度、桃花与事业财运结构已进入真实链路；完整吉凶报告、合盘和应期仍不会提前包装成“已可用”。
+          传统术数工具区：六爻、奇门、紫微、周易、风水等，供深入研习。
         </p>
       </section>
 
       <section className="home-music-hint">
         <div>
-          <strong>古风背景音乐已经保留在全站右上角</strong>
-          <small>默认关闭。你主动播放后，页面内切换路由不会中断，并会记住音量。</small>
+          <strong>古风背景音乐在右上角</strong>
+          <small>点一下即可播放，切换页面不会中断。</small>
         </div>
         <span className="eyebrow">听一曲 · 再看运势</span>
       </section>
