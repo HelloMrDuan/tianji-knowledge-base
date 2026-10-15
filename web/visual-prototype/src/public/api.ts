@@ -74,12 +74,38 @@ function assertExecuteResponse(data: unknown, domain: string): ExecuteResponse {
   return data as ExecuteResponse;
 }
 
+/**
+ * The eight user-facing STRUCTURE-ONLY scenarios deliberately remain
+ * production_limited / public_release:false in the reviewed Scenario Engine.
+ * Their public projection API is usable, but this is NOT approval to promote
+ * unrestricted fortune claims. Validate the precise limited contract.
+ */
+const LIMITED_SCOPES: Record<string, string> = {
+  daily: "daily_structure_only",
+  weekly: "weekly_structure_only",
+  monthly: "monthly_structure_only",
+  yearly: "annual_structure_only",
+  romance: "xianchi_structure_only",
+  career: "career_wealth_structure_only",
+  compatibility: "two_person_structure_only",
+  life: "deterministic_aggregate_only",
+};
+
 function assertScenarioResponse(data: unknown, scenarioId: string): ScenarioExecuteResponse {
-  if (!isRecord(data) || data.scenario_id !== scenarioId || data.public_release !== true ||
-      data.deterministic !== true || typeof data.status !== "string" ||
-      !isRecord(data.result) || !isRecord(data.evidence) ||
-      !Array.isArray(data.rule_matches) || !Array.isArray(data.trace) ||
-      !Array.isArray(data.warnings) || !Array.isArray(data.limitations)) invalidResponse();
+  if (!isRecord(data) || data.scenario_id !== scenarioId ||
+      data.deterministic !== true || !isRecord(data.result) ||
+      !isRecord(data.evidence) || !Array.isArray(data.rule_matches) ||
+      !Array.isArray(data.trace) || !Array.isArray(data.warnings) ||
+      !Array.isArray(data.limitations)) invalidResponse();
+  const scope = LIMITED_SCOPES[scenarioId];
+  if (!scope) invalidResponse();
+  // Existing controlled-HTTP browser fixtures model a positive published scenario,
+  // but authentic production returns the narrower reviewed structural contract.
+  const limited = data.public_release === false &&
+      data.status === "production_limited" && data.result.release_scope === scope;
+  const published = data.public_release === true &&
+      ["production", "success"].includes(String(data.status));
+  if (!limited && !published) invalidResponse();
   return data as ScenarioExecuteResponse;
 }
 
