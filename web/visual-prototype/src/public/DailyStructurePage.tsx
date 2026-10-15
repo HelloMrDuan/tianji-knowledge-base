@@ -78,7 +78,7 @@ export function DailyStructurePage() {
         if (birthDate === initialSolar) {
           return toApiValue(withUpdatedTime(currentProfile, birthTime));
         }
-        return toApiValue(fromSolarEdit(birthDate, birthTime, currentProfile.region));
+        return toApiValue(fromSolarEdit(birthDate, birthTime, currentProfile.region, currentProfile));
       })(),
         target_date: targetDate,
       });
@@ -93,7 +93,7 @@ export function DailyStructurePage() {
           saveBirthProfile(withUpdatedTime(currentProfile, birthTime));
           return;
         }
-        saveBirthProfile(fromSolarEdit(birthDate, birthTime, currentProfile.region));
+        saveBirthProfile(fromSolarEdit(birthDate, birthTime, currentProfile.region, currentProfile));
       })();
       setResult(next);
     } catch (err) {

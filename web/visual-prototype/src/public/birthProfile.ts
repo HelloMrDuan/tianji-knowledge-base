@@ -147,7 +147,7 @@ export function validateBirthInput(input: BirthInput): ValidationResult {
   }
   // P0-4: 旧资料时区未知，需用户确认后才能计算
   if ((input as BirthInput)._regionNeedsConfirm) {
-    return { ok: false, message: "您的旧资料缺少出生地区信息，请在下方确认出生地区后重试" };
+    return { ok: false, message: "请先在八字命理页面确认出生地区，然后再进行测算" };
   }
   if (region === "其他") {
     return { ok: false, message: "暂不支持该地区的精确时间换算，请选择列表中的地区" };
@@ -390,7 +390,7 @@ export function isConvertedFromLunar(profile: BirthProfile): boolean {
  * 用户在旧表单（公历 date input）中编辑后的资料。
  * 明确标记为阳历，因为用户编辑的是显示的公历日期。
  */
-export function fromSolarEdit(dateStr: string, time: string, region: string): BirthProfile {
+export function fromSolarEdit(dateStr: string, time: string, region: string, source?: BirthProfile): BirthProfile {
   const [y, m, d] = dateStr.split("-").map(Number);
   return {
     calendarType: "solar",
@@ -401,6 +401,8 @@ export function fromSolarEdit(dateStr: string, time: string, region: string): Bi
     time: time || "",
     timeUnknown: !time,
     region: region || "中国大陆",
+    // P0: 保留待确认标记，防止绕过地区确认
+    ...(source?._regionNeedsConfirm ? { _regionNeedsConfirm: true } : {}),
   };
 }
 

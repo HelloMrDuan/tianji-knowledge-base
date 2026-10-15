@@ -89,7 +89,7 @@ export function LifeOverviewPage() {
         if (date === initialSolar) {
           return toApiValue(withUpdatedTime(currentProfile, time));
         }
-        return toApiValue(fromSolarEdit(date, time, currentProfile.region));
+        return toApiValue(fromSolarEdit(date, time, currentProfile.region, currentProfile));
       })(),
         target_year: targetYear,
       });
@@ -104,7 +104,7 @@ export function LifeOverviewPage() {
           saveBirthProfile(withUpdatedTime(currentProfile, time));
           return;
         }
-        saveBirthProfile(fromSolarEdit(date, time, currentProfile.region));
+        saveBirthProfile(fromSolarEdit(date, time, currentProfile.region, currentProfile));
       })();
       saveTargetYear(targetYear);
       setResult(next);

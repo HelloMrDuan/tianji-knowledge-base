@@ -78,7 +78,7 @@ export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
         if (birthDate === initialSolar) {
           return toApiValue(withUpdatedTime(currentProfile, birthTime));
         }
-        return toApiValue(fromSolarEdit(birthDate, birthTime, currentProfile.region));
+        return toApiValue(fromSolarEdit(birthDate, birthTime, currentProfile.region, currentProfile));
       })();
       const next = isWeekly
         ? await executeWeeklyScenario({ birth_value: birthValue, anchor_date: anchorDate })
@@ -94,7 +94,7 @@ export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
           saveBirthProfile(withUpdatedTime(currentProfile, birthTime));
           return;
         }
-        saveBirthProfile(fromSolarEdit(birthDate, birthTime, currentProfile.region));
+        saveBirthProfile(fromSolarEdit(birthDate, birthTime, currentProfile.region, currentProfile));
       })();
       setResult(next);
     } catch (err) {

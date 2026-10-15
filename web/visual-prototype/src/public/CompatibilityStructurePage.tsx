@@ -78,7 +78,7 @@ export function CompatibilityStructurePage() {
           if (aDate === initialSolar) {
             return toApiValue(withUpdatedTime(saved, aTime));
           }
-          return toApiValue(fromSolarEdit(aDate, aTime, saved.region));
+          return toApiValue(fromSolarEdit(aDate, aTime, saved.region, saved));
         })(),
         person_b_birth_value: toApiValue(fromSolarEdit(bDate, bTime, bRegion)),
       };
@@ -94,7 +94,7 @@ export function CompatibilityStructurePage() {
           saveBirthProfile(withUpdatedTime(saved, aTime));
           return;
         }
-        saveBirthProfile(fromSolarEdit(aDate, aTime, saved.region));
+        saveBirthProfile(fromSolarEdit(aDate, aTime, saved.region, saved));
       })();
       setResultNames({a: aName.trim() || "我", b: bName.trim() || "对方"});
       setResult(next);
