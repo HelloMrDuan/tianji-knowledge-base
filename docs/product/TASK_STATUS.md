@@ -26,7 +26,7 @@
 | TJ-006.1 | M1 | 多场景统一输入与本地资料校验 | 已合并 | [公开 #243](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/243) merge `8a0081990bb442fb3521bbd2140056901fe14eed` · [4 项 CI success](https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/38692470766) · 本地 Playwright 55/55（开发方报告；GitHub CI 未执行 Playwright） | 2026-10-15 | 输入与跨场景复用代码已合并；真实后端 E2E 未验，留待 TJ-007.1 独立验证；父任务不结账 |
 | TJ-006.2 | M1 | 目标年/日期/边界响应一致 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-006.3 | M1 | 双人合盘隐私边界 | 待做 | — | — | 按 WBS 验收条件执行 |
-| TJ-007.1 | M1 | 八字/今/周/月/年真实流程 | 待做 | — | — | 按 WBS 验收条件执行 |
+| TJ-007.1 | M1 | 八字/今/周/月/年真实流程 | 进行中 | — | 分支 tj-007.1-real-flows | 按 WBS 验收条件执行 |
 | TJ-007.2 | M1 | 桃花/事业/合盘真实流程 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-007.3 | M1 | 一事占问/解梦/人生总览真实流程 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-007.4 | M1 | 保存/跨页/错误态的统一修复 | 待做 | — | — | 按 WBS 验收条件执行 |

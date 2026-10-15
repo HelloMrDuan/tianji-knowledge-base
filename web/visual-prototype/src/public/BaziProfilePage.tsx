@@ -287,6 +287,21 @@ export function BaziProfilePage() {
             </section>
           </div>
 
+          {(result.warnings?.length > 0 || result.limitations?.length > 0) && (
+            <section className="live-section result-limitations">
+              <div className="result-section-heading"><div><span>五</span><h2>说明与限制</h2></div></div>
+              {result.warnings?.map((w: string, i: number) => (
+                <p key={`w-${i}`} className="limitation-warning">⚠️ {w}</p>
+              ))}
+              {result.limitations?.map((l: string, i: number) => (
+                <p key={`l-${i}`} className="limitation-note">ℹ️ {l}</p>
+              ))}
+              <p className="limitation-note">
+                以上为传统文化观察，不构成科学验证的未来预测。旺衰、喜用神、大运等需充分裁定，当前暂不提供结论。
+              </p>
+            </section>
+          )}
+
           <details className="trace-section bazi-trace">
             <summary>
               <span className="trace-icon"><Icon name="layers" size={19} /></span>

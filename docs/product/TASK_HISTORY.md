@@ -57,3 +57,8 @@
 5. GitHub PR 必须运行 `python scripts/check_task_tracking.py --base <base-commit>`，确认本次恰好一个任务、一个新事件。PR 合并成功后再以**同一任务**单独做关账更新，补齐实际 main SHA。
 
 **验收警戒线**：WBS 全部子任务数量 ≠ 已完成功能数量；公开 PR 合并 ≠ 私有 Canonical 完成；静态截图 ≠ 人工视觉还原；推送成功 ≠ 生产部署完成。
+
+## E0024 — TJ-007.1 启动（2026-10-15）
+- 从 main 46691e4 创建分支 tj-007.1-real-flows
+- 目标：八字/今日/本周/本月/流年五条真实计算流程
+- 阻塞：本地后端需私有知识库构建 production_runtime.json
