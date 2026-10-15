@@ -52,7 +52,7 @@
 **现状**:
 - phase2_execution.json 的 evidence_scope 提及"已核原典短引"
 - 最新私有审计清单已覆盖影响本任务的 11 条 Phase2 规则所引用的 40 个不同 Section，额外收录《渊海》三刑短引 s020，共 41 条；原文字符偏移与 SHA-256 由私有 Actions 逐字验证，公开只记录元数据
-- 已提交私有 `data/audit/tj0101_source_witnesses.json`；独立底本、部分版本谱系仍待后续补证，核验规则包括：
+- 已提交私有 `audits/tj0101_source_witnesses.json`；独立底本、部分版本谱系仍待后续补证，核验规则包括：
   1. 古籍名称、版本、电子版SHA
   2. 卷/篇/页/行或字符偏移
   3. 原文短引（繁简/异体标注）
