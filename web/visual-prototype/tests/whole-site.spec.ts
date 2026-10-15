@@ -281,16 +281,14 @@ test("library filtering, empty favorites and favorite removal work across pages"
   await page.goto("/favorites");
   await expect(page.getByRole("heading", { name: "还没有收藏" })).toBeVisible();
   await page.goto("/history");
-  await page.getByLabel("工具筛选").selectOption("八字");
-  await expect(
-    page.getByRole("heading", { name: "没有匹配的记录" }),
-  ).toBeVisible();
-  await page.getByRole("button", { name: "清除筛选" }).click();
+  await expect(page.getByRole("heading", { name: "暂无真实推演历史" })).toBeVisible();
+  await expect(page.locator(".journal-row")).toHaveCount(0);
+  await page.goto("/liuyao/result");
   await page.getByRole("button", { name: "收藏示例", exact: true }).click();
-  await page
-    .locator(".public-nav")
-    .getByRole("link", { name: "收藏", exact: true })
-    .click();
+  await page.locator(".public-nav").getByRole("link", { name: "收藏", exact: true }).click();
+  await page.getByLabel("工具筛选").selectOption("八字");
+  await expect(page.getByRole("heading", { name: "没有匹配的记录" })).toBeVisible();
+  await page.getByRole("button", { name: "清除筛选" }).click();
   await expect(page.locator(".journal-row")).toContainText("乾为天");
   await page.getByRole("button", { name: "取消收藏示例" }).click();
   await expect(page.getByRole("heading", { name: "还没有收藏" })).toBeVisible();
