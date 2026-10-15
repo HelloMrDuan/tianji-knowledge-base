@@ -1,110 +1,81 @@
-import { test, expect } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
 /**
- * TJ-007.2: 桃花/事业/合盘请求构造验证
- * [前端验证，非真实后端计算]
+ * TJ-007.2: FRONTEND REQUEST CONTRACT ONLY.
+ * API requests are intercepted and aborted; no fake successful calculation.
+ * Actual calculation correctness is verified separately on the private live API.
  */
-
-async function setupProfile(page: any) {
+async function savedSample(page: Page) {
   await page.goto("/bazi-profile");
   await page.getByRole("button", { name: "填入示例" }).click();
   await page.getByRole("button", { name: "保存资料" }).click();
-  await page.waitForTimeout(500);
+  await expect.poll(() => page.evaluate(() => localStorage.getItem("tianji.profile.birth.v1"))).not.toBeNull();
 }
 
-test.describe("TJ-007.2: romance/career/compatibility requests", () => {
-  test("romance: sends birth_value and target_year", async ({ page }) => {
-    let body: any = null;
-    await page.route("**/api/v1/scenarios/public", async (route) => {
-      try { body = route.request().postDataJSON(); } catch {}
-      await route.abort();
-    });
-    await setupProfile(page);
-    await page.goto("/romance-structure");
-    await page.waitForTimeout(800);
-    const btn = page.locator('button[type="submit"]').first();
-    if (await btn.count() > 0) {
-      await btn.click().catch(() => {});
-      await page.waitForTimeout(1000);
-    }
-    expect(body).not.toBeNull();
-    const s = JSON.stringify(body);
-    expect(s).toMatch(/"scenario_id":"romance"/);
-    expect(s).toMatch(/birth_value/);
-    expect(s).toMatch(/target_year/);
+async function captureRequests(page: Page) {
+  const requests: Record<string, any>[] = [];
+  await page.route("**/api/v1/scenarios/public", async route => {
+    requests.push(route.request().postDataJSON());
+    await route.abort("failed");
   });
+  return requests;
+}
 
-  test("career: sends birth_value and target_year", async ({ page }) => {
-    let body: any = null;
-    await page.route("**/api/v1/scenarios/public", async (route) => {
-      try { body = route.request().postDataJSON(); } catch {}
-      await route.abort();
-    });
-    await setupProfile(page);
-    await page.goto("/career-wealth-structure");
-    await page.waitForTimeout(800);
-    const btn = page.locator('button[type="submit"]').first();
-    if (await btn.count() > 0) {
-      await btn.click().catch(() => {});
-      await page.waitForTimeout(1000);
-    }
-    expect(body).not.toBeNull();
-    const s = JSON.stringify(body);
-    expect(s).toMatch(/"scenario_id":"career"/);
-    expect(s).toMatch(/birth_value/);
-  });
+test("romance: submit sends exact birth instant and selected observation year", async ({ page }) => {
+  await savedSample(page);
+  const seen = await captureRequests(page);
+  await page.goto("/romance-structure");
+  await page.getByLabel("观察年份").fill("2027");
+  await page.locator('form button[type="submit"]').first().click();
+  await expect.poll(() => seen.length).toBe(1);
+  expect(seen[0].scenario_id).toBe("romance");
+  expect(seen[0].input).toEqual({ birth_value: "2000-01-07T12:00:00+08:00", target_year: 2027 });
+});
 
-  test("compatibility: A/B birth values are distinct", async ({ page }) => {
-    let body: any = null;
-    await page.route("**/api/v1/scenarios/public", async (route) => {
-      try { body = route.request().postDataJSON(); } catch {}
-      await route.abort();
-    });
-    await setupProfile(page);
-    await page.goto("/compatibility-structure");
-    await page.waitForTimeout(800);
-    const bSection = page.locator('.compat-person-input').nth(1);
-    if (await bSection.count() > 0) {
-      await bSection.locator('input[type="date"]').fill("1995-06-20");
-      await bSection.locator('input[type="time"]').fill("09:00");
-    }
-    const btn = page.locator('button[type="submit"]').first();
-    if (await btn.count() > 0) {
-      await btn.click().catch(() => {});
-      await page.waitForTimeout(1000);
-    }
-    expect(body).not.toBeNull();
-    const s = JSON.stringify(body.input || body);
-    expect(s).toMatch(/person_a_birth_value/);
-    expect(s).toMatch(/person_b_birth_value/);
-    // A/B 不应相同
-    const aMatch = s.match(/person_a_birth_value":"([^"]+)"/);
-    const bMatch = s.match(/person_b_birth_value":"([^"]+)"/);
-    if (aMatch && bMatch) {
-      expect(aMatch[1]).not.toBe(bMatch[1]);
-    }
-  });
+test("career: submit sends exact birth instant and selected observation year", async ({ page }) => {
+  await savedSample(page);
+  const seen = await captureRequests(page);
+  await page.goto("/career-wealth-structure");
+  await page.getByLabel("观察年份").fill("2025");
+  await page.locator('form button[type="submit"]').first().click();
+  await expect.poll(() => seen.length).toBe(1);
+  expect(seen[0].scenario_id).toBe("career");
+  expect(seen[0].input).toEqual({ birth_value: "2000-01-07T12:00:00+08:00", target_year: 2025 });
+});
 
-  test("romance year switch triggers new request", async ({ page }) => {
-    const years: number[] = [];
-    await page.route("**/api/v1/scenarios/public", async (route) => {
-      try {
-        const b = route.request().postDataJSON();
-        if (b.scenario_id === "romance") years.push(b.input.target_year);
-      } catch {}
-      await route.abort();
-    });
-    await setupProfile(page);
-    await page.goto("/romance-structure");
-    await page.waitForTimeout(800);
-    // 切换年份（如果有年份选择器）
-    const yearSelect = page.locator('select').first();
-    const btn = page.locator('button[type="submit"]').first();
-    if (await yearSelect.count() > 0 && await btn.count() > 0) {
-      await btn.click().catch(() => {});
-      await page.waitForTimeout(1000);
-    }
-    // 至少一次请求
-    expect(years.length).toBeGreaterThanOrEqual(0);
+test("compatibility: exactly mapped A/B inputs and separate traditional roles", async ({ page }) => {
+  await savedSample(page);
+  const seen = await captureRequests(page);
+  await page.goto("/compatibility-structure");
+  const personA = page.locator(".compat-person-input").nth(0);
+  const personB = page.locator(".compat-person-input").nth(1);
+  await personA.locator("select").last().selectOption("male");
+  await personB.locator('input[type="date"]').fill("1995-06-20");
+  await personB.locator('input[type="time"]').fill("09:00");
+  await personB.locator("select").last().selectOption("female");
+  await page.locator('form button[type="submit"]').first().click();
+  await expect.poll(() => seen.length).toBe(1);
+  expect(seen[0].scenario_id).toBe("compatibility");
+  expect(seen[0].input).toEqual({
+    person_a_birth_value: "2000-01-07T12:00:00+08:00",
+    person_b_birth_value: "1995-06-20T09:00:00+08:00",
+    person_a_traditional_role: "male",
+    person_b_traditional_role: "female",
   });
+});
+
+test("romance: 2025 to 2027 updates actual request year (not just the heading)", async ({ page }) => {
+  await savedSample(page);
+  const seen = await captureRequests(page);
+  await page.goto("/romance-structure");
+  const year = page.getByLabel("观察年份");
+  const submit = page.locator('form button[type="submit"]').first();
+  await year.fill("2025");
+  await submit.click();
+  await expect.poll(() => seen.length).toBe(1);
+  await year.fill("2027");
+  await submit.click();
+  await expect.poll(() => seen.length).toBe(2);
+  expect(seen.map(r => r.input.target_year)).toEqual([2025, 2027]);
+  expect(seen.every(r => r.scenario_id === "romance")).toBe(true);
 });
