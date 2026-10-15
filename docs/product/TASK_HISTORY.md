@@ -52,6 +52,8 @@
 
 | E0027 | 2026-10-15 | TJ-007.1 | 已合并 | 公开五场景真实流程和同任务私有生产运行时验收均已合并：公开 PR #245 merge `d80ff176156fbd7a462e5610bc8184253067c9b0`，私有 PR #57 merge `b7eab9c16dfb9b9e9e35273207c7e754205ed827`；公开 GitHub 4/4 CI success、真实受限 Canonical 装配/后端 API/Chromium 合计 35/35（基础 5、专项 15、1440/390/360 × 五场景截图 15）；私有 artifact `tj0071-live-results` ID 11955365866（受限访问，保留一天）。覆盖阳历与农历、闰月与立春前后年柱、日期/周/月/年切换、五场景档案复用及 Rule/Evidence 引用。结果属于传统命理已审核确定性结构，未宣称全量吉凶预测或生产部署；无完整私有知识向公开仓库转移。 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/245 | d80ff176156fbd7a462e5610bc8184253067c9b0 | https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38696910589 |
 
+| E0028 | 2026-10-15 | TJ-006.2 | 进行中 | 目标日、周、月、流年目标与真实 API 响应一致性沿用已合并 TJ-007.1 私有受控 35/35 验收；本任务补充 1901–2098 年份上下限设计说明，以及严格的旧请求后返、目标日期编辑清屏、非法输入禁止提交、年份范围浏览器状态测试。仅前端状态模拟，不冒充真实后端计算；待最新 CI 和独立复审，不声明已合并。 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/247 | — | https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38696910589 |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
@@ -61,8 +63,3 @@
 5. GitHub PR 必须运行 `python scripts/check_task_tracking.py --base <base-commit>`，确认本次恰好一个任务、一个新事件。PR 合并成功后再以**同一任务**单独做关账更新，补齐实际 main SHA。
 
 **验收警戒线**：WBS 全部子任务数量 ≠ 已完成功能数量；公开 PR 合并 ≠ 私有 Canonical 完成；静态截图 ≠ 人工视觉还原；推送成功 ≠ 生产部署完成。
-
-## E0029 — TJ-006.2 启动（2026-10-15）
-- 从 main ae53908 创建分支 tj-006.2-target-consistency
-- 目标：目标年/日期/边界响应一致性
-- 复用 TJ-007.1 真实测试（35/35 通过）
