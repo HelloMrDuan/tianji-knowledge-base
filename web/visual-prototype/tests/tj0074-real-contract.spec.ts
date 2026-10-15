@@ -84,7 +84,17 @@ test.describe("TJ-007.4 real: contract validation", () => {
       } else {
         expect(request.scenario_id).toBe(s.id);
         expect(data.scenario_id).toBe(s.id);
-        expect(data.public_release).toBe(true);
+        // This public endpoint returns reviewed limited structures, not a general
+        // public-release authorization or a prediction of luck or events.
+        const scopes: Record<string, string> = {
+          daily: "daily_structure_only", weekly: "weekly_structure_only",
+          monthly: "monthly_structure_only", yearly: "annual_structure_only",
+          romance: "xianchi_structure_only", career: "career_wealth_structure_only",
+          compatibility: "two_person_structure_only", life: "deterministic_aggregate_only",
+        };
+        expect(data.public_release).toBe(false);
+        expect(data.status).toBe("production_limited");
+        expect(data.result.release_scope).toBe(scopes[s.id]);
         expect(data.result).toEqual(expect.any(Object));
       }
       expect(data.deterministic).toBe(true);
