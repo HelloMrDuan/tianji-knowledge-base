@@ -16,7 +16,7 @@ export function LibraryPage({
   const [query, setQuery] = useState("");
   const [domain, setDomain] = useState("全部工具");
   const visible =
-    (kind === "history" || favorite) &&
+    kind === "favorites" && favorite &&
     (domain === "全部工具" || domain === "六爻") &&
     "乾为天 天风姤 六爻 固定视觉示例".includes(query.trim());
   return (
@@ -38,13 +38,13 @@ export function LibraryPage({
           </h1>
           <p>
             {kind === "history"
-              ? "这里展示固定静态样例，不代表保存过真实推演。"
-              : "收藏状态仅保存在当前浏览器，不保存出生或占时资料。"}
+              ? "当前尚未启用真实推演历史保存；演示卦例不会冒充您的计算记录。"
+              : "这里只展示您主动收藏的固定演示卦例，不包含个人出生或占时资料。"}
           </p>
         </div>
         <Icon name={kind === "history" ? "clock" : "star"} size={48} />
       </header>
-      <div className="library-toolbar">
+      {kind === "favorites" && <div className="library-toolbar">
         <label>
           <Icon name="search" size={18} />
           <input
@@ -63,11 +63,11 @@ export function LibraryPage({
             <option key={name}>{name}</option>
           ))}
         </select>
-      </div>
+      </div>}
       {visible ? (
         <section className="journal-list">
           <div className="journal-date">
-            <span>演示记录</span>
+            <span>演示收藏（非真实推演历史）</span>
             <small>DEMO · 固定样例</small>
           </div>
           <article className="journal-row">
@@ -97,20 +97,21 @@ export function LibraryPage({
         <div className="library-empty">
           <Icon name={kind === "favorites" ? "star" : "search"} size={42} />
           <h2>
-            {kind === "favorites" && !favorite
-              ? "还没有收藏"
-              : "没有匹配的记录"}
+            {kind === "history"
+              ? "暂无真实推演历史"
+              : !favorite ? "还没有收藏" : "没有匹配的记录"}
           </h2>
           <p>
-            {kind === "favorites" && !favorite
-              ? "在六爻示例页点“收藏”，方便下次回看。"
+            {kind === "history"
+              ? "目前不会自动保存八字、运势或占问结果；这里没有已保存的真实记录。"
+              : !favorite ? "在六爻示例页点“收藏”，可以保存该演示页面入口。"
               : "试试其他卦名，或者清除当前筛选。"}
           </p>
-          <Link className="button primary" href="/liuyao/result">
-            查看六爻示例
+          <Link className="button primary" href={kind === "history" ? "/ask" : "/liuyao/result"}>
+            {kind === "history" ? "前往一事占问" : "查看六爻示例"}
             <Icon name="arrow" size={16} />
           </Link>
-          <button
+          {kind === "favorites" && <button
             className="entry-reset"
             onClick={() => {
               setDomain("全部工具");
@@ -118,7 +119,7 @@ export function LibraryPage({
             }}
           >
             清除筛选
-          </button>
+          </button>}
         </div>
       )}
       <div className="entry-return">
@@ -126,7 +127,7 @@ export function LibraryPage({
           开始新的研究
           <Icon name="arrow" size={16} />
         </Link>
-        <p>演示记录与真实推演记录分别呈现。</p>
+        <p>固定示例仅可收藏为演示入口，不会自动生成个人推演历史。</p>
       </div>
     </div>
   );

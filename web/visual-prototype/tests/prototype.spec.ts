@@ -112,7 +112,7 @@ test("result hierarchy, collapsed process, related evidence and accessible detai
   await expect(page.locator(".trace-section li")).toHaveCount(5);
 });
 
-test("sample favorites persist locally and history stays labelled as example", async ({
+test("sample favorites persist locally but history contains no demo", async ({
   page,
 }) => {
   await page.goto("/liuyao/result");
@@ -131,7 +131,8 @@ test("sample favorites persist locally and history stays labelled as example", a
     .locator(".public-nav")
     .getByRole("link", { name: "历史记录" })
     .click();
-  await expect(page.locator("main")).toContainText("静态");
+  await expect(page.getByRole("heading", { name: "暂无真实推演历史" })).toBeVisible();
+  await expect(page.locator(".journal-row")).toHaveCount(0);
 });
 
 test("original music requires a gesture, persists volume, pauses globally and on admin transition", async ({

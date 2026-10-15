@@ -68,6 +68,8 @@
 
 | E0035 | 2026-10-15 | TJ-007.3 | 已合并 | 一事占问、已审梦象查阅、人生四源聚合限定版实际交付。公开功能 PR #253 merge `297727060ef323103012f00957bd96034ea158bc`，私有受限验收 PR #59 merge `da526cf43bac2375f48835cef71b8cea7f8399b7`。公开 8/8 GitHub CI success（含三场景严格请求构造 3/3），私有数据校验/隔离装配/真实 reviewed runtime/Python API/Chromium 实测 5/5 与 1440/390/360 三场景真实结果截图 9/9（私有 Artifact `tj0073-live-results` ID 11959407138、保留一天）。真实测试覆盖六爻固定盘/动爻与修改后失效、梦象有据短引与未审主题弃判、同一出生时间和目标年的四源聚合以及 Evidence 引用。已修复占问页伪造来源短引、技术 ID 外露、测试空跑断言及被错误覆盖的历史日志。未经审定的 AI 自由解梦仍关闭；仅传统文化限定解释，无生产部署和完整命理吉凶裁定，不宣称其他原子任务完成。 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/253 | 297727060ef323103012f00957bd96034ea158bc | https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38708304212 |
 
+| E0036 | 2026-10-15 | TJ-007.4 | 进行中 | 从最新 main 开发：历史页不再将静态 DEMO 冒充真实推演历史；演示收藏保留；补 HTTP 503/断网重试不丢出生资料、1440/390/360 无假历史的真实 Chromium 前端测试。CI 和其他场景超时/跨页完整验收尚未完成，不宣称功能关账 | 分支 tj-007.4-save-crosspage-errors（PR 待创建） | — | CI 待验 |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
