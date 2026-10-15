@@ -30,68 +30,79 @@ test.describe("TJ-007.4 real: contract validation", () => {
   });
 
   for (const s of SCENARIOS) {
-    test(`${s.id}: real response passes assert`, async ({ page }) => {
-      const url = s.type === "execute" ? "/api/v1/public/execute" : "/api/v1/scenarios/public";
-      let responseBody: any = null;
-      let assertPassed = false;
-      let assertError: string | null = null;
-
-      // Intercept to capture response and verify assert doesn't throw
-      await page.route(`**${url}`, async (route) => {
-        const response = await route.fetch();
-        const body = await response.json().catch(() => null);
-        responseBody = body;
-        // Let it through — the frontend's assert will run
-        await route.fulfill({ response });
-      });
-
-      // Navigate to scenario page and trigger
-      const pageMap: Record<string, string> = {
-        bazi: "/bazi-profile",
-        daily: "/daily-structure",
-        weekly: "/weekly-structure",
-        monthly: "/monthly-structure",
-        yearly: "/yearly-structure",
-        romance: "/romance-structure",
-        career: "/career-wealth-structure",
-        compatibility: "/compatibility-structure",
-        life: "/life-overview",
-        liuyao: "/ask",
+    test(s.id + ": real HTTP contract accepted and actual user result visible", async ({ page }, testInfo) => {
+      test.setTimeout(90000);
+      const paths: Record<string, string> = {
+        bazi: "/bazi-profile", daily: "/daily-structure", weekly: "/weekly-structure",
+        monthly: "/monthly-structure", yearly: "/yearly-structure",
+        romance: "/romance-structure", career: "/career-wealth-structure",
+        compatibility: "/compatibility-structure", life: "/life-overview", liuyao: "/ask",
       };
-      
-      await page.goto(pageMap[s.id]);
-      await page.waitForTimeout(1000);
-      
-      const btn = page.locator('button[type="submit"]').first();
-      if (await btn.count() > 0 && await btn.isEnabled()) {
-        await btn.click().catch(() => {});
-        await page.waitForTimeout(3000);
+      const results: Record<string, string> = {
+        bazi: ".bazi-live-result", daily: ".daily-result",
+        weekly: ".period-result", monthly: ".period-result",
+        yearly: ".yearly-result", romance: ".romance-result",
+        career: ".career-result", compatibility: ".compat-result",
+        life: ".life-result", liuyao: ".live-result",
+      };
+      const browserErrors: string[] = [];
+      page.on("pageerror", error => browserErrors.push(error.message));
+      await page.goto(paths[s.id]);
+      if (s.id === "liuyao") {
+        await page.locator("textarea").first().fill("这件事应该如何理解？");
+        await page.locator('.question-time-grid input[type="date"]').fill("2026-10-15");
+        await page.locator('.question-time-grid input[type="time"]').fill("12:00");
+        for (let i = 0; i < 6; i++) await page.locator(".yao-input-list select").nth(i).selectOption("7");
+        await expect(page.getByRole("progressbar", { name: "起卦进度" })).toHaveAttribute("aria-valuenow", "6");
+      } else if (s.id === "compatibility") {
+        const b = page.locator(".compat-person-input").nth(1);
+        await b.locator('input[type="date"]').fill("1995-06-20");
+        await b.locator('input[type="time"]').fill("09:00");
+      } else if (s.id === "yearly") {
+        await page.getByLabel("目标年份").fill("2027");
+      } else if (["romance", "career", "life"].includes(s.id)) {
+        await page.getByLabel("观察年份").fill("2027");
+      } else if (s.id === "daily") {
+        await page.getByLabel("查看日期").fill("2026-10-15");
+      } else if (s.id === "weekly") {
+        await page.getByLabel("本周参考日期").fill("2026-10-15");
+      } else if (s.id === "monthly") {
+        await page.getByLabel("查看月份").fill("2026-10");
       }
-
-      // Verify we got a real response
-      expect(responseBody).not.toBeNull();
-      
-      // Verify contract fields (what assert checks)
+      const url = s.type === "execute" ? "/api/v1/public/execute" : "/api/v1/scenarios/public";
+      const pending = page.waitForResponse(r => new URL(r.url()).pathname === url &&
+        r.request().method() === "POST", { timeout: 50000 });
+      await page.locator('form button[type="submit"]').first().click();
+      const response = await pending;
+      expect(response.status(), "actual Python API must be HTTP 200").toBe(200);
+      const request = response.request().postDataJSON();
+      const data = await response.json();
       if (s.type === "execute") {
-        expect(responseBody.domain).toBe(s.domain);
-        expect(responseBody.deterministic).toBe(true);
-        expect(typeof responseBody.chart).toBe("object");
-        expect(typeof responseBody.evidence).toBe("object");
-        expect(Array.isArray(responseBody.rule_matches)).toBe(true);
+        expect(request.domain).toBe(s.domain);
+        expect(data.domain).toBe(s.domain);
+        expect(data.chart).toEqual(expect.any(Object));
       } else {
-        expect(responseBody.scenario_id).toBe(s.id);
-        expect(responseBody.public_release).toBe(true);
-        expect(responseBody.deterministic).toBe(true);
-        expect(typeof responseBody.result).toBe("object");
-        expect(typeof responseBody.evidence).toBe("object");
+        expect(request.scenario_id).toBe(s.id);
+        expect(data.scenario_id).toBe(s.id);
+        expect(data.public_release).toBe(true);
+        expect(data.result).toEqual(expect.any(Object));
       }
-      
-      // Verify no uncaught assert error in console
-      const errors: string[] = [];
-      page.on("pageerror", (e) => errors.push(e.message));
-      await page.waitForTimeout(500);
-      const assertErrors = errors.filter(e => e.includes("invalid") || e.includes("assert"));
-      expect(assertErrors).toHaveLength(0);
+      expect(data.deterministic).toBe(true);
+      expect(data.rule_matches).toEqual(expect.any(Array));
+      expect(data.rule_matches.length).toBeGreaterThan(0);
+      expect(data.trace).toEqual(expect.any(Array));
+      expect(data.evidence).toEqual(expect.any(Object));
+      expect(Object.keys(data.evidence).length).toBeGreaterThan(0);
+      expect(data.warnings).toEqual(expect.any(Array));
+      expect(data.limitations).toEqual(expect.any(Array));
+      for (const rule of data.rule_matches) for (const id of rule.evidence_ids || []) {
+        expect(data.evidence).toHaveProperty(id);
+      }
+      await expect(page.locator(results[s.id])).toBeVisible();
+      await expect(page.getByRole("alert")).toHaveCount(0);
+      expect(browserErrors).toEqual([]);
+      await page.screenshot({ path: testInfo.outputPath("tj0074-live-" + s.id + ".png"),
+        fullPage: true, animations: "disabled" });
     });
   }
 
