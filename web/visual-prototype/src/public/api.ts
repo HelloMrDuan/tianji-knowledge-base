@@ -17,30 +17,80 @@ export type ExecuteResponse = {
 
 const apiBase = (import.meta.env.VITE_TIANJI_API_BASE || "").replace(/\/$/, "");
 
+/**
+ * TJ-007.4 任务A：统一请求执行与错误处理
+ * - 30秒超时（AbortController）
+ * - 错误分类：网络/超时/服务端/数据格式
+ * - 用户友好的中文提示，不泄漏技术细节
+ */
+export const API_TIMEOUT_MS = 30000;
+
+export class ApiError extends Error {
+  kind: "network" | "timeout" | "server" | "invalid";
+  status?: number;
+  constructor(kind: ApiError["kind"], message: string, status?: number) {
+    super(message);
+    this.kind = kind;
+    this.status = status;
+  }
+}
+
+function userMessageFor(status: number, detail: any): string {
+  if (status === 400 || status === 422) {
+    const msg = detail?.message || detail?.[0]?.msg;
+    if (typeof msg === "string" && msg.length > 0 && msg.length < 200) return msg;
+    return "输入内容有误，请检查后重试。";
+  }
+  if (status === 503) return "服务暂时繁忙，请稍后重试。";
+  if (status >= 500) return "服务端出现问题，请稍后重试。";
+  return "请求失败，请稍后重试。";
+}
+
+async function requestJson(path: string, body: unknown): Promise<any> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), API_TIMEOUT_MS);
+  let response: Response;
+  try {
+    response = await fetch(`${apiBase}${path}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+      signal: controller.signal,
+    });
+  } catch (err) {
+    clearTimeout(timer);
+    if (err instanceof DOMException && err.name === "AbortError") {
+      throw new ApiError("timeout", "请求超时，请检查网络后重试。");
+    }
+    throw new ApiError("network", "网络连接失败，请检查网络后重试。");
+  }
+  clearTimeout(timer);
+
+  let data: any = {};
+  try {
+    const text = await response.text();
+    data = text ? JSON.parse(text) : {};
+  } catch {
+    throw new ApiError("invalid", "服务端返回数据格式异常，请稍后重试。", response.status);
+  }
+
+  if (!response.ok) {
+    throw new ApiError("server", userMessageFor(response.status, data?.detail), response.status);
+  }
+  return data;
+}
+
 export async function executeLiuyao(input: {
   value: string;
   yao_values: number[];
 }): Promise<ExecuteResponse> {
-  const response = await fetch(`${apiBase}/api/v1/public/execute`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      domain: "liuyao",
-      variant: "jingfang-eight-palaces-v1",
-      input,
-      explain: false,
-      mode: "production",
-    }),
+  const data = await requestJson("/api/v1/public/execute", {
+    domain: "liuyao",
+    variant: "jingfang-eight-palaces-v1",
+    input,
+    explain: false,
+    mode: "production",
   });
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    const message =
-      data?.detail?.message ||
-      data?.detail?.[0]?.msg ||
-      data?.detail?.code ||
-      `请求失败（HTTP ${response.status}）`;
-    throw new Error(message);
-  }
   return data as ExecuteResponse;
 }
 
@@ -49,26 +99,13 @@ export async function executeBazi(input: {
   value: string;
   strength_variant?: "ditiansui-root-visibility-v1";
 }): Promise<ExecuteResponse> {
-  const response = await fetch(`${apiBase}/api/v1/public/execute`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
+  const data = await requestJson("/api/v1/public/execute", {
       domain: "bazi",
       variant: "ziping-structural-v1",
       input,
       explain: false,
       mode: "production",
-    }),
   });
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    const message =
-      data?.detail?.message ||
-      data?.detail?.[0]?.msg ||
-      data?.detail?.code ||
-      `请求失败（HTTP ${response.status}）`;
-    throw new Error(message);
-  }
   return data as ExecuteResponse;
 }
 
@@ -90,23 +127,10 @@ export async function executeYearlyScenario(input: {
   birth_value: string;
   target_year: number;
 }): Promise<ScenarioExecuteResponse> {
-  const response = await fetch(`${apiBase}/api/v1/scenarios/public`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
+  const data = await requestJson("/api/v1/scenarios/public", {
       scenario_id: "yearly",
       input,
-    }),
   });
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    const message =
-      data?.detail?.message ||
-      data?.detail?.[0]?.msg ||
-      data?.detail?.code ||
-      `请求失败（HTTP ${response.status}）`;
-    throw new Error(message);
-  }
   return data as ScenarioExecuteResponse;
 }
 
@@ -115,23 +139,10 @@ export async function executeRomanceScenario(input: {
   birth_value: string;
   target_year: number;
 }): Promise<ScenarioExecuteResponse> {
-  const response = await fetch(`${apiBase}/api/v1/scenarios/public`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
+  const data = await requestJson("/api/v1/scenarios/public", {
       scenario_id: "romance",
       input,
-    }),
   });
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    const message =
-      data?.detail?.message ||
-      data?.detail?.[0]?.msg ||
-      data?.detail?.code ||
-      `请求失败（HTTP ${response.status}）`;
-    throw new Error(message);
-  }
   return data as ScenarioExecuteResponse;
 }
 
@@ -140,23 +151,10 @@ export async function executeCareerScenario(input: {
   birth_value: string;
   target_year: number;
 }): Promise<ScenarioExecuteResponse> {
-  const response = await fetch(`${apiBase}/api/v1/scenarios/public`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
+  const data = await requestJson("/api/v1/scenarios/public", {
       scenario_id: "career",
       input,
-    }),
   });
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    const message =
-      data?.detail?.message ||
-      data?.detail?.[0]?.msg ||
-      data?.detail?.code ||
-      `请求失败（HTTP ${response.status}）`;
-    throw new Error(message);
-  }
   return data as ScenarioExecuteResponse;
 }
 
@@ -165,23 +163,10 @@ export async function executeLifeScenario(input: {
   birth_value: string;
   target_year: number;
 }): Promise<ScenarioExecuteResponse> {
-  const response = await fetch(`${apiBase}/api/v1/scenarios/public`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
+  const data = await requestJson("/api/v1/scenarios/public", {
       scenario_id: "life",
       input,
-    }),
   });
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    const message =
-      data?.detail?.message ||
-      data?.detail?.[0]?.msg ||
-      data?.detail?.code ||
-      `请求失败（HTTP ${response.status}）`;
-    throw new Error(message);
-  }
   return data as ScenarioExecuteResponse;
 }
 
@@ -190,23 +175,10 @@ export async function executeDailyScenario(input: {
   birth_value: string;
   target_date: string;
 }): Promise<ScenarioExecuteResponse> {
-  const response = await fetch(`${apiBase}/api/v1/scenarios/public`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
+  const data = await requestJson("/api/v1/scenarios/public", {
       scenario_id: "daily",
       input,
-    }),
   });
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    const message =
-      data?.detail?.message ||
-      data?.detail?.[0]?.msg ||
-      data?.detail?.code ||
-      `请求失败（HTTP ${response.status}）`;
-    throw new Error(message);
-  }
   return data as ScenarioExecuteResponse;
 }
 
@@ -215,23 +187,10 @@ export async function executeWeeklyScenario(input: {
   birth_value: string;
   anchor_date: string;
 }): Promise<ScenarioExecuteResponse> {
-  const response = await fetch(`${apiBase}/api/v1/scenarios/public`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
+  const data = await requestJson("/api/v1/scenarios/public", {
       scenario_id: "weekly",
       input,
-    }),
   });
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    const message =
-      data?.detail?.message ||
-      data?.detail?.[0]?.msg ||
-      data?.detail?.code ||
-      `请求失败（HTTP ${response.status}）`;
-    throw new Error(message);
-  }
   return data as ScenarioExecuteResponse;
 }
 
@@ -239,23 +198,10 @@ export async function executeMonthlyScenario(input: {
   birth_value: string;
   target_month: string;
 }): Promise<ScenarioExecuteResponse> {
-  const response = await fetch(`${apiBase}/api/v1/scenarios/public`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
+  const data = await requestJson("/api/v1/scenarios/public", {
       scenario_id: "monthly",
       input,
-    }),
   });
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    const message =
-      data?.detail?.message ||
-      data?.detail?.[0]?.msg ||
-      data?.detail?.code ||
-      `请求失败（HTTP ${response.status}）`;
-    throw new Error(message);
-  }
   return data as ScenarioExecuteResponse;
 }
 
@@ -266,23 +212,10 @@ export async function executeCompatibilityScenario(input: {
   person_a_traditional_role?: "male" | "female";
   person_b_traditional_role?: "male" | "female";
 }): Promise<ScenarioExecuteResponse> {
-  const response = await fetch(`${apiBase}/api/v1/scenarios/public`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
+  const data = await requestJson("/api/v1/scenarios/public", {
       scenario_id: "compatibility",
       input,
-    }),
   });
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    const message =
-      data?.detail?.message ||
-      data?.detail?.[0]?.msg ||
-      data?.detail?.code ||
-      `请求失败（HTTP ${response.status}）`;
-    throw new Error(message);
-  }
   return data as ScenarioExecuteResponse;
 }
 
@@ -313,19 +246,15 @@ export type DreamCultureResponse = {
 };
 
 export async function lookupDreamCulture(dreamText: string): Promise<DreamCultureResponse> {
-  const response = await fetch(`${apiBase}/api/v1/dream/culture`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    cache: "no-store",
-    body: JSON.stringify({ dream_text: dreamText }),
-  });
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    throw new Error(
-      response.status === 503 ? "已审核梦象检索暂不可用，请稍后再试。" :
-      response.status === 422 ? "请输入 2—500 字的梦境叙述。" :
-      `查阅失败（HTTP ${response.status}）`
-    );
+  let data: any;
+  try {
+    data = await requestJson("/api/v1/dream/culture", { dream_text: dreamText });
+  } catch (err) {
+    // 保留原有的友好提示
+    if (err instanceof ApiError && err.status === 422) {
+      throw new ApiError("server", "请输入 2—500 字的梦境叙述。", 422);
+    }
+    throw err;
   }
   if (data?.api_version !== "v1" || data?.public_release !== true ||
       data?.cultural_reference_only !== true || data?.ai_enabled !== false ||
@@ -340,7 +269,7 @@ export async function lookupDreamCulture(dreamText: string): Promise<DreamCultur
           topic.matched_texts.every((s) => typeof s === "string" && s.length > 0);
       }) ||
       !["reviewed_cultural_matches", "no_reviewed_interpretation"].includes(data?.status)) {
-    throw new Error("服务端文化查阅合同不匹配，拒绝展示结果。");
+    throw new ApiError("invalid", "服务端文化查阅合同不匹配，拒绝展示结果。");
   }
   return data as DreamCultureResponse;
 }
