@@ -70,6 +70,8 @@
 
 | E0036 | 2026-10-15 | TJ-007.4 | 进行中 | 从最新 main 开发：历史页不再将静态 DEMO 冒充真实推演历史；演示收藏保留；补 HTTP 503/断网重试不丢出生资料、1440/390/360 无假历史的真实 Chromium 前端测试。CI 和其他场景超时/跨页完整验收尚未完成，不宣称功能关账 | 分支 tj-007.4-save-crosspage-errors（PR 待创建） | — | CI 待验 |
 
+| E0037 | 2026-10-15 | TJ-007.4 | 已合并 | 已分离真实演示收藏与用户历史、统一 11 接口请求超时/断网/非 JSON/非法响应异常，保持重试时出生资料与年份、隐私跨标签页删除、旧请求防覆盖；独立复审发现并修复生产合同冲突：8 个用户场景既有 `production_limited`/`public_release=false`，只认可审核结构 `release_scope`，未擅自放开吉凶预测。公开功能 PR #255 merge `0304a55c41ee67d9f72c7e39bfef1a59d68cdc85`、私有真实验收 PR #60 merge `c94cd0f7cf17879f0e343ec70a51159e1ca516ec`；公开 9/9 GitHub CI success，私有 Canonical/真实 Python API/Chromium 11/11 且用户结果展示验证通过，私有截图 Artifact `11964270529`（保留一天）。无生产上线，AI 自由解梦未开放，其他 WBS 任务不关账。 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/255 · https://github.com/HelloMrDuan/tianji-private-knowledge/pull/60 | 0304a55c41ee67d9f72c7e39bfef1a59d68cdc85 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/38718130197 · https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38718147580 |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
