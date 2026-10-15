@@ -33,12 +33,15 @@ jobs:
       - name: Run real Chromium saved-profile, history, error/retry, race and privacy tests (stubbed API)
         working-directory: web/visual-prototype
         run: CI=true npm test -- tests/tj0074-library-retry.spec.ts tests/tj0062-race-condition.spec.ts tests/tj0063-privacy.spec.ts
-      - name: Run legacy example-history and favorites regression
-        working-directory: web/visual-prototype
-        run: CI=true npm test -- tests/prototype.spec.ts tests/whole-site.spec.ts --grep "sample favorites persist|library filtering"
+      # Playwright clears test-results at the beginning of each invocation.
+      # Upload the viewport evidence BEFORE the second targeted invocation.
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: tj0074-browser-test-results
           path: web/visual-prototype/test-results/
+          if-no-files-found: error
           retention-days: 3
+      - name: Run legacy example-history and favorites regression
+        working-directory: web/visual-prototype
+        run: CI=true npm test -- tests/prototype.spec.ts tests/whole-site.spec.ts --grep "sample favorites persist|library filtering"
