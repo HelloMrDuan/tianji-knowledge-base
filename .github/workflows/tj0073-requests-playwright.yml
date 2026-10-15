@@ -1,0 +1,35 @@
+name: TJ-007.3 Browser Request Contracts
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/tj0073-requests-playwright.yml"
+      - "web/visual-prototype/**"
+      - "docs/product/TASK_STATUS.md"
+      - "docs/product/TASK_HISTORY.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tj0073-request-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: web/visual-prototype/package-lock.json
+      - name: Install dependencies
+        working-directory: web/visual-prototype
+        run: npm ci
+      - name: Install Chromium
+        working-directory: web/visual-prototype
+        run: npx playwright install --with-deps chromium
+      - name: Verify strict API request parameters (intercepted, NOT authentic computation)
+        working-directory: web/visual-prototype
+        run: CI=true npm test -- tests/tj0073-scenarios.spec.ts
