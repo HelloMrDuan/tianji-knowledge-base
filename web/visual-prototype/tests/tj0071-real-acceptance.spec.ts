@@ -1,246 +1,208 @@
-import { test, expect } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
 /**
- * TJ-007.1 专项验收：五条真实计算流程
- * MUST run against live private-data-backed API. No mocks.
- *
- * 验证：用户真实输入 → 真实后端计算 → 结果正确 → 页面正确展示 → 依据可追溯
+ * TJ-007.1: live private-data-backed backend + real Chromium only.
+ * Never fulfill or intercept API success. This test must run inside restricted private Actions.
  */
+type Json = Record<string, any>;
+const BIRTH_VALUE = "2000-01-07T12:00:00+08:00";
+const LUNAR_VALUE = "2000-05-18T12:00:00+08:00";
 
-// 固定样例：2000-01-07 12:00 中国大陆
-// 独立历法计算：己卯年、丁丑月、甲子日、庚午时
-const SAMPLE_BIRTH = {
-  solar: { year: 2000, month: 1, day: 7 },
-  time: "12:00",
-  expectedPillars: { year: "己卯", month: "丁丑", day: "甲子", hour: "庚午" },
-};
-
-async function fillBaziSample(page: any) {
+async function savedSample(page: Page) {
   await page.goto("/bazi-profile");
   await page.getByRole("button", { name: "填入示例" }).click();
-  await page.waitForTimeout(300);
+  await page.getByRole("button", { name: "保存资料" }).click();
 }
 
-async function waitForBaziResult(page: any) {
-  const responsePromise = page.waitForResponse(
-    (r: any) => r.url().includes("/api/v1/public/execute") && r.request().method() === "POST",
-    { timeout: 30000 }
+async function liveSubmit(page: Page, path: string): Promise<{ request: Json; data: Json }> {
+  const pending = page.waitForResponse(
+    r => new URL(r.url()).pathname === path && r.request().method() === "POST",
+    { timeout: 30_000 }
   );
-  await page.locator('button[type="submit"]').first().click();
-  const response = await responsePromise;
-  expect(response.ok()).toBe(true);
-  const body = await response.json();
-  return body;
+  await page.locator('form button[type="submit"]').first().click();
+  const response = await pending;
+  expect(response.status(), "real HTTP response (no mock)").toBe(200);
+  const request = response.request().postDataJSON() as Json;
+  const data = await response.json() as Json;
+  expect(data.deterministic).toBe(true);
+  expect(data.evidence).toBeTruthy();
+  return { request, data };
 }
 
-test.describe("TJ-007.1: bazi real calculation", () => {
-  test("solar 2000-01-07 12:00 yields correct pillars", async ({ page }) => {
-    await fillBaziSample(page);
-    const body = await waitForBaziResult(page);
-    // 验证四柱
-    const chart = body.chart || {};
-    const pillars = chart.pillars || [];
-    // pillars 可能是数组或对象，检查包含预期干支
-    const flat = JSON.stringify(pillars);
-    expect(flat).toContain("己卯");
-    expect(flat).toContain("丁丑");
-    expect(flat).toContain("甲子");
-    expect(flat).toContain("庚午");
-    // 验证页面展示与 JSON 一致
-    await expect(page.locator(".bazi-live-result")).toBeVisible({ timeout: 10000 });
-    const pageText = await page.locator(".bazi-live-result").textContent();
-    expect(pageText).toContain("己卯");
-  });
-
-  test("lunar input yields same pillars as solar", async ({ page }) => {
-    // 农历 1999-12-01 = 公历 2000-01-07（需验证）
-    // 先用阳历获取基准，再用农历对比
-    await fillBaziSample(page);
-    const solarBody = await waitForBaziResult(page);
-    const solarPillars = JSON.stringify(solarBody.chart?.pillars || []);
-
-    // 切换到农历输入同一天
-    await page.getByRole("tab", { name: "农历" }).click();
-    await page.waitForTimeout(300);
-    // 1999年农历12月初一 = 2000-01-07（lunar-javascript 验证）
-    await page.locator('.birth-date-row select').nth(0).selectOption("1999");
-    await page.locator('.birth-date-row select').nth(1).selectOption("12");
-    await page.locator('.birth-date-row select').nth(2).selectOption("1");
-    await page.locator('.time-selects select').nth(0).selectOption("12");
-    await page.locator('.time-selects select').nth(1).selectOption("0");
-    const lunarBody = await waitForBaziResult(page);
-    const lunarPillars = JSON.stringify(lunarBody.chart?.pillars || []);
-    // 同一出生时刻，四柱必须一致
-    expect(lunarPillars).toBe(solarPillars);
-  });
-
-  test("unknown time does not fabricate hour pillar", async ({ page }) => {
-    await page.goto("/bazi-profile");
-    await page.getByRole("button", { name: "填入示例" }).click();
-    await page.locator('.time-unknown-check input').check();
-    await page.waitForTimeout(300);
-    // 点击提交应被阻断，不发送请求
-    let requested = false;
-    page.on("request", (r: any) => {
-      if (r.url().includes("/api/v1/public/execute") && r.method() === "POST") requested = true;
-    });
-    await page.locator('button[type="submit"]').first().click().catch(() => {});
-    await page.waitForTimeout(1000);
-    expect(requested).toBe(false);
-    await expect(page.locator('.question-error')).toContainText(/出生时刻未知/);
-  });
-});
-
-test.describe("TJ-007.1: daily date switching", () => {
-  test("different target_dates yield correct requests", async ({ page }) => {
-    await page.goto("/bazi-profile");
-    await page.getByRole("button", { name: "填入示例" }).click();
-    await page.getByRole("button", { name: "保存资料" }).click();
-    await page.waitForTimeout(500);
-
-    const requests: any[] = [];
-    page.on("request", (r: any) => {
-      if (r.url().includes("/api/v1/scenarios/public") && r.method() === "POST") {
-        try { requests.push(r.postDataJSON()); } catch {}
-      }
-    });
-
-    await page.goto("/daily-structure");
-    await page.waitForTimeout(800);
-    // 选择日期 A
-    await page.locator('input[type="date"]').first().fill("2026-10-15");
-    await page.locator('button[type="submit"]').first().click();
-    await page.waitForTimeout(2000);
-    // 选择日期 B
-    await page.locator('input[type="date"]').first().fill("2026-10-16");
-    await page.locator('button[type="submit"]').first().click();
-    await page.waitForTimeout(2000);
-
-    expect(requests.length).toBeGreaterThanOrEqual(2);
-    const dates = requests.map((b) => JSON.stringify(b));
-    // 验证 target_date 不同
-    expect(dates[0]).not.toBe(dates[1]);
-  });
-});
-
-test.describe("TJ-007.1: weekly boundaries", () => {
-  test("week boundaries correct", async ({ page }) => {
-    await page.goto("/bazi-profile");
-    await page.getByRole("button", { name: "填入示例" }).click();
-    await page.getByRole("button", { name: "保存资料" }).click();
-    await page.waitForTimeout(500);
-
-    const requests: any[] = [];
-    page.on("request", (r: any) => {
-      if (r.url().includes("/api/v1/scenarios/public") && r.method() === "POST") {
-        try { requests.push(r.postDataJSON()); } catch {}
-      }
-    });
-
-    await page.goto("/weekly-structure");
-    await page.waitForTimeout(800);
-    // 普通周
-    await page.locator('input[type="date"]').first().fill("2026-10-15"); // 周四
-    await page.locator('button[type="submit"]').first().click();
-    await page.waitForTimeout(2000);
-    // 跨年周：2025-12-31（周三）应归属2025年最后一周
-    await page.locator('input[type="date"]').first().fill("2025-12-31");
-    await page.locator('button[type="submit"]').first().click();
-    await page.waitForTimeout(2000);
-
-    expect(requests.length).toBeGreaterThanOrEqual(2);
-  });
-});
-
-test.describe("TJ-007.1: yearly switching", () => {
-  test("2025/2026/2027 yield different target_year", async ({ page }) => {
-    await page.goto("/bazi-profile");
-    await page.getByRole("button", { name: "填入示例" }).click();
-    await page.getByRole("button", { name: "保存资料" }).click();
-    await page.waitForTimeout(500);
-
-    const requests: any[] = [];
-    page.on("request", (r: any) => {
-      if (r.url().includes("/api/v1/scenarios/public") && r.method() === "POST") {
-        try { requests.push(r.postDataJSON()); } catch {}
-      }
-    });
-
-    await page.goto("/yearly-structure");
-    await page.waitForTimeout(800);
-    for (const year of ["2025", "2026", "2027"]) {
-      const yearInput = page.locator('input[type="number"], select').first();
-      // 尝试找到年份选择
-      const selects = page.locator('select');
-      const count = await selects.count();
-      let found = false;
-      for (let i = 0; i < count; i++) {
-        const opts = await selects.nth(i).locator('option').allTextContents();
-        if (opts.some((o: string) => o.includes("2025"))) {
-          await selects.nth(i).selectOption(year);
-          found = true;
-          break;
-        }
-      }
-      if (!found) {
-        // 尝试 number input
-        const numInput = page.locator('input[type="number"]').first();
-        if (await numInput.count() > 0) await numInput.fill(year);
-      }
-      await page.locator('button[type="submit"]').first().click();
-      await page.waitForTimeout(2000);
+function verifyEvidence(data: Json) {
+  expect(data.rule_matches).toEqual(expect.any(Array));
+  expect(data.rule_matches.length).toBeGreaterThan(0);
+  expect(data.evidence).toEqual(expect.any(Object));
+  const sources = data.evidence as Json;
+  // Every claimed rule-to-evidence reference must resolve in this actual response.
+  for (const rule of data.rule_matches as Json[]) {
+    for (const id of rule.evidence_ids || []) {
+      expect(sources, "missing evidence reference " + id).toHaveProperty(id);
     }
-    expect(requests.length).toBeGreaterThanOrEqual(3);
-    const bodies = requests.map((b) => JSON.stringify(b));
-    // 验证年份不同
-    expect(bodies[0]).toMatch(/2025/);
-  });
+  }
+}
+
+test("bazi: solar pillars, frontend display and reviewed Evidence", async ({ page }) => {
+  await savedSample(page);
+  const { request, data } = await liveSubmit(page, "/api/v1/public/execute");
+  expect(request.domain).toBe("bazi");
+  expect(request.input.value).toBe(BIRTH_VALUE);
+  const pillars = data.chart?.pillars as Json[];
+  expect(pillars).toEqual(expect.any(Array));
+  expect(pillars.map(x => x.ganzhi)).toEqual(["己卯", "丁丑", "甲子", "庚午"]);
+  verifyEvidence(data);
+  const result = page.locator(".bazi-live-result");
+  await expect(result).toBeVisible();
+  await expect(result).toContainText("己卯");
+  await expect(result).toContainText("甲子");
 });
 
-test.describe("TJ-007.1: cross-scenario lunar consistency", () => {
-  test("lunar birth preserved across 5 scenarios", async ({ page }) => {
-    // 八字页保存农历
-    await page.goto("/bazi-profile");
-    await page.getByRole("tab", { name: "农历" }).click();
-    await page.locator('.birth-date-row select').nth(0).selectOption("2000");
-    await page.locator('.birth-date-row select').nth(1).selectOption("4");
-    await page.locator('.birth-date-row select').nth(2).selectOption("15");
-    await page.locator('.time-selects select').nth(0).selectOption("12");
-    await page.locator('.time-selects select').nth(1).selectOption("0");
-    await page.getByRole("button", { name: "保存资料" }).click();
-    await page.waitForTimeout(500);
+test("bazi: same birth moment entered in lunar calendar yields same chart", async ({ page }) => {
+  await savedSample(page);
+  const solar = await liveSubmit(page, "/api/v1/public/execute");
+  await page.getByRole("tab", { name: "农历" }).click();
+  await page.locator(".birth-date-row select").nth(0).selectOption("1999");
+  await page.locator(".birth-date-row select").nth(1).selectOption("12");
+  await page.locator(".birth-date-row select").nth(2).selectOption("1");
+  await page.locator(".time-selects select").nth(0).selectOption("12");
+  await page.locator(".time-selects select").nth(1).selectOption("0");
+  const lunar = await liveSubmit(page, "/api/v1/public/execute");
+  expect(lunar.request.input.value).toBe(BIRTH_VALUE);
+  expect(lunar.data.chart.pillars).toEqual(solar.data.chart.pillars);
+});
 
-    const birthValues: string[] = [];
-    page.on("request", (r: any) => {
-      if (r.url().includes("/api/v1/scenarios/public") && r.method() === "POST") {
-        try {
-          const b = r.postDataJSON();
-          const s = JSON.stringify(b);
-          const m = s.match(/(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2})/);
-          if (m) birthValues.push(m[1]);
-        } catch {}
-      }
-    });
-
-    // 依次访问 4 个场景并提交
-    for (const route of ["/daily-structure", "/weekly-structure", "/monthly-structure", "/yearly-structure"]) {
-      await page.goto(route);
-      await page.waitForTimeout(800);
-      const btn = page.locator('button[type="submit"]').first();
-      if (await btn.count() > 0) {
-        await btn.click().catch(() => {});
-        await page.waitForTimeout(1500);
-      }
-    }
-
-    // 所有场景的出生瞬时必须一致（农历 2000-04-15 = 公历 2000-05-18）
-    expect(birthValues.length).toBeGreaterThan(0);
-    for (const v of birthValues) {
-      expect(v).toMatch(/^2000-05-18T12:00:00\+08:00$/);
-    }
-
-    // 返回八字页，验证农历未丢失
-    await page.goto("/bazi-profile");
-    await expect(page.locator('.birth-calendar-tabs button.active')).toHaveText("农历", { timeout: 5000 });
+test("bazi: unknown birth hour never issues a calculation request", async ({ page }) => {
+  await savedSample(page);
+  await page.locator(".time-unknown-check input").check();
+  const requests: string[] = [];
+  page.on("request", r => {
+    if (new URL(r.url()).pathname === "/api/v1/public/execute" && r.method() === "POST")
+      requests.push(r.url());
   });
+  await page.locator('form button[type="submit"]').first().click();
+  await expect(page.getByRole("alert")).toContainText(/出生时刻未知/);
+  expect(requests).toHaveLength(0);
+  await expect(page.locator(".bazi-live-result")).toHaveCount(0);
+});
+
+test("daily: changing 查看日期 triggers two authentic distinct computations", async ({ page }) => {
+  await savedSample(page);
+  await page.goto("/daily-structure");
+  for (const day of ["2026-10-15", "2026-10-16"]) {
+    await page.getByLabel("查看日期").fill(day); // NOT the first date input: it is 出生日期!
+    const { request, data } = await liveSubmit(page, "/api/v1/scenarios/public");
+    expect(request.scenario_id).toBe("daily");
+    expect(request.input.birth_value).toBe(BIRTH_VALUE);
+    expect(request.input.target_date).toBe(day);
+    expect(data.result.target_day.date).toBe(day);
+    verifyEvidence(data);
+    await expect(page.locator(".daily-result")).toContainText(day);
+  }
+});
+
+test("weekly: real Monday/Sunday ranges and a December/January crossover", async ({ page }) => {
+  await savedSample(page);
+  await page.goto("/weekly-structure");
+  for (const tc of [
+    { anchor: "2026-10-15", start: "2026-10-12", end: "2026-10-18" },
+    { anchor: "2025-12-31", start: "2025-12-29", end: "2026-01-04" },
+  ]) {
+    await page.getByLabel("本周参考日期").fill(tc.anchor);
+    const { request, data } = await liveSubmit(page, "/api/v1/scenarios/public");
+    expect(request.scenario_id).toBe("weekly");
+    expect(request.input.anchor_date).toBe(tc.anchor);
+    expect(request.input.birth_value).toBe(BIRTH_VALUE);
+    expect(data.result.week.start_date).toBe(tc.start);
+    expect(data.result.week.end_date).toBe(tc.end);
+    expect(data.result.week.days).toHaveLength(7);
+    verifyEvidence(data);
+    await expect(page.locator(".period-result")).toContainText(tc.start);
+    await expect(page.locator(".period-result")).toContainText(tc.end);
+  }
+});
+
+test("monthly: leap February, ordinary February and displayed day count", async ({ page }) => {
+  await savedSample(page);
+  await page.goto("/monthly-structure");
+  for (const tc of [
+    { month: "2024-02", days: 29 },
+    { month: "2025-02", days: 28 },
+    { month: "2026-10", days: 31 },
+  ]) {
+    await page.getByLabel("查看月份").fill(tc.month);
+    const { request, data } = await liveSubmit(page, "/api/v1/scenarios/public");
+    expect(request.scenario_id).toBe("monthly");
+    expect(request.input.target_month).toBe(tc.month);
+    expect(request.input.birth_value).toBe(BIRTH_VALUE);
+    expect(data.result.month.target_month).toBe(tc.month);
+    expect(data.result.month.day_count).toBe(tc.days);
+    expect(data.result.month.days).toHaveLength(tc.days);
+    verifyEvidence(data);
+    await expect(page.locator(".period-result")).toContainText(tc.month);
+    await expect(page.locator(".period-result .period-days article")).toHaveCount(tc.days);
+  }
+});
+
+test("yearly: explicit year selection recomputes from real rules and displays the year", async ({ page }) => {
+  await savedSample(page);
+  await page.goto("/yearly-structure");
+  const seen: string[] = [];
+  for (const year of [2025, 2026, 2027]) {
+    await page.getByLabel("目标年份").fill(String(year));
+    const { request, data } = await liveSubmit(page, "/api/v1/scenarios/public");
+    expect(request.scenario_id).toBe("yearly");
+    expect(request.input.birth_value).toBe(BIRTH_VALUE);
+    expect(request.input.target_year).toBe(year);
+    expect(data.result.target_year.year).toBe(year);
+    expect(data.result.target_year.year_boundary).toContain("solar-term");
+    seen.push(data.result.target_year.ganzhi);
+    verifyEvidence(data);
+    await expect(page.locator(".yearly-result")).toContainText(String(year));
+    await expect(page.locator(".yearly-result")).toContainText(data.result.target_year.ganzhi);
+  }
+  expect(new Set(seen).size).toBe(3);
+});
+
+test("lunar stored once: all five API birth values match; original lunar survives", async ({ page }) => {
+  await page.goto("/bazi-profile");
+  await page.getByRole("tab", { name: "农历" }).click();
+  await page.locator(".birth-date-row select").nth(0).selectOption("2000");
+  await page.locator(".birth-date-row select").nth(1).selectOption("4");
+  await page.locator(".birth-date-row select").nth(2).selectOption("15");
+  await page.locator(".time-selects select").nth(0).selectOption("12");
+  await page.locator(".time-selects select").nth(1).selectOption("0");
+  await page.getByRole("button", { name: "保存资料" }).click();
+  const natal = await liveSubmit(page, "/api/v1/public/execute");
+  expect(natal.request.input.value).toBe(LUNAR_VALUE);
+
+  for (const [route, id] of [
+    ["/daily-structure", "daily"],
+    ["/weekly-structure", "weekly"],
+    ["/monthly-structure", "monthly"],
+    ["/yearly-structure", "yearly"],
+  ]) {
+    await page.goto(route);
+    const { request, data } = await liveSubmit(page, "/api/v1/scenarios/public");
+    expect(request.scenario_id).toBe(id);
+    expect(request.input.birth_value).toBe(LUNAR_VALUE);
+    expect(data.scenario_id).toBe(id);
+    verifyEvidence(data);
+  }
+  await page.goto("/bazi-profile");
+  await expect(page.getByRole("tab", { name: "农历" })).toHaveAttribute("aria-selected", "true");
+  const saved = await page.evaluate(() => JSON.parse(localStorage.getItem("tianji.profile.birth.v1") || "{}"));
+  expect(saved.calendarType).toBe("lunar");
+  expect(saved.year).toBe(2000);
+  expect(saved.month).toBe(4);
+  expect(saved.day).toBe(15);
+  expect(saved.time).toBe("12:00");
+});
+
+test("result remains readable on narrow mobile after live API computation", async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 780 });
+  await savedSample(page);
+  await page.goto("/daily-structure");
+  const { data } = await liveSubmit(page, "/api/v1/scenarios/public");
+  await expect(page.locator(".daily-result")).toBeVisible();
+  await expect(page.locator(".daily-result")).toContainText(data.result.target_day.ganzhi);
 });
