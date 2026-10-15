@@ -22,8 +22,8 @@ function validEvidence(data: Json) {
 async function questionSetup(page: Page, values: number[]) {
   await page.goto("/ask");
   await page.locator("textarea").first().fill("现在这个工作机会我需要如何看待？");
-  await page.getByLabel("起卦日期").fill("2026-10-15");
-  await page.getByLabel("起卦时间").fill("12:00");
+  await page.locator(".question-time-grid input[type=\"date\"]").fill("2026-10-15");
+  await page.locator(".question-time-grid input[type=\"time\"]").fill("12:00");
   for(let i=0;i<6;i++) await page.locator(".yao-input-list select").nth(i).selectOption(String(values[i]));
 }
 async function sample(page: Page) {
