@@ -476,18 +476,31 @@ test.describe("TJ-006.1 P0: region confirm bypass blocked", () => {
     await expect(confirmBtn).toBeVisible({ timeout: 5000 });
     await confirmBtn.click();
     await page.waitForTimeout(500);
-    // 验证标记已清除
-    const saved = await page.evaluate(() => JSON.parse(localStorage.getItem("tianji.profile.birth.v1") || "{}"));
-    // 注意：确认后需要保存才会写入；这里验证 validate 通过
-    // 去今日运势，改日期，应允许请求
+    // 明确保存已确认地区的资料；不能仅在内存中确认后跨页
+    await page.getByRole("button", { name: "保存资料" }).click();
+    const saved = await page.evaluate(() =>
+      JSON.parse(localStorage.getItem("tianji.profile.birth.v1") || "{}")
+    );
+    expect(saved.calendarType).toBe("solar");
+    expect(saved.region).toBe("中国大陆");
+    expect(saved._regionNeedsConfirm).toBeUndefined();
+    expect(saved.year).toBe(2000);
+
+    // 真实跨页编辑出生日期并提交；只观察请求，绝不伪造计算成功
     let requestMade = false;
+    let requestBody: any = null;
     await page.route("**/api/v1/scenarios/public", async (route) => {
       requestMade = true;
+      requestBody = route.request().postDataJSON();
       await route.abort();
     });
     await page.goto("/daily-structure");
-    await page.waitForTimeout(800);
-    // 由于八字页确认后未自动保存，这里先验证拦截已解除的逻辑
-    // （实际流程：用户在八字页确认后点击保存，再到其他页）
+    const dateInput = page.locator('input[type="date"]').first();
+    await expect(dateInput).toHaveValue("2000-01-07");
+    await dateInput.fill("2000-01-08");
+    await page.locator('button[type="submit"]').first().click();
+    await expect.poll(() => requestMade).toBe(true);
+    expect(requestBody).not.toBeNull();
+    expect(JSON.stringify(requestBody)).toContain("2000-01-08T12:00:00+08:00");
   });
 });
