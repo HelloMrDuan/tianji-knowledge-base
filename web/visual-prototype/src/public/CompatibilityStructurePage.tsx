@@ -26,9 +26,11 @@ export function CompatibilityStructurePage() {
   const [bName, setBName] = useState("对方");
   const [aDate, setADate] = useState(saved.date);
   const [aTime, setATime] = useState(saved.time);
+  const [aTimezone, setATimezone] = useState(saved.timezone || "Asia/Shanghai");
   const [aRole, setARole] = useState<"" | "male" | "female">("");
   const [bDate, setBDate] = useState("");
   const [bTime, setBTime] = useState("");
+  const [bTimezone, setBTimezone] = useState("Asia/Shanghai");
   const [bRole, setBRole] = useState<"" | "male" | "female">("");
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
   const [loading, setLoading] = useState(false);
@@ -68,14 +70,14 @@ export function CompatibilityStructurePage() {
         person_a_traditional_role?: "male" | "female";
         person_b_traditional_role?: "male" | "female";
       } = {
-        person_a_birth_value: toApiValue({ date: aDate, time: aTime }),
-        person_b_birth_value: toApiValue({ date: bDate, time: bTime }),
+        person_a_birth_value: toApiValue({ date: aDate, time: aTime, timezone: aTimezone }),
+        person_b_birth_value: toApiValue({ date: bDate, time: bTime, timezone: bTimezone }),
       };
       if (aRole) input.person_a_traditional_role = aRole;
       if (bRole) input.person_b_traditional_role = bRole;
       const next = await executeCompatibilityScenario(input);
       if (version !== requestVersion.current) return;
-      saveBirthProfile({ date: aDate, time: aTime });
+      saveBirthProfile({ date: aDate, time: aTime, timezone: aTimezone });
       setResultNames({a: aName.trim() || "我", b: bName.trim() || "对方"});
       setResult(next);
     } catch (err) {

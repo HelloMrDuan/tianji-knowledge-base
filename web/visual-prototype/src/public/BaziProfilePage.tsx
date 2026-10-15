@@ -131,8 +131,8 @@ export function BaziProfilePage() {
           </div>
 
           <BirthInputFields
-            initial={profile}
-            onChange={(p, valid, err) => { invalidateResult(); setProfile(p); setInputError(err); }}
+            value={profile}
+            onChange={(p) => { invalidateResult(); setProfile(p); setInputError(""); }}
           />
           {inputError && <p className="question-error" role="alert">{inputError}</p>}
 

@@ -39,6 +39,7 @@ export function DailyStructurePage() {
   const today = useMemo(beijingToday, []);
   const [birthDate, setBirthDate] = useState(saved.date);
   const [birthTime, setBirthTime] = useState(saved.time);
+  const [timezone, setTimezone] = useState(() => readSavedBirthProfile().timezone || "Asia/Shanghai");
   const [targetDate, setTargetDate] = useState(today);
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
   const [error, setError] = useState("");
@@ -68,11 +69,11 @@ export function DailyStructurePage() {
     setResult(null);
     try {
       const next = await executeDailyScenario({
-        birth_value: toApiValue({ date: birthDate, time: birthTime }),
+        birth_value: toApiValue({ date: birthDate, time: birthTime, timezone }),
         target_date: targetDate,
       });
       if (version !== requestVersion.current) return;
-      saveBirthProfile({ date: birthDate, time: birthTime });
+      saveBirthProfile({ date: birthDate, time: birthTime, timezone });
       setResult(next);
     } catch (err) {
       if (version === requestVersion.current)

@@ -40,6 +40,7 @@ function displayEvidence(id: string, source: Record<string, any>) {
 export function YearlyStructurePage() {
   const [date, setDate] = useState(() => readSavedBirthProfile().date);
   const [time, setTime] = useState(() => readSavedBirthProfile().time);
+  const [timezone, setTimezone] = useState(() => readSavedBirthProfile().timezone || "Asia/Shanghai");
   const [targetYear, setTargetYear] = useState(readSavedTargetYear);
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
   const [error, setError] = useState("");
@@ -70,11 +71,11 @@ export function YearlyStructurePage() {
     try {
       if (!isValidTargetYear(targetYear)) throw new Error("请选择 1901 至 2098 年的公历年份");
       const response = await executeYearlyScenario({
-        birth_value: toApiValue({ date, time }),
+        birth_value: toApiValue({ date, time, timezone }),
         target_year: targetYear,
       });
       if (version !== requestVersion.current) return;
-      saveBirthProfile({ date, time });
+      saveBirthProfile({ date, time, timezone });
       saveTargetYear(targetYear);
       setResult(response);
     } catch (err) {

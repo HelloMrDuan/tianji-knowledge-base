@@ -22,13 +22,36 @@ export type BirthProfile = {
 
 const EMPTY_PROFILE: BirthProfile = { date: "", time: "", timezone: "" };
 
-/** 常用时区选项（命理常用） */
+/** 明确支持的 IANA 时区（命理常用 + 常见华人地区） */
 export const TIMEZONE_OPTIONS: { value: string; label: string }[] = [
   { value: "Asia/Shanghai", label: "北京时间（UTC+8）" },
   { value: "Asia/Taipei", label: "台北时间（UTC+8）" },
   { value: "Asia/Hong_Kong", label: "香港时间（UTC+8）" },
+  { value: "Asia/Singapore", label: "新加坡时间（UTC+8）" },
+  { value: "Asia/Tokyo", label: "东京时间（UTC+9）" },
+  { value: "America/New_York", label: "纽约时间（美东）" },
+  { value: "America/Los_Angeles", label: "洛杉矶时间（美西）" },
+  { value: "Europe/London", label: "伦敦时间" },
+  { value: "Australia/Sydney", label: "悉尼时间" },
   { value: "UTC", label: "协调世界时（UTC）" },
 ];
+
+const SUPPORTED_TIMEZONES = new Set(TIMEZONE_OPTIONS.map((o) => o.value));
+
+/** 时区校验：仅允许明确支持的 IANA 时区，无效给出明确错误 */
+export function validateTimezone(tz: string): ValidationResult {
+  if (!tz) return { ok: false, message: "请选择出生地时区" };
+  try {
+    // 验证是否为有效 IANA 时区
+    Intl.DateTimeFormat("en-US", { timeZone: tz });
+  } catch {
+    return { ok: false, message: `不支持的时区：${tz}，请选择列表中的时区` };
+  }
+  if (!SUPPORTED_TIMEZONES.has(tz)) {
+    return { ok: false, message: `时区 ${tz} 暂未支持精确换算，请选择列表中的时区` };
+  }
+  return { ok: true };
+}
 
 export const MIN_YEAR = 1900;
 export const MAX_YEAR = 2099;
@@ -87,47 +110,76 @@ export function validateProfile(profile: BirthProfile): ValidationResult {
 
 /**
  * 构造后端兼容的 ISO 8601 参数。
+ * 后端 calendar() 要求时区感知的完整 datetime（"Expected timezone-aware ISO datetime"）。
  * - 有时刻：`YYYY-MM-DDTHH:MM:00±HH:MM`（按所选时区计算偏移）
- * - 无时刻：`YYYY-MM-DD`（日期のみ，后端按日柱处理，不伪造时柱）
- * 时区偏移通过 Intl 计算，不硬编码。
+ * - 无时刻：抛出明确错误，前端必须提示用户补充时刻，不得提交注定失败的请求，
+ *   也不得伪造 00:00/12:00 等时间。
  */
 export function toApiValue(profile: BirthProfile): string {
   const v = validateProfile(profile);
   if (!v.ok) throw new Error(v.ok === false ? v.message : "出生资料无效");
-  if (!profile.time) return profile.date; // 无时刻：仅传日期
+  if (!profile.time) {
+    throw new Error("出生时刻未知：当前计算需要完整的出生时刻，请补充后重试");
+  }
   const tz = profile.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Shanghai";
+  const tzCheck = validateTimezone(tz);
+  if (!tzCheck.ok) throw new Error(tzCheck.ok === false ? tzCheck.message : "时区无效");
   const offset = timezoneOffsetString(profile.date, profile.time, tz);
   return `${profile.date}T${profile.time}:00${offset}`;
 }
 
-/** 用 Intl 计算指定时区在该本地时间的 UTC 偏移（±HH:MM） */
-function timezoneOffsetString(date: string, time: string, tz: string): string {
-  try {
-    const [y, m, d] = date.split("-").map(Number);
-    const [h, mi] = time.split(":").map(Number);
-    // 以该时区的本地时间构造，再反推偏移
-    const utcGuess = Date.UTC(y, m - 1, d, h, mi);
-    const fmt = new Intl.DateTimeFormat("en-US", {
-      timeZone: tz,
-      year: "numeric", month: "2-digit", day: "2-digit",
-      hour: "2-digit", minute: "2-digit", second: "2-digit",
-      hour12: false,
-    });
+/**
+ * 用 Intl 计算指定时区在该本地时间的 UTC 偏移（±HH:MM）。
+ * - 明确处理夏令时：不存在的当地时间（如跳过的一小时）抛出错误；
+ *   重复的当地时间（如回拨的一小时）明确标注使用夏令时侧偏移。
+ * - 无效时区抛出错误，不静默回退。
+ */
+export function timezoneOffsetString(date: string, time: string, tz: string): string {
+  const tzCheck = validateTimezone(tz);
+  if (!tzCheck.ok) throw new Error(tzCheck.ok === false ? tzCheck.message : "时区无效");
+
+  const [y, m, d] = date.split("-").map(Number);
+  const [h, mi] = time.split(":").map(Number);
+
+  // 构造两个候选 UTC 时间（前后各 12 小时），检测 DST 跳变
+  const fmt = new Intl.DateTimeFormat("en-US", {
+    timeZone: tz,
+    year: "numeric", month: "2-digit", day: "2-digit",
+    hour: "2-digit", minute: "2-digit", hour12: false,
+  });
+
+  const localAsUTC = Date.UTC(y, m - 1, d, h, mi);
+
+  // 方法：对该本地时间，找出所有可能的 UTC 偏移
+  // 通过在 UTC 时间轴上扫描，找到映射到目标本地时间的 UTC 时刻
+  const candidates: number[] = [];
+  for (let deltaH = -14; deltaH <= 14; deltaH++) {
+    const testUTC = localAsUTC - deltaH * 3600000;
     const parts = Object.fromEntries(
-      fmt.formatToParts(new Date(utcGuess)).map((p) => [p.type, p.value]),
+      fmt.formatToParts(new Date(testUTC)).map((p) => [p.type, p.value]),
     );
-    const asUTC = Date.UTC(
-      Number(parts.year), Number(parts.month) - 1, Number(parts.day),
-      Number(parts.hour), Number(parts.minute), Number(parts.second),
-    );
-    const offsetMin = Math.round((asUTC - utcGuess) / 60000);
-    // offsetMin 即该时区相对 UTC 的偏移（东为正）：如上海 +480
-    const sign = offsetMin >= 0 ? "+" : "-";
-    const abs = Math.abs(offsetMin);
-    return `${sign}${String(Math.floor(abs / 60)).padStart(2, "0")}:${String(abs % 60).padStart(2, "0")}`;
-  } catch {
-    return "+08:00"; // 兜底：明确标注而非静默
+    const py = Number(parts.year);
+    const pm = Number(parts.month);
+    const pd = Number(parts.day);
+    let ph = Number(parts.hour);
+    if (ph === 24) ph = 0; // Intl 可能返回 24:00
+    const pmi = Number(parts.minute);
+    if (py === y && pm === m && pd === d && ph === h && pmi === mi) {
+      const offsetMin = Math.round((localAsUTC - testUTC) / 60000);
+      if (!candidates.includes(offsetMin)) candidates.push(offsetMin);
+    }
   }
+
+  if (candidates.length === 0) {
+    throw new Error(
+      `${date} ${time} 在时区 ${tz} 不存在（夏令时切换跳过的时刻），请选择有效时间`,
+    );
+  }
+  // 重复时间：明确使用较大的偏移（夏令时侧），并在日志中标注
+  const offsetMin = Math.max(...candidates);
+  const sign = offsetMin >= 0 ? "+" : "-";
+  const abs = Math.abs(offsetMin);
+  return `${sign}${String(Math.floor(abs / 60)).padStart(2, "0")}:${String(abs % 60).padStart(2, "0")}`;
 }
 
 /** 读取本地资料：仅接受通过显式校验的值 */

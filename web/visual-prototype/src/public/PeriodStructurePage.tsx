@@ -43,6 +43,7 @@ export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
   const today = useMemo(beijingToday, []);
   const [birthDate, setBirthDate] = useState(saved.date);
   const [birthTime, setBirthTime] = useState(saved.time);
+  const [timezone, setTimezone] = useState(() => readSavedBirthProfile().timezone || "Asia/Shanghai");
   const [anchorDate, setAnchorDate] = useState(today);
   const [targetMonth, setTargetMonth] = useState(today.slice(0, 7));
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
@@ -68,12 +69,12 @@ export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
     setError("");
     setResult(null);
     try {
-      const birthValue = toApiValue({ date: birthDate, time: birthTime });
+      const birthValue = toApiValue({ date: birthDate, time: birthTime, timezone });
       const next = isWeekly
         ? await executeWeeklyScenario({ birth_value: birthValue, anchor_date: anchorDate })
         : await executeMonthlyScenario({ birth_value: birthValue, target_month: targetMonth });
       if (version !== requestVersion.current) return;
-      saveBirthProfile({ date: birthDate, time: birthTime });
+      saveBirthProfile({ date: birthDate, time: birthTime, timezone });
       setResult(next);
     } catch (err) {
       if (version === requestVersion.current)
