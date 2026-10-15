@@ -96,12 +96,12 @@
 
 TJ-010.1验收条件：
 - [x] 现有相关来源完成逐条盘点
-- [x] 本批受影响 11 条 Phase2 规则涉及的 40 条不同 Section 与额外异文 s020 已登记原始来源偏移（最终最新私有 CI 待验）
+- [x] 本批受影响 11 条 Phase2 规则涉及的 40 条不同 Section 与额外异文 s020 已登记原始来源偏移（已在私有最新真实 CI 通过）
 - [x] 关键古籍异文和适用口径明确
 - [x] 发现的错引得到记录（藏干表来源问题）
 - [ ] Pending/Quarantine/Canonical边界正确（需独立复核数据表与古籍证据的层级）
 - [x] 已审核规则的Rule/Evidence对应可复核
-- [x] 公开专用证据检查已在 CI 真实执行；私有原始 SHA、字符定位、40+1 引文和反例需以最新 commit 的 Actions 结论为准
+- [x] 公开专用证据检查已在 CI 真实执行；私有 41 条原始短引、SHA、字符定位及反例测试 8/8 已通过，真实 EvidenceResolver/ExecutionTrace 已核对 97 个 Evidence ID
 
 **下一步**:
 1. 在私有仓库创建TJ-010.1 PR，补充短引审计
@@ -123,4 +123,4 @@ TJ-010.1验收条件：
 
 私有证据等级仍为 C，三种字形示例（协纪的 夘/卯、渊海的 餘/余）仅保留原字，禁止自动规范化后偷换原句。寅月分日 s024/s029、余气 s026/s041、三刑 s020/s021 保持冲突。结构性藏干成员可由《渊海》s004 复核；表格原始实现 provenance 仍来自第三方，不能据此发布本气次序或百分比权重。
 
-公开 [TJ-010.1 专项证据 CI](https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/38724493125) 已成功执行 6 项边界测试。私有 CI 请使用 PR #61 最新 head 对应的运行记录；**本审计不是独立古籍版本校勘，不授权公开完整旺衰或喜用预测，不表示生产部署**。
+公开 [TJ-010.1 专项证据 CI](https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/38724493125) 已成功执行 6 项边界测试。私有 [PR #61 真实运行时与 Evidence ID 验收](https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38725273838)：8/8 源码/原文与故障反例测试，235 文件私有清单完整性通过，11 条 Phase2 规则生成 97 个真实 Evidence ID，覆盖 40 个被引 Section。**本审计不是独立古籍版本校勘，不授权公开完整旺衰或喜用预测，不表示生产部署**。
