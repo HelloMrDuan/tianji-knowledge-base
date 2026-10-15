@@ -64,3 +64,42 @@ test("TJ-008: all four time links really open the corresponding scenario form", 
     await expect(page.locator("main h1")).toBeVisible();
   }
 });
+
+// TJ-008.7 第五轮：手机首屏四入口不得被固定底部导航遮挡。
+// 严格几何断言：不滚动、不 scrollIntoView，实测每张卡片矩形与导航顶部。
+for (const theme of ["night", "paper"] as const) {
+  for (const [width, height] of [[390, 844], [360, 800]] as const) {
+    test(`TJ-008.7: mobile first screen four entries clear bottom nav (${theme} ${width}x${height})`, async ({ page }) => {
+      await page.setViewportSize({ width, height });
+      await page.addInitScript((t) => {
+        try { localStorage.setItem("tianji.theme", t); } catch {}
+      }, theme);
+      await page.goto("/");
+      await page.locator(".scenario-hero h1").waitFor({ timeout: 10000 });
+      // 不滚动：初始 scrollY 必须为 0
+      expect(await page.evaluate(() => window.scrollY)).toBe(0);
+      const geom = await page.evaluate(() => {
+        const nav = document.querySelector(".mobile-bottom-nav");
+        const navTop = nav ? nav.getBoundingClientRect().top : window.innerHeight;
+        const rows = [...document.querySelectorAll(".mobile-card-row")];
+        return {
+          navTop,
+          rows: rows.map((r) => {
+            const b = r.getBoundingClientRect();
+            return { top: b.top, bottom: b.bottom, width: b.width, height: b.height };
+          }),
+        };
+      });
+      expect(geom.rows).toHaveLength(4);
+      for (const r of geom.rows) {
+        // 有实际尺寸
+        expect(r.width).toBeGreaterThan(0);
+        expect(r.height).toBeGreaterThan(0);
+        // 顶部不小于 0
+        expect(r.top).toBeGreaterThanOrEqual(0);
+        // 底部必须在导航顶部 - 4px 安全间距之上
+        expect(r.bottom).toBeLessThanOrEqual(geom.navTop - 4);
+      }
+    });
+  }
+}
