@@ -49,8 +49,9 @@ function invalidResponse(): never {
 function safeServerMessage(input: unknown): string | null {
   if (typeof input !== "string") return null;
   const message = input.trim();
-  if (!message || message.length > 120 || /[\\r\\n\\t<>\\x00-\\x1f]/.test(message)) return null;
-  if (/https?:|www\\.|[a-z]:[\\\\/]|\\/api\\/|\\/home\\/|\\/var\\/|\\/src\\/|\\.py\\b|\\.ts\\b|\\.js\\b|trace|stack|rule[_\\s-]?id|evidence[_\\s-]?id|token|exception|keyerror|internal|file\\s|line\\s?\\d|\\bsha\\b|数据库堆栈|内部路径|规则编号/i.test(message)) return null;
+  // No control characters, markup, path fragments or backend diagnostics.
+  if (!message || message.length > 120 || /[\r\n\t<>\x00-\x1f]/.test(message)) return null;
+  if (/(https?:\/\/|www\.|[a-z]:[\\/]|\/(?:api|home|var|src)\/|\.py\b|\.ts\b|\.js\b|trace|stack|rule[_\s-]?id|evidence[_\s-]?id|token|exception|keyerror|internal|file\s|line\s?\d|\bsha\b|数据库堆栈|内部路径|规则编号)/i.test(message)) return null;
   return message;
 }
 function userMessageFor(status: number, detail: unknown): string {
