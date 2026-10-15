@@ -42,27 +42,14 @@ function castThreeCoins(): CoinCast {
   return { faces, value: faces[0] + faces[1] + faces[2] };
 }
 
-function displayEvidence(id: string, evidence: Record<string, any>) {
-  const title =
-    evidence.title ||
-    evidence.classic ||
-    evidence.work ||
-    evidence.source_title ||
-    evidence.source_id ||
-    id;
-  const quote =
-    evidence.quote ||
-    evidence.original_text ||
-    evidence.anchor ||
-    evidence.text ||
-    "该证据已由后端绑定到本次执行结果。";
-  const grade =
-    evidence.grade ||
-    evidence.evidence_grade ||
-    evidence.level ||
-    evidence.source_grade ||
-    "—";
-  return { title: String(title), quote: String(quote), grade: String(grade) };
+function displayEvidence(evidence: Record<string, any>) {
+  // Display only actual reviewed short excerpts, never opaque IDs or invented text.
+  const title = evidence.classic_title || evidence.title || evidence.source_title;
+  const quote = evidence.original_text || evidence.quote;
+  if (typeof title !== "string" || !title.trim() ||
+      typeof quote !== "string" || !quote.trim()) return null;
+  return { title, quote, grade: typeof evidence.evidence_level === "string"
+    ? evidence.evidence_level : "未标注" };
 }
 
 export function QuestionPage() {
@@ -361,13 +348,15 @@ export function QuestionPage() {
             <section className="live-section">
               <div className="result-section-heading"><div><span>五</span><h2>典籍依据</h2></div></div>
               {Object.entries(result.evidence).map(([id, raw]) => {
-                const evidence = displayEvidence(id, raw);
+                const evidence = displayEvidence(raw);
+                if (!evidence) return null;
                 return <article className="live-evidence" key={id}>
                   <div><strong>{evidence.title}</strong><span>{evidence.grade}</span></div>
                   <blockquote>{evidence.quote}</blockquote>
-                  <small>{id}</small>
                 </article>;
               })}
+              {!Object.values(result.evidence).some((row) => displayEvidence(row)) &&
+                <p className="live-muted">本次没有可核验的古籍短引，无法据此作额外解释。</p>}
             </section>
           </div>
 
