@@ -39,8 +39,7 @@ export function HomePage() {
           </h1>
           <p className="brand-sub">观天之道 · 知人之命</p>
           <p className="brand-desc">
-            以真实历法计算与已审核的传统知识为据，看今天的运势结构，也看看桃花、事业和财运。
-            现阶段提供结构参考；暂未证实的吉凶、婚期和收益预测不会编造。
+            以真实历法推演时序流转，参已审核的传统典籍，看今日运势结构，亦观桃花、事业与财运。
           </p>
           <div className="scenario-hero-actions">
             <Link className="button primary" href="/daily-structure">

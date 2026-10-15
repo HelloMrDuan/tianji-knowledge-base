@@ -23,23 +23,18 @@ html[data-theme="paper"] .scenario-home .scenario-hero.night-hero {
   inset: 0;
   overflow: hidden;
 }
-/* 桌面 / 手机各一套独立构图，窄屏不再是宽幅 slice 裁切 */
-.nhs-desktop,
-.nhs-mobile {
+/* 第四轮：<picture> 按视口单图加载，替代双 span 切换 */
+.night-hero-picture {
   position: absolute;
   inset: 0;
   display: block;
 }
-.nhs-mobile {
-  display: none;
-}
-@media (max-width: 640px) {
-  .nhs-desktop {
-    display: none;
-  }
-  .nhs-mobile {
-    display: block;
-  }
+.night-hero-picture .night-hero-painting {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  user-select: none;
 }
 .night-hero-paper {
   display: none;
@@ -56,21 +51,14 @@ html[data-theme="paper"] .night-hero-paper {
   display: block;
 }
 /* 第三轮：原创水墨绘景 */
-.night-hero-painting {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  user-select: none;
-}
-/* 绘景上的文字可读性渐变 */
+/* 绘景上的文字可读性渐变 + 夜景底部向页面底色过渡（唯一规则） */
 .night-hero-night::after {
   content: "";
   position: absolute;
   inset: 0;
   background:
     radial-gradient(ellipse 72% 62% at 50% 44%, rgba(4, 10, 14, 0.42) 0%, rgba(4, 10, 14, 0) 70%),
-    linear-gradient(to bottom, rgba(4, 10, 14, 0.18) 0%, rgba(4, 10, 14, 0) 26%, rgba(4, 10, 14, 0) 62%, rgba(4, 10, 14, 0.5) 100%);
+    linear-gradient(to bottom, rgba(4, 10, 14, 0.18) 0%, rgba(4, 10, 14, 0) 26%, rgba(4, 10, 14, 0) 62%, rgba(11, 28, 35, 0.88) 100%);
   pointer-events: none;
   z-index: 1;
 }
@@ -92,14 +80,7 @@ html[data-theme="paper"] .night-hero-paper {
   inset: 0;
   background: linear-gradient(180deg, rgba(242, 238, 225, 0.25) 0%, rgba(242, 238, 225, 0) 40%, rgba(242, 238, 225, 0.55) 100%);
 }
-/* 夜景底部向页面底色过渡 */
-.night-hero-night::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(11, 28, 35, 0) 62%, rgba(11, 28, 35, 0.85) 100%);
-  pointer-events: none;
-}
+/* 夜景底部向页面底色过渡已并入上方唯一的 .night-hero-night::after 规则 */
 
 /* ---------- Hero 中央品牌区 ---------- */
 .night-hero-brand {
@@ -196,10 +177,14 @@ html[data-theme="paper"] .night-hero-brand .text-action {
 }
 /* 夜景：卡片区与 Hero 自然衔接（非悬浮白卡） */
 html[data-theme="night"] .night-cards-section {
-  background: linear-gradient(to bottom, rgba(6, 14, 18, 0.55) 0%, rgba(8, 20, 26, 0.92) 90px, #081418 160px);
+  background: linear-gradient(to bottom, rgba(6, 14, 18, 0) 0%, rgba(8, 20, 26, 0.94) 110px, #081418 190px);
   max-width: none;
+  /* 卡片上叠 hero 底部，如原图庭院一体 */
+  margin-top: -70px;
+  padding-top: 44px;
   padding-left: max(20px, calc((100% - 1240px) / 2));
   padding-right: max(20px, calc((100% - 1240px) / 2));
+  z-index: 3;
 }
 /* 手机紧凑列表：默认隐藏，窄屏显示 */
 .mobile-card-list {
@@ -221,14 +206,14 @@ html[data-theme="night"] .night-cards-section {
     background: #f6f1e2;
     border: 1px solid #d8cfae;
     border-radius: 10px;
-    padding: 10px 14px 10px 10px;
+    padding: 8px 14px 8px 8px;
     text-decoration: none;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
   }
   .mobile-card-thumb {
     flex: none;
-    width: 56px;
-    height: 56px;
+    width: 52px;
+    height: 52px;
     border-radius: 8px;
     overflow: hidden;
     border: 1px solid #d8cfae;
@@ -381,7 +366,9 @@ html[data-theme="paper"] .paper-card {
 /* 举证行移到卡片下方，保持原有诚实声明 */
 .night-cards-section .scenario-proof {
   justify-content: center;
-  margin-top: 26px;
+  margin-top: 18px;
+  font-size: 12px;
+  opacity: 0.62;
 }
 
 /* ---------- 夜景氛围动画（reduced-motion 下静态） ---------- */
@@ -426,10 +413,10 @@ html[data-theme="paper"] .paper-card {
     padding-bottom: 96px;
   }
   .scenario-home .scenario-hero.night-hero {
-    min-height: 460px;
+    min-height: 420px;
   }
   .night-hero-brand {
-    padding: 44px 16px 56px;
+    padding: 32px 16px 40px;
   }
   .brand-title {
     letter-spacing: 8px;
@@ -449,5 +436,32 @@ html[data-theme="paper"] .paper-card {
   }
   .night-cards-section {
     padding: 32px 16px 8px;
+  }
+}
+
+/* 360px 专用：确保四个入口首屏完整可见 */
+@media (max-width: 360px) {
+  .scenario-home .scenario-hero.night-hero {
+    min-height: 396px;
+  }
+  .night-hero-brand {
+    padding: 26px 14px 32px;
+  }
+  .mobile-card-list {
+    gap: 8px;
+  }
+  .brand-desc {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 360px) {
+  .brand-title {
+    font-size: 40px;
+    letter-spacing: 6px;
+  }
+  .night-hero-brand .scenario-hero-actions .button {
+    padding: 9px 14px;
+    font-size: 13px;
   }
 }

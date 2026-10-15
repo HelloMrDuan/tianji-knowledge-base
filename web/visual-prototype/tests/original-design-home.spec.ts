@@ -5,9 +5,8 @@ import { domainPages } from "../src/public/domainPages";
 test("TJ-008: user-first ink home prioritizes fortune, romance, career and time shortcuts", async ({ page }) => {
   await page.goto("/");
   const hero = page.locator(".scenario-hero");
-  // TJ-008.7 第三轮：夜景 hero 为原创水墨绘景（img），纸主题下显示浅色水墨
-  // 桌面/手机各一张独立构图，此处断言桌面版（默认视口）在夜景主题下可见
-  await expect(hero.locator(".night-hero-night .nhs-desktop .night-hero-painting")).toBeVisible();
+  // TJ-008.7 第四轮：夜景 hero 为 <picture> 单图加载（按视口选择桌面/手机绘景）
+  await expect(hero.locator(".night-hero-night .night-hero-picture img")).toBeVisible();
   await expect(hero.locator(".scenario-hero-actions .button.primary")).toHaveText(/查看今日运势/);
   await expect(hero.locator(".scenario-hero-actions .button.primary")).toHaveAttribute("href", "/daily-structure");
   await expect(hero.locator(".scenario-hero-actions .button.outlined")).toHaveCount(2);
