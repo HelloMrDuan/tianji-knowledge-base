@@ -66,6 +66,8 @@
 
 | E0034 | 2026-10-15 | TJ-007.3 | 进行中 | 一事占问、已审核梦象和人生总览四源的实际联调及浏览器验收；排盘和梦象/API 的代码已存在，本次补前端真实请求与盘面/来源断言、限定结果态截图、拒判和错误态。AI 自由解释继续关闭。此前私有 Actions 检出旧 SHA 导致 No tests found；此事件只表示正在推进，不宣称真实后端验收通过或已合并。 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/253 | — | https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38706904296 |
 
+| E0035 | 2026-10-15 | TJ-007.3 | 已合并 | 一事占问、已审梦象查阅、人生四源聚合限定版实际交付。公开功能 PR #253 merge `297727060ef323103012f00957bd96034ea158bc`，私有受限验收 PR #59 merge `da526cf43bac2375f48835cef71b8cea7f8399b7`。公开 8/8 GitHub CI success（含三场景严格请求构造 3/3），私有数据校验/隔离装配/真实 reviewed runtime/Python API/Chromium 实测 5/5 与 1440/390/360 三场景真实结果截图 9/9（私有 Artifact `tj0073-live-results` ID 11959407138、保留一天）。真实测试覆盖六爻固定盘/动爻与修改后失效、梦象有据短引与未审主题弃判、同一出生时间和目标年的四源聚合以及 Evidence 引用。已修复占问页伪造来源短引、技术 ID 外露、测试空跑断言及被错误覆盖的历史日志。未经审定的 AI 自由解梦仍关闭；仅传统文化限定解释，无生产部署和完整命理吉凶裁定，不宣称其他原子任务完成。 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/253 | 297727060ef323103012f00957bd96034ea158bc | https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38708304212 |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
