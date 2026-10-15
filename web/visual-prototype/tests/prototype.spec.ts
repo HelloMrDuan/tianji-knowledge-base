@@ -112,7 +112,7 @@ test("result hierarchy, collapsed process, related evidence and accessible detai
   await expect(page.locator(".trace-section li")).toHaveCount(5);
 });
 
-test("sample favorites persist locally and history stays labelled as example", async ({
+test("sample favorites persist locally but history contains no demo", async ({
   page,
 }) => {
   await page.goto("/liuyao/result");
