@@ -58,6 +58,8 @@
 | E0029 | 2026-10-15 | TJ-006.2 | 已合并 | 核实已有真实五场景日期/年份一致性与节气/闰年/跨周跨年证据；本任务仅增加 1901–2098 前端保守年份范围说明、4 项真实 Chromium 前端状态契约测试及专用重复验收 CI。新测试分别验证 2025 旧请求晚于 2027 返回不会覆盖最新结果、查看日期改变立即清除旧结果、空日期不发送请求、1900/2100 禁止而 1901 合法；使用受控 HTTP 回包验证竞态，不能当作真实历法测算。公开 PR #247 已合并 main，GitHub 5/5 CI success；真实命理计算复用 TJ-007.1 私有受限 35/35。未生产部署、不声明其他任务完成。 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/247 | 8b37521e7c6ab961732479540dfa2fb84f2a7b15 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/38699429188 |
 | E0030 | 2026-10-15 | TJ-006.3 | 进行中 | 从 main `2f71314031bb7b7f55c8d9627e4be82c353d1218` 建立 TJ-006.3 分支，核查 A/B 数据隔离与本机删除；B 资料仅在组件内存、独立清除，不写个人出生档案；补前台统一跨标签页资料清除通知，防止其他已打开的运势/合盘页面继续显示旧档案或异步结果；前端交互及真实 Chromium CI 待最终验收，未声称正式合并或生产部署。 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/249 | — | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/249/checks |
 
+| E0031 | 2026-10-15 | TJ-006.3 | 已合并 | 双人合盘隐私隔离及本机资料删除完成：A/B 输入/角色/出生时区独立，B 方不写个人出生档案；增加清空 B 方信息/结果的入口，以及根组件跨标签页清除监听，避免其他已打开的运势/合盘场景保留旧资料；删除仅移除个人出生资料，保留主题、音乐、收藏偏好；防旧异步请求恢复已删数据。功能 PR #249 合并 main，6/6 GitHub CI success，独立 Chromium 隐私/跨标签页用例 8/8；受控 API 响应仅用于前端状态及请求参数验证，不冒充真实后端合盘计算。未生产部署，未变更私有 Canonical、未关闭父任务。 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/249 | 7ec43814bdf090d29be02d35dd36e6a5ed74681e | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/38701988505 |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
