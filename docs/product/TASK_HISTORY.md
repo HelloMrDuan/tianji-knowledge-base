@@ -62,6 +62,8 @@
 
 | E0032 | 2026-10-15 | TJ-007.2 | 进行中 | 从 main 3778ba0 创建分支 tj-007.2-romance-career-compat；目标桃花/事业/合盘真实计算与用户结果展示；先审计三场景现有能力 | — | — | — |
 
+| E0033 | 2026-10-15 | TJ-007.2 | 已合并 | 桃花姻缘、事业财运和缘分合盘三个真实 Scenario Engine 限定版产品流程已验收并合并：公开 PR #251 merge `2a75e02e5bc07823158902626c88572bc779c8e4`，受限私有验收 PR #58 merge `caef539d7aad7a38365dcf1c157de7f7dbc71766`。本轮复用原有已审核排盘及组合规则，并修复事业财运不真实的古籍引文占位、增加合盘双方日主/方向十神/关系命中的用户可读摘要；请求精确断言、目标年重新计算、Rule/Evidence 引用与结果展示通过。公开 7/7 GitHub CI success，受限真实私有 Canonical/生产 runtime/API/Chromium 5 项专项 + 9 张三视口真实结果截图合计 14/14 success。截图仅私有 Actions Artifact `tj0072-live-results` ID 11958141052 保留 1 日。未发布未经审定的正缘、婚期、财富金额、升职与吉凶预测；无私有完整 Canonical 流向公开仓库，未生产部署，不关账父任务。 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/251 | 2a75e02e5bc07823158902626c88572bc779c8e4 | https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38705064439 |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
