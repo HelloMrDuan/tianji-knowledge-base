@@ -3,7 +3,7 @@ import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeBazi, type ExecuteResponse } from "./api";
-import { readSavedBirthProfile, saveBirthProfile, clearBirthProfile, toApiValue, validateBirthInput, type BirthProfile } from "./birthProfile";
+import { readSavedBirthProfile, saveBirthProfile, clearBirthProfile, toApiValue, validateBirthInput, onBirthProfileCleared, type BirthProfile } from "./birthProfile";
 import { BirthInputFields } from "./BirthInputFields";
 import "./bazi-profile.css";
 
@@ -36,6 +36,13 @@ export function BaziProfilePage() {
   const requestVersion = useRef(0);
 
   useEffect(() => () => { requestVersion.current += 1; }, []);
+
+  // TJ-006.3: 其他标签页清除资料时，本页同步清空
+  useEffect(() => onBirthProfileCleared(() => {
+    invalidateResult();
+    setProfile({ calendarType: "solar", year: 0, month: 0, day: 0, isLeapMonth: false, time: "", timeUnknown: false, region: "中国大陆" });
+    setInputError("");
+  }), []);
 
   function invalidateResult() {
     requestVersion.current += 1;

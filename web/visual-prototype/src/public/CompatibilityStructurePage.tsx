@@ -219,6 +219,21 @@ export function CompatibilityStructurePage() {
             {loading ? "正在合盘…" : "生成双人结构"}
             {!loading && <Icon name="arrow" size={18} />}
           </button>
+          <button
+            type="button"
+            className="sample-fill"
+            onClick={() => {
+              invalidateResult();
+              setBName("对方");
+              setBDate("");
+              setBTime("");
+              setBRegion("中国大陆");
+              setBRole("");
+              setError("");
+            }}
+          >
+            清空对方资料
+          </button>
         </div>
         {error && <p className="question-error compat-error" role="alert">{error}</p>}
       </form>

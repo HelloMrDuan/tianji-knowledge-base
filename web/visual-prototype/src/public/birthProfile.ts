@@ -425,3 +425,17 @@ export function confirmRegion(profile: BirthProfile, region: string): BirthProfi
   const { _regionNeedsConfirm, ...rest } = profile;
   return { ...rest, region };
 }
+
+/**
+ * TJ-006.3: 跨标签页同步。当其他标签页清除出生资料时，当前页应感知。
+ * 返回取消监听的函数。回调在资料被清除时触发。
+ */
+export function onBirthProfileCleared(callback: () => void): () => void {
+  const handler = (event: StorageEvent) => {
+    if (event.key === KEY && event.newValue === null) {
+      callback();
+    }
+  };
+  window.addEventListener("storage", handler);
+  return () => window.removeEventListener("storage", handler);
+}
