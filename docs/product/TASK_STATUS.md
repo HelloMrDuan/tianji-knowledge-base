@@ -26,7 +26,7 @@
 | TJ-006.1 | M1 | 多场景统一输入与本地资料校验 | 已合并 | [公开 #243](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/243) merge `8a0081990bb442fb3521bbd2140056901fe14eed` · [4 项 CI success](https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/38692470766) · 本地 Playwright 55/55（开发方报告；GitHub CI 未执行 Playwright） | 2026-10-15 | 输入与跨场景复用代码已合并；真实后端 E2E 未验，留待 TJ-007.1 独立验证；父任务不结账 |
 | TJ-006.2 | M1 | 目标年/日期/边界响应一致 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-006.3 | M1 | 双人合盘隐私边界 | 待做 | — | — | 按 WBS 验收条件执行 |
-| TJ-007.1 | M1 | 八字/今/周/月/年真实流程 | 进行中 | [公开 PR #245](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/245) · 真实后端需私有构建/联调；已提交 3 条前端参数观察用例，五场景端到端未验 | 2026-10-15 | 在私有 Actions 组装真实运行时，补五场景真实 API 和浏览器验收，CI 全绿后复审 |
+| TJ-007.1 | M1 | 八字/今/周/月/年真实流程 | 已合并 | [公开 PR #245](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/245) merge `d80ff176156fbd7a462e5610bc8184253067c9b0` · [私有 PR #57](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/57) merge `b7eab9c16dfb9b9e9e35273207c7e754205ed827` · [公开 CI 4/4](https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/38696876573) · [私有真实 E2E 35/35](https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38696910589) | 2026-10-15 | 五场景真实计算、闰月/立春边界、Evidence 引用与 15 张受限截图已验收；未生产部署；旺衰喜忌大运等非本任务范围，后续独立任务继续 |
 | TJ-007.2 | M1 | 桃花/事业/合盘真实流程 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-007.3 | M1 | 一事占问/解梦/人生总览真实流程 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-007.4 | M1 | 保存/跨页/错误态的统一修复 | 待做 | — | — | 按 WBS 验收条件执行 |
