@@ -74,7 +74,7 @@
 
 | E0038 | 2026-10-15 | TJ-010.1 | 进行中 | 从公开 main 66f01371 审核月令/根和藏干来源；发现旧审计错把第三方数据 provenance 直接推断为无古籍依据。私有 phase1_knowledge.json 已有审核《渊海子平》藏遁歌 s004（仅 C级结构）及任氏月令/通根短引；须逐支核验输入表与原文、版本指纹及定位，查实差异才定针对性降级。当前不动四柱及正式规则，不宣称 TJ-010.1 完成；已恢复 E0037、TJ-007.4 及 TJ-007.4 真实合同测试，等待私有逐字审核。 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/257 | — | — |
 
-| E0039 | 2026-10-15 | TJ-010.1 | 已合并 | 单任务古籍来源审计正式完成：公开 PR #257 merge `2d8c7075a7fda42f5aca55aa1960cea972e421ca`、私有证据/真实运行时 PR #61 merge `b970fe68df19bcefd11ecc2c579b2172dc64b6d6`。三个已审 C 级电子文本来源、11 条 Phase2 规则、40 个被引短引及三刑异文 s020（共 41 条）完成固定原始 SHA-256、字符偏移、字形和引用追踪；私有 8/8 原文及错误样本测试成功，235 个原封存知识资产清单未改变，真实 EvidenceResolver/ExecutionTrace 生成并校验 97 个 Evidence ID。公开最终 10/10 工作流（含真正执行 6 项专项测试、隐私和跨页回归）success。纠正“二级实现来源即无古籍支持”的过度降级，s004 仅证明 12 支藏干成员，不证明顺序/本气权重或 60/30/10；寅月分日、余气异文、三刑跨学派保留 unresolved，独立底本未核，仍只 C 级。没有修改四柱算法、未放开通用强弱/喜用/吉凶、未生产部署；TJ-010.2 等后续原子任务不关账。 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/257 · https://github.com/HelloMrDuan/tianji-private-knowledge/pull/61 | 2d8c7075a7fda42f5aca55aa1960cea972e421ca | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/38725443092 · https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38725488144 |
+| E0039 | 2026-10-16 | TJ-010.2 | 进行中 | 从 main 888dea53 创建分支 tj-010.2-action-matrix；构建通根/透干/生扶克泄作用条件矩阵 | — | — | — |
 
 ## 怎样追加下一条
 
