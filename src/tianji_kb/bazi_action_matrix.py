@@ -114,8 +114,13 @@ def _assemble(pillars, day_master, roots, availability, actions, effects, cmd):
         fact = r['fact']
         avail = avail_by_index.get(i, {})
         avail_status = avail.get('root_availability', 'unresolved')
-        # Map to 5-state semantics
-        if avail_status == 'effective':
+        # A structural root remains visible, but an unresolved branch
+        # interaction forbids promoting its *availability* to a candidate.
+        # Keep the upstream availability and blockers for inspection.
+        if r['conditions']['branch_relations']:
+            status = 'unresolved'
+            reason = 'branch_interaction_effect_unresolved'
+        elif avail_status == 'effective':
             status = 'effective'
             reason = 'reviewed_sufficient_conditions'
         elif avail_status == 'conditional':
