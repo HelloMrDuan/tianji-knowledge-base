@@ -41,6 +41,7 @@ def build_matrix_from_chart(chart):
     - all stems/branches must be valid
     """
     from .bazi_core import STEMS, BRANCHES
+    from .foundations import ganzhi_index
     pillars = chart.get('pillars')
     dm = chart.get('day_master', {})
     day_master = dm.get('stem')
@@ -54,6 +55,7 @@ def build_matrix_from_chart(chart):
     if pillars[2]['stem']['value'] != day_master:
         raise ValueError('day_master does not match day pillar stem')
     # Validate all stems and branches
+    # P0-3: Use ganzhi_index to verify each pillar is a valid 60 Jiazi combination
     for p in pillars:
         s = p.get('stem', {}).get('value')
         b = p.get('branch', {}).get('value')
@@ -61,6 +63,12 @@ def build_matrix_from_chart(chart):
             raise ValueError(f"Invalid stem: {s}")
         if b not in BRANCHES:
             raise ValueError(f"Invalid branch: {b}")
+        # Verify the stem-branch combination is a valid Jiazi
+        # ganzhi_index raises ValueError for invalid combinations
+        try:
+            ganzhi_index((s, b))
+        except (ValueError, KeyError, TypeError) as e:
+            raise ValueError(f"Invalid ganzhi combination: {s}{b} - not in 60 Jiazi") from e
 
     stems = [p['stem']['value'] for p in pillars]
     branches = [p['branch']['value'] for p in pillars]
