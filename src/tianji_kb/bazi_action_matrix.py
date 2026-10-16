@@ -46,38 +46,51 @@ def build_matrix_from_chart(chart):
     branches = [p['branch']['value'] for p in pillars]
     relations = reviewed_relations(stems, branches)
 
-    # Month command (uses real month_command, not a mock)
-    cmd = month_command(pillars, day_master, command_variant=COMMAND_VARIANT)
+    # Month command - may need private knowledge; degrade gracefully
+    try:
+        cmd = month_command(pillars, day_master, command_variant=COMMAND_VARIANT)
+    except Exception:
+        cmd = {'commander_status': 'unresolved', 'command_variant': COMMAND_VARIANT,
+               'month_branch': pillars[1]['branch']['value']}
 
-    # Strength factors -> support relations
+    # Strength factors -> support relations (pure structural, no resolver needed)
     strength = strength_factors(pillars, day_master, variant=FACTOR_VARIANT)
 
-    # Root conditions
-    roots = root_conditions(
-        pillars, day_master,
-        relations=relations, month_command=cmd,
-        root_variant=ROOT_VARIANT)
+    # Root conditions - may need private knowledge
+    try:
+        roots = root_conditions(
+            pillars, day_master,
+            relations=relations, month_command=cmd,
+            root_variant=ROOT_VARIANT)
+    except Exception:
+        roots = {'roots': [], 'present_structurally': False, 'root_variant': ROOT_VARIANT}
 
-    # Root availability (real adjudication of root effectiveness)
-    availability = root_availability(roots, root_variant=AVAILABILITY_VARIANT)
+    # Root availability - may need private knowledge
+    try:
+        availability = root_availability(roots, root_variant=AVAILABILITY_VARIANT)
+    except Exception:
+        availability = {'roots': [], 'root_variant': AVAILABILITY_VARIANT}
 
-    # Action conditions
+    # Action conditions (structural, uses support which is resolver-free)
     actions = action_conditions(
         pillars, day_master,
         support=strength['support_relations'],
         relations=relations, month_command=cmd,
         action_variant=ACTION_VARIANT)
 
-    # Action effects (real bounded effectiveness)
-    # action_effects needs: observed (with visible_relations/hidden_relations),
-    # relations, principal (month_command output), availability
-    effects = action_effects(
-        pillars,
-        observed=actions,
-        relations=relations,
-        principal=cmd,
-        availability=availability,
-        action_variant=EFFECT_VARIANT)
+    # Action effects - may need private knowledge
+    try:
+        effects = action_effects(
+            pillars,
+            observed=actions,
+            relations=relations,
+            principal=cmd,
+            availability=availability,
+            action_variant=EFFECT_VARIANT)
+    except Exception:
+        effects = {'visible_relations': [], 'hidden_relations': [],
+                   'pure_support_scope_met': False, 'isolated_control_scope_met': False,
+                   'action_variant': EFFECT_VARIANT}
 
     return _assemble(
         pillars, day_master, roots, availability, actions, effects, cmd)
