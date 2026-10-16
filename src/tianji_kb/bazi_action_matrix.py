@@ -26,7 +26,7 @@ from .bazi_action_conditions import (
     action_conditions, action_effects,
     ACTION_VARIANT, EFFECT_VARIANT,
 )
-from .bazi_commander import month_command, COMMAND_VARIANT
+from .bazi_commander import month_command, principal_month, COMMAND_VARIANT, PRINCIPAL_VARIANT
 
 MATRIX_VARIANT = 'bazi-action-matrix-v1'
 
@@ -34,42 +34,55 @@ MATRIX_VARIANT = 'bazi-action-matrix-v1'
 def build_matrix_from_chart(chart):
     """Build matrix from a real chart_from_datetime()/chart_from_pillars() output.
 
-    chart must have 'pillars' (list of 4 with name/stem/branch) and
-    'day_master' (dict with 'stem').
+    Strict input validation (fail-closed):
+    - chart must have 'pillars' (4, ordered year/month/day/hour)
+    - chart must have 'day_master' with 'stem'
+    - day_master must match day pillar stem
+    - all stems/branches must be valid
     """
-    pillars = chart['pillars']
-    day_master = chart['day_master']['stem']
-    if len(pillars) != 4 or tuple(p['name'] for p in pillars) != PILLAR_NAMES:
+    from .bazi_core import STEMS, BRANCHES
+    pillars = chart.get('pillars')
+    dm = chart.get('day_master', {})
+    day_master = dm.get('stem')
+    if not isinstance(pillars, list) or len(pillars) != 4:
+        raise ValueError('Expected four pillars')
+    if tuple(p.get('name') for p in pillars) != PILLAR_NAMES:
         raise ValueError('Expected ordered year/month/day/hour pillars')
+    if not day_master or day_master not in STEMS:
+        raise ValueError('Invalid day_master stem')
+    # Day master must match day pillar stem (input consistency)
+    if pillars[2]['stem']['value'] != day_master:
+        raise ValueError('day_master does not match day pillar stem')
+    # Validate all stems and branches
+    for p in pillars:
+        s = p.get('stem', {}).get('value')
+        b = p.get('branch', {}).get('value')
+        if s not in STEMS:
+            raise ValueError(f"Invalid stem: {s}")
+        if b not in BRANCHES:
+            raise ValueError(f"Invalid branch: {b}")
 
     stems = [p['stem']['value'] for p in pillars]
     branches = [p['branch']['value'] for p in pillars]
     relations = reviewed_relations(stems, branches)
 
-    # Month command - may need private knowledge; degrade gracefully
-    try:
-        cmd = month_command(pillars, day_master, command_variant=COMMAND_VARIANT)
-    except Exception:
-        cmd = {'commander_status': 'unresolved', 'command_variant': COMMAND_VARIANT,
-               'month_branch': pillars[1]['branch']['value']}
+    # Month command (P0-1: must use real month_command, fail-closed on error)
+    cmd = month_command(pillars, day_master, command_variant=COMMAND_VARIANT)
+
+    # Principal month (P0-1: audited principal_qi relation for action_effects)
+    principal = principal_month(cmd, day_master, command_variant=PRINCIPAL_VARIANT)
 
     # Strength factors -> support relations (pure structural, no resolver needed)
     strength = strength_factors(pillars, day_master, variant=FACTOR_VARIANT)
 
-    # Root conditions - may need private knowledge
-    try:
-        roots = root_conditions(
-            pillars, day_master,
-            relations=relations, month_command=cmd,
-            root_variant=ROOT_VARIANT)
-    except Exception:
-        roots = {'roots': [], 'present_structurally': False, 'root_variant': ROOT_VARIANT}
+    # Root conditions (P0-2: fail-closed, no graceful degradation)
+    roots = root_conditions(
+        pillars, day_master,
+        relations=relations, month_command=cmd,
+        root_variant=ROOT_VARIANT)
 
-    # Root availability - may need private knowledge
-    try:
-        availability = root_availability(roots, root_variant=AVAILABILITY_VARIANT)
-    except Exception:
-        availability = {'roots': [], 'root_variant': AVAILABILITY_VARIANT}
+    # Root availability (P0-2: fail-closed)
+    availability = root_availability(roots, root_variant=AVAILABILITY_VARIANT)
 
     # Action conditions (structural, uses support which is resolver-free)
     actions = action_conditions(
@@ -78,19 +91,14 @@ def build_matrix_from_chart(chart):
         relations=relations, month_command=cmd,
         action_variant=ACTION_VARIANT)
 
-    # Action effects - may need private knowledge
-    try:
-        effects = action_effects(
-            pillars,
-            observed=actions,
-            relations=relations,
-            principal=cmd,
-            availability=availability,
-            action_variant=EFFECT_VARIANT)
-    except Exception:
-        effects = {'visible_relations': [], 'hidden_relations': [],
-                   'pure_support_scope_met': False, 'isolated_control_scope_met': False,
-                   'action_variant': EFFECT_VARIANT}
+    # Action effects (P0-2: fail-closed, uses principal_month output)
+    effects = action_effects(
+        pillars,
+        observed=actions,
+        relations=relations,
+        principal=principal,
+        availability=availability,
+        action_variant=EFFECT_VARIANT)
 
     return _assemble(
         pillars, day_master, roots, availability, actions, effects, cmd)
