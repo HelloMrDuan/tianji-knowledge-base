@@ -66,7 +66,7 @@ def build_matrix_from_chart(chart):
         # Verify the stem-branch combination is a valid Jiazi
         # ganzhi_index raises ValueError for invalid combinations
         try:
-            ganzhi_index((s, b))
+            ganzhi_index(s + b)
         except (ValueError, KeyError, TypeError) as e:
             raise ValueError(f"Invalid ganzhi combination: {s}{b} - not in 60 Jiazi") from e
 
