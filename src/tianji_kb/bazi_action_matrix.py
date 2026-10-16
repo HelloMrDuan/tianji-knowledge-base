@@ -3,60 +3,106 @@
 Builds on existing variants without replacing them:
 - ditiansui-root-visibility-v1 (bazi_strength.factors)
 - ditiansui-root-conditions-v1 (bazi_root_conditions.root_conditions)
+- ditiansui-wood-root-availability-v1 (bazi_root_conditions.root_availability)
 - ditiansui-action-conditions-v1 (bazi_action_conditions.action_conditions)
+- ditiansui-bounded-action-effects-v1 (bazi_action_conditions.action_effects)
 
-Output status semantics (per TJ-010.2 Work B):
+Output status semantics:
 - observed: verified structural fact (pillar position, stem/branch values)
 - candidate: has some basis but insufficient for effectiveness determination
-- effective: meets reviewed sufficient action conditions
+- effective: meets reviewed sufficient action conditions (narrow, audited)
 - unresolved: conflict exists or necessary basis missing
 - not_applicable: confirmed not applicable to this chart
 
 No weights. No overall strength classification. No 喜用神.
 """
-from .bazi_core import PILLAR_NAMES
+from .bazi_core import PILLAR_NAMES, reviewed_relations
 from .bazi_strength import factors as strength_factors, FACTOR_VARIANT
-from .bazi_root_conditions import root_conditions, ROOT_VARIANT
-from .bazi_action_conditions import action_conditions, ACTION_VARIANT
+from .bazi_root_conditions import (
+    root_conditions, root_availability,
+    ROOT_VARIANT, AVAILABILITY_VARIANT,
+)
+from .bazi_action_conditions import (
+    action_conditions, action_effects,
+    ACTION_VARIANT, EFFECT_VARIANT,
+)
+from .bazi_commander import month_command, COMMAND_VARIANT
 
 MATRIX_VARIANT = 'bazi-action-matrix-v1'
 
 
-def build_matrix(pillars, day_master, *, relations, month_command,
-                 factor_variant=FACTOR_VARIANT,
-                 root_variant=ROOT_VARIANT,
-                 action_variant=ACTION_VARIANT):
-    """Build the unified action condition matrix from real pillars.
+def build_matrix_from_chart(chart):
+    """Build matrix from a real chart_from_datetime()/chart_from_pillars() output.
 
-    Returns a dict with:
-    - roots: per-pillar root candidates with status
-    - exposures: 透干 correspondences (hidden -> visible)
-    - actions: per-relation action conditions with status
-    - summary: counts by status
+    chart must have 'pillars' (list of 4 with name/stem/branch) and
+    'day_master' (dict with 'stem').
     """
+    pillars = chart['pillars']
+    day_master = chart['day_master']['stem']
     if len(pillars) != 4 or tuple(p['name'] for p in pillars) != PILLAR_NAMES:
         raise ValueError('Expected ordered year/month/day/hour pillars')
 
-    # Reuse existing computations (do not reimplement)
-    strength = strength_factors(pillars, day_master, variant=factor_variant)
+    stems = [p['stem']['value'] for p in pillars]
+    branches = [p['branch']['value'] for p in pillars]
+    relations = reviewed_relations(stems, branches)
+
+    # Month command (uses real month_command, not a mock)
+    cmd = month_command(pillars, day_master, command_variant=COMMAND_VARIANT)
+
+    # Strength factors -> support relations
+    strength = strength_factors(pillars, day_master, variant=FACTOR_VARIANT)
+
+    # Root conditions
     roots = root_conditions(
         pillars, day_master,
-        relations=relations, month_command=month_command,
-        root_variant=root_variant)
+        relations=relations, month_command=cmd,
+        root_variant=ROOT_VARIANT)
+
+    # Root availability (real adjudication of root effectiveness)
+    availability = root_availability(roots, root_variant=AVAILABILITY_VARIANT)
+
+    # Action conditions
     actions = action_conditions(
         pillars, day_master,
         support=strength['support_relations'],
-        relations=relations, month_command=month_command,
-        action_variant=action_variant)
+        relations=relations, month_command=cmd,
+        action_variant=ACTION_VARIANT)
 
-    # --- Roots matrix ---
+    # Action effects (real bounded effectiveness)
+    # action_effects needs: observed (with visible_relations/hidden_relations),
+    # relations, principal (month_command output), availability
+    effects = action_effects(
+        pillars,
+        observed=actions,
+        relations=relations,
+        principal=cmd,
+        availability=availability,
+        action_variant=EFFECT_VARIANT)
+
+    return _assemble(
+        pillars, day_master, roots, availability, actions, effects, cmd)
+
+
+def _assemble(pillars, day_master, roots, availability, actions, effects, cmd):
+    """Assemble the unified matrix with 5-state statuses."""
+    # --- Roots matrix with real availability ---
+    # availability['roots'] has per-root availability status
+    avail_by_index = {r['root_index']: r for r in availability['roots']}
     root_rows = []
-    for r in roots['roots']:
+    for i, r in enumerate(roots['roots']):
         fact = r['fact']
-        # Status: structural fact observed; effectiveness unresolved unless
-        # explicitly adjudicated (which this matrix does not do)
-        has_conflict = bool(r['conditions']['branch_relations'])
-        status = 'unresolved' if has_conflict else 'candidate'
+        avail = avail_by_index.get(i, {})
+        avail_status = avail.get('root_availability', 'unresolved')
+        # Map to 5-state semantics
+        if avail_status == 'effective':
+            status = 'effective'
+            reason = 'reviewed_sufficient_conditions'
+        elif avail_status == 'conditional':
+            status = 'candidate'
+            reason = 'conditional_' + ','.join(avail.get('blockers', []))
+        else:
+            status = 'unresolved'
+            reason = 'unresolved_' + ','.join(avail.get('blockers', ['no_basis']))
         root_rows.append({
             'pillar': fact['pillar'],
             'branch': fact['branch'],
@@ -65,14 +111,13 @@ def build_matrix(pillars, day_master, *, relations, month_command,
             'is_month_position': fact['is_month_position'],
             'principal_qi_match': fact['principal_qi_match'],
             'exposed_visible_pillars': fact['exposed_visible_pillars'],
+            'availability': avail_status,
             'status': status,
-            'status_reason': 'branch_interaction_unresolved' if has_conflict
-                             else 'structural_candidate_only',
-            'rule_variant': root_variant,
+            'status_reason': reason,
+            'rule_variant': AVAILABILITY_VARIANT,
         })
 
     # --- Exposures (透干) matrix ---
-    # For each hidden stem, which visible pillars expose it
     exposure_rows = []
     for h in actions['hidden_relations']:
         fact = h['fact']
@@ -91,44 +136,39 @@ def build_matrix(pillars, day_master, *, relations, month_command,
                              else 'no_visible_counterpart',
         })
 
-    # --- Actions matrix ---
+    # --- Actions matrix with real effects ---
+    # effects['visible_relations'] has effect_status per relation
+    effect_by_index = {e['action_index']: e for e in effects['visible_relations']}
     action_rows = []
-    for v in actions['visible_relations']:
+    for i, v in enumerate(actions['visible_relations']):
         fact = v['fact']
-        cond = v['conditions']
-        has_conflict = bool(cond['root_branch_relations']) or bool(cond['stem_combinations'])
-        status = 'unresolved' if has_conflict else 'candidate'
+        eff = effect_by_index.get(i, {})
+        eff_status = eff.get('effect_status', 'unresolved')
+        # Map to 5-state
+        if eff_status == 'effective_in_reviewed_context':
+            status = 'effective'
+            reason = 'reviewed_context_' + str(eff.get('context'))
+        else:
+            # Check for conflicts
+            cond = v['conditions']
+            has_conflict = bool(cond['root_branch_relations']) or bool(cond['stem_combinations'])
+            status = 'unresolved' if has_conflict else 'candidate'
+            reason = 'interaction_conflict' if has_conflict else 'direction_observed_effect_unresolved'
         action_rows.append({
             'pillar': fact['pillar'],
             'stem': fact['stem'],
             'element': fact['element'],
             'relation': fact['relation'],
             'ten_god': fact['ten_god'],
-            'polarity': fact['polarity'],
             'pillar_distance_to_day': fact['pillar_distance_to_day'],
             'adjacent_to_day': fact['adjacent_to_day'],
             'rooted_visible_candidate': fact['rooted_visible_candidate'],
-            'root_position_count': len(fact['root_positions']),
             'status': status,
-            'status_reason': 'interaction_conflict' if has_conflict
-                             else 'direction_observed_effect_unresolved',
-            'rule_variant': action_variant,
-        })
-    for h in actions['hidden_relations']:
-        fact = h['fact']
-        action_rows.append({
-            'pillar': fact['pillar'],
-            'stem': fact['stem'],
-            'element': fact['element'],
-            'relation': fact['relation'],
-            'ten_god': fact['ten_god'],
-            'visibility': 'hidden',
-            'status': 'candidate',
-            'status_reason': 'hidden_direction_only',
-            'rule_variant': action_variant,
+            'status_reason': reason,
+            'rule_variant': EFFECT_VARIANT,
         })
 
-    # --- Summary ---
+    # Summary
     all_rows = root_rows + exposure_rows + action_rows
     summary = {}
     for row in all_rows:
@@ -137,17 +177,21 @@ def build_matrix(pillars, day_master, *, relations, month_command,
     return {
         'matrix_variant': MATRIX_VARIANT,
         'day_master': day_master,
-        'factor_variant': factor_variant,
-        'root_variant': root_variant,
-        'action_variant': action_variant,
+        'factor_variant': FACTOR_VARIANT,
+        'root_variant': ROOT_VARIANT,
+        'availability_variant': AVAILABILITY_VARIANT,
+        'action_variant': ACTION_VARIANT,
+        'effect_variant': EFFECT_VARIANT,
+        'command_variant': COMMAND_VARIANT,
         'roots': root_rows,
         'exposures': exposure_rows,
         'actions': action_rows,
         'summary': summary,
+        'pure_support_met': effects.get('pure_support_scope_met', False),
+        'isolated_control_met': effects.get('isolated_control_scope_met', False),
         'overall_strength': None,
         'weights_available': False,
-        'scope': '通根候选、透干对应、生扶克泄方向的条件矩阵；'
-                 'observed=结构事实，candidate=候选，effective=已审充分条件，'
-                 'unresolved=冲突或依据不足，not_applicable=不适用；'
+        'scope': '通根可用性、透干对应、生扶克泄作用条件的统一矩阵；'
+                 'effective仅限已审核充分条件，其余为candidate/unresolved；'
                  '不计算权重，不作整体旺衰判断。',
     }
