@@ -57,9 +57,10 @@ def test_build_matrix_from_chart_exists():
     src = _read("src/tianji_kb/bazi_action_matrix.py")
     assert "def build_matrix_from_chart(chart)" in src, \
         "Must have build_matrix_from_chart"
-    # Must use real chart_from_datetime-compatible structure
-    assert "chart['pillars']" in src, "Must read pillars from chart"
-    assert "chart['day_master']['stem']" in src, "Must read day_master from chart"
+    # The safe input contract uses get() and rejects invalid inputs before access.
+    assert "chart.get('pillars')" in src, "Must validate pillars from chart"
+    assert "dm.get('stem')" in src, "Must validate day master from chart"
+    assert "pillars[2]['stem']['value'] != day_master" in src, "Must reject mismatched day master"
 
 
 def test_uses_reviewed_relations():
