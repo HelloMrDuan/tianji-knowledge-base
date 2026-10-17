@@ -369,9 +369,11 @@ def _verify_evidence_consistency(result, trace, chart):
                           ('exposures', result['exposures']),
                           ('actions', result['actions'])):
         for idx, row in enumerate(rows):
-            # structure_evidence should be present; validate if present
+            # structure_evidence is REQUIRED for all rows (strict)
             sev = row.get('structure_evidence')
-            # Note: strict required check deferred until negative tests stabilize
+            if not sev:
+                raise ValueError(
+                    f"{section}[{idx}]: missing required structure_evidence")
             # effect_evidence required for effective rows
             eev = row.get('effect_evidence')
             if row.get('status') == 'effective' and not eev:
@@ -432,10 +434,12 @@ def _resolve_fact_ref(fact_ref, steps_by_idx, section, idx, key,
                       row, expected_rule_id, expected_step_idx):
     """Resolve fact_ref and verify it matches the row.
 
-    Checks:
-    - Path format valid
-    - Step index matches the evidence's rule_id step
-    - Dereferenced fact's fields match the row
+    Different fact types have different structures:
+    - root structure (root_conditions): pillar, branch, hidden_stem in fact
+    - root effect (root_availability): root_index, root_availability (no pillar)
+    - action structure (action_conditions): pillar, stem, relation in fact
+    - action effect (action_effects): action_index, effect_status (no pillar)
+    - exposure: stem, pillar, branch in fact
     """
     if not fact_ref.startswith('#/trace/'):
         raise ValueError(f"{section}[{idx}].{key}: invalid fact_ref {fact_ref}")
@@ -444,7 +448,6 @@ def _resolve_fact_ref(fact_ref, steps_by_idx, section, idx, key,
         step_idx = int(parts[0])
     except (ValueError, IndexError):
         raise ValueError(f"{section}[{idx}].{key}: bad step index in {fact_ref}")
-    # Verify step index matches expected
     if step_idx != expected_step_idx:
         raise ValueError(
             f"{section}[{idx}].{key}: fact_ref step {step_idx} != "
@@ -452,7 +455,6 @@ def _resolve_fact_ref(fact_ref, steps_by_idx, section, idx, key,
     step = steps_by_idx.get(step_idx)
     if step is None:
         raise ValueError(f"{section}[{idx}].{key}: step {step_idx} not in trace")
-    # Verify step's rule_id matches
     if step['rule_id'] != expected_rule_id:
         raise ValueError(f"{section}[{idx}].{key}: step rule mismatch")
     node = step.get('output', {})
@@ -478,20 +480,44 @@ def _resolve_fact_ref(fact_ref, steps_by_idx, section, idx, key,
                 raise ValueError(f"{section}[{idx}].{key}: bad path {fact_ref}")
     if not isinstance(node, dict):
         raise ValueError(f"{section}[{idx}].{key}: fact_ref did not resolve to dict")
-    # Verify the resolved fact matches the row's key fields
-    if section == 'roots':
+    # Verify by fact type (distinguish structure vs effect)
+    is_effect = (key == 'effect_evidence')
+    if section == 'roots' and not is_effect:
+        # Root structure: has pillar, branch, hidden_stem in fact
         for f in ('pillar', 'branch', 'hidden_stem'):
             if node.get(f) != row.get(f):
                 raise ValueError(
-                    f"{section}[{idx}].{key}: resolved fact {f} mismatch")
+                    f"{section}[{idx}].{key}: resolved fact {f} mismatch: "
+                    f"trace={node.get(f)}, row={row.get(f)}")
+    elif section == 'roots' and is_effect:
+        # Root effect: has root_index, root_availability (NO pillar)
+        if node.get('root_index') != idx:
+            raise ValueError(
+                f"{section}[{idx}].{key}: root_index mismatch")
+        # Verify availability status corresponds
+        # (matrix status 'effective' requires availability 'effective')
+        if row.get('status') == 'effective':
+            if node.get('root_availability') != 'effective':
+                raise ValueError(
+                    f"{section}[{idx}].{key}: matrix effective but "
+                    f"availability is {node.get('root_availability')}")
     elif section == 'exposures':
+        # Exposure: fact has stem (hidden), pillar, branch
         if node.get('stem') != row.get('hidden_stem'):
-            raise ValueError(f"{section}[{idx}].{key}: resolved fact stem mismatch")
-    elif section == 'actions':
-        for f in ('pillar', 'stem'):
+            raise ValueError(f"{section}[{idx}].{key}: stem mismatch")
+        if node.get('pillar') != row.get('hidden_pillar'):
+            raise ValueError(f"{section}[{idx}].{key}: pillar mismatch")
+    elif section == 'actions' and not is_effect:
+        # Action structure: pillar, stem, relation in fact
+        for f in ('pillar', 'stem', 'relation'):
             if node.get(f) != row.get(f):
                 raise ValueError(
                     f"{section}[{idx}].{key}: resolved fact {f} mismatch")
+    elif section == 'actions' and is_effect:
+        # Action effect: has action_index, effect_status (NO pillar)
+        if node.get('action_index') != idx:
+            raise ValueError(
+                f"{section}[{idx}].{key}: action_index mismatch")
 
 
 def _verify_index_correspondence(result, trace):
