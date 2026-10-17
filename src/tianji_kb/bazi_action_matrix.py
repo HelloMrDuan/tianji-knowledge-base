@@ -125,11 +125,8 @@ def build_matrix_with_evidence(chart, *, trace_domain='bazi'):
               {'command_variant': PRINCIPAL_VARIANT, 'day_master': day_master},
               principal)
 
-    # Step 3: strength_factors
+    # Step 3: strength_factors (intermediate, not traced as separate rule)
     strength = strength_factors(pillars, day_master, variant=FACTOR_VARIANT)
-    trace.add('bazi.phase2.strength_factors',
-              {'factor_variant': FACTOR_VARIANT, 'day_master': day_master},
-              strength)
 
     # Step 4: root_conditions
     roots = root_conditions(pillars, day_master, relations=relations,
@@ -202,7 +199,12 @@ def _validate_chart(chart):
 
 def _assemble_with_evidence(pillars, day_master, roots, availability, actions,
                             effects, cmd, trace):
-    """Assemble matrix with per-row evidence from trace steps."""
+    """Assemble matrix with per-row evidence from trace steps.
+
+    P0-1 fix: Each row's fact is verified against the actual trace step
+    output. The fact_ref must resolve to a fact whose pillar/stem/branch
+    match the row. Evidence is not assigned by rule ID alone.
+    """
     # Build base matrix first
     base = _assemble(pillars, day_master, roots, availability, actions,
                      effects, cmd)
@@ -212,41 +214,69 @@ def _assemble_with_evidence(pillars, day_master, roots, availability, actions,
     for i, step in enumerate(trace.steps):
         steps_by_rule[step['rule_id']] = (i, step)
 
-    # Attach evidence to root rows
-    rc_idx, rc_step = steps_by_rule.get('bazi.phase2.root_conditions', (None, None))
-    ra_idx, ra_step = steps_by_rule.get('bazi.phase2.root_availability', (None, None))
+    # Verify required rules exist (fail-closed on unknown/missing)
+    required = ['bazi.phase2.root_conditions', 'bazi.phase2.root_availability',
+                'bazi.phase2.action_conditions', 'bazi.phase2.action_effects']
+    for rid in required:
+        if rid not in steps_by_rule:
+            raise ValueError(f"Missing required trace step: {rid}")
+
+    # Attach evidence to root rows with fact verification
+    rc_idx, rc_step = steps_by_rule['bazi.phase2.root_conditions']
+    ra_idx, ra_step = steps_by_rule['bazi.phase2.root_availability']
+    rc_roots = rc_step['output'].get('roots', [])
+    ra_roots = ra_step['output'].get('roots', [])
+    if len(rc_roots) != len(base['roots']):
+        raise ValueError(f"Root count mismatch: trace={len(rc_roots)}, matrix={len(base['roots'])}")
     for i, row in enumerate(base['roots']):
+        # Verify the fact matches
+        trace_fact = rc_roots[i].get('fact', {})
+        _verify_root_fact(trace_fact, row, i)
         row['structure_evidence'] = _evidence_block(
-            rc_step, rc_idx, f'#/trace/{rc_idx}/output/roots/{i}/fact',
-            trace) if rc_step else None
+            rc_step, rc_idx, f'#/trace/{rc_idx}/output/roots/{i}/fact', trace)
+        # Verify availability fact matches
+        if i < len(ra_roots):
+            ra_fact = ra_roots[i]
+            if ra_fact.get('root_index') != i:
+                raise ValueError(f"Root {i}: availability index mismatch")
         row['effect_evidence'] = _evidence_block(
-            ra_step, ra_idx, f'#/trace/{ra_idx}/output/roots/{i}',
-            trace) if ra_step else None
-        # Fail-closed: effective must have effect evidence
+            ra_step, ra_idx, f'#/trace/{ra_idx}/output/roots/{i}', trace)
         if row['status'] == 'effective' and not row['effect_evidence']:
             raise ValueError(f"Root {i}: effective without effect evidence")
 
-    # Attach evidence to exposure rows
-    ac_idx, ac_step = steps_by_rule.get('bazi.phase2.action_conditions', (None, None))
+    # Attach evidence to exposure rows with fact verification
+    ac_idx, ac_step = steps_by_rule['bazi.phase2.action_conditions']
+    ac_hidden = ac_step['output'].get('hidden_relations', [])
+    if len(ac_hidden) != len(base['exposures']):
+        raise ValueError(f"Exposure count mismatch")
     for j, row in enumerate(base['exposures']):
+        trace_fact = ac_hidden[j].get('fact', {})
+        _verify_exposure_fact(trace_fact, row, j)
         row['structure_evidence'] = _evidence_block(
-            ac_step, ac_idx, f'#/trace/{ac_idx}/output/hidden_relations/{j}/fact',
-            trace) if ac_step else None
-        row['effect_evidence'] = None  # Exposures are structural only
+            ac_step, ac_idx, f'#/trace/{ac_idx}/output/hidden_relations/{j}/fact', trace)
+        row['effect_evidence'] = None
 
-    # Attach evidence to action rows
-    ae_idx, ae_step = steps_by_rule.get('bazi.phase2.action_effects', (None, None))
+    # Attach evidence to action rows with fact verification
+    ae_idx, ae_step = steps_by_rule['bazi.phase2.action_effects']
+    ac_visible = ac_step['output'].get('visible_relations', [])
+    ae_visible = ae_step['output'].get('visible_relations', [])
+    if len(ac_visible) != len(base['actions']):
+        raise ValueError(f"Action count mismatch")
     for k, row in enumerate(base['actions']):
+        trace_fact = ac_visible[k].get('fact', {})
+        _verify_action_fact(trace_fact, row, k)
         row['structure_evidence'] = _evidence_block(
-            ac_step, ac_idx, f'#/trace/{ac_idx}/output/visible_relations/{k}/fact',
-            trace) if ac_step else None
+            ac_step, ac_idx, f'#/trace/{ac_idx}/output/visible_relations/{k}/fact', trace)
+        # Verify effect corresponds
+        if k < len(ae_visible):
+            ae_entry = ae_visible[k]
+            if ae_entry.get('action_index') != k:
+                raise ValueError(f"Action {k}: effect index mismatch")
         row['effect_evidence'] = _evidence_block(
-            ae_step, ae_idx, f'#/trace/{ae_idx}/output/visible_relations/{k}',
-            trace) if ae_step else None
+            ae_step, ae_idx, f'#/trace/{ae_idx}/output/visible_relations/{k}', trace)
         if row['status'] == 'effective' and not row['effect_evidence']:
             raise ValueError(f"Action {k}: effective without effect evidence")
 
-    # Add trace summary
     base['evidence_trace'] = {
         'domain': trace.domain,
         'variant': trace.variant,
@@ -254,6 +284,34 @@ def _assemble_with_evidence(pillars, day_master, roots, availability, actions,
         'rule_ids': [s['rule_id'] for s in trace.steps],
     }
     return base
+
+
+def _verify_root_fact(trace_fact, row, index):
+    """Verify trace fact matches matrix row (P0-1)."""
+    for field in ('pillar', 'branch', 'hidden_stem'):
+        if trace_fact.get(field) != row.get(field):
+            raise ValueError(
+                f"Root {index}: fact mismatch on {field}: "
+                f"trace={trace_fact.get(field)}, row={row.get(field)}")
+
+
+def _verify_exposure_fact(trace_fact, row, index):
+    """Verify exposure fact matches."""
+    # trace fact uses 'stem' for hidden stem, row uses 'hidden_stem'
+    if trace_fact.get('stem') != row.get('hidden_stem'):
+        raise ValueError(f"Exposure {index}: hidden stem mismatch")
+    if trace_fact.get('pillar') != row.get('hidden_pillar'):
+        raise ValueError(f"Exposure {index}: pillar mismatch")
+    if trace_fact.get('branch') != row.get('branch'):
+        raise ValueError(f"Exposure {index}: branch mismatch")
+
+
+def _verify_action_fact(trace_fact, row, index):
+    """Verify action fact matches."""
+    for field in ('pillar', 'stem', 'element', 'relation'):
+        if trace_fact.get(field) != row.get(field):
+            raise ValueError(
+                f"Action {index}: fact mismatch on {field}")
 
 
 def _evidence_block(step, step_idx, fact_ref, trace):
