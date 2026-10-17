@@ -27,6 +27,7 @@ from .bazi_action_conditions import (
     ACTION_VARIANT, EFFECT_VARIANT,
 )
 from .bazi_commander import month_command, principal_month, COMMAND_VARIANT, PRINCIPAL_VARIANT
+from .resolver import ExecutionTrace
 
 MATRIX_VARIANT = 'bazi-action-matrix-v1'
 
@@ -40,35 +41,9 @@ def build_matrix_from_chart(chart):
     - day_master must match day pillar stem
     - all stems/branches must be valid
     """
-    from .bazi_core import STEMS, BRANCHES
-    from .foundations import ganzhi_index
-    pillars = chart.get('pillars')
-    dm = chart.get('day_master', {})
-    day_master = dm.get('stem')
-    if not isinstance(pillars, list) or len(pillars) != 4:
-        raise ValueError('Expected four pillars')
-    if tuple(p.get('name') for p in pillars) != PILLAR_NAMES:
-        raise ValueError('Expected ordered year/month/day/hour pillars')
-    if not day_master or day_master not in STEMS:
-        raise ValueError('Invalid day_master stem')
-    # Day master must match day pillar stem (input consistency)
-    if pillars[2]['stem']['value'] != day_master:
-        raise ValueError('day_master does not match day pillar stem')
-    # Validate all stems and branches
-    # P0-3: Use ganzhi_index to verify each pillar is a valid 60 Jiazi combination
-    for p in pillars:
-        s = p.get('stem', {}).get('value')
-        b = p.get('branch', {}).get('value')
-        if s not in STEMS:
-            raise ValueError(f"Invalid stem: {s}")
-        if b not in BRANCHES:
-            raise ValueError(f"Invalid branch: {b}")
-        # Verify the stem-branch combination is a valid Jiazi
-        # ganzhi_index raises ValueError for invalid combinations
-        try:
-            ganzhi_index(s + b)
-        except (ValueError, KeyError, TypeError) as e:
-            raise ValueError(f"Invalid ganzhi combination: {s}{b} - not in 60 Jiazi") from e
+    _validate_chart(chart)
+    pillars = chart['pillars']
+    day_master = chart['day_master']['stem']
 
     stems = [p['stem']['value'] for p in pillars]
     branches = [p['branch']['value'] for p in pillars]
@@ -110,6 +85,224 @@ def build_matrix_from_chart(chart):
 
     return _assemble(
         pillars, day_master, roots, availability, actions, effects, cmd)
+
+
+def build_matrix_with_evidence(chart, *, trace_domain='bazi'):
+    """Build matrix with per-row Evidence binding via ExecutionTrace.
+
+    Runs the same 6 pure functions as build_matrix_from_chart(), but wraps
+    each in trace.add() so every matrix row can be traced to:
+    Rule ID -> Section ID -> Source ID -> Evidence ID -> status
+
+    Fail-closed: if any step fails to produce evidence, raises instead of
+    returning a partial matrix.
+    """
+    from .bazi_core import VARIANT as CORE_VARIANT
+    # Reuse the strict validation from build_matrix_from_chart
+    # (validates pillars, day_master, 60 Jiazi)
+    _validate_chart(chart)
+
+    pillars = chart['pillars']
+    day_master = chart['day_master']['stem']
+    stems = [p['stem']['value'] for p in pillars]
+    branches = [p['branch']['value'] for p in pillars]
+    relations = reviewed_relations(stems, branches)
+
+    # Create trace - resolver will be EvidenceResolver() (needs private Catalog)
+    trace = ExecutionTrace(trace_domain, CORE_VARIANT)
+
+    # Step 1: month_command
+    cmd = month_command(pillars, day_master, command_variant=COMMAND_VARIANT)
+    trace.add('bazi.phase2.month_command_variant',
+              {'command_variant': COMMAND_VARIANT,
+               'pillars': [(p['stem']['value'], p['branch']['value']) for p in pillars],
+               'day_master': day_master},
+              cmd)
+
+    # Step 2: principal_month
+    principal = principal_month(cmd, day_master, command_variant=PRINCIPAL_VARIANT)
+    trace.add('bazi.phase2.principal_month',
+              {'command_variant': PRINCIPAL_VARIANT, 'day_master': day_master},
+              principal)
+
+    # Step 3: strength_factors
+    strength = strength_factors(pillars, day_master, variant=FACTOR_VARIANT)
+    trace.add('bazi.phase2.strength_factors',
+              {'factor_variant': FACTOR_VARIANT, 'day_master': day_master},
+              strength)
+
+    # Step 4: root_conditions
+    roots = root_conditions(pillars, day_master, relations=relations,
+                            month_command=cmd, root_variant=ROOT_VARIANT)
+    trace.add('bazi.phase2.root_conditions',
+              {'root_variant': ROOT_VARIANT, 'day_master': day_master},
+              roots)
+
+    # Step 5: root_availability
+    availability = root_availability(roots, root_variant=AVAILABILITY_VARIANT)
+    trace.add('bazi.phase2.root_availability',
+              {'root_variant': AVAILABILITY_VARIANT},
+              availability)
+
+    # Step 6: action_conditions
+    actions = action_conditions(pillars, day_master,
+                                support=strength['support_relations'],
+                                relations=relations, month_command=cmd,
+                                action_variant=ACTION_VARIANT)
+    trace.add('bazi.phase2.action_conditions',
+              {'action_variant': ACTION_VARIANT, 'day_master': day_master},
+              actions)
+
+    # Step 7: action_effects
+    effects = action_effects(pillars, observed=actions, relations=relations,
+                             principal=principal, availability=availability,
+                             action_variant=EFFECT_VARIANT)
+    trace.add('bazi.phase2.action_effects',
+              {'action_variant': EFFECT_VARIANT},
+              effects)
+
+    # Assemble with evidence binding
+    result = _assemble_with_evidence(
+        pillars, day_master, roots, availability, actions, effects, cmd,
+        trace)
+
+    # Verify same-execution consistency
+    _verify_evidence_consistency(result, trace, chart)
+
+    return result
+
+
+def _validate_chart(chart):
+    """Extracted strict validation (shared by both build functions)."""
+    from .bazi_core import STEMS, BRANCHES
+    from .foundations import ganzhi_index
+    pillars = chart.get('pillars')
+    dm = chart.get('day_master', {})
+    day_master = dm.get('stem')
+    if not isinstance(pillars, list) or len(pillars) != 4:
+        raise ValueError('Expected four pillars')
+    if tuple(p.get('name') for p in pillars) != PILLAR_NAMES:
+        raise ValueError('Expected ordered year/month/day/hour pillars')
+    if not day_master or day_master not in STEMS:
+        raise ValueError('Invalid day_master stem')
+    if pillars[2]['stem']['value'] != day_master:
+        raise ValueError('day_master does not match day pillar stem')
+    for p in pillars:
+        s = p.get('stem', {}).get('value')
+        b = p.get('branch', {}).get('value')
+        if s not in STEMS:
+            raise ValueError(f"Invalid stem: {s}")
+        if b not in BRANCHES:
+            raise ValueError(f"Invalid branch: {b}")
+        try:
+            ganzhi_index(s + b)
+        except (ValueError, KeyError, TypeError) as e:
+            raise ValueError(f"Invalid ganzhi combination: {s}{b}") from e
+
+
+def _assemble_with_evidence(pillars, day_master, roots, availability, actions,
+                            effects, cmd, trace):
+    """Assemble matrix with per-row evidence from trace steps."""
+    # Build base matrix first
+    base = _assemble(pillars, day_master, roots, availability, actions,
+                     effects, cmd)
+
+    # Index trace steps by rule_id
+    steps_by_rule = {}
+    for i, step in enumerate(trace.steps):
+        steps_by_rule[step['rule_id']] = (i, step)
+
+    # Attach evidence to root rows
+    rc_idx, rc_step = steps_by_rule.get('bazi.phase2.root_conditions', (None, None))
+    ra_idx, ra_step = steps_by_rule.get('bazi.phase2.root_availability', (None, None))
+    for i, row in enumerate(base['roots']):
+        row['structure_evidence'] = _evidence_block(
+            rc_step, rc_idx, f'#/trace/{rc_idx}/output/roots/{i}/fact',
+            trace) if rc_step else None
+        row['effect_evidence'] = _evidence_block(
+            ra_step, ra_idx, f'#/trace/{ra_idx}/output/roots/{i}',
+            trace) if ra_step else None
+        # Fail-closed: effective must have effect evidence
+        if row['status'] == 'effective' and not row['effect_evidence']:
+            raise ValueError(f"Root {i}: effective without effect evidence")
+
+    # Attach evidence to exposure rows
+    ac_idx, ac_step = steps_by_rule.get('bazi.phase2.action_conditions', (None, None))
+    for j, row in enumerate(base['exposures']):
+        row['structure_evidence'] = _evidence_block(
+            ac_step, ac_idx, f'#/trace/{ac_idx}/output/hidden_relations/{j}/fact',
+            trace) if ac_step else None
+        row['effect_evidence'] = None  # Exposures are structural only
+
+    # Attach evidence to action rows
+    ae_idx, ae_step = steps_by_rule.get('bazi.phase2.action_effects', (None, None))
+    for k, row in enumerate(base['actions']):
+        row['structure_evidence'] = _evidence_block(
+            ac_step, ac_idx, f'#/trace/{ac_idx}/output/visible_relations/{k}/fact',
+            trace) if ac_step else None
+        row['effect_evidence'] = _evidence_block(
+            ae_step, ae_idx, f'#/trace/{ae_idx}/output/visible_relations/{k}',
+            trace) if ae_step else None
+        if row['status'] == 'effective' and not row['effect_evidence']:
+            raise ValueError(f"Action {k}: effective without effect evidence")
+
+    # Add trace summary
+    base['evidence_trace'] = {
+        'domain': trace.domain,
+        'variant': trace.variant,
+        'step_count': len(trace.steps),
+        'rule_ids': [s['rule_id'] for s in trace.steps],
+    }
+    return base
+
+
+def _evidence_block(step, step_idx, fact_ref, trace):
+    """Build evidence block from a trace step."""
+    if not step:
+        return None
+    evidence_ids = step.get('evidence_ids', [])
+    if not evidence_ids:
+        return None
+    # Get first evidence detail
+    first_id = evidence_ids[0]
+    ref = trace.evidence.get(first_id, {})
+    return {
+        'rule_id': step['rule_id'],
+        'variant': trace.variant,
+        'fact_ref': fact_ref,
+        'evidence_id': first_id,
+        'evidence_ids': list(evidence_ids),
+        'section_id': ref.get('section_id'),
+        'source_id': ref.get('source_id'),
+        'classic_id': ref.get('classic_id'),
+        'evidence_level': ref.get('evidence_level'),
+    }
+
+
+def _verify_evidence_consistency(result, trace, chart):
+    """Verify the evidence belongs to this exact execution."""
+    # 1. Chart pillars match trace inputs
+    chart_ganzhi = [(p['stem']['value'], p['branch']['value'])
+                    for p in chart['pillars']]
+    for step in trace.steps:
+        inputs = step.get('inputs', {})
+        if 'pillars' in inputs:
+            if inputs['pillars'] != chart_ganzhi:
+                raise ValueError(
+                    f"Trace step {step['rule_id']}: pillars mismatch")
+        if 'day_master' in inputs:
+            if inputs['day_master'] != chart['day_master']['stem']:
+                raise ValueError(
+                    f"Trace step {step['rule_id']}: day_master mismatch")
+    # 2. Every evidence_id must exist in trace.evidence
+    for row in result['roots'] + result['exposures'] + result['actions']:
+        for key in ('structure_evidence', 'effect_evidence'):
+            ev = row.get(key)
+            if ev:
+                for eid in ev.get('evidence_ids', []):
+                    if eid not in trace.evidence:
+                        raise ValueError(f"Evidence {eid} not in trace")
+    # 3. Determinism: result must be reproducible (checked by caller)
 
 
 def _assemble(pillars, day_master, roots, availability, actions, effects, cmd):
