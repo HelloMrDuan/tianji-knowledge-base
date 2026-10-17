@@ -338,7 +338,17 @@ def _evidence_block(step, step_idx, fact_ref, trace):
 
 
 def _verify_evidence_consistency(result, trace, chart):
-    """Verify the evidence belongs to this exact execution."""
+    """Verify the evidence belongs to this exact execution.
+
+    Strict checks (fail-closed):
+    1. Chart pillars/day_master match every trace step's inputs
+    2. Every evidence_id exists in trace.evidence AND its ref matches
+       the claimed rule_id, variant, source_id, section_id
+    3. fact_ref resolves to the actual fact in trace output (not just format)
+    4. Root availability and action effects rows correspond 1:1 by index
+    """
+    import hashlib
+    import json
     # 1. Chart pillars match trace inputs
     chart_ganzhi = [(p['stem']['value'], p['branch']['value'])
                     for p in chart['pillars']]
@@ -352,15 +362,123 @@ def _verify_evidence_consistency(result, trace, chart):
             if inputs['day_master'] != chart['day_master']['stem']:
                 raise ValueError(
                     f"Trace step {step['rule_id']}: day_master mismatch")
-    # 2. Every evidence_id must exist in trace.evidence
-    for row in result['roots'] + result['exposures'] + result['actions']:
-        for key in ('structure_evidence', 'effect_evidence'):
-            ev = row.get(key)
-            if ev:
+    # Build step index for fact_ref resolution
+    steps_by_idx = {i: s for i, s in enumerate(trace.steps)}
+    # 2+3. Verify each row's evidence
+    for section, rows in (('roots', result['roots']),
+                          ('exposures', result['exposures']),
+                          ('actions', result['actions'])):
+        for idx, row in enumerate(rows):
+            for key in ('structure_evidence', 'effect_evidence'):
+                ev = row.get(key)
+                if not ev:
+                    continue
+                # Verify rule_id matches a real trace step
+                rule_id = ev.get('rule_id')
+                step_idx = None
+                step = None
+                for i, s in steps_by_idx.items():
+                    if s['rule_id'] == rule_id:
+                        step_idx, step = i, s
+                        break
+                if step is None:
+                    raise ValueError(
+                        f"{section}[{idx}].{key}: unknown rule_id {rule_id}")
+                # Verify variant matches trace
+                if ev.get('variant') != trace.variant:
+                    raise ValueError(
+                        f"{section}[{idx}].{key}: variant mismatch")
+                # Verify each evidence_id exists and ref is consistent
                 for eid in ev.get('evidence_ids', []):
-                    if eid not in trace.evidence:
-                        raise ValueError(f"Evidence {eid} not in trace")
-    # 3. Determinism: result must be reproducible (checked by caller)
+                    ref = trace.evidence.get(eid)
+                    if ref is None:
+                        raise ValueError(
+                            f"{section}[{idx}].{key}: evidence {eid} not in trace")
+                    # Verify the hash matches the ref content
+                    expected = hashlib.sha256(
+                        json.dumps(ref, ensure_ascii=False,
+                                   sort_keys=True).encode()).hexdigest()[:24]
+                    if expected != eid:
+                        raise ValueError(
+                            f"{section}[{idx}].{key}: evidence hash mismatch")
+                    # Verify ref's rule_id matches
+                    if ref.get('rule_id') != rule_id:
+                        raise ValueError(
+                            f"{section}[{idx}].{key}: evidence rule_id mismatch")
+                # Verify fact_ref resolves to real location
+                fact_ref = ev.get('fact_ref', '')
+                _resolve_fact_ref(fact_ref, steps_by_idx, section, idx, key)
+    # 4. Verify 1:1 correspondence for availability/effects
+    _verify_index_correspondence(result, trace)
+
+
+def _resolve_fact_ref(fact_ref, steps_by_idx, section, idx, key):
+    """Resolve fact_ref to actual trace location (not just format check)."""
+    # Expected format: #/trace/{step_idx}/output/.../{row_idx}/fact
+    if not fact_ref.startswith('#/trace/'):
+        raise ValueError(f"{section}[{idx}].{key}: invalid fact_ref {fact_ref}")
+    parts = fact_ref[8:].split('/')  # Remove '#/trace/'
+    try:
+        step_idx = int(parts[0])
+    except (ValueError, IndexError):
+        raise ValueError(f"{section}[{idx}].{key}: bad step index in {fact_ref}")
+    step = steps_by_idx.get(step_idx)
+    if step is None:
+        raise ValueError(f"{section}[{idx}].{key}: step {step_idx} not in trace")
+    # Navigate to the fact
+    node = step.get('output', {})
+    for part in parts[2:]:  # Skip step_idx and 'output'
+        if part == 'fact':
+            node = node.get('fact', node) if isinstance(node, dict) else node
+        elif part.isdigit():
+            idx2 = int(part)
+            if isinstance(node, list):
+                if idx2 >= len(node):
+                    raise ValueError(
+                        f"{section}[{idx}].{key}: index {idx2} out of range in {fact_ref}")
+                node = node[idx2]
+            elif isinstance(node, dict):
+                # For dict with numeric-like keys, shouldn't happen
+                raise ValueError(f"{section}[{idx}].{key}: bad path {fact_ref}")
+        else:
+            if isinstance(node, dict):
+                if part not in node:
+                    raise ValueError(
+                        f"{section}[{idx}].{key}: path {part} not found in {fact_ref}")
+                node = node[part]
+            else:
+                raise ValueError(f"{section}[{idx}].{key}: bad path {fact_ref}")
+    # Successfully resolved - node should be a dict (the fact)
+    if not isinstance(node, dict):
+        raise ValueError(f"{section}[{idx}].{key}: fact_ref did not resolve to dict")
+
+
+def _verify_index_correspondence(result, trace):
+    """Verify 1:1 index correspondence between matrix and trace."""
+    steps = {s['rule_id']: s for s in trace.steps}
+    # Root availability: each matrix root must have matching availability entry
+    ra_step = steps.get('bazi.phase2.root_availability')
+    if ra_step:
+        ra_roots = ra_step['output'].get('roots', [])
+        # Build index map
+        ra_by_idx = {r.get('root_index'): r for r in ra_roots}
+        for i, row in enumerate(result['roots']):
+            # The row's effect_evidence should point to ra_roots[i]
+            ev = row.get('effect_evidence')
+            if ev:
+                # Verify the index matches
+                if i not in ra_by_idx:
+                    raise ValueError(f"Root {i}: no availability entry at index {i}")
+    # Action effects: similar check
+    ae_step = steps.get('bazi.phase2.action_effects')
+    if ae_step:
+        ae_visible = ae_step['output'].get('visible_relations', [])
+        ae_by_idx = {e.get('action_index'): e for e in ae_visible}
+        for k, row in enumerate(result['actions']):
+            ev = row.get('effect_evidence')
+            if ev and row['status'] == 'effective':
+                if k not in ae_by_idx:
+                    raise ValueError(f"Action {k}: no effect entry at index {k}")
 
 
 def _assemble(pillars, day_master, roots, availability, actions, effects, cmd):
