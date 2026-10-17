@@ -41,7 +41,7 @@
 | TJ-009.2 | M1 | 进入后台停止音乐、离开后台不擅自重启 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-009.3 | M1 | 山水/云雾动效性能与无障碍 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-010.1 | M2 | 对照本气、月令/根与异文的每条短引 | 已合并 | [公开功能 PR #257](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/257) merge `2d8c7075a7fda42f5aca55aa1960cea972e421ca` · [私有证据 PR #61](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/61) merge `b970fe68df19bcefd11ecc2c579b2172dc64b6d6` · [公开 CI 10/10](https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/38725443092) · [私有来源+真实 Evidence 验收](https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38725488144) | 2026-10-15 | 11 条受影响 Phase2 规则引用的 40 个不同短引及额外三刑异文 s020 原始字符定位、固定电子版 SHA 与字形差异已审核；私有 8/8 原文测试、封存知识资产 235 文件、真实生产 EvidenceResolver 97 个 Evidence ID 通过；二级表格来源不冒充古籍，已有 s004 藏干成员证据不撤销；顺序/60-30-10权重、分日、余气、三刑流派仍未裁决。C级单电子本，非独立版本校勘；不授权通用旺衰、喜用或公开吉凶；未生产部署，后续任务仍待做 |
-| TJ-010.2 | M2 | 通根/透干/生扶/克泄作用条件矩阵 | 待做 | — | — | 按 WBS 验收条件执行 |
+| TJ-010.2 | M2 | 通根/透干/生扶/克泄作用条件矩阵 | 进行中 | [公开 PR #259](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/259) | 2026-10-16 | 作用条件矩阵开发中 |
 | TJ-010.3 | M2 | 木日主已审范围正反复算 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-011.1 | M2 | 将 bazi-strength-adjudication-v1 的每条充分条件逐项核定 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-011.2 | M2 | 增新日主或月份（仅有证据才做） | 待做 | — | — | 按 WBS 验收条件执行 |

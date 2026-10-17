@@ -1,0 +1,49 @@
+name: TJ-010.2 Action Matrix Tests
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "src/tianji_kb/bazi_action_matrix.py"
+      - "tests/test_tj0102_action_matrix.py"
+      - ".github/workflows/tj0102-action-matrix.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  action-matrix-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run TJ-010.2 matrix structure tests (static verification)
+        run: |
+          python - <<'PY'
+          import runpy
+          import traceback
+          mod = runpy.run_path("tests/test_tj0102_action_matrix.py")
+          cases = sorted((name, fn) for name, fn in mod.items()
+                         if name.startswith("test_") and callable(fn))
+          assert len(cases) >= 7, f"Expected at least 7 tests; got {len(cases)}"
+          passed = 0
+          failed = []
+          for name, fn in cases:
+              try:
+                  fn()
+                  print("PASS", name)
+                  passed += 1
+              except Exception as e:
+                  print("FAIL", name, ":", e)
+                  traceback.print_exc()
+                  failed.append(name)
+          print(f"TJ-010.2: {passed}/{len(cases)} passed")
+          if failed:
+              raise SystemExit(f"Failed tests: {failed}")
+          PY
