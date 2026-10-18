@@ -188,8 +188,8 @@ class WoodConflictRecalcTests(unittest.TestCase):
 class WoodRealBirthdayRecalcTests(unittest.TestCase):
     """Real calendar birthdays: verify pillars, day master, month, and result."""
 
-    def test_additional_strong_birthdays(self):
-        # 卯月 birthdays with wood day masters, but with drain/control factors
+    def test_mao_month_with_drain_is_indeterminate(self):
+        # 卯月泄气反例: wood day masters in 卯月, but with drain factors
         # that prevent full pure_support:
         # - 2023-03-08 12:00: 癸卯 乙卯 乙丑 壬午 -> 乙日主, 乙卯月, 午火泄
         # - 2023-03-18 12:00: 癸卯 乙卯 乙亥 壬午 -> 乙日主, 乙卯月, 午火泄
@@ -216,8 +216,8 @@ class WoodRealBirthdayRecalcTests(unittest.TestCase):
                 self.assertTrue(a['blockers'])
                 self.assertTrue(a['evidence_ids'])
 
-    def test_additional_weak_birthdays(self):
-        # 酉月 birthdays with wood day masters, no roots, but with 壬水 support
+    def test_you_month_with_support_is_indeterminate(self):
+        # 酉月生扶反例: wood day masters in 酉月, no roots, but with 壬水 support
         # that breaks full isolation:
         # - 2018-09-10 12:00: 戊戌 辛酉 乙巳 壬午 -> 乙日主, 辛酉月, 壬水生扶
         # - 2018-09-30 12:00: 戊戌 辛酉 乙丑 壬午 -> 乙日主, 辛酉月, 壬水生扶
@@ -266,8 +266,11 @@ class WoodRealBirthdayRecalcTests(unittest.TestCase):
             f'Before 惊蛰 should be 寅月, got {before_month}')
         self.assertEqual(after_month, '卯',
             f'After 惊蛰 should be 卯月, got {after_month}')
-        # During second: documents actual behavior (implementation-defined)
-        self.assertIn(during_month, ('寅', '卯'))
+        # Exact second 10:22:45: lunar_python (project calendar provider)
+        # deterministically assigns 丁卯. This is the library's defined
+        # boundary behavior, verified locally.
+        self.assertEqual(during_month, '卯',
+            f'Exact 惊蛰 second should be 卯月 per lunar_python, got {during_month}')
         # All three must have real trace and evidence
         for out, label in [(before, 'before'), (during, 'during'), (after, 'after')]:
             a = out['result']['strength_assessment']
