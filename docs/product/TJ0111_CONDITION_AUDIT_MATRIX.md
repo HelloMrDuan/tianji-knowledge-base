@@ -1,33 +1,34 @@
-# TJ-011.1 充分条件逐条审核草稿
+# TJ-011.1 充分条件逐项核定矩阵
 
 **Variant**: `bazi-strength-adjudication-v1`
 **审核基线**: 公开 main `02b9485af14c9cc36b9e4cf745f9c577927473c7`（TJ-010.3 关账后）
 **审核日期**: 2026-10-18
-**状态**: 草稿，仅审核分析，未修改代码或测试
+**状态**: 已核定，15条条件各一份，无重复
 
 ---
 
-## 审核总览
+## 证据等级说明
 
-### 证据等级声明
+**重要**：以下分级描述的是"古籍原文对该程序条件核心命题的支持程度"，不是对实现细节的完整证明。
 
-- 《滴天髓阐微》为 **C 级单一电子版本**，SHA256 `6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795`，不能升级为独立底本一致。
-- 原注与任氏不视作两个独立底本。
-- 古籍原文支持的是**整体状态**（"从旺/从强之极"、"孤立无气"），不能自动证明每个分解条件的实现细节。
-- 以下 15 个条件中，**直接古籍支持**的仅为整体状态描述；各分解条件多为**保守实现假设**（比原文更严格）或**未验证假设**。
+- **A级（古籍直接支持）**：原文明确表述了该条件的核心命题。注意：这不等于原文证明了程序的具体实现方式（如阈值、枚举范围）。
+- **B级（保守实现假设）**：原文支持相关方向，但程序采用了比原文更严格的限定。这是安全的收窄，但必须明确标记为实现选择。
+- **C级（未验证假设）**：原文未明确支持该条件的必要性。程序保留该条件作为研究性收窄，不得声称为古籍认证。
 
-### 古籍依据总表（来自 BAZI_STRENGTH_ADJUDICATION_AUDIT.md Section C）
+《滴天髓阐微》为 **C 级单一电子版本**，SHA256 `6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795`，不能升级为独立底本一致。原注与任氏不视作两个独立底本。
 
-| 用途 | 出处 | 字符定位 | 原文关键句 |
-|---|---|---|---|
-| 强（从旺） | 滴天髓从象 | char 96521 / line 4905 | "从旺者…无官杀之制，有印绶之生，旺之极者" |
-| 强（从强） | 滴天髓从象 | char 96605 / line 4906 | "从强者…绝无一毫财星官杀之气…强之极矣" |
-| 弱（孤立） | 滴天髓从象 | char 96219 / line 4903 | "日主孤立无气，无地人元，绝无一毫生扶之意…" |
-| 弱（补充） | 滴天髓从象 | char 98032 / line 5028 | "日主休囚无根，惟官星当令…所谓弱之极者不可益也" |
+**核心原则**：古籍原文支持的是**整体状态**（"从旺/从强之极"、"孤立无气"），不能自动证明每个分解条件的实现细节。以下分级针对每个条件的核心命题，不是对整体算法的认证。
 
-**Source ID**: `bazi.source.ditiansui-spouse`（滴天髓阐微）
-**Section ID**: 强对应从象章节（具体 Section ID 待查）；弱对应 s049（"日主孤立无气"）、s051（补充）
-**流派**: 任氏（原文自称立说）；弱亦引原注"日主孤立无气，四柱无生扶之意"
+### 古籍依据总表
+
+| 用途 | 出处 | 字符定位 | 原文关键句 | Source ID |
+|---|---|---|---|---|
+| 强（从旺） | 滴天髓从象 | char 96521 / line 4905 | "从旺者…无官杀之制，有印绶之生，旺之极者" | bazi.source.ditiansui-spouse |
+| 强（从强） | 滴天髓从象 | char 96605 / line 4906 | "从强者…绝无一毫财星官杀之气…强之极矣" | bazi.source.ditiansui-spouse |
+| 弱（孤立） | 滴天髓从象 | char 96219 / line 4903 | "日主孤立无气，无地人元，绝无一毫生扶之意…" | bazi.source.ditiansui-spouse |
+| 弱（补充） | 滴天髓从象 | char 98032 / line 5028 | "日主休囚无根，惟官星当令…所谓弱之极者不可益也" | bazi.source.ditiansui-spouse |
+
+**Section ID**：从象章节的具体 Section ID 需在私有隔离环境中通过 EvidenceResolver 查证，公开文档暂标记为"待私有核验"。**Rule ID**：`bazi.phase2.action_effects`。**Variant**：`bazi-strength-adjudication-v1`（research_only）。
 
 ---
 
@@ -35,17 +36,6 @@
 
 代码位置：`src/tianji_kb/bazi_action_conditions.py` 第 29-40 行
 最终裁决：`src/tianji_kb/bazi_adjudication.py` 第 129-134 行
-
-```python
-pure = (effects['pure_support_scope_met']
-    and all(effects['pure_support_scope_conditions'].values())
-    and command['month_branch'] == '卯' and command['relation'] == 'same_element'
-    and roots['root_presence']
-    and all(r['root_availability'] == 'effective' for r in roots['roots'])
-    and all(r['effect_status'] == 'effective_in_reviewed_context' for r in effects['visible_relations']))
-```
-
----
 
 ### 强-1: wood_day_master
 
@@ -177,6 +167,46 @@ wood = stem_element(observed['day_master']) == policy['day_master_element']
 ---
 
 ### 强-4: visible印_present
+
+**1. 此条件为什么存在？**
+从旺要求"有印绶之生"。印为生我之五行，是"旺之极"状态的必要组成。本条件要求显干中至少有一个生我关系（印）。
+
+**2. 支持它的古籍短引？**
+- 滴天髓从象 char 96521 / line 4905："从旺者…无官杀之制，**有印绶之生**，旺之极者"
+
+**3. Source ID、Section ID？**
+- Source: `bazi.source.ditiansui-spouse`
+- Section: 从象章节（具体 Section ID 待私有隔离环境核验）
+- Rule: `bazi.phase2.action_effects`
+- Variant: `bazi-strength-adjudication-v1`
+
+**4. 证据支持整体还是部分？**
+**部分**。原文明确"有印绶之生"是"旺之极"的特征，支持"印存在"的命题。但原文未证明"显印必要"（vs 藏印），也未证明"无显印即不能判强"。本条件要求的是**显干**有印，比原文更具体。
+
+**5. 适用流派和 Variant？**
+任氏；`bazi-strength-adjudication-v1`（research_only，public_enabled=false，ai_enabled=false）
+
+**6. 现有程序如何计算？**
+`bazi_action_conditions.py` 第 34 行：
+```python
+'visible印_present': any(r['fact']['relation'] == 'generates_me' for r in visible),
+```
+仅检查显干（visible），不含藏干。
+
+**7. 能否从真实四柱和 Trace 复算？**
+能。需要 Trace `bazi.phase2.action_conditions` 的 `visible_relations` 中 `fact.relation == 'generates_me'` 的存在性。Evidence ID 绑定在 `why_not_indeterminate.conditions` 中。
+
+**8. 缺少时是否停止输出 strong？**
+是。`pure` 为合取，任一条件 False 即 `pure=False`，`classification` 保持 `indeterminate`。
+
+**9. 真实反例或证据冲突？**
+- 反例：全比无印的卯月木（如四柱皆木无水）→ 本条件 False → indeterminate。
+- **证据缺口**：原文"有印绶之生"是否排斥"纯比无印"？**未明确**。本实现选择要求显印，属于比原文更严格的保守假设。
+- 无直接证据冲突。
+
+**审核结论**: **B级（保守实现假设）**。古籍支持"有印是旺之极的特征"，**不支持**"无显印即不能判强"的必要性。**不能推出**：有印即强；**不能推出**：原文要求显印。
+
+---
 
 ### 强-5: visible比_present
 
@@ -393,6 +423,11 @@ isolated = (effects['isolated_control_scope_met']
 ```
 
 ---
+
+
+## 第二部分：弱充分条件（isolated_control_scope_conditions）
+
+代码位置：`src/tianji_kb/bazi_action_conditions.py` 第 42-53 行
 
 ### 弱-1: wood_day_master
 
@@ -697,435 +732,55 @@ isolated = (effects['isolated_control_scope_met']
 
 除 15 个 scope 条件外，`_bounded_assessment`（`bazi_adjudication.py` 第 129-140 行）还有以下附加合取条件：
 
-### 附加-1: 纯支持的月令冗余校验
-
-```python
-and command['month_branch'] == '卯' and command['relation'] == 'same_element'
-```
-- **作用**：与 `reviewed_same_element_month` 形成双重检查，防止 policy 篡改。
-- **证据**：实现假设（防篡改），非古籍要求。
-
-### 附加-2: 纯支持的根有效性冗余校验
-
-```python
-and roots['root_presence']
-and all(r['root_availability'] == 'effective' for r in roots['roots'])
-```
-- **作用**：与 `effective_day_roots` 冗余，且第 118-120 行对非 effective 根直接产生 blocker。
-- **证据**：实现假设（纵深防御）。
-
-### 附加-3: 纯支持的显干作用状态校验
-
-```python
-and all(r['effect_status'] == 'effective_in_reviewed_context' for r in effects['visible_relations'])
-```
-- **作用**：确保每个显干的 `effect_status` 为 `effective_in_reviewed_context`（而非 unresolved）。这是 `action_effects` 中 `proved = pure or ...` 逻辑的结果。
-- **证据**：实现假设。注意：此条件与 `pure_support_scope_met` 存在循环依赖（`proved` 依赖 `pure`，而 `pure` 又检查 `effect_status`），但因 `pure` 先计算，此处为一致性校验。
-
-### 附加-4: 孤立控制的月令冗余校验
-
-```python
-and command['month_branch'] == '酉' and command['relation'] == 'controls_me'
-```
-- **作用**：同附加-1，防篡改。
-
-### 附加-5: 孤立控制的无根校验
-
-```python
-and not roots['root_presence']
-```
-- **作用**：与 `day_has_no_structural_root` 冗余。
-
-### 附加-6: 孤立控制的月柱实际作用校验
-
-```python
-and any(r['fact']['pillar'] == 'month' and r['effective_action'] == 'controls_me'
-        and r['effect_status'] == 'effective_in_reviewed_context' for r in effects['visible_relations'])
-```
-- **作用**：要求月柱有一个实际生效的 controls_me 作用。这是 `month_principal_exposed_with_root` 的**作用层面**对应条件（前者是结构层面）。
-- **证据**：实现假设。确保"官星当令"不仅是结构存在，而是实际生效。
-
----
-
-## 第四部分：综合审核结论
-
-### 证据分级统计
-
-| 分级 | 强条件 | 弱条件 | 合计 |
-|---|---|---|---|
-| ✅ 直接古籍支持 | 4（1,3,6,8） | 4（1,3,4,7） | 8 |
-| ⚠️ 保守实现假设 | 3（2,4,7） | 2（2,6） | 5 |
-| ⚠️ 未验证假设 | 1（5） | 1（5） | 2 |
-
-### 关键发现
-
-1. **古籍支持的是整体状态，非分解条件**：从象原文描述"从旺之极""孤立无气"的整体特征，15 个分解条件中有 7 个是实现者为保守起见添加的假设（比原文更严格）。
-
-2. **最弱的三个条件**：
-   - 强-5 `visible比_present`：原文未明确要求"显比必要"
-   - 弱-5 `visible_earth_metal_only`：排除火，char 98032 却提到"伤"，**存在证据缺口**
-   - 强-4 `visible印_present`：原文未明确"显印必要"
-
-3. **防篡改设计有效**：`_bounded_assessment` 的重放校验（第 99-108 行）和冗余合取条件可防止伪造 `pure_support_scope_met` 为 true 骗过裁决（TJ-010.3 篡改测试已验证）。
-
-4. **真实反例覆盖**：
-   - 强：2023-03-08/18（午火泄气）、癸卯/乙卯/乙亥/丙子（丙火泄）、辛酉/乙卯/甲子/丙寅（酉冲卯）
-   - 弱：2018-09-10/30（壬水生扶）、戊午/辛酉/甲寅/庚午（有寅根）
-
-### 不能推出的结论（永久边界）
-
-1. 不能将"卯月""有木根""有印比"单独视为身强的充分条件。
-2. 不能将"酉月""无根""透辛"单独视为身弱的充分条件。
-3. 不能将本 Variant 的充分条件外推为通用旺衰算法。
-4. 不能将 C 级单一电子版本升级为独立底本一致。
-5. 不能用"代码可运行""测试通过"替代"证据充分"。
-
-### 待查事项
-
-1. 从象章节的具体 Section ID（对应 char 96521/96605/96219/98032）
-2. `visible_earth_metal_only` 排除火的依据（需补充审核或放宽）
-3. `visible比_present` 的古籍依据（或降级为"实现选择"并明确标记）
-
----
-
-**审核人**：Muse（TJ-011.1 审核子任务）
-**审核日期**：2026-10-18
-**状态**：草稿，待主代理复核后纳入 TJ-011.1 正式交付
-
----
-
-### 强-6: effective_day_roots
-
-**1. 此条件为什么存在？**
-从旺要求"通根得气"。无根则无从旺之基础。
-
-**2. 支持它的古籍短引？**
-- 滴天髓 s026、s033："甲乙逢亥寅卯"（衰旺 char 39893 / line 1613）
-- s043："通根得气才可谈具体生化"
-
-**3. Source ID、Section ID？**
-- Source: `bazi.source.ditiansui-spouse`
-- Section: s026、s033、s043
-
-**4. 证据支持整体还是部分？**
-**直接支持**。原文明确列出木之根位置，"通根"是生化的前提。
-
-**5. 适用流派和 Variant？**
-任氏；`bazi-strength-adjudication-v1`
-
-**6. 现有程序如何计算？**
-```python
-'effective_day_roots': availability['root_presence']
-    and all(r['root_availability'] == 'effective' for r in availability['roots']),
-```
-
-**7. 能否从真实四柱和 Trace 复算？**
-能。Trace `bazi.phase2.root_availability` 输出。
-
-**8. 缺少时是否停止输出 strong？**
-是。合取逻辑。且 `_bounded_assessment` 第 132-133 行重复验证。
-
-**9. 真实反例或证据冲突？**
-- 反例：`戊午,辛酉,甲午,庚午`（无根）→ False → 不输出strong。正确。
-- 无冲突。
-
-**审核结论**: ✅ 直接古籍支持。**不能推出**：有根即强。
-
----
-
-### 强-7: all_visible_have_reviewed_roots
-
-**1. 此条件为什么存在？**
-s027、s043：显干须有根引助，否则为"虚浮"。要求每个显干作用都有已审核的根支持。
-
-**2. 支持它的古籍短引？**
-- s027、s042："引助/透干、紧贴有条件意义"
-- s043："地支人元需天干引助"
-
-**3. Source ID、Section ID？**
-- Source: `bazi.source.ditiansui-spouse`
-- Section: s027、s042、s043
-
-**4. 证据支持整体还是部分？**
-**部分**。原文支持"透干需有根"，但"所有显干"的外延是实现选择。属于保守假设。
-
-**5. 适用流派和 Variant？**
-任氏；`bazi-strength-adjudication-v1`
-
-**6. 现有程序如何计算？**
-```python
-'all_visible_have_reviewed_roots': all(eligible),
-```
-其中 eligible 检查每个 visible 的 root_positions 是否在 policy['reviewed_root_branches'] 中。
-
-**7. 能否从真实四柱和 Trace 复算？**
-能。Trace `bazi.phase2.action_effects` 的 eligible_root_positions。
-
-**8. 缺少时是否停止输出 strong？**
-是。合取逻辑。
-
-**9. 真实反例或证据冲突？**
-- 无直接反例。属于保守假设。
-- 证据缺口：原文未证明"所有"显干的必要性。
-
-**审核结论**: ⚠️ 保守实现假设。**不能推出**：原文要求所有显干有根。
-
----
-
-### 强-8: no_unresolved_interactions
-
-**1. 此条件为什么存在？**
-s038-040：冲须看强弱；合化未决不能删根。存在未决相互作用时，根的有效性无法确定。
-
-**2. 支持它的古籍短引？**
-- s038-040；地支 char 11399 / line 355："冲须看强弱喜忌"
-- 合化：地支合局不能删除原藏干
-
-**3. Source ID、Section ID？**
-- Source: `bazi.source.ditiansui-spouse`
-- Section: s038-040
-
-**4. 证据支持整体还是部分？**
-**直接支持**。原文明确要求冲合需审查，未决时不能定论。
-
-**5. 适用流派和 Variant？**
-任氏；`bazi-strength-adjudication-v1`
-
-**6. 现有程序如何计算？**
-```python
-'no_unresolved_interactions': no_interactions,
-```
-其中 `interaction_kinds = [key for key in policy['unresolved_interactions'] if relations[key]]`
-
-**7. 能否从真实四柱和 Trace 复算？**
-能。Trace `bazi.phase2.action_effects` 的 unresolved_interaction_kinds。
-
-**8. 缺少时是否停止输出 strong？**
-是。且 `_bounded_assessment` 第 126 行显式 block。
-
-**9. 真实反例或证据冲突？**
-- 反例：`辛酉,乙卯,甲子,丙寅`（酉冲卯）→ 有unresolved → indeterminate。正确。
-- 无冲突。
-
-**审核结论**: ✅ 直接古籍支持。**不能推出**：无冲合即强。
-
----
-
-## 第二部分：弱充分条件（isolated_control_scope_conditions）
-
-代码位置：`src/tianji_kb/bazi_action_conditions.py` 第 42-53 行
-
-### 弱-1: wood_day_master
-同强-1。**审核结论**: ✅ 直接古籍支持 + 保守实现假设。**不能推出**：木日主即弱。
-
-### 弱-2: reviewed_control_month
-
-**1. 此条件为什么存在？**
-从象"日主孤立"要求月主气克制。限定为已审核的酉月（辛金）。
-
-**2. 支持它的古籍短引？**
-- 从象 char 96219 / line 4903："日主孤立无气"
-- 从象 char 98032 / line 5028："日主休囚无根，惟官星当令…弱之极者"
-- s033-036本气
-
-**3. Source ID、Section ID？**
-- Source: `bazi.source.ditiansui-spouse`
-- Section: 从象（s049、s051待查）；s033-036
-
-**4. 证据支持整体还是部分？**
-**部分**。原文支持"官星当令"，但"仅酉月"的排他性是实现限定。属于保守假设。
-
-**5. 适用流派和 Variant？**
-任氏/原注；`bazi-strength-adjudication-v1`
-
-**6. 现有程序如何计算？**
-```python
-'reviewed_control_month': principal['month_branch'] in policy['isolated_months']
-    and principal['status'] == 'reviewed_relation' and principal['relation'] == 'controls_me',
-```
-
-**7. 能否从真实四柱和 Trace 复算？**
-能。Trace `bazi.phase2.principal_month`。
-
-**8. 缺少时是否停止输出 weak？**
-是。合取逻辑。
-
-**9. 真实反例或证据冲突？**
-- 反例：申月木日主 → 不在isolated_months → indeterminate。符合"不扩展"边界。
-- 无冲突。
-
-**审核结论**: ⚠️ 保守实现假设。**不能推出**：酉月即弱；**不能推出**：申月木一定不弱（只是不裁定）。
-
-### 弱-3: day_has_no_structural_root
-
-**1. 此条件为什么存在？**
-从象"无地人元"——无根是孤立的前提。
-
-**2. 支持它的古籍短引？**
-- 从象 char 96219："无地人元，绝无一毫生扶之意"
-
-**3. Source ID、Section ID？**
-- Source: `bazi.source.ditiansui-spouse`
-- Section: 从象 s049
-
-**4. 证据支持整体还是部分？**
-**直接支持**。"无地人元"即无根。
-
-**5. 适用流派和 Variant？**
-原注/任氏；`bazi-strength-adjudication-v1`
-
-**6. 现有程序如何计算？**
-```python
-'day_has_no_structural_root': not availability['root_presence'],
-```
-
-**7. 能否从真实四柱和 Trace 复算？**
-能。Trace `bazi.phase2.root_availability`。
-
-**8. 缺少时是否停止输出 weak？**
-是。且 `_bounded_assessment` 第 138 行重复验证 `not roots['root_presence']`。
-
-**9. 真实反例或证据冲突？**
-- 反例：2018-09-10（有辰根藏乙）→ 有根 → 不输出weak。正确。
-- 关键：**无根≠弱**，还需其他条件。本实现正确要求合取。
-
-**审核结论**: ✅ 直接古籍支持。**不能推出**：无根即弱。
-
-### 弱-4: no_support_in_any_position
-
-**1. 此条件为什么存在？**
-从象"绝无一毫生扶之意"——任何位置都不能有生扶。
-
-**2. 支持它的古籍短引？**
-- 从象 char 96219："绝无一毫生扶之意"
-
-**3. Source ID、Section ID？**
-- Source: `bazi.source.ditiansui-spouse`
-- Section: 从象 s049
-
-**4. 证据支持整体还是部分？**
-**直接支持**。原文明确"绝无一毫"。
-
-**5. 适用流派和 Variant？**
-原注/任氏；`bazi-strength-adjudication-v1`
-
-**6. 现有程序如何计算？**
-```python
-'no_support_in_any_position': all(r['fact']['relation'] not in supports for r in visible + hidden),
-```
-
-**7. 能否从真实四柱和 Trace 复算？**
-能。Trace `bazi.phase2.action_conditions` 的 visible+hidden relations。
-
-**8. 缺少时是否停止输出 weak？**
-是。合取逻辑。
-
-**9. 真实反例或证据冲突？**
-- 反例：2018-09-10（有壬水印）→ 有support → indeterminate。正确。
-- 这是 TJ-010.3 的重要发现：无根但有印不能判弱。
-
-**审核结论**: ✅ 直接古籍支持。**不能推出**：无生扶即弱（还需无根+月令克制）。
-
-### 弱-5: visible_earth_metal_only
-
-**1. 此条件为什么存在？**
-孤立状态下，显干应仅为克泄耗（土金为官杀/财），不能有印比。
-
-**2. 支持它的古籍短引？**
-- 从象"孤立无气"的整体描述
-- **无直接原文支持"仅土金"的外延**
-
-**3. Source ID、Section ID？**
-- Source: `bazi.source.ditiansui-spouse`
-- Section: 从象（整体）
-
-**4. 证据支持整体还是部分？**
-**未验证假设**。原文说"无生扶"，本实现转译为"显干仅土金"。土生金、金克木，逻辑上成立，但原文未明确列出允许的五行。
-
-**5. 适用流派和 Variant？**
-任氏；`bazi-strength-adjudication-v1`
-
-**6. 现有程序如何计算？**
-```python
-'visible_earth_metal_only': all(r['fact']['element'] in ('土', '金') for r in visible),
-```
-
-**7. 能否从真实四柱和 Trace 复算？**
-能。Trace visible relations 的 element。
-
-**8. 缺少时是否停止输出 weak？**
-是。合取逻辑。
-
-**9. 真实反例或证据冲突？**
-- 潜在问题：若显干有火（泄），按五行生克火泄木，也是"无生扶"，但本条件会 False。属于**比原文更严格**。
-- 证据缺口：原文未枚举允许的五行。
-
-**审核结论**: ⚠️ **未验证假设**。逻辑合理但无直接古籍支持。**不能推出**：原文限定仅土金。
-
-### 弱-6: month_principal_exposed_with_root
-
-**1. 此条件为什么存在？**
-s027透干：月令主气须透出且有根，才能形成有效克制。
-
-**2. 支持它的古籍短引？**
-- s027、s042："引助/透干"
-- 从象 char 98032："惟官星当令"
-
-**3. Source ID、Section ID？**
-- Source: `bazi.source.ditiansui-spouse`
-- Section: s027、从象
-
-**4. 证据支持整体还是部分？**
-**部分**。原文支持"官星当令"，但"透干+有根"的具体实现是保守转译。
-
-**5. 适用流派和 Variant？**
-任氏；`bazi-strength-adjudication-v1`
-
-**6. 现有程序如何计算？**
-```python
-'month_principal_exposed_with_root': any(r['fact']['pillar'] == 'month'
-    and r['fact']['stem'] == principal['principal_qi'] and eligible[i]
-    for i, r in enumerate(visible)),
-```
-
-**7. 能否从真实四柱和 Trace 复算？**
-能。需要 principal_qi + visible month relation + eligible roots。
-
-**8. 缺少时是否停止输出 weak？**
-是。合取逻辑。
-
-**9. 真实反例或证据冲突？**
-- 反例：酉月但月干不透辛 → False → indeterminate。正确（月干透辛≠身弱，但不透则不能判弱）。
-- 无冲突。
-
-**审核结论**: ⚠️ 保守实现假设。**不能推出**：月干透辛即弱。
-
-### 弱-7: no_unresolved_interactions
-同强-8。**审核结论**: ✅ 直接古籍支持。**不能推出**：无冲合即弱。
 
 ---
 
 ## 审核总结
 
-### 条件统计
-- 强充分条件：8 条
-  - 直接古籍支持：4 条（S3、S6、S8、部分S1）
-  - 保守实现假设：3 条（S2、S4、S7）
-  - 未验证假设：1 条（S5 visible比_present）
-- 弱充分条件：7 条
-  - 直接古籍支持：3 条（W3、W4、W7）
-  - 保守实现假设：3 条（W1、W2、W6）
-  - 未验证假设：1 条（W5 visible_earth_metal_only）
+### 证据分级统计（15条条件，各一份）
+
+| 分级 | 强条件（8条） | 弱条件（7条） | 合计 |
+|---|---|---|---|
+| A级：古籍直接支持 | 4条（S1、S3、S6、S8） | 4条（W1、W3、W4、W7） | **8条** |
+| B级：保守实现假设 | 3条（S2、S4、S7） | 2条（W2、W6） | **5条** |
+| C级：未验证假设 | 1条（S5） | 1条（W5） | **2条** |
+
+**分级说明**：
+- A级指原文明确表述了该条件的核心命题，不等于原文证明了程序的具体实现方式。
+- B级指程序比原文更严格，是安全的收窄，但属于实现选择。
+- C级指原文未明确支持该条件的必要性，保留为研究性收窄，不得声称为古籍认证。
 
 ### 关键发现
-1. **无过度宽松**：所有条件均为"直接支持"或"保守（更严格）"，无条件比原文更宽松。实现是安全的。
-2. **两个未验证假设**需明确记录：
-   - S5：原文未明确要求"显比必要"
-   - W5：原文未明确限定"仅土金"
-3. **C级证据**：所有古籍依据仍为C级单一电子版本，不能升级。
-4. **不能推出的结论**已在每条中明确。
+
+1. **古籍支持整体状态，非分解条件**：从象原文描述的是整体"极强/孤立"状态。各分解条件是实现者为保守起见添加的假设，不能将整体支持等同于对某个具体程序条件的完整支持。
+
+2. **无过度宽松**：所有条件均为A级或B级（更严格）或C级（更严格），无条件比原文更宽松。实现不会产生错误的强/弱输出。
+
+3. **两个C级假设需明确记录**：
+   - **S5** `visible比_present`："显比必要"无直接古籍依据。原文"纯粹印比"可能指"无杂气"而非"印比兼备"。
+   - **W5** `visible_earth_metal_only`：原文char 98032提到"财官伤三者并旺"（含火），但实现仅允许土金，排除了火。此收窄的依据缺口需明确记录。
+
+4. **C级证据限制**：所有古籍依据仍为C级单一电子版本，不能升级为独立底本一致。
+
+### 不能推出的结论（永久边界）
+
+- 不能将"卯月""有木根""有印比"单独视为身强的充分条件。
+- 不能将"酉月""无根""透辛"单独视为身弱的充分条件。
+- 不能将本审核结论扩展为通用旺衰算法。
+- 不能将C级未验证假设声称为古籍认证。
+- 不能因"条件更严格"就宣布整个算法正确、安全或已获古籍认证。
 
 ### 是否需代码修复？
-**否**。未发现过度宽松的条件。两个未验证假设均为保守方向（更严格），不会导致错误输出 strong/weak，只会导致更少的情况被裁定。这是研究 Variant 可接受的。
 
-建议：在审核矩阵文档中明确标记这两个缺口，不修改代码。
+**否**。未发现过度宽松的条件。两个C级假设均为保守方向（更严格），不会导致错误输出 strong/weak，只会导致更少的情况被裁定。这是研究 Variant 可接受的。本轮不删除这些条件，也不得擅自改变现有强弱裁决算法。
+
+### 待私有隔离环境核验事项
+
+以下需在私有隔离运行环境中通过 EvidenceResolver 查证，公开文档暂标记：
+
+1. 从象章节具体 Section ID（对应 char 96521/96605/96219/98032 的映射关系）
+2. 每个条件的实际 Rule ID、Evidence ID、fact_ref 在真实 Trace 中的解引用
+3. `visible_earth_metal_only` 排除火的具体依据（或确认记录为缺口）
+4. 15条条件在真实命盘中的实际计算值与预期一致性
+
+**公开文档仅保留可公开的证据元数据，不得泄露私有知识库原始内容。**
