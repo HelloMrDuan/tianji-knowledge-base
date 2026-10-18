@@ -202,49 +202,57 @@ class WoodRealBirthdayRecalcTests(unittest.TestCase):
     """Real calendar birthdays: verify pillars, day master, month, and result."""
 
     def test_additional_strong_birthdays(self):
-        # 卯月 birthdays: verify wood day master, 卯月, and strong classification
-        # These dates are in mid-March (卯月). Day master must be 甲/乙.
-        for value, expected_dm in [
-            ('1990-03-15T10:00:00+08:00', None),  # Will verify actual DM
-            ('2005-03-20T14:00:00+08:00', None),
+        # 卯月 birthdays with verified wood day masters (via lunar_python screening):
+        # - 2024-03-11 12:00: 甲戌日, 丁卯月 -> 甲日主
+        # - 2024-03-12 12:00: 乙亥日, 丁卯月 -> 乙日主
+        # These are new dates, not repeating 1963/2043.
+        for value, expected_ganzhi in [
+            ('2024-03-11T12:00:00+08:00', ('甲辰', '丁卯', '甲戌', '庚午')),
+            ('2024-03-12T12:00:00+08:00', ('甲辰', '丁卯', '乙亥', '壬午')),
         ]:
             with self.subTest(value=value):
                 out = execute('bazi', {'value': value,
                              'strength_variant': ADJUDICATION_VARIANT},
                              allow_research=True)
-                # Record actual pillars
+                # Verify actual pillars match screened values
                 pillars = out['result']['pillars']
-                ganzhi = [p['stem']['value'] + p['branch']['value'] for p in pillars]
+                ganzhi = tuple(p['stem']['value'] + p['branch']['value'] for p in pillars)
+                self.assertEqual(ganzhi, expected_ganzhi,
+                    f'{value}: pillars {ganzhi} != screened {expected_ganzhi}')
                 dm = out['result']['day_master']['stem']
+                self.assertIn(dm, ('甲', '乙'))
                 month_branch = out['result']['principal_month']['month_branch']
-                # Day master must be wood (甲/乙) for this test to be meaningful
-                self.assertIn(dm, ('甲', '乙'),
-                    f'{value} -> {ganzhi}: day master {dm} is not wood')
-                # Month must be 卯
-                self.assertEqual(month_branch, '卯',
-                    f'{value} -> {ganzhi}: month {month_branch} is not 卯')
+                self.assertEqual(month_branch, '卯')
                 a = out['result']['strength_assessment']
-                # 卯月 wood DM: strong if sufficient conditions met, else indeterminate
+                # Must be strong (sufficient conditions met) or indeterminate
+                # with explicit blockers; never weak for 卯月
                 self.assertIn(a['classification'], ('strong', 'indeterminate'))
                 self.assertNotEqual(a['classification'], 'weak')
-                # Evidence must be bound
                 self.assertTrue(a['evidence_ids'])
+                if a['classification'] == 'strong':
+                    self.assertTrue(a['why_not_indeterminate']['all_required_conditions_verified'])
 
     def test_additional_weak_birthdays(self):
-        # 酉月 birthdays: verify wood day master, 酉月
-        for value in ['1999-09-18T10:00:00+08:00', '2023-09-22T14:00:00+08:00']:
+        # 酉月 birthdays with verified wood day masters (via lunar_python screening):
+        # - 2024-09-17 12:00: 甲申日, 癸酉月 -> 甲日主
+        # - 2024-09-18 12:00: 乙酉日, 癸酉月 -> 乙日主
+        # These are new dates, not repeating 1978/2038.
+        for value, expected_ganzhi in [
+            ('2024-09-17T12:00:00+08:00', ('甲辰', '癸酉', '甲申', '庚午')),
+            ('2024-09-18T12:00:00+08:00', ('甲辰', '癸酉', '乙酉', '壬午')),
+        ]:
             with self.subTest(value=value):
                 out = execute('bazi', {'value': value,
                              'strength_variant': ADJUDICATION_VARIANT},
                              allow_research=True)
                 pillars = out['result']['pillars']
-                ganzhi = [p['stem']['value'] + p['branch']['value'] for p in pillars]
+                ganzhi = tuple(p['stem']['value'] + p['branch']['value'] for p in pillars)
+                self.assertEqual(ganzhi, expected_ganzhi,
+                    f'{value}: pillars {ganzhi} != screened {expected_ganzhi}')
                 dm = out['result']['day_master']['stem']
+                self.assertIn(dm, ('甲', '乙'))
                 month_branch = out['result']['principal_month']['month_branch']
-                self.assertIn(dm, ('甲', '乙'),
-                    f'{value} -> {ganzhi}: day master {dm} is not wood')
-                self.assertEqual(month_branch, '酉',
-                    f'{value} -> {ganzhi}: month {month_branch} is not 酉')
+                self.assertEqual(month_branch, '酉')
                 a = out['result']['strength_assessment']
                 self.assertIn(a['classification'], ('weak', 'indeterminate'))
                 self.assertNotEqual(a['classification'], 'strong')
