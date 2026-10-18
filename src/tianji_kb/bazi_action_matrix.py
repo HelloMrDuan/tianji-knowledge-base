@@ -422,14 +422,16 @@ def _verify_evidence_consistency(result, trace, chart):
                     if ref.get('variant') != trace.variant:
                         raise ValueError(
                             f"{section}[{idx}].{key}: evidence variant mismatch")
-                    # Verify metadata fields match the real ref (strict)
-                    for field in ('source_id', 'section_id', 'classic_id',
-                                  'evidence_level'):
-                        if ev.get(field) != ref.get(field):
-                            raise ValueError(
-                                f"{section}[{idx}].{key}: {field} mismatch: "
-                                f"row={ev.get(field)!r}, "
-                                f"trace={ref.get(field)!r}")
+                    # Verify metadata fields match the real ref of the
+                    # block's primary evidence_id (strict)
+                    if eid == eid0:
+                        for field in ('source_id', 'section_id', 'classic_id',
+                                      'evidence_level'):
+                            if ev.get(field) != ref.get(field):
+                                raise ValueError(
+                                    f"{section}[{idx}].{key}: {field} mismatch: "
+                                    f"row={ev.get(field)!r}, "
+                                    f"trace={ref.get(field)!r}")
                 # Verify fact_ref resolves to real location AND matches row
                 fact_ref = ev.get('fact_ref', '')
                 _resolve_fact_ref(fact_ref, steps_by_idx, section, idx, key,
