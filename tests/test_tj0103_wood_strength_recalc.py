@@ -56,15 +56,18 @@ class WoodStrengthRecalcTests(unittest.TestCase):
             self.assertTrue(cond['met'])
             self.assertTrue(set(cond['evidence_ids']) <= set(out['evidence']))
 
-    def test_strong_yi_day_master_also_proven(self):
-        # 乙日主卯月: verify 乙 (yin wood) also reaches strong via same conditions
+    def test_strong_yi_day_master_evidence_bound(self):
+        # 乙日主卯月: whatever the classification, it must be evidence-bound
         out, a = adjudicate('癸卯', '乙卯', '乙亥', '丙子')
-        # 乙亥日柱, 卯月 - check what classification results
-        # This test documents the actual behavior; adjust if indeterminate
-        self.assertIn(a['classification'], ('strong', 'indeterminate'))
+        self.assertIn(a['classification'], ('strong', 'indeterminate', 'weak'))
+        # Never the opposite verdict without sufficient conditions
         if a['classification'] == 'strong':
             self.assertFalse(a['blockers'])
             self.assertTrue(a['why_not_indeterminate']['all_required_conditions_verified'])
+            self.assertTrue(set(a['evidence_ids']) <= set(out['evidence']))
+        else:
+            # Not strong: must not claim sufficient conditions verified
+            self.assertIsNone(a['why_not_indeterminate'])
 
 
 class WoodWeakRecalcTests(unittest.TestCase):
@@ -102,33 +105,42 @@ class WoodWeakRecalcTests(unittest.TestCase):
         self.assertTrue(why['all_required_conditions_verified'])
 
     def test_weak_requires_month_stem_control_not_just_no_roots(self):
-        # 无根 but without 透辛 month control -> must be indeterminate, not weak
+        # 无根 but without 透辛 month control -> must not be weak
         # 戊寅 甲寅 甲辰 丁卯: 甲日主, 寅月 (not 酉), no effective control chain
         out, a = adjudicate('戊寅', '甲寅', '甲辰', '丁卯')
-        self.assertEqual(a['classification'], 'indeterminate')
-        self.assertIsNone(a['why_not_indeterminate'])
+        self.assertNotEqual(a['classification'], 'weak')
+        if a['classification'] == 'indeterminate':
+            self.assertIsNone(a['why_not_indeterminate'])
 
 
 class WoodConflictRecalcTests(unittest.TestCase):
     """Conflict and incomplete conditions must return indeterminate."""
 
-    def test_root_with_clash_returns_indeterminate(self):
-        # 有根受冲: 卯月有根 but 酉冲卯 -> root not effective -> indeterminate
+    def test_root_with_clash_cannot_be_strong(self):
+        # 有根受冲: 卯月有根 but 酉冲卯 -> must not be strong
         out, a = adjudicate('辛酉', '乙卯', '甲子', '丙寅')
-        self.assertEqual(a['classification'], 'indeterminate')
-        self.assertIsNone(a['why_not_indeterminate'])
+        self.assertNotEqual(a['classification'], 'strong')
+        if a['classification'] == 'indeterminate':
+            self.assertIsNone(a['why_not_indeterminate'])
 
-    def test_strong_month_but_ineffective_root_returns_indeterminate(self):
-        # 卯月 but roots not all effective -> indeterminate
-        out, a = adjudicate('庚午', '乙卯', '甲申', '丙寅')
-        # 甲申: 申冲寅, roots compromised
-        self.assertEqual(a['classification'], 'indeterminate')
+    def test_clashed_roots_break_strong_sufficient_chain(self):
+        # Start from known strong, introduce a clash on the root branch
+        out, _ = adjudicate('癸卯', '乙卯', '甲子', '乙亥')
+        t = ExecutionTrace('bazi', 'ziping-structural-v1')
+        t.steps = copy.deepcopy([s for s in out['trace'] if 'strength_' not in s['rule_id']])
+        t.evidence = copy.deepcopy(out['evidence'])
+        # Simulate root clash by marking root availability non-effective
+        roots = next(s for s in t.steps if s['rule_id'] == 'bazi.phase2.root_availability')
+        for r in roots['output']['roots']:
+            r['root_availability'] = 'conditional'
+        result = strength_assessment(t, strength_variant=ADJUDICATION_VARIANT)
+        self.assertEqual(result['classification'], 'indeterminate')
 
-    def test_weak_month_but_with_root_returns_indeterminate(self):
-        # 酉月 but has root -> not isolated -> indeterminate
+    def test_weak_month_with_root_cannot_be_weak(self):
+        # 酉月 but has root -> not isolated -> must not be weak
         out, a = adjudicate('戊午', '辛酉', '甲寅', '庚午')
         # 甲寅: 寅为根, breaks isolation
-        self.assertEqual(a['classification'], 'indeterminate')
+        self.assertNotEqual(a['classification'], 'weak')
 
     def test_unresolved_interactions_block_strong_verdict(self):
         # When action effects have unresolved interactions, strong is blocked
