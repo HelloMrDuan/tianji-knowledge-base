@@ -10,7 +10,7 @@ import unittest
 
 from tianji_kb.bazi_adjudication import ADJUDICATION_VARIANT, strength_assessment
 from tianji_kb.operations.bazi_chart import chart
-from tianji_kb.operations.bazi import execute
+from tianji_kb.engine import execute
 from tianji_kb.resolver import ExecutionTrace
 
 
