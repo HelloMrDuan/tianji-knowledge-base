@@ -400,7 +400,7 @@ def _verify_evidence_consistency(result, trace, chart):
                         f"{section}[{idx}].{key}: variant mismatch")
                 # Verify evidence_ids belong to this step
                 step_eids = set(step.get('evidence_ids', []))
-                for eid in ev.get('evidence_ids', []):
+                for eid in eids:
                     if eid not in step_eids:
                         raise ValueError(
                             f"{section}[{idx}].{key}: evidence {eid} not from step {rule_id}")
@@ -422,6 +422,14 @@ def _verify_evidence_consistency(result, trace, chart):
                     if ref.get('variant') != trace.variant:
                         raise ValueError(
                             f"{section}[{idx}].{key}: evidence variant mismatch")
+                    # Verify metadata fields match the real ref (strict)
+                    for field in ('source_id', 'section_id', 'classic_id',
+                                  'evidence_level'):
+                        if ev.get(field) != ref.get(field):
+                            raise ValueError(
+                                f"{section}[{idx}].{key}: {field} mismatch: "
+                                f"row={ev.get(field)!r}, "
+                                f"trace={ref.get(field)!r}")
                 # Verify fact_ref resolves to real location AND matches row
                 fact_ref = ev.get('fact_ref', '')
                 _resolve_fact_ref(fact_ref, steps_by_idx, section, idx, key,
