@@ -49,25 +49,41 @@ class WoodStrengthRecalcTests(unittest.TestCase):
         self.assertTrue(effects['pure_support_scope_met'])
         self.assertTrue(all(effects['pure_support_scope_conditions'].values()))
 
-        # 5. Every condition has Evidence binding
+        # 5. Every condition has Evidence binding (non-empty)
         why = a['why_not_indeterminate']
         self.assertTrue(why['all_required_conditions_verified'])
+        self.assertTrue(why['conditions'])
         for cond in why['conditions']:
             self.assertTrue(cond['met'])
+            self.assertTrue(cond['evidence_ids'])
             self.assertTrue(set(cond['evidence_ids']) <= set(out['evidence']))
 
     def test_strong_yi_day_master_evidence_bound(self):
-        # 乙日主卯月: whatever the classification, it must be evidence-bound
+        # 乙日主卯月 (癸卯 乙卯 乙亥 丙子): verify actual classification
+        # with full evidence binding. 乙 in 卯月 is 建禄 (same_element).
         out, a = adjudicate('癸卯', '乙卯', '乙亥', '丙子')
-        self.assertIn(a['classification'], ('strong', 'indeterminate', 'weak'))
-        # Never the opposite verdict without sufficient conditions
+        # Day master must be 乙
+        self.assertEqual(out['result']['day_master']['stem'], '乙')
+        # Month must be 卯
+        cmd = out['result']['principal_month']
+        self.assertEqual(cmd['month_branch'], '卯')
+        # Classification must be strong or indeterminate (never weak for 卯月)
+        self.assertIn(a['classification'], ('strong', 'indeterminate'))
+        self.assertNotEqual(a['classification'], 'weak')
+        # Evidence must be non-empty and bound in all cases
+        self.assertTrue(a['evidence_ids'])
+        self.assertTrue(set(a['evidence_ids']) <= set(out['evidence']))
         if a['classification'] == 'strong':
             self.assertFalse(a['blockers'])
-            self.assertTrue(a['why_not_indeterminate']['all_required_conditions_verified'])
-            self.assertTrue(set(a['evidence_ids']) <= set(out['evidence']))
+            why = a['why_not_indeterminate']
+            self.assertTrue(why['all_required_conditions_verified'])
+            for cond in why['conditions']:
+                self.assertTrue(cond['evidence_ids'])
+                self.assertTrue(set(cond['evidence_ids']) <= set(out['evidence']))
         else:
-            # Not strong: must not claim sufficient conditions verified
+            # Indeterminate: must have blockers explaining why
             self.assertIsNone(a['why_not_indeterminate'])
+            self.assertTrue(a['blockers'])
 
 
 class WoodWeakRecalcTests(unittest.TestCase):
@@ -105,23 +121,42 @@ class WoodWeakRecalcTests(unittest.TestCase):
         self.assertTrue(why['all_required_conditions_verified'])
 
     def test_weak_requires_month_stem_control_not_just_no_roots(self):
-        # 无根 but without 透辛 month control -> must not be weak
-        # 戊寅 甲寅 甲辰 丁卯: 甲日主, 寅月 (not 酉), no effective control chain
-        out, a = adjudicate('戊寅', '甲寅', '甲辰', '丁卯')
-        self.assertNotEqual(a['classification'], 'weak')
-        if a['classification'] == 'indeterminate':
-            self.assertIsNone(a['why_not_indeterminate'])
+        # 戊午 辛酉 甲午 癸酉: 甲日主, truly no wood roots (午酉 only),
+        # has 癸印 support, but not the full isolation chain -> indeterminate
+        # (This is the existing known-indeterminate case from
+        # test_no_root_with_resource_and_classical_case_labels_do_not_supply_verdicts)
+        out, a = adjudicate('戊午', '辛酉', '甲午', '癸酉')
+        # 1. Verify truly no roots
+        roots = out['result']['root_availability']
+        self.assertFalse(roots['root_presence'])
+        self.assertEqual(len(roots['roots']), 0)
+        # 2. Verify day master is 甲
+        self.assertEqual(out['result']['day_master']['stem'], '甲')
+        # 3. Must be indeterminate (not weak): has 癸印 but lacks full chain
+        self.assertEqual(a['classification'], 'indeterminate')
+        self.assertIsNone(a['why_not_indeterminate'])
+        # 4. Must have blockers with evidence explaining why not weak
+        self.assertTrue(a['blockers'])
+        for b in a['blockers']:
+            self.assertTrue(b['evidence_ids'])
+            self.assertIn(b['evidence_id'], out['evidence'])
 
 
 class WoodConflictRecalcTests(unittest.TestCase):
     """Conflict and incomplete conditions must return indeterminate."""
 
-    def test_root_with_clash_cannot_be_strong(self):
-        # 有根受冲: 卯月有根 but 酉冲卯 -> must not be strong
+    def test_root_with_clash_returns_indeterminate(self):
+        # 有根受冲: 辛酉 乙卯 甲子 丙寅 - 酉冲卯, root clashed
+        # 卯月 so cannot be weak; clashed root so cannot be strong
         out, a = adjudicate('辛酉', '乙卯', '甲子', '丙寅')
-        self.assertNotEqual(a['classification'], 'strong')
-        if a['classification'] == 'indeterminate':
-            self.assertIsNone(a['why_not_indeterminate'])
+        self.assertEqual(out['result']['day_master']['stem'], '甲')
+        self.assertEqual(out['result']['principal_month']['month_branch'], '卯')
+        self.assertEqual(a['classification'], 'indeterminate')
+        self.assertIsNone(a['why_not_indeterminate'])
+        # Must have blockers with real evidence
+        self.assertTrue(a['blockers'])
+        for b in a['blockers']:
+            self.assertTrue(b['evidence_ids'])
 
     def test_clashed_roots_break_strong_sufficient_chain(self):
         # Start from known strong, introduce a clash on the root branch
@@ -136,11 +171,17 @@ class WoodConflictRecalcTests(unittest.TestCase):
         result = strength_assessment(t, strength_variant=ADJUDICATION_VARIANT)
         self.assertEqual(result['classification'], 'indeterminate')
 
-    def test_weak_month_with_root_cannot_be_weak(self):
-        # 酉月 but has root -> not isolated -> must not be weak
+    def test_weak_month_with_root_returns_indeterminate(self):
+        # 戊午 辛酉 甲寅 庚午 - 酉月 but 甲寅 provides wood root (寅)
+        # Has root so cannot meet isolated_control (requires no roots);
+        # 酉月 so cannot meet pure_support (requires 卯月)
         out, a = adjudicate('戊午', '辛酉', '甲寅', '庚午')
-        # 甲寅: 寅为根, breaks isolation
-        self.assertNotEqual(a['classification'], 'weak')
+        self.assertEqual(out['result']['day_master']['stem'], '甲')
+        self.assertEqual(out['result']['principal_month']['month_branch'], '酉')
+        # Verify root actually exists
+        self.assertTrue(out['result']['root_availability']['root_presence'])
+        self.assertEqual(a['classification'], 'indeterminate')
+        self.assertIsNone(a['why_not_indeterminate'])
 
     def test_unresolved_interactions_block_strong_verdict(self):
         # When action effects have unresolved interactions, strong is blocked
@@ -158,46 +199,79 @@ class WoodConflictRecalcTests(unittest.TestCase):
 
 
 class WoodRealBirthdayRecalcTests(unittest.TestCase):
-    """Real calendar birthdays: different dates, Jia/Yi, term boundaries."""
+    """Real calendar birthdays: verify pillars, day master, month, and result."""
 
     def test_additional_strong_birthdays(self):
-        # Additional 卯月 birthdays beyond the existing 1963/2043 cases
-        for value in ['1987-03-18T10:00:00+08:00', '2011-03-25T14:00:00+08:00']:
+        # 卯月 birthdays: verify wood day master, 卯月, and strong classification
+        # These dates are in mid-March (卯月). Day master must be 甲/乙.
+        for value, expected_dm in [
+            ('1990-03-15T10:00:00+08:00', None),  # Will verify actual DM
+            ('2005-03-20T14:00:00+08:00', None),
+        ]:
             with self.subTest(value=value):
                 out = execute('bazi', {'value': value,
                              'strength_variant': ADJUDICATION_VARIANT},
                              allow_research=True)
+                # Record actual pillars
+                pillars = out['result']['pillars']
+                ganzhi = [p['stem']['value'] + p['branch']['value'] for p in pillars]
+                dm = out['result']['day_master']['stem']
+                month_branch = out['result']['principal_month']['month_branch']
+                # Day master must be wood (甲/乙) for this test to be meaningful
+                self.assertIn(dm, ('甲', '乙'),
+                    f'{value} -> {ganzhi}: day master {dm} is not wood')
+                # Month must be 卯
+                self.assertEqual(month_branch, '卯',
+                    f'{value} -> {ganzhi}: month {month_branch} is not 卯')
                 a = out['result']['strength_assessment']
-                # Document actual classification; 卯月 wood DM should be strong
-                # if sufficient conditions met, else indeterminate (not weak)
+                # 卯月 wood DM: strong if sufficient conditions met, else indeterminate
                 self.assertIn(a['classification'], ('strong', 'indeterminate'))
                 self.assertNotEqual(a['classification'], 'weak')
+                # Evidence must be bound
+                self.assertTrue(a['evidence_ids'])
 
     def test_additional_weak_birthdays(self):
-        # Additional 酉月 birthdays beyond the existing 2038/1978 cases
+        # 酉月 birthdays: verify wood day master, 酉月
         for value in ['1999-09-18T10:00:00+08:00', '2023-09-22T14:00:00+08:00']:
             with self.subTest(value=value):
                 out = execute('bazi', {'value': value,
                              'strength_variant': ADJUDICATION_VARIANT},
                              allow_research=True)
+                pillars = out['result']['pillars']
+                ganzhi = [p['stem']['value'] + p['branch']['value'] for p in pillars]
+                dm = out['result']['day_master']['stem']
+                month_branch = out['result']['principal_month']['month_branch']
+                self.assertIn(dm, ('甲', '乙'),
+                    f'{value} -> {ganzhi}: day master {dm} is not wood')
+                self.assertEqual(month_branch, '酉',
+                    f'{value} -> {ganzhi}: month {month_branch} is not 酉')
                 a = out['result']['strength_assessment']
-                # 酉月 wood DM: weak if isolated, else indeterminate (not strong)
                 self.assertIn(a['classification'], ('weak', 'indeterminate'))
                 self.assertNotEqual(a['classification'], 'strong')
+                self.assertTrue(a['evidence_ids'])
 
-    def test_term_boundary_does_not_guess(self):
-        # Near 惊蛰/清明 boundary: classification must be computed, not guessed
-        # 2024-03-05 is around 惊蛰; verify the system computes rather than assumes
-        out = execute('bazi', {'value': '2024-03-05T10:00:00+08:00',
-                     'strength_variant': ADJUDICATION_VARIANT},
-                     allow_research=True)
-        a = out['result']['strength_assessment']
-        # Must have real trace and evidence regardless of classification
-        self.assertTrue(a['matched_rule_ids'])
-        self.assertTrue(a['evidence_ids'])
-        # If indeterminate, blockers must explain why
-        if a['classification'] == 'indeterminate':
-            self.assertTrue(a['blockers'] or a['conflict_checks'])
+    def test_term_boundary_jingzhe_before_after(self):
+        # 2024惊蛰: 2024-03-05 10:22:45 (from lunar_python, project's calendar provider)
+        # Before: 寅月; After: 卯月. Verify month pillar transition.
+        before = execute('bazi', {'value': '2024-03-05T10:22:44+08:00',
+                         'strength_variant': ADJUDICATION_VARIANT},
+                         allow_research=True)
+        after = execute('bazi', {'value': '2024-03-05T10:22:46+08:00',
+                        'strength_variant': ADJUDICATION_VARIANT},
+                        allow_research=True)
+        before_month = before['result']['principal_month']['month_branch']
+        after_month = after['result']['principal_month']['month_branch']
+        # Month must transition at the solar term
+        self.assertNotEqual(before_month, after_month,
+            f'Month did not transition at 惊蛰: before={before_month}, after={after_month}')
+        self.assertEqual(after_month, '卯')
+        # Both must have real trace and evidence
+        for out, label in [(before, 'before'), (after, 'after')]:
+            a = out['result']['strength_assessment']
+            self.assertTrue(a['matched_rule_ids'], f'{label}: no matched rules')
+            self.assertTrue(a['evidence_ids'], f'{label}: no evidence')
+            # Classification must be computed, not guessed
+            self.assertIn(a['classification'], ('strong', 'weak', 'indeterminate'))
 
 
 class WoodEvidenceConsistencyTests(unittest.TestCase):
