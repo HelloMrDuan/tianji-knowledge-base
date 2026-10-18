@@ -73,16 +73,23 @@ class StrongConditionKeysTests(unittest.TestCase):
             self.assertTrue(set(cond['evidence_ids']) <= set(out['evidence']))
 
     def test_strong_counterexample_drain_breaks_all_positions(self):
-        # 反例：2023-03-08 午火泄气 -> all_positions_support_only False -> indeterminate
+        # 反例：2023-03-08 午火泄气 -> all_positions_support_only 必须为 False
         out = execute('bazi', {'value': '2023-03-08T12:00:00+08:00',
                      'strength_variant': ADJUDICATION_VARIANT}, allow_research=True)
         a = out['result']['strength_assessment']
         self.assertEqual(a['classification'], 'indeterminate')
         effects = out['result']['action_effects']
-        # 至少一条条件为False（具体哪条由实现决定，但必须有False）
-        self.assertFalse(all(effects['pure_support_scope_conditions'].values()))
+        # 必须具体验证 all_positions_support_only 为 False（午火泄气）
+        self.assertFalse(
+            effects['pure_support_scope_conditions']['all_positions_support_only'],
+            "2023-03-08 午火泄气：all_positions_support_only 应为 False")
         self.assertFalse(effects['pure_support_scope_met'])
         self.assertTrue(a['blockers'])
+        # blocker 必须关联到泄气事实
+        blocker_reasons = [b['reason'] for b in a['blockers']]
+        self.assertTrue(any('support' in r.lower() or 'condition' in r.lower() 
+                           for r in blocker_reasons),
+            f"Blocker 应关联支持条件：{blocker_reasons}")
 
     def test_strong_counterexample_clash_breaks_no_interactions(self):
         # 反例：辛酉/乙卯/甲子/丙寅（酉冲卯）-> no_unresolved_interactions False
