@@ -80,6 +80,8 @@
 
 | E0041 | 2026-10-18 | TJ-010.2 | 已合并 | 通根/透干/生扶克泄作用条件矩阵正式关账：公开 PR #259 merge `1a013311e2eef90807e2d1d80c5ab0ae8cda9e93`、私有验收 PR #62 merge `08d00b4d272615cad0451086676181e92eebd7f3`。ChatGPT 独立复审通过。公开 CI 10/10；私有矩阵 20/20、Evidence 11/11、负例 8/8（含伪造source_id/section_id/清空evidence_ids/伪造effective）、Phase2 173/173、Golden 117/117。Evidence校验合同：逐行structure_evidence必填、effect_evidence对effective行必填、fact_ref按事实类型解引用验证、元数据字段严格比对、每行status与真实Rule输出1:1核对。未修改四柱算法、未改测试预期、235封存文件未动。 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/259 · https://github.com/HelloMrDuan/tianji-private-knowledge/pull/62 | 1a013311e2eef90807e2d1d80c5ab0ae8cda9e93 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/39095238419 · https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/39095500599 |
 
+| E0042 | 2026-10-18 | TJ-010.3 | 进行中 | 从公开 main 1e9d885 创建分支 tj-010.3-wood-strength；核对已有 bazi-strength-adjudication-v1 实现与强/弱/无法裁定/冲突 Golden 覆盖，补齐木日主已审范围正反复算缺口；不新增日主/月份/流派，不做权重评分 | — | — | — |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
