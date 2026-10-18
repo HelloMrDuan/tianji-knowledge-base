@@ -84,6 +84,8 @@
 
 | E0043 | 2026-10-18 | TJ-010.3 | 已合并 | 木日主已审范围正反复算正式关账：公开 PR #261 merge `c593ee0b0753c1e2f273b3521bfd1c65ebd46434`、私有验收 PR #63 merge `83e59a21eaa7d70e2fedc2b6990f3ee0e756a4f9`。ChatGPT 独立复审真实代码和 Actions 日志，核心验收通过。公开 CI 9/9；私有专项 14/14（含4日期子测试）、Phase2 173/173、Golden 117/117、235封存资产验证通过。测试真实性修复：删除所有宽泛 OR 断言；2023-03-08/18（卯月乙日主午火泄气）与2018-09-10/30（酉月乙日主壬水生扶）诚实重分类为 indeterminate 反例；测试名称修正为反例命名；惊蛰当秒 10:22:45 明确为卯月。确定性正例：强 癸卯/乙卯/甲子/乙亥+1963/2043，弱 戊午/辛酉/甲午/庚午+2038/1978。未覆盖：2015-2028无真实孤立弱正例（无水干/无木根/辛透），如实保留。未修改四柱算法、Golden、Canonical、封存文件。 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/261 · https://github.com/HelloMrDuan/tianji-private-knowledge/pull/63 | c593ee0b0753c1e2f273b3521bfd1c65ebd46434 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/39118822484 · https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/39119908210 |
 
+| E0044 | 2026-10-18 | TJ-011.1 | 进行中 | 从公开 main 02b9485a 创建分支 tj-011.1-condition-audit，从私有 main 83e59a21 创建分支 tj-011.1-private-acceptance；开始逐项核定 bazi-strength-adjudication-v1 的 8 条强充分条件与 7 条弱充分条件，建立逐条件审核矩阵，验证每条的古籍依据、程序计算与反例覆盖 | — | — | — |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
