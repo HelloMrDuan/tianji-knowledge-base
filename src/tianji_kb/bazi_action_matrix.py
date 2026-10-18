@@ -521,47 +521,93 @@ def _resolve_fact_ref(fact_ref, steps_by_idx, section, idx, key,
 
 
 def _verify_index_correspondence(result, trace):
-    """Verify strict 1:1 correspondence: lengths, indices, statuses."""
+    """Verify strict 1:1 correspondence: lengths, indices, statuses.
+
+    Replicates the status determination in _assemble() against the real
+    Rule outputs, so a forged 'effective' can never pass:
+    - Roots: branch_relations conflict forbids effective even when
+      root_availability == 'effective'; effective requires availability
+      'effective' AND no conflict.
+    - Actions: effective requires effect_status ==
+      'effective_in_reviewed_context'; otherwise conflict -> unresolved,
+      else candidate.
+    """
     steps = {s['rule_id']: s for s in trace.steps}
-    # Root availability: complete length check, no duplicates
+    # --- Roots: need root_conditions (conflicts) + root_availability ---
+    rc_step = steps.get('bazi.phase2.root_conditions')
     ra_step = steps.get('bazi.phase2.root_availability')
-    if ra_step:
+    if rc_step and ra_step:
+        rc_roots = rc_step['output'].get('roots', [])
         ra_roots = ra_step['output'].get('roots', [])
-        if len(ra_roots) != len(result['roots']):
+        if not (len(rc_roots) == len(ra_roots) == len(result['roots'])):
             raise ValueError(
-                f"Root availability length mismatch: "
-                f"trace={len(ra_roots)}, matrix={len(result['roots'])}")
+                f"Root count mismatch: conditions={len(rc_roots)}, "
+                f"availability={len(ra_roots)}, matrix={len(result['roots'])}")
         seen = set()
         for r in ra_roots:
             idx = r.get('root_index')
             if idx in seen:
                 raise ValueError(f"Duplicate root_index {idx} in availability")
             seen.add(idx)
-        # Verify status correspondence
         for i, row in enumerate(result['roots']):
-            ra_entry = next((r for r in ra_roots if r.get('root_index') == i), None)
+            rc_entry = rc_roots[i]
+            ra_entry = next(
+                (r for r in ra_roots if r.get('root_index') == i), None)
             if ra_entry is None:
                 raise ValueError(f"Root {i}: missing availability entry")
-            # If matrix says effective, availability must say effective
-            if row['status'] == 'effective':
-                if ra_entry.get('root_availability') != 'effective':
-                    raise ValueError(
-                        f"Root {i}: matrix effective but availability "
-                        f"is {ra_entry.get('root_availability')}")
-    # Action effects: same strict checks
+            # Replicate _assemble status logic
+            has_conflict = bool(
+                rc_entry.get('conditions', {}).get('branch_relations'))
+            avail_status = ra_entry.get('root_availability', 'unresolved')
+            if has_conflict:
+                expected = 'unresolved'
+            elif avail_status == 'effective':
+                expected = 'effective'
+            elif avail_status == 'conditional':
+                expected = 'candidate'
+            else:
+                expected = 'unresolved'
+            if row['status'] != expected:
+                raise ValueError(
+                    f"Root {i}: matrix status {row['status']!r} != "
+                    f"expected {expected!r} (conflict={has_conflict}, "
+                    f"availability={avail_status!r})")
+    # --- Actions: need action_conditions (conflicts) + action_effects ---
+    ac_step = steps.get('bazi.phase2.action_conditions')
     ae_step = steps.get('bazi.phase2.action_effects')
-    if ae_step:
+    if ac_step and ae_step:
+        ac_visible = ac_step['output'].get('visible_relations', [])
         ae_visible = ae_step['output'].get('visible_relations', [])
-        if len(ae_visible) != len(result['actions']):
+        if not (len(ac_visible) == len(ae_visible) == len(result['actions'])):
             raise ValueError(
-                f"Action effects length mismatch: "
-                f"trace={len(ae_visible)}, matrix={len(result['actions'])}")
+                f"Action count mismatch: conditions={len(ac_visible)}, "
+                f"effects={len(ae_visible)}, matrix={len(result['actions'])}")
         seen = set()
         for e in ae_visible:
             idx = e.get('action_index')
             if idx in seen:
                 raise ValueError(f"Duplicate action_index {idx} in effects")
             seen.add(idx)
+        eff_by_idx = {e.get('action_index'): e for e in ae_visible}
+        for k, row in enumerate(result['actions']):
+            ac_entry = ac_visible[k]
+            ae_entry = eff_by_idx.get(k)
+            if ae_entry is None:
+                raise ValueError(f"Action {k}: missing effect entry")
+            # Replicate _assemble status logic
+            eff_status = ae_entry.get('effect_status', 'unresolved')
+            if eff_status == 'effective_in_reviewed_context':
+                expected = 'effective'
+            else:
+                cond = ac_entry.get('conditions', {})
+                has_conflict = bool(cond.get('root_branch_relations')) or bool(
+                    cond.get('stem_combinations'))
+                expected = 'unresolved' if has_conflict else 'candidate'
+            if row['status'] != expected:
+                raise ValueError(
+                    f"Action {k}: matrix status {row['status']!r} != "
+                    f"expected {expected!r} (effect_status={eff_status!r})")
+
 
 
 def _assemble(pillars, day_master, roots, availability, actions, effects, cmd):
