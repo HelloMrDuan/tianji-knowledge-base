@@ -398,8 +398,23 @@ def _verify_evidence_consistency(result, trace, chart):
                 if ev.get('variant') != trace.variant:
                     raise ValueError(
                         f"{section}[{idx}].{key}: variant mismatch")
+                # Verify evidence_id non-empty and evidence_ids non-empty
+                eid0 = ev.get('evidence_id')
+                eids = ev.get('evidence_ids', [])
+                if not eid0:
+                    raise ValueError(
+                        f"{section}[{idx}].{key}: empty evidence_id")
+                if not eids:
+                    raise ValueError(
+                        f"{section}[{idx}].{key}: empty evidence_ids")
+                if eid0 not in eids:
+                    raise ValueError(
+                        f"{section}[{idx}].{key}: evidence_id not in evidence_ids")
                 # Verify evidence_ids belong to this step
                 step_eids = set(step.get('evidence_ids', []))
+                if not step_eids:
+                    raise ValueError(
+                        f"{section}[{idx}].{key}: step {rule_id} has no evidence")
                 for eid in eids:
                     if eid not in step_eids:
                         raise ValueError(
@@ -422,16 +437,13 @@ def _verify_evidence_consistency(result, trace, chart):
                     if ref.get('variant') != trace.variant:
                         raise ValueError(
                             f"{section}[{idx}].{key}: evidence variant mismatch")
-                    # Verify metadata fields match the real ref of the
-                    # block's primary evidence_id (strict)
+                    # Verify metadata fields match the primary evidence_id's ref
                     if eid == eid0:
                         for field in ('source_id', 'section_id', 'classic_id',
                                       'evidence_level'):
                             if ev.get(field) != ref.get(field):
                                 raise ValueError(
-                                    f"{section}[{idx}].{key}: {field} mismatch: "
-                                    f"row={ev.get(field)!r}, "
-                                    f"trace={ref.get(field)!r}")
+                                    f"{section}[{idx}].{key}: {field} mismatch")
                 # Verify fact_ref resolves to real location AND matches row
                 fact_ref = ev.get('fact_ref', '')
                 _resolve_fact_ref(fact_ref, steps_by_idx, section, idx, key,
