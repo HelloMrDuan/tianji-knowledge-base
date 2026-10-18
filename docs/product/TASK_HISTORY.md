@@ -76,6 +76,8 @@
 
 | E0039 | 2026-10-15 | TJ-010.1 | 已合并 | 单任务古籍来源审计正式完成：公开 PR #257 merge `2d8c7075a7fda42f5aca55aa1960cea972e421ca`、私有证据/真实运行时 PR #61 merge `b970fe68df19bcefd11ecc2c579b2172dc64b6d6`。三个已审 C 级电子文本来源、11 条 Phase2 规则、40 个被引短引及三刑异文 s020（共 41 条）完成固定原始 SHA-256、字符偏移、字形和引用追踪；私有 8/8 原文及错误样本测试成功，235 个原封存知识资产清单未改变，真实 EvidenceResolver/ExecutionTrace 生成并校验 97 个 Evidence ID。公开最终 10/10 工作流（含真正执行 6 项专项测试、隐私和跨页回归）success。纠正“二级实现来源即无古籍支持”的过度降级，s004 仅证明 12 支藏干成员，不证明顺序/本气权重或 60/30/10；寅月分日、余气异文、三刑跨学派保留 unresolved，独立底本未核，仍只 C 级。没有修改四柱算法、未放开通用强弱/喜用/吉凶、未生产部署；TJ-010.2 等后续原子任务不关账。 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/257 · https://github.com/HelloMrDuan/tianji-private-knowledge/pull/61 | 2d8c7075a7fda42f5aca55aa1960cea972e421ca | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/38725443092 · https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38725488144 |
 
+| E0040 | 2026-10-16 | TJ-010.2 | 进行中 | 从 main 888dea53 创建分支 tj-010.2-action-matrix；构建通根/透干/生扶克泄作用条件矩阵；修复PR #259关账记录 | — | — | — |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
