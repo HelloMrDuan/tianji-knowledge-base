@@ -5,7 +5,12 @@ from pathlib import Path
 import unittest
 from unittest.mock import AsyncMock
 
-from fastapi.testclient import TestClient
+try:
+    from fastapi.testclient import TestClient
+    HAS_FASTAPI = True
+except ImportError:
+    TestClient = None
+    HAS_FASTAPI = False
 from tianji_kb.api import create_app
 from tianji_kb.bazi_adjudication import ADJUDICATION_VARIANT
 from tianji_kb.bazi_pattern import PATTERN_VARIANT, candidates
@@ -163,6 +168,7 @@ class BaziPatternTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'claim_unavailable'):
             authorize_structural_claim(ROOT,'bazi-reading',plain,'bazi.pattern_candidates')
 
+    @unittest.skipIf(not HAS_FASTAPI, 'FastAPI not available')
     def test_api_requires_research_and_refuses_ai_before_model(self):
         inputs = {'value':'2000-01-01T12:00:00+08:00','pattern_variant':PATTERN_VARIANT}
         provider = type('ForbiddenProvider',(),{'explain':AsyncMock(side_effect=AssertionError('No model'))})()
