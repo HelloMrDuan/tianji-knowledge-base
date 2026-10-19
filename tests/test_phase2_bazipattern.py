@@ -7,11 +7,12 @@ from unittest.mock import AsyncMock
 
 try:
     from fastapi.testclient import TestClient
+    from tianji_kb.api import create_app
     HAS_FASTAPI = True
 except ImportError:
     TestClient = None
+    create_app = None
     HAS_FASTAPI = False
-from tianji_kb.api import create_app
 from tianji_kb.bazi_adjudication import ADJUDICATION_VARIANT
 from tianji_kb.bazi_pattern import PATTERN_VARIANT, candidates
 from tianji_kb.engine import execute
