@@ -730,8 +730,68 @@ isolated = (effects['isolated_control_scope_met']
 
 ## 第三部分：最终裁决附加条件（_bounded_assessment）
 
-除 15 个 scope 条件外，`_bounded_assessment`（`bazi_adjudication.py` 第 129-140 行）还有以下附加合取条件：
+除 15 个 scope 条件外，`_bounded_assessment`（`bazi_adjudication.py` 第 129-141 行）还有以下附加合取条件：
 
+### 强分类（pure）的完整合取
+
+```python
+pure = (effects['pure_support_scope_met']
+    and all(effects['pure_support_scope_conditions'].values())  # 8条scope条件
+    and command['month_branch'] == '卯' and command['relation'] == 'same_element'
+    and roots['root_presence']
+    and all(r['root_availability'] == 'effective' for r in roots['roots'])
+    and all(r['effect_status'] == 'effective_in_reviewed_context' for r in effects['visible_relations']))
+```
+
+附加条件（超出15条scope）：
+1. `command['month_branch'] == '卯'`：月令必须为卯（与 S2 `reviewed_same_element_month` 呼应，但为独立检查）
+2. `command['relation'] == 'same_element'`：月令与日主同五行
+3. `roots['root_presence']`：必须有根存在
+4. 全部根的 `root_availability == 'effective'`：每个根都有效
+5. 全部可见关系的 `effect_status == 'effective_in_reviewed_context'`：每个可见关系在已审核上下文中有效
+
+### 弱分类（isolated）的完整合取
+
+```python
+isolated = (effects['isolated_control_scope_met']
+    and all(effects['isolated_control_scope_conditions'].values())  # 7条scope条件
+    and command['month_branch'] == '酉' and command['relation'] == 'controls_me'
+    and not roots['root_presence']
+    and any(r['fact']['pillar'] == 'month' and r['effective_action'] == 'controls_me'
+            and r['effect_status'] == 'effective_in_reviewed_context' for r in effects['visible_relations']))
+```
+
+附加条件：
+1. `command['month_branch'] == '酉'`：月令必须为酉
+2. `command['relation'] == 'controls_me'`：月令克日主
+3. `not roots['root_presence']`：必须无根
+4. 月柱有 `effective_action == 'controls_me'` 且 `effect_status == 'effective_in_reviewed_context'` 的可见关系
+
+### blockers 的影响
+
+```python
+if not blockers and (pure or isolated):
+    classification = 'strong' if pure else 'weak'
+```
+
+- 只要 `blockers` 非空，即使 `pure` 或 `isolated` 为 True，分类仍为 `indeterminate`
+- blocker 来源：未解决的冲合刑害、根的类型冲突、月令未审核等
+- 这是独立于15条scope条件的**否决机制**
+
+### 与15条scope条件的区别
+
+| 维度 | 15条scope条件 | 附加合取条件 |
+|---|---|---|
+| 位置 | `action_effects` 步骤的输出 | `_bounded_assessment` 直接读取多步骤输出 |
+| 粒度 | 每个条件的独立命题 | 跨步骤的聚合检查（如"全部根有效"） |
+| 古籍关联 | 逐条审核（A/B/C分级） | 未逐条审核，属于实现层面的完整性检查 |
+| 认证状态 | 15条已核定 | **附加条件未纳入本次15条审核范围** |
+
+### 真实边界
+
+- 任一附加条件失败 → `pure`/`isolated` 为 False → `indeterminate`
+- `blockers` 非空 → `indeterminate`（即使所有条件为 True）
+- 本次 TJ-011.1 仅审核 15 条 scope 条件，**不自动视为整个最终裁决已获得认证**
 
 ---
 
@@ -772,7 +832,16 @@ isolated = (effects['isolated_control_scope_met']
 
 ### 是否需代码修复？
 
-**否**。未发现过度宽松的条件。两个C级假设均为保守方向（更严格），不会导致错误输出 strong/weak，只会导致更少的情况被裁定。这是研究 Variant 可接受的。本轮不删除这些条件，也不得擅自改变现有强弱裁决算法。
+**否**。未发现比审核范围更宽松的条件。两个C级假设均为保守方向（更严格），会减少被裁定的情况数量。
+
+**明确说明**：
+- 收窄输出集合不等于证明剩余分类正确；本审核未对算法整体正确性做独立证明
+- S5、W5 属于未验证研究假设，不得声称为古籍认证
+- 当前 Variant 仍是 `research_only=true`，不得将其认定为通用旺衰算法
+- 已完成的执行指针核验（15/15）与尚未完成的文献定位核验（4个字符定位 NOT_MAPPED）应分别标记
+- 11条缺少独立反例的条件保留为研究缺口，不得虚构案例
+
+本轮不删除这些条件，也不得擅自改变现有强弱裁决算法。
 
 ### 待私有隔离环境核验事项
 
