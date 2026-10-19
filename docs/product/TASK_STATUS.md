@@ -44,7 +44,7 @@
 | TJ-010.2 | M2 | 通根/透干/生扶/克泄作用条件矩阵 | 已合并 | [公开功能 PR #259](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/259) merge `1a013311e2eef90807e2d1d80c5ab0ae8cda9e93` · [私有验收 PR #62](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/62) merge `08d00b4d272615cad0451086676181e92eebd7f3` · [公开 CI 10/10](https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/39095238419) · [私有完整验收](https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/39095500599) | 2026-10-18 | 通根/透干/生扶克泄作用条件矩阵正式完成：roots/exposures/actions三类矩阵5状态；合冲刑冲突→unresolved；逐行Evidence绑定（rule_id/variant/fact_ref/evidence_ids/source_id/section_id）；8项篡改负例全部拒绝；不计算权重、不作整体旺衰判断；未放开喜用神/吉凶 |
 | TJ-010.3 | M2 | 木日主已审范围正反复算 | 已合并 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/261 | 2026-10-18 | 公开 merge c593ee0b，私有 PR #63 merge 83e59a21，木日主已审范围正反复算完成 |
 | TJ-011.1 | M2 | 将 bazi-strength-adjudication-v1 的每条充分条件逐项核定 | 已合并 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/263 | 2026-10-18 | 15条条件逐项核定完成，已合并关账 |
-| TJ-011.2 | M2 | 增新日主或月份（仅有证据才做） | 待做 | — | — | 按 WBS 验收条件执行 |
+| TJ-011.2 | M2 | 增新日主或月份（仅有证据才做） | 进行中 | — | — | 正在核查扩围证据 |
 | TJ-011.3 | M2 | 限界显示与研究/正式开关 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-012.1 | M2 | 正官/印綬等现有格局候选再审核 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-012.2 | M2 | 真/假、成/败、特殊格局的反例 | 待做 | — | — | 按 WBS 验收条件执行 |
