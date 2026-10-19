@@ -6,6 +6,7 @@ Covers ChatGPT review findings:
 - Problem 3: Forged public_enabled cannot bypass server-side allowlist
 - Problem 4: Blocker reasons correctly distinguish conflict vs insufficient
 """
+import json
 import unittest
 
 from src.tianji_kb.bazi_strength_display import (
@@ -340,6 +341,131 @@ class FactorGraphLeakTests(unittest.TestCase):
         result = public_projection.project_execution(data)
         graph = result['chart'].get('strength_factor_graph', {})
         self.assertEqual(graph.get('display_state'), 'research_only')
+
+
+
+class MissingVariantFailClosedTests(unittest.TestCase):
+    """TJ-011.3 final: missing/unknown/forged variant must fail closed."""
+    
+    def _make_graph_data(self, graph_fields):
+        return {
+            'evidence': {},
+            'rule_matches': [],
+            'trace': [],
+            'chart': {
+                'pillars': [
+                    {'stem': {'value': '癸'}, 'branch': {'value': '卯'}},
+                    {'stem': {'value': '乙'}, 'branch': {'value': '卯'}},
+                    {'stem': {'value': '甲'}, 'branch': {'value': '子'}},
+                    {'stem': {'value': '乙'}, 'branch': {'value': '亥'}},
+                ],
+                'strength_factor_graph': dict(graph_fields),
+            },
+        }
+    
+    def test_1_missing_variant_with_strong_stripped(self):
+        """Graph without variant but with overall_strength=strong."""
+        data = self._make_graph_data({'overall_strength': 'strong'})
+        result = public_projection.project_execution(data)
+        graph = result['chart'].get('strength_factor_graph', {})
+        self.assertNotIn('overall_strength', graph)
+        self.assertEqual(graph.get('display_state'), 'research_only')
+    
+    def test_2_missing_variant_with_weak_stripped(self):
+        """Graph without variant but with overall_strength=weak."""
+        data = self._make_graph_data({'overall_strength': 'weak'})
+        result = public_projection.project_execution(data)
+        graph = result['chart'].get('strength_factor_graph', {})
+        self.assertNotIn('overall_strength', graph)
+    
+    def test_3_unknown_variant_with_verdict_stripped(self):
+        """Graph with unknown variant but research verdict fields."""
+        data = self._make_graph_data({
+            'variant': 'unknown-forged-variant',
+            'overall_strength': 'strong',
+            'variant_dependencies': {},
+            'adjudication_fact_ref': '#/trace/0/output',
+        })
+        result = public_projection.project_execution(data)
+        graph = result['chart'].get('strength_factor_graph', {})
+        self.assertNotIn('overall_strength', graph)
+        self.assertNotIn('variant_dependencies', graph)
+        self.assertNotIn('adjudication_fact_ref', graph)
+    
+    def test_4_no_assessment_but_graph_has_verdict(self):
+        """No strength_assessment, but graph independently has verdict."""
+        data = self._make_graph_data({
+            'overall_strength': 'weak',
+            'factors': [{'type': 'root'}],
+        })
+        # No strength_assessment key at all
+        result = public_projection.project_execution(data)
+        graph = result['chart'].get('strength_factor_graph', {})
+        self.assertNotIn('overall_strength', graph)
+        # Structural factors preserved
+        self.assertIn('factors', graph)
+    
+    def test_5_forged_public_enabled_with_missing_variant(self):
+        """Forged public_enabled=True with missing variant."""
+        data = self._make_graph_data({
+            'overall_strength': 'strong',
+            'public_enabled': True,  # Forged, must be ignored
+        })
+        result = public_projection.project_execution(data)
+        graph = result['chart'].get('strength_factor_graph', {})
+        self.assertNotIn('overall_strength', graph)
+    
+    def test_6_normal_structural_graph_unchanged(self):
+        """Normal structural graph without research fields passes through."""
+        original_factors = [{'type': 'root', 'position': 'month_branch'}]
+        data = self._make_graph_data({'factors': original_factors})
+        result = public_projection.project_execution(data)
+        graph = result['chart'].get('strength_factor_graph', {})
+        # No research fields, so no display_state added, factors intact
+        self.assertEqual(graph.get('factors'), original_factors)
+        self.assertNotIn('display_state', graph)
+    
+    def test_7_full_projection_no_leak(self):
+        """End-to-end: full projection leaves no unauthorized verdict."""
+        data = {
+            'evidence': {},
+            'rule_matches': [],
+            'trace': [],
+            'chart': {
+                'pillars': [
+                    {'stem': {'value': '癸'}, 'branch': {'value': '卯'}},
+                    {'stem': {'value': '乙'}, 'branch': {'value': '卯'}},
+                    {'stem': {'value': '甲'}, 'branch': {'value': '子'}},
+                    {'stem': {'value': '乙'}, 'branch': {'value': '亥'}},
+                ],
+                'strength_assessment': {
+                    'classification': 'strong',
+                    'variant': 'bazi-strength-adjudication-v1',
+                    'research_only': True,
+                    'public_enabled': True,  # Forged
+                    'blockers': [],
+                },
+                'strength_factor_graph': {
+                    # No variant at all - must still fail closed
+                    'overall_strength': 'strong',
+                    'variant_dependencies': {'x': 1},
+                },
+            },
+        }
+        result = public_projection.project_execution(data)
+        chart = result['chart']
+        # Neither path leaks
+        self.assertNotIn('classification',
+                         chart.get('strength_assessment', {}))
+        self.assertNotIn('overall_strength',
+                         chart.get('strength_factor_graph', {}))
+        # No 'strong'/'weak' verdict strings in the projected chart
+        chart_str = json.dumps(chart, ensure_ascii=False)
+        # 'strong' may appear in display_state values? No - we use
+        # 'research_only'. Check no verdict leakage.
+        self.assertNotIn('"overall_strength"', chart_str)
+        self.assertNotIn('"classification": "strong"', chart_str)
+        self.assertNotIn('"classification":"strong"', chart_str)
 
 
 if __name__ == '__main__':

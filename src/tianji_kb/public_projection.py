@@ -163,24 +163,33 @@ def _apply_policy_to_factor_graph(graph):
     """
     from .bazi_strength_display import PUBLIC_STRENGTH_VARIANTS
     
+    # Fail-closed: research verdict fields are removed unless the variant
+    # is EXPLICITLY in the server-side public allowlist. A missing, empty,
+    # or unknown variant must NOT bypass filtering.
+    # Research verdict fields (set in operations/bazi_chart.py when
+    # strength_variant == ADJUDICATION_VARIANT):
+    _RESEARCH_GRAPH_FIELDS = ('overall_strength', 'variant_dependencies',
+                              'adjudication_fact_ref')
+    
     variant = graph.get('variant')
-    # Only adjudication-variant graphs need filtering; regular factor
-    # graphs (root visibility) pass through unchanged.
-    if variant is None:
+    
+    # Explicitly authorized: leave untouched.
+    if variant is not None and variant in PUBLIC_STRENGTH_VARIANTS:
         return
     
-    if variant in PUBLIC_STRENGTH_VARIANTS:
+    # Check if any research verdict fields are present.
+    has_research_fields = any(k in graph for k in _RESEARCH_GRAPH_FIELDS)
+    if not has_research_fields:
+        # Regular structural factor graph (root visibility, etc.):
+        # no research verdicts to filter, pass through unchanged.
         return
     
-    # Not authorized: remove research verdict fields.
-    # These are set only when strength_variant == ADJUDICATION_VARIANT.
-    for key in ('overall_strength', 'variant_dependencies',
-                'adjudication_fact_ref'):
+    # Research fields present but not explicitly authorized:
+    # strip them. This covers missing/empty/unknown/forged variants.
+    for key in _RESEARCH_GRAPH_FIELDS:
         graph.pop(key, None)
-    # Mark the graph as research-filtered for transparency.
-    # The structural factor data (root candidates, etc.) remains.
-    if 'overall_strength' in graph or 'variant' in graph:
-        pass
+    # Mark as research-filtered for transparency.
+    # Structural factor data (root candidates, etc.) remains intact.
     graph['display_state'] = 'research_only'
     graph['display_message'] = "该结论尚在研究审核中，暂不公开展示"
 
