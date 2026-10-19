@@ -267,5 +267,80 @@ class ProjectionWiringTests(unittest.TestCase):
         self.assertNotIn('中和', msg)
 
 
+
+class FactorGraphLeakTests(unittest.TestCase):
+    """TJ-011.3 final fix: strength_factor_graph.overall_strength leak."""
+    
+    def _make_projection_data_with_graph(self, overall_strength='strong'):
+        """Build data with BOTH leak paths (as bazi_chart.py does)."""
+        return {
+            'evidence': {},
+            'rule_matches': [],
+            'trace': [],
+            'chart': {
+                'pillars': [
+                    {'stem': {'value': '癸'}, 'branch': {'value': '卯'}},
+                    {'stem': {'value': '乙'}, 'branch': {'value': '卯'}},
+                    {'stem': {'value': '甲'}, 'branch': {'value': '子'}},
+                    {'stem': {'value': '乙'}, 'branch': {'value': '亥'}},
+                ],
+                'strength_assessment': {
+                    'classification': overall_strength,
+                    'variant': 'bazi-strength-adjudication-v1',
+                    'research_only': True,
+                    'public_enabled': True,  # Forged!
+                    'ai_enabled': False,
+                    'blockers': [],
+                },
+                'strength_factor_graph': {
+                    'variant': 'bazi-strength-adjudication-v1',
+                    'overall_strength': overall_strength,  # LEAK PATH 2
+                    'variant_dependencies': {},
+                    'adjudication_fact_ref': '#/trace/5/output',
+                    'factors': [{'type': 'root', 'position': 'month'}],
+                },
+            },
+        }
+    
+    def test_graph_overall_strength_strong_not_leaked(self):
+        data = self._make_projection_data_with_graph('strong')
+        result = public_projection.project_execution(data)
+        graph = result['chart'].get('strength_factor_graph', {})
+        self.assertNotIn('overall_strength', graph)
+    
+    def test_graph_overall_strength_weak_not_leaked(self):
+        data = self._make_projection_data_with_graph('weak')
+        result = public_projection.project_execution(data)
+        graph = result['chart'].get('strength_factor_graph', {})
+        self.assertNotIn('overall_strength', graph)
+    
+    def test_graph_overall_strength_indeterminate_not_leaked(self):
+        data = self._make_projection_data_with_graph('indeterminate')
+        result = public_projection.project_execution(data)
+        graph = result['chart'].get('strength_factor_graph', {})
+        self.assertNotIn('overall_strength', graph)
+    
+    def test_graph_adjudication_fields_stripped(self):
+        data = self._make_projection_data_with_graph('strong')
+        result = public_projection.project_execution(data)
+        graph = result['chart'].get('strength_factor_graph', {})
+        self.assertNotIn('variant_dependencies', graph)
+        self.assertNotIn('adjudication_fact_ref', graph)
+    
+    def test_graph_structural_factors_preserved(self):
+        """Safe structural data (factors) must not be deleted."""
+        data = self._make_projection_data_with_graph('strong')
+        result = public_projection.project_execution(data)
+        graph = result['chart'].get('strength_factor_graph', {})
+        # Structural factors remain; only verdict fields removed
+        self.assertIn('factors', graph)
+    
+    def test_graph_has_display_notice(self):
+        data = self._make_projection_data_with_graph('strong')
+        result = public_projection.project_execution(data)
+        graph = result['chart'].get('strength_factor_graph', {})
+        self.assertEqual(graph.get('display_state'), 'research_only')
+
+
 if __name__ == '__main__':
     unittest.main()
