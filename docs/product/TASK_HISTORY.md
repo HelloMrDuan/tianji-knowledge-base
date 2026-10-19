@@ -98,6 +98,7 @@
 | E0054 | 2026-10-19 | TJ-011.3 | 已合并 | TJ-011.3失败关闭修复关账：PR #272合并（ca2027db15a8），缺失Variant时研究结论不得泄露，32项测试通过；CI 9/9 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/272 | ca2027db15a8710b400ccec2490a3e85f03c8b81 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/272/checks |
 | E0055 | 2026-10-19 | TJ-012.1 | 已提交PR | 正官/印绶候选再审核：新增杂气月标记断言测试；待CI验收 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/274 | — | — |
 | E0056 | 2026-10-19 | TJ-012.1 | 已合并 | TJ-012.1关账：PR #274合并（8618a6072d9c），杂气月标记断言测试通过；CI 9/9 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/274 | 8618a6072d9c88d76d1f6b24678d7e6c2663cd00 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/274/checks |
+| E0057 | 2026-10-19 | TJ-012.1 | 进行中 | 纠错：E0055/E0056关账验收范围不足（仅一条杂气月布尔测试，未达WBS实质要求）；修复tests/test_phase2_bazipattern.py重复测试类定义；validate.yml新增pattern测试CI执行 | — | — | — |
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
