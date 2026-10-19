@@ -91,6 +91,7 @@
 | E0047 | 2026-10-19 | TJ-011.3 | 已提交PR | TJ-011.3限界显示策略实现完成：新增bazi_strength_display.py（服务端展示裁决：public_result/research_only/insufficient/conflict/out_of_scope/error六态，indeterminate永不误读为中和/身弱/身强）；新增12项测试全过；确认公开API已拦截adjudication variant（research_only=True, public_enabled=False），前端未调用裁决接口且已有明确边界文案；无客户端绕过风险 | — | — | — |
 | E0048 | 2026-10-19 | TJ-011.3 | 已合并 | TJ-011.3正式关账：公开PR #266合并（dee5bffac630），限界显示策略bazi_strength_display.py与12项测试已入main；确认research_only=True/public_enabled=False边界，前端未调用裁决接口；CI 9/9通过 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/266 | dee5bffac630fbab1a26cac5a033d6ff83e99d2a | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/266/checks |
 | E0049 | 2026-10-19 | TJ-011.3 | 进行中 | 独立复审整改启动：修复策略未接入（接入public_projection）、_check_scope空实现（集成trusted日主/月支）、public_enabled伪造绕过（改服务端allowlist）、blocker冲突/不足混淆（按真实reason分类） | — | — | — |
+| E0050 | 2026-10-19 | TJ-011.3 | 已提交PR | 复审整改PR #268已提交：策略接入投影层，授权/范围/冲突修复完成，19项测试通过，待CI验收 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/268 | — | — |
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
