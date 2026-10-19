@@ -87,14 +87,29 @@ def _apply_strength_display_policy(chart):
     server-computed chart data, never from client input.
     
     If the assessment is not authorized for public display, the
-    classification is removed and a display notice is added instead.
+    classification is removed and replaced with a display state indicator.
     The full assessment details (blockers, evidence) are already stripped
     by _public_facts; this ensures the verdict itself doesn't leak.
-    """
-    assessment = chart.get('strength_assessment')
-    if not isinstance(assessment, dict):
-        return
     
+    TJ-011.3 final fix: Also handles strength_factor_graph.overall_strength,
+    which is a second projection path for the research conclusion
+    (set in bazi_chart.py when strength_variant == ADJUDICATION_VARIANT).
+    """
+    from .bazi_strength_display import PUBLIC_STRENGTH_VARIANTS
+    
+    assessment = chart.get('strength_assessment')
+    if isinstance(assessment, dict):
+        _apply_policy_to_assessment(chart, assessment)
+    
+    # Second leak path: strength_factor_graph.overall_strength
+    # Set in operations/bazi_chart.py when adjudication variant runs.
+    graph = chart.get('strength_factor_graph')
+    if isinstance(graph, dict):
+        _apply_policy_to_factor_graph(graph)
+
+
+def _apply_policy_to_assessment(chart, assessment):
+    """Apply display policy to the strength_assessment dict."""
     # Trusted sources: variant from assessment (server-generated),
     # day_master/month_branch from computed pillars.
     variant = assessment.get('variant')
@@ -103,12 +118,10 @@ def _apply_strength_display_policy(chart):
     try:
         pillars = chart.get('pillars') or []
         if len(pillars) >= 3:
-            # pillars[2] is day pillar, pillars[1] is month pillar
             day_pillar = pillars[2] if isinstance(pillars[2], dict) else {}
             month_pillar = pillars[1] if isinstance(pillars[1], dict) else {}
             day_stem = day_pillar.get('stem')
             month_br = month_pillar.get('branch')
-            # Handle both dict and string forms
             if isinstance(day_stem, dict):
                 day_master = day_stem.get('value')
             elif isinstance(day_stem, str):
@@ -128,19 +141,49 @@ def _apply_strength_display_policy(chart):
     )
     
     if decision['may_display_classification']:
-        # Authorized: keep classification, add scope note
         assessment['display_state'] = 'public_result'
     else:
-        # Not authorized: remove the verdict, keep only the display notice.
-        # This prevents research conclusions from reaching public clients
-        # even if the engine-level block were somehow bypassed.
         assessment.pop('classification', None)
         assessment['display_state'] = decision['display_state']
         assessment['display_message'] = decision['user_message']
-        # Strip detailed internals that _public_facts might have missed
         for key in ('blockers', 'why_not_indeterminate', 'conflict_ids',
-                    'unresolved_evidence', 'supported_classifications'):
+                    'unresolved_evidence', 'supported_classifications',
+                    'decision_status'):
             assessment.pop(key, None)
+
+
+def _apply_policy_to_factor_graph(graph):
+    """Apply display policy to strength_factor_graph.
+    
+    TJ-011.3 final fix: The adjudication variant sets
+    graph['overall_strength'] = assessment['classification'] in
+    operations/bazi_chart.py. This is a second leak path that must
+    be closed. When the graph's variant is not in the public allowlist,
+    remove all adjudication-specific verdict fields.
+    """
+    from .bazi_strength_display import PUBLIC_STRENGTH_VARIANTS
+    
+    variant = graph.get('variant')
+    # Only adjudication-variant graphs need filtering; regular factor
+    # graphs (root visibility) pass through unchanged.
+    if variant is None:
+        return
+    
+    if variant in PUBLIC_STRENGTH_VARIANTS:
+        return
+    
+    # Not authorized: remove research verdict fields.
+    # These are set only when strength_variant == ADJUDICATION_VARIANT.
+    for key in ('overall_strength', 'variant_dependencies',
+                'adjudication_fact_ref'):
+        graph.pop(key, None)
+    # Mark the graph as research-filtered for transparency.
+    # The structural factor data (root candidates, etc.) remains.
+    if 'overall_strength' in graph or 'variant' in graph:
+        pass
+    graph['display_state'] = 'research_only'
+    graph['display_message'] = "该结论尚在研究审核中，暂不公开展示"
+
 
 
 def project_execution(data):
