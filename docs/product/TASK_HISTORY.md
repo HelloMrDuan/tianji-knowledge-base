@@ -95,3 +95,4 @@
 5. GitHub PR 必须运行 `python scripts/check_task_tracking.py --base <base-commit>`，确认本次恰好一个任务、一个新事件。PR 合并成功后再以**同一任务**单独做关账更新，补齐实际 main SHA。
 
 **验收警戒线**：WBS 全部子任务数量 ≠ 已完成功能数量；公开 PR 合并 ≠ 私有 Canonical 完成；静态截图 ≠ 人工视觉还原；推送成功 ≠ 生产部署完成。
+| E0045 | 2026-10-19 | TJ-011.1 | 已合并 | 公开 PR #263 合并 (f10a67ac)，私有 PR #64 合并 (833f96ec)；15条条件真实解引用验证完成，Evidence ID哈希重算一致，4个古籍定位NOT_MAPPED为研究缺口；S5/W5未验证保留 | — | — | — |
