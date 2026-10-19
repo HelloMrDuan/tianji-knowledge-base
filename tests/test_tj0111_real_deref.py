@@ -130,6 +130,43 @@ class ConditionBindingTests(unittest.TestCase):
             path_key = fact_ref.split('/')[-1]
             self.assertEqual(path_key, cname)
 
+    def test_tampered_pointer_index_fails(self):
+        """篡改 Trace 索引必须被拒绝（恢复）。"""
+        out, a = adjudicate('癸卯', '乙卯', '甲子', '乙亥')
+        trace_steps = get_trace_steps(out)
+        
+        why = a['why_not_indeterminate']
+        cond = why['conditions'][0]
+        original_ref = cond['fact_ref']
+        
+        # 先证明原指针可解析
+        resolved, _ = resolve_pointer(trace_steps, original_ref)
+        self.assertIsInstance(resolved, bool)
+        
+        # 篡改索引
+        tampered = '#/trace/99999/output/pure_support_scope_conditions/wood_day_master'
+        with self.assertRaises(AssertionError):
+            resolve_pointer(trace_steps, tampered)
+
+    def test_tampered_condition_key_fails(self):
+        """篡改 condition key 必须被拒绝（恢复）。"""
+        out, a = adjudicate('癸卯', '乙卯', '甲子', '乙亥')
+        trace_steps = get_trace_steps(out)
+        
+        why = a['why_not_indeterminate']
+        cond = why['conditions'][0]
+        original_ref = cond['fact_ref']
+        
+        # 先证明原指针可解析
+        resolved, _ = resolve_pointer(trace_steps, original_ref)
+        self.assertIsInstance(resolved, bool)
+        
+        # 篡改 key
+        tampered = original_ref.replace('wood_day_master', 'nonexistent_key_xyz')
+        self.assertNotEqual(tampered, original_ref)
+        with self.assertRaises(AssertionError):
+            resolve_pointer(trace_steps, tampered)
+
     def test_swapped_true_pointers_fail(self):
         """交换两个有效 True 指针必须被发现（P0 新增）。"""
         out, a = adjudicate('癸卯', '乙卯', '甲子', '乙亥')
@@ -187,80 +224,133 @@ class ConditionBindingTests(unittest.TestCase):
         # all_positions_support_only 应为 False
         self.assertFalse(effects['pure_support_scope_conditions']['all_positions_support_only'])
         
-        # 通过指针解析验证 False 值
+        # 通过指针解析验证 False 值（必须找到步骤，否则失败）
+        found_step = False
         for idx, step in enumerate(trace_steps):
             if step['rule_id'] == 'bazi.phase2.action_effects':
                 test_ref = f"#/trace/{idx}/output/pure_support_scope_conditions/all_positions_support_only"
                 resolved, resolved_step = resolve_pointer(trace_steps, test_ref)
                 self.assertEqual(resolved, False)
                 self.assertEqual(resolved_step['rule_id'], 'bazi.phase2.action_effects')
+                found_step = True
                 break
+        self.assertTrue(found_step, "action_effects step must be found")
 
 
 class EvidenceResolverTests(unittest.TestCase):
-    """P0: Evidence 与 Trace step 的真实一致性验证（15条）。"""
+    """P0: 真实调用 EvidenceResolver.resolve() 验证 Evidence 来源（15条）。"""
 
-    def test_all_15_conditions_evidence_matches_step(self):
-        """15条条件的 Evidence IDs 必须与 Trace step 的 evidence_ids 一致。"""
+    def test_all_15_conditions_evidence_source_verified(self):
+        """15条条件的 Evidence 必须通过 resolver.resolve() 验证来源。
+        
+        验证链：condition -> Trace step -> resolver.resolve(rule_id, variant)
+        -> source_id/section_id/rule_id/variant/locator
+        """
+        resolver = EvidenceResolver()
+        
         # 强8条
         out_s, a_s = adjudicate('癸卯', '乙卯', '甲子', '乙亥')
         self.assertEqual(a_s['classification'], 'strong')
         trace_s = get_trace_steps(out_s)
         why_s = a_s['why_not_indeterminate']
+        # 使用与实际 ExecutionTrace 一致的 Variant（非 strength_variant）
+        variant_s = out_s.get('variant')
+        self.assertIsNotNone(variant_s, "out['variant'] should exist")
         
         # 弱7条
         out_w, a_w = adjudicate('戊午', '辛酉', '甲午', '庚午')
         self.assertEqual(a_w['classification'], 'weak')
         trace_w = get_trace_steps(out_w)
         why_w = a_w['why_not_indeterminate']
-        
-        # 找到 action_effects 步骤的 evidence_ids
-        def get_action_effects_evidence(trace_steps):
-            for step in trace_steps:
-                if step['rule_id'] == 'bazi.phase2.action_effects':
-                    return set(step.get('evidence_ids', []))
-            return set()
+        variant_w = out_w.get('variant')
+        self.assertIsNotNone(variant_w)
         
         total_verified = 0
         
-        for conditions, out, trace_steps in [
-            (why_s['conditions'], out_s, trace_s),
-            (why_w['conditions'], out_w, trace_w)
+        for conditions, out, trace_steps, variant in [
+            (why_s['conditions'], out_s, trace_s, variant_s),
+            (why_w['conditions'], out_w, trace_w, variant_w)
         ]:
-            step_evidence = get_action_effects_evidence(trace_steps)
-            self.assertTrue(step_evidence, "action_effects step should have evidence_ids")
+            # 找到 action_effects 步骤
+            action_step = None
+            for step in trace_steps:
+                if step['rule_id'] == 'bazi.phase2.action_effects':
+                    action_step = step
+                    break
+            self.assertIsNotNone(action_step, "action_effects step not found")
+            
+            rule_id = 'bazi.phase2.action_effects'
+            
+            # 真实调用 resolver.resolve()
+            resolved_evidence = resolver.resolve(rule_id, variant)
+            self.assertTrue(resolved_evidence, 
+                f"resolve({rule_id}, {variant}) returned empty")
+            
+            # 验证返回的每条 Evidence 元数据
+            for ev in resolved_evidence:
+                self.assertEqual(ev['rule_id'], rule_id,
+                    "Evidence rule_id mismatch")
+                self.assertEqual(ev['variant'], variant,
+                    "Evidence variant mismatch")
+                self.assertTrue(ev.get('source_id'),
+                    "Evidence missing source_id")
+                self.assertTrue(ev.get('section_id'),
+                    "Evidence missing section_id")
+                # locator 字段存在（不输出内容）
+                self.assertIn('locator', ev,
+                    "Evidence missing locator")
+            
+            # 验证条件的 evidence_ids 与步骤一致（共享实现）
+            step_evidence_ids = set(action_step.get('evidence_ids', []))
+            self.assertTrue(step_evidence_ids)
             
             for cond in conditions:
                 cname = cond['condition']
-                evidence_ids = set(cond['evidence_ids'])
+                cond_evidence = set(cond['evidence_ids'])
+                self.assertTrue(cond_evidence, f"{cname}: empty")
+                self.assertEqual(cond_evidence, step_evidence_ids,
+                    f"{cname}: evidence should match step")
                 
-                # 每条必须有 Evidence IDs
-                self.assertTrue(evidence_ids, f"{cname}: empty evidence_ids")
-                
-                # 条件 Evidence 必须与 Trace step 的 evidence 一致（共享实现）
-                self.assertEqual(evidence_ids, step_evidence,
-                    f"{cname}: evidence should match action_effects step")
-                
-                # 每个 Evidence ID 必须在 out['evidence'] 中存在且可解析
-                for eid in evidence_ids:
-                    self.assertIn(eid, out['evidence'],
-                        f"{cname}: evidence {eid} not in trace")
-                    # 验证 evidence 对象有基本结构
-                    ev = out['evidence'][eid]
-                    self.assertIsNotNone(ev, f"{cname}: evidence {eid} is None")
+                # 每个 ID 在 out['evidence'] 中存在
+                for eid in cond_evidence:
+                    self.assertIn(eid, out['evidence'])
                 
                 total_verified += 1
         
-        self.assertEqual(total_verified, 15,
-            f"Expected 15/15, got {total_verified}/15")
-        print(f"\n[RESULT] 15/15 conditions evidence matches Trace step")
+        self.assertEqual(total_verified, 15)
+        print(f"\n[RESULT] 15/15 conditions Evidence source verified via resolve()")
+
+    def test_wrong_variant_fails(self):
+        """错误 Variant 必须被拒绝。"""
+        resolver = EvidenceResolver()
+        out_s, _ = adjudicate('癸卯', '乙卯', '甲子', '乙亥')
+        variant_s = out_s.get('variant')
+        
+        # 使用错误的 variant 应该失败
+        with self.assertRaises((ValueError, KeyError, AssertionError)):
+            resolver.resolve('bazi.phase2.action_effects', 'wrong_variant_xyz')
+
+    def test_wrong_rule_fails(self):
+        """错误 Rule ID 必须被拒绝。"""
+        resolver = EvidenceResolver()
+        out_s, _ = adjudicate('癸卯', '乙卯', '甲子', '乙亥')
+        variant_s = out_s.get('variant')
+        
+        with self.assertRaises((ValueError, KeyError)):
+            resolver.resolve('nonexistent_rule_xyz', variant_s)
 
 
 class ClassicalLocatorTests(unittest.TestCase):
     """P1: 古籍定位测试，消除假通过路径。"""
 
     def test_locate_congxing_sections(self):
-        """使用真实查找路径核验 4 个定位，无吞错、无空断言。"""
+        """使用真实查找路径核验 4 个定位，无吞错、无空断言。
+        
+        诚实声明：当前元数据未建立精确字符位置与 Section ID 的机器对应关系。
+        locator 字段为文本描述，不包含结构化的 char/line 区间。
+        本测试仅做文本搜索，不能称为"精确原文字位映射"。
+        未找到映射标记为 NOT_MAPPED，作为已知研究缺口保留。
+        """
         resolver = EvidenceResolver()
         
         locators = ['96521', '96605', '96219', '98032']
@@ -304,22 +394,20 @@ class ClassicalLocatorTests(unittest.TestCase):
         print(f"\n[SCAN] Checked {section_count} entities with top-level locator")
         print(f"[SCAN] Total entities in resolver: {len(entities)}")
         
-        # 对每个字符定位进行精确查找（避免模糊子串误判）
+        # 诚实声明：当前元数据未建立精确字符位置与 Section ID 的机器对应关系
+        # locator 字段为文本描述，不包含结构化的 char/line 区间
+        # 因此只能做文本搜索，不能称为"精确原文字位映射"
         results = {}
         for char_pos in locators:
-            # 精确匹配：locator 中包含该字符位置作为独立标识
-            # 避免 "9652" 误匹配 "19652" 等情况，使用边界检查
             found = []
             for loc, eid in locator_map.items():
-                # 检查 char_pos 是否作为完整数字出现
-                # 简单策略：检查子串，但记录匹配的 locator 供审查
                 if char_pos in loc:
                     found.append((eid, loc))
             
             if found:
-                # 找到映射，记录数量（不输出具体 locator 内容，避免泄露）
                 results[char_pos] = f"MAPPED:{len(found)}"
             else:
+                # 明确标记：当前元数据未建立精确映射
                 results[char_pos] = "NOT_MAPPED"
         
         print("\n[CLASSICAL LOCATORS]")
