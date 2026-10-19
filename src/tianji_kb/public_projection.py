@@ -2,8 +2,15 @@
 
 Identifiers in this projection are response-local display ordinals, not hashes,
 persistent database keys, or stable pointers into the private knowledge graph.
+
+TJ-011.3: Strength adjudication display policy is enforced here as the
+last line of defense. Even if a research-only strength assessment somehow
+reaches this layer, it will not be exposed publicly unless the variant is
+in the server-side PUBLIC_STRENGTH_VARIANTS allowlist.
 """
 import copy
+
+from .bazi_strength_display import get_display_decision
 
 PUBLIC_EXECUTION_DOMAINS = frozenset({'bazi', 'liuyao'})
 PUBLIC_SCENARIO_STATES = frozenset({'production', 'production_limited'})
@@ -72,6 +79,70 @@ def project_evidence(evidence, aliases):
     return output
 
 
+def _apply_strength_display_policy(chart):
+    """Apply TJ-011.3 display policy to chart's strength assessment.
+    
+    This is the wiring point for bazi_strength_display.get_display_decision().
+    The variant, day_master, and month_branch are extracted from the
+    server-computed chart data, never from client input.
+    
+    If the assessment is not authorized for public display, the
+    classification is removed and a display notice is added instead.
+    The full assessment details (blockers, evidence) are already stripped
+    by _public_facts; this ensures the verdict itself doesn't leak.
+    """
+    assessment = chart.get('strength_assessment')
+    if not isinstance(assessment, dict):
+        return
+    
+    # Trusted sources: variant from assessment (server-generated),
+    # day_master/month_branch from computed pillars.
+    variant = assessment.get('variant')
+    day_master = None
+    month_branch = None
+    try:
+        pillars = chart.get('pillars') or []
+        if len(pillars) >= 3:
+            # pillars[2] is day pillar, pillars[1] is month pillar
+            day_pillar = pillars[2] if isinstance(pillars[2], dict) else {}
+            month_pillar = pillars[1] if isinstance(pillars[1], dict) else {}
+            day_stem = day_pillar.get('stem')
+            month_br = month_pillar.get('branch')
+            # Handle both dict and string forms
+            if isinstance(day_stem, dict):
+                day_master = day_stem.get('value')
+            elif isinstance(day_stem, str):
+                day_master = day_stem
+            if isinstance(month_br, dict):
+                month_branch = month_br.get('value')
+            elif isinstance(month_br, str):
+                month_branch = month_br
+    except (IndexError, AttributeError, TypeError):
+        pass
+    
+    decision = get_display_decision(
+        assessment,
+        variant=variant,
+        day_master=day_master,
+        month_branch=month_branch,
+    )
+    
+    if decision['may_display_classification']:
+        # Authorized: keep classification, add scope note
+        assessment['display_state'] = 'public_result'
+    else:
+        # Not authorized: remove the verdict, keep only the display notice.
+        # This prevents research conclusions from reaching public clients
+        # even if the engine-level block were somehow bypassed.
+        assessment.pop('classification', None)
+        assessment['display_state'] = decision['display_state']
+        assessment['display_message'] = decision['user_message']
+        # Strip detailed internals that _public_facts might have missed
+        for key in ('blockers', 'why_not_indeterminate', 'conflict_ids',
+                    'unresolved_evidence', 'supported_classifications'):
+            assessment.pop(key, None)
+
+
 def project_execution(data):
     aliases = _Aliases(data['evidence'])
     result = {key: _public_facts(value, aliases)
@@ -88,4 +159,8 @@ def project_execution(data):
     ]
     result['trace'] = [{'step': f'计算步骤 {index:02d}'}
                        for index, _ in enumerate(data['trace'], 1)]
+    # TJ-011.3: enforce strength display policy on the public chart.
+    chart = result.get('chart')
+    if isinstance(chart, dict):
+        _apply_strength_display_policy(chart)
     return result
