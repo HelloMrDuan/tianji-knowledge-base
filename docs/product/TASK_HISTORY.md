@@ -88,6 +88,7 @@
 
 | E0045 | 2026-10-19 | TJ-011.1 | 已合并 | TJ-011.1正式关账 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/263 | f10a67ac186d2b6a2b59b5df6a8d88c8e4c4b22a | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/39195910280 |
 | E0046 | 2026-10-19 | TJ-011.2 | 阻塞 | 证据核查完成：当前15条充分条件仅针对木日主（甲/乙）已审核；滴天髓s026/s033明列"甲乙逢亥寅卯"，审核文档明确"不能把另一五行按直觉扩表"；BAZI_STRENGTH_BATCH_09明确"非木日主"保持indeterminate；无火/土/金/水日主的等同审核证据。解除条件：完成其他日主的独立古籍证据审核（Source/Section/Locator/Evidence闭环） | — | — | — |
+| E0047 | 2026-10-19 | TJ-011.3 | 已提交PR | TJ-011.3限界显示策略实现完成：新增bazi_strength_display.py（服务端展示裁决：public_result/research_only/insufficient/conflict/out_of_scope/error六态，indeterminate永不误读为中和/身弱/身强）；新增12项测试全过；确认公开API已拦截adjudication variant（research_only=True, public_enabled=False），前端未调用裁决接口且已有明确边界文案；无客户端绕过风险 | — | — | — |
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
