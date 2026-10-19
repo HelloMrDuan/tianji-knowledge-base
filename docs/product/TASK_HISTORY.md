@@ -96,6 +96,7 @@
 | E0052 | 2026-10-19 | TJ-011.3 | 已合并 | TJ-011.3最终补验关账：PR #270合并（1641cddb2319），overall_strength第二泄露路径已修复，25项测试通过；CI 9/9 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/270 | 1641cddb23194bd72a8e9bbfbfa77156e44d565b | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/270/checks |
 | E0053 | 2026-10-19 | TJ-011.3 | 已提交PR | 最终补验失败关闭修复：缺失Variant时研究结论不得泄露；32项测试通过；待CI验收 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/272 | — | — |
 | E0054 | 2026-10-19 | TJ-011.3 | 已合并 | TJ-011.3失败关闭修复关账：PR #272合并（ca2027db15a8），缺失Variant时研究结论不得泄露，32项测试通过；CI 9/9 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/272 | ca2027db15a8710b400ccec2490a3e85f03c8b81 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/272/checks |
+| E0055 | 2026-10-19 | TJ-012.1 | 进行中 | 领取正官、印绶格局候选再审核；通读十批成果与bazi_pattern.py实现 | — | — | — |
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
