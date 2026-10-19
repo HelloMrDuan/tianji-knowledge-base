@@ -237,7 +237,10 @@ class ConditionBindingTests(unittest.TestCase):
                 self.assertEqual(resolved_step['rule_id'], 'bazi.phase2.action_effects')
                 found_step = True
                 break
-        self.assertTrue(found_step, "action_effects step must bclass EvidenceResolverTests(unittest.TestCase):
+        self.assertTrue(found_step, "action_effects step must be found")
+
+
+class EvidenceResolverTests(unittest.TestCase):
     """P0: 真实调用 EvidenceResolver.resolve() 验证 Evidence 来源（15条）。"""
 
     def _assert_trace_evidence_consistent(self, out):
@@ -362,9 +365,6 @@ class ConditionBindingTests(unittest.TestCase):
 
         with self.assertRaises((ValueError, KeyError)):
             resolver.resolve('nonexistent_rule_xyz', variant_s)
-
-
-ariant_s)
 
 
 class ClassicalLocatorTests(unittest.TestCase):
