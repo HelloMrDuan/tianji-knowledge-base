@@ -45,7 +45,7 @@
 | TJ-010.3 | M2 | 木日主已审范围正反复算 | 已合并 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/261 | 2026-10-18 | 公开 merge c593ee0b，私有 PR #63 merge 83e59a21，木日主已审范围正反复算完成 |
 | TJ-011.1 | M2 | 将 bazi-strength-adjudication-v1 的每条充分条件逐项核定 | 已合并 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/263 | 2026-10-18 | 15条条件逐项核定完成，已合并关账 |
 | TJ-011.2 | M2 | 增新日主或月份（仅有证据才做） | 阻塞 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/265 | 2026-10-19 | 缺少其他日主或月份的独立古籍证据审核，完成 Source→Section→Rule→Evidence→Phase2→Golden 闭环及正强、正弱、未知、冲突测试后，方可重新评估扩围。见E0046 |
-| TJ-011.3 | M2 | 限界显示与研究/正式开关 | 待做 | — | — | 按 WBS 验收条件执行 |
+| TJ-011.3 | M2 | 限界显示与研究/正式开关 | 已提交PR | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/266 | 2026-10-19 | 限界显示策略已实现，待CI验收 |
 | TJ-012.1 | M2 | 正官/印綬等现有格局候选再审核 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-012.2 | M2 | 真/假、成/败、特殊格局的反例 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-013.1 | M2 | 调候、扶抑、病药、格局用神分别建来源/Variant | 阻塞 | — | — | 等待证据/前置依赖 |
