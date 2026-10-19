@@ -5,6 +5,7 @@
 2. 真实调用 EvidenceResolver.resolve() 验证全部15条
 3. 古籍定位测试消除假通过路径
 """
+import copy
 import hashlib
 import json
 import unittest
@@ -236,136 +237,120 @@ class ConditionBindingTests(unittest.TestCase):
                 self.assertEqual(resolved_step['rule_id'], 'bazi.phase2.action_effects')
                 found_step = True
                 break
-        self.assertTrue(found_step, "action_effects step must be found")
-
-
-class EvidenceResolverTests(unittest.TestCase):
+        self.assertTrue(found_step, "action_effects step must bclass EvidenceResolverTests(unittest.TestCase):
     """P0: 真实调用 EvidenceResolver.resolve() 验证 Evidence 来源（15条）。"""
 
+    def _assert_trace_evidence_consistent(self, out):
+        """同一严格校验器：核验 Resolver、Trace evidence_ids 与 Evidence 对象。"""
+        rule_id = 'bazi.phase2.action_effects'
+        variant = out.get('variant')
+        self.assertIsNotNone(variant)
+
+        trace_steps = get_trace_steps(out)
+        action_steps = [
+            step for step in trace_steps
+            if step.get('rule_id') == rule_id
+        ]
+        self.assertEqual(
+            len(action_steps), 1,
+            f"Expected exactly one {rule_id} trace step",
+        )
+        action_step = action_steps[0]
+
+        resolved_refs = EvidenceResolver().resolve(rule_id, variant)
+        self.assertTrue(resolved_refs)
+        evidence = out.get('evidence')
+        self.assertIsInstance(evidence, dict)
+
+        recomputed_ids = set()
+        for ref in resolved_refs:
+            eid = hashlib.sha256(
+                json.dumps(ref, ensure_ascii=False, sort_keys=True).encode()
+            ).hexdigest()[:24]
+            recomputed_ids.add(eid)
+
+            self.assertIn(eid, evidence, f"Recomputed ID {eid} missing from trace evidence")
+            self.assertEqual(
+                evidence[eid], ref,
+                f"Trace evidence object mismatch for {eid}",
+            )
+            self.assertEqual(ref.get('rule_id'), rule_id)
+            self.assertEqual(ref.get('variant'), variant)
+            self.assertTrue(ref.get('source_id'))
+            self.assertTrue(ref.get('section_id'))
+            self.assertIn('locator', ref)
+
+        step_evidence_ids = set(action_step.get('evidence_ids', []))
+        self.assertTrue(step_evidence_ids)
+        self.assertEqual(
+            recomputed_ids, step_evidence_ids,
+            "Recomputed Evidence IDs must equal step evidence_ids",
+        )
+        return step_evidence_ids
+
     def test_all_15_conditions_evidence_source_verified(self):
-        """15条条件的 Evidence 必须通过 resolver.resolve() 验证来源。
-        
-        严格验证：按 ExecutionTrace.add() 的 ID 规则重算每个 ref 的 Evidence ID，
-        断言重算集合 == 步骤 evidence_ids，且 out['evidence'][eid] == ref。
-        """
-        resolver = EvidenceResolver()
-        
-        # 强8条
+        """15 条条件均须通过同一严格校验器，逐一核对 Resolver/Trace/Evidence。"""
         out_s, a_s = adjudicate('癸卯', '乙卯', '甲子', '乙亥')
         self.assertEqual(a_s['classification'], 'strong')
-        trace_s = get_trace_steps(out_s)
         why_s = a_s['why_not_indeterminate']
-        variant_s = out_s.get('variant')
-        self.assertIsNotNone(variant_s)
-        
-        # 弱7条
+
         out_w, a_w = adjudicate('戊午', '辛酉', '甲午', '庚午')
         self.assertEqual(a_w['classification'], 'weak')
-        trace_w = get_trace_steps(out_w)
         why_w = a_w['why_not_indeterminate']
-        variant_w = out_w.get('variant')
-        self.assertIsNotNone(variant_w)
-        
+
         total_verified = 0
-        
-        for conditions, out, trace_steps, variant in [
-            (why_s['conditions'], out_s, trace_s, variant_s),
-            (why_w['conditions'], out_w, trace_w, variant_w)
+        for conditions, out in [
+            (why_s['conditions'], out_s),
+            (why_w['conditions'], out_w),
         ]:
-            # 找到 action_effects 步骤
-            action_step = None
-            for step in trace_steps:
-                if step['rule_id'] == 'bazi.phase2.action_effects':
-                    action_step = step
-                    break
-            self.assertIsNotNone(action_step)
-            
-            rule_id = 'bazi.phase2.action_effects'
-            step_evidence_ids = set(action_step.get('evidence_ids', []))
-            self.assertTrue(step_evidence_ids)
-            
-            # 真实调用 resolver.resolve()
-            resolved_refs = resolver.resolve(rule_id, variant)
-            self.assertTrue(resolved_refs)
-            
-            # P0: 按 ExecutionTrace.add() 规则重算每个 ref 的 ID
-            recomputed_ids = set()
-            for ref in resolved_refs:
-                eid = hashlib.sha256(
-                    json.dumps(ref, ensure_ascii=False, sort_keys=True).encode()
-                ).hexdigest()[:24]
-                recomputed_ids.add(eid)
-                
-                # 严格断言：out['evidence'][eid] == ref（对象逐字段一致）
-                self.assertIn(eid, out['evidence'],
-                    f"Recomputed ID {eid} not in trace evidence")
-                self.assertEqual(out['evidence'][eid], ref,
-                    f"Trace evidence object mismatch for {eid}")
-                
-                # 验证元数据一致性
-                self.assertEqual(ref['rule_id'], rule_id)
-                self.assertEqual(ref['variant'], variant)
-                self.assertTrue(ref.get('source_id'))
-                self.assertTrue(ref.get('section_id'))
-                self.assertIn('locator', ref)
-            
-            # 严格断言：重算 ID 集合 == 步骤 evidence_ids 集合
-            self.assertEqual(recomputed_ids, step_evidence_ids,
-                "Recomputed Evidence IDs must equal step evidence_ids")
-            
-            # 验证 15 条条件的 evidence 与步骤一致
+            step_evidence_ids = self._assert_trace_evidence_consistent(out)
             for cond in conditions:
                 cname = cond['condition']
                 cond_evidence = set(cond['evidence_ids'])
-                self.assertEqual(cond_evidence, step_evidence_ids,
-                    f"{cname}: evidence should match step")
+                self.assertEqual(
+                    cond_evidence, step_evidence_ids,
+                    f"{cname}: evidence should match step",
+                )
                 total_verified += 1
-        
-        self.assertEqual(total_verified, 15)
-        print(f"\n[RESULT] 15/15 Evidence IDs recomputed and verified")
 
-    def test_tampered_evidence_fails(self):
-        """篡改 Source/Section 必须导致验证失败。"""
-        resolver = EvidenceResolver()
+        self.assertEqual(total_verified, 15)
+        print("\n[RESULT] 15/15 Evidence IDs recomputed and verified")
+
+    def test_tampered_source_section_or_evidence_content_fails_same_validator(self):
+        """同一校验器必须拒绝真实结果副本中被篡改的 Source、Section 和 locator。"""
         out_s, _ = adjudicate('癸卯', '乙卯', '甲子', '乙亥')
-        variant_s = out_s.get('variant')
+        self._assert_trace_evidence_consistent(out_s)
+
+        variant = out_s['variant']
         rule_id = 'bazi.phase2.action_effects'
-        
-        resolved_refs = resolver.resolve(rule_id, variant_s)
+        resolved_refs = EvidenceResolver().resolve(rule_id, variant)
         self.assertTrue(resolved_refs)
-        
-        # 篡改第一个 ref 的 source_id
-        tampered = dict(resolved_refs[0])
-        tampered['source_id'] = 'tampered_source_xyz'
-        tampered_eid = hashlib.sha256(
-            json.dumps(tampered, ensure_ascii=False, sort_keys=True).encode()
+        ref = resolved_refs[0]
+        eid = hashlib.sha256(
+            json.dumps(ref, ensure_ascii=False, sort_keys=True).encode()
         ).hexdigest()[:24]
-        
-        # 篡改后的 ID 不应在原始 evidence 中，或对象不一致
-        # 验证：用篡改的 ref 重算 ID，与原始步骤的 ID 集合比较
-        trace_s = get_trace_steps(out_s)
-        step_ids = set()
-        for step in trace_s:
-            if step['rule_id'] == rule_id:
-                step_ids = set(step.get('evidence_ids', []))
-                break
-        
-        # 篡改导致 ID 变化（因为 source_id 参与哈希）
-        original_eid = hashlib.sha256(
-            json.dumps(resolved_refs[0], ensure_ascii=False, sort_keys=True).encode()
-        ).hexdigest()[:24]
-        self.assertNotEqual(tampered_eid, original_eid,
-            "Tampered ref should produce different ID")
-        self.assertNotIn(tampered_eid, step_ids,
-            "Tampered ID should not match step evidence")
+        self.assertIn(eid, out_s['evidence'])
+
+        mutations = [
+            ('source_id', 'tampered_source_xyz'),
+            ('section_id', 'tampered_section_xyz'),
+            ('locator', 'tampered_locator_xyz'),
+        ]
+        for field, value in mutations:
+            with self.subTest(field=field):
+                tampered_out = copy.deepcopy(out_s)
+                tampered_out['evidence'][eid][field] = value
+                with self.assertRaisesRegex(
+                    AssertionError, "Trace evidence object mismatch"
+                ):
+                    self._assert_trace_evidence_consistent(tampered_out)
 
     def test_wrong_variant_fails(self):
         """错误 Variant 必须被拒绝。"""
         resolver = EvidenceResolver()
         out_s, _ = adjudicate('癸卯', '乙卯', '甲子', '乙亥')
         variant_s = out_s.get('variant')
-        
-        # 使用错误的 variant 应该失败
+
         with self.assertRaises((ValueError, KeyError, AssertionError)):
             resolver.resolve('bazi.phase2.action_effects', 'wrong_variant_xyz')
 
@@ -374,9 +359,12 @@ class EvidenceResolverTests(unittest.TestCase):
         resolver = EvidenceResolver()
         out_s, _ = adjudicate('癸卯', '乙卯', '甲子', '乙亥')
         variant_s = out_s.get('variant')
-        
+
         with self.assertRaises((ValueError, KeyError)):
             resolver.resolve('nonexistent_rule_xyz', variant_s)
+
+
+ariant_s)
 
 
 class ClassicalLocatorTests(unittest.TestCase):
