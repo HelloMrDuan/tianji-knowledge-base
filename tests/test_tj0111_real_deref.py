@@ -5,6 +5,8 @@
 2. 真实调用 EvidenceResolver.resolve() 验证全部15条
 3. 古籍定位测试消除假通过路径
 """
+import hashlib
+import json
 import unittest
 
 from tianji_kb.bazi_adjudication import ADJUDICATION_VARIANT
@@ -243,8 +245,8 @@ class EvidenceResolverTests(unittest.TestCase):
     def test_all_15_conditions_evidence_source_verified(self):
         """15条条件的 Evidence 必须通过 resolver.resolve() 验证来源。
         
-        验证链：condition -> Trace step -> resolver.resolve(rule_id, variant)
-        -> source_id/section_id/rule_id/variant/locator
+        严格验证：按 ExecutionTrace.add() 的 ID 规则重算每个 ref 的 Evidence ID，
+        断言重算集合 == 步骤 evidence_ids，且 out['evidence'][eid] == ref。
         """
         resolver = EvidenceResolver()
         
@@ -253,9 +255,8 @@ class EvidenceResolverTests(unittest.TestCase):
         self.assertEqual(a_s['classification'], 'strong')
         trace_s = get_trace_steps(out_s)
         why_s = a_s['why_not_indeterminate']
-        # 使用与实际 ExecutionTrace 一致的 Variant（非 strength_variant）
         variant_s = out_s.get('variant')
-        self.assertIsNotNone(variant_s, "out['variant'] should exist")
+        self.assertIsNotNone(variant_s)
         
         # 弱7条
         out_w, a_w = adjudicate('戊午', '辛酉', '甲午', '庚午')
@@ -277,48 +278,86 @@ class EvidenceResolverTests(unittest.TestCase):
                 if step['rule_id'] == 'bazi.phase2.action_effects':
                     action_step = step
                     break
-            self.assertIsNotNone(action_step, "action_effects step not found")
+            self.assertIsNotNone(action_step)
             
             rule_id = 'bazi.phase2.action_effects'
-            
-            # 真实调用 resolver.resolve()
-            resolved_evidence = resolver.resolve(rule_id, variant)
-            self.assertTrue(resolved_evidence, 
-                f"resolve({rule_id}, {variant}) returned empty")
-            
-            # 验证返回的每条 Evidence 元数据
-            for ev in resolved_evidence:
-                self.assertEqual(ev['rule_id'], rule_id,
-                    "Evidence rule_id mismatch")
-                self.assertEqual(ev['variant'], variant,
-                    "Evidence variant mismatch")
-                self.assertTrue(ev.get('source_id'),
-                    "Evidence missing source_id")
-                self.assertTrue(ev.get('section_id'),
-                    "Evidence missing section_id")
-                # locator 字段存在（不输出内容）
-                self.assertIn('locator', ev,
-                    "Evidence missing locator")
-            
-            # 验证条件的 evidence_ids 与步骤一致（共享实现）
             step_evidence_ids = set(action_step.get('evidence_ids', []))
             self.assertTrue(step_evidence_ids)
             
+            # 真实调用 resolver.resolve()
+            resolved_refs = resolver.resolve(rule_id, variant)
+            self.assertTrue(resolved_refs)
+            
+            # P0: 按 ExecutionTrace.add() 规则重算每个 ref 的 ID
+            recomputed_ids = set()
+            for ref in resolved_refs:
+                eid = hashlib.sha256(
+                    json.dumps(ref, ensure_ascii=False, sort_keys=True).encode()
+                ).hexdigest()[:24]
+                recomputed_ids.add(eid)
+                
+                # 严格断言：out['evidence'][eid] == ref（对象逐字段一致）
+                self.assertIn(eid, out['evidence'],
+                    f"Recomputed ID {eid} not in trace evidence")
+                self.assertEqual(out['evidence'][eid], ref,
+                    f"Trace evidence object mismatch for {eid}")
+                
+                # 验证元数据一致性
+                self.assertEqual(ref['rule_id'], rule_id)
+                self.assertEqual(ref['variant'], variant)
+                self.assertTrue(ref.get('source_id'))
+                self.assertTrue(ref.get('section_id'))
+                self.assertIn('locator', ref)
+            
+            # 严格断言：重算 ID 集合 == 步骤 evidence_ids 集合
+            self.assertEqual(recomputed_ids, step_evidence_ids,
+                "Recomputed Evidence IDs must equal step evidence_ids")
+            
+            # 验证 15 条条件的 evidence 与步骤一致
             for cond in conditions:
                 cname = cond['condition']
                 cond_evidence = set(cond['evidence_ids'])
-                self.assertTrue(cond_evidence, f"{cname}: empty")
                 self.assertEqual(cond_evidence, step_evidence_ids,
                     f"{cname}: evidence should match step")
-                
-                # 每个 ID 在 out['evidence'] 中存在
-                for eid in cond_evidence:
-                    self.assertIn(eid, out['evidence'])
-                
                 total_verified += 1
         
         self.assertEqual(total_verified, 15)
-        print(f"\n[RESULT] 15/15 conditions Evidence source verified via resolve()")
+        print(f"\n[RESULT] 15/15 Evidence IDs recomputed and verified")
+
+    def test_tampered_evidence_fails(self):
+        """篡改 Source/Section 必须导致验证失败。"""
+        resolver = EvidenceResolver()
+        out_s, _ = adjudicate('癸卯', '乙卯', '甲子', '乙亥')
+        variant_s = out_s.get('variant')
+        rule_id = 'bazi.phase2.action_effects'
+        
+        resolved_refs = resolver.resolve(rule_id, variant_s)
+        self.assertTrue(resolved_refs)
+        
+        # 篡改第一个 ref 的 source_id
+        tampered = dict(resolved_refs[0])
+        tampered['source_id'] = 'tampered_source_xyz'
+        tampered_eid = hashlib.sha256(
+            json.dumps(tampered, ensure_ascii=False, sort_keys=True).encode()
+        ).hexdigest()[:24]
+        
+        # 篡改后的 ID 不应在原始 evidence 中，或对象不一致
+        # 验证：用篡改的 ref 重算 ID，与原始步骤的 ID 集合比较
+        trace_s = get_trace_steps(out_s)
+        step_ids = set()
+        for step in trace_s:
+            if step['rule_id'] == rule_id:
+                step_ids = set(step.get('evidence_ids', []))
+                break
+        
+        # 篡改导致 ID 变化（因为 source_id 参与哈希）
+        original_eid = hashlib.sha256(
+            json.dumps(resolved_refs[0], ensure_ascii=False, sort_keys=True).encode()
+        ).hexdigest()[:24]
+        self.assertNotEqual(tampered_eid, original_eid,
+            "Tampered ref should produce different ID")
+        self.assertNotIn(tampered_eid, step_ids,
+            "Tampered ID should not match step evidence")
 
     def test_wrong_variant_fails(self):
         """错误 Variant 必须被拒绝。"""
