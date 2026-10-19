@@ -5,8 +5,14 @@ from pathlib import Path
 import unittest
 from unittest.mock import AsyncMock
 
-from fastapi.testclient import TestClient
-from tianji_kb.api import create_app
+try:
+    from fastapi.testclient import TestClient
+    from tianji_kb.api import create_app
+    HAS_FASTAPI = True
+except ImportError:
+    TestClient = None
+    create_app = None
+    HAS_FASTAPI = False
 from tianji_kb.bazi_adjudication import ADJUDICATION_VARIANT
 from tianji_kb.bazi_pattern import PATTERN_VARIANT, candidates
 from tianji_kb.engine import execute
@@ -163,6 +169,7 @@ class BaziPatternTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'claim_unavailable'):
             authorize_structural_claim(ROOT,'bazi-reading',plain,'bazi.pattern_candidates')
 
+    @unittest.skipIf(not HAS_FASTAPI, 'FastAPI not available')
     def test_api_requires_research_and_refuses_ai_before_model(self):
         inputs = {'value':'2000-01-01T12:00:00+08:00','pattern_variant':PATTERN_VARIANT}
         provider = type('ForbiddenProvider',(),{'explain':AsyncMock(side_effect=AssertionError('No model'))})()
@@ -207,42 +214,6 @@ class BaziPatternTests(unittest.TestCase):
                 self.assertEqual(set(research[0]['rule_ids']),RULES)
                 self.assertFalse(research[0]['scenario_public_enabled'])
 
-
-class TJ0121PatternAuditTests(unittest.TestCase):
-    """TJ-012.1: 正官/印绶候选再审核 - 具体改进测试"""
-    
-    def chart(self, *ps, **kwargs):
-        from tianji_kb.bazi_pattern import PATTERN_VARIANT
-        from tianji_kb.operations.bazi_chart import chart
-        return chart(*ps, pattern_variant=PATTERN_VARIANT, **kwargs)
-    
-    def test_4_qualification_miscellaneous_branch_markers(self):
-        """改进4: 禄刃/杂气月标记断言
-        
-        丑月 (丁丑) → known_miscellaneous_branch=True
-        酉月 (辛酉) → known_miscellaneous_branch=False
-        """
-        from tianji_kb.bazi_pattern import qualification
-        
-        # 丑月例: 辛酉/丁丑/甲子/癸亥
-        out1 = self.chart('辛酉', '丁丑', '甲子', '癸亥')
-        obs1 = out1['result']['pattern_candidates']['official']
-        qual1 = qualification(out1['trace'], family='official', observation=obs1)
-        misc_req1 = next(r for r in qual1['requirements'] 
-                        if r['id'] == 'luren_miscellaneous_month_exceptions')
-        self.assertTrue(misc_req1['known_miscellaneous_branch'])
-        
-        # 酉月例: 戊午/辛酉/甲午/庚午
-        out2 = self.chart('戊午', '辛酉', '甲午', '庚午')
-        obs2 = out2['result']['pattern_candidates']['official']
-        qual2 = qualification(out2['trace'], family='official', observation=obs2)
-        misc_req2 = next(r for r in qual2['requirements']
-                        if r['id'] == 'luren_miscellaneous_month_exceptions')
-        self.assertFalse(misc_req2['known_miscellaneous_branch'])
-
-
-if __name__ == '__main__':
-    unittest.main()
 
 class TJ0121PatternAuditTests(unittest.TestCase):
     """TJ-012.1: 正官/印绶候选再审核 - 具体改进测试"""
