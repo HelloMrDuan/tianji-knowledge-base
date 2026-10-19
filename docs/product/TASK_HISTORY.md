@@ -87,6 +87,7 @@
 | E0044 | 2026-10-18 | TJ-011.1 | 进行中 | 从公开 main 02b9485a 创建分支 tj-011.1-condition-audit，从私有 main 83e59a21 创建分支 tj-011.1-private-acceptance；开始逐项核定 bazi-strength-adjudication-v1 的 8 条强充分条件与 7 条弱充分条件，建立逐条件审核矩阵，验证每条的古籍依据、程序计算与反例覆盖 | — | — | — |
 
 | E0045 | 2026-10-19 | TJ-011.1 | 已合并 | TJ-011.1正式关账 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/263 | f10a67ac186d2b6a2b59b5df6a8d88c8e4c4b22a | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/39195910280 |
+| E0046 | 2026-10-19 | TJ-011.2 | 阻塞 | 证据核查完成：当前15条充分条件仅针对木日主（甲/乙）已审核；滴天髓s026/s033明列"甲乙逢亥寅卯"，审核文档明确"不能把另一五行按直觉扩表"；BAZI_STRENGTH_BATCH_09明确"非木日主"保持indeterminate；无火/土/金/水日主的等同审核证据。解除条件：完成其他日主的独立古籍证据审核（Source/Section/Locator/Evidence闭环） | — | — | — |
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
@@ -96,4 +97,3 @@
 5. GitHub PR 必须运行 `python scripts/check_task_tracking.py --base <base-commit>`，确认本次恰好一个任务、一个新事件。PR 合并成功后再以**同一任务**单独做关账更新，补齐实际 main SHA。
 
 **验收警戒线**：WBS 全部子任务数量 ≠ 已完成功能数量；公开 PR 合并 ≠ 私有 Canonical 完成；静态截图 ≠ 人工视觉还原；推送成功 ≠ 生产部署完成。
-| E0046 | 2026-10-19 | TJ-011.2 | 阻塞 | 证据核查完成：当前15条充分条件仅针对木日主（甲/乙）已审核；滴天髓s026/s033明列"甲乙逢亥寅卯"，审核文档明确"不能把另一五行按直觉扩表"；BAZI_STRENGTH_BATCH_09明确"非木日主"保持indeterminate；无火/土/金/水日主的等同审核证据。解除条件：完成其他日主的独立古籍证据审核（Source/Section/Locator/Evidence闭环） | — | — | — |
