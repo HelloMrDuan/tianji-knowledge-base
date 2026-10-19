@@ -92,7 +92,7 @@
 | E0048 | 2026-10-19 | TJ-011.3 | 已合并 | TJ-011.3正式关账：公开PR #266合并（dee5bffac630），限界显示策略bazi_strength_display.py与12项测试已入main；确认research_only=True/public_enabled=False边界，前端未调用裁决接口；CI 9/9通过 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/266 | dee5bffac630fbab1a26cac5a033d6ff83e99d2a | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/266/checks |
 | E0049 | 2026-10-19 | TJ-011.3 | 已提交PR | 复审整改PR #268已提交：策略接入投影层，授权/范围/冲突修复完成，19项测试通过，待CI验收 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/268 | — | — |
 | E0050 | 2026-10-19 | TJ-011.3 | 已合并 | TJ-011.3复审整改关账：PR #268合并（7005306de3cf），策略接入public_projection，服务端allowlist授权、范围/冲突判别修复，19项测试通过；CI 9/9 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/268 | 7005306de3cffa4b2ea98d35de7d4bdfe199c556 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/268/checks |
-| E0051 | 2026-10-19 | TJ-011.3 | 已提交PR | 最终安全补验：修复strength_factor_graph.overall_strength第二泄露路径；6项泄露回归测试通过；待CI验收 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/270 | — | — |
+| E0051 | 2026-10-19 | TJ-011.3 | 已提交PR | 最终安全补验：修复overall_strength泄露路径及缺失Variant失败关闭；32项测试通过；待CI验收 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/272 | — | — |
 | E0052 | 2026-10-19 | TJ-011.3 | 已合并 | TJ-011.3最终补验关账：PR #270合并（1641cddb2319），overall_strength第二泄露路径已修复，25项测试通过；CI 9/9 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/270 | 1641cddb23194bd72a8e9bbfbfa77156e44d565b | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/270/checks |
 ## 怎样追加下一条
 
