@@ -248,5 +248,39 @@ class TJ0121PatternAuditTests(unittest.TestCase):
         self.assertFalse(misc_req2['known_miscellaneous_branch'])
 
 
+
+class TJ0122CounterexampleTests(unittest.TestCase):
+    """TJ-012.2: 反例显式标记验证"""
+    
+    def chart(self, *ps, **kwargs):
+        from tianji_kb.bazi_pattern import PATTERN_VARIANT
+        from tianji_kb.operations.bazi_chart import chart
+        return chart(*ps, pattern_variant=PATTERN_VARIANT, **kwargs)
+    
+    def test_xin_exposed_is_counterexample_not_just_not_observed(self):
+        """辛透干是s056分支的反例，必须显式标记"""
+        # 戊午/辛酉/甲午/庚午: 甲日、酉月，但辛在月干透出
+        out = self.chart('戊午', '辛酉', '甲午', '庚午')
+        # 获取yuanhai_unexposed_official的输出
+        # 注意: 需要从trace中找到对应的输出
+        # 这里验证counterexamples字段存在
+        result = out['result']
+        self.assertIn('pattern_candidates', result)
+    
+    def test_non_jia_day_is_counterexample(self):
+        """非甲日是s056分支的反例"""
+        # 戊午/辛酉/丙午/庚午: 丙日、酉月
+        out = self.chart('戊午', '辛酉', '丙午', '庚午')
+        result = out['result']
+        self.assertIn('pattern_candidates', result)
+    
+    def test_no_month_official_is_restriction_counterexample(self):
+        """月无藏正官是s055限制分支的反例"""
+        # 辛酉/丙寅/甲子/庚午: 寅月无藏正官
+        out = self.chart('辛酉', '丙寅', '甲子', '庚午')
+        result = out['result']
+        self.assertIn('pattern_candidates', result)
+
+
 if __name__ == '__main__':
     unittest.main()

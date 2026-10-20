@@ -43,11 +43,42 @@ def yuanhai_unexposed_official(trace):
          'fact_ref': fact_ref('branch_triple_harmonies', f'/{match[0]}') if complete
          else fact_ref('branch_triple_harmonies')},
     ]
+    # TJ-012.2: Explicit counterexample marking.
+    # A counterexample is a condition that is actively contradicted,
+    # not merely unobserved. This prevents misreading 'not_observed'
+    # as 'possibly applicable'.
+    counterexamples = []
+    # Xin visible contradicts the 'unexposed' requirement (s056 core)
+    if not unexposed_xin:
+        counterexamples.append({
+            'id': 'xin_exposed_contradicts_unexposed_branch',
+            'fact_ref': fact_ref('ten_gods'),
+            'visible_xin_positions': [row['pillar'] for row in stems if row['stem'] == '辛'],
+            'note': '辛已透干，与“不透”例直接矛盾；不得套用此分支',
+        })
+    # Non-Jia day contradicts the 甲日 requirement
+    if not day_wood:
+        counterexamples.append({
+            'id': 'non_jia_day_contradicts_jia_branch',
+            'fact_ref': fact_ref('pillars', '/day_master/stem'),
+            'actual_day_stem': pillars['day_master']['stem'],
+            'note': '非甲日，不得套用甲辛官局例',
+        })
+    # Non-You month contradicts the 酉月 requirement
+    if not month_you:
+        counterexamples.append({
+            'id': 'non_you_month_contradicts_you_branch',
+            'fact_ref': fact_ref('pillars', '/ganzhi/1'),
+            'actual_month_branch': pillars['ganzhi'][1][1],
+            'note': '非酉月，不得套用此分支',
+        })
     return {
         'variant': PATTERN_VARIANT, 'school_branch': 'yuanhai-甲辛-酉月不透地支官局例',
         'status': 'reviewed_structural_candidate' if all(c['observed'] for c in conditions)
                   else 'not_observed',
         'conditions': conditions, 'full_metal_group': list(match[1]['branches']) if complete else [],
+        'counterexamples': counterexamples,
+        'counterexample_ids': [c['id'] for c in counterexamples],
         'source_section_id': 'bazi.section.s056', 'source_level': 'C',
         'source_scope': '《渊海子平》甲日辛官、酉月不透辛而有巳酉丑的单例观察',
         'unresolved': ['general_strength', 'hour_branch_wood_strength',
@@ -174,6 +205,14 @@ def yuanhai_hour_killing_restriction(trace):
             {'id': 'hour_hidden_seven_killing', 'observed': bool(hour_branch),
              'fact_ref': fact_ref('hidden_stems', f'/{hi}')},
         ],
+        # TJ-012.2: Explicit counterexample marking.
+        # If month has NO hidden official, the s055 restriction branch
+        # does not apply at all (counterexample to trigger condition).
+        'counterexamples': [] if month_official else [{
+            'id': 'no_month_hidden_official_contradicts_restriction_branch',
+            'fact_ref': fact_ref('hidden_stems', f'/{mi}'),
+            'note': '月支无藏正官，s055限制分支不适用；不得据此否定其他取格',
+        }],
         'source_section_id': 'bazi.section.s055', 'source_level': 'C',
         'selection_status': 'additional_source_review_required' if applies else 'not_observed',
         'unresolved': ['official_killing_selection', 'removal_or_retention',
