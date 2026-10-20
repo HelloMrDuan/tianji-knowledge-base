@@ -104,7 +104,7 @@
 | E0060 | 2026-10-20 | TJ-012.2 | 已合并 | TJ-012.2关账：PR #278合并（4e5d3aab6940），反例显式标记已合并；CI 9/9 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/278 | 4e5d3aab69405c97a79bb744eb7aad8264716a9b | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/278/checks |
 | E0061 | 2026-10-20 | TJ-012.2 | 已提交PR | 纠错：PR #278三个反例测试为假通过（仅断言pattern_candidates存在）；已替换为真实断言（counterexample_ids、fact_ref解引用、status、determination）；待CI验收 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/280 | — | — |
 | E0062 | 2026-10-20 | TJ-012.2 | 已合并 | TJ-012.2真实验收关账：PR #280合并（c4d3cd8d1b6b），三个假通过测试已替换为真实断言，格局专项CI pattern-tests真实执行通过；CI 10/10 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/280 | c4d3cd8d1b6bccc5c2ba3c79da423efb74b9bb06 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/280/checks |
-| E0063 | 2026-10-20 | TJ-012.2 | 进行中 | 纠错：E0062宣称格局专项通过与日志不符；真实日志run 39356244526为16 tests, failures=2, errors=14（缺Canonical与runtime）；tj012-pattern.yml因tee吞退出码假绿灯；已加pipefail修复，真实失败将如实报错；待私有验收 | — | — | — |
+| E0063 | 2026-10-20 | TJ-012.2 | 已提交PR | CI假绿灯修复：tj012-pattern.yml加pipefail+失败检查；删除重复unittest.main；待私有验收真实执行 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/282 | — | — |
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
