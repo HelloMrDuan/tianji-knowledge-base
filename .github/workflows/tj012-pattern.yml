@@ -1,4 +1,10 @@
-name: TJ-012 Pattern Counterexamples
+name: TJ-012 Pattern Safety Gate
+
+# Public CI role: code compilation + safety gate ONLY.
+# Full pattern tests (test_phase2_bazipattern.py) require private Canonical
+# knowledge data that MUST NOT be in the public repo. They run in the
+# private repo's TJ-012.2 acceptance workflow instead.
+# This gate MUST NOT be described as "pattern tests passed".
 
 on:
   push:
@@ -19,7 +25,7 @@ permissions:
   contents: read
 
 jobs:
-  pattern-tests:
+  pattern-safety-gate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -28,28 +34,38 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install -e '.[calendar,api,validation]' || \
-            python -m pip install fastapi httpx pydantic jsonschema lunar-python
-      - name: Run pattern counterexample tests
+      - name: Compile pattern code and tests
         run: |
           set -euo pipefail
-          python -m unittest discover -s tests -p 'test_phase2_bazipattern.py' -v 2>&1 | tee /tmp/pattern_test.log
-          echo "--- Test summary ---"
-          grep -E "^(OK|FAILED|Ran )" /tmp/pattern_test.log
-          # Fail if any test failed or errored - do not rely on grep alone
-          if grep -qE "^(FAILED|ERROR)" /tmp/pattern_test.log; then
-            echo "PATTERN TESTS FAILED - see log above"
-            exit 1
-          fi
-      - name: Verify no skipped pattern tests counted as pass
+          python -m compileall -q src/tianji_kb/bazi_pattern.py tests/test_phase2_bazipattern.py
+          echo "Pattern code compiles OK"
+      - name: Verify no private knowledge data in public repo
         run: |
           set -euo pipefail
-          if grep -qiE "skipped=[1-9]|OK \(skipped=" /tmp/pattern_test.log; then
-            echo "ERROR: Some pattern tests were skipped - not acceptable as pass"
-            grep -i "skipped" /tmp/pattern_test.log || true
+          # Private Canonical files must never enter the public repo
+          if find . -path ./.git -prune -o -name 'foundations_v1.json' -print | grep -q .; then
+            echo "ERROR: foundations_v1.json found in public repo - private data leak"
             exit 1
           fi
-          echo "No skipped tests detected" 
+          echo "No private canonical data detected"
+      - name: Verify counterexample assertions are real (not fake-pass)
+        run: |
+          set -euo pipefail
+          # The TJ-012.2 tests must assert real counterexample IDs,
+          # not merely 'pattern_candidates' existence.
+          if grep -q "assertIn('pattern_candidates', result)" tests/test_phase2_bazipattern.py; then
+            echo "ERROR: Fake-pass assertion pattern detected in pattern tests"
+            exit 1
+          fi
+          for cid in xin_exposed_contradicts_unexposed_branch non_jia_day_contradicts_jia_branch no_month_hidden_official_contradicts_restriction_branch; do
+            if ! grep -q "$cid" tests/test_phase2_bazipattern.py; then
+              echo "ERROR: Counterexample test for $cid missing"
+              exit 1
+            fi
+          done
+          echo "Counterexample test assertions verified present"
+      - name: Note full acceptance runs in private CI
+        run: |
+          echo "NOTE: This is a safety gate only."
+          echo "Full pattern tests run in the private repo TJ-012.2 acceptance workflow."
+          echo "Do NOT treat this green check as pattern test acceptance."
