@@ -47,7 +47,7 @@
 | TJ-011.2 | M2 | 增新日主或月份（仅有证据才做） | 阻塞 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/265 | 2026-10-19 | 缺少其他日主或月份的独立古籍证据审核，完成 Source→Section→Rule→Evidence→Phase2→Golden 闭环及正强、正弱、未知、冲突测试后，方可重新评估扩围。见E0046 |
 | TJ-011.3 | M2 | 限界显示与研究/正式开关 | 已合并 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/272 | 2026-10-19 | 失败关闭修复已合并，32项测试通过 |
 | TJ-012.1 | M2 | 正官、印绶等现有格局候选再审核 | 已合并 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/276 | 2026-10-19 | 整改：修复重复测试类；实质改进未找到，诚实记录 |
-| TJ-012.2 | M2 | 真/假、成/败、特殊格局的反例 | 已提交PR | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/282 | 2026-10-20 | CI假绿灯已修复，待私有验收 |
+| TJ-012.2 | M2 | 真/假、成/败、特殊格局的反例 | 已提交PR | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/282 | 2026-10-20 | CI假绿灯已修复（pattern-tests如实失败）；待私有验收触发 |
 | TJ-013.1 | M2 | 调候、扶抑、病药、格局用神分别建来源/Variant | 阻塞 | — | — | 等待证据/前置依赖 |
 | TJ-013.2 | M2 | 喜用与旺衰/格局冲突决策 | 阻塞 | — | — | 等待证据/前置依赖 |
 | TJ-013.3 | M2 | 适用范围明确的用户可读提示 | 阻塞 | — | — | 等待证据/前置依赖 |
