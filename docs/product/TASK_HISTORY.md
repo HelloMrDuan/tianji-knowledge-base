@@ -100,6 +100,7 @@
 | E0056 | 2026-10-19 | TJ-012.1 | 已合并 | TJ-012.1关账：PR #274合并（8618a6072d9c），杂气月标记断言测试通过；CI 9/9 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/274 | 8618a6072d9c88d76d1f6b24678d7e6c2663cd00 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/274/checks |
 | E0057 | 2026-10-19 | TJ-012.1 | 已提交PR | 纠错整改：修复重复测试类定义；validate.yml新增pattern测试CI执行；待验收 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/276 | — | — |
 | E0058 | 2026-10-19 | TJ-012.1 | 已合并 | TJ-012.1整改关账：PR #276合并（8c8677aa517d），修复重复测试类定义；CI 9/9；实质业务改进未找到（现有代码边界诚实，无充分证据支持扩围），CI执行pattern测试因环境缺依赖被阻塞 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/276 | 8c8677aa517ddd22b41fe546547f01cda18e0aa2 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/276/checks |
+| E0059 | 2026-10-20 | TJ-012.2 | 进行中 | 领取真/假、成/败、特殊格局反例任务；审核正官/印绶/特殊格局拒判边界 | — | — | — |
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
