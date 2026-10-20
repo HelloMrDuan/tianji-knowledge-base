@@ -106,6 +106,7 @@
 | E0062 | 2026-10-20 | TJ-012.2 | 已合并 | TJ-012.2真实验收关账：PR #280合并（c4d3cd8d1b6b），三个假通过测试已替换为真实断言，格局专项CI pattern-tests真实执行通过；CI 10/10 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/280 | c4d3cd8d1b6bccc5c2ba3c79da423efb74b9bb06 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/280/checks |
 | E0063 | 2026-10-20 | TJ-012.2 | 已提交PR | CI假绿灯修复：tj012-pattern.yml加pipefail+失败检查；删除重复unittest.main；待私有验收真实执行 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/282 | — | — |
 | E0064 | 2026-10-20 | TJ-012.2 | 已合并 | CI闭环关账：公开工作流改为安全门禁（pattern-safety-gate）；私有PR #66验收工作流绑定公开PR #282精确Head 58b545138e2f；私有run 39384846971 success（套件全量含格局模块，TJ-012.2三反例A/B/D真实通过）；顺带修复TJ-012.1 test_4向qualification传序列化list的传参bug（断言不变） | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/282 | cf5849dd60a15cc74440e7073528b813fe4cbe63 | https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/39384846971 |
+| E0065 | 2026-10-20 | TJ-014.1 | 已提交PR | 原典审核完成：四象限方向表核定为B类现代还原候选（唯一来源为现代开源实现，无古籍绑定；论大运s10无方向文字，方向术语在珞琭子s188但未校勘为方向规则）；方向模块新增evidence_assessment、school_matrix与validate_direction_candidate防伪门控；新增矩阵文档与23项测试；三命隔离与D级见证等5项争议保留未决 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/284 | — | — |
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
