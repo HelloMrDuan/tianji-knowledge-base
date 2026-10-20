@@ -102,6 +102,7 @@
 | E0058 | 2026-10-19 | TJ-012.1 | 已合并 | TJ-012.1整改关账：PR #276合并（8c8677aa517d），修复重复测试类定义；CI 9/9；实质业务改进未找到（现有代码边界诚实，无充分证据支持扩围），CI执行pattern测试因环境缺依赖被阻塞 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/276 | 8c8677aa517ddd22b41fe546547f01cda18e0aa2 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/276/checks |
 | E0059 | 2026-10-20 | TJ-012.2 | 已提交PR | 反例显式标记：yuanhai_unexposed_official与yuanhai_hour_killing_restriction新增counterexamples字段；待CI验收 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/278 | — | — |
 | E0060 | 2026-10-20 | TJ-012.2 | 已合并 | TJ-012.2关账：PR #278合并（4e5d3aab6940），反例显式标记已合并；CI 9/9 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/278 | 4e5d3aab69405c97a79bb744eb7aad8264716a9b | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/278/checks |
+| E0061 | 2026-10-20 | TJ-012.2 | 已提交PR | 纠错：PR #278三个反例测试为假通过（仅断言pattern_candidates存在）；已替换为真实断言（counterexample_ids、fact_ref解引用、status、determination）；待CI验收 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/280 | — | — |
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。

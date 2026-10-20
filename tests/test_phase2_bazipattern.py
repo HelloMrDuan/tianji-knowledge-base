@@ -250,37 +250,97 @@ class TJ0121PatternAuditTests(unittest.TestCase):
 
 
 class TJ0122CounterexampleTests(unittest.TestCase):
-    """TJ-012.2: 反例显式标记验证"""
+    """TJ-012.2: 反例显式标记真实验证 - 替换假通过测试"""
     
     def chart(self, *ps, **kwargs):
         from tianji_kb.bazi_pattern import PATTERN_VARIANT
         from tianji_kb.operations.bazi_chart import chart
         return chart(*ps, pattern_variant=PATTERN_VARIANT, **kwargs)
     
-    def test_xin_exposed_is_counterexample_not_just_not_observed(self):
-        """辛透干是s056分支的反例，必须显式标记"""
-        # 戊午/辛酉/甲午/庚午: 甲日、酉月，但辛在月干透出
+    def resolve(self, out, pointer):
+        """从真实Trace解引用fact_ref"""
+        value = out
+        for token in pointer.removeprefix('#/').split('/'):
+            value = value[int(token)] if isinstance(value, list) else value[token]
+        return value
+    
+    def test_A_xin_exposed_is_counterexample(self):
+        """场景A: 戊午/辛酉/甲午/庚午 - 辛透干是s056反例"""
         out = self.chart('戊午', '辛酉', '甲午', '庚午')
-        # 获取yuanhai_unexposed_official的输出
-        # 注意: 需要从trace中找到对应的输出
-        # 这里验证counterexamples字段存在
-        result = out['result']
-        self.assertIn('pattern_candidates', result)
+        official = out['result']['pattern_candidates']['official']
+        s056 = official['yuanhai_unexposed_official_branch']
+        
+        # 1. counterexample_ids包含预期ID
+        self.assertIn('xin_exposed_contradicts_unexposed_branch',
+                      s056['counterexample_ids'])
+        
+        # 2. counterexamples中存在该条记录
+        ce = next(c for c in s056['counterexamples']
+                  if c['id'] == 'xin_exposed_contradicts_unexposed_branch')
+        
+        # 3. visible_xin_positions包含month (辛在月干透出)
+        self.assertIn('month', ce['visible_xin_positions'])
+        
+        # 4. fact_ref能从真实Trace解引用
+        resolved = self.resolve(out, ce['fact_ref'])
+        # 解析到的是ten_gods输出，应包含辛
+        xin_found = any(row.get('stem') == '辛' for row in resolved)
+        self.assertTrue(xin_found, "fact_ref应指向包含辛的十神事实")
+        
+        # 5. status不得是reviewed_structural_candidate
+        self.assertNotEqual(s056['status'], 'reviewed_structural_candidate')
+        
+        # 6. determination仍为null
+        self.assertIsNone(s056['determination'])
     
-    def test_non_jia_day_is_counterexample(self):
-        """非甲日是s056分支的反例"""
-        # 戊午/辛酉/丙午/庚午: 丙日、酉月
+    def test_B_non_jia_day_is_counterexample(self):
+        """场景B: 戊午/辛酉/丙午/庚午 - 非甲日是s056反例"""
         out = self.chart('戊午', '辛酉', '丙午', '庚午')
-        result = out['result']
-        self.assertIn('pattern_candidates', result)
+        official = out['result']['pattern_candidates']['official']
+        s056 = official['yuanhai_unexposed_official_branch']
+        
+        # 1. counterexample_ids包含预期ID
+        self.assertIn('non_jia_day_contradicts_jia_branch',
+                      s056['counterexample_ids'])
+        
+        # 2. actual_day_stem为丙
+        ce = next(c for c in s056['counterexamples']
+                  if c['id'] == 'non_jia_day_contradicts_jia_branch')
+        self.assertEqual(ce['actual_day_stem'], '丙')
+        
+        # 3. fact_ref能解引用到日主丙
+        resolved = self.resolve(out, ce['fact_ref'])
+        # fact_ref指向pillars/day_master/stem
+        self.assertEqual(resolved, '丙')
+        
+        # 4. 不得标记为候选
+        self.assertNotEqual(s056['status'], 'reviewed_structural_candidate')
     
-    def test_no_month_official_is_restriction_counterexample(self):
-        """月无藏正官是s055限制分支的反例"""
-        # 辛酉/丙寅/甲子/庚午: 寅月无藏正官
+    def test_D_no_month_official_is_restriction_counterexample(self):
+        """场景D: 辛酉/丙寅/甲子/庚午 - 月无藏正官是s055反例"""
         out = self.chart('辛酉', '丙寅', '甲子', '庚午')
-        result = out['result']
-        self.assertIn('pattern_candidates', result)
+        official = out['result']['pattern_candidates']['official']
+        s055 = official['yuanhai_hour_killing_restriction']
+        
+        # 1. counterexamples包含预期ID
+        ce_ids = [c['id'] for c in s055['counterexamples']]
+        self.assertIn('no_month_hidden_official_contradicts_restriction_branch',
+                      ce_ids)
+        
+        # 2. fact_ref能解引用
+        ce = next(c for c in s055['counterexamples']
+                  if c['id'] == 'no_month_hidden_official_contradicts_restriction_branch')
+        resolved = self.resolve(out, ce['fact_ref'])
+        # 应解析到月支藏干，验证无正官
+        has_official = any(row.get('ten_god') == '正官' 
+                          for row in resolved.get('hidden_stems', []))
+        self.assertFalse(has_official, "月藏干应无正官")
+        
+        # 3. status为not_observed (分支不适用)
+        self.assertEqual(s055['status'], 'not_observed')
 
 
 if __name__ == '__main__':
+    unittest.main()
+
     unittest.main()
