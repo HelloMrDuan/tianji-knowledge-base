@@ -205,6 +205,14 @@ def yuanhai_hour_killing_restriction(trace):
             {'id': 'hour_hidden_seven_killing', 'observed': bool(hour_branch),
              'fact_ref': fact_ref('hidden_stems', f'/{hi}')},
         ],
+        # TJ-012.2: Explicit counterexample marking.
+        # If month has NO hidden official, the s055 restriction branch
+        # does not apply at all (counterexample to trigger condition).
+        'counterexamples': [] if month_official else [{
+            'id': 'no_month_hidden_official_contradicts_restriction_branch',
+            'fact_ref': fact_ref('hidden_stems', f'/{mi}'),
+            'note': '月支无藏正官，s055限制分支不适用；不得据此否定其他取格',
+        }],
         'source_section_id': 'bazi.section.s055', 'source_level': 'C',
         'selection_status': 'additional_source_review_required' if applies else 'not_observed',
         'unresolved': ['official_killing_selection', 'removal_or_retention',
