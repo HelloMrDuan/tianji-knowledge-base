@@ -229,12 +229,21 @@ class TJ0121PatternAuditTests(unittest.TestCase):
         丑月 (丁丑) → known_miscellaneous_branch=True
         酉月 (辛酉) → known_miscellaneous_branch=False
         """
+        from types import SimpleNamespace
+
         from tianji_kb.bazi_pattern import qualification
-        
+
+        # qualification() needs the trace object form (.steps/.evidence);
+        # the chart output carries the serialized list + evidence dict.
+        # (Previously this passed the raw list and errored with
+        # AttributeError whenever it actually ran.)
+        def trace_obj(out):
+            return SimpleNamespace(steps=out['trace'], evidence=out['evidence'])
+
         # 丑月例: 辛酉/丁丑/甲子/癸亥
         out1 = self.chart('辛酉', '丁丑', '甲子', '癸亥')
         obs1 = out1['result']['pattern_candidates']['official']
-        qual1 = qualification(out1['trace'], family='official', observation=obs1)
+        qual1 = qualification(trace_obj(out1), family='official', observation=obs1)
         misc_req1 = next(r for r in qual1['requirements'] 
                         if r['id'] == 'luren_miscellaneous_month_exceptions')
         self.assertTrue(misc_req1['known_miscellaneous_branch'])
@@ -242,7 +251,7 @@ class TJ0121PatternAuditTests(unittest.TestCase):
         # 酉月例: 戊午/辛酉/甲午/庚午
         out2 = self.chart('戊午', '辛酉', '甲午', '庚午')
         obs2 = out2['result']['pattern_candidates']['official']
-        qual2 = qualification(out2['trace'], family='official', observation=obs2)
+        qual2 = qualification(trace_obj(out2), family='official', observation=obs2)
         misc_req2 = next(r for r in qual2['requirements']
                         if r['id'] == 'luren_miscellaneous_month_exceptions')
         self.assertFalse(misc_req2['known_miscellaneous_branch'])
@@ -341,6 +350,4 @@ class TJ0122CounterexampleTests(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
-
     unittest.main()
