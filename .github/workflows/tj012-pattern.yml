@@ -35,12 +35,21 @@ jobs:
             python -m pip install fastapi httpx pydantic jsonschema lunar-python
       - name: Run pattern counterexample tests
         run: |
+          set -euo pipefail
           python -m unittest discover -s tests -p 'test_phase2_bazipattern.py' -v 2>&1 | tee /tmp/pattern_test.log
           echo "--- Test summary ---"
           grep -E "^(OK|FAILED|Ran )" /tmp/pattern_test.log
+          # Fail if any test failed or errored - do not rely on grep alone
+          if grep -qE "^(FAILED|ERROR)" /tmp/pattern_test.log; then
+            echo "PATTERN TESTS FAILED - see log above"
+            exit 1
+          fi
       - name: Verify no skipped pattern tests counted as pass
         run: |
-          if grep -q "skipped" /tmp/pattern_test.log; then
-            echo "WARNING: Some tests were skipped"
-            grep -i "skipped" /tmp/pattern_test.log
+          set -euo pipefail
+          if grep -qiE "skipped=[1-9]|OK \(skipped=" /tmp/pattern_test.log; then
+            echo "ERROR: Some pattern tests were skipped - not acceptable as pass"
+            grep -i "skipped" /tmp/pattern_test.log || true
+            exit 1
           fi
+          echo "No skipped tests detected" 
