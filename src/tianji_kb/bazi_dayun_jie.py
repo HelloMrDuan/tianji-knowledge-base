@@ -8,7 +8,7 @@ from zoneinfo import ZoneInfo
 
 from lunar_python import Solar
 
-from .calendar import PROVIDER, calendar
+from .calendar import PROVIDER, calendar, provider_identity
 
 JIE_NAMES = frozenset(("立春", "惊蛰", "清明", "立夏", "芒种", "小暑",
                        "立秋", "白露", "寒露", "立冬", "大雪", "小寒"))
@@ -30,6 +30,8 @@ def adjacent_jie_distance(value, direction, *, expected_month_ganzhi):
     The birth timestamp is mandatory. Manual four pillars, calendar dates
     without offset, sub-second times, and provider disputes are rejected.
     """
+    # Fail closed when the calendar source itself cannot be verified.
+    provider_identity()
     if type(direction) is not str or direction not in ("forward", "backward"):
         raise ValueError("Explicit forward/backward Dayun research direction required")
     if type(value) is str:
@@ -58,6 +60,8 @@ def adjacent_jie_distance(value, direction, *, expected_month_ganzhi):
     prev_at, next_at = prev_jie.pop("instant"), next_jie.pop("instant")
     if not prev_at <= local < next_at or next_at - prev_at > timedelta(days=40):
         raise ValueError("Pinned provider adjacent Jie chronology invalid")
+    if prev_jie["name"] == next_jie["name"]:
+        raise ValueError("Pinned provider returned duplicate Jie")
     # Independent calls to the *same* pinned provider's month-pillar API.
     # They cross-check internal consistency, not astronomical accuracy.
     if (calendar(prev_at - timedelta(seconds=1))["month_ganzhi"] == cal["month_ganzhi"]
