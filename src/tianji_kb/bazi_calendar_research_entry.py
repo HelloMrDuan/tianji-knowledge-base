@@ -18,7 +18,7 @@ Research boundaries (hard):
 - The Phase4-frozen ``calendar.py`` is not imported or modified here.
 """
 from .bazi_calendar_precision_audit import (
-    INDEPENDENT_JIE_REFERENCES_V2,
+    INDEPENDENT_JIE_REFERENCES_V3,
     REFERENCE_SET_VERSION,
     audit_birth_instant,
     audit_jie_against_reference,
@@ -75,13 +75,13 @@ def reference_catalog():
     """List the frozen reference set (for inspection, not trust)."""
     return {
         "reference_set_version": REFERENCE_SET_VERSION,
-        "record_count": len(INDEPENDENT_JIE_REFERENCES_V2),
+        "record_count": len(INDEPENDENT_JIE_REFERENCES_V3),
         "records": [
             {"record_id": r["record_id"], "term": r["term"],
              "gregorian_year": r["gregorian_year"],
              "source_org": r["source_org"], "source_url": r["source_url"],
              "citation_class": r["citation_class"],
              "primary_verified": r["primary_verified"]}
-            for r in INDEPENDENT_JIE_REFERENCES_V2
+            for r in INDEPENDENT_JIE_REFERENCES_V3
         ],
     }
