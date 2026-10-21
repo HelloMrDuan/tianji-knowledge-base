@@ -52,7 +52,7 @@
 | TJ-013.2 | M2 | 喜用与旺衰/格局冲突决策 | 阻塞 | — | — | 等待证据/前置依赖 |
 | TJ-013.3 | M2 | 适用范围明确的用户可读提示 | 阻塞 | — | — | 等待证据/前置依赖 |
 | TJ-014.1 | M3 | 顺/逆 原典规则与不同流派矩阵 | 已合并 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/284 | 2026-10-20 | 审核关账：方向规则为B类现代还原候选（未晋级）；私有验收run 39404769765同SHA通过 |
-| TJ-014.2 | M3 | 与已有月柱候选序列做事实追踪 | 已提交PR | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/288 | 2026-10-21 | 三项P0已修复：行内干支一致性、Evidence真验证、fact_ref解引用；40项测试已写待私有验收 |
+| TJ-014.2 | M3 | 与已有月柱候选序列做事实追踪 | 已合并 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/288 | 2026-10-21 | 终审整改三项P0+AttributeError修复已合并；50项链测试私有验收通过；关账 |
 | TJ-015.1 | M3 | 固定 12 节历法提供方真实性重放 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-015.2 | M3 | 历史时区、闰年、跨世纪和独立历法精度核查 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-016.1 | M3 | 三日一年／余日／余时的不同版本整理 | 待做 | — | — | 按 WBS 验收条件执行 |
