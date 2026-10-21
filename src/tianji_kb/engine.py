@@ -6,7 +6,9 @@ from .foundations import CYCLE
 from .bazi_adjudication import ADJUDICATION_VARIANT
 from .bazi_dayun_jie import adjacent_jie_distance
 from .bazi_dayun_age_fraction import VARIANT as DAYUN_RATIO_VARIANT, exact_three_day_ratio
-from .bazi_dayun_direction import VARIANT as DAYUN_DIRECTION_VARIANT, traditional_direction
+from .bazi_dayun_direction import VARIANT as DAYUN_DIRECTION_VARIANT, traditional_direction, \
+    validate_direction_candidate
+from .bazi_dayun_chain import build_dayun_candidate_chain
 from .bazi_dayun_simulation import VARIANT as DAYUN_SIM_VARIANT, simulate_dayun_age_and_timeline
 
 PROVIDERS={domain:f'tianji_kb.operations.{domain}_chart.chart' for domain in ('liuyao','qimen','liuren','ziwei','fengshui','yijing','bazi')}
@@ -94,6 +96,9 @@ def execute(domain,inputs,variant=None,*,allow_research=False):
     if domain == 'bazi' and direction_policy == DAYUN_DIRECTION_VARIANT:
         direction_candidate = traditional_direction(
             prepared['year_ganzhi'], traditional_role=prepared['traditional_role'])
+        # TJ-014.2: the TJ-014.1 anti-forgery gate now protects the execution
+        # path; a tampered candidate can no longer reach the sequence.
+        validate_direction_candidate(direction_candidate)
         prepared['dayun_sequence_direction'] = direction_candidate['direction']
     module,name=PROVIDERS[domain].rsplit('.',1)
     result=getattr(importlib.import_module(module),name)(**prepared,variant=selected)
@@ -108,6 +113,19 @@ def execute(domain,inputs,variant=None,*,allow_research=False):
         research['direction_origin'] = direction_candidate['direction_origin']
         research['direction_from_natal_attributes_calculated'] = True
         research['direction_research'] = direction_candidate
+    if 'dayun_sequence_research' in result.get('result', {}):
+        # TJ-014.2: verify the assembled artefact against its declared
+        # sources (trace month pillar, direction source, cycle rows, ten
+        # gods, research boundary) and attach the verification summary.
+        research = result['result']['dayun_sequence_research']
+        chain = build_dayun_candidate_chain(
+            result, research,
+            direction=research['direction'],
+            traditional_role=(prepared.get('traditional_role')
+                              if direction_candidate is not None else None),
+            direction_candidate=direction_candidate,
+            periods=len(research['rows']))
+        research['chain_verification'] = chain['chain_verification']
     if birth_for_jie is not None:
         # This is NOT a reviewed Dayun Phase2 Rule or classical Evidence.
         # Only provider calendar facts; explicitly excluded from RuleMatch.
