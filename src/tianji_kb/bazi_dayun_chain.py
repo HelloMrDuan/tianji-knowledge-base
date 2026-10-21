@@ -82,23 +82,36 @@ def _verify_pillar_evidence(pillar_step, evidence, chart_variant):
                 _fail("evidence record %r lacks classical provenance" % evidence_id)
 
 
-def _deref_fact_ref(trace, fact_ref):
-    """Actually resolve a declared fact pointer against the real trace."""
+def _deref_fact_ref(trace, fact_ref, pillar_index):
+    """Actually resolve a declared fact pointer against the real trace.
+
+    The pointer must address the uniquely resolved pillars step and the
+    month-pillar slot; a stale pointer, a wrong rule, or a wrong output
+    type is rejected with a specific ValueError reason, never an
+    AttributeError.
+    """
     if type(fact_ref) is not str:
         _fail("source_fact_ref is not a string")
     match = FACT_REF_RE.match(fact_ref)
     if match is None:
         _fail("source_fact_ref has an invalid format")
-    step_index, ganzhi_index_in_step = int(match.group(1)), int(match.group(2))
-    if not 0 <= step_index < len(trace):
-        _fail("source_fact_ref step index out of range")
+    step_index, ganzhi_slot = int(match.group(1)), int(match.group(2))
+    if step_index != pillar_index:
+        _fail("source_fact_ref does not point at the resolved pillars step")
     step = trace[step_index]
     if not isinstance(step, dict):
-        _fail("source_fact_ref does not point at a trace step")
-    ganzhi = (step.get("output") or {}).get("ganzhi")
-    if not isinstance(ganzhi, list) or not 0 <= ganzhi_index_in_step < len(ganzhi):
-        _fail("source_fact_ref ganzhi index out of range")
-    return ganzhi[ganzhi_index_in_step]
+        _fail("source_fact_ref does not point at a trace step object")
+    if step.get("rule_id") != PILLARS_RULE_ID:
+        _fail("source_fact_ref target step is not the pillars rule")
+    output = step.get("output")
+    if not isinstance(output, dict):
+        _fail("source_fact_ref target step output is not an object")
+    ganzhi = output.get("ganzhi")
+    if not isinstance(ganzhi, list) or len(ganzhi) != 4:
+        _fail("source_fact_ref target has no valid four-pillar ganzhi")
+    if ganzhi_slot != 1:
+        _fail("source_fact_ref does not address the month pillar slot")
+    return ganzhi[ganzhi_slot]
 
 
 def build_dayun_candidate_chain(chart_output, sequence_result, *,
@@ -124,9 +137,12 @@ def build_dayun_candidate_chain(chart_output, sequence_result, *,
     # ---- 1. Resolve the natal month pillar from the real Trace ----
     trace = chart_output.get("trace")
     pillar_index, pillar_step = _resolve_unique_step(trace, PILLARS_RULE_ID)
-    pillar_output = pillar_step.get("output") or {}
+    pillar_output = pillar_step.get("output")
+    if not isinstance(pillar_output, dict):
+        _fail("pillars step output is not an object")
     ganzhi = pillar_output.get("ganzhi")
-    if not isinstance(ganzhi, list) or len(ganzhi) != 4:
+    if (not isinstance(ganzhi, list) or len(ganzhi) != 4
+            or not all(type(pillar) is str and len(pillar) == 2 for pillar in ganzhi)):
         _fail("pillars step output has no valid ganzhi")
     year_ganzhi, month_ganzhi, day_ganzhi = ganzhi[0], ganzhi[1], ganzhi[2]
     day_stem = day_ganzhi[0]
@@ -145,7 +161,8 @@ def build_dayun_candidate_chain(chart_output, sequence_result, *,
         _fail("sequence source_rule_id is not the pillars rule")
     if sequence_result.get("ten_god_rule_id") != TEN_GODS_RULE_ID:
         _fail("sequence ten_god_rule_id is not the ten gods rule")
-    fact_month = _deref_fact_ref(trace, sequence_result.get("source_fact_ref"))
+    fact_month = _deref_fact_ref(
+        trace, sequence_result.get("source_fact_ref"), pillar_index)
     if fact_month != month_ganzhi:
         _fail("source_fact_ref does not resolve to the verified month pillar")
 
