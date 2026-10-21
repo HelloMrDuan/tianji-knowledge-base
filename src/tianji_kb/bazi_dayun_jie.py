@@ -8,7 +8,8 @@ from zoneinfo import ZoneInfo
 
 from lunar_python import Solar
 
-from .calendar import PROVIDER, calendar, provider_identity
+from .calendar import PROVIDER, calendar
+from .calendar_provider_guard import provider_identity
 
 JIE_NAMES = frozenset(("立春", "惊蛰", "清明", "立夏", "芒种", "小暑",
                        "立秋", "白露", "寒露", "立冬", "大雪", "小寒"))
