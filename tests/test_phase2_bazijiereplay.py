@@ -14,7 +14,8 @@ from zoneinfo import ZoneInfo
 from lunar_python import Solar
 
 from tianji_kb.bazi_dayun_jie import JIE_NAMES, adjacent_jie_distance
-from tianji_kb.calendar import PROVIDER, calendar, provider_identity
+from tianji_kb.calendar import PROVIDER, calendar
+from tianji_kb.calendar_provider_guard import provider_identity
 
 CHINA = ZoneInfo("Asia/Shanghai")
 
@@ -102,7 +103,7 @@ class TwelveJieReplayTests(unittest.TestCase):
 
     def test_provider_identity_verified(self):
         identity = provider_identity()
-        self.assertTrue(identity["verified"])
+        self.assertTrue(identity["installed_version_matches_pin"])
         self.assertEqual(identity["installed_version"], "1.4.8")
         self.assertEqual(identity["pinned"], PROVIDER)
         self.assertEqual(
@@ -218,16 +219,16 @@ class ProviderTamperTests(unittest.TestCase):
                 prev_t="2024-04-20 10:00:00", next_t="2024-05-25 10:00:00"))
 
     def test_wrong_installed_version_rejected(self):
-        with patch("tianji_kb.calendar._installed_version", return_value="1.4.7"):
+        with patch("tianji_kb.calendar_provider_guard._installed_version", return_value="1.4.7"):
             with self.assertRaisesRegex(ValueError, "version mismatch"):
                 provider_identity()
-        with patch("tianji_kb.calendar._installed_version", return_value="1.4.7"):
+        with patch("tianji_kb.calendar_provider_guard._installed_version", return_value="1.4.7"):
             with self.assertRaisesRegex(ValueError, "version mismatch"):
                 adjacent_jie_distance(
                     self.BIRTH, "forward", expected_month_ganzhi=self.MONTH)
 
     def test_missing_provider_package_rejected(self):
-        with patch("tianji_kb.calendar._installed_version",
+        with patch("tianji_kb.calendar_provider_guard._installed_version",
                    side_effect=PackageNotFoundError("lunar-python")):
             with self.assertRaisesRegex(ValueError, "not installed"):
                 provider_identity()
