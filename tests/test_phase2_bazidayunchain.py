@@ -9,7 +9,10 @@ import copy
 import unittest
 from unittest.mock import patch
 
-from tianji_kb.bazi_dayun_chain import build_dayun_candidate_chain
+from tianji_kb.bazi_dayun_chain import (
+    _deref_fact_ref,
+    build_dayun_candidate_chain,
+)
 from tianji_kb.bazi_dayun_direction import traditional_direction
 from tianji_kb.bazi_dayun_sequence import candidate_sequence
 from tianji_kb.engine import execute
@@ -70,7 +73,8 @@ class ChainPositiveTests(unittest.TestCase):
         pillars = next(s for s in steps if s["rule_id"] == "bazi.phase2.pillars")
         steps.remove(pillars)
         steps.append(pillars)
-        with self.assertRaises(ValueError):
+        with self.assertRaisesRegex(
+                ValueError, "does not point at the resolved pillars step"):
             build_dayun_candidate_chain(
                 shuffled, research, direction="forward", periods=3)
 
@@ -298,6 +302,81 @@ class ChainTamperTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             build_dayun_candidate_chain(
                 self.out, seq, direction="forward", periods=3)
+
+    def test_pillars_output_list_rejected(self):
+        out = copy.deepcopy(self.out)
+        for step in out["trace"]:
+            if step["rule_id"] == "bazi.phase2.pillars":
+                step["output"] = ["庚辰", "己丑", "甲子", "庚午"]
+        with self.assertRaisesRegex(ValueError, "output is not an object"):
+            build_dayun_candidate_chain(
+                out, self.research, direction="forward", periods=3)
+
+    def test_pillars_output_none_rejected(self):
+        out = copy.deepcopy(self.out)
+        for step in out["trace"]:
+            if step["rule_id"] == "bazi.phase2.pillars":
+                step["output"] = None
+        with self.assertRaisesRegex(ValueError, "output is not an object"):
+            build_dayun_candidate_chain(
+                out, self.research, direction="forward", periods=3)
+
+    def test_fact_ref_wrong_ganzhi_slot_rejected(self):
+        seq = copy.deepcopy(self.research)
+        seq["source_fact_ref"] = "#/trace/0/output/ganzhi/2"
+        with self.assertRaisesRegex(ValueError, "month pillar slot"):
+            build_dayun_candidate_chain(
+                self.out, seq, direction="forward", periods=3)
+
+
+class DerefFactRefUnitTests(unittest.TestCase):
+    """Direct unit tests for _deref_fact_ref output-type handling."""
+
+    def _trace(self, output):
+        return [
+            {"rule_id": "bazi.phase2.pillars",
+             "output": output,
+             "evidence_ids": ["e1"]},
+            {"rule_id": "bazi.phase2.ten_gods", "output": {}, "evidence_ids": []},
+        ]
+
+    def test_happy_path_returns_month_pillar(self):
+        trace = self._trace({"ganzhi": ["庚辰", "己丑", "甲子", "庚午"]})
+        self.assertEqual(
+            _deref_fact_ref(trace, "#/trace/0/output/ganzhi/1", 0), "己丑")
+
+    def test_output_list_rejected_not_attribute_error(self):
+        trace = self._trace(["庚辰", "己丑", "甲子", "庚午"])
+        with self.assertRaisesRegex(ValueError, "output is not an object"):
+            _deref_fact_ref(trace, "#/trace/0/output/ganzhi/1", 0)
+
+    def test_output_none_rejected(self):
+        trace = self._trace(None)
+        with self.assertRaisesRegex(ValueError, "output is not an object"):
+            _deref_fact_ref(trace, "#/trace/0/output/ganzhi/1", 0)
+
+    def test_step_not_dict_rejected(self):
+        trace = ["not-a-step",
+                 {"rule_id": "bazi.phase2.ten_gods", "output": {}, "evidence_ids": []}]
+        with self.assertRaisesRegex(ValueError, "trace step object"):
+            _deref_fact_ref(trace, "#/trace/0/output/ganzhi/1", 0)
+
+    def test_wrong_rule_rejected(self):
+        trace = self._trace({"ganzhi": ["庚辰", "己丑", "甲子", "庚午"]})
+        trace[0]["rule_id"] = "bazi.phase2.ten_gods"
+        with self.assertRaisesRegex(ValueError, "not the pillars rule"):
+            _deref_fact_ref(trace, "#/trace/0/output/ganzhi/1", 0)
+
+    def test_stale_index_rejected(self):
+        trace = self._trace({"ganzhi": ["庚辰", "己丑", "甲子", "庚午"]})
+        with self.assertRaisesRegex(
+                ValueError, "does not point at the resolved pillars step"):
+            _deref_fact_ref(trace, "#/trace/0/output/ganzhi/1", 1)
+
+    def test_missing_ganzhi_rejected(self):
+        trace = self._trace({"no_ganzhi": True})
+        with self.assertRaisesRegex(ValueError, "four-pillar ganzhi"):
+            _deref_fact_ref(trace, "#/trace/0/output/ganzhi/1", 0)
 
 
 class EngineGateTests(unittest.TestCase):
