@@ -59,21 +59,31 @@ class ChainPositiveTests(unittest.TestCase):
             [("戊子", "偏财"), ("丁亥", "伤官"), ("丙戌", "食神")])
         self.assertEqual(chain["chain_verification"]["direction"], "backward")
 
-    def test_chain_resolves_pillars_by_rule_id_not_fixed_index(self):
+    def test_stale_source_fact_ref_rejected_when_trace_reordered(self):
+        # The sequence declares source_fact_ref "#/trace/0/output/ganzhi/1".
+        # If the real trace order changes, that pointer is stale and the
+        # chain must reject instead of announcing the chain fully valid.
         out = fixed_chart(dayun_sequence_direction="forward", dayun_sequence_count=3)
         research = out["result"]["dayun_sequence_research"]
-        # Move the pillars step away from index 0: chain must still find it.
         shuffled = copy.deepcopy(out)
         steps = shuffled["trace"]
         pillars = next(s for s in steps if s["rule_id"] == "bazi.phase2.pillars")
         steps.remove(pillars)
         steps.append(pillars)
+        with self.assertRaises(ValueError):
+            build_dayun_candidate_chain(
+                shuffled, research, direction="forward", periods=3)
+
+    def test_rule_id_resolution_still_used_when_ref_consistent(self):
+        # In real execution the pillars step is trace[0] by rule_id; the
+        # declared ref dereferences to the same month pillar.
+        out = fixed_chart(dayun_sequence_direction="forward", dayun_sequence_count=3)
+        research = out["result"]["dayun_sequence_research"]
         chain = build_dayun_candidate_chain(
-            shuffled, research, direction="forward", periods=3)
-        self.assertEqual(
-            chain["chain_verification"]["month_pillar_trace_index"],
-            len(shuffled["trace"]) - 1)
-        self.assertEqual(chain["chain_verification"]["month_pillar"], "己丑")
+            out, research, direction="forward", periods=3)
+        v = chain["chain_verification"]
+        self.assertEqual(v["month_pillar_rule_id"], "bazi.phase2.pillars")
+        self.assertTrue(v["row_checks"]["source_fact_ref_dereferenced"])
 
 
 class ChainTamperTests(unittest.TestCase):
@@ -173,6 +183,122 @@ class ChainTamperTests(unittest.TestCase):
             build_dayun_candidate_chain(
                 self.out, self.research, direction=None, periods=3)
 
+    def test_row_stem_contradicting_ganzhi_rejected(self):
+        seq = copy.deepcopy(self.research)
+        seq["rows"][0]["stem"] = "辛"
+        with self.assertRaises(ValueError):
+            build_dayun_candidate_chain(
+                self.out, seq, direction="forward", periods=3)
+
+    def test_row_branch_contradicting_ganzhi_rejected(self):
+        seq = copy.deepcopy(self.research)
+        seq["rows"][0]["branch"] = "卯"
+        with self.assertRaises(ValueError):
+            build_dayun_candidate_chain(
+                self.out, seq, direction="forward", periods=3)
+
+    def test_period_index_wrong_rejected(self):
+        seq = copy.deepcopy(self.research)
+        seq["rows"][1]["period_index"] = 3
+        with self.assertRaises(ValueError):
+            build_dayun_candidate_chain(
+                self.out, seq, direction="forward", periods=3)
+
+    def test_invalid_candidate_ganzhi_rejected(self):
+        seq = copy.deepcopy(self.research)
+        seq["rows"][0]["candidate_ganzhi"] = "甲甲"
+        seq["rows"][0]["stem"] = "甲"
+        seq["rows"][0]["branch"] = "甲"
+        with self.assertRaises(ValueError):
+            build_dayun_candidate_chain(
+                self.out, seq, direction="forward", periods=3)
+
+    def test_empty_evidence_ids_rejected(self):
+        out = copy.deepcopy(self.out)
+        for step in out["trace"]:
+            if step["rule_id"] == "bazi.phase2.pillars":
+                step["evidence_ids"] = []
+        with self.assertRaises(ValueError):
+            build_dayun_candidate_chain(
+                out, self.research, direction="forward", periods=3)
+
+    def test_duplicate_evidence_ids_rejected(self):
+        out = copy.deepcopy(self.out)
+        for step in out["trace"]:
+            if step["rule_id"] == "bazi.phase2.pillars":
+                step["evidence_ids"] = step["evidence_ids"] * 2
+        with self.assertRaises(ValueError):
+            build_dayun_candidate_chain(
+                out, self.research, direction="forward", periods=3)
+
+    def test_evidence_record_wrong_rule_rejected(self):
+        out = copy.deepcopy(self.out)
+        for step in out["trace"]:
+            if step["rule_id"] == "bazi.phase2.pillars":
+                record = out["evidence"][step["evidence_ids"][0]]
+                record["rule_id"] = "bazi.phase2.ten_gods"
+        with self.assertRaises(ValueError):
+            build_dayun_candidate_chain(
+                out, self.research, direction="forward", periods=3)
+
+    def test_evidence_record_variant_mismatch_rejected(self):
+        out = copy.deepcopy(self.out)
+        for step in out["trace"]:
+            if step["rule_id"] == "bazi.phase2.pillars":
+                record = out["evidence"][step["evidence_ids"][0]]
+                record["variant"] = "forged-variant"
+        with self.assertRaises(ValueError):
+            build_dayun_candidate_chain(
+                out, self.research, direction="forward", periods=3)
+
+    def test_evidence_record_missing_provenance_rejected(self):
+        out = copy.deepcopy(self.out)
+        for step in out["trace"]:
+            if step["rule_id"] == "bazi.phase2.pillars":
+                record = out["evidence"][step["evidence_ids"][0]]
+                del record["classic_id"]
+        with self.assertRaises(ValueError):
+            build_dayun_candidate_chain(
+                out, self.research, direction="forward", periods=3)
+
+    def test_duplicate_pillars_rule_id_rejected(self):
+        out = copy.deepcopy(self.out)
+        pillars = next(s for s in out["trace"]
+                       if s["rule_id"] == "bazi.phase2.pillars")
+        out["trace"].append(copy.deepcopy(pillars))
+        with self.assertRaises(ValueError):
+            build_dayun_candidate_chain(
+                out, self.research, direction="forward", periods=3)
+
+    def test_wrong_source_rule_id_rejected(self):
+        seq = copy.deepcopy(self.research)
+        seq["source_rule_id"] = "bazi.phase2.ten_gods"
+        with self.assertRaises(ValueError):
+            build_dayun_candidate_chain(
+                self.out, seq, direction="forward", periods=3)
+
+    def test_wrong_ten_god_rule_id_rejected(self):
+        seq = copy.deepcopy(self.research)
+        seq["ten_god_rule_id"] = "bazi.phase2.pillars"
+        with self.assertRaises(ValueError):
+            build_dayun_candidate_chain(
+                self.out, seq, direction="forward", periods=3)
+
+    def test_missing_ten_gods_step_rejected(self):
+        out = copy.deepcopy(self.out)
+        out["trace"] = [s for s in out["trace"]
+                        if s["rule_id"] != "bazi.phase2.ten_gods"]
+        with self.assertRaises(ValueError):
+            build_dayun_candidate_chain(
+                out, self.research, direction="forward", periods=3)
+
+    def test_fact_ref_bad_format_rejected(self):
+        seq = copy.deepcopy(self.research)
+        seq["source_fact_ref"] = "trace/0/ganzhi/1"
+        with self.assertRaises(ValueError):
+            build_dayun_candidate_chain(
+                self.out, seq, direction="forward", periods=3)
+
 
 class EngineGateTests(unittest.TestCase):
     def test_mode_b_chain_verification_in_execute(self):
@@ -226,6 +352,21 @@ class EngineGateTests(unittest.TestCase):
                 traditional_role="male",
                 dayun_sequence_direction="forward"),
                 allow_research=True)
+
+    def test_real_birth_input_chain_via_engine(self):
+        out = execute("bazi", {
+            "value": "1984-05-15T12:00:00+08:00",
+            "dayun_sequence_direction": "forward",
+            "dayun_sequence_count": 3,
+        }, allow_research=True)
+        research = out["result"]["dayun_sequence_research"]
+        self.assertIn("chain_verification", research)
+        v = research["chain_verification"]
+        self.assertEqual(v["direction_source"], "explicit_caller_selection_only")
+        self.assertEqual(v["month_pillar"], out["trace"][0]["output"]["ganzhi"][1])
+        self.assertTrue(v["research_only"])
+        self.assertFalse(v["public_enabled"])
+        self.assertFalse(v["ai_enabled"])
 
 
 class CycleBoundaryTests(unittest.TestCase):
