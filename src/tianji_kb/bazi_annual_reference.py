@@ -58,6 +58,7 @@ def annual_reference(day_master, years):
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 from lunar_python import Solar
+from .calendar_provider_guard import provider_identity
 from .foundations import CYCLE
 
 MAX_LICHUN_YEARS = 10
@@ -65,6 +66,7 @@ MAX_LICHUN_YEARS = 10
 
 def _li_chun_of(year):
     """Pinned provider's computed 立春, to seconds, in Asia/Shanghai."""
+    provider_identity()
     table = Solar.fromYmd(year, 7, 1).getLunar().getJieQiTable()
     if '立春' not in table:
         raise ValueError('Pinned calendar has no Li Chun term')
