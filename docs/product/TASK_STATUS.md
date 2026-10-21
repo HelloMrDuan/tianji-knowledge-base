@@ -54,7 +54,7 @@
 | TJ-014.1 | M3 | 顺/逆 原典规则与不同流派矩阵 | 已合并 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/284 | 2026-10-20 | 审核关账：方向规则为B类现代还原候选（未晋级）；私有验收run 39404769765同SHA通过 |
 | TJ-014.2 | M3 | 与已有月柱候选序列做事实追踪 | 已合并 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/288 | 2026-10-21 | 终审整改三项P0+AttributeError修复已合并；50项链测试私有验收通过；关账 |
 | TJ-015.1 | M3 | 固定 12 节历法提供方真实性重放 | 已合并 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/290 | 2026-10-21 | 十二节重放+提供方身份校验已合并；694项私有验收通过；关账 |
-| TJ-015.2 | M3 | 历史时区、闰年、跨世纪和独立历法精度核查 | 已提交PR | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/294 | 2026-10-21 | 终审补强：参考来源绑定+汇总防伪+真实研究入口+版本化时区证据，49项测试 |
+| TJ-015.2 | M3 | 历史时区、闰年、跨世纪和独立历法精度核查 | 已合并 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/294 | 2026-10-21 | 终审补强已合并；49项测试+私有全量验收通过；关账 |
 | TJ-016.1 | M3 | 三日一年／余日／余时的不同版本整理 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-016.2 | M3 | 起运当秒、虚岁/实岁等最困难反例 | 阻塞 | — | — | 等待证据/前置依赖 |
 | TJ-016.3 | M3 | 研究模拟与正式运期的硬边界 | 待做 | — | — | 按 WBS 验收条件执行 |
