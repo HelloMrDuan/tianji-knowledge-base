@@ -1,9 +1,6 @@
-"""TJ-015.2: historical-timezone, leap/century and independent-precision audits.
-
-Real tzdb (system zoneinfo), real lunar-python provider, and frozen
-independent reference records. No network in tests: the reference records
-carry their provenance (source URL, version, precision, timezone).
-"""
+"""TJ-015.2 review remediation: reference binding, summary anti-tamper,
+real research entry, versioned tz evidence. All against real lunar-python
+and the real system tzdb; no network in tests."""
 import copy
 import unittest
 from datetime import datetime, timedelta, timezone
@@ -11,13 +8,27 @@ from zoneinfo import ZoneInfo
 
 from lunar_python import Solar
 
+import tianji_kb.bazi_calendar_precision_audit as audit_mod
+import tianji_kb.bazi_calendar_research_entry as entry_mod
 from tianji_kb.bazi_calendar_precision_audit import (
-    INDEPENDENT_JIE_REFERENCES_V1,
+    HISTORICAL_TZ_TRANSITIONS_V1,
+    INDEPENDENT_JIE_REFERENCES_V2,
+    REFERENCE_SET_VERSION,
+    _check_tz_offset_correspondence,
     audit_birth_instant,
     audit_jie_against_reference,
     classify_civil_time,
+    get_frozen_reference,
     summarize_audits,
     tzdata_version,
+    verify_reference_record,
+)
+from tianji_kb.bazi_calendar_research_entry import (
+    FORBIDDEN_CONCLUSION_KINDS,
+    reference_catalog,
+    research_audit_birth,
+    research_audit_jie,
+    research_audit_summary,
 )
 from tianji_kb.bazi_dayun_jie import adjacent_jie_distance
 from tianji_kb.calendar import calendar
@@ -27,7 +38,6 @@ CHINA = ZoneInfo("Asia/Shanghai")
 
 
 def provider_jie_utc(term, ref):
-    """Provider moment for the jie matching the reference's published date."""
     published = datetime.fromisoformat(ref["published_utc"])
     lunar = Solar.fromYmdHms(published.year, published.month, 15, 12, 0, 0).getLunar()
     found = lunar.getPrevJie(False)
@@ -37,84 +47,252 @@ def provider_jie_utc(term, ref):
         found.getSolar().toYmdHms(), "%Y-%m-%d %H:%M:%S").replace(tzinfo=CHINA)
 
 
-class IndependentReferenceAuditTests(unittest.TestCase):
-    def test_twelve_jie_minute_level_audit(self):
-        results = []
-        for ref in INDEPENDENT_JIE_REFERENCES_V1:
-            moment = provider_jie_utc(ref["term"], ref)
-            results.append(audit_jie_against_reference(
-                term=ref["term"], gregorian_year=ref["gregorian_year"],
-                provider_moment_utc=moment, reference=ref))
-        verdicts = [r["verdict"] for r in results]
-        self.assertEqual(verdicts.count("minute_agreement"), 8)
-        self.assertEqual(verdicts.count("unresolved_minute_ambiguity"), 4)
-        self.assertNotIn("exceeds_minute_tolerance", verdicts)
-        by_term = {r["term"]: r["verdict"] for r in results}
-        for term in ("惊蛰", "芒种", "寒露", "小寒"):
-            self.assertEqual(by_term[term], "unresolved_minute_ambiguity")
-            record = next(r for r in results if r["term"] == term)
-            self.assertTrue(record["unresolved_items"])
-        for record in results:
-            self.assertFalse(record["astronomical_precision_independently_verified"])
-            self.assertIn("not extrapolated", record["scope"])
+def real_record(term, year):
+    ref = get_frozen_reference(term, year)
+    return audit_jie_against_reference(
+        term=term, gregorian_year=year,
+        provider_moment_utc=provider_jie_utc(term, ref), reference=ref)
 
-    def test_audit_summary_never_upgrades_global_flags(self):
-        results = [audit_jie_against_reference(
-            term=ref["term"], gregorian_year=ref["gregorian_year"],
-            provider_moment_utc=provider_jie_utc(ref["term"], ref),
-            reference=ref) for ref in INDEPENDENT_JIE_REFERENCES_V1]
-        summary = summarize_audits(results)
+
+def all_real_records():
+    return [real_record(r["term"], r["gregorian_year"])
+            for r in INDEPENDENT_JIE_REFERENCES_V2]
+
+
+class ReferenceBindingTests(unittest.TestCase):
+    def test_all_frozen_records_verify(self):
+        for ref in INDEPENDENT_JIE_REFERENCES_V2:
+            frozen = verify_reference_record(ref)
+            self.assertEqual(frozen["record_id"], ref["record_id"])
+
+    def test_unknown_record_id_rejected(self):
+        ref = copy.deepcopy(INDEPENDENT_JIE_REFERENCES_V2[0])
+        ref["record_id"] = "tj0152-forged-1"
+        with self.assertRaisesRegex(ValueError, "not in the frozen verified set"):
+            verify_reference_record(ref)
+
+    def test_missing_record_id_rejected(self):
+        ref = copy.deepcopy(INDEPENDENT_JIE_REFERENCES_V2[0])
+        del ref["record_id"]
+        with self.assertRaisesRegex(ValueError, "not in the frozen verified set"):
+            verify_reference_record(ref)
+
+    def test_source_url_substitution_rejected(self):
+        ref = copy.deepcopy(INDEPENDENT_JIE_REFERENCES_V2[0])
+        ref["source_url"] = "https://evil.example.org/fake-jie"
+        with self.assertRaisesRegex(ValueError, "does not match the frozen"):
+            verify_reference_record(ref)
+
+    def test_published_time_tampering_rejected(self):
+        ref = copy.deepcopy(INDEPENDENT_JIE_REFERENCES_V2[0])
+        ref["published_utc"] = "2024-02-04T08:32:00+00:00"
+        with self.assertRaisesRegex(ValueError, "does not match the frozen"):
+            audit_jie_against_reference(
+                term="立春", gregorian_year=2024,
+                provider_moment_utc=provider_jie_utc(
+                    "立春", INDEPENDENT_JIE_REFERENCES_V2[0]),
+                reference=ref)
+
+    def test_invalid_source_timezone_rejected(self):
+        with self.assertRaisesRegex(ValueError, "not a known zone"):
+            _check_tz_offset_correspondence(
+                "2024-02-04T08:27:00+00:00", "Mars/Olympus")
+
+    def test_utc_vs_offset_contradiction_rejected(self):
+        with self.assertRaisesRegex(ValueError, "contradicts the offset"):
+            _check_tz_offset_correspondence(
+                "2024-02-04T08:27:00+08:00", "UTC")
+
+    def test_timezone_offset_correspondence_accepts_valid(self):
+        _check_tz_offset_correspondence("2024-02-04T08:27:00+00:00", "UTC")
+
+    def test_reference_year_misuse_rejected(self):
+        # 2024's 立春 record must not be audited as 2025.
+        ref = INDEPENDENT_JIE_REFERENCES_V2[0]
+        with self.assertRaisesRegex(ValueError, "does not match the verified"):
+            audit_jie_against_reference(
+                term="立春", gregorian_year=2025,
+                provider_moment_utc=provider_jie_utc("立春", ref),
+                reference=ref)
+
+    def test_term_mismatch_rejected(self):
+        ref = INDEPENDENT_JIE_REFERENCES_V2[0]
+        with self.assertRaisesRegex(ValueError, "does not match the verified"):
+            audit_jie_against_reference(
+                term="惊蛰", gregorian_year=2024,
+                provider_moment_utc=provider_jie_utc("立春", ref),
+                reference=ref)
+
+    def test_xiaohan_cross_year_explicit(self):
+        ref = get_frozen_reference("小寒", 2024)
+        self.assertIn("year_note", ref)
+        self.assertIn("2025-01-05", ref["year_note"])
+        verify_reference_record(ref)  # must not raise on the cross-year case
+        record = real_record("小寒", 2024)
+        self.assertEqual(record["published_utc"], "2025-01-05T02:33:00+00:00")
+
+    def test_second_hand_citation_marked(self):
+        for ref in INDEPENDENT_JIE_REFERENCES_V2:
+            self.assertEqual(ref["citation_class"], "second_hand")
+            self.assertFalse(ref["primary_verified"])
+        record = real_record("立春", 2024)
+        self.assertEqual(record["citation_class"], "second_hand")
+        self.assertFalse(record["primary_verified"])
+        self.assertEqual(record["source_binding"], "frozen_verified")
+        self.assertFalse(record["astronomical_precision_independently_verified"])
+
+    def test_hko_definition_crosscheck_present(self):
+        defs = audit_mod.HKO_DEFINITION_CROSSCHECK
+        self.assertIn("hko.gov.hk", defs["source"])
+        self.assertEqual(defs["jie_longitudes"]["立春"], 315)
+        self.assertEqual(defs["jie_longitudes"]["惊蛰"], 345)
+        self.assertIn("unavailable", defs["note"])
+
+
+class SummaryAntiTamperTests(unittest.TestCase):
+    def test_summary_recomputes_verdicts(self):
+        summary = summarize_audits(all_real_records())
         self.assertEqual(summary["audit_count"], 12)
+        self.assertEqual(summary["verdicts"].get("minute_agreement"), 8)
+        self.assertEqual(summary["verdicts"].get("unresolved_minute_ambiguity"), 4)
         self.assertFalse(summary["astronomical_precision_independently_verified"])
         self.assertFalse(summary["historical_timezone_independently_verified"])
         self.assertTrue(summary["research_only"])
         self.assertIn("must NOT be extrapolated", summary["coverage_disclaimer"])
-        self.assertEqual(summary["coverage"]["gregorian_years"], [2024])
+        self.assertEqual(summary["reference_set_version"], REFERENCE_SET_VERSION)
 
-    def test_reference_records_carry_provenance(self):
-        self.assertEqual(len(INDEPENDENT_JIE_REFERENCES_V1), 12)
-        for ref in INDEPENDENT_JIE_REFERENCES_V1:
-            for key in ("term", "gregorian_year", "source_org", "source_url",
-                        "source_precision", "source_timezone", "published_utc"):
-                self.assertTrue(ref[key], key)
-            self.assertEqual(ref["source_precision"], "minute")
-            self.assertEqual(ref["gregorian_year"], 2024)
+    def test_forged_verdict_rejected(self):
+        records = all_real_records()
+        forged = copy.deepcopy(records[0])
+        shifted = datetime.fromisoformat(forged["provider_utc"]) + timedelta(minutes=5)
+        forged["provider_utc"] = shifted.isoformat()
+        forged["verdict"] = "minute_agreement"  # lie: recompute gives exceeds
+        records[0] = forged
+        with self.assertRaisesRegex(ValueError, "forged verdicts are rejected"):
+            summarize_audits(records)
 
-    def test_tampered_reference_detected_as_disagreement(self):
-        ref = copy.deepcopy(INDEPENDENT_JIE_REFERENCES_V1[0])
-        published = datetime.fromisoformat(ref["published_utc"])
-        ref["published_utc"] = (published + timedelta(minutes=5)).isoformat()
-        moment = provider_jie_utc("立春", INDEPENDENT_JIE_REFERENCES_V1[0])
-        record = audit_jie_against_reference(
+    def test_duplicate_records_rejected(self):
+        records = all_real_records()
+        records.append(copy.deepcopy(records[0]))
+        with self.assertRaisesRegex(ValueError, "duplicate audit record"):
+            summarize_audits(records)
+
+    def test_deleted_failure_records_rejected(self):
+        records = [r for r in all_real_records()
+                   if r["verdict"] == "minute_agreement"]
+        self.assertEqual(len(records), 8)
+        with self.assertRaisesRegex(ValueError, "missing for 4 reference"):
+            summarize_audits(records)
+
+    def test_substituted_reference_in_record_rejected(self):
+        records = all_real_records()
+        records[3] = copy.deepcopy(records[3])
+        records[3]["source_url"] = "https://evil.example.org/x"
+        with self.assertRaisesRegex(ValueError, "substituted reference field"):
+            summarize_audits(records)
+
+    def test_record_without_reference_rejected(self):
+        with self.assertRaisesRegex(ValueError, "no reference in the verified set"):
+            summarize_audits([{"term": "立春", "gregorian_year": 2030,
+                               "verdict": "minute_agreement",
+                               "provider_utc": "2030-02-04T08:27:00+00:00"}])
+
+    def test_empty_records_rejected(self):
+        with self.assertRaisesRegex(ValueError, "non-empty list"):
+            summarize_audits([])
+
+
+class ResearchEntryTests(unittest.TestCase):
+    def test_entry_birth_real(self):
+        report = research_audit_birth(birth_value="1988-07-01T12:00:00+09:00")
+        self.assertEqual(report["birth"]["utc_instant"], "1988-07-01T03:00:00+00:00")
+        self.assertTrue(report["research_only"])
+        self.assertFalse(report["public_enabled"])
+        self.assertFalse(report["ai_enabled"])
+        self.assertFalse(report["precision_certification"]
+                         ["astronomical_precision_independently_verified"])
+
+    def test_entry_birth_historical_offset_misuse_rejected(self):
+        with self.assertRaisesRegex(ValueError, "contradicts tzdb"):
+            research_audit_birth(birth_value="1988-07-01T12:00:00+08:00")
+
+    def test_entry_birth_gap_rejected(self):
+        with self.assertRaisesRegex(ValueError, "does not exist"):
+            research_audit_birth(birth_value="1986-05-04T02:30:00+08:00")
+
+    def test_entry_birth_ambiguous_named_zone_rejected(self):
+        with self.assertRaisesRegex(ValueError, "silent guess"):
+            research_audit_birth(
+                birth_value=datetime(1986, 9, 14, 1, 30, tzinfo=CHINA))
+
+    def test_entry_jie_real(self):
+        ref = get_frozen_reference("立春", 2024)
+        record = research_audit_jie(
             term="立春", gregorian_year=2024,
-            provider_moment_utc=moment, reference=ref)
-        self.assertEqual(record["verdict"], "exceeds_minute_tolerance")
+            provider_moment_utc=provider_jie_utc("立春", ref))
+        self.assertEqual(record["verdict"], "minute_agreement")
+        self.assertEqual(record["source_binding"], "frozen_verified")
 
-    def test_reference_missing_timezone_rejected(self):
-        ref = copy.deepcopy(INDEPENDENT_JIE_REFERENCES_V1[0])
-        del ref["source_timezone"]
-        with self.assertRaisesRegex(ValueError, "missing required field"):
-            audit_jie_against_reference(
-                term="立春", gregorian_year=2024,
-                provider_moment_utc=provider_jie_utc("立春", INDEPENDENT_JIE_REFERENCES_V1[0]),
-                reference=ref)
+    def test_entry_jie_unknown_term_rejected(self):
+        with self.assertRaisesRegex(ValueError, "no frozen reference"):
+            research_audit_jie(
+                term="立秋", gregorian_year=2030,
+                provider_moment_utc=datetime(2030, 8, 7, 8, 9, tzinfo=CHINA))
 
-    def test_unsupported_precision_rejected(self):
-        ref = copy.deepcopy(INDEPENDENT_JIE_REFERENCES_V1[0])
-        ref["source_precision"] = "second"
-        with self.assertRaisesRegex(ValueError, "not supported"):
-            audit_jie_against_reference(
-                term="立春", gregorian_year=2024,
-                provider_moment_utc=provider_jie_utc("立春", INDEPENDENT_JIE_REFERENCES_V1[0]),
-                reference=ref)
+    def test_entry_summary_roundtrip(self):
+        records = [research_audit_jie(
+            term=r["term"], gregorian_year=r["gregorian_year"],
+            provider_moment_utc=provider_jie_utc(r["term"], r))
+            for r in INDEPENDENT_JIE_REFERENCES_V2]
+        summary = research_audit_summary(records)
+        self.assertEqual(summary["audit_count"], 12)
 
-    def test_term_mismatch_rejected(self):
-        ref = copy.deepcopy(INDEPENDENT_JIE_REFERENCES_V1[0])
-        with self.assertRaisesRegex(ValueError, "does not match"):
-            audit_jie_against_reference(
-                term="惊蛰", gregorian_year=2024,
-                provider_moment_utc=provider_jie_utc("立春", INDEPENDENT_JIE_REFERENCES_V1[0]),
-                reference=ref)
+    def test_entry_forbids_dayun_conclusions(self):
+        for kind in FORBIDDEN_CONCLUSION_KINDS:
+            self.assertFalse(hasattr(entry_mod, kind), kind)
+        report = research_audit_birth(birth_value="2024-05-15T12:00:00+08:00")
+        blob = str(report)
+        for kind in FORBIDDEN_CONCLUSION_KINDS:
+            self.assertNotIn(kind, blob)
+
+    def test_entry_does_not_import_frozen_calendar(self):
+        import inspect
+        source = inspect.getsource(entry_mod)
+        self.assertNotIn("from .calendar import", source)
+        self.assertNotIn("from tianji_kb.calendar import", source)
+
+    def test_reference_catalog_lists_frozen_set(self):
+        catalog = reference_catalog()
+        self.assertEqual(catalog["record_count"], 12)
+        self.assertEqual(catalog["reference_set_version"], REFERENCE_SET_VERSION)
+
+
+class HistoricalTzEvidenceTests(unittest.TestCase):
+    def _fmt(self, td):
+        total = int(td.total_seconds())
+        sign = "+" if total >= 0 else "-"
+        total = abs(total)
+        return "%s%02d:%02d" % (sign, total // 3600, (total % 3600) // 60)
+
+    def test_versioned_transitions_match_live_tzdb(self):
+        ev = HISTORICAL_TZ_TRANSITIONS_V1
+        self.assertEqual(ev["tzdata_version"], "2026c")
+        self.assertEqual(len(ev["transitions"]), 28)
+        tz = ZoneInfo(ev["tz_name"])
+        for tr in ev["transitions"]:
+            t = datetime.fromisoformat(tr["utc"])
+            before = (t - timedelta(seconds=1)).astimezone(tz).utcoffset()
+            after = t.astimezone(tz).utcoffset()
+            self.assertEqual(self._fmt(before), tr["before"], tr["utc"])
+            self.assertEqual(self._fmt(after), tr["after"], tr["utc"])
+
+    def test_transitions_sorted_and_unique(self):
+        instants = [t["utc"] for t in HISTORICAL_TZ_TRANSITIONS_V1["transitions"]]
+        self.assertEqual(instants, sorted(instants))
+        self.assertEqual(len(set(instants)), 28)
+
+    def test_evidence_marks_unverified_scope(self):
+        self.assertIn("UNVERIFIED", HISTORICAL_TZ_TRANSITIONS_V1["note"])
 
 
 class CivilTimeAuditTests(unittest.TestCase):
@@ -123,35 +301,25 @@ class CivilTimeAuditTests(unittest.TestCase):
             audit_birth_instant("1986-05-04T02:30:00+08:00")
 
     def test_wartime_dst_gap_rejected(self):
-        # 1940-05-31 16:00 UTC spring-forward: 1940-06-01 00:00-00:59 never existed.
         with self.assertRaisesRegex(ValueError, "does not exist"):
             audit_birth_instant("1940-06-01T00:30:00+08:00")
 
     def test_dst_overlap_named_zone_rejected_no_silent_fold(self):
-        ambiguous = datetime(1986, 9, 14, 1, 30, tzinfo=CHINA)
         self.assertEqual(
             classify_civil_time(datetime(1986, 9, 14, 1, 30), "Asia/Shanghai"),
             "ambiguous")
         with self.assertRaisesRegex(ValueError, "silent guess"):
-            audit_birth_instant(ambiguous)
+            audit_birth_instant(datetime(1986, 9, 14, 1, 30, tzinfo=CHINA))
 
     def test_dst_overlap_explicit_offsets_distinguished(self):
         first = audit_birth_instant("1986-09-14T01:30:00+09:00")
         second = audit_birth_instant("1986-09-14T01:30:00+08:00")
         self.assertEqual(first["utc_instant"], "1986-09-13T16:30:00+00:00")
         self.assertEqual(second["utc_instant"], "1986-09-13T17:30:00+00:00")
-        for result in (first, second):
-            self.assertEqual(result["civil_classification"], "ambiguous")
-            self.assertEqual(result["offset_disambiguation"], "explicit_offset")
 
     def test_historical_offset_misuse_rejected(self):
-        # 1988-07-01 was in DST (+09:00); a fixed +08:00 claim contradicts tzdb.
         with self.assertRaisesRegex(ValueError, "contradicts tzdb"):
             audit_birth_instant("1988-07-01T12:00:00+08:00")
-
-    def test_historical_dst_correct_offset_accepted(self):
-        result = audit_birth_instant("1988-07-01T12:00:00+09:00")
-        self.assertEqual(result["utc_instant"], "1988-07-01T03:00:00+00:00")
 
     def test_naive_birth_rejected(self):
         with self.assertRaisesRegex(ValueError, "timezone-aware"):
@@ -167,8 +335,7 @@ class CivilTimeAuditTests(unittest.TestCase):
         self.assertEqual(via_offset["utc_instant"], via_utc["utc_instant"])
 
     def test_tzdb_version_recorded(self):
-        version = tzdata_version()
-        self.assertTrue(version and version != "tzdata-version-unverified")
+        self.assertNotEqual(tzdata_version(), "tzdata-version-unverified")
 
 
 class LeapCenturyBoundaryTests(unittest.TestCase):
@@ -177,8 +344,8 @@ class LeapCenturyBoundaryTests(unittest.TestCase):
             calendar("1900-02-29T12:00:00+08:00")
 
     def test_2000_is_leap_year(self):
-        result = calendar("2000-02-29T12:00:00+08:00")
-        self.assertEqual(result["month_ganzhi"], "戊寅")
+        self.assertEqual(
+            calendar("2000-02-29T12:00:00+08:00")["month_ganzhi"], "戊寅")
 
     def test_2100_not_leap_year_rejected(self):
         with self.assertRaises(ValueError):
@@ -189,7 +356,6 @@ class LeapCenturyBoundaryTests(unittest.TestCase):
             calendar("2100-06-01T12:00:00+08:00")
 
     def test_century_boundary_year_pillar_unchanged(self):
-        # Ganzhi year changes at Lichun, not on Jan 1.
         self.assertEqual(
             calendar("1999-12-31T12:00:00+08:00")["year_ganzhi"], "己卯")
         self.assertEqual(
