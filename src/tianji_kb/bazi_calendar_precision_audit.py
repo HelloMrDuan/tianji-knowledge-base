@@ -1,36 +1,46 @@
-"""Independent research audit for calendar precision claims (TJ-015.2, rev 2).
+"""Independent research audit for calendar precision claims (TJ-015.2, rev 3).
 
-Compares the pinned provider's Jie moments against independently published
-references AT THE SOURCE'S PRECISION, and fail-closed classifies civil birth
-times against the real tzdb. This module never modifies the Phase4-frozen
-``calendar.py`` and never upgrades any global precision flag.
+P0 anti-tamper guarantees (final review round):
+- The internal frozen baseline (``_FROZEN_INTERNAL``) is NEVER exposed. The
+  public collection (``INDEPENDENT_JIE_REFERENCES_V3``) holds immutable
+  proxies; ``get_frozen_reference()`` returns defensive dict copies.
+  Mutating anything handed out cannot pollute the verification baseline.
+- ``verify_reference_record()`` checks an incoming record against the
+  independent internal snapshot with FULL-dict equality (including optional
+  metadata such as ``year_note``), then validates timezone/offset
+  correspondence, precision support, and year correspondence. It returns a
+  defensive copy of the trusted snapshot -- never an object shared with the
+  input. Forgery (URL / time / year_note substitution) fails closed, so an
+  ``unresolved`` result can never be re-forged into ``minute_agreement`` by
+  editing a reference.
+- ``summarize_audits()`` accepts ONLY complete, re-verified summaries over
+  the frozen set. There is no custom-reference-set bypass: every record's
+  embedded reference is re-bound to the internal baseline, every verdict is
+  recomputed, duplicates/missing/forged records are rejected. Subset
+  analyses are not supported by this function (use per-term audits, each
+  clearly labeled); nothing may masquerade as the complete 12-term acceptance.
 
-Reference trust model (P0):
-- The ONLY trusted references are the frozen records below
-  (``INDEPENDENT_JIE_REFERENCES_V2``). ``verify_reference_record()`` binds any
-  incoming record to the frozen set field-by-field; substitution, version
-  mismatch or forgery fails closed.
-- Trust is NOT self-declared by ``source_org``/``source_url`` text. Every
-  record carries ``citation_class`` / ``primary_verified``: the JPL values are
-  second-hand citations via Wikipedia (primary JPL computation NOT re-run),
-  so results stay ``research_only`` and minute-level at most.
-- HKO availability check (2026-10-21): the HKO annual 24-term timetable page
-  (https://www.hko.gov.hk/en/gts/astronomy/Solar_Term.htm) requires a
-  JS-driven year selector; its data table is not obtainable by text fetch.
-  HKO's definitional table (sun's longitudes per term) WAS obtained and is
-  consistent with the JPL-based definitions used here. Annual HKO times
-  remain UNVERIFIED/unavailable; the Wikipedia-cited JPL set stays the
-  second-hand reference. See ``HKO_DEFINITION_CROSSCHECK``.
+Reference trust model:
+- Trust is NOT self-declared by ``source_org``/``source_url`` text. Records
+  carry ``citation_class`` / ``primary_verified``: JPL values are second-hand
+  citations via the individual Wikipedia term pages (verified 2026-10-21 on
+  the 立春/小寒 pages: each carries "數據來源：噴氣推進實驗室線上曆書系統"
+  with the frozen minute values; the English "Solar term" overview and the
+  Chinese "二十四节气" overview do NOT carry these tables -- only the
+  per-term pages do). Primary JPL computation was NOT re-run.
+- HKO availability check (2026-10-21): the HKO annual 24-term timetable
+  requires a JS-driven year selector (not obtainable by text fetch); HKO's
+  definitional longitude table WAS obtained and is consistent.
 
-Honesty rules enforced here:
-- A minute-precision source supports only minute-level comparison.
-- A passing audit covers ONLY its listed (term, year, source); never
-  extrapolated to 1901..2098.
-- Ambiguous or nonexistent civil times are rejected, never silently guessed.
-- ``summarize_audits()`` re-verifies every record against the frozen set and
-  recomputes every verdict; it never trusts an externally passed verdict.
+Honesty rules: minute-precision sources support only minute-level comparison;
+a passing audit covers ONLY its listed (term, year, source); ambiguous or
+nonexistent civil times are rejected, never silently guessed. This module
+never modifies the Phase4-frozen ``calendar.py`` and never upgrades any
+global precision flag.
 """
+from collections.abc import Mapping
 from datetime import datetime, timedelta, timezone
+from types import MappingProxyType
 
 try:
     from zoneinfo import ZoneInfo
@@ -38,14 +48,9 @@ except ImportError:  # pragma: no cover
     ZoneInfo = None
 
 UTC = timezone.utc
-REFERENCE_SET_VERSION = "tj0152-v2 collected 2026-10-21"
+REFERENCE_SET_VERSION = "tj0152-v3 collected 2026-10-21"
 SUPPORTED_PRECISIONS = ("minute",)
 
-# HKO definitional cross-check (obtained 2026-10-21 from
-# https://www.hko.gov.hk/en/gts/time/24solarterms.htm, Table 1):
-# the 12 minor solar terms (Jie) and the sun's ecliptic longitudes HKO assigns.
-# Used ONLY to confirm the JPL-based reference definitions agree with HKO's
-# official definitions. HKO annual TIMES were not obtainable (JS selector).
 HKO_DEFINITION_CROSSCHECK = {
     "source": "https://www.hko.gov.hk/en/gts/time/24solarterms.htm",
     "obtained": "2026-10-21",
@@ -57,108 +62,77 @@ HKO_DEFINITION_CROSSCHECK = {
     },
 }
 
-# Frozen independent reference records. JPL values are second-hand citations
-# via Wikipedia (each page states "數據來源：噴氣推進實驗室線上曆書系統",
-# minute precision, UTC); the primary JPL computation was NOT re-run.
-INDEPENDENT_JIE_REFERENCES_V2 = [
-    {"record_id": "tj0152-jpl-jie-lichun-2024", "term": "立春", "gregorian_year": 2024,
-     "source_org": "Wikipedia (citing NASA JPL Horizons)",
-     "source_url": "https://zh.wikipedia.org/wiki/立春",
-     "source_precision": "minute", "source_timezone": "UTC",
-     "citation_class": "second_hand", "primary_verified": False,
-     "published_utc": "2024-02-04T08:27:00+00:00"},
-    {"record_id": "tj0152-jpl-jie-jingzhe-2024", "term": "惊蛰", "gregorian_year": 2024,
-     "source_org": "Wikipedia (citing NASA JPL Horizons)",
-     "source_url": "https://zh.wikipedia.org/wiki/惊蛰",
-     "source_precision": "minute", "source_timezone": "UTC",
-     "citation_class": "second_hand", "primary_verified": False,
-     "published_utc": "2024-03-05T02:23:00+00:00"},
-    {"record_id": "tj0152-jpl-jie-qingming-2024", "term": "清明", "gregorian_year": 2024,
-     "source_org": "Wikipedia (citing NASA JPL Horizons)",
-     "source_url": "https://zh.wikipedia.org/wiki/清明",
-     "source_precision": "minute", "source_timezone": "UTC",
-     "citation_class": "second_hand", "primary_verified": False,
-     "published_utc": "2024-04-04T07:02:00+00:00"},
-    {"record_id": "tj0152-jpl-jie-lixia-2024", "term": "立夏", "gregorian_year": 2024,
-     "source_org": "Wikipedia (citing NASA JPL Horizons)",
-     "source_url": "https://zh.wikipedia.org/wiki/立夏",
-     "source_precision": "minute", "source_timezone": "UTC",
-     "citation_class": "second_hand", "primary_verified": False,
-     "published_utc": "2024-05-05T00:10:00+00:00"},
-    {"record_id": "tj0152-jpl-jie-mangzhong-2024", "term": "芒种", "gregorian_year": 2024,
-     "source_org": "Wikipedia (citing NASA JPL Horizons)",
-     "source_url": "https://zh.wikipedia.org/wiki/芒种",
-     "source_precision": "minute", "source_timezone": "UTC",
-     "citation_class": "second_hand", "primary_verified": False,
-     "published_utc": "2024-06-05T04:10:00+00:00"},
-    {"record_id": "tj0152-jpl-jie-xiaoshu-2024", "term": "小暑", "gregorian_year": 2024,
-     "source_org": "Wikipedia (citing NASA JPL Horizons)",
-     "source_url": "https://zh.wikipedia.org/wiki/小暑",
-     "source_precision": "minute", "source_timezone": "UTC",
-     "citation_class": "second_hand", "primary_verified": False,
-     "published_utc": "2024-07-06T14:20:00+00:00"},
-    {"record_id": "tj0152-jpl-jie-liqiu-2024", "term": "立秋", "gregorian_year": 2024,
-     "source_org": "Wikipedia (citing NASA JPL Horizons)",
-     "source_url": "https://zh.wikipedia.org/wiki/立秋",
-     "source_precision": "minute", "source_timezone": "UTC",
-     "citation_class": "second_hand", "primary_verified": False,
-     "published_utc": "2024-08-07T00:09:00+00:00"},
-    {"record_id": "tj0152-jpl-jie-bailu-2024", "term": "白露", "gregorian_year": 2024,
-     "source_org": "Wikipedia (citing NASA JPL Horizons)",
-     "source_url": "https://zh.wikipedia.org/wiki/白露",
-     "source_precision": "minute", "source_timezone": "UTC",
-     "citation_class": "second_hand", "primary_verified": False,
-     "published_utc": "2024-09-07T03:11:00+00:00"},
-    {"record_id": "tj0152-jpl-jie-hanlu-2024", "term": "寒露", "gregorian_year": 2024,
-     "source_org": "Wikipedia (citing NASA JPL Horizons)",
-     "source_url": "https://zh.wikipedia.org/wiki/寒露",
-     "source_precision": "minute", "source_timezone": "UTC",
-     "citation_class": "second_hand", "primary_verified": False,
-     "published_utc": "2024-10-07T19:00:00+00:00"},
-    {"record_id": "tj0152-jpl-jie-lidong-2024", "term": "立冬", "gregorian_year": 2024,
-     "source_org": "Wikipedia (citing NASA JPL Horizons)",
-     "source_url": "https://zh.wikipedia.org/wiki/立冬",
-     "source_precision": "minute", "source_timezone": "UTC",
-     "citation_class": "second_hand", "primary_verified": False,
-     "published_utc": "2024-11-06T22:20:00+00:00"},
-    {"record_id": "tj0152-jpl-jie-daxue-2024", "term": "大雪", "gregorian_year": 2024,
-     "source_org": "Wikipedia (citing NASA JPL Horizons)",
-     "source_url": "https://zh.wikipedia.org/wiki/大雪",
-     "source_precision": "minute", "source_timezone": "UTC",
-     "citation_class": "second_hand", "primary_verified": False,
-     "published_utc": "2024-12-06T15:17:00+00:00"},
-    {"record_id": "tj0152-jpl-jie-xiaohan-2024", "term": "小寒", "gregorian_year": 2024,
-     "source_org": "Wikipedia (citing NASA JPL Horizons)",
-     "source_url": "https://zh.wikipedia.org/wiki/小寒",
-     "source_precision": "minute", "source_timezone": "UTC",
-     "citation_class": "second_hand", "primary_verified": False,
-     "published_utc": "2025-01-05T02:33:00+00:00",
-     "year_note": "小寒属甲辰干支年（gregorian_year=2024），公历日期为 2025-01-05（跨年，已明确）"},
-]
 
-_FROZEN_BY_ID = {r["record_id"]: r for r in INDEPENDENT_JIE_REFERENCES_V2}
+def _rec(record_id, term, gregorian_year, source_url, published_utc,
+         year_note=None):
+    record = {
+        "record_id": record_id, "term": term, "gregorian_year": gregorian_year,
+        "source_org": "Wikipedia (citing NASA JPL Horizons)",
+        "source_url": source_url,
+        "source_precision": "minute", "source_timezone": "UTC",
+        "citation_class": "second_hand", "primary_verified": False,
+        "published_utc": published_utc,
+    }
+    if year_note is not None:
+        record["year_note"] = year_note
+    return record
+
+
+# Internal frozen baseline: plain dicts, NEVER exposed outside this module.
+_FROZEN_INTERNAL = tuple([
+    _rec("tj0152-jpl-jie-lichun-2024", "立春", 2024,
+         "https://zh.wikipedia.org/wiki/立春", "2024-02-04T08:27:00+00:00"),
+    _rec("tj0152-jpl-jie-jingzhe-2024", "惊蛰", 2024,
+         "https://zh.wikipedia.org/wiki/惊蛰", "2024-03-05T02:23:00+00:00"),
+    _rec("tj0152-jpl-jie-qingming-2024", "清明", 2024,
+         "https://zh.wikipedia.org/wiki/清明", "2024-04-04T07:02:00+00:00"),
+    _rec("tj0152-jpl-jie-lixia-2024", "立夏", 2024,
+         "https://zh.wikipedia.org/wiki/立夏", "2024-05-05T00:10:00+00:00"),
+    _rec("tj0152-jpl-jie-mangzhong-2024", "芒种", 2024,
+         "https://zh.wikipedia.org/wiki/芒种", "2024-06-05T04:10:00+00:00"),
+    _rec("tj0152-jpl-jie-xiaoshu-2024", "小暑", 2024,
+         "https://zh.wikipedia.org/wiki/小暑", "2024-07-06T14:20:00+00:00"),
+    _rec("tj0152-jpl-jie-liqiu-2024", "立秋", 2024,
+         "https://zh.wikipedia.org/wiki/立秋", "2024-08-07T00:09:00+00:00"),
+    _rec("tj0152-jpl-jie-bailu-2024", "白露", 2024,
+         "https://zh.wikipedia.org/wiki/白露", "2024-09-07T03:11:00+00:00"),
+    _rec("tj0152-jpl-jie-hanlu-2024", "寒露", 2024,
+         "https://zh.wikipedia.org/wiki/寒露", "2024-10-07T19:00:00+00:00"),
+    _rec("tj0152-jpl-jie-lidong-2024", "立冬", 2024,
+         "https://zh.wikipedia.org/wiki/立冬", "2024-11-06T22:20:00+00:00"),
+    _rec("tj0152-jpl-jie-daxue-2024", "大雪", 2024,
+         "https://zh.wikipedia.org/wiki/大雪", "2024-12-06T15:17:00+00:00"),
+    _rec("tj0152-jpl-jie-xiaohan-2024", "小寒", 2024,
+         "https://zh.wikipedia.org/wiki/小寒", "2025-01-05T02:33:00+00:00",
+         year_note="小寒属甲辰干支年（gregorian_year=2024），公历日期为 "
+                   "2025-01-05（跨年，已明确）"),
+])
+
+# Public collection: immutable proxies. Read-only; mutation raises TypeError.
+INDEPENDENT_JIE_REFERENCES_V3 = tuple(
+    MappingProxyType(dict(r)) for r in _FROZEN_INTERNAL)
+
+_FROZEN_BY_ID = {r["record_id"]: r for r in _FROZEN_INTERNAL}
 _FROZEN_BY_TERM_YEAR = {(r["term"], r["gregorian_year"]): r
-                        for r in INDEPENDENT_JIE_REFERENCES_V2}
-_FROZEN_FIELDS = ("record_id", "term", "gregorian_year", "source_org",
-                  "source_url", "source_precision", "source_timezone",
-                  "citation_class", "primary_verified", "published_utc")
+                        for r in _FROZEN_INTERNAL}
 
 
 def get_frozen_reference(term, gregorian_year):
-    """Return the frozen reference for (term, year); fail-closed when absent."""
+    """Return a DEFENSIVE COPY of the frozen reference; fail-closed when absent.
+
+    The copy is fully detached from the internal baseline: mutating it cannot
+    pollute verification, and passing a mutated copy to any audit entry point
+    is rejected by ``verify_reference_record()``.
+    """
     try:
-        return _FROZEN_BY_TERM_YEAR[(term, gregorian_year)]
+        return dict(_FROZEN_BY_TERM_YEAR[(term, gregorian_year)])
     except KeyError:
         raise ValueError(
             "no frozen reference for term %r year %r" % (term, gregorian_year))
 
 
 def _check_tz_offset_correspondence(published_utc_iso, source_timezone):
-    """Verify a claimed timezone genuinely matches an offset-bearing time.
-
-    Raises ValueError when the zone is unknown or when the offset carried by
-    the ISO time contradicts the zone's real offset at that instant.
-    """
+    """Verify a claimed timezone genuinely matches an offset-bearing time."""
     try:
         published = datetime.fromisoformat(published_utc_iso)
     except ValueError as exc:
@@ -181,49 +155,39 @@ def _check_tz_offset_correspondence(published_utc_iso, source_timezone):
 
 
 def verify_reference_record(reference):
-    """Bind an incoming reference record to the frozen set; fail-closed.
+    """Bind an incoming record to the independent internal snapshot.
 
-    Checks: the record claims a known record_id; every frozen field matches
-    byte-for-byte (source substitution / version mismatch / forgery rejected);
-    the declared source_timezone genuinely corresponds to the offset carried
-    by published_utc (not a non-empty-string check); the published year is the
-    record's gregorian_year or the documented cross-year case (小寒).
-    Returns the frozen record.
+    Full-dict equality against the internal baseline (every field, including
+    optional metadata such as ``year_note``): substitution, version mismatch
+    or forgery fails closed. The internal snapshot is never shared with the
+    input; the returned value is a defensive copy of the trusted baseline.
     """
-    if type(reference) is not dict:
-        raise ValueError("reference must be a dict record")
+    if not isinstance(reference, Mapping):
+        raise ValueError("reference must be a mapping record")
     record_id = reference.get("record_id")
-    frozen = _FROZEN_BY_ID.get(record_id) if type(record_id) is str else None
-    if frozen is None:
+    internal = _FROZEN_BY_ID.get(record_id) if type(record_id) is str else None
+    if internal is None:
         raise ValueError(
             "reference %r is not in the frozen verified set %s; "
             "new sources require a new versioned release" % (
                 record_id, REFERENCE_SET_VERSION))
-    for field in _FROZEN_FIELDS:
-        if reference.get(field) != frozen[field]:
-            raise ValueError(
-                "reference record %s field %r does not match the frozen "
-                "record; source substitution or forgery is rejected" % (
-                    record_id, field))
-    # Timezone/offset correspondence: the offset carried by published_utc
-    # must equal the source_timezone's real offset at that instant
-    # (a genuine check, not a non-empty-string check).
-    _check_tz_offset_correspondence(frozen["published_utc"],
-                                    frozen["source_timezone"])
-    published = datetime.fromisoformat(frozen["published_utc"])
-    if frozen["source_precision"] not in SUPPORTED_PRECISIONS:
+    if dict(reference) != internal:
+        raise ValueError(
+            "reference record %s does not exactly match the frozen baseline "
+            "(field substitution, however small, is rejected)" % (record_id,))
+    _check_tz_offset_correspondence(internal["published_utc"],
+                                    internal["source_timezone"])
+    if internal["source_precision"] not in SUPPORTED_PRECISIONS:
         raise ValueError("reference precision %r is not supported for comparison"
-                         % (frozen["source_precision"],))
-    # Year correspondence: published year must be the record's gregorian_year,
-    # except the documented cross-year case (小寒: published in January of
-    # gregorian_year + 1).
+                         % (internal["source_precision"],))
+    published = datetime.fromisoformat(internal["published_utc"])
     pub_year = published.year
-    gy = frozen["gregorian_year"]
+    gy = internal["gregorian_year"]
     if pub_year not in (gy, gy + 1):
         raise ValueError(
             "reference published year %d does not correspond to "
             "gregorian_year %d" % (pub_year, gy))
-    return frozen
+    return dict(internal)
 
 
 def _require_aware(value, name):
@@ -250,11 +214,7 @@ def _minute_verdict(provider_utc, published_utc):
 
 def audit_jie_against_reference(*, term, gregorian_year, provider_moment_utc,
                                  reference):
-    """Audit one provider Jie moment against a frozen verified reference.
-
-    The reference is bound to the frozen set first (fail-closed); the
-    caller's term/year must then match the verified record exactly.
-    """
+    """Audit one provider Jie moment against a frozen verified reference."""
     frozen = verify_reference_record(reference)
     if frozen["term"] != term or frozen["gregorian_year"] != gregorian_year:
         raise ValueError(
@@ -267,7 +227,7 @@ def audit_jie_against_reference(*, term, gregorian_year, provider_moment_utc,
     published_utc = published.astimezone(UTC)
     verdict, unresolved = _minute_verdict(provider_utc, published_utc)
     second_difference = int((provider_utc - published_utc).total_seconds())
-    return {
+    result = {
         "record_id": frozen["record_id"],
         "term": term,
         "gregorian_year": gregorian_year,
@@ -290,66 +250,79 @@ def audit_jie_against_reference(*, term, gregorian_year, provider_moment_utc,
         "astronomical_precision_independently_verified": False,
         "scope": "single (term, year, source) comparison only; not extrapolated",
     }
+    if "year_note" in frozen:
+        result["year_note"] = frozen["year_note"]
+    return result
 
 
-def summarize_audits(records, *, reference_set=None):
-    """Summarize audit records; re-verify every record, never trust verdicts.
+def summarize_audits(records):
+    """Summarize a COMPLETE 12-term acceptance; re-verify everything.
 
-    Each record is bound to the reference set (frozen by default), its verdict
-    recomputed from its own provider_utc against the frozen published time,
-    duplicates rejected, and completeness enforced: every reference in the set
-    must have exactly one record. Tampered input is rejected, never averaged.
+    No custom reference sets: every record's embedded reference is re-bound to
+    the internal frozen baseline, every verdict is recomputed from the
+    record's own provider_utc against the frozen published time, duplicates
+    are rejected, and all 12 frozen references must be covered exactly once.
+    Anything else fails closed. Subset analyses are not supported here; they
+    must use per-term audits, each clearly labeled, and can never masquerade
+    as the complete acceptance.
     """
     if type(records) is not list or not records:
         raise ValueError("records must be a non-empty list")
-    refs = (reference_set if reference_set is not None
-            else INDEPENDENT_JIE_REFERENCES_V2)
-    frozen_by_key = {(r["term"], r["gregorian_year"]): r for r in refs}
     seen = set()
     verdicts = {}
     for record in records:
-        if type(record) is not dict:
-            raise ValueError("audit record must be a dict")
-        key = (record.get("term"), record.get("gregorian_year"))
-        frozen = frozen_by_key.get(key)
-        if frozen is None:
+        if not isinstance(record, Mapping):
+            raise ValueError("audit record must be a mapping")
+        record_id = record.get("record_id")
+        internal = _FROZEN_BY_ID.get(record_id) if type(record_id) is str else None
+        if internal is None:
             raise ValueError(
-                "audit record for %r has no reference in the verified set" % (key,))
+                "audit record references unknown record_id %r" % (record_id,))
+        # Re-bind the record's embedded reference fields to the baseline.
+        candidate = {}
+        for key in internal.keys():
+            if key not in record:
+                raise ValueError(
+                    "audit record for %s is missing reference field %r"
+                    % (record_id, key))
+            candidate[key] = record[key]
+        if candidate != internal:
+            raise ValueError(
+                "audit record for %s carries reference fields that do not "
+                "match the frozen baseline" % (record_id,))
+        key = (internal["term"], internal["gregorian_year"])
         if key in seen:
             raise ValueError(
                 "duplicate audit record for term %r year %r" % (key[0], key[1]))
         seen.add(key)
-        # The record's embedded reference fields must match the frozen set.
-        for field in ("source_url", "published_utc", "source_precision",
-                      "source_timezone"):
-            if record.get(field) != frozen[field]:
-                raise ValueError(
-                    "audit record for %r carries a substituted reference field "
-                    "%r" % (key[0], field))
         provider_utc = _require_aware(
             datetime.fromisoformat(record["provider_utc"]), "record provider_utc")
-        published_utc = datetime.fromisoformat(frozen["published_utc"]).astimezone(UTC)
+        published_utc = datetime.fromisoformat(
+            internal["published_utc"]).astimezone(UTC)
         expected_verdict, _ = _minute_verdict(provider_utc.astimezone(UTC),
                                               published_utc)
         if record.get("verdict") != expected_verdict:
             raise ValueError(
-                "audit record for %r claims verdict %r but recomputation gives "
+                "audit record for %s claims verdict %r but recomputation gives "
                 "%r; forged verdicts are rejected" % (
-                    key[0], record.get("verdict"), expected_verdict))
+                    record_id, record.get("verdict"), expected_verdict))
         verdicts[expected_verdict] = verdicts.get(expected_verdict, 0) + 1
-    missing = [k for k in frozen_by_key if k not in seen]
-    if missing:
+    expected_keys = set(_FROZEN_BY_TERM_YEAR.keys())
+    if seen != expected_keys:
+        missing = sorted(expected_keys - seen)
         raise ValueError(
-            "audit records missing for %d reference(s): %s; deleting records "
-            "to fake a pass is rejected" % (len(missing), missing[:3]))
+            "incomplete acceptance: %d of 12 references covered; missing %s; "
+            "deleting records to fake a pass is rejected"
+            % (len(seen), [m[0] for m in missing][:4]))
     covered_terms = sorted({t for t, _ in seen})
     covered_years = sorted({y for _, y in seen})
     return {
         "audit_count": len(records),
         "verdicts": verdicts,
         "reference_set_version": REFERENCE_SET_VERSION,
+        "scope": "complete_12_term_acceptance",
         "coverage": {"terms": covered_terms, "gregorian_years": covered_years,
-                     "sources": sorted({r["source_org"] for r in refs})},
+                     "sources": sorted({r["source_org"] for r in _FROZEN_INTERNAL})},
         "coverage_disclaimer": ("covers only the listed (term, year, source) records; "
                                 "must NOT be extrapolated to 1901..2098 or to "
                                 "second-level precision"),
@@ -376,12 +349,6 @@ def tzdata_version():
     return "tzdata-version-unverified"
 
 
-# Versioned historical-transition evidence (P1): Asia/Shanghai UTC-offset
-# transitions in 1901..2098, extracted from the real tzdata 2026c TZif binary
-# (extraction method documented in the TJ-015.2 research notes). An executable
-# test re-verifies every transition against the live tzdb. Quantities that
-# tzdb cannot confirm (e.g. what a birth certificate actually recorded) are
-# NOT in this list and stay marked unverified.
 HISTORICAL_TZ_TRANSITIONS_V1 = {
     "tz_name": "Asia/Shanghai",
     "tzdata_version": "2026c",
@@ -434,11 +401,7 @@ def _valid_offsets_for(naive_local, tz):
 
 
 def classify_civil_time(naive_local, tz_name):
-    """Classify a wall-clock time against the real tzdb (fail-closed helper).
-
-    Returns "unique", "ambiguous" (fall-back overlap: two UTC instants), or
-    "nonexistent" (spring-forward gap). Never guesses.
-    """
+    """Classify a wall-clock time against the real tzdb (fail-closed helper)."""
     if ZoneInfo is None:
         raise ValueError("zoneinfo is unavailable; civil-time source unverifiable")
     if not isinstance(naive_local, datetime) or naive_local.tzinfo is not None:
@@ -468,18 +431,7 @@ def classify_civil_time(naive_local, tz_name):
 
 
 def audit_birth_instant(value, *, tz_name="Asia/Shanghai"):
-    """Validate a birth instant for research use; fail-closed on incoherence.
-
-    Accepts a tz-aware datetime (or ISO string with numeric offset). A UTC
-    input is an unambiguous instant. Otherwise the civil time AS WRITTEN and
-    the claimed UTC offset must both cohere with the real tzdb for tz_name:
-    - naive input -> rejected (no offset to trust);
-    - nonexistent civil time (DST gap) -> rejected, never remapped;
-    - claimed offset contradicting tzdb (historical offset misuse) -> rejected;
-    - ambiguous civil time with a named-zone input -> rejected (fold would be
-      a silent guess); with an explicit numeric offset -> accepted as the
-      offset-selected instant, fully recorded (no guessing: the offset chose).
-    """
+    """Validate a birth instant for research use; fail-closed on incoherence."""
     instant = datetime.fromisoformat(value) if isinstance(value, str) else value
     instant = _require_aware(instant, "birth instant")
     if ZoneInfo is None:
