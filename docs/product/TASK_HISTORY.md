@@ -109,6 +109,9 @@
 | E0065 | 2026-10-20 | TJ-014.1 | 已提交PR | 原典审核完成：四象限方向表核定为B类现代还原候选（唯一来源为现代开源实现，无古籍绑定；论大运s10无方向文字，方向术语在珞琭子s188但未校勘为方向规则）；方向模块新增evidence_assessment、school_matrix与validate_direction_candidate防伪门控；新增矩阵文档与23项测试；三命隔离与D级见证等5项争议保留未决 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/284 | — | — |
 | E0066 | 2026-10-20 | TJ-014.1 | 已合并 | 关账：公开PR #284与私有PR #67已合并；私有验收run 39404769765对公开Head 0826fa43同SHA success（套件全量含dayunmatrix 23项）；方向规则保持B类候选未晋级Phase2，5项争议与证据缺口保留 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/284 | faf48d5a1e44c7e80819ff9b3f11db3849c8d0a2 | https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/39404769765 |
 | E0067 | 2026-10-21 | TJ-014.2 | 已提交PR | 事实追踪链完成：新增bazi_dayun_chain.build_dayun_candidate_chain（按rule_id真实解析Trace月柱、Evidence解引用、单方向来源验证、逐行重算六十甲子与十神、首项排除月柱、研究边界重申）；engine模式B接入validate_direction_candidate，链校验挂入执行输出；24项测试（正例/17项篡改/引擎门控/循环边界） | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/286 | — | — |
+
+| E0068 | 2026-10-21 | TJ-014.2 | 已合并 | 关账：事实追踪链（bazi_dayun_chain按rule_id真实解析Trace月柱、Evidence解引用、逐行重算六十甲子与十神、首项排除月柱）+engine模式B接入validate_direction_candidate；24项链测试；私有验收run 39531847443对公开PR #286精确Head 2435d08a81ef同SHA success（--suite all）；公开PR #286与私有PR #68已合并；本轮STOP交ChatGPT独立复审 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/286 | 1ce17d108c6287c998274cdd70d3df41e14c06a1 | https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/39531847443 |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
