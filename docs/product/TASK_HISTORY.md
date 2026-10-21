@@ -111,7 +111,7 @@
 | E0067 | 2026-10-21 | TJ-014.2 | 已提交PR | 事实追踪链完成：新增bazi_dayun_chain.build_dayun_candidate_chain（按rule_id真实解析Trace月柱、Evidence解引用、单方向来源验证、逐行重算六十甲子与十神、首项排除月柱、研究边界重申）；engine模式B接入validate_direction_candidate，链校验挂入执行输出；24项测试（正例/17项篡改/引擎门控/循环边界） | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/286 | — | — |
 
 | E0068 | 2026-10-21 | TJ-014.2 | 已合并 | 关账：事实追踪链（bazi_dayun_chain按rule_id真实解析Trace月柱、Evidence解引用、逐行重算六十甲子与十神、首项排除月柱）+engine模式B接入validate_direction_candidate；24项链测试；私有验收run 39531847443对公开PR #286精确Head 2435d08a81ef同SHA success（--suite all）；公开PR #286与私有PR #68已合并；本轮STOP交ChatGPT独立复审 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/286 | 1ce17d108c6287c998274cdd70d3df41e14c06a1 | https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/39531847443 |
-| E0069 | 2026-10-21 | TJ-014.2 | 进行中 | 终审整改领取：ChatGPT发现事实追踪链三项P0（行内stem/branch与candidate_ganzhi未核对；evidence_ids空列表假通过；source_fact_ref固定指针未真实解引用）；保留现有算法，只修验证器 | — | — | — |
+| E0069 | 2026-10-21 | TJ-014.2 | 已提交PR | 终审整改完成：修复三项P0——①行内stem/branch必须等于candidate_ganzhi字符，十神按已验证天干重算，period_index逐行核对，候选须为合法60甲子；②pillars步骤evidence_ids必须非空无重复，每条记录须解引用且绑定pillars rule_id与执行variant并携带古籍来源字段，Trace中重复rule_id拒绝；③source_fact_ref真实解引用并核对月柱，source_rule_id/ten_god_rule_id须与真实执行规则一致（含ten_gods恒执行校验）；测试40项（16项新增篡改/真实路径），本地合成冒烟16/16通过 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/288 | — | — |
 
 ## 怎样追加下一条
 
