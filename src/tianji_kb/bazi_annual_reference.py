@@ -58,7 +58,7 @@ def annual_reference(day_master, years):
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 from lunar_python import Solar
-from .calendar import provider_identity
+from .calendar_provider_guard import provider_identity
 from .foundations import CYCLE
 
 MAX_LICHUN_YEARS = 10
