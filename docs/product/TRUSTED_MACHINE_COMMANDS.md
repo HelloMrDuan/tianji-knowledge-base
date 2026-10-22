@@ -1,77 +1,157 @@
 # 可信机器执行命令：知识备份与离线验收
 
+> **术语澄清**：235 是当前 manifest 中的**全部数据文件总数**（含 audit、canonical、
+> coverage、index、product、quarantine、reference、registry、research、state、
+> upstream 各区），不是“235 份 Canonical”。验收报告必须如实表述。
+
 ## 前提
 
-- 一台用户控制的可信机器（Linux 或 Windows + PowerShell）
-- 已安装 Python 3.12、git
-- 公开仓库已克隆到 `<PUBLIC>`（如 `/opt/tianji-knowledge-base`）
+- 一台用户控制的可信机器（Linux 或 Windows + PowerShell 5.1+）
+- Python 3.12、git 已安装
+- 公开仓库已克隆到 `<PUBLIC>`（如 `/opt/tianji-knowledge-base`），且 `git status` 干净
 - 有私有仓库读取权限（仅首次备份需要）
 
 ## 步骤1：创建受控知识目录（Linux）
 
 ```bash
+# 目标必须是不存在的目录（export_private_data 拒绝已存在的目标）
+if [ -e /secure/tianji-knowledge ]; then
+  echo "ERROR: /secure/tianji-knowledge already exists, choose a new path"
+  exit 1
+fi
 sudo mkdir -p /secure/tianji-knowledge
 sudo chmod 0700 /secure/tianji-knowledge
-sudo chown $USER:$USER /secure/tianji-knowledge
+sudo chown "$USER:$USER" /secure/tianji-knowledge
 ```
 
 ## 步骤1：创建受控知识目录（Windows PowerShell）
 
 ```powershell
-New-Item -ItemType Directory -Path C:\secure\tianji-knowledge -Force
-icacls C:\secure\tianji-knowledge /inheritance:r /grant:r "$env:USERNAME:(OI)(CI)F"
+# 目标必须是不存在的目录
+if (Test-Path C:\secure\tianji-knowledge) {
+  Write-Error "C:\secure\tianji-knowledge already exists, choose a new path"
+  exit 1
+}
+New-Item -ItemType Directory -Path C:\secure\tianji-knowledge -Force | Out-Null
+icacls C:\secure\tianji-knowledge /inheritance:r | Out-Null
+icacls C:\secure\tianji-knowledge /grant:r "$env:USERNAME:(OI)(CI)F" | Out-Null
 ```
 
 ## 步骤2：从私有仓库导出知识快照（仅首次）
 
 ```bash
-# 在公开仓库目录执行（export_private_data 拒绝导出到仓库内）
 cd <PUBLIC>
-python scripts/private_data_snapshot.py --help  # 查看用法
-# 实际导出（需私有仓库本地克隆到 <PRIVATE>）：
-python - <<'PYEOF'
+# 确认公开仓库干净
+git status --porcelain --untracked-files=all -- config src scripts tests schemas evals docs deploy web .github/workflows pyproject.toml
+# 上条命令必须无输出，否则停止
+
+python3 - <<'PYEOF'
 from pathlib import Path
 from scripts.private_data_snapshot import export_private_data
 manifest = export_private_data(
-    Path("<PRIVATE>"), Path("/secure/tianji-knowledge"))
-print(f"exported {manifest['file_count']} files")
+    Path("/path/to/private-clone"),   # 私有仓库本地克隆（绝对路径）
+    Path("/secure/tianji-knowledge"),  # 必须是不存在的目录
+)
+print(f"exported {manifest['file_count']} total data files, "
+      f"{manifest['total_bytes']} bytes")
 PYEOF
 ```
 
-## 步骤3：验证快照（每次验收前自动执行，也可手动）
+## 步骤3：验证快照并记录可信 manifest SHA256
 
 ```bash
-python - <<'PYEOF'
+python3 - <<'PYEOF'
 from pathlib import Path
+import hashlib, sys
+sys.path.insert(0, "<PUBLIC>")
 from scripts.private_data_snapshot import verify_private_data
+snap = Path("/secure/tianji-knowledge")
+m = verify_private_data(snap)
+sha = hashlib.sha256(
+    (snap / "private-data-manifest.json").read_bytes()).hexdigest()
+print(f"verified {m['file_count']} files")
+print(f"TRUSTED_MANIFEST_SHA256={sha}")
+print("请将此 SHA256 记录为可信基准，后续验收 --trusted-manifest-sha256 使用")
+PYEOF
+```
+
+## 步骤4：第二份独立备份 + 恢复演练
+
+```bash
+# 第二份备份放在独立受控位置（不同目录，推荐不同磁盘）
+BACKUP2="/secure/tianji-knowledge-backup-$(date +%Y%m%d)"
+if [ -e "$BACKUP2" ]; then echo "ERROR: $BACKUP2 exists"; exit 1; fi
+cp -a /secure/tianji-knowledge "$BACKUP2"
+chmod 0700 "$BACKUP2"
+
+# 完整重新验证第二份备份
+python3 - <<PYEOF
+from pathlib import Path
 import sys
 sys.path.insert(0, "<PUBLIC>")
-m = verify_private_data(Path("/secure/tianji-knowledge"))
-print(f"verified {m['file_count']} files, {m['total_bytes']} bytes")
+from scripts.private_data_snapshot import verify_private_data
+m = verify_private_data(Path("$BACKUP2"))
+print(f"backup2 verified: {m['file_count']} files")
 PYEOF
+
+# 恢复演练：从第二份备份恢复到临时目录并验证
+RESTORE_TMP="$(mktemp -d)"
+cp -a "$BACKUP2"/. "$RESTORE_TMP"/
+python3 - <<PYEOF
+from pathlib import Path
+import sys
+sys.path.insert(0, "<PUBLIC>")
+from scripts.private_data_snapshot import verify_private_data
+m = verify_private_data(Path("$RESTORE_TMP"))
+print(f"restore drill passed: {m['file_count']} files")
+PYEOF
+rm -rf "$RESTORE_TMP"
+echo "restore drill OK"
 ```
 
-## 步骤4：建立独立备份并验证恢复
+## 步骤4（Windows PowerShell）：第二份备份 + 恢复演练
 
-```bash
-# 第二份备份
-cp -a /secure/tianji-knowledge /secure/tianji-knowledge-backup-$(date +%Y%m%d)
-# 验证备份可恢复：对比 manifest SHA256
-sha256sum /secure/tianji-knowledge/private-data-manifest.json
-sha256sum /secure/tianji-knowledge-backup-*/private-data-manifest.json
-# 两者必须一致
+```powershell
+$Backup2 = "D:\secure\tianji-knowledge-backup-$(Get-Date -Format 'yyyyMMdd')"
+if (Test-Path $Backup2) { Write-Error "$Backup2 exists"; exit 1 }
+Copy-Item -Recurse -Path C:\secure\tianji-knowledge -Destination $Backup2
+icacls $Backup2 /inheritance:r | Out-Null
+icacls $Backup2 /grant:r "$env:USERNAME:(OI)(CI)F" | Out-Null
+
+python -c "
+from pathlib import Path
+import sys
+sys.path.insert(0, r'<PUBLIC>')
+from scripts.private_data_snapshot import verify_private_data
+m = verify_private_data(Path(r'$Backup2'))
+print(f\"backup2 verified: {m['file_count']} files\")
+"
+
+$RestoreTmp = Join-Path $env:TEMP ("restore-" + (Get-Random))
+Copy-Item -Recurse -Path "$Backup2\*" -Destination $RestoreTmp
+python -c "
+from pathlib import Path
+import sys
+sys.path.insert(0, r'<PUBLIC>')
+from scripts.private_data_snapshot import verify_private_data
+m = verify_private_data(Path(r'$RestoreTmp'))
+print(f\"restore drill passed: {m['file_count']} files\")
+"
+Remove-Item -Recurse -Force $RestoreTmp
+Write-Host "restore drill OK"
 ```
 
-## 步骤5：运行离线验收
+## 步骤5：运行离线验收（Linux）
 
 ```bash
 cd <PUBLIC>
-# 固定公开 SHA（示例，替换为实际 PR Head）
-PUBLIC_SHA="ffb52c5812f8b44c11aef560e2c05f92bb97535d"
-python scripts/accept_offline.py \
+PUBLIC_SHA="ffb52c5812f8b44c11aef560e2c05f92bb97535d"  # 替换为实际 PR Head
+TRUSTED_SHA="<步骤3记录的64位SHA256>"                    # 替换为实际值
+python3 scripts/accept_offline.py \
   --public-code <PUBLIC> \
-  --expected-sha $PUBLIC_SHA \
+  --expected-sha "$PUBLIC_SHA" \
   --knowledge-snapshot /secure/tianji-knowledge \
+  --trusted-manifest-sha256 "$TRUSTED_SHA" \
   --suite all
 ```
 
@@ -80,21 +160,25 @@ python scripts/accept_offline.py \
 ```powershell
 cd <PUBLIC>
 $PUBLIC_SHA = "ffb52c5812f8b44c11aef560e2c05f92bb97535d"
+$TRUSTED_SHA = "<步骤3记录的64位SHA256>"
 python scripts/accept_offline.py `
   --public-code <PUBLIC> `
   --expected-sha $PUBLIC_SHA `
   --knowledge-snapshot C:\secure\tianji-knowledge `
+  --trusted-manifest-sha256 $TRUSTED_SHA `
   --suite all
 ```
 
 ## 成功标准
 
 - 退出码 0
-- 输出 JSON evidence 包含：public_sha、knowledge_manifest_sha256、测试模块数、result=SUCCESS
-- 明确标注 `mode: offline-controlled`（非 GitHub Actions）
+- 输出 JSON evidence 包含：`mode: offline-controlled`、`tool_version`、
+  `public_sha`、`knowledge_manifest_sha256`（与可信值一致）、
+  `test_reports`（各阶段模块数/测试数/失败数/跳过数）、`result: SUCCESS`
+- 明确标注非 GitHub Actions
 
 ## 失败回滚
 
-- 私有仓库未删除，仍可作为数据源
-- 公开代码零改动（迁移分支可删除）
-- 恢复私有 Actions：取消 workflow 的 paths 限制即可
+1. 私有仓库未删除，仍可作为数据源
+2. 公开代码零改动（迁移分支可删除）
+3. 恢复私有 Actions：移除 workflow 的 `paths` 限制或手动触发即可
