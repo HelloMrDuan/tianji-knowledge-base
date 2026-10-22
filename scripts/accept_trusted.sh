@@ -21,6 +21,7 @@ OBSERVED=$(git -C "$PUBLIC_REPO" rev-parse HEAD)
 [[ -z "$(git -C "$PUBLIC_REPO" status --porcelain)" ]] || { echo "ERROR: 公开仓库有改动"; exit 1; }
 PRIV_OBSERVED=$(git -C "$PRIVATE_REPO" rev-parse HEAD)
 [[ "$PRIV_OBSERVED" == "$PRIVATE_SHA" ]] || { echo "ERROR: 私有HEAD不一致"; exit 1; }
+[[ -z "$(git -C "$PRIVATE_REPO" status --porcelain)" ]] || { echo "ERROR: 私有仓库有未提交改动，拒绝导出"; exit 1; }
 echo "版本核对通过"
 [[ -e "$SNAPSHOT_DIR" ]] && { echo "ERROR: 快照已存在，不自动删除"; exit 1; }
 [[ -e "$BACKUP_DIR" ]] && { echo "ERROR: 备份已存在，不自动删除"; exit 1; }
@@ -41,7 +42,27 @@ print(sha, m["file_count"])
 PYEOF
 )
 [[ ${#TRUSTED_SHA} -eq 64 ]] || { echo "ERROR: 未能获取可信SHA"; exit 1; }
+
 echo "导出 $FILE_COUNT 个文件"
+echo ""
+echo "=== 步骤1b：与私有固定提交的原始 manifest 交叉核对 ==="
+python3 <<PYEOF2
+from pathlib import Path
+import sys, json, subprocess
+sys.path.insert(0, "$PUBLIC_REPO")
+priv = Path("$PRIVATE_REPO"); snap = Path("$SNAPSHOT_DIR")
+raw = subprocess.check_output(["git", "-C", str(priv), "show", f"$PRIVATE_SHA:private-data-manifest.json"], text=True)
+orig = json.loads(raw)
+newm = json.loads((snap / "private-data-manifest.json").read_text(encoding="utf-8"))
+assert orig["file_count"] == newm["file_count"], "file_count mismatch"
+om = {r["path"]: r["sha256"] for r in orig["files"]}
+nm = {r["path"]: r["sha256"] for r in newm["files"]}
+assert set(om) == set(nm), "file set mismatch"
+bad = [p for p in om if om[p] != nm[p]]
+assert not bad, "SHA mismatch"
+print(f"cross-check OK: {len(om)} files match")
+PYEOF2
+echo "交叉核对通过"
 
 echo ""
 echo "=== 步骤2：逐文件比对 ==="
