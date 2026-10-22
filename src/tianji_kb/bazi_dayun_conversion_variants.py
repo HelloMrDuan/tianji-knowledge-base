@@ -17,12 +17,31 @@ EVIDENCE STATUS (honest, verified 2026-10-22 against the sealed canon):
   transcription_located) are witnesses only, not verified originals; they do
   not create additional classical variants.
 
+BINDING ARCHITECTURE (P0, enforced):
+- convert_with_variant() is PURE ARITHMETIC. Its output is explicitly
+  UNBOUND: evidence_bound=False, classical_basis=False. It never claims
+  verified classical evidence, even for the classical variant (the classical
+  text appears only as a "claimed" label, never as a bound conclusion).
+- research_convert() is the research entry. A variant that claims classical
+  evidence (non-empty evidence_refs) FAILS CLOSED without a real
+  evidence_bundle: no bundle, no forged bundle, no partial bundle may
+  produce a classical research conclusion. Only a successful
+  bind_variant_evidence() promotes the unbound arithmetic result to a bound
+  research conclusion (evidence_bound=True, classical_basis=True).
+- A caller-supplied "evidence_binding" dict is never accepted as
+  verification; binding is always recomputed internally from raw materials.
+- SHA pinning against _PINNED_EVIDENCE is MANDATORY and cannot be disabled;
+  there is no switch for the caller to control.
+
 VARIANTS:
 1. classical-three-day-symbolic-ratio-v1 -- exact Fraction(elapsed, 3 days),
-   symbolic only, no start age. Evidence-backed (research_candidate).
-2. modern-mean-year-simulation-v1 -- explicitly MODERN (365.2425 d) method,
-   referencing the existing simulation; classical_basis=False. It exists so
-   the modern method is never confused with a classical rule.
+   symbolic only, no start age. Evidence-backed (research_candidate) only
+   after real binding.
+2. modern-mean-year-simulation-v1 -- REGISTRATION AND EXPLANATION of the
+   modern mean-year method only (modern_research_only_not_classical).
+   simulation_executed=False: this variant never executes a mean-year
+   interpolation or date simulation. The real modern simulation lives in
+   tianji_kb.bazi_dayun_simulation (not invoked here).
 
 Boundaries: research_only=True, public_enabled=False, ai_enabled=False.
 No formal 起运 age, no handover dates, no Phase2 promotion, no frozen
@@ -36,7 +55,10 @@ from .bazi_dayun_age_fraction import exact_three_day_ratio
 # Pinned evidence descriptor for the single classical conversion rule.
 # Byte-level truth is established by validate_source_collation on the real
 # bundle; this descriptor pins WHAT the variant claims (claim, excerpt,
-# section, SHAs, offset) so mismatches fail closed.
+# section, SHAs, offset) so mismatches fail closed. The SHA comparison is
+# mandatory: validate_source_collation only checks the caller-supplied
+# recorded digest, so a tampered file with a forged recorded digest still
+# fails here.
 _PINNED_EVIDENCE = {
     "bazi.dayun.source.three-day-year": {
         "claim_id": "bazi.dayun.source.three-day-year",
@@ -73,7 +95,7 @@ _VARIANT_REGISTRY = (
         "remainder_policy": "unresolved",
         "rounding_policy": "unresolved",
         "calendar_basis": "jie-measured seconds only; no year length adjudicated",
-        "applicable_scope": "精确符号比值；不裁定起运年龄、不生成交运日期",
+        "applicable_scope": "精确符号比值；不裁定起运年龄、不生成交运日期；古典结论须经真实证据绑定",
         "unresolved_dependencies": [
             "余日取整规则：无原典",
             "余时取整规则：无原典",
@@ -85,7 +107,7 @@ _VARIANT_REGISTRY = (
     },
     {
         "variant_id": "modern-mean-year-simulation-v1",
-        "method_name": "现代平均公历年折算（非古法，显式标记）",
+        "method_name": "现代平均公历年方法登记（研究登记与解释，非执行器）",
         "source_refs": [],
         "evidence_refs": [],
         "review_status": "modern_research_only_not_classical",
@@ -93,7 +115,8 @@ _VARIANT_REGISTRY = (
         "remainder_policy": "modern_interpolation_not_classical",
         "rounding_policy": "modern_interpolation_not_classical",
         "calendar_basis": "gregorian mean year 365.2425 days (modern model)",
-        "applicable_scope": "数学模拟对照；不得作为古法依据",
+        "applicable_scope": "方法身份登记与解释；实际现代模拟见 tianji_kb.bazi_dayun_simulation 模块，本变体不执行任何插值或日期模拟",
+        "capability": "registration_and_explanation_only",
         "unresolved_dependencies": ["古法依据：无；本方法不声称古籍来源"],
         "public_enabled": False,
         "ai_enabled": False,
@@ -101,6 +124,10 @@ _VARIANT_REGISTRY = (
 )
 
 _VARIANTS_BY_ID = {v["variant_id"]: v for v in _VARIANT_REGISTRY}
+
+#: Keys a real evidence bundle must carry. A pre-made "evidence_binding"
+#: dict is explicitly NOT in this set and is rejected as forgery.
+_BUNDLE_KEYS = ("collation", "raw_bytes", "canonical_bytes")
 
 
 def list_variants():
@@ -150,27 +177,36 @@ def check_variant_evidence_match(variant_id, claim):
     return True
 
 
-def bind_variant_evidence(variant_id, *, collation, raw_bytes, canonical_bytes,
-                          require_pinned_shas=True):
+def bind_variant_evidence(variant_id, *, collation, raw_bytes, canonical_bytes):
     """Bind a variant to real, byte-validated evidence.
 
     Runs the full fixed-source collation validation (real SHA256 digests,
     exact excerpt offsets, section locators), then proves each of the
     variant's evidence_refs resolves to its pinned claim. Forged source_id,
-    section_id, excerpts, or file bytes fail closed. Nothing here promotes a
-    research candidate: review_status is carried through unchanged.
+    section_id, excerpts, or file bytes fail closed.
+
+    SHA pinning against _PINNED_EVIDENCE is MANDATORY and unconditional:
+    validate_source_collation only verifies the caller-supplied recorded
+    digest, so a tampered file whose recorded digest was forged to match
+    still fails the pinning check below. There is intentionally no switch
+    to disable this.
+
+    Nothing here promotes a research candidate: review_status is carried
+    through unchanged.
     """
     from .bazi_dayun_source_audit import validate_source_collation
     variant = get_variant(variant_id)
     validated = validate_source_collation(collation, raw_bytes, canonical_bytes)
-    if require_pinned_shas:
-        for claim_id in variant["evidence_refs"]:
-            pinned = _PINNED_EVIDENCE[claim_id]
-            if (validated["source_sha256"] != pinned["raw_sha256"]
-                    or validated["canonical_sha256"] != pinned["canonical_sha256"]):
-                raise ValueError(
-                    "evidence bundle SHAs do not match the pinned descriptors "
-                    "for variant %r" % (variant_id,))
+    # Mandatory pinning: the validated digests must equal the pinned
+    # descriptors, regardless of what the caller recorded in the bundle.
+    for claim_id in variant["evidence_refs"]:
+        pinned = _PINNED_EVIDENCE[claim_id]
+        if (validated["source_sha256"] != pinned["raw_sha256"]
+                or validated["canonical_sha256"] != pinned["canonical_sha256"]):
+            raise ValueError(
+                "evidence bundle SHAs do not match the pinned descriptors "
+                "for variant %r; pinned SHA verification cannot be disabled"
+                % (variant_id,))
     bound = []
     claims_by_id = {c.get("claim_id"): c for c in collation["claims"]}
     for claim_id in variant["evidence_refs"]:
@@ -211,6 +247,8 @@ def _base_result(variant_id, measured):
         "direction": measured.get("direction"),
         "elapsed_seconds": measured.get("elapsed_seconds"),
         "three_days_seconds": THREE_DAYS_SECONDS,
+        "evidence_bound": False,
+        "classical_basis": False,
         "start_age": None,
         "handover_datetime": None,
         "research_only": True,
@@ -219,27 +257,35 @@ def _base_result(variant_id, measured):
     }
 
 
-def convert_with_variant(variant_id, measured_jie, *, rounding=None):
-    """Convert a validated jie measurement with an explicit variant.
+_UNBOUND_NOTE = (
+    "unbound mathematical result: no verified classical evidence is claimed. "
+    "The classical text below is the CLAIMED identity of the ratio, not a "
+    "bound research conclusion. Use research_convert() with a validated "
+    "evidence bundle for a bound conclusion."
+)
 
-    No default variant is ever applied. A requested rounding policy with no
-    classical basis returns unresolved (never a silently rounded age).
+
+def convert_with_variant(variant_id, measured_jie, *, rounding=None):
+    """Pure arithmetic core: convert a validated jie measurement.
+
+    The output is explicitly UNBOUND (evidence_bound=False,
+    classical_basis=False). It never claims verified classical evidence:
+    for the classical variant the classical text appears only as a
+    "claimed" label. A bound research conclusion is produced exclusively
+    by research_convert() after successful bind_variant_evidence().
     Outputs never contain a formal start age or handover date.
     """
     variant = get_variant(variant_id)
     if rounding is not None:
-        return {
-            "variant_id": variant_id,
+        result = _base_result(variant_id, measured_jie)
+        result.update({
             "status": "unresolved",
             "reason": "no classical rounding rule in the sealed evidence; "
                       "rounding %r is refused" % (rounding,),
             "variant_rounding_policy": variant["rounding_policy"],
-            "start_age": None,
-            "handover_datetime": None,
-            "research_only": True,
-            "public_enabled": False,
-            "ai_enabled": False,
-        }
+            "binding_note": _UNBOUND_NOTE,
+        })
+        return result
     # Reuses the exact, replay-gated arithmetic; never rebuilt here.
     ratio = exact_three_day_ratio(measured_jie)
     elapsed = ratio["elapsed_seconds"]
@@ -255,8 +301,9 @@ def convert_with_variant(variant_id, measured_jie, *, rounding=None):
                     "status": "unresolved",
                     "reason": "zero jie distance convention is unreviewed",
                 },
-                "classical_text": "折除乃三日为年",
-                "classical_basis": True,
+                "claimed_classical_text": "折除乃三日为年",
+                "claimed_evidence_claim_ids": list(variant["evidence_refs"]),
+                "binding_note": _UNBOUND_NOTE,
             })
         else:
             fraction = Fraction(elapsed, THREE_DAYS_SECONDS)
@@ -278,29 +325,75 @@ def convert_with_variant(variant_id, measured_jie, *, rounding=None):
                      "cannot_proceed_because": (
                          "no verified source specifies rounding, truncation, "
                          "or carry for sub-three-day remainders")}),
-                "classical_text": "折除乃三日为年",
-                "classical_basis": True,
-                "evidence_claim_ids": list(variant["evidence_refs"]),
+                "claimed_classical_text": "折除乃三日为年",
+                "claimed_evidence_claim_ids": list(variant["evidence_refs"]),
+                "binding_note": _UNBOUND_NOTE,
             })
         return result
     if variant_id == "modern-mean-year-simulation-v1":
         result = _base_result(variant_id, ratio)
         if elapsed == 0:
-            modern_years = None
+            ratio_dict = None
         else:
-            modern_years = Fraction(elapsed, THREE_DAYS_SECONDS)
+            fraction = Fraction(elapsed, THREE_DAYS_SECONDS)
+            ratio_dict = {"numerator": fraction.numerator,
+                          "denominator": fraction.denominator}
         result.update({
-            "candidate_kind": "modern_mean_year_interpretation",
+            "candidate_kind": "modern_mean_year_registration",
+            "capability": "registration_and_explanation_only",
             "classical_basis": False,
-            "modern_model": "gregorian_mean_year_365.2425_days",
-            "modern_years": ({"numerator": modern_years.numerator,
-                              "denominator": modern_years.denominator}
-                             if modern_years is not None else None),
-            "note": "modern interpolation for comparison only; not a "
-                    "classical rule and not a formal start age",
+            "modern_method_registered": "gregorian_mean_year_365.2425_days",
+            # The same raw three-day ratio, shown for comparison only; NOT
+            # a mean-year interpolation result.
+            "three_day_ratio_for_comparison": ratio_dict,
+            "simulation_executed": False,
+            "mean_year_interpolation_executed": False,
+            "executed_by": None,
+            "reference_implementation": (
+                "tianji_kb.bazi_dayun_simulation (existing modern simulation "
+                "module; not invoked by this variant)"),
+            "note": "registration and explanation of the modern mean-year "
+                    "method only; not a complete date-simulation executor; "
+                    "no formal start age is produced",
+            "binding_note": _UNBOUND_NOTE,
         })
         return result
     raise ValueError("variant %r has no executable conversion" % (variant_id,))
+
+
+def _require_evidence_bundle(variant_id, evidence_bundle):
+    """Fail-closed evidence acquisition for classical variants.
+
+    Returns the internally recomputed binding. A caller-supplied
+    "evidence_binding" dict is never accepted as verification.
+    """
+    variant = get_variant(variant_id)
+    if evidence_bundle is None:
+        raise ValueError(
+            "variant %r claims classical evidence; a real evidence_bundle "
+            "(collation, raw_bytes, canonical_bytes) is required before any "
+            "research conclusion is produced — refusing to continue without "
+            "binding" % (variant_id,))
+    if not isinstance(evidence_bundle, dict):
+        raise ValueError("evidence_bundle must be a mapping of raw materials")
+    if "evidence_binding" in evidence_bundle:
+        raise ValueError(
+            "a pre-made 'evidence_binding' dict cannot impersonate "
+            "verification; evidence_bundle must carry raw materials "
+            "(collation, raw_bytes, canonical_bytes) only")
+    for key in _BUNDLE_KEYS:
+        if key not in evidence_bundle:
+            raise ValueError(
+                "evidence_bundle is missing %r; fail-closed, no classical "
+                "research conclusion is produced" % (key,))
+        if evidence_bundle[key] is None:
+            raise ValueError(
+                "evidence_bundle[%r] is None; fail-closed" % (key,))
+    return bind_variant_evidence(
+        variant_id,
+        collation=evidence_bundle["collation"],
+        raw_bytes=evidence_bundle["raw_bytes"],
+        canonical_bytes=evidence_bundle["canonical_bytes"])
 
 
 def research_convert(*, variant_id, measured_jie, evidence_bundle=None,
@@ -308,7 +401,13 @@ def research_convert(*, variant_id, measured_jie, evidence_bundle=None,
     """Research entry: convert with an explicitly selected variant.
 
     - variant_id is mandatory; no default school is ever applied.
-    - evidence_bundle (optional) is truly validated via bind_variant_evidence.
+    - A variant claiming classical evidence (non-empty evidence_refs)
+      FAILS CLOSED without a real, fully validated evidence_bundle. The
+      unbound arithmetic result is then promoted to a bound research
+      conclusion (evidence_bound=True, classical_basis=True) ONLY after
+      bind_variant_evidence() succeeds.
+    - A variant with no classical evidence (modern registration) takes no
+      evidence_bundle; passing one is rejected.
     - Conflicting variants are never merged: each call returns one variant's
       result, clearly labeled.
     - Research candidates are never published to ordinary user interfaces.
@@ -317,17 +416,30 @@ def research_convert(*, variant_id, measured_jie, evidence_bundle=None,
         raise ValueError(
             "explicit variant_id is required; no default conversion method "
             "is applied")
-    bound_evidence = None
-    if evidence_bundle is not None:
-        if not isinstance(evidence_bundle, dict):
-            raise ValueError("evidence_bundle must be a mapping")
-        bound_evidence = bind_variant_evidence(
-            variant_id,
-            collation=evidence_bundle["collation"],
-            raw_bytes=evidence_bundle["raw_bytes"],
-            canonical_bytes=evidence_bundle["canonical_bytes"])
+    variant = get_variant(variant_id)
+    needs_binding = bool(variant["evidence_refs"])
+    if needs_binding:
+        bound_evidence = _require_evidence_bundle(variant_id, evidence_bundle)
+    else:
+        if evidence_bundle is not None:
+            raise ValueError(
+                "variant %r claims no classical evidence; an evidence_bundle "
+                "is not applicable and is rejected" % (variant_id,))
+        bound_evidence = None
     result = convert_with_variant(variant_id, measured_jie, rounding=rounding)
-    result["evidence_binding"] = bound_evidence
+    if needs_binding:
+        # Promote the unbound arithmetic result to a bound conclusion.
+        result["evidence_binding"] = bound_evidence
+        result["evidence_bound"] = True
+        result["classical_basis"] = True
+        result["classical_text"] = (
+            bound_evidence["evidence_bound"][0]["exact_excerpt"])
+        result.pop("claimed_classical_text", None)
+        result["binding_note"] = (
+            "bound research conclusion: classical evidence verified via "
+            "bind_variant_evidence(); still research_only, not adjudicated")
+    else:
+        result["evidence_binding"] = None
     result["entry"] = "research_convert"
     return result
 
