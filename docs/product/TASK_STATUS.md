@@ -55,7 +55,7 @@
 | TJ-014.2 | M3 | 与已有月柱候选序列做事实追踪 | 已合并 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/288 | 2026-10-21 | 终审整改三项P0+AttributeError修复已合并；50项链测试私有验收通过；关账 |
 | TJ-015.1 | M3 | 固定 12 节历法提供方真实性重放 | 已合并 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/290 | 2026-10-21 | 十二节重放+提供方身份校验已合并；694项私有验收通过；关账 |
 | TJ-015.2 | M3 | 历史时区、闰年、跨世纪和独立历法精度核查 | 已合并 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/298 | 2026-10-22 | provider重放门禁已合并；63项测试+私有全量验收通过；关账 |
-| TJ-016.1 | M3 | 三日一年／余日／余时的不同版本整理 | 已提交PR | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/300 | 2026-10-22 | 23项新测试本地通过；等公开CI 9/9与ChatGPT独立复审 |
+| TJ-016.1 | M3 | 三日一年／余日／余时的不同版本整理 | 已合并 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/300 · `ae10335f766e830cd8efcc7cf6afc6ede2c12b85` | 2026-10-22 | 终审通过已合并；私有验收通过；关账 |
 | TJ-016.2 | M3 | 起运当秒、虚岁/实岁等最困难反例 | 阻塞 | — | — | 等待证据/前置依赖 |
 | TJ-016.3 | M3 | 研究模拟与正式运期的硬边界 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-017.1 | M3 | 有出处的运期锚点计算/区间规则 | 阻塞 | — | — | 等待证据/前置依赖 |
