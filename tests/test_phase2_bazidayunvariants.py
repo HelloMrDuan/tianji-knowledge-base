@@ -188,12 +188,19 @@ class ConversionTests(unittest.TestCase):
         r1 = convert_with_variant(V1, m)
         r2 = convert_with_variant(V2, m)
         self.assertEqual(r1["candidate_kind"], "symbolic_ratio")
-        self.assertEqual(r2["candidate_kind"], "modern_mean_year_interpretation")
-        self.assertTrue(r1["classical_basis"])
+        self.assertEqual(r2["candidate_kind"], "modern_mean_year_registration")
+        # Unbound arithmetic claims no verified classical basis.
+        self.assertFalse(r1["evidence_bound"])
+        self.assertFalse(r1["classical_basis"])
         self.assertFalse(r2["classical_basis"])
+        self.assertIn("claimed_classical_text", r1)
+        self.assertNotIn("classical_text", r1)
         # Same arithmetic, different honest interpretations; kept distinct.
         self.assertEqual(r1["symbolic_years"], {"numerator": 4, "denominator": 3})
-        self.assertEqual(r2["modern_years"], {"numerator": 4, "denominator": 3})
+        self.assertEqual(r2["three_day_ratio_for_comparison"],
+                         {"numerator": 4, "denominator": 3})
+        self.assertFalse(r2["simulation_executed"])
+        self.assertFalse(r2["mean_year_interpolation_executed"])
         self.assertNotEqual(r1["variant_id"], r2["variant_id"])
         combined = {"variants": [r1, r2]}
         self.assertEqual(len(combined["variants"]), 2)
@@ -232,7 +239,11 @@ class ConversionTests(unittest.TestCase):
         self.assertNotIn("GREGORIAN_MEAN_YEAR", blob1)
         r2 = convert_with_variant(V2, _measure(days=4))
         self.assertFalse(r2["classical_basis"])
-        self.assertIn("365.2425", r2["modern_model"])
+        self.assertFalse(r2["evidence_bound"])
+        self.assertFalse(r2["simulation_executed"])
+        self.assertFalse(r2["mean_year_interpolation_executed"])
+        self.assertEqual(r2["capability"], "registration_and_explanation_only")
+        self.assertIsNone(r2["executed_by"])
 
 
 class ResearchEntryTests(unittest.TestCase):
@@ -264,10 +275,144 @@ class ResearchEntryTests(unittest.TestCase):
         self.assertFalse(result["public_enabled"])
         self.assertFalse(result["ai_enabled"])
         self.assertIsNone(result["start_age"])
+        # Bound conclusion: verified classical basis is claimed only here.
+        self.assertTrue(result["evidence_bound"])
+        self.assertTrue(result["classical_basis"])
+        self.assertEqual(result["classical_text"], "折除乃三日为年")
 
     def test_research_convert_unknown_variant_rejected(self):
         with self.assertRaisesRegex(ValueError, "unknown conversion variant"):
             research_convert(variant_id="made-up", measured_jie=_measure(days=1))
+
+
+
+
+class BindingEnforcementTests(unittest.TestCase):
+    """P0/P1 attack tests through the real research_convert() entry."""
+
+    def _bundle(self):
+        collation, raw, canonical = _real_bundle()
+        return {"collation": collation, "raw_bytes": raw,
+                "canonical_bytes": canonical}
+
+    def test_research_convert_classical_without_bundle_rejected(self):
+        # The exact P0 attack: no evidence_bundle must not yield a
+        # classical research result.
+        with self.assertRaisesRegex(ValueError, "required before any"):
+            research_convert(variant_id=V1, measured_jie=_measure(days=1))
+
+    def test_research_convert_missing_raw_bytes_rejected(self):
+        bundle = self._bundle()
+        del bundle["raw_bytes"]
+        with self.assertRaisesRegex(ValueError, "missing 'raw_bytes'"):
+            research_convert(variant_id=V1, measured_jie=_measure(days=1),
+                             evidence_bundle=bundle)
+
+    def test_research_convert_missing_canonical_bytes_rejected(self):
+        bundle = self._bundle()
+        bundle["canonical_bytes"] = None
+        with self.assertRaisesRegex(ValueError, "is None"):
+            research_convert(variant_id=V1, measured_jie=_measure(days=1),
+                             evidence_bundle=bundle)
+
+    def test_research_convert_wrong_section_rejected(self):
+        bundle = self._bundle()
+        bundle["collation"]["claims"][2]["canonical_section_id"] = 999
+        with self.assertRaisesRegex(ValueError, "section locator drift"):
+            research_convert(variant_id=V1, measured_jie=_measure(days=1),
+                             evidence_bundle=bundle)
+
+    def test_research_convert_wrong_claim_rejected(self):
+        bundle = self._bundle()
+        bundle["collation"]["claims"][2]["claim_id"] = "bazi.dayun.forged"
+        with self.assertRaisesRegex(ValueError, "unknown or duplicated claim"):
+            research_convert(variant_id=V1, measured_jie=_measure(days=1),
+                             evidence_bundle=bundle)
+
+    def test_research_convert_foreign_source_excerpt_rejected(self):
+        # An excerpt from a different source cannot impersonate the sealed
+        # quote, even with the right claim_id and section.
+        bundle = self._bundle()
+        bundle["collation"]["claims"][2]["exact_excerpt"] = "臆造三日折岁古文"
+        with self.assertRaisesRegex(ValueError, "moved or altered"):
+            research_convert(variant_id=V1, measured_jie=_measure(days=1),
+                             evidence_bundle=bundle)
+
+    def test_research_convert_forged_binding_dict_rejected(self):
+        forged = {"evidence_binding": {
+            "variant_id": V1, "review_status": "adjudicated",
+            "evidence_bound": [{"claim_id": "bazi.dayun.source.three-day-year",
+                                "exact_excerpt": "折除乃三日为年"}]}}
+        with self.assertRaisesRegex(ValueError, "cannot impersonate"):
+            research_convert(variant_id=V1, measured_jie=_measure(days=1),
+                             evidence_bundle=forged)
+
+    def test_bind_variant_evidence_sha_pinning_cannot_be_disabled(self):
+        # The require_pinned_shas switch is gone; pinning is mandatory.
+        collation, raw, canonical = _real_bundle()
+        with self.assertRaises(TypeError):
+            bind_variant_evidence(V1, collation=collation, raw_bytes=raw,
+                                  canonical_bytes=canonical,
+                                  require_pinned_shas=False)
+
+    def test_tampered_raw_with_forged_digest_still_rejected(self):
+        # Attacker tampers the raw file AND forges the recorded digest to
+        # match. validate_source_collation alone would pass; the mandatory
+        # pinned SHA check must still reject.
+        import hashlib
+        bundle = self._bundle()
+        raw = bytearray(bundle["raw_bytes"])
+        pos = raw.find(b"\n", 1000)
+        self.assertGreater(pos, 0)
+        self.assertLess(pos, 50000)
+        raw[pos:pos + 1] = b" "
+        tampered = bytes(raw)
+        forged_digest = hashlib.sha256(tampered).hexdigest()
+        self.assertNotEqual(
+            forged_digest, bundle["collation"]["baseline"]["raw_sha256"])
+        bundle["raw_bytes"] = tampered
+        bundle["collation"]["baseline"]["raw_sha256"] = forged_digest
+        with self.assertRaisesRegex(ValueError, "pinned descriptors"):
+            research_convert(variant_id=V1, measured_jie=_measure(days=1),
+                             evidence_bundle=bundle)
+
+    def test_modern_variant_simulation_not_executed(self):
+        result = research_convert(variant_id=V2, measured_jie=_measure(days=4))
+        self.assertFalse(result["classical_basis"])
+        self.assertFalse(result["evidence_bound"])
+        self.assertIsNone(result["evidence_binding"])
+        self.assertFalse(result["simulation_executed"])
+        self.assertFalse(result["mean_year_interpolation_executed"])
+        self.assertEqual(result["capability"],
+                         "registration_and_explanation_only")
+        self.assertIsNone(result["start_age"])
+        self.assertIsNone(result["handover_datetime"])
+
+    def test_modern_variant_rejects_evidence_bundle(self):
+        with self.assertRaisesRegex(ValueError, "not applicable"):
+            research_convert(variant_id=V2, measured_jie=_measure(days=1),
+                             evidence_bundle=self._bundle())
+
+    def test_convert_with_variant_unbound_is_honest(self):
+        result = convert_with_variant(V1, _measure(days=1))
+        self.assertFalse(result["evidence_bound"])
+        self.assertFalse(result["classical_basis"])
+        self.assertNotIn("classical_text", result)
+        self.assertEqual(result["claimed_classical_text"], "折除乃三日为年")
+        self.assertIn("unbound", result["binding_note"])
+        self.assertEqual(result["symbolic_years"],
+                         {"numerator": 1, "denominator": 3})
+
+    def test_research_convert_bound_result_is_classical(self):
+        result = research_convert(variant_id=V1, measured_jie=_measure(days=3),
+                                  evidence_bundle=self._bundle())
+        self.assertTrue(result["evidence_bound"])
+        self.assertTrue(result["classical_basis"])
+        self.assertEqual(result["classical_text"], "折除乃三日为年")
+        self.assertNotIn("claimed_classical_text", result)
+        self.assertEqual(len(result["evidence_binding"]["evidence_bound"]), 1)
+        self.assertFalse(
+            result["evidence_binding"]["canonical_method_adjudicated"])
 
 
 if __name__ == "__main__":
