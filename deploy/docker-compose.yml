@@ -1,6 +1,10 @@
-# Tianji v0.1 restricted-internal deployment (controlled environment).
-# Private knowledge is mounted read-only at runtime; never baked into images.
-# TLS termination happens at the gateway (see RUNBOOK.md); this file is HTTP-only.
+# Tianji v0.1 sealed-runtime deployment (controlled environment).
+#
+# The sealed bundle is built OUTSIDE the image on the deploy machine:
+#   python scripts/export_sealed_runtime.py --destination /sealed
+# which prints {"sha256_pin": "<64-hex>", ...}. Mount it read-only and pass
+# the pin through. The image contains no code, no knowledge, no secrets.
+# TLS termination happens at the gateway (see RUNBOOK.md).
 services:
   api:
     build:
@@ -9,12 +13,13 @@ services:
     ports:
       - "127.0.0.1:8000:8000"
     environment:
-      TIANJI_AI_PROVIDER: disabled
       TIANJI_RUNTIME_MODE: sealed
+      TIANJI_RUNTIME_ROOT: /sealed
+      TIANJI_RUNTIME_SHA256: ${TIANJI_RUNTIME_SHA256:?set TIANJI_RUNTIME_SHA256 from export_sealed_runtime.py}
+      TIANJI_AI_PROVIDER: disabled
       # TIANJI_ADMIN_READ_TOKEN must come from the secret store, never compose.
     volumes:
-      # Private knowledge mount (read-only). Path set by the operator.
-      - ${TIANJI_PRIVATE_DATA_DIR:?set TIANJI_PRIVATE_DATA_DIR}:/private-data:ro
+      - ${TIANJI_SEALED_DIR:?set TIANJI_SEALED_DIR to the exported bundle}:/sealed:ro
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=4).status==200 else 1)"]
       interval: 30s
