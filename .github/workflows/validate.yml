@@ -24,4 +24,5 @@ jobs:
       - run: python -m unittest discover -s tests -p 'test_public_asset_changes.py'
       - run: python -m unittest discover -s tests -p 'test_public_knowledge_boundary.py'
       - run: python -m unittest discover -s tests -p 'test_public_web_bundle.py'
+      - run: python -m unittest discover -s tests -p 'test_deploy_config.py'
       - run: python scripts/audit_public_asset_changes.py --inventory
