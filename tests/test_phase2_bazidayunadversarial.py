@@ -272,7 +272,7 @@ class ExecutionCategoryTests(unittest.TestCase):
             with self.subTest(case=case_id):
                 r = execute_adversarial_case(case_id)
                 self.assertEqual(r["execution_category"], category)
-                self.assertEqual(r["expected_status"], r["verified_status"])
+                self.assertEqual(r["expected_status"], r["research_policy_status"])
                 self.assertTrue(r["status_consistent"])
                 self.assertIsNone(r["start_age"])
                 self.assertIsNone(r["handover_datetime"])
@@ -325,6 +325,97 @@ class SourceTracingTests(unittest.TestCase):
             "ADV-003", evidence_bundle=_real_bundle(),
             expected_source_refs=["yuanhai_ziping_v1"])
         self.assertEqual(r["source_refs"], ["yuanhai_ziping_v1"])
+
+
+
+
+class TimezoneBindingTests(unittest.TestCase):
+    def test_tz_name_override_rejected_even_same_offset(self):
+        with self.assertRaisesRegex(ValueError, "disagrees with the registered"):
+            evaluate_adversarial_case("ADV-001", tz_name="Asia/Hong_Kong")
+
+    def test_tz_name_empty_rejected(self):
+        with self.assertRaisesRegex(ValueError, "invalid override"):
+            evaluate_adversarial_case("ADV-001", tz_name="")
+
+    def test_tz_name_none_rejected(self):
+        with self.assertRaisesRegex(ValueError, "invalid override"):
+            evaluate_adversarial_case("ADV-001", tz_name=None)
+
+    def test_tz_name_shanghai_explicit_allowed(self):
+        r = execute_adversarial_case("ADV-001", tz_name="Asia/Shanghai")
+        self.assertEqual(r["timezone"], "Asia/Shanghai")
+        self.assertTrue(r["status_consistent"])
+
+    def test_custom_probe_keeps_explicit_tz_choice(self):
+        r = evaluate_custom_probe(birth_instant="2000-02-05T12:00:00+08:00",
+                                  direction="forward",
+                                  variant_id="classical-three-day-symbolic-ratio-v1",
+                                  tz_name="Asia/Shanghai")
+        self.assertEqual(r["timezone"], "Asia/Shanghai")
+
+
+class SourceRequirementTests(unittest.TestCase):
+    def test_expected_sources_without_bundle_rejected(self):
+        with self.assertRaisesRegex(ValueError, "requires a real evidence_bundle"):
+            execute_adversarial_case(
+                "ADV-003", expected_source_refs=["yuanhai_ziping_v1"])
+
+    def test_expected_sources_with_bundle_match_passes(self):
+        r = execute_adversarial_case(
+            "ADV-003", evidence_bundle=_real_bundle(),
+            expected_source_refs=["yuanhai_ziping_v1"])
+        self.assertEqual(r["source_refs"], ["yuanhai_ziping_v1"])
+        self.assertTrue(r["evidence_bound"])
+
+    def test_empty_expected_sources_without_bundle_allowed(self):
+        r = execute_adversarial_case("ADV-003", expected_source_refs=[])
+        self.assertFalse(r["evidence_bound"])
+        self.assertEqual(r["source_refs"], [])
+
+
+class ArithmeticConditionTests(unittest.TestCase):
+    def test_zero_distance_condition_concrete(self):
+        r = execute_adversarial_case("ADV-001")
+        cond = r["arithmetic_condition"]
+        self.assertEqual(cond["condition"], "zero_jie_distance")
+        self.assertIn("elapsed_seconds == 0", cond["basis"])
+        self.assertFalse(cond["formal_age_permitted"])
+        self.assertEqual(r["research_policy_status"], "unresolved")
+
+    def test_nonzero_remainder_condition_concrete(self):
+        r = execute_adversarial_case("ADV-003")
+        cond = r["arithmetic_condition"]
+        self.assertEqual(cond["condition"], "nonzero_remainder")
+        self.assertIn("== 1;", cond["basis"])
+        self.assertEqual(r["arithmetic_fact"]["elapsed_seconds"], 1)
+        self.assertEqual(r["research_policy_status"], "unresolved")
+
+    def test_half_day_remainder_condition_concrete(self):
+        r = execute_adversarial_case("ADV-006")
+        cond = r["arithmetic_condition"]
+        self.assertEqual(cond["condition"], "nonzero_remainder")
+        self.assertIn("== 43200;", cond["basis"])
+        self.assertEqual(r["research_policy_status"], "unresolved")
+
+    def test_forward_boundary_condition_concrete(self):
+        r = execute_adversarial_case("ADV-002")
+        cond = r["arithmetic_condition"]
+        self.assertEqual(cond["condition"], "nonzero_remainder")
+        self.assertIn("== 237736;", cond["basis"])
+        self.assertEqual(r["arithmetic_fact"]["elapsed_seconds"], 2570536)
+
+    def test_refusal_condition_concrete(self):
+        r = execute_adversarial_case("ADV-008")
+        self.assertEqual(r["arithmetic_condition"]["condition"],
+                         "age_counting_refused")
+        self.assertEqual(r["research_policy_status"], "refused")
+
+    def test_tz_condition_concrete(self):
+        r = execute_adversarial_case("ADV-010")
+        self.assertEqual(r["arithmetic_condition"]["condition"],
+                         "tz_fail_closed")
+        self.assertEqual(r["research_policy_status"], "fail_closed")
 
 
 if __name__ == "__main__":
