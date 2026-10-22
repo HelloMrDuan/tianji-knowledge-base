@@ -56,7 +56,9 @@ Write-Host "公开仓库 OK: $PublicSha" -ForegroundColor Green
 # 私有仓库：SHA 匹配（导出前核对固定版本）
 $privObserved = (git -C $PrivateRepo rev-parse HEAD).Trim(); Test-ExitCode "git rev-parse private"
 if ($privObserved -ne $PrivateSha) { throw "私有 HEAD ($privObserved) 与预期 ($PrivateSha) 不一致" }
-Write-Host "私有仓库 OK: $PrivateSha" -ForegroundColor Green
+$privDirty = (git -C $PrivateRepo status --porcelain).Trim(); Test-ExitCode "git status private"
+if ($privDirty) { throw "私有仓库有未提交改动，拒绝导出" }
+Write-Host "私有仓库 OK: $PrivateSha (干净)" -ForegroundColor Green
 
 # 不删除现有快照/备份
 if (Test-Path $SnapshotDir) { throw "快照已存在，不自动删除: $SnapshotDir" }
@@ -87,6 +89,39 @@ $TrustedSha = $lines[0].Trim()
 $FileCount = $lines[1].Trim()
 if ($TrustedSha.Length -ne 64) { throw "未能获取可信 manifest SHA256" }
 Write-Host "导出 $FileCount 个文件，可信 SHA256: $($TrustedSha.Substring(0,16))..." -ForegroundColor Green
+
+Write-Host "`n=== 步骤1b：与私有固定提交的原始 manifest 交叉核对 ===" -ForegroundColor Cyan
+# 不仅验证新快照自洽，还要用私有固定提交中的原始 manifest 核对源数据
+$crossPy = @'
+from pathlib import Path
+import sys, hashlib, json, subprocess
+sys.path.insert(0, r"__PUBLIC__")
+priv = Path(r"__PRIVATE__")
+snap = Path(r"__SNAP__")
+# 从私有固定提交获取原始 manifest（不依赖工作区状态）
+raw = subprocess.check_output(
+    ["git", "-C", str(priv), "show", "__PRIVSHA__:private-data-manifest.json"],
+    text=True)
+orig = json.loads(raw)
+newm = json.loads((snap / "private-data-manifest.json").read_text(encoding="utf-8"))
+if orig["file_count"] != newm["file_count"]:
+    sys.stderr.write("file_count mismatch: orig=%d new=%d\n" % (orig["file_count"], newm["file_count"]))
+    sys.exit(1)
+orig_map = {r["path"]: r["sha256"] for r in orig["files"]}
+new_map = {r["path"]: r["sha256"] for r in newm["files"]}
+if set(orig_map) != set(new_map):
+    sys.stderr.write("file set mismatch\n")
+    sys.exit(1)
+bad = [p for p in orig_map if orig_map[p] != new_map[p]]
+if bad:
+    sys.stderr.write("SHA mismatch: %s\n" % bad[:5])
+    sys.exit(1)
+print("cross-check OK: %d files match private commit manifest" % len(orig_map))
+'@
+$crossPy = $crossPy.Replace("__PUBLIC__", $PublicRepo).Replace("__PRIVATE__", $PrivateRepo).Replace("__SNAP__", $SnapshotDir).Replace("__PRIVSHA__", $PrivateSha)
+$crossPy | python
+Test-ExitCode "原始manifest交叉核对"
+Write-Host "与私有固定提交的原始 manifest 一致" -ForegroundColor Green
 
 Write-Host "`n=== 步骤2：逐文件比对（可信源 vs 快照） ===" -ForegroundColor Cyan
 $verifyPy = @'
@@ -122,22 +157,27 @@ Write-Host "注意：备份与快照在同一磁盘 ($snapDrive)。如需独立�
 Copy-Item -Recurse -Path $SnapshotDir -Destination $BackupDir
 if ($LASTEXITCODE -ne 0 -and (Test-Path $BackupDir) -eq $false) { throw "备份复制失败" }
 
-$backupPy = @'
+# 验证模板（保留占位符，分别替换）
+$verifyTemplate = @'
 from pathlib import Path
 import sys
 sys.path.insert(0, r"__PUBLIC__")
 from scripts.private_data_snapshot import verify_private_data
-m = verify_private_data(Path(r"__BACKUP__"))
-print("backup verified: %d files" % m["file_count"])
+m = verify_private_data(Path(r"__TARGET__"))
+print("verified: %d files" % m["file_count"])
 '@
-$backupPy = $backupPy.Replace("__PUBLIC__", $PublicRepo).Replace("__BACKUP__", $BackupDir)
+$verifyTemplate = $verifyTemplate.Replace("__PUBLIC__", $PublicRepo)
+
+# 验证备份
+$backupPy = $verifyTemplate.Replace("__TARGET__", $BackupDir)
 $backupPy | python
 Test-ExitCode "备份验证"
 
+# 恢复演练：真正验证 $restoreTmp（修复前版本错误地重复验证了 $BackupDir）
 $restoreTmp = Join-Path $env:TEMP ("tianji-restore-" + (Get-Random))
 New-Item -ItemType Directory -Path $restoreTmp | Out-Null
 Copy-Item -Recurse -Path (Join-Path $BackupDir "*") -Destination $restoreTmp
-$restorePy = $backupPy.Replace("__BACKUP__", $restoreTmp)
+$restorePy = $verifyTemplate.Replace("__TARGET__", $restoreTmp)
 $restorePy | python
 Test-ExitCode "恢复验证"
 Remove-Item -Recurse -Force $restoreTmp
