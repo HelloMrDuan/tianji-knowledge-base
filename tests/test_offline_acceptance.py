@@ -121,6 +121,21 @@ class SnapshotNegativeTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             verify_private_data(snap)
 
+    def test_tampered_restore_rejected(self):
+        """Tampering any file in a restored copy must fail verification,
+        simulating the restore-drill negative case."""
+        snap = _make_snapshot(self.tmp, _minimal_files())
+        # Simulate restore: copy to new dir
+        restore = self.tmp / "restore"
+        shutil.copytree(snap, restore)
+        # Tamper one file in the restore dir
+        victim = restore / f"data/{AREAS[0]}" / "probe.json"
+        victim.write_bytes(b'{"tampered": true}')
+        with self.assertRaises(ValueError):
+            verify_private_data(restore)
+        # The original snapshot must still verify (not affected)
+        verify_private_data(snap)
+
     def test_snapshot_inside_git_rejected(self):
         # stage_private_data must refuse Git checkouts; verify_private_data
         # requires exactly {data, manifest} at root.
