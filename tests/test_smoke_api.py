@@ -34,8 +34,9 @@ class ApiSmokeTests(unittest.TestCase):
                   "input": {"value": "2000-01-07T12:00:00+08:00"}})
         self.assertEqual(r.status_code, 200, r.text[:300])
         data = r.json()
-        # Must return a result with evidence, not an empty shell.
-        self.assertIn("result", data)
+        # Must return a chart with evidence, not an empty shell.
+        # (ExecuteResponse has chart/evidence, not a "result" field.)
+        self.assertIn("chart", data)
         self.assertIn("evidence", data)
 
     def test_public_execute_invalid_input_rejected(self):
