@@ -7,7 +7,7 @@
 
 ## 原子任务管理规则（优先于任何批次描述）
 
-**本 WBS 已拆为 92 个独立子任务，其中 `TJ-001.4` 新增“每任务状态、日志、自动校验”制度。** 从现在起单轮只挑一个 `TJ-xxx.y`，完成前的状态与证据登记于[逐任务状态表](TASK_STATUS.md)，完成或失败/阻塞后的事件**追加**在[任务日志](TASK_HISTORY.md)，具体执行见[制度](TASK_EXECUTION_RULES.md)。任务跨公开和私有两个 PR 时仍只计**同一任务**一次；合并后要回填实际 SHA，不从测试总数推算任务完成率。
+**本 WBS 已拆为 93 个独立子任务，其中 `TJ-001.4` 新增“每任务状态、日志、自动校验”制度，`TJ-001.5` 新增“批次开发门禁”。** 自 [B001] 起实行批次开发：一个批次 2–6 个相关任务、每任务独立事件与证据；此前单轮单任务规则被批次规则取代。完成前的状态与证据登记于[逐任务状态表](TASK_STATUS.md)，完成或失败/阻塞后的事件**追加**在[任务日志](TASK_HISTORY.md)，具体执行见[制度](TASK_EXECUTION_RULES.md)。任务跨公开和私有两个 PR 时仍只计**同一任务**一次；合并后要回填实际 SHA，不从测试总数推算任务完成率。
 
 ## 一、工作包完成定义（DoD）
 
@@ -33,6 +33,7 @@
 | TJ-001.2 | 按页输出交互/输入/结果/证据/异常状态规格 | `PAGE_SPECIFICATIONS_V1.md` | UI-00～UI-12、UI-P1～P7、UI-A01～A18 能逐条追溯 |
 | TJ-001.3 | 首页 README、执行台账与规范互联 | `README.md`、原总纲/计划/台账 | 所有链接可达、30 项父任务 ID 不丢失；PR 与 CI 完成 |
 | TJ-001.4 | **一任务一闭环**：建立 92 个原子子任务的状态登记、不可改写完成日志与 PR 门禁 | `TASK_STATUS.json`、`TASK_HISTORY.md`、`TASK_EXECUTION_RULES.md`、`scripts/check_task_tracking.py`、`.github/workflows/task-tracking.yml` | 每批只能对应 1 个 WBS ID；需明确完成定义、真实 PR/CI/merge SHA，未合并不得标已完成；每 PR 修改状态且新增一条事件，CI 拒绝漏账/多任务/假完成；经真实 PR 合并后才关账 |
+| TJ-001.5 | **批次开发门禁**：多任务一批次的状态登记、事件追加与 PR 门禁 | `scripts/check_task_tracking.py`、`tests/test_task_tracking_gate.py`、`TASK_EXECUTION_RULES.md` | 批次 [Bxxx] 2–6 个任务；每任务独立状态行/历史事件/验收证据；历史 append-only；批次 ID 不复用；CI 拒绝漏账、非法任务、假完成 |
 | TJ-002.1 | 核对私有 #50 两条完整组合回归 | `tianji-private-knowledge` Actions | **两条都 success，且准确匹配 PR head**；失败绝不合并 |
 | TJ-002.2 | 合并 #50，核对私有 main、补回执 | 私有 PR #50、公开执行台账 | 真实 merge SHA、CI/数据摘要、不夸大部署 |
 | TJ-003.1 | 分区盘点公开 HEAD/历史中的内容、许可证、原文派生文件 | `docs/PUBLIC_DATA_SURFACE.md` 与既有审计脚本 | 只记录 metadata/文件类别，不能将私有正文放到公开报告 |
