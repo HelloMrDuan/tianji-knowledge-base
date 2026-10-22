@@ -10,11 +10,15 @@ import hashlib
 import json
 import os
 import shutil
+import sys
 import tempfile
 import unittest
 from pathlib import Path
 
 from scripts.private_data_snapshot import verify_private_data, AREAS
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from scripts.accept_offline import _check_path_safety, _check_not_in_git_workspace
 
 
 def _make_snapshot(base: Path, files: dict[str, bytes]) -> Path:
@@ -124,6 +128,49 @@ class SnapshotNegativeTests(unittest.TestCase):
         (snap / ".git").mkdir()
         with self.assertRaises(ValueError):
             verify_private_data(snap)
+
+
+
+class PreResolveSafetyTests(unittest.TestCase):
+    """Paths are validated BEFORE resolve() to catch symlinks and Git dirs."""
+
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp(prefix="presolve-"))
+
+    def tearDown(self):
+        shutil.rmtree(self.tmp, ignore_errors=True)
+
+    def test_symlink_path_rejected_before_resolve(self):
+        real = self.tmp / "real"
+        real.mkdir()
+        link = self.tmp / "link"
+        os.symlink(str(real), str(link))
+        with self.assertRaises(ValueError):
+            _check_path_safety(link, "Test")
+
+    def test_relative_path_rejected(self):
+        with self.assertRaises(ValueError):
+            _check_path_safety(Path("relative/path"), "Test")
+
+    def test_nonexistent_path_rejected(self):
+        with self.assertRaises(ValueError):
+            _check_path_safety(self.tmp / "does-not-exist", "Test")
+
+    def test_git_workspace_rejected(self):
+        work = self.tmp / "work"
+        work.mkdir()
+        (work / ".git").mkdir()
+        target = work / "sub"
+        target.mkdir()
+        with self.assertRaises(ValueError):
+            _check_not_in_git_workspace(target, "Test")
+
+    def test_clean_path_passes(self):
+        real = self.tmp / "clean"
+        real.mkdir()
+        # Should not raise.
+        _check_path_safety(real, "Test")
+        _check_not_in_git_workspace(real, "Test")
 
 
 if __name__ == "__main__":
