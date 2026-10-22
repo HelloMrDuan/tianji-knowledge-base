@@ -17,9 +17,13 @@ Research boundaries (hard):
   Any such request is a misuse of this entry point.
 - The Phase4-frozen ``calendar.py`` is not imported or modified here.
 """
+from datetime import timezone as _dt_timezone
+
 from .bazi_calendar_precision_audit import (
     INDEPENDENT_JIE_REFERENCES_V3,
     REFERENCE_SET_VERSION,
+    _replay_provider_jie_utc,
+    _require_aware,
     audit_birth_instant,
     audit_jie_against_reference,
     get_frozen_reference,
@@ -59,8 +63,24 @@ def research_audit_birth(*, birth_value, tz_name="Asia/Shanghai"):
 
 
 def research_audit_jie(*, term, gregorian_year, provider_moment_utc):
-    """Audit one jie term against the frozen reference set (no substitution)."""
+    """Audit one jie term against the frozen reference set (no substitution).
+
+    Trusted input path: the caller-supplied provider moment is checked
+    against an independent replay of the pinned provider (lunar-python
+    1.4.8). A moment the provider did not actually report is rejected --
+    the entry never launders a forged moment into a verified record.
+    """
     reference = get_frozen_reference(term, gregorian_year)
+    replayed = _replay_provider_jie_utc(
+        term=term, gregorian_year=gregorian_year,
+        anchor_published_utc=reference["published_utc"])
+    claimed = _require_aware(
+        provider_moment_utc, "provider_moment_utc").astimezone(_dt_timezone.utc)
+    if claimed != replayed:
+        raise ValueError(
+            "caller provider moment %s does not match the independent "
+            "provider replay %s for (%r, %r); forged moments are rejected"
+            % (claimed.isoformat(), replayed.isoformat(), term, gregorian_year))
     return audit_jie_against_reference(
         term=term, gregorian_year=gregorian_year,
         provider_moment_utc=provider_moment_utc, reference=reference)
