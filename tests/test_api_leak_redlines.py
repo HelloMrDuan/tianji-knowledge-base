@@ -5,6 +5,7 @@ filesystem paths, private-data markers, or unauthenticated admin access.
 Fail-closed is verified, not assumed.
 """
 import unittest
+from pathlib import Path
 from fastapi.testclient import TestClient
 from tianji_kb.api import create_app
 
@@ -82,6 +83,57 @@ class LeakRedlineTests(unittest.TestCase):
         r = self.client.post("/health")
         self.assertIn(r.status_code, (404, 405))
         self.assert_no_leak(_body_text(r), "POST /health")
+
+
+class PublicProjectionTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.client = cls.enterClassContext(TestClient(create_app()))
+
+    def test_public_execute_trace_is_projected(self):
+        # Public trace must be step numbers only, never internal details.
+        r = self.client.post(
+            "/api/v1/public/execute",
+            json={"domain": "bazi",
+                  "input": {"value": "2000-01-07T12:00:00+08:00"}})
+        self.assertEqual(r.status_code, 200, r.text[:200])
+        data = r.json()
+        for step in data.get("trace", []):
+            self.assertEqual(set(step.keys()), {"step"},
+                             f"public trace must not leak internals: {step}")
+
+    def test_public_execute_has_no_rule_internals(self):
+        r = self.client.post(
+            "/api/v1/public/execute",
+            json={"domain": "bazi",
+                  "input": {"value": "2000-01-07T12:00:00+08:00"}})
+        self.assertEqual(r.status_code, 200, r.text[:200])
+        text = r.text.lower()
+        for marker in ("traceback", "tianji-private", "/root/", "/home/"):
+            self.assertNotIn(marker, text)
+
+
+class FrontendSourceHygieneTests(unittest.TestCase):
+    def test_frontend_source_has_no_hardcoded_secrets(self):
+        import re
+        # Real secret VALUES, not field names like api_key_present.
+        patterns = [
+            re.compile(r"sk-[a-zA-Z0-9]{20,}"),
+            re.compile(r"['\"]api[_-]?key['\"]\s*:\s*['\"][a-zA-Z0-9]{8,}"),
+            re.compile(r"tianji-private-knowledge"),
+        ]
+        root = Path(__file__).resolve().parents[1] / "web" / "visual-prototype" / "src"
+        if not root.is_dir():
+            self.skipTest("frontend source not present")
+        hits = []
+        for path in root.rglob("*"):
+            if not path.is_file() or path.suffix not in (".ts", ".tsx", ".js"):
+                continue
+            text = path.read_text(encoding="utf-8", errors="ignore")
+            for pattern in patterns:
+                if pattern.search(text):
+                    hits.append(f"{path.name}:{pattern.pattern[:20]}")
+        self.assertEqual(hits, [], f"hardcoded secrets in frontend: {hits}")
 
 
 if __name__ == "__main__":
