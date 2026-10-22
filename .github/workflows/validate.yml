@@ -26,4 +26,5 @@ jobs:
       - run: python -m unittest discover -s tests -p 'test_public_web_bundle.py'
       - run: python -m unittest discover -s tests -p 'test_deploy_config.py'
       - run: python -m unittest discover -s tests -p 'test_frontend_hygiene.py'
+      - run: python -m unittest discover -s tests -p 'test_offline_acceptance.py'
       - run: python scripts/audit_public_asset_changes.py --inventory
