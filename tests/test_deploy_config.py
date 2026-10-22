@@ -8,10 +8,22 @@ import re
 import unittest
 from pathlib import Path
 
-DEPLOY = Path(__file__).resolve().parents[1] / "deploy"
+def _find_deploy():
+    # In the public checkout deploy/ sits next to tests/. In the assembled
+    # private backend only CODE_DIRECTORIES are copied, so deploy/ is absent
+    # there and these static checks must skip (they run in public CI instead).
+    candidate = Path(__file__).resolve().parents[1] / "deploy"
+    return candidate if candidate.is_dir() else None
+
+
+DEPLOY = _find_deploy()
 
 
 class DeployConfigTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        if DEPLOY is None:
+            raise unittest.SkipTest("deploy/ not present in this environment")
     def test_dockerfile_uses_sealed_entrypoint(self):
         text = (DEPLOY / "Dockerfile").read_text(encoding="utf-8")
         self.assertIn("docker-entrypoint.py", text)
