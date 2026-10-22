@@ -14,27 +14,27 @@
 ## 步骤1：创建受控知识目录（Linux）
 
 ```bash
-# 目标必须是不存在的目录（export_private_data 拒绝已存在的目标）
+# 只创建父目录；导出目标本身必须不存在（export_private_data 会自行创建）
 if [ -e /secure/tianji-knowledge ]; then
   echo "ERROR: /secure/tianji-knowledge already exists, choose a new path"
   exit 1
 fi
-sudo mkdir -p /secure/tianji-knowledge
-sudo chmod 0700 /secure/tianji-knowledge
-sudo chown "$USER:$USER" /secure/tianji-knowledge
+sudo mkdir -p /secure
+sudo chmod 0700 /secure
+sudo chown "$USER:$USER" /secure
 ```
 
 ## 步骤1：创建受控知识目录（Windows PowerShell）
 
 ```powershell
-# 目标必须是不存在的目录
+# 只创建父目录；导出目标本身必须不存在（export_private_data 会自行创建）
 if (Test-Path C:\secure\tianji-knowledge) {
   Write-Error "C:\secure\tianji-knowledge already exists, choose a new path"
   exit 1
 }
-New-Item -ItemType Directory -Path C:\secure\tianji-knowledge -Force | Out-Null
-icacls C:\secure\tianji-knowledge /inheritance:r | Out-Null
-icacls C:\secure\tianji-knowledge /grant:r "$env:USERNAME:(OI)(CI)F" | Out-Null
+New-Item -ItemType Directory -Path C:\secure -Force | Out-Null
+icacls C:\secure /inheritance:r | Out-Null
+icacls C:\secure /grant:r "$env:USERNAME:(OI)(CI)F" | Out-Null
 ```
 
 ## 步骤2：从私有仓库导出知识快照（仅首次）
@@ -71,7 +71,14 @@ sha = hashlib.sha256(
     (snap / "private-data-manifest.json").read_bytes()).hexdigest()
 print(f"verified {m['file_count']} files")
 print(f"TRUSTED_MANIFEST_SHA256={sha}")
-print("请将此 SHA256 记录为可信基准，后续验收 --trusted-manifest-sha256 使用")
+print("")
+print("独立可信来源说明：")
+print("此 SHA256 必须来自独立可信来源，而非快照自身。")
+print("首次建立时：在可信机器上直接从私有数据源导出并验证后，")
+print("将此 SHA256 记录在受控位置（如加密笔记或独立配置文件）。")
+print("后续验收时：--trusted-manifest-sha256 使用该独立记录的值，")
+print("验收工具会验证快照内 manifest 的 SHA256 与独立记录一致，")
+print("防止伪造快照+清单对。")
 PYEOF
 ```
 
