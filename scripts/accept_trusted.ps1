@@ -1,95 +1,156 @@
-# 天机平台一键可信机器验收脚本 (Windows PowerShell 5.1+)
-# 用途：在用户自有 Windows 电脑上执行完整离线验收
-# 前提：Python 3.12+, git 已安装；公开仓库已克隆；有私有仓库读取权限
-#
-# 使用方法（复制执行，替换 <> 中的实际路径）：
-#   1. 设置以下 4 个变量
-#   2. 逐段复制到 PowerShell 执行，或保存为 .ps1 后执行
-
-# ============ 配置区（必须修改） ============
-$PUBLIC_REPO   = "C:\tianji\tianji-knowledge-base"   # 公开仓库绝对路径
-$PRIVATE_REPO  = "C:\tianji\tianji-private-knowledge" # 私有仓库本地克隆绝对路径
-$PUBLIC_SHA    = "4861cdc833d1d51852a06570f2a2e0ec17fd2cc5"  # 待验收的公开 Head
-$SNAPSHOT_ROOT = "C:\secure"                          # 快照父目录（必须存在或可创建）
-# ============================================
+<#
+.SYNOPSIS
+  天机平台一键可信机器验收 (Windows PowerShell 5.1+)
+.DESCRIPTION
+  在用户自有 Windows 电脑上执行完整离线验收：
+  导出知识快照 → 独立备份 → 恢复演练 → 离线全量验收 → 报告
+.PARAMETER PublicRepo
+  公开仓库绝对路径
+.PARAMETER PrivateRepo
+  私有仓库本地克隆绝对路径
+.PARAMETER PublicSha
+  待验收的公开 Head（完整40位）
+.PARAMETER SnapshotRoot
+  快照父目录（脚本只在此下创建新目录，不删除现有内容）
+.PARAMETER PrivateSha
+  私有仓库预期的固定 main SHA（用于导出前核对）
+.EXAMPLE
+  .\accept_trusted.ps1 -PublicRepo "C:\tianji\tianji-knowledge-base" `
+    -PrivateRepo "C:\tianji\tianji-private-knowledge" `
+    -PublicSha "abc123..." -PrivateSha "def456..." -SnapshotRoot "C:\secure"
+#>
+param(
+    [Parameter(Mandatory=$true)][string]$PublicRepo,
+    [Parameter(Mandatory=$true)][string]$PrivateRepo,
+    [Parameter(Mandatory=$true)][string]$PublicSha,
+    [Parameter(Mandatory=$true)][string]$PrivateSha,
+    [Parameter(Mandatory=$true)][string]$SnapshotRoot
+)
 
 $ErrorActionPreference = "Stop"
-$SNAPSHOT_DIR = Join-Path $SNAPSHOT_ROOT "tianji-knowledge"
-$BACKUP_DIR   = Join-Path $SNAPSHOT_ROOT ("tianji-knowledge-backup-" + (Get-Date -Format "yyyyMMdd"))
 
-Write-Host "=== 步骤0：环境检查 ===" -ForegroundColor Cyan
-python --version
-git --version
-if (-not (Test-Path $PUBLIC_REPO)) { throw "公开仓库不存在: $PUBLIC_REPO" }
-if (-not (Test-Path $PRIVATE_REPO)) { throw "私有仓库不存在: $PRIVATE_REPO" }
-if ($PUBLIC_SHA.Length -ne 40) { throw "PUBLIC_SHA 必须为40位" }
+function Test-ExitCode($step) {
+    if ($LASTEXITCODE -ne 0) { throw "$step 失败，退出码 $LASTEXITCODE" }
+}
 
-# 确认公开仓库干净且 SHA 匹配
-$observed = (git -C $PUBLIC_REPO rev-parse HEAD).Trim()
-if ($observed -ne $PUBLIC_SHA) { throw "公开仓库 HEAD ($observed) 与预期 ($PUBLIC_SHA) 不一致" }
-$dirty = (git -C $PUBLIC_REPO status --porcelain).Trim()
-if ($dirty) { throw "公开仓库有未提交改动，停止" }
-Write-Host "公开仓库验证通过: $PUBLIC_SHA" -ForegroundColor Green
+# 参数校验
+if ($PublicSha.Length -ne 40) { throw "PublicSha 必须为40位" }
+if ($PrivateSha.Length -ne 40) { throw "PrivateSha 必须为40位" }
+if (-not (Test-Path $PublicRepo)) { throw "公开仓库不存在: $PublicRepo" }
+if (-not (Test-Path $PrivateRepo)) { throw "私有仓库不存在: $PrivateRepo" }
+
+$SnapshotDir = Join-Path $SnapshotRoot "tianji-knowledge"
+$BackupDir = Join-Path $SnapshotRoot ("tianji-knowledge-backup-" + (Get-Date -Format "yyyyMMdd"))
+
+Write-Host "=== 步骤0：环境与版本核对 ===" -ForegroundColor Cyan
+python --version; Test-ExitCode "python"
+git --version; Test-ExitCode "git"
+
+# 公开仓库：SHA 匹配 + 干净
+$observed = (git -C $PublicRepo rev-parse HEAD).Trim(); Test-ExitCode "git rev-parse"
+if ($observed -ne $PublicSha) { throw "公开 HEAD ($observed) 与预期 ($PublicSha) 不一致" }
+$dirty = (git -C $PublicRepo status --porcelain).Trim(); Test-ExitCode "git status"
+if ($dirty) { throw "公开仓库有未提交改动" }
+Write-Host "公开仓库 OK: $PublicSha" -ForegroundColor Green
+
+# 私有仓库：SHA 匹配（导出前核对固定版本）
+$privObserved = (git -C $PrivateRepo rev-parse HEAD).Trim(); Test-ExitCode "git rev-parse private"
+if ($privObserved -ne $PrivateSha) { throw "私有 HEAD ($privObserved) 与预期 ($PrivateSha) 不一致" }
+Write-Host "私有仓库 OK: $PrivateSha" -ForegroundColor Green
+
+# 不删除现有快照/备份
+if (Test-Path $SnapshotDir) { throw "快照已存在，不自动删除: $SnapshotDir" }
+if (Test-Path $BackupDir) { throw "备份已存在，不自动删除: $BackupDir" }
+if (-not (Test-Path $SnapshotRoot)) { New-Item -ItemType Directory -Path $SnapshotRoot -Force | Out-Null }
 
 Write-Host "`n=== 步骤1：导出知识快照 ===" -ForegroundColor Cyan
-if (Test-Path $SNAPSHOT_DIR) { throw "快照目标已存在，请删除或换路径: $SNAPSHOT_DIR" }
-if (-not (Test-Path $SNAPSHOT_ROOT)) { New-Item -ItemType Directory -Path $SNAPSHOT_ROOT -Force | Out-Null }
-python -c "
+# 使用 here-string 通过 stdin 传递 Python，避免引号转义问题
+$exportPy = @'
 from pathlib import Path
-import sys
-sys.path.insert(0, r'$PUBLIC_REPO')
+import sys, hashlib, json
+sys.path.insert(0, r"__PUBLIC__")
 from scripts.private_data_snapshot import export_private_data, verify_private_data
-import hashlib
-snap = Path(r'$SNAPSHOT_DIR')
-m = export_private_data(Path(r'$PRIVATE_REPO'), snap)
-print(f\"导出: {m['file_count']} 个数据文件, {m['total_bytes']} 字节\")
-# 立即验证
+snap = Path(r"__SNAP__")
+m = export_private_data(Path(r"__PRIVATE__"), snap)
+sys.stderr.write("exported %d files\n" % m["file_count"])
 m2 = verify_private_data(snap)
-sha = hashlib.sha256((snap / 'private-data-manifest.json').read_bytes()).hexdigest()
-print(f\"验证通过\")
-print(f\"TRUSTED_MANIFEST_SHA256={sha}\")
-" | Tee-Object -Variable export_out
-$TRUSTED_SHA = ($export_out | Select-String "TRUSTED_MANIFEST_SHA256=" | ForEach-Object { $_.Line.Split("=")[1] }).Trim()
-if ($TRUSTED_SHA.Length -ne 64) { throw "未能获取可信 manifest SHA256" }
-Write-Host "可信 manifest SHA256 已记录（独立来源：本次可信导出）" -ForegroundColor Green
+sha = hashlib.sha256((snap / "private-data-manifest.json").read_bytes()).hexdigest()
+# 输出可信 manifest 内容摘要（独立来源：本次可信导出）
+print(sha)
+print(m["file_count"])
+'@
+$exportPy = $exportPy.Replace("__PUBLIC__", $PublicRepo).Replace("__SNAP__", $SnapshotDir).Replace("__PRIVATE__", $PrivateRepo)
+$exportResult = $exportPy | python
+Test-ExitCode "知识导出"
+$lines = $exportResult -split "`n"
+$TrustedSha = $lines[0].Trim()
+$FileCount = $lines[1].Trim()
+if ($TrustedSha.Length -ne 64) { throw "未能获取可信 manifest SHA256" }
+Write-Host "导出 $FileCount 个文件，可信 SHA256: $($TrustedSha.Substring(0,16))..." -ForegroundColor Green
 
-Write-Host "`n=== 步骤2：第二份独立备份 + 恢复演练 ===" -ForegroundColor Cyan
-if (Test-Path $BACKUP_DIR) { throw "备份目标已存在: $BACKUP_DIR" }
-Copy-Item -Recurse -Path $SNAPSHOT_DIR -Destination $BACKUP_DIR
-python -c "
+Write-Host "`n=== 步骤2：逐文件比对（可信源 vs 快照） ===" -ForegroundColor Cyan
+$verifyPy = @'
+from pathlib import Path
+import sys, hashlib, json
+sys.path.insert(0, r"__PUBLIC__")
+snap = Path(r"__SNAP__")
+manifest = json.loads((snap / "private-data-manifest.json").read_text(encoding="utf-8"))
+mismatched = []
+for row in manifest["files"]:
+    target = snap / row["path"]
+    if not target.is_file():
+        mismatched.append(row["path"] + " (missing)")
+        continue
+    actual = hashlib.sha256(target.read_bytes()).hexdigest()
+    if actual != row["sha256"]:
+        mismatched.append(row["path"] + " (sha mismatch)")
+if mismatched:
+    sys.stderr.write("MISMATCHED:\n" + "\n".join(mismatched[:10]) + "\n")
+    sys.exit(1)
+print("verified %d files, all SHA256 match" % len(manifest["files"]))
+'@
+$verifyPy = $verifyPy.Replace("__PUBLIC__", $PublicRepo).Replace("__SNAP__", $SnapshotDir)
+$verifyPy | python
+Test-ExitCode "逐文件比对"
+Write-Host "逐文件 SHA256 比对通过" -ForegroundColor Green
+
+Write-Host "`n=== 步骤3：独立备份 + 恢复演练 ===" -ForegroundColor Cyan
+# 备份位置独立性提示
+$snapDrive = (Get-Item $SnapshotRoot).PSDrive.Name
+$backupDrive = $snapDrive  # 同一父目录下
+Write-Host "注意：备份与快照在同一磁盘 ($snapDrive)。如需独立灾难恢复，请手动复制到独立磁盘。" -ForegroundColor Yellow
+Copy-Item -Recurse -Path $SnapshotDir -Destination $BackupDir
+if ($LASTEXITCODE -ne 0 -and (Test-Path $BackupDir) -eq $false) { throw "备份复制失败" }
+
+$backupPy = @'
 from pathlib import Path
 import sys
-sys.path.insert(0, r'$PUBLIC_REPO')
+sys.path.insert(0, r"__PUBLIC__")
 from scripts.private_data_snapshot import verify_private_data
-m = verify_private_data(Path(r'$BACKUP_DIR'))
-print(f\"第二份备份验证通过: {m['file_count']} 文件\")
-"
+m = verify_private_data(Path(r"__BACKUP__"))
+print("backup verified: %d files" % m["file_count"])
+'@
+$backupPy = $backupPy.Replace("__PUBLIC__", $PublicRepo).Replace("__BACKUP__", $BackupDir)
+$backupPy | python
+Test-ExitCode "备份验证"
+
 $restoreTmp = Join-Path $env:TEMP ("tianji-restore-" + (Get-Random))
 New-Item -ItemType Directory -Path $restoreTmp | Out-Null
-Copy-Item -Recurse -Path (Join-Path $BACKUP_DIR "*") -Destination $restoreTmp
-python -c "
-from pathlib import Path
-import sys
-sys.path.insert(0, r'$PUBLIC_REPO')
-from scripts.private_data_snapshot import verify_private_data
-m = verify_private_data(Path(r'$restoreTmp'))
-print(f\"恢复演练通过: {m['file_count']} 文件\")
-"
+Copy-Item -Recurse -Path (Join-Path $BackupDir "*") -Destination $restoreTmp
+$restorePy = $backupPy.Replace("__BACKUP__", $restoreTmp)
+$restorePy | python
+Test-ExitCode "恢复验证"
 Remove-Item -Recurse -Force $restoreTmp
 Write-Host "备份与恢复演练完成" -ForegroundColor Green
 
-Write-Host "`n=== 步骤3：运行离线全量验收 ===" -ForegroundColor Cyan
-Set-Location $PUBLIC_REPO
-python scripts/accept_offline.py `
-  --public-code $PUBLIC_REPO `
-  --expected-sha $PUBLIC_SHA `
-  --knowledge-snapshot $SNAPSHOT_DIR `
-  --trusted-manifest-sha256 $TRUSTED_SHA `
-  --suite all | Tee-Object -Variable accept_out
-
-if ($LASTEXITCODE -ne 0) { throw "离线验收失败，退出码 $LASTEXITCODE" }
+Write-Host "`n=== 步骤4：离线全量验收 ===" -ForegroundColor Cyan
+Set-Location $PublicRepo
+python scripts/accept_offline.py --public-code $PublicRepo --expected-sha $PublicSha `
+  --knowledge-snapshot $SnapshotDir --trusted-manifest-sha256 $TrustedSha --suite all
+Test-ExitCode "离线验收"
 
 Write-Host "`n=== 验收完成 ===" -ForegroundColor Green
-Write-Host "公开 Head: $PUBLIC_SHA"
-Write-Host "知识 manifest SHA256: $TRUSTED_SHA"
-Write-Host "详细测试报告见上方 JSON 输出（test_reports 含各阶段模块数/测试数/失败/跳过）"
+Write-Host "公开 Head: $PublicSha"
+Write-Host "私有版本: $PrivateSha"
+Write-Host "知识文件数: $FileCount"
+Write-Host "Manifest SHA256: $TrustedSha"
