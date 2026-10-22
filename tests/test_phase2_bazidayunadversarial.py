@@ -5,9 +5,17 @@ import unittest
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
+import copy
+import json
+import os
+from pathlib import Path
+
 from tianji_kb.bazi_dayun_adversarial_cases import (
+    _execute_tz_case,
     evaluate_adversarial_case,
     evaluate_boundary_conflict,
+    evaluate_custom_probe,
+    execute_adversarial_case,
     get_adversarial_case,
     list_adversarial_cases,
     refuse_age_counting_conversion,
@@ -169,15 +177,154 @@ class ResultHonestyTests(unittest.TestCase):
                 self.assertFalse(r["public_enabled"])
                 self.assertFalse(r["ai_enabled"])
 
-    def test_evaluate_requires_explicit_direction(self):
-        with self.assertRaisesRegex(ValueError, "no birth instant"):
+    def test_evaluate_rejects_non_measurement_category(self):
+        with self.assertRaisesRegex(ValueError, "not a measurement case"):
             evaluate_adversarial_case("ADV-008")
+        with self.assertRaisesRegex(ValueError, "not a measurement case"):
+            evaluate_adversarial_case("ADV-010")
 
     def test_unbound_classical_case_claims_no_verified_basis(self):
         r = evaluate_adversarial_case("ADV-003")
         self.assertFalse(r["evidence_bound"])
         self.assertEqual(r["variant_id"],
                          "classical-three-day-symbolic-ratio-v1")
+
+
+
+
+def _real_bundle():
+    from tianji_kb.bazi_dayun_source_audit import (
+        ROOT, AUDIT_PATH, RAW_PATH, CANONICAL_PATH)
+    base = Path(os.environ.get("TIANJI_TEST_ROOT", str(ROOT)))
+    collation = json.loads((base / AUDIT_PATH).read_text(encoding="utf-8"))
+    raw = (base / RAW_PATH).read_bytes()
+    canonical = (base / CANONICAL_PATH).read_bytes()
+    return {"collation": collation, "raw_bytes": raw,
+            "canonical_bytes": canonical}
+
+
+class IdentityBindingTests(unittest.TestCase):
+    def test_adv001_direction_override_rejected(self):
+        with self.assertRaisesRegex(ValueError, "disagrees with the registered"):
+            execute_adversarial_case("ADV-001", direction="forward")
+
+    def test_adv001_birth_override_rejected(self):
+        with self.assertRaisesRegex(ValueError, "disagrees with the registered"):
+            execute_adversarial_case("ADV-001",
+                                     birth_instant="2000-02-04T20:40:23+08:00")
+
+    def test_adv001_empty_birth_rejected_not_silently_replaced(self):
+        with self.assertRaisesRegex(ValueError, "invalid override"):
+            execute_adversarial_case("ADV-001", birth_instant="")
+
+    def test_adv001_variant_override_rejected(self):
+        with self.assertRaisesRegex(ValueError, "disagrees with the registered"):
+            execute_adversarial_case(
+                "ADV-001", variant_id="modern-mean-year-simulation-v1")
+
+    def test_adv001_matching_override_allowed(self):
+        r = execute_adversarial_case(
+            "ADV-001", birth_instant=JIE, direction="backward",
+            variant_id="classical-three-day-symbolic-ratio-v1")
+        self.assertTrue(r["arithmetic_fact"]["zero_distance"])
+        self.assertTrue(r["status_consistent"])
+
+    def test_custom_probe_carries_no_case_identity(self):
+        r = evaluate_custom_probe(birth_instant="2000-02-05T12:00:00+08:00",
+                                  direction="forward",
+                                  variant_id="classical-three-day-symbolic-ratio-v1")
+        self.assertIsNone(r["case_id"])
+        self.assertIsNone(r["expected_status"])
+        self.assertEqual(r["entry"], "custom_probe")
+        self.assertIsNone(r["start_age"])
+
+
+class BoundaryImpersonationTests(unittest.TestCase):
+    def test_non_jie_birth_cannot_impersonate_conflict(self):
+        with self.assertRaisesRegex(ValueError, "not exactly a Jie instant"):
+            evaluate_boundary_conflict(
+                birth_instant="2000-02-05T12:00:00+08:00")
+
+    def test_empty_birth_rejected(self):
+        with self.assertRaisesRegex(ValueError, "birth_instant is required"):
+            evaluate_boundary_conflict(birth_instant="")
+
+    def test_true_jie_conflict_still_passes(self):
+        c = evaluate_boundary_conflict(birth_instant=JIE)
+        self.assertEqual(c["verified_jie"]["name"], "立春")
+        self.assertEqual(c["verified_jie"]["at"], JIE)
+        self.assertTrue(c["backward"]["arithmetic_fact"]["zero_distance"])
+        self.assertIsNone(c["merged_conclusion"])
+        self.assertEqual(c["conflict_status"], "unresolved")
+
+
+class ExecutionCategoryTests(unittest.TestCase):
+    def test_all_twelve_cases_have_real_execution_paths(self):
+        expected = {
+            "ADV-001": "measurement", "ADV-002": "measurement",
+            "ADV-003": "measurement", "ADV-004": "measurement",
+            "ADV-005": "measurement", "ADV-006": "measurement",
+            "ADV-007": "measurement", "ADV-008": "refusal",
+            "ADV-009": "refusal", "ADV-010": "tz_fail_closed",
+            "ADV-011": "tz_fail_closed", "ADV-012": "tz_fail_closed",
+        }
+        for case_id, category in expected.items():
+            with self.subTest(case=case_id):
+                r = execute_adversarial_case(case_id)
+                self.assertEqual(r["execution_category"], category)
+                self.assertEqual(r["expected_status"], r["verified_status"])
+                self.assertTrue(r["status_consistent"])
+                self.assertIsNone(r["start_age"])
+                self.assertIsNone(r["handover_datetime"])
+
+    def test_refusal_results_carry_verified_trigger(self):
+        for case_id in ("ADV-008", "ADV-009"):
+            with self.subTest(case=case_id):
+                r = execute_adversarial_case(case_id)
+                self.assertEqual(r["error_category"], "age_counting_refused")
+                self.assertIn("no sealed-canon", r["trigger"])
+
+    def test_tz_results_carry_verified_trigger(self):
+        triggers = {"ADV-010": "does not exist",
+                    "ADV-011": "silent guess",
+                    "ADV-012": "contradicts tzdb"}
+        for case_id, trigger in triggers.items():
+            with self.subTest(case=case_id):
+                r = execute_adversarial_case(case_id)
+                self.assertEqual(r["error_category"], "tz_fail_closed")
+                self.assertIn(trigger, r["trigger"])
+
+    def test_error_category_mismatch_is_not_swallowed(self):
+        forged = dict(get_adversarial_case("ADV-010"))
+        forged["error_must_contain"] = "this string is not in any error"
+        with self.assertRaisesRegex(ValueError, "unexpected error category"):
+            _execute_tz_case(forged)
+
+
+class SourceTracingTests(unittest.TestCase):
+    def test_unbound_result_source_refs_empty(self):
+        r = execute_adversarial_case("ADV-003")
+        self.assertFalse(r["evidence_bound"])
+        self.assertEqual(r["source_refs"], [])
+
+    def test_bound_source_refs_from_verified_evidence(self):
+        r = execute_adversarial_case("ADV-003",
+                                     evidence_bundle=_real_bundle())
+        self.assertTrue(r["evidence_bound"])
+        self.assertEqual(r["source_refs"], ["yuanhai_ziping_v1"])
+        self.assertTrue(r["status_consistent"])
+
+    def test_source_id_mismatch_rejected(self):
+        with self.assertRaisesRegex(ValueError, "disagree"):
+            execute_adversarial_case(
+                "ADV-003", evidence_bundle=_real_bundle(),
+                expected_source_refs=["forged-source"])
+
+    def test_expected_source_match_accepted(self):
+        r = execute_adversarial_case(
+            "ADV-003", evidence_bundle=_real_bundle(),
+            expected_source_refs=["yuanhai_ziping_v1"])
+        self.assertEqual(r["source_refs"], ["yuanhai_ziping_v1"])
 
 
 if __name__ == "__main__":
