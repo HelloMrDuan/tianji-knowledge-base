@@ -1,4 +1,4 @@
-"""Independent research audit for calendar precision claims (TJ-015.2, rev 3).
+"""Independent research audit for calendar precision claims (TJ-015.2, rev 4).
 
 P0 anti-tamper guarantees (final review round):
 - The internal frozen baseline (``_FROZEN_INTERNAL``) is NEVER exposed. The
@@ -16,9 +16,23 @@ P0 anti-tamper guarantees (final review round):
 - ``summarize_audits()`` accepts ONLY complete, re-verified summaries over
   the frozen set. There is no custom-reference-set bypass: every record's
   embedded reference is re-bound to the internal baseline, every verdict is
-  recomputed, duplicates/missing/forged records are rejected. Subset
-  analyses are not supported by this function (use per-term audits, each
-  clearly labeled); nothing may masquerade as the complete 12-term acceptance.
+  recomputed, duplicates are rejected, and all 12 frozen references must be
+  covered exactly once.
+- Provider-moment forgery is closed by INDEPENDENT REPLAY (rev 4): neither
+  ``summarize_audits()`` nor the research entry trusts a caller-supplied
+  ``provider_utc``. Each (term, year) moment is re-derived from the pinned
+  provider (lunar-python==1.4.8, enforced via
+  ``calendar_provider_guard.provider_identity()``) using the provider's own
+  annual jieqi table -- the same API family as
+  ``bazi_annual_reference._li_chun_of``. The trusted frozen published time
+  only selects WHICH instance of a repeated term name the provider reports
+  (nearest to anchor); the returned moment comes from the provider alone.
+  A record whose claimed provider moment differs from the replay is
+  rejected. Missing provider, version mismatch, or any replay anomaly fails
+  closed -- there is no fallback path that could impersonate real evidence.
+
+The frozen reference DATA is byte-identical to rev 3 (hence the V3 names);
+rev 4 hardens only the verification binding.
 
 Reference trust model:
 - Trust is NOT self-declared by ``source_org``/``source_url`` text. Records
@@ -40,7 +54,11 @@ global precision flag.
 """
 from collections.abc import Mapping
 from datetime import datetime, timedelta, timezone
-from types import MappingProxyType
+
+try:
+    from types import MappingProxyType
+except ImportError:  # pragma: no cover
+    MappingProxyType = None
 
 try:
     from zoneinfo import ZoneInfo
@@ -61,6 +79,19 @@ HKO_DEFINITION_CROSSCHECK = {
         "寒露": 195, "立冬": 225, "大雪": 255, "小寒": 285,
     },
 }
+
+# Uppercase alias keys observed in lunar-python 1.4.8's getJieQiTable().
+# Pinned-provider behavior (enforced by provider_identity()); the nearest-
+# to-anchor selection below does the real disambiguation.
+_JIEQI_TABLE_ALIASES = {
+    "DA_XUE": "大雪", "DONG_ZHI": "冬至", "XIAO_HAN": "小寒", "DA_HAN": "大寒",
+    "LI_CHUN": "立春", "YU_SHUI": "雨水", "JING_ZHE": "惊蛰",
+}
+
+# Maximum allowed distance between the trusted frozen anchor and the
+# provider's replayed moment. Genuine replays land within ~1 minute; anything
+# farther signals a provider anomaly and fails closed.
+_REPLAY_ANCHOR_WINDOW_SECONDS = 7 * 86400
 
 
 def _rec(record_id, term, gregorian_year, source_url, published_utc,
@@ -109,6 +140,8 @@ _FROZEN_INTERNAL = tuple([
 ])
 
 # Public collection: immutable proxies. Read-only; mutation raises TypeError.
+if MappingProxyType is None:  # pragma: no cover
+    raise ImportError("types.MappingProxyType is required for frozen-set safety")
 INDEPENDENT_JIE_REFERENCES_V3 = tuple(
     MappingProxyType(dict(r)) for r in _FROZEN_INTERNAL)
 
@@ -198,6 +231,68 @@ def _require_aware(value, name):
     return value
 
 
+def _replay_provider_jie_utc(*, term, gregorian_year, anchor_published_utc):
+    """Independently re-derive the provider's jie moment for (term, year).
+
+    The pinned provider (lunar-python==1.4.8, enforced by
+    ``calendar_provider_guard.provider_identity()`` -- missing package or
+    version mismatch raises) supplies its annual jieqi table, the same API
+    family as ``bazi_annual_reference._li_chun_of``. The anchor is a TRUSTED
+    frozen published time (already verified against the internal baseline);
+    it only selects which instance of a repeated term name the provider
+    reports (nearest to anchor, e.g. the cross-year 小寒). The returned moment
+    is derived from the provider alone, never from caller input. Provider
+    wall output is interpreted as Asia/Shanghai, matching ``_li_chun_of``.
+    Any anomaly -- no candidate, candidate implausibly far from the anchor --
+    fails closed with ValueError. There is no fallback.
+    """
+    # Deferred import: the guard (and through it the frozen calendar adapter)
+    # is loaded only when a replay actually runs, never at module import.
+    from tianji_kb.calendar_provider_guard import provider_identity
+    provider_identity()
+    if ZoneInfo is None:
+        raise ValueError("zoneinfo is unavailable; provider wall time "
+                         "cannot be interpreted")
+    try:
+        anchor = datetime.fromisoformat(anchor_published_utc)
+    except ValueError as exc:
+        raise ValueError("replay anchor is not a valid ISO datetime") from exc
+    if anchor.tzinfo is None or anchor.utcoffset() is None:
+        raise ValueError("replay anchor must be timezone-aware")
+    anchor_utc = anchor.astimezone(UTC)
+    try:
+        from lunar_python import Solar
+        table = Solar.fromYmd(gregorian_year, 7, 1).getLunar().getJieQiTable()
+    except Exception as exc:
+        raise ValueError(
+            "provider jieqi table unavailable; refusing to impersonate "
+            "evidence: %s" % (exc,)) from exc
+    shanghai = ZoneInfo("Asia/Shanghai")
+    best = None
+    best_distance = None
+    for key, solar in table.items():
+        if _JIEQI_TABLE_ALIASES.get(key, key) != term:
+            continue
+        try:
+            wall = datetime.strptime(solar.toYmdHms(), "%Y-%m-%d %H:%M:%S")
+        except Exception as exc:
+            raise ValueError(
+                "provider returned an unparsable jie moment") from exc
+        moment_utc = wall.replace(tzinfo=shanghai).astimezone(UTC)
+        distance = abs((moment_utc - anchor_utc).total_seconds())
+        if best is None or distance < best_distance:
+            best, best_distance = moment_utc, distance
+    if best is None:
+        raise ValueError(
+            "provider reports no %r near trusted anchor %s; refusing"
+            % (term, anchor_published_utc))
+    if best_distance > _REPLAY_ANCHOR_WINDOW_SECONDS:
+        raise ValueError(
+            "provider %r is %d seconds from the trusted anchor; refusing to "
+            "accept an implausible replay" % (term, int(best_distance)))
+    return best
+
+
 def _minute_verdict(provider_utc, published_utc):
     provider_minute = provider_utc.replace(second=0)
     published_minute = published_utc.replace(second=0, microsecond=0)
@@ -259,9 +354,12 @@ def summarize_audits(records):
     """Summarize a COMPLETE 12-term acceptance; re-verify everything.
 
     No custom reference sets: every record's embedded reference is re-bound to
-    the internal frozen baseline, every verdict is recomputed from the
-    record's own provider_utc against the frozen published time, duplicates
+    the internal frozen baseline, every verdict is recomputed, duplicates
     are rejected, and all 12 frozen references must be covered exactly once.
+    Additionally, every record's claimed provider moment is checked against
+    an INDEPENDENT replay of the pinned provider (lunar-python==1.4.8):
+    caller-supplied provider_utc is never trusted on its own, so forging
+    provider moments cannot turn unresolved terms into agreements.
     Anything else fails closed. Subset analyses are not supported here; they
     must use per-term audits, each clearly labeled, and can never masquerade
     as the complete acceptance.
@@ -290,22 +388,43 @@ def summarize_audits(records):
             raise ValueError(
                 "audit record for %s carries reference fields that do not "
                 "match the frozen baseline" % (record_id,))
-        key = (internal["term"], internal["gregorian_year"])
-        if key in seen:
+        if "provider_utc" not in record:
             raise ValueError(
-                "duplicate audit record for term %r year %r" % (key[0], key[1]))
-        seen.add(key)
-        provider_utc = _require_aware(
-            datetime.fromisoformat(record["provider_utc"]), "record provider_utc")
+                "audit record for %s is missing provider_utc" % (record_id,))
+        try:
+            claimed_provider = datetime.fromisoformat(record["provider_utc"])
+        except (ValueError, TypeError) as exc:
+            raise ValueError(
+                "audit record for %s has an invalid provider_utc" % (record_id,)) from exc
+        if claimed_provider.tzinfo is None or claimed_provider.utcoffset() is None:
+            raise ValueError(
+                "audit record for %s has a naive provider_utc" % (record_id,))
+        claimed_provider_utc = claimed_provider.astimezone(UTC)
+        # Verdict recomputation from the record's own (still untrusted) claim.
         published_utc = datetime.fromisoformat(
             internal["published_utc"]).astimezone(UTC)
-        expected_verdict, _ = _minute_verdict(provider_utc.astimezone(UTC),
-                                              published_utc)
+        expected_verdict, _ = _minute_verdict(claimed_provider_utc, published_utc)
         if record.get("verdict") != expected_verdict:
             raise ValueError(
                 "audit record for %s claims verdict %r but recomputation gives "
                 "%r; forged verdicts are rejected" % (
                     record_id, record.get("verdict"), expected_verdict))
+        # Independent provider replay: the claimed moment must be what the
+        # pinned provider actually reports for (term, year).
+        replayed = _replay_provider_jie_utc(
+            term=internal["term"], gregorian_year=internal["gregorian_year"],
+            anchor_published_utc=internal["published_utc"])
+        if claimed_provider_utc != replayed:
+            raise ValueError(
+                "audit record for %s claims provider_utc %s but the independent "
+                "provider replay gives %s; forged provider moments are rejected"
+                % (record_id, claimed_provider_utc.isoformat(),
+                   replayed.isoformat()))
+        key = (internal["term"], internal["gregorian_year"])
+        if key in seen:
+            raise ValueError(
+                "duplicate audit record for term %r year %r" % (key[0], key[1]))
+        seen.add(key)
         verdicts[expected_verdict] = verdicts.get(expected_verdict, 0) + 1
     expected_keys = set(_FROZEN_BY_TERM_YEAR.keys())
     if seen != expected_keys:
@@ -321,6 +440,7 @@ def summarize_audits(records):
         "verdicts": verdicts,
         "reference_set_version": REFERENCE_SET_VERSION,
         "scope": "complete_12_term_acceptance",
+        "provider_replay": "lunar-python==1.4.8 independent replay per (term, year)",
         "coverage": {"terms": covered_terms, "gregorian_years": covered_years,
                      "sources": sorted({r["source_org"] for r in _FROZEN_INTERNAL})},
         "coverage_disclaimer": ("covers only the listed (term, year, source) records; "
