@@ -327,13 +327,49 @@ def _resolve_identity_field(case_id, field, registered, supplied):
     return supplied
 
 
-def _verified_status_from_arithmetic(ratio, evidence_bound):
-    """Derive the actual status from the computed arithmetic fact."""
+def _classify_arithmetic_condition(ratio):
+    """Classify the CONCRETE arithmetic condition that was computed.
+
+    This describes the measurement fact, not a verdict: zero distance,
+    a nonzero remainder, or an exact three-day multiple each keep their
+    own trigger basis. Whether a formal start age may follow is a
+    separate research-policy question (see research_policy_status),
+    because the sealed text defines only the symbolic ratio and no
+    classical adjudication for formal ages exists.
+    """
     if ratio["zero_distance"]:
-        return "unresolved"
-    if ratio["elapsed_seconds"] % 259200 != 0:
-        return "unresolved"
-    return "unresolved"  # exact multiples still lack a classical age rule
+        return {
+            "condition": "zero_jie_distance",
+            "basis": "elapsed_seconds == 0 at the verified Jie instant; "
+                     "no classical convention adjudicates zero distance",
+            "formal_age_permitted": False,
+        }
+    remainder = ratio["elapsed_seconds"] % 259200
+    if remainder != 0:
+        return {
+            "condition": "nonzero_remainder",
+            "basis": "elapsed_seconds %% 259200 == %d; the sealed text "
+                     "gives no remainder rule" % remainder,
+            "formal_age_permitted": False,
+        }
+    return {
+        "condition": "exact_three_day_multiple",
+        "basis": "elapsed_seconds %% 259200 == 0, but the sealed text "
+                 "defines only the symbolic ratio, not a formal "
+                 "start-age rule",
+        "formal_age_permitted": False,
+    }
+
+
+def _research_policy_status(arithmetic_condition):
+    """Policy status for formal conclusions.
+
+    Explicitly a RESEARCH POLICY label, not an arithmetic proof: with no
+    classical adjudication for formal start ages, formal conclusions stay
+    unresolved regardless of which concrete arithmetic condition held.
+    """
+    assert arithmetic_condition["formal_age_permitted"] is False
+    return "unresolved"
 
 
 def evaluate_adversarial_case(case_id, *, birth_instant=_UNSET,
@@ -342,9 +378,11 @@ def evaluate_adversarial_case(case_id, *, birth_instant=_UNSET,
                               tz_name="Asia/Shanghai"):
     """Evaluate one measurement-category adversarial case.
 
-    Identity is strictly bound: birth_instant, direction and variant_id
-    must match the registered case (or be omitted). Overrides that
-    disagree are rejected, never silently replaced.
+    Identity is strictly bound: birth_instant, direction, variant_id AND
+    tz_name must match the registered case (or be omitted / equal to the
+    registered timezone). Overrides that disagree are rejected, never
+    silently replaced — even a timezone with the same UTC offset
+    (e.g. Asia/Hong_Kong) is refused for a fixed case.
 
     source_refs in the result come ONLY from actually-verified Evidence
     (the bound bundle). Unbound arithmetic explicitly reports
@@ -364,12 +402,14 @@ def evaluate_adversarial_case(case_id, *, birth_instant=_UNSET,
         case_id, "direction", case["direction"], direction)
     vid = _resolve_identity_field(
         case_id, "variant_id", case["variant_id"], variant_id)
+    tz = _resolve_identity_field(
+        case_id, "timezone", case["timezone"], tz_name)
     if d not in ("forward", "backward"):
         raise ValueError(
             "case %r requires an explicit forward/backward direction" % (case_id,))
     get_variant(vid)  # fail closed on unknown variant IDs
     # 1. Civil-time truth, fail-closed.
-    audited = audit_birth_instant(birth, tz_name=tz_name)
+    audited = audit_birth_instant(birth, tz_name=tz)
     # 2. Real jie measurement (provider replay gate inside).
     measured = adjacent_jie_distance(
         birth, d,
@@ -377,6 +417,13 @@ def evaluate_adversarial_case(case_id, *, birth_instant=_UNSET,
     # 3. Exact arithmetic (zero distance -> unreviewed, never age zero).
     ratio = exact_three_day_ratio(measured)
     # 4. Variant conversion: unbound by default; bound only with real evidence.
+    if expected_source_refs:
+        if evidence_bundle is None:
+            raise ValueError(
+                "case %r: expected_source_refs %r requires a real "
+                "evidence_bundle; refusing to ignore the source "
+                "requirement and return unbound arithmetic" % (
+                    case_id, expected_source_refs))
     bound_source_ids = []
     if evidence_bundle is not None:
         converted = research_convert(
@@ -393,12 +440,13 @@ def evaluate_adversarial_case(case_id, *, birth_instant=_UNSET,
     else:
         converted = convert_with_variant(vid, measured)
     evidence_bound = converted.get("evidence_bound", False)
-    verified_status = _verified_status_from_arithmetic(ratio, evidence_bound)
+    arithmetic_condition = _classify_arithmetic_condition(ratio)
+    research_policy_status = _research_policy_status(arithmetic_condition)
     result = {
         "case_id": case_id,
         "execution_category": "measurement",
         "birth_instant": birth,
-        "timezone": tz_name,
+        "timezone": tz,
         "utc_instant": audited["utc_instant"],
         "civil_classification": audited["civil_classification"],
         "jie_boundary": {
@@ -419,8 +467,10 @@ def evaluate_adversarial_case(case_id, *, birth_instant=_UNSET,
         "evidence_bound": evidence_bound,
         "disputed_convention": case["disputed_convention"],
         "expected_status": case["expected_status"],
-        "verified_status": verified_status,
-        "status_consistent": verified_status == case["expected_status"],
+        "arithmetic_condition": arithmetic_condition,
+        "research_policy_status": research_policy_status,
+        "status_consistent":
+            research_policy_status == case["expected_status"],
         "unresolved_reason": case["unresolved_reason"],
         "start_age": None,
         "handover_datetime": None,
@@ -465,7 +515,13 @@ def _execute_refusal_case(case):
             "evidence_bound": False,
             "disputed_convention": case["disputed_convention"],
             "expected_status": "refused",
-            "verified_status": "refused",
+            "arithmetic_condition": {
+                "condition": "age_counting_refused",
+                "basis": "refuse_age_counting_conversion raised with a "
+                         "verified trigger; no sealed-canon adjudication",
+                "formal_age_permitted": False,
+            },
+            "research_policy_status": "refused",
             "status_consistent": True,
             "error_category": "age_counting_refused",
             "trigger": str(error)[:200],
@@ -503,7 +559,13 @@ def _execute_tz_case(case, *, tz_name="Asia/Shanghai"):
             "evidence_bound": False,
             "disputed_convention": case["disputed_convention"],
             "expected_status": "fail_closed",
-            "verified_status": "fail_closed",
+            "arithmetic_condition": {
+                "condition": "tz_fail_closed",
+                "basis": "audit_birth_instant raised with a verified "
+                         "trigger; civil instant is unusable",
+                "formal_age_permitted": False,
+            },
+            "research_policy_status": "fail_closed",
             "status_consistent": True,
             "error_category": "tz_fail_closed",
             "trigger": str(error)[:200],
@@ -583,8 +645,9 @@ def evaluate_custom_probe(*, birth_instant, direction, variant_id,
         "source_refs": [],
         "evidence_bound": False,
         "expected_status": None,
-        "verified_status": _verified_status_from_arithmetic(
-            ratio, converted.get("evidence_bound", False)),
+        "arithmetic_condition": _classify_arithmetic_condition(ratio),
+        "research_policy_status": _research_policy_status(
+            _classify_arithmetic_condition(ratio)),
         "start_age": None,
         "handover_datetime": None,
         "research_only": True,
