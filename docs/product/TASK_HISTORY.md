@@ -139,3 +139,4 @@
 5. GitHub PR 必须运行 `python scripts/check_task_tracking.py --base <base-commit>`，确认本次恰好一个任务、一个新事件。PR 合并成功后再以**同一任务**单独做关账更新，补齐实际 main SHA。
 
 **验收警戒线**：WBS 全部子任务数量 ≠ 已完成功能数量；公开 PR 合并 ≠ 私有 Canonical 完成；静态截图 ≠ 人工视觉还原；推送成功 ≠ 生产部署完成。
+| E0098 | 2026-10-23 | TJ-024.3 | 已提交PR | [B006] 合盘隐私：新增对方资料隐私声明（仅用于本次计算、不保存本机、需知情同意）；已有清空按钮；TJ-024.1/024.2 为既有实现核查 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/310 |  |  |
