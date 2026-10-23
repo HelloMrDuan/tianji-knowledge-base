@@ -213,6 +213,9 @@ export function CompatibilityStructurePage() {
             </label>
           </section>
         ))}
+        <p className="compat-privacy-notice" role="note">
+          对方出生资料仅用于本次合盘计算，不会保存到本机。请确保已获得对方知情同意。
+        </p>
         <div className="compat-submit-wrap">
           <button type="button" className="sample-fill" onClick={fillSample}>填入双人示例</button>
           <button className="button primary" type="submit" disabled={loading}>
