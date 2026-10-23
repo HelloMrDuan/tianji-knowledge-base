@@ -139,3 +139,5 @@
 5. GitHub PR 必须运行 `python scripts/check_task_tracking.py --base <base-commit>`，确认本次恰好一个任务、一个新事件。PR 合并成功后再以**同一任务**单独做关账更新，补齐实际 main SHA。
 
 **验收警戒线**：WBS 全部子任务数量 ≠ 已完成功能数量；公开 PR 合并 ≠ 私有 Canonical 完成；静态截图 ≠ 人工视觉还原；推送成功 ≠ 生产部署完成。
+| E0099 | 2026-10-23 | TJ-025.1 | 已提交PR | [B007] 人生总览四源一致性核查：后端_live()已聚合，年份切换重算、清除失效已验证 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/311 |  |  |
+| E0100 | 2026-10-23 | TJ-025.3 | 已提交PR | [B007] 人生总览多视口：360/390/768/1440px 无溢出；无综合吉凶结论；TJ-025.2 前置未满足保持阻塞 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/311 |  |  |
