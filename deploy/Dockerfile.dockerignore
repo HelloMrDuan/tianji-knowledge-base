@@ -1,0 +1,23 @@
+# Build context is the repo root; the image only needs pyproject.toml.
+# Everything sensitive or large is excluded from the context.
+.git
+.github
+__pycache__
+*.pyc
+.env
+.env.*
+*.pem
+*.key
+tests/
+docs/
+evals/
+web/
+deploy/frontend-dist/
+src/
+config/
+schemas/
+data/
+private/
+private-data/
+sealed/
+*.md
