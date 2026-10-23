@@ -15,20 +15,24 @@ class ApiSmokeTests(unittest.TestCase):
         # - no token -> 401, wrong token -> 401, correct token -> 200
         # (Without a configured token, API returns 503 fail-closed.)
         cls.client = TestClient(create_app(admin_read_token="test-token-123"))
-        cls.admin_client = TestClient(create_app())  # no token -> 503
+        cls.admin_client = TestClient(create_app(admin_read_token=""))  # forced no token -> 503
 
     def test_health_smoke(self):
         r = self.client.get("/health")
         self.assertEqual(r.status_code, 200)
         data = r.json()
-        self.assertIn("status", data)
+        self.assertEqual(data.get("status"), "ok")
+        self.assertEqual(data.get("engine"), "ready")
 
     def test_capabilities_smoke(self):
         r = self.client.get("/api/v1/capabilities")
         self.assertEqual(r.status_code, 200)
         data = r.json()
         # /api/v1/capabilities returns domains (not scenarios).
-        self.assertIn("domains", data)
+        self.assertEqual(data.get("api_version"), "v1")
+        self.assertIsInstance(data.get("domains"), list)
+        self.assertTrue(data["domains"], "capabilities must list real domains")
+        self.assertTrue(all(d.get("domain") and d.get("variants") for d in data["domains"]))
 
     def test_scenarios_smoke(self):
         r = self.client.get("/api/v1/scenarios")
@@ -48,8 +52,14 @@ class ApiSmokeTests(unittest.TestCase):
         data = r.json()
         # Must return a chart with evidence, not an empty shell.
         # (ExecuteResponse has chart/evidence, not a "result" field.)
-        self.assertIn("chart", data)
-        self.assertIn("evidence", data)
+        self.assertEqual(data.get("mode"), "production")
+        self.assertIs(data.get("deterministic"), True)
+        self.assertIsInstance(data.get("chart"), dict)
+        self.assertTrue(data["chart"], "a real bazi request must not return an empty chart")
+        self.assertIsInstance(data.get("evidence"), dict)
+        self.assertIsInstance(data.get("trace"), list)
+        self.assertTrue(all(set(step) == {"step"} for step in data["trace"]),
+                        "public trace must contain step numbers only")
 
     def test_public_execute_invalid_input_rejected(self):
         r = self.client.post(
@@ -86,8 +96,29 @@ class ApiSmokeTests(unittest.TestCase):
         # Must return 200 with real lookup result (not 422 as success).
         self.assertEqual(r.status_code, 200, r.text[:300])
         data = r.json()
-        # Response must contain lookup results, not be empty.
-        self.assertTrue(data)
+        self.assertEqual(data.get("api_version"), "v1")
+        self.assertIn(data.get("status"), ("reviewed_cultural_matches",
+                                          "no_reviewed_interpretation"))
+        self.assertIs(data.get("public_release"), True)
+        self.assertIs(data.get("cultural_reference_only"), True)
+        self.assertIs(data.get("ai_enabled"), False)
+        self.assertIs(data.get("personal_prediction"), False)
+        self.assertIsInstance(data.get("matches"), list)
+        if data["status"] == "reviewed_cultural_matches":
+            self.assertTrue(data["matches"])
+            self.assertTrue(all(item.get("matched_texts") for item in data["matches"]))
+
+    def test_dream_invalid_request_is_not_a_success(self):
+        # The public endpoint rejects legacy keyword input rather than inventing output.
+        r = self.client.post("/api/v1/dream/culture", json={"keyword": "蛇"})
+        self.assertEqual(r.status_code, 422)
+
+    def test_public_research_execution_is_rejected(self):
+        r = self.client.post(
+            "/api/v1/public/execute",
+            json={"domain": "bazi", "mode": "research",
+                  "input": {"value": "2000-01-07T12:00:00+08:00"}})
+        self.assertEqual(r.status_code, 422)
 
 
 if __name__ == "__main__":

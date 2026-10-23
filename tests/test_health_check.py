@@ -1,8 +1,9 @@
 """TJ-027.2: real loopback HTTP probes for fail-closed deployment health checks."""
 import threading
 import unittest
+from unittest.mock import patch
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from scripts.health_check import check
+from scripts.health_check import check, main
 
 
 class _Handler(BaseHTTPRequestHandler):
@@ -86,6 +87,37 @@ class HealthCheckTests(unittest.TestCase):
             b'<div id="root"></div><script type="module" '
             b'src="https://example.net/app.js"></script>')
         self.assertFalse(self.probe("/", "frontend/home"))
+
+    def test_gateway_capabilities_contract(self):
+        # Exercise the real loopback HTTP client with the gateway label.
+        self.assertTrue(self.probe("/api/v1/capabilities", "gateway/capabilities"))
+        self.server.routes["/api/v1/capabilities"] = (
+            200, "text/html", b"<html>SPA fallback instead of API</html>")
+        self.assertFalse(self.probe("/api/v1/capabilities", "gateway/capabilities"))
+
+    def test_main_rejects_broken_frontend_api_proxy(self):
+        # Direct API works, frontend HTML and JS work, only /api proxy is broken.
+        frontend = ThreadingHTTPServer(("127.0.0.1", 0), _Handler)
+        frontend.routes = {
+            key: value for key, value in self.server.routes.items()
+            if key != "/api/v1/capabilities"
+        }
+        thread = threading.Thread(target=frontend.serve_forever, daemon=True)
+        thread.start()
+        try:
+            frontend_base = "http://127.0.0.1:%d" % frontend.server_port
+            with patch("sys.argv", ["health_check.py", "--api", self.base,
+                                    "--frontend", frontend_base]):
+                self.assertEqual(main(), 1)
+        finally:
+            frontend.shutdown()
+            frontend.server_close()
+            thread.join(timeout=2)
+
+    def test_main_accepts_healthy_frontend_api_proxy(self):
+        with patch("sys.argv", ["health_check.py", "--api", self.base,
+                                "--frontend", self.base]):
+            self.assertEqual(main(), 0)
 
     def test_leak_marker_rejected(self):
         self.server.routes["/health"] = (

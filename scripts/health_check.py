@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """TJ-027.2: deployment readiness probe (API contract + served frontend assets).
 
-This is a smoke check, not a browser end-to-end test or proof of production rollout.
+This is a smoke check of direct API, frontend assets, and public gateway routing;
+it is not a browser end-to-end test or proof of production rollout.
 Usage: python scripts/health_check.py [--api URL] [--frontend URL]
 Exit 0 only if every concrete HTTP response meets its contract.
 """
@@ -77,7 +78,7 @@ def _verify(url, name):
         if name == "api/health":
             if payload.get("status") != "ok" or payload.get("engine") != "ready":
                 raise ValueError("API engine not ready")
-        elif name == "api/capabilities":
+        elif name in ("api/capabilities", "gateway/capabilities"):
             domains = payload.get("domains")
             if not isinstance(domains, list) or not domains:
                 raise ValueError("API capabilities have no domains")
@@ -101,6 +102,9 @@ def main():
         check(args.api.rstrip("/") + "/health", "api/health"),
         check(args.api.rstrip("/") + "/api/v1/capabilities", "api/capabilities"),
         check(args.frontend.rstrip("/") + "/", "frontend/home", expect_json=False),
+        # The public browser calls /api through the frontend gateway; direct API
+        # health alone cannot detect a broken reverse-proxy route.
+        check(args.frontend.rstrip("/") + "/api/v1/capabilities", "gateway/capabilities"),
     ]
     for _, message in checks:
         print(message)
