@@ -152,7 +152,7 @@ Write-Host "restore drill OK"
 
 ```bash
 cd <PUBLIC>
-PUBLIC_SHA="ffb52c5812f8b44c11aef560e2c05f92bb97535d"  # 替换为实际 PR Head
+PUBLIC_SHA="<当前受验PR的最终40位HEAD_SHA>"  # 替换为实际 PR Head
 TRUSTED_SHA="<步骤3记录的64位SHA256>"                    # 替换为实际值
 python3 scripts/accept_offline.py \
   --public-code <PUBLIC> \
@@ -166,7 +166,7 @@ python3 scripts/accept_offline.py \
 
 ```powershell
 cd <PUBLIC>
-$PUBLIC_SHA = "ffb52c5812f8b44c11aef560e2c05f92bb97535d"
+$PUBLIC_SHA = "<当前受验PR的最终40位HEAD_SHA>"
 $TRUSTED_SHA = "<步骤3记录的64位SHA256>"
 python scripts/accept_offline.py `
   --public-code <PUBLIC> `

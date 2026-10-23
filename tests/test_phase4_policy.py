@@ -3,7 +3,7 @@ from pathlib import Path
 from unittest.mock import patch
 from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
 from fastapi.testclient import TestClient
-from phase4_helpers import valid_reply,MechanicalProvider
+from phase4_helpers import valid_reply,MechanicalProvider,clear_ambient_proxy_env
 from tianji_kb.api import create_app,EXAMPLES
 from tianji_kb.engine import execute
 from tianji_kb.explanation import context_for,validate_reply,ExplanationFailure,ExplanationService
@@ -122,6 +122,7 @@ class PolicyTests(unittest.TestCase):
     def test_v2_prompt_hash_is_frozen(self):
         self.assertEqual(get_prompt()['sha256'],'e1bd1a809e8f494d9ff5eeba6723b34c3d59cc67fe1e5b779022f6722696a886')
     def test_real_openai_compatible_http_protocol_uses_v2_system_instruction_all_registered_domains(self):
+        self.addCleanup(clear_ambient_proxy_env())
         calls=[]
         class Handler(BaseHTTPRequestHandler):
             def log_message(self,*args):pass

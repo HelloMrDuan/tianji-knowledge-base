@@ -1,6 +1,21 @@
 """Deliberately mechanical test replies; these are not real model quality evidence."""
+import os
 import copy
 from tianji_kb.explanation_policy import expected_strength
+
+def clear_ambient_proxy_env():
+    """Remove inherited proxy vars only for local HTTP fixture tests.
+
+    Return unittest.addCleanup callback to restore ambient values on exit.
+    """
+    proxy_keys = {'http_proxy', 'https_proxy', 'all_proxy', 'no_proxy'}
+    original = {key: os.environ.pop(key) for key in tuple(os.environ)
+                if key.lower() in proxy_keys}
+
+    def restore():
+        os.environ.update(original)
+
+    return restore
 
 def valid_reply(context):
     reply={k:context[k] for k in ['domain','variant','mode','chart_digest']}

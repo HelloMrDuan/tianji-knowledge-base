@@ -11,7 +11,7 @@ from tianji_kb.rag_context import CanonicalRetriever
 ENV={'TIANJI_AI_PROVIDER':'json-http','TIANJI_AI_BASE_URL':'https://model.example.test/explain',
      'TIANJI_AI_API_KEY':'test-only-key','TIANJI_AI_MODEL':'test-model','TIANJI_AI_TIMEOUT_SECONDS':'2'}
 
-from phase4_helpers import valid_reply
+from phase4_helpers import valid_reply, clear_ambient_proxy_env
 
 class ProviderTests(unittest.TestCase):
     @classmethod
@@ -71,6 +71,7 @@ class ProviderTests(unittest.TestCase):
             self.assertIn('json-http',client.get('/api/v1/capabilities').json()['explanation']['provider_drivers'])
             self.assertTrue(client.get('/health').json()['rag_ready'])
     def test_real_http_adapter_loop_for_all_registered_domains_and_failure_downgrade(self):
+        self.addCleanup(clear_ambient_proxy_env())
         import threading
         from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
         calls=[];fail=[False]
