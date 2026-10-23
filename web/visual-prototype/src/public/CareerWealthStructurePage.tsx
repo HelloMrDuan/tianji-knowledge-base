@@ -41,6 +41,7 @@ export function CareerWealthStructurePage() {
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [view, setView] = useState<"career" | "wealth">("career"); // TJ-023.2: dual view, same underlying run
   const requestVersion = useRef(0);
 
   useEffect(() => () => { requestVersion.current += 1; }, []);
@@ -212,6 +213,12 @@ export function CareerWealthStructurePage() {
                 <strong> {flowYear.stem_ten_god || "—"} </strong>
                 · 归入 {flowYear.structure_group_label || "—"} 结构。
               </p>
+              <p className="career-view-note">
+                {view === "career"
+                  ? "事业视角：优先展示官杀（事业格局）、印星（资源助力）、食伤（才华输出）的真实位置。"
+                  : "财运视角：优先展示财星（财富结构）、比劫（竞争合作）的真实位置。"}
+                同一份计算结果，不因视角产生矛盾结论。
+              </p>
             </div>
             <span className="career-limited">结构内测</span>
           </header>
@@ -238,8 +245,30 @@ export function CareerWealthStructurePage() {
             </section>
           )}
 
+          <div className="career-view-toggle" role="tablist" aria-label="事业/财运视图切换">
+            <button
+              role="tab"
+              aria-selected={view === "career"}
+              className={view === "career" ? "active" : ""}
+              onClick={() => setView("career")}
+            >
+              事业视角
+            </button>
+            <button
+              role="tab"
+              aria-selected={view === "wealth"}
+              className={view === "wealth" ? "active" : ""}
+              onClick={() => setView("wealth")}
+            >
+              财运视角
+            </button>
+            <small>同一底层计算结果，仅切换呈现重点，不生成两份事实</small>
+          </div>
           <div className="career-groups">
-            {groupOrder.map((groupId) => {
+            {(view === "career"
+              ? ["authority", "resource", "output", "wealth", "peers"]
+              : ["wealth", "peers", "output", "authority", "resource"]
+            ).map((groupId) => {
               const group = groups[groupId] || {};
               const insight = cards.find((item) => item.group_id === groupId);
               const occurrences = Array.isArray(group.occurrences) ? group.occurrences : [];
