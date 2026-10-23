@@ -75,10 +75,10 @@
 | TJ-021.1 | M4 | 古风书卷页的命中分组与短引 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-021.2 | M4 | 不匹配/服务失败/禁用 AI 的用户友好空态 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-021.3 | M4 | 真实浏览器语义与文字可读性 | 待做 | — | — | 按 WBS 验收条件执行 |
-| TJ-022.1 | M5 | 桃花两套咸池与原局关系证据独立 | 已提交PR | [公开 #309](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/309) | 2026-10-23 | 待 CI 验证 |
+| TJ-022.1 | M5 | 桃花两套咸池与原局关系证据独立 | 待做 | [公开 #309](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/309) | 2026-10-23 | 待 CI 验证 |
 | TJ-022.2 | M5 | 经审配偶宫/星与年运条件 | 阻塞 | — | — | 等待证据/前置依赖 |
-| TJ-022.3 | M5 | 桃花场景结果书卷化 | 已提交PR | [公开 #309](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/309) | 2026-10-23 | 待 CI 验证 |
-| TJ-023.1 | M5 | 财官食印比劫位置/事件条件聚合 | 已提交PR | [公开 #309](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/309) | 2026-10-23 | 待 CI 验证 |
+| TJ-022.3 | M5 | 桃花场景结果书卷化 | 待做 | [公开 #309](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/309) | 2026-10-23 | 待 CI 验证 |
+| TJ-023.1 | M5 | 财官食印比劫位置/事件条件聚合 | 待做 | [公开 #309](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/309) | 2026-10-23 | 待 CI 验证 |
 | TJ-023.2 | M5 | “事业”与“财运”两个可见视图 | 已提交PR | [公开 #309](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/309) | 2026-10-23 | 待 CI 验证 |
 | TJ-023.3 | M5 | 已审大运与流年合用（以后置为准） | 阻塞 | — | — | 等待证据/前置依赖 |
 | TJ-024.1 | M5 | 双人 A/B 双向关系矩阵及证据 | 待做 | — | — | 按 WBS 验收条件执行 |
