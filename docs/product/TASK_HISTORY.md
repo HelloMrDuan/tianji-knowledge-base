@@ -139,19 +139,4 @@
 5. GitHub PR 必须运行 `python scripts/check_task_tracking.py --base <base-commit>`，确认本次恰好一个任务、一个新事件。PR 合并成功后再以**同一任务**单独做关账更新，补齐实际 main SHA。
 
 **验收警戒线**：WBS 全部子任务数量 ≠ 已完成功能数量；公开 PR 合并 ≠ 私有 Canonical 完成；静态截图 ≠ 人工视觉还原；推送成功 ≠ 生产部署完成。
-
-### E0087 [B005] TJ-022.1/TJ-022.3 桃花（已具备，不重复建设）
-- 状态：已提交PR
-- PR：[公开 #309](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/309)
-- 核查：后端 basis_policy=year_and_day_reported_separately，前端已分别展示年支/日支咸池
-
-### E0088 [B005] TJ-023.1 十神聚合（已具备，不重复建设）
-- 状态：已提交PR
-- PR：[公开 #309](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/309)
-- 核查：后端返回5结构组（财/官/食伤/印/比劫），前端已展示真实位置
-
-### E0089 [B005] TJ-023.2 事业财运双视图
-- 状态：已提交PR
-- PR：[公开 #309](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/309)
-- 内容：新增事业/财运视角切换，同一计算结果不重请求，来源保留
-- 测试：真实浏览器 E2E 通过（切换无新增请求）
+| E0097 | 2026-10-23 | TJ-023.2 | 已提交PR | [B005] 事业财运双视图：同一计算结果，事业/财运视角切换不重请求，来源保留；TJ-022.1/022.3/023.1 为既有实现核查（见PR说明），不记为新功能 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/309 |  |  |
