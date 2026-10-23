@@ -1,9 +1,16 @@
 #!/usr/bin/env python3
-"""One atomic task per PR, append-only evidence and WBS/status parity.
+"""Atomic task tracking gate: single-task PRs and batch PRs, append-only evidence.
 
 Usage:
   python scripts/check_task_tracking.py
   python scripts/check_task_tracking.py --base <git-base-sha>
+
+Batch mode:
+  A batch (e.g. [B001]) groups 2-6 related atomic tasks in ONE PR. Every
+  task keeps its own status row, its own history event, and its own
+  acceptance evidence. History stays append-only; completed tasks still
+  require real PR / full-SHA / CI links. A batch may mix completed,
+  in-progress and blocked tasks -- a whole batch can never fake-pass.
 
 No network or access to private knowledge is necessary. GitHub merge/CI
 truth still requires the reviewer to verify the referenced URLs.
@@ -23,6 +30,9 @@ HISTORY = "docs/product/TASK_HISTORY.md"
 VALID = {"待做", "进行中", "已提交PR", "CI待验", "阻塞", "已合并", "已部署验收"}
 DONE = {"已合并", "已部署验收"}
 TASK = re.compile(r"^TJ-\d{3}\.\d+(?:\.\d+)?$")
+BATCH = re.compile(r"\[B\d{3}\]")
+BATCH_MIN_TASKS = 2  # 2-task batches are transition/closeout batches
+BATCH_MAX_TASKS = 6
 SHA = re.compile(r"\b[a-f0-9]{40}\b")
 PR = re.compile(r"https://github\.com/HelloMrDuan/tianji-(?:knowledge-base|private-knowledge)/pull/\d+")
 CI = re.compile(r"https://github\.com/HelloMrDuan/tianji-(?:knowledge-base|private-knowledge)/(?:actions/runs/\d+|pull/\d+/checks)")
@@ -135,6 +145,67 @@ def validate(wbs: str, status: str, history: str) -> tuple[dict[str, list[str]],
     return tracked, events
 
 
+def batch_of(event: list[str]) -> str | None:
+    """Batch marker like [B001] parsed from the event outcome column."""
+    match = BATCH.search(event[4])
+    return match.group(0) if match else None
+
+
+def check_delta(
+    prior: dict[str, list[str]],
+    old_events: list[list[str]],
+    now: dict[str, list[str]],
+    events: list[list[str]],
+) -> str:
+    """Pure PR-delta gate: legacy single-task rule or batch rule.
+
+    Returns a short description of the accepted change.
+    """
+    altered = {k for k in set(prior) | set(now) if prior.get(k) != now.get(k)}
+    # History is append-only: correcting a historical claim is a new event.
+    if events[:len(old_events)] != old_events:
+        raise Invalid("history is append-only: existing events changed or were reordered")
+    new_events = events[len(old_events):]
+    if not new_events:
+        raise Invalid("each PR must append at least one task-history event")
+    markers = [batch_of(e) for e in new_events]
+    if all(m is None for m in markers):
+        # Legacy single-task PR.
+        if len(altered) != 1:
+            raise Invalid(f"each PR must update exactly one task status row; got {sorted(altered)}")
+        if len(new_events) != 1:
+            raise Invalid("each PR must append exactly one task-history event")
+        task_id = next(iter(altered))
+        if new_events[0][2] != task_id or new_events[0][3] != now[task_id][3]:
+            raise Invalid("new event ID/status must match the one changed task row")
+        return task_id
+    # Batch PR: every new event carries the same batch marker.
+    if any(m is None for m in markers):
+        raise Invalid("batch PR: every new event must carry the batch marker")
+    batch = markers[0]
+    if any(m != batch for m in markers):
+        raise Invalid(f"batch PR: new events use different batch IDs: {sorted(set(markers))}")
+    if any(batch_of(e) == batch for e in old_events):
+        raise Invalid(f"batch ID {batch} was already used by an earlier event")
+    task_ids = [e[2] for e in new_events]
+    if len(set(task_ids)) != len(task_ids):
+        raise Invalid(f"batch {batch}: duplicate task in batch events")
+    if not (BATCH_MIN_TASKS <= len(task_ids) <= BATCH_MAX_TASKS):
+        raise Invalid(
+            f"batch {batch}: must contain {BATCH_MIN_TASKS}-{BATCH_MAX_TASKS} tasks, "
+            f"got {len(task_ids)}")
+    if set(task_ids) != altered:
+        raise Invalid(
+            f"batch {batch}: changed status rows {sorted(altered)} must equal "
+            f"batch event tasks {sorted(set(task_ids))}")
+    for event in new_events:
+        if event[3] != now[event[2]][3]:
+            raise Invalid(
+                f"batch {batch}: event {event[0]} status must match "
+                f"the changed row of {event[2]}")
+    return f"{batch}: {', '.join(sorted(set(task_ids)))}"
+
+
 def show(base: str, rel: str) -> str | None:
     result = subprocess.run(
         ["git", "show", f"{base}:{rel}"],
@@ -153,7 +224,7 @@ def validate_pr_delta(
     after_status: str,
     after_history: str,
 ) -> str:
-    """Check one changed task and one newly appended event per normal PR.
+    """Check changed task(s) and newly appended event(s) per PR.
 
     The first-ever registry bootstrap is special-cased exactly once.
     """
@@ -172,23 +243,12 @@ def validate_pr_delta(
         before_status, before_history,
     )
     now, events = validate(read(WBS), after_status, after_history)
-    altered = {k for k in set(prior) | set(now) if prior.get(k) != now.get(k)}
-    if len(altered) != 1:
-        raise Invalid(f"each PR must update exactly one task status row; got {sorted(altered)}")
-    # Preserve the exact old rows: correcting a historical claim is a new event.
-    if events[:len(old_events)] != old_events:
-        raise Invalid("history is append-only: existing events changed or were reordered")
-    if len(events) != len(old_events) + 1:
-        raise Invalid("each PR must append exactly one task-history event")
-    task_id = next(iter(altered))
-    if events[-1][2] != task_id or events[-1][3] != now[task_id][3]:
-        raise Invalid("new event ID/status must match the one changed task row")
-    return task_id
+    return check_delta(prior, old_events, now, events)
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--base", help="Git commit to compare against for one-task PR gate")
+    parser.add_argument("--base", help="Git commit to compare against for PR gate")
     args = parser.parse_args()
     try:
         status = read(STATUS)
@@ -201,7 +261,7 @@ def main() -> int:
             )
         completed = sum(1 for x in tasks.values() if x[3] in DONE)
         print(f"PASS task tracking: {len(tasks)} atomic tasks, {completed} completed, "
-              f"{len(events)} events; one-task PR={selected or 'not requested'}")
+              f"{len(events)} events; PR change={selected or 'not requested'}")
     except (Invalid, OSError) as error:
         print(f"FAIL task tracking: {error}", file=sys.stderr)
         return 1

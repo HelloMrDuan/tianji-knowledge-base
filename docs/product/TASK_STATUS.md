@@ -1,9 +1,9 @@
 # 天机平台｜逐任务状态登记表
 
 > **唯一状态源**，对应[详细 WBS](DETAILED_DELIVERY_BACKLOG_V1.md)与[执行制度](TASK_EXECUTION_RULES.md)。任务详细范围和独立验收标准不在本表重复，以 WBS 原行与 PR 的真实测试为准。  
-> 初始建立：2026-10-11，**92 项原子子任务**。历史已合并项基于真实 PR 回填；所有未完成项不得擅自提升状态。  
+> 初始建立：2026-10-11，**93 项原子子任务**。历史已合并项基于真实 PR 回填；所有未完成项不得擅自提升状态。  
 > 状态日志：[TASK_HISTORY.md](TASK_HISTORY.md)；父级阶段汇总：[EXECUTION_LEDGER.md](EXECUTION_LEDGER.md)。  
-> 每次只修改**一个任务 ID**的状态/证据并新增一条对应历史事件（首次基线建表例外）。任务名称与 WBS 一致，不允许同 ID 多次定义。
+> 每次修改**一批次（2–6 个）任务 ID**的状态/证据并新增对应历史事件（批次见 TASK_EXECUTION_RULES.md §7）事件（首次基线建表例外）。任务名称与 WBS 一致，不允许同 ID 多次定义。
 
 | 任务 ID | 阶段 | 原子任务及交付 | 当前状态 | PR/证明或进展 | 最近更新 | 下一动作 |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -11,6 +11,8 @@
 | TJ-001.2 | M0 | 按页输出交互/输入/结果/证据/异常状态规格 | 已合并 | [公开 #221](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/221) · `07165cc` | 2026-10-11 | 已合并；父任务继续 |
 | TJ-001.3 | M0 | 首页 README、执行台账与规范互联 | 已合并 | [公开 #221](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/221) · `07165cc` | 2026-10-11 | 已合并；父任务继续 |
 | TJ-001.4 | M0 | 一任务一闭环：建立 92 个原子子任务的状态登记、不可改写完成日志与 PR 门禁 | 已合并 | [公开 #228](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/228) · `6a22f29f2ec2e0b3a2bd9689c0dd9df5fd3d883d` · [4 项检查通过](https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/38101246241) | 2026-10-11 | 本任务结账；下一任务按状态表独立认领 TJ-004.3 |
+| TJ-001.5 | M0 | 批次开发门禁：多任务一批次的状态登记、事件追加与 PR 门禁 | 已提交PR | [公开 #303](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/303) | 2026-10-22 | 已提交过渡 PR（含 E0084 关账）；待合并验收 |
+| TJ-001.6 | M0 | 离线受控验收工具：不依赖私有 Actions 的知识验收 | 进行中 | [公开 #306](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/306) | 2026-10-22 | 工具已提交 PR；待公开 CI 全绿与可信机器实测 |
 | TJ-002.1 | M0 | 核对私有 #50 两条完整组合回归 | 已合并 | [私有 #50](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/50) · `e0f9505` | 2026-10-11 | 已合并；父任务继续 |
 | TJ-002.2 | M0 | 合并 #50，核对私有 main、补回执 | 已合并 | [私有 #50](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/50) · `e0f9505` | 2026-10-11 | 已合并；父任务继续 |
 | TJ-003.1 | M0 | 分区盘点公开 HEAD/历史中的内容、许可证、原文派生文件 | 待做 | — | — | 按 WBS 验收条件执行 |
@@ -54,9 +56,9 @@
 | TJ-014.1 | M3 | 顺/逆 原典规则与不同流派矩阵 | 已合并 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/284 | 2026-10-20 | 审核关账：方向规则为B类现代还原候选（未晋级）；私有验收run 39404769765同SHA通过 |
 | TJ-014.2 | M3 | 与已有月柱候选序列做事实追踪 | 已合并 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/288 | 2026-10-21 | 终审整改三项P0+AttributeError修复已合并；50项链测试私有验收通过；关账 |
 | TJ-015.1 | M3 | 固定 12 节历法提供方真实性重放 | 已合并 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/290 | 2026-10-21 | 十二节重放+提供方身份校验已合并；694项私有验收通过；关账 |
-| TJ-015.2 | M3 | 历史时区、闰年、跨世纪和独立历法精度核查 | 已合并 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/292 | 2026-10-21 | 精度审核模块+24项测试已合并；私有全量验收通过；关账 |
-| TJ-016.1 | M3 | 三日一年／余日／余时的不同版本整理 | 待做 | — | — | 按 WBS 验收条件执行 |
-| TJ-016.2 | M3 | 起运当秒、虚岁/实岁等最困难反例 | 阻塞 | — | — | 等待证据/前置依赖 |
+| TJ-015.2 | M3 | 历史时区、闰年、跨世纪和独立历法精度核查 | 已合并 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/298 | 2026-10-22 | provider重放门禁已合并；63项测试+私有全量验收通过；关账 |
+| TJ-016.1 | M3 | 三日一年／余日／余时的不同版本整理 | 已合并 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/300 · `ae10335f766e830cd8efcc7cf6afc6ede2c12b85` | 2026-10-22 | 终审通过已合并；私有验收通过；关账 |
+| TJ-016.2 | M3 | 起运当秒、虚岁/实岁等最困难反例 | 已合并 | [公开 #302](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/302) · `13e1c063f67cafb6fae40e2e0fe683bb3a09b680` · [私有验收 run 39732347250](https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/39732347250) | 2026-10-22 | 已关账（E0084）；反例专项 50/50；全量 843/843 |
 | TJ-016.3 | M3 | 研究模拟与正式运期的硬边界 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-017.1 | M3 | 有出处的运期锚点计算/区间规则 | 阻塞 | — | — | 等待证据/前置依赖 |
 | TJ-017.2 | M3 | 原局＋大运＋流年跨规则调用 | 阻塞 | — | — | 等待证据/前置依赖 |
@@ -89,7 +91,7 @@
 | TJ-026.2 | M6 | Scenario 管理与梦研究管理 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-026.3 | M6 | 真实只读模块逐页接受控接口 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-026.4 | M6 | 角色权限、草稿审批、回滚和审计 | 待做 | — | — | 按 WBS 验收条件执行 |
-| TJ-027.1 | M6 | 部署私有后端与静态前端 | 待做 | — | — | 按 WBS 验收条件执行 |
+| TJ-027.1 | M6 | 部署私有后端与静态前端 | 已提交PR | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/308 | 2026-10-23 | 提交公开 Web GHCR 流水线和新机唤醒接线；私有密封验收与真实自动部署仍未通过，禁止标已部署 |
 | TJ-027.2 | M6 | 可观测性与回滚 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-028.1 | M6 | 真模型访问与权限 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-028.2 | M6 | 领域级真实模型评测 | 阻塞 | — | — | 等待证据/前置依赖 |
