@@ -37,7 +37,7 @@ concurrency:
 
 jobs:
   test:
-    name: Validate (engine + frontend, mirrors Validate Public Frontend)
+    name: Validate public frontend and distribution boundary
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -46,20 +46,10 @@ jobs:
         with:
           python-version: "3.12"
 
-      # Engine install exactly as the private sealed-release workflow
-      # installs the public code: pip install -e ".[validation,calendar,api]"
-      - name: Install public engine (validation, calendar, api extras)
-        run: python -m pip install -e ".[validation,calendar,api]"
-
-      # The public repo's documented runtime build (repo README /
-      # deployment spec): proves the engine assembles a production
-      # runtime from this commit before anything is packaged.
-      - name: Build production runtime (engine self-check)
-        run: PYTHONPATH=src python scripts/build_production_runtime.py
-
-      # TODO: the reference workflows for this repo contain no pytest /
-      # unittest invocation, so none is invented here. When the repo
-      # documents a unit-test entry point, add it in this job.
+      # A complete production runtime needs private audited Canonical data
+      # and can only be validated in the private sealed acceptance workflow.
+      # Public CI must not attempt to manufacture or bypass that data gate.
+      # Use the existing public frontend validation contract below.
 
       - uses: actions/setup-node@v4
         with:
