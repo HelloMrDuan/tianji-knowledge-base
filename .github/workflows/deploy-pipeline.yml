@@ -9,10 +9,10 @@
 #   - Push events additionally build the public WEB image and push it to
 #     GHCR under an immutable per-SHA tag plus a per-branch channel tag.
 #   - The sealed API image is NEVER built or pushed here: it contains
-#     reviewed private knowledge and is produced only by the private
-#     repo's acceptance pipeline (deploy-acceptance.yml), which gates
-#     deployment by tagging accepted-<public sha>. A web image existing
-#     in GHCR is NOT a deploy permission; no tag = no deploy.
+#     reviewed private knowledge. Acceptance must run offline on a
+#     trusted machine using the existing real acceptance gate.
+#     A web image existing in GHCR is NOT a deploy permission.
+#     Do not depend on private-repository GitHub Actions or auto-tagging.
 #   - This workflow uses no deployment secrets. The only credential is
 #     the workflow's own GITHUB_TOKEN, granted packages:write on the
 #     build job only, and that job runs on push events of THIS repo
@@ -121,11 +121,10 @@ jobs:
             ghcr.io/hellomrduan/tianji-web:${{ steps.channel.outputs.tag }}
 
   # Deployment handoff: this image alone never deploys Tianji. The
-  # private repo's deploy-acceptance workflow must first verify the
-  # sealed bundle for this exact SHA and push the accepted-<sha> tag;
-  # only then does the on-machine deploy agent pull this web image,
-  # build the sealed API image locally, health-gate and roll back on
-  # failure. This job performs the OFFICIAL wake-up only: a visit to a
+  # trusted-machine offline acceptance must verify the exact public SHA
+  # and private snapshot before the on-machine deploy agent can deploy.
+  # The agent must fail-closed unless its offline acceptance evidence is
+  # valid and current; keep SHA/PIN checks, health gates and rollback. This job performs the OFFICIAL wake-up only: a visit to a
   # published port URL resumes an idle-paused machine. It never fails
   # the pipeline (the public gateway has a small connection budget; a
   # 429 here does not mean the deploy failed).
@@ -145,4 +144,4 @@ jobs:
             [ "$code" = "200" ] && break
             sleep 20
           done
-          echo "Tianji deploy proceeds only after private acceptance tags accepted-${{ github.sha }}."
+          echo "Image publication is not deployment. Trusted-machine offline sealed acceptance is required before release of public SHA ${{ github.sha }}."
