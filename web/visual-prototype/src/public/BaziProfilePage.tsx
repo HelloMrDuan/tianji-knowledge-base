@@ -34,6 +34,7 @@ export function BaziProfilePage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const requestVersion = useRef(0);
+  const submittingRef = useRef(false); // guards the setLoading(true) render-timing race
 
   useEffect(() => () => { requestVersion.current += 1; }, []);
 
@@ -66,6 +67,7 @@ export function BaziProfilePage() {
 
   async function submit(event: FormEvent) {
     event.preventDefault();
+    if (submittingRef.current) return; // second click while a request is in-flight
     const v = validateBirthInput(profile);
     if (!v.ok) {
       setInputError(v.ok === false ? v.message : "");
@@ -73,6 +75,7 @@ export function BaziProfilePage() {
     }
     setInputError("");
     const version = ++requestVersion.current;
+    submittingRef.current = true;
     setLoading(true);
     setError("");
     setResult(null);
@@ -85,6 +88,7 @@ export function BaziProfilePage() {
       if (version === requestVersion.current)
         setError(err instanceof Error ? err.message : "八字计算失败，请检查后端服务。");
     } finally {
+      submittingRef.current = false;
       if (version === requestVersion.current) setLoading(false);
     }
   }
