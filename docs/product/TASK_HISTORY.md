@@ -130,9 +130,8 @@
 | E0084 | 2026-10-22 | TJ-016.2 | 已合并 | [B001] 正式关账：公开 PR #302 合并 13e1c063f67cafb6fae40e2e0fe683bb3a09b680（最终 Head 22229c63feebf26b76eee7d3081dc3ff24002f13，公开 CI 9/9）；私有 PR #76 合并 708f5f23f406b209cd04ef62183f2b9c8ad37dae（绑定公开精确 Head）；私有验收 run 39732347250 SUCCESS（--suite all，0 FAIL/ERROR/SKIP）；全量 Python 843/843；反例专项 50/50；Phase4 冻结通过；235 份私有知识校验通过；research_only=true, public_enabled=false, ai_enabled=false；未发布正式起运年龄/交运日期；E0001～E0083 原文保留 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/302 | 13e1c063f67cafb6fae40e2e0fe683bb3a09b680 | https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/39732347250 |
 | E0085 | 2026-10-22 | TJ-001.5 | 已提交PR | [B001] 领取批次开发门禁升级并提交：check_task_tracking.py 支持 Batch-ID（2–6 任务/批次），批次事件须同批次 ID、独立任务、独立证据，历史 append-only，批次 ID 不复用；新增 tests/test_task_tracking_gate.py 12 项真实测试（单任务正例/负例、批次正例、超量/混批/遗漏事件/非法任务/历史篡改/批次复用/假完成负例）；过渡 PR 使用升级后门禁自验；待合并验收 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/303 |  |  |
 | E0086 | 2026-10-22 | TJ-001.6 | 进行中 | 领取离线受控验收工具迁移：重写 scripts/accept_offline.py（复用公开 private_data_snapshot/assemble_private_backend，不依赖私有仓库脚本或私有 Actions）；新增 tests/test_offline_acceptance.py 8 项快照校验负例；新增 docs/product/TRUSTED_MACHINE_COMMANDS.md；未修改算法/API/前端/私有仓库；工具就绪，正式切换待可信机器实测 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/306 |  |  |
-| E0090 | 2026-10-22 | TJ-005.2 | 进行中 | [B003] 领取前端/API/鉴权/错误态冒烟准备：新增 tests/test_smoke_api.py 8项真实测试（health/capabilities/公开执行bazi/无效输入拒绝/未知域拒绝/admin无token拒绝/错误token拒绝/解梦查询）；独立分支 batch-b003-product 从已合并 main 创建；不依赖 B002 合并结果 | — | — | — |
-| E0091 | 2026-10-22 | TJ-027.1 | 进行中 | [B003] 领取受控内测部署流程准备：独立分支开发中；待 B002 部署文件合并后集成 | — | — | — |
-| E0092 | 2026-10-22 | TJ-027.2 | 进行中 | [B003] 领取部署健康检测/监控与回滚：新增 scripts/health_check.py（API/前端健康探针，泄漏标记检查）；独立分支开发中 | — | — | — |
+| E0087 | 2026-10-23 | TJ-027.1 | 已提交PR | 领取真实部署链路：公开 GHCR Web 构建工作流 + 迁移后 tj-core-01 唤醒地址已提交至 PR #308；公版 CI 构建已有 success 记录，私仓 accepted 标签与机器端自动部署仍阻塞，绝不宣称已发布 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/308 |  |  |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
@@ -142,3 +141,6 @@
 5. GitHub PR 必须运行 `python scripts/check_task_tracking.py --base <base-commit>`，确认本次恰好一个任务、一个新事件。PR 合并成功后再以**同一任务**单独做关账更新，补齐实际 main SHA。
 
 **验收警戒线**：WBS 全部子任务数量 ≠ 已完成功能数量；公开 PR 合并 ≠ 私有 Canonical 完成；静态截图 ≠ 人工视觉还原；推送成功 ≠ 生产部署完成。
+| E0088 | 2026-10-22 | TJ-005.2 | 进行中 | [B003] 领取前端/API/鉴权/错误态冒烟准备：新增 tests/test_smoke_api.py 8项真实测试（health/capabilities/公开执行bazi/无效输入拒绝/未知域拒绝/admin无token拒绝/错误token拒绝/解梦查询）；独立分支 batch-b003-product 从已合并 main 创建；不依赖 B002 合并结果 | — | — | — |
+| E0089 | 2026-10-22 | TJ-027.1 | 进行中 | [B003] 领取受控内测部署流程准备：独立分支开发中；待 B002 部署文件合并后集成 | — | — | — |
+| E0090 | 2026-10-22 | TJ-027.2 | 进行中 | [B003] 领取部署健康检测/监控与回滚：新增 scripts/health_check.py（API/前端健康探针，泄漏标记检查）；独立分支开发中 | — | — | — |
