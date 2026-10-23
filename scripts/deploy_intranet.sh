@@ -21,6 +21,39 @@ mkdir -p "$PIDDIR"
 # acceptance only. Real intranet access requires a separately provided
 # reachable address plus access-control evidence; this script never claims it.
 
+# Port owner: which PID is listening on 127.0.0.1:$1 (empty if free)
+port_owner() {
+  ss -tlnp 2>/dev/null | grep -E "127.0.0.1:$1\b" | grep -oP 'pid=\K[0-9]+' | head -1
+}
+
+# Abort if the port is occupied by a process we do not own.
+require_port_free() { # $1=port $2=name
+  local owner
+  owner="$(port_owner "$1")"
+  if [ -n "$owner" ]; then
+    echo "[deploy] ERROR: port $1 ($2) already occupied by pid $owner (not owned by this deployment); refusing to start"
+    return 1
+  fi
+  return 0
+}
+
+# Verify the recorded PID is actually listening on the expected port.
+verify_listening() { # $1=pidfile $2=port $3=name
+  local pid owner tries
+  pid="$(cat "$1" 2>/dev/null || echo "")"
+  [ -n "$pid" ] || { echo "[deploy] ERROR: $3 pid file missing"; return 1; }
+  for tries in 1 2 3 4 5; do
+    owner="$(port_owner "$2")"
+    if [ "$owner" = "$pid" ]; then
+      echo "[deploy] $3 pid $pid confirmed listening on :$2"
+      return 0
+    fi
+    sleep 2
+  done
+  echo "[deploy] ERROR: $3 pid $pid is NOT listening on :$2 (owner: ${owner:-none}); refusing to claim success"
+  return 1
+}
+
 # Kill only PIDs we own: verify the process cmdline matches our service tag.
 pid_owned() { # $1=pidfile $2=tag
   local pid tag cmdline
@@ -34,25 +67,30 @@ pid_owned() { # $1=pidfile $2=tag
 start_api() {
   echo "[deploy] starting API on :$API_PORT (backend: $BACKEND_DIR)"
   [ -d "$BACKEND_DIR/src" ] || { echo "[deploy] ERROR: backend not found at $BACKEND_DIR"; exit 1; }
+  require_port_free "$API_PORT" "api" || exit 1
   cd "$BACKEND_DIR"
   PYTHONPATH="$BACKEND_DIR/src:${PYTHONPATH:-}" nohup python3 -m uvicorn tianji_kb.api:app \
     --host 127.0.0.1 --port "$API_PORT" > "$PIDDIR/api.log" 2>&1 &
-  echo $! > "$PIDDIR/api.pid"
+  apid=$!
+  echo "$apid" > "$PIDDIR/api.pid"
   echo "uvicorn tianji_kb.api:app" > "$PIDDIR/api.tag"
+  verify_listening "$PIDDIR/api.pid" "$API_PORT" "api" || { do_stop; exit 1; }
 }
 start_web() {
   echo "[deploy] building frontend"
   cd "$ROOT/web/visual-prototype"
-  # Keep the previous build so `rollback` can restore a real previous version.
-  if [ -d dist ] && [ ! -e "$PIDDIR/dist.prev" ]; then
-    mv dist "$PIDDIR/dist.prev"
-    echo "[deploy] previous build saved to $PIDDIR/dist.prev"
-  elif [ -d dist ]; then
-    rm -rf "$PIDDIR/dist.prev"
-    mv dist "$PIDDIR/dist.prev"
-    echo "[deploy] previous build saved to $PIDDIR/dist.prev"
+  # Snapshot protection: never overwrite the last available version.
+  # Keep timestamped snapshots; `rollback` always uses the newest one.
+  if [ -d dist ]; then
+    snap="$PIDDIR/dist.prev.$(date +%Y%m%d%H%M%S)"
+    mv dist "$snap"
+    echo "[deploy] previous build snapshotted to $snap"
+    # Record SHA256 of the snapshot for rollback verification.
+    ( cd "$snap" && find . -type f | sort | xargs sha256sum > "$snap.SHA256" )
+    echo "[deploy] snapshot SHA256 recorded"
   fi
-  npm run build > "$PIDDIR/build.log" 2>&1 || { echo "[deploy] ERROR: frontend build failed"; tail -20 "$PIDDIR/build.log"; exit 1; }
+  require_port_free "$WEB_PORT" "gateway" || { do_stop; exit 1; }
+  npm run build > "$PIDDIR/build.log" 2>&1 || { echo "[deploy] ERROR: frontend build failed"; tail -20 "$PIDDIR/build.log"; do_stop; exit 1; }
   echo "[deploy] starting static+gateway on :$WEB_PORT"
   cat > "$PIDDIR/gateway.py" << PYEOF
 import http.server, os, urllib.request, urllib.error
@@ -92,8 +130,12 @@ class H(http.server.SimpleHTTPRequestHandler):
 http.server.ThreadingHTTPServer(("127.0.0.1", $WEB_PORT), H).serve_forever()
 PYEOF
   nohup python3 "$PIDDIR/gateway.py" > "$PIDDIR/web.log" 2>&1 &
-  echo $! > "$PIDDIR/web.pid"
+  sleep 2
+  wpid="$(resolve_pid "tianji-intranet/gateway.py")"
+  [ -n "$wpid" ] || { echo "[deploy] ERROR: gateway did not start"; do_stop; exit 1; }
+  echo "$wpid" > "$PIDDIR/web.pid"
   echo "tianji-intranet/gateway.py" > "$PIDDIR/web.tag"
+  verify_listening "$PIDDIR/web.pid" "$WEB_PORT" "gateway" || { do_stop; exit 1; }
 }
 do_health() {
   echo "[deploy] health check"
@@ -118,20 +160,39 @@ do_stop() {
   echo "[deploy] stopped"
 }
 do_rollback() {
-  # Restores the previous frontend build and restarts the gateway, then
-  # verifies with a health check. Only after this passes may rollback be claimed.
-  [ -d "$PIDDIR/dist.prev" ] || { echo "[deploy] ERROR: no previous build to roll back to"; exit 1; }
-  echo "[deploy] rolling back to previous build (frontend only; API untouched)"
+  # FRONTEND-ONLY rollback: restores the newest snapshot, restarts the gateway,
+  # then verifies (a) restored files match the snapshot SHA256 and (b) the
+  # actually-served page matches. The backend API is untouched and NOT rolled back.
+  snap=""
+  for c in $(ls -dt "$PIDDIR"/dist.prev.* 2>/dev/null); do
+    case "$c" in *.SHA256) continue;; *) [ -d "$c" ] && { snap="$c"; break; };; esac
+  done
+  [ -n "$snap" ] || { echo "[deploy] ERROR: no previous build snapshot to roll back to"; exit 1; }
+  echo "[deploy] rolling back FRONTEND ONLY to snapshot $snap (API untouched)"
+  [ -f "$snap.SHA256" ] && expected_sha="$(sha256sum "$snap.SHA256" | cut -d' ' -f1)" || expected_sha=""
   # Stop only the gateway, keep the API running.
   tag="$(cat "$PIDDIR/web.tag" 2>/dev/null || echo "tianji-intranet/gateway.py")"
   if pid_owned "$PIDDIR/web.pid" "$tag"; then kill "$(cat "$PIDDIR/web.pid")" 2>/dev/null || true; fi
   rm -f "$PIDDIR/web.pid" "$PIDDIR/web.tag"
   rm -rf "$ROOT/web/visual-prototype/dist"
   mkdir -p "$ROOT/web/visual-prototype/dist"
-  cp -r "$PIDDIR/dist.prev/." "$ROOT/web/visual-prototype/dist/"
+  cp -r "$snap/." "$ROOT/web/visual-prototype/dist/"
   start_web_nobuild
   sleep 3
-  do_health && echo "[deploy] rollback verified: previous version serving"
+  # (a) verify restored files match the snapshot
+  if [ -n "$expected_sha" ]; then
+    actual_sha="$(cd "$ROOT/web/visual-prototype/dist" && find . -type f | sort | xargs sha256sum | sha256sum | cut -d' ' -f1)"
+    # recompute snapshot sha the same way for comparison
+    snap_sha="$(cd "$snap" && find . -type f ! -name SHA256 | sort | xargs sha256sum | sha256sum | cut -d' ' -f1)"
+    [ "$actual_sha" = "$snap_sha" ] || { echo "[deploy] ERROR: restored files do NOT match snapshot ($actual_sha != $snap_sha)"; exit 1; }
+    echo "[deploy] restored files match snapshot SHA256"
+  fi
+  # (b) verify the actually-served page matches the restored build
+  served="$(curl -s -m 10 "http://127.0.0.1:$WEB_PORT/")"
+  restored_index="$(cat "$ROOT/web/visual-prototype/dist/index.html")"
+  [ "$served" = "$restored_index" ] || { echo "[deploy] ERROR: served page does not match restored build"; exit 1; }
+  echo "[deploy] served page matches restored build"
+  do_health && echo "[deploy] FRONTEND rollback verified: previous version serving (backend not rolled back)"
 }
 resolve_pid() { # $1=pattern -> prints PID or empty
   for p in /proc/[0-9]*; do
