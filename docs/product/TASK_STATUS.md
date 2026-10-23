@@ -23,7 +23,7 @@
 | TJ-004.3 | M0 | 逐场景无效值/无证据/超时/重复提交负例 | 已合并 | [公开 #234](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/234) merge `283557b3e595ee8dc80be31b809a0a4315db8fa0` · [私有 #56](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/56) merge `99218de320468f3cddf3858c0a9b4cb6ea590b08` · [专项 24/24 真实 Chromium](https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38110293680) · 公开四门禁 success | 2026-10-11 | 本批 11 场景缺字段/年界及网络超时、重复、无证据、旧响应验证已完成；TJ-004.4 原图差异仍待执行 |
 | TJ-004.4 | M0 | 逐场景对照 PR #87/#89 截图并出差异清单 | 已合并 | [公开 #237](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/237) merge `ff9e9d11908cd27155b00cfb6595b224c5d06b98` · 公开四门禁 success（https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/38534526334） · 私有 main `99218de320468f3cddf3858c0a9b4cb6ea590b08` 未动（本任务无私有变更） · 差异台账 v2 + 42 张截图 + 可复现脚本已入库 | 2026-10-14 | 审计交付完成；结果态比对缺口保留待后端；双主题实现另立独立任务 |
 | TJ-005.1 | M0 | 确认私有制品生成/部署路径和网关限制 | 待做 | — | — | 按 WBS 验收条件执行 |
-| TJ-005.2 | M0 | 前端静态包/真实接口/权限/HTTPS 冒烟 | 进行中 | — | — | 按 WBS 验收条件执行 |
+| TJ-005.2 | M0 | 前端静态包/真实接口/权限/HTTPS 冒烟 | 已提交PR | [公开 #305](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/305) | — | 按 WBS 验收条件执行 |
 | TJ-005.3 | M0 | 备份、回滚、健康检测、部署文档 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-006.1 | M1 | 多场景统一输入与本地资料校验 | 已合并 | [公开 #243](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/243) merge `8a0081990bb442fb3521bbd2140056901fe14eed` · [4 项 CI success](https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/38692470766) · 本地 Playwright 55/55（开发方报告；GitHub CI 未执行 Playwright） | 2026-10-15 | 输入与跨场景复用代码已合并；真实后端 E2E 未验，留待 TJ-007.1 独立验证；父任务不结账 |
 | TJ-006.2 | M1 | 目标年/日期/边界响应一致 | 已合并 | [公开 PR #247](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/247) merge `8b37521e7c6ab961732479540dfa2fb84f2a7b15` · [真实 Chromium 前端状态 4/4](https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/38699429188) · 公开 5/5 CI success · [TJ-007.1 私有真实计算 E2E 35/35](https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/38696910589) | 2026-10-15 | 目标日/周/月/流年契约与跨期边界已验收；新增的竞态测试为前端受控响应，非真实命理计算；未生产部署，父任务未关账 |
@@ -91,8 +91,8 @@
 | TJ-026.2 | M6 | Scenario 管理与梦研究管理 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-026.3 | M6 | 真实只读模块逐页接受控接口 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-026.4 | M6 | 角色权限、草稿审批、回滚和审计 | 待做 | — | — | 按 WBS 验收条件执行 |
-| TJ-027.1 | M6 | 部署私有后端与静态前端 | 进行中 | — | — | 按 WBS 验收条件执行 |
-| TJ-027.2 | M6 | 可观测性与回滚 | 进行中 | — | — | 按 WBS 验收条件执行 |
+| TJ-027.1 | M6 | 部署私有后端与静态前端 | 已提交PR | [公开 #305](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/305) | 2026-10-23 | 提交公开 Web GHCR 流水线和新机唤醒接线；私有密封验收与真实自动部署仍未通过，禁止标已部署 |
+| TJ-027.2 | M6 | 可观测性与回滚 | 已提交PR | [公开 #305](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/305) | — | 按 WBS 验收条件执行 |
 | TJ-028.1 | M6 | 真模型访问与权限 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-028.2 | M6 | 领域级真实模型评测 | 阻塞 | — | — | 等待证据/前置依赖 |
 | TJ-028.3 | M6 | 人工验收与独立发版 | 待做 | — | — | 按 WBS 验收条件执行 |
