@@ -26,6 +26,7 @@ export function DreamCulturePage() {
   const [result, setResult] = useState<DreamCultureResponse | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const submittingRef = useRef(false); // guards the setLoading(true) render-timing race
   const requestVersion = useRef(0);
 
   function changeDream(value: string) {
@@ -38,6 +39,7 @@ export function DreamCulturePage() {
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (submittingRef.current) return;
     const clean = dream.trim();
     if (clean.length < 2 || clean.length > 500) {
       setResult(null);
@@ -45,6 +47,7 @@ export function DreamCulturePage() {
       return;
     }
     const version = ++requestVersion.current;
+    submittingRef.current = true;
     setLoading(true);
     setError("");
     setResult(null);
@@ -55,6 +58,7 @@ export function DreamCulturePage() {
       if (version === requestVersion.current)
         setError(cause instanceof Error ? cause.message : "梦象查阅失败。");
     } finally {
+      submittingRef.current = false;
       if (version === requestVersion.current) setLoading(false);
     }
   }
