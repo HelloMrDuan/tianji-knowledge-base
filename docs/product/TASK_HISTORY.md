@@ -139,3 +139,27 @@
 5. GitHub PR 必须运行 `python scripts/check_task_tracking.py --base <base-commit>`，确认本次恰好一个任务、一个新事件。PR 合并成功后再以**同一任务**单独做关账更新，补齐实际 main SHA。
 
 **验收警戒线**：WBS 全部子任务数量 ≠ 已完成功能数量；公开 PR 合并 ≠ 私有 Canonical 完成；静态截图 ≠ 人工视觉还原；推送成功 ≠ 生产部署完成。
+
+### E0087 [B004] TJ-020.1 主体/实体/动作识别锁定测试
+- 状态：已提交PR
+- PR：[公开 #307](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/307)
+- 内容：用户指定案例"朋友说他梦见蛇"拒判锁定，第一人称肯定命中
+- 测试：tests/test_b004_dream_semantics.py 5/5 通过（真实后端）
+
+### E0088 [B004] TJ-020.2 否定/假设/转述拒判锁定测试
+- 状态：已提交PR
+- PR：[公开 #307](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/307)
+- 内容："我没有梦见蛇"/"假如梦见蛇"拒判锁定
+- 测试：tests/test_b004_dream_semantics.py 5/5 通过（真实后端）
+
+### E0089 [B004] TJ-020.3 多梦象分离锁定测试
+- 状态：已提交PR
+- PR：[公开 #307](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/307)
+- 内容：多梦象独立识别、无合成结论、span 精确对应、AI 禁用
+- 测试：tests/test_b004_dream_semantics.py 5/5 通过（真实后端）
+
+### E0090 [B004] TJ-021.2 空态提示（已具备）
+- 状态：已提交PR
+- PR：[公开 #307](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/307)
+- 内容：前端已有"暂无可核验的对应条目"空态及未审核主题说明，无需重复建设
+- 测试：现有 test_public_dream_culture_api.py 覆盖
