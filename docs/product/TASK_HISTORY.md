@@ -132,6 +132,8 @@
 | E0086 | 2026-10-22 | TJ-001.6 | 进行中 | 领取离线受控验收工具迁移：重写 scripts/accept_offline.py（复用公开 private_data_snapshot/assemble_private_backend，不依赖私有仓库脚本或私有 Actions）；新增 tests/test_offline_acceptance.py 8 项快照校验负例；新增 docs/product/TRUSTED_MACHINE_COMMANDS.md；未修改算法/API/前端/私有仓库；工具就绪，正式切换待可信机器实测 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/306 |  |  |
 | E0087 | 2026-10-23 | TJ-027.1 | 已提交PR | 领取真实部署链路：公开 GHCR Web 构建工作流 + 迁移后 tj-core-01 唤醒地址已提交至 PR #308；公版 CI 构建已有 success 记录，私仓 accepted 标签与机器端自动部署仍阻塞，绝不宣称已发布 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/308 |  |  |
 
+| E0088 | 2026-10-24 | TJ-027.1 | 已提交PR | 公开部署流水线仅允许 main 推送完成 GHCR 构建后唤醒 tj-core-01，功能分支构建不得触发正式机；仅调整 wake job 条件，不放开可信机离线 sealed acceptance、API 密封制品、SHA/PIN、健康与回滚；真实自动部署仍待验证 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/313 | — | — |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
