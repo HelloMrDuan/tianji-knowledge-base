@@ -25,4 +25,7 @@ jobs:
       - run: python -m unittest discover -s tests -p 'test_public_knowledge_boundary.py'
       - run: python -m unittest discover -s tests -p 'test_public_web_bundle.py'
       - run: python -m unittest discover -s tests -p 'test_offline_acceptance.py'
+      # Pure narrative parser regression: no private Canonical/RAG data required.
+      # This MUST execute test assertions, not just compileall.
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_b004_public_parser_contract.py' -v
       - run: python scripts/audit_public_asset_changes.py --inventory
