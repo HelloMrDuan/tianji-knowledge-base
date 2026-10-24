@@ -147,6 +147,8 @@
 
 | E0096 | 2026-10-24 | TJ-020.1 | CI待验 | 纠正 B004 测试口径：#307 功能代码已合并，但 tests/test_b004_*.py 在公开 CI 只被 compileall，未执行；追加 tests/test_b004_public_parser_contract.py 无私有依赖的真实语义断言，并接入 Validate Public Code。单独的 Canonical/Evidence 可信机全量测试仍未完成，不冒称发布验收 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/307 |  |  |
 
+| E0097 | 2026-10-24 | TJ-025.3 | 已提交PR | 人生总览受控浏览器 E2E：首页进入总览、填入示例、一次 life 请求、年份变更后旧结果失效且第二次请求采用新年份、清空资料、总览转细分页面、360/390/768/1440 无横向溢出；测试响应明确为 synthetic stub，绝不冒称真实后端四源校验；TJ-025.1 继续待做、TJ-025.2 保留阻塞 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/311 |  |  |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。

@@ -1,0 +1,46 @@
+name: TJ-025.3 Life Overview Browser Regression
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "web/visual-prototype/**"
+      - ".github/workflows/tj0253-life-browser.yml"
+      - "docs/product/TASK_STATUS.md"
+      - "docs/product/TASK_HISTORY.md"
+  push:
+    branches: [main]
+    paths:
+      - "web/visual-prototype/**"
+      - ".github/workflows/tj0253-life-browser.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  tj0253-life-chromium:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: web/visual-prototype/package-lock.json
+      - name: Install frontend dependencies
+        working-directory: web/visual-prototype
+        run: npm ci
+      - name: Install Chromium
+        working-directory: web/visual-prototype
+        run: npx playwright install --with-deps chromium
+      - name: Run actual Chromium with controlled synthetic HTTP contracts
+        working-directory: web/visual-prototype
+        run: CI=true npm test -- tests/b007-life.spec.ts
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: tj0253-browser-failures
+          path: web/visual-prototype/test-results/
+          if-no-files-found: ignore
+          retention-days: 7
