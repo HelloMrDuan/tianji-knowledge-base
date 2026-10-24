@@ -131,7 +131,9 @@ jobs:
   wake:
     name: wake-machine
     needs: build
-    if: github.event_name == 'push'
+    # Only the verified main channel may wake the production machine.
+    # Feature branches may build test images, never touch the live machine.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: read
