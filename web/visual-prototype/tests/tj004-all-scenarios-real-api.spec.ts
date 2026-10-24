@@ -95,11 +95,8 @@ test("TJ-004.3 invalid natal date is rejected before a real backend request", as
   const apiRequests: string[] = [];
   page.on("request", r => { if (new URL(r.url()).pathname.startsWith("/api/")) apiRequests.push(r.url()); });
   await page.goto("/bazi-profile");
-  // Birth date via dropdowns (年/月/日); leave time (时/分) unselected.
-  // The UI uses explicit dropdowns per the birth-time input contract (no text inputs).
-  await page.getByLabel("年").selectOption("2000");
-  await page.getByLabel("月").selectOption("1");
-  await page.locator('select').nth(2).selectOption('7'); // day dropdown (年=0, 月=1, 日=2)
+  await page.getByLabel("出生日期").fill("2000-01-07");
+  await page.getByLabel("出生时间").fill("");
   await page.getByRole("button", { name: "生成基础档案" }).click();
   await expect(page.locator(".bazi-live-result")).toHaveCount(0);
   expect(apiRequests).toHaveLength(0);

@@ -132,6 +132,25 @@
 | E0086 | 2026-10-22 | TJ-001.6 | 进行中 | 领取离线受控验收工具迁移：重写 scripts/accept_offline.py（复用公开 private_data_snapshot/assemble_private_backend，不依赖私有仓库脚本或私有 Actions）；新增 tests/test_offline_acceptance.py 8 项快照校验负例；新增 docs/product/TRUSTED_MACHINE_COMMANDS.md；未修改算法/API/前端/私有仓库；工具就绪，正式切换待可信机器实测 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/306 |  |  |
 | E0087 | 2026-10-23 | TJ-027.1 | 已提交PR | 领取真实部署链路：公开 GHCR Web 构建工作流 + 迁移后 tj-core-01 唤醒地址已提交至 PR #308；公版 CI 构建已有 success 记录，私仓 accepted 标签与机器端自动部署仍阻塞，绝不宣称已发布 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/308 |  |  |
 
+| E0088 | 2026-10-24 | TJ-027.1 | 已提交PR | 公开部署流水线仅允许 main 推送完成 GHCR 构建后唤醒 tj-core-01，功能分支构建不得触发正式机；仅调整 wake job 条件，不放开可信机离线 sealed acceptance、API 密封制品、SHA/PIN、健康与回滚；真实自动部署仍待验证 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/313 | — | — |
+
+| E0089 | 2026-10-24 | TJ-024.3 | 已提交PR | 合盘隐私（B006 代码批次）：对方出生资料知情同意与后端留存边界提示；A/B 状态隔离，清空 B 后旧结果失效；加强真实断言（禁止只等待、要求结果容器消失和 B 修改不影响 A）；从 main E0088 后追加，不覆盖历史。最新 Head 尚待全量 CI / 实机浏览器验收，不把 PR 当成已合并 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/310 |  |  |
+
+| E0090 | 2026-10-24 | TJ-024.3 | 已合并 | 合盘隐私（B006）正式代码交付：公开 #310 归并到 main，全量 PR CI 10/10 success，合并后 main 五条工作流 success；用户在 tj-core-01 独立提供机内证据：2026-10-24T07:05:35Z 离线 ACCEPTED（--suite all）、2026-10-24T07:06:06Z 自动 DEPLOYED，运行分支 main，Web GHCR 与密封 API 镜像标识对应 c31adc13，健康和八字业务探针均通过，私有知识 PIN 保持受控。保留边界：独立生产 360/390px 视觉 E2E 和实际服务端留存策略审计未完成，不声明全量隐私合规；下一任务需独立处理。本事件仅补充合并和部署证据，不修改算法/知识/冻结视觉，不回写历史事件 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/310 | c31adc13b7b4de4fafa5a3e041e8dcd8d7fab6ff | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40070159888 |
+
+| E0091 | 2026-10-23 | TJ-020.1 | 已提交PR | [B004] 主体/实体/动作识别：用户指定案例"朋友说他梦见蛇"拒判锁定，第一人称肯定命中；时间连接词前缀修复 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/307 |  |  |
+| E0092 | 2026-10-23 | TJ-020.2 | 已提交PR | [B004] 否定/假设/转述拒判："我没有梦见蛇"/"假如梦见蛇"严格零命中验证 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/307 |  |  |
+| E0093 | 2026-10-23 | TJ-020.3 | 已提交PR | [B004] 多梦象分离：独立证据绑定，无合成吉凶评分；梦醒否定、时间次序验证 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/307 |  |  |
+| E0094 | 2026-10-23 | TJ-021.2 | 已提交PR | [B004] 空态/服务失败/AI禁用：前端已有"暂无可核验条目"空态，API ai_enabled=false | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/307 |  |  |
+
+| E0095 | 2026-10-23 | TJ-023.2 | 已提交PR | 事业财运双视图：同一计算结果，事业/财运视角切换不重请求，来源保留；TJ-022.1/022.3/023.1 为既有实现核查（见PR说明），不记为新功能 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/309 |  |  |
+
+| E0096 | 2026-10-24 | TJ-020.1 | CI待验 | 纠正 B004 测试口径：#307 功能代码已合并，但 tests/test_b004_*.py 在公开 CI 只被 compileall，未执行；追加 tests/test_b004_public_parser_contract.py 无私有依赖的真实语义断言，并接入 Validate Public Code。单独的 Canonical/Evidence 可信机全量测试仍未完成，不冒称发布验收 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/307 |  |  |
+
+| E0097 | 2026-10-24 | TJ-025.3 | 已提交PR | 人生总览受控浏览器 E2E：首页进入总览、填入示例、一次 life 请求、年份变更后旧结果失效且第二次请求采用新年份、清空资料、总览转细分页面、360/390/768/1440 无横向溢出；测试响应明确为 synthetic stub，绝不冒称真实后端四源校验；TJ-025.1 继续待做、TJ-025.2 保留阻塞 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/311 |  |  |
+
+| E0098 | 2026-10-24 | TJ-027.2 | 已提交PR | 原 B003 PR #305 因 #308/#313 已完成 main GHCR/唤醒链，旧脚本 deploy_intranet.sh 与当前生产自动部署代理重复且可能误操作，故收敛为只提交 scripts/health_check.py 和 tests/test_health_check.py。新增公开 CI 真实启动 127.0.0.1 HTTP 服务、校验 /health、capabilities、前端 HTML+JS、反代 /api、泄漏标记及异常响应（非生产部署证据）；本项仅覆盖 TJ-027.2 的健康探针子范围，告警/自动回滚仍待实机证据。TJ-005.2 其他私有 API smoke 尚未合并验收 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/305 |  |  |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
@@ -141,6 +160,3 @@
 5. GitHub PR 必须运行 `python scripts/check_task_tracking.py --base <base-commit>`，确认本次恰好一个任务、一个新事件。PR 合并成功后再以**同一任务**单独做关账更新，补齐实际 main SHA。
 
 **验收警戒线**：WBS 全部子任务数量 ≠ 已完成功能数量；公开 PR 合并 ≠ 私有 Canonical 完成；静态截图 ≠ 人工视觉还原；推送成功 ≠ 生产部署完成。
-| E0088 | 2026-10-22 | TJ-005.2 | 已提交PR | [B003] 领取前端/API/鉴权/错误态冒烟准备：新增 tests/test_smoke_api.py 8项真实测试（health/capabilities/公开执行bazi/无效输入拒绝/未知域拒绝/admin无token拒绝/错误token拒绝/解梦查询）；独立分支 batch-b003-product 从已合并 main 创建；不依赖 B002 合并结果 | — | — | — |
-| E0089 | 2026-10-22 | TJ-027.1 | 已提交PR | [B003] 注：TJ-027.1 GHCR部分已由 #308 (E0087) 完成；B003 补充内网部署脚本集成 | — | — | — |
-| E0090 | 2026-10-22 | TJ-027.2 | 已提交PR | [B003] 领取部署健康检测/监控与回滚：新增 scripts/health_check.py（API/前端健康探针，泄漏标记检查）；独立分支开发中 | — | — | — |
