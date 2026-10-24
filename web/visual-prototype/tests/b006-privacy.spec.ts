@@ -33,22 +33,21 @@ test("[real-backend] B006 B-data not persisted, clear invalidates", async ({ pag
   const bDateAfter = await bDateInput.inputValue();
   expect(bDateAfter).toBe("");
 
-  // Result should be invalidated (or form requires re-input)
-  // The result section should be gone or show empty state
-  await page.waitForTimeout(500);
+  // A stale two-person result must disappear immediately when B is cleared.
+  await expect(page.locator(".compat-result")).toHaveCount(0);
 });
 
 test("[real-backend] B006 A-data not overwritten by B", async ({ page }) => {
   await page.goto("/compatibility-structure");
-  // A's data comes from saved profile
-  const aDateInput = page.locator('input[type="date"]').first();
-  const aDateBefore = await aDateInput.inputValue();
-
   await page.getByRole("button", { name: "填入双人示例", exact: true }).click();
-  const aDateAfter = await aDateInput.inputValue();
-  // A's date should remain (from saved profile or sample, but not B's)
-  const bDate = await page.locator('input[type="date"]').nth(1).inputValue();
-  expect(aDateAfter).not.toBe(bDate);
+  const aDateInput = page.locator('input[type="date"]').first();
+  const bDateInput = page.locator('input[type="date"]').nth(1);
+  const aDate = await aDateInput.inputValue();
+  expect(aDate).not.toBe("");
+  // Changing B must not mutate A, regardless of saved-profile defaults.
+  await bDateInput.fill("2001-03-04");
+  await expect(aDateInput).toHaveValue(aDate);
+  await expect(bDateInput).toHaveValue("2001-03-04");
 });
 
 test("[real-backend] B006 no predictions, mobile OK", async ({ page }) => {
