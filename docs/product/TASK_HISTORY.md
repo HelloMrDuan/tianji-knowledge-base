@@ -143,6 +143,8 @@
 | E0093 | 2026-10-23 | TJ-020.3 | 已提交PR | [B004] 多梦象分离：独立证据绑定，无合成吉凶评分；梦醒否定、时间次序验证 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/307 |  |  |
 | E0094 | 2026-10-23 | TJ-021.2 | 已提交PR | [B004] 空态/服务失败/AI禁用：前端已有"暂无可核验条目"空态，API ai_enabled=false | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/307 |  |  |
 
+| E0095 | 2026-10-23 | TJ-023.2 | 已提交PR | 事业财运双视图：同一计算结果，事业/财运视角切换不重请求，来源保留；TJ-022.1/022.3/023.1 为既有实现核查（见PR说明），不记为新功能 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/309 |  |  |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
