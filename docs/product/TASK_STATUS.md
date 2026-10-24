@@ -92,7 +92,7 @@
 | TJ-026.3 | M6 | 真实只读模块逐页接受控接口 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-026.4 | M6 | 角色权限、草稿审批、回滚和审计 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-027.1 | M6 | 部署私有后端与静态前端 | 已提交PR | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/308 · https://github.com/HelloMrDuan/tianji-knowledge-base/pull/313 | 2026-10-24 | PR #308 已合并公开 Web GHCR 构建；PR #313 增加仅 main 可唤醒正式机器的安全门禁，功能分支禁止触发正式机器唤醒。可信机离线密封验收、精确 SHA/PIN 与机内自动部署仍须真实取证，未获部署验收 |
-| TJ-027.2 | M6 | 可观测性与回滚 | 待做 | — | — | 按 WBS 验收条件执行 |
+| TJ-027.2 | M6 | 可观测性与回滚 | 已提交PR | [公开 #305](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/305) · 真实环回 HTTP 健康探针/安全负例 | 2026-10-24 | 本次仅实施健康状态、静态资产、API 网关和泄漏检查；真实部署告警与回滚尚未实机验收，禁止标完整关账 |
 | TJ-028.1 | M6 | 真模型访问与权限 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-028.2 | M6 | 领域级真实模型评测 | 阻塞 | — | — | 等待证据/前置依赖 |
 | TJ-028.3 | M6 | 人工验收与独立发版 | 待做 | — | — | 按 WBS 验收条件执行 |

@@ -149,6 +149,8 @@
 
 | E0097 | 2026-10-24 | TJ-025.3 | 已提交PR | 人生总览受控浏览器 E2E：首页进入总览、填入示例、一次 life 请求、年份变更后旧结果失效且第二次请求采用新年份、清空资料、总览转细分页面、360/390/768/1440 无横向溢出；测试响应明确为 synthetic stub，绝不冒称真实后端四源校验；TJ-025.1 继续待做、TJ-025.2 保留阻塞 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/311 |  |  |
 
+| E0098 | 2026-10-24 | TJ-027.2 | 已提交PR | 原 B003 PR #305 因 #308/#313 已完成 main GHCR/唤醒链，旧脚本 deploy_intranet.sh 与当前生产自动部署代理重复且可能误操作，故收敛为只提交 scripts/health_check.py 和 tests/test_health_check.py。新增公开 CI 真实启动 127.0.0.1 HTTP 服务、校验 /health、capabilities、前端 HTML+JS、反代 /api、泄漏标记及异常响应（非生产部署证据）；本项仅覆盖 TJ-027.2 的健康探针子范围，告警/自动回滚仍待实机证据。TJ-005.2 其他私有 API smoke 尚未合并验收 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/305 |  |  |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
