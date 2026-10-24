@@ -136,7 +136,7 @@
 
 | E0089 | 2026-10-24 | TJ-024.3 | 已提交PR | 合盘隐私（B006 代码批次）：对方出生资料知情同意与后端留存边界提示；A/B 状态隔离，清空 B 后旧结果失效；加强真实断言（禁止只等待、要求结果容器消失和 B 修改不影响 A）；从 main E0088 后追加，不覆盖历史。最新 Head 尚待全量 CI / 实机浏览器验收，不把 PR 当成已合并 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/310 |  |  |
 
-| E0090 | 2026-10-24 | TJ-024.3 | 已合并 | 合盘隐私 [B006] 正式代码交付：公开 #310 归并到 main，全量 PR CI 10/10 success，合并后 main 五条工作流 success；用户在 tj-core-01 独立提供机内证据：2026-10-24T07:05:35Z 离线 ACCEPTED（--suite all）、2026-10-24T07:06:06Z 自动 DEPLOYED，运行分支 main，Web GHCR 与密封 API 镜像标识对应 c31adc13，健康和八字业务探针均通过，私有知识 PIN 保持受控。保留边界：独立生产 360/390px 视觉 E2E 和实际服务端留存策略审计未完成，不声明全量隐私合规；下一任务需独立处理。本事件仅补充合并和部署证据，不修改算法/知识/冻结视觉，不回写历史事件 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/310 | c31adc13b7b4de4fafa5a3e041e8dcd8d7fab6ff | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40070159888 |
+| E0090 | 2026-10-24 | TJ-024.3 | 已合并 | 合盘隐私（B006）正式代码交付：公开 #310 归并到 main，全量 PR CI 10/10 success，合并后 main 五条工作流 success；用户在 tj-core-01 独立提供机内证据：2026-10-24T07:05:35Z 离线 ACCEPTED（--suite all）、2026-10-24T07:06:06Z 自动 DEPLOYED，运行分支 main，Web GHCR 与密封 API 镜像标识对应 c31adc13，健康和八字业务探针均通过，私有知识 PIN 保持受控。保留边界：独立生产 360/390px 视觉 E2E 和实际服务端留存策略审计未完成，不声明全量隐私合规；下一任务需独立处理。本事件仅补充合并和部署证据，不修改算法/知识/冻结视觉，不回写历史事件 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/310 | c31adc13b7b4de4fafa5a3e041e8dcd8d7fab6ff | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40070159888 |
 
 ## 怎样追加下一条
 
