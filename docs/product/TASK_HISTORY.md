@@ -138,6 +138,11 @@
 
 | E0090 | 2026-10-24 | TJ-024.3 | 已合并 | 合盘隐私（B006）正式代码交付：公开 #310 归并到 main，全量 PR CI 10/10 success，合并后 main 五条工作流 success；用户在 tj-core-01 独立提供机内证据：2026-10-24T07:05:35Z 离线 ACCEPTED（--suite all）、2026-10-24T07:06:06Z 自动 DEPLOYED，运行分支 main，Web GHCR 与密封 API 镜像标识对应 c31adc13，健康和八字业务探针均通过，私有知识 PIN 保持受控。保留边界：独立生产 360/390px 视觉 E2E 和实际服务端留存策略审计未完成，不声明全量隐私合规；下一任务需独立处理。本事件仅补充合并和部署证据，不修改算法/知识/冻结视觉，不回写历史事件 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/310 | c31adc13b7b4de4fafa5a3e041e8dcd8d7fab6ff | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40070159888 |
 
+| E0091 | 2026-10-23 | TJ-020.1 | 已提交PR | [B004] 主体/实体/动作识别：用户指定案例"朋友说他梦见蛇"拒判锁定，第一人称肯定命中；时间连接词前缀修复 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/307 |  |  |
+| E0092 | 2026-10-23 | TJ-020.2 | 已提交PR | [B004] 否定/假设/转述拒判："我没有梦见蛇"/"假如梦见蛇"严格零命中验证 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/307 |  |  |
+| E0093 | 2026-10-23 | TJ-020.3 | 已提交PR | [B004] 多梦象分离：独立证据绑定，无合成吉凶评分；梦醒否定、时间次序验证 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/307 |  |  |
+| E0094 | 2026-10-23 | TJ-021.2 | 已提交PR | [B004] 空态/服务失败/AI禁用：前端已有"暂无可核验条目"空态，API ai_enabled=false | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/307 |  |  |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
