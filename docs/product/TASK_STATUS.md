@@ -83,7 +83,7 @@
 | TJ-023.3 | M5 | 已审大运与流年合用（以后置为准） | 阻塞 | — | — | 等待证据/前置依赖 |
 | TJ-024.1 | M5 | 双人 A/B 双向关系矩阵及证据 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-024.2 | M5 | 配偶宫、四柱 4×4 分层与冲突限界 | 待做 | — | — | 按 WBS 验收条件执行 |
-| TJ-024.3 | M5 | 资料隔离/隐私提示与移动端双栏 | 待做 | — | — | 按 WBS 验收条件执行 |
+| TJ-024.3 | M5 | 资料隔离/隐私提示与移动端双栏 | 已合并 | [公开 #310](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/310) merge `c31adc13b7b4de4fafa5a3e041e8dcd8d7fab6ff` · [main 构建](https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40070159888) · [main 任务门禁](https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40070159894) · [main 前端](https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40070159900) | 2026-10-24 | [B006] 对方资料知情同意与后端留存边界提示已合并；隐私 Playwright 门禁通过，清空 B 后旧结果消失、修改 B 不覆盖 A 有强断言。用户实机日志：07:05:35Z 离线 ACCEPTED、07:06:06Z 自动 DEPLOYED，Web/API 目标 SHA 均为 c31adc13，health+bazi ok。独立生产端 360/390px 视觉 E2E 与服务端留存策略审计尚未验收，不冒称完整隐私合规 |
 | TJ-025.1 | M5 | 四源场景同一出生/目标年真实聚合 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-025.2 | M5 | 人生总览的条件说明/无法裁决出口 | 阻塞 | — | — | 等待证据/前置依赖 |
 | TJ-025.3 | M5 | 首页→总览→细分页面的完整古风阅读链 | 待做 | — | — | 按 WBS 验收条件执行 |
@@ -91,7 +91,7 @@
 | TJ-026.2 | M6 | Scenario 管理与梦研究管理 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-026.3 | M6 | 真实只读模块逐页接受控接口 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-026.4 | M6 | 角色权限、草稿审批、回滚和审计 | 待做 | — | — | 按 WBS 验收条件执行 |
-| TJ-027.1 | M6 | 部署私有后端与静态前端 | 待做 | — | — | 按 WBS 验收条件执行 |
+| TJ-027.1 | M6 | 部署私有后端与静态前端 | 已提交PR | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/308 · https://github.com/HelloMrDuan/tianji-knowledge-base/pull/313 | 2026-10-24 | PR #308 已合并公开 Web GHCR 构建；PR #313 增加仅 main 可唤醒正式机器的安全门禁，功能分支禁止触发正式机器唤醒。可信机离线密封验收、精确 SHA/PIN 与机内自动部署仍须真实取证，未获部署验收 |
 | TJ-027.2 | M6 | 可观测性与回滚 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-028.1 | M6 | 真模型访问与权限 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-028.2 | M6 | 领域级真实模型评测 | 阻塞 | — | — | 等待证据/前置依赖 |
