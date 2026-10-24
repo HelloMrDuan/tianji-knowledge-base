@@ -203,3 +203,12 @@ test("invalid counterpart cannot trigger an API request or overwrite personal A"
   const p = await page.evaluate(k => JSON.parse(localStorage.getItem(k) || "{}"), profileKey);
   expect(p.year).toBe(2000);
 });
+
+
+test("B006 counterpart consent notice states client-side and backend-retention boundaries", async ({ page }) => {
+  await page.goto("/compatibility-structure");
+  const notice = page.getByRole("note");
+  await expect(notice).toContainText("请确保已获得对方知情同意");
+  await expect(notice).toContainText("不会保存到本机浏览器");
+  await expect(notice).toContainText("服务端留存以实际部署策略为准");
+});

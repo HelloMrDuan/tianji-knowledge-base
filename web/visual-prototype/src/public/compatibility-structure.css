@@ -55,3 +55,4 @@
 .compat-matrix-citations blockquote{margin:8px 0 0;padding:9px 11px;border-left:2px solid #9fb495;background:#fffdf7}
 .compat-matrix-citations blockquote strong{font-size:11px;color:#526c56}
 .compat-matrix-citations blockquote p{font-size:12px;line-height:1.75;white-space:pre-wrap;overflow-wrap:anywhere}
+.compat-privacy-notice{display:flex;gap:8px;align-items:flex-start;color:#879083;font-size:11px;line-height:1.7;margin:14px 0;padding:10px 12px;border:1px dashed #cfd6c7;border-radius:4px;background:#faf9f3}

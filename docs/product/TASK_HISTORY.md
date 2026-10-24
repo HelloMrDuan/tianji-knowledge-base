@@ -134,6 +134,8 @@
 
 | E0088 | 2026-10-24 | TJ-027.1 | 已提交PR | 公开部署流水线仅允许 main 推送完成 GHCR 构建后唤醒 tj-core-01，功能分支构建不得触发正式机；仅调整 wake job 条件，不放开可信机离线 sealed acceptance、API 密封制品、SHA/PIN、健康与回滚；真实自动部署仍待验证 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/313 | — | — |
 
+| E0089 | 2026-10-24 | TJ-024.3 | 已提交PR | 合盘隐私（B006 代码批次）：对方出生资料知情同意与后端留存边界提示；A/B 状态隔离，清空 B 后旧结果失效；加强真实断言（禁止只等待、要求结果容器消失和 B 修改不影响 A）；从 main E0088 后追加，不覆盖历史。最新 Head 尚待全量 CI / 实机浏览器验收，不把 PR 当成已合并 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/310 |  |  |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
