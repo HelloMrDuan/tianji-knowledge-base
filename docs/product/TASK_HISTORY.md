@@ -145,6 +145,8 @@
 
 | E0095 | 2026-10-23 | TJ-023.2 | 已提交PR | 事业财运双视图：同一计算结果，事业/财运视角切换不重请求，来源保留；TJ-022.1/022.3/023.1 为既有实现核查（见PR说明），不记为新功能 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/309 |  |  |
 
+| E0096 | 2026-10-24 | TJ-020.1 | CI待验 | 纠正 B004 测试口径：#307 功能代码已合并，但 tests/test_b004_*.py 在公开 CI 只被 compileall，未执行；追加 tests/test_b004_public_parser_contract.py 无私有依赖的真实语义断言，并接入 Validate Public Code。单独的 Canonical/Evidence 可信机全量测试仍未完成，不冒称发布验收 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/307 |  |  |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
