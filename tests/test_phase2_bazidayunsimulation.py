@@ -231,6 +231,40 @@ class DayunAgeSimulationResearchTests(unittest.TestCase):
         self.assertEqual(len(out["result"]["dayun_sequence_research"]["age_simulation"]["timeline"]), 2)
         self.assertFalse(out["interpretation_contract"]["ai_may_explain"])
 
+    def test_age_simulation_output_contract_is_research_only(self):
+        # B024 TJ-016.3: the simulation output contract must carry
+        # research_only True (not just public_enabled False) on both
+        # the integrated research path and the direct function path.
+        # Verification test only; no engine code changes.
+        output = research()
+        sim = output["result"]["dayun_sequence_research"]["age_simulation"]
+        self.assertIs(sim["research_only"], True)
+        self.assertIs(sim["public_enabled"], False)
+        data = output["result"]["dayun_sequence_research"]
+        direct = simulate_dayun_age_and_timeline(
+            data["jie_distance"]["birth_local_datetime"],
+            data["jie_distance"], data["rows"],
+            natal_day_master=data["natal_day_master"])
+        self.assertIs(direct["research_only"], True)
+        self.assertIs(direct["public_enabled"], False)
+        self.assertEqual(sim, direct)
+
+    def test_public_surface_has_no_simulation_entry(self):
+        # B024 TJ-016.3: no public execution domain or public route may
+        # expose the dayun simulation. It stays reachable only through
+        # the explicit research path (allow_research=True + exact
+        # variant), never through /api/v1/public/execute or any public
+        # route. Verification test only; no engine code changes.
+        from tianji_kb.public_projection import PUBLIC_EXECUTION_DOMAINS
+        for domain in PUBLIC_EXECUTION_DOMAINS:
+            self.assertNotIn("simulation", domain)
+            self.assertNotIn("dayun", domain)
+        from tianji_kb.api import app
+        for route in app.routes:
+            path = getattr(route, "path", "")
+            self.assertNotIn("simulation", path)
+            self.assertNotIn("dayun", path)
+
 
 if __name__ == "__main__":
     unittest.main()

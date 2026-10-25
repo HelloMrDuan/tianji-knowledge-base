@@ -59,7 +59,7 @@
 | TJ-015.2 | M3 | 历史时区、闰年、跨世纪和独立历法精度核查 | 已合并 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/298 | 2026-10-22 | provider重放门禁已合并；63项测试+私有全量验收通过；关账 |
 | TJ-016.1 | M3 | 三日一年／余日／余时的不同版本整理 | 已合并 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/300 · `ae10335f766e830cd8efcc7cf6afc6ede2c12b85` | 2026-10-22 | 终审通过已合并；私有验收通过；关账 |
 | TJ-016.2 | M3 | 起运当秒、虚岁/实岁等最困难反例 | 已合并 | [公开 #302](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/302) · `13e1c063f67cafb6fae40e2e0fe683bb3a09b680` · [私有验收 run 39732347250](https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/39732347250) | 2026-10-22 | 已关账（E0084）；反例专项 50/50；全量 843/843 |
-| TJ-016.3 | M3 | 研究模拟与正式运期的硬边界 | 待做 | — | — | 按 WBS 验收条件执行 |
+| TJ-016.3 | M3 | 研究模拟与正式运期的硬边界 | 已提交PR | [公开 #332](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/332) | 2026-10-25 | 硬边界验证：补 research_only is True 断言 + 公开无暴露断言（执行域/路由无 simulation 入口）；零新功能代码；phase2 测试需完整 runtime，走离线受控验收，公开 CI 不冒称 |
 | TJ-017.1 | M3 | 有出处的运期锚点计算/区间规则 | 阻塞 | — | — | 等待证据/前置依赖 |
 | TJ-017.2 | M3 | 原局＋大运＋流年跨规则调用 | 阻塞 | — | — | 等待证据/前置依赖 |
 | TJ-017.3 | M3 | 用户可读时间轴视图 | 阻塞 | — | — | 等待证据/前置依赖 |
@@ -87,7 +87,7 @@
 | TJ-025.1 | M5 | 四源场景同一出生/目标年真实聚合 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-025.2 | M5 | 人生总览的条件说明/无法裁决出口 | 阻塞 | — | — | 等待证据/前置依赖 |
 | TJ-025.3 | M5 | 首页→总览→细分页面的完整古风阅读链 | 已合并 | [公开 #311](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/311) | 2026-10-25 | #311 已合并；限于浏览器导航/年份/清空/四视口表现，后端四源 Evidence 真验收另由 TJ-025.1 处理 |
-| TJ-026.1 | M6 | 恢复 #87 管理布局与 16 个原管理模块 | 已合并 | [公开 #328](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/328) | 2026-10-25 | #328 已合并；布局 only（抽屉组件+详情迁移+壳子对照）已在主干；users/logs真实数据与16模块数据接入另立任务（完整 026.1 未完成）；不改数据逻辑 |
+| TJ-026.1 | M6 | 恢复 #87 管理布局与 16 个原管理模块 | 已提交PR | [公开 #332](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/332) | 2026-10-25 | logs 单项重开（布局 E0131 已合并）：logs 重定义为审计轨迹视图，硬编码演示块替换为真实审计列表 + 令牌门禁 + 401/403/404/503 分支；审计条目为进程内存、重启丢失；users 真实数据与 16 模块数据接入仍另立任务（完整 026.1 未完成） |
 | TJ-026.2 | M6 | Scenario 管理与梦研究管理 | 已合并 | [公开 #324](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/324) | 2026-10-25 | #324 已合并；Scenario 真实管理页与发布门禁已在主干；DEMO scenarios 模块已移除；真实后端验证由离线受控验收执行，公开 CI 不冒称 |
 | TJ-026.3 | M6 | 真实只读模块逐页接受控接口 | 已合并 | [公开 #324](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/324) | 2026-10-25 | #324 已合并；403 scope 模型与 401/403/404 显式分支已在主干；HTTP 与浏览器真实后端验证由离线受控验收执行，公开 CI 不冒称 |
 | TJ-026.4 | M6 | 角色权限、草稿审批、回滚和审计 | 已合并 | [公开 #330](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/330) | 2026-10-25 | #330 已合并；第三批回滚（草稿内版本史+仅 publisher 回滚+补偿审计只追加）已在主干；持久化存储另决策；方案 B 登记簿另立任务；HTTP 测试由离线受控验收执行，公开 CI 不冒称 |

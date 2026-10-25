@@ -150,38 +150,24 @@ export const modules: ModuleDefinition[] = [
     ],
   },
   {
+    // B024: redefined from request-tracing to an audit-trail view. This
+    // module renders live /api/v1/admin/system/audit entries via
+    // LogsPanel in ModulePage (token-gated, server-enforced 401/403/
+    // 404/503), not static records. The old request-tracing meaning
+    // (processing stages / trace ids / durations) is retired here;
+    // restoring request-stage tracing needs new backend request-log
+    // collection and is a separate task. DEMO LG001-003 removed.
     id: "logs",
-    title: "API / 系统日志",
-    description: "按请求追踪查看处理阶段，敏感资料默认不展示。",
+    title: "审计轨迹",
+    description:
+      "按治理动作查看审计轨迹；条目来自进程内存审计，服务重启后丢失。",
     mode: "logs",
-    columns: ["处理阶段", "追踪标识", "耗时"],
-    records: [
-      record(
-        "LG001",
-        "输入校验",
-        "演示事件",
-        ["校验", "DEMO-trace-001", "12 ms（示例）"],
-        "字段校验事件；未记录真实出生资料或问题文本。",
-      ),
-      record(
-        "LG002",
-        "版本检查",
-        "演示事件",
-        ["版本", "DEMO-trace-001", "4 ms（示例）"],
-        "读取固定版本标识的界面演示。",
-      ),
-      record(
-        "LG003",
-        "解释超时",
-        "演示事件",
-        ["AI", "DEMO-trace-002", "3000 ms（示例）"],
-        "虚构错误事件，没有真实请求或模型调用。",
-      ),
-    ],
+    columns: ["操作者", "动作", "结果"],
+    records: [],
     guide: [
-      ["请求追踪", "使用 trace 标识关联阶段。"],
-      ["数据最小化", "不直接记录出生资料、密钥和长原文。"],
-      ["事件分级", "校验、服务和业务错误分别查看。"],
+      ["审计轨迹", "每条记录为一次治理动作：操作者、时间、动作与结果。"],
+      ["数据最小化", "审计条目不含草稿正文与出生资料；不直接记录密钥和长原文。"],
+      ["进程内存", "条目仅保存在进程内存中，服务重启后丢失；持久化存储另行决策。"],
     ],
   },
 ];
