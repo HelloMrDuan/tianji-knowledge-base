@@ -194,19 +194,19 @@ export function AdminDraftsPage() {
           <h1>草稿审批</h1>
           <p>创建草稿、提交审批、批准或驳回、发布。角色门禁由服务端执行。</p>
         </div>
-        <span className="admin-status">进程内存 · 重启丢失</span>
+        <span className="admin-status">SQLite 持久存储 · 重启不丢</span>
       </div>
 
       <section className="admin-card drafts-notice">
         <p>
-          草稿仅保存在进程内存中，服务重启后丢失；持久化存储另行决策。
+          草稿保存在 SQLite 单文件中，服务重启后不丢失；备份为拷贝该文件。
           角色门禁：访客（user）无任何写权限；编辑（editor）仅可起草；
           审核（reviewer）可批准或驳回；发布（publisher）可发布。
           草稿内容不进入任何公开端点。
           版本快照：每次创建、编辑与审批流转都追加一个版本快照；
           回滚仅限发布（publisher），将草稿恢复到指定快照并回到草稿状态，
           已驳回草稿不可回滚；回滚只追加补偿记录，绝不修改已有记录。
-          版本快照与草稿同在进程内存中，服务重启后丢失。
+          版本快照与草稿同存 SQLite 单文件，服务重启后不丢失。
         </p>
       </section>
 
@@ -414,8 +414,8 @@ export function AdminDraftsPage() {
             </ol>
           )}
           <p className="drafts-storage-note">
-            草稿仅保存在进程内存中，服务重启后丢失；版本快照与草稿同在
-            进程内存中，服务重启后丢失。回滚仅限发布角色，已驳回草稿
+            草稿保存在 SQLite 单文件中，服务重启后不丢失；版本快照与草稿同存一库。
+            回滚仅限发布角色，已驳回草稿
             不可回滚；回滚只追加补偿记录，绝不修改已有记录。
           </p>
         </Drawer>

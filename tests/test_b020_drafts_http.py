@@ -16,6 +16,8 @@ audit records or public endpoints; every write attempt (allowed or
 denied) leaves exactly one audit record.
 """
 
+import os
+import tempfile
 import unittest
 
 from fastapi.testclient import TestClient
@@ -31,11 +33,21 @@ ROLE_TOKENS = {
 READ_TOKEN = 'read-token-for-tests'
 
 
-def _client(role_tokens=None):
+def _client(role_tokens=None, db_path=None):
+    # TJ-026.5: the app now persists admin state to SQLite by
+    # default. Tests point it at a throwaway tmp file so runs stay
+    # hermetic and never create tianji_admin.db in the repo. Stores
+    # are per-app-instance, so a fresh file per _client() call keeps
+    # the same isolation the in-memory stores had. Pass db_path to
+    # share one file across clients (restart simulation).
+    if db_path is None:
+        fd, db_path = tempfile.mkstemp(suffix='.db')
+        os.close(fd)
     return TestClient(create_app(
         admin_role_tokens=dict(ROLE_TOKENS) if role_tokens is None else role_tokens,
         admin_read_token=READ_TOKEN,
-        admin_read_scopes={'system'}))
+        admin_read_scopes={'system'},
+        admin_db_path=db_path))
 
 
 def _auth(token):
@@ -67,7 +79,7 @@ class TestB020DraftFlowHttp(unittest.TestCase):
         draft = created.json()['draft']
         self.assertEqual(draft['status'], 'draft')
         self.assertEqual(draft['author_role'], 'editor')
-        self.assertEqual(created.json()['storage'], 'process_memory')
+        self.assertEqual(created.json()['storage'], 'sqlite')
         self.assertIn('重启', created.json()['storage_note'])
         draft_id = draft['id']
         for token, action, expected in [
@@ -218,6 +230,31 @@ class TestB020DraftFlowHttp(unittest.TestCase):
         self.assertNotIn(secret_body, blob)
         # Exactly one record per attempt (no double-recording).
         self.assertEqual(len(entries), 4)
+
+    def test_restart_keeps_drafts_and_audit(self):
+        # TJ-026.5: two app instances over one SQLite file simulate
+        # a restart — the second instance must see everything the
+        # first wrote, with no shared memory between them.
+        fd, db_path = tempfile.mkstemp(suffix='.db')
+        os.close(fd)
+        first = _client(db_path=db_path)
+        created = _create(first, 'editor-token', title='Keep me',
+                          body='Keep body')
+        draft_id = created.json()['draft']['id']
+        _act(first, 'editor-token', draft_id, 'submit')
+        second = _client(db_path=db_path)
+        got = second.get(f'/api/v1/admin/drafts/{draft_id}',
+                         headers=_auth('editor-token'))
+        self.assertEqual(got.status_code, 200, got.text)
+        self.assertEqual(got.json()['draft']['title'], 'Keep me')
+        self.assertEqual(got.json()['draft']['status'], 'submitted')
+        self.assertEqual(got.json()['storage'], 'sqlite')
+        entries = _audit(second)
+        whats = [(e['what'], e['outcome']) for e in entries]
+        self.assertEqual(whats, [
+            (f'draft:create', 'allowed'),
+            (f'draft:submit:{draft_id}', 'allowed'),
+        ])
 
 
 if __name__ == '__main__':

@@ -56,10 +56,10 @@ function LogsPanel() {
           <h2>审计轨迹</h2>
           <p>
             展示治理动作（操作者、时间、动作、结果），不再是请求阶段追踪。
-            条目仅保存在进程内存中，服务重启后丢失；持久化存储另行决策。
+            条目存入 SQLite 单文件，服务重启后不丢失；备份为拷贝该文件。
           </p>
         </div>
-        <span className="admin-status">进程内存 · 重启丢失</span>
+        <span className="admin-status">SQLite 持久存储 · 重启不丢</span>
       </div>
       <form
         className="module-settings"
@@ -457,7 +457,7 @@ export function ModulePage({
         </div>
         <span className="admin-readonly">
           <Icon name="shield" size={16} />
-          {module.mode === "logs" ? "审计轨迹 · 进程内存" : "设计预览 · DEMO"}
+          {module.mode === "logs" ? "审计轨迹 · SQLite 持久存储" : "设计预览 · DEMO"}
         </span>
       </div>
       <FeaturePanel key={module.id} module={module} />

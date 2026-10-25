@@ -208,6 +208,7 @@
 | E0153 | 2026-10-25 | TJ-022.3 | 已合并 | [B029] 关账：公开 #338 已合并到 main（Merge SHA e91b609989fff1d068e2e6693b0b872c76fc2ab7），桃花书卷化验证（普通语言条件摘要+两套方法独立展示+目标年真实重算）已在主干；桩 spec 公开 CI 执行、真实后端 spec 离线受控验收，公开 CI 不冒称 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/338 | e91b609989fff1d068e2e6693b0b872c76fc2ab7 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40169410569 |
 | E0154 | 2026-10-25 | TJ-025.1 | 已合并 | [B029] 关账：公开 #338 已合并到 main（Merge SHA e91b609989fff1d068e2e6693b0b872c76fc2ab7），四源聚合验证（同盘同年+去重证据+一致性核验文案）已在主干；后端 12 项集成测试已覆盖，不重建 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/338 | e91b609989fff1d068e2e6693b0b872c76fc2ab7 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40169410569 |
 | E0155 | 2026-10-25 | TJ-019.3 | 已合并 | [B029] 关账：公开 #338 已合并到 main（Merge SHA e91b609989fff1d068e2e6693b0b872c76fc2ab7），存量十场景复核验证（10 例各恰好 1 精确命中+泛化 0 命中）已在主干；后端 10 场景枚举已有断言，不重建 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/338 | e91b609989fff1d068e2e6693b0b872c76fc2ab7 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40169410569 |
+| E0156 | 2026-10-25 | TJ-026.5 | 已提交PR | 单独立：SQLite 单文件持久化审计与草稿（标准库 sqlite3，零新依赖）；审计 append-only、草稿版本快照与转移记录 append-only、ID 序列重启不重复；DB 路径环境变量配置，文件不进 git；部署卷 caveat 另行确认 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/340 |  |  |
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。

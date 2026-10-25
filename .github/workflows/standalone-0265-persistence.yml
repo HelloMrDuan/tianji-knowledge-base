@@ -1,0 +1,73 @@
+name: TJ-026.5 SQLite Persistence
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "src/tianji_kb/admin_storage.py"
+      - "src/tianji_kb/api.py"
+      - "src/tianji_kb/admin_drafts.py"
+      - "tests/test_b0265_storage.py"
+      - "web/visual-prototype/src/admin/**"
+      - "web/visual-prototype/tests/b0265-storage-note.spec.ts"
+      - ".github/workflows/standalone-0265-persistence.yml"
+  push:
+    branches: [main]
+    paths:
+      - "src/tianji_kb/admin_storage.py"
+      - "src/tianji_kb/api.py"
+      - "src/tianji_kb/admin_drafts.py"
+      - "tests/test_b0265_storage.py"
+      - "web/visual-prototype/src/admin/**"
+      - "web/visual-prototype/tests/b0265-storage-note.spec.ts"
+      - ".github/workflows/standalone-0265-persistence.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  storage-python:
+    # TJ-026.5 storage-layer tests: pure stdlib sqlite3, no FastAPI
+    # stack and no private data, so they execute in public CI.
+    # HTTP-level verification (real status codes end to end, restart
+    # keeps drafts/audit) lives in test_b020/b022/b018 HTTP files and
+    # runs under offline acceptance only, never here.
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run SQLite storage tests
+        run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_b0265_storage.py' -v
+
+  storage-note-chromium:
+    # TJ-026.5 storage-note spec runs with controlled synthetic HTTP
+    # contracts (page.route stubs), so it executes in public CI with
+    # no real backend and no private data.
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: web/visual-prototype/package-lock.json
+      - name: Install frontend dependencies
+        working-directory: web/visual-prototype
+        run: npm ci
+      - name: Install Chromium
+        working-directory: web/visual-prototype
+        run: npx playwright install --with-deps chromium
+      - name: Run storage-note spec with controlled synthetic HTTP contracts
+        working-directory: web/visual-prototype
+        run: CI=true npm test -- tests/b0265-storage-note.spec.ts
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: b0265-browser-failures
+          path: web/visual-prototype/test-results/
+          if-no-files-found: ignore
+          retention-days: 7
