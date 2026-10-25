@@ -1,0 +1,57 @@
+name: Standalone 009.3 Static Hero
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "web/visual-prototype/**"
+      - ".github/workflows/standalone-0093-static-hero.yml"
+  push:
+    branches: [main]
+    paths:
+      - "web/visual-prototype/**"
+      - ".github/workflows/standalone-0093-static-hero.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  b0093-static-hero-chromium:
+    # TJ-009.3 redefined (user-authorized 2026-10-25): static hero
+    # performance verification + dead CSS cleanup. The WBS literal
+    # "landscape/mist animation" no longer exists (TJ-008.7 round 4
+    # static pictures; InkLandscape always static SVG), so this spec
+    # verifies static hero behavior only: one hero image per viewport,
+    # zero hero requests in paper theme, CDP-throttled hero timings
+    # against SUGGESTED thresholds (not WBS text), and weak
+    # no-animation-under-reduce assertions (static elements have no
+    # animation to stop). It runs with no backend at all (homepage
+    # initial state only, nothing submitted, no API stub needed), so
+    # it executes in public CI with no private data. It proves
+    # FRONTEND behavior only, not engine behavior, and claims no
+    # frame-rate data and no literal "animation performance".
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: web/visual-prototype/package-lock.json
+      - name: Install frontend dependencies
+        working-directory: web/visual-prototype
+        run: npm ci
+      - name: Install Chromium
+        working-directory: web/visual-prototype
+        run: npx playwright install --with-deps chromium
+      - name: Run static hero spec
+        working-directory: web/visual-prototype
+        run: CI=true npm test -- tests/b0093-static-hero.spec.ts
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: b0093-browser-failures
+          path: web/visual-prototype/test-results/
+          if-no-files-found: ignore
+          retention-days: 7

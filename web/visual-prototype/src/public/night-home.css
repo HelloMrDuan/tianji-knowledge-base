@@ -376,29 +376,10 @@ html[data-theme="paper"] .paper-card {
   opacity: 0.62;
 }
 
-/* ---------- 夜景氛围动画（reduced-motion 下静态） ---------- */
-@keyframes nhs-lantern-flicker {
-  0%, 100% { opacity: 0.88; }
-  50% { opacity: 1; }
-}
-@keyframes nhs-mist-drift {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(46px); }
-}
-.nhs-lantern {
-  animation: nhs-lantern-flicker 5s ease-in-out infinite;
-}
-.nhs-mist-1 {
-  animation: nhs-mist-drift 26s ease-in-out infinite;
-}
-.nhs-mist-2 {
-  animation: nhs-mist-drift 34s ease-in-out infinite reverse;
-}
+/* TJ-009.3 (redefined): lantern/mist animation rules removed — the classes
+ * had zero matches in any .tsx (the hero renders a <picture> since TJ-008.7
+ * round 4), so this was dead CSS. The live .paper-card rules below stay. */
 @media (prefers-reduced-motion: reduce) {
-  .night-hero-scene .nhs-lantern,
-  .night-hero-scene .nhs-mist {
-    animation: none;
-  }
   .paper-card,
   .paper-card:hover {
     transition: none;

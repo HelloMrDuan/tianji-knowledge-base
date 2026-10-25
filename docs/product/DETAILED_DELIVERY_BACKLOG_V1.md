@@ -68,7 +68,7 @@
 | **TJ-008.7** | **首页深青夜景真实视觉还原（React）** | `HomePage.tsx`、夜景 Hero 新组件/SVG 资产、`night-ink` 设计基准、`scenarios.css`/`theme.css` | 严格以 `docs/product/designs/night-ink/approved-reference.webp` 为最高基准：古风楼阁、灯笼、月色、山水、暖金标题、朱砂印、宣纸大卡；四主卡按今日运势/桃花姻缘/事业财运/流年运势排列；桌面/手机布局；保留音乐播放器、双主题切换、11 真实场景入口与现有 API；夜景默认/宣纸可切换；不得用简单深色背景或普通卡片冒充；1440/390/360 真实截图与原图逐项比对，用户认可前不宣称完成 |
 | TJ-009.1 | 原创音轨播放器持久化与默认静音 | `MusicPlayer.tsx`、`quiet-waters.ogg` | 真实手动播放/暂停、记音量、切前台路由不断流 |
 | TJ-009.2 | 进入后台停止音乐、离开后台不擅自重启 | `PublicApp` 与 `AdminApp` | 背景音乐不进入后台、静音权限和浏览器 autoplay 控制生效 |
-| TJ-009.3 | 山水/云雾动效性能与无障碍 | `InkLandscape`、CSS、浏览器回归 | 参考原水墨结构，弱网/低性能设备平稳，reduced-motion 停止 |
+| TJ-009.3 | 山水/云雾动效性能与无障碍 | `InkLandscape`、CSS、浏览器回归 | 用户授权改写定义（2026-10-25）：WBS 字面动效已不存在（008.7 第四轮静态图片取代，InkLandscape 本为静态 SVG），本批验证静态 hero 性能（夜景按视口仅 1 图请求、纸主题 0 图请求、CDP 节流阈值均为建议标准）+ 死 CSS 清理（删灯笼/雾 keyframes 与夜景 reduced-motion 规则），reduced-motion 仅弱断言，不宣称字面“动效性能” |
 
 ### M1 最低截图验收包
 

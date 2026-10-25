@@ -212,6 +212,7 @@
 | E0157 | 2026-10-25 | TJ-026.5 | 已合并 | 关账（单独立 legacy PR，无批次标记）：公开 #340 已合并到 main（Merge SHA 128586bb61bedb736e1f07509d6116efbc887c91），审计与草稿持久化存储（SQLite 单文件）已在主干；备份 = 拷文件；容器无持久卷时重部署仍可能丢，部署卷需单独确认 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/340 | 128586bb61bedb736e1f07509d6116efbc887c91 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40170669067 |
 | E0158 | 2026-10-25 | TJ-008.4 | 已提交PR | 单独立：移动端与无障碍（390/360/768/1440 无横向溢出；200% 缩放等效 195/180 视口无溢出；键盘 Tab 顺序与焦点可见、Escape 关闭与焦点恢复；reduced-motion 生效；核心按钮首屏几何 + 最大滚动可达；修复窄视口溢出：卡片行/表单栅格 min-width:0、提交行与时间选择换行、六爻表窄断点、≤210px 页眉换行、≤360px 入口留白微调；不碰 008.5 与首页视觉） | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/342 |  |  |
 | E0159 | 2026-10-25 | TJ-008.4 | 已合并 | 关账（单独立 legacy PR，无批次标记）：公开 #342 已合并到 main（Merge SHA f9aede1a91b85749754478ace193b92c4045fda8），移动端与无障碍验证（768 矩阵+200% 缩放等效法+键盘+reduced-motion+核心按钮几何遮挡）已在主干；真缺口已修复（360 下 career 样本按钮遮挡 18.94px、缩放等效视口溢出）；焦点陷阱不纳入、管理页移动行为不纳入；008.5 未碰 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/342 | f9aede1a91b85749754478ace193b92c4045fda8 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40173897976 |
+| E0160 | 2026-10-25 | TJ-009.3 | 已提交PR | 单独立：用户授权改写定义：WBS 字面动效已不存在，本批验证静态 hero 性能 + 死 CSS 清理（夜景按视口仅 1 图请求、纸主题 0 图请求、CDP 节流阈值均为建议标准、reduce 仅弱断言；删灯笼/雾 keyframes 与夜景 reduced-motion 规则；不宣称字面“动效性能”，不碰 008.5） | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/344 |  |  |
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
