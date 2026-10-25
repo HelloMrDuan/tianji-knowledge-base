@@ -47,11 +47,16 @@ test("detail opens in a right-docked drawer over the list (desktop)", async ({
   await expect(drawer).toContainText("关联关系");
   await expect(drawer).toContainText("审核轨迹");
   // Right-docked geometry: drawer starts past the viewport middle
-  // and never spans the full width on desktop.
+  // and never spans the full width on desktop. The width band is
+  // 520px ± 1px, not an exact equality: Chromium reports sub-pixel
+  // float noise for a 520px panel (observed 520.00006), so an exact
+  // <= 520 flakes. The ±1px band still pins the designed width and
+  // still fails a full-width or resized panel.
   const box = await drawer.boundingBox();
   expect(box).not.toBeNull();
   expect(box!.x).toBeGreaterThan(640);
-  expect(box!.width).toBeLessThanOrEqual(520);
+  expect(box!.width).toBeGreaterThanOrEqual(519);
+  expect(box!.width).toBeLessThanOrEqual(521);
   // The list underneath stays in the DOM (not replaced).
   await expect(page.locator(".module-table")).toBeVisible();
   await assertNoHorizontalOverflow(page);
