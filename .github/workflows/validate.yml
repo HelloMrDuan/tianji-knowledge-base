@@ -52,6 +52,11 @@ jobs:
       # NOT public CI). Also includes the read-token env-fallback fix
       # regression (env-configured tokens must authenticate).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_b018_admin_roles.py' -v
+      # B020 draft approval state machine + action-to-role mapping
+      # (pure stdlib, no FastAPI or private data). HTTP-level
+      # verification lives in test_b020_drafts_http.py (offline
+      # acceptance only, NOT public CI).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_b020_drafts.py' -v
       # B018 dream demand matrix view contract (pure file parsing of the
       # DreamCulturePage matrix section, no backend or data required).
       - run: python -m unittest discover -s tests -p 'test_b018_dream_matrix.py' -v

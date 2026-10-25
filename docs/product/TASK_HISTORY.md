@@ -180,6 +180,8 @@
 | E0125 | 2026-10-25 | TJ-019.1 | 已提交PR | [B018] 矩阵视图：DreamCulturePage 独立区块，7 分类 WBS 顺序静态排队，未审核+不产解释声明；不改 unreviewed 列表逻辑；矩阵内无原典文本、无吉凶断言 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/326 |  |  |
 | E0126 | 2026-10-25 | TJ-026.4 | 已合并 | [B019] 关账：公开 #326 已合并到 main（Merge SHA 84c6fc5a44d414e899f75b5f75541a809e738ea2），首批角色模型+未授权阻止+审计骨架已在主干；草稿审批流与回滚另立任务；HTTP 测试由离线受控验收执行，公开 CI 不冒称 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/326 | 84c6fc5a44d414e899f75b5f75541a809e738ea2 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40160669587 |
 | E0127 | 2026-10-25 | TJ-019.1 | 已合并 | [B019] 关账：公开 #326 已合并到 main（Merge SHA 84c6fc5a44d414e899f75b5f75541a809e738ea2），梦境需求矩阵视图已在主干；7 分类静态排队+不产解释声明在位 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/326 | 84c6fc5a44d414e899f75b5f75541a809e738ea2 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40160669587 |
+| E0128 | 2026-10-25 | TJ-026.4 | 已提交PR | [B020] 第二批：草稿审批流（首批 E0126 已合并，本批为第二批）：进程内存草稿存储+状态机（draft→submitted→approved/rejected→published，非法转移 fail-closed）+创建/编辑/提交/批准/驳回/发布端点+每次尝试恰好一条审计；持久化存储与回滚另立任务；HTTP 测试由离线受控验收执行，公开 CI 不冒称 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/328 |  |  |
+| E0129 | 2026-10-25 | TJ-026.1 | 已提交PR | [B020] 布局 only：抽屉组件（新建）+ModulePage 详情区从整页视图迁移到抽屉+壳子对照 #87 截图结构；排除 users/logs 真实数据与 16 模块数据接入；不改数据逻辑 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/328 |  |  |
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。

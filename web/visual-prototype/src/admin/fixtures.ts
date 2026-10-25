@@ -26,6 +26,7 @@ export const adminGroups = [
       { label: "Scenario 管理", icon: "layers", path: "/admin/scenarios" },
       { label: "解梦知识研究", icon: "book", path: "/admin/dream-research" },
       { label: "写权限探针", icon: "shield", path: "/admin/write-probe" },
+      { label: "草稿审批", icon: "shield", path: "/admin/drafts" },
     ],
   },
   {

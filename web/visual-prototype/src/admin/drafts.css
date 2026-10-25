@@ -1,0 +1,91 @@
+/* B020 TJ-026.4 batch 2: draft approval page styles. Layout reuses
+ * the admin card/button/status language; only draft-specific spacing
+ * lives here. */
+.drafts-notice p {
+  font-size: 13px;
+  line-height: 1.8;
+  color: #4c5a50;
+}
+
+.drafts-error {
+  color: #9c3d2e;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.drafts-notice-text {
+  color: #2e5e43;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.drafts-storage-note {
+  font-size: 12px;
+  color: #748390;
+}
+
+.drafts-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 16px;
+}
+
+.admin-draft-item {
+  border: 1px solid #e8e2d2;
+  border-radius: 6px;
+  padding: 14px 16px;
+}
+
+.drafts-item-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.drafts-item-title {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #24382e;
+  cursor: pointer;
+  text-align: left;
+}
+
+.drafts-item-meta {
+  font-size: 12px;
+  color: #748390;
+  overflow-wrap: anywhere;
+}
+
+.drafts-item-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.drafts-edit-form {
+  margin-top: 12px;
+  display: grid;
+  gap: 8px;
+}
+
+.drafts-detail-body {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 14px;
+  line-height: 1.8;
+  color: #24382e;
+}
+
+.drafts-transitions {
+  padding-left: 20px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: #4c5a50;
+}

@@ -23,6 +23,7 @@ from .governance import school_conflicts,reviewed_rules,reviewed_evidence,review
 from .admin_scopes import ADMIN_READ_SCOPES,parse_admin_scopes,resolve_admin_access
 from .admin_roles import parse_admin_role_tokens,resolve_role_access
 from .admin_audit import AuditLog
+from .admin_drafts import DraftStore,DraftNotFoundError,InvalidTransitionError,InvalidDraftInputError,STORAGE_NOTE,DRAFT_ACTION_OPERATION
 
 Domain=Literal['liuyao','qimen','liuren','ziwei','fengshui','yijing','bazi']
 Mode=Literal['production','research']
@@ -99,6 +100,16 @@ class ScenarioExecuteResponse(BaseModel):
 class AdminWriteProbeRequest(BaseModel):
     model_config=ConfigDict(extra='forbid')
     operation:Literal['draft','approve','publish']
+
+class AdminDraftCreateRequest(BaseModel):
+    model_config=ConfigDict(extra='forbid')
+    title:str
+    body:str
+
+class AdminDraftEditRequest(BaseModel):
+    model_config=ConfigDict(extra='forbid')
+    title:str|None=None
+    body:str|None=None
 
 class ExplanationQuote(BaseModel):
     model_config=ConfigDict(extra='forbid')
@@ -184,6 +195,10 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,ad
     # Append-only audit log skeleton (TJ-026.4 batch 1): one per app
     # instance, process memory. Every write attempt is recorded here.
     app.state.audit_log = AuditLog()
+    # Draft store (TJ-026.4 batch 2): one per app instance, process
+    # memory — same lifecycle decision as the audit skeleton. Drafts
+    # are lost on restart; every draft response says so (STORAGE_NOTE).
+    app.state.draft_store = DraftStore()
     origins=[origin.strip() for origin in os.environ.get('TIANJI_CORS_ORIGINS','').split(',') if origin.strip()]
     if origins:app.add_middleware(CORSMiddleware,allow_origins=origins,allow_methods=['GET','POST'],allow_headers=['Content-Type','Authorization'])
 
@@ -260,6 +275,39 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,ad
             if secrets.compare_digest(supplied, token):
                 return role
         return 'unknown'
+
+    def check_draft_role(authorization, operation, what):
+        # TJ-026.4 batch 2: like require_role, but the caller records
+        # the 'allowed' entry only after the business step succeeds, so
+        # one draft attempt leaves exactly one audit record whether it
+        # succeeds (allowed) or fails at the business step (denied).
+        # Denied auth attempts are recorded here, as in batch 1.
+        outcome, detail = resolve_role_access(app.state.admin_role_tokens, authorization, operation)
+        if outcome == 'not_configured':
+            app.state.audit_log.record('unknown', what, 'denied', 'not_configured')
+            raise HTTPException(503, detail={'code': 'admin_role_not_configured', 'message': 'Admin role access is not configured'})
+        if outcome == 'unauthorized':
+            app.state.audit_log.record('unknown', what, 'denied', detail)
+            if detail == 'missing':
+                raise HTTPException(401, detail={'code': 'admin_unauthorized', 'message': 'Admin bearer <redacted> required'}, headers={'WWW-Authenticate': 'Bearer'})
+            raise HTTPException(401, detail={'code': 'admin_unauthorized', 'message': 'Invalid admin bearer <redacted>'}, headers={'WWW-Authenticate': 'Bearer'})
+        if outcome == 'forbidden':
+            app.state.audit_log.record(_role_name_for(authorization), what, 'denied', 'forbidden')
+            raise HTTPException(403, detail={'code': 'admin_forbidden', 'message': f'Admin role does not allow {operation}'})
+        return detail
+
+    def require_valid_role(authorization):
+        # TJ-026.4 batch 2: draft reads (list/get) need a valid role
+        # token but no write operation, and are not audited: only write
+        # attempts leave audit traces (batch-1 rule).
+        if not app.state.admin_role_tokens:
+            raise HTTPException(503, detail={'code': 'admin_role_not_configured', 'message': 'Admin role access is not configured'})
+        role = _role_name_for(authorization)
+        if role == 'unknown':
+            if not authorization or not authorization.startswith('Bearer ') or not authorization[len('Bearer '):]:
+                raise HTTPException(401, detail={'code': 'admin_unauthorized', 'message': 'Admin bearer <redacted> required'}, headers={'WWW-Authenticate': 'Bearer'})
+            raise HTTPException(401, detail={'code': 'admin_unauthorized', 'message': 'Invalid admin bearer <redacted>'}, headers={'WWW-Authenticate': 'Bearer'})
+        return role
 
     def require_internal_execution(authorization):
         # Detailed Evidence / internal trace is only callable with a separate
@@ -520,6 +568,88 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,ad
             'public_release': False,
             'entries': app.state.audit_log.entries(),
         }
+
+    def _draft_response(draft):
+        # Draft records never carry audit content; the storage note is
+        # part of every draft response so no client can mistake these
+        # for durable records.
+        return {'api_version': 'v1', 'draft': draft, 'storage': 'process_memory', 'storage_note': STORAGE_NOTE}
+
+    @app.get('/api/v1/admin/drafts', tags=['admin'])
+    def admin_draft_list(authorization: str | None = Header(default=None)):
+        # TJ-026.4 batch 2: draft reads need a valid role token but no
+        # write operation, and are not audited (batch-1 rule: only
+        # write attempts leave traces).
+        require_valid_role(authorization)
+        return {'api_version': 'v1', 'drafts': app.state.draft_store.list(), 'storage': 'process_memory', 'storage_note': STORAGE_NOTE}
+
+    @app.get('/api/v1/admin/drafts/{draft_id}', tags=['admin'])
+    def admin_draft_get(draft_id: str, authorization: str | None = Header(default=None)):
+        require_valid_role(authorization)
+        draft = app.state.draft_store.get(draft_id)
+        if draft is None:
+            raise HTTPException(404, detail={'code': 'draft_not_found', 'message': f'No draft with id {draft_id}'})
+        return _draft_response(draft)
+
+    @app.post('/api/v1/admin/drafts', tags=['admin'])
+    def admin_draft_create(request: AdminDraftCreateRequest, authorization: str | None = Header(default=None)):
+        # TJ-026.4 batch 2: create a draft (role operation 'draft').
+        role = check_draft_role(authorization, 'draft', 'draft:create')
+        try:
+            draft = app.state.draft_store.create(request.title, request.body, role)
+        except InvalidDraftInputError as error:
+            app.state.audit_log.record(role, 'draft:create', 'denied', 'invalid_input')
+            raise HTTPException(422, detail={'code': 'invalid_draft_input', 'message': str(error)}) from error
+        app.state.audit_log.record(role, 'draft:create', 'allowed', draft['id'])
+        return _draft_response(draft)
+
+    @app.patch('/api/v1/admin/drafts/{draft_id}', tags=['admin'])
+    def admin_draft_edit(draft_id: str, request: AdminDraftEditRequest, authorization: str | None = Header(default=None)):
+        # TJ-026.4 batch 2: edit in place, legal only in 'draft' status.
+        what = f'draft:edit:{draft_id}'
+        role = check_draft_role(authorization, 'draft', what)
+        if request.title is None and request.body is None:
+            app.state.audit_log.record(role, what, 'denied', 'invalid_input')
+            raise HTTPException(422, detail={'code': 'invalid_draft_input', 'message': 'Nothing to edit: supply title and/or body'})
+        try:
+            draft = app.state.draft_store.edit(draft_id, title=request.title, body=request.body)
+        except DraftNotFoundError:
+            app.state.audit_log.record(role, what, 'denied', 'draft_not_found')
+            raise HTTPException(404, detail={'code': 'draft_not_found', 'message': f'No draft with id {draft_id}'})
+        except InvalidTransitionError as error:
+            app.state.audit_log.record(role, what, 'denied', 'invalid_transition')
+            raise HTTPException(422, detail={'code': 'invalid_draft_transition', 'message': str(error)}) from error
+        except InvalidDraftInputError as error:
+            app.state.audit_log.record(role, what, 'denied', 'invalid_input')
+            raise HTTPException(422, detail={'code': 'invalid_draft_input', 'message': str(error)}) from error
+        app.state.audit_log.record(role, what, 'allowed')
+        return _draft_response(draft)
+
+    @app.post('/api/v1/admin/drafts/{draft_id}/{action}', tags=['admin'])
+    def admin_draft_act(draft_id: str, action: str, authorization: str | None = Header(default=None)):
+        # TJ-026.4 batch 2: submit/approve/reject/publish. The action
+        # maps to a batch-1 write operation (DRAFT_ACTION_OPERATION);
+        # unknown actions are rejected before any state is touched
+        # (fail-closed) and audited as denied attempts.
+        operation = DRAFT_ACTION_OPERATION.get(action)
+        what = f'draft:{action}:{draft_id}'
+        if operation is None:
+            if not app.state.admin_role_tokens:
+                app.state.audit_log.record('unknown', what, 'denied', 'not_configured')
+                raise HTTPException(503, detail={'code': 'admin_role_not_configured', 'message': 'Admin role access is not configured'})
+            app.state.audit_log.record(_role_name_for(authorization), what, 'denied', 'unknown_action')
+            raise HTTPException(403, detail={'code': 'admin_forbidden', 'message': f'Unknown draft action {action}'})
+        role = check_draft_role(authorization, operation, what)
+        try:
+            draft = app.state.draft_store.transition(draft_id, action, role)
+        except DraftNotFoundError:
+            app.state.audit_log.record(role, what, 'denied', 'draft_not_found')
+            raise HTTPException(404, detail={'code': 'draft_not_found', 'message': f'No draft with id {draft_id}'})
+        except InvalidTransitionError as error:
+            app.state.audit_log.record(role, what, 'denied', 'invalid_transition')
+            raise HTTPException(422, detail={'code': 'invalid_draft_transition', 'message': str(error)}) from error
+        app.state.audit_log.record(role, what, 'allowed')
+        return _draft_response(draft)
 
     @app.post('/api/v1/scenarios/public',response_model=ScenarioExecuteResponse,tags=['public-execution'])
     async def public_scenario_request(request:ScenarioExecuteRequest,response:Response):

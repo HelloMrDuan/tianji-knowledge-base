@@ -1,0 +1,53 @@
+name: B020 Drafts and Drawer Browser Regression
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "web/visual-prototype/**"
+      - ".github/workflows/b020-drafts-drawer.yml"
+      - "docs/product/TASK_STATUS.md"
+      - "docs/product/TASK_HISTORY.md"
+  push:
+    branches: [main]
+    paths:
+      - "web/visual-prototype/**"
+      - ".github/workflows/b020-drafts-drawer.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  b020-drafts-drawer-chromium:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: web/visual-prototype/package-lock.json
+      - name: Install frontend dependencies
+        working-directory: web/visual-prototype
+        run: npm ci
+      - name: Install Chromium
+        working-directory: web/visual-prototype
+        run: npx playwright install --with-deps chromium
+      # Both specs need no backend: the drafts spec uses controlled
+      # synthetic HTTP contracts only (page.route stubs in the spec)
+      # and the drawer spec renders design fixtures only. No backend
+      # server is required. The REAL draft state machine, role matrix,
+      # and audit behaviors of the backend are additionally verified
+      # by tests/test_b020_drafts_http.py (offline acceptance, real
+      # server code).
+      - name: Run actual Chromium with controlled synthetic HTTP contracts
+        working-directory: web/visual-prototype
+        run: CI=true npm test -- tests/b020-drafts.spec.ts tests/b020-drawer.spec.ts --workers=1
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: b020-browser-failures
+          path: web/visual-prototype/test-results/
+          if-no-files-found: ignore
+          retention-days: 7

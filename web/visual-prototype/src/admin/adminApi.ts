@@ -510,3 +510,122 @@ export async function fetchAdminAudit(
   }
   return data as AdminAuditResponse;
 }
+
+export type AdminDraftTransition = {
+  action: string;
+  role: string;
+  at: string;
+};
+
+export type AdminDraft = {
+  id: string;
+  title: string;
+  body: string;
+  author_role: string;
+  status: "draft" | "submitted" | "approved" | "rejected" | "published";
+  created_at: string;
+  updated_at: string;
+  transitions: AdminDraftTransition[];
+};
+
+export type AdminDraftResponse = {
+  api_version: string;
+  draft: AdminDraft;
+  storage: string;
+  storage_note: string;
+};
+
+export type AdminDraftListResponse = {
+  api_version: string;
+  drafts: AdminDraft[];
+  storage: string;
+  storage_note: string;
+};
+
+export type AdminDraftAction = "submit" | "approve" | "reject" | "publish";
+
+/**
+ * TJ-026.4 batch 2: draft approval flow. Every function forwards only
+ * the user-entered role token (component state only, never persisted)
+ * and reuses the TJ-026.3 status branching (adminErrorMessage) — no
+ * separate error copy is introduced here. Draft content is only ever
+ * sent to the role-gated draft endpoints, never to a public endpoint.
+ */
+async function draftRequest(
+  token: string,
+  path: string,
+  init?: RequestInit,
+): Promise<Record<string, unknown>> {
+  const response = await fetch(`${apiBase}${path}`, {
+    ...init,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+      ...(init?.headers ?? {}),
+    },
+  });
+  const data = (await response.json().catch(() => ({}))) as Record<
+    string,
+    unknown
+  >;
+  if (!response.ok) {
+    throwAdminError(response, data);
+  }
+  return data;
+}
+
+export async function listAdminDrafts(
+  token: string,
+): Promise<AdminDraftListResponse> {
+  const data = await draftRequest(token, "/api/v1/admin/drafts");
+  if (!Array.isArray(data?.drafts)) {
+    throw new Error("服务端未返回草稿列表，拒绝展示。");
+  }
+  return data as unknown as AdminDraftListResponse;
+}
+
+export async function createAdminDraft(
+  token: string,
+  title: string,
+  body: string,
+): Promise<AdminDraftResponse> {
+  const data = await draftRequest(token, "/api/v1/admin/drafts", {
+    method: "POST",
+    body: JSON.stringify({ title, body }),
+  });
+  if (typeof (data?.draft as AdminDraft | undefined)?.id !== "string") {
+    throw new Error("服务端未返回草稿，拒绝展示。");
+  }
+  return data as unknown as AdminDraftResponse;
+}
+
+export async function editAdminDraft(
+  token: string,
+  id: string,
+  patch: { title?: string; body?: string },
+): Promise<AdminDraftResponse> {
+  const data = await draftRequest(token, `/api/v1/admin/drafts/${id}`, {
+    method: "PATCH",
+    body: JSON.stringify(patch),
+  });
+  if (typeof (data?.draft as AdminDraft | undefined)?.id !== "string") {
+    throw new Error("服务端未返回草稿，拒绝展示。");
+  }
+  return data as unknown as AdminDraftResponse;
+}
+
+export async function actOnAdminDraft(
+  token: string,
+  id: string,
+  action: AdminDraftAction,
+): Promise<AdminDraftResponse> {
+  const data = await draftRequest(
+    token,
+    `/api/v1/admin/drafts/${id}/${action}`,
+    { method: "POST" },
+  );
+  if (typeof (data?.draft as AdminDraft | undefined)?.id !== "string") {
+    throw new Error("服务端未返回草稿，拒绝展示。");
+  }
+  return data as unknown as AdminDraftResponse;
+}

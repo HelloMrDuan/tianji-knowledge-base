@@ -87,10 +87,10 @@
 | TJ-025.1 | M5 | 四源场景同一出生/目标年真实聚合 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-025.2 | M5 | 人生总览的条件说明/无法裁决出口 | 阻塞 | — | — | 等待证据/前置依赖 |
 | TJ-025.3 | M5 | 首页→总览→细分页面的完整古风阅读链 | 已合并 | [公开 #311](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/311) | 2026-10-25 | #311 已合并；限于浏览器导航/年份/清空/四视口表现，后端四源 Evidence 真验收另由 TJ-025.1 处理 |
-| TJ-026.1 | M6 | 恢复 #87 管理布局与 16 个原管理模块 | 待做 | — | — | 按 WBS 验收条件执行 |
+| TJ-026.1 | M6 | 恢复 #87 管理布局与 16 个原管理模块 | 已提交PR | [公开 #328](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/328) | 2026-10-25 | [B020] 布局 only：抽屉组件+ModulePage 详情区迁移到抽屉+壳子对照 #87；排除 users/logs 真实数据与 16 模块数据接入（完整 026.1 另立任务）；不改数据逻辑 |
 | TJ-026.2 | M6 | Scenario 管理与梦研究管理 | 已合并 | [公开 #324](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/324) | 2026-10-25 | #324 已合并；Scenario 真实管理页与发布门禁已在主干；DEMO scenarios 模块已移除；真实后端验证由离线受控验收执行，公开 CI 不冒称 |
 | TJ-026.3 | M6 | 真实只读模块逐页接受控接口 | 已合并 | [公开 #324](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/324) | 2026-10-25 | #324 已合并；403 scope 模型与 401/403/404 显式分支已在主干；HTTP 与浏览器真实后端验证由离线受控验收执行，公开 CI 不冒称 |
-| TJ-026.4 | M6 | 角色权限、草稿审批、回滚和审计 | 已合并 | [公开 #326](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/326) | 2026-10-25 | #326 已合并；首批角色模型+未授权阻止+审计骨架已在主干；草稿审批流与回滚另立任务；HTTP 测试由离线受控验收执行，公开 CI 不冒称 |
+| TJ-026.4 | M6 | 角色权限、草稿审批、回滚和审计 | 已提交PR | [公开 #328](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/328) | 2026-10-25 | [B020] 第二批：草稿审批流（首批 E0126 已合并，本批为第二批）：进程内存草稿存储+状态机+创建/提交/批准/驳回/发布端点+每次尝试审计；持久化与回滚另立任务；HTTP 测试由离线受控验收执行，公开 CI 不冒称 |
 | TJ-027.1 | M6 | 部署私有后端与静态前端 | 已提交PR | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/308 · https://github.com/HelloMrDuan/tianji-knowledge-base/pull/313 | 2026-10-24 | PR #308 已合并公开 Web GHCR 构建；PR #313 增加仅 main 可唤醒正式机器的安全门禁，功能分支禁止触发正式机器唤醒。可信机离线密封验收、精确 SHA/PIN 与机内自动部署仍须真实取证，未获部署验收 |
 | TJ-027.2 | M6 | 可观测性与回滚 | 已合并 | [公开 #305](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/305) | 2026-10-25 | #305 已合并；仅健康探针子范围，告警/自动回滚仍待实机证据，不声明完整关账 |
 | TJ-028.1 | M6 | 真模型访问与权限 | 待做 | — | — | 按 WBS 验收条件执行 |

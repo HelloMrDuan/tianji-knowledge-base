@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Icon } from "../shared/Icon";
-import { Link } from "../shared/router";
+import { Link, navigate } from "../shared/router";
+import { Drawer } from "./Drawer";
+import "./drawer.css";
 import type { ModuleDefinition, ModuleRecord } from "./modules";
 
 function FeaturePanel({ module }: { module: ModuleDefinition }) {
@@ -235,9 +237,13 @@ function FeaturePanel({ module }: { module: ModuleDefinition }) {
 function RecordDetail({
   module,
   record,
+  onClose,
 }: {
   module: ModuleDefinition;
   record: ModuleRecord;
+  // B020: inside a drawer, closing returns to the list; without it
+  // (standalone render) the link below keeps the old behavior.
+  onClose?: () => void;
 }) {
   const [tab, setTab] = useState("details");
   return (
@@ -316,9 +322,15 @@ function RecordDetail({
           静态演示 · 真实记录、写入与权限服务尚未接入
         </div>
       </section>
-      <Link className="admin-button" href={"/admin/" + module.id}>
-        返回{module.title}
-      </Link>
+      {onClose ? (
+        <button className="admin-button" onClick={onClose}>
+          关闭
+        </button>
+      ) : (
+        <Link className="admin-button" href={"/admin/" + module.id}>
+          返回{module.title}
+        </Link>
+      )}
     </>
   );
 }
@@ -332,10 +344,11 @@ export function ModulePage({
   const [query, setQuery] = useState("");
   const [state, setState] = useState("全部状态");
   const record = module.records.find((r) => r.id === recordId);
-  if (recordId)
-    return record ? (
-      <RecordDetail module={module} record={record} />
-    ) : (
+  // B020: a detail URL no longer replaces the list with a full-page
+  // view. Unknown ids keep the old not-found card; known ids render
+  // the list with the detail in a drawer (shell stays #87-faithful).
+  if (recordId && !record)
+    return (
       <section className="admin-card module-detail">
         <h1>没有这个记录</h1>
         <p>请回到列表核对编号。</p>
@@ -351,7 +364,7 @@ export function ModulePage({
         .toLowerCase()
         .includes(query.trim().toLowerCase()),
   );
-  return (
+  const listView = (
     <>
       <div className="admin-page-heading">
         <div>
@@ -473,4 +486,18 @@ export function ModulePage({
       </section>
     </>
   );
+  // B020: detail opens in a drawer over the list, deep-linkable via
+  // the same /admin/<module>/<recordId> URL as before.
+  if (recordId && record) {
+    const close = () => navigate("/admin/" + module.id);
+    return (
+      <>
+        {listView}
+        <Drawer title={record.name} onClose={close}>
+          <RecordDetail module={module} record={record} onClose={close} />
+        </Drawer>
+      </>
+    );
+  }
+  return listView;
 }

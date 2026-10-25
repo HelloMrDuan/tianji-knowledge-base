@@ -17,6 +17,7 @@ import { ProviderGovernancePage } from "./ProviderGovernancePage";
 import { PromptGovernancePage } from "./PromptGovernancePage";
 import { AdminDreamResearchPage } from "./AdminDreamResearchPage";
 import { AdminWriteProbePage } from "./AdminWriteProbePage";
+import { AdminDraftsPage } from "./AdminDraftsPage";
 import ScenarioManagementPage from "./ScenarioManagementPage";
 import "./admin.css";
 import "./modules.css";
@@ -36,6 +37,7 @@ const titles: Record<string, string> = {
   "/admin/conflicts": "流派与冲突",
   "/admin/dream-research": "解梦知识研究",
   "/admin/write-probe": "写权限探针",
+  "/admin/drafts": "草稿审批",
   "/admin/scenarios": "Scenario 管理",
 };
 export default function AdminApp() {
@@ -94,7 +96,7 @@ export default function AdminApp() {
         </nav>
         <div className="admin-sidebar-bottom">
           <span className="status-dot" />
-          <span>管理工作台 · 当前只读</span>
+          <span>管理工作台 · 演示资产只读</span>
         </div>
       </aside>
       <div className="admin-workspace">
@@ -112,7 +114,7 @@ export default function AdminApp() {
             <strong>{titles[path] || module?.title || "页面未找到"}</strong>
           </div>
           <div className="admin-header-right">
-            <span className="admin-demo-tag">只读模式</span>
+            <span className="admin-demo-tag">演示资产只读</span>
             <Link href="/" className="admin-public-link">
               查看前台
               <Icon name="external" size={14} />
@@ -139,6 +141,8 @@ export default function AdminApp() {
             <AdminDreamResearchPage />
           ) : path === "/admin/write-probe" ? (
             <AdminWriteProbePage />
+          ) : path === "/admin/drafts" ? (
+            <AdminDraftsPage />
           ) : path.startsWith("/admin/conflicts") ? (
             <ConflictGovernancePage />
           ) : path === "/admin/rules" ? (
@@ -174,7 +178,7 @@ export default function AdminApp() {
           )}
         </main>
         <footer className="admin-footer">
-          天机内部资产管理 · 当前阶段只读，写入、认证与权限服务待后续接入
+          天机内部资产管理 · 演示资产只读；草稿审批写入需角色令牌
         </footer>
       </div>
     </div>
