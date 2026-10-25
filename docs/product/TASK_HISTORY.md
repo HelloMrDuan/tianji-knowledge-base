@@ -184,6 +184,8 @@
 | E0129 | 2026-10-25 | TJ-026.1 | 已提交PR | [B020] 布局 only：抽屉组件（新建）+ModulePage 详情区从整页视图迁移到抽屉+壳子对照 #87 截图结构；排除 users/logs 真实数据与 16 模块数据接入；不改数据逻辑 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/328 |  |  |
 | E0130 | 2026-10-25 | TJ-026.4 | 已合并 | [B021] 关账：公开 #328 已合并到 main（Merge SHA ebf0edc7c62bd2abd358dfe2f197e2a878bb97d9），第二批草稿审批流已在主干；回滚（第三批）另立任务；持久化存储另决策；HTTP 测试由离线受控验收执行，公开 CI 不冒称 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/328 | ebf0edc7c62bd2abd358dfe2f197e2a878bb97d9 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40163386012 |
 | E0131 | 2026-10-25 | TJ-026.1 | 已合并 | [B021] 关账：公开 #328 已合并到 main（Merge SHA ebf0edc7c62bd2abd358dfe2f197e2a878bb97d9），布局 only（抽屉组件+详情迁移+壳子对照）已在主干；users/logs真实数据与16模块数据接入另立任务（完整 026.1 未完成） | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/328 | ebf0edc7c62bd2abd358dfe2f197e2a878bb97d9 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40163386012 |
+| E0132 | 2026-10-25 | TJ-026.4 | 已提交PR | [B022] 第三批：回滚（一批/二批已合并，本批为第三批）：草稿内版本史（每次 mutation 快照）+ publisher 专属回滚（已发布回滚到草稿，已驳回终态）+ 补偿审计只追加；进程内存与重启丢失明文标注；持久化存储与独立登记簿另立任务；HTTP 测试由离线受控验收执行，公开 CI 不冒称 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/330 |
+| E0133 | 2026-10-25 | TJ-005.2 | 已提交PR | [B022] 冒烟套件组装：复用 check_api/health_check/静态包检查，新增 smoke_suite.py（本地受控：回环后端 → 健康/六域执行/静态分发/探针/权限冒烟 401/403/404）；CI 模式公开 CI 真实执行（无私有数据可执行子集），完整健康/执行检查由离线受控验收执行；仅本地受控冒烟，不含真实域名 HTTPS，不冒充生产部署 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/330 |
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。

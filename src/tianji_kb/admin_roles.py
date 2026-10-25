@@ -29,10 +29,18 @@ ADMIN_ROLES = frozenset({'user', 'editor', 'reviewer', 'publisher'})
 # Probe operation -> roles allowed to perform it. These are the ONLY
 # write operations in batch 1; each maps to a future business operation
 # of the same name, but no such business exists yet.
+#
+# TJ-026.4 batch 3 adds exactly one operation below it: 'rollback'
+# (publisher only). It gates the draft rollback endpoint (see
+# admin_drafts.rollback); it is NOT a draft state-machine action and
+# is deliberately absent from DRAFT_ACTION_OPERATION, so the generic
+# action endpoint can never route a rollback (fail-closed: a rollback
+# without a version body is rejected there as an unknown action).
 WRITE_OPERATIONS = {
     'draft': frozenset({'editor', 'reviewer', 'publisher'}),
     'approve': frozenset({'reviewer', 'publisher'}),
     'publish': frozenset({'publisher'}),
+    'rollback': frozenset({'publisher'}),
 }
 
 

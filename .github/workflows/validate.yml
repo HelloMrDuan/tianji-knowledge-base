@@ -57,6 +57,11 @@ jobs:
       # verification lives in test_b020_drafts_http.py (offline
       # acceptance only, NOT public CI).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_b020_drafts.py' -v
+      # B022 draft version snapshots + rollback (pure stdlib, no
+      # FastAPI or private data). HTTP-level verification lives in
+      # test_b022_rollback_http.py (offline acceptance only, NOT
+      # public CI).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_b022_rollback.py' -v
       # B018 dream demand matrix view contract (pure file parsing of the
       # DreamCulturePage matrix section, no backend or data required).
       - run: python -m unittest discover -s tests -p 'test_b018_dream_matrix.py' -v

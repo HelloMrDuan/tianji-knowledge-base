@@ -30,6 +30,16 @@ type StubDraft = {
   created_at: string;
   updated_at: string;
   transitions: { action: string; role: string; at: string }[];
+  // B022: the draft contract now carries version snapshots (batch 3).
+  // The stub models them so the Drawer versions section renders.
+  versions: {
+    version: number;
+    title: string;
+    body: string;
+    action: string;
+    role: string;
+    at: string;
+  }[];
 };
 
 type StubFailure = { action: string; status: number; message: string };
@@ -75,6 +85,16 @@ async function installDraftStub(page: Page, fail?: StubFailure) {
         created_at: now,
         updated_at: now,
         transitions: [{ action: "create", role: "editor", at: now }],
+        versions: [
+          {
+            version: 1,
+            title: String(body.title ?? ""),
+            body: String(body.body ?? ""),
+            action: "create",
+            role: "editor",
+            at: now,
+          },
+        ],
       };
       store[id] = draft;
       return route.fulfill({ status: 200, json: { ...note, draft } });
@@ -115,6 +135,17 @@ async function installDraftStub(page: Page, fail?: StubFailure) {
       }
       draft.status = target as StubDraft["status"];
       draft.transitions.push({
+        action,
+        role: "reviewer",
+        at: "2026-10-25T00:01:00+00:00",
+      });
+      // B022: every transition appends a version snapshot, mirroring
+      // the real batch-3 semantics (the B020 spec itself does not
+      // assert versions; this keeps the stub contract faithful).
+      draft.versions.push({
+        version: draft.versions.length + 1,
+        title: draft.title,
+        body: draft.body,
         action,
         role: "reviewer",
         at: "2026-10-25T00:01:00+00:00",
