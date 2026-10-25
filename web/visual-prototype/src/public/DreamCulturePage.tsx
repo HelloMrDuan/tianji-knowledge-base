@@ -21,6 +21,19 @@ const REVIEWED_SCENE_EXAMPLES = [
   { label: "拾钱", glyph: "财", hint: "捡到钱币", example: "我梦见我捡到了钱" },
 ] as const;
 
+// TJ-019.1: the seven unreviewed input topics from dream_knowledge.py,
+// in WBS listing order (static priority). No demand-count data exists,
+// so no dynamic ranking is claimed and no counts are shown.
+const MATRIX_TOPICS = [
+  { label: "被追" },
+  { label: "故人" },
+  { label: "考试" },
+  { label: "结婚" },
+  { label: "怀孕" },
+  { label: "工作" },
+  { label: "死亡" },
+] as const;
+
 export function DreamCulturePage() {
   const [dream, setDream] = useState("");
   const [result, setResult] = useState<DreamCultureResponse | null>(null);
@@ -101,6 +114,32 @@ export function DreamCulturePage() {
           ))}
         </div>
         <p className="dream-culture-library-foot">同一动物或物品的不同动作，未必对应相同古籍条目；只匹配审核过的具体场景。</p>
+      </section>
+
+      {/* TJ-019.1 高频梦境需求矩阵：独立分类排队视图，不改动下方
+          的未审核主题列表逻辑。矩阵内不得出现原典文本、吉凶断言
+          与医疗/孕育推断；每项均明文"无精确动作原典，不产解释"。 */}
+      <section className="dream-culture-matrix" aria-label="高频梦境需求矩阵">
+        <div className="dream-culture-matrix-head">
+          <span className="eyebrow">未审核主题 · 分类排队</span>
+          <h2>高频梦境需求矩阵</h2>
+        </div>
+        <p className="dream-culture-matrix-intro">
+          以下主题在用户梦境叙述中高频出现，但目前均无严格对应的已审核条目。
+          矩阵仅做分类排队，不产解释。
+        </p>
+        <ul className="dream-culture-matrix-list">
+          {MATRIX_TOPICS.map((topic) => (
+            <li key={topic.label} className="dream-culture-matrix-item">
+              <strong>{topic.label}</strong>
+              <span>未审核</span>
+              <small>无精确动作原典，不产解释</small>
+            </li>
+          ))}
+        </ul>
+        <p className="dream-culture-matrix-foot">
+          排队顺序为固定顺序，不代表需求数量；如需查阅，请描述梦中的具体动作。
+        </p>
       </section>
 
       <section className="dream-culture-layout">

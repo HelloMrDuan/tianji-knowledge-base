@@ -21,6 +21,8 @@ from .operations.dream_knowledge import retrieve as retrieve_dream_culture
 from .rag_context import RetrievalUnavailable
 from .governance import school_conflicts,reviewed_rules,reviewed_evidence,reviewed_classics,reviewed_chapters,reviewed_terms,reviewed_sources,reviewed_layers,reviewed_algorithms,provider_configuration,prompt_registry
 from .admin_scopes import ADMIN_READ_SCOPES,parse_admin_scopes,resolve_admin_access
+from .admin_roles import parse_admin_role_tokens,resolve_role_access
+from .admin_audit import AuditLog
 
 Domain=Literal['liuyao','qimen','liuren','ziwei','fengshui','yijing','bazi']
 Mode=Literal['production','research']
@@ -94,6 +96,10 @@ class ScenarioExecuteResponse(BaseModel):
     warnings:list[str]
     limitations:list[str]
 
+class AdminWriteProbeRequest(BaseModel):
+    model_config=ConfigDict(extra='forbid')
+    operation:Literal['draft','approve','publish']
+
 class ExplanationQuote(BaseModel):
     model_config=ConfigDict(extra='forbid')
     evidence_id:str
@@ -162,15 +168,22 @@ def response_for(raw):
         calendar=raw.get('input_calendar') or raw['result'].get('calendar'))
 
 
-def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,admin_read_scopes=None):
+def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,admin_read_scopes=None,admin_role_tokens=None):
     app=FastAPI(title='Tianji deterministic knowledge API',version='1.0.0',
         description='Canonical calculation → RuleMatch → trace → Evidence; AI may explain but may not compute charts.')
     app.state.provider=provider
-    app.state.admin_read_token=admin_read_token
+    app.state.admin_read_token=admin_read_token if admin_read_token is not None else os.environ.get('TIANJI_ADMIN_READ_TOKEN')
     # Scope model (TJ-026.3): server-side configuration of the read token.
     # None means all scopes (backward compatible single-token deployments).
     # Explicit param wins; otherwise TIANJI_ADMIN_READ_SCOPES (comma list).
-    app.state.admin_read_scopes=(parse_admin_scopes(os.environ.get('TIANJI_ADMIN_READ_SCOPES')) if admin_read_scopes is None else frozenset(s for s in admin_read_scopes if s in ADMIN_READ_SCOPES)) if admin_read_token is not None else os.environ.get('TIANJI_ADMIN_READ_TOKEN')
+    app.state.admin_read_scopes=(parse_admin_scopes(os.environ.get('TIANJI_ADMIN_READ_SCOPES')) if admin_read_scopes is None else frozenset(s for s in admin_read_scopes if s in ADMIN_READ_SCOPES))
+    # Role model (TJ-026.4 batch 1): server-side token-to-role mapping.
+    # None means fall back to TIANJI_ADMIN_ROLE_TOKENS (comma list of
+    # token:role pairs); an empty mapping means roles are not configured.
+    app.state.admin_role_tokens = (parse_admin_role_tokens(os.environ.get('TIANJI_ADMIN_ROLE_TOKENS')) if admin_role_tokens is None else dict(admin_role_tokens))
+    # Append-only audit log skeleton (TJ-026.4 batch 1): one per app
+    # instance, process memory. Every write attempt is recorded here.
+    app.state.audit_log = AuditLog()
     origins=[origin.strip() for origin in os.environ.get('TIANJI_CORS_ORIGINS','').split(',') if origin.strip()]
     if origins:app.add_middleware(CORSMiddleware,allow_origins=origins,allow_methods=['GET','POST'],allow_headers=['Content-Type','Authorization'])
 
@@ -216,6 +229,37 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,ad
             raise HTTPException(401,detail={'code':'admin_unauthorized','message':'Invalid admin bearer token'},headers={'WWW-Authenticate':'Bearer'})
         if outcome=='forbidden':
             raise HTTPException(403,detail={'code':'admin_forbidden','message':f'Admin token scope does not include {detail}'})
+
+    def require_role(authorization, operation):
+        # TJ-026.4 batch 1: role-gated write checkpoint. Every attempt is
+        # audited (allowed or denied); `who` is a role name or 'unknown',
+        # never a raw token. 403 reuses the admin_forbidden semantics.
+        outcome, detail = resolve_role_access(app.state.admin_role_tokens, authorization, operation)
+        what = f'write_probe:{operation}'
+        if outcome == 'not_configured':
+            app.state.audit_log.record('unknown', what, 'denied', 'not_configured')
+            raise HTTPException(503, detail={'code': 'admin_role_not_configured', 'message': 'Admin role access is not configured'})
+        if outcome == 'unauthorized':
+            app.state.audit_log.record('unknown', what, 'denied', detail)
+            if detail == 'missing':
+                raise HTTPException(401, detail={'code': 'admin_unauthorized', 'message': 'Admin bearer token required'}, headers={'WWW-Authenticate': 'Bearer'})
+            raise HTTPException(401, detail={'code': 'admin_unauthorized', 'message': 'Invalid admin bearer token'}, headers={'WWW-Authenticate': 'Bearer'})
+        if outcome == 'forbidden':
+            app.state.audit_log.record(_role_name_for(authorization), what, 'denied', 'forbidden')
+            raise HTTPException(403, detail={'code': 'admin_forbidden', 'message': f'Admin role does not allow {operation}'})
+        app.state.audit_log.record(detail, what, 'allowed')
+        return detail
+
+    def _role_name_for(authorization):
+        # Best-effort role lookup for audit records of denied attempts
+        # (the credential was valid, only the operation was forbidden).
+        if not authorization or not authorization.startswith('Bearer '):
+            return 'unknown'
+        supplied = authorization[len('Bearer '):]
+        for token, role in app.state.admin_role_tokens.items():
+            if secrets.compare_digest(supplied, token):
+                return role
+        return 'unknown'
 
     def require_internal_execution(authorization):
         # Detailed Evidence / internal trace is only callable with a separate
@@ -447,6 +491,34 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,ad
             'read_only':True,
             'public_release':False,
             'records':prompt_registry(),
+        }
+
+    @app.post('/api/v1/admin/write/probe', tags=['admin'])
+    def admin_write_probe(request: AdminWriteProbeRequest, authorization: str | None = Header(default=None)):
+        # TJ-026.4 batch 1: controlled write CHECKPOINT, not a business
+        # write. No draft/approval/publish business exists behind this
+        # endpoint; the response always reports write_applied=False so
+        # the probe can never be mistaken for an applied write.
+        role = require_role(authorization, request.operation)
+        return {
+            'api_version': 'v1',
+            'probe': True,
+            'operation': request.operation,
+            'role': role,
+            'write_applied': False,
+            'note': 'Batch 1 checkpoint only: no draft, approval, publish, or rollback business exists yet.',
+        }
+
+    @app.get('/api/v1/admin/system/audit', tags=['admin'])
+    def admin_audit_log(authorization: str | None = Header(default=None)):
+        # TJ-026.4 batch 1: audit reads are gated by the TJ-026.3 read
+        # token's system scope — an ordinary read role cannot read audit.
+        require_admin_read_token(authorization, scope='system')
+        return {
+            'api_version': 'v1',
+            'read_only': True,
+            'public_release': False,
+            'entries': app.state.audit_log.entries(),
         }
 
     @app.post('/api/v1/scenarios/public',response_model=ScenarioExecuteResponse,tags=['public-execution'])

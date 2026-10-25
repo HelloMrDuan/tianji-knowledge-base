@@ -1,0 +1,52 @@
+name: B018 Roles and Dream Matrix Browser Regression
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "web/visual-prototype/**"
+      - ".github/workflows/b018-roles-matrix-playwright.yml"
+      - "docs/product/TASK_STATUS.md"
+      - "docs/product/TASK_HISTORY.md"
+  push:
+    branches: [main]
+    paths:
+      - "web/visual-prototype/**"
+      - ".github/workflows/b018-roles-matrix-playwright.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  b018-roles-matrix-chromium:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: web/visual-prototype/package-lock.json
+      - name: Install frontend dependencies
+        working-directory: web/visual-prototype
+        run: npm ci
+      - name: Install Chromium
+        working-directory: web/visual-prototype
+        run: npx playwright install --with-deps chromium
+      # The matrix spec needs no backend (static section); the role spec
+      # uses controlled synthetic HTTP contracts only (page.route stubs
+      # in the spec). No backend server is required. The REAL probe/audit
+      # behaviors of the backend are additionally verified by
+      # tests/test_b018_admin_roles_http.py (offline acceptance, real
+      # server code).
+      - name: Run actual Chromium with controlled synthetic HTTP contracts
+        working-directory: web/visual-prototype
+        run: CI=true npm test -- tests/b018-dream-matrix.spec.ts tests/b018-role-block.spec.ts --workers=1
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: b018-browser-failures
+          path: web/visual-prototype/test-results/
+          if-no-files-found: ignore
+          retention-days: 7

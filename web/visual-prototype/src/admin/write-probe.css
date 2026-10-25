@@ -1,0 +1,24 @@
+.admin-probe-workspace{max-width:960px;margin:0 auto;padding-bottom:44px}
+.admin-probe-hero{padding:27px 30px;border:1px solid #d8ddcf;background:linear-gradient(120deg,#fcfbf3,#e7ece1);border-radius:10px}
+.admin-probe-hero>span{color:#9b7f47;font-size:12px;letter-spacing:2px}
+.admin-probe-hero h1{font-size:28px;font-weight:500;color:#31533c;margin:12px 0}
+.admin-probe-hero p{font-size:13px;line-height:1.9;color:#69786d;max-width:720px}
+.admin-probe-form,.admin-probe-status,.admin-probe-results{margin-top:18px;background:#fffcf6;border:1px solid #d9dfd3;border-radius:10px;padding:24px}
+.admin-probe-form{display:grid;gap:17px}
+.admin-probe-form label{display:grid;gap:8px;font-size:12px;color:#48604e}
+.admin-probe-form input{box-sizing:border-box;width:100%;background:#fff;border:1px solid #ced7c9;border-radius:6px;color:#243d2c;font:inherit;font-size:14px;padding:12px;line-height:1.6}
+.admin-probe-radios{display:flex;flex-wrap:wrap;gap:16px}
+.admin-probe-radios label{display:flex;align-items:center;gap:6px;font-size:14px;color:#243d2c}
+.admin-probe-radios input{width:auto}
+.admin-probe-actions{display:flex;flex-wrap:wrap;gap:10px}
+.admin-probe-actions button{border:1px solid #41634c;border-radius:6px;background:#385d46;color:#fff;padding:10px 17px;font-size:13px;cursor:pointer}
+.admin-probe-actions button+button{background:#fff;color:#385d46}
+.admin-probe-actions button:disabled{opacity:.6;cursor:wait}
+.admin-probe-error{color:#a13f32}
+.admin-probe-status p,.admin-probe-results p{line-height:1.9;color:#647369;font-size:13px}
+.admin-probe-results h2{font-size:22px;font-weight:500;color:#31533c}
+.admin-probe-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
+.admin-probe-table th,.admin-probe-table td{border:1px solid #e0e5dc;padding:8px 10px;text-align:left;color:#43564a}
+.admin-probe-table th{background:#f4f0e7;font-weight:600}
+.admin-probe-empty{padding:13px;background:#f4f0e7}
+@media(max-width:600px){.admin-probe-hero,.admin-probe-form,.admin-probe-status,.admin-probe-results{padding:18px}.admin-probe-hero h1{font-size:23px}}

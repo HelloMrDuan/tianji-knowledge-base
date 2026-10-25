@@ -108,3 +108,25 @@ html[data-theme="night"] .dream-culture-empty {
 html[data-theme="night"] .dream-culture-empty h3 {
   color: #24382e;
 }
+
+/* TJ-019.1 高频梦境需求矩阵：沿用纸卡视觉语言，不透明底色，夜主题下与
+   其他纸卡一致可读。矩阵仅做分类排队，不产解释。 */
+.dream-culture-matrix { margin: 0 0 28px; padding: 25px 28px 20px; border: 1px solid #d7dccc; border-radius: 8px; background: linear-gradient(150deg, #f9f7ef, #eef2e9); }
+.dream-culture-matrix-head { display: flex; justify-content: space-between; align-items: end; gap: 22px; margin-bottom: 12px; }
+.dream-culture-matrix-head h2 { margin: 8px 0 0; font: 26px/1.4 "Noto Serif CJK SC",serif; font-weight: 500; color: #2d5145; }
+.dream-culture-matrix-intro { margin: 0 0 16px; color: #637668; font-size: 13px; line-height: 1.9; }
+.dream-culture-matrix-list { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 11px; margin: 0; padding: 0; list-style: none; }
+.dream-culture-matrix-item { min-width: 0; display: grid; gap: 3px; padding: 14px 12px; border-radius: 7px; border: 1px solid #dce1d6; background: rgba(255,253,246,.9); color: #345f4b; }
+.dream-culture-matrix-item strong { font-size: 15px; font-weight: 600; letter-spacing: 1px; }
+.dream-culture-matrix-item span { font-size: 12px; color: #82917f; }
+.dream-culture-matrix-item small { font-size: 11px; line-height: 1.7; color: #778774; }
+.dream-culture-matrix-foot { margin: 15px 0 0; font-size: 11px; line-height: 1.8; color: #778774; }
+@media (max-width: 1000px) {
+  .dream-culture-matrix-list { grid-template-columns: repeat(3,minmax(0,1fr)); }
+}
+@media (max-width: 730px) {
+  .dream-culture-matrix { padding: 20px 16px 17px; }
+  .dream-culture-matrix-head { display: block; }
+  .dream-culture-matrix-head h2 { font-size: 22px; }
+  .dream-culture-matrix-list { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
+}

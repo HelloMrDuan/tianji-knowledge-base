@@ -435,3 +435,78 @@ export async function runAdminDreamResearch(
   }
   return data as AdminDreamResearchResponse;
 }
+
+export type AdminWriteProbeOperation = "draft" | "approve" | "publish";
+
+export type AdminWriteProbeResponse = {
+  api_version: string;
+  probe: boolean;
+  operation: AdminWriteProbeOperation;
+  role: string;
+  write_applied: boolean;
+  note: string;
+};
+
+/**
+ * TJ-026.4 batch 1: controlled write checkpoint. The probe never applies
+ * a write; the frontend enforces write_applied === false and refuses to
+ * display anything else. Errors reuse the TJ-026.3 status branching
+ * (adminErrorMessage) — no separate error copy is introduced here.
+ */
+export async function runAdminWriteProbe(
+  token: string,
+  operation: AdminWriteProbeOperation,
+): Promise<AdminWriteProbeResponse> {
+  const response = await fetch(`${apiBase}/api/v1/admin/write/probe`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ operation }),
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throwAdminError(response, data);
+  }
+  if (data?.probe !== true || data?.write_applied !== false) {
+    throw new Error("服务端未遵守写探针合同（探针不得产生真实写入），拒绝展示。");
+  }
+  return data as AdminWriteProbeResponse;
+}
+
+export type AdminAuditEntry = {
+  who: string;
+  when: string;
+  what: string;
+  outcome: "allowed" | "denied";
+  detail: string | null;
+};
+
+export type AdminAuditResponse = {
+  api_version: string;
+  read_only: boolean;
+  public_release: boolean;
+  entries: AdminAuditEntry[];
+};
+
+/**
+ * TJ-026.4 batch 1: audit reads are gated server-side by the TJ-026.3
+ * read token's system scope; this function only forwards the token the
+ * user entered (never persisted) and the server's status branching.
+ */
+export async function fetchAdminAudit(
+  token: string,
+): Promise<AdminAuditResponse> {
+  const response = await fetch(`${apiBase}/api/v1/admin/system/audit`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throwAdminError(response, data);
+  }
+  return data as AdminAuditResponse;
+}

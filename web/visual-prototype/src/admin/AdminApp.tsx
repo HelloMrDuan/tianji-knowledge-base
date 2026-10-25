@@ -16,6 +16,7 @@ import { AlgorithmGovernancePage } from "./AlgorithmGovernancePage";
 import { ProviderGovernancePage } from "./ProviderGovernancePage";
 import { PromptGovernancePage } from "./PromptGovernancePage";
 import { AdminDreamResearchPage } from "./AdminDreamResearchPage";
+import { AdminWriteProbePage } from "./AdminWriteProbePage";
 import ScenarioManagementPage from "./ScenarioManagementPage";
 import "./admin.css";
 import "./modules.css";
@@ -34,6 +35,7 @@ const titles: Record<string, string> = {
   "/admin/evidence": "Evidence 管理",
   "/admin/conflicts": "流派与冲突",
   "/admin/dream-research": "解梦知识研究",
+  "/admin/write-probe": "写权限探针",
   "/admin/scenarios": "Scenario 管理",
 };
 export default function AdminApp() {
@@ -135,6 +137,8 @@ export default function AdminApp() {
             <ScenarioManagementPage />
           ) : path === "/admin/dream-research" ? (
             <AdminDreamResearchPage />
+          ) : path === "/admin/write-probe" ? (
+            <AdminWriteProbePage />
           ) : path.startsWith("/admin/conflicts") ? (
             <ConflictGovernancePage />
           ) : path === "/admin/rules" ? (
