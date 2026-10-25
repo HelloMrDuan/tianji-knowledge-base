@@ -195,6 +195,9 @@
 | E0140 | 2026-10-25 | TJ-022.1 | 已提交PR | [B026] 引擎验证批：年支/日支两套咸池分别查表、独立激活（2020 仅年基、2029 仅日基、2026 均无）、不相加成概率；离线受控验收，公开 CI 不冒称 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/334 |  |  |
 | E0141 | 2026-10-25 | TJ-023.1 | 已提交PR | [B026] 引擎验证批：五组十神数量与真实位置保留、缺旺衰不写升职破财；离线受控验收，公开 CI 不冒称 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/334 |  |  |
 | E0142 | 2026-10-25 | TJ-024.2 | 已提交PR | [B026] 引擎验证批：配偶宫日支结构位、4×4 分层、合冲害/三合位置正确、不从条数生成适配分；离线受控验收，公开 CI 不冒称 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/334 |  |  |
+| E0143 | 2026-10-25 | TJ-022.1 | 已合并 | [B027] 关账：公开 #334 已合并到 main（Merge SHA 22a0835ccdf509cf0c8eb7c29d2d02984f035f82），桃花两套咸池验证（年支/日支分别查表+独立激活+不相加成概率）已在主干；新增 3 项测试由离线受控验收执行，公开 CI 不冒称 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/334 | 22a0835ccdf509cf0c8eb7c29d2d02984f035f82 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40167668898 |
+| E0144 | 2026-10-25 | TJ-023.1 | 已合并 | [B027] 关账：公开 #334 已合并到 main（Merge SHA 22a0835ccdf509cf0c8eb7c29d2d02984f035f82），财官食印聚合验证（五组十神数量与真实位置保留+缺旺衰不写升职破财）已在主干；新增 2 项测试由离线受控验收执行，公开 CI 不冒称 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/334 | 22a0835ccdf509cf0c8eb7c29d2d02984f035f82 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40167668898 |
+| E0145 | 2026-10-25 | TJ-024.2 | 已合并 | [B027] 关账：公开 #334 已合并到 main（Merge SHA 22a0835ccdf509cf0c8eb7c29d2d02984f035f82），配偶宫 4×4 验证（日支结构位+4×4 分层+合冲害/三合位置正确+不从条数生成适配分）已在主干；新增 5 项测试由离线受控验收执行，公开 CI 不冒称 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/334 | 22a0835ccdf509cf0c8eb7c29d2d02984f035f82 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40167668898 |
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
