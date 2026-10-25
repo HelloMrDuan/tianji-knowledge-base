@@ -118,3 +118,36 @@ docker compose -p tianji-preview-feature-xyz -f "$CICD/deploy-preview-compose.ym
 
 三轮任一轮未在真实机器上跑出证据，TJ-027.1 就仍是“已提交 PR”，
 不得关账为已合并或已部署验收。
+
+## 7. 审计 DB bind mount（TJ-026.5 接线）
+
+TJ-026.5 给管理端加了 SQLite 审计库（`admin_storage.py`）：`create_app()`
+按显式参数 → `TIANJI_ADMIN_DB_PATH` 环境变量 → 默认相对路径
+`tianji_admin.db` 的顺序取库路径。稳定 api 容器是 read-only + user 10001，
+私有 compose 里没有给它 volumes、也只有 `/tmp` tmpfs；代理 env 文件只写
+3 个镜像/端口变量，从不设 `TIANJI_ADMIN_DB_PATH`。于是新密封镜像启动时
+相对路径解析到只读的 `/opt/tianji`，`sqlite3.connect` 报 unable to open
+database file，启动即崩溃——这是正确的 fail-fast，不是代码 bug，绝不能靠
+改默认路径、内存回退或弱化审计来掩盖。
+
+接线方式（代理脚本内生成，无需另装模板文件）：每次稳定 `up`（部署与
+回滚两处）之前，代理幂等生成 `$CICD/deploy-api-db-override.yml`，只给
+`tianji-api` 服务加两项：
+
+- `environment: TIANJI_ADMIN_DB_PATH=/var/lib/tianji/tianji_admin.db`
+- `volumes: /data/workspace/platform-deploy/data/tianji-admin:/var/lib/tianji:rw`
+
+操作员一次性准备（父级在机上执行，不属于代理脚本职责，脚本不得
+sudo/chown）：
+
+```bash
+mkdir -p /data/workspace/platform-deploy/data/tianji-admin
+chown 10001:10001 /data/workspace/platform-deploy/data/tianji-admin
+```
+
+缺失时的表现：代理**绝不静默跳过挂载**——override 在两处 `up` 都无条件
+带上。若宿主机目录缺失，docker 会以 root 属主自动建目录，api（10001）
+写不进库，健康门禁（`/health` + 真实 bazi 探针）失败，记
+`FAILED_ROLLED_BACK` 并回滚到上一健康对（回滚对是 026.5 之前的镜像，
+不读审计库，故不受影响）；操作员修正目录属主后，timer 下一轮自动重试。
+若 override 文件本身写失败，代理在 `up` 之前就记 `FAILED` 中止，服务不动。

@@ -57,6 +57,7 @@ EVID=${EVID:-$BASE/deployment-evidence/tj-core-01}
 LOG=${LOG:-$EVID/deploys.log}
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 PREVIEW_COMPOSE=${PREVIEW_COMPOSE:-$SCRIPT_DIR/deploy-preview-compose.yml}
+API_DB_OVERRIDE=${API_DB_OVERRIDE:-$CICD/deploy-api-db-override.yml}
 PREVIEW_PORT_START=${PREVIEW_PORT_START:-8101}
 MAX_PREVIEWS=${MAX_PREVIEWS:-5}
 TIANJI_PREVIEW_NETWORK=${TIANJI_PREVIEW_NETWORK:-tianji_tianji-private-net}
@@ -86,6 +87,26 @@ ensure_disk_tj() {
   [ "${free_root:-0}" -ge 4 ] && [ "${free_data:-0}" -ge 2 ]
 }
 prune_after_build() { docker builder prune -f --keep-storage 512MB >/dev/null 2>&1 || true; }
+# Audit-DB override (TJ-027.1 wiring for TJ-026.5): the sealed api runs
+# read-only as user 10001 with no volumes in the private compose, and its
+# audit DB default path is relative (resolves to read-only /opt/tianji), so
+# a fresh sealed image crashes at startup (fail-fast, by design). The
+# override pins the DB to a host bind mount the operator prepares once
+# (mkdir + chown 10001:10001; see PREVIEW_DEPLOY_AGENT.md). It is generated
+# here, not shipped as a separate template, so it exists before EVERY stable
+# up call, deploy or rollback; a write failure aborts loudly instead of
+# running up without the mount.
+ensure_api_db_override() {
+  cat > "$API_DB_OVERRIDE" <<'EOF'
+services:
+  tianji-api:
+    environment:
+      - TIANJI_ADMIN_DB_PATH=/var/lib/tianji/tianji_admin.db
+    volumes:
+      - /data/workspace/platform-deploy/data/tianji-admin:/var/lib/tianji:rw
+EOF
+  [ -s "$API_DB_OVERRIDE" ]
+}
 gh_head() { git ls-remote "https://github.com/HelloMrDuan/$1.git" "refs/heads/$2" 2>/dev/null | cut -f1; }
 
 ACCEPT_RAN=0
@@ -217,7 +238,8 @@ deploy_tianji() { # channel branch port envfile projargs
   prev_api=$(cat "$STATE/tianji-$channel.api-image" 2>/dev/null || echo tianji-api:sealed-82b119e)
   prev_web=$(cat "$STATE/tianji-$channel.web-image" 2>/dev/null || echo tianji-web:static-82b119e)
   printf "TIANJI_PRIVATE_API_IMAGE=%s\nTIANJI_PUBLIC_WEB_IMAGE=%s\nTIANJI_HOST_PORT=%s\n" "$api_img" "$web_img" "$port" > "$envf"; chmod 600 "$envf"
-  ( cd "$PRIV" && docker compose -f deploy/compose.yml --env-file "$envf" $proj up -d >/dev/null 2>&1 )
+  ensure_api_db_override || { log tianji "$channel" "$br" "$sha" "$api_img" "$port" FAILED "cannot write api db override $API_DB_OVERRIDE; running service untouched"; return; }
+  ( cd "$PRIV" && docker compose -f deploy/compose.yml -f "$API_DB_OVERRIDE" --env-file "$envf" $proj up -d >/dev/null 2>&1 )
   ok=0; for i in $(seq 1 40); do sleep 2
     curl -sf -m 3 "http://127.0.0.1:$port/health" 2>/dev/null | grep -q '"rag_ready":true' && { ok=1; break; }
   done
@@ -241,7 +263,8 @@ deploy_tianji() { # channel branch port envfile projargs
     return
   fi
   printf "TIANJI_PRIVATE_API_IMAGE=%s\nTIANJI_PUBLIC_WEB_IMAGE=%s\nTIANJI_HOST_PORT=%s\n" "$prev_api" "$prev_web" "$port" > "$envf"; chmod 600 "$envf"
-  ( cd "$PRIV" && docker compose -f deploy/compose.yml --env-file "$envf" $proj up -d >/dev/null 2>&1 )
+  ensure_api_db_override || { log tianji "$channel" "$br" "$sha" "$api_img" "$port" FAILED "health gate failed and rollback aborted: cannot write api db override $API_DB_OVERRIDE; running service still on failed $api_img, operator must restore $prev_api manually"; return; }
+  ( cd "$PRIV" && docker compose -f deploy/compose.yml -f "$API_DB_OVERRIDE" --env-file "$envf" $proj up -d >/dev/null 2>&1 )
   log tianji "$channel" "$br" "$sha" "$api_img" "$port" FAILED_ROLLED_BACK "health/business gate failed; restored $prev_api"
 }
 
