@@ -1,0 +1,23 @@
+name: Deploy agent (bash) simulation
+
+# Simulation tests for the TJ-027.1 evolved bash deploy agent. These run
+# with PATH stubs for docker/git/curl/instabox-port: no real containers,
+# no real GHCR, no real machine. Passing here never counts as
+# real-machine acceptance.
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Bash simulation harness
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Syntax check + simulation harness
+        run: bash tests/test_deploy_agent_tj.sh
