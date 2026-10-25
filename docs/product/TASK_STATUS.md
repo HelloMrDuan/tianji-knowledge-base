@@ -88,8 +88,8 @@
 | TJ-025.2 | M5 | 人生总览的条件说明/无法裁决出口 | 阻塞 | — | — | 等待证据/前置依赖 |
 | TJ-025.3 | M5 | 首页→总览→细分页面的完整古风阅读链 | 已合并 | [公开 #311](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/311) | 2026-10-25 | #311 已合并；限于浏览器导航/年份/清空/四视口表现，后端四源 Evidence 真验收另由 TJ-025.1 处理 |
 | TJ-026.1 | M6 | 恢复 #87 管理布局与 16 个原管理模块 | 待做 | — | — | 按 WBS 验收条件执行 |
-| TJ-026.2 | M6 | Scenario 管理与梦研究管理 | 已提交PR | [公开 #324](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/324) | 2026-10-25 | B016 Scenario 真实管理页：11 场景来自真实注册、variant 来自 capabilities、发布门禁四项逐项 + 失败拒绝（零请求）；梦研究页已真实不重做；DEMO scenarios 模块已移除；公开 CI 执行门禁表测试，真实后端验证由离线受控验收执行 |
-| TJ-026.3 | M6 | 真实只读模块逐页接受控接口 | 已提交PR | [公开 #324](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/324) | 2026-10-25 | B016 后端 403 scope 模型（research/governance/system）+ 前端 401/403/404 显式分支 + 11 受控页三态 spec + 路由守卫决策（壳子公开、数据靠令牌，见 AdminApp 注释）；公开 CI 执行 scope 决策矩阵，HTTP 与浏览器真实后端验证由离线受控验收执行 |
+| TJ-026.2 | M6 | Scenario 管理与梦研究管理 | 已合并 | [公开 #324](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/324) | 2026-10-25 | #324 已合并；Scenario 真实管理页与发布门禁已在主干；DEMO scenarios 模块已移除；真实后端验证由离线受控验收执行，公开 CI 不冒称 |
+| TJ-026.3 | M6 | 真实只读模块逐页接受控接口 | 已合并 | [公开 #324](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/324) | 2026-10-25 | #324 已合并；403 scope 模型与 401/403/404 显式分支已在主干；HTTP 与浏览器真实后端验证由离线受控验收执行，公开 CI 不冒称 |
 | TJ-026.4 | M6 | 角色权限、草稿审批、回滚和审计 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-027.1 | M6 | 部署私有后端与静态前端 | 已提交PR | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/308 · https://github.com/HelloMrDuan/tianji-knowledge-base/pull/313 | 2026-10-24 | PR #308 已合并公开 Web GHCR 构建；PR #313 增加仅 main 可唤醒正式机器的安全门禁，功能分支禁止触发正式机器唤醒。可信机离线密封验收、精确 SHA/PIN 与机内自动部署仍须真实取证，未获部署验收 |
 | TJ-027.2 | M6 | 可观测性与回滚 | 已合并 | [公开 #305](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/305) | 2026-10-25 | #305 已合并；仅健康探针子范围，告警/自动回滚仍待实机证据，不声明完整关账 |
