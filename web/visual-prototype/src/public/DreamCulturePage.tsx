@@ -209,7 +209,7 @@ export function DreamCulturePage() {
             )}
             <p>{item.cultural_reading}</p>
             <blockquote>“{item.short_quote}”</blockquote>
-            <small>{item.source_title} · 审核证据等级 {item.evidence_level} · 传统文化用语</small>
+            <small>出处：{item.source_title} · 审核证据等级 {item.evidence_level} · 传统文化用语</small>
           </article>
         ))}
         {result.unreviewed_topics.length > 0 && (
@@ -227,7 +227,7 @@ export function DreamCulturePage() {
             </ul>
           </aside>
         )}
-        <p className="dream-culture-notice">{result.notice}</p>
+        <p className="dream-culture-notice">文化限界：{result.notice}</p>
       </section>}
     </div>
   );

@@ -1,0 +1,51 @@
+name: B028 Verify Frontend Dream Booklet
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "web/visual-prototype/**"
+      - ".github/workflows/b028-verify-frontend-dream.yml"
+  push:
+    branches: [main]
+    paths:
+      - "web/visual-prototype/**"
+      - ".github/workflows/b028-verify-frontend-dream.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  b028-booklet-chromium:
+    # TJ-021.1 / TJ-022.3 / TJ-025.1 frontend verification: the booklet-stubs
+    # spec runs with controlled synthetic HTTP contracts (page.route stubs),
+    # so it executes in public CI with no real backend and no private data.
+    # It proves FRONTEND wiring only (4-layer booklet, two-basis romance
+    # display, 4-source life display). Real engine behavior is covered by
+    # backend tests and by the local-only b028-real-backend.spec.ts, which
+    # is NOT wired to any workflow here and never claimed by public CI.
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: web/visual-prototype/package-lock.json
+      - name: Install frontend dependencies
+        working-directory: web/visual-prototype
+        run: npm ci
+      - name: Install Chromium
+        working-directory: web/visual-prototype
+        run: npx playwright install --with-deps chromium
+      - name: Run booklet stub spec with controlled synthetic HTTP contracts
+        working-directory: web/visual-prototype
+        run: CI=true npm test -- tests/b028-booklet-stubs.spec.ts
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: b028-browser-failures
+          path: web/visual-prototype/test-results/
+          if-no-files-found: ignore
+          retention-days: 7

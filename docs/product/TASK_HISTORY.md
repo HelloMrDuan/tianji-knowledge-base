@@ -200,6 +200,10 @@
 | E0145 | 2026-10-25 | TJ-024.2 | 已合并 | [B027] 关账：公开 #334 已合并到 main（Merge SHA 22a0835ccdf509cf0c8eb7c29d2d02984f035f82），配偶宫 4×4 验证（日支结构位+4×4 分层+合冲害/三合位置正确+不从条数生成适配分）已在主干；新增 5 项测试由离线受控验收执行，公开 CI 不冒称 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/334 | 22a0835ccdf509cf0c8eb7c29d2d02984f035f82 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40167668898 |
 | E0146 | 2026-10-25 | TJ-001.5 | 已合并 | 关账（单独立 legacy PR，无批次标记）：公开 #303 已合并到 main（Merge SHA 71b50049a31ff152dc5592ef34815695e04341b1），批次门禁已在主干运行；本行此前为已提交PR属台账滞后，现补关账 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/303 | 71b50049a31ff152dc5592ef34815695e04341b1 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/39738667614 |
 | E0147 | 2026-10-25 | TJ-012.1 | 已合并 | 纠正记录（单独立 legacy PR，无批次标记）：E0056“CI 9/9”与 E0058 同称“CI 9/9”又称“CI执行pattern测试因环境缺依赖被阻塞”自相矛盾；WBS 要求的格局候选实质再审核未完成，实际仅为重复测试类修复 + 一个杂气月标记断言，且明文“实质业务改进未找到”；故已合并状态夸大了实际验收范围，特此纠正。状态保持已合并，不改旧事件、不改代码；证据列取被纠正的原 PR #276 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/276 | 8c8677aa517ddd22b41fe546547f01cda18e0aa2 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/39241456220 |
+| E0148 | 2026-10-25 | TJ-021.1 | 已提交PR | [B028] 前端/梦境验证批：书卷页四层字面标签小补丁（出处/文化限界）+ 4 层分组浏览器 spec（桩 CI + 真实后端离线验收）；不重新设计解梦页视觉 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/338 |  |  |
+| E0149 | 2026-10-25 | TJ-022.3 | 已提交PR | [B028] 前端/梦境验证批：普通语言条件摘要 + 两套方法独立展示 + 目标年真实重算显示；真实重算由离线受控验收执行 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/338 |  |  |
+| E0150 | 2026-10-25 | TJ-025.1 | 已提交PR | [B028] 前端/梦境验证批：四源同盘同年显示 + 去重 Evidence + 一致性核验文案；真实聚合由离线受控验收执行 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/338 |  |  |
+| E0151 | 2026-10-25 | TJ-019.3 | 已提交PR | [B028] 前端/梦境验证批：10 例各恰好 1 精确命中 + 泛化输入 0 命中（真实后端离线受控验收）；后端 10 场景枚举已有断言，不重建 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/338 |  |  |
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
