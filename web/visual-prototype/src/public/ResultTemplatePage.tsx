@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
-import { Diagram } from "./DomainHomePage";
+import { Diagram, hexText, lessonText } from "./DomainHomePage";
 import type { DomainPage } from "./domainPages";
+import { ApiError, executeLiuren, executeYijing } from "./api";
+import type { ExecuteResponse } from "./api";
 import "./pages.css";
 
 const resultSections: Record<string, [string, string[]]> = {
@@ -16,6 +18,101 @@ const resultSections: Record<string, [string, string[]]> = {
 export function ResultTemplatePage({ page }: { page: DomainPage }) {
   const [state, setState] = useState("empty");
   const [title, fields] = resultSections[page.id];
+  // B012: 周易 / 六壬结果页在带参数时进入真实模式：据 URL 参数向真实
+  // 后端请求计算并渲染；无参数时为诚实空态，失败时为诚实失败态，
+  // 绝不把门禁拒绝或空态包装成已计算，也绝不编造吉凶结论。
+  const connected = page.id === "yijing" || page.id === "liuren";
+  const search = connected ? new URLSearchParams(window.location.search) : null;
+  let yijingInput: { bits: string; changing_lines: number[] } | null = null;
+  let liurenInput: { value: string } | null = null;
+  let paramError = "";
+  if (page.id === "yijing" && search) {
+    const bits = search.get("bits") || "";
+    const changingRaw = search.get("changing_lines") || "";
+    if (!/^[01]{6}$/.test(bits)) {
+      paramError = "卦象参数不完整，请返回录入页重新提交。";
+    } else {
+      yijingInput = {
+        bits,
+        changing_lines: changingRaw
+          .split(",")
+          .map((n) => Number(n))
+          .filter((n) => n >= 1 && n <= 6),
+      };
+    }
+  }
+  if (page.id === "liuren" && search) {
+    const value = search.get("value") || "";
+    if (!value) {
+      paramError = "占时参数不完整，请返回录入页重新提交。";
+    } else {
+      liurenInput = { value };
+    }
+  }
+  const realMode = connected && (yijingInput !== null || liurenInput !== null);
+  const [result, setResult] = useState<ExecuteResponse | null>(null);
+  const [fetchError, setFetchError] = useState(paramError);
+  useEffect(() => {
+    if (!realMode) return;
+    let cancelled = false;
+    const request = yijingInput
+      ? executeYijing(yijingInput)
+      : executeLiuren(liurenInput as { value: string });
+    request
+      .then((data) => {
+        if (!cancelled) setResult(data);
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          setResult(null);
+          setFetchError(
+            err instanceof ApiError
+              ? err.message
+              : "计算请求失败，请稍后重试。",
+          );
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  // 真实模式下的字段槽位：只填后端实际返回的结构；贵人与天将一栏
+  // 填后端返回的限界声明本身，绝不虚构天将排布。
+  function slotValue(field: string): string {
+    if (!result) return "";
+    const chart = result.chart;
+    if (page.id === "yijing") {
+      if (field === "本卦与上下卦") return hexText(chart.original);
+      if (field === "爻位")
+        return chart.change && chart.change.binary !== chart.original?.binary
+          ? `变卦 ${hexText(chart.change)}`
+          : "全卦，无变爻";
+      if (field === "错卦与综卦")
+        return `错卦 ${hexText(chart.opposite)} · 综卦 ${hexText(chart.inverse)}`;
+      if (field === "互卦与变卦")
+        return `互卦 ${hexText(chart.nuclear)} · 变卦 ${hexText(chart.change)}`;
+      return "";
+    }
+    if (field === "天地盘")
+      return chart.sky_plate
+        ? Object.entries(chart.sky_plate)
+            .map(([earth, sky]) => `${earth}→${sky}`)
+            .join(" · ")
+        : "";
+    if (field === "四课")
+      return (chart.four_lessons || [])
+        .map(
+          (lesson: Record<string, unknown>, i: number) =>
+            `${["一", "二", "三", "四"][i]}课 ${lessonText(lesson)}`,
+        )
+        .join(" · ");
+    if (field === "三传")
+      return `${chart.method || ""} · 初传 ${chart.transmissions?.[0] || "—"} · 中传 ${chart.transmissions?.[1] || "—"} · 末传 ${chart.transmissions?.[2] || "—"}`;
+    if (field === "贵人与天将")
+      return (chart.limitations || []).join("；") || "天将未实现";
+    return "";
+  }
   return (
     <div className="template-result">
       <div className="breadcrumb">
@@ -35,6 +132,7 @@ export function ResultTemplatePage({ page }: { page: DomainPage }) {
           <Icon name="arrow" size={16} />
         </Link>
       </header>
+      {!realMode && (
       <div className="preview-state-bar">
         <span>设计状态预览</span>
         <div role="group" aria-label="结果状态">
@@ -53,6 +151,7 @@ export function ResultTemplatePage({ page }: { page: DomainPage }) {
           ))}
         </div>
       </div>
+      )}
       <div className="result-layout">
         <div className="result-content">
           <section className="result-basic">
@@ -65,11 +164,21 @@ export function ResultTemplatePage({ page }: { page: DomainPage }) {
             <div className="basic-grid">
               <div>
                 <span>资料状态</span>
-                <strong>尚未提交</strong>
+                <strong>
+                  {realMode && result
+                    ? "已计算"
+                    : realMode && fetchError
+                      ? "计算失败"
+                      : realMode
+                        ? "计算中"
+                        : "尚未提交"}
+                </strong>
               </div>
               <div>
                 <span>采用口径</span>
-                <strong>随真实结果返回</strong>
+                <strong>
+                  {realMode && result ? result.variant : "随真实结果返回"}
+                </strong>
               </div>
               <div>
                 <span>
@@ -85,7 +194,13 @@ export function ResultTemplatePage({ page }: { page: DomainPage }) {
               </div>
               <div>
                 <span>服务连接</span>
-                <strong>设计预览</strong>
+                <strong>
+                  {realMode && result
+                    ? "真实后端"
+                    : realMode
+                      ? "真实后端请求中"
+                      : "设计预览"}
+                </strong>
               </div>
             </div>
           </section>
@@ -95,44 +210,94 @@ export function ResultTemplatePage({ page }: { page: DomainPage }) {
                 <span>二</span>
                 <h2>{title}</h2>
               </div>
-              <small>固定结构图 · 非计算结果</small>
+              <small>
+                {realMode ? "真实计算结果" : "固定结构图 · 非计算结果"}
+              </small>
             </div>
             <div className="template-chart-body">
               <Diagram page={page} />
-              <div className="template-state" role="status">
-                <span className="eyebrow">
-                  {state === "error"
-                    ? "暂未取得结果"
-                    : state === "loading"
-                      ? "正在核对输入"
-                      : "从准确的资料开始"}
-                </span>
-                <h3>
-                  {state === "error"
-                    ? "计算未完成，请保留原始资料"
-                    : state === "loading"
-                      ? "等待计算结果"
-                      : "这里将呈现你的盘面"}
-                </h3>
-                <p>
-                  {state === "error"
-                    ? "失败时不展示旧盘面或生成替代结论。可返回录入页重新核对。"
-                    : state === "loading"
-                      ? "此状态用于展示等待布局，没有发起计算请求。"
-                      : "实际结果尚未接入。结构图仅帮助理解各部分的位置。"}
-                </p>
-                <Link className="text-action" href={"/" + page.id}>
-                  前往资料录入
-                  <Icon name="arrow" size={16} />
-                </Link>
-              </div>
+              {realMode && result ? (
+                <div className="template-state" role="status">
+                  <span className="eyebrow">真实计算完成</span>
+                  <h3>
+                    {page.id === "yijing"
+                      ? `本卦 ${hexText(result.chart.original)}`
+                      : `月将 ${result.chart.month_general?.name || "—"}（${result.chart.month_general?.branch || "—"}） · 取传 ${result.chart.method || "—"} · 初传 ${result.chart.transmissions?.[0] || "—"} · 中传 ${result.chart.transmissions?.[1] || "—"} · 末传 ${result.chart.transmissions?.[2] || "—"}`}
+                  </h3>
+                  <p>
+                    {page.id === "yijing"
+                      ? "仅卦象结构，不作吉凶推断。"
+                      : (result.chart.limitations || []).join("；")}
+                  </p>
+                  <Link className="text-action" href={"/" + page.id}>
+                    前往资料录入
+                    <Icon name="arrow" size={16} />
+                  </Link>
+                </div>
+              ) : realMode ? (
+                <div className="template-state" role="status">
+                  <span className="eyebrow">
+                    {fetchError ? "暂未取得结果" : "正在计算"}
+                  </span>
+                  <h3>
+                    {fetchError ? "计算未完成，请保留原始资料" : "等待计算结果"}
+                  </h3>
+                  <p>
+                    {fetchError
+                      ? "失败时不展示旧盘面或生成替代结论。可返回录入页重新核对。"
+                      : "正在向真实后端请求计算结果，请稍候。"}
+                  </p>
+                  <Link className="text-action" href={"/" + page.id}>
+                    前往资料录入
+                    <Icon name="arrow" size={16} />
+                  </Link>
+                </div>
+              ) : (
+                <div className="template-state" role="status">
+                  <span className="eyebrow">
+                    {state === "error"
+                      ? "暂未取得结果"
+                      : state === "loading"
+                        ? "正在核对输入"
+                        : "从准确的资料开始"}
+                  </span>
+                  <h3>
+                    {state === "error"
+                      ? "计算未完成，请保留原始资料"
+                      : state === "loading"
+                        ? "等待计算结果"
+                        : "这里将呈现你的盘面"}
+                  </h3>
+                  <p>
+                    {state === "error"
+                      ? "失败时不展示旧盘面或生成替代结论。可返回录入页重新核对。"
+                      : state === "loading"
+                        ? "此状态用于展示等待布局，没有发起计算请求。"
+                        : connected
+                          ? "尚未提交资料。请返回录入页填写后提交，方可看到真实计算结果。"
+                          : "实际结果尚未接入。结构图仅帮助理解各部分的位置。"}
+                  </p>
+                  <Link className="text-action" href={"/" + page.id}>
+                    前往资料录入
+                    <Icon name="arrow" size={16} />
+                  </Link>
+                </div>
+              )}
             </div>
             <div className="result-field-slots">
               {fields.map((field, i) => (
                 <div key={field}>
                   <span>0{i + 1}</span>
                   <h3>{field}</h3>
-                  <p>等待真实结果</p>
+                  <p>
+                    {realMode && result
+                      ? slotValue(field)
+                      : realMode && fetchError
+                        ? "计算失败，未生成结果"
+                        : realMode
+                          ? "正在计算……"
+                          : "等待真实结果"}
+                  </p>
                 </div>
               ))}
             </div>
@@ -154,7 +319,11 @@ export function ResultTemplatePage({ page }: { page: DomainPage }) {
                 </div>
                 <small>待接入</small>
               </div>
-              <p>{note}</p>
+              <p>
+                {realMode && result && number === "三"
+                  ? `采用口径：${result.variant}。${(result.limitations || []).join("；")}`
+                  : note}
+              </p>
             </section>
           ))}
           <details className="trace-section">
@@ -162,9 +331,19 @@ export function ResultTemplatePage({ page }: { page: DomainPage }) {
               查看推演过程
               <Icon name="chevron" size={16} />
             </summary>
-            <p>
-              真实服务接入后，按顺序呈现输入校验、采用版本、规则执行与输出追踪。
-            </p>
+            {realMode && result ? (
+              <ol>
+                {result.trace.map((step, i) => (
+                  <li key={i}>
+                    {step.step || `计算步骤 ${String(i + 1).padStart(2, "0")}`}
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <p>
+                真实服务接入后，按顺序呈现输入校验、采用版本、规则执行与输出追踪。
+              </p>
+            )}
           </details>
         </div>
         <aside className="template-aside">

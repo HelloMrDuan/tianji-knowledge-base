@@ -12,7 +12,7 @@ import copy
 
 from .bazi_strength_display import get_display_decision
 
-PUBLIC_EXECUTION_DOMAINS = frozenset({'bazi', 'liuyao'})
+PUBLIC_EXECUTION_DOMAINS = frozenset({'bazi', 'liuyao', 'yijing', 'liuren'})
 PUBLIC_SCENARIO_STATES = frozenset({'production', 'production_limited'})
 
 _PRIVATE_KEYS = frozenset({

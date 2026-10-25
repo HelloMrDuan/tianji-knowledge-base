@@ -98,9 +98,17 @@ def compute(solar_term,day_ganzhi,hour_branch):
         'method':method,'transmissions':transmissions,'selection':selection}
 
 
+LIUREN_LIMITATIONS = [
+    '天将未实现：本次六壬结果不含天将（贵人）排布；天将起法尚未接入本计算，不作天将相关推断。',
+]
+
 def chart(solar_term,day_ganzhi,hour_branch,variant=VARIANT):
     if variant!=VARIANT:raise ValueError('Unsupported Liuren variant')
     result=compute(solar_term,day_ganzhi,hour_branch)
+    # Explicit boundary: chart() never calls noble_start(), so the output
+    # carries no noble-general field. State that plainly instead of
+    # letting a reader assume the generals are present.
+    result['limitations'] = list(LIUREN_LIMITATIONS)
     trace=ExecutionTrace('liuren',variant)
     trace.add('liuren.phase2.month_general',{'solar_term':solar_term},result['month_general'])
     trace.add('liuren.phase2.plates',{'month_general':result['month_general']['branch'],'hour_branch':hour_branch},result['sky_plate'])

@@ -162,6 +162,8 @@
 | E0107 | 2026-10-25 | TJ-024.1 | 已提交PR | [B008] 合盘 A/B 交换一致性：真实引擎两次运行互换输入，断言日主关系、配偶宫、交叉矩阵命中双向镜像 0 缺失、证据矩阵 ID 集与咸池证据镜像；本地真实引擎 5/5 通过；本测试需完整 runtime + 知识数据，由离线受控验收全量发现与私有 CI 执行，公开 CI 不冒称执行 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/316 |  |  |
 | E0108 | 2026-10-25 | TJ-021.3 | 已合并 | [B011] 关账：公开 #316 已合并到 main（Merge SHA c3d47c87a6537b57859647c91ec13e8535ee85cb），梦境页 390px 可读性断言与夜主题对比度修复已在主干；spec 为渲染契约测试（受控 synthetic stub），不冒称后端计算 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/316 | c3d47c87a6537b57859647c91ec13e8535ee85cb | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40152431543 |
 | E0109 | 2026-10-25 | TJ-024.1 | 已合并 | [B011] 关账：公开 #316 已合并到 main（Merge SHA c3d47c87a6537b57859647c91ec13e8535ee85cb），合盘 A/B 交换一致性测试已在主干；本测试需完整 runtime，由离线受控验收执行，公开 CI 不冒称执行 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/316 | c3d47c87a6537b57859647c91ec13e8535ee85cb | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40152431543 |
+| E0110 | 2026-10-25 | TJ-030.1 | 已提交PR | [B012] 周易接通公开执行：PUBLIC_EXECUTION_DOMAINS 加入 yijing；首页与结果页真实 fetch 后端并渲染本卦/变卦/错卦/综卦/互卦；公开 CI 门禁与投影测试通过，真实引擎（周易 2 项）与浏览器（周易 2 项）由本地真实后端受控验收通过，公开 CI 不冒称执行 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/320 |  |  |
+| E0111 | 2026-10-25 | TJ-030.4 | 已提交PR | [B012] 六壬接通公开执行：PUBLIC_EXECUTION_DOMAINS 加入 liuren；首页与结果页真实 fetch 后端并渲染月将/天地盘/四课/三传；六壬结果显式声明天将未实现；公开 CI 门禁与投影测试通过，真实引擎（六壬 2 项）与浏览器（六壬 2 项）由本地真实后端受控验收通过，公开 CI 不冒称执行 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/320 |  |  |
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
