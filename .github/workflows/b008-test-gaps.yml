@@ -1,0 +1,46 @@
+name: B008 Dream Readability Browser Regression
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "web/visual-prototype/**"
+      - ".github/workflows/b008-test-gaps.yml"
+      - "docs/product/TASK_STATUS.md"
+      - "docs/product/TASK_HISTORY.md"
+  push:
+    branches: [main]
+    paths:
+      - "web/visual-prototype/**"
+      - ".github/workflows/b008-test-gaps.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  b008-dream-readability-chromium:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: web/visual-prototype/package-lock.json
+      - name: Install frontend dependencies
+        working-directory: web/visual-prototype
+        run: npm ci
+      - name: Install Chromium
+        working-directory: web/visual-prototype
+        run: npx playwright install --with-deps chromium
+      - name: Run actual Chromium with controlled synthetic HTTP contracts
+        working-directory: web/visual-prototype
+        run: CI=true npm test -- tests/b008-dream-readability.spec.ts
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: b008-browser-failures
+          path: web/visual-prototype/test-results/
+          if-no-files-found: ignore
+          retention-days: 7
