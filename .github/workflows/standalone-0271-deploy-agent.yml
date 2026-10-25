@@ -1,0 +1,37 @@
+name: TJ-027.1 Deploy Agent Tests
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "scripts/deploy_agent.py"
+      - "tests/test_deploy_agent.py"
+      - ".github/workflows/deploy-pipeline.yml"
+      - ".github/workflows/standalone-0271-deploy-agent.yml"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/deploy_agent.py"
+      - "tests/test_deploy_agent.py"
+      - ".github/workflows/deploy-pipeline.yml"
+      - ".github/workflows/standalone-0271-deploy-agent.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  deploy-agent-python:
+    # TJ-027.1 deploy-agent tests: pure stdlib plus injected fakes, no
+    # docker daemon, no network, no private data, so they execute in
+    # public CI. Real-machine acceptance (preview/stable/rollback rounds
+    # on the operator machine) is NOT claimed by this job and must still
+    # run on the machine with SHA/digest evidence returned.
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run deploy agent tests
+        run: python -m unittest discover -s tests -p 'test_deploy_agent.py' -v

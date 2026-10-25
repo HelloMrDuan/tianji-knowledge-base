@@ -214,6 +214,7 @@
 | E0159 | 2026-10-25 | TJ-008.4 | 已合并 | 关账（单独立 legacy PR，无批次标记）：公开 #342 已合并到 main（Merge SHA f9aede1a91b85749754478ace193b92c4045fda8），移动端与无障碍验证（768 矩阵+200% 缩放等效法+键盘+reduced-motion+核心按钮几何遮挡）已在主干；真缺口已修复（360 下 career 样本按钮遮挡 18.94px、缩放等效视口溢出）；焦点陷阱不纳入、管理页移动行为不纳入；008.5 未碰 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/342 | f9aede1a91b85749754478ace193b92c4045fda8 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40173897976 |
 | E0160 | 2026-10-25 | TJ-009.3 | 已提交PR | 单独立：用户授权改写定义：WBS 字面动效已不存在，本批验证静态 hero 性能 + 死 CSS 清理（夜景按视口仅 1 图请求、纸主题 0 图请求、CDP 节流阈值均为建议标准、reduce 仅弱断言；删灯笼/雾 keyframes 与夜景 reduced-motion 规则；不宣称字面“动效性能”，不碰 008.5） | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/344 |  |  |
 | E0161 | 2026-10-25 | TJ-009.3 | 已合并 | 关账（单独立 legacy PR，无批次标记）：公开 #344 已合并到 main（Merge SHA 66ae6dab97de382d710ecde03ecd86f5313ee175），静态 hero 性能验证（夜景按视口仅 1 图请求、纸主题 0 夜景图请求、CDP 节流阈值均为建议标准）+ 死 CSS 清理（灯笼/雾 keyframes 与规则删除）已在主干；WBS 字面动效已不存在，不宣称完成字面动效性能；008.5 未碰 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/344 | 66ae6dab97de382d710ecde03ecd86f5313ee175 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40178213958 |
+| E0162 | 2026-10-25 | TJ-027.1 | 已提交PR | 单独立：开发分支预发布通道 + 回滚 + 恢复联动仓库侧实现已完成（机上部署代理 scripts/deploy_agent.py：stable 只接受 channel-main，预览按分支隔离，失败自动回滚，机器恢复后对账；CI 分支恢复 job 仅恢复不部署；仍无部署密钥；后端仍走可信机密封验收，预发布绝不绕过）；真实机器验收仍待验证，CI 绿/镜像已推送/wake 成功不等于部署完成 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/346 |  |  |
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
