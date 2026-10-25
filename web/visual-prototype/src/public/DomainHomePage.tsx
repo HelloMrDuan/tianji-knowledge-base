@@ -8,7 +8,14 @@ import {
   YIJING_LINE_TO_CHANGING,
 } from "./domainPages";
 import type { DomainPage, FieldSpec } from "./domainPages";
-import { ApiError, executeLiuren, executeYijing } from "./api";
+import {
+  ApiError,
+  executeFengshui,
+  executeLiuren,
+  executeQimen,
+  executeYijing,
+  executeZiwei,
+} from "./api";
 import type { ExecuteResponse } from "./api";
 import "./domain-home.css";
 
@@ -214,7 +221,12 @@ export function DomainHomePage({ page }: { page: DomainPage }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [linesOpen, setLinesOpen] = useState(false);
-  const connected = page.id === "yijing" || page.id === "liuren";
+  const connected =
+    page.id === "yijing" ||
+    page.id === "liuren" ||
+    page.id === "ziwei" ||
+    page.id === "qimen" ||
+    page.id === "fengshui";
   function update(id: string, value: string) {
     setValues((prev) => ({ ...prev, [id]: value }));
     setSummary(null);
@@ -239,8 +251,9 @@ export function DomainHomePage({ page }: { page: DomainPage }) {
       setError("");
       return;
     }
-    // B012: 周易 / 六壬提交即真实后端计算。校验失败不发请求；
-    // 计算失败只显示错误，绝不展示旧结果或把拒绝包装成已计算。
+    // B012: 周易 / 六壬提交即真实后端计算。B014: 紫微 / 奇门 / 风水
+    // 同样接通。校验失败不发请求；计算失败只显示错误，绝不展示旧结果
+    // 或把拒绝包装成已计算（闰月、绝对元运等门禁拒绝均走此失败态）。
     setSummary(null);
     setResult(null);
     setError("");
@@ -255,7 +268,7 @@ export function DomainHomePage({ page }: { page: DomainPage }) {
         bits,
         changing_lines: YIJING_LINE_TO_CHANGING[values.line] ?? [],
       });
-    } else {
+    } else if (page.id === "liuren") {
       if (!values.date || !values.time) {
         setError("请填写占时日期与时间。");
         return;
@@ -263,6 +276,31 @@ export function DomainHomePage({ page }: { page: DomainPage }) {
       request = executeLiuren({
         value: `${values.date}T${values.time}:00+08:00`,
       });
+    } else if (page.id === "ziwei") {
+      if (!values.date || !values.time) {
+        setError("请填写出生日期与时间。");
+        return;
+      }
+      request = executeZiwei({
+        value: `${values.date}T${values.time}:00+08:00`,
+        year_boundary: "lunar-new-year",
+      });
+    } else if (page.id === "qimen") {
+      if (!values.date || !values.time) {
+        setError("请填写占时日期与时间。");
+        return;
+      }
+      request = executeQimen({
+        value: `${values.date}T${values.time}:00+08:00`,
+      });
+    } else {
+      // fengshui: bearing in degrees.
+      const degrees = Number(values.bearing);
+      if (!values.bearing || !Number.isFinite(degrees) || degrees < 0 || degrees >= 360) {
+        setError("请填写 0 至 359.99 之间的测量角度。");
+        return;
+      }
+      request = executeFengshui({ degrees });
     }
     setLoading(true);
     try {
@@ -298,7 +336,13 @@ export function DomainHomePage({ page }: { page: DomainPage }) {
       ? `/yijing/result?bits=${YIJING_HEXAGRAM_BITS[values.hexagram] || ""}&changing_lines=${(YIJING_LINE_TO_CHANGING[values.line] ?? []).join(",")}`
       : page.id === "liuren" && values.date && values.time
         ? `/liuren/result?value=${encodeURIComponent(`${values.date}T${values.time}:00+08:00`)}`
-        : `/${page.id}/result`;
+        : page.id === "ziwei" && values.date && values.time
+          ? `/ziwei/result?value=${encodeURIComponent(`${values.date}T${values.time}:00+08:00`)}&year_boundary=lunar-new-year`
+          : page.id === "qimen" && values.date && values.time
+            ? `/qimen/result?value=${encodeURIComponent(`${values.date}T${values.time}:00+08:00`)}`
+            : page.id === "fengshui" && values.bearing
+              ? `/fengshui/result?degrees=${encodeURIComponent(values.bearing)}`
+              : `/${page.id}/result`;
   return (
     <div className={"domain-home domain-" + page.id}>
       <div className="breadcrumb">
@@ -554,6 +598,216 @@ export function DomainHomePage({ page }: { page: DomainPage }) {
                 </div>
               </dl>
               {(result.chart.limitations || []).map((line: string) => (
+                <p key={line}>{line}</p>
+              ))}
+              <Link href={resultHref} className="text-action">
+                查看完整结果页
+                <Icon name="arrow" size={16} />
+              </Link>
+            </section>
+          )}
+          {result && page.id === "ziwei" && (
+            <section
+              className="entry-summary entry-result"
+              aria-label="紫微真实计算结果"
+              role="status"
+            >
+              <div>
+                <Icon name="check" size={19} />
+                <h3>真实计算结果</h3>
+                <span>仅安星结构 · 不作吉凶推断</span>
+              </div>
+              <dl>
+                <div>
+                  <dt>命宫与身宫</dt>
+                  <dd>
+                    命宫 {result.chart.life_palace || "—"} · 身宫{" "}
+                    {result.chart.body_palace || "—"} · 命宫干支{" "}
+                    {result.chart.life_ganzhi || "—"}
+                  </dd>
+                </div>
+                <div>
+                  <dt>局数</dt>
+                  <dd>
+                    {result.chart.bureau
+                      ? `${result.chart.bureau.element}${result.chart.bureau.number}局`
+                      : "—"}
+                  </dd>
+                </div>
+                <div>
+                  <dt>十二宫</dt>
+                  <dd>
+                    {result.chart.palaces
+                      ? Object.entries(result.chart.palaces)
+                          .map(([palace, branch]) => `${palace}→${branch}`)
+                          .join(" · ")
+                      : "—"}
+                  </dd>
+                </div>
+                <div>
+                  <dt>主星</dt>
+                  <dd>
+                    {result.chart.major_stars
+                      ? Object.entries(result.chart.major_stars)
+                          .map(([star, branch]) => `${star}→${branch}`)
+                          .join(" · ")
+                      : "—"}
+                  </dd>
+                </div>
+                <div>
+                  <dt>辅星</dt>
+                  <dd>
+                    {result.chart.auxiliary_stars
+                      ? Object.entries(result.chart.auxiliary_stars)
+                          .map(([star, branch]) => `${star}→${branch}`)
+                          .join(" · ")
+                      : "—"}
+                  </dd>
+                </div>
+                <div>
+                  <dt>四化</dt>
+                  <dd>
+                    {result.chart.four_transformations
+                      ? Object.entries(result.chart.four_transformations)
+                          .map(([kind, star]) => `${kind}→${star}`)
+                          .join(" · ")
+                      : "—"}
+                    （{result.chart.mutagen_variant || "—"}）
+                  </dd>
+                </div>
+              </dl>
+              {result.chart.input_scope && <p>{result.chart.input_scope}</p>}
+              {result.chart.mutagen_evidence && (
+                <p>{result.chart.mutagen_evidence}</p>
+              )}
+              <p>
+                闰月输入将被拒绝（仅非闰月农历）；大限流年、庙旺吉凶不在此基本盘中。
+              </p>
+              {(result.limitations || []).map((line: string) => (
+                <p key={line}>{line}</p>
+              ))}
+              <Link href={resultHref} className="text-action">
+                查看完整结果页
+                <Icon name="arrow" size={16} />
+              </Link>
+            </section>
+          )}
+          {result && page.id === "qimen" && (
+            <section
+              className="entry-summary entry-result"
+              aria-label="奇门真实计算结果"
+              role="status"
+            >
+              <div>
+                <Icon name="check" size={19} />
+                <h3>真实计算结果</h3>
+                <span>仅盘面结构 · 不作吉凶推断</span>
+              </div>
+              <dl>
+                <div>
+                  <dt>局法</dt>
+                  <dd>
+                    {result.chart.dun || "—"} · 第{result.chart.bureau || "—"}局 ·{" "}
+                    {result.chart.yuan || "—"} · 节气{" "}
+                    {result.chart.calendar?.solar_term || "—"} · 日干支{" "}
+                    {result.chart.day_ganzhi || "—"} · 时干支{" "}
+                    {result.chart.hour_ganzhi || "—"}
+                  </dd>
+                </div>
+                <div>
+                  <dt>值符与值使</dt>
+                  <dd>
+                    值符{" "}
+                    {(result.chart.chief_star?.names || []).join(" / ") || "—"}（
+                    {result.chart.chief_star?.palace || "—"}宫） · 值使{" "}
+                    {result.chart.chief_door?.name || "—"}（
+                    {result.chart.chief_door?.palace || "—"}宫）
+                  </dd>
+                </div>
+                <div>
+                  <dt>九星</dt>
+                  <dd>
+                    {result.chart.star_positions
+                      ? Object.entries(result.chart.star_positions)
+                          .map(([star, palace]) => `${star}→${palace}`)
+                          .join(" · ")
+                      : "—"}
+                  </dd>
+                </div>
+                <div>
+                  <dt>八门</dt>
+                  <dd>
+                    {result.chart.door_positions
+                      ? Object.entries(result.chart.door_positions)
+                          .map(([door, palace]) => `${door}→${palace}`)
+                          .join(" · ")
+                      : "—"}
+                  </dd>
+                </div>
+                <div>
+                  <dt>八神</dt>
+                  <dd>
+                    {result.chart.deity_positions
+                      ? Object.entries(result.chart.deity_positions)
+                          .map(([deity, palace]) => `${deity}→${palace}`)
+                          .join(" · ")
+                      : "—"}
+                  </dd>
+                </div>
+              </dl>
+              {result.chart.scope && <p>{result.chart.scope}</p>}
+              {result.chart.center_star_policy && (
+                <p>{result.chart.center_star_policy}</p>
+              )}
+              <p>超接置闰未实现；本结果不含置闰、超神接气、暗干与格局占断。</p>
+              {(result.limitations || []).map((line: string) => (
+                <p key={line}>{line}</p>
+              ))}
+              <Link href={resultHref} className="text-action">
+                查看完整结果页
+                <Icon name="arrow" size={16} />
+              </Link>
+            </section>
+          )}
+          {result && page.id === "fengshui" && (
+            <section
+              className="entry-summary entry-result"
+              aria-label="风水真实计算结果"
+              role="status"
+            >
+              <div>
+                <Icon name="check" size={19} />
+                <h3>真实计算结果</h3>
+                <span>仅方位结构 · 不作吉凶推断</span>
+              </div>
+              <dl>
+                <div>
+                  <dt>测量角度</dt>
+                  <dd>{result.chart.degrees ?? "—"}°</dd>
+                </div>
+                <div>
+                  <dt>二十四山</dt>
+                  <dd>
+                    {result.chart.mountain || "—"}（
+                    {result.chart.mountain_element || "—"}）
+                  </dd>
+                </div>
+                <div>
+                  <dt>卦象</dt>
+                  <dd>
+                    {result.chart.trigram || "—"}（
+                    {result.chart.trigram_element || "—"}）
+                  </dd>
+                </div>
+                <div>
+                  <dt>对向</dt>
+                  <dd>{result.chart.opposite || "—"}</dd>
+                </div>
+              </dl>
+              <p>
+                绝对元运未接入生产：本结果不含元运期数；元运口径需显式研究纪元，另立任务确立。
+              </p>
+              {(result.limitations || []).map((line: string) => (
                 <p key={line}>{line}</p>
               ))}
               <Link href={resultHref} className="text-action">

@@ -12,7 +12,10 @@ import copy
 
 from .bazi_strength_display import get_display_decision
 
-PUBLIC_EXECUTION_DOMAINS = frozenset({'bazi', 'liuyao', 'yijing', 'liuren'})
+# B014: ziwei/qimen/fengshui join the public execution gate (connection only;
+# engines already exist with real tests). Out-of-scope tools stay out.
+PUBLIC_EXECUTION_DOMAINS = frozenset({'bazi', 'liuyao', 'yijing', 'liuren',
+                                      'ziwei', 'qimen', 'fengshui'})
 PUBLIC_SCENARIO_STATES = frozenset({'production', 'production_limited'})
 
 _PRIVATE_KEYS = frozenset({
