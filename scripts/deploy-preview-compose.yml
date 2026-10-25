@@ -1,0 +1,33 @@
+# Preview web-only compose template for the TJ-027.1 evolved deploy agent
+# (scripts/deploy-agent-tj.sh).
+#
+# Used as: docker compose -p tianji-preview-<slug> -f deploy-preview-compose.yml
+#          --env-file <preview env file> up -d
+#
+# The preview web container joins the STABLE network (external) so its
+# /api/ proxy reaches the already-accepted stable sealed backend (service
+# name tianji-api on that network). No api service is defined here:
+# previews never build or run a sealed backend, so the sealed-acceptance
+# gate cannot be bypassed through a preview.
+#
+# Required environment (from the preview env file): TIANJI_PUBLIC_WEB_IMAGE,
+# TIANJI_HOST_PORT. Optional: TIANJI_PREVIEW_NETWORK (default below, the
+# tj-core-01 stable network name; operator configuration).
+services:
+  tianji-web:
+    image: ${TIANJI_PUBLIC_WEB_IMAGE:?Set the preview web image tag}
+    restart: unless-stopped
+    read_only: true
+    cap_drop: ["ALL"]
+    security_opt: ["no-new-privileges:true"]
+    tmpfs:
+      - /tmp:rw,nosuid,noexec,size=16m
+      - /var/cache/nginx:rw,nosuid,noexec,size=16m
+    ports:
+      - "127.0.0.1:${TIANJI_HOST_PORT:?Set the preview host port}:8080"
+    networks:
+      - tianji-private-net
+networks:
+  tianji-private-net:
+    external: true
+    name: ${TIANJI_PREVIEW_NETWORK:-tianji_tianji-private-net}

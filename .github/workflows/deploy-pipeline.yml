@@ -147,3 +147,30 @@ jobs:
             sleep 20
           done
           echo "Image publication is not deployment. Trusted-machine offline sealed acceptance is required before release of public SHA ${{ github.sha }}."
+
+  # Branch resume (NOT a deployment): a push to a non-main branch only
+  # visits the published URL to resume an idle-paused machine, so the
+  # on-machine timer + deploy agent can reconcile preview channels.
+  # Resume != deploy: the agent alone decides deployments under channel
+  # rules (stable accepts main only; previews are isolated web-only
+  # containers on their own loopback ports). This preserves #313's
+  # division: branches never touch the stable service; they only wake
+  # the machine for their own preview channel. No deployment secrets.
+  preview-resume:
+    name: resume-machine-for-preview
+    needs: build
+    # Non-main pushes only; main keeps its own wake job above.
+    if: github.event_name == 'push' && github.ref != 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Visit published URL to resume the machine (resume only, not a deploy)
+        run: |
+          for i in 1 2 3 4 5; do
+            code="$(curl -s -o /dev/null -w '%{http_code}' -m 30 https://8080-agqwnq7rh7fahkx2dsyymvvdsu.instabox.tech/ || true)"
+            echo "preview resume attempt $i -> HTTP $code"
+            [ "$code" = "200" ] && break
+            sleep 20
+          done
+          echo "Resume only, not a deployment. Preview deployment is decided on-machine by the deploy agent under channel rules; CI green, image pushed and wake success are not deployment."

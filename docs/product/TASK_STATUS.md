@@ -92,7 +92,7 @@
 | TJ-026.3 | M6 | 真实只读模块逐页接受控接口 | 已合并 | [公开 #324](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/324) | 2026-10-25 | #324 已合并；403 scope 模型与 401/403/404 显式分支已在主干；HTTP 与浏览器真实后端验证由离线受控验收执行，公开 CI 不冒称 |
 | TJ-026.4 | M6 | 角色权限、草稿审批、回滚和审计 | 已合并 | [公开 #330](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/330) | 2026-10-25 | #330 已合并；第三批回滚（草稿内版本史+仅 publisher 回滚+补偿审计只追加）已在主干；持久化存储另决策；方案 B 登记簿另立任务；HTTP 测试由离线受控验收执行，公开 CI 不冒称 |
 | TJ-026.5 | M6 | 审计与草稿持久化存储 | 已合并 | [公开 #340](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/340) | 2026-10-25 | #340 已合并；审计与草稿持久化存储（SQLite 单文件：audit_entries 只追加+drafts+draft_versions+draft_transitions+AUTOINCREMENT 编号序列）已在主干；备份 = 拷文件；容器无持久卷时重部署仍可能丢，部署卷需单独确认 |
-| TJ-027.1 | M6 | 部署私有后端与静态前端 | 已提交PR | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/308 · https://github.com/HelloMrDuan/tianji-knowledge-base/pull/313 | 2026-10-24 | PR #308 已合并公开 Web GHCR 构建；PR #313 增加仅 main 可唤醒正式机器的安全门禁，功能分支禁止触发正式机器唤醒。可信机离线密封验收、精确 SHA/PIN 与机内自动部署仍须真实取证，未获部署验收 |
+| TJ-027.1 | M6 | 部署私有后端与静态前端 | 已提交PR | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/308 · https://github.com/HelloMrDuan/tianji-knowledge-base/pull/313 | 2026-10-25 | PR #308 已合并公开 Web GHCR 构建；PR #313 增加仅 main 可唤醒正式机器的安全门禁；本批为机上 bash 代理演进版（非另起代理）：开发分支预发布通道（独立回环端口与 compose 项目、容量护栏默认 5、每通道回滚、恢复对账、稳定 main-only 硬保护），预览只部署公开 Web 镜像并挂稳定网络共享已验收密封后端，绝不构建密封镜像；分支 push 仅恢复机器（恢复 ≠ 部署）；bash 模拟测试 12/12；稳定验收门禁原样保留；真实机器验收仍待验证，未获部署验收 |
 | TJ-027.2 | M6 | 可观测性与回滚 | 已合并 | [公开 #305](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/305) | 2026-10-25 | #305 已合并；仅健康探针子范围，告警/自动回滚仍待实机证据，不声明完整关账 |
 | TJ-028.1 | M6 | 真模型访问与权限 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-028.2 | M6 | 领域级真实模型评测 | 阻塞 | — | — | 等待证据/前置依赖 |
