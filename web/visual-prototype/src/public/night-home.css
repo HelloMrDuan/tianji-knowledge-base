@@ -211,6 +211,9 @@ html[data-theme="night"] .night-cards-section {
     padding: 8px 14px 8px 8px;
     text-decoration: none;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+    /* TJ-008.4: allow the row to shrink below its min-content (nowrap
+       subtitle) so 200% zoom (195px layout viewport) does not overflow. */
+    min-width: 0;
   }
   .mobile-card-thumb {
     flex: none;
@@ -561,6 +564,8 @@ html[data-theme="paper"] .tier3-section h2 {
   padding: 8px 14px 8px 8px;
   text-decoration: none;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+  /* TJ-008.4: same min-content shrink allowance as .mobile-card-row. */
+  min-width: 0;
 }
 .tier3-list .mobile-card-thumb {
   flex: none;

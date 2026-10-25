@@ -270,6 +270,9 @@
   gap: 13px;
 }
 .tool-card {
+  /* TJ-008.4: allow tool cards to shrink below min-content so the
+     2-column tool grid fits 200% zoom (180px layout viewport). */
+  min-width: 0;
   padding: 20px 22px 16px;
   border: 1px solid #dcded3;
   border-radius: 5px;
@@ -2040,5 +2043,31 @@
   }
   .tool-card p {
     font-size: 12px;
+  }
+}
+
+/* TJ-008.4: below ~340px viewports the chart's fixed 62px yao columns
+   (243px + padding) overflow the table; compact columns let the yao bars
+   scale with width instead of forcing page overflow. Only applies where
+   the standard narrow chart cannot fit, so 360px+ rendering is untouched. */
+@media (max-width: 340px) {
+  .chart-table-head,
+  .chart-line {
+    grid-template-columns: 30px minmax(0, 1fr) 18px minmax(0, 1fr) 20px;
+    gap: 4px;
+  }
+}
+
+/* TJ-008.4: below ~210px viewports (360px @ 200% zoom) the brand +
+   header-end row exceeds the viewport; wrap instead of overflowing.
+   No effect at 360px+ widths. */
+@media (max-width: 210px) {
+  .public-header {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 12px;
+  }
+  .public-header-end {
+    margin-left: auto;
   }
 }
