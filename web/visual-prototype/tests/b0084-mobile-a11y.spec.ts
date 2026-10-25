@@ -32,12 +32,13 @@
  *   it, no FocusTrap exists in src, and this spec does not claim one. The
  *   native <dialog> Escape/focus-restore behavior on the liuyao page is
  *   browser behavior, tested as such, not claimed as app implementation.
- * - REDUCED-MOTION dead selectors (observation, not a fix): the
- *   .night-hero-scene .nhs-lantern/.nhs-mist rules in night-home.css target
- *   classes with zero matches in any .tsx (the current hero renders a
- *   <picture> instead), so those specific selectors cannot be verified by
- *   measurement. The global * reduced-motion rule is verified below and
- *   covers every element including any future lantern/mist element.
+ * - REDUCED-MOTION dead selectors (removed in TJ-009.3, redefined):
+ *   the .night-hero-scene .nhs-lantern/.nhs-mist rules formerly in
+ *   night-home.css targeted classes with zero matches in any .tsx (the
+ *   hero renders a <picture> since TJ-008.7 round 4); TJ-009.3 deleted
+ *   them as dead CSS. The global * reduced-motion rule is verified
+ *   below and covers every element including any future lantern/mist
+ *   element.
  * - NOT re-tested here (already covered elsewhere, do not double-count):
  *   homepage first-screen 4 card rows (TJ-008.7 round 5), contrast
  *   (TJ-021.3), dual-theme basics (TJ-008.6). TJ-008.5 is untouched.
