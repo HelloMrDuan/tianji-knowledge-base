@@ -10,3 +10,5 @@ dist/
 *.egg-info/
 .env
 .DS_Store
+# Runtime admin persistence (TJ-026.5): SQLite single file, never committed.
+*.db

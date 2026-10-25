@@ -144,7 +144,15 @@ class DraftStore:
     versions are append-only like the transition log, and rollback
     appends rather than rewrites. Versions share the store's
     process-memory lifecycle and are lost on restart.
+
+    TJ-026.5 adds a SQLite-backed store with the same interface
+    (admin_storage.SqliteDraftStore); the API reports which store
+    backs a draft response through `storage` / `storage_note`
+    below. Memory keeps the old wording.
     """
+
+    storage = 'process_memory'
+    storage_note = STORAGE_NOTE
 
     def __init__(self):
         self._drafts = {}

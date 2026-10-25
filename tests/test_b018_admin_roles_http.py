@@ -16,6 +16,7 @@ and no draft/approval/publish business exists behind it.
 """
 
 import os
+import tempfile
 import unittest
 from unittest import mock
 
@@ -33,10 +34,14 @@ READ_TOKEN = 'read-token'
 
 
 def _role_client(read_scopes={'system'}):
+    # TJ-026.5: tmp DB per client (see test_b020_drafts_http).
+    fd, db_path = tempfile.mkstemp(suffix='.db')
+    os.close(fd)
     return TestClient(create_app(
         admin_role_tokens=dict(ROLE_TOKENS),
         admin_read_token=READ_TOKEN,
-        admin_read_scopes=set(read_scopes)))
+        admin_read_scopes=set(read_scopes),
+        admin_db_path=db_path))
 
 
 def _probe(client, token, operation):
@@ -99,7 +104,11 @@ class TestB018WriteProbeHttp(unittest.TestCase):
         self.assertTrue(all(e['who'] == 'unknown' for e in entries))
 
     def test_unconfigured_role_tokens_is_503(self):
-        client = TestClient(create_app(admin_read_token=READ_TOKEN))
+        # TJ-026.5: tmp DB keeps runs hermetic (see _role_client).
+        fd, db_path = tempfile.mkstemp(suffix='.db')
+        os.close(fd)
+        client = TestClient(create_app(admin_read_token=READ_TOKEN,
+                                       admin_db_path=db_path))
         resp = _probe(client, 'user-token', 'draft')
         self.assertEqual(resp.status_code, 503)
         self.assertEqual(resp.json()['detail']['code'],
@@ -129,10 +138,16 @@ class TestB018EnvFallbackHttp(unittest.TestCase):
         # verification: create_app() with NO explicit params used to
         # leave the read token unset (503 for every read) and set the
         # scopes to the token string. Env configuration must work.
+        # TJ-026.5: the tmp DB path also comes via env, so the
+        # create_app() call below stays param-free (token fallback is
+        # what this test exercises) while runs stay hermetic.
+        fd, db_path = tempfile.mkstemp(suffix='.db')
+        os.close(fd)
         env = {
             'TIANJI_ADMIN_READ_TOKEN': 'env-read-token',
             'TIANJI_ADMIN_READ_SCOPES': 'system',
             'TIANJI_ADMIN_ROLE_TOKENS': 'env-user:user,env-editor:editor',
+            'TIANJI_ADMIN_DB_PATH': db_path,
         }
         with mock.patch.dict(os.environ, env, clear=False):
             client = TestClient(create_app())
@@ -147,9 +162,13 @@ class TestB018EnvFallbackHttp(unittest.TestCase):
             self.assertEqual(len(audit.json()['entries']), 1)
 
     def test_env_read_token_without_system_scope_is_403(self):
+        # TJ-026.5: tmp DB via env (see above) keeps runs hermetic.
+        fd, db_path = tempfile.mkstemp(suffix='.db')
+        os.close(fd)
         env = {
             'TIANJI_ADMIN_READ_TOKEN': 'env-read-token',
             'TIANJI_ADMIN_READ_SCOPES': 'governance',
+            'TIANJI_ADMIN_DB_PATH': db_path,
         }
         with mock.patch.dict(os.environ, env, clear=False):
             client = TestClient(create_app())

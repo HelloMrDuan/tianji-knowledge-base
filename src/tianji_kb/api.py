@@ -23,7 +23,8 @@ from .governance import school_conflicts,reviewed_rules,reviewed_evidence,review
 from .admin_scopes import ADMIN_READ_SCOPES,parse_admin_scopes,resolve_admin_access
 from .admin_roles import parse_admin_role_tokens,resolve_role_access
 from .admin_audit import AuditLog
-from .admin_drafts import DraftStore,DraftNotFoundError,InvalidTransitionError,InvalidDraftInputError,STORAGE_NOTE,DRAFT_ACTION_OPERATION
+from .admin_drafts import DraftStore,DraftNotFoundError,InvalidTransitionError,InvalidDraftInputError,DRAFT_ACTION_OPERATION
+from .admin_storage import DEFAULT_DB_PATH,SqliteAuditLog,SqliteDraftStore
 
 Domain=Literal['liuyao','qimen','liuren','ziwei','fengshui','yijing','bazi']
 Mode=Literal['production','research']
@@ -183,7 +184,7 @@ def response_for(raw):
         calendar=raw.get('input_calendar') or raw['result'].get('calendar'))
 
 
-def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,admin_read_scopes=None,admin_role_tokens=None):
+def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,admin_read_scopes=None,admin_role_tokens=None,admin_audit_log=None,admin_draft_store=None,admin_db_path=None):
     app=FastAPI(title='Tianji deterministic knowledge API',version='1.0.0',
         description='Canonical calculation → RuleMatch → trace → Evidence; AI may explain but may not compute charts.')
     app.state.provider=provider
@@ -196,13 +197,21 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,ad
     # None means fall back to TIANJI_ADMIN_ROLE_TOKENS (comma list of
     # token:role pairs); an empty mapping means roles are not configured.
     app.state.admin_role_tokens = (parse_admin_role_tokens(os.environ.get('TIANJI_ADMIN_ROLE_TOKENS')) if admin_role_tokens is None else dict(admin_role_tokens))
-    # Append-only audit log skeleton (TJ-026.4 batch 1): one per app
-    # instance, process memory. Every write attempt is recorded here.
-    app.state.audit_log = AuditLog()
-    # Draft store (TJ-026.4 batch 2): one per app instance, process
-    # memory — same lifecycle decision as the audit skeleton. Drafts
-    # are lost on restart; every draft response says so (STORAGE_NOTE).
-    app.state.draft_store = DraftStore()
+    # Durable admin storage (TJ-026.5): one SQLite file backs both
+    # the append-only audit log and the draft store. Explicit stores
+    # win (tests / embedding); otherwise the path resolves as
+    # explicit param, then TIANJI_ADMIN_DB_PATH, then the default
+    # file. The default is durable — module-level app=create_app()
+    # must persist. If only one explicit store is given, the other
+    # falls back to memory (no surprise file creation for callers
+    # that pass a single store).
+    if admin_audit_log is None and admin_draft_store is None:
+        db_path = admin_db_path or os.environ.get('TIANJI_ADMIN_DB_PATH') or DEFAULT_DB_PATH
+        app.state.audit_log = SqliteAuditLog(db_path)
+        app.state.draft_store = SqliteDraftStore(db_path)
+    else:
+        app.state.audit_log = admin_audit_log if admin_audit_log is not None else AuditLog()
+        app.state.draft_store = admin_draft_store if admin_draft_store is not None else DraftStore()
     origins=[origin.strip() for origin in os.environ.get('TIANJI_CORS_ORIGINS','').split(',') if origin.strip()]
     if origins:app.add_middleware(CORSMiddleware,allow_origins=origins,allow_methods=['GET','POST'],allow_headers=['Content-Type','Authorization'])
 
@@ -575,9 +584,9 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,ad
 
     def _draft_response(draft):
         # Draft records never carry audit content; the storage note is
-        # part of every draft response so no client can mistake these
-        # for durable records.
-        return {'api_version': 'v1', 'draft': draft, 'storage': 'process_memory', 'storage_note': STORAGE_NOTE}
+        # part of every draft response so clients see which store
+        # actually backs the records (TJ-026.5: SQLite by default).
+        return {'api_version': 'v1', 'draft': draft, 'storage': app.state.draft_store.storage, 'storage_note': app.state.draft_store.storage_note}
 
     @app.get('/api/v1/admin/drafts', tags=['admin'])
     def admin_draft_list(authorization: str | None = Header(default=None)):
@@ -585,7 +594,7 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,ad
         # write operation, and are not audited (batch-1 rule: only
         # write attempts leave traces).
         require_valid_role(authorization)
-        return {'api_version': 'v1', 'drafts': app.state.draft_store.list(), 'storage': 'process_memory', 'storage_note': STORAGE_NOTE}
+        return {'api_version': 'v1', 'drafts': app.state.draft_store.list(), 'storage': app.state.draft_store.storage, 'storage_note': app.state.draft_store.storage_note}
 
     @app.get('/api/v1/admin/drafts/{draft_id}', tags=['admin'])
     def admin_draft_get(draft_id: str, authorization: str | None = Header(default=None)):

@@ -107,9 +107,9 @@ test("logs renders live audit entries and requests nothing before a token", asyn
 }) => {
   const requestCount = await installAuditStub(page, "ok");
   await page.goto("/admin/logs");
-  // Redefined heading + process-memory label; no demo trace anywhere.
+  // Redefined heading + durable-storage label (TJ-026.5); no demo trace anywhere.
   await expect(page.getByRole("heading", { name: "审计轨迹" }).first()).toBeVisible();
-  await expect(page.getByText("进程内存 · 重启丢失").first()).toBeVisible();
+  await expect(page.getByText("SQLite 持久存储 · 重启不丢").first()).toBeVisible();
   await expect(page.getByText("DEMO-trace-001")).toHaveCount(0);
   await expect(page.getByText("虚构演示记录")).toHaveCount(0);
   // Route-guard contract: no request before a token is supplied.

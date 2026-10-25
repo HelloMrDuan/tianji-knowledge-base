@@ -17,6 +17,8 @@ stays terminal. The compensating audit record is appended only and
 carries the draft id + version, never draft content.
 """
 
+import os
+import tempfile
 import unittest
 
 from fastapi.testclient import TestClient
@@ -33,10 +35,18 @@ READ_TOKEN = 'read-token'
 
 
 def _client(role_tokens=None):
+    # TJ-026.5: the app now persists admin state to SQLite by
+    # default. Tests point it at a throwaway tmp file so runs stay
+    # hermetic and never create tianji_admin.db in the repo. Stores
+    # are per-app-instance, so a fresh file per _client() call keeps
+    # the same isolation the in-memory stores had.
+    fd, db_path = tempfile.mkstemp(suffix='.db')
+    os.close(fd)
     return TestClient(create_app(
         admin_role_tokens=dict(ROLE_TOKENS) if role_tokens is None else role_tokens,
         admin_read_token=READ_TOKEN,
-        admin_read_scopes={'system'}))
+        admin_read_scopes={'system'},
+        admin_db_path=db_path))
 
 
 def _auth(token):
@@ -120,8 +130,8 @@ class TestB022RollbackHttp(unittest.TestCase):
         # Prior history untouched: only the rollback records are new.
         self.assertEqual(draft['transitions'][:-1], before['transitions'])
         self.assertEqual(draft['versions'][:-1], before['versions'])
-        # Response still carries the process-memory storage note.
-        self.assertEqual(resp.json()['storage'], 'process_memory')
+        # Response carries the SQLite storage note (TJ-026.5).
+        self.assertEqual(resp.json()['storage'], 'sqlite')
         self.assertIn('重启', resp.json()['storage_note'])
 
     def test_rollback_endpoint_not_captured_by_action_route(self):
