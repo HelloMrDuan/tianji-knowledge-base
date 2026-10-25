@@ -151,6 +151,10 @@
 
 | E0098 | 2026-10-24 | TJ-027.2 | 已提交PR | 原 B003 PR #305 因 #308/#313 已完成 main GHCR/唤醒链，旧脚本 deploy_intranet.sh 与当前生产自动部署代理重复且可能误操作，故收敛为只提交 scripts/health_check.py 和 tests/test_health_check.py。新增公开 CI 真实启动 127.0.0.1 HTTP 服务、校验 /health、capabilities、前端 HTML+JS、反代 /api、泄漏标记及异常响应（非生产部署证据）；本项仅覆盖 TJ-027.2 的健康探针子范围，告警/自动回滚仍待实机证据。TJ-005.2 其他私有 API smoke 尚未合并验收 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/305 |  |  |
 
+| E0099 | 2026-10-25 | TJ-020.1 | 已合并 | [B009] 关账：公开 #307 已合并到 main（Merge SHA 003c5895d8e182255cf1b711c05c75a5d02d422e），全量 PR CI success；主体/实体/动作识别与时间连接词修复已在主干；保留边界：受控 Canonical/Evidence 可信机全量测试仍未完成，不冒称发布验收 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/307 | 003c5895d8e182255cf1b711c05c75a5d02d422e | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40079521912 |
+| E0100 | 2026-10-25 | TJ-020.2 | 已合并 | [B009] 关账：公开 #307 已合并到 main（Merge SHA 003c5895d8e182255cf1b711c05c75a5d02d422e），否定/假设/转述/梦醒否定严格零命中已在主干 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/307 | 003c5895d8e182255cf1b711c05c75a5d02d422e | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40079521912 |
+| E0101 | 2026-10-25 | TJ-020.3 | 已合并 | [B009] 关账：公开 #307 已合并到 main（Merge SHA 003c5895d8e182255cf1b711c05c75a5d02d422e），多梦象分离与来源冲突弃判已在主干 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/307 | 003c5895d8e182255cf1b711c05c75a5d02d422e | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40079521912 |
+| E0102 | 2026-10-25 | TJ-021.2 | 已合并 | [B009] 关账：公开 #307 已合并到 main（Merge SHA 003c5895d8e182255cf1b711c05c75a5d02d422e），空态/服务失败/AI禁用用户友好空态已在主干 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/307 | 003c5895d8e182255cf1b711c05c75a5d02d422e | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40079521912 |
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
