@@ -68,23 +68,23 @@
 | TJ-018.3 | M4 | Canonical/Quarantine 审批和私有验证 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-019.1 | M4 | 高频梦境需求矩阵 | 已合并 | [公开 #326](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/326) | 2026-10-25 | #326 已合并；矩阵视图已在主干；7 分类静态排队+不产解释声明在位 |
 | TJ-019.2 | M4 | 小批新场景真实入库 | 阻塞 | — | — | 等待证据/前置依赖 |
-| TJ-019.3 | M4 | 存量十种场景复核 | 待做 | — | — | 按 WBS 验收条件执行 |
+| TJ-019.3 | M4 | 存量十种场景复核 | 已提交PR | [公开 #338](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/338) | 2026-10-25 | [B028] 前端/梦境验证批：10 例各恰好 1 精确命中 + 泛化输入 0 命中（真实后端离线受控验收）；后端 10 场景枚举已有断言，不重建 |
 | TJ-020.1 | M4 | 主体+实体+动作+时间次序 | 已合并 | [公开 #307](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/307) | 2026-10-25 | #307 已合并；受控 Canonical/Evidence 可信机全量测试仍待证据，不冒称发布验收 |
 | TJ-020.2 | M4 | 否定/假设/转述/梦醒否定 | 已合并 | [公开 #307](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/307) | 2026-10-25 | #307 已合并 |
 | TJ-020.3 | M4 | 多梦象并存、来源冲突与弃判 | 已合并 | [公开 #307](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/307) | 2026-10-25 | #307 已合并 |
-| TJ-021.1 | M4 | 古风书卷页的命中分组与短引 | 待做 | — | — | 按 WBS 验收条件执行 |
+| TJ-021.1 | M4 | 古风书卷页的命中分组与短引 | 已提交PR | [公开 #338](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/338) | 2026-10-25 | [B028] 前端/梦境验证批：书卷页四层（原梦叙述→审核对应→出处→文化限界）字面标签小补丁 + 4 层分组浏览器 spec；真实后端 4 层与双场景分组由离线受控验收执行，公开 CI 仅跑桩 spec 不冒称 |
 | TJ-021.2 | M4 | 不匹配/服务失败/禁用 AI 的用户友好空态 | 已合并 | [公开 #307](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/307) | 2026-10-25 | #307 已合并 |
 | TJ-021.3 | M4 | 真实浏览器语义与文字可读性 | 已合并 | [公开 #316](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/316) | 2026-10-25 | #316 已合并；夜主题对比度修复 + 390px 可读性断言已在主干 |
 | TJ-022.1 | M5 | 桃花两套咸池与原局关系证据独立 | 已合并 | [公开 #334](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/334) | 2026-10-25 | #334 已合并；桃花两套咸池验证（年支/日支分别查表+独立激活+不相加成概率）已在主干；新增 3 项测试由离线受控验收执行，公开 CI 不冒称 |
 | TJ-022.2 | M5 | 经审配偶宫/星与年运条件 | 阻塞 | — | — | 等待证据/前置依赖 |
-| TJ-022.3 | M5 | 桃花场景结果书卷化 | 待做 | — | — | 按 WBS 验收条件执行 |
+| TJ-022.3 | M5 | 桃花场景结果书卷化 | 已提交PR | [公开 #338](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/338) | 2026-10-25 | [B028] 前端/梦境验证批：普通语言条件摘要 + 两套方法独立展示 + 目标年真实重算显示（2026 午/六冲→2027 未/六害）；真实重算由离线受控验收执行，公开 CI 仅跑桩 spec 不冒称 |
 | TJ-023.1 | M5 | 财官食印比劫位置/事件条件聚合 | 已合并 | [公开 #334](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/334) | 2026-10-25 | #334 已合并；财官食印聚合验证（五组十神数量与真实位置保留+缺旺衰不写升职破财）已在主干；新增 2 项测试由离线受控验收执行，公开 CI 不冒称 |
 | TJ-023.2 | M5 | “事业”与“财运”两个可见视图 | 已合并 | [公开 #309](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/309) | 2026-10-25 | #309 已合并 |
 | TJ-023.3 | M5 | 已审大运与流年合用（以后置为准） | 阻塞 | — | — | 等待证据/前置依赖 |
 | TJ-024.1 | M5 | 双人 A/B 双向关系矩阵及证据 | 已合并 | [公开 #316](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/316) | 2026-10-25 | #316 已合并；交换一致性测试由离线验收执行，公开 CI 不冒称 |
 | TJ-024.2 | M5 | 配偶宫、四柱 4×4 分层与冲突限界 | 已合并 | [公开 #334](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/334) | 2026-10-25 | #334 已合并；配偶宫 4×4 验证（日支结构位+4×4 分层+合冲害/三合位置正确+不从条数生成适配分）已在主干；新增 5 项测试由离线受控验收执行，公开 CI 不冒称 |
 | TJ-024.3 | M5 | 资料隔离/隐私提示与移动端双栏 | 已合并 | [公开 #310](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/310) merge `c31adc13b7b4de4fafa5a3e041e8dcd8d7fab6ff` · [main 构建](https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40070159888) · [main 任务门禁](https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40070159894) · [main 前端](https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40070159900) | 2026-10-24 | [B006] 对方资料知情同意与后端留存边界提示已合并；隐私 Playwright 门禁通过，清空 B 后旧结果消失、修改 B 不覆盖 A 有强断言。用户实机日志：07:05:35Z 离线 ACCEPTED、07:06:06Z 自动 DEPLOYED，Web/API 目标 SHA 均为 c31adc13，health+bazi ok。独立生产端 360/390px 视觉 E2E 与服务端留存策略审计尚未验收，不冒称完整隐私合规 |
-| TJ-025.1 | M5 | 四源场景同一出生/目标年真实聚合 | 待做 | — | — | 按 WBS 验收条件执行 |
+| TJ-025.1 | M5 | 四源场景同一出生/目标年真实聚合 | 已提交PR | [公开 #338](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/338) | 2026-10-25 | [B028] 前端/梦境验证批：四源同盘同年显示 + 去重 Evidence + 一致性核验文案；真实聚合由离线受控验收执行，公开 CI 仅跑桩 spec 不冒称 |
 | TJ-025.2 | M5 | 人生总览的条件说明/无法裁决出口 | 阻塞 | — | — | 等待证据/前置依赖 |
 | TJ-025.3 | M5 | 首页→总览→细分页面的完整古风阅读链 | 已合并 | [公开 #311](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/311) | 2026-10-25 | #311 已合并；限于浏览器导航/年份/清空/四视口表现，后端四源 Evidence 真验收另由 TJ-025.1 处理 |
 | TJ-026.1 | M6 | 恢复 #87 管理布局与 16 个原管理模块 | 已合并 | [公开 #332](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/332) | 2026-10-25 | #332 已合并；logs 单项（审计轨迹视图：真实审计列表+令牌门禁+401/403/404/503 分支+进程内存标注）已在主干；users 真实数据与 16 模块数据接入仍另立任务（完整 026.1 未完成） |
