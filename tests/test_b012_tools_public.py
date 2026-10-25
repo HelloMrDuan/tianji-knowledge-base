@@ -51,10 +51,11 @@ class TestB012PublicGate(unittest.TestCase):
         # Previously gated domains stay gated.
         self.assertIn('bazi', PUBLIC_EXECUTION_DOMAINS)
         self.assertIn('liuyao', PUBLIC_EXECUTION_DOMAINS)
-        # Out-of-scope tools stay OUT of the public gate in this batch.
-        self.assertNotIn('qimen', PUBLIC_EXECUTION_DOMAINS)
-        self.assertNotIn('ziwei', PUBLIC_EXECUTION_DOMAINS)
-        self.assertNotIn('fengshui', PUBLIC_EXECUTION_DOMAINS)
+        # B014 supersedes B012's batch-scoped exclusion: ziwei/qimen/
+        # fengshui joined the gate in B014 (see test_b014_tools_public.py
+        # for the full seven-domain gate assertion). This test no longer
+        # asserts their absence, because that assertion is now false by
+        # design, not by regression.
 
     def test_yijing_projection_strips_private_keys(self):
         chart = {

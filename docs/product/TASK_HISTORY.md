@@ -166,6 +166,9 @@
 | E0111 | 2026-10-25 | TJ-030.4 | 已提交PR | [B012] 六壬接通公开执行：PUBLIC_EXECUTION_DOMAINS 加入 liuren；首页与结果页真实 fetch 后端并渲染月将/天地盘/四课/三传；六壬结果显式声明天将未实现；公开 CI 门禁与投影测试通过，真实引擎（六壬 2 项）与浏览器（六壬 2 项）由本地真实后端受控验收通过，公开 CI 不冒称执行 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/320 |  |  |
 | E0112 | 2026-10-25 | TJ-030.1 | 已合并 | [B013] 关账：公开 #320 已合并到 main（Merge SHA 9f4a7981b14446468d3c5670888580e9f07fa0bc），周易公开执行接通与真实结果渲染已在主干；引擎与浏览器测试由离线受控验收执行，公开 CI 不冒称 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/320 | 9f4a7981b14446468d3c5670888580e9f07fa0bc | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40154312435 |
 | E0113 | 2026-10-25 | TJ-030.4 | 已合并 | [B013] 关账：公开 #320 已合并到 main（Merge SHA 9f4a7981b14446468d3c5670888580e9f07fa0bc），六壬公开执行接通与真实结果渲染已在主干；天将未实现声明在位；引擎与浏览器测试由离线受控验收执行，公开 CI 不冒称 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/320 | 9f4a7981b14446468d3c5670888580e9f07fa0bc | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40154312435 |
+| E0114 | 2026-10-25 | TJ-030.2 | 已提交PR | [B014] 紫微接通公开执行：PUBLIC_EXECUTION_DOMAINS 加入 ziwei；首页与结果页真实 fetch 后端并渲染十二宫/主星/辅星/四化；闰月输入拒绝、大限流年/庙旺吉凶不在基本盘中；公开 CI 门禁与投影测试通过，真实引擎（紫微 3 项）与浏览器（紫微 2 项）由本地真实后端受控验收通过，公开 CI 不冒称执行 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/322 |  |  |
+| E0115 | 2026-10-25 | TJ-030.3 | 已提交PR | [B014] 奇门接通公开执行：PUBLIC_EXECUTION_DOMAINS 加入 qimen；首页与结果页真实 fetch 后端并渲染局法/九星/八门/八神/值符值使；超接置闰未实现；公开 CI 门禁与投影测试通过，真实引擎（奇门 2 项）与浏览器（奇门 2 项）由本地真实后端受控验收通过，公开 CI 不冒称执行 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/322 |  |  |
+| E0116 | 2026-10-25 | TJ-030.5 | 已提交PR | [B014] 风水接通公开执行：PUBLIC_EXECUTION_DOMAINS 加入 fengshui；首页与结果页真实 fetch 后端并渲染二十四山/坐向/对向；绝对元运生产不可用；公开 CI 门禁与投影测试通过，真实引擎（风水 3 项）与浏览器（风水 2 项）由本地真实后端受控验收通过，公开 CI 不冒称执行 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/322 |  |  |
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。

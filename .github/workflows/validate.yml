@@ -35,4 +35,8 @@ jobs:
       # not just compileall. Real-engine tests live in
       # test_b012_tools_engine.py (offline acceptance only, NOT public CI).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_b012_tools_public.py' -v
+      # B014 public execution gate + projection contract for ziwei/qimen/
+      # fengshui: same rule. Real-engine tests live in
+      # test_b014_tools_engine.py (offline acceptance only, NOT public CI).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_b014_tools_public.py' -v
       - run: python scripts/audit_public_asset_changes.py --inventory

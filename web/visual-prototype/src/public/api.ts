@@ -204,6 +204,55 @@ export async function executeLiuren(input: {
   return assertExecuteResponse(data, "liuren");
 }
 
+/** B014 / TJ-030.2: real public execution for Ziwei structure (no verdict).
+ * Leap lunar months are rejected by the backend (non-leap lunar only);
+ * no dayun, brightness, or fortune verdict is computed. */
+export async function executeZiwei(input: {
+  value: string;
+  year_boundary: "lunar-new-year";
+}): Promise<ExecuteResponse> {
+  const data = await requestJson("/api/v1/public/execute", {
+    domain: "ziwei",
+    variant: "quanshu-lunar-iztro-mutagen-v1",
+    input,
+    explain: false,
+    mode: "production",
+  });
+  return assertExecuteResponse(data, "ziwei");
+}
+
+/** B014 / TJ-030.3: real public execution for Qimen structure (no verdict).
+ * Fixed qfdk rotating-plate scope only; super-intercalation (超接置闰),
+ * hidden stems, and pattern verdicts are NOT computed. */
+export async function executeQimen(input: {
+  value: string;
+}): Promise<ExecuteResponse> {
+  const data = await requestJson("/api/v1/public/execute", {
+    domain: "qimen",
+    variant: "qfdk-exact-term-midnight-v2",
+    input,
+    explain: false,
+    mode: "production",
+  });
+  return assertExecuteResponse(data, "qimen");
+}
+
+/** B014 / TJ-030.5: real public execution for Fengshui structure (no verdict).
+ * Production mode only: compass mountains and facing are computed, but the
+ * absolute period is refused without an explicit research epoch. */
+export async function executeFengshui(input: {
+  degrees: number;
+}): Promise<ExecuteResponse> {
+  const data = await requestJson("/api/v1/public/execute", {
+    domain: "fengshui",
+    variant: "compass-half-open-explicit-epoch-v1",
+    input,
+    explain: false,
+    mode: "production",
+  });
+  return assertExecuteResponse(data, "fengshui");
+}
+
 
 export type ScenarioExecuteResponse = {
   scenario_id: string;
