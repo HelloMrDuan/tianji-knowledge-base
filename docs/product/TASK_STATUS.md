@@ -66,7 +66,7 @@
 | TJ-018.1 | M4 | 寻找具体古籍条目的底本/版本/合法引用 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-018.2 | M4 | 校勘/异文/不同电子来源独立性 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-018.3 | M4 | Canonical/Quarantine 审批和私有验证 | 待做 | — | — | 按 WBS 验收条件执行 |
-| TJ-019.1 | M4 | 高频梦境需求矩阵 | 已提交PR | [公开 #326](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/326) | 2026-10-25 | B018 矩阵视图：7 分类 WBS 顺序静态排队，未审核+不产解释声明；不改 unreviewed 列表逻辑 |
+| TJ-019.1 | M4 | 高频梦境需求矩阵 | 已合并 | [公开 #326](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/326) | 2026-10-25 | #326 已合并；矩阵视图已在主干；7 分类静态排队+不产解释声明在位 |
 | TJ-019.2 | M4 | 小批新场景真实入库 | 阻塞 | — | — | 等待证据/前置依赖 |
 | TJ-019.3 | M4 | 存量十种场景复核 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-020.1 | M4 | 主体+实体+动作+时间次序 | 已合并 | [公开 #307](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/307) | 2026-10-25 | #307 已合并；受控 Canonical/Evidence 可信机全量测试仍待证据，不冒称发布验收 |
@@ -90,7 +90,7 @@
 | TJ-026.1 | M6 | 恢复 #87 管理布局与 16 个原管理模块 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-026.2 | M6 | Scenario 管理与梦研究管理 | 已合并 | [公开 #324](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/324) | 2026-10-25 | #324 已合并；Scenario 真实管理页与发布门禁已在主干；DEMO scenarios 模块已移除；真实后端验证由离线受控验收执行，公开 CI 不冒称 |
 | TJ-026.3 | M6 | 真实只读模块逐页接受控接口 | 已合并 | [公开 #324](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/324) | 2026-10-25 | #324 已合并；403 scope 模型与 401/403/404 显式分支已在主干；HTTP 与浏览器真实后端验证由离线受控验收执行，公开 CI 不冒称 |
-| TJ-026.4 | M6 | 角色权限、草稿审批、回滚和审计 | 已提交PR | [公开 #326](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/326) | 2026-10-25 | B018 首批：角色模型+未授权阻止+审计骨架；草稿审批流与回滚另立任务；公开 CI 执行角色纯函数测试，HTTP 测试由离线受控验收执行 |
+| TJ-026.4 | M6 | 角色权限、草稿审批、回滚和审计 | 已合并 | [公开 #326](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/326) | 2026-10-25 | #326 已合并；首批角色模型+未授权阻止+审计骨架已在主干；草稿审批流与回滚另立任务；HTTP 测试由离线受控验收执行，公开 CI 不冒称 |
 | TJ-027.1 | M6 | 部署私有后端与静态前端 | 已提交PR | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/308 · https://github.com/HelloMrDuan/tianji-knowledge-base/pull/313 | 2026-10-24 | PR #308 已合并公开 Web GHCR 构建；PR #313 增加仅 main 可唤醒正式机器的安全门禁，功能分支禁止触发正式机器唤醒。可信机离线密封验收、精确 SHA/PIN 与机内自动部署仍须真实取证，未获部署验收 |
 | TJ-027.2 | M6 | 可观测性与回滚 | 已合并 | [公开 #305](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/305) | 2026-10-25 | #305 已合并；仅健康探针子范围，告警/自动回滚仍待实机证据，不声明完整关账 |
 | TJ-028.1 | M6 | 真模型访问与权限 | 待做 | — | — | 按 WBS 验收条件执行 |
