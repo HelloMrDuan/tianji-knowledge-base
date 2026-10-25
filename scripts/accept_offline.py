@@ -46,7 +46,8 @@ GIT_CHECKOUT_TESTS = ("test_public_asset_changes", "test_public_knowledge_bounda
 # Deploy/static config tests that need deploy/ and web/.
 # These RUN on the public checkout (not skipped), in a separate phase.
 PUBLIC_ONLY_TESTS = ("test_deploy_config", "test_frontend_hygiene",
-                     "test_offline_acceptance")
+                     "test_offline_acceptance", "test_b016_scenario_gate_table",
+                     "test_b018_dream_matrix")
 
 TRUSTED_ORIGINS = {
     "https://github.com/HelloMrDuan/tianji-knowledge-base",
