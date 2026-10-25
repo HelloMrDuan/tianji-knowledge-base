@@ -1,0 +1,49 @@
+name: Standalone 008.4 Mobile A11y
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "web/visual-prototype/**"
+      - ".github/workflows/standalone-0084-mobile-a11y.yml"
+  push:
+    branches: [main]
+    paths:
+      - "web/visual-prototype/**"
+      - ".github/workflows/standalone-0084-mobile-a11y.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  b0084-mobile-a11y-chromium:
+    # TJ-008.4 mobile + accessibility: the spec runs with no backend at all
+    # (initial page states only, nothing submitted, no API stub needed), so
+    # it executes in public CI with no private data. It proves FRONTEND
+    # behavior only: viewport/zoom overflow, first-viewport and max-scroll
+    # button clearance, keyboard order/focus, reduced-motion styles.
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: web/visual-prototype/package-lock.json
+      - name: Install frontend dependencies
+        working-directory: web/visual-prototype
+        run: npm ci
+      - name: Install Chromium
+        working-directory: web/visual-prototype
+        run: npx playwright install --with-deps chromium
+      - name: Run mobile/a11y spec
+        working-directory: web/visual-prototype
+        run: CI=true npm test -- tests/b0084-mobile-a11y.spec.ts
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: b0084-browser-failures
+          path: web/visual-prototype/test-results/
+          if-no-files-found: ignore
+          retention-days: 7
