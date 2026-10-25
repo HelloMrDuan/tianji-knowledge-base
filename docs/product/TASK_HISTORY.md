@@ -172,6 +172,8 @@
 | E0117 | 2026-10-25 | TJ-030.2 | 已合并 | [B015] 关账：公开 #322 已合并到 main（Merge SHA 8a6a9159a3428aec1e1a44fdb1bea97a52ec86df），紫微公开执行接通与真实结果渲染已在主干；闰月拒绝与流派限界在位；引擎与浏览器测试由离线受控验收执行，公开 CI 不冒称 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/322 | 8a6a9159a3428aec1e1a44fdb1bea97a52ec86df | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40155874714 |
 | E0118 | 2026-10-25 | TJ-030.3 | 已合并 | [B015] 关账：公开 #322 已合并到 main（Merge SHA 8a6a9159a3428aec1e1a44fdb1bea97a52ec86df），奇门公开执行接通与真实结果渲染已在主干；超接置闰未实现声明在位；引擎与浏览器测试由离线受控验收执行，公开 CI 不冒称 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/322 | 8a6a9159a3428aec1e1a44fdb1bea97a52ec86df | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40155874714 |
 | E0119 | 2026-10-25 | TJ-030.5 | 已合并 | [B015] 关账：公开 #322 已合并到 main（Merge SHA 8a6a9159a3428aec1e1a44fdb1bea97a52ec86df），风水公开执行接通与真实结果渲染已在主干；绝对元运生产不可用声明在位；引擎与浏览器测试由离线受控验收执行，公开 CI 不冒称 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/322 | 8a6a9159a3428aec1e1a44fdb1bea97a52ec86df | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40155874714 |
+| E0120 | 2026-10-25 | TJ-026.3 | 已提交PR | [B016] 后端 403 scope 模型 + 前端 401/403/404 显式分支 + 11 受控页三态 spec；路由守卫决策已落地（壳子公开、数据靠令牌）；公开 CI 执行 scope 决策矩阵，HTTP 与浏览器真实后端验证由离线受控验收执行 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/324 |  |  |
+| E0121 | 2026-10-25 | TJ-026.2 | 已提交PR | [B016] Scenario 真实管理页：11 场景来自真实注册、variant 来自 capabilities、发布门禁四项逐项 + 失败拒绝（零请求）；DEMO scenarios 模块已移除；公开 CI 执行门禁表测试，真实后端验证由离线受控验收执行 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/324 |  |  |
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
