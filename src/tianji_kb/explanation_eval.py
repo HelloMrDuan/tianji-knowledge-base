@@ -33,6 +33,19 @@ def load_suite(path=SUITE_PATH):
             if match['expected']!=case['expected_chart_subset']:raise ValueError('Golden expectations differ')
     return suite
 
+# Audited Liuren boundary statement, recorded independently of the engine.
+# Source: B012 PR #320 description (reviewed, merged): the Liuren result
+# "explicitly declares its boundary: liuren_chart.chart() output adds
+# limitations, stating in plain text that the noble generals are not
+# implemented" (chart() never calls noble_start(), so the output carries
+# no noble-general field). Do NOT import LIUREN_LIMITATIONS from
+# liuren_chart here: comparing the engine output against its own constant
+# would be vacuous. If the constant is tampered with, this check fails.
+LIUREN_AUDITED_LIMITATIONS = [
+    '天将未实现：本次六壬结果不含天将（贵人）排布；天将起法尚未接入本计算，不作天将相关推断。',
+]
+
+
 def _frozen_oracle_result(domain, result):
     """Preserve Phase 4's original calculation oracle after reviewed text addition.
 
@@ -40,7 +53,23 @@ def _frozen_oracle_result(domain, result):
     is checked against the protected source independently; only this audited
     presentation field is excluded from the historical *calculation* digest.
     All original fields and their recorded expected digest remain frozen.
+
+    PR #320 (B012, reviewed and merged) appended a boundary-declaration list
+    to Liuren results. That list is checked against the audited statement
+    recorded above independently of the engine's own constant: only this
+    audited presentation field is excluded from the historical *calculation*
+    digest, and only when it matches exactly. A missing, tampered, or
+    extended list still drifts, as does any change to a calculation field.
+    All original fields and their recorded expected digest remain frozen.
     """
+    if domain == 'liuren':
+        try:
+            limitations = result.get('limitations')
+        except AttributeError as error:
+            raise RuntimeError('Reviewed Liuren boundary display missing or invalid') from error
+        if limitations != LIUREN_AUDITED_LIMITATIONS:
+            raise RuntimeError('Reviewed Liuren boundary display has drifted')
+        return {key: value for key, value in result.items() if key != 'limitations'}
     if domain != 'liuyao':
         return result
     from .operations.liuyao_chart import _classical_reading
