@@ -515,6 +515,16 @@ export type AdminDraftTransition = {
   action: string;
   role: string;
   at: string;
+  version?: number;
+};
+
+export type AdminDraftVersion = {
+  version: number;
+  title: string;
+  body: string;
+  action: string;
+  role: string;
+  at: string;
 };
 
 export type AdminDraft = {
@@ -526,6 +536,7 @@ export type AdminDraft = {
   created_at: string;
   updated_at: string;
   transitions: AdminDraftTransition[];
+  versions: AdminDraftVersion[];
 };
 
 export type AdminDraftResponse = {
@@ -624,6 +635,29 @@ export async function actOnAdminDraft(
     `/api/v1/admin/drafts/${id}/${action}`,
     { method: "POST" },
   );
+  if (typeof (data?.draft as AdminDraft | undefined)?.id !== "string") {
+    throw new Error("服务端未返回草稿，拒绝展示。");
+  }
+  return data as unknown as AdminDraftResponse;
+}
+
+/**
+ * TJ-026.4 batch 3: rollback a draft to a version snapshot. The
+ * dedicated endpoint (not the generic /{action} route) carries the
+ * version in the body; role gating is publisher-only server-side,
+ * and a 403 here surfaces through the same reused TJ-026.3 branching
+ * (throwAdminError) as every other denied draft write. The token is
+ * component state only, never persisted.
+ */
+export async function rollbackAdminDraft(
+  token: string,
+  id: string,
+  version: number,
+): Promise<AdminDraftResponse> {
+  const data = await draftRequest(token, `/api/v1/admin/drafts/${id}/rollback`, {
+    method: "POST",
+    body: JSON.stringify({ version }),
+  });
   if (typeof (data?.draft as AdminDraft | undefined)?.id !== "string") {
     throw new Error("服务端未返回草稿，拒绝展示。");
   }

@@ -161,7 +161,11 @@ class TestB020DraftFlowHttp(unittest.TestCase):
         published = _act(client, 'publisher-token', draft_id, 'publish')
         self.assertEqual(published.status_code, 200)
         # Unknown action: forbidden before any state is touched.
-        unknown = _act(client, 'publisher-token', draft_id, 'rollback')
+        # B022 note: batch 2 used 'rollback' here as the unknown
+        # example, but batch 3 gave rollback its own endpoint (with a
+        # version body), so the example moves to a genuinely unknown
+        # action. The 403 assertion is unchanged.
+        unknown = _act(client, 'publisher-token', draft_id, 'bogus')
         self.assertEqual(unknown.status_code, 403)
 
     def test_auth_failures(self):

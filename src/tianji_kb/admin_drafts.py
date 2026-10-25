@@ -27,12 +27,40 @@ current title/body in place, and only the transition log is kept.
 Audit records (admin_audit) never contain draft content — only draft
 ids and outcomes — so drafts cannot leak through the audit endpoint.
 
+TJ-026.4 batch 3 (this change) adds what batch 2 deliberately left
+out: version snapshots and rollback. The batch-2 premise ("the task
+depends on batch-2 versioning") was a mismatch — batch 2 kept only the
+transition log — so batch 3 first builds versioning itself:
+
+- Every mutation (create, edit, each transition, rollback) appends
+  one immutable snapshot {version, title, body, action, role, at}.
+  Snapshots are deep-copied on return, so a caller can never mutate
+  a stored snapshot through a returned record.
+- Rollback (publisher only, enforced by the batch-1 role layer via
+  the 'rollback' write operation) restores a draft's title/body to a
+  chosen snapshot and lands the draft in 'draft' status, so reverted
+  content must pass review again before it can be re-published.
+  Design decision (scheme A, draft-internal version history): versions
+  belong to the draft record itself. Scheme B (a standalone registry
+  of published content) is explicitly excluded to a later task.
+- State-machine extension: rollback is legal from draft, submitted,
+  approved, and published (all land in 'draft'); rejected stays
+  terminal (fail-closed). There is NO new status: published rolls
+  back to 'draft', reusing the existing approval flow.
+- Rollback never edits or deletes prior transitions, snapshots, or
+  audit records: it appends one 'rollback' transition, one new
+  snapshot (the restored content), and — at the API layer — one
+  compensating audit record (draft id + version only, no content).
+  Versions share the draft's process-memory lifecycle: they are lost
+  on restart, and this batch does not pretend otherwise.
+
 This module is pure stdlib so the state machine and the action-to-
 operation mapping can be tested in public CI without the FastAPI
 stack or private knowledge data. HTTP-level verification (real status
 codes end to end, role matrix over endpoints, audit entries, no
 content leakage) lives in test_b020_drafts_http.py (offline acceptance
-only, NOT public CI).
+only, NOT public CI); rollback HTTP verification lives in
+test_b022_rollback_http.py (same offline-acceptance rule).
 """
 
 import copy
@@ -86,6 +114,23 @@ def _now():
     return datetime.now(timezone.utc).isoformat()
 
 
+def _snapshot(record, action, role, at):
+    """Append one immutable snapshot of the record's current content.
+
+    Versions are sequential from 1. Title/body are strings (immutable),
+    so storing them is isolation-safe: later edits replace the live
+    record's fields instead of mutating a snapshot's strings.
+    """
+    record['versions'].append({
+        'version': len(record['versions']) + 1,
+        'title': record['title'],
+        'body': record['body'],
+        'action': action,
+        'role': role,
+        'at': at,
+    })
+
+
 class DraftStore:
     """In-memory draft store with an approval state machine.
 
@@ -94,6 +139,11 @@ class DraftStore:
     transition log is never edited or deleted. Returned records are
     deep copies, so a caller holding one cannot mutate the store
     through it.
+
+    Batch 3 adds version snapshots (see _snapshot) and rollback():
+    versions are append-only like the transition log, and rollback
+    appends rather than rewrites. Versions share the store's
+    process-memory lifecycle and are lost on restart.
     """
 
     def __init__(self):
@@ -118,7 +168,9 @@ class DraftStore:
             'transitions': [
                 {'action': 'create', 'role': author_role, 'at': now},
             ],
+            'versions': [],
         }
+        _snapshot(record, 'create', author_role, now)
         self._drafts[draft_id] = record
         return copy.deepcopy(record)
 
@@ -131,12 +183,14 @@ class DraftStore:
         """Return deep copies of all drafts, oldest first."""
         return copy.deepcopy(list(self._drafts.values()))
 
-    def edit(self, draft_id, title=None, body=None):
+    def edit(self, draft_id, title=None, body=None, role=None):
         """Replace title/body in place. Only legal in 'draft' status.
 
         At least one of title/body must be supplied; omitted fields
         keep their value. Raises DraftNotFoundError or
-        InvalidTransitionError (fail-closed).
+        InvalidTransitionError (fail-closed). A successful edit
+        appends a version snapshot (batch 3); `role` records who made
+        it (the API layer passes the authenticated role).
         """
         record = self._drafts.get(draft_id)
         if record is None:
@@ -148,7 +202,9 @@ class DraftStore:
             record['title'] = _validate_text(title, 'title')
         if body is not None:
             record['body'] = _validate_text(body, 'body')
-        record['updated_at'] = _now()
+        now = _now()
+        record['updated_at'] = now
+        _snapshot(record, 'edit', role if role is not None else 'unknown', now)
         return copy.deepcopy(record)
 
     def transition(self, draft_id, action, role):
@@ -171,6 +227,52 @@ class DraftStore:
         record['updated_at'] = now
         record['transitions'].append(
             {'action': action, 'role': role, 'at': now})
+        _snapshot(record, action, role, now)
+        return copy.deepcopy(record)
+
+    def rollback(self, draft_id, version, role):
+        """Restore a draft's content to a prior snapshot (batch 3).
+
+        Legal from 'draft', 'submitted', 'approved', and 'published';
+        every rollback lands in 'draft' so reverted content must pass
+        review again before it can be re-published. 'rejected' stays
+        terminal (fail-closed). Unknown ids raise DraftNotFoundError;
+        unknown versions and rejected drafts raise
+        InvalidTransitionError; the stored record is untouched on any
+        failure.
+
+        Effects on success (all appends, never rewrites): the live
+        title/body become the snapshot's content, one 'rollback'
+        transition (carrying the restored version) is appended, and
+        one new snapshot records the post-rollback content. Prior
+        transitions, snapshots, and audit records are never edited or
+        deleted — the API layer appends the compensating audit record
+        separately. Role gating (publisher only) is enforced by the
+        API layer through the batch-1 'rollback' write operation.
+        """
+        record = self._drafts.get(draft_id)
+        if record is None:
+            raise DraftNotFoundError(draft_id)
+        if record['status'] == 'rejected':
+            raise InvalidTransitionError(
+                'cannot rollback a rejected draft')
+        target = None
+        for snap in record['versions']:
+            if snap['version'] == version:
+                target = snap
+                break
+        if target is None:
+            raise InvalidTransitionError(
+                f'unknown version {version!r}')
+        now = _now()
+        record['title'] = target['title']
+        record['body'] = target['body']
+        record['status'] = 'draft'
+        record['updated_at'] = now
+        record['transitions'].append(
+            {'action': 'rollback', 'role': role, 'at': now,
+             'version': version})
+        _snapshot(record, 'rollback', role, now)
         return copy.deepcopy(record)
 
     def __len__(self):

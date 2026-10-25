@@ -1,0 +1,86 @@
+name: B022 Rollback Browser + Smoke CI
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "web/visual-prototype/**"
+      - "src/tianji_kb/admin_*.py"
+      - "src/tianji_kb/api.py"
+      - "scripts/smoke_suite.py"
+      - "tests/test_b022_*.py"
+      - ".github/workflows/b022-rollback-smoke.yml"
+  push:
+    branches: [main]
+    paths:
+      - "web/visual-prototype/**"
+      - "src/tianji_kb/admin_*.py"
+      - "src/tianji_kb/api.py"
+      - "scripts/smoke_suite.py"
+      - "tests/test_b022_*.py"
+      - ".github/workflows/b022-rollback-smoke.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  b022-rollback-chromium:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: web/visual-prototype/package-lock.json
+      - name: Install frontend dependencies
+        working-directory: web/visual-prototype
+        run: npm ci
+      - name: Install Chromium
+        working-directory: web/visual-prototype
+        run: npx playwright install --with-deps chromium
+      - name: Run rollback spec with controlled synthetic HTTP contracts
+        working-directory: web/visual-prototype
+        run: CI=true npm test -- tests/b022-rollback.spec.ts
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: b022-browser-failures
+          path: web/visual-prototype/test-results/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  b022-smoke-ci:
+    # TJ-005.2 ci mode: real execution (live loopback backend + real
+    # built bundle), not a compileall pass. It covers ONLY the checks
+    # executable without private data (bundle boundary + permission
+    # smoke); health/execution checks need the assembled runtime and
+    # run in full mode under offline acceptance, never here.
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: web/visual-prototype/package-lock.json
+      - name: Install backend runtime dependencies
+        # api (fastapi/uvicorn/httpx) + calendar (lunar-python) +
+        # validation (jsonschema): the api import chain reaches
+        # resolver.py, which imports jsonschema at module level, so a
+        # fresh runner needs all three extras or uvicorn fails to
+        # import the app (ModuleNotFoundError, found in CI run
+        # 40164949712 — not a product defect, a job dependency gap).
+        run: pip install ".[api,calendar,validation]"
+      - name: Build frontend distribution
+        working-directory: web/visual-prototype
+        run: npm ci && npm run build
+      - name: Run smoke suite (ci mode, loopback backend)
+        run: >-
+          python scripts/smoke_suite.py --mode ci --start-backend
+          --dist web/visual-prototype/dist

@@ -111,6 +111,10 @@ class AdminDraftEditRequest(BaseModel):
     title:str|None=None
     body:str|None=None
 
+class AdminDraftRollbackRequest(BaseModel):
+    model_config=ConfigDict(extra='forbid')
+    version:int
+
 class ExplanationQuote(BaseModel):
     model_config=ConfigDict(extra='forbid')
     evidence_id:str
@@ -612,7 +616,7 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,ad
             app.state.audit_log.record(role, what, 'denied', 'invalid_input')
             raise HTTPException(422, detail={'code': 'invalid_draft_input', 'message': 'Nothing to edit: supply title and/or body'})
         try:
-            draft = app.state.draft_store.edit(draft_id, title=request.title, body=request.body)
+            draft = app.state.draft_store.edit(draft_id, title=request.title, body=request.body, role=role)
         except DraftNotFoundError:
             app.state.audit_log.record(role, what, 'denied', 'draft_not_found')
             raise HTTPException(404, detail={'code': 'draft_not_found', 'message': f'No draft with id {draft_id}'})
@@ -623,6 +627,32 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,ad
             app.state.audit_log.record(role, what, 'denied', 'invalid_input')
             raise HTTPException(422, detail={'code': 'invalid_draft_input', 'message': str(error)}) from error
         app.state.audit_log.record(role, what, 'allowed')
+        return _draft_response(draft)
+
+    @app.post('/api/v1/admin/drafts/{draft_id}/rollback', tags=['admin'])
+    def admin_draft_rollback(draft_id: str, request: AdminDraftRollbackRequest, authorization: str | None = Header(default=None)):
+        # TJ-026.4 batch 3: rollback to a version snapshot. This route
+        # MUST stay registered before the generic /{action} route below:
+        # otherwise 'rollback' would be captured as an action and rejected
+        # as unknown (fail-closed, but the dedicated endpoint would be
+        # unreachable). Role operation 'rollback' is publisher-only
+        # (batch-1 WRITE_OPERATIONS); the store enforces the rest:
+        # rejected stays terminal, unknown versions fail closed, and
+        # every rollback lands in 'draft' status. The audit record here
+        # is the compensating record: appended only, carrying the draft
+        # id and restored version and no draft content, exactly like the
+        # batch-1 rule that audit records never contain draft content.
+        what = f'draft:rollback:{draft_id}'
+        role = check_draft_role(authorization, 'rollback', what)
+        try:
+            draft = app.state.draft_store.rollback(draft_id, request.version, role)
+        except DraftNotFoundError:
+            app.state.audit_log.record(role, what, 'denied', 'draft_not_found')
+            raise HTTPException(404, detail={'code': 'draft_not_found', 'message': f'No draft with id {draft_id}'})
+        except InvalidTransitionError as error:
+            app.state.audit_log.record(role, what, 'denied', 'invalid_transition')
+            raise HTTPException(422, detail={'code': 'invalid_draft_transition', 'message': str(error)}) from error
+        app.state.audit_log.record(role, what, 'allowed', f'version:{request.version}')
         return _draft_response(draft)
 
     @app.post('/api/v1/admin/drafts/{draft_id}/{action}', tags=['admin'])

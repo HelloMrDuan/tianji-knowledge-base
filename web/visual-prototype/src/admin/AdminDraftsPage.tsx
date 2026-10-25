@@ -5,6 +5,7 @@ import {
   createAdminDraft,
   editAdminDraft,
   listAdminDrafts,
+  rollbackAdminDraft,
   type AdminDraft,
   type AdminDraftAction,
 } from "./adminApi";
@@ -43,6 +44,14 @@ function actionsFor(status: AdminDraft["status"]): AdminDraftAction[] {
  * component state only (never persisted). Drafts live in process
  * memory: the restart-loss notice below is part of the page, not
  * fine print. Draft detail reuses the B020 Drawer component.
+ *
+ * TJ-026.4 batch 3: version snapshots + rollback. Every mutation
+ * appends one snapshot; rollback (publisher only, server-side) restores
+ * a draft to a chosen snapshot and lands it back in 'draft' status so
+ * reverted content must pass review again. Rejected drafts cannot be
+ * rolled back. Rollback never rewrites history: it appends a rollback
+ * transition, a new snapshot, and a compensating audit record.
+ * Versions share the draft's process-memory lifecycle (restart loss).
  */
 export function AdminDraftsPage() {
   const [roleToken, setRoleToken] = useState("");
@@ -133,6 +142,25 @@ export function AdminDraftsPage() {
     }
   }
 
+  async function runRollback(draft: AdminDraft, version: number) {
+    const token = requireToken();
+    if (!token) return;
+    setError("");
+    setNotice("");
+    setBusy(true);
+    try {
+      const updated = await rollbackAdminDraft(token, draft.id, version);
+      setNotice(
+        `草稿 ${draft.id} 已回滚到版本 ${version}（现为${STATUS_LABELS[updated.draft.status]}，内容等于该版本快照）。`,
+      );
+      await refresh(token);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "回滚失败。");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function submitEdit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const token = requireToken();
@@ -175,6 +203,10 @@ export function AdminDraftsPage() {
           角色门禁：访客（user）无任何写权限；编辑（editor）仅可起草；
           审核（reviewer）可批准或驳回；发布（publisher）可发布。
           草稿内容不进入任何公开端点。
+          版本快照：每次创建、编辑与审批流转都追加一个版本快照；
+          回滚仅限发布（publisher），将草稿恢复到指定快照并回到草稿状态，
+          已驳回草稿不可回滚；回滚只追加补偿记录，绝不修改已有记录。
+          版本快照与草稿同在进程内存中，服务重启后丢失。
         </p>
       </section>
 
@@ -349,12 +381,42 @@ export function AdminDraftsPage() {
               {detail.transitions.map((t, i) => (
                 <li key={i}>
                   {t.action} · {t.role} · {t.at}
+                  {t.action === "rollback" && t.version !== undefined
+                    ? ` · 回滚到版本 ${t.version}`
+                    : ""}
+                </li>
+              ))}
+            </ol>
+          )}
+          <h3>版本历史</h3>
+          {detail.versions.length === 0 ? (
+            <p>暂无版本快照。</p>
+          ) : (
+            <ol className="drafts-versions">
+              {[...detail.versions].reverse().map((v) => (
+                <li key={v.version}>
+                  <span>
+                    版本 {v.version} · {v.action} · {v.role} · {v.at} ·{" "}
+                    {v.title}
+                  </span>
+                  {detail.status !== "rejected" && (
+                    <button
+                      className="admin-button"
+                      aria-label={`回滚到版本 ${v.version}`}
+                      disabled={busy}
+                      onClick={() => runRollback(detail, v.version)}
+                    >
+                      回滚到此版本
+                    </button>
+                  )}
                 </li>
               ))}
             </ol>
           )}
           <p className="drafts-storage-note">
-            草稿仅保存在进程内存中，服务重启后丢失。
+            草稿仅保存在进程内存中，服务重启后丢失；版本快照与草稿同在
+            进程内存中，服务重启后丢失。回滚仅限发布角色，已驳回草稿
+            不可回滚；回滚只追加补偿记录，绝不修改已有记录。
           </p>
         </Drawer>
       )}

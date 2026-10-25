@@ -222,8 +222,13 @@ class TestB020DraftRoleMatrix(unittest.TestCase):
                     f'{"allowed" if allowed else "denied"}')
 
     def test_unknown_operation_is_forbidden(self):
+        # B022 note: batch 2 used 'rollback' here as the unknown
+        # example, but batch 3 legitimately made 'rollback' a known
+        # publisher-only operation — so the example moves to a
+        # genuinely unknown operation. The assertion is unchanged:
+        # unknown operations stay forbidden (fail-closed).
         outcome, _ = resolve_role_access(
-            ROLE_TOKENS, 'Bearer publisher-token', 'rollback')
+            ROLE_TOKENS, 'Bearer publisher-token', 'bogus')
         self.assertEqual(outcome, 'forbidden')
 
 
