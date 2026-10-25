@@ -158,6 +158,8 @@
 | E0103 | 2026-10-25 | TJ-023.2 | 已合并 | [B010] 关账：公开 #309 已合并到 main（Merge SHA f739c8ae88f5b9668e2b9a9c9910b300955affe8），事业财运双视图（同一计算结果不重请求）已在主干 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/309 | f739c8ae88f5b9668e2b9a9c9910b300955affe8 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40079776576 |
 | E0104 | 2026-10-25 | TJ-025.3 | 已合并 | [B010] 关账：公开 #311 已合并到 main（Merge SHA 13643d03327e8084f5c523abe10ecfda4cd4b197），人生总览受控浏览器链（导航/年份/清空/四视口）已在主干；保留边界：后端四源 Evidence 真验收另由 TJ-025.1 处理，绝不虚构 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/311 | 13643d03327e8084f5c523abe10ecfda4cd4b197 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40080852428 |
 | E0105 | 2026-10-25 | TJ-027.2 | 已合并 | [B010] 关账：公开 #305 已合并到 main（Merge SHA c1389d8eda312feb59b8bb9d4d08e6052046b173），健康探针与真实 HTTP 负例已在主干；保留边界：仅健康探针子范围，告警/自动回滚仍待实机证据，不声明完整关账 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/305 | c1389d8eda312feb59b8bb9d4d08e6052046b173 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40081178548 |
+| E0106 | 2026-10-25 | TJ-021.3 | 已提交PR | [B008] 梦境页可读性：390px 渲染契约测试（字体≥14px、行高比≥1.4、WCAG 对比度≥4.5 alpha 合成实测）；引文等于 short_quote 且≤200 字、无 passage 级长文本、无 admin 请求、无 dream/token 存储、无横向溢出；真实修复夜主题对比度（match 卡不透明纸色 + 深色墨字，修复前本地实测对比度 ~2.4 失败）；spec 为受控 synthetic stub，不冒称后端计算 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/316 |  |  |
+| E0107 | 2026-10-25 | TJ-024.1 | 已提交PR | [B008] 合盘 A/B 交换一致性：真实引擎两次运行互换输入，断言日主关系、配偶宫、交叉矩阵命中双向镜像 0 缺失、证据矩阵 ID 集与咸池证据镜像；本地真实引擎 5/5 通过；本测试需完整 runtime + 知识数据，由离线受控验收全量发现与私有 CI 执行，公开 CI 不冒称执行 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/316 |  |  |
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。

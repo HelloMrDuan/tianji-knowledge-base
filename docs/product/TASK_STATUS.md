@@ -74,14 +74,14 @@
 | TJ-020.3 | M4 | 多梦象并存、来源冲突与弃判 | 已合并 | [公开 #307](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/307) | 2026-10-25 | #307 已合并 |
 | TJ-021.1 | M4 | 古风书卷页的命中分组与短引 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-021.2 | M4 | 不匹配/服务失败/禁用 AI 的用户友好空态 | 已合并 | [公开 #307](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/307) | 2026-10-25 | #307 已合并 |
-| TJ-021.3 | M4 | 真实浏览器语义与文字可读性 | 待做 | — | — | 按 WBS 验收条件执行 |
+| TJ-021.3 | M4 | 真实浏览器语义与文字可读性 | 已提交PR | [公开 #316](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/316) | 2026-10-25 | B008 渲染契约测试 + 夜主题对比度修复；私有长文不渲染负向断言 |
 | TJ-022.1 | M5 | 桃花两套咸池与原局关系证据独立 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-022.2 | M5 | 经审配偶宫/星与年运条件 | 阻塞 | — | — | 等待证据/前置依赖 |
 | TJ-022.3 | M5 | 桃花场景结果书卷化 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-023.1 | M5 | 财官食印比劫位置/事件条件聚合 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-023.2 | M5 | “事业”与“财运”两个可见视图 | 已合并 | [公开 #309](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/309) | 2026-10-25 | #309 已合并 |
 | TJ-023.3 | M5 | 已审大运与流年合用（以后置为准） | 阻塞 | — | — | 等待证据/前置依赖 |
-| TJ-024.1 | M5 | 双人 A/B 双向关系矩阵及证据 | 待做 | — | — | 按 WBS 验收条件执行 |
+| TJ-024.1 | M5 | 双人 A/B 双向关系矩阵及证据 | 已提交PR | [公开 #316](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/316) | 2026-10-25 | B008 真实引擎交换一致性测试（离线验收执行，公开 CI 不冒称） |
 | TJ-024.2 | M5 | 配偶宫、四柱 4×4 分层与冲突限界 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-024.3 | M5 | 资料隔离/隐私提示与移动端双栏 | 已合并 | [公开 #310](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/310) merge `c31adc13b7b4de4fafa5a3e041e8dcd8d7fab6ff` · [main 构建](https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40070159888) · [main 任务门禁](https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40070159894) · [main 前端](https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40070159900) | 2026-10-24 | [B006] 对方资料知情同意与后端留存边界提示已合并；隐私 Playwright 门禁通过，清空 B 后旧结果消失、修改 B 不覆盖 A 有强断言。用户实机日志：07:05:35Z 离线 ACCEPTED、07:06:06Z 自动 DEPLOYED，Web/API 目标 SHA 均为 c31adc13，health+bazi ok。独立生产端 360/390px 视觉 E2E 与服务端留存策略审计尚未验收，不冒称完整隐私合规 |
 | TJ-025.1 | M5 | 四源场景同一出生/目标年真实聚合 | 待做 | — | — | 按 WBS 验收条件执行 |

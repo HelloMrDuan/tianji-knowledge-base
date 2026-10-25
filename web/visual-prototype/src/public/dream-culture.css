@@ -90,3 +90,21 @@
 .dream-culture-unreviewed li span { color: #677365; }
 .dream-culture-unreviewed li small { margin-left: auto; color: #8a8f81; }
 @media (max-width: 730px) { .dream-culture-unreviewed { padding: 17px; } .dream-culture-unreviewed li small { margin-left: 0; width: 100%; } }
+
+/* Night theme readability (TJ-021.3): paper result cards need dark ink text
+   on opaque paper in night mode, same treatment as other paper cards in
+   theme.css. Without this, night gold text on the 50%-transparent match
+   card blends to medium gray and fails WCAG AA contrast. */
+html[data-theme="night"] .dream-culture-match {
+  background: #fffdf6;
+  color: #24382e;
+}
+html[data-theme="night"] .dream-culture-match h3 {
+  color: #24382e;
+}
+html[data-theme="night"] .dream-culture-empty {
+  color: #24382e;
+}
+html[data-theme="night"] .dream-culture-empty h3 {
+  color: #24382e;
+}
