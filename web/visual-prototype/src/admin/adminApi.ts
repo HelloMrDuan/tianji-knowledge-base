@@ -1,5 +1,58 @@
 const apiBase = (import.meta.env.VITE_TIANJI_API_BASE || "").replace(/\/$/, "");
 
+/** Error carrying the HTTP status so pages can branch on 401/403/404. */
+export class AdminApiError extends Error {
+  status: number;
+  code?: string;
+  constructor(status: number, message: string, code?: string) {
+    super(message);
+    this.name = "AdminApiError";
+    this.status = status;
+    this.code = code;
+  }
+}
+
+/**
+ * Map an admin HTTP failure to a distinct user-facing message by status
+ * code first (TJ-026.3): 401 prompts re-entering the token, 403 reports
+ * insufficient scope, 404 reports a missing page/endpoint. Body codes only
+ * refine the 503 case; the three states must never collapse into one
+ * generic fallback.
+ */
+export function adminErrorMessage(
+  status: number,
+  code: string | undefined,
+  fallback: string,
+): string {
+  if (status === 401) {
+    return "后台访问令牌无效或缺失，请重新输入令牌。";
+  }
+  if (status === 403) {
+    return "令牌权限不足，无法访问该受控数据（scope 不足）。";
+  }
+  if (status === 404) {
+    return "受控页或端点不存在。";
+  }
+  if (status === 503 && code === "admin_auth_not_configured") {
+    return "服务端尚未配置后台只读令牌。";
+  }
+  return fallback;
+}
+
+function throwAdminError(response: Response, data: Record<string, unknown>): never {
+  const detail = (data?.detail ?? {}) as Record<string, unknown>;
+  const code = typeof detail.code === "string" ? detail.code : undefined;
+  const fallback =
+    typeof detail.message === "string"
+      ? detail.message
+      : `请求失败（HTTP ${response.status}）`;
+  throw new AdminApiError(
+    response.status,
+    adminErrorMessage(response.status, code, fallback),
+    code,
+  );
+}
+
 export type AdminConflictEvidence = {
   source_id: string;
   section_id: string;
@@ -48,14 +101,7 @@ export async function fetchAdminConflicts(token: string): Promise<AdminConflictR
   });
   const data = await response.json().catch(() => ({}));
   if (!response.ok) {
-    const code = data?.detail?.code;
-    const message =
-      code === "admin_auth_not_configured"
-        ? "服务端尚未配置后台只读令牌。"
-        : code === "admin_unauthorized"
-          ? "后台访问令牌无效。"
-          : data?.detail?.message || `请求失败（HTTP ${response.status}）`;
-    throw new Error(message);
+    throwAdminError(response, data);
   }
   return data as AdminConflictResponse;
 }
@@ -115,14 +161,7 @@ async function fetchProtectedRecords<T>(path: string, token: string): Promise<T[
   });
   const data = await response.json().catch(() => ({}));
   if (!response.ok) {
-    const code = data?.detail?.code;
-    const message =
-      code === "admin_auth_not_configured"
-        ? "服务端尚未配置后台只读令牌。"
-        : code === "admin_unauthorized"
-          ? "后台访问令牌无效。"
-          : data?.detail?.message || `请求失败（HTTP ${response.status}）`;
-    throw new Error(message);
+    throwAdminError(response, data);
   }
   return Array.isArray(data?.records) ? (data.records as T[]) : [];
 }
@@ -379,16 +418,16 @@ export async function runAdminDreamResearch(
   });
   const data = await response.json().catch(() => ({}));
   if (!response.ok) {
-    const code = data?.detail?.code;
-    throw new Error(
-      code === "admin_auth_not_configured"
-        ? "服务端尚未配置后台只读令牌。"
-        : code === "admin_unauthorized"
-          ? "访问令牌无效或缺失。"
-          : code === "reviewed_retrieval_unavailable"
-            ? "已审核梦象检索索引不可用，请先验证生产运行时。"
-            : data?.detail?.message || `检索失败（HTTP ${response.status}）`
-    );
+    const detail = (data?.detail ?? {}) as Record<string, unknown>;
+    const code = typeof detail.code === "string" ? detail.code : undefined;
+    if (code === "reviewed_retrieval_unavailable") {
+      throw new AdminApiError(
+        response.status,
+        "已审核梦象检索索引不可用，请先验证生产运行时。",
+        code,
+      );
+    }
+    throwAdminError(response, data);
   }
   if (data?.public_release !== false || data?.research_only !== true ||
       data?.result?.public_enabled !== false || data?.result?.ai_enabled !== false) {

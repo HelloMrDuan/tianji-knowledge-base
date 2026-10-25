@@ -1,0 +1,49 @@
+name: B016 Admin Status and Scenario Browser Regression
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "web/visual-prototype/**"
+      - ".github/workflows/b016-admin-playwright.yml"
+      - "docs/product/TASK_STATUS.md"
+      - "docs/product/TASK_HISTORY.md"
+  push:
+    branches: [main]
+    paths:
+      - "web/visual-prototype/**"
+      - ".github/workflows/b016-admin-playwright.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  b016-admin-chromium:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: web/visual-prototype/package-lock.json
+      - name: Install frontend dependencies
+        working-directory: web/visual-prototype
+        run: npm ci
+      - name: Install Chromium
+        working-directory: web/visual-prototype
+        run: npx playwright install --with-deps chromium
+      # Controlled synthetic HTTP contracts only (page.route stubs in the
+      # specs); no backend server is required. The same specs additionally
+      # run against a live backend offline (B016_REAL_API=1) as acceptance.
+      - name: Run actual Chromium with controlled synthetic HTTP contracts
+        working-directory: web/visual-prototype
+        run: CI=true npm test -- tests/b016-admin-status.spec.ts tests/b016-scenarios.spec.ts --workers=1
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: b016-browser-failures
+          path: web/visual-prototype/test-results/
+          if-no-files-found: ignore
+          retention-days: 7

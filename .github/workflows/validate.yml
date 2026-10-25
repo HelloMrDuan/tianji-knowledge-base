@@ -39,4 +39,11 @@ jobs:
       # fengshui: same rule. Real-engine tests live in
       # test_b014_tools_engine.py (offline acceptance only, NOT public CI).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_b014_tools_public.py' -v
+      # B016 admin read-scope decision matrix (pure stdlib, no FastAPI or
+      # private data). HTTP-level verification lives in
+      # test_b016_admin_scope_http.py (offline acceptance only, NOT public CI).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_b016_admin_scope.py' -v
+      # B016 Scenario gate tables pinned to reality (registry ids, router
+      # routes, spec files on disk). Pure file parsing, no data required.
+      - run: python -m unittest discover -s tests -p 'test_b016_scenario_gate_table.py' -v
       - run: python scripts/audit_public_asset_changes.py --inventory
