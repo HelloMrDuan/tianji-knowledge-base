@@ -1,0 +1,51 @@
+name: B024 Logs Audit Trail Browser
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "web/visual-prototype/**"
+      - "tests/test_phase2_bazidayunsimulation.py"
+      - ".github/workflows/b024-boundary-logs.yml"
+  push:
+    branches: [main]
+    paths:
+      - "web/visual-prototype/**"
+      - "tests/test_phase2_bazidayunsimulation.py"
+      - ".github/workflows/b024-boundary-logs.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  b024-logs-chromium:
+    # TJ-026.1 logs single item: the logs spec runs with controlled
+    # synthetic HTTP contracts (page.route stubs), so it executes in
+    # public CI with no real backend and no private data. The phase2
+    # dayun-simulation tests (TJ-016.3) need the full runtime and run
+    # under offline acceptance only, never here.
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: web/visual-prototype/package-lock.json
+      - name: Install frontend dependencies
+        working-directory: web/visual-prototype
+        run: npm ci
+      - name: Install Chromium
+        working-directory: web/visual-prototype
+        run: npx playwright install --with-deps chromium
+      - name: Run logs spec with controlled synthetic HTTP contracts
+        working-directory: web/visual-prototype
+        run: CI=true npm test -- tests/b024-logs.spec.ts
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: b024-browser-failures
+          path: web/visual-prototype/test-results/
+          if-no-files-found: ignore
+          retention-days: 7

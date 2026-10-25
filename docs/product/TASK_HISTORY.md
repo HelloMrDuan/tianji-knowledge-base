@@ -188,6 +188,8 @@
 | E0133 | 2026-10-25 | TJ-005.2 | 已提交PR | [B022] 冒烟套件组装：复用 check_api/health_check/静态包检查，新增 smoke_suite.py（本地受控：回环后端 → 健康/六域执行/静态分发/探针/权限冒烟 401/403/404）；CI 模式公开 CI 真实执行（无私有数据可执行子集），完整健康/执行检查由离线受控验收执行；仅本地受控冒烟，不含真实域名 HTTPS，不冒充生产部署 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/330 |  |  |
 | E0134 | 2026-10-25 | TJ-026.4 | 已合并 | [B023] 关账：公开 #330 已合并到 main（Merge SHA a5f2df2f03e06a3003d31c92cbc1f666b3d9ee23），第三批回滚（草稿内版本史+仅 publisher 回滚+补偿审计只追加）已在主干；持久化存储另决策；方案 B 登记簿另立任务；HTTP 测试由离线受控验收执行，公开 CI 不冒称 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/330 | a5f2df2f03e06a3003d31c92cbc1f666b3d9ee23 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40165538028 |
 | E0135 | 2026-10-25 | TJ-005.2 | 已合并 | [B023] 关账：公开 #330 已合并到 main（Merge SHA a5f2df2f03e06a3003d31c92cbc1f666b3d9ee23），冒烟套件（组装复用+CI 接线+权限冒烟）已在主干；仅本地受控冒烟，不含真实域名 HTTPS，不冒充生产部署 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/330 | a5f2df2f03e06a3003d31c92cbc1f666b3d9ee23 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40165538028 |
+| E0136 | 2026-10-25 | TJ-016.3 | 已提交PR | [B024] 硬边界验证：补 research_only is True 断言 + 公开无暴露断言（公开执行域/路由无 simulation 入口）；零新功能代码；phase2 测试需完整 runtime，走离线受控验收，公开 CI 不冒称 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/332 |  |  |
+| E0137 | 2026-10-25 | TJ-026.1 | 已提交PR | [B024] logs 单项重开（布局 E0131 已合并）：logs 重定义为审计轨迹视图（非请求追踪），ModulePage 硬编码演示块替换为真实审计列表 + 令牌门禁 + 401/403/404/503 分支；审计条目为进程内存、重启丢失；users 真实数据与 16 模块数据接入仍另立任务（完整 026.1 未完成） | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/332 |  |  |
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。

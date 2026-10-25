@@ -3,7 +3,115 @@ import { Icon } from "../shared/Icon";
 import { Link, navigate } from "../shared/router";
 import { Drawer } from "./Drawer";
 import "./drawer.css";
+import { fetchAdminAudit } from "./adminApi";
+import type { AdminAuditEntry } from "./adminApi";
 import type { ModuleDefinition, ModuleRecord } from "./modules";
+
+/**
+ * B024 TJ-026.1 logs single item: the logs module is redefined from
+ * request-tracing to an audit-trail view. This panel renders live
+ * /api/v1/admin/system/audit entries (token-gated per the TJ-026.3
+ * route-guard decision: the shell stays public, enforcement lives
+ * per data page and server-side). It never requests anything before
+ * a token is supplied, never persists the token (component state
+ * only), and reuses the TJ-026.3 status branching via AdminApiError
+ * (401 prompts re-entering the token, 403 reports insufficient
+ * scope, 404 reports a missing page/endpoint, 503 with
+ * admin_auth_not_configured reports the unconfigured server).
+ * Entries are process-memory audit records and are labeled as
+ * restart-lost; they never claim to be a durable log history, and
+ * draft bodies never enter the audit endpoint.
+ */
+function LogsPanel() {
+  const [token, setToken] = useState("");
+  const [entries, setEntries] = useState<AdminAuditEntry[] | null>(null);
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+
+  async function load() {
+    if (!token.trim()) {
+      setError("请先输入只读令牌。");
+      return;
+    }
+    setBusy(true);
+    setError("");
+    try {
+      const data = await fetchAdminAudit(token);
+      setEntries(data.entries);
+      setLoaded(true);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "请求失败。");
+      setEntries(null);
+      setLoaded(true);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <section className="admin-card module-feature">
+      <div className="admin-card-heading">
+        <div>
+          <h2>审计轨迹</h2>
+          <p>
+            展示治理动作（操作者、时间、动作、结果），不再是请求阶段追踪。
+            条目仅保存在进程内存中，服务重启后丢失；持久化存储另行决策。
+          </p>
+        </div>
+        <span className="admin-status">进程内存 · 重启丢失</span>
+      </div>
+      <form
+        className="module-settings"
+        onSubmit={(e) => {
+          e.preventDefault();
+          load();
+        }}
+      >
+        <label>
+          只读令牌（仅本次请求使用）
+          <input
+            aria-label="审计令牌"
+            type="password"
+            autoComplete="off"
+            value={token}
+            onChange={(e) => setToken(e.target.value)}
+          />
+        </label>
+        <div>
+          <button className="admin-button" type="submit" disabled={busy}>
+            加载审计条目
+          </button>
+        </div>
+      </form>
+      {error && (
+        <p role="alert" className="module-error">
+          {error}
+        </p>
+      )}
+      {loaded && !error && entries !== null && entries.length === 0 && (
+        <p role="status">暂无审计条目。</p>
+      )}
+      {entries !== null && entries.length > 0 && (
+        <ol className="module-timeline">
+          {entries.map((entry, i) => (
+            <li key={`${entry.when}-${entry.what}-${i}`}>
+              <time>{entry.when}</time>
+              <span />
+              <div>
+                <strong>{entry.what}</strong>
+                <p>
+                  {entry.who} · {entry.outcome === "allowed" ? "允许" : "拒绝"}
+                  {entry.detail ? ` · ${entry.detail}` : ""}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      )}
+    </section>
+  );
+}
 
 function FeaturePanel({ module }: { module: ModuleDefinition }) {
   const [draft, setDraft] = useState(
@@ -205,33 +313,9 @@ function FeaturePanel({ module }: { module: ModuleDefinition }) {
         </div>
       </section>
     );
-  if (module.mode === "logs")
-    return (
-      <section className="admin-card module-feature">
-        <div className="admin-card-heading">
-          <div>
-            <h2>请求阶段 · DEMO-trace-001</h2>
-            <p>虚构事件，不包含用户输入或访问凭据。</p>
-          </div>
-        </div>
-        <ol className="module-timeline">
-          {[
-            ["09:30:00", "输入校验", "字段范围检查"],
-            ["09:30:00", "版本检查", "采用版本标识"],
-            ["09:30:01", "等待服务", "无真实计算请求"],
-          ].map(([time, name, note]) => (
-            <li key={name}>
-              <time>{time}</time>
-              <span />
-              <div>
-                <strong>{name}</strong>
-                <p>{note}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </section>
-    );
+  // B024: the logs module renders live audit entries via LogsPanel;
+  // the old hardcoded request-tracing demo timeline is retired.
+  if (module.mode === "logs") return <LogsPanel />;
   return null;
 }
 function RecordDetail({
@@ -373,10 +457,16 @@ export function ModulePage({
         </div>
         <span className="admin-readonly">
           <Icon name="shield" size={16} />
-          设计预览 · DEMO
+          {module.mode === "logs" ? "审计轨迹 · 进程内存" : "设计预览 · DEMO"}
         </span>
       </div>
       <FeaturePanel key={module.id} module={module} />
+      {/* B024: logs renders live audit entries in LogsPanel above; the
+          static records table is skipped because logs has no static
+          records by definition (showing its "no demo records" empty
+          state and "fictional records" footer would contradict the
+          real-data panel). */}
+      {module.mode !== "logs" && (
       <section className="admin-card">
         <div className="asset-toolbar">
           <div className="asset-search">
@@ -475,6 +565,7 @@ export function ModulePage({
           <span>不连接生产数据</span>
         </div>
       </section>
+      )}
       <section className="module-guides">
         {module.guide.map(([name, note], i) => (
           <article key={name}>

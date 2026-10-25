@@ -204,6 +204,14 @@
   font-size: 13px;
   color: #27675e;
 }
+/* B024: server status-branching error text for data panels that do
+   not import drafts.css (same red as .drafts-error). */
+.module-error {
+  color: #9c3d2e;
+  font-size: 13px;
+  line-height: 1.7;
+  margin: 0 24px 24px;
+}
 .module-compare,
 .module-eval {
   display: grid;
