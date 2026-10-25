@@ -175,6 +175,35 @@ export async function executeBazi(input: {
   return assertExecuteResponse(data, "bazi");
 }
 
+/** B012 / TJ-030.1: real public execution for Yijing structure (no verdict). */
+export async function executeYijing(input: {
+  bits: string;
+  changing_lines: number[];
+}): Promise<ExecuteResponse> {
+  const data = await requestJson("/api/v1/public/execute", {
+    domain: "yijing",
+    variant: "bottom-up-six-lines-v1",
+    input,
+    explain: false,
+    mode: "production",
+  });
+  return assertExecuteResponse(data, "yijing");
+}
+
+/** B012 / TJ-030.4: real public execution for Liuren structure (no verdict). */
+export async function executeLiuren(input: {
+  value: string;
+}): Promise<ExecuteResponse> {
+  const data = await requestJson("/api/v1/public/execute", {
+    domain: "liuren",
+    variant: "daquan-nine-methods-lodged-stems-v1",
+    input,
+    explain: false,
+    mode: "production",
+  });
+  return assertExecuteResponse(data, "liuren");
+}
+
 
 export type ScenarioExecuteResponse = {
   scenario_id: string;

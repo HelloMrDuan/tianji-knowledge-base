@@ -2,8 +2,14 @@ import { useState } from "react";
 import type { CSSProperties, FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
-import { domainPages } from "./domainPages";
+import {
+  domainPages,
+  YIJING_HEXAGRAM_BITS,
+  YIJING_LINE_TO_CHANGING,
+} from "./domainPages";
 import type { DomainPage, FieldSpec } from "./domainPages";
+import { ApiError, executeLiuren, executeYijing } from "./api";
+import type { ExecuteResponse } from "./api";
 import "./domain-home.css";
 
 const lineLabels = ["初爻", "二爻", "三爻", "四爻", "五爻", "上爻"];
@@ -192,45 +198,107 @@ function Field({
     </div>
   );
 }
+export function hexText(hex: Record<string, unknown> | undefined): string {
+  if (!hex || typeof hex.name !== "string") return "—";
+  return `${hex.name} · 第${hex.number}卦 · 下卦${hex.lower} / 上卦${hex.upper}`;
+}
+export function lessonText(lesson: Record<string, unknown> | undefined): string {
+  if (!lesson) return "—";
+  return `${lesson.upper} / ${lesson.lower}`;
+}
 export function DomainHomePage({ page }: { page: DomainPage }) {
   const [values, setValues] = useState(() => initialValues(page));
   const [lines, setLines] = useState(["", "", "", "", "", ""]);
   const [summary, setSummary] = useState<[string, string][] | null>(null);
+  const [result, setResult] = useState<ExecuteResponse | null>(null);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [linesOpen, setLinesOpen] = useState(false);
+  const connected = page.id === "yijing" || page.id === "liuren";
   function update(id: string, value: string) {
     setValues((prev) => ({ ...prev, [id]: value }));
     setSummary(null);
+    setResult(null);
     setError("");
   }
-  function submit(e: FormEvent<HTMLFormElement>) {
+  async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (page.id === "liuyao" && lines.some((value) => !value)) {
       setError("请录入初爻到上爻的全部六个爻值。");
       setLinesOpen(true);
       return;
     }
-    const entries: [string, string][] = page.fields
-      .filter((field) => field.id !== "leapMonth" || values.calendar === "农历")
-      .filter((field) => field.fixedValue || values[field.id])
-      .map((field) => [field.label, field.fixedValue || values[field.id]]);
-    if (page.id === "liuyao")
-      entries.push(["爻值（初爻 → 上爻）", lines.join(" · ")]);
-    setSummary(entries);
+    if (!connected) {
+      const entries: [string, string][] = page.fields
+        .filter((field) => field.id !== "leapMonth" || values.calendar === "农历")
+        .filter((field) => field.fixedValue || values[field.id])
+        .map((field) => [field.label, field.fixedValue || values[field.id]]);
+      if (page.id === "liuyao")
+        entries.push(["爻值（初爻 → 上爻）", lines.join(" · ")]);
+      setSummary(entries);
+      setError("");
+      return;
+    }
+    // B012: 周易 / 六壬提交即真实后端计算。校验失败不发请求；
+    // 计算失败只显示错误，绝不展示旧结果或把拒绝包装成已计算。
+    setSummary(null);
+    setResult(null);
     setError("");
+    let request: Promise<ExecuteResponse>;
+    if (page.id === "yijing") {
+      const bits = YIJING_HEXAGRAM_BITS[values.hexagram];
+      if (!bits) {
+        setError("请选择一个六十四卦。");
+        return;
+      }
+      request = executeYijing({
+        bits,
+        changing_lines: YIJING_LINE_TO_CHANGING[values.line] ?? [],
+      });
+    } else {
+      if (!values.date || !values.time) {
+        setError("请填写占时日期与时间。");
+        return;
+      }
+      request = executeLiuren({
+        value: `${values.date}T${values.time}:00+08:00`,
+      });
+    }
+    setLoading(true);
+    try {
+      setResult(await request);
+    } catch (err) {
+      setResult(null);
+      setError(
+        err instanceof ApiError
+          ? err.message
+          : "计算请求失败，请稍后重试。",
+      );
+    } finally {
+      setLoading(false);
+    }
   }
   function sample() {
     setValues({ ...page.sample });
     setLines(["9", "7", "7", "7", "7", "7"]);
     setSummary(null);
+    setResult(null);
     setError("");
   }
   function reset() {
     setValues(initialValues(page));
     setLines(["", "", "", "", "", ""]);
     setSummary(null);
+    setResult(null);
     setError("");
   }
+  // 结果页链接：带上与本次计算完全相同的输入参数，结果页据此重新真实计算。
+  const resultHref =
+    page.id === "yijing"
+      ? `/yijing/result?bits=${YIJING_HEXAGRAM_BITS[values.hexagram] || ""}&changing_lines=${(YIJING_LINE_TO_CHANGING[values.line] ?? []).join(",")}`
+      : page.id === "liuren" && values.date && values.time
+        ? `/liuren/result?value=${encodeURIComponent(`${values.date}T${values.time}:00+08:00`)}`
+        : `/${page.id}/result`;
   return (
     <div className={"domain-home domain-" + page.id}>
       <div className="breadcrumb">
@@ -353,7 +421,9 @@ export function DomainHomePage({ page }: { page: DomainPage }) {
               <Icon name="shield" size={15} />
               {page.id === "bazi"
                 ? "八字基础档案已接入真实计算；此专业首页仍只做资料说明。"
-                : "当前为设计预览，仅展示输入摘要；不生成真实盘面。"}
+                : connected
+                  ? "已接入真实计算；结果仅为卦象 / 盘面结构，不作吉凶推断。"
+                  : "当前为设计预览，仅展示输入摘要；不生成真实盘面。"}
             </p>
           </form>
           {summary && (
@@ -382,6 +452,112 @@ export function DomainHomePage({ page }: { page: DomainPage }) {
                   : page.id === "liuyao"
                     ? "另外查看固定六爻样例"
                     : "查看结果页设计"}
+                <Icon name="arrow" size={16} />
+              </Link>
+            </section>
+          )}
+          {loading && (
+            <p className="entry-status" role="status">
+              正在计算……
+            </p>
+          )}
+          {result && page.id === "yijing" && (
+            <section
+              className="entry-summary entry-result"
+              aria-label="周易真实计算结果"
+              role="status"
+            >
+              <div>
+                <Icon name="check" size={19} />
+                <h3>真实计算结果</h3>
+                <span>仅卦象结构 · 不作吉凶推断</span>
+              </div>
+              <dl>
+                <div>
+                  <dt>本卦</dt>
+                  <dd>{hexText(result.chart.original)}</dd>
+                </div>
+                <div>
+                  <dt>变卦</dt>
+                  <dd>{hexText(result.chart.change)}</dd>
+                </div>
+                <div>
+                  <dt>错卦</dt>
+                  <dd>{hexText(result.chart.opposite)}</dd>
+                </div>
+                <div>
+                  <dt>综卦</dt>
+                  <dd>{hexText(result.chart.inverse)}</dd>
+                </div>
+                <div>
+                  <dt>互卦</dt>
+                  <dd>{hexText(result.chart.nuclear)}</dd>
+                </div>
+              </dl>
+              <Link href={resultHref} className="text-action">
+                查看完整结果页
+                <Icon name="arrow" size={16} />
+              </Link>
+            </section>
+          )}
+          {result && page.id === "liuren" && (
+            <section
+              className="entry-summary entry-result"
+              aria-label="六壬真实计算结果"
+              role="status"
+            >
+              <div>
+                <Icon name="check" size={19} />
+                <h3>真实计算结果</h3>
+                <span>仅盘面结构 · 不作吉凶推断</span>
+              </div>
+              <dl>
+                <div>
+                  <dt>月将</dt>
+                  <dd>
+                    {result.chart.month_general?.name || "—"}（
+                    {result.chart.month_general?.branch || "—"} ·{" "}
+                    {(result.chart.month_general?.terms || []).join(" / ")}
+                    ）
+                  </dd>
+                </div>
+                <div>
+                  <dt>取传法</dt>
+                  <dd>{result.chart.method || "—"}</dd>
+                </div>
+                <div>
+                  <dt>三传</dt>
+                  <dd>
+                    初传 {result.chart.transmissions?.[0] || "—"} · 中传{" "}
+                    {result.chart.transmissions?.[1] || "—"} · 末传{" "}
+                    {result.chart.transmissions?.[2] || "—"}
+                  </dd>
+                </div>
+                <div>
+                  <dt>四课</dt>
+                  <dd>
+                    一课 {lessonText(result.chart.four_lessons?.[0])} · 二课{" "}
+                    {lessonText(result.chart.four_lessons?.[1])} · 三课{" "}
+                    {lessonText(result.chart.four_lessons?.[2])} · 四课{" "}
+                    {lessonText(result.chart.four_lessons?.[3])}
+                  </dd>
+                </div>
+                <div>
+                  <dt>天地盘</dt>
+                  <dd>
+                    {result.chart.sky_plate
+                      ? Object.entries(result.chart.sky_plate)
+                          .map(([earth, sky]) => `${earth}→${sky}`)
+                          .join(" · ")
+                      : "—"}
+                  </dd>
+                </div>
+              </dl>
+              {(result.chart.limitations || []).map((line: string) => (
+                <p key={line}>{line}</p>
+              ))}
+              <Link href={resultHref} className="text-action">
+                查看完整结果页
                 <Icon name="arrow" size={16} />
               </Link>
             </section>
