@@ -11,7 +11,7 @@
 | TJ-001.2 | M0 | 按页输出交互/输入/结果/证据/异常状态规格 | 已合并 | [公开 #221](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/221) · `07165cc` | 2026-10-11 | 已合并；父任务继续 |
 | TJ-001.3 | M0 | 首页 README、执行台账与规范互联 | 已合并 | [公开 #221](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/221) · `07165cc` | 2026-10-11 | 已合并；父任务继续 |
 | TJ-001.4 | M0 | 一任务一闭环：建立 92 个原子子任务的状态登记、不可改写完成日志与 PR 门禁 | 已合并 | [公开 #228](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/228) · `6a22f29f2ec2e0b3a2bd9689c0dd9df5fd3d883d` · [4 项检查通过](https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/38101246241) | 2026-10-11 | 本任务结账；下一任务按状态表独立认领 TJ-004.3 |
-| TJ-001.5 | M0 | 批次开发门禁：多任务一批次的状态登记、事件追加与 PR 门禁 | 已提交PR | [公开 #303](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/303) | 2026-10-22 | 已提交过渡 PR（含 E0084 关账）；待合并验收 |
+| TJ-001.5 | M0 | 批次开发门禁：多任务一批次的状态登记、事件追加与 PR 门禁 | 已合并 | [公开 #303](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/303) | 2026-10-25 | #303 已合并（Merge SHA 71b50049a31ff152dc5592ef34815695e04341b1）；批次门禁（BATCH_MIN_TASKS 等）已在主干运行；本行为台账滞后补关账 |
 | TJ-001.6 | M0 | 离线受控验收工具：不依赖私有 Actions 的知识验收 | 进行中 | [公开 #306](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/306) | 2026-10-22 | 工具已提交 PR；待公开 CI 全绿与可信机器实测 |
 | TJ-002.1 | M0 | 核对私有 #50 两条完整组合回归 | 已合并 | [私有 #50](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/50) · `e0f9505` | 2026-10-11 | 已合并；父任务继续 |
 | TJ-002.2 | M0 | 合并 #50，核对私有 main、补回执 | 已合并 | [私有 #50](https://github.com/HelloMrDuan/tianji-private-knowledge/pull/50) · `e0f9505` | 2026-10-11 | 已合并；父任务继续 |

@@ -198,6 +198,7 @@
 | E0143 | 2026-10-25 | TJ-022.1 | 已合并 | [B027] 关账：公开 #334 已合并到 main（Merge SHA 22a0835ccdf509cf0c8eb7c29d2d02984f035f82），桃花两套咸池验证（年支/日支分别查表+独立激活+不相加成概率）已在主干；新增 3 项测试由离线受控验收执行，公开 CI 不冒称 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/334 | 22a0835ccdf509cf0c8eb7c29d2d02984f035f82 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40167668898 |
 | E0144 | 2026-10-25 | TJ-023.1 | 已合并 | [B027] 关账：公开 #334 已合并到 main（Merge SHA 22a0835ccdf509cf0c8eb7c29d2d02984f035f82），财官食印聚合验证（五组十神数量与真实位置保留+缺旺衰不写升职破财）已在主干；新增 2 项测试由离线受控验收执行，公开 CI 不冒称 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/334 | 22a0835ccdf509cf0c8eb7c29d2d02984f035f82 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40167668898 |
 | E0145 | 2026-10-25 | TJ-024.2 | 已合并 | [B027] 关账：公开 #334 已合并到 main（Merge SHA 22a0835ccdf509cf0c8eb7c29d2d02984f035f82），配偶宫 4×4 验证（日支结构位+4×4 分层+合冲害/三合位置正确+不从条数生成适配分）已在主干；新增 5 项测试由离线受控验收执行，公开 CI 不冒称 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/334 | 22a0835ccdf509cf0c8eb7c29d2d02984f035f82 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40167668898 |
+| E0146 | 2026-10-25 | TJ-001.5 | 已合并 | 关账（单独立 legacy PR，无批次标记）：公开 #303 已合并到 main（Merge SHA 71b50049a31ff152dc5592ef34815695e04341b1），批次门禁已在主干运行；本行此前为已提交PR属台账滞后，现补关账 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/303 | 71b50049a31ff152dc5592ef34815695e04341b1 | https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/39738667614 |
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
