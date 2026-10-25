@@ -70,7 +70,13 @@ jobs:
           cache: npm
           cache-dependency-path: web/visual-prototype/package-lock.json
       - name: Install backend runtime dependencies
-        run: pip install ".[api,calendar]"
+        # api (fastapi/uvicorn/httpx) + calendar (lunar-python) +
+        # validation (jsonschema): the api import chain reaches
+        # resolver.py, which imports jsonschema at module level, so a
+        # fresh runner needs all three extras or uvicorn fails to
+        # import the app (ModuleNotFoundError, found in CI run
+        # 40164949712 — not a product defect, a job dependency gap).
+        run: pip install ".[api,calendar,validation]"
       - name: Build frontend distribution
         working-directory: web/visual-prototype
         run: npm ci && npm run build
