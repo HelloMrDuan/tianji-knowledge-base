@@ -147,3 +147,37 @@ jobs:
             sleep 20
           done
           echo "Image publication is not deployment. Trusted-machine offline sealed acceptance is required before release of public SHA ${{ github.sha }}."
+
+  # Branch resume: a push to a NON-main branch also resumes the machine so
+  # the on-machine deploy agent can pick up the new preview image.
+  # This job ONLY visits the published URL (resume); it never deploys,
+  # never touches the stable service, and never decides what runs.
+  # Deployment decisions live on the machine agent (scripts/deploy_agent.py),
+  # which enforces: stable accepts channel-main only; previews are isolated
+  # per branch slug with their own loopback ports and container names.
+  # Division of labor with #313: #313 restricted WAKE to main so feature
+  # branches could never touch the production machine. This job extends
+  # RESUME to preview branches WITHOUT extending deploy: resume != deploy.
+  # The stable service still only accepts main/channel-main, enforced by
+  # the agent's stable-protection mechanism plus its tests.
+  # The URL below must match the wake job's published URL: it is the
+  # machine's published URL (port 8080), and visiting it resumes the whole
+  # machine, after which the agent reconciles every channel.
+  resume-preview:
+    name: resume-machine-for-preview
+    needs: build
+    # Pushes to any branch except main. Main keeps its own wake job above.
+    if: github.event_name == 'push' && github.ref != 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Visit published URL to resume the machine (resume only, not a deploy)
+        run: |
+          for i in 1 2 3 4 5; do
+            code="$(curl -s -o /dev/null -w '%{http_code}' -m 30 https://8080-agqwnq7rh7fahkx2dsyymvvdsu.instabox.tech/ || true)"
+            echo "resume attempt $i -> HTTP $code"
+            [ "$code" = "200" ] && break
+            sleep 20
+          done
+          echo "Resume only: this visit does not deploy anything. The on-machine deploy agent reconciles channels (stable=channel-main, previews=channel-<slug>) and enforces rollback; CI green / image pushed / resume success is not deployment."
