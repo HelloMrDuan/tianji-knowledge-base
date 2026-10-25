@@ -65,4 +65,8 @@ jobs:
       # B018 dream demand matrix view contract (pure file parsing of the
       # DreamCulturePage matrix section, no backend or data required).
       - run: python -m unittest discover -s tests -p 'test_b018_dream_matrix.py' -v
+      # F-1 timezone-aware birth calendar (lunar-python + zoneinfo only,
+      # no private data or sealed runtime; scenario end-to-end coverage
+      # lives in test_tz_scenario_offline.py, offline acceptance only).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tz_birth_calendar.py' -v
       - run: python scripts/audit_public_asset_changes.py --inventory

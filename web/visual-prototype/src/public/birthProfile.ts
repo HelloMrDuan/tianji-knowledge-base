@@ -282,6 +282,17 @@ export function toApiValue(profile: BirthProfile): string {
   return `${dateStr}T${profile.time}:00${offset}`;
 }
 
+/** Birthplace IANA zone for the same profile toApiValue derives the ISO value from.
+ * The backend charts by this zone wall time; without it, non-Shanghai offsets
+ * are rejected instead of silently recomputed in Shanghai time. */
+export function toApiZone(profile: BirthProfile): string {
+  const tz = regionToTimezone(profile.region);
+  if (!tz) {
+    throw new Error(`地区 ${profile.region} 的时区暂未支持，请选择其他地区`);
+  }
+  return tz;
+}
+
 function timezoneOffsetString(date: string, time: string, tz: string): string {
   const [y, m, d] = date.split("-").map(Number);
   const [h, mi] = time.split(":").map(Number);

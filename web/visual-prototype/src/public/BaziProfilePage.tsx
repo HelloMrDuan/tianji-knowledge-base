@@ -3,7 +3,7 @@ import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeBazi, type ExecuteResponse } from "./api";
-import { readSavedBirthProfile, saveBirthProfile, clearBirthProfile, toApiValue, validateBirthInput, onBirthProfileCleared, type BirthProfile } from "./birthProfile";
+import { readSavedBirthProfile, saveBirthProfile, clearBirthProfile, toApiValue, toApiZone, validateBirthInput, onBirthProfileCleared, type BirthProfile } from "./birthProfile";
 import { BirthInputFields } from "./BirthInputFields";
 import "./bazi-profile.css";
 
@@ -77,7 +77,7 @@ export function BaziProfilePage() {
     setError("");
     setResult(null);
     try {
-      const response = await executeBazi({ value: toApiValue(profile), strength_variant: "ditiansui-root-visibility-v1" });
+      const response = await executeBazi({ value: toApiValue(profile), zone: toApiZone(profile), strength_variant: "ditiansui-root-visibility-v1" });
       if (version !== requestVersion.current) return;
       saveBirthProfile(profile);
       setResult(response);

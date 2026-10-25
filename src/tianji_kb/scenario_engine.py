@@ -87,20 +87,20 @@ def _require_with_optional(inputs, required, optional):
 
 
 def _bazi_profile(inputs):
-    _require_with_optional(inputs, {"value"}, {"strength_variant"})
+    _require_with_optional(inputs, {"value"}, {"strength_variant", "zone"})
     if not isinstance(inputs["value"], str):
         raise ValueError("value must be an ISO datetime string")
     return _normalize_raw("bazi-profile", execute("bazi", inputs))
 
 
 def _question(inputs):
-    _require_exact(inputs, {"value", "yao_values"})
+    _require_with_optional(inputs, {"value", "yao_values"}, {"zone"})
     return _normalize_raw("question", execute("liuyao", inputs))
 
 
 
 def _daily(inputs):
-    _require_exact(inputs, {"birth_value", "target_date"})
+    _require_with_optional(inputs, {"birth_value", "target_date"}, {"birth_zone"})
     birth_value = inputs["birth_value"]
     target_date = inputs["target_date"]
     if not isinstance(birth_value, str):
@@ -114,7 +114,10 @@ def _daily(inputs):
     if not 1900 <= parsed_date.year <= 2100:
         raise ValueError("target_date year must be from 1900 through 2100")
 
-    natal = execute("bazi", {"value": birth_value, "include_xianchi": True, "include_relations": True})
+    natal_input = {"value": birth_value, "include_xianchi": True, "include_relations": True}
+    if "birth_zone" in inputs:
+        natal_input["zone"] = inputs["birth_zone"]
+    natal = execute("bazi", natal_input)
     result_chart = natal["result"]
     day_master = result_chart["day_master"]["stem"]
     xianchi = copy.deepcopy(result_chart["xianchi_lookup"])
@@ -336,7 +339,7 @@ def _annual_branch_structure(natal, flow_branch):
 
 
 def _yearly(inputs):
-    _require_exact(inputs, {"birth_value", "target_year"})
+    _require_with_optional(inputs, {"birth_value", "target_year"}, {"birth_zone"})
     birth_value = inputs["birth_value"]
     target_year = inputs["target_year"]
     if not isinstance(birth_value, str):
@@ -344,7 +347,10 @@ def _yearly(inputs):
     if type(target_year) is not int or not 1900 <= target_year <= 2100:
         raise ValueError("target_year must be an integer from 1900 through 2100")
 
-    natal = execute("bazi", {"value": birth_value, "include_relations": True})
+    natal_input = {"value": birth_value, "include_relations": True}
+    if "birth_zone" in inputs:
+        natal_input["zone"] = inputs["birth_zone"]
+    natal = execute("bazi", natal_input)
     # July 1 is deliberately inside the target solar-term year. The response
     # reports this convention instead of pretending a Gregorian Jan-1 boundary.
     reference = f"{target_year:04d}-07-01T12:00:00+08:00"
@@ -459,7 +465,7 @@ def _yearly(inputs):
 
 
 def _romance(inputs):
-    _require_exact(inputs, {"birth_value", "target_year"})
+    _require_with_optional(inputs, {"birth_value", "target_year"}, {"birth_zone"})
     birth_value = inputs["birth_value"]
     target_year = inputs["target_year"]
     if not isinstance(birth_value, str):
@@ -467,7 +473,10 @@ def _romance(inputs):
     if type(target_year) is not int or not 1900 <= target_year <= 2100:
         raise ValueError("target_year must be an integer from 1900 through 2100")
 
-    natal = execute("bazi", {"value": birth_value, "include_xianchi": True, "include_relations": True})
+    natal_input = {"value": birth_value, "include_xianchi": True, "include_relations": True}
+    if "birth_zone" in inputs:
+        natal_input["zone"] = inputs["birth_zone"]
+    natal = execute("bazi", natal_input)
     xianchi = copy.deepcopy(natal["result"]["xianchi_lookup"])
     xianchi_rule = next(
         rule for rule in natal["rule_matches"] if rule["rule_id"] == "bazi.phase2.xianchi_lookup"
@@ -660,10 +669,13 @@ def _ten_god_group(ten_god_name):
 
 
 
-def _period_context(birth_value):
+def _period_context(birth_value, birth_zone=None):
     if not isinstance(birth_value, str):
         raise ValueError("birth_value must be an ISO datetime string")
-    natal = execute("bazi", {"value": birth_value, "include_xianchi": True, "include_relations": True})
+    natal_input = {"value": birth_value, "include_xianchi": True, "include_relations": True}
+    if birth_zone is not None:
+        natal_input["zone"] = birth_zone
+    natal = execute("bazi", natal_input)
     source_rules = [
         next(rule for rule in natal["rule_matches"] if rule["rule_id"] == "bazi.phase2.ten_gods"),
         next(rule for rule in natal["rule_matches"] if rule["rule_id"] == "bazi.phase2.xianchi_lookup"),
@@ -751,7 +763,7 @@ def _period_summary(days):
 
 
 def _weekly(inputs):
-    _require_exact(inputs, {"birth_value", "anchor_date"})
+    _require_with_optional(inputs, {"birth_value", "anchor_date"}, {"birth_zone"})
     birth_value = inputs["birth_value"]
     anchor_date = inputs["anchor_date"]
     if not isinstance(anchor_date, str):
@@ -763,7 +775,7 @@ def _weekly(inputs):
     if not 1900 <= anchor.year <= 2100:
         raise ValueError("anchor_date year must be from 1900 through 2100")
 
-    natal, evidence_ids, evidence = _period_context(birth_value)
+    natal, evidence_ids, evidence = _period_context(birth_value, inputs.get("birth_zone"))
     week_start = anchor - timedelta(days=anchor.weekday())
     dates = [week_start + timedelta(days=offset) for offset in range(7)]
     days = [_period_day_fact(natal, item.isoformat()) for item in dates]
@@ -865,7 +877,7 @@ def _weekly(inputs):
 
 
 def _monthly(inputs):
-    _require_exact(inputs, {"birth_value", "target_month"})
+    _require_with_optional(inputs, {"birth_value", "target_month"}, {"birth_zone"})
     birth_value = inputs["birth_value"]
     target_month = inputs["target_month"]
     if not isinstance(target_month, str) or len(target_month) != 7:
@@ -877,7 +889,7 @@ def _monthly(inputs):
     if not 1900 <= first_day.year <= 2100:
         raise ValueError("target_month year must be from 1900 through 2100")
 
-    natal, evidence_ids, evidence = _period_context(birth_value)
+    natal, evidence_ids, evidence = _period_context(birth_value, inputs.get("birth_zone"))
     total_days = monthrange(first_day.year, first_day.month)[1]
     dates = [first_day + timedelta(days=offset) for offset in range(total_days)]
     days = [_period_day_fact(natal, item.isoformat()) for item in dates]
@@ -979,7 +991,7 @@ def _monthly(inputs):
 
 
 def _career(inputs):
-    _require_exact(inputs, {"birth_value", "target_year"})
+    _require_with_optional(inputs, {"birth_value", "target_year"}, {"birth_zone"})
     birth_value = inputs["birth_value"]
     target_year = inputs["target_year"]
     if not isinstance(birth_value, str):
@@ -987,7 +999,10 @@ def _career(inputs):
     if type(target_year) is not int or not 1900 <= target_year <= 2100:
         raise ValueError("target_year must be an integer from 1900 through 2100")
 
-    natal = execute("bazi", {"value": birth_value})
+    natal_input = {"value": birth_value}
+    if "birth_zone" in inputs:
+        natal_input["zone"] = inputs["birth_zone"]
+    natal = execute("bazi", natal_input)
     result_chart = natal["result"]
     groups = {
         group_id: {
@@ -1325,7 +1340,7 @@ def _compatibility(inputs):
     _require_with_optional(
         inputs,
         {"person_a_birth_value", "person_b_birth_value"},
-        {"person_a_traditional_role", "person_b_traditional_role"},
+        {"person_a_traditional_role", "person_b_traditional_role", "person_a_zone", "person_b_zone"},
     )
     person_a_birth_value = inputs["person_a_birth_value"]
     person_b_birth_value = inputs["person_b_birth_value"]
@@ -1339,6 +1354,10 @@ def _compatibility(inputs):
 
     a_input = {"value": person_a_birth_value, "include_xianchi": True, "include_relations": True}
     b_input = {"value": person_b_birth_value, "include_xianchi": True, "include_relations": True}
+    if "person_a_zone" in inputs:
+        a_input["zone"] = inputs["person_a_zone"]
+    if "person_b_zone" in inputs:
+        b_input["zone"] = inputs["person_b_zone"]
     if person_a_role is not None:
         a_input["traditional_role"] = person_a_role
     if person_b_role is not None:
@@ -1681,7 +1700,7 @@ def _dedupe_strings(items):
 
 
 def _life(inputs):
-    _require_exact(inputs, {"birth_value", "target_year"})
+    _require_with_optional(inputs, {"birth_value", "target_year"}, {"birth_zone"})
     birth_value = inputs["birth_value"]
     target_year = inputs["target_year"]
     if not isinstance(birth_value, str):
@@ -1689,10 +1708,15 @@ def _life(inputs):
     if type(target_year) is not int or not 1900 <= target_year <= 2100:
         raise ValueError("target_year must be an integer from 1900 through 2100")
 
-    profile = _bazi_profile({"value": birth_value, "strength_variant": "ditiansui-root-visibility-v1"})
-    yearly = _yearly({"birth_value": birth_value, "target_year": target_year})
-    romance = _romance({"birth_value": birth_value, "target_year": target_year})
-    career = _career({"birth_value": birth_value, "target_year": target_year})
+    birth_zone = inputs.get("birth_zone")
+    profile_input = {"value": birth_value, "strength_variant": "ditiansui-root-visibility-v1"}
+    if birth_zone is not None:
+        profile_input["zone"] = birth_zone
+    profile = _bazi_profile(profile_input)
+    scenario_zone = {"birth_zone": birth_zone} if birth_zone is not None else {}
+    yearly = _yearly({"birth_value": birth_value, "target_year": target_year, **scenario_zone})
+    romance = _romance({"birth_value": birth_value, "target_year": target_year, **scenario_zone})
+    career = _career({"birth_value": birth_value, "target_year": target_year, **scenario_zone})
 
     sections = {"profile": profile, "yearly": yearly,
                 "romance": romance, "career": career}

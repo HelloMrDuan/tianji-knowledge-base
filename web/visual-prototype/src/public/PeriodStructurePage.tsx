@@ -8,7 +8,7 @@ import {
   type ScenarioExecuteResponse,
 } from "./api";
 import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
-import { toApiValue, fromLegacy, toSolarDateString, isConvertedFromLunar, fromSolarEdit, withUpdatedTime } from "./birthProfile";
+import { toApiValue, toApiZone, fromLegacy, toSolarDateString, isConvertedFromLunar, fromSolarEdit, withUpdatedTime } from "./birthProfile";
 import "./period-structure.css";
 
 const relationLabel: Record<string, string> = {six_harmony: "六合", harm: "六害", clash: "六冲"};
@@ -81,8 +81,8 @@ export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
         return toApiValue(fromSolarEdit(birthDate, birthTime, currentProfile.region, currentProfile));
       })();
       const next = isWeekly
-        ? await executeWeeklyScenario({ birth_value: birthValue, anchor_date: anchorDate })
-        : await executeMonthlyScenario({ birth_value: birthValue, target_month: targetMonth });
+        ? await executeWeeklyScenario({ birth_value: birthValue, birth_zone: toApiZone(readSavedBirthProfile()), anchor_date: anchorDate })
+        : await executeMonthlyScenario({ birth_value: birthValue, birth_zone: toApiZone(readSavedBirthProfile()), target_month: targetMonth });
       if (version !== requestVersion.current) return;
       (() => {
         const currentProfile = readSavedBirthProfile();
