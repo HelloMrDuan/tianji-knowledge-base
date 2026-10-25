@@ -77,10 +77,20 @@ class ReviewTests(unittest.TestCase):
         # PR #191 added text-only reviewed Zhouyi excerpts to Liuyao without
         # changing the original calculation fields. Keep the historical frozen
         # hash in the manifest and pin the exact reviewed extension separately.
+        # PR #349 / TJ-027.1 PR-B: B012 added only the LIUREN_LIMITATIONS
+        # display constant and the limitations field to Liuren chart output;
+        # compute()/select() and all calculation fields are byte-identical to
+        # the frozen version (diff +8/-0). Same treatment: the historical
+        # hash stays in the manifest, the reviewed current hash is pinned
+        # here only, for this one file.
         reviewed_classic_extension = {
             'src/tianji_kb/operations/liuyao_chart.py': {
                 'historical': '39f8bbea8e81b2d7eed3a18edf093231c5b0003974ce6a8e7b5ebf9452094171',
                 'current': 'a92eaad3fb01e1e1c8338a6bc7e6e38198fe7cf001b8c8736ab63b60bd99adee',
+            },
+            'src/tianji_kb/operations/liuren_chart.py': {
+                'historical': '4c380a3cd8f435632dc83165210d438e03b49bd98938f3c12f6012ac0a1c07a4',
+                'current': 'bd1468a99f9be2fef39ddbd88b512a9ceba2c38a6e33ab3b704ae436b6ff78b8',
             },
         }
         for name, expected in frozen.items():
