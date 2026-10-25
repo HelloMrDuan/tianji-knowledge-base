@@ -1,7 +1,8 @@
 """Six registered deterministic chart providers; no LLM or quarantine computation."""
 import importlib
 from .resolver import EvidenceResolver
-from .calendar import calendar
+from .calendar_tz import DEFAULT_ZONE, calendar_for_zone
+from .bazi_calendar_precision_audit import audit_birth_instant
 from .foundations import CYCLE
 from .bazi_adjudication import ADJUDICATION_VARIANT
 from .bazi_dayun_jie import adjacent_jie_distance
@@ -13,18 +14,61 @@ from .bazi_dayun_simulation import VARIANT as DAYUN_SIM_VARIANT, simulate_dayun_
 
 PROVIDERS={domain:f'tianji_kb.operations.{domain}_chart.chart' for domain in ('liuyao','qimen','liuren','ziwei','fengshui','yijing','bazi')}
 
+def _pop_zone(inputs):
+    """Pop the birth-zone keys (zone preferred, timezone accepted as alias).
+
+    Returns the zone name or None (caller defaults None to Asia/Shanghai).
+    Conflicting zone/timezone values are rejected, never silently picked.
+    """
+    zone = inputs.pop("zone", None)
+    alias = inputs.pop("timezone", None)
+    if zone is not None and alias is not None and zone != alias:
+        raise ValueError(
+            "Conflicting birth zones: zone=%r vs timezone=%r" % (zone, alias)
+        )
+    zone = zone if zone is not None else alias
+    if zone is not None and (not isinstance(zone, str) or not zone):
+        raise ValueError("Birth zone must be a non-empty IANA timezone name")
+    return zone
+
+
 def prepare_inputs(domain,inputs):
     inputs=dict(inputs)
-    if domain not in ('liuyao','liuren','ziwei','bazi') or 'value' not in inputs:
+    if 'value' not in inputs:
+        return inputs,None
+    if domain=='qimen':
+        # Qimen chart() still runs the frozen Shanghai-frame calendar(), so a
+        # non-Shanghai zone cannot be honoured here: validate the civil time
+        # (gap/offset traps fail closed like every other value path) and
+        # refuse non-Shanghai zones explicitly instead of miscomputing them.
+        # value stays: chart() needs it; zone keys are popped so chart()
+        # never sees them.
+        value=inputs['value']
+        zone=_pop_zone(inputs) or DEFAULT_ZONE
+        try:
+            audit_birth_instant(value, tz_name=zone)
+        except ValueError as exc:
+            raise ValueError(
+                "Qimen value %r rejected in zone %s: %s"
+                % (value, zone, exc)
+            ) from exc
+        if zone!=DEFAULT_ZONE:
+            raise ValueError(
+                "Qimen divination time in zone %s is not yet supported; "
+                "only Asia/Shanghai (or omit zone) is accepted" % zone
+            )
+        return inputs,None
+    if domain not in ('liuyao','liuren','ziwei','bazi'):
         return inputs,None
     value=inputs.pop('value')
+    zone=_pop_zone(inputs)
     derived={'liuyao':{'day_ganzhi','month_branch'},'liuren':{'solar_term','day_ganzhi','hour_branch'},
              'ziwei':{'year_ganzhi','lunar_month','lunar_day','hour_branch'},
              'bazi':{'year_ganzhi','month_ganzhi','day_ganzhi','hour_ganzhi'}}[domain]
     if derived.intersection(inputs):raise ValueError('Datetime and manually supplied calendar pillars cannot be mixed')
     if domain=='ziwei' and inputs.pop('year_boundary',None)!='lunar-new-year':
         raise ValueError('Ziwei datetime input requires explicit year_boundary=lunar-new-year')
-    cal=calendar(value)
+    cal=calendar_for_zone(value, zone)
     if domain=='liuyao':inputs.update(day_ganzhi=cal['day_ganzhi'],month_branch=cal['month_ganzhi'][1])
     elif domain=='bazi':inputs.update(year_ganzhi=cal['year_ganzhi'],month_ganzhi=cal['month_ganzhi'],day_ganzhi=cal['day_ganzhi'],hour_ganzhi=cal['hour_ganzhi'])
     elif domain=='liuren':inputs.update(solar_term=cal['solar_term'],day_ganzhi=cal['day_ganzhi'],hour_branch=cal['hour_ganzhi'][1])

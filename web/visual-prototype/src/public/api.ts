@@ -149,6 +149,7 @@ async function requestJson(path: string, body: unknown): Promise<unknown> {
 export async function executeLiuyao(input: {
   value: string;
   yao_values: number[];
+  zone?: string;
 }): Promise<ExecuteResponse> {
   const data = await requestJson("/api/v1/public/execute", {
     domain: "liuyao",
@@ -163,6 +164,7 @@ export async function executeLiuyao(input: {
 
 export async function executeBazi(input: {
   value: string;
+  zone?: string;
   strength_variant?: "ditiansui-root-visibility-v1";
 }): Promise<ExecuteResponse> {
   const data = await requestJson("/api/v1/public/execute", {
@@ -193,6 +195,7 @@ export async function executeYijing(input: {
 /** B012 / TJ-030.4: real public execution for Liuren structure (no verdict). */
 export async function executeLiuren(input: {
   value: string;
+  zone?: string;
 }): Promise<ExecuteResponse> {
   const data = await requestJson("/api/v1/public/execute", {
     domain: "liuren",
@@ -209,6 +212,7 @@ export async function executeLiuren(input: {
  * no dayun, brightness, or fortune verdict is computed. */
 export async function executeZiwei(input: {
   value: string;
+  zone?: string;
   year_boundary: "lunar-new-year";
 }): Promise<ExecuteResponse> {
   const data = await requestJson("/api/v1/public/execute", {
@@ -226,6 +230,7 @@ export async function executeZiwei(input: {
  * hidden stems, and pattern verdicts are NOT computed. */
 export async function executeQimen(input: {
   value: string;
+  zone?: string;
 }): Promise<ExecuteResponse> {
   const data = await requestJson("/api/v1/public/execute", {
     domain: "qimen",
@@ -269,6 +274,7 @@ export type ScenarioExecuteResponse = {
 
 export async function executeYearlyScenario(input: {
   birth_value: string;
+  birth_zone?: string;
   target_year: number;
 }): Promise<ScenarioExecuteResponse> {
   const data = await requestJson("/api/v1/scenarios/public", {
@@ -281,6 +287,7 @@ export async function executeYearlyScenario(input: {
 
 export async function executeRomanceScenario(input: {
   birth_value: string;
+  birth_zone?: string;
   target_year: number;
 }): Promise<ScenarioExecuteResponse> {
   const data = await requestJson("/api/v1/scenarios/public", {
@@ -293,6 +300,7 @@ export async function executeRomanceScenario(input: {
 
 export async function executeCareerScenario(input: {
   birth_value: string;
+  birth_zone?: string;
   target_year: number;
 }): Promise<ScenarioExecuteResponse> {
   const data = await requestJson("/api/v1/scenarios/public", {
@@ -305,6 +313,7 @@ export async function executeCareerScenario(input: {
 
 export async function executeLifeScenario(input: {
   birth_value: string;
+  birth_zone?: string;
   target_year: number;
 }): Promise<ScenarioExecuteResponse> {
   const data = await requestJson("/api/v1/scenarios/public", {
@@ -317,6 +326,7 @@ export async function executeLifeScenario(input: {
 
 export async function executeDailyScenario(input: {
   birth_value: string;
+  birth_zone?: string;
   target_date: string;
 }): Promise<ScenarioExecuteResponse> {
   const data = await requestJson("/api/v1/scenarios/public", {
@@ -329,6 +339,7 @@ export async function executeDailyScenario(input: {
 
 export async function executeWeeklyScenario(input: {
   birth_value: string;
+  birth_zone?: string;
   anchor_date: string;
 }): Promise<ScenarioExecuteResponse> {
   const data = await requestJson("/api/v1/scenarios/public", {
@@ -340,6 +351,7 @@ export async function executeWeeklyScenario(input: {
 
 export async function executeMonthlyScenario(input: {
   birth_value: string;
+  birth_zone?: string;
   target_month: string;
 }): Promise<ScenarioExecuteResponse> {
   const data = await requestJson("/api/v1/scenarios/public", {
@@ -353,6 +365,8 @@ export async function executeMonthlyScenario(input: {
 export async function executeCompatibilityScenario(input: {
   person_a_birth_value: string;
   person_b_birth_value: string;
+  person_a_zone?: string;
+  person_b_zone?: string;
   person_a_traditional_role?: "male" | "female";
   person_b_traditional_role?: "male" | "female";
 }): Promise<ScenarioExecuteResponse> {

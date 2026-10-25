@@ -4,7 +4,7 @@ import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeCompatibilityScenario, type ScenarioExecuteResponse } from "./api";
 import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
-import { toApiValue, fromLegacy, toSolarDateString, isConvertedFromLunar, fromSolarEdit, withUpdatedTime, regionToTimezone, REGION_OPTIONS } from "./birthProfile";
+import { toApiValue, toApiZone, fromLegacy, toSolarDateString, isConvertedFromLunar, fromSolarEdit, withUpdatedTime, regionToTimezone, REGION_OPTIONS } from "./birthProfile";
 import "./compatibility-structure.css";
 
 const pillarNames: Record<string, string> = {
@@ -67,6 +67,8 @@ export function CompatibilityStructurePage() {
       const input: {
         person_a_birth_value: string;
         person_b_birth_value: string;
+        person_a_zone?: string;
+        person_b_zone?: string;
         person_a_traditional_role?: "male" | "female";
         person_b_traditional_role?: "male" | "female";
       } = {
@@ -80,7 +82,9 @@ export function CompatibilityStructurePage() {
           }
           return toApiValue(fromSolarEdit(aDate, aTime, saved.region, saved));
         })(),
+        person_a_zone: toApiZone(saved),
         person_b_birth_value: toApiValue(fromSolarEdit(bDate, bTime, bRegion)),
+        person_b_zone: regionToTimezone(bRegion),
       };
       if (aRole) input.person_a_traditional_role = aRole;
       if (bRole) input.person_b_traditional_role = bRole;

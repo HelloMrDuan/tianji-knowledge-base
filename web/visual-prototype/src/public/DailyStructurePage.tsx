@@ -5,7 +5,7 @@ import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeDailyScenario, type ScenarioExecuteResponse } from "./api";
 import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
-import { toApiValue, fromLegacy, toSolarDateString, isConvertedFromLunar, fromSolarEdit, withUpdatedTime } from "./birthProfile";
+import { toApiValue, toApiZone, fromLegacy, toSolarDateString, isConvertedFromLunar, fromSolarEdit, withUpdatedTime } from "./birthProfile";
 import "./daily-structure.css";
 
 
@@ -81,6 +81,7 @@ export function DailyStructurePage() {
         return toApiValue(fromSolarEdit(birthDate, birthTime, currentProfile.region, currentProfile));
       })(),
         target_date: targetDate,
+        birth_zone: toApiZone(readSavedBirthProfile()),
       });
       if (version !== requestVersion.current) return;
       (() => {

@@ -6,7 +6,7 @@ import { Link } from "../shared/router";
 import { executeCareerScenario, type ScenarioExecuteResponse } from "./api";
 import { readSavedTargetYear, saveTargetYear, isValidTargetYear, MIN_TARGET_YEAR, MAX_TARGET_YEAR } from "./targetYear";
 import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
-import { toApiValue, fromLegacy, toSolarDateString, isConvertedFromLunar, fromSolarEdit, withUpdatedTime } from "./birthProfile";
+import { toApiValue, toApiZone, fromLegacy, toSolarDateString, isConvertedFromLunar, fromSolarEdit, withUpdatedTime } from "./birthProfile";
 import "./career-wealth-structure.css";
 
 const groupOrder = ["wealth", "authority", "output", "resource", "peers"];
@@ -80,6 +80,7 @@ export function CareerWealthStructurePage() {
         return toApiValue(fromSolarEdit(date, time, currentProfile.region, currentProfile));
       })(),
         target_year: targetYear,
+        birth_zone: toApiZone(readSavedBirthProfile()),
       });
       if (version !== requestVersion.current) return;
       (() => {
