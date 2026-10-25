@@ -1,0 +1,19 @@
+/* B016 Scenario 管理页门禁状态样式（modules.css 的 module-table 提供表格基底）。 */
+.admin-scenario-table td {
+  vertical-align: top;
+}
+.admin-gate-pass {
+  color: #1e6b3a;
+}
+.admin-gate-fail {
+  color: #a33327;
+}
+.admin-gate-items {
+  margin: 6px 0 0;
+  padding-left: 16px;
+  font-size: 13px;
+}
+.admin-gate-note {
+  margin-top: 8px;
+  font-size: 13px;
+}

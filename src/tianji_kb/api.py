@@ -20,6 +20,7 @@ from .public_projection import project_execution,PUBLIC_EXECUTION_DOMAINS,PUBLIC
 from .operations.dream_knowledge import retrieve as retrieve_dream_culture
 from .rag_context import RetrievalUnavailable
 from .governance import school_conflicts,reviewed_rules,reviewed_evidence,reviewed_classics,reviewed_chapters,reviewed_terms,reviewed_sources,reviewed_layers,reviewed_algorithms,provider_configuration,prompt_registry
+from .admin_scopes import ADMIN_READ_SCOPES,parse_admin_scopes,resolve_admin_access
 
 Domain=Literal['liuyao','qimen','liuren','ziwei','fengshui','yijing','bazi']
 Mode=Literal['production','research']
@@ -161,11 +162,15 @@ def response_for(raw):
         calendar=raw.get('input_calendar') or raw['result'].get('calendar'))
 
 
-def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None):
+def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,admin_read_scopes=None):
     app=FastAPI(title='Tianji deterministic knowledge API',version='1.0.0',
         description='Canonical calculation → RuleMatch → trace → Evidence; AI may explain but may not compute charts.')
     app.state.provider=provider
-    app.state.admin_read_token=admin_read_token if admin_read_token is not None else os.environ.get('TIANJI_ADMIN_READ_TOKEN')
+    app.state.admin_read_token=admin_read_token
+    # Scope model (TJ-026.3): server-side configuration of the read token.
+    # None means all scopes (backward compatible single-token deployments).
+    # Explicit param wins; otherwise TIANJI_ADMIN_READ_SCOPES (comma list).
+    app.state.admin_read_scopes=(parse_admin_scopes(os.environ.get('TIANJI_ADMIN_READ_SCOPES')) if admin_read_scopes is None else frozenset(s for s in admin_read_scopes if s in ADMIN_READ_SCOPES)) if admin_read_token is not None else os.environ.get('TIANJI_ADMIN_READ_TOKEN')
     origins=[origin.strip() for origin in os.environ.get('TIANJI_CORS_ORIGINS','').split(',') if origin.strip()]
     if origins:app.add_middleware(CORSMiddleware,allow_origins=origins,allow_methods=['GET','POST'],allow_headers=['Content-Type','Authorization'])
 
@@ -201,16 +206,16 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None):
     def scenarios():
         return {'api_version':'v1','scenarios':scenario_registry()}
 
-    def require_admin_read_token(authorization):
-        configured=app.state.admin_read_token
-        if not configured:
+    def require_admin_read_token(authorization,scope=None):
+        outcome,detail=resolve_admin_access(app.state.admin_read_token,app.state.admin_read_scopes,authorization,scope)
+        if outcome=='not_configured':
             raise HTTPException(503,detail={'code':'admin_auth_not_configured','message':'Admin read access is not configured'})
-        prefix='Bearer '
-        if not authorization or not authorization.startswith(prefix):
-            raise HTTPException(401,detail={'code':'admin_unauthorized','message':'Admin bearer token required'},headers={'WWW-Authenticate':'Bearer'})
-        supplied=authorization[len(prefix):]
-        if not supplied or not secrets.compare_digest(supplied,configured):
+        if outcome=='unauthorized':
+            if detail=='missing':
+                raise HTTPException(401,detail={'code':'admin_unauthorized','message':'Admin bearer token required'},headers={'WWW-Authenticate':'Bearer'})
             raise HTTPException(401,detail={'code':'admin_unauthorized','message':'Invalid admin bearer token'},headers={'WWW-Authenticate':'Bearer'})
+        if outcome=='forbidden':
+            raise HTTPException(403,detail={'code':'admin_forbidden','message':f'Admin token scope does not include {detail}'})
 
     def require_internal_execution(authorization):
         # Detailed Evidence / internal trace is only callable with a separate
@@ -312,7 +317,7 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None):
     @app.post('/api/v1/admin/research/dream',tags=['admin'])
     async def admin_research_dream(request: AdminDreamResearchRequest,
                                    authorization: str | None = Header(default=None)):
-        require_admin_read_token(authorization)
+        require_admin_read_token(authorization,scope='research')
         try:
             result = await run_in_threadpool(retrieve_dream_culture, request.dream_text)
         except RetrievalUnavailable:
@@ -336,7 +341,7 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None):
 
     @app.get('/api/v1/admin/governance/conflicts',tags=['admin'])
     def admin_governance_conflicts(authorization: str | None = Header(default=None)):
-        require_admin_read_token(authorization)
+        require_admin_read_token(authorization,scope='governance')
         return {
             'api_version':'v1',
             'read_only':True,
@@ -346,7 +351,7 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None):
 
     @app.get('/api/v1/admin/governance/rules',tags=['admin'])
     def admin_governance_rules(authorization: str | None = Header(default=None)):
-        require_admin_read_token(authorization)
+        require_admin_read_token(authorization,scope='governance')
         return {
             'api_version':'v1',
             'read_only':True,
@@ -356,7 +361,7 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None):
 
     @app.get('/api/v1/admin/governance/evidence',tags=['admin'])
     def admin_governance_evidence(authorization: str | None = Header(default=None)):
-        require_admin_read_token(authorization)
+        require_admin_read_token(authorization,scope='governance')
         return {
             'api_version':'v1',
             'read_only':True,
@@ -366,7 +371,7 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None):
 
     @app.get('/api/v1/admin/governance/classics',tags=['admin'])
     def admin_governance_classics(authorization: str | None = Header(default=None)):
-        require_admin_read_token(authorization)
+        require_admin_read_token(authorization,scope='governance')
         return {
             'api_version':'v1',
             'read_only':True,
@@ -376,7 +381,7 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None):
 
     @app.get('/api/v1/admin/governance/chapters',tags=['admin'])
     def admin_governance_chapters(authorization: str | None = Header(default=None)):
-        require_admin_read_token(authorization)
+        require_admin_read_token(authorization,scope='governance')
         return {
             'api_version':'v1',
             'read_only':True,
@@ -386,7 +391,7 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None):
 
     @app.get('/api/v1/admin/governance/terms',tags=['admin'])
     def admin_governance_terms(authorization: str | None = Header(default=None)):
-        require_admin_read_token(authorization)
+        require_admin_read_token(authorization,scope='governance')
         return {
             'api_version':'v1',
             'read_only':True,
@@ -396,7 +401,7 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None):
 
     @app.get('/api/v1/admin/governance/sources',tags=['admin'])
     def admin_governance_sources(authorization: str | None = Header(default=None)):
-        require_admin_read_token(authorization)
+        require_admin_read_token(authorization,scope='governance')
         return {
             'api_version':'v1',
             'read_only':True,
@@ -406,7 +411,7 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None):
 
     @app.get('/api/v1/admin/governance/layers',tags=['admin'])
     def admin_governance_layers(authorization: str | None = Header(default=None)):
-        require_admin_read_token(authorization)
+        require_admin_read_token(authorization,scope='governance')
         return {
             'api_version':'v1',
             'read_only':True,
@@ -416,7 +421,7 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None):
 
     @app.get('/api/v1/admin/governance/algorithms',tags=['admin'])
     def admin_governance_algorithms(authorization: str | None = Header(default=None)):
-        require_admin_read_token(authorization)
+        require_admin_read_token(authorization,scope='governance')
         return {
             'api_version':'v1',
             'read_only':True,
@@ -426,7 +431,7 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None):
 
     @app.get('/api/v1/admin/system/provider',tags=['admin'])
     def admin_provider_configuration(authorization: str | None = Header(default=None)):
-        require_admin_read_token(authorization)
+        require_admin_read_token(authorization,scope='system')
         return {
             'api_version':'v1',
             'read_only':True,
@@ -436,7 +441,7 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None):
 
     @app.get('/api/v1/admin/system/prompts',tags=['admin'])
     def admin_prompt_registry(authorization: str | None = Header(default=None)):
-        require_admin_read_token(authorization)
+        require_admin_read_token(authorization,scope='system')
         return {
             'api_version':'v1',
             'read_only':True,

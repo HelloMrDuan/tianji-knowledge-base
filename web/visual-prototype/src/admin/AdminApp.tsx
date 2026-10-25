@@ -16,6 +16,7 @@ import { AlgorithmGovernancePage } from "./AlgorithmGovernancePage";
 import { ProviderGovernancePage } from "./ProviderGovernancePage";
 import { PromptGovernancePage } from "./PromptGovernancePage";
 import { AdminDreamResearchPage } from "./AdminDreamResearchPage";
+import ScenarioManagementPage from "./ScenarioManagementPage";
 import "./admin.css";
 import "./modules.css";
 
@@ -33,6 +34,7 @@ const titles: Record<string, string> = {
   "/admin/evidence": "Evidence 管理",
   "/admin/conflicts": "流派与冲突",
   "/admin/dream-research": "解梦知识研究",
+  "/admin/scenarios": "Scenario 管理",
 };
 export default function AdminApp() {
   const path = usePath();
@@ -117,8 +119,20 @@ export default function AdminApp() {
           </div>
         </header>
         <main className="admin-main">
+          {/*
+            Route-guard decision (TJ-026.3, deliberate, not an omission):
+            the admin shell is publicly reachable by design because it
+            contains no data. Every data fetch requires a user-entered
+            token (server-enforced 401/403/503), and no page requests
+            anything before a token is supplied. A shell-level token gate
+            would add no protection and would break the dream-research
+            contract that its token is never persisted. Token enforcement
+            therefore lives per data page and server-side, not in the shell.
+          */}
           {path === "/admin" ? (
             <Dashboard />
+          ) : path === "/admin/scenarios" ? (
+            <ScenarioManagementPage />
           ) : path === "/admin/dream-research" ? (
             <AdminDreamResearchPage />
           ) : path.startsWith("/admin/conflicts") ? (
