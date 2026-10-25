@@ -52,6 +52,6 @@ test("life: chosen year and saved birth instant are both sent, then editing clea
   await page.getByRole("button", {name:"生成我的人生总览"}).click();
   await expect.poll(()=>sent.length).toBe(1);
   expect(sent[0]).toEqual({
-    scenario_id:"life", input:{ birth_value:"2000-01-07T12:00:00+08:00",target_year:2027 }
+    scenario_id:"life", input:{ birth_value:"2000-01-07T12:00:00+08:00",birth_zone:"Asia/Shanghai",target_year:2027 }
   });
 });

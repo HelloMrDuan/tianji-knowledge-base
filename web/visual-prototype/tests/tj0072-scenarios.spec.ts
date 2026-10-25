@@ -29,7 +29,7 @@ test("romance: submit sends exact birth instant and selected observation year", 
   await page.locator('form button[type="submit"]').first().click();
   await expect.poll(() => seen.length).toBe(1);
   expect(seen[0].scenario_id).toBe("romance");
-  expect(seen[0].input).toEqual({ birth_value: "2000-01-07T12:00:00+08:00", target_year: 2027 });
+  expect(seen[0].input).toEqual({ birth_value: "2000-01-07T12:00:00+08:00", birth_zone: "Asia/Shanghai", target_year: 2027 });
 });
 
 test("career: submit sends exact birth instant and selected observation year", async ({ page }) => {
@@ -40,7 +40,7 @@ test("career: submit sends exact birth instant and selected observation year", a
   await page.locator('form button[type="submit"]').first().click();
   await expect.poll(() => seen.length).toBe(1);
   expect(seen[0].scenario_id).toBe("career");
-  expect(seen[0].input).toEqual({ birth_value: "2000-01-07T12:00:00+08:00", target_year: 2025 });
+  expect(seen[0].input).toEqual({ birth_value: "2000-01-07T12:00:00+08:00", birth_zone: "Asia/Shanghai", target_year: 2025 });
 });
 
 test("compatibility: exactly mapped A/B inputs and separate traditional roles", async ({ page }) => {
@@ -58,7 +58,9 @@ test("compatibility: exactly mapped A/B inputs and separate traditional roles", 
   expect(seen[0].scenario_id).toBe("compatibility");
   expect(seen[0].input).toEqual({
     person_a_birth_value: "2000-01-07T12:00:00+08:00",
+    person_a_zone: "Asia/Shanghai",
     person_b_birth_value: "1995-06-20T09:00:00+08:00",
+    person_b_zone: "Asia/Shanghai",
     person_a_traditional_role: "male",
     person_b_traditional_role: "female",
   });
