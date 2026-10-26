@@ -223,7 +223,14 @@ export const domainPages: DomainPage[] = [
     formTitle: "设定安星资料",
     formNote: "历法、闰月与子时边界需要明确。",
     fields: [
-      ...birthFields,
+      // TJ-031.4：紫微页提交前会把农历换算为公历（见 DomainHomePage
+      // resolveZiweiSolarDate），共享 birthFields 的“不做历法换算”
+      // 提示对本页不实，仅本页覆盖历法字段提示。
+      ...birthFields.map((field) =>
+        field.id === "calendar"
+          ? { ...field, hint: "农历会先换算为公历再排盘；闰月出生暂不支持。" }
+          : field,
+      ),
       {
         id: "school",
         label: "安星口径",

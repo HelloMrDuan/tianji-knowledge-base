@@ -177,6 +177,7 @@
 | TJ-031.1 | 生产路径时区感知化 | 出生地墙时间排盘：前端随请求发送 zone（保存档案 region 经 toApiZone 映射为 IANA 时区），后端按 zone 墙时间排盘而非一律上海时间，无 zone 的非上海偏移拒绝而非静默重算；场景请求契约含 zone 字段 |
 | TJ-031.2 | F-1 回归修复 | 机上验收 12 问题修复：eval 用例 qimen.eval-boundary-05 预期改为带精确拒绝原因的 input_rejected（1900 上海历史偏移与 IANA tzdb 冲突；原始输入与原计算 Oracle 留存并标注失效），新增合法时区奇门正向计算案例；场景契约测试按分区改写（公开环境只验契约键接受/拒绝，真实计算断言在后端分区）；场景离线测试按真实输出结构重写并完成伦敦/东京/上海场景级端到端验证；F-1 生产校验与 fail-closed 不回退，policy 严格断言不放宽 |
 | TJ-031.3 | 密封数据清单补 yijing | 密封 bundle 查表白名单 RUNTIME_TABLES（src/tianji_kb/sealed_bundle.py）补入 data/canonical/yijing/zhouyi_classic_core.json：该文件被 operations/liuyao_chart 请求时直接读盘却漏列，密封生产一事占问（六爻）全部 HTTP 500；选取原则与现有 9 项一致（请求路径直接读盘的查表文件逐个列举），yijing 目录其余 19 个构建/研究文件（batches、phase1/phase2、relations、trigrams、tuan、ten_wings）不纳入；密封运行时冒烟新增六爻真实排盘断言，补上原 CHECK 只验 dream+bazi 的漏检 |
+| TJ-031.4 | 中低批一：前端/展示三项 | 紫微工具页农历输入接通换算（复用 lunarConvert.lunarToSolar，闰月明确拒绝与后端 fail-closed 一致，不再接受农历却按阳历算）；八字结果页说明与限制层明示分界约定（年柱以立春为界、日柱以午夜 0 点为界、夜子时归当日）；闰月展示文字化（formatLunarMonth：有符号月渲染「闰二月」等文字，负数=闰月约定写入 docs/phase2/API.md） |
 
 ## 十、PR 原设计对照单（每批直接复制）
 

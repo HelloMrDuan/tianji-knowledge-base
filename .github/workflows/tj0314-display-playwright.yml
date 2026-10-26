@@ -1,0 +1,35 @@
+name: TJ-031.4 Frontend Display Contracts
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/tj0314-display-playwright.yml"
+      - "web/visual-prototype/**"
+      - "docs/product/TASK_STATUS.md"
+      - "docs/product/TASK_HISTORY.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tj0314-display-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: web/visual-prototype/package-lock.json
+      - name: Install dependencies
+        working-directory: web/visual-prototype
+        run: npm ci
+      - name: Install Chromium
+        working-directory: web/visual-prototype
+        run: npx playwright install --with-deps chromium
+      - name: Verify ziwei lunar conversion and display contracts (intercepted/fixtures, NOT authentic computation)
+        working-directory: web/visual-prototype
+        run: CI=true npm test -- tests/tj0314-display.spec.ts
