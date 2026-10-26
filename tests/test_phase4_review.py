@@ -83,6 +83,14 @@ class ReviewTests(unittest.TestCase):
         # the frozen version (diff +8/-0). Same treatment: the historical
         # hash stays in the manifest, the reviewed current hash is pinned
         # here only, for this one file.
+        # TJ-031.9 / B-F2: qimen.py calendar_from_datetime() and
+        # chart_from_datetime() are dead legacy code (production Qimen is
+        # qimen_chart.chart(); the only caller chain never leaves this
+        # file). The user-approved change is annotation-only: docstrings
+        # marking them non-production, diff additions-only (+24/-0), no
+        # calculation line, constant or test expectation changed. Same
+        # treatment: the historical hash stays in the manifest, the
+        # reviewed current hash is pinned here only, for this one file.
         reviewed_classic_extension = {
             'src/tianji_kb/operations/liuyao_chart.py': {
                 'historical': '39f8bbea8e81b2d7eed3a18edf093231c5b0003974ce6a8e7b5ebf9452094171',
@@ -91,6 +99,10 @@ class ReviewTests(unittest.TestCase):
             'src/tianji_kb/operations/liuren_chart.py': {
                 'historical': '4c380a3cd8f435632dc83165210d438e03b49bd98938f3c12f6012ac0a1c07a4',
                 'current': 'bd1468a99f9be2fef39ddbd88b512a9ceba2c38a6e33ab3b704ae436b6ff78b8',
+            },
+            'src/tianji_kb/operations/qimen.py': {
+                'historical': '97165238a0cc4de9af4b5a7fdf8b52f972668f98da0c7c4f059dfb0192fee400',
+                'current': '6a311f100d1e1890b9de1d6abdef618e3a48e46733950618ed1f70f0772622c8',
             },
         }
         for name, expected in frozen.items():

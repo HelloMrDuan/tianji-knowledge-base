@@ -76,6 +76,21 @@ def chart_from_calendar(solar_term, day_ganzhi, hour_ganzhi, ruleset=RULESET):
 
 
 def calendar_from_datetime(value):
+    """Non-production legacy calendar adapter. Do NOT wire into production.
+
+    B-F2 (TJ-031.9): this function and chart_from_datetime() below are
+    dead code kept only as a historical reference. Production Qimen
+    charts are built by operations/qimen_chart.chart() (see the engine.py
+    PROVIDERS mapping); the only caller of this function is
+    chart_from_datetime() in this same file. This adapter also uses a
+    known mixed calendar convention inherited from upstream: the day
+    pillar rolls over at midnight while the hour pillar follows the
+    lunar-python 23h convention, so its hour pillar can differ from the
+    production Bazi hour pillar for the same instant. The only remaining
+    references are the historical solar-term boundary checks in
+    tests/test_phase1_qimen.py, which pin this legacy behaviour as a
+    reference, not as a production contract.
+    """
     from lunar_python import Solar
     instant = datetime.fromisoformat(value) if isinstance(value,str) else value
     if not isinstance(instant,datetime) or instant.tzinfo is None or instant.utcoffset() is None:
@@ -90,6 +105,15 @@ def calendar_from_datetime(value):
 
 
 def chart_from_datetime(value, ruleset=RULESET):
+    """Non-production legacy wrapper. Do NOT wire into production.
+
+    B-F2 (TJ-031.9): builds a chart only through the legacy
+    calendar_from_datetime() adapter above (mixed midnight day / 23h
+    hour convention). Production Qimen uses
+    operations/qimen_chart.chart(). This wrapper is retained solely so
+    the historical boundary checks in tests/test_phase1_qimen.py keep a
+    stable reference target.
+    """
     calendar = calendar_from_datetime(value)
     chart = chart_from_calendar(calendar['solar_term'],calendar['day_ganzhi'],calendar['hour_ganzhi'],ruleset)
     chart['calendar']=calendar
