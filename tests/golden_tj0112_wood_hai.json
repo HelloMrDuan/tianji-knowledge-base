@@ -1,0 +1,201 @@
+{
+ "cases": [
+  {
+   "derivation": "Month branch Hai: reviewed principal qi Ren (s034) generates wood -> reviewed_generating_month true. Visible stems Gui/Gui/Jia are generates_me (resource) and same_element (peer): resource and peer both visibly present, and every visible/hidden relation is support-only (hidden stems: Hai [Ren,Jia], Zi [Gui]). Day master Jia roots only in the two Hai branches via middle-qi Jia; Hai is in the reviewed heavy-root table (chars 39967-40222) and no branch interaction touches those pillars, so all roots are effective. Every visible stem has a reviewed root position (water in Hai/Zi, wood in Hai). No unresolved interaction kinds among {Hai, Zi}. All eight generating conditions true, no blockers -> strong via pure_generating_support (Congwang definition, char 96521). Boundary composition: roots exist ONLY via middle-qi Jia in Hai.",
+   "expect": {
+    "classification": "strong",
+    "generating_conditions_all_true": true,
+    "root_facts": "day roots only via Jia hidden in Hai (year and month pillars): same_stem true, principal_qi_match false (Hai principal qi is Ren)",
+    "sufficient_predicate": "pure_generating_support",
+    "sufficient_rule": null,
+    "predicate_rule_registration": "pending_phase1_rule_registration"
+   },
+   "expected_pillars": [
+    "癸亥",
+    "癸亥",
+    "甲子",
+    "甲子"
+   ],
+   "id": "tj0112-hai-positive-zhongqi-root",
+   "source_birth": "1983-12-02T00:30:00+08:00",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "derivation": "Same generating-month structure as the zhongqi case, but the day master's roots include a principal-qi root: Yi hidden in Mao is Mao's reviewed principal qi (s004), so that root has principal_qi_match true. Mao takes part in no clash/harmony/harm and the wood triple harmony needs Wei (absent), so both roots are effective. All eight generating conditions true, no blockers -> strong. Boundary composition: principal-qi (benqi) root participates alongside the middle-qi Hai root. A benqi-ONLY composition is structurally impossible in a Hai month, because Hai always contributes its middle-qi Jia root to a wood day master; this case is the closest realizable benqi composition and is recorded as such.",
+   "expect": {
+    "classification": "strong",
+    "generating_conditions_all_true": true,
+    "root_facts": "day roots in Mao via Yi (principal_qi_match true) and in Hai via Jia (principal_qi_match false)",
+    "sufficient_predicate": "pure_generating_support",
+    "sufficient_rule": null,
+    "predicate_rule_registration": "pending_phase1_rule_registration"
+   },
+   "expected_pillars": [
+    "癸卯",
+    "癸亥",
+    "甲子",
+    "甲子"
+   ],
+   "id": "tj0112-hai-positive-benqi-root",
+   "source_birth": "1963-11-17T00:30:00+08:00",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "derivation": "Month branch Zi: its reviewed principal qi Gui also generates wood, so the month RELATION is the same generating kind, but Zi is not in the reviewed generating-month set (only Hai is). reviewed_generating_month must be false and no predicate (pure needs Mao, isolated needs You) can fire -> indeterminate. This isolates the month-scope condition: a generating principal relation alone is not sufficient outside the reviewed month.",
+   "expect": {
+    "classification": "indeterminate",
+    "generating_condition_false": {
+     "reviewed_generating_month": false
+    },
+    "generating_scope_met": false
+   },
+   "expected_pillars": [
+    "癸亥",
+    "甲子",
+    "乙亥",
+    "丙子"
+   ],
+   "id": "tj0112-hai-counter-month-not-hai",
+   "source_birth": "1983-12-13T00:30:00+08:00",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "derivation": "Day master Bing (fire) in a Hai month: the generating scope is defined only for a wood day master, so wood_day_master is false in the generating, pure and isolated condition sets and no predicate can fire -> indeterminate.",
+   "expect": {
+    "classification": "indeterminate",
+    "generating_condition_false": {
+     "wood_day_master": false
+    },
+    "generating_scope_met": false
+   },
+   "expected_pillars": [
+    "癸亥",
+    "癸亥",
+    "丙午",
+    "癸巳"
+   ],
+   "id": "tj0112-hai-counter-nonwood-day-master",
+   "source_birth": "1983-11-14T10:00:00+08:00",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "derivation": "Same birth day as the positive case but hour Bing-Yin: the visible hour stem Bing is i_generate (draining) for Jia, and Yin's hidden Bing/Wu are also non-support. all_positions_support_only must be false (a single draining/controlling visible stem breaks the Congwang composition) -> scope not met -> indeterminate.",
+   "expect": {
+    "classification": "indeterminate",
+    "generating_condition_false": {
+     "all_positions_support_only": false
+    },
+    "generating_scope_met": false
+   },
+   "expected_pillars": [
+    "癸亥",
+    "癸亥",
+    "甲子",
+    "丙寅"
+   ],
+   "id": "tj0112-hai-counter-visible-drain",
+   "source_birth": "1983-12-02T03:30:00+08:00",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "derivation": "Day master Yi sits on Si, and the hour is also Si: Si clashes both Hai branches, so every structural wood root (Jia in the two Hai branches) carries an unresolved branch interaction and its availability is conditional, never effective. effective_day_roots must be false and the adjudication must carry the root_availability_not_effective blocker -> indeterminate. (Si's hidden stems also break support-only; the root failure is asserted specifically through root availability and its blocker, mirroring the existing bazi.effects-clashed-root golden's coupling.)",
+   "expect": {
+    "all_roots_not_effective": true,
+    "blocker_reasons_include": [
+     "root_availability_not_effective"
+    ],
+    "classification": "indeterminate",
+    "generating_condition_false": {
+     "effective_day_roots": false
+    },
+    "generating_scope_met": false
+   },
+   "expected_pillars": [
+    "癸亥",
+    "癸亥",
+    "乙巳",
+    "辛巳"
+   ],
+   "id": "tj0112-hai-counter-root-clashed",
+   "source_birth": "1983-11-13T10:00:00+08:00",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "derivation": "Chen branches (year and day) hide Yi as residual qi; the two in-text residual-qi listings disagree (registered conflict bazi.concept.conflict_root_type_readings, audit s026/s041), so those roots carry a type source conflict. Under the v1 policy the adjudication must block with root_type_source_conflict and abstain -> indeterminate, even though the month is Hai. The dated-commander conflict set does not rescue or replace this blocker.",
+   "expect": {
+    "blocker_reasons_include": [
+     "root_type_source_conflict"
+    ],
+    "classification": "indeterminate",
+    "conflict_ids_include": [
+     "bazi.concept.conflict_root_type_readings"
+    ]
+   },
+   "expected_pillars": [
+    "甲辰",
+    "乙亥",
+    "甲辰",
+    "甲子"
+   ],
+   "id": "tj0112-hai-conflict-root-type-readings",
+   "source_birth": "2024-12-06T00:30:00+08:00",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "derivation": "Hai month with visible stems Jia/Yi/Jia: peers only, no visible water (resource) stem. Hidden Gui/Ren are support but the Congwang scope, exactly as in the v1 pure scope, requires the resource to be VISIBLE (visible resource present). That single condition fails while the month, support-only, root and interaction conditions hold -> indeterminate with insufficient-evidence status, not a verdict.",
+   "expect": {
+    "classification": "indeterminate",
+    "generating_condition_false": {
+     "visible印_present": false
+    },
+    "generating_scope_met": false,
+    "why_not_indeterminate": null
+   },
+   "expected_pillars": [
+    "甲子",
+    "乙亥",
+    "甲子",
+    "甲子"
+   ],
+   "id": "tj0112-hai-abstain-no-visible-resource",
+   "source_birth": "1984-11-26T00:30:00+08:00",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "derivation": "Pre-existing pure positive (same chart as the fixed bazi.strength-reference-strong golden): Mao month same-element scope must still fire through the ORIGINAL pure_support predicate, and the new generating scope must stay unmet (month is Mao, not Hai). Guards against the extension disturbing the v1 predicates.",
+   "expect": {
+    "classification": "strong",
+    "generating_scope_met": false,
+    "predicate_rule_id": "bazi.phase2.strength_pure_support"
+   },
+   "expected_pillars": [
+    "癸卯",
+    "乙卯",
+    "甲子",
+    "乙亥"
+   ],
+   "id": "tj0112-regression-mao-pure-support",
+   "source_birth": "1963-03-22T22:00:00+08:00",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "derivation": "Pre-existing isolated positive (fixed golden chart): You month no-root no-support scope must still fire through the ORIGINAL isolated_control predicate and yield weak; the generating scope stays unmet. The new branch must never produce weak and must not disturb the isolated predicate.",
+   "expect": {
+    "classification": "weak",
+    "generating_scope_met": false,
+    "predicate_rule_id": "bazi.phase2.strength_isolated_control"
+   },
+   "expected_pillars": [
+    "戊午",
+    "辛酉",
+    "乙酉",
+    "辛巳"
+   ],
+   "id": "tj0112-regression-you-isolated-control",
+   "source_birth": "1978-09-20T10:00:00+08:00",
+   "zone": "Asia/Shanghai"
+  }
+ ],
+ "note": "Every case is a real birth datetime executed through the reviewed calendar path (engine.execute, Asia/Shanghai). Expected pillars were confirmed producible by the reviewed calendar; expected adjudication outcomes are derived by hand from the scope conditions (see derivation per case), never copied from implementation output. Pillars list order: year, month, day, hour.",
+ "task": "TJ-011.2 wood x Hai generating-month extension of bazi-strength-adjudication-v1"
+}

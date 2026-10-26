@@ -389,7 +389,7 @@ def markdown_report(report):
     lines += ['', '知命前段新增描述性规则 `bazi.rule.r012` 只禁止机械套财官食印，没有编造旺衰算法或权重。后续 executable 仍须独立完成证据、反例与测试。', '']
     if 'strength' in a:
         lines += ['## 有限旺衰研究 Variant', '',
-            '`bazi-strength-adjudication-v1` 仅木月卯纯印比、木月酉无根无扶透辛的充分语境可判 strong / weak；其他 indeterminate。同一 Variant 的强、弱、弃判、冲突固定 Golden 已绑定执行规则。整体仍 PARTIAL，研究入口须显式选择，公共 Scenario 与 AI 不因此开放。',
+            '`bazi-strength-adjudication-v1` 仅木月卯纯印比、木月亥印比生扶（从旺口径，TJ-011.2 扩围）、木月酉无根无扶透辛的充分语境可判 strong / weak；其他 indeterminate。同一 Variant 的强、弱、弃判、冲突固定 Golden 已绑定执行规则，亥月分支另有专项真实日期用例。整体仍 PARTIAL，研究入口须显式选择，公共 Scenario 与 AI 不因此开放。',
             '分日司令体系 BLOCKED；本气关系独立但不单独给强弱。静态报告核对契约及固定预期，实际测试结果须以 CI 为准。', '']
     if 'pattern' in a:
         lines += ['## 格局结构候选研究 Variant', '',

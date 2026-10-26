@@ -225,7 +225,7 @@ Scenario：`bazi-profile`；已执行=True；现有结构公开标志=True；AI=
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/0/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-ten-gods`：映射不等于组合、位置、透藏、月令条件下的解释；须补原典规则、限制及反例。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/6/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
-- `bazi-strength`：已有十四条已审执行规则；显式任氏研究 bazi-strength-adjudication-v1 在木月卯纯印比、有根实际生扶或木月酉无根无扶透辛的充分语境可判 strong/weak，其余 indeterminate，四类固定 Golden 同口径覆盖。整体仍 PARTIAL：仅有限研究范围，不是全覆盖分类；分日体系 BLOCKED，其他根型和一般作用未完成，无 balanced、评分或计票，格局/喜用/行运/前台及 AI 仍关闭。
+- `bazi-strength`：已有十四条已审执行规则；显式任氏研究 bazi-strength-adjudication-v1 在木月卯纯印比有根实际生扶、木月亥印比生扶（从旺口径，TJ-011.2 扩围，有专项真实日期用例覆盖）或木月酉无根无扶透辛的充分语境可判 strong/weak，其余 indeterminate，四类固定 Golden 同口径覆盖。整体仍 PARTIAL：仅有限研究范围，不是全覆盖分类；分日体系 BLOCKED，其他根型和一般作用未完成，无 balanced、评分或计票，格局/喜用/行运/前台及 AI 仍关闭。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-pattern`：已有正官/印绶月藏透干位置的显式研究候选，两条执行规则、四类固定 Golden；完整格局仍 NOT_BUILT。候选观察不定格，任氏真假仍依赖未解司令；禄刃杂气、官杀去留、财旺破印、一般旺衰/作用及成败喜用待原典/Variant/Conflict 审核。无评分、吉凶或喜用，公共 Scenario、产品 claim 与 AI 不开放。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/7/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
@@ -445,7 +445,7 @@ Scenario：`daily`；已执行=True；现有结构公开标志=False；AI=false�
 
 - `bazi-foundation`：十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/0/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
-- `bazi-strength`：已有十四条已审执行规则；显式任氏研究 bazi-strength-adjudication-v1 在木月卯纯印比、有根实际生扶或木月酉无根无扶透辛的充分语境可判 strong/weak，其余 indeterminate，四类固定 Golden 同口径覆盖。整体仍 PARTIAL：仅有限研究范围，不是全覆盖分类；分日体系 BLOCKED，其他根型和一般作用未完成，无 balanced、评分或计票，格局/喜用/行运/前台及 AI 仍关闭。
+- `bazi-strength`：已有十四条已审执行规则；显式任氏研究 bazi-strength-adjudication-v1 在木月卯纯印比有根实际生扶、木月亥印比生扶（从旺口径，TJ-011.2 扩围，有专项真实日期用例覆盖）或木月酉无根无扶透辛的充分语境可判 strong/weak，其余 indeterminate，四类固定 Golden 同口径覆盖。整体仍 PARTIAL：仅有限研究范围，不是全覆盖分类；分日体系 BLOCKED，其他根型和一般作用未完成，无 balanced、评分或计票，格局/喜用/行运/前台及 AI 仍关闭。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-useful-god`：调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。
   下一批先登记来源及权利，保存 RAW/Quarantine；无审核引文时保持未支持。
@@ -665,7 +665,7 @@ Scenario：`weekly`；已执行=True；现有结构公开标志=False；AI=false
 
 - `bazi-foundation`：十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/0/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
-- `bazi-strength`：已有十四条已审执行规则；显式任氏研究 bazi-strength-adjudication-v1 在木月卯纯印比、有根实际生扶或木月酉无根无扶透辛的充分语境可判 strong/weak，其余 indeterminate，四类固定 Golden 同口径覆盖。整体仍 PARTIAL：仅有限研究范围，不是全覆盖分类；分日体系 BLOCKED，其他根型和一般作用未完成，无 balanced、评分或计票，格局/喜用/行运/前台及 AI 仍关闭。
+- `bazi-strength`：已有十四条已审执行规则；显式任氏研究 bazi-strength-adjudication-v1 在木月卯纯印比有根实际生扶、木月亥印比生扶（从旺口径，TJ-011.2 扩围，有专项真实日期用例覆盖）或木月酉无根无扶透辛的充分语境可判 strong/weak，其余 indeterminate，四类固定 Golden 同口径覆盖。整体仍 PARTIAL：仅有限研究范围，不是全覆盖分类；分日体系 BLOCKED，其他根型和一般作用未完成，无 balanced、评分或计票，格局/喜用/行运/前台及 AI 仍关闭。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-useful-god`：调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。
   下一批先登记来源及权利，保存 RAW/Quarantine；无审核引文时保持未支持。
@@ -886,7 +886,7 @@ Scenario：`monthly`；已执行=True；现有结构公开标志=False；AI=fals
 
 - `bazi-foundation`：十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/0/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
-- `bazi-strength`：已有十四条已审执行规则；显式任氏研究 bazi-strength-adjudication-v1 在木月卯纯印比、有根实际生扶或木月酉无根无扶透辛的充分语境可判 strong/weak，其余 indeterminate，四类固定 Golden 同口径覆盖。整体仍 PARTIAL：仅有限研究范围，不是全覆盖分类；分日体系 BLOCKED，其他根型和一般作用未完成，无 balanced、评分或计票，格局/喜用/行运/前台及 AI 仍关闭。
+- `bazi-strength`：已有十四条已审执行规则；显式任氏研究 bazi-strength-adjudication-v1 在木月卯纯印比有根实际生扶、木月亥印比生扶（从旺口径，TJ-011.2 扩围，有专项真实日期用例覆盖）或木月酉无根无扶透辛的充分语境可判 strong/weak，其余 indeterminate，四类固定 Golden 同口径覆盖。整体仍 PARTIAL：仅有限研究范围，不是全覆盖分类；分日体系 BLOCKED，其他根型和一般作用未完成，无 balanced、评分或计票，格局/喜用/行运/前台及 AI 仍关闭。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-useful-god`：调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。
   下一批先登记来源及权利，保存 RAW/Quarantine；无审核引文时保持未支持。
@@ -1107,7 +1107,7 @@ Scenario：`yearly`；已执行=True；现有结构公开标志=False；AI=false
 
 - `bazi-foundation`：十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/0/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
-- `bazi-strength`：已有十四条已审执行规则；显式任氏研究 bazi-strength-adjudication-v1 在木月卯纯印比、有根实际生扶或木月酉无根无扶透辛的充分语境可判 strong/weak，其余 indeterminate，四类固定 Golden 同口径覆盖。整体仍 PARTIAL：仅有限研究范围，不是全覆盖分类；分日体系 BLOCKED，其他根型和一般作用未完成，无 balanced、评分或计票，格局/喜用/行运/前台及 AI 仍关闭。
+- `bazi-strength`：已有十四条已审执行规则；显式任氏研究 bazi-strength-adjudication-v1 在木月卯纯印比有根实际生扶、木月亥印比生扶（从旺口径，TJ-011.2 扩围，有专项真实日期用例覆盖）或木月酉无根无扶透辛的充分语境可判 strong/weak，其余 indeterminate，四类固定 Golden 同口径覆盖。整体仍 PARTIAL：仅有限研究范围，不是全覆盖分类；分日体系 BLOCKED，其他根型和一般作用未完成，无 balanced、评分或计票，格局/喜用/行运/前台及 AI 仍关闭。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-useful-god`：调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。
   下一批先登记来源及权利，保存 RAW/Quarantine；无审核引文时保持未支持。
@@ -1348,7 +1348,7 @@ Scenario：`romance`；已执行=True；现有结构公开标志=False；AI=fals
 
 - `bazi-foundation`：十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/0/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
-- `bazi-strength`：已有十四条已审执行规则；显式任氏研究 bazi-strength-adjudication-v1 在木月卯纯印比、有根实际生扶或木月酉无根无扶透辛的充分语境可判 strong/weak，其余 indeterminate，四类固定 Golden 同口径覆盖。整体仍 PARTIAL：仅有限研究范围，不是全覆盖分类；分日体系 BLOCKED，其他根型和一般作用未完成，无 balanced、评分或计票，格局/喜用/行运/前台及 AI 仍关闭。
+- `bazi-strength`：已有十四条已审执行规则；显式任氏研究 bazi-strength-adjudication-v1 在木月卯纯印比有根实际生扶、木月亥印比生扶（从旺口径，TJ-011.2 扩围，有专项真实日期用例覆盖）或木月酉无根无扶透辛的充分语境可判 strong/weak，其余 indeterminate，四类固定 Golden 同口径覆盖。整体仍 PARTIAL：仅有限研究范围，不是全覆盖分类；分日体系 BLOCKED，其他根型和一般作用未完成，无 balanced、评分或计票，格局/喜用/行运/前台及 AI 仍关闭。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-useful-god`：调候、扶抑、病药、格局用神未分别治理；依赖旺衰与格局；禁止输出喜用木火等具体结论。
   下一批先登记来源及权利，保存 RAW/Quarantine；无审核引文时保持未支持。
@@ -1570,7 +1570,7 @@ Scenario：`career`；已执行=True；现有结构公开标志=False；AI=false
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/0/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-ten-gods`：映射不等于组合、位置、透藏、月令条件下的解释；须补原典规则、限制及反例。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/6/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
-- `bazi-strength`：已有十四条已审执行规则；显式任氏研究 bazi-strength-adjudication-v1 在木月卯纯印比、有根实际生扶或木月酉无根无扶透辛的充分语境可判 strong/weak，其余 indeterminate，四类固定 Golden 同口径覆盖。整体仍 PARTIAL：仅有限研究范围，不是全覆盖分类；分日体系 BLOCKED，其他根型和一般作用未完成，无 balanced、评分或计票，格局/喜用/行运/前台及 AI 仍关闭。
+- `bazi-strength`：已有十四条已审执行规则；显式任氏研究 bazi-strength-adjudication-v1 在木月卯纯印比有根实际生扶、木月亥印比生扶（从旺口径，TJ-011.2 扩围，有专项真实日期用例覆盖）或木月酉无根无扶透辛的充分语境可判 strong/weak，其余 indeterminate，四类固定 Golden 同口径覆盖。整体仍 PARTIAL：仅有限研究范围，不是全覆盖分类；分日体系 BLOCKED，其他根型和一般作用未完成，无 balanced、评分或计票，格局/喜用/行运/前台及 AI 仍关闭。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-pattern`：已有正官/印绶月藏透干位置的显式研究候选，两条执行规则、四类固定 Golden；完整格局仍 NOT_BUILT。候选观察不定格，任氏真假仍依赖未解司令；禄刃杂气、官杀去留、财旺破印、一般旺衰/作用及成败喜用待原典/Variant/Conflict 审核。无评分、吉凶或喜用，公共 Scenario、产品 claim 与 AI 不开放。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/7/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
@@ -1820,7 +1820,7 @@ Scenario：`compatibility`；已执行=True；现有结构公开标志=False；A
 
 - `bazi-foundation`：十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/0/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
-- `bazi-strength`：已有十四条已审执行规则；显式任氏研究 bazi-strength-adjudication-v1 在木月卯纯印比、有根实际生扶或木月酉无根无扶透辛的充分语境可判 strong/weak，其余 indeterminate，四类固定 Golden 同口径覆盖。整体仍 PARTIAL：仅有限研究范围，不是全覆盖分类；分日体系 BLOCKED，其他根型和一般作用未完成，无 balanced、评分或计票，格局/喜用/行运/前台及 AI 仍关闭。
+- `bazi-strength`：已有十四条已审执行规则；显式任氏研究 bazi-strength-adjudication-v1 在木月卯纯印比有根实际生扶、木月亥印比生扶（从旺口径，TJ-011.2 扩围，有专项真实日期用例覆盖）或木月酉无根无扶透辛的充分语境可判 strong/weak，其余 indeterminate，四类固定 Golden 同口径覆盖。整体仍 PARTIAL：仅有限研究范围，不是全覆盖分类；分日体系 BLOCKED，其他根型和一般作用未完成，无 balanced、评分或计票，格局/喜用/行运/前台及 AI 仍关闭。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-romance`：咸池、日支传统配偶宫结构位、显式财星/官杀lens及五合/六合/六害/六冲/三合结构已核；缺红鸾天喜天姚、旺衰格局喜用与岁运婚恋解释；三刑争议仍阻塞；禁止命中结构直接断现代婚姻。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/3/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
@@ -2067,7 +2067,7 @@ Scenario：`life`；已执行=True；现有结构公开标志=False；AI=false�
 
 - `bazi-foundation`：十干阴阳五行、生克方向及四柱/日主/十神/藏干已有审核短引、执行与 Golden；仍缺十二长生、季节实际效力及基础结构到个人结论的条件规则，真太阳时未实现；旧表权重不作通用结论。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/0/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
-- `bazi-strength`：已有十四条已审执行规则；显式任氏研究 bazi-strength-adjudication-v1 在木月卯纯印比、有根实际生扶或木月酉无根无扶透辛的充分语境可判 strong/weak，其余 indeterminate，四类固定 Golden 同口径覆盖。整体仍 PARTIAL：仅有限研究范围，不是全覆盖分类；分日体系 BLOCKED，其他根型和一般作用未完成，无 balanced、评分或计票，格局/喜用/行运/前台及 AI 仍关闭。
+- `bazi-strength`：已有十四条已审执行规则；显式任氏研究 bazi-strength-adjudication-v1 在木月卯纯印比有根实际生扶、木月亥印比生扶（从旺口径，TJ-011.2 扩围，有专项真实日期用例覆盖）或木月酉无根无扶透辛的充分语境可判 strong/weak，其余 indeterminate，四类固定 Golden 同口径覆盖。整体仍 PARTIAL：仅有限研究范围，不是全覆盖分类；分日体系 BLOCKED，其他根型和一般作用未完成，无 balanced、评分或计票，格局/喜用/行运/前台及 AI 仍关闭。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/2/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
 - `bazi-pattern`：已有正官/印绶月藏透干位置的显式研究候选，两条执行规则、四类固定 Golden；完整格局仍 NOT_BUILT。候选观察不定格，任氏真假仍依赖未解司令；禄刃杂气、官杀去留、财旺破印、一般旺衰/作用及成败喜用待原典/Variant/Conflict 审核。无评分、吉凶或喜用，公共 Scenario、产品 claim 与 AI 不开放。
   下一批从 `data/canonical/classics/bazi/ditiansui_chanwei_v1.json#/sections/7/text` 核短引、条件和反例；全文命中仅是待审定位，不是 Evidence。
