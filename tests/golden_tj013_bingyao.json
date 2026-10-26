@@ -19,35 +19,68 @@
     "snapshot_chars": 139538,
     "note": "制衡旁证，与神峰同为 daizhigev20 单一谱系，不构成第二独立底本。"
   },
-  "rule": {
-    "id": "shenfeng.wealth_peer_officer",
-    "subject_god_class": "财",
-    "subject_gods": [
-      "正财",
-      "偏财"
-    ],
-    "disease_god_class": "比劫",
-    "disease_gods": [
-      "比肩",
-      "劫财"
-    ],
-    "medicine_god_class": "官杀",
-    "medicine_gods": [
-      "正官",
-      "七杀"
-    ],
-    "quote": "如用财见比肩为病,喜见官杀为药也",
-    "quote_locator": {
-      "line": 38,
-      "char_start": 7351,
-      "char_end": 7367
+  "rules": [
+    {
+      "pair_id": "wealth_peer_officer",
+      "id": "shenfeng.wealth_peer_officer",
+      "subject_god_class": "财",
+      "subject_gods": [
+        "正财",
+        "偏财"
+      ],
+      "disease_god_class": "比劫",
+      "disease_gods": [
+        "比肩",
+        "劫财"
+      ],
+      "medicine_god_class": "官杀",
+      "medicine_gods": [
+        "正官",
+        "七杀"
+      ],
+      "quote": "如用财见比肩为病,喜见官杀为药也",
+      "quote_locator": {
+        "line": 38,
+        "char_start": 7351,
+        "char_end": 7367
+      },
+      "section": {
+        "line": 38,
+        "char_start": 7019,
+        "char_end": 7680
+      }
     },
-    "section": {
-      "line": 38,
-      "char_start": 7019,
-      "char_end": 7680
+    {
+      "pair_id": "foodwound_seal_wealth",
+      "id": "shenfeng.foodwound_seal_wealth",
+      "subject_god_class": "食伤",
+      "subject_gods": [
+        "食神",
+        "伤官"
+      ],
+      "disease_god_class": "印",
+      "disease_gods": [
+        "正印",
+        "偏印"
+      ],
+      "medicine_god_class": "财",
+      "medicine_gods": [
+        "正财",
+        "偏财"
+      ],
+      "quote": "如用食神伤官,以印为病,喜财为药也",
+      "quote_locator": {
+        "line": 38,
+        "char_start": 7368,
+        "char_end": 7385
+      },
+      "section": {
+        "line": 38,
+        "char_start": 7019,
+        "char_end": 7680
+      }
     }
-  },
+  ],
   "quotes": [
     {
       "id": "disease_definition",
@@ -83,11 +116,11 @@
         "char_start": 7351,
         "char_end": 7367
       },
-      "note": "本 Variant 唯一编码的病药对（RULE）。"
+      "note": "本 Variant 编码的第一对（RULES 第一条，wealth_peer_officer）。"
     },
     {
       "id": "food_pair",
-      "role": "registered_not_encoded",
+      "role": "encoded_rule",
       "source_id": "bazi.source.shenfeng",
       "quote": "如用食神伤官,以印为病,喜财为药也",
       "locator": {
@@ -95,7 +128,7 @@
         "char_start": 7368,
         "char_end": 7385
       },
-      "note": "第二对（食伤—印—财），形态与财对同构，列为扩展候选，本批不编码、不验收。"
+      "note": "第二对（食伤—印—财），形态与财对同构，本批编码为 RULES 第二条（foodwound_seal_wealth）。"
     },
     {
       "id": "earth_example",
@@ -163,7 +196,12 @@
     "S2 比肩取比劫类（比肩、劫财）：本书土重例以「比肩太重」指同行类聚；夺财之害以比劫并称。Golden 劫财单见例钉住此类界。",
     "S3 只计显干：原句用「见」；藏干不计。Golden 双边界例（比劫仅藏干、财仅藏干）钉住此口径。",
     "S4 财显一字即触发候选；「从重者论」的未尽事项写入 LIMITATIONS，不另设门槛。",
-    "冲突例处置：药被食伤所克的构形需第四个非日主显干位，真实命盘中不可出现（年、月、时三位已被财、比劫、官杀占满）；效力守卫由 medicine_effect_status 恒未裁定承担，不设不可达成的子状态，不以合成盘面充数。"
+    "冲突例处置：药被食伤所克的构形需第四个非日主显干位，真实命盘中不可出现（年、月、时三位已被财、比劫、官杀占满）；效力守卫由 medicine_effect_status 恒未裁定承担，不设不可达成的子状态，不以合成盘面充数。",
+    "S1 延伸（第二对）：「用食神伤官」的「用」与首对「用财」同构——两句在定义节中相邻并列（字符 7351–7385），句式全同（用 X、见/以 Y 为病、喜 Z 为药），同读作所论之神；若改作用神义，两对同被格局裁定缺位阻塞，降级路径与首对相同。",
+    "S2 类读延伸（第二对）：食伤取食神、伤官两神（原句并列明言「食神伤官」，非类推）；印取正印、偏印（原句单言「印」，按十神类读，与首对「比肩」取比劫类同例）；财取正财、偏财（与首对主体财同一类读）。各类成员在规则表逐项写明，Golden 以伤官、偏印、偏财同盘例钉住各类的第二成员。",
+    "S4 延伸（第二对）：食伤显一字即触发第二对候选（与首对财显一字同口径）；「从重者论」的未尽事项同样适用，不另设门槛。",
+    "双对独立：两对主体不同（财为日主所克，食伤为日主所生），同盘逐对独立评估、逐对陈述（pairs），不合并为单一病药结论；一对的部分事实（如食伤已显而印未显）不借给另一对，顶层字段保持第一对语义不变。",
+    "双对同触发不可实现：两对触发共需财、比劫、食伤、印四个互异十神类各至少一显干，非日主显干只有年、月、时三位，鸽笼原理下真实命盘不可出现；已登记 Golden unrealizable_designs 并附算术证明，不以合成盘面充数，公开全域扫描断言至多一对 triggered。"
   ],
   "cases": [
     {
@@ -489,6 +527,373 @@
         "zone": "Asia/Shanghai"
       },
       "derivation": "S2 类界分界例：病类只见劫财（乙）不见比肩。按审定类读（比肩取比劫类）→ 病候选成立、药候选成立；若按比肩本字窄读则本例不触发——两读法在此例分岔，本 Variant 从类读并在此钉住。"
+    },
+    {
+      "id": "foodwound-disease-medicine",
+      "pillars": [
+        "壬辰",
+        "戊申",
+        "甲午",
+        "丁卯"
+      ],
+      "day_master": "甲",
+      "visible_gods": [
+        {
+          "pillar": "year",
+          "stem": "壬",
+          "ten_god": "偏印"
+        },
+        {
+          "pillar": "month",
+          "stem": "戊",
+          "ten_god": "偏财"
+        },
+        {
+          "pillar": "hour",
+          "stem": "丁",
+          "ten_god": "伤官"
+        }
+      ],
+      "expected": {
+        "status": "not_triggered",
+        "not_triggered_reason": "peer_god_not_visible",
+        "disease_gods": [],
+        "medicine_status": null,
+        "medicine_gods": [],
+        "medicine_element": null,
+        "disease_element": null
+      },
+      "expected_pair2": {
+        "status": "triggered",
+        "subject_gods": [
+          {
+            "pillar": "hour",
+            "stem": "丁",
+            "ten_god": "伤官"
+          }
+        ],
+        "disease_gods": [
+          {
+            "pillar": "year",
+            "stem": "壬",
+            "ten_god": "偏印"
+          }
+        ],
+        "medicine_status": "candidate_present",
+        "medicine_gods": [
+          {
+            "pillar": "month",
+            "stem": "戊",
+            "ten_god": "偏财"
+          }
+        ],
+        "medicine_element": "土",
+        "disease_element": "水"
+      },
+      "source_birth": {
+        "value": "1952-08-16T05:30:00+08:00",
+        "zone": "Asia/Shanghai"
+      },
+      "derivation": "显干：丁=伤官（第二对主体食伤），壬=偏印（病类印），戊=偏财（药类财）。食伤与印同见 → 第二对病候选成立（原句「用食神伤官，以印为病」）；财显 → 药候选成立（「喜财为药」），药行土克病行水，结构关系构造恒立。效力未裁定。本例三类成员均取类中第二神（伤官、偏印、偏财），与首切片劫财分界例同型，钉住第二对的类读。双对面：首对主体财（戊）虽显、比劫不显 → 首对未触发（peer_god_not_visible），本例为双对一触发一不触发（一）。"
+    },
+    {
+      "id": "foodwound-disease-no-medicine",
+      "pillars": [
+        "庚寅",
+        "丙戌",
+        "甲申",
+        "癸酉"
+      ],
+      "day_master": "甲",
+      "visible_gods": [
+        {
+          "pillar": "year",
+          "stem": "庚",
+          "ten_god": "七杀"
+        },
+        {
+          "pillar": "month",
+          "stem": "丙",
+          "ten_god": "食神"
+        },
+        {
+          "pillar": "hour",
+          "stem": "癸",
+          "ten_god": "正印"
+        }
+      ],
+      "expected": {
+        "status": "not_triggered",
+        "not_triggered_reason": "subject_wealth_not_visible",
+        "disease_gods": [],
+        "medicine_status": null,
+        "medicine_gods": [],
+        "medicine_element": null,
+        "disease_element": null
+      },
+      "expected_pair2": {
+        "status": "triggered",
+        "subject_gods": [
+          {
+            "pillar": "month",
+            "stem": "丙",
+            "ten_god": "食神"
+          }
+        ],
+        "disease_gods": [
+          {
+            "pillar": "hour",
+            "stem": "癸",
+            "ten_god": "正印"
+          }
+        ],
+        "medicine_status": "absent",
+        "medicine_gods": [],
+        "medicine_element": null,
+        "disease_element": "水"
+      },
+      "source_birth": {
+        "value": "1950-10-16T17:30:00+08:00",
+        "zone": "Asia/Shanghai"
+      },
+      "derivation": "显干：丙=食神（第二对主体），癸=正印（病类印），庚=七杀；戊己皆不显，财无位 → 第二对病候选成立而药候选缺位（disease without medicine 是合法输出状态，不强行补药、不转弃判），与首对病无药例同型。首对：财不显 → subject_wealth_not_visible，未触发。"
+    },
+    {
+      "id": "foodwound-medicine-without-disease",
+      "pillars": [
+        "庚寅",
+        "丙戌",
+        "甲申",
+        "己巳"
+      ],
+      "day_master": "甲",
+      "visible_gods": [
+        {
+          "pillar": "year",
+          "stem": "庚",
+          "ten_god": "七杀"
+        },
+        {
+          "pillar": "month",
+          "stem": "丙",
+          "ten_god": "食神"
+        },
+        {
+          "pillar": "hour",
+          "stem": "己",
+          "ten_god": "正财"
+        }
+      ],
+      "expected": {
+        "status": "not_triggered",
+        "not_triggered_reason": "peer_god_not_visible",
+        "disease_gods": [],
+        "medicine_status": null,
+        "medicine_gods": [],
+        "medicine_element": null,
+        "disease_element": null
+      },
+      "expected_pair2": {
+        "status": "not_triggered",
+        "not_triggered_reason": "seal_god_not_visible",
+        "subject_gods": [
+          {
+            "pillar": "month",
+            "stem": "丙",
+            "ten_god": "食神"
+          }
+        ],
+        "disease_gods": [],
+        "medicine_status": null,
+        "medicine_gods": [],
+        "medicine_element": null,
+        "disease_element": null
+      },
+      "source_birth": {
+        "value": "1950-10-16T09:30:00+08:00",
+        "zone": "Asia/Shanghai"
+      },
+      "derivation": "反例：食神（第二对主体）与正财（药类财）虽显，印（壬癸）不显 → 病候选不成立，第二对整体未触发。财存在不能反推病存在，防「见财即言去病」，与首对有药无病反例同型。首对：财显而比劫不显 → peer_god_not_visible，未触发。"
+    },
+    {
+      "id": "foodwound-subject-not-visible",
+      "pillars": [
+        "壬辰",
+        "乙巳",
+        "甲寅",
+        "己巳"
+      ],
+      "day_master": "甲",
+      "visible_gods": [
+        {
+          "pillar": "year",
+          "stem": "壬",
+          "ten_god": "偏印"
+        },
+        {
+          "pillar": "month",
+          "stem": "乙",
+          "ten_god": "劫财"
+        },
+        {
+          "pillar": "hour",
+          "stem": "己",
+          "ten_god": "正财"
+        }
+      ],
+      "expected": {
+        "status": "triggered",
+        "disease_gods": [
+          {
+            "pillar": "month",
+            "stem": "乙",
+            "ten_god": "劫财"
+          }
+        ],
+        "medicine_status": "absent",
+        "medicine_gods": [],
+        "medicine_element": null,
+        "disease_element": "木"
+      },
+      "expected_pair2": {
+        "status": "not_triggered",
+        "not_triggered_reason": "subject_foodwound_not_visible",
+        "subject_gods": [],
+        "disease_gods": [],
+        "medicine_status": null,
+        "medicine_gods": [],
+        "medicine_element": null,
+        "disease_element": null
+      },
+      "source_birth": {
+        "value": "1952-05-08T09:30:00+08:00",
+        "zone": "Asia/Shanghai"
+      },
+      "derivation": "反例：印（壬）与财（己）虽显，食伤（丙丁）不显 → 第二对主体缺位，未触发。前置条件为合取：印为病只在「所论为食伤」时成立，防把印泛化为普遍之病，与首对有比无财反例同型。双对面：首对财与劫财同显、官杀不显 → 触发、药缺位；本例为双对一触发一不触发（二）（首对触发、第二对未触发）。"
+    },
+    {
+      "id": "seal-hidden-only",
+      "pillars": [
+        "丙申",
+        "庚寅",
+        "甲子",
+        "己巳"
+      ],
+      "day_master": "甲",
+      "visible_gods": [
+        {
+          "pillar": "year",
+          "stem": "丙",
+          "ten_god": "食神"
+        },
+        {
+          "pillar": "month",
+          "stem": "庚",
+          "ten_god": "七杀"
+        },
+        {
+          "pillar": "hour",
+          "stem": "己",
+          "ten_god": "正财"
+        }
+      ],
+      "expected": {
+        "status": "not_triggered",
+        "not_triggered_reason": "peer_god_not_visible",
+        "disease_gods": [],
+        "medicine_status": null,
+        "medicine_gods": [],
+        "medicine_element": null,
+        "disease_element": null
+      },
+      "expected_pair2": {
+        "status": "not_triggered",
+        "not_triggered_reason": "seal_god_not_visible",
+        "subject_gods": [
+          {
+            "pillar": "year",
+            "stem": "丙",
+            "ten_god": "食神"
+          }
+        ],
+        "disease_gods": [],
+        "medicine_status": null,
+        "medicine_gods": [],
+        "medicine_element": null,
+        "disease_element": null
+      },
+      "source_birth": {
+        "value": "1956-02-27T09:30:00+08:00",
+        "zone": "Asia/Shanghai"
+      },
+      "derivation": "边界例（钉死 S3 显干口径于第二对）：日支子藏癸（正印），印只在藏干；显干为食神、七杀、正财，无印 → 第二对未触发。若将来改含藏干口径，此例必须翻转并另立 Variant。密封专项另断言引擎藏干事实中日支确含癸，证明本例的「仅藏干」前提真实。首对：财显而比劫不显 → peer_god_not_visible，未触发。",
+      "boundary_fact": {
+        "pillar": "day",
+        "hidden_stem": "癸",
+        "hidden_ten_god": "正印"
+      }
+    },
+    {
+      "id": "dual-pair-wealth-only-foodwound-incomplete",
+      "pillars": [
+        "丙申",
+        "戊戌",
+        "甲寅",
+        "乙丑"
+      ],
+      "day_master": "甲",
+      "visible_gods": [
+        {
+          "pillar": "year",
+          "stem": "丙",
+          "ten_god": "食神"
+        },
+        {
+          "pillar": "month",
+          "stem": "戊",
+          "ten_god": "偏财"
+        },
+        {
+          "pillar": "hour",
+          "stem": "乙",
+          "ten_god": "劫财"
+        }
+      ],
+      "expected": {
+        "status": "triggered",
+        "disease_gods": [
+          {
+            "pillar": "hour",
+            "stem": "乙",
+            "ten_god": "劫财"
+          }
+        ],
+        "medicine_status": "absent",
+        "medicine_gods": [],
+        "medicine_element": null,
+        "disease_element": "木"
+      },
+      "expected_pair2": {
+        "status": "not_triggered",
+        "not_triggered_reason": "seal_god_not_visible",
+        "subject_gods": [
+          {
+            "pillar": "year",
+            "stem": "丙",
+            "ten_god": "食神"
+          }
+        ],
+        "disease_gods": [],
+        "medicine_status": null,
+        "medicine_gods": [],
+        "medicine_element": null,
+        "disease_element": null
+      },
+      "source_birth": {
+        "value": "1956-10-14T01:30:00+08:00",
+        "zone": "Asia/Shanghai"
+      },
+      "derivation": "双对一触发一不触发（三）：首对财（戊）与劫财（乙）同显、官杀不显 → 触发、药缺位。第二对主体食神（丙）虽显，印不显 → 病候选不成立、未触发。逐对独立评估：一对的部分事实不借给另一对，第二对不得因首对已触发而被表述为同盘有病。"
     }
   ],
   "unrealizable_designs": [
@@ -496,6 +901,41 @@
       "id": "medicine-counteracted",
       "design_source": "审源报告 §4.5 冲突例（戊/庚/甲/丁，显干集合含伤官）",
       "reason": "四柱非日主显干只有年、月、时三位；财、比劫、官杀各占一位后，无第四位容纳克药之食伤干。该构形在真实命盘中算术上不可出现，强行实现只能手编不存在的盘面。故不设「药受制」子状态：效力守卫由 medicine_effect_status 恒为 unadjudicated 承担（药存在永不表述为已去病），并由输出字段全域断言钉住。"
+    },
+    {
+      "id": "dual-pair-simultaneous-trigger",
+      "design_source": "TJ-013 第二对派单要求的「双对同盘例（两对同时触发、分别陈述）」",
+      "reason": "首对触发需财与比劫两类显干，第二对触发需食伤与印两类显干，四类互不相同、共需四个显干位；四柱非日主显干只有年、月、时三位，鸽笼原理下真实命盘不可能两对同触发（公开全域扫描断言任意显干组合至多一对 triggered 与此一致）。强行实现只能手编不存在的盘面，故登记不设用例、不设「双对同断」合并状态；双对一触发一不触发真实可达，由 Golden 双对例三则钉住（foodwound-disease-medicine、foodwound-subject-not-visible、dual-pair-wealth-only-foodwound-incomplete）。"
     }
-  ]
+  ],
+  "pair2_regression_on_first_slice_cases": {
+    "wealth-disease-medicine": {
+      "status": "not_triggered",
+      "not_triggered_reason": "subject_foodwound_not_visible"
+    },
+    "wealth-disease-no-medicine": {
+      "status": "not_triggered",
+      "not_triggered_reason": "subject_foodwound_not_visible"
+    },
+    "medicine-without-disease": {
+      "status": "not_triggered",
+      "not_triggered_reason": "subject_foodwound_not_visible"
+    },
+    "peers-without-wealth": {
+      "status": "not_triggered",
+      "not_triggered_reason": "subject_foodwound_not_visible"
+    },
+    "peers-hidden-only": {
+      "status": "not_triggered",
+      "not_triggered_reason": "subject_foodwound_not_visible"
+    },
+    "wealth-hidden-only": {
+      "status": "not_triggered",
+      "not_triggered_reason": "subject_foodwound_not_visible"
+    },
+    "peer-class-boundary-jiecai": {
+      "status": "not_triggered",
+      "not_triggered_reason": "subject_foodwound_not_visible"
+    }
+  }
 }

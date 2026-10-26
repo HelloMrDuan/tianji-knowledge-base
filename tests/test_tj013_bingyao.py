@@ -15,7 +15,7 @@ from pathlib import Path
 import unittest
 
 from tianji_kb.bazi_bingyao import (
-    QUOTES, RULE, SNAPSHOT_SHA256, SOURCE_ID, VARIANT,
+    QUOTES, RULE, RULES, SNAPSHOT_SHA256, SOURCE_ID, VARIANT,
     bingyao_assessment, bingyao_lookup,
 )
 from tianji_kb.engine import execute
@@ -47,16 +47,28 @@ def _facts(rows):
 class RuleTableTests(unittest.TestCase):
     def test_rule_and_quotes_match_golden_transcription(self):
         self.assertEqual(VARIANT, 'bingyao-shenfeng-v1')
-        self.assertEqual(RULE['id'], GOLDEN['rule']['id'])
-        self.assertEqual(RULE['quote'], GOLDEN['rule']['quote'])
-        self.assertEqual(RULE['quote_locator'], GOLDEN['rule']['quote_locator'])
-        self.assertEqual(RULE['section'], GOLDEN['rule']['section'])
-        self.assertEqual(tuple(RULE['subject_gods']),
-                         tuple(GOLDEN['rule']['subject_gods']))
-        self.assertEqual(tuple(RULE['disease_gods']),
-                         tuple(GOLDEN['rule']['disease_gods']))
-        self.assertEqual(tuple(RULE['medicine_gods']),
-                         tuple(GOLDEN['rule']['medicine_gods']))
+        self.assertEqual(len(RULES), 2)
+        self.assertEqual(len(GOLDEN['rules']), 2)
+        self.assertIs(RULE, RULES[0],
+                      'the first-slice RULE alias must stay the wealth pair')
+        for rule, want in zip(RULES, GOLDEN['rules']):
+            self.assertEqual(rule['pair_id'], want['pair_id'])
+            self.assertEqual(rule['id'], want['id'])
+            self.assertEqual(rule['quote'], want['quote'])
+            self.assertEqual(rule['quote_locator'], want['quote_locator'])
+            self.assertEqual(rule['section'], want['section'])
+            self.assertEqual(tuple(rule['subject_gods']),
+                             tuple(want['subject_gods']))
+            self.assertEqual(tuple(rule['disease_gods']),
+                             tuple(want['disease_gods']))
+            self.assertEqual(tuple(rule['medicine_gods']),
+                             tuple(want['medicine_gods']))
+        # The wealth pair's rule fields are the first slice's, unchanged.
+        self.assertEqual(RULES[0]['id'], 'shenfeng.wealth_peer_officer')
+        self.assertEqual(RULES[1]['id'], 'shenfeng.foodwound_seal_wealth')
+        self.assertEqual(RULES[1]['subject_gods'], ('食神', '伤官'))
+        self.assertEqual(RULES[1]['disease_gods'], ('正印', '偏印'))
+        self.assertEqual(RULES[1]['medicine_gods'], ('正财', '偏财'))
         golden_quotes = {q['id']: q for q in GOLDEN['quotes']}
         self.assertEqual({q['id'] for q in QUOTES}, set(golden_quotes))
         for quote in QUOTES:
@@ -69,13 +81,17 @@ class RuleTableTests(unittest.TestCase):
                 quote['locator']['char_end'] - quote['locator']['char_start'],
                 len(quote['quote']))
         encoded = [q for q in QUOTES if q['role'] == 'encoded_rule']
-        self.assertEqual([q['id'] for q in encoded], ['wealth_pair'],
-                         'exactly one quote may be encoded as a rule')
+        self.assertEqual([q['id'] for q in encoded],
+                         ['wealth_pair', 'food_pair'],
+                         'exactly the two definition-section pairs are encoded')
 
-    def test_only_the_wealth_pair_is_encoded(self):
-        # 示例三 (食伤对) stays registered-not-encoded in this slice.
+    def test_both_definition_pairs_are_encoded(self):
+        # 示例三 (食伤对) is encoded as the second pair in this slice;
+        # the earth example and the four-diseases section stay unencoded.
         food = next(q for q in QUOTES if q['id'] == 'food_pair')
-        self.assertEqual(food['role'], 'registered_not_encoded')
+        self.assertEqual(food['role'], 'encoded_rule')
+        earth = next(q for q in QUOTES if q['id'] == 'earth_example')
+        self.assertEqual(earth['role'], 'registered_not_encoded')
 
 
 class LookupGoldenTests(unittest.TestCase):
@@ -110,6 +126,73 @@ class LookupGoldenTests(unittest.TestCase):
                                      expected['disease_element'])
                 else:
                     self.assertIsNone(out['medicine_candidate'])
+                self._assert_pairs(case, out)
+
+    def _assert_pair(self, pair, expected):
+        self.assertEqual(pair['status'], expected['status'])
+        self.assertIsNone(pair['determination'])
+        self.assertEqual(pair['medicine_effect_status'], 'unadjudicated')
+        if 'subject_gods' in expected:
+            self.assertEqual(pair['subject']['gods'], expected['subject_gods'])
+        if expected['status'] == 'not_triggered':
+            self.assertEqual(pair['not_triggered_reason'],
+                             expected['not_triggered_reason'])
+            self.assertIsNone(pair['disease_candidate'])
+            self.assertIsNone(pair['medicine_candidate'])
+            self.assertIsNone(pair['medicine_status'])
+            return
+        self.assertEqual(pair['disease_candidate']['gods'],
+                         expected['disease_gods'])
+        self.assertEqual(pair['medicine_status'], expected['medicine_status'])
+        if expected['medicine_status'] == 'candidate_present':
+            self.assertEqual(pair['medicine_candidate']['gods'],
+                             expected['medicine_gods'])
+            self.assertEqual(
+                pair['medicine_candidate']['structural_relation'],
+                'medicine_element_controls_disease_element')
+            self.assertEqual(pair['medicine_candidate']['medicine_element'],
+                             expected['medicine_element'])
+            self.assertEqual(pair['medicine_candidate']['disease_element'],
+                             expected['disease_element'])
+        else:
+            self.assertIsNone(pair['medicine_candidate'])
+
+    def _assert_pairs(self, case, out):
+        pairs = out['pairs']
+        self.assertEqual([p['pair_id'] for p in pairs],
+                         ['wealth_peer_officer', 'foodwound_seal_wealth'])
+        first = pairs[0]
+        # The top level IS the first pair's statement, field for field.
+        self.assertEqual(first['status'], out['status'])
+        self.assertEqual(first['subject'], out['subject'])
+        self.assertEqual(first['disease_candidate'],
+                         out['disease_candidate'])
+        self.assertEqual(first['medicine_candidate'],
+                         out['medicine_candidate'])
+        self.assertEqual(first['medicine_status'], out['medicine_status'])
+        self.assertEqual(first['rule']['id'], out['rule']['id'])
+        if first['status'] == 'not_triggered':
+            self.assertEqual(first['not_triggered_reason'],
+                             out['not_triggered_reason'])
+        second = pairs[1]
+        if 'expected_pair2' in case:
+            self._assert_pair(second, case['expected_pair2'])
+            self.assertEqual(second['rule']['id'],
+                             'shenfeng.foodwound_seal_wealth')
+        else:
+            # First-slice cases: the second pair's expectation is pinned
+            # in the golden regression map (hand-derived: none of the
+            # seven charts shows both 食伤 and 印).
+            regression = GOLDEN['pair2_regression_on_first_slice_cases']
+            want = regression[case['id']]
+            self.assertEqual(second['status'], want['status'])
+            self.assertEqual(second['not_triggered_reason'],
+                             want['not_triggered_reason'])
+            self.assertIsNone(second['disease_candidate'])
+            self.assertIsNone(second['medicine_candidate'])
+            self.assertIsNone(second['determination'])
+            self.assertEqual(second['medicine_effect_status'],
+                             'unadjudicated')
 
     def test_no_verdict_or_merged_useful_god_fields_anywhere(self):
         for case in GOLDEN['cases']:
@@ -143,6 +226,21 @@ class NeverNoDiseaseSweepTests(unittest.TestCase):
                      'determination': out['determination']},
                     ensure_ascii=False))
                 self.assertFalse(VERDICT_KEYS & set(_keys(out)))
+                # Both pairs, independently: only triggered /
+                # not_triggered, determination always None, efficacy
+                # always unadjudicated — and never both triggered at
+                # once (the two pairs need four distinct visible god
+                # classes; only three visible stems exist).
+                self.assertEqual(len(out['pairs']), 2)
+                triggered_pairs = 0
+                for pair in out['pairs']:
+                    self.assertIn(pair['status'],
+                                  ('triggered', 'not_triggered'))
+                    self.assertIsNone(pair['determination'])
+                    self.assertEqual(pair['medicine_effect_status'],
+                                     'unadjudicated')
+                    triggered_pairs += pair['status'] == 'triggered'
+                self.assertLessEqual(triggered_pairs, 1)
                 checked += 1
         self.assertEqual(checked, 10 * 10 ** 3)
 
@@ -217,6 +315,13 @@ class TraceGateTests(unittest.TestCase):
                          [{'pillar': 'hour', 'stem': '甲', 'ten_god': '比肩'}])
         self.assertEqual(out['consumed_rule_ids'],
                          ['bazi.phase2.pillars', 'bazi.phase2.ten_gods'])
+        # The second pair rides along independently: this chart shows
+        # neither 食神/伤官, so it abstains on its own reason.
+        second = out['pairs'][1]
+        self.assertEqual(second['pair_id'], 'foodwound_seal_wealth')
+        self.assertEqual(second['status'], 'not_triggered')
+        self.assertEqual(second['not_triggered_reason'],
+                         'subject_foodwound_not_visible')
 
     def test_missing_ten_god_facts_abstain(self):
         # 事实缺失弃判： no executed ten-god step -> no candidate at all.
