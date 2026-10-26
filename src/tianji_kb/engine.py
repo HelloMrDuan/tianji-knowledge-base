@@ -93,6 +93,8 @@ def execute(domain,inputs,variant=None,*,allow_research=False):
         raise ValueError('Bingyao structural candidates require explicit research mode')
     if domain == 'bazi' and inputs.get('conflict_variant') is not None and not allow_research:
         raise ValueError('Cross-system conflict presentation requires explicit research mode')
+    if domain == 'bazi' and inputs.get('readable_variant') is not None and not allow_research:
+        raise ValueError('Xiyong readable hints require explicit research mode')
     if domain == 'bazi' and inputs.get('annual_reference_years') is not None and not allow_research:
         raise ValueError('Annual calendar references require explicit research mode')
     if domain == 'bazi' and inputs.get('annual_boundary_years') is not None and not allow_research:

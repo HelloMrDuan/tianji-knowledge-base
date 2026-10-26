@@ -275,6 +275,7 @@ def project_execution(data):
             container.pop('tiaohou_assessment', None)
             container.pop('bingyao_assessment', None)
             container.pop('conflict_presentation', None)
+            container.pop('readable_hints', None)
     return result
 
 
