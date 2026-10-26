@@ -468,37 +468,37 @@
   {
    "id": "jia-yin",
    "pillars": [
-    "甲寅",
-    "丙寅",
-    "甲子",
-    "戊辰"
+    "辛卯",
+    "庚寅",
+    "甲辰",
+    "丙寅"
    ],
    "day_master": "甲",
    "month_branch": "寅",
    "visible_stems": [
+    "辛",
+    "庚",
     "甲",
-    "丙",
-    "甲",
-    "戊"
+    "丙"
    ],
    "hidden_stems": [
     [
-     "甲",
-     "丙",
-     "戊"
+     "乙"
     ],
     [
      "甲",
      "丙",
      "戊"
-    ],
-    [
-     "癸"
     ],
     [
      "戊",
      "乙",
      "癸"
+    ],
+    [
+     "甲",
+     "丙",
+     "戊"
     ]
    ],
    "expected": {
@@ -516,34 +516,41 @@
      }
     ],
     "branches": []
+   },
+   "source_birth": {
+    "value": "1951-03-05T03:30:00+08:00",
+    "zone": "Asia/Shanghai"
    }
   },
   {
    "id": "jia-mao",
    "pillars": [
-    "乙卯",
-    "丁卯",
-    "甲午",
+    "庚寅",
+    "己卯",
+    "甲辰",
     "庚午"
    ],
    "day_master": "甲",
    "month_branch": "卯",
    "visible_stems": [
-    "乙",
-    "丁",
+    "庚",
+    "己",
     "甲",
     "庚"
    ],
    "hidden_stems": [
     [
-     "乙"
+     "甲",
+     "丙",
+     "戊"
     ],
     [
      "乙"
     ],
     [
-     "丁",
-     "己"
+     "戊",
+     "乙",
+     "癸"
     ],
     [
      "丁",
@@ -560,44 +567,47 @@
      }
     ],
     "branches": []
+   },
+   "source_birth": {
+    "value": "1950-03-10T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
    }
   },
   {
    "id": "jia-chen",
    "pillars": [
-    "戊辰",
+    "庚寅",
     "庚辰",
-    "甲寅",
-    "甲申"
+    "甲戌",
+    "乙亥"
    ],
    "day_master": "甲",
    "month_branch": "辰",
    "visible_stems": [
-    "戊",
+    "庚",
     "庚",
     "甲",
-    "甲"
+    "乙"
    ],
    "hidden_stems": [
-    [
-     "戊",
-     "乙",
-     "癸"
-    ],
-    [
-     "戊",
-     "乙",
-     "癸"
-    ],
     [
      "甲",
      "丙",
      "戊"
     ],
     [
-     "庚",
+     "戊",
+     "乙",
+     "癸"
+    ],
+    [
+     "戊",
+     "辛",
+     "丁"
+    ],
+    [
      "壬",
-     "戊"
+     "甲"
     ]
    ],
    "expected": {
@@ -615,29 +625,31 @@
      }
     ],
     "branches": []
+   },
+   "source_birth": {
+    "value": "1950-04-09T21:30:00+08:00",
+    "zone": "Asia/Shanghai"
    }
   },
   {
    "id": "jia-si",
    "pillars": [
-    "乙巳",
+    "辛卯",
     "癸巳",
-    "甲子",
+    "甲寅",
     "丁卯"
    ],
    "day_master": "甲",
    "month_branch": "巳",
    "visible_stems": [
-    "乙",
+    "辛",
     "癸",
     "甲",
     "丁"
    ],
    "hidden_stems": [
     [
-     "丙",
-     "庚",
-     "戊"
+     "乙"
     ],
     [
      "丙",
@@ -645,7 +657,9 @@
      "戊"
     ],
     [
-     "癸"
+     "甲",
+     "丙",
+     "戊"
     ],
     [
      "乙"
@@ -666,42 +680,46 @@
      }
     ],
     "branches": []
+   },
+   "source_birth": {
+    "value": "1951-05-14T05:30:00+08:00",
+    "zone": "Asia/Shanghai"
    }
   },
   {
    "id": "jia-wu-branch-applied",
    "pillars": [
-    "丙午",
-    "甲午",
-    "甲寅",
-    "庚申"
+    "庚寅",
+    "壬午",
+    "甲戌",
+    "庚午"
    ],
    "day_master": "甲",
    "month_branch": "午",
    "visible_stems": [
-    "丙",
-    "甲",
+    "庚",
+    "壬",
     "甲",
     "庚"
    ],
    "hidden_stems": [
-    [
-     "丁",
-     "己"
-    ],
-    [
-     "丁",
-     "己"
-    ],
     [
      "甲",
      "丙",
      "戊"
     ],
     [
-     "庚",
-     "壬",
-     "戊"
+     "丁",
+     "己"
+    ],
+    [
+     "戊",
+     "辛",
+     "丁"
+    ],
+    [
+     "丁",
+     "己"
     ]
    ],
    "expected": {
@@ -729,40 +747,47 @@
       "applied": true
      }
     ]
+   },
+   "source_birth": {
+    "value": "1950-06-08T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
    }
   },
   {
    "id": "jia-wu-branch-not-applied",
    "pillars": [
-    "丙午",
-    "甲午",
-    "甲子",
-    "庚申"
+    "庚寅",
+    "壬午",
+    "甲戌",
+    "戊辰"
    ],
    "day_master": "甲",
    "month_branch": "午",
    "visible_stems": [
-    "丙",
+    "庚",
+    "壬",
     "甲",
-    "甲",
-    "庚"
+    "戊"
    ],
    "hidden_stems": [
     [
-     "丁",
-     "己"
-    ],
-    [
-     "丁",
-     "己"
-    ],
-    [
-     "癸"
-    ],
-    [
-     "庚",
-     "壬",
+     "甲",
+     "丙",
      "戊"
+    ],
+    [
+     "丁",
+     "己"
+    ],
+    [
+     "戊",
+     "辛",
+     "丁"
+    ],
+    [
+     "戊",
+     "乙",
+     "癸"
     ]
    ],
    "expected": {
@@ -790,29 +815,33 @@
       "applied": false
      }
     ]
+   },
+   "source_birth": {
+    "value": "1950-06-08T07:30:00+08:00",
+    "zone": "Asia/Shanghai"
    }
   },
   {
    "id": "jia-wei",
    "pillars": [
-    "丁未",
-    "乙未",
-    "甲戌",
-    "庚午"
+    "庚寅",
+    "癸未",
+    "甲辰",
+    "丁卯"
    ],
    "day_master": "甲",
    "month_branch": "未",
    "visible_stems": [
-    "丁",
-    "乙",
+    "庚",
+    "癸",
     "甲",
-    "庚"
+    "丁"
    ],
    "hidden_stems": [
     [
-     "己",
-     "丁",
-     "乙"
+     "甲",
+     "丙",
+     "戊"
     ],
     [
      "己",
@@ -821,59 +850,7 @@
     ],
     [
      "戊",
-     "辛",
-     "丁"
-    ],
-    [
-     "丁",
-     "己"
-    ]
-   ],
-   "expected": {
-    "status": "matched",
-    "sequence": [
-     {
-      "stem": "丁",
-      "order": 1,
-      "presence": "visible"
-     },
-     {
-      "stem": "庚",
-      "order": 2,
-      "presence": "visible"
-     }
-    ],
-    "branches": []
-   }
-  },
-  {
-   "id": "jia-shen",
-   "pillars": [
-    "庚申",
-    "壬申",
-    "甲子",
-    "丁卯"
-   ],
-   "day_master": "甲",
-   "month_branch": "申",
-   "visible_stems": [
-    "庚",
-    "壬",
-    "甲",
-    "丁"
-   ],
-   "hidden_stems": [
-    [
-     "庚",
-     "壬",
-     "戊"
-    ],
-    [
-     "庚",
-     "壬",
-     "戊"
-    ],
-    [
+     "乙",
      "癸"
     ],
     [
@@ -895,14 +872,75 @@
      }
     ],
     "branches": []
+   },
+   "source_birth": {
+    "value": "1950-07-08T05:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "jia-shen",
+   "pillars": [
+    "庚寅",
+    "甲申",
+    "甲申",
+    "丁卯"
+   ],
+   "day_master": "甲",
+   "month_branch": "申",
+   "visible_stems": [
+    "庚",
+    "甲",
+    "甲",
+    "丁"
+   ],
+   "hidden_stems": [
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "庚",
+     "壬",
+     "戊"
+    ],
+    [
+     "庚",
+     "壬",
+     "戊"
+    ],
+    [
+     "乙"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "丁",
+      "order": 1,
+      "presence": "visible"
+     },
+     {
+      "stem": "庚",
+      "order": 2,
+      "presence": "visible"
+     }
+    ],
+    "branches": []
+   },
+   "source_birth": {
+    "value": "1950-08-17T05:30:00+08:00",
+    "zone": "Asia/Shanghai"
    }
   },
   {
    "id": "jia-you",
    "pillars": [
-    "辛酉",
+    "辛卯",
     "丁酉",
-    "甲午",
+    "甲寅",
     "丙寅"
    ],
    "day_master": "甲",
@@ -915,14 +953,15 @@
    ],
    "hidden_stems": [
     [
-     "辛"
+     "乙"
     ],
     [
      "辛"
     ],
     [
-     "丁",
-     "己"
+     "甲",
+     "丙",
+     "戊"
     ],
     [
      "甲",
@@ -950,29 +989,33 @@
      }
     ],
     "branches": []
+   },
+   "source_birth": {
+    "value": "1951-09-11T03:30:00+08:00",
+    "zone": "Asia/Shanghai"
    }
   },
   {
    "id": "jia-xu",
    "pillars": [
-    "戊戌",
-    "壬戌",
+    "庚寅",
+    "丙戌",
     "甲辰",
     "丁卯"
    ],
    "day_master": "甲",
    "month_branch": "戌",
    "visible_stems": [
-    "戊",
-    "壬",
+    "庚",
+    "丙",
     "甲",
     "丁"
    ],
    "hidden_stems": [
     [
-     "戊",
-     "辛",
-     "丁"
+     "甲",
+     "丙",
+     "戊"
     ],
     [
      "戊",
@@ -1003,13 +1046,17 @@
      }
     ],
     "branches": []
+   },
+   "source_birth": {
+    "value": "1950-11-05T05:30:00+08:00",
+    "zone": "Asia/Shanghai"
    }
   },
   {
    "id": "jia-hai",
    "pillars": [
-    "辛亥",
-    "癸亥",
+    "辛卯",
+    "己亥",
     "甲寅",
     "庚午"
    ],
@@ -1017,14 +1064,13 @@
    "month_branch": "亥",
    "visible_stems": [
     "辛",
-    "癸",
+    "己",
     "甲",
     "庚"
    ],
    "hidden_stems": [
     [
-     "壬",
-     "甲"
+     "乙"
     ],
     [
      "壬",
@@ -1060,12 +1106,16 @@
      }
     ],
     "branches": []
+   },
+   "source_birth": {
+    "value": "1951-11-10T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
    }
   },
   {
    "id": "jia-zi",
    "pillars": [
-    "壬子",
+    "己亥",
     "丙子",
     "甲申",
     "丁卯"
@@ -1073,14 +1123,15 @@
    "day_master": "甲",
    "month_branch": "子",
    "visible_stems": [
-    "壬",
+    "己",
     "丙",
     "甲",
     "丁"
    ],
    "hidden_stems": [
     [
-     "癸"
+     "壬",
+     "甲"
     ],
     [
      "癸"
@@ -1114,20 +1165,24 @@
      }
     ],
     "branches": []
+   },
+   "source_birth": {
+    "value": "1959-12-28T05:30:00+08:00",
+    "zone": "Asia/Shanghai"
    }
   },
   {
    "id": "jia-chou",
    "pillars": [
-    "辛丑",
+    "己丑",
     "丁丑",
-    "甲戌",
+    "甲辰",
     "庚午"
    ],
    "day_master": "甲",
    "month_branch": "丑",
    "visible_stems": [
-    "辛",
+    "己",
     "丁",
     "甲",
     "庚"
@@ -1145,8 +1200,8 @@
     ],
     [
      "戊",
-     "辛",
-     "丁"
+     "乙",
+     "癸"
     ],
     [
      "丁",
@@ -1168,34 +1223,41 @@
      }
     ],
     "branches": []
+   },
+   "source_birth": {
+    "value": "1950-01-09T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
    }
   },
   {
    "id": "yi-mao-not-applicable",
    "pillars": [
-    "乙卯",
-    "丁卯",
-    "乙午",
-    "庚午"
+    "庚寅",
+    "己卯",
+    "乙巳",
+    "壬午"
    ],
    "day_master": "乙",
    "month_branch": "卯",
    "visible_stems": [
+    "庚",
+    "己",
     "乙",
-    "丁",
-    "乙",
-    "庚"
+    "壬"
    ],
    "hidden_stems": [
     [
-     "乙"
+     "甲",
+     "丙",
+     "戊"
     ],
     [
      "乙"
     ],
     [
-     "丁",
-     "己"
+     "丙",
+     "庚",
+     "戊"
     ],
     [
      "丁",
@@ -1205,6 +1267,10 @@
    "expected": {
     "status": "not_applicable",
     "reason": "day_master_not_jia"
+   },
+   "source_birth": {
+    "value": "1950-03-11T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
    }
   }
  ]

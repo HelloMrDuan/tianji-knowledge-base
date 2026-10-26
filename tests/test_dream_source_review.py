@@ -26,7 +26,10 @@ class DreamSourceReviewTests(unittest.TestCase):
         self.assertNotIn('dream', PROVIDERS)
         self.assertNotIn('dream', _EXECUTORS)
         self.assertFalse(next(s for s in registry() if s['id'] == 'dream')['public_release'])
-        self.assertEqual(report['_audit']['source_grades'], {'C': 92, 'D': 6})
+        # TJ-013.1 普查同步：登记 bazi.source.qiongtong（《穷通宝鉴》，C 级）后
+        # 来源普查由 C:92 变 C:93（登记表共 99 条）。此处是治理登记后的钉值
+        # 同步，非放宽断言；断言仍要求普查与登记表逐级精确相等。
+        self.assertEqual(report['_audit']['source_grades'], {'C': 93, 'D': 6})
         self.assertTrue((ROOT / 'data/canonical/dream/phase1_knowledge.json').exists())
         candidate = next(c for c in report['_audit']['staged_source_candidates']
                          if c['source_path'] == '易藏/术数/周公解梦.txt')

@@ -52,7 +52,10 @@ class ProductCoverageTests(unittest.TestCase):
                              for e in rows['_audit']['engines'].values() if e['registered']))
         self.assertTrue(rows['_audit']['engines']['bazi']['registered'])
         self.assertEqual(rows['_audit']['engines']['bazi']['variant'], 'ziping-structural-v1')
-        self.assertEqual(rows['_audit']['source_grades'], {'C': 92, 'D': 6})
+        # TJ-013.1 普查同步：登记 bazi.source.qiongtong（《穷通宝鉴》，C 级）后
+        # 来源普查由 C:92 变 C:93（登记表共 99 条）。此处是治理登记后的钉值
+        # 同步，非放宽断言；断言仍要求普查与登记表逐级精确相等。
+        self.assertEqual(rows['_audit']['source_grades'], {'C': 93, 'D': 6})
         self.assertEqual(len(rows['_audit']['conflict_entities']), 4)
         self.assertTrue(rows['compatibility']['scenario_status']['runtime_implemented'])
         self.assertTrue(rows['bazi-reading']['scenario_status']['structural_public_release'])
