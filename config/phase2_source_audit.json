@@ -807,7 +807,15 @@
       "edition_status": "unverified",
       "authority_status": "unverified",
       "grade_ceiling": "C",
-      "review_basis": "固定电子来源与病药说类定义节摘录字面已核；原刊/可靠整理本底本链未核，不以网址或commit差异投独立票。"
+      "review_basis": "固定电子来源与病药说类定义节摘录字面已核；TJ-017.1 追加《起大运法》节摘录字面已核。原刊/可靠整理本底本链未核，不以网址或commit差异投独立票。"
+    },
+    {
+      "source_id": "bazi.source.sanmingtonghui",
+      "lineage_group": "garychowcmu/daizhigev20:易藏/术数/三命通会.txt",
+      "edition_status": "unverified",
+      "authority_status": "unverified",
+      "grade_ceiling": "C",
+      "review_basis": "固定电子来源与卷二《论大运》节及卷十一见证窗口摘录字面已核（规则核心零 PUA；交运段 U+ED92 映射已由既有校勘 confirmed）；整书校勘未完、原刊/可靠整理本底本链未核，不以网址或commit差异投独立票。"
     }
   ],
   "claim_comparisons": [

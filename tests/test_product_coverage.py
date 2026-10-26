@@ -56,8 +56,9 @@ class ProductCoverageTests(unittest.TestCase):
         # 来源普查由 C:92 变 C:93（登记表共 99 条）。此处是治理登记后的钉值
         # 同步，非放宽断言；断言仍要求普查与登记表逐级精确相等。
         # TJ-013 普查同步：登记 bazi.source.shenfeng（《神峰通考》，C 级）后
-        # 来源普查由 C:93 变 C:94（登记表共 100 条），同上口径。
-        self.assertEqual(rows['_audit']['source_grades'], {'C': 94, 'D': 6})
+        # 来源普查由 C:94 变 C:95（登记表共 101 条，TJ-017.1 登记
+        # 《三命通会》daizhigev20 全文快照为新 C 级 Source），同上口径。
+        self.assertEqual(rows['_audit']['source_grades'], {'C': 95, 'D': 6})
         self.assertEqual(len(rows['_audit']['conflict_entities']), 4)
         self.assertTrue(rows['compatibility']['scenario_status']['runtime_implemented'])
         self.assertTrue(rows['bazi-reading']['scenario_status']['structural_public_release'])

@@ -104,4 +104,12 @@ jobs:
       # coverage lives in test_tj013_bingyao_sealed.py (offline
       # acceptance only, NOT public CI, same partition rule).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj013_bingyao.py' -v
+      # TJ-017.1 dayun classical-evidence public contracts: rule/quote
+      # tables vs Golden transcription, text-derived direction and
+      # conversion cases, interval-only output sweep, forged-result
+      # rejection, modern-candidate agreement. No sealed data needed.
+      # Verbatim quote-vs-snapshot and real-measurement coverage lives
+      # in test_tj0171_dayun_classical_sealed.py (offline acceptance
+      # only, NOT public CI, same partition rule).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0171_dayun_classical.py' -v
       - run: python scripts/audit_public_asset_changes.py --inventory
