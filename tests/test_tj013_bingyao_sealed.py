@@ -62,18 +62,25 @@ class SnapshotVerbatimTests(unittest.TestCase):
                 self.assertEqual(text.count(quote['quote']), 1)
                 self.assertEqual(text.count('\n', 0, start) + 1, loc['line'])
                 checked += 1
-        # 8 shenfeng quotes (disease/medicine definitions, the encoded
-        # wealth pair, the registered food pair and earth example, the
-        # procedure sentence, the no-disease clause, the zhengguan
-        # cross-section tension) plus 1 ditiansui counterweight quote.
+        # 8 shenfeng quotes (disease/medicine definitions, the two
+        # encoded pairs, the registered earth example, the procedure
+        # sentence, the no-disease clause, the zhengguan cross-section
+        # tension) plus 1 ditiansui counterweight quote.
         self.assertEqual(checked, 9)
-        rule = GOLDEN['rule']
         text = self.texts[GOLDEN['source']['source_id']][1]
-        loc = rule['quote_locator']
-        self.assertEqual(text[loc['char_start']:loc['char_end']], rule['quote'])
-        section = rule['section']
-        self.assertLessEqual(section['char_start'], loc['char_start'])
-        self.assertLessEqual(loc['char_end'], section['char_end'])
+        self.assertEqual(len(GOLDEN['rules']), 2)
+        for rule in GOLDEN['rules']:
+            with self.subTest(rule=rule['id']):
+                loc = rule['quote_locator']
+                self.assertEqual(text[loc['char_start']:loc['char_end']],
+                                 rule['quote'])
+                self.assertEqual(text.count(rule['quote']), 1)
+                self.assertEqual(
+                    loc['char_end'] - loc['char_start'], len(rule['quote']))
+                section = rule['section']
+                self.assertLessEqual(section['char_start'],
+                                     loc['char_start'])
+                self.assertLessEqual(loc['char_end'], section['char_end'])
 
 
 class RealChartEndToEndTests(unittest.TestCase):
@@ -114,6 +121,53 @@ class RealChartEndToEndTests(unittest.TestCase):
                         self.assertEqual(
                             assessment['medicine_candidate']['gods'],
                             expected['medicine_gods'])
+                # The dual-pair surface: two independent statements, the
+                # first identical to the top level, the second checked
+                # against its own hand-derived expectation (new cases)
+                # or the golden regression map (first-slice cases).
+                pairs = assessment['pairs']
+                self.assertEqual([p['pair_id'] for p in pairs],
+                                 ['wealth_peer_officer',
+                                  'foodwound_seal_wealth'])
+                self.assertEqual(pairs[0]['status'], expected['status'])
+                for pair in pairs:
+                    self.assertIsNone(pair['determination'])
+                    self.assertEqual(pair['medicine_effect_status'],
+                                     'unadjudicated')
+                second = pairs[1]
+                if 'expected_pair2' in case:
+                    exp2 = case['expected_pair2']
+                    self.assertEqual(second['status'], exp2['status'])
+                    self.assertEqual(second['subject']['gods'],
+                                     exp2['subject_gods'])
+                    if exp2['status'] == 'not_triggered':
+                        self.assertEqual(second['not_triggered_reason'],
+                                         exp2['not_triggered_reason'])
+                        self.assertIsNone(second['disease_candidate'])
+                        self.assertIsNone(second['medicine_candidate'])
+                    else:
+                        self.assertEqual(second['disease_candidate']['gods'],
+                                         exp2['disease_gods'])
+                        self.assertEqual(second['medicine_status'],
+                                         exp2['medicine_status'])
+                        if exp2['medicine_status'] == 'candidate_present':
+                            self.assertEqual(
+                                second['medicine_candidate']['gods'],
+                                exp2['medicine_gods'])
+                            self.assertEqual(
+                                second['medicine_candidate']
+                                ['medicine_element'],
+                                exp2['medicine_element'])
+                            self.assertEqual(
+                                second['medicine_candidate']
+                                ['disease_element'],
+                                exp2['disease_element'])
+                else:
+                    want = GOLDEN['pair2_regression_on_first_slice_cases'][
+                        case['id']]
+                    self.assertEqual(second['status'], want['status'])
+                    self.assertEqual(second['not_triggered_reason'],
+                                     want['not_triggered_reason'])
                 if 'boundary_fact' in case:
                     fact = case['boundary_fact']
                     day_hidden = next(

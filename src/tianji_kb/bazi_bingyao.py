@@ -3,18 +3,24 @@
 治理定位：Source 已登记为 bazi.source.shenfeng（C 级，单一电子谱系，
 daizhigev20 固定快照，422432 字节 / 154642 字符）。全书病药体系陈述
 集中于病药说类定义节（快照第 38 行，字符 7014–7680）与四病四药诸节；
-本 Variant 只编码定义节示例二一句（字符 7351「如用财见比肩为病，喜见
-官杀为药也」）给出的一组条件形态病药对：所论之神为财时，显干见比劫
-为病候选，显干见官杀为药候选。其余病药文字（示例一土重、示例三食伤
-对、四病四药、格论太弱太旺口径）或缺操作定义、或系行运之药、或与定
-义节口径未统一，只登记不编码，逐项见本模块 QUOTES 与 LIMITATIONS。
+本 Variant 编码定义节示例二、示例三两句给出的两组条件形态病药对：
+示例二（字符 7351「如用财见比肩为病，喜见官杀为药也」）——所论之神
+为财时，显干见比劫为病候选，显干见官杀为药候选；示例三（字符 7368
+「如用食神伤官，以印为病，喜财为药也」）——所论之神为食伤时，显干
+见印为病候选，显干见财为药候选。两对主体不同（财为日主所克之神，
+食伤为日主所生之神），同一命盘逐对独立评估、逐对陈述，永不合并为
+单一病药结论。其余病药文字（示例一土重、四病四药、格论太弱太旺口
+径）或缺操作定义、或系行运之药、或与定义节口径未统一，只登记不编
+码，逐项见本模块 QUOTES 与 LIMITATIONS。
 
 审定点（实现批逐项留痕，与审源报告 tj013-bingyao-scout §4.3 对位）：
 - S1「用财」读法：读作「所论之神为财」，不读作格局用神。依据：同句
   下句「如用食神伤官」与之平行，若作用神义则两句都预设格局已定，与
   定义节通篇不论格局的语境不合；定义节开篇以「原所害之神」立病，
   本节是总定义而非格论。若将来审定改作用神义读法，本 Variant 即被
-  格局裁定缺位阻塞，须降级为仅登记，不得静默沿用。
+  格局裁定缺位阻塞，须降级为仅登记，不得静默沿用。第二对「用食神
+  伤官」的「用」与「用财」同构（两句相邻并列、句式全同），同一读法
+  一体适用；若改作用神义，两对同被阻塞、同走降级路径。
 - S2「比肩」类界：取比劫类（比肩、劫财）。依据：本书土重例对火日主
   言「比肩太重」指同行之神的类聚，非仅同阴阳一字；十神治理中夺财
   之害素以比劫并称。此为类读，Golden 中另设劫财单见例钉住分界。
@@ -25,6 +31,13 @@ daizhigev20 固定快照，422432 字节 / 154642 字符）。全书病药体系
   程序句「从重者论」（字符 7505）提示判断以重者为对象，但书
   中无「重」之阈值，本 Variant 不声称已按从重选定唯一病神，该未
   尽事项写入 LIMITATIONS。
+
+输出形态：顶层字段保持首切片（财对）的语义不变（status / subject /
+disease_candidate / medicine_candidate / medicine_status /
+not_triggered_reason / rule 均指第一对），另以 pairs 列表逐对给出两
+对的完整独立陈述（每对自带 rule、status、主体/病/药构成与未触发原
+因）；既有消费方按顶层字段消费不受影响，第二对只经 pairs 并列携
+带，不改变任何顶层字段的含义。
 
 定位与硬边界：输出与格局候选同级——结构候选，不是病药裁定。
 determination 恒为 None；不输出「命有病/无病」结论（「无病」的成立
@@ -45,6 +58,12 @@ ai_enabled=False。
 病」的守卫，Golden 以劫财分界例与输出字段全域断言钉住此边界，不以
 不可实现的盘面充数。
 
+关于双对同盘：两对触发共需财、比劫、食伤、印四类显干，而非日主显
+干只有年、月、时三位——双对同时触发在真实命盘中算术上不可出现
+（与上文冲突例同型），Golden 登记于 unrealizable_designs 并附算术
+证明，不以合成盘面充数；公开全域扫描断言任意显干组合下至多一对
+triggered。双对一触发一不触发则真实可达，Golden 双对例钉住。
+
 执行链接入方式与调候相同：engine.execute 以 allow_research 门控，
 operations.bazi_chart.chart 以 bingyao_variant 显式开启，本模块的
 bingyao_assessment 只消费已执行的 trace 步骤（pillars / ten_gods，
@@ -55,7 +74,7 @@ trace rule，不进 RuleMatch 与 Evidence，evidence_binding 标记为
 pending_phase1_rule_registration，不得冒充已绑定证据的裁决。
 """
 from .bazi_core import VARIANT as BAZI_VARIANT
-from .foundations import CONTROLS, STEMS, stem_element
+from .foundations import CONTROLS, GENERATES, STEMS, stem_element
 
 VARIANT = 'bingyao-shenfeng-v1'
 SOURCE_ID = 'bazi.source.shenfeng'
@@ -74,6 +93,8 @@ VISIBLE_PILLARS = ('year', 'month', 'hour')
 WEALTH_GODS = ('正财', '偏财')
 PEER_GODS = ('比肩', '劫财')
 OFFICER_GODS = ('正官', '七杀')
+FOODWOUND_GODS = ('食神', '伤官')
+SEAL_GODS = ('正印', '偏印')
 TEN_GOD_NAMES = frozenset((
     '比肩', '劫财', '食神', '伤官', '偏财', '正财',
     '七杀', '正官', '偏印', '正印',
@@ -81,20 +102,53 @@ TEN_GOD_NAMES = frozenset((
 
 DEFINITION_SECTION = {'line': 38, 'char_start': 7019, 'char_end': 7680}
 
-RULE = {
-    'id': 'shenfeng.wealth_peer_officer',
-    'subject_god_class': '财',
-    'subject_gods': WEALTH_GODS,
-    'disease_god_class': '比劫',
-    'disease_gods': PEER_GODS,
-    'medicine_god_class': '官杀',
-    'medicine_gods': OFFICER_GODS,
-    'quote': '如用财见比肩为病,喜见官杀为药也',
-    'quote_locator': {'line': 38, 'char_start': 7351, 'char_end': 7367},
-    'section': DEFINITION_SECTION,
+RULES = (
+    {
+        'pair_id': 'wealth_peer_officer',
+        'id': 'shenfeng.wealth_peer_officer',
+        'subject_god_class': '财',
+        'subject_gods': WEALTH_GODS,
+        'disease_god_class': '比劫',
+        'disease_gods': PEER_GODS,
+        'medicine_god_class': '官杀',
+        'medicine_gods': OFFICER_GODS,
+        'quote': '如用财见比肩为病,喜见官杀为药也',
+        'quote_locator': {'line': 38, 'char_start': 7351, 'char_end': 7367},
+        'section': DEFINITION_SECTION,
+    },
+    {
+        'pair_id': 'foodwound_seal_wealth',
+        'id': 'shenfeng.foodwound_seal_wealth',
+        'subject_god_class': '食伤',
+        'subject_gods': FOODWOUND_GODS,
+        'disease_god_class': '印',
+        'disease_gods': SEAL_GODS,
+        'medicine_god_class': '财',
+        'medicine_gods': WEALTH_GODS,
+        'quote': '如用食神伤官,以印为病,喜财为药也',
+        'quote_locator': {'line': 38, 'char_start': 7368, 'char_end': 7385},
+        'section': DEFINITION_SECTION,
+    },
+)
+
+# 首切片兼容别名：顶层输出的 rule 字段与既有消费方均指第一对。
+RULE = RULES[0]
+
+# 逐对的未触发原因与病对主体的关系陈述（原句口径，逐对写明，不合并）。
+_PAIR_META = {
+    'wealth_peer_officer': {
+        'subject_missing_reason': 'subject_wealth_not_visible',
+        'disease_missing_reason': 'peer_god_not_visible',
+        'disease_relation': '比劫为所论之财的所害之神（按原句）',
+    },
+    'foodwound_seal_wealth': {
+        'subject_missing_reason': 'subject_foodwound_not_visible',
+        'disease_missing_reason': 'seal_god_not_visible',
+        'disease_relation': '印为所论之食伤的所害之神（按原句）',
+    },
 }
 
-# 登记引文：encoded 只有 RULE 一条；其余为审定登记（定义、平行对、
+# 登记引文：encoded 为 RULES 两条（wealth_pair、food_pair）；其余为审定登记（定义、
 # 程序、否定侧条款、书内张力、制衡旁证），逐字以固定快照为准，快照
 # 为简体转写，不作简繁转换。每条在快照全文中恰出现一次，密封专项
 # 逐条核对（tests/test_tj013_bingyao_sealed.py）。
@@ -118,14 +172,14 @@ QUOTES = (
         'source_id': SOURCE_ID,
         'quote': '如用财见比肩为病,喜见官杀为药也',
         'locator': {'line': 38, 'char_start': 7351, 'char_end': 7367},
-        'note': '本 Variant 唯一编码的病药对（RULE）。',
+        'note': '本 Variant 编码的第一对（RULES 第一条，wealth_peer_officer）。',
     },
     {
-        'id': 'food_pair', 'role': 'registered_not_encoded',
+        'id': 'food_pair', 'role': 'encoded_rule',
         'source_id': SOURCE_ID,
         'quote': '如用食神伤官,以印为病,喜财为药也',
         'locator': {'line': 38, 'char_start': 7368, 'char_end': 7385},
-        'note': '第二对（食伤—印—财），形态与财对同构，列为扩展候选，本批不编码、不验收。',
+        'note': '第二对（食伤—印—财），形态与财对同构，本批编码为 RULES 第二条（foodwound_seal_wealth）。',
     },
     {
         'id': 'earth_example', 'role': 'registered_not_encoded',
@@ -165,8 +219,8 @@ QUOTES = (
 )
 
 LIMITATIONS = (
-    '本 Variant 只编码《神峰通考》病药说类定义节示例二一对（财—比劫—官杀）；示例一（土重）的前提无操作定义、示例三（食伤对）未编码，四病四药或缺阈值判据或是行运之药，均不在本 Variant 范围。',
-    '存在性口径只计显干（年、月、时三干），不计藏干（审定点 S3）；主体财与病、药均按此口径，藏干中出现的财、比劫、官杀不触发、不补位。',
+    '本 Variant 编码《神峰通考》病药说类定义节示例二、示例三两对（财—比劫—官杀；食伤—印—财）；示例一（土重）的前提无操作定义，四病四药或缺阈值判据或是行运之药，均不在本 Variant 范围。',
+    '存在性口径只计显干（年、月、时三干），不计藏干（审定点 S3）；两对的主体与病、药均按此口径，藏干中出现的财、比劫、官杀、食伤、印不触发、不补位。',
     '本 Variant 未按定义节「从重者论」选定唯一病神：「重」在书中无阈值，切片只陈述示例对的存在性命中（审定点 S4）。',
     '药候选只陈述存在与「药之五行克病之五行」的结构关系，去病效力恒未裁定；药存在不等于病已去，本 Variant 不输出「药已去病」。',
     '本 Variant 永不输出「无病」：无病（平常）的成立要求整盘不旺不弱且中和的裁定（定义节否定侧条款），本平台无此能力；未命中只记未触发。',
@@ -184,17 +238,43 @@ ADJUDICATION_NOTES = (
     'S3 只计显干：原句用「见」；藏干不计。Golden 双边界例（比劫仅藏干、财仅藏干）钉住此口径。',
     'S4 财显一字即触发候选；「从重者论」的未尽事项写入 LIMITATIONS，不另设门槛。',
     '冲突例处置：药被食伤所克的构形需第四个非日主显干位，真实命盘中不可出现（年、月、时三位已被财、比劫、官杀占满）；效力守卫由 medicine_effect_status 恒未裁定承担，不设不可达成的子状态，不以合成盘面充数。',
+    'S1 延伸（第二对）：「用食神伤官」的「用」与首对「用财」同构——两句在定义节中相邻并列（字符 7351–7385），句式全同（用 X、见/以 Y 为病、喜 Z 为药），同读作所论之神；若改作用神义，两对同被格局裁定缺位阻塞，降级路径与首对相同。',
+    'S2 类读延伸（第二对）：食伤取食神、伤官两神（原句并列明言「食神伤官」，非类推）；印取正印、偏印（原句单言「印」，按十神类读，与首对「比肩」取比劫类同例）；财取正财、偏财（与首对主体财同一类读）。各类成员在规则表逐项写明，Golden 以伤官、偏印、偏财同盘例钉住各类的第二成员。',
+    'S4 延伸（第二对）：食伤显一字即触发第二对候选（与首对财显一字同口径）；「从重者论」的未尽事项同样适用，不另设门槛。',
+    '双对独立：两对主体不同（财为日主所克，食伤为日主所生），同盘逐对独立评估、逐对陈述（pairs），不合并为单一病药结论；一对的部分事实（如食伤已显而印未显）不借给另一对，顶层字段保持第一对语义不变。',
+    '双对同触发不可实现：两对触发共需财、比劫、食伤、印四个互异十神类各至少一显干，非日主显干只有年、月、时三位，鸽笼原理下真实命盘不可出现；已登记 Golden unrealizable_designs 并附算术证明，不以合成盘面充数，公开全域扫描断言至多一对 triggered。',
 )
 
 
+# 十神类之五行相对日主五行的生克像：比劫=本行、食伤=我生之行、
+# 财=我克之行、官杀=克我之行、印=生我之行（十神定义本身）。
+_CLASS_ELEMENT = {
+    '比劫': lambda e: e,
+    '食伤': lambda e: GENERATES[e],
+    '财': lambda e: CONTROLS[e],
+    '官杀': lambda e: next(x for x in CONTROLS if CONTROLS[x] == e),
+    '印': lambda e: next(x for x in GENERATES if GENERATES[x] == e),
+}
+
+
 def _assert_rule_coherence():
-    # 编码时自检（审源报告 §4.2）：任意日主下，官杀之五行 = 克日主
-    # 之行，比劫之五行 = 日主本行，故「药克病」的结构关系由十神类
-    # 定义构造恒立，不依赖任何未审关系表。此处以 foundations 的
-    # CONTROLS 逐行断言该构造关系，防止类常量被误改。
-    for element in ('木', '火', '土', '金', '水'):
-        officer = next(x for x in CONTROLS if CONTROLS[x] == element)
-        assert CONTROLS[officer] == element
+    # 编码时自检（审源报告 §4.2）：任意日主下，两对的「药克病、病克
+    # 主体」结构关系都由十神类定义构造恒立——主体/病/药之五行只是
+    # 日主五行经生克关系的像，不依赖任何未审关系表。此处以
+    # foundations 的 GENERATES/CONTROLS 逐对逐行断言该构造关系，
+    # 并断言三类成员互不相交且均为合法十神名，防止类常量被误改。
+    for rule in RULES:
+        classes = (rule['subject_gods'], rule['disease_gods'],
+                   rule['medicine_gods'])
+        flat = [g for gods in classes for g in gods]
+        assert len(flat) == len(set(flat))
+        assert set(flat) <= TEN_GOD_NAMES
+        for element in ('木', '火', '土', '金', '水'):
+            subject = _CLASS_ELEMENT[rule['subject_god_class']](element)
+            disease = _CLASS_ELEMENT[rule['disease_god_class']](element)
+            medicine = _CLASS_ELEMENT[rule['medicine_god_class']](element)
+            assert CONTROLS[medicine] == disease
+            assert CONTROLS[disease] == subject
 
 
 _assert_rule_coherence()
@@ -231,55 +311,90 @@ def _validate_visible_gods(day_master, visible_gods):
     return rows
 
 
+def _evaluate_pair(rule, rows):
+    """Evaluate one bingyao pair over validated visible fact rows.
+
+    Pure per-pair statement: a pair triggers only when its subject god
+    class and its disease god class are both attested in visible stems;
+    the medicine candidate is reported present/absent, never inferred.
+    Each pair is evaluated on its own facts — no fact is borrowed from
+    the other pair — and a non-triggered pair is an abstention of that
+    pair only, never a 「无病」 statement.
+    """
+    meta = _PAIR_META[rule['pair_id']]
+    subject = [r for r in rows if r['ten_god'] in rule['subject_gods']]
+    disease = [r for r in rows if r['ten_god'] in rule['disease_gods']]
+    medicine = [r for r in rows if r['ten_god'] in rule['medicine_gods']]
+    pair = {
+        'pair_id': rule['pair_id'],
+        'rule': dict(rule),
+        'subject': {'god_class': rule['subject_god_class'], 'gods': subject},
+        'determination': None,
+        'medicine_effect_status': 'unadjudicated',
+    }
+    if not subject or not disease:
+        return {**pair, 'status': 'not_triggered',
+                'disease_candidate': None, 'medicine_candidate': None,
+                'medicine_status': None,
+                'not_triggered_reason': (
+                    meta['subject_missing_reason'] if not subject
+                    else meta['disease_missing_reason'])}
+    disease_block = {'god_class': rule['disease_god_class'],
+                     'gods': disease,
+                     'relation_to_subject': meta['disease_relation']}
+    if not medicine:
+        return {**pair, 'status': 'triggered',
+                'disease_candidate': disease_block,
+                'medicine_candidate': None, 'medicine_status': 'absent'}
+    medicine_block = {
+        'god_class': rule['medicine_god_class'], 'gods': medicine,
+        'structural_relation': 'medicine_element_controls_disease_element',
+        'medicine_element': stem_element(medicine[0]['stem']),
+        'disease_element': stem_element(disease[0]['stem']),
+    }
+    return {**pair, 'status': 'triggered',
+            'disease_candidate': disease_block,
+            'medicine_candidate': medicine_block,
+            'medicine_status': 'candidate_present'}
+
+
 def bingyao_lookup(day_master, visible_gods):
     """Pure structural-candidate lookup over visible ten-god facts.
 
     visible_gods: three fact rows {'pillar', 'stem', 'ten_god'} for the
     year, month and hour pillars (the day pillar carries no ten-god).
     Only visible stems are read; hidden stems are never consulted, so a
-    god attested only in hidden stems cannot trigger or complete the
-    pair. Malformed input fails closed (ValueError). A chart that does
-    not trigger is reported as not_triggered, never as 「无病」.
+    god attested only in hidden stems cannot trigger or complete either
+    pair. Both encoded pairs are evaluated independently and reported
+    side by side under 'pairs'; the top-level fields keep the first
+    pair's (wealth) semantics unchanged from the first slice. Malformed
+    input fails closed (ValueError). A pair that does not trigger is
+    reported as not_triggered, never as 「无病」.
     """
     rows = _validate_visible_gods(day_master, visible_gods)
-    wealth = [r for r in rows if r['ten_god'] in WEALTH_GODS]
-    peers = [r for r in rows if r['ten_god'] in PEER_GODS]
-    officers = [r for r in rows if r['ten_god'] in OFFICER_GODS]
-    base = {
+    pairs = [_evaluate_pair(rule, rows) for rule in RULES]
+    first = pairs[0]
+    output = {
         'variant': VARIANT, 'system': 'bingyao',
         'source_id': SOURCE_ID, 'evidence_level': 'C',
         'day_master': day_master,
-        'subject': {'god_class': '财', 'gods': wealth},
+        'subject': first['subject'],
+        'status': first['status'],
+        'disease_candidate': first['disease_candidate'],
+        'medicine_candidate': first['medicine_candidate'],
+        'medicine_status': first['medicine_status'],
         'determination': None,
         'medicine_effect_status': 'unadjudicated',
         'research_only': True, 'public_enabled': False, 'ai_enabled': False,
         'evidence_binding': 'pending_phase1_rule_registration',
         'rule': dict(RULE),
+        'pairs': pairs,
         'adjudication_notes': list(ADJUDICATION_NOTES),
         'scope_limits': list(LIMITATIONS),
     }
-    if not wealth or not peers:
-        return {**base, 'status': 'not_triggered',
-                'disease_candidate': None, 'medicine_candidate': None,
-                'medicine_status': None,
-                'not_triggered_reason': (
-                    'subject_wealth_not_visible' if not wealth
-                    else 'peer_god_not_visible')}
-    disease = {'god_class': '比劫', 'gods': peers,
-               'relation_to_subject': '比劫为所论之财的所害之神（按原句）'}
-    if not officers:
-        return {**base, 'status': 'triggered',
-                'disease_candidate': disease, 'medicine_candidate': None,
-                'medicine_status': 'absent'}
-    medicine = {
-        'god_class': '官杀', 'gods': officers,
-        'structural_relation': 'medicine_element_controls_disease_element',
-        'medicine_element': stem_element(officers[0]['stem']),
-        'disease_element': stem_element(peers[0]['stem']),
-    }
-    return {**base, 'status': 'triggered',
-            'disease_candidate': disease, 'medicine_candidate': medicine,
-            'medicine_status': 'candidate_present'}
+    if first['status'] == 'not_triggered':
+        output['not_triggered_reason'] = first['not_triggered_reason']
+    return output
 
 
 def bingyao_assessment(trace, *, bingyao_variant=VARIANT):
