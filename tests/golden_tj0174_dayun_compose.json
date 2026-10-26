@@ -1,0 +1,437 @@
+{
+ "cases": [
+  {
+   "birth_time_precision": "second",
+   "birth_value": "1958-08-15T19:30:00+08:00",
+   "counting": {
+    "remainder_seconds": 1729,
+    "whole_shichen": 284
+   },
+   "counting_target": "future_jie",
+   "derivation_chain": [
+    "年干戊为阳 + 男 -> 三命规则句阳男顺行，数生日后未来节（白露）。",
+    "实历：1958-08-15T19:30 至 1958-09-08T11:58:49 = 23 日 16 时 28 分 49 秒 = 2046529 秒（手算：23*86400 + 59329）。",
+    "2046529 = 284*7200 + 1729 -> 284 时、亚时余 1729 秒只进区间上端：时长 [2840, 2850) 日。",
+    "首运交运 = 出生 + [2840, 2850) 日 = [1966-05-25, 1966-06-04)（日历手算核：2840 日 = 7 年含 2 闰日余 283 日，1958-08-15 + 7 年 = 1965-08-15，再 +283 日 = 1966-05-25）。",
+    "序列：月柱庚申（甲子序 56）顺行 +1/+2/+3 = 辛酉/壬戌/癸亥；对日主甲的十神为正官/偏印/正印；第 k 运起始区间 = 首运区间平移 (k-1) 个十年。"
+   ],
+   "direction": "forward",
+   "duration_interval_days": {
+    "max_days": 2850,
+    "max_inclusive": false,
+    "min_days": 2840
+   },
+   "elapsed_seconds": 2046529,
+   "elapsed_whole_days": 23,
+   "handover_intervals": [
+    {
+     "earliest": "1966-05-25T19:30:00+08:00",
+     "latest": "1966-06-04T19:30:00+08:00",
+     "period_index": 1
+    },
+    {
+     "earliest": "1976-05-25T19:30:00+08:00",
+     "latest": "1976-06-04T19:30:00+08:00",
+     "period_index": 2
+    },
+    {
+     "earliest": "1986-05-25T19:30:00+08:00",
+     "latest": "1986-06-04T19:30:00+08:00",
+     "period_index": 3
+    }
+   ],
+   "id": "Q1-forward-male-1958",
+   "include_shenfeng": false,
+   "jie_at": "1958-09-08T11:58:49+08:00",
+   "jie_name": "白露",
+   "periods": 3,
+   "pillar_derivation": "1958 立春后为戊戌年（阳干戊）；申月（立秋后）庚申：戊癸之年甲作首，寅甲卯乙辰丙巳丁午戊未己申庚；日柱甲子（sxtwl 复核）；戌时甲戌：甲己之日甲子起，戌为第十一时甲戌。",
+   "pillars": [
+    "戊戌",
+    "庚申",
+    "甲子",
+    "甲戌"
+   ],
+   "quadrant": "yang_year_male_forward",
+   "sequence_rows": [
+    {
+     "candidate_ganzhi": "辛酉",
+     "period_index": 1,
+     "ten_god": "正官"
+    },
+    {
+     "candidate_ganzhi": "壬戌",
+     "period_index": 2,
+     "ten_god": "偏印"
+    },
+    {
+     "candidate_ganzhi": "癸亥",
+     "period_index": 3,
+     "ten_god": "正印"
+    }
+   ],
+   "status": "converted",
+   "traditional_role": "male",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "birth_time_precision": "second",
+   "birth_value": "1949-01-04T09:30:00+08:00",
+   "counting": {
+    "remainder_seconds": 3143,
+    "whole_shichen": 334
+   },
+   "counting_target": "past_jie",
+   "derivation_chain": [
+    "年干戊为阳 + 女 -> 阴男阳女逆行，数生日前过去节（大雪）。",
+    "实历：1948-12-07T12:37:37 至 1949-01-04T09:30 = 27 日 20 时 52 分 23 秒 = 2407943 秒。",
+    "2407943 = 334*7200 + 3143 -> 时长 [3340, 3350) 日。",
+    "首运交运 = 出生 + [3340, 3350) 日 = [1958-02-26, 1958-03-08)（手算核：3340 日 = 9 年含 2 闰日余 53 日，1949-01-04 + 9 年 = 1958-01-04，再 +53 日 = 1958-02-26）。",
+    "序列：月柱甲子（序 0）逆行 -1/-2/-3 = 癸亥/壬戌/辛酉；对日主甲的十神为正印/偏印/正官。"
+   ],
+   "direction": "backward",
+   "duration_interval_days": {
+    "max_days": 3350,
+    "max_inclusive": false,
+    "min_days": 3340
+   },
+   "elapsed_seconds": 2407943,
+   "elapsed_whole_days": 27,
+   "handover_intervals": [
+    {
+     "earliest": "1958-02-26T09:30:00+08:00",
+     "latest": "1958-03-08T09:30:00+08:00",
+     "period_index": 1
+    },
+    {
+     "earliest": "1968-02-26T09:30:00+08:00",
+     "latest": "1968-03-08T09:30:00+08:00",
+     "period_index": 2
+    },
+    {
+     "earliest": "1978-02-26T09:30:00+08:00",
+     "latest": "1978-03-08T09:30:00+08:00",
+     "period_index": 3
+    }
+   ],
+   "id": "Q2-backward-female-1949",
+   "include_shenfeng": false,
+   "jie_at": "1948-12-07T12:37:37+08:00",
+   "jie_name": "大雪",
+   "periods": 3,
+   "pillar_derivation": "1949-01-04 在立春前，年柱仍戊子（阳干戊）；子月甲子：戊年甲作首，子为第十一月；日柱甲午（sxtwl 复核）；巳时己巳：甲己之日甲子起，巳为第六时己巳。",
+   "pillars": [
+    "戊子",
+    "甲子",
+    "甲午",
+    "己巳"
+   ],
+   "quadrant": "yang_year_female_backward",
+   "sequence_rows": [
+    {
+     "candidate_ganzhi": "癸亥",
+     "period_index": 1,
+     "ten_god": "正印"
+    },
+    {
+     "candidate_ganzhi": "壬戌",
+     "period_index": 2,
+     "ten_god": "偏印"
+    },
+    {
+     "candidate_ganzhi": "辛酉",
+     "period_index": 3,
+     "ten_god": "正官"
+    }
+   ],
+   "status": "converted",
+   "traditional_role": "female",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "birth_time_precision": "second",
+   "birth_value": "1959-06-15T10:30:00+08:00",
+   "counting": {
+    "remainder_seconds": 2992,
+    "whole_shichen": 273
+   },
+   "counting_target": "future_jie",
+   "derivation_chain": [
+    "年干己为阴 + 女 -> 阳男阴女顺行，数生日后未来节（小暑）。",
+    "实历：1959-06-15T10:30 至 1959-07-08T05:19:52 = 22 日 18 时 49 分 52 秒 = 1968592 秒。",
+    "1968592 = 273*7200 + 2992 -> 时长 [2730, 2740) 日。",
+    "首运交运 = [1966-12-05, 1966-12-15)（手算核：2730 日 = 7 年含 2 闰日余 173 日，1959-06-15 + 7 年 = 1966-06-15，再 +173 日 = 1966-12-05）。",
+    "序列：月柱庚午（序 6）顺行 +1/+2/+3 = 辛未/壬申/癸酉；对日主戊的十神为伤官/偏财/正财。"
+   ],
+   "direction": "forward",
+   "duration_interval_days": {
+    "max_days": 2740,
+    "max_inclusive": false,
+    "min_days": 2730
+   },
+   "elapsed_seconds": 1968592,
+   "elapsed_whole_days": 22,
+   "handover_intervals": [
+    {
+     "earliest": "1966-12-05T10:30:00+08:00",
+     "latest": "1966-12-15T10:30:00+08:00",
+     "period_index": 1
+    },
+    {
+     "earliest": "1976-12-05T10:30:00+08:00",
+     "latest": "1976-12-15T10:30:00+08:00",
+     "period_index": 2
+    },
+    {
+     "earliest": "1986-12-05T10:30:00+08:00",
+     "latest": "1986-12-15T10:30:00+08:00",
+     "period_index": 3
+    }
+   ],
+   "id": "Q3-forward-female-1959",
+   "include_shenfeng": false,
+   "jie_at": "1959-07-08T05:19:52+08:00",
+   "jie_name": "小暑",
+   "periods": 3,
+   "pillar_derivation": "1959 为己亥年（阴干己）；午月（芒种后小暑前）庚午：甲己之年丙作首，寅丙卯丁辰戊巳己午庚；日柱戊辰（sxtwl 复核）；巳时丁巳：戊癸之日壬子起，巳为第六时丁巳。",
+   "pillars": [
+    "己亥",
+    "庚午",
+    "戊辰",
+    "丁巳"
+   ],
+   "quadrant": "yin_year_female_forward",
+   "sequence_rows": [
+    {
+     "candidate_ganzhi": "辛未",
+     "period_index": 1,
+     "ten_god": "伤官"
+    },
+    {
+     "candidate_ganzhi": "壬申",
+     "period_index": 2,
+     "ten_god": "偏财"
+    },
+    {
+     "candidate_ganzhi": "癸酉",
+     "period_index": 3,
+     "ten_god": "正财"
+    }
+   ],
+   "status": "converted",
+   "traditional_role": "female",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "birth_time_precision": "second",
+   "birth_value": "1959-06-15T10:30:00+08:00",
+   "counting": {
+    "remainder_seconds": 5397,
+    "whole_shichen": 103
+   },
+   "counting_target": "past_jie",
+   "derivation_chain": [
+    "年干己为阴 + 男 -> 阴男逆行，数生日前过去节（芒种）。",
+    "实历：1959-06-06T19:00:03 至 1959-06-15T10:30 = 8 日 15 时 29 分 57 秒 = 746997 秒。",
+    "746997 = 103*7200 + 5397 -> 时长 [1030, 1040) 日。",
+    "首运交运 = [1962-04-10, 1962-04-20)（手算核：1030 日 = 2 年含 1 闰日余 299 日，1959-06-15 + 2 年 = 1961-06-15，再 +299 日 = 1962-04-10）。",
+    "序列：月柱庚午（序 6）逆行 -1/-2/-3 = 己巳/戊辰/丁卯；对日主戊的十神为劫财/比肩/正印。"
+   ],
+   "direction": "backward",
+   "duration_interval_days": {
+    "max_days": 1040,
+    "max_inclusive": false,
+    "min_days": 1030
+   },
+   "elapsed_seconds": 746997,
+   "elapsed_whole_days": 8,
+   "handover_intervals": [
+    {
+     "earliest": "1962-04-10T10:30:00+08:00",
+     "latest": "1962-04-20T10:30:00+08:00",
+     "period_index": 1
+    },
+    {
+     "earliest": "1972-04-10T10:30:00+08:00",
+     "latest": "1972-04-20T10:30:00+08:00",
+     "period_index": 2
+    },
+    {
+     "earliest": "1982-04-10T10:30:00+08:00",
+     "latest": "1982-04-20T10:30:00+08:00",
+     "period_index": 3
+    }
+   ],
+   "id": "Q4-backward-male-1959",
+   "include_shenfeng": false,
+   "jie_at": "1959-06-06T19:00:03+08:00",
+   "jie_name": "芒种",
+   "periods": 3,
+   "pillar_derivation": "与 Q3 同盘：己亥/庚午/戊辰/丁巳（推导见 Q3）。同盘异角色正是方向规则的判别点：角色显式输入、绝不推断。",
+   "pillars": [
+    "己亥",
+    "庚午",
+    "戊辰",
+    "丁巳"
+   ],
+   "quadrant": "yin_year_male_backward",
+   "sequence_rows": [
+    {
+     "candidate_ganzhi": "己巳",
+     "period_index": 1,
+     "ten_god": "劫财"
+    },
+    {
+     "candidate_ganzhi": "戊辰",
+     "period_index": 2,
+     "ten_god": "比肩"
+    },
+    {
+     "candidate_ganzhi": "丁卯",
+     "period_index": 3,
+     "ten_god": "正印"
+    }
+   ],
+   "status": "converted",
+   "traditional_role": "male",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "birth_time_precision": "second",
+   "birth_value": "2000-02-04T20:40:24+08:00",
+   "counting": {
+    "remainder_seconds": 0,
+    "whole_shichen": 0
+   },
+   "counting_target": "past_jie",
+   "derivation_chain": [
+    "TJ-016.2 ADV-001 同盘：恰逢节瞬间原文例算未覆盖，维持拒绝口径——组合层不得默认时长为零，status=unresolved，时长/交运/起始区间均不给出。",
+    "序列事实与换算无关仍可给出：月柱戊寅（序 14）逆行 -1/-2 = 丁丑/丙子；对日主壬的十神为正财/偏财；其起始区间随未裁定一并为 None 并标注 start_interval_status。"
+   ],
+   "direction": "backward",
+   "duration_interval_days": null,
+   "elapsed_seconds": 0,
+   "elapsed_whole_days": 0,
+   "handover_intervals": null,
+   "id": "ADV001-zero-jie-2000",
+   "include_shenfeng": false,
+   "jie_at": "2000-02-04T20:40:24+08:00",
+   "jie_name": "立春",
+   "periods": 2,
+   "pillar_derivation": "出生恰在 2000 年立春当秒，历法路径取节后帧：庚辰年（阳干庚）、戊寅月；日柱壬辰（sxtwl 复核）；戌时庚戌：丙辛之日戊子起，戌为第十一时庚戌。阳 + 女 -> 逆行数过去节，过去节即立春本身，实历为零。",
+   "pillars": [
+    "庚辰",
+    "戊寅",
+    "壬辰",
+    "庚戌"
+   ],
+   "quadrant": "zero_jie_boundary",
+   "reason": "zero_jie_boundary_convention_unreviewed",
+   "sequence_rows": [
+    {
+     "candidate_ganzhi": "丁丑",
+     "period_index": 1,
+     "ten_god": "正财"
+    },
+    {
+     "candidate_ganzhi": "丙子",
+     "period_index": 2,
+     "ten_god": "偏财"
+    }
+   ],
+   "status": "unresolved",
+   "traditional_role": "female",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "approximate": true,
+   "birth_time_precision": "unknown",
+   "birth_value": "1958-08-15T19:30:00+08:00",
+   "counting": {
+    "remainder_seconds": 1729,
+    "whole_shichen": 284
+   },
+   "counting_target": "future_jie",
+   "derivation_chain": [
+    "TJ-017.1 近似口径：生刻不明时原文许近似并自标——秒级区间 [2840, 2850) 两端各加宽一时（10 日）得 [2830, 2860)，approximate=true，approximation_basis 为原文近似句。不伪造时刻精度，不回退为单点。"
+   ],
+   "direction": "forward",
+   "duration_interval_days": {
+    "max_days": 2860,
+    "max_inclusive": false,
+    "min_days": 2830
+   },
+   "elapsed_seconds": 2046529,
+   "elapsed_whole_days": 23,
+   "handover_intervals": [
+    {
+     "earliest": "1966-05-15T19:30:00+08:00",
+     "latest": "1966-06-14T19:30:00+08:00",
+     "period_index": 1
+    }
+   ],
+   "id": "P1-unknown-precision-1958",
+   "include_shenfeng": false,
+   "jie_at": "1958-09-08T11:58:49+08:00",
+   "jie_name": "白露",
+   "periods": 1,
+   "pillar_derivation": "与 Q1 同盘（推导见 Q1）；本例只变生刻精度口径：名义时刻照录，精度声明为 unknown。",
+   "pillars": [
+    "戊戌",
+    "庚申",
+    "甲子",
+    "甲戌"
+   ],
+   "quadrant": "unknown_birth_time_precision",
+   "sequence_rows": [
+    {
+     "candidate_ganzhi": "辛酉",
+     "period_index": 1,
+     "ten_god": "正官"
+    }
+   ],
+   "status": "converted",
+   "traditional_role": "male",
+   "zone": "Asia/Shanghai"
+  }
+ ],
+ "chain": [
+  "dayun-direction-classical-v1",
+  "bazi-dayun-adjacent-jie-research-v1",
+  "dayun-conversion-sanming-v1",
+  "bazi-dayun-month-sequence-research-v1"
+ ],
+ "derivation_arithmetic": {
+  "days_per_shichen": 10,
+  "note": "起运时长区间手工推导：whole_shichen = elapsed_seconds // 7200；remainder = elapsed_seconds % 7200；min_days = whole_shichen * 10；max_days = min_days + (10 if remainder else 0)，上端含否 max_inclusive = (remainder == 0 且精度为 second)。交运首运区间 = 出生时刻 + [min_days, max_days] 日；第 k 运起始 = 首运区间的历年平移 (k-1) 个十年（三命十周年口径，TJ-017.1 换算层实现）。神峰日级：text_result_days = elapsed_whole_days * 120，时长区间 [text_result_days, text_result_days + 120)。",
+  "pillar_derivation": "四柱由五虎遁（年上起月）/五鼠遁（日上起时）与节气月界手工推导，并以独立历法库 sxtwl 复核日柱（1958-08-15 甲子、1949-01-04 甲午、1959-06-15 戊辰、2000-02-04 壬辰，四例全合）；专项测试另以仓库已审 calendar_for_zone 路径断言四柱逐字一致。预期区间全部由上方算式对实历秒数手工推导，不由组合实现反填。",
+  "shichen_seconds": 7200
+ },
+ "schema": "golden-tj0174-dayun-compose-v1",
+ "shenfeng_parallel_case": {
+  "case_id": "Q1-forward-male-1958",
+  "derivation_chain": [
+   "神峰日级：整日计数 23 日 * 120 = 2760 日为原文结果；日级粒度下真实历时在 [23, 24) 日，时长区间 [2760, 2880)。",
+   "首运起始（组合层导出）= 出生 + [2760, 2880) 日 = [1966-03-06, 1966-07-04)（日期加法手算核：2760 日 = 7 年含 2 闰日余 203 日，1958-08-15 + 7 年 = 1965-08-15，再 +203 日 = 1966-03-06；上端 +120 日 = 1966-07-04）；与三命时级同盘区间 [2840, 2850) 并列、各自标注 method，永不混算。"
+  ],
+  "duration_interval_days": {
+   "max_days": 2880,
+   "max_inclusive": false,
+   "min_days": 2760
+  },
+  "first_period_start_interval": {
+   "earliest": "1966-03-06T19:30:00+08:00",
+   "latest": "1966-07-04T19:30:00+08:00",
+   "max_inclusive": false
+  },
+  "include_shenfeng": true,
+  "text_result_days": 2760,
+  "whole_days": 23
+ },
+ "task": "TJ-017.4",
+ "text_example_anchor": {
+  "composition_anchor": "组合的换算阶段与 TJ-017.1 同一函数 sanming_convert_measurement；密封专项以 1958 阳男真实盘断言组合输出与手动串联链（方向->测量->换算）逐项一致，且换算层对 63 时的原文例算结果已由 TJ-017.1 密封专项钉死（[630, 630] 含端）。本批不重复登记原文例算，只锚定组合无漂移。",
+  "source_case": "TJ-017.1 Golden C1-sanming-worked-example（三命甲子阳男例：五日三时 -> 六十三时 -> 六百三十日 -> 一嵗竒九月）"
+ },
+ "variant": "dayun-classical-composition-v1"
+}
