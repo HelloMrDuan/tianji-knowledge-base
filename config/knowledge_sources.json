@@ -2079,6 +2079,27 @@
       "kind": "classical",
       "rights_basis": "仅保存并引用公有领域古籍原文；不取得电子仓库现代编辑内容的版权许可。当前电子本为简体转写单一谱系，不据仓库许可证推断底本权利或版本权威。",
       "review_scope": "TJ-013.1 逐字审定甲木十二月调候条目：以固定快照（87430 字节）字符区间与行号逐条定位取用陈述，仅编码原文明确陈述的先取/次取干与一条可由存在性事实判定的分支，原文含糊或条件超出存在性事实的分支只登记不编码；引文逐字保留快照字形，不作简繁转换。其余九干、整书版本校勘与独立刊本对照未做，不声称多底本一致。"
+    },
+    {
+      "source_id": "bazi.source.shenfeng",
+      "title": "神峰通考",
+      "author": "张楠",
+      "era": "明代子平命理传世文献；成书与版本问题不在本轮裁定",
+      "repository": "garychowcmu/daizhigev20",
+      "url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E7%A5%9E%E5%B3%B0%E9%80%9A%E8%80%83.txt",
+      "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+      "path": "易藏/术数/神峰通考.txt",
+      "license": "Public-Domain (pre-modern text only)",
+      "public_domain": true,
+      "retrieved_at": "2026-10-26",
+      "content_path": "data/quarantine/public_domain_snapshots/daizhigev20/shenfeng_tongkao.txt",
+      "content_format": "text",
+      "sha256": "121a571b7fa63e073f067d5532a42e2feb7d4d5fdd7874de2ca48036a615e200",
+      "blob_sha": "7cdd1134410843a26b7e118316567f6266483181",
+      "evidence_level": "C",
+      "kind": "classical",
+      "rights_basis": "仅保存并引用公有领域古籍原文；不取得电子仓库现代编辑内容的版权许可。当前电子本为简体转写单一谱系，不据仓库许可证推断底本权利或版本权威。",
+      "review_scope": "TJ-013 病药线首切片逐字审定病药说类定义节（固定快照第 38 行，字符 7014–7680）与四病四药标题节定位：仅编码定义节示例二一句（字符 7351）为结构候选规则，其余定义、平行示例、程序句与否定侧条款只登记不编码；引文逐字保留快照简体字形，不作简繁转换。全书未逐字校勘：已见个别讹字（如「桔」疑为「枯」之转写讹字）与「枯」篇一处整句重复，未订正；正官格节太弱太旺口径（字符 10010）与定义节存在性口径并存，未强行统一，登记保留。见验古例与末篇「病源赋」（身体疾病占验文字）不在审定范围。「无病」条款依赖整盘中和裁定，本轮不据此作任何无病判断。快照 SHA256 以文件字节实算为准（_sync_summary.json 所记 sha 字段与实算不符，不采用）；blob_sha 按既有登记惯例为固定快照文件本身的 git blob 哈希（机上实算，与穷通宝鉴登记值可由其快照文件复算相符）。"
     }
   ]
 }

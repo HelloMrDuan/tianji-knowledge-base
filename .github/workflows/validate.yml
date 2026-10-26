@@ -97,4 +97,11 @@ jobs:
       # test_tj0131_tiaohou_sealed.py (offline acceptance only, NOT
       # public CI, same partition rule as the liuyao precedent).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0131_tiaohou.py' -v
+      # TJ-013 bingyao (病药) public contracts: rule table vs Golden
+      # transcription, pure lookup, never-a-verdict sweep, engine
+      # research gate, forged-trace rejection, public-projection strip.
+      # No sealed data needed. Verbatim quote-vs-snapshot and real-chart
+      # coverage lives in test_tj013_bingyao_sealed.py (offline
+      # acceptance only, NOT public CI, same partition rule).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj013_bingyao.py' -v
       - run: python scripts/audit_public_asset_changes.py --inventory

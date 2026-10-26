@@ -268,10 +268,12 @@ def project_execution(data):
     # single-lineage reviewed excerpts, public_enabled=false). Last line
     # of defense, mirroring the TJ-011.3 display gate: never let a
     # tiaohou assessment reach a public response, whichever result
-    # container carries it.
+    # container carries it. TJ-013: same for the bingyao structural
+    # candidates (bingyao-shenfeng-v1, research-only).
     for container in (result.get('chart'), result.get('result')):
         if isinstance(container, dict):
             container.pop('tiaohou_assessment', None)
+            container.pop('bingyao_assessment', None)
     return result
 
 
