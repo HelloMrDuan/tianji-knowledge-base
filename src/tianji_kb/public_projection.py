@@ -264,6 +264,14 @@ def project_execution(data):
     chart = result.get('chart')
     if isinstance(chart, dict):
         _apply_strength_display_policy(chart)
+    # TJ-013.1: tiaohou entry statements are research-only (C-level
+    # single-lineage reviewed excerpts, public_enabled=false). Last line
+    # of defense, mirroring the TJ-011.3 display gate: never let a
+    # tiaohou assessment reach a public response, whichever result
+    # container carries it.
+    for container in (result.get('chart'), result.get('result')):
+        if isinstance(container, dict):
+            container.pop('tiaohou_assessment', None)
     return result
 
 

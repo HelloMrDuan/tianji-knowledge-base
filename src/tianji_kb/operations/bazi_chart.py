@@ -7,6 +7,7 @@ from ..bazi_adjudication import ADJUDICATION_VARIANT, strength_assessment
 from ..bazi_root_conditions import STRENGTH_VARIANT, AVAILABILITY_VARIANT, root_conditions, root_availability, conditional_factor_graph
 from ..bazi_strength import FACTOR_VARIANT, factors as _strength_factors
 from ..bazi_pattern import PATTERN_VARIANT, candidates as pattern_candidates
+from ..bazi_tiaohou import VARIANT as TIAOHOU_VARIANT, tiaohou_assessment
 from ..bazi_annual_reference import annual_reference, annual_lichun_boundaries
 from ..bazi_dayun_sequence import candidate_sequence
 
@@ -19,7 +20,7 @@ def strength_factors(pillars, day_master, *, factor_variant=FACTOR_VARIANT, outp
         raise ValueError('Unsupported factor output')
     return observed[output_key]
 
-def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=False, include_relations=False, traditional_role=None, strength_variant=None, month_command_variant=None, root_availability_variant=None, action_effect_variant=None, variant=VARIANT, *, pattern_variant=None, annual_reference_years=None, annual_boundary_years=None, dayun_sequence_direction=None, dayun_sequence_count=8):
+def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=False, include_relations=False, traditional_role=None, strength_variant=None, month_command_variant=None, root_availability_variant=None, action_effect_variant=None, variant=VARIANT, *, pattern_variant=None, tiaohou_variant=None, annual_reference_years=None, annual_boundary_years=None, dayun_sequence_direction=None, dayun_sequence_count=8):
     if variant != VARIANT:
         raise ValueError("Unsupported Bazi variant")
     if type(include_xianchi) is not bool:
@@ -46,6 +47,8 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
     if pattern_variant is not None:
         if pattern_variant != PATTERN_VARIANT:
             raise ValueError('Unsupported pattern candidate variant')
+    if tiaohou_variant is not None and tiaohou_variant != TIAOHOU_VARIANT:
+        raise ValueError('Unsupported tiaohou variant')
     conditional_strength = strength_variant in (STRENGTH_VARIANT, ADJUDICATION_VARIANT)
     if strength_variant is not None and strength_variant not in (FACTOR_VARIANT, STRENGTH_VARIANT, ADJUDICATION_VARIANT):
         raise ValueError("Unsupported strength factor variant")
@@ -257,8 +260,15 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
                       {'pattern_variant': pattern_variant, 'family': family}, observation)
             result['pattern_candidates'][family] = observation
         result['production_scope'] += '；研究用正官/印绶月藏透干候选位置，不定格或判断成败喜用'
+    if tiaohou_variant is not None:
+        # TJ-013.1: consumes only the executed pillar/ten-god/hidden-stem
+        # steps above. Not a trace.add: this Variant has no sealed Phase1
+        # rule / Phase2 contract registration yet, so the assessment must
+        # not enter RuleMatch or Evidence (see bazi_tiaohou docstring).
+        result['tiaohou_assessment'] = tiaohou_assessment(trace, tiaohou_variant=tiaohou_variant)
+        result['production_scope'] += '；研究用《穷通宝鉴》甲木十二月调候条目陈述（仅原文取用顺序与存在性事实，不作吉凶、喜用结论，不公开）'
     output = trace.finish(result)
-    if strength_variant == ADJUDICATION_VARIANT or pattern_variant is not None or annual_reference_years is not None or annual_boundary_years is not None or dayun_sequence_direction is not None:
+    if strength_variant == ADJUDICATION_VARIANT or pattern_variant is not None or tiaohou_variant is not None or annual_reference_years is not None or annual_boundary_years is not None or dayun_sequence_direction is not None:
         output['interpretation_contract']['ai_may_explain'] = False
         output['research_only'] = True
     if strength_variant == ADJUDICATION_VARIANT:

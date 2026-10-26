@@ -792,6 +792,14 @@
       "authority_status": "unverified",
       "grade_ceiling": "C",
       "review_basis": "只审核固定版本五个短条目的字面、梦语境与文化解释；外部电子文本没有已核独立刊本证明，不投独立票。"
+    },
+    {
+      "source_id": "bazi.source.qiongtong",
+      "lineage_group": "garychowcmu/daizhigev20:易藏/术数/穷通宝鉴.txt",
+      "edition_status": "unverified",
+      "authority_status": "unverified",
+      "grade_ceiling": "C",
+      "review_basis": "固定电子来源与摘录字面已核；原刊/可靠整理本底本链未核，不以网址或commit差异投独立票。"
     }
   ],
   "claim_comparisons": [
