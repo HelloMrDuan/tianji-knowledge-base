@@ -38,11 +38,13 @@ def _keys(node):
 
 class RuleTableTests(unittest.TestCase):
     def test_table_matches_golden_transcription(self):
-        self.assertEqual(len(ENTRIES), 12)
-        golden = {e['month_branch']: e for e in GOLDEN['entries']}
-        self.assertEqual({e['month_branch'] for e in ENTRIES}, set(golden))
+        self.assertEqual(len(ENTRIES), 119)
+        golden = {(e['day_master'], e['month_branch']): e
+                  for e in GOLDEN['entries']}
+        self.assertEqual({(e['day_master'], e['month_branch']) for e in ENTRIES},
+                         set(golden))
         for entry in ENTRIES:
-            want = golden[entry['month_branch']]
+            want = golden[(entry['day_master'], entry['month_branch'])]
             self.assertEqual(entry['quote'], want['quote'])
             self.assertEqual(entry['quote_locator'], want['quote_locator'])
             self.assertEqual(entry['section'], want['section'])
@@ -116,13 +118,31 @@ class LookupGoldenTests(unittest.TestCase):
 
 
 class AbstainAndFailClosedTests(unittest.TestCase):
-    def test_every_non_jia_day_master_abstains(self):
-        for stem in ('乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'):
-            with self.subTest(stem=stem):
-                out = tiaohou_lookup(stem, '卯', ['乙', '丁', stem, '庚'],
-                                     [['乙'], ['乙'], ['丁', '己'], ['丁', '己']])
-                self.assertEqual(out['status'], 'not_applicable')
-                self.assertEqual(out['actual_day_master'], stem)
+    def test_full_grid_coverage_only_yi_chou_absent(self):
+        # All 120 (day master, month branch) combinations: 119 match a
+        # reviewed entry; the single exception is 乙×丑, whose entry does
+        # not exist in the pinned snapshot (see GOLDEN absent_entries).
+        absent = {(a['day_master'], a['month_branch'])
+                  for a in GOLDEN['absent_entries']}
+        self.assertEqual(absent, {('乙', '丑')})
+        matched = 0
+        for stem in '甲乙丙丁戊己庚辛壬癸':
+            for branch in BRANCHES:
+                with self.subTest(stem=stem, branch=branch):
+                    out = tiaohou_lookup(stem, branch, ['甲', '乙', '丙', '丁'],
+                                         [[], [], [], []])
+                    if (stem, branch) in absent:
+                        self.assertEqual(out['status'], 'not_applicable')
+                        self.assertEqual(out['reason'], 'entry_absent_in_source')
+                        self.assertEqual(out['day_master'], stem)
+                        self.assertEqual(out['month_branch'], branch)
+                        self.assertNotIn('sequence', out)
+                    else:
+                        self.assertEqual(out['status'], 'matched')
+                        self.assertEqual(out['day_master'], stem)
+                        self.assertEqual(out['month_branch'], branch)
+                        matched += 1
+        self.assertEqual(matched, 119)
 
     def test_illegal_month_branch_fails_closed(self):
         for bad in ('猫', '', '甲', None, 3):

@@ -23,13 +23,14 @@ SNAPSHOT = ROOT / GOLDEN['source']['snapshot_path']
 
 def _all_quotes():
     for entry in GOLDEN['entries']:
-        yield entry['month_branch'], entry['quote'], entry['quote_locator']
+        key = (entry['day_master'], entry['month_branch'])
+        yield key, entry['quote'], entry['quote_locator']
         for branch in entry['branches']:
-            yield entry['month_branch'], branch['quote'], branch['locator']
+            yield key, branch['quote'], branch['locator']
         for item in entry['unencoded_branches']:
-            yield entry['month_branch'], item['quote'], item['locator']
+            yield key, item['quote'], item['locator']
         for item in entry['related']:
-            yield entry['month_branch'], item['quote'], item['locator']
+            yield key, item['quote'], item['locator']
 
 
 class SnapshotVerbatimTests(unittest.TestCase):
@@ -45,15 +46,16 @@ class SnapshotVerbatimTests(unittest.TestCase):
 
     def test_every_quote_is_verbatim_at_its_locator_and_unique(self):
         checked = 0
-        for branch, quote, locator in _all_quotes():
-            with self.subTest(branch=branch, start=locator['char_start']):
+        for key, quote, locator in _all_quotes():
+            with self.subTest(entry=key, start=locator['char_start']):
                 start, end = locator['char_start'], locator['char_end']
                 self.assertEqual(self.text[start:end], quote)
                 self.assertEqual(self.text.count(quote), 1)
                 self.assertEqual(self.text.count('\n', 0, start) + 1,
                                  locator['line'])
                 checked += 1
-        self.assertEqual(checked, 19)
+        # 119 entries + 10 encoded branches + 24 unencoded + 17 related.
+        self.assertEqual(checked, 170)
 
 
 class RealChartEndToEndTests(unittest.TestCase):
