@@ -6,6 +6,28 @@ from .resolver import EvidenceResolver
 ACTION_VARIANT = 'ditiansui-action-conditions-v1'
 EFFECT_VARIANT = 'ditiansui-bounded-action-effects-v1'
 
+# TJ-011.2: generating-month extension of the bounded pure-support scope.
+# Reviewed within the SAME Source as the existing scope
+# (bazi.source.ditiansui-spouse, C-grade single electronic lineage,
+# daizhigev20 snapshot SHA256
+# 6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795):
+# Ren's Congwang definition (char 96521 / line 4905: "从旺者，四柱皆
+# 比劫，无官杀之制，有印绶之生，旺之极者") requires peer stems with
+# resource generation and no controlling force; unlike the Congqiang
+# definition (char 96605) it does NOT require the month to be the day
+# master's own element or season. The root table (chars 39967-40222 /
+# line 1613) lists 亥 first among the heavy roots for Jia/Yi wood
+# ("如甲乙逢亥寅卯之类是也"), and 亥's reviewed principal qi is 壬
+# (section s034), whose relation to a wood day master is generates_me
+# (Golden bazi.principal-generate). 亥's hidden stems are exactly 壬
+# (generating) and 甲 (same element), so a support-only composition is
+# satisfiable in this month, as it is in single-qi 卯. The sealed
+# policy concept cannot be extended from public code, so this reviewed
+# month set is declared here and cross-checked in the adjudication
+# layer, mirroring how the 卯/酉 scope is already hardcoded beside the
+# sealed pure_months / isolated_months policy values.
+PURE_GENERATING_MONTHS = ('亥',)
+
 
 def action_effects(pillars, *, observed, relations, principal, availability,
                    action_variant=EFFECT_VARIANT):
@@ -50,15 +72,35 @@ def action_effects(pillars, *, observed, relations, principal, availability,
             for i, r in enumerate(visible)),
         'no_unresolved_interactions': no_interactions,
     }
-    pure, isolated = all(pure_conditions.values()), all(isolated_conditions.values())
+    # TJ-011.2: the generating-month (亥) scope mirrors the pure scope
+    # condition by condition; only the month condition differs (reviewed
+    # principal relation generates_me in a PURE_GENERATING_MONTHS month
+    # instead of same_element in a policy pure_months month). Every other
+    # key reuses the pure scope's computed fact, so the two scopes can
+    # never diverge on a shared condition.
+    generating_conditions = {
+        'wood_day_master': pure_conditions['wood_day_master'],
+        'reviewed_generating_month': principal['month_branch'] in PURE_GENERATING_MONTHS
+            and principal['status'] == 'reviewed_relation' and principal['relation'] == 'generates_me',
+        'all_positions_support_only': pure_conditions['all_positions_support_only'],
+        'visible印_present': pure_conditions['visible印_present'],
+        'visible比_present': pure_conditions['visible比_present'],
+        'effective_day_roots': pure_conditions['effective_day_roots'],
+        'all_visible_have_reviewed_roots': pure_conditions['all_visible_have_reviewed_roots'],
+        'no_unresolved_interactions': pure_conditions['no_unresolved_interactions'],
+    }
+    pure, generating, isolated = (all(pure_conditions.values()), all(generating_conditions.values()),
+                                  all(isolated_conditions.values()))
     visible_effects = []
     for i, row in enumerate(visible):
-        proved = pure or (isolated and row['fact']['pillar'] == 'month')
+        proved = pure or generating or (isolated and row['fact']['pillar'] == 'month')
         visible_effects.append({'action_index': i, 'fact': dict(row['fact']),
             'eligible_root_positions': eligible[i], 'conditions': row['conditions'],
             'effective_action': row['fact']['relation'] if proved else None,
             'effect_status': 'effective_in_reviewed_context' if proved else 'unresolved',
-            'context': 'pure_support' if pure else ('isolated_control' if proved else None),
+            'context': 'pure_support' if pure else (
+                'pure_generating_support' if generating else (
+                    'isolated_control' if proved else None)),
             'polarity_equivalence_assumed': False, 'distance_weight': None})
     hidden_effects = []
     for i, row in enumerate(hidden):
@@ -67,11 +109,13 @@ def action_effects(pillars, *, observed, relations, principal, availability,
             and r['root_presence']['hidden_stem'] == row['fact']['stem']
             and r['root_availability'] == 'effective']
         hidden_effects.append({'action_index': i, 'fact': dict(row['fact']),
-            'effective_action': 'root_support' if pure and root_indexes else None,
-            'effect_status': 'root_participation_only' if pure and root_indexes else 'unresolved',
+            'effective_action': 'root_support' if (pure or generating) and root_indexes else None,
+            'effect_status': 'root_participation_only' if (pure or generating) and root_indexes else 'unresolved',
             'root_indexes': root_indexes, 'equivalent_to_visible': False})
     return {'action_variant': action_variant, 'day_master': observed['day_master'],
             'pure_support_scope_conditions': pure_conditions, 'pure_support_scope_met': pure,
+            'pure_generating_support_scope_conditions': generating_conditions,
+            'pure_generating_support_scope_met': generating,
             'isolated_control_scope_conditions': isolated_conditions, 'isolated_control_scope_met': isolated,
             'visible_relations': visible_effects, 'hidden_relations': hidden_effects,
             'unresolved_interaction_kinds': interaction_kinds,
@@ -79,7 +123,7 @@ def action_effects(pillars, *, observed, relations, principal, availability,
                 'stem_five_combinations', 'branch_six_harmonies', 'branch_triple_harmonies')) else 'not_present',
             'stem_erasure_applied': False, 'hidden_visible_equivalence_applied': False,
             'weights_available': False, 'overall_strength': None,
-            'scope': '仅已审木日主纯印比月卯生扶、或无根无扶月酉透辛的条件作用；其他效力未裁定，不推从格、喜用或吉凶。'}
+            'scope': '仅已审木日主纯印比月卯生扶、亥月印比生扶（从旺口径）、或无根无扶月酉透辛的条件作用；其他效力未裁定，不推从格、喜用或吉凶。'}
 
 
 def action_conditions(pillars, day_master, *, support, relations, month_command,

@@ -3,7 +3,7 @@
 from .bazi_core import VARIANT as BAZI_VARIANT
 from .bazi_root_conditions import STRENGTH_VARIANT, AVAILABILITY_VARIANT, root_availability
 from .bazi_commander import PRINCIPAL_VARIANT, principal_month
-from .bazi_action_conditions import EFFECT_VARIANT
+from .bazi_action_conditions import EFFECT_VARIANT, PURE_GENERATING_MONTHS
 
 ADJUDICATION_VARIANT = 'bazi-strength-adjudication-v1'
 
@@ -132,6 +132,17 @@ def _bounded_assessment(trace):
         and roots['root_presence']
         and all(r['root_availability'] == 'effective' for r in roots['roots'])
         and all(r['effect_status'] == 'effective_in_reviewed_context' for r in effects['visible_relations']))
+    # TJ-011.2: generating-month (亥) disjunct, structurally identical to
+    # the pure disjunct except the month condition: a reviewed generating
+    # month (principal qi generates the wood day master) instead of the
+    # same-element month. It rests on Ren's Congwang definition, not on
+    # seasonal command (得令), and yields strong only, never weak.
+    pure_generating = (effects['pure_generating_support_scope_met']
+        and all(effects['pure_generating_support_scope_conditions'].values())
+        and command['month_branch'] in PURE_GENERATING_MONTHS and command['relation'] == 'generates_me'
+        and roots['root_presence']
+        and all(r['root_availability'] == 'effective' for r in roots['roots'])
+        and all(r['effect_status'] == 'effective_in_reviewed_context' for r in effects['visible_relations']))
     isolated = (effects['isolated_control_scope_met']
         and all(effects['isolated_control_scope_conditions'].values())
         and command['month_branch'] == '酉' and command['relation'] == 'controls_me'
@@ -139,21 +150,41 @@ def _bounded_assessment(trace):
         and any(r['fact']['pillar'] == 'month' and r['effective_action'] == 'controls_me'
                 and r['effect_status'] == 'effective_in_reviewed_context' for r in effects['visible_relations']))
     classification, why, conditions = 'indeterminate', None, []
-    if not blockers and (pure or isolated):
-        classification = 'strong' if pure else 'weak'
-        predicate = 'pure_support' if pure else 'isolated_control'
-        rule_id = 'bazi.phase2.strength_' + predicate
+    if not blockers and (pure or pure_generating or isolated):
+        if pure:
+            classification, predicate = 'strong', 'pure_support'
+        elif pure_generating:
+            classification, predicate = 'strong', 'pure_generating_support'
+        else:
+            classification, predicate = 'weak', 'isolated_control'
         for key, met in effects[predicate + '_scope_conditions'].items():
             conditions.append({'condition':key,'met':met,
                 'fact_ref':pointer('action_effects','/' + predicate + '_scope_conditions/' + key),
                 'rule_id':'bazi.phase2.action_effects',
                 'evidence_ids':list(steps['bazi.phase2.action_effects'][1]['evidence_ids'])})
-        trace.add(rule_id, {'strength_variant':ADJUDICATION_VARIANT,
-                  'factor_refs':[pointer(k) for k in keys]},
-                  {'classification':classification,'variant':ADJUDICATION_VARIANT,'conditions':conditions})
-        why = {'sufficient_rule':rule_id,'conditions':conditions,
-               'all_required_conditions_verified':True,
-               'excluded_dependencies':['dated_commander','independent_hidden_effect_scores']}
+        if predicate == 'pure_generating_support':
+            # TJ-011.2: this predicate has no sealed Phase1/Phase2 rule
+            # registration yet (the knowledge snapshot is manifest-pinned
+            # and r024's registered conditions are Mao-scoped), so no
+            # trace step is added under an unregistered or borrowed rule
+            # ID -- that would misattribute evidence. The verdict is
+            # issued through the registered bounded-adjudication exit
+            # (bazi.rule.r026) with every condition bound to executed
+            # factor evidence, and the pending registration is disclosed
+            # on the verdict itself (TJ-013.1 tiaohou pattern).
+            why = {'sufficient_rule':None,'sufficient_predicate':predicate,
+                   'predicate_rule_registration':'pending_phase1_rule_registration',
+                   'conditions':conditions,
+                   'all_required_conditions_verified':True,
+                   'excluded_dependencies':['dated_commander','independent_hidden_effect_scores']}
+        else:
+            rule_id = 'bazi.phase2.strength_' + predicate
+            trace.add(rule_id, {'strength_variant':ADJUDICATION_VARIANT,
+                      'factor_refs':[pointer(k) for k in keys]},
+                      {'classification':classification,'variant':ADJUDICATION_VARIANT,'conditions':conditions})
+            why = {'sufficient_rule':rule_id,'conditions':conditions,
+                   'all_required_conditions_verified':True,
+                   'excluded_dependencies':['dated_commander','independent_hidden_effect_scores']}
     else:
         block('action_effects','/pure_support_scope_conditions','outside_reviewed_sufficient_conditions')
     relevant = {'bazi.phase2.' + k for k in ('pillars','hidden_stems','support_relations',
@@ -174,7 +205,8 @@ def _bounded_assessment(trace):
             'root_availability':True,'bounded_visible_effects':True,'independent_hidden_effect_scores':False},
         'maturity':'PARTIAL','research_only':True,'public_enabled':False,'ai_enabled':False,
         'weights_available':False,'source_case_lookup_used':False,'full_strength_classifier_ready':False,
-        'limitations':['仅显式任氏木日主：纯印比月卯，或无根无扶透辛月酉；其余未裁定。',
+        'limitations':['仅显式任氏木日主：纯印比月卯、印比生扶月亥（从旺口径，不取当令），或无根无扶透辛月酉；其余未裁定。',
+            '亥月分支谓词尚待密封 Phase1/Phase2 规则注册（pending），裁决经已注册的有限裁决出口发出并逐条件绑定因子证据，不冒充已注册规则的裁决。',
             '来源仍为 C 级单一电子版本，未宣称独立底本一致；强不等于吉，弱不等于凶。',
             '不处理 balanced、数字力度、从格、喜用、行运，暗合、半合拱夹与其他学派刑法不在范围。',
             '分日冲突与其他学派刑法仍 unresolved，但不是此明确 Variant 的依赖；不自动开放产品或 AI。']}

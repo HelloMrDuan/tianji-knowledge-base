@@ -88,7 +88,7 @@
         "有限充分条件旺衰裁决"
       ],
       "legacy_paths": [],
-      "missing": "已有十四条已审执行规则；显式任氏研究 bazi-strength-adjudication-v1 在木月卯纯印比、有根实际生扶或木月酉无根无扶透辛的充分语境可判 strong/weak，其余 indeterminate，四类固定 Golden 同口径覆盖。整体仍 PARTIAL：仅有限研究范围，不是全覆盖分类；分日体系 BLOCKED，其他根型和一般作用未完成，无 balanced、评分或计票，格局/喜用/行运/前台及 AI 仍关闭。",
+      "missing": "已有十四条已审执行规则；显式任氏研究 bazi-strength-adjudication-v1 在木月卯纯印比有根实际生扶、木月亥印比生扶（从旺口径，TJ-011.2 扩围，有专项真实日期用例覆盖）或木月酉无根无扶透辛的充分语境可判 strong/weak，其余 indeterminate，四类固定 Golden 同口径覆盖。整体仍 PARTIAL：仅有限研究范围，不是全覆盖分类；分日体系 BLOCKED，其他根型和一般作用未完成，无 balanced、评分或计票，格局/喜用/行运/前台及 AI 仍关闭。",
       "execution_rules": [
         "bazi.phase2.month_command_factors",
         "bazi.phase2.root_candidates",
