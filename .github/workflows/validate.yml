@@ -72,6 +72,12 @@ jobs:
       # job otherwise never installs (first CI test to import lunar_python).
       - run: python -m pip install 'lunar-python==1.4.8'
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tz_birth_calendar.py' -v
+      # TJ-031.6 solar-term attribution regression: year/month pillars and
+      # solar_term_started_at follow the birth instant against the
+      # provider's China-baseline jieqi table (expected values derived
+      # independently via sxtwl/JPL anchors in tj0316-verify, NOT from
+      # the code under test). Same partition as the F-1 test above.
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tz_solar_term_instant.py' -v
       # TJ-031.5 public labeling contracts: evidence excerpt flags,
       # liuyao judgment scope annotation, dream source title resolved
       # from evidence records. Pure projection/record units (no

@@ -23,12 +23,24 @@ Validation reuses bazi_calendar_precision_audit.audit_birth_instant (pure
 zoneinfo/tzdb logic, no private data) so production and the research audit
 cannot drift apart. The returned dict carries the same keys as calendar()
 plus tz_name / civil_classification / offset_disambiguation, so callers can
-audit which frame produced the pillars. solar_term_started_at carries the
-zone offset at the jieqi moment (calendar() historically hardcodes '+08:00'
-even in DST; this module labels correctly for every zone).
+audit which frame produced the pillars.
+
+Frame split (TJ-031.6): the lunar date and the day/hour pillars follow the
+birthplace wall-time frame (local civil day and clock). The solar-term
+attribution fields (solar_term, year_ganzhi, month_ganzhi) and
+solar_term_started_at are INSTANT-frame: lunar-python's jieqi table is a
+China-baseline (UTC+08:00) wall-time table, so term attribution is read
+from a Lunar object built from the instant's Asia/Shanghai wall time --
+comparing the birthplace clock against China term clocks instead would
+shift every attribution boundary by (8h - birthplace offset).
+solar_term_started_at renders the term's absolute instant (provider wall
+reading minus 8h) in the birthplace zone, so every zone labels the same
+term with the same instant; splicing the birthplace offset onto the China
+wall reading (the pre-TJ-031.6 behaviour) mislabelled it by exactly
+(8h - birthplace offset).
 """
 
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 
 from lunar_python import Solar
@@ -56,18 +68,8 @@ def resolve_zone(zone):
     return zone
 
 
-def _offset_suffix(naive_wall, zone):
-    """Format the zone offset at a naive wall time as +HH:MM (round-trip safe)."""
-    tz = ZoneInfo(zone)
-    for fold in (0, 1):
-        candidate = naive_wall.replace(tzinfo=tz, fold=fold)
-        if candidate.astimezone(timezone.utc).astimezone(tz).replace(
-            tzinfo=None
-        ) == naive_wall:
-            offset = candidate.utcoffset()
-            break
-    else:  # pragma: no cover - jieqi moments do not fall in DST gaps
-        offset = naive_wall.replace(tzinfo=tz, fold=0).utcoffset()
+def _format_offset(offset):
+    """Format a utcoffset timedelta as +HH:MM (with :SS when nonzero)."""
     total = int(offset.total_seconds())
     sign = "+" if total >= 0 else "-"
     total = abs(total)
@@ -99,6 +101,10 @@ def calendar_for_zone(value, zone=None, day_boundary="midnight"):
     local = instant.astimezone(ZoneInfo(zone))
     if not 1900 <= local.year <= 2099:
         raise ValueError("Supported calendar range is 1900..2099")
+    # Local frame (birthplace wall time): the lunar date and the day/hour
+    # pillars follow the birthplace civil day and clock (F-1 semantics,
+    # verified 144/144 against independent references; do not move these
+    # to another frame).
     lunar = Solar.fromYmdHms(
         local.year, local.month, local.day, local.hour, local.minute, local.second
     ).getLunar()
@@ -108,15 +114,36 @@ def calendar_for_zone(value, zone=None, day_boundary="midnight"):
         else lunar.getDayInGanZhiExact()
     )
     hour = hour_pillar(day[0], BRANCHES[((local.hour + 1) // 2) % 12])
-    previous = lunar.getPrevJieQi(False)
+    # Instant frame (TJ-031.6): year/month attribution is decided by where
+    # the instant falls relative to the jieqi instants. The provider's
+    # jieqi table is a China-baseline wall-time table, so attribution is
+    # read from a Lunar object fed the instant's Asia/Shanghai wall time --
+    # exactly the fields the frozen calendar() feeds. For zone ==
+    # Asia/Shanghai this object is field-identical to the local one, so
+    # Shanghai output is unchanged.
+    china = instant.astimezone(ZoneInfo("Asia/Shanghai"))
+    china_lunar = Solar.fromYmdHms(
+        china.year, china.month, china.day, china.hour, china.minute, china.second
+    ).getLunar()
+    previous = china_lunar.getPrevJieQi(False)
     jieqi_wall = previous.getSolar().toYmdHms()
     jieqi_naive = datetime.strptime(jieqi_wall, "%Y-%m-%d %H:%M:%S")
+    # jieqi_wall is a UTC+08:00-baseline reading of an absolute instant
+    # (the provider baseline, independent of historical China DST), so
+    # the term instant is wall - 8h. solar_term_started_at renders that
+    # instant in the birthplace zone: every zone's label reads back to
+    # the same UTC instant, equal to the provider term instant the
+    # pillars were attributed with.
+    jieqi_instant = jieqi_naive.replace(
+        tzinfo=timezone(timedelta(hours=8))
+    ).astimezone(ZoneInfo(zone))
     return {
         "local_datetime": local.isoformat(),
         "solar_term": previous.getName(),
-        "solar_term_started_at": jieqi_wall + _offset_suffix(jieqi_naive, zone),
-        "year_ganzhi": lunar.getYearInGanZhiExact(),
-        "month_ganzhi": lunar.getMonthInGanZhiExact(),
+        "solar_term_started_at": jieqi_instant.strftime("%Y-%m-%d %H:%M:%S")
+        + _format_offset(jieqi_instant.utcoffset()),
+        "year_ganzhi": china_lunar.getYearInGanZhiExact(),
+        "month_ganzhi": china_lunar.getMonthInGanZhiExact(),
         "day_ganzhi": day,
         "hour_ganzhi": hour,
         "day_boundary": day_boundary,
