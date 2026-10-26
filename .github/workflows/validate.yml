@@ -112,4 +112,12 @@ jobs:
       # in test_tj0171_dayun_classical_sealed.py (offline acceptance
       # only, NOT public CI, same partition rule).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0171_dayun_classical.py' -v
+      # TJ-017.4 dayun composition public contracts: Golden hand-derived
+      # case transcription, the composition's first three stages
+      # (calendar/direction/measurement/conversion) vs Golden stage
+      # values, and fail-closed refusals. The full composition incl.
+      # the sequence stage lives in test_tj0174_dayun_compose_sealed.py
+      # (offline acceptance only, NOT public CI, same partition rule:
+      # the sequence stage needs assembled canonical foundations).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0174_dayun_compose.py' -v
       - run: python scripts/audit_public_asset_changes.py --inventory
