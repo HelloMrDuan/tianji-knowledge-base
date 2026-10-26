@@ -18,7 +18,7 @@ class PolicyTests(unittest.TestCase):
         cls.contexts={d:context_for(raw,CanonicalRetriever().retrieve(raw)) for d,raw in cls.raw.items()}
     def test_fixed_suite_v1_v2_regression_test_provider_never_implies_model_quality(self):
         strict=asyncio.run(evaluate_suite(MechanicalProvider(),prompt_version='explanation-prompt-v2',model='mechanical-protocol-fixture'))
-        self.assertEqual(len(strict['cases']),102)
+        self.assertEqual(len(strict['cases']),103)
         self.assertEqual([c['id']+':'+str(c.get('error')) for c in strict['cases'] if c['status']!='passed'],[])
         baseline=asyncio.run(evaluate_suite(MechanicalProvider(),prompt_version='explanation-prompt-v1',model='mechanical-protocol-fixture'))
         self.assertEqual(strict['suite_sha256'],baseline['suite_sha256'])

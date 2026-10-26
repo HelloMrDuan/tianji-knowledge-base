@@ -252,40 +252,66 @@ class PrepareInputsTests(unittest.TestCase):
 
 
 class ScenarioContractTests(unittest.TestCase):
-    # Public checkout has no sealed runtime, so a contract-valid scenario
-    # call necessarily stops at RuntimeUnavailable AFTER passing the
-    # contract check. That is the assertion: the zone keys are accepted
-    # by the contract (a bogus key raises ValueError first instead).
-    def test_yearly_accepts_birth_zone(self):
-        with self.assertRaises(RuntimeUnavailable):
-            execute_scenario("yearly", {
-                "birth_value": LONDON, "target_year": 2026,
-                "birth_zone": "Europe/London"})
+    # Contract-key acceptance ONLY (rewritten in TJ-031.2). A scenario
+    # handler validates its input keys against the reviewed contract
+    # BEFORE anything executes, so in every environment: a bogus key
+    # raises the contract ValueError, and a contract-valid call never
+    # raises it. What happens after the contract check differs by
+    # partition and both outcomes are honest here: in a public checkout
+    # the call stops at RuntimeUnavailable (no sealed runtime — that
+    # proves key acceptance ONLY, never a computation); under the real
+    # runtime the call returns a result, whose scenario_id and
+    # determinism are asserted. End-to-end zone computation (correct
+    # pillars per zone) is asserted in test_tz_scenario_offline.py,
+    # which runs in offline acceptance against the sealed runtime.
+    # The F-1 version of these tests asserted RuntimeUnavailable
+    # unconditionally, which inverted and failed wherever the runtime
+    # actually exists.
+
+    CONTRACT_ERROR = "Scenario input fields do not match the reviewed contract"
+
+    def assert_contract_accepts(self, scenario_id, payload):
+        try:
+            output = execute_scenario(scenario_id, payload)
+        except RuntimeUnavailable:
+            return  # public checkout: keys accepted, runtime absent
+        self.assertEqual(output["scenario_id"], scenario_id)
+        self.assertTrue(output["deterministic"])
+
+    def assert_contract_rejects_bogus_key(self, scenario_id, payload):
         with self.assertRaises(ValueError) as ctx:
-            execute_scenario("yearly", {
-                "birth_value": LONDON, "target_year": 2026,
-                "bogus_key": 1})
-        self.assertIn("reviewed contract", str(ctx.exception))
+            execute_scenario(scenario_id, dict(payload, bogus_key=1))
+        self.assertIn(self.CONTRACT_ERROR, str(ctx.exception))
 
-    def test_question_accepts_zone(self):
-        with self.assertRaises(RuntimeUnavailable):
-            execute_scenario("question", {
-                "value": LONDON, "yao_values": [9, 7, 7, 7, 7, 7],
-                "zone": "Europe/London"})
+    def test_yearly_contract_accepts_birth_zone(self):
+        payload = {
+            "birth_value": LONDON, "target_year": 2026,
+            "birth_zone": "Europe/London"}
+        self.assert_contract_accepts("yearly", payload)
+        self.assert_contract_rejects_bogus_key("yearly", payload)
 
-    def test_life_accepts_birth_zone(self):
-        with self.assertRaises(RuntimeUnavailable):
-            execute_scenario("life", {
-                "birth_value": LONDON, "target_year": 2026,
-                "birth_zone": "Europe/London"})
+    def test_question_contract_accepts_zone(self):
+        payload = {
+            "value": LONDON, "yao_values": [9, 7, 7, 7, 7, 7],
+            "zone": "Europe/London"}
+        self.assert_contract_accepts("question", payload)
+        self.assert_contract_rejects_bogus_key("question", payload)
 
-    def test_compatibility_accepts_person_zones(self):
-        with self.assertRaises(RuntimeUnavailable):
-            execute_scenario("compatibility", {
-                "person_a_birth_value": LONDON,
-                "person_b_birth_value": SHANGHAI,
-                "person_a_zone": "Europe/London",
-                "person_b_zone": "Asia/Shanghai"})
+    def test_life_contract_accepts_birth_zone(self):
+        payload = {
+            "birth_value": LONDON, "target_year": 2026,
+            "birth_zone": "Europe/London"}
+        self.assert_contract_accepts("life", payload)
+        self.assert_contract_rejects_bogus_key("life", payload)
+
+    def test_compatibility_contract_accepts_person_zones(self):
+        payload = {
+            "person_a_birth_value": LONDON,
+            "person_b_birth_value": SHANGHAI,
+            "person_a_zone": "Europe/London",
+            "person_b_zone": "Asia/Shanghai"}
+        self.assert_contract_accepts("compatibility", payload)
+        self.assert_contract_rejects_bogus_key("compatibility", payload)
 
 
 if __name__ == "__main__":

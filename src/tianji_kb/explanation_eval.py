@@ -175,6 +175,23 @@ class RecordingProvider:
         self.reply=await self.provider.explain(context)
         return self.reply
 
+def _declared_rejection_matches(case,exc):
+    """Whether an exception is exactly the rejection a case declared.
+
+    A case may pin its expected input rejection to one exact cause via
+    ``expected_rejection`` (TJ-031.2, qimen.eval-boundary-05). Only a plain
+    ValueError whose message contains the declared text counts: any other
+    exception type — including RuntimeUnavailable, a ValueError subclass
+    raised when the sealed runtime is absent — or any other message is a
+    different failure and must not pass as the declared rejection. Cases
+    without the declaration keep the historical behaviour (any
+    ValueError/TypeError counts as the expected rejection).
+    """
+    declared=case.get('expected_rejection')
+    if declared is None:return True
+    return (type(exc) is ValueError and declared.get('exception')=='ValueError'
+            and bool(declared.get('message_contains')) and declared['message_contains'] in str(exc))
+
 async def evaluate_suite(provider=None,*,prompt_version='explanation-prompt-v1',domains=None,suite=None,
                          run_kind='test_provider',model='not-configured',timeout=20):
     suite=suite or load_suite();prompt=get_prompt(prompt_version);results=[]
@@ -182,8 +199,13 @@ async def evaluate_suite(provider=None,*,prompt_version='explanation-prompt-v1',
         if domains and case['domain'] not in domains:continue
         row={'id':case['id'],'domain':case['domain'],'expected':case['expected'],'tags':case['tags']}
         try:raw=execute_case(case)
-        except (ValueError,TypeError):
-            row.update(status='passed' if case['expected']=='input_rejected' else 'failed',error='input_rejected')
+        except (ValueError,TypeError) as exc:
+            if case['expected']=='input_rejected' and _declared_rejection_matches(case,exc):
+                row.update(status='passed',error='input_rejected')
+            elif case['expected']=='input_rejected':
+                row.update(status='failed',error='rejection_reason_mismatch')
+            else:
+                row.update(status='failed',error='input_rejected')
             results.append(row);continue
         except RuntimeError:
             row.update(status='failed',error='engine_oracle_drift');results.append(row);continue

@@ -1,6 +1,18 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "suite_id": "six-domain-explanation-eval-v1",
+  "revision": {
+    "task": "TJ-031.2",
+    "date": "2026-10-26",
+    "previous_schema_version": "1.0",
+    "previous_case_count": 102,
+    "previous_file_sha256": "883582f650e17597b332e48cf93c553ba4ce60d4813773029e99d4ea7913ad7b",
+    "previous_suite_sha256": "1fb3c85151c96b88541f13ed2c2d6a5e2c44800fa7de194f6b8912397c9e463c",
+    "changes": [
+      "qimen.eval-boundary-05: expected changed from explanation to input_rejected with a declared exact rejection cause (TJ-031.2, decision C). The original input and the original calculation oracle are retained verbatim in the case; the oracle no longer applies because the recorded input is not a valid civil time in Asia/Shanghai.",
+      "qimen.eval-tz-dst-positive: new positive explanation case with a legal IANA-zone input (1988 Asia/Shanghai DST offset +09:00), added so the boundary-05 change does not reduce positive qimen coverage (positive qimen cases stay at 12; total cases 102 -> 103, qimen cases 17 -> 18)."
+    ]
+  },
   "cases": [
     {
       "id": "fengshui.north-wrap",
@@ -1881,8 +1893,20 @@
         "low_evidence",
         "variant_limitations"
       ],
-      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
-      "expected": "explanation",
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden. TJ-031.2: the original calculation oracle below is retained verbatim for the record and NO LONGER APPLIES: the recorded input claims offset +08:00, but IANA tzdb gives Asia/Shanghai +08:05:43 (LMT) on 1900-01-07, so the input is not a valid civil time and the production path must reject it (expected input_rejected).",
+      "expected": "input_rejected",
+      "expected_rejection": {
+        "exception": "ValueError",
+        "message_contains": "claimed UTC offset 8:00:00 contradicts tzdb for civil time 1900-01-07T12:00:00 in Asia/Shanghai; historical offset misuse is rejected"
+      },
+      "rejection_basis": {
+        "check": "IANA tzdb via Python zoneinfo: datetime(1900, 1, 7, 12, 0, tzinfo=ZoneInfo('Asia/Shanghai')).utcoffset() == +08:05:43; the claimed +08:00 is not a valid offset for that civil time",
+        "tzdb_source": "system tzdata (/usr/share/zoneinfo/tzdata.zi)",
+        "tzdb_versions_verified": [
+          "2026e (authoring environment)",
+          "2026c (offline-acceptance machine)"
+        ]
+      },
       "expected_chart_sha256": "ee2949389dd953948bbfff0d07a6e96d1af2e947ceeb7ea1aacd2e5c9585d353",
       "expected_rule_ids": [
         "qimen.phase2.calendar",
@@ -1959,6 +1983,37 @@
       "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden",
       "expected": "explanation",
       "expected_chart_sha256": "77b2095dc9dcee764c8dc46895c1fe6a3530f33a9adf088e2f72e2d2d4fe288f",
+      "expected_rule_ids": [
+        "qimen.phase2.calendar",
+        "qimen.phase2.bureau",
+        "qimen.phase2.earth",
+        "qimen.phase2.chiefs",
+        "qimen.phase2.plates",
+        "qimen.phase2.bureau"
+      ]
+    },
+    {
+      "id": "qimen.eval-tz-dst-positive",
+      "domain": "qimen",
+      "variant": "qfdk-exact-term-midnight-v2",
+      "input": {
+        "value": "1988-07-01T12:00:00+09:00",
+        "zone": "Asia/Shanghai"
+      },
+      "mode": "production",
+      "tags": [
+        "tz_validation",
+        "low_evidence",
+        "variant_limitations"
+      ],
+      "oracle_scope": "fixed Phase 3 chart snapshot; not a new independent algorithm Golden. TJ-031.2: positive case with a legal IANA-zone input — the 1988 Asia/Shanghai DST offset is +09:00 per IANA tzdb, so this civil time is valid and must compute. Calendar facts cross-checked with the independent sxtwl 2.0.7 implementation (day pillar 丁巳; solar term 夏至 in effect on 1988-07-01); the chart digest itself is a fixed snapshot, not an independent verification of the qimen algorithm.",
+      "expected": "explanation",
+      "expected_chart_subset": {
+        "solar_term": "夏至",
+        "day_ganzhi": "丁巳",
+        "hour_ganzhi": "丙午"
+      },
+      "expected_chart_sha256": "f914c29c3d1d8a05f6b70d18b9f3b576725d2b4393c7114f065702501ee7e9f7",
       "expected_rule_ids": [
         "qimen.phase2.calendar",
         "qimen.phase2.bureau",
