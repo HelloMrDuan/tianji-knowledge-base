@@ -1,0 +1,1936 @@
+{
+ "variant": "xiyong-readable-hints-v1",
+ "task": "TJ-013.3 第一阶段（喜用结果用户可读提示）",
+ "contract": "每例为真实出生时刻，经真实历法路径（calendar_for_zone）得四柱，出生时刻与四柱沿用 TJ-013.2/TJ-013 既有 Golden（weak、pivot 两例为本批新构造并在 derivation 中逐项手工推导）。期望文本全部按结构化事实手工撰写：每条 line 在 fact_sources 中标注其事实字段来源，严禁由实现输出反填。渲染事实封闭性（line 干名集合 ⊆ 输入事实干名集合）、禁用词零出现、确定性，由公开专项钉住；密封专项以真实 chart() 全链回验四对象与全部期望文本。presented_no_conflict 顶层状态在当前已审覆盖下真实盘不可达（TJ-013.2 已证），本 Golden 不以合成盘面充数，其状态行模板转写由公开专项的分类器逻辑测试覆盖并明示。",
+ "cases": [
+  {
+   "id": "support-first-pick-is-medicine",
+   "focus": "support",
+   "source_birth": {
+    "value": "1960-03-07T01:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   },
+   "pillars": [
+    "庚子",
+    "己卯",
+    "甲午",
+    "乙丑"
+   ],
+   "day_master": "甲",
+   "facts": {
+    "tiaohou": {
+     "month_branch": "卯",
+     "visible_stems": [
+      "庚",
+      "己",
+      "甲",
+      "乙"
+     ],
+     "hidden_stems": {
+      "year": [
+       "癸"
+      ],
+      "month": [
+       "乙"
+      ],
+      "day": [
+       "丁",
+       "己"
+      ],
+      "hour": [
+       "己",
+       "癸",
+       "辛"
+      ]
+     }
+    },
+    "bingyao": {
+     "visible_gods": [
+      {
+       "pillar": "year",
+       "stem": "庚",
+       "ten_god": "七杀"
+      },
+      {
+       "pillar": "month",
+       "stem": "己",
+       "ten_god": "正财"
+      },
+      {
+       "pillar": "hour",
+       "stem": "乙",
+       "ten_god": "劫财"
+      }
+     ]
+    }
+   },
+   "expected_strength": {
+    "classification": "indeterminate",
+    "decision_status": "insufficient_reviewed_rules",
+    "sufficient_predicate": null,
+    "sufficient_rule": null,
+    "conditions": []
+   },
+   "expected_presentation_status": "presented_partial",
+   "expected_sections": {
+    "tiaohou": {
+     "status": "adjudicated",
+     "lines": [
+      {
+       "text": "调候体系（《穷通宝鉴》甲木二月条）：原文取用顺序为：庚（第1取，透于年柱）。",
+       "fact_sources": [
+        "tiaohou.day_master",
+        "tiaohou.month_label",
+        "tiaohou.sequence[].stem",
+        "tiaohou.sequence[].order",
+        "tiaohou.sequence[].presence",
+        "tiaohou.sequence[].visible_positions",
+        "tiaohou.sequence[].hidden_positions"
+       ]
+      }
+     ]
+    },
+    "bingyao": {
+     "status": "adjudicated",
+     "lines": [
+      {
+       "text": "病药体系（《神峰通考》）：按原文两组病药对逐对陈述，两对不合并为单一结论。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      },
+      {
+       "text": "第一对（所论之神财、病为比劫、药为官杀）：财见于月柱干己（正财）；比劫见于时柱干乙（劫财）；官杀见于年柱干庚（七杀）。",
+       "fact_sources": [
+        "bingyao.pairs[0].rule.subject_god_class",
+        "bingyao.pairs[0].rule.disease_god_class",
+        "bingyao.pairs[0].rule.medicine_god_class",
+        "bingyao.pairs[0].subject.gods",
+        "bingyao.pairs[0].disease_candidate.gods",
+        "bingyao.pairs[0].medicine_candidate.gods",
+        "bingyao.pairs[0].medicine_status"
+       ]
+      },
+      {
+       "text": "第一对只陈述原文病药对的结构候选：药是否能去病，古籍病药说本身未给出可执行裁定，本系统不作判断。",
+       "fact_sources": [
+        "bingyao.pairs[].medicine_effect_status=unadjudicated",
+        "bingyao.pairs[].determination=None"
+       ]
+      },
+      {
+       "text": "第二对（所论之神食伤、病为印、药为财）：所论之神食伤在本盘显干中未见，该对未触发；未触发不等于无病。",
+       "fact_sources": [
+        "bingyao.pairs[1].not_triggered_reason",
+        "bingyao.pairs[1].subject.gods"
+       ]
+      }
+     ]
+    },
+    "strength": {
+     "status": "abstained",
+     "lines": [
+      {
+       "text": "旺衰裁定体系在本盘未表态：已审充分谓词均未命中，旺衰未裁定；未裁定不表示中和，也不表示偏强或偏弱。",
+       "fact_sources": [
+        "strength.classification=indeterminate",
+        "strength.decision_status=insufficient_reviewed_rules"
+       ]
+      }
+     ]
+    },
+    "fuyi": {
+     "status": "absent",
+     "lines": [
+      {
+       "text": "扶抑体系尚未建成，暂不可判断。",
+       "fact_sources": [
+        "conflict_presentation.systems[].status=absent",
+        "conflict_presentation.systems[].statement=None"
+       ]
+      }
+     ]
+    },
+    "pattern_useful_god": {
+     "status": "absent",
+     "lines": [
+      {
+       "text": "格局用神体系尚未建成，暂不可判断。",
+       "fact_sources": [
+        "conflict_presentation.systems[].status=absent",
+        "conflict_presentation.systems[].statement=None"
+       ]
+      }
+     ]
+    },
+    "conflict_presentation": {
+     "status": "presented_partial",
+     "lines": [
+      {
+       "text": "跨体系关系呈现状态：部分呈现。无 conflict；已建三体系中至少一个弃判或不适用，其余陈述照常呈现。",
+       "fact_sources": [
+        "conflict_presentation.status",
+        "conflict_presentation.status_definition"
+       ]
+      },
+      {
+       "text": "干乙：单方点名。调候一侧：未点名；病药一侧：为病药原文判为病之神。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao"
+       ]
+      },
+      {
+       "text": "干己：单方点名。调候一侧：未点名；病药一侧：为病药所论之主体。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao"
+       ]
+      },
+      {
+       "text": "干庚：相互支持。调候一侧：为取用序列第1位；病药一侧：为病药原文判为药之神。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao"
+       ]
+      },
+      {
+       "text": "旺衰结论为「未裁定」的分类而非干值点名，与调候、病药两体系不可比，只作上下文呈现。",
+       "fact_sources": [
+        "conflict_presentation.relations[].classification"
+       ]
+      },
+      {
+       "text": "关系分类的口径：本阶段只使用病药第一对（财—比劫—官杀）的角色点名；病药第二对（食伤—印—财）已在病药段逐对陈述，本阶段不单独做关系分类。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      },
+      {
+       "text": "各体系陈述并列呈现，系统不作统一裁定。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      }
+     ]
+    }
+   },
+   "derivation": "与 TJ-013.2 Golden support 例同盘（1960-03-07T01:30，庚子/己卯/甲午/乙丑）。调候甲木二月条取庚为首，庚透年柱。病药第一对触发（财己、比劫乙、官杀庚同显），第二对主体食伤不显未触发。旺衰三谓词均不满足（庚克我、己我克破坏纯生扶）→indeterminate。呈现层关系：庚 support、己与乙 one_sided；旺衰弃判→顶层 presented_partial。期望文本按事实逐条手写：取用序列、两对构成与未触发原因、关系三行与不可比行均与 013.2 已审预期一致。"
+  },
+  {
+   "id": "conflict-first-pick-is-disease",
+   "focus": "conflict",
+   "source_birth": {
+    "value": "1963-06-08T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   },
+   "pillars": [
+    "癸卯",
+    "戊午",
+    "壬午",
+    "丙午"
+   ],
+   "day_master": "壬",
+   "facts": {
+    "tiaohou": {
+     "month_branch": "午",
+     "visible_stems": [
+      "癸",
+      "戊",
+      "壬",
+      "丙"
+     ],
+     "hidden_stems": {
+      "year": [
+       "乙"
+      ],
+      "month": [
+       "丁",
+       "己"
+      ],
+      "day": [
+       "丁",
+       "己"
+      ],
+      "hour": [
+       "丁",
+       "己"
+      ]
+     }
+    },
+    "bingyao": {
+     "visible_gods": [
+      {
+       "pillar": "year",
+       "stem": "癸",
+       "ten_god": "劫财"
+      },
+      {
+       "pillar": "month",
+       "stem": "戊",
+       "ten_god": "七杀"
+      },
+      {
+       "pillar": "hour",
+       "stem": "丙",
+       "ten_god": "偏财"
+      }
+     ]
+    }
+   },
+   "expected_strength": {
+    "classification": "indeterminate",
+    "decision_status": "insufficient_reviewed_rules",
+    "sufficient_predicate": null,
+    "sufficient_rule": null,
+    "conditions": []
+   },
+   "expected_presentation_status": "presented_with_conflicts",
+   "expected_sections": {
+    "tiaohou": {
+     "status": "adjudicated",
+     "lines": [
+      {
+       "text": "调候体系（《穷通宝鉴》壬水五月条）：原文取用顺序为：癸（第1取，透于年柱）、庚（第2取，盘中未见）。",
+       "fact_sources": [
+        "tiaohou.day_master",
+        "tiaohou.month_label",
+        "tiaohou.sequence[].stem",
+        "tiaohou.sequence[].order",
+        "tiaohou.sequence[].presence",
+        "tiaohou.sequence[].visible_positions",
+        "tiaohou.sequence[].hidden_positions"
+       ]
+      }
+     ]
+    },
+    "bingyao": {
+     "status": "adjudicated",
+     "lines": [
+      {
+       "text": "病药体系（《神峰通考》）：按原文两组病药对逐对陈述，两对不合并为单一结论。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      },
+      {
+       "text": "第一对（所论之神财、病为比劫、药为官杀）：财见于时柱干丙（偏财）；比劫见于年柱干癸（劫财）；官杀见于月柱干戊（七杀）。",
+       "fact_sources": [
+        "bingyao.pairs[0].rule.subject_god_class",
+        "bingyao.pairs[0].rule.disease_god_class",
+        "bingyao.pairs[0].rule.medicine_god_class",
+        "bingyao.pairs[0].subject.gods",
+        "bingyao.pairs[0].disease_candidate.gods",
+        "bingyao.pairs[0].medicine_candidate.gods",
+        "bingyao.pairs[0].medicine_status"
+       ]
+      },
+      {
+       "text": "第一对只陈述原文病药对的结构候选：药是否能去病，古籍病药说本身未给出可执行裁定，本系统不作判断。",
+       "fact_sources": [
+        "bingyao.pairs[].medicine_effect_status=unadjudicated",
+        "bingyao.pairs[].determination=None"
+       ]
+      },
+      {
+       "text": "第二对（所论之神食伤、病为印、药为财）：所论之神食伤在本盘显干中未见，该对未触发；未触发不等于无病。",
+       "fact_sources": [
+        "bingyao.pairs[1].not_triggered_reason",
+        "bingyao.pairs[1].subject.gods"
+       ]
+      }
+     ]
+    },
+    "strength": {
+     "status": "abstained",
+     "lines": [
+      {
+       "text": "旺衰裁定体系在本盘未表态：已审充分谓词均未命中，旺衰未裁定；未裁定不表示中和，也不表示偏强或偏弱。",
+       "fact_sources": [
+        "strength.classification=indeterminate",
+        "strength.decision_status=insufficient_reviewed_rules"
+       ]
+      }
+     ]
+    },
+    "fuyi": {
+     "status": "absent",
+     "lines": [
+      {
+       "text": "扶抑体系尚未建成，暂不可判断。",
+       "fact_sources": [
+        "conflict_presentation.systems[].status=absent",
+        "conflict_presentation.systems[].statement=None"
+       ]
+      }
+     ]
+    },
+    "pattern_useful_god": {
+     "status": "absent",
+     "lines": [
+      {
+       "text": "格局用神体系尚未建成，暂不可判断。",
+       "fact_sources": [
+        "conflict_presentation.systems[].status=absent",
+        "conflict_presentation.systems[].statement=None"
+       ]
+      }
+     ]
+    },
+    "conflict_presentation": {
+     "status": "presented_with_conflicts",
+     "lines": [
+      {
+       "text": "跨体系关系呈现状态：存在冲突。至少一条 conflict 关系存在，冲突原样呈现、无裁决。",
+       "fact_sources": [
+        "conflict_presentation.status",
+        "conflict_presentation.status_definition"
+       ]
+      },
+      {
+       "text": "干丙：单方点名。调候一侧：未点名；病药一侧：为病药所论之主体。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao"
+       ]
+      },
+      {
+       "text": "干庚：单方点名。调候一侧：为取用序列第2位；病药一侧：未点名。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao"
+       ]
+      },
+      {
+       "text": "干戊：单方点名。调候一侧：未点名；病药一侧：为病药原文判为药之神。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao"
+       ]
+      },
+      {
+       "text": "干癸：相互冲突。调候一侧：为取用序列第1位；病药一侧：为病药原文判为病之神。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao"
+       ]
+      },
+      {
+       "text": "旺衰结论为「未裁定」的分类而非干值点名，与调候、病药两体系不可比，只作上下文呈现。",
+       "fact_sources": [
+        "conflict_presentation.relations[].classification"
+       ]
+      },
+      {
+       "text": "关系分类的口径：本阶段只使用病药第一对（财—比劫—官杀）的角色点名；病药第二对（食伤—印—财）已在病药段逐对陈述，本阶段不单独做关系分类。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      },
+      {
+       "text": "各体系陈述并列呈现，系统不作统一裁定。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      }
+     ]
+    }
+   },
+   "derivation": "与 TJ-013.2 Golden conflict 例同盘（1963-06-08T11:30，癸卯/戊午/壬午/丙午）。调候壬水五月条先取癸（透年柱）、次庚（未见）。病药第一对触发（财丙、比劫癸、官杀戊同显），首取癸正是病干→conflict，顶层 presented_with_conflicts，冲突段第一行状态定义引呈现对象自带 status_definition。壬非木日主→旺衰 indeterminate。第二对主体不显未触发。关系行序按呈现层 sorted 干序（丙、庚、戊、癸）。"
+  },
+  {
+   "id": "incomparable-strength-adjudicated",
+   "focus": "incomparable",
+   "source_birth": {
+    "value": "1963-03-22T22:00:00+08:00",
+    "zone": "Asia/Shanghai"
+   },
+   "pillars": [
+    "癸卯",
+    "乙卯",
+    "甲子",
+    "乙亥"
+   ],
+   "day_master": "甲",
+   "facts": {
+    "tiaohou": {
+     "month_branch": "卯",
+     "visible_stems": [
+      "癸",
+      "乙",
+      "甲",
+      "乙"
+     ],
+     "hidden_stems": {
+      "year": [
+       "乙"
+      ],
+      "month": [
+       "乙"
+      ],
+      "day": [
+       "癸"
+      ],
+      "hour": [
+       "壬",
+       "甲"
+      ]
+     }
+    },
+    "bingyao": {
+     "visible_gods": [
+      {
+       "pillar": "year",
+       "stem": "癸",
+       "ten_god": "正印"
+      },
+      {
+       "pillar": "month",
+       "stem": "乙",
+       "ten_god": "劫财"
+      },
+      {
+       "pillar": "hour",
+       "stem": "乙",
+       "ten_god": "劫财"
+      }
+     ]
+    }
+   },
+   "expected_strength": {
+    "classification": "strong",
+    "decision_status": "reviewed_sufficient_rule_matched",
+    "sufficient_predicate": "pure_support",
+    "sufficient_rule": "bazi.phase2.strength_pure_support",
+    "conditions": [
+     "wood_day_master",
+     "reviewed_same_element_month",
+     "all_positions_support_only",
+     "visible印_present",
+     "visible比_present",
+     "effective_day_roots",
+     "all_visible_have_reviewed_roots",
+     "no_unresolved_interactions"
+    ]
+   },
+   "expected_presentation_status": "presented_partial",
+   "expected_sections": {
+    "tiaohou": {
+     "status": "adjudicated",
+     "lines": [
+      {
+       "text": "调候体系（《穷通宝鉴》甲木二月条）：原文取用顺序为：庚（第1取，盘中未见）。",
+       "fact_sources": [
+        "tiaohou.day_master",
+        "tiaohou.month_label",
+        "tiaohou.sequence[].stem",
+        "tiaohou.sequence[].order",
+        "tiaohou.sequence[].presence",
+        "tiaohou.sequence[].visible_positions",
+        "tiaohou.sequence[].hidden_positions"
+       ]
+      }
+     ]
+    },
+    "bingyao": {
+     "status": "abstained",
+     "lines": [
+      {
+       "text": "病药体系（《神峰通考》）：按原文两组病药对逐对陈述，两对不合并为单一结论。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      },
+      {
+       "text": "第一对（所论之神财、病为比劫、药为官杀）：所论之神财在本盘显干中未见，该对未触发；未触发不等于无病。",
+       "fact_sources": [
+        "bingyao.pairs[0].not_triggered_reason",
+        "bingyao.pairs[0].subject.gods"
+       ]
+      },
+      {
+       "text": "第二对（所论之神食伤、病为印、药为财）：所论之神食伤在本盘显干中未见，该对未触发；未触发不等于无病。",
+       "fact_sources": [
+        "bingyao.pairs[1].not_triggered_reason",
+        "bingyao.pairs[1].subject.gods"
+       ]
+      }
+     ]
+    },
+    "strength": {
+     "status": "adjudicated",
+     "lines": [
+      {
+       "text": "旺衰裁定体系：本盘日主旺衰裁定为「强」。",
+       "fact_sources": [
+        "strength.classification"
+       ]
+      },
+      {
+       "text": "裁定命中的已审充分谓词为「纯生扶」，其条件全部成立：日主为木、月支本气与日主同行、全部位置的作用均为生扶、显干见印、显干见比劫、日主根均为有效、显干各有已审根位、无未决的作用关系。",
+       "fact_sources": [
+        "strength.why_not_indeterminate.sufficient_predicate",
+        "strength.why_not_indeterminate.conditions[].condition",
+        "strength.why_not_indeterminate.conditions[].met"
+       ]
+      },
+      {
+       "text": "该裁定只在上述已审充分条件的范围内成立，强弱是结构裁定，不延伸为对现实的判断。",
+       "fact_sources": [
+        "（静态范围行：无个盘事实）"
+       ]
+      }
+     ]
+    },
+    "fuyi": {
+     "status": "absent",
+     "lines": [
+      {
+       "text": "扶抑体系尚未建成，暂不可判断。",
+       "fact_sources": [
+        "conflict_presentation.systems[].status=absent",
+        "conflict_presentation.systems[].statement=None"
+       ]
+      }
+     ]
+    },
+    "pattern_useful_god": {
+     "status": "absent",
+     "lines": [
+      {
+       "text": "格局用神体系尚未建成，暂不可判断。",
+       "fact_sources": [
+        "conflict_presentation.systems[].status=absent",
+        "conflict_presentation.systems[].statement=None"
+       ]
+      }
+     ]
+    },
+    "conflict_presentation": {
+     "status": "presented_partial",
+     "lines": [
+      {
+       "text": "跨体系关系呈现状态：部分呈现。无 conflict；已建三体系中至少一个弃判或不适用，其余陈述照常呈现。",
+       "fact_sources": [
+        "conflict_presentation.status",
+        "conflict_presentation.status_definition"
+       ]
+      },
+      {
+       "text": "干庚：单方点名。调候一侧：为取用序列第1位；病药一侧：未点名。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao"
+       ]
+      },
+      {
+       "text": "旺衰结论为「强」的分类而非干值点名，与调候、病药两体系不可比，只作上下文呈现。",
+       "fact_sources": [
+        "conflict_presentation.relations[].classification"
+       ]
+      },
+      {
+       "text": "关系分类的口径：本阶段只使用病药第一对（财—比劫—官杀）的角色点名；病药第二对（食伤—印—财）已在病药段逐对陈述，本阶段不单独做关系分类。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      },
+      {
+       "text": "各体系陈述并列呈现，系统不作统一裁定。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      }
+     ]
+    }
+   },
+   "derivation": "与 TJ-011.2 回归例、TJ-013.2 incomparable 例同盘（1963-03-22T22:00，癸卯/乙卯/甲子/乙亥）。甲木卯月显干癸（正印）、乙（劫财）全生扶，pure 谓词八条件全立→strong/pure_support（条件键序按 bazi_action_conditions 纯生扶 scope 字典序，逐键转写）。调候取庚未见；病药两对主体均不显。旺衰 strong 为非干值结论→不可比行渲染「强」。病药弃判→顶层 presented_partial。"
+  },
+  {
+   "id": "abstain-three-states-coexist",
+   "focus": "abstain",
+   "source_birth": {
+    "value": "1950-02-10T07:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   },
+   "pillars": [
+    "庚寅",
+    "戊寅",
+    "丙子",
+    "壬辰"
+   ],
+   "day_master": "丙",
+   "facts": {
+    "tiaohou": {
+     "month_branch": "寅",
+     "visible_stems": [
+      "庚",
+      "戊",
+      "丙",
+      "壬"
+     ],
+     "hidden_stems": {
+      "year": [
+       "甲",
+       "丙",
+       "戊"
+      ],
+      "month": [
+       "甲",
+       "丙",
+       "戊"
+      ],
+      "day": [
+       "癸"
+      ],
+      "hour": [
+       "戊",
+       "乙",
+       "癸"
+      ]
+     }
+    },
+    "bingyao": {
+     "visible_gods": [
+      {
+       "pillar": "year",
+       "stem": "庚",
+       "ten_god": "偏财"
+      },
+      {
+       "pillar": "month",
+       "stem": "戊",
+       "ten_god": "食神"
+      },
+      {
+       "pillar": "hour",
+       "stem": "壬",
+       "ten_god": "七杀"
+      }
+     ]
+    }
+   },
+   "expected_strength": {
+    "classification": "indeterminate",
+    "decision_status": "insufficient_reviewed_rules",
+    "sufficient_predicate": null,
+    "sufficient_rule": null,
+    "conditions": []
+   },
+   "expected_presentation_status": "presented_partial",
+   "expected_sections": {
+    "tiaohou": {
+     "status": "adjudicated",
+     "lines": [
+      {
+       "text": "调候体系（《穷通宝鉴》丙火正月条）：原文取用顺序为：壬（第1取，透于时柱）、庚（第2取，透于年柱）。",
+       "fact_sources": [
+        "tiaohou.day_master",
+        "tiaohou.month_label",
+        "tiaohou.sequence[].stem",
+        "tiaohou.sequence[].order",
+        "tiaohou.sequence[].presence",
+        "tiaohou.sequence[].visible_positions",
+        "tiaohou.sequence[].hidden_positions"
+       ]
+      }
+     ]
+    },
+    "bingyao": {
+     "status": "abstained",
+     "lines": [
+      {
+       "text": "病药体系（《神峰通考》）：按原文两组病药对逐对陈述，两对不合并为单一结论。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      },
+      {
+       "text": "第一对（所论之神财、病为比劫、药为官杀）：所论之神财见于年柱干庚（偏财），但病之比劫在本盘显干中未见，该对未触发；未触发不等于无病。",
+       "fact_sources": [
+        "bingyao.pairs[0].not_triggered_reason",
+        "bingyao.pairs[0].subject.gods"
+       ]
+      },
+      {
+       "text": "第二对（所论之神食伤、病为印、药为财）：所论之神食伤见于月柱干戊（食神），但病之印在本盘显干中未见，该对未触发；未触发不等于无病。",
+       "fact_sources": [
+        "bingyao.pairs[1].not_triggered_reason",
+        "bingyao.pairs[1].subject.gods"
+       ]
+      }
+     ]
+    },
+    "strength": {
+     "status": "abstained",
+     "lines": [
+      {
+       "text": "旺衰裁定体系在本盘未表态：已审充分谓词均未命中，旺衰未裁定；未裁定不表示中和，也不表示偏强或偏弱。",
+       "fact_sources": [
+        "strength.classification=indeterminate",
+        "strength.decision_status=insufficient_reviewed_rules"
+       ]
+      }
+     ]
+    },
+    "fuyi": {
+     "status": "absent",
+     "lines": [
+      {
+       "text": "扶抑体系尚未建成，暂不可判断。",
+       "fact_sources": [
+        "conflict_presentation.systems[].status=absent",
+        "conflict_presentation.systems[].statement=None"
+       ]
+      }
+     ]
+    },
+    "pattern_useful_god": {
+     "status": "absent",
+     "lines": [
+      {
+       "text": "格局用神体系尚未建成，暂不可判断。",
+       "fact_sources": [
+        "conflict_presentation.systems[].status=absent",
+        "conflict_presentation.systems[].statement=None"
+       ]
+      }
+     ]
+    },
+    "conflict_presentation": {
+     "status": "presented_partial",
+     "lines": [
+      {
+       "text": "跨体系关系呈现状态：部分呈现。无 conflict；已建三体系中至少一个弃判或不适用，其余陈述照常呈现。",
+       "fact_sources": [
+        "conflict_presentation.status",
+        "conflict_presentation.status_definition"
+       ]
+      },
+      {
+       "text": "干壬：单方点名。调候一侧：为取用序列第1位；病药一侧：未点名。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao"
+       ]
+      },
+      {
+       "text": "干庚：单方点名。调候一侧：为取用序列第2位；病药一侧：未点名。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao"
+       ]
+      },
+      {
+       "text": "旺衰结论为「未裁定」的分类而非干值点名，与调候、病药两体系不可比，只作上下文呈现。",
+       "fact_sources": [
+        "conflict_presentation.relations[].classification"
+       ]
+      },
+      {
+       "text": "关系分类的口径：本阶段只使用病药第一对（财—比劫—官杀）的角色点名；病药第二对（食伤—印—财）已在病药段逐对陈述，本阶段不单独做关系分类。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      },
+      {
+       "text": "各体系陈述并列呈现，系统不作统一裁定。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      }
+     ]
+    }
+   },
+   "derivation": "与 TJ-013.2 abstain 例同盘（1950-02-10T07:30，庚寅/戊寅/丙子/壬辰）。调候丙火正月条壬为第一（透时柱）、庚次之（透年柱）。病药第一对主体财（庚偏财）显而比劫不显→peer_god_not_visible；第二对主体食伤（戊食神）显而印不显→seal_god_not_visible，两对的「主体已显、病未显」行式由此例钉住。丙非木日主→旺衰弃判。三态并存（调候陈述、病药弃判、旺衰弃判）。"
+  },
+  {
+   "id": "absent-systems-and-source-absent-entry",
+   "focus": "absent",
+   "source_birth": {
+    "value": "1950-01-20T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   },
+   "pillars": [
+    "己丑",
+    "丁丑",
+    "乙卯",
+    "壬午"
+   ],
+   "day_master": "乙",
+   "facts": {
+    "tiaohou": {
+     "month_branch": "丑",
+     "visible_stems": [
+      "己",
+      "丁",
+      "乙",
+      "壬"
+     ],
+     "hidden_stems": {
+      "year": [
+       "己",
+       "癸",
+       "辛"
+      ],
+      "month": [
+       "己",
+       "癸",
+       "辛"
+      ],
+      "day": [
+       "乙"
+      ],
+      "hour": [
+       "丁",
+       "己"
+      ]
+     }
+    },
+    "bingyao": {
+     "visible_gods": [
+      {
+       "pillar": "year",
+       "stem": "己",
+       "ten_god": "偏财"
+      },
+      {
+       "pillar": "month",
+       "stem": "丁",
+       "ten_god": "食神"
+      },
+      {
+       "pillar": "hour",
+       "stem": "壬",
+       "ten_god": "正印"
+      }
+     ]
+    }
+   },
+   "expected_strength": {
+    "classification": "indeterminate",
+    "decision_status": "insufficient_reviewed_rules",
+    "sufficient_predicate": null,
+    "sufficient_rule": null,
+    "conditions": []
+   },
+   "expected_presentation_status": "presented_partial",
+   "expected_sections": {
+    "tiaohou": {
+     "status": "not_applicable",
+     "lines": [
+      {
+       "text": "调候体系（《穷通宝鉴》）：本盘日主乙木、月支丑，该组合的分月条目在审定《穷通宝鉴》文本中不存在，该体系在本盘不作陈述。",
+       "fact_sources": [
+        "tiaohou.day_master",
+        "tiaohou.month_branch",
+        "tiaohou.reason=entry_absent_in_source"
+       ]
+      }
+     ]
+    },
+    "bingyao": {
+     "status": "abstained",
+     "lines": [
+      {
+       "text": "病药体系（《神峰通考》）：按原文两组病药对逐对陈述，两对不合并为单一结论。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      },
+      {
+       "text": "第一对（所论之神财、病为比劫、药为官杀）：所论之神财见于年柱干己（偏财），但病之比劫在本盘显干中未见，该对未触发；未触发不等于无病。",
+       "fact_sources": [
+        "bingyao.pairs[0].not_triggered_reason",
+        "bingyao.pairs[0].subject.gods"
+       ]
+      },
+      {
+       "text": "第二对（所论之神食伤、病为印、药为财）：食伤见于月柱干丁（食神）；印见于时柱干壬（正印）；财见于年柱干己（偏财）。",
+       "fact_sources": [
+        "bingyao.pairs[1].rule.subject_god_class",
+        "bingyao.pairs[1].rule.disease_god_class",
+        "bingyao.pairs[1].rule.medicine_god_class",
+        "bingyao.pairs[1].subject.gods",
+        "bingyao.pairs[1].disease_candidate.gods",
+        "bingyao.pairs[1].medicine_candidate.gods",
+        "bingyao.pairs[1].medicine_status"
+       ]
+      },
+      {
+       "text": "第二对只陈述原文病药对的结构候选：药是否能去病，古籍病药说本身未给出可执行裁定，本系统不作判断。",
+       "fact_sources": [
+        "bingyao.pairs[].medicine_effect_status=unadjudicated",
+        "bingyao.pairs[].determination=None"
+       ]
+      }
+     ]
+    },
+    "strength": {
+     "status": "abstained",
+     "lines": [
+      {
+       "text": "旺衰裁定体系在本盘未表态：已审充分谓词均未命中，旺衰未裁定；未裁定不表示中和，也不表示偏强或偏弱。",
+       "fact_sources": [
+        "strength.classification=indeterminate",
+        "strength.decision_status=insufficient_reviewed_rules"
+       ]
+      }
+     ]
+    },
+    "fuyi": {
+     "status": "absent",
+     "lines": [
+      {
+       "text": "扶抑体系尚未建成，暂不可判断。",
+       "fact_sources": [
+        "conflict_presentation.systems[].status=absent",
+        "conflict_presentation.systems[].statement=None"
+       ]
+      }
+     ]
+    },
+    "pattern_useful_god": {
+     "status": "absent",
+     "lines": [
+      {
+       "text": "格局用神体系尚未建成，暂不可判断。",
+       "fact_sources": [
+        "conflict_presentation.systems[].status=absent",
+        "conflict_presentation.systems[].statement=None"
+       ]
+      }
+     ]
+    },
+    "conflict_presentation": {
+     "status": "presented_partial",
+     "lines": [
+      {
+       "text": "跨体系关系呈现状态：部分呈现。无 conflict；已建三体系中至少一个弃判或不适用，其余陈述照常呈现。",
+       "fact_sources": [
+        "conflict_presentation.status",
+        "conflict_presentation.status_definition"
+       ]
+      },
+      {
+       "text": "旺衰结论为「未裁定」的分类而非干值点名，与调候、病药两体系不可比，只作上下文呈现。",
+       "fact_sources": [
+        "conflict_presentation.relations[].classification"
+       ]
+      },
+      {
+       "text": "关系分类的口径：本阶段只使用病药第一对（财—比劫—官杀）的角色点名；病药第二对（食伤—印—财）已在病药段逐对陈述，本阶段不单独做关系分类。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      },
+      {
+       "text": "各体系陈述并列呈现，系统不作统一裁定。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      }
+     ]
+    }
+   },
+   "derivation": "与 TJ-013.2 absent 例同盘（1950-01-20T11:30，己丑/丁丑/乙卯/壬午）。乙木丑月条目在审定快照中不存在→调候 not_applicable 行式由此例钉住。病药第一对比劫不显未触发；第二对触发（食神丁、印壬同显，药为偏财己）——第二对在病药段逐对陈述，但呈现层只消费第一对，故关系行为空、冲突段口径行明示第二对不单独分类，本例正钉住该限定不被渲染越界。扶抑、格局用神 absent。"
+  },
+  {
+   "id": "weak-isolated-control",
+   "focus": "weak",
+   "source_birth": {
+    "value": "1978-09-29T12:00:00+08:00",
+    "zone": "Asia/Shanghai"
+   },
+   "pillars": [
+    "戊午",
+    "辛酉",
+    "甲午",
+    "庚午"
+   ],
+   "day_master": "甲",
+   "facts": {
+    "tiaohou": {
+     "month_branch": "酉",
+     "visible_stems": [
+      "戊",
+      "辛",
+      "甲",
+      "庚"
+     ],
+     "hidden_stems": {
+      "year": [
+       "丁",
+       "己"
+      ],
+      "month": [
+       "辛"
+      ],
+      "day": [
+       "丁",
+       "己"
+      ],
+      "hour": [
+       "丁",
+       "己"
+      ]
+     }
+    },
+    "bingyao": {
+     "visible_gods": [
+      {
+       "pillar": "year",
+       "stem": "戊",
+       "ten_god": "偏财"
+      },
+      {
+       "pillar": "month",
+       "stem": "辛",
+       "ten_god": "正官"
+      },
+      {
+       "pillar": "hour",
+       "stem": "庚",
+       "ten_god": "七杀"
+      }
+     ]
+    }
+   },
+   "expected_strength": {
+    "classification": "weak",
+    "decision_status": "reviewed_sufficient_rule_matched",
+    "sufficient_predicate": "isolated_control",
+    "sufficient_rule": "bazi.phase2.strength_isolated_control",
+    "conditions": [
+     "wood_day_master",
+     "reviewed_control_month",
+     "day_has_no_structural_root",
+     "no_support_in_any_position",
+     "visible_earth_metal_only",
+     "month_principal_exposed_with_root",
+     "no_unresolved_interactions"
+    ]
+   },
+   "expected_presentation_status": "presented_partial",
+   "expected_sections": {
+    "tiaohou": {
+     "status": "adjudicated",
+     "lines": [
+      {
+       "text": "调候体系（《穷通宝鉴》甲木八月条）：原文取用顺序为：丁（第1取，仅藏于年柱、日柱、时柱）、丙（第2取，盘中未见）、庚（第3取，透于时柱）。",
+       "fact_sources": [
+        "tiaohou.day_master",
+        "tiaohou.month_label",
+        "tiaohou.sequence[].stem",
+        "tiaohou.sequence[].order",
+        "tiaohou.sequence[].presence",
+        "tiaohou.sequence[].visible_positions",
+        "tiaohou.sequence[].hidden_positions"
+       ]
+      }
+     ]
+    },
+    "bingyao": {
+     "status": "abstained",
+     "lines": [
+      {
+       "text": "病药体系（《神峰通考》）：按原文两组病药对逐对陈述，两对不合并为单一结论。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      },
+      {
+       "text": "第一对（所论之神财、病为比劫、药为官杀）：所论之神财见于年柱干戊（偏财），但病之比劫在本盘显干中未见，该对未触发；未触发不等于无病。",
+       "fact_sources": [
+        "bingyao.pairs[0].not_triggered_reason",
+        "bingyao.pairs[0].subject.gods"
+       ]
+      },
+      {
+       "text": "第二对（所论之神食伤、病为印、药为财）：所论之神食伤在本盘显干中未见，该对未触发；未触发不等于无病。",
+       "fact_sources": [
+        "bingyao.pairs[1].not_triggered_reason",
+        "bingyao.pairs[1].subject.gods"
+       ]
+      }
+     ]
+    },
+    "strength": {
+     "status": "adjudicated",
+     "lines": [
+      {
+       "text": "旺衰裁定体系：本盘日主旺衰裁定为「弱」。",
+       "fact_sources": [
+        "strength.classification"
+       ]
+      },
+      {
+       "text": "裁定命中的已审充分谓词为「孤立受克」，其条件全部成立：日主为木、月支本气克制日主、日主无结构性根、全部位置均无生扶作用、显干五行仅为土与金、月支本气透于月干且有已审根位、无未决的作用关系。",
+       "fact_sources": [
+        "strength.why_not_indeterminate.sufficient_predicate",
+        "strength.why_not_indeterminate.conditions[].condition",
+        "strength.why_not_indeterminate.conditions[].met"
+       ]
+      },
+      {
+       "text": "该裁定只在上述已审充分条件的范围内成立，强弱是结构裁定，不延伸为对现实的判断。",
+       "fact_sources": [
+        "（静态范围行：无个盘事实）"
+       ]
+      }
+     ]
+    },
+    "fuyi": {
+     "status": "absent",
+     "lines": [
+      {
+       "text": "扶抑体系尚未建成，暂不可判断。",
+       "fact_sources": [
+        "conflict_presentation.systems[].status=absent",
+        "conflict_presentation.systems[].statement=None"
+       ]
+      }
+     ]
+    },
+    "pattern_useful_god": {
+     "status": "absent",
+     "lines": [
+      {
+       "text": "格局用神体系尚未建成，暂不可判断。",
+       "fact_sources": [
+        "conflict_presentation.systems[].status=absent",
+        "conflict_presentation.systems[].statement=None"
+       ]
+      }
+     ]
+    },
+    "conflict_presentation": {
+     "status": "presented_partial",
+     "lines": [
+      {
+       "text": "跨体系关系呈现状态：部分呈现。无 conflict；已建三体系中至少一个弃判或不适用，其余陈述照常呈现。",
+       "fact_sources": [
+        "conflict_presentation.status",
+        "conflict_presentation.status_definition"
+       ]
+      },
+      {
+       "text": "干丁：单方点名。调候一侧：为取用序列第1位；病药一侧：未点名。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao"
+       ]
+      },
+      {
+       "text": "干丙：单方点名。调候一侧：为取用序列第2位；病药一侧：未点名。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao"
+       ]
+      },
+      {
+       "text": "干庚：单方点名。调候一侧：为取用序列第3位；病药一侧：未点名。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao"
+       ]
+      },
+      {
+       "text": "旺衰结论为「弱」的分类而非干值点名，与调候、病药两体系不可比，只作上下文呈现。",
+       "fact_sources": [
+        "conflict_presentation.relations[].classification"
+       ]
+      },
+      {
+       "text": "关系分类的口径：本阶段只使用病药第一对（财—比劫—官杀）的角色点名；病药第二对（食伤—印—财）已在病药段逐对陈述，本阶段不单独做关系分类。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      },
+      {
+       "text": "各体系陈述并列呈现，系统不作统一裁定。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      }
+     ]
+    }
+   },
+   "derivation": "新例（本批构造并手工推导，密封专项以真实 chart() 回验）：1978-09-29T12:00 戊午/辛酉/甲午/庚午（戊年五虎遁酉月得辛酉；甲日五鼠遁午时得庚午）。isolated 七条件逐项手验：木日主甲；酉月本气辛克木（已审 controls_me）；四支午酉午午藏丁己辛、无甲乙→日主无结构性根；全部显藏干对甲的关系为克（辛庚）、我克（戊己）或我生（丁丙），无生扶；显干戊辛庚五行仅土金；月干辛即酉本气且有酉中辛根位；干组合（戊辛甲庚无五合）与支关系（午酉午午无合冲害、三合不全）均无未决作用。→weak/isolated_control。调候甲木八月条丁丙庚序：丁藏三午、丙未见、庚透时柱。病药第一对财显比劫不显、第二对主体不显。"
+  },
+  {
+   "id": "pivot-subject-overlap",
+   "focus": "pivot",
+   "source_birth": {
+    "value": "1950-02-10T17:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   },
+   "pillars": [
+    "庚寅",
+    "戊寅",
+    "丙子",
+    "丁酉"
+   ],
+   "day_master": "丙",
+   "facts": {
+    "tiaohou": {
+     "month_branch": "寅",
+     "visible_stems": [
+      "庚",
+      "戊",
+      "丙",
+      "丁"
+     ],
+     "hidden_stems": {
+      "year": [
+       "甲",
+       "丙",
+       "戊"
+      ],
+      "month": [
+       "甲",
+       "丙",
+       "戊"
+      ],
+      "day": [
+       "癸"
+      ],
+      "hour": [
+       "辛"
+      ]
+     }
+    },
+    "bingyao": {
+     "visible_gods": [
+      {
+       "pillar": "year",
+       "stem": "庚",
+       "ten_god": "偏财"
+      },
+      {
+       "pillar": "month",
+       "stem": "戊",
+       "ten_god": "食神"
+      },
+      {
+       "pillar": "hour",
+       "stem": "丁",
+       "ten_god": "劫财"
+      }
+     ]
+    }
+   },
+   "expected_strength": {
+    "classification": "indeterminate",
+    "decision_status": "insufficient_reviewed_rules",
+    "sufficient_predicate": null,
+    "sufficient_rule": null,
+    "conditions": []
+   },
+   "expected_presentation_status": "presented_partial",
+   "expected_sections": {
+    "tiaohou": {
+     "status": "adjudicated",
+     "lines": [
+      {
+       "text": "调候体系（《穷通宝鉴》丙火正月条）：原文取用顺序为：壬（第1取，盘中未见）、庚（第2取，透于年柱）。",
+       "fact_sources": [
+        "tiaohou.day_master",
+        "tiaohou.month_label",
+        "tiaohou.sequence[].stem",
+        "tiaohou.sequence[].order",
+        "tiaohou.sequence[].presence",
+        "tiaohou.sequence[].visible_positions",
+        "tiaohou.sequence[].hidden_positions"
+       ]
+      }
+     ]
+    },
+    "bingyao": {
+     "status": "adjudicated",
+     "lines": [
+      {
+       "text": "病药体系（《神峰通考》）：按原文两组病药对逐对陈述，两对不合并为单一结论。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      },
+      {
+       "text": "第一对（所论之神财、病为比劫、药为官杀）：财见于年柱干庚（偏财）；比劫见于时柱干丁（劫财）；官杀在本盘显干中未见。",
+       "fact_sources": [
+        "bingyao.pairs[0].rule.subject_god_class",
+        "bingyao.pairs[0].rule.disease_god_class",
+        "bingyao.pairs[0].rule.medicine_god_class",
+        "bingyao.pairs[0].subject.gods",
+        "bingyao.pairs[0].disease_candidate.gods",
+        "bingyao.pairs[0].medicine_candidate.gods",
+        "bingyao.pairs[0].medicine_status"
+       ]
+      },
+      {
+       "text": "第一对只陈述原文病药对的结构候选：药是否能去病，古籍病药说本身未给出可执行裁定，本系统不作判断。",
+       "fact_sources": [
+        "bingyao.pairs[].medicine_effect_status=unadjudicated",
+        "bingyao.pairs[].determination=None"
+       ]
+      },
+      {
+       "text": "第二对（所论之神食伤、病为印、药为财）：所论之神食伤见于月柱干戊（食神），但病之印在本盘显干中未见，该对未触发；未触发不等于无病。",
+       "fact_sources": [
+        "bingyao.pairs[1].not_triggered_reason",
+        "bingyao.pairs[1].subject.gods"
+       ]
+      }
+     ]
+    },
+    "strength": {
+     "status": "abstained",
+     "lines": [
+      {
+       "text": "旺衰裁定体系在本盘未表态：已审充分谓词均未命中，旺衰未裁定；未裁定不表示中和，也不表示偏强或偏弱。",
+       "fact_sources": [
+        "strength.classification=indeterminate",
+        "strength.decision_status=insufficient_reviewed_rules"
+       ]
+      }
+     ]
+    },
+    "fuyi": {
+     "status": "absent",
+     "lines": [
+      {
+       "text": "扶抑体系尚未建成，暂不可判断。",
+       "fact_sources": [
+        "conflict_presentation.systems[].status=absent",
+        "conflict_presentation.systems[].statement=None"
+       ]
+      }
+     ]
+    },
+    "pattern_useful_god": {
+     "status": "absent",
+     "lines": [
+      {
+       "text": "格局用神体系尚未建成，暂不可判断。",
+       "fact_sources": [
+        "conflict_presentation.systems[].status=absent",
+        "conflict_presentation.systems[].statement=None"
+       ]
+      }
+     ]
+    },
+    "conflict_presentation": {
+     "status": "presented_partial",
+     "lines": [
+      {
+       "text": "跨体系关系呈现状态：部分呈现。无 conflict；已建三体系中至少一个弃判或不适用，其余陈述照常呈现。",
+       "fact_sources": [
+        "conflict_presentation.status",
+        "conflict_presentation.status_definition"
+       ]
+      },
+      {
+       "text": "干丁：单方点名。调候一侧：未点名；病药一侧：为病药原文判为病之神。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao"
+       ]
+      },
+      {
+       "text": "干壬：单方点名。调候一侧：为取用序列第1位；病药一侧：未点名。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao"
+       ]
+      },
+      {
+       "text": "干庚：主体重合。调候一侧：为取用序列第2位；病药一侧：为病药所论之主体。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao"
+       ]
+      },
+      {
+       "text": "旺衰结论为「未裁定」的分类而非干值点名，与调候、病药两体系不可比，只作上下文呈现。",
+       "fact_sources": [
+        "conflict_presentation.relations[].classification"
+       ]
+      },
+      {
+       "text": "关系分类的口径：本阶段只使用病药第一对（财—比劫—官杀）的角色点名；病药第二对（食伤—印—财）已在病药段逐对陈述，本阶段不单独做关系分类。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      },
+      {
+       "text": "各体系陈述并列呈现，系统不作统一裁定。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      }
+     ]
+    }
+   },
+   "derivation": "新例（与 abstain 例同日改时柱）：1950-02-10T17:30 庚寅/戊寅/丙子/丁酉（丙日五鼠遁酉时得丁酉）。病药第一对触发且药缺位（财庚、比劫丁同显，官杀壬癸不显）→「官杀在本盘显干中未见」行式与药缺位 triggered 形态由此例钉住。调候丙火正月条壬（未见）、庚（透年柱）；庚同为病药主体→pivot_overlap「主体重合」行式由此例钉住。第二对食伤显而印不显未触发。丙非木日主→旺衰弃判。"
+  },
+  {
+   "id": "pair2-foodwound-triggered",
+   "focus": "pair2pos",
+   "source_birth": {
+    "value": "1952-08-16T05:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   },
+   "pillars": [
+    "壬辰",
+    "戊申",
+    "甲午",
+    "丁卯"
+   ],
+   "day_master": "甲",
+   "facts": {
+    "tiaohou": {
+     "month_branch": "申",
+     "visible_stems": [
+      "壬",
+      "戊",
+      "甲",
+      "丁"
+     ],
+     "hidden_stems": {
+      "year": [
+       "戊",
+       "乙",
+       "癸"
+      ],
+      "month": [
+       "庚",
+       "壬",
+       "戊"
+      ],
+      "day": [
+       "丁",
+       "己"
+      ],
+      "hour": [
+       "乙"
+      ]
+     }
+    },
+    "bingyao": {
+     "visible_gods": [
+      {
+       "pillar": "year",
+       "stem": "壬",
+       "ten_god": "偏印"
+      },
+      {
+       "pillar": "month",
+       "stem": "戊",
+       "ten_god": "偏财"
+      },
+      {
+       "pillar": "hour",
+       "stem": "丁",
+       "ten_god": "伤官"
+      }
+     ]
+    }
+   },
+   "expected_strength": {
+    "classification": "indeterminate",
+    "decision_status": "insufficient_reviewed_rules",
+    "sufficient_predicate": null,
+    "sufficient_rule": null,
+    "conditions": []
+   },
+   "expected_presentation_status": "presented_partial",
+   "expected_sections": {
+    "tiaohou": {
+     "status": "adjudicated",
+     "lines": [
+      {
+       "text": "调候体系（《穷通宝鉴》甲木七月条）：原文取用顺序为：丁（第1取，透于时柱）、庚（第2取，仅藏于月柱）。",
+       "fact_sources": [
+        "tiaohou.day_master",
+        "tiaohou.month_label",
+        "tiaohou.sequence[].stem",
+        "tiaohou.sequence[].order",
+        "tiaohou.sequence[].presence",
+        "tiaohou.sequence[].visible_positions",
+        "tiaohou.sequence[].hidden_positions"
+       ]
+      }
+     ]
+    },
+    "bingyao": {
+     "status": "abstained",
+     "lines": [
+      {
+       "text": "病药体系（《神峰通考》）：按原文两组病药对逐对陈述，两对不合并为单一结论。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      },
+      {
+       "text": "第一对（所论之神财、病为比劫、药为官杀）：所论之神财见于月柱干戊（偏财），但病之比劫在本盘显干中未见，该对未触发；未触发不等于无病。",
+       "fact_sources": [
+        "bingyao.pairs[0].not_triggered_reason",
+        "bingyao.pairs[0].subject.gods"
+       ]
+      },
+      {
+       "text": "第二对（所论之神食伤、病为印、药为财）：食伤见于时柱干丁（伤官）；印见于年柱干壬（偏印）；财见于月柱干戊（偏财）。",
+       "fact_sources": [
+        "bingyao.pairs[1].rule.subject_god_class",
+        "bingyao.pairs[1].rule.disease_god_class",
+        "bingyao.pairs[1].rule.medicine_god_class",
+        "bingyao.pairs[1].subject.gods",
+        "bingyao.pairs[1].disease_candidate.gods",
+        "bingyao.pairs[1].medicine_candidate.gods",
+        "bingyao.pairs[1].medicine_status"
+       ]
+      },
+      {
+       "text": "第二对只陈述原文病药对的结构候选：药是否能去病，古籍病药说本身未给出可执行裁定，本系统不作判断。",
+       "fact_sources": [
+        "bingyao.pairs[].medicine_effect_status=unadjudicated",
+        "bingyao.pairs[].determination=None"
+       ]
+      }
+     ]
+    },
+    "strength": {
+     "status": "abstained",
+     "lines": [
+      {
+       "text": "旺衰裁定体系在本盘未表态：已审充分谓词均未命中，旺衰未裁定；未裁定不表示中和，也不表示偏强或偏弱。",
+       "fact_sources": [
+        "strength.classification=indeterminate",
+        "strength.decision_status=insufficient_reviewed_rules"
+       ]
+      }
+     ]
+    },
+    "fuyi": {
+     "status": "absent",
+     "lines": [
+      {
+       "text": "扶抑体系尚未建成，暂不可判断。",
+       "fact_sources": [
+        "conflict_presentation.systems[].status=absent",
+        "conflict_presentation.systems[].statement=None"
+       ]
+      }
+     ]
+    },
+    "pattern_useful_god": {
+     "status": "absent",
+     "lines": [
+      {
+       "text": "格局用神体系尚未建成，暂不可判断。",
+       "fact_sources": [
+        "conflict_presentation.systems[].status=absent",
+        "conflict_presentation.systems[].statement=None"
+       ]
+      }
+     ]
+    },
+    "conflict_presentation": {
+     "status": "presented_partial",
+     "lines": [
+      {
+       "text": "跨体系关系呈现状态：部分呈现。无 conflict；已建三体系中至少一个弃判或不适用，其余陈述照常呈现。",
+       "fact_sources": [
+        "conflict_presentation.status",
+        "conflict_presentation.status_definition"
+       ]
+      },
+      {
+       "text": "干丁：单方点名。调候一侧：为取用序列第1位；病药一侧：未点名。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao"
+       ]
+      },
+      {
+       "text": "干庚：单方点名。调候一侧：为取用序列第2位；病药一侧：未点名。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao"
+       ]
+      },
+      {
+       "text": "旺衰结论为「未裁定」的分类而非干值点名，与调候、病药两体系不可比，只作上下文呈现。",
+       "fact_sources": [
+        "conflict_presentation.relations[].classification"
+       ]
+      },
+      {
+       "text": "关系分类的口径：本阶段只使用病药第一对（财—比劫—官杀）的角色点名；病药第二对（食伤—印—财）已在病药段逐对陈述，本阶段不单独做关系分类。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      },
+      {
+       "text": "各体系陈述并列呈现，系统不作统一裁定。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      }
+     ]
+    }
+   },
+   "derivation": "与 TJ-013 病药 Golden foodwound-disease-medicine 例同盘（1952-08-16T05:30，壬辰/戊申/甲午/丁卯）。第二对触发（伤官丁、偏印壬同显，药为偏财戊，类读第二成员同盘）→第二对 triggered 行式与 EFF2 在此钉住。第一对财显比劫不显未触发。调候甲木七月条丁（透时柱）、庚（藏月柱申本气）。甲×申非谓词月→旺衰弃判。病药段状态沿用呈现层顶层（第一对）语义记 abstained，两对实情由 lines 逐对陈述，不合并。"
+  },
+  {
+   "id": "pair2-medicine-absent",
+   "focus": "pair2nomed",
+   "source_birth": {
+    "value": "1950-10-16T17:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   },
+   "pillars": [
+    "庚寅",
+    "丙戌",
+    "甲申",
+    "癸酉"
+   ],
+   "day_master": "甲",
+   "facts": {
+    "tiaohou": {
+     "month_branch": "戌",
+     "visible_stems": [
+      "庚",
+      "丙",
+      "甲",
+      "癸"
+     ],
+     "hidden_stems": {
+      "year": [
+       "甲",
+       "丙",
+       "戊"
+      ],
+      "month": [
+       "戊",
+       "辛",
+       "丁"
+      ],
+      "day": [
+       "庚",
+       "壬",
+       "戊"
+      ],
+      "hour": [
+       "辛"
+      ]
+     }
+    },
+    "bingyao": {
+     "visible_gods": [
+      {
+       "pillar": "year",
+       "stem": "庚",
+       "ten_god": "七杀"
+      },
+      {
+       "pillar": "month",
+       "stem": "丙",
+       "ten_god": "食神"
+      },
+      {
+       "pillar": "hour",
+       "stem": "癸",
+       "ten_god": "正印"
+      }
+     ]
+    }
+   },
+   "expected_strength": {
+    "classification": "indeterminate",
+    "decision_status": "insufficient_reviewed_rules",
+    "sufficient_predicate": null,
+    "sufficient_rule": null,
+    "conditions": []
+   },
+   "expected_presentation_status": "presented_partial",
+   "expected_sections": {
+    "tiaohou": {
+     "status": "adjudicated",
+     "lines": [
+      {
+       "text": "调候体系（《穷通宝鉴》甲木九月条）：原文取用顺序为：丁（第1取，仅藏于月柱）、癸（第2取，透于时柱）。",
+       "fact_sources": [
+        "tiaohou.day_master",
+        "tiaohou.month_label",
+        "tiaohou.sequence[].stem",
+        "tiaohou.sequence[].order",
+        "tiaohou.sequence[].presence",
+        "tiaohou.sequence[].visible_positions",
+        "tiaohou.sequence[].hidden_positions"
+       ]
+      }
+     ]
+    },
+    "bingyao": {
+     "status": "abstained",
+     "lines": [
+      {
+       "text": "病药体系（《神峰通考》）：按原文两组病药对逐对陈述，两对不合并为单一结论。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      },
+      {
+       "text": "第一对（所论之神财、病为比劫、药为官杀）：所论之神财在本盘显干中未见，该对未触发；未触发不等于无病。",
+       "fact_sources": [
+        "bingyao.pairs[0].not_triggered_reason",
+        "bingyao.pairs[0].subject.gods"
+       ]
+      },
+      {
+       "text": "第二对（所论之神食伤、病为印、药为财）：食伤见于月柱干丙（食神）；印见于时柱干癸（正印）；财在本盘显干中未见。",
+       "fact_sources": [
+        "bingyao.pairs[1].rule.subject_god_class",
+        "bingyao.pairs[1].rule.disease_god_class",
+        "bingyao.pairs[1].rule.medicine_god_class",
+        "bingyao.pairs[1].subject.gods",
+        "bingyao.pairs[1].disease_candidate.gods",
+        "bingyao.pairs[1].medicine_candidate.gods",
+        "bingyao.pairs[1].medicine_status"
+       ]
+      },
+      {
+       "text": "第二对只陈述原文病药对的结构候选：药是否能去病，古籍病药说本身未给出可执行裁定，本系统不作判断。",
+       "fact_sources": [
+        "bingyao.pairs[].medicine_effect_status=unadjudicated",
+        "bingyao.pairs[].determination=None"
+       ]
+      }
+     ]
+    },
+    "strength": {
+     "status": "abstained",
+     "lines": [
+      {
+       "text": "旺衰裁定体系在本盘未表态：已审充分谓词均未命中，旺衰未裁定；未裁定不表示中和，也不表示偏强或偏弱。",
+       "fact_sources": [
+        "strength.classification=indeterminate",
+        "strength.decision_status=insufficient_reviewed_rules"
+       ]
+      }
+     ]
+    },
+    "fuyi": {
+     "status": "absent",
+     "lines": [
+      {
+       "text": "扶抑体系尚未建成，暂不可判断。",
+       "fact_sources": [
+        "conflict_presentation.systems[].status=absent",
+        "conflict_presentation.systems[].statement=None"
+       ]
+      }
+     ]
+    },
+    "pattern_useful_god": {
+     "status": "absent",
+     "lines": [
+      {
+       "text": "格局用神体系尚未建成，暂不可判断。",
+       "fact_sources": [
+        "conflict_presentation.systems[].status=absent",
+        "conflict_presentation.systems[].statement=None"
+       ]
+      }
+     ]
+    },
+    "conflict_presentation": {
+     "status": "presented_partial",
+     "lines": [
+      {
+       "text": "跨体系关系呈现状态：部分呈现。无 conflict；已建三体系中至少一个弃判或不适用，其余陈述照常呈现。",
+       "fact_sources": [
+        "conflict_presentation.status",
+        "conflict_presentation.status_definition"
+       ]
+      },
+      {
+       "text": "干丁：单方点名。调候一侧：为取用序列第1位；病药一侧：未点名。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao"
+       ]
+      },
+      {
+       "text": "干癸：单方点名。调候一侧：为取用序列第2位；病药一侧：未点名。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao"
+       ]
+      },
+      {
+       "text": "旺衰结论为「未裁定」的分类而非干值点名，与调候、病药两体系不可比，只作上下文呈现。",
+       "fact_sources": [
+        "conflict_presentation.relations[].classification"
+       ]
+      },
+      {
+       "text": "关系分类的口径：本阶段只使用病药第一对（财—比劫—官杀）的角色点名；病药第二对（食伤—印—财）已在病药段逐对陈述，本阶段不单独做关系分类。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      },
+      {
+       "text": "各体系陈述并列呈现，系统不作统一裁定。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      }
+     ]
+    }
+   },
+   "derivation": "与 TJ-013 病药 Golden foodwound-disease-no-medicine 例同盘（1950-10-16T17:30，庚寅/丙戌/甲申/癸酉）。第二对触发而药缺位（食神丙、正印癸同显，财戊己不显）→「财在本盘显干中未见」行式在此钉住；效力未裁定行在药缺位时同样附上（候选状态本身未裁定）。第一对主体财不显未触发。调候甲木九月条丁（藏月柱戌墓库位）、癸（透时柱）。甲×戌非谓词月→旺衰弃判。"
+  }
+ ]
+}

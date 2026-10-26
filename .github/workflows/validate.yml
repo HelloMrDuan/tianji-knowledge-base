@@ -114,6 +114,18 @@ jobs:
       # test_tj0132_conflict_presentation_sealed.py (offline acceptance
       # only, NOT public CI, same partition rule).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0132_conflict_presentation.py' -v
+      # TJ-013.3 phase 1 (xiyong readable hints) public contracts:
+      # hand-written Golden text vs deterministic template rendering
+      # over real tiaohou/bingyao lookups and the real presenter,
+      # fact-closure sweep (line stems subset of input fact stems),
+      # banned-vocabulary sweep, fail-closed gates, engine research
+      # gate, chart variant-combination gate, public-projection strip.
+      # The strength statements fed to the renderer here are synthetic
+      # (marked in the test); real-chart coverage with the executed
+      # strength verdicts lives in
+      # test_tj0133_readable_hints_sealed.py (offline acceptance only,
+      # NOT public CI, same partition rule).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0133_readable_hints.py' -v
       # TJ-017.1 dayun classical-evidence public contracts: rule/quote
       # tables vs Golden transcription, text-derived direction and
       # conversion cases, interval-only output sweep, forged-result
