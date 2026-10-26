@@ -63,7 +63,7 @@
 | TJ-017.1 | M3 | 有出处的运期锚点计算/区间规则 | 已部署验收 | [公开 #383](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/383) | 2026-10-26 | 证据范围完成：三命通会 Source 登记（C 级，普查 C:95）与神峰起大运法审定段 + 方向古典 Variant（与现代候选 120 组合零分歧）+ 三命时级换算 Variant（区间契约、反约整）+ 神峰日级另立，见 E0202；已关账：机上验收 SUCCESS 1267 测并部署（pin 5af95e0a），本行关闭，见 E0203；TJ-017.2、TJ-017.3 仍待做（独立任务行，状态不变） |
 | TJ-017.2 | M3 | 原局＋大运＋流年跨规则调用 | 阻塞 | — | — | 等待证据/前置依赖 |
 | TJ-017.3 | M3 | 用户可读时间轴视图 | 阻塞 | — | — | 等待证据/前置依赖 |
-| TJ-017.4 | M3 | 大运真实盘组合入口与序列时间对齐 | 已提交PR | [公开 #385](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/385) | 2026-10-26 | 新领任务：TJ-017.2 先行审计证实其 WBS 定义为跨规则调用（依赖 M2）、与本接线工作无关，父级裁定新设同族任务行（TJ-017.2 行定义与状态不动）。实现组合入口 classical_dayun_timeline（新模块 bazi_dayun_compose.py：calendar_for_zone 四柱 → classical_direction → adjacent_jie_distance → sanming_convert_measurement → candidate_sequence 逐运起始区间对齐；神峰日级仅并列），只调用已审资产、不产生新规则/新裁定，见 E0204；TJ-017.3 显示面未做 |
+| TJ-017.4 | M3 | 大运真实盘组合入口与序列时间对齐 | 已部署验收 | [公开 #385](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/385) | 2026-10-26 | 新领任务：TJ-017.2 先行审计证实其 WBS 定义为跨规则调用（依赖 M2）、与本接线工作无关，父级裁定新设同族任务行（TJ-017.2 行定义与状态不动）。实现组合入口 classical_dayun_timeline（新模块 bazi_dayun_compose.py：calendar_for_zone 四柱 → classical_direction → adjacent_jie_distance → sanming_convert_measurement → candidate_sequence 逐运起始区间对齐；神峰日级仅并列），只调用已审资产、不产生新规则/新裁定，见 E0204；已关账：机上验收 SUCCESS 1285 测并部署（pin 043d7e5c），本行关闭，见 E0205；TJ-017.3 显示面未做 |
 | TJ-018.1 | M4 | 寻找具体古籍条目的底本/版本/合法引用 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-018.2 | M4 | 校勘/异文/不同电子来源独立性 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-018.3 | M4 | Canonical/Quarantine 审批和私有验证 | 待做 | — | — | 按 WBS 验收条件执行 |
