@@ -9,6 +9,8 @@ reaches this layer, it will not be exposed publicly unless the variant is
 in the server-side PUBLIC_STRENGTH_VARIANTS allowlist.
 """
 import copy
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 from .bazi_strength_display import get_display_decision
 
@@ -253,3 +255,91 @@ def project_execution(data):
     if isinstance(chart, dict):
         _apply_strength_display_policy(chart)
     return result
+
+
+# TJ-031.7 (Track B evidence gap): backend calendar conversion for
+# 1900-1948 has never been independently cross-checked, while the
+# frontend already limits birth years to 1949-2099
+# (web/visual-prototype/src/public/birthProfile.ts: MIN_YEAR = 1949,
+# validateBirthInput rejects earlier years). The public production
+# boundary therefore refuses that period explicitly instead of
+# returning unverified results. These helpers only DECIDE; the public
+# handlers in api.py enforce after a successful execution, so every
+# pre-existing rejection (tz audit, range, contracts) keeps its exact
+# original behaviour and the internal/eval paths never pass through
+# here at all.
+UNVERIFIED_PERIOD_MIN_YEAR = 1900
+UNVERIFIED_PERIOD_MAX_YEAR = 1948
+UNVERIFIED_PERIOD_CODE = 'unverified_birth_period'
+UNVERIFIED_PERIOD_MESSAGE = (
+    '1900–1948 年期间的历法换算未经独立核对，'
+    '公开生产路径不提供该时段的计算结果。'
+)
+
+
+def unverified_period_year(year):
+    """True when a local civil year falls in the unverified period."""
+    return (isinstance(year, int)
+            and UNVERIFIED_PERIOD_MIN_YEAR <= year <= UNVERIFIED_PERIOD_MAX_YEAR)
+
+
+def calendar_local_year(calendar):
+    """Local civil year from a calendar_for_zone result, or None."""
+    if not isinstance(calendar, dict):
+        return None
+    local = calendar.get('local_datetime')
+    if not isinstance(local, str):
+        return None
+    try:
+        return datetime.fromisoformat(local).year
+    except ValueError:
+        return None
+
+
+# Birth input fields per the reviewed scenario contracts in
+# scenario_engine.py. The question scenario's 'value' is a divination
+# instant, not a birth, and is deliberately absent here; the
+# bazi-profile scenario's 'value' IS a birth instant and is added by
+# scenario_birth_instants for that scenario only.
+_SCENARIO_BIRTH_FIELDS = (
+    ('birth_value', 'birth_zone'),
+    ('person_a_birth_value', 'person_a_zone'),
+    ('person_b_birth_value', 'person_b_zone'),
+)
+
+
+def scenario_birth_instants(inputs, scenario_id):
+    """(value, zone) pairs for a scenario's birth inputs."""
+    pairs = list(_SCENARIO_BIRTH_FIELDS)
+    if scenario_id == 'bazi-profile':
+        pairs.append(('value', 'zone'))
+    found = []
+    for value_key, zone_key in pairs:
+        value = inputs.get(value_key)
+        if isinstance(value, str):
+            found.append((value, inputs.get(zone_key)))
+    return found
+
+
+def scenario_unverified_period_years(inputs, scenario_id):
+    """Local years of a scenario's birth inputs inside 1900-1948.
+
+    The local year uses the birth zone frame (missing zone defaults to
+    Asia/Shanghai, exactly as calendar_for_zone resolves it). Inputs
+    that cannot be parsed are skipped: this runs only after a
+    successful execution, whose own validation already rejected any
+    incoherent birth input.
+    """
+    years = []
+    for value, zone in scenario_birth_instants(inputs, scenario_id):
+        try:
+            instant = datetime.fromisoformat(value)
+            if instant.tzinfo is None:
+                continue
+            year = instant.astimezone(
+                ZoneInfo(zone or 'Asia/Shanghai')).year
+        except Exception:
+            continue
+        if unverified_period_year(year):
+            years.append(year)
+    return years
