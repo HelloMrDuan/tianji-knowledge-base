@@ -108,6 +108,7 @@
 | TJ-031.2 | M7 | F-1 回归修复 | 已部署验收 | [公开 #355](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/355) | 2026-10-26 | 单独立：机上验收 12 问题回归修复（决策 C）：eval 预期拒绝精确化（qimen.eval-boundary-05 + 合法时区奇门正例）、场景契约测试按分区改写、场景离线测试按真实输出结构重写并端到端验证；已合并（Merge 02b2815a），机上 --suite all 验收 SUCCESS（1118 测，0 failures，0 errors，1 既存 skip，manifest 8055efb），稳定已部署（pin 7a740d83），部署后 5 组时区探针全对、/health ok（rag_ready true），F-1 回归修复闭环 |
 | TJ-031.3 | M7 | 密封数据清单补 yijing | 已部署验收 | [公开 #357](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/357) | 2026-10-26 | 单独立：RUNTIME_TABLES 补 yijing 周易核心（liuyao_chart 直接读盘漏列），密封运行时测试新增六爻排盘冒烟；已合并（Merge 349f6c57），机上 --suite all 验收 SUCCESS（1118 测，0 failures，0 errors，1 既存 skip，manifest 8055efb），稳定已部署（pin 6f1e4cf1），一事占问端到端复验通过（域直执与场景路径均 200，乾为天、确定性字节一致、动爻变卦天风姤），密封数据清单补 yijing 闭环 |
 | TJ-031.4 | M7 | 中低批一：前端/展示三项 | 已提交PR | [公开 #360](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/360) | 2026-10-26 | 单独立：紫微工具页农历换算接通（闰月明确拒绝）、八字结果页分界约定明示、闰月展示文字化（formatLunarMonth）+ API.md 约定；新增 tj0314-display 契约/渲染 spec 与 workflow |
+| TJ-031.5 | M7 | 中低批二：公开标注三项 + B-F2 审计 | 已提交PR | [公开 #361](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/361) | 2026-10-26 | 单独立：引文节选标记（投影 excerpt 字段 + 前端引用块「（节选）」）、解梦 source_title 随证据记录解析（删硬编码，无标题为空/未标注）、六爻 judgment 加 judgment_scope 标注（保留原名原文）；B-F2 qimen.py 冻结+测试引用双阻断、本批不动列指纹例外事项；新增 test_tj0315_public_labels（11 测）接入 validate.yml |
 
 ## 进度计算与正确读法
 

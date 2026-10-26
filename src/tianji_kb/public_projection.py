@@ -74,12 +74,43 @@ def project_evidence(evidence, aliases):
     output = {}
     for original_id, ref in evidence.items():
         public_id = aliases.evidence_id(original_id)
+        title = str(ref.get('classic_title') or '')
+        text = str(ref.get('original_text') or '')
         output[public_id] = {
-            'classic_title': str(ref.get('classic_title') or '')[:120],
-            'original_text': str(ref.get('original_text') or '')[:120],
+            'classic_title': title[:120],
+            'original_text': text[:120],
             'evidence_level': str(ref.get('evidence_level') or '')[:24],
+            # TJ-031.5 (Track C LOW-1): the 120-char cap above is a
+            # public-boundary size limit, not the complete citation.
+            # Flag every truncated field explicitly so a projected
+            # excerpt is never presented as the full original text.
+            'classic_title_excerpt': len(title) > 120,
+            'original_text_excerpt': len(text) > 120,
         }
     return output
+
+
+# TJ-031.5 (Track C LOW-3): the liuyao 'judgment' field carries the
+# verbatim Zhouyi hexagram text from the reviewed classic corpus, not
+# an adjudicated verdict about the querent. The field name is kept
+# (the public page and existing consumers read it), and its scope is
+# stated explicitly beside it in the public projection.
+_LIUYAO_JUDGMENT_SCOPE = 'verbatim_classical_hexagram_text_not_a_verdict'
+
+
+def _annotate_judgment_scope(node):
+    if isinstance(node, dict):
+        classic = node.get('zhouyi_classic')
+        if isinstance(classic, dict):
+            for part in ('original', 'changed'):
+                entry = classic.get(part)
+                if isinstance(entry, dict) and isinstance(entry.get('judgment'), str):
+                    entry['judgment_scope'] = _LIUYAO_JUDGMENT_SCOPE
+        for item in node.values():
+            _annotate_judgment_scope(item)
+    elif isinstance(node, list):
+        for item in node:
+            _annotate_judgment_scope(item)
 
 
 def _apply_strength_display_policy(chart):
@@ -214,6 +245,9 @@ def project_execution(data):
     ]
     result['trace'] = [{'step': f'计算步骤 {index:02d}'}
                        for index, _ in enumerate(data['trace'], 1)]
+    # TJ-031.5 (Track C LOW-3): state the liuyao judgment field's scope
+    # beside the field wherever the Zhouyi classic reading is projected.
+    _annotate_judgment_scope(result)
     # TJ-011.3: enforce strength display policy on the public chart.
     chart = result.get('chart')
     if isinstance(chart, dict):

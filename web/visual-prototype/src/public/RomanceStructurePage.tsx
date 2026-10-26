@@ -32,6 +32,7 @@ function displayEvidence(id: string, source: Record<string, any>) {
     title,
     quote,
     grade: typeof source.evidence_level === "string" ? source.evidence_level : "未标注",
+    excerpt: source.original_text_excerpt === true || source.classic_title_excerpt === true,
   };
 }
 
@@ -296,7 +297,7 @@ export function RomanceStructurePage() {
                             {linked.map((ref: any) => (
                               <blockquote key={ref.id}>
                                 <b>{ref.title} · {ref.grade}</b>
-                                <p>{ref.quote}</p>
+                                <p>{ref.quote}{ref.excerpt ? "（节选）" : ""}</p>
                               </blockquote>
                             ))}
                           </details>
@@ -334,7 +335,7 @@ export function RomanceStructurePage() {
               {evidence.map((item) => (
                 <article className="live-evidence" key={item.id}>
                   <div><strong>{item.title}</strong><span>{item.grade}</span></div>
-                  <blockquote>{item.quote}</blockquote>
+                  <blockquote>{item.quote}{item.excerpt ? "（节选）" : ""}</blockquote>
                   <small>{item.id}</small>
                 </article>
               ))}

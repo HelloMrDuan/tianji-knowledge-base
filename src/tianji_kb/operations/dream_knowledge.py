@@ -247,3 +247,26 @@ def retrieve(dream_text, *, variant=VARIANT, root=ROOT):
                             '否定、假设、间接叙述或语义不清时保守不采纳；同一实体不等于同一梦义。',
                             '仅支持固定审核场景的第一人称有限同义句及单蛇追我后紧邻咬我；不作一般指代推理或组合释义。',
                             '被追只是输入动作观察，不生成文化解释；未命中不调用 LLM。']}
+
+
+def public_source_title(evidence, candidate):
+    """Resolve the public source title for a matched candidate from its
+    own reviewed evidence records (TJ-031.5, Track C LOW-2).
+
+    The title is whatever the referenced evidence record itself carries
+    ('classic_title', then 'source_title', then 'title'). When no
+    referenced record carries a title, return '' so the caller presents
+    the source as unlabelled instead of inventing one. This replaces a
+    formerly hardcoded source label that did not follow the records.
+    """
+    if not isinstance(evidence, dict) or not isinstance(candidate, dict):
+        return ''
+    for eid in candidate.get('evidence_ids') or []:
+        record = evidence.get(eid)
+        if not isinstance(record, dict):
+            continue
+        for field in ('classic_title', 'source_title', 'title'):
+            title = record.get(field)
+            if isinstance(title, str) and title.strip():
+                return title
+    return ''

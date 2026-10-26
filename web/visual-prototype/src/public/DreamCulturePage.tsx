@@ -209,7 +209,7 @@ export function DreamCulturePage() {
             )}
             <p>{item.cultural_reading}</p>
             <blockquote>“{item.short_quote}”</blockquote>
-            <small>出处：{item.source_title} · 审核证据等级 {item.evidence_level} · 传统文化用语</small>
+            <small>出处：{item.source_title || "未标注"} · 审核证据等级 {item.evidence_level} · 传统文化用语</small>
           </article>
         ))}
         {result.unreviewed_topics.length > 0 && (

@@ -49,7 +49,8 @@ function displayEvidence(evidence: Record<string, any>) {
   if (typeof title !== "string" || !title.trim() ||
       typeof quote !== "string" || !quote.trim()) return null;
   return { title, quote, grade: typeof evidence.evidence_level === "string"
-    ? evidence.evidence_level : "未标注" };
+    ? evidence.evidence_level : "未标注",
+    excerpt: evidence.original_text_excerpt === true || evidence.classic_title_excerpt === true };
 }
 
 export function QuestionPage() {
@@ -352,7 +353,7 @@ export function QuestionPage() {
                 if (!evidence) return null;
                 return <article className="live-evidence" key={id}>
                   <div><strong>{evidence.title}</strong><span>{evidence.grade}</span></div>
-                  <blockquote>{evidence.quote}</blockquote>
+                  <blockquote>{evidence.quote}{evidence.excerpt ? "（节选）" : ""}</blockquote>
                 </article>;
               })}
               {!Object.values(result.evidence).some((row) => displayEvidence(row)) &&

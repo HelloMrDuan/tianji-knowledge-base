@@ -17,7 +17,8 @@ function evidenceLabel(id: string, value: Record<string, any>) {
   const quote = value.original_text;
   if (typeof title !== "string" || !title.trim() ||
       typeof quote !== "string" || !quote.trim()) return null;
-  return { id, title, quote, grade: typeof value.evidence_level === "string" ? value.evidence_level : "未标注" };
+  return { id, title, quote, grade: typeof value.evidence_level === "string" ? value.evidence_level : "未标注",
+    excerpt: value.original_text_excerpt === true || value.classic_title_excerpt === true };
 }
 
 export function CompatibilityStructurePage() {
@@ -491,7 +492,7 @@ export function CompatibilityStructurePage() {
                         {refs.map((ref: any) => (
                           <blockquote key={ref.id}>
                             <strong>{ref.title} · {ref.grade}</strong>
-                            <p>{ref.quote}</p>
+                            <p>{ref.quote}{ref.excerpt ? "（节选）" : ""}</p>
                           </blockquote>
                         ))}
                       </details>
@@ -511,7 +512,7 @@ export function CompatibilityStructurePage() {
               {evidence.map((item) => (
                 <article className="live-evidence" key={item.id}>
                   <div><strong>{item.title}</strong><span>{item.grade}</span></div>
-                  <blockquote>{item.quote}</blockquote>
+                  <blockquote>{item.quote}{item.excerpt ? "（节选）" : ""}</blockquote>
                 </article>
               ))}
             </section>

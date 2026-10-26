@@ -34,6 +34,7 @@ function displayEvidence(id: string, source: Record<string, any>) {
     title,
     quote,
     grade: typeof source.evidence_level === "string" ? source.evidence_level : "未标注",
+    excerpt: source.original_text_excerpt === true || source.classic_title_excerpt === true,
   };
 }
 
@@ -291,7 +292,7 @@ export function YearlyStructurePage() {
                           {linked.map((source: any) => (
                             <div key={source.id} className="yearly-branch-source">
                               <p>{source.title} · 证据等级 {source.grade}</p>
-                              <blockquote>{source.quote}</blockquote>
+                              <blockquote>{source.quote}{source.excerpt ? "（节选）" : ""}</blockquote>
                             </div>
                           ))}
                         </details>
@@ -314,7 +315,7 @@ export function YearlyStructurePage() {
               {evidence.map((item) => (
                 <article className="live-evidence" key={item.id}>
                   <div><strong>{item.title}</strong><span>{item.grade}</span></div>
-                  <blockquote>{item.quote}</blockquote>
+                  <blockquote>{item.quote}{item.excerpt ? "（节选）" : ""}</blockquote>
                   <small>{item.id}</small>
                 </article>
               ))}
