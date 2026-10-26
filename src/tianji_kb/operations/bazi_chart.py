@@ -9,6 +9,7 @@ from ..bazi_strength import FACTOR_VARIANT, factors as _strength_factors
 from ..bazi_pattern import PATTERN_VARIANT, candidates as pattern_candidates
 from ..bazi_tiaohou import VARIANT as TIAOHOU_VARIANT, tiaohou_assessment
 from ..bazi_bingyao import VARIANT as BINGYAO_VARIANT, bingyao_assessment
+from ..bazi_conflict_presentation import VARIANT as CONFLICT_VARIANT, conflict_presentation
 from ..bazi_annual_reference import annual_reference, annual_lichun_boundaries
 from ..bazi_dayun_sequence import candidate_sequence
 
@@ -21,7 +22,7 @@ def strength_factors(pillars, day_master, *, factor_variant=FACTOR_VARIANT, outp
         raise ValueError('Unsupported factor output')
     return observed[output_key]
 
-def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=False, include_relations=False, traditional_role=None, strength_variant=None, month_command_variant=None, root_availability_variant=None, action_effect_variant=None, variant=VARIANT, *, pattern_variant=None, tiaohou_variant=None, bingyao_variant=None, annual_reference_years=None, annual_boundary_years=None, dayun_sequence_direction=None, dayun_sequence_count=8):
+def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=False, include_relations=False, traditional_role=None, strength_variant=None, month_command_variant=None, root_availability_variant=None, action_effect_variant=None, variant=VARIANT, *, pattern_variant=None, tiaohou_variant=None, bingyao_variant=None, conflict_variant=None, annual_reference_years=None, annual_boundary_years=None, dayun_sequence_direction=None, dayun_sequence_count=8):
     if variant != VARIANT:
         raise ValueError("Unsupported Bazi variant")
     if type(include_xianchi) is not bool:
@@ -52,6 +53,14 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
         raise ValueError('Unsupported tiaohou variant')
     if bingyao_variant is not None and bingyao_variant != BINGYAO_VARIANT:
         raise ValueError('Unsupported bingyao variant')
+    if conflict_variant is not None:
+        if conflict_variant != CONFLICT_VARIANT:
+            raise ValueError('Unsupported conflict presentation variant')
+        if strength_variant != ADJUDICATION_VARIANT \
+                or tiaohou_variant is None or bingyao_variant is None:
+            raise ValueError(
+                'Conflict presentation requires the adjudication, tiaohou '
+                'and bingyao variants together')
     conditional_strength = strength_variant in (STRENGTH_VARIANT, ADJUDICATION_VARIANT)
     if strength_variant is not None and strength_variant not in (FACTOR_VARIANT, STRENGTH_VARIANT, ADJUDICATION_VARIANT):
         raise ValueError("Unsupported strength factor variant")
@@ -277,8 +286,17 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
         # not enter RuleMatch or Evidence (see bazi_bingyao docstring).
         result['bingyao_assessment'] = bingyao_assessment(trace, bingyao_variant=bingyao_variant)
         result['production_scope'] += '；研究用《神峰通考》病药结构候选（仅财—比劫—官杀一对的存在性事实，不作病药裁定、喜用结论，不公开）'
+    if conflict_variant is not None:
+        # TJ-013.2 phase 1: pure presentation over the three executed
+        # assessments above (the variant validation block guarantees all
+        # three were requested). Not a trace.add: the layer adds no rule
+        # and no evidence (see bazi_conflict_presentation docstring).
+        result['conflict_presentation'] = conflict_presentation(
+            result['tiaohou_assessment'], result['bingyao_assessment'],
+            result['strength_assessment'])
+        result['production_scope'] += '；研究用跨体系冲突呈现（只并列呈现各体系陈述与关系分类，不作跨体系裁决、统一喜用结论，不公开）'
     output = trace.finish(result)
-    if strength_variant == ADJUDICATION_VARIANT or pattern_variant is not None or tiaohou_variant is not None or bingyao_variant is not None or annual_reference_years is not None or annual_boundary_years is not None or dayun_sequence_direction is not None:
+    if strength_variant == ADJUDICATION_VARIANT or pattern_variant is not None or tiaohou_variant is not None or bingyao_variant is not None or conflict_variant is not None or annual_reference_years is not None or annual_boundary_years is not None or dayun_sequence_direction is not None:
         output['interpretation_contract']['ai_may_explain'] = False
         output['research_only'] = True
     if strength_variant == ADJUDICATION_VARIANT:

@@ -91,6 +91,8 @@ def execute(domain,inputs,variant=None,*,allow_research=False):
         raise ValueError('Tiaohou entry statements require explicit research mode')
     if domain == 'bazi' and inputs.get('bingyao_variant') is not None and not allow_research:
         raise ValueError('Bingyao structural candidates require explicit research mode')
+    if domain == 'bazi' and inputs.get('conflict_variant') is not None and not allow_research:
+        raise ValueError('Cross-system conflict presentation requires explicit research mode')
     if domain == 'bazi' and inputs.get('annual_reference_years') is not None and not allow_research:
         raise ValueError('Annual calendar references require explicit research mode')
     if domain == 'bazi' and inputs.get('annual_boundary_years') is not None and not allow_research:

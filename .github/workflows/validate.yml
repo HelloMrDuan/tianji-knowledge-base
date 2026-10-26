@@ -104,6 +104,16 @@ jobs:
       # coverage lives in test_tj013_bingyao_sealed.py (offline
       # acceptance only, NOT public CI, same partition rule).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj013_bingyao.py' -v
+      # TJ-013.2 phase 1 (cross-system conflict presentation) public
+      # contracts: Golden transcription, presenter relation taxonomy
+      # over real tiaohou/bingyao lookups, forbidden-key sweep, engine
+      # research gate, chart variant-combination gate, public-projection
+      # strip. The strength statements fed to the presenter here are
+      # synthetic (marked in the test); real-chart coverage with the
+      # executed strength verdicts lives in
+      # test_tj0132_conflict_presentation_sealed.py (offline acceptance
+      # only, NOT public CI, same partition rule).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0132_conflict_presentation.py' -v
       # TJ-017.1 dayun classical-evidence public contracts: rule/quote
       # tables vs Golden transcription, text-derived direction and
       # conversion cases, interval-only output sweep, forged-result
