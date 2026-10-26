@@ -274,6 +274,7 @@ def project_execution(data):
         if isinstance(container, dict):
             container.pop('tiaohou_assessment', None)
             container.pop('bingyao_assessment', None)
+            container.pop('conflict_presentation', None)
     return result
 
 
