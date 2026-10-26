@@ -91,10 +91,17 @@ class ReviewTests(unittest.TestCase):
         # calculation line, constant or test expectation changed. Same
         # treatment: the historical hash stays in the manifest, the
         # reviewed current hash is pinned here only, for this one file.
+        # TJ-031.14: liuyao_chart.py _classical_reading() now also copies
+        # the reviewed corpus's special_use record (Qian Yongjiu / Kun
+        # Yongliu) into the classic reading when all six lines move; the
+        # text is copied verbatim from the record and no calculation
+        # field, line or constant changed. The #191 entry below therefore
+        # pins this new reviewed current hash for the same one file; the
+        # historical hash stays in the manifest.
         reviewed_classic_extension = {
             'src/tianji_kb/operations/liuyao_chart.py': {
                 'historical': '39f8bbea8e81b2d7eed3a18edf093231c5b0003974ce6a8e7b5ebf9452094171',
-                'current': 'a92eaad3fb01e1e1c8338a6bc7e6e38198fe7cf001b8c8736ab63b60bd99adee',
+                'current': '19b5b1142fade5796042f717846565d99f6f5be8df6c1b448fcfc844a9cdc8d3',
             },
             'src/tianji_kb/operations/liuren_chart.py': {
                 'historical': '4c380a3cd8f435632dc83165210d438e03b49bd98938f3c12f6012ac0a1c07a4',

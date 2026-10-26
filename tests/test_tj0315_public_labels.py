@@ -98,6 +98,51 @@ class JudgmentScopeTests(unittest.TestCase):
                                                       ensure_ascii=False))
 
 
+SPECIAL_USE_SCOPE = 'verbatim_classical_special_use_text_not_a_verdict'
+
+
+def _classic_with_special_use():
+    classic = _classic()
+    classic['original']['special_use'] = {'position': '用九', 'text': '見群龍無首，吉。'}
+    return classic
+
+
+class SpecialUseScopeTests(unittest.TestCase):
+    """TJ-031.14: the liuyao special_use field (Qian Yongjiu / Kun
+    Yongliu, present only when all six lines move) is verbatim classic
+    text too. The projection keeps it byte-for-byte, states its scope
+    beside it, and never invents the marker when the field is absent.
+    End-to-end coverage with the real corpus lives in
+    tests/test_tj03114_special_use.py (offline acceptance only)."""
+
+    def test_special_use_is_annotated_and_kept_verbatim(self):
+        payload = {'domain': 'liuyao', 'chart': {'zhouyi_classic': _classic_with_special_use()},
+                   'evidence': {}, 'rule_matches': [], 'trace': []}
+        classic = project_execution(payload)['chart']['zhouyi_classic']
+        self.assertEqual(classic['original']['special_use'],
+                         {'position': '用九', 'text': '見群龍無首，吉。'})
+        self.assertEqual(classic['original']['special_use_scope'], SPECIAL_USE_SCOPE)
+        self.assertEqual(classic['original']['judgment_scope'], JUDGMENT_SCOPE)
+        self.assertNotIn('special_use', classic['changed'])
+        self.assertNotIn('special_use_scope', classic['changed'])
+
+    def test_no_special_use_no_scope_marker(self):
+        payload = {'domain': 'liuyao', 'chart': {'zhouyi_classic': _classic()},
+                   'evidence': {}, 'rule_matches': [], 'trace': []}
+        classic = project_execution(payload)['chart']['zhouyi_classic']
+        self.assertNotIn('special_use', classic['original'])
+        self.assertNotIn('special_use_scope', classic['original'])
+
+    def test_scenario_nested_special_use_is_annotated(self):
+        payload = {'scenario_id': 'question',
+                   'result': {'chart': {'zhouyi_classic': _classic_with_special_use()}},
+                   'evidence': {}, 'rule_matches': [], 'trace': []}
+        classic = project_execution(payload)['result']['chart']['zhouyi_classic']
+        self.assertEqual(classic['original']['special_use'],
+                         {'position': '用九', 'text': '見群龍無首，吉。'})
+        self.assertEqual(classic['original']['special_use_scope'], SPECIAL_USE_SCOPE)
+
+
 class DreamSourceTitleTests(unittest.TestCase):
     """LOW-2: the public dream source title follows the candidate's own
     evidence records; it is never a fixed label."""
