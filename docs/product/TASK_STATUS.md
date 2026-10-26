@@ -60,7 +60,7 @@
 | TJ-016.1 | M3 | 三日一年／余日／余时的不同版本整理 | 已合并 | https://github.com/HelloMrDuan/tianji-knowledge-base/pull/300 · `ae10335f766e830cd8efcc7cf6afc6ede2c12b85` | 2026-10-22 | 终审通过已合并；私有验收通过；关账 |
 | TJ-016.2 | M3 | 起运当秒、虚岁/实岁等最困难反例 | 已合并 | [公开 #302](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/302) · `13e1c063f67cafb6fae40e2e0fe683bb3a09b680` · [私有验收 run 39732347250](https://github.com/HelloMrDuan/tianji-private-knowledge/actions/runs/39732347250) | 2026-10-22 | 已关账（E0084）；反例专项 50/50；全量 843/843 |
 | TJ-016.3 | M3 | 研究模拟与正式运期的硬边界 | 已合并 | [公开 #332](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/332) | 2026-10-25 | #332 已合并；硬边界验证（research_only 契约+公开无暴露断言）已在主干；零新功能代码；phase2 测试由离线受控验收执行，公开 CI 不冒称 |
-| TJ-017.1 | M3 | 有出处的运期锚点计算/区间规则 | 阻塞 | — | — | 等待证据/前置依赖 |
+| TJ-017.1 | M3 | 有出处的运期锚点计算/区间规则 | 已提交PR | [公开 #383](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/383) | 2026-10-26 | 证据范围完成：三命通会 Source 登记（C 级，普查 C:95）与神峰起大运法审定段 + 方向古典 Variant（与现代候选 120 组合零分歧）+ 三命时级换算 Variant（区间契约、反约整）+ 神峰日级另立，见 E0202；TJ-017.2、TJ-017.3 仍待做（独立任务行，状态不变） |
 | TJ-017.2 | M3 | 原局＋大运＋流年跨规则调用 | 阻塞 | — | — | 等待证据/前置依赖 |
 | TJ-017.3 | M3 | 用户可读时间轴视图 | 阻塞 | — | — | 等待证据/前置依赖 |
 | TJ-018.1 | M4 | 寻找具体古籍条目的底本/版本/合法引用 | 待做 | — | — | 按 WBS 验收条件执行 |
