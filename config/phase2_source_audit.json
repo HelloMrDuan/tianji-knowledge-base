@@ -800,6 +800,14 @@
       "authority_status": "unverified",
       "grade_ceiling": "C",
       "review_basis": "固定电子来源与摘录字面已核；原刊/可靠整理本底本链未核，不以网址或commit差异投独立票。"
+    },
+    {
+      "source_id": "bazi.source.shenfeng",
+      "lineage_group": "garychowcmu/daizhigev20:易藏/术数/神峰通考.txt",
+      "edition_status": "unverified",
+      "authority_status": "unverified",
+      "grade_ceiling": "C",
+      "review_basis": "固定电子来源与病药说类定义节摘录字面已核；原刊/可靠整理本底本链未核，不以网址或commit差异投独立票。"
     }
   ],
   "claim_comparisons": [

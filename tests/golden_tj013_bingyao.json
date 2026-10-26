@@ -1,0 +1,501 @@
+{
+  "variant": "bingyao-shenfeng-v1",
+  "schema": "tj013-bingyao-golden-v1",
+  "source": {
+    "source_id": "bazi.source.shenfeng",
+    "title": "神峰通考",
+    "snapshot_path": "data/quarantine/public_domain_snapshots/daizhigev20/shenfeng_tongkao.txt",
+    "snapshot_sha256": "121a571b7fa63e073f067d5532a42e2feb7d4d5fdd7874de2ca48036a615e200",
+    "snapshot_bytes": 422432,
+    "snapshot_chars": 154642,
+    "evidence_level": "C",
+    "transcription_note": "引文与字符定位由密封快照原文切片转录（每条在全文中恰出现一次），非由实现输出反填；快照为简体转写单一电子谱系，引文逐字保留快照字形与半角逗号，不作简繁转换。_sync_summary.json 的 sha 字段与文件实算不符，登记以实算值为准。"
+  },
+  "counterweight_source": {
+    "source_id": "bazi.source.ditiansui-spouse",
+    "snapshot_path": "data/quarantine/public_domain_snapshots/daizhigev20/ditiansui_chanwei.txt",
+    "snapshot_sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+    "snapshot_bytes": 368684,
+    "snapshot_chars": 139538,
+    "note": "制衡旁证，与神峰同为 daizhigev20 单一谱系，不构成第二独立底本。"
+  },
+  "rule": {
+    "id": "shenfeng.wealth_peer_officer",
+    "subject_god_class": "财",
+    "subject_gods": [
+      "正财",
+      "偏财"
+    ],
+    "disease_god_class": "比劫",
+    "disease_gods": [
+      "比肩",
+      "劫财"
+    ],
+    "medicine_god_class": "官杀",
+    "medicine_gods": [
+      "正官",
+      "七杀"
+    ],
+    "quote": "如用财见比肩为病,喜见官杀为药也",
+    "quote_locator": {
+      "line": 38,
+      "char_start": 7351,
+      "char_end": 7367
+    },
+    "section": {
+      "line": 38,
+      "char_start": 7019,
+      "char_end": 7680
+    }
+  },
+  "quotes": [
+    {
+      "id": "disease_definition",
+      "role": "definition",
+      "source_id": "bazi.source.shenfeng",
+      "quote": "何以为之病?原八字中原所害之神也",
+      "locator": {
+        "line": 38,
+        "char_start": 7019,
+        "char_end": 7035
+      },
+      "note": "病之定义：局中「所害之神」。「害」的具体枚举由同节示例句给出。"
+    },
+    {
+      "id": "medicine_definition",
+      "role": "definition",
+      "source_id": "bazi.source.shenfeng",
+      "quote": "何以为之药?如八字原有所害之字,而得一字以去之谓了",
+      "locator": {
+        "line": 38,
+        "char_start": 7036,
+        "char_end": 7061
+      },
+      "note": "药之定义：能去病之字。本节示例中「去」的机制均为五行克；实际克效未裁定。"
+    },
+    {
+      "id": "wealth_pair",
+      "role": "encoded_rule",
+      "source_id": "bazi.source.shenfeng",
+      "quote": "如用财见比肩为病,喜见官杀为药也",
+      "locator": {
+        "line": 38,
+        "char_start": 7351,
+        "char_end": 7367
+      },
+      "note": "本 Variant 唯一编码的病药对（RULE）。"
+    },
+    {
+      "id": "food_pair",
+      "role": "registered_not_encoded",
+      "source_id": "bazi.source.shenfeng",
+      "quote": "如用食神伤官,以印为病,喜财为药也",
+      "locator": {
+        "line": 38,
+        "char_start": 7368,
+        "char_end": 7385
+      },
+      "note": "第二对（食伤—印—财），形态与财对同构，列为扩展候选，本批不编码、不验收。"
+    },
+    {
+      "id": "earth_example",
+      "role": "registered_not_encoded",
+      "source_id": "bazi.source.shenfeng",
+      "quote": "是则土为诸格之病,俱喜木为医药,以去其病也",
+      "locator": {
+        "line": 38,
+        "char_start": 7329,
+        "char_end": 7350
+      },
+      "note": "示例一（土重）结论句：其前提「四柱纯土水」无操作定义，且分日主结论为旺弱味断语，不编码。"
+    },
+    {
+      "id": "procedure_zhong",
+      "role": "registered_not_encoded",
+      "source_id": "bazi.source.shenfeng",
+      "quote": "又或地支虽又藏有别物,且不必看,若再看别物,由混杂不明,故曰:从重者论",
+      "locator": {
+        "line": 38,
+        "char_start": 7505,
+        "char_end": 7540
+      },
+      "note": "看法程序：判断以重者为对象。但「重」无阈值，本 Variant 只陈述示例对的存在性命中，不声称已按从重选定唯一病神（见 S4）。"
+    },
+    {
+      "id": "no_disease_clause",
+      "role": "registered_not_encoded",
+      "source_id": "bazi.source.shenfeng",
+      "quote": "如八字纯然不旺不弱,原财官印俱无损伤,日干之气,又得中和,并无起发可观,此是平常人也",
+      "locator": {
+        "line": 38,
+        "char_start": 7605,
+        "char_end": 7647
+      },
+      "note": "否定侧条款：无病（平常）的成立要求不旺不弱加中和的整盘裁定，本平台无此能力；本 Variant 永不输出「无病」，未命中只记未触发。"
+    },
+    {
+      "id": "zhengguan_tension",
+      "role": "registered_tension",
+      "source_id": "bazi.source.shenfeng",
+      "quote": "惟官星太弱太旺,方为有病,因其病而药之,斯可作为用神而论祸福也",
+      "locator": {
+        "line": 51,
+        "char_start": 10010,
+        "char_end": 10041
+      },
+      "note": "正官格节另一口径：病系于官星太弱太旺，与定义节存在性口径并存未统一；该口径依赖旺弱裁定且直通用神，本 Variant 不覆盖、不得引此句升级候选为用神结论。"
+    },
+    {
+      "id": "ditiansui_counterweight",
+      "role": "counterweight",
+      "source_id": "bazi.source.ditiansui-spouse",
+      "quote": "若所谓“有病有药,吉凶易验,无病地药,祸福难推”,此论仍乃失之偏。大凡有病者显而易取,无病者隐而难推。然总以中和为主",
+      "locator": {
+        "line": 1896,
+        "char_start": 43767,
+        "char_end": 43825
+      },
+      "note": "《滴天髓阐微》中和篇任氏制衡：病药之论「仍乃失之偏」，总以中和为主。与神峰同为 daizhigev20 单一谱系，只作 limitations 制衡证据，不构成第二独立底本。快照作「无病地药」，字形如实保留。"
+    }
+  ],
+  "adjudication_notes": [
+    "S1 用财=所论之神（非格局用神）：同句下句「如用食神伤官」平行，定义节通篇不论格局，开篇以「原所害之神」立病。备选读法（用神义）若成立，本切片被格局裁定缺位阻塞，降级路径为仅登记 Source 与定义节审定存档。",
+    "S2 比肩取比劫类（比肩、劫财）：本书土重例以「比肩太重」指同行类聚；夺财之害以比劫并称。Golden 劫财单见例钉住此类界。",
+    "S3 只计显干：原句用「见」；藏干不计。Golden 双边界例（比劫仅藏干、财仅藏干）钉住此口径。",
+    "S4 财显一字即触发候选；「从重者论」的未尽事项写入 LIMITATIONS，不另设门槛。",
+    "冲突例处置：药被食伤所克的构形需第四个非日主显干位，真实命盘中不可出现（年、月、时三位已被财、比劫、官杀占满）；效力守卫由 medicine_effect_status 恒未裁定承担，不设不可达成的子状态，不以合成盘面充数。"
+  ],
+  "cases": [
+    {
+      "id": "wealth-disease-medicine",
+      "pillars": [
+        "戊戌",
+        "庚申",
+        "甲子",
+        "甲戌"
+      ],
+      "day_master": "甲",
+      "visible_gods": [
+        {
+          "pillar": "year",
+          "stem": "戊",
+          "ten_god": "偏财"
+        },
+        {
+          "pillar": "month",
+          "stem": "庚",
+          "ten_god": "七杀"
+        },
+        {
+          "pillar": "hour",
+          "stem": "甲",
+          "ten_god": "比肩"
+        }
+      ],
+      "expected": {
+        "status": "triggered",
+        "disease_gods": [
+          {
+            "pillar": "hour",
+            "stem": "甲",
+            "ten_god": "比肩"
+          }
+        ],
+        "medicine_status": "candidate_present",
+        "medicine_gods": [
+          {
+            "pillar": "month",
+            "stem": "庚",
+            "ten_god": "七杀"
+          }
+        ],
+        "medicine_element": "金",
+        "disease_element": "木"
+      },
+      "source_birth": {
+        "value": "1958-08-15T19:30:00+08:00",
+        "zone": "Asia/Shanghai"
+      },
+      "derivation": "显干：戊=偏财（主体财，显），甲（时）=比肩（病类显），庚=七杀（药类显）。财与比劫同见 → 病候选成立（原句「用财见比肩为病」）；官杀显 → 药候选成立（「喜见官杀为药」），药行金克病行木，结构关系构造恒立。效力未裁定。"
+    },
+    {
+      "id": "wealth-disease-no-medicine",
+      "pillars": [
+        "戊子",
+        "甲子",
+        "甲午",
+        "己巳"
+      ],
+      "day_master": "甲",
+      "visible_gods": [
+        {
+          "pillar": "year",
+          "stem": "戊",
+          "ten_god": "偏财"
+        },
+        {
+          "pillar": "month",
+          "stem": "甲",
+          "ten_god": "比肩"
+        },
+        {
+          "pillar": "hour",
+          "stem": "己",
+          "ten_god": "正财"
+        }
+      ],
+      "expected": {
+        "status": "triggered",
+        "disease_gods": [
+          {
+            "pillar": "month",
+            "stem": "甲",
+            "ten_god": "比肩"
+          }
+        ],
+        "medicine_status": "absent",
+        "medicine_gods": [],
+        "medicine_element": null,
+        "disease_element": "木"
+      },
+      "source_birth": {
+        "value": "1949-01-04T09:30:00+08:00",
+        "zone": "Asia/Shanghai"
+      },
+      "derivation": "显干：戊=偏财、己=正财（主体财显二位），甲（月）=比肩（病类显）；庚辛皆不显，官杀无位 → 病候选成立而药候选缺位（disease without medicine 是合法输出状态，不强行补药、不转弃判）。"
+    },
+    {
+      "id": "medicine-without-disease",
+      "pillars": [
+        "戊戌",
+        "庚申",
+        "甲子",
+        "辛未"
+      ],
+      "day_master": "甲",
+      "visible_gods": [
+        {
+          "pillar": "year",
+          "stem": "戊",
+          "ten_god": "偏财"
+        },
+        {
+          "pillar": "month",
+          "stem": "庚",
+          "ten_god": "七杀"
+        },
+        {
+          "pillar": "hour",
+          "stem": "辛",
+          "ten_god": "正官"
+        }
+      ],
+      "expected": {
+        "status": "not_triggered",
+        "not_triggered_reason": "peer_god_not_visible",
+        "disease_gods": [],
+        "medicine_status": null,
+        "medicine_gods": [],
+        "medicine_element": null,
+        "disease_element": null
+      },
+      "source_birth": {
+        "value": "1958-08-15T13:30:00+08:00",
+        "zone": "Asia/Shanghai"
+      },
+      "derivation": "反例：官杀显二位（庚七杀、辛正官）、财显，但比劫不显（日支子藏癸为正印，亦非比劫）→ 病候选不成立，整体未触发。官杀存在不能反推病存在，防「见官杀即言去病」。"
+    },
+    {
+      "id": "peers-without-wealth",
+      "pillars": [
+        "甲午",
+        "庚午",
+        "甲午",
+        "甲戌"
+      ],
+      "day_master": "甲",
+      "visible_gods": [
+        {
+          "pillar": "year",
+          "stem": "甲",
+          "ten_god": "比肩"
+        },
+        {
+          "pillar": "month",
+          "stem": "庚",
+          "ten_god": "七杀"
+        },
+        {
+          "pillar": "hour",
+          "stem": "甲",
+          "ten_god": "比肩"
+        }
+      ],
+      "expected": {
+        "status": "not_triggered",
+        "not_triggered_reason": "subject_wealth_not_visible",
+        "disease_gods": [],
+        "medicine_status": null,
+        "medicine_gods": [],
+        "medicine_element": null,
+        "disease_element": null
+      },
+      "source_birth": {
+        "value": "1954-06-07T19:30:00+08:00",
+        "zone": "Asia/Shanghai"
+      },
+      "derivation": "反例：比肩显二位、七杀显，但财（戊己）不显 → 主体缺位，未触发。前置条件为合取：比肩为病只在「所论为财」时成立，防把比肩泛化为普遍之病。"
+    },
+    {
+      "id": "peers-hidden-only",
+      "pillars": [
+        "戊申",
+        "庚申",
+        "甲寅",
+        "辛未"
+      ],
+      "day_master": "甲",
+      "visible_gods": [
+        {
+          "pillar": "year",
+          "stem": "戊",
+          "ten_god": "偏财"
+        },
+        {
+          "pillar": "month",
+          "stem": "庚",
+          "ten_god": "七杀"
+        },
+        {
+          "pillar": "hour",
+          "stem": "辛",
+          "ten_god": "正官"
+        }
+      ],
+      "expected": {
+        "status": "not_triggered",
+        "not_triggered_reason": "peer_god_not_visible",
+        "disease_gods": [],
+        "medicine_status": null,
+        "medicine_gods": [],
+        "medicine_element": null,
+        "disease_element": null
+      },
+      "source_birth": {
+        "value": "1968-08-12T13:30:00+08:00",
+        "zone": "Asia/Shanghai"
+      },
+      "derivation": "边界例（钉死 S3 显干口径）：日支寅藏甲（比肩本气）、丙、戊，比劫只在藏干；显干为偏财、七杀、正官，无比劫 → 未触发。若将来改含藏干口径，此例必须翻转并另立 Variant。密封专项另断言引擎藏干事实中日支确含甲，证明本例的「仅藏干」前提真实。",
+      "boundary_fact": {
+        "pillar": "day",
+        "hidden_stem": "甲",
+        "hidden_ten_god": "比肩"
+      }
+    },
+    {
+      "id": "wealth-hidden-only",
+      "pillars": [
+        "甲子",
+        "庚午",
+        "甲戌",
+        "庚午"
+      ],
+      "day_master": "甲",
+      "visible_gods": [
+        {
+          "pillar": "year",
+          "stem": "甲",
+          "ten_god": "比肩"
+        },
+        {
+          "pillar": "month",
+          "stem": "庚",
+          "ten_god": "七杀"
+        },
+        {
+          "pillar": "hour",
+          "stem": "庚",
+          "ten_god": "七杀"
+        }
+      ],
+      "expected": {
+        "status": "not_triggered",
+        "not_triggered_reason": "subject_wealth_not_visible",
+        "disease_gods": [],
+        "medicine_status": null,
+        "medicine_gods": [],
+        "medicine_element": null,
+        "disease_element": null
+      },
+      "source_birth": {
+        "value": "1984-06-09T11:30:00+08:00",
+        "zone": "Asia/Shanghai"
+      },
+      "derivation": "边界例二（与比劫边界对称）：日支戌藏戊（偏财）、辛、丁，财只在藏干；显干为比肩、七杀、七杀，主体财不显 → 未触发。主体亦按显干口径（S3）。密封专项另断言引擎藏干事实中日支确含戊。",
+      "boundary_fact": {
+        "pillar": "day",
+        "hidden_stem": "戊",
+        "hidden_ten_god": "偏财"
+      }
+    },
+    {
+      "id": "peer-class-boundary-jiecai",
+      "pillars": [
+        "戊戌",
+        "庚申",
+        "甲子",
+        "乙丑"
+      ],
+      "day_master": "甲",
+      "visible_gods": [
+        {
+          "pillar": "year",
+          "stem": "戊",
+          "ten_god": "偏财"
+        },
+        {
+          "pillar": "month",
+          "stem": "庚",
+          "ten_god": "七杀"
+        },
+        {
+          "pillar": "hour",
+          "stem": "乙",
+          "ten_god": "劫财"
+        }
+      ],
+      "expected": {
+        "status": "triggered",
+        "disease_gods": [
+          {
+            "pillar": "hour",
+            "stem": "乙",
+            "ten_god": "劫财"
+          }
+        ],
+        "medicine_status": "candidate_present",
+        "medicine_gods": [
+          {
+            "pillar": "month",
+            "stem": "庚",
+            "ten_god": "七杀"
+          }
+        ],
+        "medicine_element": "金",
+        "disease_element": "木"
+      },
+      "source_birth": {
+        "value": "1958-08-15T01:30:00+08:00",
+        "zone": "Asia/Shanghai"
+      },
+      "derivation": "S2 类界分界例：病类只见劫财（乙）不见比肩。按审定类读（比肩取比劫类）→ 病候选成立、药候选成立；若按比肩本字窄读则本例不触发——两读法在此例分岔，本 Variant 从类读并在此钉住。"
+    }
+  ],
+  "unrealizable_designs": [
+    {
+      "id": "medicine-counteracted",
+      "design_source": "审源报告 §4.5 冲突例（戊/庚/甲/丁，显干集合含伤官）",
+      "reason": "四柱非日主显干只有年、月、时三位；财、比劫、官杀各占一位后，无第四位容纳克药之食伤干。该构形在真实命盘中算术上不可出现，强行实现只能手编不存在的盘面。故不设「药受制」子状态：效力守卫由 medicine_effect_status 恒为 unadjudicated 承担（药存在永不表述为已去病），并由输出字段全域断言钉住。"
+    }
+  ]
+}
