@@ -18,6 +18,9 @@ export type FieldSpec = {
   max?: number;
   step?: string;
   fixedValue?: string;
+  /** TJ-031.8：后端无承接参数的选项必须禁用并在 hint 里如实注记，
+   * 不得保留看似可选、实则从未进入请求的控件。 */
+  disabled?: boolean;
 };
 export type DomainPage = {
   id: DomainId;
@@ -226,22 +229,36 @@ export const domainPages: DomainPage[] = [
       // TJ-031.4：紫微页提交前会把农历换算为公历（见 DomainHomePage
       // resolveZiweiSolarDate），共享 birthFields 的“不做历法换算”
       // 提示对本页不实，仅本页覆盖历法字段提示。
-      ...birthFields.map((field) =>
-        field.id === "calendar"
-          ? { ...field, hint: "农历会先换算为公历再排盘；闰月出生暂不支持。" }
-          : field,
-      ),
+      // TJ-031.8：gender / school / ratHour 三项经审计确认后端无承接
+      // 参数（引擎只接受 value + year_boundary，variant 唯一固定，
+      // 性别不参与安星计算，换日恒为午夜口径），一律禁用并注记，
+      // 不再保留看似可选实则静默不生效的控件。
+      ...birthFields.map((field) => {
+        if (field.id === "calendar")
+          return { ...field, hint: "农历会先换算为公历再排盘；闰月出生暂不支持。" };
+        if (field.id === "gender")
+          return {
+            ...field,
+            disabled: true,
+            hint: "当前安星计算不使用性别口径，此项不参与计算。",
+          };
+        return field;
+      }),
       {
         id: "school",
         label: "安星口径",
         kind: "select",
         options: ["默认全书系", "中州派"],
+        disabled: true,
+        hint: "暂不支持中州派：当前仅按默认全书系口径安星。",
       },
       {
         id: "ratHour",
         label: "晚子时口径",
         kind: "select",
         options: ["按当日", "顺延次日"],
+        disabled: true,
+        hint: "暂不支持顺延次日：晚子时当前按当日口径（午夜 0 点换日）。",
       },
     ],
     sample: {
@@ -451,7 +468,10 @@ export const domainPages: DomainPage[] = [
     introduction:
       "从一项可靠的方位测量开始，把坐向、角度与所采用的体系分开记录。",
     formTitle: "记录方位资料",
-    formNote: "北为 0°，顺时针增加；请使用实际测量资料。",
+    // TJ-031.8：原「测量对象（朝向/坐向）」select 从未进入请求、对
+    // 结果零影响，已移除；改为在此如实说明结果同时给出两向。
+    formNote:
+      "北为 0°，顺时针增加；请使用实际测量资料。结果同时给出本向山与对向，不区分朝向或坐向的填法。",
     fields: [
       {
         id: "bearing",
@@ -462,12 +482,6 @@ export const domainPages: DomainPage[] = [
         max: 359.99,
         step: "0.01",
         placeholder: "0 至 359.99",
-      },
-      {
-        id: "orientation",
-        label: "测量对象",
-        kind: "select",
-        options: ["朝向", "坐向"],
       },
       {
         id: "school",
@@ -489,7 +503,6 @@ export const domainPages: DomainPage[] = [
     ],
     sample: {
       bearing: "180",
-      orientation: "朝向",
       school: "二十四山 · 方位定位",
       location: "客厅中心，朝门外",
       note: "演示资料，不代表实测。",

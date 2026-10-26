@@ -277,6 +277,13 @@
   color: var(--entry-muted);
   line-height: 1.8;
 }
+/* TJ-031.8：warnings 逐条呈现，沿用场景页 live-warning 的配色语言。 */
+.entry-summary p.result-warning {
+  background: #f4eee1;
+  color: #886c39;
+  border-radius: 4px;
+  padding: 8px 11px;
+}
 .entry-summary .text-action {
   min-height: 44px;
   font-size: 13px;

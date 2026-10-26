@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
-import { Diagram, hexText, lessonText } from "./DomainHomePage";
+import {
+  Diagram,
+  ganzhiCalendarText,
+  hexText,
+  lessonText,
+  ResultWarnings,
+} from "./DomainHomePage";
 import type { DomainPage } from "./domainPages";
 import {
   ApiError,
@@ -16,8 +22,14 @@ import "./pages.css";
 
 const resultSections: Record<string, [string, string[]]> = {
   bazi: ["四柱关系", ["四柱与藏干", "五行分布", "十神关系", "起运口径"]],
-  qimen: ["九宫盘层", ["地盘与天盘", "星盘与门盘", "神盘", "值符与值使"]],
-  ziwei: ["十二宫星曜", ["命宫与身宫", "主星与辅星", "四化版本", "大限口径"]],
+  qimen: [
+    "九宫盘层",
+    ["地盘与天盘", "星盘与门盘", "神盘", "值符与值使", "日时干支与范围"],
+  ],
+  ziwei: [
+    "十二宫星曜",
+    ["命宫与身宫", "十二宫", "主星与辅星", "四化版本", "排盘历法", "大限口径"],
+  ],
   liuren: ["四课三传", ["天地盘", "四课", "三传", "贵人与天将"]],
   yijing: ["卦爻结构", ["本卦与上下卦", "爻位", "错卦与综卦", "互卦与变卦"]],
   fengshui: ["方位定位", ["测量角度", "坐向关系", "二十四山", "扇区边界"]],
@@ -156,6 +168,12 @@ export function ResultTemplatePage({ page }: { page: DomainPage }) {
     if (page.id === "ziwei") {
       if (field === "命宫与身宫")
         return `命宫 ${chart.life_palace || "—"} · 身宫 ${chart.body_palace || "—"} · 命宫干支 ${chart.life_ganzhi || "—"} · ${chart.bureau ? `${chart.bureau.element}${chart.bureau.number}局` : "—"}`;
+      if (field === "十二宫")
+        return chart.palaces
+          ? Object.entries(chart.palaces)
+              .map(([palace, branch]) => `${palace}→${branch}`)
+              .join(" · ")
+          : "";
       if (field === "主星与辅星") {
         const major = chart.major_stars
           ? Object.entries(chart.major_stars)
@@ -167,8 +185,9 @@ export function ResultTemplatePage({ page }: { page: DomainPage }) {
               .map(([star, branch]) => `${star}→${branch}`)
               .join(" · ")
           : "";
-        return `主星 ${major}；辅星 ${aux}`;
+        return `主星 ${major}；辅星 ${aux}；辅星口径 ${chart.auxiliary_variant || "—"}`;
       }
+      if (field === "排盘历法") return ganzhiCalendarText(result.calendar);
       if (field === "四化版本") {
         const four = chart.four_transformations
           ? Object.entries(chart.four_transformations)
@@ -215,6 +234,8 @@ export function ResultTemplatePage({ page }: { page: DomainPage }) {
           : "";
       if (field === "值符与值使")
         return `值符 ${(chart.chief_star?.names || []).join(" / ") || "—"}（${chart.chief_star?.palace || "—"}宫） · 值使 ${chart.chief_door?.name || "—"}（${chart.chief_door?.palace || "—"}宫）；${chart.center_star_policy || ""}`;
+      if (field === "日时干支与范围")
+        return `日干支 ${chart.day_ganzhi || "—"} · 时干支 ${chart.hour_ganzhi || "—"} · 符头地支 ${chart.futou_branch || "—"}；${chart.scope || ""}`;
       return "";
     }
     if (page.id === "fengshui") {
@@ -370,6 +391,7 @@ export function ResultTemplatePage({ page }: { page: DomainPage }) {
                         ? (result.chart.limitations || []).join("；")
                         : (result.limitations || []).join("；")}
                   </p>
+                  <ResultWarnings warnings={result.warnings} />
                   <Link className="text-action" href={"/" + page.id}>
                     前往资料录入
                     <Icon name="arrow" size={16} />
