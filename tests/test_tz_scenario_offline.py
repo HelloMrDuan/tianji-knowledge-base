@@ -1,16 +1,33 @@
-"""End-to-end scenario zone threading (accuracy-audit fix batch F-1).
+"""End-to-end scenario zone threading (accuracy-audit fix batch F-1;
+rewritten to the real scenario contract in TJ-031.2).
 
 OFFLINE / PRIVATE-CI ONLY. Requires the sealed production runtime and the
-private canonical data: full execute_scenario() raises RuntimeUnavailable
-in a public checkout. DO NOT add this file to .github/workflows/validate.yml;
+private canonical data: execute_scenario() raises RuntimeUnavailable in a
+public checkout. DO NOT add this file to .github/workflows/validate.yml;
 it runs in offline acceptance (--suite all discovers every test module).
 
-NOT YET EXECUTED in the F-1 round that authored it (no sealed runtime is
-available in the authoring sandbox): run it in offline acceptance before
-claiming scenario-level zone coverage. Expected pillars are the same
-birthplace-frame values already verified at the prepare_inputs level in
-test_tz_birth_calendar.py, so any failure here points at scenario
-threading, not at the calendar itself.
+Real output contract (copied from scenario_engine.py, TJ-031.2 audit —
+the F-1 version of this file read paths that do not exist and errored):
+
+- bazi-profile: result["pillars"] / result["day_master"] (no "natal" wrap)
+- yearly / romance / career / daily: result["natal"]["pillars"]
+- weekly / monthly: result["natal"] carries the day master only (no
+  pillars); the shared natal is proven through the day master plus each
+  day's ganzhi and stem_ten_god, which are computed against that master
+- life: result["profile"]["pillars"] plus the yearly / romance / career
+  sections embedded verbatim; the handler itself raises on any natal or
+  target-year disagreement, so a returned report whose four pillar sets
+  are equal IS the four-source consistency proof
+- compatibility: result["person_a"]["pillars"] / ["person_b"]["pillars"]
+
+Expected values: day pillars cross-checked with the independent sxtwl
+2.0.7 implementation (1990-05-15 = 庚辰, 2020-05-15 = 戊午,
+2026-10-04 = 辛亥, 2026-10-05 = 壬子); hour pillars follow the standard
+day-stem clock arithmetic; stem ten-gods are read off the standard
+ten-god table against the sxtwl-verified London day master 庚
+(辛 -> 劫财, 壬 -> 食神). Under the old Shanghai frame the London day
+master would be 辛 and both ten-gods would differ, so these assertions
+detect a lost zone.
 """
 
 import unittest
@@ -40,26 +57,35 @@ class ScenarioZoneThreadingTests(unittest.TestCase):
         output = execute_scenario("bazi-profile", {
             "value": LONDON, "zone": "Europe/London"})
         self.assertEqual(
-            pillars_of(output["result"]["natal"]["pillars"]), LONDON_PILLARS)
+            pillars_of(output["result"]["pillars"]), LONDON_PILLARS)
         self.assertEqual(output["result"]["day_master"]["stem"], "庚")
 
     def test_bazi_profile_london_evening_keeps_day(self):
         output = execute_scenario("bazi-profile", {
             "value": LONDON_EVENING, "zone": "Europe/London"})
         self.assertEqual(
-            pillars_of(output["result"]["natal"]["pillars"]),
+            pillars_of(output["result"]["pillars"]),
             LONDON_EVENING_PILLARS)
 
     def test_bazi_profile_tokyo_noon_first_hour(self):
         output = execute_scenario("bazi-profile", {
             "value": TOKYO_NOON_FIRST_HOUR, "zone": "Asia/Tokyo"})
         self.assertEqual(
-            pillars_of(output["result"]["natal"]["pillars"]), TOKYO_PILLARS)
+            pillars_of(output["result"]["pillars"]), TOKYO_PILLARS)
 
     def test_bazi_profile_shanghai_regression(self):
         output = execute_scenario("bazi-profile", {"value": SHANGHAI})
         self.assertEqual(
-            pillars_of(output["result"]["natal"]["pillars"]), SHANGHAI_PILLARS)
+            pillars_of(output["result"]["pillars"]), SHANGHAI_PILLARS)
+
+    def test_bazi_profile_foreign_offset_without_zone_rejected(self):
+        # No zone means the documented Asia/Shanghai default; the London
+        # offset contradicts tzdb under that default, so the scenario
+        # must fail closed end-to-end instead of recomputing in Shanghai
+        # time (the F-1 defect at scenario level).
+        with self.assertRaises(ValueError) as ctx:
+            execute_scenario("bazi-profile", {"value": LONDON})
+        self.assertIn("contradicts", str(ctx.exception))
 
     def test_yearly_romance_career_share_london_natal(self):
         for scenario in ("yearly", "romance", "career"):
@@ -72,25 +98,61 @@ class ScenarioZoneThreadingTests(unittest.TestCase):
             self.assertEqual(
                 output["result"]["target_year"]["ganzhi"], "丙午", scenario)
 
-    def test_daily_weekly_monthly_share_london_natal(self):
-        cases = [
-            ("daily", {"birth_value": LONDON, "target_date": "2026-10-04"}),
-            ("weekly", {"birth_value": LONDON, "anchor_date": "2026-10-05"}),
-            ("monthly", {"birth_value": LONDON, "target_month": "2026-10"}),
-        ]
-        for scenario, payload in cases:
-            payload["birth_zone"] = "Europe/London"
-            output = execute_scenario(scenario, payload)
-            self.assertEqual(
-                pillars_of(output["result"]["natal"]["pillars"]),
-                LONDON_PILLARS, scenario)
+    def test_daily_shares_london_natal(self):
+        output = execute_scenario("daily", {
+            "birth_value": LONDON, "target_date": "2026-10-04",
+            "birth_zone": "Europe/London"})
+        self.assertEqual(
+            pillars_of(output["result"]["natal"]["pillars"]), LONDON_PILLARS)
+        # 2026-10-04 is 辛亥 (sxtwl); against the London day master 庚
+        # its stem is 劫财. The Shanghai frame would give day master 辛
+        # and 比肩 instead.
+        self.assertEqual(output["result"]["target_day"]["ganzhi"], "辛亥")
+        self.assertEqual(output["result"]["target_day"]["stem_ten_god"], "劫财")
+
+    def test_weekly_shares_london_natal(self):
+        output = execute_scenario("weekly", {
+            "birth_value": LONDON, "anchor_date": "2026-10-05",
+            "birth_zone": "Europe/London"})
+        self.assertEqual(output["result"]["natal"]["day_master"]["stem"], "庚")
+        week = output["result"]["week"]
+        self.assertEqual(week["start_date"], "2026-10-05")
+        self.assertEqual(week["end_date"], "2026-10-11")
+        self.assertEqual(len(week["days"]), 7)
+        # 2026-10-05 is 壬子 (sxtwl); against 庚 its stem is 食神
+        # (against the Shanghai-frame master 辛 it would be 伤官).
+        first = week["days"][0]
+        self.assertEqual(first["date"], "2026-10-05")
+        self.assertEqual(first["ganzhi"], "壬子")
+        self.assertEqual(first["stem_ten_god"], "食神")
+
+    def test_monthly_shares_london_natal(self):
+        output = execute_scenario("monthly", {
+            "birth_value": LONDON, "target_month": "2026-10",
+            "birth_zone": "Europe/London"})
+        self.assertEqual(output["result"]["natal"]["day_master"]["stem"], "庚")
+        month = output["result"]["month"]
+        self.assertEqual(month["day_count"], 31)
+        entry = next(d for d in month["days"] if d["date"] == "2026-10-05")
+        self.assertEqual(entry["ganzhi"], "壬子")
+        self.assertEqual(entry["stem_ten_god"], "食神")
 
     def test_life_four_sources_identical_under_zone(self):
         output = execute_scenario("life", {
             "birth_value": LONDON, "target_year": 2026,
             "birth_zone": "Europe/London"})
-        self.assertTrue(output["result"]["all_natal_charts_identical"])
-        self.assertTrue(output["result"]["all_target_years_identical"])
+        result = output["result"]
+        # The handler raises on any cross-source natal or target-year
+        # disagreement, so reaching this point already proves the four
+        # computations agreed; assert the shared values explicitly.
+        self.assertEqual(pillars_of(result["profile"]["pillars"]), LONDON_PILLARS)
+        for section in ("yearly", "romance", "career"):
+            self.assertEqual(
+                pillars_of(result[section]["natal"]["pillars"]),
+                LONDON_PILLARS, section)
+            self.assertEqual(
+                result[section]["target_year"]["ganzhi"], "丙午", section)
+        self.assertEqual(result["target_year"], 2026)
 
     def test_compatibility_mixed_zones(self):
         output = execute_scenario("compatibility", {
@@ -103,6 +165,12 @@ class ScenarioZoneThreadingTests(unittest.TestCase):
         self.assertEqual(
             pillars_of(output["result"]["person_b"]["pillars"]),
             SHANGHAI_PILLARS)
+        # Each side's spouse palace is its own day branch: the two zones
+        # were applied independently (London 庚辰 -> 辰, Shanghai 戊午 -> 午).
+        self.assertEqual(
+            output["result"]["person_a"]["spouse_palace"]["day_branch"], "辰")
+        self.assertEqual(
+            output["result"]["person_b"]["spouse_palace"]["day_branch"], "午")
 
     def test_question_accepts_zone_end_to_end(self):
         output = execute_scenario("question", {
