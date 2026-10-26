@@ -16,7 +16,8 @@ from .runtime_catalog import load_catalog
 from .resolver import ROOT
 from .prompts import DEFAULT_PROMPT,PROMPTS
 from .scenario_engine import execute_scenario,registry as scenario_registry
-from .public_projection import project_execution,PUBLIC_EXECUTION_DOMAINS,PUBLIC_SCENARIO_STATES
+from .public_projection import project_execution,PUBLIC_EXECUTION_DOMAINS,PUBLIC_SCENARIO_STATES,calendar_local_year,scenario_birth_instants,scenario_unverified_period_years,unverified_period_year,UNVERIFIED_PERIOD_CODE,UNVERIFIED_PERIOD_MESSAGE
+from .calendar_tz import precision_note_for
 from .operations.dream_knowledge import (retrieve as retrieve_dream_culture,
                                           public_source_title as dream_public_source_title)
 from .rag_context import RetrievalUnavailable
@@ -172,6 +173,19 @@ class ExecuteResponse(BaseModel):
     explanation_status:Literal['disabled','succeeded','failed']='disabled'
     explanation_error:str|None=None
     calendar:dict[str,Any]|None=None
+
+
+def _scenario_precision_notes(inputs,scenario_id):
+    # TJ-031.7: scenario results do not carry the input calendar, so
+    # the solar-term precision note is recomputed for the birth inputs
+    # (deterministic; the inputs already executed successfully, and
+    # any failure here must never break a successful response).
+    notes=[]
+    for value,zone in scenario_birth_instants(inputs,scenario_id):
+        try:note=precision_note_for(value,zone)
+        except Exception:continue
+        if note and note not in notes:notes.append(note)
+    return notes
 
 
 def response_for(raw):
@@ -702,8 +716,16 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,ad
         except RuntimeUnavailable:raise
         except (ValueError,TypeError) as error:
             raise HTTPException(422,detail={'code':'invalid_scenario_input','message':str(error)}) from error
+        # TJ-031.7: the 1900-1948 public boundary is enforced only
+        # after a successful execution, so the tz audit and every
+        # other pre-existing rejection keep their exact behaviour.
+        if scenario_unverified_period_years(dict(request.input),request.scenario_id):
+            raise HTTPException(422,detail={'code':UNVERIFIED_PERIOD_CODE,'message':UNVERIFIED_PERIOD_MESSAGE})
+        result=ScenarioExecuteResponse.model_validate(project_execution(raw))
+        for note in _scenario_precision_notes(dict(request.input),request.scenario_id):
+            if note not in result.warnings:result.warnings.append(note)
         response.headers['Cache-Control']='no-store'
-        return ScenarioExecuteResponse.model_validate(project_execution(raw))
+        return result
 
     @app.post('/api/v1/scenarios/execute',response_model=ScenarioExecuteResponse,tags=['scenarios'])
     async def execute_scenario_request(request:ScenarioExecuteRequest,
@@ -728,8 +750,17 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,ad
         except RuntimeUnavailable:raise
         except (ValueError,TypeError) as error:
             raise HTTPException(422,detail={'code':'invalid_input','message':str(error)}) from error
+        # TJ-031.7: same post-success public boundary as the scenario
+        # path (see public_scenario_request). Executions that never
+        # reach calendar_for_zone (qimen/fengshui/yijing) carry no
+        # input calendar and are out of this boundary's scope.
+        if unverified_period_year(calendar_local_year(raw.get('input_calendar'))):
+            raise HTTPException(422,detail={'code':UNVERIFIED_PERIOD_CODE,'message':UNVERIFIED_PERIOD_MESSAGE})
+        result=response_for(raw)
+        note=(raw.get('input_calendar') or {}).get('solar_term_precision_note')
+        if note:result.warnings.append(note)
         response.headers['Cache-Control']='no-store'
-        return ExecuteResponse.model_validate(project_execution(response_for(raw).model_dump()))
+        return ExecuteResponse.model_validate(project_execution(result.model_dump()))
 
     @app.post('/api/v1/execute',response_model=ExecuteResponse,tags=['execution'])
     async def execute_request(request:ExecuteRequest,

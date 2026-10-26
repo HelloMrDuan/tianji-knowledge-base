@@ -78,6 +78,11 @@ jobs:
       # independently via sxtwl/JPL anchors in tj0316-verify, NOT from
       # the code under test). Same partition as the F-1 test above.
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tz_solar_term_instant.py' -v
+      # TJ-031.7 honest boundaries: 1900-1948 public-period gate
+      # helpers + solar-term precision note. Same partition as the tz
+      # tests above (lunar-python + zoneinfo + public_projection
+      # only; HTTP wiring is exercised in offline acceptance).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0317_honest_boundaries.py' -v
       # TJ-031.5 public labeling contracts: evidence excerpt flags,
       # liuyao judgment scope annotation, dream source title resolved
       # from evidence records. Pure projection/record units (no

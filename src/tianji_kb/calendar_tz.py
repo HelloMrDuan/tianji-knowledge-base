@@ -51,6 +51,26 @@ from .foundations import BRANCHES
 
 DEFAULT_ZONE = "Asia/Shanghai"
 
+# Precision window (TJ-031.7): independent solar-term sources diverge
+# by up to ~14 seconds (2024 Lichun: lunar-python 08:27:07Z, sxtwl
+# 08:26:53Z, JPL Horizons 08:27:00Z). The 60-second window covers the
+# largest measured divergence with margin, so a birth this close to a
+# term instant is flagged in the result instead of being presented as
+# exactly attributed; outside the window the note is None.
+SOLAR_TERM_PRECISION_WINDOW_SECONDS = 60
+
+
+def _solar_term_precision_note(distance_seconds):
+    if distance_seconds > SOLAR_TERM_PRECISION_WINDOW_SECONDS:
+        return None
+    return (
+        "节气精度提示：本出生时刻距最近的节气时刻仅约 %d 秒。"
+        "节气时刻在不同来源之间存在秒级差异（2024 年立春：lunar-python "
+        "08:27:07Z、sxtwl 08:26:53Z、JPL Horizons 08:27:00Z，相差约 14 "
+        "秒以内），落在此精度窗口内的年柱、月柱归属存在源间不确定性，"
+        "不应当作绝对精确。"
+    ) % int(round(distance_seconds))
+
 
 def resolve_zone(zone):
     """Return the IANA zone to use, defaulting missing zones to Shanghai."""
@@ -137,6 +157,18 @@ def calendar_for_zone(value, zone=None, day_boundary="midnight"):
     jieqi_instant = jieqi_naive.replace(
         tzinfo=timezone(timedelta(hours=8))
     ).astimezone(ZoneInfo(zone))
+    # Nearest-term distance for the precision note: the attribution
+    # above used the provider's term instants, so the distance is
+    # measured against the provider's previous AND next term instants
+    # (a birth just before a term is as exposed to the inter-source
+    # divergence as one just after it).
+    next_wall = china_lunar.getNextJieQi(False).getSolar().toYmdHms()
+    next_naive = datetime.strptime(next_wall, "%Y-%m-%d %H:%M:%S")
+    next_instant = next_naive.replace(tzinfo=timezone(timedelta(hours=8)))
+    term_distance = min(
+        abs((instant - jieqi_instant).total_seconds()),
+        abs((next_instant - instant).total_seconds()),
+    )
     return {
         "local_datetime": local.isoformat(),
         "solar_term": previous.getName(),
@@ -154,4 +186,17 @@ def calendar_for_zone(value, zone=None, day_boundary="midnight"):
         "tz_name": zone,
         "civil_classification": audit["civil_classification"],
         "offset_disambiguation": audit["offset_disambiguation"],
+        "solar_term_precision_note": _solar_term_precision_note(term_distance),
     }
+
+
+def precision_note_for(value, zone=None):
+    """Solar-term precision note for an instant, or None.
+
+    Convenience over calendar_for_zone for public-boundary callers
+    (scenario responses) whose executed result does not carry the
+    input calendar. Raises exactly what calendar_for_zone raises for
+    incoherent civil times; intended for inputs that already executed
+    successfully.
+    """
+    return calendar_for_zone(value, zone)["solar_term_precision_note"]
