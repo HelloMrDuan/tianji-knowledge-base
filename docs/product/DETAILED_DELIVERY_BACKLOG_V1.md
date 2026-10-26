@@ -178,6 +178,7 @@
 | TJ-031.2 | F-1 回归修复 | 机上验收 12 问题修复：eval 用例 qimen.eval-boundary-05 预期改为带精确拒绝原因的 input_rejected（1900 上海历史偏移与 IANA tzdb 冲突；原始输入与原计算 Oracle 留存并标注失效），新增合法时区奇门正向计算案例；场景契约测试按分区改写（公开环境只验契约键接受/拒绝，真实计算断言在后端分区）；场景离线测试按真实输出结构重写并完成伦敦/东京/上海场景级端到端验证；F-1 生产校验与 fail-closed 不回退，policy 严格断言不放宽 |
 | TJ-031.3 | 密封数据清单补 yijing | 密封 bundle 查表白名单 RUNTIME_TABLES（src/tianji_kb/sealed_bundle.py）补入 data/canonical/yijing/zhouyi_classic_core.json：该文件被 operations/liuyao_chart 请求时直接读盘却漏列，密封生产一事占问（六爻）全部 HTTP 500；选取原则与现有 9 项一致（请求路径直接读盘的查表文件逐个列举），yijing 目录其余 19 个构建/研究文件（batches、phase1/phase2、relations、trigrams、tuan、ten_wings）不纳入；密封运行时冒烟新增六爻真实排盘断言，补上原 CHECK 只验 dream+bazi 的漏检 |
 | TJ-031.4 | 中低批一：前端/展示三项 | 紫微工具页农历输入接通换算（复用 lunarConvert.lunarToSolar，闰月明确拒绝与后端 fail-closed 一致，不再接受农历却按阳历算）；八字结果页说明与限制层明示分界约定（年柱以立春为界、日柱以午夜 0 点为界、夜子时归当日）；闰月展示文字化（formatLunarMonth：有符号月渲染「闰二月」等文字，负数=闰月约定写入 docs/phase2/API.md） |
+| TJ-031.5 | 中低批二：公开标注三项（Track C LOW-1/2/3）+ B-F2 审计 | 公开投影 evidence 引文节选标记（project_evidence 新增 classic_title_excerpt/original_text_excerpt，120 字上限保留，前端引用块节选时显示「（节选）」，不再把截断冒充完整引文）；解梦 source_title 改从候选自身证据记录解析（dream_knowledge.public_source_title），删除硬编码《周公解梦》固定电子本，无标题记录如实为空、页面显示「未标注」；六爻 judgment 保留字段名与原文（消费方审计结论），公开投影在 zhouyi_classic 的 original/changed 旁加 judgment_scope 明示为卦辞原文非裁决；B-F2 operations/qimen.py 经核在 Phase4 冻结基线 17 文件内且 calendar_from_datetime 被 test_phase1_qimen 引用，本批一字不动，列为需指纹例外的独立事项 |
 
 ## 十、PR 原设计对照单（每批直接复制）
 
