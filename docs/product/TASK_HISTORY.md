@@ -253,6 +253,8 @@
 
 | E0195 | 2026-10-26 | TJ-013.1 | 阻塞 | 调候子项关账（本任务其余三体系仍阻塞，状态不变）：修复 PR #375 合并 main 5ab0806dcf15c46bd4fce6d4e7d5a2a623843c3a 后，机上离线验收 SUCCESS（acceptance-5ab0806dcf15c46bd4fce6d4e7d5a2a623843c3a.json：总计 1198 测，failures 0、errors 0，1 既存 skip 不计通过；test_tj0131_tiaohou、test_tj0131_tiaohou_sealed、test_product_coverage 均真实执行通过），DEPLOYED 2026-10-26T10:17:41Z，pin 03b3650d3ba888442ac5da59aac9cc4374c66e9685a80e97c2c232f1be47f0d1。生产探针：/health 200；公开八字执行 200 且响应不含 tiaohou_assessment（研究级隔离生效）。调候子项（甲木十二月）至此全链关账；扶抑、病药、格局用神三体系仍阻塞，待各自证据与前置依赖。 | — | — | — |
 
+| E0196 | 2026-10-26 | TJ-011.2 | 阻塞 | 木×亥强分支完成（本任务其余日主与月份仍阻塞，状态不变）：为 bazi-strength-adjudication-v1 新增 pure_generating_support 充分谓词（木日主×亥月印比生扶，从旺口径，不取当令），scope 八条件逐条派生自既有 pure 谓词并锚定同一 Source（从旺定义 char 96521、根列举段 char 39967–40222、本气 s034 与 principal-generate Golden），既有两谓词未动。用例十例全部真实出生时刻（正例两种根构成、反例四、冲突一、弃判一、回归二），组装环境新专项 16 测、连同受影响既有套件共 171 测全过，覆盖工件已再生成且计数钉值不变。新谓词尚无密封规则注册，裁决经已注册有限裁决出口（r026）发出并明示 pending 注册，不借用 r024 的卯口径注册；密封政策未改，显示白名单仍为空集，未接公开场景。证据见 docs/product/TJ0112_WOOD_HAI_GENERATING_SCOPE.md 与 tests/golden_tj0112_wood_hai.json，本批 PR #377，机上全配方复跑结果见 PR 正文。 | — | — | — |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。
