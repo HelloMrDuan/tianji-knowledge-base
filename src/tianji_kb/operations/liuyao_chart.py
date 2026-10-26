@@ -59,20 +59,41 @@ def _classical_reading(original, changed, changing_lines):
     # Arrays in the audited classic core run from initial line to top line.
     if any(type(pos) is not int or pos not in range(1, 7) for pos in changing_lines):
         raise ValueError('Invalid moving line for reviewed Zhouyi text')
+    original_reading = {
+        'number': source['number'],
+        'name': source['full_name'],
+        'judgment': source['judgment'],
+        'image': source['image'],
+        'moving_line_texts': [
+            {'line': pos, 'position': source['lines'][pos - 1]['position'],
+             'text': source['lines'][pos - 1]['text']}
+            for pos in changing_lines
+        ],
+    }
+    # TJ-031.14: the reviewed core carries a special-use text only for
+    # Qian (Yongjiu) and Kun (Yongliu), the texts consulted when all six
+    # lines move. For Qian every line value is 7 or 9, so six changing
+    # lines are exactly six old-yang lines; for Kun every value is 8 or
+    # 6, so six changing lines are exactly six old-yin lines. No other
+    # record carries the field, so no other hexagram, and no partial or
+    # static cast, can surface it. The text is copied verbatim from the
+    # reviewed record, never paraphrased or converted.
+    special_use = source.get('special_use')
+    if special_use is not None and len(changing_lines) == 6:
+        if (not isinstance(special_use, dict)
+                or not isinstance(special_use.get('position'), str)
+                or not special_use['position'].strip()
+                or not isinstance(special_use.get('text'), str)
+                or not special_use['text'].strip()):
+            raise ValueError('Reviewed Zhouyi special-use excerpt structure is invalid')
+        original_reading['special_use'] = {
+            'position': special_use['position'],
+            'text': special_use['text'],
+        }
     return {
         'title': '《周易》卦辞与爻辞',
         'source_level': 'L0-public-domain-classic',
-        'original': {
-            'number': source['number'],
-            'name': source['full_name'],
-            'judgment': source['judgment'],
-            'image': source['image'],
-            'moving_line_texts': [
-                {'line': pos, 'position': source['lines'][pos - 1]['position'],
-                 'text': source['lines'][pos - 1]['text']}
-                for pos in changing_lines
-            ],
-        },
+        'original': original_reading,
         'changed': {
             'number': target['number'],
             'name': target['full_name'],

@@ -99,6 +99,12 @@ def project_evidence(evidence, aliases):
 # stated explicitly beside it in the public projection.
 _LIUYAO_JUDGMENT_SCOPE = 'verbatim_classical_hexagram_text_not_a_verdict'
 
+# TJ-031.14: the liuyao 'special_use' field (Qian Yongjiu / Kun Yongliu,
+# present only when all six lines move) is likewise verbatim text from
+# the reviewed classic corpus. State its scope beside the field in the
+# same way, so it is never presented as an adjudicated verdict either.
+_LIUYAO_SPECIAL_USE_SCOPE = 'verbatim_classical_special_use_text_not_a_verdict'
+
 
 def _annotate_judgment_scope(node):
     if isinstance(node, dict):
@@ -108,6 +114,10 @@ def _annotate_judgment_scope(node):
                 entry = classic.get(part)
                 if isinstance(entry, dict) and isinstance(entry.get('judgment'), str):
                     entry['judgment_scope'] = _LIUYAO_JUDGMENT_SCOPE
+            original_entry = classic.get('original')
+            if (isinstance(original_entry, dict)
+                    and isinstance(original_entry.get('special_use'), dict)):
+                original_entry['special_use_scope'] = _LIUYAO_SPECIAL_USE_SCOPE
         for item in node.values():
             _annotate_judgment_scope(item)
     elif isinstance(node, list):

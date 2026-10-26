@@ -144,6 +144,10 @@ export function QuestionPage() {
   const classic = chart.zhouyi_classic;
   const movingTexts: Array<{ line: number; position: string; text: string }> =
     Array.isArray(classic?.original?.moving_line_texts) ? classic.original.moving_line_texts : [];
+  const specialUse: { position: string; text: string } | undefined =
+    classic?.original?.special_use && typeof classic.original.special_use.text === "string"
+      ? classic.original.special_use
+      : undefined;
   const lines = Array.isArray(chart.lines) ? chart.lines : [];
 
   return (
@@ -314,6 +318,12 @@ export function QuestionPage() {
                     <p>{item.text}</p>
                   </blockquote>
                 )) : <p>本次六爻均为静爻，无动爻原文需要单独摘录；仍可查阅本卦卦辞与象辞。</p>}
+                {specialUse && (
+                  <blockquote>
+                    <strong>六爻皆动 · {specialUse.position}</strong>
+                    <p>{specialUse.text}</p>
+                  </blockquote>
+                )}
               </section>
               <p className="question-classical-limit">这些文字是经过收录的传世古籍原文，并不是针对你所提问题的吉凶判断。完整的用神、旺衰、应期与个人解释仍需进一步审核。</p>
             </section>
