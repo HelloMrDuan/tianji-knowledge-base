@@ -41,9 +41,17 @@ bazi = client.post('/api/v1/public/execute', json={'domain':'bazi',
         'mode':'production','explain':False})
 assert bazi.status_code == 200, bazi.text
 assert bazi.json()['chart']['day_master']['stem'] == '甲'
+liuyao = client.post('/api/v1/public/execute', json={'domain':'liuyao',
+        'variant':'jingfang-eight-palaces-v1','input':{'value':'2000-01-07T12:00:00+08:00','yao_values':[7,7,7,7,7,7]},
+        'mode':'production','explain':False})
+assert liuyao.status_code == 200, liuyao.text
+classic = liuyao.json()['chart']['zhouyi_classic']
+assert classic['original']['number'] == 1 and classic['original']['name'] == '乾为天', classic
+assert classic['original']['judgment'].strip() and classic['changed']['number'] == 1
+assert classic['scope'] == 'verbatim_classical_excerpts_only' and classic['personal_prediction'] is False
 restricted = client.post('/api/v1/execute', json={'domain':'bazi','input':{'value':'2000-01-07T12:00:00+08:00'}})
 assert restricted.status_code == 503, restricted.text
-print('sealed runtime: health, reviewed dream, no-match, admin auth, actual Bazi passed')
+print('sealed runtime: health, reviewed dream, no-match, admin auth, actual Bazi passed, actual Liuyao passed')
 """
 
 
@@ -75,6 +83,7 @@ class SealedRuntimeTests(unittest.TestCase):
                                 capture_output=True, text=True, timeout=100)
         self.assertEqual(result.returncode, 0, result.stdout+'\n'+result.stderr)
         self.assertIn('actual Bazi passed', result.stdout)
+        self.assertIn('actual Liuyao passed', result.stdout)
 
     def test_wrong_pin_missing_index_and_unexpected_file_fail_closed(self):
         with self.assertRaises(RuntimeUnavailable):

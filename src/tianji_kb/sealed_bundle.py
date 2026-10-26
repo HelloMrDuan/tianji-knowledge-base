@@ -20,6 +20,7 @@ RUNTIME_TABLES = (
     'data/canonical/bazi/foundations_v1.json',
     'data/canonical/bazi/shensha_v1.json',
     'data/canonical/liuyao/najia_v1.json',
+    'data/canonical/yijing/zhouyi_classic_core.json',
     'data/canonical/qimen/qfdk_maoshan_v1.json',
     'data/canonical/ziwei/iztro_rules_v1.json',
     'data/canonical/liuren/rules_v1.json',
