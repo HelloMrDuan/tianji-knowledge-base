@@ -285,7 +285,8 @@ export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
                           if (!record || typeof record.original_text !== "string" || !record.original_text.trim()
                               || typeof record.classic_title !== "string" || !record.classic_title.trim()) return [];
                           return [{id, title: record.classic_title, quote: record.original_text,
-                                   grade: typeof record.evidence_level === "string" ? record.evidence_level : "未标注"}];
+                                   grade: typeof record.evidence_level === "string" ? record.evidence_level : "未标注",
+                                   excerpt: record.original_text_excerpt === true || record.classic_title_excerpt === true}];
                         }) : [];
                         return (
                           <div className="period-branch-relation" key={hit.rule_id + "-" + hit.natal_pillar + "-" + index}>
@@ -293,10 +294,10 @@ export function PeriodStructurePage({ mode }: { mode: PeriodMode }) {
                             {citations.length ? (
                               <details>
                                 <summary>对应古籍依据（{citations.length}）</summary>
-                                {citations.map((ref: {id: string; title: string; quote: string; grade: string}) => (
+                                {citations.map((ref: {id: string; title: string; quote: string; grade: string; excerpt: boolean}) => (
                                   <blockquote key={ref.id}>
                                     <small>{ref.title} · {ref.grade}</small>
-                                    <p>{ref.quote}</p>
+                                    <p>{ref.quote}{ref.excerpt ? "（节选）" : ""}</p>
                                   </blockquote>
                                 ))}
                               </details>

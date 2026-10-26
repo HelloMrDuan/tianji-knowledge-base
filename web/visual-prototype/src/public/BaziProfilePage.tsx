@@ -24,6 +24,7 @@ function displayEvidence(id: string, value: Record<string, any>) {
     title,
     quote,
     grade: typeof value.evidence_level === "string" ? value.evidence_level : "未标注",
+    excerpt: value.original_text_excerpt === true || value.classic_title_excerpt === true,
   };
 }
 
@@ -248,7 +249,7 @@ export function BaziProfilePage() {
                   : []).filter((item: any, index: number, rows: any[]) =>
                     rows.findIndex((row) => row.id === item.id) === index
                   ).map((source: any) => (
-                  <blockquote key={source.id}><b>{source.title} · {source.grade}</b><p>{source.quote}</p></blockquote>
+                  <blockquote key={source.id}><b>{source.title} · {source.grade}</b><p>{source.quote}{source.excerpt ? "（节选）" : ""}</p></blockquote>
                 ))}
               </details>
             </section>
@@ -272,7 +273,7 @@ export function BaziProfilePage() {
                         {citations.map((item: any) => (
                           <blockquote key={item.id}>
                             <b>{item.title} · 证据等级 {item.grade}</b>
-                            <p>{item.quote}</p>
+                            <p>{item.quote}{item.excerpt ? "（节选）" : ""}</p>
                           </blockquote>
                         ))}
                       </details>
@@ -287,7 +288,7 @@ export function BaziProfilePage() {
               {evidence.map((item) => (
                 <article className="live-evidence" key={item.id}>
                   <div><strong>{item.title}</strong><span>{item.grade}</span></div>
-                  <blockquote>{item.quote}</blockquote>
+                  <blockquote>{item.quote}{item.excerpt ? "（节选）" : ""}</blockquote>
                   <small>{item.id}</small>
                 </article>
               ))}

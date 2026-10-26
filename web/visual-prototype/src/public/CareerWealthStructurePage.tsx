@@ -31,7 +31,8 @@ function displayEvidence(id: string, row: Record<string, any>) {
   if (typeof title !== "string" || !title.trim() ||
       typeof quote !== "string" || !quote.trim()) return null;
   return { id, title, quote,
-    grade: typeof row.evidence_level === "string" ? row.evidence_level : "未标注" };
+    grade: typeof row.evidence_level === "string" ? row.evidence_level : "未标注",
+    excerpt: row.original_text_excerpt === true || row.classic_title_excerpt === true };
 }
 
 export function CareerWealthStructurePage() {
@@ -238,7 +239,7 @@ export function CareerWealthStructurePage() {
                   return source ? (
                     <blockquote key={id}>
                       <strong>{source.title} · {source.grade}</strong>
-                      <p>{source.quote}</p>
+                      <p>{source.quote}{source.excerpt ? "（节选）" : ""}</p>
                     </blockquote>
                   ) : null;
                 })}
@@ -336,7 +337,7 @@ export function CareerWealthStructurePage() {
               {evidence.map((item) => (
                 <article className="live-evidence" key={item.id}>
                   <div><strong>{item.title}</strong><span>{item.grade}</span></div>
-                  <blockquote>{item.quote}</blockquote>
+                  <blockquote>{item.quote}{item.excerpt ? "（节选）" : ""}</blockquote>
                 </article>
               ))}
             </section>

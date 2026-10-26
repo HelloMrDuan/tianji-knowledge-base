@@ -17,7 +17,8 @@ from .resolver import ROOT
 from .prompts import DEFAULT_PROMPT,PROMPTS
 from .scenario_engine import execute_scenario,registry as scenario_registry
 from .public_projection import project_execution,PUBLIC_EXECUTION_DOMAINS,PUBLIC_SCENARIO_STATES
-from .operations.dream_knowledge import retrieve as retrieve_dream_culture
+from .operations.dream_knowledge import (retrieve as retrieve_dream_culture,
+                                          public_source_title as dream_public_source_title)
 from .rag_context import RetrievalUnavailable
 from .governance import school_conflicts,reviewed_rules,reviewed_evidence,reviewed_classics,reviewed_chapters,reviewed_terms,reviewed_sources,reviewed_layers,reviewed_algorithms,provider_configuration,prompt_registry
 from .admin_scopes import ADMIN_READ_SCOPES,parse_admin_scopes,resolve_admin_access
@@ -386,7 +387,7 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,ad
                 matched_texts=matched_texts,
                 cultural_reading=candidate['interpretation'],
                 short_quote=candidate['original_text_short_quote'],
-                source_title='《周公解梦》固定电子本',
+                source_title=dream_public_source_title(reviewed['evidence'], candidate),
                 evidence_level=candidate['evidence_level'],
             ))
         # A mention is never a review or interpretation. Only project fixed

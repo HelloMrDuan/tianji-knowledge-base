@@ -28,7 +28,7 @@ const highlightGlyph: Record<string, string> = {
 };
 
 
-type ReviewedExcerpt = { id: string; title: string; original: string; level: string };
+type ReviewedExcerpt = { id: string; title: string; original: string; level: string; excerpt: boolean };
 
 function reviewedExcerpts(ids: unknown, evidence: Record<string, any>): ReviewedExcerpt[] {
   if (!Array.isArray(ids)) return [];
@@ -41,6 +41,7 @@ function reviewedExcerpts(ids: unknown, evidence: Record<string, any>): Reviewed
     return [{
       id, title: source.classic_title, original: source.original_text,
       level: typeof source.evidence_level === "string" ? source.evidence_level : "未标注",
+      excerpt: source.original_text_excerpt === true || source.classic_title_excerpt === true,
     }];
   });
 }
@@ -286,7 +287,7 @@ export function LifeOverviewPage() {
               <details>
                 <summary>核查以上结论引用的古籍证据</summary>
                 {reviewedExcerpts(integrated.evidence_ids, reviewedEvidence).map((item) => (
-                  <blockquote key={item.id}><small>{item.title} · {item.level}</small><p>{item.original}</p></blockquote>
+                  <blockquote key={item.id}><small>{item.title} · {item.level}</small><p>{item.original}{item.excerpt ? "（节选）" : ""}</p></blockquote>
                 ))}
               </details>
               <aside aria-label="大运与强弱未决边界">
@@ -344,7 +345,7 @@ export function LifeOverviewPage() {
                   <h3>流年地支 {annualRelations.flow_branch} 与四柱的结构关系</h3>
                   <p>已核对 {annualRelations.evaluated_pairs} 组地支；命中 {annualHits.length} 条六合、六害或六冲。</p>
                   {annualHits.length ? annualHits.map((hit: any, index: number) => {
-                    const refs: Array<{ id: string; title: string; quote: string; grade: string }> =
+                    const refs: Array<{ id: string; title: string; quote: string; grade: string; excerpt: boolean }> =
                       Array.isArray(hit.evidence_ids) ? hit.evidence_ids.flatMap((id: string) => {
                         const source = reviewedEvidence[id];
                         if (!source || typeof source.original_text !== "string" ||
@@ -356,6 +357,7 @@ export function LifeOverviewPage() {
                           title: source.classic_title,
                           quote: source.original_text,
                           grade: typeof source.evidence_level === "string" ? source.evidence_level : "未标注",
+                          excerpt: source.original_text_excerpt === true || source.classic_title_excerpt === true,
                         }];
                       }) : [];
                     return (
@@ -368,7 +370,7 @@ export function LifeOverviewPage() {
                             {refs.map((ref) => (
                               <blockquote key={ref.id}>
                                 <small>{ref.title} · {ref.grade}</small>
-                                <p>{ref.quote}</p>
+                                <p>{ref.quote}{ref.excerpt ? "（节选）" : ""}</p>
                               </blockquote>
                             ))}
                           </details>
@@ -413,7 +415,7 @@ export function LifeOverviewPage() {
                           <details>
                             <summary>查看此关系的古籍依据（{citations.length}）</summary>
                             {citations.map((item) => (
-                              <blockquote key={item.id}><small>{item.title} · {item.level}</small><p>{item.original}</p></blockquote>
+                              <blockquote key={item.id}><small>{item.title} · {item.level}</small><p>{item.original}{item.excerpt ? "（节选）" : ""}</p></blockquote>
                             ))}
                           </details>
                         ) : <small>这条关系没有可核验的原典短引，不进行解释。</small>}
@@ -467,7 +469,7 @@ export function LifeOverviewPage() {
                       {refs.map((item) => (
                         <blockquote key={item.id}>
                           <small>{item.title} · 证据等级 {item.level}</small>
-                          <p>{item.original}</p>
+                          <p>{item.original}{item.excerpt ? "（节选）" : ""}</p>
                         </blockquote>
                       ))}
                     </details>
@@ -490,7 +492,7 @@ export function LifeOverviewPage() {
                         return refs.length ? (
                           <details>
                             <summary>来源短引（{refs.length}）</summary>
-                            {refs.map((ref) => <blockquote key={ref.id}><small>{ref.title} · {ref.level}</small><p>{ref.original}</p></blockquote>)}
+                            {refs.map((ref) => <blockquote key={ref.id}><small>{ref.title} · {ref.level}</small><p>{ref.original}{ref.excerpt ? "（节选）" : ""}</p></blockquote>)}
                           </details>
                         ) : <small>无可核验原典短引，不进行扩展解释。</small>;
                       })()}

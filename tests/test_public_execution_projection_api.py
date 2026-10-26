@@ -20,7 +20,8 @@ class ProjectionSmoke(unittest.TestCase):
         self.assertEqual(safe.json()['chart']['day_master']['stem'],'甲')
         self.assertEqual(safe.headers['cache-control'],'no-store')
         for row in safe.json()['evidence'].values():
-            self.assertEqual(set(row),{'classic_title','original_text','evidence_level'})
+            self.assertEqual(set(row),{'classic_title','original_text','evidence_level',
+                                       'classic_title_excerpt','original_text_excerpt'})
             self.assertLessEqual(len(row['original_text']),120)
         self.assertTrue(all(set(row)=={'step'} for row in safe.json()['trace']))
         self.assertEqual(self.client.post('/api/v1/public/execute',
@@ -62,7 +63,8 @@ class ProjectionSmoke(unittest.TestCase):
         self.assertEqual(public['result']['target_year']['ganzhi'], '丁未')
         self.assertEqual(safe.headers['cache-control'],'no-store')
         for row in safe.json()['evidence'].values():
-            self.assertEqual(set(row),{'classic_title','original_text','evidence_level'})
+            self.assertEqual(set(row),{'classic_title','original_text','evidence_level',
+                                       'classic_title_excerpt','original_text_excerpt'})
         self.assertEqual(self.client.post('/api/v1/scenarios/public',
             json={'scenario_id':'dream','input':{}}).status_code,422)
 

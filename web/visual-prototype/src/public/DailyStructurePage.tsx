@@ -31,7 +31,8 @@ function displayEvidence(id: string, source: Record<string, any>) {
   const quote = source.original_text;
   if (typeof title !== "string" || !title.trim() ||
       typeof quote !== "string" || !quote.trim()) return null;
-  return {id, title, quote, grade: typeof source.evidence_level === "string" ? source.evidence_level : "未标注"};
+  return {id, title, quote, grade: typeof source.evidence_level === "string" ? source.evidence_level : "未标注",
+    excerpt: source.original_text_excerpt === true || source.classic_title_excerpt === true};
 }
 
 export function DailyStructurePage() {
@@ -258,7 +259,7 @@ export function DailyStructurePage() {
                             {linked.map((ref: any) => (
                               <blockquote key={ref.id}>
                                 <small>{ref.title} · 证据等级 {ref.grade}</small>
-                                <p>{ref.quote}</p>
+                                <p>{ref.quote}{ref.excerpt ? "（节选）" : ""}</p>
                               </blockquote>
                             ))}
                           </details>
@@ -307,7 +308,7 @@ export function DailyStructurePage() {
                 {evidence.slice(0, 4).map((item) => (
                   <article className="live-evidence" key={item.id}>
                     <div><strong>{item.title}</strong><span>{item.grade}</span></div>
-                    <blockquote>{item.quote}</blockquote>
+                    <blockquote>{item.quote}{item.excerpt ? "（节选）" : ""}</blockquote>
                     <small>{item.id}</small>
                   </article>
                 ))}
