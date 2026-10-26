@@ -77,6 +77,30 @@ export function solarToLunar(solar: SolarDate): LunarDate & { leapMonth: number 
   };
 }
 
+const LUNAR_MONTH_NAMES = [
+  "正月", "二月", "三月", "四月", "五月", "六月",
+  "七月", "八月", "九月", "十月", "冬月", "腊月",
+];
+
+/**
+ * 有符号农历月份 → 展示文字。
+ * 约定（与后端 lunar-python getMonth 一致，见 docs/phase2/API.md）：
+ * 正数是本月，负数是闰月，如 -2 表示闰二月。展示层必须经此函数
+ * 转换为「闰二月」等文字，不得直接显示负数或裸数字。
+ * 非法输入（0、绝对值大于 12、非整数）直接抛错，不静默兜底。
+ */
+export function formatLunarMonth(signedMonth: number): string {
+  if (
+    !Number.isInteger(signedMonth) ||
+    signedMonth === 0 ||
+    Math.abs(signedMonth) > 12
+  ) {
+    throw new RangeError(`无效的农历月份：${signedMonth}`);
+  }
+  const name = LUNAR_MONTH_NAMES[Math.abs(signedMonth) - 1];
+  return signedMonth < 0 ? `闰${name}` : name;
+}
+
 /** 校验农历日期有效性 */
 export function validateLunarDate(year: number, month: number, day: number, isLeap: boolean): boolean {
   try {

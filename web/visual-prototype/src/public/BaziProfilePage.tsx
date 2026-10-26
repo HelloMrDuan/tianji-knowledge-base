@@ -294,20 +294,24 @@ export function BaziProfilePage() {
             </section>
           </div>
 
-          {(result.warnings?.length > 0 || result.limitations?.length > 0) && (
-            <section className="live-section result-limitations">
-              <div className="result-section-heading"><div><span>五</span><h2>说明与限制</h2></div></div>
-              {result.warnings?.map((w: string, i: number) => (
-                <p key={`w-${i}`} className="limitation-warning">⚠️ {w}</p>
-              ))}
-              {result.limitations?.map((l: string, i: number) => (
-                <p key={`l-${i}`} className="limitation-note">ℹ️ {l}</p>
-              ))}
-              <p className="limitation-note">
-                以上为传统文化观察，不构成科学验证的未来预测。旺衰、喜用神、大运等需充分裁定，当前暂不提供结论。
-              </p>
-            </section>
-          )}
+          {/* TJ-031.4（Track B F3）：说明与限制是结果四层结构的第 4 层，
+              有结果即须在场，不再随 warnings/limitations 是否为空而消失；
+              分界约定在此明示，不用技术字段名。 */}
+          <section className="live-section result-limitations">
+            <div className="result-section-heading"><div><span>五</span><h2>说明与限制</h2></div></div>
+            {result.warnings?.map((w: string, i: number) => (
+              <p key={`w-${i}`} className="limitation-warning">⚠️ {w}</p>
+            ))}
+            {result.limitations?.map((l: string, i: number) => (
+              <p key={`l-${i}`} className="limitation-note">ℹ️ {l}</p>
+            ))}
+            <p className="limitation-note">
+              分界约定：年柱以立春交节为界，立春之前出生仍按上一年计算；日柱以午夜 0 点为界，晚上 23 点后的夜子时归当日，不顺延到次日。
+            </p>
+            <p className="limitation-note">
+              以上为传统文化观察，不构成科学验证的未来预测。旺衰、喜用神、大运等需充分裁定，当前暂不提供结论。
+            </p>
+          </section>
 
           <details className="trace-section bazi-trace">
             <summary>

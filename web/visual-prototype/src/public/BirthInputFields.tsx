@@ -9,7 +9,7 @@ import {
   type BirthProfile,
   type CalendarType,
 } from "./birthProfile";
-import { getLeapMonth, getLunarMonthDays } from "./lunarConvert";
+import { formatLunarMonth, getLeapMonth, getLunarMonthDays } from "./lunarConvert";
 
 /**
  * TJ-006.1 第三轮：面向普通用户的出生资料输入。
@@ -150,7 +150,7 @@ export function BirthInputFields({
               checked={value.isLeapMonth}
               onChange={(e) => update({ isLeapMonth: e.target.checked, day: 0 })}
             />
-            <span>闰{leapMonth}月</span>
+            <span>{formatLunarMonth(-leapMonth)}</span>
           </label>
         )}
         <label>

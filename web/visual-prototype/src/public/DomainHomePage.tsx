@@ -17,6 +17,7 @@ import {
   executeZiwei,
 } from "./api";
 import type { ExecuteResponse } from "./api";
+import { lunarToSolar, validateLunarDate } from "./lunarConvert";
 import "./domain-home.css";
 
 const lineLabels = ["初爻", "二爻", "三爻", "四爻", "五爻", "上爻"];
@@ -33,6 +34,36 @@ function initialValues(page: DomainPage) {
       field.fixedValue || field.options?.[0] || "",
     ]),
   );
+}
+/**
+ * TJ-031.4（Track A F3）：紫微工具页的出生日期解析。
+ * 历法选“农历”时表单里的年月日是农历，必须先经 lunarConvert 换算为
+ * 公历再提交——与场景页 birthProfile.toApiValue 是同一条换算路径
+ * （birthProfile 同样从 ./lunarConvert 导入 lunarToSolar）。绝不把
+ * 农历数字直接当公历提交。闰月出生：后端紫微对闰月 fail-closed
+ * 拒绝（engine 校验），前端在此给出明确拒绝提示且不发请求，
+ * 不把拒绝包装成已计算。
+ */
+function resolveZiweiSolarDate(
+  values: Record<string, string>,
+): { date: string } | { error: string } {
+  if (values.calendar !== "农历") return { date: values.date };
+  if (values.leapMonth === "闰月") {
+    return {
+      error:
+        "紫微斗数暂不支持闰月出生的排盘：闰月出生的安星口径尚未确定，后端对闰月同样拒绝。本次未提交计算。",
+    };
+  }
+  const [year, month, day] = values.date.split("-").map(Number);
+  if (!year || !month || !day) return { error: "请填写出生日期与时间。" };
+  if (!validateLunarDate(year, month, day, false)) {
+    return {
+      error: `农历 ${year} 年 ${month} 月没有 ${day} 日，请检查日期后重试。`,
+    };
+  }
+  const solar = lunarToSolar({ year, month, day, isLeapMonth: false });
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return { date: `${solar.year}-${pad(solar.month)}-${pad(solar.day)}` };
 }
 export function Diagram({ page }: { page: DomainPage }) {
   if (page.id === "bazi")
@@ -281,8 +312,13 @@ export function DomainHomePage({ page }: { page: DomainPage }) {
         setError("请填写出生日期与时间。");
         return;
       }
+      const resolved = resolveZiweiSolarDate(values);
+      if ("error" in resolved) {
+        setError(resolved.error);
+        return;
+      }
       request = executeZiwei({
-        value: `${values.date}T${values.time}:00+08:00`,
+        value: `${resolved.date}T${values.time}:00+08:00`,
         year_boundary: "lunar-new-year",
       });
     } else if (page.id === "qimen") {
@@ -330,6 +366,14 @@ export function DomainHomePage({ page }: { page: DomainPage }) {
     setResult(null);
     setError("");
   }
+  // 紫微结果页链接必须与本次提交完全相同的公历日期：农历输入先换算。
+  // 结果只在提交成功后展示，且任一字段变更都会清空结果，所以这里
+  // 换算的输入与提交时一致；换算失败时回退原始输入（该状态下无结果
+  // 区块会渲染，链接不会被用到）。
+  const ziweiResolved =
+    page.id === "ziwei" ? resolveZiweiSolarDate(values) : null;
+  const ziweiHrefDate =
+    ziweiResolved && "date" in ziweiResolved ? ziweiResolved.date : values.date;
   // 结果页链接：带上与本次计算完全相同的输入参数，结果页据此重新真实计算。
   const resultHref =
     page.id === "yijing"
@@ -337,7 +381,7 @@ export function DomainHomePage({ page }: { page: DomainPage }) {
       : page.id === "liuren" && values.date && values.time
         ? `/liuren/result?value=${encodeURIComponent(`${values.date}T${values.time}:00+08:00`)}`
         : page.id === "ziwei" && values.date && values.time
-          ? `/ziwei/result?value=${encodeURIComponent(`${values.date}T${values.time}:00+08:00`)}&year_boundary=lunar-new-year`
+          ? `/ziwei/result?value=${encodeURIComponent(`${ziweiHrefDate}T${values.time}:00+08:00`)}&year_boundary=lunar-new-year`
           : page.id === "qimen" && values.date && values.time
             ? `/qimen/result?value=${encodeURIComponent(`${values.date}T${values.time}:00+08:00`)}`
             : page.id === "fengshui" && values.bearing
