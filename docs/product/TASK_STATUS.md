@@ -105,7 +105,7 @@
 | TJ-030.4 | M7 | 六壬专业结果收口 | 已合并 | [公开 #320](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/320) | 2026-10-25 | #320 已合并；六壬公开执行接通与真实结果渲染已在主干；天将未实现声明在位；引擎与浏览器测试由离线受控验收执行，公开 CI 不冒称 |
 | TJ-030.5 | M7 | 风水专业结果收口 | 已合并 | [公开 #322](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/322) | 2026-10-25 | #322 已合并；风水公开执行接通与真实结果渲染已在主干；绝对元运生产不可用声明在位；引擎与浏览器测试由离线受控验收执行，公开 CI 不冒称 |
 | TJ-031.1 | M7 | 生产路径时区感知化 | 已合并 | [公开 #353](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/353) | 2026-10-25 | 单独立：生产路径时区感知化（Track A F1 + Track B F1）：新增 calendar_tz 时区历法模块，前端场景请求带 zone，后端按出生地墙时间排盘，无 zone 的非上海偏移拒绝；场景契约更新含 zone 字段 |
-| TJ-031.2 | M7 | F-1 回归修复 | 已提交PR | [公开 #355](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/355) | 2026-10-26 | 单独立：机上验收 12 问题回归修复（决策 C）：eval 预期拒绝精确化（qimen.eval-boundary-05 + 合法时区奇门正例）、场景契约测试按分区改写、场景离线测试按真实输出结构重写并端到端验证；合并后待机上 --suite all 全量验收 |
+| TJ-031.2 | M7 | F-1 回归修复 | 已部署验收 | [公开 #355](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/355) | 2026-10-26 | 单独立：机上验收 12 问题回归修复（决策 C）：eval 预期拒绝精确化（qimen.eval-boundary-05 + 合法时区奇门正例）、场景契约测试按分区改写、场景离线测试按真实输出结构重写并端到端验证；已合并（Merge 02b2815a），机上 --suite all 验收 SUCCESS（1118 测，0 failures，0 errors，1 既存 skip，manifest 8055efb），稳定已部署（pin 7a740d83），部署后 5 组时区探针全对、/health ok（rag_ready true），F-1 回归修复闭环 |
 
 ## 进度计算与正确读法
 
