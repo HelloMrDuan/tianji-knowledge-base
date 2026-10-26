@@ -17,7 +17,11 @@ import {
   executeZiwei,
 } from "./api";
 import type { ExecuteResponse } from "./api";
-import { lunarToSolar, validateLunarDate } from "./lunarConvert";
+import {
+  formatLunarMonth,
+  lunarToSolar,
+  validateLunarDate,
+} from "./lunarConvert";
 import "./domain-home.css";
 
 const lineLabels = ["初爻", "二爻", "三爻", "四爻", "五爻", "上爻"];
@@ -108,7 +112,7 @@ export function Diagram({ page }: { page: DomainPage }) {
           "财帛",
           "疾厄",
           "迁移",
-          "交友",
+          "仆役",
           "官禄",
           "田宅",
           "福德",
@@ -201,6 +205,7 @@ function Field({
         <select
           id={id}
           value={value}
+          disabled={field.disabled}
           onChange={(e) => onChange(e.target.value)}
           aria-describedby={field.hint ? hintId : undefined}
         >
@@ -243,6 +248,53 @@ export function hexText(hex: Record<string, unknown> | undefined): string {
 export function lessonText(lesson: Record<string, unknown> | undefined): string {
   if (!lesson) return "—";
   return `${lesson.upper} / ${lesson.lower}`;
+}
+/**
+ * TJ-031.8：响应 calendar 整块的核对文本（四柱干支 + 农历日期），
+ * 让用户能核对本次排盘实际采用的年干支与农历日期。农历月份经
+ * formatLunarMonth 文字化（负数=闰月），不直接显示有符号数字。
+ */
+export function ganzhiCalendarText(
+  cal: Record<string, any> | null | undefined,
+): string {
+  if (!cal) return "—";
+  const parts = [
+    `年 ${cal.year_ganzhi || "—"}`,
+    `月 ${cal.month_ganzhi || "—"}`,
+    `日 ${cal.day_ganzhi || "—"}`,
+    `时 ${cal.hour_ganzhi || "—"}`,
+  ];
+  if (
+    typeof cal.lunar_year === "number" &&
+    typeof cal.lunar_month === "number" &&
+    typeof cal.lunar_day === "number"
+  ) {
+    try {
+      parts.push(
+        `农历 ${cal.lunar_year} 年${formatLunarMonth(cal.lunar_month)}${cal.lunar_day} 日`,
+      );
+    } catch {
+      // 历法字段异常时只显示干支部分，不猜测农历日期。
+    }
+  }
+  return parts.join(" · ");
+}
+/**
+ * TJ-031.8：warnings 如实逐条渲染（与场景页 live-warning 同一视觉
+ * 语言）。此前工具页/结果页对 warnings 零渲染，紫微、奇门的证据
+ * 等级 caveat 用户完全看不到；warnings 为空时不渲染任何占位。
+ */
+export function ResultWarnings({ warnings }: { warnings?: string[] }) {
+  if (!warnings || warnings.length === 0) return null;
+  return (
+    <>
+      {warnings.map((line) => (
+        <p key={line} className="result-warning">
+          {line}
+        </p>
+      ))}
+    </>
+  );
 }
 export function DomainHomePage({ page }: { page: DomainPage }) {
   const [values, setValues] = useState(() => initialValues(page));
@@ -709,6 +761,10 @@ export function DomainHomePage({ page }: { page: DomainPage }) {
                   </dd>
                 </div>
                 <div>
+                  <dt>辅星口径</dt>
+                  <dd>{result.chart.auxiliary_variant || "—"}</dd>
+                </div>
+                <div>
                   <dt>四化</dt>
                   <dd>
                     {result.chart.four_transformations
@@ -719,6 +775,10 @@ export function DomainHomePage({ page }: { page: DomainPage }) {
                     （{result.chart.mutagen_variant || "—"}）
                   </dd>
                 </div>
+                <div>
+                  <dt>排盘历法</dt>
+                  <dd>{ganzhiCalendarText(result.calendar)}</dd>
+                </div>
               </dl>
               {result.chart.input_scope && <p>{result.chart.input_scope}</p>}
               {result.chart.mutagen_evidence && (
@@ -727,6 +787,7 @@ export function DomainHomePage({ page }: { page: DomainPage }) {
               <p>
                 闰月输入将被拒绝（仅非闰月农历）；大限流年、庙旺吉凶不在此基本盘中。
               </p>
+              <ResultWarnings warnings={result.warnings} />
               {(result.limitations || []).map((line: string) => (
                 <p key={line}>{line}</p>
               ))}
@@ -804,6 +865,7 @@ export function DomainHomePage({ page }: { page: DomainPage }) {
                 <p>{result.chart.center_star_policy}</p>
               )}
               <p>超接置闰未实现；本结果不含置闰、超神接气、暗干与格局占断。</p>
+              <ResultWarnings warnings={result.warnings} />
               {(result.limitations || []).map((line: string) => (
                 <p key={line}>{line}</p>
               ))}
@@ -851,6 +913,7 @@ export function DomainHomePage({ page }: { page: DomainPage }) {
               <p>
                 绝对元运未接入生产：本结果不含元运期数；元运口径需显式研究纪元，另立任务确立。
               </p>
+              <ResultWarnings warnings={result.warnings} />
               {(result.limitations || []).map((line: string) => (
                 <p key={line}>{line}</p>
               ))}

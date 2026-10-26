@@ -185,6 +185,14 @@
   color: var(--ink-soft);
   font-size: 14px;
 }
+/* TJ-031.8：warnings 逐条呈现，沿用场景页 live-warning 的配色语言。 */
+.template-state p.result-warning {
+  background: #f4eee1;
+  color: #886c39;
+  border-radius: 4px;
+  padding: 8px 11px;
+  font-size: 12px;
+}
 .result-field-slots {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
