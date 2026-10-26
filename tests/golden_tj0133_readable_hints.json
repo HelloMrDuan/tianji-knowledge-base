@@ -1553,7 +1553,7 @@
       {
        "pillar": "year",
        "stem": "壬",
-       "ten_god": "正印"
+       "ten_god": "偏印"
       },
       {
        "pillar": "month",
@@ -1611,7 +1611,7 @@
        ]
       },
       {
-       "text": "第二对（所论之神食伤、病为印、药为财）：食伤见于时柱干丁（伤官）；印见于年柱干壬（正印）；财见于月柱干戊（偏财）。",
+       "text": "第二对（所论之神食伤、病为印、药为财）：食伤见于时柱干丁（伤官）；印见于年柱干壬（偏印）；财见于月柱干戊（偏财）。",
        "fact_sources": [
         "bingyao.pairs[1].rule.subject_god_class",
         "bingyao.pairs[1].rule.disease_god_class",

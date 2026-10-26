@@ -78,6 +78,16 @@ PREDICATE_LABELS = {
     'isolated_control': '孤立受克',
 }
 
+# 裁定出口有两种形态（见 bazi_adjudication）：pure_support 与
+# isolated_control 经已注册的 trace rule 发出，why 只带
+# sufficient_rule；pure_generating_support 尚待 Phase1 注册，经有限
+# 出口发出，why 带 sufficient_predicate 且 sufficient_rule 为 None。
+# 渲染器按此映射派生谓词，两形态并存且不一致时 fail-closed。
+RULE_TO_PREDICATE = {
+    'bazi.phase2.strength_pure_support': 'pure_support',
+    'bazi.phase2.strength_isolated_control': 'isolated_control',
+}
+
 # 已审充分谓词条件键的自然语言转写（一一对应 bazi_action_conditions
 # 三组 scope 条件字典的键；未知键 fail-closed，不临场造词）。
 CONDITION_LABELS = {
@@ -282,7 +292,14 @@ def _strength_lines(statement):
     why = statement.get('why_not_indeterminate')
     if not isinstance(why, dict):
         raise ValueError('Strength verdict requires its predicate record')
+    rule_predicate = RULE_TO_PREDICATE.get(why.get('sufficient_rule')) \
+        if why.get('sufficient_rule') else None
     predicate = why.get('sufficient_predicate')
+    if predicate is not None and rule_predicate is not None \
+            and predicate != rule_predicate:
+        raise ValueError('Strength verdict predicate contradicts its sufficient rule')
+    if predicate is None:
+        predicate = rule_predicate
     if predicate not in PREDICATE_LABELS:
         raise ValueError('Unsupported strength sufficient predicate for readable hints')
     conditions = why.get('conditions')

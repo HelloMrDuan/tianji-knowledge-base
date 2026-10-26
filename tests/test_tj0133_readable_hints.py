@@ -70,11 +70,16 @@ def _strength_statement(case):
     expected = case['expected_strength']
     why = None
     if expected['sufficient_predicate'] is not None:
-        why = {'sufficient_predicate': expected['sufficient_predicate'],
-               'sufficient_rule': expected['sufficient_rule'],
+        # Mirror the REAL verdict shapes (see bazi_adjudication):
+        # registered-rule verdicts carry only sufficient_rule; the
+        # pending-registration verdict carries sufficient_predicate
+        # with sufficient_rule None.
+        why = {'sufficient_rule': expected['sufficient_rule'],
                'conditions': [{'condition': key, 'met': True}
                               for key in expected['conditions']],
                'all_required_conditions_verified': True}
+        if expected['sufficient_rule'] is None:
+            why['sufficient_predicate'] = expected['sufficient_predicate']
     return {'variant': ADJUDICATION_VARIANT,
             'classification': expected['classification'],
             'decision_status': expected['decision_status'],

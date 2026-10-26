@@ -76,8 +76,12 @@ class RealChartEndToEndTests(unittest.TestCase):
                                  expected_s['decision_status'])
                 if expected_s['sufficient_predicate'] is not None:
                     why = strength['why_not_indeterminate']
-                    self.assertEqual(why['sufficient_predicate'],
-                                     expected_s['sufficient_predicate'])
+                    self.assertEqual(why.get('sufficient_rule'),
+                                     expected_s['sufficient_rule'])
+                    if expected_s['sufficient_rule'] is None:
+                        self.assertEqual(
+                            why.get('sufficient_predicate'),
+                            expected_s['sufficient_predicate'])
                     self.assertEqual(
                         [row['condition'] for row in why['conditions']],
                         expected_s['conditions'])
@@ -104,13 +108,22 @@ class RealChartEndToEndTests(unittest.TestCase):
                         sections[system]['lines'],
                         [line['text'] for line in expected['lines']],
                         f"{case['id']}:{system}")
-                # Text-vs-facts closure over the REAL chart facts:
-                # every stem named in any line is a stem of this chart.
+                # Text-vs-facts closure over the REAL input objects:
+                # every stem named in any line comes from this chart's
+                # stems or from the tiaohou entry statement itself
+                # (an entry pick is a fact of the reviewed entry even
+                # when the chart does not contain the stem).
                 chart_stems = {g[0] for g in case['pillars']}
                 for pillar in result['pillars']:
                     chart_stems.update(
                         item['stem']
                         for item in pillar['branch']['hidden_stems'])
+                real_tiaohou = result['tiaohou_assessment']
+                for item in real_tiaohou.get('sequence') or []:
+                    chart_stems.add(item['stem'])
+                for branch in real_tiaohou.get('branches') or []:
+                    for item in branch.get('sequence') or []:
+                        chart_stems.add(item['stem'])
                 for section in hints['sections']:
                     for line in section['lines']:
                         self.assertLessEqual(set(line) & STEMS,
