@@ -2058,6 +2058,27 @@
       "kind": "classical",
       "rights_basis": "沿用 PUBLIC_DOMAIN_EXTRACT_ONLY，只审核并保存简短前现代占梦条目及必要原文语境；不复制现代注解或取得电子整理版权，不认定题名作者。",
       "review_scope": "固定 RAW 字节/commit/blob 校验后逐字核对题名、梦语境、章节、具体场景及梦象—解释关系；C级单一电子版本文化检索，非现实预测。整书版本、作者、OCR及独立性仍未核；蛇条目外部电子本咬/蛟异字未决。 2026-10-07 增审五条具体场景，维基文库固定页面短句一致但独立底本未确认；只延伸文化摘录，不升级证据等级。"
+    },
+    {
+      "source_id": "bazi.source.qiongtong",
+      "title": "穷通宝鉴",
+      "author": null,
+      "era": "前现代子平命理传世文献；旧题明代余春台编订，成书与版本问题不在本轮裁定",
+      "repository": "garychowcmu/daizhigev20",
+      "url": "https://github.com/garychowcmu/daizhigev20/blob/4a6d6f2088825f132521d848c2ea86cf9c9a7620/%E6%98%93%E8%97%8F/%E6%9C%AF%E6%95%B0/%E7%A9%B7%E9%80%9A%E5%AE%9D%E9%89%B4.txt",
+      "commit": "4a6d6f2088825f132521d848c2ea86cf9c9a7620",
+      "path": "易藏/术数/穷通宝鉴.txt",
+      "license": "Public-Domain (pre-modern text only)",
+      "public_domain": true,
+      "retrieved_at": "2026-10-26",
+      "content_path": "data/quarantine/public_domain_snapshots/daizhigev20/qiongtong_baojian.txt",
+      "content_format": "text",
+      "sha256": "a8125d7de94f93d1a3eec48f1610b0c4baf31c264e9d7c19f586a85a78a2b0b4",
+      "blob_sha": "bac376872f7f4f5280a7287c25ef22cbd0c983d1",
+      "evidence_level": "C",
+      "kind": "classical",
+      "rights_basis": "仅保存并引用公有领域古籍原文；不取得电子仓库现代编辑内容的版权许可。当前电子本为简体转写单一谱系，不据仓库许可证推断底本权利或版本权威。",
+      "review_scope": "TJ-013.1 逐字审定甲木十二月调候条目：以固定快照（87430 字节）字符区间与行号逐条定位取用陈述，仅编码原文明确陈述的先取/次取干与一条可由存在性事实判定的分支，原文含糊或条件超出存在性事实的分支只登记不编码；引文逐字保留快照字形，不作简繁转换。其余九干、整书版本校勘与独立刊本对照未做，不声称多底本一致。"
     }
   ]
 }

@@ -1,0 +1,1211 @@
+{
+ "schema": "tj0131-tiaohou-golden-v1",
+ "task": "TJ-013.1",
+ "variant": "tiaohou-qiongtong-v1",
+ "source": {
+  "source_id": "bazi.source.qiongtong",
+  "title": "穷通宝鉴",
+  "snapshot_path": "data/quarantine/public_domain_snapshots/daizhigev20/qiongtong_baojian.txt",
+  "snapshot_sha256": "a8125d7de94f93d1a3eec48f1610b0c4baf31c264e9d7c19f586a85a78a2b0b4",
+  "snapshot_bytes": 87430,
+  "snapshot_chars": 33066,
+  "evidence_level": "C",
+  "transcription_note": "引文与字符定位由密封快照原文切片转录(每条在全文中恰出现一次),非由实现输出反填;快照为简体转写单一电子谱系,引文逐字保留快照字形与半角逗号,不作简繁转换。"
+ },
+ "entries": [
+  {
+   "month_branch": "寅",
+   "month_label": "正月",
+   "section": {
+    "line": 22,
+    "char_start": 1300,
+    "char_end": 1362
+   },
+   "quote": "正月甲木,初春尚有余寒,得丙癸逢,富贵双全。癸藏丙透,名寒木向阳",
+   "quote_locator": {
+    "line": 22,
+    "char_start": 1300,
+    "char_end": 1332
+   },
+   "sequence": [
+    {
+     "stem": "丙",
+     "order": 1
+    },
+    {
+     "stem": "癸",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文先举「得丙癸逢」按列举顺序定先次,次句「癸藏丙透」以丙透为要、癸为辅。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [],
+   "notes": [
+    "正二月合论段(快照字符 1363-1818)含从格与妻子等论述,非调候取用顺序陈述,不编码;仅登记为相邻段落。"
+   ]
+  },
+  {
+   "month_branch": "卯",
+   "month_label": "二月",
+   "section": {
+    "line": 28,
+    "char_start": 1819,
+    "char_end": 1935
+   },
+   "quote": "二月甲木,庚金得所,名阳刃驾杀,可云小贵,异途显达,或主武职,但要财资之。",
+   "quote_locator": {
+    "line": 28,
+    "char_start": 1819,
+    "char_end": 1856
+   },
+   "sequence": [
+    {
+     "stem": "庚",
+     "order": 1
+    }
+   ],
+   "order_basis": "原文以「庚金得所」陈述庚为当月取用,未明示次取;「但要财资之」为资助条件,不列为次取。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [],
+   "notes": [
+    "「但要财资之」:财(土)为资助庚的条件陈述,原文未将其列为次取,故不入序列。"
+   ]
+  },
+  {
+   "month_branch": "辰",
+   "month_label": "三月",
+   "section": {
+    "line": 29,
+    "char_start": 1936,
+    "char_end": 2202
+   },
+   "quote": "三月甲木,木气相竭。先取庚金,次用壬水。",
+   "quote_locator": {
+    "line": 29,
+    "char_start": 1936,
+    "char_end": 1956
+   },
+   "sequence": [
+    {
+     "stem": "庚",
+     "order": 1
+    },
+    {
+     "stem": "壬",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「先取庚金,次用壬水」明示先次。",
+   "branches": [],
+   "unencoded_branches": [
+    {
+     "quote": "或支成金局,方可用丁,不然,三月无用丁之法。惟有先庚後壬取用。",
+     "locator": {
+      "line": 34,
+      "char_start": 2142,
+      "char_end": 2173
+     },
+     "reason": "条件「支成金局」需地支三合/三会成局事实,不在本 Variant 输入契约(日主、月支、天干与藏干存在性)内,只登记不编码。"
+    }
+   ],
+   "related": []
+  },
+  {
+   "month_branch": "巳",
+   "month_label": "四月",
+   "section": {
+    "line": 38,
+    "char_start": 2208,
+    "char_end": 2398
+   },
+   "quote": "四月甲木退气,丙火司权,先癸後丁。",
+   "quote_locator": {
+    "line": 38,
+    "char_start": 2208,
+    "char_end": 2225
+   },
+   "sequence": [
+    {
+     "stem": "癸",
+     "order": 1
+    },
+    {
+     "stem": "丁",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「先癸後丁」明示先次(该段为四月条首句,节区含其后讨论段)。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "month_branch": "午",
+   "month_label": "五月",
+   "section": {
+    "line": 42,
+    "char_start": 2398,
+    "char_end": 3048
+   },
+   "quote": "五六月甲木,木性虚焦,一理共推。五月先癸後丁庚金次之。",
+   "quote_locator": {
+    "line": 42,
+    "char_start": 2398,
+    "char_end": 2425
+   },
+   "sequence": [
+    {
+     "stem": "癸",
+     "order": 1
+    },
+    {
+     "stem": "丁",
+     "order": 2
+    },
+    {
+     "stem": "庚",
+     "order": 3
+    }
+   ],
+   "order_basis": "原文「五月先癸後丁庚金次之」明示三级先次(节区为五六月合论段)。",
+   "branches": [
+    {
+     "id": "wuyue_fa_gui_yong_ding",
+     "condition": {
+      "absent_stem": "癸"
+     },
+     "quote": "或五月乏癸,用丁亦可,要运行北地为隹。",
+     "locator": {
+      "line": 42,
+      "char_start": 2447,
+      "char_end": 2466
+     },
+     "sequence": [
+      {
+       "stem": "丁",
+       "order": 1
+      },
+      {
+       "stem": "庚",
+       "order": 2
+      }
+     ],
+     "note": "原文「或五月乏癸,用丁亦可」:本 Variant 将「乏癸」界定为癸在四柱透干与藏干皆无;此时丁可代为首取,庚仍次之。运行北地为运途条件,不在本执行范围。"
+    }
+   ],
+   "unencoded_branches": [
+    {
+     "quote": "五六月甲木,木盛先庚,庚盛先丁。",
+     "locator": {
+      "line": 45,
+      "char_start": 2563,
+      "char_end": 2579
+     },
+     "reason": "条件「木盛/庚盛」为相对旺盛判断,非存在性事实,不在本 Variant 输入契约内,只登记不编码。"
+    }
+   ],
+   "related": []
+  },
+  {
+   "month_branch": "未",
+   "month_label": "六月",
+   "section": {
+    "line": 42,
+    "char_start": 2398,
+    "char_end": 3048
+   },
+   "quote": "六月三伏生寒,丁火退气。先丁後庚,无癸亦可。",
+   "quote_locator": {
+    "line": 42,
+    "char_start": 2425,
+    "char_end": 2447
+   },
+   "sequence": [
+    {
+     "stem": "丁",
+     "order": 1
+    },
+    {
+     "stem": "庚",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「先丁後庚,无癸亦可」明示先次,且明示癸不在取用之列,故不列癸。",
+   "branches": [],
+   "unencoded_branches": [
+    {
+     "quote": "五六月甲木,木盛先庚,庚盛先丁。",
+     "locator": {
+      "line": 45,
+      "char_start": 2563,
+      "char_end": 2579
+     },
+     "reason": "条件「木盛/庚盛」为相对旺盛判断,非存在性事实,不在本 Variant 输入契约内,只登记不编码。"
+    }
+   ],
+   "related": []
+  },
+  {
+   "month_branch": "申",
+   "month_label": "七月",
+   "section": {
+    "line": 62,
+    "char_start": 3430,
+    "char_end": 3512
+   },
+   "quote": "七月甲木,丁火为尊,庚金次之,庚金不可少。",
+   "quote_locator": {
+    "line": 62,
+    "char_start": 3430,
+    "char_end": 3451
+   },
+   "sequence": [
+    {
+     "stem": "丁",
+     "order": 1
+    },
+    {
+     "stem": "庚",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「丁火为尊,庚金次之」明示先次,并明示「庚金不可少」。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "month_branch": "酉",
+   "month_label": "八月",
+   "section": {
+    "line": 63,
+    "char_start": 3513,
+    "char_end": 3683
+   },
+   "quote": "八月甲木,木囚金旺。丁火为先,次用丙火,庚金再次。",
+   "quote_locator": {
+    "line": 63,
+    "char_start": 3513,
+    "char_end": 3538
+   },
+   "sequence": [
+    {
+     "stem": "丁",
+     "order": 1
+    },
+    {
+     "stem": "丙",
+     "order": 2
+    },
+    {
+     "stem": "庚",
+     "order": 3
+    }
+   ],
+   "order_basis": "原文「丁火为先,次用丙火,庚金再次」明示三级先次。",
+   "branches": [],
+   "unencoded_branches": [
+    {
+     "quote": "或支成木局,干透比劫,反取庚金为先,次用丁火。",
+     "locator": {
+      "line": 69,
+      "char_start": 3659,
+      "char_end": 3682
+     },
+     "reason": "条件含「支成木局」,需成局事实,不在本 Variant 输入契约内,只登记不编码。"
+    }
+   ],
+   "related": []
+  },
+  {
+   "month_branch": "戌",
+   "month_label": "九月",
+   "section": {
+    "line": 78,
+    "char_start": 4197,
+    "char_end": 4272
+   },
+   "quote": "九月甲木,端用丁癸,见戊透必贵。",
+   "quote_locator": {
+    "line": 78,
+    "char_start": 4197,
+    "char_end": 4213
+   },
+   "sequence": [
+    {
+     "stem": "丁",
+     "order": 1
+    },
+    {
+     "stem": "癸",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「端用丁癸」按列举顺序定先次;同月另一段「独爱丁火,壬癸滋扶」将壬列于滋扶而非端用,壬不入序列(见 related)。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [
+    {
+     "quote": "九月甲木,木星凋零,独爱丁火,壬癸滋扶",
+     "locator": {
+      "line": 70,
+      "char_start": 3683,
+      "char_end": 3702
+     },
+     "note": "同条另一段:独爱丁火、壬癸滋扶。壬在此仅列于滋扶,未列入端用顺序,故不入序列;戊在主引文中为「见戊透」之条件陈述,亦不入序列。"
+    }
+   ]
+  },
+  {
+   "month_branch": "亥",
+   "month_label": "十月",
+   "section": {
+    "line": 82,
+    "char_start": 4322,
+    "char_end": 4499
+   },
+   "quote": "十月甲木,庚丁为要,丙火次之。忌壬水泛身,须戊土制之。",
+   "quote_locator": {
+    "line": 82,
+    "char_start": 4322,
+    "char_end": 4349
+   },
+   "sequence": [
+    {
+     "stem": "庚",
+     "order": 1
+    },
+    {
+     "stem": "丁",
+     "order": 2
+    },
+    {
+     "stem": "丙",
+     "order": 3
+    }
+   ],
+   "order_basis": "原文「庚丁为要」按列举顺序定先次,「丙火次之」为第三级。",
+   "branches": [],
+   "unencoded_branches": [
+    {
+     "quote": "十月甲木,庚丁为要,丙火次之。忌壬水泛身,须戊土制之。",
+     "locator": {
+      "line": 82,
+      "char_start": 4322,
+      "char_end": 4349
+     },
+     "reason": "同句「忌壬水泛身,须戊土制之」:「壬水泛身」为程度判断而非存在性事实,戊不列为取用序列;只登记不编码。"
+    }
+   ],
+   "related": []
+  },
+  {
+   "month_branch": "子",
+   "month_label": "十一月",
+   "section": {
+    "line": 86,
+    "char_start": 4500,
+    "char_end": 4678
+   },
+   "quote": "十一月甲木,木性生寒,丁先庚後,丙火佐之。",
+   "quote_locator": {
+    "line": 86,
+    "char_start": 4500,
+    "char_end": 4521
+   },
+   "sequence": [
+    {
+     "stem": "丁",
+     "order": 1
+    },
+    {
+     "stem": "庚",
+     "order": 2
+    },
+    {
+     "stem": "丙",
+     "order": 3
+    }
+   ],
+   "order_basis": "原文「丁先庚後,丙火佐之」明示先次,丙为佐为第三级。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "month_branch": "丑",
+   "month_label": "十二月",
+   "section": {
+    "line": 90,
+    "char_start": 4679,
+    "char_end": 4874
+   },
+   "quote": "十二月甲木,天寒气冻,木性极寒,无生发之象,先用庚劈甲,方引丁火始得木火有通明之象,故丁次之。",
+   "quote_locator": {
+    "line": 90,
+    "char_start": 4679,
+    "char_end": 4726
+   },
+   "sequence": [
+    {
+     "stem": "庚",
+     "order": 1
+    },
+    {
+     "stem": "丁",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「先用庚劈甲,方引丁火」「故丁次之」明示先次。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  }
+ ],
+ "cases": [
+  {
+   "id": "jia-yin",
+   "pillars": [
+    "甲寅",
+    "丙寅",
+    "甲子",
+    "戊辰"
+   ],
+   "day_master": "甲",
+   "month_branch": "寅",
+   "visible_stems": [
+    "甲",
+    "丙",
+    "甲",
+    "戊"
+   ],
+   "hidden_stems": [
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "癸"
+    ],
+    [
+     "戊",
+     "乙",
+     "癸"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "丙",
+      "order": 1,
+      "presence": "visible"
+     },
+     {
+      "stem": "癸",
+      "order": 2,
+      "presence": "hidden"
+     }
+    ],
+    "branches": []
+   }
+  },
+  {
+   "id": "jia-mao",
+   "pillars": [
+    "乙卯",
+    "丁卯",
+    "甲午",
+    "庚午"
+   ],
+   "day_master": "甲",
+   "month_branch": "卯",
+   "visible_stems": [
+    "乙",
+    "丁",
+    "甲",
+    "庚"
+   ],
+   "hidden_stems": [
+    [
+     "乙"
+    ],
+    [
+     "乙"
+    ],
+    [
+     "丁",
+     "己"
+    ],
+    [
+     "丁",
+     "己"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "庚",
+      "order": 1,
+      "presence": "visible"
+     }
+    ],
+    "branches": []
+   }
+  },
+  {
+   "id": "jia-chen",
+   "pillars": [
+    "戊辰",
+    "庚辰",
+    "甲寅",
+    "甲申"
+   ],
+   "day_master": "甲",
+   "month_branch": "辰",
+   "visible_stems": [
+    "戊",
+    "庚",
+    "甲",
+    "甲"
+   ],
+   "hidden_stems": [
+    [
+     "戊",
+     "乙",
+     "癸"
+    ],
+    [
+     "戊",
+     "乙",
+     "癸"
+    ],
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "庚",
+     "壬",
+     "戊"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "庚",
+      "order": 1,
+      "presence": "visible"
+     },
+     {
+      "stem": "壬",
+      "order": 2,
+      "presence": "hidden"
+     }
+    ],
+    "branches": []
+   }
+  },
+  {
+   "id": "jia-si",
+   "pillars": [
+    "乙巳",
+    "癸巳",
+    "甲子",
+    "丁卯"
+   ],
+   "day_master": "甲",
+   "month_branch": "巳",
+   "visible_stems": [
+    "乙",
+    "癸",
+    "甲",
+    "丁"
+   ],
+   "hidden_stems": [
+    [
+     "丙",
+     "庚",
+     "戊"
+    ],
+    [
+     "丙",
+     "庚",
+     "戊"
+    ],
+    [
+     "癸"
+    ],
+    [
+     "乙"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "癸",
+      "order": 1,
+      "presence": "visible"
+     },
+     {
+      "stem": "丁",
+      "order": 2,
+      "presence": "visible"
+     }
+    ],
+    "branches": []
+   }
+  },
+  {
+   "id": "jia-wu-branch-applied",
+   "pillars": [
+    "丙午",
+    "甲午",
+    "甲寅",
+    "庚申"
+   ],
+   "day_master": "甲",
+   "month_branch": "午",
+   "visible_stems": [
+    "丙",
+    "甲",
+    "甲",
+    "庚"
+   ],
+   "hidden_stems": [
+    [
+     "丁",
+     "己"
+    ],
+    [
+     "丁",
+     "己"
+    ],
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "庚",
+     "壬",
+     "戊"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "癸",
+      "order": 1,
+      "presence": "absent"
+     },
+     {
+      "stem": "丁",
+      "order": 2,
+      "presence": "hidden"
+     },
+     {
+      "stem": "庚",
+      "order": 3,
+      "presence": "visible"
+     }
+    ],
+    "branches": [
+     {
+      "id": "wuyue_fa_gui_yong_ding",
+      "applied": true
+     }
+    ]
+   }
+  },
+  {
+   "id": "jia-wu-branch-not-applied",
+   "pillars": [
+    "丙午",
+    "甲午",
+    "甲子",
+    "庚申"
+   ],
+   "day_master": "甲",
+   "month_branch": "午",
+   "visible_stems": [
+    "丙",
+    "甲",
+    "甲",
+    "庚"
+   ],
+   "hidden_stems": [
+    [
+     "丁",
+     "己"
+    ],
+    [
+     "丁",
+     "己"
+    ],
+    [
+     "癸"
+    ],
+    [
+     "庚",
+     "壬",
+     "戊"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "癸",
+      "order": 1,
+      "presence": "hidden"
+     },
+     {
+      "stem": "丁",
+      "order": 2,
+      "presence": "hidden"
+     },
+     {
+      "stem": "庚",
+      "order": 3,
+      "presence": "visible"
+     }
+    ],
+    "branches": [
+     {
+      "id": "wuyue_fa_gui_yong_ding",
+      "applied": false
+     }
+    ]
+   }
+  },
+  {
+   "id": "jia-wei",
+   "pillars": [
+    "丁未",
+    "乙未",
+    "甲戌",
+    "庚午"
+   ],
+   "day_master": "甲",
+   "month_branch": "未",
+   "visible_stems": [
+    "丁",
+    "乙",
+    "甲",
+    "庚"
+   ],
+   "hidden_stems": [
+    [
+     "己",
+     "丁",
+     "乙"
+    ],
+    [
+     "己",
+     "丁",
+     "乙"
+    ],
+    [
+     "戊",
+     "辛",
+     "丁"
+    ],
+    [
+     "丁",
+     "己"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "丁",
+      "order": 1,
+      "presence": "visible"
+     },
+     {
+      "stem": "庚",
+      "order": 2,
+      "presence": "visible"
+     }
+    ],
+    "branches": []
+   }
+  },
+  {
+   "id": "jia-shen",
+   "pillars": [
+    "庚申",
+    "壬申",
+    "甲子",
+    "丁卯"
+   ],
+   "day_master": "甲",
+   "month_branch": "申",
+   "visible_stems": [
+    "庚",
+    "壬",
+    "甲",
+    "丁"
+   ],
+   "hidden_stems": [
+    [
+     "庚",
+     "壬",
+     "戊"
+    ],
+    [
+     "庚",
+     "壬",
+     "戊"
+    ],
+    [
+     "癸"
+    ],
+    [
+     "乙"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "丁",
+      "order": 1,
+      "presence": "visible"
+     },
+     {
+      "stem": "庚",
+      "order": 2,
+      "presence": "visible"
+     }
+    ],
+    "branches": []
+   }
+  },
+  {
+   "id": "jia-you",
+   "pillars": [
+    "辛酉",
+    "丁酉",
+    "甲午",
+    "丙寅"
+   ],
+   "day_master": "甲",
+   "month_branch": "酉",
+   "visible_stems": [
+    "辛",
+    "丁",
+    "甲",
+    "丙"
+   ],
+   "hidden_stems": [
+    [
+     "辛"
+    ],
+    [
+     "辛"
+    ],
+    [
+     "丁",
+     "己"
+    ],
+    [
+     "甲",
+     "丙",
+     "戊"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "丁",
+      "order": 1,
+      "presence": "visible"
+     },
+     {
+      "stem": "丙",
+      "order": 2,
+      "presence": "visible"
+     },
+     {
+      "stem": "庚",
+      "order": 3,
+      "presence": "absent"
+     }
+    ],
+    "branches": []
+   }
+  },
+  {
+   "id": "jia-xu",
+   "pillars": [
+    "戊戌",
+    "壬戌",
+    "甲辰",
+    "丁卯"
+   ],
+   "day_master": "甲",
+   "month_branch": "戌",
+   "visible_stems": [
+    "戊",
+    "壬",
+    "甲",
+    "丁"
+   ],
+   "hidden_stems": [
+    [
+     "戊",
+     "辛",
+     "丁"
+    ],
+    [
+     "戊",
+     "辛",
+     "丁"
+    ],
+    [
+     "戊",
+     "乙",
+     "癸"
+    ],
+    [
+     "乙"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "丁",
+      "order": 1,
+      "presence": "visible"
+     },
+     {
+      "stem": "癸",
+      "order": 2,
+      "presence": "hidden"
+     }
+    ],
+    "branches": []
+   }
+  },
+  {
+   "id": "jia-hai",
+   "pillars": [
+    "辛亥",
+    "癸亥",
+    "甲寅",
+    "庚午"
+   ],
+   "day_master": "甲",
+   "month_branch": "亥",
+   "visible_stems": [
+    "辛",
+    "癸",
+    "甲",
+    "庚"
+   ],
+   "hidden_stems": [
+    [
+     "壬",
+     "甲"
+    ],
+    [
+     "壬",
+     "甲"
+    ],
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "丁",
+     "己"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "庚",
+      "order": 1,
+      "presence": "visible"
+     },
+     {
+      "stem": "丁",
+      "order": 2,
+      "presence": "hidden"
+     },
+     {
+      "stem": "丙",
+      "order": 3,
+      "presence": "hidden"
+     }
+    ],
+    "branches": []
+   }
+  },
+  {
+   "id": "jia-zi",
+   "pillars": [
+    "壬子",
+    "丙子",
+    "甲申",
+    "丁卯"
+   ],
+   "day_master": "甲",
+   "month_branch": "子",
+   "visible_stems": [
+    "壬",
+    "丙",
+    "甲",
+    "丁"
+   ],
+   "hidden_stems": [
+    [
+     "癸"
+    ],
+    [
+     "癸"
+    ],
+    [
+     "庚",
+     "壬",
+     "戊"
+    ],
+    [
+     "乙"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "丁",
+      "order": 1,
+      "presence": "visible"
+     },
+     {
+      "stem": "庚",
+      "order": 2,
+      "presence": "hidden"
+     },
+     {
+      "stem": "丙",
+      "order": 3,
+      "presence": "visible"
+     }
+    ],
+    "branches": []
+   }
+  },
+  {
+   "id": "jia-chou",
+   "pillars": [
+    "辛丑",
+    "丁丑",
+    "甲戌",
+    "庚午"
+   ],
+   "day_master": "甲",
+   "month_branch": "丑",
+   "visible_stems": [
+    "辛",
+    "丁",
+    "甲",
+    "庚"
+   ],
+   "hidden_stems": [
+    [
+     "己",
+     "癸",
+     "辛"
+    ],
+    [
+     "己",
+     "癸",
+     "辛"
+    ],
+    [
+     "戊",
+     "辛",
+     "丁"
+    ],
+    [
+     "丁",
+     "己"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "庚",
+      "order": 1,
+      "presence": "visible"
+     },
+     {
+      "stem": "丁",
+      "order": 2,
+      "presence": "visible"
+     }
+    ],
+    "branches": []
+   }
+  },
+  {
+   "id": "yi-mao-not-applicable",
+   "pillars": [
+    "乙卯",
+    "丁卯",
+    "乙午",
+    "庚午"
+   ],
+   "day_master": "乙",
+   "month_branch": "卯",
+   "visible_stems": [
+    "乙",
+    "丁",
+    "乙",
+    "庚"
+   ],
+   "hidden_stems": [
+    [
+     "乙"
+    ],
+    [
+     "乙"
+    ],
+    [
+     "丁",
+     "己"
+    ],
+    [
+     "丁",
+     "己"
+    ]
+   ],
+   "expected": {
+    "status": "not_applicable",
+    "reason": "day_master_not_jia"
+   }
+  }
+ ]
+}
