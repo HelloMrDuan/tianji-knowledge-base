@@ -1,7 +1,6 @@
 {
- "schema": "tj0131-tiaohou-golden-v1",
- "task": "TJ-013.1",
  "variant": "tiaohou-qiongtong-v1",
+ "schema": "tj0131-tiaohou-golden-v1",
  "source": {
   "source_id": "bazi.source.qiongtong",
   "title": "穷通宝鉴",
@@ -12,8 +11,18 @@
   "evidence_level": "C",
   "transcription_note": "引文与字符定位由密封快照原文切片转录(每条在全文中恰出现一次),非由实现输出反填;快照为简体转写单一电子谱系,引文逐字保留快照字形与半角逗号,不作简繁转换。"
  },
+ "absent_entries": [
+  {
+   "day_master": "乙",
+   "month_branch": "丑",
+   "month_label": "十二月",
+   "status": "absent_in_source",
+   "note": "快照全文检索「十二月乙木」出现 0 次；乙木段在十一月乙木条目后结束，其后直接进入论丙火总纲。审定快照中无乙木十二月条目，不以其他月份条目或他书口诀补齐；该组合 lookup 返回 not_applicable（entry_absent_in_source）。"
+  }
+ ],
  "entries": [
   {
+   "day_master": "甲",
    "month_branch": "寅",
    "month_label": "正月",
    "section": {
@@ -46,6 +55,7 @@
    ]
   },
   {
+   "day_master": "甲",
    "month_branch": "卯",
    "month_label": "二月",
    "section": {
@@ -74,6 +84,7 @@
    ]
   },
   {
+   "day_master": "甲",
    "month_branch": "辰",
    "month_label": "三月",
    "section": {
@@ -113,6 +124,7 @@
    "related": []
   },
   {
+   "day_master": "甲",
    "month_branch": "巳",
    "month_label": "四月",
    "section": {
@@ -142,6 +154,7 @@
    "related": []
   },
   {
+   "day_master": "甲",
    "month_branch": "午",
    "month_label": "五月",
    "section": {
@@ -209,6 +222,7 @@
    "related": []
   },
   {
+   "day_master": "甲",
    "month_branch": "未",
    "month_label": "六月",
    "section": {
@@ -248,6 +262,7 @@
    "related": []
   },
   {
+   "day_master": "甲",
    "month_branch": "申",
    "month_label": "七月",
    "section": {
@@ -277,6 +292,7 @@
    "related": []
   },
   {
+   "day_master": "甲",
    "month_branch": "酉",
    "month_label": "八月",
    "section": {
@@ -320,6 +336,7 @@
    "related": []
   },
   {
+   "day_master": "甲",
    "month_branch": "戌",
    "month_label": "九月",
    "section": {
@@ -359,6 +376,7 @@
    ]
   },
   {
+   "day_master": "甲",
    "month_branch": "亥",
    "month_label": "十月",
    "section": {
@@ -402,6 +420,7 @@
    "related": []
   },
   {
+   "day_master": "甲",
    "month_branch": "子",
    "month_label": "十一月",
    "section": {
@@ -435,6 +454,7 @@
    "related": []
   },
   {
+   "day_master": "甲",
    "month_branch": "丑",
    "month_label": "十二月",
    "section": {
@@ -459,6 +479,3784 @@
     }
    ],
    "order_basis": "原文「先用庚劈甲,方引丁火」「故丁次之」明示先次。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "乙",
+   "month_branch": "寅",
+   "month_label": "正月",
+   "section": {
+    "line": 98,
+    "char_start": 4988,
+    "char_end": 5130
+   },
+   "quote": "正月乙木,必须用丙,因天气尤有余寒,非丙不暖,虽有癸水,恐凝寒气,故以丙火为先,癸水次之。",
+   "quote_locator": {
+    "line": 98,
+    "char_start": 4988,
+    "char_end": 5033
+   },
+   "sequence": [
+    {
+     "stem": "丙",
+     "order": 1
+    },
+    {
+     "stem": "癸",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「故以丙火为先，癸水次之」明示先次。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "乙",
+   "month_branch": "卯",
+   "month_label": "二月",
+   "section": {
+    "line": 101,
+    "char_start": 5130,
+    "char_end": 5339
+   },
+   "quote": "二月乙木,阳气渐升,木不寒矣,以丙为君,癸为臣,丙癸两透,不透庚金,大富大贵。",
+   "quote_locator": {
+    "line": 101,
+    "char_start": 5130,
+    "char_end": 5169
+   },
+   "sequence": [
+    {
+     "stem": "丙",
+     "order": 1
+    },
+    {
+     "stem": "癸",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「以丙为君，癸为臣」：君先臣次。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "乙",
+   "month_branch": "辰",
+   "month_label": "三月",
+   "section": {
+    "line": 106,
+    "char_start": 5339,
+    "char_end": 5601
+   },
+   "quote": "三月乙木,阳气愈炽,先癸後丙。",
+   "quote_locator": {
+    "line": 106,
+    "char_start": 5339,
+    "char_end": 5354
+   },
+   "sequence": [
+    {
+     "stem": "癸",
+     "order": 1
+    },
+    {
+     "stem": "丙",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「先癸後丙」明示先次。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "乙",
+   "month_branch": "巳",
+   "month_label": "四月",
+   "section": {
+    "line": 118,
+    "char_start": 5781,
+    "char_end": 5941
+   },
+   "quote": "四月乙木,自有丙火,端取癸水为尊。四月乙木专用癸水,丙火酌用,虽以庚辛佐癸,须辛透为清。",
+   "quote_locator": {
+    "line": 118,
+    "char_start": 5781,
+    "char_end": 5825
+   },
+   "sequence": [
+    {
+     "stem": "癸",
+     "order": 1
+    }
+   ],
+   "order_basis": "原文「端取癸水为尊」「专用癸水」：癸为唯一端取；「丙火酌用」为酌量使用，未列先次，故不入序列；庚辛为「佐癸」之条件陈述，亦不入序列。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "乙",
+   "month_branch": "午",
+   "month_label": "五月",
+   "section": {
+    "line": 121,
+    "char_start": 5941,
+    "char_end": 6115
+   },
+   "quote": "五月乙木,丁火司权,禾稼俱旱。上半月属阳,仍用癸水。下半月属阴,三伏生寒,丙癸齐用。柱多金水,丙火为先,余皆用癸水为先。",
+   "quote_locator": {
+    "line": 121,
+    "char_start": 5941,
+    "char_end": 6001
+   },
+   "sequence": [
+    {
+     "stem": "癸",
+     "order": 1
+    }
+   ],
+   "order_basis": "原文末句「余皆用癸水为先」为无条件总述：癸居先；上半月「仍用癸水」与之同向。",
+   "branches": [],
+   "unencoded_branches": [
+    {
+     "quote": "下半月属阴,三伏生寒,丙癸齐用。",
+     "locator": {
+      "line": 121,
+      "char_start": 5967,
+      "char_end": 5983
+     },
+     "reason": "条件为月内上/下半月之分（日期与节气中分），非月支与干存在性可判，不在本 Variant 输入契约内，只登记不编码。"
+    },
+    {
+     "quote": "柱多金水,丙火为先",
+     "locator": {
+      "line": 121,
+      "char_start": 5983,
+      "char_end": 5992
+     },
+     "reason": "条件「柱多金水」为相对量判断，非存在性事实，不在本 Variant 输入契约内，只登记不编码。"
+    }
+   ],
+   "related": []
+  },
+  {
+   "day_master": "乙",
+   "month_branch": "未",
+   "month_label": "六月",
+   "section": {
+    "line": 124,
+    "char_start": 6115,
+    "char_end": 6531
+   },
+   "quote": "六月乙木,木性且寒,柱多金水,丙火为尊。支成水局,乙得无伤。癸水透干,大富大贵。",
+   "quote_locator": {
+    "line": 124,
+    "char_start": 6115,
+    "char_end": 6155
+   },
+   "sequence": [
+    {
+     "stem": "癸",
+     "order": 1
+    }
+   ],
+   "order_basis": "本月条无条件陈述为癸（「癸水透干，大富大贵」「无癸定作常人」），且夏月总结「端用癸水」同向（见 related）；条首「丙火为尊」以柱多金水为条件，不作主序列。",
+   "branches": [],
+   "unencoded_branches": [
+    {
+     "quote": "柱多金水,丙火为尊",
+     "locator": {
+      "line": 124,
+      "char_start": 6125,
+      "char_end": 6134
+     },
+     "reason": "条件「柱多金水」为相对量判断，非存在性事实，不在本 Variant 输入契约内，只登记不编码。"
+    }
+   ],
+   "related": [
+    {
+     "quote": "总之夏月之乙木,端用癸水,丙火酌用,庚辛次之。",
+     "locator": {
+      "line": 132,
+      "char_start": 6468,
+      "char_end": 6491
+     },
+     "note": "夏月总结句在本节区内：端用癸水与本条序列同向；丙火酌用、庚辛次之为夏月通则，未并入本月序列。"
+    }
+   ]
+  },
+  {
+   "day_master": "乙",
+   "month_branch": "申",
+   "month_label": "七月",
+   "section": {
+    "line": 136,
+    "char_start": 6531,
+    "char_end": 6815
+   },
+   "quote": "七月乙木,庚金乘令,庚虽输情於乙妹,怎奈干乙难合支金。柱见庚多,乙难受载。或丙透干,又加巳出埋金,此格可云科甲。有己透、加丙,亦是上命。七月喜己土为用,或不见丙癸。己土必不可少",
+   "quote_locator": {
+    "line": 136,
+    "char_start": 6531,
+    "char_end": 6619
+   },
+   "sequence": [
+    {
+     "stem": "己",
+     "order": 1
+    }
+   ],
+   "order_basis": "本月条无条件取用陈述为己土（「七月喜己土为用」「己土必不可少」）；丙、癸仅见于或然条件与三秋总论（见 related），不并入本月序列。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [
+    {
+     "quote": "三秋乙木,金神司令,先丙後癸,惟九月端用癸水",
+     "locator": {
+      "line": 135,
+      "char_start": 6498,
+      "char_end": 6520
+     },
+     "note": "三秋总论句在本日主秋段之首：总论作先丙後癸、惟九月端用癸；分月条（七月）自有无条件陈述（己土为用），本 Variant 从分月条，总论只登记不合并。"
+    }
+   ]
+  },
+  {
+   "day_master": "乙",
+   "month_branch": "酉",
+   "month_label": "八月",
+   "section": {
+    "line": 140,
+    "char_start": 6815,
+    "char_end": 7163
+   },
+   "quote": "八月乙木,芝兰禾稼均退。以丹桂为乙木。在白露之後,桂蕊未开,端用癸水以滋桂萼。",
+   "quote_locator": {
+    "line": 140,
+    "char_start": 6815,
+    "char_end": 6854
+   },
+   "sequence": [
+    {
+     "stem": "癸",
+     "order": 1
+    }
+   ],
+   "order_basis": "原文于白露之後段「端用癸水以滋桂萼」：癸为端取。秋分後改用丙之分支为月内节气条件（见 unencoded）。",
+   "branches": [],
+   "unencoded_branches": [
+    {
+     "quote": "若秋分後,桂花已开,却喜向阳,又宜用丙,癸水次之",
+     "locator": {
+      "line": 140,
+      "char_start": 6854,
+      "char_end": 6878
+     },
+     "reason": "条件为秋分节气前/後（月内日期分界），非月支与干存在性可判，不在本 Variant 输入契约内，只登记不编码。"
+    }
+   ],
+   "related": []
+  },
+  {
+   "day_master": "乙",
+   "month_branch": "戌",
+   "month_label": "九月",
+   "section": {
+    "line": 147,
+    "char_start": 7163,
+    "char_end": 7316
+   },
+   "quote": "九月乙木,根枯叶落,必赖癸水滋养。",
+   "quote_locator": {
+    "line": 147,
+    "char_start": 7163,
+    "char_end": 7180
+   },
+   "sequence": [
+    {
+     "stem": "癸",
+     "order": 1
+    }
+   ],
+   "order_basis": "原文「必赖癸水滋养」；三秋总论「惟九月端用癸水」与之同向。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "乙",
+   "month_branch": "亥",
+   "month_label": "十月",
+   "section": {
+    "line": 152,
+    "char_start": 7316,
+    "char_end": 7514
+   },
+   "quote": "十月乙木,木不受气,而壬水司令,取丙为用,戊土次之。",
+   "quote_locator": {
+    "line": 152,
+    "char_start": 7316,
+    "char_end": 7342
+   },
+   "sequence": [
+    {
+     "stem": "丙",
+     "order": 1
+    },
+    {
+     "stem": "戊",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「取丙为用，戊土次之」明示先次。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "乙",
+   "month_branch": "子",
+   "month_label": "十一月",
+   "section": {
+    "line": 154,
+    "char_start": 7514,
+    "char_end": 8039
+   },
+   "quote": "十一月乙木,花木寒冻,一阳来复,喜用丙火解冻,则花木有向阳之意,不宜用癸以冻花木,故端用丙火。",
+   "quote_locator": {
+    "line": 154,
+    "char_start": 7514,
+    "char_end": 7561
+   },
+   "sequence": [
+    {
+     "stem": "丙",
+     "order": 1
+    }
+   ],
+   "order_basis": "原文「故端用丙火」，并明示「不宜用癸以冻花木」：癸不入序列。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "丙",
+   "month_branch": "寅",
+   "month_label": "正月",
+   "section": {
+    "line": 168,
+    "char_start": 8169,
+    "char_end": 8657
+   },
+   "quote": "正月丙火,三阳开泰,火气渐炎,取壬为尊,庚金佐之,壬庚两透,科甲定然",
+   "quote_locator": {
+    "line": 168,
+    "char_start": 8169,
+    "char_end": 8203
+   },
+   "sequence": [
+    {
+     "stem": "壬",
+     "order": 1
+    },
+    {
+     "stem": "庚",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「取壬为尊，庚金佐之」：尊先佐次。",
+   "branches": [],
+   "unencoded_branches": [
+    {
+     "quote": "或支成火局,端取壬水为贵,无壬、癸亦姑用",
+     "locator": {
+      "line": 172,
+      "char_start": 8382,
+      "char_end": 8402
+     },
+     "reason": "癸之姑用以「支成火局」为前提，成局事实不在本 Variant 输入契约内，只登记不编码。"
+    }
+   ],
+   "related": []
+  },
+  {
+   "day_master": "丙",
+   "month_branch": "卯",
+   "month_label": "二月",
+   "section": {
+    "line": 194,
+    "char_start": 8668,
+    "char_end": 9025
+   },
+   "quote": "二月丙火,阳气舒升,端用壬水,壬透天干,不见丁化,加以庚辛已亦透,壬水有根,定主科甲。",
+   "quote_locator": {
+    "line": 194,
+    "char_start": 8668,
+    "char_end": 8711
+   },
+   "sequence": [
+    {
+     "stem": "壬",
+     "order": 1
+    }
+   ],
+   "order_basis": "原文「端用壬水」：壬为唯一端取。",
+   "branches": [
+    {
+     "id": "eryue_wu_ren_gu_yong_ji",
+     "condition": {
+      "absent_stem": "壬"
+     },
+     "quote": "或无壬水,己土姑用,主有才学,虽不能成名,必衣食充足。",
+     "locator": {
+      "line": 195,
+      "char_start": 8712,
+      "char_end": 8739
+     },
+     "sequence": [
+      {
+       "stem": "己",
+       "order": 1
+      }
+     ],
+     "note": "原文「或无壬水，己土姑用」：壬在透干与藏干皆无时，己土姑用代之。原文用「姑用」，效力定位弱于端用，如实登记，不升格为正式取用。"
+    }
+   ],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "丙",
+   "month_branch": "辰",
+   "month_label": "三月",
+   "section": {
+    "line": 209,
+    "char_start": 9034,
+    "char_end": 9172
+   },
+   "quote": "三月丙火,气渐炎升,用壬水,或成土局,取甲木为辅,壬不可离,壬申两透,科甲定宜,惟忌庚出制甲,则秀才而已。",
+   "quote_locator": {
+    "line": 209,
+    "char_start": 9034,
+    "char_end": 9087
+   },
+   "sequence": [
+    {
+     "stem": "壬",
+     "order": 1
+    }
+   ],
+   "order_basis": "原文「用壬水」「壬不可离」：壬为唯一无条件取用；甲仅于成土局时「取甲木为辅」，条件不在输入契约内（见 notes），不入序列。",
+   "branches": [
+    {
+     "id": "sanyue_wu_jia_yong_geng",
+     "condition": {
+      "absent_stem": "甲"
+     },
+     "quote": "无甲用庚,助壬水泄土气。",
+     "locator": {
+      "line": 210,
+      "char_start": 9088,
+      "char_end": 9100
+     },
+     "sequence": [
+      {
+       "stem": "庚",
+       "order": 1
+      }
+     ],
+     "note": "原文独立句「无甲用庚，助壬水泄土气」：甲（辅位之干）在透干与藏干皆无时，以庚助壬。本分支只陈述该替代句，不主张甲为无条件取用。"
+    }
+   ],
+   "unencoded_branches": [],
+   "related": [],
+   "notes": [
+    "「或成土局，取甲木为辅」：成局条件不在输入契约内，甲之辅位只登记于此，不编码为分支条件。"
+   ]
+  },
+  {
+   "day_master": "丙",
+   "month_branch": "巳",
+   "month_label": "四月",
+   "section": {
+    "line": 218,
+    "char_start": 9331,
+    "char_end": 9649
+   },
+   "quote": "四月丙火,建禄於巳,火势炎炎,宜专用壬水,解炎威之力,成既济之功。",
+   "quote_locator": {
+    "line": 218,
+    "char_start": 9331,
+    "char_end": 9364
+   },
+   "sequence": [
+    {
+     "stem": "壬",
+     "order": 1
+    }
+   ],
+   "order_basis": "原文「宜专用壬水」：壬为唯一专用。",
+   "branches": [
+    {
+     "id": "siyue_wu_ren_gu_yong_gui",
+     "condition": {
+      "absent_stem": "壬"
+     },
+     "quote": "或无壬水,癸亦姑用,见庚透癸,不富必贵。",
+     "locator": {
+      "line": 219,
+      "char_start": 9454,
+      "char_end": 9474
+     },
+     "sequence": [
+      {
+       "stem": "癸",
+       "order": 1
+      }
+     ],
+     "note": "原文「或无壬水，癸亦姑用」：壬在透干与藏干皆无时，癸姑用代之；「姑用」定位如实登记。"
+    }
+   ],
+   "unencoded_branches": [],
+   "related": [
+    {
+     "quote": "四月端用壬水,金为佐,五月亦端用壬。",
+     "locator": {
+      "line": 215,
+      "char_start": 9223,
+      "char_end": 9241
+     },
+     "note": "三夏丙火总论句：四月端用壬水、金为佐。金（庚辛）之佐未见于分月条取用句，未并入本月序列，只登记。"
+    }
+   ]
+  },
+  {
+   "day_master": "丙",
+   "month_branch": "午",
+   "month_label": "五月",
+   "section": {
+    "line": 238,
+    "char_start": 9660,
+    "char_end": 9970
+   },
+   "quote": "五月丙火愈炎,得壬庚高透,方为上命。",
+   "quote_locator": {
+    "line": 238,
+    "char_start": 9660,
+    "char_end": 9678
+   },
+   "sequence": [
+    {
+     "stem": "壬",
+     "order": 1
+    },
+    {
+     "stem": "庚",
+     "order": 2
+    }
+   ],
+   "order_basis": "分月条「得壬庚高透」未分先次；三夏总论明示「五月亦端用壬」（见 related），且条内「或一壬无庚」知庚为壬之辅，故壬先、庚次。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [
+    {
+     "quote": "四月端用壬水,金为佐,五月亦端用壬。",
+     "locator": {
+      "line": 215,
+      "char_start": 9223,
+      "char_end": 9241
+     },
+     "note": "三夏丙火总论句：五月端用壬，与本条定序依据同向。"
+    }
+   ]
+  },
+  {
+   "day_master": "丙",
+   "month_branch": "未",
+   "month_label": "六月",
+   "section": {
+    "line": 252,
+    "char_start": 9977,
+    "char_end": 10191
+   },
+   "quote": "六月丙火退气,三代生寒,壬水为用,取庚辅佐。",
+   "quote_locator": {
+    "line": 252,
+    "char_start": 9977,
+    "char_end": 9999
+   },
+   "sequence": [
+    {
+     "stem": "壬",
+     "order": 1
+    },
+    {
+     "stem": "庚",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「壬水为用，取庚辅佐」：用先佐次。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "丙",
+   "month_branch": "申",
+   "month_label": "七月",
+   "section": {
+    "line": 267,
+    "char_start": 10200,
+    "char_end": 10413
+   },
+   "quote": "七月丙火,太阳转西,阳气衰矣,日近西山,见土皆晦,惟日照湖海,暮夜光天,故仍用壬水辅映光辉。",
+   "quote_locator": {
+    "line": 267,
+    "char_start": 10200,
+    "char_end": 10246
+   },
+   "sequence": [
+    {
+     "stem": "壬",
+     "order": 1
+    }
+   ],
+   "order_basis": "原文「故仍用壬水辅映光辉」：壬为唯一取用。（「如壬多，取戊制」为壬量过条件，不编码。）",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "丙",
+   "month_branch": "酉",
+   "month_label": "八月",
+   "section": {
+    "line": 279,
+    "char_start": 10422,
+    "char_end": 10673
+   },
+   "quote": "八月丙火,日近黄昏,丙之余光,存於湖海,仍用壬水辅映。",
+   "quote_locator": {
+    "line": 279,
+    "char_start": 10422,
+    "char_end": 10449
+   },
+   "sequence": [
+    {
+     "stem": "壬",
+     "order": 1
+    }
+   ],
+   "order_basis": "原文「仍用壬水辅映」：壬为唯一取用。",
+   "branches": [
+    {
+     "id": "bayue_wu_ren_yong_gui",
+     "condition": {
+      "absent_stem": "壬"
+     },
+     "quote": "若无壬水,癸亦可用,但功名不久。",
+     "locator": {
+      "line": 280,
+      "char_start": 10496,
+      "char_end": 10512
+     },
+     "sequence": [
+      {
+       "stem": "癸",
+       "order": 1
+      }
+     ],
+     "note": "原文「若无壬水，癸亦可用」：壬在透干与藏干皆无时，癸代之；原文自注「但功名不久」，效力限定如实登记。"
+    }
+   ],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "丙",
+   "month_branch": "戌",
+   "month_label": "九月",
+   "section": {
+    "line": 294,
+    "char_start": 10682,
+    "char_end": 10924
+   },
+   "quote": "九月丙火,火气愈退,所忌土晦光,必须先用甲木,次取壬水。",
+   "quote_locator": {
+    "line": 294,
+    "char_start": 10682,
+    "char_end": 10710
+   },
+   "sequence": [
+    {
+     "stem": "甲",
+     "order": 1
+    },
+    {
+     "stem": "壬",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「必须先用甲木，次取壬水」明示先次。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "丙",
+   "month_branch": "亥",
+   "month_label": "十月",
+   "section": {
+    "line": 310,
+    "char_start": 10933,
+    "char_end": 11109
+   },
+   "quote": "十月丙火,太阳失令,得见甲戊庚出干,可云科甲,主为人性好清高,斯文领袖。",
+   "quote_locator": {
+    "line": 310,
+    "char_start": 10933,
+    "char_end": 10969
+   },
+   "sequence": [],
+   "order_basis": "本月条未给出无条件取用顺序：首句甲戊庚为「得见出干」之并列陈述，条末总述明言随宜酌用（见 unencoded），本 Variant 不拟制序列，序列为空。",
+   "branches": [],
+   "unencoded_branches": [
+    {
+     "quote": "总之十月丙火,木旺宜庚,水旺宜戊,火旺用壬,随宜酌用可也。",
+     "locator": {
+      "line": 314,
+      "char_start": 11032,
+      "char_end": 11061
+     },
+     "reason": "三干之用各以木/水/火「旺」为条件，属相对旺衰判断，且原文自述「随宜酌用」，未给无条件先次，只登记不编码。"
+    }
+   ],
+   "related": []
+  },
+  {
+   "day_master": "丙",
+   "month_branch": "子",
+   "month_label": "十一月",
+   "section": {
+    "line": 326,
+    "char_start": 11119,
+    "char_end": 11362
+   },
+   "quote": "十一月丙火,冬至一阳生,弱中复强,壬水为最,戊土佐之。",
+   "quote_locator": {
+    "line": 326,
+    "char_start": 11119,
+    "char_end": 11146
+   },
+   "sequence": [
+    {
+     "stem": "壬",
+     "order": 1
+    },
+    {
+     "stem": "戊",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「壬水为最，戊土佐之」：最先佐次。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "丙",
+   "month_branch": "丑",
+   "month_label": "十二月",
+   "section": {
+    "line": 343,
+    "char_start": 11372,
+    "char_end": 11598
+   },
+   "quote": "十二月丙火,气进二阳,每雪欺霜,喜壬为用,己土司令,土多又不可少甲,壬甲两透,科甲堪宜",
+   "quote_locator": {
+    "line": 343,
+    "char_start": 11372,
+    "char_end": 11415
+   },
+   "sequence": [
+    {
+     "stem": "壬",
+     "order": 1
+    },
+    {
+     "stem": "甲",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「喜壬为用」为首取；甲以「土多又不可少甲」「壬甲两透」定位其次；己土司令为月令事实陈述，非取用，不入序列。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "丁",
+   "month_branch": "寅",
+   "month_label": "正月",
+   "section": {
+    "line": 366,
+    "char_start": 11616,
+    "char_end": 11913
+   },
+   "quote": "正月丁火,甲木当权,乃为母旺,非庚不能劈甲,何以引丁,姑用庚金。",
+   "quote_locator": {
+    "line": 366,
+    "char_start": 11616,
+    "char_end": 11648
+   },
+   "sequence": [
+    {
+     "stem": "庚",
+     "order": 1
+    }
+   ],
+   "order_basis": "原文「非庚不能劈甲，何以引丁，姑用庚金」：庚为唯一取用。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "丁",
+   "month_branch": "卯",
+   "month_label": "二月",
+   "section": {
+    "line": 382,
+    "char_start": 11922,
+    "char_end": 12245
+   },
+   "quote": "二月丁火,湿乙伤丁,先庚後甲",
+   "quote_locator": {
+    "line": 382,
+    "char_start": 11922,
+    "char_end": 11936
+   },
+   "sequence": [
+    {
+     "stem": "庚",
+     "order": 1
+    },
+    {
+     "stem": "甲",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「先庚後甲」明示先次。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "丁",
+   "month_branch": "辰",
+   "month_label": "三月",
+   "section": {
+    "line": 398,
+    "char_start": 12254,
+    "char_end": 12403
+   },
+   "quote": "三月丁火,戊土司令,泄弱丁气,先用甲木引丁制土,次看庚金,庚甲两透,定主科甲",
+   "quote_locator": {
+    "line": 398,
+    "char_start": 12254,
+    "char_end": 12292
+   },
+   "sequence": [
+    {
+     "stem": "甲",
+     "order": 1
+    },
+    {
+     "stem": "庚",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「先用甲木引丁制土，次看庚金」明示先次。",
+   "branches": [],
+   "unencoded_branches": [
+    {
+     "quote": "或支成木局,取庚为先,得庚透,丁癸不透,亦有异路功名。",
+     "locator": {
+      "line": 399,
+      "char_start": 12305,
+      "char_end": 12332
+     },
+     "reason": "条件「支成木局」需成局事实，不在本 Variant 输入契约内，只登记不编码。"
+    }
+   ],
+   "related": []
+  },
+  {
+   "day_master": "丁",
+   "month_branch": "巳",
+   "month_label": "四月",
+   "section": {
+    "line": 404,
+    "char_start": 12414,
+    "char_end": 12713
+   },
+   "quote": "四月丁火乘旺,虽取甲引丁,必用庚劈甲,伐甲、方云木火通明,甲多、又取庚为先。",
+   "quote_locator": {
+    "line": 404,
+    "char_start": 12414,
+    "char_end": 12452
+   },
+   "sequence": [
+    {
+     "stem": "甲",
+     "order": 1
+    },
+    {
+     "stem": "庚",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「虽取甲引丁，必用庚劈甲」未明示先次，按列举顺序（取甲在前、必用庚在後）定序。",
+   "branches": [],
+   "unencoded_branches": [
+    {
+     "quote": "甲多、又取庚为先。",
+     "locator": {
+      "line": 404,
+      "char_start": 12443,
+      "char_end": 12452
+     },
+     "reason": "条件「甲多」为相对量判断，非存在性事实，不在本 Variant 输入契约内，只登记不编码。"
+    }
+   ],
+   "related": []
+  },
+  {
+   "day_master": "丁",
+   "month_branch": "午",
+   "month_label": "五月",
+   "section": {
+    "line": 418,
+    "char_start": 12722,
+    "char_end": 13137
+   },
+   "quote": "五月丁火,时归建禄,不宜乱用甲木。",
+   "quote_locator": {
+    "line": 418,
+    "char_start": 12722,
+    "char_end": 12739
+   },
+   "sequence": [],
+   "order_basis": "本月条无无条件取用顺序陈述：首句仅言「不宜乱用甲木」，其余取用皆系于火局、水透等条件（见 unencoded），本 Variant 不拟制序列，序列为空。",
+   "branches": [],
+   "unencoded_branches": [
+    {
+     "quote": "若干支无火局,有水透干,须用甲木,又要庚劈甲方明,木火通明,主大富贵",
+     "locator": {
+      "line": 421,
+      "char_start": 12928,
+      "char_end": 12962
+     },
+     "reason": "条件为「干支无火局」与「有水透干」的复合盘面判断，超出单干存在性条件形态，只登记不编码。"
+    },
+    {
+     "quote": "得庚壬两透者,科甲定然",
+     "locator": {
+      "line": 419,
+      "char_start": 12770,
+      "char_end": 12781
+     },
+     "reason": "该句以「或支成火局，干见火出」为前提（火局/火出条件），不在本 Variant 输入契约内，只登记不编码。"
+    }
+   ],
+   "related": []
+  },
+  {
+   "day_master": "丁",
+   "month_branch": "未",
+   "month_label": "六月",
+   "section": {
+    "line": 442,
+    "char_start": 13146,
+    "char_end": 13363
+   },
+   "quote": "六月丁火,阴柔退气,但值三伏生寒,丁弱极矣,专取甲木,壬水次之。",
+   "quote_locator": {
+    "line": 442,
+    "char_start": 13146,
+    "char_end": 13178
+   },
+   "sequence": [
+    {
+     "stem": "甲",
+     "order": 1
+    },
+    {
+     "stem": "壬",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「专取甲木，壬水次之」明示先次。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "丁",
+   "month_branch": "申",
+   "month_label": "七月",
+   "section": {
+    "line": 457,
+    "char_start": 13377,
+    "char_end": 13732
+   },
+   "quote": "七月丁火,退气柔弱,端用甲木,金虽乘旺司权,无伤丁之理,仍取庚劈甲,为引火之物",
+   "quote_locator": {
+    "line": 457,
+    "char_start": 13377,
+    "char_end": 13416
+   },
+   "sequence": [
+    {
+     "stem": "甲",
+     "order": 1
+    },
+    {
+     "stem": "庚",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「端用甲木」「仍取庚劈甲」：甲为端用、庚为仍取，丙为「或借」之备选，不入序列。",
+   "branches": [
+    {
+     "id": "qiyue_wu_jia_yong_yi",
+     "condition": {
+      "absent_stem": "甲"
+     },
+     "quote": "七八月或无甲木,乙亦可用,为枯草引灯,郤不离丙晒也",
+     "locator": {
+      "line": 458,
+      "char_start": 13510,
+      "char_end": 13535
+     },
+     "sequence": [
+      {
+       "stem": "乙",
+       "order": 1
+      },
+      {
+       "stem": "庚",
+       "order": 2
+      }
+     ],
+     "note": "三秋总论句（在本节区内）「七八月或无甲木，乙亦可用」：甲在透干与藏干皆无时，乙代甲引丁，庚仍取劈之；原文并注乙不离丙晒，丙之晒为条件陈述，未并入分支序列。"
+    }
+   ],
+   "unencoded_branches": [],
+   "related": [],
+   "notes": [
+    "「或借丙暖金晒甲」：丙为或然借用，未列入本月序列。"
+   ]
+  },
+  {
+   "day_master": "丁",
+   "month_branch": "酉",
+   "month_label": "八月",
+   "section": {
+    "line": 458,
+    "char_start": 13476,
+    "char_end": 13592
+   },
+   "quote": "三秋甲庚丙并用,仍分优劣,何也,七月甲丙,申中有庚,八月甲丙庚皆用,",
+   "quote_locator": {
+    "line": 458,
+    "char_start": 13476,
+    "char_end": 13510
+   },
+   "sequence": [
+    {
+     "stem": "甲",
+     "order": 1
+    },
+    {
+     "stem": "丙",
+     "order": 2
+    },
+    {
+     "stem": "庚",
+     "order": 3
+    }
+   ],
+   "order_basis": "本月无分月取用句：序列据七月条内三秋总论句「八月甲丙庚皆用」，原文未分先次，按列举顺序编号。八九月合论段（见 related）只有从格诸例，无一般取用陈述。",
+   "branches": [
+    {
+     "id": "bayue_wu_jia_yong_yi",
+     "condition": {
+      "absent_stem": "甲"
+     },
+     "quote": "七八月或无甲木,乙亦可用,为枯草引灯,郤不离丙晒也",
+     "locator": {
+      "line": 458,
+      "char_start": 13510,
+      "char_end": 13535
+     },
+     "sequence": [
+      {
+       "stem": "乙",
+       "order": 1
+      },
+      {
+       "stem": "丙",
+       "order": 2
+      },
+      {
+       "stem": "庚",
+       "order": 3
+      }
+     ],
+     "note": "三秋总论句「七八月或无甲木，乙亦可用」：甲在透干与藏干皆无时，乙代甲，丙、庚仍依主序列。"
+    }
+   ],
+   "unencoded_branches": [],
+   "related": [
+    {
+     "quote": "或八月一派辛金,不见庚金,又无比劫,比弃命从才,富而且贵",
+     "locator": {
+      "line": 474,
+      "char_start": 13742,
+      "char_end": 13770
+     },
+     "note": "八九月合论段所载八月从才格例：属格局陈述而非调候取用，不编码，仅登记为相邻段落。"
+    }
+   ],
+   "notes": [
+    "本条节区为七月条内三秋总论段所在行；八九月合论段在快照字符 13742-13865，另以 related 登记。"
+   ]
+  },
+  {
+   "day_master": "丁",
+   "month_branch": "戌",
+   "month_label": "九月",
+   "section": {
+    "line": 458,
+    "char_start": 13476,
+    "char_end": 13592
+   },
+   "quote": "九月端用甲庚,大抵甲一庚,乙不离丙,其理极明",
+   "quote_locator": {
+    "line": 458,
+    "char_start": 13536,
+    "char_end": 13558
+   },
+   "sequence": [
+    {
+     "stem": "甲",
+     "order": 1
+    },
+    {
+     "stem": "庚",
+     "order": 2
+    }
+   ],
+   "order_basis": "本月无分月取用句：序列据七月条内三秋总论句「九月端用甲庚」，按列举顺序编号；「乙不离丙」为乙代甲情形下之陈述，未并入本月序列。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [
+    {
+     "quote": "或九月一派戊土,泄丁火之气,不见甲木,为伤官伤尽,非寻常可比,或甲木透出,为文书清贵,秋闱可夺,用甲者,庚不可少",
+     "locator": {
+      "line": 475,
+      "char_start": 13803,
+      "char_end": 13859
+     },
+     "note": "八九月合论段所载九月伤官段：甲透时「用甲者，庚不可少」与本条序列同向；该段主体为伤官格陈述，不另编码。"
+    }
+   ],
+   "notes": [
+    "本条节区为七月条内三秋总论段所在行，与丁酉条共享该段；八九月合论段另以 related 登记。"
+   ]
+  },
+  {
+   "day_master": "丁",
+   "month_branch": "亥",
+   "month_label": "十月",
+   "section": {
+    "line": 490,
+    "char_start": 13942,
+    "char_end": 14229
+   },
+   "quote": "三冬丁火微寒,端用庚甲,甲乃庚之良友,凡用甲木,庚不可少,无庚无甲,何能引丁,难云木火通明",
+   "quote_locator": {
+    "line": 490,
+    "char_start": 13942,
+    "char_end": 13987
+   },
+   "sequence": [
+    {
+     "stem": "庚",
+     "order": 1
+    },
+    {
+     "stem": "甲",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「端用庚甲」按列举顺序定先次；下句「凡用甲木，庚不可少」与之同向。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "丁",
+   "month_branch": "子",
+   "month_label": "十一月",
+   "section": {
+    "line": 507,
+    "char_start": 14239,
+    "char_end": 14432
+   },
+   "quote": "三冬丁火,甲木为尊,庚金佐之,戊癸权宜酌用可也。",
+   "quote_locator": {
+    "line": 509,
+    "char_start": 14345,
+    "char_end": 14369
+   },
+   "sequence": [
+    {
+     "stem": "甲",
+     "order": 1
+    },
+    {
+     "stem": "庚",
+     "order": 2
+    }
+   ],
+   "order_basis": "本月条正文尽为或然格例，一般取用陈述为段末三冬总论句「甲木为尊，庚金佐之」；戊癸「权宜酌用」未列先次，不入序列。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "丁",
+   "month_branch": "丑",
+   "month_label": "十二月",
+   "section": {
+    "line": 509,
+    "char_start": 14345,
+    "char_end": 14432
+   },
+   "quote": "三冬丁火,甲木为尊,庚金佐之,戊癸权宜酌用可也。",
+   "quote_locator": {
+    "line": 509,
+    "char_start": 14345,
+    "char_end": 14369
+   },
+   "sequence": [
+    {
+     "stem": "甲",
+     "order": 1
+    },
+    {
+     "stem": "庚",
+     "order": 2
+    }
+   ],
+   "order_basis": "快照无十二月丁火分月条目：本条唯一依据为十一月条段末三冬总论句「甲木为尊，庚金佐之」，戊癸权宜酌用不入序列。本条节区即该总论句所在行。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [],
+   "notes": [
+    "覆盖形态如实登记：十二月丁火无分月条目，不以他书补齐；与丁子条同引三冬总论句。"
+   ]
+  },
+  {
+   "day_master": "戊",
+   "month_branch": "寅",
+   "month_label": "正月",
+   "section": {
+    "line": 536,
+    "char_start": 15143,
+    "char_end": 15525
+   },
+   "quote": "正二月先丙後,癸又次之",
+   "quote_locator": {
+    "line": 536,
+    "char_start": 15178,
+    "char_end": 15189
+   },
+   "sequence": [
+    {
+     "stem": "丙",
+     "order": 1
+    }
+   ],
+   "order_basis": "正二月合论（无分月条目）：序出三春戊土总论句。快照原文作「正二月先丙後，癸又次之」，第二位干名在快照中缺字（仅存半角逗号），本 Variant 不补字、不据缺字定序：仅丙（先）为可编码之首取；癸之「又次之」因中间位次缺名，只登记于 notes，不入序列。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [],
+   "notes": [
+    "缺字说明：三月平行句作「先甲後丙，癸又次之」，正二月段内文亦有「有丙无甲癸」之语境，缺字疑为「甲」；但快照字形如此，本 Variant 不据推测补字或定序。",
+    "正二月戊土分论段在本节区内（含「正二月即有甲癸，若无丙除寒」诸句），其内容为条件存废讨论，未另给先次。"
+   ]
+  },
+  {
+   "day_master": "戊",
+   "month_branch": "卯",
+   "month_label": "二月",
+   "section": {
+    "line": 536,
+    "char_start": 15143,
+    "char_end": 15525
+   },
+   "quote": "正二月先丙後,癸又次之",
+   "quote_locator": {
+    "line": 536,
+    "char_start": 15178,
+    "char_end": 15189
+   },
+   "sequence": [
+    {
+     "stem": "丙",
+     "order": 1
+    }
+   ],
+   "order_basis": "与戊寅同据正二月合论及三春总论句，快照第二位干名缺字，仅丙可编码，癸「又次之」只登记不入序列（理由同戊寅条）。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [],
+   "notes": [
+    "覆盖形态：正二月合论，无分月条目；与戊寅共享节区与引文。"
+   ]
+  },
+  {
+   "day_master": "戊",
+   "month_branch": "辰",
+   "month_label": "三月",
+   "section": {
+    "line": 536,
+    "char_start": 15143,
+    "char_end": 15967
+   },
+   "quote": "三月先甲後丙,癸又次之,因戊土司权故也",
+   "quote_locator": {
+    "line": 536,
+    "char_start": 15190,
+    "char_end": 15209
+   },
+   "sequence": [
+    {
+     "stem": "甲",
+     "order": 1
+    },
+    {
+     "stem": "丙",
+     "order": 2
+    },
+    {
+     "stem": "癸",
+     "order": 3
+    }
+   ],
+   "order_basis": "分月条（三月戊土段）只列丙甲癸存废之象，未给先次；序出三春总论句「三月先甲後丙，癸又次之」，明示三级先次。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [],
+   "notes": [
+    "本条节区自三春总论段起，含正二月合论段与三月分论段；定序依据为总论句，分论段内容已核对无相左之先次陈述。"
+   ]
+  },
+  {
+   "day_master": "戊",
+   "month_branch": "巳",
+   "month_label": "四月",
+   "section": {
+    "line": 563,
+    "char_start": 15976,
+    "char_end": 16204
+   },
+   "quote": "四月戊土,阳气发升,寒气内藏,外实内虚,不畏火炎,无阳气相催,万物不长,故先用甲疏劈,次取丙癸为佐。",
+   "quote_locator": {
+    "line": 563,
+    "char_start": 15976,
+    "char_end": 16026
+   },
+   "sequence": [
+    {
+     "stem": "甲",
+     "order": 1
+    },
+    {
+     "stem": "丙",
+     "order": 2
+    },
+    {
+     "stem": "癸",
+     "order": 3
+    }
+   ],
+   "order_basis": "原文「先用甲疏劈，次取丙癸为佐」：甲居先；丙癸同列「次取」一档，未分彼此先次，按列举顺序编号（丙二、癸三）。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "戊",
+   "month_branch": "午",
+   "month_label": "五月",
+   "section": {
+    "line": 578,
+    "char_start": 16213,
+    "char_end": 16405
+   },
+   "quote": "五月戊土,仲夏火炎,先看壬水,次取甲木,丙火酌用,用癸力微。",
+   "quote_locator": {
+    "line": 578,
+    "char_start": 16213,
+    "char_end": 16243
+   },
+   "sequence": [
+    {
+     "stem": "壬",
+     "order": 1
+    },
+    {
+     "stem": "甲",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「先看壬水，次取甲木」明示先次；「丙火酌用」「用癸力微」为酌量与力微陈述，未列先次，不入序列。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "戊",
+   "month_branch": "未",
+   "month_label": "六月",
+   "section": {
+    "line": 584,
+    "char_start": 16411,
+    "char_end": 16629
+   },
+   "quote": "六月戊土,遇夏乾枯,先看癸水,次用丙火甲木。",
+   "quote_locator": {
+    "line": 584,
+    "char_start": 16411,
+    "char_end": 16433
+   },
+   "sequence": [
+    {
+     "stem": "癸",
+     "order": 1
+    },
+    {
+     "stem": "丙",
+     "order": 2
+    },
+    {
+     "stem": "甲",
+     "order": 3
+    }
+   ],
+   "order_basis": "原文「先看癸水，次用丙火甲木」：癸居先；丙甲同列「次用」一档，按列举顺序编号（丙二、甲三）。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "戊",
+   "month_branch": "申",
+   "month_label": "七月",
+   "section": {
+    "line": 599,
+    "char_start": 16638,
+    "char_end": 16835
+   },
+   "quote": "七月戊土,阳气渐入,寒气渐出,先丙後癸,甲木次之。",
+   "quote_locator": {
+    "line": 599,
+    "char_start": 16638,
+    "char_end": 16663
+   },
+   "sequence": [
+    {
+     "stem": "丙",
+     "order": 1
+    },
+    {
+     "stem": "癸",
+     "order": 2
+    },
+    {
+     "stem": "甲",
+     "order": 3
+    }
+   ],
+   "order_basis": "原文「先丙後癸，甲木次之」明示三级先次。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "戊",
+   "month_branch": "酉",
+   "month_label": "八月",
+   "section": {
+    "line": 613,
+    "char_start": 16844,
+    "char_end": 17040
+   },
+   "quote": "八月戊土,金泄身寒,赖丙照暖,喜水滋润,先丙後癸",
+   "quote_locator": {
+    "line": 613,
+    "char_start": 16844,
+    "char_end": 16868
+   },
+   "sequence": [
+    {
+     "stem": "丙",
+     "order": 1
+    },
+    {
+     "stem": "癸",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「先丙後癸」明示先次，并明示「不必木疏」：甲不入序列。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "戊",
+   "month_branch": "戌",
+   "month_label": "九月",
+   "section": {
+    "line": 619,
+    "char_start": 17046,
+    "char_end": 17303
+   },
+   "quote": "九月戊土当权,不可专用丙,先看甲木,次取癸水,郤忌化合,见金先用癸水,後取丙火,配合支干,方成有生之土,定发云程。",
+   "quote_locator": {
+    "line": 619,
+    "char_start": 17046,
+    "char_end": 17103
+   },
+   "sequence": [
+    {
+     "stem": "甲",
+     "order": 1
+    },
+    {
+     "stem": "癸",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「先看甲木，次取癸水」明示先次；句中「见金」变序陈述未指明庚辛透藏，只登记不编码（见 unencoded）。",
+   "branches": [],
+   "unencoded_branches": [
+    {
+     "quote": "见金先用癸水,後取丙火",
+     "locator": {
+      "line": 619,
+      "char_start": 17074,
+      "char_end": 17085
+     },
+     "reason": "条件「见金」未指明庚或辛、透干或藏干，超出单干存在性条件形态，只登记不编码。"
+    }
+   ],
+   "related": []
+  },
+  {
+   "day_master": "戊",
+   "month_branch": "亥",
+   "month_label": "十月",
+   "section": {
+    "line": 642,
+    "char_start": 17312,
+    "char_end": 17535
+   },
+   "quote": "十月戊土,时值小阳,阳气略出,先用甲木,次取丙火,非甲,土不灵,非丙,土不暖,安能发生万物",
+   "quote_locator": {
+    "line": 642,
+    "char_start": 17312,
+    "char_end": 17357
+   },
+   "sequence": [
+    {
+     "stem": "甲",
+     "order": 1
+    },
+    {
+     "stem": "丙",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「先用甲木，次取丙火」明示先次。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "戊",
+   "month_branch": "子",
+   "month_label": "十一月",
+   "section": {
+    "line": 658,
+    "char_start": 17544,
+    "char_end": 17867
+   },
+   "quote": "十一二月严寒冰冻,丙火为尊,甲木为佐",
+   "quote_locator": {
+    "line": 658,
+    "char_start": 17544,
+    "char_end": 17562
+   },
+   "sequence": [
+    {
+     "stem": "丙",
+     "order": 1
+    },
+    {
+     "stem": "甲",
+     "order": 2
+    }
+   ],
+   "order_basis": "十一二月合论（无分月条目）：「丙火为尊，甲木为佐」，尊先佐次。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "戊",
+   "month_branch": "丑",
+   "month_label": "十二月",
+   "section": {
+    "line": 658,
+    "char_start": 17544,
+    "char_end": 17867
+   },
+   "quote": "十一二月严寒冰冻,丙火为尊,甲木为佐",
+   "quote_locator": {
+    "line": 658,
+    "char_start": 17544,
+    "char_end": 17562
+   },
+   "sequence": [
+    {
+     "stem": "丙",
+     "order": 1
+    },
+    {
+     "stem": "甲",
+     "order": 2
+    }
+   ],
+   "order_basis": "与戊子同据十一二月合论段：「丙火为尊，甲木为佐」。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [],
+   "notes": [
+    "覆盖形态：十一二月合论，无分月条目；与戊子共享节区与引文。"
+   ]
+  },
+  {
+   "day_master": "己",
+   "month_branch": "寅",
+   "month_label": "正月",
+   "section": {
+    "line": 676,
+    "char_start": 17880,
+    "char_end": 18164
+   },
+   "quote": "正月己土,田园犹冻,盖因腊气未除,余寒未退,故丙为尊,得丙照暖,万物自生",
+   "quote_locator": {
+    "line": 676,
+    "char_start": 17880,
+    "char_end": 17916
+   },
+   "sequence": [
+    {
+     "stem": "丙",
+     "order": 1
+    }
+   ],
+   "order_basis": "原文「故丙为尊」：丙为唯一尊取。（壬多见戊制、甲多用庚等皆为或然条件陈述，不入序列。）",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "己",
+   "month_branch": "卯",
+   "month_label": "二月",
+   "section": {
+    "line": 684,
+    "char_start": 18170,
+    "char_end": 18419
+   },
+   "quote": "二月己土,阳气渐升,虽禾稼未成,万物出土,田园未展,先取甲木疏之,忌合,次取癸水润之",
+   "quote_locator": {
+    "line": 684,
+    "char_start": 18170,
+    "char_end": 18212
+   },
+   "sequence": [
+    {
+     "stem": "甲",
+     "order": 1
+    },
+    {
+     "stem": "癸",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「先取甲木疏之……次取癸水润之」明示先次。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "己",
+   "month_branch": "辰",
+   "month_label": "三月",
+   "section": {
+    "line": 698,
+    "char_start": 18428,
+    "char_end": 18616
+   },
+   "quote": "三月己土,正栽培禾稼之时,先丙後癸,土暖而润,随用甲疏",
+   "quote_locator": {
+    "line": 698,
+    "char_start": 18428,
+    "char_end": 18455
+   },
+   "sequence": [
+    {
+     "stem": "丙",
+     "order": 1
+    },
+    {
+     "stem": "癸",
+     "order": 2
+    },
+    {
+     "stem": "甲",
+     "order": 3
+    }
+   ],
+   "order_basis": "原文「先丙後癸……随用甲疏」：丙、癸明示先後，甲以「随用」列第三。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "己",
+   "month_branch": "巳",
+   "month_label": "四月",
+   "section": {
+    "line": 712,
+    "char_start": 18625,
+    "char_end": 18958
+   },
+   "quote": "三夏己土,杂气才官,禾稼在田,最喜甘沛,取癸为要,次用丙火,夏无太阳,禾稼不长,故无癸曰旱田,无丙曰孤阴。",
+   "quote_locator": {
+    "line": 712,
+    "char_start": 18625,
+    "char_end": 18678
+   },
+   "sequence": [
+    {
+     "stem": "癸",
+     "order": 1
+    },
+    {
+     "stem": "丙",
+     "order": 2
+    }
+   ],
+   "order_basis": "夏三月无分月条目：据三夏己土总论「取癸为要，次用丙火」，要先次後。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [],
+   "notes": [
+    "覆盖形态：巳月无分月条目，本条与己午、己未同据三夏总论段，共享节区与引文。"
+   ]
+  },
+  {
+   "day_master": "己",
+   "month_branch": "午",
+   "month_label": "五月",
+   "section": {
+    "line": 712,
+    "char_start": 18625,
+    "char_end": 18958
+   },
+   "quote": "三夏己土,杂气才官,禾稼在田,最喜甘沛,取癸为要,次用丙火,夏无太阳,禾稼不长,故无癸曰旱田,无丙曰孤阴。",
+   "quote_locator": {
+    "line": 712,
+    "char_start": 18625,
+    "char_end": 18678
+   },
+   "sequence": [
+    {
+     "stem": "癸",
+     "order": 1
+    },
+    {
+     "stem": "丙",
+     "order": 2
+    }
+   ],
+   "order_basis": "与己巳同据三夏总论「取癸为要，次用丙火」。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [],
+   "notes": [
+    "覆盖形态：午月无分月条目；与己巳共享节区与引文。"
+   ]
+  },
+  {
+   "day_master": "己",
+   "month_branch": "未",
+   "month_label": "六月",
+   "section": {
+    "line": 712,
+    "char_start": 18625,
+    "char_end": 18958
+   },
+   "quote": "三夏己土,杂气才官,禾稼在田,最喜甘沛,取癸为要,次用丙火,夏无太阳,禾稼不长,故无癸曰旱田,无丙曰孤阴。",
+   "quote_locator": {
+    "line": 712,
+    "char_start": 18625,
+    "char_end": 18678
+   },
+   "sequence": [
+    {
+     "stem": "癸",
+     "order": 1
+    },
+    {
+     "stem": "丙",
+     "order": 2
+    }
+   ],
+   "order_basis": "与己巳同据三夏总论「取癸为要，次用丙火」。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [],
+   "notes": [
+    "覆盖形态：未月无分月条目；与己巳共享节区与引文。"
+   ]
+  },
+  {
+   "day_master": "己",
+   "month_branch": "申",
+   "month_label": "七月",
+   "section": {
+    "line": 731,
+    "char_start": 18967,
+    "char_end": 19415
+   },
+   "quote": "总之三秋己土,先癸後丙,取辛辅癸,九月土盛,宜甲木疏之,余皆酌用。",
+   "quote_locator": {
+    "line": 737,
+    "char_start": 19265,
+    "char_end": 19298
+   },
+   "sequence": [
+    {
+     "stem": "癸",
+     "order": 1
+    },
+    {
+     "stem": "丙",
+     "order": 2
+    },
+    {
+     "stem": "辛",
+     "order": 3
+    }
+   ],
+   "order_basis": "秋三月无分月条目：据三秋总论段末总结句「先癸後丙，取辛辅癸」定序；段首句「癸先丙後」与之同向（见 related）。九月专属之甲不入本月序列。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [
+    {
+     "quote": "三秋己土,万物收藏之际,外虚内实,寒气渐升,须丙火温之,癸水润之",
+     "locator": {
+      "line": 731,
+      "char_start": 18967,
+      "char_end": 18999
+     },
+     "note": "三秋总论段首句：须丙温、癸润，下文「癸先丙後」与总结句定序同向，只登记。"
+    }
+   ],
+   "notes": [
+    "覆盖形态：申月无分月条目，本条与己酉、己戌同据三秋总论段。"
+   ]
+  },
+  {
+   "day_master": "己",
+   "month_branch": "酉",
+   "month_label": "八月",
+   "section": {
+    "line": 731,
+    "char_start": 18967,
+    "char_end": 19415
+   },
+   "quote": "总之三秋己土,先癸後丙,取辛辅癸,九月土盛,宜甲木疏之,余皆酌用。",
+   "quote_locator": {
+    "line": 737,
+    "char_start": 19265,
+    "char_end": 19298
+   },
+   "sequence": [
+    {
+     "stem": "癸",
+     "order": 1
+    },
+    {
+     "stem": "丙",
+     "order": 2
+    },
+    {
+     "stem": "辛",
+     "order": 3
+    }
+   ],
+   "order_basis": "与己申同据三秋总结句「先癸後丙，取辛辅癸」。",
+   "branches": [],
+   "unencoded_branches": [
+    {
+     "quote": "八月支成金局,无丙丁出救,此人零丁孤苦",
+     "locator": {
+      "line": 736,
+      "char_start": 19220,
+      "char_end": 19239
+     },
+     "reason": "条件「支成金局」需成局事实，不在本 Variant 输入契约内，只登记不编码。"
+    }
+   ],
+   "related": [],
+   "notes": [
+    "覆盖形态：酉月无分月条目；与己申共享节区与引文。"
+   ]
+  },
+  {
+   "day_master": "己",
+   "month_branch": "戌",
+   "month_label": "九月",
+   "section": {
+    "line": 731,
+    "char_start": 18967,
+    "char_end": 19415
+   },
+   "quote": "总之三秋己土,先癸後丙,取辛辅癸,九月土盛,宜甲木疏之,余皆酌用。",
+   "quote_locator": {
+    "line": 737,
+    "char_start": 19265,
+    "char_end": 19298
+   },
+   "sequence": [
+    {
+     "stem": "癸",
+     "order": 1
+    },
+    {
+     "stem": "丙",
+     "order": 2
+    },
+    {
+     "stem": "辛",
+     "order": 3
+    },
+    {
+     "stem": "甲",
+     "order": 4
+    }
+   ],
+   "order_basis": "与己申同据三秋总结句；该句另有「九月土盛，宜甲木疏之」为九月专属追加，列为第四（在癸、丙、辛之後）。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [],
+   "notes": [
+    "覆盖形态：戌月无分月条目；与己申共享节区，引文为同一总结句。"
+   ]
+  },
+  {
+   "day_master": "己",
+   "month_branch": "亥",
+   "month_label": "十月",
+   "section": {
+    "line": 749,
+    "char_start": 19421,
+    "char_end": 19719
+   },
+   "quote": "三冬己土,湿泥寒冻,非丙暖不生,取丙为尊,甲木参酌,戊土癸水不用,惟初冬壬旺,取戊制之,余皆用丙丁,但丁不能解冻除寒,不能大济。",
+   "quote_locator": {
+    "line": 749,
+    "char_start": 19421,
+    "char_end": 19485
+   },
+   "sequence": [
+    {
+     "stem": "丙",
+     "order": 1
+    }
+   ],
+   "order_basis": "冬三月无分月条目：据三冬己土总论「取丙为尊」；「甲木参酌」未列先次，不入序列；丁「不能解冻除寒」不取。",
+   "branches": [],
+   "unencoded_branches": [
+    {
+     "quote": "惟初冬壬旺,取戊制之",
+     "locator": {
+      "line": 749,
+      "char_start": 19454,
+      "char_end": 19464
+     },
+     "reason": "条件「壬旺」为相对量判断，非存在性事实，不在本 Variant 输入契约内，只登记不编码。"
+    }
+   ],
+   "related": [],
+   "notes": [
+    "覆盖形态：亥月无分月条目，本条与己子、己丑同据三冬总论段，共享节区与引文。"
+   ]
+  },
+  {
+   "day_master": "己",
+   "month_branch": "子",
+   "month_label": "十一月",
+   "section": {
+    "line": 749,
+    "char_start": 19421,
+    "char_end": 19719
+   },
+   "quote": "三冬己土,湿泥寒冻,非丙暖不生,取丙为尊,甲木参酌,戊土癸水不用,惟初冬壬旺,取戊制之,余皆用丙丁,但丁不能解冻除寒,不能大济。",
+   "quote_locator": {
+    "line": 749,
+    "char_start": 19421,
+    "char_end": 19485
+   },
+   "sequence": [
+    {
+     "stem": "丙",
+     "order": 1
+    }
+   ],
+   "order_basis": "与己亥同据三冬总论「取丙为尊」；甲参酌不入序列。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [],
+   "notes": [
+    "覆盖形态：子月无分月条目；与己亥共享节区与引文。"
+   ]
+  },
+  {
+   "day_master": "己",
+   "month_branch": "丑",
+   "month_label": "十二月",
+   "section": {
+    "line": 749,
+    "char_start": 19421,
+    "char_end": 19719
+   },
+   "quote": "三冬己土,湿泥寒冻,非丙暖不生,取丙为尊,甲木参酌,戊土癸水不用,惟初冬壬旺,取戊制之,余皆用丙丁,但丁不能解冻除寒,不能大济。",
+   "quote_locator": {
+    "line": 749,
+    "char_start": 19421,
+    "char_end": 19485
+   },
+   "sequence": [
+    {
+     "stem": "丙",
+     "order": 1
+    }
+   ],
+   "order_basis": "与己亥同据三冬总论「取丙为尊」；甲参酌不入序列。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [],
+   "notes": [
+    "覆盖形态：丑月无分月条目；与己亥共享节区与引文。"
+   ]
+  },
+  {
+   "day_master": "庚",
+   "month_branch": "寅",
+   "month_label": "正月",
+   "section": {
+    "line": 773,
+    "char_start": 20316,
+    "char_end": 20636
+   },
+   "quote": "正月庚金,木旺之际,有土皆死,不能生金,且金之寒气未除,先用丙暖庚性,又虑土厚埋金,须甲疏泄,丙甲两透,科甲显荣",
+   "quote_locator": {
+    "line": 773,
+    "char_start": 20316,
+    "char_end": 20372
+   },
+   "sequence": [
+    {
+     "stem": "丙",
+     "order": 1
+    },
+    {
+     "stem": "甲",
+     "order": 2
+    },
+    {
+     "stem": "丁",
+     "order": 3
+    }
+   ],
+   "order_basis": "条首「先用丙暖庚性……须甲疏泄」定丙、甲之序；丁之第三位出条末总述「丙甲为上，丁火次之」（见 related）。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [
+    {
+     "quote": "总之正月庚金,丙甲为上,丁火次之",
+     "locator": {
+      "line": 778,
+      "char_start": 20559,
+      "char_end": 20575
+     },
+     "note": "条末总述句在本节区内：丙甲为上、丁火次之，为丁列第三之据。"
+    }
+   ]
+  },
+  {
+   "day_master": "庚",
+   "month_branch": "卯",
+   "month_label": "二月",
+   "section": {
+    "line": 788,
+    "char_start": 20645,
+    "char_end": 21013
+   },
+   "quote": "二月庚金,柱中自然有乙,当令之乙,见庚必留情於乙,此金有暗强之势,如秋金一理,故二月庚金,专用丁火,借甲引丁,借庚劈甲,无丁用丙者,富贵多出於勉强。",
+   "quote_locator": {
+    "line": 788,
+    "char_start": 20645,
+    "char_end": 20719
+   },
+   "sequence": [
+    {
+     "stem": "丁",
+     "order": 1
+    },
+    {
+     "stem": "甲",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「专用丁火，借甲引丁」：丁为专用，甲为引丁之佐列次；庚为「借庚劈甲」的机制陈述，原文未列庚为取用，不入序列（见 notes）。",
+   "branches": [
+    {
+     "id": "eryue_wu_ding_yong_bing",
+     "condition": {
+      "absent_stem": "丁"
+     },
+     "quote": "无丁用丙者,富贵多出於勉强。",
+     "locator": {
+      "line": 788,
+      "char_start": 20705,
+      "char_end": 20719
+     },
+     "sequence": [
+      {
+       "stem": "丙",
+       "order": 1
+      }
+     ],
+     "note": "原文「无丁用丙者」：丁在透干与藏干皆无时，以丙代之；原文自注其效「富贵多出於勉强」，效力限定如实登记。"
+    }
+   ],
+   "unencoded_branches": [],
+   "related": [],
+   "notes": [
+    "「借庚劈甲」：庚在此为劈甲引丁之条件机制，与「有丁甲无庚者，常人」互证其必要性，但原文取用陈述只及丁（专用）与甲（佐），故庚只登记于此。"
+   ]
+  },
+  {
+   "day_master": "庚",
+   "month_branch": "辰",
+   "month_label": "三月",
+   "section": {
+    "line": 806,
+    "char_start": 21022,
+    "char_end": 21339
+   },
+   "quote": "三月庚金,戊土司令,无生金之理,有埋金之忧,故先甲後丁",
+   "quote_locator": {
+    "line": 806,
+    "char_start": 21022,
+    "char_end": 21049
+   },
+   "sequence": [
+    {
+     "stem": "甲",
+     "order": 1
+    },
+    {
+     "stem": "丁",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「故先甲後丁」明示先次。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "庚",
+   "month_branch": "巳",
+   "month_label": "四月",
+   "section": {
+    "line": 819,
+    "char_start": 21348,
+    "char_end": 21623
+   },
+   "quote": "四月庚金,长生於巳,巳内有戊,丙不熔金,故不畏火炎,丙亦可作用,但先壬水,方得中和,故曰群金生夏,喜用勾陈,次取戊土,丙火佐之",
+   "quote_locator": {
+    "line": 819,
+    "char_start": 21348,
+    "char_end": 21411
+   },
+   "sequence": [
+    {
+     "stem": "壬",
+     "order": 1
+    },
+    {
+     "stem": "戊",
+     "order": 2
+    },
+    {
+     "stem": "丙",
+     "order": 3
+    }
+   ],
+   "order_basis": "原文「但先壬水……次取戊土，丙火佐之」定三级；本条第二段另有「非拘执先後」之自述（见 related），序为陈述记录，不构成刚性次序。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [
+    {
+     "quote": "四月庚金,须用壬丙戊,但非拘执先後,宜分病用药",
+     "locator": {
+      "line": 822,
+      "char_start": 21549,
+      "char_end": 21572
+     },
+     "note": "本条第二段总述：须用壬丙戊而「非拘执先後」——与首段先次陈述并存，本 Variant 从首段定序并在此披露原文自限。"
+    }
+   ]
+  },
+  {
+   "day_master": "庚",
+   "month_branch": "午",
+   "month_label": "五月",
+   "section": {
+    "line": 825,
+    "char_start": 21629,
+    "char_end": 21830
+   },
+   "quote": "五月庚金,丁火旺烈,庚金败地,专用壬水,癸又次之。",
+   "quote_locator": {
+    "line": 825,
+    "char_start": 21629,
+    "char_end": 21654
+   },
+   "sequence": [
+    {
+     "stem": "壬",
+     "order": 1
+    },
+    {
+     "stem": "癸",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「专用壬水，癸又次之」明示先次。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "庚",
+   "month_branch": "未",
+   "month_label": "六月",
+   "section": {
+    "line": 831,
+    "char_start": 21836,
+    "char_end": 22039
+   },
+   "quote": "六月庚金,三伏生寒,顽钝极矣,先用丁火,次取甲木。",
+   "quote_locator": {
+    "line": 831,
+    "char_start": 21836,
+    "char_end": 21861
+   },
+   "sequence": [
+    {
+     "stem": "丁",
+     "order": 1
+    },
+    {
+     "stem": "甲",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「先用丁火，次取甲木」明示先次。",
+   "branches": [],
+   "unencoded_branches": [
+    {
+     "quote": "支会土局,甲先丁後,甲透者,文章显达,丁透者,刀笔扬名。",
+     "locator": {
+      "line": 833,
+      "char_start": 21931,
+      "char_end": 21959
+     },
+     "reason": "条件「支会土局」需成局事实，不在本 Variant 输入契约内，只登记不编码。"
+    }
+   ],
+   "related": []
+  },
+  {
+   "day_master": "庚",
+   "month_branch": "申",
+   "month_label": "七月",
+   "section": {
+    "line": 848,
+    "char_start": 22048,
+    "char_end": 22286
+   },
+   "quote": "七月庚金,刚锐极矣,专用丁火煆炼,次取木引丁,故曰,秋金锐锐最为奇,壬癸相逢总不宜",
+   "quote_locator": {
+    "line": 848,
+    "char_start": 22048,
+    "char_end": 22089
+   },
+   "sequence": [
+    {
+     "stem": "丁",
+     "order": 1
+    },
+    {
+     "stem": "甲",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「专用丁火煆炼，次取木引丁」：次取原文作「木」，据本段「如得丁甲两透」「有丁无甲」诸句，该木即甲，定为甲并在此披露。",
+   "branches": [],
+   "unencoded_branches": [
+    {
+     "quote": "或支成土局,先甲後丁。",
+     "locator": {
+      "line": 850,
+      "char_start": 22225,
+      "char_end": 22236
+     },
+     "reason": "条件「支成土局」需成局事实，不在本 Variant 输入契约内，只登记不编码。"
+    }
+   ],
+   "related": []
+  },
+  {
+   "day_master": "庚",
+   "month_branch": "酉",
+   "month_label": "八月",
+   "section": {
+    "line": 853,
+    "char_start": 22292,
+    "char_end": 22534
+   },
+   "quote": "八月庚金,刚锐支退,用丁甲,丙不可少",
+   "quote_locator": {
+    "line": 853,
+    "char_start": 22292,
+    "char_end": 22310
+   },
+   "sequence": [
+    {
+     "stem": "丁",
+     "order": 1
+    },
+    {
+     "stem": "甲",
+     "order": 2
+    },
+    {
+     "stem": "丙",
+     "order": 3
+    }
+   ],
+   "order_basis": "原文「用丁甲」按列举顺序定丁、甲之序；丙以「不可少」为必需陈述列第三，原文未言其与丁甲之先後，如此登记。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "庚",
+   "month_branch": "戌",
+   "month_label": "九月",
+   "section": {
+    "line": 869,
+    "char_start": 22543,
+    "char_end": 22767
+   },
+   "quote": "九月庚金,戊土司令,最怕土厚埋金,宜先用甲疏,後用壬洗,则金自出矣,忌见己土浊壬。",
+   "quote_locator": {
+    "line": 869,
+    "char_start": 22543,
+    "char_end": 22584
+   },
+   "sequence": [
+    {
+     "stem": "甲",
+     "order": 1
+    },
+    {
+     "stem": "壬",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「宜先用甲疏，後用壬洗」明示先次。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "庚",
+   "month_branch": "亥",
+   "month_label": "十月",
+   "section": {
+    "line": 884,
+    "char_start": 22776,
+    "char_end": 22944
+   },
+   "quote": "十月庚金,水冷性寒,非丁莫造,非丙不暖。",
+   "quote_locator": {
+    "line": 884,
+    "char_start": 22776,
+    "char_end": 22796
+   },
+   "sequence": [
+    {
+     "stem": "丁",
+     "order": 1
+    },
+    {
+     "stem": "丙",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「非丁莫造，非丙不暖」并列两必需陈述，未分先次，按列举顺序编号。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "庚",
+   "month_branch": "子",
+   "month_label": "十一月",
+   "section": {
+    "line": 897,
+    "char_start": 22954,
+    "char_end": 23256
+   },
+   "quote": "十一月庚金,天气严寒,仍取丁甲,次取丙火照暖,或丁甲两透,丙在支中,必主科甲",
+   "quote_locator": {
+    "line": 897,
+    "char_start": 22954,
+    "char_end": 22992
+   },
+   "sequence": [
+    {
+     "stem": "丁",
+     "order": 1
+    },
+    {
+     "stem": "甲",
+     "order": 2
+    },
+    {
+     "stem": "丙",
+     "order": 3
+    }
+   ],
+   "order_basis": "原文「仍取丁甲，次取丙火照暖」：丁甲按列举顺序居前二，丙「次取」为第三。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "庚",
+   "month_branch": "丑",
+   "month_label": "十二月",
+   "section": {
+    "line": 912,
+    "char_start": 23266,
+    "char_end": 23419
+   },
+   "quote": "十二月庚金,寒气太重,且多湿泥,愈寒愈冻,先取丙火解冻,次取丁火炼金,甲亦不可少。",
+   "quote_locator": {
+    "line": 912,
+    "char_start": 23266,
+    "char_end": 23307
+   },
+   "sequence": [
+    {
+     "stem": "丙",
+     "order": 1
+    },
+    {
+     "stem": "丁",
+     "order": 2
+    },
+    {
+     "stem": "甲",
+     "order": 3
+    }
+   ],
+   "order_basis": "原文「先取丙火解冻，次取丁火炼金，甲亦不可少」明示丙、丁先次，甲以「不可少」列第三。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "辛",
+   "month_branch": "寅",
+   "month_label": "正月",
+   "section": {
+    "line": 926,
+    "char_start": 23434,
+    "char_end": 23756
+   },
+   "quote": "故正月辛金,先己後壬,己为君,庚为佐",
+   "quote_locator": {
+    "line": 929,
+    "char_start": 23671,
+    "char_end": 23689
+   },
+   "sequence": [
+    {
+     "stem": "己",
+     "order": 1
+    },
+    {
+     "stem": "壬",
+     "order": 2
+    },
+    {
+     "stem": "庚",
+     "order": 3
+    }
+   ],
+   "order_basis": "条首论己为「身之本」、壬为发现之功而未定先次；条末总述明示「先己後壬，己为君，庚为佐」，从条末句定三级之序。丙「如用丙火须参看」为参酌，不入序列。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "辛",
+   "month_branch": "卯",
+   "month_label": "二月",
+   "section": {
+    "line": 938,
+    "char_start": 23765,
+    "char_end": 24153
+   },
+   "quote": "二月辛金,阳和之际,壬水为尊,见戊己为病,得甲制伏,则辛金不致埋没,壬水不致混浊",
+   "quote_locator": {
+    "line": 938,
+    "char_start": 23765,
+    "char_end": 23805
+   },
+   "sequence": [
+    {
+     "stem": "壬",
+     "order": 1
+    }
+   ],
+   "order_basis": "原文「壬水为尊」：壬为唯一尊取。甲为「得甲制伏」戊己之病的工具陈述（以病为前提），不入序列。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "辛",
+   "month_branch": "辰",
+   "month_label": "三月",
+   "section": {
+    "line": 962,
+    "char_start": 24162,
+    "char_end": 24394
+   },
+   "quote": "三月辛金,戊土司令,辛承正气,母旺子相,先壬後甲",
+   "quote_locator": {
+    "line": 962,
+    "char_start": 24162,
+    "char_end": 24186
+   },
+   "sequence": [
+    {
+     "stem": "壬",
+     "order": 1
+    },
+    {
+     "stem": "甲",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「先壬後甲」明示先次。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "辛",
+   "month_branch": "巳",
+   "month_label": "四月",
+   "section": {
+    "line": 968,
+    "char_start": 24400,
+    "char_end": 24612
+   },
+   "quote": "四月辛金,时道首夏,忌丙火之燥烈,喜壬水之洗淘",
+   "quote_locator": {
+    "line": 968,
+    "char_start": 24400,
+    "char_end": 24423
+   },
+   "sequence": [
+    {
+     "stem": "壬",
+     "order": 1
+    }
+   ],
+   "order_basis": "原文「喜壬水之洗淘」：壬为唯一取用。癸（「癸透壬藏」之象）、甲（支成金局有木制戊之条件）皆为条件陈述，不入序列，登记于 notes。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [],
+   "notes": [
+    "癸在本条仅见于「癸透壬藏，富真贵假」的既成之象描述，原文未立「无壬用癸」之替代规则，故不编码为分支（与丙卯、癸巳之明文替代句相区别）。"
+   ]
+  },
+  {
+   "day_master": "辛",
+   "month_branch": "午",
+   "month_label": "五月",
+   "section": {
+    "line": 979,
+    "char_start": 24621,
+    "char_end": 24907
+   },
+   "quote": "五月辛金,丁火司权,辛金失令,阴柔之极,不宜煆炼,须己壬兼用,何也,己为泥沙,壬为湖海,己无壬不湿,辛无己不生,故壬己并用,无壬,癸亦可用,但癸力小",
+   "quote_locator": {
+    "line": 979,
+    "char_start": 24621,
+    "char_end": 24695
+   },
+   "sequence": [
+    {
+     "stem": "己",
+     "order": 1
+    },
+    {
+     "stem": "壬",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「须己壬兼用」按其列举顺序编号（己先、壬次）；下文「故壬己并用」为并列复述，未改序。条末另有「五月辛金，壬，癸，己，三者皆用」之总括，其中癸之地位由分支句「无壬，癸亦可用」界定（见 branches），不并入主序列。",
+   "branches": [
+    {
+     "id": "wuyue_wu_ren_yong_gui",
+     "condition": {
+      "absent_stem": "壬"
+     },
+     "quote": "无壬,癸亦可用,但癸力小",
+     "locator": {
+      "line": 979,
+      "char_start": 24683,
+      "char_end": 24695
+     },
+     "sequence": [
+      {
+       "stem": "己",
+       "order": 1
+      },
+      {
+       "stem": "癸",
+       "order": 2
+      }
+     ],
+     "note": "原文「无壬，癸亦可用，但癸力小」：壬在透干与藏干皆无时，癸代壬之位，己仍兼用；原文自注「癸力小」，效力限定如实登记。"
+    }
+   ],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "辛",
+   "month_branch": "未",
+   "month_label": "六月",
+   "section": {
+    "line": 990,
+    "char_start": 24916,
+    "char_end": 25151
+   },
+   "quote": "六月辛金,己土当权,辅助太多,恐掩金光,先用壬水,取庚佐之,壬庚两透,科甲功名",
+   "quote_locator": {
+    "line": 990,
+    "char_start": 24916,
+    "char_end": 24955
+   },
+   "sequence": [
+    {
+     "stem": "壬",
+     "order": 1
+    },
+    {
+     "stem": "庚",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「先用壬水，取庚佐之」定序。条末总括「总以一壬一己，见庚无甲，方妙」将己列入理想组合（见 related），与首句取用陈述并存，本 Variant 从首句定序、不合并。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [
+    {
+     "quote": "总以一壬一己,见庚无甲,方妙,与五月用己壬同。",
+     "locator": {
+      "line": 990,
+      "char_start": 25049,
+      "char_end": 25072
+     },
+     "note": "条末总括句在本节区内：言一壬一己见庚之组合，与首句「先用壬水，取庚佐之」侧重不同，只登记不合并。"
+    }
+   ]
+  },
+  {
+   "day_master": "辛",
+   "month_branch": "申",
+   "month_label": "七月",
+   "section": {
+    "line": 1001,
+    "char_start": 25160,
+    "char_end": 25362
+   },
+   "quote": "七月辛金,壬不在多,故书曰,水浅金多,号曰体全之象,壬水为尊,甲戊酌用可也,癸水不可为用。",
+   "quote_locator": {
+    "line": 1005,
+    "char_start": 25299,
+    "char_end": 25344
+   },
+   "sequence": [
+    {
+     "stem": "壬",
+     "order": 1
+    }
+   ],
+   "order_basis": "本月条首段为壬居申之事实陈述；取用陈述在第二段总结句：「壬水为尊」为唯一尊取，「甲戊酌用」未列先次不入序列，并明示「癸水不可为用」。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "辛",
+   "month_branch": "酉",
+   "month_label": "八月",
+   "section": {
+    "line": 1013,
+    "char_start": 25371,
+    "char_end": 25925
+   },
+   "quote": "八月辛金,当权得令,旺之极矣,专用壬水淘洗",
+   "quote_locator": {
+    "line": 1013,
+    "char_start": 25371,
+    "char_end": 25392
+   },
+   "sequence": [
+    {
+     "stem": "壬",
+     "order": 1
+    }
+   ],
+   "order_basis": "原文「专用壬水淘洗」：壬为唯一专用。",
+   "branches": [],
+   "unencoded_branches": [
+    {
+     "quote": "或支成金局,干见比肩,无壬淘洗,此宜用丁",
+     "locator": {
+      "line": 1019,
+      "char_start": 25657,
+      "char_end": 25677
+     },
+     "reason": "条件为「支成金局、干见比肩、无壬淘洗」的复合盘面判断，超出单干存在性条件形态，只登记不编码。"
+    }
+   ],
+   "related": []
+  },
+  {
+   "day_master": "辛",
+   "month_branch": "戌",
+   "month_label": "九月",
+   "section": {
+    "line": 1035,
+    "char_start": 25934,
+    "char_end": 26248
+   },
+   "quote": "九月辛金,成土司令,母旺子相,须甲疏土,壬泄旺金,先壬後甲,壬甲两透,桃洞之仙",
+   "quote_locator": {
+    "line": 1035,
+    "char_start": 25934,
+    "char_end": 25973
+   },
+   "sequence": [
+    {
+     "stem": "壬",
+     "order": 1
+    },
+    {
+     "stem": "甲",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「先壬後甲」明示先次（首句「须甲疏土，壬泄旺金」为功能陈述，与先次同向）。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "辛",
+   "month_branch": "亥",
+   "month_label": "十月",
+   "section": {
+    "line": 1053,
+    "char_start": 26257,
+    "char_end": 26457
+   },
+   "quote": "十月辛金,时值小阳,阳渐升,寒气将降,先用壬水,次取丙火,壬丙两透,金榜题名",
+   "quote_locator": {
+    "line": 1053,
+    "char_start": 26257,
+    "char_end": 26295
+   },
+   "sequence": [
+    {
+     "stem": "壬",
+     "order": 1
+    },
+    {
+     "stem": "丙",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「先用壬水，次取丙火」明示先次；条末「十月辛金，先壬後丙，余皆参用」与之同向。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "辛",
+   "month_branch": "子",
+   "month_label": "十一月",
+   "section": {
+    "line": 1059,
+    "char_start": 26464,
+    "char_end": 26688
+   },
+   "quote": "十一月辛金,癸水司令,为寒冬雨露,切忌癸出冻金,而困丙火,壬丙两透,不见戊癸,衣锦腰金",
+   "quote_locator": {
+    "line": 1059,
+    "char_start": 26464,
+    "char_end": 26507
+   },
+   "sequence": [
+    {
+     "stem": "壬",
+     "order": 1
+    },
+    {
+     "stem": "丙",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「壬丙两透」并列陈述，未分先次，按列举顺序编号（壬先、丙次）；下文「冬月辛金，须丙温暖」为丙之必要性说明，不改序，如此登记。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "辛",
+   "month_branch": "丑",
+   "month_label": "十二月",
+   "section": {
+    "line": 1065,
+    "char_start": 26695,
+    "char_end": 26892
+   },
+   "quote": "十二月辛金,寒冻之极,先丙後壬,炳不能解冻,无壬不能洗淘,丙壬两透,金马玉堂之客",
+   "quote_locator": {
+    "line": 1065,
+    "char_start": 26695,
+    "char_end": 26735
+   },
+   "sequence": [
+    {
+     "stem": "丙",
+     "order": 1
+    },
+    {
+     "stem": "壬",
+     "order": 2
+    },
+    {
+     "stem": "戊",
+     "order": 3
+    },
+    {
+     "stem": "己",
+     "order": 4
+    }
+   ],
+   "order_basis": "原文「先丙後壬」明示丙、壬先次；条末总述「戊己次之」（见 related）为第三档，戊、己同档按列举顺序编号。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [
+    {
+     "quote": "十二月辛金,丙先壬後,戊己次之。",
+     "locator": {
+      "line": 1066,
+      "char_start": 26813,
+      "char_end": 26829
+     },
+     "note": "条末总述句在本节区内，为戊、己列第三档之据。"
+    }
+   ]
+  },
+  {
+   "day_master": "壬",
+   "month_branch": "寅",
+   "month_label": "正月",
+   "section": {
+    "line": 1093,
+    "char_start": 27426,
+    "char_end": 27683
+   },
+   "quote": "正月壬水,汪洋之象,能并百川之流,然水性柔弱,宜用庚金之源,庶不致汪洋无度",
+   "quote_locator": {
+    "line": 1093,
+    "char_start": 27426,
+    "char_end": 27463
+   },
+   "sequence": [
+    {
+     "stem": "庚",
+     "order": 1
+    },
+    {
+     "stem": "丙",
+     "order": 2
+    }
+   ],
+   "order_basis": "条首「宜用庚金之源」定庚为取用；丙之佐位出条内凡例句「专用庚金，以丙为佐」（见 related）；戊在凡例中明言「不必用戊」，不入序列。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [
+    {
+     "quote": "凡壬日无比肩羊刃者,不必用戊,专用庚金,以丙为佐。",
+     "locator": {
+      "line": 1094,
+      "char_start": 27506,
+      "char_end": 27531
+     },
+     "note": "条内凡例句在本节区内：为丙列佐位与戊不入序列之据；其「无比肩羊刃」为例外类别界定，相关制伏变例（有比肩羊刃又宜制伏、戊藏秀才）属盘面composite判断，未编码，登记于此。"
+    }
+   ]
+  },
+  {
+   "day_master": "壬",
+   "month_branch": "卯",
+   "month_label": "二月",
+   "section": {
+    "line": 1106,
+    "char_start": 27692,
+    "char_end": 27914
+   },
+   "quote": "二月壬水,寒气初除,有并流之象,不用丙暖,专取戊土辛金,二月壬水,先戊後辛,庚金次之。",
+   "quote_locator": {
+    "line": 1106,
+    "char_start": 27692,
+    "char_end": 27735
+   },
+   "sequence": [
+    {
+     "stem": "戊",
+     "order": 1
+    },
+    {
+     "stem": "辛",
+     "order": 2
+    },
+    {
+     "stem": "庚",
+     "order": 3
+    }
+   ],
+   "order_basis": "原文「先戊後辛，庚金次之」明示三级先次。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "壬",
+   "month_branch": "辰",
+   "month_label": "三月",
+   "section": {
+    "line": 1113,
+    "char_start": 27920,
+    "char_end": 28113
+   },
+   "quote": "三月壬水,戊土司权,死有推山塞海之患,先用甲疏季土,次取庚金。",
+   "quote_locator": {
+    "line": 1113,
+    "char_start": 27920,
+    "char_end": 27951
+   },
+   "sequence": [
+    {
+     "stem": "甲",
+     "order": 1
+    },
+    {
+     "stem": "庚",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「先用甲疏季土，次取庚金」明示先次。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "壬",
+   "month_branch": "巳",
+   "month_label": "四月",
+   "section": {
+    "line": 1125,
+    "char_start": 28122,
+    "char_end": 28373
+   },
+   "quote": "四月壬水,丙火司权,水弱极矣,专取壬水比肩为助,次取辛金发源,且暗合丙火,庚金为佐。",
+   "quote_locator": {
+    "line": 1125,
+    "char_start": 28122,
+    "char_end": 28164
+   },
+   "sequence": [
+    {
+     "stem": "壬",
+     "order": 1
+    },
+    {
+     "stem": "辛",
+     "order": 2
+    },
+    {
+     "stem": "庚",
+     "order": 3
+    }
+   ],
+   "order_basis": "原文「专取壬水比肩为助，次取辛金发源……庚金为佐」：壬（比肩）为专取、辛次、庚佐。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "壬",
+   "month_branch": "午",
+   "month_label": "五月",
+   "section": {
+    "line": 1142,
+    "char_start": 28382,
+    "char_end": 28535
+   },
+   "quote": "五月壬水,丁旺壬弱,取癸为用,取庚为佐,无庚不能发水,无癸不能伤丁,五月壬水,辛癸亦可参用,其理与四月皆同。",
+   "quote_locator": {
+    "line": 1142,
+    "char_start": 28382,
+    "char_end": 28436
+   },
+   "sequence": [
+    {
+     "stem": "癸",
+     "order": 1
+    },
+    {
+     "stem": "庚",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「取癸为用，取庚为佐」：用先佐次；「辛癸亦可参用」之辛为参酌，不入序列。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "壬",
+   "month_branch": "未",
+   "month_label": "六月",
+   "section": {
+    "line": 1154,
+    "char_start": 28544,
+    "char_end": 28733
+   },
+   "quote": "六月壬水,先辛後甲,次取癸水。",
+   "quote_locator": {
+    "line": 1154,
+    "char_start": 28573,
+    "char_end": 28588
+   },
+   "sequence": [
+    {
+     "stem": "辛",
+     "order": 1
+    },
+    {
+     "stem": "甲",
+     "order": 2
+    },
+    {
+     "stem": "癸",
+     "order": 3
+    }
+   ],
+   "order_basis": "本条先次有两处陈述且不一致：条首作「先用辛金癸水，次用甲木劈土」（癸与辛并列在先、甲次之），条末专述先次句作「先辛後甲，次取癸水」（甲二、癸三）。本 Variant 从条末专句定序，条首句并列登记于 related，两说并存，不强行消解。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [
+    {
+     "quote": "六月壬水,己土当权,丁火退气,先用辛金癸水,次用甲木劈土",
+     "locator": {
+      "line": 1154,
+      "char_start": 28544,
+      "char_end": 28572
+     },
+     "note": "条首句在本节区内：其癸/甲位次与条末专句不一致，两说并存登记；本条序列从条末专句。"
+    }
+   ]
+  },
+  {
+   "day_master": "壬",
+   "month_branch": "申",
+   "month_label": "七月",
+   "section": {
+    "line": 1159,
+    "char_start": 28739,
+    "char_end": 29026
+   },
+   "quote": "七月壬水,庚金司令,壬得申之长生,源流自远,转弱为强,专用戊土,次取丁火佐戊制庚",
+   "quote_locator": {
+    "line": 1159,
+    "char_start": 28739,
+    "char_end": 28779
+   },
+   "sequence": [
+    {
+     "stem": "戊",
+     "order": 1
+    },
+    {
+     "stem": "丁",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「专用戊土，次取丁火佐戊制庚」；条末「栽用戊土，丁火为佐」与之同向。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "壬",
+   "month_branch": "酉",
+   "month_label": "八月",
+   "section": {
+    "line": 1174,
+    "char_start": 29035,
+    "char_end": 29297
+   },
+   "quote": "八月壬水,栽用甲木,庚金次之,用甲者,水妻木子。",
+   "quote_locator": {
+    "line": 1178,
+    "char_start": 29210,
+    "char_end": 29234
+   },
+   "sequence": [
+    {
+     "stem": "甲",
+     "order": 1
+    },
+    {
+     "stem": "庚",
+     "order": 2
+    }
+   ],
+   "order_basis": "本月条末专句「栽用甲木，庚金次之」定序；条首「专用甲木」与之同向。「无甲用金」之「金」未指明庚辛，只登记不编码（见 unencoded）。",
+   "branches": [],
+   "unencoded_branches": [
+    {
+     "quote": "无甲用金,发水之源,名独水三犯庚辛,号曰体全之象。",
+     "locator": {
+      "line": 1177,
+      "char_start": 29184,
+      "char_end": 29209
+     },
+     "reason": "替代句「用金」未指明庚或辛，无法落为确定的干序列，只登记不编码。"
+    }
+   ],
+   "related": []
+  },
+  {
+   "day_master": "壬",
+   "month_branch": "戌",
+   "month_label": "九月",
+   "section": {
+    "line": 1192,
+    "char_start": 29306,
+    "char_end": 29516
+   },
+   "quote": "九月壬水,栽用甲木,次用丙火,用土者,火妻土子。",
+   "quote_locator": {
+    "line": 1196,
+    "char_start": 29459,
+    "char_end": 29483
+   },
+   "sequence": [
+    {
+     "stem": "甲",
+     "order": 1
+    },
+    {
+     "stem": "丙",
+     "order": 2
+    }
+   ],
+   "order_basis": "本月条正文尽为或然格例，一般取用陈述为条末专句「栽用甲木，次用丙火」，明示先次。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "壬",
+   "month_branch": "亥",
+   "month_label": "十月",
+   "section": {
+    "line": 1206,
+    "char_start": 29525,
+    "char_end": 29775
+   },
+   "quote": "十月壬水,专用戊丙,次取庚金。",
+   "quote_locator": {
+    "line": 1209,
+    "char_start": 29727,
+    "char_end": 29742
+   },
+   "sequence": [
+    {
+     "stem": "戊",
+     "order": 1
+    },
+    {
+     "stem": "丙",
+     "order": 2
+    },
+    {
+     "stem": "庚",
+     "order": 3
+    }
+   ],
+   "order_basis": "条首「取戊为用」定戊首；条末专句「专用戊丙，次取庚金」补丙为第二、庚为次取第三。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "壬",
+   "month_branch": "子",
+   "month_label": "十一月",
+   "section": {
+    "line": 1219,
+    "char_start": 29785,
+    "char_end": 30032
+   },
+   "quote": "十一月壬水,阳刃帮身,较前更旺,先取戊土,次用丙火,丙戊两透,富贵荣华",
+   "quote_locator": {
+    "line": 1219,
+    "char_start": 29785,
+    "char_end": 29820
+   },
+   "sequence": [
+    {
+     "stem": "戊",
+     "order": 1
+    },
+    {
+     "stem": "丙",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「先取戊土，次用丙火」明示先次；条末「丙戊并用」为并列复述，不改序。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "壬",
+   "month_branch": "丑",
+   "month_label": "十二月",
+   "section": {
+    "line": 1234,
+    "char_start": 30042,
+    "char_end": 30307
+   },
+   "quote": "腊月壬水,先取丙火,丁甲为佐,故水冷金寒爱丙丁,用火者,木妻火子。",
+   "quote_locator": {
+    "line": 1239,
+    "char_start": 30222,
+    "char_end": 30255
+   },
+   "sequence": [
+    {
+     "stem": "丙",
+     "order": 1
+    },
+    {
+     "stem": "丁",
+     "order": 2
+    },
+    {
+     "stem": "甲",
+     "order": 3
+    }
+   ],
+   "order_basis": "条末总述「先取丙火，丁甲为佐」：丙居先；丁甲同列「为佐」一档，按列举顺序编号（丁二、甲三）。条首分半月陈述（两半月皆用丙、甲木佐之）与之大同，半月条件不编码（见 related）。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [
+    {
+     "quote": "十二月壬水,旺极复衰,何也,上半月癸辛主事,故旺,专用丙火,下半月己土主事,故衰,亦用丙火,甲木佐之。",
+     "locator": {
+      "line": 1234,
+      "char_start": 30042,
+      "char_end": 30093
+     },
+     "note": "条首句在本节区内：上/下半月之分属月内条件，不编码；其「专用丙火……甲木佐之」与条末定序同向。"
+    }
+   ]
+  },
+  {
+   "day_master": "癸",
+   "month_branch": "寅",
+   "month_label": "正月",
+   "section": {
+    "line": 1244,
+    "char_start": 30319,
+    "char_end": 30584
+   },
+   "quote": "正月癸水,值三阳之後,雨露之精,其性至柔,先用辛金,生癸水之源,次用丙火照暖,名阴阳和合,万物发生,辛丙两透,金榜有名。",
+   "quote_locator": {
+    "line": 1244,
+    "char_start": 30319,
+    "char_end": 30379
+   },
+   "sequence": [
+    {
+     "stem": "辛",
+     "order": 1
+    },
+    {
+     "stem": "丙",
+     "order": 2
+    }
+   ],
+   "order_basis": "条首「先用辛金……次用丙火照暖」明示先次，从条首定序；条末另有「辛金为主，庚金次之，丙亦可少」的不同排序（见 related），两说并存，不合并。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [
+    {
+     "quote": "正月癸水,辛金为主,庚金次之,丙亦可少",
+     "locator": {
+      "line": 1248,
+      "char_start": 30527,
+      "char_end": 30546
+     },
+     "note": "条末复述句在本节区内：其排序（辛主、庚次、丙可少）与条首先次（辛先、丙次）不一致，两说并存登记；本条序列从条首明示先次之句。"
+    }
+   ]
+  },
+  {
+   "day_master": "癸",
+   "month_branch": "卯",
+   "month_label": "二月",
+   "section": {
+    "line": 1251,
+    "char_start": 30590,
+    "char_end": 30784
+   },
+   "quote": "二月葵水,不刚不柔,乙木司令,泄弱元神,专用庚金为用,辛金次之,庚辛俱透,无丁出干者,贵由科甲,无庚辛者常人。",
+   "quote_locator": {
+    "line": 1251,
+    "char_start": 30590,
+    "char_end": 30645
+   },
+   "sequence": [
+    {
+     "stem": "庚",
+     "order": 1
+    },
+    {
+     "stem": "辛",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「专用庚金为用，辛金次之」明示先次。快照本条首句作「二月葵水」，葵为癸之快照字形（疑转写之异），引文逐字保留，不擅改。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "癸",
+   "month_branch": "辰",
+   "month_label": "三月",
+   "section": {
+    "line": 1265,
+    "char_start": 30793,
+    "char_end": 31087
+   },
+   "quote": "三月癸水,要分清明谷雨,清明後,火气未炽,专用丙火,为阴阳合谐,谷雨後,虽用丙火,尚宜辛甲佐之",
+   "quote_locator": {
+    "line": 1265,
+    "char_start": 30793,
+    "char_end": 30840
+   },
+   "sequence": [
+    {
+     "stem": "丙",
+     "order": 1
+    }
+   ],
+   "order_basis": "本月条以清明/谷雨分界：两段皆用丙，丙为唯一无条件取用；谷雨後辛甲之佐为月内节气条件（见 unencoded）；条末「辛甲皆酌用」同指此酌量地位，不入序列。",
+   "branches": [],
+   "unencoded_branches": [
+    {
+     "quote": "谷雨後,虽用丙火,尚宜辛甲佐之",
+     "locator": {
+      "line": 1265,
+      "char_start": 30825,
+      "char_end": 30840
+     },
+     "reason": "条件为谷雨节气前/後（月内日期分界），非月支与干存在性可判，不在本 Variant 输入契约内，只登记不编码。"
+    }
+   ],
+   "related": []
+  },
+  {
+   "day_master": "癸",
+   "month_branch": "巳",
+   "month_label": "四月",
+   "section": {
+    "line": 1284,
+    "char_start": 31096,
+    "char_end": 31277
+   },
+   "quote": "四月癸水,喜辛金为用,无辛用庚,若辛高透,不见丁火,加以壬透,主科名荣贵,声播四夷",
+   "quote_locator": {
+    "line": 1284,
+    "char_start": 31096,
+    "char_end": 31137
+   },
+   "sequence": [
+    {
+     "stem": "辛",
+     "order": 1
+    }
+   ],
+   "order_basis": "原文「喜辛金为用」：辛为取用；无辛时之替代见 branches。",
+   "branches": [
+    {
+     "id": "siyue_wu_xin_yong_geng",
+     "condition": {
+      "absent_stem": "辛"
+     },
+     "quote": "喜辛金为用,无辛用庚",
+     "locator": {
+      "line": 1284,
+      "char_start": 31101,
+      "char_end": 31111
+     },
+     "sequence": [
+      {
+       "stem": "庚",
+       "order": 1
+      }
+     ],
+     "note": "原文「无辛用庚」：辛在透干与藏干皆无时，以庚代之。"
+    }
+   ],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "癸",
+   "month_branch": "午",
+   "month_label": "五月",
+   "section": {
+    "line": 1287,
+    "char_start": 31283,
+    "char_end": 31515
+   },
+   "quote": "五月癸水,至弱无根,必须庚辛为生身之本,但丁火司权,金难敌火,安能滋养癸水,宜见比劫,方得辛金之用,五月癸水,庚辛壬参酌并用可也。",
+   "quote_locator": {
+    "line": 1287,
+    "char_start": 31283,
+    "char_end": 31348
+   },
+   "sequence": [],
+   "order_basis": "原文自述「庚辛壬参酌并用」：三干参酌合用、未定先次，本 Variant 不拟制序列，序列为空；庚辛「为生身之本」、壬癸比劫「方得辛金之用」皆为地位陈述，登记于 notes。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [],
+   "notes": [
+    "「必须庚辛为生身之本」「宜见比劫，方得辛金之用」：为地位与条件陈述；原文既明言参酌并用，本条不予定序。"
+   ]
+  },
+  {
+   "day_master": "癸",
+   "month_branch": "未",
+   "month_label": "六月",
+   "section": {
+    "line": 1292,
+    "char_start": 31521,
+    "char_end": 31702
+   },
+   "quote": "六月癸水,有上下月之分,下半月庚辛有气,上半月庚辛休囚,凡六癸日,多不验者,何也,俗士不知此理,因未中有乙巳同宫,破而不破,故癸水不能从杀,所以专用庚辛",
+   "quote_locator": {
+    "line": 1292,
+    "char_start": 31521,
+    "char_end": 31597
+   },
+   "sequence": [
+    {
+     "stem": "庚",
+     "order": 1
+    },
+    {
+     "stem": "辛",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「所以专用庚辛」按列举顺序编号；上/下半月之气分条件不编码（见 unencoded）。",
+   "branches": [],
+   "unencoded_branches": [
+    {
+     "quote": "下半月庚辛有气,上半月庚辛休囚",
+     "locator": {
+      "line": 1292,
+      "char_start": 31533,
+      "char_end": 31548
+     },
+     "reason": "条件为月内上/下半月之分，非月支与干存在性可判，不在本 Variant 输入契约内，只登记不编码。"
+    }
+   ],
+   "related": []
+  },
+  {
+   "day_master": "癸",
+   "month_branch": "申",
+   "month_label": "七月",
+   "section": {
+    "line": 1302,
+    "char_start": 31711,
+    "char_end": 31948
+   },
+   "quote": "七月癸水,正母旺子相之时,癸虽死申,殊不知申中有庚生之,名死处逢生,弱中复强,即运行西北,亦不死也,但庚司令,刚锐极矣,必取丁火为用",
+   "quote_locator": {
+    "line": 1302,
+    "char_start": 31711,
+    "char_end": 31777
+   },
+   "sequence": [
+    {
+     "stem": "丁",
+     "order": 1
+    }
+   ],
+   "order_basis": "原文「必取丁火为用」：丁为唯一取用。（庚在本条为生癸之源的事实陈述，原文未列为取用。）",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "癸",
+   "month_branch": "酉",
+   "month_label": "八月",
+   "section": {
+    "line": 1315,
+    "char_start": 31957,
+    "char_end": 32077
+   },
+   "quote": "八月癸水,辛金虚灵,非顽金可比,正金白水清,故取辛金为用,丙火佐之,名水暖金温",
+   "quote_locator": {
+    "line": 1315,
+    "char_start": 31957,
+    "char_end": 31996
+   },
+   "sequence": [
+    {
+     "stem": "辛",
+     "order": 1
+    },
+    {
+     "stem": "丙",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「故取辛金为用，丙火佐之」：用先佐次。条末「八月癸水，丙辛怕用」一句快照字形费解（疑转写之误），不引、不据以定序，登记于 notes。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [],
+   "notes": [
+    "条末「丙辛怕用」：快照字形如此，语义不可确读，本 Variant 不引用、不推测其义。"
+   ]
+  },
+  {
+   "day_master": "癸",
+   "month_branch": "戌",
+   "month_label": "九月",
+   "section": {
+    "line": 1325,
+    "char_start": 32086,
+    "char_end": 32258
+   },
+   "quote": "九月癸水,失令无根,戊土司权,克制太过,专用辛金发水之源,要比肩滋甲制戊方妙。",
+   "quote_locator": {
+    "line": 1325,
+    "char_start": 32086,
+    "char_end": 32125
+   },
+   "sequence": [
+    {
+     "stem": "辛",
+     "order": 1
+    },
+    {
+     "stem": "甲",
+     "order": 2
+    }
+   ],
+   "order_basis": "条首「专用辛金发水之源」定辛首；甲之并用出条末专句「辛甲并用」（见 related），列第二。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": [
+    {
+     "quote": "九月癸水,辛甲并用。",
+     "locator": {
+      "line": 1328,
+      "char_start": 32215,
+      "char_end": 32225
+     },
+     "note": "条末专句在本节区内，为甲列第二之据。"
+    }
+   ]
+  },
+  {
+   "day_master": "癸",
+   "month_branch": "亥",
+   "month_label": "十月",
+   "section": {
+    "line": 1338,
+    "char_start": 32267,
+    "char_end": 32472
+   },
+   "quote": "十月癸水,旺中有弱,何也,因亥摇木,泄散元神,宜用庚辛为妙,得庚辛两透,不见丁伤者,功名有准。",
+   "quote_locator": {
+    "line": 1338,
+    "char_start": 32267,
+    "char_end": 32314
+   },
+   "sequence": [
+    {
+     "stem": "庚",
+     "order": 1
+    },
+    {
+     "stem": "辛",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「宜用庚辛为妙」按列举顺序编号（庚先、辛次）。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "癸",
+   "month_branch": "子",
+   "month_label": "十一月",
+   "section": {
+    "line": 1352,
+    "char_start": 32482,
+    "char_end": 32719
+   },
+   "quote": "十一月癸水,值冰冻之时,金水无交欢之象,专用丙火解冻,庶不致成冰,又要辛金滋扶,无丙有辛,不妙",
+   "quote_locator": {
+    "line": 1352,
+    "char_start": 32482,
+    "char_end": 32529
+   },
+   "sequence": [
+    {
+     "stem": "丙",
+     "order": 1
+    },
+    {
+     "stem": "辛",
+     "order": 2
+    }
+   ],
+   "order_basis": "原文「专用丙火解冻……又要辛金滋扶」：丙为专用、辛为滋扶列次。",
+   "branches": [],
+   "unencoded_branches": [],
+   "related": []
+  },
+  {
+   "day_master": "癸",
+   "month_branch": "丑",
+   "month_label": "十二月",
+   "section": {
+    "line": 1359,
+    "char_start": 32726,
+    "char_end": 33066
+   },
+   "quote": "十二月癸水,寒极成冰,万物不能舒泰,宜丙火解冻,或丙透年时,加以壬透,支中多戊,名水辅阳光,主显达名臣",
+   "quote_locator": {
+    "line": 1359,
+    "char_start": 32726,
+    "char_end": 32777
+   },
+   "sequence": [
+    {
+     "stem": "丙",
+     "order": 1
+    }
+   ],
+   "order_basis": "原文「宜丙火解冻」：丙为唯一无条件取用；壬仅见于「丙透……加以壬透」的或然配见陈述，不入序列。",
    "branches": [],
    "unencoded_branches": [],
    "related": []
@@ -1230,7 +5028,7 @@
    }
   },
   {
-   "id": "yi-mao-not-applicable",
+   "id": "yi-mao",
    "pillars": [
     "庚寅",
     "己卯",
@@ -1265,11 +5063,2251 @@
     ]
    ],
    "expected": {
-    "status": "not_applicable",
-    "reason": "day_master_not_jia"
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "丙",
+      "order": 1,
+      "presence": "hidden"
+     },
+     {
+      "stem": "癸",
+      "order": 2,
+      "presence": "absent"
+     }
+    ],
+    "branches": []
    },
    "source_birth": {
     "value": "1950-03-11T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "yi-yin-hit",
+   "pillars": [
+    "庚寅",
+    "戊寅",
+    "乙亥",
+    "丙戌"
+   ],
+   "day_master": "乙",
+   "month_branch": "寅",
+   "visible_stems": [
+    "庚",
+    "戊",
+    "乙",
+    "丙"
+   ],
+   "hidden_stems": [
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "壬",
+     "甲"
+    ],
+    [
+     "戊",
+     "辛",
+     "丁"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "丙",
+      "order": 1,
+      "presence": "visible"
+     },
+     {
+      "stem": "癸",
+      "order": 2,
+      "presence": "absent"
+     }
+    ],
+    "branches": []
+   },
+   "source_birth": {
+    "value": "1950-02-09T19:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "yi-hai-none",
+   "pillars": [
+    "辛卯",
+    "己亥",
+    "乙卯",
+    "壬午"
+   ],
+   "day_master": "乙",
+   "month_branch": "亥",
+   "visible_stems": [
+    "辛",
+    "己",
+    "乙",
+    "壬"
+   ],
+   "hidden_stems": [
+    [
+     "乙"
+    ],
+    [
+     "壬",
+     "甲"
+    ],
+    [
+     "乙"
+    ],
+    [
+     "丁",
+     "己"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "丙",
+      "order": 1,
+      "presence": "absent"
+     },
+     {
+      "stem": "戊",
+      "order": 2,
+      "presence": "absent"
+     }
+    ],
+    "branches": []
+   },
+   "source_birth": {
+    "value": "1951-11-11T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "yi-chou-absent-in-source",
+   "pillars": [
+    "己丑",
+    "丁丑",
+    "乙巳",
+    "壬午"
+   ],
+   "day_master": "乙",
+   "month_branch": "丑",
+   "visible_stems": [
+    "己",
+    "丁",
+    "乙",
+    "壬"
+   ],
+   "hidden_stems": [
+    [
+     "己",
+     "癸",
+     "辛"
+    ],
+    [
+     "己",
+     "癸",
+     "辛"
+    ],
+    [
+     "丙",
+     "庚",
+     "戊"
+    ],
+    [
+     "丁",
+     "己"
+    ]
+   ],
+   "expected": {
+    "status": "not_applicable",
+    "reason": "entry_absent_in_source"
+   },
+   "source_birth": {
+    "value": "1950-01-10T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "bing-yin-hit",
+   "pillars": [
+    "庚寅",
+    "戊寅",
+    "丙子",
+    "壬辰"
+   ],
+   "day_master": "丙",
+   "month_branch": "寅",
+   "visible_stems": [
+    "庚",
+    "戊",
+    "丙",
+    "壬"
+   ],
+   "hidden_stems": [
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "癸"
+    ],
+    [
+     "戊",
+     "乙",
+     "癸"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "壬",
+      "order": 1,
+      "presence": "visible"
+     },
+     {
+      "stem": "庚",
+      "order": 2,
+      "presence": "visible"
+     }
+    ],
+    "branches": []
+   },
+   "source_birth": {
+    "value": "1950-02-10T07:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "bing-wu-none",
+   "pillars": [
+    "辛卯",
+    "甲午",
+    "丙戌",
+    "甲午"
+   ],
+   "day_master": "丙",
+   "month_branch": "午",
+   "visible_stems": [
+    "辛",
+    "甲",
+    "丙",
+    "甲"
+   ],
+   "hidden_stems": [
+    [
+     "乙"
+    ],
+    [
+     "丁",
+     "己"
+    ],
+    [
+     "戊",
+     "辛",
+     "丁"
+    ],
+    [
+     "丁",
+     "己"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "壬",
+      "order": 1,
+      "presence": "absent"
+     },
+     {
+      "stem": "庚",
+      "order": 2,
+      "presence": "absent"
+     }
+    ],
+    "branches": []
+   },
+   "source_birth": {
+    "value": "1951-06-15T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "bing-mao-branch-applied",
+   "pillars": [
+    "庚寅",
+    "己卯",
+    "丙午",
+    "甲午"
+   ],
+   "day_master": "丙",
+   "month_branch": "卯",
+   "visible_stems": [
+    "庚",
+    "己",
+    "丙",
+    "甲"
+   ],
+   "hidden_stems": [
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "乙"
+    ],
+    [
+     "丁",
+     "己"
+    ],
+    [
+     "丁",
+     "己"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "壬",
+      "order": 1,
+      "presence": "absent"
+     }
+    ],
+    "branches": [
+     {
+      "id": "eryue_wu_ren_gu_yong_ji",
+      "applied": true
+     }
+    ]
+   },
+   "source_birth": {
+    "value": "1950-03-12T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "bing-mao-branch-not-applied",
+   "pillars": [
+    "庚寅",
+    "己卯",
+    "丙午",
+    "壬辰"
+   ],
+   "day_master": "丙",
+   "month_branch": "卯",
+   "visible_stems": [
+    "庚",
+    "己",
+    "丙",
+    "壬"
+   ],
+   "hidden_stems": [
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "乙"
+    ],
+    [
+     "丁",
+     "己"
+    ],
+    [
+     "戊",
+     "乙",
+     "癸"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "壬",
+      "order": 1,
+      "presence": "visible"
+     }
+    ],
+    "branches": [
+     {
+      "id": "eryue_wu_ren_gu_yong_ji",
+      "applied": false
+     }
+    ]
+   },
+   "source_birth": {
+    "value": "1950-03-12T07:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "bing-chen-branch-applied",
+   "pillars": [
+    "辛卯",
+    "壬辰",
+    "丙子",
+    "乙未"
+   ],
+   "day_master": "丙",
+   "month_branch": "辰",
+   "visible_stems": [
+    "辛",
+    "壬",
+    "丙",
+    "乙"
+   ],
+   "hidden_stems": [
+    [
+     "乙"
+    ],
+    [
+     "戊",
+     "乙",
+     "癸"
+    ],
+    [
+     "癸"
+    ],
+    [
+     "己",
+     "丁",
+     "乙"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "壬",
+      "order": 1,
+      "presence": "visible"
+     }
+    ],
+    "branches": [
+     {
+      "id": "sanyue_wu_jia_yong_geng",
+      "applied": true
+     }
+    ]
+   },
+   "source_birth": {
+    "value": "1951-04-06T13:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "bing-chen-branch-not-applied",
+   "pillars": [
+    "庚寅",
+    "庚辰",
+    "丙子",
+    "甲午"
+   ],
+   "day_master": "丙",
+   "month_branch": "辰",
+   "visible_stems": [
+    "庚",
+    "庚",
+    "丙",
+    "甲"
+   ],
+   "hidden_stems": [
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "戊",
+     "乙",
+     "癸"
+    ],
+    [
+     "癸"
+    ],
+    [
+     "丁",
+     "己"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "壬",
+      "order": 1,
+      "presence": "absent"
+     }
+    ],
+    "branches": [
+     {
+      "id": "sanyue_wu_jia_yong_geng",
+      "applied": false
+     }
+    ]
+   },
+   "source_birth": {
+    "value": "1950-04-11T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "bing-si-branch-applied",
+   "pillars": [
+    "庚寅",
+    "辛巳",
+    "丙午",
+    "甲午"
+   ],
+   "day_master": "丙",
+   "month_branch": "巳",
+   "visible_stems": [
+    "庚",
+    "辛",
+    "丙",
+    "甲"
+   ],
+   "hidden_stems": [
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "丙",
+     "庚",
+     "戊"
+    ],
+    [
+     "丁",
+     "己"
+    ],
+    [
+     "丁",
+     "己"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "壬",
+      "order": 1,
+      "presence": "absent"
+     }
+    ],
+    "branches": [
+     {
+      "id": "siyue_wu_ren_gu_yong_gui",
+      "applied": true
+     }
+    ]
+   },
+   "source_birth": {
+    "value": "1950-05-11T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "bing-si-branch-not-applied",
+   "pillars": [
+    "庚寅",
+    "辛巳",
+    "丙午",
+    "壬辰"
+   ],
+   "day_master": "丙",
+   "month_branch": "巳",
+   "visible_stems": [
+    "庚",
+    "辛",
+    "丙",
+    "壬"
+   ],
+   "hidden_stems": [
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "丙",
+     "庚",
+     "戊"
+    ],
+    [
+     "丁",
+     "己"
+    ],
+    [
+     "戊",
+     "乙",
+     "癸"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "壬",
+      "order": 1,
+      "presence": "visible"
+     }
+    ],
+    "branches": [
+     {
+      "id": "siyue_wu_ren_gu_yong_gui",
+      "applied": false
+     }
+    ]
+   },
+   "source_birth": {
+    "value": "1950-05-11T07:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "bing-you-branch-applied",
+   "pillars": [
+    "庚寅",
+    "乙酉",
+    "丙午",
+    "丁酉"
+   ],
+   "day_master": "丙",
+   "month_branch": "酉",
+   "visible_stems": [
+    "庚",
+    "乙",
+    "丙",
+    "丁"
+   ],
+   "hidden_stems": [
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "辛"
+    ],
+    [
+     "丁",
+     "己"
+    ],
+    [
+     "辛"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "壬",
+      "order": 1,
+      "presence": "absent"
+     }
+    ],
+    "branches": [
+     {
+      "id": "bayue_wu_ren_yong_gui",
+      "applied": true
+     }
+    ]
+   },
+   "source_birth": {
+    "value": "1950-09-08T17:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "bing-you-branch-not-applied",
+   "pillars": [
+    "庚寅",
+    "乙酉",
+    "丙午",
+    "丙申"
+   ],
+   "day_master": "丙",
+   "month_branch": "酉",
+   "visible_stems": [
+    "庚",
+    "乙",
+    "丙",
+    "丙"
+   ],
+   "hidden_stems": [
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "辛"
+    ],
+    [
+     "丁",
+     "己"
+    ],
+    [
+     "庚",
+     "壬",
+     "戊"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "壬",
+      "order": 1,
+      "presence": "hidden"
+     }
+    ],
+    "branches": [
+     {
+      "id": "bayue_wu_ren_yong_gui",
+      "applied": false
+     }
+    ]
+   },
+   "source_birth": {
+    "value": "1950-09-08T15:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "bing-hai-empty-sequence",
+   "pillars": [
+    "庚寅",
+    "丁亥",
+    "丙辰",
+    "甲午"
+   ],
+   "day_master": "丙",
+   "month_branch": "亥",
+   "visible_stems": [
+    "庚",
+    "丁",
+    "丙",
+    "甲"
+   ],
+   "hidden_stems": [
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "壬",
+     "甲"
+    ],
+    [
+     "戊",
+     "乙",
+     "癸"
+    ],
+    [
+     "丁",
+     "己"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [],
+    "branches": []
+   },
+   "source_birth": {
+    "value": "1950-11-17T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "ding-mao-hit",
+   "pillars": [
+    "庚寅",
+    "己卯",
+    "丁未",
+    "丙午"
+   ],
+   "day_master": "丁",
+   "month_branch": "卯",
+   "visible_stems": [
+    "庚",
+    "己",
+    "丁",
+    "丙"
+   ],
+   "hidden_stems": [
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "乙"
+    ],
+    [
+     "己",
+     "丁",
+     "乙"
+    ],
+    [
+     "丁",
+     "己"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "庚",
+      "order": 1,
+      "presence": "visible"
+     },
+     {
+      "stem": "甲",
+      "order": 2,
+      "presence": "hidden"
+     }
+    ],
+    "branches": []
+   },
+   "source_birth": {
+    "value": "1950-03-13T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "ding-chen-none",
+   "pillars": [
+    "辛卯",
+    "壬辰",
+    "丁丑",
+    "丙午"
+   ],
+   "day_master": "丁",
+   "month_branch": "辰",
+   "visible_stems": [
+    "辛",
+    "壬",
+    "丁",
+    "丙"
+   ],
+   "hidden_stems": [
+    [
+     "乙"
+    ],
+    [
+     "戊",
+     "乙",
+     "癸"
+    ],
+    [
+     "己",
+     "癸",
+     "辛"
+    ],
+    [
+     "丁",
+     "己"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "甲",
+      "order": 1,
+      "presence": "absent"
+     },
+     {
+      "stem": "庚",
+      "order": 2,
+      "presence": "absent"
+     }
+    ],
+    "branches": []
+   },
+   "source_birth": {
+    "value": "1951-04-07T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "ding-shen-branch-applied",
+   "pillars": [
+    "辛卯",
+    "丙申",
+    "丁酉",
+    "丙午"
+   ],
+   "day_master": "丁",
+   "month_branch": "申",
+   "visible_stems": [
+    "辛",
+    "丙",
+    "丁",
+    "丙"
+   ],
+   "hidden_stems": [
+    [
+     "乙"
+    ],
+    [
+     "庚",
+     "壬",
+     "戊"
+    ],
+    [
+     "辛"
+    ],
+    [
+     "丁",
+     "己"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "甲",
+      "order": 1,
+      "presence": "absent"
+     },
+     {
+      "stem": "庚",
+      "order": 2,
+      "presence": "hidden"
+     }
+    ],
+    "branches": [
+     {
+      "id": "qiyue_wu_jia_yong_yi",
+      "applied": true
+     }
+    ]
+   },
+   "source_birth": {
+    "value": "1951-08-25T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "ding-shen-branch-not-applied",
+   "pillars": [
+    "庚寅",
+    "甲申",
+    "丁丑",
+    "丙午"
+   ],
+   "day_master": "丁",
+   "month_branch": "申",
+   "visible_stems": [
+    "庚",
+    "甲",
+    "丁",
+    "丙"
+   ],
+   "hidden_stems": [
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "庚",
+     "壬",
+     "戊"
+    ],
+    [
+     "己",
+     "癸",
+     "辛"
+    ],
+    [
+     "丁",
+     "己"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "甲",
+      "order": 1,
+      "presence": "visible"
+     },
+     {
+      "stem": "庚",
+      "order": 2,
+      "presence": "visible"
+     }
+    ],
+    "branches": [
+     {
+      "id": "qiyue_wu_jia_yong_yi",
+      "applied": false
+     }
+    ]
+   },
+   "source_birth": {
+    "value": "1950-08-10T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "ding-you-branch-applied",
+   "pillars": [
+    "辛卯",
+    "丁酉",
+    "丁巳",
+    "丙午"
+   ],
+   "day_master": "丁",
+   "month_branch": "酉",
+   "visible_stems": [
+    "辛",
+    "丁",
+    "丁",
+    "丙"
+   ],
+   "hidden_stems": [
+    [
+     "乙"
+    ],
+    [
+     "辛"
+    ],
+    [
+     "丙",
+     "庚",
+     "戊"
+    ],
+    [
+     "丁",
+     "己"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "甲",
+      "order": 1,
+      "presence": "absent"
+     },
+     {
+      "stem": "丙",
+      "order": 2,
+      "presence": "visible"
+     },
+     {
+      "stem": "庚",
+      "order": 3,
+      "presence": "hidden"
+     }
+    ],
+    "branches": [
+     {
+      "id": "bayue_wu_jia_yong_yi",
+      "applied": true
+     }
+    ]
+   },
+   "source_birth": {
+    "value": "1951-09-14T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "ding-you-branch-not-applied",
+   "pillars": [
+    "庚寅",
+    "乙酉",
+    "丁未",
+    "丙午"
+   ],
+   "day_master": "丁",
+   "month_branch": "酉",
+   "visible_stems": [
+    "庚",
+    "乙",
+    "丁",
+    "丙"
+   ],
+   "hidden_stems": [
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "辛"
+    ],
+    [
+     "己",
+     "丁",
+     "乙"
+    ],
+    [
+     "丁",
+     "己"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "甲",
+      "order": 1,
+      "presence": "hidden"
+     },
+     {
+      "stem": "丙",
+      "order": 2,
+      "presence": "visible"
+     },
+     {
+      "stem": "庚",
+      "order": 3,
+      "presence": "visible"
+     }
+    ],
+    "branches": [
+     {
+      "id": "bayue_wu_jia_yong_yi",
+      "applied": false
+     }
+    ]
+   },
+   "source_birth": {
+    "value": "1950-09-09T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "ding-wu-empty-sequence",
+   "pillars": [
+    "庚寅",
+    "壬午",
+    "丁丑",
+    "丙午"
+   ],
+   "day_master": "丁",
+   "month_branch": "午",
+   "visible_stems": [
+    "庚",
+    "壬",
+    "丁",
+    "丙"
+   ],
+   "hidden_stems": [
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "丁",
+     "己"
+    ],
+    [
+     "己",
+     "癸",
+     "辛"
+    ],
+    [
+     "丁",
+     "己"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [],
+    "branches": []
+   },
+   "source_birth": {
+    "value": "1950-06-11T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "wu-yin-hit",
+   "pillars": [
+    "庚寅",
+    "戊寅",
+    "戊寅",
+    "丙辰"
+   ],
+   "day_master": "戊",
+   "month_branch": "寅",
+   "visible_stems": [
+    "庚",
+    "戊",
+    "戊",
+    "丙"
+   ],
+   "hidden_stems": [
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "戊",
+     "乙",
+     "癸"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "丙",
+      "order": 1,
+      "presence": "visible"
+     }
+    ],
+    "branches": []
+   },
+   "source_birth": {
+    "value": "1950-02-12T07:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "wu-you-none",
+   "pillars": [
+    "辛卯",
+    "丁酉",
+    "戊午",
+    "戊午"
+   ],
+   "day_master": "戊",
+   "month_branch": "酉",
+   "visible_stems": [
+    "辛",
+    "丁",
+    "戊",
+    "戊"
+   ],
+   "hidden_stems": [
+    [
+     "乙"
+    ],
+    [
+     "辛"
+    ],
+    [
+     "丁",
+     "己"
+    ],
+    [
+     "丁",
+     "己"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "丙",
+      "order": 1,
+      "presence": "absent"
+     },
+     {
+      "stem": "癸",
+      "order": 2,
+      "presence": "absent"
+     }
+    ],
+    "branches": []
+   },
+   "source_birth": {
+    "value": "1951-09-15T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "ji-mao-hit",
+   "pillars": [
+    "庚寅",
+    "己卯",
+    "己酉",
+    "甲戌"
+   ],
+   "day_master": "己",
+   "month_branch": "卯",
+   "visible_stems": [
+    "庚",
+    "己",
+    "己",
+    "甲"
+   ],
+   "hidden_stems": [
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "乙"
+    ],
+    [
+     "辛"
+    ],
+    [
+     "戊",
+     "辛",
+     "丁"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "甲",
+      "order": 1,
+      "presence": "visible"
+     },
+     {
+      "stem": "癸",
+      "order": 2,
+      "presence": "absent"
+     }
+    ],
+    "branches": []
+   },
+   "source_birth": {
+    "value": "1950-03-15T19:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "ji-hai-none",
+   "pillars": [
+    "辛卯",
+    "己亥",
+    "己未",
+    "庚午"
+   ],
+   "day_master": "己",
+   "month_branch": "亥",
+   "visible_stems": [
+    "辛",
+    "己",
+    "己",
+    "庚"
+   ],
+   "hidden_stems": [
+    [
+     "乙"
+    ],
+    [
+     "壬",
+     "甲"
+    ],
+    [
+     "己",
+     "丁",
+     "乙"
+    ],
+    [
+     "丁",
+     "己"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "丙",
+      "order": 1,
+      "presence": "absent"
+     }
+    ],
+    "branches": []
+   },
+   "source_birth": {
+    "value": "1951-11-15T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "geng-chen-hit",
+   "pillars": [
+    "庚寅",
+    "庚辰",
+    "庚辰",
+    "甲申"
+   ],
+   "day_master": "庚",
+   "month_branch": "辰",
+   "visible_stems": [
+    "庚",
+    "庚",
+    "庚",
+    "甲"
+   ],
+   "hidden_stems": [
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "戊",
+     "乙",
+     "癸"
+    ],
+    [
+     "戊",
+     "乙",
+     "癸"
+    ],
+    [
+     "庚",
+     "壬",
+     "戊"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "甲",
+      "order": 1,
+      "presence": "visible"
+     },
+     {
+      "stem": "丁",
+      "order": 2,
+      "presence": "absent"
+     }
+    ],
+    "branches": []
+   },
+   "source_birth": {
+    "value": "1950-04-15T15:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "geng-wu-none",
+   "pillars": [
+    "辛卯",
+    "甲午",
+    "庚寅",
+    "辛巳"
+   ],
+   "day_master": "庚",
+   "month_branch": "午",
+   "visible_stems": [
+    "辛",
+    "甲",
+    "庚",
+    "辛"
+   ],
+   "hidden_stems": [
+    [
+     "乙"
+    ],
+    [
+     "丁",
+     "己"
+    ],
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "丙",
+     "庚",
+     "戊"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "壬",
+      "order": 1,
+      "presence": "absent"
+     },
+     {
+      "stem": "癸",
+      "order": 2,
+      "presence": "absent"
+     }
+    ],
+    "branches": []
+   },
+   "source_birth": {
+    "value": "1951-06-19T09:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "geng-mao-branch-applied",
+   "pillars": [
+    "庚寅",
+    "己卯",
+    "庚子",
+    "甲申"
+   ],
+   "day_master": "庚",
+   "month_branch": "卯",
+   "visible_stems": [
+    "庚",
+    "己",
+    "庚",
+    "甲"
+   ],
+   "hidden_stems": [
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "乙"
+    ],
+    [
+     "癸"
+    ],
+    [
+     "庚",
+     "壬",
+     "戊"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "丁",
+      "order": 1,
+      "presence": "absent"
+     },
+     {
+      "stem": "甲",
+      "order": 2,
+      "presence": "visible"
+     }
+    ],
+    "branches": [
+     {
+      "id": "eryue_wu_ding_yong_bing",
+      "applied": true
+     }
+    ]
+   },
+   "source_birth": {
+    "value": "1950-03-06T15:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "geng-mao-branch-not-applied",
+   "pillars": [
+    "庚寅",
+    "己卯",
+    "庚子",
+    "丁亥"
+   ],
+   "day_master": "庚",
+   "month_branch": "卯",
+   "visible_stems": [
+    "庚",
+    "己",
+    "庚",
+    "丁"
+   ],
+   "hidden_stems": [
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "乙"
+    ],
+    [
+     "癸"
+    ],
+    [
+     "壬",
+     "甲"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "丁",
+      "order": 1,
+      "presence": "visible"
+     },
+     {
+      "stem": "甲",
+      "order": 2,
+      "presence": "hidden"
+     }
+    ],
+    "branches": [
+     {
+      "id": "eryue_wu_ding_yong_bing",
+      "applied": false
+     }
+    ]
+   },
+   "source_birth": {
+    "value": "1950-03-06T21:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "xin-chen-hit",
+   "pillars": [
+    "庚寅",
+    "庚辰",
+    "辛未",
+    "壬辰"
+   ],
+   "day_master": "辛",
+   "month_branch": "辰",
+   "visible_stems": [
+    "庚",
+    "庚",
+    "辛",
+    "壬"
+   ],
+   "hidden_stems": [
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "戊",
+     "乙",
+     "癸"
+    ],
+    [
+     "己",
+     "丁",
+     "乙"
+    ],
+    [
+     "戊",
+     "乙",
+     "癸"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "壬",
+      "order": 1,
+      "presence": "visible"
+     },
+     {
+      "stem": "甲",
+      "order": 2,
+      "presence": "hidden"
+     }
+    ],
+    "branches": []
+   },
+   "source_birth": {
+    "value": "1950-04-06T07:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "xin-zi-none",
+   "pillars": [
+    "辛卯",
+    "庚子",
+    "辛卯",
+    "甲午"
+   ],
+   "day_master": "辛",
+   "month_branch": "子",
+   "visible_stems": [
+    "辛",
+    "庚",
+    "辛",
+    "甲"
+   ],
+   "hidden_stems": [
+    [
+     "乙"
+    ],
+    [
+     "癸"
+    ],
+    [
+     "乙"
+    ],
+    [
+     "丁",
+     "己"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "壬",
+      "order": 1,
+      "presence": "absent"
+     },
+     {
+      "stem": "丙",
+      "order": 2,
+      "presence": "absent"
+     }
+    ],
+    "branches": []
+   },
+   "source_birth": {
+    "value": "1951-12-17T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "xin-wu-branch-applied",
+   "pillars": [
+    "辛卯",
+    "甲午",
+    "辛巳",
+    "甲午"
+   ],
+   "day_master": "辛",
+   "month_branch": "午",
+   "visible_stems": [
+    "辛",
+    "甲",
+    "辛",
+    "甲"
+   ],
+   "hidden_stems": [
+    [
+     "乙"
+    ],
+    [
+     "丁",
+     "己"
+    ],
+    [
+     "丙",
+     "庚",
+     "戊"
+    ],
+    [
+     "丁",
+     "己"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "己",
+      "order": 1,
+      "presence": "hidden"
+     },
+     {
+      "stem": "壬",
+      "order": 2,
+      "presence": "absent"
+     }
+    ],
+    "branches": [
+     {
+      "id": "wuyue_wu_ren_yong_gui",
+      "applied": true
+     }
+    ]
+   },
+   "source_birth": {
+    "value": "1951-06-10T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "xin-wu-branch-not-applied",
+   "pillars": [
+    "庚寅",
+    "壬午",
+    "辛巳",
+    "甲午"
+   ],
+   "day_master": "辛",
+   "month_branch": "午",
+   "visible_stems": [
+    "庚",
+    "壬",
+    "辛",
+    "甲"
+   ],
+   "hidden_stems": [
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "丁",
+     "己"
+    ],
+    [
+     "丙",
+     "庚",
+     "戊"
+    ],
+    [
+     "丁",
+     "己"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "己",
+      "order": 1,
+      "presence": "hidden"
+     },
+     {
+      "stem": "壬",
+      "order": 2,
+      "presence": "visible"
+     }
+    ],
+    "branches": [
+     {
+      "id": "wuyue_wu_ren_yong_gui",
+      "applied": false
+     }
+    ]
+   },
+   "source_birth": {
+    "value": "1950-06-15T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "ren-chen-hit",
+   "pillars": [
+    "庚寅",
+    "庚辰",
+    "壬申",
+    "甲辰"
+   ],
+   "day_master": "壬",
+   "month_branch": "辰",
+   "visible_stems": [
+    "庚",
+    "庚",
+    "壬",
+    "甲"
+   ],
+   "hidden_stems": [
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "戊",
+     "乙",
+     "癸"
+    ],
+    [
+     "庚",
+     "壬",
+     "戊"
+    ],
+    [
+     "戊",
+     "乙",
+     "癸"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "甲",
+      "order": 1,
+      "presence": "visible"
+     },
+     {
+      "stem": "庚",
+      "order": 2,
+      "presence": "visible"
+     }
+    ],
+    "branches": []
+   },
+   "source_birth": {
+    "value": "1950-04-07T07:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "ren-you-none",
+   "pillars": [
+    "辛卯",
+    "丁酉",
+    "壬子",
+    "丙午"
+   ],
+   "day_master": "壬",
+   "month_branch": "酉",
+   "visible_stems": [
+    "辛",
+    "丁",
+    "壬",
+    "丙"
+   ],
+   "hidden_stems": [
+    [
+     "乙"
+    ],
+    [
+     "辛"
+    ],
+    [
+     "癸"
+    ],
+    [
+     "丁",
+     "己"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "甲",
+      "order": 1,
+      "presence": "absent"
+     },
+     {
+      "stem": "庚",
+      "order": 2,
+      "presence": "absent"
+     }
+    ],
+    "branches": []
+   },
+   "source_birth": {
+    "value": "1951-09-09T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "gui-yin-hit",
+   "pillars": [
+    "庚寅",
+    "戊寅",
+    "癸酉",
+    "辛酉"
+   ],
+   "day_master": "癸",
+   "month_branch": "寅",
+   "visible_stems": [
+    "庚",
+    "戊",
+    "癸",
+    "辛"
+   ],
+   "hidden_stems": [
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "辛"
+    ],
+    [
+     "辛"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "辛",
+      "order": 1,
+      "presence": "visible"
+     },
+     {
+      "stem": "丙",
+      "order": 2,
+      "presence": "hidden"
+     }
+    ],
+    "branches": []
+   },
+   "source_birth": {
+    "value": "1950-02-07T17:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "gui-shen-none",
+   "pillars": [
+    "庚寅",
+    "甲申",
+    "癸巳",
+    "庚申"
+   ],
+   "day_master": "癸",
+   "month_branch": "申",
+   "visible_stems": [
+    "庚",
+    "甲",
+    "癸",
+    "庚"
+   ],
+   "hidden_stems": [
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "庚",
+     "壬",
+     "戊"
+    ],
+    [
+     "丙",
+     "庚",
+     "戊"
+    ],
+    [
+     "庚",
+     "壬",
+     "戊"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "丁",
+      "order": 1,
+      "presence": "absent"
+     }
+    ],
+    "branches": []
+   },
+   "source_birth": {
+    "value": "1950-08-26T15:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "gui-si-branch-applied",
+   "pillars": [
+    "壬辰",
+    "乙巳",
+    "癸亥",
+    "戊午"
+   ],
+   "day_master": "癸",
+   "month_branch": "巳",
+   "visible_stems": [
+    "壬",
+    "乙",
+    "癸",
+    "戊"
+   ],
+   "hidden_stems": [
+    [
+     "戊",
+     "乙",
+     "癸"
+    ],
+    [
+     "丙",
+     "庚",
+     "戊"
+    ],
+    [
+     "壬",
+     "甲"
+    ],
+    [
+     "丁",
+     "己"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "辛",
+      "order": 1,
+      "presence": "absent"
+     }
+    ],
+    "branches": [
+     {
+      "id": "siyue_wu_xin_yong_geng",
+      "applied": true
+     }
+    ]
+   },
+   "source_birth": {
+    "value": "1952-05-17T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "gui-si-branch-not-applied",
+   "pillars": [
+    "庚寅",
+    "辛巳",
+    "癸卯",
+    "戊午"
+   ],
+   "day_master": "癸",
+   "month_branch": "巳",
+   "visible_stems": [
+    "庚",
+    "辛",
+    "癸",
+    "戊"
+   ],
+   "hidden_stems": [
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "丙",
+     "庚",
+     "戊"
+    ],
+    [
+     "乙"
+    ],
+    [
+     "丁",
+     "己"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [
+     {
+      "stem": "辛",
+      "order": 1,
+      "presence": "visible"
+     }
+    ],
+    "branches": [
+     {
+      "id": "siyue_wu_xin_yong_geng",
+      "applied": false
+     }
+    ]
+   },
+   "source_birth": {
+    "value": "1950-05-08T11:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   }
+  },
+  {
+   "id": "gui-wu-empty-sequence",
+   "pillars": [
+    "庚寅",
+    "壬午",
+    "癸酉",
+    "戊午"
+   ],
+   "day_master": "癸",
+   "month_branch": "午",
+   "visible_stems": [
+    "庚",
+    "壬",
+    "癸",
+    "戊"
+   ],
+   "hidden_stems": [
+    [
+     "甲",
+     "丙",
+     "戊"
+    ],
+    [
+     "丁",
+     "己"
+    ],
+    [
+     "辛"
+    ],
+    [
+     "丁",
+     "己"
+    ]
+   ],
+   "expected": {
+    "status": "matched",
+    "sequence": [],
+    "branches": []
+   },
+   "source_birth": {
+    "value": "1950-06-07T11:30:00+08:00",
     "zone": "Asia/Shanghai"
    }
   }
