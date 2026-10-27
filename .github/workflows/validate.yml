@@ -212,4 +212,19 @@ jobs:
       # test_tj018a_sanming_juan2_sealed.py (offline acceptance only,
       # NOT public CI: it reads the sealed snapshot files).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj018a_sanming_juan2.py' -v
+      # TJ-011.2 fire morphology adjudication public contracts:
+      # pure-data design register (zero functions), ten Ditiansui
+      # definition/root quotes with self-consistent locators and layer
+      # attribution, Bing root positions with pinned evidence grades
+      # (Wu stays framework_derived, never per-stem listed), nine form
+      # conditions with honest anchor typing (governance conventions
+      # labeled non-original), Zi weak form not_buildable with the
+      # Wuhudun proof intact, Ding blocked by the same conflict id as
+      # TJ-018-A, and four hand-derived Golden design cases whose
+      # expectations agree with their own condition tables.
+      # Snapshot-verbatim quote checks and production-calendar pillar
+      # replay live in test_tj0112_fire_morphology_sealed.py (offline
+      # acceptance only, NOT public CI: it reads the sealed snapshot
+      # files and runs the assembled engine).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0112_fire_morphology.py' -v
       - run: python scripts/audit_public_asset_changes.py --inventory
