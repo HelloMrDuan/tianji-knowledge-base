@@ -825,3 +825,265 @@ EARTH_LIMITATIONS = [
  '其中登记根相关位与非根位的定性，不作全表列举表述。',
  '密封 Phase1/Phase2 规则注册仍 pending（本登记的消费接入同既有'
  '披露口径），本批不处理注册；显示白名单不变（研究级）。']
+
+# ---------------------------------------------------------------------
+# TJ-011.2 土根消费接入审定（E0257 追加）：消费契约裁定 + S2 通道三
+# 复核 + 实际接入面审计。本批沿审定形制：只登记契约与复核结论，
+# **不接入任何运行时消费、不改任何谓词判定**——
+# bazi_action_conditions.py / bazi_adjudication.py / bazi_strength.py
+# 与 bazi_pattern.py 一字未动，既有七谓词与 D-1 的判定面逐项证明
+# 不变（见 CONSUMPTION_SURFACE_AUDIT_E0257 与契约测试的源码钉住）。
+# 本批裁定的新判定数为零：契约只规定未来接入批可以怎样消费本表，
+# 不使任何现行盘例的裁决发生变化。
+
+# 通道三复核（审定内容一）：逐通道复核 S2 METAL_YOU_SATISFIABILITY
+# 三通道在土根表（E0250）落地后是否成立。通道一、二的前提逐项核
+# 查：均不引用任何根表。
+CHANNEL3_REVIEW_E0257 = {
+ 'event': 'E0257',
+ 'object': 'bazi_metal_water_roots.METAL_YOU_SATISFIABILITY.'
+           'proof_channels（金×酉构造性不可满足证明）',
+ 'trigger': '通道三自登记复核条款（「若将来土根位经审定登记，本'
+            '通道须复核」）＋ E0250 土根表登记落地',
+ 'channels': [
+  {'channel': '藏干层唯一支',
+   'premises': ['十二支藏干构成（执行事实层藏干表）',
+                '形态条件 all_positions_support_only 的生扶集合 '
+                '{土，金}'],
+   'consumes_root_table': False,
+   'verdict': 'unchanged',
+   'basis': '前提只含藏干构成与关系集合，与任何根表（金/水登记'
+            '表、土根表、密封政策根位集）无关；土根表是根分级登'
+            '记，不改变任何支的藏干构成。结论「四柱支全为酉」逐'
+            '字不变。'},
+  {'channel': '全酉盘的显干干对',
+   'premises': ['干支阴阳配伍（庚酉日柱不存在）',
+                '五虎遁（酉月月干由年干定）',
+                '五鼠遁（辛日酉时干为丁）'],
+   'consumes_root_table': False,
+   'verdict': 'unchanged',
+   'basis': '前提只含历法干支组合事实，与根分级无关；土根表落'
+            '地不产生新的合法干支组合。结论「visible 层 '
+            'all_positions_support_only 恒假」逐字不变。'},
+  {'channel': '土印显干根位登记缺口（独立通道）',
+   'premises': ['（原）密封政策 reviewed_root_branches 无土集',
+                '（原）无任何土根登记表（土根零登记）'],
+   'consumes_root_table': True,
+   'verdict': 'restated_premise_overturned_runtime_unchanged',
+   'basis': '第二前提已被 E0250 推翻：土根已有分级登记。故本通'
+            '道按复核条款订正（订正文本已落入 '
+            'METAL_YOU_SATISFIABILITY 通道三与 review_e0257）：'
+            '由「零登记缺口」改为「登记已备（禄两格已审、待定八'
+            '格、未分级八格、无根六格）、运行时未接入」。运行时'
+            '事实不变：registered_eligible 不查土根表，土显干仍'
+            '恒不合。按本批消费契约的未来接入落地后，本通道不'
+            '再独立成立（禄位两格可满足资格），其独立通道地位'
+            '自本批起撤销。'}],
+ 'conclusion': {
+  'metal_you_status': 'chart_unrealizable',
+  'verdict': 'unchanged_not_rejudged',
+  'basis': '不可满足结论由通道一、二独立承担（通道一 forcing 全'
+           '酉、通道二在全酉盘上否决 visible 层），两通道逐项复'
+           '核不变；结论不依赖通道三，通道三订正不触发改判。'
+           'WATER_ZI_SATISFIABILITY 的壬不可满足证明两通道（藏干'
+           '层支集、显干比劫与显干根位不可兼得）同理只用藏干构'
+           '成与干支配伍/遁法，其提及的庚根位属金根表而非土根'
+           '表，亦不受本批影响，结论不变。'},
+ 'runtime_surface_changed': False}
+
+# 逐格级消费契约（审定内容二）：五级格各自的消费资格裁定。本契约
+# 是未来接入批的约束规格，不是运行时代码；现行运行时对本表的消
+# 费为零（见 CONSUMPTION_SURFACE_AUDIT_E0257）。
+EARTH_CONSUMPTION_CONTRACT = {
+ 'contract_id': 'bazi-earth-root-consumption-contract-v1',
+ 'event': 'E0257',
+ 'register_ref': 'bazi-earth-root-grading-v1（EARTH_ROOT_TABLES，'
+                 '24 格）',
+ 'runtime_wiring': 'none',
+ 'statement': '本契约逐格级裁定五级格的消费资格。资格分三档：'
+              'eligible（可作已审根位计资格）/ blocked（恒阻断，'
+              '不得计资格且携冲突语义）/ not_eligible（不计资格，'
+              '无冲突语义）。除 per_stem_listed 两格外，土根表无'
+              '任何格可计 eligible；此裁定对未来接入批有约束力，'
+              '接入批不得以排除法（仅排除 no_root 与 '
+              'conflicted_pending）机械推导资格。',
+ 'grade_contracts': [
+  {'grade': 'per_stem_listed',
+   'cells': ['戊×巳', '己×午'],
+   'count': 2,
+   'eligibility': 'eligible',
+   'anchor_type': 'per_stem_listed_heavy_root',
+   'statement': '禄位两格为已审重根（三重干级见证、定级不随土长'
+                '生分支）：未来谓词可按「已审根位」消费，锚点类'
+                '型恒为逐干明句重根（per_stem_listed），引用时须'
+                '随行标注等级，不得表述为推步或列举。仅限根位资'
+                '格一面；以之为日主根有效性（effective）消费时，'
+                '还须该形态自身的根有效性口径另行审定，本契约不'
+                '预授。'},
+  {'grade': 'framework_derived',
+   'cells': [],
+   'count': 0,
+   'eligibility': 'not_applicable_no_cells',
+   'anchor_type': None,
+   'statement': '本表推步重根为零格（帝旺四格全随分支待定，见 '
+                'DIWANG_DISPOSITION）：无任何格可以 '
+                'framework_derived 锚点消费；任何引用若把待定格'
+                '的分支内推步（如分支甲戊帝旺午）表述为已审根位，'
+                '即违反本契约。'},
+  {'grade': 'conflicted_pending',
+   'cells': ['戊×子', '戊×寅', '戊×午', '戊×申',
+             '己×子', '己×巳', '己×申', '己×酉'],
+   'count': 8,
+   'eligibility': 'blocked',
+   'anchor_type': None,
+   'statement': '待定八格恒阻断（沿 S1 对辛/癸待定格口径）：不得'
+                '计 eligible，不得取任一分支单独建模；消费方遇根'
+                '位于此八格须作冲突阻断（abstain/阻断该条件），直'
+                '至土长生 conflict 经用户级裁定处置。'},
+  {'grade': 'structural_present_ungraded',
+   'cells': ['戊×丑', '戊×辰', '戊×未', '戊×戌',
+             '己×丑', '己×辰', '己×未', '己×戌'],
+   'count': 8,
+   'eligibility': 'not_eligible_unreviewed',
+   'anchor_type': None,
+   'statement': '本批明确裁定：未分级即未审——结构存在（藏土事'
+                '实）不产生任何根资格，未分级八格不得计 '
+                'eligible、不得计轻根、不得计无根（is_heavy 恒 '
+                'None）。防误接条款：S2 现行资格规则的形状是「查'
+                '表 grade 非 no_root 且非 conflicted_pending 的格'
+                '位」（bazi_action_conditions.registered_eligible '
+                '对金/水表的实现）——若未来接入批把土根表机械代入'
+                '同一排除法，未分级八格会被误计为 eligible；本契'
+                '约明令禁止此种机械接入，接入批必须以格级白名单'
+                '（仅 per_stem_listed 两格）或等价的显式格级枚举'
+                '实现资格判定，并以专项测试钉住八格逐格不合。'
+                '未分级格的事实消费仅限结构存在记录（藏干事实层'
+                '引用），不升为资格。'},
+  {'grade': 'no_root',
+   'cells': ['戊×卯', '戊×酉', '戊×亥',
+             '己×寅', '己×卯', '己×亥'],
+   'count': 6,
+   'eligibility': 'not_eligible_no_root_fact',
+   'anchor_type': None,
+   'statement': '无根六格的消费口径为事实消费：可作「该干于该支'
+                '无根」的已审否定事实被引用（如形态的日根缺位事'
+                '实、反例推导），永不计资格；其否定性不携冲突语'
+                '义（与 blocked 档相区别），消费方无需因此 '
+                'abstain，只按无根事实处理。'}],
+ 'counts_check': {'cells': 24, 'eligible': 2, 'blocked': 8,
+                  'not_eligible': 14},
+ 'forbidden_integrations': [
+  '以排除法（非 no_root 且非 conflicted_pending）机械接入土根表',
+  '把 structural_present_ungraded 格计作轻根或 eligible',
+  '取土长生任一分支单独为待定格建模',
+  '把分支内推步帝旺位表述为 framework_derived 已审根位',
+  '以本契约或本表为据宣称土日主形态已解锁']}
+
+# 实际接入面审计（审定内容三）：逐项审计现行七谓词与 D-1 的条件
+# 是否真实消费「土根位」事实。审计方法：通读
+# bazi_action_conditions.action_effects 七 scope 的资格/根有效性计
+# 算路径与 bazi_pattern 的 D-1 组合函数，逐项登记土根位事实的进
+# 入点（无）与表面相似项的实性（元素名/藏干记录/司令事实）。
+CONSUMPTION_SURFACE_AUDIT_E0257 = {
+ 'event': 'E0257',
+ 'verdict': 'contract_ready_zero_runtime_consumption_zero_'
+            'verdict_surface_change',
+ 'statement': '现行七谓词与 D-1 无一消费土根位分级事实：土根表未'
+              '被任何运行时模块引用（源码钉住在案）。唯一与土相'
+              '关的资格面是 S2 两谓词共用的 registered_eligible '
+              '对土干的落空路径（土干查表为 None、落密封政策无土'
+              '集分支，恒无资格）——那是登记缺口在运行时留下的'
+              '否定面，不是土根位的消费；本批不改该函数，土显干'
+              '运行时仍恒不合。故本批登记为：契约已备、现行零接'
+              '入、零判定面变化。接入实现另批，须先满足 '
+              'FUTURE_INTEGRATION_PRECONDITIONS_E0257。',
+ 'surfaces': [
+  {'surface': 'pure_support（木×卯）/ pure_generating_support'
+              '（木×亥）',
+   'earth_root_consumption': 'none',
+   'basis': '资格集 eligible 只查密封政策 reviewed_root_'
+            'branches（无土集）；木日主下土显干为财（非生扶），'
+            'all_positions_support_only 先行否决，土根位资格从不'
+            '被咨询。土藏干同理为非生扶藏干、先行否决。'},
+  {'surface': 'isolated_control（木×酉孤控）',
+   'earth_root_consumption': 'none',
+   'basis': 'visible_earth_metal_only 是五行名域条件（显干五行属'
+            '土/金），消费的是五行归属事实、不是根位事实；月令 '
+            'principal 透干根资格查密封政策 eligible（月干辛属'
+            '金），不涉土根位。'},
+  {'surface': 'commanding_visible_support（丙×午）/ '
+              'lu_visible_support（丙×巳）',
+   'earth_root_consumption': 'none_recorded_fact_only',
+   'basis': '资格集 commanding_reviewed_roots 只覆写火集，其余'
+            '五行（含土）仍落密封政策（无土集）；丙日主下土显干'
+            '为食伤（非生扶），visible 层先行否决。土藏干（午中'
+            '己、巳中戊）只作记录事实（治理约定不否决/根位事实'
+            '层），不作资格、不计效——与 E0250 登记的格级指名'
+            '（巳藏戊=禄位重根格、午藏己=禄位重根格、寅藏戊=待'
+            '定格）相容但不消费其分级。日根有效性查丙根表，与土'
+            '根表无关。'},
+  {'surface': 'pure_support_metal（金×酉）',
+   'earth_root_consumption': 'none_negative_gap_only',
+   'basis': 'registered_eligible 对土干：_MW_ROOT_TABLES 无土干'
+            '条目（table=None），落密封政策 reviewed_root_'
+            'branches 的土集（不存在）分支，恒返回空——土显干恒'
+            '不合是登记未接入的运行时现状，本批维持。通道三陈'
+            '述已按复核订正（见 CHANNEL3_REVIEW_E0257）。此面是'
+            '未来接入批的唯一既有落点，接入规格见 '
+            'FUTURE_INTEGRATION_PRECONDITIONS_E0257。'},
+  {'surface': 'pure_generating_support_water（水×子）',
+   'earth_root_consumption': 'none',
+   'basis': '与金属形态共用 registered_eligible 函数，但水日主'
+            '下土显干为官杀（克），all_positions_support_only '
+            '先行否决，土资格面不可达；壬不可满足证明提及的根'
+            '位为庚（金根表），不涉土根表。'},
+  {'surface': 'D-1 任氏寅月真格（pattern_determination_ren_yin）',
+   'earth_root_consumption': 'none',
+   'basis': 'D-1 消费的是分日司令事实（寅月戊段司令）与透干事'
+            '实：司令属格局线藏干司事事实层，不是根分级事实；其'
+            '组合函数不引用土根表，true_false 三值与土根分级无'
+            '任何条件关联。寅藏戊的根格级（戊×寅 '
+            'conflicted_pending）不进入 D-1 任何一步。'}],
+ 'verdict_surface_proof': '本批变更文件只含登记模块（本模块与 '
+                          'bazi_metal_water_roots 的登记文本）、'
+                          '文档与测试；运行时实现文件（bazi_'
+                          'action_conditions.py、bazi_adjudication'
+                          '.py、bazi_strength.py、bazi_pattern.py）'
+                          '不在变更集内（公开测试以源码钉住其实'
+                          '现不引用土根表、且七谓词与 D-1 的既有专'
+                          '项测试全量回归不变证明判定面不变）。'}
+
+# 未来接入批前置条件清单：任一未满足，接入批不得开工或不得合并。
+FUTURE_INTEGRATION_PRECONDITIONS_E0257 = [
+ '资格实现必须格级白名单化：仅 per_stem_listed 两格（戊巳/己午）'
+ '可计 eligible；未分级八格逐格不合须有专项测试钉住（防排除法误'
+ '计，见 EARTH_CONSUMPTION_CONTRACT 防误接条款）。',
+ '待定八格恒阻断：接入实现不得为待定格设任何分支回退路径；土长'
+ '生 conflict 处置（用户级流派裁定）不在接入批权力内。',
+ '土日主 principal 未审：辰戌丑未四季月 principal 关系未审（S1 '
+ '未覆盖清单在案）——以土为日主的任何形态在 principal 审定前不'
+ '可建，本契约不预授。',
+ '藏干根位资格消费口径未审：F34 EARTH_ROOT_INTERFACE pending 第 '
+ '2 项维持 pending——消费藏干根位资格（而非显干资格）的形态须先'
+ '专项审定该口径，不得以本契约的显干资格面类推。',
+ '根有效性（effective）口径未审：本契约只裁定根位资格 '
+ '（eligible）面；日根 effective 判定（如 register_effective 形'
+ '式向土干推广）须另行审定重/轻与冲突触及口径。',
+ '接入批须带真实命盘 Golden 四类（正例/对照/未知/冲突）复证接'
+ '入后的判定面变化面，且变化面必须与接入规格逐项对账；本批的'
+ '零变化证明不得被接入批沿用为其变化证明。',
+ '密封 Phase1/Phase2 注册：土根消费若进入裁决出口，注册治理另按'
+ 'S5 形制处理，pending 披露不得省略。']
+
+EARTH_CONTRACT_NOTES_E0257 = [
+ 'C1 本批性质：消费契约审定批，允许零新判定且实测零新判定——交'
+ '付的是契约、复核与审计登记，不是接入实现；接入实现另批。',
+ 'C2 通道三订正是本批唯一改动既有登记文本处：其原前提（土根零'
+ '登记）已被 E0250 推翻，继续保留原文本即登记与事实不符；订正'
+ '严格限于通道三及其 limitations 引用句，通道一、二与结论文本'
+ '未动。',
+ 'C3 未分级格裁定是本批唯一的资格新裁定（E0250 留给接入批的前'
+ '置问题）：未分级即未审、不得计 eligible。此裁定收紧而非放宽'
+ '资格面，不产生任何新判定。',
+ 'C4 本批不处理：接入实现、土长生 conflict 裁定、土轻根分级、'
+ '藏干资格口径、四季月 principal、F4 扩月裁定、018-F/G/H。']

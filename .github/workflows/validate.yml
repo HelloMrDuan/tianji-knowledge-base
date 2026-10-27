@@ -400,6 +400,18 @@ jobs:
       # test_tj0112_earth_roots_sealed.py (offline acceptance only,
       # NOT public CI).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0112_earth_roots.py' -v
+      # TJ-011.2 earth-root consumption contract (E0257) public
+      # contracts: per-grade consumption contract covering exactly
+      # the 24 registered cells (only the two Lu cells eligible,
+      # conflicted cells blocked, ungraded cells adjudicated not
+      # eligible with the anti-mechanical-integration clause), the
+      # S2 channel-three review (channels one/two and the
+      # unrealizable conclusion unchanged, channel three restated),
+      # the seven-predicate + D-1 surface audit at zero consumption,
+      # and zero runtime wiring. Sealed-policy checks live in
+      # test_tj0112_earth_consumption_contract_sealed.py (offline
+      # acceptance only, NOT public CI).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0112_earth_consumption_contract.py' -v
       # TJ-013.1 S4 fuyi minimal-slice adjudication public contracts:
       # pure-data adjudication register mirrored against Golden, the
       # verdict pinned at zero buildable rows with no Variant spec
