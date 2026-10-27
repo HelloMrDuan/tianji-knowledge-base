@@ -113,10 +113,10 @@ F34_ADJUDICATION_REGISTER = {
     'source_snapshot': {
         'name': 'daizhigev20',
         'ditiansui_sha256':
-            '6a875a3149abc35a41b1853e2bcca0b557acacb728b32d6ac01af6e11593ff26',
+            '6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795',
         'ditiansui_chars': 139538,
         'sanming_sha256':
-            '00e2a7dbcd5d43ee6d51c6993acaa7fdad9ad46af64ba09f794bda2400b11b51',
+            '00e2a7db8bb59b259b99938033bb1bb77947e04a15dafc111e62b59378010c86',
         'sanming_chars': 461157,
     },
     'authority': (
