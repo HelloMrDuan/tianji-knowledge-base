@@ -1,0 +1,744 @@
+{
+ "meta": {
+  "registration_id": "bazi-yuanhai-zhengguan-registration-v1",
+  "task": "TJ-012.3 Slice D prerequisite (yuanhai zhengguan group registration)",
+  "mirror_of": "src/tianji_kb/bazi_yuanhai_zhengguan.py",
+  "note": "Full mirror of the registration module constants; public tests assert equality."
+ },
+ "snapshot": {
+  "file": "yuanhai_ziping.txt",
+  "snapshot_path": "data/quarantine/public_domain_snapshots/daizhigev20/yuanhai_ziping.txt",
+  "sha256": "c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9",
+  "bytes": 154655,
+  "chars": 58905
+ },
+ "sections": [
+  {
+   "section_id": "yuanhai.zhengguan",
+   "title": "正官论",
+   "source_id": "bazi.source.yuanhai",
+   "locator": {
+    "char_start": 9703,
+    "char_end": 10321
+   },
+   "registration_mode": "full_section",
+   "full_text": "《正 官 论》\n 夫正官者,甲见辛之类;乃阴见阳为官,阳见阴为鬼,阴阳配合成其道也。\n 大抵要行官旺乡,月令是也。月令者,提纲也。看命先看提纲,方看其餘。\n 既曰正官,运复行得官旺之乡、或是有成局;又行不得伤官之地,并金财旺之乡,皆是作福之处。\n 正官乃贵气之物,大忌刑冲破害;及于年月时干,皆有官星隐露,恐福渺矣!又须看年时上别有是何入格?作福去处,?方可断其吉凶。\n 茍一途而执取之,则不能通变,必有差之毫釐,谬以千里之患,经曰:『通变以为神者』是也。\n 正官或多,反不为福。何以言之?盖人之命,宜得中和之气,太过与不及同;中和之气为福厚,偏党之剋为灾殃。\n 既用提纲作正官,年时支干位,或有一偏官便杂矣!不可不仔细以轻重推测也。\n 又曰,于月令得之是也,喜身旺、印綬。\n 如甲用辛官,喜土生官;最怕刑冲破害、阳刃七杀,为贫命;如时干逢杀,乃官杀混杂。盖四柱有刑冲破害,皆未为贵命看。\n 官来剋我,我去剋官不为害。\n 一位若两官不妨。\n 若月令中有正官,时干支有偏官,便难以正官言之。\n 且如甲用辛为官,生于八月中气之后,金旺在酉,故谓之正官;如天干不透出辛字,却地支有巳酉丑,虽不能于八月中气之后,亦可言官。大要身旺,时辰归于甲木旺处。\n 如岁时透出正官,地支又有官格,却不拘八月中气之后。\n 大率官星须得印綬、身旺则发;若无伤官破印,身不弱者便为贵命。\n 如命中有官星,而行伤官之运,则不吉;必待印綬、官星旺运可发,必得官。\n ",
+   "note": "整节登记（618 字）。节内 3 处半角 ? 占位逐处登记（yh-gap-01..03），全文逐字保留、不补字。"
+  },
+  {
+   "section_id": "yuanhai.guansha_hunza",
+   "title": "论官杀混杂要制伏",
+   "source_id": "bazi.source.yuanhai",
+   "locator": {
+    "char_start": 12400,
+    "char_end": 12506
+   },
+   "registration_mode": "full_section",
+   "full_text": "《论 官 杀 混 杂 要 制 伏》\n 官星要纯,不要杂。\n 假如甲木用辛金为官,若年是辛,月是酉,时上亦是死官,虽多儘不妨,盖纯一儘好;若有金或庚申,则混杂为杀,以伤其身。要行火乡制伏,则发福也。餘倣此也。\n \n",
+   "note": "整节登记（106 字）。复审订正节界：本节终于 12506，印綬论自 12506 起（总裁定附表曾合并标注 [12400,13494)）。"
+  },
+  {
+   "section_id": "yuanhai.yinshou",
+   "title": "论印綬",
+   "source_id": "bazi.source.yuanhai",
+   "locator": {
+    "char_start": 12506,
+    "char_end": 13494
+   },
+   "registration_mode": "relevant_windows_only",
+   "full_text": null,
+   "note": "本批只登记与正官/官杀论述直接相关的 7 个新窗口；节题缺《字（yh-glyph-02）；节内 2 处半角 ? 占位逐处登记（yh-gap-04/05）；未登记段落逐段登记于 YINSHOU_SKIPPED_WINDOWS 并注明理由；既有 s057/s058/s059 为在册窗口，不重复登记。"
+  }
+ ],
+ "quotes": [
+  {
+   "id": "yh.zg_definition",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengguan",
+   "role": "definition",
+   "quote": "夫正官者,甲见辛之类;乃阴见阳为官,阳见阴为鬼,阴阳配合成其道也。",
+   "locator": {
+    "char_start": 9712,
+    "char_end": 9745
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "正官定义句（阴见阳为官、阳见阴为鬼）：十神定义，非成格/破格条件，不经旺衰转手，亦不单独构成可执行条件。"
+  },
+  {
+   "id": "yh.zg_seat",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengguan",
+   "role": "seat_procedure",
+   "quote": "大抵要行官旺乡,月令是也。月令者,提纲也。看命先看提纲,方看其餘。",
+   "locator": {
+    "char_start": 9747,
+    "char_end": 9780
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "提纲取格定位句（月令是也、看命先看提纲）：程序性观察，非条件句；「官旺乡」指月令座位，不以身旺裁定为前置。"
+  },
+  {
+   "id": "yh.zg_luck_observation",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengguan",
+   "role": "luck_observation",
+   "quote": "既曰正官,运复行得官旺之乡、或是有成局;又行不得伤官之地,并金财旺之乡,皆是作福之处。",
+   "locator": {
+    "char_start": 9782,
+    "char_end": 9825
+   },
+   "operative": false,
+   "routed_through_strength": false,
+   "note": "行运作福断语（行得官旺之乡、不得伤官之地、并金财旺之乡皆是作福之处）：行运吉凶陈述，不作裁定；不以身旺/轻重为转手，但本身即断语，无可执行条件形。"
+  },
+  {
+   "id": "yh.zg_taboo_xingchong",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengguan",
+   "role": "operative_candidate",
+   "quote": "正官乃贵气之物,大忌刑冲破害",
+   "locator": {
+    "char_start": 9827,
+    "char_end": 9841
+   },
+   "operative": true,
+   "routed_through_strength": false,
+   "routed_through_other": [
+    "三刑/刑冲破害事实层未建成（018-B 只登记三命文本，Phase2 无三刑规则）"
+   ],
+   "note": "破格侧忌句：转手对象是缺失的三刑/刑冲破害事实层，不是身旺/轻重；事实层建成前不可执行。"
+  },
+  {
+   "id": "yh.zg_tongbian",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengguan",
+   "role": "caveat",
+   "quote": "茍一途而执取之,则不能通变,必有差之毫釐,谬以千里之患,经曰:『通变以为神者』是也。",
+   "locator": {
+    "char_start": 9889,
+    "char_end": 9931
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "glyph_refs": [
+    "yh-glyph-01"
+   ],
+   "note": "通变告诫句（茍一途而执取之则不能通变）：方法论告诫，非条件句。首字「茍」为异体字形，见字形登记 yh-glyph-01。"
+  },
+  {
+   "id": "yh.zg_duo",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengguan",
+   "role": "operative_candidate",
+   "quote": "正官或多,反不为福。",
+   "locator": {
+    "char_start": 9933,
+    "char_end": 9943
+   },
+   "operative": true,
+   "routed_through_strength": true,
+   "note": "「正官或多，反不为福」：其判据即同段中和句（太过与不及同），经轻重类裁定转手，无阈值；与 yh.zg_zhonghe 同组登记。"
+  },
+  {
+   "id": "yh.zg_zhonghe",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengguan",
+   "role": "operative_candidate",
+   "quote": "盖人之命,宜得中和之气,太过与不及同;中和之气为福厚,偏党之剋为灾殃。",
+   "locator": {
+    "char_start": 9948,
+    "char_end": 9983
+   },
+   "operative": true,
+   "routed_through_strength": true,
+   "note": "中和 doctrine：以太过/不及（轻重类整体平衡判断）为据，无可执行阈值；经身旺/轻重转手。"
+  },
+  {
+   "id": "yh.zg_qingzhong",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengguan",
+   "role": "operative_candidate",
+   "quote": "既用提纲作正官,年时支干位,或有一偏官便杂矣!不可不仔细以轻重推测也。",
+   "locator": {
+    "char_start": 9985,
+    "char_end": 10020
+   },
+   "operative": true,
+   "routed_through_strength": true,
+   "note": "原文自带「不可不仔细以轻重推测也」：偏官便杂的判断明文经轻重推测转手，本批逐字登记为转手证据之首。"
+  },
+  {
+   "id": "yh.zg_xi_shenwang",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengguan",
+   "role": "operative_candidate",
+   "quote": "又曰,于月令得之是也,喜身旺、印綬。",
+   "locator": {
+    "char_start": 10022,
+    "char_end": 10040
+   },
+   "operative": true,
+   "routed_through_strength": true,
+   "note": "「于月令得之是也，喜身旺、印綬」：成格侧喜身旺明文，经身旺转手；一般旺衰不存在，不可执行。"
+  },
+  {
+   "id": "yh.zg_jia_mixed",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengguan",
+   "role": "operative_candidate",
+   "quote": "如甲用辛官,喜土生官;最怕刑冲破害、阳刃七杀,为贫命;如时干逢杀,乃官杀混杂。盖四柱有刑冲破害,皆未为贵命看。",
+   "locator": {
+    "char_start": 10042,
+    "char_end": 10097
+   },
+   "operative": true,
+   "routed_through_strength": false,
+   "routed_through_other": [
+    "刑冲破害事实层未建成",
+    "贵命整体判断（为贫命/未为贵命看）未裁定"
+   ],
+   "note": "甲例混合句：喜土生官为生关系观察；最怕刑冲破害、阳刃七杀经三刑事实层转手；如时干逢杀乃官杀混杂为构成观察（与《论官杀混杂要制伏》同题）。整体不经身旺单项转手，但经事实层与整体判断转手，不可执行。"
+  },
+  {
+   "id": "yh.zg_relation",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengguan",
+   "role": "relation_observation",
+   "quote": "官来剋我,我去剋官不为害。",
+   "locator": {
+    "char_start": 10099,
+    "char_end": 10112
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "官我相剋关系观察句，非条件句。"
+  },
+  {
+   "id": "yh.zg_two_officials",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengguan",
+   "role": "composition_observation",
+   "quote": "一位若两官不妨。",
+   "locator": {
+    "char_start": 10114,
+    "char_end": 10122
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "「一位若两官不妨」：纯/杂构成观察，与《论官杀混杂要制伏》「纯一儘好」同旨；非条件句。"
+  },
+  {
+   "id": "yh.zg_example_extension",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengguan",
+   "role": "positional_observation",
+   "quote": "如岁时透出正官,地支又有官格,却不拘八月中气之后。",
+   "locator": {
+    "char_start": 10226,
+    "char_end": 10251
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "s056 例的延伸观察（岁时透官、地支有官格则不拘中气之后）：位置观察，本身不带旺衰条件；其所属例的「大要身旺」在 s056 登记内。"
+  },
+  {
+   "id": "yh.zg_shenwang_fa",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengguan",
+   "role": "operative_candidate",
+   "quote": "大率官星须得印綬、身旺则发;若无伤官破印,身不弱者便为贵命。",
+   "locator": {
+    "char_start": 10253,
+    "char_end": 10283
+   },
+   "operative": true,
+   "routed_through_strength": true,
+   "note": "「大率官星须得印綬、身旺则发;若无伤官破印,身不弱者便为贵命」：身旺则发、身不弱双明文，成格侧经身旺转手的典型句；一般旺衰不存在，不可执行。"
+  },
+  {
+   "id": "yh.zg_luck_shangguan",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengguan",
+   "role": "luck_observation",
+   "quote": "如命中有官星,而行伤官之运,则不吉;必待印綬、官星旺运可发,必得官。",
+   "locator": {
+    "char_start": 10285,
+    "char_end": 10319
+   },
+   "operative": false,
+   "routed_through_strength": true,
+   "note": "行运断语（行伤官运不吉、必待印綬官星旺运可发）：以「官星旺运」为条件，经旺衰类判断转手，且「必得官」为吉凶断语，不作裁定。"
+  },
+  {
+   "id": "yh.gs_purity",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.guansha_hunza",
+   "role": "composition_doctrine",
+   "quote": "官星要纯,不要杂。",
+   "locator": {
+    "char_start": 12419,
+    "char_end": 12428
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "「官星要纯，不要杂」：纯/杂构成 doctrine 句，非条件形；纯杂由构成事实观察，不经旺衰。"
+  },
+  {
+   "id": "yh.gs_example_zhifu",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.guansha_hunza",
+   "role": "operative_candidate",
+   "quote": "假如甲木用辛金为官,若年是辛,月是酉,时上亦是死官,虽多儘不妨,盖纯一儘好;若有金或庚申,则混杂为杀,以伤其身。要行火乡制伏,则发福也。餘倣此也。",
+   "locator": {
+    "char_start": 12430,
+    "char_end": 12503
+   },
+   "operative": true,
+   "routed_through_strength": false,
+   "routed_through_other": [
+    "制伏效力未裁定（Phase2 action_effects 无制伏裁定）"
+   ],
+   "glyph_refs": [
+    "yh-glyph-03"
+   ],
+   "note": "甲例：纯一儘好为构成观察；「若有庚申则混杂为杀」为构成判断；救应「要行火乡制伏，则发福」经制伏效力转手，效力未裁定，不可执行。「死官」语义存疑见字形登记 yh-glyph-03。"
+  },
+  {
+   "id": "yh.ys_jingyue",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.yinshou",
+   "role": "doctrine_citation",
+   "quote": "即印綬也,经曰:『有官无印,即非真官;有印无官,反成其福。』",
+   "locator": {
+    "char_start": 12523,
+    "char_end": 12553
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "经曰官印关系句（有官无印即非真官、有印无官反成其福）：doctrine 引文，无条件形；窗口起于「即印綬也」以避开同句缺字位点 12518（见缺字登记 yh-gap-04）。"
+  },
+  {
+   "id": "yh.ys_guangui_sheng",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.yinshou",
+   "role": "doctrine_observation",
+   "quote": "盖印綬畏财,主人括囊。故四柱中及运行官贵,反成其福,盖官鬼能生我;只畏其财,而财能反伤我。",
+   "locator": {
+    "char_start": 12599,
+    "char_end": 12644
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "「盖官鬼能生我」：官生印的生关系 doctrine，与 s057「喜官星生印」同旨；同段畏财口径已由 s057 登记覆盖，本窗只登记官生印一面，不重复立论。"
+  },
+  {
+   "id": "yh.ys_guangui_duo_yanzhi",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.yinshou",
+   "role": "indeterminate_observation",
+   "quote": "虽喜官鬼,而官鬼多或入格,又不可专以印綬言之。",
+   "locator": {
+    "char_start": 12721,
+    "char_end": 12744
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "官鬼多/入格告诫（言之形）：与 s058（论形）同文异字两述，逐处定位、不合并引文；既有 s057/s058 的 indeterminate 编码口径不变。"
+  },
+  {
+   "id": "yh.ys_guanyin_liangquan",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.yinshou",
+   "role": "fortune_claim",
+   "quote": "如带印綬,须带官星,谓之官印两全,必为贵命。若官星虽见成,得父母力,为福亦厚也;须行官星运便发,或行印綬运亦发。",
+   "locator": {
+    "char_start": 13112,
+    "char_end": 13168
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "「谓之官印两全，必为贵命」：贵命断语，无条件形、不作裁定；只登记官印两全名目与原文断语的存在。"
+  },
+  {
+   "id": "yh.ys_yongguan_buxian",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.yinshou",
+   "role": "positional_observation",
+   "quote": "若用官不显,用印綬为妙;最怕四柱中岁运临财乡,以伤其印。",
+   "locator": {
+    "char_start": 13170,
+    "char_end": 13198
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "「若用官不显，用印綬为妙」：用官不显为位置观察（官不透显）；后半岁运临财乡伤印为印侧告诫。非成格条件。"
+  },
+  {
+   "id": "yh.ys_example_guanyin_1",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.yinshou",
+   "role": "worked_example",
+   "quote": "如【戊戌,庚申,癸酉,庚申】:此命癸日生于七月中气之后,月时皆是庚申,自坐金库,所以印綬;岁干又透出戊官,谓之官印两全,极为贵命。",
+   "locator": {
+    "char_start": 13234,
+    "char_end": 13299
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "官印两全例造（戊戌/庚申/癸酉/庚申）：例造为 doctrine 应用见证，非规则；逐字登记，不据例造反推条件。"
+  },
+  {
+   "id": "yh.ys_example_guanyin_2",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.yinshou",
+   "role": "worked_example",
+   "quote": "如【己卯,丁卯,丙辰,壬辰】:此命用卯为印,用癸为官,年在卯日在辰,所以官印两全,少年清要。至四十二、三岁,癸亥运亦不妨;至庚申年,水七杀生于申,乃被庚申破印,故不吉也。",
+   "locator": {
+    "char_start": 13407,
+    "char_end": 13492
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "官印两全例造（己卯/丁卯/丙辰/壬辰），含庚申年七杀破印叙事：例造见证，非规则；七杀破印为叙事陈述，不作效力裁定。"
+  }
+ ],
+ "context_quotes": [
+  {
+   "id": "yh.ctx_zg_guanshi_para",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengguan",
+   "role": "gap_bearing_context",
+   "quote": "正官乃贵气之物,大忌刑冲破害;及于年月时干,皆有官星隐露,恐福渺矣!又须看年时上别有是何入格?作福去处,?方可断其吉凶。",
+   "locator": {
+    "char_start": 9827,
+    "char_end": 9887
+   },
+   "contains_gap_positions": [
+    9873,
+    9879
+   ],
+   "not_for_operative_reading": true,
+   "note": "整段含缺字位点 9873、9879（见缺字登记 yh-gap-01/02）：含缺字的「又须看年时上别有是何入格?作福去处,?方可断其吉凶」整句不作引文读法依据；段首「正官乃贵气之物,大忌刑冲破害」已另行登记为 yh.zg_taboo_xingchong。"
+  },
+  {
+   "id": "yh.ctx_zg_duo_para",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengguan",
+   "role": "gap_bearing_context",
+   "quote": "正官或多,反不为福。何以言之?盖人之命,宜得中和之气,太过与不及同;中和之气为福厚,偏党之剋为灾殃。",
+   "locator": {
+    "char_start": 9933,
+    "char_end": 9983
+   },
+   "contains_gap_positions": [
+    9947
+   ],
+   "not_for_operative_reading": true,
+   "note": "整段含缺字位点 9947（「何以言之?」衔接处，见 yh-gap-03）：衔接分句不作读法依据；段内两处可操作引文 yh.zg_duo、yh.zg_zhonghe 的窗口均避开该位点。"
+  }
+ ],
+ "gap_register": [
+  {
+   "id": "yh-gap-01",
+   "position": 9873,
+   "char": "?",
+   "source_section_id": "yuanhai.zhengguan",
+   "context": "又须看年时上别有是何入格?作福去处,?方可断其吉凶。",
+   "context_locator": {
+    "char_start": 9861,
+    "char_end": 9887
+   },
+   "status": "placeholder_unresolved",
+   "reading": null,
+   "note": "半角 ? 占位：位于「入格」之后、「作福去处」之前一句内。本批登记为转写缺字未决：原文保留 ?、不猜填；所在整句不作引文读法依据。"
+  },
+  {
+   "id": "yh-gap-02",
+   "position": 9879,
+   "char": "?",
+   "source_section_id": "yuanhai.zhengguan",
+   "context": "又须看年时上别有是何入格?作福去处,?方可断其吉凶。",
+   "context_locator": {
+    "char_start": 9861,
+    "char_end": 9887
+   },
+   "status": "placeholder_unresolved",
+   "reading": null,
+   "note": "半角 ? 占位：位于「作福去处,」之后、「方可断其吉凶」之前，句中孤立占位。与 yh-gap-01 同句；整句不作引文读法依据，不猜填。"
+  },
+  {
+   "id": "yh-gap-03",
+   "position": 9947,
+   "char": "?",
+   "source_section_id": "yuanhai.zhengguan",
+   "context": "何以言之?",
+   "context_locator": {
+    "char_start": 9943,
+    "char_end": 9948
+   },
+   "status": "placeholder_unresolved",
+   "reading": null,
+   "note": "半角 ? 占位：位于「何以言之」之后、「盖人之命」之前。字面位置可读作问号标点，但本批按缺字未决统一登记（性质未决、两读并存），不猜填、不据以断句；同段引文窗口均避开此位点。"
+  },
+  {
+   "id": "yh-gap-04",
+   "position": 12518,
+   "char": "?",
+   "source_section_id": "yuanhai.yinshou",
+   "context": "所谓印?生我者",
+   "context_locator": {
+    "char_start": 12515,
+    "char_end": 12522
+   },
+   "status": "placeholder_unresolved",
+   "reading": null,
+   "note": "半角 ? 占位：位于「所谓印」之后、「生我者」之前，句中确有缺字形态。原文保留 ?、不猜填；本批登记的经曰窗口 yh.ys_jingyue 起于其后「即印綬也」，避开此位点。"
+  },
+  {
+   "id": "yh-gap-05",
+   "position": 12557,
+   "char": "?",
+   "source_section_id": "yuanhai.yinshou",
+   "context": "何以言之?",
+   "context_locator": {
+    "char_start": 12553,
+    "char_end": 12558
+   },
+   "status": "placeholder_unresolved",
+   "reading": null,
+   "note": "半角 ? 占位：位于「何以言之」之后、「大抵人生得物」之前。与 yh-gap-03 同型，按缺字未决统一登记，不猜填、不据以断句。"
+  }
+ ],
+ "glyph_notes": [
+  {
+   "id": "yh-glyph-01",
+   "position": 9889,
+   "char": "茍",
+   "source_section_id": "yuanhai.zhengguan",
+   "status": "variant_form_preserved",
+   "mapped_reading": null,
+   "note": "「茍一途而执取之」之「茍」为「苟」的异体字形，快照转写原样保留；本批无见证校勘，不给 mapped_reading、不径改。"
+  },
+  {
+   "id": "yh-glyph-02",
+   "position": 12506,
+   "char": "论",
+   "source_section_id": "yuanhai.yinshou",
+   "status": "title_defect_recorded_as_is",
+   "mapped_reading": null,
+   "note": "《论印綬》节题行在快照中作「论 印 綬》 」（[12506,12512) 为「论 印 綬》」），缺开首「《」字，为传本/转写节题缺陷；按原样注记登记，不补字、不影响正文引用。"
+  },
+  {
+   "id": "yh-glyph-03",
+   "position": 12453,
+   "char": "死",
+   "source_section_id": "yuanhai.guansha_hunza",
+   "status": "semantic_doubt_preserved",
+   "mapped_reading": null,
+   "note": "「时上亦是死官」之「死官」：同段上文皆言正官/官星，此处语义存疑；无见证互校，不径改、不给 mapped_reading，逐字保留并标记存疑。"
+  },
+  {
+   "id": "yh-glyph-04",
+   "position": 12721,
+   "char": null,
+   "source_section_id": "yuanhai.yinshou",
+   "status": "duplicate_forms_registered_separately",
+   "mapped_reading": null,
+   "note": "同节同文异字两述：「虽喜官鬼,而官鬼多或入格,又不可专以印綬言之」[12721,12744) 与「若官鬼多,或入别格,又不可专以印綬论」[13012,13031)（s058）——言之/论两形并存，逐处定位登记，不合并引文、不互相替代。"
+  }
+ ],
+ "legacy_windows": [
+  {
+   "id": "yh.legacy_s055",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "bazi.section.s055",
+   "role": "restriction_observation",
+   "quote": "若月令中有正官,时干支有偏官,便难以正官言之。",
+   "locator": {
+    "char_start": 10124,
+    "char_end": 10147
+   },
+   "pre_existing": true,
+   "routed_through_strength": false,
+   "note": "既有登记：月令正官而时干支有偏官的限制观察，已编码于 bazi_pattern（yuanhai_hour_killing_restriction），为限制观察而非破格裁定句；本批整节登记不改变其语义。"
+  },
+  {
+   "id": "yh.legacy_s056",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "bazi.section.s056",
+   "role": "worked_example",
+   "quote": "且如甲用辛为官,生于八月中气之后,金旺在酉,故谓之正官;如天干不透出辛字,却地支有巳酉丑,虽不能于八月中气之后,亦可言官。大要身旺,时辰归于甲木旺处。",
+   "locator": {
+    "char_start": 10149,
+    "char_end": 10224
+   },
+   "pre_existing": true,
+   "routed_through_strength": true,
+   "note": "既有登记：甲/酉正官例（天干不透辛、地支巳酉丑亦可言官），例中「大要身旺」明文经身旺转手；本批不改变其语义。"
+  },
+  {
+   "id": "yh.legacy_s057",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "bazi.section.s057",
+   "role": "definition_and_indeterminate_observation",
+   "quote": "夫印綬者,生我之谓也,亦名生气。以阳见阴,以阴见阳,谓之正印;阳见阳,阴见阴,谓之偏印。喜官星生印,忌财旺破印。",
+   "locator": {
+    "char_start": 12841,
+    "char_end": 12897
+   },
+   "pre_existing": true,
+   "routed_through_strength": true,
+   "note": "既有登记：印綬定义（正印/偏印）与「喜官星生印,忌财旺破印」观察；其中「财旺」为强度判断，既有编码为 indeterminate，本批不改变其语义。"
+  },
+  {
+   "id": "yh.legacy_s058",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "bazi.section.s058",
+   "role": "indeterminate_observation",
+   "quote": "若官鬼多,或入别格,又不可专以印綬论。",
+   "locator": {
+    "char_start": 13012,
+    "char_end": 13031
+   },
+   "pre_existing": true,
+   "routed_through_strength": false,
+   "note": "既有登记：官鬼多/入别格则不可专以印綬论的 indeterminate 观察；与本批新登记的言之形 [12721,12744) 逐处并存、不合并。"
+  },
+  {
+   "id": "yh.legacy_s059",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "bazi.section.s059",
+   "role": "month_enumeration",
+   "quote": "假如,甲乙日得亥子月生,丙丁日得寅卯月生,戊己日得巳午月生,庚辛日得辰戌丑未月生,壬癸日得申酉月生者是也,其餘以类言之。",
+   "locator": {
+    "char_start": 12746,
+    "char_end": 12806
+   },
+   "pre_existing": true,
+   "routed_through_strength": null,
+   "note": "既有登记：月令生我五组有限列举（印綬月例），为列举而非成格条件集；本批不改变其语义。"
+  }
+ ],
+ "yinshou_skipped_windows": [
+  {
+   "locator": {
+    "char_start": 12646,
+    "char_end": 12692
+   },
+   "source_section_id": "yuanhai.yinshou",
+   "reason": "父母之荫、见成安享与相併多者为上：非正官/官杀论述，不扩。"
+  },
+  {
+   "locator": {
+    "char_start": 12694,
+    "char_end": 12705
+   },
+   "source_section_id": "yuanhai.yinshou",
+   "reason": "一生少病、能饮食：非正官/官杀论述，不扩。"
+  },
+  {
+   "locator": {
+    "char_start": 12707,
+    "char_end": 12719
+   },
+   "source_section_id": "yuanhai.yinshou",
+   "reason": "财多乘旺淹留：财侧论述，非正官/官杀论述，不扩。"
+  },
+  {
+   "locator": {
+    "char_start": 12806,
+    "char_end": 12839
+   },
+   "source_section_id": "yuanhai.yinshou",
+   "reason": "与 s059 [12746,12806) 同段之后半：「最怕行印綬死绝之运」为印綬死绝运论述，非正官/官杀论述，不扩（s059 部分已登记在册，不在跳过之列）。"
+  },
+  {
+   "locator": {
+    "char_start": 12899,
+    "char_end": 12954
+   },
+   "source_section_id": "yuanhai.yinshou",
+   "reason": "印綬自身行运（忌火伤官、忌土破印以印为主语）：印侧操作句，非正官/官杀论述，不扩。"
+  },
+  {
+   "locator": {
+    "char_start": 12956,
+    "char_end": 12996
+   },
+   "source_section_id": "yuanhai.yinshou",
+   "reason": "印綬之人品象与相併多者取之：非正官/官杀论述，不扩。"
+  },
+  {
+   "locator": {
+    "char_start": 12998,
+    "char_end": 13010
+   },
+   "source_section_id": "yuanhai.yinshou",
+   "reason": "财来乘旺淹滞：财侧论述，不扩。"
+  },
+  {
+   "locator": {
+    "char_start": 13033,
+    "char_end": 13052
+   },
+   "source_section_id": "yuanhai.yinshou",
+   "reason": "月与时上见者位置通论：非正官/官杀论述，不扩。"
+  },
+  {
+   "locator": {
+    "char_start": 13054,
+    "char_end": 13110
+   },
+   "source_section_id": "yuanhai.yinshou",
+   "reason": "生气三力（父母/祖宗/子孙之力）：非正官/官杀论述，不扩。"
+  },
+  {
+   "locator": {
+    "char_start": 13200,
+    "char_end": 13232
+   },
+   "source_section_id": "yuanhai.yinshou",
+   "reason": "伤印后果（破家离祖等）：印侧后果陈述，非正官/官杀论述，不扩。"
+  },
+  {
+   "locator": {
+    "char_start": 13301,
+    "char_end": 13340
+   },
+   "source_section_id": "yuanhai.yinshou",
+   "reason": "例造（印旺、无财星相助）：非官印例，不扩。"
+  },
+  {
+   "locator": {
+    "char_start": 13342,
+    "char_end": 13405
+   },
+   "source_section_id": "yuanhai.yinshou",
+   "reason": "例造（财能冲印、失明）：财印例，非正官/官杀论述，不扩。"
+  }
+ ],
+ "routing_review": {
+  "scope": "正官论 + 论官杀混杂要制伏 + 既有 s056 中全部 operative=True 引文逐条",
+  "conclusion_consistent_with_readiness": "成格侧可操作句全部经身旺/轻重转手：yh.zg_qingzhong（原文自带「轻重推测」）、yh.zg_xi_shenwang（喜身旺）、yh.zg_shenwang_fa（身旺则发、身不弱双明文）、yh.zg_duo + yh.zg_zhonghe（中和/太过不及）、yh.legacy_s056（大要身旺）——一般旺衰不存在，正官格成格侧今天一条也执行不了，与复审结论一致。",
+  "refinement_disclosed": "复审 §1.3「正官论每一条可操作句都经过身旺/轻重转手」的概括，在破格侧两句与制伏句上不精确：yh.zg_taboo_xingchong（大忌刑冲破害）经转手的是未建成的三刑/刑冲破害事实层；yh.zg_jia_mixed（最怕刑冲破害、阳刃七杀，为贫命/未为贵命看）经事实层与贵命整体判断转手；yh.gs_example_zhifu（要行火乡制伏）经未裁定的制伏效力层转手。三者均非身旺/轻重本身。此细化与复审 §2.1 逐格表（破格侧缺口为刑事实缺失、制伏效力未裁定）一致；本批逐句登记以逐句复核为准，特此明示。",
+  "non_operative_excluded": "定义句、提纲定位句、构成观察、行运断语、贵命断语、例造已分别标注 operative=False，不计入可操作句集合；其中行运/贵命断语本身即不可执行的吉凶陈述，只登记存在、不作裁定。",
+  "determination_consequence": "本批登记后正官格 determination 仍为 None：成格侧缺一般旺衰，破格侧缺三刑事实层与制伏效力层，登记只补齐成对审定的材料。"
+ },
+ "notes": [
+  "R1 登记≠可裁定：本批为纯证据登记，仓库内不存在任何正官格 determination 代码路径；bazi_pattern 的 candidates、pattern_route、pattern_zaqi、pattern_determination_ren_yin 输出逐字不变。",
+  "R2 缺字对账：三节范围内半角 ? 共 5 处（正官论 3、官杀混杂 0、印綬论 2），与缺字登记 5 条逐位对账（密封专项以快照切片复核）；全书 ? 共 36 处，其余 31 处不在本批三节范围，未登记、未处理。",
+  "R3 既有登记回归：s055–s059 五窗逐字登记于 YUANHAI_LEGACY_WINDOWS，密封专项对快照切片逐字复核；本批不改动其任何既有编码语义（s055 restriction、s057/s058 indeterminate 口径不变）。",
+  "R4 引文窗口纪律：全部 operative 引文与 doctrine 引文的窗口均不含 ? 字符；含缺字的整段只以 context 形登记并标 not_for_operative_reading。",
+  "R5 印綬扩窗纪律：只扩与正官/官杀论述直接相关的窗口；每窗理由在引文 note 内，跳过的 12 段逐段登记理由，不整节吞入。",
+  "R6 来源普查不变：渊海 Source 仍为既有 101 条之一（C 95 / D 6），本批只扩 review_scope，不新增 Source、不升证据等级；渊海全文仍 quarantine，本登记只及于所列三节范围。",
+  "R7 Canonical/Phase1 注册 pending：本登记为公开仓证据登记，sealed Phase1/Phase2 正式注册未做（与既有研究级登记同口径披露），不借用 s 编号。"
+ ],
+ "limitations": [
+  "正官格成格/破格/真假/清浊/用神继续不可裁定：成格侧经身旺/轻重转手而一般旺衰不存在；破格侧经三刑事实层与制伏效力层转手而两者未建成。",
+  "缺字 5 处未决：含缺字整句（入格?……?方可断其吉凶）在缺字解决前不作任何读法依据；本批未做任何底本互校以解决缺字。",
+  "印綬论只登记正官组相关窗口，其余段落与渊海其余诸节（论伤官、伤官说、论食神、论正财、论七杀、论官星太过、宝法、神趣八法等）仍未逐节登记。",
+  "三命卷五《论古人立印食官财名义》正官格运法（[150807 起)）不在本批范围（属 018-E 面与卷五 scope 差集）。"
+ ]
+}
