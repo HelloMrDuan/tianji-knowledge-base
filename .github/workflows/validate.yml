@@ -199,4 +199,17 @@ jobs:
       # test_tj012_siling_pilot_sealed.py (offline acceptance only,
       # NOT public CI: it reads the sealed snapshot files).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj012_siling_pilot.py' -v
+      # TJ-018-A sanming juan2 collation register public contracts:
+      # pure-data register mirrored against Golden, collation-note
+      # form (required fields, status/disposition enums, confirmed
+      # requires >=2 witness/corroboration anchors, unresolved has
+      # reading=None, readings carry no PUA), fang three-way
+      # accounting (10 corrected + 1 genuine), fire-scout named
+      # glyph corrections pinned, ding-changsheng conflict with two
+      # unadjudicated branches, ten-stem coverage complete,
+      # source census unchanged (101). Verbatim quote equality and
+      # full glyph scans against the snapshots live in
+      # test_tj018a_sanming_juan2_sealed.py (offline acceptance only,
+      # NOT public CI: it reads the sealed snapshot files).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj018a_sanming_juan2.py' -v
       - run: python scripts/audit_public_asset_changes.py --inventory
