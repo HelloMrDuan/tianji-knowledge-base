@@ -1011,3 +1011,342 @@ def month_pattern_route(trace):
     }
     result['consumed_rule_ids'] = ['bazi.phase2.pillars']
     return result
+
+
+# ---------------------------------------------------------------------------
+# TJ-012.3 Slice B：杂气月选格陈述（《滴天髓阐微》原注分支＋三命杂气格
+# 流派冲突并列）。
+#
+# 治理定位：本切片只在四季月（辰戌丑未）给出「选格陈述」级别的输出，
+# 不是定格：任氏分支陈述止于原文程序所及之处（戊己日看人元透出者并列
+# 为选格对象；一般日主只录「只当取土为格」原文而不换算格名），三命
+# 杂气格两案只登记为冲突分支证据、并列呈现、不裁定。determination
+# 其余一切字段（格名、真假、成败、清浊、用神、喜忌）全域保持 None，
+# 审源报告 tj012-pattern-determination-scout §7 的 determination=None
+# 范围声明在本切片后继续逐项有效。
+#
+# 审定点（先行审计逐项留痕）：
+# - B1 句读与作者层：注册节为八格章「影响遥系」子题原注段（字符
+#   33161–33313，题句 33144–33160「影响遥系既为虚，杂气财官不可拘」），
+#   作者层是原注而非任氏曰（任氏曰在本段之后另论暗冲暗合）；本模块
+#   通称「任氏分支」沿审源与模块既有口径，指《滴天髓阐微》一家之说
+#   与三命分支对举，层归属以登记为准，不以任氏之名改原注之实。段内
+#   三臂分界：(i) 四季月生人「只当取土为格，不可言杂气财官」；
+#   (ii) 戊己日生于四季月者「当看人元透出天干者取格」；(iii) 建禄/
+#   月刃「亦当看月令中人元透于天干者取格，若不合气象形局，则又无格
+#   矣」。(iii) 非四季月臂且其「气象形局」未审，不在本切片执行范围，
+#   只随段登记；段首飞天合禄语与段末「只取用神」数句是飞天合禄语境，
+#   不外推为杂气通则。字形校勘：「建禄月动羊无能为刃」一句字形讹乱
+#   （「羊」疑为羊刃省称、「月动」语序存疑），逐字保留原字存疑登记，
+#   该臂不执行，故讹乱不入任何输出。
+# - B2 人元透出的结构读法：「人元」即月支藏干（已执行 hidden_stems
+#   事实，含其自带十神）；「透出天干者」即该藏干与年/月/时干同字显现
+#   （已执行 hidden_to_visible 事实）——日干除外：日干是日主参照本身，
+#   事实层 day_stem_excluded 口径与全模块一致，本切片不另设位置过滤、
+#   不自创透出口径。可执行部分止于：透出人元的逐项清单（藏干序、十神、
+#   显现柱位）。不可执行部分：多个人元透出时原文不予定序、不予定名，
+#   本切片逐项并列、不代选；透出本身不等于成格（determination 恒
+#   None），「取格」在本切片只落实为选格对象清单这一陈述级别。
+# - B3 土格换算未审：臂 (i) 的「取土为格」若换算为格名，须先定「土」
+#   指月支本气之土（辰戌丑未本气皆戊/己土，快照本气事实可核），再对
+#   日干作十神换算——此换算链原文未明言，属解释风险（审源 §5.6），
+#   本批不输出换算后的格名或十神：臂 (i) 陈述只并列原文与
+#   conversion_status=unadjudicated。一般日主（非戊己）四季月一律走
+#   臂 (i)，与该月人元透出与否无关（臂 (i) 不以透出为条件）。
+# - B4 戊己臂弃判：戊己日四季月无人元透出时，臂 (ii) 程序无对象可
+#   取，陈述 abstained（abstention_reason=no_exposed_renyuan）。段内
+#   (iii) 的「若不合气象形局，则又无格矣」不移用于臂 (ii) 作「无格」
+#   断言——那是建禄/月刃臂的文本，且「气象形局」未审；本弃判只陈述
+#   程序无对象，不说该盘无格、不关闭其他取格路线。
+# - B5 流派冲突并列：三命两案只登记为冲突分支证据，不作规则。案一
+#   卷六《日禄归时》七法「青云得路」实案句（字符 192131–192174）：
+#   壬日戌月造直称「作杂气格论尤是」；案二女命章诗句（字符
+#   245030–245081）：「杂气格中禄最佳」并自注甲乙丑月之例。冲突点：
+#   (1) 杂气格名目本身——原注句明言「不可言杂气财官」，三命以杂气
+#   格为正式选格名目并许之；(2) 非戊己日盘面——原注只给「取土为格」
+#   （换算未审），案二即以甲乙（非戊己）丑月立杂气格例，两说对同类
+#   盘面的选格名目不同；(3) 戊己臂——两案日主均非戊己，无戊己臂的
+#   直接反例在案，冲突在此臂只及杂气格名目的框架层，如实标注、不
+#   夸大。冲突以 conflict_present＋案引并列呈现，任一四季月盘面均标
+#   记（冲突是选格框架之争，不系于个盘构成），不裁定、不以一说压
+#   一说。案一造为明代进士造，出生时刻无考、不可复现，引文只作流派
+#   立场证据；Golden 以同型结构对照例（壬日戌月、月藏正财透出）替代
+#   并如实标注。
+# - B6 与 Slice A 共存：pattern_zaqi 与 pattern_route 并列附于研究
+#   结果、互不改写；两者的月支域不相交（禄/刃支集与四季月支集不相
+#   交，Slice A 的 A5 已证、测试钉住），但本函数不依赖该不相交性，
+#   各自独立判定。本陈述尚无密封 Phase1 bundle / Phase2 contract 的
+#   rule 注册，故不新增 trace rule、不进 RuleMatch 与 Evidence，
+#   evidence_binding=pending_phase1_rule_registration；恒 research_only，
+#   公开投影整体剥离。month_pattern_zaqi 只消费已执行的 pillars /
+#   ten_gods / hidden_stems / hidden_to_visible 步骤（要求 evidence 已
+#   绑定），伪造、缺失或自相矛盾的事实一律 fail-closed。
+ZAQI_SELECTION_VARIANT = 'bazi-pattern-zaqi-selection-v1'
+ZAQI_RULE_SOURCE_ID = 'bazi.source.ditiansui-spouse'
+ZAQI_RULE_SNAPSHOT_PATH = ('data/quarantine/public_domain_snapshots/'
+                           'daizhigev20/ditiansui_chanwei.txt')
+ZAQI_RULE_SNAPSHOT_SHA256 = ('6a875a317c7ba1012285ed12d3bfa5577b50c9f'
+                             'dfd568ece323a12feafe38795')
+ZAQI_CONFLICT_SOURCE_ID = 'bazi.source.sanmingtonghui'
+ZAQI_CONFLICT_SNAPSHOT_PATH = ('data/quarantine/public_domain_snapshots/'
+                               'daizhigev20/sanming_tonghui.txt')
+ZAQI_CONFLICT_SNAPSHOT_SHA256 = ('00e2a7db8bb59b259b99938033bb1bb77947'
+                                 'e04a15dafc111e62b59378010c86')
+WUJI_STEMS = ('戊', '己')
+EXPOSABLE_PILLARS = ('year', 'month', 'hour')
+
+ZAQI_QUOTES = (
+    {
+        'id': 'renshi.zaqi_passage',
+        'source_id': ZAQI_RULE_SOURCE_ID,
+        'source_section_id': None,
+        'layer': '原注',
+        'quote': ('原注:飞天合禄之类,固为影响遥系而非格矣。如四季月生人,'
+                  '只当取土为格,不可言杂气财官;戊己日生于四季月者,当看人元'
+                  '透出天干者取格,不可概以杂气财官论之;至于建禄月动羊无能'
+                  '为刃,亦当看月令中人元透于天干者取格,若不合气象形局,则又'
+                  '无格矣。只取用神,用神又无所取,只得看其大势,以皮面上断其'
+                  '穷通。不可执格论也'),
+        'locator': {'char_start': 33161, 'char_end': 33313},
+    },
+    {
+        'id': 'sanming.zaqi_case_rilu',
+        'source_id': ZAQI_CONFLICT_SOURCE_ID,
+        'source_section_id': None,
+        'layer': '实案评语',
+        'quote': ('又壬午庾戌壬子辛亥身旺印助登戊辰进士为刑部郎中作杂气格'
+                  '论尤是故丁丑运戊辰科丑刑辰冲故也'),
+        'locator': {'char_start': 192131, 'char_end': 192174},
+    },
+    {
+        'id': 'sanming.zaqi_poem_nvming',
+        'source_id': ZAQI_CONFLICT_SOURCE_ID,
+        'source_section_id': None,
+        'layer': '女命章诗句及自注',
+        'quote': ('杂气格中禄最佳干头便混也堪夸运行财地无伤刼嫁得才郎享福'
+                  '遐【甲乙丑月之例俱藏夫星干头不忌混杂此以月言也】'),
+        'locator': {'char_start': 245030, 'char_end': 245081},
+    },
+)
+
+ZAQI_CONFLICT_POINTS = (
+    '名目框架：原注句明言四季月「不可言杂气财官」，三命两案以「杂气格」为正式选格名目并许之（案一「作杂气格论尤是」、案二「杂气格中禄最佳」）。',
+    '非戊己日盘面：原注对非戊己日四季月只给「只当取土为格」一句（土格换算未审），案二即以甲乙（非戊己）丑月立杂气格例，两说对同类盘面的选格名目不同。',
+    '戊己臂：两案日主均非戊己，无戊己臂的直接反例在案；冲突在此臂只及杂气格名目的框架层，不夸大为程序之争。',
+)
+
+ZAQI_ADJUDICATION_NOTES = (
+    'B1 句读与层：注册节为八格章「影响遥系」子题原注段（33161–33313），作者层为原注；三臂分界——(i) 四季月取土，(ii) 戊己日看人元透出，(iii) 建禄/月刃臂不在本切片执行范围。「建禄月动羊无能为刃」字形讹乱存疑登记，该臂不执行。',
+    'B2 人元透出：人元即月支藏干，透出以已执行 hidden_to_visible 事实为准（日干除外，与事实层 day_stem_excluded 口径一致）；可执行止于透出清单，多透并列不代选，透出不等于成格。',
+    'B3 土格换算：「只当取土为格」的格名/十神换算链原文未明言，本批不换算，陈述只并列原文与 conversion_status=unadjudicated。',
+    'B4 戊己弃判：戊己日四季月无人元透出 → abstained（程序无对象）；段内 (iii) 的「则又无格矣」不移用为本盘无格断言。',
+    'B5 冲突并列：三命两案只登记为冲突分支证据（案一 192131–192174、案二 245030–245081），conflict_present 与案引并列呈现，不裁定；案一造出生时刻无考、不可复现。',
+    'B6 共存：pattern_zaqi 与 Slice A 的 pattern_route 并列、互不改写，各自独立判定；本陈述无 Phase1/Phase2 rule 注册（evidence_binding=pending_phase1_rule_registration）。',
+)
+
+ZAQI_LIMITATIONS = (
+    '本陈述是选格陈述/分支级别，不是定格：不给格名、真假、成败、清浊、用神或喜忌；determination 其余字段全域保持 None，审源报告的 determination=None 范围声明继续有效。',
+    '原注段 (iii) 建禄/月刃臂与「气象形局」未执行；「取土为格」的土格换算未审；分日司令未裁定不因本切片而解，选格陈述不等于真假裁定。',
+    '三命两案只作冲突分支证据登记，不作规则；不得以任氏分支压过三命，亦不得以三命实案消解任氏句。',
+    '本陈述尚无密封 Phase1/Phase2 rule 注册，不进 RuleMatch 与 Evidence；透出事实以既有 hidden_to_visible 为准（日干除外）。',
+)
+
+
+def zaqi_selection_lookup(day_stem, month_branch, month_hidden_stems,
+                          exposed_renyuan):
+    """Pure 杂气 selection statement over executed structural facts.
+
+    month_hidden_stems is the month branch's hidden stems in executed
+    fact order as {'stem', 'ten_god'} rows; exposed_renyuan is the
+    subset of those stems that are visible on the year/month/hour
+    stems, as {'stem', 'ten_god', 'visible_pillars'} rows (the day stem
+    is the day-master reference itself and never counts as exposure,
+    mirroring the executed hidden_to_visible fact). Fails closed on
+    any input inconsistent with those fact shapes. The statement is a
+    branch-level selection statement only: it never names a pattern.
+    """
+    if day_stem not in STEMS:
+        raise ValueError('Zaqi selection requires a valid day stem')
+    if month_branch not in BRANCHES:
+        raise ValueError('Zaqi selection requires a valid month branch')
+    hidden = []
+    seen = set()
+    for row in month_hidden_stems or []:
+        stem, ten_god = row.get('stem'), row.get('ten_god')
+        if stem not in STEMS or not isinstance(ten_god, str) or not ten_god:
+            raise ValueError('Zaqi selection requires valid hidden stem facts')
+        if stem in seen:
+            raise ValueError('Zaqi selection hidden stems must be unique')
+        seen.add(stem)
+        hidden.append({'stem': stem, 'ten_god': ten_god})
+    hidden_by_stem = {row['stem']: row for row in hidden}
+    exposed = []
+    exposed_seen = set()
+    for row in exposed_renyuan or []:
+        stem, ten_god = row.get('stem'), row.get('ten_god')
+        pillars = row.get('visible_pillars')
+        if stem not in hidden_by_stem or hidden_by_stem[stem]['ten_god'] != ten_god:
+            raise ValueError('Exposed renyuan must be month hidden stems')
+        if stem in exposed_seen:
+            raise ValueError('Exposed renyuan must be unique')
+        if (not pillars or len(set(pillars)) != len(pillars)
+                or any(p not in EXPOSABLE_PILLARS for p in pillars)):
+            raise ValueError('Exposed renyuan needs year/month/hour pillars only')
+        exposed_seen.add(stem)
+        exposed.append({'stem': stem, 'ten_god': ten_god,
+                        'visible_pillars': list(pillars)})
+    exposed.sort(key=lambda row: [h['stem'] for h in hidden].index(row['stem']))
+
+    miscellaneous = month_branch in MISCELLANEOUS_BRANCHES
+    result = {
+        'variant': PATTERN_VARIANT,
+        'selection_variant': ZAQI_SELECTION_VARIANT,
+        'rule': {
+            'id': 'renshi.zaqi_selection',
+            'source_id': ZAQI_RULE_SOURCE_ID,
+            'source_section_id': None,
+            'layer': '原注',
+            'quote_locator': {'char_start': 33161, 'char_end': 33313},
+        },
+        'status': 'not_applicable',
+        'abstention_reason': None,
+        'day_stem': day_stem,
+        'month_branch': month_branch,
+        'miscellaneous_month': miscellaneous,
+        'arm': None,
+        'month_hidden_renyuan': [],
+        'exposed_renyuan': [],
+        'selection': None,
+        'conflict': {'conflict_present': False,
+                     'branch': 'sanming_zaqi_pattern',
+                     'case_refs': [], 'points': []},
+        'determination': {'status': 'unresolved', 'pattern': None,
+                          'true_false': None, 'success_failure': None,
+                          'useful_god': None},
+        'qualified_for_determination': False,
+        'research_only': True, 'public_enabled': False, 'ai_enabled': False,
+        'evidence_binding': 'pending_phase1_rule_registration',
+        'adjudication_notes': list(ZAQI_ADJUDICATION_NOTES),
+        'scope_limits': list(ZAQI_LIMITATIONS),
+        'scope': ('只在四季月（辰戌丑未）给出任氏（原注）分支的选格陈述与'
+                  '三命杂气格流派冲突并列；不定格名、真假、成败、清浊、'
+                  '用神或吉凶。'),
+    }
+    if not miscellaneous:
+        return result
+    if not hidden:
+        raise ValueError('A miscellaneous month must carry hidden stem facts')
+    result['month_hidden_renyuan'] = hidden
+    result['exposed_renyuan'] = exposed
+    result['conflict'] = {
+        'conflict_present': True,
+        'branch': 'sanming_zaqi_pattern',
+        'case_refs': [
+            {'id': 'sanming.zaqi_case_rilu',
+             'source_id': ZAQI_CONFLICT_SOURCE_ID,
+             'locator': {'char_start': 192131, 'char_end': 192174},
+             'note': '卷六《日禄归时》实案：壬日戌月造「作杂气格论尤是」；只登记为冲突证据，不作规则。'},
+            {'id': 'sanming.zaqi_poem_nvming',
+             'source_id': ZAQI_CONFLICT_SOURCE_ID,
+             'locator': {'char_start': 245030, 'char_end': 245081},
+             'note': '女命章诗句「杂气格中禄最佳」及甲乙丑月自注；只登记为冲突证据，不作规则。'},
+        ],
+        'points': list(ZAQI_CONFLICT_POINTS),
+    }
+    if day_stem in WUJI_STEMS:
+        result['arm'] = 'wuji_exposed_renyuan'
+        if not exposed:
+            result['status'] = 'abstained'
+            result['abstention_reason'] = 'no_exposed_renyuan'
+            return result
+        result['status'] = 'stated'
+        result['selection'] = {
+            'level': 'branch_selection_statement',
+            'basis': 'exposed_renyuan',
+            'original_phrase': '当看人元透出天干者取格',
+            'selected_candidates': exposed,
+            'earth_conversion': None,
+            'pattern_determination': None,
+            'note': ('依原注戊己臂程序：选格对象为月支人元中透出天干者，'
+                     '逐项并列；原文不予定序定名，本陈述不代选、不定格。'),
+        }
+        return result
+    result['arm'] = 'general_tu_unconverted'
+    result['status'] = 'stated'
+    result['selection'] = {
+        'level': 'branch_selection_statement',
+        'basis': 'original_text_only',
+        'original_phrase': '只当取土为格,不可言杂气财官',
+        'selected_candidates': [],
+        'earth_conversion': {
+            'status': 'unadjudicated',
+            'converted_pattern_name': None,
+            'converted_ten_god': None,
+            'note': ('「土」是否指月支本气之土、再对日干作十神换算，原文'
+                     '未明言；本批不换算，只录原文。'),
+        },
+        'pattern_determination': None,
+        'note': ('依原注一般臂：四季月只当取土为格、不可言杂气财官；该臂'
+                 '不以人元透出为条件，透出清单只作事实并列。'),
+    }
+    return result
+
+
+def month_pattern_zaqi(trace):
+    """Consume executed facts and state the 杂气 selection branch statement.
+
+    Mirrors the module's fail-closed discipline: the pillars, ten_gods,
+    hidden_stems and hidden_to_visible steps must exist, carry executed
+    resolvable evidence, and agree with each other; only then is the
+    pure lookup applied. Exposure follows the executed
+    hidden_to_visible positions (day stem excluded by that fact's own
+    definition).
+    """
+    steps = {row['rule_id']: (i, row) for i, row in enumerate(trace.steps)}
+    required = ('pillars', 'ten_gods', 'hidden_stems', 'hidden_to_visible')
+    if any('bazi.phase2.' + name not in steps for name in required):
+        raise ValueError('Zaqi selection requires executed structural facts')
+    for name in required:
+        step = steps['bazi.phase2.' + name][1]
+        if not step['evidence_ids'] or any(e not in trace.evidence for e in step['evidence_ids']):
+            raise ValueError('Zaqi selection lacks executed evidence')
+
+    def fact_ref(name, suffix=''):
+        return f"#/trace/{steps['bazi.phase2.' + name][0]}/output" + suffix
+
+    pillars = steps['bazi.phase2.pillars'][1]['output']
+    visible = steps['bazi.phase2.ten_gods'][1]['output']
+    hidden = steps['bazi.phase2.hidden_stems'][1]['output']
+    visibility = steps['bazi.phase2.hidden_to_visible'][1]['output']
+    day_stem = pillars['day_master']['stem']
+    month_branch = pillars['ganzhi'][1][1]
+    mi, month_row = next((i, row) for i, row in enumerate(hidden)
+                         if row['pillar'] == 'month')
+    if month_row['branch'] != month_branch:
+        raise ValueError('Zaqi selection evidence is inconsistent')
+    exposed = []
+    for row in month_row['hidden_stems']:
+        position = next((p for p in visibility['positions']
+                         if p['hidden_pillar'] == 'month'
+                         and p['hidden_stem'] == row['stem']), None)
+        if position is None:
+            continue
+        for pillar in position['visible_pillars']:
+            value = next(r for r in visible if r['pillar'] == pillar)
+            if value['stem'] != row['stem'] or value['ten_god'] != row['ten_god']:
+                raise ValueError('Executed visibility and ten-god facts disagree')
+        exposed.append({'stem': row['stem'], 'ten_god': row['ten_god'],
+                        'visible_pillars': list(position['visible_pillars'])})
+    result = zaqi_selection_lookup(
+        day_stem, month_branch,
+        [{'stem': row['stem'], 'ten_god': row['ten_god']}
+         for row in month_row['hidden_stems']],
+        exposed)
+    result['fact_refs'] = {
+        'day_master': fact_ref('pillars', '/day_master/stem'),
+        'month_branch': fact_ref('pillars', '/ganzhi/1'),
+        'month_hidden_stems': fact_ref('hidden_stems', f'/{mi}/hidden_stems'),
+        'hidden_to_visible': fact_ref('hidden_to_visible', '/positions'),
+    }
+    result['consumed_rule_ids'] = ['bazi.phase2.' + name for name in required]
+    return result

@@ -152,4 +152,13 @@ jobs:
       # test_tj012_luren_route_sealed.py (offline acceptance only,
       # NOT public CI: pattern candidates need sealed Canonical data).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj012_luren_route.py' -v
+      # TJ-012.3 Slice B zaqi selection public contracts: registered
+      # quotes vs Golden transcription, pure selection lookup branch
+      # coverage （戊己透出/弃判、一般臂不换算、非杂气月不适用）,
+      # determination-None sweep, forged-trace rejection, engine gate
+      # and projection strip. Verbatim quote equality against the
+      # snapshots and real-chart coverage live in
+      # test_tj012_zaqi_selection_sealed.py (offline acceptance only,
+      # NOT public CI: pattern candidates need sealed Canonical data).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj012_zaqi_selection.py' -v
       - run: python scripts/audit_public_asset_changes.py --inventory

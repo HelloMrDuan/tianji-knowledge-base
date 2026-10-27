@@ -280,6 +280,9 @@ def project_execution(data):
             # (pending Phase1 registration); never let it reach a public
             # response either.
             container.pop('pattern_route', None)
+            # TJ-012.3 Slice B: the 杂气 selection statement is likewise
+            # research-only (pending Phase1 registration).
+            container.pop('pattern_zaqi', None)
     return result
 
 
