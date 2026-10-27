@@ -51,11 +51,11 @@ S5_REGISTRATION_RECORD = {
     'snapshot_files_before': 235,
     'snapshot_files_after': 235,
     'snapshot_bytes_before': 13518179,
-    'snapshot_bytes_after': 13532116,
+    'snapshot_bytes_after': 13566359,
     'manifest_sha256_before':
         '8055efb3881128837548da2536f210928db96b4f295ad25bbfb09ba9cf89c6c1',
     'manifest_sha256_after':
-        '18aab7c2629c192be1a9de81e3333c317f2dde8bdbbd4d1d02fd740bb70b26c9',
+        'f053761c3873d6d5cd63b738786c9b8ef683fd18f3b95c80f7bc485110cde480',
     'pin_record': '可信机 cicd/env/trusted-acceptance 已按既有密封治理'
                   '流程更新为 manifest_sha256_after（旧值留档于本记录与'
                   '机器侧备份），部署管线与本批验收均以新钉值复核。',

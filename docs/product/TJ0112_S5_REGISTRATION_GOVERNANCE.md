@@ -80,9 +80,14 @@
 
 ## 3. manifest 钉值记录（不静默改钉）
 
-- 快照文件数 235 → 235，总字节 13,518,179 → 13,532,116。
+- 快照文件数 235 → 235，总字节 13,518,179 → 13,566,359。
 - manifest SHA256：`8055efb3881128837548da2536f210928db96b4f295ad25bbfb09ba9cf89c6c1`
-  → `18aab7c2629c192be1a9de81e3333c317f2dde8bdbbd4d1d02fd740bb70b26c9`。
+  → `f053761c3873d6d5cd63b738786c9b8ef683fd18f3b95c80f7bc485110cde480`。
+- 实体计数变化使三份 coverage 工件按既有生成脚本再生成并随快照更新：
+  `data/coverage/phase1.json`、`data/product/knowledge_coverage.json`、
+  `data/product/knowledge_dependencies.json`；公开侧 `docs/COVERAGE.md`
+  （bazi executable 计数 16 → 18）与
+  `docs/product/KNOWLEDGE_CAPABILITY_MAP.md` 同步再生成入仓。
 - 变更后三文件 SHA256：phase1_knowledge `5d992d2e967f9362573cdda788efc02405af28132a4eec2c378f5ac83b2d26ea`、
   phase2_execution `947cfc1d05c248c9e4d1efd35e9fde450e0dee2f77b1a4d150b92b9492ae8720`、
   phase2_golden `eebda931f7be6a812a7929ad1052905330dcabc80637a997a128e6f1ba1ac3ca`。
