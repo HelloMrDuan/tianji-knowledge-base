@@ -1,0 +1,464 @@
+{
+  "adjudication_notes": [
+    "A1 句序：s054 禄刃句是对月令取格路线的先置排除（先于透干/司令/真假诸步），本裁定只消费月支与日干，不消费司令。",
+    "A2 表源：禄/刃支表取《三命通会》卷三《论十干禄》与卷五《论阳刃》（逐一明列、两节互证）；渊海禄节无十干逐一定义句，自足性不及，不取为表源。",
+    "A3 字形：禄定义句快照己/巳互讹（丙禄巳、戊寄巳、己寄午），以同节逐干分论与《论建禄》月例互证读定，引文保留原字。",
+    "A4 阴干：阴干无刃是三命纲句的如实转写；阴干配刃的通行异说在已登记来源中无逐字依据，不登记、不采用。",
+    "A5 杂气：禄支集与刃支集均与四季月支集不相交，杂气月与禄刃重合在本表下不存在；杂气月按表直判，杂气选格属 Slice B。",
+    "A6 借用：借用路线（借以为用）的借神定名规则未审，borrowed_route 恒 undetermined，不替原文选神。"
+  ],
+  "boundary_facts": {
+    "double_hit_impossible": "任一干的禄支与刃支互不相同（逐项核对：寅/卯、巳/午、巳/午、申/酉、亥/子），故 matched_via 不可能同时为 lu 与 ren；阴干只有禄通道。",
+    "lu_branch_set": [
+      "寅",
+      "卯",
+      "巳",
+      "午",
+      "申",
+      "酉",
+      "亥",
+      "子"
+    ],
+    "miscellaneous_branch_set": [
+      "辰",
+      "戌",
+      "丑",
+      "未"
+    ],
+    "overlap_check": "禄支集与刃支集均与四季月（辰戌丑未）支集不相交（由登记表逐项核对可证）：派单预设的「杂气月与禄刃重合」例（如戊日戌月当重合处理）在本表下不存在——戊禄巳、戊刃午，戌皆非之。杂气月一律按表直判；杂气选格属 Slice B，本切片不处理。",
+    "ren_branch_set": [
+      "卯",
+      "午",
+      "酉",
+      "子"
+    ]
+  },
+  "cases": [
+    {
+      "day_stem": "甲",
+      "derivation": "登记表：甲禄寅、甲刃卯。月支寅 == 甲之禄支 → 禄通道命中，route=luren_no_month_pattern（s054：月逢禄刃，无格可取）。",
+      "expected": {
+        "lu_branch": "寅",
+        "matched_via": "lu",
+        "miscellaneous_month": false,
+        "ren_branch": "卯",
+        "route": "luren_no_month_pattern"
+      },
+      "id": "lu-jia-yin",
+      "kind": "lu_hit",
+      "month_branch": "寅",
+      "pillars": [
+        "己丑",
+        "丙寅",
+        "甲戌",
+        "己巳"
+      ],
+      "source_birth": {
+        "value": "1949-02-13T09:30:00+08:00",
+        "zone": "Asia/Shanghai"
+      }
+    },
+    {
+      "day_stem": "庚",
+      "derivation": "登记表：庚禄申、庚刃酉。月支酉 == 庚之刃支（且 != 禄支申）→ 刃通道单独命中，matched_via=ren。",
+      "expected": {
+        "lu_branch": "申",
+        "matched_via": "ren",
+        "miscellaneous_month": false,
+        "ren_branch": "酉",
+        "route": "luren_no_month_pattern"
+      },
+      "id": "ren-geng-you",
+      "kind": "ren_hit",
+      "month_branch": "酉",
+      "pillars": [
+        "己丑",
+        "癸酉",
+        "庚戌",
+        "丙戌"
+      ],
+      "source_birth": {
+        "value": "1949-09-17T19:30:00+08:00",
+        "zone": "Asia/Shanghai"
+      }
+    },
+    {
+      "day_stem": "甲",
+      "derivation": "卯是乙之禄、甲之刃。甲日卯月：禄通道查甲之禄寅 != 卯，不命中（防把他干之禄错配给本干）；刃通道查甲之刃卯 == 月支，命中，matched_via 必须为 ren 而非 lu。",
+      "expected": {
+        "lu_branch": "寅",
+        "matched_via": "ren",
+        "miscellaneous_month": false,
+        "ren_branch": "卯",
+        "route": "luren_no_month_pattern"
+      },
+      "id": "ren-not-lu-jia-mao",
+      "kind": "ren_hit_not_lu",
+      "month_branch": "卯",
+      "pillars": [
+        "己丑",
+        "丁卯",
+        "甲辰",
+        "庚午"
+      ],
+      "source_birth": {
+        "value": "1949-03-15T11:30:00+08:00",
+        "zone": "Asia/Shanghai"
+      }
+    },
+    {
+      "day_stem": "甲",
+      "derivation": "甲禄寅、甲刃卯；月支午两者皆非 → not_luren。仅表示不落入本负向裁定，不表示任何格成立（午是丙/戊之刃、丁/己之禄，与甲无关，不跨干借用）。",
+      "expected": {
+        "lu_branch": "寅",
+        "matched_via": null,
+        "miscellaneous_month": false,
+        "ren_branch": "卯",
+        "route": "not_luren"
+      },
+      "id": "ordinary-jia-wu",
+      "kind": "ordinary_month",
+      "month_branch": "午",
+      "pillars": [
+        "己丑",
+        "庚午",
+        "甲戌",
+        "戊辰"
+      ],
+      "source_birth": {
+        "value": "1949-06-13T08:30:00+08:00",
+        "zone": "Asia/Shanghai"
+      }
+    },
+    {
+      "day_stem": "乙",
+      "derivation": "寅是甲之禄；乙之禄为卯，且乙为阴干无刃。月支寅对乙两通道皆不命中 → not_luren。他干之禄不得误判为本干禄。",
+      "expected": {
+        "lu_branch": "卯",
+        "matched_via": null,
+        "miscellaneous_month": false,
+        "ren_branch": null,
+        "route": "not_luren"
+      },
+      "id": "other-lu-yi-yin",
+      "kind": "counterexample_other_stem_lu",
+      "month_branch": "寅",
+      "pillars": [
+        "己丑",
+        "丙寅",
+        "乙亥",
+        "癸未"
+      ],
+      "source_birth": {
+        "value": "1949-02-14T14:30:00+08:00",
+        "zone": "Asia/Shanghai"
+      }
+    },
+    {
+      "day_stem": "戊",
+      "derivation": "派单预设的杂气重合候选例：戊禄巳、戊刃午，戌皆非之——按表直判 not_luren，无杂气例外。miscellaneous_month=true 只作事实标注；杂气选格（Slice B）未裁定，不在本例结论内。",
+      "expected": {
+        "lu_branch": "巳",
+        "matched_via": null,
+        "miscellaneous_month": true,
+        "ren_branch": "午",
+        "route": "not_luren"
+      },
+      "id": "misc-wu-xu",
+      "kind": "miscellaneous_month_boundary",
+      "month_branch": "戌",
+      "pillars": [
+        "己丑",
+        "甲戌",
+        "戊寅",
+        "乙卯"
+      ],
+      "source_birth": {
+        "value": "1949-10-15T05:30:00+08:00",
+        "zone": "Asia/Shanghai"
+      }
+    },
+    {
+      "day_stem": "辛",
+      "derivation": "辛禄酉；辛为阴干，依三命纲句无刃，ren_branch=null。戌在通行阴干配刃异说中或被列为辛刃，但该说在已登记来源中无逐字依据，不登记不采用 → not_luren。本例钉住阴干无刃口径。",
+      "expected": {
+        "lu_branch": "酉",
+        "matched_via": null,
+        "miscellaneous_month": true,
+        "ren_branch": null,
+        "route": "not_luren"
+      },
+      "id": "yin-noblade-xin-xu",
+      "kind": "yin_stem_no_blade_doctrine",
+      "month_branch": "戌",
+      "pillars": [
+        "己丑",
+        "甲戌",
+        "辛巳",
+        "己亥"
+      ],
+      "source_birth": {
+        "value": "1949-10-18T21:30:00+08:00",
+        "zone": "Asia/Shanghai"
+      }
+    },
+    {
+      "day_stem": "癸",
+      "derivation": "癸禄子、阴干无刃。月支子 == 癸之禄支 → 禄通道命中（阴干有禄无刃，禄通道对阴干同样有效）。注意子是壬之刃，与癸无关，不跨干借用。",
+      "expected": {
+        "lu_branch": "子",
+        "matched_via": "lu",
+        "miscellaneous_month": false,
+        "ren_branch": null,
+        "route": "luren_no_month_pattern"
+      },
+      "id": "lu-gui-zi",
+      "kind": "lu_hit_yin_stem",
+      "month_branch": "子",
+      "pillars": [
+        "己丑",
+        "丙子",
+        "癸未",
+        "庚申"
+      ],
+      "source_birth": {
+        "value": "1949-12-19T16:30:00+08:00",
+        "zone": "Asia/Shanghai"
+      }
+    }
+  ],
+  "quotes": [
+    {
+      "id": "renshi.luren_route_exclusion",
+      "locator": {
+        "char_end": 31773,
+        "char_start": 31681
+      },
+      "quote": "任氏曰:八格者,命中之正理也。先观月令所得何支,次看天干透出何神,再究司令以定真假,然后取用,以分清浊,此实依经顺理,若月逢禄刃,无格可取,须审日主之喜忌另寻别支透出天干者,借以为用。",
+      "source_id": "bazi.source.ditiansui-spouse",
+      "source_section_id": "bazi.section.s054",
+      "unique_in_snapshot": true
+    },
+    {
+      "id": "sanming.lu_sentence",
+      "locator": {
+        "char_end": 75053,
+        "char_start": 75008
+      },
+      "quote": "甲禄寅乙禄卯庚禄申辛禄酉壬禄亥癸禄子丙禄己丁禄午戊寄己巳寄午谓己午乃火旺之乡子随母得禄之义",
+      "source_id": "bazi.source.sanmingtonghui",
+      "source_section_id": null,
+      "unique_in_snapshot": true
+    },
+    {
+      "id": "sanming.ren_doctrine",
+      "locator": {
+        "char_end": 180982,
+        "char_start": 180961
+      },
+      "quote": "惟甲丙戊庚壬五阳干有刃乙丁己辛癸五阴干无刃",
+      "source_id": "bazi.source.sanmingtonghui",
+      "source_section_id": null,
+      "unique_in_snapshot": true
+    },
+    {
+      "id": "sanming.ren_positions",
+      "locator": {
+        "char_end": 181689,
+        "char_start": 181644
+      },
+      "quote": "戊刃午见子财壬刃子见午财庚刃酉见卯财皆冲之财故忌之至甲刃卯不忌戊巳己午之财且忌酉官矣丙刃午",
+      "source_id": "bazi.source.sanmingtonghui",
+      "source_section_id": null,
+      "unique_in_snapshot": true
+    }
+  ],
+  "rule_source": {
+    "evidence_level": "C",
+    "note": "s054 已登记批准（任氏曰层）。本切片执行的只是其禄刃句对月令正格路线的先置排除；程序前段的司令真假、取用清浊不在本切片。",
+    "snapshot_bytes": 368684,
+    "snapshot_chars": 139538,
+    "snapshot_path": "data/quarantine/public_domain_snapshots/daizhigev20/ditiansui_chanwei.txt",
+    "snapshot_sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+    "source_id": "bazi.source.ditiansui-spouse",
+    "source_section_id": "bazi.section.s054",
+    "title": "滴天髓阐微·八格"
+  },
+  "schema": "tj012-luren-route-golden-v1",
+  "table": [
+    {
+      "lu": "寅",
+      "lu_fragment": {
+        "char_end": 75011,
+        "char_start": 75008,
+        "quote": "甲禄寅"
+      },
+      "polarity": "yang",
+      "ren": "卯",
+      "ren_fragment": {
+        "char_end": 181673,
+        "char_start": 181670,
+        "quote": "甲刃卯"
+      },
+      "stem": "甲"
+    },
+    {
+      "lu": "卯",
+      "lu_fragment": {
+        "char_end": 75014,
+        "char_start": 75011,
+        "quote": "乙禄卯"
+      },
+      "polarity": "yin",
+      "ren": null,
+      "ren_fragment": null,
+      "ren_note": "阴干无刃（纲句明定），非漏登。",
+      "stem": "乙"
+    },
+    {
+      "lu": "巳",
+      "lu_fragment": {
+        "char_end": 75029,
+        "char_start": 75026,
+        "quote": "丙禄己"
+      },
+      "lu_glyph_note": "快照作「丙禄己」，己为巳之讹（禄为地支，己非支）；同节分论「丙禄巳见巳巳」与《论建禄》丙生巳月互证读作巳。",
+      "polarity": "yang",
+      "ren": "午",
+      "ren_fragment": {
+        "char_end": 181689,
+        "char_start": 181686,
+        "quote": "丙刃午"
+      },
+      "stem": "丙"
+    },
+    {
+      "lu": "午",
+      "lu_fragment": {
+        "char_end": 75032,
+        "char_start": 75029,
+        "quote": "丁禄午"
+      },
+      "polarity": "yin",
+      "ren": null,
+      "ren_fragment": null,
+      "ren_note": "阴干无刃（纲句明定），非漏登。",
+      "stem": "丁"
+    },
+    {
+      "lu": "巳",
+      "lu_fragment": {
+        "char_end": 75035,
+        "char_start": 75032,
+        "quote": "戊寄己"
+      },
+      "lu_glyph_note": "原文用「寄」（戊土寄巳，与丙同宫，句末「子随母得禄」即此义），快照作「戊寄己」，己读作巳；同节分论「戊禄巳」互证。寄与禄同支，不改变支位事实。",
+      "polarity": "yang",
+      "ren": "午",
+      "ren_fragment": {
+        "char_end": 181647,
+        "char_start": 181644,
+        "quote": "戊刃午"
+      },
+      "stem": "戊"
+    },
+    {
+      "lu": "午",
+      "lu_fragment": {
+        "char_end": 75038,
+        "char_start": 75035,
+        "quote": "巳寄午"
+      },
+      "lu_glyph_note": "快照作「巳寄午」，首字巳为己之讹（句序居戊之后、庚之前，十干序列定其为己）；同节分论「己禄午见庚午」与《论建禄》己日午月互证。原文用「寄」（己土寄午，与丁同宫）。",
+      "polarity": "yin",
+      "ren": null,
+      "ren_fragment": null,
+      "ren_note": "阴干无刃（纲句明定），非漏登。",
+      "stem": "己"
+    },
+    {
+      "lu": "申",
+      "lu_fragment": {
+        "char_end": 75017,
+        "char_start": 75014,
+        "quote": "庚禄申"
+      },
+      "polarity": "yang",
+      "ren": "酉",
+      "ren_fragment": {
+        "char_end": 181659,
+        "char_start": 181656,
+        "quote": "庚刃酉"
+      },
+      "stem": "庚"
+    },
+    {
+      "lu": "酉",
+      "lu_fragment": {
+        "char_end": 75020,
+        "char_start": 75017,
+        "quote": "辛禄酉"
+      },
+      "polarity": "yin",
+      "ren": null,
+      "ren_fragment": null,
+      "ren_note": "阴干无刃（纲句明定），非漏登。",
+      "stem": "辛"
+    },
+    {
+      "lu": "亥",
+      "lu_fragment": {
+        "char_end": 75023,
+        "char_start": 75020,
+        "quote": "壬禄亥"
+      },
+      "polarity": "yang",
+      "ren": "子",
+      "ren_fragment": {
+        "char_end": 181653,
+        "char_start": 181650,
+        "quote": "壬刃子"
+      },
+      "stem": "壬"
+    },
+    {
+      "lu": "子",
+      "lu_fragment": {
+        "char_end": 75026,
+        "char_start": 75023,
+        "quote": "癸禄子"
+      },
+      "polarity": "yin",
+      "ren": null,
+      "ren_fragment": null,
+      "ren_note": "阴干无刃（纲句明定），非漏登。",
+      "stem": "癸"
+    }
+  ],
+  "table_source": {
+    "evidence_level": "C",
+    "sections": [
+      {
+        "char_end": 77214,
+        "char_start": 74911,
+        "name": "卷三·论十干禄",
+        "note": "禄定义句与逐干分论所在节；引用窗口内 PUA 0。本批经 review_scope 扩登记（TJ-017.1 先例，同一 Source，普查计数不变）。"
+      },
+      {
+        "char_end": 184328,
+        "char_start": 180874,
+        "name": "卷五·论阳刃",
+        "note": "刃纲句与刃位句所在节；引用窗口内 PUA 0，节题行含 PUA 字不引用。本批经 review_scope 扩登记。"
+      }
+    ],
+    "snapshot_bytes": 1342659,
+    "snapshot_chars": 461157,
+    "snapshot_path": "data/quarantine/public_domain_snapshots/daizhigev20/sanming_tonghui.txt",
+    "snapshot_sha256": "00e2a7db8bb59b259b99938033bb1bb77947e04a15dafc111e62b59378010c86",
+    "source_id": "bazi.source.sanmingtonghui",
+    "title": "三命通会",
+    "transcription_note": "引文与字符定位由密封快照原文切片转录（整句在全文中恰出现一次），非由实现输出反填；快照为四库全书繁体转写单一电子谱系，引文逐字保留快照字形，不作简繁转换。禄定义句内己/巳互讹三处，读定依据见 table 条目 glyph_note 与审定注记 A3。"
+  },
+  "task": "TJ-012.3 Slice A 禄刃选格路线负向裁定",
+  "variant": "bazi-pattern-luren-route-v1"
+}

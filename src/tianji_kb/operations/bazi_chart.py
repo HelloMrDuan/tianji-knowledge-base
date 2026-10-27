@@ -6,7 +6,8 @@ from ..bazi_action_conditions import EFFECT_VARIANT, action_conditions, action_e
 from ..bazi_adjudication import ADJUDICATION_VARIANT, strength_assessment
 from ..bazi_root_conditions import STRENGTH_VARIANT, AVAILABILITY_VARIANT, root_conditions, root_availability, conditional_factor_graph
 from ..bazi_strength import FACTOR_VARIANT, factors as _strength_factors
-from ..bazi_pattern import PATTERN_VARIANT, candidates as pattern_candidates
+from ..bazi_pattern import (PATTERN_VARIANT, candidates as pattern_candidates,
+                            month_pattern_route)
 from ..bazi_tiaohou import VARIANT as TIAOHOU_VARIANT, tiaohou_assessment
 from ..bazi_bingyao import VARIANT as BINGYAO_VARIANT, bingyao_assessment
 from ..bazi_conflict_presentation import VARIANT as CONFLICT_VARIANT, conflict_presentation
@@ -280,7 +281,13 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
             trace.add('bazi.phase2.' + family + '_pattern_candidates',
                       {'pattern_variant': pattern_variant, 'family': family}, observation)
             result['pattern_candidates'][family] = observation
-        result['production_scope'] += '；研究用正官/印绶月藏透干候选位置，不定格或判断成败喜用'
+        # TJ-012.3 Slice A: Ren 禄刃 route exclusion over the executed
+        # pillars only. Not a trace.add: this route rule has no sealed
+        # Phase1 rule / Phase2 contract registration yet, so it must not
+        # enter RuleMatch or Evidence (see bazi_pattern adjudication
+        # notes); it attaches to the result beside the candidates.
+        result['pattern_route'] = month_pattern_route(trace)
+        result['production_scope'] += '；研究用正官/印绶月藏透干候选位置，不定格或判断成败喜用；含任氏禄刃路线负向裁定（月逢禄刃无格可取、借用路线未定），不定格名真假用神'
     if tiaohou_variant is not None:
         # TJ-013.1: consumes only the executed pillar/ten-god/hidden-stem
         # steps above. Not a trace.add: this Variant has no sealed Phase1

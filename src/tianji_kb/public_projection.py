@@ -276,6 +276,10 @@ def project_execution(data):
             container.pop('bingyao_assessment', None)
             container.pop('conflict_presentation', None)
             container.pop('readable_hints', None)
+            # TJ-012.3 Slice A: the 禄刃 route exclusion is research-only
+            # (pending Phase1 registration); never let it reach a public
+            # response either.
+            container.pop('pattern_route', None)
     return result
 
 
