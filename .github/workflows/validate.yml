@@ -322,6 +322,18 @@ jobs:
       # acceptance only, NOT public CI: it reads the sealed snapshot
       # files and runs the assembled engine).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0112_fire_morphology.py' -v
+      # TJ-011.2 S1 metal/water root grading public contracts:
+      # pure-data register (zero functions), all 48 stem x branch cells
+      # graded or explicitly pending with counts matching the
+      # assessment, Diwang never per-stem listed (framework_derived
+      # for Geng/Ren, conflicted_pending for Xin/Gui), Xin/Gui
+      # Changsheng conflicts unadjudicated with affected cells equal
+      # to the pending sets, Lu positions dual-attested and
+      # branch-independent, all eight light roots conflict-annotated,
+      # and the sealed policy untouched. Snapshot-verbatim quote
+      # checks live in test_tj0112_metal_water_roots_sealed.py
+      # (offline acceptance only, NOT public CI).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0112_metal_water_roots.py' -v
       # TJ-011.2 Bing x Wu commanding predicate public contracts:
       # implementation anchor-provenance map keyed exactly by the
       # morphology register's nine conditions (governance-convention
