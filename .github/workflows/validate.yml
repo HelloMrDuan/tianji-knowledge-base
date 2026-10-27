@@ -144,6 +144,17 @@ jobs:
       # (offline acceptance only, NOT public CI, same partition rule:
       # the sequence stage needs assembled canonical foundations).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0174_dayun_compose.py' -v
+      # TJ-017.3 dayun timeline view public contracts: Golden view
+      # expectations vs the TJ-017.4 Golden transcription, view
+      # transform fidelity over fixtures assembled from the real
+      # first three stages plus Golden sequence rows (fixture
+      # honesty stated in the test), method-switch invariance,
+      # empty-state catalogue, forbidden-field sweep, fail-closed
+      # rejection, public-projection strip. End-to-end coverage
+      # against live composition results lives in
+      # test_tj0173_dayun_timeline_view_sealed.py (offline acceptance
+      # only, NOT public CI, same partition rule).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0173_dayun_timeline_view.py' -v
       # TJ-012.3 Slice A luren route public contracts: registered
       # 禄/刃 table vs Golden transcription, full stem x branch route
       # sweep, determination-None sweep, forged-trace rejection,

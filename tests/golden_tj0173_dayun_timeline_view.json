@@ -1,0 +1,254 @@
+{
+ "cases": [
+  {
+   "derivation_chain": [
+    "与 TJ-017.4 Golden Q1 同盘：戊戌/庚申/甲子/甲戌，阳年男顺行数未来节白露，实历 2046529 秒 = 284 时 + 余 1729 秒。",
+    "时长区间 [2840, 2850) 日（TJ-017.1 换算）；分解手算：284 时 = 7 个年单位（36 时/年单位）余 32 时，余时折 320 日，320 非 30 的整数倍故 remainder_months_of_30_days 为 None。",
+    "逐运起始区间与 TJ-017.4 Golden handover_intervals 逐字一致（首运 [1966-05-25, 1966-06-04)，其后每运平移十个历年）。"
+   ],
+   "expected": {
+    "direction": {
+     "counted_jie": {
+      "at": "1958-09-08T11:58:49+08:00",
+      "name": "白露"
+     },
+     "counting_target": "future_jie",
+     "label": "顺行",
+     "value": "forward"
+    },
+    "duration": {
+     "approximate": false,
+     "decomposition": {
+      "remainder_days": 320,
+      "remainder_months_of_30_days": null,
+      "remainder_shichen": 32,
+      "whole_year_units": 7
+     },
+     "interval_days": {
+      "max_days": 2850,
+      "max_inclusive": false,
+      "min_days": 2840
+     }
+    },
+    "entries": [
+     {
+      "basis": "birth_plus_start_duration_interval",
+      "earliest": "1966-05-25T19:30:00+08:00",
+      "ganzhi": "辛酉",
+      "latest": "1966-06-04T19:30:00+08:00",
+      "max_inclusive": false,
+      "period_index": 1,
+      "state": "interval",
+      "ten_god": "正官"
+     },
+     {
+      "basis": "start_duration_interval_plus_1_calendar_decades",
+      "earliest": "1976-05-25T19:30:00+08:00",
+      "ganzhi": "壬戌",
+      "latest": "1976-06-04T19:30:00+08:00",
+      "max_inclusive": false,
+      "period_index": 2,
+      "state": "interval",
+      "ten_god": "偏印"
+     },
+     {
+      "basis": "start_duration_interval_plus_2_calendar_decades",
+      "earliest": "1986-05-25T19:30:00+08:00",
+      "ganzhi": "癸亥",
+      "latest": "1986-06-04T19:30:00+08:00",
+      "max_inclusive": false,
+      "period_index": 3,
+      "state": "interval",
+      "ten_god": "正印"
+     }
+    ],
+    "notice_codes": [
+     "methods_presented_separately"
+    ],
+    "source_quote_ids": {
+     "direction_rule": [
+      "direction_rule",
+      "vol11_direction_witness"
+     ],
+     "handover_basis": [
+      "handover_decade"
+     ]
+    },
+    "status": "converted"
+   },
+   "id": "Q1-forward-male-1958",
+   "method": "sanming"
+  },
+  {
+   "derivation_chain": [
+    "与 TJ-017.4 Golden shenfeng_parallel_case 同盘：整日计数 23 日，神峰原文结果 23*120 = 2760 日，日级粒度区间 [2760, 2880)。",
+    "首运起始为组合层导出：出生 + [2760, 2880) 日 = [1966-03-06, 1966-07-04)；第二运起神峰口径不提供起始区间（not_provided 空态），不以十年平移拟制。"
+   ],
+   "expected": {
+    "direction": {
+     "counted_jie": {
+      "at": "1958-09-08T11:58:49+08:00",
+      "name": "白露"
+     },
+     "counting_target": "future_jie",
+     "label": "顺行",
+     "value": "forward"
+    },
+    "duration": {
+     "approximate": false,
+     "interval_days": {
+      "max_days": 2880,
+      "max_inclusive": false,
+      "min_days": 2760
+     },
+     "text_result_days": 2760,
+     "whole_days": 23
+    },
+    "entries": [
+     {
+      "derivation": "composition_level_birth_plus_shenfeng_duration_interval",
+      "earliest": "1966-03-06T19:30:00+08:00",
+      "ganzhi": "辛酉",
+      "latest": "1966-07-04T19:30:00+08:00",
+      "max_inclusive": false,
+      "period_index": 1,
+      "state": "interval",
+      "ten_god": "正官"
+     },
+     {
+      "ganzhi": "壬戌",
+      "period_index": 2,
+      "state": "not_provided",
+      "ten_god": "偏印"
+     },
+     {
+      "ganzhi": "癸亥",
+      "period_index": 3,
+      "state": "not_provided",
+      "ten_god": "正印"
+     }
+    ],
+    "notice_codes": [
+     "methods_presented_separately",
+     "shenfeng_decade_shifts_not_provided"
+    ],
+    "source_quote_ids": {
+     "conversion_examples": [
+      "sf_ex1",
+      "sf_ex3",
+      "sf_ex4"
+     ]
+    },
+    "status": "converted"
+   },
+   "id": "Q1-forward-male-1958",
+   "method": "shenfeng"
+  },
+  {
+   "derivation_chain": [
+    "TJ-016.2 ADV-001 同盘：2000-02-04T20:40:24+08:00 恰逢立春当秒，实历为零，维持拒绝口径。",
+    "视图整图呈 unresolved 空态：时长区间不给出、逐运起始区间为 None 并带未决状态，交运年份不拟制；序列干支事实（丁丑/丙子）仍呈现。"
+   ],
+   "expected": {
+    "direction": {
+     "counted_jie": {
+      "at": "2000-02-04T20:40:24+08:00",
+      "name": "立春"
+     },
+     "counting_target": "past_jie",
+     "label": "逆行",
+     "value": "backward"
+    },
+    "duration": {
+     "approximate": false,
+     "interval_days": null
+    },
+    "entries": [
+     {
+      "ganzhi": "丁丑",
+      "period_index": 1,
+      "state": "unresolved",
+      "ten_god": "正财"
+     },
+     {
+      "ganzhi": "丙子",
+      "period_index": 2,
+      "state": "unresolved",
+      "ten_god": "偏财"
+     }
+    ],
+    "notice_codes": [
+     "methods_presented_separately",
+     "zero_jie_boundary"
+    ],
+    "reason": "zero_jie_boundary_convention_unreviewed",
+    "source_quote_ids": {
+     "direction_rule": [
+      "direction_rule",
+      "vol11_direction_witness"
+     ]
+    },
+    "status": "unresolved"
+   },
+   "id": "ADV001-zero-jie-2000",
+   "method": "sanming"
+  },
+  {
+   "derivation_chain": [
+    "与 Q1 同盘、生刻精度 unknown：TJ-017.1 近似口径把秒级区间 [2840, 2850) 两端各加宽 10 日得 [2830, 2860)，approximate=true。",
+    "首运起始区间随之加宽为 [1966-05-15, 1966-06-14)；视图必须呈现加宽区间并带 approximate_birth_time 空态提示，不回退单点。"
+   ],
+   "expected": {
+    "direction": {
+     "counted_jie": {
+      "at": "1958-09-08T11:58:49+08:00",
+      "name": "白露"
+     },
+     "counting_target": "future_jie",
+     "label": "顺行",
+     "value": "forward"
+    },
+    "duration": {
+     "approximate": true,
+     "interval_days": {
+      "max_days": 2860,
+      "max_inclusive": false,
+      "min_days": 2830
+     }
+    },
+    "entries": [
+     {
+      "basis": "birth_plus_start_duration_interval",
+      "earliest": "1966-05-15T19:30:00+08:00",
+      "ganzhi": "辛酉",
+      "latest": "1966-06-14T19:30:00+08:00",
+      "max_inclusive": false,
+      "period_index": 1,
+      "state": "interval",
+      "ten_god": "正官"
+     }
+    ],
+    "notice_codes": [
+     "methods_presented_separately",
+     "approximate_birth_time"
+    ],
+    "source_quote_ids": {
+     "direction_rule": [
+      "direction_rule",
+      "vol11_direction_witness"
+     ],
+     "handover_basis": [
+      "handover_decade"
+     ]
+    },
+    "status": "converted"
+   },
+   "id": "P1-unknown-precision-1958",
+   "method": "sanming"
+  }
+ ],
+ "note": "View expectations are hand-derived from the TJ-017.4 Golden (hand-derived stage values and interval arithmetic) and the TJ-017.3 view contract in docs/product/TJ0173_DAYUN_TIMELINE_VIEW.md. The view adds no computation: every interval below must appear in the view byte-identical to the composition result it was copied from. End-to-end verification against live composition results lives in test_tj0173_dayun_timeline_view_sealed.py.",
+ "source_golden": "golden_tj0174_dayun_compose.json",
+ "task": "TJ-017.3",
+ "variant": "dayun-timeline-view-v1"
+}

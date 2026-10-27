@@ -283,6 +283,12 @@ def project_execution(data):
             # TJ-012.3 Slice B: the 杂气 selection statement is likewise
             # research-only (pending Phase1 registration).
             container.pop('pattern_zaqi', None)
+            # TJ-017.3: the Dayun timeline view is a research-layer
+            # view model over the TJ-017.4 composition (whole chain
+            # public_enabled=false); never let it reach a public
+            # response either.
+            container.pop('dayun_timeline_view', None)
+            container.pop('dayun_timeline_views', None)
     return result
 
 
