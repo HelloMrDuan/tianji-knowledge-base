@@ -299,6 +299,8 @@
 
 | E0219 | 2026-10-27 | TJ-017.3 | 阻塞 | 第一阶段视图模型完成（研究级，公开开放未做，本任务仍阻塞，状态不变）：新模块 bazi_dayun_timeline_view.py 消费 TJ-017.4 组合结果构造双口径时间轴视图——三命时级逐运起始区间、神峰日级并列仅首运区间，区间逐字保真（端点与开闭不变）、方法切换不改原局事实、逐方法呈现 Variant 与原文出处（只限组合实际携带的引文）；空态目录齐全：恰逢节整图未决、神峰零日未决、生刻不明近似加宽提示、神峰逐运未提供、神峰未组合时 fail-closed 拒绝；年龄不呈现（古典为实历时长、虚岁实岁无原典）。落点裁定为后端研究层视图模型、不接公开页面：全链 public_enabled=false 且 evidence_binding 待 Phase1 注册，公开开放属分阶段开放后续裁定；公开投影已加 dayun_timeline_view 防御剥离。Golden 4 例（Q1 双口径、ADV-001、P1）全真实时刻、期望手工推导；公开专项 22 测、密封专项在组装环境回验真实组合。裁定与契约见 docs/product/TJ0173_DAYUN_TIMELINE_VIEW.md。 | — | — | — |
 
+| E0220 | 2026-10-27 | TJ-017.3 | 阻塞 | 关账（第一阶段视图模型已合并验收部署，公开开放未做，本任务仍阻塞，状态不变）：PR #400 合并 main 7316e63663038f79bb9f42e18b411f239ad83c17（公开 CI 26 checks 全绿、零失败）后，机上离线验收 SUCCESS（acceptance-7316e63663038f79bb9f42e18b411f239ad83c17.json：总计 1408 测，public-git 15、public-only 24、private-backend 1369，failures 0、errors 0，1 既存 skip 不计通过；test_tj0173_dayun_timeline_view 与密封专项真实执行），与合并前同配方复跑一致；DEPLOYED 2026-10-27T04:13:04Z，镜像 tianji-api:cicd-prerelease-7316e636，pin c6f7896224484d1e3e07e04b2b1bc05e6d0afac39e12559fa625b782bd7c45eb。父级亲核：PR #400 文件面、Head 与 CI 终态（26/26 completed、0 failure）核实无误，视图模型区间保真与年龄不呈现口径与 E0219 一致。公开开放前置仍未清：evidence_binding 待密封 Phase1 注册，公开开放属能力纲领分阶段开放后续裁定，本任务保持阻塞。 | — | — | — |
+
 ## 怎样追加下一条
 
 1. 先确认选中的 `TJ-xxx.y` 真正达到了它在 WBS 中的验收条件。没有就仍记进行中、阻塞或 CI 待验，不造完成。

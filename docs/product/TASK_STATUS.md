@@ -63,7 +63,7 @@
 | TJ-016.3 | M3 | 研究模拟与正式运期的硬边界 | 已合并 | [公开 #332](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/332) | 2026-10-25 | #332 已合并；硬边界验证（research_only 契约+公开无暴露断言）已在主干；零新功能代码；phase2 测试由离线受控验收执行，公开 CI 不冒称 |
 | TJ-017.1 | M3 | 有出处的运期锚点计算/区间规则 | 已部署验收 | [公开 #383](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/383) | 2026-10-26 | 证据范围完成：三命通会 Source 登记（C 级，普查 C:95）与神峰起大运法审定段 + 方向古典 Variant（与现代候选 120 组合零分歧）+ 三命时级换算 Variant（区间契约、反约整）+ 神峰日级另立，见 E0202；已关账：机上验收 SUCCESS 1267 测并部署（pin 5af95e0a），本行关闭，见 E0203；TJ-017.2、TJ-017.3 仍待做（独立任务行，状态不变） |
 | TJ-017.2 | M3 | 原局＋大运＋流年跨规则调用 | 阻塞 | — | — | 等待证据/前置依赖 |
-| TJ-017.3 | M3 | 用户可读时间轴视图 | 阻塞 | — | — | 前置已消解；第一阶段研究级视图模型完成（双口径方法选择/来源呈现/空态目录，年龄不呈现），公开开放待密封 Phase1 注册与分阶段开放裁定，见 E0219 |
+| TJ-017.3 | M3 | 用户可读时间轴视图 | 阻塞 | [公开 #400](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/400) | 2026-10-27 | 第一阶段研究级视图模型完成：新模块 bazi_dayun_timeline_view 消费 TJ-017.4 组合结果构造双口径时间轴视图（区间逐字保真、方法切换不改原局事实、空态目录齐全、年龄不呈现），落点为后端研究层、不接公开页面，公开投影已加防御剥离，见 E0219；第一阶段已关账：机上验收 SUCCESS 1408 测并部署（pin c6f78962），见 E0220；公开开放待密封 Phase1 注册与分阶段开放裁定，保持阻塞 |
 | TJ-017.4 | M3 | 大运真实盘组合入口与序列时间对齐 | 已部署验收 | [公开 #385](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/385) | 2026-10-26 | 新领任务：TJ-017.2 先行审计证实其 WBS 定义为跨规则调用（依赖 M2）、与本接线工作无关，父级裁定新设同族任务行（TJ-017.2 行定义与状态不动）。实现组合入口 classical_dayun_timeline（新模块 bazi_dayun_compose.py：calendar_for_zone 四柱 → classical_direction → adjacent_jie_distance → sanming_convert_measurement → candidate_sequence 逐运起始区间对齐；神峰日级仅并列），只调用已审资产、不产生新规则/新裁定，见 E0204；已关账：机上验收 SUCCESS 1285 测并部署（pin 043d7e5c），本行关闭，见 E0205；TJ-017.3 显示面未做 |
 | TJ-018.1 | M4 | 寻找具体古籍条目的底本/版本/合法引用 | 待做 | — | — | 按 WBS 验收条件执行 |
 | TJ-018.2 | M4 | 校勘/异文/不同电子来源独立性 | 待做 | — | — | 按 WBS 验收条件执行 |
