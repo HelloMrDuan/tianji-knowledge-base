@@ -121,10 +121,14 @@ class GoldenCalendarReplayTest(unittest.TestCase):
                                  "strong", case["id"])
                 why = assessment["why_not_indeterminate"]
                 self.assertIsNotNone(why, case["id"])
-                self.assertEqual(why["sufficient_predicate"],
+                # S5 (E0254): commanding registered in the sealed
+                # bundle; binding is the registered Phase2 rule.
+                self.assertEqual(why["sufficient_rule"],
+                                 "bazi.phase2.strength_"
                                  "commanding_visible_support",
                                  case["id"])
-                self.assertIsNone(why["sufficient_rule"], case["id"])
+                self.assertNotIn("sufficient_predicate", why,
+                                 case["id"])
             else:
                 self.assertEqual(assessment["classification"],
                                  "indeterminate", case["id"])

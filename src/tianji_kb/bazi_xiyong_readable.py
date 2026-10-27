@@ -79,14 +79,22 @@ PREDICATE_LABELS = {
     'isolated_control': '孤立受克',
 }
 
-# 裁定出口有两种形态（见 bazi_adjudication）：pure_support 与
-# isolated_control 经已注册的 trace rule 发出，why 只带
-# sufficient_rule；pure_generating_support 尚待 Phase1 注册，经有限
-# 出口发出，why 带 sufficient_predicate 且 sufficient_rule 为 None。
-# 渲染器按此映射派生谓词，两形态并存且不一致时 fail-closed。
+# 裁定出口有两种形态（见 bazi_adjudication）：pure_support、
+# isolated_control、pure_generating_support（S5 治理批注册
+# bazi.rule.r029）与 commanding_visible_support（S5 注册
+# bazi.rule.r030）经各自已注册的 trace rule 发出，why 只带
+# sufficient_rule；lu_visible_support、pure_support_metal、
+# pure_generating_support_water 尚待 Phase1/Phase2 注册，经有限
+# 出口（r026）发出，why 带 sufficient_predicate 且 sufficient_rule
+# 为 None。渲染器按此映射派生谓词，两形态并存且不一致时
+# fail-closed。commanding_visible_support 的谓词名不在
+# PREDICATE_LABELS 内（本层未审其条件键转写），其裁决在本层仍
+# fail-closed，与注册前行为一致。
 RULE_TO_PREDICATE = {
     'bazi.phase2.strength_pure_support': 'pure_support',
     'bazi.phase2.strength_isolated_control': 'isolated_control',
+    'bazi.phase2.strength_pure_generating_support': 'pure_generating_support',
+    'bazi.phase2.strength_commanding_visible_support': 'commanding_visible_support',
 }
 
 # 已审充分谓词条件键的自然语言转写（一一对应 bazi_action_conditions

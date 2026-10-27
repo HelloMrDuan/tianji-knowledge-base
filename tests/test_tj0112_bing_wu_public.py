@@ -91,10 +91,15 @@ class GoldenConsistencyTests(unittest.TestCase):
                 self.assertEqual(failed, set(), case['id'])
                 self.assertEqual(case['expect']['classification'],
                                  'strong', case['id'])
-                self.assertIsNone(case['expect']['sufficient_rule'])
+                # S5 governance batch: the commanding predicate is
+                # registered in the sealed snapshot (bazi.rule.r030);
+                # the design Golden records the registered binding.
+                self.assertEqual(
+                    case['expect']['sufficient_rule'],
+                    'bazi.phase2.strength_commanding_visible_support')
                 self.assertEqual(
                     case['expect']['predicate_rule_registration'],
-                    'pending_phase1_rule_registration')
+                    'registered_phase1_phase2')
             else:
                 self.assertEqual(
                     failed, set(case['expect']['failed_conditions']),

@@ -98,21 +98,22 @@ class HaiPositiveTests(unittest.TestCase):
                          'reviewed_sufficient_rule_matched')
         why = assessment['why_not_indeterminate']
         self.assertIsNotNone(why)
-        # The predicate has no sealed rule registration yet: the verdict
-        # must NOT claim a registered rule ID. It names the predicate in
-        # code terms and discloses the pending registration instead, and
-        # no trace step exists under an unregistered/borrowed rule ID.
-        self.assertIsNone(why['sufficient_rule'])
-        self.assertEqual(why['sufficient_predicate'], 'pure_generating_support')
-        self.assertEqual(why['predicate_rule_registration'],
-                         'pending_phase1_rule_registration')
+        # S5 governance batch: the predicate is registered in the
+        # sealed snapshot (bazi.rule.r029), so the verdict is issued
+        # through its own registered trace step, exactly like
+        # pure_support; it carries no pending-registration disclosure
+        # and no sufficient_predicate alias.
+        self.assertEqual(why['sufficient_rule'],
+                         'bazi.phase2.strength_pure_generating_support')
+        self.assertNotIn('sufficient_predicate', why)
+        self.assertNotIn('predicate_rule_registration', why)
         trace_rule_ids = [s['rule_id'] for s in out['trace']]
-        self.assertNotIn('bazi.phase2.strength_pure_generating_support',
-                         trace_rule_ids)
+        self.assertIn('bazi.phase2.strength_pure_generating_support',
+                      trace_rule_ids)
         self.assertIn('bazi.phase2.strength_bounded_adjudication',
                       trace_rule_ids)
-        self.assertNotIn('bazi.phase2.strength_pure_generating_support',
-                         assessment['matched_rule_ids'])
+        self.assertIn('bazi.phase2.strength_pure_generating_support',
+                      assessment['matched_rule_ids'])
         self.assertTrue(why['all_required_conditions_verified'])
         self.assertEqual({c['condition'] for c in why['conditions']}, GENERATING_KEYS)
         for cond in why['conditions']:

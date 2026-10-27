@@ -384,6 +384,7 @@ jobs:
       # (offline acceptance only, NOT public CI: it needs the sealed
       # snapshot).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0112_bing_si_lu_public.py' -v
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0112_s5_registration_public.py' -v
       # TJ-011.2 earth (Wu/Ji) root grading public contracts:
       # pure-data register (zero functions), all 24 stem x branch
       # cells graded or explicitly pending/ungraded with counts
