@@ -1,0 +1,1050 @@
+{
+ "meta": {
+  "registration_id": "bazi-ditiansui-fuyi-registration-v1",
+  "task": "TJ-013.1 S3 (ditiansui fuyi three-passage registration)",
+  "mirror_of": "src/tianji_kb/bazi_ditiansui_fuyi.py",
+  "note": "Full mirror of the registration module constants; public tests assert equality."
+ },
+ "snapshot": {
+  "file": "ditiansui_chanwei.txt",
+  "snapshot_path": "data/quarantine/public_domain_snapshots/daizhigev20/ditiansui_chanwei.txt",
+  "sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+  "bytes": 368684,
+  "chars": 139538
+ },
+ "cross_snapshots": {
+  "sanming_tonghui.txt": {
+   "snapshot_path": "data/quarantine/public_domain_snapshots/daizhigev20/sanming_tonghui.txt",
+   "sha256": "00e2a7db8bb59b259b99938033bb1bb77947e04a15dafc111e62b59378010c86",
+   "bytes": 1342659,
+   "chars": 461157
+  },
+  "shenfeng_tongkao.txt": {
+   "snapshot_path": "data/quarantine/public_domain_snapshots/daizhigev20/shenfeng_tongkao.txt",
+   "sha256": "121a571b7fa63e073f067d5532a42e2feb7d4d5fdd7874de2ca48036a615e200",
+   "bytes": 422432,
+   "chars": 154642
+  }
+ },
+ "passages": [
+  {
+   "passage_id": "ditiansui.fuyi_shaiwang",
+   "chapter": "十七、衰旺",
+   "chapter_title_locator": {
+    "char_start": 39507,
+    "char_end": 39512
+   },
+   "source_id": "bazi.source.ditiansui-spouse",
+   "span": {
+    "char_start": 39513,
+    "char_end": 39967
+   },
+   "components": [
+    "章题句",
+    "原注（扶抑总纲 F-1）",
+    "任氏曰（U2 能力陈述注记）"
+   ],
+   "quote_ids": [
+    "fy.shaiwang_head",
+    "fy.shaiwang_yuanzhu",
+    "fy.shaiwang_u2"
+   ],
+   "note": "衰旺章：篇头句 [39513,39533)、原注 [39537,39643)；U2 位于同章任氏曰 doctrine 段 [39937,39967)，与 F-1 之间隔任氏曰论述与根列举段（已由 s025/s026/s041 等既有登记覆盖），本批只登记 U2 一句作注记。"
+  },
+  {
+   "passage_id": "ditiansui.fuyi_xingxiang",
+   "chapter": "十、形象",
+   "source_id": "bazi.source.ditiansui-spouse",
+   "span": {
+    "char_start": 27046,
+    "char_end": 27619
+   },
+   "components": [
+    "诗句",
+    "原注（形全/形缺定义）",
+    "任氏曰（转述＋通变告诫）",
+    "任氏曰（四字分用通则）"
+   ],
+   "quote_ids": [
+    "fy.xingxiang_verse",
+    "fy.xingxiang_yuanzhu",
+    "fy.xingxiang_renshi_restatement",
+    "fy.xingxiang_renshi_differentiation"
+   ],
+   "note": "形象章扶抑段（F-2）：四层连续登记 [27046,27619)；任氏曰在「此补前人所未发之言也」之后尚有对原注月令集合的批评性续文，不在本批范围（见 limitations）。审源锚点 27059 为约值，本登记以机上实测节界为准（诗句起 27046、原注起 27068、任氏曰起 27128）。"
+  },
+  {
+   "passage_id": "ditiansui.fuyi_tiyong",
+   "chapter": "十三、体用",
+   "source_id": "bazi.source.ditiansui-spouse",
+   "span": {
+    "char_start": 35408,
+    "char_end": 35872
+   },
+   "components": [
+    "任氏曰（总则＋反转条款）",
+    "任氏曰（提纲为用段）",
+    "任氏曰（方向表段）"
+   ],
+   "quote_ids": [
+    "fy.tiyong_general_rule",
+    "fy.tiyong_tigang",
+    "fy.tiyong_table_para"
+   ],
+   "note": "体用章任氏曰扶抑段（F-3）：三段以段落换行相隔（总则段终于 35584、提纲段 [35585,35659)、方向表段 [35660,35872)），连续登记；本段之前为任氏曰体用定义论述（体者形象气局之谓也起，35328 起），不在本批范围。"
+  }
+ ],
+ "quotes": [
+  {
+   "id": "fy.shaiwang_head",
+   "passage_id": "ditiansui.fuyi_shaiwang",
+   "source_id": "bazi.source.ditiansui-spouse",
+   "layer": "章题句",
+   "role": "chapter_head",
+   "quote": "能知衰旺之真机,其于三命之奥,思过半矣。",
+   "locator": {
+    "char_start": 39513,
+    "char_end": 39533
+   },
+   "output_nature": "chapter_framing_not_a_rule",
+   "judgment_sentences": [],
+   "note": "衰旺章篇头句（能知衰旺之真机，其于三命之奥，思过半矣）：章旨陈述，非判句；登记以定 F-1 所在章界（章题「十七、衰旺」位于字符 39507）。"
+  },
+  {
+   "id": "fy.shaiwang_yuanzhu",
+   "passage_id": "ditiansui.fuyi_shaiwang",
+   "source_id": "bazi.source.ditiansui-spouse",
+   "layer": "原注",
+   "role": "fuyi_general_principle_with_counter_clauses",
+   "quote": "旺则宜泄宜伤,衰则喜帮喜助,子平之理也。然旺中有衰者存,不可损也;衰右有旺者存,不可益也。旺之可损,以损在其中矣;衰之极者不可所当损者而损之,反凶;实所当益者而益之,反害,此真机,皆能知之,又何难于详察三微奥乎?",
+   "locator": {
+    "char_start": 39537,
+    "char_end": 39643
+   },
+   "output_nature": "direction_not_classification",
+   "judgment_sentences": [
+    {
+     "text": "旺则宜泄宜伤",
+     "locator": {
+      "char_start": 39537,
+      "char_end": 39543
+     },
+     "kind": "general_rule",
+     "quantifiers": [],
+     "premise_state": "旺",
+     "directions": [
+      "泄",
+      "伤"
+     ]
+    },
+    {
+     "text": "衰则喜帮喜助",
+     "locator": {
+      "char_start": 39544,
+      "char_end": 39550
+     },
+     "kind": "general_rule",
+     "quantifiers": [],
+     "premise_state": "衰",
+     "directions": [
+      "帮",
+      "助"
+     ]
+    },
+    {
+     "text": "旺中有衰者存,不可损也",
+     "locator": {
+      "char_start": 39558,
+      "char_end": 39569
+     },
+     "kind": "counter_clause",
+     "quantifiers": []
+    },
+    {
+     "text": "衰右有旺者存,不可益也",
+     "locator": {
+      "char_start": 39570,
+      "char_end": 39581
+     },
+     "kind": "counter_clause",
+     "quantifiers": [],
+     "glyph_refs": [
+      "fy-glyph-01"
+     ]
+    },
+    {
+     "text": "旺之可损,以损在其中矣",
+     "locator": {
+      "char_start": 39582,
+      "char_end": 39593
+     },
+     "kind": "counter_clause_detail",
+     "quantifiers": []
+    },
+    {
+     "text": "衰之极者不可所当损者而损之,反凶",
+     "locator": {
+      "char_start": 39594,
+      "char_end": 39610
+     },
+     "kind": "counter_clause_detail",
+     "quantifiers": [
+      {
+       "term": "极",
+       "status": "quantifier_unthresholded"
+      }
+     ],
+     "glyph_refs": [
+      "fy-glyph-02"
+     ]
+    },
+    {
+     "text": "实所当益者而益之,反害",
+     "locator": {
+      "char_start": 39611,
+      "char_end": 39622
+     },
+     "kind": "counter_clause_detail",
+     "quantifiers": []
+    }
+   ],
+   "note": "扶抑总纲（F-1）：旺/衰已判为前提，输出是泄/伤/帮/助的取用方向而非强弱分类；自带反例条款（旺中有衰不可损、衰中有旺不可益、所当损/益的反凶反害），其自身不构成充分条件。转写疑讹两项（衰右、衰之极者段）逐字保留、见字形登记。"
+  },
+  {
+   "id": "fy.shaiwang_u2",
+   "passage_id": "ditiansui.fuyi_shaiwang",
+   "source_id": "bazi.source.ditiansui-spouse",
+   "layer": "任氏曰",
+   "role": "capability_statement_unplaced",
+   "quote": "日干不论月令休囚,只要四柱有根,便能受财官食神而当伤官七杀。",
+   "locator": {
+    "char_start": 39937,
+    "char_end": 39967
+   },
+   "output_nature": "capability_statement_not_classification",
+   "judgment_sentences": [
+    {
+     "text": "日干不论月令休囚,只要四柱有根,便能受财官食神而当伤官七杀。",
+     "locator": {
+      "char_start": 39937,
+      "char_end": 39967
+     },
+     "kind": "capability_statement",
+     "quantifiers": []
+    }
+   ],
+   "note": "U2 能力陈述注记：「只要四柱有根，便能受财官食神而当伤官七杀」输出的是能受/能当的能力陈述，现行 Variant 输出契约只有 strong/weak/indeterminate 三值，无此陈述的落点；且与孤立定义合用会诱使「有根→不弱」的反推，不登记为分类规则，只作注记。审源锚点 39946 为句中「只要」起位，本登记以句首实测 39937 为准。"
+  },
+  {
+   "id": "fy.xingxiang_verse",
+   "passage_id": "ditiansui.fuyi_xingxiang",
+   "source_id": "bazi.source.ditiansui-spouse",
+   "layer": "诗句",
+   "role": "fuyi_verse_principle",
+   "quote": "形全者宜损其有余,形缺者宜补其不足。",
+   "locator": {
+    "char_start": 27046,
+    "char_end": 27064
+   },
+   "output_nature": "direction_not_classification",
+   "judgment_sentences": [
+    {
+     "text": "形全者宜损其有余",
+     "locator": {
+      "char_start": 27046,
+      "char_end": 27054
+     },
+     "kind": "verse_principle",
+     "quantifiers": [
+      {
+       "term": "有余",
+       "status": "quantifier_unthresholded"
+      }
+     ],
+     "directions": [
+      "损"
+     ]
+    },
+    {
+     "text": "形缺者宜补其不足",
+     "locator": {
+      "char_start": 27055,
+      "char_end": 27063
+     },
+     "kind": "verse_principle",
+     "quantifiers": [
+      {
+       "term": "不足",
+       "status": "quantifier_unthresholded"
+      }
+     ],
+     "directions": [
+      "补"
+     ]
+    }
+   ],
+   "note": "形象章诗句（F-2 首层）：形全/形缺为输入分类（定义见原注），损有余/补不足为取用方向；有余/不足为相对量词、无阈值。"
+  },
+  {
+   "id": "fy.xingxiang_yuanzhu",
+   "passage_id": "ditiansui.fuyi_xingxiang",
+   "source_id": "bazi.source.ditiansui-spouse",
+   "layer": "原注",
+   "role": "form_classification_by_month_set",
+   "quote": "如甲木生于寅、卯、辰月,丙火生于已、午未月,皆为形全;戊土生于寅、卯、辰月,庚金生于巳、午、未月,缺。余仿此。",
+   "locator": {
+    "char_start": 27068,
+    "char_end": 27123
+   },
+   "output_nature": "form_classification_partial_enumeration",
+   "judgment_sentences": [
+    {
+     "text": "如甲木生于寅、卯、辰月,丙火生于已、午未月,皆为形全",
+     "locator": {
+      "char_start": 27068,
+      "char_end": 27094
+     },
+     "kind": "definition_example",
+     "quantifiers": [],
+     "glyph_refs": [
+      "fy-glyph-03"
+     ]
+    },
+    {
+     "text": "戊土生于寅、卯、辰月,庚金生于巳、午、未月,缺",
+     "locator": {
+      "char_start": 27095,
+      "char_end": 27118
+     },
+     "kind": "definition_example",
+     "quantifiers": []
+    },
+    {
+     "text": "余仿此",
+     "locator": {
+      "char_start": 27119,
+      "char_end": 27122
+     },
+     "kind": "analogy_marker",
+     "quantifiers": []
+    }
+   ],
+   "note": "形全/形缺的月令集合定义：原注只逐干举例甲木、丙火（形全）与戊土、庚金（形缺），其余以「余仿此」类推——治理禁止以类推补表，本登记不展开未举例诸干的集合成员资格。丙火「生于已」之已疑为巳之讹，见字形登记 fy-glyph-03。"
+  },
+  {
+   "id": "fy.xingxiang_renshi_restatement",
+   "passage_id": "ditiansui.fuyi_xingxiang",
+   "source_id": "bazi.source.ditiansui-spouse",
+   "layer": "任氏曰",
+   "role": "restatement_and_anti_mechanical_caveat",
+   "quote": "形全宜损,形缺宜补之说,即子平“旺则宜泄宜伤,衰则喜帮喜助”之谓也。命书万卷,总不外此二句,读之直捷痛快,显然明白,故人人得而知之。究之深奥异常,其中作用实有至理,庸俗只知旺用泄伤,衰用帮助,以致吉凶颠倒,宜忌淆乱也。以余论之,须将四字分用为是,通变在一“宜字”。",
+   "locator": {
+    "char_start": 27128,
+    "char_end": 27260
+   },
+   "output_nature": "direction_not_classification",
+   "judgment_sentences": [
+    {
+     "text": "形全宜损,形缺宜补之说,即子平“旺则宜泄宜伤,衰则喜帮喜助”之谓也",
+     "locator": {
+      "char_start": 27128,
+      "char_end": 27161
+     },
+     "kind": "restatement_of_f1",
+     "quantifiers": []
+    },
+    {
+     "text": "庸俗只知旺用泄伤,衰用帮助,以致吉凶颠倒,宜忌淆乱也",
+     "locator": {
+      "char_start": 27210,
+      "char_end": 27236
+     },
+     "kind": "caveat_consequence",
+     "quantifiers": []
+    },
+    {
+     "text": "须将四字分用为是,通变在一“宜字”",
+     "locator": {
+      "char_start": 27242,
+      "char_end": 27259
+     },
+     "kind": "anti_mechanical_caveat",
+     "quantifiers": []
+    }
+   ],
+   "note": "任氏曰转述段：明言形全/形缺说即 F-1 总纲之谓，并给出全书最关键的反机械告诫——泄/伤/帮/助四字须分用、通变在一「宜」字；庸俗只知旺用泄伤、衰用帮助则吉凶颠倒。此告诫本身即声明四选规则不可机械化。"
+  },
+  {
+   "id": "fy.xingxiang_renshi_differentiation",
+   "passage_id": "ditiansui.fuyi_xingxiang",
+   "source_id": "bazi.source.ditiansui-spouse",
+   "layer": "任氏曰",
+   "role": "four_character_differentiation",
+   "quote": "宜泄则泄之为妙,宜伤则伤之有功。泄者食伤也,伤者官杀也。均是旺也,或泄之有害,而伤之有利;或泄之有利,而伤之有害,所以泄伤两字,宜分而用之也。\n宜帮则帮之为切,宜助则助之为佳。帮者比劫也,助者印绶也。均是衰也,帮之则凶,而助之则吉;或帮之则吉,而助之则凶,所以帮助两字,亦宜分而用之也。\n如日主旺相,柱中财官无气,泄之则官星有损,秎则去比劫之有余,补官星之不足,所谓伤之有利,而泄之有害也。\n日主旺相,柱中财官不见,满局比劫,伤之则激而有害,不若泄之以顺其气势,所谓“伤之有害,而泄之有利”也\n日主衰弱,柱中财星重叠,印绶助之反坏,帮则去财星之有余,补日主之不足,所以帮之则吉,而助之则凶也。\n日主衰弱,柱中官杀交加,满盘杀势,帮之恐反克无情,不若助之以化其强暴,所以帮之则凶,而助之则吉也。\n此补前人所未发之言也。",
+   "locator": {
+    "char_start": 27261,
+    "char_end": 27619
+   },
+   "output_nature": "direction_not_classification",
+   "judgment_sentences": [
+    {
+     "text": "宜泄则泄之为妙,宜伤则伤之有功",
+     "locator": {
+      "char_start": 27261,
+      "char_end": 27276
+     },
+     "kind": "differentiation_rule",
+     "quantifiers": []
+    },
+    {
+     "text": "泄者食伤也,伤者官杀也",
+     "locator": {
+      "char_start": 27277,
+      "char_end": 27288
+     },
+     "kind": "term_gloss",
+     "quantifiers": []
+    },
+    {
+     "text": "均是旺也,或泄之有害,而伤之有利;或泄之有利,而伤之有害,所以泄伤两字,宜分而用之也",
+     "locator": {
+      "char_start": 27289,
+      "char_end": 27331
+     },
+     "kind": "differentiation_condition",
+     "quantifiers": []
+    },
+    {
+     "text": "宜帮则帮之为切,宜助则助之为佳",
+     "locator": {
+      "char_start": 27333,
+      "char_end": 27348
+     },
+     "kind": "differentiation_rule",
+     "quantifiers": []
+    },
+    {
+     "text": "帮者比劫也,助者印绶也",
+     "locator": {
+      "char_start": 27349,
+      "char_end": 27360
+     },
+     "kind": "term_gloss",
+     "quantifiers": []
+    },
+    {
+     "text": "均是衰也,帮之则凶,而助之则吉;或帮之则吉,而助之则凶,所以帮助两字,亦宜分而用之也",
+     "locator": {
+      "char_start": 27361,
+      "char_end": 27403
+     },
+     "kind": "differentiation_condition",
+     "quantifiers": []
+    },
+    {
+     "text": "如日主旺相,柱中财官无气,泄之则官星有损,秎则去比劫之有余,补官星之不足",
+     "locator": {
+      "char_start": 27405,
+      "char_end": 27441
+     },
+     "kind": "worked_general_example",
+     "quantifiers": [
+      {
+       "term": "无气",
+       "status": "quantifier_unthresholded"
+      },
+      {
+       "term": "有余",
+       "status": "quantifier_unthresholded"
+      },
+      {
+       "term": "不足",
+       "status": "quantifier_unthresholded"
+      }
+     ],
+     "glyph_refs": [
+      "fy-glyph-04"
+     ]
+    },
+    {
+     "text": "日主旺相,柱中财官不见,满局比劫,伤之则激而有害,不若泄之以顺其气势",
+     "locator": {
+      "char_start": 27457,
+      "char_end": 27491
+     },
+     "kind": "worked_general_example",
+     "quantifiers": [
+      {
+       "term": "满局",
+       "status": "quantifier_unthresholded"
+      }
+     ]
+    },
+    {
+     "text": "日主衰弱,柱中财星重叠,印绶助之反坏,帮则去财星之有余,补日主之不足",
+     "locator": {
+      "char_start": 27508,
+      "char_end": 27542
+     },
+     "kind": "worked_general_example",
+     "quantifiers": [
+      {
+       "term": "重叠",
+       "status": "quantifier_unthresholded"
+      },
+      {
+       "term": "有余",
+       "status": "quantifier_unthresholded"
+      },
+      {
+       "term": "不足",
+       "status": "quantifier_unthresholded"
+      }
+     ]
+    },
+    {
+     "text": "日主衰弱,柱中官杀交加,满盘杀势,帮之恐反克无情,不若助之以化其强暴",
+     "locator": {
+      "char_start": 27558,
+      "char_end": 27592
+     },
+     "kind": "worked_general_example",
+     "quantifiers": [
+      {
+       "term": "交加",
+       "status": "quantifier_unthresholded"
+      },
+      {
+       "term": "满盘",
+       "status": "quantifier_unthresholded"
+      }
+     ]
+    }
+   ],
+   "note": "四字分用通则段：泄/伤、帮/助的分别适用以「宜」为断，四则示例性通论（旺相财官无气、旺相满局比劫、衰弱财星重叠、衰弱官杀交加）含量化词（无气、满局、重叠、交加、满盘）且结论为条件式对照（伤之有利而泄之有害之类），无可机械执行的分用判据。第四则中「所谓“伤之有害,而泄之有利”也」后原文无句号即段落分行，逐字保留。"
+  },
+  {
+   "id": "fy.tiyong_general_rule",
+   "passage_id": "ditiansui.fuyi_tiyong",
+   "source_id": "bazi.source.ditiansui-spouse",
+   "layer": "任氏曰",
+   "role": "fuyi_general_rule_and_reversal",
+   "quote": "玩本文末句云,“要在扶之抑之得其宜”,显见体用之用,即用神无疑颖。旺则抑之,弱则扶之,虽不易之法,然有不易中之变易者,惟在审察“得其宜”三字而己矣。旺则抑之,如不可抑,反宜扶之;弱则扶之,如不可扶,反宜抑之。此命理之真机,五行颠倒之妙用也。盖旺极者抑之,抑之反激而有害,则宜从其强而扶之;弱极者扶之,扶之徒劳而无功,则宜从其弱而抑之。是不可以一端论也。",
+   "locator": {
+    "char_start": 35408,
+    "char_end": 35584
+   },
+   "output_nature": "direction_not_classification",
+   "judgment_sentences": [
+    {
+     "text": "要在扶之抑之得其宜",
+     "locator": {
+      "char_start": 35416,
+      "char_end": 35425
+     },
+     "kind": "quoted_yuanzhu_principle",
+     "quantifiers": []
+    },
+    {
+     "text": "旺则抑之,弱则扶之",
+     "locator": {
+      "char_start": 35441,
+      "char_end": 35450
+     },
+     "kind": "general_rule",
+     "quantifiers": [],
+     "premise_state": "旺/弱"
+    },
+    {
+     "text": "旺则抑之,如不可抑,反宜扶之",
+     "locator": {
+      "char_start": 35482,
+      "char_end": 35496
+     },
+     "kind": "reversal_clause",
+     "quantifiers": []
+    },
+    {
+     "text": "弱则扶之,如不可扶,反宜抑之",
+     "locator": {
+      "char_start": 35497,
+      "char_end": 35511
+     },
+     "kind": "reversal_clause",
+     "quantifiers": []
+    },
+    {
+     "text": "旺极者抑之,抑之反激而有害,则宜从其强而扶之",
+     "locator": {
+      "char_start": 35529,
+      "char_end": 35551
+     },
+     "kind": "extreme_reversal_clause",
+     "quantifiers": [
+      {
+       "term": "极",
+       "status": "quantifier_unthresholded"
+      }
+     ]
+    },
+    {
+     "text": "弱极者扶之,扶之徒劳而无功,则宜从其弱而抑之",
+     "locator": {
+      "char_start": 35552,
+      "char_end": 35574
+     },
+     "kind": "extreme_reversal_clause",
+     "quantifiers": [
+      {
+       "term": "极",
+       "status": "quantifier_unthresholded"
+      }
+     ]
+    }
+   ],
+   "note": "体用章任氏曰扶抑总则段（F-3 上半）：首句「要在扶之抑之得其宜」为任氏转引原注末句（转引关系在此标明，不作任氏自述）；总则「旺则抑之，弱则扶之」带反转条款（不可抑反宜扶、不可扶反宜抑）与极端反转（旺极从强而扶、弱极从弱而抑，触发状态为从旺/从强/孤立的极端档）。「无疑颖」之颖、「而己矣」之己为转写疑讹，见字形登记 fy-glyph-07/08。"
+  },
+  {
+   "id": "fy.tiyong_tigang",
+   "passage_id": "ditiansui.fuyi_tiyong",
+   "source_id": "bazi.source.ditiansui-spouse",
+   "layer": "任氏曰",
+   "role": "direction_statements_tigang",
+   "quote": "如日主旺,提纲或官或财或食伤,皆可为用;日主衰,别寻四柱干支有帮身者为用。提纲是禄刃,即以提纲为体,看其大势,以四柱干支食神财官,寻其得所者而用之。",
+   "locator": {
+    "char_start": 35585,
+    "char_end": 35659
+   },
+   "output_nature": "direction_not_classification",
+   "judgment_sentences": [
+    {
+     "text": "如日主旺,提纲或官或财或食伤,皆可为用",
+     "locator": {
+      "char_start": 35585,
+      "char_end": 35604
+     },
+     "kind": "direction_statement",
+     "quantifiers": [],
+     "premise_state": "旺"
+    },
+    {
+     "text": "日主衰,别寻四柱干支有帮身者为用",
+     "locator": {
+      "char_start": 35605,
+      "char_end": 35621
+     },
+     "kind": "direction_statement",
+     "quantifiers": [],
+     "premise_state": "衰"
+    },
+    {
+     "text": "提纲是禄刃,即以提纲为体,看其大势,以四柱干支食神财官,寻其得所者而用之",
+     "locator": {
+      "char_start": 35622,
+      "char_end": 35658
+     },
+     "kind": "procedure_statement",
+     "quantifiers": []
+    }
+   ],
+   "note": "提纲为用段：日主旺则提纲所现官/财/食伤皆可为用、日主衰则别寻帮身者为用——以旺/衰已判为前提的方向陈述，无量化词亦不可执行（输入缺失）。"
+  },
+  {
+   "id": "fy.tiyong_table_para",
+   "passage_id": "ditiansui.fuyi_tiyong",
+   "source_id": "bazi.source.ditiansui-spouse",
+   "layer": "任氏曰",
+   "role": "direction_table_paragraph",
+   "quote": "如四柱干支财杀过旺,日主旺中变弱,须寻其帮身制化财杀者而用之。日主为体者,日主旺,印绶多,必要财星为用;日主旺,官杀轻,亦以财星为用。日主旺,比劫多 ,耐我财星,以食伤为用;日主旺,比劫多,而财星轻,亦以食伤为用。日主旺,官星轻,銕绶重,以财星为用;日主弱,官杀旺,则以印绶为用,日主弱,食伤多,亦以印绶为用;日主弱,财星旺,则以比劫为用。日主与官杀两停者,则以食伤为用;日主与财星均敌者,则以印比为用。此皆用神之的当者也。",
+   "locator": {
+    "char_start": 35660,
+    "char_end": 35872
+   },
+   "output_nature": "direction_not_classification",
+   "judgment_sentences": [
+    {
+     "text": "如四柱干支财杀过旺,日主旺中变弱,须寻其帮身制化财杀者而用之",
+     "locator": {
+      "char_start": 35660,
+      "char_end": 35690
+     },
+     "kind": "table_preamble",
+     "quantifiers": [
+      {
+       "term": "过旺",
+       "status": "quantifier_unthresholded"
+      }
+     ]
+    },
+    {
+     "text": "此皆用神之的当者也",
+     "locator": {
+      "char_start": 35862,
+      "char_end": 35871
+     },
+     "kind": "table_closing",
+     "quantifiers": []
+    }
+   ],
+   "note": "方向表所在段：首句为表前引（财杀过旺、日主旺中变弱，须寻帮身制化者为用，含量化词「过旺」）；「日主为体者」以下为方向表本体，逐行转写见 FUYI_DIRECTION_TABLE（快照实测十行）；末句「此皆用神之的当者也」为任氏对表行的总评语。"
+  }
+ ],
+ "direction_table": {
+  "quote_id": "fy.tiyong_table_para",
+  "passage_id": "ditiansui.fuyi_tiyong",
+  "source_id": "bazi.source.ditiansui-spouse",
+  "layer": "任氏曰",
+  "lead_in": "日主为体者",
+  "closing": "此皆用神之的当者也。",
+  "body_locator": {
+   "char_start": 35697,
+   "char_end": 35862
+  },
+  "scout_row_count": 8,
+  "measured_row_count": 10,
+  "rows": [
+   {
+    "row": 1,
+    "text": "日主旺,印绶多,必要财星为用;",
+    "locator": {
+     "char_start": 35697,
+     "char_end": 35712
+    },
+    "premise_day_master_state": "旺",
+    "condition_quantifiers": [
+     {
+      "term": "多",
+      "status": "quantifier_unthresholded"
+     }
+    ],
+    "direction_god": "财星",
+    "output_nature": "direction_not_classification"
+   },
+   {
+    "row": 2,
+    "text": "日主旺,官杀轻,亦以财星为用。",
+    "locator": {
+     "char_start": 35712,
+     "char_end": 35727
+    },
+    "premise_day_master_state": "旺",
+    "condition_quantifiers": [
+     {
+      "term": "轻",
+      "status": "quantifier_unthresholded"
+     }
+    ],
+    "direction_god": "财星",
+    "output_nature": "direction_not_classification"
+   },
+   {
+    "row": 3,
+    "text": "日主旺,比劫多 ,耐我财星,以食伤为用;",
+    "locator": {
+     "char_start": 35727,
+     "char_end": 35747
+    },
+    "premise_day_master_state": "旺",
+    "condition_quantifiers": [
+     {
+      "term": "多",
+      "status": "quantifier_unthresholded"
+     }
+    ],
+    "direction_god": "食伤",
+    "output_nature": "direction_not_classification"
+   },
+   {
+    "row": 4,
+    "text": "日主旺,比劫多,而财星轻,亦以食伤为用。",
+    "locator": {
+     "char_start": 35747,
+     "char_end": 35767
+    },
+    "premise_day_master_state": "旺",
+    "condition_quantifiers": [
+     {
+      "term": "多",
+      "status": "quantifier_unthresholded"
+     },
+     {
+      "term": "轻",
+      "status": "quantifier_unthresholded"
+     }
+    ],
+    "direction_god": "食伤",
+    "output_nature": "direction_not_classification"
+   },
+   {
+    "row": 5,
+    "text": "日主旺,官星轻,銕绶重,以财星为用;",
+    "locator": {
+     "char_start": 35767,
+     "char_end": 35785
+    },
+    "premise_day_master_state": "旺",
+    "condition_quantifiers": [
+     {
+      "term": "轻",
+      "status": "quantifier_unthresholded"
+     },
+     {
+      "term": "重",
+      "status": "quantifier_unthresholded"
+     }
+    ],
+    "direction_god": "财星",
+    "output_nature": "direction_not_classification"
+   },
+   {
+    "row": 6,
+    "text": "日主弱,官杀旺,则以印绶为用,",
+    "locator": {
+     "char_start": 35785,
+     "char_end": 35800
+    },
+    "premise_day_master_state": "弱",
+    "condition_quantifiers": [
+     {
+      "term": "旺",
+      "status": "quantifier_unthresholded"
+     }
+    ],
+    "direction_god": "印绶",
+    "output_nature": "direction_not_classification"
+   },
+   {
+    "row": 7,
+    "text": "日主弱,食伤多,亦以印绶为用;",
+    "locator": {
+     "char_start": 35800,
+     "char_end": 35815
+    },
+    "premise_day_master_state": "弱",
+    "condition_quantifiers": [
+     {
+      "term": "多",
+      "status": "quantifier_unthresholded"
+     }
+    ],
+    "direction_god": "印绶",
+    "output_nature": "direction_not_classification"
+   },
+   {
+    "row": 8,
+    "text": "日主弱,财星旺,则以比劫为用。",
+    "locator": {
+     "char_start": 35815,
+     "char_end": 35830
+    },
+    "premise_day_master_state": "弱",
+    "condition_quantifiers": [
+     {
+      "term": "旺",
+      "status": "quantifier_unthresholded"
+     }
+    ],
+    "direction_god": "比劫",
+    "output_nature": "direction_not_classification"
+   },
+   {
+    "row": 9,
+    "text": "日主与官杀两停者,则以食伤为用;",
+    "locator": {
+     "char_start": 35830,
+     "char_end": 35846
+    },
+    "premise_day_master_state": "两停",
+    "condition_quantifiers": [
+     {
+      "term": "两停",
+      "status": "quantifier_unthresholded"
+     }
+    ],
+    "direction_god": "食伤",
+    "output_nature": "direction_not_classification"
+   },
+   {
+    "row": 10,
+    "text": "日主与财星均敌者,则以印比为用。",
+    "locator": {
+     "char_start": 35846,
+     "char_end": 35862
+    },
+    "premise_day_master_state": "均敌",
+    "condition_quantifiers": [
+     {
+      "term": "均敌",
+      "status": "quantifier_unthresholded"
+     }
+    ],
+    "direction_god": "印比",
+    "output_nature": "direction_not_classification"
+   }
+  ],
+  "note": "行数实测订正：审源（tj0112-general-strength-scout.md §3.1）计方向表八行，快照实测为十个分行——「比劫多」出现两行（「比劫多 ，耐我财星」行与「比劫多，而财星轻」行）、弱侧三行（官杀旺/食伤多/财星旺）、旺侧五行、两停/均敌两行。本登记逐行照原文转写（行序与对应关系不归一化、两比劫行并列不合并），行数出入以实测为准并在此明示。十行全部含量化词（多/轻/重/旺/两停/均敌），且全部以日主旺/弱（或两停/均敌）已判为前提——方向表按现状不可编码（S4 审定对象）。行 3「耐我财星」之耐、行 5「銕绶重」之銕为转写疑讹，见字形登记 fy-glyph-05/06。"
+ },
+ "glyph_notes": [
+  {
+   "id": "fy-glyph-01",
+   "position": 39571,
+   "char": "右",
+   "quote_id": "fy.shaiwang_yuanzhu",
+   "status": "suspected_transcription_preserved",
+   "mapped_reading": null,
+   "note": "「衰右有旺者存」之「右」：与上句「旺中有衰者存」对文，当为「中」之转写讹字；无独立见证入册，逐字保留、不径改。"
+  },
+  {
+   "id": "fy-glyph-02",
+   "span": {
+    "char_start": 39594,
+    "char_end": 39607
+   },
+   "char": null,
+   "quote_id": "fy.shaiwang_yuanzhu",
+   "status": "suspected_text_disorder_preserved",
+   "mapped_reading": null,
+   "note": "「衰之极者不可所当损者而损之」一段文气不顺，疑有脱字/倒文（如「不可」下疑脱一字、与下句「实所当益者而益之」不对称）；审源引文亦以「不可（益）……」的省略形式转述。本批不复原、不改读，整段按快照原字登记，判句标注以原字为准。"
+  },
+  {
+   "id": "fy-glyph-03",
+   "position": 27084,
+   "char": "已",
+   "quote_id": "fy.xingxiang_yuanzhu",
+   "status": "suspected_transcription_preserved",
+   "mapped_reading": null,
+   "note": "「丙火生于已」之「已」：同段庚金作「生于巳」，巳/已形近，此处当为巳之讹；逐字保留、不径改。"
+  },
+  {
+   "id": "fy-glyph-04",
+   "position": 27426,
+   "char": "秎",
+   "quote_id": "fy.xingxiang_renshi_differentiation",
+   "status": "suspected_transcription_preserved",
+   "mapped_reading": null,
+   "note": "「秎则去比劫之有余」之「秎」为罕用字，此处与上句「泄之则官星有损」相对、语义不顺，疑为转写之讹；无见证，逐字保留、不径改。"
+  },
+  {
+   "id": "fy-glyph-05",
+   "position": 35775,
+   "char": "銕",
+   "quote_id": "fy.tiyong_table_para",
+   "status": "suspected_transcription_preserved",
+   "mapped_reading": null,
+   "note": "方向表行 5「銕绶重」之「銕」（鐵之异体）：与「官星轻」相对成文者当为印绶，此处当即「印绶」之转写讹形；逐字保留，行表对应关系按原文登记（銕绶重→以财星为用）。"
+  },
+  {
+   "id": "fy-glyph-06",
+   "position": 35736,
+   "char": "耐",
+   "quote_id": "fy.tiyong_table_para",
+   "status": "suspected_transcription_preserved",
+   "mapped_reading": null,
+   "note": "方向表行 3「耐我财星」之「耐」语义存疑，疑为转写之讹；逐字保留、不径改。"
+  },
+  {
+   "id": "fy-glyph-07",
+   "position": 35439,
+   "char": "颖",
+   "quote_id": "fy.tiyong_general_rule",
+   "status": "suspected_transcription_preserved",
+   "mapped_reading": null,
+   "note": "「即用神无疑颖」之「颖」疑为衍字或讹字；逐字保留、不径改。"
+  },
+  {
+   "id": "fy-glyph-08",
+   "position": 35479,
+   "char": "己",
+   "quote_id": "fy.tiyong_general_rule",
+   "status": "suspected_transcription_preserved",
+   "mapped_reading": null,
+   "note": "「而己矣」之「己」为己/已形近混用；逐字保留、不径改。"
+  }
+ ],
+ "cross_references": [
+  {
+   "id": "fy-xref-01",
+   "source_id": "bazi.source.sanmingtonghui",
+   "snapshot_file": "sanming_tonghui.txt",
+   "kind": "same_text_fu_verse",
+   "quote": "身旺则宜泄宜伤身衰则喜扶喜助务禀中和之气莫令太过不及",
+   "locator": {
+    "char_start": 449583,
+    "char_end": 449609
+   },
+   "witness_status": "same_text_transmission_not_independent",
+   "scope_expanded": false,
+   "note": "三命同文赋诀：「身旺则宜泄宜伤，身衰则喜扶喜助，务禀中和之气，莫令太过不及」——与神峰 fy-xref-02 为同文传录，不构成独立见证；三命本无句读。此段在此快照中位于一赋段之末、「络绎赋」标题在此段之后出现，节界与赋文归属未正式划界，只按字面定位登记（审源锚点 449584 为句中起位校验值，句首实测 449583）。赋体总纲：无条件、无分行规则，不得据以立扶抑。"
+  },
+  {
+   "id": "fy-xref-02",
+   "source_id": "bazi.source.shenfeng",
+   "snapshot_file": "shenfeng_tongkao.txt",
+   "kind": "same_text_fu_verse",
+   "quote": "身旺则宜泄宜伤。身衰则喜扶喜助。务禀中和之气。莫令太过不及。",
+   "locator": {
+    "char_start": 148074,
+    "char_end": 148104
+   },
+   "witness_status": "same_text_transmission_not_independent",
+   "scope_expanded": false,
+   "note": "神峰同文段：文字与三命 fy-xref-01 相同，唯神峰本有句读（。分句）、三命本无句读；此段后接「憎爱赋」标题，节界未划界。同文传录不构成独立见证；神峰自有体系为病药（TJ-013 病药线），与扶抑相邻但不同系，不得混同登记。"
+  },
+  {
+   "id": "fy-xref-03",
+   "source_id": "bazi.source.sanmingtonghui",
+   "snapshot_file": "sanming_tonghui.txt",
+   "kind": "xiaoxi_fu_commentary_on_luck",
+   "quote": "看其余局次第扶抑而论之",
+   "locator": {
+    "char_start": 378133,
+    "char_end": 378144
+   },
+   "witness_status": "same_text_transmission_not_independent",
+   "scope_expanded": false,
+   "note": "三命《珞琭子消息赋》注文：「看其余局次第扶抑而论之」——论对象为方隅分布/余局（注文语境），不是原局日主扶抑 doctrine；只作交叉注记。审源锚点 378139 为「扶抑」二字起位，句首实测 378133。"
+  },
+  {
+   "id": "fy-xref-04",
+   "source_id": "bazi.source.sanmingtonghui",
+   "snapshot_file": "sanming_tonghui.txt",
+   "kind": "xiaoxi_fu_commentary_on_luck",
+   "segments": [
+    {
+     "quote": "运之支神太过之物则宜抑之不及之物则宜扶之",
+     "locator": {
+      "char_start": 385749,
+      "char_end": 385769
+     }
+    },
+    {
+     "quote": "若只详用神轻重扶抑者亦未善",
+     "locator": {
+      "char_start": 385786,
+      "char_end": 385799
+     }
+    }
+   ],
+   "witness_status": "same_text_transmission_not_independent",
+   "scope_expanded": false,
+   "note": "三命消息赋注文运法扶抑：「运之支神太过之物则宜抑之，不及之物则宜扶之」＋「若只详用神轻重扶抑者亦未善」——论对象为运之支神（运法），非原局日主；且注文自身对仅以轻重扶抑持保留。两段之间隔「须要与当生支神贯穿防其本末乖顺何如」等语，未登记。只作交叉注记。"
+  }
+ ],
+ "notes": [
+  "R1 登记≠可执行：本批为纯证据登记，仓库内不存在任何扶抑判定代码路径；扶抑仍双重受阻——以一般旺衰为必需输入（现仅四谓词的极窄覆盖）且方向表全行含量化词无阈值。登记只为 S4 审定备料，任何文案不得暗示扶抑已可判。",
+  "R2 层属分明：三段逐段标明诗句/原注/任氏曰层属（F-1 原注、F-2 诗句＋原注＋任氏曰、F-3 任氏曰）；F-3 首句「要在扶之抑之得其宜」为任氏转引原注末句，转引关系在引文注记中标明，不作任氏自述。",
+  "R3 量化词纪律：全部判句与方向表行的量化词（太重/根深类不在本三段内；本批实测为 多/轻/重/旺/极/过旺/两停/均敌/无气/满局/重叠/交加/满盘/有余/不足）逐项标注 quantifier_unthresholded，只登记、不阈值化；「两停/均敌」为原文的中间状态词、本身无定义，同列登记。",
+  "R4 输出性质：三段判句的输出均为取用方向（泄/伤/帮/助、以某神为用），不是强弱分类，逐条标注 output_nature=direction_not_classification；U2 为能力陈述、现行 Variant 契约无落点，单独以 capability_statement_unplaced 注记登记，不作分类规则。",
+  "R5 方向表实测订正：审源计八行，快照实测十行，逐行照原文转写、不归一化、两比劫行并列不合并；行序重演（十行首尾相接）与段内原文逐字对账由公开/密封测试钉死。",
+  "R6 同文传录：三命/神峰赋诀与三命消息赋注只作交叉注记登记（witness_status=same_text_transmission_not_independent）；三命、神峰两 Source 的 review_scope 未因本批扩充（scope_expanded=False），镜像/传录不计独立来源，与治理链口径一致。",
+  "R7 疑讹纪律：三段内转写疑讹 8 项逐项落账（fy-glyph-01..08），逐字保留快照原字，mapped_reading 一律为 None——无独立见证者不给校定读法、不径改。",
+  "R8 来源普查不变：滴天髓 Source 仍为既有 101 条之一（C 95 / D 6），本批只扩其 review_scope，不新增 Source、不升证据等级；本登记为公开仓证据登记，Canonical/Phase1 正式注册 pending（与既有研究级登记同口径披露），不借用 s 编号。"
+ ],
+ "limitations": [
+  "扶抑判定未建：三段登记后扶抑仍不可执行——一般旺衰覆盖未扩大（现四谓词），方向表十行全含量化词且全树无阈值定义，「两停/均敌」中间状态无定义；扶抑方向表按现状编码属不可建（审源不可建清单在案）。",
+  "S4 扶抑最小切片审定排在 S2（pure 形态金×酉/水×子推广）之后；本批不预判 S4 结论（S4 允许结论为零行可建）。",
+  "形象章任氏曰在「此补前人所未发之言也」之后的批评性续文（至于木生寅卯辰月、火生巳午未月为形全亦偏论也……）不在本批登记范围；体用章任氏曰本段之前的体用定义论述与之后的化神/方局/无用神诸段不在本批登记范围。",
+  "衰旺章登记率仍低：本批后衰旺章入册者为篇头句、原注与 U2 注记；任氏曰 doctrine 头的其余部分（颠倒之理二十则等）仍未登记，其不可建定性见审源报告。",
+  "三命《络绎赋》段与神峰同文段的节界与赋文归属未正式划界，交叉注记只按字面定位，不据以作任何赋文归属断言。"
+ ]
+}

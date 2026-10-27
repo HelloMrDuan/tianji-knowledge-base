@@ -228,6 +228,23 @@ jobs:
       # test_tj012_yuanhai_zhengguan_sealed.py (offline acceptance
       # only, NOT public CI: it reads the sealed snapshot files).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj012_yuanhai_zhengguan.py' -v
+      # TJ-013.1 S3 ditiansui fuyi three-passage registration public
+      # contracts: pure-data register mirrored against Golden, three
+      # passages with explicit layers (verse/yuanzhu/renshi), judgment
+      # sentence inventories with every quantifier marked
+      # quantifier_unthresholded, output nature pinned as direction
+      # not classification, F-1 counter-clauses registered, U2 kept as
+      # an unplaced capability statement, the direction table replayed
+      # verbatim in ten measured rows (scout counted eight; measured
+      # count governs, the two bijie rows stay separate), glyph notes
+      # with no mapped reading, same-text cross references marked
+      # not-independent, and no determination/threshold semantics
+      # anywhere. Verbatim quote equality against the snapshot, the
+      # glyph positions, the cross-reference slices and the source
+      # census live in test_tj0131_ditiansui_fuyi_sealed.py (offline
+      # acceptance only, NOT public CI: it reads the sealed snapshot
+      # files).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0131_ditiansui_fuyi.py' -v
       # TJ-018-A sanming juan2 collation register public contracts:
       # pure-data register mirrored against Golden, collation-note
       # form (required fields, status/disposition enums, confirmed
