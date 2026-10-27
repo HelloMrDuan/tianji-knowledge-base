@@ -38,9 +38,10 @@ WBS 定义核对（先行审计结论）：TJ-013.3 的工作包是「适用范�
   式吉凶与现实预测词汇（专项全域扫描钉住：吉/凶/宜/忌/灾/祸/发财/
   升职/喜用神/宜用/推荐/评分等子串零出现）；不引用古籍原文（引文
   留在结构化陈述内供复核，生成文本从严不带引文）。
-- 013.2 已披露的限制在本层如实保留：关系分类只消费病药第一对的角
-  色点名；第二对在病药段逐对陈述，但不单独做关系分类——冲突段以
-  口径行明示，不渲染任何第二对的关系结论。
+- TJ-013.2 第二阶段起，关系分类逐对消费病药两对的角色点名；冲突
+  段逐行渲染并标明关系所属对：第二对的关系在行内明示「第二对」，
+  第一对沿用既有行文不另标注；两对同盘至多一对触发（显干位置算
+  术约束），同一命盘的关系至多来自一对。
 - 本层不新增 trace rule，不进 RuleMatch 与 Evidence，不改变所携
   陈述的 evidence_binding 状态。
 """
@@ -125,6 +126,13 @@ BINGYAO_ROLE_TEXTS = {
     'disease': '为病药原文判为病之神',
     'medicine': '为病药原文判为药之神',
 }
+# 第二对的关系行在行内明示所属对（第一对沿用 BINGYAO_ROLE_TEXTS
+# 既有行文不另标注，013.3 第一阶段 9 例期望文本因此逐字不变）。
+BINGYAO_PAIR2_ROLE_TEXTS = {
+    'subject': '为病药第二对所论之主体',
+    'disease': '为病药第二对原文判为病之神',
+    'medicine': '为病药第二对原文判为药之神',
+}
 _ROLE_TO_KIND = {'medicine': 'support', 'disease': 'conflict',
                  'subject': 'pivot_overlap'}
 
@@ -136,7 +144,7 @@ ABSENT_LINES = {
     SYSTEM_FUYI: '扶抑体系尚未建成，暂不可判断。',
     SYSTEM_PATTERN: '格局用神体系尚未建成，暂不可判断。',
 }
-RELATION_SCOPE_LINE = '关系分类的口径：本阶段只使用病药第一对（财—比劫—官杀）的角色点名；病药第二对（食伤—印—财）已在病药段逐对陈述，本阶段不单独做关系分类。'
+RELATION_SCOPE_LINE = '关系分类的口径：病药两对（第一对财—比劫—官杀、第二对食伤—印—财）的角色点名均逐对用于关系分类；同一命盘至多一对触发，关系行标明所属对，第二对在行内明示。'
 NO_UNIFIED_VERDICT_LINE = '各体系陈述并列呈现，系统不作统一裁定。'
 
 LIMITATIONS = (
@@ -144,7 +152,7 @@ LIMITATIONS = (
     '本提示只存在于研究模式：不进入公开投影，不供 AI 解释使用；公开呈现须待各体系完成公开审核后另行接入。',
     '调候只渲染条目主序列；条目的条件分支序列、未编码分支与关联条目随结构化陈述携带，本阶段不展开渲染。',
     '病药两对均为结构候选：触发只陈述原文病药对的存在性命中，去病效力未裁定；未触发不等于无病，本提示不存在「无病」断言。',
-    '关系分类只消费病药第一对的角色点名，第二对不单独分类（与 TJ-013.2 呈现层已披露的限制一致）；各体系陈述并列呈现，本层不作统一裁定。',
+    '关系分类逐对消费病药两对的角色点名，第二对关系在行内明示所属对（与 TJ-013.2 呈现层第二阶段口径一致）；两对同盘至多一对触发，同一命盘的关系至多来自一对；各体系陈述并列呈现，本层不作统一裁定。',
     '旺衰裁定只覆盖已审充分谓词命中的命盘；未命中即未表态，未裁定不表示中和。扶抑、格局用神两体系尚未建成，其段落只报告缺席事实。',
 )
 
@@ -344,6 +352,10 @@ def _relation_lines(presentation):
             raise ValueError('Relation records require a stem')
         t_side = relation.get('tiaohou')
         b_side = relation.get('bingyao')
+        pair_id = relation.get('pair_id')
+        if pair_id not in (None,) + PAIR_IDS:
+            raise ValueError('Unsupported bingyao pair attribution '
+                             'for readable hints')
         if t_side is not None:
             if t_side.get('role') != 'primary_pick' \
                     or not isinstance(t_side.get('order'), int):
@@ -355,10 +367,19 @@ def _relation_lines(presentation):
             role = b_side.get('role')
             if role not in BINGYAO_ROLE_TEXTS:
                 raise ValueError('Unsupported bingyao relation side')
-            b_text = BINGYAO_ROLE_TEXTS[role]
+            if pair_id == PAIR_IDS[1]:
+                b_text = BINGYAO_PAIR2_ROLE_TEXTS[role]
+            elif pair_id == PAIR_IDS[0]:
+                b_text = BINGYAO_ROLE_TEXTS[role]
+            else:
+                raise ValueError('Bingyao relation side requires its '
+                                 'pair attribution')
         else:
             role = None
             b_text = '未点名'
+            if pair_id is not None:
+                raise ValueError('Pair attribution without a bingyao '
+                                 'relation side')
         if t_side is not None and b_side is not None:
             expected = _ROLE_TO_KIND[role]
         elif t_side is None and b_side is None:

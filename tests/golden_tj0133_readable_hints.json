@@ -1,7 +1,7 @@
 {
  "variant": "xiyong-readable-hints-v1",
  "task": "TJ-013.3 第一阶段（喜用结果用户可读提示）",
- "contract": "每例为真实出生时刻，经真实历法路径（calendar_for_zone）得四柱，出生时刻与四柱沿用 TJ-013.2/TJ-013 既有 Golden（weak、pivot 两例为本批新构造并在 derivation 中逐项手工推导）。期望文本全部按结构化事实手工撰写：每条 line 在 fact_sources 中标注其事实字段来源，严禁由实现输出反填。渲染事实封闭性（line 干名集合 ⊆ 输入事实干名集合）、禁用词零出现、确定性，由公开专项钉住；密封专项以真实 chart() 全链回验四对象与全部期望文本。presented_no_conflict 顶层状态在当前已审覆盖下真实盘不可达（TJ-013.2 已证），本 Golden 不以合成盘面充数，其状态行模板转写由公开专项的分类器逻辑测试覆盖并明示。",
+ "contract": "每例为真实出生时刻，经真实历法路径（calendar_for_zone）得四柱，出生时刻与四柱沿用 TJ-013.2/TJ-013 既有 Golden（weak、pivot 两例为本批新构造并在 derivation 中逐项手工推导）。期望文本全部按结构化事实手工撰写：每条 line 在 fact_sources 中标注其事实字段来源，严禁由实现输出反填。渲染事实封闭性（line 干名集合 ⊆ 输入事实干名集合）、禁用词零出现、确定性，由公开专项钉住；密封专项以真实 chart() 全链回验四对象与全部期望文本。presented_no_conflict 顶层状态在当前已审覆盖下真实盘不可达（TJ-013.2 已证），本 Golden 不以合成盘面充数，其状态行模板转写由公开专项的分类器逻辑测试覆盖并明示。TJ-013.2 第二阶段同步补记：冲突段口径行改写为病药双对均逐对分类（第二对关系行在行内明示所属对）；pair2-medicine-absent 例因新检出的第二对 conflict 呈现状态翻转为存在冲突；新增 pair2-support-pick-is-medicine 例钉住第二对 support 的可读行。变更逐例对照见本批 PR 正文。",
  "cases": [
   {
    "id": "support-first-pick-is-medicine",
@@ -207,7 +207,7 @@
        ]
       },
       {
-       "text": "关系分类的口径：本阶段只使用病药第一对（财—比劫—官杀）的角色点名；病药第二对（食伤—印—财）已在病药段逐对陈述，本阶段不单独做关系分类。",
+       "text": "关系分类的口径：病药两对（第一对财—比劫—官杀、第二对食伤—印—财）的角色点名均逐对用于关系分类；同一命盘至多一对触发，关系行标明所属对，第二对在行内明示。",
        "fact_sources": [
         "（静态口径行：无个盘事实）"
        ]
@@ -436,7 +436,7 @@
        ]
       },
       {
-       "text": "关系分类的口径：本阶段只使用病药第一对（财—比劫—官杀）的角色点名；病药第二对（食伤—印—财）已在病药段逐对陈述，本阶段不单独做关系分类。",
+       "text": "关系分类的口径：病药两对（第一对财—比劫—官杀、第二对食伤—印—财）的角色点名均逐对用于关系分类；同一命盘至多一对触发，关系行标明所属对，第二对在行内明示。",
        "fact_sources": [
         "（静态口径行：无个盘事实）"
        ]
@@ -646,7 +646,7 @@
        ]
       },
       {
-       "text": "关系分类的口径：本阶段只使用病药第一对（财—比劫—官杀）的角色点名；病药第二对（食伤—印—财）已在病药段逐对陈述，本阶段不单独做关系分类。",
+       "text": "关系分类的口径：病药两对（第一对财—比劫—官杀、第二对食伤—印—财）的角色点名均逐对用于关系分类；同一命盘至多一对触发，关系行标明所属对，第二对在行内明示。",
        "fact_sources": [
         "（静态口径行：无个盘事实）"
        ]
@@ -848,7 +848,7 @@
        ]
       },
       {
-       "text": "关系分类的口径：本阶段只使用病药第一对（财—比劫—官杀）的角色点名；病药第二对（食伤—印—财）已在病药段逐对陈述，本阶段不单独做关系分类。",
+       "text": "关系分类的口径：病药两对（第一对财—比劫—官杀、第二对食伤—印—财）的角色点名均逐对用于关系分类；同一命盘至多一对触发，关系行标明所属对，第二对在行内明示。",
        "fact_sources": [
         "（静态口径行：无个盘事实）"
        ]
@@ -1033,13 +1033,43 @@
        ]
       },
       {
+       "text": "干丁：单方点名。调候一侧：未点名；病药一侧：为病药第二对所论之主体。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao",
+        "conflict_presentation.relations[].pair_id"
+       ]
+      },
+      {
+       "text": "干壬：单方点名。调候一侧：未点名；病药一侧：为病药第二对原文判为病之神。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao",
+        "conflict_presentation.relations[].pair_id"
+       ]
+      },
+      {
+       "text": "干己：单方点名。调候一侧：未点名；病药一侧：为病药第二对原文判为药之神。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao",
+        "conflict_presentation.relations[].pair_id"
+       ]
+      },
+      {
        "text": "旺衰结论为「未裁定」的分类而非干值点名，与调候、病药两体系不可比，只作上下文呈现。",
        "fact_sources": [
         "conflict_presentation.relations[].classification"
        ]
       },
       {
-       "text": "关系分类的口径：本阶段只使用病药第一对（财—比劫—官杀）的角色点名；病药第二对（食伤—印—财）已在病药段逐对陈述，本阶段不单独做关系分类。",
+       "text": "关系分类的口径：病药两对（第一对财—比劫—官杀、第二对食伤—印—财）的角色点名均逐对用于关系分类；同一命盘至多一对触发，关系行标明所属对，第二对在行内明示。",
        "fact_sources": [
         "（静态口径行：无个盘事实）"
        ]
@@ -1053,7 +1083,7 @@
      ]
     }
    },
-   "derivation": "与 TJ-013.2 absent 例同盘（1950-01-20T11:30，己丑/丁丑/乙卯/壬午）。乙木丑月条目在审定快照中不存在→调候 not_applicable 行式由此例钉住。病药第一对比劫不显未触发；第二对触发（食神丁、印壬同显，药为偏财己）——第二对在病药段逐对陈述，但呈现层只消费第一对，故关系行为空、冲突段口径行明示第二对不单独分类，本例正钉住该限定不被渲染越界。扶抑、格局用神 absent。"
+   "derivation": "与 TJ-013.2 absent 例同盘（1950-01-20T11:30，己丑/丁丑/乙卯/壬午）。乙木丑月条目在审定快照中不存在→调候 not_applicable 行式由此例钉住。病药第一对比劫不显未触发；第二对触发（食神丁、印壬同显，药为偏财己）——第二对在病药段逐对陈述，但呈现层只消费第一对，故关系行为空、冲突段口径行明示第二对不单独分类，本例正钉住该限定不被渲染越界。扶抑、格局用神 absent。第二阶段补记：呈现层关系分类已逐对扩至病药双对，本盘第二对触发的三干（丁主体、壬病、己药）自阶段二起各记一条第二对 one_sided 关系行（调候不适用、无点名一侧为空），冲突段口径行同步改为双对分类口径；第一阶段「关系行为空」为旧口径下的既成事实，本例自阶段二起改钉新行为。"
   },
   {
    "id": "weak-isolated-control",
@@ -1268,7 +1298,7 @@
        ]
       },
       {
-       "text": "关系分类的口径：本阶段只使用病药第一对（财—比劫—官杀）的角色点名；病药第二对（食伤—印—财）已在病药段逐对陈述，本阶段不单独做关系分类。",
+       "text": "关系分类的口径：病药两对（第一对财—比劫—官杀、第二对食伤—印—财）的角色点名均逐对用于关系分类；同一命盘至多一对触发，关系行标明所属对，第二对在行内明示。",
        "fact_sources": [
         "（静态口径行：无个盘事实）"
        ]
@@ -1489,7 +1519,7 @@
        ]
       },
       {
-       "text": "关系分类的口径：本阶段只使用病药第一对（财—比劫—官杀）的角色点名；病药第二对（食伤—印—财）已在病药段逐对陈述，本阶段不单独做关系分类。",
+       "text": "关系分类的口径：病药两对（第一对财—比劫—官杀、第二对食伤—印—财）的角色点名均逐对用于关系分类；同一命盘至多一对触发，关系行标明所属对，第二对在行内明示。",
        "fact_sources": [
         "（静态口径行：无个盘事实）"
        ]
@@ -1678,12 +1708,23 @@
        ]
       },
       {
-       "text": "干丁：单方点名。调候一侧：为取用序列第1位；病药一侧：未点名。",
+       "text": "干丁：主体重合。调候一侧：为取用序列第1位；病药一侧：为病药第二对所论之主体。",
        "fact_sources": [
         "conflict_presentation.relations[].stem",
         "conflict_presentation.relations[].kind",
         "conflict_presentation.relations[].tiaohou",
-        "conflict_presentation.relations[].bingyao"
+        "conflict_presentation.relations[].bingyao",
+        "conflict_presentation.relations[].pair_id"
+       ]
+      },
+      {
+       "text": "干壬：单方点名。调候一侧：未点名；病药一侧：为病药第二对原文判为病之神。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao",
+        "conflict_presentation.relations[].pair_id"
        ]
       },
       {
@@ -1696,13 +1737,23 @@
        ]
       },
       {
+       "text": "干戊：单方点名。调候一侧：未点名；病药一侧：为病药第二对原文判为药之神。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao",
+        "conflict_presentation.relations[].pair_id"
+       ]
+      },
+      {
        "text": "旺衰结论为「未裁定」的分类而非干值点名，与调候、病药两体系不可比，只作上下文呈现。",
        "fact_sources": [
         "conflict_presentation.relations[].classification"
        ]
       },
       {
-       "text": "关系分类的口径：本阶段只使用病药第一对（财—比劫—官杀）的角色点名；病药第二对（食伤—印—财）已在病药段逐对陈述，本阶段不单独做关系分类。",
+       "text": "关系分类的口径：病药两对（第一对财—比劫—官杀、第二对食伤—印—财）的角色点名均逐对用于关系分类；同一命盘至多一对触发，关系行标明所属对，第二对在行内明示。",
        "fact_sources": [
         "（静态口径行：无个盘事实）"
        ]
@@ -1716,7 +1767,7 @@
      ]
     }
    },
-   "derivation": "与 TJ-013 病药 Golden foodwound-disease-medicine 例同盘（1952-08-16T05:30，壬辰/戊申/甲午/丁卯）。第二对触发（伤官丁、偏印壬同显，药为偏财戊，类读第二成员同盘）→第二对 triggered 行式与 EFF2 在此钉住。第一对财显比劫不显未触发。调候甲木七月条丁（透时柱）、庚（藏月柱申本气）。甲×申非谓词月→旺衰弃判。病药段状态沿用呈现层顶层（第一对）语义记 abstained，两对实情由 lines 逐对陈述，不合并。"
+   "derivation": "与 TJ-013 病药 Golden foodwound-disease-medicine 例同盘（1952-08-16T05:30，壬辰/戊申/甲午/丁卯）。第二对触发（伤官丁、偏印壬同显，药为偏财戊，类读第二成员同盘）→第二对 triggered 行式与 EFF2 在此钉住。第一对财显比劫不显未触发。调候甲木七月条丁（透时柱）、庚（藏月柱申本气）。甲×申非谓词月→旺衰弃判。病药段状态沿用呈现层顶层（第一对）语义记 abstained，两对实情由 lines 逐对陈述，不合并。第二阶段补记：本盘第二对触发，阶段二起冲突段新增第二对关系行——首取丁为第二对主体（主体重合，原单方点名行改写）、壬为第二对病（单方点名）、戊为第二对药（单方点名）；庚行与状态行逐字不变，口径行改为双对分类口径。"
   },
   {
    "id": "pair2-medicine-absent",
@@ -1789,7 +1840,7 @@
     "sufficient_rule": null,
     "conditions": []
    },
-   "expected_presentation_status": "presented_partial",
+   "expected_presentation_status": "presented_with_conflicts",
    "expected_sections": {
     "tiaohou": {
      "status": "adjudicated",
@@ -1882,10 +1933,10 @@
      ]
     },
     "conflict_presentation": {
-     "status": "presented_partial",
+     "status": "presented_with_conflicts",
      "lines": [
       {
-       "text": "跨体系关系呈现状态：部分呈现。无 conflict；已建三体系中至少一个弃判或不适用，其余陈述照常呈现。",
+       "text": "跨体系关系呈现状态：存在冲突。至少一条 conflict 关系存在，冲突原样呈现、无裁决。",
        "fact_sources": [
         "conflict_presentation.status",
         "conflict_presentation.status_definition"
@@ -1901,7 +1952,251 @@
        ]
       },
       {
-       "text": "干癸：单方点名。调候一侧：为取用序列第2位；病药一侧：未点名。",
+       "text": "干丙：单方点名。调候一侧：未点名；病药一侧：为病药第二对所论之主体。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao",
+        "conflict_presentation.relations[].pair_id"
+       ]
+      },
+      {
+       "text": "干癸：相互冲突。调候一侧：为取用序列第2位；病药一侧：为病药第二对原文判为病之神。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao",
+        "conflict_presentation.relations[].pair_id"
+       ]
+      },
+      {
+       "text": "旺衰结论为「未裁定」的分类而非干值点名，与调候、病药两体系不可比，只作上下文呈现。",
+       "fact_sources": [
+        "conflict_presentation.relations[].classification"
+       ]
+      },
+      {
+       "text": "关系分类的口径：病药两对（第一对财—比劫—官杀、第二对食伤—印—财）的角色点名均逐对用于关系分类；同一命盘至多一对触发，关系行标明所属对，第二对在行内明示。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      },
+      {
+       "text": "各体系陈述并列呈现，系统不作统一裁定。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      }
+     ]
+    }
+   },
+   "derivation": "与 TJ-013 病药 Golden foodwound-disease-no-medicine 例同盘（1950-10-16T17:30，庚寅/丙戌/甲申/癸酉）。第二对触发而药缺位（食神丙、正印癸同显，财戊己不显）→「财在本盘显干中未见」行式在此钉住；效力未裁定行在药缺位时同样附上（候选状态本身未裁定）。第一对主体财不显未触发。调候甲木九月条丁（藏月柱戌墓库位）、癸（透时柱）。甲×戌非谓词月→旺衰弃判。第二阶段补记：次取癸为第二对病干，阶段二起检出 conflict——呈现状态由部分呈现翻转为存在冲突（状态行与状态字段同步），癸行改写为第二对冲突行，另新增丙（第二对主体）单方点名行；丁行逐字不变。此盘为阶段二「原来不能判断、现在能判断」的实例：第一阶段冲突段对第二对不作关系分类，该冲突不可见。"
+  },
+  {
+   "id": "pair2-support-pick-is-medicine",
+   "focus": "pair2support",
+   "source_birth": {
+    "value": "1949-01-17T00:30:00+08:00",
+    "zone": "Asia/Shanghai"
+   },
+   "pillars": [
+    "戊子",
+    "乙丑",
+    "丁未",
+    "庚子"
+   ],
+   "day_master": "丁",
+   "facts": {
+    "tiaohou": {
+     "month_branch": "丑",
+     "visible_stems": [
+      "戊",
+      "乙",
+      "丁",
+      "庚"
+     ],
+     "hidden_stems": {
+      "year": [
+       "癸"
+      ],
+      "month": [
+       "己",
+       "癸",
+       "辛"
+      ],
+      "day": [
+       "己",
+       "丁",
+       "乙"
+      ],
+      "hour": [
+       "癸"
+      ]
+     }
+    },
+    "bingyao": {
+     "visible_gods": [
+      {
+       "pillar": "year",
+       "stem": "戊",
+       "ten_god": "伤官"
+      },
+      {
+       "pillar": "month",
+       "stem": "乙",
+       "ten_god": "偏印"
+      },
+      {
+       "pillar": "hour",
+       "stem": "庚",
+       "ten_god": "正财"
+      }
+     ]
+    }
+   },
+   "expected_strength": {
+    "classification": "indeterminate",
+    "decision_status": "insufficient_reviewed_rules",
+    "sufficient_predicate": null,
+    "sufficient_rule": null,
+    "conditions": []
+   },
+   "expected_presentation_status": "presented_partial",
+   "expected_sections": {
+    "tiaohou": {
+     "status": "adjudicated",
+     "lines": [
+      {
+       "text": "调候体系（《穷通宝鉴》丁火十二月条）：原文取用顺序为：甲（第1取，盘中未见）、庚（第2取，透于时柱）。",
+       "fact_sources": [
+        "tiaohou.day_master",
+        "tiaohou.month_label",
+        "tiaohou.sequence[].stem",
+        "tiaohou.sequence[].order",
+        "tiaohou.sequence[].presence",
+        "tiaohou.sequence[].visible_positions",
+        "tiaohou.sequence[].hidden_positions"
+       ]
+      }
+     ]
+    },
+    "bingyao": {
+     "status": "abstained",
+     "lines": [
+      {
+       "text": "病药体系（《神峰通考》）：按原文两组病药对逐对陈述，两对不合并为单一结论。",
+       "fact_sources": [
+        "（静态口径行：无个盘事实）"
+       ]
+      },
+      {
+       "text": "第一对（所论之神财、病为比劫、药为官杀）：所论之神财见于时柱干庚（正财），但病之比劫在本盘显干中未见，该对未触发；未触发不等于无病。",
+       "fact_sources": [
+        "bingyao.pairs[0].not_triggered_reason",
+        "bingyao.pairs[0].subject.gods"
+       ]
+      },
+      {
+       "text": "第二对（所论之神食伤、病为印、药为财）：食伤见于年柱干戊（伤官）；印见于月柱干乙（偏印）；财见于时柱干庚（正财）。",
+       "fact_sources": [
+        "bingyao.pairs[1].rule.subject_god_class",
+        "bingyao.pairs[1].rule.disease_god_class",
+        "bingyao.pairs[1].rule.medicine_god_class",
+        "bingyao.pairs[1].subject.gods",
+        "bingyao.pairs[1].disease_candidate.gods",
+        "bingyao.pairs[1].medicine_candidate.gods",
+        "bingyao.pairs[1].medicine_status"
+       ]
+      },
+      {
+       "text": "第二对只陈述原文病药对的结构候选：药是否能去病，古籍病药说本身未给出可执行裁定，本系统不作判断。",
+       "fact_sources": [
+        "bingyao.pairs[].medicine_effect_status=unadjudicated",
+        "bingyao.pairs[].determination=None"
+       ]
+      }
+     ]
+    },
+    "strength": {
+     "status": "abstained",
+     "lines": [
+      {
+       "text": "旺衰裁定体系在本盘未表态：已审充分谓词均未命中，旺衰未裁定；未裁定不表示中和，也不表示偏强或偏弱。",
+       "fact_sources": [
+        "strength.classification=indeterminate",
+        "strength.decision_status=insufficient_reviewed_rules"
+       ]
+      }
+     ]
+    },
+    "fuyi": {
+     "status": "absent",
+     "lines": [
+      {
+       "text": "扶抑体系尚未建成，暂不可判断。",
+       "fact_sources": [
+        "conflict_presentation.systems[].status=absent",
+        "conflict_presentation.systems[].statement=None"
+       ]
+      }
+     ]
+    },
+    "pattern_useful_god": {
+     "status": "absent",
+     "lines": [
+      {
+       "text": "格局用神体系尚未建成，暂不可判断。",
+       "fact_sources": [
+        "conflict_presentation.systems[].status=absent",
+        "conflict_presentation.systems[].statement=None"
+       ]
+      }
+     ]
+    },
+    "conflict_presentation": {
+     "status": "presented_partial",
+     "lines": [
+      {
+       "text": "跨体系关系呈现状态：部分呈现。无 conflict；已建三体系中至少一个弃判或不适用，其余陈述照常呈现。",
+       "fact_sources": [
+        "conflict_presentation.status",
+        "conflict_presentation.status_definition"
+       ]
+      },
+      {
+       "text": "干乙：单方点名。调候一侧：未点名；病药一侧：为病药第二对原文判为病之神。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao",
+        "conflict_presentation.relations[].pair_id"
+       ]
+      },
+      {
+       "text": "干庚：相互支持。调候一侧：为取用序列第2位；病药一侧：为病药第二对原文判为药之神。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao",
+        "conflict_presentation.relations[].pair_id"
+       ]
+      },
+      {
+       "text": "干戊：单方点名。调候一侧：未点名；病药一侧：为病药第二对所论之主体。",
+       "fact_sources": [
+        "conflict_presentation.relations[].stem",
+        "conflict_presentation.relations[].kind",
+        "conflict_presentation.relations[].tiaohou",
+        "conflict_presentation.relations[].bingyao",
+        "conflict_presentation.relations[].pair_id"
+       ]
+      },
+      {
+       "text": "干甲：单方点名。调候一侧：为取用序列第1位；病药一侧：未点名。",
        "fact_sources": [
         "conflict_presentation.relations[].stem",
         "conflict_presentation.relations[].kind",
@@ -1916,7 +2211,7 @@
        ]
       },
       {
-       "text": "关系分类的口径：本阶段只使用病药第一对（财—比劫—官杀）的角色点名；病药第二对（食伤—印—财）已在病药段逐对陈述，本阶段不单独做关系分类。",
+       "text": "关系分类的口径：病药两对（第一对财—比劫—官杀、第二对食伤—印—财）的角色点名均逐对用于关系分类；同一命盘至多一对触发，关系行标明所属对，第二对在行内明示。",
        "fact_sources": [
         "（静态口径行：无个盘事实）"
        ]
@@ -1930,7 +2225,7 @@
      ]
     }
    },
-   "derivation": "与 TJ-013 病药 Golden foodwound-disease-no-medicine 例同盘（1950-10-16T17:30，庚寅/丙戌/甲申/癸酉）。第二对触发而药缺位（食神丙、正印癸同显，财戊己不显）→「财在本盘显干中未见」行式在此钉住；效力未裁定行在药缺位时同样附上（候选状态本身未裁定）。第一对主体财不显未触发。调候甲木九月条丁（藏月柱戌墓库位）、癸（透时柱）。甲×戌非谓词月→旺衰弃判。"
+   "derivation": "与 TJ-013.2 第二阶段 Golden 例 pair2-support-pick-is-medicine 同一出生时刻与四柱（1949-01-17T00:30，戊子/乙丑/丁未/庚子，历法路径复核）。丁火日主：戊伤官、乙偏印、庚正财，第二对触发三件齐；第一对财显而比劫不显未触发。调候丁火十二月条甲（盘中未见）、庚（透时柱）。次取庚为第二对药干→冲突段「相互支持」行（第二阶段新增可判断关系）；丁非木日主→旺衰弃判。病药段状态沿呈现层体系记录口径记弃判（第一对未触发），第二对触发事实以病药段逐对陈述与冲突段关系行为准。"
   }
  ]
 }
