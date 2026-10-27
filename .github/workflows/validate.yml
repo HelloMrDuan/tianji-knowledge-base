@@ -212,6 +212,20 @@ jobs:
       # test_tj018a_sanming_juan2_sealed.py (offline acceptance only,
       # NOT public CI: it reads the sealed snapshot files).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj018a_sanming_juan2.py' -v
+      # TJ-018-B sanming juan2 sanxing collation register (same
+      # register as TJ-018-A, continuation volume) public contracts:
+      # pure-data register mirrored against Golden, collation-note
+      # form and confirmed anchor rule, PUA 8 (tuan/dai/xuan) and
+      # fang 5 readings pinned, branch-slot glyph dispositions
+      # (shu 8 read xu, ji 2 read si), one unresolved and one
+      # suspected entry pinned, naming variants in conflict with
+      # no adjudication, three-punishments concept linkage matching
+      # the adjudication code verbatim, 018-A register regression
+      # (44 notes untouched), source census unchanged (101).
+      # Snapshot-verbatim checks live in
+      # test_tj018b_sanming_sanxing_sealed.py (offline acceptance
+      # only, NOT public CI: it reads the sealed snapshot files).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj018b_sanming_sanxing.py' -v
       # TJ-011.2 fire morphology adjudication public contracts:
       # pure-data design register (zero functions), ten Ditiansui
       # definition/root quotes with self-consistent locators and layer
