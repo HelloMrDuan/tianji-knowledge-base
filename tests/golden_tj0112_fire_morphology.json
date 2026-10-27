@@ -1,0 +1,291 @@
+{
+ "cases": [
+  {
+   "category": "positive_strong",
+   "category_cn": "正强命中",
+   "condition_table": [
+    {
+     "condition": "fire_day_master_bing",
+     "fact": "日主丙",
+     "met": true
+    },
+    {
+     "condition": "reviewed_same_element_command_month",
+     "fact": "月支午，本气丁与丙同属火，relation=same_element（同类当令）",
+     "met": true
+    },
+    {
+     "condition": "visible_positions_support_only",
+     "fact": "显干丙/甲/甲：same_element、generates_me、generates_me，全生扶",
+     "met": true
+    },
+    {
+     "condition": "visible_resource_present",
+     "fact": "月干甲为印（generates_me）",
+     "met": true
+    },
+    {
+     "condition": "visible_peer_present",
+     "fact": "年干丙为比劫（same_element）",
+     "met": true
+    },
+    {
+     "condition": "effective_heavy_day_roots",
+     "fact": "根：日支寅藏丙（长生，明句级）、年/月/时三午藏丁（帝旺，推步级），全重根位；无支作用触及其柱，可用性 effective",
+     "met": true
+    },
+    {
+     "condition": "all_visible_have_reviewed_roots",
+     "fact": "丙根位午/寅在火已审集；甲根位寅在木已审集 {亥，寅，卯}",
+     "met": true
+    },
+    {
+     "condition": "no_unresolved_interactions",
+     "fact": "干合无；支合冲害无；寅午戌三合缺戌不成局",
+     "met": true
+    },
+    {
+     "condition": "hidden_layer_convention_applied",
+     "fact": "藏干非生扶记录：寅藏戊、午藏己（皆食伤类）——按治理约定记录、不否决",
+     "met": true
+    }
+   ],
+   "derivation": "人工逐条推导（按 FORM_BING_WU 九条件）：日主丙、月支午，本气丁与丙同火（same_element）→条件1/2真。显干丙（年、比）、甲（月、印）、甲（时、印）全生扶，印、比俱见→条件3/4/5真。结构根：寅藏丙（日支，长生·逐干明句级）、午藏丁（年/月/时三支，帝旺·推步级），全为重根位；支间无合冲害三合（寅午戌缺戌不合局，余皆无对）→条件6真。显干根位：丙有午/寅（火已审集），甲有寅（木已审集 亥寅卯）→条件7真。无干合（丙辛不共见、甲己不共见）、无支作用→条件8真。藏干非生扶事实记录：寅藏戊（食）、午藏己（食），按治理约定只作记录、不否决→条件9真。九条件全真、无 blockers → 设计期望 strong（从强主锚＋从旺共锚）。",
+   "expect": {
+    "current_implementation_classification": "indeterminate",
+    "design_classification": "strong",
+    "note": "现行 bazi-strength-adjudication-v1 无此谓词，本盘在现行裁决下为 indeterminate；strong 是实现批的复证目标。",
+    "sufficient_form": "bing-wu-commanding-visible-support-v1"
+   },
+   "expected_pillars": [
+    "丙午",
+    "甲午",
+    "丙寅",
+    "甲午"
+   ],
+   "id": "tj0112-fire-positive-bing-wu",
+   "source_birth": "1966-07-06T12:00:00+08:00",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "category": "outside_form_counterexample",
+   "category_cn": "形态外对照",
+   "condition_table": [
+    {
+     "condition": "fire_day_master_bing",
+     "fact": "日主丙",
+     "met": true
+    },
+    {
+     "condition": "reviewed_same_element_command_month",
+     "fact": "月支午，本气丁同火，same_element",
+     "met": true
+    },
+    {
+     "condition": "visible_positions_support_only",
+     "fact": "年干辛为财（i_control）显干，从强「绝无一毫财星官杀之气」否决",
+     "met": false
+    },
+    {
+     "condition": "visible_resource_present",
+     "fact": "月干甲为印",
+     "met": true
+    },
+    {
+     "condition": "visible_peer_present",
+     "fact": "时干丙为比劫",
+     "met": true
+    },
+    {
+     "condition": "effective_heavy_day_roots",
+     "fact": "根：月/日两午藏丁（帝旺，推步级），无支作用触及其柱，effective",
+     "met": true
+    },
+    {
+     "condition": "all_visible_have_reviewed_roots",
+     "fact": "辛（金）在盘中无根位（卯午诸支无庚辛藏干）——次要失败，随财干一并记录",
+     "met": false
+    },
+    {
+     "condition": "no_unresolved_interactions",
+     "fact": "年干辛与日干/时干丙构成丙辛干合（stem_five_combinations），未解作用在盘",
+     "met": false
+    },
+    {
+     "condition": "hidden_layer_convention_applied",
+     "fact": "藏干非生扶记录：午藏己、申藏庚/壬/戊；卯藏乙为印（生扶藏干，不计效）",
+     "met": true
+    }
+   ],
+   "derivation": "与正例同为丙日主午月、印（甲）与比（丙）俱见、根在午（丁，重根位）、无支作用（时支申与卯/午无对）。另有丙辛干合在盘（年干辛与日/时干丙），属未解作用，no_unresolved_interactions 亦假——逐条件核对时发现并如实登记。唯一实质差异：年干辛为财（i_control）显干——从强定义「绝无一毫财星官杀之气」直接否决，visible_positions_support_only 为假；辛在盘中无金属根位（支卯/午无庚辛藏干），all_visible_have_reviewed_roots 亦假（次要，随财干无根一并记录）。其余条件全真。形态不成立 → 设计期望 indeterminate（不判弱：无任何弱谓词适用于午月丙日主）。",
+   "expect": {
+    "current_implementation_classification": "indeterminate",
+    "design_classification": "indeterminate",
+    "failed_conditions": [
+     "visible_positions_support_only",
+     "all_visible_have_reviewed_roots",
+     "no_unresolved_interactions"
+    ],
+    "primary_break": "显干财星（从强定义直接否决）＋丙辛干合未解作用"
+   },
+   "expected_pillars": [
+    "辛卯",
+    "甲午",
+    "丙午",
+    "丙申"
+   ],
+   "id": "tj0112-fire-counter-visible-wealth",
+   "source_birth": "2011-06-20T15:30:00+08:00",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "category": "abstain_unknown",
+   "category_cn": "未知弃判",
+   "condition_table": [
+    {
+     "condition": "fire_day_master_bing",
+     "fact": "日主丙",
+     "met": true
+    },
+    {
+     "condition": "reviewed_same_element_command_month",
+     "fact": "月支午，本气丁同火，same_element",
+     "met": true
+    },
+    {
+     "condition": "visible_positions_support_only",
+     "fact": "显干丁/丙/甲：same_element、same_element、generates_me，全生扶",
+     "met": true
+    },
+    {
+     "condition": "visible_resource_present",
+     "fact": "时干甲为印",
+     "met": true
+    },
+    {
+     "condition": "visible_peer_present",
+     "fact": "年干丁、月干丙为比劫",
+     "met": true
+    },
+    {
+     "condition": "effective_heavy_day_roots",
+     "fact": "根在午（月/时），但月支午被日支子冲，支作用未解，该根可用性非 effective",
+     "met": false
+    },
+    {
+     "condition": "all_visible_have_reviewed_roots",
+     "fact": "丁/丙根位午在火已审集；甲根位亥在木已审集",
+     "met": true
+    },
+    {
+     "condition": "no_unresolved_interactions",
+     "fact": "子午冲（日支子冲月支午、时支午）未解",
+     "met": false
+    },
+    {
+     "condition": "hidden_layer_convention_applied",
+     "fact": "藏干非生扶记录：午藏己、亥藏壬——按约定记录、不否决（本例弃判源于支冲，与藏干无关）",
+     "met": true
+    }
+   ],
+   "derivation": "显干丁（年、比）、丙（月、比）、甲（时、印）全生扶，印比俱见；显干根位齐备：丁/丙有午（火已审集），甲有亥（木已审集，亥藏甲）。结构根在午（月、时两午藏丁，重根位）。但日支子与月支午、时支午构成子午冲（branch_six_clashes）——未解作用在盘，no_unresolved_interactions 为假；且月柱午根的支作用未解，其可用性非 effective，effective_heavy_day_roots 为假。两处失败同源（子午冲）。按既有口径作用未解即弃判 → 设计期望 indeterminate，弃判原因为作用未解，不作强弱任何一向的裁定。",
+   "expect": {
+    "abstain_reason": "interaction_effect_unresolved（子午冲）",
+    "current_implementation_classification": "indeterminate",
+    "design_classification": "indeterminate",
+    "failed_conditions": [
+     "effective_heavy_day_roots",
+     "no_unresolved_interactions"
+    ]
+   },
+   "expected_pillars": [
+    "丁亥",
+    "丙午",
+    "丙子",
+    "甲午"
+   ],
+   "id": "tj0112-fire-abstain-clashed-root",
+   "source_birth": "2007-06-11T12:00:00+08:00",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "category": "conflict_presentation",
+   "category_cn": "冲突呈现",
+   "condition_table": [
+    {
+     "condition": "fire_day_master_bing",
+     "fact": "日主丙",
+     "met": true
+    },
+    {
+     "condition": "reviewed_same_element_command_month",
+     "fact": "月支午，本气丁同火，same_element",
+     "met": true
+    },
+    {
+     "condition": "visible_positions_support_only",
+     "fact": "显干丙/甲/丙全生扶",
+     "met": true
+    },
+    {
+     "condition": "visible_resource_present",
+     "fact": "月干甲为印",
+     "met": true
+    },
+    {
+     "condition": "visible_peer_present",
+     "fact": "年干丙、时干丙为比劫",
+     "met": true
+    },
+    {
+     "condition": "effective_heavy_day_roots",
+     "fact": "午根（丁）可用；年/日戌根（丁，余气位）携根类型异文冲突（墓/余气），可用性被冲突阻断",
+     "met": false
+    },
+    {
+     "condition": "all_visible_have_reviewed_roots",
+     "fact": "甲（木）在盘中无已审根位（戌/午诸支无木藏干）——次要失败，一并记录",
+     "met": false
+    },
+    {
+     "condition": "no_unresolved_interactions",
+     "fact": "干合无；支合冲害无；寅午戌缺寅不成局",
+     "met": true
+    },
+    {
+     "condition": "hidden_layer_convention_applied",
+     "fact": "藏干非生扶记录：午藏己、戌藏戊/辛、申藏庚/壬/戊——按约定记录、不否决（本例阻断源于根类型冲突，与藏干克破无关）",
+     "met": true
+    }
+   ],
+   "derivation": "显干丙（年、比）、甲（月、印）、丙（时、比）全生扶，印比俱见；无干合、无支合冲害三合（戌午无对、寅午戌缺寅不成局）。结构根三处：午藏丁（月，帝旺推步级，无冲突）、戌藏丁（年/日，余气位）。戌根的根类型有已登记异文冲突：滴天髓根列举墓列作「丙丁逢戌」（戌为墓），余气列复本一亦作「丙丁逢戌」（戌为余气），冲突 bazi.concept.conflict_root_type_readings 未裁定——按既有机制，根携 type_source_conflict 即阻断裁决并在 conflict_checks 中呈现。effective_heavy_day_roots 因「全部根可用性达标」不满足为假（冲突根不可用）。次要：甲在盘中无木根位（戌/午无木藏干），all_visible_have_reviewed_roots 亦假，一并记录（与 TJ-011.2 木×亥冲突先例甲辰例的构成同理：冲突呈现不以其余条件全真为前提）。设计期望：indeterminate，冲突被呈现、裁决被阻断，绝不以任一读法单独判强。",
+   "expect": {
+    "conflict_blocking": true,
+    "conflict_ids": [
+     "bazi.concept.conflict_root_type_readings"
+    ],
+    "current_implementation_classification": "indeterminate",
+    "design_classification": "indeterminate",
+    "failed_conditions": [
+     "effective_heavy_day_roots",
+     "all_visible_have_reviewed_roots"
+    ]
+   },
+   "expected_pillars": [
+    "丙戌",
+    "甲午",
+    "丙戌",
+    "丙申"
+   ],
+   "id": "tj0112-fire-conflict-xu-root-type",
+   "source_birth": "2006-06-26T15:30:00+08:00",
+   "zone": "Asia/Shanghai"
+  }
+ ],
+ "meta": {
+  "calendar_note": "四柱由历法实算（设计阶段以 sxtwl 复核日柱与月支，密封专项在组装环境以生产历法链 engine.execute 终验）。时柱按五鼠遁（丙日子时戊起：午时甲、未时乙、申时丙、辰时壬）——初版设计误记 五鼠遁致四例时柱全错，经密封专项复核订正：四例出生时刻与时柱已按生产历法链实测改定（见各例 source_birth），形态条件结论不变。",
+  "form_ref": "bazi_fire_morphology.FORM_BING_WU (bing-wu-commanding-visible-support-v1)",
+  "purpose": "TJ-011.2 火线形态审定批的 Golden 命盘设计（只设计，不实现）：四例真实出生时刻，期望由人工按 bazi_fire_morphology.FORM_BING_WU 形态定义逐条推导，推导过程逐例记录在 derivation。期望不是任何程序的输出；实现批须以同一批命盘复证，推导与输出不符时以定义为准。",
+  "zone": "Asia/Shanghai"
+ }
+}
