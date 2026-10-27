@@ -184,4 +184,19 @@ jobs:
       # test_tj012_siling_matrix_sealed.py (offline acceptance only,
       # NOT public CI: it reads the sealed snapshot files).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj012_siling_matrix.py' -v
+      # TJ-012.3 Slice C step 2 yin-month siling pilot public contracts:
+      # hand-derived Golden boundary table (±1s at lichun / day-7 /
+      # day-14 / next jie, cross-timezone same instant, DST-era elapsed
+      # vs naive date subtraction), registration-consumption pins
+      # (segment bounds parsed from the registered convention,
+      # disclaimer verbatim, tampered registration fails closed),
+      # non-pilot versions and non-yin inputs never masquerading as
+      # pilot results, forged/uncertain inputs failing closed,
+      # determination-None and forbidden-key sweeps, projection strip.
+      # The pilot replays Jie instants from the pinned provider
+      # (lunar-python installed above). Snapshot-verbatim quote checks
+      # and assembled-env replay live in
+      # test_tj012_siling_pilot_sealed.py (offline acceptance only,
+      # NOT public CI: it reads the sealed snapshot files).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj012_siling_pilot.py' -v
       - run: python scripts/audit_public_asset_changes.py --inventory
