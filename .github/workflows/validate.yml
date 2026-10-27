@@ -384,4 +384,19 @@ jobs:
       # (offline acceptance only, NOT public CI: it needs the sealed
       # snapshot).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0112_bing_si_lu_public.py' -v
+      # TJ-011.2 earth (Wu/Ji) root grading public contracts:
+      # pure-data register (zero functions), all 24 stem x branch
+      # cells graded or explicitly pending/ungraded with counts
+      # matching the assessment (listed heavy 2, framework_derived 0,
+      # conflicted_pending 8, structural ungraded 8, no_root 6, light
+      # 0), Lu positions triple-attested and branch-independent,
+      # Diwang never graded (all four branch Diwang cells
+      # conflicted_pending), the Tu Changsheng conflict
+      # unadjudicated with affected cells equal to the pending sets,
+      # the light-root layer empty (Ditiansui listings enumerate no
+      # earth pair), and zero runtime wiring (no adjudication module
+      # imports the register). Snapshot-verbatim quote checks live in
+      # test_tj0112_earth_roots_sealed.py (offline acceptance only,
+      # NOT public CI).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0112_earth_roots.py' -v
       - run: python scripts/audit_public_asset_changes.py --inventory
