@@ -7,7 +7,7 @@ from ..bazi_adjudication import ADJUDICATION_VARIANT, strength_assessment
 from ..bazi_root_conditions import STRENGTH_VARIANT, AVAILABILITY_VARIANT, root_conditions, root_availability, conditional_factor_graph
 from ..bazi_strength import FACTOR_VARIANT, factors as _strength_factors
 from ..bazi_pattern import (PATTERN_VARIANT, candidates as pattern_candidates,
-                            month_pattern_route)
+                            month_pattern_route, month_pattern_zaqi)
 from ..bazi_tiaohou import VARIANT as TIAOHOU_VARIANT, tiaohou_assessment
 from ..bazi_bingyao import VARIANT as BINGYAO_VARIANT, bingyao_assessment
 from ..bazi_conflict_presentation import VARIANT as CONFLICT_VARIANT, conflict_presentation
@@ -287,7 +287,11 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
         # enter RuleMatch or Evidence (see bazi_pattern adjudication
         # notes); it attaches to the result beside the candidates.
         result['pattern_route'] = month_pattern_route(trace)
-        result['production_scope'] += '；研究用正官/印绶月藏透干候选位置，不定格或判断成败喜用；含任氏禄刃路线负向裁定（月逢禄刃无格可取、借用路线未定），不定格名真假用神'
+        # TJ-012.3 Slice B: 杂气 selection statement over the executed
+        # structural facts. Same registration status as Slice A: not a
+        # trace.add, no RuleMatch or Evidence entry.
+        result['pattern_zaqi'] = month_pattern_zaqi(trace)
+        result['production_scope'] += '；研究用正官/印绶月藏透干候选位置，不定格或判断成败喜用；含任氏禄刃路线负向裁定（月逢禄刃无格可取、借用路线未定），不定格名真假用神；含杂气月选格陈述（原注分支：戊己日看人元透出、一般日主只录原文不换算土格）与三命杂气格流派冲突并列，不定格名真假用神'
     if tiaohou_variant is not None:
         # TJ-013.1: consumes only the executed pillar/ten-god/hidden-stem
         # steps above. Not a trace.add: this Variant has no sealed Phase1
