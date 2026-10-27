@@ -289,6 +289,11 @@ def project_execution(data):
             # response either.
             container.pop('dayun_timeline_view', None)
             container.pop('dayun_timeline_views', None)
+            # TJ-012.3 Slice C step 2: the 寅月 siling pilot is a
+            # research-only Variant (pending Phase1 registration,
+            # internal research display only per the C+E ruling);
+            # never let a pilot block reach a public response either.
+            container.pop('siling_pilot', None)
     return result
 
 
