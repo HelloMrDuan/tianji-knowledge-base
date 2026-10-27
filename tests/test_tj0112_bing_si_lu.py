@@ -350,9 +350,13 @@ class BingSiVetoAndFailureTests(unittest.TestCase):
         self.assertFalse(effects['lu_visible_support_scope_met'])
         assessment = result['strength_assessment']
         self.assertEqual(assessment['classification'], 'strong')
+        # S5 (E0254): the Wu-month verdict now binds via the
+        # registered commanding rule (sealed Phase1 r030 / Phase2).
         self.assertEqual(
-            assessment['why_not_indeterminate']['sufficient_predicate'],
-            'commanding_visible_support')
+            assessment['why_not_indeterminate']['sufficient_rule'],
+            'bazi.phase2.strength_commanding_visible_support')
+        self.assertNotIn('sufficient_predicate',
+                         assessment['why_not_indeterminate'])
 
     def test_ding_not_applicable(self):
         # Ding x Si is blocked_by_conflict line-wide (Ding changsheng
@@ -529,6 +533,13 @@ class WholeDomainScanTests(unittest.TestCase):
             why = assessment['why_not_indeterminate']
             if predicate is None:
                 self.assertIsNone(why, case_id)
+            elif predicate == 'commanding_visible_support':
+                # S5 (E0254): registered binding, no predicate alias.
+                self.assertEqual(
+                    why['sufficient_rule'],
+                    'bazi.phase2.strength_commanding_visible_support',
+                    case_id)
+                self.assertNotIn('sufficient_predicate', why, case_id)
             else:
                 self.assertEqual(why['sufficient_predicate'], predicate,
                                  case_id)

@@ -207,9 +207,14 @@ class RegressionSpotCheckTests(unittest.TestCase):
         self.assertEqual(pillars, case['expected_pillars'])
         assessment = result['strength_assessment']
         self.assertEqual(assessment['classification'], 'strong')
+        # S5 (E0254): commanding is registered; the verdict binds
+        # via the registered Phase2 rule, no predicate alias remains.
         self.assertEqual(
-            assessment['why_not_indeterminate']['sufficient_predicate'],
-            'commanding_visible_support')
+            assessment['why_not_indeterminate']['sufficient_rule'],
+            'bazi.phase2.strength_commanding_visible_support')
+        self.assertNotIn(
+            'sufficient_predicate',
+            assessment['why_not_indeterminate'])
 
     def test_s2_witness_still_strong(self):
         # S2 Golden witness (Xin You / Geng Zi / Gui You / Ren Zi)

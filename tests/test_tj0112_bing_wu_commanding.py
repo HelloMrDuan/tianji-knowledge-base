@@ -197,7 +197,8 @@ class BingWuPositiveTests(unittest.TestCase):
         self.assertFalse(assessment['ai_enabled'])
         self.assertTrue(any('治理约定' in line
                             for line in assessment['limitations']))
-        self.assertTrue(any('午月丙日主分支谓词尚待' in line
+        self.assertTrue(any('谓词已登记密封 Phase1 规则 '
+                            'bazi.rule.r030' in line
                             for line in assessment['limitations']))
 
     def test_hidden_ji_recorded_not_vetoed(self):
@@ -449,8 +450,8 @@ class WholeDomainScanTests(unittest.TestCase):
             _, result, _ = run_birth(birth)
             assessment = result['strength_assessment']
             why = assessment['why_not_indeterminate']
-            if why and why.get('sufficient_predicate') \
-                    == 'commanding_visible_support':
+            if why and why.get('sufficient_rule') == \
+                    'bazi.phase2.strength_commanding_visible_support':
                 fired.append(birth)
                 # This form never yields weak (register: never_yields).
                 self.assertEqual(assessment['classification'], 'strong')

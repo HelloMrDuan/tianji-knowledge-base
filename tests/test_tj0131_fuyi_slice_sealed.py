@@ -35,7 +35,9 @@ SOURCES = json.loads(
     (ROOT / "config" / "knowledge_sources.json").read_text(
         encoding="utf-8"))["sources"]
 
-REGISTERED_RULE_PREDS = ("pure_support", "isolated_control")
+REGISTERED_RULE_PREDS = ("pure_support", "isolated_control",
+                         "pure_generating_support",
+                         "commanding_visible_support")  # S5 E0254
 METAL_NEAR_MISSES = (
     "1981-09-10T00:30:00+08:00",  # 辛酉/丁酉/辛卯/戊子（S2 Golden）
     "1981-09-09T00:30:00+08:00",  # 辛酉/丁酉/庚寅/丙子（S2 Golden）

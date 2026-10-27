@@ -6,7 +6,6 @@
     "classification": "strong",
     "generating_conditions_all_true": true,
     "root_facts": "day roots only via Jia hidden in Hai (year and month pillars): same_stem true, principal_qi_match false (Hai principal qi is Ren)",
-    "sufficient_predicate": "pure_generating_support",
     "sufficient_rule": "bazi.phase2.strength_pure_generating_support",
     "predicate_rule_registration": "registered_phase1_phase2"
    },
@@ -26,7 +25,6 @@
     "classification": "strong",
     "generating_conditions_all_true": true,
     "root_facts": "day roots in Mao via Yi (principal_qi_match true) and in Hai via Jia (principal_qi_match false)",
-    "sufficient_predicate": "pure_generating_support",
     "sufficient_rule": "bazi.phase2.strength_pure_generating_support",
     "predicate_rule_registration": "registered_phase1_phase2"
    },

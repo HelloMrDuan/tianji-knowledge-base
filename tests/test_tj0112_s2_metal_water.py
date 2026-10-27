@@ -650,15 +650,19 @@ class WholeDomainScanTests(unittest.TestCase):
         _, result, _ = run_birth(
             WOOD['tj0112-hai-positive-zhongqi-root']['source_birth'])
         why = result['strength_assessment']['why_not_indeterminate']
-        self.assertEqual(why['sufficient_predicate'],
-                         'pure_generating_support')
+        # S5 (E0254): Hai generating registered (Phase1 r029).
+        self.assertEqual(why['sufficient_rule'],
+                         'bazi.phase2.strength_pure_generating_support')
+        self.assertNotIn('sufficient_predicate', why)
         self.assertEqual(result['strength_assessment']['classification'],
                          'strong')
         _, result, _ = run_birth(BING['tj0112-bingwu-positive']
                                  ['source_birth'])
         why = result['strength_assessment']['why_not_indeterminate']
-        self.assertEqual(why['sufficient_predicate'],
-                         'commanding_visible_support')
+        # S5 (E0254): Bing-Wu commanding registered (Phase1 r030).
+        self.assertEqual(why['sufficient_rule'],
+                         'bazi.phase2.strength_commanding_visible_support')
+        self.assertNotIn('sufficient_predicate', why)
         self.assertEqual(result['strength_assessment']['classification'],
                          'strong')
 
