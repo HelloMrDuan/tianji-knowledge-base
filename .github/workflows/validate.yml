@@ -199,6 +199,20 @@ jobs:
       # test_tj012_siling_pilot_sealed.py (offline acceptance only,
       # NOT public CI: it reads the sealed snapshot files).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj012_siling_pilot.py' -v
+      # TJ-012.3 Slice D-1 ren yin true-pattern public contracts:
+      # registered quotes/notes vs Golden transcription (s054 shared
+      # with Slice A), pure lookup judgement-order matrix (month gate,
+      # route precedence, pilot states, commander visibility),
+      # asymmetric-contract invariants (success_failure/purity/
+      # useful_god None + unreviewed, never a fake-pattern label),
+      # day-stem-excluded pure pins, forged pilot blocks abstaining,
+      # forged traces failing closed, the real pilot at the Golden
+      # +-1s segment-boundary pair, and the projection strip. Verbatim
+      # quote equality against the snapshot and real-chart end-to-end
+      # coverage of all Golden cases live in
+      # test_tj012_ren_yin_true_sealed.py (offline acceptance only,
+      # NOT public CI: pattern candidates need sealed Canonical data).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj012_ren_yin_true.py' -v
       # TJ-018-A sanming juan2 collation register public contracts:
       # pure-data register mirrored against Golden, collation-note
       # form (required fields, status/disposition enums, confirmed

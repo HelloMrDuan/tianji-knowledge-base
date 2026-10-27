@@ -1,5 +1,6 @@
 """Research observations from executed month/ten-god/visibility facts, never 定格."""
 
+from . import bazi_siling_matrix as _siling_matrix
 from .foundations import BRANCHES, CONTROLS, GENERATES, STEMS, stem_element
 from .resolver import EvidenceResolver
 
@@ -1347,6 +1348,389 @@ def month_pattern_zaqi(trace):
         'month_branch': fact_ref('pillars', '/ganzhi/1'),
         'month_hidden_stems': fact_ref('hidden_stems', f'/{mi}/hidden_stems'),
         'hidden_to_visible': fact_ref('hidden_to_visible', '/positions'),
+    }
+    result['consumed_rule_ids'] = ['bazi.phase2.' + name for name in required]
+    return result
+
+
+# ---------------------------------------------------------------------------
+# TJ-012.3 Slice D-1：任氏分支寅月真格判定（非对称）。
+#
+# 治理定位：格局 determination 的首个肯定面切片，但严格非对称——只裁定
+# 任氏（《滴天髓阐微》八格章）分支、寅月、真格成立与否一件事。成立链
+# 全部已登记：s053（原注）真格定义句「格之真者，月支之神，透于天干也」
+# ＋负句「以散乱之天干，而寻其得所附于提纲，非格也」；s054（任氏曰）
+# 程序句「再究司令以定真假」；司令事实由 Slice C 试点 Variant
+# bazi-siling-yin-pilot-v1 在其 computed 时供给；透干事实由已执行
+# hidden_stems / hidden_to_visible / ten_gods 供给；禄刃路线优先序由
+# Slice A 审定 A1 供给。破格/成败/清浊/用神在本块恒 None 并逐字段标
+# unreviewed——八格章无逐格破格条件句，破格审定材料（渊海分神专论）
+# 尚未逐节登记且多依赖未裁定的旺衰与三刑事实。「破格恒未审」以字段级
+# 状态呈现，不是一句总注脚。candidates() 与 Slice A/B 两块的任何字段
+# 逐字不变，本块并列添加。
+#
+# 审定点（先行审计与父级裁定逐项留痕）：
+# - D1 保守读法（父级裁定一）：commander_not_visible 取 s053 定义的
+#   否定面——司令不透即不满足「格之真者」的定义，结论止于「司令不
+#   透、无真格」，永不使用「假格」标签、永不取 true_false='false'。
+#   若连否定面也不得输出，本切片将退化为仅肯定面；本裁定采保守读法
+#   输出否定面，但不越界到假格名目。
+# - D2 日干不计透（父级裁定二）：D-1 的「透」与事实层
+#   day_stem_excluded 既有口径同义——日干是日主参照本身，不计入透
+#   干。分层依据如实登记：s053/s054 原文对柱位沉默，此为审定、非原文
+#   结论；事实层 hidden_to_visible 与 Slice A/B 全部透干消费均以日干
+#   除外为准，determination 层不另立异义。Slice B 审定 B2 的陈述级口
+#   径经本裁定升格为 determination 级（B2 口径升格，明示在册，可经
+#   后续订正事件推翻）。后果钉死于 Golden：戊日主×戊段、丙日主×丙段
+#   在无其他同干显干时一律 commander_not_visible，同干透于年/月/时
+#   任一柱则 true；甲段×甲日主被 Slice A 路线优先序先行关闭
+#   （abstained），不达本步。
+# - D3 判定序：(1) 月支域门——非寅即 abstained，不外推；(2) 禄刃路
+#   线优先序——Slice A 审定 A1（排除先于透干/司令/真假诸步），路线
+#   关闭时 abstained 并注明 precedence；(3) 试点在位且 status 为
+#   computed——rejected/uncertain/not_applicable 或结构不可核验一律
+#   abstained 并原样携带试点状态与理由；(4) 司令透干核对——司令须为
+#   月支藏干（已执行事实），透于年/月/时干（日干除外）则真格成立，
+#   格名由司令干对日主的已执行十神换算；不透则
+#   commander_not_visible。
+# - D4 落地形态（先行审计审定）：operations.bazi_chart.chart() 不携
+#   带出生瞬时与 jie 声明，试点不能在 chart 内调用，故本块落为独立
+#   组合函数（trace 消费＋显式传入试点结果），不附 chart、不新增
+#   trace rule、不进 RuleMatch 与 Evidence；公开投影对
+#   pattern_determination_ren_yin 键防御性整体剥离（与 Slice A/B/C
+#   剥离点同形）。
+# - D5 格名换算：格名是 s053 定义内的机械换算名（司令干对日主十神
+#   ＋「格」）。司令与日主同干且透于他柱时（D2 裁定专项的对照例）
+#   十神为比肩，换算名「比肩格」如实记录；本块只主张该盘面满足
+#   s053 定义，不就该名目是否属通行八格名目清单另行裁定。
+# - D6 试点信任界：试点结果是显式输入声明而非已执行证据。本块核验
+#   其身份钉值（Variant 名、calculation_convention 的 id/version、
+#   口径 version_id、s024 来源节、research 旗标），并以已执行事实交
+#   叉核对司令：司令须为月支藏干，透干位置须经 hidden_to_visible 与
+#   ten_gods 双事实一致。任一不符即 abstained（调用方自报司令与事实
+#   复算不符的 fail-closed 落点）。司令本身的独立复算（provider 身
+#   份、节气回放、登记完整性）属试点自身契约，本块不重复执行。
+REN_YIN_TRUE_VARIANT = 'ren-pattern-yin-true-v1'
+REN_YIN_RULE_SOURCE_ID = 'bazi.source.ditiansui-spouse'
+REN_YIN_SNAPSHOT_PATH = ZAQI_RULE_SNAPSHOT_PATH
+REN_YIN_SNAPSHOT_SHA256 = ZAQI_RULE_SNAPSHOT_SHA256
+REN_YIN_PILOT_VARIANT = 'bazi-siling-yin-pilot-v1'
+
+ZHENGE_QUOTES = (
+    {
+        'id': 'renshi.zhenge_definition',
+        'source_id': REN_YIN_RULE_SOURCE_ID,
+        'source_section_id': 'bazi.section.s053',
+        'layer': '原注',
+        'quote': ('格之真者,月支之神,透于天干也。以散乱之天干,而寻其得所附于'
+                  '提纲,非格也。'),
+        'locator': {'char_start': 31580, 'char_end': 31617},
+    },
+    {
+        'id': 'renshi.siling_true_false_procedure',
+        'source_id': REN_YIN_RULE_SOURCE_ID,
+        'source_section_id': 'bazi.section.s054',
+        'layer': '任氏曰',
+        'quote': ('任氏曰:八格者,命中之正理也。先观月令所得何支,次看天干透出何神,'
+                  '再究司令以定真假,然后取用,以分清浊,此实依经顺理,若月逢禄刃,'
+                  '无格可取,须审日主之喜忌另寻别支透出天干者,借以为用。'),
+        'locator': {'char_start': 31681, 'char_end': 31773},
+        'note': ('与 Slice A 的 renshi.luren_route_exclusion 为同一 s054 引文；'
+                 '本块消费其中的「再究司令以定真假」程序句与禄刃排除句（优先序）。'),
+    },
+)
+
+REN_YIN_ADJUDICATION_NOTES = (
+    'D1 保守读法（父级裁定）：commander_not_visible 是 s053 定义的否定面，结论止于「司令不透、无真格」，永不使用「假格」标签；破格/成败/清浊/用神恒 None 并逐字段标 unreviewed。',
+    'D2 日干不计透（父级裁定）：「透」与事实层 day_stem_excluded 及 Slice A/B 全部透干消费同义，日干不计入透干；原文对柱位沉默，此为审定而非原文结论；Slice B 的 B2 陈述级口径经本裁定升格为 determination 级（B2 口径升格），可经后续订正事件推翻。',
+    'D3 判定序：月支域门（寅）→ 禄刃路线优先序（Slice A 审定 A1：排除先于司令/真假步）→ 试点 computed → 司令透干核对；任一步不满足即 abstained 并注明步号与原因。',
+    'D4 落地形态：独立组合函数（trace 消费＋显式传入试点结果）；chart() 不携带出生瞬时与 jie 声明，试点不能在 chart 内调用，故不附 chart、不新增 trace rule；公开投影对 pattern_determination_ren_yin 键防御性整体剥离。',
+    'D5 格名换算：格名 = 司令干对日主的已执行十神＋「格」的机械换算名（s053 定义内读法）；司令与日主同干且透于他柱时十神为比肩，换算名「比肩格」如实记录，本块不就该名目是否属通行八格名目清单另行裁定。',
+    'D6 试点信任界：试点结果为显式输入声明，本块核验其 Variant/约定身份钉值，并以已执行事实交叉核对司令（须为月支藏干、透干位置经 hidden_to_visible 与 ten_gods 双事实一致）；不符即 abstained。司令的独立复算属试点自身契约，本块不重复。',
+)
+
+REN_YIN_LIMITATIONS = (
+    '本块只裁定任氏分支寅月真格成立与否一件事，不构成任氏八格真假判断体系；不得据此宣称已经判定假格、喜用神或吉凶（用户 Slice C 裁定第五节边界）。',
+    '破格未审：八格章无逐格破格条件句，破格审定材料（渊海分神专论）尚未逐节登记且多依赖未裁定的旺衰与三刑事实；success_failure/purity/useful_god 恒 None 并逐字段标 unreviewed。',
+    '不外推其他月份：分日司令冲突矩阵其余月份仍 conflict/research_only，司令扩月须新的用户级流派裁定，不在本切片权力内。',
+    '本块尚无密封 Phase1/Phase2 rule 注册（evidence_binding=pending_phase1_rule_registration），不进 RuleMatch 与 Evidence；恒 research_only，公开投影整体剥离。',
+)
+
+REN_YIN_UNREVIEWED = {
+    'success_failure': ('unreviewed：八格章无逐格成败（破格）条件句，破格审定'
+                        '材料尚未逐节登记；本块不裁定成败。'),
+    'purity': ('unreviewed：清浊之分在 s054 程序中后于真假步，本块未审；'
+               '本块不裁定清浊。'),
+    'useful_god': ('unreviewed：取用以分清浊属真假步之后的程序，本块未审；'
+                   '本块不裁定用神。'),
+}
+
+
+def _ren_yin_pilot_claim(pilot_result):
+    """Validate the structural identity pins of an explicit pilot block.
+
+    Returns (status, reason, commander) where status is None when the
+    block is not a verifiable pilot result at all. The pilot block is
+    a caller-supplied claim, not executed evidence: identity pins are
+    checked against the live Slice C registration, and the claimed
+    commander is cross-checked against executed facts by the caller.
+    """
+    if not isinstance(pilot_result, dict):
+        return None, 'pilot_result_missing', None
+    if pilot_result.get('variant') != REN_YIN_PILOT_VARIANT:
+        return None, 'pilot_variant_mismatch', None
+    if pilot_result.get('research_only') is not True \
+            or pilot_result.get('public_enabled') is not False \
+            or pilot_result.get('ai_enabled') is not False:
+        return None, 'pilot_governance_flags_mismatch', None
+    status = pilot_result.get('status')
+    if status not in ('computed', 'not_applicable', 'rejected', 'uncertain'):
+        return None, 'pilot_status_unknown', None
+    if status != 'computed':
+        return status, pilot_result.get('reason'), None
+    commander = pilot_result.get('commander')
+    if commander not in STEMS:
+        return None, 'pilot_commander_invalid', None
+    provenance = pilot_result.get('provenance')
+    if not isinstance(provenance, dict):
+        return None, 'pilot_provenance_missing', None
+    try:
+        conv = _siling_matrix.SILING_CALCULATION_CONVENTION
+        version_id = conv['scope']['version_id']
+        cell = _siling_matrix.SILING_MATRIX[version_id]['寅']
+        quote = {row['id']: row for row in _siling_matrix.SILING_QUOTES}[
+            cell['quotes'][0]]
+    except (KeyError, IndexError, TypeError):
+        return None, 'pilot_registration_unreadable', None
+    if provenance.get('calculation_convention') != {
+            'id': conv['id'], 'version': conv['version']} \
+            or provenance.get('version_id') != version_id \
+            or provenance.get('source_id') != quote['source_id'] \
+            or provenance.get('source_section_id') != quote['source_section_id']:
+        return None, 'pilot_provenance_mismatch', None
+    if pilot_result.get('scope_month_branch') != '寅' \
+            or pilot_result.get('month_branch') != '寅':
+        return None, 'pilot_scope_mismatch', None
+    return status, pilot_result.get('reason'), commander
+
+
+def ren_yin_true_false_lookup(day_stem, month_branch, *, route, pilot_status,
+                              pilot_reason, pilot_commander,
+                              month_hidden_stems, commander_ten_god,
+                              commander_visible_pillars):
+    """Pure Ren-branch 寅月 true-pattern determination over checked facts.
+
+    All inputs are pre-validated facts or claims: ``route`` is the
+    Slice A route value; ``pilot_status``/``pilot_commander`` are the
+    structurally validated pilot claim (status None when the pilot
+    block is unverifiable); ``month_hidden_stems`` are the executed
+    month hidden stems; ``commander_ten_god`` is the executed ten-god
+    of the claimed commander (None when it is not a month hidden
+    stem); ``commander_visible_pillars`` is the cross-checked list of
+    year/month/hour pillars exposing the commander (day stem never
+    counts, adjudication D2). The judgement order is adjudication D3.
+    """
+    if day_stem not in STEMS:
+        raise ValueError('Ren yin determination requires a valid day stem')
+    if month_branch not in BRANCHES:
+        raise ValueError('Ren yin determination requires a valid month branch')
+    if route not in ('luren_no_month_pattern', 'not_luren'):
+        raise ValueError('Ren yin determination requires the Slice A route')
+    hidden = list(month_hidden_stems or [])
+    if any(stem not in STEMS for stem in hidden) \
+            or len(set(hidden)) != len(hidden):
+        raise ValueError('Ren yin determination requires valid hidden stems')
+    visible = list(commander_visible_pillars or [])
+    if any(p not in EXPOSABLE_PILLARS for p in visible) \
+            or len(set(visible)) != len(visible):
+        raise ValueError('Commander visibility must be year/month/hour only')
+
+    result = {
+        'variant': PATTERN_VARIANT,
+        'determination_variant': REN_YIN_TRUE_VARIANT,
+        'rule': {
+            'id': 'renshi.zhenge_definition',
+            'source_id': REN_YIN_RULE_SOURCE_ID,
+            'source_section_id': 'bazi.section.s053',
+            'layer': '原注',
+            'quote_locator': {'char_start': 31580, 'char_end': 31617},
+        },
+        'procedure_rule': {
+            'id': 'renshi.siling_true_false_procedure',
+            'source_id': REN_YIN_RULE_SOURCE_ID,
+            'source_section_id': 'bazi.section.s054',
+            'layer': '任氏曰',
+            'quote_locator': {'char_start': 31681, 'char_end': 31773},
+        },
+        'status': 'abstained',
+        'decision_step': None,
+        'abstention_reason': None,
+        'determination_scope': 'ren_branch_yin_month_true_pattern_only',
+        'day_stem': day_stem,
+        'month_branch': month_branch,
+        'route': route,
+        'pilot': {'variant': REN_YIN_PILOT_VARIANT, 'status': pilot_status,
+                  'reason': pilot_reason, 'commander': pilot_commander},
+        'commander': None,
+        'determination': {'status': 'unresolved', 'pattern': None,
+                          'true_false': 'abstained', 'success_failure': None,
+                          'purity': None, 'useful_god': None},
+        'unreviewed': dict(REN_YIN_UNREVIEWED),
+        'qualified_for_determination': False,
+        'research_only': True, 'public_enabled': False, 'ai_enabled': False,
+        'evidence_binding': 'pending_phase1_rule_registration',
+        'adjudication_notes': list(REN_YIN_ADJUDICATION_NOTES),
+        'scope_limits': list(REN_YIN_LIMITATIONS),
+        'scope': ('只裁定任氏（滴天髓阐微）分支、寅月、真格成立与否：司令之神'
+                  '透于年/月/时干（日干不计）则真格成立，司令不透则无真格'
+                  '（commander_not_visible）；不输出假格、破格、成败、清浊、'
+                  '用神或吉凶，不外推其他月份与流派。'),
+    }
+
+    def abstain(step, reason):
+        result['decision_step'] = step
+        result['abstention_reason'] = reason
+        return result
+
+    # Step 1: month domain gate — the pilot and this block cover 寅 only.
+    if month_branch != '寅':
+        return abstain(1, 'month_not_yin')
+    # Step 2: Slice A route precedence (adjudication A1/D3): a 禄刃 month
+    # closes the month-pattern route before the commander step is reached.
+    if route == 'luren_no_month_pattern':
+        return abstain(2, 'luren_route_precedence')
+    # Step 3: the pilot must be present, verifiable and computed.
+    if pilot_status is None:
+        return abstain(3, 'pilot_result_unverifiable')
+    if pilot_status != 'computed':
+        return abstain(3, 'pilot_not_computed')
+    # Step 4: commander visibility against executed facts.
+    if pilot_commander not in hidden:
+        return abstain(4, 'commander_not_month_hidden')
+    result['commander'] = {
+        'stem': pilot_commander,
+        'ten_god': commander_ten_god,
+        'visible_pillars': visible,
+        'day_stem_counts_as_exposure': False,
+    }
+    result['decision_step'] = 4
+    if not visible:
+        result['status'] = 'determined'
+        result['determination'] = {
+            'status': 'determined', 'pattern': None,
+            'true_false': 'commander_not_visible', 'success_failure': None,
+            'purity': None, 'useful_god': None}
+        return result
+    if commander_ten_god not in ('正官', '七杀', '正财', '偏财', '正印',
+                                 '偏印', '食神', '伤官', '比肩', '劫财'):
+        raise ValueError('Commander ten-god fact is missing or invalid')
+    result['status'] = 'determined'
+    result['determination'] = {
+        'status': 'determined', 'pattern': commander_ten_god + '格',
+        'true_false': 'true', 'success_failure': None,
+        'purity': None, 'useful_god': None}
+    return result
+
+
+class _TraceView:
+    """Minimal steps/evidence view over a live trace or a chart envelope."""
+
+    def __init__(self, steps, evidence):
+        self.steps = steps
+        self.evidence = evidence
+
+
+def _ren_yin_trace_view(trace):
+    if hasattr(trace, 'steps') and hasattr(trace, 'evidence'):
+        return trace
+    if isinstance(trace, dict) and 'trace' in trace and 'evidence' in trace:
+        return _TraceView(trace['trace'], trace['evidence'])
+    raise ValueError('Ren yin determination requires an executed trace')
+
+
+def ren_yin_true_pattern(trace, pilot_result):
+    """Compose the Ren-branch 寅月 true-pattern block from executed facts.
+
+    ``trace`` is an executed bazi trace (live ExecutionTrace or the
+    chart() envelope mapping); ``pilot_result`` is the explicit
+    Slice C pilot block for the same birth instant. Executed-fact
+    inconsistencies raise ValueError (house fail-closed discipline,
+    mirroring month_pattern_zaqi); pilot-side problems abstain.
+    """
+    view = _ren_yin_trace_view(trace)
+    steps = {row['rule_id']: (i, row) for i, row in enumerate(view.steps)}
+    required = ('pillars', 'ten_gods', 'hidden_stems', 'hidden_to_visible')
+    if any('bazi.phase2.' + name not in steps for name in required):
+        raise ValueError('Ren yin determination requires executed structural facts')
+    for name in required:
+        step = steps['bazi.phase2.' + name][1]
+        if not step['evidence_ids'] or any(e not in view.evidence for e in step['evidence_ids']):
+            raise ValueError('Ren yin determination lacks executed evidence')
+    route_block = month_pattern_route(view)
+
+    def fact_ref(name, suffix=''):
+        return f"#/trace/{steps['bazi.phase2.' + name][0]}/output" + suffix
+
+    pillars = steps['bazi.phase2.pillars'][1]['output']
+    visible = steps['bazi.phase2.ten_gods'][1]['output']
+    hidden = steps['bazi.phase2.hidden_stems'][1]['output']
+    visibility = steps['bazi.phase2.hidden_to_visible'][1]['output']
+    day_stem = pillars['day_master']['stem']
+    month_branch = pillars['ganzhi'][1][1]
+    mi, month_row = next((i, row) for i, row in enumerate(hidden)
+                         if row['pillar'] == 'month')
+    if month_row['branch'] != month_branch:
+        raise ValueError('Ren yin determination evidence is inconsistent')
+    month_hidden = [row['stem'] for row in month_row['hidden_stems']]
+    hidden_ten_god = {row['stem']: row['ten_god']
+                      for row in month_row['hidden_stems']}
+
+    pilot_status, pilot_reason, pilot_commander = _ren_yin_pilot_claim(
+        pilot_result)
+    commander_ten_god = None
+    commander_visible = []
+    if pilot_status == 'computed' and pilot_commander in hidden_ten_god:
+        commander_ten_god = hidden_ten_god[pilot_commander]
+        # Cross-check the two independent executed visibility facts:
+        # the raw ten-god stems (day pillar excluded, adjudication D2)
+        # and the month hidden_to_visible positions must agree.
+        from_stems = [row['pillar'] for row in visible
+                      if row['pillar'] in EXPOSABLE_PILLARS
+                      and row['stem'] == pilot_commander]
+        for row in visible:
+            if row['stem'] == pilot_commander \
+                    and row['pillar'] in EXPOSABLE_PILLARS \
+                    and row['ten_god'] != commander_ten_god:
+                raise ValueError('Executed ten-god facts disagree on the commander')
+        position = next((p for p in visibility['positions']
+                         if p['hidden_pillar'] == 'month'
+                         and p['hidden_stem'] == pilot_commander), None)
+        from_positions = [] if position is None else [
+            p for p in position['visible_pillars'] if p in EXPOSABLE_PILLARS]
+        if set(from_positions) != set(from_stems):
+            raise ValueError('Executed visibility and ten-god facts disagree')
+        commander_visible = [p for p in EXPOSABLE_PILLARS
+                             if p in set(from_stems)]
+
+    result = ren_yin_true_false_lookup(
+        day_stem, month_branch, route=route_block['route'],
+        pilot_status=pilot_status, pilot_reason=pilot_reason,
+        pilot_commander=pilot_commander, month_hidden_stems=month_hidden,
+        commander_ten_god=commander_ten_god,
+        commander_visible_pillars=commander_visible)
+    if isinstance(pilot_result, dict) and isinstance(
+            pilot_result.get('segment'), dict):
+        segment = pilot_result['segment']
+        result['pilot']['segment'] = {
+            'index': segment.get('index'), 'stem': segment.get('stem'),
+            'registered_interval': segment.get('registered_interval'),
+        }
+    result['fact_refs'] = {
+        'day_master': fact_ref('pillars', '/day_master/stem'),
+        'month_branch': fact_ref('pillars', '/ganzhi/1'),
+        'month_hidden_stems': fact_ref('hidden_stems', f'/{mi}/hidden_stems'),
+        'hidden_to_visible': fact_ref('hidden_to_visible', '/positions'),
+        'route': '#/result/pattern_route',
     }
     result['consumed_rule_ids'] = ['bazi.phase2.' + name for name in required]
     return result

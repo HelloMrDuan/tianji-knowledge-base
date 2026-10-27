@@ -93,7 +93,7 @@
 | TJ-011.3 | 限界显示与研究/正式开关 | UI 只显示审核可发布范围，不把 `indeterminate` 误解为中和身弱 |
 | TJ-012.1 | 正官/印綬等现有格局候选再审核 | 月藏/透干、流派差异、条件效果；候选不等于“成格” |
 | TJ-012.2 | 真/假、成/败、特殊格局的反例 | 若来源不够，只能返回“未裁定”，不补吉凶 |
-| TJ-012.3 | 格局 determination 切片 A：禄刃选格路线负向裁定（任氏 s054＋三命禄刃表） | 只裁定月令正格路线在月逢禄刃时关闭；借用路线未定；其余 determination（成格/真假/用神）仍未裁定，Slice C/D 另行；Slice B 杂气选格（原注分支＋三命杂气格冲突并列）已完成研究级选格陈述，土格换算未审；Slice C 第一步分日司令冲突矩阵已登记（五口径并列、T2 不自洽原样标记、未裁定月份 conflict，寅月任氏试点经裁定授权但 Variant 未实现），Slice C 第二步寅月分日司令试点 Variant 已实现（研究级：消费登记与 calculation_convention、provider 回放核验、fail-closed，仅寅月任氏分支，余十一月仍 conflict，八格真假未解锁），Slice D 未解锁 |
+| TJ-012.3 | 格局 determination 切片 A：禄刃选格路线负向裁定（任氏 s054＋三命禄刃表） | 只裁定月令正格路线在月逢禄刃时关闭；借用路线未定；其余 determination（成格/真假/用神）仍未裁定，Slice C/D 另行；Slice B 杂气选格（原注分支＋三命杂气格冲突并列）已完成研究级选格陈述，土格换算未审；Slice C 第一步分日司令冲突矩阵已登记（五口径并列、T2 不自洽原样标记、未裁定月份 conflict，寅月任氏试点经裁定授权但 Variant 未实现），Slice C 第二步寅月分日司令试点 Variant 已实现（研究级：消费登记与 calculation_convention、provider 回放核验、fail-closed，仅寅月任氏分支，余十一月仍 conflict，八格真假未解锁），Slice D-1 任氏分支寅月真格（非对称）已落地（ren-pattern-yin-true-v1：true_false 仅 true/commander_not_visible/abstained，commander_not_visible 取保守读法永不标假格、日干不计透经裁定由 B2 陈述级升格为 determination 级，破格/成败/清浊/用神未审；其余格、其余月份与破格侧仍未裁定） |
 | TJ-013.1 | 调候、扶抑、病药、格局用神分别建来源/Variant | 每一种独立证据，不默认一个统一“喜神” |
 | TJ-013.2 | 喜用与旺衰/格局冲突决策 | 证据缺口必须阻断公开结果及 AI，不根据弱/强自动猜 |
 | TJ-013.3 | 适用范围明确的用户可读提示 | 前端只有真实经过 Phase2/Golden 的条件才出现解释 |
