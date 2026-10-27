@@ -266,11 +266,16 @@ class GoldenDesignTests(unittest.TestCase):
                 self.assertTrue(any(not v for v in table.values()),
                                 case['id'])
                 self.assertEqual(design, 'indeterminate', case['id'])
-            # Nothing is implemented yet: current classification of every
-            # design case must be recorded as indeterminate.
+            # Implementation state (updated by the TJ-011.2
+            # implementation batch): the positive case is now strong
+            # via commanding_visible_support; the other design cases
+            # remain indeterminate.
+            expected_current = ('strong'
+                                if case['category'] == 'positive_strong'
+                                else 'indeterminate')
             self.assertEqual(case['expect']
                              ['current_implementation_classification'],
-                             'indeterminate', case['id'])
+                             expected_current, case['id'])
             failed = {k for k, v in table.items() if not v}
             self.assertEqual(
                 set(case['expect'].get('failed_conditions', [])), failed,

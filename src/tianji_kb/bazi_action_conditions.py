@@ -1,5 +1,7 @@
 """Relation direction and its observed conditions, without assumed efficacy."""
 from .bazi_core import PILLAR_NAMES, foundations
+from .bazi_fire_morphology import (
+    BING_ALL_ROOT_BRANCHES, BING_HEAVY_ROOT_BRANCHES, BING_ROOT_POSITIONS)
 from .foundations import stem_element
 from .resolver import EvidenceResolver
 
@@ -89,18 +91,82 @@ def action_effects(pillars, *, observed, relations, principal, availability,
         'all_visible_have_reviewed_roots': pure_conditions['all_visible_have_reviewed_roots'],
         'no_unresolved_interactions': pure_conditions['no_unresolved_interactions'],
     }
-    pure, generating, isolated = (all(pure_conditions.values()), all(generating_conditions.values()),
-                                  all(isolated_conditions.values()))
+    # TJ-011.2: commanding visible-support scope (Bing day master, Wu
+    # month, same-element command), per the adjudicated fire morphology
+    # register (bazi_fire_morphology.FORM_BING_WU, nine conditions). This
+    # is a NEW form, not a widening of the pure scope: its quantitative
+    # layer is the VISIBLE stems only. Hidden stems enter solely as root
+    # facts (existence and availability) under the registered governance
+    # convention fire-morph.hidden-layer-root-facts-only -- a Variant
+    # governance convention, NOT original text -- so a non-support hidden
+    # stem (e.g. Ji in Wu) is recorded but never vetoes, and a support
+    # hidden stem never counts as support. Fire's reviewed root branches
+    # come from the public morphology register (BING_ALL_ROOT_BRANCHES);
+    # every other element keeps the sealed policy set. Root
+    # effectiveness for this form is read off the executed root facts
+    # themselves (no root-type source conflict, no unresolved branch
+    # interaction touching the root), exactly as the register's
+    # effective_heavy_day_roots condition defines it; the sealed
+    # availability variant remains wood-scoped and is not edited.
+    commanding_reviewed_roots = dict(policy['reviewed_root_branches'])
+    commanding_reviewed_roots['火'] = list(BING_ALL_ROOT_BRANCHES)
+    eligible_commanding = []
+    for row in visible:
+        fact = row['fact']
+        roots = [r for r in fact['root_positions']
+                 if r['branch'] in commanding_reviewed_roots.get(fact['element'], [])]
+        eligible_commanding.append(roots)
+    day_roots = availability['roots']
+    # The register grades the Xu fire root light_listed_conflicted
+    # (root-type readings conflict, bazi.concept.conflict_root_type_
+    # readings): the sealed root-conditions candidate table marks the
+    # fire residual-qi candidate at Wei only, so the executed facts do
+    # not flag Xu roots. The register is this form's specification, so
+    # a fire root in a register-conflicted branch is not form-effective
+    # either; the sealed policy is not edited.
+    register_conflicted_fire_branches = {
+        entry['branch'] for entry in BING_ROOT_POSITIONS
+        if entry['grade'] == 'light_listed_conflicted'}
+    fire_day = stem_element(observed['day_master']) == '火'
+
+    def form_effective(root):
+        if root['type_source_conflict'] or root['branch_relations']:
+            return False
+        return not (fire_day and root['root_presence']['branch']
+                    in register_conflicted_fire_branches)
+    commanding_conditions = {
+        'fire_day_master_bing': observed['day_master'] == '丙',
+        'reviewed_same_element_command_month': principal['month_branch'] == '午'
+            and principal['status'] == 'reviewed_relation' and principal['relation'] == 'same_element',
+        'visible_positions_support_only': all(r['fact']['relation'] in supports for r in visible),
+        'visible_resource_present': any(r['fact']['relation'] == 'generates_me' for r in visible),
+        'visible_peer_present': any(r['fact']['relation'] == 'same_element' for r in visible),
+        'effective_heavy_day_roots': bool(day_roots)
+            and any(r['root_presence']['branch'] in BING_HEAVY_ROOT_BRANCHES for r in day_roots)
+            and all(form_effective(r) for r in day_roots),
+        'all_visible_have_reviewed_roots': all(eligible_commanding),
+        'no_unresolved_interactions': no_interactions,
+        # Governance convention condition: true by the construction of
+        # this scope (the hidden layer IS handled root-facts-only here);
+        # the register lists it as a condition of the form and it is
+        # annotated as governance_convention, never original_text, in
+        # the adjudication conditions output.
+        'hidden_layer_convention_applied': True,
+    }
+    pure, generating, commanding, isolated = (all(pure_conditions.values()),
+        all(generating_conditions.values()), all(commanding_conditions.values()),
+        all(isolated_conditions.values()))
     visible_effects = []
     for i, row in enumerate(visible):
-        proved = pure or generating or (isolated and row['fact']['pillar'] == 'month')
+        proved = pure or generating or commanding or (isolated and row['fact']['pillar'] == 'month')
         visible_effects.append({'action_index': i, 'fact': dict(row['fact']),
             'eligible_root_positions': eligible[i], 'conditions': row['conditions'],
             'effective_action': row['fact']['relation'] if proved else None,
             'effect_status': 'effective_in_reviewed_context' if proved else 'unresolved',
             'context': 'pure_support' if pure else (
                 'pure_generating_support' if generating else (
-                    'isolated_control' if proved else None)),
+                    'commanding_visible_support' if commanding else (
+                        'isolated_control' if proved else None))),
             'polarity_equivalence_assumed': False, 'distance_weight': None})
     hidden_effects = []
     for i, row in enumerate(hidden):
@@ -116,6 +182,8 @@ def action_effects(pillars, *, observed, relations, principal, availability,
             'pure_support_scope_conditions': pure_conditions, 'pure_support_scope_met': pure,
             'pure_generating_support_scope_conditions': generating_conditions,
             'pure_generating_support_scope_met': generating,
+            'commanding_visible_support_scope_conditions': commanding_conditions,
+            'commanding_visible_support_scope_met': commanding,
             'isolated_control_scope_conditions': isolated_conditions, 'isolated_control_scope_met': isolated,
             'visible_relations': visible_effects, 'hidden_relations': hidden_effects,
             'unresolved_interaction_kinds': interaction_kinds,
@@ -123,7 +191,7 @@ def action_effects(pillars, *, observed, relations, principal, availability,
                 'stem_five_combinations', 'branch_six_harmonies', 'branch_triple_harmonies')) else 'not_present',
             'stem_erasure_applied': False, 'hidden_visible_equivalence_applied': False,
             'weights_available': False, 'overall_strength': None,
-            'scope': '仅已审木日主纯印比月卯生扶、亥月印比生扶（从旺口径）、或无根无扶月酉透辛的条件作用；其他效力未裁定，不推从格、喜用或吉凶。'}
+            'scope': '仅已审木日主纯印比月卯生扶、亥月印比生扶（从旺口径）、或无根无扶月酉透辛的条件作用；丙日主午月同类当令显纯生扶（从强主锚，藏干仅作根位事实——治理约定非原文）；其他效力未裁定，不推从格、喜用或吉凶。'}
 
 
 def action_conditions(pillars, day_master, *, support, relations, month_command,

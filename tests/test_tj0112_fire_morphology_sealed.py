@@ -6,8 +6,11 @@
   逐字复核，分级与 018-A 覆盖表一致；
 - Golden 设计四例经生产历法链（engine.execute）实算四柱，与设计
   文件逐柱一致（设计阶段以 sxtwl 复核的日柱/月支在此终验）；
-- 四例在现行 bazi-strength-adjudication-v1 下 classification 均为
-  indeterminate——证明本批只有设计登记、未夹带任何谓词实现。
+- 设计批时点四例在 bazi-strength-adjudication-v1 下均为
+  indeterminate（证明设计批未夹带实现）；实现批（commanding_
+  visible_support 谓词）落地后本断言已按实现期望更新：正强例为
+  strong（sufficient_predicate=commanding_visible_support），其余
+  三例仍 indeterminate——见 test_implementation_outcomes。
 """
 
 from __future__ import annotations
@@ -103,20 +106,32 @@ class GoldenCalendarReplayTest(unittest.TestCase):
             _, pillars = self._run(case)
             self.assertEqual(pillars, case["expected_pillars"], case["id"])
 
-    def test_no_predicate_smuggled_in(self) -> None:
-        # Design-only batch: under the CURRENT adjudication variant all
-        # four charts must remain indeterminate (the Wu-month scope is
-        # not implemented), and no trace step may carry the candidate
-        # predicate name.
+    def test_implementation_outcomes(self) -> None:
+        # Updated by the TJ-011.2 implementation batch: the design
+        # batch's no-smuggling assertion (all four indeterminate) held
+        # at design time. Now the positive case is strong via the
+        # commanding_visible_support predicate (bounded exit, pending
+        # registration), and the other three design cases remain
+        # indeterminate for their registered reasons.
         for case in GOLDEN["cases"]:
             result, _ = self._run(case)
             assessment = result["strength_assessment"]
-            self.assertEqual(assessment["classification"],
-                             "indeterminate", case["id"])
-            self.assertEqual(assessment["decision_status"],
-                             "insufficient_reviewed_rules", case["id"])
-            self.assertIsNone(assessment["why_not_indeterminate"],
-                              case["id"])
+            if case["category"] == "positive_strong":
+                self.assertEqual(assessment["classification"],
+                                 "strong", case["id"])
+                why = assessment["why_not_indeterminate"]
+                self.assertIsNotNone(why, case["id"])
+                self.assertEqual(why["sufficient_predicate"],
+                                 "commanding_visible_support",
+                                 case["id"])
+                self.assertIsNone(why["sufficient_rule"], case["id"])
+            else:
+                self.assertEqual(assessment["classification"],
+                                 "indeterminate", case["id"])
+                self.assertEqual(assessment["decision_status"],
+                                 "insufficient_reviewed_rules", case["id"])
+                self.assertIsNone(assessment["why_not_indeterminate"],
+                                  case["id"])
 
 
 if __name__ == "__main__":

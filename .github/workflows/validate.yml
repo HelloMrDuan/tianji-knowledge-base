@@ -227,4 +227,14 @@ jobs:
       # acceptance only, NOT public CI: it reads the sealed snapshot
       # files and runs the assembled engine).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0112_fire_morphology.py' -v
+      # TJ-011.2 Bing x Wu commanding predicate public contracts:
+      # implementation anchor-provenance map keyed exactly by the
+      # morphology register's nine conditions (governance-convention
+      # conditions never relabelled original text), batch Golden design
+      # quartet tables identical to the design batch's, failed sets
+      # self-consistent, chart-unrealizable designs registered.
+      # Chart execution against the sealed policy and production
+      # calendar lives in test_tj0112_bing_wu_commanding.py (offline
+      # acceptance only, NOT public CI: it needs the sealed snapshot).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0112_bing_wu_public.py' -v
       - run: python scripts/audit_public_asset_changes.py --inventory
