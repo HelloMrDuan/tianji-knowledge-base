@@ -2,6 +2,7 @@
 from .bazi_core import PILLAR_NAMES, foundations
 from .bazi_fire_morphology import (
     BING_ALL_ROOT_BRANCHES, BING_HEAVY_ROOT_BRANCHES, BING_ROOT_POSITIONS)
+from .bazi_metal_water_roots import METAL_WATER_ROOT_TABLES
 from .foundations import stem_element
 from .resolver import EvidenceResolver
 
@@ -29,6 +30,38 @@ EFFECT_VARIANT = 'ditiansui-bounded-action-effects-v1'
 # layer, mirroring how the 卯/酉 scope is already hardcoded beside the
 # sealed pure_months / isolated_months policy values.
 PURE_GENERATING_MONTHS = ('亥',)
+
+# TJ-011.2 S2: pure-support extension to metal x You and water x Zi,
+# per the general-strength scout (S2) and the S1 root-grading register
+# (bazi_metal_water_roots, FORMS FORM_PURE_SUPPORT_METAL /
+# FORM_PURE_GENERATING_WATER). The two forms are condition-by-condition
+# isomorphic to the pure scope: the definitions (Congwang s047 /
+# Congqiang s048) are element-generic. The sealed policy cannot be
+# extended from public code (pure_months stays [Mao], the availability
+# variant stays wood-scoped), so the reviewed month sets are declared
+# here -- mirroring PURE_GENERATING_MONTHS above -- and root
+# effectiveness is driven by the S1 register, mirroring the commanding
+# form's register-based form_effective: a day root is form-effective
+# iff its (day-master stem, branch) cell is graded heavy in the
+# register (per_stem_listed or framework_derived) and the executed
+# root fact carries no root-type source conflict and no unresolved
+# branch interaction. Register cells graded conflicted_pending (the
+# Xin/Gui Changsheng conflicts) or light_listed_conflicted (the
+# root-type readings conflict) NEVER make a root effective.
+PURE_SUPPORT_METAL_MONTHS = ('酉',)
+PURE_GENERATING_WATER_MONTHS = ('子',)
+
+_MW_ROOT_TABLES = {stem: {entry['branch']: entry for entry in rows}
+                   for stem, rows in METAL_WATER_ROOT_TABLES.items()}
+_MW_HEAVY_GRADES = ('per_stem_listed', 'framework_derived')
+
+
+def _mw_root_grade(stem, branch):
+    table = _MW_ROOT_TABLES.get(stem)
+    if table is None:
+        return None
+    entry = table.get(branch)
+    return entry['grade'] if entry is not None else None
 
 
 def action_effects(pillars, *, observed, relations, principal, availability,
@@ -153,12 +186,80 @@ def action_effects(pillars, *, observed, relations, principal, availability,
         # the adjudication conditions output.
         'hidden_layer_convention_applied': True,
     }
+    # TJ-011.2 S2: register-driven root facts for the metal/water pure
+    # forms. Root effectiveness and visible-root eligibility are read
+    # off the S1 register (see the PURE_SUPPORT_METAL_MONTHS note);
+    # every shared condition reuses the pure scope's computed fact, so
+    # the new scopes can never diverge from pure on a shared condition.
+    day_master = observed['day_master']
+    dm_element = stem_element(day_master)
+    metal_day = dm_element == '金'
+    water_day = dm_element == '水'
+
+    def register_effective(root):
+        if root['type_source_conflict'] or root['branch_relations']:
+            return False
+        return _mw_root_grade(day_master, root['root_presence']['branch']) \
+            in _MW_HEAVY_GRADES
+
+    registered_roots_effective = bool(day_roots) and availability['root_presence'] \
+        and all(register_effective(r) for r in day_roots)
+
+    def registered_eligible(row):
+        # A visible stem has a registered/reviewed root position iff
+        # some root position's branch is a settled root cell for that
+        # stem in the S1 register (heavy or light; pending and no_root
+        # cells never count), or -- for stems the register does not
+        # grade -- the branch is in the sealed policy's reviewed set.
+        # Earth stems have no settled root set in either source (earth
+        # roots unregistered), so an earth visible stem never has an
+        # eligible position here; that register gap is one of the
+        # registered unsatisfiability channels of the metal form.
+        fact = row['fact']
+        table = _MW_ROOT_TABLES.get(fact['stem'])
+        out = []
+        for r in fact['root_positions']:
+            if table is not None:
+                entry = table.get(r['branch'])
+                if entry is not None and entry['grade'] not in (
+                        'no_root', 'conflicted_pending'):
+                    out.append(r)
+            elif r['branch'] in policy['reviewed_root_branches'].get(
+                    fact['element'], []):
+                out.append(r)
+        return out
+
+    all_registered_roots = all(registered_eligible(row) for row in visible)
+    metal_conditions = {
+        'metal_day_master': metal_day,
+        'reviewed_same_element_month_you': principal['month_branch'] in PURE_SUPPORT_METAL_MONTHS
+            and principal['status'] == 'reviewed_relation' and principal['relation'] == 'same_element',
+        'all_positions_support_only': pure_conditions['all_positions_support_only'],
+        'visible印_present': pure_conditions['visible印_present'],
+        'visible比_present': pure_conditions['visible比_present'],
+        'effective_day_roots_registered': registered_roots_effective if metal_day else False,
+        'all_visible_have_registered_roots': all_registered_roots if metal_day else False,
+        'no_unresolved_interactions': no_interactions,
+    }
+    water_conditions = {
+        'water_day_master': water_day,
+        'reviewed_same_element_month_zi': principal['month_branch'] in PURE_GENERATING_WATER_MONTHS
+            and principal['status'] == 'reviewed_relation' and principal['relation'] == 'same_element',
+        'all_positions_support_only': pure_conditions['all_positions_support_only'],
+        'visible印_present': pure_conditions['visible印_present'],
+        'visible比_present': pure_conditions['visible比_present'],
+        'effective_day_roots_registered': registered_roots_effective if water_day else False,
+        'all_visible_have_registered_roots': all_registered_roots if water_day else False,
+        'no_unresolved_interactions': no_interactions,
+    }
     pure, generating, commanding, isolated = (all(pure_conditions.values()),
         all(generating_conditions.values()), all(commanding_conditions.values()),
         all(isolated_conditions.values()))
+    metal = all(metal_conditions.values())
+    water = all(water_conditions.values())
     visible_effects = []
     for i, row in enumerate(visible):
-        proved = pure or generating or commanding or (isolated and row['fact']['pillar'] == 'month')
+        proved = pure or generating or commanding or metal or water or (isolated and row['fact']['pillar'] == 'month')
         visible_effects.append({'action_index': i, 'fact': dict(row['fact']),
             'eligible_root_positions': eligible[i], 'conditions': row['conditions'],
             'effective_action': row['fact']['relation'] if proved else None,
@@ -166,7 +267,9 @@ def action_effects(pillars, *, observed, relations, principal, availability,
             'context': 'pure_support' if pure else (
                 'pure_generating_support' if generating else (
                     'commanding_visible_support' if commanding else (
-                        'isolated_control' if proved else None))),
+                        'pure_support_metal' if metal else (
+                            'pure_generating_support_water' if water else (
+                                'isolated_control' if proved else None))))),
             'polarity_equivalence_assumed': False, 'distance_weight': None})
     hidden_effects = []
     for i, row in enumerate(hidden):
@@ -174,9 +277,15 @@ def action_effects(pillars, *, observed, relations, principal, availability,
             if r['root_presence']['pillar'] == row['fact']['pillar']
             and r['root_presence']['hidden_stem'] == row['fact']['stem']
             and r['root_availability'] == 'effective']
+        if not root_indexes and (metal or water):
+            root_indexes = [j for j, r in enumerate(availability['roots'])
+                if r['root_presence']['pillar'] == row['fact']['pillar']
+                and r['root_presence']['hidden_stem'] == row['fact']['stem']
+                and register_effective(r)]
+        participates = (pure or generating or metal or water) and root_indexes
         hidden_effects.append({'action_index': i, 'fact': dict(row['fact']),
-            'effective_action': 'root_support' if (pure or generating) and root_indexes else None,
-            'effect_status': 'root_participation_only' if (pure or generating) and root_indexes else 'unresolved',
+            'effective_action': 'root_support' if participates else None,
+            'effect_status': 'root_participation_only' if participates else 'unresolved',
             'root_indexes': root_indexes, 'equivalent_to_visible': False})
     return {'action_variant': action_variant, 'day_master': observed['day_master'],
             'pure_support_scope_conditions': pure_conditions, 'pure_support_scope_met': pure,
@@ -184,6 +293,10 @@ def action_effects(pillars, *, observed, relations, principal, availability,
             'pure_generating_support_scope_met': generating,
             'commanding_visible_support_scope_conditions': commanding_conditions,
             'commanding_visible_support_scope_met': commanding,
+            'pure_support_metal_scope_conditions': metal_conditions,
+            'pure_support_metal_scope_met': metal,
+            'pure_generating_support_water_scope_conditions': water_conditions,
+            'pure_generating_support_water_scope_met': water,
             'isolated_control_scope_conditions': isolated_conditions, 'isolated_control_scope_met': isolated,
             'visible_relations': visible_effects, 'hidden_relations': hidden_effects,
             'unresolved_interaction_kinds': interaction_kinds,
@@ -191,7 +304,7 @@ def action_effects(pillars, *, observed, relations, principal, availability,
                 'stem_five_combinations', 'branch_six_harmonies', 'branch_triple_harmonies')) else 'not_present',
             'stem_erasure_applied': False, 'hidden_visible_equivalence_applied': False,
             'weights_available': False, 'overall_strength': None,
-            'scope': '仅已审木日主纯印比月卯生扶、亥月印比生扶（从旺口径）、或无根无扶月酉透辛的条件作用；丙日主午月同类当令显纯生扶（从强主锚，藏干仅作根位事实——治理约定非原文）；其他效力未裁定，不推从格、喜用或吉凶。'}
+            'scope': '仅已审木日主纯印比月卯生扶、亥月印比生扶（从旺口径）、或无根无扶月酉透辛的条件作用；丙日主午月同类当令显纯生扶（从强主锚，藏干仅作根位事实——治理约定非原文）；金日主酉月、水日主子月全位置纯生扶（从旺/从强通述口径，根有效性以 S1 登记表驱动、冲突格阻断）；其他效力未裁定，不推从格、喜用或吉凶。'}
 
 
 def action_conditions(pillars, day_master, *, support, relations, month_command,

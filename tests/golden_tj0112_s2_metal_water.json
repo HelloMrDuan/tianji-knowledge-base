@@ -1,0 +1,232 @@
+{
+ "cases": [
+  {
+   "derivation": "Hand derivation. Pillars: 1981 is a Xin-You year; the Zi month of a Xin year starts with Geng (five-tiger rule: Bing/Xin years start Bing at Yin, so Zi month stem is Geng); 1981-12-21 is a Gui-You day; a Gui day's Zi hour stem is Ren (five-rat rule: Jia/Ji start Jia at Zi, Gui is the 5th step -> Ren at Zi). Day master Gui (water). Month gate: Zi principal qi is Gui (reviewed), relation same_element -> reviewed_same_element_month_zi true. Support-only: visible stems Xin (year, metal generates water = resource), Geng (month, resource), Ren (hour, same element = peer) are all support; hidden stems are Zi [Gui] and You [Xin] only, both support -> all_positions_support_only true; resource visible (Xin/Geng) and peer visible (Ren) both true. Roots: Gui roots at month Zi and hour Zi (hidden Gui); S1 register grades Gui@Zi per_stem_listed (Lu position, explicit per-stem statement), no root-type source conflict on either fact, no branch interaction touches Zi or You (no Mao/Chen/Hai partner; Zi-You is not an unresolved kind) -> effective_day_roots_registered true. Visible roots: Xin has You (per-stem listed), Geng has You (framework heavy), Gui has Zi -> all_visible_have_registered_roots true. No unresolved interactions -> all eight water conditions true. The sealed availability variant is wood-scoped and reports both roots out-of-scope; under the register criterion both are effective, so the reconciled blocker list is empty -> strong via pure_generating_support_water (Congwang/Congqiang element-generic definitions), sufficient_rule null, registration pending. month_root_grade per_stem_listed; root_grades [(month, Zi, Gui, per_stem_listed), (hour, Zi, Gui, per_stem_listed)].",
+   "expect": {
+    "classification": "strong",
+    "month_root_grade": "per_stem_listed",
+    "predicate_rule_registration": "pending_phase1_rule_registration",
+    "root_grades": [
+     [
+      "month",
+      "子",
+      "癸",
+      "per_stem_listed"
+     ],
+     [
+      "hour",
+      "子",
+      "癸",
+      "per_stem_listed"
+     ]
+    ],
+    "scope_conditions": {
+     "all_positions_support_only": true,
+     "all_visible_have_registered_roots": true,
+     "effective_day_roots_registered": true,
+     "no_unresolved_interactions": true,
+     "reviewed_same_element_month_zi": true,
+     "visible印_present": true,
+     "visible比_present": true,
+     "water_day_master": true
+    },
+    "sufficient_predicate": "pure_generating_support_water",
+    "sufficient_rule": null
+   },
+   "expected_pillars": [
+    "辛酉",
+    "庚子",
+    "癸酉",
+    "壬子"
+   ],
+   "id": "tj0112-s2-water-positive-gui",
+   "source_birth": "1981-12-21T00:30:00+08:00",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "derivation": "Hand derivation. 1921 is a Xin-You year, Zi month stem Geng as in the positive case; 1921-12-15 is a Ren-Zi day; a Ren day's Zi hour stem is Geng (five-rat rule: Ding/Ren days start Geng at Zi). Day master Ren (water). Seven of eight water conditions hold: month gate true (Zi, same_element); support-only true (visible Xin/Geng are resource; hidden Zi [Gui], You [Xin] all support); resource visible true; roots at month/day/hour Zi (hidden Gui) -- S1 grades Ren@Zi framework_derived (Di-wang by framework derivation from the twelve-stage cycle, never an explicit statement), no conflicts, no interactions -> effective true; all visible stems have registered roots (Xin@You listed, Geng@You framework) -> true; no unresolved interactions -> true. The single failing condition is visible peer: the visible stems are Xin, Geng, Geng -- no water stem is visible, and the day stem itself never counts as a visible peer. This witnesses the no-peer-source face of the registered Ren unsatisfiability (WATER_ZI_SATISFIABILITY.ren_unrealizable, channel 2): the full enumeration there shows a visible water stem on a Ren chart forces either a fire/control stem into the visible layer, a drain month stem, or an hour stem (Geng) with no root position anywhere in the chart. Verdict must stay indeterminate with the water scope table showing exactly one false condition.",
+   "expect": {
+    "classification": "indeterminate",
+    "scope_conditions": {
+     "all_positions_support_only": true,
+     "all_visible_have_registered_roots": true,
+     "effective_day_roots_registered": true,
+     "no_unresolved_interactions": true,
+     "reviewed_same_element_month_zi": true,
+     "visible印_present": true,
+     "visible比_present": false,
+     "water_day_master": true
+    },
+    "sufficient_predicate": null
+   },
+   "expected_pillars": [
+    "辛酉",
+    "庚子",
+    "壬子",
+    "庚子"
+   ],
+   "id": "tj0112-s2-water-near-miss-ren-no-visible-peer",
+   "source_birth": "1921-12-15T00:30:00+08:00",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "derivation": "Hand derivation. 1981 Xin-You year (before the 1982 Lichun), Chou month of a Xin year starts Xin (five-tiger: Bing/Xin start Bing at Yin -> Chou month stem Xin); 1982-01-29 is a Ren-Zi day; Ren day Zi hour is Geng. Day master Ren. Month gate fails by one branch: month is Chou, not Zi (Chou is a storehouse branch whose principal relation is not_reviewed in the sealed layer). Support-only also fails (Chou hides Ji earth = control and Xin; the day/hour Zi and year You are support, but Chou's Ji breaks it). Visible peer fails (visible Xin/Xin/Geng, no water stem). Effective-roots fails: the Ren root at month Chou (hidden Gui) is graded light_listed_conflicted in S1 (Chou lists Gui as a root in one review set and as tomb/residue in the other) and its executed fact carries a root-type source conflict plus the Zi-Chou harmony touching it. all_visible_have_registered_roots stays true (Xin@You listed, Geng@You framework; the Chou position of Geng via hidden Xin is not needed). no_unresolved_interactions fails (Zi-Chou six-harmony). Five conditions false, three true (water_day_master, visible resource via Xin/Geng, all_visible) -> indeterminate, and a root_type_source_conflict check must be present.",
+   "expect": {
+    "classification": "indeterminate",
+    "root_conflict_check": "root_type_source_conflict",
+    "scope_conditions": {
+     "all_positions_support_only": false,
+     "all_visible_have_registered_roots": true,
+     "effective_day_roots_registered": false,
+     "no_unresolved_interactions": false,
+     "reviewed_same_element_month_zi": false,
+     "visible印_present": true,
+     "visible比_present": false,
+     "water_day_master": true
+    },
+    "sufficient_predicate": null
+   },
+   "expected_pillars": [
+    "辛酉",
+    "辛丑",
+    "壬子",
+    "庚子"
+   ],
+   "id": "tj0112-s2-water-near-miss-chou-month",
+   "source_birth": "1982-01-29T00:30:00+08:00",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "derivation": "Hand derivation. Same year/month/day as the Gui positive case; the Hai hour of a Gui day is Gui (five-rat rule: Gui day Hai hour stem is Gui). Day master Gui. The chart differs from the positive case only in the hour pillar. It adds a third day root: hour Hai hides Ren, a structural Gui root whose S1 cell Gui@Hai is conflicted_pending under the registered branch sanming-juan2.gui-changsheng (the Gui Changsheng position is Mao under Sanming Tonghui juan 1 vs Shen under the Ditiansui-lineage quotation; Hai is a root only under the Shen branch, as the Yu-qi of Shen). The executed root fact itself carries NO fact-level conflict flag, so this case isolates the register-driven presentation: the bounded assessment must present a root_type_source_conflict check with conflict_id sanming-juan2.gui-changsheng at the hour root and block on it. Support-only also fails (Hai hides Jia wood = drain). All other conditions true (month gate, resource Xin/Geng visible, peer Gui visible at hour, all visible stems rooted, no unresolved interactions -- Hai has no clash/harmony/harm partner among You/Zi/You). effective_day_roots_registered false because not every day root is register-effective. Verdict indeterminate; the pending cell never passes.",
+   "expect": {
+    "classification": "indeterminate",
+    "register_conflict_id": "sanming-juan2.gui-changsheng",
+    "scope_conditions": {
+     "all_positions_support_only": false,
+     "all_visible_have_registered_roots": true,
+     "effective_day_roots_registered": false,
+     "no_unresolved_interactions": true,
+     "reviewed_same_element_month_zi": true,
+     "visible印_present": true,
+     "visible比_present": true,
+     "water_day_master": true
+    },
+    "sufficient_predicate": null
+   },
+   "expected_pillars": [
+    "辛酉",
+    "庚子",
+    "癸酉",
+    "癸亥"
+   ],
+   "id": "tj0112-s2-water-near-miss-gui-hai-pending-root",
+   "source_birth": "1981-12-21T22:30:00+08:00",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "derivation": "Hand derivation. Same year/month/day as the Gui positive case; the Chou hour of a Gui day is Gui (five-rat rule). Day master Gui. The hour root (Chou, hidden Gui) is graded light_listed_conflicted in S1: Chou appears in the Sanming heavy-root list for Gui and simultaneously as Gui's tomb (Mu) in the twelve-stage table, and the Ditiansui Ren-commentary residue list also names Chou -- the root-type readings conflict (bazi.concept.conflict_root_type_readings). The executed fact for this root carries a root-type source conflict of the same ID, so fact-level and register-level agree (the register re-presentation is suppressed by the elif ordering to avoid double presentation). Support-only fails (Chou hides Ji earth = control). no_unresolved_interactions fails (Zi-Chou six-harmony). Month gate, resource, peer (hour Gui visible), all-visible-roots all true; effective_day_roots_registered false. Verdict indeterminate with exactly one root_type_source_conflict check (no duplicate).",
+   "expect": {
+    "classification": "indeterminate",
+    "root_conflict_check": "root_type_source_conflict",
+    "root_conflict_count_for_hour_root": 1,
+    "scope_conditions": {
+     "all_positions_support_only": false,
+     "all_visible_have_registered_roots": true,
+     "effective_day_roots_registered": false,
+     "no_unresolved_interactions": false,
+     "reviewed_same_element_month_zi": true,
+     "visible印_present": true,
+     "visible比_present": true,
+     "water_day_master": true
+    },
+    "sufficient_predicate": null
+   },
+   "expected_pillars": [
+    "辛酉",
+    "庚子",
+    "癸酉",
+    "癸丑"
+   ],
+   "id": "tj0112-s2-water-near-miss-gui-chou-light-root",
+   "source_birth": "1981-12-21T02:30:00+08:00",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "derivation": "Hand derivation. 1981 Xin-You year; You month of a Xin year starts Ding (five-tiger rule); 1981-09-10 is a Xin-Mao day; a Xin day's Zi hour stem is Wu (five-rat rule: Bing/Xin days start Wu at Zi). Day master Xin (metal). Month gate TRUE: You principal qi Xin is reviewed, relation same_element -- this is the S1 double-attested month-root fact (Xin Lu at You), not branch-dependent. The form still fails on five conditions: support-only false (visible Ding fire controls metal; Mao hides Yi wealth; Zi hides Gui drain); effective roots false -- both day roots (year You and month You, hidden Xin, S1 grade per_stem_listed) are touched by the Mao-You six-clash, so neither is register-effective; all-visible-roots false -- visible Ding (fire) has no root position among You/You/Mao/Zi (no branch hides a fire stem except none; Mao/Zi/You hide Yi/Gui/Xin), so Ding has no registered root; no_unresolved_interactions false (Mao-You clash). Resource visible true (hour Wu earth), peer visible true (year Xin). Verdict indeterminate; the metal predicate must not fire even with the month gate satisfied.",
+   "expect": {
+    "classification": "indeterminate",
+    "scope_conditions": {
+     "all_positions_support_only": false,
+     "all_visible_have_registered_roots": false,
+     "effective_day_roots_registered": false,
+     "metal_day_master": true,
+     "no_unresolved_interactions": false,
+     "reviewed_same_element_month_you": true,
+     "visible印_present": true,
+     "visible比_present": true
+    },
+    "sufficient_predicate": null
+   },
+   "expected_pillars": [
+    "辛酉",
+    "丁酉",
+    "辛卯",
+    "戊子"
+   ],
+   "id": "tj0112-s2-metal-near-miss-xin-clashed-roots",
+   "source_birth": "1981-09-10T00:30:00+08:00",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "derivation": "Hand derivation. 1981 Xin-You year, You month stem Ding (five-tiger rule); 1981-09-09 is a Geng-Yin day; a Geng day's Zi hour stem is Bing (five-rat rule: Yi/Geng days start Bing at Zi). Day master Geng (metal). Month gate true (You, same_element; Geng@You is the framework_derived Di-wang heavy root). Day roots are exactly two: year You and month You (hidden Xin), both framework heavy with no conflict and no branch relation, so effective_day_roots_registered is TRUE -- note Yin does NOT hide Geng (Yin hides Jia/Bing/Wu), so there is no day root at Yin at all, consistent with the register's no_root grade for Geng@Yin. Support-only false (visible Ding and Bing are fire = control; Yin hides Jia wealth and Bing; Zi hides Gui drain). Resource visible false (no earth stem visible). Peer visible true (year Xin). All-visible-roots false: visible Ding and Bing each have a root position only at the day Yin (via hidden Bing), and fire has no reviewed root-branch set in the sealed policy and no S1 register table, so neither fire stem has a registered root position (Xin is rooted at You, per-stem listed). No-unresolved-interactions false: the year stem Xin and hour stem Bing form a stem five-combination (Bing-Xin), an unresolved interaction kind. Verdict indeterminate: six conditions true/false pattern {day true, month true, support false, resource false, peer true, effective true, all-visible false, interactions false}.",
+   "expect": {
+    "classification": "indeterminate",
+    "scope_conditions": {
+     "all_positions_support_only": false,
+     "all_visible_have_registered_roots": false,
+     "effective_day_roots_registered": true,
+     "metal_day_master": true,
+     "no_unresolved_interactions": false,
+     "reviewed_same_element_month_you": true,
+     "visible印_present": false,
+     "visible比_present": true
+    },
+    "sufficient_predicate": null
+   },
+   "expected_pillars": [
+    "辛酉",
+    "丁酉",
+    "庚寅",
+    "丙子"
+   ],
+   "id": "tj0112-s2-metal-near-miss-geng-stem-combination",
+   "source_birth": "1981-09-09T00:30:00+08:00",
+   "zone": "Asia/Shanghai"
+  }
+ ],
+ "note": "Every case is a real birth instant; pillars are the engine-computed pillars for that instant (hand-derived independently below and cross-checked against the perpetual-calendar pillars). No hand-assembled pillar sets. Derivations state, per case, the hand computation of every scope condition of the new predicates from the S1 register (bazi_metal_water_roots) and the executed factor facts. The two unrealizable entries register constructive proofs, not failed searches.",
+ "task": "TJ-011.2 S2 (pure-support extension to metal x You / water x Zi)",
+ "unrealizable": [
+  {
+   "day_masters": [
+    "庚",
+    "辛"
+   ],
+   "factor_level_note": "Factor-layer tests (synthetic factor inputs, explicitly labelled factor-level, following the commanding batch FactorLayerTests precedent) show the metal scope evaluating all-true and each single-condition failure flipping the outcome; they are not real-chart evidence.",
+   "predicate": "pure_support_metal",
+   "proof_summary": "Three independent channels. (1) Hidden-stem layer: branches whose hidden stems all lie in {earth, metal} (the support set for a metal day master) -- only You (single hidden stem Xin) qualifies; Chou hides Gui (drain), Xu hides Ding (control), Chen hides Yi (wealth) and Gui, Si hides Bing, Shen hides Ren (drain), Hai hides Jia (wealth), Wu/Wei hide Ding, Yin hides Jia/Bing, Mao hides Yi, Zi hides Gui. So all_positions_support_only forces all four branches to You. (2) Visible layer on all-You charts: year stem in {Ji, Xin, Gui, Ding, Yi} with You-month stem forced by the five-tiger rule to (Ji->Gui, Xin->Ding, Gui->Xin, Ding->Ji, Yi->Yi); every (year, month) pair contains a non-support stem; a Geng-You day pillar does not exist (stem-branch parity), and a Xin day's You hour stem is Ding (control). (3) Register gap (independent of 1-2): the metal form's resource is earth, and earth stems have no settled root set in the sealed policy or the S1 register (earth roots unregistered), so visible-resource and all-visible-roots cannot hold simultaneously under the current register surface. Channels 1-2 are calendrical facts; channel 3 is a register/policy gap that must be re-checked if earth root positions are ever adjudicated. The predicate is implemented exactly as registered and its evaluation logic is covered at factor level; no real chart can satisfy it, and this entry -- not a fabricated chart -- is the metal positive coverage.",
+   "register": "bazi_metal_water_roots.METAL_YOU_SATISFIABILITY",
+   "status": "chart_unrealizable"
+  },
+  {
+   "day_masters": [
+    "壬"
+   ],
+   "factor_level_note": "The Ren scope evaluation logic is covered by the same factor-layer baseline as Gui (the scope is element-keyed, not stem-keyed); the unrealizability is a calendrical fact about real charts, registered here.",
+   "predicate": "pure_generating_support_water",
+   "proof_summary": "Gui is satisfiable (witness case tj0112-s2-water-positive-gui); Ren is not. (1) Branches whose hidden stems all lie in {water, metal}: only Zi (single Gui) and You (single Xin); a Ren-You day pillar does not exist (parity), so the day pillar is Ren-Zi. (2) A visible peer (water stem) cannot coexist with the remaining conditions. A Ren month stem requires a Ding or Ren year stem (five-tiger Ding/Ren family): a Ding year stem is fire (control) and breaks support-only itself; a Ren year stem forces the year pillar Ren-Zi (the only Ren pillar with branch in {Zi, You}), month stem Ren, day Ren-Zi, and an hour stem on Zi/You of Geng or Ji -- Ji is earth (control), and Geng, while resource, has no root position in an all-Zi chart (no branch hides a metal stem; every metal-hiding branch carries a control/drain/wealth hidden stem and is excluded by channel 1, and no Ren-You pillar exists), so all_visible_have_registered_roots fails. A Gui year stem forces a Jia Zi-month stem (drain). A water hour stem needs an Yin (Ren) or Mao (Gui) hour branch, excluded by channel 1. Hence no real Ren chart satisfies all eight conditions -- witnessed on the no-peer face by case tj0112-s2-water-near-miss-ren-no-visible-peer, where exactly that one condition fails.",
+   "register": "bazi_metal_water_roots.WATER_ZI_SATISFIABILITY.ren_unrealizable",
+   "status": "chart_unrealizable"
+  }
+ ]
+}

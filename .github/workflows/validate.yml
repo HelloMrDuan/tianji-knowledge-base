@@ -344,4 +344,14 @@ jobs:
       # calendar lives in test_tj0112_bing_wu_commanding.py (offline
       # acceptance only, NOT public CI: it needs the sealed snapshot).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0112_bing_wu_public.py' -v
+      # TJ-011.2 S2 metal x You / water x Zi pure-form public contracts:
+      # the two form registers (condition keys isomorphic to the wood
+      # pure scope, registered anchor types), the satisfiability
+      # registrations (metal chart-unrealizable with its three-channel
+      # proof, water satisfiable for Gui only), and Golden
+      # self-consistency (real birth instants, parity-valid pillars,
+      # exactly one positive case). Chart execution against the sealed
+      # policy lives in test_tj0112_s2_metal_water.py (offline
+      # acceptance only, NOT public CI).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0112_s2_metal_water_public.py' -v
       - run: python scripts/audit_public_asset_changes.py --inventory
