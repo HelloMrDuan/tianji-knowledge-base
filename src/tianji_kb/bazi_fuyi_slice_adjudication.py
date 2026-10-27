@@ -1,0 +1,1144 @@
+"""TJ-013.1 S4 扶抑最小切片审定登记（审定批，零判定代码）。
+
+审定问题：S3 已登记的滴天髓扶抑三段（衰旺原注 F-1、形象章 F-2、
+体用章任氏曰 F-3 含方向表十行，模块 bazi_ditiansui_fuyi）与现行
+旺衰判定面（bazi-strength-adjudication-v1 七条充分谓词，输出
+strong/weak/indeterminate）之间，是否存在可执行的最小扶抑切片
+——即命盘已得已审旺衰判定时，扶抑方向结论能否由登记句直接
+推出。方向结论指取用方向（泄/伤/帮/助、以某神类为用之方向），
+**不是喜用神裁定**：喜用四体系分别治理、无统一喜神，任何未来
+扶抑 Variant 的喜用字段恒为 None（见 REQUIREMENTS_IF_UNLOCKED）。
+
+审定结论：**零行可建**。审计覆盖方向表十行逐行、三段判句全量
+37 句逐句归组，无一可执行单元。阻断分类（逐项登记、可复核）：
+其一，方向表十行的判别条件全是未阈值化程度词（多/轻/重/他方
+之旺/两停/均敌），已执行事实只给显干神类之有无（二值），以计
+数充程度为总指令明禁的十神计数；行 9/10 的前提状态（两停/
+均敌）本身不可裁决（现行契约无中间档、中和无定义）。其二，
+F-1/F-3 两条总则各自带着前提不可评估的反例/反转条款（旺中有
+衰者存、不可抑/不可扶、极），fail-closed 执行无路。其三，F-3
+提纲段是许可/程序陈述、无选择规则。其四，F-2 的方向内容是
+F-1 的同源转述（原文自明），其形全/形缺分类是部分枚举、且与
+已裁旺衰交错互不包含，不可充前提。本模块是纯数据审定登记，
+**零扶抑判定代码、零 Variant 规格**（SLICE_SPEC 为 None 是审定
+结论本身）；解锁前置六项逐项登记，其中程度词阈值（U1）与中
+和定义（U3）属用户级流派裁定，本批不代决。
+"""
+
+SLICE_ADJUDICATION_ID = 'bazi-fuyi-slice-adjudication-v1'
+
+SLICE_TASK = 'TJ-013.1 S4 (fuyi minimal slice adjudication)'
+
+S3_REGISTER_ID = 'bazi-ditiansui-fuyi-registration-v1'
+
+ADJUDICATION_VERDICT = {
+ 'question': '已得已审旺衰判定（strong/weak）的命盘，其扶抑方向结论能否由 S3 登记句直接推出（最小可执行切片是否存在）',
+ 'conclusion': 'no_buildable_rows',
+ 'buildable_units': [],
+ 'buildable_count': 0,
+ 'audited': {
+  'direction_table_rows': 10,
+  'judgment_sentences': 37,
+  'passage_units': 9,
+  'cross_references': 4
+ },
+ 'blocking_taxonomy': [
+  'unthresholded_degree_conditions',
+  'premise_state_not_adjudicable',
+  'counter_or_reversal_clause_premise_unevaluable',
+  'undifferentiated_or_permissive_output',
+  'same_source_restatement',
+  'partial_enumeration_classification',
+  'glyph_unresolved_in_condition_text'
+ ],
+ 'note': '零行可建是审定结论、非审定缺席：十行与 37 句逐项理由在本登记内逐条落账（DIRECTION_TABLE_AUDIT / PASSAGE_AUDITS），解锁前置见 UNLOCK_PRECONDITIONS。'
+}
+
+INPUT_SURFACE = {
+ 'strength_variant': 'bazi-strength-adjudication-v1',
+ 'supported_classifications': [
+  'strong',
+  'weak',
+  'indeterminate'
+ ],
+ 'predicates': [
+  {
+   'id': 'pure_support',
+   'scope': '木日主×卯月',
+   'classification': 'strong',
+   'exit': 'sealed_rule bazi.phase2.strength_pure_support',
+   'registration': 'registered'
+  },
+  {
+   'id': 'pure_generating_support',
+   'scope': '木日主×亥月',
+   'classification': 'strong',
+   'exit': 'bazi.rule.r026',
+   'registration': 'pending_phase1_rule_registration',
+   'anchor': '任氏从旺定义'
+  },
+  {
+   'id': 'isolated_control',
+   'scope': '木日主×酉月',
+   'classification': 'weak',
+   'exit': 'sealed_rule bazi.phase2.strength_isolated_control',
+   'registration': 'registered'
+  },
+  {
+   'id': 'commanding_visible_support',
+   'scope': '丙日主×午月',
+   'classification': 'strong',
+   'exit': 'bazi.rule.r026',
+   'registration': 'pending_phase1_rule_registration',
+   'anchor': '从强主锚'
+  },
+  {
+   'id': 'lu_visible_support',
+   'scope': '丙日主×巳月',
+   'classification': 'strong',
+   'exit': 'bazi.rule.r026',
+   'registration': 'pending_phase1_rule_registration',
+   'anchor': '从强主锚（禄月形态）'
+  },
+  {
+   'id': 'pure_support_metal',
+   'scope': '金日主×酉月',
+   'classification': 'strong',
+   'exit': 'bazi.rule.r026',
+   'registration': 'pending_phase1_rule_registration',
+   'witness': 'none_constructively_unsatisfiable_s2'
+  },
+  {
+   'id': 'pure_generating_support_water',
+   'scope': '水日主×子月',
+   'classification': 'strong',
+   'exit': 'bazi.rule.r026',
+   'registration': 'pending_phase1_rule_registration',
+   'witness': 'sole_witness_gui_zi_1981-12-21'
+  }
+ ],
+ 'feedable_facts': [
+  {
+   'id': 'F1',
+   'fact': '已裁分类 strong/weak（七谓词面，覆盖极窄；indeterminate 不可喂入任何方向结论）',
+   'source_output': 'strength_assessment（bazi-strength-adjudication-v1）'
+  },
+  {
+   'id': 'F2',
+   'fact': '显干神类有无（二值，逐神类：印绶/比劫/食伤/财星/官杀，由显干与日主的五行关系定类——生我=印绶、同我=比劫、我生=食伤、我克=财星、克我=官杀）',
+   'source_output': 'action_effects.visible_relations 的 fact.relation（谓词自身即消费 visible印_present/visible比_present 有无条件）'
+  },
+  {
+   'id': 'F3',
+   'fact': '根位事实（root_presence、逐根 root_availability 与登记根表分级）',
+   'source_output': 'root_availability / 各根审定登记'
+  }
+ ],
+ 'non_feedable_facts': [
+  {
+   'id': 'N1',
+   'fact': '任何神类的程度（多/轻/重/旺/过旺/无气/满局/重叠/交加/满盘/有余/不足/极/太过/不及）',
+   'reason': '全树无阈值定义；action_effects 明示 weights_available=False、overall_strength=None、distance_weight=None；以显干计数充程度即十神计数，总指令禁止以计数作裁决依据。'
+  },
+  {
+   'id': 'N2',
+   'fact': '日主以外任何对象的强弱状态（如官杀旺、财星旺）',
+   'reason': '现行裁决面只裁日主一身之强弱分类，不存在他方旺衰的判定面。'
+  },
+  {
+   'id': 'N3',
+   'fact': '中间/平衡状态（两停/均敌/中和）',
+   'reason': '原文两停/均敌无定义；一般旺衰审源已定中和档在全树无定义、不可建；裁决输出契约 supported_classifications 只有 strong/weak/indeterminate，无中间值。'
+  },
+  {
+   'id': 'N4',
+   'fact': '反例/反转条款的触发状态（旺中有衰者存、衰中有旺者存、不可抑、不可扶）',
+   'reason': '登记文本未给操作定义，已执行事实与之无登记映射；候选读法的取舍是解释性裁定（解锁前置 U2），非事实喂入问题。'
+  }
+ ]
+}
+
+DIRECTION_TABLE_AUDIT = [
+ {
+  'row': 1,
+  'text': '日主旺,印绶多,必要财星为用;',
+  'locator': {
+   'char_start': 35697,
+   'char_end': 35712
+  },
+  'premise_day_master_state': '旺',
+  'premise_feedable': True,
+  'direction_god': '财星',
+  'direction_nature': 'direction_not_classification',
+  'condition_audits': [
+   {
+    'term': '多',
+    'registered_status': 'quantifier_unthresholded',
+    'feedable': False,
+    'reason': '「多」为神类程度词：已执行事实只给显干神类之有无（二值），全树无任何登记文本为其给出阈值；以显干计数充程度即十神计数，总指令禁止以十神/五行计数作裁决依据（non_feedable N1）。'
+   }
+  ],
+  'buildable': False,
+  'blocking_summary': '前提「日主旺」可喂入（七谓词 strong 面，极窄）；判别条件「印绶多」为程度词不可喂入——显干有印绶只是「有」，不是「多」。'
+ },
+ {
+  'row': 2,
+  'text': '日主旺,官杀轻,亦以财星为用。',
+  'locator': {
+   'char_start': 35712,
+   'char_end': 35727
+  },
+  'premise_day_master_state': '旺',
+  'premise_feedable': True,
+  'direction_god': '财星',
+  'direction_nature': 'direction_not_classification',
+  'condition_audits': [
+   {
+    'term': '轻',
+    'registered_status': 'quantifier_unthresholded',
+    'feedable': False,
+    'reason': '「轻」为神类程度词：类别不见于显干只是「无」，不等于登记意义的「轻」；全树无阈值定义，不得以缺席径读为轻（non_feedable N1）。'
+   }
+  ],
+  'buildable': False,
+  'blocking_summary': '前提可喂入；判别条件「官杀轻」不可喂入——官杀不见于显干不等于「轻」，无登记阈值。'
+ },
+ {
+  'row': 3,
+  'text': '日主旺,比劫多 ,耐我财星,以食伤为用;',
+  'locator': {
+   'char_start': 35727,
+   'char_end': 35747
+  },
+  'premise_day_master_state': '旺',
+  'premise_feedable': True,
+  'direction_god': '食伤',
+  'direction_nature': 'direction_not_classification',
+  'condition_audits': [
+   {
+    'term': '多',
+    'registered_status': 'quantifier_unthresholded',
+    'feedable': False,
+    'reason': '「多」为神类程度词：已执行事实只给显干神类之有无（二值），全树无任何登记文本为其给出阈值；以显干计数充程度即十神计数，总指令禁止以十神/五行计数作裁决依据（non_feedable N1）。'
+   }
+  ],
+  'buildable': False,
+  'blocking_summary': '前提可喂入；判别条件「比劫多」不可喂入（程度词）；且行文「耐我财星」之「耐」为转写疑讹（fy-glyph-06，mapped_reading=None），条件句读未定，属第二重阻断。',
+  'glyph_blockers': [
+   'fy-glyph-06'
+  ]
+ },
+ {
+  'row': 4,
+  'text': '日主旺,比劫多,而财星轻,亦以食伤为用。',
+  'locator': {
+   'char_start': 35747,
+   'char_end': 35767
+  },
+  'premise_day_master_state': '旺',
+  'premise_feedable': True,
+  'direction_god': '食伤',
+  'direction_nature': 'direction_not_classification',
+  'condition_audits': [
+   {
+    'term': '多',
+    'registered_status': 'quantifier_unthresholded',
+    'feedable': False,
+    'reason': '「多」为神类程度词：已执行事实只给显干神类之有无（二值），全树无任何登记文本为其给出阈值；以显干计数充程度即十神计数，总指令禁止以十神/五行计数作裁决依据（non_feedable N1）。'
+   },
+   {
+    'term': '轻',
+    'registered_status': 'quantifier_unthresholded',
+    'feedable': False,
+    'reason': '「轻」为神类程度词：类别不见于显干只是「无」，不等于登记意义的「轻」；全树无阈值定义，不得以缺席径读为轻（non_feedable N1）。'
+   }
+  ],
+  'buildable': False,
+  'blocking_summary': '前提可喂入；两重判别条件「比劫多」「财星轻」均为程度词、均不可喂入。'
+ },
+ {
+  'row': 5,
+  'text': '日主旺,官星轻,銕绶重,以财星为用;',
+  'locator': {
+   'char_start': 35767,
+   'char_end': 35785
+  },
+  'premise_day_master_state': '旺',
+  'premise_feedable': True,
+  'direction_god': '财星',
+  'direction_nature': 'direction_not_classification',
+  'condition_audits': [
+   {
+    'term': '轻',
+    'registered_status': 'quantifier_unthresholded',
+    'feedable': False,
+    'reason': '「轻」为神类程度词：类别不见于显干只是「无」，不等于登记意义的「轻」；全树无阈值定义，不得以缺席径读为轻（non_feedable N1）。'
+   },
+   {
+    'term': '重',
+    'registered_status': 'quantifier_unthresholded',
+    'feedable': False,
+    'reason': '「重」为神类程度词，与「多」同类：无阈值定义、不可计数化（non_feedable N1）。'
+   }
+  ],
+  'buildable': False,
+  'blocking_summary': '前提可喂入；判别条件「官星轻」「印绶重」均为程度词不可喂入；且「重」所修饰的「銕绶」本身为转写疑讹（fy-glyph-05，当为印绶之讹形仅属推测、mapped_reading=None），条件主语在文本层面未定，属第二重阻断。',
+  'glyph_blockers': [
+   'fy-glyph-05'
+  ]
+ },
+ {
+  'row': 6,
+  'text': '日主弱,官杀旺,则以印绶为用,',
+  'locator': {
+   'char_start': 35785,
+   'char_end': 35800
+  },
+  'premise_day_master_state': '弱',
+  'premise_feedable': True,
+  'direction_god': '印绶',
+  'direction_nature': 'direction_not_classification',
+  'condition_audits': [
+   {
+    'term': '旺',
+    'registered_status': 'quantifier_unthresholded',
+    'feedable': False,
+    'reason': '此处「旺」是对方神类（官杀）自身的强弱状态：现行裁决面只裁日主强弱，不裁任何其他对象之旺衰（non_feedable N2）；且其本身为程度词、无阈值（N1）。双重不可喂入。'
+   }
+  ],
+  'buildable': False,
+  'blocking_summary': '前提「日主弱」可喂入（isolated_control 一条，极窄）；判别条件「官杀旺」是官杀一方的强弱状态，现行裁决面不裁日主以外任何对象之旺衰，且无阈值，双重不可喂入。'
+ },
+ {
+  'row': 7,
+  'text': '日主弱,食伤多,亦以印绶为用;',
+  'locator': {
+   'char_start': 35800,
+   'char_end': 35815
+  },
+  'premise_day_master_state': '弱',
+  'premise_feedable': True,
+  'direction_god': '印绶',
+  'direction_nature': 'direction_not_classification',
+  'condition_audits': [
+   {
+    'term': '多',
+    'registered_status': 'quantifier_unthresholded',
+    'feedable': False,
+    'reason': '「多」为神类程度词：已执行事实只给显干神类之有无（二值），全树无任何登记文本为其给出阈值；以显干计数充程度即十神计数，总指令禁止以十神/五行计数作裁决依据（non_feedable N1）。'
+   }
+  ],
+  'buildable': False,
+  'blocking_summary': '前提可喂入；判别条件「食伤多」为程度词不可喂入。'
+ },
+ {
+  'row': 8,
+  'text': '日主弱,财星旺,则以比劫为用。',
+  'locator': {
+   'char_start': 35815,
+   'char_end': 35830
+  },
+  'premise_day_master_state': '弱',
+  'premise_feedable': True,
+  'direction_god': '比劫',
+  'direction_nature': 'direction_not_classification',
+  'condition_audits': [
+   {
+    'term': '旺',
+    'registered_status': 'quantifier_unthresholded',
+    'feedable': False,
+    'reason': '此处「旺」是对方神类（财星）自身的强弱状态：现行裁决面只裁日主强弱，不裁任何其他对象之旺衰（non_feedable N2）；且其本身为程度词、无阈值（N1）。双重不可喂入。'
+   }
+  ],
+  'buildable': False,
+  'blocking_summary': '前提「日主弱」可喂入；判别条件「财星旺」与行 6 同构：他方强弱状态＋程度词，双重不可喂入。'
+ },
+ {
+  'row': 9,
+  'text': '日主与官杀两停者,则以食伤为用;',
+  'locator': {
+   'char_start': 35830,
+   'char_end': 35846
+  },
+  'premise_day_master_state': '两停',
+  'premise_feedable': False,
+  'direction_god': '食伤',
+  'direction_nature': 'direction_not_classification',
+  'condition_audits': [
+   {
+    'term': '两停',
+    'registered_status': 'quantifier_unthresholded',
+    'feedable': False,
+    'reason': '「两停」即前提状态词本身，无定义、无阈值，不可裁决（non_feedable N3）。'
+   }
+  ],
+  'buildable': False,
+  'blocking_summary': '前提状态「两停」不可裁决（输出契约无中间档、中和无定义），先行阻断；纵有阈值约定亦须先有中和档定义（解锁前置 U3）。',
+  'premise_blocking_reason': '「两停」为原文中间状态词、本身无定义（S3 登记 R3）；现行裁决输出契约只有 strong/weak/indeterminate，一般旺衰审源已定中和档无定义、不可建——前提状态本身不可裁决，与条件程度词无关地先行阻断。'
+ },
+ {
+  'row': 10,
+  'text': '日主与财星均敌者,则以印比为用。',
+  'locator': {
+   'char_start': 35846,
+   'char_end': 35862
+  },
+  'premise_day_master_state': '均敌',
+  'premise_feedable': False,
+  'direction_god': '印比',
+  'direction_nature': 'direction_not_classification',
+  'condition_audits': [
+   {
+    'term': '均敌',
+    'registered_status': 'quantifier_unthresholded',
+    'feedable': False,
+    'reason': '「均敌」即前提状态词本身，无定义、无阈值，不可裁决（non_feedable N3）。'
+   }
+  ],
+  'buildable': False,
+  'blocking_summary': '前提状态「均敌」不可裁决，先行阻断（解锁前置 U3）。',
+  'premise_blocking_reason': '「均敌」与「两停」同类：原文中间状态词、无定义；现行裁决无中间档输出，前提状态不可裁决。'
+ }
+]
+
+PASSAGE_AUDITS = [
+ {
+  'unit_id': 'f1_general_rules',
+  'quote_ids': [
+   'fy.shaiwang_yuanzhu'
+  ],
+  'sentence_refs': [
+   {
+    'quote_id': 'fy.shaiwang_yuanzhu',
+    'sentence_index': 0,
+    'text': '旺则宜泄宜伤',
+    'kind': 'general_rule',
+    'quantifiers': []
+   },
+   {
+    'quote_id': 'fy.shaiwang_yuanzhu',
+    'sentence_index': 1,
+    'text': '衰则喜帮喜助',
+    'kind': 'general_rule',
+    'quantifiers': []
+   }
+  ],
+  'nature': 'general_rule_pair_direction_output',
+  'premise_feedable': True,
+  'buildable': False,
+  'blocking_reasons': [
+   {
+    'code': 'counter_clauses_unevaluable',
+    'detail': '同一原注段内的五条反例条款（见 f1_counter_clauses）是本总则的登记组成部分，其功能是 在所列情形撤销本方向；其前提（旺中有衰者存/衰中有旺者存）无任何登记的操作定义、另有「极」未阈值化。fail-closed 地执行本则只有两途：无视登记在案的反例条款径下方向（歪曲来源），或在反例可能成立时弃判（其成立与否不可判，等于永不触发）。两途皆不可建。'
+   },
+   {
+    'code': 'undifferentiated_pair_output',
+    'detail': '本则输出是未分用的方向对 {泄，伤}/{帮，助}；登记在案的任氏四字分用段明言四字须分用、机械地「旺用泄伤、衰用帮助」致吉凶颠倒宜忌淆乱（fy.xingxiang_renshi_restatement），而分用判据全部是未阈值化程度词（见 f2_xingxiang）。方向对不构成裁决，把 S3 已登记的总则原样吐出冒充计算属同源复述，不作新能力。'
+   }
+  ],
+  'note': '本则是全部候选里形式上最接近可建的一条：前提（旺/衰已判）可喂入、两句本身无量化词。阻断不在前提而在本则自身的登记完整性（反例条款）与输出的可裁决性（分用）——两项均非本批可代决。'
+ },
+ {
+  'unit_id': 'f1_counter_clauses',
+  'quote_ids': [
+   'fy.shaiwang_yuanzhu'
+  ],
+  'sentence_refs': [
+   {
+    'quote_id': 'fy.shaiwang_yuanzhu',
+    'sentence_index': 2,
+    'text': '旺中有衰者存,不可损也',
+    'kind': 'counter_clause',
+    'quantifiers': []
+   },
+   {
+    'quote_id': 'fy.shaiwang_yuanzhu',
+    'sentence_index': 3,
+    'text': '衰右有旺者存,不可益也',
+    'kind': 'counter_clause',
+    'quantifiers': []
+   },
+   {
+    'quote_id': 'fy.shaiwang_yuanzhu',
+    'sentence_index': 4,
+    'text': '旺之可损,以损在其中矣',
+    'kind': 'counter_clause_detail',
+    'quantifiers': []
+   },
+   {
+    'quote_id': 'fy.shaiwang_yuanzhu',
+    'sentence_index': 5,
+    'text': '衰之极者不可所当损者而损之,反凶',
+    'kind': 'counter_clause_detail',
+    'quantifiers': [
+     {
+      'term': '极',
+      'status': 'quantifier_unthresholded'
+     }
+    ]
+   },
+   {
+    'quote_id': 'fy.shaiwang_yuanzhu',
+    'sentence_index': 6,
+    'text': '实所当益者而益之,反害',
+    'kind': 'counter_clause_detail',
+    'quantifiers': []
+   }
+  ],
+  'nature': 'revocation_clauses_of_f1',
+  'premise_feedable': False,
+  'buildable': False,
+  'blocking_reasons': [
+   {
+    'code': 'premise_no_operational_definition',
+    'detail': '「旺中有衰者存」「衰中有旺者存」未指明何方之存算数衰/旺者、存于何位、何种程度；已执行事实（显干神类有无、根位事实）与该前提之间无登记映射。候选读法（如「强盘显干见克泄耗神类即衰者存」）是解释性选择，属治理审定事项（解锁前置 U2），本批不代选。'
+   },
+   {
+    'code': 'quantifier_unthresholded',
+    'detail': '「衰之极者不可所当损者而损之，反凶」含程度词「极」（已登记 quantifier_unthresholded）；且该段文气不顺、疑有脱字倒文（fy-glyph-02，整段逐字保留未复原），句读层面亦未定。'
+   },
+   {
+    'code': 'glyph_unresolved',
+    'detail': '「衰右有旺者存」之「右」为转写疑讹（fy-glyph-01，mapped_reading=None），逐字保留未改读。'
+   }
+  ],
+  'note': '反例条款的审计定位：它们不是独立规则，而是 f1_general_rules 的撤销条件；其不可裁决即总则不可 fail-closed 执行。此为 F-1 阻断的第一位理由。'
+ },
+ {
+  'unit_id': 'f3_general_rule_and_reversals',
+  'quote_ids': [
+   'fy.tiyong_general_rule'
+  ],
+  'sentence_refs': [
+   {
+    'quote_id': 'fy.tiyong_general_rule',
+    'sentence_index': 0,
+    'text': '要在扶之抑之得其宜',
+    'kind': 'quoted_yuanzhu_principle',
+    'quantifiers': []
+   },
+   {
+    'quote_id': 'fy.tiyong_general_rule',
+    'sentence_index': 1,
+    'text': '旺则抑之,弱则扶之',
+    'kind': 'general_rule',
+    'quantifiers': []
+   },
+   {
+    'quote_id': 'fy.tiyong_general_rule',
+    'sentence_index': 2,
+    'text': '旺则抑之,如不可抑,反宜扶之',
+    'kind': 'reversal_clause',
+    'quantifiers': []
+   },
+   {
+    'quote_id': 'fy.tiyong_general_rule',
+    'sentence_index': 3,
+    'text': '弱则扶之,如不可扶,反宜抑之',
+    'kind': 'reversal_clause',
+    'quantifiers': []
+   },
+   {
+    'quote_id': 'fy.tiyong_general_rule',
+    'sentence_index': 4,
+    'text': '旺极者抑之,抑之反激而有害,则宜从其强而扶之',
+    'kind': 'extreme_reversal_clause',
+    'quantifiers': [
+     {
+      'term': '极',
+      'status': 'quantifier_unthresholded'
+     }
+    ]
+   },
+   {
+    'quote_id': 'fy.tiyong_general_rule',
+    'sentence_index': 5,
+    'text': '弱极者扶之,扶之徒劳而无功,则宜从其弱而抑之',
+    'kind': 'extreme_reversal_clause',
+    'quantifiers': [
+     {
+      'term': '极',
+      'status': 'quantifier_unthresholded'
+     }
+    ]
+   }
+  ],
+  'nature': 'general_rule_with_reversal_clauses',
+  'premise_feedable': True,
+  'buildable': False,
+  'blocking_reasons': [
+   {
+    'code': 'reversal_premise_undefined',
+    'detail': '反转条款「旺则抑之，如不可抑，反宜扶之」「弱则扶之，如不可扶，反宜抑之」的前提「不可抑/不可扶」在全树无定义、无对应已执行事实；与 F-1 反例条款同型：不可评估的撤销条件使总则不能 fail-closed 执行。'
+   },
+   {
+    'code': 'extreme_state_unadjudicable',
+    'detail': '极端反转「旺极者…则宜从其强而扶之」「弱极者…则宜从其弱而抑之」含未阈值化「极」；现行 strong 裁决来自从旺/从强型充分形态，谓词判强不等于登记意义的「旺极」——把谓词 strong 径等同于旺极是未登记的解释步骤，本批不代行（见 near_miss_cong_form_follow）。反之对从强主锚之盘径施「抑之」又与本条反转的风险面相抵。两读法皆无登记依据。'
+   },
+   {
+    'code': 'output_granularity',
+    'detail': '本则输出仅「抑/扶」一字方向、无神类指向；其内容即扶抑总纲本身，登记后原样输出属总则复述（与 S3 output_nature=direction_not_classification 的登记定性一致），不构成切片裁决。'
+   }
+  ],
+  'note': '首句「要在扶之抑之得其宜」为任氏转引原注末句（S3 已标明转引关系）；全段以「得其宜」为断，而「宜」的判据正是反转/极端条款，未脱离上述阻断。'
+ },
+ {
+  'unit_id': 'f3_tigang_statements',
+  'quote_ids': [
+   'fy.tiyong_tigang'
+  ],
+  'sentence_refs': [
+   {
+    'quote_id': 'fy.tiyong_tigang',
+    'sentence_index': 0,
+    'text': '如日主旺,提纲或官或财或食伤,皆可为用',
+    'kind': 'direction_statement',
+    'quantifiers': []
+   },
+   {
+    'quote_id': 'fy.tiyong_tigang',
+    'sentence_index': 1,
+    'text': '日主衰,别寻四柱干支有帮身者为用',
+    'kind': 'direction_statement',
+    'quantifiers': []
+   },
+   {
+    'quote_id': 'fy.tiyong_tigang',
+    'sentence_index': 2,
+    'text': '提纲是禄刃,即以提纲为体,看其大势,以四柱干支食神财官,寻其得所者而用之',
+    'kind': 'procedure_statement',
+    'quantifiers': []
+   }
+  ],
+  'nature': 'permissibility_and_procedure_statements',
+  'premise_feedable': True,
+  'buildable': False,
+  'blocking_reasons': [
+   {
+    'code': 'permissibility_not_determination',
+    'detail': '「日主旺，提纲或官或财或食伤，皆可为用」是许可陈述：官/财/食伤三类并列皆「可」，不作任何选择；Variant 输出须为裁决，许可集合不是方向结论。'
+   },
+   {
+    'code': 'procedure_without_selection_rule',
+    'detail': '「日主衰，别寻四柱干支有帮身者为用」是程序指令（去寻帮身者），帮身者可有多个或一个皆无时如何取舍无登记判据——S3 登记注记已先行定性为「无量化词亦不可执行（输入缺失）」，本审定复核同旨：所缺输入是选择规则本身。'
+   },
+   {
+    'code': 'routes_outside_fuyi_scope',
+    'detail': '「提纲是禄刃，即以提纲为体，看其大势……」句属程序陈述：禄刃定性走格局路线域（TJ-012.3 Slice A 已登记），「看其大势」为整体判断、无量化展开，不在本切片范围。'
+   }
+  ]
+ },
+ {
+  'unit_id': 'f2_xingxiang_form',
+  'quote_ids': [
+   'fy.xingxiang_verse',
+   'fy.xingxiang_yuanzhu',
+   'fy.xingxiang_renshi_restatement',
+   'fy.xingxiang_renshi_differentiation'
+  ],
+  'sentence_refs': [
+   {
+    'quote_id': 'fy.xingxiang_verse',
+    'sentence_index': 0,
+    'text': '形全者宜损其有余',
+    'kind': 'verse_principle',
+    'quantifiers': [
+     {
+      'term': '有余',
+      'status': 'quantifier_unthresholded'
+     }
+    ]
+   },
+   {
+    'quote_id': 'fy.xingxiang_verse',
+    'sentence_index': 1,
+    'text': '形缺者宜补其不足',
+    'kind': 'verse_principle',
+    'quantifiers': [
+     {
+      'term': '不足',
+      'status': 'quantifier_unthresholded'
+     }
+    ]
+   },
+   {
+    'quote_id': 'fy.xingxiang_yuanzhu',
+    'sentence_index': 0,
+    'text': '如甲木生于寅、卯、辰月,丙火生于已、午未月,皆为形全',
+    'kind': 'definition_example',
+    'quantifiers': []
+   },
+   {
+    'quote_id': 'fy.xingxiang_yuanzhu',
+    'sentence_index': 1,
+    'text': '戊土生于寅、卯、辰月,庚金生于巳、午、未月,缺',
+    'kind': 'definition_example',
+    'quantifiers': []
+   },
+   {
+    'quote_id': 'fy.xingxiang_yuanzhu',
+    'sentence_index': 2,
+    'text': '余仿此',
+    'kind': 'analogy_marker',
+    'quantifiers': []
+   },
+   {
+    'quote_id': 'fy.xingxiang_renshi_restatement',
+    'sentence_index': 0,
+    'text': '形全宜损,形缺宜补之说,即子平“旺则宜泄宜伤,衰则喜帮喜助”之谓也',
+    'kind': 'restatement_of_f1',
+    'quantifiers': []
+   },
+   {
+    'quote_id': 'fy.xingxiang_renshi_restatement',
+    'sentence_index': 1,
+    'text': '庸俗只知旺用泄伤,衰用帮助,以致吉凶颠倒,宜忌淆乱也',
+    'kind': 'caveat_consequence',
+    'quantifiers': []
+   },
+   {
+    'quote_id': 'fy.xingxiang_renshi_restatement',
+    'sentence_index': 2,
+    'text': '须将四字分用为是,通变在一“宜字”',
+    'kind': 'anti_mechanical_caveat',
+    'quantifiers': []
+   },
+   {
+    'quote_id': 'fy.xingxiang_renshi_differentiation',
+    'sentence_index': 0,
+    'text': '宜泄则泄之为妙,宜伤则伤之有功',
+    'kind': 'differentiation_rule',
+    'quantifiers': []
+   },
+   {
+    'quote_id': 'fy.xingxiang_renshi_differentiation',
+    'sentence_index': 1,
+    'text': '泄者食伤也,伤者官杀也',
+    'kind': 'term_gloss',
+    'quantifiers': []
+   },
+   {
+    'quote_id': 'fy.xingxiang_renshi_differentiation',
+    'sentence_index': 2,
+    'text': '均是旺也,或泄之有害,而伤之有利;或泄之有利,而伤之有害,所以泄伤两字,宜分而用之也',
+    'kind': 'differentiation_condition',
+    'quantifiers': []
+   },
+   {
+    'quote_id': 'fy.xingxiang_renshi_differentiation',
+    'sentence_index': 3,
+    'text': '宜帮则帮之为切,宜助则助之为佳',
+    'kind': 'differentiation_rule',
+    'quantifiers': []
+   },
+   {
+    'quote_id': 'fy.xingxiang_renshi_differentiation',
+    'sentence_index': 4,
+    'text': '帮者比劫也,助者印绶也',
+    'kind': 'term_gloss',
+    'quantifiers': []
+   },
+   {
+    'quote_id': 'fy.xingxiang_renshi_differentiation',
+    'sentence_index': 5,
+    'text': '均是衰也,帮之则凶,而助之则吉;或帮之则吉,而助之则凶,所以帮助两字,亦宜分而用之也',
+    'kind': 'differentiation_condition',
+    'quantifiers': []
+   },
+   {
+    'quote_id': 'fy.xingxiang_renshi_differentiation',
+    'sentence_index': 6,
+    'text': '如日主旺相,柱中财官无气,泄之则官星有损,秎则去比劫之有余,补官星之不足',
+    'kind': 'worked_general_example',
+    'quantifiers': [
+     {
+      'term': '无气',
+      'status': 'quantifier_unthresholded'
+     },
+     {
+      'term': '有余',
+      'status': 'quantifier_unthresholded'
+     },
+     {
+      'term': '不足',
+      'status': 'quantifier_unthresholded'
+     }
+    ]
+   },
+   {
+    'quote_id': 'fy.xingxiang_renshi_differentiation',
+    'sentence_index': 7,
+    'text': '日主旺相,柱中财官不见,满局比劫,伤之则激而有害,不若泄之以顺其气势',
+    'kind': 'worked_general_example',
+    'quantifiers': [
+     {
+      'term': '满局',
+      'status': 'quantifier_unthresholded'
+     }
+    ]
+   },
+   {
+    'quote_id': 'fy.xingxiang_renshi_differentiation',
+    'sentence_index': 8,
+    'text': '日主衰弱,柱中财星重叠,印绶助之反坏,帮则去财星之有余,补日主之不足',
+    'kind': 'worked_general_example',
+    'quantifiers': [
+     {
+      'term': '重叠',
+      'status': 'quantifier_unthresholded'
+     },
+     {
+      'term': '有余',
+      'status': 'quantifier_unthresholded'
+     },
+     {
+      'term': '不足',
+      'status': 'quantifier_unthresholded'
+     }
+    ]
+   },
+   {
+    'quote_id': 'fy.xingxiang_renshi_differentiation',
+    'sentence_index': 9,
+    'text': '日主衰弱,柱中官杀交加,满盘杀势,帮之恐反克无情,不若助之以化其强暴',
+    'kind': 'worked_general_example',
+    'quantifiers': [
+     {
+      'term': '交加',
+      'status': 'quantifier_unthresholded'
+     },
+     {
+      'term': '满盘',
+      'status': 'quantifier_unthresholded'
+     }
+    ]
+   }
+  ],
+  'nature': 'form_classification_plus_f1_restatement',
+  'premise_feedable': False,
+  'buildable': False,
+  'blocking_reasons': [
+   {
+    'code': 'direction_is_f1_restatement',
+    'detail': '任氏转述段明言「形全宜损，形缺宜补之说，即子平『旺则宜泄宜伤，衰则喜帮喜助』之谓也」（登记 kind=restatement_of_f1）：F-2 的方向内容即 F-1 本人，随 F-1 一同阻断，不另立切片。'
+   },
+   {
+    'code': 'classification_partial_enumeration',
+    'detail': '形全/形缺分类由原注逐干举例给出（甲木、丙火形全；戊土、庚金形缺），其余以「余仿此」类推；治理禁止以类推补表（S3 登记注记在案），未举例诸干的集合成员资格未定。且丙火形全集的「已」为巳之疑讹（fy-glyph-03），集定义本身有一处文本未定。'
+   },
+   {
+    'code': 'classification_not_strength_premise',
+    'detail': '形全/形缺与已裁旺/衰交错而互不包含：甲木生辰月为形全（原注枚举），而辰月木日主无任何谓词给 strong；甲木亥月得 strong（pure_generating_support），亥不在形全集 {寅，卯，辰}。以形全充 F-1 的「旺」前提是把两个不同的登记分类暗中统一，治理禁止。形全亦不提供谓词面之外的可执行信息。'
+   },
+   {
+    'code': 'differentiation_examples_unthresholded',
+    'detail': '四字分用段四则示例的判别前提全为未阈值化程度词（财官无气、满局比劫、财星重叠、官杀交加、满盘杀势，及有余/不足），结论为条件式对照（伤之有利而泄之有害之类），无机械分用判据——S3 登记注记同旨。'
+   },
+   {
+    'code': 'no_cong_form_identification',
+    'detail': '与从旺/从强的关系：现行谓词的 strong 锚是另行登记的任氏从旺/从强孤立定义（不在本段内），F-2 段内无任何从旺/从强识别规则；F-2 既不复述谓词定义、也不在其外另给可执行识别面。'
+   }
+  ],
+  'note': '审源问题二的答复即本单元：形全/形缺不给谓词之外的额外可执行信息——其方向是 F-1 的同源转述（原文自明），其分类是部分枚举且不可充旺衰输入。'
+ },
+ {
+  'unit_id': 'direction_table_framing',
+  'quote_ids': [
+   'fy.tiyong_table_para'
+  ],
+  'sentence_refs': [
+   {
+    'quote_id': 'fy.tiyong_table_para',
+    'sentence_index': 0,
+    'text': '如四柱干支财杀过旺,日主旺中变弱,须寻其帮身制化财杀者而用之',
+    'kind': 'table_preamble',
+    'quantifiers': [
+     {
+      'term': '过旺',
+      'status': 'quantifier_unthresholded'
+     }
+    ]
+   },
+   {
+    'quote_id': 'fy.tiyong_table_para',
+    'sentence_index': 1,
+    'text': '此皆用神之的当者也',
+    'kind': 'table_closing',
+    'quantifiers': []
+   }
+  ],
+  'nature': 'table_preamble_and_closing',
+  'premise_feedable': False,
+  'buildable': False,
+  'blocking_reasons': [
+   {
+    'code': 'quantifier_unthresholded',
+    'detail': '表前引「如四柱干支财杀过旺，日主旺中变弱，须寻其帮身制化财杀者而用之」含「过旺」未阈值化，且「旺中变弱」是状态迁移陈述、现行契约无此状态；末句「此皆用神之的当者也」为任氏对表行的总评语，非判句。'
+   }
+  ]
+ },
+ {
+  'unit_id': 'u2_capability_statement',
+  'quote_ids': [
+   'fy.shaiwang_u2'
+  ],
+  'sentence_refs': [
+   {
+    'quote_id': 'fy.shaiwang_u2',
+    'sentence_index': 0,
+    'text': '日干不论月令休囚,只要四柱有根,便能受财官食神而当伤官七杀。',
+    'kind': 'capability_statement',
+    'quantifiers': []
+   }
+  ],
+  'nature': 'capability_statement_not_direction',
+  'premise_feedable': False,
+  'buildable': False,
+  'blocking_reasons': [
+   {
+    'code': 'not_a_direction_rule',
+    'detail': 'U2 输出「能受财官食神而当伤官七杀」的能力陈述，不是取用方向，S3 已审定为 capability_statement_unplaced（现行契约无落点）；且与孤立定义合用会诱使「有根→不弱」的反推，不登记为分类或方向规则。本审定维持 S3 定性，列为排除项。'
+   }
+  ],
+  'disposition': 'excluded'
+ },
+ {
+  'unit_id': 'xref_fu_verses',
+  'quote_ids': [],
+  'xref_ids': [
+   'fy-xref-01',
+   'fy-xref-02',
+   'fy-xref-03',
+   'fy-xref-04'
+  ],
+  'sentence_refs': [],
+  'nature': 'same_text_transmission_cross_references',
+  'premise_feedable': False,
+  'buildable': False,
+  'blocking_reasons': [
+   {
+    'code': 'not_independent_witness',
+    'detail': '三命/神峰赋诀（fy-xref-01/02）与滴天髓 F-1 同文传录（witness_status=same_text_transmission_not_independent），文字即 F-1 实质（身旺则宜泄宜伤，身衰则喜扶喜助）而无反例条款；不得以较短的同文见证绕开较全的原注登记、把总则与其反例条款割裂——那是摘选见证而非执行规则。赋诀「务禀中和之气，莫令太过不及」之太过/不及亦为程度词。'
+   },
+   {
+    'code': 'luck_not_natal',
+    'detail': '消息赋注两条（fy-xref-03/04）论对象为余局/运之支神（运法），非原局日主扶抑；且注文自陈「若只详用神轻重扶抑者亦未善」，对仅以轻重行扶抑持保留。'
+   }
+  ],
+  'disposition': 'excluded'
+ },
+ {
+  'unit_id': 'chapter_head_framing',
+  'quote_ids': [
+   'fy.shaiwang_head'
+  ],
+  'sentence_refs': [],
+  'nature': 'chapter_framing_not_a_rule',
+  'premise_feedable': False,
+  'buildable': False,
+  'blocking_reasons': [
+   {
+    'code': 'not_a_rule',
+    'detail': '衰旺章篇头句为章旨陈述（S3 登记 output_nature=chapter_framing_not_a_rule），无前提无方向，不构成候选。'
+   }
+  ],
+  'disposition': 'excluded'
+ }
+]
+
+NEAR_MISSES = [
+ {
+  'id': 'near_miss_cong_form_follow',
+  'title': '从旺/从强之盘的「顺势」方向（F-3 极端反转＋分用段「顺其气势」）',
+  'proposal': '对经从旺/从强主锚谓词判 strong 的命盘，依 F-3「旺极者抑之，抑之反激而有害，则宜从其强而扶之」或分用段「不若泄之以顺其气势」输出顺势方向。',
+  'rejected_because': [
+   '「旺极」未阈值化：谓词判强是充分形态命中，不是程度标尺上的「极」；把特定谓词形态等同于旺极无登记文本支持（属 U1/U2 的裁定面）。',
+   '反转条款前提是合取式：「旺极」之外尚有「抑之反激而有害」的结果条件，该条件无已执行事实可评估。',
+   '「顺其气势」出自以「满局比劫」为前提的示例（程度词未阈值化），且其输出是在泄/伤之间作选择——正是被阻断的四字分用问题本身，不能反过来充当分用判据。'
+  ],
+  'status': 'rejected_registered',
+  'unlock_refs': [
+   'U1',
+   'U2'
+  ]
+ }
+]
+
+UNLOCK_PRECONDITIONS = [
+ {
+  'id': 'U1',
+  'title': '程度词的操作定义（多/轻/重/他方之旺/极/有余/不足/无气/满局/重叠/交加/满盘/过旺）',
+  'detail': '全树无任何阈值文本；任何数值或计数门槛只能是版本化的程序计算约定（Slice C 司令计算约定先例：明示为约定、非原文唯一解释，版本化登记、 fail-closed 边界）。此约定属流派取舍层面的决定，本批只登记其为前置，不拟定数值。',
+  'decision_level': 'user_level_school_adjudication',
+  'gates': [
+   'direction_table rows 1-8',
+   'f2 differentiation examples',
+   'f2 verse （有余/不足）',
+   'direction_table_framing （过旺）'
+  ]
+ },
+ {
+  'id': 'U2',
+  'title': '反例/反转条款前提的操作读法（旺中有衰者存/衰中有旺者存/不可抑/不可扶）',
+  'detail': '须以审定形式登记：何种已执行事实满足各条款前提（或明定其恒不可评估、总则仅作呈现）。读法之争若涉流派分歧则升为用户级。本批不代选任何候选读法。',
+  'decision_level': 'governance_adjudication_may_escalate_to_user',
+  'gates': [
+   'f1_general_rules',
+   'f3_general_rule_and_reversals'
+  ]
+ },
+ {
+  'id': 'U3',
+  'title': '中间状态定义（两停/均敌/中和档）',
+  'detail': '全树无中和定义；中间档或为新来源的登记定义、或为版本化约定（同 U1 的程序约定口径）。无此定义则方向表行 9/10 的前提永远不可裁决，输出契约亦无对应值。',
+  'decision_level': 'user_level_school_adjudication',
+  'gates': [
+   'direction_table rows 9-10'
+  ]
+ },
+ {
+  'id': 'U4',
+  'title': '方向表疑讹校定（fy-glyph-05 銕绶、fy-glyph-06 耐）',
+  'detail': '以独立见证校勘给出 mapped_reading 后，行 3/5 的条件文本方为定本；但两行仍受 U1 阻断，本项单独完成不解锁任何一行。',
+  'decision_level': 'collation_batch',
+  'gates': [],
+  'non_gating_alone': True
+ },
+ {
+  'id': 'U5',
+  'title': '一般旺衰覆盖扩大（更多已审谓词）',
+  'detail': '只扩大 F1 输入面（可喂入 strong/weak 的命盘变多），不解除任何一行的条件侧阻断；登记此项以免后续批次把覆盖增长误记为扶抑解锁。',
+  'decision_level': 'governance_batch',
+  'gates': [],
+  'non_gating_alone': True
+ },
+ {
+  'id': 'U6',
+  'title': '「余仿此」类推补表的治理许可（形全/形缺集补全）',
+  'detail': '现行治理禁止以类推补表；纵有许可，F-2 方向仍回流 F-1 阻断（U2）与诗句程度词（U1），本项单独完成不解锁。',
+  'decision_level': 'governance_adjudication',
+  'gates': [],
+  'non_gating_alone': True
+ }
+]
+
+REQUIREMENTS_IF_UNLOCKED = [
+ '输出契约只给方向（神类方向/泄伤帮助分用结论），useful_god（喜用神裁定）字段恒为 None；扶抑方向不得表述为统一喜神，四体系冲突仍由 TJ-013.2 层并列呈现。',
+ 'research_only=True、public_enabled=False、ai_enabled=False，直至另行授权；方向结论不得进入公开场景与 AI 解释。',
+ '输入为 indeterminate、任一被消费条款的前提未评估、或约定阈值未覆盖该情形时，必须弃判（abstained），不得回落到总则机械方向。',
+ '接入 TJ-013.2 冲突呈现层须另行扩围审定（该层 LIMITATIONS 明示：后续体系建成后须另行扩围接入，不得默认本层已覆盖）；本审定不改该层任何代码与文本。',
+ 'Golden 必须全真实出生时刻命盘、逐例人工推导，含正例、近失例与弃判例；实现批须以密封全配方复跑复核命中面并如实报告。'
+]
+
+TJ0132_INTERFACE = {
+ 'module': 'bazi_conflict_presentation',
+ 'variant': 'xiyong-conflict-presentation-v1',
+ 'system_key': 'fuyi',
+ 'built_systems': [
+  'tiaohou',
+  'bingyao',
+  'strength'
+ ],
+ 'fuyi_in_built_systems': False,
+ 'absent_reason_registered': '扶抑体系尚无已审 Source/Variant（TJ-013.1 未完成），本层不评估、不以空白冒充已评估。',
+ 'effect_of_this_adjudication': 'none',
+ 'detail': '本审定结论为零行可建、无扶抑 Variant 产生，TJ-013.2 层中扶抑 absent 的状态与理由继续准确；本批不改 bazi_conflict_presentation 的任何代码与文本，两体系（扶抑/格局用神）未建的呈现口径不变。'
+}
+
+CURRENT_STATE_PINS = {
+ 'purpose': '防夹带实现：以下真实命盘均已得已审旺衰判定（含一条 weak），密封专项逐盘回放并断言执行结果中不存在任何扶抑方向产出（无 fuyi 键、无扶抑方向字段）；审定批不得以登记之名行实现之实。',
+ 'witness_charts': [
+  {
+   'predicate': 'pure_support',
+   'birth': '1963-03-22T22:00:00+08:00',
+   'pillars': [
+    '癸卯',
+    '乙卯',
+    '甲子',
+    '乙亥'
+   ],
+   'classification': 'strong',
+   'golden_ref': 'golden_tj0112_wood_hai.json#tj0112-regression-mao-pure-support'
+  },
+  {
+   'predicate': 'pure_generating_support',
+   'birth': '1983-12-02T00:30:00+08:00',
+   'pillars': [
+    '癸亥',
+    '癸亥',
+    '甲子',
+    '甲子'
+   ],
+   'classification': 'strong',
+   'golden_ref': 'golden_tj0112_wood_hai.json#tj0112-hai-positive-zhongqi-root'
+  },
+  {
+   'predicate': 'isolated_control',
+   'birth': '1978-09-20T10:00:00+08:00',
+   'pillars': [
+    '戊午',
+    '辛酉',
+    '乙酉',
+    '辛巳'
+   ],
+   'classification': 'weak',
+   'golden_ref': 'golden_tj0112_wood_hai.json#tj0112-regression-you-isolated-control'
+  },
+  {
+   'predicate': 'commanding_visible_support',
+   'birth': '1966-07-06T12:00:00+08:00',
+   'pillars': [
+    '丙午',
+    '甲午',
+    '丙寅',
+    '甲午'
+   ],
+   'classification': 'strong',
+   'golden_ref': 'golden_tj0112_bing_wu_commanding.json#tj0112-bingwu-positive'
+  },
+  {
+   'predicate': 'lu_visible_support',
+   'birth': '1927-05-12T12:00:00+08:00',
+   'pillars': [
+    '丁卯',
+    '乙巳',
+    '丙午',
+    '甲午'
+   ],
+   'classification': 'strong',
+   'golden_ref': 'golden_tj0112_bing_si_lu.json#tj0112-bingsi-positive'
+  },
+  {
+   'predicate': 'pure_generating_support_water',
+   'birth': '1981-12-21T00:30:00+08:00',
+   'pillars': [
+    '辛酉',
+    '庚子',
+    '癸酉',
+    '壬子'
+   ],
+   'classification': 'strong',
+   'golden_ref': 'golden_tj0112_s2_metal_water.json#tj0112-s2-water-positive-gui'
+  }
+ ],
+ 'metal_witness_note': 'pure_support_metal 无见证盘：S2 已证明其正例构造性不可满足，登记在案，不以无盘为本审定的证据缺口。'
+}
+
+SLICE_SPEC = None  # 零行可建：无 Variant 规格可登记，此 None 即审定结论
+
+ADJUDICATION_NOTES = [
+ 'R1 审定≠实现：本批零判定代码、零 Variant 规格（SLICE_SPEC=None）；仓库内不存在也不新增任何扶抑判定代码路径，bazi_adjudication/bazi_action_conditions 源码无 fuyi 引用，由公开测试钉住。',
+ 'R2 审计全量：方向表十行逐行、判句 37 句逐句归组（PASSAGE_AUDITS 的 sentence_refs 与 S3 登记一一对应、恰覆盖一次），无抽审；审计所据文本与量化词标注一律以 S3 登记为准，本登记的条件审计逐项回指 S3 行/句，公开测试交叉钉死两登记不漂移。',
+ 'R3 程度词纪律：本审定不拟定、不暗示任何阈值数值；「有无」与「程度」的界线逐项写明——显干神类有无是已执行事实（二值），多/轻/重/旺是程度断言，两者不得互充。',
+ 'R4 总则完整性：F-1/F-3 总则的审计以登记全段为准（总则句＋同段反例/反转条款），不摘句立规；同文赋诀不得用以割裂总则与其反例（见 xref_fu_verses）。',
+ 'R5 方向≠喜用：方向表「以某神为用」在本审定与 S3 登记中同口径作取用方向（direction_not_classification）处理；扶抑方向结论不等于喜用神裁定，未来 Variant 的喜用字段恒 None（REQUIREMENTS_IF_UNLOCKED）。',
+ 'R6 来源普查不变：本批不登记新来源、不扩任何 Source 的 review_scope（滴天髓 review_scope 维持 S3 后状态，密封测试钉住无 S4 标记），普查仍 101 条（C 95 / D 6）。',
+ 'R7 与现行呈现口径一致：TJ-013.2 层扶抑 absent、TJ-013.3 可读提示与旺衰显示面均不因本审定改变；扶抑在一切用户面仍为未建。'
+]
+
+ADJUDICATION_LIMITATIONS = [
+ '本审定的「不可喂入」以当前已执行事实面为准（七谓词＋action_effects/root 事实）；若未来新增已审事实面（如他方旺衰的独立判定面），N2 类阻断须按新事实面重审，本登记不预判。',
+ 'U2 的候选读法空间未穷举：本登记只登记「无登记读法」这一事实与若干被拒的近失读法，不声称解释空间已完备。',
+ '形象章任氏曰在 F-2 段之后的批评性续文、体用章其余诸段未登记者不在本审定范围（S3 limitations 在案）；其内容若含扶抑判句，须先经登记批入册再行审定。',
+ '本审定只答扶抑一系；格局用神（同属 TJ-013.1）未审，其不可建状态不因本批改变。'
+]
