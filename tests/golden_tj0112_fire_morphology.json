@@ -52,9 +52,9 @@
    ],
    "derivation": "人工逐条推导（按 FORM_BING_WU 九条件）：日主丙、月支午，本气丁与丙同火（same_element）→条件1/2真。显干丙（年、比）、甲（月、印）、甲（时、印）全生扶，印、比俱见→条件3/4/5真。结构根：寅藏丙（日支，长生·逐干明句级）、午藏丁（年/月/时三支，帝旺·推步级），全为重根位；支间无合冲害三合（寅午戌缺戌不合局，余皆无对）→条件6真。显干根位：丙有午/寅（火已审集），甲有寅（木已审集 亥寅卯）→条件7真。无干合（丙辛不共见、甲己不共见）、无支作用→条件8真。藏干非生扶事实记录：寅藏戊（食）、午藏己（食），按治理约定只作记录、不否决→条件9真。九条件全真、无 blockers → 设计期望 strong（从强主锚＋从旺共锚）。",
    "expect": {
-    "current_implementation_classification": "indeterminate",
+    "current_implementation_classification": "strong",
     "design_classification": "strong",
-    "note": "现行 bazi-strength-adjudication-v1 无此谓词，本盘在现行裁决下为 indeterminate；strong 是实现批的复证目标。",
+    "note": "设计批时点本盘为 indeterminate（无此谓词）；TJ-011.2 实现批已落地 commanding_visible_support 谓词（r026 有限出口＋pending 注册披露），本盘现行裁决为 strong，与设计期望一致（实现批密封专项 test_tj0112_bing_wu_commanding 钉住）。",
     "sufficient_form": "bing-wu-commanding-visible-support-v1"
    },
    "expected_pillars": [
