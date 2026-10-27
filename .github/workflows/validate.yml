@@ -144,4 +144,12 @@ jobs:
       # (offline acceptance only, NOT public CI, same partition rule:
       # the sequence stage needs assembled canonical foundations).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0174_dayun_compose.py' -v
+      # TJ-012.3 Slice A luren route public contracts: registered
+      # 禄/刃 table vs Golden transcription, full stem x branch route
+      # sweep, determination-None sweep, forged-trace rejection,
+      # engine gate and projection strip. Verbatim quote equality
+      # against the snapshots and real-chart coverage live in
+      # test_tj012_luren_route_sealed.py (offline acceptance only,
+      # NOT public CI: pattern candidates need sealed Canonical data).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj012_luren_route.py' -v
       - run: python scripts/audit_public_asset_changes.py --inventory

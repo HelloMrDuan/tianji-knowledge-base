@@ -1,6 +1,6 @@
 """Research observations from executed month/ten-god/visibility facts, never 定格."""
 
-from .foundations import CONTROLS, GENERATES, stem_element
+from .foundations import BRANCHES, CONTROLS, GENERATES, STEMS, stem_element
 from .resolver import EvidenceResolver
 
 PATTERN_VARIANT = 'bazi-pattern-structure-candidates-v1'
@@ -786,4 +786,228 @@ def candidates(trace, *, family, pattern_variant=PATTERN_VARIANT):
         result['yuanhai_resource_month_example'] = yuanhai_resource_month_example(trace)
         result['yuanhai_resource_competing_context'] = yuanhai_resource_competing_context(trace)
     result['qualification'] = qualification(trace, family=family, observation=result)
+    return result
+
+
+# ---------------------------------------------------------------------------
+# TJ-012.3 Slice A：任氏禄刃选格路线负向裁定（月逢禄刃，无格可取）。
+#
+# 治理定位：这是格局模块的第一条 determination 类裁定，但只裁定一件事——
+# 任氏（《滴天髓阐微》八格章，s054 已登记批准）取格程序中「若月逢禄刃，
+# 无格可取」对月令正格路线的先置排除。输出是路线状态
+# （luren_no_month_pattern / not_luren），不是任何格的成立、真假、成败
+# 或用神判断；candidates() 的 determination 字典逐字不变，本节任何字段
+# 不得让格名/真假/成败/清浊/用神出现非空值（审源报告
+# tj012-pattern-determination-scout §7 的 determination=None 范围声明
+# 在本切片后继续逐项有效）。
+#
+# 审定点（先行审计逐项留痕）：
+# - A1 句序读法：s054 程序为「先观月令所得何支，次看天干透出何神，
+#   再究司令以定真假，然后取用，以分清浊」，禄刃句以「若」领起置于其
+#   后，是对月令取格路线本身的关闭：月支即日干禄/刃支时，月令正格路线
+#   在进入透干、司令、真假诸步之前已经无格可取，其后「须审日主之喜忌
+#   另寻别支透出天干者，借以为用」已是另一条（借用）路线。故本裁定只
+#   消费月支与日干两项结构事实，不消费司令；司令未裁定不阻塞本排除，
+#   正与原句句序相合。若改读为「禄刃排除也须先究司令」，则「无格可
+#   取」四字在程序上无落点（司令所定者为真假，而禄刃月根本不进入真
+#   假判断），此读法不成立。
+# - A2 表源裁定：十干禄/刃支表取《三命通会》——卷三《论十干禄》定义
+#   句十干禄位逐一明列（字符 75008–75053），同节逐干分论复核；卷五
+#   《论阳刃》纲句明定五阳干有刃、五阴干无刃（字符 180961–180982），
+#   五阳刃位在同节以「戊刃午/壬刃子/庚刃酉/甲刃卯/丙刃午」逐一明列
+#   （字符 181644–181689），两节互证。渊海禄节只有散见用例、无十干逐
+#   一定义句，文本自足性不及三命，不取为表源。按 TJ-017.1 扩神峰
+#   review_scope 先例，本表两节经本批扩登记 bazi.source.sanmingtonghui
+#   的 review_scope（同一 Source，普查计数不变）。
+# - A3 字形校勘：快照在禄定义句内己/巳互讹——「丙禄己」之己读作巳
+#   （丙禄巳）、「戊寄己」之己读作巳（戊寄巳）、「巳寄午」之巳读作己
+#   （己寄午），以同节逐干分论（丙禄巳见巳巳、戊禄巳、己禄午）与
+#   《论建禄》十干月例的干序及柱例互证读定；表中逐项标 glyph_note，
+#   引文逐字保留快照原字，不静默改字。
+# - A4 阴干无刃与异说登记：本表阴干 ren=None 是三命《论阳刃》纲句的
+#   如实转写。通行另有为阴干配刃位之说，但已登记来源中无逐字依据
+#   （《子平真诠》不在密封树内，全文检索 0 命中，见审源报告 §3.1），
+#   不登记、不采用、不用口诀补齐；日后有来源登记者另立 school 分支，
+#   不得静默改表。
+# - A5 杂气分界：登记表禄支集 {寅卯巳午申酉亥子}、刃支集 {卯午酉子}
+#   与四季月支集 {辰戌丑未} 均不相交（由表本身可证，测试钉住），故
+#   「杂气月与禄刃重合」在本表下不存在；派单预设的戊日戌月重合例经逐
+#   项核对证伪（戊禄巳、戊刃午，戌皆非之）。杂气月一律按表直判（其月
+#   支必非禄刃，路线不落入本裁定），本结论只及于本负向裁定；杂气如
+#   何选格（任氏杂气句与三命杂气格的流派冲突）属 Slice B，本切片不
+#   处理、不作杂气例外。
+# - A6 借用路线未定：s054 只言「另寻别支透出天干者，借以为用」，给
+#   出借用路线的存在与方向，未给借神定名规则（多透干取谁、喜忌如何
+#   审定均无已审规则）；建禄/羊刃等借用名目本身是否成格不在本切片裁
+#   定范围。故 borrowed_route.status 恒 undetermined，本切片不替原文
+#   选神。
+#
+# 执行链接入：与调候/病药先例相同，本路线尚无密封 Phase1 bundle /
+# Phase2 contract 的 rule 注册，故由 operations.bazi_chart.chart 在
+# pattern_variant 开启时附于 result['pattern_route']，不新增 trace
+# rule，不进 RuleMatch 与 Evidence，evidence_binding 标记为
+# pending_phase1_rule_registration；恒 research_only，公开投影整体
+# 剥离。month_pattern_route 只消费已执行的 pillars 步骤（要求 evidence
+# 已绑定），伪造或缺失事实一律 fail-closed。
+LUREN_ROUTE_VARIANT = 'bazi-pattern-luren-route-v1'
+LUREN_TABLE_SOURCE_ID = 'bazi.source.sanmingtonghui'
+LUREN_TABLE_SNAPSHOT_PATH = ('data/quarantine/public_domain_snapshots/'
+                             'daizhigev20/sanming_tonghui.txt')
+LUREN_TABLE_SNAPSHOT_SHA256 = ('00e2a7db8bb59b259b99938033bb1bb77947'
+                               'e04a15dafc111e62b59378010c86')
+LUREN_RULE_SOURCE_ID = 'bazi.source.ditiansui-spouse'
+
+# 十干禄支（《三命通会》卷三《论十干禄》定义句逐一明列）。
+LU_BRANCH = {
+    '甲': '寅', '乙': '卯', '丙': '巳', '丁': '午', '戊': '巳',
+    '己': '午', '庚': '申', '辛': '酉', '壬': '亥', '癸': '子',
+}
+# 十干刃支（《三命通会》卷五《论阳刃》）：只有五阳干有刃，五阴干无刃，
+# 故阴干不入表（ren=None 由查表方显式给出，不是漏登）。
+REN_BRANCH = {
+    '甲': '卯', '丙': '午', '戊': '午', '庚': '酉', '壬': '子',
+}
+YANG_STEMS = ('甲', '丙', '戊', '庚', '壬')
+YIN_STEMS = ('乙', '丁', '己', '辛', '癸')
+MISCELLANEOUS_BRANCHES = ('辰', '戌', '丑', '未')
+
+LUREN_QUOTES = (
+    {
+        'id': 'renshi.luren_route_exclusion',
+        'source_id': LUREN_RULE_SOURCE_ID,
+        'source_section_id': 'bazi.section.s054',
+        'quote': ('任氏曰:八格者,命中之正理也。先观月令所得何支,次看天干透出何神,'
+                  '再究司令以定真假,然后取用,以分清浊,此实依经顺理,若月逢禄刃,'
+                  '无格可取,须审日主之喜忌另寻别支透出天干者,借以为用。'),
+        'locator': {'char_start': 31681, 'char_end': 31773},
+    },
+    {
+        'id': 'sanming.lu_sentence',
+        'source_id': LUREN_TABLE_SOURCE_ID,
+        'source_section_id': None,
+        'quote': ('甲禄寅乙禄卯庚禄申辛禄酉壬禄亥癸禄子丙禄己丁禄午戊寄己巳寄午'
+                  '谓己午乃火旺之乡子随母得禄之义'),
+        'locator': {'char_start': 75008, 'char_end': 75053},
+    },
+    {
+        'id': 'sanming.ren_doctrine',
+        'source_id': LUREN_TABLE_SOURCE_ID,
+        'source_section_id': None,
+        'quote': '惟甲丙戊庚壬五阳干有刃乙丁己辛癸五阴干无刃',
+        'locator': {'char_start': 180961, 'char_end': 180982},
+    },
+    {
+        'id': 'sanming.ren_positions',
+        'source_id': LUREN_TABLE_SOURCE_ID,
+        'source_section_id': None,
+        'quote': ('戊刃午见子财壬刃子见午财庚刃酉见卯财皆冲之财故忌之至甲刃卯'
+                  '不忌戊巳己午之财且忌酉官矣丙刃午'),
+        'locator': {'char_start': 181644, 'char_end': 181689},
+    },
+)
+
+LUREN_ADJUDICATION_NOTES = (
+    'A1 句序：s054 禄刃句是对月令取格路线的先置排除（先于透干/司令/真假诸步），本裁定只消费月支与日干，不消费司令。',
+    'A2 表源：禄/刃支表取《三命通会》卷三《论十干禄》与卷五《论阳刃》（逐一明列、两节互证）；渊海禄节无十干逐一定义句，自足性不及，不取为表源。',
+    'A3 字形：禄定义句快照己/巳互讹（丙禄巳、戊寄巳、己寄午），以同节逐干分论与《论建禄》月例互证读定，引文保留原字。',
+    'A4 阴干：阴干无刃是三命纲句的如实转写；阴干配刃的通行异说在已登记来源中无逐字依据，不登记、不采用。',
+    'A5 杂气：禄支集与刃支集均与四季月支集不相交，杂气月与禄刃重合在本表下不存在；杂气月按表直判，杂气选格属 Slice B。',
+    'A6 借用：借用路线（借以为用）的借神定名规则未审，borrowed_route 恒 undetermined，不替原文选神。',
+)
+
+LUREN_LIMITATIONS = (
+    '本裁定只关闭或不关闭月令正格路线：luren_no_month_pattern 不表示借用格成立，not_luren 不表示任何正格成立。',
+    'determination 其余一切（格名、真假、成败、清浊、用神、喜忌）保持未裁定；审源报告的 determination=None 范围声明继续有效。',
+    '禄刃表为三命单一来源口径（C 级、单一电子谱系）；阴干刃位异说未登记，表外推断（以五行/长生类推未列之位）一律禁止。',
+    '本路线尚无密封 Phase1/Phase2 rule 注册（evidence_binding=pending_phase1_rule_registration），不进 RuleMatch 与 Evidence。',
+)
+
+
+def luren_route_lookup(day_stem, month_branch):
+    """Pure 禄刃 route lookup over two structural facts (day stem, month branch).
+
+    Fails closed on any stem/branch outside the registered tables. The
+    route values are exactly 'luren_no_month_pattern' (month branch is
+    the day stem's 禄 or 刃 branch per the registered 三命 table: the
+    Ren route exclusion fires) and 'not_luren' (the exclusion does not
+    fire; this asserts nothing about any pattern being established).
+    """
+    if day_stem not in LU_BRANCH:
+        raise ValueError('Luren route lookup requires a registered day stem')
+    if month_branch not in BRANCHES:
+        raise ValueError('Luren route lookup requires a valid month branch')
+    lu = LU_BRANCH[day_stem]
+    ren = REN_BRANCH.get(day_stem)
+    if month_branch == lu:
+        route, matched_via = 'luren_no_month_pattern', 'lu'
+    elif ren is not None and month_branch == ren:
+        route, matched_via = 'luren_no_month_pattern', 'ren'
+    else:
+        route, matched_via = 'not_luren', None
+    return {
+        'variant': PATTERN_VARIANT,
+        'route_variant': LUREN_ROUTE_VARIANT,
+        'rule': {
+            'id': 'renshi.luren_route_exclusion',
+            'source_id': LUREN_RULE_SOURCE_ID,
+            'source_section_id': 'bazi.section.s054',
+            'quote_locator': {'char_start': 31681, 'char_end': 31773},
+        },
+        'route': route,
+        'matched_via': matched_via,
+        'day_stem': day_stem,
+        'month_branch': month_branch,
+        'lu_branch': lu,
+        'ren_branch': ren,
+        'stem_polarity': 'yang' if day_stem in YANG_STEMS else 'yin',
+        'miscellaneous_month': month_branch in MISCELLANEOUS_BRANCHES,
+        'table': {
+            'source_id': LUREN_TABLE_SOURCE_ID,
+            'lu_quote_locator': {'char_start': 75008, 'char_end': 75053},
+            'ren_doctrine_locator': {'char_start': 180961, 'char_end': 180982},
+            'ren_positions_locator': {'char_start': 181644, 'char_end': 181689},
+        },
+        'borrowed_route': {
+            'status': 'undetermined',
+            'borrowed_pattern_determination': None,
+            'note': ('s054 言「另寻别支透出天干者，借以为用」只给出借用路线'
+                     '的存在与方向；借神定名规则未审，建禄/羊刃等借用名目'
+                     '本身是否成格不在本切片裁定范围。'),
+        },
+        'determination': {'status': 'unresolved', 'pattern': None,
+                          'true_false': None, 'success_failure': None,
+                          'useful_god': None},
+        'qualified_for_determination': False,
+        'research_only': True, 'public_enabled': False, 'ai_enabled': False,
+        'evidence_binding': 'pending_phase1_rule_registration',
+        'adjudication_notes': list(LUREN_ADJUDICATION_NOTES),
+        'scope_limits': list(LUREN_LIMITATIONS),
+        'scope': ('只裁定任氏月令正格路线在月逢禄刃时关闭（无格可取）；'
+                  'not_luren 仅表示不落入此负向裁定，不表示任何格成立；'
+                  '不定格名、真假、成败、清浊、用神或吉凶。'),
+    }
+
+
+def month_pattern_route(trace):
+    """Consume the executed pillars step and apply the 禄刃 route exclusion.
+
+    Mirrors the module's fail-closed discipline: the pillars step must
+    exist and carry executed, resolvable evidence; only the day-master
+    stem and the month branch are read.
+    """
+    steps = {row['rule_id']: (i, row) for i, row in enumerate(trace.steps)}
+    if 'bazi.phase2.pillars' not in steps:
+        raise ValueError('Luren route requires executed pillar facts')
+    index, step = steps['bazi.phase2.pillars']
+    if not step['evidence_ids'] or any(e not in trace.evidence for e in step['evidence_ids']):
+        raise ValueError('Luren route lacks executed evidence')
+    pillars = step['output']
+    day_stem = pillars['day_master']['stem']
+    month_branch = pillars['ganzhi'][1][1]
+    result = luren_route_lookup(day_stem, month_branch)
+    result['fact_refs'] = {
+        'day_master': f'#/trace/{index}/output/day_master/stem',
+        'month_branch': f'#/trace/{index}/output/ganzhi/1',
+    }
+    result['consumed_rule_ids'] = ['bazi.phase2.pillars']
     return result
