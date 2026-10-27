@@ -399,4 +399,24 @@ jobs:
       # test_tj0112_earth_roots_sealed.py (offline acceptance only,
       # NOT public CI).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0112_earth_roots.py' -v
+      # TJ-013.1 S4 fuyi minimal-slice adjudication public contracts:
+      # pure-data adjudication register mirrored against Golden, the
+      # verdict pinned at zero buildable rows with no Variant spec
+      # (SLICE_SPEC None is the verdict), the seven-predicate input
+      # surface with feedable/non-feedable fact inventories (category
+      # presence is a fact, category degree is not), the direction
+      # table audited row by row verbatim against the S3 register
+      # (every condition an unthresholded degree term; rows 9/10
+      # blocked at the premise state, which the adjudication output
+      # contract cannot express), all 37 registered judgment
+      # sentences grouped exactly once with per-unit blockers, the
+      # cong-form follow near-miss rejected on record, six unlock
+      # preconditions with decision levels (degree thresholds and
+      # the middle-state definition reserved to the user), the
+      # TJ-013.2 absent-system interface matched against the
+      # presentation layer's constants, and zero runtime wiring.
+      # Real-chart replay (adjudicated charts still emit no fuyi
+      # output) lives in test_tj0131_fuyi_slice_sealed.py (offline
+      # acceptance only, NOT public CI).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0131_fuyi_slice.py' -v
       - run: python scripts/audit_public_asset_changes.py --inventory
