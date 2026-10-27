@@ -91,23 +91,28 @@
 - 变更后三文件 SHA256：phase1_knowledge `5d992d2e967f9362573cdda788efc02405af28132a4eec2c378f5ac83b2d26ea`、
   phase2_execution `947cfc1d05c248c9e4d1efd35e9fde450e0dee2f77b1a4d150b92b9492ae8720`、
   phase2_golden `eebda931f7be6a812a7929ad1052905330dcabc80637a997a128e6f1ba1ac3ca`。
-- 可信机 `cicd/env/trusted-acceptance` 已更新为新值；旧快照与旧钉值在
-  机器侧留档备份（`secure/tianji-knowledge` 换位前备份 + 备份目录
-  `s5-backup-20261028`），可整批回退（恢复旧快照 + 旧钉值即可，公开侧
-  翻转代码在旧快照下 fail-closed、不会误绑）。
-- 向后兼容已验证：现行 main（`7b52527f`）对新快照全量验收 SUCCESS
-  （新增实体为纯增量，旧代码不引用新规则）。
+- 钉值状态：新钉值即 `f053761c…`；live 快照换位与
+  `cicd/env/trusted-acceptance` 改钉**须与本 PR 合并同步执行**，本批
+  未先行换钉。实测旧代码（main `7b52527f`）+ 新快照全配方在
+  `validate_phase2` 阶段 fail-closed 失败（新契约引用的回归测试
+  `tests/test_phase2_baziregistration.py` 不存在于旧代码，
+  `ValueError: Missing regression test`）——先行换钉会阻断现行 main
+  的部署验收，故换钉与合并必须同步，合并后由关账流程以合并 SHA
+  完成换钉、正式验收与部署。回退路径不变（恢复旧快照目录 + 旧钉值）。
+- 反向实测：新代码 + 旧快照下，翻转两谓词的见证盘显式拒绝
+  （`ValueError: Unknown rule: bazi.phase2.strength_*`），未受影响
+  谓词（木×卯）verdict 不变——翻转代码在旧快照下 fail-closed、
+  不会误绑。
 
 ## 4. 验证
 
-- 机上全配方复跑（PR Head + 新快照 + 新钉值）：SUCCESS，计数与基线
-  1903 的对账见 PR 正文（新增：公开 S5 治理测试、密封
-  test_phase2_baziregistration、Phase2 golden 用例 +2 驱动的既有套件
-  计数变化逐项列明）。
-- 判定面不变性：以七谓词全部 Golden 见证/反例盘 + D-1/格局/调候抽样盘，
-  在（旧代码 + 旧快照）与（新代码 + 新快照）两组装下逐盘比对
-  classification 与 conditions，差异仅两条翻转谓词的
-  sufficient_rule / matched_rule_ids / 披露文本（脚本与结果见 PR 正文）。
+- 机上全配方复跑（PR Head + 新快照 + 新钉值）：SUCCESS 1920 测
+  （public-git 15、public-only 24、private-backend 1881；正式基线
+  1903 + 新增 17〈密封注册回归 6 + 公开治理 11〉= 1920，对账一致）。
+- 判定面不变性：21 盘（七谓词全部见证/反例、D-1 试金石盘与广度
+  抽样）的旺衰裁决面在（旧代码 + 旧快照）与（新代码 + 新快照）
+  两组装下逐盘比对，classification 与 conditions 全同，差异仅
+  翻转两谓词正例的 sufficient_rule / matched_rule_ids / 披露文本。
 - Phase4 冻结文件零触碰（本批改动文件均不在 engine-baseline 17 文件内）。
 
 ## 5. 未覆盖

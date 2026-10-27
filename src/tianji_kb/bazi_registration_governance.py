@@ -56,9 +56,11 @@ S5_REGISTRATION_RECORD = {
         '8055efb3881128837548da2536f210928db96b4f295ad25bbfb09ba9cf89c6c1',
     'manifest_sha256_after':
         'f053761c3873d6d5cd63b738786c9b8ef683fd18f3b95c80f7bc485110cde480',
-    'pin_record': '可信机 cicd/env/trusted-acceptance 已按既有密封治理'
-                  '流程更新为 manifest_sha256_after（旧值留档于本记录与'
-                  '机器侧备份），部署管线与本批验收均以新钉值复核。',
+    'pin_record': '新钉值（manifest_sha256_after）须与本批 PR 合并同步'
+                  '换位 live 快照并更新可信机 cicd/env/trusted-acceptance；'
+                  '本批未先行换钉——实测旧代码对新快照在 validate_phase2 '
+                  '阶段 fail-closed（新契约引用的回归测试不存在于旧代码），'
+                  '先行换钉会阻断现行 main 的部署验收，见治理文档 §3。',
     'verdict_surface_change': '无：两条翻转谓词的 classification、条件集、'
                               'blockers 与全部其他谓词/变体的产出逐字不变；'
                               '变化仅在 why.sufficient_rule（None -> 注册 '
