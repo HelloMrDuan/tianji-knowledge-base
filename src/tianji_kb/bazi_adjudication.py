@@ -3,8 +3,12 @@
 from .bazi_core import VARIANT as BAZI_VARIANT
 from .bazi_root_conditions import STRENGTH_VARIANT, AVAILABILITY_VARIANT, root_availability
 from .bazi_commander import PRINCIPAL_VARIANT, principal_month
-from .bazi_action_conditions import EFFECT_VARIANT, PURE_GENERATING_MONTHS
+from .bazi_action_conditions import (
+    EFFECT_VARIANT, PURE_GENERATING_MONTHS, PURE_GENERATING_WATER_MONTHS,
+    PURE_SUPPORT_METAL_MONTHS)
 from .bazi_fire_morphology import BING_ROOT_POSITIONS, FORM_BING_WU
+from .bazi_metal_water_roots import (
+    METAL_WATER_ROOT_TABLES, S2_ANCHOR_TYPES, S2_LIMITATIONS)
 from .foundations import stem_element
 
 ADJUDICATION_VARIANT = 'bazi-strength-adjudication-v1'
@@ -30,6 +34,40 @@ REGISTER_FIRE_ROOT_CONFLICTS = {
     entry['branch']: entry['conflict_id']
     for entry in BING_ROOT_POSITIONS
     if entry['grade'] == 'light_listed_conflicted'}
+
+# TJ-011.2 S2: registered anchor provenance of the two new pure-form
+# predicates (bazi_metal_water_roots FORM_PURE_SUPPORT_METAL /
+# FORM_PURE_GENERATING_WATER). Each emitted condition carries its
+# registered anchor_type verbatim, exactly like the commanding form.
+S2_ANCHOR_REGISTRATION = {
+    'pure_support_metal': 'bazi_metal_water_roots.FORM_PURE_SUPPORT_METAL',
+    'pure_generating_support_water':
+        'bazi_metal_water_roots.FORM_PURE_GENERATING_WATER'}
+
+_MW_TABLES = {stem: {entry['branch']: entry for entry in rows}
+              for stem, rows in METAL_WATER_ROOT_TABLES.items()}
+_MW_HEAVY_GRADES = ('per_stem_listed', 'framework_derived')
+
+
+def _mw_grade(stem, branch):
+    entry = _MW_TABLES.get(stem, {}).get(branch)
+    return entry['grade'] if entry is not None else None
+
+
+# TJ-011.2 S2: metal/water day roots whose S1 register cells carry an
+# unresolved conflict -- conflicted_pending cells (the Xin/Gui
+# Changsheng branch conflicts, each with its registered conflict ID)
+# and light_listed_conflicted cells (the root-type readings conflict).
+# The sealed root-conditions candidate table does not flag all of
+# these (e.g. a Gui root in Hai carries no fact-level flag), so the
+# bounded assessment presents the conflict from the register and
+# blocks under the existing mechanism, mirroring the fire register
+# conflicts above; the sealed policy is not edited.
+REGISTER_METAL_WATER_ROOT_CONFLICTS = {
+    stem: {entry['branch']: entry['conflict_id'] for entry in rows
+           if entry['grade'] in ('conflicted_pending',
+                                 'light_listed_conflicted')}
+    for stem, rows in METAL_WATER_ROOT_TABLES.items()}
 
 
 def _bounded_assessment(trace):
@@ -153,6 +191,20 @@ def _bounded_assessment(trace):
                            'fact_ref':pointer('root_availability',f'/roots/{i}/root_presence/branch'),
                            'evidence_ids':list(steps['bazi.phase2.root_availability'][1]['evidence_ids'])})
             block('root_availability',f'/roots/{i}/root_presence/branch','root_type_source_conflict',[cid])
+        elif (day_master in REGISTER_METAL_WATER_ROOT_CONFLICTS
+              and root['root_presence']['branch']
+                  in REGISTER_METAL_WATER_ROOT_CONFLICTS[day_master]):
+            # Register-sourced root conflict (see
+            # REGISTER_METAL_WATER_ROOT_CONFLICTS): presented and
+            # blocking under the same mechanism as a fact-sourced
+            # conflict, for metal/water day masters only.
+            cid = REGISTER_METAL_WATER_ROOT_CONFLICTS[day_master][
+                root['root_presence']['branch']]
+            checks.append({'conflict_id':cid,'status':'unresolved','blocking':True,
+                           'reason':'root_type_source_conflict',
+                           'fact_ref':pointer('root_availability',f'/roots/{i}/root_presence/branch'),
+                           'evidence_ids':list(steps['bazi.phase2.root_availability'][1]['evidence_ids'])})
+            block('root_availability',f'/roots/{i}/root_presence/branch','root_type_source_conflict',[cid])
         if root['root_availability'] != 'effective':
             block('root_availability',f'/roots/{i}/root_availability','root_availability_not_effective')
     if command['status'] != 'reviewed_relation':
@@ -205,6 +257,37 @@ def _bounded_assessment(trace):
         and command['month_branch'] == '午' and command['relation'] == 'same_element'
         and roots['root_presence']
         and all(r['effect_status'] == 'effective_in_reviewed_context' for r in effects['visible_relations']))
+    # TJ-011.2 S2: pure-form extension disjuncts (metal x You /
+    # water x Zi), structurally parallel to the pure disjuncts except
+    # the root gate: the sealed availability variant is wood-scoped, so
+    # for a metal/water day master it reports every root as
+    # out-of-scope rather than effective. These forms' registered
+    # root-effectiveness criterion is defined on the S1 register (heavy
+    # cell for the day-master stem, no root-type source conflict, no
+    # unresolved branch interaction on the root) and is already
+    # computed as the scope condition effective_day_roots_registered.
+    # Accordingly, a 'root_availability_not_effective' blocker raised
+    # against a root that IS effective under the register criterion
+    # does not bar these predicates (it still bars every other
+    # predicate, and non-S2 verdicts' blocker lists are unchanged);
+    # every other blocker bars them exactly as it bars the others.
+    pure_support_metal = (effects['pure_support_metal_scope_met']
+        and all(effects['pure_support_metal_scope_conditions'].values())
+        and command['month_branch'] in PURE_SUPPORT_METAL_MONTHS and command['relation'] == 'same_element'
+        and roots['root_presence']
+        and all(r['effect_status'] == 'effective_in_reviewed_context' for r in effects['visible_relations']))
+    pure_generating_water = (effects['pure_generating_support_water_scope_met']
+        and all(effects['pure_generating_support_water_scope_conditions'].values())
+        and command['month_branch'] in PURE_GENERATING_WATER_MONTHS and command['relation'] == 'same_element'
+        and roots['root_presence']
+        and all(r['effect_status'] == 'effective_in_reviewed_context' for r in effects['visible_relations']))
+
+    def register_effective_root(index):
+        root = roots['roots'][index]
+        if root['type_source_conflict'] or root['branch_relations']:
+            return False
+        return _mw_grade(day_master, root['root_presence']['branch']) \
+            in _MW_HEAVY_GRADES
 
     def form_effective_root(index):
         root = roots['roots'][index]
@@ -218,6 +301,24 @@ def _bounded_assessment(trace):
             pointer('root_availability', f'/roots/{i}/root_availability')
             for i in range(len(roots['roots'])) if form_effective_root(i)}
         commanding_blockers = [
+            b for b in blockers
+            if not (b['reason'] == 'root_availability_not_effective'
+                    and b['fact_ref'] in reconcilable_refs)]
+    metal_blockers = blockers
+    if pure_support_metal and day_master in ('庚', '辛'):
+        reconcilable_refs = {
+            pointer('root_availability', f'/roots/{i}/root_availability')
+            for i in range(len(roots['roots'])) if register_effective_root(i)}
+        metal_blockers = [
+            b for b in blockers
+            if not (b['reason'] == 'root_availability_not_effective'
+                    and b['fact_ref'] in reconcilable_refs)]
+    water_blockers = blockers
+    if pure_generating_water and day_master in ('壬', '癸'):
+        reconcilable_refs = {
+            pointer('root_availability', f'/roots/{i}/root_availability')
+            for i in range(len(roots['roots'])) if register_effective_root(i)}
+        water_blockers = [
             b for b in blockers
             if not (b['reason'] == 'root_availability_not_effective'
                     and b['fact_ref'] in reconcilable_refs)]
@@ -286,6 +387,59 @@ def _bounded_assessment(trace):
         # criterion above, so they are not reported as barring this
         # verdict. (conflict_checks still reports every root conflict.)
         blockers = commanding_blockers
+    elif (pure_support_metal and not metal_blockers) or \
+            (pure_generating_water and not water_blockers):
+        # TJ-011.2 S2: like pure_generating_support and
+        # commanding_visible_support, these predicates have no sealed
+        # Phase1/Phase2 rule registration yet, so the verdict is issued
+        # through the registered bounded-adjudication exit
+        # (bazi.rule.r026) with every condition bound to executed
+        # factor evidence and the pending registration disclosed on
+        # the verdict itself; no rule ID is borrowed. Each condition
+        # carries its registered anchor_type from the S1 form
+        # registers; the month condition additionally carries the
+        # executed chart's S1 grade for the day master's month-branch
+        # cell (month_root_grade: per_stem_listed for Xin You / Gui Zi,
+        # framework_derived for Geng You / Ren Zi), and the root
+        # condition carries every day root's executed grade
+        # (root_grades), so a derived-grade (framework_derived) root
+        # position stays machine-distinguishable from an explicitly
+        # attested (per_stem_listed) one.
+        if pure_support_metal and not metal_blockers:
+            predicate, reconciled = 'pure_support_metal', metal_blockers
+        else:
+            predicate, reconciled = 'pure_generating_support_water', water_blockers
+        classification = 'strong'
+        scope_key = predicate + '_scope_conditions'
+        for key, met in effects[scope_key].items():
+            cond = {'condition':key,'met':met,
+                'fact_ref':pointer('action_effects','/' + scope_key + '/' + key),
+                'rule_id':'bazi.phase2.action_effects',
+                'evidence_ids':list(steps['bazi.phase2.action_effects'][1]['evidence_ids']),
+                'anchor_type':S2_ANCHOR_TYPES[predicate][key],
+                'anchor_registration':S2_ANCHOR_REGISTRATION[predicate]}
+            if key in ('reviewed_same_element_month_you',
+                       'reviewed_same_element_month_zi'):
+                cond['month_root_grade'] = _mw_grade(
+                    day_master, command['month_branch'])
+            if key == 'effective_day_roots_registered':
+                cond['root_grades'] = [
+                    {'pillar':r['root_presence']['pillar'],
+                     'branch':r['root_presence']['branch'],
+                     'hidden_stem':r['root_presence']['hidden_stem'],
+                     'grade':_mw_grade(
+                         day_master, r['root_presence']['branch'])}
+                    for r in roots['roots']]
+            conditions.append(cond)
+        why = {'sufficient_rule':None,'sufficient_predicate':predicate,
+               'predicate_rule_registration':'pending_phase1_rule_registration',
+               'conditions':conditions,
+               'all_required_conditions_verified':True,
+               'excluded_dependencies':['dated_commander','independent_hidden_effect_scores']}
+        # The verdict's blocker list is the reconciled one (see the
+        # disjunct note above); conflict_checks still reports every
+        # root conflict.
+        blockers = reconciled
     else:
         block('action_effects','/pure_support_scope_conditions','outside_reviewed_sufficient_conditions')
     relevant = {'bazi.phase2.' + k for k in ('pillars','hidden_stems','support_relations',
@@ -306,9 +460,11 @@ def _bounded_assessment(trace):
             'root_availability':True,'bounded_visible_effects':True,'independent_hidden_effect_scores':False},
         'maturity':'PARTIAL','research_only':True,'public_enabled':False,'ai_enabled':False,
         'weights_available':False,'source_case_lookup_used':False,'full_strength_classifier_ready':False,
-        'limitations':['仅显式任氏木日主：纯印比月卯、印比生扶月亥（从旺口径，不取当令），或无根无扶透辛月酉；丙日主午月同类当令显纯生扶（从强主锚）；其余未裁定。',
+        'limitations':['仅显式任氏木日主：纯印比月卯、印比生扶月亥（从旺口径，不取当令），或无根无扶透辛月酉；丙日主午月同类当令显纯生扶（从强主锚）；金日主酉月、水日主子月全位置纯生扶（从旺/从强通述口径）；其余未裁定。',
             '亥月分支谓词尚待密封 Phase1/Phase2 规则注册（pending），裁决经已注册的有限裁决出口发出并逐条件绑定因子证据，不冒充已注册规则的裁决。',
             '午月丙日主分支谓词尚待密封 Phase1/Phase2 规则注册（pending），裁决经已注册的有限裁决出口发出并逐条件绑定因子证据，不冒充已注册规则的裁决；其藏干仅作根位事实（不否决、不计效）是 Variant 治理约定而非原文，藏干克破不在本形态裁定范围，逐盘记录在案。',
+            '酉月金日主与子月水日主分支谓词尚待密封 Phase1/Phase2 规则注册（pending），裁决经已注册的有限裁决出口发出并逐条件绑定因子证据，不冒充已注册规则的裁决；其根有效性以 S1 金/水根审定登记表驱动（密封可用性 Variant 仍为木专属），辛/癸长生冲突与轻根列举冲突未裁定，受影响根一律阻断、绝不放行。',
+            *S2_LIMITATIONS,
             '来源仍为 C 级单一电子版本，未宣称独立底本一致；强不等于吉，弱不等于凶。',
             '不处理 balanced、数字力度、从格、喜用、行运，暗合、半合拱夹与其他学派刑法不在范围。',
             '分日冲突与其他学派刑法仍 unresolved，但不是此明确 Variant 的依赖；不自动开放产品或 AI。']}

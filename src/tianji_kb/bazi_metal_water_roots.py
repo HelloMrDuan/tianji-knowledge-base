@@ -834,3 +834,303 @@ ROOT_LIMITATIONS = [
  '密封 Phase1/Phase2 规则注册仍 pending（S2 实现的 '
  'evidence_binding 同既有披露口径），本批不处理注册；显示白名单'
  '不变（研究级）。']
+
+# ---------------------------------------------------------------------
+# TJ-011.2 S2 形态登记（实现批追加）：pure 生扶形态向金×酉、水×子的
+# 成对推广。条件集与木线 pure scope 逐条同构（八条件），差异只在：
+# (a) 日主/月门以本登记与仓内声明月集为准（密封政策 pure_months 与
+# 木专属可用性 Variant 不可自公开代码扩展，沿 PURE_GENERATING_MONTHS
+# 与 commanding 的 register-based 先例）；(b) 根有效性以本模块根表
+# 分级驱动（重根格可用、conflicted_pending 与 light_listed_conflicted
+# 一律阻断），不消费密封木专属可用性。定义锚同木线：从旺定义
+# （s047，任氏曰）与从强定义（s048）均为五行通述、不点名金/水，
+# 金/水分支在定义层与木分支同标准，无需专属定义段。
+FORM_PURE_SUPPORT_METAL = {
+ 'form_id': 'metal-you-pure-support-v1',
+ 'name_cn': '金日主酉月纯生扶形态',
+ 'status': 'adjudicated_isomorphic_extension',
+ 'task': 'TJ-011.2',
+ 'school': '任氏（滴天髓阐微）分支，与既有谓词同一 Source '
+           '（bazi.source.ditiansui-spouse）',
+ 'day_masters': ['庚', '辛'],
+ 'month_branch': '酉',
+ 'classification_if_matched': 'strong',
+ 'never_yields': ['weak'],
+ 'predicate_name': 'pure_support_metal',
+ 'definition_anchors': {
+  'primary': ['dt.congwang_def'],
+  'co_anchor': ['dt.congqiang_def', 'dt.congqiang_no_caiguan'],
+  'anchoring_rationale': '两定义均为五行通述（从旺：四柱皆比劫、无官'
+                         '杀之制、有印绶之生；从强：绝无一毫财星官杀'
+                         '之气），不点名任何日主五行；金分支与木分支'
+                         '在定义层同标准（沿 F1 对火线的同型结论）。'},
+ 'conditions': [
+  {'key': 'metal_day_master',
+   'statement': '日主五行金（庚或辛）。根分级逐干查本登记根表'
+                '（庚、辛表分立，辛表三格随长生 conflict 待定）。',
+   'anchor_type': 'scope_construction',
+   'anchors': ['FORM scope', 'METAL_WATER_ROOT_TABLES']},
+  {'key': 'reviewed_same_element_month_you',
+   'statement': '月支为酉，本气（辛）已经审，principal 关系为 '
+                'same_element（同类当令）。酉在 principal 已审支集'
+                '内；月根事实：庚以帝旺居酉（推步级 framework_'
+                'derived）、辛以禄居酉（逐干明句级），两干均为重根'
+                '且不随辛长生分支（见 S2_IMPACT）。逐盘锚点等级由'
+                '裁决层以 month_root_grade 随条件输出。',
+   'anchor_type': 'original_text',
+   'anchors': ['dt.congqiang_def（日主又当令）',
+               'commander 层 principal 关系已审事实（酉本气辛）',
+               'HEAVY_ROOT_BRANCHES（庚酉/辛酉）']},
+  {'key': 'all_positions_support_only',
+   'statement': '全位置（年、月、日、时四柱的显干与藏干）对日主的关'
+                '系全部属于生扶类（generates_me 印 / same_element '
+                '比劫）；任一位置为克泄耗类即否决。与木线 pure '
+                'scope 同名条件共用同一已执行事实。',
+   'anchor_type': 'original_text',
+   'anchors': ['dt.congwang_def（四柱皆比劫，无官杀之制，有印绶之生）',
+               'dt.congqiang_no_caiguan（绝无一毫财星官杀之气）']},
+  {'key': 'visible印_present',
+   'statement': '显干（年、月、时）中至少一干为印（generates_me，'
+                '对金日主为土干）。与木线同名条件共用同一事实。',
+   'anchor_type': 'original_text',
+   'anchors': ['dt.congwang_def（有印绶之生）']},
+  {'key': 'visible比_present',
+   'statement': '显干中至少一干为比劫（same_element，金干）。日干本'
+                '身不计（既有架构：日干是参照，不作独立显干）。与木'
+                '线同名条件共用同一事实。',
+   'anchor_type': 'original_text',
+   'anchors': ['dt.congwang_def（四柱皆比劫）']},
+  {'key': 'effective_day_roots_registered',
+   'statement': '日主有结构根，且全部结构根按本登记根表（按日主干'
+                '查表）均为可用重根：根位格级为 per_stem_listed 或 '
+                'framework_derived，且根事实本身无根类型来源冲突、无'
+                '未解支作用触及。conflicted_pending 六格与 light_'
+                'listed_conflicted 八格的根一律不可用（阻断）。密封'
+                '可用性 Variant 为木专属，本条件不消费之，沿 '
+                'commanding 的 register-based 先例。逐盘根级由裁决'
+                '层以 root_grades 随条件输出。',
+   'anchor_type': 'original_text',
+   'anchors': ['dt.root_heavy_light（长生禄旺，根之重者也）',
+               'METAL_WATER_ROOT_TABLES（逐格 grade）',
+               'LIGHT_ROOT_LISTING_CONFLICTS / 两长生 conflict 登记'
+               '（阻断面）']},
+  {'key': 'all_visible_have_registered_roots',
+   'statement': '每个显干至少有一个已登记/已审根位：金、水干查本登'
+                '记根表（grade 非 no_root 且非 conflicted_pending '
+                '的格位，含轻根位——沿 BING_ALL_ROOT_BRANCHES 含轻'
+                '根位的先例）；其余五行查密封政策 reviewed_root_'
+                'branches。土干在密封政策与本登记中均无已审根位集'
+                '（土根零登记），故土显干在本条件恒不合——此为本形'
+                '态与木线（印为水，水有已审集）的登记面差异，如实'
+                '登记、不以结构事实冒充已审（见 satisfiability 的'
+                '通道三）。',
+   'anchor_type': 'scope_construction',
+   'anchors': ['既有 pure scope 同名条件先例',
+               'METAL_WATER_ROOT_TABLES',
+               '密封政策 bazi.concept.action_effects_v1.'
+               'reviewed_root_branches']},
+  {'key': 'no_unresolved_interactions',
+   'statement': '无未解干支作用类型（干合/六合/六冲/六害/三合按既有'
+                '口径）：任一未解作用在盘即弃判，与既有四谓词同口'
+                '径。与木线同名条件共用同一事实。',
+   'anchor_type': 'scope_construction',
+   'anchors': ['密封政策 unresolved_interactions 口径']}]}
+
+# 金×酉形态的真实命盘可满足性：构造性不可满足（证明在案，非检索
+# 不力）。S2 实现批逐项验算后登记（审源 §5 预登记的回改条款）：
+# 审源 §2.2 的「构成可满足」是形态级论证（藏干构成与条件集的逻辑
+# 检验），其「酉/丑/戌/辰等支可构造」一句未逐盘验算——逐盘验算结
+# 果是丑（癸水泄）、戌（丁火克）、辰（乙木财/癸水泄）的藏干均含非
+# 生扶，本证明通道一即以此订正该句。
+METAL_YOU_SATISFIABILITY = {
+ 'status': 'chart_unrealizable',
+ 'scope_of_claim': '在本形态登记的八条件（与木线 pure 全位置同构）'
+                   '下，任何真实历法命盘均不能使八条件全真。本登记'
+                   '不否定从旺/从强定义对金日主的原则适用性，只登记'
+                   '该条件集在干支历法组合上的不可满足性。',
+ 'proof_channels': [
+  {'channel': '藏干层唯一支',
+   'argument': '生扶藏干集合对金日主为 {土，金}。十二支中藏干全落 '
+               '{土，金} 者只有酉（单藏辛）：丑藏癸（水，对金为泄）、'
+               '戌藏丁（火，克）、辰藏乙（木，财）与癸、巳藏丙（火）、'
+               '申藏壬（水，泄）、亥藏甲（木，财）、午藏丁、未藏丁/'
+               '乙、寅藏甲/丙、卯藏乙、子藏癸，均含非生扶。故 '
+               'all_positions_support_only 为真要求四柱支全为酉。'},
+  {'channel': '全酉盘的显干干对',
+   'argument': '支全酉时，年干只能是酉年之干 {己，辛，癸，丁，乙}，'
+               '酉月月干由五虎遁定：己年→癸、辛年→丁、癸年→辛、丁'
+               '年→己、乙年→乙。五组（年干，月干）中每组至少一干对'
+               '金为非生扶（癸/乙为泄/财，丁为克），visible 层 '
+               'all_positions_support_only 恒假；且日主只能是辛（庚'
+               '酉日柱不存在——干支阴阳配伍），辛日酉时干为丁（五'
+               '鼠遁丙辛日起戊，酉时丁），时干再独立否决一次。'},
+  {'channel': '土印显干根位登记缺口（独立通道）',
+   'argument': '金日主之印为土干。土在密封政策 reviewed_root_'
+               'branches 无条目、本登记亦无土根表（土根零登记，审源'
+               '§2.2），故 all_visible_have_registered_roots 对任何'
+               '含土显干的命盘恒假；而 visible印_present 要求显干有'
+               '印（土）——两条件在现行登记面下不可兼得。此通道是登'
+               '记/政策缺口而非历法事实：若将来土根位经审定登记，本'
+               '通道须复核（通道一、二为历法构造性事实，不因此'
+               '改变）。'}],
+ 'factor_layer_note': '本形态的 scope 评估逻辑由因子层测试覆盖（合成'
+                      '因子输入，标注 factor-level，沿 commanding 批'
+                      'FactorLayerTests 先例）：因子层基线八条件可全'
+                      '真，证明评估逻辑本身无恒假键；真实命盘层按上'
+                      '述证明登记 unrealizable。',
+ 'scout_correction': '审源 tj0112-general-strength-scout.md §2.2 金×酉'
+                     '行「构成可满足性 ✓」经本批逐盘验算订正为不可满'
+                     '足（其 §5 未核实清单已预登记此回改条款）；订正'
+                     '只及该格结论，不及定义锚与根审定结论。'}
+
+FORM_PURE_GENERATING_WATER = {
+ 'form_id': 'water-zi-pure-generating-v1',
+ 'name_cn': '水日主子月纯生扶形态',
+ 'status': 'adjudicated_isomorphic_extension',
+ 'task': 'TJ-011.2',
+ 'school': '任氏（滴天髓阐微）分支，与既有谓词同一 Source '
+           '（bazi.source.ditiansui-spouse）',
+ 'day_masters': ['壬', '癸'],
+ 'month_branch': '子',
+ 'classification_if_matched': 'strong',
+ 'never_yields': ['weak'],
+ 'predicate_name': 'pure_generating_support_water',
+ 'predicate_name_note': '命名从 S2 任务书 pure_generating 型：与既有 '
+                        'pure_generating_support 同以仓内声明月集＋登记'
+                        '表驱动根有效性＋r026 出口的实现形制。须明示：'
+                        '子月本气癸与水日主为 same_element 关系，本形'
+                        '态的月门事实与 pure 型（同类月）同构，不存在'
+                        'generates_me 的月关系，不得以名称暗示月令生'
+                        '日主。',
+ 'definition_anchors': {
+  'primary': ['dt.congwang_def'],
+  'co_anchor': ['dt.congqiang_def', 'dt.congqiang_no_caiguan'],
+  'anchoring_rationale': '同金属形态：两定义五行通述、不点名日主；水'
+                         '分支与木分支在定义层同标准。'},
+ 'conditions': [
+  {'key': 'water_day_master',
+   'statement': '日主五行水（壬或癸）。根分级逐干查本登记根表（壬、'
+                '癸表分立，癸表三格随长生 conflict 待定）。',
+   'anchor_type': 'scope_construction',
+   'anchors': ['FORM scope', 'METAL_WATER_ROOT_TABLES']},
+  {'key': 'reviewed_same_element_month_zi',
+   'statement': '月支为子，本气（癸）已经审，principal 关系为 '
+                'same_element（同类当令）。子在 principal 已审支集'
+                '内；月根事实：壬以帝旺居子（推步级 framework_'
+                'derived）、癸以禄居子（逐干明句级），两干均为重根'
+                '且不随癸长生分支。逐盘锚点等级由裁决层以 month_'
+                'root_grade 随条件输出。',
+   'anchor_type': 'original_text',
+   'anchors': ['dt.congqiang_def（日主又当令）',
+               'commander 层 principal 关系已审事实（子本气癸）',
+               'HEAVY_ROOT_BRANCHES（壬子/癸子）']},
+  {'key': 'all_positions_support_only',
+   'statement': '全位置（显干与藏干）对日主的关系全部属于生扶类；任'
+                '一位置为克泄耗类即否决。与木线 pure scope 同名条件'
+                '共用同一已执行事实。',
+   'anchor_type': 'original_text',
+   'anchors': ['dt.congwang_def（四柱皆比劫，无官杀之制，有印绶之生）',
+               'dt.congqiang_no_caiguan（绝无一毫财星官杀之气）']},
+  {'key': 'visible印_present',
+   'statement': '显干中至少一干为印（generates_me，对水日主为金'
+                '干）。与木线同名条件共用同一事实。',
+   'anchor_type': 'original_text',
+   'anchors': ['dt.congwang_def（有印绶之生）']},
+  {'key': 'visible比_present',
+   'statement': '显干中至少一干为比劫（same_element，水干）。日干本'
+                '身不计。与木线同名条件共用同一事实。',
+   'anchor_type': 'original_text',
+   'anchors': ['dt.congwang_def（四柱皆比劫）']},
+  {'key': 'effective_day_roots_registered',
+   'statement': '日主有结构根，且全部结构根按本登记根表（按日主干查'
+                '表）均为可用重根（per_stem_listed 或 framework_'
+                'derived 格级，且根事实无根类型来源冲突、无未解支作'
+                '用触及）。conflicted_pending 六格与 light_listed_'
+                'conflicted 八格的根一律阻断。密封可用性 Variant 为'
+                '木专属，本条件不消费之（register-based 先例）。逐'
+                '盘根级由裁决层以 root_grades 随条件输出。',
+   'anchor_type': 'original_text',
+   'anchors': ['dt.root_heavy_light（长生禄旺，根之重者也）',
+               'METAL_WATER_ROOT_TABLES（逐格 grade）',
+               'LIGHT_ROOT_LISTING_CONFLICTS / 两长生 conflict 登记'
+               '（阻断面）']},
+  {'key': 'all_visible_have_registered_roots',
+   'statement': '每个显干至少有一个已登记/已审根位：金、水干查本登'
+                '记根表（grade 非 no_root 且非 conflicted_pending '
+                '的格位，含轻根位）；其余五行查密封政策 reviewed_'
+                'root_branches。本形态的必备显干（印金、比水）均有本'
+                '登记根表覆盖，与金属形态的土面缺口不同。',
+   'anchor_type': 'scope_construction',
+   'anchors': ['既有 pure scope 同名条件先例',
+               'METAL_WATER_ROOT_TABLES',
+               '密封政策 bazi.concept.action_effects_v1.'
+               'reviewed_root_branches']},
+  {'key': 'no_unresolved_interactions',
+   'statement': '无未解干支作用类型（既有口径），任一未解作用在盘即'
+                '弃判。与木线同名条件共用同一事实。',
+   'anchor_type': 'scope_construction',
+   'anchors': ['密封政策 unresolved_interactions 口径']}]}
+
+# 水×子形态的可满足性：癸可满足（见证在案）；壬单独不可满足（显干
+# 比劫通道的构造性证明），两结论分立登记，不得混述为「水线已全
+# 建」或「水线不可建」。
+WATER_ZI_SATISFIABILITY = {
+ 'status': 'satisfiable_for_gui_only',
+ 'witness_gui': {'birth': '1981-12-21T00:30:00+08:00',
+                 'pillars': ['辛酉', '庚子', '癸酉', '壬子'],
+                 'note': '辛酉年子月：年干辛（印）、月干庚（印）、时'
+                         '干壬（比）皆生扶；四支子/酉藏干全落 {水，'
+                         '金}；癸根于子（禄，逐干明句重根）两见、无冲'
+                         '突无作用触及；无未解作用。八条件全真（逐项'
+                         '推导见 S2 Golden）。'},
+ 'ren_unrealizable': {
+  'status': 'chart_unrealizable',
+  'scope_of_claim': '壬日主在本形态八条件下无真实命盘可全真；癸不受'
+                    '此限。',
+  'proof_channels': [
+   {'channel': '藏干层支集',
+    'argument': '生扶藏干集合对水日主为 {水，金}；藏干全落此集的支只'
+                '有子（单藏癸）与酉（单藏辛）：丑藏己（土，克）、辰藏'
+                '戊（土，克）、申藏戊、亥藏甲（木，泄）、戌藏戊/丁、'
+                '未藏己/乙、寅藏甲/丙、卯藏乙、巳藏丙、午藏丁均含非生'
+                '扶。故四柱支只能子/酉，日支只能子（壬酉日柱不存在'
+                '——干支阴阳配伍），日柱必为壬子。'},
+   {'channel': '显干比劫与显干根位不可兼得',
+    'argument': '支全子/酉后逐位穷举比劫（水显干）的来源。月干为壬须'
+                '年干属丁壬族：丁为火（对水克），年干自身已破 visible '
+                '层生扶；年干壬则年柱只能是壬子（壬的合法柱中支落 '
+                '{子，酉} 者仅壬子，壬酉干支阴阳不配不存在），五虎遁'
+                '定其子月干为壬、日柱壬子，时干在子/酉上唯庚/己：己'
+                '为土（克）破生扶，庚虽为印，但在四支皆子的盘中无任'
+                '何根位（无一支藏金；能藏金的申/巳/丑/戌均因藏克泄耗'
+                '被支集通道排除，年/日酉柱对壬不存在、时酉干己为'
+                '克），故 all_visible_have_registered_roots 恒假。年'
+                '干癸时子月干为甲（泄），月干非比且破生扶。时干为水'
+                '须时支寅（壬）/卯（癸），藏干含甲/丙、乙，已被支集'
+                '通道排除。故壬盘中 visible比_present 与其余条件不可'
+                '兼得——1921-12-15 辛酉年庚子月壬子日庚子时一盘即'
+                '比劫无源面的见证：其余七条件全真、只 visible比 一条'
+                '假（见 S2 Golden 近失例）。'}],
+  'factor_layer_note': '壬的 scope 评估逻辑由因子层基线覆盖（八条件可'
+                       '全真），真实命盘层按上述证明登记 '
+                       'unrealizable。'}}
+
+S2_FORM_REGISTERS = {
+ 'pure_support_metal': FORM_PURE_SUPPORT_METAL,
+ 'pure_generating_support_water': FORM_PURE_GENERATING_WATER}
+
+S2_ANCHOR_TYPES = {
+ predicate: {c['key']: c['anchor_type'] for c in form['conditions']}
+ for predicate, form in S2_FORM_REGISTERS.items()}
+
+S2_LIMITATIONS = [
+ '金×酉形态（pure_support_metal）真实命盘构造性不可满足（藏干唯一'
+ '支＋全酉显干干对＋土印根位登记缺口三通道，证明见 METAL_YOU_'
+ 'SATISFIABILITY），谓词按登记条件集如实实现、因子层验证评估逻辑，'
+ '不因不可满足而删改条件或放宽口径。',
+ '水×子形态（pure_generating_support_water）仅癸日主有真实见证；壬'
+ '日主因显干比劫与显干根位不可兼得通道构造性不可满足（见 WATER_ZI_'
+ 'SATISFIABILITY），不得表述为壬癸均已可判。',
+ '两形态的根有效性以 S1 登记表驱动（register-based，沿 commanding '
+ '先例），不消费密封木专属可用性 Variant；辛/癸长生 conflict 与轻根'
+ '列举冲突均未裁定，受影响根一律阻断。']
