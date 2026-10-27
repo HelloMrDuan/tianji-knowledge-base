@@ -271,6 +271,25 @@ jobs:
       # test_tj018c_sanming_hehua_sealed.py (offline acceptance
       # only, NOT public CI: it reads the sealed snapshot files).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj018c_sanming_hehua.py' -v
+      # TJ-018-D sanming juan5 quliu-group collation register
+      # (juan5 first volume of the same register form as
+      # TJ-018-A/B/C) public contracts: pure-data register mirrored
+      # against Golden, collation-note form and confirmed anchor
+      # rule, PUA 1 (xuan) and fang 23 (nine mutually unrelated
+      # original glyphs, all witness-collated per position),
+      # si 17 positions fully partitioned (8 stem-slot readings
+      # registered as contextual reading registrations, transmitted
+      # glyph identical across three lineages), section boundary
+      # correction pinned (quliu section ends 161329, scout's
+      # 161354 swallowed the next section's title line), guansha
+      # quliu/hunza linkage matching the code's unresolved status
+      # with adjudication semantics unchanged, 018-A/B/C register
+      # regression (44 + 35 + 81 notes untouched, cumulative 203),
+      # source census unchanged (101). Snapshot-verbatim checks
+      # live in test_tj018d_sanming_juan5_sealed.py (offline
+      # acceptance only, NOT public CI: it reads the sealed
+      # snapshot files).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj018d_sanming_juan5.py' -v
       # TJ-011.2 fire morphology adjudication public contracts:
       # pure-data design register (zero functions), ten Ditiansui
       # definition/root quotes with self-consistent locators and layer
