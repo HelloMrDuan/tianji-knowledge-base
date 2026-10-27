@@ -4,7 +4,8 @@ from .bazi_core import VARIANT as BAZI_VARIANT
 from .bazi_root_conditions import STRENGTH_VARIANT, AVAILABILITY_VARIANT, root_availability
 from .bazi_commander import PRINCIPAL_VARIANT, principal_month
 from .bazi_action_conditions import EFFECT_VARIANT, PURE_GENERATING_MONTHS
-from .bazi_fire_morphology import FORM_BING_WU
+from .bazi_fire_morphology import BING_ROOT_POSITIONS, FORM_BING_WU
+from .foundations import stem_element
 
 ADJUDICATION_VARIANT = 'bazi-strength-adjudication-v1'
 
@@ -16,6 +17,19 @@ ADJUDICATION_VARIANT = 'bazi-strength-adjudication-v1'
 # able from original-text conditions and never presented as such.
 COMMANDING_ANCHOR_TYPES = {c['key']: c['anchor_type']
                            for c in FORM_BING_WU['conditions']}
+
+# TJ-011.2: fire root branches whose root-type readings the morphology
+# register grades light_listed_conflicted (Xu: tomb listing vs
+# residual-qi listing), with their registered conflict ID. The sealed
+# root-conditions candidate table flags the fire residual candidate at
+# Wei only, so executed facts leave Xu roots unflagged; the register
+# states such roots carry the conflict and bar adjudication under the
+# existing mechanism, so the bounded assessment presents the conflict
+# for fire day masters from the register (sealed policy not edited).
+REGISTER_FIRE_ROOT_CONFLICTS = {
+    entry['branch']: entry['conflict_id']
+    for entry in BING_ROOT_POSITIONS
+    if entry['grade'] == 'light_listed_conflicted'}
 
 
 def _bounded_assessment(trace):
@@ -128,6 +142,17 @@ def _bounded_assessment(trace):
                            'fact_ref':pointer('root_availability',f'/roots/{i}/type_source_conflict'),
                            'evidence_ids':list(steps['bazi.phase2.root_availability'][1]['evidence_ids'])})
             block('root_availability',f'/roots/{i}/type_source_conflict','root_type_source_conflict',[cid])
+        elif (stem_element(day_master) == '火'
+              and root['root_presence']['branch'] in REGISTER_FIRE_ROOT_CONFLICTS):
+            # Register-sourced root-type conflict (see
+            # REGISTER_FIRE_ROOT_CONFLICTS): presented and blocking
+            # under the same mechanism as a fact-sourced conflict.
+            cid = REGISTER_FIRE_ROOT_CONFLICTS[root['root_presence']['branch']]
+            checks.append({'conflict_id':cid,'status':'unresolved','blocking':True,
+                           'reason':'root_type_source_conflict',
+                           'fact_ref':pointer('root_availability',f'/roots/{i}/root_presence/branch'),
+                           'evidence_ids':list(steps['bazi.phase2.root_availability'][1]['evidence_ids'])})
+            block('root_availability',f'/roots/{i}/root_presence/branch','root_type_source_conflict',[cid])
         if root['root_availability'] != 'effective':
             block('root_availability',f'/roots/{i}/root_availability','root_availability_not_effective')
     if command['status'] != 'reviewed_relation':
@@ -183,7 +208,9 @@ def _bounded_assessment(trace):
 
     def form_effective_root(index):
         root = roots['roots'][index]
-        return not root['type_source_conflict'] and not root['branch_relations']
+        if root['type_source_conflict'] or root['branch_relations']:
+            return False
+        return root['root_presence']['branch'] not in REGISTER_FIRE_ROOT_CONFLICTS
 
     commanding_blockers = blockers
     if commanding and day_master == '丙':

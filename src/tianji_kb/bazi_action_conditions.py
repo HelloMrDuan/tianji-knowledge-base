@@ -1,6 +1,7 @@
 """Relation direction and its observed conditions, without assumed efficacy."""
 from .bazi_core import PILLAR_NAMES, foundations
-from .bazi_fire_morphology import BING_ALL_ROOT_BRANCHES, BING_HEAVY_ROOT_BRANCHES
+from .bazi_fire_morphology import (
+    BING_ALL_ROOT_BRANCHES, BING_HEAVY_ROOT_BRANCHES, BING_ROOT_POSITIONS)
 from .foundations import stem_element
 from .resolver import EvidenceResolver
 
@@ -116,6 +117,23 @@ def action_effects(pillars, *, observed, relations, principal, availability,
                  if r['branch'] in commanding_reviewed_roots.get(fact['element'], [])]
         eligible_commanding.append(roots)
     day_roots = availability['roots']
+    # The register grades the Xu fire root light_listed_conflicted
+    # (root-type readings conflict, bazi.concept.conflict_root_type_
+    # readings): the sealed root-conditions candidate table marks the
+    # fire residual-qi candidate at Wei only, so the executed facts do
+    # not flag Xu roots. The register is this form's specification, so
+    # a fire root in a register-conflicted branch is not form-effective
+    # either; the sealed policy is not edited.
+    register_conflicted_fire_branches = {
+        entry['branch'] for entry in BING_ROOT_POSITIONS
+        if entry['grade'] == 'light_listed_conflicted'}
+    fire_day = stem_element(observed['day_master']) == '火'
+
+    def form_effective(root):
+        if root['type_source_conflict'] or root['branch_relations']:
+            return False
+        return not (fire_day and root['root_presence']['branch']
+                    in register_conflicted_fire_branches)
     commanding_conditions = {
         'fire_day_master_bing': observed['day_master'] == '丙',
         'reviewed_same_element_command_month': principal['month_branch'] == '午'
@@ -125,7 +143,7 @@ def action_effects(pillars, *, observed, relations, principal, availability,
         'visible_peer_present': any(r['fact']['relation'] == 'same_element' for r in visible),
         'effective_heavy_day_roots': bool(day_roots)
             and any(r['root_presence']['branch'] in BING_HEAVY_ROOT_BRANCHES for r in day_roots)
-            and all(not r['type_source_conflict'] and not r['branch_relations'] for r in day_roots),
+            and all(form_effective(r) for r in day_roots),
         'all_visible_have_reviewed_roots': all(eligible_commanding),
         'no_unresolved_interactions': no_interactions,
         # Governance convention condition: true by the construction of
