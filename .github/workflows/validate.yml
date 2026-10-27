@@ -213,6 +213,21 @@ jobs:
       # test_tj012_ren_yin_true_sealed.py (offline acceptance only,
       # NOT public CI: pattern candidates need sealed Canonical data).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj012_ren_yin_true.py' -v
+      # TJ-012.3 Slice D prerequisite yuanhai zhengguan-group section
+      # registration public contracts: pure-data register mirrored
+      # against Golden, three-section registration forms (two full
+      # sections + relevant-windows-only for yinshou), gap register
+      # completeness (5 half-width ? placeholders, unresolved, quote
+      # windows avoid gap positions), per-sentence routing review
+      # (formation side all routed through strength; breaking side
+      # routed through unbuilt fact/effect layers), legacy s055-s059
+      # windows pinned verbatim, skipped yinshou windows each with a
+      # reason, and no determination semantics anywhere. Verbatim
+      # quote equality against the snapshot, gap-position
+      # reconciliation and the source census live in
+      # test_tj012_yuanhai_zhengguan_sealed.py (offline acceptance
+      # only, NOT public CI: it reads the sealed snapshot files).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj012_yuanhai_zhengguan.py' -v
       # TJ-018-A sanming juan2 collation register public contracts:
       # pure-data register mirrored against Golden, collation-note
       # form (required fields, status/disposition enums, confirmed
