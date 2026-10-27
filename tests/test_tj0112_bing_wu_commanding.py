@@ -197,8 +197,9 @@ class BingWuPositiveTests(unittest.TestCase):
         self.assertFalse(assessment['ai_enabled'])
         self.assertTrue(any('治理约定' in line
                             for line in assessment['limitations']))
-        self.assertTrue(any('谓词已登记密封 Phase1 规则 '
-                            'bazi.rule.r030' in line
+        self.assertTrue(any('午月丙日主分支谓词已完成密封 '
+                            'Phase1/Phase2 规则注册（bazi.rule.r030'
+                            in line
                             for line in assessment['limitations']))
 
     def test_hidden_ji_recorded_not_vetoed(self):
