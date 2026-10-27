@@ -294,6 +294,11 @@ def project_execution(data):
             # internal research display only per the C+E ruling);
             # never let a pilot block reach a public response either.
             container.pop('siling_pilot', None)
+            # TJ-012.3 Slice D-1: the Ren-branch 寅月 true-pattern
+            # determination is a research-only composition (pending
+            # Phase1 registration); never let it reach a public
+            # response either.
+            container.pop('pattern_determination_ren_yin', None)
     return result
 
 

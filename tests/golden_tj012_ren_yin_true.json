@@ -1,0 +1,621 @@
+{
+  "adjudication_notes": [
+    "D1 保守读法（父级裁定）：commander_not_visible 是 s053 定义的否定面，结论止于「司令不透、无真格」，永不使用「假格」标签；破格/成败/清浊/用神恒 None 并逐字段标 unreviewed。",
+    "D2 日干不计透（父级裁定）：「透」与事实层 day_stem_excluded 及 Slice A/B 全部透干消费同义，日干不计入透干；原文对柱位沉默，此为审定而非原文结论；Slice B 的 B2 陈述级口径经本裁定升格为 determination 级（B2 口径升格），可经后续订正事件推翻。",
+    "D3 判定序：月支域门（寅）→ 禄刃路线优先序（Slice A 审定 A1：排除先于司令/真假步）→ 试点 computed → 司令透干核对；任一步不满足即 abstained 并注明步号与原因。",
+    "D4 落地形态：独立组合函数（trace 消费＋显式传入试点结果）；chart() 不携带出生瞬时与 jie 声明，试点不能在 chart 内调用，故不附 chart、不新增 trace rule；公开投影对 pattern_determination_ren_yin 键防御性整体剥离。",
+    "D5 格名换算：格名 = 司令干对日主的已执行十神＋「格」的机械换算名（s053 定义内读法）；司令与日主同干且透于他柱时十神为比肩，换算名「比肩格」如实记录，本块不就该名目是否属通行八格名目清单另行裁定。",
+    "D6 试点信任界：试点结果为显式输入声明，本块核验其 Variant/约定身份钉值，并以已执行事实交叉核对司令（须为月支藏干、透干位置经 hidden_to_visible 与 ten_gods 双事实一致）；不符即 abstained。司令的独立复算属试点自身契约，本块不重复。"
+  ],
+  "cases": [
+    {
+      "day_stem": "乙",
+      "derivation": "t0=2024-02-04 16:27:07+08:00，出生经过 6 日 11 时 32 分 53 秒 <7 日 → 戊段，司令戊。乙禄卯非寅，路线 not_luren。显干甲（年）/丙（月）/戊（时，乙日寅时戊）——戊透于时干。十神：乙阴木克戊阳土、阴阳异 → 正财，真格成立为正财格。",
+      "expected": {
+        "abstention_reason": null,
+        "commander_visible_pillars": [
+          "hour"
+        ],
+        "decision_step": 4,
+        "pattern": "正财格",
+        "status": "determined",
+        "true_false": "true"
+      },
+      "id": "t1-wu-zhengcai",
+      "kind": "true_wu_segment",
+      "month_branch": "寅",
+      "pillars": [
+        "甲辰",
+        "丙寅",
+        "乙巳",
+        "戊寅"
+      ],
+      "pilot_expectation": {
+        "commander": "戊",
+        "segment_index": 1,
+        "status": "computed"
+      },
+      "route_expectation": "not_luren",
+      "source_birth": {
+        "value": "2024-02-11T04:00:00+08:00",
+        "zone": "Asia/Shanghai"
+      },
+      "window": "2024"
+    },
+    {
+      "day_stem": "庚",
+      "derivation": "经过 1 日 8 时 2 分 53 秒 → 戊段，司令戊。庚禄申非寅，路线 not_luren。显干甲（年）/丙（月）/丙（时）：寅之本气甲透于年干，但司令戊不见于年/月/时干 → commander_not_visible。此例为试金石：驱动判定的是司令而非本气，甲透不得立格。",
+      "expected": {
+        "abstention_reason": null,
+        "commander_visible_pillars": [],
+        "decision_step": 4,
+        "pattern": null,
+        "status": "determined",
+        "true_false": "commander_not_visible"
+      },
+      "id": "n1-touchstone",
+      "kind": "commander_not_visible_touchstone",
+      "month_branch": "寅",
+      "pillars": [
+        "甲辰",
+        "丙寅",
+        "庚子",
+        "丙子"
+      ],
+      "pilot_expectation": {
+        "commander": "戊",
+        "segment_index": 1,
+        "status": "computed"
+      },
+      "route_expectation": "not_luren",
+      "source_birth": {
+        "value": "2024-02-06T00:30:00+08:00",
+        "zone": "Asia/Shanghai"
+      },
+      "window": "2024"
+    },
+    {
+      "day_stem": "庚",
+      "derivation": "经过 11 日 17 时 32 分 53 秒 ∈[7 日，14 日） → 丙段，司令丙。庚禄申非寅。显干甲/丙（月）/辛——丙透于月干。十神：丙阳火克庚阳金、阴阳同 → 七杀，真格成立为七杀格。",
+      "expected": {
+        "abstention_reason": null,
+        "commander_visible_pillars": [
+          "month"
+        ],
+        "decision_step": 4,
+        "pattern": "七杀格",
+        "status": "determined",
+        "true_false": "true"
+      },
+      "id": "t2-bing-qisha",
+      "kind": "true_bing_segment",
+      "month_branch": "寅",
+      "pillars": [
+        "甲辰",
+        "丙寅",
+        "庚戌",
+        "辛巳"
+      ],
+      "pilot_expectation": {
+        "commander": "丙",
+        "segment_index": 2,
+        "status": "computed"
+      },
+      "route_expectation": "not_luren",
+      "source_birth": {
+        "value": "2024-02-16T10:00:00+08:00",
+        "zone": "Asia/Shanghai"
+      },
+      "window": "2024"
+    },
+    {
+      "day_stem": "乙",
+      "derivation": "经过 6 日 23 时 59 分 59 秒，距第 7 日切换恰差 1 秒 → 仍戊段，司令戊（与试点 Golden g03 同一瞬时）。显干甲（年）/丙（月）/甲（时，乙日申时甲）：戊不透 → commander_not_visible。与 f2 四柱全同、显干配置全同，结论仅因司令翻转而异。",
+      "expected": {
+        "abstention_reason": null,
+        "commander_visible_pillars": [],
+        "decision_step": 4,
+        "pattern": null,
+        "status": "determined",
+        "true_false": "commander_not_visible"
+      },
+      "id": "f1-boundary-minus-1s",
+      "kind": "segment_boundary_flip_before",
+      "month_branch": "寅",
+      "pillars": [
+        "甲辰",
+        "丙寅",
+        "乙巳",
+        "甲申"
+      ],
+      "pilot_expectation": {
+        "commander": "戊",
+        "segment_index": 1,
+        "status": "computed"
+      },
+      "route_expectation": "not_luren",
+      "source_birth": {
+        "value": "2024-02-11T16:27:06+08:00",
+        "zone": "Asia/Shanghai"
+      },
+      "window": "2024"
+    },
+    {
+      "day_stem": "乙",
+      "derivation": "经过恰 7 日 0 秒，左闭右开落入丙段，司令丙（与试点 Golden g04 同一瞬时）。显干同 f1：丙透于月干 → true。十神：乙阴木生丙阳火、阴阳异 → 伤官，真格成立为伤官格。",
+      "expected": {
+        "abstention_reason": null,
+        "commander_visible_pillars": [
+          "month"
+        ],
+        "decision_step": 4,
+        "pattern": "伤官格",
+        "status": "determined",
+        "true_false": "true"
+      },
+      "id": "f2-boundary-exact",
+      "kind": "segment_boundary_flip_at",
+      "month_branch": "寅",
+      "pillars": [
+        "甲辰",
+        "丙寅",
+        "乙巳",
+        "甲申"
+      ],
+      "pilot_expectation": {
+        "commander": "丙",
+        "segment_index": 2,
+        "status": "computed"
+      },
+      "route_expectation": "not_luren",
+      "source_birth": {
+        "value": "2024-02-11T16:27:07+08:00",
+        "zone": "Asia/Shanghai"
+      },
+      "window": "2024"
+    },
+    {
+      "day_stem": "丙",
+      "derivation": "经过 17 日 17 时 32 分 53 秒 ≥14 日且在惊蛰前 → 甲段，司令甲。丙禄巳非寅。显干甲（年）/丙（月）/癸（时）——甲透于年干。十神：甲阳木生丙阳火、阴阳同 → 偏印，真格成立为偏印格。",
+      "expected": {
+        "abstention_reason": null,
+        "commander_visible_pillars": [
+          "year"
+        ],
+        "decision_step": 4,
+        "pattern": "偏印格",
+        "status": "determined",
+        "true_false": "true"
+      },
+      "id": "t3-jia-pianyin",
+      "kind": "true_jia_segment",
+      "month_branch": "寅",
+      "pillars": [
+        "甲辰",
+        "丙寅",
+        "丙辰",
+        "癸巳"
+      ],
+      "pilot_expectation": {
+        "commander": "甲",
+        "segment_index": 3,
+        "status": "computed"
+      },
+      "route_expectation": "not_luren",
+      "source_birth": {
+        "value": "2024-02-22T10:00:00+08:00",
+        "zone": "Asia/Shanghai"
+      },
+      "window": "2024"
+    },
+    {
+      "day_stem": "壬",
+      "derivation": "经过 14 日 3 时 32 分 53 秒 ≥14 日 → 甲段，司令甲。壬禄亥非寅。显干甲（年）/丙（月）/庚（时）——甲透于年干。十神：壬阳水生甲阳木、阴阳同 → 食神，真格成立为食神格。",
+      "expected": {
+        "abstention_reason": null,
+        "commander_visible_pillars": [
+          "year"
+        ],
+        "decision_step": 4,
+        "pattern": "食神格",
+        "status": "determined",
+        "true_false": "true"
+      },
+      "id": "t4-jia-shishen",
+      "kind": "true_jia_segment",
+      "month_branch": "寅",
+      "pillars": [
+        "甲辰",
+        "丙寅",
+        "壬子",
+        "庚戌"
+      ],
+      "pilot_expectation": {
+        "commander": "甲",
+        "segment_index": 3,
+        "status": "computed"
+      },
+      "route_expectation": "not_luren",
+      "source_birth": {
+        "value": "2024-02-18T20:00:00+08:00",
+        "zone": "Asia/Shanghai"
+      },
+      "window": "2024"
+    },
+    {
+      "day_stem": "甲",
+      "derivation": "经过 15 日 17 时 32 分 53 秒 → 甲段，试点 computed 司令甲；且甲透于年干——若无路线优先序将判 true。但甲禄寅，Slice A 路线 luren_no_month_pattern 在判定序第 2 步先行关闭（审定 A1：排除先于司令/真假步）→ abstained（luren_route_precedence），不达司令核对步。此例同时证明甲段×甲日主被路线先行关闭、永不达 D2 日干步。",
+      "expected": {
+        "abstention_reason": "luren_route_precedence",
+        "commander_visible_pillars": null,
+        "decision_step": 2,
+        "pattern": null,
+        "status": "abstained",
+        "true_false": "abstained"
+      },
+      "id": "s3-route-precedence",
+      "kind": "abstained_route_precedence",
+      "month_branch": "寅",
+      "pillars": [
+        "甲辰",
+        "丙寅",
+        "甲寅",
+        "己巳"
+      ],
+      "pilot_expectation": {
+        "commander": "甲",
+        "segment_index": 3,
+        "status": "computed"
+      },
+      "route_expectation": "luren_no_month_pattern",
+      "source_birth": {
+        "value": "2024-02-20T10:00:00+08:00",
+        "zone": "Asia/Shanghai"
+      },
+      "window": "2024"
+    },
+    {
+      "day_stem": "戊",
+      "derivation": "裁定专项（D2）：2023 窗口 t0=02-04 10:42:33+08:00，经过 4 日 13 时 47 分 27 秒 → 戊段，司令戊，与日主同干。戊禄巳非寅，路线 not_luren。显干癸（年）/甲（月）/壬（时，戊日子时壬）：戊只在日干，日干不计透（D2）→ commander_not_visible。若误把日干计入透干将误判 true，本例钉死排除口径。",
+      "expected": {
+        "abstention_reason": null,
+        "commander_visible_pillars": [],
+        "decision_step": 4,
+        "pattern": null,
+        "status": "determined",
+        "true_false": "commander_not_visible"
+      },
+      "id": "a1-wu-daymaster-neg",
+      "kind": "adjudication_day_stem_excluded_wu",
+      "month_branch": "寅",
+      "pillars": [
+        "癸卯",
+        "甲寅",
+        "戊戌",
+        "壬子"
+      ],
+      "pilot_expectation": {
+        "commander": "戊",
+        "segment_index": 1,
+        "status": "computed"
+      },
+      "route_expectation": "not_luren",
+      "source_birth": {
+        "value": "2023-02-09T00:30:00+08:00",
+        "zone": "Asia/Shanghai"
+      },
+      "window": "2023"
+    },
+    {
+      "day_stem": "戊",
+      "derivation": "裁定专项对照（D2）：与 a1 同日主同段同日柱，仅时柱异——戊日午时戊，司令戊透于时干 → true。十神：戊阳土对戊阳土 → 比肩，换算名「比肩格」按 D5 如实记录。经过 5 日 1 时 17 分 27 秒仍戊段。",
+      "expected": {
+        "abstention_reason": null,
+        "commander_visible_pillars": [
+          "hour"
+        ],
+        "decision_step": 4,
+        "pattern": "比肩格",
+        "status": "determined",
+        "true_false": "true"
+      },
+      "id": "a2-wu-daymaster-pos",
+      "kind": "adjudication_day_stem_excluded_wu_control",
+      "month_branch": "寅",
+      "pillars": [
+        "癸卯",
+        "甲寅",
+        "戊戌",
+        "戊午"
+      ],
+      "pilot_expectation": {
+        "commander": "戊",
+        "segment_index": 1,
+        "status": "computed"
+      },
+      "route_expectation": "not_luren",
+      "source_birth": {
+        "value": "2023-02-09T12:00:00+08:00",
+        "zone": "Asia/Shanghai"
+      },
+      "window": "2023"
+    },
+    {
+      "day_stem": "丙",
+      "derivation": "裁定专项（D2）：2025 窗口 t0=02-03 22:10:28+08:00，经过 12 日 2 时 19 分 32 秒 ∈[7 日，14 日） → 丙段，司令丙，与日主同干。丙禄巳非寅。显干乙（年）/戊（月）/戊（时，丙日子时戊）：丙只在日干，不计透 → commander_not_visible。按：2025 寅月为戊寅月（月干戊非丙），「无其他丙」在该窗口可实现；2024 窗口月干恒丙则不可实现，故本专项置于 2025。",
+      "expected": {
+        "abstention_reason": null,
+        "commander_visible_pillars": [],
+        "decision_step": 4,
+        "pattern": null,
+        "status": "determined",
+        "true_false": "commander_not_visible"
+      },
+      "id": "a3-bing-daymaster-neg",
+      "kind": "adjudication_day_stem_excluded_bing",
+      "month_branch": "寅",
+      "pillars": [
+        "乙巳",
+        "戊寅",
+        "丙辰",
+        "戊子"
+      ],
+      "pilot_expectation": {
+        "commander": "丙",
+        "segment_index": 2,
+        "status": "computed"
+      },
+      "route_expectation": "not_luren",
+      "source_birth": {
+        "value": "2025-02-16T00:30:00+08:00",
+        "zone": "Asia/Shanghai"
+      },
+      "window": "2025"
+    },
+    {
+      "day_stem": "丙",
+      "derivation": "裁定专项对照（D2）：与 a3 同日主同段同日柱，仅时柱异——丙日申时丙，司令丙透于时干 → true。十神比肩，换算名「比肩格」（D5）。经过 12 日 17 时 19 分 32 秒仍丙段。",
+      "expected": {
+        "abstention_reason": null,
+        "commander_visible_pillars": [
+          "hour"
+        ],
+        "decision_step": 4,
+        "pattern": "比肩格",
+        "status": "determined",
+        "true_false": "true"
+      },
+      "id": "a4-bing-daymaster-pos",
+      "kind": "adjudication_day_stem_excluded_bing_control",
+      "month_branch": "寅",
+      "pillars": [
+        "乙巳",
+        "戊寅",
+        "丙辰",
+        "丙申"
+      ],
+      "pilot_expectation": {
+        "commander": "丙",
+        "segment_index": 2,
+        "status": "computed"
+      },
+      "route_expectation": "not_luren",
+      "source_birth": {
+        "value": "2025-02-16T15:30:00+08:00",
+        "zone": "Asia/Shanghai"
+      },
+      "window": "2025"
+    },
+    {
+      "day_stem": "辛",
+      "derivation": "经过 17 日 2 时 19 分 32 秒 ≥14 日 → 甲段，司令甲。辛禄酉非寅。显干乙（年）/戊（月）/戊（时，辛日子时戊）：甲不见于年/月/时干 → commander_not_visible。甲段否定面在 2024 窗口不可实现（u1），本例在 2025 窗口实现。",
+      "expected": {
+        "abstention_reason": null,
+        "commander_visible_pillars": [],
+        "decision_step": 4,
+        "pattern": null,
+        "status": "determined",
+        "true_false": "commander_not_visible"
+      },
+      "id": "n2-jia-not-visible-2025",
+      "kind": "commander_not_visible_jia_segment",
+      "month_branch": "寅",
+      "pillars": [
+        "乙巳",
+        "戊寅",
+        "辛酉",
+        "戊子"
+      ],
+      "pilot_expectation": {
+        "commander": "甲",
+        "segment_index": 3,
+        "status": "computed"
+      },
+      "route_expectation": "not_luren",
+      "source_birth": {
+        "value": "2025-02-21T00:30:00+08:00",
+        "zone": "Asia/Shanghai"
+      },
+      "window": "2025"
+    },
+    {
+      "day_stem": "庚",
+      "derivation": "月支午，非寅月：判定序第 1 步域门即 abstained（month_not_yin），不外推。试点对同一出生以 2024 窗口声明调用得 not_applicable（已过惊蛰），与本块先于试点步弃判互不矛盾。",
+      "expected": {
+        "abstention_reason": "month_not_yin",
+        "commander_visible_pillars": null,
+        "decision_step": 1,
+        "pattern": null,
+        "status": "abstained",
+        "true_false": "abstained"
+      },
+      "id": "s1-non-yin",
+      "kind": "abstained_month_not_yin",
+      "month_branch": "午",
+      "pillars": [
+        "甲辰",
+        "庚午",
+        "庚戌",
+        "辛巳"
+      ],
+      "pilot_expectation": {
+        "commander": null,
+        "segment_index": null,
+        "status": "not_applicable"
+      },
+      "route_expectation": "not_luren",
+      "source_birth": {
+        "value": "2024-06-15T10:00:00+08:00",
+        "zone": "Asia/Shanghai"
+      },
+      "window": "2024"
+    },
+    {
+      "day_stem": "庚",
+      "derivation": "与 t2 同一出生时刻，但 jie 声明带精度警戒标记（precision_warning=true）：试点按 convention fail-closed 返回 uncertain。本块判定序第 3 步 abstained（pilot_not_computed），原样携带试点 status=uncertain 与 reason=precision_warning_interval；盘面本身若试点 computed 本可判七杀真格，弃判纯由试点状态驱动。",
+      "expected": {
+        "abstention_reason": "pilot_not_computed",
+        "commander_visible_pillars": null,
+        "decision_step": 3,
+        "pattern": null,
+        "status": "abstained",
+        "true_false": "abstained"
+      },
+      "id": "s2-pilot-uncertain",
+      "jie_override": {
+        "precision_warning": true
+      },
+      "kind": "abstained_pilot_not_computed",
+      "month_branch": "寅",
+      "pillars": [
+        "甲辰",
+        "丙寅",
+        "庚戌",
+        "辛巳"
+      ],
+      "pilot_expectation": {
+        "commander": null,
+        "reason": "precision_warning_interval",
+        "segment_index": null,
+        "status": "uncertain"
+      },
+      "route_expectation": "not_luren",
+      "source_birth": {
+        "value": "2024-02-16T10:00:00+08:00",
+        "zone": "Asia/Shanghai"
+      },
+      "window": "2024"
+    }
+  ],
+  "jie_windows": {
+    "2023": {
+      "hand_derived_boundaries": {
+        "t0_plus_14d": "2023-02-18T10:42:33+08:00",
+        "t0_plus_7d": "2023-02-11T10:42:33+08:00"
+      },
+      "lichun": {
+        "at": "2023-02-04T10:42:33+08:00",
+        "precision": "second",
+        "term": "立春"
+      },
+      "next_jie": {
+        "at": "2023-03-06T04:36:14+08:00",
+        "precision": "second",
+        "term": "惊蛰"
+      }
+    },
+    "2024": {
+      "hand_derived_boundaries": {
+        "t0_plus_14d": "2024-02-18T16:27:07+08:00",
+        "t0_plus_7d": "2024-02-11T16:27:07+08:00"
+      },
+      "lichun": {
+        "at": "2024-02-04T16:27:07+08:00",
+        "precision": "second",
+        "term": "立春"
+      },
+      "next_jie": {
+        "at": "2024-03-05T10:22:45+08:00",
+        "precision": "second",
+        "term": "惊蛰"
+      }
+    },
+    "2025": {
+      "hand_derived_boundaries": {
+        "t0_plus_14d": "2025-02-17T22:10:28+08:00",
+        "t0_plus_7d": "2025-02-10T22:10:28+08:00"
+      },
+      "lichun": {
+        "at": "2025-02-03T22:10:28+08:00",
+        "precision": "second",
+        "term": "立春"
+      },
+      "next_jie": {
+        "at": "2025-03-05T16:07:18+08:00",
+        "precision": "second",
+        "term": "惊蛰"
+      }
+    }
+  },
+  "limitations": [
+    "本块只裁定任氏分支寅月真格成立与否一件事，不构成任氏八格真假判断体系；不得据此宣称已经判定假格、喜用神或吉凶（用户 Slice C 裁定第五节边界）。",
+    "破格未审：八格章无逐格破格条件句，破格审定材料（渊海分神专论）尚未逐节登记且多依赖未裁定的旺衰与三刑事实；success_failure/purity/useful_god 恒 None 并逐字段标 unreviewed。",
+    "不外推其他月份：分日司令冲突矩阵其余月份仍 conflict/research_only，司令扩月须新的用户级流派裁定，不在本切片权力内。",
+    "本块尚无密封 Phase1/Phase2 rule 注册（evidence_binding=pending_phase1_rule_registration），不进 RuleMatch 与 Evidence；恒 research_only，公开投影整体剥离。"
+  ],
+  "meta": {
+    "derivation_method": "全部期望由人工独立推导：出生时刻的四柱以独立历法（sxtwl）复核并与生产历法链在密封测试中对账；司令段以登记 calculation_convention v1 从各窗口 t0 按真实经过秒数手工计算（左闭右开三段）；禄刃路线以 Slice A 登记表（甲禄寅等）逐例核对；十神以干支五行生克与阴阳同异手工换算。未使用待测程序的任何输出作为预期。",
+    "pilot_golden_relation": "与试点 Golden（golden_tj012_siling_pilot.json）的复用关系：2024 窗口声明逐字复用；段界翻转对 f1/f2 的出生瞬时即试点 Golden 的 g03/g04（t0+7d 的 −1s 与精确点），同一出生时刻在两层的司令期望必须一致（本文件 pilot_expectation 与试点 Golden 的 commander 一致）。",
+    "t0_provenance": "各窗口立春/惊蛰瞬时取钉定 provider lunar-python==1.4.8 年度节气表（与试点 Golden 的 2024 窗口逐字同值；2024 立春 2024-02-04T08:27:07Z 另与 TJ-015.2 冻结 JPL 引文分钟参照及三方互证锚点一致）。2023/2025 窗口为本批新增，值由同一钉定 provider 表取得并在密封测试中经试点回放逐秒复核。"
+  },
+  "provider": {
+    "identity_verified": true,
+    "name": "lunar-python",
+    "version": "1.4.8"
+  },
+  "quotes": [
+    {
+      "id": "renshi.zhenge_definition",
+      "layer": "原注",
+      "locator": {
+        "char_end": 31617,
+        "char_start": 31580
+      },
+      "quote": "格之真者,月支之神,透于天干也。以散乱之天干,而寻其得所附于提纲,非格也。",
+      "source_id": "bazi.source.ditiansui-spouse",
+      "source_section_id": "bazi.section.s053"
+    },
+    {
+      "id": "renshi.siling_true_false_procedure",
+      "layer": "任氏曰",
+      "locator": {
+        "char_end": 31773,
+        "char_start": 31681
+      },
+      "quote": "任氏曰:八格者,命中之正理也。先观月令所得何支,次看天干透出何神,再究司令以定真假,然后取用,以分清浊,此实依经顺理,若月逢禄刃,无格可取,须审日主之喜忌另寻别支透出天干者,借以为用。",
+      "source_id": "bazi.source.ditiansui-spouse",
+      "source_section_id": "bazi.section.s054"
+    }
+  ],
+  "rule_source": {
+    "snapshot_bytes": 368684,
+    "snapshot_chars": 139538,
+    "snapshot_path": "data/quarantine/public_domain_snapshots/daizhigev20/ditiansui_chanwei.txt",
+    "snapshot_sha256": "6a875a317c7ba1012285ed12d3bfa5577b50c9fdfd568ece323a12feafe38795",
+    "source_id": "bazi.source.ditiansui-spouse"
+  },
+  "task": "TJ-012.3 Slice D-1",
+  "unrealizable_designs": [
+    {
+      "design": "甲段 commander_not_visible（司令甲不透）于 2024 窗口构造。",
+      "id": "u1-jia-segment-not-visible-in-2024",
+      "reason": "2024 为甲辰年，年干甲恒显于年柱，甲段司令甲必透于年干，commander_not_visible 在该窗口算术上不可实现；该形态改在 2025 窗口（乙巳年、戊寅月，年/月干均非甲）实现为 n2-jia-not-visible-2025。"
+    },
+    {
+      "design": "审源草案举例「戊段×甲日主→偏财格 true」。",
+      "id": "u2-wu-segment-jia-daymaster-piancai",
+      "reason": "甲日主寅月恒中 Slice A 禄刃路线关闭（甲禄寅），在判定序第 2 步即 abstained（luren_route_precedence），先于司令透干核对，任何月份段均不可达 true；草案举例未计路线优先序。偏财格名由 t1（乙日主×戊段）覆盖，甲日主路线让位形态由 s3 覆盖。"
+    }
+  ],
+  "variant": "ren-pattern-yin-true-v1"
+}
