@@ -381,8 +381,10 @@ FORM_BING_WU = {
   'strong（充分性依据：从强主锚＋从旺共锚的定义合取＋已登记根位＋已审'
   '本气关系，与既有三谓词的合取形态同构）。本批只登记设计期望，'
   '不产生任何运行时裁定；实现批须以真实命盘四类测试复证后方可发出。',
- 'evidence_binding': 'pending_phase1_rule_registration（与既有亥月谓词'
-                     '同一披露口径：密封规则注册属后续治理批）',
+ 'evidence_binding': 'registered_phase1_phase2（S5 治理批完成密封注册：'
+                     'bazi.rule.r030 / '
+                     'bazi.phase2.strength_commanding_visible_support；'
+                     '裁决经该注册规则步发出）',
  'research_only': True,
  'public_enabled': False,
  'ai_enabled': False}

@@ -345,6 +345,12 @@ class DisciplineTest(unittest.TestCase):
         for path in src.glob("*.py"):
             if path.name == "bazi_fuyi_slice_adjudication.py":
                 continue
+            if path.name == "bazi_registration_governance.py":
+                # S5 governance register: a pure-data inventory that
+                # names this file as a disclosure site. It imports
+                # nothing and wires nothing; the S5 public suite pins
+                # that no module imports this register either.
+                continue
             self.assertNotIn("bazi_fuyi_slice_adjudication",
                              path.read_text(encoding="utf-8"),
                              path.name)

@@ -171,3 +171,14 @@ blocking_items 所记「帝旺位代偿口径未审定」的审定结论。
   逐字等值＋全文计数 ==1；三命/神峰根位引文经 018-A 登记切片复核；
   四例命盘经生产历法链实算四柱与设计一致；四例在现行裁决下均为
   indeterminate。
+
+## S5 注册完成注记（2026-10-28，E0254）
+
+本文 §「密封 Phase1/Phase2 规则注册仍 pending」所述状态已由 S5 密封注册
+治理批解除：丙×午 commanding 形态已在密封 Canonical 登记为 Phase1 规则
+`bazi.rule.r030`、Phase2 执行规则
+`bazi.phase2.strength_commanding_visible_support`（快照 manifest
+`b9f9b8fd…`），F1 登记的 evidence_binding 已同步改注册口径。九条件、
+分类与弃判口径逐字不变；登记中不在 Canonical 的三条引文（孤立定义、
+根重轻句、墓句）未被规则引用，理由见治理文档
+`docs/product/TJ0112_S5_REGISTRATION_GOVERNANCE.md` §1 第 3 项。

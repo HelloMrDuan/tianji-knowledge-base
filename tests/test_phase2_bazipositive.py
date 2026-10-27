@@ -28,11 +28,16 @@ def resolve(out, pointer):
 class PositiveStrengthTests(unittest.TestCase):
     def chart(self,*ps): return chart(*ps,strength_variant=ADJUDICATION_VARIANT)
 
-    def test_nine_fixed_goldens_cover_four_categories_in_the_same_strength_variant(self):
+    def test_eleven_fixed_goldens_cover_four_categories_in_the_same_strength_variant(self):
         rows=[r for r in run_cases(ROOT,'bazi') if r['id'].startswith('bazi.adjudication-')]
-        self.assertEqual(len(rows),9)
+        self.assertEqual(len(rows),11)
         self.assertEqual(sum('bazi.phase2.strength_pure_support' in r['rule_ids'] for r in rows),2)
         self.assertEqual(sum('bazi.phase2.strength_isolated_control' in r['rule_ids'] for r in rows),2)
+        # S5 governance batch: the two golden cases added with the
+        # sealed registration of the Hai generating and Bing-Wu
+        # commanding predicates fire their own registered rules.
+        self.assertEqual(sum('bazi.phase2.strength_pure_generating_support' in r['rule_ids'] for r in rows),1)
+        self.assertEqual(sum('bazi.phase2.strength_commanding_visible_support' in r['rule_ids'] for r in rows),1)
         self.assertTrue(all('bazi.phase2.strength_bounded_adjudication' in r['rule_ids'] for r in rows))
 
     def test_real_calendar_strong_dates_have_distinct_pillars_and_actual_rule_matches(self):

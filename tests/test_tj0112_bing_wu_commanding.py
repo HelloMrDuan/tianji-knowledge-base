@@ -153,18 +153,18 @@ class BingWuPositiveTests(unittest.TestCase):
                          'reviewed_sufficient_rule_matched')
         why = assessment['why_not_indeterminate']
         self.assertIsNotNone(why)
-        # Registered bounded exit, exactly like the Hai predicate: no
-        # rule ID is claimed or borrowed, the pending registration is
-        # disclosed on the verdict itself.
-        self.assertIsNone(why['sufficient_rule'])
-        self.assertEqual(why['sufficient_predicate'],
-                         'commanding_visible_support')
-        self.assertEqual(why['predicate_rule_registration'],
-                         'pending_phase1_rule_registration')
+        # S5 governance batch: the predicate is registered in the
+        # sealed snapshot (bazi.rule.r030), so the verdict is issued
+        # through its own registered trace step; no pending-registration
+        # disclosure remains.
+        self.assertEqual(why['sufficient_rule'],
+                         'bazi.phase2.strength_commanding_visible_support')
+        self.assertNotIn('sufficient_predicate', why)
+        self.assertNotIn('predicate_rule_registration', why)
         self.assertTrue(why['all_required_conditions_verified'])
         trace_rule_ids = [s['rule_id'] for s in out['trace']]
-        self.assertNotIn('bazi.phase2.strength_commanding_visible_support',
-                         trace_rule_ids)
+        self.assertIn('bazi.phase2.strength_commanding_visible_support',
+                      trace_rule_ids)
         self.assertIn('bazi.phase2.strength_bounded_adjudication',
                       trace_rule_ids)
         # Nine conditions, all met, each bound to executed factor
@@ -495,9 +495,11 @@ class WoodRegressionTests(unittest.TestCase):
             'tj0112-hai-positive-zhongqi-root')
         self.assertEqual(assessment['classification'], 'strong')
         why = assessment['why_not_indeterminate']
-        self.assertIsNone(why['sufficient_rule'])
-        self.assertEqual(why['sufficient_predicate'],
-                         'pure_generating_support')
+        # S5: the Hai predicate is registered (bazi.rule.r029) and now
+        # issues through its own trace step, like pure_support.
+        self.assertEqual(why['sufficient_rule'],
+                         'bazi.phase2.strength_pure_generating_support')
+        self.assertNotIn('sufficient_predicate', why)
         self.assertTrue(all(c['met'] for c in why['conditions']))
         self.assertNotIn('anchor_type', why['conditions'][0])
 

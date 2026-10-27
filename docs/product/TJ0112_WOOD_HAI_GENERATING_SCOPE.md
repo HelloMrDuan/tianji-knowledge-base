@@ -88,3 +88,12 @@ TJ-011.1 的两条既有谓词（木 × 卯 pure → strong、木 × 酉 isolate
 - 计数影响：无新 Source、无新 Phase2 合同规则（新谓词待密封注册，见 §2 注册状态说明）、
   无新密封 Golden（用例在公开仓 tests 内，同 TJ-013.1 golden 先例）；
   覆盖工件因能力口径文本更新而再生成，计数钉值不变。
+
+## 6. S5 注册完成注记（2026-10-28，E0254）
+
+§2「规则注册状态」所述 pending 状态已由 S5 密封注册治理批解除：本谓词已在
+密封 Canonical 登记为 Phase1 规则 `bazi.rule.r029`、Phase2 执行规则
+`bazi.phase2.strength_pure_generating_support`（快照 manifest
+`b9f9b8fd…`），裁决改经该注册 trace 步发出，`why.sufficient_rule` 为该 ID、
+不再带 pending 披露。条件集、分类与 blockers 逐字不变。治理全记录见
+`docs/product/TJ0112_S5_REGISTRATION_GOVERNANCE.md`。
