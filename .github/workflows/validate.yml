@@ -172,4 +172,16 @@ jobs:
       # test_tj012_zaqi_selection_sealed.py (offline acceptance only,
       # NOT public CI: pattern candidates need sealed Canonical data).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj012_zaqi_selection.py' -v
+      # TJ-012.3 Slice C step 1 siling conflict matrix public contracts:
+      # pure-data registration mirrored against Golden, five versions
+      # present and pairwise distinct, T1/T2 registered separately with
+      # T2 arithmetic errors preserved verbatim (酉 32 / 子 26),
+      # dissent recorded, shenfeng unrecoverable, qiongtong absent,
+      # adjudication-status full sweep (conflict except the authorized
+      # 寅月 Ren-branch pilot cell), unified-table forbidden-key sweep,
+      # layer attribution （原注 vs 任氏曰） and calculation_convention
+      # pins. Verbatim quote equality against the snapshots lives in
+      # test_tj012_siling_matrix_sealed.py (offline acceptance only,
+      # NOT public CI: it reads the sealed snapshot files).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj012_siling_matrix.py' -v
       - run: python scripts/audit_public_asset_changes.py --inventory
