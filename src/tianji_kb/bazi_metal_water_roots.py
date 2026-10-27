@@ -964,15 +964,55 @@ METAL_YOU_SATISFIABILITY = {
                'all_positions_support_only 恒假；且日主只能是辛（庚'
                '酉日柱不存在——干支阴阳配伍），辛日酉时干为丁（五'
                '鼠遁丙辛日起戊，酉时丁），时干再独立否决一次。'},
-  {'channel': '土印显干根位登记缺口（独立通道）',
-   'argument': '金日主之印为土干。土在密封政策 reviewed_root_'
-               'branches 无条目、本登记亦无土根表（土根零登记，审源'
-               '§2.2），故 all_visible_have_registered_roots 对任何'
-               '含土显干的命盘恒假；而 visible印_present 要求显干有'
-               '印（土）——两条件在现行登记面下不可兼得。此通道是登'
-               '记/政策缺口而非历法事实：若将来土根位经审定登记，本'
-               '通道须复核（通道一、二为历法构造性事实，不因此'
-               '改变）。'}],
+  {'channel': '土印显干根位登记缺口（独立通道；E0257 订正后降为'
+              '历史通道）',
+   'argument': '金日主之印为土干。S2 登记时土在密封政策 '
+               'reviewed_root_branches 无条目、本登记亦无土根表'
+               '（土根零登记，审源 §2.2），故当时 '
+               'all_visible_have_registered_roots 对任何含土显干的'
+               '命盘恒假；而 visible印_present 要求显干有印（土）'
+               '——两条件在当时登记面下不可兼得。此通道自始自述为'
+               '登记/政策缺口而非历法事实，并预登记「若将来土根位'
+               '经审定登记，本通道须复核」。E0250 土根表已登记'
+               '（bazi-earth-root-grading-v1），E0257 本批完成该'
+               '复核并订正本通道：登记面现状为禄位两格 '
+               'per_stem_listed 重根（戊巳/己午）、conflicted_'
+               'pending 八格、structural_present_ungraded 八格、'
+               'no_root 六格；运行时仍零接入（registered_eligible '
+               '不查土根表、土干仍落密封政策无土集分支），故运行'
+               '时恒假的事实不变、其理由由「零登记」改为「登记已'
+               '备而未接入」。消费契约（E0257 裁定，见 '
+               'bazi_earth_roots.EARTH_CONSUMPTION_CONTRACT）：待定'
+               '格恒阻断、未分级格未审不得计 eligible、无根格不计'
+               '资格——按此契约的未来接入批落地后，本通道不再是'
+               '独立证明通道（禄位两格在含巳/午支的盘中可满足土显'
+               '干资格）。金×酉不可满足的结论不依赖本通道：通道'
+               '一、二逐项复核为历法构造性事实（藏干构成、干支阴'
+               '阳配伍与五虎遁/五鼠遁），不消费任何根表，结论不'
+               '变（逐项复核登记见 bazi_earth_roots.'
+               'CHANNEL3_REVIEW_E0257）。'}],
+ 'review_e0257': {
+  'event': 'E0257',
+  'scope': 'S2 通道三陈述复核订正（土根消费接入审定批）',
+  'channel_1_verdict': 'unchanged_calendar_fact',
+  'channel_1_basis': '通道一只用藏干构成事实（十二支藏干中全落 '
+                     '{土，金} 者只有酉）与形态条件 '
+                     'all_positions_support_only，不引用任何根表'
+                     '（金/水/土根表均不在其前提内），土根表落地'
+                     '不触及其前提，结论逐字不变。',
+  'channel_2_verdict': 'unchanged_calendar_fact',
+  'channel_2_basis': '通道二只用干支阴阳配伍（庚酉日柱不存在）与'
+                     '五虎遁/五鼠遁的干序事实，不引用任何根表，'
+                     '土根表落地不触及其前提，结论逐字不变。',
+  'channel_3_verdict': 'restated_registration_gap_to_unwired_'
+                       'register',
+  'channel_3_basis': '通道三的原陈述前提（土根零登记）已被 E0250 '
+                     '推翻，故按其自登记的复核条款订正为「登记已'
+                     '备、运行时未接入」；其作为独立证明通道的地'
+                     '位在契约接入后不成立，但不可满足结论由通道'
+                     '一、二独立承担，不改判。',
+  'conclusion_verdict': 'chart_unrealizable_unchanged',
+  'runtime_verdict_surface_changed': False},
  'factor_layer_note': '本形态的 scope 评估逻辑由因子层测试覆盖（合成'
                       '因子输入，标注 factor-level，沿 commanding 批'
                       'FactorLayerTests 先例）：因子层基线八条件可全'
@@ -1125,8 +1165,10 @@ S2_ANCHOR_TYPES = {
 
 S2_LIMITATIONS = [
  '金×酉形态（pure_support_metal）真实命盘构造性不可满足（藏干唯一'
- '支＋全酉显干干对＋土印根位登记缺口三通道，证明见 METAL_YOU_'
- 'SATISFIABILITY），谓词按登记条件集如实实现、因子层验证评估逻辑，'
+ '支＋全酉显干干对两条历法通道独立成立；土印根位通道经 E0257 复核'
+ '订正为历史通道，见 METAL_YOU_SATISFIABILITY.review_e0257 与 '
+ 'bazi_earth_roots.CHANNEL3_REVIEW_E0257），谓词按登记条件集如实'
+ '实现、因子层验证评估逻辑，'
  '不因不可满足而删改条件或放宽口径。',
  '水×子形态（pure_generating_support_water）仅癸日主有真实见证；壬'
  '日主因显干比劫与显干根位不可兼得通道构造性不可满足（见 WATER_ZI_'
