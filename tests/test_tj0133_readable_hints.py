@@ -26,7 +26,7 @@ from tianji_kb.bazi_conflict_presentation import (
 from tianji_kb.bazi_tiaohou import VARIANT as TIAOHOU_VARIANT, tiaohou_lookup
 from tianji_kb.bazi_xiyong_readable import (
     ABSENT_LINES, BINGYAO_HEADER, CONDITION_LABELS, LIMITATIONS,
-    PREDICATE_LABELS, VARIANT, readable_hints)
+    PREDICATE_LABELS, RELATION_SCOPE_LINE, VARIANT, readable_hints)
 from tianji_kb.engine import execute
 from tianji_kb.operations.bazi_chart import chart as bazi_chart
 from tianji_kb.public_projection import project_execution
@@ -127,11 +127,11 @@ class GoldenTranscriptionTests(unittest.TestCase):
     def test_golden_matches_module_constants(self):
         self.assertEqual(GOLDEN['variant'], 'xiyong-readable-hints-v1')
         self.assertEqual(GOLDEN['variant'], VARIANT)
-        self.assertEqual(len(GOLDEN['cases']), 9)
+        self.assertEqual(len(GOLDEN['cases']), 10)
         self.assertEqual({case['focus'] for case in GOLDEN['cases']},
                          {'support', 'conflict', 'incomparable', 'abstain',
                           'absent', 'weak', 'pivot', 'pair2pos',
-                          'pair2nomed'})
+                          'pair2nomed', 'pair2support'})
 
     def test_every_expected_line_carries_fact_sources(self):
         for case in GOLDEN['cases']:
@@ -235,15 +235,40 @@ class FactClosureAndHonestyTests(unittest.TestCase):
                              [ABSENT_LINES['fuyi']])
             self.assertEqual(sections['pattern_useful_god']['lines'],
                              [ABSENT_LINES['pattern_useful_god']])
-            # Pair-2 relations are never rendered: every stem relation
-            # line in the conflict section is backed by a pair-1 named
-            # stem or by a tiaohou pick (golden expectations pin this
-            # per case; here the scope line must always disclose it).
+            # The scope line always discloses the dual-pair
+            # classification calibre (TJ-013.2 stage 2): both bingyao
+            # pairs' role namings are classified per pair, and pair-2
+            # relation lines are marked as the second pair in-line
+            # (golden expectations pin the lines per case).
             conflict_lines = sections['conflict_presentation']['lines']
-            self.assertTrue(any('不单独做关系分类' in line
-                                for line in conflict_lines))
+            self.assertIn(RELATION_SCOPE_LINE, conflict_lines)
             self.assertEqual(conflict_lines[-1],
                              '各体系陈述并列呈现，系统不作统一裁定。')
+
+    def test_pair2_relations_rendered_with_pair_attribution(self):
+        out = _render(CASES['pair2-support-pick-is-medicine'])
+        sections = {s['system']: s for s in out['sections']}
+        self.assertIn(
+            '干庚：相互支持。调候一侧：为取用序列第2位；病药一侧：'
+            '为病药第二对原文判为药之神。',
+            sections['conflict_presentation']['lines'])
+        out = _render(CASES['pair2-medicine-absent'])
+        sections = {s['system']: s for s in out['sections']}
+        self.assertEqual(sections['conflict_presentation']['status'],
+                         'presented_with_conflicts')
+        self.assertIn(
+            '干癸：相互冲突。调候一侧：为取用序列第2位；病药一侧：'
+            '为病药第二对原文判为病之神。',
+            sections['conflict_presentation']['lines'])
+        # Charts whose second pair does not trigger render no pair-2
+        # relation line (the scope line alone mentions both pairs).
+        for case_id in ('support-first-pick-is-medicine',
+                        'incomparable-strength-adjudicated',
+                        'weak-isolated-control'):
+            out = _render(CASES[case_id])
+            sections = {s['system']: s for s in out['sections']}
+            for ln in sections['conflict_presentation']['lines']:
+                self.assertNotIn('病药第二对', ln)
 
     def test_efficacy_caveat_present_for_every_triggered_pair(self):
         for case in GOLDEN['cases']:
@@ -369,17 +394,15 @@ class FailClosedTests(unittest.TestCase):
                                    presentation)
 
     def test_bingyao_pair_determination_rejected(self):
-        # Pair-level forgery passes the presenter (it inspects only
-        # the top-level determination), so the renderer's own pair
-        # check is the gate under test; build the presentation from
-        # the forged statement so identity checks pass first.
+        # Since TJ-013.2 stage 2 the presenter validates the pairs it
+        # classifies, so a pair-level forged determination is refused
+        # at presentation construction already; the renderer's own
+        # pair check in _pair_lines remains as a second gate for any
+        # presentation object not built by the presenter.
         forged = copy.deepcopy(self.bingyao)
         forged['pairs'][0]['determination'] = 'disease_confirmed'
-        presentation = conflict_presentation(self.tiaohou, forged,
-                                             self.strength)
         with self.assertRaisesRegex(ValueError, 'determination'):
-            readable_hints(self.tiaohou, forged, self.strength,
-                           presentation)
+            conflict_presentation(self.tiaohou, forged, self.strength)
 
 
 class WiringGateTests(unittest.TestCase):

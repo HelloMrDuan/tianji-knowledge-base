@@ -112,6 +112,10 @@ class RealChartEndToEndTests(unittest.TestCase):
                              for r in presentation['relations']
                              if r['stem'] is not None}
                 self.assertEqual(relations, expected_p['relations'])
+                pair_map = {r['stem']: r['pair_id']
+                            for r in presentation['relations']
+                            if r['stem'] is not None}
+                self.assertEqual(pair_map, expected_p['relation_pairs'])
                 context = [r for r in presentation['relations']
                            if r['kind'] == 'incomparable']
                 self.assertEqual(len(context), 1)

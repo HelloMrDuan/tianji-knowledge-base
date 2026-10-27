@@ -104,7 +104,8 @@ jobs:
       # coverage lives in test_tj013_bingyao_sealed.py (offline
       # acceptance only, NOT public CI, same partition rule).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj013_bingyao.py' -v
-      # TJ-013.2 phase 1 (cross-system conflict presentation) public
+      # TJ-013.2 (cross-system conflict presentation; stage 2 adds
+      # dual-pair relation classification) public
       # contracts: Golden transcription, presenter relation taxonomy
       # over real tiaohou/bingyao lookups, forbidden-key sweep, engine
       # research gate, chart variant-combination gate, public-projection
@@ -114,7 +115,8 @@ jobs:
       # test_tj0132_conflict_presentation_sealed.py (offline acceptance
       # only, NOT public CI, same partition rule).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0132_conflict_presentation.py' -v
-      # TJ-013.3 phase 1 (xiyong readable hints) public contracts:
+      # TJ-013.3 (xiyong readable hints; conflict section synced to
+      # TJ-013.2 stage-2 dual-pair classification) public contracts:
       # hand-written Golden text vs deterministic template rendering
       # over real tiaohou/bingyao lookups and the real presenter,
       # fact-closure sweep (line stems subset of input fact stems),

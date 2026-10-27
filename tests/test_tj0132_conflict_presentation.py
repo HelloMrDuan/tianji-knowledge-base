@@ -94,10 +94,13 @@ class GoldenTranscriptionTests(unittest.TestCase):
     def test_golden_matches_module_constants(self):
         self.assertEqual(GOLDEN['variant'], 'xiyong-conflict-presentation-v1')
         self.assertEqual(GOLDEN['variant'], VARIANT)
-        self.assertEqual(len(GOLDEN['cases']), 5)
+        self.assertEqual(len(GOLDEN['cases']), 9)
         self.assertEqual({case['focus'] for case in GOLDEN['cases']},
                          {'support', 'conflict', 'incomparable', 'abstain',
-                          'absent'})
+                          'absent', 'pair2support', 'pair2conflict',
+                          'pair2pivot', 'pair2onesided'})
+        self.assertEqual([d['id'] for d in GOLDEN['unrealizable_designs']],
+                         ['dual-pair-relations-same-chart'])
 
     def test_definitions_cover_every_relation_and_status(self):
         self.assertEqual(set(RELATION_DEFINITIONS),
@@ -136,10 +139,45 @@ class PresentationGoldenTests(unittest.TestCase):
                 relations = {r['stem']: r['kind'] for r in out['relations']
                              if r['stem'] is not None}
                 self.assertEqual(relations, expected['relations'])
+                pair_map = {r['stem']: r['pair_id'] for r in out['relations']
+                            if r['stem'] is not None}
+                self.assertEqual(pair_map, expected['relation_pairs'])
+                by_stem = {r['stem']: r for r in out['relations']
+                           if r['stem'] is not None}
+                for stem, detail in case['relation_details'].items():
+                    record = by_stem[stem]
+                    self.assertEqual(record['kind'], detail['kind'])
+                    self.assertEqual(record['pair_id'], detail['pair_id'])
+                    if detail['tiaohou_order'] is None:
+                        self.assertIsNone(record['tiaohou'])
+                    else:
+                        self.assertEqual(record['tiaohou']['role'],
+                                         'primary_pick')
+                        self.assertEqual(record['tiaohou']['order'],
+                                         detail['tiaohou_order'])
+                    if detail['bingyao_role'] is None:
+                        self.assertIsNone(record['bingyao'])
+                        self.assertEqual(
+                            [ref['system'] for ref in
+                             record['evidence_refs']],
+                            ['tiaohou'] if detail['tiaohou_order']
+                            is not None else [])
+                    else:
+                        self.assertEqual(record['bingyao']['role'],
+                                         detail['bingyao_role'])
+                        self.assertEqual(record['bingyao']['pillar'],
+                                         detail['bingyao_pillar'])
+                        self.assertEqual(record['bingyao']['ten_god'],
+                                         detail['bingyao_ten_god'])
+                        refs = {ref['system']: ref for ref in
+                                record['evidence_refs']}
+                        self.assertEqual(refs['bingyao']['rule_id'],
+                                         detail['rule_id'])
                 context = [r for r in out['relations']
                            if r['kind'] == 'incomparable']
                 self.assertEqual(len(context), 1)
                 self.assertEqual(context[0]['system'], 'strength')
+                self.assertIsNone(context[0]['pair_id'])
                 self.assertEqual(context[0]['classification'],
                                  case['expected_strength']['classification'])
 
@@ -244,6 +282,194 @@ class PresentationGoldenTests(unittest.TestCase):
         self.assertEqual(out['status'], 'presented_no_conflict')
 
 
+class Stage1RegressionTests(unittest.TestCase):
+    """Stage-2 output, minus the added pair_id, must reproduce the
+    stage-1 relation records byte for byte on the five stage-1 cases.
+
+    The golden carries the stage-1 records (captured from the baseline
+    implementation before the stage-2 change). Four cases must match
+    exactly; the absent case gains exactly the three pair-2 one_sided
+    records its derivation documents, and nothing else may move.
+    """
+
+    def _stripped(self, case):
+        out = _present(case)
+        return [{k: v for k, v in r.items() if k != 'pair_id'}
+                for r in out['relations']]
+
+    def test_stage1_records_reproduced_verbatim(self):
+        for case in GOLDEN['cases']:
+            if 'stage1_relations' not in case:
+                continue
+            with self.subTest(case=case['id']):
+                stripped = self._stripped(case)
+                if case['id'] != 'absent-systems-and-source-absent-entry':
+                    self.assertEqual(stripped, case['stage1_relations'])
+                else:
+                    kept = [r for r, full in zip(stripped, _present(case)
+                                                 ['relations'])
+                            if full['pair_id'] is None]
+                    self.assertEqual(kept, case['stage1_relations'])
+                    added = [r for r in _present(case)['relations']
+                             if r['pair_id'] ==
+                             'foodwound_seal_wealth']
+                    self.assertEqual(
+                        [(r['stem'], r['kind']) for r in added],
+                        [('丁', 'one_sided'), ('壬', 'one_sided'),
+                         ('己', 'one_sided')])
+
+    def test_stage1_systems_and_status_unchanged(self):
+        snap_status = {
+            'support-first-pick-is-medicine': 'presented_partial',
+            'conflict-first-pick-is-disease': 'presented_with_conflicts',
+            'incomparable-strength-adjudicated': 'presented_partial',
+            'abstain-three-states-coexist': 'presented_partial',
+            'absent-systems-and-source-absent-entry': 'presented_partial',
+        }
+        for case in GOLDEN['cases']:
+            if 'stage1_relations' not in case:
+                continue
+            with self.subTest(case=case['id']):
+                out = _present(case)
+                self.assertEqual(out['status'], snap_status[case['id']])
+                self.assertEqual(
+                    {r['system']: r['status'] for r in out['systems']},
+                    case['expected_presentation']['systems'])
+
+
+class Pair2RelationTests(unittest.TestCase):
+    def test_pair2_support_uses_same_semantics_as_pair1(self):
+        case = CASES['pair2-support-pick-is-medicine']
+        out = _present(case)
+        support = [r for r in out['relations'] if r['kind'] == 'support']
+        self.assertEqual(len(support), 1)
+        self.assertEqual(support[0]['stem'], '庚')
+        self.assertEqual(support[0]['pair_id'], 'foodwound_seal_wealth')
+        self.assertEqual(support[0]['bingyao']['role'], 'medicine')
+        refs = {ref['system']: ref for ref in support[0]['evidence_refs']}
+        self.assertEqual(refs['bingyao']['rule_id'],
+                         'shenfeng.foodwound_seal_wealth')
+        self.assertEqual(out['status'], 'presented_partial')
+        self.assertIsNone(out['determination'])
+
+    def test_pair2_conflict_flips_top_status(self):
+        case = CASES['pair2-conflict-pick-is-disease']
+        out = _present(case)
+        self.assertEqual(out['status'], 'presented_with_conflicts')
+        conflict = [r for r in out['relations'] if r['kind'] == 'conflict']
+        self.assertEqual(len(conflict), 1)
+        self.assertEqual(conflict[0]['stem'], '癸')
+        self.assertEqual(conflict[0]['pair_id'], 'foodwound_seal_wealth')
+        self.assertEqual(conflict[0]['bingyao']['role'], 'disease')
+        self.assertEqual(conflict[0]['tiaohou']['order'], 2)
+
+    def test_pair2_pivot_and_disjoint_cases(self):
+        out = _present(CASES['pair2-pivot-pick-is-subject'])
+        pivot = [r for r in out['relations']
+                 if r['kind'] == 'pivot_overlap']
+        self.assertEqual([(r['stem'], r['pair_id']) for r in pivot],
+                         [('丁', 'foodwound_seal_wealth')])
+        out = _present(CASES['pair2-triggered-picks-disjoint'])
+        kinds = {r['stem']: (r['kind'], r['pair_id'])
+                 for r in out['relations'] if r['stem'] is not None}
+        self.assertEqual(kinds, {
+            '丙': ('one_sided', None), '辛': ('one_sided', None),
+            '甲': ('one_sided', 'foodwound_seal_wealth'),
+            '庚': ('one_sided', 'foodwound_seal_wealth')})
+
+    def test_dual_pair_relations_unrealizable_by_exhaustive_scan(self):
+        # Presentation-level exhaustive scan: for every day master,
+        # every month entry and every visible ten-god combination in
+        # which a pair triggers, the relations of one presentation
+        # carry at most one non-null pair_id, always the triggered
+        # pair's, and the role->kind mapping holds per pair exactly as
+        # for pair 1. (The bingyao suite separately proves at most one
+        # pair can trigger; this scan pins that the presenter never
+        # attributes a relation to the non-triggered pair.)
+        import itertools
+        from tianji_kb.bazi_bingyao import TEN_GOD_NAMES
+        from tianji_kb.foundations import STEMS
+        hidden_table = {
+            '子': ['癸'], '丑': ['己', '癸', '辛'], '寅': ['甲', '丙', '戊'],
+            '卯': ['乙'], '辰': ['戊', '乙', '癸'], '巳': ['丙', '庚', '戊'],
+            '午': ['丁', '己'], '未': ['己', '丁', '乙'],
+            '申': ['庚', '壬', '戊'], '酉': ['辛'], '戌': ['戊', '辛', '丁'],
+            '亥': ['壬', '甲']}
+        branches = tuple(hidden_table)
+        yang = set('甲丙戊庚壬')
+        from tianji_kb.foundations import CONTROLS, GENERATES, stem_element
+
+        def stem_for_god(dm, god):
+            for stem in STEMS:
+                a, b = stem_element(dm), stem_element(stem)
+                sp = (dm in yang) == (stem in yang)
+                if b == a:
+                    name = '比肩' if sp else '劫财'
+                elif GENERATES[b] == a:
+                    name = '偏印' if sp else '正印'
+                elif GENERATES[a] == b:
+                    name = '食神' if sp else '伤官'
+                elif CONTROLS[b] == a:
+                    name = '七杀' if sp else '正官'
+                else:
+                    name = '偏财' if sp else '正财'
+                if name == god:
+                    return stem
+            raise AssertionError(god)
+
+        strength = {'variant': ADJUDICATION_VARIANT,
+                    'classification': 'indeterminate',
+                    'decision_status': 'insufficient_reviewed_rules',
+                    'input_kind': 'synthetic_strength_statement_'
+                                  'for_public_presenter_tests',
+                    'research_only': True, 'public_enabled': False,
+                    'ai_enabled': False}
+        role_kind = {'medicine': 'support', 'disease': 'conflict',
+                     'subject': 'pivot_overlap'}
+        checked = 0
+        for dm in STEMS:
+            triggered = []
+            for combo in itertools.product(sorted(TEN_GOD_NAMES),
+                                           repeat=3):
+                rows = [{'pillar': p, 'stem': stem_for_god(dm, god),
+                         'ten_god': god}
+                        for p, god in zip(('year', 'month', 'hour'), combo)]
+                statement = bingyao_lookup(dm, rows)
+                on = [p['pair_id'] for p in statement['pairs']
+                      if p['status'] == 'triggered']
+                if on:
+                    triggered.append((rows, statement, on))
+            self.assertTrue(triggered)
+            for rows, statement, on in triggered:
+                self.assertEqual(len(on), 1)
+                stems = {r['pillar']: r['stem'] for r in rows}
+                for month in branches:
+                    visible = [stems['year'], stems['month'], dm,
+                               stems['hour']]
+                    hidden = [['癸'], hidden_table[month], ['癸'], ['癸']]
+                    tiaohou = tiaohou_lookup(dm, month, visible, hidden)
+                    if tiaohou['status'] != 'matched':
+                        continue
+                    out = conflict_presentation(tiaohou, statement,
+                                                dict(strength))
+                    ids = {r['pair_id'] for r in out['relations']
+                           if r['pair_id'] is not None}
+                    self.assertEqual(ids, set(on))
+                    for record in out['relations']:
+                        if record['stem'] is None:
+                            continue
+                        if record['bingyao'] is not None:
+                            self.assertEqual(record['pair_id'], on[0])
+                            if record['tiaohou'] is not None:
+                                self.assertEqual(
+                                    record['kind'],
+                                    role_kind[record['bingyao']['role']])
+                        else:
+                            self.assertIsNone(record['pair_id'])
+                    checked += 1
+        self.assertGreater(checked, 10000)
+
+
 class FailClosedTests(unittest.TestCase):
     def setUp(self):
         self.case = CASES['support-first-pick-is-medicine']
@@ -280,6 +506,24 @@ class FailClosedTests(unittest.TestCase):
         forged = copy.deepcopy(self.bingyao)
         forged['determination'] = 'disease_confirmed'
         with self.assertRaisesRegex(ValueError, 'determination'):
+            conflict_presentation(self.tiaohou, forged, self.strength)
+
+    def test_bingyao_pair_level_forgery_rejected(self):
+        forged = copy.deepcopy(self.bingyao)
+        forged['pairs'][1]['determination'] = 'disease_confirmed'
+        with self.assertRaisesRegex(ValueError, 'determination'):
+            conflict_presentation(self.tiaohou, forged, self.strength)
+        forged = copy.deepcopy(self.bingyao)
+        del forged['pairs']
+        with self.assertRaisesRegex(ValueError, 'pair statements'):
+            conflict_presentation(self.tiaohou, forged, self.strength)
+        forged = copy.deepcopy(self.bingyao)
+        forged['pairs'] = [forged['pairs'][1], forged['pairs'][0]]
+        with self.assertRaisesRegex(ValueError, 'pair statements'):
+            conflict_presentation(self.tiaohou, forged, self.strength)
+        forged = copy.deepcopy(self.bingyao)
+        forged['pairs'][0]['status'] = 'resolved'
+        with self.assertRaisesRegex(ValueError, 'pair status'):
             conflict_presentation(self.tiaohou, forged, self.strength)
 
     def test_unknown_statement_status_rejected(self):
