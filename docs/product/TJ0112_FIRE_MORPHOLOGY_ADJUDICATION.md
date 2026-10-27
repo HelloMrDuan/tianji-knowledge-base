@@ -178,7 +178,7 @@ blocking_items 所记「帝旺位代偿口径未审定」的审定结论。
 治理批解除：丙×午 commanding 形态已在密封 Canonical 登记为 Phase1 规则
 `bazi.rule.r030`、Phase2 执行规则
 `bazi.phase2.strength_commanding_visible_support`（快照 manifest
-`b9f9b8fd…`），F1 登记的 evidence_binding 已同步改注册口径。九条件、
+`18aab7c2…`），F1 登记的 evidence_binding 已同步改注册口径。九条件、
 分类与弃判口径逐字不变；登记中不在 Canonical 的三条引文（孤立定义、
 根重轻句、墓句）未被规则引用，理由见治理文档
 `docs/product/TJ0112_S5_REGISTRATION_GOVERNANCE.md` §1 第 3 项。

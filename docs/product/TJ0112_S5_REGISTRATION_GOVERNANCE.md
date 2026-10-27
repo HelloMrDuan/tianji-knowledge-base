@@ -80,10 +80,10 @@
 
 ## 3. manifest 钉值记录（不静默改钉）
 
-- 快照文件数 235 → 235，总字节 13,518,179 → 13,531,890。
+- 快照文件数 235 → 235，总字节 13,518,179 → 13,532,116。
 - manifest SHA256：`8055efb3881128837548da2536f210928db96b4f295ad25bbfb09ba9cf89c6c1`
-  → `b9f9b8fd37c812ffda7e075c38e48ab406e1aeb75b4944bb42907ae98661db5a`。
-- 变更后三文件 SHA256：phase1_knowledge `f2360d400f335d3c9741fbd40e31bbf0daeb50d208e06c7631b6c369c34552cc`、
+  → `18aab7c2629c192be1a9de81e3333c317f2dde8bdbbd4d1d02fd740bb70b26c9`。
+- 变更后三文件 SHA256：phase1_knowledge `5d992d2e967f9362573cdda788efc02405af28132a4eec2c378f5ac83b2d26ea`、
   phase2_execution `947cfc1d05c248c9e4d1efd35e9fde450e0dee2f77b1a4d150b92b9492ae8720`、
   phase2_golden `eebda931f7be6a812a7929ad1052905330dcabc80637a997a128e6f1ba1ac3ca`。
 - 可信机 `cicd/env/trusted-acceptance` 已更新为新值；旧快照与旧钉值在

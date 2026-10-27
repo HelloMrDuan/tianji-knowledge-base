@@ -43,7 +43,7 @@ S5_REGISTRATION_RECORD = {
         'data/canonical/bazi/phase2_golden.json'],
     'sealed_file_sha256_after': {
         'data/canonical/bazi/phase1_knowledge.json':
-            'f2360d400f335d3c9741fbd40e31bbf0daeb50d208e06c7631b6c369c34552cc',
+            '5d992d2e967f9362573cdda788efc02405af28132a4eec2c378f5ac83b2d26ea',
         'data/canonical/bazi/phase2_execution.json':
             '947cfc1d05c248c9e4d1efd35e9fde450e0dee2f77b1a4d150b92b9492ae8720',
         'data/canonical/bazi/phase2_golden.json':
@@ -51,11 +51,11 @@ S5_REGISTRATION_RECORD = {
     'snapshot_files_before': 235,
     'snapshot_files_after': 235,
     'snapshot_bytes_before': 13518179,
-    'snapshot_bytes_after': 13531890,
+    'snapshot_bytes_after': 13532116,
     'manifest_sha256_before':
         '8055efb3881128837548da2536f210928db96b4f295ad25bbfb09ba9cf89c6c1',
     'manifest_sha256_after':
-        'b9f9b8fd37c812ffda7e075c38e48ab406e1aeb75b4944bb42907ae98661db5a',
+        '18aab7c2629c192be1a9de81e3333c317f2dde8bdbbd4d1d02fd740bb70b26c9',
     'pin_record': '可信机 cicd/env/trusted-acceptance 已按既有密封治理'
                   '流程更新为 manifest_sha256_after（旧值留档于本记录与'
                   '机器侧备份），部署管线与本批验收均以新钉值复核。',

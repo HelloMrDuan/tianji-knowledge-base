@@ -94,6 +94,6 @@ TJ-011.1 的两条既有谓词（木 × 卯 pure → strong、木 × 酉 isolate
 §2「规则注册状态」所述 pending 状态已由 S5 密封注册治理批解除：本谓词已在
 密封 Canonical 登记为 Phase1 规则 `bazi.rule.r029`、Phase2 执行规则
 `bazi.phase2.strength_pure_generating_support`（快照 manifest
-`b9f9b8fd…`），裁决改经该注册 trace 步发出，`why.sufficient_rule` 为该 ID、
+`18aab7c2…`），裁决改经该注册 trace 步发出，`why.sufficient_rule` 为该 ID、
 不再带 pending 披露。条件集、分类与 blockers 逐字不变。治理全记录见
 `docs/product/TJ0112_S5_REGISTRATION_GOVERNANCE.md`。
