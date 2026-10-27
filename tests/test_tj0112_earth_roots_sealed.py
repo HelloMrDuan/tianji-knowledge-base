@@ -54,6 +54,16 @@ def _text(filename):
     return (SNAPSHOT_DIR / filename).read_bytes().decode('utf-8')
 
 
+def _resolve(case, quotes, ref, texts):
+    case.assertIn(ref, quotes, ref)
+    q = quotes[ref]
+    text = texts[q['source_id']]
+    loc = q['locator']
+    case.assertEqual(text[loc['char_start']:loc['char_end']],
+                     q['quote'], ref)
+    case.assertEqual(text.count(q['quote']), 1, ref)
+
+
 class SnapshotIntegrityTests(unittest.TestCase):
     def test_snapshots_match_registry(self):
         for filename, meta in E.EARTH_SNAPSHOTS.items():
@@ -93,15 +103,6 @@ class EarthQuoteSliceTests(unittest.TestCase):
 
 
 class CrossRegisterEvidenceTests(unittest.TestCase):
-    def _resolve(self, quotes, ref, texts):
-        self.assertIn(ref, quotes, ref)
-        q = quotes[ref]
-        text = texts[q['source_id']]
-        loc = q['locator']
-        self.assertEqual(text[loc['char_start']:loc['char_end']],
-                         q['quote'], ref)
-        self.assertEqual(text.count(q['quote']), 1, ref)
-
     def test_all_cross_refs_resolve_verbatim(self):
         texts = {sid: _text(fn) for sid, fn in SOURCE_FILE.items()}
         used = {name: set() for name in REGISTER_QUOTES}
@@ -121,7 +122,7 @@ class CrossRegisterEvidenceTests(unittest.TestCase):
                 if register == 'self':
                     continue
                 self.assertIn(register, REGISTER_QUOTES, ref)
-                self._resolve(REGISTER_QUOTES[register], ref, texts)
+                _resolve(self, REGISTER_QUOTES[register], ref, texts)
                 used[register].add(ref)
         # The corroboration spine must actually be exercised.
         self.assertTrue({'sf.lubiao', 'sf.sisheng', 'sf.siguan',
@@ -156,8 +157,8 @@ class LightRootGapEvidenceTests(unittest.TestCase):
         quotes_f = REGISTER_QUOTES['bazi_fire_morphology']
         for qid in ('dt.root_mu', 'dt.root_yuqi_1', 'dt.root_yuqi_2',
                     'dt.root_heavy_light'):
-            self._resolve(quotes_f, qid,
-                          {'bazi.source.ditiansui-spouse': text})
+            _resolve(self, quotes_f, qid,
+                     {'bazi.source.ditiansui-spouse': text})
 
 
 class SealedPolicyUntouchedTests(unittest.TestCase):
