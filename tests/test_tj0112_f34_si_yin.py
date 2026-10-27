@@ -335,8 +335,17 @@ class TestGoldenDesigns(unittest.TestCase):
             self.assertEqual(failed,
                              set(case['expect']['failed_conditions']),
                              case['id'])
+            # Flipped by the F3 implementation batch (E0248): the F3
+            # scan-witness positive now classifies strong through the
+            # lu_visible_support predicate; every other case's engine
+            # verdict is unchanged (F4 still gated on the siling
+            # expansion adjudication).
+            expected_engine = (
+                'strong' if case['id']
+                == 'tj0112-f3-positive-scan-witness'
+                else 'indeterminate')
             self.assertEqual(case['expect']['current_engine'],
-                             'indeterminate', case['id'])
+                             expected_engine, case['id'])
 
     def test_positive_cases_all_conditions_true(self):
         for case in self.cases.values():

@@ -13,10 +13,14 @@ partition rule as the earlier batches). Pins:
 - the seven Golden designs replay EXACTLY through the production
   calendar chain (engine.execute) from their real birth datetimes -
   no pillar is hand-assembled;
-- the CURRENT executed verdict for all seven charts is
-  'indeterminate': this batch adjudicates designs, it implements no
-  predicate, and the two candidate scope keys exist nowhere in the
-  executed action-effects output;
+- the executed verdicts match the flipped Golden expectations: the
+  F3 implementation batch (E0248) landed the lu_visible_support
+  predicate, so the F3 scan-witness positive classifies 'strong'
+  through it (bounded exit, pending registration) and the other four
+  F3 charts stay 'indeterminate' with executed lu condition tables
+  identical to the design tables; F4 remains unimplemented (its
+  changsheng scope key exists nowhere in the executed output) pending
+  the siling expansion adjudication;
 - regression spot-checks: the F1 positive (Bing x Wu) still fires
   commanding_visible_support -> strong, and the S2 witness (Gui x
   Zi) still fires pure_generating_support_water -> strong;
@@ -136,18 +140,62 @@ class GoldenReplayTests(unittest.TestCase):
             self.assertEqual(pillars, case['expected_pillars'],
                              case['id'])
 
-    def test_all_seven_currently_indeterminate(self):
-        # Adjudication is not implementation: no F3/F4 scope exists
-        # in the executed output and no chart earns a verdict.
+    def test_f3_implemented_f4_still_gated(self):
+        # Updated by the F3 implementation batch (E0248): the F3
+        # lu_visible_support predicate is implemented, so the design
+        # witness earns its strong verdict and the executed F3
+        # condition tables equal the design tables verbatim; the
+        # other F3 charts stay indeterminate for their registered
+        # reasons. F4 is still NOT implemented: no changsheng scope
+        # key exists in the executed output and both F4 charts stay
+        # indeterminate until the siling expansion adjudication.
         for case in CASES.values():
             result, _ = run_birth(case['source_birth'])
             assessment = result['strength_assessment']
-            self.assertEqual(assessment['classification'],
-                             'indeterminate', case['id'])
             effects = result['action_effects']
+            self.assertEqual(assessment['classification'],
+                             case['expect']['current_engine'],
+                             case['id'])
             for key in effects:
-                self.assertNotIn('lu_visible_support', key)
-                self.assertNotIn('changsheng_visible_support', key)
+                self.assertNotIn('changsheng_visible_support', key,
+                                 case['id'])
+            if case['form'] == 'F4':
+                self.assertEqual(assessment['classification'],
+                                 'indeterminate', case['id'])
+                self.assertIsNone(
+                    assessment['why_not_indeterminate'], case['id'])
+                continue
+            self.assertEqual(
+                effects['lu_visible_support_scope_conditions'],
+                case['expected_conditions'], case['id'])
+            if case['id'] == 'tj0112-f3-positive-scan-witness':
+                why = assessment['why_not_indeterminate']
+                self.assertIsNotNone(why, case['id'])
+                self.assertEqual(why['sufficient_predicate'],
+                                 'lu_visible_support', case['id'])
+                self.assertIsNone(why['sufficient_rule'], case['id'])
+                self.assertEqual(why['predicate_rule_registration'],
+                                 'pending_phase1_rule_registration',
+                                 case['id'])
+            else:
+                self.assertEqual(assessment['classification'],
+                                 'indeterminate', case['id'])
+                self.assertIsNone(
+                    assessment['why_not_indeterminate'], case['id'])
+            if case['category'] == 'abstain_unknown':
+                self.assertIn(
+                    'interaction_effect_unresolved',
+                    {b['reason'] for b in assessment['blockers']},
+                    case['id'])
+            if case['category'] == 'conflict_registered':
+                checks = {c['conflict_id']: c
+                          for c in assessment['conflict_checks']}
+                self.assertIn(
+                    'bazi.concept.conflict_root_type_readings',
+                    checks, case['id'])
+                self.assertTrue(
+                    checks['bazi.concept.conflict_root_type_readings']
+                    ['blocking'], case['id'])
 
 
 class RegressionSpotCheckTests(unittest.TestCase):

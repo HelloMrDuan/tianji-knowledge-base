@@ -364,10 +364,24 @@ jobs:
       # readings registered, neither selected), the Ding conflict
       # dispositions, the earth-root interface audit, and Golden
       # self-consistency (seven real charts, parity-valid pillars,
-      # current verdicts all indeterminate). Byte-for-byte quote
-      # verification against the sealed snapshots and chart replay
-      # through the production calendar live in
-      # test_tj0112_f34_si_yin_sealed.py (offline acceptance only,
-      # NOT public CI).
+      # current verdicts: the F3 scan-witness positive implemented
+      # strong by the F3 implementation batch, the rest
+      # indeterminate). Byte-for-byte quote verification against the
+      # sealed snapshots and chart replay through the production
+      # calendar live in test_tj0112_f34_si_yin_sealed.py (offline
+      # acceptance only, NOT public CI).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0112_f34_si_yin.py' -v
+      # TJ-011.2 F3 implementation public contracts: the
+      # lu_visible_support predicate's implementation anchor-provenance
+      # map keyed exactly by the adjudication register's nine
+      # conditions (governance-convention conditions never relabelled
+      # original text), implementation Golden self-consistency (real
+      # birth instants, parity-valid pillars, design-quintet condition
+      # tables identical to the adjudication batch's), failed sets
+      # self-consistent, chart-unrealizable single-failure designs
+      # registered. Chart execution against the sealed policy and
+      # production calendar lives in test_tj0112_bing_si_lu.py
+      # (offline acceptance only, NOT public CI: it needs the sealed
+      # snapshot).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0112_bing_si_lu_public.py' -v
       - run: python scripts/audit_public_asset_changes.py --inventory
