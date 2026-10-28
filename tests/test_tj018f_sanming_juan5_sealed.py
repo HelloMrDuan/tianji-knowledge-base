@@ -70,7 +70,7 @@ class QuoteSliceTest(unittest.TestCase):
     def test_section_titles_and_bounds(self) -> None:
         sanming = _text("sanming_tonghui.txt")
         # 节题起于 char_start（题前一空格为快照体例，在 char_start-1）
-        self.assertEqual(sanming[170743:170759], "论杂气【喜身旺 刑冲忌压伏】")
+        self.assertEqual(sanming[170743:170757], "论杂气【喜身旺 刑冲忌压伏】")
         self.assertEqual(sanming[180874:180888],
                          "论阳刃【前论羊刄煞与此\ueb07防】")
         # 两节终点为下一节题行前空格位
