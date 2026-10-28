@@ -1,0 +1,708 @@
+{
+ "meta": {
+  "register_id": "bazi-hehua-fact-adjudication-v1",
+  "task": "TJ-012.3",
+  "kind": "transformation_condition_adjudication_register",
+  "purpose": "TJ-012.3 合化审源与事实层设计审定登记的公开镜像：盘点计数、表述登记、逐对条件表、条件矩阵、冲突结构、三层审计与逐项判定、SLICE_SPEC=None、阻塞清单与密封钉值，供公开测试逐项钉住；不含任何化气判定。"
+ },
+ "headline_verdicts": {
+  "registered_formulations": 4,
+  "registered_formulations_note": "四种条件表述全部出自三命卷二合化组（018-C 登记，conflict、adjudication=None）；无第二家已登记的化气条件表述",
+  "unregistered_formulations": 2,
+  "unregistered_note": "滴天髓《化象》原注与任氏曰各成一套真化条件，只有审计条目 P05，未登记（缺口 B4）",
+  "related_registered_doctrine": 1,
+  "pairs": 5,
+  "condition_elements": 11,
+  "true_conflicts": 4,
+  "true_conflicts_note": "C1–C4 为已登记表述间的真冲突；另有 C5（滴天髓化象章内逢龙/逢五张力）因表述未登记，只作结构登记、不计入四项",
+  "propositions": 18,
+  "propositions_fact_ready": 2,
+  "propositions_presence_only": 6,
+  "slice_spec": null,
+  "slice_spec_note": "不出事实层切片：关系事实已存在、要素事实是柱面转写、预建要素层会预编码未裁定的表述选择（见 SLICE_DECISION）",
+  "user_decisions_pending": 2,
+  "implementation_in_this_batch": false,
+  "formulation_adjudicated": false,
+  "transformation_status_changed": false
+ },
+ "inventory": [
+  {
+   "id": "inv-01",
+   "status": "registered_evidence"
+  },
+  {
+   "id": "inv-02",
+   "status": "registered_evidence_conflict_branch"
+  },
+  {
+   "id": "inv-03",
+   "status": "registered_evidence_conflict_branch"
+  },
+  {
+   "id": "inv-04",
+   "status": "registered_evidence_conflict_branch"
+  },
+  {
+   "id": "inv-05",
+   "status": "registered_evidence_conflict_branch"
+  },
+  {
+   "id": "inv-06",
+   "status": "unresolved_not_quotable_as_condition"
+  },
+  {
+   "id": "inv-07",
+   "status": "registered_evidence_related_doctrine"
+  },
+  {
+   "id": "inv-08",
+   "status": "audit_entry_only_not_registered"
+  },
+  {
+   "id": "inv-09",
+   "status": "registered_absence"
+  },
+  {
+   "id": "inv-10",
+   "status": "registered_absence"
+  },
+  {
+   "id": "inv-11",
+   "status": "executed_fact_layer"
+  },
+  {
+   "id": "inv-12",
+   "status": "status_quo_unresolved"
+  },
+  {
+   "id": "inv-13",
+   "status": "registered_canonical_roster"
+  },
+  {
+   "id": "inv-14",
+   "status": "measured_absence"
+  },
+  {
+   "id": "inv-15",
+   "status": "measured_absence"
+  },
+  {
+   "id": "inv-16",
+   "status": "registered_scope_exclusion"
+  }
+ ],
+ "formulations": [
+  {
+   "id": "F1",
+   "registered": true,
+   "status": "conflict_branch_unadjudicated"
+  },
+  {
+   "id": "F2",
+   "registered": true,
+   "status": "conflict_branch_unadjudicated"
+  },
+  {
+   "id": "F3",
+   "registered": true,
+   "status": "conflict_branch_unadjudicated"
+  },
+  {
+   "id": "F4",
+   "registered": true,
+   "status": "conflict_branch_unadjudicated"
+  },
+  {
+   "id": "F5",
+   "registered": false,
+   "status": "audit_entry_only_not_registered"
+  },
+  {
+   "id": "F6",
+   "registered": false,
+   "status": "audit_entry_only_not_registered"
+  },
+  {
+   "id": "HX",
+   "registered": true,
+   "status": "registered_related_doctrine_not_hehua_condition"
+  }
+ ],
+ "pair_conditions": [
+  {
+   "pair": "甲己",
+   "element": "土",
+   "primary_months": [
+    "辰",
+    "戌",
+    "丑",
+    "未"
+   ],
+   "secondary_months": [
+    "午"
+   ],
+   "blocker_stem_f1": "戊",
+   "blocker_phrasing": "有戊字间之",
+   "blocker_stem_f3_duhua": "乙",
+   "extras": [
+    "受气临官：柱有巳亥（smhq.jiaji_cond）",
+    "喜时：戊辰时（smhq.jiaji_xi）"
+   ],
+   "condition_quote": "smhq.jiaji_cond"
+  },
+  {
+   "pair": "乙庚",
+   "element": "金",
+   "primary_months": [
+    "巳",
+    "酉",
+    "丑"
+   ],
+   "secondary_months": [
+    "申"
+   ],
+   "blocker_stem_f1": "甲",
+   "blocker_phrasing": "有甲字间之",
+   "blocker_stem_f3_duhua": "辛",
+   "extras": [],
+   "condition_quote": "smhq.yigeng_cond"
+  },
+  {
+   "pair": "丙辛",
+   "element": "水",
+   "primary_months": [
+    "申",
+    "子",
+    "辰"
+   ],
+   "secondary_months": [
+    "亥"
+   ],
+   "blocker_stem_f1": "丁",
+   "blocker_phrasing": "柱有丁字",
+   "blocker_stem_f3_duhua": "丁",
+   "extras": [],
+   "condition_quote": "smhq.bingxin_cond"
+  },
+  {
+   "pair": "丁壬",
+   "element": "木",
+   "primary_months": [
+    "亥",
+    "卯",
+    "未"
+   ],
+   "secondary_months": [
+    "寅"
+   ],
+   "blocker_stem_f1": "丙",
+   "blocker_phrasing": "柱有丙字",
+   "blocker_stem_f3_duhua": "丙",
+   "extras": [],
+   "condition_quote": "smhq.dingren_cond"
+  },
+  {
+   "pair": "戊癸",
+   "element": "火",
+   "primary_as_transmitted": "丙午戌",
+   "primary_months": [
+    "午",
+    "戌"
+   ],
+   "primary_unresolved_token": "丙",
+   "secondary_months": [
+    "巳"
+   ],
+   "blocker_stem_f1": "己",
+   "blocker_phrasing": "柱有己字",
+   "blocker_stem_f3_duhua": "壬",
+   "extras": [
+    "受气临官：寅午戌生人见丁巳（smhq.wugui_cond）"
+   ],
+   "condition_quote": "smhq.wugui_cond"
+  }
+ ],
+ "condition_matrix": {
+  "elements": [
+   "subject",
+   "month_condition",
+   "hour_condition",
+   "third_stem_blocker",
+   "multiplicity",
+   "wangqi",
+   "root_qi",
+   "commander",
+   "chen_factor",
+   "strength_polarity",
+   "result_element"
+  ],
+  "rows": {
+   "subject": {
+    "F1": "干对（句式为逐对泛称；对象范围由 F2 限定为日干）",
+    "F2": "只取日干；配合之神或年月与时皆可用",
+    "F3": "干对（有二句只见於甲己对）",
+    "F4": "干对×月份（格）",
+    "F5": "日主（日干与合神）",
+    "F6": "日干（合则化之源说）",
+    "HX": "日主（从化主体）"
+   },
+   "month_condition": {
+    "F1": "本局月集（非…月不化）＋其次一月（亦化），逐对列明",
+    "F2": "不列月集；以得月中旺气代之",
+    "F3": "absent",
+    "F4": "逐月状态格（化月集合与 F1 不一致，见 C1）",
+    "F5": "季节月：甲己四季/丙辛冬/戊癸夏/乙庚秋/丁壬春",
+    "F6": "absent（以辰位立论，非月集）",
+    "HX": "absent（以支组全/旺衰立论）"
+   },
+   "hour_condition": {
+    "F1": "仅甲己有喜时附加项（戊辰时）",
+    "F2": "时上旺气（可代月中旺气；月中已得而时上不乗则不可用）",
+    "F3": "absent",
+    "F4": "absent（表无时维）",
+    "F5": "甲己例：配合在月时上合",
+    "F6": "absent",
+    "HX": "absent"
+   },
+   "third_stem_blocker": {
+    "F1": "妬合字：逐对一字（戊/甲/丁/丙/己），措辞分「间之」与「柱有」两式（见 P6 注记）",
+    "F2": "absent",
+    "F3": "妬化字：逐对一字（乙/辛/丁/丙/壬），「见」式；与 F1 对三对不同（见 C2）",
+    "F4": "absent（表无阻字维）",
+    "F5": "未登记（章内有妒合字样，不作要素消费）",
+    "F6": "未登记",
+    "HX": "absent"
+   },
+   "multiplicity": {
+    "F1": "absent（《论十干合》另有偏枯说：一己合两甲/两甲合一己为阴阳偏枯——属合的形态 doctrine，非化条件）",
+    "F2": "absent",
+    "F3": "有二则化、一不能化仍还本位（只见於甲己句，向他对的推广是解释步、未登记）",
+    "F4": "absent",
+    "F5": "独自相合/单遇一位（与 F3 有二方向相反：独合 vs 有二）",
+    "F6": "absent",
+    "HX": "absent"
+   },
+   "wangqi": {
+    "F1": "隐含：本局月集即化神三合局月/四季土月，是旺地的列举，不是旺气判据本身",
+    "F2": "核心要素：日辰得旺气（月中为上、时上亦可、俱得全吉）",
+    "F3": "absent",
+    "F4": "隐含於逐月状态（未明言判据）",
+    "F5": "以季节月列举旺地（同 F1 型）",
+    "F6": "absent",
+    "HX": "作「化有气方可用」（化神有气）"
+   },
+   "root_qi": {
+    "F1": "附加项：受气临官（甲己柱有巳亥、戊癸见丁巳）",
+    "F2": "absent（旺气非根气）",
+    "F3": "absent",
+    "F4": "absent",
+    "F5": "absent（辰字另列）",
+    "F6": "absent",
+    "HX": "核心：日主无气、化有气（气之有无）"
+   },
+   "commander": {
+    "F1": "absent",
+    "F2": "absent",
+    "F3": "absent",
+    "F4": "absent",
+    "F5": "absent",
+    "F6": "absent",
+    "HX": "absent",
+    "note": "任何已登记表述都不以分日司令为条件要素：F1/F5 用月支集、F2 用旺气、HX 用支组与旺衰。司令试点（寅月、任氏）不是合化任何表述的输入；「司令扩月未裁」不构成合化事实层的阻塞项（与就绪度复审把司令列为 D-1 前置的情形不同）。"
+   },
+   "chen_factor": {
+    "F1": "absent（辰只在甲己本局月集内作为四季月之一）",
+    "F2": "absent",
+    "F3": "absent",
+    "F4": "absent",
+    "F5": "甲己例：有一辰字、得龙以运之（逢龙而化）",
+    "F6": "化必得五土（辰）、逢五而化（五辰之位）——与 F5 逢龙说同章并存（见 CONFLICT_ANALYSIS C5）",
+    "HX": "absent（辰戌丑未支组行属 F4 表内局化，非干合化象）"
+   },
+   "strength_polarity": {
+    "F1": "无明言（月集隐含化神旺）",
+    "F2": "日辰得旺气（日干/化神向旺）",
+    "F3": "absent",
+    "F4": "无明言",
+    "F5": "真化（与假化对举，未登记展开）",
+    "F6": "absent",
+    "HX": "从化要衰、日主无气（与 F2 极性相反——对象不同，不构成同对象冲突，见 CONFLICT_ANALYSIS D3）"
+   },
+   "result_element": {
+    "F1": "名册固定（甲己土/乙庚金/丙辛水/丁壬木/戊癸火）",
+    "F2": "名册固定（同上）",
+    "F3": "名册固定（同上）",
+    "F4": "有化他元素之格（丁壬化火、乙庚化木、甲己化木、戊癸化水/为水）——与名册冲突（见 C4）",
+    "F5": "名册固定（同上）",
+    "F6": "名册固定（同上）",
+    "HX": "从化之神即合神（名册内）"
+   }
+  }
+ },
+ "conflicts": {
+  "true_conflicts": [
+   {
+    "id": "C1",
+    "element": "month_condition",
+    "kind": "same_element_different_threshold"
+   },
+   {
+    "id": "C2",
+    "element": "third_stem_blocker",
+    "kind": "same_slot_different_trigger"
+   },
+   {
+    "id": "C3",
+    "element": "month_condition / wangqi",
+    "kind": "different_condition_architecture"
+   },
+   {
+    "id": "C4",
+    "element": "result_element",
+    "kind": "different_result"
+   },
+   {
+    "id": "C5",
+    "element": "chen_factor",
+    "kind": "intra_chapter_doctrinal_tension_unregistered"
+   }
+  ],
+  "detail_differences": [
+   "D1",
+   "D2",
+   "D3",
+   "D4",
+   "D5"
+  ],
+  "adjudication": null
+ },
+ "layer_b_verdicts": [
+  {
+   "element": "pair_presence",
+   "verdict": "fact_ready"
+  },
+  {
+   "element": "day_stem_involvement",
+   "verdict": "fact_ready_as_presence_only"
+  },
+  {
+   "element": "month_branch_value",
+   "verdict": "fact_ready"
+  },
+  {
+   "element": "f1_month_set_membership",
+   "verdict": "adjudication_required"
+  },
+  {
+   "element": "blocker_presence_f1",
+   "verdict": "fact_ready_as_presence_only"
+  },
+  {
+   "element": "blocker_presence_f3",
+   "verdict": "fact_ready_as_presence_only"
+  },
+  {
+   "element": "blocker_effect",
+   "verdict": "blocked_by_formulation_conflict"
+  },
+  {
+   "element": "multiplicity_presence",
+   "verdict": "fact_ready_as_presence_only"
+  },
+  {
+   "element": "reception_linguanshi_presence",
+   "verdict": "fact_ready_as_presence_only"
+  },
+  {
+   "element": "chen_presence",
+   "verdict": "fact_ready_as_presence_only"
+  },
+  {
+   "element": "wangqi",
+   "verdict": "blocked_by_missing_layers"
+  },
+  {
+   "element": "root_qi",
+   "verdict": "blocked_by_missing_layers"
+  },
+  {
+   "element": "commander",
+   "verdict": "registered_absence"
+  }
+ ],
+ "proposition_verdicts": [
+  {
+   "id": "P1",
+   "verdict": "fact_ready"
+  },
+  {
+   "id": "P2",
+   "verdict": "fact_ready"
+  },
+  {
+   "id": "P3",
+   "verdict": "fact_ready_as_presence_only"
+  },
+  {
+   "id": "P4",
+   "verdict": "adjudication_required"
+  },
+  {
+   "id": "P5",
+   "verdict": "blocked_by_unresolved_token"
+  },
+  {
+   "id": "P6",
+   "verdict": "fact_ready_as_presence_only"
+  },
+  {
+   "id": "P7",
+   "verdict": "fact_ready_as_presence_only"
+  },
+  {
+   "id": "P8",
+   "verdict": "blocked_by_formulation_conflict"
+  },
+  {
+   "id": "P9",
+   "verdict": "fact_ready_as_presence_only"
+  },
+  {
+   "id": "P10",
+   "verdict": "fact_ready_as_presence_only"
+  },
+  {
+   "id": "P11",
+   "verdict": "fact_ready_as_presence_only"
+  },
+  {
+   "id": "P12",
+   "verdict": "blocked_by_missing_layers"
+  },
+  {
+   "id": "P13",
+   "verdict": "blocked_by_missing_layers"
+  },
+  {
+   "id": "P14",
+   "verdict": "registered_absence"
+  },
+  {
+   "id": "P15",
+   "verdict": "blocked_by_missing_layers"
+  },
+  {
+   "id": "P16",
+   "verdict": "adjudication_required"
+  },
+  {
+   "id": "P17",
+   "verdict": "consumer_not_unlocked"
+  },
+  {
+   "id": "P18",
+   "verdict": "prohibited"
+  }
+ ],
+ "slice_spec": null,
+ "pending_items": [
+  {
+   "id": "B1",
+   "needs_user_adjudication": true
+  },
+  {
+   "id": "B2",
+   "needs_user_adjudication": false
+  },
+  {
+   "id": "B3",
+   "needs_user_adjudication": false
+  },
+  {
+   "id": "B4",
+   "needs_user_adjudication": false
+  },
+  {
+   "id": "B5",
+   "needs_user_adjudication": true
+  },
+  {
+   "id": "B6",
+   "needs_user_adjudication": false
+  }
+ ],
+ "quote_references": [
+  {
+   "register": "bazi_sanming_juan2_hehua_collation",
+   "quote_id": "smhq.jiaji_cond",
+   "role": "f1_condition_jiaji"
+  },
+  {
+   "register": "bazi_sanming_juan2_hehua_collation",
+   "quote_id": "smhq.yigeng_cond",
+   "role": "f1_condition_yigeng"
+  },
+  {
+   "register": "bazi_sanming_juan2_hehua_collation",
+   "quote_id": "smhq.bingxin_cond",
+   "role": "f1_condition_bingxin"
+  },
+  {
+   "register": "bazi_sanming_juan2_hehua_collation",
+   "quote_id": "smhq.dingren_cond",
+   "role": "f1_condition_dingren"
+  },
+  {
+   "register": "bazi_sanming_juan2_hehua_collation",
+   "quote_id": "smhq.wugui_cond",
+   "role": "f1_condition_wugui"
+  },
+  {
+   "register": "bazi_sanming_juan2_hehua_collation",
+   "quote_id": "smhq.jiaji_xi",
+   "role": "f1_extra_hour"
+  },
+  {
+   "register": "bazi_sanming_juan2_hehua_collation",
+   "quote_id": "smhq.dafan",
+   "role": "f2_general_rule"
+  },
+  {
+   "register": "bazi_sanming_juan2_hehua_collation",
+   "quote_id": "smhq.erzehua",
+   "role": "f3_multiplicity"
+  },
+  {
+   "register": "bazi_sanming_juan2_hehua_collation",
+   "quote_id": "smhq.duhua",
+   "role": "f3_duhua"
+  },
+  {
+   "register": "bazi_sanming_juan2_hehua_collation",
+   "quote_id": "smhk.header_dingren",
+   "role": "f4_table_evidence"
+  },
+  {
+   "register": "bazi_sanming_juan2_hehua_collation",
+   "quote_id": "smhk.wugui_row_b3",
+   "role": "f4_table_evidence"
+  },
+  {
+   "register": "bazi_sanming_juan2_hehua_collation",
+   "quote_id": "smhk.jiaji_row_b3",
+   "role": "f4_table_evidence"
+  },
+  {
+   "register": "bazi_sanming_juan6_fangju_baxiang_collation",
+   "quote_id": "hx.definition",
+   "role": "hx_definition"
+  },
+  {
+   "register": "bazi_sanming_juan6_fangju_baxiang_collation",
+   "quote_id": "hx.tongxuan",
+   "role": "hx_qi_doctrine"
+  },
+  {
+   "register": "bazi_sanming_juan6_fangju_baxiang_collation",
+   "quote_id": "hx.example",
+   "role": "hx_worked_example"
+  },
+  {
+   "register": "bazi_sanming_juan6_fangju_baxiang_collation",
+   "quote_id": "hx.jingshan",
+   "role": "hx_taxonomy"
+  }
+ ],
+ "sealed_pins": [
+  {
+   "section_id": "bazi.section.s010",
+   "source_id": "bazi.source.xieji-relations",
+   "original_text": "甲与己合乙与庚合丙与辛合丁与壬合戊与癸合",
+   "role_in_this_adjudication": "五合名册的 Canonical 锚点（事实层 r005 的 classical 出处）；只有名册、无条件"
+  },
+  {
+   "term_id": "bazi.term.stem_five_combinations",
+   "definition": "甲己、乙庚、丙辛、丁壬、戊癸五组天干配对关系；本库仅登记结构命中，不自动判断化气是否成立。",
+   "role_in_this_adjudication": "术语层明文：名册事实不蕴含化气判定"
+  },
+  {
+   "rule_id": "bazi.rule.r005",
+   "exceptions": [
+    "命中五合不等于化气成立。",
+    "不得据五合直接输出感情适配、吉凶或关系评分。"
+   ],
+   "role_in_this_adjudication": "事实层规则自带红线：命中≠化成"
+  }
+ ],
+ "sealed_measurements": {
+  "phase1_sections_total": 59,
+  "phase1_sections_with_hehua_keywords": 0,
+  "phase1_sections_with_wuhe": [
+   "bazi.section.s010"
+  ],
+  "phase1_rules_total": 30,
+  "phase1_concepts_total": 18,
+  "phase1_hehua_concepts": 0,
+  "phase2_rules_total": 31,
+  "foundations_stem_combinations": [
+   [
+    "甲",
+    "己",
+    "土"
+   ],
+   [
+    "乙",
+    "庚",
+    "金"
+   ],
+   [
+    "丙",
+    "辛",
+    "水"
+   ],
+   [
+    "丁",
+    "壬",
+    "木"
+   ],
+   [
+    "戊",
+    "癸",
+    "火"
+   ]
+  ],
+  "ditiansui_huaxiang_chapter": {
+   "start": 98297,
+   "end": 99943,
+   "heading": "十三、化象",
+   "audit_anchor": 98303
+  },
+  "snapshot_keyword_counts": {
+   "ditiansui_chanwei.txt": {
+    "化气": 5,
+    "合化": 19,
+    "化象": 7,
+    "化格": 2,
+    "妒合": 3
+   },
+   "yuanhai_ziping.txt": {
+    "化气": 1,
+    "化象": 2,
+    "妒合": 2
+   },
+   "shenfeng_tongkao.txt": {
+    "化气": 2,
+    "化象": 3,
+    "化格": 3,
+    "妒合": 4
+   },
+   "qiongtong_baojian.txt": {
+    "化气": 0,
+    "合化": 0,
+    "化象": 0,
+    "化格": 1,
+    "妒合": 0
+   }
+  }
+ }
+}
