@@ -1699,6 +1699,172 @@ def _dedupe_strings(items):
     return output
 
 
+# TJ-025.2 unified condition markers for the life integrated report. Every
+# marker is derived from the same structures that produce the per-dimension
+# prose exits (strength_context, cross_rule_audit, integration_provenance,
+# integrated_reading), and each marker embeds its dimension's own exit text
+# verbatim, so a marker can never disagree with the prose it summarises.
+# Wording follows the WBS TJ-025.2 line: when a dimension lacks sources it
+# shows "本项尚未具备解释条件", and no comprehensive personal evaluation
+# is ever added. Markers introduce no new facts and no scores.
+_LIFE_CONDITION_AVAILABLE = "具备解释条件"
+_LIFE_CONDITION_NOT_AVAILABLE = "本项尚未具备解释条件"
+
+
+def _life_condition_markers(*, strength_context, cross_rule_audit,
+                            integration_provenance, integrated_reading,
+                            annual_career_evidence_ids, spouse_evidence_ids):
+    def marker(dimension, label, available, *, reason_category, reason,
+               exit_text, basis, evidence_ids, scope=None):
+        return {
+            "dimension": dimension,
+            "label": label,
+            "condition": "available" if available else "not_available",
+            "statement": (_LIFE_CONDITION_AVAILABLE if available
+                          else _LIFE_CONDITION_NOT_AVAILABLE),
+            "reason_category": reason_category,
+            "reason": reason,
+            "scope": scope,
+            "exit_text": exit_text,
+            "basis": basis,
+            "evidence_ids": list(evidence_ids),
+        }
+
+    strength_available = (
+        strength_context["classification"] != "unresolved"
+        and integration_provenance["strength_classification_approved"] is True
+    )
+    dayun_available = (
+        integration_provenance["dayun_timeline_approved"] is True
+        and integrated_reading["dayun_timeline_approved"] is True
+    )
+    cross_rule_available = (
+        cross_rule_audit["interpretation_allowed"] is True
+        and cross_rule_audit["independent_confirmations"] is True
+    )
+    personal_available = (
+        integrated_reading["personal_prediction"] is True
+        and integration_provenance["interpretation_allowed"] is True
+    )
+    foundation_available = (
+        integration_provenance["all_natal_charts_identical"] is True
+        and bool(strength_context["evidence_ids"])
+    )
+    career_available = (
+        integration_provenance["all_target_years_identical"] is True
+        and bool(annual_career_evidence_ids)
+    )
+    romance_available = (
+        integration_provenance["all_target_years_identical"] is True
+        and bool(spouse_evidence_ids)
+    )
+    return [
+        marker(
+            "natal_foundation", "命盘基础", foundation_available,
+            reason_category=(None if foundation_available
+                             else "source_identity_unverified"),
+            reason=("这些仅是已审核的位置事实，不等于得令、得势或根实际生效。"
+                    if foundation_available
+                    else "四源命盘身份或旺衰因素证据未能核验一致。"),
+            exit_text=integrated_reading["foundation"],
+            basis={
+                "all_natal_charts_identical":
+                    integration_provenance["all_natal_charts_identical"],
+                "strength_factor_evidence_present":
+                    bool(strength_context["evidence_ids"]),
+            },
+            evidence_ids=strength_context["evidence_ids"],
+            scope="reviewed_structure_only" if foundation_available else None,
+        ),
+        marker(
+            "annual_career", "事业财运结构", career_available,
+            reason_category=(None if career_available
+                             else "source_identity_unverified"),
+            reason=integrated_reading["boundary"],
+            exit_text=integrated_reading["career"],
+            basis={
+                "all_target_years_identical":
+                    integration_provenance["all_target_years_identical"],
+                "annual_career_evidence_present":
+                    bool(annual_career_evidence_ids),
+            },
+            evidence_ids=annual_career_evidence_ids,
+            scope="reviewed_structure_only" if career_available else None,
+        ),
+        marker(
+            "annual_romance", "桃花与夫妻宫结构", romance_available,
+            reason_category=(None if romance_available
+                             else "source_identity_unverified"),
+            reason=("这些不是正缘、婚期或感情走向判断。"
+                    if romance_available
+                    else "四源目标年身份或夫妻宫关系证据未能核验一致。"),
+            exit_text=integrated_reading["romance"],
+            basis={
+                "all_target_years_identical":
+                    integration_provenance["all_target_years_identical"],
+                "spouse_structure_evidence_present": bool(spouse_evidence_ids),
+            },
+            evidence_ids=spouse_evidence_ids,
+            scope="reviewed_structure_only" if romance_available else None,
+        ),
+        marker(
+            "cross_rule_synthesis", "跨规则综合判断", cross_rule_available,
+            reason_category=(None if cross_rule_available
+                             else "shared_rules_not_independent_evidence"),
+            reason=cross_rule_audit["reading"],
+            exit_text=cross_rule_audit["reading"],
+            basis={
+                "yearly_and_romance_agree":
+                    cross_rule_audit["yearly_and_romance_agree"],
+                "independent_confirmations":
+                    cross_rule_audit["independent_confirmations"],
+                "interpretation_allowed":
+                    cross_rule_audit["interpretation_allowed"],
+            },
+            evidence_ids=cross_rule_audit["evidence_ids"],
+        ),
+        marker(
+            "strength_classification", "旺衰、喜用与格局判定", strength_available,
+            reason_category=(None if strength_available
+                             else "strength_classification_unresolved"),
+            reason=strength_context["boundary"],
+            exit_text=strength_context["boundary"],
+            basis={
+                "classification": strength_context["classification"],
+                "strength_classification_approved":
+                    integration_provenance["strength_classification_approved"],
+            },
+            evidence_ids=strength_context["evidence_ids"],
+        ),
+        marker(
+            "dayun_timeline", "大运时间线", dayun_available,
+            reason_category=(None if dayun_available
+                             else "no_approved_production_rule"),
+            reason=integrated_reading["dayun"],
+            exit_text=integrated_reading["dayun"],
+            basis={
+                "dayun_timeline_approved":
+                    integration_provenance["dayun_timeline_approved"],
+            },
+            evidence_ids=[],
+        ),
+        marker(
+            "personal_evaluation", "综合个人评价", personal_available,
+            reason_category=(None if personal_available
+                             else "comprehensive_synthesis_not_approved"),
+            reason=integrated_reading["boundary"],
+            exit_text=integrated_reading["boundary"],
+            basis={
+                "personal_prediction": integrated_reading["personal_prediction"],
+                "interpretation_allowed":
+                    integration_provenance["interpretation_allowed"],
+                "interpretation_level": integrated_reading["interpretation_level"],
+            },
+            evidence_ids=[],
+        ),
+    ]
+
+
 def _life(inputs):
     _require_with_optional(inputs, {"birth_value", "target_year"}, {"birth_zone"})
     birth_value = inputs["birth_value"]
@@ -1977,6 +2143,23 @@ def _life(inputs):
         },
     ]
 
+    # TJ-025.2: unified per-dimension condition markers, derived here from
+    # the same structures as the prose exits above. They are built only
+    # after every fail-closed check has passed, so a rejected composition
+    # never carries markers (or any other part of the report).
+    condition_markers = _life_condition_markers(
+        strength_context=strength_context,
+        cross_rule_audit=cross_rule_audit,
+        integration_provenance=integration_provenance,
+        integrated_reading=integrated_reading,
+        annual_career_evidence_ids=annual_career["evidence_ids"],
+        # The spouse dimension rests on the reviewed rule evidence behind
+        # the spouse-palace computation plus any hit evidence; a zero-hit
+        # year is itself a presented structural fact and must not flip the
+        # marker to not_available.
+        spouse_evidence_ids=spouse["evidence_ids"],
+    )
+
     rule_matches = []
     trace = []
     for section_id, section in (
@@ -2009,6 +2192,7 @@ def _life(inputs):
                 "strength_context": strength_context,
             },
             "integrated_reading": integrated_reading,
+            "condition_markers": condition_markers,
             "cross_rule_audit": cross_rule_audit,
             "integration_provenance": integration_provenance,
             "yearly": copy.deepcopy(yearly["result"]),

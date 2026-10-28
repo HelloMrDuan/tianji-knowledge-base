@@ -290,6 +290,23 @@ export function LifeOverviewPage() {
                   <blockquote key={item.id}><small>{item.title} · {item.level}</small><p>{item.original}{item.excerpt ? "（节选）" : ""}</p></blockquote>
                 ))}
               </details>
+              {Array.isArray(payload.condition_markers) && payload.condition_markers.length > 0 && (
+                <section className="life-condition-markers" aria-label="逐项条件说明">
+                  <h3>逐项条件说明</h3>
+                  <ul>
+                    {payload.condition_markers.map((item: any) => (
+                      <li key={item.dimension}>
+                        <strong>{item.label}</strong>
+                        <span>{item.statement}</span>
+                        {item.condition === "available" && item.scope === "reviewed_structure_only" && (
+                          <small>仅限已审核结构事实</small>
+                        )}
+                        {item.condition === "not_available" && item.reason && <p>{item.reason}</p>}
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
               <aside aria-label="大运与强弱未决边界">
                 <strong>大运与旺衰仍未裁定</strong>
                 <p>{integrated.dayun}</p><p>{integrated.boundary}</p>

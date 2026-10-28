@@ -604,4 +604,14 @@ jobs:
       # test_tj0123_hehua_fact_sealed.py (offline acceptance only,
       # NOT public CI).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0123_hehua_fact.py' -v
+      # TJ-025.2 life integrated report condition markers: pure
+      # derivation contract for the unified per-dimension condition
+      # surface (WBS wording "本项尚未具备解释条件", markers derived
+      # from the same facts as the prose exits, exit text embedded
+      # verbatim, markers flip only when source facts flip, no scores
+      # or rule identifiers). End-to-end consistency against the real
+      # report lives in test_tj0252_life_condition_markers_sealed.py
+      # (offline acceptance only, NOT public CI: it executes the life
+      # scenario against the assembled production runtime).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0252_life_condition_markers.py' -v
       - run: python scripts/audit_public_asset_changes.py --inventory
