@@ -327,6 +327,27 @@ jobs:
       # test_tj012_yuanhai_luren_sealed.py (offline acceptance
       # only, NOT public CI: it reads the sealed snapshot files).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj012_yuanhai_luren.py' -v
+      # TJ-012.3 Slice D prerequisite yuanhai cong-group section
+      # registration public contracts: pure-data register mirrored
+      # against Golden, one full section （弃命从杀论， measured
+      # title in snapshot order and verse form on record), no gap
+      # positions in the section (empty gap register on record),
+      # per-sentence routing review (every operative sentence routed
+      # through at least one unbuilt gate: root-fact / strength
+      # extreme tier / assembly / seal-peer rescue / luck-stage /
+      # branch-relation effect / quantity comparison / pattern
+      # establishment itself), ditiansui congxiang definitions
+      # cross-referenced only (different book, different layer, no
+      # quote re-registration, no backfill), scattered-only forms
+      # （从财/从化/专旺） registered as scattered facts with
+      # reasons, no cong-pattern determination semantics anywhere,
+      # and no death-, fortune-, lifespan- or injury-prediction
+      # framing fields. Verbatim quote equality against the
+      # snapshot, the coverage scan, gap-position reconciliation
+      # and the source census live in
+      # test_tj012_yuanhai_cong_sealed.py (offline acceptance
+      # only, NOT public CI: it reads the sealed snapshot files).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj012_yuanhai_cong.py' -v
       # TJ-013.1 S3 ditiansui fuyi three-passage registration public
       # contracts: pure-data register mirrored against Golden, three
       # passages with explicit layers (verse/yuanzhu/renshi), judgment
