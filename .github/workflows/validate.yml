@@ -357,6 +357,18 @@ jobs:
       # (offline acceptance only, NOT public CI: it reads the sealed
       # snapshot files).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj018h_sanming_zero_match.py' -v
+      # TJ-017.1 seven-item priority collation closeout (scout
+      # 018-B) public contracts: pure-data register mirrored
+      # against Golden, collation-note form and confirmed anchor
+      # rule, item dispositions in three final states (4 closed,
+      # 2 formalized, item 6 restriction maintained with literal
+      # use still banned), shenfeng second-witness availability
+      # check recorded (single digital lineage, not an independent
+      # witness), review-scope additions on both sources, source
+      # census unchanged (101). Snapshot-verbatim checks live in
+      # test_tj0171_dayun_collation_sealed.py (offline acceptance
+      # only, NOT public CI: it reads the sealed snapshot files).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0171_dayun_collation.py' -v
       # TJ-011.2 fire morphology adjudication public contracts:
       # pure-data design register (zero functions), ten Ditiansui
       # definition/root quotes with self-consistent locators and layer
