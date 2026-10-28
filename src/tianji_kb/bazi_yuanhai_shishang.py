@@ -1,0 +1,623 @@
+"""渊海子平食伤组两节逐节登记（TJ-012.3 Slice D 就绪度复审排序第一前置：渊海逐节登记·第五组）。
+
+正官组（E0236/E0237）、七杀组（E0282/E0283）、财组（E0284/E0285）
+与印组（E0286/E0287）之后续登食伤组：《论伤官》为快照「十神」
+部分首节，整节登记；《论食神》于财组、印组两批均以食神本体
+属食伤主题列为未登记，本批正面处置整节登记。伤官见官、食神
+生财等论述散见他节者（正官论行伤官运句、正财节伤官见财格句、
+倒食节食神生财机理句等 7 条）只登记引用关系、不重复登记。
+
+本批登记范围（机上密封快照实测，快照 SHA256 与登记 Source 一致）：
+- 《论伤官》[6086, 6932) 整节登记（846 字，全文窗）；
+- 《论食神》[7622, 7948) 整节登记（326 字，全文窗）；
+- 已登记涉伤官/食神引文 7 条只登记引用关系，不重复登记。
+
+缺字纪律：两节范围内半角 ? 占位共 1 处（《论食神》7667，
+「何也?」衔接处），本批新登记为 ss-gap-01，维持
+placeholder_unresolved——原文保留 ?、不猜填；含缺字分句
+不作引文读法依据，全部 operative 引文窗口避开缺字位点。
+字形纪律：「伤官之杀」杀字语义存疑、食神定义机理句「中食
+丙之戊财」食字语义存疑，逐项落账，无见证者不给
+mapped_reading。
+
+转手复核（本批核心登记结论）：食伤组可操作句逐条标注转手门。
+全部经未建层中的至少一门转手：身旺、伤尽程度（程度词未
+阈值化）、伤官见官效力、财星链（生官/救应）、印与倒食效力、
+得时得地、数量与程度比较、格局成立本身。登记后食神格、
+伤官格 determination 仍为 None（详见
+YUANHAI_SHISHANG_ROUTING_REVIEW）。
+
+特别纪律：本登记不含任何健康/寿命/六亲/财富预测口径——
+节内「恶疾残躯」「父母不全」「子息无传」「有寿考」「财厚
+食丰」等均为原文断语与例造叙事，按断语登记存在；节内
+「其验如神」「仔细推详，万无一失」为原文自我效验断语，
+只登记存在，不构成对传统推断准确性的任何背书。
+
+本模块是纯数据登记，**零 determination 代码**：不写任何食神格/
+伤官格成格/破格判定，不改变 candidates 与既有登记语义；登记
+不等于可裁定。引文全部经机上快照切片逐字复核（全文计数==1；
+既有窗口以引用关系在案者以其原登记为准）。
+Canonical/Phase1 注册状态 pending（与既有研究级登记同口径披露）。
+"""
+
+
+YUANHAI_SHISHANG_ID = 'bazi-yuanhai-shishang-registration-v1'
+
+YUANHAI_SHISHANG_TASK = 'TJ-012.3 Slice D prerequisite (yuanhai shishang group registration)'
+
+YUANHAI_SNAPSHOT = {'file': 'yuanhai_ziping.txt',
+ 'snapshot_path': 'data/quarantine/public_domain_snapshots/daizhigev20/yuanhai_ziping.txt',
+ 'sha256': 'c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9',
+ 'bytes': 154655,
+ 'chars': 58905,
+ 'blob_sha': 'f945a48cbedf5883808a72bb6f544a4dca603cb3'}
+
+YUANHAI_SHISHANG_SECTIONS = [{'section_id': 'yuanhai.shangguan',
+  'title': '论伤官',
+  'source_id': 'bazi.source.yuanhai',
+  'locator': {'char_start': 6086, 'char_end': 6932},
+  'registration_mode': 'full_section',
+  'full_text': '《论 伤 官》\n'
+               ' 伤官者,其验如神。\n'
+               ' 伤官务要伤尽;伤之不尽,官来乘旺,其祸不可胜言。伤官见官,为祸百端。\n'
+               ' 倘月令在伤官之位,及四柱配合、作事皆在伤官之处;又行身旺乡,真贵人也。\n'
+               ' 伤官主人多才艺、傲物气高,常以天下之人不如己;而贵人亦惮之,众人亦恶之。\n'
+               ' 运一逢官,祸不可言;或有吉神可解,必生恶疾以残其躯;不然运遭官事。\n'
+               ' 如运行剥官,财神不旺,皆是安享之人。\n'
+               ' 仔细推详,万无一失矣!\n'
+               ' 又云,伤官者,我生彼之谓也;以阳见阴,阴见阳,亦名盗气。\n'
+               ' 印綬若伤尽,不留一点;身弱忌官星,不怕七杀。\n'
+               ' 如甲用辛官,如丁火旺,能生土财;最忌见官星,亦要身旺。\n'
+               ' 若伤官不尽,四柱有官星露;岁运若见官星,其祸不可胜言。\n'
+               ' 若伤官伤尽,四柱不留一点;又行旺运及印綬运,却为贵也。\n'
+               ' 如四柱中虽伤尽官星;身虽旺,若无一点财气,只为贫薄。\n'
+               ' 如遇伤官者,须见其财为妙;是财能生官也。\n'
+               ' 如用伤官格者,支干、岁运,都要不见官星;如见官星,谓之伤官见官,为祸百端。\n'
+               ' 用伤官格局,见财方可用。\n'
+               ' 伤官之杀,甚如伤身七杀,其验如神。\n'
+               ' 年带伤官,父母不全;月带伤官,兄弟不完;日带伤官,妻妾不完;时带伤官,子息无传。\n'
+               ' 其餘伤官,务要伤尽,则吉,见财方可;轻则远窜之灾,重则刑辟之难。\n'
+               ' 伤官有战,其命难存。\n'
+               ' 若月令在伤官之位,及四柱相合,皆在伤官之处;如行身旺乡,贵命也。\n'
+               ' 伤官之人,多负才傲物,常以他人不如己;君子恶之,小人畏之。\n'
+               ' 逢官运,无财救,必主大灾;不然主暗昧恶疾,以残其身;或运遭官刑矣!\n'
+               ' 如四柱虽伤尽官星,身弱逢财运发福,是为伤官见财。\n'
+               ' 仔细推详,万无一失。\n'
+               ' 又云,四柱有官而被祸重,四柱无官而被祸则浅。\n'
+               ' 大凡四柱见官者,或见伤官而取其财;财行得地则发,行败财之地必死。如运支内无财运,干虚露亦不可也。\n'
+               ' 如【乙亥,己丑,丁亥,庚戌】:丁以壬为官。丑戌本为伤官,只是丑为金库,又时上有庚字作财;此人行申酉限如意,入金脱气遂死矣!\n'
+               ' 大抵伤了官星,行官运则灾连;太岁亦然。\n'
+               ' ',
+  'note': '整节登记（846 字）。本节为快照「十神」部分首节（节前为「【渊海子平】十 神」分部行，机上实测）；节内无半角 ? 占位、无 PUA 字符。节后为诗诀七首（未登记，见 '
+          'YUANHAI_SHISHANG_UNREGISTERED_RELATED），再后为《伤官说》（未登记，见清单）。'},
+ {'section_id': 'yuanhai.shishen',
+  'title': '论食神',
+  'source_id': 'bazi.source.yuanhai',
+  'locator': {'char_start': 7622, 'char_end': 7948},
+  'registration_mode': 'full_section',
+  'full_text': '《论 食 神》 \n'
+               ' 食神者,生我财神之谓也;如甲属木,丙属火,名盗气,故谓之『食神』。何也?殊不知丙能生我戊土中食丙之戊财,故以此名之也。\n'
+               ' 命中带此者,主人财厚食丰、腹量宽洪、肌体肥大、优游自足、有子息、有寿考。\n'
+               ' 恒不喜见官星,忌倒食,恐伤其食神;喜财神相生。\n'
+               ' 独一位见之,则为福人;然终亦不清。\n'
+               ' 却喜身旺,不喜印綬,亦恐伤其食神也。\n'
+               ' 如运得地,方可发福;大概与财神相似。\n'
+               ' 如【己未,己巳,丁未,辛丑】:丁见己为食神,有一丑巳合起金局得之为财;又喜身不弱,所以有官亦有寿也。\n'
+               ' 如【乙巳,乙酉,癸酉,乙卯】:此命见三乙为食神,见巳酉丑合局为印綬,又有三乙化为伤官。癸用乙为食神,被金局来剋乙木,再被三乙木并卯旺剋我官;所以名利都无成也。\n'
+               ' ',
+  'note': '整节登记（326 字）。财组批（E0284）与印组批（E0286）曾以「食神本体、属后续食伤主题」列为未登记（理由就各批范围成立），本批食伤组正面处置整节登记。节内半角 ? '
+          '占位 1 处（7667）登记为 ss-gap-01；无 PUA 字符。节后为诗诀六首（未登记，见清单），再后为财组已登记《论正财》（8183 起）。'}]
+
+YUANHAI_SHISHANG_QUOTES = [{'id': 'yh.sw_validation_claim',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shangguan',
+  'role': 'doctrine_observation',
+  'quote': '伤官者,其验如神。',
+  'locator': {'char_start': 6095, 'char_end': 6104},
+  'operative': False,
+  'routed_through_strength': None,
+  'note': '伤官效验断语（其验如神）：原文自我效验陈述，只登记存在，不构成对推断准确性的任何背书；非条件句。'},
+ {'id': 'yh.sw_exhaust_core',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shangguan',
+  'role': 'operative_candidate',
+  'quote': '伤官务要伤尽;伤之不尽,官来乘旺,其祸不可胜言。伤官见官,为祸百端。',
+  'locator': {'char_start': 6106, 'char_end': 6140},
+  'operative': True,
+  'routed_through_strength': False,
+  'note': '伤官总纲句：务要伤尽、伤官见官为祸百端——本节核心操作句，三门未建层并陈，不可执行。',
+  'routed_through_other': ['伤尽/不尽的程度未阈值化（伤尽与不留一点无已裁定程度标尺）',
+                           '伤官见官效力未裁定（见官为祸百端）',
+                           '官来乘旺为官星强度判断（未裁定）']},
+ {'id': 'yh.sw_month_command_noble',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shangguan',
+  'role': 'operative_candidate',
+  'quote': '倘月令在伤官之位,及四柱配合、作事皆在伤官之处;又行身旺乡,真贵人也。',
+  'locator': {'char_start': 6142, 'char_end': 6177},
+  'operative': True,
+  'routed_through_strength': True,
+  'note': '月令伤官位＋行身旺乡则真贵人：身旺明文条件与格局评价并陈，不可执行。',
+  'routed_through_other': ['月令在伤官之位与四柱配合的评价以伤官格成立为前提（伤官格 determination 为 None）',
+                           '「作事皆在伤官之处」语义未定（作事指涉未裁定）']},
+ {'id': 'yh.sw_character',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shangguan',
+  'role': 'character_claim',
+  'quote': '伤官主人多才艺、傲物气高,常以天下之人不如己;而贵人亦惮之,众人亦恶之。',
+  'locator': {'char_start': 6179, 'char_end': 6215},
+  'operative': False,
+  'routed_through_strength': None,
+  'note': '性情断语（多才艺、傲物气高，常以天下之人不如己；而贵人亦惮之，众人亦恶之）：只登记存在、不作裁定，不构成任何性情判断口径。'},
+ {'id': 'yh.sw_luck_officer_disaster',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shangguan',
+  'role': 'luck_observation',
+  'quote': '运一逢官,祸不可言;或有吉神可解,必生恶疾以残其躯;不然运遭官事。',
+  'locator': {'char_start': 6217, 'char_end': 6250},
+  'operative': False,
+  'routed_through_strength': False,
+  'note': '行运断语：运逢官则祸、吉神可解则生恶疾残躯、否则运遭官事——健康与祸福字样为原文断语，只登记存在、不作裁定。',
+  'routed_through_other': ['逢官之祸经伤官见官效力层转手（未裁定）', '「或有吉神可解」之吉神与解法未定']},
+ {'id': 'yh.sw_strip_officer_calm',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shangguan',
+  'role': 'luck_observation',
+  'quote': '如运行剥官,财神不旺,皆是安享之人。',
+  'locator': {'char_start': 6252, 'char_end': 6270},
+  'operative': False,
+  'routed_through_strength': False,
+  'note': '行运观察句：运行剥官、财神不旺则安享——条件部分经未建层转手，结论为境遇断语只登记存在。「剥官」谓官星被伤剥，节末「伤了官星」同旨。',
+  'routed_through_other': ['运行剥官的剥尽程度未阈值化', '财神不旺为财星强度判断（未裁定）']},
+ {'id': 'yh.sw_careful_claim_1',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shangguan',
+  'role': 'doctrine_observation',
+  'quote': '仔细推详,万无一失矣!',
+  'locator': {'char_start': 6272, 'char_end': 6283},
+  'operative': False,
+  'routed_through_strength': None,
+  'note': '效验断语（仔细推详、万无一失矣）：原文自我效验陈述，只登记存在，不构成对推断准确性的任何背书；与节末 yh.sw_careful_claim_2 '
+          '同旨两述（矣叹/句号之别），逐处登记、不合并引文。'},
+ {'id': 'yh.sw_definition',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shangguan',
+  'role': 'definition',
+  'quote': '又云,伤官者,我生彼之谓也;以阳见阴,阴见阳,亦名盗气。',
+  'locator': {'char_start': 6285, 'char_end': 6313},
+  'operative': False,
+  'routed_through_strength': None,
+  'note': '伤官定义句（又云引述层）：我生彼之谓，以阳见阴、阴见阳，亦名盗气——定义本身不经旺衰转手；食神节亦以盗气为名，各按所在节登记。'},
+ {'id': 'yh.sw_seal_exhausted_weak',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shangguan',
+  'role': 'operative_candidate',
+  'quote': '印綬若伤尽,不留一点;身弱忌官星,不怕七杀。',
+  'locator': {'char_start': 6315, 'char_end': 6337},
+  'operative': True,
+  'routed_through_strength': True,
+  'note': '印綬伤尽与身弱忌官句：身弱明文条件（忌官星），不可执行。',
+  'routed_through_other': ['印綬若伤尽的伤尽程度未阈值化；句首主语省略，「印綬若伤尽」的施受关系读法未定，逐字保留',
+                           '身弱者「不怕七杀」经七杀关系判断转手（七杀格未裁定）']},
+ {'id': 'yh.sw_jia_officer_rule',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shangguan',
+  'role': 'operative_candidate',
+  'quote': '如甲用辛官,如丁火旺,能生土财;最忌见官星,亦要身旺。',
+  'locator': {'char_start': 6339, 'char_end': 6366},
+  'operative': True,
+  'routed_through_strength': True,
+  'note': '甲例操作句：甲用辛官、丁火旺能生土财、最忌见官星、亦要身旺——四门并陈，不可执行。',
+  'routed_through_other': ['丁火旺为食神（丁）强度判断（未裁定）', '丁火能生土财经食神生财链转手（效力未裁定）', '最忌见官星经伤官见官效力转手（未裁定）']},
+ {'id': 'yh.sw_not_exhausted_officer',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shangguan',
+  'role': 'operative_candidate',
+  'quote': '若伤官不尽,四柱有官星露;岁运若见官星,其祸不可胜言。',
+  'locator': {'char_start': 6368, 'char_end': 6395},
+  'operative': True,
+  'routed_through_strength': False,
+  'note': '伤官不尽＋官星露＋岁运见官则祸：官星露为在场事实（可由四柱算出），但祸福判定经未建层转手，不可执行。',
+  'routed_through_other': ['伤之不尽的程度未阈值化', '岁运见官之祸经伤官见官效力转手（未裁定）']},
+ {'id': 'yh.sw_exhausted_luck_noble',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shangguan',
+  'role': 'operative_candidate',
+  'quote': '若伤官伤尽,四柱不留一点;又行旺运及印綬运,却为贵也。',
+  'locator': {'char_start': 6397, 'char_end': 6424},
+  'operative': True,
+  'routed_through_strength': False,
+  'note': '伤尽＋行旺运及印綬运则贵：不可执行。',
+  'routed_through_other': ['伤尽/不留一点的程度未阈值化',
+                           '行旺运之「旺」为行运阶段/强度判断（未裁定）',
+                           '「却为贵」以伤官格成立为前提（determination 为 None）']},
+ {'id': 'yh.sw_exhausted_no_wealth',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shangguan',
+  'role': 'operative_candidate',
+  'quote': '如四柱中虽伤尽官星;身虽旺,若无一点财气,只为贫薄。',
+  'locator': {'char_start': 6426, 'char_end': 6452},
+  'operative': True,
+  'routed_through_strength': True,
+  'note': '伤尽官星而身旺、无财气则贫薄：身旺明文条件，不可执行。',
+  'routed_through_other': ['伤尽官星的程度未阈值化', '「只为贫薄」为境遇断语（不构成任何现实财富判断口径）']},
+ {'id': 'yh.sw_meet_wealth_wonderful',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shangguan',
+  'role': 'operative_candidate',
+  'quote': '如遇伤官者,须见其财为妙;是财能生官也。',
+  'locator': {'char_start': 6454, 'char_end': 6474},
+  'operative': True,
+  'routed_through_strength': False,
+  'note': '遇伤官须见财、财能生官：不可执行；正财节另有伤官见财格句，本批以引用关系在案（yh.sw_xref_zc_shangguan_jiancai）。',
+  'routed_through_other': ['财能生官的生官链效力未裁定', '「须见其财为妙」的评价以伤官格成立为前提（determination 为 None）']},
+ {'id': 'yh.sw_pattern_no_officer',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shangguan',
+  'role': 'operative_candidate',
+  'quote': '如用伤官格者,支干、岁运,都要不见官星;如见官星,谓之伤官见官,为祸百端。',
+  'locator': {'char_start': 6476, 'char_end': 6513},
+  'operative': True,
+  'routed_through_strength': False,
+  'note': '用伤官格的操作总则：支干、岁运都要不见官星——不可执行。',
+  'routed_through_other': ['伤官见官效力未裁定（见官为祸百端）', '以用伤官格成立为前提（伤官格 determination 为 None）']},
+ {'id': 'yh.sw_pattern_wealth_usable',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shangguan',
+  'role': 'operative_candidate',
+  'quote': '用伤官格局,见财方可用。',
+  'locator': {'char_start': 6515, 'char_end': 6527},
+  'operative': True,
+  'routed_through_strength': False,
+  'note': '用伤官格局、见财方可用：不可执行。',
+  'routed_through_other': ['「见财方可用」之「用」为格局用神判断（格局用神未建）', '以伤官格局成立为前提（determination 为 None）']},
+ {'id': 'yh.sw_killing_claim',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shangguan',
+  'role': 'doctrine_observation',
+  'quote': '伤官之杀,甚如伤身七杀,其验如神。',
+  'locator': {'char_start': 6529, 'char_end': 6546},
+  'operative': False,
+  'routed_through_strength': None,
+  'note': '效验/轻重断语（伤官之杀甚如伤身七杀、其验如神）：只登记存在、不作裁定；「伤官之杀」语义存疑见字形登记 ss-glyph-01。',
+  'glyph_refs': ['ss-glyph-01']},
+ {'id': 'yh.sw_position_kin_claims',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shangguan',
+  'role': 'fortune_claim',
+  'quote': '年带伤官,父母不全;月带伤官,兄弟不完;日带伤官,妻妾不完;时带伤官,子息无传。',
+  'locator': {'char_start': 6548, 'char_end': 6588},
+  'operative': False,
+  'routed_through_strength': None,
+  'note': '六亲断语（年带伤官父母不全、月带兄弟不完、日带妻妾不完、时带子息无传）：只登记存在、不作裁定，不构成任何六亲境遇判断口径。'},
+ {'id': 'yh.sw_exhaust_rest_disaster',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shangguan',
+  'role': 'operative_candidate',
+  'quote': '其餘伤官,务要伤尽,则吉,见财方可;轻则远窜之灾,重则刑辟之难。',
+  'locator': {'char_start': 6590, 'char_end': 6622},
+  'operative': True,
+  'routed_through_strength': False,
+  'note': '其餘伤官操作句：务要伤尽、见财方可——不可执行。',
+  'routed_through_other': ['伤尽程度未阈值化',
+                           '见财方可经财星在场与财能生官链转手（未裁定）',
+                           '轻则远窜之灾、重则刑辟之难为灾祸程度断语（程度未阈值化、只登记存在）']},
+ {'id': 'yh.sw_war_claim',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shangguan',
+  'role': 'fortune_claim',
+  'quote': '伤官有战,其命难存。',
+  'locator': {'char_start': 6624, 'char_end': 6634},
+  'operative': False,
+  'routed_through_strength': None,
+  'note': '断语（伤官有战、其命难存）：「战」的指涉未定（或指伤官与官星相战），只登记存在、不作裁定。'},
+ {'id': 'yh.sw_month_command_noble_2',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shangguan',
+  'role': 'operative_candidate',
+  'quote': '若月令在伤官之位,及四柱相合,皆在伤官之处;如行身旺乡,贵命也。',
+  'locator': {'char_start': 6636, 'char_end': 6668},
+  'operative': True,
+  'routed_through_strength': True,
+  'note': '月令伤官位＋行身旺乡则贵命：与 yh.sw_month_command_noble '
+          '同旨两述（配合/相合、作事/皆在、真贵人/贵命措辞各异），逐处登记、不合并引文；身旺明文条件，不可执行。',
+  'routed_through_other': ['评价以伤官格成立为前提（determination 为 None）']},
+ {'id': 'yh.sw_character_2',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shangguan',
+  'role': 'character_claim',
+  'quote': '伤官之人,多负才傲物,常以他人不如己;君子恶之,小人畏之。',
+  'locator': {'char_start': 6670, 'char_end': 6699},
+  'operative': False,
+  'routed_through_strength': None,
+  'note': '性情断语（多负才傲物、常以他人不如己；君子恶之、小人畏之）：与 yh.sw_character '
+          '同旨两述（主人/之人、贵人/君子、众人/小人措辞各异），逐处登记、不合并引文；只登记存在、不作裁定。'},
+ {'id': 'yh.sw_luck_officer_disaster_2',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shangguan',
+  'role': 'luck_observation',
+  'quote': '逢官运,无财救,必主大灾;不然主暗昧恶疾,以残其身;或运遭官刑矣!',
+  'locator': {'char_start': 6701, 'char_end': 6734},
+  'operative': False,
+  'routed_through_strength': False,
+  'note': '行运断语：逢官运、无财救则大灾、或暗昧恶疾残身、或运遭官刑——健康与祸福字样为原文断语，只登记存在、不作裁定。',
+  'routed_through_other': ['逢官之灾经伤官见官效力层转手（未裁定）', '无财救经财星救应/通关效力转手（未裁定）']},
+ {'id': 'yh.sw_weak_meets_wealth_luck',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shangguan',
+  'role': 'operative_candidate',
+  'quote': '如四柱虽伤尽官星,身弱逢财运发福,是为伤官见财。',
+  'locator': {'char_start': 6736, 'char_end': 6760},
+  'operative': True,
+  'routed_through_strength': True,
+  'note': '伤尽官星而身弱、逢财运发福、是为伤官见财：身弱明文条件，不可执行。',
+  'routed_through_other': ['伤尽官星的程度未阈值化', '「发福」为境遇断语（不构成任何现实财富判断口径）']},
+ {'id': 'yh.sw_careful_claim_2',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shangguan',
+  'role': 'doctrine_observation',
+  'quote': '仔细推详,万无一失。',
+  'locator': {'char_start': 6762, 'char_end': 6772},
+  'operative': False,
+  'routed_through_strength': None,
+  'note': '效验断语（仔细推详、万无一失）：与 yh.sw_careful_claim_1 同旨两述，逐处登记、不合并引文；只登记存在，不构成对推断准确性的任何背书。'},
+ {'id': 'yh.sw_officer_presence_depth',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shangguan',
+  'role': 'operative_candidate',
+  'quote': '又云,四柱有官而被祸重,四柱无官而被祸则浅。',
+  'locator': {'char_start': 6774, 'char_end': 6796},
+  'operative': True,
+  'routed_through_strength': False,
+  'note': '又云引述层比较句：四柱有官而被祸重、四柱无官而被祸则浅——程度比较不可执行。',
+  'routed_through_other': ['被祸重/浅为灾祸程度比较（未阈值化、无已裁定标尺）', '祸源经伤官见官效力转手（未裁定）']},
+ {'id': 'yh.sw_officer_take_wealth',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shangguan',
+  'role': 'operative_candidate',
+  'quote': '大凡四柱见官者,或见伤官而取其财;财行得地则发,行败财之地必死。如运支内无财运,干虚露亦不可也。',
+  'locator': {'char_start': 6798, 'char_end': 6846},
+  'operative': True,
+  'routed_through_strength': False,
+  'note': '见官取财总论句：财行得地则发、行败财之地必死，运支内无财运、干虚露亦不可——不可执行。',
+  'routed_through_other': ['「或见伤官而取其财」的取财机理未定（伤官取财与财生官的关系未裁定）',
+                           '财行得地/行败财之地为得时得地判断（未阈值化，沿财组得时得地门口径）',
+                           '干虚露亦不可的判定标准未定；「必死」为原文断语只登记存在']},
+ {'id': 'yh.sw_example_1',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shangguan',
+  'role': 'worked_example',
+  'quote': '如【乙亥,己丑,丁亥,庚戌】:丁以壬为官。丑戌本为伤官,只是丑为金库,又时上有庚字作财;此人行申酉限如意,入金脱气遂死矣!',
+  'locator': {'char_start': 6848, 'char_end': 6909},
+  'operative': False,
+  'routed_through_strength': None,
+  'note': '例造（乙亥/己丑/丁亥/庚戌）：丁以壬为官、丑戌本为伤官、丑为金库、时上庚作财，行申酉限如意、入金脱气遂死——doctrine 应用见证，非规则；不据例造反推条件。'},
+ {'id': 'yh.sw_officer_hurt_luck',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shangguan',
+  'role': 'luck_observation',
+  'quote': '大抵伤了官星,行官运则灾连;太岁亦然。',
+  'locator': {'char_start': 6911, 'char_end': 6930},
+  'operative': False,
+  'routed_through_strength': False,
+  'note': '行运断语：伤了官星、行官运则灾连，太岁亦然——只登记存在、不作裁定。',
+  'routed_through_other': ['行官运灾连经伤官见官效力层转手（未裁定）']},
+ {'id': 'yh.ss_definition',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shishen',
+  'role': 'definition',
+  'quote': '食神者,生我财神之谓也;如甲属木,丙属火,名盗气,故谓之『食神』。',
+  'locator': {'char_start': 7632, 'char_end': 7665},
+  'operative': False,
+  'routed_through_strength': None,
+  'note': '食神定义句：生我财神之谓（我生者能生我之财），如甲属木、丙属火、名盗气，故谓之食神——定义本身不经旺衰转手；其命名机理句紧随其后，因含缺字位点以 context '
+          '形登记（yh.ctx_ss_how_para），不作读法依据。'},
+ {'id': 'yh.ss_bearer_claims',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shishen',
+  'role': 'character_claim',
+  'quote': '命中带此者,主人财厚食丰、腹量宽洪、肌体肥大、优游自足、有子息、有寿考。',
+  'locator': {'char_start': 7693, 'char_end': 7729},
+  'operative': False,
+  'routed_through_strength': None,
+  'note': '品象/境遇断语（财厚食丰、腹量宽洪、肌体肥大、优游自足、有子息、有寿考）：只登记存在、不作裁定，不构成任何健康、寿命、子息或财富判断口径。'},
+ {'id': 'yh.ss_taboo_wealth_growth',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shishen',
+  'role': 'operative_candidate',
+  'quote': '恒不喜见官星,忌倒食,恐伤其食神;喜财神相生。',
+  'locator': {'char_start': 7731, 'char_end': 7754},
+  'operative': True,
+  'routed_through_strength': False,
+  'note': '食神操作句：不喜见官星、忌倒食、喜财神相生——三门并陈，不可执行。',
+  'routed_through_other': ['恒不喜见官星经官星伤食效力转手（未裁定）',
+                           '忌倒食经偏印夺食效力转手（未裁定，倒食节已登记）',
+                           '喜财神相生经食神生财链转手（效力未裁定）']},
+ {'id': 'yh.ss_single_position',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shishen',
+  'role': 'operative_candidate',
+  'quote': '独一位见之,则为福人;然终亦不清。',
+  'locator': {'char_start': 7756, 'char_end': 7773},
+  'operative': True,
+  'routed_through_strength': False,
+  'note': '食神独一位则为福人、然终亦不清：不可执行。',
+  'routed_through_other': ['独一位为数量条件（一位之外多见如何未定，数量比较未阈值化）',
+                           '「则为福人、终亦不清」的评价以食神格成立为前提（determination 为 '
+                           'None）；「不清」为清浊语汇，只登记存在，清浊判断不存在']},
+ {'id': 'yh.ss_body_strong_seal_taboo',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shishen',
+  'role': 'operative_candidate',
+  'quote': '却喜身旺,不喜印綬,亦恐伤其食神也。',
+  'locator': {'char_start': 7775, 'char_end': 7793},
+  'operative': True,
+  'routed_through_strength': True,
+  'note': '食神却喜身旺、不喜印綬：身旺明文条件，不可执行。',
+  'routed_through_other': ['不喜印綬经印綬伤食（倒食）效力转手（未裁定）']},
+ {'id': 'yh.ss_luck_in_place',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shishen',
+  'role': 'operative_candidate',
+  'quote': '如运得地,方可发福;大概与财神相似。',
+  'locator': {'char_start': 7795, 'char_end': 7813},
+  'operative': True,
+  'routed_through_strength': False,
+  'note': '运得地方可发福：不可执行。',
+  'routed_through_other': ['运得地为得时得地判断（未阈值化，沿财组得时得地门口径）', '「大概与财神相似」为类推陈述、非规则；「发福」为境遇断语只登记存在']},
+ {'id': 'yh.ss_example_1',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shishen',
+  'role': 'worked_example',
+  'quote': '如【己未,己巳,丁未,辛丑】:丁见己为食神,有一丑巳合起金局得之为财;又喜身不弱,所以有官亦有寿也。',
+  'locator': {'char_start': 7815, 'char_end': 7865},
+  'operative': False,
+  'routed_through_strength': None,
+  'note': '例造（己未/己巳/丁未/辛丑）：丁见己为食神、丑巳合起金局得之为财、又喜身不弱、所以有官亦有寿——doctrine 应用见证，非规则；不据例造反推条件。'},
+ {'id': 'yh.ss_example_2',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shishen',
+  'role': 'worked_example',
+  'quote': '如【乙巳,乙酉,癸酉,乙卯】:此命见三乙为食神,见巳酉丑合局为印綬,又有三乙化为伤官。癸用乙为食神,被金局来剋乙木,再被三乙木并卯旺剋我官;所以名利都无成也。',
+  'locator': {'char_start': 7867, 'char_end': 7946},
+  'operative': False,
+  'routed_through_strength': None,
+  'note': '例造（乙巳/乙酉/癸酉/乙卯）：癸用乙为食神，被金局剋乙、又有三乙化为伤官剋我官，名利无成——例内「三乙化为伤官」的化象表述只登记存在（化气/从化成立未裁定）；doctrine '
+          '应用见证，非规则，不据例造反推条件。'}]
+
+YUANHAI_SHISHANG_CONTEXT_QUOTES = [{'id': 'yh.ctx_ss_how_para',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.shishen',
+  'role': 'gap_bearing_context',
+  'quote': '何也?殊不知丙能生我戊土中食丙之戊财,故以此名之也。',
+  'locator': {'char_start': 7665, 'char_end': 7691},
+  'contains_gap_positions': [7667],
+  'not_for_operative_reading': True,
+  'note': '整段含缺字位点 7667（「何也?」衔接处，见缺字登记 ss-gap-01）：衔接分句不作读法依据；其后机理分句（丙能生戊土之财）与缺字分句同段，按 context '
+          '形登记、不作 operative 读法依据（食神生财机理的完整陈述已于倒食节 yh.ds_mechanism 登记，本批引用关系在案）；「中食丙之戊财」语义存疑见字形登记 '
+          'ss-glyph-02。'}]
+
+YUANHAI_SHISHANG_GAP_REGISTER = [{'id': 'ss-gap-01',
+  'position': 7667,
+  'char': '?',
+  'source_section_id': 'yuanhai.shishen',
+  'context': '何也?',
+  'context_locator': {'char_start': 7665, 'char_end': 7668},
+  'status': 'placeholder_unresolved',
+  'reading': None,
+  'note': '半角 ? '
+          '占位：位于「何也」之后、「殊不知」之前（食神定义句的设问衔接处）。字面位置可读作问号标点，但本批按缺字未决统一登记（性质未决、两读并存），不猜填、不据以断句；含缺字整段只以 '
+          'context 形登记（yh.ctx_ss_how_para），登记引文窗口全部避开此位点（与正官组 yh-gap-05、财组 '
+          'cai-gap-03「何以言之?」衔接处同型）。'}]
+
+YUANHAI_SHISHANG_GLYPH_NOTES = [{'id': 'ss-glyph-01',
+  'position': 6532,
+  'char': '杀',
+  'source_section_id': 'yuanhai.shangguan',
+  'status': 'semantic_doubt_preserved',
+  'mapped_reading': None,
+  'note': '「伤官之杀，甚如伤身七杀，其验如神」之首「杀」字语义存疑：或读作伤官之害（杀伤之杀），或与句中「伤身七杀」之杀对举而指七杀本身，读法未定；无见证互校，不径改、不给 '
+          'mapped_reading，逐字保留并标记存疑。'},
+ {'id': 'ss-glyph-02',
+  'position': 7678,
+  'char': '食',
+  'source_section_id': 'yuanhai.shishen',
+  'status': 'semantic_doubt_preserved',
+  'mapped_reading': None,
+  'note': '食神定义机理句「丙能生我戊土中食丙之戊财」之「食」字语义存疑：「中食丙之戊」数语于文义不顺，疑有讹字或脱字；该段含缺字位点、已以 context '
+          '形登记不作读法依据，本项只就字形层面落账——无见证互校，不径改、不给 mapped_reading，逐字保留并标记存疑。'}]
+
+YUANHAI_SHISHANG_CROSS_REFERENCES = [{'id': 'yh.sw_xref_zg_luck_shangguan',
+  'target_module': 'bazi_yuanhai_zhengguan',
+  'target_quote_id': 'yh.zg_luck_shangguan',
+  'locator': {'char_start': 10285, 'char_end': 10319},
+  'relation': '《正官论》行伤官之运句（命中有官星、而行伤官之运则不吉）已于正官组登记：伤官见官/伤官运论述散见正官节，本批只登记引用关系，不重复登记引文。'},
+ {'id': 'yh.sw_xref_zg_luck_observation',
+  'target_module': 'bazi_yuanhai_zhengguan',
+  'target_quote_id': 'yh.zg_luck_observation',
+  'locator': {'char_start': 9782, 'char_end': 9825},
+  'relation': '《正官论》行运观察句「又行不得伤官之地」已于正官组登记：伤官之地为正官行运禁忌，本批只登记引用关系。'},
+ {'id': 'yh.sw_xref_zg_shenwang_fa',
+  'target_module': 'bazi_yuanhai_zhengguan',
+  'target_quote_id': 'yh.zg_shenwang_fa',
+  'locator': {'char_start': 10253, 'char_end': 10283},
+  'relation': '《正官论》身旺则发句「若无伤官破印」已于正官组登记：伤官破印为正官成格条件之一面，本批只登记引用关系。'},
+ {'id': 'yh.sw_xref_zc_shangguan_jiancai',
+  'target_module': 'bazi_yuanhai_cai',
+  'target_quote_id': 'yh.zc_shangguan_jiancai',
+  'locator': {'char_start': 9291, 'char_end': 9327},
+  'relation': '《论正财》「凡伤官见财格，忌见官星，只喜见财」已于财组登记：伤官见财格句散见财节，与本节 '
+              'yh.sw_meet_wealth_wonderful（须见其财为妙）对读在案、不合并引文；本批只登记引用关系。'},
+ {'id': 'yh.sw_xref_yn_jia_seal_taboo',
+  'target_module': 'bazi_yuanhai_yin',
+  'target_quote_id': 'yh.yn_jia_seal_taboo',
+  'locator': {'char_start': 12899, 'char_end': 12954},
+  'relation': '《论印綬》甲例「忌火伤官」句已于印组登记：伤官伤印一面散见印节，本批只登记引用关系。'},
+ {'id': 'yh.ss_xref_ds_taboo',
+  'target_module': 'bazi_yuanhai_yin',
+  'target_quote_id': 'yh.ds_taboo',
+  'locator': {'char_start': 14149, 'char_end': 14165},
+  'relation': '《论倒食》「用食神亦忌见之」已于印组登记：食神忌倒食与本节 yh.ss_taboo_wealth_growth（忌倒食）同旨，本批只登记引用关系、不重复登记。'},
+ {'id': 'yh.ss_xref_ds_mechanism',
+  'target_module': 'bazi_yuanhai_yin',
+  'target_quote_id': 'yh.ds_mechanism',
+  'locator': {'char_start': 14167, 'char_end': 14220},
+  'relation': '《论倒食》甲例机理句（甲见丙为食神、能生土财，壬剋丙火则丙火不能生财）已于印组登记：食神生财机理的完整陈述在倒食节，本节定义机理句含缺字只以 context '
+              '形在案，本批只登记引用关系。'}]
+
+YUANHAI_SHISHANG_UNREGISTERED_RELATED = [{'section_id': 'yuanhai.shangguan_shijue',
+  'title': '伤官节后诗诀七首',
+  'locator': {'char_start': 6932, 'char_end': 7222},
+  'reason': '《论伤官》后、《伤官说》前《诗诀》七首（6932–7222，机上实测计数 7 '
+            '首），皆伤官题材（伤官伤尽、五行伤官宜忌、伤官见财等），与伤官论同旨：诗诀体例与散文节不同，本批只登记散文节，诗诀未登记（与正官组、七杀组、财组、印组同口径）。'},
+ {'section_id': 'yuanhai.shangguan_shuo',
+  'title': '伤官说',
+  'locator': {'char_start': 7222, 'char_end': 7622},
+  'reason': '节题虽名《伤官说》，内容为短句杂录：首数条论伤官用财、用印、见官（伤官若伤尽却喜见官星、伤官用财不宜印乡、伤官见官印运不妨），其后转入再嫁、妻财子息、剋父母、女命比肩、胞胎取舍与诸命杂谈，非伤官本体专论整节，且多为无条件断语短句；本批按论述主体与体例口径不整节登记，只列清单——其中伤官诸条与本节登记对读的材料关系，俟后续专题如有需要时按条处置。'},
+ {'section_id': 'yuanhai.shishen_shijue',
+  'title': '食神节后诗诀六首',
+  'locator': {'char_start': 7948, 'char_end': 8183},
+  'reason': '《论食神》后、《论正财》前《诗诀》六首（7948–8183，机上实测计数 6 '
+            '首），皆食神题材，与食神论同旨：诗诀体例与散文节不同，本批只登记散文节；该诗诀块已于财组批（E0284）以财组相邻诗诀列入未登记清单，本批自食伤组一侧再记，口径一致。'}]
+
+YUANHAI_SHISHANG_ROUTING_REVIEW = {'scope': '论伤官与论食神中全部 operative=True 引文逐条（19 条：伤官 15、食神 4）',
+ 'conclusion_consistent_with_readiness': '食伤组可操作句无一条可直接执行，全部经未建层中的至少一门转手——身旺门（倘月令伤官位又行身旺乡、身弱忌官星、亦要身旺、身虽旺、身弱逢财运、食神却喜身旺：身旺/身弱为明文条件而一般旺衰不存在）；伤尽程度门（伤官务要伤尽、伤之不尽、不留一点：伤尽为程度词，无已裁定程度标尺、未阈值化，与扶抑 '
+                                         'S4 '
+                                         '程度词困境同型）；伤官见官效力门（见官为祸百端、岁运若见官星、支干岁运不见官星：效力未裁定）；财星链门（财能生官、须见其财、见财方可用、无财救：生官链与救应效力未裁定）；印与倒食效力门（印綬若伤尽、忌倒食、不喜印綬：效力未裁定）；得时得地门（运得地、财行得地、行败财之地：未阈值化）；数量与程度比较门（食神独一位、被祸重浅、轻则重则：未阈值化）；格局成立门（用伤官格、用伤官格局、月令伤官之位与独一位之评价，以伤官格/食神格成立本身为前提，而两格 '
+                                         'determination 均不存在）。故登记后食神格、伤官格 determination 仍为 '
+                                         'None，与正官组、七杀组、财组、印组同口径。',
+ 'comparison_with_prior_groups': '与前四组对照：正官成格侧独经身旺/轻重一门；七杀组经身旺、制伏效力、合杀三门；财组转手最密（六门）；印组以效力类诸门为主、身旺罕见出场。食伤组的特点是身旺明文出场频繁（七条可操作句以身旺/身弱为明文条件）且核心条件「伤尽」为程度词未阈值化——伤官格的不可执行首先卡在程度标尺，其次卡在伤官见官效力与格局成立本身。本批逐句登记以逐句复核为准。',
+ 'non_operative_excluded': '定义句、性情断语、六亲断语、行运断语、例造已分别标注 '
+                           'operative=False，不计入可操作句集合；断语本身即不可执行的吉凶陈述，只登记存在、不作裁定。其中「其验如神」「仔细推详，万无一失」为原文自我效验断语，只登记存在、不构成对传统推断准确性的任何背书；「父母不全、兄弟不完、妻妾不完、子息无传」六亲断语与「恶疾残躯」「有寿考」等健康/寿命字样均为原文断语，本批不设、也不允许衍生任何六亲、健康或寿命判断口径字段。',
+ 'determination_consequence': '本批登记后食神格、伤官格 determination 仍为 '
+                              'None：成格侧缺两格成立规则与伤尽程度标尺，破格侧缺伤官见官、食神生财链、印伤食诸效力层裁定；登记只补齐成对审定的材料。《论伤官》《论食神》自此整节在册，伤官节后诗诀七首、《伤官说》与食神节后诗诀六首未登记在案。'}
+
+YUANHAI_SHISHANG_NOTES = ['R1 登记≠可裁定：本批为纯证据登记，仓库内不存在任何食神格/伤官格 determination 代码路径；bazi_pattern 的 '
+ 'candidates、pattern_route、pattern_zaqi、pattern_determination_ren_yin 输出逐字不变。',
+ 'R2 缺字对账：两节范围内半角 ? 共 1 处（在《论食神》：7667），本批新登记为 ss-gap-01，维持 placeholder_unresolved。全书 ? 共 36 '
+ '处，正官组已登记 5 处、七杀组 2 处、财组 3 处、印组归属 2 处（计入正官组 5 处之内，不重复计数），本批 1 处，累计登记 11 处，其余 25 处不在本批范围。两节范围内 PUA '
+ '私用区字符 0 处（全书 PUA 亦为 0）。',
+ 'R3 不重复登记：已登记节中涉伤官/食神引文 7 条（正官论 3 条、正财节 1 条、印綬节 1 条、倒食节 2 '
+ '条），只登记引用关系（YUANHAI_SHISHANG_CROSS_REFERENCES），不复制引文、不改变其任何既有编码语义。',
+ 'R4 引文窗口纪律：全部 operative 引文与 doctrine 引文的窗口均不含 ? 字符；含缺字的整段只以 context 形登记并标 '
+ 'not_for_operative_reading。',
+ 'R5 '
+ '食神处置纪律：财组批（E0284）只列《论倒食》《论食神》为未登记、印组批（E0286）沿用其口径再列《论食神》（理由均为食神本体属后续食伤主题，就各批范围成立）；本批食伤组正面处置，《论食神》整节登记。',
+ 'R6 '
+ '伤官说与诗诀纪律：伤官节后诗诀七首与食神节后诗诀六首（财组批已以相邻诗诀在案）体例与散文节不同，不登记；《伤官说》节题虽名伤官，内容为短句杂录、后半转入六亲/胞胎/杂谈，非伤官本体专论整节，按论述主体与体例口径不整节登记（逐项理由见 '
+ 'YUANHAI_SHISHANG_UNREGISTERED_RELATED）。',
+ 'R7 '
+ '健康/寿命/六亲/财富禁区（内容诚实边界）：本登记不含、也不得被用于由伤官格或食神格推断健康、寿命、六亲境遇或现实财富的任何字段、评分或口径；节内「必生恶疾以残其躯」「暗昧恶疾」「父母不全、兄弟不完、妻妾不完、子息无传」「有子息、有寿考」「财厚食丰」「只为贫薄」等均为原文断语与例造叙事，按 '
+ 'fortune_claim / character_claim / luck_observation '
+ '登记存在，公开投影与任何场景均不消费本登记作健康、寿命、六亲或财富判断。节内「其验如神」「万无一失」为原文自我效验断语，只登记存在，不构成对传统推断预测准确性的任何背书。',
+ 'R8 来源普查不变：渊海 Source 仍为既有 101 条之一（C 95 / D 6），本批只扩 review_scope，不新增 Source、不升证据等级；渊海全文仍 '
+ 'quarantine，本登记只及于所列两节范围。',
+ 'R9 Canonical/Phase1 注册 pending：本登记为公开仓证据登记，sealed Phase1/Phase2 正式注册未做（与既有研究级登记同口径披露），不借用 s 编号。']
+
+YUANHAI_SHISHANG_LIMITATIONS = ['食神格/伤官格成格/破格/真假/清浊/用神继续不可裁定：成格侧缺两格成立规则与伤尽程度标尺，月令伤官之位与独一位等评价以格局成立为前提；破格侧经伤官见官、食神生财链、印伤食诸效力层转手而均未裁定。',
+ '缺字 1 处未决（ss-gap-01，7667）：含缺字分句（何也?衔接与其后机理句）在缺字解决前不作任何读法依据（整段以 context 形登记）；本批未做任何底本互校以解决缺字。',
+ '伤官节后诗诀七首、《伤官说》与食神节后诗诀六首未登记（逐项理由见 '
+ 'YUANHAI_SHISHANG_UNREGISTERED_RELATED）；渊海其余诸节（论阳刃、论日刃、论日贵、论日德、论魁罡、论金神、弃命从杀论等）仍未逐节登记。',
+ '字形疑点 2 项未决（「伤官之杀」杀字语义存疑、食神定义机理句「中食丙之戊财」食字语义存疑）：均逐字保留、无 '
+ 'mapped_reading，待见证互校另批处理；「印綬若伤尽」句首主语省略的施受读法未定，已在引文 note 在案。',
+ '本登记不得用于健康、寿命、六亲境遇或现实财富判断：任何由食神格、伤官格、食伤旺弱或本登记引文推断健康/寿命/六亲境遇/财富的用法均在本登记授权范围之外。']
