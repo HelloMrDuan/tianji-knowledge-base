@@ -25,7 +25,7 @@
 | 见人死自死 | 见人死自死皆吉 | 十八、哀乐 病死 歌唱 | 5941 / 221 |
 | 死人复活 | 死人复活主有信 | 十八、哀乐 病死 歌唱 | 5933 / 221 |
 
-新增一个 Chapter（c010）、两个 Section（s012/s013）、两个 Term、两个 partially_structured Rule，Variant 的 `reviewed_term_ids` 增至 12。审核摘录文件（Source `dream.source.zhougong-scenes` 的 content）同步追加该章题与两条短引，Source 的 SHA256 相应更新为摘录新字节的校验值（摘录校验值不混同整本 RAW 校验值）。候选审计中两条记录同步为 `approved_cultural_excerpt` / C 级 / medium 并回填 reviewed_term_id 与 reviewed_rule_id；`summary.confirmed_interpretations` 10 → 12。整本仍 D/pending、`promotion_allowed=false`、`quarantine_only`、`canonical_ready=false`，完整书体 Canonical 不存在。Source 仍为 C 级可追溯的单一电子版本：作者为空、不确证周公旦署名，刊本、年代与独立性仍未核。本批外部电子见证（维基文库固定版本）不可达，未复核两条新句的异文，不据此升级证据等级；首批蛇条目咬/蛟异字仍未裁定。
+新增一个 Chapter（c010）、两个 Section（s012/s013）、两个 Term、两个 partially_structured Rule，Variant 的 `reviewed_term_ids` 增至 12。审核摘录文件（Source `dream.source.zhougong-scenes` 的 content）同步追加该章题与两条短引，Source 的 SHA256 相应更新为摘录新字节的校验值（摘录校验值不混同整本 RAW 校验值）。候选审计中两条记录同步为 `approved_cultural_excerpt` / C 级 / medium 并回填 reviewed_term_id 与 reviewed_rule_id；`summary.confirmed_interpretations` 10 → 12。密封侧覆盖工件 `data/coverage/phase1.json` 以既有生成器（`scripts/build_phase1_coverage.py`）按新 bundle 重生成（dream 域 chapters 10 / sections 13 / terms 12 / rules 12），公开侧 `docs/COVERAGE.md` 同步该生成块（仅梦境两行变化）。整本仍 D/pending、`promotion_allowed=false`、`quarantine_only`、`canonical_ready=false`，完整书体 Canonical 不存在。Source 仍为 C 级可追溯的单一电子版本：作者为空、不确证周公旦署名，刊本、年代与独立性仍未核。本批外部电子见证（维基文库固定版本）不可达，未复核两条新句的异文，不据此升级证据等级；首批蛇条目咬/蛟异字仍未裁定。
 
 ## 语义边界与弃判
 
