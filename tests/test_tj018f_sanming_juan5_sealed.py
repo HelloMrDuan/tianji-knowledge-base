@@ -79,7 +79,7 @@ class QuoteSliceTest(unittest.TestCase):
         self.assertEqual(sanming[184328], " ")
         self.assertEqual(sanming[184329:184332], "论建禄")
         # 附论墓运子题钉位（zaqi 第二 part 起点）
-        self.assertEqual(sanming[172860:172864], "附论墓运")
+        self.assertEqual(sanming[172859:172863], "附论墓运")
 
     def test_slice_a_quotes_still_verbatim(self) -> None:
         sanming = _text("sanming_tonghui.txt")
