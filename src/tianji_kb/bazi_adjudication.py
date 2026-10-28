@@ -1,5 +1,8 @@
 """Bounded evidence rules and legacy abstention; no source-case lookup predictions."""
 
+import copy
+
+from . import bazi_siling_matrix as _siling_matrix
 from .bazi_core import VARIANT as BAZI_VARIANT
 from .bazi_root_conditions import STRENGTH_VARIANT, AVAILABILITY_VARIANT, root_availability
 from .bazi_commander import PRINCIPAL_VARIANT, principal_month
@@ -7,10 +10,11 @@ from .bazi_action_conditions import (
     EFFECT_VARIANT, PURE_GENERATING_MONTHS, PURE_GENERATING_WATER_MONTHS,
     PURE_SUPPORT_METAL_MONTHS)
 from .bazi_fire_morphology import BING_ROOT_POSITIONS, FORM_BING_WU
-from .bazi_fire_si_yin_morphology import FORM_BING_SI
+from .bazi_fire_si_yin_morphology import FORM_BING_SI, FORM_BING_YIN
 from .bazi_metal_water_roots import (
     METAL_WATER_ROOT_TABLES, S2_ANCHOR_TYPES, S2_LIMITATIONS)
-from .foundations import stem_element
+from .foundations import STEMS, stem_element
+from .resolver import ExecutionTrace
 
 ADJUDICATION_VARIANT = 'bazi-strength-adjudication-v1'
 
@@ -33,6 +37,31 @@ COMMANDING_ANCHOR_TYPES = {c['key']: c['anchor_type']
 # from original-text conditions.
 LU_ANCHOR_TYPES = {c['key']: c['anchor_type']
                    for c in FORM_BING_SI['conditions']}
+
+# TJ-011.2 F4: registered anchor provenance of the nine changsheng-form
+# conditions (bazi_fire_si_yin_morphology.FORM_BING_YIN). The
+# adjudication conditions output for the changsheng predicate carries
+# each condition's registered anchor_type verbatim, exactly like the
+# commanding and lu forms, so the governance-convention condition
+# (hidden_layer_convention_applied, instance
+# fire-morph.wu-in-yin-non-veto) stays machine-distinguishable from
+# original-text conditions.
+CHANGSHENG_ANCHOR_TYPES = {c['key']: c['anchor_type']
+                           for c in FORM_BING_YIN['conditions']}
+CHANGSHENG_ANCHOR_REGISTRATION = \
+    'bazi_fire_si_yin_morphology.FORM_BING_YIN'
+
+# TJ-011.2 F4: the user adjudication (2026-10-28) selected reading
+# (乙) segment_tightened out of the two readings registered in
+# F4_IMPLEMENTATION_GATE: the changsheng form's month condition
+# additionally requires the birth instant to fall in the Jia
+# commander segment [+14d, next jie) under the authorized pilot
+# Variant bazi-siling-yin-pilot-v1 and convention
+# siling-calculation-convention v1. Reading (甲) principal_only was
+# NOT selected and is not implemented anywhere.
+CHANGSHENG_SEGMENT_READING = 'segment_tightened'
+CHANGSHENG_PILOT_VARIANT = 'bazi-siling-yin-pilot-v1'
+CHANGSHENG_SEGMENT_STEM = '甲'
 
 # TJ-011.2: fire root branches whose root-type readings the morphology
 # register grades light_listed_conflicted (Xu: tomb listing vs
@@ -82,7 +111,7 @@ REGISTER_METAL_WATER_ROOT_CONFLICTS = {
     for stem, rows in METAL_WATER_ROOT_TABLES.items()}
 
 
-def _bounded_assessment(trace):
+def _bounded_assessment(trace, _segment_claim=None):
     # Check trace identity and uniqueness before indexing executed evidence.
     # A repeated rule ID would otherwise silently overwrite an earlier
     # observation, even if both rows carried individually valid citations.
@@ -284,6 +313,37 @@ def _bounded_assessment(trace):
         and command['month_branch'] == '巳' and command['relation'] == 'same_element'
         and roots['root_presence']
         and all(r['effect_status'] == 'effective_in_reviewed_context' for r in effects['visible_relations']))
+    # TJ-011.2 F4: changsheng / generating-month visible-support
+    # disjunct (Bing day master, Yin month), per the adjudicated
+    # register FORM_BING_YIN plus the user-selected segment tightening
+    # (reading 乙, see CHANGSHENG_SEGMENT_READING). Two structural
+    # differences from the commanding/lu disjuncts, both forced by
+    # the gate and disclosed here:
+    # (1) The segment gate is not an executed trace fact: chart()
+    # carries no birth instant, so the gate enters only as the
+    # validated pilot claim _segment_claim, supplied exclusively by
+    # the combination function strength_assessment_changsheng. In
+    # the plain trace-only path the claim is None and this disjunct
+    # can never fire (fail-closed: no default segment is assumed).
+    # (2) The visible-effects effectiveness conjunct is absent: the
+    # effects layer cannot prove a segment-conditional context (see
+    # the scope note in bazi_action_conditions), so effectiveness is
+    # asserted at this layer only, resting on the nine executed scope
+    # conditions themselves -- the form's complete registered
+    # condition set -- plus the segment gate.
+    # The root gate is the same register-defined criterion on the
+    # executed root facts as the sibling fire forms (scope condition
+    # effective_heavy_day_roots), with the same blocker
+    # reconciliation below.
+    changsheng_segment_met = (
+        _segment_claim is not None and _segment_claim['verifiable']
+        and _segment_claim['status'] == 'computed'
+        and _segment_claim['segment_stem'] == CHANGSHENG_SEGMENT_STEM)
+    changsheng = (effects['changsheng_visible_support_scope_met']
+        and all(effects['changsheng_visible_support_scope_conditions'].values())
+        and command['month_branch'] == '寅' and command['relation'] == 'generates_me'
+        and roots['root_presence']
+        and changsheng_segment_met)
     # TJ-011.2 S2: pure-form extension disjuncts (metal x You /
     # water x Zi), structurally parallel to the pure disjuncts except
     # the root gate: the sealed availability variant is wood-scoped, so
@@ -337,6 +397,15 @@ def _bounded_assessment(trace):
             pointer('root_availability', f'/roots/{i}/root_availability')
             for i in range(len(roots['roots'])) if form_effective_root(i)}
         lu_blockers = [
+            b for b in blockers
+            if not (b['reason'] == 'root_availability_not_effective'
+                    and b['fact_ref'] in reconcilable_refs)]
+    changsheng_blockers = blockers
+    if changsheng and day_master == '丙':
+        reconcilable_refs = {
+            pointer('root_availability', f'/roots/{i}/root_availability')
+            for i in range(len(roots['roots'])) if form_effective_root(i)}
+        changsheng_blockers = [
             b for b in blockers
             if not (b['reason'] == 'root_availability_not_effective'
                     and b['fact_ref'] in reconcilable_refs)]
@@ -443,6 +512,51 @@ def _bounded_assessment(trace):
         # commanding branch note); conflict_checks still reports
         # every root conflict.
         blockers = lu_blockers
+    elif changsheng and not changsheng_blockers:
+        # TJ-011.2 F4: like lu_visible_support, this predicate has no
+        # sealed Phase1/Phase2 rule registration yet (the S5
+        # governance batch verified the canonical-evidence premise
+        # is not met), so the verdict is issued through the
+        # registered bounded-adjudication exit (bazi.rule.r026) with
+        # every condition bound to executed factor evidence and the
+        # pending registration disclosed on the verdict itself; no
+        # rule ID is borrowed from another predicate (r029/r030
+        # included). Each condition additionally carries its
+        # registered anchor_type from FORM_BING_YIN, so the
+        # governance-convention condition (hidden layer, instance
+        # fire-morph.wu-in-yin-non-veto) stays machine-distinguishable
+        # from original-text conditions. The segment gate that the
+        # user adjudication (reading 乙 segment_tightened) adds to
+        # the month condition is carried on the verdict as
+        # segment_gate, bound to the validated pilot claim; it is a
+        # tightening OF the registered month condition, not a tenth
+        # registered condition, and is labelled accordingly.
+        classification, predicate = 'strong', 'changsheng_visible_support'
+        for key, met in effects['changsheng_visible_support_scope_conditions'].items():
+            conditions.append({'condition':key,'met':met,
+                'fact_ref':pointer('action_effects','/changsheng_visible_support_scope_conditions/' + key),
+                'rule_id':'bazi.phase2.action_effects',
+                'evidence_ids':list(steps['bazi.phase2.action_effects'][1]['evidence_ids']),
+                'anchor_type':CHANGSHENG_ANCHOR_TYPES[key],
+                'anchor_registration':CHANGSHENG_ANCHOR_REGISTRATION})
+        why = {'sufficient_rule':None,'sufficient_predicate':predicate,
+               'predicate_rule_registration':'pending_phase1_rule_registration',
+               'conditions':conditions,
+               'month_condition_reading':CHANGSHENG_SEGMENT_READING,
+               'segment_gate':{
+                   'pilot_variant':CHANGSHENG_PILOT_VARIANT,
+                   'calculation_convention':dict(_segment_claim['calculation_convention']),
+                   'segment_stem':_segment_claim['segment_stem'],
+                   'segment_index':_segment_claim['segment_index'],
+                   'registered_interval':_segment_claim['registered_interval'],
+                   'required_segment_stem':CHANGSHENG_SEGMENT_STEM,
+                   'met':True},
+               'all_required_conditions_verified':True,
+               'excluded_dependencies':['dated_commander','independent_hidden_effect_scores']}
+        # The verdict's blocker list is the reconciled one (see the
+        # commanding branch note); conflict_checks still reports
+        # every root conflict.
+        blockers = changsheng_blockers
     elif (pure_support_metal and not metal_blockers) or \
             (pure_generating_water and not water_blockers):
         # TJ-011.2 S2: like lu_visible_support above, these predicates
@@ -518,10 +632,11 @@ def _bounded_assessment(trace):
             'root_availability':True,'bounded_visible_effects':True,'independent_hidden_effect_scores':False},
         'maturity':'PARTIAL','research_only':True,'public_enabled':False,'ai_enabled':False,
         'weights_available':False,'source_case_lookup_used':False,'full_strength_classifier_ready':False,
-        'limitations':['仅显式任氏木日主：纯印比月卯、印比生扶月亥（从旺口径，不取当令），或无根无扶透辛月酉；丙日主午月同类当令显纯生扶（从强主锚）；丙日主巳月禄月显纯生扶（从强主锚）；金日主酉月、水日主子月全位置纯生扶（从旺/从强通述口径）；其余未裁定。',
+        'limitations':['仅显式任氏木日主：纯印比月卯、印比生扶月亥（从旺口径，不取当令），或无根无扶透辛月酉；丙日主午月同类当令显纯生扶（从强主锚）；丙日主巳月禄月显纯生扶（从强主锚）；丙日主寅月长生印月显纯生扶（从旺主锚，另须司令甲段门，仅经组合路径触发）；金日主酉月、水日主子月全位置纯生扶（从旺/从强通述口径）；其余未裁定。',
             '亥月分支谓词已完成密封 Phase1/Phase2 规则注册（bazi.rule.r029 / bazi.phase2.strength_pure_generating_support），裁决经该注册规则步发出并逐条件绑定因子证据。',
             '午月丙日主分支谓词已完成密封 Phase1/Phase2 规则注册（bazi.rule.r030 / bazi.phase2.strength_commanding_visible_support），裁决经该注册规则步发出并逐条件绑定因子证据；其藏干仅作根位事实（不否决、不计效）是 Variant 治理约定而非原文，藏干克破不在本形态裁定范围，逐盘记录在案。',
             '巳月丙日主分支谓词尚待密封 Phase1/Phase2 规则注册（pending），裁决经已注册的有限裁决出口发出并逐条件绑定因子证据，不冒充已注册规则的裁决；其藏干仅作根位事实（不否决、不计效）是 Variant 治理约定而非原文，藏干克破不在本形态裁定范围，逐盘记录在案。',
+            '寅月丙日主分支谓词尚待密封 Phase1/Phase2 规则注册（pending），裁决经已注册的有限裁决出口发出并逐条件绑定因子证据，不冒充已注册规则的裁决；其月份条件经用户裁定（乙 segment-tightened）另须出生瞬时落在寅月司令甲段，由组合函数凭已授权试点的显式结果核验，无试点结果、试点未算出或段非甲一律不触发本形态（不等于弱）；其藏干仅作根位事实（不否决、不计效）是 Variant 治理约定而非原文，藏干克破不在本形态裁定范围，逐盘记录在案。',
             '酉月金日主与子月水日主分支谓词尚待密封 Phase1/Phase2 规则注册（pending），裁决经已注册的有限裁决出口发出并逐条件绑定因子证据，不冒充已注册规则的裁决；其根有效性以 S1 金/水根审定登记表驱动（密封可用性 Variant 仍为木专属），辛/癸长生冲突与轻根列举冲突未裁定，受影响根一律阻断、绝不放行。',
             *S2_LIMITATIONS,
             '来源仍为 C 级单一电子版本，未宣称独立底本一致；强不等于吉，弱不等于凶。',
@@ -577,3 +692,198 @@ def strength_assessment(trace, *, strength_variant=STRENGTH_VARIANT):
             'source_case_lookup_used': False, 'ai_enabled': False,
             'scope': '真实执行条件的判定出口；尚无可复算的通用强弱或平衡 Rule。'
                      '古例裁语仅供独立复核，不能查表当作算法预测。'}
+
+
+# ---------------------------------------------------------------------
+# TJ-011.2 F4: segment-gated changsheng combination (Slice D-1 D4
+# form). The bounded assessment above is trace-only and carries no
+# birth instant, so the user-adjudicated segment tightening (reading
+# 乙) enters exclusively through this independent combination
+# function: it consumes an executed trace (or the chart()/execute()
+# envelope) plus an EXPLICIT pilot result for the same birth instant,
+# validates the pilot block's identity pins against the live Slice C
+# registration, and re-runs the bounded assessment with the validated
+# claim. chart() is not modified and no existing caller changes: with
+# no pilot result supplied anywhere, every pre-existing output is
+# byte-identical.
+# ---------------------------------------------------------------------
+
+def _changsheng_pilot_claim(pilot_result):
+    """Validate the structural identity pins of an explicit pilot block.
+
+    Returns a normalized claim dict. ``verifiable`` is False when the
+    block is not a verifiable pilot result at all (status then None);
+    a verifiable non-computed claim carries the pilot's own status
+    and reason. The pilot block is a caller-supplied claim, not
+    executed evidence: identity pins are checked against the live
+    Slice C registration (convention id/version, scope version_id,
+    s024 source/section, registered segment table), and the claimed
+    segment must agree with the claimed commander and with the
+    registered interval for its index -- mirroring the Slice D-1
+    pilot trust boundary (D6). The commander's own recomputation
+    (provider identity, Jie replay, registration integrity) is the
+    pilot module's own contract and is not repeated here.
+    """
+    claim = {'verifiable': False, 'status': None, 'reason': None,
+             'commander': None, 'segment_stem': None,
+             'segment_index': None, 'registered_interval': None,
+             'calculation_convention': None}
+    try:
+        conv = _siling_matrix.SILING_CALCULATION_CONVENTION
+        claim['calculation_convention'] = {'id': conv['id'],
+                                           'version': conv['version']}
+    except (AttributeError, KeyError, TypeError):
+        claim['reason'] = 'pilot_registration_unreadable'
+        return claim
+    if not isinstance(pilot_result, dict):
+        claim['reason'] = 'pilot_result_missing'
+        return claim
+    if pilot_result.get('variant') != CHANGSHENG_PILOT_VARIANT:
+        claim['reason'] = 'pilot_variant_mismatch'
+        return claim
+    if pilot_result.get('research_only') is not True \
+            or pilot_result.get('public_enabled') is not False \
+            or pilot_result.get('ai_enabled') is not False:
+        claim['reason'] = 'pilot_governance_flags_mismatch'
+        return claim
+    if pilot_result.get('evidence_binding') \
+            != 'pending_phase1_rule_registration':
+        claim['reason'] = 'pilot_binding_mismatch'
+        return claim
+    status = pilot_result.get('status')
+    if status not in ('computed', 'not_applicable', 'rejected',
+                      'uncertain'):
+        claim['reason'] = 'pilot_status_unknown'
+        return claim
+    claim['status'] = status
+    claim['reason'] = pilot_result.get('reason')
+    if status != 'computed':
+        claim['verifiable'] = True
+        return claim
+    commander = pilot_result.get('commander')
+    if commander not in STEMS:
+        claim['status'] = None
+        claim['reason'] = 'pilot_commander_invalid'
+        return claim
+    segment = pilot_result.get('segment')
+    if not isinstance(segment, dict) \
+            or segment.get('stem') != commander \
+            or segment.get('index') not in (1, 2, 3):
+        claim['status'] = None
+        claim['reason'] = 'pilot_segment_invalid'
+        return claim
+    provenance = pilot_result.get('provenance')
+    if not isinstance(provenance, dict):
+        claim['status'] = None
+        claim['reason'] = 'pilot_provenance_missing'
+        return claim
+    try:
+        version_id = conv['scope']['version_id']
+        cell = _siling_matrix.SILING_MATRIX[version_id]['寅']
+        quote = {row['id']: row for row in _siling_matrix.SILING_QUOTES}[
+            cell['quotes'][0]]
+        registered_segment = conv['segments'][segment['index'] - 1]
+    except (KeyError, IndexError, TypeError):
+        claim['status'] = None
+        claim['reason'] = 'pilot_registration_unreadable'
+        return claim
+    if provenance.get('calculation_convention') != {
+            'id': conv['id'], 'version': conv['version']} \
+            or provenance.get('version_id') != version_id \
+            or provenance.get('source_id') != quote['source_id'] \
+            or provenance.get('source_section_id') \
+            != quote['source_section_id']:
+        claim['status'] = None
+        claim['reason'] = 'pilot_provenance_mismatch'
+        return claim
+    if registered_segment['stem'] != commander \
+            or segment.get('registered_interval') \
+            != registered_segment['interval']:
+        claim['status'] = None
+        claim['reason'] = 'pilot_segment_mismatch'
+        return claim
+    if pilot_result.get('scope_month_branch') != '寅' \
+            or pilot_result.get('month_branch') != '寅':
+        claim['status'] = None
+        claim['reason'] = 'pilot_scope_mismatch'
+        return claim
+    claim['verifiable'] = True
+    claim['commander'] = commander
+    claim['segment_stem'] = segment['stem']
+    claim['segment_index'] = segment['index']
+    claim['registered_interval'] = segment['registered_interval']
+    return claim
+
+
+def _changsheng_trace_view(trace):
+    """Accept a live ExecutionTrace or a chart()/execute() envelope.
+
+    Envelope steps produced by a previous assessment run (the
+    strength gate step and any strength_<predicate> steps) are
+    outputs of the assessment itself, not factor inputs; they are
+    dropped before re-running so the combination is idempotent and
+    its verdict surface equals a fresh bounded run over the same
+    executed factors.
+    """
+    if hasattr(trace, 'steps') and hasattr(trace, 'evidence') \
+            and hasattr(trace, 'add'):
+        return trace
+    if isinstance(trace, dict) and 'trace' in trace \
+            and 'evidence' in trace:
+        view = ExecutionTrace(trace.get('domain', 'bazi'),
+                              trace.get('variant', BAZI_VARIANT))
+        view.steps = [copy.deepcopy(step) for step in trace['trace']
+                      if not step['rule_id'].startswith(
+                          'bazi.phase2.strength_')]
+        view.evidence = copy.deepcopy(trace['evidence'])
+        return view
+    raise ValueError('Changsheng combination requires an executed trace')
+
+
+def strength_assessment_changsheng(trace, pilot_result, *,
+                                   strength_variant=ADJUDICATION_VARIANT):
+    """Bounded strength assessment plus the F4 segment gate.
+
+    ``trace`` is an executed bazi trace (live ExecutionTrace or the
+    chart()/execute() envelope mapping); ``pilot_result`` is the
+    explicit bazi-siling-yin-pilot-v1 block for the same birth
+    instant (or None). The returned assessment is the bounded
+    assessment, with the changsheng predicate reachable only when
+    the validated pilot claim is computed and its segment is the
+    Jia segment, and with a changsheng_segment_gate block recording
+    the gate evaluation either way. A gate that does not pass never
+    alters the classification: segment-not-Jia, a non-computed
+    pilot and an unverifiable pilot block all leave the bounded
+    verdict exactly as the trace alone yields it (and never weak).
+    """
+    if strength_variant != ADJUDICATION_VARIANT:
+        raise ValueError('Unsupported strength adjudication variant')
+    view = _changsheng_trace_view(trace)
+    claim = _changsheng_pilot_claim(pilot_result)
+    assessment = _bounded_assessment(view, _segment_claim=claim)
+    if claim['verifiable'] and claim['status'] == 'computed':
+        outcome = 'segment_jia' \
+            if claim['segment_stem'] == CHANGSHENG_SEGMENT_STEM \
+            else 'segment_not_jia'
+    elif claim['verifiable']:
+        outcome = 'pilot_not_computed'
+    else:
+        outcome = 'pilot_claim_unverifiable'
+    assessment = dict(assessment)
+    assessment['changsheng_segment_gate'] = {
+        'pilot_variant': CHANGSHENG_PILOT_VARIANT,
+        'reading': CHANGSHENG_SEGMENT_READING,
+        'reading_source': ('TJ-011.2 F4 用户裁定（乙 '
+                           'segment-tightened，2026-10-28）'),
+        'calculation_convention': claim['calculation_convention'],
+        'claim_verifiable': claim['verifiable'],
+        'pilot_status': claim['status'],
+        'pilot_reason': claim['reason'],
+        'segment_stem': claim['segment_stem'],
+        'segment_index': claim['segment_index'],
+        'registered_interval': claim['registered_interval'],
+        'required_segment_stem': CHANGSHENG_SEGMENT_STEM,
+        'gate_passed': outcome == 'segment_jia',
+        'gate_outcome': outcome,
+    }
+    return assessment

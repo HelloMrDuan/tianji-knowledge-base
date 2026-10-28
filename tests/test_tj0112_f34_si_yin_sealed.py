@@ -18,9 +18,15 @@ partition rule as the earlier batches). Pins:
   predicate, so the F3 scan-witness positive classifies 'strong'
   through it (bounded exit, pending registration) and the other four
   F3 charts stay 'indeterminate' with executed lu condition tables
-  identical to the design tables; F4 remains unimplemented (its
-  changsheng scope key exists nowhere in the executed output) pending
-  the siling expansion adjudication;
+  identical to the design tables; the F4 implementation batch
+  (E0262, reading (乙) segment_tightened, user adjudication
+  2026-10-28) added the changsheng scope keys - the executed F4
+  condition tables now equal the design tables - but the PLAIN
+  bounded path still adjudicates both F4 charts 'indeterminate':
+  the predicate fires only through the combination function with a
+  computed 甲段 pilot result (pinned in
+  test_tj0112_bing_yin_changsheng.py), and the 戊段 design case's
+  expectation was resolved to not_satisfied_segment_gate;
 - regression spot-checks: the F1 positive (Bing x Wu) still fires
   commanding_visible_support -> strong, and the S2 witness (Gui x
   Zi) still fires pure_generating_support_water -> strong;
@@ -140,15 +146,20 @@ class GoldenReplayTests(unittest.TestCase):
             self.assertEqual(pillars, case['expected_pillars'],
                              case['id'])
 
-    def test_f3_implemented_f4_still_gated(self):
+    def test_f3_f4_implemented_plain_path(self):
         # Updated by the F3 implementation batch (E0248): the F3
         # lu_visible_support predicate is implemented, so the design
         # witness earns its strong verdict and the executed F3
         # condition tables equal the design tables verbatim; the
         # other F3 charts stay indeterminate for their registered
-        # reasons. F4 is still NOT implemented: no changsheng scope
-        # key exists in the executed output and both F4 charts stay
-        # indeterminate until the siling expansion adjudication.
+        # reasons. Updated again by the F4 implementation batch
+        # (E0262): the changsheng scope keys now exist and the
+        # executed F4 condition tables equal the design tables
+        # verbatim, but the PLAIN bounded path still adjudicates
+        # both F4 charts indeterminate - the segment gate is only
+        # satisfiable through the combination function with an
+        # explicit pilot result (see
+        # test_tj0112_bing_yin_changsheng.py).
         for case in CASES.values():
             result, _ = run_birth(case['source_birth'])
             assessment = result['strength_assessment']
@@ -156,10 +167,15 @@ class GoldenReplayTests(unittest.TestCase):
             self.assertEqual(assessment['classification'],
                              case['expect']['current_engine'],
                              case['id'])
-            for key in effects:
-                self.assertNotIn('changsheng_visible_support', key,
-                                 case['id'])
             if case['form'] == 'F4':
+                self.assertEqual(
+                    effects['changsheng_visible_support_'
+                            'scope_conditions'],
+                    case['expected_conditions'], case['id'])
+                self.assertEqual(
+                    effects['changsheng_visible_support_scope_met'],
+                    all(case['expected_conditions'].values()),
+                    case['id'])
                 self.assertEqual(assessment['classification'],
                                  'indeterminate', case['id'])
                 self.assertIsNone(

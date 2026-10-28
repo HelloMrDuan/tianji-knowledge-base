@@ -742,6 +742,77 @@ F4_SATISFIABILITY = {
         'quantified difference in the future predicate\'s firing '
         'surface - it is not a formality.'
     ),
+    'execution_reverification': {
+        'batch': 'TJ-011.2 F4 implementation (E0262)',
+        'status': 'operative_figures',
+        'range': '1900-2099',
+        'granularity': 'hourly execution instants',
+        'universe': 'every executed Bing day-master chart in a Yin month',
+        'method': (
+            'Production calendar chain (engine.execute), '
+            'pillar-checked Bing x Yin charts: a noon-prescreen '
+            'main scan plus a full Jan-Mar wide/complement scan '
+            'covering the boundary-day hours the prescreen '
+            'skips. Segment distribution by arithmetic segment '
+            'under siling-calculation-convention v1; firing '
+            'decided by the real pilot Variant '
+            'bazi-siling-yin-pilot-v1 and the combination '
+            'function strength_assessment_changsheng. '
+            'Asia/Shanghai wall time with historical ZoneInfo '
+            'offsets.'
+        ),
+        'chart_count': 7142,
+        'positive_count': 31,
+        'segment_distribution': {'戊': 10, '丙': 6, '甲': 15},
+        'fired_count': 15,
+        'fired_segment_distribution': {'甲': 15},
+        'non_jia_positives_fired': 0,
+        'execution_errors': 0,
+    },
+    'correction_note': (
+        'CORRECTION (TJ-011.2 F4 implementation batch, E0262; '
+        'parent ruling: the production execution surface '
+        'governs, per the F3 correction precedent E0248): the '
+        'adjudication scan recorded above (1900-2100, day x 12 '
+        'shichen enumeration, 7,164 charts, 39 positives: '
+        'Wu 12 / Bing 8 / Jia 19) evaluated the registered '
+        'conditions on a non-executed factor layer; its scan '
+        'code was not kept in the repository and no per-chart '
+        'witness list was registered, so it cannot be '
+        'recomputed chart by chart. The implementation batch '
+        're-verified satisfiability on the production '
+        'execution surface (see execution_reverification): '
+        '7,142 executed Bing x Yin charts, 31 positives '
+        '(Wu 10 / Bing 6 / Jia 15 by arithmetic segment), 15 '
+        'fired through the real pilot Variant and the '
+        'combination function - all in the Jia segment; the '
+        '16 Wu/Bing-segment positives fired zero times, and '
+        'both design charts resolve exactly as adjudicated. '
+        'Three caliber differences are established: (1) the '
+        'adjudication universe includes year 2100 (3 Bing x '
+        'Yin days, 36 charts), which the production calendar '
+        'envelope (1900-2099) refuses to execute; (2) a pure '
+        'calendar noon enumeration of 1900-2100 finds 598 '
+        'Bing x Yin days (7,176 charts) against the '
+        'adjudication scan\'s 597 days (7,164 charts) - a '
+        'one-day boundary-caliber difference; (3) the '
+        'remaining positive difference of 8 (Wu +2 / Bing +2 '
+        '/ Jia +4, adjudication above execution) is a '
+        'systematic difference between the non-executed '
+        'factor evaluation surface and executed facts, '
+        'attributable to the evaluation surface only: the '
+        'nine condition texts are unchanged, and the same '
+        'adjudication scan method agreed exactly with '
+        'execution for F3 (a single witness). The operative '
+        'satisfiability figures of this register are the '
+        'execution figures in execution_reverification; the '
+        'scan block above is preserved verbatim as the '
+        'adjudication record. The property the user '
+        'adjudication of 2026-10-28 (reading '
+        'segment_tightened) turns on holds in full on the '
+        'execution surface: Jia-segment positives can fire; '
+        'Wu/Bing-segment positives never fire through F4.'
+    ),
 }
 
 F4_IMPLEMENTATION_GATE = {

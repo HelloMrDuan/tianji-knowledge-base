@@ -112,9 +112,16 @@ class FlippedWiringTests(unittest.TestCase):
 
     def test_pending_predicates_keep_pending_disclosure(self):
         text = (SRC / 'bazi_adjudication.py').read_text('utf-8')
-        # Exactly the lu and S2 (metal/water) verdict shapes still
-        # disclose a pending registration in the adjudication source.
-        self.assertEqual(text.count(f"'{PENDING}'"), 2)
+        # Exactly the lu, S2 (metal/water) and - since the F4
+        # implementation batch (E0262) - changsheng verdict shapes
+        # still disclose a pending registration in the adjudication
+        # source (three 'predicate_rule_registration' sites), plus
+        # one further quoted occurrence: the F4 combination's
+        # pilot-claim binding check, which requires the Slice C
+        # pilot block itself to carry the pending binding.
+        self.assertEqual(
+            text.count(f"'predicate_rule_registration':'{PENDING}'"), 3)
+        self.assertEqual(text.count(f"'{PENDING}'"), 4)
         for site in ('bazi_tiaohou.py', 'bazi_bingyao.py',
                      'bazi_dayun_classical.py', 'bazi_pattern.py',
                      'bazi_siling_pilot.py',
@@ -125,7 +132,10 @@ class FlippedWiringTests(unittest.TestCase):
 class PresentationTextTests(unittest.TestCase):
     def test_conflict_presentation_limitations_current(self):
         text = (SRC / 'bazi_conflict_presentation.py').read_text('utf-8')
-        self.assertIn('7 条已审充分谓词', text)
+        # E0262: the F4 changsheng predicate takes the count to 8
+        # (segment-gated, combination-path only; the presentation
+        # layer's bounded surface still abstains on its charts).
+        self.assertIn('8 条已审充分谓词', text)
         self.assertNotIn('仅 3 条木日主充分谓词', text)
 
 
