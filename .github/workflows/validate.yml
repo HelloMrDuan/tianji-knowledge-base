@@ -283,6 +283,27 @@ jobs:
       # test_tj012_yuanhai_yin_sealed.py (offline acceptance only,
       # NOT public CI: it reads the sealed snapshot files).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj012_yuanhai_yin.py' -v
+      # TJ-012.3 Slice D prerequisite yuanhai shishang-group section
+      # registration public contracts: pure-data register mirrored
+      # against Golden, two full sections （论伤官 + 论食神）,
+      # gap register completeness (1 half-width ? placeholder,
+      # unresolved, quote windows avoid the gap position, the
+      # gap-bearing passage carried as context only), per-sentence
+      # routing review (every operative sentence routed through at
+      # least one unbuilt gate: strength / exhaustion degree /
+      # hurting-officer-meets-officer effect / wealth chain /
+      # seal-and-reverse-seal effect / timing-position / count and
+      # degree comparison / pattern establishment), cross
+      # references to the zhengguan, cai and yin registers
+      # reference-only (no quote re-registration), unregistered
+      # related sections each with a reason, no determination
+      # semantics anywhere, and no health-, lifespan-, kinship- or
+      # wealth-prediction framing fields. Verbatim quote equality
+      # against the snapshot, the coverage scan, gap-position
+      # reconciliation and the source census live in
+      # test_tj012_yuanhai_shishang_sealed.py (offline acceptance
+      # only, NOT public CI: it reads the sealed snapshot files).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj012_yuanhai_shishang.py' -v
       # TJ-013.1 S3 ditiansui fuyi three-passage registration public
       # contracts: pure-data register mirrored against Golden, three
       # passages with explicit layers (verse/yuanzhu/renshi), judgment
