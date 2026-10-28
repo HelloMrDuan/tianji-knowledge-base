@@ -299,6 +299,11 @@ def project_execution(data):
             # Phase1 registration); never let it reach a public
             # response either.
             container.pop('pattern_determination_ren_yin', None)
+            # TJ-012.3 sanxing fact layer: the branch punishment
+            # facts are a research-only structural fact layer
+            # (pending Phase1 registration, public_enabled=false);
+            # never let a fact block reach a public response either.
+            container.pop('branch_punishment_facts', None)
     return result
 
 
