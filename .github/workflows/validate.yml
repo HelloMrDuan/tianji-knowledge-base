@@ -510,6 +510,25 @@ jobs:
       # (offline acceptance only, NOT public CI: it reads the sealed
       # snapshot files).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj018_sanming_reanchor.py' -v
+      # TJ-018.3 prerequisite: Sanming formal application design
+      # adjudication public contracts (E0294): pure-data design
+      # register mirrored against Golden, freeze pins for the five
+      # sealed objects, stage text pins (S1/S2 checkpoint/S3) with
+      # the S2 pin cross-checked against the reanchor register,
+      # two-stage pipeline spec with ten fail-hard conditions and
+      # zero-partial-application, PUA full-verification gate with
+      # the measured coverage gap (32/86 cited, 54 zero), the 76
+      # cross-boundary context carry aggregates cross-checked
+      # against the reanchor register, the 12 reading_disagreement
+      # items cross-checked per seq, the two permanent gaps
+      # cross-checked against public_domain_manifest, three
+      # user-level decisions registered as not needed now, and
+      # design-only red lines (nothing applied, snapshot untouched,
+      # canonical_ready=false). Sealed-side replay verification
+      # lives in test_tj0183_sanming_formal_application_sealed.py
+      # (offline acceptance only, NOT public CI: it reads the
+      # sealed snapshot files).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0183_sanming_formal_application.py' -v
       # TJ-017.1 seven-item priority collation closeout (scout
       # 018-B) public contracts: pure-data register mirrored
       # against Golden, collation-note form and confirmed anchor
