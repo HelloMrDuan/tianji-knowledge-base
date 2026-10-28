@@ -354,7 +354,12 @@ SOURCE_INVENTORY = [
 'note': '与三刑对照：三刑的流派冲突有密封概念实体（unresolved、'
 'blocked_pending_school_resolution）；合化的冲突只存在于'
 '公开登记 018-C 的 HEHUA_CONDITION_VARIANTS，概念层从未'
-'立项。本批不新建概念（治理批另行），只登记缺位事实。',
+'立项。本批不新建概念（治理批另行），只登记缺位事实。精'
+'确口径：18 个概念中唯一出现「合化」字样的是 '
+'action_conditions_variant_v1 的 unresolved_conditions '
+'清单（把合化列为未决条件之一）——是「被提及为未决」而'
+'非合化概念实体，密封测试按此口径钉住（概念 ID 全表见 '
+'SEALED_MEASUREMENTS）。',
 },
 {
 'id': 'inv-15',
@@ -1252,6 +1257,26 @@ SEALED_MEASUREMENTS = {
 'phase1_rules_total': 30,
 'phase1_concepts_total': 18,
 'phase1_hehua_concepts': 0,
+'phase1_concept_ids': [
+'bazi.concept.structural_boundary',
+'bazi.concept.conflict_spouse_star_lens',
+'bazi.concept.conflict_three_punishments',
+'bazi.concept.conflict_siling_days',
+'bazi.concept.strength_factor_variant_v1',
+'bazi.concept.month_command_variant_v1',
+'bazi.concept.ditiansui_principal_qi_v1',
+'bazi.concept.ditiansui_day_segment_candidates_v1',
+'bazi.concept.yuanhai_solar_term_candidates_v1',
+'bazi.concept.root_conditions_variant_v1',
+'bazi.concept.conflict_root_type_readings',
+'bazi.concept.action_conditions_variant_v1',
+'bazi.concept.strength_adjudication_v1',
+'bazi.concept.principal_month_v1',
+'bazi.concept.root_availability_v1',
+'bazi.concept.action_effects_v1',
+'bazi.concept.bounded_strength_adjudication_v1',
+'bazi.concept.pattern_candidates_v1',
+],
 'phase2_rules_total': 31,
 'foundations_stem_combinations': [['甲', '己', '土'],
 ['乙', '庚', '金'], ['丙', '辛', '水'], ['丁', '壬', '木'],

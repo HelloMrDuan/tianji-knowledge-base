@@ -643,6 +643,26 @@
   "phase1_rules_total": 30,
   "phase1_concepts_total": 18,
   "phase1_hehua_concepts": 0,
+  "phase1_concept_ids": [
+   "bazi.concept.structural_boundary",
+   "bazi.concept.conflict_spouse_star_lens",
+   "bazi.concept.conflict_three_punishments",
+   "bazi.concept.conflict_siling_days",
+   "bazi.concept.strength_factor_variant_v1",
+   "bazi.concept.month_command_variant_v1",
+   "bazi.concept.ditiansui_principal_qi_v1",
+   "bazi.concept.ditiansui_day_segment_candidates_v1",
+   "bazi.concept.yuanhai_solar_term_candidates_v1",
+   "bazi.concept.root_conditions_variant_v1",
+   "bazi.concept.conflict_root_type_readings",
+   "bazi.concept.action_conditions_variant_v1",
+   "bazi.concept.strength_adjudication_v1",
+   "bazi.concept.principal_month_v1",
+   "bazi.concept.root_availability_v1",
+   "bazi.concept.action_effects_v1",
+   "bazi.concept.bounded_strength_adjudication_v1",
+   "bazi.concept.pattern_candidates_v1"
+  ],
   "phase2_rules_total": 31,
   "foundations_stem_combinations": [
    [

@@ -122,11 +122,26 @@ class Phase1PinsTest(unittest.TestCase):
         p1 = _phase1()
         concepts = p1['concepts']
         self.assertEqual(len(concepts), MEAS['phase1_concepts_total'])
+        # The pinned identity claim: the concept table is exactly the
+        # 18 registered ids, none of which is a hehua/transformation
+        # concept (contrast: three-punishments and siling conflicts
+        # do have concept entities).
+        self.assertEqual([c['id'] for c in concepts],
+                         MEAS['phase1_concept_ids'])
         for c in concepts:
-            blob = json.dumps(c, ensure_ascii=False)
-            self.assertNotIn('合化', blob, c['id'])
-            self.assertNotIn('化气', blob, c['id'])
+            self.assertNotIn('hehua', c['id'])
+            self.assertNotIn('transformation', c['id'])
+            self.assertNotIn('合化', c.get('name') or '')
+            self.assertNotIn('化气', c.get('name') or '')
         self.assertEqual(MEAS['phase1_hehua_concepts'], 0)
+        # The single place the word 合化 appears in the concept layer
+        # is as an unresolved condition inside the action-conditions
+        # concept: mentioned-as-unresolved, not a concept entity.
+        action = next(c for c in concepts
+                      if c['id'] ==
+                      'bazi.concept.action_conditions_variant_v1')
+        self.assertIn('合化', action['attributes']
+                      ['unresolved_conditions'])
 
 
 class Phase2AndFoundationsTest(unittest.TestCase):
