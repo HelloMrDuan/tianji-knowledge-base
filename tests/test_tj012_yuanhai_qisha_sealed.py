@@ -107,7 +107,7 @@ class GlyphPositionTest(unittest.TestCase):
         self.assertEqual(text[11668:11672], "生忌无制")
         self.assertEqual(text[12333:12340], "若四柱元有为好")
         self.assertEqual(text[12336], "元")
-        self.assertEqual(text[12119:12127], "岁干透出辛丑")
+        self.assertEqual(text[12119:12128], "岁干透出辛丑为七杀")
 
 
 class CrossReferenceTest(unittest.TestCase):

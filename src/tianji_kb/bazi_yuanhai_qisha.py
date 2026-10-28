@@ -358,7 +358,7 @@ YUANHAI_QISHA_GLYPH_NOTES = [{'id': 'qs-glyph-01',
   'source_section_id': 'yuanhai.qisha',
   'status': 'phrasing_recorded_as_is',
   'mapped_reading': None,
-  'note': '例造一「岁干透出辛丑为七杀」（[12119,12127)）：辛丑为年柱干支，此处以干支并称指年干辛金为杀，语义可通；按原样注记登记，不改写。'}]
+  'note': '例造一「岁干透出辛丑为七杀」（[12119,12128)）：辛丑为年柱干支，此处以干支并称指年干辛金为杀，语义可通；按原样注记登记，不改写。'}]
 
 YUANHAI_QISHA_CROSS_REFERENCES = [{'id': 'yh.qs_xref_guansha_zhifu',
   'target_module': 'bazi_yuanhai_zhengguan',
