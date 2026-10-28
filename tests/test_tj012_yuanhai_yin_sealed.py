@@ -193,7 +193,7 @@ class GapReconciliationTest(unittest.TestCase):
 class GlyphPositionTest(unittest.TestCase):
     def test_glyph_positions(self) -> None:
         text = _text()
-        self.assertEqual(text[13394:13403], "生气是丙丁火属木故也")
+        self.assertEqual(text[13394:13404], "生气是丙丁火属木故也")
         self.assertEqual(text[13400], "属")
         self.assertEqual(text[14144:14147], "吞啗煞")
         self.assertEqual(text[14145], "啗")
