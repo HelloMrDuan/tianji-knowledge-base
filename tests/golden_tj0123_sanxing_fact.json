@@ -1,0 +1,564 @@
+{
+ "meta": {
+  "register_id": "bazi-sanxing-fact-adjudication-v1",
+  "task": "TJ-012.3",
+  "kind": "punishment_fact_layer_design_adjudication_register",
+  "purpose": "Golden mirror of the TJ-012.3 sanxing fact-layer adjudication register: the public test rebuilds this mirror from the module and requires byte equality, so any drift between register and Golden fails."
+ },
+ "headline_verdicts": {
+  "group_table_sources": 1,
+  "group_table_source_note": "全树已登记组表只有一个原典出处：三命卷二《论三刑》（018-B 登记）；s021 为跨书见证而非独立组表来源（其立场是斥机械套刑为俗谬）。",
+  "groups": 3,
+  "self_punishment_branches": 4,
+  "branch_coverage": "12/12（组员 8 支＋自刑 4 支）",
+  "cycle_edges_total": 8,
+  "cycle_edges_grade_a": 6,
+  "cycle_edges_grade_b": 1,
+  "cycle_edges_excluded": 1,
+  "slice_spec": "sanxing-branch-fact-v1（非 None，窄口径结构事实）",
+  "implementation_in_this_batch": false,
+  "naming_adjudicated": false,
+  "concept_semantics_changed": false
+ },
+ "inventory": [
+  {
+   "id": "inv-01",
+   "status": "registered_evidence"
+  },
+  {
+   "id": "inv-02",
+   "status": "registered_evidence"
+  },
+  {
+   "id": "inv-03",
+   "status": "conflict_registered_unadjudicated"
+  },
+  {
+   "id": "inv-04",
+   "status": "note_context_only_not_quote_registered"
+  },
+  {
+   "id": "inv-05",
+   "status": "unresolved_not_quotable"
+  },
+  {
+   "id": "inv-06",
+   "status": "registered_canonical_section_consumption_side"
+  },
+  {
+   "id": "inv-07",
+   "status": "registered_evidence_consumption_blocked"
+  },
+  {
+   "id": "inv-08",
+   "status": "registered_canonical_section_rejection_position"
+  },
+  {
+   "id": "inv-09",
+   "status": "unresolved_non_blocking_for_structure"
+  },
+  {
+   "id": "inv-10",
+   "status": "registered_evidence_doctrine_valence"
+  },
+  {
+   "id": "inv-11",
+   "status": "registered_absence"
+  },
+  {
+   "id": "inv-12",
+   "status": "measured_absence"
+  },
+  {
+   "id": "inv-13",
+   "status": "measured_absence"
+  },
+  {
+   "id": "inv-14",
+   "status": "note_context_only_not_quote_registered"
+  }
+ ],
+ "groups": [
+  {
+   "group_id": "sanxing-group-1",
+   "ordinal_label": "一刑",
+   "members": [
+    "子",
+    "卯"
+   ],
+   "cycle": [
+    "子",
+    "卯"
+   ],
+   "cycle_note": "二支互为环：子→卯与卯→子两边都在方案内（数起句「数自卯顺至子，子逆至卯」双向计数）。",
+   "naming_registered": {
+    "main_text": "无礼",
+    "sanche_variant": null,
+    "status": "uncontested_within_section"
+   },
+   "evidence_refs": [
+    "sm3.enum_opening",
+    "sm3.summary_groups",
+    "sm3.counting_method"
+   ]
+  },
+  {
+   "group_id": "sanxing-group-2",
+   "ordinal_label": "二刑",
+   "members": [
+    "寅",
+    "巳",
+    "申"
+   ],
+   "cycle": [
+    "寅",
+    "巳",
+    "申"
+   ],
+   "cycle_note": "单向环 寅→巳→申→寅，三边全有正文枚举见证（等级 A×3），是三组中唯一环闭合且全 A 的组。",
+   "naming_registered": {
+    "main_text": "无恩",
+    "sanche_variant": "恃势",
+    "status": "conflict_unadjudicated"
+   },
+   "evidence_refs": [
+    "sm3.enum_opening",
+    "sm3.summary_groups",
+    "sm3.counting_method",
+    "sm3.wuen_core"
+   ]
+  },
+  {
+   "group_id": "sanxing-group-3",
+   "ordinal_label": "三刑",
+   "members": [
+    "丑",
+    "戌",
+    "未"
+   ],
+   "members_note": "总结句作「丑未戌」、计数/枚举作丑→戌→未；成员集合一致，成员顺序以环序为准。",
+   "cycle": [
+    "丑",
+    "戌",
+    "未"
+   ],
+   "cycle_note": "单向环 丑→戌→未→丑：前两边等级 A，闭合边未→丑只有等级 C 证据（见 DIRECTED_PAIR_TABLE），不入切片——本组环在事实层呈开口状态，如实输出，不得以环的「应然」补边。",
+   "naming_registered": {
+    "main_text": "恃势",
+    "sanche_variant": "无恩",
+    "status": "conflict_unadjudicated"
+   },
+   "evidence_refs": [
+    "sm3.enum_opening",
+    "sm3.summary_groups",
+    "sm3.counting_method"
+   ]
+  }
+ ],
+ "self_punishment": {
+  "set_id": "sanxing-self",
+  "members": [
+   "辰",
+   "午",
+   "酉",
+   "亥"
+  ],
+  "definition_basis": "sm3.zixing_definition：辰午酉亥谓之自刑——寅申巳亥一组内寅巳申互刑而亥无刑、辰戌丑未一组内戌丑未互刑而辰无刑、子午卯酉一组内子卯互刑而午酉无刑，「是以此四位谓之自刑」。自刑集是四支按「同类组内无刑者」定义的结构集合，不是与三组并列的第四组名目。",
+  "configuration": "同一自刑支在命盘中见于两个或以上柱位（原文「辰见辰自刑」句式）",
+  "naming_registered": {
+   "main_text": "自刑",
+   "sanche_variant": null,
+   "status": "uncontested_within_section"
+  },
+  "evidence_refs": [
+   "sm3.enum_opening",
+   "sm3.enum_group4_partial",
+   "sm3.zixing_definition"
+  ]
+ },
+ "directed_pairs": [
+  {
+   "actor": "子",
+   "target": "卯",
+   "group_id": "sanxing-group-1",
+   "attestation_grade": "A",
+   "attestation": "三命正文枚举引文逐字「子刑卯」",
+   "evidence_refs": [
+    "sm3.enum_opening",
+    "sm3.houyue_bracket"
+   ],
+   "in_slice": true
+  },
+  {
+   "actor": "卯",
+   "target": "子",
+   "group_id": "sanxing-group-1",
+   "attestation_grade": "B",
+   "attestation": "三命数起句计数链「数自卯顺至子」＋阐微 s021 逐字枚举「卯刑子」＋018-B 引文注记所引无礼段正文「所以卯刑子」（该段在已登记节内、文字干净，但未被提升为登记引文）三重支持",
+   "evidence_refs": [
+    "sm3.counting_method",
+    "bazi.section.s021"
+   ],
+   "in_slice": true,
+   "slice_condition": "入切片，但事实输出必须携带 attestation_grade=B，不得与等级 A 混同呈现"
+  },
+  {
+   "actor": "寅",
+   "target": "巳",
+   "group_id": "sanxing-group-2",
+   "attestation_grade": "A",
+   "attestation": "三命正文枚举引文逐字「寅刑巳」；无恩核心引文 sm3.wuen_core 另给机制释文（寅中甲木刑巳中戊土）",
+   "evidence_refs": [
+    "sm3.enum_opening",
+    "sm3.houyue_bracket",
+    "sm3.wuen_core"
+   ],
+   "in_slice": true
+  },
+  {
+   "actor": "巳",
+   "target": "申",
+   "group_id": "sanxing-group-2",
+   "attestation_grade": "A",
+   "attestation": "三命正文枚举引文逐字「巳刑申」",
+   "evidence_refs": [
+    "sm3.enum_opening"
+   ],
+   "in_slice": true
+  },
+  {
+   "actor": "申",
+   "target": "寅",
+   "group_id": "sanxing-group-2",
+   "attestation_grade": "A",
+   "attestation": "三命正文枚举引文逐字「申刑寅」（开篇枚举首句）",
+   "evidence_refs": [
+    "sm3.enum_opening"
+   ],
+   "in_slice": true
+  },
+  {
+   "actor": "丑",
+   "target": "戌",
+   "group_id": "sanxing-group-3",
+   "attestation_grade": "A",
+   "attestation": "三命正文枚举引文逐字「丑刑戌」；定义段正文「丑恃旺水刑戌中之墓火」另有明文（语境级，与引文互证、不改变等级依据构成）",
+   "evidence_refs": [
+    "sm3.enum_opening",
+    "sm3.houyue_bracket"
+   ],
+   "in_slice": true
+  },
+  {
+   "actor": "戌",
+   "target": "未",
+   "group_id": "sanxing-group-3",
+   "attestation_grade": "A",
+   "attestation": "三命正文枚举引文逐字「戌刑未」；定义段正文「戌恃辛金之势以刑未中之木」另有明文（语境级，互证同上）",
+   "evidence_refs": [
+    "sm3.enum_opening"
+   ],
+   "in_slice": true
+  },
+  {
+   "actor": "未",
+   "target": "丑",
+   "group_id": "sanxing-group-3",
+   "attestation_grade": "C",
+   "attestation": "三命侧只见于含未决字的残句「卯寅子未刑丑」（smxing-anomaly-71984，不入引文、不可逐字引用）；跨书见证：阐微 s021 逐字枚举「未刑丑」（斥谬语境）；「未为刑上」为框架暗示。三者皆非三命 exposition 的可引明文",
+   "evidence_refs": [
+    "bazi.section.s021",
+    "sm3.houyue_bracket"
+   ],
+   "in_slice": false,
+   "blocker": "blocked_by_evidence_gap：三命组表原典的可引明文缺位；解锁需先行校勘定字（残句「寅」字）或找到可引见证，属证据工程而非流派裁定（见 PENDING_ITEMS B1）"
+  }
+ ],
+ "non_edges": {
+  "count": 6,
+  "pairs": [
+   [
+    "巳",
+    "寅"
+   ],
+   [
+    "申",
+    "巳"
+   ],
+   [
+    "寅",
+    "申"
+   ],
+   [
+    "戌",
+    "丑"
+   ],
+   [
+    "未",
+    "戌"
+   ],
+   [
+    "丑",
+    "未"
+   ]
+  ],
+  "explanation": "三组组内有序对共 14 条（子卯组 2＋寅巳申组 6＋丑戌未组 6）：环边 8 条见 DIRECTED_PAIR_TABLE；其余 6 条为非边——方案本身不含（数起句计数链只给环向一途，反向无任何陈述），与「未刑丑」那种「环边在方案内但见证不足」严格区分：非边永不输出、永不登记为缺口。子卯组两条有序对皆环边，非边为零。s021「寅申相刑」的对语表述不创设反向边寅→申（同段自家枚举用有向形式，且其语境是「即冲何必再刑」的斥谬论点）。"
+ },
+ "coverage": {
+  "branch_coverage": {
+   "group_members": [
+    "子",
+    "卯",
+    "寅",
+    "巳",
+    "申",
+    "丑",
+    "戌",
+    "未"
+   ],
+   "self_punishment": [
+    "辰",
+    "午",
+    "酉",
+    "亥"
+   ],
+   "union_count": 12,
+   "all_branches_covered": true,
+   "note": "三命方案在组表层面覆盖全部十二支：8 支入三组、4 支入自刑集。覆盖完备性只陈述方案结构，不陈述任何命盘结论。"
+  },
+  "edge_coverage": {
+   "cycle_edges": 8,
+   "grade_a": 6,
+   "grade_b": 1,
+   "grade_c_excluded": 1,
+   "in_slice": 7
+  },
+  "overlap_with_existing_relations": {
+   "basis": "机上实测 foundations_v1.json earthly_branch_relations（2026-10-28）：clashes 子午/丑未/寅申/卯酉/辰戌/巳亥；six_harmonies 子丑/寅亥/卯戌/辰酉/巳申/午未；harms 子未/丑午/寅巳/卯辰/申亥/酉戌",
+   "pair_overlaps": [
+    {
+     "pair": [
+      "寅",
+      "巳"
+     ],
+     "existing_kind": "harm",
+     "note": "寅巳既是六害对，又是等级 A 有向刑边（寅→巳）"
+    },
+    {
+     "pair": [
+      "巳",
+      "申"
+     ],
+     "existing_kind": "six_harmony",
+     "note": "巳申既是六合对（传统化水），又是等级 A 有向刑边（巳→申）——合与刑同对并存，任何一层不得取消另一层"
+    },
+    {
+     "pair": [
+      "申",
+      "寅"
+     ],
+     "existing_kind": "clash",
+     "note": "寅申既是六冲对，又是等级 A 有向刑边（申→寅）；s021「寅申相刑，即冲何必再刑」是任氏据此斥刑的论点，属立场而非事实取消"
+    }
+   ],
+   "pairs_without_existing_relation": [
+    [
+     "子",
+     "卯"
+    ],
+    [
+     "卯",
+     "子"
+    ],
+    [
+     "丑",
+     "戌"
+    ],
+    [
+     "戌",
+     "未"
+    ]
+   ],
+   "group_level_overlaps": [
+    "sanxing-group-2（寅巳申）内部同时含冲对（寅申）、害对（寅巳）、合对（巳申）各一：组关系与对关系是两个独立维度，组在场不得推定对关系，反之亦然",
+    "sanxing-group-3（丑戌未）内部含冲对（丑未）：三支全在场时冲事实与组组态事实并存输出、互不抵消",
+    "刑组与三合局（申子辰/亥卯未/寅午戌/巳酉丑）、方局（寅卯辰等）成员集合 pairwise 皆不相等：刑组不是合局；开篇枚举以三合＋方局加位「生成」刑陈述是教义推演，不是集合等同",
+    "自刑四支各有既有关系（辰：冲戌/合酉/害卯；午：冲子/害丑/合未；酉：冲卯/合金/害戌；亥：冲巳/合寅/害申），自刑组态与之并存、互不抵消"
+   ]
+  },
+  "boundary_with_chong": "冲的机制在同节子题段另有登记（sm3.chong_definition「地支取七位为冲」）：冲是对宫七位关系，刑是组内环向关系，两者在原文中即分属两套框架；事实层沿此分界，kind 严格分开、无优先序、无抵消规则。"
+ },
+ "proposition_verdicts": [
+  {
+   "id": "P1",
+   "verdict": "fact_ready"
+  },
+  {
+   "id": "P2",
+   "verdict": "fact_ready"
+  },
+  {
+   "id": "P3",
+   "verdict": "fact_ready_with_grade"
+  },
+  {
+   "id": "P4",
+   "verdict": "blocked_by_evidence_gap"
+  },
+  {
+   "id": "P5",
+   "verdict": "fact_ready"
+  },
+  {
+   "id": "P6",
+   "verdict": "fact_ready_as_presence_only"
+  },
+  {
+   "id": "P7",
+   "verdict": "blocked_by_naming_conflict"
+  },
+  {
+   "id": "P8",
+   "verdict": "registered_variant_not_consumed"
+  },
+  {
+   "id": "P9",
+   "verdict": "blocked_by_missing_layers"
+  },
+  {
+   "id": "P10",
+   "verdict": "registered_doctrine_not_fact"
+  },
+  {
+   "id": "P11",
+   "verdict": "consumer_not_unlocked"
+  },
+  {
+   "id": "P12",
+   "verdict": "not_applied_by_registered_concept"
+  },
+  {
+   "id": "P13",
+   "verdict": "doctrine_not_fact"
+  },
+  {
+   "id": "P14",
+   "verdict": "prohibited"
+  }
+ ],
+ "slice_spec": {
+  "id": "sanxing-branch-fact-v1",
+  "status": "design_adjudicated_not_implemented",
+  "registration": {
+   "evidence_binding": "pending_phase1_registration（与既有研究级 Variant 同口径：材料不足保持 pending，不得借用既有 rule id）",
+   "sufficient_rule": null,
+   "research_only": true,
+   "public_enabled": false,
+   "ai_enabled": false,
+   "scenario_wiring": "不接公开场景；公开投影无新增键"
+  }
+ },
+ "pending_items": [
+  {
+   "id": "B1",
+   "needs_user_adjudication": false
+  },
+  {
+   "id": "B2",
+   "needs_user_adjudication": true
+  },
+  {
+   "id": "B3",
+   "needs_user_adjudication": false
+  },
+  {
+   "id": "B4",
+   "needs_user_adjudication": false
+  },
+  {
+   "id": "B5",
+   "needs_user_adjudication": true
+  }
+ ],
+ "quote_references": [
+  {
+   "register": "bazi_sanming_juan2_sanxing_collation",
+   "quote_id": "sm3.enum_opening",
+   "role": "group_table_primary"
+  },
+  {
+   "register": "bazi_sanming_juan2_sanxing_collation",
+   "quote_id": "sm3.enum_group4_partial",
+   "role": "group_table_group4"
+  },
+  {
+   "register": "bazi_sanming_juan2_sanxing_collation",
+   "quote_id": "sm3.summary_groups",
+   "role": "group_ordinals"
+  },
+  {
+   "register": "bazi_sanming_juan2_sanxing_collation",
+   "quote_id": "sm3.counting_method",
+   "role": "counting_chains_naming_basis"
+  },
+  {
+   "register": "bazi_sanming_juan2_sanxing_collation",
+   "quote_id": "sm3.wuen_core",
+   "role": "mechanism_doctrine"
+  },
+  {
+   "register": "bazi_sanming_juan2_sanxing_collation",
+   "quote_id": "sm3.zixing_definition",
+   "role": "self_punishment_definition"
+  },
+  {
+   "register": "bazi_sanming_juan2_sanxing_collation",
+   "quote_id": "sm3.sanche_variant",
+   "role": "naming_variant_evidence"
+  },
+  {
+   "register": "bazi_sanming_juan2_sanxing_collation",
+   "quote_id": "sm3.houyue_bracket",
+   "role": "framing_variant_evidence"
+  },
+  {
+   "register": "bazi_sanming_juan2_sanxing_collation",
+   "quote_id": "sm3.direction_statement",
+   "role": "direction_doctrine"
+  },
+  {
+   "register": "bazi_sanming_juan2_sanxing_collation",
+   "quote_id": "sm3.chong_definition",
+   "role": "chong_boundary_framework"
+  },
+  {
+   "register": "bazi_sanming_juan2_sanxing_collation",
+   "quote_id": "sm3.polu_poma",
+   "role": "subsection_enumeration_evidence"
+  },
+  {
+   "register": "bazi_yuanhai_zhengguan",
+   "quote_id": "yh.zg_taboo_xingchong",
+   "role": "consumer_statement"
+  },
+  {
+   "register": "bazi_yuanhai_zhengguan",
+   "quote_id": "yh.zg_jia_mixed",
+   "role": "consumer_statement"
+  }
+ ],
+ "sealed_section_pins": [
+  {
+   "section_id": "bazi.section.s020",
+   "source_id": "bazi.source.yuanhai",
+   "original_text": "三刑自刑魁罡全,发跡疆场。",
+   "role_in_this_adjudication": "渊海「使用」立场锚点；断语歌诀，不作事实消费"
+  },
+  {
+   "section_id": "bazi.section.s021",
+   "source_id": "bazi.source.ditiansui-spouse",
+   "original_text": "刑之义无所取,如亥刑亥、辰刑辰、酉刑酉、午刑午,谓之自刑,本支见本支,自谓同气,何以相刑?子刑卯,卯刑子,是谓相生,何以相刑?戌刑未,未刑丑,皆为土气,更不当刑。寅刑巳,亦是相生,寅申相刑,即冲何必再刑?又曰子卯一刑也,寅巳申二刑也,丑戌未三刑也,故称三刑,又有自刑,此皆俗谬,姑置之。",
+   "role_in_this_adjudication": "任氏「不采用」立场锚点；其枚举文字同时是组表跨书见证（卯刑子等级 B、未刑丑等级 C 的支持之一）——见证与立场分开登记"
+  }
+ ]
+}
