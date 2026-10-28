@@ -546,4 +546,29 @@ jobs:
       # test_tj0123_sanxing_impl_sealed.py (offline acceptance only,
       # NOT public CI).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0123_sanxing_impl.py' -v
+      # TJ-012.3 hehua (stem-combination transformation) source and
+      # fact-layer design adjudication public contracts: pure-data
+      # adjudication register mirrored against Golden, the
+      # whole-tree inventory pinned at 16 entries (the Sanming
+      # juan-2 hehua sections as the sole registered condition
+      # source, the Ditiansui huaxiang chapter audit-only and
+      # unregistered, measured absences for Yuanhai/Shenfeng/
+      # Qiongtong scopes, the phase1 concept layer and the S5
+      # governance register), the four registered formulations
+      # cross-checked against the 018-C conflict register (pair
+      # table, duhua trigger stems parsed against the quote text,
+      # blocker sets differing for exactly three pairs, the
+      # monthly-table divergence numbers), the 11-element condition
+      # matrix with the commander row absent in every formulation,
+      # the true-conflict count (C1-C4 registered, C5 unregistered
+      # tension), the 18-row proposition audit, SLICE_SPEC=None
+      # with its disclosed decision, the two user-level pending
+      # decisions (P-D1 formulation adoption, P-D2 cong-hua
+      # taxonomy), and zero runtime wiring with the
+      # transformation_status wording unchanged. Sealed-snapshot
+      # slice re-verification, phase1/phase2 bundle pins and
+      # current-behaviour regression live in
+      # test_tj0123_hehua_fact_sealed.py (offline acceptance only,
+      # NOT public CI).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0123_hehua_fact.py' -v
       - run: python scripts/audit_public_asset_changes.py --inventory
