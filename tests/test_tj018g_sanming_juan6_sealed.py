@@ -78,11 +78,11 @@ class QuoteSliceTest(unittest.TestCase):
         for (start, _end), title in zip(SECTIONS, TITLES):
             self.assertEqual(sanming[start], " ")
             self.assertEqual(sanming[start + 1:start + 3], title)
-        # 方局组终点为下节题行首空格位；八象组终点后为换行与下节
+        # 方局组终点为下节题行首空格位；八象组终点前一字为换行、终点位即下节题行首空格
         self.assertEqual(sanming[204836], " ")
-        self.assertEqual(sanming[204837:204840], "土局润下")
-        self.assertEqual(sanming[214948], "\n")
-        self.assertEqual(sanming[214950:214954], "天地德合")
+        self.assertEqual(sanming[204837:204841], "土局润下")
+        self.assertEqual(sanming[214947], "\n")
+        self.assertEqual(sanming[214949:214953], "天地德合")
 
 
 class CollationNoteSliceTest(unittest.TestCase):
