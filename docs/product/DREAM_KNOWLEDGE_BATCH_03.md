@@ -1,0 +1,48 @@
+# Dream Knowledge 第三批：见人死自死、死人复活两条文化短摘录（TJ-019.2 首批）
+
+沿用现有 Source → Quarantine/Review → Classic/Chapter/Section/Term/Rule/Evidence 治理链，在同一 Phase1 schema 中受控接纳 `dream` 域两条新场景，已审场景由 10 增至 12。没有建立另一个知识格式，没有添加梦排盘引擎，解梦页视觉（古风书卷）不动，不接 AI 解释。
+
+## 选取口径（TJ-019.1 队列七主题逐项核对候选材料）
+
+候选材料为 quarantine 周公候选审计（17 类，`zhougong_dream_candidates.json`）。七个队列主题中只有死亡候选为 `direct_scene`（有精确动作原典）；其余逐项如实保留：
+
+| 队列主题 | 候选状态 | 本批处置 |
+| --- | --- | --- |
+| 死亡 | direct_scene：「见人死自死皆吉」 | **入审**（窄场景：见人死/自死） |
+| 故人 | related_only：「死人复活主有信」 | 该句本身是完整精确条目，**以其自身场景「死人复活」入审**；故人主题仍无已审解释，不填充缺口 |
+| 考试 | related_only（读书文写字大吉） | 不入审：读书写字不等于考试 |
+| 怀孕 | related_only（携手上桥妻有孕） | 不入审：上桥梦的古代生孕断语不能证明梦见怀孕的解释，也不能用来诊断怀孕；保持仅输入观察与无解释呈现 |
+| 结婚 | related_only（夫妇宴会主相别） | 不入审：夫妻宴会不等于结婚梦 |
+| 工作 | related_only（受职上官财物来） | 不入审：古代官职场景不等同现代职场 |
+| 被追 | not_found | 不入审：全文未见明确被追条目，赶贼、逃走、被打不能代替被追 |
+
+## 原文审核
+
+使用既有钉定殆知阁 UTF-8 RAW：commit `4a6d6f2088825f132521d848c2ea86cf9c9a7620`，blob `0c7b0823265c4ff00465f833e0be28f1bf0f2175`，23527 bytes，SHA256 `d80c42b0b8f44f5b8cf2c4e1c286b200388b65dcd321347eb7ac1011d0be5e97`（本批复拉钉定 commit 逐字复核一致）。原始字节不修改，两句均逐字唯一匹配，同属一章：
+
+| 具体场景 | 固定原句 | 章节 | Unicode 字符位置 / 行 |
+| --- | --- | --- | --- |
+| 见人死自死 | 见人死自死皆吉 | 十八、哀乐 病死 歌唱 | 5941 / 221 |
+| 死人复活 | 死人复活主有信 | 十八、哀乐 病死 歌唱 | 5933 / 221 |
+
+新增一个 Chapter（c010）、两个 Section（s012/s013）、两个 Term、两个 partially_structured Rule，Variant 的 `reviewed_term_ids` 增至 12。审核摘录文件（Source `dream.source.zhougong-scenes` 的 content）同步追加该章题与两条短引，Source 的 SHA256 相应更新为摘录新字节的校验值（摘录校验值不混同整本 RAW 校验值）。候选审计中两条记录同步为 `approved_cultural_excerpt` / C 级 / medium 并回填 reviewed_term_id 与 reviewed_rule_id；`summary.confirmed_interpretations` 10 → 12。密封侧覆盖工件 `data/coverage/phase1.json` 以既有生成器（`scripts/build_phase1_coverage.py`）按新 bundle 重生成（dream 域 chapters 10 / sections 13 / terms 12 / rules 12），公开侧 `docs/COVERAGE.md` 同步该生成块（仅梦境两行变化）。整本仍 D/pending、`promotion_allowed=false`、`quarantine_only`、`canonical_ready=false`，完整书体 Canonical 不存在。Source 仍为 C 级可追溯的单一电子版本：作者为空、不确证周公旦署名，刊本、年代与独立性仍未核。本批外部电子见证（维基文库固定版本）不可达，未复核两条新句的异文，不据此升级证据等级；首批蛇条目咬/蛟异字仍未裁定。
+
+## 语义边界与弃判
+
+- 死亡场景只覆盖原句的两个子场景：梦者自死、梦者见到无名之人死去。有限同义句式只接纳第一人称梦境框架；带亲属称谓等其他主体标记的叙述（如梦见儿子死了、梦见爷爷去世了）按既有主体守卫保守不采纳——子死者、见死亡尊长是对象不同的邻近条目，不合并成一般死亡解释。不据此判断现实生死或未来。
+- 死人复活只覆盖死者复活这一具体动作；梦见故人、死人哭泣、死人立者均不命中本条。故人仍只是输入观察主题（`input_observation_only`），本批明确不填充故人缺口。
+- 否定（没有梦见）、假设（如果梦见）、转述/第三人做梦（朋友梦见、听说）一律弃判，与既有十场景同一守卫。
+- 死亡主题自本批起退出未审输入主题表（`_UNREVIEWED_INPUT_PATTERNS` 与公开 API 标签集合同步移除「死亡」），避免同一叙述同时被标为已审命中与未审主题。
+- 多场景命中仍逐条独立返回，不生成组合解释；未命中仍 `no_reviewed_interpretation`，不调用 LLM 补写。
+
+## Golden 与验证
+
+每条新场景至少两条语义正例、两条错误主题反例、两条否定/第三人弃判，走真实 `/api/v1/dream/culture` 查询流与研究检索面双层验证（`tests/test_tj0192_dream_batch03.py`）：死亡正例含自死与见人死两种子场景，反例含子死者/故人式叙述/死人复活（异条目），弃判含否定、假设、朋友做梦；复活正例含「死人复活」与「去世的爷爷复活」，反例含梦见已故亲人（故人缺口保持）与死人哭泣（邻近未审条目），弃判含否定、听说转述、朋友做梦。既有十场景行为零回归由既有梦境测试套件全量复跑证明；计数钉值（bundle 10→12、coverage 场景数、候选 summary、公开 manifest）按实测同步。
+
+## 已知待同步项（不在本批范围）
+
+TJ-019.1 的前端需求矩阵视图（`DreamCulturePage.tsx` 静态矩阵）仍把「死亡」列为未审核分类——那是需求分类口径（死亡作为一般主题仍无通解），本批只入审知识层窄场景；矩阵视图的分类口径同步留待 TJ-019.1 后续批处理，本批不改解梦页。
+
+## 成熟度
+
+Dream 知识阶段仍为 PARTIAL；公开解梦只呈现已审文化条目与未审主题的诚实空态，公开 Scenario 与 AI 均关闭。TJ-019.2 保持阻塞：队列其余主题（考试、怀孕、结婚、工作、被追、故人）仍待各自精确原典或后续审核批次。

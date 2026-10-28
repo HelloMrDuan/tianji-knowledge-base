@@ -2104,7 +2104,7 @@ Scenario：`dream`；已执行=False；现有结构公开标志=False；AI=false
 
 缺失能力 / 依赖 / 下一批：
 
-- `dream-traditional`：已沿用既有 Phase1 模型审核十个具体场景，新增乘龙入水、群鱼游水、屋宅更新、兄弟相打、拾得钱物；C级文化检索 helper 返回独立 matched_interpretations，有限相邻句式可辨单蛇追我后咬我，被追只记输入观察。通用梦象、组合解释、版本独立性和现代心理仍缺，公开 Scenario 与 AI 未开放，不把实体出现当梦义或作个人预测。
+- `dream-traditional`：已沿用既有 Phase1 模型审核十二个具体场景，新增乘龙入水、群鱼游水、屋宅更新、兄弟相打、拾得钱物、见人死自死、死人复活；C级文化检索 helper 返回独立 matched_interpretations，有限相邻句式可辨单蛇追我后咬我，被追只记输入观察。通用梦象、组合解释、版本独立性和现代心理仍缺，公开 Scenario 与 AI 未开放，不把实体出现当梦义或作个人预测。
   下一批复核现有 `dream.source.zhougong-scenes`，沿原模型补规则条件及 Golden。
 - `dream-psychology`：dream-modern-psychology 已有独立学术来源调查清单，含可核查研究及许可信息；尚未入既有 Source/Review 模型，未形成已审核证据或执行。文化梦书研究不作临床心理证据，不从梦诊断精神疾病、怀孕或预测必然未来。
   下一批先登记来源及权利，保存 RAW/Quarantine；无审核引文时保持未支持。

@@ -230,9 +230,18 @@ class DreamCombinationTests(unittest.TestCase):
         self.assertFalse(bundle['concepts'][0]['attributes']['source_independence_confirmed'])
         self.assertEqual(bundle['concepts'][0]['attributes']['raw_sha256'],
                          'd80c42b0b8f44f5b8cf2c4e1c286b200388b65dcd321347eb7ac1011d0be5e97')
-        for term in bundle['terms'][5:]:
+        # Batch 02 terms: the external witness agreed on the short quotes.
+        for term in bundle['terms'][5:10]:
             comparison=term['attributes']['external_text_comparison']
             self.assertTrue(comparison['short_quote_agrees'])
+            self.assertFalse(comparison['independent_edition_confirmed'])
+            self.assertIn('oldid=7907671',comparison['url'])
+        # Batch 03 terms (TJ-019.2): the witness was unreachable, so the
+        # comparison is honestly recorded as not verified — never agreed.
+        for term in bundle['terms'][10:]:
+            comparison=term['attributes']['external_text_comparison']
+            self.assertEqual(comparison['status'],'not_verified_witness_unreachable')
+            self.assertIsNone(comparison['short_quote_agrees'])
             self.assertFalse(comparison['independent_edition_confirmed'])
             self.assertIn('oldid=7907671',comparison['url'])
 

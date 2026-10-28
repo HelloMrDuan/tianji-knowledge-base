@@ -90,14 +90,15 @@ class PublicDreamCultureTests(unittest.TestCase):
                 if not excerpts:
                     self.assertEqual(data["status"], "no_reviewed_interpretation")
 
-    def test_three_sensitive_pending_topics_are_only_user_text_not_classical_readings(self):
+    def test_two_sensitive_pending_topics_are_only_user_text_not_classical_readings(self):
+        # TJ-019.2 batch 03: 死亡 left the pending topics — the narrow
+        # classical scenes 见人死/自死 are reviewed (see
+        # test_tj0192_dream_batch03.py). 被追/故人 remain pending here.
         positives = (
             ("梦见我被追赶", "被追", "梦见我被追赶"),
             ("梦见陌生人追我", "被追", "梦见陌生人追我"),
             ("我梦见故人", "故人", "梦见故人"),
             ("我梦见已故的亲人", "故人", "梦见已故的亲人"),
-            ("我梦见自己死了", "死亡", "梦见自己死了"),
-            ("梦见我死亡", "死亡", "梦见我死亡"),
         )
         for narrative, label, quote in positives:
             with self.subTest(narrative=narrative):
@@ -133,15 +134,17 @@ class PublicDreamCultureTests(unittest.TestCase):
                 self.assertEqual(payload["unreviewed_topics"], [])
                 self.assertFalse(payload["ai_enabled"])
 
-    def test_mixed_reviewed_money_and_unreviewed_death_do_not_create_combined_meaning(self):
+    def test_mixed_reviewed_money_and_death_do_not_create_combined_meaning(self):
+        # TJ-019.2 batch 03: the death clause now hits the reviewed
+        # 见人死自死 scene; both scenes stay separate matches with no
+        # combined meaning and no unreviewed 死亡 topic.
         narrative = "我梦见我捡到了钱，后来梦见自己死了"
         response = self.client.post(PUBLIC, json={"dream_text": narrative})
         self.assertEqual(response.status_code, 200, response.text)
         payload = response.json()
         self.assertEqual([x["short_quote"] for x in payload["matches"]],
-                         ["拾得钱物皆大吉"])
-        self.assertEqual(payload["unreviewed_topics"],
-                         [{"label": "死亡", "matched_texts": ["梦见自己死了"]}])
+                         ["拾得钱物皆大吉", "见人死自死皆吉"])
+        self.assertEqual(payload["unreviewed_topics"], [])
         self.assertNotIn("combined_interpretation", response.text)
         self.assertFalse(payload["personal_prediction"])
 
