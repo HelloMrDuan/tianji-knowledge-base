@@ -3,8 +3,11 @@
 本批是审定批：登记模块 ``bazi_sanxing_fact_adjudication`` 为纯数据、
 零函数、不被任何可执行路径 import；本测试只钉登记形制与审定红线
 （盘点计数、组表覆盖矩阵、边见证等级、SLICE_SPEC 一致性、命名
-不裁定、概念语义不变、零运行时接线），不验证任何三刑判定
-（不存在此种代码路径）。引文对快照的逐字复核与现行行为回归在
+不裁定、概念语义不变、接线约束），不验证任何三刑判定。实现批
+（E0268）落地切片后，接线约束由原「零引用」钉更新为「单一实现
+模块＋零消费接线」（见 test_implementation_confined_and_unwired
+的批次转换注记）；实现专项在 test_tj0123_sanxing_impl.py。
+引文对快照的逐字复核与现行行为回归在
 密封专项 ``tests/test_tj0123_sanxing_fact_sealed.py``（仅离线
 验收，不进公开 CI）。
 """
@@ -312,16 +315,32 @@ class PendingAndWiringTest(unittest.TestCase):
         self.assertEqual(by_id["B2"]["pending_decision_id"], "P-D1")
         self.assertEqual(by_id["B5"]["pending_decision_id"], "P-D2")
 
-    def test_zero_runtime_wiring(self) -> None:
+    def test_implementation_confined_and_unwired(self) -> None:
+        # Batch transition (E0268 implementation batch supersedes the
+        # adjudication-era pin): at adjudication time this test pinned
+        # ZERO references to the register/slice/function anywhere.
+        # The implementation batch lands the slice in exactly one
+        # module (bazi_sanxing_facts.py, which consumes this register
+        # and defines reviewed_branch_punishment_facts); the carrying
+        # invariant is confinement plus zero consumer wiring — no
+        # other production module may reference the register, the
+        # slice id, or the function, and bazi_core stays untouched.
         src = ROOT / "src" / "tianji_kb"
+        impl_path = src / "bazi_sanxing_facts.py"
+        self.assertTrue(impl_path.exists())
+        impl_text = impl_path.read_text(encoding="utf-8")
+        self.assertIn("def reviewed_branch_punishment_facts",
+                      impl_text)
         offenders = []
         for path in src.rglob("*.py"):
-            if path.name == "bazi_sanxing_fact_adjudication.py":
+            if path.name in ("bazi_sanxing_fact_adjudication.py",
+                             "bazi_sanxing_facts.py"):
                 continue
             text = path.read_text(encoding="utf-8")
             if ("bazi_sanxing_fact_adjudication" in text
                     or "sanxing-branch-fact-v1" in text
-                    or "reviewed_branch_punishment_facts" in text):
+                    or "reviewed_branch_punishment_facts" in text
+                    or "bazi_sanxing_facts" in text):
                 offenders.append(path.name)
         self.assertEqual(offenders, [])
         core = (src / "bazi_core.py").read_text(encoding="utf-8")

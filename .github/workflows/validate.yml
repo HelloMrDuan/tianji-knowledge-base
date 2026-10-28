@@ -526,4 +526,24 @@ jobs:
       # in test_tj0123_sanxing_fact_sealed.py (offline acceptance
       # only, NOT public CI).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0123_sanxing_fact.py' -v
+      # TJ-012.3 sanxing fact-layer implementation public
+      # contracts: the SLICE_SPEC (sanxing-branch-fact-v1) landed
+      # as the standalone structural fact function
+      # reviewed_branch_punishment_facts consuming the adjudication
+      # register — Golden real-chart replay through the production
+      # calendar chain against hand-derived expectations (the
+      # Chou/Wei partial-with-zero-pairs discriminator, Yin/Shen
+      # ring-direction-only, the full groups, Zi/Mao A/B grades,
+      # self-punishment repetitions), the output key whitelist with
+      # no group names and no verdict/valence fields, the 12^4
+      # exhaustive guard (grade-C and non-edges never emitted),
+      # illegal-input and register-tamper fail-closed, the pending
+      # registration posture (sufficient_rule=None, research-only,
+      # public/AI off), the public-projection defensive strip, and
+      # zero consumer wiring. Assembled-tree full-chain replay,
+      # snapshot byte verification of emitted evidence refs, and
+      # coexistence regression live in
+      # test_tj0123_sanxing_impl_sealed.py (offline acceptance only,
+      # NOT public CI).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0123_sanxing_impl.py' -v
       - run: python scripts/audit_public_asset_changes.py --inventory
