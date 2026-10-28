@@ -1,0 +1,3939 @@
+{
+ "register_id": "sanming-juan5-collation-register-v1",
+ "sections": [
+  {
+   "section_id": "sanming.juan5.zaqi",
+   "source_id": "bazi.source.sanmingtonghui",
+   "title_snapshot": "论杂气【喜身旺 刑冲忌压伏】",
+   "title_normalized": "论杂气【喜身旺 刑冲忌压伏】",
+   "volume": "卷五",
+   "locator": {
+    "char_start": 170743,
+    "char_end": 172958
+   },
+   "pua_count": 1,
+   "fang_count": 7,
+   "text_layer": "正文（含引述：经、景鉴、独步、玉匣赋、玄机赋、千里马、通明赋、搜髓论、古歌）与附论墓运",
+   "school_attribution": "三命通会体系",
+   "parts": [
+    {
+     "part_id": "zaqi_exposition",
+     "label": "杂气正文（四库藏干定义、喜透冲刑忌压伏、库头鬼/库头财、引文群与古歌群）",
+     "locator": {
+      "char_start": 170743,
+      "char_end": 172859
+     },
+     "status": "registered_evidence"
+    },
+    {
+     "part_id": "zaqi_muyun_appendix",
+     "label": "附论墓运（用神忌墓库运、晚年自库则吉）",
+     "locator": {
+      "char_start": 172859,
+      "char_end": 172958
+     },
+     "status": "registered_evidence"
+    }
+   ]
+  },
+  {
+   "section_id": "sanming.juan5.yangren",
+   "source_id": "bazi.source.sanmingtonghui",
+   "title_snapshot": "论阳刃【前论羊刄煞与此防】",
+   "title_normalized": "论阳刃【前论羊刄煞与此参㸔】",
+   "volume": "卷五",
+   "locator": {
+    "char_start": 180874,
+    "char_end": 184328
+   },
+   "pua_count": 8,
+   "fang_count": 42,
+   "text_layer": "正文（含引述：喜忌篇、经、心镜、玄机赋、消息赋、玉匣赋、通明赋、古歌与末尾例造二则）",
+   "school_attribution": "三命通会体系",
+   "parts": [
+    {
+     "part_id": "yangren_exposition",
+     "label": "阳刃正文（纲句、三刃、岁君冲合、刃位与所忌之财、日刄/自刄/飞刃、败财比肩、引文群、古歌群、例造二则）",
+     "locator": {
+      "char_start": 180874,
+      "char_end": 184328
+     },
+     "status": "registered_evidence"
+    }
+   ]
+  }
+ ],
+ "quotes": [
+  {
+   "id": "zq.definition",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.zaqi",
+   "part_id": "zaqi_exposition",
+   "role": "definition",
+   "quote": "杂气者乃辰戌丑未辰中有乙戊癸为水土库戌中有辛戊丁为火库丑中有癸辛巳为金库未中有丁巳乙为木库各随所藏之气而言看我日干或为官或为财或为印官系福身之物财是养命之源印乃资身之本在人最为切要四库各藏三件乃天地不正之气故以杂言也",
+   "locator": {
+    "char_start": 170759,
+    "char_end": 170867
+   },
+   "text_layer": "正文",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5z-si-170791",
+    "sm5z-si-170799"
+   ],
+   "mapped_reading": "杂气者乃辰戌丑未辰中有乙戊癸为水土库戌中有辛戊丁为火库丑中有癸辛己为金库未中有丁己乙为木库各随所藏之气而言看我日干或为官或为财或为印官系福身之物财是养命之源印乃资身之本在人最为切要四库各藏三件乃天地不正之气故以杂言也"
+  },
+  {
+   "id": "zq.jingyun",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.zaqi",
+   "part_id": "zaqi_exposition",
+   "role": "quoted_doctrine",
+   "quote": "经云财官印绶全备藏蓄于四季之中是也",
+   "locator": {
+    "char_start": 170867,
+    "char_end": 170884
+   },
+   "text_layer": "正文",
+   "school_attribution": "三命通会体系"
+  },
+  {
+   "id": "zq.xiji",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.zaqi",
+   "part_id": "zaqi_exposition",
+   "role": "doctrine",
+   "quote": "此格喜透露冲刑忌压伏其余喜忌消详与前正气财官印同",
+   "locator": {
+    "char_start": 170884,
+    "char_end": 170908
+   },
+   "text_layer": "正文",
+   "school_attribution": "三命通会体系"
+  },
+  {
+   "id": "zq.jialing",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.zaqi",
+   "part_id": "zaqi_exposition",
+   "role": "worked_example",
+   "quote": "假令六甲日生得丑月以丑中辛金为官巳土为财癸水为印",
+   "locator": {
+    "char_start": 170908,
+    "char_end": 170932
+   },
+   "text_layer": "正文",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5z-si-170924"
+   ],
+   "mapped_reading": "假令六甲日生得丑月以丑中辛金为官己土为财癸水为印"
+  },
+  {
+   "id": "zq.toulu",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.zaqi",
+   "part_id": "zaqi_exposition",
+   "role": "doctrine",
+   "quote": "看天干透出何字为福次分节气浅深何物当令大槩透财者富透官者贵印绶享父祖见成之福受宣勅防庇之贵",
+   "locator": {
+    "char_start": 170932,
+    "char_end": 170977
+   },
+   "text_layer": "正文",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5z-fang-170973"
+   ],
+   "mapped_reading": "看天干透出何字为福次分节气浅深何物当令大槩透财者富透官者贵印绶享父祖见成之福受宣勅䕃庇之贵"
+  },
+  {
+   "id": "zq.jingjian",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.zaqi",
+   "part_id": "zaqi_exposition",
+   "role": "quoted_doctrine",
+   "quote": "景鉴云杂气财官身旺有冲而发若太过反受孤贫是也",
+   "locator": {
+    "char_start": 171041,
+    "char_end": 171063
+   },
+   "text_layer": "正文",
+   "school_attribution": "三命通会体系"
+  },
+  {
+   "id": "zq.suobi",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.zaqi",
+   "part_id": "zaqi_exposition",
+   "role": "doctrine",
+   "quote": "若墓库重叠元无刑冲不透贵气兼有戊巳压其上最难发于少年故曰财官鎻闭少年不发墓中人是也",
+   "locator": {
+    "char_start": 171137,
+    "char_end": 171178
+   },
+   "text_layer": "正文",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5z-si-171153"
+   ],
+   "mapped_reading": "若墓库重叠元无刑冲不透贵气兼有戊己压其上最难发于少年故曰财官鎻闭少年不发墓中人是也"
+  },
+  {
+   "id": "zq.shimu",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.zaqi",
+   "part_id": "zaqi_exposition",
+   "role": "doctrine",
+   "quote": "又曰四库亦是衰养冠带之乡若时上见为时墓格与月上同论但发较晚",
+   "locator": {
+    "char_start": 171178,
+    "char_end": 171207
+   },
+   "text_layer": "正文",
+   "school_attribution": "三命通会体系"
+  },
+  {
+   "id": "zq.kutou_gui",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.zaqi",
+   "part_id": "zaqi_exposition",
+   "role": "doctrine_list",
+   "quote": "有库头鬼乃甲乙人见辛未忌丁巳丙丁人见壬戌忌戊寅戊巳人见甲辰忌庚寅庚辛人见丁丑忌癸巳壬癸人见戊辰忌甲寅一名轩车煞",
+   "locator": {
+    "char_start": 171546,
+    "char_end": 171601
+   },
+   "text_layer": "正文",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5z-si-171570"
+   ],
+   "mapped_reading": "有库头鬼乃甲乙人见辛未忌丁巳丙丁人见壬戌忌戊寅戊己人见甲辰忌庚寅庚辛人见丁丑忌癸巳壬癸人见戊辰忌甲寅一名轩车煞"
+  },
+  {
+   "id": "zq.kutou_cai",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.zaqi",
+   "part_id": "zaqi_exposition",
+   "role": "doctrine_list",
+   "quote": "有库头财乃甲乙人巳未丙丁人庚戌戊巳人壬辰庚辛人乙丑壬癸人丙辰君子多主钱糓之任常人家业从容即透出财官论也如金见己丑火木见乙未金水见丙辰土土见戊辰木火见壬戌水如此之格即墓中逢鬼危疑者甚",
+   "locator": {
+    "char_start": 171654,
+    "char_end": 171744
+   },
+   "text_layer": "正文",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5z-si-171662",
+    "sm5z-si-171670"
+   ],
+   "mapped_reading": "有库头财乃甲乙人己未丙丁人庚戌戊己人壬辰庚辛人乙丑壬癸人丙辰君子多主钱糓之任常人家业从容即透出财官论也如金见己丑火木见乙未金水见丙辰土土见戊辰木火见壬戌水如此之格即墓中逢鬼危疑者甚"
+  },
+  {
+   "id": "zq.dubu",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.zaqi",
+   "part_id": "zaqi_exposition",
+   "role": "quoted_doctrine",
+   "quote": "独步云辰戌丑未四土之神天元三用透旺为真",
+   "locator": {
+    "char_start": 171746,
+    "char_end": 171765
+   },
+   "text_layer": "正文",
+   "school_attribution": "三命通会体系"
+  },
+  {
+   "id": "zq.xuanji",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.zaqi",
+   "part_id": "zaqi_exposition",
+   "role": "quoted_doctrine",
+   "quote": "玉匣赋云财库临三合之地石崇作万金之主机赋云杂气财官刑冲则发",
+   "locator": {
+    "char_start": 171783,
+    "char_end": 171813
+   },
+   "text_layer": "正文",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5z-pua-171801"
+   ],
+   "mapped_reading": "玉匣赋云财库临三合之地石崇作万金之主玄机赋云杂气财官刑冲则发"
+  },
+  {
+   "id": "zq.guge_tigang",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.zaqi",
+   "part_id": "zaqi_exposition",
+   "role": "quoted_verse",
+   "quote": "月令提纲不可冲十冲九命皆为防惟有财官逢墓库运行到此反成功",
+   "locator": {
+    "char_start": 171957,
+    "char_end": 171985
+   },
+   "text_layer": "正文（古歌）",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5z-fang-171970"
+   ],
+   "mapped_reading": "月令提纲不可冲十冲九命皆为㓙惟有财官逢墓库运行到此反成功"
+  },
+  {
+   "id": "zq.guge_muku",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.zaqi",
+   "part_id": "zaqi_exposition",
+   "role": "quoted_verse",
+   "quote": "旺处生来墓库絶墓库发来生旺脱生逢生旺过非宜墓库逢防终不拨",
+   "locator": {
+    "char_start": 171988,
+    "char_end": 172016
+   },
+   "text_layer": "正文（古歌）",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5z-fang-172012"
+   ],
+   "mapped_reading": "旺处生来墓库絶墓库发来生旺脱生逢生旺过非宜墓库逢㓙终不拨"
+  },
+  {
+   "id": "zq.guge_wusi",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.zaqi",
+   "part_id": "zaqi_exposition",
+   "role": "quoted_verse",
+   "quote": "丙丁日主月逢未金水虽防未必防木火土乡须富贵再来申酉祸重重",
+   "locator": {
+    "char_start": 172631,
+    "char_end": 172659
+   },
+   "text_layer": "正文（古歌）",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5z-fang-172641",
+    "sm5z-fang-172644"
+   ],
+   "mapped_reading": "丙丁日主月逢未金水虽㓙未必㓙木火土乡须富贵再来申酉祸重重"
+  },
+  {
+   "id": "zq.guge_wuji",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.zaqi",
+   "part_id": "zaqi_exposition",
+   "role": "quoted_verse",
+   "quote": "戊巳生逢十二月伤官财格当时发重行金水格清竒运行火土多周折",
+   "locator": {
+    "char_start": 172414,
+    "char_end": 172442
+   },
+   "text_layer": "正文（古歌）",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5z-si-172415"
+   ],
+   "mapped_reading": "戊己生逢十二月伤官财格当时发重行金水格清竒运行火土多周折"
+  },
+  {
+   "id": "zq.fulun_muyun",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.zaqi",
+   "part_id": "zaqi_exposition",
+   "role": "appendix_doctrine",
+   "quote": "秘诀云防年不宜逢墓库老年值此却丰隆",
+   "locator": {
+    "char_start": 172865,
+    "char_end": 172882
+   },
+   "text_layer": "附论墓运",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5z-fang-172868"
+   ],
+   "mapped_reading": "秘诀云㓜年不宜逢墓库老年值此却丰隆"
+  },
+  {
+   "id": "yr.title",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.yangren",
+   "part_id": "yangren_exposition",
+   "role": "section_title",
+   "quote": "论阳刃【前论羊刄煞与此防】",
+   "locator": {
+    "char_start": 180874,
+    "char_end": 180888
+   },
+   "text_layer": "节题",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5y-pua-180885",
+    "sm5y-fang-180886"
+   ],
+   "mapped_reading": "论阳刃【前论羊刄煞与此参㸔】"
+  },
+  {
+   "id": "yr.zhifang",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.yangren",
+   "part_id": "yangren_exposition",
+   "role": "doctrine",
+   "quote": "庚乃甲之七煞刼财冲官合煞所以至防",
+   "locator": {
+    "char_start": 180945,
+    "char_end": 180961
+   },
+   "text_layer": "正文",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5y-fang-180960"
+   ],
+   "mapped_reading": "庚乃甲之七煞刼财冲官合煞所以至㐫"
+  },
+  {
+   "id": "yr.gangju",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.yangren",
+   "part_id": "yangren_exposition",
+   "role": "doctrine",
+   "quote": "惟甲丙戊庚壬五阳干有刃乙丁己辛癸五阴干无刃",
+   "locator": {
+    "char_start": 180961,
+    "char_end": 180982
+   },
+   "text_layer": "正文",
+   "school_attribution": "三命通会体系"
+  },
+  {
+   "id": "yr.sanren",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.yangren",
+   "part_id": "yangren_exposition",
+   "role": "doctrine",
+   "quote": "所以防与阳刃同阳刃有三有刼财刃甲见乙是也不利财官格有防禄刃甲见卯是也大利归禄格有背禄刃乙丙是也大利去官留煞局",
+   "locator": {
+    "char_start": 181023,
+    "char_end": 181077
+   },
+   "text_layer": "正文",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5y-fang-181025",
+    "sm5y-fang-181049"
+   ],
+   "mapped_reading": "所以㓙与阳刃同阳刃有三有刼财刃甲见乙是也不利财官格有䕶禄刃甲见卯是也大利归禄格有背禄刃乙丙是也大利去官留煞局"
+  },
+  {
+   "id": "yr.suijun",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.yangren",
+   "part_id": "yangren_exposition",
+   "role": "doctrine",
+   "quote": "见己酉是冲歳君见亥未戌是合歳君阳刃防煞也太岁防神也太岁得吉神相扶合则吉若阳刃防煞来冲合岁君是谓攅防聚煞其祸难免",
+   "locator": {
+    "char_start": 181152,
+    "char_end": 181207
+   },
+   "text_layer": "正文",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5y-fang-181169",
+    "sm5y-fang-181174",
+    "sm5y-fang-181190",
+    "sm5y-fang-181200"
+   ],
+   "mapped_reading": "见己酉是冲歳君见亥未戌是合歳君阳刃㓙煞也太岁㓙神也太岁得吉神相扶合则吉若阳刃㓙煞来冲合岁君是谓攅㓙聚煞其祸难免"
+  },
+  {
+   "id": "yr.ren_positions",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.yangren",
+   "part_id": "yangren_exposition",
+   "role": "doctrine",
+   "quote": "戊刃午见子财壬刃子见午财庚刃酉见卯财皆冲之财故忌之至甲刃卯不忌戊巳己午之财且忌酉官矣丙刃午",
+   "locator": {
+    "char_start": 181644,
+    "char_end": 181689
+   },
+   "text_layer": "正文",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5y-si-181676"
+   ],
+   "mapped_reading": "戊刃午见子财壬刃子见午财庚刃酉见卯财皆冲之财故忌之至甲刃卯不忌戊己己午之财且忌酉官矣丙刃午"
+  },
+  {
+   "id": "yr.jia_si",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.yangren",
+   "part_id": "yangren_exposition",
+   "role": "doctrine",
+   "quote": "甲以巳为妻财四柱却有卯乙巳土受伤不能扶甲",
+   "locator": {
+    "char_start": 181789,
+    "char_end": 181809
+   },
+   "text_layer": "正文",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5y-si-181791",
+    "sm5y-si-181801"
+   ],
+   "mapped_reading": "甲以己为妻财四柱却有卯乙己土受伤不能扶甲"
+  },
+  {
+   "id": "yr.feiren",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.yangren",
+   "part_id": "yangren_exposition",
+   "role": "doctrine_list",
+   "quote": "辛巳日见戊戌时非刄己中丙火合辛癸巳日见癸丑时非刄己中戌土合癸",
+   "locator": {
+    "char_start": 182020,
+    "char_end": 182050
+   },
+   "text_layer": "正文",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5y-ji-182029",
+    "sm5y-ji-182044"
+   ],
+   "mapped_reading": "辛巳日见戊戌时非刄巳中丙火合辛癸巳日见癸丑时非刄巳中戌土合癸"
+  },
+  {
+   "id": "yr.ersha",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.yangren",
+   "part_id": "yangren_exposition",
+   "role": "doctrine",
+   "quote": "阳刄者天上之防星人间之煞喜偏官印绶",
+   "locator": {
+    "char_start": 182072,
+    "char_end": 182090
+   },
+   "text_layer": "正文",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5y-fang-182078",
+    "sm5y-pua-182083"
+   ],
+   "mapped_reading": "阳刄者天上之㓙星人间之恶煞喜偏官印绶"
+  },
+  {
+   "id": "yr.riren",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.yangren",
+   "part_id": "yangren_exposition",
+   "role": "doctrine",
+   "quote": "日刄止有三日戊午丙午壬子与阳刃同法经曰赤黄马独卧黒防守空房男妨妻女妨夫指此三日也不喜刑冲破害三防六合",
+   "locator": {
+    "char_start": 182294,
+    "char_end": 182344
+   },
+   "text_layer": "正文",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5y-fang-182319",
+    "sm5y-fang-182341"
+   ],
+   "mapped_reading": "日刄止有三日戊午丙午壬子与阳刃同法经曰赤黄马独卧黒䑕守空房男妨妻女妨夫指此三日也不喜刑冲破害三㑹六合"
+  },
+  {
+   "id": "yr.he_xing",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.yangren",
+   "part_id": "yangren_exposition",
+   "role": "quoted_doctrine",
+   "quote": "赋云日刄大忌冲合喜官煞相制合者防遇印者吉",
+   "locator": {
+    "char_start": 182359,
+    "char_end": 182380
+   },
+   "text_layer": "正文",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5y-pua-182373",
+    "sm5y-fang-182375"
+   ],
+   "mapped_reading": "赋云日刄大忌冲合喜官煞相制合刑者㓙遇印者吉"
+  },
+  {
+   "id": "yr.ziren",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.yangren",
+   "part_id": "yangren_exposition",
+   "role": "doctrine_list",
+   "quote": "又自刄有三日癸丑丁未巳未因坐下比肩",
+   "locator": {
+    "char_start": 182527,
+    "char_end": 182544
+   },
+   "text_layer": "正文",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5y-si-182537"
+   ],
+   "mapped_reading": "又自刄有三日癸丑丁未己未因坐下比肩"
+  },
+  {
+   "id": "yr.xuanji",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.yangren",
+   "part_id": "yangren_exposition",
+   "role": "quoted_doctrine",
+   "quote": "心镜云阳刃重重又见煞大贵登科甲机云阳刄极喜天官削平祸乱",
+   "locator": {
+    "char_start": 183174,
+    "char_end": 183202
+   },
+   "text_layer": "正文（引文群）",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5y-pua-183189"
+   ],
+   "mapped_reading": "心镜云阳刃重重又见煞大贵登科甲玄机云阳刄极喜天官削平祸乱"
+  },
+  {
+   "id": "yr.xiaoying",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.yangren",
+   "part_id": "yangren_exposition",
+   "role": "quoted_doctrine",
+   "quote": "消息赋云小盈大恐是刼财之地",
+   "locator": {
+    "char_start": 183383,
+    "char_end": 183397
+   },
+   "text_layer": "正文（引文群）",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5y-pua-183390"
+   ],
+   "mapped_reading": "消息赋云小盈大亏恐是刼财之地"
+  },
+  {
+   "id": "yr.yinsheng_xing",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.yangren",
+   "part_id": "yangren_exposition",
+   "role": "quoted_doctrine",
+   "quote": "通眀赋云印生两刃终被定真篇云",
+   "locator": {
+    "char_start": 183448,
+    "char_end": 183463
+   },
+   "text_layer": "正文（引文群）",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5y-pua-183458"
+   ],
+   "mapped_reading": "通眀赋云印生两刃终被刑定真篇云"
+  },
+  {
+   "id": "yr.mokan",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.yangren",
+   "part_id": "yangren_exposition",
+   "role": "quoted_verse",
+   "quote": "古歌曰阳刃在时莫防防身轻反助却为中",
+   "locator": {
+    "char_start": 183531,
+    "char_end": 183548
+   },
+   "text_layer": "正文（古歌）",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5y-fang-183539",
+    "sm5y-fang-183540"
+   ],
+   "mapped_reading": "古歌曰阳刃在时莫㸔㓙身轻反助却为中"
+  },
+  {
+   "id": "yr.caishen_huihe",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.yangren",
+   "part_id": "yangren_exposition",
+   "role": "quoted_verse",
+   "quote": "刑害俱全为吉地财神防合是灾年",
+   "locator": {
+    "char_start": 183908,
+    "char_end": 183922
+   },
+   "text_layer": "正文（古歌）",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5y-fang-183917"
+   ],
+   "mapped_reading": "刑害俱全为吉地财神㑹合是灾年"
+  },
+  {
+   "id": "yr.shishi",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.yangren",
+   "part_id": "yangren_exposition",
+   "role": "quoted_verse",
+   "quote": "不宜阳刃天干露歳运相逢事事防",
+   "locator": {
+    "char_start": 183970,
+    "char_end": 183984
+   },
+   "text_layer": "正文（古歌）",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5y-fang-183983"
+   ],
+   "mapped_reading": "不宜阳刃天干露歳运相逢事事㓙"
+  },
+  {
+   "id": "yr.bubu",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.yangren",
+   "part_id": "yangren_exposition",
+   "role": "quoted_verse",
+   "quote": "水多火弱格中重重行火土财官旺运到西方歩歩防",
+   "locator": {
+    "char_start": 184083,
+    "char_end": 184104
+   },
+   "text_layer": "正文（古歌）",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5y-fang-184103"
+   ],
+   "mapped_reading": "水多火弱格中重重行火土财官旺运到西方歩歩㓙"
+  },
+  {
+   "id": "yr.hehun",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.yangren",
+   "part_id": "yangren_exposition",
+   "role": "quoted_verse",
+   "quote": "壬子休来见午宫午宫又怕子来冲丙干坐午休重见防合身宫事有防",
+   "locator": {
+    "char_start": 184138,
+    "char_end": 184166
+   },
+   "text_layer": "正文（古歌）",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5y-fang-184159",
+    "sm5y-fang-184165"
+   ],
+   "mapped_reading": "壬子休来见午宫午宫又怕子来冲丙干坐午休重见㑹合身宫事有㓙"
+  },
+  {
+   "id": "yr.buyi_huihe",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.yangren",
+   "part_id": "yangren_exposition",
+   "role": "quoted_verse",
+   "quote": "羊刃常居在禄前性刚果毅少慈怜不宜防合防灾至",
+   "locator": {
+    "char_start": 184169,
+    "char_end": 184190
+   },
+   "text_layer": "正文（古歌）",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5y-fang-184185"
+   ],
+   "mapped_reading": "羊刃常居在禄前性刚果毅少慈怜不宜㑹合防灾至"
+  },
+  {
+   "id": "yr.moli_hulu",
+   "source_id": "bazi.source.sanmingtonghui",
+   "source_section_id": "sanming.juan5.yangren",
+   "part_id": "yangren_exposition",
+   "role": "worked_example",
+   "quote": "又一命丙戌癸巳戊午丁巳戊归禄己午虽羊刃所以防禄又印绶化刃故贵",
+   "locator": {
+    "char_start": 184297,
+    "char_end": 184327
+   },
+   "text_layer": "正文（例造）",
+   "school_attribution": "三命通会体系",
+   "collation_refs": [
+    "sm5y-fang-184318"
+   ],
+   "mapped_reading": "又一命丙戌癸巳戊午丁巳戊归禄己午虽羊刃所以䕶禄又印绶化刃故贵"
+  }
+ ],
+ "collation_notes": [
+  {
+   "id": "sm5z-xu-170764",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 170764,
+   "context_short": " 刑冲忌压伏】\n 杂气者乃辰戌丑未辰中有乙戊癸为水土库戌中",
+   "snapshot_glyph": "戌",
+   "reading": "戌",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 170764",
+     "quote_short": "戌为支名/柱名支位真义。 两见证同作戌"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：戌/戍全量处置之一（两节戍 0 见），本处为真义，不校改。戌为支名/柱名支位真义。"
+  },
+  {
+   "id": "sm5z-xu-170777",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 170777,
+   "context_short": "辰戌丑未辰中有乙戊癸为水土库戌中有辛戊丁为火库丑中有癸辛巳",
+   "snapshot_glyph": "戌",
+   "reading": "戌",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 170777",
+     "quote_short": "戌为支名/柱名支位真义。 两见证同作戌"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：戌/戍全量处置之一（两节戍 0 见），本处为真义，不校改。戌为支名/柱名支位真义。"
+  },
+  {
+   "id": "sm5z-si-170791",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 170791,
+   "context_short": "戌中有辛戊丁为火库丑中有癸辛巳为金库未中有丁巳乙为木库各随",
+   "snapshot_glyph": "巳",
+   "reading": "己",
+   "reading_status": "contextual",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "中有辛戊丁為火庫丑中有癸辛巳為金庫未中有丁巳乙為木庫各"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "中有辛戊丁為火庫丑中有癸辛巳為金庫未中有丁巳乙為木庫各"
+    },
+    {
+     "kind": "context",
+     "witness": "十干封闭枚举与十神/藏干槽位",
+     "locator": "字符 170791",
+     "quote_short": "藏干名槽：丑中藏干枚举「癸、辛、X」——丑藏干为癸、辛与土干己，本位 X 居藏干名位，读己"
+    }
+   ],
+   "usable_grade": "Q2",
+   "note": "干名/藏干名槽读己：两见证与快照同作巳——系三谱系一致的传本字形，本条是读法登记（contextual）而非见证字形订正；读法由封闭枚举与槽位强制（见 basis），引文以 mapped_reading 呈现读己，快照原字逐字保留。"
+  },
+  {
+   "id": "sm5z-si-170799",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 170799,
+   "context_short": "库丑中有癸辛巳为金库未中有丁巳乙为木库各随所藏之气而言看我",
+   "snapshot_glyph": "巳",
+   "reading": "己",
+   "reading_status": "contextual",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "丑中有癸辛巳為金庫未中有丁巳乙為木庫各隨所藏之氣而言看"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "丑中有癸辛巳為金庫未中有丁巳乙為木庫各隨所藏之氣而言看"
+    },
+    {
+     "kind": "context",
+     "witness": "十干封闭枚举与十神/藏干槽位",
+     "locator": "字符 170799",
+     "quote_short": "藏干名槽：未中藏干枚举「丁、X、乙」——未藏干为丁、己、乙，本位 X 居藏干名位，读己"
+    }
+   ],
+   "usable_grade": "Q2",
+   "note": "干名/藏干名槽读己：两见证与快照同作巳——系三谱系一致的传本字形，本条是读法登记（contextual）而非见证字形订正；读法由封闭枚举与槽位强制（见 basis），引文以 mapped_reading 呈现读己，快照原字逐字保留。"
+  },
+  {
+   "id": "sm5z-si-170924",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 170924,
+   "context_short": "六甲日生得丑月以丑中辛金为官巳土为财癸水为印看天干透出何字",
+   "snapshot_glyph": "巳",
+   "reading": "己",
+   "reading_status": "contextual",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "甲日生得丑月以丑中辛金為官巳土為財癸水為印看天干透出何"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "甲日生得丑月以丑中辛金為官巳土為財癸水為印看天干透出何"
+    },
+    {
+     "kind": "context",
+     "witness": "十干封闭枚举与十神/藏干槽位",
+     "locator": "字符 170924",
+     "quote_short": "干名槽：「以丑中辛金为官、X土为财、癸水为印」——甲日以丑中土为财，丑中土干为己，本位居干名位，读己"
+    }
+   ],
+   "usable_grade": "Q2",
+   "note": "干名/藏干名槽读己：两见证与快照同作巳——系三谱系一致的传本字形，本条是读法登记（contextual）而非见证字形订正；读法由封闭枚举与槽位强制（见 basis），引文以 mapped_reading 呈现读己，快照原字逐字保留。"
+  },
+  {
+   "id": "sm5z-fang-170973",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 170973,
+   "context_short": "者贵印绶享父祖见成之福受宣勅防庇之贵如无透出冲刑少许兼身旺",
+   "snapshot_glyph": "防",
+   "reading": "䕃",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_text_collation.json ocr-502",
+     "locator": "ocr-502（快照字位 170973）",
+     "quote_short": "密封文字订正 ocr-502 于本位点作对应校定，status confirmed"
+    },
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_ocr_candidates.json（baseline_character_offset 170972）",
+     "locator": "baseline_character_offset 170972（快照字位 170973）",
+     "quote_short": "old 防，historical_reading 䕃，status confirmed_applied（ocr-502）"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "貴印綬享父祖見成之福受宣勅䕃庇之貴如無透出衝刑少許兼身"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "貴印綬享父祖見成之福受宣勅䕃庇之貴如無透出衝刑少許兼身"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「者贵印绶享父祖见成之福受宣勅防庇之贵如无透出冲刑少许兼身旺」：两见证同作䕃（kanripo「䕃」、mikkokotila「䕃」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5z-si-171153",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 171153,
+   "context_short": "库重叠元无刑冲不透贵气兼有戊巳压其上最难发于少年故曰财官鎻",
+   "snapshot_glyph": "巳",
+   "reading": "己",
+   "reading_status": "contextual",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "重叠元無刑衝不透貴氣兼有戊巳壓其上最難發於少年故曰財官"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "重叠元無刑衝不透貴氣兼有戊巳壓其上最難發於少年故曰財官"
+    },
+    {
+     "kind": "context",
+     "witness": "十干封闭枚举与十神/藏干槽位",
+     "locator": "字符 171153",
+     "quote_short": "干名槽：「兼有戊X压其上」——戊、X 并列为压伏之干名对，干名封闭枚举内与戊配对者为己，读己"
+    }
+   ],
+   "usable_grade": "Q2",
+   "note": "干名/藏干名槽读己：两见证与快照同作巳——系三谱系一致的传本字形，本条是读法登记（contextual）而非见证字形订正；读法由封闭枚举与槽位强制（见 basis），引文以 mapped_reading 呈现读己，快照原字逐字保留。"
+  },
+  {
+   "id": "sm5z-ji-171214",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 171214,
+   "context_short": "上同论但发较晚如丁亥戊子丙申己丑丙用丑墓为财库行未运冲丑库",
+   "snapshot_glyph": "己",
+   "reading": "己",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 171214",
+     "quote_short": "己为干名/柱名干位/自指的真义，两见证同作己"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：己/已/巳全量处置之一，本处己为真义（干名、柱名干位或「自己」自指），不校改。"
+  },
+  {
+   "id": "sm5z-xu-171238",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 171238,
+   "context_short": "未运冲丑库发财见壬辰为官库至戌运冲辰库发官倘柱中别有戊辰巳",
+   "snapshot_glyph": "戌",
+   "reading": "戌",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 171238",
+     "quote_short": "戌为支名/柱名支位真义。 两见证同作戌"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：戌/戍全量处置之一（两节戍 0 见），本处为真义，不校改。戌为支名/柱名支位真义。"
+  },
+  {
+   "id": "sm5z-xu-171301",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 171301,
+   "context_short": "东西南北四隅之气如未木行东方戌火行南方辰水行北方丑金行西方",
+   "snapshot_glyph": "戌",
+   "reading": "戌",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 171301",
+     "quote_short": "戌为支名/柱名支位真义。 两见证同作戌"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：戌/戍全量处置之一（两节戍 0 见），本处为真义，不校改。戌为支名/柱名支位真义。"
+  },
+  {
+   "id": "sm5z-xu-171383",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 171383,
+   "context_short": "五行加之如木人得辛未火人得庚戌土人得壬辰水人得甲辰金人得癸",
+   "snapshot_glyph": "戌",
+   "reading": "戌",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 171383",
+     "quote_short": "戌为支名/柱名支位真义。 两见证同作戌"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：戌/戍全量处置之一（两节戍 0 见），本处为真义，不校改。戌为支名/柱名支位真义。"
+  },
+  {
+   "id": "sm5z-xu-171437",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 171437,
+   "context_short": "五行加之如木人得乙未火人得壬戌土人得戊辰金人得己丑水人得丙",
+   "snapshot_glyph": "戌",
+   "reading": "戌",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 171437",
+     "quote_short": "戌为支名/柱名支位真义。 两见证同作戌"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：戌/戍全量处置之一（两节戍 0 见），本处为真义，不校改。戌为支名/柱名支位真义。"
+  },
+  {
+   "id": "sm5z-ji-171446",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 171446,
+   "context_short": "未火人得壬戌土人得戊辰金人得己丑水人得丙辰谓之絶处无依其人",
+   "snapshot_glyph": "己",
+   "reading": "己",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 171446",
+     "quote_short": "己为干名/柱名干位/自指的真义，两见证同作己"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：己/已/巳全量处置之一，本处己为真义（干名、柱名干位或「自己」自指），不校改。"
+  },
+  {
+   "id": "sm5z-fang-171505",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 171505,
+   "context_short": "生旺破而死絶有福神加临则减退防之若尅破而无福神只是百姓此库",
+   "snapshot_glyph": "防",
+   "reading": "㫁",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_text_collation.json ocr-211",
+     "locator": "ocr-211（快照字位 171505）",
+     "quote_short": "密封文字订正 ocr-211 于本位点作对应校定，status confirmed"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "旺破而死絶有福神加臨則減退㫁之若尅破而無福神只是百姓此"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "旺破而死絶有福神加臨則減退㫁之若尅破而無福神只是百姓此"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「生旺破而死絶有福神加临则减退防之若尅破而无福神只是百姓此库」：两见证同作㫁（kanripo「㫁」、mikkokotila「㫁」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5z-ji-171532",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 171532,
+   "context_short": "此库墓格局不问贵贱只是一生自己荣旺不利六亲仍难得子息\n 有",
+   "snapshot_glyph": "己",
+   "reading": "己",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 171532",
+     "quote_short": "己为干名/柱名干位/自指的真义，两见证同作己"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：己/已/巳全量处置之一，本处己为真义（干名、柱名干位或「自己」自指），不校改。"
+  },
+  {
+   "id": "sm5z-xu-171565",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 171565,
+   "context_short": "甲乙人见辛未忌丁巳丙丁人见壬戌忌戊寅戊巳人见甲辰忌庚寅庚辛",
+   "snapshot_glyph": "戌",
+   "reading": "戌",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 171565",
+     "quote_short": "戌为支名/柱名支位真义。 两见证同作戌"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：戌/戍全量处置之一（两节戍 0 见），本处为真义，不校改。戌为支名/柱名支位真义。"
+  },
+  {
+   "id": "sm5z-si-171570",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 171570,
+   "context_short": "未忌丁巳丙丁人见壬戌忌戊寅戊巳人见甲辰忌庚寅庚辛人见丁丑忌",
+   "snapshot_glyph": "巳",
+   "reading": "己",
+   "reading_status": "contextual",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "忌丁巳丙丁人見壬戌忌戊寅戊巳人見甲辰忌庚寅庚辛人見丁丑"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "忌丁巳丙丁人見壬戌忌戊寅戊巳人見甲辰忌庚寅庚辛人見丁丑"
+    },
+    {
+     "kind": "context",
+     "witness": "十干封闭枚举与十神/藏干槽位",
+     "locator": "字符 171570",
+     "quote_short": "干名槽：库头鬼见例「戊X人见甲辰」——戊X为日主干名对（戊己日人），读己"
+    }
+   ],
+   "usable_grade": "Q2",
+   "note": "干名/藏干名槽读己：两见证与快照同作巳——系三谱系一致的传本字形，本条是读法登记（contextual）而非见证字形订正；读法由封闭枚举与槽位强制（见 basis），引文以 mapped_reading 呈现读己，快照原字逐字保留。"
+  },
+  {
+   "id": "sm5z-si-171662",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 171662,
+   "context_short": "艺业出众\n 有库头财乃甲乙人巳未丙丁人庚戌戊巳人壬辰庚辛人",
+   "snapshot_glyph": "巳",
+   "reading": "己",
+   "reading_status": "contextual",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "人藝業出衆有庫頭財乃甲乙人巳未丙丁人庚戌戊巳人壬辰庚辛"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "人藝業出衆有庫頭財乃甲乙人巳未丙丁人庚戌戊巳人壬辰庚辛"
+    },
+    {
+     "kind": "context",
+     "witness": "十干封闭枚举与十神/藏干槽位",
+     "locator": "字符 171662",
+     "quote_short": "柱名干槽：库头财「甲乙人X未」——X未为柱名干位（己未），读己"
+    }
+   ],
+   "usable_grade": "Q2",
+   "note": "干名/藏干名槽读己：两见证与快照同作巳——系三谱系一致的传本字形，本条是读法登记（contextual）而非见证字形订正；读法由封闭枚举与槽位强制（见 basis），引文以 mapped_reading 呈现读己，快照原字逐字保留。"
+  },
+  {
+   "id": "sm5z-xu-171668",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 171668,
+   "context_short": "有库头财乃甲乙人巳未丙丁人庚戌戊巳人壬辰庚辛人乙丑壬癸人丙",
+   "snapshot_glyph": "戌",
+   "reading": "戌",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 171668",
+     "quote_short": "戌为支名/柱名支位真义。 两见证同作戌"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：戌/戍全量处置之一（两节戍 0 见），本处为真义，不校改。戌为支名/柱名支位真义。"
+  },
+  {
+   "id": "sm5z-si-171670",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 171670,
+   "context_short": "头财乃甲乙人巳未丙丁人庚戌戊巳人壬辰庚辛人乙丑壬癸人丙辰君",
+   "snapshot_glyph": "巳",
+   "reading": "己",
+   "reading_status": "contextual",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "財乃甲乙人巳未丙丁人庚戌戊巳人壬辰庚辛人乙丑壬癸人丙辰"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "財乃甲乙人巳未丙丁人庚戌戊巳人壬辰庚辛人乙丑壬癸人丙辰"
+    },
+    {
+     "kind": "context",
+     "witness": "十干封闭枚举与十神/藏干槽位",
+     "locator": "字符 171670",
+     "quote_short": "干名槽：库头财「戊X人壬辰」——戊X为日主干名对（戊己日人），读己"
+    }
+   ],
+   "usable_grade": "Q2",
+   "note": "干名/藏干名槽读己：两见证与快照同作巳——系三谱系一致的传本字形，本条是读法登记（contextual）而非见证字形订正；读法由封闭枚举与槽位强制（见 basis），引文以 mapped_reading 呈现读己，快照原字逐字保留。"
+  },
+  {
+   "id": "sm5z-ji-171708",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 171708,
+   "context_short": "家业从容即透出财官论也如金见己丑火木见乙未金水见丙辰土土见",
+   "snapshot_glyph": "己",
+   "reading": "己",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 171708",
+     "quote_short": "己为干名/柱名干位/自指的真义，两见证同作己"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：己/已/巳全量处置之一，本处己为真义（干名、柱名干位或「自己」自指），不校改。"
+  },
+  {
+   "id": "sm5z-xu-171729",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 171729,
+   "context_short": "金水见丙辰土土见戊辰木火见壬戌水如此之格即墓中逢鬼危疑者甚",
+   "snapshot_glyph": "戌",
+   "reading": "戌",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 171729",
+     "quote_short": "戌为支名/柱名支位真义。 两见证同作戌"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：戌/戍全量处置之一（两节戍 0 见），本处为真义，不校改。戌为支名/柱名支位真义。"
+  },
+  {
+   "id": "sm5z-xu-171750",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 171750,
+   "context_short": "墓中逢鬼危疑者甚\n 独步云辰戌丑未四土之神天元三用透旺为真",
+   "snapshot_glyph": "戌",
+   "reading": "戌",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 171750",
+     "quote_short": "戌为支名/柱名支位真义。 两见证同作戌"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：戌/戍全量处置之一（两节戍 0 见），本处为真义，不校改。戌为支名/柱名支位真义。"
+  },
+  {
+   "id": "sm5z-pua-171801",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 171801,
+   "context_short": "财库临三合之地石崇作万金之主机赋云杂气财官刑冲则发千里马",
+   "snapshot_glyph": "",
+   "snapshot_codepoint": "U+EA20",
+   "reading": "玄",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_pua_collation.json mappings[U+EA20]",
+     "locator": "codepoint U+EA20",
+     "quote_short": "replacement 玄，status confirmed，confidence high"
+    },
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_ocr_candidates.json（baseline_character_offset 171800）",
+     "locator": "baseline_character_offset 171800（快照字位 171801）",
+     "quote_short": "old 玄，historical_reading 𤣥，status historical_only_hold"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "庫臨三合之地石崇作萬金之主𤣥機賦云雜氣財官刑衝則發千里"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "庫臨三合之地石崇作萬金之主𤣥機賦云雜氣財官刑衝則發千里"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "「玉匣赋云……𤣥机赋云」之玄机赋名：PUA 码位 U+EA20 的 confirmed 映射为玄；两见证同作历史字形 𤣥（kanripo 本位作𤣥、mikkokotila 作𤣥）。本码位定字只对本位点成立，引文逐字保留 PUA 原字。"
+  },
+  {
+   "id": "sm5z-xu-171818",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 171818,
+   "context_short": "云杂气财官刑冲则发千里马云辰戌丑未遇刑冲无人不发通明赋云主",
+   "snapshot_glyph": "戌",
+   "reading": "戌",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 171818",
+     "quote_short": "戌为支名/柱名支位真义。 两见证同作戌"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：戌/戍全量处置之一（两节戍 0 见），本处为真义，不校改。戌为支名/柱名支位真义。"
+  },
+  {
+   "id": "sm5z-xu-171896",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 171896,
+   "context_short": "宜冲破切忌干支压伏重【又】辰戌丑未为四季印绶财官居杂气干头",
+   "snapshot_glyph": "戌",
+   "reading": "戌",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 171896",
+     "quote_short": "戌为支名/柱名支位真义。 两见证同作戌"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：戌/戍全量处置之一（两节戍 0 见），本处为真义，不校改。戌为支名/柱名支位真义。"
+  },
+  {
+   "id": "sm5z-fang-171970",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 171970,
+   "context_short": "】月令提纲不可冲十冲九命皆为防惟有财官逢墓库运行到此反成功",
+   "snapshot_glyph": "防",
+   "reading": "㓙",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_text_collation.json ocr-212",
+     "locator": "ocr-212（快照字位 171970）",
+     "quote_short": "密封文字订正 ocr-212 于本位点作对应校定，status confirmed"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "月令提綱不可衝十衝九命皆為㓙惟有財官逢墓庫運行到此反成"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "月令提綱不可衝十衝九命皆為㓙惟有財官逢墓庫運行到此反成"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「】月令提纲不可冲十冲九命皆为防惟有财官逢墓库运行到此反成功」：两见证同作㓙（kanripo「㓙」、mikkokotila「㓙」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5z-fang-172012",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 172012,
+   "context_short": "来生旺脱生逢生旺过非宜墓库逢防终不拨【又】官曜财星俱不露却",
+   "snapshot_glyph": "防",
+   "reading": "㓙",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_ocr_candidates.json（baseline_character_offset 172011）",
+     "locator": "baseline_character_offset 172011（快照字位 172012）",
+     "quote_short": "old 防，historical_reading 㓙，status historical_only_hold"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "生旺脫生逢生旺過非宜墓庫逢㓙終不撥(又/)官曜財星俱不"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "生旺脫生逢生旺過非宜墓庫逢㓙終不撥又官曜財星俱不露却宜"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「来生旺脱生逢生旺过非宜墓库逢防终不拨【又】官曜财星俱不露却」：两见证同作㓙（kanripo「㓙」、mikkokotila「㓙」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5z-xu-172120",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 172120,
+   "context_short": "福相随【又】若问财官墓库时辰戌丑未一同推财官俱要开库钥压住",
+   "snapshot_glyph": "戌",
+   "reading": "戌",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 172120",
+     "quote_short": "戌为支名/柱名支位真义。 两见证同作戌"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：戌/戍全量处置之一（两节戍 0 见），本处为真义，不校改。戌为支名/柱名支位真义。"
+  },
+  {
+   "id": "sm5z-si-172415",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 172415,
+   "context_short": "兼有助须当福禄自髙强【又】戊巳生逢十二月伤官财格当时发重行",
+   "snapshot_glyph": "巳",
+   "reading": "己",
+   "reading_status": "contextual",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "助須當福禄自髙强(又/)戊巳生逢十二月傷官財格當時發重"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "離兼有助須當福禄自髙强又戊巳生逢十二月傷官財格當時發重"
+    },
+    {
+     "kind": "context",
+     "witness": "十干封闭枚举与十神/藏干槽位",
+     "locator": "字符 172415",
+     "quote_short": "干名槽：古歌「戊X生逢十二月」——戊X为日主干名对（戊己日生），读己"
+    }
+   ],
+   "usable_grade": "Q2",
+   "note": "干名/藏干名槽读己：两见证与快照同作巳——系三谱系一致的传本字形，本条是读法登记（contextual）而非见证字形订正；读法由封闭枚举与槽位强制（见 basis），引文以 mapped_reading 呈现读己，快照原字逐字保留。"
+  },
+  {
+   "id": "sm5z-si-172469",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 172469,
+   "context_short": "临福夀齐壬癸天干会透出却逢戊巳始相宜【乂】壬癸居干生丑提提",
+   "snapshot_glyph": "巳",
+   "reading": "己",
+   "reading_status": "contextual",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "福夀齊壬癸天干會透出却逢戊巳始相宜(乂/)壬癸居干生丑"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "福夀齊壬癸天干會透出却逢戊巳始相宜乂壬癸居干生丑提提藏"
+    },
+    {
+     "kind": "context",
+     "witness": "十干封闭枚举与十神/藏干槽位",
+     "locator": "字符 172469",
+     "quote_short": "干名槽：古歌「却逢戊X始相宜」——戊X为天干名对，读己"
+    }
+   ],
+   "usable_grade": "Q2",
+   "note": "干名/藏干名槽读己：两见证与快照同作巳——系三谱系一致的传本字形，本条是读法登记（contextual）而非见证字形订正；读法由封闭枚举与槽位强制（见 basis），引文以 mapped_reading 呈现读己，快照原字逐字保留。"
+  },
+  {
+   "id": "sm5z-fang-172641",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 172641,
+   "context_short": "侵【又】丙丁日主月逢未金水虽防未必防木火土乡须富贵再来申酉",
+   "snapshot_glyph": "防",
+   "reading": "㓙",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_ocr_candidates.json（baseline_character_offset 172640）",
+     "locator": "baseline_character_offset 172640（快照字位 172641）",
+     "quote_short": "old 防，historical_reading 㓙，status historical_only_hold"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "又/)丙丁日主月逢未金水雖㓙未必㓙木火土鄉須富貴再來申"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "亦侵又丙丁日主月逢未金水雖㓙未必㓙木火土鄉須富貴再來申"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「侵【又】丙丁日主月逢未金水虽防未必防木火土乡须富贵再来申酉」：两见证同作㓙（kanripo「㓙」、mikkokotila「㓙」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5z-fang-172644",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 172644,
+   "context_short": "】丙丁日主月逢未金水虽防未必防木火土乡须富贵再来申酉祸重重",
+   "snapshot_glyph": "防",
+   "reading": "㓙",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_ocr_candidates.json（baseline_character_offset 172643）",
+     "locator": "baseline_character_offset 172643（快照字位 172644）",
+     "quote_short": "old 防，historical_reading 㓙，status historical_only_hold"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "丙丁日主月逢未金水雖㓙未必㓙木火土鄉須富貴再來申酉禍重"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "丙丁日主月逢未金水雖㓙未必㓙木火土鄉須富貴再來申酉禍重"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「】丙丁日主月逢未金水虽防未必防木火土乡须富贵再来申酉祸重重」：两见证同作㓙（kanripo「㓙」、mikkokotila「㓙」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5z-xu-172664",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 172664,
+   "context_short": "富贵再来申酉祸重重【又】九秋戌月藏火土庚辛不忌日无根格中若",
+   "snapshot_glyph": "戌",
+   "reading": "戌",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 172664",
+     "quote_short": "戌为支名/柱名支位真义。 两见证同作戌"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：戌/戍全量处置之一（两节戍 0 见），本处为真义，不校改。戌为支名/柱名支位真义。"
+  },
+  {
+   "id": "sm5z-xu-172726",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 172726,
+   "context_short": "家计金水财乡祸不禁【又】戊日戌生藏火土或行南域或行东不分顺",
+   "snapshot_glyph": "戌",
+   "reading": "戌",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 172726",
+     "quote_short": "戌为支名/柱名支位真义。 两见证同作戌"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：戌/戍全量处置之一（两节戍 0 见），本处为真义，不校改。戌为支名/柱名支位真义。"
+  },
+  {
+   "id": "sm5z-fang-172868",
+   "section_id": "sanming.juan5.zaqi",
+   "char_offset": 172868,
+   "context_short": "余蕴矣\n 附论墓运\n 秘诀云防年不宜逢墓库老年值此却丰隆又",
+   "snapshot_glyph": "防",
+   "reading": "㓜",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_text_collation.json ocr-213",
+     "locator": "ocr-213（快照字位 172868）",
+     "quote_short": "密封文字订正 ocr-213 于本位点作对应校定，status confirmed"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "喜忌無餘藴矣附論墓運秘訣云㓜年不宜逢墓庫老年值此却豐隆"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "喜忌無餘藴矣附論墓運秘訣云㓜年不宜逢墓庫老年值此却豐隆"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「余蕴矣 附论墓运 秘诀云防年不宜逢墓库老年值此却丰隆又」：两见证同作㓜（kanripo「㓜」、mikkokotila「㓜」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-pua-180885",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 180885,
+   "context_short": "之\n 论阳刃【前论羊刄煞与此防】\n 阳者阴阳之阳刃者刀刃",
+   "snapshot_glyph": "",
+   "snapshot_codepoint": "U+EB07",
+   "reading": "参",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_pua_collation.json mappings[U+EB07]",
+     "locator": "codepoint U+EB07",
+     "quote_short": "replacement 参，status confirmed，confidence high"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "論陽刃(前論羊刄煞與此恭㸔/)陽者陰陽之陽刃者刀刃"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "論陽刃前論羊刄煞與此𠫵㸔陽者陰陽之陽刃者刀刃之刃"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "节题「前论羊刄煞与此参看」之参：PUA 码位 U+EB07 的 confirmed 映射为参；mikkokotila 作历史字形 𠫵、kanripo 本位作恭（两四库谱系见证于本位转写分歧，如实登记于 TRANSMISSION_NOTES）；映射表 confirmed 读参且「与此参看」为本书节题常语（《论建禄》题「此与前论禄同叅」快照同作叅语），本位从映射读参。引文逐字保留 PUA 原字。"
+  },
+  {
+   "id": "sm5y-fang-180886",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 180886,
+   "context_short": "\n 论阳刃【前论羊刄煞与此防】\n 阳者阴阳之阳刃者刀刃之",
+   "snapshot_glyph": "防",
+   "reading": "㸔",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "論陽刃(前論羊刄煞與此恭㸔/)陽者陰陽之陽刃者刀刃之"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "論陽刃前論羊刄煞與此𠫵㸔陽者陰陽之陽刃者刀刃之刃即"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「 论阳刃【前论羊刄煞与此防】 阳者阴阳之阳刃者刀刃之」：两见证同作㸔（kanripo「㸔」、mikkokotila「㸔」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-fang-180960",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 180960,
+   "context_short": "乃甲之七煞刼财冲官合煞所以至防惟甲丙戊庚壬五阳干有刃乙丁己",
+   "snapshot_glyph": "防",
+   "reading": "㐫",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_text_collation.json ocr-504",
+     "locator": "ocr-504（快照字位 180960）",
+     "quote_short": "密封文字订正 ocr-504 于本位点作对应校定，status confirmed"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "甲之七煞刼財衝官合煞所以至㐫惟甲丙戊庚壬五陽干有刃乙丁"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "甲之七煞刼財衝官合煞所以至㐫惟甲丙戊庚壬五陽干有刃乙丁"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「乃甲之七煞刼财冲官合煞所以至防惟甲丙戊庚壬五阳干有刃乙丁己」：两见证同作㐫（kanripo「㐫」、mikkokotila「㐫」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-ji-180974",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 180974,
+   "context_short": "防惟甲丙戊庚壬五阳干有刃乙丁己辛癸五阴干无刃故曰阳刃惟见伤",
+   "snapshot_glyph": "己",
+   "reading": "己",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 180974",
+     "quote_short": "己为干名/柱名干位/自指的真义，两见证同作己"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：己/已/巳全量处置之一，本处己为真义（干名、柱名干位或「自己」自指），不校改。"
+  },
+  {
+   "id": "sm5y-fang-181025",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 181025,
+   "context_short": "煞尅其乙木阴金尅阴木至毒所以防与阳刃同阳刃有三有刼财刃甲见",
+   "snapshot_glyph": "防",
+   "reading": "㓙",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_text_collation.json ocr-222",
+     "locator": "ocr-222（快照字位 181025）",
+     "quote_short": "密封文字订正 ocr-222 于本位点作对应校定，status confirmed"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "尅其乙木陰金尅陰木至毒所以㓙與陽刃同陽刃有三有刼財刃甲"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "尅其乙木陰金尅陰木至毒所以㓙與陽刃同陽刃有三有刼財刃甲"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「煞尅其乙木阴金尅阴木至毒所以防与阳刃同阳刃有三有刼财刃甲见」：两见证同作㓙（kanripo「㓙」、mikkokotila「㓙」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-fang-181049",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 181049,
+   "context_short": "刼财刃甲见乙是也不利财官格有防禄刃甲见卯是也大利归禄格有背",
+   "snapshot_glyph": "防",
+   "reading": "䕶",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_text_collation.json ocr-222",
+     "locator": "ocr-222（快照字位 181049）",
+     "quote_short": "密封文字订正 ocr-222 于本位点作对应校定，status confirmed"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "財刃甲見乙是也不利財官格有䕶禄刃甲見卯是也大利歸禄格有"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "財刃甲見乙是也不利財官格有䕶禄刃甲見卯是也大利歸禄格有"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「刼财刃甲见乙是也不利财官格有防禄刃甲见卯是也大利归禄格有背」：两见证同作䕶（kanripo「䕶」、mikkokotila「䕶」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-yi-181136",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 181136,
+   "context_short": "真刃命中既逄阳刃伤妻破财灾殃已胚胎矣流年歳运再遇羊刄是谓并",
+   "snapshot_glyph": "已",
+   "reading": "已",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 181136",
+     "quote_short": "已为副词性真义（已经），非干名己、非支名巳。"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：已/己/巳全量处置之一，本处为真义，不校改。已为副词性真义（已经），非干名己、非支名巳。"
+  },
+  {
+   "id": "sm5y-ji-181153",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 181153,
+   "context_short": "矣流年歳运再遇羊刄是谓并临见己酉是冲歳君见亥未戌是合歳君阳",
+   "snapshot_glyph": "己",
+   "reading": "己",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 181153",
+     "quote_short": "己为干名/柱名干位/自指的真义，两见证同作己"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：己/已/巳全量处置之一，本处己为真义（干名、柱名干位或「自己」自指），不校改。"
+  },
+  {
+   "id": "sm5y-xu-181162",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 181162,
+   "context_short": "是谓并临见己酉是冲歳君见亥未戌是合歳君阳刃防煞也太岁防神也",
+   "snapshot_glyph": "戌",
+   "reading": "戌",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 181162",
+     "quote_short": "戌为支名/柱名支位真义。 两见证同作戌"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：戌/戍全量处置之一（两节戍 0 见），本处为真义，不校改。戌为支名/柱名支位真义。"
+  },
+  {
+   "id": "sm5y-fang-181169",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 181169,
+   "context_short": "是冲歳君见亥未戌是合歳君阳刃防煞也太岁防神也太岁得吉神相扶",
+   "snapshot_glyph": "防",
+   "reading": "㓙",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_text_collation.json ocr-449",
+     "locator": "ocr-449（快照字位 181169）",
+     "quote_short": "密封文字订正 ocr-449 于本位点作对应校定，status confirmed"
+    },
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_ocr_candidates.json（baseline_character_offset 181168）",
+     "locator": "baseline_character_offset 181168（快照字位 181169）",
+     "quote_short": "old 防，historical_reading 㓙，status confirmed_applied（ocr-449）"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "衝歳君見亥未戌是合歳君陽刃㓙煞也太歲㓙神也太歲得吉神相"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "衝歳君見亥未戌是合歳君陽刃㓙煞也太歲㓙神也太歲得吉神相"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「是冲歳君见亥未戌是合歳君阳刃防煞也太岁防神也太岁得吉神相扶」：两见证同作㓙（kanripo「㓙」、mikkokotila「㓙」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-fang-181174",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 181174,
+   "context_short": "亥未戌是合歳君阳刃防煞也太岁防神也太岁得吉神相扶合则吉若阳",
+   "snapshot_glyph": "防",
+   "reading": "㓙",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_text_collation.json ocr-222",
+     "locator": "ocr-222（快照字位 181174）",
+     "quote_short": "密封文字订正 ocr-222 于本位点作对应校定，status confirmed"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "未戌是合歳君陽刃㓙煞也太歲㓙神也太歲得吉神相扶合則吉若"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "未戌是合歳君陽刃㓙煞也太歲㓙神也太歲得吉神相扶合則吉若"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「亥未戌是合歳君阳刃防煞也太岁防神也太岁得吉神相扶合则吉若阳」：两见证同作㓙（kanripo「㓙」、mikkokotila「㓙」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-fang-181190",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 181190,
+   "context_short": "也太岁得吉神相扶合则吉若阳刃防煞来冲合岁君是谓攅防聚煞其祸",
+   "snapshot_glyph": "防",
+   "reading": "㓙",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_text_collation.json ocr-222",
+     "locator": "ocr-222（快照字位 181190）",
+     "quote_short": "密封文字订正 ocr-222 于本位点作对应校定，status confirmed"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "太歲得吉神相扶合則吉若陽刃㓙煞來衝合歲君是謂攅㓙聚煞其"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "太歲得吉神相扶合則吉若陽刃㓙煞來衝合歲君是謂攅㓙聚煞其"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「也太岁得吉神相扶合则吉若阳刃防煞来冲合岁君是谓攅防聚煞其祸」：两见证同作㓙（kanripo「㓙」、mikkokotila「㓙」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-fang-181200",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 181200,
+   "context_short": "吉若阳刃防煞来冲合岁君是谓攅防聚煞其祸难免经云阳刃冲合岁君",
+   "snapshot_glyph": "防",
+   "reading": "㓙",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_text_collation.json ocr-505",
+     "locator": "ocr-505（快照字位 181200）",
+     "quote_short": "密封文字订正 ocr-505 于本位点作对应校定，status confirmed"
+    },
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_ocr_candidates.json（baseline_character_offset 181199）",
+     "locator": "baseline_character_offset 181199（快照字位 181200）",
+     "quote_short": "old 防，historical_reading 㓙，status confirmed_applied（ocr-505）"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "若陽刃㓙煞來衝合歲君是謂攅㓙聚煞其禍難免經云陽刃衝合歲"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "若陽刃㓙煞來衝合歲君是謂攅㓙聚煞其禍難免經云陽刃衝合歲"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「吉若阳刃防煞来冲合岁君是谓攅防聚煞其祸难免经云阳刃冲合岁君」：两见证同作㓙（kanripo「㓙」、mikkokotila「㓙」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-fang-181279",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 181279,
+   "context_short": "原有刃见冲或合岁运再临冲合大防若岁冲合而运不冲合运冲合而岁",
+   "snapshot_glyph": "防",
+   "reading": "㓙",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_text_collation.json ocr-222",
+     "locator": "ocr-222（快照字位 181279）",
+     "quote_short": "密封文字订正 ocr-222 于本位点作对应校定，status confirmed"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "有刃見衝或合歲運再臨衝合大㓙若歲衝合而運不衝合運衝合而"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "有刃見衝或合歲運再臨衝合大㓙若歲衝合而運不衝合運衝合而"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「原有刃见冲或合岁运再临冲合大防若岁冲合而运不冲合运冲合而岁」：两见证同作㓙（kanripo「㓙」、mikkokotila「㓙」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-fang-181314",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 181314,
+   "context_short": "半论又曰日干无气时逄阳刃不为防言生日天元临死絶衰病暴败之地",
+   "snapshot_glyph": "防",
+   "reading": "㓙",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_text_collation.json ocr-506",
+     "locator": "ocr-506（快照字位 181314）",
+     "quote_short": "密封文字订正 ocr-506 于本位点作对应校定，status confirmed"
+    },
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_ocr_candidates.json（baseline_character_offset 181313）",
+     "locator": "baseline_character_offset 181313（快照字位 181314）",
+     "quote_short": "old 防，historical_reading 㓙，status confirmed_applied（ocr-506）"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "論又曰日干無氣時逄陽刃不為㓙言生日天元臨死絶衰病暴敗之"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "論又曰日干無氣時逄陽刃不為㓙言生日天元臨死絶衰病暴敗之"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「半论又曰日干无气时逄阳刃不为防言生日天元临死絶衰病暴败之地」：两见证同作㓙（kanripo「㓙」、mikkokotila「㓙」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-fang-181372",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 181372,
+   "context_short": "任则可胜其财而为我用所以不作防论夫身弱见财官固喜阳刃分财合",
+   "snapshot_glyph": "防",
+   "reading": "㓙",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_text_collation.json ocr-222",
+     "locator": "ocr-222（快照字位 181372）",
+     "quote_short": "密封文字订正 ocr-222 于本位点作对应校定，status confirmed"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "則可勝其財而為我用所以不作㓙論夫身弱見財官固喜陽刃分財"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "則可勝其財而為我用所以不作㓙論夫身弱見財官固喜陽刃分財"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「任则可胜其财而为我用所以不作防论夫身弱见财官固喜阳刃分财合」：两见证同作㓙（kanripo「㓙」、mikkokotila「㓙」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-pua-181512",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 181512,
+   "context_short": "生庻出离祖过房尅父伤妻或见三或自魁罡全发迹邉疆如更无情",
+   "snapshot_glyph": "",
+   "snapshot_codepoint": "U+EA85",
+   "reading": "刑",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_pua_collation.json mappings[U+EA85]",
+     "locator": "codepoint U+EA85",
+     "quote_short": "replacement 刑，status confirmed，confidence high"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "庻出離祖過房尅父傷妻或見三刑或自刑魁罡全發跡邉疆如更無"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "庻出離祖過房尅父傷妻或見三𠛬或自𠛬魁罡全發跡邉疆如更無"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "「或见三刑」之刑：PUA 码位 U+EA85 的 confirmed 映射为刑；两见证同作历史字形 𠛬（kanripo 本位作刑、mikkokotila 作𠛬）。本码位定字只对本位点成立，引文逐字保留 PUA 原字。"
+  },
+  {
+   "id": "sm5y-pua-181515",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 181515,
+   "context_short": "离祖过房尅父伤妻或见三或自魁罡全发迹邉疆如更无情或临财",
+   "snapshot_glyph": "",
+   "snapshot_codepoint": "U+EA85",
+   "reading": "刑",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_pua_collation.json mappings[U+EA85]",
+     "locator": "codepoint U+EA85",
+     "quote_short": "replacement 刑，status confirmed，confidence high"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "祖過房尅父傷妻或見三刑或自刑魁罡全發跡邉疆如更無情或臨"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "祖過房尅父傷妻或見三𠛬或自𠛬魁罡全發跡邉疆如更無情或臨"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "「或自刑」之刑：PUA 码位 U+EA85 的 confirmed 映射为刑；两见证同作历史字形 𠛬（kanripo 本位作刑、mikkokotila 作𠛬）。本码位定字只对本位点成立，引文逐字保留 PUA 原字。"
+  },
+  {
+   "id": "sm5y-fang-181532",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 181532,
+   "context_short": "全发迹邉疆如更无情或临财旺主防若刑害俱全类皆得地又有救神贵",
+   "snapshot_glyph": "防",
+   "reading": "㓙",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_text_collation.json ocr-223",
+     "locator": "ocr-223（快照字位 181532）",
+     "quote_short": "密封文字订正 ocr-223 于本位点作对应校定，status confirmed"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "發跡邉疆如更無情或臨財旺主㓙若刑害俱全類皆得地又有救神"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "發跡邉疆如更無情或臨財旺主㓙若刑害俱全類皆得地又有救神"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「全发迹邉疆如更无情或临财旺主防若刑害俱全类皆得地又有救神贵」：两见证同作㓙（kanripo「㓙」、mikkokotila「㓙」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-ji-181605",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 181605,
+   "context_short": "酉忌行卯正财运独甲日刃在卯行己午并辰戌丑未财运不妨忌酉运丙",
+   "snapshot_glyph": "己",
+   "reading": "己",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 181605",
+     "quote_short": "己为干名/柱名干位/自指的真义，两见证同作己"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：己/已/巳全量处置之一，本处己为真义（干名、柱名干位或「自己」自指），不校改。"
+  },
+  {
+   "id": "sm5y-xu-181609",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 181609,
+   "context_short": "正财运独甲日刃在卯行己午并辰戌丑未财运不妨忌酉运丙日刃在午",
+   "snapshot_glyph": "戌",
+   "reading": "戌",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 181609",
+     "quote_short": "戌为支名/柱名支位真义。 两见证同作戌"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：戌/戍全量处置之一（两节戍 0 见），本处为真义，不校改。戌为支名/柱名支位真义。"
+  },
+  {
+   "id": "sm5y-si-181676",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 181676,
+   "context_short": "皆冲之财故忌之至甲刃卯不忌戊巳己午之财且忌酉官矣丙刃午不忌",
+   "snapshot_glyph": "巳",
+   "reading": "己",
+   "reading_status": "contextual",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "衝之財故忌之至甲刃卯不忌戊巳己午之財且忌酉官矣丙刃午不"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "衝之財故忌之至甲刃卯不忌戊巳己午之財且忌酉官矣丙刃午不"
+    },
+    {
+     "kind": "context",
+     "witness": "十干封闭枚举与十神/藏干槽位",
+     "locator": "字符 181676",
+     "quote_short": "干名槽：「甲刃卯不忌戊X己午之财」——戊X与己午并列为财干名（戊己土为甲之财），读己"
+    }
+   ],
+   "usable_grade": "Q2",
+   "note": "干名/藏干名槽读己：两见证与快照同作巳——系三谱系一致的传本字形，本条是读法登记（contextual）而非见证字形订正；读法由封闭枚举与槽位强制（见 basis），引文以 mapped_reading 呈现读己，快照原字逐字保留。"
+  },
+  {
+   "id": "sm5y-ji-181677",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 181677,
+   "context_short": "冲之财故忌之至甲刃卯不忌戊巳己午之财且忌酉官矣丙刃午不忌庚",
+   "snapshot_glyph": "己",
+   "reading": "己",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 181677",
+     "quote_short": "己为干名/柱名干位/自指的真义，两见证同作己"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：己/已/巳全量处置之一，本处己为真义（干名、柱名干位或「自己」自指），不校改。"
+  },
+  {
+   "id": "sm5y-si-181791",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 181791,
+   "context_short": "俱为正官反作贵气论也又曰甲以巳为妻财四柱却有卯乙巳土受伤不",
+   "snapshot_glyph": "巳",
+   "reading": "己",
+   "reading_status": "contextual",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "為正官反作貴氣論也又曰甲以巳為妻財四柱却有卯乙巳土受傷"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "為正官反作貴氣論也又曰甲以巳為妻財四柱却有卯乙巳土受傷"
+    },
+    {
+     "kind": "context",
+     "witness": "十干封闭枚举与十神/藏干槽位",
+     "locator": "字符 181791",
+     "quote_short": "干名槽：「甲以X为妻财」——甲之妻财为己土，本位居干名位，读己"
+    }
+   ],
+   "usable_grade": "Q2",
+   "note": "干名/藏干名槽读己：两见证与快照同作巳——系三谱系一致的传本字形，本条是读法登记（contextual）而非见证字形订正；读法由封闭枚举与槽位强制（见 basis），引文以 mapped_reading 呈现读己，快照原字逐字保留。"
+  },
+  {
+   "id": "sm5y-si-181801",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 181801,
+   "context_short": "又曰甲以巳为妻财四柱却有卯乙巳土受伤不能扶甲故主剥丧妻子岁",
+   "snapshot_glyph": "巳",
+   "reading": "己",
+   "reading_status": "contextual",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "曰甲以巳為妻財四柱却有卯乙巳土受傷不能扶甲故主剥喪妻子"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "曰甲以巳為妻財四柱却有卯乙巳土受傷不能扶甲故主剥喪妻子"
+    },
+    {
+     "kind": "context",
+     "witness": "十干封闭枚举与十神/藏干槽位",
+     "locator": "字符 181801",
+     "quote_short": "干名槽：「四柱却有卯乙X土受伤」——X土即甲之财己土，居干名位，读己"
+    }
+   ],
+   "usable_grade": "Q2",
+   "note": "干名/藏干名槽读己：两见证与快照同作巳——系三谱系一致的传本字形，本条是读法登记（contextual）而非见证字形订正；读法由封闭枚举与槽位强制（见 basis），引文以 mapped_reading 呈现读己，快照原字逐字保留。"
+  },
+  {
+   "id": "sm5y-fang-181862",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 181862,
+   "context_short": "之七煞辛辅甲为贵能尅破乙煞反防为吉经云甲以乙妹妻庚防为吉兆",
+   "snapshot_glyph": "防",
+   "reading": "㓙",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_text_collation.json ocr-224",
+     "locator": "ocr-224（快照字位 181862）",
+     "quote_short": "密封文字订正 ocr-224 于本位点作对应校定，status confirmed"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "七煞辛輔甲為貴能尅破乙煞反㓙為吉經云甲以乙妹妻庚㓙為吉"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "七煞辛輔甲為貴能尅破乙煞反㓙為吉經云甲以乙妹妻庚㓙為吉"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「之七煞辛辅甲为贵能尅破乙煞反防为吉经云甲以乙妹妻庚防为吉兆」：两见证同作㓙（kanripo「㓙」、mikkokotila「㓙」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-fang-181873",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 181873,
+   "context_short": "乙煞反防为吉经云甲以乙妹妻庚防为吉兆是也余干例此又曰六甲日",
+   "snapshot_glyph": "防",
+   "reading": "㓙",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_text_collation.json ocr-224",
+     "locator": "ocr-224（快照字位 181873）",
+     "quote_short": "密封文字订正 ocr-224 于本位点作对应校定，status confirmed"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "煞反㓙為吉經云甲以乙妹妻庚㓙為吉兆是也餘干例此又曰六甲"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "煞反㓙為吉經云甲以乙妹妻庚㓙為吉兆是也餘干例此又曰六甲"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「乙煞反防为吉经云甲以乙妹妻庚防为吉兆是也余干例此又曰六甲日」：两见证同作㓙（kanripo「㓙」、mikkokotila「㓙」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-fang-181891",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 181891,
+   "context_short": "是也余干例此又曰六甲日逄乙卯防辛卯吉甲申丁卯不为刃申中有庚",
+   "snapshot_glyph": "防",
+   "reading": "㓙",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_text_collation.json ocr-507",
+     "locator": "ocr-507（快照字位 181891）",
+     "quote_short": "密封文字订正 ocr-507 于本位点作对应校定，status confirmed"
+    },
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_ocr_candidates.json（baseline_character_offset 181890）",
+     "locator": "baseline_character_offset 181890（快照字位 181891）",
+     "quote_short": "old 防，historical_reading 㓙，status confirmed_applied（ocr-507）"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "也餘干例此又曰六甲日逄乙卯㓙辛卯吉甲申丁卯不為刃申中有"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "也餘干例此又曰六甲日逄乙卯㓙辛卯吉甲申丁卯不為刃申中有"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「是也余干例此又曰六甲日逄乙卯防辛卯吉甲申丁卯不为刃申中有庚」：两见证同作㓙（kanripo「㓙」、mikkokotila「㓙」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-fang-181918",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 181918,
+   "context_short": "有庚合卯中乙木为财若有财露亦防丁火伤官乙木夺财岁运并临灾祸",
+   "snapshot_glyph": "防",
+   "reading": "㓙",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_text_collation.json ocr-224",
+     "locator": "ocr-224（快照字位 181918）",
+     "quote_short": "密封文字订正 ocr-224 于本位点作对应校定，status confirmed"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "庚合卯中乙木為財若有財露亦㓙丁火傷官乙木奪財歲運併臨災"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "庚合卯中乙木為財若有財露亦㓙丁火傷官乙木奪財歲運併臨災"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「有庚合卯中乙木为财若有财露亦防丁火伤官乙木夺财岁运并临灾祸」：两见证同作㓙（kanripo「㓙」、mikkokotila「㓙」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-si-182016",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 182016,
+   "context_short": "火制辛壬午日见庚子时非刃午中巳土制癸辛巳日见戊戌时非刄己中",
+   "snapshot_glyph": "巳",
+   "reading": "己",
+   "reading_status": "contextual",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "制辛壬午日見庚子時非刃午中巳土制癸辛巳日見戊戌時非刄己"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "制辛壬午日見庚子時非刃午中巳土制癸辛巳日見戊戌時非刄己"
+    },
+    {
+     "kind": "context",
+     "witness": "十干封闭枚举与十神/藏干槽位",
+     "locator": "字符 182016",
+     "quote_short": "藏干名槽：「午中X土制癸」——午中藏干为丁、己，本位指午中土干，读己"
+    }
+   ],
+   "usable_grade": "Q2",
+   "note": "干名/藏干名槽读己：两见证与快照同作巳——系三谱系一致的传本字形，本条是读法登记（contextual）而非见证字形订正；读法由封闭枚举与槽位强制（见 basis），引文以 mapped_reading 呈现读己，快照原字逐字保留。"
+  },
+  {
+   "id": "sm5y-xu-182025",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 182025,
+   "context_short": "时非刃午中巳土制癸辛巳日见戊戌时非刄己中丙火合辛癸巳日见癸",
+   "snapshot_glyph": "戌",
+   "reading": "戌",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 182025",
+     "quote_short": "戌为支名/柱名支位真义。 两见证同作戌"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：戌/戍全量处置之一（两节戍 0 见），本处为真义，不校改。戌为支名/柱名支位真义。"
+  },
+  {
+   "id": "sm5y-ji-182029",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 182029,
+   "context_short": "中巳土制癸辛巳日见戊戌时非刄己中丙火合辛癸巳日见癸丑时非刄",
+   "snapshot_glyph": "己",
+   "reading": "巳",
+   "reading_status": "contextual",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "巳土制癸辛巳日見戊戌時非刄己中丙火合辛癸巳日見癸丑時非"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "巳土制癸辛巳日見戊戌時非刄己中丙火合辛癸巳日見癸丑時非"
+    },
+    {
+     "kind": "context",
+     "witness": "支名槽平行结构",
+     "locator": "字符 182029",
+     "quote_short": "支名槽：「辛巳日见戊戌时非刄，X中丙火合辛」——X中指日支巳中藏干（丙为巳藏干），与平行句「酉中辛金」「午中丁火」的支名槽同构，本位为支名，读巳"
+    }
+   ],
+   "usable_grade": "Q2",
+   "note": "支名槽读巳：两见证与快照同作己——系三谱系一致的传本字形，本条是读法登记（contextual）而非见证字形订正；读法由同段平行句支名槽强制（见 basis），引文以 mapped_reading 呈现读巳，快照原字逐字保留。"
+  },
+  {
+   "id": "sm5y-ji-182044",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 182044,
+   "context_short": "中丙火合辛癸巳日见癸丑时非刄己中戌土合癸以上诸日遇者不宜见",
+   "snapshot_glyph": "己",
+   "reading": "巳",
+   "reading_status": "contextual",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "丙火合辛癸巳日見癸丑時非刄己中戌土合癸以上諸日遇者不宜"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "丙火合辛癸巳日見癸丑時非刄己中戌土合癸以上諸日遇者不宜"
+    },
+    {
+     "kind": "context",
+     "witness": "支名槽平行结构",
+     "locator": "字符 182044",
+     "quote_short": "支名槽：「癸巳日见癸丑时非刄，X中戌土合癸」——X中指日支巳中藏干，与平行句支名槽同构，本位为支名，读巳；同句「戌土」三谱系同作戌、不在本批字形类处置内，未审（见注记）"
+    }
+   ],
+   "usable_grade": "Q2",
+   "note": "支名槽读巳：两见证与快照同作己——系三谱系一致的传本字形，本条是读法登记（contextual）而非见证字形订正；读法由同段平行句支名槽强制（见 basis），引文以 mapped_reading 呈现读巳，快照原字逐字保留。同句「戌土」三谱系逐字一致，疑为戊之传写形讹但无见证异文，不在本批巳/己/已/戌/防/PUA 扫描处置口径内单独校改，只在本注记挂账。"
+  },
+  {
+   "id": "sm5y-xu-182046",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 182046,
+   "context_short": "火合辛癸巳日见癸丑时非刄己中戌土合癸以上诸日遇者不宜见刑冲",
+   "snapshot_glyph": "戌",
+   "reading": "戌",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 182046",
+     "quote_short": "本处「戌土」三谱系逐字一致（见 sm5y-ji-182044 注记挂账），字形不校改。 两见证同作戌"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：戌/戍全量处置之一（两节戍 0 见），本处为真义，不校改。本处「戌土」三谱系逐字一致（见 sm5y-ji-182044 注记挂账），字形不校改。"
+  },
+  {
+   "id": "sm5y-fang-182078",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 182078,
+   "context_short": "则以好命断之又曰阳刄者天上之防星人间之煞喜偏官印绶忌反吟",
+   "snapshot_glyph": "防",
+   "reading": "㓙",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "以好命斷之又曰陽刄者天上之㓙星人間之悪煞喜偏官印綬忌反"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "以好命斷之又曰陽刄者天上之㓙星人間之𢙣煞喜偏官印綬忌反"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「则以好命断之又曰阳刄者天上之防星人间之煞喜偏官印绶忌反吟」：两见证同作㓙（kanripo「㓙」、mikkokotila「㓙」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-pua-182083",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 182083,
+   "context_short": "之又曰阳刄者天上之防星人间之煞喜偏官印绶忌反吟伏吟魁罡三",
+   "snapshot_glyph": "",
+   "snapshot_codepoint": "U+E8AA",
+   "reading": "恶",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_pua_collation.json mappings[U+E8AA]",
+     "locator": "codepoint U+E8AA",
+     "quote_short": "replacement 恶，status confirmed，confidence high"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "又曰陽刄者天上之㓙星人間之悪煞喜偏官印綬忌反吟伏吟魁罡"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "又曰陽刄者天上之㓙星人間之𢙣煞喜偏官印綬忌反吟伏吟魁罡"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "「人间之恶煞」之恶：PUA 码位 U+E8AA 的 confirmed 映射为恶；两见证同作历史字形 𢙣（kanripo 本位作悪、mikkokotila 作𢙣）。本码位定字只对本位点成立，引文逐字保留 PUA 原字。"
+  },
+  {
+   "id": "sm5y-fang-182120",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 182120,
+   "context_short": "故阳刃喜见七煞七煞喜见阳刃两防互相制伏犹正官喜正印善类合善",
+   "snapshot_glyph": "防",
+   "reading": "㓙",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_text_collation.json ocr-225",
+     "locator": "ocr-225（快照字位 182120）",
+     "quote_short": "密封文字订正 ocr-225 于本位点作对应校定，status confirmed"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "陽刃喜見七煞七煞喜見陽刃兩㓙互相制伏猶正官喜正印善類合"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "陽刃喜見七煞七煞喜見陽刃兩㓙互相制伏猶正官喜正印善類合"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「故阳刃喜见七煞七煞喜见阳刃两防互相制伏犹正官喜正印善类合善」：两见证同作㓙（kanripo「㓙」、mikkokotila「㓙」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-fang-182291",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 182291,
+   "context_short": "官财星歳运再逄祸害极重身弱尤防又曰日刄止有三日戊午丙午壬子",
+   "snapshot_glyph": "防",
+   "reading": "㓙",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_text_collation.json ocr-508",
+     "locator": "ocr-508（快照字位 182291）",
+     "quote_short": "密封文字订正 ocr-508 于本位点作对应校定，status confirmed"
+    },
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_ocr_candidates.json（baseline_character_offset 182290）",
+     "locator": "baseline_character_offset 182290（快照字位 182291）",
+     "quote_short": "old 防，historical_reading 㓙，status confirmed_applied（ocr-508）"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "財星歳運再逄禍害極重身弱尤㓙又曰日刄止有三日戊午丙午壬"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "財星歳運再逄禍害極重身弱尤㓙又曰日刄止有三日戊午丙午壬"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「官财星歳运再逄祸害极重身弱尤防又曰日刄止有三日戊午丙午壬子」：两见证同作㓙（kanripo「㓙」、mikkokotila「㓙」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-fang-182319",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 182319,
+   "context_short": "子与阳刃同法经曰赤黄马独卧黒防守空房男妨妻女妨夫指此三日也",
+   "snapshot_glyph": "防",
+   "reading": "䑕",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_text_collation.json ocr-509",
+     "locator": "ocr-509（快照字位 182319）",
+     "quote_short": "密封文字订正 ocr-509 于本位点作对应校定，status confirmed"
+    },
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_ocr_candidates.json（baseline_character_offset 182318）",
+     "locator": "baseline_character_offset 182318（快照字位 182319）",
+     "quote_short": "old 防，historical_reading 䑕，status confirmed_applied（ocr-509）"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "與陽刃同法經曰赤黄馬獨卧黒䑕守空房男妨妻女妨夫指此三日"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "與陽刃同法經曰赤黄馬獨卧黒䑕守空房男妨妻女妨夫指此三日"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「子与阳刃同法经曰赤黄马独卧黒防守空房男妨妻女妨夫指此三日也」：两见证同作䑕（kanripo「䑕」、mikkokotila「䑕」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-fang-182341",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 182341,
+   "context_short": "妨夫指此三日也不喜刑冲破害三防六合要有七煞相制再行官印乡便",
+   "snapshot_glyph": "防",
+   "reading": "㑹",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "夫指此三日也不喜刑衝破害三㑹六合要有七煞相制再行官印鄉"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "夫指此三日也不喜刑衝破害三㑹六合要有七煞相制再行官印鄉"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「妨夫指此三日也不喜刑冲破害三防六合要有七煞相制再行官印乡便」：两见证同作㑹（kanripo「㑹」、mikkokotila「㑹」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-pua-182373",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 182373,
+   "context_short": "赋云日刄大忌冲合喜官煞相制合者防遇印者吉有煞无刃施为有勇",
+   "snapshot_glyph": "",
+   "snapshot_codepoint": "U+EA85",
+   "reading": "刑",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_pua_collation.json mappings[U+EA85]",
+     "locator": "codepoint U+EA85",
+     "quote_short": "replacement 刑，status confirmed，confidence high"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "云日刄大忌衝合喜官煞相制合刑者㓙遇印者吉有煞無刃施為有"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "云日刄大忌衝合喜官煞相制合𠛬者㓙遇印者吉有煞無刃施為有"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "「合刑者凶」之刑：PUA 码位 U+EA85 的 confirmed 映射为刑；两见证同作历史字形 𠛬（kanripo 本位作刑、mikkokotila 作𠛬）。本码位定字只对本位点成立，引文逐字保留 PUA 原字。"
+  },
+  {
+   "id": "sm5y-fang-182375",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 182375,
+   "context_short": "日刄大忌冲合喜官煞相制合者防遇印者吉有煞无刃施为有勇无威",
+   "snapshot_glyph": "防",
+   "reading": "㓙",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "刄大忌衝合喜官煞相制合刑者㓙遇印者吉有煞無刃施為有勇無"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "刄大忌衝合喜官煞相制合𠛬者㓙遇印者吉有煞無刃施為有勇無"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「日刄大忌冲合喜官煞相制合者防遇印者吉有煞无刃施为有勇无威」：两见证同作㓙（kanripo「㓙」、mikkokotila「㓙」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-fang-182438",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 182438,
+   "context_short": "其年难作吉推财旺官伤此岁不作防防又曰戊午日岁月见火多则以印",
+   "snapshot_glyph": "防",
+   "reading": "㓙",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "年難作吉推財旺官傷此歲不作㓙㫁又曰戊午日歲月見火多則以"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "年難作吉推財旺官傷此歲不作㓙㫁又曰戊午日歲月見火多則以"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「其年难作吉推财旺官伤此岁不作防防又曰戊午日岁月见火多则以印」：两见证同作㓙（kanripo「㓙」、mikkokotila「㓙」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-fang-182439",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 182439,
+   "context_short": "年难作吉推财旺官伤此岁不作防防又曰戊午日岁月见火多则以印绶",
+   "snapshot_glyph": "防",
+   "reading": "㫁",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "難作吉推財旺官傷此歲不作㓙㫁又曰戊午日歲月見火多則以印"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "難作吉推財旺官傷此歲不作㓙㫁又曰戊午日歲月見火多則以印"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「年难作吉推财旺官伤此岁不作防防又曰戊午日岁月见火多则以印绶」：两见证同作㫁（kanripo「㫁」、mikkokotila「㫁」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-fang-182493",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 182493,
+   "context_short": "禄马论取财官入格故日刄不为大防此格当推提纲若月令合财官印绶",
+   "snapshot_glyph": "防",
+   "reading": "㓙",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_ocr_candidates.json（baseline_character_offset 182492）",
+     "locator": "baseline_character_offset 182492（快照字位 182493）",
+     "quote_short": "old 防，historical_reading 㓙，status historical_only_hold"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "馬論取財官入格故日刄不為大㓙此格當推提綱若月令合財官印"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "馬論取財官入格故日刄不為大㓙此格當推提綱若月令合財官印"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「禄马论取财官入格故日刄不为大防此格当推提纲若月令合财官印绶」：两见证同作㓙（kanripo「㓙」、mikkokotila「㓙」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-si-182537",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 182537,
+   "context_short": "拘以阳刃又自刄有三日癸丑丁未巳未因坐下比肩阳刄飞刃有四日丙",
+   "snapshot_glyph": "巳",
+   "reading": "己",
+   "reading_status": "contextual",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "以陽刃又自刄有三日癸丑丁未巳未因坐下比肩陽刄飛刃有四日"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "以陽刃又自刄有三日癸丑丁未巳未因坐下比肩陽刄飛刃有四日"
+    },
+    {
+     "kind": "context",
+     "witness": "十干封闭枚举与十神/藏干槽位",
+     "locator": "字符 182537",
+     "quote_short": "柱名干槽：自刄三日「癸丑、丁未、X未」——X未为柱名干位（己未日），读己"
+    }
+   ],
+   "usable_grade": "Q2",
+   "note": "干名/藏干名槽读己：两见证与快照同作巳——系三谱系一致的传本字形，本条是读法登记（contextual）而非见证字形订正；读法由封闭枚举与槽位强制（见 basis），引文以 mapped_reading 呈现读己，快照原字逐字保留。"
+  },
+  {
+   "id": "sm5y-ji-182557",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 182557,
+   "context_short": "肩阳刄飞刃有四日丙子丁丑戊子己丑因坐下冲出阳刃与前日刃喜忌",
+   "snapshot_glyph": "己",
+   "reading": "己",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 182557",
+     "quote_short": "己为干名/柱名干位/自指的真义，两见证同作己"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：己/已/巳全量处置之一，本处己为真义（干名、柱名干位或「自己」自指），不校改。"
+  },
+  {
+   "id": "sm5y-fang-182679",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 182679,
+   "context_short": "带阳刄时上微带官星力不能制亦防大率最坏造化既是好命却带刄刼",
+   "snapshot_glyph": "防",
+   "reading": "㓙",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_ocr_candidates.json（baseline_character_offset 182678）",
+     "locator": "baseline_character_offset 182678（快照字位 182679）",
+     "quote_short": "old 防，historical_reading 㓙，status historical_only_hold"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "陽刄時上微帶官星力不能制亦㓙大率最壞造化既是好命却帶刄"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "陽刄時上微帶官星力不能制亦㓙大率最壞造化既是好命却帶刄"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「带阳刄时上微带官星力不能制亦防大率最坏造化既是好命却带刄刼」：两见证同作㓙（kanripo「㓙」、mikkokotila「㓙」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-fang-182822",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 182822,
+   "context_short": "财争竞兄弟分居遇此大吉余同刄防此格作事敢为无仁义若身太强见",
+   "snapshot_glyph": "防",
+   "reading": "㫁",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_ocr_candidates.json（baseline_character_offset 182821）",
+     "locator": "baseline_character_offset 182821（快照字位 182822）",
+     "quote_short": "old 防，historical_reading 㫁，status historical_only_hold"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "争競兄弟分居遇此大吉餘同刄㫁此格作事敢為無仁義若身太强"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "争競兄弟分居遇此大吉餘同刄㫁此格作事敢為無仁義若身太强"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「财争竞兄弟分居遇此大吉余同刄防此格作事敢为无仁义若身太强见」：两见证同作㫁（kanripo「㫁」、mikkokotila「㫁」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-yi-183027",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 183027,
+   "context_short": "我坐衰絶之地却喜比助弟兄荣华已必艰苦妻财衰薄太岁重逄官亦失",
+   "snapshot_glyph": "已",
+   "reading": "已",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 183027",
+     "quote_short": "本处已作副词（已经）读真义；另有读己（自指）的解析可能，本批不裁定解析层、字形不校改。"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：已/己/巳全量处置之一，本处为真义，不校改。本处已作副词（已经）读真义；另有读己（自指）的解析可能，本批不裁定解析层、字形不校改。"
+  },
+  {
+   "id": "sm5y-pua-183189",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 183189,
+   "context_short": "镜云阳刃重重又见煞大贵登科甲机云阳刄极喜天官削平祸乱诀云",
+   "snapshot_glyph": "",
+   "snapshot_codepoint": "U+EA20",
+   "reading": "玄",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_pua_collation.json mappings[U+EA20]",
+     "locator": "codepoint U+EA20",
+     "quote_short": "replacement 玄，status confirmed，confidence high"
+    },
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_ocr_candidates.json（baseline_character_offset 183188）",
+     "locator": "baseline_character_offset 183188（快照字位 183189）",
+     "quote_short": "old 玄，historical_reading 𤣥，status historical_only_hold"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "云陽刃重重又見煞大貴登科甲𤣥機云陽刄極喜天官削平禍亂訣"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "云陽刃重重又見煞大貴登科甲𤣥機云陽刄極喜天官削平禍亂訣"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "「玄机云」之玄机赋名：PUA 码位 U+EA20 的 confirmed 映射为玄；两见证同作历史字形 𤣥（kanripo 本位作𤣥、mikkokotila 作𤣥）。本码位定字只对本位点成立，引文逐字保留 PUA 原字。"
+  },
+  {
+   "id": "sm5y-pua-183390",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 183390,
+   "context_short": "兼贵煞富贵荣身消息赋云小盈大恐是刼财之地玉匣赋云火金阳刃",
+   "snapshot_glyph": "",
+   "snapshot_codepoint": "U+EE25",
+   "reading": "亏",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_pua_collation.json mappings[U+EE25]",
+     "locator": "codepoint U+EE25",
+     "quote_short": "replacement 亏，status confirmed，confidence high"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "貴煞富貴榮身消息賦云小盈大虧恐是刼財之地玉匣賦云火金陽"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "貴煞富貴榮身消息賦云小盈大𧇊恐是刼財之地玉匣賦云火金陽"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "「小盈大亏」之亏：PUA 码位 U+EE25 的 confirmed 映射为亏；两见证同作历史字形 𧇊（kanripo 本位作虧、mikkokotila 作𧇊）。本码位定字只对本位点成立，引文逐字保留 PUA 原字。"
+  },
+  {
+   "id": "sm5y-pua-183458",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 183458,
+   "context_short": "必定分尸通眀赋云印生两刃终被定真篇云阳刃若逢印绶縦富而残",
+   "snapshot_glyph": "",
+   "snapshot_codepoint": "U+EA85",
+   "reading": "刑",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_pua_collation.json mappings[U+EA85]",
+     "locator": "codepoint U+EA85",
+     "quote_short": "replacement 刑，status confirmed，confidence high"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "定分屍通眀賦云印生兩刃終被刑定真篇云陽刃若逢印綬縦富而"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "定分屍通眀賦云印生兩刃終被𠛬定真篇云陽刃若逢印綬縦富而"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "「终被刑」之刑：PUA 码位 U+EA85 的 confirmed 映射为刑；两见证同作历史字形 𠛬（kanripo 本位作刑、mikkokotila 作𠛬）。本码位定字只对本位点成立，引文逐字保留 PUA 原字。"
+  },
+  {
+   "id": "sm5y-fang-183539",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 183539,
+   "context_short": "亥三命皆无目古歌曰阳刃在时莫防防身轻反助却为中单嫌岁月重相",
+   "snapshot_glyph": "防",
+   "reading": "㸔",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_ocr_candidates.json（baseline_character_offset 183538）",
+     "locator": "baseline_character_offset 183538（快照字位 183539）",
+     "quote_short": "old 防防，historical_reading 㸔㓙，status historical_only_hold"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "三命皆無目古歌曰陽刃在時莫㸔㓙身輕反助却為中单嫌歲月重"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "三命皆無目古歌曰陽刃在時莫㸔㓙身輕反助却為中单嫌歲月重"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「亥三命皆无目古歌曰阳刃在时莫防防身轻反助却为中单嫌岁月重相」：两见证同作㸔（kanripo「㸔」、mikkokotila「㸔」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-fang-183540",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 183540,
+   "context_short": "三命皆无目古歌曰阳刃在时莫防防身轻反助却为中单嫌岁月重相见",
+   "snapshot_glyph": "防",
+   "reading": "㓙",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_ocr_candidates.json（baseline_character_offset 183538）",
+     "locator": "baseline_character_offset 183538（快照字位 183540）",
+     "quote_short": "old 防防，historical_reading 㸔㓙，status historical_only_hold"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "命皆無目古歌曰陽刃在時莫㸔㓙身輕反助却為中单嫌歲月重相"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "命皆無目古歌曰陽刃在時莫㸔㓙身輕反助却為中单嫌歲月重相"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「三命皆无目古歌曰阳刃在时莫防防身轻反助却为中单嫌岁月重相见」：两见证同作㓙（kanripo「㓙」、mikkokotila「㓙」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-fang-183644",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 183644,
+   "context_short": "有伤主人心性气髙强刑冲太重多防厄有制方能保吉昌【又】刃逄七",
+   "snapshot_glyph": "防",
+   "reading": "㓙",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_text_collation.json ocr-227",
+     "locator": "ocr-227（快照字位 183644）",
+     "quote_short": "密封文字订正 ocr-227 于本位点作对应校定，status confirmed"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "傷主人心性氣髙強刑衝太重多㓙厄有制方能保吉昌(又/)刃"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "傷主人心性氣髙強刑衝太重多㓙厄有制方能保吉昌又刃逄七煞"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「有伤主人心性气髙强刑冲太重多防厄有制方能保吉昌【又】刃逄七」：两见证同作㓙（kanripo「㓙」、mikkokotila「㓙」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-fang-183670",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 183670,
+   "context_short": "刃逄七煞慕官乡惟怕刑冲禄不昌防合更逢财旺运预防灾祸致身殃【",
+   "snapshot_glyph": "防",
+   "reading": "㑹",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_text_collation.json ocr-227",
+     "locator": "ocr-227（快照字位 183670）",
+     "quote_short": "密封文字订正 ocr-227 于本位点作对应校定，status confirmed"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "逄七煞慕官鄉惟怕刑衝禄不昌㑹合更逢財旺運預防災禍致身殃"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "逄七煞慕官鄉惟怕刑衝禄不昌㑹合更逢財旺運預防災禍致身殃"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「刃逄七煞慕官乡惟怕刑冲禄不昌防合更逢财旺运预防灾祸致身殃【」：两见证同作㑹（kanripo「㑹」、mikkokotila「㑹」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-fang-183678",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 183678,
+   "context_short": "怕刑冲禄不昌防合更逢财旺运预防灾祸致身殃【又】比肩阳刃格非",
+   "snapshot_glyph": "防",
+   "reading": "防",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 183678",
+     "quote_short": "「预防灾祸」之防（防备义），两见证同作防"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：「预防灾祸」之防（防备义），防为本字真义、非讹字，不校改。己/已/巳/戌/防全量处置之一。"
+  },
+  {
+   "id": "sm5y-fang-183917",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 183917,
+   "context_short": "财乡贵必迁刑害俱全为吉地财神防合是灾年【又】戊巳生逢五月中",
+   "snapshot_glyph": "防",
+   "reading": "㑹",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_ocr_candidates.json（baseline_character_offset 183916）",
+     "locator": "baseline_character_offset 183916（快照字位 183917）",
+     "quote_short": "old 防，historical_reading 㑹，status historical_only_hold"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "鄉貴必遷刑害俱全為吉地財神㑹合是災年(又/)戊巳生逢五"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "鄉貴必遷刑害俱全為吉地財神㑹合是災年又戊巳生逢五月中忽"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「财乡贵必迁刑害俱全为吉地财神防合是灾年【又】戊巳生逢五月中」：两见证同作㑹（kanripo「㑹」、mikkokotila「㑹」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-si-183926",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 183926,
+   "context_short": "为吉地财神防合是灾年【又】戊巳生逢五月中忽逢阳刃在天宫金多",
+   "snapshot_glyph": "巳",
+   "reading": "己",
+   "reading_status": "contextual",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "地財神㑹合是災年(又/)戊巳生逢五月中忽逢陽刃在天宫金"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "全為吉地財神㑹合是災年又戊巳生逢五月中忽逢陽刃在天宫金"
+    },
+    {
+     "kind": "context",
+     "witness": "十干封闭枚举与十神/藏干槽位",
+     "locator": "字符 183926",
+     "quote_short": "干名槽：古歌「戊X生逢五月中」——戊X为日主干名对（戊己日生），读己"
+    }
+   ],
+   "usable_grade": "Q2",
+   "note": "干名/藏干名槽读己：两见证与快照同作巳——系三谱系一致的传本字形，本条是读法登记（contextual）而非见证字形订正；读法由封闭枚举与槽位强制（见 basis），引文以 mapped_reading 呈现读己，快照原字逐字保留。"
+  },
+  {
+   "id": "sm5y-fang-183983",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 183983,
+   "context_short": "同不宜阳刃天干露歳运相逢事事防又丙丁离巽是刃根运到江湖利名",
+   "snapshot_glyph": "防",
+   "reading": "㓙",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_ocr_candidates.json（baseline_character_offset 183982）",
+     "locator": "baseline_character_offset 183982（快照字位 183983）",
+     "quote_short": "old 防，historical_reading 㓙，status historical_only_hold"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "不宜陽刃天干露歳運相逢事事㓙又丙丁離巽是刃根運到江湖利"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "不宜陽刃天干露歳運相逢事事㓙又丙丁離巽是刃根運到江湖利"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「同不宜阳刃天干露歳运相逢事事防又丙丁离巽是刃根运到江湖利名」：两见证同作㓙（kanripo「㓙」、mikkokotila「㓙」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-xu-184005",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 184005,
+   "context_short": "根运到江湖利名真官旺喜行寅午戌无官却要申子辰又秋金酉月重生",
+   "snapshot_glyph": "戌",
+   "reading": "戌",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 184005",
+     "quote_short": "戌为支名/柱名支位真义。 两见证同作戌"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：戌/戍全量处置之一（两节戍 0 见），本处为真义，不校改。戌为支名/柱名支位真义。"
+  },
+  {
+   "id": "sm5y-fang-184103",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 184103,
+   "context_short": "重重行火土财官旺运到西方歩歩防【又】日刃还如羊刃同官星七煞",
+   "snapshot_glyph": "防",
+   "reading": "㓙",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_ocr_candidates.json（baseline_character_offset 184102）",
+     "locator": "baseline_character_offset 184102（快照字位 184103）",
+     "quote_short": "old 防，historical_reading 㓙，status historical_only_hold"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "重行火土財官旺運到西方歩歩㓙(又/)日刃還如羊刃同官星"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "重行火土財官旺運到西方歩歩㓙又日刃還如羊刃同官星七煞喜"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「重重行火土财官旺运到西方歩歩防【又】日刃还如羊刃同官星七煞」：两见证同作㓙（kanripo「㓙」、mikkokotila「㓙」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-fang-184159",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 184159,
+   "context_short": "午宫又怕子来冲丙干坐午休重见防合身宫事有防【又】羊刃常居在",
+   "snapshot_glyph": "防",
+   "reading": "㑹",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_ocr_candidates.json（baseline_character_offset 184158）",
+     "locator": "baseline_character_offset 184158（快照字位 184159）",
+     "quote_short": "old 防，historical_reading 㑹，status historical_only_hold"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "宮又怕子來衝丙干坐午休重見㑹合身宮事有㓙(又/)羊刃常"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "宮又怕子來衝丙干坐午休重見㑹合身宮事有㓙又羊刃常居在祿"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「午宫又怕子来冲丙干坐午休重见防合身宫事有防【又】羊刃常居在」：两见证同作㑹（kanripo「㑹」、mikkokotila「㑹」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-fang-184165",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 184165,
+   "context_short": "冲丙干坐午休重见防合身宫事有防【又】羊刃常居在禄前性刚果毅",
+   "snapshot_glyph": "防",
+   "reading": "㓙",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_ocr_candidates.json（baseline_character_offset 184164）",
+     "locator": "baseline_character_offset 184164（快照字位 184165）",
+     "quote_short": "old 防，historical_reading 㓙，status historical_only_hold"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "丙干坐午休重見㑹合身宮事有㓙(又/)羊刃常居在祿前性剛"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "丙干坐午休重見㑹合身宮事有㓙又羊刃常居在祿前性剛果毅少"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「冲丙干坐午休重见防合身宫事有防【又】羊刃常居在禄前性刚果毅」：两见证同作㓙（kanripo「㓙」、mikkokotila「㓙」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-fang-184185",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 184185,
+   "context_short": "常居在禄前性刚果毅少慈怜不宜防合防灾至若见财星祸必纒有官有",
+   "snapshot_glyph": "防",
+   "reading": "㑹",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_text_collation.json ocr-228",
+     "locator": "ocr-228（快照字位 184185）",
+     "quote_short": "密封文字订正 ocr-228 于本位点作对应校定，status confirmed"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "居在祿前性剛果毅少慈憐不宜㑹合防災至若見財星禍必纒有官"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "居在祿前性剛果毅少慈憐不宜㑹合防災至若見財星禍必纒有官"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「常居在禄前性刚果毅少慈怜不宜防合防灾至若见财星祸必纒有官有」：两见证同作㑹（kanripo「㑹」、mikkokotila「㑹」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-fang-184187",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 184187,
+   "context_short": "在禄前性刚果毅少慈怜不宜防合防灾至若见财星祸必纒有官有煞名",
+   "snapshot_glyph": "防",
+   "reading": "防",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 184187",
+     "quote_short": "「防灾至」之防（防备义），两见证同作防"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：「防灾至」之防（防备义），防为本字真义、非讹字，不校改。己/已/巳/戌/防全量处置之一。"
+  },
+  {
+   "id": "sm5y-fang-184275",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 184275,
+   "context_short": "二壬申子财旺且多子午虽冲申子防午不能冲时官星制伏阳刃只作财",
+   "snapshot_glyph": "防",
+   "reading": "㑹",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_text_collation.json ocr-228",
+     "locator": "ocr-228（快照字位 184275）",
+     "quote_short": "密封文字订正 ocr-228 于本位点作对应校定，status confirmed"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "壬申子財旺且多子午雖衝申子㑹午不能衝時官星制伏陽刃只作"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "壬申子財旺且多子午雖衝申子㑹午不能衝時官星制伏陽刃只作"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「二壬申子财旺且多子午虽冲申子防午不能冲时官星制伏阳刃只作财」：两见证同作㑹（kanripo「㑹」、mikkokotila「㑹」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-fang-184292",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 184292,
+   "context_short": "能冲时官星制伏阳刃只作财官格防所以大贵又一命丙戌癸巳戊午丁",
+   "snapshot_glyph": "防",
+   "reading": "㸔",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_text_collation.json ocr-228",
+     "locator": "ocr-228（快照字位 184292）",
+     "quote_short": "密封文字订正 ocr-228 于本位点作对应校定，status confirmed"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "衝時官星制伏陽刃只作財官格㸔所以大貴又一命丙戌癸巳戊午"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "衝時官星制伏陽刃只作財官格㸔所以大貴又一命丙戌癸巳戊午"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「能冲时官星制伏阳刃只作财官格防所以大贵又一命丙戌癸巳戊午丁」：两见证同作㸔（kanripo「㸔」、mikkokotila「㸔」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。"
+  },
+  {
+   "id": "sm5y-xu-184301",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 184301,
+   "context_short": "只作财官格防所以大贵又一命丙戌癸巳戊午丁巳戊归禄己午虽羊刃",
+   "snapshot_glyph": "戌",
+   "reading": "戌",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 184301",
+     "quote_short": "戌为支名/柱名支位真义。 两见证同作戌"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：戌/戍全量处置之一（两节戍 0 见），本处为真义，不校改。戌为支名/柱名支位真义。"
+  },
+  {
+   "id": "sm5y-ji-184311",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 184311,
+   "context_short": "又一命丙戌癸巳戊午丁巳戊归禄己午虽羊刃所以防禄又印绶化刃故",
+   "snapshot_glyph": "己",
+   "reading": "己",
+   "reading_status": "contextual",
+   "disposition": "genuine",
+   "basis": [
+    {
+     "kind": "context",
+     "witness": "本节语境",
+     "locator": "字符 184311",
+     "quote_short": "己为干名/柱名干位/自指的真义，两见证同作己"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "真义判定：己/已/巳全量处置之一，本处己为真义（干名、柱名干位或「自己」自指），不校改。"
+  },
+  {
+   "id": "sm5y-fang-184318",
+   "section_id": "sanming.juan5.yangren",
+   "char_offset": 184318,
+   "context_short": "戊午丁巳戊归禄己午虽羊刃所以防禄又印绶化刃故贵\n",
+   "snapshot_glyph": "防",
+   "reading": "䕶",
+   "reading_status": "confirmed",
+   "disposition": "corrected",
+   "basis": [
+    {
+     "kind": "sealed_asset",
+     "witness": "sanming_ocr_candidates.json（baseline_character_offset 184317）",
+     "locator": "baseline_character_offset 184317（快照字位 184318）",
+     "quote_short": "old 防，historical_reading 䕶，status reading_disagreement_hold"
+    },
+    {
+     "kind": "witness",
+     "witness": "kanripo/KR3g0042",
+     "locator": "KR3g0042_005.txt",
+     "quote_short": "午丁巳戊歸禄己午雖羊刃所以䕶禄又印綬化刃故貴"
+    },
+    {
+     "kind": "witness",
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "locator": "source/juan-05.md",
+     "quote_short": "午丁巳戊歸禄己午雖羊刃所以䕶禄又印綬化刃故貴"
+    }
+   ],
+   "usable_grade": "Q1",
+   "note": "本位语境「戊午丁巳戊归禄己午虽羊刃所以防禄又印绶化刃故贵」：两见证同作䕶（kanripo「䕶」、mikkokotila「䕶」）。「防」为多源汇讹字（原字各不相干），无全局替换规则；本处定字只对本位点成立。候选池同位条目（reading_disagreement_hold）同读䕶，本批经两见证原文复核后入册。"
+  }
+ ],
+ "si_glyph_disposition": {
+  "glyph": "巳",
+  "stem_slot_offsets": [
+   170791,
+   170799,
+   170924,
+   171153,
+   171570,
+   171662,
+   171670,
+   172415,
+   172469,
+   181676,
+   181791,
+   181801,
+   182016,
+   182537,
+   183926
+  ],
+  "branch_slot_offsets": [
+   171252,
+   171559,
+   171586,
+   172493,
+   182021,
+   182036,
+   184303,
+   184307
+  ],
+  "note": "两节「巳」共 23 处逐处判别：干名/藏干名/柱名干槽 15 处逐条入册读己（sm5z/si-*、sm5y/si-*，读法登记、传本三谱系同作巳）；支位真义 8 处（柱名支位）逐位登记于此，不逐条入册。与之镜像的「己」入支名槽 2 处（182029/182044「己中」指日支巳中藏干）逐条入册读巳（sm5y-ji-*），巳/己互讹在本组两节双向各见其例，均按槽位读法登记、不作字形订正。"
+ },
+ "fact_linkage": {
+  "existing_code_references": [
+   {
+    "code_module": "src/tianji_kb/bazi_pattern.py",
+    "statement": "Slice A 禄刃路线（LUREN）REN_BRANCH = {'甲': '卯', '丙': '午', '戊': '午', '庚': '酉', '壬': '子'}，表源即本批《论阳刃》：纲句引文 sanming.ren_doctrine（字符 180961–180982）与刃位引文 sanming.ren_positions（字符 181644–181689）逐字登记于 LUREN_QUOTES",
+    "status": "consistent"
+   },
+   {
+    "code_module": "src/tianji_kb/bazi_pattern.py",
+    "statement": "Slice B pattern_zaqi 的三命侧材料为卷六《日禄归时》实案句（字符 192131–192174）与女命章诗句（字符 245030–245081）两处见证窗口及滴天髓原注段（字符 33161–33313），与本批《论杂气》节窗口（170743–172958）互不重叠",
+    "status": "consistent"
+   },
+   {
+    "code_module": "src/tianji_kb/product_coverage.py",
+    "statement": "能力覆盖说明明示「司令、禄刃杂气、官杀去留与破印作用未裁定」，格局真假成败喜用始终 unresolved",
+    "status": "unresolved"
+   }
+  ],
+  "registered_material": {
+   "section_ids": [
+    "sanming.juan5.zaqi",
+    "sanming.juan5.yangren"
+   ],
+   "source_id": "bazi.source.sanmingtonghui",
+   "school_attribution": "三命通会体系材料"
+  },
+  "slice_a_consistency": "《论阳刃》全文校勘复核 Slice A 刃表：纲句（yr.gangju，字符 180961–180982，与 LUREN_QUOTES 的 sanming.ren_doctrine 逐字一致）明定五阳干有刃、五阴干无刃；刃位句（yr.ren_positions，字符 181644–181689，与 sanming.ren_positions 逐字一致）逐一明列戊刃午、壬刃子、庚刃酉、甲刃卯、丙刃午，与 REN_BRANCH 五项逐项相符；同节「日刄止有三日戊午丙午壬子」「自刄三日癸丑丁未巳未（巳未读己未，见 sm5y-si-182537）」「飞刃四日丙子丁丑戊子己丑」为日柱层刃目、不入月令刃表，与 Slice A 只消费月支刃位的口径不冲突。结论：一致，刃表无须订正，本批未改动 bazi_pattern.py 任何字段。",
+  "slice_b_overlap": "逐项对照结论：本批《论杂气》全文与 Slice B 已登记杂气材料无同文重叠登记——Slice B 的三命两案（192131–192174、245030–245081）在本节之外、滴天髓原注段（33161–33313）为他书材料，与本节窗口（170743–172958）互不重叠，故无同文/异文重复登记。本节是三命体系「杂气财官」格名的 doctrine 本源（zq.definition、zq.jingjian 等自称「杂气财官格」），与 Slice B 登记的流派冲突框架（原注「不可言杂气财官」对三命杂气格名目）构成冲突的材料面在本批如实呈现：本节登记只确立三命侧文本，不改变 pattern_zaqi 的任何输出（其执行层为原注分支），不作选格裁定。Slice A 的 A5 分界（禄/刃支集与四季月支集不相交）在本节藏干与四库论述下复核无矛盾。",
+  "relationship": "本批两节是 Slice A 刃表的表源节（《论阳刃》）与 Slice B 杂气冲突框架的三命 doctrine 本源节（《论杂气》）的全文校勘续册：只把文本校勘到可登记状态并逐条入册，不写任何阳刃/杂气判定代码，不改变既有裁定语义；八格真假与杂气选格仍按 Slice B/D 既有口径，TJ-012.3 不因本批解锁任何新裁定。",
+  "adjudication_semantics_changed": false
+ },
+ "transmission_notes": [
+  {
+   "id": "yangren-title-pua-witness-divergence",
+   "statement": "《论阳刃》节题 PUA（U+EB07，字符 180885）：密封 PUA 映射 confirmed 读参，mikkokotila 作历史字形 𠫵，kanripo 本位转写作恭——两四库谱系见证于本位点转写分歧。本批从映射与 mikkokotila 读参（sm5y-pua-180885），kanripo 的恭字如实记录于此，不据以改读；同题「防」字两见证同作㸔（sm5y-fang-180886）。Slice A 登记本节时明示「节题行含 PUA 字不引用」，本批始对节题两字逐处入册。"
+  },
+  {
+   "id": "yangren-witness-juan-division",
+   "statement": "见证编次差异：NiuTrans/Classical-Modern 谱系将《论阳刃》置于其「卷六」目录（密封订正 ocr-449/504/505 的 evidence 路径为 古文原文/三命通会/卷六/论阳刃/text.txt），快照与四库谱系（kanripo、mikkokotila）均在本卷五。本批按快照卷五登记，编次差异只记录、不据见证改动快照卷次。"
+  },
+  {
+   "id": "ji-zhong-xutu-transmitted",
+   "statement": "《论阳刃》非刃诸日句「辛巳日……己中丙火合辛」「癸巳日……己中戌土合癸」：其中「己中」的己为支名槽读巳（sm5y-ji-182029/182044）；同后句「戌土」三谱系逐字一致，疑为戊之传写形讹但无任何见证异文，不在本批字形类（PUA/防/巳/己/已/戌/戍）处置口径内单独校改，只挂账登记，待后续批次或 018-H 横向工程处理。"
+  },
+  {
+   "id": "glyph-variant-style",
+   "statement": "两节内歩/徳/竒/歴/禄（快照简体转写）等字为三谱系各自的传本字形体例，非讹字，不作校勘对象，引文逐字保留快照原字。快照作简体转写处（如财/禄/机）与见证繁体字形之间的简繁差异不入校勘记。"
+  }
+ ],
+ "sealed_asset_reconciliation": {
+  "text_collation_in_window": [
+   "ocr-211",
+   "ocr-212",
+   "ocr-213",
+   "ocr-222",
+   "ocr-223",
+   "ocr-224",
+   "ocr-225",
+   "ocr-227",
+   "ocr-228",
+   "ocr-449",
+   "ocr-502",
+   "ocr-504",
+   "ocr-505",
+   "ocr-506",
+   "ocr-507",
+   "ocr-508",
+   "ocr-509"
+  ],
+  "ocr_candidates_in_window": 23,
+  "ocr_candidate_offset_basis_note": "候选池 baseline_character_offset 在本组字距内与快照字位恒差 −1（如快照 170973 对候选 170972）；本批 char_offset 一律以快照实测为准，候选条目在 basis 中以其 baseline 偏移引用并注明对应快照字位。落入窗口的 23 条候选：confirmed_applied 8 条（防→䕃 170972、防→㓙 181168/181199/181313/181890/182290、防→䑕 182318，与密封订正 ocr-502/449/505/506/507/508/509 对应）、historical_only_hold 14 条（玄→𤣥 171800/183188、防→㓙 172011/172640/172643/182492/182678/183982/184102/184164、防→㫁 182821、防防→㸔㓙 183538、防→㑹 183916/184158）、reading_disagreement_hold 1 条（防→䕶 184317）；hold 类 15 条本批逐条经 kanripo 与 mikkokotila 两见证原文复核后入册（候选只是流水线线索，定字权在本项目逐批复核登记）。",
+  "pua_mapping_codepoints_in_window": [
+   "U+E8AA",
+   "U+EA20",
+   "U+EA85",
+   "U+EB07",
+   "U+EE25"
+  ],
+  "zero_match_total": 66,
+  "zero_match_in_window": 0,
+  "note": "603 条密封订正落入本组窗口 17 条（覆盖防位点 27 处，其中 ocr-222 一串含 8 处、ocr-224 一串含 3 处、ocr-228 一串含 3 处，ocr-449/505 为链式订正——其 old 串含前序订正结果、在快照原文中不逐字命中，覆盖位点以其 new 串与见证复核为准），全部按见证入册；其余 20 处防与 9 处 PUA 由本批直接对 kanripo/KR3g0042_005.txt 与 mikkokotila source/juan-05.md 两见证原文逐处复核定字（两见证与密封资产所引为同一钉定 commit）。PUA 映射落入窗口 5 个码位 9 处，全书 PUA 普查（524 处/86 种）为快照事实、本批登记不改变快照，普查数字不变。66 条零匹配订正经 old 串子串核查与本组窗口无关联（归因属 TJ-018-H）。"
+ }
+}
