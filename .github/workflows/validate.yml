@@ -245,6 +245,24 @@ jobs:
       # acceptance only, NOT public CI: it reads the sealed snapshot
       # files).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0131_ditiansui_fuyi.py' -v
+      # TJ-012.3 ditiansui huaxiang chapter registration (E0270
+      # pending item B4) public contracts: pure-data register
+      # mirrored against Golden, whole chapter registered verbatim
+      # (1646 chars, [98297, 99943)) and tiled by 13 segments across
+      # four layers (head verse / yuanzhu / renshi / five renshi
+      # worked examples plus blank fillers), 19 quotes layered with
+      # no layer mixing, F5/F6 condition-element structures with
+      # quote evidence (commander absent in both), relations to the
+      # sanming F1-F4 formulations pinned as same-topic-different-
+      # statements only (never merged into the E0270 conflict
+      # structure, whose conclusions stay unchanged), 10 glyph
+      # notes all unresolved with no mapped reading, and no
+      # determination semantics anywhere. Verbatim quote equality
+      # against the snapshot, chapter-boundary pins, glyph-position
+      # reconciliation and the source census live in
+      # test_tj0123_ditiansui_huaxiang_sealed.py (offline acceptance
+      # only, NOT public CI: it reads the sealed snapshot files).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0123_ditiansui_huaxiang.py' -v
       # TJ-018-A sanming juan2 collation register public contracts:
       # pure-data register mirrored against Golden, collation-note
       # form (required fields, status/disposition enums, confirmed
