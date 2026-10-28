@@ -273,7 +273,7 @@
    },
    "operative": false,
    "routed_through_strength": null,
-   "note": "境遇断语（三刑自刑魁罡全、发跡疆场）：三刑/自刑在场事实已由三刑事实层（sanxing-branch-fact-v1）建成，但本句为境遇断语，只登记存在、不作裁定，不构成任何境遇判断口径。"
+   "note": "境遇断语（三刑自刑魁罡全、发跡疆场）：三刑/自刑在场事实已由三刑事实层建成（E0268 已实现），但本句为境遇断语，只登记存在、不作裁定，不构成任何境遇判断口径。"
   },
   {
    "id": "yh.rr_wealth_fierce_rescue",
