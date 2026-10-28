@@ -326,6 +326,25 @@ jobs:
       # acceptance only, NOT public CI: it reads the sealed
       # snapshot files).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj018f_sanming_juan5.py' -v
+      # TJ-018-G sanming juan6 fangju/baxiang-group collation register
+      # (new juan6 register volume) public contracts: pure-data
+      # register mirrored against Golden, collation-note form and
+      # confirmed anchor rule, PUA 3 (all confirmed per position,
+      # guixiang U+EEA6 mikko image-glyph placeholder recorded) and
+      # fang 15 (14 witness-collated readings across four mutually
+      # unrelated original glyphs, 1 genuine), si 38 positions fully
+      # partitioned (9 stem-slot readings as contextual reading
+      # registrations), ji 3 branch-group-slot readings, fangju
+      # branch-group correspondence with executed triple-harmony /
+      # directional-meeting facts pinned (jiashe gap recorded),
+      # baxiang presence-only interface recorded, adjudication
+      # semantics unchanged, 018-A/B/C/D/F register regression
+      # (44 + 35 + 81 + 43 + 108 notes untouched, cumulative 383),
+      # source census unchanged (101). Snapshot-verbatim checks
+      # live in test_tj018g_sanming_juan6_sealed.py (offline
+      # acceptance only, NOT public CI: it reads the sealed
+      # snapshot files).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj018g_sanming_juan6.py' -v
       # TJ-011.2 fire morphology adjudication public contracts:
       # pure-data design register (zero functions), ten Ditiansui
       # definition/root quotes with self-consistent locators and layer
