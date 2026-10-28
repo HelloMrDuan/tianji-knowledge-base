@@ -338,8 +338,12 @@ class TestGoldenDesigns(unittest.TestCase):
             # Flipped by the F3 implementation batch (E0248): the F3
             # scan-witness positive now classifies strong through the
             # lu_visible_support predicate; every other case's engine
-            # verdict is unchanged (F4 still gated on the siling
-            # expansion adjudication).
+            # verdict is unchanged. (E0262: F4 is implemented under
+            # reading (乙) segment_tightened, but its verdict issues
+            # only through the combination function with an explicit
+            # pilot result, so the plain engine verdict for both F4
+            # design charts stays indeterminate and current_engine is
+            # unchanged for them.)
             expected_engine = (
                 'strong' if case['id']
                 == 'tj0112-f3-positive-scan-witness'
@@ -372,8 +376,14 @@ class TestGoldenDesigns(unittest.TestCase):
             'principal_only': 'satisfied',
             'segment_tightened': 'month_condition_false',
         })
+        # Flipped by the F4 implementation batch (E0262): the user
+        # adjudication of 2026-10-28 selected reading (乙)
+        # segment_tightened, so the gate case's pending design
+        # classification resolves to not_satisfied_segment_gate
+        # (nine conditions true, tightened month condition false);
+        # see the case's segment_decision_resolution note.
         self.assertEqual(case['expect']['design_classification'],
-                         'undetermined_pending_segment_decision')
+                         'not_satisfied_segment_gate')
         pos = self.cases['tj0112-f4-positive-both-readings']
         self.assertEqual(pos['expect']['commander_segment'], '甲')
         self.assertEqual(pos['expect']['readings'], {

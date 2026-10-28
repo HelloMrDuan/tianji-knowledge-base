@@ -422,6 +422,21 @@ jobs:
       # (offline acceptance only, NOT public CI: it needs the sealed
       # snapshot).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0112_bing_si_lu_public.py' -v
+      # TJ-011.2 F4 implementation public contracts (E0262): the
+      # changsheng predicate's anchor-provenance map in
+      # bazi_adjudication (CHANGSHENG_ANCHOR_TYPES) keyed exactly by
+      # the register's nine conditions in register order (governance-
+      # convention condition never relabelled), register governance
+      # flags unchanged, the user-selected segment reading pinned,
+      # pilot-claim validation at factor level (identity pins,
+      # provenance, segment/commander/interval agreement; forged
+      # blocks unverifiable), implementation Golden self-consistency
+      # (real birth instants, parity-valid pillars, design-pair
+      # condition tables identical to the adjudication batch's).
+      # Chart execution against the sealed policy and production
+      # calendar lives in test_tj0112_bing_yin_changsheng.py
+      # (offline acceptance only, NOT public CI).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0112_bing_yin_changsheng_public.py' -v
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0112_s5_registration_public.py' -v
       # TJ-011.2 earth (Wu/Ji) root grading public contracts:
       # pure-data register (zero functions), all 24 stem x branch

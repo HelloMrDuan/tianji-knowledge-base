@@ -223,6 +223,58 @@ def action_effects(pillars, *, observed, relations, principal, availability,
         # the adjudication conditions output.
         'hidden_layer_convention_applied': True,
     }
+    # TJ-011.2 F4: changsheng / generating-month visible-support scope
+    # (Bing day master, Yin month), per the adjudicated register
+    # bazi_fire_si_yin_morphology.FORM_BING_YIN (nine conditions, key
+    # order = register order). It mirrors the commanding/lu scopes
+    # condition by condition; the only condition that differs is the
+    # month condition: Yin in place of Wu/Si, where Yin's principal
+    # stem Jia is reviewed generates_me (a generating month) AND Yin
+    # is the day master's stem-listed CHANGSHENG position (per-stem
+    # listed, multiply corroborated -- see the register). The form
+    # claims NO commanding: Yin is neither the lu nor the diwang
+    # position of Bing. Like the sibling fire forms, the quantitative
+    # layer is the VISIBLE stems only; hidden stems enter solely as
+    # root facts under the registered governance convention instance
+    # fire-morph.wu-in-yin-non-veto (Yin's hidden Wu = output is
+    # recorded, never a veto; hidden Bing = peer is recorded as a
+    # support hidden stem) -- a Variant governance convention, NOT
+    # original text. Every shared condition reuses the commanding
+    # scope's computed facts, so the fire scopes can never diverge on
+    # a shared condition; the sealed policy is not edited.
+    #
+    # SEGMENT GATE (user adjudication, 2026-10-28, reading 乙
+    # segment-tightened): the registered month condition is
+    # additionally tightened at the ADJUDICATION layer -- the birth
+    # instant must fall in the Jia commander segment [+14d, next jie)
+    # of the authorized pilot Variant bazi-siling-yin-pilot-v1. This
+    # scope therefore deliberately does NOT enter the proved/context
+    # chain below: the effects layer receives no birth instant and
+    # cannot know the segment, so it must not assert effectiveness
+    # for a context whose defining extra condition is unresolved
+    # there (a Wu- or Bing-segment chart meets these nine conditions
+    # yet must not fire). The nine executed conditions are exposed
+    # verbatim; sufficiency is concluded only by the combination
+    # function strength_assessment_changsheng in bazi_adjudication,
+    # which consumes an explicit pilot result (Slice D-1 D4 form).
+    changsheng_conditions = {
+        'fire_day_master_bing': commanding_conditions['fire_day_master_bing'],
+        'reviewed_generating_changsheng_month': principal['month_branch'] == '寅'
+            and principal['status'] == 'reviewed_relation' and principal['relation'] == 'generates_me',
+        'visible_positions_support_only': commanding_conditions['visible_positions_support_only'],
+        'visible_resource_present': commanding_conditions['visible_resource_present'],
+        'visible_peer_present': commanding_conditions['visible_peer_present'],
+        'effective_heavy_day_roots': commanding_conditions['effective_heavy_day_roots'],
+        'all_visible_have_reviewed_roots': commanding_conditions['all_visible_have_reviewed_roots'],
+        'no_unresolved_interactions': commanding_conditions['no_unresolved_interactions'],
+        # Governance convention condition: true by the construction of
+        # this scope (the hidden layer IS handled root-facts-only here,
+        # under the Yin instance fire-morph.wu-in-yin-non-veto); the
+        # register lists it as a condition of the form and it is
+        # annotated as governance_convention, never original_text, in
+        # the adjudication conditions output.
+        'hidden_layer_convention_applied': True,
+    }
     # TJ-011.2 S2: register-driven root facts for the metal/water pure
     # forms. Root effectiveness and visible-root eligibility are read
     # off the S1 register (see the PURE_SUPPORT_METAL_MONTHS note);
@@ -293,6 +345,7 @@ def action_effects(pillars, *, observed, relations, principal, availability,
         all(generating_conditions.values()), all(commanding_conditions.values()),
         all(isolated_conditions.values()))
     lu = all(lu_conditions.values())
+    changsheng = all(changsheng_conditions.values())
     metal = all(metal_conditions.values())
     water = all(water_conditions.values())
     visible_effects = []
@@ -334,6 +387,8 @@ def action_effects(pillars, *, observed, relations, principal, availability,
             'commanding_visible_support_scope_met': commanding,
             'lu_visible_support_scope_conditions': lu_conditions,
             'lu_visible_support_scope_met': lu,
+            'changsheng_visible_support_scope_conditions': changsheng_conditions,
+            'changsheng_visible_support_scope_met': changsheng,
             'pure_support_metal_scope_conditions': metal_conditions,
             'pure_support_metal_scope_met': metal,
             'pure_generating_support_water_scope_conditions': water_conditions,
@@ -345,7 +400,7 @@ def action_effects(pillars, *, observed, relations, principal, availability,
                 'stem_five_combinations', 'branch_six_harmonies', 'branch_triple_harmonies')) else 'not_present',
             'stem_erasure_applied': False, 'hidden_visible_equivalence_applied': False,
             'weights_available': False, 'overall_strength': None,
-            'scope': '仅已审木日主纯印比月卯生扶、亥月印比生扶（从旺口径）、或无根无扶月酉透辛的条件作用；丙日主午月同类当令显纯生扶（从强主锚，藏干仅作根位事实——治理约定非原文）；丙日主巳月禄月显纯生扶（从强主锚，藏干仅作根位事实——治理约定非原文）；金日主酉月、水日主子月全位置纯生扶（从旺/从强通述口径，根有效性以 S1 登记表驱动、冲突格阻断）；其他效力未裁定，不推从格、喜用或吉凶。'}
+            'scope': '仅已审木日主纯印比月卯生扶、亥月印比生扶（从旺口径）、或无根无扶月酉透辛的条件作用；丙日主午月同类当令显纯生扶（从强主锚，藏干仅作根位事实——治理约定非原文）；丙日主巳月禄月显纯生扶（从强主锚，藏干仅作根位事实——治理约定非原文）；丙日主寅月长生印月显纯生扶九条件（从旺主锚，藏干仅作根位事实——治理约定非原文；九条件之外另须寅月司令甲段，由裁决层组合函数凭试点结果核验，本层不据九条件单独断效）；金日主酉月、水日主子月全位置纯生扶（从旺/从强通述口径，根有效性以 S1 登记表驱动、冲突格阻断）；其他效力未裁定，不推从格、喜用或吉凶。'}
 
 
 def action_conditions(pillars, day_master, *, support, relations, month_command,
