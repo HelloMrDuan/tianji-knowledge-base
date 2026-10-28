@@ -41,7 +41,7 @@ from tianji_kb.bazi_adjudication import (
     _bounded_assessment, _changsheng_trace_view,
     strength_assessment_changsheng)
 from tianji_kb.bazi_siling_pilot import yin_siling_pilot
-from tianji_kb.display_decisions import get_display_decision
+from tianji_kb.bazi_strength_display import get_display_decision
 from tianji_kb.engine import execute
 from tianji_kb.resolver import EvidenceResolver
 
@@ -366,6 +366,20 @@ class ChangshengSealedTests(unittest.TestCase):
                              'identity_verified': True}
         facts_warn = _jie_facts(case['window'])
         facts_warn['precision_warning'] = True
+        # The pilot's precision warning is an EXPLICIT input
+        # declaration under its registered contract (jie_facts
+        # 'precision_warning_interval'), never an interval the
+        # pilot derives around a segment boundary: declare an
+        # interval covering a birth 30 s into the Jia segment.
+        _lichun = datetime.fromisoformat(
+            GOLDEN['jie_windows'][case['window']]['lichun']['at'])
+        _warn_birth = (_lichun + timedelta(days=14, seconds=30))
+        facts_warn_interval = _jie_facts(
+            case['window'],
+            precision_warning_interval={
+                'start': (_lichun + timedelta(days=14)).isoformat(),
+                'end': (_lichun + timedelta(
+                    days=14, seconds=90)).isoformat()})
         variants = {
             'provider_missing': yin_siling_pilot(
                 birth, version_id=_VERSION, jie_facts={}),
@@ -379,11 +393,9 @@ class ChangshengSealedTests(unittest.TestCase):
                 jie_facts=_jie_facts(case['window'])),
             'warning_flag': yin_siling_pilot(
                 birth, version_id=_VERSION, jie_facts=facts_warn),
-            'warning_interval': _pilot(
-                (datetime.fromisoformat(
-                    GOLDEN['jie_windows'][case['window']]['lichun']
-                    ['at']) + timedelta(days=14, seconds=30)
-                 ).isoformat(), case['window']),
+            'warning_interval': yin_siling_pilot(
+                _warn_birth.isoformat(), version_id=_VERSION,
+                jie_facts=facts_warn_interval),
             'minute_precision': _pilot(
                 birth, case['window'], birth_time_precision='minute'),
         }
@@ -443,8 +455,9 @@ class ChangshengSealedTests(unittest.TestCase):
 
     # -- public isolation ------------------------------------------------------
     def test_public_projection_and_display_isolation(self):
-        from tianji_kb.public_projection import (
-            PUBLIC_STRENGTH_VARIANTS, project_execution)
+        from tianji_kb.bazi_strength_display import (
+            PUBLIC_STRENGTH_VARIANTS)
+        from tianji_kb.public_projection import project_execution
         b = self._positive_bundle()
         self.assertEqual(PUBLIC_STRENGTH_VARIANTS, frozenset())
         projected = project_execution(b['envelope'])
@@ -453,19 +466,32 @@ class ChangshengSealedTests(unittest.TestCase):
         self.assertNotIn('changsheng_segment_gate',
                          json.dumps(projected['result'],
                                     ensure_ascii=False))
-        self.assertIsNone(get_display_decision(b['combined']))
+        decision = get_display_decision(
+            b['combined'], variant=ADJUDICATION_VARIANT,
+            day_master='丙', month_branch='寅')
+        self.assertFalse(decision['may_display_classification'])
+        self.assertIsNone(decision['classification'])
 
     # -- regression: existing predicate witnesses verbatim ----------------------
     def test_existing_predicate_witnesses_unchanged(self):
+        # Identity of the firing sufficiency: unregistered
+        # predicates report why['sufficient_predicate'] (r026
+        # exit); the S5-registered commanding predicate reports
+        # why['sufficient_rule'] with its Phase2 rule ID.
+        def identity(a):
+            why = a['why_not_indeterminate'] or {}
+            return (why.get('sufficient_predicate')
+                    or why.get('sufficient_rule'))
+
         witnesses = [
             ('1927-05-12T12:00:00+08:00', 'strong',
              'lu_visible_support'),
             ('1981-12-21T23:00:00+08:00', 'strong',
              'pure_generating_support_water'),
-            ('2014-03-25T12:00:00+08:00', 'strong',
-             'commanding_visible_support'),
+            ('1966-07-06T12:00:00+08:00', 'strong',
+             'bazi.phase2.strength_commanding_visible_support'),
         ]
-        for birth, classification, predicate in witnesses:
+        for birth, classification, fired in witnesses:
             envelope = execute(
                 'bazi', {'value': birth,
                          'strength_variant': ADJUDICATION_VARIANT},
@@ -473,14 +499,14 @@ class ChangshengSealedTests(unittest.TestCase):
             a = envelope['result']['strength_assessment']
             self.assertEqual(a['classification'], classification,
                              birth)
-            self.assertEqual(_predicate(a), predicate, birth)
+            self.assertEqual(identity(a), fired, birth)
             pilot = yin_siling_pilot(
                 birth, version_id=_VERSION,
                 jie_facts=_jie_facts('2014'))
             combined = strength_assessment_changsheng(envelope, pilot)
             self.assertEqual(combined['classification'],
                              classification, birth)
-            self.assertEqual(_predicate(combined), predicate, birth)
+            self.assertEqual(identity(combined), fired, birth)
 
 
 if __name__ == '__main__':
