@@ -228,6 +228,21 @@ jobs:
       # test_tj012_yuanhai_zhengguan_sealed.py (offline acceptance
       # only, NOT public CI: it reads the sealed snapshot files).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj012_yuanhai_zhengguan.py' -v
+      # TJ-012.3 Slice D prerequisite yuanhai qisha-group section
+      # registration public contracts: pure-data register mirrored
+      # against Golden, two full sections (论七杀 + 论官星太过),
+      # gap register completeness (2 half-width ? placeholders,
+      # unresolved, quote windows avoid gap positions), per-sentence
+      # routing review (every operative sentence routed through at
+      # least one unbuilt gate: strength / control-effect /
+      # combination), cross references to the zhengguan register
+      # reference-only (no quote re-registration), unregistered
+      # related sections each with a reason, and no determination
+      # semantics anywhere. Verbatim quote equality against the
+      # snapshot, gap-position reconciliation and the source census
+      # live in test_tj012_yuanhai_qisha_sealed.py (offline acceptance
+      # only, NOT public CI: it reads the sealed snapshot files).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj012_yuanhai_qisha.py' -v
       # TJ-013.1 S3 ditiansui fuyi three-passage registration public
       # contracts: pure-data register mirrored against Golden, three
       # passages with explicit layers (verse/yuanzhu/renshi), judgment

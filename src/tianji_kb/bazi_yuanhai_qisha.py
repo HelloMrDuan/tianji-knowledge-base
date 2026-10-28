@@ -1,0 +1,425 @@
+"""渊海子平七杀组两节逐节登记（TJ-012.3 Slice D 就绪度复审排序第一前置：渊海逐节登记·第二组）。
+
+正官组登记（E0236/E0237）已补《正官论》《论官杀混杂要制伏》与
+《论印綬》正官相关窗；本批续登七杀组：书中七杀节实际节名为
+《论七杀》——节内首句明言「夫七杀者，亦名偏官」，无独立
+《论偏官》节，七杀与偏官同体异名。
+
+本批登记范围（机上密封快照实测，快照 SHA256 与登记 Source 一致）：
+- 《论七杀》[11627, 12285) 整节登记（658 字，全文窗）；
+- 《论官星太过》[12285, 12400) 整节登记（115 字，全文窗）：本节
+  官杀同论（官星与杀并提、暗藏、制伏、除而清之去留），与七杀
+  直接相关，一并整节登记；
+- 《论官杀混杂要制伏》[12400, 12506) 已于正官组整节登记，本批
+  只登记引用关系（连同正官论甲例七杀句、印綬例造七杀破印句、
+  既有 s055 偏官限制观察，共 4 条引用），不重复登记。
+
+缺字纪律：两节范围内半角 ? 占位共 2 处（均在《论七杀》：11702、
+11955）逐处登记为 placeholder_unresolved——原文保留 ?、不猜填；
+含缺字分句不作引文读法依据，全部 operative 引文窗口避开缺字
+位点。两处字面位置均可读作问号标点，按正官组同口径登记为
+性质未决、两读并存。
+字形纪律：「生忌无制」语义存疑、「若四柱元有为好」疑有脱字、
+例造「岁干透出辛丑」干支并称，逐项落账，无见证者不给
+mapped_reading。
+
+转手复核（本批核心登记结论）：七杀组可操作句逐条标注转手门。
+成格/为福侧全部经三门未建层中的至少一门转手：身旺门（一般旺衰
+不存在）、制伏/去留效力门（效力未裁定）、合杀门（合化未裁定）；
+偏官/七杀名称区分本身即以身旺＋制伏为据。登记后七杀格
+determination 仍为 None（详见 YUANHAI_QISHA_ROUTING_REVIEW）。
+
+本模块是纯数据登记，**零 determination 代码**：不写任何七杀格
+成格/破格判定，不改变 candidates 与既有登记语义；登记不等于
+可裁定。引文全部经机上快照切片逐字复核（全文计数==1）。
+Canonical/Phase1 注册状态 pending（与既有研究级登记同口径披露）。
+"""
+
+
+YUANHAI_QISHA_ID = 'bazi-yuanhai-qisha-registration-v1'
+
+YUANHAI_QISHA_TASK = 'TJ-012.3 Slice D prerequisite (yuanhai qisha group registration)'
+
+YUANHAI_SNAPSHOT = {'file': 'yuanhai_ziping.txt',
+ 'snapshot_path': 'data/quarantine/public_domain_snapshots/daizhigev20/yuanhai_ziping.txt',
+ 'sha256': 'c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9',
+ 'bytes': 154655,
+ 'chars': 58905}
+
+YUANHAI_QISHA_SECTIONS = [{'section_id': 'yuanhai.qisha',
+  'title': '论七杀',
+  'source_id': 'bazi.source.yuanhai',
+  'locator': {'char_start': 11627, 'char_end': 12285},
+  'registration_mode': 'full_section',
+  'full_text': '《论 七 杀》\n'
+               ' 夫七杀者,亦名偏官,喜身旺合杀、喜制伏、喜阳刃;忌身弱、忌见财,生忌无制。\n'
+               ' 身旺有气为偏官,身弱无制为七杀。\n'
+               ' 凡有此杀不可便言凶?有正官不如有偏官,多有巨富大贵之人;惟其身旺合杀为妙。\n'
+               ' 如甲以庚为七杀,喜丙丁制之;乙合之,谓之『贪合忘杀』。\n'
+               ' 七杀却宜制伏,亦不要制之太过;盖物极则反为祸矣!\n'
+               ' 身旺又行身旺之运为福。\n'
+               ' 如身弱又行身弱之乡,祸不旋踵。\n'
+               ' 四柱中元有制伏,喜行七杀运;元无制伏,七杀出为祸。\n'
+               ' 如行身旺乡,更有阳刃,贵不可言;但忌财旺,财能生杀故也。岁运临之,身旺亦多灾;身弱尤甚。\n'
+               ' 甲申、乙酉、丁丑、戊寅、己卯、辛未、癸未,此七日生主杀,性急伶俐、心巧聪明。\n'
+               ' 如见杀多者,主人凶夭贫薄;月见之重,时见之轻。何也?日七杀,只一位见之,如年时再见,杀多为祸;却要制伏之乡,又要身旺有制伏为权,最怕冲与阳刃大凶。\n'
+               ' 时七杀只一位,要本身旺,如年月时三处有制伏为福;却要行杀旺运,运三合得地亦发;若无制伏,则要行制伏为福。\n'
+               ' 行杀旺运无制伏,则祸作。\n'
+               ' 时上七杀,却不怕阳刃,而亦不畏冲。\n'
+               ' 如【辛丑,乙未,乙卯,丙子】:此命身旺,生于六月之中,岁干透出辛丑为七杀;喜得丙子合辛丑之杀,乃贵而有权。\n'
+               ' 如【甲午,丙寅,庚子,丙子】:此命身弱,见火局,又见月令丙寅七杀,时又见丙子;火剋庚金,金死于子,身弱杀旺,又无制伏,宜乎带病贫薄。\n'
+               ' 如【丁巳,戊申,壬子,戊申】:此命身旺,见二戊为七杀,引归于巳;丁与壬合,戊与癸合,金又长生于巳,戊禄在巳;乃壬戊二字俱旺,所以贵也。\n'
+               ' \n',
+  'note': '整节登记（658 字）。书中七杀节实际节名为《论七杀》（偏官为七杀异名，节内首句明言「亦名偏官」，无独立《论偏官》节）。节内 2 处半角 ? '
+          '占位逐处登记（qs-gap-01/02），全文逐字保留、不补字。'},
+ {'section_id': 'yuanhai.guangxing_taiguo',
+  'title': '论官星太过',
+  'source_id': 'bazi.source.yuanhai',
+  'locator': {'char_start': 12285, 'char_end': 12400},
+  'registration_mode': 'full_section',
+  'full_text': '《论 官 星 太 过》\n'
+               ' 如壬癸生人,四柱是辰戌丑未巳午,天干不露官星与杀,则官杀暗藏于中为多。若四柱元有为好;若无制伏,须行木运,与三合木局亦好。\n'
+               ' 大凡官星多则杂,务要除而清之,乃可发福。\n'
+               ' 若官星多又行官运,亦不济事。\n'
+               ' \n',
+  'note': '整节登记（115 字）。本节官杀同论（官星与杀并提、暗藏、制伏、除而清之去留），与七杀直接相关，一并整节登记；节内无半角 ? '
+          '占位；「若四柱元有为好」疑脱字逐处落账（qs-glyph-02）。'}]
+
+YUANHAI_QISHA_QUOTES = [{'id': 'yh.qs_definition',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.qisha',
+  'role': 'definition_and_preference',
+  'quote': '夫七杀者,亦名偏官,喜身旺合杀、喜制伏、喜阳刃;忌身弱、忌见财,生忌无制。',
+  'locator': {'char_start': 11636, 'char_end': 11673},
+  'operative': True,
+  'routed_through_strength': True,
+  'note': '七杀定义句（亦名偏官）兼全节喜忌总纲：喜身旺经身旺转手，喜制伏经制伏效力转手，喜阳刃为刃条件提及；忌见财以财生杀为据（财旺判断另见 '
+          'yh.qs_blade_and_wealth）。末句「生忌无制」语义存疑，见字形登记 qs-glyph-01。',
+  'routed_through_other': ['制伏效力未裁定（喜制伏）', '合杀未裁定（喜身旺合杀，合化条件未裁定）'],
+  'glyph_refs': ['qs-glyph-01']},
+ {'id': 'yh.qs_naming',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.qisha',
+  'role': 'operative_candidate',
+  'quote': '身旺有气为偏官,身弱无制为七杀。',
+  'locator': {'char_start': 11675, 'char_end': 11691},
+  'operative': True,
+  'routed_through_strength': True,
+  'note': '偏官/七杀名称区分句：同一十神以身旺有气名偏官、身弱无制名七杀——名称区分本身即以身旺＋制伏为据，两门均未建成，不可执行。',
+  'routed_through_other': ['制伏效力未裁定（身弱无制之「无制」）']},
+ {'id': 'yh.qs_not_necessarily_ominous',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.qisha',
+  'role': 'fortune_claim',
+  'quote': '有正官不如有偏官,多有巨富大贵之人;惟其身旺合杀为妙。',
+  'locator': {'char_start': 11703, 'char_end': 11730},
+  'operative': False,
+  'routed_through_strength': True,
+  'note': '断语段后半（前半「凡有此杀不可便言凶?」含缺字位点 11702，只以 context '
+          '形登记）：「惟其身旺合杀为妙」以身旺＋合杀为条件，经两门未建层转手；「多有巨富大贵之人」为吉凶断语，不作裁定。',
+  'routed_through_other': ['合杀未裁定（合化条件未裁定）']},
+ {'id': 'yh.qs_jia_example_control',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.qisha',
+  'role': 'operative_candidate',
+  'quote': '如甲以庚为七杀,喜丙丁制之;乙合之,谓之『贪合忘杀』。',
+  'locator': {'char_start': 11732, 'char_end': 11759},
+  'operative': True,
+  'routed_through_strength': False,
+  'note': '甲例：喜丙丁制之经制伏效力转手；乙合之（乙庚合）经合化转手，「贪合忘杀」为合的效力断语，效力未裁定，不可执行。',
+  'routed_through_other': ['制伏效力未裁定（丙丁制之）', '合化未裁定（乙庚合、「贪合忘杀」之合的效力）']},
+ {'id': 'yh.qs_control_moderation',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.qisha',
+  'role': 'operative_candidate',
+  'quote': '七杀却宜制伏,亦不要制之太过;盖物极则反为祸矣!',
+  'locator': {'char_start': 11761, 'char_end': 11785},
+  'operative': True,
+  'routed_through_strength': False,
+  'note': '制伏程度句：宜制伏而不可太过，「太过」无可执行阈值，经制伏效力层转手，不可执行。',
+  'routed_through_other': ['制伏效力未裁定（宜制伏与制之太过的程度界限无阈值）']},
+ {'id': 'yh.qs_luck_shenwang',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.qisha',
+  'role': 'luck_observation',
+  'quote': '身旺又行身旺之运为福。',
+  'locator': {'char_start': 11787, 'char_end': 11798},
+  'operative': False,
+  'routed_through_strength': True,
+  'note': '行运断语（身旺又行身旺之运为福）：以身旺为条件经身旺转手，且本身即断语，无可执行条件形。'},
+ {'id': 'yh.qs_luck_shenruo',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.qisha',
+  'role': 'luck_observation',
+  'quote': '如身弱又行身弱之乡,祸不旋踵。',
+  'locator': {'char_start': 11800, 'char_end': 11815},
+  'operative': False,
+  'routed_through_strength': True,
+  'note': '行运断语（身弱又行身弱之乡祸不旋踵）：以身弱为条件经身旺转手，本身即断语，不作裁定。'},
+ {'id': 'yh.qs_control_present',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.qisha',
+  'role': 'operative_candidate',
+  'quote': '四柱中元有制伏,喜行七杀运;元无制伏,七杀出为祸。',
+  'locator': {'char_start': 11817, 'char_end': 11842},
+  'operative': True,
+  'routed_through_strength': False,
+  'note': '制伏有无与行运句：喜行七杀运以元有制伏为条件、元无制伏则七杀出为祸，经制伏效力转手，不可执行。',
+  'routed_through_other': ['制伏效力未裁定（元有/元无制伏的构成与效力）']},
+ {'id': 'yh.qs_blade_and_wealth',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.qisha',
+  'role': 'operative_candidate',
+  'quote': '如行身旺乡,更有阳刃,贵不可言;但忌财旺,财能生杀故也。岁运临之,身旺亦多灾;身弱尤甚。',
+  'locator': {'char_start': 11844, 'char_end': 11888},
+  'operative': True,
+  'routed_through_strength': True,
+  'note': '混合句：行身旺乡经身旺转手；更有阳刃「贵不可言」为断语；忌财旺以财能生杀为据，财旺属强度判断；岁运临财乡身旺亦多灾、身弱尤甚，同经强度判断转手。整体不可执行。',
+  'routed_through_other': ['财旺为强度判断（未阈值化）', '阳刃条件效力未裁定（禄刃路线只裁定月令取格路线，不裁定本句效力）']},
+ {'id': 'yh.qs_seven_days',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.qisha',
+  'role': 'day_enumeration',
+  'quote': '甲申、乙酉、丁丑、戊寅、己卯、辛未、癸未,此七日生主杀,性急伶俐、心巧聪明。',
+  'locator': {'char_start': 11890, 'char_end': 11928},
+  'operative': False,
+  'routed_through_strength': None,
+  'note': '七日生主杀列举（甲申、乙酉、丁丑、戊寅、己卯、辛未、癸未）：日柱有限列举与性情断语，非成格/破格条件，不经旺衰转手。'},
+ {'id': 'yh.qs_many_killings_weight',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.qisha',
+  'role': 'positional_observation',
+  'quote': '如见杀多者,主人凶夭贫薄;月见之重,时见之轻。',
+  'locator': {'char_start': 11930, 'char_end': 11953},
+  'operative': False,
+  'routed_through_strength': None,
+  'note': '杀多断语段前半：见杀多者凶夭贫薄为断语；月见之重、时见之轻为位置权重观察，非条件句。后半（含缺字位点 11955 的「何也?」衔接）另行登记。'},
+ {'id': 'yh.qs_day_killing',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.qisha',
+  'role': 'operative_candidate',
+  'quote': '日七杀,只一位见之,如年时再见,杀多为祸;却要制伏之乡,又要身旺有制伏为权,最怕冲与阳刃大凶。',
+  'locator': {'char_start': 11956, 'char_end': 12003},
+  'operative': True,
+  'routed_through_strength': True,
+  'note': '日七杀句：只一位为构成观察，年时再见杀多为祸；救应「却要制伏之乡，又要身旺有制伏为权」双经身旺与制伏效力转手；「最怕冲与阳刃」经冲/刃效力判断转手。整体不可执行。',
+  'routed_through_other': ['制伏效力未裁定（制伏之乡、身旺有制伏为权）', '冲与阳刃的效力判断未裁定（最怕冲与阳刃大凶）']},
+ {'id': 'yh.qs_hour_killing',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.qisha',
+  'role': 'operative_candidate',
+  'quote': '时七杀只一位,要本身旺,如年月时三处有制伏为福;却要行杀旺运,运三合得地亦发;若无制伏,则要行制伏为福。',
+  'locator': {'char_start': 12005, 'char_end': 12057},
+  'operative': True,
+  'routed_through_strength': True,
+  'note': '时七杀句：「要本身旺」明文经身旺转手；制伏有无两路经制伏效力转手；行杀旺运、运三合得地经旺衰类判断转手。整体不可执行。',
+  'routed_through_other': ['制伏效力未裁定（三处有制伏/无制伏则要行制伏）', '杀旺运、三合得地为旺衰类判断（未阈值化）']},
+ {'id': 'yh.qs_luck_killing_no_control',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.qisha',
+  'role': 'operative_candidate',
+  'quote': '行杀旺运无制伏,则祸作。',
+  'locator': {'char_start': 12059, 'char_end': 12071},
+  'operative': True,
+  'routed_through_strength': False,
+  'note': '行运条件句：行杀旺运以无制伏为祸作条件，经制伏效力与杀旺判断转手，不可执行。',
+  'routed_through_other': ['制伏效力未裁定（无制伏）', '杀旺运为旺衰类判断（未阈值化）']},
+ {'id': 'yh.qs_hour_no_fear',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.qisha',
+  'role': 'operative_candidate',
+  'quote': '时上七杀,却不怕阳刃,而亦不畏冲。',
+  'locator': {'char_start': 12073, 'char_end': 12090},
+  'operative': True,
+  'routed_through_strength': False,
+  'note': '时上七杀不畏句：与日七杀「最怕冲与阳刃」构成位置对照；不怕/不畏为效力断语，效力层未裁定，不可执行。',
+  'routed_through_other': ['阳刃/冲的效力判断未裁定（本句为不畏断语，事实在场不等于效力已定）']},
+ {'id': 'yh.qs_example_1',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.qisha',
+  'role': 'worked_example',
+  'quote': '如【辛丑,乙未,乙卯,丙子】:此命身旺,生于六月之中,岁干透出辛丑为七杀;喜得丙子合辛丑之杀,乃贵而有权。',
+  'locator': {'char_start': 12092, 'char_end': 12145},
+  'operative': False,
+  'routed_through_strength': None,
+  'note': '例造（辛丑/乙未/乙卯/丙子）：身旺＋丙子合杀（合杀）而贵而有权，为 doctrine 应用见证，非规则；「岁干透出辛丑」干支并称见字形登记 '
+          'qs-glyph-03。不据例造反推条件。',
+  'glyph_refs': ['qs-glyph-03']},
+ {'id': 'yh.qs_example_2',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.qisha',
+  'role': 'worked_example',
+  'quote': '如【甲午,丙寅,庚子,丙子】:此命身弱,见火局,又见月令丙寅七杀,时又见丙子;火剋庚金,金死于子,身弱杀旺,又无制伏,宜乎带病贫薄。',
+  'locator': {'char_start': 12147, 'char_end': 12213},
+  'operative': False,
+  'routed_through_strength': None,
+  'note': '例造（甲午/丙寅/庚子/丙子）：身弱杀旺又无制伏而带病贫薄，为 doctrine 应用见证，非规则；不据例造反推条件。'},
+ {'id': 'yh.qs_example_3',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.qisha',
+  'role': 'worked_example',
+  'quote': '如【丁巳,戊申,壬子,戊申】:此命身旺,见二戊为七杀,引归于巳;丁与壬合,戊与癸合,金又长生于巳,戊禄在巳;乃壬戊二字俱旺,所以贵也。',
+  'locator': {'char_start': 12215, 'char_end': 12282},
+  'operative': False,
+  'routed_through_strength': None,
+  'note': '例造（丁巳/戊申/壬子/戊申）：身旺、二戊七杀、丁壬合与戊癸合并陈，为 doctrine 应用见证，非规则；不据例造反推条件。'},
+ {'id': 'yh.gt_hidden',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.guangxing_taiguo',
+  'role': 'operative_candidate',
+  'quote': '如壬癸生人,四柱是辰戌丑未巳午,天干不露官星与杀,则官杀暗藏于中为多。若四柱元有为好;若无制伏,须行木运,与三合木局亦好。',
+  'locator': {'char_start': 12298, 'char_end': 12359},
+  'operative': True,
+  'routed_through_strength': False,
+  'note': '官星太过节首段：壬癸生人官杀暗藏为构成观察；救应以制伏有无分路、须行木运/三合木局，经制伏效力与合局转手。「若四柱元有为好」疑有脱字，见字形登记 qs-glyph-02。',
+  'routed_through_other': ['制伏效力未裁定（元有[制伏]/无制伏两路）', '三合木局成立未裁定（合局事实与效力）'],
+  'glyph_refs': ['qs-glyph-02']},
+ {'id': 'yh.gt_clear',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.guangxing_taiguo',
+  'role': 'operative_candidate',
+  'quote': '大凡官星多则杂,务要除而清之,乃可发福。',
+  'locator': {'char_start': 12361, 'char_end': 12381},
+  'operative': True,
+  'routed_through_strength': False,
+  'note': '去留句：官星多则杂、务要除而清之乃可发福——「除而清之」为去留操作，去留效力与清浊标准未裁定，与官杀混杂/三命卷五去留组同题，不可执行。',
+  'routed_through_other': ['去留效力未裁定（除而清之：去何星、清至何程度均无裁定）']},
+ {'id': 'yh.gt_luck',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.guangxing_taiguo',
+  'role': 'luck_observation',
+  'quote': '若官星多又行官运,亦不济事。',
+  'locator': {'char_start': 12383, 'char_end': 12397},
+  'operative': False,
+  'routed_through_strength': None,
+  'note': '行运断语（官星多又行官运亦不济事）：断语而非条件形，不作裁定。'}]
+
+YUANHAI_QISHA_CONTEXT_QUOTES = [{'id': 'yh.ctx_qs_fan_para',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.qisha',
+  'role': 'gap_bearing_context',
+  'quote': '凡有此杀不可便言凶?有正官不如有偏官,多有巨富大贵之人;惟其身旺合杀为妙。',
+  'locator': {'char_start': 11693, 'char_end': 11730},
+  'contains_gap_positions': [11702],
+  'not_for_operative_reading': True,
+  'note': '整段含缺字位点 11702（见缺字登记 qs-gap-01）：含缺字的「凡有此杀不可便言凶?」分句不作引文读法依据；段后半已另行登记为 '
+          'yh.qs_not_necessarily_ominous。'},
+ {'id': 'yh.ctx_qs_many_para',
+  'source_id': 'bazi.source.yuanhai',
+  'source_section_id': 'yuanhai.qisha',
+  'role': 'gap_bearing_context',
+  'quote': '如见杀多者,主人凶夭贫薄;月见之重,时见之轻。何也?日七杀,只一位见之,如年时再见,杀多为祸;却要制伏之乡,又要身旺有制伏为权,最怕冲与阳刃大凶。',
+  'locator': {'char_start': 11930, 'char_end': 12003},
+  'contains_gap_positions': [11955],
+  'not_for_operative_reading': True,
+  'note': '整段含缺字位点 11955（「何也?」衔接处，见缺字登记 qs-gap-02）：衔接分句不作读法依据；段内两处引文 '
+          'yh.qs_many_killings_weight、yh.qs_day_killing 的窗口均避开该位点。'}]
+
+YUANHAI_QISHA_GAP_REGISTER = [{'id': 'qs-gap-01',
+  'position': 11702,
+  'char': '?',
+  'source_section_id': 'yuanhai.qisha',
+  'context': '凡有此杀不可便言凶?',
+  'context_locator': {'char_start': 11693, 'char_end': 11703},
+  'status': 'placeholder_unresolved',
+  'reading': None,
+  'note': '半角 ? '
+          '占位：位于「凡有此杀不可便言凶」之后、「有正官不如有偏官」之前。字面位置可读作问号标点，但本批按缺字未决统一登记（性质未决、两读并存），不猜填、不据以断句；同段引文窗口避开此位点。'},
+ {'id': 'qs-gap-02',
+  'position': 11955,
+  'char': '?',
+  'source_section_id': 'yuanhai.qisha',
+  'context': '何也?',
+  'context_locator': {'char_start': 11953, 'char_end': 11956},
+  'status': 'placeholder_unresolved',
+  'reading': None,
+  'note': '半角 ? 占位：位于「何也」之后、「日七杀」之前。与正官组 yh-gap-03/05 '
+          '的「何以言之?」同型衔接位，按缺字未决统一登记（性质未决、两读并存），不猜填、不据以断句；同段引文窗口均避开此位点。'}]
+
+YUANHAI_QISHA_GLYPH_NOTES = [{'id': 'qs-glyph-01',
+  'position': 11668,
+  'char': '生',
+  'source_section_id': 'yuanhai.qisha',
+  'status': 'semantic_doubt_preserved',
+  'mapped_reading': None,
+  'note': '定义句末「生忌无制」（[11668,11672)）：上下文为「忌身弱、忌见财，生忌无制」，「生」字语义存疑（或涉财生杀、或有脱字讹字），无见证互校，不径改、不给 '
+          'mapped_reading，逐字保留并标记存疑。'},
+ {'id': 'qs-glyph-02',
+  'position': 12336,
+  'char': '元',
+  'source_section_id': 'yuanhai.guangxing_taiguo',
+  'status': 'suspected_omission_preserved',
+  'mapped_reading': None,
+  'note': '「若四柱元有为好」（[12333,12340)）：下文对句为「若无制伏」，疑「元有」后有脱字（如制伏），文义不完整；无见证互校，不补字、不给 '
+          'mapped_reading，逐字保留并标记存疑。'},
+ {'id': 'qs-glyph-03',
+  'position': 12119,
+  'char': '辛',
+  'source_section_id': 'yuanhai.qisha',
+  'status': 'phrasing_recorded_as_is',
+  'mapped_reading': None,
+  'note': '例造一「岁干透出辛丑为七杀」（[12119,12127)）：辛丑为年柱干支，此处以干支并称指年干辛金为杀，语义可通；按原样注记登记，不改写。'}]
+
+YUANHAI_QISHA_CROSS_REFERENCES = [{'id': 'yh.qs_xref_guansha_zhifu',
+  'target_module': 'bazi_yuanhai_zhengguan',
+  'target_quote_id': 'yh.gs_example_zhifu',
+  'locator': {'char_start': 12430, 'char_end': 12503},
+  'relation': '《论官杀混杂要制伏》已于正官组整节登记：甲例「若有庚申，则混杂为杀……要行火乡制伏，则发福也」与本批七杀制伏同题，本批只登记引用关系，不重复登记引文。'},
+ {'id': 'yh.qs_xref_zhengguan_jia',
+  'target_module': 'bazi_yuanhai_zhengguan',
+  'target_quote_id': 'yh.zg_jia_mixed',
+  'locator': {'char_start': 10042, 'char_end': 10097},
+  'relation': '《正官论》甲例「最怕刑冲破害、阳刃七杀，为贫命；如时干逢杀，乃官杀混杂」已于正官组登记，与本批七杀/混杂主题直接相关，只登记引用关系。'},
+ {'id': 'yh.qs_xref_yinshou_example',
+  'target_module': 'bazi_yuanhai_zhengguan',
+  'target_quote_id': 'yh.ys_example_guanyin_2',
+  'locator': {'char_start': 13407, 'char_end': 13492},
+  'relation': '《论印綬》官印两全例造二「至庚申年，水七杀生于申，乃被庚申破印」已于正官组登记，含七杀破印叙事，只登记引用关系。'},
+ {'id': 'yh.qs_xref_s055',
+  'target_module': 'bazi_yuanhai_zhengguan',
+  'target_quote_id': 'yh.legacy_s055',
+  'locator': {'char_start': 10124, 'char_end': 10147},
+  'relation': '既有 s055「若月令中有正官，时干支有偏官，便难以正官言之」已登记并编码为 restriction 观察（bazi_pattern '
+              'yuanhai_hour_killing_restriction），为偏官（七杀）在时干支出现的限制观察，只登记引用关系，语义不变。'}]
+
+YUANHAI_QISHA_UNREGISTERED_RELATED = [{'section_id': 'yuanhai.qiming_congsha',
+  'title': '弃命从杀论',
+  'locator': {'char_start': 54055, 'char_end': 54359},
+  'reason': '从杀格专题（弃命从杀），非七杀格本体论述；从格成立全树未裁定，不在本批登记范围，只列清单。'},
+ {'section_id': 'yuanhai.yangren',
+  'title': '论阳刃',
+  'locator': {'char_start': 14796, 'char_end': 15176},
+  'reason': '阳刃专题节：七杀节内阳刃仅为条件提及（喜阳刃、更有阳刃、最怕冲与阳刃、时上不怕阳刃），阳刃节本身未逐节登记（三命侧禄刃表已由 Slice A '
+            '登记，渊海阳刃节不在本批）。'},
+ {'section_id': 'yuanhai.shijue_officer_killing',
+  'title': '官杀相关诗诀诸首',
+  'locator': {'char_start': 10321, 'char_end': 11627},
+  'reason': '正官论后至七杀论前的《诗诀》诸首（含官杀题材）与印綬论后诗诀：诗诀体例与散文节不同，本批只登记散文节，诗诀未登记。'}]
+
+YUANHAI_QISHA_ROUTING_REVIEW = {'scope': '论七杀 + 论官星太过中全部 operative=True 引文逐条（12 条）',
+ 'conclusion_consistent_with_readiness': '七杀组可操作句无一条可直接执行：成格/为福侧全部经身旺、制伏效力或合杀三门未建层中的至少一门转手——身旺门（定义喜身旺、身旺有气为偏官、惟其身旺合杀、时七杀要本身旺、日七杀要身旺有制伏、行身旺乡）经一般旺衰转手而一般旺衰不存在；制伏门（喜制伏、丙丁制之、制之太过、元有/元无制伏、行杀旺运无制伏、官星太过无制伏与除而清之）经制伏/去留效力转手而效力未裁定；合杀门（合杀为妙、乙合贪合忘杀）经合化转手而合化未裁定。故登记后七杀格 '
+                                         'determination 仍为 None，与正官组同口径。',
+ 'comparison_with_zhengguan': '与正官组对照：正官成格侧独经身旺/轻重一门；七杀组另有制伏效力与合杀两门未建层，且偏官/七杀的名称区分本身（身旺有气为偏官、身弱无制为七杀）即以身旺＋制伏为据。本批逐句登记以逐句复核为准。',
+ 'non_operative_excluded': '行运断语、贵命/贫薄断语、七日列举、例造已分别标注 '
+                           'operative=False，不计入可操作句集合；断语本身即不可执行的吉凶陈述，只登记存在、不作裁定。',
+ 'determination_consequence': '本批登记后七杀格 determination 仍为 '
+                              'None：成格侧缺一般旺衰，制伏/去留侧缺效力裁定，合杀侧缺合化裁定；登记只补齐成对审定的材料。'}
+
+YUANHAI_QISHA_NOTES = ['R1 登记≠可裁定：本批为纯证据登记，仓库内不存在任何七杀格 determination 代码路径；bazi_pattern 的 '
+ 'candidates、pattern_route、pattern_zaqi、pattern_determination_ren_yin 输出逐字不变。',
+ 'R2 缺字对账：两节范围内半角 ? 共 2 处（均在《论七杀》：11702、11955），与缺字登记 2 条逐位对账（密封专项以快照切片复核）；全书 ? 共 36 处，正官组已登记 5 '
+ '处、本批 2 处，其余 29 处不在本批范围，未登记、未处理。',
+ 'R3 不重复登记：《论官杀混杂要制伏》及正官组已登记的七杀相关引文（混杂制伏甲例、正官论甲例、印綬例造、既有 s055）共 4 '
+ '条只登记引用关系（YUANHAI_QISHA_CROSS_REFERENCES），不复制引文、不改变其既有编码语义。',
+ 'R4 引文窗口纪律：全部 operative 引文与 doctrine 引文的窗口均不含 ? 字符；含缺字的整段只以 context 形登记并标 '
+ 'not_for_operative_reading。',
+ 'R5 官星太过并入理由：《论官星太过》官杀同论且主题为官杀过多时的制伏与去留（除而清之），与七杀组直接相关，故整节登记而非只列清单；其「官星」兼指官与杀，不据本批登记把官星太过节改隶正官组。',
+ 'R6 来源普查不变：渊海 Source 仍为既有 101 条之一（C 95 / D 6），本批只扩 review_scope，不新增 Source、不升证据等级；渊海全文仍 '
+ 'quarantine，本登记只及于所列两节范围。',
+ 'R7 Canonical/Phase1 注册 pending：本登记为公开仓证据登记，sealed Phase1/Phase2 正式注册未做（与既有研究级登记同口径披露），不借用 s 编号。']
+
+YUANHAI_QISHA_LIMITATIONS = ['七杀格成格/破格/真假/清浊/用神继续不可裁定：成格侧经身旺转手而一般旺衰不存在，制伏/去留侧经效力层转手而效力未裁定，合杀侧经合化转手而合化未裁定。',
+ '缺字 2 处未决：含缺字分句（不可便言凶?、何也?衔接）在缺字解决前不作任何读法依据；本批未做任何底本互校以解决缺字。',
+ '《弃命从杀论》《论阳刃》与官杀相关诗诀未登记（逐项理由见 '
+ 'YUANHAI_QISHA_UNREGISTERED_RELATED）；渊海其余诸节（论伤官、伤官说、论食神、论正财、论倒食、论劫财等）仍未逐节登记。',
+ '字形疑点 3 项未决（生忌无制、元有为好疑脱字、辛丑并称）：均逐字保留、无 mapped_reading，待见证互校另批处理。']
