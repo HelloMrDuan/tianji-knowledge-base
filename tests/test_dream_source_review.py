@@ -18,7 +18,7 @@ class DreamSourceReviewTests(unittest.TestCase):
         dream = report['dream']
         self.assertEqual(dream['status'], 'NOT_BUILT')
         self.assertEqual(dream['knowledge_stage'], 'PARTIAL')
-        self.assertEqual(report['_audit']['reviewed_dream_retrieval']['reviewed_scene_count'], 10)
+        self.assertEqual(report['_audit']['reviewed_dream_retrieval']['reviewed_scene_count'], 12)
         self.assertTrue(report['_audit']['reviewed_dream_retrieval']['helper_available'])
         self.assertEqual(dream['ready_claims'], [])
         self.assertFalse(dream['public_enabled'])
@@ -52,7 +52,7 @@ class DreamSourceReviewTests(unittest.TestCase):
         self.assertIsNone(by_id['chased']['raw_unicode_offset'])
         for item in by_id.values():
             self.assertFalse(item['production_allowed'])
-            if item['id'] in {'snake','water','fire','flying','falling','dragon','fish','house','family','money'}:
+            if item['id'] in {'snake','water','fire','flying','falling','dragon','fish','house','family','money','death','deceased'}:
                 self.assertTrue(item['interpretation'])
                 self.assertEqual(item['confidence'], 'medium')
                 self.assertEqual(item['review_status'], 'approved_cultural_excerpt')
@@ -60,7 +60,7 @@ class DreamSourceReviewTests(unittest.TestCase):
             else:
                 self.assertIsNone(item['interpretation'])
                 self.assertEqual(item['confidence'], 'unconfirmed')
-        self.assertEqual(audit['summary']['confirmed_interpretations'], 10)
+        self.assertEqual(audit['summary']['confirmed_interpretations'], 12)
 
     def test_existing_validator_rejects_candidate_metadata_as_classical_evidence(self):
         # Pretend to promote the D metadata and cite a metadata string as a

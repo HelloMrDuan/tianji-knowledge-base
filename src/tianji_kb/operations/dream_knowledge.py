@@ -40,6 +40,16 @@ _SCENE_PARAPHRASES = {
  'dream.term.family': (r'(?:我的兄弟|我兄弟|我的两个兄弟)(?:在)?(?:互相)?(?:打架|打斗)',),
  'dream.term.money': (r'(?:我|自己)(?:捡到|拾到|捡起|拾起)(?:了)?(?:一张|一叠|一枚|一些)?(?:纸币|钞票|钱|硬币)',
                       r'(?:我|自己)拾得(?:了)?(?:一张|一叠|一枚|一些)?(?:铜钱|纸币|钞票|钱|硬币)',),
+ # TJ-019.2 batch 03: the classical entry covers two narrow sub-scenes only —
+ # the dreamer dying (自死) and the dreamer seeing an unnamed person die
+ # (见人死). Kinship-marked or otherwise other-subject-marked clauses stay
+ # unaffirmed under the existing subject guard and never reach these patterns.
+ 'dream.term.death': (r'(?:我|自己)(?:死了|死去|死亡)(?:了)?',
+                      r'(?:看见|看到|见到)(?:一个|有个)?(?:人|路人|陌生人)(?:死了|死去|死亡)',
+                      r'(?:一个|有个)(?:人|路人|陌生人)(?:死了|死去|死亡)(?:了)?',),
+ 'dream.term.revival': (r'(?:死人|死者)(?:复活|活了过来|活过来)(?:了)?',
+                        r'(?:去世|过世|已故)(?:的)?(?:爷爷|奶奶|外公|外婆|亲人|老人)(?:复活|活了过来|活过来)(?:了)?',
+                        r'(?:死人|死者|我|自己)死而复生',),
 }
 _SCENE_PARAPHRASES = {key: tuple(re.compile(p) for p in patterns)
                       for key, patterns in _SCENE_PARAPHRASES.items()}
@@ -56,7 +66,9 @@ _UNREVIEWED_INPUT_PATTERNS = {
     # No original-source text, grade promotion, omen, or medical claim.
     '被追': re.compile(r'(?:梦见|梦到)(?:(?:我|自己)?被(?:陌生人|人|坏人|怪物)?追(?:赶|逐)?|(?:有人|陌生人|坏人|怪物)追(?:着)?我)'),
     '故人': re.compile(r'(?:梦见|梦到)(?:(?:我|自己)?(?:已故|过世|去世|逝去)(?:的)?(?:亲人|故人)|(?:我|自己)?故人)'),
-    '死亡': re.compile(r'(?:梦见|梦到)(?:(?:我|自己)(?:死了|死亡|死去)|自己(?:死了|死亡|死去))'),
+    # 死亡 left this input-only map in TJ-019.2 batch 03: the narrow classical
+    # scenes 见人死/自死 are reviewed (dream.term.death), so the theme is no
+    # longer an unreviewed input observation.
 }
 
 
