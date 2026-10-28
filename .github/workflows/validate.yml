@@ -345,6 +345,18 @@ jobs:
       # acceptance only, NOT public CI: it reads the sealed
       # snapshot files).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj018g_sanming_juan6.py' -v
+      # TJ-018-H zero-match attribution public contracts: pure-data
+      # register mirrored against Golden, 66 zero-match corrections
+      # attributed (41 missing-glyph context / 25 chain dependency /
+      # 0 base-text drift / 0 unresolved, 74 diffs all explained,
+      # material dependencies ablation-proven), attribution only
+      # (nothing applied, the text-collation fail-hard check is
+      # neither bypassed nor modified), 018-A..G registers
+      # untouched, source census unchanged (101). Snapshot-verbatim
+      # checks live in test_tj018h_sanming_zero_match_sealed.py
+      # (offline acceptance only, NOT public CI: it reads the sealed
+      # snapshot files).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj018h_sanming_zero_match.py' -v
       # TJ-011.2 fire morphology adjudication public contracts:
       # pure-data design register (zero functions), ten Ditiansui
       # definition/root quotes with self-consistent locators and layer
