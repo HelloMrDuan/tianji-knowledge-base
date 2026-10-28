@@ -1,0 +1,1032 @@
+{
+ "snapshot": {
+  "file": "yuanhai_ziping.txt",
+  "snapshot_path": "data/quarantine/public_domain_snapshots/daizhigev20/yuanhai_ziping.txt",
+  "sha256": "c8f45d3228fb1958012139139a83edd019e7c2db881998d2d0bba65107417cf9",
+  "bytes": 154655,
+  "chars": 58905,
+  "blob_sha": "f945a48cbedf5883808a72bb6f544a4dca603cb3"
+ },
+ "sections": [
+  {
+   "section_id": "yuanhai.zhengcai",
+   "title": "论正财",
+   "source_id": "bazi.source.yuanhai",
+   "locator": {
+    "char_start": 8183,
+    "char_end": 9330
+   },
+   "registration_mode": "full_section",
+   "full_text": "《论 正 财》\n 何谓之正财?犹如正官之意;是阴见阳财,阳见阴财。大抵正财,吾妻之财也。人之女貲财以事我,必精神康强,然后可以享用之;如吾身方且自萎懦而不振,虽妻财丰厚,但能目视,终不可一毫受用。\n 故财要得时,不要财多。\n 若财多则自家日本有力,可以胜任,当化作官。\n 天元一气,羸弱贫薄难治。是乐于身旺,不要行剋制之乡;剋制者,官鬼也。\n 又怕所生之月令,正吾衰病之地,又四柱无父母以生之;反喜财,又有见财,谓之财多。\n 力不任财,祸患百出;虽少年经休囚之位,故不如意,事多频併。或中年或末年,复临父母之乡,或三合可以助我者;则勃然而兴,不可御也。\n 倘少年乘旺,老在脱局,不惟穷途悽惶,兼且是非纷起。\n 盖,财者,起争之端也。\n 若或四柱相生,别带贵格,不值空亡;又行旺运,三合财生,是皆贵命。其餘福之浅深,皆随入格轻重而言之。\n 财多生官,要须身健。\n 财多盗气,本自身柔,年运又或伤财,必生奇祸;或带刑併七杀,凶不可言也。\n 又云,正财者,喜身旺、印綬,忌官星、忌倒食、忌身弱、比肩劫财。不可见官星,恐盗财之气也;喜印綬者,能生身主弱故也。\n 且如甲日用己为正财;如身弱,其祸立至。\n 凡人命带财下生,须出富豪;不螟蛉,必庶出、或冲父母。\n 身旺无劫财,无官星为妙。\n 若命中有官星得地,运行喜财星多生官。\n 兼有财星得地,运行忌见官星,恐剋其身;怕身弱也。\n 大抵财不论偏正,皆喜印綬,必能发福。\n 如【辛丑,丁酉,丁巳,丁未】:此命丁日身坐财之地,又见巳酉丑金局,故主财旺。盖金得木库居未,能生丁火,故身旺能当其财;运行东南方,宜乎巨富。丁用壬官,用庚金为财,生壬官;身入旺乡,必能发福。\n 凡用财,不见官星为妙。\n 如【庚申,乙酉,丙申,丙申】:此命丙日见三申为财,岂不美哉!丙用癸官,用辛为财,见三申一酉为财,故旺。盖缘日弱,火病申死酉,乃为无气,运行西方金乡,身弱太甚;财旺生鬼,败剋其身,故不能胜其财,所以贫也。\n 如【乙卯,癸未,辛酉,戊子】:此命辛日坐酉,乙年坐卯,身与财俱旺;又得癸未食神,戊子印綬助之,宜乎巨富贵也。\n 如【戊子,丁巳,甲辰,丙寅】:此命甲日生于四月下旬,并透出丙丁火,生其月中之戊土;时又归禄于寅,故财旺矣!然甲木身亦旺。早年行戊午己未运,迤邐行辛酉运,乃见官星则凶;壬戌运有壬剋丙,伤官食神之中,失官去财,死丧合家;值五十九岁,入癸亥身旺运,稍可安逸;六十五岁,逢壬辰年死矣。初运伤官见财格,取戊土为财,所以戊午己未二运大旺生土,故财厚矣;及至庚申辛酉西方见官,故凡事费力;虽癸亥为甲木之印綬,然亦忌火冲水,亥中又有壬水。壬辰透出壬水,运中、命中元有之辰,死无疑矣!凡伤官见财格,忌见官星,只喜见财。大忌壬水剋火,则火不能生甲木之土财也。\n \n",
+   "note": "整节登记（1147 字）。书中财节实际形制为《论正财》一节含正财、偏财两分题：正财分题即本节 [8183,9330)，偏财分题自 9330 起另行登记，全书无独立《论偏财》节。节内 1 处半角? 占位逐处登记（cai-gap-01），全文逐字保留、不补字。"
+  },
+  {
+   "section_id": "yuanhai.piancai",
+   "title": "论偏财",
+   "source_id": "bazi.source.yuanhai",
+   "locator": {
+    "char_start": 9330,
+    "char_end": 9703
+   },
+   "registration_mode": "full_section",
+   "full_text": "论 偏 财》 \n 何谓之偏财?盖阳见阳财,阴见阴财也。然而偏财者,乃众人之财也,只恐兄弟姊妹有夺之,则福不全;若有官星,祸患百出。\n 故曰:偏财好出、亦不惧藏,惟怕有以分夺,反空亡耳;有一于此,官将不成、财将不住。\n 经曰:『背禄逐马,守穷途而悽惶也。』\n 财弱亦待历旺乡而荣。\n 财盛无所往而不妙,且恐身势无力耳。\n 偏财主人慷慨、不甚吝财,惟是得地不止。\n 财丰亦能官旺,何以言之?盖,财盛自生官矣,但为人有情而多诈。\n 盖,财能利己,亦能招谤,运行旺相,福禄俱臻。只恐太旺,兄弟必多破坏,亦不美。\n 财多,须看财与我之日干强弱相等,行官乡便可发禄。\n 若财盛而身弱,运至官乡,是既被财之盗气,复被官之剋身;非惟不发禄,亦防祸患。\n 如命四柱中元带官星,便作好命看;若四柱中兄弟辈出,纵入官乡,发禄必渺矣!\n 故曰:『要在识其变通』矣!\n \n",
+   "note": "整节登记（373 字）。偏财为《论正财》节内分题，本节与正财分题合 span [8183,9703)，其后紧接正官组已登记的《正官论》（9703 起）。分题标题于快照中作「论 偏 财》」、缺开首《字（见字形登记 cai-glyph-01），按分题行起点 9330 分节登记、不新造节名；节内 2 处半角? 占位逐处登记（cai-gap-02/03）。"
+  },
+  {
+   "section_id": "yuanhai.jiecai",
+   "title": "论劫财",
+   "source_id": "bazi.source.yuanhai",
+   "locator": {
+    "char_start": 14566,
+    "char_end": 14796
+   },
+   "registration_mode": "full_section",
+   "full_text": "《论 劫 财》\n 亦名『逆刃』,如乙见甲为劫财。\n 乙以庚为夫,见丙剋庚,故剋夫;男命则剋妻。\n 五阳见五阴为败财,主剋妻害子。\n 五阴见五阳为劫财,主破耗、防小人,不剋妻。\n 乙以戊己为财,甲见夺己坏戊;丁以庚辛为财,丙能夺辛破庚;类如此也。\n 兄见弟,弟能败兄之财,夺兄之妻。\n 弟见兄,兄能劫弟之财,而不敢取弟之妻。\n 财者,人之所欲,方令弟兄见之,多有争竞,如夷、齐能几人。\n 男命见劫财多剋妻,女命见伤官多剋夫。此极论也。\n【渊海子平】神 煞 \n \n",
+   "note": "整节登记（230 字）。劫财为财之直接争夺者（正财节明言忌比肩劫财、偏财分题明言怕兄弟姊妹分夺），与财组直接相关，一并整节登记；节内无半角? 占位；节末「神 煞 」版心行原样保留（见字形登记 cai-glyph-04）。节内剋妻剋夫等六亲断语只登记存在、不作任何婚配/六亲预测口径。"
+  }
+ ],
+ "quotes": [
+  {
+   "id": "yh.zc_definition",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengcai",
+   "role": "definition",
+   "quote": "犹如正官之意;是阴见阳财,阳见阴财。大抵正财,吾妻之财也。",
+   "locator": {
+    "char_start": 8198,
+    "char_end": 8227
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "正财定义句（紧接含缺字分句「何谓之正财?」之后，窗口避开缺字位点 8197）：正财为日主所剋之异性十神、「吾妻之财」为传统命名。定义本身不经旺衰转手；其后享用条件另行登记。"
+  },
+  {
+   "id": "yh.zc_enjoyment_condition",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengcai",
+   "role": "operative_candidate",
+   "quote": "人之女貲财以事我,必精神康强,然后可以享用之;如吾身方且自萎懦而不振,虽妻财丰厚,但能目视,终不可一毫受用。",
+   "locator": {
+    "char_start": 8227,
+    "char_end": 8281
+   },
+   "operative": true,
+   "routed_through_strength": true,
+   "note": "享用条件句：妻财丰厚可否受用以「精神康强」（身旺）对「自萎懦而不振」（身弱）分判——成格侧核心条件经一般旺衰转手而一般旺衰不存在，不可执行。「女貲财」异体见字形登记 cai-glyph-03。",
+   "glyph_refs": [
+    "cai-glyph-03"
+   ]
+  },
+  {
+   "id": "yh.zc_timely",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengcai",
+   "role": "operative_candidate",
+   "quote": "故财要得时,不要财多。",
+   "locator": {
+    "char_start": 8283,
+    "char_end": 8294
+   },
+   "operative": true,
+   "routed_through_strength": false,
+   "note": "得时句：财喜得时而不喜多——「得时」为财星乘旺的时令判断，未阈值化；「不要财多」与下文「财多」诸句的取舍标准亦未裁定。不可执行。",
+   "routed_through_other": [
+    "得时未裁定（财乘月令旺相之「得时」判断无阈值、无已裁定规则）",
+    "财多寡为数量观察（未阈值化，不作计数判定）"
+   ]
+  },
+  {
+   "id": "yh.zc_many_transform_officer",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengcai",
+   "role": "operative_candidate",
+   "quote": "若财多则自家日本有力,可以胜任,当化作官。",
+   "locator": {
+    "char_start": 8296,
+    "char_end": 8317
+   },
+   "operative": true,
+   "routed_through_strength": true,
+   "note": "财多化官句：以日主有力可以胜任为前提（经身旺转手），化官经官星层转手。「自家日本有力」疑讹见字形登记 cai-glyph-02。",
+   "routed_through_other": [
+    "化作官未裁定（财多化官的构成与官星效力未建，官格 determination 本身为 None）"
+   ],
+   "glyph_refs": [
+    "cai-glyph-02"
+   ]
+  },
+  {
+   "id": "yh.zc_tianyuan_weak",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengcai",
+   "role": "operative_candidate",
+   "quote": "天元一气,羸弱贫薄难治。是乐于身旺,不要行剋制之乡;剋制者,官鬼也。",
+   "locator": {
+    "char_start": 8319,
+    "char_end": 8353
+   },
+   "operative": true,
+   "routed_through_strength": true,
+   "note": "天元一气句：羸弱（身弱）贫薄难治、乐于身旺——经身旺转手；不要行剋制之乡以官鬼释剋制，官星层未建。整体不可执行。",
+   "routed_through_other": [
+    "剋制之乡为官鬼（官杀）行运地：避行官乡经官星层与行运层转手，均未裁定"
+   ]
+  },
+  {
+   "id": "yh.zc_month_decline",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengcai",
+   "role": "operative_candidate",
+   "quote": "又怕所生之月令,正吾衰病之地,又四柱无父母以生之;反喜财,又有见财,谓之财多。",
+   "locator": {
+    "char_start": 8355,
+    "char_end": 8394
+   },
+   "operative": true,
+   "routed_through_strength": true,
+   "note": "月令衰病句：所生之月令正吾衰病之地、四柱无印綬生身则身无依，经身旺与印綬生身两门转手；「谓之财多」为相对身弱而言的财多认定，标准未裁定。",
+   "routed_through_other": [
+    "父母（印綬）生身效力未裁定（无父母以生之）",
+    "衰病之地为月令旺衰判断（未阈值化）"
+   ]
+  },
+  {
+   "id": "yh.zc_cannot_bear",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengcai",
+   "role": "operative_candidate",
+   "quote": "力不任财,祸患百出;虽少年经休囚之位,故不如意,事多频併。或中年或末年,复临父母之乡,或三合可以助我者;则勃然而兴,不可御也。",
+   "locator": {
+    "char_start": 8396,
+    "char_end": 8459
+   },
+   "operative": true,
+   "routed_through_strength": true,
+   "note": "力不任财句：身不能任财则祸患百出，须待印乡/三合助身方兴——双经身旺与合局/生身效力转手；前半「祸患百出」为断语陈述，条件部分不可执行。",
+   "routed_through_other": [
+    "三合助我未裁定（合局成立与效力未裁定）",
+    "父母之乡为印綬行运地（生身效力未裁定）"
+   ]
+  },
+  {
+   "id": "yh.zc_youth_old_luck",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengcai",
+   "role": "luck_observation",
+   "quote": "倘少年乘旺,老在脱局,不惟穷途悽惶,兼且是非纷起。",
+   "locator": {
+    "char_start": 8461,
+    "char_end": 8486
+   },
+   "operative": false,
+   "routed_through_strength": true,
+   "note": "行运断语（少年乘旺、老在脱局则穷途悽惶是非纷起）：以乘旺/脱局为背景经旺衰类判断，本身即断语，不作裁定。"
+  },
+  {
+   "id": "yh.zc_wealth_strife_root",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengcai",
+   "role": "aphorism",
+   "quote": "盖,财者,起争之端也。",
+   "locator": {
+    "char_start": 8488,
+    "char_end": 8499
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "断语短句：财为起争之端——为下文忌比肩劫财与偏财怕分夺的 doctrine 总根，本身非条件句，不经旺衰转手。"
+  },
+  {
+   "id": "yh.zc_noble_pattern",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengcai",
+   "role": "operative_candidate",
+   "quote": "若或四柱相生,别带贵格,不值空亡;又行旺运,三合财生,是皆贵命。其餘福之浅深,皆随入格轻重而言之。",
+   "locator": {
+    "char_start": 8501,
+    "char_end": 8550
+   },
+   "operative": true,
+   "routed_through_strength": false,
+   "note": "贵命条件句：四柱相生、别带贵格、不值空亡、行旺运、三合财生五项并陈方为贵命——无一项有已裁定规则，「入格轻重」更明言以未建成的格局轻重为准。整体不可执行。",
+   "routed_through_other": [
+    "空亡未裁定（不值空亡：空亡事实与效力均未裁定）",
+    "三合财生未裁定（合局成立与效力未裁定）",
+    "入格轻重未裁定（格局轻重判断不存在；「贵格」为他格提及）"
+   ]
+  },
+  {
+   "id": "yh.zc_wealth_generates_officer",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengcai",
+   "role": "operative_candidate",
+   "quote": "财多生官,要须身健。",
+   "locator": {
+    "char_start": 8552,
+    "char_end": 8562
+   },
+   "operative": true,
+   "routed_through_strength": true,
+   "note": "财多生官句：生官以身健为须要条件，明文经身旺转手；财生官本身经官星层转手。不可执行。",
+   "routed_through_other": [
+    "财生官未裁定（财官关系与官星效力未建）"
+   ]
+  },
+  {
+   "id": "yh.zc_wealth_drains_qi",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengcai",
+   "role": "operative_candidate",
+   "quote": "财多盗气,本自身柔,年运又或伤财,必生奇祸;或带刑併七杀,凶不可言也。",
+   "locator": {
+    "char_start": 8564,
+    "char_end": 8599
+   },
+   "operative": true,
+   "routed_through_strength": true,
+   "note": "财多盗气句：本自身柔（身弱）为前提经身旺转手；带刑、併七杀的凶性经刑/杀效力层转手；「必生奇祸」为断语陈述。整体不可执行。",
+   "routed_through_other": [
+    "带刑未裁定（三刑事实层已建（E0267–E0269），但刑之破格效力未裁定）",
+    "七杀并见效力未裁定（七杀格 determination 为 None）"
+   ]
+  },
+  {
+   "id": "yh.zc_preferences",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengcai",
+   "role": "definition_and_preference",
+   "quote": "又云,正财者,喜身旺、印綬,忌官星、忌倒食、忌身弱、比肩劫财。不可见官星,恐盗财之气也;喜印綬者,能生身主弱故也。",
+   "locator": {
+    "char_start": 8601,
+    "char_end": 8658
+   },
+   "operative": true,
+   "routed_through_strength": true,
+   "note": "正财喜忌总纲句：喜身旺、印綬，忌官星、倒食、身弱、比肩劫财——一句话并陈身旺、印食、官星、比劫四门未建层，为全节转手最密之句。不可执行。",
+   "routed_through_other": [
+    "喜印綬经生身效力转手（未裁定）",
+    "忌官星经官星层转手（盗财之气，官格未裁定）",
+    "忌倒食经夺食效力转手（未裁定）",
+    "忌比肩劫财经比劫争夺效力转手（未裁定）"
+   ]
+  },
+  {
+   "id": "yh.zc_jia_weak_disaster",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengcai",
+   "role": "operative_candidate",
+   "quote": "且如甲日用己为正财;如身弱,其祸立至。",
+   "locator": {
+    "char_start": 8660,
+    "char_end": 8679
+   },
+   "operative": true,
+   "routed_through_strength": true,
+   "note": "甲例条件句：甲日用己为正财（定义应用），如身弱其祸立至——明文以身弱为条件经身旺转手，不可执行。"
+  },
+  {
+   "id": "yh.zc_born_with_wealth",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengcai",
+   "role": "fortune_claim",
+   "quote": "凡人命带财下生,须出富豪;不螟蛉,必庶出、或冲父母。",
+   "locator": {
+    "char_start": 8681,
+    "char_end": 8707
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "出身断语（带财下生须出富豪、不螟蛉必庶出或冲父母）：吉凶/出身断语，只登记存在、不作裁定；不构成任何出身或财富预测口径。"
+  },
+  {
+   "id": "yh.zc_strong_no_robbery",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengcai",
+   "role": "operative_candidate",
+   "quote": "身旺无劫财,无官星为妙。",
+   "locator": {
+    "char_start": 8709,
+    "char_end": 8721
+   },
+   "operative": true,
+   "routed_through_strength": true,
+   "note": "妙条件句：身旺、无劫财、无官星三项并陈——身旺经一般旺衰转手，劫财/官星两项经各自效力层转手。不可执行。",
+   "routed_through_other": [
+    "无劫财经比劫争夺效力转手（劫财在场事实可算，争夺效力未裁定）",
+    "无官星经官星层转手（未裁定）"
+   ]
+  },
+  {
+   "id": "yh.zc_officer_present_luck",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengcai",
+   "role": "operative_candidate",
+   "quote": "若命中有官星得地,运行喜财星多生官。",
+   "locator": {
+    "char_start": 8723,
+    "char_end": 8741
+   },
+   "operative": true,
+   "routed_through_strength": false,
+   "note": "官星得地句：运行喜财生官以官星得地为前提，得地判断与财生官两层均未裁定。不可执行。",
+   "routed_through_other": [
+    "官星得地未裁定（得地判断无阈值、无已裁定规则）",
+    "财星生官经官星层转手（未裁定）"
+   ]
+  },
+  {
+   "id": "yh.zc_wealth_present_officer_fear",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengcai",
+   "role": "operative_candidate",
+   "quote": "兼有财星得地,运行忌见官星,恐剋其身;怕身弱也。",
+   "locator": {
+    "char_start": 8743,
+    "char_end": 8767
+   },
+   "operative": true,
+   "routed_through_strength": true,
+   "note": "财得地忌官句：与前句成对（官得地则喜财生官、财得地则忌见官星），忌官以恐剋身/怕身弱为据，身弱明文经身旺转手。不可执行。",
+   "routed_through_other": [
+    "财星得地未裁定（得地判断未阈值化）",
+    "官星剋身经官星层转手（未裁定）"
+   ]
+  },
+  {
+   "id": "yh.zc_both_prefer_seal",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengcai",
+   "role": "operative_candidate",
+   "quote": "大抵财不论偏正,皆喜印綬,必能发福。",
+   "locator": {
+    "char_start": 8769,
+    "char_end": 8787
+   },
+   "operative": true,
+   "routed_through_strength": false,
+   "note": "偏正通则句：财不论偏正皆喜印綬——为偏财分题与正财分题的共用口径；「必能发福」为结果断语，条件部分（喜印綬）经生身效力转手，不可执行。",
+   "routed_through_other": [
+    "喜印綬经生身效力转手（印綬生身之效力与程度未裁定）"
+   ]
+  },
+  {
+   "id": "yh.zc_example_1",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengcai",
+   "role": "worked_example",
+   "quote": "如【辛丑,丁酉,丁巳,丁未】:此命丁日身坐财之地,又见巳酉丑金局,故主财旺。盖金得木库居未,能生丁火,故身旺能当其财;运行东南方,宜乎巨富。丁用壬官,用庚金为财,生壬官;身入旺乡,必能发福。",
+   "locator": {
+    "char_start": 8789,
+    "char_end": 8884
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "例造（辛丑/丁酉/丁巳/丁未）：身旺能当其财、运行东南方而「宜乎巨富」，为 doctrine 应用见证，非规则；「巨富」为原例叙事结果，不据例造反推条件、不构成任何财富预测口径。"
+  },
+  {
+   "id": "yh.zc_use_wealth_no_officer",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengcai",
+   "role": "operative_candidate",
+   "quote": "凡用财,不见官星为妙。",
+   "locator": {
+    "char_start": 8886,
+    "char_end": 8897
+   },
+   "operative": true,
+   "routed_through_strength": false,
+   "note": "用财通则句：凡用财不见官星为妙——与官星得地句表面相扞格，其分判条件（官得地与否）本身未裁定，两句并存登记、不强行统一。",
+   "routed_through_other": [
+    "不见官星经官星层转手（官星在场之害未裁定，与 yh.zc_officer_present_luck 的官得地喜生官成对读）"
+   ]
+  },
+  {
+   "id": "yh.zc_example_2",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengcai",
+   "role": "worked_example",
+   "quote": "如【庚申,乙酉,丙申,丙申】:此命丙日见三申为财,岂不美哉!丙用癸官,用辛为财,见三申一酉为财,故旺。盖缘日弱,火病申死酉,乃为无气,运行西方金乡,身弱太甚;财旺生鬼,败剋其身,故不能胜其财,所以贫也。",
+   "locator": {
+    "char_start": 8899,
+    "char_end": 9000
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "例造（庚申/乙酉/丙申/丙申）：财旺而日弱无气、不能胜其财「所以贫也」，为 doctrine 应用见证，非规则；不据例造反推条件。"
+  },
+  {
+   "id": "yh.zc_example_3",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengcai",
+   "role": "worked_example",
+   "quote": "如【乙卯,癸未,辛酉,戊子】:此命辛日坐酉,乙年坐卯,身与财俱旺;又得癸未食神,戊子印綬助之,宜乎巨富贵也。",
+   "locator": {
+    "char_start": 9002,
+    "char_end": 9056
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "例造（乙卯/癸未/辛酉/戊子）：身与财俱旺、食神印綬助之而「宜乎巨富贵」，为 doctrine 应用见证，非规则；不据例造反推条件、不构成任何财富预测口径。"
+  },
+  {
+   "id": "yh.zc_example_4",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengcai",
+   "role": "worked_example",
+   "quote": "如【戊子,丁巳,甲辰,丙寅】:此命甲日生于四月下旬,并透出丙丁火,生其月中之戊土;时又归禄于寅,故财旺矣!然甲木身亦旺。早年行戊午己未运,迤邐行辛酉运,乃见官星则凶;壬戌运有壬剋丙,伤官食神之中,失官去财,死丧合家;值五十九岁,入癸亥身旺运,稍可安逸;六十五岁,逢壬辰年死矣。初运伤官见财格,取戊土为财,所以戊午己未二运大旺生土,故财厚矣;及至庚申辛酉西方见官,故凡事费力;虽癸亥为甲木之印綬,然亦忌火冲水,亥中又有壬水。壬辰透出壬水,运中、命中元有之辰,死无疑矣!",
+   "locator": {
+    "char_start": 9058,
+    "char_end": 9291
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "例造（戊子/丁巳/甲辰/丙寅）：长篇行运叙事（伤官见财取戊土为财、西方见官则凶、壬辰年死），为 doctrine 应用见证，非规则；其结尾通则句另行登记为 yh.zc_shangguan_jiancai。不据例造反推条件。"
+  },
+  {
+   "id": "yh.zc_shangguan_jiancai",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengcai",
+   "role": "operative_candidate",
+   "quote": "凡伤官见财格,忌见官星,只喜见财。大忌壬水剋火,则火不能生甲木之土财也。",
+   "locator": {
+    "char_start": 9291,
+    "char_end": 9327
+   },
+   "operative": true,
+   "routed_through_strength": false,
+   "note": "例造四结尾通则句：伤官见财格忌见官星、只喜见财——格之成立本身未裁定，忌官经官星层转手。不可执行。",
+   "routed_through_other": [
+    "伤官见财格之成立未裁定（格名提及；格局 determination 全线为 None）",
+    "忌见官星经官星层转手（未裁定）",
+    "火生土财为食伤生财链（生财效力未裁定）"
+   ]
+  },
+  {
+   "id": "yh.pc_definition",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.piancai",
+   "role": "definition_and_preference",
+   "quote": "盖阳见阳财,阴见阴财也。然而偏财者,乃众人之财也,只恐兄弟姊妹有夺之,则福不全;若有官星,祸患百出。",
+   "locator": {
+    "char_start": 9345,
+    "char_end": 9395
+   },
+   "operative": true,
+   "routed_through_strength": false,
+   "note": "偏财定义句（紧接含缺字分句「何谓之偏财?」之后，窗口避开缺字位点 9344）：偏财为同性所剋之财、「众人之财」；定义同时给出两大忌——兄弟姊妹分夺与有官星，两门均未建成。",
+   "routed_through_other": [
+    "兄弟姊妹有夺之经比劫分夺效力转手（分夺是否成立、效力与程度未裁定）",
+    "若有官星祸患百出经官星层转手（未裁定）"
+   ]
+  },
+  {
+   "id": "yh.pc_exposure",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.piancai",
+   "role": "operative_candidate",
+   "quote": "故曰:偏财好出、亦不惧藏,惟怕有以分夺,反空亡耳;有一于此,官将不成、财将不住。",
+   "locator": {
+    "char_start": 9397,
+    "char_end": 9437
+   },
+   "operative": true,
+   "routed_through_strength": false,
+   "note": "偏财出藏句：好出不惧藏、惟怕分夺与空亡——分夺、空亡、官星三门并陈，均未裁定。不可执行。",
+   "routed_through_other": [
+    "分夺经比劫争夺效力转手（未裁定）",
+    "空亡未裁定（反空亡耳：空亡事实与效力均未裁定）",
+    "官将不成经官星层转手（未裁定）"
+   ]
+  },
+  {
+   "id": "yh.pc_classic_quote",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.piancai",
+   "role": "classic_citation",
+   "quote": "经曰:『背禄逐马,守穷途而悽惶也。』",
+   "locator": {
+    "char_start": 9439,
+    "char_end": 9457
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "经曰引文（背禄逐马守穷途而悽惶）：节内自引经语，禄马皆为传统喻象；断语性质，只登记存在、不作裁定、不据以立任何口径。"
+  },
+  {
+   "id": "yh.pc_weak_wealth_luck",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.piancai",
+   "role": "operative_candidate",
+   "quote": "财弱亦待历旺乡而荣。",
+   "locator": {
+    "char_start": 9459,
+    "char_end": 9469
+   },
+   "operative": true,
+   "routed_through_strength": false,
+   "note": "财弱待运句：财弱须历旺乡而荣——财星自身强度与行运旺乡判断均未阈值化，不可执行。",
+   "routed_through_other": [
+    "财弱/旺乡为财星强度判断（未阈值化、无已裁定规则）"
+   ]
+  },
+  {
+   "id": "yh.pc_strong_wealth_body",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.piancai",
+   "role": "operative_candidate",
+   "quote": "财盛无所往而不妙,且恐身势无力耳。",
+   "locator": {
+    "char_start": 9471,
+    "char_end": 9488
+   },
+   "operative": true,
+   "routed_through_strength": true,
+   "note": "财盛身势句：财盛无所往而不妙、惟恐身势无力——「身势无力」即身弱，明文经身旺转手；财盛判断未阈值化。不可执行。"
+  },
+  {
+   "id": "yh.pc_character",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.piancai",
+   "role": "character_claim",
+   "quote": "偏财主人慷慨、不甚吝财,惟是得地不止。",
+   "locator": {
+    "char_start": 9490,
+    "char_end": 9509
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "性情断语（偏财主人慷慨不甚吝财）：性情陈述非条件句，只登记存在；尾句「得地不止」为得地提及，得地判断未裁定，不据以立口径。"
+  },
+  {
+   "id": "yh.pc_wealth_generates_officer",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.piancai",
+   "role": "operative_candidate",
+   "quote": "盖,财盛自生官矣,但为人有情而多诈。",
+   "locator": {
+    "char_start": 9523,
+    "char_end": 9541
+   },
+   "operative": true,
+   "routed_through_strength": false,
+   "note": "偏财生官句（紧接含缺字分句「何以言之?」之后，窗口避开缺字位点 9522）：财盛自生官为机理陈述，经官星层转手；「有情而多诈」为性情断语附随。不可执行。",
+   "routed_through_other": [
+    "财盛生官经官星层转手（财官关系与官星效力未建）",
+    "财盛为财星强度判断（未阈值化）"
+   ]
+  },
+  {
+   "id": "yh.pc_benefit_and_slander",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.piancai",
+   "role": "luck_observation",
+   "quote": "盖,财能利己,亦能招谤,运行旺相,福禄俱臻。只恐太旺,兄弟必多破坏,亦不美。",
+   "locator": {
+    "char_start": 9543,
+    "char_end": 9581
+   },
+   "operative": false,
+   "routed_through_strength": true,
+   "note": "行运断语（财能利己亦能招谤、运行旺相福禄俱臻、太旺兄弟破坏）：断语陈述，其中兄弟破坏一语涉比劫分夺效力，标注在案、不作裁定。",
+   "routed_through_other": [
+    "兄弟必多破坏经比劫分夺效力转手（未裁定）",
+    "太旺为强度判断（未阈值化）"
+   ]
+  },
+  {
+   "id": "yh.pc_balance_officer_luck",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.piancai",
+   "role": "operative_candidate",
+   "quote": "财多,须看财与我之日干强弱相等,行官乡便可发禄。",
+   "locator": {
+    "char_start": 9583,
+    "char_end": 9607
+   },
+   "operative": true,
+   "routed_through_strength": true,
+   "note": "强弱相等句：财与日干强弱相等、行官乡便可发禄——是全组唯一明文要求「财/我两侧强度比较」的句子，两侧标尺均不存在，不可执行；「发禄」为原文结果语，不构成禄位预测口径。",
+   "routed_through_other": [
+    "财之强弱为财星强度判断（未阈值化）：本句要求财与日干两侧强度相等后比较，两侧均无已裁定标尺",
+    "行官乡发禄经官星层转手（未裁定）"
+   ]
+  },
+  {
+   "id": "yh.pc_strong_weak_officer_luck",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.piancai",
+   "role": "operative_candidate",
+   "quote": "若财盛而身弱,运至官乡,是既被财之盗气,复被官之剋身;非惟不发禄,亦防祸患。",
+   "locator": {
+    "char_start": 9609,
+    "char_end": 9647
+   },
+   "operative": true,
+   "routed_through_strength": true,
+   "note": "财盛身弱句：与前句成对（强弱相等则发禄、财盛身弱则防祸患），身弱明文经身旺转手，官乡剋身经官星层转手。不可执行。",
+   "routed_through_other": [
+    "官之剋身经官星层转手（未裁定）",
+    "财盛为财星强度判断（未阈值化）"
+   ]
+  },
+  {
+   "id": "yh.pc_officer_vs_brothers",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.piancai",
+   "role": "operative_candidate",
+   "quote": "如命四柱中元带官星,便作好命看;若四柱中兄弟辈出,纵入官乡,发禄必渺矣!",
+   "locator": {
+    "char_start": 9649,
+    "char_end": 9685
+   },
+   "operative": true,
+   "routed_through_strength": false,
+   "note": "官星与兄弟对照句：元带官星作好命看、兄弟辈出则发禄必渺——官星与比劫两门对照并陈，均未裁定。不可执行。",
+   "routed_through_other": [
+    "兄弟辈出经比劫分夺效力转手（未裁定）",
+    "元带官星便作好命经官星层转手（未裁定）"
+   ]
+  },
+  {
+   "id": "yh.pc_finale_biantong",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.piancai",
+   "role": "closing_aphorism",
+   "quote": "故曰:『要在识其变通』矣!",
+   "locator": {
+    "char_start": 9687,
+    "char_end": 9700
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "偏财分题收束语（要在识其变通）：自陈本节诸句须变通看待，非条件句，只登记存在。"
+  },
+  {
+   "id": "yh.jc_definition",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.jiecai",
+   "role": "definition",
+   "quote": "亦名『逆刃』,如乙见甲为劫财。",
+   "locator": {
+    "char_start": 14575,
+    "char_end": 14590
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "劫财定义句：劫财亦名逆刃，乙见甲为劫财（同我异性之十神定义应用）。定义本身不经旺衰转手。"
+  },
+  {
+   "id": "yh.jc_spouse_harm_jia",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.jiecai",
+   "role": "fortune_claim",
+   "quote": "乙以庚为夫,见丙剋庚,故剋夫;男命则剋妻。",
+   "locator": {
+    "char_start": 14592,
+    "char_end": 14613
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "六亲断语（乙以庚为夫、丙剋庚故剋夫，男命则剋妻）：六亲吉凶断语，只登记存在、不作裁定；不构成任何婚配预测口径。"
+  },
+  {
+   "id": "yh.jc_yang_baicai",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.jiecai",
+   "role": "definition_and_claim",
+   "quote": "五阳见五阴为败财,主剋妻害子。",
+   "locator": {
+    "char_start": 14615,
+    "char_end": 14630
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "败财命名句：五阳见五阴为败财（劫财之阳干名目），后半「主剋妻害子」为六亲断语。命名部分为定义、断语部分只登记存在。"
+  },
+  {
+   "id": "yh.jc_yin_jiecai",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.jiecai",
+   "role": "definition_and_claim",
+   "quote": "五阴见五阳为劫财,主破耗、防小人,不剋妻。",
+   "locator": {
+    "char_start": 14632,
+    "char_end": 14653
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "劫财命名句：五阴见五阳为劫财，后半「主破耗、防小人，不剋妻」为断语；与前句败财合为本节命名二分。只登记存在。"
+  },
+  {
+   "id": "yh.jc_seizure_mechanism",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.jiecai",
+   "role": "operative_candidate",
+   "quote": "乙以戊己为财,甲见夺己坏戊;丁以庚辛为财,丙能夺辛破庚;类如此也。",
+   "locator": {
+    "char_start": 14655,
+    "char_end": 14688
+   },
+   "operative": true,
+   "routed_through_strength": false,
+   "note": "夺财机理句（本节唯一 operative 句）：以乙、丁两例给出劫财夺坏正财的机理陈述——比劫在场事实可由四柱算出，但夺财效力层未建成，不可执行。",
+   "routed_through_other": [
+    "劫财夺财效力未裁定（夺己坏戊、夺辛破庚：夺/坏/破是否成立、效力与程度均无已裁定规则）"
+   ]
+  },
+  {
+   "id": "yh.jc_elder_brother",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.jiecai",
+   "role": "fortune_claim",
+   "quote": "兄见弟,弟能败兄之财,夺兄之妻。",
+   "locator": {
+    "char_start": 14690,
+    "char_end": 14706
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "兄弟断语（弟能败兄之财、夺兄之妻）：以兄弟喻比劫的断语陈述，其中败财一语涉比劫争夺效力（未裁定），整体按断语登记、不作裁定。"
+  },
+  {
+   "id": "yh.jc_younger_brother",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.jiecai",
+   "role": "fortune_claim",
+   "quote": "弟见兄,兄能劫弟之财,而不敢取弟之妻。",
+   "locator": {
+    "char_start": 14708,
+    "char_end": 14727
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "兄弟断语（兄能劫弟之财而不敢取弟之妻）：与前句成对，劫财一语涉比劫争夺效力（未裁定），整体按断语登记、不作裁定。"
+  },
+  {
+   "id": "yh.jc_strife_aphorism",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.jiecai",
+   "role": "aphorism",
+   "quote": "财者,人之所欲,方令弟兄见之,多有争竞,如夷、齐能几人。",
+   "locator": {
+    "char_start": 14729,
+    "char_end": 14757
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "断语短句：财为人所欲、弟兄见之多有争竞——与正财分题「财者，起争之端也」互文，为比劫争夺的 doctrine 总根，非条件句。"
+  },
+  {
+   "id": "yh.jc_extreme_claim",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.jiecai",
+   "role": "fortune_claim",
+   "quote": "男命见劫财多剋妻,女命见伤官多剋夫。此极论也。",
+   "locator": {
+    "char_start": 14759,
+    "char_end": 14782
+   },
+   "operative": false,
+   "routed_through_strength": null,
+   "note": "六亲断语（男命劫财多剋妻、女命伤官多剋夫）：原文自标「此极论也」（极端之论），只登记存在并保留其自限语；不作裁定、不构成任何婚配预测口径。"
+  }
+ ],
+ "context_quotes": [
+  {
+   "id": "yh.ctx_zc_definition_para",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.zhengcai",
+   "role": "gap_bearing_context",
+   "quote": "何谓之正财?犹如正官之意;是阴见阳财,阳见阴财。大抵正财,吾妻之财也。人之女貲财以事我,必精神康强,然后可以享用之;如吾身方且自萎懦而不振,虽妻财丰厚,但能目视,终不可一毫受用。",
+   "locator": {
+    "char_start": 8192,
+    "char_end": 8281
+   },
+   "contains_gap_positions": [
+    8197
+   ],
+   "not_for_operative_reading": true,
+   "note": "整段含缺字位点 8197（见缺字登记 cai-gap-01）：含缺字的「何谓之正财?」分句不作引文读法依据；段内两处引文 yh.zc_definition、yh.zc_enjoyment_condition 的窗口均避开该位点。"
+  },
+  {
+   "id": "yh.ctx_pc_definition_para",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.piancai",
+   "role": "gap_bearing_context",
+   "quote": "何谓之偏财?盖阳见阳财,阴见阴财也。然而偏财者,乃众人之财也,只恐兄弟姊妹有夺之,则福不全;若有官星,祸患百出。",
+   "locator": {
+    "char_start": 9339,
+    "char_end": 9395
+   },
+   "contains_gap_positions": [
+    9344
+   ],
+   "not_for_operative_reading": true,
+   "note": "整段含缺字位点 9344（见缺字登记 cai-gap-02）：含缺字的「何谓之偏财?」分句不作引文读法依据；段内引文 yh.pc_definition 的窗口避开该位点。"
+  },
+  {
+   "id": "yh.ctx_pc_how_para",
+   "source_id": "bazi.source.yuanhai",
+   "source_section_id": "yuanhai.piancai",
+   "role": "gap_bearing_context",
+   "quote": "财丰亦能官旺,何以言之?盖,财盛自生官矣,但为人有情而多诈。",
+   "locator": {
+    "char_start": 9511,
+    "char_end": 9541
+   },
+   "contains_gap_positions": [
+    9522
+   ],
+   "not_for_operative_reading": true,
+   "note": "整段含缺字位点 9522（「何以言之?」衔接处，见缺字登记 cai-gap-03）：衔接分句不作读法依据；段内引文 yh.pc_wealth_generates_officer 的窗口避开该位点。"
+  }
+ ],
+ "gap_register": [
+  {
+   "id": "cai-gap-01",
+   "position": 8197,
+   "char": "?",
+   "source_section_id": "yuanhai.zhengcai",
+   "context": "何谓之正财?",
+   "context_locator": {
+    "char_start": 8192,
+    "char_end": 8198
+   },
+   "status": "placeholder_unresolved",
+   "reading": null,
+   "note": "半角? 占位：位于「何谓之正财」之后、「犹如正官之意」之前。字面位置可读作问号标点，但本批按缺字未决统一登记（性质未决、两读并存），不猜填、不据以断句；同段引文窗口避开此位点。"
+  },
+  {
+   "id": "cai-gap-02",
+   "position": 9344,
+   "char": "?",
+   "source_section_id": "yuanhai.piancai",
+   "context": "何谓之偏财?",
+   "context_locator": {
+    "char_start": 9339,
+    "char_end": 9345
+   },
+   "status": "placeholder_unresolved",
+   "reading": null,
+   "note": "半角? 占位：位于「何谓之偏财」之后、「盖阳见阳财」之前。与 cai-gap-01 同型设问位，按缺字未决统一登记（性质未决、两读并存），不猜填、不据以断句；同段引文窗口避开此位点。"
+  },
+  {
+   "id": "cai-gap-03",
+   "position": 9522,
+   "char": "?",
+   "source_section_id": "yuanhai.piancai",
+   "context": "何以言之?",
+   "context_locator": {
+    "char_start": 9518,
+    "char_end": 9523
+   },
+   "status": "placeholder_unresolved",
+   "reading": null,
+   "note": "半角? 占位：位于「何以言之」之后、「盖，财盛自生官矣」之前。与正官组 yh-gap-03/05、七杀组 qs-gap-02 的「何也?/何以言之?」同型衔接位，按缺字未决统一登记（性质未决、两读并存），不猜填、不据以断句；同段引文窗口避开此位点。"
+  }
+ ],
+ "glyph_notes": [
+  {
+   "id": "cai-glyph-01",
+   "position": 9330,
+   "char": "论",
+   "source_section_id": "yuanhai.piancai",
+   "status": "header_opening_mark_absent_preserved",
+   "mapped_reading": null,
+   "note": "偏财分题标题于快照中作「论 偏 财》」（[9330,9336)），开首缺《字——全书他节标题皆作《论 X》（正财分题作《论 正 财》、劫财作《论 劫 财》）。逐字保留、不补字；本批以分题行起点 9330 为偏财分题节界，不据登记新造节名。"
+  },
+  {
+   "id": "cai-glyph-02",
+   "position": 8300,
+   "char": "自",
+   "source_section_id": "yuanhai.zhengcai",
+   "status": "suspected_corruption_preserved",
+   "mapped_reading": null,
+   "note": "「若财多则自家日本有力」（[8300,8306) 为「自家日本有力」）：「日本」于此语义不通，疑「日主」讹倒或有脱字（如「自家日主本有力」），无见证互校，不径改、不给 mapped_reading，逐字保留并标记存疑。"
+  },
+  {
+   "id": "cai-glyph-03",
+   "position": 8230,
+   "char": "貲",
+   "source_section_id": "yuanhai.zhengcai",
+   "status": "variant_char_preserved",
+   "mapped_reading": null,
+   "note": "「人之女貲财以事我」（[8229,8232)）：「貲」为赀/资之异体，女貲财即妻之资财，与前句「吾妻之财」呼应，语义可通；按异体原样保留登记，不改写（与正官组「茍」异体保留同口径）。"
+  },
+  {
+   "id": "cai-glyph-04",
+   "position": 14783,
+   "char": "【",
+   "source_section_id": "yuanhai.jiecai",
+   "status": "artifact_line_preserved",
+   "mapped_reading": null,
+   "note": "《论劫财》节末一行「神 煞 」（[14783,14793)）：为底本版心/页眉字样混入正文行，非节内论述。逐字保留于全文窗，不作任何读法依据，不删除（删改即失实）。"
+  }
+ ],
+ "cross_references": [
+  {
+   "id": "yh.zc_xref_qs_definition",
+   "target_module": "bazi_yuanhai_qisha",
+   "target_quote_id": "yh.qs_definition",
+   "locator": {
+    "char_start": 11636,
+    "char_end": 11673
+   },
+   "relation": "《论七杀》定义句「忌见财」已于七杀组登记：七杀节以财能生杀为忌，与本批财组为同一财星的另一面（财生杀），只登记引用关系，不重复登记引文。"
+  },
+  {
+   "id": "yh.zc_xref_qs_blade_wealth",
+   "target_module": "bazi_yuanhai_qisha",
+   "target_quote_id": "yh.qs_blade_and_wealth",
+   "locator": {
+    "char_start": 11844,
+    "char_end": 11888
+   },
+   "relation": "《论七杀》「但忌财旺，财能生杀故也」已于七杀组登记：财旺生杀口径与本批财组直接相关，只登记引用关系。"
+  },
+  {
+   "id": "yh.zc_xref_ys_guangui_sheng",
+   "target_module": "bazi_yuanhai_zhengguan",
+   "target_quote_id": "yh.ys_guangui_sheng",
+   "locator": {
+    "char_start": 12599,
+    "char_end": 12644
+   },
+   "relation": "《论印綬》「盖印綬畏财……只畏其财，而财能反伤我」已于正官组登记：财伤印口径与本批正财节「喜印綬」互为两面，只登记引用关系。"
+  },
+  {
+   "id": "yh.zc_xref_ys_yongguan_buxian",
+   "target_module": "bazi_yuanhai_zhengguan",
+   "target_quote_id": "yh.ys_yongguan_buxian",
+   "locator": {
+    "char_start": 13170,
+    "char_end": 13198
+   },
+   "relation": "《论印綬》用官不显段「最怕四柱中岁运临财乡，以伤其印」已于正官组登记：财乡伤印与本批财组直接相关，只登记引用关系。"
+  },
+  {
+   "id": "yh.zc_xref_zg_luck",
+   "target_module": "bazi_yuanhai_zhengguan",
+   "target_quote_id": "yh.zg_luck_observation",
+   "locator": {
+    "char_start": 9782,
+    "char_end": 9825
+   },
+   "relation": "《正官论》行运句「并金财旺之乡，皆是作福之处」已于正官组登记：正官节内财旺之乡口径与本批财组直接相关，只登记引用关系。"
+  }
+ ],
+ "unregistered_related": [
+  {
+   "section_id": "yuanhai.daoshi",
+   "title": "论倒食",
+   "locator": {
+    "char_start": 14119,
+    "char_end": 14566
+   },
+   "reason": "偏印专题节（倒食一名吞啖煞）：首句以「冲财神」立义、论偏印夺食使食神不能生财——财神与食神均为受损对象而非论述主体，本体属偏印，不在本批整节登记范围；正财节「忌倒食」已于本批引文 yh.zc_preferences 登记在案，倒食节本身只列清单。"
+  },
+  {
+   "section_id": "yuanhai.shishen",
+   "title": "论食神",
+   "locator": {
+    "char_start": 7622,
+    "char_end": 7948
+   },
+   "reason": "食神本体论述节：食神生财为财之来源机理，但食神节的论述主体是食神本身（后续食伤主题范围）；正财分题例造与倒食节涉食神生财处按所在节处理，本批不登记本节，只列清单。"
+  },
+  {
+   "section_id": "yuanhai.shijue_wealth_adjacent",
+   "title": "财组相邻诗诀诸首",
+   "locator": {
+    "char_start": 7948,
+    "char_end": 8183
+   },
+   "reason": "《论食神》后、《论正财》前《诗诀》六首（[7948,8183)，含食神/七杀题材）：诗诀体例与散文节不同，本批只登记散文节，诗诀未登记（与正官组、七杀组同口径）。"
+  }
+ ],
+ "routing_review": {
+  "scope": "论正财 + 论偏财 + 论劫财中全部 operative=True 引文逐条（26 条）",
+  "conclusion_consistent_with_readiness": "财组可操作句无一条可直接执行：成格/为妙侧全部经六门未建层中的至少一门转手——身旺门（必精神康强然后享用、力不任财、财多生官要须身健、甲日身弱其祸立至、财与日干强弱相等）经一般旺衰转手而一般旺衰不存在；得时得地门（财要得时、财星得地、官星得地、偏财得地、财弱历旺乡）为两侧强度判断，未阈值化、无已裁定规则；比劫争夺效力门（忌比肩劫财、兄弟姊妹有夺之、分夺、劫财夺己坏戊）——比劫在场事实可算而争夺效力未裁定；官星门（财多化官/生官、见官盗气剋身、官将不成）——财官关系与官星效力未建，官格 determination 本身为 None；印食门（喜印綬生身、忌倒食夺食）效力未裁定；空亡/三合门（不值空亡、反空亡、三合财生、三合助我）事实与效力均未裁定。故登记后财格 determination 仍为 None，与正官组、七杀组同口径。",
+  "comparison_with_prior_groups": "与前两组对照：正官成格侧独经身旺/轻重一门；七杀组经身旺、制伏效力、合杀三门；财组转手最密——喜忌总纲句（yh.zc_preferences）一句话并陈身旺、印食、官星、比劫四门，且偏财分题另有全书唯一的明文两侧强度比较要求（财与我之日干强弱相等），两侧标尺均不存在。本批逐句登记以逐句复核为准。",
+  "non_operative_excluded": "行运断语、出身/性情/六亲断语、经曰引文、例造已分别标注 operative=False，不计入可操作句集合；断语本身即不可执行的吉凶陈述，只登记存在、不作裁定。其中「巨富」「贫」「发福」「发禄」等字样均为原文断语与例造叙事结果，本批不设、也不允许衍生任何财富预测口径字段（不得由财格推断现实财富）。",
+  "determination_consequence": "本批登记后财格 determination 仍为 None：成格侧缺一般旺衰与得时得地标尺，比劫侧缺争夺效力裁定，官星侧缺财官关系与官格裁定，印食/空亡/三合侧缺效力裁定；登记只补齐成对审定的材料。"
+ },
+ "notes": [
+  "R1 登记≠可裁定：本批为纯证据登记，仓库内不存在任何财格 determination 代码路径；bazi_pattern 的 candidates、pattern_route、pattern_zaqi、pattern_determination_ren_yin 输出逐字不变。",
+  "R2 缺字对账：三节范围内半角? 共 3 处（正财分题 8197、偏财分题 9344 与 9522），与缺字登记 3 条逐位对账（密封专项以快照切片复核）；全书? 共 36 处，正官组已登记 5 处、七杀组 2 处、本批 3 处，合计 10 处，其余 26 处不在本批范围，未登记、未处理。三节范围内 PUA 私用区字符 0 处。",
+  "R3 不重复登记：已登记节中涉财引文 5 条（七杀定义忌见财句、七杀忌财旺生杀句、印綬畏财段、印綬临财乡句、正官论金财旺乡句）只登记引用关系（YUANHAI_CAI_CROSS_REFERENCES），不复制引文、不改变其既有编码语义。",
+  "R4 引文窗口纪律：全部 operative 引文与 doctrine 引文的窗口均不含? 字符；含缺字的整段只以 context 形登记并标 not_for_operative_reading。",
+  "R5 偏财分题形制：全书无独立《论偏财》节——「论偏财」在全书出现 0 次，偏财是《论正财》一节之内的分题。本批按分题行起点分两节登记（正财 [8183,9330)、偏财 [9330,9703)），分题标题缺《字原样登记（cai-glyph-01）；不据本批登记虚构独立节名或调整原书节次。",
+  "R6 劫财并入理由：劫财是财星的直接争夺者——正财节明言「忌比肩劫财」、偏财分题明言「只恐兄弟姊妹有夺之」，且劫财节本体即以夺财/败财立论，故整节登记而非只列清单。节内剋妻、剋夫、害子等六亲断语只登记存在，原文「此极论也」的自限语一并保留；本登记不产出任何婚配或六亲预测口径。",
+  "R7 财富预测禁区（内容诚实边界）：本登记不含、也不得被用于由财格推断现实财富、收入、发财与否的任何字段、评分或口径；节内「巨富」「宜乎巨富」「所以贫也」「必能发福」「便可发禄」等均为清代原文的断语与例造叙事，按 fortune_claim / worked_example 登记存在，公开投影与任何场景均不消费本登记作财富判断。",
+  "R8 来源普查不变：渊海 Source 仍为既有 101 条之一（C 95 / D 6），本批只扩 review_scope，不新增 Source、不升证据等级；渊海全文仍 quarantine，本登记只及于所列三节范围。",
+  "R9 Canonical/Phase1 注册 pending：本登记为公开仓证据登记，sealed Phase1/Phase2 正式注册未做（与既有研究级登记同口径披露），不借用 s 编号。"
+ ],
+ "limitations": [
+  "财格成格/破格/真假/清浊/用神继续不可裁定：成格侧经身旺与得时得地转手而一般旺衰不存在、强度标尺未阈值化，比劫争夺效力、财官关系、印食生克效力、空亡与三合效力均未裁定。",
+  "缺字 3 处未决：含缺字分句（何谓之正财?、何谓之偏财?、何以言之?衔接）在缺字解决前不作任何读法依据；本批未做任何底本互校以解决缺字。",
+  "《论倒食》《论食神》与财组相邻诗诀未登记（逐项理由见 YUANHAI_CAI_UNREGISTERED_RELATED）；渊海其余诸节（论伤官、伤官说、论阳刃、论日刃、论日贵等）仍未逐节登记。",
+  "字形疑点 4 项未决（偏财分题标题缺《、「自家日本有力」疑讹、「女貲财」异体、劫财节末版心行）：均逐字保留、无 mapped_reading，待见证互校另批处理。",
+  "本登记不得用于财富预测：任何由财格、财星旺弱或本登记引文推断现实财富/收入/发财与否的用法均在本登记授权范围之外。"
+ ]
+}
