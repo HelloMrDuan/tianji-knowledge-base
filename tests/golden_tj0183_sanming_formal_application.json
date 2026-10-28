@@ -1,0 +1,491 @@
+{
+ "meta": {
+  "register_id": "sanming-formal-application-design-register-v1",
+  "task": "TJ-018.2",
+  "kind": "formal_application_design_register",
+  "purpose": "TJ-018.3 晋级前置「PUA＋校勘正式应用批」设计审定登记的公开镜像：冻结钉值、两阶段管线规约要点、76 条 context 携带聚合、RD-12 逐条表、缺口与待裁定清单、验收配方，供公开测试逐项钉住；不含任何应用产物。"
+ },
+ "headline_verdicts": {
+  "design_only": true,
+  "applied_in_this_batch": false,
+  "snapshot_modified": false,
+  "sealed_assets_modified": false,
+  "pipeline_stages": 2,
+  "pua_mappings": 86,
+  "pua_occurrences": 524,
+  "text_corrections": 603,
+  "baseline_checkpoint_corrections": 444,
+  "candidates_total": 993,
+  "context_unanchorable_candidates": 76,
+  "residual_fang_after_application": 769,
+  "reading_disagreement_items": 12,
+  "permanent_gaps": 2,
+  "pua_codepoints_with_register_citation": 32,
+  "pua_codepoints_without_register_citation": 54,
+  "user_decisions_pending": 3,
+  "application_spec_ready": true,
+  "canonical_ready": false,
+  "review_status": "in_progress"
+ },
+ "freeze_objects": [
+  {
+   "object": "snapshot_text",
+   "sha256": "00e2a7db8bb59b259b99938033bb1bb77947e04a15dafc111e62b59378010c86"
+  },
+  {
+   "object": "pua_collation",
+   "sha256": "96943525453662663918965d28711a2f1b0758aef7bc9b4a3aaafb770dbfdd97"
+  },
+  {
+   "object": "text_collation",
+   "sha256": "e47bce8c478327b3bcb7f804c29ad4189d824b40a9d2e0ea5032ddebf39ff4ce"
+  },
+  {
+   "object": "ocr_candidates",
+   "sha256": "4209b85d003d07ca696e298c3f446c43ea8a8d6871dfe73e52fc7c17a16d211c"
+  },
+  {
+   "object": "pua_audit",
+   "sha256": "22f214e89134107b721b4888ddb3d29bacee5e3cbfeb7eb890b665caf0969569"
+  }
+ ],
+ "stage_text_pins": [
+  {
+   "stage_id": "S0",
+   "definition": "钉定快照原样（raw）",
+   "chars": 461157,
+   "bytes": 1342659,
+   "sha256": "00e2a7db8bb59b259b99938033bb1bb77947e04a15dafc111e62b59378010c86",
+   "pua": 524,
+   "fang": 1606,
+   "gap_square": 2
+  },
+  {
+   "stage_id": "S1",
+   "definition": "S0 经阶段一（PUA 86 映射）应用后；与 S0 全等长、位置恒等",
+   "chars": 461157,
+   "bytes": 1342685,
+   "sha256": "b4f196f2100347618d7907330b2db93bd536a5663f16249a6e0ff19e23c05daa",
+   "pua": 0,
+   "fang": 1606,
+   "gap_square": 2
+  },
+  {
+   "stage_id": "S2",
+   "definition": "S1 经阶段二 ocr-001..444 应用后（= 候选 offset_basis 的基线文本；重锚登记册钉值）",
+   "chars": 461156,
+   "bytes": null,
+   "sha256": "db8618c9cdbc545b59149f7550644a440fdf8bba8ddbe0e23b615029f8a896d9",
+   "pua": 0,
+   "fang": 925,
+   "gap_square": 2
+  },
+  {
+   "stage_id": "S3",
+   "definition": "S1 经阶段二 ocr-001..603 全量应用后（应用批产物文本）",
+   "chars": 461156,
+   "bytes": 1342682,
+   "sha256": "a89c0b5da16ea4e07dc85180c49135ed280875318059f923ff7154f2c217662f",
+   "pua": 0,
+   "fang": 769,
+   "gap_square": 2
+  }
+ ],
+ "fail_hard_ids": [
+  "F1",
+  "F2",
+  "F3",
+  "F4",
+  "F5",
+  "F6",
+  "F7",
+  "F8",
+  "F9",
+  "F10"
+ ],
+ "context_carry": {
+  "by_kind": {
+   "partial_overlap": 52,
+   "contained_within": 24
+  },
+  "by_status": {
+   "historical_only_hold": 40,
+   "variant_preserve": 6,
+   "confirmed_applied": 29,
+   "reading_disagreement_hold": 1
+  },
+  "by_volume": {
+   "2": 10,
+   "3": 5,
+   "4": 6,
+   "5": 16,
+   "6": 4,
+   "7": 1,
+   "8": 2,
+   "9": 5,
+   "10": 10,
+   "11": 5,
+   "12": 12
+  },
+  "rule_ids": [
+   "C1",
+   "C2",
+   "C3",
+   "C4",
+   "C5"
+  ],
+  "partial_overlap_seq": [
+   56,
+   97,
+   104,
+   105,
+   111,
+   112,
+   113,
+   129,
+   145,
+   146,
+   156,
+   169,
+   176,
+   210,
+   228,
+   334,
+   364,
+   372,
+   409,
+   423,
+   439,
+   448,
+   449,
+   450,
+   457,
+   470,
+   476,
+   518,
+   626,
+   705,
+   719,
+   741,
+   746,
+   755,
+   756,
+   772,
+   794,
+   795,
+   800,
+   814,
+   835,
+   872,
+   893,
+   899,
+   934,
+   935,
+   947,
+   954,
+   956,
+   966,
+   967,
+   983
+  ],
+  "contained_within_seq": [
+   64,
+   65,
+   231,
+   232,
+   233,
+   234,
+   347,
+   348,
+   362,
+   434,
+   435,
+   436,
+   437,
+   762,
+   797,
+   798,
+   799,
+   827,
+   942,
+   959,
+   960,
+   981,
+   985,
+   986
+  ]
+ },
+ "reading_disagreement": [
+  {
+   "seq": 361,
+   "volume": 5,
+   "basis_offset": 157778,
+   "old": "防",
+   "historical_reading": "㸔",
+   "site_anchor_class": "anchored_direct",
+   "context_anchor_class": "anchored_direct"
+  },
+  {
+   "seq": 385,
+   "volume": 5,
+   "basis_offset": 164132,
+   "old": "防",
+   "historical_reading": "䕃",
+   "site_anchor_class": "anchored_direct",
+   "context_anchor_class": "anchored_direct"
+  },
+  {
+   "seq": 450,
+   "volume": 5,
+   "basis_offset": 184317,
+   "old": "防",
+   "historical_reading": "䕶",
+   "site_anchor_class": "anchored_direct",
+   "context_anchor_class": "unanchorable_crosses_boundary"
+  },
+  {
+   "seq": 612,
+   "volume": 7,
+   "basis_offset": 228260,
+   "old": "防",
+   "historical_reading": "㿀",
+   "site_anchor_class": "anchored_direct",
+   "context_anchor_class": "anchored_direct"
+  },
+  {
+   "seq": 616,
+   "volume": 7,
+   "basis_offset": 228868,
+   "old": "防",
+   "historical_reading": "䖝",
+   "site_anchor_class": "anchored_direct",
+   "context_anchor_class": "anchored_direct"
+  },
+  {
+   "seq": 784,
+   "volume": 10,
+   "basis_offset": 362057,
+   "old": "胤",
+   "historical_reading": "𦙍",
+   "site_anchor_class": "anchored_direct",
+   "context_anchor_class": "anchored_direct"
+  },
+  {
+   "seq": 824,
+   "volume": 10,
+   "basis_offset": 374131,
+   "old": "防",
+   "historical_reading": "㫁",
+   "site_anchor_class": "anchored_direct",
+   "context_anchor_class": "anchored_direct"
+  },
+  {
+   "seq": 853,
+   "volume": 10,
+   "basis_offset": 386724,
+   "old": "着",
+   "historical_reading": "著",
+   "site_anchor_class": "anchored_direct",
+   "context_anchor_class": "anchored_direct"
+  },
+  {
+   "seq": 873,
+   "volume": 11,
+   "basis_offset": 395586,
+   "old": "防",
+   "historical_reading": "㕓",
+   "site_anchor_class": "anchored_direct",
+   "context_anchor_class": "anchored_direct"
+  },
+  {
+   "seq": 880,
+   "volume": 11,
+   "basis_offset": 398647,
+   "old": "玄",
+   "historical_reading": "𤣥",
+   "site_anchor_class": "anchored_direct",
+   "context_anchor_class": "anchored_direct"
+  },
+  {
+   "seq": 931,
+   "volume": 11,
+   "basis_offset": 423247,
+   "old": "着",
+   "historical_reading": "著",
+   "site_anchor_class": "anchored_direct",
+   "context_anchor_class": "anchored_direct"
+  },
+  {
+   "seq": 933,
+   "volume": 11,
+   "basis_offset": 423786,
+   "old": "防",
+   "historical_reading": "䕶",
+   "site_anchor_class": "anchored_direct",
+   "context_anchor_class": "anchored_direct"
+  }
+ ],
+ "permanent_gaps": [
+  {
+   "from": "谬□甚矣",
+   "proposed_reading": "谬误甚矣",
+   "status": "needs_base_text_evidence_do_not_apply"
+  },
+  {
+   "from": "王麟洲少□",
+   "proposed_reading": "王麟洲少卿",
+   "status": "needs_base_text_evidence_do_not_apply"
+  }
+ ],
+ "user_decisions": [
+  {
+   "id": "UD-1",
+   "needed_now": false
+  },
+  {
+   "id": "UD-2",
+   "needed_now": false
+  },
+  {
+   "id": "UD-3",
+   "needed_now": false
+  }
+ ],
+ "acceptance_recipe_ids": [
+  "A1",
+  "A2",
+  "A3",
+  "A4",
+  "A5",
+  "A6",
+  "A7"
+ ],
+ "adjudication_point_ids": [
+  "AP1",
+  "AP2",
+  "AP3",
+  "AP4",
+  "AP5",
+  "AP6"
+ ],
+ "pua_coverage": {
+  "cited": 32,
+  "uncited": 54,
+  "uncited_codepoints": [
+   "U+E10C",
+   "U+E37B",
+   "U+E3D0",
+   "U+E3E5",
+   "U+E5AB",
+   "U+E7B5",
+   "U+E7E9",
+   "U+E87D",
+   "U+E880",
+   "U+E9C7",
+   "U+E9FC",
+   "U+EA1F",
+   "U+EA23",
+   "U+EA3F",
+   "U+EA43",
+   "U+EA5B",
+   "U+EA62",
+   "U+EA7B",
+   "U+EA7C",
+   "U+EA7D",
+   "U+EA9F",
+   "U+EAA7",
+   "U+EAC0",
+   "U+EAE6",
+   "U+EAF6",
+   "U+EB8E",
+   "U+EBA5",
+   "U+EBB8",
+   "U+EBC1",
+   "U+EBDB",
+   "U+ECA6",
+   "U+ECC7",
+   "U+ECCA",
+   "U+ECD6",
+   "U+ECDE",
+   "U+ECE6",
+   "U+ECEC",
+   "U+ED94",
+   "U+ED9E",
+   "U+EDE6",
+   "U+EE60",
+   "U+EE6D",
+   "U+EEA1",
+   "U+EEA3",
+   "U+EEB8",
+   "U+EEE4",
+   "U+EEE5",
+   "U+EF17",
+   "U+EF33",
+   "U+EF3F",
+   "U+EF67",
+   "U+EF6A",
+   "U+EF6B",
+   "U+EF6C"
+  ]
+ },
+ "sealed_measurements": {
+  "method": "2026-10-29 机上只读内存复放（仓库脚本全语义：逐码位计数断言、语境锚串恰 1 次、文本锚串恰 1 次 + 目标预存校验），不落盘、不写任何密封资产",
+  "snapshot": {
+   "bytes": 1342659,
+   "chars": 461157,
+   "sha256": "00e2a7db8bb59b259b99938033bb1bb77947e04a15dafc111e62b59378010c86",
+   "pua_occurrences": 524,
+   "pua_codepoints": 86,
+   "fang": 1606,
+   "gap_square": 2
+  },
+  "stage1": {
+   "applied_occurrences": 524,
+   "chars": 461157,
+   "bytes": 1342685,
+   "sha256": "b4f196f2100347618d7907330b2db93bd536a5663f16249a6e0ff19e23c05daa",
+   "pua": 0,
+   "fang": 1606
+  },
+  "baseline_444": {
+   "chars": 461156,
+   "sha256": "db8618c9cdbc545b59149f7550644a440fdf8bba8ddbe0e23b615029f8a896d9",
+   "fang": 925,
+   "pua": 0,
+   "cross_check": "与重锚登记册钉值逐字一致（该值已由 E0273 证明与仓库脚本实际输出等值）"
+  },
+  "final_603": {
+   "chars": 461156,
+   "bytes": 1342682,
+   "sha256": "a89c0b5da16ea4e07dc85180c49135ed280875318059f923ff7154f2c217662f",
+   "pua": 0,
+   "fang": 769,
+   "gap_square": 2,
+   "fang_distinct_pm6_contexts": 769
+  },
+  "collation_counts": {
+   "snapshot_direct_match": {
+    "exactly_once": 537,
+    "zero": 66,
+    "multiple": 0
+   },
+   "fang_in_old": 897,
+   "fang_in_new": 60,
+   "fang_net": -837
+  },
+  "candidate_counts": {
+   "total": 993,
+   "historical_only_hold": 775,
+   "variant_preserve": 47,
+   "confirmed_applied": 159,
+   "reading_disagreement_hold": 12,
+   "confirmed_id_set_equals_ocr_445_603": true
+  },
+  "collation_registers_entries": {
+   "juan2_group": 160,
+   "juan5_group": 151,
+   "juan6_group": 72,
+   "total": 383
+  }
+ }
+}
