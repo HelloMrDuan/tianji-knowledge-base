@@ -1038,7 +1038,7 @@ SLICE_SPEC = None
 SLICE_DECISION = {
 'decision': 'no_fact_layer_slice',
 'rationale': [
-'与三刑情形对照：三刑切片（sanxing-branch-fact-v1）成立的前提'
+'与三刑情形对照：三刑组表事实切片成立的前提'
 '是「组表事实不存在、且渊海正官组等消费句在等事实层」。合化'
 '情形相反：(a) 关系事实已存在且已验证（P1/P2），(b) 条件要素'
 '事实是柱面转写（月支值、干支在场与计数、辰在场），任何未来'
