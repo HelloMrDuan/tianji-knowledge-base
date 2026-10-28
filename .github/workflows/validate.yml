@@ -375,6 +375,21 @@ jobs:
       # (offline acceptance only, NOT public CI: it reads the sealed
       # snapshot files).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj018h_sanming_zero_match.py' -v
+      # TJ-018 sanming 993 cross-book candidates re-anchoring public
+      # contracts: pure-data register mirrored against Golden, all
+      # 993 candidate sites anchored to the pinned snapshot (942
+      # direct / 51 within a single basis edit / 0 unanchorable),
+      # contexts 917 anchored (900 direct / 17 through whole edits)
+      # and 76 honestly registered unanchorable across edit
+      # boundaries, 159 confirmed_applied ids exactly ocr-445..603,
+      # re-anchoring only (no candidate applied, candidate status
+      # semantics unchanged, TJ-018.3 promotion not in scope),
+      # source census unchanged (101), sanming book still
+      # quarantine_only / canonical_ready=false. Snapshot-verbatim
+      # checks live in test_tj018_sanming_reanchor_sealed.py
+      # (offline acceptance only, NOT public CI: it reads the sealed
+      # snapshot files).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj018_sanming_reanchor.py' -v
       # TJ-017.1 seven-item priority collation closeout (scout
       # 018-B) public contracts: pure-data register mirrored
       # against Golden, collation-note form and confirmed anchor
