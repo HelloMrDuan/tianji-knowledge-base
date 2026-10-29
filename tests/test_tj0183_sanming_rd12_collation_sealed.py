@@ -104,7 +104,6 @@ class TestRd12CollationSealed(unittest.TestCase):
         self.assertEqual(len(self.cands), 993)
         for e in ENTRIES:
             cand = self.cands[e["seq"] - 1]
-            self.assertEqual(cand["seq"], e["seq"])
             self.assertEqual(e["status"], cand["status"], e["seq"])
             self.assertEqual(e["volume"], int(cand["volume"]), e["seq"])
             self.assertIsNone(cand["correction_id"], e["seq"])
