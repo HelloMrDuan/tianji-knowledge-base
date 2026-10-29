@@ -14,7 +14,9 @@
 断言逐字不变；第六分册（E0312）为卷七节外 73 处（RD-12
 两处只标记未处置），前五册 442 条处置另以哈希钉断言逐字
 不变；第七分册（E0314）为卷八节外 61 处（本册无 RD-12
-标记位点），前六册 515 条处置另以哈希钉断言逐字不变。
+标记位点），前六册 515 条处置另以哈希钉断言逐字不变；
+第八分册（E0316）为卷九 94 处（本册无 RD-12 标记位点），
+前七册 576 条处置另以哈希钉断言逐字不变。
 """
 from __future__ import annotations
 
@@ -139,6 +141,38 @@ KAN_MISSING7_S0 = frozenset({
     293451, 294747, 300970, 302090})
 assert len(KAN_MISSING7_S0) == 18
 assert KAN_MISSING7_S0 <= BATCH7_S0
+# 前七册（E0302+E0304+E0306+E0308+E0310+E0312+E0314）冻结钉：
+# 576 条处置的规范化 JSON 哈希（第八分册 94 条以 s0 位点
+# 集合区分，见 test_batch1234567_entries_verbatim）。
+BATCH1234567_DISP_SHA256 = ("28ef4dfe285d517f33d51a889a25a6b778fb6de9a8374ca8d7f16ff04a57dbbf")
+# 第八分册（E0316）范围：卷九 94 处 s0 位点（基线盘点中
+# 卷九 pending 全部；本册无 RD-12 标记位点）。
+BATCH8_S0 = frozenset({
+    306793, 308023, 308097, 308163, 308909, 309094, 309452,
+    310836, 311149, 311221, 311961, 313059, 313709, 314836,
+    314956, 314963, 315136, 315277, 316742, 316806, 318003,
+    318098, 320174, 321164, 321649, 322031, 322065, 322401,
+    322525, 322739, 322977, 322982, 323287, 323349, 324615,
+    324699, 324706, 324983, 325074, 325173, 325177, 325426,
+    325758, 326785, 326924, 327205, 327474, 327805, 328001,
+    329898, 330666, 331330, 332658, 332677, 332797, 332813,
+    333768, 333959, 334348, 334475, 334733, 334739, 334772,
+    335227, 335989, 336503, 337747, 338002, 338051, 339003,
+    340074, 341431, 342011, 342584, 342858, 343797, 343964,
+    344416, 344470, 344550, 345494, 345647, 345811, 345929,
+    346053, 346439, 347559, 347576, 348711, 348962, 349212,
+    350711, 351535, 352663})
+assert len(BATCH8_S0) == 94
+# 第八分册 kanripo 未定位的 32 处（多位于 bracket 名录
+# 条目内，候选只据 mikkokotila 一家、一律 deferred）。
+KAN_MISSING8_S0 = frozenset({
+    306793, 309094, 309452, 315277, 318098, 320174, 321649,
+    322401, 322977, 322982, 323349, 325074, 325426, 325758,
+    326785, 326924, 327205, 332658, 332813, 334348, 334733,
+    334739, 335989, 338002, 339003, 340074, 342584, 342858,
+    343797, 345811, 347559, 349212})
+assert len(KAN_MISSING8_S0) == 32
+assert KAN_MISSING8_S0 <= BATCH8_S0
 
 
 def _canon_sha(obj) -> str:
@@ -159,12 +193,12 @@ class TestFangDispositionPublic(unittest.TestCase):
         for node in ast.walk(tree):
             self.assertNotIsInstance(
                 node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef))
-        self.assertEqual(REG["ledger_event"], "E0314")
-        self.assertEqual(REG["ledger_events"], ["E0302", "E0304", "E0306", "E0308", "E0310", "E0312", "E0314"])
+        self.assertEqual(REG["ledger_event"], "E0316")
+        self.assertEqual(REG["ledger_events"], ["E0302", "E0304", "E0306", "E0308", "E0310", "E0312", "E0314", "E0316"])
         self.assertEqual(REG["ledger_row"], "TJ-018.2")
         self.assertEqual(
             REG["baseline_main_sha"],
-            "657f2f39d58ac500e7a09b2d063ebe6bdfc4f4fb")
+            "815e0015e80d1735a021770a4d5b7dfcc968387c")
         self.assertEqual(
             REG["register_id"],
             "sanming-residual-fang-disposition-register-v1")
@@ -186,7 +220,8 @@ class TestFangDispositionPublic(unittest.TestCase):
                         and d["s0_offset"] not in BATCH4_S0
                         and d["s0_offset"] not in BATCH5_S0
                         and d["s0_offset"] not in BATCH6_S0
-                        and d["s0_offset"] not in BATCH7_S0),
+                        and d["s0_offset"] not in BATCH7_S0
+                        and d["s0_offset"] not in BATCH8_S0),
                        key=lambda d: d["s0_offset"])
         self.assertEqual(len(prior), 129)
         self.assertEqual(_canon_sha(prior), BATCH12_DISP_SHA256)
@@ -199,7 +234,8 @@ class TestFangDispositionPublic(unittest.TestCase):
                         if d["s0_offset"] not in BATCH4_S0
                         and d["s0_offset"] not in BATCH5_S0
                         and d["s0_offset"] not in BATCH6_S0
-                        and d["s0_offset"] not in BATCH7_S0),
+                        and d["s0_offset"] not in BATCH7_S0
+                        and d["s0_offset"] not in BATCH8_S0),
                        key=lambda d: d["s0_offset"])
         self.assertEqual(len(prior), 247)
         self.assertEqual(_canon_sha(prior), BATCH123_DISP_SHA256)
@@ -211,7 +247,8 @@ class TestFangDispositionPublic(unittest.TestCase):
         prior = sorted((d for d in DISP
                         if d["s0_offset"] not in BATCH5_S0
                         and d["s0_offset"] not in BATCH6_S0
-                        and d["s0_offset"] not in BATCH7_S0),
+                        and d["s0_offset"] not in BATCH7_S0
+                        and d["s0_offset"] not in BATCH8_S0),
                        key=lambda d: d["s0_offset"])
         self.assertEqual(len(prior), 312)
         self.assertEqual(_canon_sha(prior), BATCH1234_DISP_SHA256)
@@ -222,7 +259,8 @@ class TestFangDispositionPublic(unittest.TestCase):
         # 以卷/分类计数锁定。
         prior = sorted((d for d in DISP
                         if d["s0_offset"] not in BATCH6_S0
-                        and d["s0_offset"] not in BATCH7_S0),
+                        and d["s0_offset"] not in BATCH7_S0
+                        and d["s0_offset"] not in BATCH8_S0),
                        key=lambda d: d["s0_offset"])
         self.assertEqual(len(prior), 442)
         self.assertEqual(_canon_sha(prior), BATCH12345_DISP_SHA256)
@@ -232,10 +270,21 @@ class TestFangDispositionPublic(unittest.TestCase):
         # BATCH7_S0（61 条）；本册范围另由 test_tranche7_scope
         # 以卷/分类计数锁定。
         prior = sorted((d for d in DISP
-                        if d["s0_offset"] not in BATCH7_S0),
+                        if d["s0_offset"] not in BATCH7_S0
+                        and d["s0_offset"] not in BATCH8_S0),
                        key=lambda d: d["s0_offset"])
         self.assertEqual(len(prior), 515)
         self.assertEqual(_canon_sha(prior), BATCH123456_DISP_SHA256)
+
+    def test_batch1234567_entries_verbatim(self):
+        # 前七册 576 条 = 全部处置减去第八分册冻结位点集
+        # BATCH8_S0（94 条）；本册范围另由 test_tranche8_scope
+        # 以卷/分类计数锁定。
+        prior = sorted((d for d in DISP
+                        if d["s0_offset"] not in BATCH8_S0),
+                       key=lambda d: d["s0_offset"])
+        self.assertEqual(len(prior), 576)
+        self.assertEqual(_canon_sha(prior), BATCH1234567_DISP_SHA256)
 
     def test_input_pins_cross_checked(self):
         inp = REG["inputs"]
@@ -304,10 +353,10 @@ class TestFangDispositionPublic(unittest.TestCase):
         self.assertEqual(s["disposed_total"],
                          s["disposed_confirmed"] + s["disposed_kept"]
                          + s["disposed_parallel"])
-        self.assertEqual(s["disposed_total"], 92)
+        self.assertEqual(s["disposed_total"], 115)
         self.assertEqual(s["disposed_total"] + s["deferred_no_witness"]
                          + s["pending_later_tranche"], 769)
-        self.assertEqual(s["cumulative_disposed_fraction"], "92/769")
+        self.assertEqual(s["cumulative_disposed_fraction"], "115/769")
         self.assertEqual(s["in_registered_sections"], 43)
         self.assertEqual(s["inventory_rows_with_collation_note"], 40)
         self.assertEqual(s["rd12_sites_in_inventory"], 8)
@@ -316,7 +365,7 @@ class TestFangDispositionPublic(unittest.TestCase):
     def test_dispositions_coverage(self):
         non_pending = {x["s0_offset"] for x in INV
                        if x["disposition"] != "pending_later_tranche"}
-        self.assertEqual(len(DISP), 576)
+        self.assertEqual(len(DISP), 670)
         self.assertEqual({d["s0_offset"] for d in DISP}, non_pending)
         by_s0 = {x["s0_offset"]: x for x in INV}
         for d in DISP:
@@ -451,11 +500,13 @@ class TestFangDispositionPublic(unittest.TestCase):
 
     def test_tranche4_witness_standard(self):
         by_s0 = {d["s0_offset"]: d for d in DISP}
-        # 全册平行源文本旁证累计 26 处（卷四 24 + 卷五 1
-        # + 卷六 1，第五分册 1 处见 test_tranche5_witness_standard）
+        # 全册平行源文本旁证累计 28 处（卷四 24 + 卷五 1
+        # + 卷六 1 + 卷九 2，第五分册 1 处见
+        # test_tranche5_witness_standard、卷九 2 处见
+        # test_tranche8_witness_standard）
         ps = [(d, e) for d in DISP for e in d["witness_evidence"]
               if e["attestation"] == "attested_parallel_source"]
-        self.assertEqual(len(ps), 26)
+        self.assertEqual(len(ps), 28)
         # 154979：四库读㸃、源文本读直，两读并录、归 deferred
         d = by_s0[154979]
         self.assertEqual(d["category"], "deferred_no_witness")
@@ -510,10 +561,11 @@ class TestFangDispositionPublic(unittest.TestCase):
 
     def test_tranche5_witness_standard(self):
         by_s0 = {d["s0_offset"]: d for d in DISP}
-        # 全册平行源文本旁证累计 26 处（卷四 24 + 卷五 1 + 卷六 1）
+        # 全册平行源文本旁证累计 28 处（卷四 24 + 卷五 1 + 卷六 1
+        # + 卷九 2）
         ps = [(d, e) for d in DISP for e in d["witness_evidence"]
               if e["attestation"] == "attested_parallel_source"]
-        self.assertEqual(len(ps), 26)
+        self.assertEqual(len(ps), 28)
         # 218248：四库读䨇、源文本同读双，旁证同读亦不计方、
         # 归 deferred，两读并录
         d = by_s0[218248]
@@ -582,11 +634,11 @@ class TestFangDispositionPublic(unittest.TestCase):
 
     def test_tranche6_witness_standard(self):
         by_s0 = {d["s0_offset"]: d for d in DISP}
-        # 全册平行源文本旁证累计仍 26 处（卷四 24 + 卷五 1
-        # + 卷六 1）；本册无新命中
+        # 全册平行源文本旁证累计 28 处（卷四 24 + 卷五 1
+        # + 卷六 1 + 卷九 2）；本册无新命中
         ps = [(d, e) for d in DISP for e in d["witness_evidence"]
               if e["attestation"] == "attested_parallel_source"]
-        self.assertEqual(len(ps), 26)
+        self.assertEqual(len(ps), 28)
         self.assertTrue(all(d["s0_offset"] not in BATCH6_S0
                             for d, e in ps))
         # 四库两家本册 73/73 全定位（无 kanripo 缺位）
@@ -654,11 +706,11 @@ class TestFangDispositionPublic(unittest.TestCase):
 
     def test_tranche7_witness_standard(self):
         by_s0 = {d["s0_offset"]: d for d in DISP}
-        # 全册平行源文本旁证累计仍 26 处（卷四 24 + 卷五 1
-        # + 卷六 1）；本册无新命中
+        # 全册平行源文本旁证累计 28 处（卷四 24 + 卷五 1
+        # + 卷六 1 + 卷九 2）；本册无新命中
         ps = [(d, e) for d in DISP for e in d["witness_evidence"]
               if e["attestation"] == "attested_parallel_source"]
-        self.assertEqual(len(ps), 26)
+        self.assertEqual(len(ps), 28)
         self.assertTrue(all(d["s0_offset"] not in BATCH7_S0
                             for d, e in ps))
         # mikkokotila 本册 61/61 全定位；kanripo 43 处定位、
@@ -717,6 +769,87 @@ class TestFangDispositionPublic(unittest.TestCase):
                            d["reading_word_simplified"])]
             self.assertTrue(counted, d["s0_offset"])
 
+    def test_tranche8_scope(self):
+        t8 = [d for d in DISP if d["s0_offset"] in BATCH8_S0]
+        self.assertEqual(len(t8), 94)
+        self.assertEqual(Counter(d["category"] for d in t8),
+                         Counter({"deferred_no_witness": 71,
+                                  "disposed_confirmed": 16,
+                                  "disposed_kept": 7}))
+        self.assertTrue(all(d["volume"] == "卷九" for d in t8))
+        # 卷九 pending 清零；本册无 RD-12 标记位点，后续
+        # 分册自卷十起
+        rest = [x for x in INV
+                if x["disposition"] == "pending_later_tranche"
+                and x["volume"] == "卷九"]
+        self.assertEqual(rest, [])
+        self.assertTrue(all(x["rd12_seq"] is None for x in INV
+                            if x["s0_offset"] in BATCH8_S0))
+
+    def test_tranche8_witness_standard(self):
+        by_s0 = {d["s0_offset"]: d for d in DISP}
+        # 全册平行源文本旁证累计 28 处（卷四 24 + 卷五 1
+        # + 卷六 1 + 本册 2）；本册 2 处为 324699/324706，
+        # youngzs《五行精纪》转录同读「凶」、不计现代方，
+        # 两处归 deferred
+        ps = [(d, e) for d in DISP for e in d["witness_evidence"]
+              if e["attestation"] == "attested_parallel_source"]
+        self.assertEqual(len(ps), 28)
+        ps8 = [(d, e) for d, e in ps
+               if d["s0_offset"] in BATCH8_S0]
+        self.assertEqual({d["s0_offset"] for d, e in ps8},
+                         {324699, 324706})
+        for d, e in ps8:
+            self.assertEqual(e["witness"], "youngzs/xuanxue")
+            self.assertEqual(e["site_reading"], "凶")
+            self.assertIn("五行精纪", e["locator"])
+            self.assertEqual(d["category"], "deferred_no_witness")
+            self.assertEqual(d["candidate_reading_glyph"], "㐫")
+        # mikkokotila 本册 94/94 全定位；kanripo 62 处定位、
+        # 32 处未定位（逐字登记 not_located，候选只据
+        # mikkokotila 一家、一律 deferred）；本册四库证据
+        # 无 variant_anchored
+        for o in BATCH8_S0:
+            ev = {e["witness"]: e
+                  for e in by_s0[o]["witness_evidence"]}
+            self.assertEqual(
+                ev["mikkokotila/Sanming-Tongshui"]["attestation"],
+                "attested", o)
+            for wname in ("kanripo/KR3g0042",
+                          "mikkokotila/Sanming-Tongshui"):
+                self.assertNotEqual(ev[wname].get("match_mode"),
+                                    "variant_anchored", (o, wname))
+            if o in KAN_MISSING8_S0:
+                self.assertEqual(ev["kanripo/KR3g0042"]["attestation"],
+                                 "not_located", o)
+                self.assertEqual(by_s0[o]["category"],
+                                 "deferred_no_witness", o)
+            else:
+                self.assertEqual(ev["kanripo/KR3g0042"]["attestation"],
+                                 "attested", o)
+                self.assertEqual(
+                    ev["kanripo/KR3g0042"]["site_reading"],
+                    ev["mikkokotila/Sanming-Tongshui"]["site_reading"],
+                    o)
+        # 本册无并列：BATCH8 内无 disposed_parallel
+        self.assertTrue(all(
+            d["category"] != "disposed_parallel"
+            for d in DISP if d["s0_offset"] in BATCH8_S0))
+        # 本册 16 处定案均为㐫读凶且有计方现代见证同读
+        # （attested 且定位于三命通会转录）
+        for d in (x for x in DISP if x["s0_offset"] in BATCH8_S0
+                  and x["category"] == "disposed_confirmed"):
+            self.assertEqual(d["reading_glyph"], "㐫")
+            self.assertEqual(d["reading_word"], "凶")
+            counted = [e for e in d["witness_evidence"]
+                       if e["witness"] in MODERN
+                       and e["attestation"] == "attested"
+                       and "三命通会" in e["locator"]
+                       and e["site_reading"] in (
+                           d["reading_word"],
+                           d["reading_word_simplified"])]
+            self.assertTrue(counted, d["s0_offset"])
+
     def test_witness_evidence_shape(self):
         for d in DISP:
             ev = d["witness_evidence"]
@@ -736,11 +869,15 @@ class TestFangDispositionPublic(unittest.TestCase):
                     # 名录次序致未定位，见
                     # test_tranche4_witness_standard、
                     # test_tranche5_witness_standard、
-                    # test_tranche6_witness_standard 与
-                    # test_tranche7_witness_standard）
+                    # test_tranche6_witness_standard、
+                    # test_tranche7_witness_standard）、第八
+                    # 分册 mikkokotila 94/94 全定位而 kanripo
+                    # 62/94（32 处未定位、多位于 bracket 名录
+                    # 条目，见 test_tranche8_witness_standard）
                     if ((d["s0_offset"] in (126098, 149947, 161345,
                                             175574)
-                         or d["s0_offset"] in KAN_MISSING7_S0)
+                         or d["s0_offset"] in KAN_MISSING7_S0
+                         or d["s0_offset"] in KAN_MISSING8_S0)
                             and e["witness"] == "kanripo/KR3g0042"):
                         self.assertEqual(e["attestation"],
                                          "not_located")
@@ -752,7 +889,7 @@ class TestFangDispositionPublic(unittest.TestCase):
 
     def test_confirmed_rule(self):
         conf = [d for d in DISP if d["category"] == "disposed_confirmed"]
-        self.assertEqual(len(conf), 39)
+        self.assertEqual(len(conf), 55)
         for d in conf:
             # 定案读法与校勘候选一致，且登记为未来应用候选
             self.assertTrue(d["reading_glyph"])
@@ -779,7 +916,7 @@ class TestFangDispositionPublic(unittest.TestCase):
 
     def test_kept_rule(self):
         kept = [d for d in DISP if d["category"] == "disposed_kept"]
-        self.assertEqual(len(kept), 49)
+        self.assertEqual(len(kept), 56)
         for d in kept:
             self.assertEqual(d["reading_glyph"], "防")
             self.assertEqual(d["reading_word"], "防")
@@ -836,7 +973,7 @@ class TestFangDispositionPublic(unittest.TestCase):
     def test_deferred_rule(self):
         deferred = [d for d in DISP
                     if d["category"] == "deferred_no_witness"]
-        self.assertEqual(len(deferred), 484)
+        self.assertEqual(len(deferred), 555)
         for d in deferred:
             # deferred 不得登记定案读法（校勘候选只在 candidate 栏）
             self.assertIsNone(d["reading_glyph"])
@@ -881,6 +1018,16 @@ class TestFangDispositionPublic(unittest.TestCase):
                     ev["youngzs/xuanxue"]["attestation"],
                     ("not_located", "attested_parallel_source"),
                     d["s0_offset"])
+            # 第八分册 deferred：缺口形态同第三至七分册
+            if d["s0_offset"] in BATCH8_S0:
+                ev = {e["witness"]: e for e in d["witness_evidence"]}
+                self.assertEqual(
+                    ev["NiuTrans/Classical-Modern"]["attestation"],
+                    "not_located", d["s0_offset"])
+                self.assertIn(
+                    ev["youngzs/xuanxue"]["attestation"],
+                    ("not_located", "attested_parallel_source"),
+                    d["s0_offset"])
             # 第七分册 deferred：缺口形态同第三至六分册
             if d["s0_offset"] in BATCH7_S0:
                 ev = {e["witness"]: e for e in d["witness_evidence"]}
@@ -917,13 +1064,13 @@ class TestFangDispositionPublic(unittest.TestCase):
 
     def test_tranche_plan(self):
         plan = REG["tranche_plan"]
-        self.assertEqual(plan["disposed_cumulative"], "92/769")
+        self.assertEqual(plan["disposed_cumulative"], "115/769")
         self.assertEqual(plan["deferred_in_registered_sections"], 29)
-        self.assertEqual(plan["deferred_total"], 484)
+        self.assertEqual(plan["deferred_total"], 555)
         self.assertEqual([t["event"] for t in plan["tranches_done"]],
-                         ["E0302", "E0304", "E0306", "E0308", "E0310", "E0312", "E0314"])
+                         ["E0302", "E0304", "E0306", "E0308", "E0310", "E0312", "E0314", "E0316"])
         self.assertEqual(sum(t["pending"]
-                             for t in plan["pending_by_volume"]), 193)
+                             for t in plan["pending_by_volume"]), 99)
         computed = Counter(x["volume"] for x in INV
                            if x["disposition"] == "pending_later_tranche")
         self.assertEqual({t["volume"]: t["pending"]

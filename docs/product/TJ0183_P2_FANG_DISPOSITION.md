@@ -1502,3 +1502,237 @@ confirmed 4、kept 1、deferred 7，见 §12.5 全卷累计表。）
   24，另卷五 RD-12 两处、卷七 RD-12 两处随 P3。本册同样
   只登记处置结论、零文本改动，`canonical_ready` 保持
   false。
+
+## 15. 第八分册（卷九节外 94 处，E0316）
+
+### 15.1 范围与方法补记
+
+- 范围：卷九 pending **94 处全部**逐处处置（一卷
+  一册）；本册范围内**无 RD-12 标记位点**。
+- 捕获式定位沿第二至第七分册，见证口径含 E0306 子集
+  澄清。四库谱系：mikkokotila **94/94 全定位**、kanripo
+  **62/94 定位**，定位处两家读法逐处完全一致；余 **32 处**
+  （306793/309094/309452/315277/318098/320174/321649/
+  322401/322977/322982/323349/325074/325426/325758/
+  326785/326924/327205/332658/332813/334348/334733/
+  334739/335989/338002/339003/340074/342584/342858/
+  343797/345811/347559/349212）kanripo 未定位，多位于
+  各日时断 bracket 名录条目内，标准捕获（侧翼全锚/脱字/
+  单侧锚/句段锚定）全数未定位；逐字如实登记
+  `not_located`、候选只据 mikkokotila 一家、32 处一律
+  deferred。
+- **本册未用变体锚定**：第六分册新设 `variant_anchored`
+  形态仅限紧邻一位字形异体致标准锚定全灭时兜底，本册
+  kanripo 缺位系名录条目定位缺位、非邻字异体，不扩用；
+  本册四库证据 match_mode 无 variant_anchored（测试在案）。
+- 现代谱系计方见证本册实定位 **20 处**：NiuTrans 20 处、
+  youngzs 三命子集 20 处，Banny-Gao 旁证 20 处。另
+  324699/324706 两处 youngzs 全语料仅于其《五行精纪》
+  转录（第十一卷释日时凶中凶格）命中「凶」、与四库同读，
+  登记 `attested_parallel_source` 旁证、不计现代方，两处
+  一律 deferred；平行源旁证累计 26 增至 **28 处**。
+- 本册**无计方谱系分歧**：已定位的计方现代见证与四库
+  读法逐处同读，并列累计仍 4 处。
+
+### 15.2 本册计数
+
+| 卷 | 盘点 | confirmed | kept | parallel | deferred | pending |
+|---|---|---|---|---|---|---|
+| 卷九 | 94 | 16 | 7 | 0 | 71 | 0 |
+| 本册合计（处置范围） | 94 | 16 | 7 | 0 | 71 | 0 |
+
+### 15.3 本册处置（94 处逐处）
+
+| S0 位点 | 卷 | 语境（S3 ±6） | 处置分类 | 结论与见证要点 |
+|---|---|---|---|---|
+| 306793 | 卷九 | 右都 丙戌鄕防丁未 辛卯】 | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㐫」（凶），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 308023 | 卷九 | 再遇流年冲运防死
+ 【乙巳 | confirmed 定案 | 应改读「凶」（四库字形 㐫），登记为未来应用候选；NiuTrans 同读「凶」（side_anchored）；youngzs 同读「凶」（side_anchored）；Banny-Gao（旁证） 同读「凶」（side_anchored） |
+| 308097 | 卷九 | 三辛卯 命通防原本即此公所 | deferred 待补见证 | 四库两家同读「㑹」（會），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 308163 | 卷九 | 制化亦贵否则防夭
+ 【癸卯 | confirmed 定案 | 应改读「凶」（四库字形 㐫），登记为未来应用候选；NiuTrans 同读「凶」（side_anchored）；youngzs 同读「凶」（side_anchored）；Banny-Gao（旁证） 同读「凶」（side_anchored） |
+| 308909 | 卷九 | 寅李廷机解元防元榜眼 戊寅 | deferred 待补见证 | 四库两家同读「㑹」（會），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 309094 | 卷九 | 壬午 丙戌年防死 甲子中书 | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㐫」（凶），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 309452 | 卷九 | 人 辛卯锦衣防死乙未 丁酉 | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㐫」（凶），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 310836 | 卷九 | 贵【一云】刑防
+ 【丁未举 | deferred 待补见证 | 四库两家同读「㐫」（凶），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 311149 | 卷九 | 俱吉【一云】防刑后旺
+ 【 | confirmed 定案 | 应改读「凶」（四库字形 㐫），登记为未来应用候选；NiuTrans 同读「凶」（side_anchored）；youngzs 同读「凶」（side_anchored）；Banny-Gao（旁证） 同读「凶」（side_anchored） |
+| 311221 | 卷九 | 【一云】贵中防失
+ 【甲子 | confirmed 定案 | 应改读「凶」（四库字形 㐫），登记为未来应用候选；NiuTrans 同读「凶」（side_anchored）；youngzs 同读「凶」（side_anchored）；Banny-Gao（旁证） 同读「凶」（side_anchored） |
+| 311961 | 卷九 | 
+ 日干是巳防申时 无破无 | deferred 待补见证 | 四库两家同读「㑹」（會），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 313059 | 卷九 | 未日甲戌时尅防遭刑寅午年月 | deferred 待补见证 | 四库两家同读「䧟」（陷），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 313709 | 卷九 | 戊午 丁亥 防年不免壬辰贫 | deferred 待补见证 | 四库两家同读「㐫」（凶），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 314836 | 卷九 | 㐫己丑月破败防
+ 【丙戌大 | deferred 待补见证 | 四库两家同读「㐫」（凶），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 314956 | 卷九 | 忌己巳月破祖防己亥月被刼盗 | confirmed 定案 | 应改读「凶」（四库字形 㐫），登记为未来应用候选；NiuTrans 同读「凶」（full_flank）；youngzs 同读「凶」（full_flank）；Banny-Gao（旁证） 同读「凶」（full_flank） |
+| 314963 | 卷九 | 己亥月被刼盗防癸丑月孤
+  | confirmed 定案 | 应改读「凶」（四库字形 㐫），登记为未来应用候选；NiuTrans 同读「凶」（side_anchored）；youngzs 同读「凶」（side_anchored）；Banny-Gao（旁证） 同读「凶」（side_anchored） |
+| 315136 | 卷九 | 刑己丑月破败防戊戌月恶死
+ | confirmed 定案 | 应改读「凶」（四库字形 㐫），登记为未来应用候选；NiuTrans 同读「凶」（side_anchored）；youngzs 同读「凶」（side_anchored）；Banny-Gao（旁证） 同读「凶」（side_anchored） |
+| 315277 | 卷九 | 跃到天津运至防成吉 时来不 | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㐫」（凶），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 316742 | 卷九 | 遇亡刼尅身则防【甲寅祭酒  | deferred 待补见证 | 四库两家同读「㐫」（凶），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 316806 | 卷九 | 丑 庚寅辛巳防死丙申】
+  | deferred 待补见证 | 四库两家同读「㐫」（凶），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 318003 | 卷九 | 片顽金为盗遭防宜矣】
+ 【 | deferred 待补见证 | 四库两家同读「㐫」（凶），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 318098 | 卷九 | 
+ 壬戌大富防死 己未刘廷 | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㐫」（凶），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 320174 | 卷九 | 己酉贫 庚子防丙子 庚辰】 | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㐫」（凶），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 321164 | 卷九 | 品贵夘刑子多防
+ 【庚戌孔 | deferred 待补见证 | 四库两家同读「㐫」（凶），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 321649 | 卷九 | 元 庚寅上郎防死癸夘 甲申 | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㐫」（凶），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 322031 | 卷九 | 一云】破祖刑防
+ 【壬申京 | deferred 待补见证 | 四库两家同读「㐫」（凶），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 322065 | 卷九 | 寅午戌吉申子防暴
+ 【癸巳 | confirmed 定案 | 应改读「凶」（四库字形 㐫），登记为未来应用候选；NiuTrans 同读「凶」（side_anchored）；youngzs 同读「凶」（side_anchored）；Banny-Gao（旁证） 同读「凶」（side_anchored） |
+| 322401 | 卷九 | 尚书 乙丑沈防阁老乙丑 庚 | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㴶」（㴶），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；位点字「㴶」为人名用字（沈㴶），四库谱系仅 mikkokotila 一家读「㴶」，其字本身即为候选词；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 322525 | 卷九 | 凡事后吉先多防入品显达之命 | deferred 待补见证 | 四库两家同读「㐫」（凶），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 322739 | 卷九 | 辰魏允中解元防魁 甲子常少 | deferred 待补见证 | 四库两家同读「㑹」（會），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 322977 | 卷九 |  庚辰 癸亥防死丙戌 防死 | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㐫」（凶），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 322982 | 卷九 | 亥防死丙戌 防死无子 乙酉 | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㐫」（凶），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 323287 | 卷九 | 【丙戌蔡茂春防元 丁亥廉使 | deferred 待补见证 | 四库两家同读「㑹」（會），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 323349 | 卷九 | 申太守 丙寅防死乙夘 辛丑 | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㐫」（凶），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 324615 | 卷九 | 癸丑月破败孤防
+ 【乙亥孙 | deferred 待补见证 | 四库两家同读「㐫」（凶），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 324699 | 卷九 | 忌辛夘月父母防死辛巳月大破 | deferred 待补见证 | 四库两家同读「㐫」（凶），现代独立见证未齐，不裁；NiuTrans 未载；youngzs《五行精纪》平行源文本同读「凶」（不计现代方）；Banny-Gao（旁证） 未载；四库两家同读「㐫」（凶）；youngzs 全语料仅于其《五行精纪》转录（第十一卷释日时凶中凶格）同读「凶」，属被引源文本、登记 attested_parallel_source 旁证、不计现代方（E0306 口径，旁证同读亦不计方）；计方现代见证（三命子集）未载 |
+| 324706 | 卷九 | 死辛巳月大破防壬申月尸不全 | deferred 待补见证 | 四库两家同读「㐫」（凶），现代独立见证未齐，不裁；NiuTrans 未载；youngzs《五行精纪》平行源文本同读「凶」（不计现代方）；Banny-Gao（旁证） 未载；四库两家同读「㐫」（凶）；youngzs 全语料仅于其《五行精纪》转录（第十一卷释日时凶中凶格）同读「凶」，属被引源文本、登记 attested_parallel_source 旁证、不计现代方（E0306 口径，旁证同读亦不计方）；计方现代见证（三命子集）未载 |
+| 324983 | 卷九 | 月孤㓙癸丑月防刑死
+ 【己 | confirmed 定案 | 应改读「凶」（四库字形 㐫），登记为未来应用候选；NiuTrans 同读「凶」（side_anchored）；youngzs 同读「凶」（side_anchored）；Banny-Gao（旁证） 同读「凶」（side_anchored） |
+| 325074 | 卷九 | 
+ 甲戌太守防死无子 壬寅 | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㓙」（凶），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 325173 | 卷九 | 辛巳月大败祖防庚戌月防死【 | deferred 待补见证 | 四库两家同读「㓙」（凶），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库两家同读「㓙」（凶之异体）；紧邻位点 325177 四库作「㐫」，异形同词；现代见证未载本处 |
+| 325177 | 卷九 | 败祖防庚戌月防死【甲午侍郎 | confirmed 定案 | 应改读「凶」（四库字形 㐫），登记为未来应用候选；NiuTrans 同读「凶」（side_anchored）；youngzs 同读「凶」（side_anchored）；Banny-Gao（旁证） 同读「凶」（side_anchored） |
+| 325426 | 卷九 | 丙戌贵 己丑防癸亥 辛巳  | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㐫」（凶），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 325758 | 卷九 | 申大参 甲申防死辛丑 元  | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㐫」（凶），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 326785 | 卷九 | 酉进士 辛酉防死 壬寅依覔 | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㐫」（凶），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 326924 | 卷九 | 戌极富 己亥防死丁酉 乙夘 | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㐫」（凶），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 327205 | 卷九 |  壬辰查布政防死 甲申御史 | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㐫」（凶），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 327474 | 卷九 | 未辰运戊午年防死甲戌 丙申 | deferred 待补见证 | 四库两家同读「㐫」（凶），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 327805 | 卷九 | 丑钱四窓御史防死 丁亥范应 | deferred 待补见证 | 四库两家同读「㐫」（凶），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 328001 | 卷九 | 
+ 四柱火虚防尅害 九流技 | kept 保留 | 保留「防」，四库两家同读防、无已定位异读；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 329898 | 卷九 | 】
+ 【壬辰防死乙巳】
+  | deferred 待补见证 | 四库两家同读「㓙」（凶），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 330666 | 卷九 | 太旺财官无气防夭
+ 【己巳 | confirmed 定案 | 应改读「凶」（四库字形 㐫），登记为未来应用候选；NiuTrans 同读「凶」（side_anchored）；youngzs 同读「凶」（side_anchored）；Banny-Gao（旁证） 同读「凶」（side_anchored） |
+| 331330 | 卷九 | 日丙申时发福防孤尅带疾通金 | kept 保留 | 保留「防」，四库两家同读防、无已定位异读；NiuTrans 同读「防」（side_anchored）；youngzs 同读「防」（side_anchored）；Banny-Gao（旁证） 同读「防」（side_anchored） |
+| 332658 | 卷九 | 寅举人 丁夘防死甲戊 丁丑 | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㐫」（凶），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 332677 | 卷九 | 辛酉日戊戌时防刑己酉丑辰戌 | deferred 待补见证 | 四库两家同读「㐫」（凶），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 332797 | 卷九 | 计较【一云】防后发【乙酉进 | confirmed 定案 | 应改读「凶」（四库字形 㐫），登记为未来应用候选；NiuTrans 同读「凶」（side_anchored）；youngzs 同读「凶」（side_anchored）；Banny-Gao（旁证） 同读「凶」（side_anchored） |
+| 332813 | 卷九 | 申举人 丁亥防死 戊辰御史 | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㐫」（凶），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 333768 | 卷九 | 术睦残花结果防风若无尅破与 | kept 保留 | 保留「防」，四库两家同读防、无已定位异读；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；「防风」为固定语汇（残花结果防风语），四库两家同读防、现代见证未载，依 §2 不对称标准保留 |
+| 333959 | 卷九 | 恶死辛亥月大防甲子月刑
+  | confirmed 定案 | 应改读「凶」（四库字形 㐫），登记为未来应用候选；NiuTrans 同读「凶」（side_anchored）；youngzs 同读「凶」（side_anchored）；Banny-Gao（旁证） 同读「凶」（side_anchored） |
+| 334348 | 卷九 | 工科 癸酉贫防戊申 壬戌  | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㐫」（凶），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 334475 | 卷九 | 袁封君子宗道防元宏道中道  | deferred 待补见证 | 四库两家同读「㑹」（會），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 334733 | 卷九 | 重沙滩局 飏防待顺风几畨防 | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㠶」（帆），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；位点字「㠶」为帆之异体（「飏㠶待顺风」语），四库谱系仅 mikkokotila 一家定位；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 334739 | 卷九 | 防待顺风几畨防险处 遇吉又 | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㐫」（凶），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 334772 | 卷九 | 
+ 运弱妻儿防尅害 运强财 | kept 保留 | 保留「防」，四库两家同读防、无已定位异读；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 335227 | 卷九 | 未李天宠都宪防死丁亥 丁酉 | deferred 待补见证 | 四库两家同读「㐫」（凶），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 335989 | 卷九 | 
+ 癸夘孙鑛防元南兵部 辛 | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㑹」（會），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 336503 | 卷九 | 酉 壬戌丁亥防死壬子】
+  | deferred 待补见证 | 四库两家同读「㓙」（凶），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 337747 | 卷九 | 贵【又云】尅防极贫
+ 【丙 | deferred 待补见证 | 四库两家同读「䧟」（陷），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 338002 | 卷九 | 丙寅富 戊申防死庚辰 癸亥 | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㓙」（凶），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 338051 | 卷九 | 【又云】自刑防恶死
+ 【乙 | deferred 待补见证 | 四库两家同读「㐫」（凶），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 339003 | 卷九 | 中莫见官见之防不足 刑害事 | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「防」（防），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 340074 | 卷九 | 庚午富 壬申防 戊戌廕郎壬 | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㐫」（凶），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 341431 | 卷九 | 【一云】破祖防
+ 【戊戌桂 | deferred 待补见证 | 四库两家同读「㐫」（凶），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 342011 | 卷九 | 戌透戊煞旺亦防【一云】名利 | deferred 待补见证 | 四库两家同读「㐫」（凶），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 342584 | 卷九 | 子进士 丁夘防壬戌 部侍郎 | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㓙」（凶），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 342858 | 卷九 | 戊申 三己夘防棍 甲戌夭  | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㐫」（凶），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 343797 | 卷九 | 癸亥贫 戊午防癸丑 戊寅  | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㐫」（凶），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 343964 | 卷九 | 刑乙丑月失土防死
+ 【癸亥 | confirmed 定案 | 应改读「凶」（四库字形 㐫），登记为未来应用候选；NiuTrans 同读「凶」（side_anchored）；youngzs 同读「凶」（side_anchored）；Banny-Gao（旁证） 同读「凶」（side_anchored） |
+| 344416 | 卷九 | 
+ 月通身旺防妻损 丑巳遥 | kept 保留 | 保留「防」，四库两家同读防、无已定位异读；NiuTrans 同读「防」（full_flank）；youngzs 同读「防」（full_flank）；Banny-Gao（旁证） 同读「防」（full_flank） |
+| 344470 | 卷九 | 身旺比肩之月防损妻财柱丑寅 | kept 保留 | 保留「防」，四库两家同读防、无已定位异读；NiuTrans 同读「防」（full_flank）；youngzs 同读「防」（full_flank）；Banny-Gao（旁证） 同读「防」（full_flank） |
+| 344550 | 卷九 | 贵特达火土运防金水运吉【一 | confirmed 定案 | 应改读「凶」（四库字形 㐫），登记为未来应用候选；NiuTrans 同读「凶」（side_anchored）；youngzs 同读「凶」（side_anchored）；Banny-Gao（旁证） 同读「凶」（side_anchored） |
+| 345494 | 卷九 | 贫下纯申破寅防
+ 【壬申髙 | deferred 待补见证 | 四库两家同读「㐫」（凶），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 345647 | 卷九 | 己未曾铣都宪防死 乙亥副使 | deferred 待补见证 | 四库两家同读「㐫」（凶），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 345811 | 卷九 |  甲辰司道屡防乙丑 乙亥】 | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㐫」（凶），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 345929 | 卷九 | 丑干透甲丁者防【一云】津梁 | deferred 待补见证 | 四库两家同读「㐫」（凶），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 346053 | 卷九 | 【又云】贵中防死
+ 【壬子 | deferred 待补见证 | 四库两家同读「㐫」（凶），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 346439 | 卷九 | 丑吉己丑丙子防
+ 【戊午林 | deferred 待补见证 | 四库两家同读「㐫」（凶），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 347559 | 卷九 |  乙亥武贵多防 丁夘侯辛夘 | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㐫」（凶），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 347576 | 卷九 | 戊申庚戌发财防死壬午】
+  | deferred 待补见证 | 四库两家同读「㐫」（凶），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 348711 | 卷九 | 【又云】破祖防败
+ 【丁亥 | deferred 待补见证 | 四库两家同读「㐫」（凶），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 348962 | 卷九 | 半是非成败难防六亲不睦暗刑 | kept 保留 | 保留「防」，四库两家同读防、无已定位异读；NiuTrans 同读「防」（full_flank）；youngzs 同读「防」（full_flank）；Banny-Gao（旁证） 同读「防」（full_flank） |
+| 349212 | 卷九 | 戌进士丁未 防终 壬子 庚 | deferred 待补见证 | 四库谱系仅 mikkokotila 一家读「㐫」（凶），kanripo 未定位（多位于 bracket 名录条目），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；四库谱系仅 mikkokotila 一家定位：kanripo 未定位（该位点多位于日时断 bracket 名录条目内），逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载 |
+| 350711 | 卷九 | 大贵丑月煞重防夭
+ 【庚子 | confirmed 定案 | 应改读「凶」（四库字形 㐫），登记为未来应用候选；NiuTrans 同读「凶」（side_anchored）；youngzs 同读「凶」（side_anchored）；Banny-Gao（旁证） 同读「凶」（side_anchored） |
+| 351535 | 卷九 | 亥】
+ 【田防船仓局 运拙 | deferred 待补见证 | 四库两家同读「䑕」（鼠），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载 |
+| 352663 | 卷九 | 
+
+ 三命通防巻九
+<子部 | deferred 待补见证 | 四库两家同读「㑹」（會），现代独立见证未齐，不裁；NiuTrans 未载；youngzs 未载；Banny-Gao（旁证） 未载；位点为卷九卷端书名「三命通會」之「會」字位点（S3 语境作「三命通防巻九」），四库两家读「㑹」；现代见证未载 |
+
+### 15.4 定案要点与 deferred 缺口形态
+
+- **confirmed 16**：308023/308163/311149/311221/314956/
+  314963/315136/322065/324983/325177/330666/332797/
+  333959/343964/344550/350711，四库作「㐫」而现代计方
+  两家同读「凶」——均四库 + 独立现代方同读、读法只登记
+  为未来 v2 应用候选，文本未动。
+- **kept 7**：328001（防尅害）、331330（防孤尅，现代三家
+  同读防）、333768（防风，固定语汇）、334772（防尅害）、
+  344416（防妻损，现代三家同读防）、344470（防损妻财，
+  现代三家同读防）、348962（难防，现代三家同读防）——
+  四库同读防且无已定位异读。
+- **parallel 0**：本册无谱系分歧并列。
+- **deferred 71**：字形分布：㐫 51、㑹 8（含 352663 卷端
+  书名「三命通會」位点 1）、㓙 6、䧟 2、㴶/㠶/䑕/防 各 1
+  （㴶为人名用字、其字本身即为候选词；㠶为帆之异体；
+  防 1 处为 339003，四库谱系仅 mikkokotila 一家读防、
+  kanripo 未定位，不以一家定保留）。其中 32 处四库谱系
+  亦仅 mikkokotila 一家定位（见 §15.1），324699/324706
+  两处另有《五行精纪》平行源旁证同读在案（不计方），余
+  37 处缺口为三命通会文本自身的第二独立见证方未齐。
+  升级路径同 §5：补齐现代全本转录（如 Wikisource
+  michiboo《三命通会》对应卷次）、kanripo 对应原叶定位
+  或四库影印原叶后逐处升级。
+
+### 15.5 累计进度与剩余分册计划（更新）
+
+- 累计处置进度：**disposed 115/769**（confirmed 55、kept
+  56、parallel 4）；deferred 555（节内 29 + 第二分册
+  67 + 第三分册 112 + 第四分册 50 + 第五分册 118
+  + 第六分册 61 + 第七分册 47 + 本册 71）；pending 99
+  （其中 RD-12 位点 7 处只标记、处置随 P3）。
+- 全卷累计：
+
+| 卷 | 盘点 | confirmed | kept | parallel | deferred | pending |
+|---|---|---|---|---|---|---|
+| 卷首 | 1 | 0 | 0 | 1 | 0 | 0 |
+| 卷一 | 10 | 0 | 8 | 0 | 2 | 0 |
+| 卷二 | 34 | 2 | 2 | 1 | 29 | 0 |
+| 卷三 | 50 | 1 | 6 | 0 | 43 | 0 |
+| 卷四 | 118 | 2 | 4 | 0 | 112 | 0 |
+| 卷五 | 89 | 14 | 8 | 0 | 65 | 2 |
+| 卷六 | 142 | 11 | 6 | 0 | 125 | 0 |
+| 卷七 | 75 | 4 | 8 | 0 | 61 | 2 |
+| 卷八 | 61 | 5 | 7 | 2 | 47 | 0 |
+| 卷九 | 94 | 16 | 7 | 0 | 71 | 0 |
+| 卷十 | 26 | 0 | 0 | 0 | 0 | 26 |
+| 卷十一 | 45 | 0 | 0 | 0 | 0 | 45 |
+| 卷十二 | 24 | 0 | 0 | 0 | 0 | 24 |
+| 合计 | 769 | 55 | 56 | 4 | 555 | 99 |
+
+- 剩余分册（按卷序）：卷十 26、卷十一 45、卷十二 24，另
+  卷五 RD-12 两处、卷七 RD-12 两处、卷十 RD-12 一处、
+  卷十一 RD-12 两处随 P3。本册同样只登记处置结论、零
+  文本改动，`canonical_ready` 保持 false。
