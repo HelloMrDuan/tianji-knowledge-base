@@ -1,0 +1,1100 @@
+{
+ "meta": {
+  "register_id": "sanming-pua-full-verification-register-v1",
+  "task": "TJ-018.2",
+  "kind": "pua_full_verification_register",
+  "purpose": "TJ-018.3 正式应用批 phase 0：三命通会 PUA 86/86 逐码位见证复核结论的 Golden 镜像（公开结构钉值；密封侧计数对账在密封专项）"
+ },
+ "headline": {
+  "gate": "设计 §2.6 全核门：86/86 码位均有逐码位登记结论",
+  "gate_passed": true,
+  "codepoints_total": 86,
+  "verified": 82,
+  "disputed": 4,
+  "unverifiable": 0,
+  "uniform_mappings": 85,
+  "uniform_loci": 519,
+  "contextual_codepoint": "U+E7E8",
+  "contextual_rules": 4,
+  "contextual_loci": 5,
+  "total_loci": 524,
+  "counts_reconciled": "85 条 uniform 登记计数与快照实测逐一相等（合计 519），加语境映射 5 处，全书 PUA 524 处与 PUA 审计文件 totals（524 处 / 86 码位）一致",
+  "applied_in_this_batch": false,
+  "snapshot_modified": false,
+  "existing_registers_modified": false,
+  "canonical_ready": false
+ },
+ "witness_parties": [
+  "siku_lineage",
+  "niutrans",
+  "youngzs",
+  "banny_corroboration",
+  "registered_anchor"
+ ],
+ "codepoints": [
+  {
+   "codepoint": "U+E10C",
+   "replacement": "𣷉",
+   "registered_count": 5,
+   "snapshot_count": 5,
+   "attested_loci": 5,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+E37B",
+   "replacement": "𤥣",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+E3D0",
+   "replacement": "兔",
+   "registered_count": 10,
+   "snapshot_count": 10,
+   "attested_loci": 10,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage",
+    "youngzs"
+   ]
+  },
+  {
+   "codepoint": "U+E3E5",
+   "replacement": "坷",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 0,
+   "verdict": "disputed",
+   "attesting_parties": []
+  },
+  {
+   "codepoint": "U+E408",
+   "replacement": "嗽",
+   "registered_count": 6,
+   "snapshot_count": 6,
+   "attested_loci": 5,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage",
+    "youngzs"
+   ]
+  },
+  {
+   "codepoint": "U+E4BF",
+   "replacement": "琐",
+   "registered_count": 6,
+   "snapshot_count": 6,
+   "attested_loci": 6,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+E59C",
+   "replacement": "燥",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage",
+    "youngzs"
+   ]
+  },
+  {
+   "codepoint": "U+E5AB",
+   "replacement": "𨽻",
+   "registered_count": 2,
+   "snapshot_count": 2,
+   "attested_loci": 2,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+E5E0",
+   "replacement": "𦕈",
+   "registered_count": 2,
+   "snapshot_count": 2,
+   "attested_loci": 2,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+E645",
+   "replacement": "紧",
+   "registered_count": 55,
+   "snapshot_count": 55,
+   "attested_loci": 54,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage",
+    "youngzs"
+   ]
+  },
+  {
+   "codepoint": "U+E730",
+   "replacement": "龟",
+   "registered_count": 17,
+   "snapshot_count": 17,
+   "attested_loci": 17,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+E749",
+   "replacement": "渺",
+   "registered_count": 3,
+   "snapshot_count": 3,
+   "attested_loci": 3,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage",
+    "youngzs"
+   ]
+  },
+  {
+   "codepoint": "U+E7B5",
+   "replacement": "候",
+   "registered_count": 21,
+   "snapshot_count": 21,
+   "attested_loci": 21,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage",
+    "youngzs"
+   ]
+  },
+  {
+   "codepoint": "U+E7E9",
+   "replacement": "崙",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "registered_anchor"
+   ]
+  },
+  {
+   "codepoint": "U+E87D",
+   "replacement": "曄",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 0,
+   "verdict": "disputed",
+   "attesting_parties": []
+  },
+  {
+   "codepoint": "U+E880",
+   "replacement": "派",
+   "registered_count": 5,
+   "snapshot_count": 5,
+   "attested_loci": 5,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage",
+    "youngzs"
+   ]
+  },
+  {
+   "codepoint": "U+E898",
+   "replacement": "瓜",
+   "registered_count": 2,
+   "snapshot_count": 2,
+   "attested_loci": 2,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+E8AA",
+   "replacement": "恶",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+E9C7",
+   "replacement": "真",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 0,
+   "verdict": "disputed",
+   "attesting_parties": []
+  },
+  {
+   "codepoint": "U+E9FC",
+   "replacement": "𡎊",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EA1F",
+   "replacement": "弘",
+   "registered_count": 6,
+   "snapshot_count": 6,
+   "attested_loci": 6,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EA20",
+   "replacement": "玄",
+   "registered_count": 79,
+   "snapshot_count": 79,
+   "attested_loci": 77,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage",
+    "youngzs"
+   ]
+  },
+  {
+   "codepoint": "U+EA23",
+   "replacement": "胤",
+   "registered_count": 3,
+   "snapshot_count": 3,
+   "attested_loci": 3,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EA26",
+   "replacement": "兮",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EA3F",
+   "replacement": "充",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EA40",
+   "replacement": "𠒋",
+   "registered_count": 5,
+   "snapshot_count": 5,
+   "attested_loci": 5,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EA43",
+   "replacement": "台",
+   "registered_count": 9,
+   "snapshot_count": 9,
+   "attested_loci": 9,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage",
+    "youngzs"
+   ]
+  },
+  {
+   "codepoint": "U+EA4B",
+   "replacement": "死",
+   "registered_count": 10,
+   "snapshot_count": 10,
+   "attested_loci": 10,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EA53",
+   "replacement": "含",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EA5B",
+   "replacement": "传",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EA62",
+   "replacement": "备",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans"
+   ]
+  },
+  {
+   "codepoint": "U+EA7B",
+   "replacement": "冢",
+   "registered_count": 4,
+   "snapshot_count": 4,
+   "attested_loci": 4,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EA7C",
+   "replacement": "寵",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EA7D",
+   "replacement": "凌",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EA85",
+   "replacement": "刑",
+   "registered_count": 4,
+   "snapshot_count": 4,
+   "attested_loci": 4,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EA9F",
+   "replacement": "𭅺",
+   "registered_count": 2,
+   "snapshot_count": 2,
+   "attested_loci": 2,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EAA7",
+   "replacement": "段",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EAC0",
+   "replacement": "嗤",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "siku_lineage",
+    "youngzs"
+   ]
+  },
+  {
+   "codepoint": "U+EAE6",
+   "replacement": "涂",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage",
+    "youngzs"
+   ]
+  },
+  {
+   "codepoint": "U+EAF6",
+   "replacement": "压",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EB07",
+   "replacement": "参",
+   "registered_count": 76,
+   "snapshot_count": 76,
+   "attested_loci": 74,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage",
+    "youngzs"
+   ]
+  },
+  {
+   "codepoint": "U+EB11",
+   "replacement": "奋",
+   "registered_count": 4,
+   "snapshot_count": 4,
+   "attested_loci": 4,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage",
+    "youngzs"
+   ]
+  },
+  {
+   "codepoint": "U+EB64",
+   "replacement": "带",
+   "registered_count": 14,
+   "snapshot_count": 14,
+   "attested_loci": 14,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage",
+    "youngzs"
+   ]
+  },
+  {
+   "codepoint": "U+EB8E",
+   "replacement": "弦",
+   "registered_count": 3,
+   "snapshot_count": 3,
+   "attested_loci": 3,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EBA5",
+   "replacement": "忘",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EBB7",
+   "replacement": "惨",
+   "registered_count": 6,
+   "snapshot_count": 6,
+   "attested_loci": 5,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage",
+    "youngzs"
+   ]
+  },
+  {
+   "codepoint": "U+EBB8",
+   "replacement": "博",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EBC1",
+   "replacement": "𢡟",
+   "registered_count": 2,
+   "snapshot_count": 2,
+   "attested_loci": 2,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EBC2",
+   "replacement": "惨",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage",
+    "youngzs"
+   ]
+  },
+  {
+   "codepoint": "U+EBDB",
+   "replacement": "𢫎",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EBDE",
+   "replacement": "哲",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EC93",
+   "replacement": "淫",
+   "registered_count": 22,
+   "snapshot_count": 22,
+   "attested_loci": 22,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage",
+    "youngzs"
+   ]
+  },
+  {
+   "codepoint": "U+ECA6",
+   "replacement": "激",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage",
+    "youngzs"
+   ]
+  },
+  {
+   "codepoint": "U+ECC7",
+   "replacement": "𤇍",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+ECCA",
+   "replacement": "烽",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage",
+    "youngzs"
+   ]
+  },
+  {
+   "codepoint": "U+ECD6",
+   "replacement": "熬",
+   "registered_count": 2,
+   "snapshot_count": 2,
+   "attested_loci": 2,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+ECDE",
+   "replacement": "点",
+   "registered_count": 5,
+   "snapshot_count": 5,
+   "attested_loci": 5,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage",
+    "youngzs"
+   ]
+  },
+  {
+   "codepoint": "U+ECE6",
+   "replacement": "焰",
+   "registered_count": 3,
+   "snapshot_count": 3,
+   "attested_loci": 3,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+ECEC",
+   "replacement": "管",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+ED3F",
+   "replacement": "眩",
+   "registered_count": 5,
+   "snapshot_count": 5,
+   "attested_loci": 5,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage",
+    "youngzs"
+   ]
+  },
+  {
+   "codepoint": "U+ED51",
+   "replacement": "瞽",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+ED92",
+   "replacement": "算",
+   "registered_count": 3,
+   "snapshot_count": 3,
+   "attested_loci": 3,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+ED94",
+   "replacement": "算",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+ED9E",
+   "replacement": "簪",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EDE6",
+   "replacement": "苑",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EE25",
+   "replacement": "亏",
+   "registered_count": 25,
+   "snapshot_count": 25,
+   "attested_loci": 25,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EE26",
+   "replacement": "亏",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage",
+    "youngzs"
+   ]
+  },
+  {
+   "codepoint": "U+EE60",
+   "replacement": "蒙",
+   "registered_count": 4,
+   "snapshot_count": 4,
+   "attested_loci": 4,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EE6D",
+   "replacement": "博",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "niutrans"
+   ]
+  },
+  {
+   "codepoint": "U+EE9C",
+   "replacement": "逄",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EEA1",
+   "replacement": "过",
+   "registered_count": 3,
+   "snapshot_count": 3,
+   "attested_loci": 3,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage",
+    "youngzs"
+   ]
+  },
+  {
+   "codepoint": "U+EEA3",
+   "replacement": "递",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage",
+    "youngzs"
+   ]
+  },
+  {
+   "codepoint": "U+EEA6",
+   "replacement": "蓬",
+   "registered_count": 2,
+   "snapshot_count": 2,
+   "attested_loci": 2,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EEB8",
+   "replacement": "𫑗",
+   "registered_count": 3,
+   "snapshot_count": 3,
+   "attested_loci": 3,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EED7",
+   "replacement": "开",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EEE4",
+   "replacement": "徒",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "disputed",
+   "attesting_parties": [
+    "niutrans",
+    "youngzs"
+   ]
+  },
+  {
+   "codepoint": "U+EEE5",
+   "replacement": "隐",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EF17",
+   "replacement": "鬓",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EF33",
+   "replacement": "类",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage",
+    "youngzs"
+   ]
+  },
+  {
+   "codepoint": "U+EF3F",
+   "replacement": "抟",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EF67",
+   "replacement": "参",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EF6A",
+   "replacement": "惕",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage",
+    "youngzs"
+   ]
+  },
+  {
+   "codepoint": "U+EF6B",
+   "replacement": "疡",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EF6C",
+   "replacement": "场",
+   "registered_count": 1,
+   "snapshot_count": 1,
+   "attested_loci": 1,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage"
+   ]
+  },
+  {
+   "codepoint": "U+EF6E",
+   "replacement": "扬",
+   "registered_count": 35,
+   "snapshot_count": 35,
+   "attested_loci": 35,
+   "verdict": "verified",
+   "attesting_parties": [
+    "banny_corroboration",
+    "niutrans",
+    "siku_lineage",
+    "youngzs"
+   ]
+  }
+ ],
+ "contextual": [
+  {
+   "rule_id": "ctx-1",
+   "new": "韩𭹱命书",
+   "loci_count": 1,
+   "verdict": "verified"
+  },
+  {
+   "rule_id": "ctx-2",
+   "new": "又恐天年多摩罗",
+   "loci_count": 2,
+   "verdict": "verified"
+  },
+  {
+   "rule_id": "ctx-3",
+   "new": "为人惯巧虚诈",
+   "loci_count": 1,
+   "verdict": "verified"
+  },
+  {
+   "rule_id": "ctx-4",
+   "new": "临老蛉仃者裔苦根甘",
+   "loci_count": 1,
+   "verdict": "verified"
+  }
+ ],
+ "disputed_codepoints": [
+  "U+E3E5",
+  "U+E87D",
+  "U+E9C7",
+  "U+EEE4"
+ ]
+}

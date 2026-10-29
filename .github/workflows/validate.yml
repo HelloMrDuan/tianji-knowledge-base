@@ -529,6 +529,24 @@ jobs:
       # (offline acceptance only, NOT public CI: it reads the
       # sealed snapshot files).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0183_sanming_formal_application.py' -v
+      # TJ-018.3 phase 0: Sanming PUA full verification (E0296):
+      # pure-data register mirrored against Golden, per-codepoint
+      # verdict fields complete with counts reconciled in aggregate
+      # (519 uniform + 5 contextual = 524), verdict distribution
+      # pinned (verified 82 / disputed 4 / unverifiable 0), disputed
+      # codepoints carrying parallel rival readings with registered
+      # replacements unchanged, the design register's 54
+      # zero-citation codepoints all verdicted, witness parties and
+      # lineage independence pinned (siku lineage counts once,
+      # banny corroboration only, never sole support), application
+      # stage impact registered as interface only, source census
+      # unchanged (101). Sealed-side per-codepoint count
+      # reconciliation against the snapshot and the collation/audit
+      # JSON files lives in
+      # test_tj0183_sanming_pua_verification_sealed.py
+      # (offline acceptance only, NOT public CI: it reads the sealed
+      # snapshot files).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0183_sanming_pua_verification.py' -v
       # TJ-017.1 seven-item priority collation closeout (scout
       # 018-B) public contracts: pure-data register mirrored
       # against Golden, collation-note form and confirmed anchor
