@@ -3,8 +3,8 @@
 核验链：六件密封文件哈希钉逐字未动 → 两阶段带 origin 追踪的
 复放重建 S1/S2/S3 并验四钉 → S3 残余「防」位点全量与登记册
 盘点逐处对平（坐标、origin、±6 语境及哈希）→ 候选位点与
-RD-12 标记对应用报告 dispositions 对账 → 312 条处置的校勘记
-交叉核对（带校勘记者 40 条；第二至第四分册 269 条无校勘记，
+RD-12 标记对应用报告 dispositions 对账 → 442 条处置的校勘记
+交叉核对（带校勘记者 40 条；第二至第五分册 399 条无校勘记，
 断言其位点不在校勘记集合内）。本专项只读密封资产，不改任何
 文本与登记。
 """
@@ -192,7 +192,7 @@ class TestFangDispositionSealed(unittest.TestCase):
     def test_dispositions_verbatim_and_notes(self):
         notes = _collation_notes()
         self.assertEqual(len(notes), 106)
-        self.assertEqual(len(DISP), 312)
+        self.assertEqual(len(DISP), 442)
         fang_notes_in_sections = {x["collation_note_id"] for x in INV
                                   if x["collation_note_id"]}
         self.assertEqual(len(fang_notes_in_sections), 40)
