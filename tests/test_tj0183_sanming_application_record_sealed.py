@@ -162,9 +162,21 @@ class ApplicationRecordSealedTest(unittest.TestCase):
     def test_assembled_snapshot_triple(self):
         files = [p for p in DATA.rglob("*") if p.is_file()]
         self.assertEqual(len(files), 237)
-        self.assertEqual(
-            sum(p.stat().st_size for p in files),
-            ar.PRODUCTS["snapshot_manifest_after"]["total_bytes"])
+        # 组装树的 data/product/knowledge_coverage.json 与
+        # knowledge_dependencies.json 由 build_product_coverage 在
+        # 组装后原地重生，字节与快照原件不同，全树字节求和不等于
+        # 快照 manifest 总字节；三元组的文件数在此钉住，总字节与
+        # 哈希由产物登记与报告登记交叉核对（见下）。
+        dz_names = sorted(p.name for p in DZ.iterdir() if p.is_file())
+        self.assertEqual(dz_names, sorted([
+            "ditiansui_chanwei.txt", "qiongtong_baojian.txt",
+            "sanming_formal_application_report_v1.json",
+            "sanming_ocr_candidates.json", "sanming_pua_audit.json",
+            "sanming_pua_collation.json", "sanming_text_collation.json",
+            "sanming_tonghui.txt", "sanming_tonghui_applied_v1.txt",
+            "shenfeng_tongkao.txt", "xieji_bianfang.txt",
+            "yuanhai_ziping.txt", "zhougong_dream_candidates.json",
+            "zhougong_reviewed_excerpts.txt", "zhouyi_combined.txt"]))
         reg = self.report["product_registration"]
         self.assertEqual(reg["applied_text"]["sha256"], PINS["S3"])
         self.assertEqual(
