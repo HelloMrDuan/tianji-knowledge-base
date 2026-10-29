@@ -55,6 +55,15 @@ READING_DISAGREEMENT_SPEC，默认处置为并列登记、不需用户裁定；
 红线：本批零应用、零快照改动、零密封资产改动、零判定代码；
 不改变既有校勘记（累计 383 条）、零匹配归因册、重锚册与候选
 状态语义；TJ-018.2 保持阻塞、TJ-018.3 保持待做。
+
+后记（E0327，UD 裁定登记批追加，设计登记原文不改）：P4 决策包
+（E0326）正式呈请后，用户于 2026-10-30 裁定 UD-1、UD-2、UD-3
+三项全采设计建议 A。裁定逐项登记于 PROMOTION_INTERFACE 的
+user_decisions 各条新增 adjudication 字段（question、options、
+needed_now 与 design_recommendation 逐字保留）；headline_verdicts
+的 user_decisions_pending=3 为本设计批（E0294）当时状态的记录，
+不回改。本后记与 adjudication 字段是本模块在 E0294 之后唯一的
+增补，既有证据数据（计数、哈希、位点、读法）逐字不变。
 """
 
 FORMAL_APPLICATION_DESIGN_REGISTER = {'id': 'sanming-formal-application-design-register-v1',
@@ -776,20 +785,47 @@ PROMOTION_INTERFACE = {'closed_by_application_batch': ['两阶段正式应用与
                                  'C 互校批逐条报告后逐条裁定'],
                      'needed_now': False,
                      'design_recommendation': 'A 为默认；若需择一则走 C，不走 '
-                                              'B（一揽子择一与逐条证据口径冲突）'},
+                                              'B（一揽子择一与逐条证据口径冲突）',
+                     'adjudication': {'status': 'decided',
+                                      'date': '2026-10-30',
+                                      'decided_by': '用户',
+                                      'option_chosen': 'A',
+                                      'basis': 'P4 决策包（E0326）UD-1 呈请节正式呈请后裁定，全采设计建议',
+                                      'registration_event': 'E0327',
+                                      'effect': 'RD-12 十二条维持并列登记、保留快照字，不选单一读法；不执行 '
+                                                'B（全批采四库谱系读法）、不执行 C（互校批逐条报告后逐条裁定）。P3 互校登记册'
+                                                '（sanming-reading-disagreement-collation-register-v1）12 条 outcome 的并列待裁定形态就此定格为'
+                                                '「已裁定：并列保留」：该登记册条目作为互校批当时的记录逐字保留，其终局效力由本裁定赋予，不回改其字面。无任何改字、无 '
+                                                'v2 应用批、无执行批；未来出现判定标准 (a) 第三谱系见证或 (b) 决定性内证时，仍得以订正事件逐条重开'}},
                     {'id': 'UD-2',
                      'question': '缺口 2 处的提议读法（谬误甚矣、王麟洲少卿）是否采纳补字？',
                      'options': ['A 保留 □ 为永久缺口（默认，本设计的处置即此）',
                                  'B 以现有非底本证据采纳提议读法'],
                      'needed_now': False,
                      'design_recommendation': 'A；B 的证据等级（现代转述 + '
-                                              '人物履历旁证）不足以改底本'},
+                                              '人物履历旁证）不足以改底本',
+                     'adjudication': {'status': 'decided',
+                                      'date': '2026-10-30',
+                                      'decided_by': '用户',
+                                      'option_chosen': 'A',
+                                      'basis': 'P4 决策包（E0326）UD-2 呈请节正式呈请后裁定，全采设计建议',
+                                      'registration_event': 'E0327',
+                                      'effect': '缺口 2 处（谬□甚矣、王麟洲少□；S3 位点 42148 与 318327）保留 □ 为永久缺口，提议读法（谬误甚矣、王麟洲少卿）不补入任何文本，维持审定点 '
+                                                'AP4 与 PERMANENT_GAPS 登记原样；不执行 B（以现有非底本证据采纳提议读法）；无执行批、无文本变更。出现底本级新证据时按 PERMANENT_GAPS '
+                                                '的 reopening_condition 以订正事件重开'}},
                     {'id': 'UD-3',
                      'question': 'TJ-018.3 决策包阶段，整书晋级采用何种姿态？',
                      'options': ['A 只走逐节晋级、整书 canonical_ready 保持 false（本设计立场）',
                                  'B P1–P4 全完成后整书翻 true'],
                      'needed_now': False,
-                     'design_recommendation': 'A；此项在 P4 决策包时再正式呈请'}]}
+                     'design_recommendation': 'A；此项在 P4 决策包时再正式呈请',
+                     'adjudication': {'status': 'decided',
+                                      'date': '2026-10-30',
+                                      'decided_by': '用户',
+                                      'option_chosen': 'A',
+                                      'basis': 'P4 决策包（E0326）UD-3 呈请节正式呈请后裁定，全采设计立场',
+                                      'registration_event': 'E0327',
+                                      'effect': '整书只走逐节晋级，canonical_ready 保持 false；不执行 B（P1–P4 全完成后整书翻 true）。Term/Rule/Evidence/Golden 逐节建立为后续独立批次，本裁定不启动任何逐节晋级、不建立任何规则面；审定点 AP6 的逐节路径设计立场经用户裁定确认'}}]}
 
 APPLICATION_ACCEPTANCE_RECIPE = [{'id': 'A1',
   'check': '冻结校验',
