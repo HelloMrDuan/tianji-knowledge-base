@@ -1,10 +1,10 @@
 {
  "register_id": "sanming-residual-fang-disposition-register-v1",
- "task": "TJ-018.3 晋级 P2——残余「防」769 处逐处处置系列（首批 E0302：已登记节分册；第二分册 E0304：卷首/卷一/卷二/卷三节外分册；第三分册 E0306：卷四节外分册；第四分册 E0308：卷五节外分册；第五分册 E0310：卷六节外分册；第六分册 E0312：卷七节外分册）",
- "ledger_event": "E0312",
+ "task": "TJ-018.3 晋级 P2——残余「防」769 处逐处处置系列（首批 E0302：已登记节分册；第二分册 E0304：卷首/卷一/卷二/卷三节外分册；第三分册 E0306：卷四节外分册；第四分册 E0308：卷五节外分册；第五分册 E0310：卷六节外分册；第六分册 E0312：卷七节外分册；第七分册 E0314：卷八节外分册）",
+ "ledger_event": "E0314",
  "ledger_row": "TJ-018.2",
- "baseline_main_sha": "fecfe8ee1d08fed0ef872c1f1209ffb3bad6f923",
- "purpose": "按正式应用批设计审定（E0294）§4.1/§5.2 P2 路线，对 S3 应用文本残余「防」769 处先全量盘点，再对位于已登记 review_scope 节内的 43 处逐处见证互校并登记处置结论；本批只登记、不改 S3 应用文本、不改快照与任何既有登记；confirmed 读法只登记为未来应用版本（v2）的裁定候选，非经新应用批不得进入文本第二分册（E0304）续处卷首/卷一/卷二/卷三节外 86 处：定位改为捕获式（侧翼锚定后捕获位点实际字、不预设候选读法），四库两家 86/86 定位且读法逐处全一致；定案 19 处、deferred 67 处，累计 disposed 33/769、deferred 96、pending 640。第三分册（E0306）续处卷四节外 118 处：捕获式定位下四库两家 117 处定位同读（130766/131317 两处 kanripo 经句段锚定定位；126098 处 kanripo 全文无此段、四库谱系仅 mikkokotila 一家定位）；见证口径自本册澄清——现代谱系位点见证只认其《三命通会》转录子集，youngzs《五行精纪》平行源文本命中 24 处逐字登记为 attested_parallel_source 旁证、不计现代方；定案 6 处、deferred 112 处，累计 disposed 39/769、deferred 208、pending 522。第四分册（E0308）续处卷五节外 pending 67 处中的 65 处（RD-12 seq 361/385 两处只标记、保持 pending、处置随 P3）：捕获式定位下四库两家 62 处定位同读，余 149947/161345/175574 三处 kanripo 因其卷首喜忌 bracket 栏式编排、标准捕获未定位，候选只据 mikkokotila 一家登记；154979 处 youngzs《五行精纪》平行源文本异读「直」对四库「㸃」两读并录、不计现代方；定案 15 处、deferred 50 处，累计 disposed 54/769、deferred 258、pending 457。第五分册（E0310）续处卷六节外 pending 130 处全部（一卷一册，本册无 RD-12 标记位点）：捕获式定位下四库两家 130/130 全定位、读法逐处全一致（mikkokotila 一处单侧锚定），无 kanripo 缺位情形；计方现代见证定位 9 处（其中 193388/196506 两处 NiuTrans 定位于其卷十二《四言独步》同文位点）；218248 处 youngzs《五行精纪》平行源文本同读「双」旁证在案、不计方；定案 12 处、deferred 118 处，累计 disposed 66/769、deferred 376、pending 327。第六分册（E0312）续处卷七节外 pending 75 处中的 73 处（一卷一册；RD-12 seq 612/616 两处只标记、保持 pending、处置随 P3）：捕获式定位下四库两家 73/73 全定位、读法逐处全一致（其中 245945 一处因紧邻字异体（妝/粧）改以变体锚定定位、两家同读䑓）；计方现代见证定位 6 处；youngzs 全语料与三命子集定位全同、无平行源文本旁证命中；定案 12 处、deferred 61 处，累计 disposed 78/769、deferred 437、pending 254。",
+ "baseline_main_sha": "657f2f39d58ac500e7a09b2d063ebe6bdfc4f4fb",
+ "purpose": "按正式应用批设计审定（E0294）§4.1/§5.2 P2 路线，对 S3 应用文本残余「防」769 处先全量盘点，再对位于已登记 review_scope 节内的 43 处逐处见证互校并登记处置结论；本批只登记、不改 S3 应用文本、不改快照与任何既有登记；confirmed 读法只登记为未来应用版本（v2）的裁定候选，非经新应用批不得进入文本第二分册（E0304）续处卷首/卷一/卷二/卷三节外 86 处：定位改为捕获式（侧翼锚定后捕获位点实际字、不预设候选读法），四库两家 86/86 定位且读法逐处全一致；定案 19 处、deferred 67 处，累计 disposed 33/769、deferred 96、pending 640。第三分册（E0306）续处卷四节外 118 处：捕获式定位下四库两家 117 处定位同读（130766/131317 两处 kanripo 经句段锚定定位；126098 处 kanripo 全文无此段、四库谱系仅 mikkokotila 一家定位）；见证口径自本册澄清——现代谱系位点见证只认其《三命通会》转录子集，youngzs《五行精纪》平行源文本命中 24 处逐字登记为 attested_parallel_source 旁证、不计现代方；定案 6 处、deferred 112 处，累计 disposed 39/769、deferred 208、pending 522。第四分册（E0308）续处卷五节外 pending 67 处中的 65 处（RD-12 seq 361/385 两处只标记、保持 pending、处置随 P3）：捕获式定位下四库两家 62 处定位同读，余 149947/161345/175574 三处 kanripo 因其卷首喜忌 bracket 栏式编排、标准捕获未定位，候选只据 mikkokotila 一家登记；154979 处 youngzs《五行精纪》平行源文本异读「直」对四库「㸃」两读并录、不计现代方；定案 15 处、deferred 50 处，累计 disposed 54/769、deferred 258、pending 457。第五分册（E0310）续处卷六节外 pending 130 处全部（一卷一册，本册无 RD-12 标记位点）：捕获式定位下四库两家 130/130 全定位、读法逐处全一致（mikkokotila 一处单侧锚定），无 kanripo 缺位情形；计方现代见证定位 9 处（其中 193388/196506 两处 NiuTrans 定位于其卷十二《四言独步》同文位点）；218248 处 youngzs《五行精纪》平行源文本同读「双」旁证在案、不计方；定案 12 处、deferred 118 处，累计 disposed 66/769、deferred 376、pending 327。第六分册（E0312）续处卷七节外 pending 75 处中的 73 处（一卷一册；RD-12 seq 612/616 两处只标记、保持 pending、处置随 P3）：捕获式定位下四库两家 73/73 全定位、读法逐处全一致（其中 245945 一处因紧邻字异体（妝/粧）改以变体锚定定位、两家同读䑓）；计方现代见证定位 6 处；youngzs 全语料与三命子集定位全同、无平行源文本旁证命中；定案 12 处、deferred 61 处，累计 disposed 78/769、deferred 437、pending 254。第七分册（E0314）续处卷八节外 pending 61 处全部（一卷一册；本册无 RD-12 标记位点）：捕获式定位下 mikkokotila 61/61 全定位、kanripo 43/61 定位且读法逐处全一致，余 18 处 bracket 名录栏式编排致 kanripo 未定位、候选只据 mikkokotila 一家、一律 deferred；本册未用变体锚定；计方现代见证定位 13 处、youngzs 全语料与三命子集定位全同、无平行源文本旁证命中；两谱系分歧并列 2 处（綵对采、㑹对合）；定案 12 处、并列 2 处、deferred 47 处，累计 disposed 92/769、deferred 484、pending 193。",
  "inputs": {
   "snapshot": {
    "file": "sanming_tonghui.txt",
@@ -64,7 +64,7 @@
   ]
  },
  "coordinate_method": "S3 位点由扫描 S3 应用文本「防」全量取得；S0 origin 只经两阶段复放的 origin 位点图（逐字追踪 PUA 阶段与 603 条订正的位点谱系），复放于机上先行验证：S1/S2/S3 三阶段哈希与设计钉值全符、应用报告 993 条 dispositions 的 S2→S3 位点腿与 origin 图 993/993 一致；禁止手算偏移",
- "witness_standard": "沿 PUA 全核批（E0296）见证口径：四库谱系（kanripo 与 mikkokotila 两家独立转录）计一个见证方；现代谱系 NiuTrans、youngzs 各计一个见证方；Banny-Gao 只作旁证、不计方；镜像不算独立来源。规范化空间为 NFKC + OpenCC t2s + 少量形近字折叠（仅用于定位，登记引文逐字取见证原文）。现代转录为节选/重编本，位点所在文句未载者登记 not_located，不据此推定异读第三分册（E0306）起澄清：现代谱系的位点见证只认其《三命通会》转录子集——youngzs 语料兼含《五行精纪》转录，其于三命引文位点读得的是源文本，逐字登记为 attested_parallel_source（平行源文本旁证），不计现代方、亦不作谱系分歧；首批 17070 处 youngzs 证据为《五行精纪》文档命中（kept 类、非承重），按 append-only 原样保留第四分册（E0308）实测补记：kanripo 四库本于卷五诸节卷首喜忌 bracket 采用栏式编排分行、清单次序与快照底本不同，149947/161345 两处位点字在四库本对应语中本身阙空、175574 处对应语在同 bracket 内而次序不同，三处标准捕获（含句段锚定）均未定位，一律按未定位如实登记、候选只据 mikkokotila 一家，不以同节他语或异序同语冒充位点见证；平行源文本旁证可与四库读法实异（154979 处源文本读直、四库读㸃），两读并录、不计方不作分歧第五分册（E0310）实测补记：卷六四库两家全量定位（130/130、读法逐处一致），无 kanripo 缺位或栏式编排未定位情形；平行源文本旁证可与四库读法同读（218248 处源文本读双、四库读䨇），同读亦只登记为 attested_parallel_source 旁证、不计现代方、不作定案依据，与异读情形（146688/154979）同例——旁证形态只登记、不计方、不作分歧；计方现代见证可定位于同文他卷转录位点（193388/196506 两处 NiuTrans 定位于其卷十二《四言独步》转录），以侧翼锚定的同文对应为限第六分册（E0312）实测补记：卷七四库两家 73/73 全量定位、读法逐处一致，其中 245945 一处紧邻左字在底本作妝、四库两家转录均作粧（同词异体），标准侧翼全锚、单侧锚定与句段锚定全数失败，改以变体锚定定位（左翼仅紧邻一位放宽为通配、其余侧翼逐字全锚，两家同读䑓，match_mode 登记 variant_anchored）——放宽只及紧邻异体一位、位点字仍由全锚侧翼对位捕获，不预设读法；本册 youngzs 全语料定位与三命子集定位全同、无平行源文本旁证命中，旁证累计仍 26 处；RD-12 seq 612/616 两处四库与现代读法分歧（㿀对癍、䖝对茧）只标记在案、处置随 P3",
+ "witness_standard": "沿 PUA 全核批（E0296）见证口径：四库谱系（kanripo 与 mikkokotila 两家独立转录）计一个见证方；现代谱系 NiuTrans、youngzs 各计一个见证方；Banny-Gao 只作旁证、不计方；镜像不算独立来源。规范化空间为 NFKC + OpenCC t2s + 少量形近字折叠（仅用于定位，登记引文逐字取见证原文）。现代转录为节选/重编本，位点所在文句未载者登记 not_located，不据此推定异读第三分册（E0306）起澄清：现代谱系的位点见证只认其《三命通会》转录子集——youngzs 语料兼含《五行精纪》转录，其于三命引文位点读得的是源文本，逐字登记为 attested_parallel_source（平行源文本旁证），不计现代方、亦不作谱系分歧；首批 17070 处 youngzs 证据为《五行精纪》文档命中（kept 类、非承重），按 append-only 原样保留第四分册（E0308）实测补记：kanripo 四库本于卷五诸节卷首喜忌 bracket 采用栏式编排分行、清单次序与快照底本不同，149947/161345 两处位点字在四库本对应语中本身阙空、175574 处对应语在同 bracket 内而次序不同，三处标准捕获（含句段锚定）均未定位，一律按未定位如实登记、候选只据 mikkokotila 一家，不以同节他语或异序同语冒充位点见证；平行源文本旁证可与四库读法实异（154979 处源文本读直、四库读㸃），两读并录、不计方不作分歧第五分册（E0310）实测补记：卷六四库两家全量定位（130/130、读法逐处一致），无 kanripo 缺位或栏式编排未定位情形；平行源文本旁证可与四库读法同读（218248 处源文本读双、四库读䨇），同读亦只登记为 attested_parallel_source 旁证、不计现代方、不作定案依据，与异读情形（146688/154979）同例——旁证形态只登记、不计方、不作分歧；计方现代见证可定位于同文他卷转录位点（193388/196506 两处 NiuTrans 定位于其卷十二《四言独步》转录），以侧翼锚定的同文对应为限第六分册（E0312）实测补记：卷七四库两家 73/73 全量定位、读法逐处一致，其中 245945 一处紧邻左字在底本作妝、四库两家转录均作粧（同词异体），标准侧翼全锚、单侧锚定与句段锚定全数失败，改以变体锚定定位（左翼仅紧邻一位放宽为通配、其余侧翼逐字全锚，两家同读䑓，match_mode 登记 variant_anchored）——放宽只及紧邻异体一位、位点字仍由全锚侧翼对位捕获，不预设读法；本册 youngzs 全语料定位与三命子集定位全同、无平行源文本旁证命中，旁证累计仍 26 处；RD-12 seq 612/616 两处四库与现代读法分歧（㿀对癍、䖝对茧）只标记在案、处置随 P3第七分册（E0314）实测补记：卷八 mikkokotila 61/61 全量定位、kanripo 43/61 定位，定位处两家读法逐处一致；余 18 处（260367/261108/261144/266498/269097/274978/277068/279203/282829/283513/288515/289512/291757/292646/293451/294747/300970/302090）均位于各日时断 bracket 仕宦名录清单，kanripo 四库本该清单以栏式编排、项目干支次序与快照底本不同，标准捕获（侧翼全锚/脱字/单侧锚/句段锚定）全数未定位，逐字如实登记 not_located、候选只据 mikkokotila 一家、18 处一律 deferred（与第四分册 bracket 三处同型）；本册未用变体锚定——第六分册新设形态仅限紧邻一位字形异体致标准锚定全灭时兜底，本册情形为清单次序差异、非邻字异体，不扩用；本册 youngzs 全语料定位与三命子集定位全同、无平行源文本旁证命中，旁证累计仍 26 处；272529（綵对采）与 277562（㑹对合）两处四库与计方现代读法分歧，并列登记、不裁",
  "categories": {
   "disposed_confirmed": {
    "design_term": "confirmed_reading",
@@ -403,13 +403,13 @@
   "total_residual_fang_s3": 769,
   "inventoried": 769,
   "in_registered_sections": 43,
-  "disposed_confirmed": 34,
-  "disposed_kept": 42,
-  "disposed_parallel": 2,
-  "disposed_total": 78,
-  "deferred_no_witness": 437,
-  "pending_later_tranche": 254,
-  "cumulative_disposed_fraction": "78/769",
+  "disposed_confirmed": 39,
+  "disposed_kept": 49,
+  "disposed_parallel": 4,
+  "disposed_total": 92,
+  "deferred_no_witness": 484,
+  "pending_later_tranche": 193,
+  "cumulative_disposed_fraction": "92/769",
   "rd12_sites_in_inventory": 8,
   "rd12_sites_in_pending_tranches": 7,
   "inventory_rows_with_collation_note": 40,
@@ -7697,7 +7697,7 @@
    "collation_note_id": null,
    "candidate_site": true,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 521,
@@ -7711,7 +7711,7 @@
    "collation_note_id": null,
    "candidate_site": true,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "disposed_confirmed"
   },
   {
    "seq": 522,
@@ -7725,7 +7725,7 @@
    "collation_note_id": null,
    "candidate_site": true,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 523,
@@ -7739,7 +7739,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 524,
@@ -7753,7 +7753,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 525,
@@ -7767,7 +7767,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 526,
@@ -7781,7 +7781,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 527,
@@ -7795,7 +7795,7 @@
    "collation_note_id": null,
    "candidate_site": true,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 528,
@@ -7809,7 +7809,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "disposed_kept"
   },
   {
    "seq": 529,
@@ -7823,7 +7823,7 @@
    "collation_note_id": null,
    "candidate_site": true,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 530,
@@ -7837,7 +7837,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 531,
@@ -7851,7 +7851,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 532,
@@ -7865,7 +7865,7 @@
    "collation_note_id": null,
    "candidate_site": true,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "disposed_confirmed"
   },
   {
    "seq": 533,
@@ -7879,7 +7879,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 534,
@@ -7893,7 +7893,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 535,
@@ -7907,7 +7907,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "disposed_kept"
   },
   {
    "seq": 536,
@@ -7921,7 +7921,7 @@
    "collation_note_id": null,
    "candidate_site": true,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 537,
@@ -7935,7 +7935,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 538,
@@ -7949,7 +7949,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "disposed_kept"
   },
   {
    "seq": 539,
@@ -7963,7 +7963,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "disposed_kept"
   },
   {
    "seq": 540,
@@ -7977,7 +7977,7 @@
    "collation_note_id": null,
    "candidate_site": true,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 541,
@@ -7991,7 +7991,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 542,
@@ -8005,7 +8005,7 @@
    "collation_note_id": null,
    "candidate_site": true,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 543,
@@ -8019,7 +8019,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 544,
@@ -8033,7 +8033,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "disposed_parallel"
   },
   {
    "seq": 545,
@@ -8047,7 +8047,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "disposed_kept"
   },
   {
    "seq": 546,
@@ -8061,7 +8061,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 547,
@@ -8075,7 +8075,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "disposed_kept"
   },
   {
    "seq": 548,
@@ -8089,7 +8089,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 549,
@@ -8103,7 +8103,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 550,
@@ -8117,7 +8117,7 @@
    "collation_note_id": null,
    "candidate_site": true,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "disposed_parallel"
   },
   {
    "seq": 551,
@@ -8131,7 +8131,7 @@
    "collation_note_id": null,
    "candidate_site": true,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "disposed_confirmed"
   },
   {
    "seq": 552,
@@ -8145,7 +8145,7 @@
    "collation_note_id": null,
    "candidate_site": true,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 553,
@@ -8159,7 +8159,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 554,
@@ -8173,7 +8173,7 @@
    "collation_note_id": null,
    "candidate_site": true,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 555,
@@ -8187,7 +8187,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 556,
@@ -8201,7 +8201,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 557,
@@ -8215,7 +8215,7 @@
    "collation_note_id": null,
    "candidate_site": true,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "disposed_confirmed"
   },
   {
    "seq": 558,
@@ -8229,7 +8229,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 559,
@@ -8243,7 +8243,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 560,
@@ -8257,7 +8257,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 561,
@@ -8271,7 +8271,7 @@
    "collation_note_id": null,
    "candidate_site": true,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 562,
@@ -8285,7 +8285,7 @@
    "collation_note_id": null,
    "candidate_site": true,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 563,
@@ -8299,7 +8299,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 564,
@@ -8313,7 +8313,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 565,
@@ -8327,7 +8327,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 566,
@@ -8341,7 +8341,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 567,
@@ -8355,7 +8355,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 568,
@@ -8369,7 +8369,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "disposed_kept"
   },
   {
    "seq": 569,
@@ -8383,7 +8383,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 570,
@@ -8397,7 +8397,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 571,
@@ -8411,7 +8411,7 @@
    "collation_note_id": null,
    "candidate_site": true,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "disposed_confirmed"
   },
   {
    "seq": 572,
@@ -8425,7 +8425,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 573,
@@ -8439,7 +8439,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 574,
@@ -8453,7 +8453,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 575,
@@ -8467,7 +8467,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 576,
@@ -8481,7 +8481,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 577,
@@ -8495,7 +8495,7 @@
    "collation_note_id": null,
    "candidate_site": true,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 578,
@@ -8509,7 +8509,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 579,
@@ -8523,7 +8523,7 @@
    "collation_note_id": null,
    "candidate_site": true,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 580,
@@ -8537,7 +8537,7 @@
    "collation_note_id": null,
    "candidate_site": false,
    "rd12_seq": null,
-   "disposition": "pending_later_tranche"
+   "disposition": "deferred_no_witness"
   },
   {
    "seq": 581,
@@ -45908,12 +45908,4153 @@
    "s3_offset": 257499,
    "section_id": null,
    "volume": "卷七"
+  },
+  {
+   "s0_offset": 257537,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": "位点为卷八卷端页眉书名「三命通會」之「會」字位点（S3 语境作「三命通防卷八」），四库两家读「㑹」；现代见证未载",
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": " ¶ 欽定四庫全書¶ 　三命通㑹卷八¶ 　　　　　　　　　　　　明　萬民英　撰¶ 　"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "IN JUAN 08 --> 欽定四庫全書  三命通㑹卷八  明　萬民英　撰  六甲日甲子時斷〈以下所忌月"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 257536,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 258500,
+   "category": "disposed_confirmed",
+   "reading_glyph": "㸔",
+   "reading_word": "看",
+   "reading_word_simplified": "看",
+   "candidate_reading_glyph": "㸔",
+   "candidate_reading_word": "看",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㸔",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "刑死乙亥月遭¶ 　盗死¶ 　以上六日年月喜忌當通融活㸔(下同/)¶ 　(己巳謝遷閣老/丁丑)　　　　(丁丑"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㸔",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "吉乙卯月刑死乙亥月遭盗死  以上六日年月喜忌當通融活㸔〈下同〉  〈己巳謝遷閣老　　　　丁丑王讓侍　孫侍講"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": "niutrans/古文原文/三命通会/卷八/六甲日甲子时断/text.txt",
+     "site_reading": "看",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "，刑死，乙亥月，遭盗死。 以上六日年月喜忌，当通融活看。下同。 甲子相逢甲子连，拟作蟾宫折桂仙； 丑绊并冲"
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": "youngzs/docs/三命通会/168卷 八·六甲日甲子时断（以下所忌月分与时间断）.md",
+     "site_reading": "看",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "刑死，乙亥月，遭盗死。  以上六日年月喜忌，当通融活看。  下同。  甲子相逢甲子连，拟作蟾宫折桂仙；丑绊"
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": "banny/books/三命通会/articles/六甲日甲子时断/source.md",
+     "site_reading": "看",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "刑死，乙亥月，遭盗死。  以上六日年月喜忌，当通融活看。下同。  甲子相逢甲子连，拟作蟾宫折桂仙；  丑绊"
+    }
+   ],
+   "s3_offset": 258499,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 260023,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "酉)　(癸酉舉人/癸亥)¶ 　(辛巳曹大章丙午癸丑科㑹元榜眼江南人/乙未  一富商命同)¶ 　(戊子莊奇顯"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "酉　　　己酉　　　丁酉　　　癸亥辛巳曹大章丙午癸丑科㑹元榜眼江南人乙未　一富商命同〉  〈戊子莊奇顯丙午癸"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 260022,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 260367,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "䇿",
+   "candidate_reading_word": "策",
+   "attestation_route": null,
+   "adjudication_note": "四库谱系仅 mikkokotila 一家定位：kanripo 四库本该位点所在 bracket 仕宦名录以栏式编排、项目干支次序与快照底本不同，标准捕获（侧翼全锚/脱字/单侧锚/句段锚定）均未定位，逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载",
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "䇿",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "官八子江南人　　　甲申  甲寅陸長庚　　　　　己巳錢䇿少卿南人丁丑　　人　　　　　丙寅〉  甲戌日丙寅時年"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 260366,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 261108,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": "四库谱系仅 mikkokotila 一家定位：kanripo 四库本该位点所在 bracket 仕宦名录以栏式编排、项目干支次序与快照底本不同，标准捕获（侧翼全锚/脱字/单侧锚/句段锚定）均未定位，逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载",
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "運宜東北方　　　　〈辛酉舉人丙申丙午知州　癸酉胡正蒙㑹元探花祭酒癸巳　　　乙未　浙人〉  〈戊午林春㑹元部"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 261107,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 261130,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "蒙㑹元探花祭酒/乙未  浙人)¶  ¶ 　(戊午林春㑹元部郎/乙卯  㤗州人)　　(庚子林烴尚書/丙戌  "
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "正蒙㑹元探花祭酒癸巳　　　乙未　浙人〉  〈戊午林春㑹元部郎　　庚子林烴尚書乙卯　㤗州人　　　　丙戌　閩人"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 261129,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 261144,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㤗",
+   "candidate_reading_word": "泰",
+   "attestation_route": null,
+   "adjudication_note": "四库谱系仅 mikkokotila 一家定位：kanripo 四库本该位点所在 bracket 仕宦名录以栏式编排、项目干支次序与快照底本不同，标准捕获（侧翼全锚/脱字/单侧锚/句段锚定）均未定位，逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载",
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㤗",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "　浙人〉  〈戊午林春㑹元部郎　　庚子林烴尚書乙卯　㤗州人　　　　丙戌　閩人〉  甲申日丁卯時主武職風憲權"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 261143,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 261979,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "瑞圖探花入閣/己卯  閩人)¶  ¶ 　(壬戌陶望齡㑹元探花/戊申  諭徳浙人)¶ 甲午日戊辰時財多成敗早"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "瑞圖探花入閣庚戌　　　辛丑　　　己卯　閩人壬戌陶望齡㑹元探花戊申　諭徳浙人〉  甲午日戊辰時財多成敗早歳灰"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 261978,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 262582,
+   "category": "disposed_kept",
+   "reading_glyph": "防",
+   "reading_word": "防",
+   "reading_word_simplified": "防",
+   "candidate_reading_glyph": "防",
+   "candidate_reading_word": "防",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "巳時先貧後富祖業輕微妻勤子拗生寅未¶ 　巳丑年月雖貴防疾申子辰戌大貴(神白經云/)化氣¶ 　主貴¶ 　(癸"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "子日己巳時先貧後富祖業輕微妻勤子拗生寅未巳丑年月雖貴防疾申子辰戌大貴〈神白經云〉化氣主貴  〈癸未岳武　戊"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": "niutrans/古文原文/三命通会/卷八/六甲日己巳时断/text.txt",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "，先贫后富，祖业轻微，妻勤子拗。生寅未巳丑年月，虽贵防疾。申子辰戌，大贵。 甲寅日己巳时，时日相刑，忧伤妻"
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": "youngzs/docs/三命通会/173卷 八·六甲日己巳时断.md",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "贫后富，祖业轻微，妻勤子拗。  生寅未巳丑年月，虽贵防疾。  申子辰戌，大贵。  甲寅日己巳时，时日相刑，"
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": "banny/books/三命通会/articles/六甲日己巳时断/source.md",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "，先贫后富，祖业轻微，妻勤子拗。生寅未巳丑年月，虽贵防疾。申子辰戌，大贵。  甲寅日己巳时，时日相刑，忧伤"
+    }
+   ],
+   "s3_offset": 262581,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 262695,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "䕃",
+   "candidate_reading_word": "蔭",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "䕃",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "妻子生火年月有明斷¶ 　之才掌兵權之職戊子年月承襲父䕃主富¶ 　(庚午進士/壬午)　(辛未縣丞/甲午  富"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "䕃",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "刑憂傷妻子生火年月有明斷之才掌兵權之職戊子年月承襲父䕃主富  〈庚午進士　辛未縣丞　丁卯解經雅吏科壬午　　"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 262694,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 263353,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "/戊寅)¶ 　(戊子經厯/甲子)　(癸亥女命子周延儒㑹/丁巳  狀入閣)　(丁卯進士/丙午)¶ 甲寅日庚午"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "同　　　庚午　　　戊寅  戊子經厯　癸亥女命子周延儒㑹　丁卯進士甲子　　　丁巳　狀入閣　　　　丙午〉  甲"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 263352,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 263422,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㭿",
+   "candidate_reading_word": "㭿",
+   "attestation_route": null,
+   "adjudication_note": "位点字「㭿」为人名用字（林應㭿），四库两家同读「㭿」，其字本身即为候选词；现代见证未载",
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㭿",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "酉反覆冬月傷妻子子未年月煞助印生四品¶ 　(癸巳林應㭿尙書/壬戌)　　　(丁卯呉執卿侍郎/癸丑)¶ 　(庚"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㭿",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "權酉反覆冬月傷妻子子未年月煞助印生四品  〈癸巳林應㭿尙書　　　丁卯呉執卿侍郎壬戌　　　　　　　　癸丑〉 "
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 263421,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 263635,
+   "category": "disposed_confirmed",
+   "reading_glyph": "㑹",
+   "reading_word": "會",
+   "reading_word_simplified": "会",
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": " 甲申日庚午時子辰年月㑹印亥卯年月身旺俱貴寅¶ 　戌㑹傷制煞甲得倚托亦貴運喜金水¶ 　(甲戌大恭/丁卯)　"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "戌〉  甲申日庚午時子辰年月㑹印亥卯年月身旺俱貴寅戌㑹傷制煞甲得倚托亦貴運喜金水  〈甲戌大𠫵　庚寅侍郎　"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": "niutrans/古文原文/三命通会/卷八/六甲日庚午时断/text.txt",
+     "site_reading": "会",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "甲申日庚午时，子辰年月会印。亥卯年月身旺，俱贵。寅戌会伤制煞，甲得寄托，亦贵，运喜金水。 甲戌日庚午时，生"
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": "youngzs/docs/三命通会/174卷 八·六甲日庚午时断.md",
+     "site_reading": "会",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "午时，子辰年月会印。  亥卯年月身旺，俱贵。  寅戌会伤制煞，甲得寄托，亦贵，运喜金水。  甲戌日庚午时，"
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": "banny/books/三命通会/articles/六甲日庚午时断/source.md",
+     "site_reading": "会",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "甲申日庚午时，子辰年月会印。亥卯年月身旺，俱贵。寅戌会伤制煞，甲得寄托，亦贵，运喜金水。  甲戌日庚午时，"
+    }
+   ],
+   "s3_offset": 263634,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 264033,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "丑州判/戊辰)　(庚戌少保/丁亥)¶ 　(戊申馮夢正㑹元/辛酉  侍郎)　　　(癸亥舉人主政/辛酉)¶ 　"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "少保丙戌　宰　戊辰　　　戊辰　　　丁亥  戊申馮夢正㑹元　　　癸亥舉人主政辛酉　侍郎　　　　　辛酉〉  〈"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 264032,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 266498,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": "四库谱系仅 mikkokotila 一家定位：kanripo 四库本该位点所在 bracket 仕宦名录以栏式编排、项目干支次序与快照底本不同，标准捕获（侧翼全锚/脱字/单侧锚/句段锚定）均未定位，逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载",
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "　　　　乙酉　　　甲申戊辰舉人　甲子貴　　戊寅莊際昌㑹狀己未　　　甲戌　　　丁巳〉  〈甲戌宗室甲戌〉  "
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 266497,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 267631,
+   "category": "disposed_kept",
+   "reading_glyph": "防",
+   "reading_word": "防",
+   "reading_word_simplified": "防",
+   "candidate_reading_glyph": "防",
+   "candidate_reading_word": "防",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "帝座紫微宫子嗣¶  ¶ 螟蛉得用父母鴈行少力花開結子防風文章顯逹改¶ 門庭運至超羣出衆¶ 　　　六乙日丙子"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "水相生時臨帝座紫微宫子嗣螟蛉得用父母鴈行少力花開結子防風文章顯逹改門庭運至超羣出衆  ## 六乙日丙子時斷"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 267630,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 268463,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "䑕",
+   "candidate_reading_word": "鼠",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "䑕",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "破祖髙貴中惡死¶ 　(以上六日喜忌大同但坐/酉巳不成䑕貴别格論之)¶ 　(甲申尚書/庚午)　(丙午苑馬/辛"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "䑕",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "酉月破祖髙貴中惡死  〈以上六日喜忌大同但坐酉巳不成䑕貴别格論之〉  〈甲申尚書　丙午苑馬　丙戌元戎　壬戌"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 268462,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 269097,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": "四库谱系仅 mikkokotila 一家定位：kanripo 四库本该位点所在 bracket 仕宦名录以栏式编排、项目干支次序与快照底本不同，标准捕获（侧翼全锚/脱字/单侧锚/句段锚定）均未定位，逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载",
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "　甲寅沈自邠翰林己未　　　乙卯　　　己巳〉  〈辛巳㑹魁　丁丑御史　丙寅黄光升尚書戊戌　　　乙巳　　　庚寅"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 269096,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 270849,
+   "category": "disposed_kept",
+   "reading_glyph": "防",
+   "reading_word": "防",
+   "reading_word_simplified": "防",
+   "candidate_reading_glyph": "防",
+   "candidate_reading_word": "防",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "時庚辰　水白金清化象真¶ 　　　　壬從辛酉通官貴　却防目疾減精神¶ 乙日庚辰時妻賢子貴乙合庚化金若通申巳酉"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "  六乙日生時庚辰　水白金清化象真壬從辛酉通官貴　却防目疾減精神  乙日庚辰時妻賢子貴乙合庚化金若通申巳酉"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": "niutrans/古文原文/三命通会/卷八/六乙日庚辰时断/text.txt",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "六乙日生时庚辰，水白金清化象真； 壬从辛酉通官贵，却防目疾减精神。 乙日庚辰时，妻贤子贵。乙合庚化金，若通"
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": "youngzs/docs/三命通会/184卷 八·六乙日庚辰时断.md",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": " 六乙日生时庚辰，水白金清化象真；壬从辛酉通官贵，却防目疾减精神。  乙日庚辰时，妻贤子贵。  乙合庚化金"
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": "banny/books/三命通会/articles/六乙日庚辰时断/source.md",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": " 六乙日生时庚辰，水白金清化象真；壬从辛酉通官贵，却防目疾减精神。  乙日庚辰时，妻贤子贵。  乙合庚化金"
+    }
+   ],
+   "s3_offset": 270848,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 270885,
+   "category": "disposed_kept",
+   "reading_glyph": "防",
+   "reading_word": "防",
+   "reading_word_simplified": "防",
+   "candidate_reading_glyph": "防",
+   "candidate_reading_word": "防",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "妻賢子貴乙合庚化金若通申巳酉丑月¶ 　為人秀麗主貴却防目疾如不見化以壬為印庚為¶ 　官辰土癸水合局乙木有托"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "庚辰時妻賢子貴乙合庚化金若通申巳酉丑月為人秀麗主貴却防目疾如不見化以壬為印庚為官辰土癸水合局乙木有托行東南"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": "niutrans/古文原文/三命通会/卷八/六乙日庚辰时断/text.txt",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "子贵。乙合庚化金，若通申巳酉丑月，为人秀丽，主贵，却防目疾。如不见化，以壬为印，庚为官，辰土癸水合局，乙木"
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": "youngzs/docs/三命通会/184卷 八·六乙日庚辰时断.md",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "。  乙合庚化金，若通申巳酉丑月，为人秀丽，主贵，却防目疾。  如不见化，以壬为印，庚为官，辰土癸水合局，"
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": "banny/books/三命通会/articles/六乙日庚辰时断/source.md",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "。  乙合庚化金，若通申巳酉丑月，为人秀丽，主贵，却防目疾。  如不见化，以壬为印，庚为官，辰土癸水合局，"
+    }
+   ],
+   "s3_offset": 270884,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 271013,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": ")　(丁丑黄士俊狀元/甲辰  入閣)¶ 　(庚午許獬㑹元編修/丙戌)¶ 乙卯日庚辰時富貴通火土年月大貴(一"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "俊狀元庚寅　　　癸卯　　　甲辰　入閣〉  〈庚午許獬㑹元編修丙戌〉  乙卯日庚辰時富貴通火土年月大貴〈一云"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 271012,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 271305,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "憲/丁丑)　(丙申李貫給事/辛卯)¶ 　(丁卯唐順之㑹元都憲/辛亥  據星案乙亥日)　(壬申進士/辛亥)　"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "申李貫給事己卯　　　丁丑　　　辛卯〉  〈丁卯唐順之㑹元都憲　壬申進士　己亥陶真辛亥　據星案乙亥日　辛亥　"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 271304,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 271629,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": ")　　　(秋生大吉昌/顯要豈尋常)¶ 　　　　乙庚相㑹貴無疑　隂木陽金正合時¶  ¶ 　　　　運吉身强無衝"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "　　秋生大吉昌運行東與北　　　顯要豈尋常〉  乙庚相㑹貴無疑　隂木陽金正合時運吉身强無衝破　陞遷自有貴人提"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 271628,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 272104,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㤗",
+   "candidate_reading_word": "泰",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㤗",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "偏官格西運風¶  ¶ 　憲春月身旺更吉¶ 　(癸酉陸㤗翰林/辛酉)　　　　(癸亥僉憲/乙卯)　(甲子僉憲/"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㤗",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "甲巳子巳年月入偏官格西運風憲春月身旺更吉  〈癸酉陸㤗翰林　　　　癸亥僉憲　甲子僉憲辛酉　　　　　　　　乙"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 272103,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 272529,
+   "category": "disposed_parallel",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "綵",
+   "candidate_reading_word": "綵",
+   "attestation_route": null,
+   "adjudication_note": "四库两家同读「綵」；现代计方两家（NiuTrans 与 youngzs 三命子集）同读「采」——「喝采」一语四库作綵、现代作采，字级分歧、并列不裁；Banny-Gao 旁证同读「采」",
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "綵",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "幾度遇凶則吉信知苦盡甘來運行身旺印¶ 綬懷富貴時人喝綵¶ 　　　六乙日午時斷¶  ¶ 　　　　六乙日生時壬"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "綵",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "有敗幾度遇凶則吉信知苦盡甘來運行身旺印綬懷富貴時人喝綵  ## 六乙日午時斷  六乙日生時壬午　印綬生身財"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": "niutrans/古文原文/三命通会/卷八/六乙日辛巳时断/text.txt",
+     "site_reading": "采",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "度遇凶则吉，信知苦尽甘来。运行身旺印绶怀，富贵时人喝采。 "
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": "youngzs/docs/三命通会/185卷 八·六乙日辛巳时断.md",
+     "site_reading": "采",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "凶则吉，信知苦尽甘来。  运行身旺印绶怀，富贵时人喝采。  "
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": "banny/books/三命通会/articles/六乙日辛巳时断/source.md",
+     "site_reading": "采",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "凶则吉，信知苦尽甘来。  运行身旺印绶怀，富贵时人喝采。 "
+    }
+   ],
+   "parallel_readings": [
+    {
+     "reading_glyph": "綵",
+     "reading_word": "綵",
+     "attested_by": [
+      "siku_lineage"
+     ]
+    },
+    {
+     "reading_glyph": "采",
+     "reading_word": "采",
+     "attested_by": [
+      "modern_lineage_niutrans",
+      "modern_lineage_youngzs"
+     ]
+    }
+   ],
+   "s3_offset": 272528,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 273955,
+   "category": "disposed_kept",
+   "reading_glyph": "防",
+   "reading_word": "防",
+   "reading_word_simplified": "防",
+   "candidate_reading_glyph": "防",
+   "candidate_reading_word": "防",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "乙丑日甲申時高純子辰年月行東南運大貴己酉丑¶ 　貴中防凶午未純吉亥卯亦吉餘月平平¶ 　(乙丑太守凶死/丁巳"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "永  乙丑日甲申時高純子辰年月行東南運大貴己酉丑貴中防凶午未純吉亥卯亦吉餘月平平  〈乙丑太守凶死　　　　"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": "niutrans/古文原文/三命通会/卷八/六乙日甲申时断/text.txt",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "甲申时高，纯子辰年月，行东南运，大贵。巳酉丑，贵；中防凶。午未纯，吉。亥卯亦吉。余月平平。 乙卯日甲申时，"
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": "youngzs/docs/三命通会/188卷 八·六乙日甲申时断.md",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "时高，纯子辰年月，行东南运，大贵。  巳酉丑，贵；中防凶。  午未纯，吉。  亥卯亦吉。  余月平平。  "
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": "banny/books/三命通会/articles/六乙日甲申时断/source.md",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "甲申时高，纯子辰年月，行东南运，大贵。巳酉丑，贵；中防凶。午未纯，吉。亥卯亦吉。余月平平。  乙卯日甲申时"
+    }
+   ],
+   "s3_offset": 273954,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 274978,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": "四库谱系仅 mikkokotila 一家定位：kanripo 四库本该位点所在 bracket 仕宦名录以栏式编排、项目干支次序与快照底本不同，标准捕获（侧翼全锚/脱字/单侧锚/句段锚定）均未定位，逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载",
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "〈一云〉旺中有刑  〈癸卯御史　壬申進士　乙亥劉康祉㑹魁丙辰　　　乙巳　　　庚辰　部郎〉  〈庚子舉人部郎"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 274977,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 276317,
+   "category": "disposed_kept",
+   "reading_glyph": "防",
+   "reading_word": "防",
+   "reading_word_simplified": "防",
+   "candidate_reading_glyph": "防",
+   "candidate_reading_word": "防",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "坐無氣喜甲木生助丁食為福¶  ¶ 　如遇金局行水運者防目疾四柱見財或行財運貪¶ 　財壞印主破財戊為財為妻庚"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "丁為食亥中丁坐無氣喜甲木生助丁食為福如遇金局行水運者防目疾四柱見財或行財運貪財壞印主破財戊為財為妻庚為官為"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": "niutrans/古文原文/三命通会/卷八/六乙日丁亥时断/text.txt",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "丁坐无气，喜甲木生，助丁食为福。如遇金局，行水运者，防目疾。四柱见财，或行财运、贪财坏印，主破财。戊为财为"
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": "youngzs/docs/三命通会/191卷 八·六乙日丁亥时断.md",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "无气，喜甲木生，助丁食为福。  如遇金局，行水运者，防目疾。  四柱见财，或行财运、贪财坏印，主破财。  "
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": "banny/books/三命通会/articles/六乙日丁亥时断/source.md",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "丁坐无气，喜甲木生，助丁食为福。如遇金局，行水运者，防目疾。四柱见财，或行财运、贪财坏印，主破财。戊为财为"
+    }
+   ],
+   "s3_offset": 276316,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 277068,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": "四库谱系仅 mikkokotila 一家定位：kanripo 四库本该位点所在 bracket 仕宦名录以栏式编排、项目干支次序与快照底本不同，标准捕获（侧翼全锚/脱字/单侧锚/句段锚定）均未定位，逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载",
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "己亥富丙寅〉  〈時逢印食局　　　功名不可量貴人相聚㑹　　　富貴坐朝堂〉  時上生逢亥與丁　食神乙木遇長生"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 277067,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 277313,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "巳月夭巳¶  ¶ 　酉月破家失土身賤¶ 　(癸卯董玘㑹元侍郎/辛酉)　　(丁未應大猷都憲/丙午)¶ 　(己"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "運五六品貴忌丁巳月夭巳酉月破家失土身賤  〈癸卯董玘㑹元侍郎　　丁未應大猷都憲辛酉　　　　　　　　丙午〉 "
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 277312,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 277562,
+   "category": "disposed_parallel",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": "四库两家同读「㑹」（會）；现代计方两家同读「合」——现代转录该句作「申月三合，合煞有印」（底本作「甲月三合㑹煞有印貴」），位点字分歧、并列不裁；Banny-Gao 旁证同读「合」",
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "星若生戌月身¶ 　旺最宜武貴寅月行金水運中貴甲月三合㑹煞有¶ 　印貴忌己巳月凶死己亥月自刑死癸丑月破祖惡¶"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "喜見官星若生戌月身旺最宜武貴寅月行金水運中貴甲月三合㑹煞有印貴忌己巳月凶死己亥月自刑死癸丑月破祖惡死  〈"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": "niutrans/古文原文/三命通会/卷八/六丙日戊子时断/text.txt",
+     "site_reading": "合",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "月，身旺最宜，武贵。寅月，行金水运，中贵。申月三合，合煞有印，贵。忌己巳月，凶死；己亥月，自刑死；癸丑月，"
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": "youngzs/docs/三命通会/192卷 八·六丙日戊子时断.md",
+     "site_reading": "合",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "最宜，武贵。  寅月，行金水运，中贵。  申月三合，合煞有印，贵。  忌己巳月，凶死；己亥月，自刑死；癸丑"
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": "banny/books/三命通会/articles/六丙日戊子时断/source.md",
+     "site_reading": "合",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "月，身旺最宜，武贵。寅月，行金水运，中贵。申月三合，合煞有印，贵。忌己巳月，凶死；己亥月，自刑死；癸丑月，"
+    }
+   ],
+   "parallel_readings": [
+    {
+     "reading_glyph": "㑹",
+     "reading_word": "會",
+     "attested_by": [
+      "siku_lineage"
+     ]
+    },
+    {
+     "reading_glyph": "合",
+     "reading_word": "合",
+     "attested_by": [
+      "modern_lineage_niutrans",
+      "modern_lineage_youngzs"
+     ]
+    }
+   ],
+   "s3_offset": 277561,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 278647,
+   "category": "disposed_confirmed",
+   "reading_glyph": "㑹",
+   "reading_word": "會",
+   "reading_word_simplified": "会",
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "丙申日己丑時血疾申月文學儒官成卯貴子辰㑹官¶ 　寅卯㑹印俱吉¶  ¶ 　(甲戌解元/丁丑)　(庚子御史/乙"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "〉  丙申日己丑時血疾申月文學儒官成卯貴子辰㑹官寅卯㑹印俱吉  〈甲戌解元　庚子御史　壬寅趙煥太宰丁丑　　"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": "niutrans/古文原文/三命通会/卷八/六丙日己丑时断/text.txt",
+     "site_reading": "会",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "巳丑时，血疾。申月，文学儒官成。卯贵。子辰会官，寅卯会印，俱吉。 丙戌日己丑时高，武刑后发旺。生亥卯月，火"
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": "youngzs/docs/三命通会/193卷 八·六丙日己丑时断（以下六丙日所忌月分与上同。时亦并论）.md",
+     "site_reading": "会",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "。  申月，文学儒官成。  卯贵。  子辰会官，寅卯会印，俱吉。  丙戌日己丑时高，武刑后发旺。  生亥卯"
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": "banny/books/三命通会/articles/六丙日己丑时断/source.md",
+     "site_reading": "会",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "巳丑时，血疾。申月，文学儒官成。卯贵。子辰会官，寅卯会印，俱吉。  丙戌日己丑时高，武刑后发旺。生亥卯月，"
+    }
+   ],
+   "s3_offset": 278646,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 278876,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㱔",
+   "candidate_reading_word": "些",
+   "attestation_route": null,
+   "adjudication_note": "四库两家同读「㱔」（些，「須有㱔害」）；现代见证未载",
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㱔",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "藏運交未戌不尋常破出¶ 財官必旺近貴謀奪刼財算來須有㱔害六親真假少¶ 和諧直斷依時莫怪¶ 　　　六丙日庚寅"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㱔",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "庫暗藏運交未戌不尋常破出財官必旺近貴謀奪刼財算來須有㱔害六親真假少和諧直斷依時莫怪  ## 六丙日庚寅時斷"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 278875,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 279203,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "䕃",
+   "candidate_reading_word": "蔭",
+   "attestation_route": null,
+   "adjudication_note": "四库谱系仅 mikkokotila 一家定位：kanripo 四库本该位点所在 bracket 仕宦名录以栏式编排、项目干支次序与快照底本不同，标准捕获（侧翼全锚/脱字/单侧锚/句段锚定）均未定位，逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载",
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "䕃",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "大貴　甲戌小貴甲子　　　　　　　　壬子　　　乙亥壬辰䕃財　庚辰千户凶死壬子　　　戊子〉  丙辰日庚寅時生寅"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 279202,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 280259,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "甲寅太師/戊辰)　(甲寅祭酒/癸酉)¶ 　(丁酉陳棟㑹元/乙巳    探花)¶ 丙申日辛卯時滯主聰明好酒色"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "　甲寅祭酒己酉　　　甲寅　　　戊辰　　　癸酉丁酉陳棟㑹元乙巳　　探花〉  丙申日辛卯時滯主聰明好酒色身旺不"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 280258,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 282582,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㭿",
+   "candidate_reading_word": "㭿",
+   "attestation_route": null,
+   "adjudication_note": "位点字「㭿」为人名用字（林廷㭿），四库两家同读「㭿」，其字本身即为候选词；现代见证未载",
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㭿",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "俱吉然以火土為重無則福薄未戌辰丑見吉¶ 　(壬辰林廷㭿尚書/丙午)　　　(己卯大恭/丙寅)　(甲戌憲副/癸"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㭿",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "旺俱吉然以火土為重無則福薄未戌辰丑見吉  〈壬辰林廷㭿尚書　　　己卯大𠫵　甲戌憲副丙午　　　　　　　　丙寅"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 282581,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 282829,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": "四库谱系仅 mikkokotila 一家定位：kanripo 四库本该位点所在 bracket 仕宦名录以栏式编排、项目干支次序与快照底本不同，标准捕获（侧翼全锚/脱字/单侧锚/句段锚定）均未定位，逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载",
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "月富貴超羣神仙宰相  〈甲午王錫爵榜眼　　　壬子呉黙㑹元癸酉　閣老　　　　　己酉　　通政〉  〈己丑金麗兼"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 282828,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 283464,
+   "category": "disposed_confirmed",
+   "reading_glyph": "㑹",
+   "reading_word": "會",
+   "reading_word_simplified": "会",
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "乙未時不通火氣不見財星作好命論年月子¶ 　辰㑹官亥卯㑹印俱貴¶ 　(壬午明光宗㤗昌帝/己酉)　　(壬子太守"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "丙申日乙未時不通火氣不見財星作好命論年月子辰㑹官亥卯㑹印俱貴  〈壬午明光宗㤗昌帝　　壬子太守　甲子苑馬己"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": "niutrans/古文原文/三命通会/卷八/六丙日乙未时断/text.txt",
+     "site_reading": "会",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "时，不通火气，不见财星，作好命论。年月子辰会官；亥卯会印，俱贵。 丙戌日乙未时，申子辰年月，近侍贵。寅卯巳"
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": "youngzs/docs/三命通会/199卷 八·六丙日乙未时断.md",
+     "site_reading": "会",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "不通火气，不见财星，作好命论。  年月子辰会官；亥卯会印，俱贵。  丙戌日乙未时，申子辰年月，近侍贵。  "
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": "banny/books/三命通会/articles/六丙日乙未时断/source.md",
+     "site_reading": "会",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "时，不通火气，不见财星，作好命论。年月子辰会官；亥卯会印，俱贵。  丙戌日乙未时，申子辰年月，近侍贵。寅卯"
+    }
+   ],
+   "s3_offset": 283463,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 283476,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㤗",
+   "candidate_reading_word": "泰",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㤗",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "命論年月子¶ 　辰㑹官亥卯㑹印俱貴¶ 　(壬午明光宗㤗昌帝/己酉)　　(壬子太守/壬寅)　(甲子苑馬/丙子"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㤗",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "財星作好命論年月子辰㑹官亥卯㑹印俱貴  〈壬午明光宗㤗昌帝　　壬子太守　甲子苑馬己酉　　　　　　　　壬寅　"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 283475,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 283513,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "䕫",
+   "candidate_reading_word": "夔",
+   "attestation_route": null,
+   "adjudication_note": "四库谱系仅 mikkokotila 一家定位：kanripo 四库本该位点所在 bracket 仕宦名录以栏式编排、项目干支次序与快照底本不同，标准捕获（侧翼全锚/脱字/单侧锚/句段锚定）均未定位，逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载",
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "䕫",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "　　　壬寅　　　丙子　卿丁卯舉人　癸巳舉人　甲辰王一䕫尚書丙午　　　辛酉　　　丙子〉  〈甲寅禮部　戊午馮"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 283512,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 283949,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "一僉憲/同)　　(癸亥進士/辛酉)¶ 　(庚子田一儁㑹元/辛巳  侍郎)　　　(丁卯戴士衡吏垣/庚戌  謫"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "　癸亥進士甲午　夭　同　　　　辛酉〉  〈庚子田一儁㑹元　　　丁卯戴士衡吏垣辛巳　侍郎　　　　　庚戌　謫戍"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 283948,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 284528,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "子日丁酉時春穩夏貴秋平冬吉未申酉亥年月大¶ 　貴有辰㑹子有丑㑹酉俱以貴論¶ 　(庚辰邵寶侍郎/乙酉  名臣"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "  丙子日丁酉時春穩夏貴秋平冬吉未申酉亥年月大貴有辰㑹子有丑㑹酉俱以貴論  〈庚辰邵寶侍郎　　　　癸丑進士"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 284527,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 284532,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "時春穩夏貴秋平冬吉未申酉亥年月大¶ 　貴有辰㑹子有丑㑹酉俱以貴論¶ 　(庚辰邵寶侍郎/乙酉  名臣)　　　"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "日丁酉時春穩夏貴秋平冬吉未申酉亥年月大貴有辰㑹子有丑㑹酉俱以貴論  〈庚辰邵寶侍郎　　　　癸丑進士　庚辰進"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 284531,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 287004,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "辰進士/癸未)　(癸未舉人/甲子)　(戊戌女命子韓敬㑹狀/乙丑)¶ 　(癸巳女命夫王錫爵閣/庚申  老子王"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "　　庚子　　　癸卯庚辰進士　癸未舉人　戊戌女命子韓敬㑹狀癸未　　　甲子　　　乙丑癸巳女命夫王錫爵閣　庚申中"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 287003,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 288515,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㳟",
+   "candidate_reading_word": "恭",
+   "attestation_route": null,
+   "adjudication_note": "位点为人名「萬㳟」之「㳟」字（恭之异体）；四库谱系仅 mikkokotila 一家定位：kanripo 四库本该位点所在 bracket 仕宦名录以栏式编排、项目干支次序与快照底本不同，标准捕获（侧翼全锚/脱字/单侧锚/句段锚定）均未定位，逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载",
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㳟",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "丙午鄭汝璧淮撫戊子　　　壬午　　　庚寅〉  〈乙亥萬㳟侍郎　　　　乙卯富丙戌　　　　　　　　辛巳〉  丁卯"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 288514,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 289183,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㸃",
+   "candidate_reading_word": "點",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㸃",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "巳太守/癸酉)¶ 　(癸酉舉人/壬戌)¶ 　　　　(㸃鐵成金局/庻人多發福)　　　(時逢大吉昌/君子利名彰"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㸃",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "寅　　　丁丑　忠臣　　　　　癸酉癸酉舉人壬戌〉  〈㸃鐵成金局　　　時逢大吉昌庻人多發福　　　君子利名彰〉"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 289182,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 289512,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": "四库谱系仅 mikkokotila 一家定位：kanripo 四库本该位点所在 bracket 仕宦名录以栏式编排、项目干支次序与快照底本不同，标准捕获（侧翼全锚/脱字/单侧锚/句段锚定）均未定位，逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载",
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "為凶論行官運貴顯  〈辛丑楊白泉尚書　　　庚戌蕭良有㑹元榜眼癸巳　　　　　　　　丁亥　祭酒己巳大叅　乙未太"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 289511,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 289737,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": ")　(丙戌進士/辛卯)　(丙申韓紹方伯子敬/乙未  㑹狀)¶ 　(丁酉唐龍尚書子汝楫/丁未  狀元)　(庚"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "丙戌進士　丙申韓紹方伯子敬壬子　　　辛卯　　　乙未　㑹狀  丁酉唐龍尚書子汝楫　庚寅進士丁未　狀元　　　　"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 289736,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 289986,
+   "category": "disposed_kept",
+   "reading_glyph": "防",
+   "reading_word": "防",
+   "reading_word_simplified": "防",
+   "candidate_reading_glyph": "防",
+   "candidate_reading_word": "防",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "¶ 丁日時臨癸卯身衰無倚平常門中鬼賊耗財糧守祖¶ 須防破蕩父母鴈行少靠妻子不免離鄉運中身旺煞¶ 方降堪許利"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "貴人  丁日時臨癸卯身衰無倚平常門中鬼賊耗財糧守祖須防破蕩父母鴈行少靠妻子不免離鄉運中身旺煞方降堪許利名榮"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": "niutrans/古文原文/三命通会/卷八/六丁日癸卯时断/text.txt",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": " 丁日时临癸卯，身衰无倚平常。门中鬼贼耗财粮，守祖须防破荡。 父母雁行少靠，妻子不免离乡。运中身旺煞方降，"
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": "banny/books/三命通会/articles/六丁日癸卯时断/source.md",
+     "site_reading": "防",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": " 丁日时临癸卯，身衰无倚平常。门中鬼贼耗财粮，守祖须防破荡。  父母雁行少靠，妻子不免离乡。运中身旺煞方降"
+    }
+   ],
+   "s3_offset": 289985,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 291757,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": "四库谱系仅 mikkokotila 一家定位：kanripo 四库本该位点所在 bracket 仕宦名录以栏式编排、项目干支次序与快照底本不同，标准捕获（侧翼全锚/脱字/单侧锚/句段锚定）均未定位，逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载",
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "　　　　　壬午　　　戊戌丁亥舉人　乙卯進士　辛酉金逹㑹元探花乙巳　　　壬午　　　乙未丙子女命無子受　　　癸"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 291756,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 292646,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": "四库谱系仅 mikkokotila 一家定位：kanripo 四库本该位点所在 bracket 仕宦名录以栏式编排、项目干支次序与快照底本不同，标准捕获（侧翼全锚/脱字/单侧锚/句段锚定）均未定位，逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载",
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "云〉凶中晚發大富  〈乙亥楊一清閣老　　　辛亥鄒守益㑹元尚書己丑　無子名臣　　　辛卯　道學名士  己酉唐文"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 292645,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 293312,
+   "category": "disposed_confirmed",
+   "reading_glyph": "㑹",
+   "reading_word": "會",
+   "reading_word_simplified": "会",
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": " 丁未日戊申時生己午未戌身旺貴顯若亥卯㑹未子¶ 　辰㑹申俱以貴論¶ 　(乙亥内翰/丙戌)　(壬子貴/壬子)"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "辰〉  丁未日戊申時生己午未戌身旺貴顯若亥卯㑹未子辰㑹申俱以貴論  〈乙亥内翰　壬子貴　　癸巳貴丙戌　　　"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": "niutrans/古文原文/三命通会/卷八/六丁日戊申时断/text.txt",
+     "site_reading": "会",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "丁未日戊申时；生巳午未戌，身旺贵显。若亥卯会未，子辰会申，俱以贵论。 丁酉日戊申时，寅午戌丑辰未月生，伤官"
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": "youngzs/docs/三命通会/211卷 八·六丁日戊申时断.md",
+     "site_reading": "会",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "日戊申时；生巳午未戌，身旺贵显。  若亥卯会未，子辰会申，俱以贵论。  丁酉日戊申时，寅午戌丑辰未月生，伤"
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": "banny/books/三命通会/articles/六丁日戊申时断/source.md",
+     "site_reading": "会",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "丁未日戊申时；生巳午未戌，身旺贵显。若亥卯会未，子辰会申，俱以贵论。  丁酉日戊申时，寅午戌丑辰未月生，伤"
+    }
+   ],
+   "s3_offset": 293311,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 293451,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㕘",
+   "candidate_reading_word": "參",
+   "attestation_route": null,
+   "adjudication_note": "位点语「大㕘」（參）为明代大參之称；四库谱系仅 mikkokotila 一家定位：kanripo 四库本该位点所在 bracket 仕宦名录以栏式编排、项目干支次序与快照底本不同，标准捕获（侧翼全锚/脱字/单侧锚/句段锚定）均未定位，逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载",
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㕘",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "透頂戊戌　榮格又辛亥戊申名天闕地軸格　至貴  壬子大㕘　　　　　　丙午僉憲　癸亥舉人丙午　　　　　　　　乙"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 293450,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 294653,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "月用土生財主富用財生¶ 　官富貴兩全¶ 　(戊申張治㑹元閣老/辛酉)　　(戊戌丞相/甲子)　(已卯進士/戊"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "衝凶若年月用土生財主富用財生官富貴兩全  〈戊申張治㑹元閣老　　戊戌丞相　已卯進士辛酉　　　　　　　　甲子"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 294652,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 294747,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "䕃",
+   "candidate_reading_word": "蔭",
+   "attestation_route": null,
+   "adjudication_note": "四库谱系仅 mikkokotila 一家定位：kanripo 四库本该位点所在 bracket 仕宦名录以栏式编排、项目干支次序与快照底本不同，标准捕获（侧翼全锚/脱字/单侧锚/句段锚定）均未定位，逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载",
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "䕃",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "　乙亥〉  〈戊辰張電白衣中書官　已巳富丙辰　至侍郎䕃二子　戊辰〉  丁酉日庚戌時日貴格近貴曉藝業有機謀酉"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 294746,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 297467,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㸔",
+   "candidate_reading_word": "看",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㸔",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "(戊辰貴妃/乙丑)¶ 　　(以上六日喜忌年月通融/活㸔更恭諸命則得矣)¶ 　　　　(化合南離局/柱中無衝破"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㸔",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "凶〉  〈戊辰貴妃乙丑〉  〈以上六日喜忌年月通融活㸔更𠫵諸命則得矣〉  〈化合南離局　　　財門日日開柱中"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 297466,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 300970,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": "四库谱系仅 mikkokotila 一家定位：kanripo 四库本该位点所在 bracket 仕宦名录以栏式编排、项目干支次序与快照底本不同，标准捕获（侧翼全锚/脱字/单侧锚/句段锚定）均未定位，逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载",
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "〈乙亥主政　甲寅進士早卒庚辰　　　癸酉〉  〈風雲聚㑹局　　　不要見官星年月無傷敗　　　功名一路通〉  日"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 300969,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 301363,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "子舉人/戊辰)　(癸酉凶死/戊午)¶ 　(庚子李同芳㑹魁/己丑)¶ 戊辰日戊午時拱禄格年月無寅巳甲乙字貴卯"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "癸酉凶死壬子　　　命同　　　戊辰　　　戊午庚子李同芳㑹魁己丑〉  戊辰日戊午時拱禄格年月無寅巳甲乙字貴卯申"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 301362,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 302090,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": "四库谱系仅 mikkokotila 一家定位：kanripo 四库本该位点所在 bracket 仕宦名录以栏式编排、项目干支次序与快照底本不同，标准捕获（侧翼全锚/脱字/单侧锚/句段锚定）均未定位，逐字如实登记未定位；候选读法只据一家登记，现代三家亦未载",
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "旺煞刃雙顯主大貴  〈丙午尚書　　　　　　庚子李多見㑹魁吏部甲午　　　　　　　　丁亥　主事  己未庻吉士改"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 302089,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 302489,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "䨇",
+   "candidate_reading_word": "雙",
+   "attestation_route": null,
+   "adjudication_note": null,
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "䨇",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "親骨肉成疎喜逢火印暗中扶甲乙¶ 寅卯為主重謝花開結菓䨇親鴈行夭孤自為自立自¶ 圖謀賴有貴人扶助¶  ¶ 　"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "䨇",
+     "attestation": "attested",
+     "match_mode": "full_flank",
+     "quote_short": "未六親骨肉成疎喜逢火印暗中扶甲乙寅卯為主重謝花開結菓䨇親鴈行夭孤自為自立自圖謀賴有貴人扶助  ## 六戊日"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 302488,
+   "section_id": null,
+   "volume": "卷八"
+  },
+  {
+   "s0_offset": 305444,
+   "category": "deferred_no_witness",
+   "reading_glyph": null,
+   "reading_word": null,
+   "reading_word_simplified": null,
+   "candidate_reading_glyph": "㑹",
+   "candidate_reading_word": "會",
+   "attestation_route": null,
+   "adjudication_note": "位点为卷八卷末页眉书名「三命通會」之「會」字位点（S3 语境作「三命通防卷八」），四库两家读「㑹」；现代见证未载",
+   "collation_note_id": null,
+   "collation_note_reading": null,
+   "collation_note_status": null,
+   "collation_note_disposition": null,
+   "witness_evidence": [
+    {
+     "witness": "kanripo/KR3g0042",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "kanripo/KR3g0042_008.txt",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "刑虧妻賢子孝樂¶ 怡怡無破科名及第¶ 　¶ 　三命通㑹卷八¶"
+    },
+    {
+     "witness": "mikkokotila/Sanming-Tongshui",
+     "side": "siku_lineage",
+     "role": "witness",
+     "locator": "mikkokotila/source/juan-08.md",
+     "site_reading": "㑹",
+     "attestation": "attested",
+     "match_mode": "side_anchored",
+     "quote_short": "響快六親骨肉刑虧妻賢子孝樂怡怡無破科名及第  三命通㑹卷八  &lt;子部,術數類,命書相書之屬,三命通會"
+    },
+    {
+     "witness": "NiuTrans/Classical-Modern",
+     "side": "modern_lineage_niutrans",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "youngzs/xuanxue",
+     "side": "modern_lineage_youngzs",
+     "role": "witness",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    },
+    {
+     "witness": "Banny-Gao",
+     "side": "corroboration_only",
+     "role": "corroboration",
+     "locator": null,
+     "site_reading": null,
+     "attestation": "not_located",
+     "quote_short": null
+    }
+   ],
+   "s3_offset": 305443,
+   "section_id": null,
+   "volume": "卷八"
   }
  ],
  "tranche_plan": {
-  "disposed_cumulative": "78/769",
+  "disposed_cumulative": "92/769",
   "deferred_in_registered_sections": 29,
-  "deferred_upgrade_path": "为 29 处 deferred 补齐第二个独立见证方（如 Wikisource michiboo 转录或四库影印原叶定位）后逐处升级处置；第二分册 67 处 deferred 缺口同为第二个独立见证方（现代谱系于该位点文句未载）；第三分册 112 处 deferred 缺口为三命通会文本自身的第二个独立见证方（youngzs《三命通会》转录于卷四仅覆盖三节），其中 23 处有 youngzs《五行精纪》平行源文本旁证在案（同读 22、异读 1——146688 四库读䄂而源文本读福），补齐现代全本转录或四库影印原叶定位后逐处升级；126098 处另缺四库谱系内部第二文本（kanripo 无此段）；第四分册 50 处 deferred 缺口同为三命通会文本自身的第二个独立见证方，其中三处（149947/161345/175574）另缺四库谱系内部 kanripo 位点定位（栏式编排所致），154979 处有 youngzs《五行精纪》平行源文本异读「直」在案，补齐现代全本转录或四库影印原叶定位后逐处升级；第五分册 118 处 deferred 缺口同为三命通会文本自身的第二个独立见证方，其中 218248 处有 youngzs《五行精纪》平行源文本同读「双」在案，补齐现代全本转录或四库影印原叶定位后逐处升级；第六分册 61 处 deferred 缺口同为三命通会文本自身的第二个独立见证方，补齐现代全本转录或四库影印原叶定位后逐处升级；卷七 RD-12 seq 612/616 两处保持 pending、处置随 P3",
+  "deferred_upgrade_path": "为 29 处 deferred 补齐第二个独立见证方（如 Wikisource michiboo 转录或四库影印原叶定位）后逐处升级处置；第二分册 67 处 deferred 缺口同为第二个独立见证方（现代谱系于该位点文句未载）；第三分册 112 处 deferred 缺口为三命通会文本自身的第二个独立见证方（youngzs《三命通会》转录于卷四仅覆盖三节），其中 23 处有 youngzs《五行精纪》平行源文本旁证在案（同读 22、异读 1——146688 四库读䄂而源文本读福），补齐现代全本转录或四库影印原叶定位后逐处升级；126098 处另缺四库谱系内部第二文本（kanripo 无此段）；第四分册 50 处 deferred 缺口同为三命通会文本自身的第二个独立见证方，其中三处（149947/161345/175574）另缺四库谱系内部 kanripo 位点定位（栏式编排所致），154979 处有 youngzs《五行精纪》平行源文本异读「直」在案，补齐现代全本转录或四库影印原叶定位后逐处升级；第五分册 118 处 deferred 缺口同为三命通会文本自身的第二个独立见证方，其中 218248 处有 youngzs《五行精纪》平行源文本同读「双」在案，补齐现代全本转录或四库影印原叶定位后逐处升级；第六分册 61 处 deferred 缺口同为三命通会文本自身的第二个独立见证方，补齐现代全本转录或四库影印原叶定位后逐处升级；卷七 RD-12 seq 612/616 两处保持 pending、处置随 P3；第六分册 61 处 deferred 缺口同为三命通会文本自身的第二个独立见证方，补齐现代全本转录或四库影印原叶定位后逐处升级；卷七 RD-12 seq 612/616 两处保持 pending、处置随 P3；第七分册 47 处 deferred 中 29 处缺口同为三命通会文本自身的第二个独立见证方，余 18 处四库谱系亦仅 mikkokotila 一家定位（kanripo bracket 栏式编排致未定位），补齐现代全本转录、kanripo 对应原叶定位或四库影印原叶后逐处升级",
   "pending_by_volume": [
    {
     "volume": "卷五",
@@ -45922,10 +50063,6 @@
    {
     "volume": "卷七",
     "pending": 2
-   },
-   {
-    "volume": "卷八",
-    "pending": 61
    },
    {
     "volume": "卷九",
@@ -45944,8 +50081,8 @@
     "pending": 24
    }
   ],
-  "order": "卷首/卷一/卷二/卷三已于第二分册（E0304）、卷四已于第三分册（E0306）、卷五已于第四分册（E0308，RD-12 两处除外）、卷六已于第五分册（E0310）、卷七已于第六分册（E0312，RD-12 两处除外）处置完毕；其余按卷序分册（卷八→卷十二）",
-  "deferred_total": 437,
+  "order": "卷首/卷一/卷二/卷三已于第二分册（E0304）、卷四已于第三分册（E0306）、卷五已于第四分册（E0308，RD-12 两处除外）、卷六已于第五分册（E0310）、卷七已于第六分册（E0312，RD-12 两处除外）、卷八已于第七分册（E0314）处置完毕；其余按卷序分册（卷九→卷十二）",
+  "deferred_total": 484,
   "tranches_done": [
    {
     "tranche": "首批（已登记节内 43 处）",
@@ -45982,6 +50119,12 @@
     "event": "E0312",
     "disposed": 12,
     "deferred": 61
+   },
+   {
+    "tranche": "第七分册（卷八节外 61 处）",
+    "event": "E0314",
+    "disposed": 14,
+    "deferred": 47
    }
   ]
  },
@@ -45992,6 +50135,7 @@
   "E0306",
   "E0308",
   "E0310",
-  "E0312"
+  "E0312",
+  "E0314"
  ]
 }
