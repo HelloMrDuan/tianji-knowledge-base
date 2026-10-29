@@ -71,7 +71,37 @@
               "proposed_reading": "王麟洲少卿",
               "status": "needs_base_text_evidence_do_not_apply"
             }
-          ]
+          ],
+          "formal_application": {
+            "version": "v1",
+            "batch": "TJ-018.3 三命通会 PUA＋校勘正式应用批（E0298）",
+            "record_register": "sanming-formal-application-record-v1",
+            "derived_from_snapshot_sha256": "00e2a7db8bb59b259b99938033bb1bb77947e04a15dafc111e62b59378010c86",
+            "stage_text_sha256": {
+              "S1": "b4f196f2100347618d7907330b2db93bd536a5663f16249a6e0ff19e23c05daa",
+              "S2": "db8618c9cdbc545b59149f7550644a440fdf8bba8ddbe0e23b615029f8a896d9",
+              "S3": "a89c0b5da16ea4e07dc85180c49135ed280875318059f923ff7154f2c217662f"
+            },
+            "applied_text": {
+              "path": "data/quarantine/public_domain_snapshots/daizhigev20/sanming_tonghui_applied_v1.txt",
+              "bytes": 1342682,
+              "sha256": "a89c0b5da16ea4e07dc85180c49135ed280875318059f923ff7154f2c217662f"
+            },
+            "application_report": {
+              "path": "data/quarantine/public_domain_snapshots/daizhigev20/sanming_formal_application_report_v1.json",
+              "bytes": 960017,
+              "file_sha256": "691ccb60b61534f60024843a5a5e692aa70d967c5a1939d70c2e8814d23e914b",
+              "self_sha256": "29c857a1c1bd4707f61b4514c408553a3c87c3e4822560e2c48a4a4e4b2316f5"
+            },
+            "snapshot_manifest_after": {
+              "files": 237,
+              "total_bytes": 15883200,
+              "sha256": "5ea551f5ffe3e3abbe42f4edf03dfe9d973fd7bc49ab7207180dc454ea874cbc"
+            },
+            "text_review_status": "in_progress",
+            "canonical_ready": false,
+            "note": "应用产物为工作本，不是 canonical；快照本体与三份校勘 JSON 逐字不动，planned_output 不生成；新 manifest 三元组于本批 PR 合并时由父级按设计 §2.8 同步换代至 live 快照、cicd 钉与私有构建脚本"
+          }
         },
         {
           "id": "shenfeng_tongkao",
