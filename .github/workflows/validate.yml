@@ -603,6 +603,23 @@ jobs:
       # replay pins, all 769 loci and 762 disposition
       # contexts verbatim against the sealed texts) lives in
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0183_sanming_fang_disposition.py' -v
+      # TJ-018.3 P3 RD-12 collation register (E0324) public
+      # contracts: pure-data register mirrored against
+      # Golden, all 12 reading-disagreement loci collated
+      # lineage against lineage (siku lineage counts as one
+      # witness; modern houses counted as one cluster until
+      # independence is verified; Banny-Gao corroboration
+      # only), every outcome parallel-registered pending
+      # adjudication under UD-1 default A (snapshot char
+      # retained, no adjudication, no application), and the
+      # 8-vs-7 reconciliation against the P2 register pinned
+      # (8 rd12 loci in the 769 inventory: 7 pending plus
+      # seq 450 already deferred in the first P2 tranche).
+      # Sealed-side verification lives in
+      # test_tj0183_sanming_rd12_collation_sealed.py
+      # (offline acceptance only, NOT public CI: it reads
+      # the sealed snapshot files).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0183_sanming_rd12_collation.py' -v
       # TJ-017.1 seven-item priority collation closeout (scout
       # 018-B) public contracts: pure-data register mirrored
       # against Golden, collation-note form and confirmed anchor
