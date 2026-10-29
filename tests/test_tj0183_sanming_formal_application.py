@@ -306,6 +306,53 @@ class PromotionInterfaceTest(unittest.TestCase):
                          ["AP%d" % i for i in range(1, 7)])
 
 
+class UserDecisionAdjudicationTest(unittest.TestCase):
+    """E0327 UD 裁定登记：只增补 adjudication 字段，既有登记原文零改动。"""
+
+    def test_all_three_decided_a_by_user(self):
+        uds = fa.PROMOTION_INTERFACE["user_decisions"]
+        self.assertEqual([u["id"] for u in uds], ["UD-1", "UD-2", "UD-3"])
+        for u in uds:
+            a = u["adjudication"]
+            self.assertEqual(a["status"], "decided")
+            self.assertEqual(a["date"], "2026-10-30")
+            self.assertEqual(a["decided_by"], "用户")
+            self.assertEqual(a["option_chosen"], "A")
+            self.assertEqual(a["registration_event"], "E0327")
+            self.assertTrue(u["options"][0].startswith("A "))
+            self.assertIn("E0326", a["basis"])
+
+    def test_original_ud_text_verbatim(self):
+        uds = {u["id"]: u for u in fa.PROMOTION_INTERFACE["user_decisions"]}
+        self.assertEqual([len(uds[i]["options"]) for i in
+                          ("UD-1", "UD-2", "UD-3")], [3, 2, 2])
+        self.assertTrue(all(not uds[i]["needed_now"] for i in uds))
+        self.assertIn("不走", uds["UD-1"]["design_recommendation"])
+        self.assertIn("不足以改底本", uds["UD-2"]["design_recommendation"])
+        self.assertIn("P4 决策包时再正式呈请",
+                      uds["UD-3"]["design_recommendation"])
+        # 设计批当时状态的记录不回改：headline 仍记待裁定 3 项
+        self.assertEqual(
+            REG["headline_verdicts"]["user_decisions_pending"], 3)
+
+    def test_adjudication_effects_freeze_defaults(self):
+        uds = {u["id"]: u for u in fa.PROMOTION_INTERFACE["user_decisions"]}
+        self.assertIn("已裁定：并列保留", uds["UD-1"]["adjudication"]["effect"])
+        self.assertIn("不执行", uds["UD-1"]["adjudication"]["effect"])
+        self.assertIn("永久缺口", uds["UD-2"]["adjudication"]["effect"])
+        self.assertIn("42148", uds["UD-2"]["adjudication"]["effect"])
+        self.assertIn("318327", uds["UD-2"]["adjudication"]["effect"])
+        self.assertIn("canonical_ready 保持 false",
+                      uds["UD-3"]["adjudication"]["effect"])
+        # 裁定不改整书姿态与缺口登记
+        self.assertFalse(REG["headline_verdicts"]["canonical_ready"])
+        self.assertTrue(all(
+            g["status"] == "needs_base_text_evidence_do_not_apply"
+            for g in fa.PERMANENT_GAPS["items"]))
+        self.assertTrue(fa.READING_DISAGREEMENT_SPEC[
+            "default_disposition"].startswith("并列登记、快照字保留"))
+
+
 class SealedMeasurementsTest(unittest.TestCase):
     def test_arithmetic(self):
         sm = fa.SEALED_MEASUREMENTS
