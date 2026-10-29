@@ -577,6 +577,24 @@ jobs:
       # acceptance only, NOT public CI: it reads the sealed
       # snapshot files).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0183_sanming_finalization.py' -v
+      # TJ-018.3 P2 residual-fang disposition register, first
+      # tranche (E0302) public contracts: pure-data register
+      # mirrored against Golden, full 769-locus inventory of the
+      # S3 residual fang (origin-map coordinates, context
+      # hashes), category counts reconciled (disposed 14/769:
+      # confirmed 9 / kept 4 / parallel 1; deferred 29 with
+      # witness evidence on record; 726 pending in later
+      # volume-ordered tranches), disposition rules pinned
+      # (confirmed needs siku lineage plus an independent
+      # modern lineage, kept needs siku agreement on fang,
+      # RD-12 loci deferred to P3). Sealed-side verification
+      # (sealed files byte-identical, two-stage replay pins,
+      # all 769 loci and 43 disposition contexts verbatim
+      # against the sealed texts) lives in
+      # test_tj0183_sanming_fang_disposition_sealed.py
+      # (offline acceptance only, NOT public CI: it reads the
+      # sealed snapshot files).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0183_sanming_fang_disposition.py' -v
       # TJ-017.1 seven-item priority collation closeout (scout
       # 018-B) public contracts: pure-data register mirrored
       # against Golden, collation-note form and confirmed anchor
