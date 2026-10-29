@@ -578,20 +578,24 @@ jobs:
       # snapshot files).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0183_sanming_finalization.py' -v
       # TJ-018.3 P2 residual-fang disposition register (first
-      # tranche E0302, second tranche E0304) public contracts:
-      # pure-data register mirrored against Golden, full
-      # 769-locus inventory of the S3 residual fang (origin-map
-      # coordinates, context hashes), category counts
-      # reconciled (disposed 33/769: confirmed 12 / kept 19 /
-      # parallel 2; deferred 96 with witness evidence on
-      # record; 640 pending in later volume-ordered tranches),
-      # disposition rules pinned (confirmed needs siku lineage
-      # plus an independent modern lineage, kept needs siku
-      # agreement on fang, RD-12 loci deferred to P3), and the
-      # 43 first-tranche dispositions pinned verbatim by hash.
-      # Sealed-side verification (sealed files byte-identical,
-      # two-stage replay pins, all 769 loci and 129 disposition
-      # contexts verbatim against the sealed texts) lives in
+      # tranche E0302, second tranche E0304, third tranche
+      # E0306) public contracts: pure-data register mirrored
+      # against Golden, full 769-locus inventory of the S3
+      # residual fang (origin-map coordinates, context
+      # hashes), category counts reconciled (disposed 39/769:
+      # confirmed 14 / kept 23 / parallel 2; deferred 208
+      # with witness evidence on record; 522 pending in later
+      # volume-ordered tranches), disposition rules pinned
+      # (confirmed needs siku lineage plus an independent
+      # modern lineage attesting in its Sanming-Tonghui
+      # transcription subset -- parallel-source attestations
+      # from a quoted source text do not count -- kept needs
+      # siku agreement on fang, RD-12 loci deferred to P3),
+      # and the 129 earlier-tranche dispositions pinned
+      # verbatim by hash. Sealed-side verification (sealed
+      # files byte-identical, two-stage replay pins, all 769
+      # loci and 247 disposition contexts verbatim against
+      # the sealed texts) lives in
       # test_tj0183_sanming_fang_disposition_sealed.py
       # (offline acceptance only, NOT public CI: it reads the
       # sealed snapshot files).
