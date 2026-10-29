@@ -1,0 +1,2087 @@
+{
+ "register_id": "sanming-reading-disagreement-collation-register-v1",
+ "task": "TJ-018.3 晋级 P3——RD-12 十二条谱系对谱系互校登记批",
+ "ledger_event": "E0324",
+ "ledger_row": "TJ-018.2",
+ "baseline_main_sha": "9c42339048ec716a313541a3b68fc61a4543d6db",
+ "purpose": "按 TJ-018.3 正式应用批设计审定（E0294）的 RD-12 谱系对谱系互校标准与 UD-1 默认口径 A，完成 reading_disagreement_hold 12 条的逐条互校登记：坐标与快照字只取既有登记（设计登记册、重锚登记册、候选原始记录、正式应用报告），四库谱系（kanripo 与 mikkokotila 两家计一个见证方）与现代谱系簇逐条以新鲜探针捕获式定位复核，现代三家独立性逐条核实；分歧一律并列登记、保留快照字，不择一、不改字、不下裁定（UD-1 的 B/C 方案属 P4 决策包，本批不代决）；快照、S3 应用文本、应用报告与 P1/P2 既有登记逐字未动，canonical_ready 保持 false。",
+ "inputs": {
+  "snapshot": {
+   "file": "sanming_tonghui.txt",
+   "path": "data/quarantine/public_domain_snapshots/daizhigev20/sanming_tonghui.txt",
+   "chars": 461157,
+   "sha256": "00e2a7db8bb59b259b99938033bb1bb77947e04a15dafc111e62b59378010c86"
+  },
+  "basis_text": {
+   "definition": "钉定快照经 PUA 阶段与文本阶段 ocr-001..444 应用后的中间文本（E0273 重锚登记册基线，S2）",
+   "chars": 461156,
+   "sha256": "db8618c9cdbc545b59149f7550644a440fdf8bba8ddbe0e23b615029f8a896d9"
+  },
+  "applied_text": {
+   "file": "sanming_tonghui_applied_v1.txt",
+   "path": "data/quarantine/public_domain_snapshots/daizhigev20/sanming_tonghui_applied_v1.txt",
+   "chars": 461156,
+   "bytes": 1342682,
+   "sha256": "a89c0b5da16ea4e07dc85180c49135ed280875318059f923ff7154f2c217662f"
+  },
+  "candidates_file": {
+   "file": "sanming_ocr_candidates.json",
+   "sha256": "4209b85d003d07ca696e298c3f446c43ea8a8d6871dfe73e52fc7c17a16d211c",
+   "note": "候选原始记录逐字未动；本批 12 条与候选记录逐条对齐（seq、status、old、historical_reading、baseline_character_offset、context、volume、correction_id、historical_evidence、crosscheck_evidence 全等，生成时全验）"
+  },
+  "application_report": {
+   "file": "sanming_formal_application_report_v1.json",
+   "file_sha256": "691ccb60b61534f60024843a5a5e692aa70d967c5a1939d70c2e8814d23e914b",
+   "note": "12 条 dispositions 逐条对账：site_s2_offset == site_s3_offset == basis_offset、site_s0_offset == basis_offset + 1、site_state_in_S3 == old、flags.in_reading_disagreement_12 == true（生成时全验）"
+  },
+  "snapshot_manifest": {
+   "files": 237,
+   "bytes": 15883200,
+   "sha256": "5ea551f5ffe3e3abbe42f4edf03dfe9d973fd7bc49ab7207180dc454ea874cbc"
+  },
+  "design_register": "sanming-formal-application-design-register-v1",
+  "reanchor_register": "sanming-ocr-candidates-reanchor-register-v1",
+  "finalization_register": "sanming-ocr-candidates-finalization-register-v1",
+  "fang_disposition_register": "sanming-residual-fang-disposition-register-v1"
+ },
+ "witness_lineages": {
+  "siku_lineage": {
+   "counts_as": "one_lineage",
+   "houses": [
+    {
+     "repo": "kanripo/KR3g0042",
+     "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1"
+    },
+    {
+     "repo": "mikkokotila/Sanming-Tongshui",
+     "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079"
+    }
+   ],
+   "note": "两家同属四库全书谱系，计一个见证方；本批新鲜探针12/12 两家全锚 attested，读法逐条与候选记录 historical_reading 一致"
+  },
+  "modern_cluster": {
+   "counts_as": "one_cluster_until_independence_verified",
+   "houses": [
+    {
+     "repo": "NiuTrans/Classical-Modern",
+     "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+     "attested": 12,
+     "not_located": 0
+    },
+    {
+     "repo": "youngzs/xuanxue",
+     "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+     "corpus_scope": "sanming_tonghui_transcription_subset",
+     "attested": 7,
+     "not_located": 5
+    },
+    {
+     "repo": "michiboo/Classical_Chinese_Wikisource",
+     "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+     "attested_in_candidate_record": 5,
+     "not_in_candidate_record": 7,
+     "note": "本机无本地语料，其证据逐字取自候选记录 crosscheck_evidence"
+    }
+   ],
+   "independence_verdict": "现代侧凡 ≥2 家定位者读法同词（简繁字形对在案）；但读法一致不等于谱系独立——NiuTrans 与 youngzs 均为网络转录、维基文库源出影印传统，三家独立性逐条核实后仍无积极证据可断互不相袭，按设计口径整组计一个现代谱系簇",
+   "corroboration_only": [
+    {
+     "repo": "Banny-Gao",
+     "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+     "attested": 12,
+     "note": "12/12 attested 且读法逐条与现代簇同；按既有口径只作旁证，不计见证方"
+    }
+   ]
+  },
+  "third_lineage_witness_found": 0
+ },
+ "decision_standard": {
+  "ud1_default": "A",
+  "statement": "UD-1 默认 A（设计在案）：分歧条目并列登记、保留快照字，不择一、不改字、不下裁定；判定标准 (a)（与两簇均独立的第三谱系见证同读一方）12 条处处不成立；(b) 内证逐条登记为观察、不作采纳依据。UD-1 的 B（全批采四库读法）/C（逐条裁定）方案属 P4 决策包，本批不执行、不代决",
+  "standard_a_satisfied_entries": 0,
+  "internal_evidence_adopted_entries": 0
+ },
+ "reconciliation_rd12_vs_p2": {
+  "question": "RD-12 中残余「防」子集在候选 seq 编号下为 8 条（361/385/450/612/616/824/873/933），而 P2 登记册 pending 只标记位点 7 处（卷五 2、卷七 2、卷十 1、卷十一 2）。",
+  "finding": "P2 盘点 769 行中带 rd12_seq 标记者恰 8 行，与候选 seq 一一对应（盘点行 seq 与 S3 位点：361→行 234/157778、385→行 251/164132、450→行 299/184317、612→行 453/228260、616→行 455/228868、824→行 693/374131、873→行 712/395586、933→行 740/423786；每行 s3_offset 恰等于候选 basis_offset、s0_offset 恰等于 basis_offset + 1）。其中 7 行 disposition 为 pending_later_tranche（361/385/612/616/824/873/933），即 pending 7，其所在卷分册（E0308/E0312/E0318/E0320）只标记保留；第 8 行 seq 450 已有正式处置记录：category 为 deferred_no_witness、defer_reason 明文 reading_disagreement_rd12_p3_scope、rd12_seq = 450、collation_note_id sm5y-fang-184318。原因：seq 450 位于已登记节《论羊刃》（section_id sanming.juan5.yangren）内，P2 首批（E0302）处置节内 43 处时已逐处互校成册，节外各卷分册的「只标记」保留不适用于节内位点。故 8 = 7 pending + 1 deferred（seq 450 计入 deferred 601 而非 pending 7），P2 登记册 summary 的 rd12_sites_in_inventory = 8 与 rd12_sites_in_pending_tranches = 7 两数字正源于此。",
+  "arithmetic": "161 disposed + 601 deferred + 7 pending = 769",
+  "status_dimension": "993 = 822（P1）+ 159（已核销）+ 12（本批）",
+  "pending7_state_after_this_batch": "collation_registered_pending_adjudication"
+ },
+ "summary": {
+  "total": 12,
+  "by_volume": {
+   "5": 3,
+   "7": 2,
+   "10": 3,
+   "11": 4
+  },
+  "snapshot_chars": {
+   "防": 8,
+   "着": 2,
+   "胤": 1,
+   "玄": 1
+  },
+  "collation_forms": {
+   "semantic_divergence": 8,
+   "glyph_variant_same_word_plus_semantic_divergence": 4
+  },
+  "outcomes": {
+   "parallel_registered_pending_adjudication": 12
+  },
+  "siku_attested": {
+   "kanripo/KR3g0042": 12,
+   "mikkokotila/Sanming-Tongshui": 12
+  },
+  "modern_attested": {
+   "NiuTrans/Classical-Modern": 12,
+   "youngzs/xuanxue_subset": 7,
+   "michiboo_candidate_record": 5,
+   "Banny-Gao_corroboration": 12
+  },
+  "third_lineage_witness_found": 0,
+  "internal_evidence_adopted": 0,
+  "adjudicated": 0,
+  "applied": 0
+ },
+ "entries": [
+  {
+   "seq": 361,
+   "volume": 5,
+   "status": "reading_disagreement_hold",
+   "registration_kind": "collation_parallel",
+   "site_s2": 157778,
+   "site_s3": 157778,
+   "site_snapshot_span": [
+    157779,
+    157780
+   ],
+   "site_in_context": 20,
+   "snapshot_reading": "防",
+   "s3_reading": "防",
+   "site_s0_char": "防",
+   "site_s0_codepoint": "U+9632",
+   "pua_site_note": null,
+   "context": "生作栋梁【又】时逄七煞是偏官有制身强好命防制过喜行煞旺运三合得地发何难【又】生逄七",
+   "context_span_s2": [
+    157758,
+    157799
+   ],
+   "context_s2_sha256": "fedd1fca3c70f9d72c8a07fe2409da8d5d3168bc8834d13572fd12f5652a4df1",
+   "context_span_s3": [
+    157758,
+    157799
+   ],
+   "context_s3_sha256": "fedd1fca3c70f9d72c8a07fe2409da8d5d3168bc8834d13572fd12f5652a4df1",
+   "context_anchor_class": "anchored_direct",
+   "site_anchor_class": "anchored_direct",
+   "context_edits_crossed": {},
+   "in_context_carry_76": false,
+   "candidate_record_evidence": {
+    "historical_evidence": [
+     {
+      "repo": "kanripo/KR3g0042",
+      "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+      "path": "KR3g0042_005.txt",
+      "anchor": "有制身強好命㸔制過喜行煞旺"
+     },
+     {
+      "repo": "mikkokotila/Sanming-Tongshui",
+      "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+      "path": "source/juan-05.md",
+      "anchor": "有制身強好命㸔制過喜行煞旺"
+     }
+    ],
+    "crosscheck_evidence": [
+     {
+      "repo": "NiuTrans/Classical-Modern",
+      "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+      "path": "古文原文/三命通会/卷五/时上一位贵/text.txt",
+      "anchor": "有制身强好命者制过喜行煞旺",
+      "observed": "者"
+     },
+     {
+      "repo": "youngzs/xuanxue",
+      "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+      "path": "docs/三命通会/073卷 五·时上一位贵.md",
+      "anchor": "有制身强好命者制过喜行煞旺",
+      "observed": "者"
+     },
+     {
+      "repo": "michiboo/Classical_Chinese_Wikisource",
+      "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+      "path": "三命通會/卷五.txt",
+      "anchor": "有制身強好命者制過喜行煞旺",
+      "observed": "者"
+     }
+    ]
+   },
+   "siku_lineage": {
+    "reading": "㸔",
+    "counts_as": "one_lineage",
+    "witnesses": [
+     {
+      "repo": "kanripo/KR3g0042",
+      "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+      "role": "siku_lineage_witness",
+      "attestation": "attested",
+      "site_reading": "㸔",
+      "path": "kanripo/KR3g0042_005.txt",
+      "match_mode": "full_flank",
+      "quote": "生作棟¶  ¶ 梁(又/)時逄七煞是偏官有制身強好命㸔制過喜行煞¶ 旺運三合得地發何難(又/)生逄七煞在時",
+      "source": "p3_fresh_probe"
+     },
+     {
+      "repo": "mikkokotila/Sanming-Tongshui",
+      "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+      "role": "siku_lineage_witness",
+      "attestation": "attested",
+      "site_reading": "㸔",
+      "path": "mikkokotila/source/juan-05.md",
+      "match_mode": "full_flank",
+      "quote": "多財禄定是天生作棟梁〈又〉時逄七煞是偏官有制身強好命㸔制過喜行煞旺運三合得地發何難〈又〉生逄七煞在時中定作",
+      "source": "p3_fresh_probe"
+     }
+    ]
+   },
+   "modern_cluster": {
+    "reading_word": "者",
+    "counts_as": "one_cluster_until_independence_verified",
+    "houses": [
+     {
+      "repo": "NiuTrans/Classical-Modern",
+      "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+      "role": "modern_lineage_house",
+      "attestation": "attested",
+      "site_reading": "者",
+      "path": "niutrans/古文原文/三命通会/卷五/时上一位贵/text.txt",
+      "match_mode": "full_flank",
+      "quote": "禄，定是天生作栋梁。又：时逢七煞是偏官，有制身强好命者，制过喜行煞旺运，三合得地发何难。又：时逢七煞本无儿",
+      "source": "p3_fresh_probe"
+     },
+     {
+      "repo": "youngzs/xuanxue",
+      "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+      "role": "modern_lineage_house",
+      "attestation": "attested",
+      "site_reading": "者",
+      "path": "youngzs/docs/三命通会/073卷 五·时上一位贵.md",
+      "match_mode": "full_flank",
+      "quote": "。  又：三命通会。卷五时逢七煞是偏官，有制身强好命者，制过喜行煞旺运，三合得地发何难。  又：时逢七煞本",
+      "source": "p3_fresh_probe",
+      "corpus_scope": "sanming_tonghui_transcription_subset",
+      "full_corpus_attestation": "attested"
+     },
+     {
+      "repo": "michiboo/Classical_Chinese_Wikisource",
+      "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+      "role": "modern_lineage_house",
+      "attestation": "attested_in_candidate_record",
+      "site_reading": "者",
+      "path": "三命通會/卷五.txt",
+      "match_mode": null,
+      "quote": "有制身強好命者制過喜行煞旺",
+      "source": "candidate_record_verbatim"
+     }
+    ],
+    "corroboration": [
+     {
+      "repo": "Banny-Gao",
+      "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+      "role": "corroboration_only",
+      "attestation": "attested",
+      "site_reading": "者",
+      "path": "banny/books/三命通会/articles/时上一位贵/source.md",
+      "match_mode": "full_flank",
+      "quote": "禄，定是天生作栋梁。又：时逢七煞是偏官，有制身强好命者，制过喜行煞旺运，三合得地发何难。又：时逢七煞本无儿",
+      "source": "p3_fresh_probe"
+     }
+    ],
+    "independence_note": "现代侧定位 3 家（NiuTrans/Classical-Modern、youngzs/xuanxue、michiboo/Classical_Chinese_Wikisource），凡定位者读法同词「者」（简繁字形对在案）；然读法一致不等于谱系独立——NT/youngzs 为网络转录、维基文库源出影印传统，三家独立性逐条核实后仍无积极证据可断互不相袭，按设计口径整组计一个现代谱系簇；本位点无与两簇均独立的第三谱系见证，判定标准 (a) 不成立。"
+   },
+   "collation_form": "semantic_divergence",
+   "siku_reading_is_glyph_variant_of_snapshot_word": false,
+   "internal_evidence_note": "韵文断语「身强好命Ｘ制过喜行煞旺运」：作㸔（看）则Ｘ为动词、作者则为代词性读法，两读于韵文皆可成句，内证无决定性。",
+   "internal_evidence_adopted": false,
+   "third_lineage_witness": null,
+   "p2_linkage": {
+    "in_p2_inventory": true,
+    "p2_inventory_seq": 234,
+    "p2_state": "pending_later_tranche",
+    "note": "所在卷分册只标记、保持 pending 归 P3（处置见本批互校登记，状态仍为待裁定）"
+   },
+   "outcome": "parallel_registered_pending_adjudication",
+   "snapshot_char_retained": true
+  },
+  {
+   "seq": 385,
+   "volume": 5,
+   "status": "reading_disagreement_hold",
+   "registration_kind": "collation_parallel",
+   "site_s2": 164132,
+   "site_s3": 164132,
+   "site_snapshot_span": [
+    164133,
+    164134
+   ],
+   "site_in_context": 18,
+   "snapshot_reading": "防",
+   "s3_reading": "防",
+   "site_s0_char": "防",
+   "site_s0_codepoint": "U+9632",
+   "pua_site_note": null,
+   "context": "上偏财生旺月令柱中通气主受伯叔祖考产防丰隆或外祖产业恩养大要日主兴隆财星生",
+   "context_span_s2": [
+    164114,
+    164151
+   ],
+   "context_s2_sha256": "139db7a4d918d3231182e9bd9d4d81825332aa24acc2e8b1d1fc31b35a995865",
+   "context_span_s3": [
+    164114,
+    164151
+   ],
+   "context_s3_sha256": "139db7a4d918d3231182e9bd9d4d81825332aa24acc2e8b1d1fc31b35a995865",
+   "context_anchor_class": "anchored_direct",
+   "site_anchor_class": "anchored_direct",
+   "context_edits_crossed": {},
+   "in_context_carry_76": false,
+   "candidate_record_evidence": {
+    "historical_evidence": [
+     {
+      "repo": "kanripo/KR3g0042",
+      "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+      "path": "KR3g0042_005.txt",
+      "anchor": "受伯叔祖考産䕃豐隆或外祖產"
+     },
+     {
+      "repo": "mikkokotila/Sanming-Tongshui",
+      "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+      "path": "source/juan-05.md",
+      "anchor": "受伯叔祖考産䕃豐隆或外祖產"
+     }
+    ],
+    "crosscheck_evidence": [
+     {
+      "repo": "NiuTrans/Classical-Modern",
+      "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+      "path": "古文原文/三命通会/卷六/论偏财/text.txt",
+      "anchor": "受伯叔祖考产业丰隆或外祖产",
+      "observed": "业"
+     },
+     {
+      "repo": "youngzs/xuanxue",
+      "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+      "path": "docs/三命通会/129卷 六·论偏财.md",
+      "anchor": "受伯叔祖考产业丰隆或外祖产",
+      "observed": "业"
+     },
+     {
+      "repo": "michiboo/Classical_Chinese_Wikisource",
+      "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+      "path": "三命通會/卷六.txt",
+      "anchor": "受伯叔祖考產業豐隆或外祖產",
+      "observed": "業"
+     }
+    ]
+   },
+   "siku_lineage": {
+    "reading": "䕃",
+    "counts_as": "one_lineage",
+    "witnesses": [
+     {
+      "repo": "kanripo/KR3g0042",
+      "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+      "role": "siku_lineage_witness",
+      "attestation": "attested",
+      "site_reading": "䕃",
+      "path": "kanripo/KR3g0042_005.txt",
+      "match_mode": "full_flank",
+      "quote": "宜柱中多逢年上¶ 偏財生旺月令柱中通氣主受伯叔祖考産䕃豐隆或¶ 外祖產業恩養大要日主興隆財星生旺運向財旺之",
+      "source": "p3_fresh_probe"
+     },
+     {
+      "repo": "mikkokotila/Sanming-Tongshui",
+      "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+      "role": "siku_lineage_witness",
+      "attestation": "attested",
+      "site_reading": "䕃",
+      "path": "mikkokotila/source/juan-05.md",
+      "match_mode": "full_flank",
+      "quote": "重不宜柱中多逢年上偏財生旺月令柱中通氣主受伯叔祖考産䕃豐隆或外祖產業恩養大要日主興隆財星生旺運向財旺之鄉發",
+      "source": "p3_fresh_probe"
+     }
+    ]
+   },
+   "modern_cluster": {
+    "reading_word": "業",
+    "counts_as": "one_cluster_until_independence_verified",
+    "houses": [
+     {
+      "repo": "NiuTrans/Classical-Modern",
+      "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+      "role": "modern_lineage_house",
+      "attestation": "attested",
+      "site_reading": "业",
+      "path": "niutrans/古文原文/三命通会/卷六/论偏财/text.txt",
+      "match_mode": "full_flank",
+      "quote": "柱中多逢。年上偏财生旺，月令柱中通气，主受伯叔祖考产业丰隆，或外祖产业恩养。大要日主兴隆，财星生旺，运向财",
+      "source": "p3_fresh_probe"
+     },
+     {
+      "repo": "youngzs/xuanxue",
+      "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+      "role": "modern_lineage_house",
+      "attestation": "attested",
+      "site_reading": "业",
+      "path": "youngzs/docs/三命通会/129卷 六·论偏财.md",
+      "match_mode": "full_flank",
+      "quote": "多逢。  年上偏财生旺，月令柱中通气，主受伯叔祖考产业丰隆，或外祖产业恩养。  大要日主兴隆，财星生旺，运",
+      "source": "p3_fresh_probe",
+      "corpus_scope": "sanming_tonghui_transcription_subset",
+      "full_corpus_attestation": "attested"
+     },
+     {
+      "repo": "michiboo/Classical_Chinese_Wikisource",
+      "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+      "role": "modern_lineage_house",
+      "attestation": "attested_in_candidate_record",
+      "site_reading": "業",
+      "path": "三命通會/卷六.txt",
+      "match_mode": null,
+      "quote": "受伯叔祖考產業豐隆或外祖產",
+      "source": "candidate_record_verbatim"
+     }
+    ],
+    "corroboration": [
+     {
+      "repo": "Banny-Gao",
+      "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+      "role": "corroboration_only",
+      "attestation": "attested",
+      "site_reading": "业",
+      "path": "banny/books/三命通会/articles/论偏财/source.md",
+      "match_mode": "full_flank",
+      "quote": "柱中多逢。年上偏财生旺，月令柱中通气，主受伯叔祖考产业丰隆，或外祖产业恩养。大要日主兴隆，财星生旺，运向财",
+      "source": "p3_fresh_probe"
+     }
+    ],
+    "independence_note": "现代侧定位 3 家（NiuTrans/Classical-Modern、youngzs/xuanxue、michiboo/Classical_Chinese_Wikisource），凡定位者读法同词「業」（简繁字形对在案）；然读法一致不等于谱系独立——NT/youngzs 为网络转录、维基文库源出影印传统，三家独立性逐条核实后仍无积极证据可断互不相袭，按设计口径整组计一个现代谱系簇；本位点无与两簇均独立的第三谱系见证，判定标准 (a) 不成立。"
+   },
+   "collation_form": "semantic_divergence",
+   "siku_reading_is_glyph_variant_of_snapshot_word": false,
+   "internal_evidence_note": "「受伯叔祖考产Ｘ丰隆」：䕃（祖先荫庇）与业（产业）皆成词且文义俱通、两读对峙，内证无决定性。",
+   "internal_evidence_adopted": false,
+   "third_lineage_witness": null,
+   "p2_linkage": {
+    "in_p2_inventory": true,
+    "p2_inventory_seq": 251,
+    "p2_state": "pending_later_tranche",
+    "note": "所在卷分册只标记、保持 pending 归 P3（处置见本批互校登记，状态仍为待裁定）"
+   },
+   "outcome": "parallel_registered_pending_adjudication",
+   "snapshot_char_retained": true
+  },
+  {
+   "seq": 450,
+   "volume": 5,
+   "status": "reading_disagreement_hold",
+   "registration_kind": "collation_parallel",
+   "site_s2": 184317,
+   "site_s3": 184317,
+   "site_snapshot_span": [
+    184318,
+    184319
+   ],
+   "site_in_context": 18,
+   "snapshot_reading": "防",
+   "s3_reading": "防",
+   "site_s0_char": "防",
+   "site_s0_codepoint": "U+9632",
+   "pua_site_note": null,
+   "context": "丙戌癸巳戊午丁巳戊归禄己午虽羊刃所以防禄又印绶化刃故贵\n 论建禄【此与前论禄同叅",
+   "context_span_s2": [
+    184299,
+    184339
+   ],
+   "context_s2_sha256": "6e53ebdbfc2d765450660c1f4e76a2f26a0bde33afdd6102b2fcf076f4c63866",
+   "context_span_s3": [
+    184299,
+    184339
+   ],
+   "context_s3_sha256": "6e53ebdbfc2d765450660c1f4e76a2f26a0bde33afdd6102b2fcf076f4c63866",
+   "context_anchor_class": "unanchorable_crosses_boundary",
+   "site_anchor_class": "anchored_direct",
+   "context_edits_crossed": {
+    "ocr-228": "partial_overlap"
+   },
+   "in_context_carry_76": true,
+   "candidate_record_evidence": {
+    "historical_evidence": [
+     {
+      "repo": "kanripo/KR3g0042",
+      "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+      "path": "KR3g0042_005.txt",
+      "anchor": "午雖羊刃所以䕶禄又印綬化刃"
+     },
+     {
+      "repo": "mikkokotila/Sanming-Tongshui",
+      "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+      "path": "source/juan-05.md",
+      "anchor": "午雖羊刃所以䕶禄又印綬化刃"
+     }
+    ],
+    "crosscheck_evidence": [
+     {
+      "repo": "NiuTrans/Classical-Modern",
+      "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+      "path": "古文原文/三命通会/卷六/论阳刃/text.txt",
+      "anchor": "午虽羊刃所以获禄又印绶化刃",
+      "observed": "获"
+     },
+     {
+      "repo": "michiboo/Classical_Chinese_Wikisource",
+      "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+      "path": "三命通會/卷六.txt",
+      "anchor": "午雖羊刃所以獲祿又印綬化刃",
+      "observed": "獲"
+     }
+    ]
+   },
+   "siku_lineage": {
+    "reading": "䕶",
+    "counts_as": "one_lineage",
+    "witnesses": [
+     {
+      "repo": "kanripo/KR3g0042",
+      "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+      "role": "siku_lineage_witness",
+      "attestation": "attested",
+      "site_reading": "䕶",
+      "path": "kanripo/KR3g0042_005.txt",
+      "match_mode": "full_flank",
+      "quote": "以大貴又一命丙戌癸巳戊午丁巳¶ 戊歸禄己午雖羊刃所以䕶禄又印綬化刃故貴¶ 　　　論建禄(此與前論禄同叅/)",
+      "source": "p3_fresh_probe"
+     },
+     {
+      "repo": "mikkokotila/Sanming-Tongshui",
+      "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+      "role": "siku_lineage_witness",
+      "attestation": "attested",
+      "site_reading": "䕶",
+      "path": "mikkokotila/source/juan-05.md",
+      "match_mode": "full_flank",
+      "quote": "㸔所以大貴又一命丙戌癸巳戊午丁巳戊歸禄己午雖羊刃所以䕶禄又印綬化刃故貴  論建禄〈此與前論禄同叅〉  建禄",
+      "source": "p3_fresh_probe"
+     }
+    ]
+   },
+   "modern_cluster": {
+    "reading_word": "獲",
+    "counts_as": "one_cluster_until_independence_verified",
+    "houses": [
+     {
+      "repo": "NiuTrans/Classical-Modern",
+      "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+      "role": "modern_lineage_house",
+      "attestation": "attested",
+      "site_reading": "获",
+      "path": "niutrans/古文原文/三命通会/卷六/论阳刃/text.txt",
+      "match_mode": "full_flank",
+      "quote": "命：丙戌、癸巳、戊午、丁巳，戊归禄巳，午虽羊刃，所以获禄，又印绶化刃，故贵。 ",
+      "source": "p3_fresh_probe"
+     },
+     {
+      "repo": "youngzs/xuanxue",
+      "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+      "role": "modern_lineage_house",
+      "attestation": "not_located",
+      "site_reading": null,
+      "path": null,
+      "match_mode": null,
+      "quote": null,
+      "source": "p3_fresh_probe",
+      "corpus_scope": "sanming_tonghui_transcription_subset",
+      "full_corpus_attestation": "not_located"
+     },
+     {
+      "repo": "michiboo/Classical_Chinese_Wikisource",
+      "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+      "role": "modern_lineage_house",
+      "attestation": "attested_in_candidate_record",
+      "site_reading": "獲",
+      "path": "三命通會/卷六.txt",
+      "match_mode": null,
+      "quote": "午雖羊刃所以獲祿又印綬化刃",
+      "source": "candidate_record_verbatim"
+     }
+    ],
+    "corroboration": [
+     {
+      "repo": "Banny-Gao",
+      "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+      "role": "corroboration_only",
+      "attestation": "attested",
+      "site_reading": "获",
+      "path": "banny/books/三命通会/articles/论阳刃/source.md",
+      "match_mode": "full_flank",
+      "quote": "： 丙戌 癸巳 戊午 丁巳，戊归禄巳，午虽羊刃，所以获禄，又印绶化刃，故贵。 ",
+      "source": "p3_fresh_probe"
+     }
+    ],
+    "independence_note": "现代侧定位 2 家（NiuTrans/Classical-Modern、michiboo/Classical_Chinese_Wikisource），凡定位者读法同词「獲」（简繁字形对在案）；然读法一致不等于谱系独立——NT/youngzs 为网络转录、维基文库源出影印传统，三家独立性逐条核实后仍无积极证据可断互不相袭，按设计口径整组计一个现代谱系簇；本位点无与两簇均独立的第三谱系见证，判定标准 (a) 不成立。"
+   },
+   "collation_form": "semantic_divergence",
+   "siku_reading_is_glyph_variant_of_snapshot_word": false,
+   "internal_evidence_note": "设计登记在案：䕶（护禄）与获（获禄）两读文义皆通、内证不显然；本条 context 恰为 76 条跨界携带之一（ocr-228 部分交叠），S3 语境经应用报告携带逐字对平。",
+   "internal_evidence_adopted": false,
+   "third_lineage_witness": null,
+   "p2_linkage": {
+    "in_p2_inventory": true,
+    "p2_inventory_seq": 299,
+    "p2_state": "deferred_no_witness",
+    "p2_defer_reason": "reading_disagreement_rd12_p3_scope",
+    "p2_collation_note_id": "sm5y-fang-184318",
+    "p2_candidate_reading": "䕶",
+    "note": "位于已登记节《论羊刃》内，P2 首批（E0302）节内43 处逐处互校时已成处置记录（deferred，理由明示归 P3）；节外各卷分册的只标记保留不适用于节内位点，故不在 pending 7 之列而计入 deferred 601"
+   },
+   "outcome": "parallel_registered_pending_adjudication",
+   "snapshot_char_retained": true
+  },
+  {
+   "seq": 612,
+   "volume": 7,
+   "status": "reading_disagreement_hold",
+   "registration_kind": "collation_parallel",
+   "site_s2": 228260,
+   "site_s3": 228260,
+   "site_snapshot_span": [
+    228261,
+    228262
+   ],
+   "site_in_context": 18,
+   "snapshot_reading": "防",
+   "s3_reading": "防",
+   "site_s0_char": "防",
+   "site_s0_codepoint": "U+9632",
+   "pua_site_note": null,
+   "context": "癸重重叠叠排时辰设若见天财纵然头面无防癞定主其人眼目灾【又】丙丁火旺疾难防四柱",
+   "context_span_s2": [
+    228242,
+    228281
+   ],
+   "context_s2_sha256": "20c54caf240c3ad625e72bf9a1d3f7cd202f210ddfc68eff068a5f22e3a2dc03",
+   "context_span_s3": [
+    228242,
+    228281
+   ],
+   "context_s3_sha256": "20c54caf240c3ad625e72bf9a1d3f7cd202f210ddfc68eff068a5f22e3a2dc03",
+   "context_anchor_class": "anchored_direct",
+   "site_anchor_class": "anchored_direct",
+   "context_edits_crossed": {},
+   "in_context_carry_76": false,
+   "candidate_record_evidence": {
+    "historical_evidence": [
+     {
+      "repo": "kanripo/KR3g0042",
+      "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+      "path": "KR3g0042_007.txt",
+      "anchor": "財縱然頭面無㿀癩定主其人眼"
+     },
+     {
+      "repo": "mikkokotila/Sanming-Tongshui",
+      "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+      "path": "source/juan-07.md",
+      "anchor": "財縱然頭面無㿀癩定主其人眼"
+     }
+    ],
+    "crosscheck_evidence": [
+     {
+      "repo": "NiuTrans/Classical-Modern",
+      "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+      "path": "古文原文/三命通会/卷七/论疾病先知五脏六腑所/text.txt",
+      "anchor": "财纵然头面无癍癞定主其人眼",
+      "observed": "癍"
+     },
+     {
+      "repo": "youngzs/xuanxue",
+      "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+      "path": "docs/三命通会/153卷 七·论疾病先知五脏六腑所属干支.md",
+      "anchor": "财纵然头面无癍癞定主其人眼",
+      "observed": "癍"
+     },
+     {
+      "repo": "michiboo/Classical_Chinese_Wikisource",
+      "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+      "path": "三命通會/卷七.txt",
+      "anchor": "財縱然頭面無癍癩定主其人眼",
+      "observed": "癍"
+     }
+    ]
+   },
+   "siku_lineage": {
+    "reading": "㿀",
+    "counts_as": "one_lineage",
+    "witnesses": [
+     {
+      "repo": "kanripo/KR3g0042",
+      "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+      "role": "siku_lineage_witness",
+      "attestation": "attested",
+      "site_reading": "㿀",
+      "path": "kanripo/KR3g0042_007.txt",
+      "match_mode": "full_flank",
+      "quote": "埃(又/)壬癸重重叠叠排時辰設¶ 若見天財縱然頭面無㿀癩定主其人眼目灾(又/)丙丁¶  ¶ 火旺疾難防四柱",
+      "source": "p3_fresh_probe"
+     },
+     {
+      "repo": "mikkokotila/Sanming-Tongshui",
+      "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+      "role": "siku_lineage_witness",
+      "attestation": "attested",
+      "site_reading": "㿀",
+      "path": "mikkokotila/source/juan-07.md",
+      "match_mode": "full_flank",
+      "quote": "疾面塵埃〈又〉壬癸重重叠叠排時辰設若見天財縱然頭面無㿀癩定主其人眼目灾〈又〉丙丁火旺疾難防四柱休囚辰巳方木",
+      "source": "p3_fresh_probe"
+     }
+    ]
+   },
+   "modern_cluster": {
+    "reading_word": "癍",
+    "counts_as": "one_cluster_until_independence_verified",
+    "houses": [
+     {
+      "repo": "NiuTrans/Classical-Modern",
+      "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+      "role": "modern_lineage_house",
+      "attestation": "attested",
+      "site_reading": "癍",
+      "path": "niutrans/古文原文/三命通会/卷七/论疾病先知五脏六腑所/text.txt",
+      "match_mode": "full_flank",
+      "quote": "尘埃。又：壬癸重重叠叠排，时辰设若见天财；纵然头面无癍癞，定主其人眼目灾。 又曰：人之生也，受气于父，成形",
+      "source": "p3_fresh_probe"
+     },
+     {
+      "repo": "youngzs/xuanxue",
+      "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+      "role": "modern_lineage_house",
+      "attestation": "attested",
+      "site_reading": "癍",
+      "path": "youngzs/docs/三命通会/153卷 七·论疾病先知五脏六腑所属干支.md",
+      "match_mode": "full_flank",
+      "quote": "。  又：壬癸重重叠叠排，时辰设若见天财；纵然头面无癍癞，定主其人眼目灾。  又曰：人之生也，受气于父，成",
+      "source": "p3_fresh_probe",
+      "corpus_scope": "sanming_tonghui_transcription_subset",
+      "full_corpus_attestation": "attested"
+     },
+     {
+      "repo": "michiboo/Classical_Chinese_Wikisource",
+      "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+      "role": "modern_lineage_house",
+      "attestation": "attested_in_candidate_record",
+      "site_reading": "癍",
+      "path": "三命通會/卷七.txt",
+      "match_mode": null,
+      "quote": "財縱然頭面無癍癩定主其人眼",
+      "source": "candidate_record_verbatim"
+     }
+    ],
+    "corroboration": [
+     {
+      "repo": "Banny-Gao",
+      "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+      "role": "corroboration_only",
+      "attestation": "attested",
+      "site_reading": "癍",
+      "path": "banny/books/三命通会/articles/论疾病先知五脏六腑所/source.md",
+      "match_mode": "full_flank",
+      "quote": "尘埃。又：壬癸重重叠叠排，时辰设若见天财；纵然头面无癍癞，定主其人眼目灾。  > 【又】人之生也，受气于父",
+      "source": "p3_fresh_probe"
+     }
+    ],
+    "independence_note": "现代侧定位 3 家（NiuTrans/Classical-Modern、youngzs/xuanxue、michiboo/Classical_Chinese_Wikisource），凡定位者读法同词「癍」（简繁字形对在案）；然读法一致不等于谱系独立——NT/youngzs 为网络转录、维基文库源出影印传统，三家独立性逐条核实后仍无积极证据可断互不相袭，按设计口径整组计一个现代谱系簇；本位点无与两簇均独立的第三谱系见证，判定标准 (a) 不成立。"
+   },
+   "collation_form": "semantic_divergence",
+   "siku_reading_is_glyph_variant_of_snapshot_word": false,
+   "internal_evidence_note": "疾病韵文「头面无Ｘ癞」：癍与下字癞同属皮肤病名物、文义贴合；㿀为生僻病字。内证倾向（现代读法于病名语境较顺）只作登记观察，不足以单独推翻四库谱系读法。",
+   "internal_evidence_adopted": false,
+   "third_lineage_witness": null,
+   "p2_linkage": {
+    "in_p2_inventory": true,
+    "p2_inventory_seq": 453,
+    "p2_state": "pending_later_tranche",
+    "note": "所在卷分册只标记、保持 pending 归 P3（处置见本批互校登记，状态仍为待裁定）"
+   },
+   "outcome": "parallel_registered_pending_adjudication",
+   "snapshot_char_retained": true
+  },
+  {
+   "seq": 616,
+   "volume": 7,
+   "status": "reading_disagreement_hold",
+   "registration_kind": "collation_parallel",
+   "site_s2": 228868,
+   "site_s3": 228868,
+   "site_snapshot_span": [
+    228869,
+    228870
+   ],
+   "site_in_context": 19,
+   "snapshot_reading": "防",
+   "s3_reading": "防",
+   "site_s0_char": "防",
+   "site_s0_codepoint": "U+9632",
+   "pua_site_note": null,
+   "context": "痁疟 金土相生生旺则多虚无肌肉死絶肠鸣防作\n 凡水土木相逢于无气之处主蛊气肠胀吐",
+   "context_span_s2": [
+    228849,
+    228889
+   ],
+   "context_s2_sha256": "550587bc68006aa43fde918875770f3fd5d8b797107d1fb6528324c692d2d554",
+   "context_span_s3": [
+    228849,
+    228889
+   ],
+   "context_s3_sha256": "550587bc68006aa43fde918875770f3fd5d8b797107d1fb6528324c692d2d554",
+   "context_anchor_class": "anchored_direct",
+   "site_anchor_class": "anchored_direct",
+   "context_edits_crossed": {},
+   "in_context_carry_76": false,
+   "candidate_record_evidence": {
+    "historical_evidence": [
+     {
+      "repo": "kanripo/KR3g0042",
+      "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+      "path": "KR3g0042_007.txt",
+      "anchor": "肌肉死絶腸鳴䖝作凡水土木相"
+     },
+     {
+      "repo": "mikkokotila/Sanming-Tongshui",
+      "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+      "path": "source/juan-07.md",
+      "anchor": "肌肉死絶腸鳴䖝作凡水土木相"
+     }
+    ],
+    "crosscheck_evidence": [
+     {
+      "repo": "NiuTrans/Classical-Modern",
+      "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+      "path": "古文原文/三命通会/卷七/论疾病先知五脏六腑所/text.txt",
+      "anchor": "肌肉死绝肠鸣茧作凡水土木相",
+      "observed": "茧"
+     },
+     {
+      "repo": "youngzs/xuanxue",
+      "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+      "path": "docs/三命通会/153卷 七·论疾病先知五脏六腑所属干支.md",
+      "anchor": "肌肉死绝肠鸣茧作凡水土木相",
+      "observed": "茧"
+     },
+     {
+      "repo": "michiboo/Classical_Chinese_Wikisource",
+      "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+      "path": "三命通會/卷七.txt",
+      "anchor": "肌肉死絕腸鳴繭作凡水土木相",
+      "observed": "繭"
+     }
+    ]
+   },
+   "siku_lineage": {
+    "reading": "䖝",
+    "counts_as": "one_lineage",
+    "witnesses": [
+     {
+      "repo": "kanripo/KR3g0042",
+      "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+      "role": "siku_lineage_witness",
+      "attestation": "attested",
+      "site_reading": "䖝",
+      "path": "kanripo/KR3g0042_007.txt",
+      "match_mode": "full_flank",
+      "quote": "則精敗傷寒痁瘧　金土相生生旺則多虚無肌肉死¶ 絶腸鳴䖝作¶ 凡水土木相逢於無氣之處主蠱氣腸脹吐逆之疾¶  ",
+      "source": "p3_fresh_probe"
+     },
+     {
+      "repo": "mikkokotila/Sanming-Tongshui",
+      "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+      "role": "siku_lineage_witness",
+      "attestation": "attested",
+      "site_reading": "䖝",
+      "path": "mikkokotila/source/juan-07.md",
+      "match_mode": "full_flank",
+      "quote": "死絶則精敗傷寒痁瘧　金土相生生旺則多虚無肌肉死絶腸鳴䖝作  凡水土木相逢於無氣之處主蠱氣腸脹吐逆之疾凡金水",
+      "source": "p3_fresh_probe"
+     }
+    ]
+   },
+   "modern_cluster": {
+    "reading_word": "繭",
+    "counts_as": "one_cluster_until_independence_verified",
+    "houses": [
+     {
+      "repo": "NiuTrans/Classical-Modern",
+      "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+      "role": "modern_lineage_house",
+      "attestation": "attested",
+      "site_reading": "茧",
+      "path": "niutrans/古文原文/三命通会/卷七/论疾病先知五脏六腑所/text.txt",
+      "match_mode": "full_flank",
+      "quote": "则精败、伤寒粘疟。金土相生，生旺则多虚无肌肉死绝肠鸣茧作。 凡水土木相逢于无气之处，主蛊气肠胀、吐逆之疾；",
+      "source": "p3_fresh_probe"
+     },
+     {
+      "repo": "youngzs/xuanxue",
+      "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+      "role": "modern_lineage_house",
+      "attestation": "attested",
+      "site_reading": "茧",
+      "path": "youngzs/docs/三命通会/153卷 七·论疾病先知五脏六腑所属干支.md",
+      "match_mode": "full_flank",
+      "quote": "败、伤寒粘疟。  金土相生，生旺则多虚无肌肉死绝肠鸣茧作。  凡水土木相逢于无气之处，主蛊气肠胀、吐逆之疾",
+      "source": "p3_fresh_probe",
+      "corpus_scope": "sanming_tonghui_transcription_subset",
+      "full_corpus_attestation": "attested"
+     },
+     {
+      "repo": "michiboo/Classical_Chinese_Wikisource",
+      "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+      "role": "modern_lineage_house",
+      "attestation": "attested_in_candidate_record",
+      "site_reading": "繭",
+      "path": "三命通會/卷七.txt",
+      "match_mode": null,
+      "quote": "肌肉死絕腸鳴繭作凡水土木相",
+      "source": "candidate_record_verbatim"
+     }
+    ],
+    "corroboration": [
+     {
+      "repo": "Banny-Gao",
+      "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+      "role": "corroboration_only",
+      "attestation": "attested",
+      "site_reading": "茧",
+      "path": "banny/books/三命通会/articles/论疾病先知五脏六腑所/source.md",
+      "match_mode": "full_flank",
+      "quote": "则精败、伤寒粘疟。金土相生，生旺则多虚无肌肉死绝肠鸣茧作。 > > 凡水土木相逢于无气之处，主蛊气肠胀、吐",
+      "source": "p3_fresh_probe"
+     }
+    ],
+    "independence_note": "现代侧定位 3 家（NiuTrans/Classical-Modern、youngzs/xuanxue、michiboo/Classical_Chinese_Wikisource），凡定位者读法同词「繭」（简繁字形对在案）；然读法一致不等于谱系独立——NT/youngzs 为网络转录、维基文库源出影印传统，三家独立性逐条核实后仍无积极证据可断互不相袭，按设计口径整组计一个现代谱系簇；本位点无与两簇均独立的第三谱系见证，判定标准 (a) 不成立。"
+   },
+   "collation_form": "semantic_divergence",
+   "siku_reading_is_glyph_variant_of_snapshot_word": false,
+   "internal_evidence_note": "「肠鸣Ｘ作」：䖝（虫部省形）与茧两读皆与肠疾语境相涉，内证无决定性。",
+   "internal_evidence_adopted": false,
+   "third_lineage_witness": null,
+   "p2_linkage": {
+    "in_p2_inventory": true,
+    "p2_inventory_seq": 455,
+    "p2_state": "pending_later_tranche",
+    "note": "所在卷分册只标记、保持 pending 归 P3（处置见本批互校登记，状态仍为待裁定）"
+   },
+   "outcome": "parallel_registered_pending_adjudication",
+   "snapshot_char_retained": true
+  },
+  {
+   "seq": 784,
+   "volume": 10,
+   "status": "reading_disagreement_hold",
+   "registration_kind": "collation_parallel",
+   "site_s2": 362057,
+   "site_s3": 362057,
+   "site_snapshot_span": [
+    362058,
+    362059
+   ],
+   "site_in_context": 18,
+   "snapshot_reading": "胤",
+   "s3_reading": "胤",
+   "site_s0_char": "",
+   "site_s0_codepoint": "U+EA23",
+   "pua_site_note": "位点快照原字为 PUA 码位 U+EA23，PUA 订正表登记映射为胤（confirmed，count 3）；S1 起位点读胤，应用批未改此位点字",
+   "context": "己未甲戌八字果应淮王云孙壅七公相亦占胤于江文通祠梦始出疲赤犬再见肥黄狗在路",
+   "context_span_s2": [
+    362039,
+    362076
+   ],
+   "context_s2_sha256": "8716ea7c4d41049046f48d741a02269e2d45eeb425d7e9193745bcef0572f36a",
+   "context_span_s3": [
+    362039,
+    362076
+   ],
+   "context_s3_sha256": "8716ea7c4d41049046f48d741a02269e2d45eeb425d7e9193745bcef0572f36a",
+   "context_anchor_class": "anchored_direct",
+   "site_anchor_class": "anchored_direct",
+   "context_edits_crossed": {},
+   "in_context_carry_76": false,
+   "candidate_record_evidence": {
+    "historical_evidence": [
+     {
+      "repo": "kanripo/KR3g0042",
+      "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+      "path": "KR3g0042_010.txt",
+      "anchor": "壅七公相亦占𦙍於江文通祠夢"
+     },
+     {
+      "repo": "mikkokotila/Sanming-Tongshui",
+      "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+      "path": "source/juan-10.md",
+      "anchor": "壅七公相亦占𦙍於江文通祠夢"
+     }
+    ],
+    "crosscheck_evidence": [
+     {
+      "repo": "NiuTrans/Classical-Modern",
+      "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+      "path": "古文原文/三命通会/卷十/看命口诀十四/text.txt",
+      "anchor": "壅七公相亦占嗣于江文通祠梦",
+      "observed": "嗣"
+     },
+     {
+      "repo": "youngzs/xuanxue",
+      "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+      "path": "docs/三命通会/287卷 十·看命口訣.md",
+      "anchor": "壅七公相亦占嗣於江文通祠夢",
+      "observed": "嗣"
+     }
+    ]
+   },
+   "siku_lineage": {
+    "reading": "𦙍",
+    "counts_as": "one_lineage",
+    "witnesses": [
+     {
+      "repo": "kanripo/KR3g0042",
+      "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+      "role": "siku_lineage_witness",
+      "attestation": "attested",
+      "site_reading": "𦙍",
+      "path": "kanripo/KR3g0042_010.txt",
+      "match_mode": "full_flank",
+      "quote": "王則戊戌辛酉己未甲戌八字果應淮王雲孫壅七¶ 公相亦占𦙍於江文通祠夢始出疲赤犬再見肥黄狗¶ 在路傍及白馬立平",
+      "source": "p3_fresh_probe"
+     },
+     {
+      "repo": "mikkokotila/Sanming-Tongshui",
+      "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+      "role": "siku_lineage_witness",
+      "attestation": "attested",
+      "site_reading": "𦙍",
+      "path": "mikkokotila/source/juan-10.md",
+      "match_mode": "full_flank",
+      "quote": "九淮王則戊戌辛酉己未甲戌八字果應淮王雲孫壅七公相亦占𦙍於江文通祠夢始出疲赤犬再見肥黄狗在路傍及白馬立平地木",
+      "source": "p3_fresh_probe"
+     }
+    ]
+   },
+   "modern_cluster": {
+    "reading_word": "嗣",
+    "counts_as": "one_cluster_until_independence_verified",
+    "houses": [
+     {
+      "repo": "NiuTrans/Classical-Modern",
+      "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+      "role": "modern_lineage_house",
+      "attestation": "attested",
+      "site_reading": "嗣",
+      "path": "niutrans/古文原文/三命通会/卷十/看命口诀十四/text.txt",
+      "match_mode": "full_flank",
+      "quote": "戌、辛酉巳未、甲戌八字，果应淮王云孙壅七公相。 亦占嗣于江文通祠，梦始出疲赤犬，再见肥黄狗在路傍，及白马立",
+      "source": "p3_fresh_probe"
+     },
+     {
+      "repo": "youngzs/xuanxue",
+      "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+      "role": "modern_lineage_house",
+      "attestation": "attested",
+      "site_reading": "嗣",
+      "path": "youngzs/docs/三命通会/287卷 十·看命口訣.md",
+      "match_mode": "full_flank",
+      "quote": "戊戌辛酉巳未甲戌八字，果應淮王云孫壅七公相。  亦占嗣於江文通祠，夢始出疲赤犬，再見肥黃狗在路傍，及白馬立",
+      "source": "p3_fresh_probe",
+      "corpus_scope": "sanming_tonghui_transcription_subset",
+      "full_corpus_attestation": "attested"
+     },
+     {
+      "repo": "michiboo/Classical_Chinese_Wikisource",
+      "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+      "role": "modern_lineage_house",
+      "attestation": "not_in_candidate_record",
+      "site_reading": null,
+      "path": null,
+      "match_mode": null,
+      "quote": null,
+      "source": "candidate_record_verbatim"
+     }
+    ],
+    "corroboration": [
+     {
+      "repo": "Banny-Gao",
+      "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+      "role": "corroboration_only",
+      "attestation": "attested",
+      "site_reading": "嗣",
+      "path": "banny/books/三命通会/articles/看命口诀十四/source.md",
+      "match_mode": "full_flank",
+      "quote": "巳未、甲戌八字，果应淮王云孙壅七公相。 > > 亦占嗣于江文通祠，梦始出疲赤犬，再见肥黄狗在路傍，及白马立",
+      "source": "p3_fresh_probe"
+     }
+    ],
+    "independence_note": "现代侧定位 2 家（NiuTrans/Classical-Modern、youngzs/xuanxue），凡定位者读法同词「嗣」（简繁字形对在案）；然读法一致不等于谱系独立——NT/youngzs 为网络转录、维基文库源出影印传统，三家独立性逐条核实后仍无积极证据可断互不相袭，按设计口径整组计一个现代谱系簇；本位点无与两簇均独立的第三谱系见证，判定标准 (a) 不成立。"
+   },
+   "collation_form": "glyph_variant_same_word_plus_semantic_divergence",
+   "siku_reading_is_glyph_variant_of_snapshot_word": true,
+   "internal_evidence_note": "四库𦙍为胤之异体字，与快照现读（位点原字 U+EA23 经 PUA 映射读胤）同词仅字形异；实在分歧为现代嗣（语义替换读法，「占嗣」于梦占语境另成一义）对四库/快照词。字形层同词、语义层两簇对峙。",
+   "internal_evidence_adopted": false,
+   "third_lineage_witness": null,
+   "p2_linkage": {
+    "in_p2_inventory": false,
+    "note": "非残余「防」位点（old 为着/胤/玄），不在 P2 769 盘点范围内；其 P1 状态维度归属即本批 12 条"
+   },
+   "outcome": "parallel_registered_pending_adjudication",
+   "snapshot_char_retained": true
+  },
+  {
+   "seq": 824,
+   "volume": 10,
+   "status": "reading_disagreement_hold",
+   "registration_kind": "collation_parallel",
+   "site_s2": 374131,
+   "site_s3": 374131,
+   "site_snapshot_span": [
+    374132,
+    374133
+   ],
+   "site_in_context": 18,
+   "snapshot_reading": "防",
+   "s3_reading": "防",
+   "site_s0_char": "防",
+   "site_s0_codepoint": "U+9632",
+   "pua_site_note": null,
+   "context": "又看有相依倚呼应否又云时座一位竟作主防之端余见未敢如此亦系辨明吉凶妙理一致",
+   "context_span_s2": [
+    374113,
+    374150
+   ],
+   "context_s2_sha256": "5ddb209b03702dc48ab82aa7fae1daef61ffff0427d691473f1ce68fd0e75618",
+   "context_span_s3": [
+    374113,
+    374150
+   ],
+   "context_s3_sha256": "5ddb209b03702dc48ab82aa7fae1daef61ffff0427d691473f1ce68fd0e75618",
+   "context_anchor_class": "anchored_direct",
+   "site_anchor_class": "anchored_direct",
+   "context_edits_crossed": {},
+   "in_context_carry_76": false,
+   "candidate_record_evidence": {
+    "historical_evidence": [
+     {
+      "repo": "kanripo/KR3g0042",
+      "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+      "path": "KR3g0042_010.txt",
+      "anchor": "座一位竟作主㫁之端余見未敢"
+     },
+     {
+      "repo": "mikkokotila/Sanming-Tongshui",
+      "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+      "path": "source/juan-10.md",
+      "anchor": "座一位竟作主㫁之端余見未敢"
+     }
+    ],
+    "crosscheck_evidence": [
+     {
+      "repo": "NiuTrans/Classical-Modern",
+      "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+      "path": "古文原文/三命通会/卷十/玉井奥诀八/text.txt",
+      "anchor": "座一位竟作主体之端余见未敢",
+      "observed": "体"
+     },
+     {
+      "repo": "youngzs/xuanxue",
+      "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+      "path": "docs/三命通会/289卷 十·玉井奧訣.md",
+      "anchor": "座一位竟作主體之端余見未敢",
+      "observed": "體"
+     }
+    ]
+   },
+   "siku_lineage": {
+    "reading": "㫁",
+    "counts_as": "one_lineage",
+    "witnesses": [
+     {
+      "repo": "kanripo/KR3g0042",
+      "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+      "role": "siku_lineage_witness",
+      "attestation": "attested",
+      "site_reading": "㫁",
+      "path": "kanripo/KR3g0042_010.txt",
+      "match_mode": "full_flank",
+      "quote": "上之處又看)¶ 　(有相依倚呼應否又云時座一位竟作主㫁之端余/見未敢如此亦係辨明吉凶妙理一致體得造化精)¶",
+      "source": "p3_fresh_probe"
+     },
+     {
+      "repo": "mikkokotila/Sanming-Tongshui",
+      "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+      "role": "siku_lineage_witness",
+      "attestation": "attested",
+      "site_reading": "㫁",
+      "path": "mikkokotila/source/juan-10.md",
+      "match_mode": "full_flank",
+      "quote": "却於年月日上之處又看有相依倚呼應否又云時座一位竟作主㫁之端余見未敢如此亦係辨明吉凶妙理一致體得造化精切也年",
+      "source": "p3_fresh_probe"
+     }
+    ]
+   },
+   "modern_cluster": {
+    "reading_word": "體",
+    "counts_as": "one_cluster_until_independence_verified",
+    "houses": [
+     {
+      "repo": "NiuTrans/Classical-Modern",
+      "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+      "role": "modern_lineage_house",
+      "attestation": "attested",
+      "site_reading": "体",
+      "path": "niutrans/古文原文/三命通会/卷十/玉井奥诀八/text.txt",
+      "match_mode": "full_flank",
+      "quote": "月日上之处，又看有相依倚呼应否。又云时座一位，竟作主体之端。余见未敢如此，亦系辨明吉凶，妙理一致，体得造化",
+      "source": "p3_fresh_probe"
+     },
+     {
+      "repo": "youngzs/xuanxue",
+      "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+      "role": "modern_lineage_house",
+      "attestation": "attested",
+      "site_reading": "體",
+      "path": "youngzs/docs/三命通会/289卷 十·玉井奧訣.md",
+      "match_mode": "full_flank",
+      "quote": "上之處，又看有相依倚呼應否。  又云時座一位，竟作主體之端。  余見未敢如此，亦係辨明吉凶，妙理一致，體得",
+      "source": "p3_fresh_probe",
+      "corpus_scope": "sanming_tonghui_transcription_subset",
+      "full_corpus_attestation": "attested"
+     },
+     {
+      "repo": "michiboo/Classical_Chinese_Wikisource",
+      "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+      "role": "modern_lineage_house",
+      "attestation": "not_in_candidate_record",
+      "site_reading": null,
+      "path": null,
+      "match_mode": null,
+      "quote": null,
+      "source": "candidate_record_verbatim"
+     }
+    ],
+    "corroboration": [
+     {
+      "repo": "Banny-Gao",
+      "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+      "role": "corroboration_only",
+      "attestation": "attested",
+      "site_reading": "体",
+      "path": "banny/books/三命通会/articles/玉井奥诀八/source.md",
+      "match_mode": "full_flank",
+      "quote": "月日上之处，又看有相依倚呼应否。又云时座一位，竟作主体之端。余见未敢如此，亦系辨明吉凶，妙理一致，体得造化",
+      "source": "p3_fresh_probe"
+     }
+    ],
+    "independence_note": "现代侧定位 2 家（NiuTrans/Classical-Modern、youngzs/xuanxue），凡定位者读法同词「體」（简繁字形对在案）；然读法一致不等于谱系独立——NT/youngzs 为网络转录、维基文库源出影印传统，三家独立性逐条核实后仍无积极证据可断互不相袭，按设计口径整组计一个现代谱系簇；本位点无与两簇均独立的第三谱系见证，判定标准 (a) 不成立。"
+   },
+   "collation_form": "semantic_divergence",
+   "siku_reading_is_glyph_variant_of_snapshot_word": false,
+   "internal_evidence_note": "「竟作主Ｘ之端」：㫁（斷，裁断）与体/體（主体）于《玉井奥诀》语境两通，内证无决定性；现代两家体/體为同一词的简繁字形对。",
+   "internal_evidence_adopted": false,
+   "third_lineage_witness": null,
+   "p2_linkage": {
+    "in_p2_inventory": true,
+    "p2_inventory_seq": 693,
+    "p2_state": "pending_later_tranche",
+    "note": "所在卷分册只标记、保持 pending 归 P3（处置见本批互校登记，状态仍为待裁定）"
+   },
+   "outcome": "parallel_registered_pending_adjudication",
+   "snapshot_char_retained": true
+  },
+  {
+   "seq": 853,
+   "volume": 10,
+   "status": "reading_disagreement_hold",
+   "registration_kind": "collation_parallel",
+   "site_s2": 386724,
+   "site_s3": 386724,
+   "site_snapshot_span": [
+    386725,
+    386726
+   ],
+   "site_in_context": 21,
+   "snapshot_reading": "着",
+   "s3_reading": "着",
+   "site_s0_char": "着",
+   "site_s0_codepoint": "U+7740",
+   "pua_site_note": null,
+   "context": "煞沉昧众善者有之】\n 玉井奥诀乃安东杜谦所着其间幽趣妙象数见而用藏气类从无立有倒",
+   "context_span_s2": [
+    386703,
+    386743
+   ],
+   "context_s2_sha256": "61198dc7c5cf8818c0b13ee920dbecfa9d2da3b20e7f9563ecb7b680bc6452c4",
+   "context_span_s3": [
+    386703,
+    386743
+   ],
+   "context_s3_sha256": "61198dc7c5cf8818c0b13ee920dbecfa9d2da3b20e7f9563ecb7b680bc6452c4",
+   "context_anchor_class": "anchored_direct",
+   "site_anchor_class": "anchored_direct",
+   "context_edits_crossed": {},
+   "in_context_carry_76": false,
+   "candidate_record_evidence": {
+    "historical_evidence": [
+     {
+      "repo": "kanripo/KR3g0042",
+      "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+      "path": "KR3g0042_010.txt",
+      "anchor": "乃安東杜謙所著其間幽趣妙象"
+     },
+     {
+      "repo": "mikkokotila/Sanming-Tongshui",
+      "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+      "path": "source/juan-10.md",
+      "anchor": "乃安東杜謙所著其間幽趣妙象"
+     }
+    ],
+    "crosscheck_evidence": [
+     {
+      "repo": "NiuTrans/Classical-Modern",
+      "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+      "path": "古文原文/三命通会/卷十/玉井奥诀二十二/text.txt",
+      "anchor": "乃安东杜谦所者其间幽趣妙象",
+      "observed": "者"
+     },
+     {
+      "repo": "youngzs/xuanxue",
+      "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+      "path": "docs/三命通会/289卷 十·玉井奧訣.md",
+      "anchor": "乃安東杜謙所者其間幽趣妙象",
+      "observed": "者"
+     }
+    ]
+   },
+   "siku_lineage": {
+    "reading": "著",
+    "counts_as": "one_lineage",
+    "witnesses": [
+     {
+      "repo": "kanripo/KR3g0042",
+      "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+      "role": "siku_lineage_witness",
+      "attestation": "attested",
+      "site_reading": "著",
+      "path": "kanripo/KR3g0042_010.txt",
+      "match_mode": "full_flank",
+      "quote": "於/縱容惡煞沉昧衆善者有之)¶ 玉井奥訣乃安東杜謙所著其間幽趣妙象數見而用¶ 藏氣類從無立有倒飛暗合得一分",
+      "source": "p3_fresh_probe"
+     },
+     {
+      "repo": "mikkokotila/Sanming-Tongshui",
+      "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+      "role": "siku_lineage_witness",
+      "attestation": "attested",
+      "site_reading": "著",
+      "path": "mikkokotila/source/juan-10.md",
+      "match_mode": "full_flank",
+      "quote": "至於縱容惡煞沉昧衆善者有之〉  玉井奥訣乃安東杜謙所著其間幽趣妙象數見而用藏氣類從無立有倒飛暗合得一分三脱",
+      "source": "p3_fresh_probe"
+     }
+    ]
+   },
+   "modern_cluster": {
+    "reading_word": "者",
+    "counts_as": "one_cluster_until_independence_verified",
+    "houses": [
+     {
+      "repo": "NiuTrans/Classical-Modern",
+      "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+      "role": "modern_lineage_house",
+      "attestation": "attested",
+      "site_reading": "者",
+      "path": "niutrans/古文原文/三命通会/卷十/玉井奥诀二十二/text.txt",
+      "match_mode": "full_flank",
+      "quote": "开五气分条处、剖破藩篱别有天 玉井奥诀，乃安东杜谦所者，其间幽趣妙象，数见而用藏，气类从无立有，倒飞暗合，",
+      "source": "p3_fresh_probe"
+     },
+     {
+      "repo": "youngzs/xuanxue",
+      "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+      "role": "modern_lineage_house",
+      "attestation": "attested",
+      "site_reading": "者",
+      "path": "youngzs/docs/三命通会/289卷 十·玉井奧訣.md",
+      "match_mode": "full_flank",
+      "quote": "仙重開五氣分條處剖破藩籬別有天玉井奧訣，乃安東杜謙所者，其間幽趣妙象，數見而用藏，氣類從無立有，倒飛暗合，",
+      "source": "p3_fresh_probe",
+      "corpus_scope": "sanming_tonghui_transcription_subset",
+      "full_corpus_attestation": "attested"
+     },
+     {
+      "repo": "michiboo/Classical_Chinese_Wikisource",
+      "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+      "role": "modern_lineage_house",
+      "attestation": "not_in_candidate_record",
+      "site_reading": null,
+      "path": null,
+      "match_mode": null,
+      "quote": null,
+      "source": "candidate_record_verbatim"
+     }
+    ],
+    "corroboration": [
+     {
+      "repo": "Banny-Gao",
+      "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+      "role": "corroboration_only",
+      "attestation": "attested",
+      "site_reading": "者",
+      "path": "banny/books/三命通会/articles/玉井奥诀二十一/source.md",
+      "match_mode": "full_flank",
+      "quote": "条处、剖破藩篱别有天 > > 玉井奥诀，乃安东杜谦所者，其间幽趣妙象，数见而用藏，气类从无立有，倒飞暗合，",
+      "source": "p3_fresh_probe"
+     }
+    ],
+    "independence_note": "现代侧定位 2 家（NiuTrans/Classical-Modern、youngzs/xuanxue），凡定位者读法同词「者」（简繁字形对在案）；然读法一致不等于谱系独立——NT/youngzs 为网络转录、维基文库源出影印传统，三家独立性逐条核实后仍无积极证据可断互不相袭，按设计口径整组计一个现代谱系簇；本位点无与两簇均独立的第三谱系见证，判定标准 (a) 不成立。"
+   },
+   "collation_form": "glyph_variant_same_word_plus_semantic_divergence",
+   "siku_reading_is_glyph_variant_of_snapshot_word": true,
+   "internal_evidence_note": "「安东杜谦所Ｘ其间」：所字结构须接动词，著（著作）为本词、快照着为其字形异体；现代者于此位文义不通，设计登记在案疑现代转录讹、内证较强（倾向四库词）。内证强度照实登记，本批按 UD-1 默认 A 不作采纳。",
+   "internal_evidence_adopted": false,
+   "third_lineage_witness": null,
+   "p2_linkage": {
+    "in_p2_inventory": false,
+    "note": "非残余「防」位点（old 为着/胤/玄），不在 P2 769 盘点范围内；其 P1 状态维度归属即本批 12 条"
+   },
+   "outcome": "parallel_registered_pending_adjudication",
+   "snapshot_char_retained": true
+  },
+  {
+   "seq": 873,
+   "volume": 11,
+   "status": "reading_disagreement_hold",
+   "registration_kind": "collation_parallel",
+   "site_s2": 395586,
+   "site_s3": 395586,
+   "site_snapshot_span": [
+    395587,
+    395588
+   ],
+   "site_in_context": 18,
+   "snapshot_reading": "防",
+   "s3_reading": "防",
+   "site_s0_char": "防",
+   "site_s0_codepoint": "U+9632",
+   "pua_site_note": null,
+   "context": "衰时旺早岁丰肥本重主轻终身飘荡惯取市防之利必因旺处逢财忽然显达成家定是刑中",
+   "context_span_s2": [
+    395568,
+    395605
+   ],
+   "context_s2_sha256": "9c49570ba6606bfec33a1ca511d885145f4936a34124a4a1e372838fd1e255f7",
+   "context_span_s3": [
+    395568,
+    395605
+   ],
+   "context_s3_sha256": "9c49570ba6606bfec33a1ca511d885145f4936a34124a4a1e372838fd1e255f7",
+   "context_anchor_class": "anchored_direct",
+   "site_anchor_class": "anchored_direct",
+   "context_edits_crossed": {},
+   "in_context_carry_76": false,
+   "candidate_record_evidence": {
+    "historical_evidence": [
+     {
+      "repo": "kanripo/KR3g0042",
+      "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+      "path": "KR3g0042_011.txt",
+      "anchor": "身飄蕩慣取市㕓之利必因旺處"
+     },
+     {
+      "repo": "mikkokotila/Sanming-Tongshui",
+      "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+      "path": "source/juan-11.md",
+      "anchor": "身飄蕩慣取市㕓之利必因旺處"
+     }
+    ],
+    "crosscheck_evidence": [
+     {
+      "repo": "NiuTrans/Classical-Modern",
+      "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+      "path": "古文原文/三命通会/卷十一/憎爱赋/text.txt",
+      "anchor": "身飘荡惯取市厘之利必因旺处",
+      "observed": "厘"
+     }
+    ]
+   },
+   "siku_lineage": {
+    "reading": "㕓",
+    "counts_as": "one_lineage",
+    "witnesses": [
+     {
+      "repo": "kanripo/KR3g0042",
+      "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+      "role": "siku_lineage_witness",
+      "attestation": "attested",
+      "site_reading": "㕓",
+      "path": "kanripo/KR3g0042_011.txt",
+      "match_mode": "full_flank",
+      "quote": "主安然獲福月衰¶ 時旺早歲豐肥本重主輕終身飄蕩慣取市㕓之利必¶ 因旺處逢財忽然顯達成家定是刑中見貴主本當時",
+      "source": "p3_fresh_probe"
+     },
+     {
+      "repo": "mikkokotila/Sanming-Tongshui",
+      "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+      "role": "siku_lineage_witness",
+      "attestation": "attested",
+      "site_reading": "㕓",
+      "path": "mikkokotila/source/juan-11.md",
+      "match_mode": "full_flank",
+      "quote": "元定主安然獲福月衰時旺早歲豐肥本重主輕終身飄蕩慣取市㕓之利必因旺處逢財忽然顯達成家定是刑中見貴主本當時得女",
+      "source": "p3_fresh_probe"
+     }
+    ]
+   },
+   "modern_cluster": {
+    "reading_word": "厘",
+    "counts_as": "one_cluster_until_independence_verified",
+    "houses": [
+     {
+      "repo": "NiuTrans/Classical-Modern",
+      "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+      "role": "modern_lineage_house",
+      "attestation": "attested",
+      "site_reading": "厘",
+      "path": "niutrans/古文原文/三命通会/卷十一/憎爱赋/text.txt",
+      "match_mode": "full_flank",
+      "quote": "福。月衰时旺，早岁丰肥；本重主轻，终身飘荡。 惯取市厘之利，必因旺处逢财；忽然显达成家，定是刑中见贵。主本",
+      "source": "p3_fresh_probe"
+     },
+     {
+      "repo": "youngzs/xuanxue",
+      "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+      "role": "modern_lineage_house",
+      "attestation": "not_located",
+      "site_reading": null,
+      "path": null,
+      "match_mode": null,
+      "quote": null,
+      "source": "p3_fresh_probe",
+      "corpus_scope": "sanming_tonghui_transcription_subset",
+      "full_corpus_attestation": "not_located"
+     },
+     {
+      "repo": "michiboo/Classical_Chinese_Wikisource",
+      "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+      "role": "modern_lineage_house",
+      "attestation": "not_in_candidate_record",
+      "site_reading": null,
+      "path": null,
+      "match_mode": null,
+      "quote": null,
+      "source": "candidate_record_verbatim"
+     }
+    ],
+    "corroboration": [
+     {
+      "repo": "Banny-Gao",
+      "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+      "role": "corroboration_only",
+      "attestation": "attested",
+      "site_reading": "厘",
+      "path": "banny/books/三命通会/articles/憎爱赋/source.md",
+      "match_mode": "full_flank",
+      "quote": "。月衰时旺，早岁丰肥；本重主轻，终身飘荡。  惯取市厘之利，必因旺处逢财；忽然显达成家，定是刑中见贵。主本",
+      "source": "p3_fresh_probe"
+     }
+    ],
+    "independence_note": "现代侧定位 1 家（NiuTrans/Classical-Modern），凡定位者读法同词「厘」（简繁字形对在案）；然读法一致不等于谱系独立——NT/youngzs 为网络转录、维基文库源出影印传统，三家独立性逐条核实后仍无积极证据可断互不相袭，按设计口径整组计一个现代谱系簇；本位点无与两簇均独立的第三谱系见证，判定标准 (a) 不成立。"
+   },
+   "collation_form": "semantic_divergence",
+   "siku_reading_is_glyph_variant_of_snapshot_word": false,
+   "internal_evidence_note": "「惯取市Ｘ之利」：市㕓为店铺成词、与「之利」相承；厘为计利单位另成一读。内证倾向（市㕓较成词）只作登记观察，不作采纳。",
+   "internal_evidence_adopted": false,
+   "third_lineage_witness": null,
+   "p2_linkage": {
+    "in_p2_inventory": true,
+    "p2_inventory_seq": 712,
+    "p2_state": "pending_later_tranche",
+    "note": "所在卷分册只标记、保持 pending 归 P3（处置见本批互校登记，状态仍为待裁定）"
+   },
+   "outcome": "parallel_registered_pending_adjudication",
+   "snapshot_char_retained": true
+  },
+  {
+   "seq": 880,
+   "volume": 11,
+   "status": "reading_disagreement_hold",
+   "registration_kind": "collation_parallel",
+   "site_s2": 398647,
+   "site_s3": 398647,
+   "site_snapshot_span": [
+    398648,
+    398649
+   ],
+   "site_in_context": 18,
+   "snapshot_reading": "玄",
+   "s3_reading": "玄",
+   "site_s0_char": "",
+   "site_s0_codepoint": "U+EA20",
+   "pua_site_note": "位点快照原字为 PUA 码位 U+EA20，PUA 订正表登记映射为玄（confirmed，count 79）；S1 起位点读玄，应用批未改此位点字",
+   "context": "故谓多门如识者取之以修定仙者取之则求玄自非顿悟之士岂能与此是故贤者得之能穷",
+   "context_span_s2": [
+    398629,
+    398666
+   ],
+   "context_s2_sha256": "dacd8e2ff3dab67e9f30b9244f9d2e1229c4e615a7c7a650e21185b3bead3c56",
+   "context_span_s3": [
+    398629,
+    398666
+   ],
+   "context_s3_sha256": "dacd8e2ff3dab67e9f30b9244f9d2e1229c4e615a7c7a650e21185b3bead3c56",
+   "context_anchor_class": "anchored_direct",
+   "site_anchor_class": "anchored_direct",
+   "context_edits_crossed": {},
+   "in_context_carry_76": false,
+   "candidate_record_evidence": {
+    "historical_evidence": [
+     {
+      "repo": "kanripo/KR3g0042",
+      "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+      "path": "KR3g0042_011.txt",
+      "anchor": "仙者取之則求𤣥自非頓悟之士"
+     },
+     {
+      "repo": "mikkokotila/Sanming-Tongshui",
+      "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+      "path": "source/juan-11.md",
+      "anchor": "仙者取之則求𤣥自非頓悟之士"
+     }
+    ],
+    "crosscheck_evidence": [
+     {
+      "repo": "NiuTrans/Classical-Modern",
+      "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+      "path": "古文原文/三命通会/卷十一/消息赋一/text.txt",
+      "anchor": "仙者取之则求元自非顿悟之士",
+      "observed": "元"
+     }
+    ]
+   },
+   "siku_lineage": {
+    "reading": "𤣥",
+    "counts_as": "one_lineage",
+    "witnesses": [
+     {
+      "repo": "kanripo/KR3g0042",
+      "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+      "role": "siku_lineage_witness",
+      "attestation": "attested",
+      "site_reading": "𤣥",
+      "path": "kanripo/KR3g0042_011.txt",
+      "match_mode": "full_flank",
+      "quote": "用不一故謂多門如識者取之以修定仙)¶ 　(者取之則求𤣥自非頓悟之士豈能與此是故賢者/得之能窮理盡性達五行之",
+      "source": "p3_fresh_probe"
+     },
+     {
+      "repo": "mikkokotila/Sanming-Tongshui",
+      "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+      "role": "siku_lineage_witness",
+      "attestation": "attested",
+      "site_reading": "𤣥",
+      "path": "mikkokotila/source/juan-11.md",
+      "match_mode": "full_flank",
+      "quote": "所不該其取用不一故謂多門如識者取之以修定仙者取之則求𤣥自非頓悟之士豈能與此是故賢者得之能窮理盡性達五行之妙",
+      "source": "p3_fresh_probe"
+     }
+    ]
+   },
+   "modern_cluster": {
+    "reading_word": "元",
+    "counts_as": "one_cluster_until_independence_verified",
+    "houses": [
+     {
+      "repo": "NiuTrans/Classical-Modern",
+      "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+      "role": "modern_lineage_house",
+      "attestation": "attested",
+      "site_reading": "元",
+      "path": "niutrans/古文原文/三命通会/卷十一/消息赋一/text.txt",
+      "match_mode": "full_flank",
+      "quote": "其取用不一，故谓多门。如识者取之以修定，仙者取之则求元。自非顿悟之士，岂能与此？是故贤者得之，能穷理尽性，",
+      "source": "p3_fresh_probe"
+     },
+     {
+      "repo": "youngzs/xuanxue",
+      "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+      "role": "modern_lineage_house",
+      "attestation": "not_located",
+      "site_reading": null,
+      "path": null,
+      "match_mode": null,
+      "quote": null,
+      "source": "p3_fresh_probe",
+      "corpus_scope": "sanming_tonghui_transcription_subset",
+      "full_corpus_attestation": "not_located"
+     },
+     {
+      "repo": "michiboo/Classical_Chinese_Wikisource",
+      "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+      "role": "modern_lineage_house",
+      "attestation": "not_in_candidate_record",
+      "site_reading": null,
+      "path": null,
+      "match_mode": null,
+      "quote": null,
+      "source": "candidate_record_verbatim"
+     }
+    ],
+    "corroboration": [
+     {
+      "repo": "Banny-Gao",
+      "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+      "role": "corroboration_only",
+      "attestation": "attested",
+      "site_reading": "元",
+      "path": "banny/books/三命通会/articles/消息赋一/source.md",
+      "match_mode": "full_flank",
+      "quote": "其取用不一，故谓多门。如识者取之以修定，仙者取之则求元。自非顿悟之士，岂能与此？是故贤者得之，能穷理尽性，",
+      "source": "p3_fresh_probe"
+     }
+    ],
+    "independence_note": "现代侧定位 1 家（NiuTrans/Classical-Modern），凡定位者读法同词「元」（简繁字形对在案）；然读法一致不等于谱系独立——NT/youngzs 为网络转录、维基文库源出影印传统，三家独立性逐条核实后仍无积极证据可断互不相袭，按设计口径整组计一个现代谱系簇；本位点无与两簇均独立的第三谱系见证，判定标准 (a) 不成立。"
+   },
+   "collation_form": "glyph_variant_same_word_plus_semantic_divergence",
+   "siku_reading_is_glyph_variant_of_snapshot_word": true,
+   "internal_evidence_note": "三方三读：快照玄（位点原字 U+EA20 经 PUA 映射）、四库𤣥（玄之异体，与快照同词）、现代元。「求玄」为《消息赋》术语成词，元则改义；字形层四库与快照同词、语义层与现代对峙。与 TJ-017.1 清单 #5 的 EA20「玄」同码位而不同位点与对象，不混同（设计 item_notes 在案）。",
+   "internal_evidence_adopted": false,
+   "third_lineage_witness": null,
+   "p2_linkage": {
+    "in_p2_inventory": false,
+    "note": "非残余「防」位点（old 为着/胤/玄），不在 P2 769 盘点范围内；其 P1 状态维度归属即本批 12 条"
+   },
+   "outcome": "parallel_registered_pending_adjudication",
+   "snapshot_char_retained": true
+  },
+  {
+   "seq": 931,
+   "volume": 11,
+   "status": "reading_disagreement_hold",
+   "registration_kind": "collation_parallel",
+   "site_s2": 423247,
+   "site_s3": 423247,
+   "site_snapshot_span": [
+    423248,
+    423249
+   ],
+   "site_in_context": 18,
+   "snapshot_reading": "着",
+   "s3_reading": "着",
+   "site_s0_char": "着",
+   "site_s0_codepoint": "U+7740",
+   "pua_site_note": null,
+   "context": "主为相有王佐之才为将有运筹之智为守宰着循良之政要本身与官印相等乃极品贵也否",
+   "context_span_s2": [
+    423229,
+    423266
+   ],
+   "context_s2_sha256": "b4999f239f061f9263614bf2a74114a2b71e37554a08336b442d7a19b71127ed",
+   "context_span_s3": [
+    423229,
+    423266
+   ],
+   "context_s3_sha256": "b4999f239f061f9263614bf2a74114a2b71e37554a08336b442d7a19b71127ed",
+   "context_anchor_class": "anchored_direct",
+   "site_anchor_class": "anchored_direct",
+   "context_edits_crossed": {},
+   "in_context_carry_76": false,
+   "candidate_record_evidence": {
+    "historical_evidence": [
+     {
+      "repo": "kanripo/KR3g0042",
+      "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+      "path": "KR3g0042_011.txt",
+      "anchor": "籌之智為守宰著循良之政要本"
+     },
+     {
+      "repo": "mikkokotila/Sanming-Tongshui",
+      "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+      "path": "source/juan-11.md",
+      "anchor": "籌之智為守宰著循良之政要本"
+     }
+    ],
+    "crosscheck_evidence": [
+     {
+      "repo": "NiuTrans/Classical-Modern",
+      "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+      "path": "古文原文/三命通会/卷十一/明通赋二/text.txt",
+      "anchor": "筹之智为守宰者循良之政要本",
+      "observed": "者"
+     }
+    ]
+   },
+   "siku_lineage": {
+    "reading": "著",
+    "counts_as": "one_lineage",
+    "witnesses": [
+     {
+      "repo": "kanripo/KR3g0042",
+      "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+      "role": "siku_lineage_witness",
+      "attestation": "attested",
+      "site_reading": "著",
+      "path": "kanripo/KR3g0042_011.txt",
+      "match_mode": "full_flank",
+      "quote": "　(自相生焉故主為相有王佐之才為將有運籌之智/為守宰著循良之政要本身與官印相等乃極品貴)¶ 　(也否則隨力",
+      "source": "p3_fresh_probe"
+     },
+     {
+      "repo": "mikkokotila/Sanming-Tongshui",
+      "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+      "role": "siku_lineage_witness",
+      "attestation": "attested",
+      "site_reading": "著",
+      "path": "mikkokotila/source/juan-11.md",
+      "match_mode": "full_flank",
+      "quote": "合而又自相生焉故主為相有王佐之才為將有運籌之智為守宰著循良之政要本身與官印相等乃極品貴也否則隨力量升降輕重",
+      "source": "p3_fresh_probe"
+     }
+    ]
+   },
+   "modern_cluster": {
+    "reading_word": "者",
+    "counts_as": "one_cluster_until_independence_verified",
+    "houses": [
+     {
+      "repo": "NiuTrans/Classical-Modern",
+      "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+      "role": "modern_lineage_house",
+      "attestation": "attested",
+      "site_reading": "者",
+      "path": "niutrans/古文原文/三命通会/卷十一/明通赋二/text.txt",
+      "match_mode": "full_flank",
+      "quote": "焉。 故主为相，有王佐之才，为将有运筹之智。 为守宰者循良之政，要本身与官印相等，乃极品贵也。 否则，随力",
+      "source": "p3_fresh_probe"
+     },
+     {
+      "repo": "youngzs/xuanxue",
+      "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+      "role": "modern_lineage_house",
+      "attestation": "not_located",
+      "site_reading": null,
+      "path": null,
+      "match_mode": null,
+      "quote": null,
+      "source": "p3_fresh_probe",
+      "corpus_scope": "sanming_tonghui_transcription_subset",
+      "full_corpus_attestation": "not_located"
+     },
+     {
+      "repo": "michiboo/Classical_Chinese_Wikisource",
+      "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+      "role": "modern_lineage_house",
+      "attestation": "not_in_candidate_record",
+      "site_reading": null,
+      "path": null,
+      "match_mode": null,
+      "quote": null,
+      "source": "candidate_record_verbatim"
+     }
+    ],
+    "corroboration": [
+     {
+      "repo": "Banny-Gao",
+      "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+      "role": "corroboration_only",
+      "attestation": "attested",
+      "site_reading": "者",
+      "path": "banny/books/三命通会/articles/明通赋二/source.md",
+      "match_mode": "full_flank",
+      "quote": "  故主为相，有王佐之才，为将有运筹之智。  为守宰者循良之政，要本身与官印相等，乃极品贵也。  否则，随",
+      "source": "p3_fresh_probe"
+     }
+    ],
+    "independence_note": "现代侧定位 1 家（NiuTrans/Classical-Modern），凡定位者读法同词「者」（简繁字形对在案）；然读法一致不等于谱系独立——NT/youngzs 为网络转录、维基文库源出影印传统，三家独立性逐条核实后仍无积极证据可断互不相袭，按设计口径整组计一个现代谱系簇；本位点无与两簇均独立的第三谱系见证，判定标准 (a) 不成立。"
+   },
+   "collation_form": "glyph_variant_same_word_plus_semantic_divergence",
+   "siku_reading_is_glyph_variant_of_snapshot_word": true,
+   "internal_evidence_note": "「为守宰Ｘ循良之政」：著居动词位（彰著/施设）文义成句；者于此位不成词，设计登记在案内证较强（倾向四库词）。内证强度照实登记，本批按 UD-1 默认 A 不作采纳。",
+   "internal_evidence_adopted": false,
+   "third_lineage_witness": null,
+   "p2_linkage": {
+    "in_p2_inventory": false,
+    "note": "非残余「防」位点（old 为着/胤/玄），不在 P2 769 盘点范围内；其 P1 状态维度归属即本批 12 条"
+   },
+   "outcome": "parallel_registered_pending_adjudication",
+   "snapshot_char_retained": true
+  },
+  {
+   "seq": 933,
+   "volume": 11,
+   "status": "reading_disagreement_hold",
+   "registration_kind": "collation_parallel",
+   "site_s2": 423786,
+   "site_s3": 423786,
+   "site_snapshot_span": [
+    423787,
+    423788
+   ],
+   "site_in_context": 18,
+   "snapshot_reading": "防",
+   "s3_reading": "防",
+   "site_s0_char": "防",
+   "site_s0_codepoint": "U+9632",
+   "pua_site_note": null,
+   "context": "官煞乘化不惟不胜官煞而财印交差身制不防无可为倚必定贫贱】\n 十干背禄喜见财丰败逢",
+   "context_span_s2": [
+    423768,
+    423808
+   ],
+   "context_s2_sha256": "d17539f39eb44cd8cb088e242b88463d19b88b43345ac2d55a75227d66e4cd1e",
+   "context_span_s3": [
+    423768,
+    423808
+   ],
+   "context_s3_sha256": "d17539f39eb44cd8cb088e242b88463d19b88b43345ac2d55a75227d66e4cd1e",
+   "context_anchor_class": "anchored_direct",
+   "site_anchor_class": "anchored_direct",
+   "context_edits_crossed": {},
+   "in_context_carry_76": false,
+   "candidate_record_evidence": {
+    "historical_evidence": [
+     {
+      "repo": "kanripo/KR3g0042",
+      "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+      "path": "KR3g0042_011.txt",
+      "anchor": "印交差身制不䕶無可為倚必定"
+     },
+     {
+      "repo": "mikkokotila/Sanming-Tongshui",
+      "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+      "path": "source/juan-11.md",
+      "anchor": "印交差身制不䕶無可為倚必定"
+     }
+    ],
+    "crosscheck_evidence": [
+     {
+      "repo": "NiuTrans/Classical-Modern",
+      "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+      "path": "古文原文/三命通会/卷十一/明通赋三/text.txt",
+      "anchor": "印交差身制不让无可为倚必定",
+      "observed": "让"
+     }
+    ]
+   },
+   "siku_lineage": {
+    "reading": "䕶",
+    "counts_as": "one_lineage",
+    "witnesses": [
+     {
+      "repo": "kanripo/KR3g0042",
+      "commit": "efe780a4f6fd835f4e2d769ffc8f79b7099db3b1",
+      "role": "siku_lineage_witness",
+      "attestation": "attested",
+      "site_reading": "䕶",
+      "path": "kanripo/KR3g0042_011.txt",
+      "match_mode": "full_flank",
+      "quote": "身弱無官煞乘化不惟不勝官煞而財印)¶ 　(交差身制不䕶無/可為倚必定貧賤)¶ 十干背祿喜見財豐敗逢比肩逐馬",
+      "source": "p3_fresh_probe"
+     },
+     {
+      "repo": "mikkokotila/Sanming-Tongshui",
+      "commit": "eb3cacbf4b41a4fe8fc3c0e77e0d12b5bd17c079",
+      "role": "siku_lineage_witness",
+      "attestation": "attested",
+      "site_reading": "䕶",
+      "path": "mikkokotila/source/juan-11.md",
+      "match_mode": "full_flank",
+      "quote": "印為福益厚身弱無官煞乘化不惟不勝官煞而財印交差身制不䕶無可為倚必定貧賤〉  十干背祿喜見財豐敗逢比肩逐馬官",
+      "source": "p3_fresh_probe"
+     }
+    ]
+   },
+   "modern_cluster": {
+    "reading_word": "讓",
+    "counts_as": "one_cluster_until_independence_verified",
+    "houses": [
+     {
+      "repo": "NiuTrans/Classical-Modern",
+      "commit": "4e746ea9fa99c3c0d7051c45397330bef7b0962d",
+      "role": "modern_lineage_house",
+      "attestation": "attested",
+      "site_reading": "让",
+      "path": "niutrans/古文原文/三命通会/卷十一/明通赋三/text.txt",
+      "match_mode": "full_flank",
+      "quote": " 身弱无官煞来化，不惟不胜官煞。 而财印交差，身制不让，无可为倚，必定贫贱。 十干背禄，喜见财丰。败逢比肩",
+      "source": "p3_fresh_probe"
+     },
+     {
+      "repo": "youngzs/xuanxue",
+      "commit": "aa7bc942602d2d88ef94778a726c0d19a4d286ff",
+      "role": "modern_lineage_house",
+      "attestation": "not_located",
+      "site_reading": null,
+      "path": null,
+      "match_mode": null,
+      "quote": null,
+      "source": "p3_fresh_probe",
+      "corpus_scope": "sanming_tonghui_transcription_subset",
+      "full_corpus_attestation": "not_located"
+     },
+     {
+      "repo": "michiboo/Classical_Chinese_Wikisource",
+      "commit": "5acdca0628a0cb664858a0280b23488c194445e3",
+      "role": "modern_lineage_house",
+      "attestation": "not_in_candidate_record",
+      "site_reading": null,
+      "path": null,
+      "match_mode": null,
+      "quote": null,
+      "source": "candidate_record_verbatim"
+     }
+    ],
+    "corroboration": [
+     {
+      "repo": "Banny-Gao",
+      "commit": "5a75273ea615ba2938f608871c0361f749c4f0f9",
+      "role": "corroboration_only",
+      "attestation": "attested",
+      "site_reading": "让",
+      "path": "banny/books/三命通会/articles/明通赋三/source.md",
+      "match_mode": "full_flank",
+      "quote": "身弱无官煞来化，不惟不胜官煞。  而财印交差，身制不让，无可为倚，必定贫贱。  十干背禄，喜见财丰。败逢比",
+      "source": "p3_fresh_probe"
+     }
+    ],
+    "independence_note": "现代侧定位 1 家（NiuTrans/Classical-Modern），凡定位者读法同词「讓」（简繁字形对在案）；然读法一致不等于谱系独立——NT/youngzs 为网络转录、维基文库源出影印传统，三家独立性逐条核实后仍无积极证据可断互不相袭，按设计口径整组计一个现代谱系簇；本位点无与两簇均独立的第三谱系见证，判定标准 (a) 不成立。"
+   },
+   "collation_form": "semantic_divergence",
+   "siku_reading_is_glyph_variant_of_snapshot_word": false,
+   "internal_evidence_note": "「身制不Ｘ无可为倚」：䕶（护持）与让（退让）两读皆可成义，内证无决定性。",
+   "internal_evidence_adopted": false,
+   "third_lineage_witness": null,
+   "p2_linkage": {
+    "in_p2_inventory": true,
+    "p2_inventory_seq": 740,
+    "p2_state": "pending_later_tranche",
+    "note": "所在卷分册只标记、保持 pending 归 P3（处置见本批互校登记，状态仍为待裁定）"
+   },
+   "outcome": "parallel_registered_pending_adjudication",
+   "snapshot_char_retained": true
+  }
+ ],
+ "posture": {
+  "canonical_ready": false,
+  "snapshot_text_modified": false,
+  "applied_text_modified": false,
+  "existing_registers_modified": false,
+  "remaining": "P4 决策包（UD-1/2/3 正式呈请用户裁定）；本批 12 条在 UD-1 裁定前保持并列登记、保留快照字",
+  "tj0183_status": "待做",
+  "tj0182_status": "阻塞"
+ }
+}
