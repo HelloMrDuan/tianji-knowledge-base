@@ -547,6 +547,21 @@ jobs:
       # (offline acceptance only, NOT public CI: it reads the sealed
       # snapshot files).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0183_sanming_pua_verification.py' -v
+      # TJ-018.3 formal application (E0298): public summary register
+      # mirrored against Golden, freeze/stage pins cross-checked
+      # against the design register, candidate status distribution
+      # cross-checked against the reanchor register, disputed loci
+      # cross-checked against the phase-0 full-verification register,
+      # product registration cross-checked against the
+      # public_domain_manifest application record, snapshot triple
+      # arithmetic pinned (235+2 files, byte sum), canonical_ready
+      # still false and planned_output not generated. Sealed-side
+      # product verification (applied text/report hashes, report
+      # internal completeness, annex counts, untouched snapshot)
+      # lives in test_tj0183_sanming_application_record_sealed.py
+      # (offline acceptance only, NOT public CI: it reads the
+      # sealed snapshot files).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0183_sanming_application_record.py' -v
       # TJ-017.1 seven-item priority collation closeout (scout
       # 018-B) public contracts: pure-data register mirrored
       # against Golden, collation-note form and confirmed anchor
