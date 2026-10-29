@@ -579,24 +579,25 @@ jobs:
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0183_sanming_finalization.py' -v
       # TJ-018.3 P2 residual-fang disposition register (first
       # tranche E0302, second tranche E0304, third tranche
-      # E0306, fourth tranche E0308) public contracts:
-      # pure-data register mirrored against Golden, full
-      # 769-locus inventory of the S3 residual fang
-      # (origin-map coordinates, context hashes), category
-      # counts reconciled (disposed 54/769: confirmed 23 /
-      # kept 29 / parallel 2; deferred 258 with witness
-      # evidence on record; 457 pending in later
+      # E0306, fourth tranche E0308, fifth tranche E0310)
+      # public contracts: pure-data register mirrored
+      # against Golden, full 769-locus inventory of the S3
+      # residual fang (origin-map coordinates, context
+      # hashes), category counts reconciled (disposed 66/769:
+      # confirmed 30 / kept 34 / parallel 2; deferred 376
+      # with witness evidence on record; 327 pending in later
       # volume-ordered tranches, incl. 7 RD-12 loci marked
       # only), disposition rules pinned (confirmed needs
       # siku lineage plus an independent modern lineage
       # attesting in its Sanming-Tonghui transcription
       # subset -- parallel-source attestations from a
-      # quoted source text do not count -- kept needs siku
-      # agreement on fang, RD-12 loci deferred to P3), and
-      # the 247 earlier-tranche dispositions pinned verbatim
-      # by hash. Sealed-side verification (sealed files
+      # quoted source text do not count, whether they agree
+      # or disagree -- kept needs siku agreement on fang,
+      # RD-12 loci deferred to P3), and the 312
+      # earlier-tranche dispositions pinned verbatim by
+      # hash. Sealed-side verification (sealed files
       # byte-identical, two-stage replay pins, all 769 loci
-      # and 312 disposition contexts verbatim against the
+      # and 442 disposition contexts verbatim against the
       # sealed texts) lives in
       # test_tj0183_sanming_fang_disposition_sealed.py
       # (offline acceptance only, NOT public CI: it reads the
