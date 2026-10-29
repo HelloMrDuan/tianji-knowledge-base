@@ -581,25 +581,26 @@ jobs:
       # tranche E0302, second tranche E0304, third tranche
       # E0306, fourth tranche E0308, fifth tranche E0310,
       # sixth tranche E0312, seventh tranche E0314, eighth
-      # tranche E0316, ninth tranche E0318) public contracts:
-      # pure-data register mirrored against Golden, full
-      # 769-locus inventory of the S3 residual fang
-      # (origin-map coordinates, context hashes), category
-      # counts reconciled (disposed 129/769: confirmed 58 /
-      # kept 67 / parallel 4; deferred 566 with witness
-      # evidence on record; 74 pending in later
-      # volume-ordered tranches, incl. 7 RD-12 loci marked
-      # only), disposition rules pinned (confirmed needs siku
-      # lineage plus an independent modern lineage attesting
-      # in its Sanming-Tonghui transcription subset --
-      # parallel-source attestations from a quoted source
-      # text do not count, whether they agree or disagree --
-      # kept needs siku agreement on fang, RD-12 loci
-      # deferred to P3), and the 670 earlier-tranche
-      # dispositions pinned verbatim by hash. Sealed-side
-      # verification (sealed files byte-identical, two-stage
-      # replay pins, all 769 loci and 695 disposition
-      # contexts verbatim against the sealed texts) lives in
+      # tranche E0316, ninth tranche E0318, tenth tranche
+      # E0320) public contracts: pure-data register mirrored
+      # against Golden, full 769-locus inventory of the S3
+      # residual fang (origin-map coordinates, context
+      # hashes), category counts reconciled (disposed
+      # 148/769: confirmed 67 / kept 76 / parallel 5;
+      # deferred 590 with witness evidence on record; 31
+      # pending in later volume-ordered tranches, incl. 7
+      # RD-12 loci marked only), disposition rules pinned
+      # (confirmed needs siku lineage plus an independent
+      # modern lineage attesting in its Sanming-Tonghui
+      # transcription subset -- parallel-source attestations
+      # from a quoted source text do not count, whether they
+      # agree or disagree -- kept needs siku agreement on
+      # fang, RD-12 loci deferred to P3), and the 695
+      # earlier-tranche dispositions pinned verbatim by
+      # hash. Sealed-side verification (sealed files
+      # byte-identical, two-stage replay pins, all 769 loci
+      # and 738 disposition contexts verbatim against the
+      # sealed texts) lives in
       # test_tj0183_sanming_fang_disposition_sealed.py
       # (offline acceptance only, NOT public CI: it reads the
       # sealed snapshot files).
