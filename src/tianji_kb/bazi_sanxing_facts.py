@@ -48,7 +48,22 @@ pending_phase1_registration、sufficient_rule=None，不借用任何
 既有 rule id；不建 Phase2 规则、不进 unresolved_interactions；
 research_only=true、public_enabled=false、ai_enabled=false，
 不接任何公开场景，公开投影对 branch_punishment_facts 键做
-防御性整体剥离（public_projection）。概念
+防御性整体剥离（public_projection）。
+
+E0333 翻转注记（TJ-018.3 批一三刑事实执行接入，用户
+2026-10-30 授权，设计 TJ0183_EXECUTION_BINDING_DESIGN）：
+执行绑定设计批（E0332）已完成 E0267 placement_decision 所
+要求的「另批审定」，本函数经唯一接入点（operations/
+bazi_chart.chart 关系事实块之后、门控参数
+include_punishment_facts 默认关、engine allow_research 门禁）
+接入生产执行并注册为 Phase2 事实步
+bazi.phase2.branch_punishment_facts（Phase1
+bazi.rule.r031），evidence_binding 翻转为
+registered_phase1_phase2、phase2_rule 填入该步 ID。审定
+SLICE_SPEC 原文逐字不动，承接记录见审定模块
+EXECUTION_BINDING_TAKEOVER。sufficient_rule 保持 None（事实
+步永不作充分规则）、不进 unresolved_interactions、
+research_only/public/ai 旗标不变。概念
 bazi.concept.conflict_three_punishments 全部字段逐字不变
 （status unresolved、executable_policy
 blocked_pending_school_resolution，审定 CONCEPT_LINKAGE）；
@@ -72,12 +87,12 @@ SLICE_REGISTRATION = {
     'slice_id': SLICE_ID,
     'task': 'TJ-012.3',
     'adjudication_register': ADJUDICATION_REGISTER_ID,
-    'evidence_binding': 'pending_phase1_registration',
+    'evidence_binding': 'registered_phase1_phase2',
     'sufficient_rule': None,
     'research_only': True,
     'public_enabled': False,
     'ai_enabled': False,
-    'phase2_rule': None,
+    'phase2_rule': 'bazi.phase2.branch_punishment_facts',
     'scenario_wiring': None,
     'concept_id': 'bazi.concept.conflict_three_punishments',
     'concept_semantics_changed': False,

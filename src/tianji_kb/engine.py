@@ -85,6 +85,8 @@ def execute(domain,inputs,variant=None,*,allow_research=False):
     if type(allow_research) is not bool:raise ValueError('allow_research must be boolean')
     if domain == 'bazi' and inputs.get('strength_variant') == ADJUDICATION_VARIANT and not allow_research:
         raise ValueError('Bounded strength adjudication requires explicit research mode')
+    if domain == 'bazi' and inputs.get('include_punishment_facts') is not None and not allow_research:
+        raise ValueError('Branch punishment structural facts require explicit research mode')
     if domain == 'bazi' and inputs.get('pattern_variant') is not None and not allow_research:
         raise ValueError('Pattern candidate observations require explicit research mode')
     if domain == 'bazi' and inputs.get('tiaohou_variant') is not None and not allow_research:

@@ -152,9 +152,21 @@ class ConceptAndRuleSurfaceSealedTest(unittest.TestCase):
                          adj.CONCEPT_LINKAGE['production_policy'])
 
     def test_no_phase2_punishment_rule_was_built(self):
+        # Batch transition (E0333, TJ-018.3 execution-binding batch
+        # 1): at implementation time (E0268) no Phase2 punishment
+        # rule existed at all. The execution-binding batch builds
+        # exactly one -- the gated structural FACT step
+        # bazi.phase2.branch_punishment_facts -- which is not an
+        # adjudication rule (no RuleMatch, no sufficient_rule; the
+        # sealed execbind suite pins the separation). The carrying
+        # invariant is now: that fact step is the only punishment
+        # entry in the Phase2 contract.
         bundle = json.loads(
             (CANONICAL_BAZI / 'phase2_execution.json').read_text('utf-8'))
-        self.assertNotIn('punish', json.dumps(bundle, ensure_ascii=False))
+        punish = [r['id'] for r in bundle['rules']
+                  if 'punish' in r['id']]
+        self.assertEqual(punish,
+                         ['bazi.phase2.branch_punishment_facts'])
         foundations = json.loads(
             (CANONICAL_BAZI / 'foundations_v1.json').read_text('utf-8'))
         self.assertEqual(

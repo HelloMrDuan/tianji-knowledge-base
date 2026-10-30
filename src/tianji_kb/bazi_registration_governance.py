@@ -148,6 +148,104 @@ TJ0183_P1_RECORD = {
                               '测试，输出 21MB JSON 字节级相同）。',
 }
 
+# TJ-018.3 批一三刑事实执行接入记录（E0333，用户 2026-10-30
+# 授权，设计 docs/product/TJ0183_EXECUTION_BINDING_DESIGN.md
+# §2/§9）：事实函数经唯一接入点接入生产执行并完成 Phase1/
+# Phase2 注册，三刑切片的 execution_binding_structure 缺口
+# 解除、evidence_binding 翻转。形制与 S5_REGISTRATION_RECORD /
+# TJ0183_P1_RECORD 同构：私有数据树著录 -> 暂存导出 -> 校验
+# -> 父级合并前同步换位 live 快照并改钉（先换代、后合并）。
+TJ0183_EXECBIND_RECORD = {
+    'batch': 'TJ-018.3 批一 三刑事实执行接入批',
+    'event': 'E0333',
+    'date': '2026-10-30',
+    'document': 'docs/product/TJ0183_SANXING_EXECUTION_BINDING.md',
+    'phase1_rules_added': ['bazi.rule.r031'],
+    'phase2_rules_added': ['bazi.phase2.branch_punishment_facts'],
+    'golden_cases_added': [
+        'bazi.sanxing-fact-chou-wei-partial-no-edges',
+        'bazi.sanxing-fact-yin-shen-only',
+        'bazi.sanxing-fact-group2-full',
+        'bazi.sanxing-fact-group3-full',
+        'bazi.sanxing-fact-zi-mao-bidirectional',
+        'bazi.sanxing-fact-self-chen-double',
+        'bazi.sanxing-fact-g6b-self-you-triple',
+        'bazi.sanxing-fact-empty-self-singles',
+        'bazi.sanxing-fact-zi-mao-multi-pillar',
+        'bazi.sanxing-fact-group2-partial-with-edge'],
+    'source_refs_subset': [
+        'sm3.enum_opening', 'sm3.enum_group4_partial',
+        'sm3.summary_groups', 'sm3.counting_method',
+        'sm3.wuen_core', 'sm3.zixing_definition'],
+    'source_refs_subset_basis': '审定登记（E0267）GROUP_TABLE '
+        '三组与 self_punishment 行 evidence_refs 的并集，恰 6 '
+        '条；逐条逐字验证于 bazi.section.s060 节文本（快照字形'
+        '本）；覆盖组表、三组环边（A 级六条见 enum_opening、'
+        'B 级卯刑子见 counting_method）与自刑全集（辰午酉见 '
+        'enum_opening、亥见 enum_group4_partial、'
+        'zixing_definition 为全集定义）。设计 §10.2 子集定稿属'
+        '实施批审定事项，本批按此可审计口径定稿，未扩到 11 条。',
+    'registration_flip': 'sanxing-branch-fact-v1 处置由 '
+        'maintained_pending（execution_binding_structure）翻转'
+        '为 registered；bazi_sanxing_facts.SLICE_REGISTRATION '
+        '的 evidence_binding 翻转为 registered_phase1_phase2、'
+        'phase2_rule 填入 bazi.phase2.branch_punishment_facts、'
+        'sufficient_rule 保持 None。翻转五条件中本地四项（真实'
+        '执行接入、Trace 真实步、EvidenceResolver 实测绑定、'
+        'Golden 与规定测试全过）已在机上全配方复跑实证；第五'
+        '项（正式验收与部署验证）为终局条件，由父级关账时复'
+        '核，PR 内翻转视为待终局确认。',
+    'e0267_takeover': '审定模块 bazi_sanxing_fact_adjudication '
+        '以 append-only 常量 EXECUTION_BINDING_TAKEOVER 承接 '
+        'E0267 的 consumption_boundaries 与 placement_decision'
+        '；SLICE_SPEC 原文字逐字未动。',
+    'sealed_files_changed': [
+        'data/canonical/bazi/phase1_knowledge.json',
+        'data/canonical/bazi/phase2_execution.json',
+        'data/canonical/bazi/phase2_golden.json',
+        'data/coverage/phase1.json'],
+    'sealed_file_sha256_after': {
+        'data/canonical/bazi/phase1_knowledge.json':
+            '44b448b60b4cc39825b35274dd2b647687dc56110fecffd8c9b33f5a2078d221',
+        'data/canonical/bazi/phase2_execution.json':
+            '209f589ab3f00584dbf869b57f42fc6b04b855d75bad72d28087c0e3b37dcacf',
+        'data/canonical/bazi/phase2_golden.json':
+            '06d88927df44e282ae897f891d32dba15eaec2b8e0505e7838170c67cd17ee38',
+        'data/coverage/phase1.json':
+            '38ae2617400bbd04b1774f4b170d84836031465029a53f668552c7d8ee4b4bfd'},
+    'snapshot_files_before': 237,
+    'snapshot_files_after': 237,
+    'snapshot_bytes_before': 15902169,
+    'snapshot_bytes_after': 15922702,
+    'manifest_sha256_before':
+        '305e20be96a38b614495236f8c3252cf7e21c6d1635a5a29bce1c299b746526c',
+    'manifest_sha256_after':
+        'b93e4b97830ff15aca1a9e77847796e5ddd5cb7e1f3cd6512db20a358c159622',
+    'pin_record': '新钉值（manifest_sha256_after）须由父级在本'
+                  '批 PR 合并前换位 live 快照并更新可信机 cicd '
+                  '钉值（先换代、后合并，E0329 竞态教训）；私有'
+                  '检出侧 EXPECTED_BYTES=15922702 与检出 '
+                  'manifest 已同步重生并 verify 通过；回退路径'
+                  '不变（恢复旧快照目录 + 旧钉值，且开启路径在'
+                  '旧快照下 fail-closed、默认路径与 P1 基线一致，'
+                  '回滚演练记录见治理文档 §4）。',
+    'verdict_surface_change': '默认表面零变化：129 个真实盘'
+                              '（119 个密封 Phase2 Golden 柱面'
+                              '输入 + 10 个三刑真实出生时刻盘）'
+                              '门控关全产出逐字一致；门控开仅在'
+                              '设计 §7.2 封闭清单内变化（result '
+                              '新增 branch_punishment_facts 键与 '
+                              'production_scope 一句、trace 新增'
+                              '事实步一条、evidence 与 '
+                              'rule_matches 各增该步条目、封套'
+                              '研究标记、其后步 fact_ref 索引位'
+                              '移而所指内容逐字一致）。事实步不'
+                              '产生 RuleMatch、不写入 '
+                              'sufficient_rule、不进任何裁决输'
+                              '入；用户可见能力零变化（公开投影'
+                              '剥离、研究门控默认关）。',
+}
+
 REASON_CLASSES = {
     'canonical_evidence_absent':
         '定义性原典锚点在密封 Canonical 中无对应 section（或经典不在 '
@@ -369,31 +467,29 @@ REGISTRATION_INVENTORY = [
         'item': 'sanxing-branch-fact-v1',
         'subject': '三刑结构事实层切片 sanxing-branch-fact-v1（TJ-012.3）',
         'disclosure_sites': ['src/tianji_kb/bazi_sanxing_facts.py'],
-        'disposition': 'maintained_pending',
-        'reason_class': 'execution_binding_structure',
-        'reason': 'TJ-018.3 P1 批（E0329）已完成密封 Canonical 建节：'
-                  '三命通会新增 chapter bazi.chapter.sanming_sanxing、'
-                  'section bazi.section.s060（《论三刑》整节，文本依据为'
-                  '正式应用文本 S3 切片并新登记来源 '
-                  'bazi.source.sanmingtonghui-applied——快照 '
-                  'S0 切片含 PUA 8 处、与 Canonical 全域零 PUA '
-                  '不变量冲突）与 term '
-                  'bazi.term.branch_punishments，018-B 登记引文 11 条'
-                  '逐字绑定复核 11/11，本切片的 canonical_evidence_'
-                  'absent 面已消除。但事实函数 reviewed_branch_'
-                  'punishment_facts 无任何生产调用点，不经 '
-                  'tianji_kb.operations.bazi_chart.chart 产出、不经 '
-                  'ExecutionTrace、无 RuleMatch；Phase2 golden '
-                  'harness 只执行 operations provider 且注册契约要求 '
-                  'golden 用例真实 fire 注册规则，本切片无执行步可绑，'
-                  '注册即无执行步的空注册（与 ren-pattern-yin-true-v1 '
-                  '同类）。审定登记（E0267）消费边界明示不建 Phase2 '
-                  '规则，placement 决定明示函数并入 chart 输出另批审定。',
-        'unlock_path': '执行绑定设计批：先审定事实函数并入 operations '
-                       'provider 输出并接入 ExecutionTrace 的 placement'
-                       '（改变生产产出表面，须独立审定），再扩 Phase2 '
-                       'harness 覆盖后另行注册；当前维持研究级 pending，'
-                       'evidence_binding 与 phase2_rule 逐字不变。',
+        'disposition': 'registered',
+        'phase1_rule_id': 'bazi.rule.r031',
+        'phase2_rule_id': 'bazi.phase2.branch_punishment_facts',
+        'reason': '定义锚点全部在 Canonical 内：TJ-018.3 P1 批'
+                  '（E0329）建成 chapter bazi.chapter.'
+                  'sanming_sanxing、section bazi.section.s060'
+                  '（《论三刑》整节）与 term '
+                  'bazi.term.branch_punishments，11 条登记引文逐'
+                  '字绑定；执行绑定设计批（E0332）审定唯一接入'
+                  '点后，批一（E0333）将事实函数经 operations/'
+                  'bazi_chart.chart 关系事实块之后的门控步（参数 '
+                  'include_punishment_facts 默认关、engine '
+                  'allow_research 门禁）接入生产执行，注册为 '
+                  'Phase2 事实步 bazi.phase2.'
+                  'branch_punishment_facts，其 Phase1 规则 '
+                  'bazi.rule.r031 的 source_refs 只引 s060 内 6 '
+                  '条定义性引文（审定登记组表与自刑行引文并集）'
+                  '并逐条经 EvidenceResolver 验证；Golden 10 例'
+                  '真实盘经 harness 真实 fire 该步。事实步与裁'
+                  '决面结构分离：不产生 RuleMatch、不写入 '
+                  'sufficient_rule、不进任何裁决输入，组名与教'
+                  '义状态（B2/B5）逐字不变。',
+        'unlock_path': None,
     },
 ]
 

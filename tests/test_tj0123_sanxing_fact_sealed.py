@@ -171,11 +171,25 @@ class ExecutionSurfaceTest(unittest.TestCase):
             self.assertIn(frozenset(row['pair']),
                           tables[row['existing_kind']], row['pair'])
 
-    def test_phase2_has_no_punishment_surface(self):
+    def test_phase2_punishment_surface_is_the_registered_fact_step(self):
+        # Batch transition (E0333, TJ-018.3 execution-binding batch
+        # 1): the E0267-era pin asserted NO punishment surface in
+        # Phase2. The execution-binding design (E0332) adjudicated
+        # exactly one surface -- the gated fact step
+        # bazi.phase2.branch_punishment_facts (Phase1
+        # bazi.rule.r031), which reports structure only and never
+        # adjudicates. The carrying invariant is now: that step is
+        # the ONLY punishment surface, and the school-disagreement
+        # posture is unchanged (no unified executable doctrine;
+        # B5 still pending user adjudication).
         bundle = json.loads(
             (CANONICAL_BAZI / 'phase2_execution.json').read_text('utf-8'))
+        punish = [r for r in bundle['rules'] if 'punish' in r['id']]
+        self.assertEqual([r['id'] for r in punish],
+                         ['bazi.phase2.branch_punishment_facts'])
+        self.assertEqual(punish[0]['phase1_rule_refs'],
+                         ['bazi.rule.r031'])
         dump = json.dumps(bundle, ensure_ascii=False)
-        self.assertNotIn('punish', dump)
         self.assertIn('三刑存在明确流派分歧，当前不进入统一 executable 规则',
                       dump)
 

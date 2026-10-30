@@ -1258,7 +1258,12 @@ SEALED_MEASUREMENTS = {
 'phase1_sections_total': 60,
 'phase1_sections_with_hehua_keywords': 0,
 'phase1_sections_with_wuhe': ['bazi.section.s010'],
-'phase1_rules_total': 30,
+# E0333 (TJ-018.3 execution-binding batch 1): +1 for the new
+# Phase1 rule bazi.rule.r031 (sanxing structural facts, refs
+# only bazi.section.s060) and +1 Phase2 rule below for its
+# fact step; neither carries hehua content, so the other pins
+# are unchanged.
+'phase1_rules_total': 31,
 'phase1_concepts_total': 18,
 'phase1_hehua_concepts': 0,
 'phase1_concept_ids': [
@@ -1281,7 +1286,7 @@ SEALED_MEASUREMENTS = {
 'bazi.concept.bounded_strength_adjudication_v1',
 'bazi.concept.pattern_candidates_v1',
 ],
-'phase2_rules_total': 31,
+'phase2_rules_total': 32,
 'foundations_stem_combinations': [['甲', '己', '土'],
 ['乙', '庚', '金'], ['丙', '辛', '水'], ['丁', '壬', '木'],
 ['戊', '癸', '火']],

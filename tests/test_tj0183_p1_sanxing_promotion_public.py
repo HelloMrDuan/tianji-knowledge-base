@@ -11,10 +11,15 @@ disclosure:
   register, manifest pins, the four changed sealed files);
 - the sanxing slice entered the registration inventory as
   maintained_pending / execution_binding_structure, and the
-  flipped set is unchanged (no silent registration);
+  flipped set is unchanged (no silent registration) -- as of
+  P1; E0333 (execution-binding batch 1) later flipped the row
+  and the slice registration, pinned in the updated tests
+  below and in test_tj0183_sanxing_execbind_public.py;
 - the fact layer's SLICE_REGISTRATION and the adjudication
   register's SLICE_SPEC.registration are verbatim unchanged
-  (evidence_binding pending, phase2_rule / sufficient_rule None);
+  (evidence_binding pending, phase2_rule / sufficient_rule None)
+  -- as of P1; E0333 flipped only the implementation module's
+  SLICE_REGISTRATION, the adjudicated SLICE_SPEC stays verbatim;
 - the governance document exists and names the built entities,
   both manifest pins and the structural gap;
 - no sealed Canonical section text leaks into the public record
@@ -91,21 +96,32 @@ class RecordConsistencyTests(unittest.TestCase):
 
 class InventoryDispositionTests(unittest.TestCase):
     def test_sanxing_row_maintained_pending_structural(self):
+        # Batch transition (E0333): at P1 this row was
+        # maintained_pending / execution_binding_structure (the
+        # assertions this method originally pinned). The
+        # execution-binding batch flipped it to registered; the
+        # method name is kept for traceability and the pinned
+        # posture is now the registered one.
         row = _sanxing_row()
-        self.assertEqual(row['disposition'], 'maintained_pending')
-        self.assertEqual(row['reason_class'],
-                         'execution_binding_structure')
+        self.assertEqual(row['disposition'], 'registered')
+        self.assertEqual(row['phase1_rule_id'], 'bazi.rule.r031')
+        self.assertEqual(row['phase2_rule_id'],
+                         'bazi.phase2.branch_punishment_facts')
         self.assertEqual(row['disclosure_sites'],
                          ['src/tianji_kb/bazi_sanxing_facts.py'])
         self.assertIn('bazi.section.s060', row['reason'])
-        self.assertTrue(row['unlock_path'])
+        self.assertIsNone(row['unlock_path'])
 
     def test_flipped_set_unchanged(self):
+        # E0333: the flipped set grew by the sanxing slice (the
+        # P1-era pin of exactly two flipped items is superseded).
         self.assertEqual(sorted(gov.FLIPPED_ITEMS),
                          ['commanding_visible_support',
-                          'pure_generating_support'])
-        self.assertIn('sanxing-branch-fact-v1', gov.MAINTAINED_ITEMS)
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 13)
+                          'pure_generating_support',
+                          'sanxing-branch-fact-v1'])
+        self.assertNotIn('sanxing-branch-fact-v1',
+                         gov.MAINTAINED_ITEMS)
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 12)
 
 
 class ConfigRegistrationTests(unittest.TestCase):
@@ -152,10 +168,16 @@ class ConfigRegistrationTests(unittest.TestCase):
 
 class DisclosureUnchangedTests(unittest.TestCase):
     def test_slice_registration_verbatim(self):
+        # Batch transition (E0333): the implementation module's
+        # registration flipped (evidence_binding registered,
+        # phase2_rule filled); sufficient_rule and the research /
+        # public / ai posture are verbatim unchanged, and the
+        # adjudication register below stays fully verbatim.
         reg = impl.SLICE_REGISTRATION
         self.assertEqual(reg['evidence_binding'],
-                         'pending_phase1_registration')
-        self.assertIsNone(reg['phase2_rule'])
+                         'registered_phase1_phase2')
+        self.assertEqual(reg['phase2_rule'],
+                         'bazi.phase2.branch_punishment_facts')
         self.assertIsNone(reg['sufficient_rule'])
         self.assertTrue(reg['research_only'])
         self.assertFalse(reg['public_enabled'])
