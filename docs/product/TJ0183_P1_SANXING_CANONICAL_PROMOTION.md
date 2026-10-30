@@ -158,13 +158,14 @@ provider 输出并接入 ExecutionTrace 的 placement（改变生产
   增 s060；（4）三刑隔离扫描将治理登记册列为本切片披露台账
   豁免（登记册只以数据形式提名切片，公开专项另钉其不 import、
   不调用实现，零消费接线的不变量实质不变）；（5）新来源登记
-  使来源普查 C:95 → C:96（登记表 101 → 102 条），六处测试的
-  普查钉值逐处同步并带普查同步叙述（test_product_coverage、
-  test_dream_source_review、test_tj012_luren_route_sealed、
-  test_tj012_siling_matrix_sealed、
-  test_tj012_zaqi_selection_sealed、test_tj0171_dayun_collation，
-  仿 TJ-017.1 登记三命快照时的同口径处置）。全部测试更新均
-  只随真实登记增项移动钉值，不放宽任何判定断言。
+  使来源普查 C:95 → C:96（登记表 101 → 102 条），全部普查
+  钉值逐处同步并带普查同步叙述，共 32 个测试文件（含
+  test_product_coverage、test_dream_source_review、
+  test_tj012_luren_route_sealed、test_tj012_siling_matrix_sealed、
+  test_tj012_zaqi_selection_sealed、test_tj0171_dayun_collation
+  与各密封专项的 Registry 普查钉，仿 TJ-017.1 登记三命快照时
+  的同口径处置）。全部测试更新均只随真实登记增项移动钉值，
+  不放宽任何判定断言。
 
 ## 6. 未覆盖
 
