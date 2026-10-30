@@ -177,3 +177,50 @@ provider 输出并接入 ExecutionTrace 的 placement（改变生产
 - 事实层其余 pending 面不变：未刑丑等级 C 边（B1 证据
   工程）、组名（B2）、程度命题（B3）、破格消费（B4）、
   统一教义（B5）逐字保持原状。
+
+## 7. 正式验收与部署记录（关账 E0330）
+
+- 合并：公开 PR #506，Merge SHA
+  `552c58b9290372f328675b74bfdd66c985c03485`。
+- 快照换代（与合并同步、原子执行）：live 快照换位至新
+  manifest `305e20be…`（237 文件、15,902,169 字节）；
+  旧快照保留于 `secure/tianji-knowledge-pre-tj0183p1-backup`；
+  `cicd/env/trusted-acceptance` 的 TRUSTED_MANIFEST_SHA256
+  同步改钉至 `305e20be…`。
+- 换代竞态（如实记录）：合并后管线首轮验收于
+  2026-10-30T04:57:13Z 记 ACCEPTANCE_FAILED——部署代理在
+  快照换位完成前以旧快照加旧钉启动对新 SHA 的验收，
+  新代码对旧快照致密封测试不合；fail-closed 生效、运行
+  服务未动。父级核对失败输出确认为旧 manifest 值后移除
+  该 SHA 的 accept-failed 标记，次轮以新钉值重跑即
+  SUCCESS。此为换代时序竞态，非代码缺陷。
+- 正式验收（机上管线对 Merge SHA 的 acceptance 直读，
+  关账批复读一致）：SUCCESS、total_tests_run 2613
+  （public-git-checkout 15、public-only 24、private-backend
+  2574；三 suite failures 与 errors 均为 0；total_skipped
+  1 为既存 skip）；manifest 钉值 `305e20be…`、237 文件、
+  15,902,169 字节与验收记录内字段一致；ACCEPTED
+  2026-10-30T05:11:49Z；DEPLOYED 2026-10-30T05:12:21Z、
+  pin `3c7caffaf8cbf205f9de1933b034ed6a3ce77a9a07a6d155ce182a6cded65394`。
+- 私有检出同步（关账批交办收尾）：机上私有检出
+  `projects/tianji-private-knowledge` 数据树与 live 快照
+  逐文件比对，差异恰 4 文件（`data/canonical/bazi/
+  phase1_knowledge.json`、`data/coverage/phase1.json`、
+  `data/product/knowledge_coverage.json`、`data/product/
+  knowledge_dependencies.json`），逐一复制并 sha256 对齐
+  （依次 `04354cbc…`、`7b6d0628…`、`5b459002…`、
+  `2699af38…`）；`scripts/import_public_snapshot.py` 的
+  EXPECTED_BYTES 由 15883200 更新为 15902169
+  （EXPECTED_FILES 保持 237）；检出根 manifest 以脚本
+  自身 inventory 与 manifest_for 按既有格式
+  （json.dumps ensure_ascii=False、indent=2 加换行）重生，
+  脚本 verify(root) 通过，files 列表（237 文件、
+  15,902,169 字节）与 live 快照 manifest 逐行一致；
+  公开仓 verify_private_data 对 live 快照复核通过。
+  私有检出改动保持未提交（与既往口径一致）。
+- 本批暂存目录 `tj0183-p1-stage` 已于关账时清理。
+- 终局结论不变：evidence_binding 维持
+  pending_phase1_registration，phase2_rule 与
+  sufficient_rule 维持 None；整书 canonical_ready 保持
+  false；本节建节不解锁正官破格、完整三刑效力或八格
+  真假。
