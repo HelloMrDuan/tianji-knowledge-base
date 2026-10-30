@@ -325,6 +325,14 @@ class PendingAndWiringTest(unittest.TestCase):
         # invariant is confinement plus zero consumer wiring — no
         # other production module may reference the register, the
         # slice id, or the function, and bazi_core stays untouched.
+        # Batch transition (E0333, TJ-018.3 execution-binding batch
+        # 1): the execution-binding design (E0332) adjudicated the
+        # single sanctioned consumer — operations/bazi_chart.py
+        # calls the fact function at exactly one gated Phase2 step
+        # (bazi.phase2.branch_punishment_facts, default off). The
+        # carrying invariant is now confinement to that one consumer
+        # plus the data-only governance ledger; every other
+        # production module stays free of references.
         src = ROOT / "src" / "tianji_kb"
         impl_path = src / "bazi_sanxing_facts.py"
         self.assertTrue(impl_path.exists())
@@ -335,7 +343,8 @@ class PendingAndWiringTest(unittest.TestCase):
         for path in src.rglob("*.py"):
             if path.name in ("bazi_sanxing_fact_adjudication.py",
                              "bazi_sanxing_facts.py",
-                             "bazi_registration_governance.py"):
+                             "bazi_registration_governance.py",
+                             "bazi_chart.py"):
                 # E0329 (TJ-018.3 P1): the registration-governance
                 # register is this slice's disclosure ledger (its
                 # TJ0183_P1_RECORD + sanxing inventory row are the
@@ -344,6 +353,10 @@ class PendingAndWiringTest(unittest.TestCase):
                 # neither imports nor calls the implementation —
                 # so the carrying invariant (zero consumer wiring)
                 # is preserved.
+                # E0333: operations/bazi_chart.py is the design's
+                # single sanctioned execution consumer (gated fact
+                # step only; the sealed execbind suite pins that it
+                # produces no RuleMatch / sufficient_rule).
                 continue
             text = path.read_text(encoding="utf-8")
             if ("bazi_sanxing_fact_adjudication" in text

@@ -14,6 +14,7 @@ from ..bazi_conflict_presentation import VARIANT as CONFLICT_VARIANT, conflict_p
 from ..bazi_xiyong_readable import VARIANT as READABLE_VARIANT, readable_hints
 from ..bazi_annual_reference import annual_reference, annual_lichun_boundaries
 from ..bazi_dayun_sequence import candidate_sequence
+from ..bazi_sanxing_facts import reviewed_branch_punishment_facts
 
 
 def strength_factors(pillars, day_master, *, factor_variant=FACTOR_VARIANT, output_key=None):
@@ -24,13 +25,15 @@ def strength_factors(pillars, day_master, *, factor_variant=FACTOR_VARIANT, outp
         raise ValueError('Unsupported factor output')
     return observed[output_key]
 
-def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=False, include_relations=False, traditional_role=None, strength_variant=None, month_command_variant=None, root_availability_variant=None, action_effect_variant=None, variant=VARIANT, *, pattern_variant=None, tiaohou_variant=None, bingyao_variant=None, conflict_variant=None, readable_variant=None, annual_reference_years=None, annual_boundary_years=None, dayun_sequence_direction=None, dayun_sequence_count=8):
+def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=False, include_relations=False, traditional_role=None, strength_variant=None, month_command_variant=None, root_availability_variant=None, action_effect_variant=None, variant=VARIANT, *, pattern_variant=None, tiaohou_variant=None, bingyao_variant=None, conflict_variant=None, readable_variant=None, annual_reference_years=None, annual_boundary_years=None, dayun_sequence_direction=None, dayun_sequence_count=8, include_punishment_facts=False):
     if variant != VARIANT:
         raise ValueError("Unsupported Bazi variant")
     if type(include_xianchi) is not bool:
         raise ValueError("include_xianchi must be boolean")
     if type(include_relations) is not bool:
         raise ValueError("include_relations must be boolean")
+    if type(include_punishment_facts) is not bool:
+        raise ValueError("include_punishment_facts must be boolean")
     if traditional_role is not None and traditional_role not in ("male", "female"):
         raise ValueError("traditional_role must be male or female")
     if annual_reference_years is not None:
@@ -169,6 +172,26 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
             relation_facts["spouse_palace"],
         )
 
+    # TJ-018.3 execution-binding batch 1 (E0333, design
+    # TJ0183_EXECUTION_BINDING_DESIGN §2): the sanxing structural
+    # fact layer enters production execution at exactly this one
+    # gated step. The step is a registered Phase2 fact step
+    # (bazi.phase2.branch_punishment_facts -> bazi.rule.r031): it
+    # only reports group configurations, directed pairs and
+    # self-punishments present; it produces no RuleMatch, is never
+    # a sufficient_rule, and feeds no adjudication input. Default
+    # off: the default envelope stays byte-identical.
+    punishment_facts = None
+    if include_punishment_facts:
+        branches = [year_ganzhi[1], month_ganzhi[1], day_ganzhi[1],
+                    hour_ganzhi[1]]
+        punishment_facts = reviewed_branch_punishment_facts(branches)
+        trace.add(
+            "bazi.phase2.branch_punishment_facts",
+            {"branches": branches},
+            punishment_facts,
+        )
+
     result = {
         "pillars": raw["pillars"],
         "day_master": raw["day_master"],
@@ -183,6 +206,9 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
     if relation_facts is not None:
         result["reviewed_relations"] = relation_facts
         result["production_scope"] += "；可选已审核五合、六合、六害、六冲、三合与日支传统配偶宫结构位（只报结构，不作关系吉凶解释）"
+    if punishment_facts is not None:
+        result["branch_punishment_facts"] = punishment_facts
+        result["production_scope"] += "；研究用三刑结构事实（只报组态、有向对与自刑在场，不作吉凶解释）"
     if spouse_star_lens is not None:
         result["traditional_spouse_star_lens"] = spouse_star_lens
         result["production_scope"] += "；可选传统配偶星候选位置（用户显式选择口径，仅定位星位，不作婚恋解释）"
@@ -325,7 +351,7 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
             result['strength_assessment'], result['conflict_presentation'])
         result['production_scope'] += '；研究用喜用结果可读提示（确定性模板渲染已裁定结构化陈述，不新增判断、不公开）'
     output = trace.finish(result)
-    if strength_variant == ADJUDICATION_VARIANT or pattern_variant is not None or tiaohou_variant is not None or bingyao_variant is not None or conflict_variant is not None or readable_variant is not None or annual_reference_years is not None or annual_boundary_years is not None or dayun_sequence_direction is not None:
+    if strength_variant == ADJUDICATION_VARIANT or pattern_variant is not None or tiaohou_variant is not None or bingyao_variant is not None or conflict_variant is not None or readable_variant is not None or annual_reference_years is not None or annual_boundary_years is not None or dayun_sequence_direction is not None or include_punishment_facts:
         output['interpretation_contract']['ai_may_explain'] = False
         output['research_only'] = True
     if strength_variant == ADJUDICATION_VARIANT:

@@ -65,13 +65,18 @@ class InventoryCoverageTests(unittest.TestCase):
                 self.assertTrue(row['unlock_path'], row['item'])
 
     def test_flipped_and_maintained_sets(self):
+        # E0333 (TJ-018.3 execution-binding batch 1): the sanxing
+        # fact-layer slice flipped to registered (r031 + the
+        # gated fact step), leaving the flipped set at three and
+        # the maintained-pending inventory at twelve.
         self.assertEqual(sorted(gov.FLIPPED_ITEMS),
                          ['commanding_visible_support',
-                          'pure_generating_support'])
+                          'pure_generating_support',
+                          'sanxing-branch-fact-v1'])
         # E0329 (TJ-018.3 P1): the sanxing fact-layer slice joined
         # the maintained-pending inventory (its Canonical section
         # was built, but no execution binding exists to register).
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 13)
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 12)
 
 
 class FuyiRegisterStaysUnwiredTests(unittest.TestCase):
@@ -144,17 +149,29 @@ class PresentationTextTests(unittest.TestCase):
 
 class RecordConsistencyTests(unittest.TestCase):
     def test_record_matches_flipped_items(self):
-        record = gov.S5_REGISTRATION_RECORD
+        # Batch transition (E0333): at S5 the S5 record was the
+        # only registration record, so it alone matched the flipped
+        # inventory. The sanxing execution-binding batch added its
+        # own record (TJ0183_EXECBIND_RECORD; the P1 record added
+        # no rules), so the invariant is now over the union of all
+        # batch records -- still an exact equality, no slack.
+        records = [gov.S5_REGISTRATION_RECORD,
+                   gov.TJ0183_P1_RECORD,
+                   gov.TJ0183_EXECBIND_RECORD]
         flipped_phase1 = sorted(
             row['phase1_rule_id'] for row in gov.REGISTRATION_INVENTORY
             if row['disposition'] == 'registered')
         flipped_phase2 = sorted(
             row['phase2_rule_id'] for row in gov.REGISTRATION_INVENTORY
             if row['disposition'] == 'registered')
-        self.assertEqual(sorted(record['phase1_rules_added']),
-                         flipped_phase1)
-        self.assertEqual(sorted(record['phase2_rules_added']),
-                         flipped_phase2)
+        self.assertEqual(
+            sorted(r for record in records
+                   for r in record['phase1_rules_added']),
+            flipped_phase1)
+        self.assertEqual(
+            sorted(r for record in records
+                   for r in record['phase2_rules_added']),
+            flipped_phase2)
 
     def test_manifest_pins(self):
         record = gov.S5_REGISTRATION_RECORD

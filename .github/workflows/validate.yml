@@ -635,6 +635,22 @@ jobs:
       # acceptance only, NOT public CI: it reads the sealed
       # bundle and snapshot).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0183_p1_sanxing_promotion_public.py' -v
+      # TJ-018.3 execution-binding batch 1 (E0333) public
+      # contracts: the batch record (Phase1 bazi.rule.r031,
+      # Phase2 fact step bazi.phase2.branch_punishment_facts,
+      # ten converted Golden cases, the six-quote definitional
+      # source_refs subset, sealed files changed, manifest pins
+      # before/after), the sanxing inventory row flipped to
+      # registered (flipped set three, maintained set twelve),
+      # the implementation module's SLICE_REGISTRATION flipped
+      # while the E0267 adjudicated SLICE_SPEC stays verbatim
+      # (append-only EXECUTION_BINDING_TAKEOVER), the engine
+      # gate and chart flag-type rejection failing before any
+      # sealed data is touched, and no sealed section text in
+      # public record files. Sealed-side verification lives in
+      # test_phase2_bazisanxing.py (offline acceptance only,
+      # NOT public CI: it reads the sealed bundle and snapshot).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0183_sanxing_execbind_public.py' -v
       # TJ-017.1 seven-item priority collation closeout (scout
       # 018-B) public contracts: pure-data register mirrored
       # against Golden, collation-note form and confirmed anchor

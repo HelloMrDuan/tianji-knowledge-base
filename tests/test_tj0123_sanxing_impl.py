@@ -12,9 +12,11 @@
 计算步）回放与期望逐字一致；输出键白名单与禁用键扫描（无组名、
 无任何效价/成否/吉凶字段）；12^4 全穷举守卫（等级 C 边与非边
 在任何输入下不出现、B 级边恒带等级）；非法输入与登记篡改
-fail-closed；注册口径（pending、sufficient_rule=None、
-research_only、public/ai 关闭）；公开投影防御剥离；零消费接线
-（无任何其他生产模块 import 本模块）。
+fail-closed；注册口径（E0333 执行接入批翻转后为
+registered_phase1_phase2、phase2_rule 为已注册事实步、
+sufficient_rule=None、research_only、public/ai 关闭）；公开
+投影防御剥离；消费接线收敛于设计审定的唯一接入点
+（operations/bazi_chart 的门控事实步，E0333）。
 
 密封专项（快照引文逐字复核、组装环境 chart_from_datetime 全链
 回放、既有关系面的并存与无刑回归）在
@@ -254,8 +256,14 @@ class RegistrationTest(unittest.TestCase):
         spec_reg = adj.SLICE_SPEC["registration"]
         self.assertEqual(reg["slice_id"], "sanxing-branch-fact-v1")
         self.assertEqual(reg["slice_id"], adj.SLICE_SPEC["id"])
+        # Batch transition (E0333, TJ-018.3 execution-binding batch
+        # 1): the implementation module's registration flipped --
+        # evidence_binding registered and phase2_rule filled with
+        # the gated fact step -- while the E0267 adjudicated
+        # SLICE_SPEC.registration stays verbatim pending (the
+        # takeover is append-only, see EXECUTION_BINDING_TAKEOVER).
         self.assertEqual(reg["evidence_binding"],
-                         "pending_phase1_registration")
+                         "registered_phase1_phase2")
         self.assertTrue(spec_reg["evidence_binding"].startswith(
             "pending_phase1_registration"))
         self.assertIsNone(reg["sufficient_rule"])
@@ -263,7 +271,8 @@ class RegistrationTest(unittest.TestCase):
         self.assertIs(reg["research_only"], True)
         self.assertIs(reg["public_enabled"], False)
         self.assertIs(reg["ai_enabled"], False)
-        self.assertIsNone(reg["phase2_rule"])
+        self.assertEqual(reg["phase2_rule"],
+                         "bazi.phase2.branch_punishment_facts")
         self.assertIsNone(reg["scenario_wiring"])
 
     def test_concept_semantics_restated_unchanged(self) -> None:

@@ -1042,3 +1042,51 @@ ADJUDICATION_LIMITATIONS = [
     'L7 本批不动 TJ-012.3 的阻塞状态：Slice D 其余前置（司令扩月'
     '裁定、合化裁定等）未清，八格真假（寅月以外）与破格侧仍未审。',
 ]
+
+
+# E0333（TJ-018.3 批一：三刑事实执行接入，用户 2026-10-30 授权，
+# 设计 docs/product/TJ0183_EXECUTION_BINDING_DESIGN.md §2/§9）对本
+# 审定（E0267）的承接记录。本常量为 append-only 追加：SLICE_SPEC
+# 原文（含 consumption_boundaries 与 placement_decision）逐字不
+# 动；E0267 时点「一期不并入 chart 输出、是否并入另批审定」的决
+# 定，已由执行绑定设计批（E0332）完成该「另批审定」并由用户授
+# 权本批实施，本记录即该审定链的在案承接，不回改原决定文本。
+EXECUTION_BINDING_TAKEOVER = {
+    'takeover_event': 'E0333',
+    'adjudication_event': 'E0267',
+    'design_event': 'E0332',
+    'placement': 'tianji_kb.operations.bazi_chart.chart 内关系事实'
+                 '块之后、strength_factors 步组之前，以显式门控参数'
+                 ' include_punishment_facts（默认 False）接入为已'
+                 '注册 Phase2 事实步 '
+                 'bazi.phase2.branch_punishment_facts（Phase1 '
+                 'bazi.rule.r031）；E0267 placement_decision 的'
+                 '「另批审定」即执行绑定设计批，本批为其实施。',
+    'gate': 'engine.execute 绑定 allow_research 门禁（非研究模式传'
+            '入该参数即拒绝）；公开投影维持既有剥离口径逐字不变。',
+    'registration_disposition': 'SLICE_SPEC.registration 原文不'
+        '动；实现模块 bazi_sanxing_facts.SLICE_REGISTRATION 的 '
+        'evidence_binding 翻转为 registered_phase1_phase2、'
+        'phase2_rule 填入 bazi.phase2.branch_punishment_facts、'
+        'sufficient_rule 保持 None；治理登记见 '
+        'bazi_registration_governance 的 TJ0183_EXECBIND_RECORD '
+        '与 sanxing-branch-fact-v1 项。翻转终局条件（正式验收与'
+        '部署验证）由父级关账时复核。',
+    'consumption_boundaries_takeover': [
+        '边界一（不建 Phase2 规则、不进 unresolved_interactions）'
+        '由设计批审定承接为：本批新建的 Phase2 步是事实步而非裁'
+        '决规则——不产生 RuleMatch、不写入 sufficient_rule、不'
+        '进 strength/pattern/adjudication 任何输入、'
+        'unresolved_interactions 逐字不变；边界的实质（事实层不'
+        '得冒充裁决绑定）由事实步与裁决面的结构分离保持。',
+        '边界二（不动 concept 字段）逐字维持：'
+        'bazi.concept.conflict_three_punishments 的 sealed_status '
+        '与 executable_policy 不变，B2 组名采用与 B5 统一教义 '
+        'executable 仍为用户级待裁定。',
+        '边界三（不动任氏不应用与破格不可裁定状态）逐字维持：'
+        '任氏曰「刑无所取」立场登记与 B4 破格前置状态不变。',
+        '边界四（AI 不得消费）逐字维持且加强：开启路径封套强制 '
+        'research_only=True、ai_may_explain=False；公开投影剥离'
+        '本事实块。',
+    ],
+}

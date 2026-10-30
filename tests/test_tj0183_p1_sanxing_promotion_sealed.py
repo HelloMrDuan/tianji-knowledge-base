@@ -59,7 +59,10 @@ class CanonicalBuildTests(unittest.TestCase):
         self.assertEqual(len(bundle['chapters']), 21)
         self.assertEqual(len(bundle['sections']), 60)
         self.assertEqual(len(bundle['terms']), 31)
-        self.assertEqual(len(bundle['rules']), 30)
+        # E0333 (TJ-018.3 execution-binding batch 1): +1 rule for
+        # bazi.rule.r031 (sanxing structural facts); every other
+        # P1 count is unchanged.
+        self.assertEqual(len(bundle['rules']), 31)
         self.assertEqual(len(bundle['concepts']), 18)
 
     def test_classic_binding_only_source_ids_added(self):
@@ -124,14 +127,29 @@ class NoRegistrationTests(unittest.TestCase):
         cls.bundle = _bundle()
 
     def test_no_phase1_or_phase2_sanxing_rule(self):
+        # Batch transition (E0333, TJ-018.3 execution-binding batch
+        # 1): the P1 batch pinned the ABSENCE of any sanxing rule
+        # (registration was structurally impossible then). Batch 1
+        # registers exactly the pair this test's name denies:
+        # Phase1 bazi.rule.r031 (source_refs only into
+        # bazi.section.s060) and its Phase2 fact step. The method
+        # name is kept for traceability; the pinned posture is now
+        # the registered one, and every rule's Phase1 refs must
+        # still resolve.
         rule_ids = [r['id'] for r in self.bundle['rules']]
-        self.assertNotIn('bazi.rule.r031', rule_ids)
+        self.assertIn('bazi.rule.r031', rule_ids)
+        r031 = _by_id(self.bundle['rules'], 'bazi.rule.r031')
+        self.assertEqual({ref['section_id']
+                          for ref in r031['source_refs']},
+                         {'bazi.section.s060'})
         phase2 = json.loads((CANONICAL_BAZI / 'phase2_execution.json')
                             .read_text(encoding='utf-8'))
-        self.assertEqual(len(phase2['rules']), 31)
+        self.assertEqual(len(phase2['rules']), 32)
+        punish = [r['id'] for r in phase2['rules']
+                  if 'punish' in r['id'] or 'sanxing' in r['id']]
+        self.assertEqual(punish,
+                         ['bazi.phase2.branch_punishment_facts'])
         for rule in phase2['rules']:
-            self.assertNotIn('punish', rule['id'])
-            self.assertNotIn('sanxing', rule['id'])
             for ref in rule.get('phase1_rule_refs') or []:
                 self.assertIn(ref, rule_ids)
 
