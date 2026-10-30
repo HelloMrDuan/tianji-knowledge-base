@@ -254,9 +254,10 @@ class PriorGroupsRegressionTest(unittest.TestCase):
 
 class RegistryTest(unittest.TestCase):
     def test_census_unchanged(self) -> None:
-        self.assertEqual(len(SOURCES), 101)
+        # TJ-018.3 P1 普查同步：登记 bazi.source.sanmingtonghui-applied（C 级）后登记表 101→102 条、C:95→C:96，非放宽断言。
+        self.assertEqual(len(SOURCES), 102)
         levels = [s["evidence_level"] for s in SOURCES]
-        self.assertEqual(levels.count("C"), 95)
+        self.assertEqual(levels.count("C"), 96)
         self.assertEqual(levels.count("D"), 6)
 
     def test_yuanhai_source_blob_sha_matches(self) -> None:

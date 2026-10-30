@@ -122,11 +122,18 @@ class CanonicalPinTest(unittest.TestCase):
                              pin['section_id'])
             self.assertEqual(sec['source_id'], pin['source_id'])
 
-    def test_only_two_bazi_sections_mention_punishment(self):
+    def test_bazi_sections_mentioning_punishment_are_pinned(self):
+        # E0329 (TJ-018.3 P1): the Canonical build of Sanming
+        # 《论三刑》 added bazi.section.s060, whose text mentions
+        # 刑 by subject; the pinned set grows by exactly that one
+        # section (s020/s021 unchanged).
         sections = self._sections()
         hits = {sid for sid, s in sections.items()
                 if '刑' in s['original_text']}
-        self.assertEqual(hits, {'bazi.section.s020', 'bazi.section.s021'})
+        self.assertEqual(
+            hits,
+            {'bazi.section.s020', 'bazi.section.s021',
+             'bazi.section.s060'})
 
     def test_concept_semantics_unchanged(self):
         concept = next(c for c in self.bundle['concepts']

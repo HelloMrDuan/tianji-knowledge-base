@@ -334,7 +334,16 @@ class PendingAndWiringTest(unittest.TestCase):
         offenders = []
         for path in src.rglob("*.py"):
             if path.name in ("bazi_sanxing_fact_adjudication.py",
-                             "bazi_sanxing_facts.py"):
+                             "bazi_sanxing_facts.py",
+                             "bazi_registration_governance.py"):
+                # E0329 (TJ-018.3 P1): the registration-governance
+                # register is this slice's disclosure ledger (its
+                # TJ0183_P1_RECORD + sanxing inventory row are the
+                # batch's public record). Its references are
+                # data-only — the P1 public suite pins that it
+                # neither imports nor calls the implementation —
+                # so the carrying invariant (zero consumer wiring)
+                # is preserved.
                 continue
             text = path.read_text(encoding="utf-8")
             if ("bazi_sanxing_fact_adjudication" in text

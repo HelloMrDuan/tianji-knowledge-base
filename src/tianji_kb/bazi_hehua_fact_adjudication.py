@@ -1251,7 +1251,11 @@ SEALED_PINS = [
 
 # 机上实测钉值（2026-10-28，本批；密封测试逐项复核）。
 SEALED_MEASUREMENTS = {
-'phase1_sections_total': 59,
+# E0329 (TJ-018.3 P1): +1 for the new Canonical section
+# bazi.section.s060 (Sanming Lun Sanxing); the section text
+# contains none of the HEHUA_KEYWORDS and no 五合 (verified
+# in the E0329 sealed run), so the other pins are unchanged.
+'phase1_sections_total': 60,
 'phase1_sections_with_hehua_keywords': 0,
 'phase1_sections_with_wuhe': ['bazi.section.s010'],
 'phase1_rules_total': 30,

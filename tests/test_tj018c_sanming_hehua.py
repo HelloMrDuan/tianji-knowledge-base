@@ -333,7 +333,8 @@ class RegisterPreviousBatchesRegressionTest(unittest.TestCase):
 
 class ScopeRegistrationTest(unittest.TestCase):
     def test_census_unchanged(self) -> None:
-        self.assertEqual(len(SOURCES), 101)
+        # TJ-018.3 P1 普查同步：登记 bazi.source.sanmingtonghui-applied（C 级）后登记表 101→102 条、C:95→C:96，非放宽断言。
+        self.assertEqual(len(SOURCES), 102)
 
     def test_scope_fragments_present(self) -> None:
         by_id = {s["source_id"]: s for s in SOURCES}

@@ -1126,7 +1126,7 @@ Scenario：`romance`；已执行=True；现有结构公开标志=False；AI=fals
 - 旺衰及流派边界：Terms `bazi.term.strength_review_boundary`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.month_commander`, `bazi.term.root_conditions`, `bazi.term.action_conditions`, `bazi.term.strength_adjudication`, `bazi.term.principal_month_v1`, `bazi.term.root_availability_v1`, `bazi.term.action_effects_v1`, `bazi.term.bounded_strength_adjudication_v1`；Phase1 Rule `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r017`, `bazi.rule.r018`, `bazi.rule.r019`, `bazi.rule.r020`, `bazi.rule.r021`, `bazi.rule.r022`, `bazi.rule.r023`, `bazi.rule.r024`, `bazi.rule.r025`, `bazi.rule.r026`, `bazi.rule.r029`, `bazi.rule.r030`。
 - 喜用神分体系治理：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
 - 流年与岁运作用：Terms `bazi.term.branch_triple_harmonies`；Phase1 Rule `bazi.rule.r010`。
-- 婚恋专题：Terms `bazi.term.xianchi`, `bazi.term.stem_five_combinations`, `bazi.term.branch_six_harmonies`, `bazi.term.branch_six_harms`, `bazi.term.spouse_palace_day_branch`, `bazi.term.branch_six_clashes`, `bazi.term.branch_triple_harmonies`, `bazi.term.traditional_spouse_star_lens`；Phase1 Rule `bazi.rule.r004`, `bazi.rule.r005`, `bazi.rule.r006`, `bazi.rule.r007`, `bazi.rule.r008`, `bazi.rule.r009`, `bazi.rule.r010`, `bazi.rule.r011`。
+- 婚恋专题：Terms `bazi.term.xianchi`, `bazi.term.stem_five_combinations`, `bazi.term.branch_six_harmonies`, `bazi.term.branch_six_harms`, `bazi.term.spouse_palace_day_branch`, `bazi.term.branch_six_clashes`, `bazi.term.branch_triple_harmonies`, `bazi.term.traditional_spouse_star_lens`, `bazi.term.branch_punishments`；Phase1 Rule `bazi.rule.r004`, `bazi.rule.r005`, `bazi.rule.r006`, `bazi.rule.r007`, `bazi.rule.r008`, `bazi.rule.r009`, `bazi.rule.r010`, `bazi.rule.r011`。
 
 已有 Phase2 / Golden / Variant：
 
@@ -1591,7 +1591,7 @@ Scenario：`compatibility`；已执行=True；现有结构公开标志=False；A
 
 - 八字基础与十神映射：Terms `bazi.term.day_master`, `bazi.term.ten_gods`, `bazi.term.hidden_stems`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.heavenly_stems`, `bazi.term.stem_polarity`, `bazi.term.five_elements`, `bazi.term.generation_control`；Phase1 Rule `bazi.rule.r001`, `bazi.rule.r002`, `bazi.rule.r003`, `bazi.rule.r011`, `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r016`, `bazi.rule.r017`, `bazi.rule.r018`。
 - 旺衰及流派边界：Terms `bazi.term.strength_review_boundary`, `bazi.term.month_command`, `bazi.term.root_candidates`, `bazi.term.hidden_to_visible`, `bazi.term.month_commander`, `bazi.term.root_conditions`, `bazi.term.action_conditions`, `bazi.term.strength_adjudication`, `bazi.term.principal_month_v1`, `bazi.term.root_availability_v1`, `bazi.term.action_effects_v1`, `bazi.term.bounded_strength_adjudication_v1`；Phase1 Rule `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r017`, `bazi.rule.r018`, `bazi.rule.r019`, `bazi.rule.r020`, `bazi.rule.r021`, `bazi.rule.r022`, `bazi.rule.r023`, `bazi.rule.r024`, `bazi.rule.r025`, `bazi.rule.r026`, `bazi.rule.r029`, `bazi.rule.r030`。
-- 婚恋专题：Terms `bazi.term.xianchi`, `bazi.term.stem_five_combinations`, `bazi.term.branch_six_harmonies`, `bazi.term.branch_six_harms`, `bazi.term.spouse_palace_day_branch`, `bazi.term.branch_six_clashes`, `bazi.term.branch_triple_harmonies`, `bazi.term.traditional_spouse_star_lens`；Phase1 Rule `bazi.rule.r004`, `bazi.rule.r005`, `bazi.rule.r006`, `bazi.rule.r007`, `bazi.rule.r008`, `bazi.rule.r009`, `bazi.rule.r010`, `bazi.rule.r011`。
+- 婚恋专题：Terms `bazi.term.xianchi`, `bazi.term.stem_five_combinations`, `bazi.term.branch_six_harmonies`, `bazi.term.branch_six_harms`, `bazi.term.spouse_palace_day_branch`, `bazi.term.branch_six_clashes`, `bazi.term.branch_triple_harmonies`, `bazi.term.traditional_spouse_star_lens`, `bazi.term.branch_punishments`；Phase1 Rule `bazi.rule.r004`, `bazi.rule.r005`, `bazi.rule.r006`, `bazi.rule.r007`, `bazi.rule.r008`, `bazi.rule.r009`, `bazi.rule.r010`, `bazi.rule.r011`。
 - 流年与岁运作用：Terms `bazi.term.branch_triple_harmonies`；Phase1 Rule `bazi.rule.r010`。
 - 双人关系：Terms `bazi.term.day_master`, `bazi.term.ten_gods`, `bazi.term.xianchi`, `bazi.term.stem_five_combinations`, `bazi.term.branch_six_harmonies`, `bazi.term.branch_six_harms`, `bazi.term.spouse_palace_day_branch`, `bazi.term.branch_six_clashes`, `bazi.term.branch_triple_harmonies`, `bazi.term.traditional_spouse_star_lens`；Phase1 Rule `bazi.rule.r001`, `bazi.rule.r002`, `bazi.rule.r003`, `bazi.rule.r004`, `bazi.rule.r005`, `bazi.rule.r006`, `bazi.rule.r007`, `bazi.rule.r008`, `bazi.rule.r009`, `bazi.rule.r010`, `bazi.rule.r011`, `bazi.rule.r012`, `bazi.rule.r013`, `bazi.rule.r014`, `bazi.rule.r015`, `bazi.rule.r016`。
 
@@ -1841,7 +1841,7 @@ Scenario：`life`；已执行=True；现有结构公开标志=False；AI=false�
 - 喜用神分体系治理：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
 - 大运：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
 - 流年与岁运作用：Terms `bazi.term.branch_triple_harmonies`；Phase1 Rule `bazi.rule.r010`。
-- 婚恋专题：Terms `bazi.term.xianchi`, `bazi.term.stem_five_combinations`, `bazi.term.branch_six_harmonies`, `bazi.term.branch_six_harms`, `bazi.term.spouse_palace_day_branch`, `bazi.term.branch_six_clashes`, `bazi.term.branch_triple_harmonies`, `bazi.term.traditional_spouse_star_lens`；Phase1 Rule `bazi.rule.r004`, `bazi.rule.r005`, `bazi.rule.r006`, `bazi.rule.r007`, `bazi.rule.r008`, `bazi.rule.r009`, `bazi.rule.r010`, `bazi.rule.r011`。
+- 婚恋专题：Terms `bazi.term.xianchi`, `bazi.term.stem_five_combinations`, `bazi.term.branch_six_harmonies`, `bazi.term.branch_six_harms`, `bazi.term.spouse_palace_day_branch`, `bazi.term.branch_six_clashes`, `bazi.term.branch_triple_harmonies`, `bazi.term.traditional_spouse_star_lens`, `bazi.term.branch_punishments`；Phase1 Rule `bazi.rule.r004`, `bazi.rule.r005`, `bazi.rule.r006`, `bazi.rule.r007`, `bazi.rule.r008`, `bazi.rule.r009`, `bazi.rule.r010`, `bazi.rule.r011`。
 - 事业财富专题：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
 - 人生聚合：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
 
@@ -2090,7 +2090,7 @@ Scenario：`dream`；已执行=False；现有结构公开标志=False；AI=false
 
 已有知识、Rule 与 Evidence：
 
-- 传统梦文化：Terms `dream.term.snake`, `dream.term.water`, `dream.term.fire`, `dream.term.flying`, `dream.term.falling`, `dream.term.dragon`, `dream.term.fish`, `dream.term.house`, `dream.term.family`；Phase1 Rule `dream.rule.snake`, `dream.rule.water`, `dream.rule.fire`, `dream.rule.flying`, `dream.rule.falling`, `dream.rule.dragon`, `dream.rule.fish`, `dream.rule.house`, `dream.rule.family`。
+- 传统梦文化：Terms `dream.term.snake`, `dream.term.water`, `dream.term.fire`, `dream.term.flying`, `dream.term.falling`, `dream.term.dragon`, `dream.term.fish`, `dream.term.house`, `dream.term.family`, `dream.term.death`；Phase1 Rule `dream.rule.snake`, `dream.rule.water`, `dream.rule.fire`, `dream.rule.flying`, `dream.rule.falling`, `dream.rule.dragon`, `dream.rule.fish`, `dream.rule.house`, `dream.rule.family`, `dream.rule.death`。
 - 现代心理梦研究：Terms 尚无对应审核术语；Phase1 Rule 尚无对应审核规则。
 
 已有 Phase2 / Golden / Variant：
@@ -2104,7 +2104,7 @@ Scenario：`dream`；已执行=False；现有结构公开标志=False；AI=false
 
 缺失能力 / 依赖 / 下一批：
 
-- `dream-traditional`：已沿用既有 Phase1 模型审核十二个具体场景，新增乘龙入水、群鱼游水、屋宅更新、兄弟相打、拾得钱物、见人死自死、死人复活；C级文化检索 helper 返回独立 matched_interpretations，有限相邻句式可辨单蛇追我后咬我，被追只记输入观察。通用梦象、组合解释、版本独立性和现代心理仍缺，公开 Scenario 与 AI 未开放，不把实体出现当梦义或作个人预测。 TJ-019.2 第二批已对考试／怀孕／结婚／工作／被追五主题做钉定 RAW 全文穷举复核（E0281，docs/product/DREAM_KNOWLEDGE_BATCH_04.md）：均无精确动作原典条目，入库 0 条，五主题保持未审输入观察，后续不必重检（RAW 版本变更除外）。
+- `dream-traditional`：已沿用既有 Phase1 模型审核十二个具体场景，新增乘龙入水、群鱼游水、屋宅更新、兄弟相打、拾得钱物、见人死自死、死人复活；C级文化检索 helper 返回独立 matched_interpretations，有限相邻句式可辨单蛇追我后咬我，被追只记输入观察。通用梦象、组合解释、版本独立性和现代心理仍缺，公开 Scenario 与 AI 未开放，不把实体出现当梦义或作个人预测。
   下一批复核现有 `dream.source.zhougong-scenes`，沿原模型补规则条件及 Golden。
 - `dream-psychology`：dream-modern-psychology 已有独立学术来源调查清单，含可核查研究及许可信息；尚未入既有 Source/Review 模型，未形成已审核证据或执行。文化梦书研究不作临床心理证据，不从梦诊断精神疾病、怀孕或预测必然未来。
   下一批先登记来源及权利，保存 RAW/Quarantine；无审核引文时保持未支持。

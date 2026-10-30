@@ -68,6 +68,86 @@ S5_REGISTRATION_RECORD = {
                               '披露文本。',
 }
 
+# TJ-018.3 P1《论三刑》Canonical 建节记录（E0329，用户 2026-10-30
+# 授权 P1 直接实施）：在密封 Canonical 内为三命通会《论三刑》建
+# chapter/section/term 并完成 11 条登记引文的逐字绑定；执行链核查
+# 结论为注册前提不成立（见 REGISTRATION_INVENTORY 的
+# sanxing-branch-fact-v1 项），evidence_binding 不翻转、无规则新增。
+# 形制与 S5_REGISTRATION_RECORD 同构：私有数据树著录 -> 暂存导出
+# -> 校验 -> 父级合并时同步换位 live 快照并改钉。
+TJ0183_P1_RECORD = {
+    'batch': 'TJ-018.3 P1 三刑 Canonical 逐节晋级批',
+    'event': 'E0329',
+    'date': '2026-10-30',
+    'document': 'docs/product/TJ0183_P1_SANXING_CANONICAL_PROMOTION.md',
+    'canonical_chapters_added': ['bazi.chapter.sanming_sanxing'],
+    'canonical_sections_added': ['bazi.section.s060'],
+    'canonical_terms_added': ['bazi.term.branch_punishments'],
+    'classic_source_ids_added': {
+        'bazi.classic.sanming_tonghui': [
+            'bazi.source.sanmingtonghui',
+            'bazi.source.sanmingtonghui-applied'],
+    },
+    'public_config_registrations': [
+        'config/knowledge_sources.json: bazi.source.sanmingtonghui'
+        '-applied（TJ-018.3 正式应用文本 S3 登记为来源：快照 S0 切片'
+        '含 PUA 8 处、与 Canonical 全域 section 文本零 PUA 不变量'
+        '冲突，S3 切片 PUA 归零且登记引文 11 条逐字在场；S0 仍为'
+        '原文依据，整书 canonical_ready=false 不变）',
+        'config/phase2_source_audit.json: 同源谱系行（lineage_group'
+        ' 与 S0 同组 garychowcmu/daizhigev20，不投独立票，'
+        'edition/authority unverified、grade_ceiling C）'],
+    'phase1_rules_added': [],
+    'phase2_rules_added': [],
+    'golden_cases_added': [],
+    'quotes_verified': [
+        'sm3.enum_opening', 'sm3.enum_group4_partial',
+        'sm3.direction_statement', 'sm3.summary_groups',
+        'sm3.counting_method', 'sm3.wuen_core',
+        'sm3.zixing_definition', 'sm3.sanche_variant',
+        'sm3.houyue_bracket', 'sm3.chong_definition',
+        'sm3.polu_poma'],
+    'registration_disposition': 'maintained_pending'
+        '（execution_binding_structure）：事实层 evidence_binding '
+        '保持 pending_phase1_registration、phase2_rule 与 '
+        'sufficient_rule 保持 None，不建空注册、不伪造执行绑定；'
+        'Canonical 建节消除了本切片的 canonical_evidence_absent '
+        '面，剩余缺口只有执行绑定结构一项。',
+    'sealed_files_changed': [
+        'data/canonical/bazi/phase1_knowledge.json',
+        'data/coverage/phase1.json',
+        'data/product/knowledge_coverage.json',
+        'data/product/knowledge_dependencies.json'],
+    'sealed_file_sha256_after': {
+        'data/canonical/bazi/phase1_knowledge.json':
+            '04354cbcfb4627dbd823b322f3b48bd83ceee1504db898cbbce6fdd8cff32665',
+        'data/coverage/phase1.json':
+            '7b6d06285a37040f043eb6c1ea4d5d41b92647077430d9fe7672e166e78afc35',
+        'data/product/knowledge_coverage.json':
+            '5b459002ad51d0875e2433ab3ca3d2661d572df9713bc0d12ff37c51b56930a9',
+        'data/product/knowledge_dependencies.json':
+            '2699af38a87e2fbb514fe1cfcf98b0dee957fa68a813faea5ece89a13f12f8cf'},
+    'snapshot_files_before': 237,
+    'snapshot_files_after': 237,
+    'snapshot_bytes_before': 15883200,
+    'snapshot_bytes_after': 15902169,
+    'manifest_sha256_before':
+        '5ea551f5ffe3e3abbe42f4edf03dfe9d973fd7bc49ab7207180dc454ea874cbc',
+    'manifest_sha256_after':
+        '305e20be96a38b614495236f8c3252cf7e21c6d1635a5a29bce1c299b746526c',
+    'pin_record': '新钉值（manifest_sha256_after）须与本批 PR 合并'
+                  '同步换位 live 快照并更新可信机 cicd/env/'
+                  'trusted-acceptance 与私有构建脚本钉值；本批未'
+                  '先行换钉（暂存快照只用于机上复跑），回退路径'
+                  '不变（恢复旧快照目录 + 旧钉值）。',
+    'verdict_surface_change': '无：129 个真实盘（119 个密封 Phase2 '
+                              'Golden 柱面输入 + 10 个三刑真实出生'
+                              '时刻盘）在旧快照与暂存新快照、同一'
+                              '公开代码下，chart 全量产出、三刑事实'
+                              '与公开投影逐字一致（机上同盘差异'
+                              '测试，输出 21MB JSON 字节级相同）。',
+}
+
 REASON_CLASSES = {
     'canonical_evidence_absent':
         '定义性原典锚点在密封 Canonical 中无对应 section（或经典不在 '
@@ -284,6 +364,36 @@ REGISTRATION_INVENTORY = [
                   '用户级裁定），非待注册披露。',
         'unlock_path': 'U1 程度词操作定义 / U3 中间状态定义经用户裁定'
                        '后，另行审定可建行再议注册。',
+    },
+    {
+        'item': 'sanxing-branch-fact-v1',
+        'subject': '三刑结构事实层切片 sanxing-branch-fact-v1（TJ-012.3）',
+        'disclosure_sites': ['src/tianji_kb/bazi_sanxing_facts.py'],
+        'disposition': 'maintained_pending',
+        'reason_class': 'execution_binding_structure',
+        'reason': 'TJ-018.3 P1 批（E0329）已完成密封 Canonical 建节：'
+                  '三命通会新增 chapter bazi.chapter.sanming_sanxing、'
+                  'section bazi.section.s060（《论三刑》整节，文本依据为'
+                  '正式应用文本 S3 切片并新登记来源 '
+                  'bazi.source.sanmingtonghui-applied——快照 '
+                  'S0 切片含 PUA 8 处、与 Canonical 全域零 PUA '
+                  '不变量冲突）与 term '
+                  'bazi.term.branch_punishments，018-B 登记引文 11 条'
+                  '逐字绑定复核 11/11，本切片的 canonical_evidence_'
+                  'absent 面已消除。但事实函数 reviewed_branch_'
+                  'punishment_facts 无任何生产调用点，不经 '
+                  'tianji_kb.operations.bazi_chart.chart 产出、不经 '
+                  'ExecutionTrace、无 RuleMatch；Phase2 golden '
+                  'harness 只执行 operations provider 且注册契约要求 '
+                  'golden 用例真实 fire 注册规则，本切片无执行步可绑，'
+                  '注册即无执行步的空注册（与 ren-pattern-yin-true-v1 '
+                  '同类）。审定登记（E0267）消费边界明示不建 Phase2 '
+                  '规则，placement 决定明示函数并入 chart 输出另批审定。',
+        'unlock_path': '执行绑定设计批：先审定事实函数并入 operations '
+                       'provider 输出并接入 ExecutionTrace 的 placement'
+                       '（改变生产产出表面，须独立审定），再扩 Phase2 '
+                       'harness 覆盖后另行注册；当前维持研究级 pending，'
+                       'evidence_binding 与 phase2_rule 逐字不变。',
     },
 ]
 
