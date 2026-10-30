@@ -68,7 +68,10 @@ class InventoryCoverageTests(unittest.TestCase):
         self.assertEqual(sorted(gov.FLIPPED_ITEMS),
                          ['commanding_visible_support',
                           'pure_generating_support'])
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 12)
+        # E0329 (TJ-018.3 P1): the sanxing fact-layer slice joined
+        # the maintained-pending inventory (its Canonical section
+        # was built, but no execution binding exists to register).
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 13)
 
 
 class FuyiRegisterStaysUnwiredTests(unittest.TestCase):

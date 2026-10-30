@@ -32,7 +32,10 @@ class DreamSourceReviewTests(unittest.TestCase):
         # TJ-013 普查同步：登记 bazi.source.shenfeng（《神峰通考》，C 级）后
         # 来源普查由 C:94 变 C:95（登记表共 101 条，TJ-017.1 登记
         # 《三命通会》daizhigev20 全文快照为新 C 级 Source），同上口径。
-        self.assertEqual(report['_audit']['source_grades'], {'C': 95, 'D': 6})
+        # TJ-018.3 P1 普查同步：登记 bazi.source.sanmingtonghui-applied
+        # （《三命通会》正式应用文本，C 级）后来源普查由 C:95 变 C:96
+        # （登记表共 102 条），同上口径。
+        self.assertEqual(report['_audit']['source_grades'], {'C': 96, 'D': 6})
         self.assertTrue((ROOT / 'data/canonical/dream/phase1_knowledge.json').exists())
         candidate = next(c for c in report['_audit']['staged_source_candidates']
                          if c['source_path'] == '易藏/术数/周公解梦.txt')

@@ -620,6 +620,21 @@ jobs:
       # (offline acceptance only, NOT public CI: it reads
       # the sealed snapshot files).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0183_sanming_rd12_collation.py' -v
+      # TJ-018.3 P1 Sanxing Canonical promotion (E0329) public
+      # contracts: governance register continuation (Canonical
+      # chapter/section/term built for Lun Sanxing with the 11
+      # registered quotes bound verbatim), the slice pinned as
+      # maintained-pending on execution-binding structure (no
+      # production call site, no ExecutionTrace step, the Phase2
+      # golden harness cannot fire it, so no registration was
+      # flipped and no binding fabricated), the fact layer's own
+      # disclosure fields verbatim unchanged, and no sealed
+      # section text in public record files. Sealed-side
+      # verification lives in
+      # test_tj0183_p1_sanxing_promotion_sealed.py (offline
+      # acceptance only, NOT public CI: it reads the sealed
+      # bundle and snapshot).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0183_p1_sanxing_promotion_public.py' -v
       # TJ-017.1 seven-item priority collation closeout (scout
       # 018-B) public contracts: pure-data register mirrored
       # against Golden, collation-note form and confirmed anchor

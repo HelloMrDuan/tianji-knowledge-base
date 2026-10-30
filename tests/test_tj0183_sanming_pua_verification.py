@@ -270,7 +270,8 @@ class TestApplicationImpactAndRedLines(unittest.TestCase):
 
     def test_source_census_unchanged_and_scope_noted(self):
         sources = KS["sources"] if "sources" in KS else KS
-        self.assertEqual(len(sources), 101)
+        # TJ-018.3 P1 普查同步：登记 bazi.source.sanmingtonghui-applied（C 级）后登记表 101→102 条、C:95→C:96，非放宽断言。
+        self.assertEqual(len(sources), 102)
         sanming = [s for s in sources
                    if s.get("source_id") == "bazi.source.sanmingtonghui"]
         self.assertEqual(len(sanming), 1)
