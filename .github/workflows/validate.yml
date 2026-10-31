@@ -665,6 +665,28 @@ jobs:
       # (offline acceptance only, NOT public CI: it reads the
       # sealed bundle and snapshot).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0183_ganzhi_execbind_public.py' -v
+      # TJ-018.3-B1 (E0338) sanming juan3 shiganlu collation
+      # register (new juan3 register volume, pure registration)
+      # public contracts: pure-data register mirrored against
+      # Golden, one section (S0 chars 74911-77454, 2543 chars,
+      # exposition + jinyu appendix parts), collation-note form
+      # and confirmed anchor rule, PUA 2 (both confirmed),
+      # fang 16 (15 witness-collated readings across four mutually
+      # unrelated original glyphs, 1 unresolved residual recorded
+      # without disposition ruling), ji 23 positions fully
+      # adjudicated (9 branch-slot readings incl. the Slice A A3
+      # trio, 1 suspected), si 18 positions partitioned (1
+      # stem-slot reading in-register), xu 12 genuine, the
+      # definition quote linked to Slice A sanming.lu_sentence
+      # verbatim with no duplicate registration, LU_BRANCH pinned
+      # 10/10, pattern-route-luren NOT flipped (joint flip is
+      # B-2), adjudication semantics unchanged, previous six
+      # registers regression (44 + 35 + 81 + 43 + 108 + 72 notes
+      # untouched, cumulative 439), source census unchanged
+      # (102). Snapshot-verbatim checks live in
+      # test_tj0183_b1_shiganlu_sealed.py (offline acceptance
+      # only, NOT public CI: it reads the sealed snapshot files).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0183_b1_shiganlu.py' -v
       # TJ-017.1 seven-item priority collation closeout (scout
       # 018-B) public contracts: pure-data register mirrored
       # against Golden, collation-note form and confirmed anchor
