@@ -76,3 +76,11 @@ after：237 文件 / 16,072,121 字节 / manifest `6edcebc669e9b3de09856f353f6b1
 - 一般臂「取土为格」的土格换算：仍未裁定（conversion_status=unadjudicated），需流派级审定批另行处理。
 - 三命两例证与原注口径的冲突：仍只并列登记（conflict_present 如实标注），不裁决、不升级为例证为规则。
 - 后续顺位（审计 §4.1）：ren-pattern-yin-true-v1 执行绑定批（第二顺位）、dayun 三命分段批（第三顺位）；tiaohou 与 bingyao/dayun 神峰分段须先立经典扩编设计审定批；siling-yin-pilot 待用户裁定。
+
+## 9. 关账记录（E0343，append-only 补记）
+
+- 正式验收（直读管线记录 acceptance-ef588ee1d0deca41542f7c209eb1dcd342124de9.json）：result SUCCESS；public-git-checkout 15 测、public-only 24 测（skipped 1）、private-backend 2685 测，合计 2724 测，failures 与 errors 均为 0；快照 237 文件、16,072,121 字节、manifest 6edcebc669e9b3de09856f353f6b1eafc22bff47a8dbfef3f35afdffacc1bfc0。
+- 部署（deploys.log）：ef588ee1 于 2026-10-31T14:17:22Z DEPLOYED，pin 02953fcbeb94ffc27f6dc1cb328325feb78c58d79b59ec5b4c61a0d7fc9626a1（health 与 bazi 探针 ok）。
+- 换代实际执行记录（父级合并前先行执行）：旧快照备份于机上 secure/tianji-knowledge-pre-zaqi-backup（manifest 15bd5a26…）；live 快照由暂存快照换入且 diff -r 逐字一致；cicd 钉 TRUSTED_MANIFEST_SHA256 已改为 6edcebc6…；换代三元组 before 237 文件 / 16,001,603 字节 / 15bd5a26… → after 237 文件 / 16,072,121 字节 / 6edcebc6…。
+- 注册翻转终局核对：pattern-zaqi 翻转 registered 已随正式验收与部署终局成立，治理维持名单 8 降至 7；§8 所列未判断范围（杂气格局真假、成败、清浊、用神，一般臂土格换算，三命两例证冲突并列）逐字不变。
+- 机上清理记录：关账批已删除 /data/workspace/zaqi 下组装树（asm-base、asm-final、asm-rollback、asm-work、base-pub、work-pub）、暂存快照（staged-snapshot）、tmp 目录、work.tar.gz 与 patch 文件（zaqi.patch、zaqi-full.patch、backfill.patch），日志与脚本保留；清理前后 live manifest 复核仍为 6edcebc6…、备份目录完好，/data 已用 64% 降至 61%。
