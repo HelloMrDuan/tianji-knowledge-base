@@ -57,6 +57,14 @@ r039 与对应 Phase2 步），本视图与组合层的 evidence_binding 同
 bazi.source.sanmingtonghui-applied）标名与选取。本视图仍不接
 公开页面，公开开放仍须分阶段开放另行裁定；视图内容（区间、
 空态、年龄不呈现）逐字不变。
+
+E0348 终局改记：组合继承的神峰分段已随神峰经典 Canonical 扩编
+注册（bazi.rule.r041 与 Phase2 步
+bazi.phase2.dayun_shenfeng_conversion），本视图与组合层的
+evidence_binding 同步改记终局形态
+inherited_registered_phase1_phase2（底层全段已注册、本层只继
+承披露，自身不注册 rule）。本视图仍不接公开页面，公开开放仍
+须分阶段开放另行裁定；视图内容逐字不变。
 """
 import copy
 
@@ -120,11 +128,13 @@ _NOTICE_SHENFENG_ZERO_DAY = {
 def _flags():
     # E0346: the viewed composition's Sanming segment is registered
     # upstream (bazi.rule.r038/r039); this view registers nothing
-    # itself and its inherited Shenfeng segment remains pending.
-    # Public opening still requires its own staged-opening ruling.
+    # itself. E0348: the inherited Shenfeng segment is registered
+    # upstream as well (bazi.rule.r041), so the binding takes its
+    # terminal inherited form. Public opening still requires its
+    # own staged-opening ruling.
     return {'research_only': True, 'public_enabled': False,
             'ai_enabled': False,
-            'evidence_binding': 'segmented_inherited_pending'}
+            'evidence_binding': 'inherited_registered_phase1_phase2'}
 
 
 def _require(mapping, key, where):

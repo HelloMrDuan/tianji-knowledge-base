@@ -67,11 +67,17 @@ triggered。双对一触发一不触发则真实可达，Golden 双对例钉住�
 执行链接入方式与调候相同：engine.execute 以 allow_research 门控，
 operations.bazi_chart.chart 以 bingyao_variant 显式开启，本模块的
 bingyao_assessment 只消费已执行的 trace 步骤（pillars / ten_gods，
-且要求其 evidence 已绑定），伪造或缺失事实一律 fail-closed。与调候
-先例相同的一点如实说明：本 Variant 尚无密封 Phase1 bundle /
-Phase2 contract 的 rule 注册，故 assessment 附于 result 而不新增
-trace rule，不进 RuleMatch 与 Evidence，evidence_binding 标记为
-pending_phase1_rule_registration，不得冒充已绑定证据的裁决。
+且要求其 evidence 已绑定），伪造或缺失事实一律 fail-closed。
+
+治理注册（E0348 神峰经典扩编）：本 Variant 已注册 Phase1 规则
+bazi.rule.r040 与 Phase2 步 bazi.phase2.bingyao_assessment；密封
+Canonical 新建《神峰通考》经典（bazi.classic.shenfeng），病药定义
+节 s071 绑定定义句与两条编码对句等 7 条登记引文、正官格张力句以
+窗口节 s072 登记，既有滴天髓经典内补中和篇制衡窗口节 s074 绑定
+制衡引文。chart 以 trace.add 执行本步，assessment 进入 RuleMatch
+与 Evidence，evidence_binding 标记为 registered_phase1_phase2。
+注册只绑定证据与执行形态：determination 恒 None、无「无病」输出、
+双对结构与全部审定点（S1–S4）逐字不变。
 """
 from .bazi_core import VARIANT as BAZI_VARIANT
 from .foundations import CONTROLS, GENERATES, STEMS, stem_element
@@ -156,6 +162,7 @@ QUOTES = (
     {
         'id': 'disease_definition', 'role': 'definition',
         'source_id': SOURCE_ID,
+        'section_id': 'bazi.section.s071',
         'quote': '何以为之病?原八字中原所害之神也',
         'locator': {'line': 38, 'char_start': 7019, 'char_end': 7035},
         'note': '病之定义：局中「所害之神」。「害」的具体枚举由同节示例句给出。',
@@ -163,6 +170,7 @@ QUOTES = (
     {
         'id': 'medicine_definition', 'role': 'definition',
         'source_id': SOURCE_ID,
+        'section_id': 'bazi.section.s071',
         'quote': '何以为之药?如八字原有所害之字,而得一字以去之谓了',
         'locator': {'line': 38, 'char_start': 7036, 'char_end': 7061},
         'note': '药之定义：能去病之字。本节示例中「去」的机制均为五行克；实际克效未裁定。',
@@ -170,6 +178,7 @@ QUOTES = (
     {
         'id': 'wealth_pair', 'role': 'encoded_rule',
         'source_id': SOURCE_ID,
+        'section_id': 'bazi.section.s071',
         'quote': '如用财见比肩为病,喜见官杀为药也',
         'locator': {'line': 38, 'char_start': 7351, 'char_end': 7367},
         'note': '本 Variant 编码的第一对（RULES 第一条，wealth_peer_officer）。',
@@ -177,6 +186,7 @@ QUOTES = (
     {
         'id': 'food_pair', 'role': 'encoded_rule',
         'source_id': SOURCE_ID,
+        'section_id': 'bazi.section.s071',
         'quote': '如用食神伤官,以印为病,喜财为药也',
         'locator': {'line': 38, 'char_start': 7368, 'char_end': 7385},
         'note': '第二对（食伤—印—财），形态与财对同构，本批编码为 RULES 第二条（foodwound_seal_wealth）。',
@@ -184,6 +194,7 @@ QUOTES = (
     {
         'id': 'earth_example', 'role': 'registered_not_encoded',
         'source_id': SOURCE_ID,
+        'section_id': 'bazi.section.s071',
         'quote': '是则土为诸格之病,俱喜木为医药,以去其病也',
         'locator': {'line': 38, 'char_start': 7329, 'char_end': 7350},
         'note': '示例一（土重）结论句：其前提「四柱纯土水」无操作定义，且分日主结论为旺弱味断语，不编码。',
@@ -191,6 +202,7 @@ QUOTES = (
     {
         'id': 'procedure_zhong', 'role': 'registered_not_encoded',
         'source_id': SOURCE_ID,
+        'section_id': 'bazi.section.s071',
         'quote': '又或地支虽又藏有别物,且不必看,若再看别物,由混杂不明,故曰:从重者论',
         'locator': {'line': 38, 'char_start': 7505, 'char_end': 7540},
         'note': '看法程序：判断以重者为对象。但「重」无阈值，本 Variant 只陈述示例对的存在性命中，不声称已按从重选定唯一病神（见 S4）。',
@@ -198,6 +210,7 @@ QUOTES = (
     {
         'id': 'no_disease_clause', 'role': 'registered_not_encoded',
         'source_id': SOURCE_ID,
+        'section_id': 'bazi.section.s071',
         'quote': '如八字纯然不旺不弱,原财官印俱无损伤,日干之气,又得中和,并无起发可观,此是平常人也',
         'locator': {'line': 38, 'char_start': 7605, 'char_end': 7647},
         'note': '否定侧条款：无病（平常）的成立要求不旺不弱加中和的整盘裁定，本平台无此能力；本 Variant 永不输出「无病」，未命中只记未触发。',
@@ -205,6 +218,7 @@ QUOTES = (
     {
         'id': 'zhengguan_tension', 'role': 'registered_tension',
         'source_id': SOURCE_ID,
+        'section_id': 'bazi.section.s072',
         'quote': '惟官星太弱太旺,方为有病,因其病而药之,斯可作为用神而论祸福也',
         'locator': {'line': 51, 'char_start': 10010, 'char_end': 10041},
         'note': '正官格节另一口径：病系于官星太弱太旺，与定义节存在性口径并存未统一；该口径依赖旺弱裁定且直通用神，本 Variant 不覆盖、不得引此句升级候选为用神结论。',
@@ -212,6 +226,7 @@ QUOTES = (
     {
         'id': 'ditiansui_counterweight', 'role': 'counterweight',
         'source_id': COUNTERWEIGHT_SOURCE_ID,
+        'section_id': 'bazi.section.s074',
         'quote': '若所谓“有病有药,吉凶易验,无病地药,祸福难推”,此论仍乃失之偏。大凡有病者显而易取,无病者隐而难推。然总以中和为主',
         'locator': {'line': 1896, 'char_start': 43767, 'char_end': 43825},
         'note': '《滴天髓阐微》中和篇任氏制衡：病药之论「仍乃失之偏」，总以中和为主。与神峰同为 daizhigev20 单一谱系，只作 limitations 制衡证据，不构成第二独立底本。快照作「无病地药」，字形如实保留。',
@@ -229,7 +244,7 @@ LIMITATIONS = (
     '审定点 S1：「用财」按所论之神读法审定（依据同节平行句与总定义语境）；若改作用神义，本 Variant 应被格局裁定缺位阻塞并降级，不得静默沿用。',
     '来源为 C 级单一电子谱系（简体转写），未做全书逐字校勘，已见个别讹字与一处重文，未订正；同书末篇「病源赋」为身体疾病占验文字，属排除范围，本 Variant 不引用。',
     '与调候 Variant 并列而非合并：病药候选不得与调候、扶抑、格局用神的输出合并为统一「喜用神」结论。',
-    '本 Variant 尚未在密封 Phase1 bundle/Phase2 contract 注册 rule，不进 RuleMatch 与 Evidence。',
+    '注册状态（E0348）：本 Variant 已注册 Phase1 规则 bazi.rule.r040 与 Phase2 步 bazi.phase2.bingyao_assessment（Canonical《神峰通考》s071/s072、滴天髓 s074），经 bazi_chart 研究门控进入 RuleMatch 与 Evidence；注册不改变本条以上任何语义边界，determination 恒未裁定。',
 )
 
 ADJUDICATION_NOTES = (
@@ -386,7 +401,7 @@ def bingyao_lookup(day_master, visible_gods):
         'determination': None,
         'medicine_effect_status': 'unadjudicated',
         'research_only': True, 'public_enabled': False, 'ai_enabled': False,
-        'evidence_binding': 'pending_phase1_rule_registration',
+        'evidence_binding': 'registered_phase1_phase2',
         'rule': dict(RULE),
         'pairs': pairs,
         'adjudication_notes': list(ADJUDICATION_NOTES),

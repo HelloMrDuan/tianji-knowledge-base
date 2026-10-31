@@ -92,8 +92,12 @@ class ZaqiPromotionPublicTests(unittest.TestCase):
         # maintained).
         # E0346: dayun-classical-variants flipped (segmented;
         # five maintained).
+        # E0348: bingyao-shenfeng-v1 flipped as well (eleven
+        # flipped; four maintained -- the two inherited rows
+        # remain in terminal inherited form).
         self.assertEqual(sorted(gov.FLIPPED_ITEMS),
-                         sorted(['commanding_visible_support',
+                         sorted(['bingyao-shenfeng-v1',
+                                 'commanding_visible_support',
                                  'dayun-classical-variants',
                                  'lu_visible_support',
                                  'pattern-route-luren',
@@ -103,7 +107,7 @@ class ZaqiPromotionPublicTests(unittest.TestCase):
                                  'pure_support_metal',
                                  'ren-pattern-yin-true-v1',
                                  'sanxing-branch-fact-v1']))
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 5)
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 4)
         self.assertNotIn('pattern-zaqi', gov.MAINTAINED_ITEMS)
 
     def test_statement_disclosure_flipped(self):

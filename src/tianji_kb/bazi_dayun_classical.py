@@ -58,11 +58,22 @@
   dayun_sanming_measurement）进入 RuleMatch 与 Evidence；本模
   块独立函数产出本身仍不携带 Phase2 match（phase2_allowed=
   False、direction_rule_match=None 不变），match 只存在于
-  chart 封套。神峰换算分段不在本批范围：神峰 6 条引文与神峰
-  换算产出逐字不变，evidence_binding 保持
-  pending_phase1_rule_registration，待神峰经典 Canonical 扩
-  编另批翻转。输出契约（只有区间、无单点字段、无年龄键、恰
+  chart 封套。输出契约（只有区间、无单点字段、无年龄键、恰
   逢节拒绝口径）逐字不变。
+- E0348 神峰分段注册（神峰经典 Canonical 扩编批）：密封
+  Canonical 新建《神峰通考》经典（bazi.classic.shenfeng），
+  《起大运法》整节建成 bazi.section.s073，神峰分段（日级换算）
+  注册 Phase1 规则 bazi.rule.r041 与 Phase2 步
+  bazi.phase2.dayun_shenfeng_conversion：神峰 6 条引文补
+  source_section_id=s073（source 不改指——神峰无 S0/S3 双轨，
+  隔离快照即登记原文），神峰换算产出的 evidence_binding 改记
+  registered_phase1_phase2，并新增测量级入口
+  shenfeng_convert_measurement，经 bazi_chart 研究门控
+  （dayun_shenfeng_measurement）进入 RuleMatch 与 Evidence。
+  至此 dayun-classical-variants 两分段全部注册；方向产出中的
+  神峰 6 条仍只是 corroboration 旁证披露（不入 r038 refs，
+  E0346 §2.3 审定不变），其注册绑定只属神峰换算 Variant 自身。
+  本模块独立函数产出本身仍不携带 Phase2 match。
 - 本模块恒 research_only=True、public_enabled=False、
   ai_enabled=False；不接入公开场景，生产 dayun 显示口径不变。
 """
@@ -252,7 +263,9 @@ QUOTES = (
 # two PUA quotes keep their original glyph plus
 # mapped_reading_text; the sealed rule source_refs bind the S3
 # applied forms held by those sections. The six Shenfeng quotes
-# are not re-pointed: their segment stays pending.
+# are not re-pointed (Shenfeng has no S0/S3 dual track; the
+# quarantine snapshot text is the registered original); E0348 binds
+# them to their Canonical section via _SHENFENG_SECTION_OF_QUOTE.
 _APPLIED_SANMING_SOURCE_ID = 'bazi.source.sanmingtonghui-applied'
 _CANONICAL_SECTION_OF_QUOTE = {
     'ratio_statement': 'bazi.section.s068',
@@ -271,11 +284,27 @@ _CANONICAL_SECTION_OF_QUOTE = {
     'vol11_counting_divergence': 'bazi.section.s069',
     'vol11_direction_witness2': 'bazi.section.s070',
 }
+# E0348 (Shenfeng-segment registration, 《神峰通考》 Canonical
+# expansion): the six Shenfeng quotes carry the Canonical section
+# id of the whole 《起大运法》 section in the new classic
+# bazi.classic.shenfeng; their source_id stays
+# bazi.source.shenfeng (no re-pointing, see above).
+_SHENFENG_SECTION_OF_QUOTE = {
+    'sf_heading_yang': 'bazi.section.s073',
+    'sf_ex1': 'bazi.section.s073',
+    'sf_ex2': 'bazi.section.s073',
+    'sf_heading_yin': 'bazi.section.s073',
+    'sf_ex3': 'bazi.section.s073',
+    'sf_ex4': 'bazi.section.s073',
+}
 QUOTES = tuple(
     {**quote,
      'source_id': _APPLIED_SANMING_SOURCE_ID,
      'source_section_id': _CANONICAL_SECTION_OF_QUOTE[quote['id']]}
-    if quote['id'] in _CANONICAL_SECTION_OF_QUOTE else quote
+    if quote['id'] in _CANONICAL_SECTION_OF_QUOTE
+    else {**quote,
+          'source_section_id': _SHENFENG_SECTION_OF_QUOTE[quote['id']]}
+    if quote['id'] in _SHENFENG_SECTION_OF_QUOTE else quote
     for quote in QUOTES)
 
 EXCLUDED_SPANS = (
@@ -300,7 +329,7 @@ LIMITATIONS = (
     '出生时刻的时区与历史时区口径沿用 TJ-015 节距测量的既有边界（Asia/Shanghai 归一、1901–2098、历史时区未独立验证），本 Variant 不新裁定。',
     '虚岁/实岁无原典口径（在场五书零命中）：本 Variant 不输出任何年龄数值；「约 X 岁」式呈现属产品约定（TJ-017.3），须界面标注。',
     '三命整书仍 quarantine_only、canonical_ready=false：《论大运》节外未审定；疑似讹字（越三嵗九月、实歴过六十三日、卷十一折除三岁为年）已经 E0346 阶段一校勘册逐处登记为 genuine（原字读法、confirmed/Q1），原文未径改。',
-    '注册分段口径（E0346）：三命分段（方向与三命换算）已注册 Phase1 规则 bazi.rule.r038/r039 与 Phase2 步 bazi.phase2.dayun_classical_direction/bazi.phase2.dayun_sanming_conversion，经 bazi_chart 研究门控进入 RuleMatch 与 Evidence；神峰换算分段尚未注册（待神峰经典 Canonical 扩编），其产出仍不进 RuleMatch 与 Evidence。本模块独立函数产出本身不携带 Phase2 match。',
+    '注册分段口径（E0346/E0348）：三命分段（方向与三命换算）已注册 Phase1 规则 bazi.rule.r038/r039 与 Phase2 步 bazi.phase2.dayun_classical_direction/bazi.phase2.dayun_sanming_conversion；神峰换算分段已随神峰经典 Canonical 扩编注册 Phase1 规则 bazi.rule.r041 与 Phase2 步 bazi.phase2.dayun_shenfeng_conversion（《起大运法》节 s073）。两分段均经 bazi_chart 研究门控进入 RuleMatch 与 Evidence；本模块独立函数产出本身不携带 Phase2 match。方向产出中的神峰引文仍为 corroboration 旁证披露，不构成方向裁定依据。',
     '首运取月柱本身（三命例）或次位（神峰例）的序列口径差异不在本 Variant 范围：本 Variant 只输出方向与计数目标，不输出干支序列。',
 )
 
@@ -315,12 +344,19 @@ def _flags(segment='sanming'):
     # E0346 segmented registration: the Sanming segment (direction
     # and Sanming conversion) is registered (Phase1 bazi.rule.r038 /
     # r039, Phase2 bazi.phase2.dayun_classical_direction /
-    # bazi.phase2.dayun_sanming_conversion); the Shenfeng conversion
-    # segment remains pending its own classic's Canonical expansion.
-    binding = ('registered_phase1_phase2' if segment == 'sanming'
-               else 'pending_phase1_rule_registration')
+    # bazi.phase2.dayun_sanming_conversion). E0348: the Shenfeng
+    # conversion segment is registered as well (Phase1
+    # bazi.rule.r041, Phase2 bazi.phase2.dayun_shenfeng_conversion;
+    # Canonical section bazi.section.s073 in the new classic
+    # bazi.classic.shenfeng), so both segments report
+    # registered_phase1_phase2. (Pre-E0348 the Shenfeng branches of
+    # this helper reported pending, except the rounding-refusal and
+    # zero-day branches of shenfeng_convert_days, which took the
+    # default Sanming call — a registered value there was an
+    # inconsistency of the pending era, unified by this flip.)
     return {'research_only': True, 'public_enabled': False,
-            'ai_enabled': False, 'evidence_binding': binding}
+            'ai_enabled': False,
+            'evidence_binding': 'registered_phase1_phase2'}
 
 
 def _quote_ref(quote_id):
@@ -724,6 +760,33 @@ def sanming_convert_measurement(measured, *, birth_time_precision='second',
     result['handover_intervals'] = _handover_intervals(birth, converted,
                                                        periods)
     result['handover_basis_quote'] = _quote_ref('handover_decade')
+    return result
+
+
+def shenfeng_convert_measurement(measured):
+    """Measurement-level 神峰换算：节距测量 → 日级起运时长区间。
+
+    E0348 registered entry mirroring sanming_convert_measurement:
+    the TJ-015 measurement is replay-validated against the pinned
+    provider (_validate_measurement) and only its whole-day count
+    (elapsed_whole_days) is consumed, by the 《起大运法》 day-level
+    formula (three days folded to one year, day count tripled).
+    Output carries intervals only: no single-point handover instant
+    and no age field of any kind. An exactly-at-Jie measurement
+    (zero whole days) returns the registered unresolved state
+    (zero_day_count_not_exemplified_in_text), never a zero duration.
+    """
+    replay = _validate_measurement(measured)
+    converted = shenfeng_convert_days(
+        replay['elapsed_whole_days'], direction=replay['direction'])
+    selected = replay['selected_jie']
+    result = dict(converted)
+    result['method'] = 'shenfeng_day_level'
+    result['direction'] = replay['direction']
+    result['counted_jie'] = {'name': selected['name'],
+                             'at': selected['at']}
+    result['birth_instant'] = replay['birth_local_datetime']
+    result['limitations'] = list(LIMITATIONS)
     return result
 
 

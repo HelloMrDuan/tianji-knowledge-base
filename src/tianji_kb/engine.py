@@ -95,6 +95,8 @@ def execute(domain,inputs,variant=None,*,allow_research=False):
         raise ValueError('Classical dayun direction requires explicit research mode')
     if domain == 'bazi' and inputs.get('dayun_sanming_measurement') is not None and not allow_research:
         raise ValueError('Classical dayun Sanming conversion requires explicit research mode')
+    if domain == 'bazi' and inputs.get('dayun_shenfeng_measurement') is not None and not allow_research:
+        raise ValueError('Classical dayun Shenfeng conversion requires explicit research mode')
     if domain == 'bazi' and inputs.get('tiaohou_variant') is not None and not allow_research:
         raise ValueError('Tiaohou entry statements require explicit research mode')
     if domain == 'bazi' and inputs.get('bingyao_variant') is not None and not allow_research:
