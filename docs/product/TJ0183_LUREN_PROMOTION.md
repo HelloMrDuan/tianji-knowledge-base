@@ -81,3 +81,12 @@
 - seq 450 并列维持 UD-1=A 定格；禄节 seq 47（76988）维持 deferred；两节残余防只登记不改字。
 - 扶抑 U1/U3 未触及；TJ-013.1 / TJ-013.2 / 真 TJ-017.2 的阻塞与本批无关、不受影响。
 - 关账 E0340 由父级在本批合并 + 正式验收 + 部署后处理。
+
+## 9. 关账记录（E0340，append-only 补记）
+
+- 实施批已合并：公开 PR #516、Merge SHA `dc0ad48bfd40de1b633f731f84da4267e9821ba0`（main HEAD 亲核一致），公开 CI 全绿。
+- 正式验收（管线对 Merge SHA 的 acceptance 记录直读）：result SUCCESS，总计 2707 测——public-git-checkout 15、public-only 24（skipped 1）、private-backend 2668，failures 与 errors 均为 0；验收记录 knowledge 三元组为 237 文件、16,001,603 字节、manifest sha256 `15bd5a268d792c86072cf9ac51effb22ca5aefa004ea7ab44e7bbf44135682d5`，与换代后 live 快照一致。§8 所记「合并 + 正式验收 + 部署」处理条件至此全部满足，本关账节即其处理记录。
+- 部署验证：deploys.log 记录该 SHA 于 2026-10-31T10:57:11Z DEPLOYED，pin `6fef79024e0f685e5da43304845e0745b44ea84cf5d7b388e279e0987bffb737`，health 与 bazi 探针 ok。据此 pattern-route-luren 注册翻转已随合并正式生效，B-2 全链闭合。
+- 快照换代实际执行记录（父级于合并前按先换代后合并的原子流程执行）：before 三元组 237 文件、15,964,218 字节、manifest `c815dc4ed02a9b7d0bd1487c3e1ed4e39d0bc826659d4ff0fb7f8a37ff685cdf`；after 三元组 237 文件、16,001,603 字节、manifest `15bd5a268d792c86072cf9ac51effb22ca5aefa004ea7ab44e7bbf44135682d5`（与 §6 换代清单一致）；旧快照保留于机上 `secure/tianji-knowledge-pre-luren-backup`（manifest `c815dc4e…`）；cicd 钉 TRUSTED_MANIFEST_SHA256 已同步改为 `15bd5a26…`；live 快照与暂存快照 diff -r 逐字一致。
+- 两批路径完成结论：批三评估（E0337）结论 B 的两批路径至此全部落地——B-1 卷三《论十干禄》018 形制登记（E0338，PR #515 合并 `6959de27`）加 B-2 禄刃两节 Canonical 晋级与路线注册（E0339，PR #516 合并 `dc0ad48b`），禄刃晋级线收官；治理维持名单余 8 项与本批无耦合，路线 determination 恒 None、用户可见能力零变化不变。
+- 机上清理记录：关账批已删除 `/data/workspace/b2-luren` 下组装树（asm-base、asm-work2、asm-work3、base-public、work-public、work-public-git、export-root）、暂存快照（stage-snapshot、stage-v1）及捕获文件（baseline.json、work.json、tmp 目录），日志与脚本保留；清理前后 live manifest 复核仍为 `15bd5a26…`、备份目录完好，/data 已用 59% 降至 56%。
