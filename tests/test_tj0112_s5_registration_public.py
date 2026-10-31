@@ -83,8 +83,15 @@ class InventoryCoverageTests(unittest.TestCase):
         # flipped (r037 + bazi.phase2.ren_yin_true_pattern),
         # leaving the flipped set at nine and the maintained-pending
         # inventory at six.
+        # E0346 (governance dayun Sanming-segment promotion):
+        # dayun-classical-variants flipped segmented (r038 + r039 /
+        # dayun_classical_direction + dayun_sanming_conversion;
+        # the Shenfeng segment stays pending inside the row),
+        # leaving the flipped set at ten and the maintained-pending
+        # inventory at five.
         self.assertEqual(sorted(gov.FLIPPED_ITEMS),
                          ['commanding_visible_support',
+                          'dayun-classical-variants',
                           'lu_visible_support',
                           'pattern-route-luren',
                           'pattern-zaqi',
@@ -93,7 +100,7 @@ class InventoryCoverageTests(unittest.TestCase):
                           'pure_support_metal',
                           'ren-pattern-yin-true-v1',
                           'sanxing-branch-fact-v1'])
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 6)
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 5)
 
 
 class FuyiRegisterStaysUnwiredTests(unittest.TestCase):
@@ -185,19 +192,34 @@ class RecordConsistencyTests(unittest.TestCase):
         # E0342 added GOVERNANCE_ZAQI_RECORD (r036 / pattern_zaqi).
         # E0344 added GOVERNANCE_REN_RECORD (r037 /
         # ren_yin_true_pattern).
+        # E0346 added GOVERNANCE_DAYUN_SANMING_RECORD (r038 + r039 /
+        # dayun_classical_direction + dayun_sanming_conversion):
+        # the dayun-classical-variants row is a segmented
+        # registration carrying a primary rule/step pair plus
+        # additional_* pairs, so the collection below unions the
+        # additional ids in -- a structural extension of the
+        # collection expression; the exact-equality invariant is
+        # unchanged.
         records = [gov.S5_REGISTRATION_RECORD,
                    gov.TJ0183_P1_RECORD,
                    gov.TJ0183_EXECBIND_RECORD,
                    gov.TJ0183_P2_RECORD,
                    gov.TJ0183_B2_RECORD,
                    gov.GOVERNANCE_ZAQI_RECORD,
-                   gov.GOVERNANCE_REN_RECORD]
+                   gov.GOVERNANCE_REN_RECORD,
+                   gov.GOVERNANCE_DAYUN_SANMING_RECORD]
         flipped_phase1 = sorted(
-            row['phase1_rule_id'] for row in gov.REGISTRATION_INVENTORY
-            if row['disposition'] == 'registered')
+            rule_id for row in gov.REGISTRATION_INVENTORY
+            if row['disposition'] == 'registered'
+            for rule_id in
+            [row['phase1_rule_id'],
+             *row.get('additional_phase1_rule_ids', [])])
         flipped_phase2 = sorted(
-            row['phase2_rule_id'] for row in gov.REGISTRATION_INVENTORY
-            if row['disposition'] == 'registered')
+            rule_id for row in gov.REGISTRATION_INVENTORY
+            if row['disposition'] == 'registered'
+            for rule_id in
+            [row['phase2_rule_id'],
+             *row.get('additional_phase2_rule_ids', [])])
         self.assertEqual(
             sorted(r for record in records
                    for r in record['phase1_rules_added']),

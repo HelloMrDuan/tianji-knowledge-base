@@ -93,8 +93,11 @@ class GanzhiExecBindPublicTests(unittest.TestCase):
         # E0342: pattern-zaqi flipped as well.
         # E0344: ren-pattern-yin-true-v1 flipped as well (six
         # maintained).
+        # E0346: dayun-classical-variants flipped as well
+        # (segmented; five maintained).
         self.assertEqual(sorted(gov.FLIPPED_ITEMS),
                          sorted(['commanding_visible_support',
+                                 'dayun-classical-variants',
                                  'lu_visible_support',
                                  'pattern-route-luren',
                                  'pattern-zaqi',
@@ -103,7 +106,7 @@ class GanzhiExecBindPublicTests(unittest.TestCase):
                                  'pure_support_metal',
                                  'ren-pattern-yin-true-v1',
                                  'sanxing-branch-fact-v1']))
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 6)
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 5)
         for item in ROWS:
             self.assertNotIn(item, gov.MAINTAINED_ITEMS)
 

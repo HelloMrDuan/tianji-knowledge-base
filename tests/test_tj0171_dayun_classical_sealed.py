@@ -27,6 +27,8 @@ from tianji_kb.bazi_dayun_adversarial_cases import (
 from tianji_kb.bazi_dayun_classical import (
     QUOTES, EXCLUDED_SPANS, classical_direction,
     sanming_convert_measurement)
+from tianji_kb.bazi_sanming_juan2_dayun_collation import (
+    COLLATION_QUOTES as LDY_QUOTES)
 from tianji_kb.bazi_dayun_jie import adjacent_jie_distance
 from tianji_kb.calendar_tz import calendar_for_zone
 from tianji_kb.operations.bazi_chart import chart
@@ -37,6 +39,11 @@ GOLDEN = json.loads(
 SNAPSHOTS = {s['source_id']: ROOT / s['snapshot_path']
              for s in GOLDEN['sources']}
 REGISTRATIONS = {s['source_id']: s for s in GOLDEN['sources']}
+APPLIED_SOURCE_ID = 'bazi.source.sanmingtonghui-applied'
+APPLIED_SNAPSHOT = (ROOT / 'data/quarantine/public_domain_snapshots'
+                    / 'daizhigev20' / 'sanming_tonghui_applied_v1.txt')
+LDY_BY_CLASSICAL_ID = {q['classical_quote_id']: q
+                       for q in LDY_QUOTES}
 
 
 class SnapshotVerbatimTests(unittest.TestCase):
@@ -46,6 +53,11 @@ class SnapshotVerbatimTests(unittest.TestCase):
         for source_id, path in SNAPSHOTS.items():
             raw = path.read_bytes()
             cls.texts[source_id] = (raw, raw.decode('utf-8'))
+        # E0346: the fifteen Sanming quotes were re-pointed to the
+        # applied-text source; its snapshot text is loaded under
+        # the applied source id for the dual S0/S3 verbatim check.
+        raw = APPLIED_SNAPSHOT.read_bytes()
+        cls.texts[APPLIED_SOURCE_ID] = (raw, raw.decode('utf-8'))
 
     def test_snapshot_identities_match_registration(self):
         for source_id, registration in REGISTRATIONS.items():
@@ -66,14 +78,51 @@ class SnapshotVerbatimTests(unittest.TestCase):
 
     def test_every_quote_is_verbatim_at_its_locator_and_unique(self):
         checked = 0
+        s0_text = self.texts['bazi.source.sanmingtonghui'][1]
+        s3_text = self.texts[APPLIED_SOURCE_ID][1]
         for quote in GOLDEN['quotes']:
-            text = self.texts[quote['source_id']][1]
             loc = quote['locator']
+            start, end = loc['char_start'], loc['char_end']
             with self.subTest(quote=quote['id']):
-                start, end = loc['char_start'], loc['char_end']
-                self.assertEqual(text[start:end], quote['quote'])
-                self.assertEqual(text.count(quote['quote']), 1)
-                self.assertEqual(text.count('\n', 0, start) + 1, loc['line'])
+                if quote['source_id'] == APPLIED_SOURCE_ID:
+                    # E0346 repointing (batch transition): the
+                    # golden locator stays the S0 registration
+                    # locator and the public quote text is
+                    # byte-identical, so the original S0 verbatim /
+                    # uniqueness / line checks stand unchanged.
+                    self.assertEqual(s0_text[start:end],
+                                     quote['quote'])
+                    self.assertEqual(s0_text.count(quote['quote']), 1)
+                    self.assertEqual(
+                        s0_text.count('\n', 0, start) + 1, loc['line'])
+                    # The registration now binds the applied text:
+                    # the S3 form held by the Canonical section is
+                    # additionally verified verbatim at the E0346
+                    # collation register's S3 locator (verbatim
+                    # quotes equal the public quote; the two
+                    # applied-reading quotes equal its
+                    # mapped_reading_text).
+                    entry = LDY_BY_CLASSICAL_ID[quote['id']]
+                    s3_loc = entry['s3_locator']
+                    self.assertEqual(
+                        s3_text[s3_loc['char_start']:s3_loc['char_end']],
+                        entry['s3_quote'])
+                    self.assertEqual(s3_text.count(entry['s3_quote']),
+                                     1)
+                    if entry['s3_text_form'] == 'verbatim':
+                        self.assertEqual(entry['s3_quote'],
+                                         quote['quote'])
+                    else:
+                        self.assertEqual(entry['s3_text_form'],
+                                         'applied_reading')
+                        self.assertEqual(entry['s3_quote'],
+                                         quote['mapped_reading_text'])
+                else:
+                    text = self.texts[quote['source_id']][1]
+                    self.assertEqual(text[start:end], quote['quote'])
+                    self.assertEqual(text.count(quote['quote']), 1)
+                    self.assertEqual(
+                        text.count('\n', 0, start) + 1, loc['line'])
                 checked += 1
         # 15 sanming quotes (ratio x2, direction rule, worked example x2,
         # anti-rounding, zero/borrow x2, handover x3, vol-11 witnesses x4)

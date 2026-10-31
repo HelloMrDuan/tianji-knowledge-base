@@ -124,8 +124,11 @@ class InventoryDispositionTests(unittest.TestCase):
         # (eight flipped, seven maintained).
         # E0344: the ren batch flipped ren-pattern-yin-true-v1 too
         # (nine flipped, six maintained).
+        # E0346: the dayun batch flipped dayun-classical-variants
+        # too (segmented; ten flipped, five maintained).
         self.assertEqual(sorted(gov.FLIPPED_ITEMS),
                          ['commanding_visible_support',
+                          'dayun-classical-variants',
                           'lu_visible_support',
                           'pattern-route-luren',
                           'pattern-zaqi',
@@ -136,7 +139,7 @@ class InventoryDispositionTests(unittest.TestCase):
                           'sanxing-branch-fact-v1'])
         self.assertNotIn('sanxing-branch-fact-v1',
                          gov.MAINTAINED_ITEMS)
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 6)
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 5)
 
 
 class ConfigRegistrationTests(unittest.TestCase):

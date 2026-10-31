@@ -43,6 +43,26 @@
 - 与调候/病药先例相同的一点如实说明：本批 Variant 尚无密封 Phase1
   bundle / Phase2 contract 的 rule 注册，evidence_binding 标记为
   pending_phase1_rule_registration，不进 RuleMatch 与 Evidence。
+- E0346 分段注册（治理 pending 队列第三顺位，dayun 三命分段批）：
+  《论大运》与卷十一见证窗口已经阶段一 018 形制校勘登记
+  （sanming-juan2-dayun-collation-register-v1）并建成密封
+  Canonical 节 bazi.section.s068/s069/s070，三命分段（方向 +
+  三命换算）注册 Phase1 规则 bazi.rule.r038/r039 与 Phase2 步
+  bazi.phase2.dayun_classical_direction /
+  bazi.phase2.dayun_sanming_conversion：三命 15 条引文的
+  source 改指应用文本来源 bazi.source.sanmingtonghui-applied
+  并补 source_section_id（引文文本逐字不动，两条 PUA 引文保留
+  原字与 mapped_reading_text），方向与三命换算产出的
+  evidence_binding 改记 registered_phase1_phase2，并经
+  bazi_chart 研究门控（dayun_classical_role /
+  dayun_sanming_measurement）进入 RuleMatch 与 Evidence；本模
+  块独立函数产出本身仍不携带 Phase2 match（phase2_allowed=
+  False、direction_rule_match=None 不变），match 只存在于
+  chart 封套。神峰换算分段不在本批范围：神峰 6 条引文与神峰
+  换算产出逐字不变，evidence_binding 保持
+  pending_phase1_rule_registration，待神峰经典 Canonical 扩
+  编另批翻转。输出契约（只有区间、无单点字段、无年龄键、恰
+  逢节拒绝口径）逐字不变。
 - 本模块恒 research_only=True、public_enabled=False、
   ai_enabled=False；不接入公开场景，生产 dayun 显示口径不变。
 """
@@ -223,6 +243,41 @@ QUOTES = (
      'note': '例 4：甲子年女逆数 9 日→三岁。「后十日生」而「得九日」为端点含/不含之差，按原文结果登记，不另裁端点口径。'},
 )
 
+# E0346 (dayun Sanming-segment registration): the fifteen Sanming
+# quotes above are re-pointed to the applied-text source and carry
+# their Canonical section ids (stage-1 register
+# sanming-juan2-dayun-collation-register-v1; canonical sections
+# bazi.section.s068/s069/s070 hold the S3 slice texts). Quote texts
+# are unchanged — snapshot glyphs are retained verbatim, and the
+# two PUA quotes keep their original glyph plus
+# mapped_reading_text; the sealed rule source_refs bind the S3
+# applied forms held by those sections. The six Shenfeng quotes
+# are not re-pointed: their segment stays pending.
+_APPLIED_SANMING_SOURCE_ID = 'bazi.source.sanmingtonghui-applied'
+_CANONICAL_SECTION_OF_QUOTE = {
+    'ratio_statement': 'bazi.section.s068',
+    'ratio_derivation': 'bazi.section.s068',
+    'direction_rule': 'bazi.section.s068',
+    'worked_example': 'bazi.section.s068',
+    'worked_example_check': 'bazi.section.s068',
+    'anti_rounding': 'bazi.section.s068',
+    'zero_borrow_definition': 'bazi.section.s068',
+    'zero_borrow_example': 'bazi.section.s068',
+    'handover_example': 'bazi.section.s068',
+    'handover_decade': 'bazi.section.s068',
+    'handover_approx': 'bazi.section.s068',
+    'vol11_direction_witness': 'bazi.section.s069',
+    'vol11_ratio_witness': 'bazi.section.s069',
+    'vol11_counting_divergence': 'bazi.section.s069',
+    'vol11_direction_witness2': 'bazi.section.s070',
+}
+QUOTES = tuple(
+    {**quote,
+     'source_id': _APPLIED_SANMING_SOURCE_ID,
+     'source_section_id': _CANONICAL_SECTION_OF_QUOTE[quote['id']]}
+    if quote['id'] in _CANONICAL_SECTION_OF_QUOTE else quote
+    for quote in QUOTES)
+
 EXCLUDED_SPANS = (
     {'id': 'leap_clause_excluded_span', 'source_id': SANMING_SOURCE_ID,
      'locator': {'line': 342, 'char_start': 59099, 'char_end': 59142},
@@ -244,8 +299,8 @@ LIMITATIONS = (
     '后续运的十年平移用历年加法实现（三命「十周年」），闰日（2 月 29 日）目标年无此日时钳至 2 月 28 日并逐项标注，此为实现约定，非原文算式。',
     '出生时刻的时区与历史时区口径沿用 TJ-015 节距测量的既有边界（Asia/Shanghai 归一、1901–2098、历史时区未独立验证），本 Variant 不新裁定。',
     '虚岁/实岁无原典口径（在场五书零命中）：本 Variant 不输出任何年龄数值；「约 X 岁」式呈现属产品约定（TJ-017.3），须界面标注。',
-    '三命整书仍 quarantine_only：《论大运》节外未审定；疑似讹字（越三嵗九月、实歴过六十三日、卷十一折除三岁为年）只存疑登记，未径改，待 TJ-018.2 校勘。',
-    '本 Variant 尚未在密封 Phase1 bundle/Phase2 contract 注册 rule，不进 RuleMatch 与 Evidence。',
+    '三命整书仍 quarantine_only、canonical_ready=false：《论大运》节外未审定；疑似讹字（越三嵗九月、实歴过六十三日、卷十一折除三岁为年）已经 E0346 阶段一校勘册逐处登记为 genuine（原字读法、confirmed/Q1），原文未径改。',
+    '注册分段口径（E0346）：三命分段（方向与三命换算）已注册 Phase1 规则 bazi.rule.r038/r039 与 Phase2 步 bazi.phase2.dayun_classical_direction/bazi.phase2.dayun_sanming_conversion，经 bazi_chart 研究门控进入 RuleMatch 与 Evidence；神峰换算分段尚未注册（待神峰经典 Canonical 扩编），其产出仍不进 RuleMatch 与 Evidence。本模块独立函数产出本身不携带 Phase2 match。',
     '首运取月柱本身（三命例）或次位（神峰例）的序列口径差异不在本 Variant 范围：本 Variant 只输出方向与计数目标，不输出干支序列。',
 )
 
@@ -256,18 +311,27 @@ CONSUMER_CONVENTIONS = {
 }
 
 
-def _flags():
+def _flags(segment='sanming'):
+    # E0346 segmented registration: the Sanming segment (direction
+    # and Sanming conversion) is registered (Phase1 bazi.rule.r038 /
+    # r039, Phase2 bazi.phase2.dayun_classical_direction /
+    # bazi.phase2.dayun_sanming_conversion); the Shenfeng conversion
+    # segment remains pending its own classic's Canonical expansion.
+    binding = ('registered_phase1_phase2' if segment == 'sanming'
+               else 'pending_phase1_rule_registration')
     return {'research_only': True, 'public_enabled': False,
-            'ai_enabled': False,
-            'evidence_binding': 'pending_phase1_rule_registration'}
+            'ai_enabled': False, 'evidence_binding': binding}
 
 
 def _quote_ref(quote_id):
     for q in QUOTES:
         if q['id'] == quote_id:
-            return {'id': q['id'], 'role': q['role'],
-                    'source_id': q['source_id'], 'quote': q['quote'],
-                    'locator': dict(q['locator'])}
+            ref = {'id': q['id'], 'role': q['role'],
+                   'source_id': q['source_id'], 'quote': q['quote'],
+                   'locator': dict(q['locator'])}
+            if 'source_section_id' in q:
+                ref['source_section_id'] = q['source_section_id']
+            return ref
     raise KeyError(quote_id)
 
 
@@ -366,11 +430,13 @@ def validate_classical_direction(result):
     if result.get('ai_enabled') is not False:
         fail('ai_enabled must remain false')
     if result.get('phase2_allowed') is not False:
-        fail('phase2 promotion is not authorized')
+        fail('standalone direction result is not a Phase2 envelope: '
+             'phase2_allowed stays false (E0346)')
     if result.get('direction_rule_match') is not None:
-        fail('forged Phase2 rule match: no Phase2 dayun direction rule '
-             'is registered')
-    if result.get('evidence_binding') != 'pending_phase1_rule_registration':
+        fail('standalone direction result must not carry a Phase2 '
+             'rule match; matches exist only in the bazi_chart '
+             'envelope (E0346)')
+    if result.get('evidence_binding') != 'registered_phase1_phase2':
         fail('evidence binding status forged')
     for forbidden in ('handover_intervals', 'handover_datetime',
                       'start_duration_interval_days', 'start_age'):
@@ -524,7 +590,7 @@ def shenfeng_convert_days(whole_days, *, direction, rounding=None):
         'evidence_quotes': [_quote_ref(qid) for qid in (
             'sf_ex1', 'sf_ex3', 'sf_ex4')],
         'limitations': list(LIMITATIONS),
-        **_flags(),
+        **_flags('shenfeng'),
     }
     result.update(_duration_block(
         min_days=text_result, max_days=text_result + DAYS_PER_COUNTED_DAY,
