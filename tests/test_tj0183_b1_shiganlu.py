@@ -85,7 +85,7 @@ class ModuleFormTest(unittest.TestCase):
         self.assertEqual(sec["fang_count"], 16)
         # 节题自注附论结构，快照原字逐字保留（无 PUA、无讹字）
         self.assertEqual(sec["title_snapshot"],
-        "论十干禄")
+                         "论十干禄【禄前二辰为金轝喻人得禄须坐车也故附于后】")
         self.assertEqual(sec["title_normalized"], sec["title_snapshot"])
         self.assertEqual(
         [(p["part_id"], p["locator"]["char_start"],

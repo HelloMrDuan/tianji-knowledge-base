@@ -58,8 +58,8 @@ COLLATION_SNAPSHOTS = {'sanming_tonghui.txt': {'snapshot_path': 'data/quarantine
 
 COLLATION_SECTIONS = [{'section_id': 'sanming.juan3.shiganlu',
   'source_id': 'bazi.source.sanmingtonghui',
-  'title_snapshot': '论十干禄',
-  'title_normalized': '论十干禄',
+  'title_snapshot': '论十干禄【禄前二辰为金轝喻人得禄须坐车也故附于后】',
+  'title_normalized': '论十干禄【禄前二辰为金轝喻人得禄须坐车也故附于后】',
   'volume': '卷三',
   'locator': {'char_start': 74911, 'char_end': 77454},
   'pua_count': 2,

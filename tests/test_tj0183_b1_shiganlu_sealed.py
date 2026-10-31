@@ -180,7 +180,7 @@ class AppliedTextReconciliationTest(unittest.TestCase):
         self.assertEqual([i for i, c in enumerate(sec3) if c == "防"],
                          [76988 - SEC[0]])
         self.assertEqual(sec3[76988 - SEC[0] - 2:76988 - SEC[0] + 2],
-                         "有市防态")
+                         "贱市防态")
 
 
 class SealedAssetReconciliationTest(unittest.TestCase):
