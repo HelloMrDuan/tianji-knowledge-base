@@ -17,6 +17,20 @@ state unchanged, and the design document on file carrying the
 adjudicated headings and identifiers. Implementation belongs to a
 later batch; if a future change flips the row or implements the
 design, this test must be migrated by that batch, not loosened.
+
+E0351 design revision (append-only section 10 of the design
+document): the implementation batch's stage-1 review stopped on a
+hard conflict -- the 丙×卯 entry span [8668,9025), built verbatim
+under D-T2, carries 「从化格」 at snapshot char 8863 (a
+case-discussion sentence, not a bound citation), which the sealed
+hehua section keyword invariant bars from every section text.
+The parent adjudication adopted remedy A (window section): the
+entry's planned section bazi.section.s099 takes the window
+[8668,8852), the remainder [8853,9025) is registered as unbuilt
+text, refs exactness (丙 16, total 120) is unchanged, and the
+implementation/closeout events were reallocated to E0352/E0353.
+The revision changes no registry state either; the pins below
+cover the revised planned fields on top of the E0350 pins.
 """
 import unittest
 from pathlib import Path
@@ -79,6 +93,45 @@ class TiaohouDesignPublicTests(unittest.TestCase):
         self.assertEqual(RECORD['measured_absent_grid'], ['乙×丑'])
         self.assertEqual(RECORD['golden_criteria_planned'],
                          ['G1', 'G2', 'G3', 'G4', 'G5', 'G6'])
+
+    def test_design_revision_e0351_on_file(self):
+        self.assertEqual(RECORD['design_revision_event'], 'E0351')
+        self.assertEqual(RECORD['design_revision_date'],
+                         '2026-11-01')
+        self.assertEqual(RECORD['design_revision_document_section'],
+                         '10')
+        self.assertEqual(RECORD['planned_window_section_count'], 1)
+        self.assertEqual(len(RECORD['planned_window_sections']), 1)
+        win = RECORD['planned_window_sections'][0]
+        self.assertEqual(win['entry'], '丙×卯')
+        self.assertEqual(win['section_id'], 'bazi.section.s099')
+        self.assertEqual(win['form'], 'window')
+        self.assertEqual(win['entry_span'], [8668, 9025])
+        self.assertEqual(win['window_span'], [8668, 8852])
+        self.assertEqual(win['excluded_span'], [8853, 9025])
+        self.assertEqual(win['hit_char'], 8863)
+        self.assertEqual(win['hit_keyword'], '化格')
+        # The revision leaves the planned totals untouched.
+        self.assertEqual(RECORD['planned_section_count'], 110)
+        self.assertEqual(RECORD['planned_entry_section_count'],
+                         109)
+        self.assertEqual(RECORD['planned_phase1_refs_total'], 120)
+        self.assertEqual(RECORD['measured_unconsumed_gap_chars'],
+                         4744)
+        self.assertEqual(
+            RECORD['measured_unconsumed_gap_chars_naive_sum'],
+            4884)
+        self.assertEqual(RECORD['implementation_event_planned'],
+                         'E0352')
+        self.assertEqual(RECORD['closeout_event_planned'],
+                         'E0353')
+        text = DOC.read_text(encoding='utf-8')
+        self.assertIn('## 10 设计修订（E0351，append-only 补记）',
+                      text)
+        for marker in ('bazi.section.s099', '[8668,8852)',
+                       '[8853,9025)', '从化格', '解法 A',
+                       'E0352', 'E0353', '4,744'):
+            self.assertIn(marker, text)
 
     def test_registry_row_still_pending(self):
         row = _row('tiaohou-qiongtong-v1')

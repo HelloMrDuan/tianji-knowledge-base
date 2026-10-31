@@ -968,6 +968,25 @@ TIAOHOU_DESIGN_RECORD = {
     'planned_first_phase1_rule_id': 'bazi.rule.r042',
     'planned_last_phase1_rule_id': 'bazi.rule.r051',
     'planned_phase1_refs_total': 120,
+    'design_revision_event': 'E0351',
+    'design_revision_date': '2026-11-01',
+    'design_revision_document_section': '10',
+    'planned_window_section_count': 1,
+    'planned_window_sections': [
+        {'entry': '丙×卯',
+         'section_id': 'bazi.section.s099',
+         'form': 'window',
+         'entry_span': [8668, 9025],
+         'window_span': [8668, 8852],
+         'excluded_span': [8853, 9025],
+         'hit_char': 8863,
+         'hit_keyword': '化格'}],
+    'measured_unconsumed_gap_chars': 4744,
+    'measured_unconsumed_gap_chars_naive_sum': 4884,
+    'planned_ding_branch_ref_binding': 'shared section of span '
+        '(13476, 13592)',
+    'implementation_event_planned': 'E0352',
+    'closeout_event_planned': 'E0353',
     'planned_phase2_step_id': 'bazi.phase2.tiaohou_assessment',
     'planned_phase2_rule_ref_count': 10,
     'measured_entry_count': 119,
@@ -984,9 +1003,19 @@ TIAOHOU_DESIGN_RECORD = {
         'was flipped, bazi_tiaohou.py is byte-untouched (ENTRIES '
         'and the pending_phase1_rule_registration disclosure '
         'unchanged), and no sealed asset, snapshot or cicd pin '
-        'changed. Implementation waits for a separately '
-        'dispatched batch after the E0351 closeout; siling and '
-        'the deferred U1/U3 decisions are untouched.',
+        'changed. The design was revised once by E0351 (design '
+        'document section 10, append-only): the 丙×卯 entry '
+        'section is planned as a window section [8668, 8852) '
+        'because its full entry span carries a 化格 '
+        'case-discussion sentence at snapshot char 8863 that '
+        'the sealed hehua section keyword invariant bars from '
+        'every section text; the excluded remainder [8853, '
+        '9025) is registered as unbuilt text, the refs '
+        'exactness (120) is unchanged, and event numbers were '
+        'reallocated centrally (implementation E0352, closeout '
+        'E0353). Implementation waits for the separately '
+        'dispatched E0352 batch; siling and the deferred U1/U3 '
+        'decisions are untouched.',
 }
 
 
