@@ -70,7 +70,7 @@ dayun-compose / dayun-timeline-view 两行自身无规则，其 pending 完全�
 - `data/canonical/bazi/phase1_knowledge.json`（SHA256 `de79653afb384d8c0275a8cf2caff3ab4170c4a200acfd7b03afde02a63ba198`）：新经典 bazi.classic.shenfeng（body_stage=quarantine）；新章 4（shenfeng_bingyao、shenfeng_zhengguan、shenfeng_qi_dayun_fa、ditiansui_zhonghe）；新节 s071（661 字）/s072（31 字）/s073（245 字）/s074（58 字），文本逐字切片、PUA/□ 均 0；新术语 bazi.term.bingyao、bazi.term.dayun_shenfeng_conversion；新规则 r040（refs 恰 4）/r041（refs 恰 3）。计数：经典 4→5、章 29→33、节 70→74、术语 36→38、规则 39→41。著录为 append-only（既有实体逐字未动，经前缀一致性核验）。
 - `data/canonical/bazi/phase2_execution.json`（SHA256 `2163c6cf9495ad8dd6e171f6083d66bc02bd2ee881e46c18b721c6cb0f56c98e`）：新步 bazi.phase2.bingyao_assessment / bazi.phase2.dayun_shenfeng_conversion（均 validated）；步数 40→42。回归测试文件名受 execution schema 模式 `^tests/test_phase2_[a-z]+\.py$` 约束，密封专项定名 tests/test_phase2_bazishenfeng.py。
 - `data/canonical/bazi/phase2_golden.json`（SHA256 `bbffab397f976bd5430c257c327fa12e3248e2c5484a1ec64e2b4a6e011c6171`）：新增 11 例（169→180）。bingyao 6 例复用 tests/golden_tj013_bingyao.json 既有见证盘（真实出生时刻在册：1958-08-15T19:30 等，柱经真实历法路径得）——wealth-disease-medicine、wealth-disease-no-medicine、medicine-without-disease、peer-class-boundary-jiecai、foodwound-disease-medicine、dual-pair-wealth-only（源 id dual-pair-wealth-only-foodwound-incomplete），期望值以 TJ-013 黄金文件的审定 expected / expected_pair2 / pair2_regression 为独立依据；神峰换算 5 例复用密封 Golden 既有三命测量对象（q1–q4 + ADV-001，真实盘/真实时刻，elapsed_whole_days 依次 23/27/22/8/0 → 文本运数 2760/3240/2640/960 与零日 unresolved），input 以同一测量对象改挂 dayun_shenfeng_measurement。
-- `data/coverage/phase1.json`（SHA256 `dd546d0d426242daace7816327d6d7da9d46ec80b4a639fa370655de4b1f021b`）与 `data/product/knowledge_coverage.json`（SHA256 `36530de7acc72efe17fbbf6bd8b005e31a810505b6e92c99834f8c9a0afa2d5d`）：组装树上以官方生成器（build_phase1_coverage / build_product_coverage）重生回填；公开侧 docs/COVERAGE.md bazi 行同步为 `| bazi | 2/3 | 74 | 38 | 29/11/1 | 0/0/7/0 | phase1_complete |`。
+- `data/coverage/phase1.json`（SHA256 `dd546d0d426242daace7816327d6d7da9d46ec80b4a639fa370655de4b1f021b`）与 `data/product/knowledge_coverage.json`（SHA256 `d45b876c3cceae73eb37ec3ed26cde76353c856ba8c3d538bd2da43052cf43fc`）：组装树上以官方生成器（build_phase1_coverage / build_product_coverage）重生回填；公开侧 docs/COVERAGE.md bazi 行同步为 `| bazi | 2/3 | 74 | 38 | 29/11/1 | 0/0/7/0 | phase1_complete |`。
 
 ## 4 公开侧改动明细
 
@@ -81,7 +81,7 @@ dayun-compose / dayun-timeline-view 两行自身无规则，其 pending 完全�
 - `src/tianji_kb/bazi_dayun_compose.py` / `bazi_dayun_timeline_view.py`：_flags 改记 inherited_registered_phase1_phase2；compose LIMITATIONS 注册句与两模块 docstring 补 E0348 终局改记段。
 - `src/tianji_kb/bazi_registration_governance.py`：新增 GOVERNANCE_SHENFENG_RECORD；bingyao 行翻转 registered（r040/新步）；dayun 行 additional ids 增 r041/神峰步、segments.shenfeng 改记 registered、reason 补 E0348 段；compose/view 两行 reason/unlock_path 改记终局形态（§2.5）。
 - `config/knowledge_sources.json`：bazi.source.shenfeng 与 bazi.source.ditiansui-spouse 各追加 E0348 review_scope 补记一句（来源总数 102 不变、内容哈希不动）。
-- 测试：新增公开专项 tests/test_governance_shenfeng_expansion_public.py（11 测）与密封专项 tests/test_phase2_bazishenfeng.py（13 测）；既有钉迁移均以 E0348 注释链改写（S5 治理公开专项、dayun 三命晋级公开/密封专项、zaqi/ren 晋级公开专项、TJ-013 bingyao 公开专项），无放宽、无删测。
+- 测试：新增公开专项 tests/test_governance_shenfeng_expansion_public.py（11 测）与密封专项 tests/test_phase2_bazishenfeng.py（13 测），新公开专项已按名接入公开 CI（validate.yml）。既有钉迁移均以 E0348 注释链改写、无放宽、无删测：治理集合钉（S5 治理公开专项、zaqi/ren/dayun 三命晋级公开专项、四份 TJ-018.3 历史晋级公开专项、三刑/干支/禄刃/ren/zaqi 五份密封注册专项的治理一致性断言、TJ-013 bingyao 公开专项的 binding 钉）；全局计数钉（干支/禄刃/ren/zaqi 密封注册专项与 P1 三刑密封专项的经典/章/节/术语/规则/步计数、密封 Golden 总数 169→180（含三刑密封专项两处）、合化裁定模块 SEALED_MEASUREMENTS 三总数及其公开 golden 镜像（新节已经实测不含合化关键词与「五合」、关键词钉不变）、Phase1 bazi 可执行规则 id 集增 r040/r041 与规则引文来源集增 bazi.source.shenfeng）。另注：product coverage 的审计输入含全部 src 与 test_phase 文件哈希，覆盖文件已以最终代码重生并重导出暂存快照（钉值见 §7 注）。
 
 ## 5 等价比对（封闭清单与结果）
 
@@ -105,7 +105,7 @@ dayun-compose / dayun-timeline-view 两行自身无规则，其 pending 完全�
 ## 7 实施记录与换代清单
 
 - 机上全配方复跑（accept_offline --suite all，本批代码 + 暂存快照 + 新钉）：见 PR 报告与本节关账前补记（基线正式验收 2787，增量逐项对平）。
-- 换代清单（交付父级，合并前先行换代）：暂存快照 237 文件 / 16,272,294 字节 / manifest SHA256 `f758297aa4a4ccdc629d6242394f9b6c12cd7c5cdda73838036b97270cf53bb1`（旧值 237 / 16,221,036 / `97e211c4582f7cf4d890c2bf8071573fbaced193d740c185d2c891a3f2e51324`）；私有检出根 manifest 与 import_public_snapshot EXPECTED_BYTES 已同步重生（237 / 16,272,294，verify 绿）；live 快照备份名建议 `secure/tianji-knowledge-pre-shenfeng-backup`；cicd 钉改 `TRUSTED_MANIFEST_SHA256=f758297a…`（父级合并前先行，本批不动 live 与 cicd 钉）。
+- 换代清单（交付父级，合并前先行换代）：暂存快照 237 文件 / 16,272,294 字节 / manifest SHA256 `380bb73e34babc30bcc80e5ad7f296175f6be206af6a77f1abb4a07b94da654b`（旧值 237 / 16,221,036 / `97e211c4582f7cf4d890c2bf8071573fbaced193d740c185d2c891a3f2e51324`）；私有检出根 manifest 与 import_public_snapshot EXPECTED_BYTES 已同步重生（237 / 16,272,294，verify 绿）；live 快照备份名建议 `secure/tianji-knowledge-pre-shenfeng-backup`；cicd 钉改 `TRUSTED_MANIFEST_SHA256=380bb73e…`（父级合并前先行，本批不动 live 与 cicd 钉）。注：暂存快照曾以 manifest f758297a 首版导出，其后因 product coverage 的审计输入含 src 与 test_phase 文件哈希、钉迁移后须以最终代码重生 coverage 并重导出，最终钉值以本节 380bb73e 为准（字节数不变、仅 coverage 文件哈希不同）。
 - 台账：E0348（归属 TJ-018.2、状态「阻塞」不变）。
 
 ## 8 仍未判断与后续

@@ -82,8 +82,10 @@ class LurenPromotionPublicTests(unittest.TestCase):
         # maintained).
         # E0346: dayun-classical-variants flipped as well
         # (segmented; five maintained).
+        # E0348: bingyao-shenfeng-v1 flipped too (four
+        # maintained).
         self.assertEqual(sorted(gov.FLIPPED_ITEMS),
-                         sorted(['commanding_visible_support',
+                         sorted(['bingyao-shenfeng-v1', 'commanding_visible_support',
                                  'dayun-classical-variants',
                                  'lu_visible_support',
                                  'pattern-route-luren',
@@ -93,7 +95,7 @@ class LurenPromotionPublicTests(unittest.TestCase):
                                  'pure_support_metal',
                                  'ren-pattern-yin-true-v1',
                                  'sanxing-branch-fact-v1']))
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 5)
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 4)
         self.assertNotIn('pattern-route-luren', gov.MAINTAINED_ITEMS)
 
     def test_route_disclosure_flipped(self):

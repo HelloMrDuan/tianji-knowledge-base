@@ -55,7 +55,8 @@ class CanonicalBuildTests(unittest.TestCase):
 
     def test_counts(self):
         bundle = self.bundle
-        self.assertEqual(len(bundle['classics']), 4)
+        # E0348: +1 classic (bazi.classic.shenfeng).
+        self.assertEqual(len(bundle['classics']), 5)
         # E0335 (TJ-018.3 execution-binding batch 2): +2 chapters
         # and +2 sections for the two juan-2 ganzhi sections
         # (s061/s062) and +3 rules (r032/r033/r034).
@@ -69,13 +70,16 @@ class CanonicalBuildTests(unittest.TestCase):
         # E0346 (governance dayun Sanming-segment promotion): +2
         # chapters and +3 sections (s068/s069/s070), +2 terms
         # (dayun_direction/dayun_handover), +2 rules (r038/r039).
-        self.assertEqual(len(bundle['chapters']), 29)
-        self.assertEqual(len(bundle['sections']), 70)
-        self.assertEqual(len(bundle['terms']), 36)
+        # E0348 (Shenfeng Canonical expansion): +4 chapters and
+        # +4 sections (s071/s072/s073/s074), +2 terms
+        # (bingyao/dayun_shenfeng_conversion), +2 rules (r040/r041).
+        self.assertEqual(len(bundle['chapters']), 33)
+        self.assertEqual(len(bundle['sections']), 74)
+        self.assertEqual(len(bundle['terms']), 38)
         # E0333 (TJ-018.3 execution-binding batch 1): +1 rule for
         # bazi.rule.r031 (sanxing structural facts); E0335 adds
         # r032/r033/r034 on top.
-        self.assertEqual(len(bundle['rules']), 39)
+        self.assertEqual(len(bundle['rules']), 41)
         self.assertEqual(len(bundle['concepts']), 18)
 
     def test_classic_binding_only_source_ids_added(self):
@@ -164,7 +168,9 @@ class NoRegistrationTests(unittest.TestCase):
         # E0344: +1 ren true-pattern step (37 + 1).
         # E0346: +2 dayun Sanming steps (38 + 2: classical
         # direction + Sanming conversion).
-        self.assertEqual(len(phase2['rules']), 40)
+        # E0348: +2 Shenfeng steps (40 + 2: bingyao assessment
+        # + Shenfeng conversion).
+        self.assertEqual(len(phase2['rules']), 42)
         punish = [r['id'] for r in phase2['rules']
                   if 'punish' in r['id'] or 'sanxing' in r['id']]
         self.assertEqual(punish,

@@ -1279,7 +1279,14 @@ SEALED_MEASUREMENTS = {
 # windows); all three texts verified in the E0346 sealed run
 # to contain none of the HEHUA_KEYWORDS and no 五合, so the
 # keyword pins below are unchanged.
-'phase1_sections_total': 70,
+# E0348 (Shenfeng Canonical expansion): +4 for the new
+# Canonical sections bazi.section.s071 (Shenfeng bingyao
+# definition section), s072 (zhengguan tension window),
+# s073 (Shenfeng Qi Dayun Fa), s074 (Ditiansui zhonghe
+# counterweight window); all four texts verified for this
+# batch to contain none of the HEHUA_KEYWORDS and no 五合,
+# so the keyword pins below are unchanged.
+'phase1_sections_total': 74,
 'phase1_sections_with_hehua_keywords': 0,
 'phase1_sections_with_wuhe': ['bazi.section.s010'],
 # E0333 (TJ-018.3 execution-binding batch 1): +1 for the new
@@ -1302,7 +1309,10 @@ SEALED_MEASUREMENTS = {
 # E0346: +2 Phase1 rules bazi.rule.r038/r039 (classical dayun
 # direction / Sanming conversion) and +2 Phase2 rules below
 # for their steps; none carries hehua content either.
-'phase1_rules_total': 39,
+# E0348: +2 Phase1 rules bazi.rule.r040/r041 (bingyao
+# assessment / Shenfeng dayun conversion) and +2 Phase2 rules
+# below for their steps; none carries hehua content either.
+'phase1_rules_total': 41,
 'phase1_concepts_total': 18,
 'phase1_hehua_concepts': 0,
 'phase1_concept_ids': [
@@ -1325,7 +1335,9 @@ SEALED_MEASUREMENTS = {
 'bazi.concept.bounded_strength_adjudication_v1',
 'bazi.concept.pattern_candidates_v1',
 ],
-'phase2_rules_total': 40,
+# E0348: +2 Phase2 rules (bingyao_assessment /
+# dayun_shenfeng_conversion steps).
+'phase2_rules_total': 42,
 'foundations_stem_combinations': [['甲', '己', '土'],
 ['乙', '庚', '金'], ['丙', '辛', '水'], ['丁', '壬', '木'],
 ['戊', '癸', '火']],

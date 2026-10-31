@@ -72,11 +72,14 @@ class LurenRegistrationTests(unittest.TestCase):
         # E0346: +3 sections (s068/s069/s070), +2 chapters,
         # +2 terms (dayun_direction/dayun_handover), +2 rules
         # (r038/r039), +2 contract steps.
-        self.assertEqual(len(self.bundle['sections']), 70)
-        self.assertEqual(len(self.bundle['chapters']), 29)
-        self.assertEqual(len(self.bundle['terms']), 36)
-        self.assertEqual(len(self.bundle['rules']), 39)
-        self.assertEqual(len(self.contract['rules']), 40)
+        # E0348: +1 classic (shenfeng), +4 sections
+        # (s071/s072/s073/s074), +4 chapters, +2 terms, +2 rules
+        # (r040/r041), +2 contract steps.
+        self.assertEqual(len(self.bundle['sections']), 74)
+        self.assertEqual(len(self.bundle['chapters']), 33)
+        self.assertEqual(len(self.bundle['terms']), 38)
+        self.assertEqual(len(self.bundle['rules']), 41)
+        self.assertEqual(len(self.contract['rules']), 42)
         for section_id in (LU_SECTION, YR_SECTION):
             self.assertIn(section_id, self.sections)
             self.assertEqual(self.sections[section_id]['source_id'],
@@ -239,7 +242,9 @@ class LurenRegistrationTests(unittest.TestCase):
         results = {c['id']: c for c in run_cases(ROOT, 'bazi')}
         # E0342: +6 zaqi selection Golden cases (148 total).
         # E0344: +15 ren-yin Golden cases (163 total).
-        self.assertEqual(len(results), 169)
+        # E0346: +6 dayun-sanming Golden cases (169 total).
+        # E0348: +11 Shenfeng-expansion Golden cases (180 total).
+        self.assertEqual(len(results), 180)
         for case_id in GOLDEN_IDS:
             self.assertIn(case_id, results)
             self.assertIn(STEP, results[case_id]['rule_ids'])
@@ -276,7 +281,7 @@ class LurenRegistrationTests(unittest.TestCase):
         # E0342: pattern-zaqi flipped too (seven maintained).
         # E0344: ren-pattern-yin-true-v1 flipped too (six
         # maintained).
-        self.assertEqual(len(governance.MAINTAINED_ITEMS), 5)
+        self.assertEqual(len(governance.MAINTAINED_ITEMS), 4)
         record = governance.TJ0183_B2_RECORD
         self.assertEqual(record['event'], 'E0339')
         self.assertEqual(record['phase1_rules_added'], ['bazi.rule.r035'])
