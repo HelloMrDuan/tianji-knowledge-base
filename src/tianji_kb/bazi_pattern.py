@@ -1087,6 +1087,19 @@ def month_pattern_route(trace):
 #   公开投影整体剥离。month_pattern_zaqi 只消费已执行的 pillars /
 #   ten_gods / hidden_stems / hidden_to_visible 步骤（要求 evidence 已
 #   绑定），伪造、缺失或自相矛盾的事实一律 fail-closed。
+#
+# 注册接入（治理 pending 8 项审计推荐批，E0342）：本陈述原无密封
+# Phase1 bundle / Phase2 contract 的 rule 注册（历史姿态见上 B6），
+# E0342 完成注册：滴天髓杂气段建成 Canonical section s065
+# （bazi.chapter.pattern_bage 既有章）、三命两例证以 S3 窗口建成
+# sections s066/s067，3 条引文完成绑定（原注段为规则引文、两例证
+# 为 conflict_branch_evidence，沿 r031/r035 子集先例）；Phase1
+# 规则 bazi.rule.r036 与 Phase2 步 bazi.phase2.pattern_zaqi 登记
+# 入密封契约；chart 在 pattern_variant 开启时以 trace.add 执行
+# 注册步，陈述块进入 RuleMatch 与 Evidence，evidence_binding
+# 翻转为 registered_phase1_phase2。陈述语义逐字不变：戊己臂多人元
+# 透出并列、无透 abstain、一般臂只录「取土为格」原文且土格换算
+# 恒 unadjudicated、三命两案恒只作冲突分支证据（B5 不裁定）。
 ZAQI_SELECTION_VARIANT = 'bazi-pattern-zaqi-selection-v1'
 ZAQI_RULE_SOURCE_ID = 'bazi.source.ditiansui-spouse'
 ZAQI_RULE_SNAPSHOT_PATH = ('data/quarantine/public_domain_snapshots/'
@@ -1105,7 +1118,7 @@ ZAQI_QUOTES = (
     {
         'id': 'renshi.zaqi_passage',
         'source_id': ZAQI_RULE_SOURCE_ID,
-        'source_section_id': None,
+        'source_section_id': 'bazi.section.s065',
         'layer': '原注',
         'quote': ('原注:飞天合禄之类,固为影响遥系而非格矣。如四季月生人,'
                   '只当取土为格,不可言杂气财官;戊己日生于四季月者,当看人元'
@@ -1118,7 +1131,7 @@ ZAQI_QUOTES = (
     {
         'id': 'sanming.zaqi_case_rilu',
         'source_id': ZAQI_CONFLICT_SOURCE_ID,
-        'source_section_id': None,
+        'source_section_id': 'bazi.section.s066',
         'layer': '实案评语',
         'quote': ('又壬午庾戌壬子辛亥身旺印助登戊辰进士为刑部郎中作杂气格'
                   '论尤是故丁丑运戊辰科丑刑辰冲故也'),
@@ -1127,7 +1140,7 @@ ZAQI_QUOTES = (
     {
         'id': 'sanming.zaqi_poem_nvming',
         'source_id': ZAQI_CONFLICT_SOURCE_ID,
-        'source_section_id': None,
+        'source_section_id': 'bazi.section.s067',
         'layer': '女命章诗句及自注',
         'quote': ('杂气格中禄最佳干头便混也堪夸运行财地无伤刼嫁得才郎享福'
                   '遐【甲乙丑月之例俱藏夫星干头不忌混杂此以月言也】'),
@@ -1147,14 +1160,14 @@ ZAQI_ADJUDICATION_NOTES = (
     'B3 土格换算：「只当取土为格」的格名/十神换算链原文未明言，本批不换算，陈述只并列原文与 conversion_status=unadjudicated。',
     'B4 戊己弃判：戊己日四季月无人元透出 → abstained（程序无对象）；段内 (iii) 的「则又无格矣」不移用为本盘无格断言。',
     'B5 冲突并列：三命两案只登记为冲突分支证据（案一 192131–192174、案二 245030–245081），conflict_present 与案引并列呈现，不裁定；案一造出生时刻无考、不可复现。',
-    'B6 共存：pattern_zaqi 与 Slice A 的 pattern_route 并列、互不改写，各自独立判定；本陈述无 Phase1/Phase2 rule 注册（evidence_binding=pending_phase1_rule_registration）。',
+    'B6 共存：pattern_zaqi 与 Slice A 的 pattern_route 并列、互不改写，各自独立判定；本陈述已完成 Phase1/Phase2 rule 注册（bazi.rule.r036 / bazi.phase2.pattern_zaqi，evidence_binding=registered_phase1_phase2，E0342），注册只补齐证据绑定，陈述语义不变。',
 )
 
 ZAQI_LIMITATIONS = (
     '本陈述是选格陈述/分支级别，不是定格：不给格名、真假、成败、清浊、用神或喜忌；determination 其余字段全域保持 None，审源报告的 determination=None 范围声明继续有效。',
     '原注段 (iii) 建禄/月刃臂与「气象形局」未执行；「取土为格」的土格换算未审；分日司令未裁定不因本切片而解，选格陈述不等于真假裁定。',
     '三命两案只作冲突分支证据登记，不作规则；不得以任氏分支压过三命，亦不得以三命实案消解任氏句。',
-    '本陈述尚无密封 Phase1/Phase2 rule 注册，不进 RuleMatch 与 Evidence；透出事实以既有 hidden_to_visible 为准（日干除外）。',
+    '本陈述已完成密封 Phase1/Phase2 rule 注册（bazi.rule.r036 / bazi.phase2.pattern_zaqi，evidence_binding=registered_phase1_phase2，治理 pending 8 项审计推荐批 E0342）；注册只补齐证据绑定，陈述语义与判定面不变；透出事实以既有 hidden_to_visible 为准（日干除外）。',
 )
 
 
@@ -1210,7 +1223,7 @@ def zaqi_selection_lookup(day_stem, month_branch, month_hidden_stems,
         'rule': {
             'id': 'renshi.zaqi_selection',
             'source_id': ZAQI_RULE_SOURCE_ID,
-            'source_section_id': None,
+            'source_section_id': 'bazi.section.s065',
             'layer': '原注',
             'quote_locator': {'char_start': 33161, 'char_end': 33313},
         },
@@ -1231,7 +1244,7 @@ def zaqi_selection_lookup(day_stem, month_branch, month_hidden_stems,
                           'useful_god': None},
         'qualified_for_determination': False,
         'research_only': True, 'public_enabled': False, 'ai_enabled': False,
-        'evidence_binding': 'pending_phase1_rule_registration',
+        'evidence_binding': 'registered_phase1_phase2',
         'adjudication_notes': list(ZAQI_ADJUDICATION_NOTES),
         'scope_limits': list(ZAQI_LIMITATIONS),
         'scope': ('只在四季月（辰戌丑未）给出任氏（原注）分支的选格陈述与'
@@ -1250,10 +1263,12 @@ def zaqi_selection_lookup(day_stem, month_branch, month_hidden_stems,
         'case_refs': [
             {'id': 'sanming.zaqi_case_rilu',
              'source_id': ZAQI_CONFLICT_SOURCE_ID,
+             'source_section_id': 'bazi.section.s066',
              'locator': {'char_start': 192131, 'char_end': 192174},
              'note': '卷六《日禄归时》实案：壬日戌月造「作杂气格论尤是」；只登记为冲突证据，不作规则。'},
             {'id': 'sanming.zaqi_poem_nvming',
              'source_id': ZAQI_CONFLICT_SOURCE_ID,
+             'source_section_id': 'bazi.section.s067',
              'locator': {'char_start': 245030, 'char_end': 245081},
              'note': '女命章诗句「杂气格中禄最佳」及甲乙丑月自注；只登记为冲突证据，不作规则。'},
         ],

@@ -321,9 +321,18 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
                   {'pattern_variant': pattern_variant}, route)
         result['pattern_route'] = route
         # TJ-012.3 Slice B: 杂气 selection statement over the executed
-        # structural facts. Same registration status as Slice A: not a
-        # trace.add, no RuleMatch or Evidence entry.
-        result['pattern_zaqi'] = month_pattern_zaqi(trace)
+        # structural facts. Governance zaqi promotion (E0342): the
+        # statement is registered (Phase1 bazi.rule.r036 / Phase2
+        # bazi.phase2.pattern_zaqi, Canonical sections s065/s066/s067
+        # bind the Ren passage and the two Sanming conflict witnesses),
+        # so it now executes through trace.add like the route step
+        # above and enters RuleMatch and Evidence; the statement block
+        # itself attaches to the result beside the route,
+        # byte-identical apart from its registration disclosure fields.
+        zaqi = month_pattern_zaqi(trace)
+        trace.add('bazi.phase2.pattern_zaqi',
+                  {'pattern_variant': pattern_variant}, zaqi)
+        result['pattern_zaqi'] = zaqi
         result['production_scope'] += '；研究用正官/印绶月藏透干候选位置，不定格或判断成败喜用；含任氏禄刃路线负向裁定（月逢禄刃无格可取、借用路线未定），不定格名真假用神；含杂气月选格陈述（原注分支：戊己日看人元透出、一般日主只录原文不换算土格）与三命杂气格流派冲突并列，不定格名真假用神'
     if tiaohou_variant is not None:
         # TJ-013.1: consumes only the executed pillar/ten-god/hidden-stem

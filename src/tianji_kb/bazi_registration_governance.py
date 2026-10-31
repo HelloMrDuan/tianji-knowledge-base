@@ -429,6 +429,113 @@ TJ0183_B2_RECORD = {
         '用户可见能力零变化（公开投影剥离 pattern_route 不变）。',
 }
 
+# 治理 pending 8 项审计推荐第一批：pattern-zaqi 晋级批记录
+# （E0342，审计 E0341 §2.6/§4.2 推荐；规范依据 Slice B 审定
+# B1–B6 与 B-2 禄刃晋级形制）：为滴天髓杂气段与三命两例证窗口
+# 建 Canonical section 并逐条绑定引文，杂气选格陈述以自有
+# Phase1 规则（r036）与 Phase2 步（pattern_zaqi）完成注册，
+# 治理登记 pattern-zaqi 翻转。形制与 TJ0183_B2_RECORD 同构：
+# 私有数据树著录 -> 暂存导出 -> 校验 -> 父级合并前同步换位
+# live 快照并改钉（先换代、后合并）。
+GOVERNANCE_ZAQI_RECORD = {
+    'batch': '治理 pending 审计推荐第一批 pattern-zaqi 晋级批',
+    'event': 'E0342',
+    'date': '2026-10-31',
+    'document': 'docs/product/GOVERNANCE_ZAQI_PROMOTION.md',
+    'canonical_chapters_added': [
+        'bazi.chapter.sanming_rilu_case',
+        'bazi.chapter.sanming_nvming_case'],
+    'canonical_sections_added': [
+        'bazi.section.s065', 'bazi.section.s066', 'bazi.section.s067'],
+    'canonical_terms_added': ['bazi.term.zaqi_selection'],
+    'phase1_rules_added': ['bazi.rule.r036'],
+    'phase2_rules_added': ['bazi.phase2.pattern_zaqi'],
+    'golden_cases_added': [
+        'bazi.zaqi-selection-wuji-chou-single-exposed',
+        'bazi.zaqi-selection-wuji-xu-no-exposed-abstained',
+        'bazi.zaqi-selection-general-xu-sanming-type',
+        'bazi.zaqi-selection-non-misc-yin-not-applicable',
+        'bazi.zaqi-selection-general-chen-no-exposed',
+        'bazi.zaqi-selection-wuji-wei-two-exposed'],
+    'source_refs_subset': [
+        'renshi.zaqi_passage (s065, classical)'],
+    'source_refs_subset_basis': 'r036 的 source_refs 恰为陈述的裁定'
+        '依据 1 条：原注杂气段是选格陈述的编码依据（规则引文，'
+        'classical）。三命两例证不入规则 refs：按 Slice B 审定 B5 '
+        '它们只作冲突分支证据、不是裁定依据，且 Phase1 引文角色'
+        '枚举（classical / implementation / derivation）无冲突分支'
+        '位；其证据地位由 Canonical 窗口节 s066/s067（review scope '
+        '明示冲突分支角色）、公开登记侧 source_section_id 补全与陈述'
+        '输出 conflict.case_refs 三者承载（两例证逐字在各自窗口节内，'
+        '密封专项目测）。子集定稿沿 r031/r035 先例（只引裁定依据）：'
+        '两窗口节内其余文本（案一同法条的戊子案前段、案二前后条目）'
+        '不入 source_refs。公开登记侧 3 条引文的 source_id 逐字不变'
+        '（原注 = ditiansui-spouse、三命 = sanmingtonghui），仅补 '
+        'source_section_id。',
+    'registration_flip': 'pattern-zaqi 处置由 maintained_pending'
+        '（canonical_evidence_absent）翻转为 registered；'
+        'MAINTAINED_ITEMS 由 8 项减为 7 项。bazi_pattern 陈述块 '
+        'evidence_binding 翻转为 registered_phase1_phase2、rule '
+        '与 conflict.case_refs 的 source_section_id 补全（s065/'
+        's066/s067）、ZAQI_QUOTES 3 条引文 source_section_id 补'
+        '全、ZAQI_ADJUDICATION_NOTES B6 与 ZAQI_LIMITATIONS 的注'
+        '册状态句改写；chart 在 pattern_variant 开启时以 trace.add '
+        '执行注册步。翻转五条件中本地四项（真实执行接入、Trace '
+        '真实步、EvidenceResolver 实测绑定、Golden 与规定测试全'
+        '过）已在机上全配方复跑实证；第五项（正式验收与部署验证）'
+        '为终局条件，由父级关账批（E0343 预留）复核，PR 内翻转视'
+        '为待终局确认。',
+    'section_window_basis': '三命两例证建窗口节的节界定稿：案一窗'
+        '口 = 卷六《日禄归时》七法第一法「青云得路」整条（S3 '
+        '[192089,192173)，84 字，引文在其内 S3 [192130,192173))；'
+        '案二窗口 = 女命章诗句条目全文（S3 [245029,245080)，51 '
+        '字，与引文同界，前后以换行分隔自成单元）。两窗口均零 '
+        'PUA/零□；窗口外同章文本不因本批入 Canonical。滴天髓杂'
+        '气段挂既有章 bazi.chapter.pattern_bage（八格章，与真格'
+        '定义节 s053/任氏程序节 s054 同章），不新建章。',
+    'sealed_files_changed': [
+        'data/canonical/bazi/phase1_knowledge.json',
+        'data/canonical/bazi/phase2_execution.json',
+        'data/canonical/bazi/phase2_golden.json',
+        'data/coverage/phase1.json',
+        'data/product/knowledge_coverage.json'],
+    'sealed_file_sha256_after': {
+        'data/canonical/bazi/phase1_knowledge.json':
+            'df55c6505b4cad47b315b839313508ad61e844613882d901460576f9c1088818',
+        'data/canonical/bazi/phase2_execution.json':
+            '97d7c3fa9c06f933ec6f78c4ccba34637b8904cb1a5d91a781947c47d2001d49',
+        'data/canonical/bazi/phase2_golden.json':
+            '878c5369bb0bdb5e8a6757c949ac90ddb62db2ec0e16e4374144110bdab68d3d',
+        'data/coverage/phase1.json':
+            '13c117993aeb141a60328468a8ea3f3b4c942770f5d124acab1db083ebb77fa2',
+        'data/product/knowledge_coverage.json':
+            'a43cc223cf8f5bb26cebcbeed35912ff8fc3c71fc4f14e37d1571b183a0508e0'},
+    'snapshot_files_before': 237,
+    'snapshot_files_after': 237,
+    'snapshot_bytes_before': 16001603,
+    'snapshot_bytes_after': 16072121,
+    'manifest_sha256_before':
+        '15bd5a268d792c86072cf9ac51effb22ca5aefa004ea7ab44e7bbf44135682d5',
+    'manifest_sha256_after':
+        '6edcebc669e9b3de09856f353f6b1eafc22bff47a8dbfef3f35afdffacc1bfc0',
+    'pin_record': '新钉值（manifest_sha256_after）须由父级在本批 '
+                  'PR 合并前换位 live 快照并更新可信机 cicd 钉值（先'
+                  '换代、后合并，E0329 竞态教训）；私有检出侧 '
+                  'EXPECTED_BYTES 与检出 manifest 同步重生并 verify '
+                  '通过；回退路径不变（恢复旧快照目录 + 旧钉值，且'
+                  '新代码在旧快照下 pattern_variant 路径 fail-closed、'
+                  '默认路径与基线逐字一致，回滚演练记录见治理文档）。',
+    'verdict_surface_change': '陈述判定面零变化：等价比对集（密封 '
+        'Golden 142 盘 + Slice B 6 例见证盘 + 142 盘强制 '
+        'pattern_variant）翻转前后全封套比对，差异恰在封闭清单内'
+        '（陈述块 evidence_binding 与 rule/case_refs 的 '
+        'source_section_id 补全、adjudication_notes 与 scope_limits '
+        '的注册状态句、trace 新增注册步与其 rule_matches/evidence '
+        '条目、治理登记与计数钉迁移）；status、arm、selection、'
+        'conflict 与 determination 逐盘逐字不变。用户可见能力零变'
+        '化（公开投影剥离 pattern_zaqi 不变）。',
+}
+
 REASON_CLASSES = {
     'canonical_evidence_absent':
         '定义性原典锚点在密封 Canonical 中无对应 section（或经典不在 '
@@ -625,12 +732,33 @@ REGISTRATION_INVENTORY = [
         'item': 'pattern-zaqi',
         'subject': '格局杂气选格陈述 pattern_zaqi',
         'disclosure_sites': ['src/tianji_kb/bazi_pattern.py'],
-        'disposition': 'maintained_pending',
-        'reason_class': 'canonical_evidence_absent',
-        'reason': '原注杂气段与三命两例证 0/3 在 Canonical 内（s053/s054 '
-                  '不含杂气段原文）。',
-        'unlock_path': '先行 Canonical sections 扩编（滴天髓杂气相关段'
-                       '与三命例证节登记），再行注册批。',
+        'disposition': 'registered',
+        'phase1_rule_id': 'bazi.rule.r036',
+        'phase2_rule_id': 'bazi.phase2.pattern_zaqi',
+        'reason': '治理 pending 8 项审计（E0341）定本项为纯节级缺口并'
+                  '推荐为第一批；本批（E0342）建成 Canonical sections '
+                  'bazi.section.s065（滴天髓八格章「影响遥系」子题原注'
+                  '杂气段，快照 [33161,33313) 全文 152 字）、'
+                  'bazi.section.s066（三命卷六《日禄归时》「青云得路」'
+                  '法条窗口，S3 [192089,192173)）与 bazi.section.s067'
+                  '（三命女命章杂气格诗句条目窗口，S3 [245029,245080)），'
+                  '均零 PUA/零□；3 条引文逐字绑定：原注杂气段 '
+                  'renshi.zaqi_passage 为规则引文（s065），三命两例证 '
+                  'sanming.zaqi_case_rilu / sanming.zaqi_poem_nvming '
+                  '只作冲突分支证据的节绑定（s066/s067，沿 '
+                  'Slice B 审定 B5 并列口径，不作规则、不裁定）。陈述'
+                  '自 Slice B 起即经 operations/bazi_chart.chart 真实'
+                  '执行（消费已执行的 pillars / ten_gods / hidden_stems '
+                  '/ hidden_to_visible 步），本批将其接入 '
+                  'ExecutionTrace 注册步；Phase1 规则 r036 的 '
+                  'source_refs 恰为裁定依据 1 条（原注杂气段，子集定稿'
+                  '沿 r031/r035 先例；两例证非裁定依据、不入规则 refs，'
+                  '其证据地位由窗口节与陈述 conflict.case_refs 承载）。'
+                  '陈述输出除注册披露字段外逐盘逐字'
+                  '不变，裁定语义零变化：戊己臂多人元透出并列、无透 '
+                  'abstain、一般臂只录「取土为格」原文且土格换算恒 '
+                  'unadjudicated、determination 恒 None。',
+        'unlock_path': None,
     },
     {
         'item': 'ren-pattern-yin-true-v1',
