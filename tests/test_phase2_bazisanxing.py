@@ -219,7 +219,8 @@ class GoldenFireTests(unittest.TestCase):
         # pre-existing pillar inputs.
         # E0335: four ganzhi strength cases joined the golden file
         # (129 + 4 = 133 rows); they pass the same harness.
-        self.assertEqual(len(self.rows), 133)
+        # E0339: nine luren route cases joined (133 + 9 = 142 rows).
+        self.assertEqual(len(self.rows), 142)
 
     def test_new_cases_fire_the_step(self):
         for case_id in CASE_IDS:

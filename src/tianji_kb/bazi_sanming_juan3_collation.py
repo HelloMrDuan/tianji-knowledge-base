@@ -1522,3 +1522,23 @@ SEALED_ASSET_RECONCILIATION = {'text_collation_in_window': ['ocr-104',
          '串全文核查与本节窗口无关联（归因属 018-H）。P2 残余防处置册与本节的唯一交点为 seq 47（S3 76987 残余防，disposition '
          'deferred_no_witness）：本批校勘记 sgl-fang-76988 与之衔接登记，处置状态不变、本批不作处置裁定。全书 PUA 普查（524 处/86 '
          '种）为快照事实，本批登记不改变快照，普查数字不变。'}
+
+
+# TJ-018.3 B-2（E0339）承接注记（append-only）：本册登记时
+# SHIGANLU_FACT_LINKAGE 中 pattern-route-luren 衔接项记为
+# unresolved（联合翻转属 B-2）；B-2 已以本节登记为前置建成
+# Canonical section bazi.section.s063 并完成路线注册翻转，该衔接
+# 项的未决状态由 B-2 解除。本注记只记录承接事实，本册既有登记
+# 内容逐字未动；治理结论以 bazi_registration_governance 的
+# TJ0183_B2_RECORD 与 pattern-route-luren 登记行为准。
+LUREN_PROMOTION_TAKEOVER = {
+    'event': 'E0339',
+    'batch': 'TJ-018.3 批三 B-2 禄刃两节 Canonical 晋级与路线注册批',
+    'document': 'docs/product/TJ0183_LUREN_PROMOTION.md',
+    'statement': '本节（sanming.juan3.shiganlu）已经 B-2 建成密封 '
+                 'Canonical section bazi.section.s063；禄定义句 '
+                 'sgl.definition 与路线引文 sanming.lu_sentence 的'
+                 '节内绑定补全已由 Phase1 规则 bazi.rule.r035 的 '
+                 'source_refs 落实；pattern-route-luren 治理处置'
+                 '翻转为 registered。',
+}

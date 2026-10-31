@@ -89,14 +89,16 @@ class GanzhiExecBindPublicTests(unittest.TestCase):
             self.assertIn('bazi.section.s061', row['reason'])
 
     def test_flipped_and_maintained_sets(self):
+        # E0339 (TJ-018.3 B-2): pattern-route-luren flipped as well.
         self.assertEqual(sorted(gov.FLIPPED_ITEMS),
                          sorted(['commanding_visible_support',
                                  'lu_visible_support',
+                                 'pattern-route-luren',
                                  'pure_generating_support',
                                  'pure_generating_support_water',
                                  'pure_support_metal',
                                  'sanxing-branch-fact-v1']))
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 9)
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 8)
         for item in ROWS:
             self.assertNotIn(item, gov.MAINTAINED_ITEMS)
 

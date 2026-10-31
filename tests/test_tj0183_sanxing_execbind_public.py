@@ -118,16 +118,18 @@ class InventoryFlipTests(unittest.TestCase):
     def test_flipped_and_maintained_sets(self):
         # E0335 (TJ-018.3 batch 2): lu / metal / water flipped as
         # well; the sanxing row's own state is unchanged.
+        # E0339 (TJ-018.3 B-2): pattern-route-luren flipped too.
         self.assertEqual(sorted(gov.FLIPPED_ITEMS),
                          ['commanding_visible_support',
                           'lu_visible_support',
+                          'pattern-route-luren',
                           'pure_generating_support',
                           'pure_generating_support_water',
                           'pure_support_metal',
                           'sanxing-branch-fact-v1'])
         self.assertNotIn('sanxing-branch-fact-v1',
                          gov.MAINTAINED_ITEMS)
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 9)
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 8)
 
 
 class DisclosureFlipTests(unittest.TestCase):

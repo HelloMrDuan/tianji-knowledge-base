@@ -332,6 +332,103 @@ TJ0183_P2_RECORD = {
         '投影与 research_only 姿态不变。',
 }
 
+# TJ-018.3 批三 B-2 禄刃两节 Canonical 晋级与路线注册批记录
+# （E0339，评估 E0337 结论 B 的第二批；规范依据批三评估 §3.3 B-2
+# 草案与 P1/批一/批二先例）：为三命卷三《论十干禄》与卷五《论阳刃》
+# 建 Canonical chapter/section 并逐条复核登记引文，禄刃路线以自有
+# Phase1 规则（r035）与 Phase2 步（pattern_route）完成注册，治理
+# 登记 pattern-route-luren 联合翻转。形制与 TJ0183_P2_RECORD
+# 同构：私有数据树著录 -> 暂存导出 -> 校验 -> 父级合并前同步换位
+# live 快照并改钉（先换代、后合并）。
+TJ0183_B2_RECORD = {
+    'batch': 'TJ-018.3 批三 B-2 禄刃两节 Canonical 晋级与路线注册批',
+    'event': 'E0339',
+    'date': '2026-10-31',
+    'document': 'docs/product/TJ0183_LUREN_PROMOTION.md',
+    'canonical_chapters_added': [
+        'bazi.chapter.sanming_shiganlu',
+        'bazi.chapter.sanming_yangren'],
+    'canonical_sections_added': ['bazi.section.s063', 'bazi.section.s064'],
+    'canonical_terms_added': ['bazi.term.luren_route'],
+    'phase1_rules_added': ['bazi.rule.r035'],
+    'phase2_rules_added': ['bazi.phase2.pattern_route'],
+    'golden_cases_added': [
+        'bazi.luren-route-lu-jia-yin',
+        'bazi.luren-route-ren-geng-you',
+        'bazi.luren-route-ren-not-lu-jia-mao',
+        'bazi.luren-route-ordinary-jia-wu',
+        'bazi.luren-route-other-lu-yi-yin',
+        'bazi.luren-route-misc-wu-xu',
+        'bazi.luren-route-yin-noblade-xin-xu',
+        'bazi.luren-route-lu-gui-zi',
+        'bazi.luren-route-precedence-jia-yin'],
+    'source_refs_subset': [
+        'renshi.luren_route_exclusion (s054)',
+        'sanming.lu_sentence (s063)',
+        'sanming.ren_doctrine (s064)',
+        'sanming.ren_positions (s064)'],
+    'source_refs_subset_basis': '路线实际消费的四条引文：任氏排除句'
+        '（路线规则本体，s054 既有 Canonical）+ 禄/刃两表定义引文'
+        '三条。子集定稿沿 r031 先例（只引消费引文、未扩至登记全量）：'
+        '阳刃 22 条与禄节 30 条登记引文逐条在对应节文本中在场，另经'
+        '密封专项以登记坐标换算逐条复核，不入 r035 的 source_refs。',
+    'registration_flip': 'pattern-route-luren 处置由 '
+        'maintained_pending（canonical_evidence_absent）翻转为 '
+        'registered；MAINTAINED_ITEMS 由 9 项减为 8 项。bazi_pattern '
+        '路线块 evidence_binding 翻转为 registered_phase1_phase2、'
+        'LUREN_LIMITATIONS 注册状态句改写、LUREN_QUOTES 三条三命'
+        '引文 source_section_id 补全（s063/s064）；chart 在 '
+        'pattern_variant 开启时以 trace.add 执行注册步。翻转五条件'
+        '中本地四项（真实执行接入、Trace 真实步、EvidenceResolver '
+        '实测绑定、Golden 与规定测试全过）已在机上全配方复跑实证；'
+        '第五项（正式验收与部署验证）为终局条件，由父级关账批'
+        '（E0340 预留）复核，PR 内翻转视为待终局确认。',
+    'section_residue_carry': '阳刃节残余防 14 位点与 RD-12 seq 450 '
+        '并列记录（快照字「防」/四库「䕶」/现代「获·獲」，UD-1=A '
+        '定格）随 s064 元数据逐字携带；禄节残余防 1 位点（S3 '
+        '76987，P2 seq 47 deferred_no_witness、B-1 登记 unresolved）'
+        '随 s063 元数据逐字携带；两处处置状态均不因本批改变，定义'
+        '引文范围内残余防为 0（机检断言在册）。',
+    'sealed_files_changed': [
+        'data/canonical/bazi/phase1_knowledge.json',
+        'data/canonical/bazi/phase2_execution.json',
+        'data/canonical/bazi/phase2_golden.json',
+        'data/coverage/phase1.json'],
+    'sealed_file_sha256_after': {
+        'data/canonical/bazi/phase1_knowledge.json':
+            '19457363a783279ebeb75674ddfde5da7f90e43bc9053936acaaedf129ab41ad',
+        'data/canonical/bazi/phase2_execution.json':
+            '8332bd98c1f007bfc5e4ba8fe55920961d23856becd2d472ffb2f2c7805be68f',
+        'data/canonical/bazi/phase2_golden.json':
+            'bad517b3983eff0caf376ff93826a51b1e6bf49e9c81f919d5061444cc5a9a45',
+        'data/coverage/phase1.json':
+            'dde15c29ac0f9552c98e581598a7fe3661379fc931a2b7420855723469e7f333'},
+    'snapshot_files_before': 237,
+    'snapshot_files_after': 237,
+    'snapshot_bytes_before': 15964218,
+    'snapshot_bytes_after': 16001603,
+    'manifest_sha256_before':
+        'c815dc4ed02a9b7d0bd1487c3e1ed4e39d0bc826659d4ff0fb7f8a37ff685cdf',
+    'manifest_sha256_after':
+        '15bd5a268d792c86072cf9ac51effb22ca5aefa004ea7ab44e7bbf44135682d5',
+    'pin_record': '新钉值（manifest_sha256_after）须由父级在本批 '
+                  'PR 合并前换位 live 快照并更新可信机 cicd 钉值（先'
+                  '换代、后合并，E0329 竞态教训）；私有检出侧 '
+                  'EXPECTED_BYTES=16001603 与检出 manifest 已同步重'
+                  '生并 verify 通过；回退路径不变（恢复旧快照目录 + '
+                  '旧钉值，且新代码在旧快照下 pattern_variant 路径 '
+                  'fail-closed、默认路径与基线逐字一致，回滚演练记录'
+                  '见治理文档 §5）。',
+    'verdict_surface_change': '路线判定面零变化：等价比对集（密封 '
+        'Golden 133 盘 + Slice A 8 盘与 D-1 优先序盘 + 133 盘强制 '
+        'pattern_variant）翻转前后全封套比对，差异恰在封闭清单内'
+        '（路线块 evidence_binding 与注册状态句、trace 新增注册步、'
+        '其 rule_matches 与 evidence 条目、其后步 fact_ref 索引位移'
+        '而所指内容逐字一致、治理登记与计数钉迁移）；route 值、'
+        'matched_via、determination 与 borrowed_route 逐盘逐字不变。'
+        '用户可见能力零变化（公开投影剥离 pattern_route 不变）。',
+}
+
 REASON_CLASSES = {
     'canonical_evidence_absent':
         '定义性原典锚点在密封 Canonical 中无对应 section（或经典不在 '
@@ -496,13 +593,33 @@ REGISTRATION_INVENTORY = [
         'item': 'pattern-route-luren',
         'subject': '格局禄刃路线 pattern_route',
         'disclosure_sites': ['src/tianji_kb/bazi_pattern.py'],
-        'disposition': 'maintained_pending',
-        'reason_class': 'canonical_evidence_absent',
-        'reason': '定义性禄/刃表（三命卷三《论十干禄》、卷五《论阳刃》'
-                  '原文）无 canonical section；登记 4 引文中仅路线排除'
-                  '引文（s054）在 Canonical 内，表格本体 0 条可验证。',
-        'unlock_path': '先行 Canonical sections 扩编（三命禄/刃两节登记'
-                       '入 Canonical），再行注册批。',
+        'disposition': 'registered',
+        'phase1_rule_id': 'bazi.rule.r035',
+        'phase2_rule_id': 'bazi.phase2.pattern_route',
+        'reason': '定义性禄/刃表经 TJ-018.3 批三评估（E0337）复核、'
+                  'B-1（E0338）卷三禄节 018 形制登记后，B-2（E0339）'
+                  '建成 Canonical sections bazi.section.s063'
+                  '（三命卷三《论十干禄》）与 bazi.section.s064'
+                  '（卷五《论阳刃》），均以正式应用工作本 S3 切片'
+                  '建节、零 PUA/零□；路线消费的四条引文逐字绑定：'
+                  '任氏排除句（s054，既有 Canonical）、禄定义句'
+                  'sanming.lu_sentence（s063，与 B-1 登记引文 '
+                  'sgl.definition 同一引文的绑定补全、不重复立条）、'
+                  '刃纲句 sanming.ren_doctrine 与刃位句 '
+                  'sanming.ren_positions（s064）。阳刃节 14 处残余'
+                  '防与 RD-12 seq 450 并列记录（UD-1=A 定格）、禄节'
+                  '残余防 1 处（seq 47，unresolved）随节元数据逐字'
+                  '携带，均不入定义引文。路线自 Slice A 起即经 '
+                  'operations/bazi_chart.chart 真实执行（消费已执行 '
+                  'pillars 步），B-2 将其接入 ExecutionTrace 注册步'
+                  '（与同块候选步同形），Phase1 规则 r035 的 '
+                  'source_refs 只引路线实际消费的四条引文（子集定稿'
+                  '沿 r031 先例，未扩至两节全部登记引文；两节登记'
+                  '引文逐条在场另经密封专项复核）。路线输出除注册'
+                  '披露字段外逐盘逐字不变，determination 语义零'
+                  '变化（恒负向排除、borrowed_route 恒 '
+                  'undetermined）。',
+        'unlock_path': None,
     },
     {
         'item': 'pattern-zaqi',

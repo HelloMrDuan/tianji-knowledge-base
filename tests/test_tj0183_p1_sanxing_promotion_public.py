@@ -118,16 +118,19 @@ class InventoryDispositionTests(unittest.TestCase):
         # E0335: the ganzhi batch flipped the three remaining
         # bounded-strength predicates as well (six flipped, nine
         # maintained).
+        # E0339: the luren batch flipped pattern-route-luren too
+        # (seven flipped, eight maintained).
         self.assertEqual(sorted(gov.FLIPPED_ITEMS),
                          ['commanding_visible_support',
                           'lu_visible_support',
+                          'pattern-route-luren',
                           'pure_generating_support',
                           'pure_generating_support_water',
                           'pure_support_metal',
                           'sanxing-branch-fact-v1'])
         self.assertNotIn('sanxing-branch-fact-v1',
                          gov.MAINTAINED_ITEMS)
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 9)
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 8)
 
 
 class ConfigRegistrationTests(unittest.TestCase):

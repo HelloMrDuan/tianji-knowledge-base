@@ -843,13 +843,18 @@ def candidates(trace, *, family, pattern_variant=PATTERN_VARIANT):
 #   定范围。故 borrowed_route.status 恒 undetermined，本切片不替原文
 #   选神。
 #
-# 执行链接入：与调候/病药先例相同，本路线尚无密封 Phase1 bundle /
-# Phase2 contract 的 rule 注册，故由 operations.bazi_chart.chart 在
-# pattern_variant 开启时附于 result['pattern_route']，不新增 trace
-# rule，不进 RuleMatch 与 Evidence，evidence_binding 标记为
-# pending_phase1_rule_registration；恒 research_only，公开投影整体
-# 剥离。month_pattern_route 只消费已执行的 pillars 步骤（要求 evidence
-# 已绑定），伪造或缺失事实一律 fail-closed。
+# 执行链接入：本路线原无密封 Phase1 bundle / Phase2 contract 的
+# rule 注册，由 operations.bazi_chart.chart 在 pattern_variant 开启
+# 时附于 result['pattern_route']、不进 RuleMatch 与 Evidence（历史
+# 姿态见 Slice A 审定）。TJ-018.3 B-2（E0339）完成注册：三命禄/刃
+# 两节建成 Canonical sections s063/s064、表源三引文完成绑定，
+# Phase1 规则 bazi.rule.r035 与 Phase2 步 bazi.phase2.pattern_route
+# 登记入密封契约；chart 在 pattern_variant 开启时以 trace.add 执行
+# 注册步（与同块正官/印绶候选步同形），路线块进入 RuleMatch 与
+# Evidence，evidence_binding 翻转为 registered_phase1_phase2。
+# 恒 research_only，公开投影整体剥离。month_pattern_route 只消费
+# 已执行的 pillars 步骤（要求 evidence 已绑定），伪造或缺失事实
+# 一律 fail-closed。
 LUREN_ROUTE_VARIANT = 'bazi-pattern-luren-route-v1'
 LUREN_TABLE_SOURCE_ID = 'bazi.source.sanmingtonghui'
 LUREN_TABLE_SNAPSHOT_PATH = ('data/quarantine/public_domain_snapshots/'
@@ -885,7 +890,7 @@ LUREN_QUOTES = (
     {
         'id': 'sanming.lu_sentence',
         'source_id': LUREN_TABLE_SOURCE_ID,
-        'source_section_id': None,
+        'source_section_id': 'bazi.section.s063',
         'quote': ('甲禄寅乙禄卯庚禄申辛禄酉壬禄亥癸禄子丙禄己丁禄午戊寄己巳寄午'
                   '谓己午乃火旺之乡子随母得禄之义'),
         'locator': {'char_start': 75008, 'char_end': 75053},
@@ -893,14 +898,14 @@ LUREN_QUOTES = (
     {
         'id': 'sanming.ren_doctrine',
         'source_id': LUREN_TABLE_SOURCE_ID,
-        'source_section_id': None,
+        'source_section_id': 'bazi.section.s064',
         'quote': '惟甲丙戊庚壬五阳干有刃乙丁己辛癸五阴干无刃',
         'locator': {'char_start': 180961, 'char_end': 180982},
     },
     {
         'id': 'sanming.ren_positions',
         'source_id': LUREN_TABLE_SOURCE_ID,
-        'source_section_id': None,
+        'source_section_id': 'bazi.section.s064',
         'quote': ('戊刃午见子财壬刃子见午财庚刃酉见卯财皆冲之财故忌之至甲刃卯'
                   '不忌戊巳己午之财且忌酉官矣丙刃午'),
         'locator': {'char_start': 181644, 'char_end': 181689},
@@ -920,7 +925,7 @@ LUREN_LIMITATIONS = (
     '本裁定只关闭或不关闭月令正格路线：luren_no_month_pattern 不表示借用格成立，not_luren 不表示任何正格成立。',
     'determination 其余一切（格名、真假、成败、清浊、用神、喜忌）保持未裁定；审源报告的 determination=None 范围声明继续有效。',
     '禄刃表为三命单一来源口径（C 级、单一电子谱系）；阴干刃位异说未登记，表外推断（以五行/长生类推未列之位）一律禁止。',
-    '本路线尚无密封 Phase1/Phase2 rule 注册（evidence_binding=pending_phase1_rule_registration），不进 RuleMatch 与 Evidence。',
+    '本路线已完成密封 Phase1/Phase2 注册（bazi.rule.r035 / bazi.phase2.pattern_route，evidence_binding=registered_phase1_phase2，TJ-018.3 B-2 E0339）；注册只补齐证据绑定，路线语义与判定面不变。',
 )
 
 
@@ -980,7 +985,7 @@ def luren_route_lookup(day_stem, month_branch):
                           'useful_god': None},
         'qualified_for_determination': False,
         'research_only': True, 'public_enabled': False, 'ai_enabled': False,
-        'evidence_binding': 'pending_phase1_rule_registration',
+        'evidence_binding': 'registered_phase1_phase2',
         'adjudication_notes': list(LUREN_ADJUDICATION_NOTES),
         'scope_limits': list(LUREN_LIMITATIONS),
         'scope': ('只裁定任氏月令正格路线在月逢禄刃时关闭（无格可取）；'

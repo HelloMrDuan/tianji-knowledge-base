@@ -665,6 +665,16 @@ jobs:
       # (offline acceptance only, NOT public CI: it reads the
       # sealed bundle and snapshot).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0183_ganzhi_execbind_public.py' -v
+      # TJ-018.3-B2 (E0339) luren promotion public contracts:
+      # pattern-route-luren governance row flipped to registered
+      # (r035 / bazi.phase2.pattern_route), flipped set seven,
+      # maintained set eight, the route disclosure fields and
+      # quote section bindings flipped with it, zaqi and D-1
+      # blocks stay pending, and the governance document on
+      # file. Sealed-side verification lives in
+      # test_phase2_baziluren.py (offline acceptance only, NOT
+      # public CI: it reads the sealed bundle).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0183_luren_promotion_public.py' -v
       # TJ-018.3-B1 (E0338) sanming juan3 shiganlu collation
       # register (new juan3 register volume, pure registration)
       # public contracts: pure-data register mirrored against

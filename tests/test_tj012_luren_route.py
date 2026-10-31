@@ -172,8 +172,12 @@ class LookupDomainTests(unittest.TestCase):
                 self.assertTrue(out['research_only'])
                 self.assertFalse(out['public_enabled'])
                 self.assertFalse(out['ai_enabled'])
+                # E0339 (TJ-018.3 B-2): the route completed its
+                # sealed Phase1/Phase2 registration (r035 /
+                # bazi.phase2.pattern_route); the disclosure field
+                # flipped, route semantics unchanged.
                 self.assertEqual(out['evidence_binding'],
-                                 'pending_phase1_rule_registration')
+                                 'registered_phase1_phase2')
                 self.assertEqual(out['adjudication_notes'],
                                  list(LUREN_ADJUDICATION_NOTES))
                 self.assertEqual(out['scope_limits'],
