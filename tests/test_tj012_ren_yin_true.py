@@ -132,8 +132,11 @@ class LookupOrderTests(unittest.TestCase):
         self.assertTrue(out['research_only'])
         self.assertFalse(out['public_enabled'])
         self.assertFalse(out['ai_enabled'])
+        # E0344 (governance execution-binding batch): the block is
+        # registered (Phase1 bazi.rule.r037 / Phase2
+        # bazi.phase2.ren_yin_true_pattern); the disclosure flipped.
         self.assertEqual(out['evidence_binding'],
-                         'pending_phase1_rule_registration')
+                         'registered_phase1_phase2')
         self.assertEqual(out['adjudication_notes'],
                          list(REN_YIN_ADJUDICATION_NOTES))
         self.assertEqual(out['scope_limits'], list(REN_YIN_LIMITATIONS))

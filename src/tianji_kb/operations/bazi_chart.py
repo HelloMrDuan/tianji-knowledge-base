@@ -7,7 +7,8 @@ from ..bazi_adjudication import ADJUDICATION_VARIANT, strength_assessment
 from ..bazi_root_conditions import STRENGTH_VARIANT, AVAILABILITY_VARIANT, root_conditions, root_availability, conditional_factor_graph
 from ..bazi_strength import FACTOR_VARIANT, factors as _strength_factors
 from ..bazi_pattern import (PATTERN_VARIANT, candidates as pattern_candidates,
-                            month_pattern_route, month_pattern_zaqi)
+                            month_pattern_route, month_pattern_zaqi,
+                            ren_yin_true_pattern)
 from ..bazi_tiaohou import VARIANT as TIAOHOU_VARIANT, tiaohou_assessment
 from ..bazi_bingyao import VARIANT as BINGYAO_VARIANT, bingyao_assessment
 from ..bazi_conflict_presentation import VARIANT as CONFLICT_VARIANT, conflict_presentation
@@ -25,7 +26,7 @@ def strength_factors(pillars, day_master, *, factor_variant=FACTOR_VARIANT, outp
         raise ValueError('Unsupported factor output')
     return observed[output_key]
 
-def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=False, include_relations=False, traditional_role=None, strength_variant=None, month_command_variant=None, root_availability_variant=None, action_effect_variant=None, variant=VARIANT, *, pattern_variant=None, tiaohou_variant=None, bingyao_variant=None, conflict_variant=None, readable_variant=None, annual_reference_years=None, annual_boundary_years=None, dayun_sequence_direction=None, dayun_sequence_count=8, include_punishment_facts=False):
+def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=False, include_relations=False, traditional_role=None, strength_variant=None, month_command_variant=None, root_availability_variant=None, action_effect_variant=None, variant=VARIANT, *, pattern_variant=None, tiaohou_variant=None, bingyao_variant=None, conflict_variant=None, readable_variant=None, annual_reference_years=None, annual_boundary_years=None, dayun_sequence_direction=None, dayun_sequence_count=8, include_punishment_facts=False, ren_yin_pilot_result=None):
     if variant != VARIANT:
         raise ValueError("Unsupported Bazi variant")
     if type(include_xianchi) is not bool:
@@ -34,6 +35,8 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
         raise ValueError("include_relations must be boolean")
     if type(include_punishment_facts) is not bool:
         raise ValueError("include_punishment_facts must be boolean")
+    if ren_yin_pilot_result is not None and not isinstance(ren_yin_pilot_result, dict):
+        raise ValueError("ren_yin_pilot_result must be an explicit pilot result object")
     if traditional_role is not None and traditional_role not in ("male", "female"):
         raise ValueError("traditional_role must be male or female")
     if annual_reference_years is not None:
@@ -334,6 +337,32 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
                   {'pattern_variant': pattern_variant}, zaqi)
         result['pattern_zaqi'] = zaqi
         result['production_scope'] += '；研究用正官/印绶月藏透干候选位置，不定格或判断成败喜用；含任氏禄刃路线负向裁定（月逢禄刃无格可取、借用路线未定），不定格名真假用神；含杂气月选格陈述（原注分支：戊己日看人元透出、一般日主只录原文不换算土格）与三命杂气格流派冲突并列，不定格名真假用神'
+        if ren_yin_pilot_result is not None:
+            # TJ-012.3 Slice D-1: Ren-branch 寅月 true-pattern
+            # determination over the executed structural facts and an
+            # EXPLICIT Slice C pilot result. Governance execution
+            # binding (E0344): the determination is registered
+            # (Phase1 bazi.rule.r037 / Phase2
+            # bazi.phase2.ren_yin_true_pattern, Canonical sections
+            # s053/s054/s024 bind the definition, procedure and
+            # segment quotes), so it now executes through trace.add
+            # like the route/zaqi steps above and enters RuleMatch
+            # and Evidence; the block itself attaches to the result
+            # beside the zaqi statement, byte-identical apart from
+            # its registration disclosure fields. chart() carries no
+            # birth instant or Jie declarations and never calls the
+            # pilot itself (adjudication D4): the pilot block stays
+            # an explicit caller-supplied input claim, identity-pinned
+            # and cross-checked against executed facts by the
+            # composition function (adjudication D6). Default None:
+            # the default envelope stays byte-identical.
+            ren_yin = ren_yin_true_pattern(trace, ren_yin_pilot_result)
+            trace.add('bazi.phase2.ren_yin_true_pattern',
+                      {'pattern_variant': pattern_variant,
+                       'pilot_variant': ren_yin['pilot']['variant']},
+                      ren_yin)
+            result['pattern_determination_ren_yin'] = ren_yin
+            result['production_scope'] += '；含任氏寅月真格裁定（显式司令试点结果为输入声明：司令透于年/月/时干则真格成立，不透则无真格；不输出假格、成败、清浊、用神，不外推其他月份）'
     if tiaohou_variant is not None:
         # TJ-013.1: consumes only the executed pillar/ten-god/hidden-stem
         # steps above. Not a trace.add: this Variant has no sealed Phase1

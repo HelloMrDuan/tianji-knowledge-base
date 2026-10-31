@@ -1413,10 +1413,15 @@ def month_pattern_zaqi(trace):
 #   月支藏干（已执行事实），透于年/月/时干（日干除外）则真格成立，
 #   格名由司令干对日主的已执行十神换算；不透则
 #   commander_not_visible。
-# - D4 落地形态（先行审计审定）：operations.bazi_chart.chart() 不携
-#   带出生瞬时与 jie 声明，试点不能在 chart 内调用，故本块落为独立
-#   组合函数（trace 消费＋显式传入试点结果），不附 chart、不新增
-#   trace rule、不进 RuleMatch 与 Evidence；公开投影对
+# - D4 落地形态（先行审计审定，E0344 执行绑定补记）：operations.
+#   bazi_chart.chart() 不携带出生瞬时与 jie 声明，试点不能在 chart
+#   内调用，试点结果恒为显式输入；本块本体为独立组合函数（trace
+#   消费＋显式传入试点结果）。原审定「不附 chart、不新增 trace
+#   rule」已由治理执行绑定批（E0344）承接变更：chart 以门控参数
+#   ren_yin_pilot_result（默认 None）接受显式试点结果，块在
+#   pattern 块内经 trace.add 注册步
+#   bazi.phase2.ren_yin_true_pattern（Phase1 bazi.rule.r037）产
+#   出、进 RuleMatch 与 Evidence；公开投影对
 #   pattern_determination_ren_yin 键防御性整体剥离（与 Slice A/B/C
 #   剥离点同形）。
 # - D5 格名换算：格名是 s053 定义内的机械换算名（司令干对日主十神
@@ -1464,7 +1469,7 @@ REN_YIN_ADJUDICATION_NOTES = (
     'D1 保守读法（父级裁定）：commander_not_visible 是 s053 定义的否定面，结论止于「司令不透、无真格」，永不使用「假格」标签；破格/成败/清浊/用神恒 None 并逐字段标 unreviewed。',
     'D2 日干不计透（父级裁定）：「透」与事实层 day_stem_excluded 及 Slice A/B 全部透干消费同义，日干不计入透干；原文对柱位沉默，此为审定而非原文结论；Slice B 的 B2 陈述级口径经本裁定升格为 determination 级（B2 口径升格），可经后续订正事件推翻。',
     'D3 判定序：月支域门（寅）→ 禄刃路线优先序（Slice A 审定 A1：排除先于司令/真假步）→ 试点 computed → 司令透干核对；任一步不满足即 abstained 并注明步号与原因。',
-    'D4 落地形态：独立组合函数（trace 消费＋显式传入试点结果）；chart() 不携带出生瞬时与 jie 声明，试点不能在 chart 内调用，故不附 chart、不新增 trace rule；公开投影对 pattern_determination_ren_yin 键防御性整体剥离。',
+    'D4 落地形态：独立组合函数（trace 消费＋显式传入试点结果）；chart() 不携带出生瞬时与 jie 声明，试点不能在 chart 内调用，试点结果恒为显式输入；治理执行绑定批（E0344）将本块经 chart 门控参数 ren_yin_pilot_result 接入 ExecutionTrace 注册步 bazi.phase2.ren_yin_true_pattern（Phase1 bazi.rule.r037）产出、进 RuleMatch 与 Evidence；公开投影对 pattern_determination_ren_yin 键防御性整体剥离。',
     'D5 格名换算：格名 = 司令干对日主的已执行十神＋「格」的机械换算名（s053 定义内读法）；司令与日主同干且透于他柱时十神为比肩，换算名「比肩格」如实记录，本块不就该名目是否属通行八格名目清单另行裁定。',
     'D6 试点信任界：试点结果为显式输入声明，本块核验其 Variant/约定身份钉值，并以已执行事实交叉核对司令（须为月支藏干、透干位置经 hidden_to_visible 与 ten_gods 双事实一致）；不符即 abstained。司令的独立复算属试点自身契约，本块不重复。',
 )
@@ -1473,7 +1478,7 @@ REN_YIN_LIMITATIONS = (
     '本块只裁定任氏分支寅月真格成立与否一件事，不构成任氏八格真假判断体系；不得据此宣称已经判定假格、喜用神或吉凶（用户 Slice C 裁定第五节边界）。',
     '破格未审：八格章无逐格破格条件句，破格审定材料（渊海分神专论）尚未逐节登记且多依赖未裁定的旺衰与三刑事实；success_failure/purity/useful_god 恒 None 并逐字段标 unreviewed。',
     '不外推其他月份：分日司令冲突矩阵其余月份仍 conflict/research_only，司令扩月须新的用户级流派裁定，不在本切片权力内。',
-    '本块尚无密封 Phase1/Phase2 rule 注册（evidence_binding=pending_phase1_rule_registration），不进 RuleMatch 与 Evidence；恒 research_only，公开投影整体剥离。',
+    '本块已完成密封 Phase1/Phase2 rule 注册（evidence_binding=registered_phase1_phase2；Phase1 bazi.rule.r037、Phase2 bazi.phase2.ren_yin_true_pattern，治理执行绑定批 E0344），经 chart 门控显式输入接入 ExecutionTrace、进 RuleMatch 与 Evidence；恒 research_only，公开投影整体剥离。',
 )
 
 REN_YIN_UNREVIEWED = {
@@ -1598,7 +1603,7 @@ def ren_yin_true_false_lookup(day_stem, month_branch, *, route, pilot_status,
         'unreviewed': dict(REN_YIN_UNREVIEWED),
         'qualified_for_determination': False,
         'research_only': True, 'public_enabled': False, 'ai_enabled': False,
-        'evidence_binding': 'pending_phase1_rule_registration',
+        'evidence_binding': 'registered_phase1_phase2',
         'adjudication_notes': list(REN_YIN_ADJUDICATION_NOTES),
         'scope_limits': list(REN_YIN_LIMITATIONS),
         'scope': ('只裁定任氏（滴天髓阐微）分支、寅月、真格成立与否：司令之神'
