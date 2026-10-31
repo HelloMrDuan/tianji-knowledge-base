@@ -1270,6 +1270,9 @@ SEALED_MEASUREMENTS = {
 # s066/s067 (Sanming zaqi witness windows); all three texts
 # verified in the E0342 sealed run to contain none of the
 # HEHUA_KEYWORDS and no 五合, so the keyword pins are unchanged.
+# E0344 (governance ren-pattern execution binding): no new
+# Canonical sections (the ren anchors s053/s054/s024 already
+# exist), so the section pins are unchanged.
 'phase1_sections_total': 67,
 'phase1_sections_with_hehua_keywords': 0,
 'phase1_sections_with_wuhe': ['bazi.section.s010'],
@@ -1287,7 +1290,10 @@ SEALED_MEASUREMENTS = {
 # E0342: +1 Phase1 rule bazi.rule.r036 (zaqi selection
 # statement) and +1 Phase2 rule below for its step; neither
 # carries hehua content either.
-'phase1_rules_total': 36,
+# E0344: +1 Phase1 rule bazi.rule.r037 (Ren yin true-pattern
+# determination) and +1 Phase2 rule below for its step; neither
+# carries hehua content either.
+'phase1_rules_total': 37,
 'phase1_concepts_total': 18,
 'phase1_hehua_concepts': 0,
 'phase1_concept_ids': [
@@ -1310,7 +1316,7 @@ SEALED_MEASUREMENTS = {
 'bazi.concept.bounded_strength_adjudication_v1',
 'bazi.concept.pattern_candidates_v1',
 ],
-'phase2_rules_total': 37,
+'phase2_rules_total': 38,
 'foundations_stem_combinations': [['甲', '己', '土'],
 ['乙', '庚', '金'], ['丙', '辛', '水'], ['丁', '壬', '木'],
 ['戊', '癸', '火']],

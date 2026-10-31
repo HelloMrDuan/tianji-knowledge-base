@@ -64,13 +64,15 @@ class CanonicalBuildTests(unittest.TestCase):
         # (bazi.term.luren_route) and +1 rule (r035).
         # E0342 (zaqi promotion): +2 chapters and +3 sections
         # (s065/s066/s067), +1 term (zaqi_selection), +1 rule (r036).
+        # E0344 (ren promotion): no new chapters/sections, +1 term
+        # (ren_true_pattern), +1 rule (r037).
         self.assertEqual(len(bundle['chapters']), 27)
         self.assertEqual(len(bundle['sections']), 67)
-        self.assertEqual(len(bundle['terms']), 33)
+        self.assertEqual(len(bundle['terms']), 34)
         # E0333 (TJ-018.3 execution-binding batch 1): +1 rule for
         # bazi.rule.r031 (sanxing structural facts); E0335 adds
         # r032/r033/r034 on top.
-        self.assertEqual(len(bundle['rules']), 36)
+        self.assertEqual(len(bundle['rules']), 37)
         self.assertEqual(len(bundle['concepts']), 18)
 
     def test_classic_binding_only_source_ids_added(self):
@@ -156,7 +158,8 @@ class NoRegistrationTests(unittest.TestCase):
         # list (32 + 3).
         # E0339: +1 luren route step (35 + 1).
         # E0342: +1 zaqi statement step (36 + 1).
-        self.assertEqual(len(phase2['rules']), 37)
+        # E0344: +1 ren true-pattern step (37 + 1).
+        self.assertEqual(len(phase2['rules']), 38)
         punish = [r['id'] for r in phase2['rules']
                   if 'punish' in r['id'] or 'sanxing' in r['id']]
         self.assertEqual(punish,

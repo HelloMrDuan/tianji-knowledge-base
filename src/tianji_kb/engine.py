@@ -89,6 +89,8 @@ def execute(domain,inputs,variant=None,*,allow_research=False):
         raise ValueError('Branch punishment structural facts require explicit research mode')
     if domain == 'bazi' and inputs.get('pattern_variant') is not None and not allow_research:
         raise ValueError('Pattern candidate observations require explicit research mode')
+    if domain == 'bazi' and inputs.get('ren_yin_pilot_result') is not None and not allow_research:
+        raise ValueError('Ren yin true-pattern determination requires explicit research mode')
     if domain == 'bazi' and inputs.get('tiaohou_variant') is not None and not allow_research:
         raise ValueError('Tiaohou entry statements require explicit research mode')
     if domain == 'bazi' and inputs.get('bingyao_variant') is not None and not allow_research:

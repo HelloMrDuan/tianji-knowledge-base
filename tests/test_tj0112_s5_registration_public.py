@@ -79,6 +79,10 @@ class InventoryCoverageTests(unittest.TestCase):
         # E0342 (governance zaqi promotion): pattern-zaqi flipped
         # (r036 + bazi.phase2.pattern_zaqi), leaving the flipped set
         # at eight and the maintained-pending inventory at seven.
+        # E0344 (governance ren promotion): ren-pattern-yin-true-v1
+        # flipped (r037 + bazi.phase2.ren_yin_true_pattern),
+        # leaving the flipped set at nine and the maintained-pending
+        # inventory at six.
         self.assertEqual(sorted(gov.FLIPPED_ITEMS),
                          ['commanding_visible_support',
                           'lu_visible_support',
@@ -87,8 +91,9 @@ class InventoryCoverageTests(unittest.TestCase):
                           'pure_generating_support',
                           'pure_generating_support_water',
                           'pure_support_metal',
+                          'ren-pattern-yin-true-v1',
                           'sanxing-branch-fact-v1'])
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 7)
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 6)
 
 
 class FuyiRegisterStaysUnwiredTests(unittest.TestCase):
@@ -178,12 +183,15 @@ class RecordConsistencyTests(unittest.TestCase):
         # records -- still an exact equality, no slack.
         # B-2 (E0339) added TJ0183_B2_RECORD (r035 / pattern_route).
         # E0342 added GOVERNANCE_ZAQI_RECORD (r036 / pattern_zaqi).
+        # E0344 added GOVERNANCE_REN_RECORD (r037 /
+        # ren_yin_true_pattern).
         records = [gov.S5_REGISTRATION_RECORD,
                    gov.TJ0183_P1_RECORD,
                    gov.TJ0183_EXECBIND_RECORD,
                    gov.TJ0183_P2_RECORD,
                    gov.TJ0183_B2_RECORD,
-                   gov.GOVERNANCE_ZAQI_RECORD]
+                   gov.GOVERNANCE_ZAQI_RECORD,
+                   gov.GOVERNANCE_REN_RECORD]
         flipped_phase1 = sorted(
             row['phase1_rule_id'] for row in gov.REGISTRATION_INVENTORY
             if row['disposition'] == 'registered')
