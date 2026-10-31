@@ -930,6 +930,66 @@ GOVERNANCE_SHENFENG_RECORD = {
 }
 
 
+# tiaohou-qiongtong-v1 Canonical design ADJUDICATION record
+# (E0350). DESIGN ONLY: nothing in this record creates an entity,
+# binds a rule or flips a registration. The tiaohou-qiongtong-v1
+# inventory row stays maintained_pending /
+# canonical_evidence_absent; the planned-id fields below name the
+# design-final designations from
+# docs/product/TIAOHOU_CANONICAL_DESIGN.md (D-T1..D-T6) and assert
+# nothing about the sealed bundle. The record lives in this
+# governance module (the GOVERNANCE_*_RECORD form used since
+# E0333) rather than a standalone register module: the TJ-018.3
+# registers are machine-consumed pipeline pins, while this design
+# is consumed by governance tests and the implementation batch's
+# brief, and batch-record consistency governs.
+TIAOHOU_DESIGN_RECORD = {
+    'batch': 'tiaohou canonical design adjudication',
+    'event': 'E0350',
+    'date': '2026-11-01',
+    'document': 'docs/product/TIAOHOU_CANONICAL_DESIGN.md',
+    'variant': 'tiaohou-qiongtong-v1',
+    'implementation_status': 'design_only_not_implemented',
+    'design_decisions': ['D-T1', 'D-T2', 'D-T3', 'D-T4',
+                         'D-T5', 'D-T6'],
+    'planned_source_id': 'bazi.source.qiongtong',
+    'planned_classic_id': 'bazi.classic.qiongtong',
+    'planned_classic_body_stage': 'quarantine',
+    'planned_chapter_count': 11,
+    'planned_first_chapter_id': 'bazi.chapter.qiongtong_zonglun',
+    'planned_last_chapter_id': 'bazi.chapter.qiongtong_gui',
+    'planned_section_count': 110,
+    'planned_entry_section_count': 109,
+    'planned_anchor_section_count': 1,
+    'planned_first_section_id': 'bazi.section.s075',
+    'planned_last_section_id': 'bazi.section.s184',
+    'planned_term_id': 'bazi.term.tiaohou',
+    'planned_phase1_rule_count': 10,
+    'planned_first_phase1_rule_id': 'bazi.rule.r042',
+    'planned_last_phase1_rule_id': 'bazi.rule.r051',
+    'planned_phase1_refs_total': 120,
+    'planned_phase2_step_id': 'bazi.phase2.tiaohou_assessment',
+    'planned_phase2_rule_ref_count': 10,
+    'measured_entry_count': 119,
+    'measured_distinct_span_count': 109,
+    'measured_distinct_refs': 120,
+    'measured_absent_grid': ['乙×丑'],
+    'measured_encoded_branch_rules': 10,
+    'golden_criteria_planned': ['G1', 'G2', 'G3', 'G4', 'G5',
+                                'G6'],
+    'maintenance_delta_planned': 'maintained 4 -> 3 on flip',
+    'boundary':
+        'Design and read-only tracing only. No Canonical entity '
+        'was created, no rule or step was bound, no registration '
+        'was flipped, bazi_tiaohou.py is byte-untouched (ENTRIES '
+        'and the pending_phase1_rule_registration disclosure '
+        'unchanged), and no sealed asset, snapshot or cicd pin '
+        'changed. Implementation waits for a separately '
+        'dispatched batch after the E0351 closeout; siling and '
+        'the deferred U1/U3 decisions are untouched.',
+}
+
+
 REASON_CLASSES = {
     'canonical_evidence_absent':
         '定义性原典锚点在密封 Canonical 中无对应 section（或经典不在 '

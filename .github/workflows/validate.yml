@@ -754,6 +754,20 @@ jobs:
       # test_phase2_bazishenfeng.py (offline acceptance only,
       # NOT public CI: it reads the sealed bundle).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_governance_shenfeng_expansion_public.py' -v
+      # Governance tiaohou Canonical design adjudication (E0350)
+      # public contracts: DESIGN ONLY -- the TIAOHOU_DESIGN_RECORD
+      # on file with its planned designations (classic
+      # bazi.classic.qiongtong quarantine, 11 chapters, 110
+      # sections s075-s184, term bazi.term.tiaohou, rules
+      # r042-r051 with 120 exact refs, step
+      # bazi.phase2.tiaohou_assessment), the tiaohou-qiongtong-v1
+      # row STILL maintained_pending /
+      # canonical_evidence_absent with the maintained set at four,
+      # the tiaohou module semantics unchanged (119 entries,
+      # evidence_binding still pending_phase1_rule_registration),
+      # and the design document on file. No sealed data is read;
+      # implementation belongs to a later batch.
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_governance_tiaohou_design_public.py' -v
       # TJ-018.3-B1 (E0338) sanming juan3 shiganlu collation
       # register (new juan3 register volume, pure registration)
       # public contracts: pure-data register mirrored against
