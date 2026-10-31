@@ -246,6 +246,92 @@ TJ0183_EXECBIND_RECORD = {
                               '剥离、研究门控默认关）。',
 }
 
+# TJ-018.3 批二卷二干支三规则实施批记录（E0335，用户 2026-10-30
+# 锁定顺序、2026-10-31 授权启动；规范依据 P2 干支审定 E0331 与
+# 执行绑定设计 §§0–7）：为三命卷二干支两节建 Canonical
+# chapter/section 并逐条绑定引文，三条旺衰谓词各以自有 Phase1
+# 规则（r032/r033/r034）与 Phase2 规则步完成注册，逐谓词独立
+# 翻转。形制与 TJ0183_EXECBIND_RECORD 同构：私有数据树著录 ->
+# 暂存导出 -> 校验 -> 父级合并前同步换位 live 快照并改钉
+# （先换代、后合并）。
+TJ0183_P2_RECORD = {
+    'batch': 'TJ-018.3 批二 卷二干支三规则实施批',
+    'event': 'E0335',
+    'date': '2026-10-31',
+    'document': 'docs/product/TJ0183_GANZHI_EXECUTION_BINDING.md',
+    'canonical_chapters_added': [
+        'bazi.chapter.sanming_tianganshengsi',
+        'bazi.chapter.sanming_wangxiangjisheng'],
+    'canonical_sections_added': ['bazi.section.s061', 'bazi.section.s062'],
+    'canonical_terms_added': [],
+    'phase1_rules_added': ['bazi.rule.r032', 'bazi.rule.r033', 'bazi.rule.r034'],
+    'phase2_rules_added': [
+        'bazi.phase2.strength_lu_visible_support',
+        'bazi.phase2.strength_pure_support_metal',
+        'bazi.phase2.strength_pure_generating_support_water'],
+    'golden_cases_added': [
+        'bazi.strength-ganzhi-lu-positive',
+        'bazi.strength-ganzhi-water-positive',
+        'bazi.strength-ganzhi-metal-negative-xin-clashed-roots',
+        'bazi.strength-ganzhi-metal-negative-geng-stem-combination'],
+    'registration_flip': 'lu_visible_support、pure_support_metal、'
+        'pure_generating_support_water 三项处置由 maintained_pending'
+        '（canonical_evidence_absent）逐项独立翻转为 registered；'
+        'MAINTAINED_ITEMS 由 12 项减为 9 项。三项各自的定义锚绑定、'
+        'Golden/等价与注册契约分别成立，不捆绑成败。金×酉步 '
+        'validation_status 保持 pending（构造性不可满足、无真实盘'
+        '正例，golden_case_ids 指向负例见证集——E0335 父级审定'
+        '定稿，治理文档 §3 在册），与步注册本身分开记账。',
+    'binding_exclusions': '丁隔离（绑定层）：三条新规 source_refs 与 '
+        '{sm2.ding_sheng, sm2.ding_shengsi} 交集为空（密封注册测试'
+        '机检断言）；DING_BLOCK 与 DING_SI_DISPOSITION／'
+        'DING_YIN_DISPOSITION 的 blocked_by_conflict 登记逐字不变'
+        '（回归断言）。□1 排除：任何绑定引文不覆盖 S0/S3 42148、'
+        'lunyue_summary 尾段 [42116,42151) 整段排除、伪绑定负例被'
+        '拒绝、缺口 disposition=unresolved（密封注册测试三断言）。'
+        '帝旺代偿：庚帝旺酉／壬帝旺子全链 framework_derived、等级'
+        '随行、注册措辞定稿在册，禁用表述（S1 六条＋火线两条）落'
+        '密封测试断言。',
+    'sealed_files_changed': [
+        'data/canonical/bazi/phase1_knowledge.json',
+        'data/canonical/bazi/phase2_execution.json',
+        'data/canonical/bazi/phase2_golden.json',
+        'data/coverage/phase1.json'],
+    'sealed_file_sha256_after': {
+        'data/canonical/bazi/phase1_knowledge.json':
+            '6501e0b6b042f876ebb314c5e1135ffb809ec983afd019aa2038bd6e1453ca96',
+        'data/canonical/bazi/phase2_execution.json':
+            'aaf8a385ce1d394a8dae1dd0248238bc42eddb5cdf9ff9b9dafa5945eef21e3c',
+        'data/canonical/bazi/phase2_golden.json':
+            '7f1620de41ed2fcc93cba2c4a8a26aaa7b0bb42e61cbb0d4be6bdb27d3a4f186',
+        'data/coverage/phase1.json':
+            'a9aa13a45a230dbe074eac4cf7f447748faa7bd02578867acfe249904ab7bc44'},
+    'snapshot_files_before': 237,
+    'snapshot_files_after': 237,
+    'snapshot_bytes_before': 15922702,
+    'snapshot_bytes_after': 15964218,
+    'manifest_sha256_before':
+        'b93e4b97830ff15aca1a9e77847796e5ddd5cb7e1f3cd6512db20a358c159622',
+    'manifest_sha256_after':
+        'c815dc4ed02a9b7d0bd1487c3e1ed4e39d0bc826659d4ff0fb7f8a37ff685cdf',
+    'pin_record': '新钉值（manifest_sha256_after）须由父级在本批 '
+        'PR 合并前换位 live 快照并更新可信机 cicd 钉值（先换代、'
+        '后合并，E0329 竞态教训）；私有检出侧 EXPECTED_BYTES='
+        '15964218 与检出 manifest 已同步重生并 verify 通过；回退'
+        '路径不变（恢复旧快照目录 + 旧钉值，且新代码在旧快照下'
+        '对翻转谓词触发盘 fail-closed、默认路径与批一基线逐字'
+        '一致，回滚演练记录见治理文档 §6）。',
+    'verdict_surface_change': '三谓词裁定面变化仅在设计 §7.2 封闭'
+        '清单内：why.sufficient_rule（None -> 各谓词注册步 ID）、'
+        'sufficient_predicate 与 predicate_rule_registration 两键'
+        '移除、matched_rule_ids 新增注册步、trace 新增注册步及其 '
+        'evidence、limitations 注册状态句改写（金/水共用句拆为两'
+        '句）、治理登记 disposition 翻转；分类、条件集、blocker '
+        '集与其余谓词/变体产出逐盘逐字段不变（等价比对集在册）。'
+        '用户可见能力变化仅限翻转谓词的研究层披露字段；production '
+        '投影与 research_only 姿态不变。',
+}
+
 REASON_CLASSES = {
     'canonical_evidence_absent':
         '定义性原典锚点在密封 Canonical 中无对应 section（或经典不在 '
@@ -304,37 +390,64 @@ REGISTRATION_INVENTORY = [
         'subject': '旺衰谓词 丙×巳 禄月显纯生扶',
         'disclosure_sites': ['src/tianji_kb/bazi_adjudication.py',
                              'src/tianji_kb/bazi_fire_si_yin_morphology.py'],
-        'disposition': 'maintained_pending',
-        'reason_class': 'canonical_evidence_absent',
-        'reason': '定义性锚点「丙禄在巳」（三命卷二逐干句、卷三禄节、'
-                  '神峰禄表）无 canonical section：Canonical 三命通会'
-                  '仅咸池一节，神峰通考不在 Canonical 经典内。F34 登记 '
-                  '13 条引文引用中三命/神峰部分 0 条可在 Canonical 验证。',
-        'unlock_path': '先行 Canonical sections 扩编（三命卷二/卷三禄节'
-                       '逐节登记入 Canonical 并复核），再行注册批。',
+        'disposition': 'registered',
+        'phase1_rule_id': 'bazi.rule.r032',
+        'phase2_rule_id': 'bazi.phase2.strength_lu_visible_support',
+        'reason': '定义锚点经 TJ-018.3 P2 审定（E0331）与批二'
+                  '（E0335）落实：三命卷二《论天干阴阳生死》整节建成 '
+                  'Canonical section bazi.section.s061（正式应用'
+                  '工作本 S3 切片、零 PUA），丙禄主锚 sm2.bing_lu、'
+                  '括注临官归禄段与丙长生句逐字绑定；滴天髓侧定义锚'
+                  '（从强 s048、从旺 s047、长生禄旺根框架 s026、'
+                  '藏遁歌 s004）在 Canonical 内且与 r030 引用集'
+                  '同构；「丙禄居巳」单点互证未入 Canonical、未作'
+                  '绑定（与 r024/r030 只引用 Canonical 子集的先例'
+                  '一致；卷三禄节为格局路线前置、非本谓词定义锚，'
+                  'P2 审定在册）。谓词经 ExecutionTrace 执行，'
+                  '注册步可真实绑定证据，Golden 正例（1927-05-12）'
+                  '真实 fire。',
+        'unlock_path': None,
     },
     {
         'item': 'pure_support_metal',
         'subject': '旺衰谓词 金×酉 纯生扶',
         'disclosure_sites': ['src/tianji_kb/bazi_adjudication.py'],
-        'disposition': 'maintained_pending',
-        'reason_class': 'canonical_evidence_absent',
-        'reason': '根有效性定义锚点为 S1 登记的三命卷二庚/辛逐干生死句，'
-                  '10 条根引文 0 条在 Canonical sections 内（Canonical '
-                  '三命仅咸池一节）。',
-        'unlock_path': '先行 Canonical sections 扩编（三命卷二干支生死'
-                       '节登记入 Canonical），再行注册批。',
+        'disposition': 'registered',
+        'phase1_rule_id': 'bazi.rule.r033',
+        'phase2_rule_id': 'bazi.phase2.strength_pure_support_metal',
+        'reason': '定义锚点经 P2 审定（E0331）与批二（E0335）落实：'
+                  '三命卷二两节建成 Canonical sections bazi.section.'
+                  's061/s062，庚/辛逐干生死禄句、十二宫次序'
+                  '（sm2.gong_sequence）与藏遁歌酉宫句逐字绑定；'
+                  '庚帝旺酉为 framework_derived 推步位（长生明句＋'
+                  '十二宫次序＋阳干顺行，注册措辞与等级标注在册），'
+                  '辛禄酉为 per_stem_listed；辛长生三格 conflict 随'
+                  's061 元数据逐字携带、谓词阻断不变。谓词经 '
+                  'ExecutionTrace 执行，注册步可真实绑定证据；该'
+                  '谓词八条件在真实历法命盘上构造性不可满足（三'
+                  '通道证明在册），其 Phase2 步 validation_status '
+                  '保持 pending、golden_case_ids 指向负例见证集'
+                  '（E0335 父级审定定稿），不声称真实盘正例 fire。',
+        'unlock_path': None,
     },
     {
         'item': 'pure_generating_support_water',
         'subject': '旺衰谓词 水×子 纯生扶',
         'disclosure_sites': ['src/tianji_kb/bazi_adjudication.py'],
-        'disposition': 'maintained_pending',
-        'reason_class': 'canonical_evidence_absent',
-        'reason': '同 pure_support_metal：壬/癸逐干生死句 0/10 在 '
-                  'Canonical 内。',
-        'unlock_path': '先行 Canonical sections 扩编（三命卷二干支生死'
-                       '节登记入 Canonical），再行注册批。',
+        'disposition': 'registered',
+        'phase1_rule_id': 'bazi.rule.r034',
+        'phase2_rule_id': 'bazi.phase2.strength_pure_generating_support_water',
+        'reason': '定义锚点经 P2 审定（E0331）与批二（E0335）落实：'
+                  '三命卷二两节建成 Canonical sections bazi.section.'
+                  's061/s062，壬/癸逐干生死禄句、十二宫次序与藏遁歌'
+                  '子宫句逐字绑定；癸禄子为 per_stem_listed，真实盘'
+                  '正例（1981-12-21）经注册步真实 fire；壬帝旺子为 '
+                  'framework_derived 推步位（长生明句＋十二宫次序＋'
+                  '阳干顺行），壬侧真实命盘构造性不可满足（证明在'
+                  '册）、不声称正例；癸长生三格 conflict 随 s061 '
+                  '元数据逐字携带、谓词阻断不变。谓词经 '
+                  'ExecutionTrace 执行，注册步可真实绑定证据。',
+        'unlock_path': None,
     },
     {
         'item': 'dayun-classical-variants',

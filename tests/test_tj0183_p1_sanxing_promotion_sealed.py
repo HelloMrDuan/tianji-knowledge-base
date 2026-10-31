@@ -56,13 +56,16 @@ class CanonicalBuildTests(unittest.TestCase):
     def test_counts(self):
         bundle = self.bundle
         self.assertEqual(len(bundle['classics']), 4)
-        self.assertEqual(len(bundle['chapters']), 21)
-        self.assertEqual(len(bundle['sections']), 60)
+        # E0335 (TJ-018.3 execution-binding batch 2): +2 chapters
+        # and +2 sections for the two juan-2 ganzhi sections
+        # (s061/s062) and +3 rules (r032/r033/r034).
+        self.assertEqual(len(bundle['chapters']), 23)
+        self.assertEqual(len(bundle['sections']), 62)
         self.assertEqual(len(bundle['terms']), 31)
         # E0333 (TJ-018.3 execution-binding batch 1): +1 rule for
-        # bazi.rule.r031 (sanxing structural facts); every other
-        # P1 count is unchanged.
-        self.assertEqual(len(bundle['rules']), 31)
+        # bazi.rule.r031 (sanxing structural facts); E0335 adds
+        # r032/r033/r034 on top.
+        self.assertEqual(len(bundle['rules']), 34)
         self.assertEqual(len(bundle['concepts']), 18)
 
     def test_classic_binding_only_source_ids_added(self):
@@ -144,7 +147,9 @@ class NoRegistrationTests(unittest.TestCase):
                          {'bazi.section.s060'})
         phase2 = json.loads((CANONICAL_BAZI / 'phase2_execution.json')
                             .read_text(encoding='utf-8'))
-        self.assertEqual(len(phase2['rules']), 32)
+        # E0335: +3 ganzhi strength steps in this file's rules
+        # list (32 + 3).
+        self.assertEqual(len(phase2['rules']), 35)
         punish = [r['id'] for r in phase2['rules']
                   if 'punish' in r['id'] or 'sanxing' in r['id']]
         self.assertEqual(punish,

@@ -16,7 +16,8 @@ partition rule as the earlier batches). Pins:
 - the executed verdicts match the flipped Golden expectations: the
   F3 implementation batch (E0248) landed the lu_visible_support
   predicate, so the F3 scan-witness positive classifies 'strong'
-  through it (bounded exit, pending registration) and the other four
+  through it (bounded exit, pending registration -- registered
+  through its own step by TJ-018.3 batch 2, E0335) and the other four
   F3 charts stay 'indeterminate' with executed lu condition tables
   identical to the design tables; the F4 implementation batch
   (E0262, reading (乙) segment_tightened, user adjudication
@@ -187,11 +188,12 @@ class GoldenReplayTests(unittest.TestCase):
             if case['id'] == 'tj0112-f3-positive-scan-witness':
                 why = assessment['why_not_indeterminate']
                 self.assertIsNotNone(why, case['id'])
-                self.assertEqual(why['sufficient_predicate'],
-                                 'lu_visible_support', case['id'])
-                self.assertIsNone(why['sufficient_rule'], case['id'])
-                self.assertEqual(why['predicate_rule_registration'],
-                                 'pending_phase1_rule_registration',
+                # E0335 (TJ-018.3 batch 2): registered exit.
+                self.assertEqual(
+                    why['sufficient_rule'],
+                    'bazi.phase2.strength_lu_visible_support', case['id'])
+                self.assertNotIn('sufficient_predicate', why, case['id'])
+                self.assertNotIn('predicate_rule_registration', why,
                                  case['id'])
             else:
                 self.assertEqual(assessment['classification'],
@@ -240,9 +242,14 @@ class RegressionSpotCheckTests(unittest.TestCase):
         self.assertEqual(pillars, case['expected_pillars'])
         assessment = result['strength_assessment']
         self.assertEqual(assessment['classification'], 'strong')
+        # E0335 (TJ-018.3 batch 2): registered binding (r034), no
+        # predicate alias remains.
         self.assertEqual(
-            assessment['why_not_indeterminate']['sufficient_predicate'],
-            'pure_generating_support_water')
+            assessment['why_not_indeterminate']['sufficient_rule'],
+            'bazi.phase2.strength_pure_generating_support_water')
+        self.assertNotIn(
+            'sufficient_predicate',
+            assessment['why_not_indeterminate'])
 
 
 class SealedPolicyUntouchedTests(unittest.TestCase):

@@ -206,7 +206,20 @@ class UnifiedApiTests(unittest.TestCase):
         self.assertTrue(all(not row['ai_may_compute_chart'] for row in records))
         self.assertTrue(all(row['rule_count'] > 0 for row in records))
         self.assertTrue(all(row['executable_rule_count'] == row['rule_count'] for row in records))
-        self.assertTrue(all(row['validated_rule_count'] == row['rule_count'] for row in records))
+        # E0335 (TJ-018.3 execution-binding batch 2): every
+        # record is fully validated except bazi, whose single
+        # non-validated rule is the registered metal step
+        # bazi.phase2.strength_pure_support_metal -- executable
+        # with validation_status 'pending' under the parent-
+        # adjudicated negative-witness contract (constructively
+        # unsatisfiable, so no harness fire is possible).
+        for row in records:
+            if row['domain'] == 'bazi':
+                self.assertEqual(row['validated_rule_count'],
+                                 row['rule_count'] - 1)
+            else:
+                self.assertEqual(row['validated_rule_count'],
+                                 row['rule_count'])
         self.assertTrue(any(row['unresolved'] for row in records))
         self.assertTrue(any(row['golden_case_ids'] for row in records))
         serialized=str(records)

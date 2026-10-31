@@ -69,14 +69,18 @@ class InventoryCoverageTests(unittest.TestCase):
         # fact-layer slice flipped to registered (r031 + the
         # gated fact step), leaving the flipped set at three and
         # the maintained-pending inventory at twelve.
+        # E0335 (TJ-018.3 batch 2): the three ganzhi strength
+        # predicates (lu / metal / water) flipped to registered
+        # (r032/r033/r034 + their own steps), leaving the flipped
+        # set at six and the maintained-pending inventory at nine.
         self.assertEqual(sorted(gov.FLIPPED_ITEMS),
                          ['commanding_visible_support',
+                          'lu_visible_support',
                           'pure_generating_support',
+                          'pure_generating_support_water',
+                          'pure_support_metal',
                           'sanxing-branch-fact-v1'])
-        # E0329 (TJ-018.3 P1): the sanxing fact-layer slice joined
-        # the maintained-pending inventory (its Canonical section
-        # was built, but no execution binding exists to register).
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 12)
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 9)
 
 
 class FuyiRegisterStaysUnwiredTests(unittest.TestCase):
@@ -117,19 +121,27 @@ class FlippedWiringTests(unittest.TestCase):
         self.assertIn('bazi.rule.r030', text)
         self.assertNotIn('亥月分支谓词尚待密封', text)
         self.assertNotIn('午月丙日主分支谓词尚待密封', text)
+        # E0335 (TJ-018.3 batch 2): lu / metal / water limitations
+        # now name their registered rules; no pending sentence for
+        # the three predicates remains.
+        self.assertIn('bazi.rule.r032', text)
+        self.assertIn('bazi.rule.r033', text)
+        self.assertIn('bazi.rule.r034', text)
+        self.assertNotIn('巳月丙日主分支谓词尚待密封', text)
+        self.assertNotIn('酉月金日主与子月水日主分支谓词尚待密封', text)
 
     def test_pending_predicates_keep_pending_disclosure(self):
         text = (SRC / 'bazi_adjudication.py').read_text('utf-8')
-        # Exactly the lu, S2 (metal/water) and - since the F4
-        # implementation batch (E0262) - changsheng verdict shapes
-        # still disclose a pending registration in the adjudication
-        # source (three 'predicate_rule_registration' sites), plus
-        # one further quoted occurrence: the F4 combination's
+        # Since TJ-018.3 batch 2 (E0335) registered lu / metal /
+        # water, only the changsheng verdict shape (F4, E0262)
+        # still discloses a pending registration in the adjudication
+        # source (one 'predicate_rule_registration' site), plus one
+        # further quoted occurrence: the F4 combination's
         # pilot-claim binding check, which requires the Slice C
         # pilot block itself to carry the pending binding.
         self.assertEqual(
-            text.count(f"'predicate_rule_registration':'{PENDING}'"), 3)
-        self.assertEqual(text.count(f"'{PENDING}'"), 4)
+            text.count(f"'predicate_rule_registration':'{PENDING}'"), 1)
+        self.assertEqual(text.count(f"'{PENDING}'"), 2)
         for site in ('bazi_tiaohou.py', 'bazi_bingyao.py',
                      'bazi_dayun_classical.py', 'bazi_pattern.py',
                      'bazi_siling_pilot.py',
@@ -153,11 +165,13 @@ class RecordConsistencyTests(unittest.TestCase):
         # only registration record, so it alone matched the flipped
         # inventory. The sanxing execution-binding batch added its
         # own record (TJ0183_EXECBIND_RECORD; the P1 record added
-        # no rules), so the invariant is now over the union of all
-        # batch records -- still an exact equality, no slack.
+        # no rules), and batch 2 (E0335) added TJ0183_P2_RECORD,
+        # so the invariant is now over the union of all batch
+        # records -- still an exact equality, no slack.
         records = [gov.S5_REGISTRATION_RECORD,
                    gov.TJ0183_P1_RECORD,
-                   gov.TJ0183_EXECBIND_RECORD]
+                   gov.TJ0183_EXECBIND_RECORD,
+                   gov.TJ0183_P2_RECORD]
         flipped_phase1 = sorted(
             row['phase1_rule_id'] for row in gov.REGISTRATION_INVENTORY
             if row['disposition'] == 'registered')

@@ -17,9 +17,12 @@ partition rule as the other Phase2 bazi suites. Pins:
 - witness charts for the two predicates report
   why.sufficient_rule == the registered rule ID, with no
   pending-registration disclosure left;
-- the still-pending predicates (lu / metal / water) keep their
-  r026-exit disclosure verbatim (registration was NOT extended to
-  them: their defining root evidence has no canonical section).
+- the predicates that were still pending at S5 time (lu / metal /
+  water) were registered by TJ-018.3 batch 2 (E0335) once their
+  defining root evidence was bound into Canonical sections s061 /
+  s062; the water witness below now reports its own registered
+  exit. (The changsheng predicate remains pending and keeps its
+  r026-exit disclosure, pinned by the F34 suites.)
 """
 import unittest
 from pathlib import Path
@@ -102,20 +105,23 @@ class WitnessVerdictTests(unittest.TestCase):
         self.assertIn('bazi.phase2.strength_commanding_visible_support',
                       a['matched_rule_ids'])
 
-    def test_pending_predicates_keep_r026_disclosure(self):
-        # S2 witness (Gui x Zi, pure_generating_support_water): the
-        # registration was NOT extended to it -- its defining root
-        # evidence has no canonical section (S5 governance register).
+    def test_water_predicate_registered_in_batch2(self):
+        # TJ-018.3 batch 2 (E0335): the S2 witness (Gui x Zi,
+        # pure_generating_support_water) now takes its own registered
+        # exit (bazi.rule.r034 /
+        # bazi.phase2.strength_pure_generating_support_water) -- the
+        # P2 adjudication follow-through bound its defining root
+        # evidence into Canonical sections s061/s062. Classification
+        # and conditions are unchanged (batch equivalence record).
         a = self.run_birth('1981-12-21T00:30:00+08:00')
         self.assertEqual(a['classification'], 'strong')
         why = a['why_not_indeterminate']
-        self.assertIsNone(why['sufficient_rule'])
-        self.assertEqual(why['sufficient_predicate'],
-                         'pure_generating_support_water')
-        self.assertEqual(why['predicate_rule_registration'],
-                         'pending_phase1_rule_registration')
-        self.assertNotIn('bazi.phase2.strength_pure_generating_support_water',
-                         a['matched_rule_ids'])
+        self.assertEqual(why['sufficient_rule'],
+                         'bazi.phase2.strength_pure_generating_support_water')
+        self.assertNotIn('sufficient_predicate', why)
+        self.assertNotIn('predicate_rule_registration', why)
+        self.assertIn('bazi.phase2.strength_pure_generating_support_water',
+                      a['matched_rule_ids'])
 
 
 if __name__ == '__main__':

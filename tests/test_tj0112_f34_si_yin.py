@@ -114,8 +114,14 @@ class TestFormStructure(unittest.TestCase):
         # month positions rest on per-stem listed sentences.
         self.assertNotIn('framework_derived',
                          {c['anchor_type'] for c in form['conditions']})
-        self.assertEqual(form['evidence_binding'],
-                         'pending_phase1_rule_registration')
+        if form['form_id'] == 'bing-si-lu-commanding-visible-support-v1':
+            # E0335 (TJ-018.3 batch 2): F3 form registered.
+            self.assertTrue(form['evidence_binding'].startswith(
+                'registered_phase1_phase2'))
+            self.assertIn('bazi.rule.r032', form['evidence_binding'])
+        else:
+            self.assertEqual(form['evidence_binding'],
+                             'pending_phase1_rule_registration')
         self.assertIs(form['research_only'], True)
         self.assertIs(form['public_enabled'], False)
         self.assertIs(form['ai_enabled'], False)

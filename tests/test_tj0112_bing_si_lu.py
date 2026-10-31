@@ -11,12 +11,15 @@ Coverage:
   (no fire/earth root set appears);
 - the exhaustion-unique positive (the adjudication batch's scan
   witness) classifies strong through the lu_visible_support
-  predicate: bounded exit bazi.rule.r026, sufficient_rule None,
-  pending_phase1_rule_registration disclosed, every adjudication
-  condition annotated with its registered anchor_type from
-  FORM_BING_SI (governance convention never relabelled), no blockers,
-  research gates shut, limitations disclose the pending registration
-  and the hidden-layer governance convention;
+  predicate: since TJ-018.3 batch 2 (E0335) the verdict is issued
+  through its own registered step (bazi.rule.r032 /
+  bazi.phase2.strength_lu_visible_support) -- at the F3 batch it
+  used the bounded exit bazi.rule.r026 with the pending
+  registration disclosed; every adjudication condition annotated
+  with its registered anchor_type from FORM_BING_SI (governance
+  convention never relabelled), no blockers, research gates shut,
+  limitations disclose the completed registration and the
+  hidden-layer governance convention;
 - the Si hidden Wu (output) / Geng (wealth) are recorded, never
   vetoes (convention instance fire-morph.wu-geng-in-si-non-veto);
 - the adjudication batch's five design charts reproduce their
@@ -142,7 +145,7 @@ class LuScopeShapeTests(unittest.TestCase):
 
 
 class BingSiPositiveTests(unittest.TestCase):
-    def test_positive_strong_via_bounded_exit(self):
+    def test_positive_strong_via_registered_step(self):
         case, out, result, pillars = run_case('tj0112-bingsi-positive')
         self.assertEqual(pillars, case['expected_pillars'])
         effects = result['action_effects']
@@ -161,18 +164,21 @@ class BingSiPositiveTests(unittest.TestCase):
                          'reviewed_sufficient_rule_matched')
         why = assessment['why_not_indeterminate']
         self.assertIsNotNone(why)
-        # Registered bounded exit, exactly like the commanding and
-        # Hai predicates: no rule ID is claimed or borrowed, the
-        # pending registration is disclosed on the verdict itself.
-        self.assertIsNone(why['sufficient_rule'])
-        self.assertEqual(why['sufficient_predicate'],
-                         'lu_visible_support')
-        self.assertEqual(why['predicate_rule_registration'],
-                         'pending_phase1_rule_registration')
+        # TJ-018.3 batch 2 (E0335): the verdict is issued through
+        # the predicate's own registered step (bazi.rule.r032 /
+        # bazi.phase2.strength_lu_visible_support), exactly like
+        # the commanding and Hai predicates; no pending disclosure
+        # remains. (At the F3 batch this was the r026 bounded exit
+        # with sufficient_rule None and the pending registration
+        # disclosed on the verdict.)
+        self.assertEqual(why['sufficient_rule'],
+                         'bazi.phase2.strength_lu_visible_support')
+        self.assertNotIn('sufficient_predicate', why)
+        self.assertNotIn('predicate_rule_registration', why)
         self.assertTrue(why['all_required_conditions_verified'])
         trace_rule_ids = [s['rule_id'] for s in out['trace']]
-        self.assertNotIn('bazi.phase2.strength_lu_visible_support',
-                         trace_rule_ids)
+        self.assertIn('bazi.phase2.strength_lu_visible_support',
+                      trace_rule_ids)
         self.assertIn('bazi.phase2.strength_bounded_adjudication',
                       trace_rule_ids)
         # Nine conditions, all met, each bound to executed factor
@@ -205,8 +211,12 @@ class BingSiPositiveTests(unittest.TestCase):
         self.assertFalse(assessment['ai_enabled'])
         self.assertTrue(any('治理约定' in line
                             for line in assessment['limitations']))
-        self.assertTrue(any('巳月丙日主分支谓词尚待' in line
+        # E0335: the limitation now discloses the completed
+        # registration instead of the pending one.
+        self.assertTrue(any('巳月丙日主分支谓词已完成密封' in line
                             for line in assessment['limitations']))
+        self.assertFalse(any('巳月丙日主分支谓词尚待' in line
+                             for line in assessment['limitations']))
 
     def test_hidden_wu_geng_recorded_not_vetoed(self):
         # The Si month branch hides Wu (output) and Geng (wealth).
@@ -504,8 +514,8 @@ class WholeDomainScanTests(unittest.TestCase):
             _, result, _ = run_birth(birth)
             assessment = result['strength_assessment']
             why = assessment['why_not_indeterminate']
-            if why and why.get('sufficient_predicate') \
-                    == 'lu_visible_support':
+            if why and why.get('sufficient_rule') \
+                    == 'bazi.phase2.strength_lu_visible_support':
                 fired.append(birth)
                 # This form never yields weak (register direction).
                 self.assertEqual(assessment['classification'], 'strong')
@@ -538,6 +548,14 @@ class WholeDomainScanTests(unittest.TestCase):
                 self.assertEqual(
                     why['sufficient_rule'],
                     'bazi.phase2.strength_commanding_visible_support',
+                    case_id)
+                self.assertNotIn('sufficient_predicate', why, case_id)
+            elif predicate == 'pure_generating_support_water':
+                # E0335 (TJ-018.3 batch 2): registered binding, no
+                # predicate alias.
+                self.assertEqual(
+                    why['sufficient_rule'],
+                    'bazi.phase2.strength_pure_generating_support_water',
                     case_id)
                 self.assertNotIn('sufficient_predicate', why, case_id)
             else:

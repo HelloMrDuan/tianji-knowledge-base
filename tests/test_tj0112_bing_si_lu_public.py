@@ -75,8 +75,11 @@ class RegisterGovernanceTests(unittest.TestCase):
         self.assertEqual(form['day_master'], '丙')
         self.assertEqual(form['month_branch'], '巳')
         self.assertEqual(form['direction'], 'strong')
-        self.assertEqual(form['evidence_binding'],
-                         'pending_phase1_rule_registration')
+        # E0335 (TJ-018.3 batch 2): the form's evidence binding
+        # flipped with the sealed registration (identity unchanged).
+        self.assertTrue(form['evidence_binding'].startswith(
+            'registered_phase1_phase2'))
+        self.assertIn('bazi.rule.r032', form['evidence_binding'])
         self.assertIs(form['research_only'], True)
         self.assertIs(form['public_enabled'], False)
         self.assertIs(form['ai_enabled'], False)

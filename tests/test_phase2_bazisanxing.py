@@ -217,7 +217,9 @@ class GoldenFireTests(unittest.TestCase):
         # run_cases asserts every case's expectations; reaching this
         # point means the default surface is unchanged for all 119
         # pre-existing pillar inputs.
-        self.assertEqual(len(self.rows), 129)
+        # E0335: four ganzhi strength cases joined the golden file
+        # (129 + 4 = 133 rows); they pass the same harness.
+        self.assertEqual(len(self.rows), 133)
 
     def test_new_cases_fire_the_step(self):
         for case_id in CASE_IDS:
@@ -275,9 +277,12 @@ class SeparationTests(unittest.TestCase):
             ['strength_assessment'])
         why = on['result']['strength_assessment'][
             'why_not_indeterminate']
-        self.assertIsNone(why['sufficient_rule'])
-        self.assertEqual(why['sufficient_predicate'],
-                         'pure_generating_support_water')
+        # E0335: the water witness now exits through its registered
+        # step (bazi.rule.r034); the verdict content is unchanged.
+        self.assertEqual(
+            why['sufficient_rule'],
+            'bazi.phase2.strength_pure_generating_support_water')
+        self.assertNotIn('sufficient_predicate', why)
 
 
 class EquivalenceTests(unittest.TestCase):
@@ -296,7 +301,9 @@ class EquivalenceTests(unittest.TestCase):
                            'month_ganzhi': cal['month_ganzhi'],
                            'day_ganzhi': cal['day_ganzhi'],
                            'hour_ganzhi': cal['hour_ganzhi']})
-        self.assertEqual(len(inputs), 129)
+        # E0335: the golden file grew by four ganzhi cases
+        # (133 - 10 sanxing cases + 10 impl births = 133 inputs).
+        self.assertEqual(len(inputs), 133)
         for inputs_one in inputs:
             off = chart(**inputs_one)
             self.assertNotIn('branch_punishment_facts', off['result'])

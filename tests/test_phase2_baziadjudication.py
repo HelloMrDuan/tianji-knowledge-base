@@ -13,7 +13,12 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class StrengthAdjudicationTests(unittest.TestCase):
     def test_seven_fixed_goldens_cover_references_boundaries_and_conflicts(self):
-        cases = [c for c in run_cases(ROOT, 'bazi') if c['id'].startswith('bazi.strength-')]
+        # E0335: the ganzhi batch added a 'bazi.strength-ganzhi-*'
+        # golden family under the same prefix; the seven fixed
+        # goldens of this test are the pre-E0335 set.
+        cases = [c for c in run_cases(ROOT, 'bazi')
+                 if c['id'].startswith('bazi.strength-')
+                 and not c['id'].startswith('bazi.strength-ganzhi-')]
         self.assertEqual(len(cases), 7)
         self.assertTrue(all('bazi.phase2.strength_adjudication' in c['rule_ids'] for c in cases))
 

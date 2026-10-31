@@ -169,7 +169,7 @@ class ScopeShapeTests(unittest.TestCase):
 
 
 class WaterPositiveTests(unittest.TestCase):
-    def test_positive_strong_via_bounded_exit(self):
+    def test_positive_strong_via_registered_step(self):
         case, out, result, pillars = run_case(
             'tj0112-s2-water-positive-gui')
         expect = case['expect']
@@ -199,16 +199,21 @@ class WaterPositiveTests(unittest.TestCase):
                          'reviewed_sufficient_rule_matched')
         why = assessment['why_not_indeterminate']
         self.assertIsNotNone(why)
-        self.assertIsNone(why['sufficient_rule'])
-        self.assertEqual(why['sufficient_predicate'],
-                         'pure_generating_support_water')
-        self.assertEqual(why['predicate_rule_registration'],
-                         'pending_phase1_rule_registration')
+        # E0335 (TJ-018.3 batch 2): the verdict is issued through
+        # the predicate's own registered step (bazi.rule.r034 /
+        # bazi.phase2.strength_pure_generating_support_water); at
+        # the S2 batch this was the r026 bounded exit with the
+        # pending registration disclosed on the verdict.
+        self.assertEqual(
+            why['sufficient_rule'],
+            'bazi.phase2.strength_pure_generating_support_water')
+        self.assertNotIn('sufficient_predicate', why)
+        self.assertNotIn('predicate_rule_registration', why)
         self.assertTrue(why['all_required_conditions_verified'])
         trace_rule_ids = [s['rule_id'] for s in out['trace']]
         self.assertIn('bazi.phase2.strength_bounded_adjudication',
                       trace_rule_ids)
-        self.assertNotIn(
+        self.assertIn(
             'bazi.phase2.strength_pure_generating_support_water',
             trace_rule_ids)
         self.assertEqual([c['condition'] for c in why['conditions']],
@@ -251,7 +256,12 @@ class WaterPositiveTests(unittest.TestCase):
         self.assertTrue(assessment['research_only'])
         self.assertFalse(assessment['public_enabled'])
         self.assertFalse(assessment['ai_enabled'])
+        # E0335: the shared pending sentence was split into two
+        # registered sentences (metal / water).
         self.assertTrue(any(
+            '子月水日主分支谓词已完成密封' in line
+            for line in assessment['limitations']))
+        self.assertFalse(any(
             '酉月金日主与子月水日主分支谓词尚待' in line
             for line in assessment['limitations']))
         for line in S2_LIMITATIONS:
@@ -631,12 +641,19 @@ class WholeDomainScanTests(unittest.TestCase):
         births += [c['source_birth'] for c in BING.values()]
         births += [c['source_birth'] for c in FIRE.values()]
         fired = {p: [] for p in NEW_PREDICATES}
+        # E0335: firing is detected through the registered steps
+        # (the pending-exit predicate alias no longer exists).
+        step_to_predicate = {
+            'bazi.phase2.strength_pure_support_metal':
+                'pure_support_metal',
+            'bazi.phase2.strength_pure_generating_support_water':
+                'pure_generating_support_water'}
         for birth in births:
             _, result, _ = run_birth(birth)
             assessment = result['strength_assessment']
             why = assessment['why_not_indeterminate']
-            if why and why.get('sufficient_predicate') in NEW_PREDICATES:
-                fired[why['sufficient_predicate']].append(birth)
+            if why and why.get('sufficient_rule') in step_to_predicate:
+                fired[step_to_predicate[why['sufficient_rule']]].append(birth)
                 # The new forms only ever yield strong.
                 self.assertEqual(assessment['classification'], 'strong')
         self.assertEqual(
