@@ -62,13 +62,15 @@ class CanonicalBuildTests(unittest.TestCase):
         # E0339 (TJ-018.3 B-2): +2 chapters and +2 sections for the
         # juan-3 lu / juan-5 yangren sections (s063/s064), +1 term
         # (bazi.term.luren_route) and +1 rule (r035).
-        self.assertEqual(len(bundle['chapters']), 25)
-        self.assertEqual(len(bundle['sections']), 64)
-        self.assertEqual(len(bundle['terms']), 32)
+        # E0342 (zaqi promotion): +2 chapters and +3 sections
+        # (s065/s066/s067), +1 term (zaqi_selection), +1 rule (r036).
+        self.assertEqual(len(bundle['chapters']), 27)
+        self.assertEqual(len(bundle['sections']), 67)
+        self.assertEqual(len(bundle['terms']), 33)
         # E0333 (TJ-018.3 execution-binding batch 1): +1 rule for
         # bazi.rule.r031 (sanxing structural facts); E0335 adds
         # r032/r033/r034 on top.
-        self.assertEqual(len(bundle['rules']), 35)
+        self.assertEqual(len(bundle['rules']), 36)
         self.assertEqual(len(bundle['concepts']), 18)
 
     def test_classic_binding_only_source_ids_added(self):
@@ -153,7 +155,8 @@ class NoRegistrationTests(unittest.TestCase):
         # E0335: +3 ganzhi strength steps in this file's rules
         # list (32 + 3).
         # E0339: +1 luren route step (35 + 1).
-        self.assertEqual(len(phase2['rules']), 36)
+        # E0342: +1 zaqi statement step (36 + 1).
+        self.assertEqual(len(phase2['rules']), 37)
         punish = [r['id'] for r in phase2['rules']
                   if 'punish' in r['id'] or 'sanxing' in r['id']]
         self.assertEqual(punish,

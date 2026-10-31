@@ -635,12 +635,12 @@
   }
  ],
  "sealed_measurements": {
-  "phase1_sections_total": 64,
+  "phase1_sections_total": 67,
   "phase1_sections_with_hehua_keywords": 0,
   "phase1_sections_with_wuhe": [
    "bazi.section.s010"
   ],
-  "phase1_rules_total": 35,
+  "phase1_rules_total": 36,
   "phase1_concepts_total": 18,
   "phase1_hehua_concepts": 0,
   "phase1_concept_ids": [
@@ -663,7 +663,7 @@
    "bazi.concept.bounded_strength_adjudication_v1",
    "bazi.concept.pattern_candidates_v1"
   ],
-  "phase2_rules_total": 36,
+  "phase2_rules_total": 37,
   "foundations_stem_combinations": [
    [
     "甲",

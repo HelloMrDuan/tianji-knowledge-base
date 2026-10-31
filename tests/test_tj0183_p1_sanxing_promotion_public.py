@@ -120,17 +120,20 @@ class InventoryDispositionTests(unittest.TestCase):
         # maintained).
         # E0339: the luren batch flipped pattern-route-luren too
         # (seven flipped, eight maintained).
+        # E0342: the zaqi batch flipped pattern-zaqi too
+        # (eight flipped, seven maintained).
         self.assertEqual(sorted(gov.FLIPPED_ITEMS),
                          ['commanding_visible_support',
                           'lu_visible_support',
                           'pattern-route-luren',
+                          'pattern-zaqi',
                           'pure_generating_support',
                           'pure_generating_support_water',
                           'pure_support_metal',
                           'sanxing-branch-fact-v1'])
         self.assertNotIn('sanxing-branch-fact-v1',
                          gov.MAINTAINED_ITEMS)
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 8)
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 7)
 
 
 class ConfigRegistrationTests(unittest.TestCase):

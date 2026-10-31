@@ -128,9 +128,11 @@ class GanzhiRegistrationTests(unittest.TestCase):
     def test_sections_and_chapters_registered(self):
         # E0339 (TJ-018.3 B-2): +2 chapters, +2 sections (s063/s064)
         # and +1 rule (r035) for the luren promotion.
-        self.assertEqual(len(self.bundle['sections']), 64)
-        self.assertEqual(len(self.bundle['chapters']), 25)
-        self.assertEqual(len(self.bundle['rules']), 35)
+        # E0342 (zaqi promotion): +2 chapters, +3 sections
+        # (s065/s066/s067) and +1 rule (r036).
+        self.assertEqual(len(self.bundle['sections']), 67)
+        self.assertEqual(len(self.bundle['chapters']), 27)
+        self.assertEqual(len(self.bundle['rules']), 36)
         for section_id in ('bazi.section.s061', 'bazi.section.s062'):
             self.assertIn(section_id, self.sections)
             self.assertEqual(self.sections[section_id]['source_id'], APPLIED)
@@ -331,7 +333,8 @@ class GanzhiRegistrationTests(unittest.TestCase):
             self.assertIn(item, governance.FLIPPED_ITEMS)
             self.assertNotIn(item, governance.MAINTAINED_ITEMS)
         # E0339 (TJ-018.3 B-2): pattern-route-luren flipped too.
-        self.assertEqual(len(governance.MAINTAINED_ITEMS), 8)
+        # E0342: pattern-zaqi flipped too (seven maintained).
+        self.assertEqual(len(governance.MAINTAINED_ITEMS), 7)
         record = governance.TJ0183_P2_RECORD
         self.assertEqual(record['event'], 'E0335')
         self.assertEqual(record['phase1_rules_added'],

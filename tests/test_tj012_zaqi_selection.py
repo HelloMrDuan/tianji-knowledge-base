@@ -187,8 +187,9 @@ class LookupTests(unittest.TestCase):
                 self.assertTrue(out['research_only'])
                 self.assertFalse(out['public_enabled'])
                 self.assertFalse(out['ai_enabled'])
+                # E0342: flipped with the zaqi registration batch.
                 self.assertEqual(out['evidence_binding'],
-                                 'pending_phase1_rule_registration')
+                                 'registered_phase1_phase2')
                 self.assertEqual(out['adjudication_notes'],
                                  list(ZAQI_ADJUDICATION_NOTES))
                 self.assertEqual(out['scope_limits'],

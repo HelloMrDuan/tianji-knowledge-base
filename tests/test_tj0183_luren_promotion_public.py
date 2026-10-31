@@ -77,15 +77,17 @@ class LurenPromotionPublicTests(unittest.TestCase):
         self.assertIn('bazi.section.s064', row['reason'])
 
     def test_flipped_and_maintained_sets(self):
+        # E0342: pattern-zaqi flipped as well (seven maintained).
         self.assertEqual(sorted(gov.FLIPPED_ITEMS),
                          sorted(['commanding_visible_support',
                                  'lu_visible_support',
                                  'pattern-route-luren',
+                                 'pattern-zaqi',
                                  'pure_generating_support',
                                  'pure_generating_support_water',
                                  'pure_support_metal',
                                  'sanxing-branch-fact-v1']))
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 8)
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 7)
         self.assertNotIn('pattern-route-luren', gov.MAINTAINED_ITEMS)
 
     def test_route_disclosure_flipped(self):
@@ -116,8 +118,10 @@ class LurenPromotionPublicTests(unittest.TestCase):
                          'bazi.section.s064')
 
     def test_out_of_scope_blocks_stay_pending(self):
+        # E0342: pattern-zaqi has since flipped in its own batch;
+        # D-1 and the siling pilot stay pending.
         self.assertEqual(_row('pattern-zaqi')['disposition'],
-                         'maintained_pending')
+                         'registered')
         self.assertEqual(_row('ren-pattern-yin-true-v1')['disposition'],
                          'maintained_pending')
         self.assertEqual(_row('siling-yin-pilot')['disposition'],

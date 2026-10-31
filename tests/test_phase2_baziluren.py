@@ -65,11 +65,13 @@ class LurenRegistrationTests(unittest.TestCase):
         cls.steps = {r['id']: r for r in cls.contract['rules']}
 
     def test_counts_and_registration(self):
-        self.assertEqual(len(self.bundle['sections']), 64)
-        self.assertEqual(len(self.bundle['chapters']), 25)
-        self.assertEqual(len(self.bundle['terms']), 32)
-        self.assertEqual(len(self.bundle['rules']), 35)
-        self.assertEqual(len(self.contract['rules']), 36)
+        # E0342: +3 sections (s065/s066/s067), +2 chapters, +1 term
+        # (zaqi_selection), +1 rule (r036), +1 contract step.
+        self.assertEqual(len(self.bundle['sections']), 67)
+        self.assertEqual(len(self.bundle['chapters']), 27)
+        self.assertEqual(len(self.bundle['terms']), 33)
+        self.assertEqual(len(self.bundle['rules']), 36)
+        self.assertEqual(len(self.contract['rules']), 37)
         for section_id in (LU_SECTION, YR_SECTION):
             self.assertIn(section_id, self.sections)
             self.assertEqual(self.sections[section_id]['source_id'],
@@ -230,7 +232,8 @@ class LurenRegistrationTests(unittest.TestCase):
 
     def test_golden_cases_fire_the_registered_step(self):
         results = {c['id']: c for c in run_cases(ROOT, 'bazi')}
-        self.assertEqual(len(results), 142)
+        # E0342: +6 zaqi selection Golden cases (148 total).
+        self.assertEqual(len(results), 148)
         for case_id in GOLDEN_IDS:
             self.assertIn(case_id, results)
             self.assertIn(STEP, results[case_id]['rule_ids'])
@@ -264,7 +267,8 @@ class LurenRegistrationTests(unittest.TestCase):
         self.assertIn('pattern-route-luren', governance.FLIPPED_ITEMS)
         self.assertNotIn('pattern-route-luren',
                          governance.MAINTAINED_ITEMS)
-        self.assertEqual(len(governance.MAINTAINED_ITEMS), 8)
+        # E0342: pattern-zaqi flipped too (seven maintained).
+        self.assertEqual(len(governance.MAINTAINED_ITEMS), 7)
         record = governance.TJ0183_B2_RECORD
         self.assertEqual(record['event'], 'E0339')
         self.assertEqual(record['phase1_rules_added'], ['bazi.rule.r035'])

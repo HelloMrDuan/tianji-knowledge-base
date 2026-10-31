@@ -76,15 +76,19 @@ class InventoryCoverageTests(unittest.TestCase):
         # E0339 (TJ-018.3 B-2): pattern-route-luren flipped as well
         # (r035 + bazi.phase2.pattern_route), leaving the flipped
         # set at seven and the maintained-pending inventory at eight.
+        # E0342 (governance zaqi promotion): pattern-zaqi flipped
+        # (r036 + bazi.phase2.pattern_zaqi), leaving the flipped set
+        # at eight and the maintained-pending inventory at seven.
         self.assertEqual(sorted(gov.FLIPPED_ITEMS),
                          ['commanding_visible_support',
                           'lu_visible_support',
                           'pattern-route-luren',
+                          'pattern-zaqi',
                           'pure_generating_support',
                           'pure_generating_support_water',
                           'pure_support_metal',
                           'sanxing-branch-fact-v1'])
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 8)
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 7)
 
 
 class FuyiRegisterStaysUnwiredTests(unittest.TestCase):
@@ -173,11 +177,13 @@ class RecordConsistencyTests(unittest.TestCase):
         # so the invariant is now over the union of all batch
         # records -- still an exact equality, no slack.
         # B-2 (E0339) added TJ0183_B2_RECORD (r035 / pattern_route).
+        # E0342 added GOVERNANCE_ZAQI_RECORD (r036 / pattern_zaqi).
         records = [gov.S5_REGISTRATION_RECORD,
                    gov.TJ0183_P1_RECORD,
                    gov.TJ0183_EXECBIND_RECORD,
                    gov.TJ0183_P2_RECORD,
-                   gov.TJ0183_B2_RECORD]
+                   gov.TJ0183_B2_RECORD,
+                   gov.GOVERNANCE_ZAQI_RECORD]
         flipped_phase1 = sorted(
             row['phase1_rule_id'] for row in gov.REGISTRATION_INVENTORY
             if row['disposition'] == 'registered')

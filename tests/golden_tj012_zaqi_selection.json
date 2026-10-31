@@ -5,7 +5,7 @@
   "B3 土格换算：「只当取土为格」的格名/十神换算链原文未明言，本批不换算，陈述只并列原文与 conversion_status=unadjudicated。",
   "B4 戊己弃判：戊己日四季月无人元透出 → abstained（程序无对象）；段内 (iii) 的「则又无格矣」不移用为本盘无格断言。",
   "B5 冲突并列：三命两案只登记为冲突分支证据（案一 192131–192174、案二 245030–245081），conflict_present 与案引并列呈现，不裁定；案一造出生时刻无考、不可复现。",
-  "B6 共存：pattern_zaqi 与 Slice A 的 pattern_route 并列、互不改写，各自独立判定；本陈述无 Phase1/Phase2 rule 注册（evidence_binding=pending_phase1_rule_registration）。"
+  "B6 共存：pattern_zaqi 与 Slice A 的 pattern_route 并列、互不改写，各自独立判定；本陈述已完成 Phase1/Phase2 rule 注册（bazi.rule.r036 / bazi.phase2.pattern_zaqi，evidence_binding=registered_phase1_phase2，E0342），注册只补齐证据绑定，陈述语义不变。"
  ],
  "cases": [
   {
