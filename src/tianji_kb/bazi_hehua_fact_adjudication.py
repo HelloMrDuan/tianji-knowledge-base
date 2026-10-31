@@ -1273,7 +1273,13 @@ SEALED_MEASUREMENTS = {
 # E0344 (governance ren-pattern execution binding): no new
 # Canonical sections (the ren anchors s053/s054/s024 already
 # exist), so the section pins are unchanged.
-'phase1_sections_total': 67,
+# E0346 (governance dayun Sanming-segment promotion): +3 for
+# the new Canonical sections bazi.section.s068 (Sanming juan-2
+# Lun Dayun), s069/s070 (juan-11 Luoluozi dayun witness
+# windows); all three texts verified in the E0346 sealed run
+# to contain none of the HEHUA_KEYWORDS and no 五合, so the
+# keyword pins below are unchanged.
+'phase1_sections_total': 70,
 'phase1_sections_with_hehua_keywords': 0,
 'phase1_sections_with_wuhe': ['bazi.section.s010'],
 # E0333 (TJ-018.3 execution-binding batch 1): +1 for the new
@@ -1293,7 +1299,10 @@ SEALED_MEASUREMENTS = {
 # E0344: +1 Phase1 rule bazi.rule.r037 (Ren yin true-pattern
 # determination) and +1 Phase2 rule below for its step; neither
 # carries hehua content either.
-'phase1_rules_total': 37,
+# E0346: +2 Phase1 rules bazi.rule.r038/r039 (classical dayun
+# direction / Sanming conversion) and +2 Phase2 rules below
+# for their steps; none carries hehua content either.
+'phase1_rules_total': 39,
 'phase1_concepts_total': 18,
 'phase1_hehua_concepts': 0,
 'phase1_concept_ids': [
@@ -1316,7 +1325,7 @@ SEALED_MEASUREMENTS = {
 'bazi.concept.bounded_strength_adjudication_v1',
 'bazi.concept.pattern_candidates_v1',
 ],
-'phase2_rules_total': 38,
+'phase2_rules_total': 40,
 'foundations_stem_combinations': [['甲', '己', '土'],
 ['乙', '庚', '金'], ['丙', '辛', '水'], ['丁', '壬', '木'],
 ['戊', '癸', '火']],

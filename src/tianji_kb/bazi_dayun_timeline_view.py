@@ -49,6 +49,14 @@ TJ-013.3 研究级可读渲染 + 公开投影防御剥离，本模块同例（�
   运势评价或预测性表述；十神仅为序列事实字段透传。
 - 恒 research_only=True、public_enabled=False、ai_enabled=False，
   evidence_binding 与组合层同口径披露。
+
+E0346 分段改记：组合所串联的三命分段已经注册（bazi.rule.r038/
+r039 与对应 Phase2 步），本视图与组合层的 evidence_binding 同
+步改记 segmented_inherited_pending（继承的神峰分段仍 pending）；
+视图呈现的三命引文块改以其绑定来源（应用文本来源
+bazi.source.sanmingtonghui-applied）标名与选取。本视图仍不接
+公开页面，公开开放仍须分阶段开放另行裁定；视图内容（区间、
+空态、年龄不呈现）逐字不变。
 """
 import copy
 
@@ -110,9 +118,13 @@ _NOTICE_SHENFENG_ZERO_DAY = {
 
 
 def _flags():
+    # E0346: the viewed composition's Sanming segment is registered
+    # upstream (bazi.rule.r038/r039); this view registers nothing
+    # itself and its inherited Shenfeng segment remains pending.
+    # Public opening still requires its own staged-opening ruling.
     return {'research_only': True, 'public_enabled': False,
             'ai_enabled': False,
-            'evidence_binding': 'pending_phase1_rule_registration'}
+            'evidence_binding': 'segmented_inherited_pending'}
 
 
 def _require(mapping, key, where):
@@ -226,6 +238,14 @@ def _method_options(timeline):
     ]
 
 
+# E0346: since the Sanming segment's Canonical registration, the
+# Sanming quotes carried by the direction result are bound to the
+# applied-text source; the view's Sanming quote blocks name that
+# binding source and select quotes by it. The classic itself (the
+# method-level registration provenance) is unchanged.
+SANMING_APPLIED_SOURCE_ID = 'bazi.source.sanmingtonghui-applied'
+
+
 def _sources(timeline, method):
     """Source blocks from what the composition actually carries.
 
@@ -245,7 +265,7 @@ def _sources(timeline, method):
     if method == 'sanming':
         direction_quotes = [
             copy.deepcopy(q) for q in direction['evidence_quotes']
-            if q.get('source_id') == SANMING_SOURCE_ID]
+            if q.get('source_id') == SANMING_APPLIED_SOURCE_ID]
         if [q['id'] for q in direction_quotes] != [
                 'direction_rule', 'vol11_direction_witness']:
             raise ValueError('Direction evidence quotes do not carry '
@@ -253,14 +273,14 @@ def _sources(timeline, method):
         blocks = [
             {'method': 'sanming', 'role': 'direction_rule',
              'variant': DIRECTION_VARIANT,
-             'source_id': SANMING_SOURCE_ID,
+             'source_id': SANMING_APPLIED_SOURCE_ID,
              'quotes': direction_quotes},
         ]
         if 'handover_basis_quote' in conversion:
             blocks.append(
                 {'method': 'sanming', 'role': 'handover_basis',
                  'variant': CONVERSION_VARIANT,
-                 'source_id': SANMING_SOURCE_ID,
+                 'source_id': SANMING_APPLIED_SOURCE_ID,
                  'quotes': [copy.deepcopy(
                      conversion['handover_basis_quote'])]})
         return blocks

@@ -641,6 +641,139 @@ GOVERNANCE_REN_RECORD = {
 }
 
 
+GOVERNANCE_DAYUN_SANMING_RECORD = {
+    'batch': '治理 pending 第三顺位 dayun 三命分段批',
+    'event': 'E0346',
+    'date': '2026-11-01',
+    'document': 'docs/product/GOVERNANCE_DAYUN_SANMING_PROMOTION.md',
+    'canonical_chapters_added': [
+        'bazi.chapter.sanming_lun_dayun',
+        'bazi.chapter.sanming_luoluozi_dayun_witness'],
+    'canonical_sections_added': [
+        'bazi.section.s068', 'bazi.section.s069', 'bazi.section.s070'],
+    'canonical_terms_added': [
+        'bazi.term.dayun_direction', 'bazi.term.dayun_handover'],
+    'phase1_rules_added': ['bazi.rule.r038', 'bazi.rule.r039'],
+    'phase2_rules_added': [
+        'bazi.phase2.dayun_classical_direction',
+        'bazi.phase2.dayun_sanming_conversion'],
+    'golden_cases_added': [
+        'bazi.dayun-sanming-q1-1958-forward-male',
+        'bazi.dayun-sanming-q2-1949-backward-female',
+        'bazi.dayun-sanming-q3-1959-forward-female',
+        'bazi.dayun-sanming-q4-1959-backward-male',
+        'bazi.dayun-sanming-adv001-zero-jie-2000',
+        'bazi.dayun-sanming-direction-only-1959-male'],
+    'source_refs_subset': [
+        'direction_rule (bazi.section.s068, classical)',
+        'vol11_direction_witness (bazi.section.s069, classical)',
+        'ratio_statement (bazi.section.s068, classical)',
+        'ratio_derivation (bazi.section.s068, classical)',
+        'worked_example (bazi.section.s068, classical)',
+        'anti_rounding (bazi.section.s068, classical)',
+        'zero_borrow_definition (bazi.section.s068, classical)',
+        'zero_borrow_example (bazi.section.s068, classical)',
+        'handover_decade (bazi.section.s068, classical)',
+        'handover_approx (bazi.section.s068, classical)'],
+    'source_refs_subset_basis': '规则 r038 的 source_refs 恰为方向'
+        'Variant 实际编码消费的 2 条引文（direction_rule 为唯一 '
+        'encoded_rule，vol11_direction_witness 为其卷十一见证）；'
+        'r039 的 source_refs 恰为三命换算实际消费的 8 条引文'
+        '（比率命题/推导、原文例算、反约法、零借定义/例、十年递换'
+        '句、生刻不明近似句，其中 handover_decade 以 S3 应用形绑'
+        '定）。未入 refs 者各有明示地位：神峰 6 条引文是方向 '
+        'Variant 的 corroboration 披露而非三命裁定依据（沿 r035 '
+        '先例「只绑实际消费的裁定依据」与 E0342 例证不作规则引文'
+        '先例，且神峰段本身维持 pending、无 Canonical 节可绑）；'
+        'worked_example_check、handover_example、vol11_ratio_'
+        'witness、vol11_counting_divergence 与方向见证二为登记证'
+        '据（evidence-only），由阶段一校勘册'
+        '（sanming-juan2-dayun-collation-register-v1）承载；闰月子'
+        '句排除段整段排除不变。',
+    'segmented_registration': 'dayun-classical-variants 行翻转 '
+        'registered 的分段口径：主 phase1_rule_id/phase2_rule_id '
+        '记方向段（r038 / dayun_classical_direction），三命换算段'
+        '以 additional_phase1_rule_ids/additional_phase2_rule_ids '
+        '补记（r039 / dayun_sanming_conversion），行内 segments 明'
+        '细逐段标示（三命段 registered、神峰段 maintained_pending '
+        '并逐字在册）。S5 治理不变量（records 的 rules_added 并集'
+        '与 registered 行的 rule id 集合恰等）的收集表达式同步扩'
+        '展为并入 additional_* 字段——结构扩展、恰等不变量保留。'
+        'dayun-compose / dayun-timeline-view 两行保持 '
+        'maintained_pending（inherited_pending）：其继承的三命分'
+        '段已注册、神峰分段仍 pending，两行 evidence_binding 改'
+        '记 segmented_inherited_pending，治理维持名单 6 -> 5。',
+    'harness_contract_extension': 'golden harness 契约扩展与 '
+        'E0344 同形且更小：golden.py / validate_phase2.py / '
+        'golden schema 零改动，provider 三重钉死逐字不变；扩展只'
+        '落在 provider 签名（chart 新增门控 kwargs '
+        'dayun_classical_role / dayun_sanming_measurement，默认 '
+        'None/None 时封套逐字不变）与用例 input 增带该两字段。扩'
+        '展理由：chart 不携带出生瞬时，性别角色与 TJ-015 节距测'
+        '量恒为显式输入声明（与 ren_yin_pilot_result 同口径），'
+        '测量另经 sanming_convert_measurement 内的 provider 重放'
+        '校验与 chart 的月柱/方向交叉核对。旧契约行为不变由专项'
+        '测试钉住（无参数时无 dayun_classical 键、无新步；engine '
+        '门禁与参数类型/交叉核对拒绝均有公开测试）。',
+    'registration_flip': 'dayun-classical-variants (Sanming '
+        'segment only): maintained_pending / '
+        'canonical_evidence_absent -> registered (Phase1 '
+        'bazi.rule.r038 + bazi.rule.r039, Phase2 '
+        'bazi.phase2.dayun_classical_direction + '
+        'bazi.phase2.dayun_sanming_conversion validated, 6 Golden '
+        'cases fire the steps); the Shenfeng segment stays '
+        'maintained_pending inside the same row (segments detail '
+        'on the row); maintained inventory 6 -> 5 (the two '
+        'inherited rows remain, reworded). Publication condition '
+        'five (deployment acceptance binding) stays pending the '
+        'E0347 closeout, as with every prior flip.',
+    'sealed_files_changed': [
+        'data/canonical/bazi/phase1_knowledge.json',
+        'data/canonical/bazi/phase2_execution.json',
+        'data/canonical/bazi/phase2_golden.json',
+        'data/coverage/phase1.json',
+        'data/product/knowledge_coverage.json'],
+    'sealed_file_sha256_after': {
+        'data/canonical/bazi/phase1_knowledge.json':
+            '09208b963ff527e4aa0255e2e48e90e4fb49cfcd685b6cfd28c4ced5e1fd9f3d',
+        'data/canonical/bazi/phase2_execution.json':
+            'cab21f4d41a4b76c2d4f061fd791e409eb81d95967cfc6f79ec29044c0b426f6',
+        'data/canonical/bazi/phase2_golden.json':
+            'bd750ba860a5e4651b38809258226fa2a43acb8ea295871db00e452573551c31',
+        'data/coverage/phase1.json':
+            '13e75db1102f84fa212988a27fdad43d15bf29133b83c2d1829cc3512fc7b87d',
+        'data/product/knowledge_coverage.json':
+            'a60343d43d5f2e62bbbc37bb3f12f1b2b6f4d06fc15198a537864ef5c092492d'},
+    'snapshot_files_before': 237,
+    'snapshot_files_after': 237,
+    'snapshot_bytes_before': 16170283,
+    'snapshot_bytes_after': 16221036,
+    'manifest_sha256_before':
+        '2fdcfaec3ffd5f3ac5e991cb0da591df5dda57c3583bba4e431e7c098b4036b6',
+    'manifest_sha256_after':
+        '97e211c4582f7cf4d890c2bf8071573fbaced193d740c185d2c891a3f2e51324',
+    'pin_record': 'Private checkout root manifest, '
+        'import_public_snapshot EXPECTED pins and both coverage '
+        'files were regenerated by the private tooling (verify '
+        'green); the sealed change was staged as a snapshot and '
+        'delivered with this batch; the live snapshot and cicd pin '
+        'swap is performed by the parent before merge.',
+    'verdict_surface_change': 'No verdict surface changes: the '
+        'dayun outputs keep their contract byte-identical apart '
+        'from the closed-list registration disclosures '
+        '(evidence_binding values per segment, LIMITATIONS '
+        'registration sentences, quote source_id re-pointing to '
+        'the applied-text source with source_section_id added, '
+        'the new gated chart blocks with their registered trace '
+        'steps / RuleMatch / Evidence entries, and the compose / '
+        'view binding re-marking). Intervals only, no point '
+        'fields, no age keys, the zero-jie refusal unchanged, '
+        'ADV-001..012 behaviour unchanged, the research view '
+        'stays off public pages, and user-visible capability is '
+        'unchanged.',
+}
+
+
 REASON_CLASSES = {
     'canonical_evidence_absent':
         '定义性原典锚点在密封 Canonical 中无对应 section（或经典不在 '
@@ -763,12 +896,46 @@ REGISTRATION_INVENTORY = [
         'subject': '大运古典三 Variant（direction-classical / '
                    'conversion-sanming / conversion-shenfeng）',
         'disclosure_sites': ['src/tianji_kb/bazi_dayun_classical.py'],
-        'disposition': 'maintained_pending',
-        'reason_class': 'canonical_evidence_absent',
-        'reason': '21 条登记引文 0 条在 Canonical 内：三命卷十一折除诸段'
-                  '无 canonical section，神峰通考不在 Canonical 经典内。',
-        'unlock_path': '先行 Canonical 扩编（三命卷十一大运节登记；神峰'
-                       '建经典），再行注册批。',
+        'disposition': 'registered',
+        'phase1_rule_id': 'bazi.rule.r038',
+        'phase2_rule_id': 'bazi.phase2.dayun_classical_direction',
+        'additional_phase1_rule_ids': ['bazi.rule.r039'],
+        'additional_phase2_rule_ids': [
+            'bazi.phase2.dayun_sanming_conversion'],
+        'segments': {
+            'sanming': 'registered（E0346：方向 bazi.rule.r038 / '
+                       'bazi.phase2.dayun_classical_direction；三命'
+                       '换算 bazi.rule.r039 / '
+                       'bazi.phase2.dayun_sanming_conversion）',
+            'shenfeng': 'maintained_pending（conversion-shenfeng：'
+                        '神峰通考不在 Canonical 经典内，待神峰经典 '
+                        'Canonical 扩编另行翻转，本批不连带）',
+        },
+        'reason': '分段注册（E0346）：三命分段的定义性文本已经阶段一 '
+                  '018 形制校勘登记（sanming-juan2-dayun-collation-'
+                  'register-v1：S3 切片坐标、节内校勘条目逐处入册、'
+                  '15 条引文逐条在定位点复现）并建成 Canonical '
+                  'sections bazi.section.s068（卷二《论大运》S3 切'
+                  '片 741 字、PUA/□ 归零、残余防 1 处不在任何引文'
+                  '内随节元数据携带）、bazi.section.s069（卷十一见证'
+                  '窗口 A）、bazi.section.s070（窗口 B 引文恰幅）；'
+                  '新术语 '
+                  'bazi.term.dayun_direction / bazi.term.dayun_'
+                  'handover、Phase1 规则 bazi.rule.r038（方向，引文'
+                  '恰 2 条）与 bazi.rule.r039（三命换算，引文恰 8 条，'
+                  'handover_decade '
+                  '以 S3 应用形绑定）逐字绑定应用文本来源；方向与'
+                  '三命换算经 operations/bazi_chart 研究门控'
+                  '（dayun_classical_role / dayun_sanming_'
+                  'measurement 显式输入声明）真实执行并接入 '
+                  'ExecutionTrace 注册步，Golden 真实盘/真实时刻用'
+                  '例真实 fire。神峰分段维持 pending（分段诚实）：'
+                  '神峰 6 条引文登记来源为神峰通考快照、不在 '
+                  'Canonical 经典内，conversion-shenfeng 的 '
+                  'evidence_binding 保持 '
+                  'pending_phase1_rule_registration，待神峰经典 '
+                  'Canonical 扩编另批翻转。',
+        'unlock_path': None,
     },
     {
         'item': 'dayun-compose',
@@ -776,9 +943,14 @@ REGISTRATION_INVENTORY = [
         'disclosure_sites': ['src/tianji_kb/bazi_dayun_compose.py'],
         'disposition': 'maintained_pending',
         'reason_class': 'inherited_pending',
-        'reason': '组合层不产生独立规则，其 evidence_binding 继承所组合'
-                  '古典 Variant 的 pending 状态。',
-        'unlock_path': '随 dayun-classical-variants 注册自动解除。',
+        'reason': '组合层不产生独立规则：其所串联的三命分段已随 '
+                  'E0346 注册（bazi.rule.r038/r039 与对应 Phase2 '
+                  '步），本行所继承的神峰分段仍 pending，组合层 '
+                  'evidence_binding 改记 '
+                  'segmented_inherited_pending。',
+        'unlock_path': '随神峰分段注册（神峰经典 Canonical 扩编后的 '
+                       'dayun 神峰分段注册批）自动解除；三命分段部分'
+                       '已随 E0346 解除。',
     },
     {
         'item': 'dayun-timeline-view',
@@ -786,9 +958,12 @@ REGISTRATION_INVENTORY = [
         'disclosure_sites': ['src/tianji_kb/bazi_dayun_timeline_view.py'],
         'disposition': 'maintained_pending',
         'reason_class': 'inherited_pending',
-        'reason': '视图层 Variant，只呈现底层区间产出，本身不产生裁决，'
-                  '其 binding 继承底层 pending 状态。',
-        'unlock_path': '随 dayun-classical-variants 注册自动解除。',
+        'reason': '视图层 Variant，只呈现底层区间产出，本身不产生裁'
+                  '决：其所继承的三命分段已随 E0346 注册、神峰分段'
+                  '仍 pending，视图 evidence_binding 改记 '
+                  'segmented_inherited_pending；公开开放仍须分阶段'
+                  '开放另行裁定，不随注册自动开放。',
+        'unlock_path': '随神峰分段注册自动解除（公开开放另行裁定）。',
     },
     {
         'item': 'bingyao-shenfeng-v1',

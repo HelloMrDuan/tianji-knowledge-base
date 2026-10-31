@@ -289,6 +289,12 @@ def project_execution(data):
             # response either.
             container.pop('dayun_timeline_view', None)
             container.pop('dayun_timeline_views', None)
+            # TJ-017.1 / E0346: the registered Sanming-segment
+            # classical Dayun blocks (direction and measurement
+            # conversion) are research-only outputs of explicit
+            # input claims; never let them reach a public response.
+            container.pop('dayun_classical_direction', None)
+            container.pop('dayun_sanming_conversion', None)
             # TJ-012.3 Slice C step 2: the 寅月 siling pilot is a
             # research-only Variant (pending Phase1 registration,
             # internal research display only per the C+E ruling);

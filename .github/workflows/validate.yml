@@ -699,6 +699,43 @@ jobs:
       # test_phase2_bazirenyin.py (offline acceptance only, NOT
       # public CI: it reads the sealed bundle).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_governance_ren_promotion_public.py' -v
+      # Governance pending-8 third batch (E0346) dayun Sanming
+      # segment promotion, stage 1 collation register public
+      # contracts: pure-data register (sanming-juan2-dayun-
+      # collation-register-v1) mirrored against Golden, two
+      # sections with S0/S3 dual baselines (shift -1), fifteen
+      # quotes plus the leap-clause excluded span verbatim
+      # against the TJ-017.1 classical register, ten collation
+      # notes (PUA 4 all confirmed, fang 3 with the single
+      # unresolved residual at S0 58542 outside every quote --
+      # the stage-1 hard gate), S3 text forms PUA-free, rule
+      # bindings r038 (2 quotes) / r039 (8 quotes) partitioning
+      # the register, previous dayun register untouched.
+      # Snapshot-verbatim checks live in
+      # test_tj0183_e0346_dayun_sanming_collation_sealed.py
+      # (offline acceptance only, NOT public CI: it reads the
+      # sealed snapshot files).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0183_e0346_dayun_sanming_collation.py' -v
+      # Governance pending-8 third batch (E0346) dayun Sanming
+      # segment promotion public contracts: the
+      # dayun-classical-variants governance row flipped to
+      # registered SEGMENTED (Sanming segment r038/r039 with
+      # both Phase2 steps; the Shenfeng segment stays pending
+      # inside the same row), the two inherited rows re-marked
+      # segmented_inherited_pending, maintained set five, the
+      # classical disclosure fields flipped per segment
+      # (Sanming outputs registered, Shenfeng conversion still
+      # pending), the fifteen Sanming quotes re-pointed to the
+      # applied-text source with Canonical section ids (quote
+      # texts byte-identical), the output contract unchanged
+      # (intervals only, no age keys, zero-jie refusal), the
+      # harness input contract extension is two gated chart
+      # kwargs with the golden.py provider pinning unchanged,
+      # and the governance document on file. Sealed-side
+      # verification lives in test_phase2_bazidayunsanming.py
+      # (offline acceptance only, NOT public CI: it reads the
+      # sealed bundle).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_governance_dayun_sanming_promotion_public.py' -v
       # TJ-018.3-B1 (E0338) sanming juan3 shiganlu collation
       # register (new juan3 register volume, pure registration)
       # public contracts: pure-data register mirrored against

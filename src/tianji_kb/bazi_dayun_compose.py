@@ -38,6 +38,11 @@
   路径，真实盘全链由密封专项在组装环境回验（仓库既有分区规则）。
 - 本组合与所串联的 Variant 相同：尚未在密封 Phase1/Phase2 注册
   rule，evidence_binding 为 pending_phase1_rule_registration。
+- E0346 分段改记：所串联的三命分段（方向与三命换算）已注册
+  Phase1 规则 bazi.rule.r038/r039 与 Phase2 步，本组合自身不注
+  册 rule、其继承的神峰分段仍 pending（待神峰经典 Canonical
+  扩编），evidence_binding 改记 segmented_inherited_pending；
+  组合输出本身仍不进 RuleMatch 与 Evidence。
 - 恒 research_only=True、public_enabled=False、ai_enabled=False。
 """
 from datetime import datetime, timedelta
@@ -69,14 +74,17 @@ LIMITATIONS = (
     '出生时刻的时区与历史时区口径沿用 TJ-015/TJ-017.1 既有边界（节距测量归一 Asia/Shanghai、1901–2098、历史时区未独立验证），本组合不新裁定。',
     '闰月交运子规则未编码（TJ-017.1 已整段排除）：闰月出生者的交运区间按非闰算式给出时必须视为未审，此限定随 TJ-017.1 limitations 一并在所嵌入的换算结果中给出。',
     '虚岁/实岁无原典口径：本组合一切输出不含年龄数值；「约 X 岁」式呈现属 TJ-017.3 的产品约定，不在本模块范围。',
-    '本组合尚未在密封 Phase1 bundle/Phase2 contract 注册 rule，不进 RuleMatch 与 Evidence（evidence_binding 与 TJ-017.1 同口径披露）。',
+    '本组合自身尚未在密封 Phase1 bundle/Phase2 contract 注册 rule，不进 RuleMatch 与 Evidence；其所串联的三命分段已随 E0346 注册（bazi.rule.r038/r039 与对应 Phase2 步），神峰分段仍未注册——evidence_binding 改记 segmented_inherited_pending（三命分段已注册、本组合继承的神峰分段仍 pending，随神峰经典 Canonical 扩编解除）。',
 )
 
 
 def _flags():
+    # E0346: the composed Sanming segment is registered upstream
+    # (bazi.rule.r038/r039); this composition registers nothing
+    # itself and its inherited Shenfeng segment remains pending.
     return {'research_only': True, 'public_enabled': False,
             'ai_enabled': False,
-            'evidence_binding': 'pending_phase1_rule_registration'}
+            'evidence_binding': 'segmented_inherited_pending'}
 
 
 def classical_dayun_timeline(birth_value, *, zone=None, traditional_role,

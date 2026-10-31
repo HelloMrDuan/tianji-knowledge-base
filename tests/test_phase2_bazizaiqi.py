@@ -69,13 +69,15 @@ class ZaqiRegistrationTests(unittest.TestCase):
         cls.steps = {r['id']: r for r in cls.contract['rules']}
 
     def test_counts_and_registration(self):
-        self.assertEqual(len(self.bundle['sections']), 67)
-        self.assertEqual(len(self.bundle['chapters']), 27)
+        self.assertEqual(len(self.bundle['sections']), 70)
+        self.assertEqual(len(self.bundle['chapters']), 29)
         # E0344: +1 term (ren_true_pattern), +1 rule (r037),
         # +1 contract step; sections/chapters unchanged.
-        self.assertEqual(len(self.bundle['terms']), 34)
-        self.assertEqual(len(self.bundle['rules']), 37)
-        self.assertEqual(len(self.contract['rules']), 38)
+        # E0346: +3 sections (s068/s069/s070), +2 chapters,
+        # +2 terms, +2 rules (r038/r039), +2 contract steps.
+        self.assertEqual(len(self.bundle['terms']), 36)
+        self.assertEqual(len(self.bundle['rules']), 39)
+        self.assertEqual(len(self.contract['rules']), 40)
         self.assertEqual(self.sections[ZAQI_SECTION]['source_id'],
                          DITIANSUI)
         self.assertEqual(self.sections[ZAQI_SECTION]['chapter_id'],
@@ -177,7 +179,7 @@ class ZaqiRegistrationTests(unittest.TestCase):
     def test_golden_cases_fire_the_registered_step(self):
         results = {c['id']: c for c in run_cases(ROOT, 'bazi')}
         # E0344: +15 ren-yin Golden cases (163 total).
-        self.assertEqual(len(results), 163)
+        self.assertEqual(len(results), 169)
         for case_id in GOLDEN_IDS:
             self.assertIn(case_id, results)
             self.assertIn(STEP, results[case_id]['rule_ids'])
@@ -217,7 +219,7 @@ class ZaqiRegistrationTests(unittest.TestCase):
         self.assertNotIn('pattern-zaqi', governance.MAINTAINED_ITEMS)
         # E0344: ren-pattern-yin-true-v1 flipped too (six
         # maintained).
-        self.assertEqual(len(governance.MAINTAINED_ITEMS), 6)
+        self.assertEqual(len(governance.MAINTAINED_ITEMS), 5)
         record = governance.GOVERNANCE_ZAQI_RECORD
         self.assertEqual(record['event'], 'E0342')
         self.assertEqual(record['phase1_rules_added'], ['bazi.rule.r036'])

@@ -15,6 +15,9 @@ from ..bazi_conflict_presentation import VARIANT as CONFLICT_VARIANT, conflict_p
 from ..bazi_xiyong_readable import VARIANT as READABLE_VARIANT, readable_hints
 from ..bazi_annual_reference import annual_reference, annual_lichun_boundaries
 from ..bazi_dayun_sequence import candidate_sequence
+from ..bazi_dayun_classical import (classical_direction,
+                                    sanming_convert_measurement,
+                                    validate_classical_direction)
 from ..bazi_sanxing_facts import reviewed_branch_punishment_facts
 
 
@@ -26,7 +29,7 @@ def strength_factors(pillars, day_master, *, factor_variant=FACTOR_VARIANT, outp
         raise ValueError('Unsupported factor output')
     return observed[output_key]
 
-def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=False, include_relations=False, traditional_role=None, strength_variant=None, month_command_variant=None, root_availability_variant=None, action_effect_variant=None, variant=VARIANT, *, pattern_variant=None, tiaohou_variant=None, bingyao_variant=None, conflict_variant=None, readable_variant=None, annual_reference_years=None, annual_boundary_years=None, dayun_sequence_direction=None, dayun_sequence_count=8, include_punishment_facts=False, ren_yin_pilot_result=None):
+def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=False, include_relations=False, traditional_role=None, strength_variant=None, month_command_variant=None, root_availability_variant=None, action_effect_variant=None, variant=VARIANT, *, pattern_variant=None, tiaohou_variant=None, bingyao_variant=None, conflict_variant=None, readable_variant=None, annual_reference_years=None, annual_boundary_years=None, dayun_sequence_direction=None, dayun_sequence_count=8, include_punishment_facts=False, ren_yin_pilot_result=None, dayun_classical_role=None, dayun_sanming_measurement=None):
     if variant != VARIANT:
         raise ValueError("Unsupported Bazi variant")
     if type(include_xianchi) is not bool:
@@ -37,6 +40,10 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
         raise ValueError("include_punishment_facts must be boolean")
     if ren_yin_pilot_result is not None and not isinstance(ren_yin_pilot_result, dict):
         raise ValueError("ren_yin_pilot_result must be an explicit pilot result object")
+    if dayun_classical_role is not None and dayun_classical_role not in ("male", "female"):
+        raise ValueError("dayun_classical_role must be male or female")
+    if dayun_sanming_measurement is not None and not isinstance(dayun_sanming_measurement, dict):
+        raise ValueError("dayun_sanming_measurement must be an explicit measurement object")
     if traditional_role is not None and traditional_role not in ("male", "female"):
         raise ValueError("traditional_role must be male or female")
     if annual_reference_years is not None:
@@ -303,6 +310,62 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
         # passed Phase1/Phase2 source review. Keep explicit month-pillar lineage.
         result['dayun_sequence_research'] = sequence
         result['production_scope'] += '；显式研究用月柱相邻干支候选（顺逆及起运法尚未审核，非正式大运排盘）'
+    if dayun_classical_role is not None or dayun_sanming_measurement is not None:
+        # TJ-017.1 classical Dayun, Sanming segment. Governance
+        # dayun Sanming-segment registration (E0346): the direction
+        # and the Sanming measurement conversion are registered
+        # (Phase1 bazi.rule.r038 / bazi.rule.r039, Phase2
+        # bazi.phase2.dayun_classical_direction /
+        # bazi.phase2.dayun_sanming_conversion; Canonical sections
+        # s068/s069 bind the direction rule quote, the vol-11
+        # direction witness and the eight conversion quotes), so
+        # they execute through trace.add like the other registered
+        # steps and enter RuleMatch and Evidence. The Shenfeng
+        # segment is NOT registered and never executes here.
+        # chart() carries no birth instant: the traditional role
+        # and the TJ-015 measurement stay explicit caller-supplied
+        # input claims, cross-checked against the executed pillars
+        # (month ganzhi; direction consistency when both are
+        # supplied), and the measurement is additionally
+        # replay-validated inside sanming_convert_measurement.
+        # Defaults None/None: the default envelope stays
+        # byte-identical.
+        direction_result = None
+        if dayun_classical_role is not None:
+            direction_result = classical_direction(
+                year_ganzhi, traditional_role=dayun_classical_role)
+            validate_classical_direction(direction_result)
+        conversion_result = None
+        if dayun_sanming_measurement is not None:
+            if dayun_sanming_measurement.get(
+                    'birth_month_ganzhi') != month_ganzhi:
+                raise ValueError(
+                    'dayun_sanming_measurement month ganzhi does '
+                    'not match the executed month pillar')
+            conversion_result = sanming_convert_measurement(
+                dayun_sanming_measurement)
+            if direction_result is not None and \
+                    conversion_result['direction'] != \
+                    direction_result['direction']:
+                raise ValueError(
+                    'dayun_sanming_measurement direction does not '
+                    'match the classical direction for the supplied '
+                    'role')
+        if direction_result is not None:
+            trace.add('bazi.phase2.dayun_classical_direction',
+                      {'dayun_classical_role': dayun_classical_role,
+                       'year_ganzhi': year_ganzhi},
+                      direction_result)
+            result['dayun_classical_direction'] = direction_result
+        if conversion_result is not None:
+            trace.add('bazi.phase2.dayun_sanming_conversion',
+                      {'measurement_variant':
+                       dayun_sanming_measurement['variant'],
+                       'direction': conversion_result['direction'],
+                       'birth_month_ganzhi': month_ganzhi},
+                      conversion_result)
+            result['dayun_sanming_conversion'] = conversion_result
+        result['production_scope'] += '；研究用三命古典大运方向与三命换算（显式性别角色与节距测量为输入声明：只输出方向与交运时长区间，不输出年龄、不接公开页面；神峰分段未注册不在此执行）'
     if pattern_variant is not None:
         result['pattern_candidates'] = {}
         for family in ('official', 'resource'):
@@ -396,7 +459,7 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
             result['strength_assessment'], result['conflict_presentation'])
         result['production_scope'] += '；研究用喜用结果可读提示（确定性模板渲染已裁定结构化陈述，不新增判断、不公开）'
     output = trace.finish(result)
-    if strength_variant == ADJUDICATION_VARIANT or pattern_variant is not None or tiaohou_variant is not None or bingyao_variant is not None or conflict_variant is not None or readable_variant is not None or annual_reference_years is not None or annual_boundary_years is not None or dayun_sequence_direction is not None or include_punishment_facts:
+    if strength_variant == ADJUDICATION_VARIANT or pattern_variant is not None or tiaohou_variant is not None or bingyao_variant is not None or conflict_variant is not None or readable_variant is not None or annual_reference_years is not None or annual_boundary_years is not None or dayun_sequence_direction is not None or include_punishment_facts or dayun_classical_role is not None or dayun_sanming_measurement is not None:
         output['interpretation_contract']['ai_may_explain'] = False
         output['research_only'] = True
     if strength_variant == ADJUDICATION_VARIANT:

@@ -418,13 +418,40 @@ class RegistrationAndIsolationTests(unittest.TestCase):
         self.assertIn('85001', shenfeng['review_scope'])
 
     def test_variants_not_wired_into_production_paths(self):
+        # Batch transition (E0346, governance dayun Sanming-segment
+        # promotion): the TJ-017.1-era blanket isolation (no
+        # production path references the classical module at all)
+        # is superseded for the Sanming segment ONLY — direction
+        # and Sanming conversion are registered (Phase1 r038/r039,
+        # Phase2 bazi.phase2.dayun_classical_direction /
+        # bazi.phase2.dayun_sanming_conversion) and execute through
+        # chart()'s gated trace steps. The isolation contract now
+        # pins the exact gated shape instead: engine.py and
+        # public_projection.py still never name the module, the
+        # variant id or handover internals; bazi_chart.py imports
+        # the module exactly once, hardcodes no variant id, never
+        # touches handover internals, and wires only the two
+        # registered Sanming steps — the Shenfeng conversion
+        # function is NOT wired anywhere (its segment stays
+        # pending).
         for rel in ('src/tianji_kb/engine.py',
-                    'src/tianji_kb/operations/bazi_chart.py',
                     'src/tianji_kb/public_projection.py'):
             text = (ROOT / rel).read_text('utf-8')
             self.assertNotIn('bazi_dayun_classical', text, rel)
             self.assertNotIn('dayun-direction-classical-v1', text, rel)
             self.assertNotIn('handover_intervals', text, rel)
+        chart_text = (ROOT / 'src/tianji_kb/operations/bazi_chart.py'
+                      ).read_text('utf-8')
+        self.assertEqual(chart_text.count('bazi_dayun_classical'), 1)
+        self.assertIn('from ..bazi_dayun_classical import',
+                      chart_text)
+        self.assertNotIn('dayun-direction-classical-v1', chart_text)
+        self.assertNotIn('handover_intervals', chart_text)
+        self.assertIn('bazi.phase2.dayun_classical_direction',
+                      chart_text)
+        self.assertIn('bazi.phase2.dayun_sanming_conversion',
+                      chart_text)
+        self.assertNotIn('shenfeng_convert_days', chart_text)
 
     def test_consumer_conventions_recorded(self):
         self.assertIn('禁止先把区间折算成某个「岁数」再调用',

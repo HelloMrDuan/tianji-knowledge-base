@@ -122,8 +122,11 @@ class InventoryFlipTests(unittest.TestCase):
         # E0342: pattern-zaqi flipped too (seven maintained).
         # E0344: ren-pattern-yin-true-v1 flipped too (six
         # maintained).
+        # E0346: dayun-classical-variants flipped too (segmented;
+        # five maintained).
         self.assertEqual(sorted(gov.FLIPPED_ITEMS),
                          ['commanding_visible_support',
+                          'dayun-classical-variants',
                           'lu_visible_support',
                           'pattern-route-luren',
                           'pattern-zaqi',
@@ -134,7 +137,7 @@ class InventoryFlipTests(unittest.TestCase):
                           'sanxing-branch-fact-v1'])
         self.assertNotIn('sanxing-branch-fact-v1',
                          gov.MAINTAINED_ITEMS)
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 6)
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 5)
 
 
 class DisclosureFlipTests(unittest.TestCase):

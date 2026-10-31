@@ -91,6 +91,10 @@ def execute(domain,inputs,variant=None,*,allow_research=False):
         raise ValueError('Pattern candidate observations require explicit research mode')
     if domain == 'bazi' and inputs.get('ren_yin_pilot_result') is not None and not allow_research:
         raise ValueError('Ren yin true-pattern determination requires explicit research mode')
+    if domain == 'bazi' and inputs.get('dayun_classical_role') is not None and not allow_research:
+        raise ValueError('Classical dayun direction requires explicit research mode')
+    if domain == 'bazi' and inputs.get('dayun_sanming_measurement') is not None and not allow_research:
+        raise ValueError('Classical dayun Sanming conversion requires explicit research mode')
     if domain == 'bazi' and inputs.get('tiaohou_variant') is not None and not allow_research:
         raise ValueError('Tiaohou entry statements require explicit research mode')
     if domain == 'bazi' and inputs.get('bingyao_variant') is not None and not allow_research:

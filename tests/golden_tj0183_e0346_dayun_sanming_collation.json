@@ -1,0 +1,773 @@
+{
+ "register_id": "sanming-juan2-dayun-collation-register-v1",
+ "task": "TJ-017.1/E0346",
+ "snapshots": {
+  "sanming_tonghui.txt": {
+   "snapshot_path": "data/quarantine/public_domain_snapshots/daizhigev20/sanming_tonghui.txt",
+   "sha256": "00e2a7db8bb59b259b99938033bb1bb77947e04a15dafc111e62b59378010c86",
+   "blob_sha": "463c47cdde72c84ca6f1bd6d910a4f3fc1801f6a",
+   "bytes": 1342659,
+   "chars": 461157
+  },
+  "sanming_tonghui_applied_v1.txt": {
+   "snapshot_path": "data/quarantine/public_domain_snapshots/daizhigev20/sanming_tonghui_applied_v1.txt",
+   "sha256": "a89c0b5da16ea4e07dc85180c49135ed280875318059f923ff7154f2c217662f",
+   "blob_sha": "f967400bfabeb09b627a747fa1b654de8a0c1970",
+   "bytes": 1342682,
+   "chars": 461156
+  }
+ },
+ "sections": [
+  {
+   "box_count": 0,
+   "canonical_section_id": "bazi.section.s068",
+   "canonical_source_id": "bazi.source.sanmingtonghui-applied",
+   "fang_count": 1,
+   "locator": {
+    "char_end": 59198,
+    "char_start": 58457
+   },
+   "parts": [
+    {
+     "label": "论大运正文（整节；含闰月子句排除段 59099–59142，该段只登记、不入任何引文消费）",
+     "locator": {
+      "char_end": 59198,
+      "char_start": 58457
+     },
+     "note": "TJ-017.1 审定底稿（dayun 册 sanming.juan2.lun_dayun）已登记本节 S0 切片与 11 条卷二引文；本册以现行 S3 实测复核时效并补 S3 双基线坐标与节内校勘条目，坐标位移 −1 经 origin 位点图与逐字复现双重核对。节内残余防 1 处（S0 58542）不在任何引文内，随本节元数据携带。",
+     "part_id": "lun_dayun_exposition",
+     "s3_locator": {
+      "char_end": 59197,
+      "char_start": 58456
+     },
+     "status": "registered_evidence"
+    }
+   ],
+   "pua_count": 3,
+   "s3_box_count": 0,
+   "s3_locator": {
+    "char_end": 59197,
+    "char_start": 58456
+   },
+   "s3_pua_count": 0,
+   "school_attribution": "三命通会体系",
+   "section_id": "sanming.juan2.lun_dayun",
+   "source_id": "bazi.source.sanmingtonghui",
+   "text_layer": "正文（大运总论、三日折一年比率推导、顺逆方向规则、原文例算与自检、反约法、零/借定义与例、交接与十年递换、闰月子句排除段、生刻不明近似句）",
+   "title_normalized": "论大运",
+   "title_snapshot": "论大运",
+   "volume": "卷二"
+  },
+  {
+   "box_count": 0,
+   "canonical_section_id": "bazi.section.s069",
+   "canonical_source_id": "bazi.source.sanmingtonghui-applied",
+   "fang_count": 2,
+   "locator": {
+    "char_end": 397159,
+    "char_start": 396898
+   },
+   "parts": [
+    {
+     "canonical_section_id": "bazi.section.s069",
+     "label": "见证窗口 A（方向见证、比率见证、计数分歧三引文所在赋文＋赋注连续窗口）",
+     "locator": {
+      "char_end": 397159,
+      "char_start": 396898
+     },
+     "note": "窗口内 PUA 1 处（S0 397081，U+EA20=玄 confirmed）在赋文正文内、不在任何引文内；防 2 处（S0 397045/397047）在 S3 中已应用为㑹（U+3479），亦不在任何引文内（校勘记 ldy-pua-397081、ldy-fang-397045、ldy-fang-397047）。",
+     "part_id": "witness_window_a",
+     "s3_locator": {
+      "char_end": 397158,
+      "char_start": 396897
+     },
+     "status": "registered_evidence"
+    },
+    {
+     "canonical_section_id": "bazi.section.s070",
+     "label": "见证窗口 B（方向见证二引文恰幅：窗口与引文同界）",
+     "locator": {
+      "char_end": 408795,
+      "char_start": 408771
+     },
+     "note": "窗口恰为引文 vol11_direction_witness2 本身（24 字）；引文内 genuine 点 1 处（S0 408791「岁」）confirmed/Q1、传本异文并列在册（校勘记 ldy-genuine-408791）。",
+     "part_id": "witness_window_b",
+     "s3_locator": {
+      "char_end": 408794,
+      "char_start": 408770
+     },
+     "status": "registered_evidence"
+    }
+   ],
+   "pua_count": 1,
+   "s3_box_count": 0,
+   "s3_locator": {
+    "char_end": 397158,
+    "char_start": 396897
+   },
+   "s3_pua_count": 0,
+   "school_attribution": "三命通会体系（珞琭子消息赋注）",
+   "section_id": "sanming.juan11.luoluozi_dayun_witness",
+   "source_id": "bazi.source.sanmingtonghui",
+   "text_layer": "赋注正文两窗口（窗口 A：珞琭子赋「运行则一辰十载」句前赋文与赋注；窗口 B：赋注引文恰幅一段）",
+   "title_normalized": "珞琭子消息赋注·大运见证窗口（两处）",
+   "title_snapshot": "珞琭子消息赋注·大运见证窗口",
+   "volume": "卷十一"
+  }
+ ],
+ "quotes": [
+  {
+   "canonical_section_id": "bazi.section.s068",
+   "classical_quote_id": "ratio_statement",
+   "id": "ldy.ratio_statement",
+   "locator": {
+    "char_end": 58603,
+    "char_start": 58584,
+    "line": 342
+   },
+   "mapped_reading_text": null,
+   "note": "比率命题句：一辰十嵗、折除三日为年。",
+   "phase1_rule_binding": "bazi.rule.r039",
+   "quote": "古人以大运则一辰十嵗折除以三日为年者何",
+   "role": "encoded_basis",
+   "s3_locator": {
+    "char_end": 58602,
+    "char_start": 58583,
+    "line": 342
+   },
+   "s3_quote": "古人以大运则一辰十嵗折除以三日为年者何",
+   "s3_text_form": "verbatim",
+   "section_id": "sanming.juan2.lun_dayun",
+   "source_id": "bazi.source.sanmingtonghui"
+  },
+  {
+   "canonical_section_id": "bazi.section.s068",
+   "classical_quote_id": "ratio_derivation",
+   "id": "ldy.ratio_derivation",
+   "locator": {
+    "char_end": 58683,
+    "char_start": 58603,
+    "line": 342
+   },
+   "mapped_reading_text": null,
+   "note": "全书唯一给出推导的条目：3 日=36 时→360 日为一嵗；1 时=10 日、1 日=120 日由此导出。",
+   "phase1_rule_binding": "bazi.rule.r039",
+   "quote": "葢一月之终晦朔周而有三十日一日之终昼夜周而有十二时总十年之运气凡三日有三十六时乃见三百六十日为一嵗之数在一月之中有三百六十时折除节气算计三千六百日为一辰之十嵗也",
+   "role": "encoded_basis",
+   "s3_locator": {
+    "char_end": 58682,
+    "char_start": 58602,
+    "line": 342
+   },
+   "s3_quote": "葢一月之终晦朔周而有三十日一日之终昼夜周而有十二时总十年之运气凡三日有三十六时乃见三百六十日为一嵗之数在一月之中有三百六十时折除节气算计三千六百日为一辰之十嵗也",
+   "s3_text_form": "verbatim",
+   "section_id": "sanming.juan2.lun_dayun",
+   "source_id": "bazi.source.sanmingtonghui"
+  },
+  {
+   "canonical_section_id": "bazi.section.s068",
+   "classical_quote_id": "direction_rule",
+   "id": "ldy.direction_rule",
+   "locator": {
+    "char_end": 58757,
+    "char_start": 58693,
+    "line": 342
+   },
+   "mapped_reading_text": null,
+   "note": "方向与计数目标绑定为一条规则。本方向 Variant 的唯一编码规则句。",
+   "phase1_rule_binding": "bazi.rule.r038",
+   "quote": "论折除之法必用生者日歴过日时数其节气之数阳男隂女大运以生日后未来节气日时为数顺而行之隂男阳女大运以生日前过去节气日时为数逆而行之",
+   "role": "encoded_rule",
+   "s3_locator": {
+    "char_end": 58756,
+    "char_start": 58692,
+    "line": 342
+   },
+   "s3_quote": "论折除之法必用生者日歴过日时数其节气之数阳男隂女大运以生日后未来节气日时为数顺而行之隂男阳女大运以生日前过去节气日时为数逆而行之",
+   "s3_text_form": "verbatim",
+   "section_id": "sanming.juan2.lun_dayun",
+   "source_id": "bazi.source.sanmingtonghui"
+  },
+  {
+   "canonical_section_id": "bazi.section.s068",
+   "classical_quote_id": "worked_example",
+   "id": "ldy.worked_example",
+   "locator": {
+    "char_end": 58863,
+    "char_start": 58757,
+    "line": 342
+   },
+   "mapped_reading_text": null,
+   "note": "原文例算：五日三时=63 时→630 日。句中「实歴过六十三日」疑似转写讹衍，逐字保留只存疑登记。首运「起于丁丑」（月柱本身）与神峰例首运取次位的序列口径差异由 TJ-014.2 既有链显式声明处理，本批方向 Variant 不输出序列。",
+   "phase1_rule_binding": "bazi.rule.r039",
+   "quote": "假如甲子阳男十二月二十四日巳时生是月也二十九日申时立春阳男数以未来之日自二十四日巳时至二十五日巳时方是一日之实数至二十九申时正得五日三时之节气实歴过六十三日折除过六十三时折除计六百三十日乃一嵗竒九月之大运起于丁丑",
+   "role": "golden_basis",
+   "s3_locator": {
+    "char_end": 58862,
+    "char_start": 58756,
+    "line": 342
+   },
+   "s3_quote": "假如甲子阳男十二月二十四日巳时生是月也二十九日申时立春阳男数以未来之日自二十四日巳时至二十五日巳时方是一日之实数至二十九申时正得五日三时之节气实歴过六十三日折除过六十三时折除计六百三十日乃一嵗竒九月之大运起于丁丑",
+   "s3_text_form": "verbatim",
+   "section_id": "sanming.juan2.lun_dayun",
+   "source_id": "bazi.source.sanmingtonghui"
+  },
+  {
+   "canonical_section_id": "bazi.section.s068",
+   "classical_quote_id": "worked_example_check",
+   "id": "ldy.worked_example_check",
+   "locator": {
+    "char_end": 58912,
+    "char_start": 58863,
+    "line": 342
+   },
+   "mapped_reading_text": null,
+   "note": "例算自洽校验句。「越三嵗九月」之「三」与算式矛盾，疑似讹字，逐字保留存疑登记。",
+   "phase1_rule_binding": null,
+   "quote": "必自十二月生日后实经厯过二十有一之日月运方移宫是越三嵗九月之内方是甲子十二月生行一嵗竒九月之大运也",
+   "role": "registered_not_encoded",
+   "s3_locator": {
+    "char_end": 58911,
+    "char_start": 58862,
+    "line": 342
+   },
+   "s3_quote": "必自十二月生日后实经厯过二十有一之日月运方移宫是越三嵗九月之内方是甲子十二月生行一嵗竒九月之大运也",
+   "s3_text_form": "verbatim",
+   "section_id": "sanming.juan2.lun_dayun",
+   "source_id": "bazi.source.sanmingtonghui"
+  },
+  {
+   "canonical_section_id": "bazi.section.s068",
+   "classical_quote_id": "anti_rounding",
+   "id": "ldy.anti_rounding",
+   "locator": {
+    "char_end": 58943,
+    "char_start": 58912,
+    "line": 342
+   },
+   "mapped_reading_text": null,
+   "note": "明文反对约整。本换算 Variant 据此禁止任何整岁取整路径。",
+   "phase1_rule_binding": "bazi.rule.r039",
+   "quote": "今人行运多用约法论以一嵗竒八月起运便以二嵗殊不明折除实厯之数也",
+   "role": "encoded_prohibition",
+   "s3_locator": {
+    "char_end": 58942,
+    "char_start": 58911,
+    "line": 342
+   },
+   "s3_quote": "今人行运多用约法论以一嵗竒八月起运便以二嵗殊不明折除实厯之数也",
+   "s3_text_form": "verbatim",
+   "section_id": "sanming.juan2.lun_dayun",
+   "source_id": "bazi.source.sanmingtonghui"
+  },
+  {
+   "canonical_section_id": "bazi.section.s068",
+   "classical_quote_id": "zero_borrow_definition",
+   "id": "ldy.zero_borrow_definition",
+   "locator": {
+    "char_end": 59002,
+    "char_start": 58969,
+    "line": 342
+   },
+   "mapped_reading_text": null,
+   "note": "零/借定义：余为零、欠为借。",
+   "phase1_rule_binding": "bazi.rule.r039",
+   "quote": "然三日而成一歳见有余人谓之零见不足人谓之借但知其零借不知其所以零借",
+   "role": "encoded_basis",
+   "s3_locator": {
+    "char_end": 59001,
+    "char_start": 58968,
+    "line": 342
+   },
+   "s3_quote": "然三日而成一歳见有余人谓之零见不足人谓之借但知其零借不知其所以零借",
+   "s3_text_form": "verbatim",
+   "section_id": "sanming.juan2.lun_dayun",
+   "source_id": "bazi.source.sanmingtonghui"
+  },
+  {
+   "canonical_section_id": "bazi.section.s068",
+   "classical_quote_id": "zero_borrow_example",
+   "id": "ldy.zero_borrow_example",
+   "locator": {
+    "char_end": 59055,
+    "char_start": 59002,
+    "line": 342
+   },
+   "mapped_reading_text": null,
+   "note": "零/借算式：36 时=一嵗全；37 时零一旬→370 日；35 时借一旬→350 日。余数在时粒度线性结转。",
+   "phase1_rule_binding": "bazi.rule.r039",
+   "quote": "假如阳命正月初一日丑时正一刻生至初四日丑时正一刻立春节乃作一嵗全若春在寅时则多一时乃零一旬若欠一时乃借一旬",
+   "role": "encoded_basis",
+   "s3_locator": {
+    "char_end": 59054,
+    "char_start": 59001,
+    "line": 342
+   },
+   "s3_quote": "假如阳命正月初一日丑时正一刻生至初四日丑时正一刻立春节乃作一嵗全若春在寅时则多一时乃零一旬若欠一时乃借一旬",
+   "s3_text_form": "verbatim",
+   "section_id": "sanming.juan2.lun_dayun",
+   "source_id": "bazi.source.sanmingtonghui"
+  },
+  {
+   "canonical_section_id": "bazi.section.s068",
+   "classical_quote_id": "handover_example",
+   "id": "ldy.handover_example",
+   "locator": {
+    "char_end": 59099,
+    "char_start": 59063,
+    "line": 342
+   },
+   "mapped_reading_text": "假如甲子年正月初一子时正一刻生行运算至乙丑年正月初一日子时正一刻乃作一嵗",
+   "note": "交运例起句（刻精度）。完整算式依赖闰月条款与未明句，只登记不编码其整年折算。引文逐字保留快照 PUA 原字；mapped_reading_text 为校勘映射读法，另行标注、非引文。",
+   "phase1_rule_binding": null,
+   "quote": "假如甲子年正月初一子时正一刻生行运至乙丑年正月初一日子时正一刻乃作一嵗",
+   "role": "registered_not_encoded",
+   "s3_locator": {
+    "char_end": 59098,
+    "char_start": 59062,
+    "line": 342
+   },
+   "s3_quote": "假如甲子年正月初一子时正一刻生行运算至乙丑年正月初一日子时正一刻乃作一嵗",
+   "s3_text_form": "applied_reading",
+   "section_id": "sanming.juan2.lun_dayun",
+   "source_id": "bazi.source.sanmingtonghui"
+  },
+  {
+   "canonical_section_id": "bazi.section.s068",
+   "classical_quote_id": "handover_decade",
+   "id": "ldy.handover_decade",
+   "locator": {
+    "char_end": 59171,
+    "char_start": 59160,
+    "line": 342
+   },
+   "mapped_reading_text": "从此算后十周年方换一运",
+   "note": "交运后每运十周年递换。后续运区间=首交运区间+ k×10 历年平移（宽度平移）；闰日平移处理为实现约定并标注，非原文算式。",
+   "phase1_rule_binding": "bazi.rule.r039",
+   "quote": "从此后十周年方换一运",
+   "role": "encoded_basis",
+   "s3_locator": {
+    "char_end": 59170,
+    "char_start": 59159,
+    "line": 342
+   },
+   "s3_quote": "从此算后十周年方换一运",
+   "s3_text_form": "applied_reading",
+   "section_id": "sanming.juan2.lun_dayun",
+   "source_id": "bazi.source.sanmingtonghui"
+  },
+  {
+   "canonical_section_id": "bazi.section.s068",
+   "classical_quote_id": "handover_approx",
+   "id": "ldy.handover_approx",
+   "locator": {
+    "char_end": 59198,
+    "char_start": 59171,
+    "line": 342
+   },
+   "mapped_reading_text": null,
+   "note": "生刻不明近似口径，原文自标「差不远」为近似而非等值。本 Variant 据此加宽区间并标注 approximate。",
+   "phase1_rule_binding": "bazi.rule.r039",
+   "quote": "若学者不知其生刻独知其生时即以生时扣筭六节之时亦差不逺",
+   "role": "encoded_labeling_rule",
+   "s3_locator": {
+    "char_end": 59197,
+    "char_start": 59170,
+    "line": 342
+   },
+   "s3_quote": "若学者不知其生刻独知其生时即以生时扣筭六节之时亦差不逺",
+   "s3_text_form": "verbatim",
+   "section_id": "sanming.juan2.lun_dayun",
+   "source_id": "bazi.source.sanmingtonghui"
+  },
+  {
+   "canonical_section_id": "bazi.section.s069",
+   "classical_quote_id": "vol11_direction_witness",
+   "id": "ldy.vol11_direction_witness",
+   "locator": {
+    "char_end": 396928,
+    "char_start": 396898,
+    "line": 5588
+   },
+   "mapped_reading_text": null,
+   "note": "卷十一赋注书内第二见证，方向分组与卷二主句一致。",
+   "phase1_rule_binding": "bazi.rule.r038",
+   "quote": "以支为命而详之则有逆顺如阳男阴女从生月顺行阴男阳女从生月逆行",
+   "role": "corroboration",
+   "s3_locator": {
+    "char_end": 396927,
+    "char_start": 396897,
+    "line": 5588
+   },
+   "s3_quote": "以支为命而详之则有逆顺如阳男阴女从生月顺行阴男阳女从生月逆行",
+   "s3_text_form": "verbatim",
+   "section_id": "sanming.juan11.luoluozi_dayun_witness",
+   "source_id": "bazi.source.sanmingtonghui"
+  },
+  {
+   "canonical_section_id": "bazi.section.s069",
+   "classical_quote_id": "vol11_ratio_witness",
+   "id": "ldy.vol11_ratio_witness",
+   "locator": {
+    "char_end": 397134,
+    "char_start": 397112,
+    "line": 5590
+   },
+   "mapped_reading_text": null,
+   "note": "卷十一赋注比率见证。",
+   "phase1_rule_binding": null,
+   "quote": "运行则一辰十载折除乃三日为年此古人立运之法也",
+   "role": "corroboration",
+   "s3_locator": {
+    "char_end": 397133,
+    "char_start": 397111,
+    "line": 5590
+   },
+   "s3_quote": "运行则一辰十载折除乃三日为年此古人立运之法也",
+   "s3_text_form": "verbatim",
+   "section_id": "sanming.juan11.luoluozi_dayun_witness",
+   "source_id": "bazi.source.sanmingtonghui"
+  },
+  {
+   "canonical_section_id": "bazi.section.s069",
+   "classical_quote_id": "vol11_counting_divergence",
+   "id": "ldy.vol11_counting_divergence",
+   "locator": {
+    "char_end": 397158,
+    "char_start": 397142,
+    "line": 5590
+   },
+   "mapped_reading_text": null,
+   "note": "书内自承「就生/就节」异口径并存未裁定。计数目标按例证取节登记，scope 注明无排斥中气明文。",
+   "phase1_rule_binding": null,
+   "quote": "命有节气浅深不同运有就生就节互异",
+   "role": "registered_limit",
+   "s3_locator": {
+    "char_end": 397157,
+    "char_start": 397141,
+    "line": 5590
+   },
+   "s3_quote": "命有节气浅深不同运有就生就节互异",
+   "s3_text_form": "verbatim",
+   "section_id": "sanming.juan11.luoluozi_dayun_witness",
+   "source_id": "bazi.source.sanmingtonghui"
+  },
+  {
+   "canonical_section_id": "bazi.section.s070",
+   "classical_quote_id": "vol11_direction_witness2",
+   "id": "ldy.vol11_direction_witness2",
+   "locator": {
+    "char_end": 408795,
+    "char_start": 408771,
+    "line": 5668
+   },
+   "mapped_reading_text": null,
+   "note": "卷十一赋注第三见证。「折除三岁为年」之「岁」为单点讹字（与三处「三日为年」矛盾），逐字保留登记异文，不得径改。",
+   "phase1_rule_binding": null,
+   "quote": "阴男阳女阳男阴女依逆顺行运折除即前折除三岁为年也",
+   "role": "registered_not_encoded",
+   "s3_locator": {
+    "char_end": 408794,
+    "char_start": 408770,
+    "line": 5668
+   },
+   "s3_quote": "阴男阳女阳男阴女依逆顺行运折除即前折除三岁为年也",
+   "s3_text_form": "verbatim",
+   "section_id": "sanming.juan11.luoluozi_dayun_witness",
+   "source_id": "bazi.source.sanmingtonghui"
+  },
+  {
+   "canonical_section_id": "bazi.section.s068",
+   "classical_quote_id": "leap_clause_excluded_span",
+   "id": "ldy.leap_clause_excluded_span",
+   "locator": {
+    "char_end": 59142,
+    "char_start": 59099,
+    "line": 342
+   },
+   "mapped_reading_text": null,
+   "note": "「内小六个月即进六日」语义未明，闰月交运「退还」条款的完整算式依赖该句：闰月交运子规则整段排除，只登记存档；合规路径为 TJ-018.2 对该段专项互校后再议。",
+   "phase1_rule_binding": null,
+   "quote": "内小六个月即进六日在初七日子时正一刻方作一嵗只要足十二个月却为本年有闰四月乃多一月矣",
+   "role": "excluded_span",
+   "s3_locator": {
+    "char_end": 59141,
+    "char_start": 59098,
+    "line": 342
+   },
+   "s3_quote": "内小六个月即进六日在初七日子时正一刻方作一嵗只要算足十二个月却为本年有闰四月乃多一月矣",
+   "s3_text_form": "applied_reading",
+   "section_id": "sanming.juan2.lun_dayun",
+   "source_id": "bazi.source.sanmingtonghui"
+  }
+ ],
+ "collation_notes": [
+  {
+   "basis": [
+    {
+     "detail": "dayun 册 dy-pua-59080（TJ-017.1 登记，confirmed/Q1）",
+     "kind": "external_register"
+    },
+    {
+     "detail": "密封 PUA 映射表 sanming_pua_resolution_map_v1.json mappings[28]（U+ED92 → 算，同节 3 处同一映射）",
+     "kind": "sealed_asset"
+    },
+    {
+     "detail": "四库谱系两本（KR3g0041_007-14a、KR3e0100_142-5a）于本节对应文句同作「行運算至」",
+     "kind": "snapshot_witness"
+    }
+   ],
+   "char_offset": 59080,
+   "context_short": "行运算至（handover_example 引文内）",
+   "disposition": "corrected",
+   "id": "ldy-pua-59080",
+   "note": "本点位在密封 Canonical 建节（s068）时以应用形「算」入节文本；引文 ldy.handover_example 的 S3 文本形据此绑定应用文本来源。",
+   "reading": "算",
+   "reading_status": "confirmed",
+   "section_id": "sanming.juan2.lun_dayun",
+   "snapshot_codepoint": "U+ED92",
+   "snapshot_glyph": "PUA",
+   "usable_grade": null
+  },
+  {
+   "basis": [
+    {
+     "detail": "dayun 册 dy-pua-59123（TJ-017.1 登记，confirmed/Q1）",
+     "kind": "external_register"
+    },
+    {
+     "detail": "密封 PUA 映射表 mappings[28]（U+ED92 → 算）",
+     "kind": "sealed_asset"
+    }
+   ],
+   "char_offset": 59123,
+   "context_short": "只要算足（闰月子句排除段内）",
+   "disposition": "corrected",
+   "id": "ldy-pua-59123",
+   "note": "本点位落在闰月子句排除段（ldy.leap_clause_excluded_span）内：映射读法成立，但**不解除该段的整段排除**——排除依据是闰月计数规则未经审定，与字形读法无关。",
+   "reading": "算",
+   "reading_status": "confirmed",
+   "section_id": "sanming.juan2.lun_dayun",
+   "snapshot_codepoint": "U+ED92",
+   "snapshot_glyph": "PUA",
+   "usable_grade": null
+  },
+  {
+   "basis": [
+    {
+     "detail": "dayun 册 dy-pua-59162（TJ-017.1 登记，confirmed/Q1）",
+     "kind": "external_register"
+    },
+    {
+     "detail": "密封 PUA 映射表 mappings[28]（U+ED92 → 算）",
+     "kind": "sealed_asset"
+    },
+    {
+     "detail": "四库谱系两本于对应文句同作「從此算後」",
+     "kind": "snapshot_witness"
+    }
+   ],
+   "char_offset": 59162,
+   "context_short": "从此算后（handover_decade 引文内）",
+   "disposition": "corrected",
+   "id": "ldy-pua-59162",
+   "note": "引文 ldy.handover_decade 快照原字为简体行文「从此□后十周年方换一运」，S3 应用形只替换 PUA 一字（从此算后十周年方换一运），繁简行文逐字保留、不作转换。",
+   "reading": "算",
+   "reading_status": "confirmed",
+   "section_id": "sanming.juan2.lun_dayun",
+   "snapshot_codepoint": "U+ED92",
+   "snapshot_glyph": "PUA",
+   "usable_grade": null
+  },
+  {
+   "basis": [
+    {
+     "detail": "P2 残余防处置册 seq 35（S3 坐标 58541，disposition=deferred_no_witness，上下文「薄者如蒿莱之防春风潜发亦能」）",
+     "kind": "external_register"
+    },
+    {
+     "detail": "「防为多源汇讹字、无全局替换规则、只能逐处互校」（018 审源定案）；本处无见证在案，不作处置裁定",
+     "kind": "collation_principle"
+    }
+   ],
+   "char_offset": 58542,
+   "context_short": "薄者如蒿莱之防春风潜发亦能",
+   "disposition": "unresolved",
+   "id": "ldy-fang-58542",
+   "note": "本节唯一未决点：该字在 S3 中仍为残余「防」（S3 58541），位于引文 ldy.ratio_derivation 起始（S0 58603）之前的喻语内，**不落入任何消费引文**；建节 s068 时随节文本逐字携带并在本册与治理文档中如实登记，不构成建节阻塞（先例：s063/s064 残余防位点随节元数据携带）。",
+   "reading": null,
+   "reading_status": "unresolved",
+   "section_id": "sanming.juan2.lun_dayun",
+   "snapshot_glyph": "防",
+   "usable_grade": null
+  },
+  {
+   "basis": [
+    {
+     "detail": "dayun 册 dy-genuine-58834（confirmed genuine，读法=原字，Q1）",
+     "kind": "external_register"
+    },
+    {
+     "detail": "例算自洽：五日三时=63 时（原文例算链内部一致）",
+     "kind": "computation"
+    }
+   ],
+   "char_offset": 58834,
+   "context_short": "实歴过六十三日（worked_example 引文内）",
+   "disposition": "genuine",
+   "id": "ldy-genuine-58834",
+   "note": "防代日讹在本节他处成立（dy-fang-58770 等在 dayun 册），本处经逐处核对为真「日」字，原字保留。",
+   "reading": "日",
+   "reading_status": "confirmed",
+   "section_id": "sanming.juan2.lun_dayun",
+   "snapshot_glyph": "日",
+   "usable_grade": "Q1"
+  },
+  {
+   "basis": [
+    {
+     "detail": "dayun 册 dy-genuine-58888（confirmed genuine，Q1；候选讹读「五」经四库谱系两本同作「越三嵗九月」否决）",
+     "kind": "external_register"
+    }
+   ],
+   "char_offset": 58888,
+   "context_short": "越三嵗九月（worked_example_check 引文内）",
+   "disposition": "genuine",
+   "id": "ldy-genuine-58888",
+   "note": "原字保留；本处为引文内 genuine 点，不构成引文与 S3 的任何差异（S0/S3 逐字同形）。",
+   "reading": "三",
+   "reading_status": "confirmed",
+   "section_id": "sanming.juan2.lun_dayun",
+   "snapshot_glyph": "三",
+   "usable_grade": "Q1"
+  },
+  {
+   "basis": [
+    {
+     "detail": "dayun 册 dy-pua-397081（confirmed/Q1，全书普查 U+EA20 共 47 处同读）",
+     "kind": "external_register"
+    },
+    {
+     "detail": "密封 PUA 映射表（U+EA20 → 玄）",
+     "kind": "sealed_asset"
+    }
+   ],
+   "char_offset": 397081,
+   "context_short": "玄（窗口 A 赋文正文）",
+   "disposition": "corrected",
+   "id": "ldy-pua-397081",
+   "note": "本点位在窗口 A 赋文正文内、不在任何引文内；建节 s069 时以应用形「玄」入节文本。",
+   "reading": "玄",
+   "reading_status": "confirmed",
+   "section_id": "sanming.juan11.luoluozi_dayun_witness",
+   "snapshot_codepoint": "U+EA20",
+   "snapshot_glyph": "PUA",
+   "usable_grade": null
+  },
+  {
+   "basis": [
+    {
+     "detail": "TJ-018.3 正式应用文本 S3 于对应位点（S3 397044）作「㑹」（U+3479），应用记录在密封正式应用报告内",
+     "kind": "sealed_asset"
+    },
+    {
+     "detail": "同句两防位点（397045/397047）在 S3 中同作㑹，句读「否泰交居㑹吉㑹凶」成对一致",
+     "kind": "context"
+    }
+   ],
+   "char_offset": 397045,
+   "context_short": "否泰交居㑹吉㑹凶（S3 读法；快照作防）",
+   "disposition": "corrected",
+   "id": "ldy-fang-397045",
+   "note": "应用读法来自正式应用批（E0298），本批只登记其位置与 S3 读法、**不独立定字**；本点位不在任何引文内。S0 快照原字仍为「防」，登记引文与快照逐字口径不变。",
+   "reading": "㑹",
+   "reading_codepoint": "U+3479",
+   "reading_status": "contextual",
+   "section_id": "sanming.juan11.luoluozi_dayun_witness",
+   "snapshot_glyph": "防",
+   "usable_grade": null
+  },
+  {
+   "basis": [
+    {
+     "detail": "TJ-018.3 正式应用文本 S3 于对应位点（S3 397046）作「㑹」（U+3479），应用记录在密封正式应用报告内",
+     "kind": "sealed_asset"
+    },
+    {
+     "detail": "与 ldy-fang-397045 同句成对，同作㑹",
+     "kind": "context"
+    }
+   ],
+   "char_offset": 397047,
+   "context_short": "否泰交居㑹吉㑹凶（S3 读法；快照作防）",
+   "disposition": "corrected",
+   "id": "ldy-fang-397047",
+   "note": "同 ldy-fang-397045 口径：只登记 S3 应用读法、不独立定字；不在任何引文内。",
+   "reading": "㑹",
+   "reading_codepoint": "U+3479",
+   "reading_status": "contextual",
+   "section_id": "sanming.juan11.luoluozi_dayun_witness",
+   "snapshot_glyph": "防",
+   "usable_grade": null
+  },
+  {
+   "basis": [
+    {
+     "detail": "dayun 册 dy-genuine-408791（confirmed genuine，Q1；传本异文并列：四库谱系作「即前折除之法三日为年法也」）",
+     "kind": "external_register"
+    }
+   ],
+   "char_offset": 408791,
+   "context_short": "折除三岁为年（vol11_direction_witness2 引文内）",
+   "disposition": "genuine",
+   "id": "ldy-genuine-408791",
+   "note": "引文逐字保留快照原字「岁」；异文只作并列登记、不替换引文（分歧分流派保留口径）。",
+   "reading": "岁",
+   "reading_status": "confirmed",
+   "section_id": "sanming.juan11.luoluozi_dayun_witness",
+   "snapshot_glyph": "岁",
+   "usable_grade": "Q1"
+  }
+ ],
+ "fact_linkage": {
+  "canonical_sections": {
+   "sanming.juan11.luoluozi_dayun_witness#witness_window_a": "bazi.section.s069",
+   "sanming.juan11.luoluozi_dayun_witness#witness_window_b": "bazi.section.s070",
+   "sanming.juan2.lun_dayun": "bazi.section.s068"
+  },
+  "evidence_only_quotes": [
+   "ldy.worked_example_check",
+   "ldy.handover_example",
+   "ldy.vol11_ratio_witness",
+   "ldy.vol11_counting_divergence",
+   "ldy.vol11_direction_witness2"
+  ],
+  "excluded_spans": [
+   "ldy.leap_clause_excluded_span"
+  ],
+  "hard_gate": "阶段一硬门通过：□ 命中 0 处；15 条引文 S0 定位复现 15/15、S3 文本形在位 15/15；唯一未决点（残余防 S0 58542，P2 seq 35）不落入任何消费引文。",
+  "heritage": "TJ-017.1 dayun-collation-register-v1（bazi_dayun_collation.py）为本册审定底稿：其 sanming.juan2.lun_dayun 节登记、15 条三命引文（经 bazi_dayun_classical.QUOTES 消费）与校勘要点（dy-* 条目）逐条被本册承接复核；本册新增者为 S3 双基线坐标、S3 文本形与 Canonical 建节绑定字段，既有登记逐字不动。",
+  "phase1_rule_bindings": {
+   "bazi.rule.r038": [
+    "ldy.direction_rule",
+    "ldy.vol11_direction_witness"
+   ],
+   "bazi.rule.r039": [
+    "ldy.ratio_statement",
+    "ldy.ratio_derivation",
+    "ldy.worked_example",
+    "ldy.anti_rounding",
+    "ldy.zero_borrow_definition",
+    "ldy.zero_borrow_example",
+    "ldy.handover_decade",
+    "ldy.handover_approx"
+   ]
+  },
+  "shenfeng_segment": "神峰 6 条引文（bazi_dayun_classical.QUOTES 中 sf_*）登记来源为神峰通考快照，不在本册两节范围内、无 Canonical 节对应；其 Phase1/Phase2 注册随神峰经典扩编另批处理，本批不连带翻转。"
+ },
+ "transmission_notes": [
+  "本文件是公开仓转写镜像：由登记模块 bazi_sanming_juan2_dayun_collation 程序化转写生成，公开测试逐字核对模块与镜像一致；引文 S0 原字（含 U+ED92）与 S3 文本形均逐字保留。",
+  "S0/S3 双基线坐标经机上密封快照实测：15 条引文在 S0 定位点复现 15/15、S3 文本形在 S3 对应位点（位移 −1）复现 15/15、且逐条包含于其 Canonical 节窗口（s068/s069/s070）；密封测试对真实快照复核同一组断言。",
+  "节内唯一未决点为残余防 S0 58542（P2 处置册 seq 35，deferred_no_witness），不在任何引文内；阶段一硬门据此判定通过。"
+ ]
+}
