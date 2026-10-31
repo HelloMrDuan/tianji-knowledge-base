@@ -108,3 +108,12 @@
 - TJ-017.2（原局＋大运＋流年跨规则调用）仍阻塞于 M2（扶抑 / 格局用神未建；U1/U3 用户暂缓），本批未触及、未混入。
 - 《论大运》节内唯一未决校勘点（残余防 S0 58542，deferred_no_witness）随节元数据保留，不影响任何消费引文；三命整书 canonical_ready 仍为 false，只走逐节晋级。
 - TJ-018.2 保持阻塞、TJ-018.3 保持待做；注册成立第五条件（部署验收绑定）待 E0347 关账终局核对。
+
+## 9 关账记录（E0347，append-only 补记）
+
+- 实施批与合并：公开 PR #523 已合并，Merge SHA `7a652969b7e5a08a528597f437b98b058a249b44`（基线 main `16459af1`）；本关账批为纯台账与文档批，不动代码与密封资产，未做机上复跑——所记验收与部署事实为父级直读的管线正式记录，关账批开工三核实（main HEAD、台账末号 E0346、本节 §8 后续表述）全符。
+- 正式验收终局核对（直读管线 `acceptance-7a652969b7e5a08a528597f437b98b058a249b44` 记录）：result SUCCESS，public-git-checkout 15、public-only 24（skipped 1）、private-backend 2748，合计 2787 测，failures 与 errors 均为 0；快照 237 文件、16,221,036 字节、manifest `97e211c4582f7cf4d890c2bf8071573fbaced193d740c185d2c891a3f2e51324`，与实施批复跑 2787 逐项对平。
+- 部署终局核对：deploys.log 记录 `7a652969` 于 2026-10-31T19:17:53Z DEPLOYED，pin `f702c2f44a5f9bda6cc75bbfb4f36c26e6237209dc7fd3bfce81f093401ebb76`（health 与 bazi 探针 ok）。
+- 换代实际执行记录：父级合并前先行执行——旧快照备份于 `secure/tianji-knowledge-pre-dayun-sanming-backup`（manifest `2fdcfaec…`），live 快照由暂存快照（/data/workspace/dayun-sm/staged）换入且 diff -r 逐字一致，cicd 钉 `TRUSTED_MANIFEST_SHA256` 由 `2fdcfaec…` 改为 `97e211c4…`；换代 before 为 237 文件、16,170,283 字节、manifest `2fdcfaec…`，after 为 237 文件、16,221,036 字节、manifest `97e211c4…`。
+- 机上清理记录：关账批已删除 /data/workspace/dayun-sm 下组装树（asm2、asm-base、asm-final、asm-rollback、asm-work、pub-base、pub-final、pub-work、stage-root）、暂存快照 staged、捕获文件（capture-after.json、capture-baseline.json、capture-rollback.json）、传输 bundle 三件（e0346.bundle、e0346-delta.bundle、e0346-delta2.bundle）与 tmp 临时库文件；日志（backend-v.log、combined.log、final-accept*.log）与脚本保留；清理前后 live manifest 复核仍为 `97e211c4…`、备份目录完好，/data 已用 71% 降至 67%。
+- 注册成立第五条件（部署验收绑定）终局核对完成，分段注册翻转已随合并生效——dayun-classical-variants 三命段 registered、神峰段维持 maintained_pending 在册（待神峰经典扩编批），dayun-compose 与 dayun-timeline-view 为 segmented_inherited_pending，治理维持名单 6 降至 5；输出契约守恒——只有区间、无单点字段、无年龄键、恰逢节拒绝口径与 ADV-001 至 012 行为逐字不变、研究视图不接公开页面，用户可见能力零变化；dayun 三命分段晋级全链闭合，TJ-018.2 保持阻塞、TJ-018.3 保持待做。队列下一批：神峰经典扩编（一次服务 bingyao-shenfeng-v1 与 dayun 神峰分段）与 tiaohou 设计审定批。
