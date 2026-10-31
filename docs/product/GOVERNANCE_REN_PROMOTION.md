@@ -104,3 +104,12 @@
 - siling-yin-pilot 维持 pending：扩月（寅月以外月份）与「连续 24 小时计日」约定转正仍待用户裁定，本批未代决、未外推。
 - TJ-012.3 仍阻塞（格局真假体系未全建）；TJ-018.2 保持阻塞、TJ-018.3 保持待做。
 - 注册成立第五条件（部署验收绑定）待 E0345 关账终局核对；队列下一批：dayun 三命分段。
+
+## 9 关账记录（E0345，append-only 补记）
+
+- 实施批与合并：公开 PR #521 已合并，Merge SHA `06d6f2bf0428f260e5ba894f8b4d35f7ad1443ad`（基线 main `3400b6a0`）；本关账批为纯台账与文档批，不动代码与密封资产，未做机上复跑——所记验收与部署事实为父级直读的管线正式记录，引用前已在机上直读 acceptance 文件与 deploys.log 复核分项一致。
+- 正式验收终局核对（直读管线 `acceptance-06d6f2bf0428f260e5ba894f8b4d35f7ad1443ad` 记录）：result SUCCESS，public-git-checkout 15、public-only 24（skipped 1）、private-backend 2703，合计 2742 测，failures 与 errors 均为 0；快照 237 文件、16,170,283 字节、manifest `2fdcfaec3ffd5f3ac5e991cb0da591df5dda57c3583bba4e431e7c098b4036b6`，与实施批复跑 2742 逐项对平。
+- 部署终局核对：deploys.log 记录 `06d6f2bf` 于 2026-10-31T16:15:49Z DEPLOYED，pin `48c4f7edbda8441f8717cfcf5c186724deacd6d756675a506cc141b66460bfb4`（health 与 bazi 探针 ok）。
+- 换代实际执行记录：父级合并前先行执行——旧快照备份于 `secure/tianji-knowledge-pre-ren-backup`（manifest `6edcebc6…`），live 快照由暂存快照（/data/workspace/ren/staged）换入且 diff -r 逐字一致，cicd 钉 `TRUSTED_MANIFEST_SHA256` 由 `6edcebc6…` 改为 `2fdcfaec…`；换代 before 为 237 文件、16,072,121 字节、manifest `6edcebc6…`，after 为 237 文件、16,170,283 字节、manifest `2fdcfaec…`。
+- 机上清理记录：关账批已删除 /data/workspace/ren 下组装树（asm-base、asm-rollback、asm-work、asm-work0、pub-work）、暂存快照 staged、离线临时目录 2 个、捕获文件（capture-base.json、capture-work.json、pilot_blocks.json、rollback-report.json）与 tmp 临时库文件；日志（backend-repro.log、work-accept*.log）与脚本与 sealed-orig 保留，本目录未见 tarball；清理前后 live manifest 复核仍为 `2fdcfaec…`、备份目录完好，/data 已用 68% 降至 64%。
+- 注册成立第五条件（部署验收绑定）终局核对完成，注册翻转已随合并生效；determination 语义守恒——三态、永不输出「假格」、成败/清浊/用神恒 None 加 unreviewed、D1 与 D2 裁定与禄刃路线优先序逐字不变，零扩月（siling-yin-pilot 维持 pending 待用户裁定）；ren-pattern-yin-true-v1 晋级全链闭合，治理维持名单 7 降至 6。队列下一批：dayun 三命分段。
