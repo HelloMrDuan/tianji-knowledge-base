@@ -484,13 +484,13 @@ def _bounded_assessment(trace, _segment_claim=None):
         # verdict. (conflict_checks still reports every root conflict.)
         blockers = commanding_blockers
     elif lu_support and not lu_blockers:
-        # TJ-011.2 F3: like the S2 predicates below, this predicate
-        # has no sealed Phase1/Phase2 rule registration yet, so the
-        # verdict is issued through the registered bounded-adjudication
-        # exit (bazi.rule.r026) with every condition bound to executed
-        # factor evidence and the pending registration disclosed on
-        # the verdict itself; no rule ID is borrowed from another
-        # predicate. Each condition additionally carries its
+        # TJ-011.2 F3 / TJ-018.3 batch 2 (E0335): this predicate is
+        # registered in the sealed snapshot (bazi.rule.r032 /
+        # bazi.phase2.strength_lu_visible_support), so the verdict is
+        # issued through its own registered trace step with every
+        # condition bound to executed factor evidence; no rule ID is
+        # borrowed from another predicate. Each condition
+        # additionally carries its
         # registered anchor_type from FORM_BING_SI, so the
         # governance-convention condition (hidden layer, instance
         # fire-morph.wu-geng-in-si-non-veto) stays
@@ -503,9 +503,11 @@ def _bounded_assessment(trace, _segment_claim=None):
                 'evidence_ids':list(steps['bazi.phase2.action_effects'][1]['evidence_ids']),
                 'anchor_type':LU_ANCHOR_TYPES[key],
                 'anchor_registration':'bazi_fire_si_yin_morphology.FORM_BING_SI'})
-        why = {'sufficient_rule':None,'sufficient_predicate':predicate,
-               'predicate_rule_registration':'pending_phase1_rule_registration',
-               'conditions':conditions,
+        rule_id = 'bazi.phase2.strength_' + predicate
+        trace.add(rule_id, {'strength_variant':ADJUDICATION_VARIANT,
+                  'factor_refs':[pointer(k) for k in keys]},
+                  {'classification':classification,'variant':ADJUDICATION_VARIANT,'conditions':conditions})
+        why = {'sufficient_rule':rule_id,'conditions':conditions,
                'all_required_conditions_verified':True,
                'excluded_dependencies':['dated_commander','independent_hidden_effect_scores']}
         # The verdict's blocker list is the reconciled one (see the
@@ -559,14 +561,13 @@ def _bounded_assessment(trace, _segment_claim=None):
         blockers = changsheng_blockers
     elif (pure_support_metal and not metal_blockers) or \
             (pure_generating_water and not water_blockers):
-        # TJ-011.2 S2: like lu_visible_support above, these predicates
-        # have no sealed Phase1/Phase2 rule registration yet (their
-        # defining root evidence has no canonical section; see the S5
-        # registration governance register), so the verdict is issued
-        # through the registered bounded-adjudication exit
-        # (bazi.rule.r026) with every condition bound to executed
-        # factor evidence and the pending registration disclosed on
-        # the verdict itself; no rule ID is borrowed. Each condition
+        # TJ-011.2 S2 / TJ-018.3 batch 2 (E0335): these predicates
+        # are registered in the sealed snapshot (bazi.rule.r033 /
+        # bazi.phase2.strength_pure_support_metal and bazi.rule.r034 /
+        # bazi.phase2.strength_pure_generating_support_water), so the
+        # verdict is issued through each predicate's own registered
+        # trace step with every condition bound to executed factor
+        # evidence; no rule ID is borrowed. Each condition
         # carries its registered anchor_type from the S1 form
         # registers; the month condition additionally carries the
         # executed chart's S1 grade for the day master's month-branch
@@ -602,9 +603,11 @@ def _bounded_assessment(trace, _segment_claim=None):
                          day_master, r['root_presence']['branch'])}
                     for r in roots['roots']]
             conditions.append(cond)
-        why = {'sufficient_rule':None,'sufficient_predicate':predicate,
-               'predicate_rule_registration':'pending_phase1_rule_registration',
-               'conditions':conditions,
+        rule_id = 'bazi.phase2.strength_' + predicate
+        trace.add(rule_id, {'strength_variant':ADJUDICATION_VARIANT,
+                  'factor_refs':[pointer(k) for k in keys]},
+                  {'classification':classification,'variant':ADJUDICATION_VARIANT,'conditions':conditions})
+        why = {'sufficient_rule':rule_id,'conditions':conditions,
                'all_required_conditions_verified':True,
                'excluded_dependencies':['dated_commander','independent_hidden_effect_scores']}
         # The verdict's blocker list is the reconciled one (see the
@@ -617,7 +620,9 @@ def _bounded_assessment(trace, _segment_claim=None):
         'stem_five_combinations','branch_six_harmonies','branch_six_harms','branch_six_clashes',
         'branch_triple_harmonies','month_command_variant','principal_month','root_conditions','root_availability',
         'action_conditions','action_effects','strength_pure_support','strength_isolated_control',
-        'strength_pure_generating_support','strength_commanding_visible_support')}
+        'strength_pure_generating_support','strength_commanding_visible_support',
+        'strength_lu_visible_support','strength_pure_support_metal',
+        'strength_pure_generating_support_water')}
     matched = [s['rule_id'] for s in trace.steps if s['rule_id'] in relevant]
     evidence_ids = sorted({e for s in trace.steps if s['rule_id'] in relevant for e in s['evidence_ids']}
                           | {e for c in checks for e in c['evidence_ids']})
@@ -635,9 +640,10 @@ def _bounded_assessment(trace, _segment_claim=None):
         'limitations':['仅显式任氏木日主：纯印比月卯、印比生扶月亥（从旺口径，不取当令），或无根无扶透辛月酉；丙日主午月同类当令显纯生扶（从强主锚）；丙日主巳月禄月显纯生扶（从强主锚）；丙日主寅月长生印月显纯生扶（从旺主锚，另须司令甲段门，仅经组合路径触发）；金日主酉月、水日主子月全位置纯生扶（从旺/从强通述口径）；其余未裁定。',
             '亥月分支谓词已完成密封 Phase1/Phase2 规则注册（bazi.rule.r029 / bazi.phase2.strength_pure_generating_support），裁决经该注册规则步发出并逐条件绑定因子证据。',
             '午月丙日主分支谓词已完成密封 Phase1/Phase2 规则注册（bazi.rule.r030 / bazi.phase2.strength_commanding_visible_support），裁决经该注册规则步发出并逐条件绑定因子证据；其藏干仅作根位事实（不否决、不计效）是 Variant 治理约定而非原文，藏干克破不在本形态裁定范围，逐盘记录在案。',
-            '巳月丙日主分支谓词尚待密封 Phase1/Phase2 规则注册（pending），裁决经已注册的有限裁决出口发出并逐条件绑定因子证据，不冒充已注册规则的裁决；其藏干仅作根位事实（不否决、不计效）是 Variant 治理约定而非原文，藏干克破不在本形态裁定范围，逐盘记录在案。',
+            '巳月丙日主分支谓词已完成密封 Phase1/Phase2 规则注册（bazi.rule.r032 / bazi.phase2.strength_lu_visible_support），裁决经该注册规则步发出并逐条件绑定因子证据；其藏干仅作根位事实（不否决、不计效）是 Variant 治理约定而非原文，藏干克破不在本形态裁定范围，逐盘记录在案。',
             '寅月丙日主分支谓词尚待密封 Phase1/Phase2 规则注册（pending），裁决经已注册的有限裁决出口发出并逐条件绑定因子证据，不冒充已注册规则的裁决；其月份条件经用户裁定（乙 segment-tightened）另须出生瞬时落在寅月司令甲段，由组合函数凭已授权试点的显式结果核验，无试点结果、试点未算出或段非甲一律不触发本形态（不等于弱）；其藏干仅作根位事实（不否决、不计效）是 Variant 治理约定而非原文，藏干克破不在本形态裁定范围，逐盘记录在案。',
-            '酉月金日主与子月水日主分支谓词尚待密封 Phase1/Phase2 规则注册（pending），裁决经已注册的有限裁决出口发出并逐条件绑定因子证据，不冒充已注册规则的裁决；其根有效性以 S1 金/水根审定登记表驱动（密封可用性 Variant 仍为木专属），辛/癸长生冲突与轻根列举冲突未裁定，受影响根一律阻断、绝不放行。',
+            '酉月金日主分支谓词已完成密封 Phase1/Phase2 规则注册（bazi.rule.r033 / bazi.phase2.strength_pure_support_metal），裁决经该注册规则步发出并逐条件绑定因子证据；其根有效性以 S1 金/水根审定登记表驱动（密封可用性 Variant 仍为木专属），辛/癸长生冲突与轻根列举冲突未裁定，受影响根一律阻断、绝不放行；该谓词八条件在真实历法命盘上构造性不可满足（证明在册），注册不声称真实盘正例，其注册步以负例见证集做等价验收。',
+            '子月水日主分支谓词已完成密封 Phase1/Phase2 规则注册（bazi.rule.r034 / bazi.phase2.strength_pure_generating_support_water），裁决经该注册规则步发出并逐条件绑定因子证据；其根有效性以 S1 金/水根审定登记表驱动（密封可用性 Variant 仍为木专属），辛/癸长生冲突与轻根列举冲突未裁定，受影响根一律阻断、绝不放行；壬侧因子层可满足而真实历法命盘构造性不可满足（证明在册），癸侧有真实盘正例在册。',
             *S2_LIMITATIONS,
             '来源仍为 C 级单一电子版本，未宣称独立底本一致；强不等于吉，弱不等于凶。',
             '不处理 balanced、数字力度、从格、喜用、行运，暗合、半合拱夹与其他学派刑法不在范围。',

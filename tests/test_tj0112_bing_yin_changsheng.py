@@ -484,10 +484,14 @@ class ChangshengSealedTests(unittest.TestCase):
                     or why.get('sufficient_rule'))
 
         witnesses = [
+            # E0335: the lu and water witnesses now exit through
+            # their registered steps (bazi.rule.r032 / r034);
+            # identity() falls back to sufficient_rule, which now
+            # carries the step IDs below.
             ('1927-05-12T12:00:00+08:00', 'strong',
-             'lu_visible_support'),
+             'bazi.phase2.strength_lu_visible_support'),
             ('1981-12-21T23:00:00+08:00', 'strong',
-             'pure_generating_support_water'),
+             'bazi.phase2.strength_pure_generating_support_water'),
             ('1966-07-06T12:00:00+08:00', 'strong',
              'bazi.phase2.strength_commanding_visible_support'),
         ]

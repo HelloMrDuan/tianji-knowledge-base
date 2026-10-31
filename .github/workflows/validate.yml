@@ -651,6 +651,20 @@ jobs:
       # test_phase2_bazisanxing.py (offline acceptance only,
       # NOT public CI: it reads the sealed bundle and snapshot).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0183_sanxing_execbind_public.py' -v
+      # TJ-018.3 execution-binding batch 2 (E0335) public
+      # contracts: the batch record (two new Canonical chapters,
+      # sections s061/s062, Phase1 bazi.rule.r032/r033/r034,
+      # three Phase2 strength steps, four new Golden cases, the
+      # framework_derived diwang registration wording, sealed
+      # files changed, manifest pins before/after), the three
+      # ganzhi predicate rows flipped to registered (flipped set
+      # six, maintained set nine), FORM_BING_SI's evidence
+      # binding flipped while FORM_BING_YIN stays pending, and
+      # the governance document on file. Sealed-side
+      # verification lives in test_phase2_baziganzhi.py
+      # (offline acceptance only, NOT public CI: it reads the
+      # sealed bundle and snapshot).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0183_ganzhi_execbind_public.py' -v
       # TJ-017.1 seven-item priority collation closeout (scout
       # 018-B) public contracts: pure-data register mirrored
       # against Golden, collation-note form and confirmed anchor

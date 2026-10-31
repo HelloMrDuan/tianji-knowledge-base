@@ -115,13 +115,19 @@ class InventoryDispositionTests(unittest.TestCase):
     def test_flipped_set_unchanged(self):
         # E0333: the flipped set grew by the sanxing slice (the
         # P1-era pin of exactly two flipped items is superseded).
+        # E0335: the ganzhi batch flipped the three remaining
+        # bounded-strength predicates as well (six flipped, nine
+        # maintained).
         self.assertEqual(sorted(gov.FLIPPED_ITEMS),
                          ['commanding_visible_support',
+                          'lu_visible_support',
                           'pure_generating_support',
+                          'pure_generating_support_water',
+                          'pure_support_metal',
                           'sanxing-branch-fact-v1'])
         self.assertNotIn('sanxing-branch-fact-v1',
                          gov.MAINTAINED_ITEMS)
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 12)
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 9)
 
 
 class ConfigRegistrationTests(unittest.TestCase):

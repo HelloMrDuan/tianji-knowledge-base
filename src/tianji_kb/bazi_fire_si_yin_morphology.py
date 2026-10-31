@@ -400,7 +400,10 @@ FORM_BING_SI = {
         'pattern, useful god, fortune or any other day master / month '
         'is concluded.'
     ),
-    'evidence_binding': 'pending_phase1_rule_registration',
+    'evidence_binding': 'registered_phase1_phase2（TJ-018.3 批二 E0335 '
+                        '完成密封注册：bazi.rule.r032 / '
+                        'bazi.phase2.strength_lu_visible_support；'
+                        '裁决经该注册规则步发出）',
     'research_only': True,
     'public_enabled': False,
     'ai_enabled': False,
