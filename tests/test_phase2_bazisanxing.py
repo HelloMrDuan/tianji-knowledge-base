@@ -223,7 +223,9 @@ class GoldenFireTests(unittest.TestCase):
         # E0342: six zaqi selection cases joined (142 + 6 = 148).
         # E0344: fifteen ren-yin cases joined (148 + 15 = 163).
         # E0346: six dayun-sanming cases joined (163 + 6 = 169).
-        self.assertEqual(len(self.rows), 169)
+        # E0348: eleven Shenfeng-expansion cases joined
+        # (169 + 11 = 180).
+        self.assertEqual(len(self.rows), 180)
 
     def test_new_cases_fire_the_step(self):
         for case_id in CASE_IDS:
@@ -325,7 +327,8 @@ class EquivalenceTests(unittest.TestCase):
         # registered conversion step identically in both gate
         # states checked below (the sanxing step is not among
         # them), and one carries only the gated role.
-        self.assertEqual(len(inputs), 169)
+        # E0348: the golden file grew by eleven more cases (180).
+        self.assertEqual(len(inputs), 180)
         for inputs_one in inputs:
             off = chart(**inputs_one)
             self.assertNotIn('branch_punishment_facts', off['result'])

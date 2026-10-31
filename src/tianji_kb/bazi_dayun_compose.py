@@ -43,6 +43,13 @@
   册 rule、其继承的神峰分段仍 pending（待神峰经典 Canonical
   扩编），evidence_binding 改记 segmented_inherited_pending；
   组合输出本身仍不进 RuleMatch 与 Evidence。
+- E0348 终局改记：所串联的神峰分段已随神峰经典 Canonical 扩编
+  注册（bazi.rule.r041 与 Phase2 步
+  bazi.phase2.dayun_shenfeng_conversion），本组合继承的底层分段
+  至此全部注册；本组合自身仍不注册 rule（无自有规则可登记），
+  evidence_binding 改记终局形态
+  inherited_registered_phase1_phase2；组合输出本身仍不进
+  RuleMatch 与 Evidence，组合语义与输出形态逐字不变。
 - 恒 research_only=True、public_enabled=False、ai_enabled=False。
 """
 from datetime import datetime, timedelta
@@ -74,17 +81,20 @@ LIMITATIONS = (
     '出生时刻的时区与历史时区口径沿用 TJ-015/TJ-017.1 既有边界（节距测量归一 Asia/Shanghai、1901–2098、历史时区未独立验证），本组合不新裁定。',
     '闰月交运子规则未编码（TJ-017.1 已整段排除）：闰月出生者的交运区间按非闰算式给出时必须视为未审，此限定随 TJ-017.1 limitations 一并在所嵌入的换算结果中给出。',
     '虚岁/实岁无原典口径：本组合一切输出不含年龄数值；「约 X 岁」式呈现属 TJ-017.3 的产品约定，不在本模块范围。',
-    '本组合自身尚未在密封 Phase1 bundle/Phase2 contract 注册 rule，不进 RuleMatch 与 Evidence；其所串联的三命分段已随 E0346 注册（bazi.rule.r038/r039 与对应 Phase2 步），神峰分段仍未注册——evidence_binding 改记 segmented_inherited_pending（三命分段已注册、本组合继承的神峰分段仍 pending，随神峰经典 Canonical 扩编解除）。',
+    '本组合自身不在密封 Phase1 bundle/Phase2 contract 注册 rule（无自有规则），不进 RuleMatch 与 Evidence；其所串联的两分段均已注册（三命分段随 E0346 注册 bazi.rule.r038/r039 与对应 Phase2 步，神峰分段随 E0348 神峰经典扩编注册 bazi.rule.r041 与 Phase2 步 bazi.phase2.dayun_shenfeng_conversion）——evidence_binding 为终局继承形态 inherited_registered_phase1_phase2（底层全段已注册、本层只继承披露）。',
 )
 
 
 def _flags():
     # E0346: the composed Sanming segment is registered upstream
     # (bazi.rule.r038/r039); this composition registers nothing
-    # itself and its inherited Shenfeng segment remains pending.
+    # itself. E0348: the inherited Shenfeng segment is registered
+    # upstream as well (bazi.rule.r041), so the inherited chain is
+    # fully registered and the binding takes its terminal inherited
+    # form; this composition still registers nothing itself.
     return {'research_only': True, 'public_enabled': False,
             'ai_enabled': False,
-            'evidence_binding': 'segmented_inherited_pending'}
+            'evidence_binding': 'inherited_registered_phase1_phase2'}
 
 
 def classical_dayun_timeline(birth_value, *, zone=None, traditional_role,

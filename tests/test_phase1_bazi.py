@@ -20,8 +20,8 @@ class BaziPhase1Tests(unittest.TestCase):
         self.assertEqual(xieji["body_stage"],"quarantine")
         self.assertGreaterEqual(len(self.bundle["sections"]),21)
         self.assertGreaterEqual(len(self.bundle["rules"]),11)
-        self.assertTrue(all(r["execution_status"]=="partially_structured" for r in self.bundle["rules"] if r['id'] not in {'bazi.rule.r012','bazi.rule.r013','bazi.rule.r014','bazi.rule.r015','bazi.rule.r016','bazi.rule.r017','bazi.rule.r018','bazi.rule.r019','bazi.rule.r020','bazi.rule.r021','bazi.rule.r022','bazi.rule.r023','bazi.rule.r024','bazi.rule.r025','bazi.rule.r026','bazi.rule.r027','bazi.rule.r028','bazi.rule.r029','bazi.rule.r030','bazi.rule.r031','bazi.rule.r032','bazi.rule.r033','bazi.rule.r034','bazi.rule.r035','bazi.rule.r036','bazi.rule.r037','bazi.rule.r038','bazi.rule.r039'}))
-        self.assertTrue(all(r['execution_status']=='executable' for r in self.bundle['rules'] if r['id'] in {'bazi.rule.r013','bazi.rule.r014','bazi.rule.r015','bazi.rule.r016','bazi.rule.r017','bazi.rule.r018','bazi.rule.r019','bazi.rule.r020','bazi.rule.r021','bazi.rule.r022','bazi.rule.r023','bazi.rule.r024','bazi.rule.r025','bazi.rule.r026','bazi.rule.r027','bazi.rule.r028','bazi.rule.r029','bazi.rule.r030','bazi.rule.r031','bazi.rule.r032','bazi.rule.r033','bazi.rule.r034','bazi.rule.r035','bazi.rule.r036','bazi.rule.r037','bazi.rule.r038','bazi.rule.r039'}))
+        self.assertTrue(all(r["execution_status"]=="partially_structured" for r in self.bundle["rules"] if r['id'] not in {'bazi.rule.r012','bazi.rule.r013','bazi.rule.r014','bazi.rule.r015','bazi.rule.r016','bazi.rule.r017','bazi.rule.r018','bazi.rule.r019','bazi.rule.r020','bazi.rule.r021','bazi.rule.r022','bazi.rule.r023','bazi.rule.r024','bazi.rule.r025','bazi.rule.r026','bazi.rule.r027','bazi.rule.r028','bazi.rule.r029','bazi.rule.r030','bazi.rule.r031','bazi.rule.r032','bazi.rule.r033','bazi.rule.r034','bazi.rule.r035','bazi.rule.r036','bazi.rule.r037','bazi.rule.r038','bazi.rule.r039','bazi.rule.r040','bazi.rule.r041'}))
+        self.assertTrue(all(r['execution_status']=='executable' for r in self.bundle['rules'] if r['id'] in {'bazi.rule.r013','bazi.rule.r014','bazi.rule.r015','bazi.rule.r016','bazi.rule.r017','bazi.rule.r018','bazi.rule.r019','bazi.rule.r020','bazi.rule.r021','bazi.rule.r022','bazi.rule.r023','bazi.rule.r024','bazi.rule.r025','bazi.rule.r026','bazi.rule.r027','bazi.rule.r028','bazi.rule.r029','bazi.rule.r030','bazi.rule.r031','bazi.rule.r032','bazi.rule.r033','bazi.rule.r034','bazi.rule.r035','bazi.rule.r036','bazi.rule.r037','bazi.rule.r038','bazi.rule.r039','bazi.rule.r040','bazi.rule.r041'}))
         self.assertEqual(
             {ref["source_id"] for r in self.bundle["rules"] for ref in r["source_refs"]},
             {
@@ -34,6 +34,10 @@ class BaziPhase1Tests(unittest.TestCase):
                 # source registered by P1 (E0329) for section
                 # bazi.section.s060.
                 "bazi.source.sanmingtonghui-applied",
+                # E0348 (Shenfeng Canonical expansion):
+                # bazi.rule.r040/r041 cite the Shenfeng source
+                # for sections bazi.section.s071/s073.
+                "bazi.source.shenfeng",
             },
         )
 

@@ -13,7 +13,10 @@ Pinned here:
 - both rules bind exactly the consumed citation subsets (2 + 8),
   each ref verbatim inside its section under the applied-text
   source; the Shenfeng quotes are bound by NO rule and no
-  Shenfeng step or rule exists;
+  Shenfeng step or rule exists (E0348 supersedes this point:
+  the Shenfeng segment is registered there -- r041 binds exactly
+  sf_ex1/sf_ex3/sf_ex4 -- and the assertions below were migrated
+  in that batch);
 - the steps are validated and fire on the six real Golden cases
   (real charts / real instants from the TJ-017.4 witness set,
   including the ADV-001 zero-jie unresolved case) through the
@@ -79,14 +82,17 @@ class DayunSanmingRegistrationTests(unittest.TestCase):
     def test_counts(self):
         knowledge = read_json(
             ROOT / 'data/canonical/bazi/phase1_knowledge.json')
-        self.assertEqual(len(knowledge['chapters']), 29)
-        self.assertEqual(len(knowledge['sections']), 70)
-        self.assertEqual(len(knowledge['terms']), 36)
-        self.assertEqual(len(knowledge['rules']), 39)
+        # E0348 (Shenfeng Canonical expansion): +4 chapters
+        # (33), +4 sections (74), +2 terms (38), +2 rules (41),
+        # +2 execution steps (42), +11 Golden cases (180).
+        self.assertEqual(len(knowledge['chapters']), 33)
+        self.assertEqual(len(knowledge['sections']), 74)
+        self.assertEqual(len(knowledge['terms']), 38)
+        self.assertEqual(len(knowledge['rules']), 41)
         execution = read_json(
             ROOT / 'data/canonical/bazi/phase2_execution.json')
-        self.assertEqual(len(execution['rules']), 40)
-        self.assertEqual(len(self.cases), 169)
+        self.assertEqual(len(execution['rules']), 42)
+        self.assertEqual(len(self.cases), 180)
 
     def test_sections_hold_the_s3_slices(self):
         sections = {s['id']: s for s in self.bundle['sections']}
@@ -146,14 +152,30 @@ class DayunSanmingRegistrationTests(unittest.TestCase):
                               sections[ref['section_id']]['text'],
                               rule_id)
             self.resolver.resolve(rule_id, 'ziping-structural-v1')
-        # No rule binds any Shenfeng quote, and no Shenfeng rule
-        # or step exists (the segment stays pending).
-        all_refs = [ref['original_text'] for r in rules.values()
-                    for ref in r['source_refs']]
-        for quote in dc.QUOTES:
-            if quote['id'].startswith('sf_'):
-                self.assertNotIn(quote['quote'], all_refs)
-        self.assertNotIn('bazi.rule.r040', rules)
+        # E0348 migration: at E0346 no rule bound any Shenfeng
+        # quote and no Shenfeng rule existed. The Shenfeng
+        # Canonical expansion registered the segment: exactly one
+        # rule (r041) binds exactly the three consumed conversion
+        # examples; the heading quotes and sf_ex2 stay unbound,
+        # and r040 exists as the bingyao rule (a different
+        # Variant, bound to the Shenfeng classic's bingyao
+        # sections, not to any dayun quote).
+        binding_rules = {}
+        for rule in rules.values():
+            for ref in rule['source_refs']:
+                binding_rules.setdefault(ref['original_text'],
+                                         set()).add(rule['id'])
+        sf_by_id = {q['id']: q for q in dc.QUOTES
+                    if q['id'].startswith('sf_')}
+        for quote_id in ('sf_ex1', 'sf_ex3', 'sf_ex4'):
+            self.assertEqual(
+                binding_rules.get(sf_by_id[quote_id]['quote']),
+                {'bazi.rule.r041'}, quote_id)
+        for quote_id in ('sf_heading_yang', 'sf_heading_yin',
+                         'sf_ex2'):
+            self.assertNotIn(sf_by_id[quote_id]['quote'],
+                             binding_rules, quote_id)
+        self.assertIn('bazi.rule.r040', rules)
 
     def test_steps_validated_with_golden(self):
         execution = read_json(
@@ -172,7 +194,9 @@ class DayunSanmingRegistrationTests(unittest.TestCase):
 
     def test_golden_cases_fire_the_registered_steps(self):
         results = {c['id']: c for c in run_cases(ROOT, 'bazi')}
-        self.assertEqual(len(results), 169)
+        # E0348: 169 + 11 new Golden cases (6 bingyao, 5 Shenfeng
+        # conversion).
+        self.assertEqual(len(results), 180)
         for case_id in GOLDEN_IDS:
             self.assertIn(DIR_STEP, results[case_id]['rule_ids'],
                           case_id)
@@ -242,9 +266,15 @@ class DayunSanmingRegistrationTests(unittest.TestCase):
                          envelope['result'])
         self.assertNotIn('dayun_sanming_conversion',
                          envelope['result'])
+        # E0348: the Shenfeng conversion block/step are gated the
+        # same way (absent without dayun_shenfeng_measurement).
+        self.assertNotIn('dayun_shenfeng_conversion',
+                         envelope['result'])
         fired = {step['rule_id'] for step in envelope['trace']}
         self.assertNotIn(DIR_STEP, fired)
         self.assertNotIn(CONV_STEP, fired)
+        self.assertNotIn('bazi.phase2.dayun_shenfeng_conversion',
+                         fired)
 
     def test_public_projection_strips_the_blocks(self):
         measured = adjacent_jie_distance(
@@ -319,7 +349,10 @@ class DayunSanmingRegistrationTests(unittest.TestCase):
         row = next(r for r in governance.REGISTRATION_INVENTORY
                    if r['item'] == 'dayun-classical-variants')
         self.assertEqual(row['disposition'], 'registered')
-        self.assertIn('maintained_pending', row['segments']['shenfeng'])
+        # E0348: the Shenfeng segment flipped inside the row.
+        self.assertIn('registered', row['segments']['shenfeng'])
+        self.assertNotIn('maintained_pending',
+                         row['segments']['shenfeng'])
 
 
 if __name__ == '__main__':

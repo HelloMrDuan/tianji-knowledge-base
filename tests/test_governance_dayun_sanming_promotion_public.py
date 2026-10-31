@@ -103,17 +103,25 @@ class DayunSanmingPromotionPublicTests(unittest.TestCase):
         self.assertEqual(row['phase1_rule_id'], 'bazi.rule.r038')
         self.assertEqual(row['phase2_rule_id'],
                          'bazi.phase2.dayun_classical_direction')
+        # E0348 (Shenfeng Canonical expansion): the Shenfeng
+        # segment flipped inside this row, adding r041 /
+        # dayun_shenfeng_conversion to the additional ids; both
+        # segments are registered now.
         self.assertEqual(row['additional_phase1_rule_ids'],
-                         ['bazi.rule.r039'])
+                         ['bazi.rule.r039', 'bazi.rule.r041'])
         self.assertEqual(row['additional_phase2_rule_ids'],
-                         ['bazi.phase2.dayun_sanming_conversion'])
+                         ['bazi.phase2.dayun_sanming_conversion',
+                          'bazi.phase2.dayun_shenfeng_conversion'])
         self.assertIsNone(row['unlock_path'])
         self.assertNotIn('reason_class', row)
         self.assertIn('registered', row['segments']['sanming'])
-        self.assertIn('maintained_pending', row['segments']['shenfeng'])
+        self.assertIn('registered', row['segments']['shenfeng'])
+        self.assertNotIn('maintained_pending',
+                         row['segments']['shenfeng'])
         for marker in ('bazi.section.s068', 'bazi.section.s069',
                        'bazi.section.s070', 'bazi.rule.r038',
-                       'bazi.rule.r039'):
+                       'bazi.rule.r039', 'bazi.section.s073',
+                       'bazi.rule.r041'):
             self.assertIn(marker, row['reason'])
 
     def test_inherited_rows_remarked(self):
@@ -121,17 +129,25 @@ class DayunSanmingPromotionPublicTests(unittest.TestCase):
             row = _row(item)
             self.assertEqual(row['disposition'], 'maintained_pending')
             self.assertEqual(row['reason_class'], 'inherited_pending')
-            self.assertIn('segmented_inherited_pending', row['reason'])
+            # E0348: the inherited chain is fully registered; the
+            # rows stay maintained in terminal inherited form and
+            # their reasons name the terminal binding (the E0346
+            # segmented wording is superseded in place).
+            self.assertIn('inherited_registered_phase1_phase2',
+                          row['reason'])
             self.assertIn('神峰', row['unlock_path'])
 
     def test_flipped_and_maintained_sets(self):
         self.assertIn('dayun-classical-variants', gov.FLIPPED_ITEMS)
-        self.assertEqual(len(gov.FLIPPED_ITEMS), 10)
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 5)
+        # E0348: bingyao-shenfeng-v1 flipped too (flipped 11);
+        # the maintained set drops to four (the two inherited
+        # rows remain in terminal inherited form).
+        self.assertIn('bingyao-shenfeng-v1', gov.FLIPPED_ITEMS)
+        self.assertEqual(len(gov.FLIPPED_ITEMS), 11)
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 4)
         self.assertEqual(sorted(gov.MAINTAINED_ITEMS),
                          sorted(['tiaohou-qiongtong-v1', 'dayun-compose',
                                  'dayun-timeline-view',
-                                 'bingyao-shenfeng-v1',
                                  'siling-yin-pilot']))
 
     def test_segment_disclosure_flips(self):
@@ -146,8 +162,9 @@ class DayunSanmingPromotionPublicTests(unittest.TestCase):
         self.assertEqual(converted['evidence_binding'],
                          'registered_phase1_phase2')
         shenfeng = dc.shenfeng_convert_days(30, direction='forward')
+        # E0348: the Shenfeng segment is registered as well.
         self.assertEqual(shenfeng['evidence_binding'],
-                         'pending_phase1_rule_registration')
+                         'registered_phase1_phase2')
 
     def test_quote_repointing(self):
         by_id = {q['id']: q for q in dc.QUOTES}
@@ -159,8 +176,13 @@ class DayunSanmingPromotionPublicTests(unittest.TestCase):
             self.assertEqual(quote['source_section_id'], section_id)
         for quote_id in SHENFENG_QUOTE_IDS:
             quote = by_id[quote_id]
+            # E0348: the Shenfeng quotes keep their snapshot source
+            # (no re-pointing -- no S0/S3 dual track) and gain the
+            # Canonical section id of the new classic's
+            # 《起大运法》 section.
             self.assertEqual(quote['source_id'], 'bazi.source.shenfeng')
-            self.assertNotIn('source_section_id', quote)
+            self.assertEqual(quote['source_section_id'],
+                             'bazi.section.s073')
         # The two PUA quotes keep their snapshot glyph and their
         # confirmed mapped reading (registration binds the applied
         # form held by the Canonical section, not a rewritten
@@ -200,10 +222,12 @@ class DayunSanmingPromotionPublicTests(unittest.TestCase):
                          'zero_day_count_not_exemplified_in_text')
 
     def test_compose_view_binding_remarked(self):
+        # E0348: terminal inherited form (both underlying segments
+        # registered; the layers register nothing themselves).
         self.assertEqual(compose._flags()['evidence_binding'],
-                         'segmented_inherited_pending')
+                         'inherited_registered_phase1_phase2')
         self.assertEqual(view._flags()['evidence_binding'],
-                         'segmented_inherited_pending')
+                         'inherited_registered_phase1_phase2')
         self.assertTrue(compose._flags()['research_only'])
         self.assertTrue(view._flags()['research_only'])
 

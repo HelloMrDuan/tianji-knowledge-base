@@ -201,8 +201,13 @@ class LookupGoldenTests(unittest.TestCase):
             self.assertTrue(out['research_only'])
             self.assertFalse(out['public_enabled'])
             self.assertFalse(out['ai_enabled'])
+            # E0348 (Shenfeng Canonical expansion): the Variant is
+            # registered (Phase1 bazi.rule.r040 / Phase2
+            # bazi.phase2.bingyao_assessment); the binding discloses
+            # the registration while every verdict guard above is
+            # unchanged.
             self.assertEqual(out['evidence_binding'],
-                             'pending_phase1_rule_registration')
+                             'registered_phase1_phase2')
 
 
 class NeverNoDiseaseSweepTests(unittest.TestCase):

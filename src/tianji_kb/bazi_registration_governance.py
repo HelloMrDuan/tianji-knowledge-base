@@ -774,6 +774,162 @@ GOVERNANCE_DAYUN_SANMING_RECORD = {
 }
 
 
+GOVERNANCE_SHENFENG_RECORD = {
+    'batch': '治理 pending 神峰经典 Canonical 扩编批（一次扩编同时'
+             '服务 bingyao-shenfeng-v1 与 dayun 神峰分段）',
+    'event': 'E0348',
+    'date': '2026-11-01',
+    'document': 'docs/product/GOVERNANCE_SHENFENG_EXPANSION.md',
+    'canonical_classics_added': ['bazi.classic.shenfeng'],
+    'canonical_chapters_added': [
+        'bazi.chapter.shenfeng_bingyao',
+        'bazi.chapter.shenfeng_zhengguan',
+        'bazi.chapter.shenfeng_qi_dayun_fa',
+        'bazi.chapter.ditiansui_zhonghe'],
+    'canonical_sections_added': [
+        'bazi.section.s071', 'bazi.section.s072',
+        'bazi.section.s073', 'bazi.section.s074'],
+    'canonical_terms_added': [
+        'bazi.term.bingyao', 'bazi.term.dayun_shenfeng_conversion'],
+    'phase1_rules_added': ['bazi.rule.r040', 'bazi.rule.r041'],
+    'phase2_rules_added': [
+        'bazi.phase2.bingyao_assessment',
+        'bazi.phase2.dayun_shenfeng_conversion'],
+    'golden_cases_added': [
+        'bazi.bingyao-wealth-disease-medicine',
+        'bazi.bingyao-wealth-disease-no-medicine',
+        'bazi.bingyao-medicine-without-disease',
+        'bazi.bingyao-peer-class-boundary-jiecai',
+        'bazi.bingyao-foodwound-disease-medicine',
+        'bazi.bingyao-dual-pair-wealth-only',
+        'bazi.dayun-shenfeng-q1-1958-forward-male',
+        'bazi.dayun-shenfeng-q2-1949-backward-female',
+        'bazi.dayun-shenfeng-q3-1959-forward-female',
+        'bazi.dayun-shenfeng-q4-1959-backward-male',
+        'bazi.dayun-shenfeng-adv001-zero-jie-2000'],
+    'source_refs_subset': [
+        'disease_definition (bazi.section.s071, classical)',
+        'medicine_definition (bazi.section.s071, classical)',
+        'wealth_pair (bazi.section.s071, classical)',
+        'food_pair (bazi.section.s071, classical)',
+        'sf_ex1 (bazi.section.s073, classical)',
+        'sf_ex3 (bazi.section.s073, classical)',
+        'sf_ex4 (bazi.section.s073, classical)'],
+    'source_refs_subset_basis': '规则 r040 的 source_refs 恰为病药 '
+        'Variant 实际编码消费的 4 条引文（病/药定义句 + 两条编码对'
+        '句，与 r037「定义+程序句」及 r036「只绑裁定依据」先例同'
+        '形）；r041 的 source_refs 恰为神峰换算 Variant 实际消费'
+        '的 3 条例算引文（sf_ex1/sf_ex3/sf_ex4，即 '
+        'shenfeng_convert_days converted 输出的 evidence_quotes '
+        '全集）。未入 refs 者各有明示地位：神峰 earth_example / '
+        'procedure_zhong / no_disease_clause 为登记引文（入 s071 '
+        '节文本、公开登记补 section_id、不入 refs，沿 E0342 例证'
+        '不作规则引文先例——其中 procedure_zhong 经 S4 审定明示'
+        '不消费）；zhengguan_tension 为登记张力引文（窗口节 s072 '
+        '承载，Variant 明示不覆盖）；ditiansui_counterweight 为 '
+        'limitations 制衡证据（滴天髓既有经典内补窗口节 s074 承'
+        '载、不入 refs，沿 E0346 §2.3 旁证不入 refs 审定）；神峰 '
+        'sf_heading_yang / sf_heading_yin / sf_ex2 是方向产出中的 '
+        'corroboration 披露（sf_ex2 日数段经 EXCLUDED_SPANS 登记'
+        '禁用），不入任何规则 refs。',
+    'new_classic_design': '新经典 bazi.classic.shenfeng 逐项镜像既'
+        '有四经典实测结构（id/domain/name/source_id/body_stage 五'
+        '字段，body_stage=quarantine 与三命/协纪同例：其 Canonical '
+        '在场形态为隔离快照原文的节级切片、无独立清洗定本）；章'
+        '节/节/术语/规则实体字段、review 三字段（status=approved / '
+        'method / scope）与 locator 口径均沿既有实体实测形态，不新'
+        '造任何机制。建节四处不多建：s071 病药定义节（快照字符 '
+        '[7019,7680) 整段 661 字、PUA/□ 均 0）、s072 正官格张力窗'
+        '口（[10010,10041) 恰为张力引文本身 31 字，沿 s070 恰幅先'
+        '例）、s073《起大运法》整节（[85001,85246) 245 字、PUA/□ '
+        '均 0）、s074 滴天髓中和篇制衡窗口（[43767,43825) 恰为制'
+        '衡引文本身 58 字，建于既有滴天髓经典内）。',
+    'harness_contract_extension': 'golden harness 契约扩展与 '
+        'E0344/E0346 同形：golden.py / validate_phase2.py / '
+        'golden schema 零改动，provider 三重钉死逐字不变；扩展只'
+        '落在 provider 签名（chart 新增门控 kwargs '
+        'dayun_shenfeng_measurement，默认 None 时封套逐字不变；'
+        'bingyao 步沿既有 bingyao_variant 门控）与用例 input 增带'
+        '该字段。bingyao 步由 chart 在 assessment 计算后以 '
+        'trace.add 接入（与 ren 先例同形：步输出由已执行步计算得'
+        '出后登记），assessment 块除注册披露外逐字不变。',
+    'inherited_rows_terminal_form': 'dayun-compose / '
+        'dayun-timeline-view 两 inherited 行的终局形态（本批审'
+        '定）：两行自身无规则可登记，disposition 不得改记 '
+        'registered（治理不变量要求 registered 行携带自有 '
+        'phase1/phase2 规则 id，且 records rules_added 并集与 '
+        'registered 行规则 id 恰等——复用底层 id 将使恰等不变量'
+        '重复计数而断裂，新造 id 即空注册，两者均禁止）；两行维'
+        '持 maintained_pending / inherited_pending，其继承链已随'
+        '神峰分段注册终局解除，两模块 evidence_binding 改记终局'
+        '形态 inherited_registered_phase1_phase2（底层全段已注'
+        '册、本层只继承披露），unlock_path 改记为仅余「本层将来'
+        '产生独立规则时另行注册」的条件路径。治理维持名单实测 '
+        '5 -> 4（bingyao 翻转 -1；两 inherited 行以终局形态留在'
+        '名单内——任务书「预期 5->3」预设两 inherited 行退出名'
+        '单，与上述不变量冲突，以代码实测为准，审定全文见治理文'
+        '档 §2.5）。',
+    'registration_flip': 'bingyao-shenfeng-v1: '
+        'maintained_pending / canonical_evidence_absent -> '
+        'registered (Phase1 bazi.rule.r040, Phase2 '
+        'bazi.phase2.bingyao_assessment validated, 6 Golden cases '
+        'fire the step); dayun-classical-variants Shenfeng segment: '
+        'maintained_pending -> registered inside the same row '
+        '(additional ids gain bazi.rule.r041 / '
+        'bazi.phase2.dayun_shenfeng_conversion, 5 Golden cases '
+        'fire the step), so the row is fully registered across '
+        'both segments; maintained inventory 5 -> 4 (the two '
+        'inherited rows remain in terminal inherited form). '
+        'Publication condition five (deployment acceptance '
+        'binding) stays pending the E0349 closeout, as with every '
+        'prior flip.',
+    'sealed_files_changed': [
+        'data/canonical/bazi/phase1_knowledge.json',
+        'data/canonical/bazi/phase2_execution.json',
+        'data/canonical/bazi/phase2_golden.json',
+        'data/coverage/phase1.json',
+        'data/product/knowledge_coverage.json'],
+    'sealed_file_sha256_after': {
+        'data/canonical/bazi/phase1_knowledge.json':
+            'de79653afb384d8c0275a8cf2caff3ab4170c4a200acfd7b03afde02a63ba198',
+        'data/canonical/bazi/phase2_execution.json':
+            '2163c6cf9495ad8dd6e171f6083d66bc02bd2ee881e46c18b721c6cb0f56c98e',
+        'data/canonical/bazi/phase2_golden.json':
+            'bbffab397f976bd5430c257c327fa12e3248e2c5484a1ec64e2b4a6e011c6171',
+        'data/coverage/phase1.json':
+            'dd546d0d426242daace7816327d6d7da9d46ec80b4a639fa370655de4b1f021b',
+        'data/product/knowledge_coverage.json':
+            'd45b876c3cceae73eb37ec3ed26cde76353c856ba8c3d538bd2da43052cf43fc'},
+    'snapshot_files_before': 237,
+    'snapshot_files_after': 237,
+    'snapshot_bytes_before': 16221036,
+    'snapshot_bytes_after': 16272294,
+    'manifest_sha256_before':
+        '97e211c4582f7cf4d890c2bf8071573fbaced193d740c185d2c891a3f2e51324',
+    'manifest_sha256_after':
+        '380bb73e34babc30bcc80e5ad7f296175f6be206af6a77f1abb4a07b94da654b',
+    'pin_record': 'Private checkout root manifest, '
+        'import_public_snapshot EXPECTED pins and both coverage '
+        'files were regenerated by the private tooling (verify '
+        'green); the sealed change was staged as a snapshot and '
+        'delivered with this batch; the live snapshot and cicd pin '
+        'swap is performed by the parent before merge.',
+    'verdict_surface_change': 'No verdict surface changes: '
+        'bingyao determination stays None, no 「无病」 output '
+        'exists, the dual-pair structure is unchanged; the dayun '
+        'output contract is byte-identical apart from the '
+        'closed-list registration disclosures (evidence_binding '
+        'values, quote source_section_id additions, LIMITATIONS / '
+        'production_scope registration sentences, the new gated '
+        'chart block with its registered trace step / RuleMatch / '
+        'Evidence entries, and the compose / view terminal '
+        'inherited binding). Intervals only, no point fields, no '
+        'age keys, the zero-jie refusal unchanged, ADV-001..012 '
+        'behaviour unchanged, the research view stays off public '
+        'pages, and user-visible capability is unchanged.',
+}
+
+
 REASON_CLASSES = {
     'canonical_evidence_absent':
         '定义性原典锚点在密封 Canonical 中无对应 section（或经典不在 '
@@ -899,17 +1055,21 @@ REGISTRATION_INVENTORY = [
         'disposition': 'registered',
         'phase1_rule_id': 'bazi.rule.r038',
         'phase2_rule_id': 'bazi.phase2.dayun_classical_direction',
-        'additional_phase1_rule_ids': ['bazi.rule.r039'],
+        'additional_phase1_rule_ids': ['bazi.rule.r039',
+                                       'bazi.rule.r041'],
         'additional_phase2_rule_ids': [
-            'bazi.phase2.dayun_sanming_conversion'],
+            'bazi.phase2.dayun_sanming_conversion',
+            'bazi.phase2.dayun_shenfeng_conversion'],
         'segments': {
             'sanming': 'registered（E0346：方向 bazi.rule.r038 / '
                        'bazi.phase2.dayun_classical_direction；三命'
                        '换算 bazi.rule.r039 / '
                        'bazi.phase2.dayun_sanming_conversion）',
-            'shenfeng': 'maintained_pending（conversion-shenfeng：'
-                        '神峰通考不在 Canonical 经典内，待神峰经典 '
-                        'Canonical 扩编另行翻转，本批不连带）',
+            'shenfeng': 'registered（E0348：神峰换算 '
+                        'bazi.rule.r041 / '
+                        'bazi.phase2.dayun_shenfeng_conversion；'
+                        'Canonical 新经典 bazi.classic.shenfeng '
+                        '节 bazi.section.s073《起大运法》）',
         },
         'reason': '分段注册（E0346）：三命分段的定义性文本已经阶段一 '
                   '018 形制校勘登记（sanming-juan2-dayun-collation-'
@@ -929,12 +1089,23 @@ REGISTRATION_INVENTORY = [
                   '（dayun_classical_role / dayun_sanming_'
                   'measurement 显式输入声明）真实执行并接入 '
                   'ExecutionTrace 注册步，Golden 真实盘/真实时刻用'
-                  '例真实 fire。神峰分段维持 pending（分段诚实）：'
-                  '神峰 6 条引文登记来源为神峰通考快照、不在 '
-                  'Canonical 经典内，conversion-shenfeng 的 '
-                  'evidence_binding 保持 '
-                  'pending_phase1_rule_registration，待神峰经典 '
-                  'Canonical 扩编另批翻转。',
+                  '例真实 fire。E0348 神峰分段注册：密封 Canonical '
+                  '新建《神峰通考》经典（bazi.classic.shenfeng），'
+                  '《起大运法》整节建成 bazi.section.s073（快照字'
+                  '符 [85001,85246) 245 字、PUA/□ 均 0），新术语 '
+                  'bazi.term.dayun_shenfeng_conversion、Phase1 规'
+                  '则 bazi.rule.r041（source_refs 恰为神峰换算实'
+                  '际消费的 3 条例算引文 sf_ex1/sf_ex3/sf_ex4）与 '
+                  'Phase2 步 bazi.phase2.dayun_shenfeng_conversion '
+                  '（validated）；神峰 6 条引文补 '
+                  'source_section_id=s073（source 不改指——神峰无 '
+                  'S0/S3 双轨，隔离快照即登记原文），新增测量级入'
+                  '口 shenfeng_convert_measurement 经 bazi_chart '
+                  '研究门控（dayun_shenfeng_measurement）真实执行'
+                  '并接入 ExecutionTrace 注册步，Golden 5 例真实 '
+                  'fire。方向产出中的神峰 6 条仍只是 corroboration '
+                  '旁证披露（不入 r038 refs，E0346 §2.3 审定不'
+                  '变）；至此本行两分段全部 registered。',
         'unlock_path': None,
     },
     {
@@ -943,14 +1114,19 @@ REGISTRATION_INVENTORY = [
         'disclosure_sites': ['src/tianji_kb/bazi_dayun_compose.py'],
         'disposition': 'maintained_pending',
         'reason_class': 'inherited_pending',
-        'reason': '组合层不产生独立规则：其所串联的三命分段已随 '
-                  'E0346 注册（bazi.rule.r038/r039 与对应 Phase2 '
-                  '步），本行所继承的神峰分段仍 pending，组合层 '
-                  'evidence_binding 改记 '
-                  'segmented_inherited_pending。',
-        'unlock_path': '随神峰分段注册（神峰经典 Canonical 扩编后的 '
-                       'dayun 神峰分段注册批）自动解除；三命分段部分'
-                       '已随 E0346 解除。',
+        'reason': '组合层不产生独立规则（无自有规则可登记，不得改记 '
+                  'registered——治理恰等不变量禁止复用底层规则 id、'
+                  '新造 id 即空注册）：其所串联的两分段均已注册（三'
+                  '命分段随 E0346、神峰分段随 E0348），继承链终局解'
+                  '除，组合层 evidence_binding 改记终局形态 '
+                  'inherited_registered_phase1_phase2（底层全段已'
+                  '注册、本层只继承披露）。本行以 inherited 终局形'
+                  '态留在治理维持名单（E0348 审定，见 '
+                  'GOVERNANCE_SHENFENG_RECORD 的 '
+                  'inherited_rows_terminal_form 与治理文档 §2.5）。',
+        'unlock_path': '继承性 pending 已随神峰分段注册（E0348）终局'
+                       '解除为 inherited 记法；仅当本层将来产生独立 '
+                       'Phase1/Phase2 规则时，另行独立注册。',
     },
     {
         'item': 'dayun-timeline-view',
@@ -959,22 +1135,46 @@ REGISTRATION_INVENTORY = [
         'disposition': 'maintained_pending',
         'reason_class': 'inherited_pending',
         'reason': '视图层 Variant，只呈现底层区间产出，本身不产生裁'
-                  '决：其所继承的三命分段已随 E0346 注册、神峰分段'
-                  '仍 pending，视图 evidence_binding 改记 '
-                  'segmented_inherited_pending；公开开放仍须分阶段'
-                  '开放另行裁定，不随注册自动开放。',
-        'unlock_path': '随神峰分段注册自动解除（公开开放另行裁定）。',
+                  '决、无自有规则可登记：其所继承的两分段均已注册'
+                  '（三命分段随 E0346、神峰分段随 E0348），继承链终'
+                  '局解除，视图 evidence_binding 改记终局形态 '
+                  'inherited_registered_phase1_phase2；公开开放仍须'
+                  '分阶段开放另行裁定，不随注册自动开放。本行以 '
+                  'inherited 终局形态留在治理维持名单（E0348 审定'
+                  '同 dayun-compose 行）。',
+        'unlock_path': '继承性 pending 已随神峰分段注册（E0348）终局'
+                       '解除为 inherited 记法（公开开放另行裁定）；仅'
+                       '当本层将来产生独立规则时，另行独立注册。',
     },
     {
         'item': 'bingyao-shenfeng-v1',
         'subject': '病药 Variant（神峰通考双对）',
         'disclosure_sites': ['src/tianji_kb/bazi_bingyao.py'],
-        'disposition': 'maintained_pending',
-        'reason_class': 'canonical_evidence_absent',
-        'reason': '神峰通考不在 Canonical 经典内，病药 9 条引文 0 条可'
-                  '在 Canonical 验证。',
-        'unlock_path': '先行 Canonical 扩编（神峰建经典并登记病药诸节），'
-                       '再行注册批。',
+        'disposition': 'registered',
+        'phase1_rule_id': 'bazi.rule.r040',
+        'phase2_rule_id': 'bazi.phase2.bingyao_assessment',
+        'reason': '神峰经典 Canonical 扩编（E0348）：密封 Canonical '
+                  '新建《神峰通考》经典（bazi.classic.shenfeng，'
+                  'body_stage=quarantine，镜像既有四经典实体结'
+                  '构），病药定义节建成 bazi.section.s071（快照字'
+                  '符 [7019,7680) 整段 661 字、PUA/□ 均 0），正官'
+                  '格张力句以窗口节 bazi.section.s072 承载，既有滴'
+                  '天髓经典内补中和篇制衡窗口节 bazi.section.s074；'
+                  '病药 9 条引文全数补 source_section_id（神峰 7 条'
+                  '入 s071、张力 1 条入 s072、制衡 1 条入 s074）。'
+                  '新术语 bazi.term.bingyao、Phase1 规则 '
+                  'bazi.rule.r040（source_refs 恰为实际编码消费的 '
+                  '4 条：病/药定义句 + 两条编码对句）与 Phase2 步 '
+                  'bazi.phase2.bingyao_assessment（validated）逐字'
+                  '绑定；assessment 经 bazi_chart 既有 '
+                  'bingyao_variant 研究门控以 trace.add 真实执行，'
+                  'Golden 6 例（复用 TJ-013 既有见证真实盘）真实 '
+                  'fire。注册不改变任何语义：determination 恒 '
+                  'None、无「无病」输出、双对结构与审定点 S1–S4 '
+                  '逐字不变；登记引文（土重例/从重程序句/无病条款/'
+                  '正官张力）与制衡引文不入规则 refs，各有明示地'
+                  '位。',
+        'unlock_path': None,
     },
     {
         'item': 'pattern-route-luren',
