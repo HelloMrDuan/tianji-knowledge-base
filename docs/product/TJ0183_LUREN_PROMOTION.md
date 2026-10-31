@@ -34,7 +34,8 @@
 
 - 禄节定义句与 Slice A `sanming.lu_sentence` 为**同一引文**：公开登记侧补 `source_section_id = bazi.section.s063`（不重复立条）；密封侧该句即 s063 节文本子串，逐字同一（含己/巳快照原字）。
 - 阳刃两条定义引文（纲句 S3 [180960, 180981)、刃位 S3 [181643, 181688)）公开登记侧补 `source_section_id = bazi.section.s064`；坐标已经评估与本批双重复验。
-- 绑定引文与登记引文的隔离机检：r035 的 4 条绑定引文逐字无「防」；`yr.moli_hulu`（含 seq 450 位点）不入任何绑定；两节登记引文全量（禄 30 + 刃 22 = 52 条）在 S3 节文本内按登记坐标逐条在位（mapped 口径）。
+- 绑定引文与登记引文的隔离机检：r035 的 4 条绑定引文逐字无「防」；`yr.moli_hulu`（含 seq 450 位点）不入任何绑定；两节登记引文全量（禄 30 + 刃 22 = 52 条）在 S3 节文本内按登记坐标逐条在位——在位口径经机上逐字诊断定为分类口径：非订正类字逐字稳定；PUA 位点恰为登记 mapped 读法；防位点或按登记读法应用、或作残余防保留（恰 11 位点，含禄节 seq 47 与 `yr.moli_hulu` 内 seq 450 位点）；己/巳/已类读法层读法不入 S3 文本（与 B-1 披露一致，S3 保留快照原字）。
+- 登记—应用分歧一处如实记录（不裁定）：阳刃节内两处防位点（`yr.ersha` 第 6 字、`yr.he_xing` 第 16 字），密封订正集应用作「凶」，而 018-F 校勘记登记读法作「㓙」。节文本以 S3 为准、登记引文以快照原字为准，两层口径并存与既有机制一致；该分歧不涉及任何绑定引文，密封专项以精确枚举钉住这两处，第三处出现即测试失败。
 
 ### 3.3 术语与规则
 
@@ -43,11 +44,17 @@
 
 ## 4. 等价比对（硬验收）
 
-<!-- EQUIVALENCE_RESULTS -->
+比对集 275 项：Set A = 密封 Golden 133 例原输入；Set B = Slice A 八盘 + D-1 优先序盘（均带 `pattern_variant`）；Set C = 133 例强制 `pattern_variant`。基线捕获于基线组装树（main `6959de27` 代码 + live 快照 `c815dc4e…`），275/275 ok；工作捕获于本批组装树（分支代码 + 暂存快照），293/293 ok。
+
+归一化封闭清单（与批二同构）：(1) `#/trace/<i>/…` 指针按各自封套的 trace 改写为 `#/trace/<rule_id>/…`，吸收新增步的索引位移；(2) 工作封套中删除路线步本身、其 rule_match 与仅由其引用的 evidence 条目；(3) `pattern_route` 的 `evidence_binding` 值与 limitations 中注册状态句替换为标记。除此之外逐项深比对：**275/275 项完全一致，封闭清单外零差异**。工作集多出项恰为 9 例新 Golden（在 Set A 与 Set C 中各出现一次），无其他新增。路线 determination 全部字段恒 None、路线事实字段（route / matched_via / lu_branch / ren_branch / miscellaneous_month / borrowed_route）逐盘逐字不变。
+
+机上全配方复跑（`scripts/accept_offline.py --suite all`，分支 Head + 暂存快照）：**SUCCESS，2707 测 0 失败**（public-git-checkout 15、public-only 24/skipped 1、private-backend 2668），Phase 1 实体 1090（+6 = 两章两节一术语一规则），Phase 2 口径 73 execution rules / 72 validated / 170 golden。基线同配方复跑（main `6959de27` + live 快照）SUCCESS 2689（15 + 24/1 + 2650）；增量 +18 恰为本批两支新测试模块（密封 baziluren 9 + 公开 promotion 9），逐项对平。过程如实记录：首轮全配方（Head `6631c1d6`）FAILED，backend 失败 4 项均为既有钉值未随本批迁移——合化审定模块 `SEALED_MEASUREMENTS` 三项计数（节 62→64、Phase1 规则 34→35、Phase2 规则 35→36；迁移前置条件实测成立：两节新文本合化关键词与五合均为 0）、`test_phase1_bazi` 可执行规则豁免集未含 r035、合化 Golden 镜像三项计数；按实测迁移（沿 E0329/E0333/E0335 同模块同口径先例）后复跑 SUCCESS，无放宽断言、无删测。
 
 ## 5. 伪造引文负例与回滚演练
 
-<!-- NEGATIVE_AND_ROLLBACK -->
+伪造绑定负例（密封专项 `tests/test_phase2_baziluren.py`，机上实测）：(1) 禄句改字（甲禄寅 → 甲禄卯）绑定被 EvidenceResolver 拒绝；(2) 禄句错绑阳刃节（s064）被拒绝；(3) 以拟读「市㕓态」冒充 seq 47 未决位点（S3 76987）原文被拒绝。三负例证明绑定只认 S3 节文本逐字子串，登记读法层不得冒充原文。
+
+回滚演练（新代码 + 批二终局快照 `c815dc4e…` 组装）：`pattern_variant` 路径以 `ValueError: Unknown rule: bazi.phase2.pattern_route` fail-closed——旧快照无 r035/路线步注册，新代码不静默产出未注册结论；默认路径（无 pattern_variant）封套与基线代码 + 旧快照组装逐字一致。即回滚 = 退回未注册状态且行为与批二终局完全相同，无半注册中间态。
 
 ## 6. 快照换代清单（交付父级，合并前先行）
 
@@ -66,7 +73,7 @@
 - 新来源：不需要——`bazi.source.sanmingtonghui-applied` 已由 P1 登记，两节同属该来源。
 - S3 切片复验：两节长度、零 PUA、零 □、残余防位点（禄 1 / 刃 14）与三条绑定引文坐标，机上以 S3 原文直读逐项复验通过，与 B-1 登记 / 批三评估实测逐一相符。
 - 注册形态：见 §2（评估 §5 遗留问题就此定稿）。
-- 计数对账基线：B-1 复跑 SUCCESS 2689（公开 15 + 密封 24 / 2650，skipped 1）；本批全配方复跑见 §4/§5 回填段。
+- 计数对账基线：B-1 复跑 SUCCESS 2689（公开 15 + 密封 24 / 2650，skipped 1）；本批基线同配方复跑同为 SUCCESS 2689，本批终局复跑 SUCCESS 2707（增量 +18 逐项对平，详见 §4）。
 
 ## 8. 仍未判断与后续
 
