@@ -94,8 +94,8 @@ class LurenPromotionPublicTests(unittest.TestCase):
                                  'pure_generating_support_water',
                                  'pure_support_metal',
                                  'ren-pattern-yin-true-v1',
-                                 'sanxing-branch-fact-v1']))
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 4)
+                                 'sanxing-branch-fact-v1', 'tiaohou-qiongtong-v1']))
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 3)  # E0352: tiaohou flipped
         self.assertNotIn('pattern-route-luren', gov.MAINTAINED_ITEMS)
 
     def test_route_disclosure_flipped(self):

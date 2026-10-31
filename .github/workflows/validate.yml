@@ -768,6 +768,12 @@ jobs:
       # and the design document on file. No sealed data is read;
       # implementation belongs to a later batch.
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_governance_tiaohou_design_public.py' -v
+      # TJ-018.2 (E0352) governance tiaohou Canonical
+      # construction public contracts: the registry row flipped
+      # to registered (r042 + additional r043-r051 /
+      # tiaohou_assessment), the implementation record, and the
+      # module's flipped disclosures. No sealed data is read.
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_governance_tiaohou_promotion_public.py' -v
       # TJ-018.3-B1 (E0338) sanming juan3 shiganlu collation
       # register (new juan3 register volume, pure registration)
       # public contracts: pure-data register mirrored against

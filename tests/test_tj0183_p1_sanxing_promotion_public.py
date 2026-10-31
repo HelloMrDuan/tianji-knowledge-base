@@ -138,10 +138,10 @@ class InventoryDispositionTests(unittest.TestCase):
                           'pure_generating_support_water',
                           'pure_support_metal',
                           'ren-pattern-yin-true-v1',
-                          'sanxing-branch-fact-v1'])
+                          'sanxing-branch-fact-v1', 'tiaohou-qiongtong-v1'])
         self.assertNotIn('sanxing-branch-fact-v1',
                          gov.MAINTAINED_ITEMS)
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 4)
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 3)  # E0352: tiaohou flipped
 
 
 class ConfigRegistrationTests(unittest.TestCase):

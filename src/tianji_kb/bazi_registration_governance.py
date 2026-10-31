@@ -1018,6 +1018,245 @@ TIAOHOU_DESIGN_RECORD = {
         'decisions are untouched.',
 }
 
+GOVERNANCE_TIAOHOU_RECORD = {
+    'batch': '治理 pending 末项 tiaohou 经典建制实施批',
+    'event': 'E0352',
+    'date': '2026-11-01',
+    'document': 'docs/product/GOVERNANCE_TIAOHOU_PROMOTION.md',
+    'canonical_classics_added': ['bazi.classic.qiongtong'],
+    'canonical_chapters_added': [
+        'bazi.chapter.qiongtong_zonglun',
+        'bazi.chapter.qiongtong_jia',
+        'bazi.chapter.qiongtong_yi',
+        'bazi.chapter.qiongtong_bing',
+        'bazi.chapter.qiongtong_ding',
+        'bazi.chapter.qiongtong_wu',
+        'bazi.chapter.qiongtong_ji',
+        'bazi.chapter.qiongtong_geng',
+        'bazi.chapter.qiongtong_xin',
+        'bazi.chapter.qiongtong_ren',
+        'bazi.chapter.qiongtong_gui'],
+    'canonical_sections_added': [
+        'bazi.section.s075',
+        'bazi.section.s076',
+        'bazi.section.s077',
+        'bazi.section.s078',
+        'bazi.section.s079',
+        'bazi.section.s080',
+        'bazi.section.s081',
+        'bazi.section.s082',
+        'bazi.section.s083',
+        'bazi.section.s084',
+        'bazi.section.s085',
+        'bazi.section.s086',
+        'bazi.section.s087',
+        'bazi.section.s088',
+        'bazi.section.s089',
+        'bazi.section.s090',
+        'bazi.section.s091',
+        'bazi.section.s092',
+        'bazi.section.s093',
+        'bazi.section.s094',
+        'bazi.section.s095',
+        'bazi.section.s096',
+        'bazi.section.s097',
+        'bazi.section.s098',
+        'bazi.section.s099',
+        'bazi.section.s100',
+        'bazi.section.s101',
+        'bazi.section.s102',
+        'bazi.section.s103',
+        'bazi.section.s104',
+        'bazi.section.s105',
+        'bazi.section.s106',
+        'bazi.section.s107',
+        'bazi.section.s108',
+        'bazi.section.s109',
+        'bazi.section.s110',
+        'bazi.section.s111',
+        'bazi.section.s112',
+        'bazi.section.s113',
+        'bazi.section.s114',
+        'bazi.section.s115',
+        'bazi.section.s116',
+        'bazi.section.s117',
+        'bazi.section.s118',
+        'bazi.section.s119',
+        'bazi.section.s120',
+        'bazi.section.s121',
+        'bazi.section.s122',
+        'bazi.section.s123',
+        'bazi.section.s124',
+        'bazi.section.s125',
+        'bazi.section.s126',
+        'bazi.section.s127',
+        'bazi.section.s128',
+        'bazi.section.s129',
+        'bazi.section.s130',
+        'bazi.section.s131',
+        'bazi.section.s132',
+        'bazi.section.s133',
+        'bazi.section.s134',
+        'bazi.section.s135',
+        'bazi.section.s136',
+        'bazi.section.s137',
+        'bazi.section.s138',
+        'bazi.section.s139',
+        'bazi.section.s140',
+        'bazi.section.s141',
+        'bazi.section.s142',
+        'bazi.section.s143',
+        'bazi.section.s144',
+        'bazi.section.s145',
+        'bazi.section.s146',
+        'bazi.section.s147',
+        'bazi.section.s148',
+        'bazi.section.s149',
+        'bazi.section.s150',
+        'bazi.section.s151',
+        'bazi.section.s152',
+        'bazi.section.s153',
+        'bazi.section.s154',
+        'bazi.section.s155',
+        'bazi.section.s156',
+        'bazi.section.s157',
+        'bazi.section.s158',
+        'bazi.section.s159',
+        'bazi.section.s160',
+        'bazi.section.s161',
+        'bazi.section.s162',
+        'bazi.section.s163',
+        'bazi.section.s164',
+        'bazi.section.s165',
+        'bazi.section.s166',
+        'bazi.section.s167',
+        'bazi.section.s168',
+        'bazi.section.s169',
+        'bazi.section.s170',
+        'bazi.section.s171',
+        'bazi.section.s172',
+        'bazi.section.s173',
+        'bazi.section.s174',
+        'bazi.section.s175',
+        'bazi.section.s176',
+        'bazi.section.s177',
+        'bazi.section.s178',
+        'bazi.section.s179',
+        'bazi.section.s180',
+        'bazi.section.s181',
+        'bazi.section.s182',
+        'bazi.section.s183',
+        'bazi.section.s184'],
+    'canonical_terms_added': ['bazi.term.tiaohou'],
+    'phase1_rules_added': [
+        'bazi.rule.r042',
+        'bazi.rule.r043',
+        'bazi.rule.r044',
+        'bazi.rule.r045',
+        'bazi.rule.r046',
+        'bazi.rule.r047',
+        'bazi.rule.r048',
+        'bazi.rule.r049',
+        'bazi.rule.r050',
+        'bazi.rule.r051'],
+    'phase2_rules_added': ['bazi.phase2.tiaohou_assessment'],
+    'golden_cases_added': [
+        'bazi.tiaohou-jia-wu-branch-applied',
+        'bazi.tiaohou-jia-wu-branch-not-applied',
+        'bazi.tiaohou-bing-mao-branch-applied',
+        'bazi.tiaohou-bing-mao-branch-not-applied',
+        'bazi.tiaohou-bing-chen-branch-applied',
+        'bazi.tiaohou-bing-chen-branch-not-applied',
+        'bazi.tiaohou-bing-si-branch-applied',
+        'bazi.tiaohou-bing-si-branch-not-applied',
+        'bazi.tiaohou-bing-you-branch-applied',
+        'bazi.tiaohou-bing-you-branch-not-applied',
+        'bazi.tiaohou-ding-shen-branch-applied',
+        'bazi.tiaohou-ding-shen-branch-not-applied',
+        'bazi.tiaohou-ding-you-branch-applied',
+        'bazi.tiaohou-ding-you-branch-not-applied',
+        'bazi.tiaohou-geng-mao-branch-applied',
+        'bazi.tiaohou-geng-mao-branch-not-applied',
+        'bazi.tiaohou-xin-wu-branch-applied',
+        'bazi.tiaohou-xin-wu-branch-not-applied',
+        'bazi.tiaohou-gui-si-branch-applied',
+        'bazi.tiaohou-gui-si-branch-not-applied',
+        'bazi.tiaohou-yi-chou-absent-in-source',
+        'bazi.tiaohou-bing-hai-empty-sequence',
+        'bazi.tiaohou-ding-wu-empty-sequence',
+        'bazi.tiaohou-gui-wu-empty-sequence',
+        'bazi.tiaohou-wu-yin-hit',
+        'bazi.tiaohou-ji-hai-none',
+        'bazi.tiaohou-ren-chen-hit',
+        'bazi.tiaohou-wu-shared-11-12',
+        'bazi.tiaohou-ji-shared-summer',
+        'bazi.tiaohou-ji-shared-autumn'],
+    'source_refs_subset': [
+        '条目主引文去重 111 条 + 已编码分支引文去重 9 条 = 恰 120 条'
+        '（逐干 甲13/乙11/丙16/丁13/戊10/己6/庚13/辛13/壬12/癸13）',
+        '术语锚引文 1 条（总论气候生成句，快照 [33,98)，'
+        'bazi.section.s075）'],
+    'source_refs_subset_basis': 'D-T3 恰等口径：每干 refs 的'
+        '（section_id, original_text）集合恰等于该干条目主引文对'
+        '（按（节跨度，引文定位点）去重）与已编码分支引文对（按'
+        '（引文，定位点）去重）的并集；§10.5(ii) 丁火合并 ref：'
+        '丁×申与丁×酉同文同位点的分支引文合成 1 条并绑共享跨度'
+        '之节，使（节，引文）对唯一；§10.2 丙×卯主/分支 2 条 refs '
+        '改绑窗口节 s099；unencoded 24 条留在条目内只登记、'
+        'related 17 条保持登记现状，均不入 refs；总论锚节 s075 '
+        '不被任何规则 refs 消费（只作术语锚）。',
+    'new_classic_design': 'docs/product/TIAOHOU_CANONICAL_DESIGN.md'
+        '（E0350 定稿 D-T1…D-T6 + §10 设计修订 E0351，冲突处以 '
+        '§10 为准）：底本为钉定快照逐字切片（C 级恒定）；经典 '
+        'body_stage=quarantine 镜像神峰扩编形态；s099 窗口节为 '
+        'D-T2 唯一例外形态。',
+    'harness_contract_extension': 'none：golden.py / 执行/用例 '
+        'schema / provider 三重钉死逐字不变，chart 签名零改动'
+        '（tiaohou_variant 门控自 TJ-013.1 已存在）；步沿既有门控'
+        '在 assessment 计算后以 trace.add 登记（与 ren/bingyao '
+        '先例同形），与 D-T5 的零扩展裁定一致。',
+    'registration_flip': 'tiaohou-qiongtong-v1: '
+        'maintained_pending / canonical_evidence_absent -> '
+        'registered (Phase1 bazi.rule.r042 + additional r043-r051, '
+        'Phase2 bazi.phase2.tiaohou_assessment validated, 30 '
+        'Golden cases G1-G6 fire the step); maintained inventory '
+        '4 -> 3 (siling-yin-pilot and the two dayun inherited rows '
+        'unchanged). Publication condition five (deployment '
+        'acceptance binding) stays pending the E0353 closeout, as '
+        'with every prior flip.',
+    'sealed_files_changed': [
+        'data/canonical/bazi/phase1_knowledge.json',
+        'data/canonical/bazi/phase2_execution.json',
+        'data/canonical/bazi/phase2_golden.json',
+        'data/coverage/phase1.json',
+        'data/product/knowledge_coverage.json'],
+    'sealed_file_sha256_after': {},
+    'snapshot_files_before': 237,
+    'snapshot_files_after': 237,
+    'snapshot_bytes_before': 16272294,
+    'snapshot_bytes_after': 0,
+    'manifest_sha256_before':
+        '380bb73e34babc30bcc80e5ad7f296175f6be206af6a77f1abb4a07b94da654b',
+    'manifest_sha256_after': '',
+    'pin_record': 'Private checkout root manifest, '
+        'import_public_snapshot EXPECTED pins and both coverage '
+        'files were regenerated by the private tooling (verify '
+        'green); the sealed change was staged as a snapshot and '
+        'delivered with this batch; the live snapshot and cicd pin '
+        'swap is performed by the parent before merge.',
+    'verdict_surface_change': 'No verdict surface changes: the '
+        'tiaohou lookup has no verdict fields and gains none; '
+        'ENTRIES data, lookup semantics and every computed value '
+        'are byte-identical apart from the closed-list registration '
+        'disclosures (evidence_binding values, entry '
+        'source_section_id additions, LIMITATIONS / docstring '
+        'registration sentences, and the new step trace / '
+        'RuleMatch / Evidence increments under the existing '
+        'tiaohou_variant gate). The public projection continues '
+        'to strip the whole tiaohou_assessment block; '
+        'research_only / public_enabled / ai_enabled flags are '
+        'unchanged.',
+}
 
 REASON_CLASSES = {
     'canonical_evidence_absent':
@@ -1034,13 +1273,30 @@ REGISTRATION_INVENTORY = [
         'item': 'tiaohou-qiongtong-v1',
         'subject': '调候 Variant（穷通宝鉴 119 条）',
         'disclosure_sites': ['src/tianji_kb/bazi_tiaohou.py'],
-        'disposition': 'maintained_pending',
-        'reason_class': 'canonical_evidence_absent',
-        'reason': '《穷通宝鉴》不在密封 Canonical 经典内（Canonical 仅'
-                  '渊海子平、三命通会、协纪辨方书、滴天髓阐微四书），'
-                  '调候全部引文无 canonical section 可绑。',
-        'unlock_path': 'Canonical 经典扩编治理批：穷通宝鉴建经典/章节/'
-                       'sections 并逐条复核引文后，另行注册。',
+        'disposition': 'registered',
+        'phase1_rule_id': 'bazi.rule.r042',
+        'additional_phase1_rule_ids': [
+            'bazi.rule.r043', 'bazi.rule.r044', 'bazi.rule.r045',
+            'bazi.rule.r046', 'bazi.rule.r047', 'bazi.rule.r048',
+            'bazi.rule.r049', 'bazi.rule.r050', 'bazi.rule.r051'],
+        'phase2_rule_id': 'bazi.phase2.tiaohou_assessment',
+        'reason': '《穷通宝鉴》已建为 Canonical 第六典 '
+                  'bazi.classic.qiongtong（body_stage=quarantine；11 章、'
+                  '110 节：总论锚节 bazi.section.s075 与条目节 s076–s184 按条目跨度'
+                  '升序建节，丙火二月条取窗口 [8668,8852) 建节 bazi.section.s099、'
+                  '尾段含未裁合化命题登记未建节），术语 '
+                  'bazi.term.tiaohou 锚总论气候生成句；查表按干注册为 '
+                  'Phase1 规则 r042–r051，source_refs 恰为条目主引文'
+                  '（去重 111 条）与已编码分支引文（去重 9 条）的并集、'
+                  '合计恰 120 条（逐干 甲13/乙11/丙16/丁13/戊10/己6/'
+                  '庚13/辛13/壬12/癸13；丁火共享分支引文合并为一条并'
+                  '绑共享节），unencoded 24 条与 related 17 条只登记'
+                  '不入 refs；Phase2 步 bazi.phase2.tiaohou_assessment '
+                  'validated，30 例 Golden（G1–G6）真实 fire。设计='
+                  'docs/product/TIAOHOU_CANONICAL_DESIGN.md（E0350 '
+                  '定稿 + §10 修订 E0351），实施记录见 '
+                  'GOVERNANCE_TIAOHOU_RECORD。',
+        'unlock_path': None,
     },
     {
         'item': 'pure_generating_support',

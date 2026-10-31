@@ -98,6 +98,12 @@ class InventoryCoverageTests(unittest.TestCase):
         # flipped set at eleven and the maintained-pending
         # inventory at four (the two inherited rows remain in
         # terminal inherited form).
+        # E0352 (governance tiaohou Canonical construction):
+        # tiaohou-qiongtong-v1 flipped (r042 + additional
+        # r043-r051 / bazi.phase2.tiaohou_assessment), leaving the
+        # flipped set at twelve and the maintained-pending
+        # inventory at three (siling-yin-pilot and the two
+        # inherited dayun rows).
         self.assertEqual(sorted(gov.FLIPPED_ITEMS),
                          ['bingyao-shenfeng-v1',
                           'commanding_visible_support',
@@ -109,8 +115,9 @@ class InventoryCoverageTests(unittest.TestCase):
                           'pure_generating_support_water',
                           'pure_support_metal',
                           'ren-pattern-yin-true-v1',
-                          'sanxing-branch-fact-v1'])
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 4)
+                          'sanxing-branch-fact-v1',
+                          'tiaohou-qiongtong-v1'])
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 3)
 
 
 class FuyiRegisterStaysUnwiredTests(unittest.TestCase):
@@ -179,8 +186,11 @@ class FlippedWiringTests(unittest.TestCase):
         # bazi_dayun_classical.py keeps one historical occurrence
         # in its TJ-017.1 docstring layer (superseded in place by
         # the E0346/E0348 paragraphs) and stays listed.
-        for site in ('bazi_tiaohou.py',
-                     'bazi_dayun_classical.py', 'bazi_pattern.py',
+        # E0352 (governance tiaohou Canonical construction):
+        # tiaohou-qiongtong-v1 is registered, so bazi_tiaohou.py
+        # no longer carries the pending disclosure anywhere and
+        # leaves this site list (same migration form as E0348).
+        for site in ('bazi_dayun_classical.py', 'bazi_pattern.py',
                      'bazi_siling_pilot.py',
                      'bazi_fire_si_yin_morphology.py'):
             self.assertIn(PENDING, (SRC / site).read_text('utf-8'), site)
@@ -221,6 +231,11 @@ class RecordConsistencyTests(unittest.TestCase):
         # bingyao_assessment + dayun_shenfeng_conversion): r040 is
         # carried by the newly flipped bingyao row, r041 joins the
         # dayun row's additional ids.
+        # E0352 added GOVERNANCE_TIAOHOU_RECORD (r042 + additional
+        # r043-r051 / tiaohou_assessment): the tiaohou row carries
+        # a primary rule plus nine additional ids, unioned by the
+        # same collection expression; the exact-equality
+        # invariant is unchanged.
         records = [gov.S5_REGISTRATION_RECORD,
                    gov.TJ0183_P1_RECORD,
                    gov.TJ0183_EXECBIND_RECORD,
@@ -229,7 +244,8 @@ class RecordConsistencyTests(unittest.TestCase):
                    gov.GOVERNANCE_ZAQI_RECORD,
                    gov.GOVERNANCE_REN_RECORD,
                    gov.GOVERNANCE_DAYUN_SANMING_RECORD,
-                   gov.GOVERNANCE_SHENFENG_RECORD]
+                   gov.GOVERNANCE_SHENFENG_RECORD,
+                   gov.GOVERNANCE_TIAOHOU_RECORD]
         flipped_phase1 = sorted(
             rule_id for row in gov.REGISTRATION_INVENTORY
             if row['disposition'] == 'registered'

@@ -143,10 +143,13 @@ class DayunSanmingPromotionPublicTests(unittest.TestCase):
         # the maintained set drops to four (the two inherited
         # rows remain in terminal inherited form).
         self.assertIn('bingyao-shenfeng-v1', gov.FLIPPED_ITEMS)
-        self.assertEqual(len(gov.FLIPPED_ITEMS), 11)
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 4)
+        # E0352: tiaohou-qiongtong-v1 flipped as well (flipped
+        # 12; maintained three -- siling-yin-pilot and the two
+        # inherited rows remain).
+        self.assertEqual(len(gov.FLIPPED_ITEMS), 12)
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 3)
         self.assertEqual(sorted(gov.MAINTAINED_ITEMS),
-                         sorted(['tiaohou-qiongtong-v1', 'dayun-compose',
+                         sorted(['dayun-compose',
                                  'dayun-timeline-view',
                                  'siling-yin-pilot']))
 

@@ -31,6 +31,18 @@ text, refs exactness (丙 16, total 120) is unchanged, and the
 implementation/closeout events were reallocated to E0352/E0353.
 The revision changes no registry state either; the pins below
 cover the revised planned fields on top of the E0350 pins.
+
+E0352 migration (implementation batch): the design above is now
+implemented exactly as adjudicated -- the registry row flipped
+to registered (Phase1 bazi.rule.r042 + additional r043-r051,
+Phase2 bazi.phase2.tiaohou_assessment) and the module reports
+evidence_binding=registered_phase1_phase2. Per this file's own
+instruction, the two state pins below were MIGRATED to the
+post-implementation state (not loosened): the design record
+itself is a historical adjudication record and stays pinned
+verbatim, and the design document remains on file unchanged.
+The implementation-side pins live in
+tests/test_governance_tiaohou_promotion_public.py.
 """
 import unittest
 from pathlib import Path
@@ -133,19 +145,28 @@ class TiaohouDesignPublicTests(unittest.TestCase):
                        'E0352', 'E0353', '4,744'):
             self.assertIn(marker, text)
 
-    def test_registry_row_still_pending(self):
+    def test_registry_row_flipped_by_e0352(self):
+        # Migrated by the E0352 implementation batch (see module
+        # docstring): the design is implemented, so the row is
+        # registered with the design's planned designations.
         row = _row('tiaohou-qiongtong-v1')
-        self.assertEqual(row['disposition'], 'maintained_pending')
-        self.assertEqual(row['reason_class'],
-                         'canonical_evidence_absent')
-        self.assertNotIn('phase1_rule_id', row)
-        self.assertNotIn('phase2_rule_id', row)
-        self.assertNotIn('tiaohou-qiongtong-v1',
-                         gov.FLIPPED_ITEMS)
+        self.assertEqual(row['disposition'], 'registered')
+        self.assertNotIn('reason_class', row)
+        self.assertEqual(row['phase1_rule_id'], 'bazi.rule.r042')
+        self.assertEqual(row['additional_phase1_rule_ids'],
+                         ['bazi.rule.r043', 'bazi.rule.r044',
+                          'bazi.rule.r045', 'bazi.rule.r046',
+                          'bazi.rule.r047', 'bazi.rule.r048',
+                          'bazi.rule.r049', 'bazi.rule.r050',
+                          'bazi.rule.r051'])
+        self.assertEqual(row['phase2_rule_id'],
+                         'bazi.phase2.tiaohou_assessment')
+        self.assertIsNone(row['unlock_path'])
+        self.assertIn('tiaohou-qiongtong-v1', gov.FLIPPED_ITEMS)
         self.assertEqual(
             gov.MAINTAINED_ITEMS,
-            ['tiaohou-qiongtong-v1', 'dayun-compose',
-             'dayun-timeline-view', 'siling-yin-pilot'])
+            ['dayun-compose', 'dayun-timeline-view',
+             'siling-yin-pilot'])
 
     def test_module_semantics_unchanged(self):
         self.assertEqual(th.VARIANT, 'tiaohou-qiongtong-v1')
@@ -158,12 +179,14 @@ class TiaohouDesignPublicTests(unittest.TestCase):
         self.assertEqual(absent['status'], 'not_applicable')
         self.assertEqual(absent['reason'],
                          'entry_absent_in_source')
+        # E0352: the binding disclosure flipped with the
+        # registration; lookup semantics are unchanged.
         self.assertEqual(absent['evidence_binding'],
-                         'pending_phase1_rule_registration')
+                         'registered_phase1_phase2')
         matched = th.tiaohou_lookup('甲', '寅', visible, hidden)
         self.assertEqual(matched['status'], 'matched')
         self.assertEqual(matched['evidence_binding'],
-                         'pending_phase1_rule_registration')
+                         'registered_phase1_phase2')
 
     def test_design_document_on_file(self):
         text = DOC.read_text(encoding='utf-8')

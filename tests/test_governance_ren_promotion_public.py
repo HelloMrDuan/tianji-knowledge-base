@@ -116,8 +116,12 @@ class RenPromotionPublicTests(unittest.TestCase):
                                  'pure_generating_support_water',
                                  'pure_support_metal',
                                  'ren-pattern-yin-true-v1',
-                                 'sanxing-branch-fact-v1']))
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 4)
+                                 'sanxing-branch-fact-v1',
+                                 'tiaohou-qiongtong-v1']))
+        # E0352: tiaohou-qiongtong-v1 flipped as well (twelve
+        # flipped; three maintained -- siling-yin-pilot and the
+        # two inherited rows).
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 3)
         self.assertNotIn('ren-pattern-yin-true-v1',
                          gov.MAINTAINED_ITEMS)
 
@@ -210,8 +214,10 @@ class RenPromotionPublicTests(unittest.TestCase):
                          'maintained_pending')
         self.assertEqual(_row('pattern-zaqi')['disposition'],
                          'registered')
+        # E0352 supersedes this row's E0344-era state: the
+        # tiaohou row has since flipped to registered.
         self.assertEqual(_row('tiaohou-qiongtong-v1')['disposition'],
-                         'maintained_pending')
+                         'registered')
 
     def test_no_sealed_text_leak(self):
         # The public lookup carries quote IDs/locators only; the
