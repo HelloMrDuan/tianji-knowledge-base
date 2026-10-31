@@ -190,3 +190,40 @@ dt.bing_lu_single「丙禄居巳」不在 Canonical，仅作互证锚、
   评估待卷三《论十干禄》前置登记批与用户授权。
 - 注册翻转第五条件（正式验收 SUCCESS 与部署验证）为
   终局条件，由父级关账批（E0336 预留）复核。
+
+## 10. 关账记录（E0336，append-only 补记）
+
+本节由批二关账批（E0336）以 append-only 方式追加，
+既有各节一字未动，记录 §9 所列注册翻转第五条件
+（正式验收 SUCCESS 与部署验证）的复核结果与 §7
+换代清单的实际执行情况：
+
+- 正式验收：机上管线对 Merge SHA
+  b580977503daa1fd823dad2ae6b77c4997013dec 直读
+  acceptance 记录，result 为 SUCCESS——
+  public-git-checkout 15、public-only 24（skipped 1）、
+  private-backend 2618，合计 2657，failures 与
+  errors 均为 0；验收记录 knowledge_file_count 237、
+  knowledge_total_bytes 15,964,218、
+  knowledge_manifest_sha256
+  c815dc4ed02a9b7d0bd1487c3e1ed4e39d0bc826659d4ff0fb7f8a37ff685cdf。
+- 部署验证：deploys.log 记录该 SHA 于
+  2026-10-31T07:16:32Z DEPLOYED，pin
+  048d05004620f1269df14b644d233f9f4f9fd79353042e956b64184d2826e13d，
+  health 与 bazi 探针 ok。
+- 换代实际执行：由父级在合并 PR #512 前按
+  先换代、后合并的原子流程执行，与 §7 清单的
+  计划口径对应——旧快照（237 文件 / 15,922,702
+  字节 / manifest b93e4b97…）备份于机上
+  secure/tianji-knowledge-pre-p2execbind-backup；
+  live 快照已换为暂存快照（237 文件 / 15,964,218
+  字节 / manifest c815dc4e…）且与暂存快照 diff -r
+  逐字一致；cicd 钉 TRUSTED_MANIFEST_SHA256 已
+  同步改为 c815dc4e…。
+- 第五条件结论：正式验收 SUCCESS 与部署验证均已
+  满足，§2 三谓词治理登记翻转（registered）已随
+  合并生效，批二全链闭合。
+- 关账清理：机上本批临时目录 tj0183-p2-asm 与
+  tj0183-p2-stage 已删除（live 快照与
+  pre-p2execbind 备份未动，清理前 live manifest
+  复核仍为 c815dc4e…），/data 已用 53% 降至 49%。
