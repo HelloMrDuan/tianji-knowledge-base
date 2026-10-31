@@ -308,11 +308,18 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
                       {'pattern_variant': pattern_variant, 'family': family}, observation)
             result['pattern_candidates'][family] = observation
         # TJ-012.3 Slice A: Ren 禄刃 route exclusion over the executed
-        # pillars only. Not a trace.add: this route rule has no sealed
-        # Phase1 rule / Phase2 contract registration yet, so it must not
-        # enter RuleMatch or Evidence (see bazi_pattern adjudication
-        # notes); it attaches to the result beside the candidates.
-        result['pattern_route'] = month_pattern_route(trace)
+        # pillars only. TJ-018.3 B-2 (E0339): the route is registered
+        # (Phase1 bazi.rule.r035 / Phase2 bazi.phase2.pattern_route,
+        # Canonical sections s063/s064 bind the Sanming lu/ren table
+        # quotes), so it now executes through trace.add like the
+        # candidate steps above and enters RuleMatch and Evidence;
+        # the route block itself attaches to the result beside the
+        # candidates, byte-identical apart from its registration
+        # disclosure fields.
+        route = month_pattern_route(trace)
+        trace.add('bazi.phase2.pattern_route',
+                  {'pattern_variant': pattern_variant}, route)
+        result['pattern_route'] = route
         # TJ-012.3 Slice B: 杂气 selection statement over the executed
         # structural facts. Same registration status as Slice A: not a
         # trace.add, no RuleMatch or Evidence entry.

@@ -219,7 +219,8 @@ class GoldenFireTests(unittest.TestCase):
         # pre-existing pillar inputs.
         # E0335: four ganzhi strength cases joined the golden file
         # (129 + 4 = 133 rows); they pass the same harness.
-        self.assertEqual(len(self.rows), 133)
+        # E0339: nine luren route cases joined (133 + 9 = 142 rows).
+        self.assertEqual(len(self.rows), 142)
 
     def test_new_cases_fire_the_step(self):
         for case_id in CASE_IDS:
@@ -303,7 +304,12 @@ class EquivalenceTests(unittest.TestCase):
                            'hour_ganzhi': cal['hour_ganzhi']})
         # E0335: the golden file grew by four ganzhi cases
         # (133 - 10 sanxing cases + 10 impl births = 133 inputs).
-        self.assertEqual(len(inputs), 133)
+        # E0339: the golden file grew by nine luren route cases
+        # (142 - 10 sanxing cases + 10 impl births = 142 inputs);
+        # those inputs carry pattern_variant, and the registered
+        # route step appears identically in both gate states, so
+        # the sanxing closed-list delta is unaffected.
+        self.assertEqual(len(inputs), 142)
         for inputs_one in inputs:
             off = chart(**inputs_one)
             self.assertNotIn('branch_punishment_facts', off['result'])
