@@ -88,6 +88,8 @@ class ZaqiPromotionPublicTests(unittest.TestCase):
             self.assertIn(marker, row['reason'])
 
     def test_flipped_and_maintained_sets(self):
+        # E0344: ren-pattern-yin-true-v1 flipped as well (six
+        # maintained).
         self.assertEqual(sorted(gov.FLIPPED_ITEMS),
                          sorted(['commanding_visible_support',
                                  'lu_visible_support',
@@ -96,8 +98,9 @@ class ZaqiPromotionPublicTests(unittest.TestCase):
                                  'pure_generating_support',
                                  'pure_generating_support_water',
                                  'pure_support_metal',
+                                 'ren-pattern-yin-true-v1',
                                  'sanxing-branch-fact-v1']))
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 7)
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 6)
         self.assertNotIn('pattern-zaqi', gov.MAINTAINED_ITEMS)
 
     def test_statement_disclosure_flipped(self):
@@ -169,8 +172,11 @@ class ZaqiPromotionPublicTests(unittest.TestCase):
                          'bazi.source.ditiansui-spouse')
 
     def test_out_of_scope_rows_unchanged(self):
+        # E0344: ren-pattern-yin-true-v1 has since flipped in its
+        # own batch; the siling pilot stays pending (user
+        # adjudication pending), the route row stays registered.
         self.assertEqual(_row('ren-pattern-yin-true-v1')['disposition'],
-                         'maintained_pending')
+                         'registered')
         self.assertEqual(_row('siling-yin-pilot')['disposition'],
                          'maintained_pending')
         self.assertEqual(_row('pattern-route-luren')['disposition'],

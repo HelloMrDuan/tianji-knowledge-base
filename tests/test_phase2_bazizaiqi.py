@@ -71,9 +71,11 @@ class ZaqiRegistrationTests(unittest.TestCase):
     def test_counts_and_registration(self):
         self.assertEqual(len(self.bundle['sections']), 67)
         self.assertEqual(len(self.bundle['chapters']), 27)
-        self.assertEqual(len(self.bundle['terms']), 33)
-        self.assertEqual(len(self.bundle['rules']), 36)
-        self.assertEqual(len(self.contract['rules']), 37)
+        # E0344: +1 term (ren_true_pattern), +1 rule (r037),
+        # +1 contract step; sections/chapters unchanged.
+        self.assertEqual(len(self.bundle['terms']), 34)
+        self.assertEqual(len(self.bundle['rules']), 37)
+        self.assertEqual(len(self.contract['rules']), 38)
         self.assertEqual(self.sections[ZAQI_SECTION]['source_id'],
                          DITIANSUI)
         self.assertEqual(self.sections[ZAQI_SECTION]['chapter_id'],
@@ -174,7 +176,8 @@ class ZaqiRegistrationTests(unittest.TestCase):
 
     def test_golden_cases_fire_the_registered_step(self):
         results = {c['id']: c for c in run_cases(ROOT, 'bazi')}
-        self.assertEqual(len(results), 148)
+        # E0344: +15 ren-yin Golden cases (163 total).
+        self.assertEqual(len(results), 163)
         for case_id in GOLDEN_IDS:
             self.assertIn(case_id, results)
             self.assertIn(STEP, results[case_id]['rule_ids'])
@@ -212,7 +215,9 @@ class ZaqiRegistrationTests(unittest.TestCase):
     def test_governance_flip_consistency(self):
         self.assertIn('pattern-zaqi', governance.FLIPPED_ITEMS)
         self.assertNotIn('pattern-zaqi', governance.MAINTAINED_ITEMS)
-        self.assertEqual(len(governance.MAINTAINED_ITEMS), 7)
+        # E0344: ren-pattern-yin-true-v1 flipped too (six
+        # maintained).
+        self.assertEqual(len(governance.MAINTAINED_ITEMS), 6)
         record = governance.GOVERNANCE_ZAQI_RECORD
         self.assertEqual(record['event'], 'E0342')
         self.assertEqual(record['phase1_rules_added'], ['bazi.rule.r036'])
