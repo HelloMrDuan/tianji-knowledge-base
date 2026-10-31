@@ -115,3 +115,14 @@ dayun-compose / dayun-timeline-view 两行自身无规则，其 pending 完全�
 - dayun 输出契约不变：神峰换算与三命换算永不合并；首运序列口径差异仍不在 Variant 范围；TJ-017.2 跨规则调用仍阻塞（依赖 M2 存量，与本批无涉）。
 - 治理维持名单余 4 项：tiaohou-qiongtong-v1（经典建制须先立设计审定批，为下一批）、siling-yin-pilot（待用户裁定）、dayun-compose / dayun-timeline-view（inherited 终局形态，本层产生独立规则时另行注册；视图公开开放仍须分阶段开放另行裁定）。
 - 阳刃「凶/㓙」勘误登记仍待后续校勘勘误批（与本批无涉）。
+
+## 9 关账记录（E0349，append-only 补记）
+
+- 实施批终局：PR #525 已合并，Merge SHA `579185498d5c4669584a49f7f2d5ffab924c5596`（main 现行 HEAD）。
+- 正式验收终局核对（直读管线 acceptance-579185498d5c4669584a49f7f2d5ffab924c5596 记录）：result SUCCESS，分项 public-git-checkout 15 / public-only 24（skipped 1）/ private-backend 2772，合计 2811 测，failures 与 errors 均为 0；密封快照 237 文件 / 16,272,294 字节 / manifest `380bb73e34babc30bcc80e5ad7f296175f6be206af6a77f1abb4a07b94da654b`，与本批暂存快照 staged-v2 三元组一致。
+- 部署终局核对（deploys.log）：2026-10-31T22:09:51Z DEPLOYED，pin `13598de617066e41146e9f836592e737a059f66cc6b76d6dc3ef8401f99925a8`，health 与 bazi 探针 ok。
+- 换代实际执行记录：父级于合并前先行执行——旧快照备份于 `secure/tianji-knowledge-pre-shenfeng-backup`（manifest `97e211c4…`）；live 快照由最终暂存快照 staged-v2 换入，`diff -r` 逐字一致；cicd 钉（cicd/env/trusted-acceptance 的 TRUSTED_MANIFEST_SHA256）由 `97e211c4…` 改为 `380bb73e…`。换代 before/after：237 文件 / 16,221,036 字节 / `97e211c4…` → 237 文件 / 16,272,294 字节 / `380bb73e…`。
+- 注册翻转终局核对：bingyao-shenfeng-v1 已翻转 registered、dayun-classical-variants 神峰分段随行翻转 registered（两段均 registered）、dayun-compose 与 dayun-timeline-view 为 inherited 终局形态（见 §2.5 审定）；治理维持名单 5 降至 4。注册成立第五条件（部署验收绑定）终局核对完成，翻转已随合并生效。
+- 语义守恒终局核对：bingyao determination 恒 None、无「无病」输出、双对结构不变；dayun 输出契约逐字不变（只有区间、无单点字段、无年龄键、恰逢节拒绝与 ADV 行为不变）；用户可见能力零变化。
+- 机上清理记录（关账批执行）：已删除 `/data/workspace/shenfeng` 下组装树（base-asm、rollback-asm、work-asm、work-asm2、repro-pub、repro2-pub、work-pub、orig）、三代暂存快照（staged-pre、staged-final、staged-v2）、捕获文件（baseline.json、work.json）与 tmp 临时库文件一批；日志（backend.log、backend2.log、fixrun.log、fixrun2.log、fixrun3.log、repro.log、repro2.log）与脚本 capture.py 及 backend_mods.txt 保留。清理前后 live manifest 复核仍为 `380bb73e…`、备份目录完好；/data 已用 74% 降至 70%（20G 总量、已用 14G、可用 6.0G）。
+- TJ-018.2 保持阻塞、TJ-018.3 保持待做；队列下一批：tiaohou 经典建制设计审定批，其后为阳刃「凶/㓙」校勘勘误登记批。
