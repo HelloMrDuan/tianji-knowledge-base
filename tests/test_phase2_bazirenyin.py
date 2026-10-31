@@ -160,14 +160,24 @@ class RenRegistrationTests(unittest.TestCase):
         for case_id in GOLDEN_IDS:
             self.assertIn(case_id, results)
             self.assertIn(STEP, results[case_id]['rule_ids'])
-        touchstone = results['bazi.ren-yin-true-n1-touchstone']
-        block = touchstone['result']['pattern_determination_ren_yin']
-        self.assertEqual(block['determination']['true_false'],
-                         'commander_not_visible')
-        flip = results['bazi.ren-yin-true-f2-boundary-exact']
-        self.assertEqual(
-            flip['result']['pattern_determination_ren_yin']
-            ['determination']['true_false'], 'true')
+        # run_cases itself asserts each case's expected subset
+        # against the execution result; the block contents of the
+        # two anchor cases are additionally pinned here by direct
+        # execution.
+        for case_id, want in (
+                ('bazi.ren-yin-true-n1-touchstone',
+                 'commander_not_visible'),
+                ('bazi.ren-yin-true-f2-boundary-exact', 'true')):
+            inputs = self.cases[case_id]['input']
+            envelope = chart(
+                inputs['year_ganzhi'], inputs['month_ganzhi'],
+                inputs['day_ganzhi'], inputs['hour_ganzhi'],
+                pattern_variant=PATTERN_VARIANT,
+                ren_yin_pilot_result=copy.deepcopy(
+                    inputs['ren_yin_pilot_result']))
+            block = envelope['result']['pattern_determination_ren_yin']
+            self.assertEqual(block['determination']['true_false'],
+                             want, case_id)
 
     def test_gated_block_equals_standalone_composition(self):
         # The registered-step block must be the composition
