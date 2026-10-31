@@ -1260,7 +1260,12 @@ SEALED_MEASUREMENTS = {
 # ganzhi sections); both texts verified in the E0335 sealed
 # run to contain none of the HEHUA_KEYWORDS and no 五合, so
 # the keyword pins below are unchanged.
-'phase1_sections_total': 62,
+# E0339 (TJ-018.3 B-2): +2 for the new Canonical sections
+# bazi.section.s063/s064 (Sanming juan-3 lu / juan-5 yangren
+# sections); both texts verified in the E0339 sealed run to
+# contain none of the HEHUA_KEYWORDS and no 五合, so the
+# keyword pins below are unchanged.
+'phase1_sections_total': 64,
 'phase1_sections_with_hehua_keywords': 0,
 'phase1_sections_with_wuhe': ['bazi.section.s010'],
 # E0333 (TJ-018.3 execution-binding batch 1): +1 for the new
@@ -1271,7 +1276,10 @@ SEALED_MEASUREMENTS = {
 # E0335: +3 Phase1 rules bazi.rule.r032/r033/r034 (ganzhi
 # strength predicates) and +3 Phase2 rules below for their
 # steps; none carries hehua content either.
-'phase1_rules_total': 34,
+# E0339: +1 Phase1 rule bazi.rule.r035 (luren route) and
+# +1 Phase2 rule below for its step; neither carries hehua
+# content either.
+'phase1_rules_total': 35,
 'phase1_concepts_total': 18,
 'phase1_hehua_concepts': 0,
 'phase1_concept_ids': [
@@ -1294,7 +1302,7 @@ SEALED_MEASUREMENTS = {
 'bazi.concept.bounded_strength_adjudication_v1',
 'bazi.concept.pattern_candidates_v1',
 ],
-'phase2_rules_total': 35,
+'phase2_rules_total': 36,
 'foundations_stem_combinations': [['甲', '己', '土'],
 ['乙', '庚', '金'], ['丙', '辛', '水'], ['丁', '壬', '木'],
 ['戊', '癸', '火']],
