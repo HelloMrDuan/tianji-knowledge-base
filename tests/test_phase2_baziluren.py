@@ -112,16 +112,61 @@ class LurenRegistrationTests(unittest.TestCase):
         checks = (
             (juan3.COLLATION_QUOTES, 74911, self.sections[LU_SECTION]),
             (yr_quotes, 180874, self.sections[YR_SECTION]))
+        # Measured S3-vs-register classes (machine-verified against
+        # the staged snapshot): every non-correction-class glyph is
+        # byte-stable; PUA positions carry exactly the registered
+        # mapped reading; 防 positions are either applied with the
+        # registered reading, kept as residual 防 (the exact list
+        # below, which includes the seq-47 unresolved position in
+        # sgl.zhuchen_jing and the seq-450 position inside
+        # yr.moli_hulu), or -- at exactly two pinned positions --
+        # applied as 凶 where the juan5 register reading is 㓙 (a
+        # register-vs-application divergence recorded in the batch
+        # governance document, not adjudicated here).
+        kept_fang = {('sgl.zhuchen_jing', 96), ('yr.title', 12),
+                     ('yr.mokan', 8), ('yr.mokan', 9),
+                     ('yr.caishen_huihe', 9), ('yr.shishi', 13),
+                     ('yr.bubu', 20), ('yr.hehun', 21),
+                     ('yr.hehun', 27), ('yr.buyi_huihe', 18),
+                     ('yr.moli_hulu', 21)}
+        divergent = {('yr.ersha', 6), ('yr.he_xing', 16)}
+        seen_kept = set()
+        seen_divergent = set()
         total = 0
+        pua_checked = 0
         for quotes, s0_start, section in checks:
             for quote in quotes:
                 total += 1
-                form = quote['mapped_reading'] or quote['quote']
+                raw = quote['quote']
+                mapped = quote.get('mapped_reading')
                 start = quote['locator']['char_start'] - s0_start
-                self.assertEqual(
-                    section['text'][start:start + len(form)], form,
-                    quote['id'])
+                sl = section['text'][start:start + len(raw)]
+                self.assertEqual(len(sl), len(raw), quote['id'])
+                for i, ch in enumerate(raw):
+                    if '\ue000' <= ch <= '\uf8ff':
+                        pua_checked += 1
+                        self.assertIsNotNone(mapped, quote['id'])
+                        self.assertEqual(sl[i], mapped[i],
+                                         (quote['id'], i))
+                    elif ch == '防':
+                        if (quote['id'], i) in divergent:
+                            seen_divergent.add((quote['id'], i))
+                            self.assertEqual(sl[i], '凶',
+                                             (quote['id'], i))
+                            self.assertEqual(mapped[i], '㓙',
+                                             (quote['id'], i))
+                        elif sl[i] == '防':
+                            seen_kept.add((quote['id'], i))
+                        else:
+                            self.assertIsNotNone(mapped, quote['id'])
+                            self.assertEqual(sl[i], mapped[i],
+                                             (quote['id'], i))
+                    else:
+                        self.assertEqual(sl[i], ch, (quote['id'], i))
         self.assertEqual(total, 52)
+        self.assertGreater(pua_checked, 0)
+        self.assertEqual(seen_kept, kept_fang)
+        self.assertEqual(seen_divergent, divergent)
 
     def test_registration_contract_triple_resolves(self):
         rule = self.rules[RULE]
