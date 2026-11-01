@@ -355,11 +355,18 @@ class InterfaceAndScopeTests(unittest.TestCase):
         self.assertIn('零', audit['statement'])
 
     def test_no_runtime_wiring(self):
-        # This batch registers data only: no runtime module may
-        # reference the earth register yet (consumption is a later
-        # batch with its own adjudication preconditions).
-        for name in ('bazi_action_conditions.py',
-                     'bazi_adjudication.py', 'bazi_strength.py'):
+        # E0250 state: this batch registered data only, no runtime
+        # module referenced the earth register. E0355 state
+        # transition: the E0257 contract's single adjudicated landing
+        # point (registered_eligible) now consumes the CONTRACT
+        # record's whitelist -- bazi_action_conditions may reference
+        # EARTH_CONSUMPTION_CONTRACT but never the raw grading table
+        # (EARTH_ROOT_TABLES), and the adjudication/strength modules
+        # stay entirely clean.
+        text = (SRC / 'bazi_action_conditions.py').read_text('utf-8')
+        self.assertIn('EARTH_CONSUMPTION_CONTRACT', text)
+        self.assertNotIn('EARTH_ROOT_TABLES', text)
+        for name in ('bazi_adjudication.py', 'bazi_strength.py'):
             text = (SRC / name).read_text('utf-8')
             self.assertNotIn('bazi_earth_roots', text, name)
             self.assertNotIn('EARTH_ROOT_TABLES', text, name)

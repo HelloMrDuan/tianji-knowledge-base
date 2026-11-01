@@ -37,11 +37,13 @@ Covered:
   factor-level, following the commanding batch precedent): the water
   scope CAN evaluate all-true and each tested single failure flips
   exactly one condition; the metal scope evaluates all-true EXCEPT
-  all_visible_have_registered_roots, whose sole blocker is the
-  registered earth-root gap (an earth visible stem has no settled root
-  set in the sealed policy or the S1 register) -- pinned as intended
-  behaviour, with pending/light/clashed root and month-gate and
-  no-peer isolations on top of that baseline;
+  all_visible_have_registered_roots, whose sole blocker in the
+  baseline is the earth resource stem's only root position sitting
+  in a structural_present_ungraded cell (Xu), adjudicated NOT
+  eligible by the E0257 consumption contract (whitelist wiring
+  landed at E0355; only the two per-stem-listed Lu cells count) --
+  pinned as intended behaviour, with pending/light/clashed root and
+  month-gate and no-peer isolations on top of that baseline;
 - unrealizable registrations: the metal form is constructively
   unsatisfiable on real charts (three proof channels) and Ren is
   unsatisfiable within the water form (two channels); both are
@@ -556,10 +558,12 @@ class FactorLayerTests(unittest.TestCase):
     def test_factor_metal_baseline_only_earth_gap_fails(self):
         # Every metal condition except all_visible_have_registered_
         # roots can hold simultaneously. The sole blocker is the
-        # registered earth-root gap: the earth resource stem (Wu) has
-        # no settled root set in the sealed policy or the S1 register,
-        # so its (physically real) Xu position never counts. This pins
-        # METAL_YOU_SATISFIABILITY channel 3 as intended behaviour.
+        # earth resource stem's (physically real) Xu root position:
+        # Wu x Xu is a structural_present_ungraded cell, which the
+        # E0257 consumption contract adjudicates NOT eligible, so it
+        # never counts even after the E0355 whitelist wiring (only
+        # Wu x Si / Ji x Wu count). This pins the contract's
+        # anti-mechanical-integration clause at the factor layer.
         _, observed, principal, availability = self._metal_inputs()
         effects = self._metal_effects('庚', observed, principal,
                                       availability)

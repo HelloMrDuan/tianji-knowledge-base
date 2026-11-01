@@ -1,5 +1,6 @@
 """Relation direction and its observed conditions, without assumed efficacy."""
 from .bazi_core import PILLAR_NAMES, foundations
+from .bazi_earth_roots import EARTH_CONSUMPTION_CONTRACT
 from .bazi_fire_morphology import (
     BING_ALL_ROOT_BRANCHES, BING_HEAVY_ROOT_BRANCHES, BING_ROOT_POSITIONS)
 from .bazi_metal_water_roots import METAL_WATER_ROOT_TABLES
@@ -62,6 +63,32 @@ def _mw_root_grade(stem, branch):
         return None
     entry = table.get(branch)
     return entry['grade'] if entry is not None else None
+
+
+# TJ-011.2 E0355: earth visible-stem root eligibility, wired per the
+# adjudicated consumption contract (bazi_earth_roots.
+# EARTH_CONSUMPTION_CONTRACT, contract
+# bazi-earth-root-consumption-contract-v1, adjudicated at E0257).
+# The contract's eligibility is a CELL-LEVEL WHITELIST: exactly the
+# two per-stem-listed Lu cells (Wu x Si, Ji x Wu) may count. The
+# whitelist is derived from the contract record itself, never from
+# the raw grading table through the metal/water exclusion shape
+# (grade not in (no_root, conflicted_pending)): the earth grade
+# vocabulary carries a fourth grade, structural_present_ungraded,
+# which the contract adjudicates NOT eligible -- the exclusion shape
+# would miscount all eight ungraded cells as eligible. Pending cells
+# stay blocked with no branch fallback, no_root cells stay
+# fact-consumption only, and the sealed policy is not edited (it
+# still carries no earth set). This wires ONLY the visible-stem
+# eligibility surface (registered_eligible below): day-root
+# effectiveness (register_effective) is deliberately untouched, so
+# the earth effective caliber and earth day-master forms remain
+# unreviewed and unbuilt (contract preconditions 3 and 5).
+_EARTH_ELIGIBLE_ROOT_CELLS = frozenset(
+    (cell.split('×')[0], cell.split('×')[1])
+    for gc in EARTH_CONSUMPTION_CONTRACT['grade_contracts']
+    if gc['eligibility'] == 'eligible' for cell in gc['cells'])
+_EARTH_STEMS = frozenset(stem for stem, _ in _EARTH_ELIGIBLE_ROOT_CELLS)
 
 
 def action_effects(pillars, *, observed, relations, principal, availability,
@@ -300,11 +327,19 @@ def action_effects(pillars, *, observed, relations, principal, availability,
         # stem in the S1 register (heavy or light; pending and no_root
         # cells never count), or -- for stems the register does not
         # grade -- the branch is in the sealed policy's reviewed set.
-        # Earth stems have no settled root set in either source (earth
-        # roots unregistered), so an earth visible stem never has an
-        # eligible position here; that register gap is one of the
-        # registered unsatisfiability channels of the metal form.
+        # Earth stems are the adjudicated exception (E0355): they
+        # consult ONLY the E0257 consumption contract's cell-level
+        # whitelist (Wu x Si, Ji x Wu) -- neither the exclusion shape
+        # nor the sealed-policy fallback applies to them (the policy
+        # still carries no earth set). The metal form's former
+        # register-gap channel is retired by this wiring; its
+        # chart-unrealizability stands on the two calendar channels
+        # (see bazi_metal_water_roots.METAL_YOU_SATISFIABILITY).
         fact = row['fact']
+        if fact['stem'] in _EARTH_STEMS:
+            return [r for r in fact['root_positions']
+                    if (fact['stem'], r['branch'])
+                    in _EARTH_ELIGIBLE_ROOT_CELLS]
         table = _MW_ROOT_TABLES.get(fact['stem'])
         out = []
         for r in fact['root_positions']:

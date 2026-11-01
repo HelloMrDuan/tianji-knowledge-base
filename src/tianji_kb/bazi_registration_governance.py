@@ -1381,7 +1381,15 @@ REGISTRATION_INVENTORY = [
                   '谓词八条件在真实历法命盘上构造性不可满足（三'
                   '通道证明在册），其 Phase2 步 validation_status '
                   '保持 pending、golden_case_ids 指向负例见证集'
-                  '（E0335 父级审定定稿），不声称真实盘正例 fire。',
+                  '（E0335 父级审定定稿），不声称真实盘正例 fire。'
+                  'E0355 土根消费接入：本谓词 all_visible_have_'
+                  'registered_roots 条件内的 registered_eligible '
+                  '已按 E0257 契约格级白名单接入土根两格（戊×巳、'
+                  '己×午），待定八格恒阻断、未分级八格不计资格；'
+                  '本谓词在真实盘的不可满足结论改由藏干唯一支与'
+                  '全酉显干干对两条历法通道独立承担（土印根位通'
+                  '道退役），Phase2 步 validation_status 与负例见'
+                  '证集不变。',
         'unlock_path': None,
     },
     {

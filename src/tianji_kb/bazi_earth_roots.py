@@ -1087,3 +1087,81 @@ EARTH_CONTRACT_NOTES_E0257 = [
  '资格面，不产生任何新判定。',
  'C4 本批不处理：接入实现、土长生 conflict 裁定、土轻根分级、'
  '藏干资格口径、四季月 principal、F4 扩月裁定、018-F/G/H。']
+
+# 土根消费接入实现登记（E0355）：E0257 契约的接入落地记录。契约
+# 本身（EARTH_CONSUMPTION_CONTRACT）与接入面审计
+# （CONSUMPTION_SURFACE_AUDIT_E0257）是 E0257 时点的裁定与事实记
+# 录，不因本批改写；本批状态以本记录为准。
+EARTH_CONSUMPTION_INTEGRATION_E0355 = {
+ 'event': 'E0355',
+ 'task': 'TJ-011.2',
+ 'contract_id': 'bazi-earth-root-consumption-contract-v1',
+ 'contract_event': 'E0257',
+ 'wiring_locus': 'bazi_action_conditions.registered_eligible',
+ 'wiring_form': '土显干在 registered_eligible 内只查契约格级白名单'
+                '（派生自 EARTH_CONSUMPTION_CONTRACT 的 eligible '
+                '格集），不走金/水表的排除法形状、不回退密封政策'
+                '（政策仍无土集）。显干根位模型为同行根存在（root '
+                'presence 按五行同行计），资格按（干，支）格级裁定'
+                '，与 S1/S2 登记表的消费形状一致。',
+ 'whitelist_cells': ['戊×巳', '己×午'],
+ 'counts_check': {'cells': 24, 'eligible': 2, 'blocked': 8,
+                  'not_eligible': 14},
+ 'not_wired': [
+  '日根 effective 口径（register_effective 不查土根表，土日主根'
+  '不因本批获得任何 effective 地位；前置条件 5）',
+  '藏干根位资格消费（F34 EARTH_ROOT_INTERFACE pending 第 2 项维'
+  '持 pending；前置条件 4）',
+  '土日主形态与四季月 principal（未审、不可建；前置条件 3）',
+  '密封政策 reviewed_root_branches（仍无土集，零改动）',
+  '土长生 conflict 处置（待定八格恒阻断、无分支回退；前置条件 2）'],
+ 'precondition_satisfaction': [
+  '1 格级白名单化：实现只派生契约 eligible 两格；密封专项以 24 '
+  '格逐格穷举钉住未分级八格逐格不合（因子层）。',
+  '2 待定八格恒阻断：白名单外一律不计、无任何分支回退路径；土'
+  '长生 conflict 未在本批处置。',
+  '3 土日主 principal 未审：本批未建任何土日主形态，契约未被用'
+  '作 principal 授权。',
+  '4 藏干资格口径未审：接入只及显干资格面（registered_eligible '
+  '只读 visible 行的 root_positions），未类推藏干。',
+  '5 effective 口径未审：register_effective 与日根有效性路径逐字'
+  '未动，公开测试钉住金/水 grade 查询对土干恒为 None。',
+  '6 Golden 四类与判定面对账：真实命盘四类入 S2 Golden（正例戊'
+  '/己各一、未分级阻断一、待定阻断一，条件表逐条手工推导）；等'
+  '价比对见 verdict_surface_reconciliation。',
+  '7 密封注册披露：本记录、METAL_YOU_SATISFIABILITY.'
+  'integration_e0355 与 S5 治理登记 pure_support_metal 条目理由'
+  '的 E0355 披露句同批落地；金属谓词 Phase2 步 validation_'
+  'status 保持 pending、负例见证集不变（真实盘仍不可满足）。'],
+ 'verdict_surface_reconciliation': {
+  'corpus': '738 个真实出生时刻（仓库全部 Golden 出生时刻 138 + '
+            '潜在翻转扫描 400 + 土显干抽样 200，1924–2030），基'
+            '线树（e8d52e7c）与接入树同密封快照组装后逐封套比对'
+            '；48 个执行错误两侧逐字相同。',
+  'executed_envelopes': 690,
+  'leaf_differences': 179,
+  'closed_list': '差异全部落在封闭清单内：pure_support_metal 与 '
+                 'pure_generating_support_water 两 scope 的 '
+                 'all_visible_have_registered_roots 条件值由 False '
+                 '翻为 True（金 91、水 88），且每处翻转均可由白名'
+                 '单格解释（土显干的根位支集含其禄位格且其余显干'
+                 '皆已合资格）。',
+  'out_of_list_differences': 0,
+  'scope_met_changes': 0,
+  'classification_changes': 0,
+  'statement': '判定面变化 = 条件值层 179 处、裁决层 0：无任何 '
+               'scope 新满足、无任何 classification 变化。金属形'
+               '态在真实盘仍构造性不可满足（通道一、二独立承担；'
+               '全酉盘上土显干的根位支只能是酉，戊×酉为 no_root、'
+               '己×酉为 conflicted_pending，均非白名单格）。水形'
+               '态下土显干为官杀、support-only 先行否决，条件值翻'
+               '转不产生裁决路径。'},
+ 'channel3_status': '土印显干根位通道自本批起退役为历史通道：其'
+                    '预登记复核条件已由 E0257 订正与本批接入两步'
+                    '满足；金×酉不可满足结论改由通道一、二独立'
+                    '承担（见 bazi_metal_water_roots.'
+                    'METAL_YOU_SATISFIABILITY.integration_e0355）。',
+ 'golden_cases': ['tj0112-e0355-metal-earth-wu-listed',
+                  'tj0112-e0355-metal-earth-ji-listed',
+                  'tj0112-e0355-metal-earth-wu-ungraded',
+                  'tj0112-e0355-metal-earth-wu-pending']}
