@@ -297,3 +297,49 @@
 2. 生产实测：`POST /api/v1/scenarios/public`（bazi-profile，G1 盘）响应含 `xiyong_presentation` 且与 §12.5 G1 期望 lines 逐字一致；公开响应无四原料键。
 3. WBS 验收口径对平（TJ-013.3 行文「适用范围明确的用户可读提示」）：本阶段呈现的每条解释均源自同请求 Phase2 执行记录并经 Golden G1–G11 钉住——「前端只有真实经过 Phase2/Golden 的条件才出现解释」在本阶段范围内成立；行状态处置建议材料：第一阶段（调候+病药可读呈现）子项已达「已部署验收」口径，但 TJ-013.3 本体仍含跨体系裁决（TJ-013.2 未建）与扶抑/格局（U1/U3 暂缓）未清前置，行总体是否维持「阻塞」由 E0373 按此事实决定，本批不预判。
 4. 用户否决面：本批前端新增为既有八字页内的新节呈现（非新增控件），随本 PR 交付报告向用户呈报；第二阶段 TJ-017.3 未启动，不在本批范围。
+
+## 13 关账（E0373，2026-11-01，append-only 追加）
+
+本节由关账批 E0373 追加，§0–§12 原文一字未动。关账基线：实现 PR #545 已合并，Merge SHA `9a672e76c5d28e8c23b2fc7e61ad6266ddb3bb0a`，台账 372 事件；本节逐项消费 §12.8 关账对平清单四项。
+
+### 13.1 合并与公开 CI
+
+- PR #545 于 2026-11-01T15:51:46Z 合并，Merge SHA `9a672e76c5d28e8c23b2fc7e61ad6266ddb3bb0a`（父级亲合，本批开工经 API 复核 main HEAD 与 PR merged 状态一致）。
+- 公开 CI：合并提交的 check runs 共 20 项，19 success + 1 skipped、0 failure。
+
+### 13.2 正式验收终局核对（§12.8 第 1 项）
+
+- 部署管线正式验收记录 `acceptance-9a672e76c5d28e8c23b2fc7e61ad6266ddb3bb0a.json`（机上 deployment-evidence/tj-core-01 直读）：**SUCCESS**，`total_tests_run = 2937`、`total_skipped = 6`、failures/errors 均为 0；分项 = public-git-checkout 15（skipped 0）+ public-only 24（skipped 1）+ private-backend 2898（skipped 5）。
+- 对平：正式基线 2908（`6db7b578`，15 + 24 + 2869、skip 5）+ 29 = 2937，与 §12.6 实现批复跑增量逐项一致（公开专项 +20，其中前端源码守卫 1 测在组装树 skip；密封专项 +9；private-backend 2869 → 2898）。
+- 密封口径未动：验收记录内 `knowledge_file_count = 237`、`knowledge_total_bytes = 16722816`、`knowledge_manifest_sha256 = 26b63e64bed736b08a7dcd686f6a75de733fd44ba9eec9195248e69730485329`，无换代。
+
+### 13.3 部署终局核对
+
+- `deploys.log`：ACCEPTED 2026-11-01T16:12:43Z；**DEPLOYED 2026-11-01T16:13:27Z**，image `tianji-api:cicd-prerelease-9a672e76`、web `ghcr.io/hellomrduan/tianji-web:9a672e76c5d28e8c23b2fc7e61ad6266ddb3bb0a`、health+bazi ok、port 8080、pin `d9cbbf03f31a9775066932b590764bdeaac0f5f5cb43bfdc1262c6c7d31e670a`。
+- pin 口径说明（防误读）：deploys.log 的 pin 为部署 bundle 钉，本批因 src 变更（新构建器、场景开启门、投影放行）由前值 `88ef7f89…` 变为 `d9cbbf03…`，此前数次纯文档/前端合并未变属同理；§12.8 第 1 项所指「pin 不应变化」为密封知识清单钉，已如上项核实仍为 `26b63e64…`，两钉不混同。
+
+### 13.4 生产实测（第一阶段独立验收，§12.8 第 2 项）
+
+- 方法：部署完成后，经机上生产服务（127.0.0.1:8080，即部署管线同源核验的生产实例）真实调用 `POST /api/v1/scenarios/public`（scenario_id = bazi-profile），探针脚本 `prod_probe_e0373.py` 与输出 `prod_probe_e0373_out.json` 留机上 `/data/workspace/`；共 26 项断言，**全部通过**（含 /health rag_ready）。
+- G1 盘（1960-03-07T01:30+08:00，在册 support 例）：HTTP 200，`result.xiyong_presentation` 在位；variant = `xiyong-public-presentation-v1`、`presentation_scope = tiaohou_bingyao_only`、`public_enabled = True`、`ai_enabled = False`、`unified_verdict = None`；调候块 state = presented，lines 与 Golden G1 逐字一致；病药块 lines 逐字一致；关系段含 support 项（庚：调候主序列第 1 取且为病药首对之药）；证据合 §6.1——调候 evidence 的 phase1_rule_id = `bazi.rule.r042`、phase2_step_id = `bazi.phase2.tiaohou_assessment`、section_id = `bazi.section.s077`、quote 与 quote_locator（line 28、char 1819–1856）齐备，病药 evidence 的 phase1_rule_id = `bazi.rule.r040`、两对引文均锚 `bazi.section.s071`；调候与病药全部引文逐字见于**同一响应**的 evidence 通道，evidence 的 fact_refs 指向同信封 trace 步；响应 status = production、public_release = true、deterministic = true。生产面范围声明实测原文：「本呈现只含调候（《穷通宝鉴》）与病药（《神峰通考》）两类已注册取用依据，逐条可回溯到注册证据与本次执行记录；两类依据并列呈现、互不合并，系统不据此给出统一的取用结论；扶抑、格局用神等其他取用判断尚未建成，不在本呈现内，暂不可判。」
+- N1 盘（1950-01-20T11:30+08:00，Golden G3 条目缺席例）：HTTP 200，调候块 state = not_judgeable、not_judgeable_reason = `entry_absent_in_source`、lines 恰为 §5 N1 定稿行且与 Golden 逐字一致；病药块 lines 逐字一致；关系段为空列表；调候 evidence 为缺席形态（无 section_id、quote、phase1_rule_id），暂不可判形态如契约呈现。
+- 未开放体系零泄漏：两响应全量递归键扫描——四原料键（tiaohou_assessment、bingyao_assessment、readable_hints、conflict_presentation）零出现；含 fuyi、useful_god、strength、pattern 子串的键零出现；扶抑、格局、旺衰裁定在生产返回中无任何段落或结论。
+- 投影口径注记：公开信封的 trace 与 rule_matches 经公开投影匿名化（步骤为显示名、匹配与证据为 R/E 序号），系 TJ-007.1「用户面不出现 Rule ID、Trace ID」的既有纪律；内部 id 与同请求执行记录的逐项对平已由密封专项 G11 在场景层信封完成并随本次正式验收执行（private-backend 分区），生产面以 fact_refs 与引文同通道定位复核之，二者口径不同、结论一致，不构成缺口。本批探针首版曾按场景层口径断言投影后 id，已按本注记修正断言口径后复跑全过——属探针口径修正，非生产行为变更。
+
+### 13.5 WBS 验收口径对平与行状态处置（§12.8 第 3 项）
+
+- WBS 原文实测：TJ-013.3 =「适用范围明确的用户可读提示」，验收口径 =「前端只有真实经过 Phase2/Golden 的条件才出现解释」；任务分界同表实测——冲突决策属 TJ-013.2（「喜用与旺衰/格局冲突决策」，验收口径为证据缺口阻断），四体系分别建源属 TJ-013.1，TJ-013.3 本体只辖可读提示。
+- 第一阶段范围内对平：本阶段呈现的每条解释均源自同请求 Phase2 执行记录（服务端开启门恰开两 assessment、同 chart 同 trace/evidence），经 Golden G1–G11 钉住，并经 §13.4 生产实测逐字复核——WBS 验收口径在第一阶段范围（调候 + 病药）内成立。
+- **行状态处置：TJ-013.3 保持「阻塞」**，与第一阶段子项关闭结论（§13.6）分别表述。依据三项：(1) TJ-013.3 可读提示的既有建成面（E0210–E0212）含调候、病药、旺衰裁定与冲突呈现四对象的可读渲染，整体为研究级；本阶段公开的只有调候、病药两段（经新设 scoped 构建器呈现，非 readable 模块整体开放），旺衰段与冲突段仍被公开投影整体剥离、用户不可见，任务本体未整体达「用户可读」。(2) 两段未开放各有未清前置：旺衰段的公开呈现依赖 TJ-011.2/013.1 裁定链（长生冲突群未裁、扶抑 U1/U3 用户暂缓）；冲突段的公开呈现与裁决衔接依赖 TJ-013.2 裁决规则本体（未建；本阶段只呈现调候 × 病药的关系事实与 N2 暂不可判标记，不含冲突呈现段本身的公开渲染）。(3) 沿 TJ-022.2 先例：分面完成并部署验收不等于任务行关账，余面未清则行保持阻塞。E0373 事件状态与行状态均据此填「阻塞」。
+
+### 13.6 第一阶段关闭结论
+
+- **分阶段开放第一阶段（TJ-013.3 喜用可读呈现，范围严格限于已注册调候、病药证据）关闭**：审定 E0371 → 实现 E0372 → 合并 #545 → 正式验收 SUCCESS 2937 → 部署（pin `d9cbbf03…`）→ 生产实测 26 项全过。普通用户现已能在八字页看到有证据（逐条可回溯注册证据与同请求执行记录）、有边界（范围声明与限制四条随呈现同出）、能解释（两体系并列陈述与关系事实）的调候、病药取用依据；无证据、冲突、超出注册范围分别以 N1、N2、N3 标记暂不可判，无 AI 补造（ai_enabled 恒 False、全文确定性模板）；未修改底层裁决规则，未解锁扶抑 U1/U3。
+- 第二阶段（TJ-017.3 大运公开）未启动：按用户裁定，第一阶段独立验收已通过，其开工由父级另行派发，开工时须先复核与 TJ-017.2 跨规则调用及 U1/U3 的独立性，本关账不预研、不预判。
+- 用户否决面（§12.8 第 4 项）：本阶段前端新增为既有八字页内的新节呈现（非新增控件），随实现批交付报告与本关账向用户呈报，关账不另设否决项。
+
+### 13.7 机上清理与环境记录
+
+- 清理：实现批机上组装/检出树 `/data/workspace/tj0133-checkout`（65M）与 `/data/workspace/tj0133-work`（66M）已删除；实现批日志 `e0372_*.log` 与本批探针脚本/输出（`prod_probe_e0373.py`、`prod_probe_e0373_out.json`）按先例保留；清理后 /data 已用 32%、余 14G。
+- 环境记录：本批等待管线期间发生一次 VM 替换，`/root/.ssh` 被清空、SSH 一度被出口代理 reset；已按 AGENTS.md 在册程序自 `~/.ssh/config` 还原 `/root/.ssh/config` 并核对网关指纹 `SHA256:DQYkbhc9iBYcfVvhXZBsT9qhzAyLvLIyjmm57Vimfxk` 逐字一致后恢复，机上部署管线进程未受影响；第一版监视进程随替换终止，已重建监视并以直读补核全部数字。
+- 本批止于 PR，未自行合并；合并由父级执行。
