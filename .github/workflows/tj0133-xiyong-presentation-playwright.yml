@@ -1,0 +1,35 @@
+name: TJ-013.3 Xiyong Presentation Playwright
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/tj0133-xiyong-presentation-playwright.yml"
+      - "web/visual-prototype/**"
+      - "docs/product/TASK_STATUS.md"
+      - "docs/product/TASK_HISTORY.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  xiyong-presentation-playwright:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: web/visual-prototype/package-lock.json
+      - name: Install frontend
+        working-directory: web/visual-prototype
+        run: npm ci
+      - name: Install Chromium
+        working-directory: web/visual-prototype
+        run: npx playwright install --with-deps chromium
+      - name: Run presentation rendering tests (stub contract; responses recorded from the real backend — see spec header)
+        working-directory: web/visual-prototype
+        run: CI=true npm test -- tests/tj0133-xiyong-presentation.spec.ts

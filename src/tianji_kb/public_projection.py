@@ -13,6 +13,7 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 
 from .bazi_strength_display import get_display_decision
+from .bazi_xiyong_public import is_valid_public_presentation
 
 # B014: ziwei/qimen/fengshui join the public execution gate (connection only;
 # engines already exist with real tests). Out-of-scope tools stay out.
@@ -242,6 +243,19 @@ def _apply_policy_to_factor_graph(graph):
 
 
 def project_execution(data):
+    # TJ-013.3 staged-opening phase 1 (adjudication E0371, implementation
+    # E0372): the single scoped release in this projection. Only a
+    # bazi-profile envelope may carry the phase-1 presentation, and only
+    # in exactly the adjudicated shape; the validated object is lifted
+    # out verbatim before the fact projection runs (the projection drops
+    # evidence/source keys by design) and re-attached untouched below.
+    # Every other carrier, shape or scenario is stripped as usual.
+    scoped_presentation = None
+    if data.get('scenario_id') == 'bazi-profile' \
+            and isinstance(data.get('result'), dict):
+        candidate = data['result'].get('xiyong_presentation')
+        if candidate is not None and is_valid_public_presentation(candidate):
+            scoped_presentation = copy.deepcopy(candidate)
     aliases = _Aliases(data['evidence'])
     result = {key: _public_facts(value, aliases)
               for key, value in data.items()
@@ -276,6 +290,10 @@ def project_execution(data):
             container.pop('bingyao_assessment', None)
             container.pop('conflict_presentation', None)
             container.pop('readable_hints', None)
+            # TJ-013.3 phase 1: the presentation key is stripped from
+            # every container here; the single validated bazi-profile
+            # copy lifted above is the only one re-attached (below).
+            container.pop('xiyong_presentation', None)
             # TJ-012.3 Slice A: the 禄刃 route exclusion is research-only
             # (pending Phase1 registration); never let it reach a public
             # response either.
@@ -312,6 +330,9 @@ def project_execution(data):
             # (pending Phase1 registration, public_enabled=false);
             # never let a fact block reach a public response either.
             container.pop('branch_punishment_facts', None)
+    if scoped_presentation is not None \
+            and isinstance(result.get('result'), dict):
+        result['result']['xiyong_presentation'] = scoped_presentation
     return result
 
 

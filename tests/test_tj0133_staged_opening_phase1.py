@@ -3,11 +3,14 @@
 审定批结论钉：开放范围严格限定已注册的调候、病药两体系；呈现面
 为 bazi-profile 场景结果内的 xiyong_presentation 对象（Variant
 xiyong-public-presentation-v1）；开放经新对象达成、两 Variant 与
-readable Variant 的研究标志不翻转；engine 客户端四研究键门禁、
-scenario_engine/api 对研究对象的零引用、public_projection 对三
-原料键的剥离在本批后逐字不变（实现批 E0372 落地时，本钉中「零
-引用」与「剥离表」两条须按审定 §7 第 3/5 项有意更新为裁定后的
-新形态，沿状态转换钉先例并注明依据 E0371）。
+readable Variant 的研究标志不翻转；engine 客户端四研究键门禁在本
+批后逐字不变。「零引用」与「剥离表」两钉已由实现批 E0372 按审
+定 §7 第 3/5 项有意更新为裁定后的新形态（状态转换钉，依据
+E0371）：场景层服务端专属开启门引用 tiaohou/bingyao/
+xiyong_presentation 为审定内行为，readable_hints/
+conflict_presentation 两层仍零引用、api.py 六 token 仍全零；投
+影剥离表新增 xiyong_presentation 全域剥离 + 经形态校验的定域放
+行（仅 bazi-profile 信封）。
 
 本测试只读组装树内文件（docs/、src/、tests/ 与台账两件），不读
 web/ 任何文件——E0359 教训：治理测试不得无条件读取组装树外文
@@ -104,12 +107,21 @@ class StagedOpeningPhase1AdjudicationTests(unittest.TestCase):
         self.assertIs(bingyao["ai_enabled"], False)
 
     def test_scenario_and_api_have_zero_research_object_references(self):
-        # 现行消费面实测钉（审定 §2.5）：场景层与 API 层对四研究对
-        # 象零引用、新呈现键未出现——实现批落地时按 §7 有意更新。
+        # 状态转换钉（E0372 按审定 §7 第 3 项有意更新，依据 E0371；
+        # 原钉为审定批的零引用基线）：实现批的开启门住在场景层，
+        # scenario_engine 引用 tiaohou/bingyao/xiyong_presentation
+        # 与构建器为审定内行为；但 readable/conflict 两研究对象在场
+        # 景层仍须零引用（不在本阶段接线），api.py 对六 token 仍全
+        # 零（API 层不新增任何研究对象接线）。
+        for token in ("readable_hints", "conflict_presentation"):
+            self.assertNotIn(token, self.scenario, token)
+        for token in ("tiaohou_variant", "bingyao_variant",
+                      "xiyong_presentation", "public_xiyong_presentation",
+                      "allow_research=True"):
+            self.assertIn(token, self.scenario, token)
         for token in ("tiaohou", "bingyao", "xiyong",
                       "readable_hints", "conflict_presentation",
                       "xiyong_presentation"):
-            self.assertNotIn(token, self.scenario, token)
             self.assertNotIn(token, self.api, token)
 
     def test_engine_client_research_gates_registered(self):
@@ -123,10 +135,19 @@ class StagedOpeningPhase1AdjudicationTests(unittest.TestCase):
             self.assertIn(message, self.engine)
 
     def test_projection_strips_raw_research_statements(self):
+        # 状态转换钉（E0372 按审定 §7 第 5 项有意更新，依据 E0371）：
+        # 三原料键剥离保留，xiyong_presentation 加入全域剥离表；唯
+        # 一放行是经形态校验、且只认 bazi-profile 信封的定域回填。
         for key in ("tiaohou_assessment", "bingyao_assessment",
-                    "readable_hints"):
+                    "readable_hints", "conflict_presentation",
+                    "xiyong_presentation"):
             self.assertIn(f"container.pop('{key}', None)",
                           self.projection, key)
+        self.assertIn("is_valid_public_presentation", self.projection)
+        self.assertIn("data.get('scenario_id') == 'bazi-profile'",
+                      self.projection)
+        self.assertIn("result['result']['xiyong_presentation']",
+                      self.projection)
 
     def test_ledger_records_adjudication(self):
         event_lines = [line for line in self.history.splitlines()

@@ -7,9 +7,18 @@ import copy
 from calendar import monthrange
 from datetime import date, timedelta
 
+from .bazi_adjudication import ADJUDICATION_VARIANT
+from .bazi_bingyao import VARIANT as _BINGYAO_VARIANT
 from .bazi_core import ten_god, stem_five_combination, reviewed_branch_pair_relations
+from .bazi_tiaohou import VARIANT as _TIAOHOU_VARIANT
+from .bazi_xiyong_public import (
+    BINGYAO_STEP_ID as _BINGYAO_STEP_ID,
+    TIAOHOU_STEP_ID as _TIAOHOU_STEP_ID,
+    public_xiyong_presentation,
+)
 from .calendar import calendar
 from .engine import execute
+from .resolver import EvidenceResolver
 
 SCENARIOS = [
     {
@@ -86,11 +95,80 @@ def _require_with_optional(inputs, required, optional):
         raise ValueError("Scenario input fields do not match the reviewed contract")
 
 
+def _xiyong_phase1_refs():
+    """Registered (section_id, original_text) refs per Phase1 rule.
+
+    Read from the same knowledge bundle the execution resolved against,
+    for exactly the two Phase2 steps the phase-1 presentation consumes.
+    """
+    resolver = EvidenceResolver()
+    refs = {}
+    for step_id in (_TIAOHOU_STEP_ID, _BINGYAO_STEP_ID):
+        contract = resolver.rule(step_id)
+        per_rule = {}
+        for rule_id in contract.get("phase1_rule_refs") or []:
+            rule = resolver.rule(rule_id)
+            per_rule[rule_id] = [
+                (ref["section_id"], ref["original_text"])
+                for ref in rule.get("source_refs") or []]
+        refs[step_id] = per_rule
+    return refs
+
+
 def _bazi_profile(inputs):
     _require_with_optional(inputs, {"value"}, {"strength_variant", "zone"})
     if not isinstance(inputs["value"], str):
         raise ValueError("value must be an ISO datetime string")
-    return _normalize_raw("bazi-profile", execute("bazi", inputs))
+    if inputs.get("strength_variant") == ADJUDICATION_VARIANT:
+        # Baseline behavior verbatim: without the server-side gate this
+        # value reaches the engine's client gate and fails with exactly
+        # this message. The gate below must not silently widen the
+        # client contract, so the adjudication variant stays refused
+        # here before the gated execution starts.
+        raise ValueError(
+            "Bounded strength adjudication requires explicit research mode")
+    # Server-side-only gate (adjudication §3.2): exactly the two
+    # registered assessments are attached, on the same chart execution,
+    # so the presentation, the trace and the evidence are one request's
+    # records. Clients can neither name these keys (contract above) nor
+    # reach them through the domain endpoint (engine gate unchanged).
+    exec_inputs = dict(inputs)
+    exec_inputs["tiaohou_variant"] = _TIAOHOU_VARIANT
+    exec_inputs["bingyao_variant"] = _BINGYAO_VARIANT
+    raw = execute("bazi", exec_inputs, allow_research=True)
+    result = raw["result"]
+    # Attaching the two assessments makes the chart append their
+    # research clauses to production_scope (the clause text belongs to
+    # the executing runtime and differs between the public source and
+    # the reviewed production runtime, so it is never hardcoded here).
+    # The scenario envelope must keep the baseline scope verbatim: run
+    # the same inputs once without the gate, require the gated scope to
+    # extend that baseline, and restore the baseline. Fail-closed on
+    # any other relationship.
+    baseline_scope = execute("bazi", inputs)["result"].get(
+        "production_scope")
+    gated_scope = result.get("production_scope")
+    if not isinstance(baseline_scope, str) \
+            or not isinstance(gated_scope, str) \
+            or not gated_scope.startswith(baseline_scope) \
+            or gated_scope == baseline_scope:
+        raise ValueError(
+            "bazi chart production_scope drifted from the gated baseline")
+    result["production_scope"] = baseline_scope
+    # Fail-closed (§3.3, disposition recorded in the implementation
+    # record): a presentation that cannot be derived from this request's
+    # own execution records fails the scenario request; no partial or
+    # silently presentation-less success is returned.
+    presentation = public_xiyong_presentation(
+        result["tiaohou_assessment"], result["bingyao_assessment"],
+        execution={
+            "trace": raw["trace"],
+            "rule_matches": raw["rule_matches"],
+            "evidence": raw["evidence"],
+            "phase1_rule_refs": _xiyong_phase1_refs(),
+        })
+    result["xiyong_presentation"] = presentation
+    return _normalize_raw("bazi-profile", raw)
 
 
 def _question(inputs):

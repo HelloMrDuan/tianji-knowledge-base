@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
-import { executeBazi, type ExecuteResponse } from "./api";
+import { executeBazi, executeBaziProfileScenario, type ExecuteResponse } from "./api";
 import { readSavedBirthProfile, saveBirthProfile, clearBirthProfile, toApiValue, toApiZone, validateBirthInput, onBirthProfileCleared, type BirthProfile } from "./birthProfile";
 import { BirthInputFields } from "./BirthInputFields";
 import "./bazi-profile.css";
@@ -13,6 +13,37 @@ const pillarNames: Record<string, string> = {
   day: "日柱",
   hour: "时柱",
 };
+
+// TJ-013.3 第一阶段：关系段的结构化转写标签（只转写呈现对象字段，
+// 不生成任何新判断）。
+const relationKindLabels: Record<string, string> = {
+  support: "两体系同向",
+  conflict: "两体系方向相反",
+  pivot_overlap: "两体系同指所论之神",
+  one_sided: "仅一方点名",
+};
+
+const bingyaoRoleLabels: Record<string, string> = {
+  subject: "病药所论之神",
+  disease: "病药判为病之神",
+  medicine: "病药判为药之神",
+};
+
+const bingyaoPairOrdinals: Record<string, string> = {
+  wealth_peer_officer: "第一对",
+  foodwound_seal_wealth: "第二对",
+};
+
+function relationLine(item: any): string {
+  const parts: string[] = [];
+  if (item.tiaohou) parts.push(`调候取用顺序第 ${item.tiaohou.order} 位`);
+  if (item.bingyao) {
+    parts.push(
+      `${bingyaoRoleLabels[item.bingyao.role] || "病药点名"}（${bingyaoPairOrdinals[item.bingyao.pair_id] || ""}）`,
+    );
+  }
+  return `干${item.stem}：${relationKindLabels[item.kind] || item.kind}。${parts.join("；")}。`;
+}
 
 function displayEvidence(id: string, value: Record<string, any>) {
   const title = value.classic_title || value.title || value.source_title;
@@ -32,6 +63,7 @@ export function BaziProfilePage() {
   const [profile, setProfile] = useState<BirthProfile>(() => readSavedBirthProfile());
   const [inputError, setInputError] = useState("");
   const [result, setResult] = useState<ExecuteResponse | null>(null);
+  const [xiyong, setXiyong] = useState<any>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const requestVersion = useRef(0);
@@ -48,6 +80,7 @@ export function BaziProfilePage() {
   function invalidateResult() {
     requestVersion.current += 1;
     setResult(null);
+    setXiyong(null);
     setError("");
     setLoading(false);
   }
@@ -77,11 +110,21 @@ export function BaziProfilePage() {
     setLoading(true);
     setError("");
     setResult(null);
+    setXiyong(null);
     try {
       const response = await executeBazi({ value: toApiValue(profile), zone: toApiZone(profile), strength_variant: "ditiansui-root-visibility-v1" });
       if (version !== requestVersion.current) return;
       saveBirthProfile(profile);
       setResult(response);
+      // TJ-013.3 第一阶段：同一出生输入另取场景信封中的呈现对象；
+      // 场景调用失败只令呈现节缺席，本页既有结果与行为不变。
+      try {
+        const scenario = await executeBaziProfileScenario({ value: toApiValue(profile), zone: toApiZone(profile), strength_variant: "ditiansui-root-visibility-v1" });
+        if (version !== requestVersion.current) return;
+        setXiyong(scenario.result?.xiyong_presentation ?? null);
+      } catch {
+        if (version === requestVersion.current) setXiyong(null);
+      }
     } catch (err) {
       if (version === requestVersion.current)
         setError(err instanceof Error ? err.message : "八字计算失败，请检查后端服务。");
@@ -173,7 +216,7 @@ export function BaziProfilePage() {
           <ul>
             <li>仅观察旺衰相关因素，不判断身强身弱</li>
             <li>不选择喜用神</li>
-            <li>不自动定格局、调候</li>
+            <li>不自动定格局；调候与病药只呈现已注册依据，不作统一喜用结论</li>
             <li>不输出婚恋、事业、财富吉凶</li>
             <li>不计算大运起运岁数</li>
           </ul>
@@ -255,6 +298,33 @@ export function BaziProfilePage() {
             </section>
           )}
 
+          {xiyong && (
+            <section className="bazi-xiyong-presentation" aria-label="调候与病药取用依据">
+              <span className="eyebrow">已注册取用依据 · 两体系并列呈现</span>
+              <h3>调候与病药：原文依据怎么说？</h3>
+              <h4>调候（{xiyong.blocks.tiaohou.source_label}）</h4>
+              {xiyong.blocks.tiaohou.lines.map((line: string, i: number) => (
+                <p key={`th-${i}`}>{line}</p>
+              ))}
+              <h4>病药（{xiyong.blocks.bingyao.source_label}）</h4>
+              {xiyong.blocks.bingyao.lines.map((line: string, i: number) => (
+                <p key={`by-${i}`}>{line}</p>
+              ))}
+              {xiyong.relations.length > 0 && (
+                <>
+                  <h4>两体系点名对照</h4>
+                  {xiyong.relations.map((item: any) => (
+                    <p key={item.stem}>{relationLine(item)}</p>
+                  ))}
+                  {xiyong.relations.map((item: any) => item.not_judgeable_line ? (
+                    <p key={`nj-${item.stem}`} className="bazi-xiyong-not-judgeable">{item.not_judgeable_line}</p>
+                  ) : null)}
+                  <p className="bazi-xiyong-closing">{xiyong.relations_closing_line}</p>
+                </>
+              )}
+            </section>
+          )}
+
           <div className="bazi-result-columns">
             <section className="live-section">
               <div className="result-section-heading"><div><span>三</span><h2>规则命中</h2></div></div>
@@ -285,6 +355,18 @@ export function BaziProfilePage() {
 
             <section className="live-section">
               <div className="result-section-heading"><div><span>四</span><h2>典籍依据</h2></div></div>
+              {xiyong && xiyong.blocks.tiaohou.evidence?.quote && (
+                <article className="live-evidence">
+                  <div><strong>《穷通宝鉴》调候条目原文</strong><span>证据等级 C</span></div>
+                  <blockquote>{xiyong.blocks.tiaohou.evidence.quote}</blockquote>
+                </article>
+              )}
+              {xiyong && (xiyong.blocks.bingyao.evidence?.quotes || []).map((q: any) => (
+                <article className="live-evidence" key={q.pair_id}>
+                  <div><strong>《神峰通考》病药原文</strong><span>证据等级 C</span></div>
+                  <blockquote>{q.quote}</blockquote>
+                </article>
+              ))}
               {evidence.map((item) => (
                 <article className="live-evidence" key={item.id}>
                   <div><strong>{item.title}</strong><span>{item.grade}</span></div>
@@ -312,6 +394,14 @@ export function BaziProfilePage() {
             <p className="limitation-note">
               以上为传统文化观察，不构成科学验证的未来预测。旺衰、喜用神、大运等需充分裁定，当前暂不提供结论。
             </p>
+            {xiyong && (
+              <>
+                <p className="limitation-note">ℹ️ {xiyong.scope_statement}</p>
+                {xiyong.limitations.map((l: string, i: number) => (
+                  <p key={`xy-${i}`} className="limitation-note">ℹ️ {l}</p>
+                ))}
+              </>
+            )}
           </section>
 
           <details className="trace-section bazi-trace">
