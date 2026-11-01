@@ -620,6 +620,20 @@ jobs:
       # (offline acceptance only, NOT public CI: it reads
       # the sealed snapshot files).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0183_sanming_rd12_collation.py' -v
+      # TJ-018.3 yangren errata registration (E0354): the two
+      # register-vs-application divergent loci in the yangren
+      # section (yr.ersha char 6 / yr.he_xing char 16, registered
+      # reading confirmed as the dual-witness glyph but applied
+      # as the modern glyph in S3) are pinned as errata entries
+      # with status registered_unapplied, cross-checked against
+      # the juan5 collation register; the 25-position section
+      # review reconciles 17 applied-as-registered / 6 residual /
+      # 2 divergent, and neither divergent quote is among the
+      # four r035 bound quotes. Registration only: no text was
+      # corrected. Sealed-side enumeration pin lives in
+      # test_phase2_baziluren.py (offline acceptance only, NOT
+      # public CI), unchanged by this batch.
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0183_yangren_errata.py' -v
       # TJ-018.3 P1 Sanxing Canonical promotion (E0329) public
       # contracts: governance register continuation (Canonical
       # chapter/section/term built for Lun Sanxing with the 11
