@@ -1240,7 +1240,7 @@ GOVERNANCE_TIAOHOU_RECORD = {
         'data/coverage/phase1.json':
             '7c1c3493a04b07cbbda16c0e0417fcaeac348a8c19b3e21184c2ccbc4b81de18',
         'data/product/knowledge_coverage.json':
-            'cad9e66180b334802b0d072f889ecb67bcd3f2733b1d1bf32bed7f3646a83c57'},
+            '46e94b5570587693957ca70389e9d0aaa25cc4b2ec53fea1a869c41c19997545'},
     'snapshot_files_before': 237,
     'snapshot_files_after': 237,
     'snapshot_bytes_before': 16272294,
