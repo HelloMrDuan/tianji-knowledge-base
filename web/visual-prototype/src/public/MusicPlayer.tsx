@@ -38,6 +38,19 @@ export function MusicPlayer() {
       audio?.pause();
     };
   }, []);
+  useEffect(() => {
+    // TJ-009.2 (WBS): entering the background stops the music, and leaving
+    // the background never restarts it on its own — so the visible branch
+    // deliberately does nothing. This pauses only the element and never
+    // writes optedIn: a tab switch is not the user's own pause choice and
+    // must not rewrite the persisted preference.
+    const stopInBackground = () => {
+      if (document.visibilityState === "hidden") audioRef.current?.pause();
+    };
+    document.addEventListener("visibilitychange", stopInBackground);
+    return () =>
+      document.removeEventListener("visibilitychange", stopInBackground);
+  }, []);
   const pauseByChoice = () => {
     audioRef.current?.pause();
     setOptedIn(false);
