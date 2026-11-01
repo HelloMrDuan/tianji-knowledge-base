@@ -74,3 +74,47 @@
 
 - 产出：本治理文档、MusicPlayer 可见性处理（+13 行）、真实浏览器专项 1 个（3 测）、专属 CI workflow 1 个、台账事件 E0364 与 TASK_STATUS 的 TJ-009.2 行续写。
 - 未实施声明：本批未改播放器视觉、默认不播与持久化口径、AdminApp 任何文件、任何后端与密封资产、快照与 cicd 钉；TJ-009.2 行状态保持「待做」不变（实现止于 PR，关账由 E0365 在正式验收与部署记录齐备后补记）。
+
+## 9 关账（E0365）
+
+本节由关账批 E0365 追加，§0 至 §8 原文一字未动。
+
+### 9.1 合并与公开 CI
+
+- 实现 PR #541 已由父级合并：Merge SHA `105d5dbce44b3e110f927d3351d960bfbe4d0ce4`（父 = 基线 `ccd6f201…`），最终 Head `c8ddb61750e826ab1b220f52380487648336a237`。
+- 公开 CI：最终 Head 的 Actions workflow runs 全部 success、零失败，含本批专属 `TJ-009.2 Music Visibility Playwright`（run 41301105700）与 `Validate Public Code`（run 41301105742）；无卡死 job。
+
+### 9.2 正式验收终局核对
+
+- 关账批机上直读 `acceptance-105d5dbce44b3e110f927d3351d960bfbe4d0ce4.json`：result = SUCCESS，合计 **2901** = public-git-checkout 15（0 f/e、skipped 0）+ public-only 24（skipped 1）+ private-backend 2862（255 模块、skipped 4），failures 与 errors 均为 0，total_skipped 5。
+- 与正式基线 2901（`7c80a26c` 管线正式验收）逐项一致：本批纯前端变更、离线验收面增量 0，与实现批 §5 分支复跑对账（2901）对平。
+- 密封口径未动：237 文件 / 16,722,816 字节 / manifest `26b63e64bed736b08a7dcd686f6a75de733fd44ba9eec9195248e69730485329`，无快照换代。
+
+### 9.3 部署终局核对
+
+- `deploys.log`（关账批机上直读）：ACCEPTED 2026-11-01T11:43:00Z；**DEPLOYED 2026-11-01T11:43:30Z，pin `88ef7f893f0aaf7d8d776c44663142099181dd538ca4db3c7dd32bc5c06e1a67`**，health 与 bazi 探针 ok，web 镜像 tag 为本 Merge SHA `105d5dbc…`。
+
+### 9.4 行状态处置：WBS 验收口径逐条对平
+
+WBS TJ-009.2 原文（DETAILED_DELIVERY_BACKLOG_V1.md）：标题「进入后台停止音乐、离开后台不擅自重启」，范围 `PublicApp` 与 `AdminApp`，验收条件「背景音乐不进入后台、静音权限和浏览器 autoplay 控制生效」。逐条对平：
+
+| WBS 口径 | 证据 | 结论 |
+| --- | --- | --- |
+| 背景音乐不进入后台（读法 a：进入 AdminApp） | 播放器仅挂 PublicApp，进入 AdminApp 时组件卸载、audio 元素消失；既有真实浏览器测试（prototype.spec.ts 音乐用例）断言 audio count 0 | 满足（E0364 前已成立，本批零改动） |
+| 进入后台停止音乐（读法 b：标签页切入后台 hidden） | E0364 新增 `visibilitychange` 处理；新专项用例 1（播放中切 hidden 停播、播放指示消失、持久化偏好逐字不变）通过，且基线负对照恰该核心用例失败 | 满足（本批补齐） |
+| 离开后台不擅自重启（读法 b：标签页回到前台 visible） | visible 分支刻意无任何动作；新专项用例 1（回前台 500ms 后仍暂停、currentTime 冻结、其后可手动再播）、用例 2（手动暂停不被 hidden→visible 覆盖）、用例 3（从未播放者全程静默、currentTime=0）全过 | 满足（本批补齐） |
+| 离开后台不擅自重启（读法 a：自 AdminApp 返回） | 返回后播放器重新挂载、`playing` 初值恒 false、从不自动播放；既有真实浏览器测试在册 | 满足（本批零改动） |
+| 静音权限和浏览器 autoplay 控制生效 | 默认 optedIn=false、播放只能由用户手势触发、挂载永不自动播放（即使持久化 optedIn=true）；既有真实浏览器测试在册 | 满足（本批零改动） |
+
+- 结论：WBS 全部验收口径均有真实测试在册并满足，TJ-009.2 行状态由「待做」关账为「已部署验收」（事件 E0365）。移动端操作系统级后台音频策略不在 WBS 本任务口径内（§7 已记），不构成关账缺口。
+- 门禁路径：本次处置恰为 1 个任务行状态变更 + 1 个新事件，走 legacy 单任务路径（无批次标记）；DONE 终态行与事件的 PR/SHA/CI 三列均填本批真实证据。
+
+### 9.5 两面证据区分
+
+- 离线正式验收（§9.2 的 2901）覆盖 Python 离线面，不执行任何浏览器专项；音乐可见性行为的权威执行面为其专属 GitHub CI workflow（真实 Chromium、真实组件与 audio 元素），与在册各浏览器专项同制。关账结论由离线验收与浏览器专项两面证据共同支撑，不以离线总数冒称浏览器行为已验。
+
+### 9.6 机上清理与环境记录
+
+- 机上 `/data/workspace/tj0092-e0364` 经关账批复核仅余 `repro1.log`（约 20K，日志按先例保留），组装与暂存已由实现批清理；本批临时监视脚本已删除；/data 已用 25%、余 15G。
+- 环境记录：关账等待期间 SSH 一度中断（VM 替换清空 `/root/.ssh`），按 AGENTS.md 在册程序自 `~/.ssh/config` 还原并核对网关指纹一致后恢复；机上验收进程（accept_offline）未受影响，其后正式验收与部署记录均以恢复后第一手直读为准。
+- 本批止于 PR，未自行合并；合并由父级执行。
