@@ -95,8 +95,12 @@ class IntegratedLifeReportTests(unittest.TestCase):
     def test_missing_strength_evidence_fails_closed(self):
         original = scenario_engine.execute
 
-        def corrupted(domain, inputs):
-            output = original(domain, inputs)
+        def corrupted(domain, inputs, *args, **kwargs):
+            # The double accepts the engine's full call signature
+            # (variant / allow_research) so server-side gated executions
+            # (E0372 phase-1 gate) pass through it unchanged in shape;
+            # the corruption logic and assertions are untouched.
+            output = original(domain, inputs, *args, **kwargs)
             if domain == "bazi" and inputs.get("strength_variant"):
                 for row in output["rule_matches"]:
                     if row["rule_id"] == "bazi.phase2.root_candidates":

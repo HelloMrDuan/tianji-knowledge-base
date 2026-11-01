@@ -279,6 +279,7 @@
 
 - 基线（开工直读正式验收，`6db7b578`）：SUCCESS 2908（15 + 24 + 2869），skip 5。
 - 本批复跑（机上组装全配方 `accept_offline.py --suite all`，对象 = 本批分支 HEAD 的真实 git checkout + 现行密封快照）：SUCCESS、0 失败，总测 **2937**（private-backend 2898），skip 6。增量 +29 逐项对平：公开专项新模块 +20（其中前端源码守卫 1 测在组装树无 web/ 而 skip，故 skip +1）、密封专项新模块 +9；治理钉更新为断言形态转换、测数不变（7）；其余模块逐项与基线一致。知识清单钉不变（`26b63e64…`），无换代。
+- 复跑过程实录（不得省略）：首轮复跑（HEAD `9f9b5c0d`）后端分区 FAILED（errors=2，git-checkout 15 与 public-only 24 全过）：`test_life_integrated_report` 与 `test_tj0252_life_condition_markers_sealed` 的两个 life 失败关闭用例以 `patch.object(scenario_engine, "execute")` 注入二参替身 `(domain, inputs)`，本批开启门按引擎真实签名传 `allow_research` 关键字参数，替身抛 TypeError——根因为替身签名与引擎签名不一致，非断言失败。修复见 §12.7 决定六；修复后两模块于持久组装树先行复绿（17 测 OK），全配方于修复后 HEAD 复跑得上段 SUCCESS 2937（本节计数以该轮为准）。
 - 分支复跑仅作对账；可引用计数以部署管线对合并 SHA 的正式 acceptance 记录为准（关账批 E0373 对平）。
 
 ### 12.7 实施决定与审定外发现（均已在上文各节登记，此处汇总备查）
@@ -288,6 +289,7 @@
 - **决定三（关系段关闭行的承载）**：「各体系陈述并列呈现，系统不作统一裁定。」以顶层字段 `relations_closing_line` 承载（§4.1 仅对 blocks 声明键集封闭，顶层字段表未列此行），前端在关系段末渲染。
 - **决定四（前端数据路径与审定 §2.6 的事实出入）**：实测 `BaziProfilePage` 走域端点 `/api/v1/public/execute` 而非场景端点，审定 §2.6 对页面数据路径的设想与现行实现不符。处置（加法式）：后端严格按审定落场景层；页面既有域执行渲染逐字不动，另经新增 `executeBaziProfileScenario` 拉取场景信封渲染新节；场景调用失败时新节缺席、既有行为不变。页面不直接消费研究对象，呈现对象仍是唯一新增消费面。
 - **决定五（前端响应断言）**：`api.ts` 既有 `assertScenarioResponse` 只服务八个 production_limited 场景（LIMITED_SCOPES 无 bazi-profile），故为本场景新增专用断言 `assertBaziProfileScenarioResponse`（校验 production/public_release=true 的发布契约形态），既有断言函数未改动。
+- **决定六（既有测试替身签名保真修复，复跑发现）**：`test_life_integrated_report.py` 与 `test_tj0252_life_condition_markers_sealed.py` 各一处 `scenario_engine.execute` 替身由二参 `(domain, inputs)` 改为 `(domain, inputs, *args, **kwargs)` 并透传原函数——引擎 `execute(domain, inputs, variant=None, *, allow_research=False)` 的真实签名本含该参数，替身须与被替身者同签名，才不误伤合法的服务端门控调用（life 经 `_bazi_profile` 组合命盘基础，开启门在其调用链内）。两处篡改逻辑、断言与期望异常逐字未动，不属放宽断言；其余五处同类替身（career/daily/romance/yearly 流）不经 `_bazi_profile`，全量实测未受影响、未动。
 
 ### 12.8 E0373 关账对平清单（供关账批逐项消费）
 

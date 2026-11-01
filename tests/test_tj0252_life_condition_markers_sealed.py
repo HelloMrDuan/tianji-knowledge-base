@@ -154,8 +154,12 @@ class LifeConditionMarkerEndToEndTests(unittest.TestCase):
 
         original_execute = scenario_engine.execute
 
-        def corrupted_execute(domain, inputs):
-            output = original_execute(domain, inputs)
+        def corrupted_execute(domain, inputs, *args, **kwargs):
+            # The double accepts the engine's full call signature
+            # (variant / allow_research) so server-side gated executions
+            # (E0372 phase-1 gate) pass through it unchanged in shape;
+            # the corruption logic and assertions are untouched.
+            output = original_execute(domain, inputs, *args, **kwargs)
             if domain == "bazi" and inputs.get("strength_variant"):
                 for row in output["rule_matches"]:
                     if row["rule_id"] == "bazi.phase2.root_candidates":
