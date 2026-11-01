@@ -634,6 +634,22 @@ jobs:
       # test_phase2_baziluren.py (offline acceptance only, NOT
       # public CI), unchanged by this batch.
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0183_yangren_errata.py' -v
+      # TJ-019.2 guren (故人) source audit (E0357): read-only
+      # audit conclusion pinned -- across the whole registered
+      # corpus (pinned zhougong RAW full text, all 102 + 37
+      # registered sources, sealed snapshot text inventory) the
+      # dream theme has NO qualified original source (the RAW
+      # contains zero occurrences of the guren marker character;
+      # all 21 distinct related hits adjudicated semantically
+      # unfit or already-reviewed other-theme entries), so the
+      # gap stays registered, no existing entry may fill it, and
+      # the only exit is a new-source admission (user-level
+      # resource decision). The audit admits ZERO entries and
+      # changes no scene/candidate/runtime data; the RAW re-pull
+      # pin check and sealed-side inventories were machine-read
+      # evidence recorded in the audit document (offline, NOT
+      # re-run in public CI).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0192_guren_source_audit.py' -v
       # TJ-018.3 P1 Sanxing Canonical promotion (E0329) public
       # contracts: governance register continuation (Canonical
       # chapter/section/term built for Lun Sanxing with the 11
