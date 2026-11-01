@@ -78,3 +78,32 @@
 
 - 产出：本治理文档、引擎文案订正 1 处、公开专项 1 个（7 测）、fixture 镜像更新 1 处、validate.yml 接入 1 行、台账事件 E0362 与 TASK_STATUS 的 TJ-025.2 行续写。PR #539（止于 PR，不合并；合并与正式验收由关账 E0363 补记）。
 - 未实施声明：本批未改 `scenario_engine.py` 的任何判定、旗标、标记派生与可用性逻辑，未改前端任何文件，未动密封资产、快照与 cicd 钉；TJ-025.2 行状态保持「已部署验收」不变（微项完成不改变本体关账）。
+
+## 9 关账（E0363）
+
+本节由关账批 E0363 追加，§0 至 §8 原文一字未动。
+
+### 9.1 合并与公开 CI
+
+- 实现 PR #539 已由父级合并：最终 Head `261f70c3c06c54fddb916f952fd918d2c4d80745`，Merge SHA `7c80a26cdc1685ebe5907406c96a9be699c8aa18`（关账批以 GitHub API 复核 merged=true 与 merge_commit_sha 一致）。
+- 公开 CI：最终 Head 的 check runs 全部 completed 且零失败（22 success、4 skipped，见 E0362 交付记录）；关账批另以 head_sha=`261f70c3…` 复核 Actions workflow runs，全部 success。
+
+### 9.2 正式验收终局核对
+
+- 部署管线对 Merge SHA `7c80a26c…` 的正式验收证据 `deployment-evidence/tj-core-01/acceptance-7c80a26cdc1685ebe5907406c96a9be699c8aa18.json` 由关账批机上直读：**SUCCESS，合计 2901 测，failures 与 errors 均为 0**；分项：public-git-checkout 15（2 模块）、public-only 24（5 模块、skipped 1）、private-backend 2862（255 模块、skipped 4）。
+- 对账：正式基线 2894（`12e6415d` 管线正式验收）+ 7 = 2901，增量恰为本批新专项 7 测；与实现批 §5 定版复跑（最终 Head）逐项一致（分项 15 / 24 / 2862、skipped 合计 5）。
+- 密封口径未动：237 文件、16,722,816 字节、manifest `26b63e64bed736b08a7dcd686f6a75de733fd44ba9eec9195248e69730485329`，证据文件内三元组与在册钉值逐字一致；无快照换代。
+
+### 9.3 部署终局核对
+
+- `deploys.log`（关账批机上直读）：`7c80a26c…` 于 2026-11-01T10:36:54Z ACCEPTED（offline acceptance SUCCESS），2026-11-01T10:37:23Z **DEPLOYED**，pin `88ef7f893f0aaf7d8d776c44663142099181dd538ca4db3c7dd32bc5c06e1a67`，health 与 bazi 探针 ok。
+
+### 9.4 微项关闭结论与 TJ-025.2 余项
+
+- 文案微项链关闭：人生总览 `integrated_reading` 大运退出文案已与 E0346/E0348 注册事实对平——已注册面（大运方向据三命分段、起运换算三命与神峰两套口径分别注册、只给交运时刻区间）与未建面（岁运效力仍无完成审核的生产规则）如实区分，「尚未批准接入本总览」与「不推算或伪造大运时间线」的退出实质逐字保留；零判定、零旗标、零 reason 口径改动经等价比对（§4）与正式验收终局确认。
+- TJ-025.2 本体状态不变：行状态保持「已部署验收」（本体关账见 E0280）；§7 仍不可判断范围不变——大运时间线维度仍 not_available（总览组合未批准、TJ-017.3 公开开放未裁定、TJ-017.2 跨规则调用未建），注册规则存在不等于总览可呈现大运，本关账不改变任何余项的阻塞性质。
+
+### 9.5 机上清理
+
+- 实现批机上目录 `/data/workspace/tj0252-e0362` 的组装、检出与暂存已由实现批清理，关账批复核仅余日志、脚本与等价 JSON（约 18M），沿先例保留；本关账批机上只读核查、未新建目录。清理后 /data 已用 22%、余 16G。
+- 本批止于 PR，未自行合并；合并由父级执行。
