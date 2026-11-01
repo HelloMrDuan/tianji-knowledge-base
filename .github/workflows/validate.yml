@@ -701,6 +701,21 @@ jobs:
       # the projection strip list. It reads only in-tree files (no
       # web/ reads, per the E0359 assembly lesson).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0133_staged_opening_phase1.py' -v
+      # TJ-017.3 staged opening phase 2 adjudication (E0374): the
+      # independence review and opening contract are registered
+      # (independent face = direction/Sanming conversion/Shenfeng
+      # conversion limited to the first period/sequence facts/method
+      # choice over registered evidence only; life-overview dayun
+      # dimension and cross-rule faces stay closed; new scoped public
+      # object dayun_presentation, no source flag flips); this public
+      # test pins the adjudication document, the unflipped source
+      # governance flags (source literals plus pure-function
+      # behaviour), the registered/inherited governance rows, the
+      # unchanged scenario contract and projection strip baseline,
+      # the engine client research gates and the closed
+      # dayun_timeline_approved flags. It reads only in-tree files
+      # (no web/ reads, per the E0359 assembly lesson).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0173_staged_opening_phase2.py' -v
       # TJ-013.3 staged-opening phase 1 implementation (E0372): the
       # public presentation builder over pure-lookup statements with
       # a synthetic execution view (Golden G1-G8 content, tamper
