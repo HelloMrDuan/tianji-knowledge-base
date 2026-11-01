@@ -6,6 +6,11 @@
 limitations 原文）与审定逐字对平、前端控件与发送形态同批落地、
 台账 E0360 归属与行状态不变。真实配对计算的 Golden 在
 tests/test_romance_spouse_star_pairing.py（离线验收执行）。
+前端与 CI 配置类钉（页面、api.ts、stub spec、validate.yml）在
+离线验收的组装后端树内按构造不存在（组装树不含 web/ 与
+.github/），该两条在组装树内如实 skip 并注明原因、在真实检出
+（公开 CI 按名执行本模块）全量断言；同批对 E0359 审定测试的同
+类问题作了同一守卫修复，根因与证据见审定文档 §9.5。
 """
 import pathlib
 import unittest
@@ -30,10 +35,19 @@ class SpouseStarE0360PublicTests(unittest.TestCase):
         cls.status = STATUS.read_text(encoding="utf-8")
         cls.history = HISTORY.read_text(encoding="utf-8")
         cls.engine = ENGINE.read_text(encoding="utf-8")
-        cls.page = PAGE.read_text(encoding="utf-8")
-        cls.api_ts = API_TS.read_text(encoding="utf-8")
-        cls.stub = STUB_SPEC.read_text(encoding="utf-8")
-        cls.validate = VALIDATE.read_text(encoding="utf-8")
+        # The assembled offline-backend tree carries no web/ or
+        # .github/ tree by construction; frontend and CI-config pins
+        # read their files only on real checkouts and skip (with the
+        # reason recorded) inside the assembled backend, where public
+        # CI on the real checkout runs them in full.
+        cls.page = (PAGE.read_text(encoding="utf-8")
+                    if PAGE.exists() else None)
+        cls.api_ts = (API_TS.read_text(encoding="utf-8")
+                      if API_TS.exists() else None)
+        cls.stub = (STUB_SPEC.read_text(encoding="utf-8")
+                    if STUB_SPEC.exists() else None)
+        cls.validate = (VALIDATE.read_text(encoding="utf-8")
+                        if VALIDATE.exists() else None)
 
     def test_implementation_record_sections_present(self):
         self.assertIn("## 9 实施记录（E0360，append-only 补记）", self.doc)
@@ -74,6 +88,10 @@ class SpouseStarE0360PublicTests(unittest.TestCase):
             self.assertNotIn(token, pairing)
 
     def test_frontend_control_and_projection_in_same_batch(self):
+        if self.page is None or self.api_ts is None or self.stub is None:
+            self.skipTest(
+                "web tree not present in assembled backend; frontend "
+                "pins run on real checkouts (public CI / local)")
         self.assertIn("传统配偶星口径（可选）", self.page)
         self.assertIn("if (role) romanceInput.traditional_role = role;",
                       self.page)
@@ -95,6 +113,10 @@ class SpouseStarE0360PublicTests(unittest.TestCase):
         self.assertIn("E0360", row)
 
     def test_public_governance_test_wired_into_validate_yml(self):
+        if self.validate is None:
+            self.skipTest(
+                ".github tree not present in assembled backend; this "
+                "pin runs on real checkouts (public CI / local)")
         self.assertIn("test_tj0222_spouse_star_e0360_public.py", self.validate)
 
 

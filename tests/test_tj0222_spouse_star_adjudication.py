@@ -10,6 +10,13 @@ traditional_role 沿合盘在产先例、缺席即配对块整体缺席（产品
 审定 §3.2/§6 由实现批 E0360 有意更新为裁定后的新契约形态
 （可选集恰增 traditional_role 一键、校验与透传同形于合盘先例、
 _life 仍不转发 role）；其余审定结论钉不变。
+
+组装树守卫（E0360 修复）：离线验收的组装后端树按构造不含 web/
+目录；birthProfile.ts 只存在于真实检出。审定批原 setUpClass 无
+条件读取该文件，使本模块在组装树内整体 error 并令 6b8964ef 的
+管线验收三次失败（E0360 复现定位）。修复只加存在性守卫：文件
+在场时全部断言逐字不变（公开 CI 与本地真实检出），缺席时该一
+条测试如实 skip 并注明原因，不计通过。
 """
 
 from __future__ import annotations
@@ -34,7 +41,10 @@ class SpouseStarAdjudicationTests(unittest.TestCase):
         cls.status = STATUS.read_text(encoding="utf-8")
         cls.engine = ENGINE.read_text(encoding="utf-8")
         cls.core = CORE.read_text(encoding="utf-8")
-        cls.profile = PROFILE.read_text(encoding="utf-8")
+        # The assembled offline-backend tree carries no web/ tree by
+        # construction; read the profile type only on real checkouts.
+        cls.profile = (PROFILE.read_text(encoding="utf-8")
+                       if PROFILE.exists() else None)
 
     def test_adjudication_doc_on_file_with_all_sections(self):
         for heading in (
@@ -115,6 +125,10 @@ class SpouseStarAdjudicationTests(unittest.TestCase):
     def test_birth_profile_has_no_gender_field(self):
         # Q2 evidence leg: the stored BirthInput type has no gender
         # field to derive a role from (calendar/date/time/region only).
+        if self.profile is None:
+            self.skipTest(
+                "web tree not present in assembled backend; this pin "
+                "runs on real checkouts (public CI / local)")
         start = self.profile.index("export type BirthInput = {")
         end = self.profile.index("};", start)
         block = self.profile[start:end]
