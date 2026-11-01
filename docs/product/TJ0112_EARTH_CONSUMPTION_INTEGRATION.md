@@ -193,3 +193,13 @@ SUCCESS，总数 2844（public-git-checkout 15 + public-only 24
 台账事件 E0355（中央分配），归属 TJ-011.2，行状态「阻塞」不变，后三
 列「—」；TASK_STATUS 仅动 TJ-011.2 行。本批无密封文件变更，无需快照
 换代（live 快照与 cicd 钉不动）。止于 PR，合并由父级亲核后执行。
+
+## 12. 关账记录（E0356，append-only 补记）
+
+- 合并：实施 PR #532 已由父级亲核后合并，Merge SHA `d8574489574665f6e2a2cf727433a12dc57a6811`（Head `488f19d94e28b31bf5cf24b4985823e1d5d90fb6`），公开 CI 全绿。
+- 正式验收（部署管线对 Merge SHA 的密封验收，关账时以机上 `acceptance-d8574489574665f6e2a2cf727433a12dc57a6811.json` 直读为准）：result SUCCESS，总计 **2862** 测——public-git-checkout 15、public-only 24（skipped 1）、private-backend 2823，failures 与 errors 均为 0；密封清单 237 文件、16,722,816 字节、manifest SHA256 `26b63e64bed736b08a7dcd686f6a75de733fd44ba9eec9195248e69730485329`。
+- 部署：ACCEPTED 2026-11-01T04:14:17Z；DEPLOYED 2026-11-01T04:14:46Z，pin `db6673d2599b4a51415e4678f21728aeb44c66b9cea3a796afe437d1b90f210a`（health 与 bazi 探针 ok）。
+- 基线链：2844（`e8d52e7c`，E0354 合并后正式验收）→ 2862（本批 Merge SHA），增量 18 = 公开新增 8 + 密封新增 10，与 §10 实施批机上全配方复跑（SUCCESS 2862）逐项对平。
+- 无换代声明：本批无密封文件变更，无快照换代——live 快照 manifest 与 cicd 钉 `TRUSTED_MANIFEST_SHA256` 在合并前后均为 `26b63e64bed736b08a7dcd686f6a75de733fd44ba9eec9195248e69730485329`，关账时机上直读复核一致。
+- 机上清理：`/data/workspace/earth-e0355/` 残余已清理——删除 `pub` 检出副本约 112M，保留日志（accept-e0355.log 等）、脚本（assemble.py 等）与 corpus.json 共约 76K；清理后 `df -h /data` 为 80% 已用（余 4.0G，清理前 81% / 余 3.9G）；projects、secure、evidence 未触碰。
+- 台账：事件 E0356（中央分配），归属 TJ-011.2，行状态「阻塞」不变，后三列「—」；TASK_STATUS 仅动 TJ-011.2 行。本关账止于 PR，合并由父级亲核后执行。
