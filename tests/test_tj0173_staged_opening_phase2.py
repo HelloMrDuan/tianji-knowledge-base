@@ -152,7 +152,10 @@ class StagedOpeningPhase2AdjudicationTests(unittest.TestCase):
         self.assertIn("TJ0173_STAGED_OPENING_PHASE2.md", self.history)
         row = next(line for line in self.status.splitlines()
                    if line.startswith("| TJ-017.3 |"))
-        self.assertIn("| 阻塞 |", row)
+        # 状态转换钉：审定 §9 第 7 项将行最终处置留待关账批按 WBS 原文
+        # 决定；关账 E0376 逐条对平后关账为已部署验收（见审定文档
+        # §13.5），本钉随之由「阻塞」转换，依据 E0376。
+        self.assertIn("| 已部署验收 |", row)
         self.assertIn("TJ0173_STAGED_OPENING_PHASE2.md", row)
 
 
