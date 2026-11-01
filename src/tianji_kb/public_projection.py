@@ -13,7 +13,6 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 
 from .bazi_strength_display import get_display_decision
-from .bazi_xiyong_public import is_valid_public_presentation
 
 # B014: ziwei/qimen/fengshui join the public execution gate (connection only;
 # engines already exist with real tests). Out-of-scope tools stay out.
@@ -254,8 +253,16 @@ def project_execution(data):
     if data.get('scenario_id') == 'bazi-profile' \
             and isinstance(data.get('result'), dict):
         candidate = data['result'].get('xiyong_presentation')
-        if candidate is not None and is_valid_public_presentation(candidate):
-            scoped_presentation = copy.deepcopy(candidate)
+        if candidate is not None:
+            # Imported inside the branch, not at module level: the
+            # builder's import chain reaches the calendar module
+            # (lunar_python), which the public CI installs only after
+            # this module's early projection-contract steps; the
+            # release check must not widen the import surface for
+            # non-scenario payloads.
+            from .bazi_xiyong_public import is_valid_public_presentation
+            if is_valid_public_presentation(candidate):
+                scoped_presentation = copy.deepcopy(candidate)
     aliases = _Aliases(data['evidence'])
     result = {key: _public_facts(value, aliases)
               for key, value in data.items()
