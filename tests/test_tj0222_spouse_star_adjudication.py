@@ -3,10 +3,13 @@
 审定批结论钉：Q1 配对只许位置级事实（同一性＋已审六合/六害/六冲，
 禁入旺衰喜忌、效力、婚恋预测与评分）；Q2 取 (ii) 新增可选输入
 traditional_role 沿合盘在产先例、缺席即配对块整体缺席（产品面
-影响在审定文档 §3.3 单独标明）。本批只审定不实现：本测试只读公开
-文件——审定文档、台账两件、场景引擎与透镜源码、出生档案类型——
-钉住审定在册、现行契约逐字未变与台账行状态不变；实现批 E0360
-落地时须有意更新本测试的现行契约钉。
+影响在审定文档 §3.3 单独标明）。本测试只读公开文件——审定文档、
+台账两件、场景引擎与透镜源码、出生档案类型。
+
+状态转换钉（E0360）：审定批在此钉住的「现行契约逐字未变」已按
+审定 §3.2/§6 由实现批 E0360 有意更新为裁定后的新契约形态
+（可选集恰增 traditional_role 一键、校验与透传同形于合盘先例、
+_life 仍不转发 role）；其余审定结论钉不变。
 """
 
 from __future__ import annotations
@@ -83,18 +86,28 @@ class SpouseStarAdjudicationTests(unittest.TestCase):
         self.assertIn("产品面影响（单独标明", self.doc)
         self.assertIn("同一实现批（E0360）内同时落地", self.doc)
 
-    def test_current_contract_unchanged_by_adjudication(self):
-        # The adjudication changes no runtime code: _romance still
-        # takes exactly {birth_value, target_year} + {birth_zone}
-        # and no role key.
+    def test_current_contract_matches_e0359_verdict(self):
+        # State-transition pin (E0360, per adjudication §3.2/§6 and
+        # this file's header): the pre-implementation contract pin is
+        # intentionally replaced by the adjudicated contract shape —
+        # _romance takes {birth_value, target_year} plus optional
+        # {birth_zone, traditional_role}, validates and forwards the
+        # role exactly like the compatibility precedent, and _life
+        # still forwards no role.
         start = self.engine.index("def _romance(inputs):")
         end = self.engine.index("\ndef ", start + 10)
         romance = self.engine[start:end]
         self.assertIn(
-            '_require_with_optional(inputs, {"birth_value", "target_year"}, {"birth_zone"})',
+            '_require_with_optional(inputs, {"birth_value", "target_year"}, {"birth_zone", "traditional_role"})',
             romance,
         )
-        self.assertNotIn("traditional_role", romance)
+        self.assertIn('traditional_role not in ("male", "female")', romance)
+        self.assertIn('natal_input["traditional_role"] = traditional_role', romance)
+        self.assertIn("spouse_star_year_pairing", romance)
+        life_start = self.engine.index("def _life(inputs):")
+        life_end = self.engine.index("\ndef ", life_start + 10)
+        life = self.engine[life_start:life_end]
+        self.assertNotIn("traditional_role", life)
         # The lens itself keeps its registered basis and strict role.
         self.assertIn("user_selected_traditional_lens", self.core)
         self.assertIn('if traditional_role not in ("male", "female"):', self.core)

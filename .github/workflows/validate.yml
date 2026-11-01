@@ -677,6 +677,19 @@ jobs:
       # on file, the current romance contract verbatim unchanged,
       # and the TJ-022.2 ledger row still blocked.
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0222_spouse_star_adjudication.py' -v
+      # TJ-022.2 spouse-star structural-face implementation
+      # (E0360): the romance scenario gains the OPTIONAL
+      # traditional_role input exactly as adjudicated in E0359
+      # (absent = the spouse_star_year_pairing block, its scenario
+      # rule match and its trace step are entirely absent); pairing
+      # covers only position-level facts (stem/branch identity plus
+      # reviewed six-harmony/harm/clash). This public test pins the
+      # implementation record (adjudication document section 9), the
+      # engine contract literals, the same-batch frontend control,
+      # and the ledger row still blocked. The scenario Golden suite
+      # (test_romance_spouse_star_pairing.py) needs the sealed
+      # runtime and runs in offline acceptance only, NOT public CI.
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0222_spouse_star_e0360_public.py' -v
       # TJ-018.3 P1 Sanxing Canonical promotion (E0329) public
       # contracts: governance register continuation (Canonical
       # chapter/section/term built for Lun Sanxing with the 11

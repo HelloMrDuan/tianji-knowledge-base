@@ -289,6 +289,7 @@ export async function executeRomanceScenario(input: {
   birth_value: string;
   birth_zone?: string;
   target_year: number;
+  traditional_role?: "male" | "female";
 }): Promise<ScenarioExecuteResponse> {
   const data = await requestJson("/api/v1/scenarios/public", {
       scenario_id: "romance",
