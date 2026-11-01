@@ -106,8 +106,12 @@ class ZaqiPromotionPublicTests(unittest.TestCase):
                                  'pure_generating_support_water',
                                  'pure_support_metal',
                                  'ren-pattern-yin-true-v1',
-                                 'sanxing-branch-fact-v1']))
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 4)
+                                 'sanxing-branch-fact-v1',
+                                 'tiaohou-qiongtong-v1']))
+        # E0352: tiaohou-qiongtong-v1 flipped as well (twelve
+        # flipped; three maintained -- siling-yin-pilot and the
+        # two inherited rows).
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 3)
         self.assertNotIn('pattern-zaqi', gov.MAINTAINED_ITEMS)
 
     def test_statement_disclosure_flipped(self):

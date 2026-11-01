@@ -458,11 +458,19 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
             result['pattern_determination_ren_yin'] = ren_yin
             result['production_scope'] += '；含任氏寅月真格裁定（显式司令试点结果为输入声明：司令透于年/月/时干则真格成立，不透则无真格；不输出假格、成败、清浊、用神，不外推其他月份）'
     if tiaohou_variant is not None:
-        # TJ-013.1: consumes only the executed pillar/ten-god/hidden-stem
-        # steps above. Not a trace.add: this Variant has no sealed Phase1
-        # rule / Phase2 contract registration yet, so the assessment must
-        # not enter RuleMatch or Evidence (see bazi_tiaohou docstring).
-        result['tiaohou_assessment'] = tiaohou_assessment(trace, tiaohou_variant=tiaohou_variant)
+        # TJ-013.1 lookup, governance-registered by the TJ-018.3
+        # tiaohou promotion (E0352): the Variant is registered
+        # (Phase1 bazi.rule.r042-r051 / Phase2
+        # bazi.phase2.tiaohou_assessment; Canonical classic
+        # bazi.classic.qiongtong, sections s075-s184, binds the entry
+        # quotes), so it now executes through trace.add like the
+        # bingyao step below and enters RuleMatch and Evidence; the
+        # block itself stays byte-identical apart from its
+        # evidence_binding registration field.
+        tiaohou = tiaohou_assessment(trace, tiaohou_variant=tiaohou_variant)
+        trace.add('bazi.phase2.tiaohou_assessment',
+                  {'tiaohou_variant': tiaohou_variant}, tiaohou)
+        result['tiaohou_assessment'] = tiaohou
         result['production_scope'] += '；研究用《穷通宝鉴》甲木十二月调候条目陈述（仅原文取用顺序与存在性事实，不作吉凶、喜用结论，不公开）'
     if bingyao_variant is not None:
         # TJ-013: consumes only the executed pillar/ten-god steps above.

@@ -30,11 +30,17 @@ research_only=True、public_enabled=False、ai_enabled=False。
 operations.bazi_chart.chart 以 tiaohou_variant 显式开启，本模块的
 tiaohou_assessment 只消费已执行的 trace 步骤（pillars / ten_gods /
 hidden_stems，且要求其 evidence 已绑定），伪造或缺失事实一律
-fail-closed。与 dayun_sequence_research 先例相同的一点如实说明：
-本 Variant 尚无密封 Phase1 bundle / Phase2 contract 的 rule 注册，
-故 assessment 附于 result 而不新增 trace rule，不进 RuleMatch 与
-Evidence，evidence_binding 标记为 pending_phase1_rule_registration，
-不得冒充已绑定证据的裁决。
+fail-closed。治理登记（TJ-018.3 经典建制晋级，E0352）：《穷通宝鉴》
+已建为 Canonical 经典 bazi.classic.qiongtong（body_stage=quarantine，
+11 章、110 节：总论锚节 s075 与条目节 s076–s184；丙火二月条因其跨度
+尾段含未裁合化命题，只取窗口 [8668,8852) 建节 s099），术语
+bazi.term.tiaohou 锚总论气候生成句；本 Variant 的查表已按干注册为
+密封 Phase1 规则 bazi.rule.r042–r051（source_refs 合计恰 120 条）
+并经 Phase2 步 bazi.phase2.tiaohou_assessment 执行，故 assessment
+经 trace.add 进入 RuleMatch 与 Evidence，evidence_binding 标记为
+registered_phase1_phase2。注册只登记查表陈述本身：ENTRIES 数据、
+查表语义与产出值逐字不变（见
+docs/product/GOVERNANCE_TIAOHOU_PROMOTION.md）。
 """
 import copy
 
@@ -54,16 +60,22 @@ LIMITATIONS = (
     '部分条目据同日主季总论或合论段审定（己土夏、秋、冬三段总论，丁火八月、九月、十二月，戊土正月、二月、十一月、十二月），逐条注明依据形态；总论与分月条目先次不一致时并列登记，不暗中合并。',
     '来源为 C 级单一电子谱系（简体转写），未做多底本校勘；引文逐字以固定快照为准，快照缺字（如戊土正二月总论句第二位干名）不补。',
     '只陈述条目原文的取用顺序与盘面存在性事实，不作吉凶、强弱、格局或喜用结论，不与其他喜用体系合并。',
-    '本 Variant 尚未在密封 Phase1 bundle/Phase2 contract 注册 rule，不进 RuleMatch 与 Evidence。',
+    '本 Variant 已在密封 Phase1 bundle 注册十条规则（bazi.rule.r042–r051）、经 Phase2 步 bazi.phase2.tiaohou_assessment 进入 RuleMatch 与 Evidence（evidence_binding=registered_phase1_phase2）；注册不改变本节其余限制，条目陈述仍不作任何裁决。',
 )
 
 # ENTRIES literal is generated from tests/golden_tj0131_tiaohou.json, whose
 # quotes and character locators were transcribed by slicing the pinned
-# snapshot text (each quote occurs exactly once in the full text).
+# snapshot text (each quote occurs exactly once in the full text). The
+# source_section_id field on each entry was added by the E0352 governance
+# promotion: it is computed from the entry's own section span (sections
+# bazi.section.s076-s184 of Canonical classic bazi.classic.qiongtong,
+# assigned by ascending span order; the Bing-Mao entry binds the window
+# section s099) and binds no other field.
 ENTRIES = (
     {
         'day_master': '甲', 'month_branch': '寅', 'month_label': '正月',
         'section': {'line': 22, 'char_start': 1300, 'char_end': 1362},
+        'source_section_id': 'bazi.section.s076',
         'quote': '正月甲木,初春尚有余寒,得丙癸逢,富贵双全。癸藏丙透,名寒木向阳',
         'quote_locator': {'line': 22, 'char_start': 1300, 'char_end': 1332},
         'sequence': ({'stem': '丙', 'order': 1}, {'stem': '癸', 'order': 2},),
@@ -76,6 +88,7 @@ ENTRIES = (
     {
         'day_master': '甲', 'month_branch': '卯', 'month_label': '二月',
         'section': {'line': 28, 'char_start': 1819, 'char_end': 1935},
+        'source_section_id': 'bazi.section.s077',
         'quote': '二月甲木,庚金得所,名阳刃驾杀,可云小贵,异途显达,或主武职,但要财资之。',
         'quote_locator': {'line': 28, 'char_start': 1819, 'char_end': 1856},
         'sequence': ({'stem': '庚', 'order': 1},),
@@ -88,6 +101,7 @@ ENTRIES = (
     {
         'day_master': '甲', 'month_branch': '辰', 'month_label': '三月',
         'section': {'line': 29, 'char_start': 1936, 'char_end': 2202},
+        'source_section_id': 'bazi.section.s078',
         'quote': '三月甲木,木气相竭。先取庚金,次用壬水。',
         'quote_locator': {'line': 29, 'char_start': 1936, 'char_end': 1956},
         'sequence': ({'stem': '庚', 'order': 1}, {'stem': '壬', 'order': 2},),
@@ -106,6 +120,7 @@ ENTRIES = (
     {
         'day_master': '甲', 'month_branch': '巳', 'month_label': '四月',
         'section': {'line': 38, 'char_start': 2208, 'char_end': 2398},
+        'source_section_id': 'bazi.section.s079',
         'quote': '四月甲木退气,丙火司权,先癸後丁。',
         'quote_locator': {'line': 38, 'char_start': 2208, 'char_end': 2225},
         'sequence': ({'stem': '癸', 'order': 1}, {'stem': '丁', 'order': 2},),
@@ -118,6 +133,7 @@ ENTRIES = (
     {
         'day_master': '甲', 'month_branch': '午', 'month_label': '五月',
         'section': {'line': 42, 'char_start': 2398, 'char_end': 3048},
+        'source_section_id': 'bazi.section.s080',
         'quote': '五六月甲木,木性虚焦,一理共推。五月先癸後丁庚金次之。',
         'quote_locator': {'line': 42, 'char_start': 2398, 'char_end': 2425},
         'sequence': ({'stem': '癸', 'order': 1}, {'stem': '丁', 'order': 2}, {'stem': '庚', 'order': 3},),
@@ -144,6 +160,7 @@ ENTRIES = (
     {
         'day_master': '甲', 'month_branch': '未', 'month_label': '六月',
         'section': {'line': 42, 'char_start': 2398, 'char_end': 3048},
+        'source_section_id': 'bazi.section.s080',
         'quote': '六月三伏生寒,丁火退气。先丁後庚,无癸亦可。',
         'quote_locator': {'line': 42, 'char_start': 2425, 'char_end': 2447},
         'sequence': ({'stem': '丁', 'order': 1}, {'stem': '庚', 'order': 2},),
@@ -162,6 +179,7 @@ ENTRIES = (
     {
         'day_master': '甲', 'month_branch': '申', 'month_label': '七月',
         'section': {'line': 62, 'char_start': 3430, 'char_end': 3512},
+        'source_section_id': 'bazi.section.s081',
         'quote': '七月甲木,丁火为尊,庚金次之,庚金不可少。',
         'quote_locator': {'line': 62, 'char_start': 3430, 'char_end': 3451},
         'sequence': ({'stem': '丁', 'order': 1}, {'stem': '庚', 'order': 2},),
@@ -174,6 +192,7 @@ ENTRIES = (
     {
         'day_master': '甲', 'month_branch': '酉', 'month_label': '八月',
         'section': {'line': 63, 'char_start': 3513, 'char_end': 3683},
+        'source_section_id': 'bazi.section.s082',
         'quote': '八月甲木,木囚金旺。丁火为先,次用丙火,庚金再次。',
         'quote_locator': {'line': 63, 'char_start': 3513, 'char_end': 3538},
         'sequence': ({'stem': '丁', 'order': 1}, {'stem': '丙', 'order': 2}, {'stem': '庚', 'order': 3},),
@@ -192,6 +211,7 @@ ENTRIES = (
     {
         'day_master': '甲', 'month_branch': '戌', 'month_label': '九月',
         'section': {'line': 78, 'char_start': 4197, 'char_end': 4272},
+        'source_section_id': 'bazi.section.s083',
         'quote': '九月甲木,端用丁癸,见戊透必贵。',
         'quote_locator': {'line': 78, 'char_start': 4197, 'char_end': 4213},
         'sequence': ({'stem': '丁', 'order': 1}, {'stem': '癸', 'order': 2},),
@@ -210,6 +230,7 @@ ENTRIES = (
     {
         'day_master': '甲', 'month_branch': '亥', 'month_label': '十月',
         'section': {'line': 82, 'char_start': 4322, 'char_end': 4499},
+        'source_section_id': 'bazi.section.s084',
         'quote': '十月甲木,庚丁为要,丙火次之。忌壬水泛身,须戊土制之。',
         'quote_locator': {'line': 82, 'char_start': 4322, 'char_end': 4349},
         'sequence': ({'stem': '庚', 'order': 1}, {'stem': '丁', 'order': 2}, {'stem': '丙', 'order': 3},),
@@ -228,6 +249,7 @@ ENTRIES = (
     {
         'day_master': '甲', 'month_branch': '子', 'month_label': '十一月',
         'section': {'line': 86, 'char_start': 4500, 'char_end': 4678},
+        'source_section_id': 'bazi.section.s085',
         'quote': '十一月甲木,木性生寒,丁先庚後,丙火佐之。',
         'quote_locator': {'line': 86, 'char_start': 4500, 'char_end': 4521},
         'sequence': ({'stem': '丁', 'order': 1}, {'stem': '庚', 'order': 2}, {'stem': '丙', 'order': 3},),
@@ -240,6 +262,7 @@ ENTRIES = (
     {
         'day_master': '甲', 'month_branch': '丑', 'month_label': '十二月',
         'section': {'line': 90, 'char_start': 4679, 'char_end': 4874},
+        'source_section_id': 'bazi.section.s086',
         'quote': '十二月甲木,天寒气冻,木性极寒,无生发之象,先用庚劈甲,方引丁火始得木火有通明之象,故丁次之。',
         'quote_locator': {'line': 90, 'char_start': 4679, 'char_end': 4726},
         'sequence': ({'stem': '庚', 'order': 1}, {'stem': '丁', 'order': 2},),
@@ -252,6 +275,7 @@ ENTRIES = (
     {
         'day_master': '乙', 'month_branch': '寅', 'month_label': '正月',
         'section': {'line': 98, 'char_start': 4988, 'char_end': 5130},
+        'source_section_id': 'bazi.section.s087',
         'quote': '正月乙木,必须用丙,因天气尤有余寒,非丙不暖,虽有癸水,恐凝寒气,故以丙火为先,癸水次之。',
         'quote_locator': {'line': 98, 'char_start': 4988, 'char_end': 5033},
         'sequence': ({'stem': '丙', 'order': 1}, {'stem': '癸', 'order': 2},),
@@ -264,6 +288,7 @@ ENTRIES = (
     {
         'day_master': '乙', 'month_branch': '卯', 'month_label': '二月',
         'section': {'line': 101, 'char_start': 5130, 'char_end': 5339},
+        'source_section_id': 'bazi.section.s088',
         'quote': '二月乙木,阳气渐升,木不寒矣,以丙为君,癸为臣,丙癸两透,不透庚金,大富大贵。',
         'quote_locator': {'line': 101, 'char_start': 5130, 'char_end': 5169},
         'sequence': ({'stem': '丙', 'order': 1}, {'stem': '癸', 'order': 2},),
@@ -276,6 +301,7 @@ ENTRIES = (
     {
         'day_master': '乙', 'month_branch': '辰', 'month_label': '三月',
         'section': {'line': 106, 'char_start': 5339, 'char_end': 5601},
+        'source_section_id': 'bazi.section.s089',
         'quote': '三月乙木,阳气愈炽,先癸後丙。',
         'quote_locator': {'line': 106, 'char_start': 5339, 'char_end': 5354},
         'sequence': ({'stem': '癸', 'order': 1}, {'stem': '丙', 'order': 2},),
@@ -288,6 +314,7 @@ ENTRIES = (
     {
         'day_master': '乙', 'month_branch': '巳', 'month_label': '四月',
         'section': {'line': 118, 'char_start': 5781, 'char_end': 5941},
+        'source_section_id': 'bazi.section.s090',
         'quote': '四月乙木,自有丙火,端取癸水为尊。四月乙木专用癸水,丙火酌用,虽以庚辛佐癸,须辛透为清。',
         'quote_locator': {'line': 118, 'char_start': 5781, 'char_end': 5825},
         'sequence': ({'stem': '癸', 'order': 1},),
@@ -300,6 +327,7 @@ ENTRIES = (
     {
         'day_master': '乙', 'month_branch': '午', 'month_label': '五月',
         'section': {'line': 121, 'char_start': 5941, 'char_end': 6115},
+        'source_section_id': 'bazi.section.s091',
         'quote': '五月乙木,丁火司权,禾稼俱旱。上半月属阳,仍用癸水。下半月属阴,三伏生寒,丙癸齐用。柱多金水,丙火为先,余皆用癸水为先。',
         'quote_locator': {'line': 121, 'char_start': 5941, 'char_end': 6001},
         'sequence': ({'stem': '癸', 'order': 1},),
@@ -323,6 +351,7 @@ ENTRIES = (
     {
         'day_master': '乙', 'month_branch': '未', 'month_label': '六月',
         'section': {'line': 124, 'char_start': 6115, 'char_end': 6531},
+        'source_section_id': 'bazi.section.s092',
         'quote': '六月乙木,木性且寒,柱多金水,丙火为尊。支成水局,乙得无伤。癸水透干,大富大贵。',
         'quote_locator': {'line': 124, 'char_start': 6115, 'char_end': 6155},
         'sequence': ({'stem': '癸', 'order': 1},),
@@ -347,6 +376,7 @@ ENTRIES = (
     {
         'day_master': '乙', 'month_branch': '申', 'month_label': '七月',
         'section': {'line': 136, 'char_start': 6531, 'char_end': 6815},
+        'source_section_id': 'bazi.section.s093',
         'quote': '七月乙木,庚金乘令,庚虽输情於乙妹,怎奈干乙难合支金。柱见庚多,乙难受载。或丙透干,又加巳出埋金,此格可云科甲。有己透、加丙,亦是上命。七月喜己土为用,或不见丙癸。己土必不可少',
         'quote_locator': {'line': 136, 'char_start': 6531, 'char_end': 6619},
         'sequence': ({'stem': '己', 'order': 1},),
@@ -365,6 +395,7 @@ ENTRIES = (
     {
         'day_master': '乙', 'month_branch': '酉', 'month_label': '八月',
         'section': {'line': 140, 'char_start': 6815, 'char_end': 7163},
+        'source_section_id': 'bazi.section.s094',
         'quote': '八月乙木,芝兰禾稼均退。以丹桂为乙木。在白露之後,桂蕊未开,端用癸水以滋桂萼。',
         'quote_locator': {'line': 140, 'char_start': 6815, 'char_end': 6854},
         'sequence': ({'stem': '癸', 'order': 1},),
@@ -383,6 +414,7 @@ ENTRIES = (
     {
         'day_master': '乙', 'month_branch': '戌', 'month_label': '九月',
         'section': {'line': 147, 'char_start': 7163, 'char_end': 7316},
+        'source_section_id': 'bazi.section.s095',
         'quote': '九月乙木,根枯叶落,必赖癸水滋养。',
         'quote_locator': {'line': 147, 'char_start': 7163, 'char_end': 7180},
         'sequence': ({'stem': '癸', 'order': 1},),
@@ -395,6 +427,7 @@ ENTRIES = (
     {
         'day_master': '乙', 'month_branch': '亥', 'month_label': '十月',
         'section': {'line': 152, 'char_start': 7316, 'char_end': 7514},
+        'source_section_id': 'bazi.section.s096',
         'quote': '十月乙木,木不受气,而壬水司令,取丙为用,戊土次之。',
         'quote_locator': {'line': 152, 'char_start': 7316, 'char_end': 7342},
         'sequence': ({'stem': '丙', 'order': 1}, {'stem': '戊', 'order': 2},),
@@ -407,6 +440,7 @@ ENTRIES = (
     {
         'day_master': '乙', 'month_branch': '子', 'month_label': '十一月',
         'section': {'line': 154, 'char_start': 7514, 'char_end': 8039},
+        'source_section_id': 'bazi.section.s097',
         'quote': '十一月乙木,花木寒冻,一阳来复,喜用丙火解冻,则花木有向阳之意,不宜用癸以冻花木,故端用丙火。',
         'quote_locator': {'line': 154, 'char_start': 7514, 'char_end': 7561},
         'sequence': ({'stem': '丙', 'order': 1},),
@@ -419,6 +453,7 @@ ENTRIES = (
     {
         'day_master': '丙', 'month_branch': '寅', 'month_label': '正月',
         'section': {'line': 168, 'char_start': 8169, 'char_end': 8657},
+        'source_section_id': 'bazi.section.s098',
         'quote': '正月丙火,三阳开泰,火气渐炎,取壬为尊,庚金佐之,壬庚两透,科甲定然',
         'quote_locator': {'line': 168, 'char_start': 8169, 'char_end': 8203},
         'sequence': ({'stem': '壬', 'order': 1}, {'stem': '庚', 'order': 2},),
@@ -437,6 +472,7 @@ ENTRIES = (
     {
         'day_master': '丙', 'month_branch': '卯', 'month_label': '二月',
         'section': {'line': 194, 'char_start': 8668, 'char_end': 9025},
+        'source_section_id': 'bazi.section.s099',
         'quote': '二月丙火,阳气舒升,端用壬水,壬透天干,不见丁化,加以庚辛已亦透,壬水有根,定主科甲。',
         'quote_locator': {'line': 194, 'char_start': 8668, 'char_end': 8711},
         'sequence': ({'stem': '壬', 'order': 1},),
@@ -457,6 +493,7 @@ ENTRIES = (
     {
         'day_master': '丙', 'month_branch': '辰', 'month_label': '三月',
         'section': {'line': 209, 'char_start': 9034, 'char_end': 9172},
+        'source_section_id': 'bazi.section.s100',
         'quote': '三月丙火,气渐炎升,用壬水,或成土局,取甲木为辅,壬不可离,壬申两透,科甲定宜,惟忌庚出制甲,则秀才而已。',
         'quote_locator': {'line': 209, 'char_start': 9034, 'char_end': 9087},
         'sequence': ({'stem': '壬', 'order': 1},),
@@ -477,6 +514,7 @@ ENTRIES = (
     {
         'day_master': '丙', 'month_branch': '巳', 'month_label': '四月',
         'section': {'line': 218, 'char_start': 9331, 'char_end': 9649},
+        'source_section_id': 'bazi.section.s101',
         'quote': '四月丙火,建禄於巳,火势炎炎,宜专用壬水,解炎威之力,成既济之功。',
         'quote_locator': {'line': 218, 'char_start': 9331, 'char_end': 9364},
         'sequence': ({'stem': '壬', 'order': 1},),
@@ -503,6 +541,7 @@ ENTRIES = (
     {
         'day_master': '丙', 'month_branch': '午', 'month_label': '五月',
         'section': {'line': 238, 'char_start': 9660, 'char_end': 9970},
+        'source_section_id': 'bazi.section.s102',
         'quote': '五月丙火愈炎,得壬庚高透,方为上命。',
         'quote_locator': {'line': 238, 'char_start': 9660, 'char_end': 9678},
         'sequence': ({'stem': '壬', 'order': 1}, {'stem': '庚', 'order': 2},),
@@ -521,6 +560,7 @@ ENTRIES = (
     {
         'day_master': '丙', 'month_branch': '未', 'month_label': '六月',
         'section': {'line': 252, 'char_start': 9977, 'char_end': 10191},
+        'source_section_id': 'bazi.section.s103',
         'quote': '六月丙火退气,三代生寒,壬水为用,取庚辅佐。',
         'quote_locator': {'line': 252, 'char_start': 9977, 'char_end': 9999},
         'sequence': ({'stem': '壬', 'order': 1}, {'stem': '庚', 'order': 2},),
@@ -533,6 +573,7 @@ ENTRIES = (
     {
         'day_master': '丙', 'month_branch': '申', 'month_label': '七月',
         'section': {'line': 267, 'char_start': 10200, 'char_end': 10413},
+        'source_section_id': 'bazi.section.s104',
         'quote': '七月丙火,太阳转西,阳气衰矣,日近西山,见土皆晦,惟日照湖海,暮夜光天,故仍用壬水辅映光辉。',
         'quote_locator': {'line': 267, 'char_start': 10200, 'char_end': 10246},
         'sequence': ({'stem': '壬', 'order': 1},),
@@ -545,6 +586,7 @@ ENTRIES = (
     {
         'day_master': '丙', 'month_branch': '酉', 'month_label': '八月',
         'section': {'line': 279, 'char_start': 10422, 'char_end': 10673},
+        'source_section_id': 'bazi.section.s105',
         'quote': '八月丙火,日近黄昏,丙之余光,存於湖海,仍用壬水辅映。',
         'quote_locator': {'line': 279, 'char_start': 10422, 'char_end': 10449},
         'sequence': ({'stem': '壬', 'order': 1},),
@@ -565,6 +607,7 @@ ENTRIES = (
     {
         'day_master': '丙', 'month_branch': '戌', 'month_label': '九月',
         'section': {'line': 294, 'char_start': 10682, 'char_end': 10924},
+        'source_section_id': 'bazi.section.s106',
         'quote': '九月丙火,火气愈退,所忌土晦光,必须先用甲木,次取壬水。',
         'quote_locator': {'line': 294, 'char_start': 10682, 'char_end': 10710},
         'sequence': ({'stem': '甲', 'order': 1}, {'stem': '壬', 'order': 2},),
@@ -577,6 +620,7 @@ ENTRIES = (
     {
         'day_master': '丙', 'month_branch': '亥', 'month_label': '十月',
         'section': {'line': 310, 'char_start': 10933, 'char_end': 11109},
+        'source_section_id': 'bazi.section.s107',
         'quote': '十月丙火,太阳失令,得见甲戊庚出干,可云科甲,主为人性好清高,斯文领袖。',
         'quote_locator': {'line': 310, 'char_start': 10933, 'char_end': 10969},
         'sequence': (),
@@ -595,6 +639,7 @@ ENTRIES = (
     {
         'day_master': '丙', 'month_branch': '子', 'month_label': '十一月',
         'section': {'line': 326, 'char_start': 11119, 'char_end': 11362},
+        'source_section_id': 'bazi.section.s108',
         'quote': '十一月丙火,冬至一阳生,弱中复强,壬水为最,戊土佐之。',
         'quote_locator': {'line': 326, 'char_start': 11119, 'char_end': 11146},
         'sequence': ({'stem': '壬', 'order': 1}, {'stem': '戊', 'order': 2},),
@@ -607,6 +652,7 @@ ENTRIES = (
     {
         'day_master': '丙', 'month_branch': '丑', 'month_label': '十二月',
         'section': {'line': 343, 'char_start': 11372, 'char_end': 11598},
+        'source_section_id': 'bazi.section.s109',
         'quote': '十二月丙火,气进二阳,每雪欺霜,喜壬为用,己土司令,土多又不可少甲,壬甲两透,科甲堪宜',
         'quote_locator': {'line': 343, 'char_start': 11372, 'char_end': 11415},
         'sequence': ({'stem': '壬', 'order': 1}, {'stem': '甲', 'order': 2},),
@@ -619,6 +665,7 @@ ENTRIES = (
     {
         'day_master': '丁', 'month_branch': '寅', 'month_label': '正月',
         'section': {'line': 366, 'char_start': 11616, 'char_end': 11913},
+        'source_section_id': 'bazi.section.s110',
         'quote': '正月丁火,甲木当权,乃为母旺,非庚不能劈甲,何以引丁,姑用庚金。',
         'quote_locator': {'line': 366, 'char_start': 11616, 'char_end': 11648},
         'sequence': ({'stem': '庚', 'order': 1},),
@@ -631,6 +678,7 @@ ENTRIES = (
     {
         'day_master': '丁', 'month_branch': '卯', 'month_label': '二月',
         'section': {'line': 382, 'char_start': 11922, 'char_end': 12245},
+        'source_section_id': 'bazi.section.s111',
         'quote': '二月丁火,湿乙伤丁,先庚後甲',
         'quote_locator': {'line': 382, 'char_start': 11922, 'char_end': 11936},
         'sequence': ({'stem': '庚', 'order': 1}, {'stem': '甲', 'order': 2},),
@@ -643,6 +691,7 @@ ENTRIES = (
     {
         'day_master': '丁', 'month_branch': '辰', 'month_label': '三月',
         'section': {'line': 398, 'char_start': 12254, 'char_end': 12403},
+        'source_section_id': 'bazi.section.s112',
         'quote': '三月丁火,戊土司令,泄弱丁气,先用甲木引丁制土,次看庚金,庚甲两透,定主科甲',
         'quote_locator': {'line': 398, 'char_start': 12254, 'char_end': 12292},
         'sequence': ({'stem': '甲', 'order': 1}, {'stem': '庚', 'order': 2},),
@@ -661,6 +710,7 @@ ENTRIES = (
     {
         'day_master': '丁', 'month_branch': '巳', 'month_label': '四月',
         'section': {'line': 404, 'char_start': 12414, 'char_end': 12713},
+        'source_section_id': 'bazi.section.s113',
         'quote': '四月丁火乘旺,虽取甲引丁,必用庚劈甲,伐甲、方云木火通明,甲多、又取庚为先。',
         'quote_locator': {'line': 404, 'char_start': 12414, 'char_end': 12452},
         'sequence': ({'stem': '甲', 'order': 1}, {'stem': '庚', 'order': 2},),
@@ -679,6 +729,7 @@ ENTRIES = (
     {
         'day_master': '丁', 'month_branch': '午', 'month_label': '五月',
         'section': {'line': 418, 'char_start': 12722, 'char_end': 13137},
+        'source_section_id': 'bazi.section.s114',
         'quote': '五月丁火,时归建禄,不宜乱用甲木。',
         'quote_locator': {'line': 418, 'char_start': 12722, 'char_end': 12739},
         'sequence': (),
@@ -702,6 +753,7 @@ ENTRIES = (
     {
         'day_master': '丁', 'month_branch': '未', 'month_label': '六月',
         'section': {'line': 442, 'char_start': 13146, 'char_end': 13363},
+        'source_section_id': 'bazi.section.s115',
         'quote': '六月丁火,阴柔退气,但值三伏生寒,丁弱极矣,专取甲木,壬水次之。',
         'quote_locator': {'line': 442, 'char_start': 13146, 'char_end': 13178},
         'sequence': ({'stem': '甲', 'order': 1}, {'stem': '壬', 'order': 2},),
@@ -714,6 +766,7 @@ ENTRIES = (
     {
         'day_master': '丁', 'month_branch': '申', 'month_label': '七月',
         'section': {'line': 457, 'char_start': 13377, 'char_end': 13732},
+        'source_section_id': 'bazi.section.s116',
         'quote': '七月丁火,退气柔弱,端用甲木,金虽乘旺司权,无伤丁之理,仍取庚劈甲,为引火之物',
         'quote_locator': {'line': 457, 'char_start': 13377, 'char_end': 13416},
         'sequence': ({'stem': '甲', 'order': 1}, {'stem': '庚', 'order': 2},),
@@ -734,6 +787,7 @@ ENTRIES = (
     {
         'day_master': '丁', 'month_branch': '酉', 'month_label': '八月',
         'section': {'line': 458, 'char_start': 13476, 'char_end': 13592},
+        'source_section_id': 'bazi.section.s117',
         'quote': '三秋甲庚丙并用,仍分优劣,何也,七月甲丙,申中有庚,八月甲丙庚皆用,',
         'quote_locator': {'line': 458, 'char_start': 13476, 'char_end': 13510},
         'sequence': ({'stem': '甲', 'order': 1}, {'stem': '丙', 'order': 2}, {'stem': '庚', 'order': 3},),
@@ -760,6 +814,7 @@ ENTRIES = (
     {
         'day_master': '丁', 'month_branch': '戌', 'month_label': '九月',
         'section': {'line': 458, 'char_start': 13476, 'char_end': 13592},
+        'source_section_id': 'bazi.section.s117',
         'quote': '九月端用甲庚,大抵甲一庚,乙不离丙,其理极明',
         'quote_locator': {'line': 458, 'char_start': 13536, 'char_end': 13558},
         'sequence': ({'stem': '甲', 'order': 1}, {'stem': '庚', 'order': 2},),
@@ -778,6 +833,7 @@ ENTRIES = (
     {
         'day_master': '丁', 'month_branch': '亥', 'month_label': '十月',
         'section': {'line': 490, 'char_start': 13942, 'char_end': 14229},
+        'source_section_id': 'bazi.section.s118',
         'quote': '三冬丁火微寒,端用庚甲,甲乃庚之良友,凡用甲木,庚不可少,无庚无甲,何能引丁,难云木火通明',
         'quote_locator': {'line': 490, 'char_start': 13942, 'char_end': 13987},
         'sequence': ({'stem': '庚', 'order': 1}, {'stem': '甲', 'order': 2},),
@@ -790,6 +846,7 @@ ENTRIES = (
     {
         'day_master': '丁', 'month_branch': '子', 'month_label': '十一月',
         'section': {'line': 507, 'char_start': 14239, 'char_end': 14432},
+        'source_section_id': 'bazi.section.s119',
         'quote': '三冬丁火,甲木为尊,庚金佐之,戊癸权宜酌用可也。',
         'quote_locator': {'line': 509, 'char_start': 14345, 'char_end': 14369},
         'sequence': ({'stem': '甲', 'order': 1}, {'stem': '庚', 'order': 2},),
@@ -802,6 +859,7 @@ ENTRIES = (
     {
         'day_master': '丁', 'month_branch': '丑', 'month_label': '十二月',
         'section': {'line': 509, 'char_start': 14345, 'char_end': 14432},
+        'source_section_id': 'bazi.section.s120',
         'quote': '三冬丁火,甲木为尊,庚金佐之,戊癸权宜酌用可也。',
         'quote_locator': {'line': 509, 'char_start': 14345, 'char_end': 14369},
         'sequence': ({'stem': '甲', 'order': 1}, {'stem': '庚', 'order': 2},),
@@ -814,6 +872,7 @@ ENTRIES = (
     {
         'day_master': '戊', 'month_branch': '寅', 'month_label': '正月',
         'section': {'line': 536, 'char_start': 15143, 'char_end': 15525},
+        'source_section_id': 'bazi.section.s121',
         'quote': '正二月先丙後,癸又次之',
         'quote_locator': {'line': 536, 'char_start': 15178, 'char_end': 15189},
         'sequence': ({'stem': '丙', 'order': 1},),
@@ -826,6 +885,7 @@ ENTRIES = (
     {
         'day_master': '戊', 'month_branch': '卯', 'month_label': '二月',
         'section': {'line': 536, 'char_start': 15143, 'char_end': 15525},
+        'source_section_id': 'bazi.section.s121',
         'quote': '正二月先丙後,癸又次之',
         'quote_locator': {'line': 536, 'char_start': 15178, 'char_end': 15189},
         'sequence': ({'stem': '丙', 'order': 1},),
@@ -838,6 +898,7 @@ ENTRIES = (
     {
         'day_master': '戊', 'month_branch': '辰', 'month_label': '三月',
         'section': {'line': 536, 'char_start': 15143, 'char_end': 15967},
+        'source_section_id': 'bazi.section.s122',
         'quote': '三月先甲後丙,癸又次之,因戊土司权故也',
         'quote_locator': {'line': 536, 'char_start': 15190, 'char_end': 15209},
         'sequence': ({'stem': '甲', 'order': 1}, {'stem': '丙', 'order': 2}, {'stem': '癸', 'order': 3},),
@@ -850,6 +911,7 @@ ENTRIES = (
     {
         'day_master': '戊', 'month_branch': '巳', 'month_label': '四月',
         'section': {'line': 563, 'char_start': 15976, 'char_end': 16204},
+        'source_section_id': 'bazi.section.s123',
         'quote': '四月戊土,阳气发升,寒气内藏,外实内虚,不畏火炎,无阳气相催,万物不长,故先用甲疏劈,次取丙癸为佐。',
         'quote_locator': {'line': 563, 'char_start': 15976, 'char_end': 16026},
         'sequence': ({'stem': '甲', 'order': 1}, {'stem': '丙', 'order': 2}, {'stem': '癸', 'order': 3},),
@@ -862,6 +924,7 @@ ENTRIES = (
     {
         'day_master': '戊', 'month_branch': '午', 'month_label': '五月',
         'section': {'line': 578, 'char_start': 16213, 'char_end': 16405},
+        'source_section_id': 'bazi.section.s124',
         'quote': '五月戊土,仲夏火炎,先看壬水,次取甲木,丙火酌用,用癸力微。',
         'quote_locator': {'line': 578, 'char_start': 16213, 'char_end': 16243},
         'sequence': ({'stem': '壬', 'order': 1}, {'stem': '甲', 'order': 2},),
@@ -874,6 +937,7 @@ ENTRIES = (
     {
         'day_master': '戊', 'month_branch': '未', 'month_label': '六月',
         'section': {'line': 584, 'char_start': 16411, 'char_end': 16629},
+        'source_section_id': 'bazi.section.s125',
         'quote': '六月戊土,遇夏乾枯,先看癸水,次用丙火甲木。',
         'quote_locator': {'line': 584, 'char_start': 16411, 'char_end': 16433},
         'sequence': ({'stem': '癸', 'order': 1}, {'stem': '丙', 'order': 2}, {'stem': '甲', 'order': 3},),
@@ -886,6 +950,7 @@ ENTRIES = (
     {
         'day_master': '戊', 'month_branch': '申', 'month_label': '七月',
         'section': {'line': 599, 'char_start': 16638, 'char_end': 16835},
+        'source_section_id': 'bazi.section.s126',
         'quote': '七月戊土,阳气渐入,寒气渐出,先丙後癸,甲木次之。',
         'quote_locator': {'line': 599, 'char_start': 16638, 'char_end': 16663},
         'sequence': ({'stem': '丙', 'order': 1}, {'stem': '癸', 'order': 2}, {'stem': '甲', 'order': 3},),
@@ -898,6 +963,7 @@ ENTRIES = (
     {
         'day_master': '戊', 'month_branch': '酉', 'month_label': '八月',
         'section': {'line': 613, 'char_start': 16844, 'char_end': 17040},
+        'source_section_id': 'bazi.section.s127',
         'quote': '八月戊土,金泄身寒,赖丙照暖,喜水滋润,先丙後癸',
         'quote_locator': {'line': 613, 'char_start': 16844, 'char_end': 16868},
         'sequence': ({'stem': '丙', 'order': 1}, {'stem': '癸', 'order': 2},),
@@ -910,6 +976,7 @@ ENTRIES = (
     {
         'day_master': '戊', 'month_branch': '戌', 'month_label': '九月',
         'section': {'line': 619, 'char_start': 17046, 'char_end': 17303},
+        'source_section_id': 'bazi.section.s128',
         'quote': '九月戊土当权,不可专用丙,先看甲木,次取癸水,郤忌化合,见金先用癸水,後取丙火,配合支干,方成有生之土,定发云程。',
         'quote_locator': {'line': 619, 'char_start': 17046, 'char_end': 17103},
         'sequence': ({'stem': '甲', 'order': 1}, {'stem': '癸', 'order': 2},),
@@ -928,6 +995,7 @@ ENTRIES = (
     {
         'day_master': '戊', 'month_branch': '亥', 'month_label': '十月',
         'section': {'line': 642, 'char_start': 17312, 'char_end': 17535},
+        'source_section_id': 'bazi.section.s129',
         'quote': '十月戊土,时值小阳,阳气略出,先用甲木,次取丙火,非甲,土不灵,非丙,土不暖,安能发生万物',
         'quote_locator': {'line': 642, 'char_start': 17312, 'char_end': 17357},
         'sequence': ({'stem': '甲', 'order': 1}, {'stem': '丙', 'order': 2},),
@@ -940,6 +1008,7 @@ ENTRIES = (
     {
         'day_master': '戊', 'month_branch': '子', 'month_label': '十一月',
         'section': {'line': 658, 'char_start': 17544, 'char_end': 17867},
+        'source_section_id': 'bazi.section.s130',
         'quote': '十一二月严寒冰冻,丙火为尊,甲木为佐',
         'quote_locator': {'line': 658, 'char_start': 17544, 'char_end': 17562},
         'sequence': ({'stem': '丙', 'order': 1}, {'stem': '甲', 'order': 2},),
@@ -952,6 +1021,7 @@ ENTRIES = (
     {
         'day_master': '戊', 'month_branch': '丑', 'month_label': '十二月',
         'section': {'line': 658, 'char_start': 17544, 'char_end': 17867},
+        'source_section_id': 'bazi.section.s130',
         'quote': '十一二月严寒冰冻,丙火为尊,甲木为佐',
         'quote_locator': {'line': 658, 'char_start': 17544, 'char_end': 17562},
         'sequence': ({'stem': '丙', 'order': 1}, {'stem': '甲', 'order': 2},),
@@ -964,6 +1034,7 @@ ENTRIES = (
     {
         'day_master': '己', 'month_branch': '寅', 'month_label': '正月',
         'section': {'line': 676, 'char_start': 17880, 'char_end': 18164},
+        'source_section_id': 'bazi.section.s131',
         'quote': '正月己土,田园犹冻,盖因腊气未除,余寒未退,故丙为尊,得丙照暖,万物自生',
         'quote_locator': {'line': 676, 'char_start': 17880, 'char_end': 17916},
         'sequence': ({'stem': '丙', 'order': 1},),
@@ -976,6 +1047,7 @@ ENTRIES = (
     {
         'day_master': '己', 'month_branch': '卯', 'month_label': '二月',
         'section': {'line': 684, 'char_start': 18170, 'char_end': 18419},
+        'source_section_id': 'bazi.section.s132',
         'quote': '二月己土,阳气渐升,虽禾稼未成,万物出土,田园未展,先取甲木疏之,忌合,次取癸水润之',
         'quote_locator': {'line': 684, 'char_start': 18170, 'char_end': 18212},
         'sequence': ({'stem': '甲', 'order': 1}, {'stem': '癸', 'order': 2},),
@@ -988,6 +1060,7 @@ ENTRIES = (
     {
         'day_master': '己', 'month_branch': '辰', 'month_label': '三月',
         'section': {'line': 698, 'char_start': 18428, 'char_end': 18616},
+        'source_section_id': 'bazi.section.s133',
         'quote': '三月己土,正栽培禾稼之时,先丙後癸,土暖而润,随用甲疏',
         'quote_locator': {'line': 698, 'char_start': 18428, 'char_end': 18455},
         'sequence': ({'stem': '丙', 'order': 1}, {'stem': '癸', 'order': 2}, {'stem': '甲', 'order': 3},),
@@ -1000,6 +1073,7 @@ ENTRIES = (
     {
         'day_master': '己', 'month_branch': '巳', 'month_label': '四月',
         'section': {'line': 712, 'char_start': 18625, 'char_end': 18958},
+        'source_section_id': 'bazi.section.s134',
         'quote': '三夏己土,杂气才官,禾稼在田,最喜甘沛,取癸为要,次用丙火,夏无太阳,禾稼不长,故无癸曰旱田,无丙曰孤阴。',
         'quote_locator': {'line': 712, 'char_start': 18625, 'char_end': 18678},
         'sequence': ({'stem': '癸', 'order': 1}, {'stem': '丙', 'order': 2},),
@@ -1012,6 +1086,7 @@ ENTRIES = (
     {
         'day_master': '己', 'month_branch': '午', 'month_label': '五月',
         'section': {'line': 712, 'char_start': 18625, 'char_end': 18958},
+        'source_section_id': 'bazi.section.s134',
         'quote': '三夏己土,杂气才官,禾稼在田,最喜甘沛,取癸为要,次用丙火,夏无太阳,禾稼不长,故无癸曰旱田,无丙曰孤阴。',
         'quote_locator': {'line': 712, 'char_start': 18625, 'char_end': 18678},
         'sequence': ({'stem': '癸', 'order': 1}, {'stem': '丙', 'order': 2},),
@@ -1024,6 +1099,7 @@ ENTRIES = (
     {
         'day_master': '己', 'month_branch': '未', 'month_label': '六月',
         'section': {'line': 712, 'char_start': 18625, 'char_end': 18958},
+        'source_section_id': 'bazi.section.s134',
         'quote': '三夏己土,杂气才官,禾稼在田,最喜甘沛,取癸为要,次用丙火,夏无太阳,禾稼不长,故无癸曰旱田,无丙曰孤阴。',
         'quote_locator': {'line': 712, 'char_start': 18625, 'char_end': 18678},
         'sequence': ({'stem': '癸', 'order': 1}, {'stem': '丙', 'order': 2},),
@@ -1036,6 +1112,7 @@ ENTRIES = (
     {
         'day_master': '己', 'month_branch': '申', 'month_label': '七月',
         'section': {'line': 731, 'char_start': 18967, 'char_end': 19415},
+        'source_section_id': 'bazi.section.s135',
         'quote': '总之三秋己土,先癸後丙,取辛辅癸,九月土盛,宜甲木疏之,余皆酌用。',
         'quote_locator': {'line': 737, 'char_start': 19265, 'char_end': 19298},
         'sequence': ({'stem': '癸', 'order': 1}, {'stem': '丙', 'order': 2}, {'stem': '辛', 'order': 3},),
@@ -1054,6 +1131,7 @@ ENTRIES = (
     {
         'day_master': '己', 'month_branch': '酉', 'month_label': '八月',
         'section': {'line': 731, 'char_start': 18967, 'char_end': 19415},
+        'source_section_id': 'bazi.section.s135',
         'quote': '总之三秋己土,先癸後丙,取辛辅癸,九月土盛,宜甲木疏之,余皆酌用。',
         'quote_locator': {'line': 737, 'char_start': 19265, 'char_end': 19298},
         'sequence': ({'stem': '癸', 'order': 1}, {'stem': '丙', 'order': 2}, {'stem': '辛', 'order': 3},),
@@ -1072,6 +1150,7 @@ ENTRIES = (
     {
         'day_master': '己', 'month_branch': '戌', 'month_label': '九月',
         'section': {'line': 731, 'char_start': 18967, 'char_end': 19415},
+        'source_section_id': 'bazi.section.s135',
         'quote': '总之三秋己土,先癸後丙,取辛辅癸,九月土盛,宜甲木疏之,余皆酌用。',
         'quote_locator': {'line': 737, 'char_start': 19265, 'char_end': 19298},
         'sequence': ({'stem': '癸', 'order': 1}, {'stem': '丙', 'order': 2}, {'stem': '辛', 'order': 3}, {'stem': '甲', 'order': 4},),
@@ -1084,6 +1163,7 @@ ENTRIES = (
     {
         'day_master': '己', 'month_branch': '亥', 'month_label': '十月',
         'section': {'line': 749, 'char_start': 19421, 'char_end': 19719},
+        'source_section_id': 'bazi.section.s136',
         'quote': '三冬己土,湿泥寒冻,非丙暖不生,取丙为尊,甲木参酌,戊土癸水不用,惟初冬壬旺,取戊制之,余皆用丙丁,但丁不能解冻除寒,不能大济。',
         'quote_locator': {'line': 749, 'char_start': 19421, 'char_end': 19485},
         'sequence': ({'stem': '丙', 'order': 1},),
@@ -1102,6 +1182,7 @@ ENTRIES = (
     {
         'day_master': '己', 'month_branch': '子', 'month_label': '十一月',
         'section': {'line': 749, 'char_start': 19421, 'char_end': 19719},
+        'source_section_id': 'bazi.section.s136',
         'quote': '三冬己土,湿泥寒冻,非丙暖不生,取丙为尊,甲木参酌,戊土癸水不用,惟初冬壬旺,取戊制之,余皆用丙丁,但丁不能解冻除寒,不能大济。',
         'quote_locator': {'line': 749, 'char_start': 19421, 'char_end': 19485},
         'sequence': ({'stem': '丙', 'order': 1},),
@@ -1114,6 +1195,7 @@ ENTRIES = (
     {
         'day_master': '己', 'month_branch': '丑', 'month_label': '十二月',
         'section': {'line': 749, 'char_start': 19421, 'char_end': 19719},
+        'source_section_id': 'bazi.section.s136',
         'quote': '三冬己土,湿泥寒冻,非丙暖不生,取丙为尊,甲木参酌,戊土癸水不用,惟初冬壬旺,取戊制之,余皆用丙丁,但丁不能解冻除寒,不能大济。',
         'quote_locator': {'line': 749, 'char_start': 19421, 'char_end': 19485},
         'sequence': ({'stem': '丙', 'order': 1},),
@@ -1126,6 +1208,7 @@ ENTRIES = (
     {
         'day_master': '庚', 'month_branch': '寅', 'month_label': '正月',
         'section': {'line': 773, 'char_start': 20316, 'char_end': 20636},
+        'source_section_id': 'bazi.section.s137',
         'quote': '正月庚金,木旺之际,有土皆死,不能生金,且金之寒气未除,先用丙暖庚性,又虑土厚埋金,须甲疏泄,丙甲两透,科甲显荣',
         'quote_locator': {'line': 773, 'char_start': 20316, 'char_end': 20372},
         'sequence': ({'stem': '丙', 'order': 1}, {'stem': '甲', 'order': 2}, {'stem': '丁', 'order': 3},),
@@ -1144,6 +1227,7 @@ ENTRIES = (
     {
         'day_master': '庚', 'month_branch': '卯', 'month_label': '二月',
         'section': {'line': 788, 'char_start': 20645, 'char_end': 21013},
+        'source_section_id': 'bazi.section.s138',
         'quote': '二月庚金,柱中自然有乙,当令之乙,见庚必留情於乙,此金有暗强之势,如秋金一理,故二月庚金,专用丁火,借甲引丁,借庚劈甲,无丁用丙者,富贵多出於勉强。',
         'quote_locator': {'line': 788, 'char_start': 20645, 'char_end': 20719},
         'sequence': ({'stem': '丁', 'order': 1}, {'stem': '甲', 'order': 2},),
@@ -1164,6 +1248,7 @@ ENTRIES = (
     {
         'day_master': '庚', 'month_branch': '辰', 'month_label': '三月',
         'section': {'line': 806, 'char_start': 21022, 'char_end': 21339},
+        'source_section_id': 'bazi.section.s139',
         'quote': '三月庚金,戊土司令,无生金之理,有埋金之忧,故先甲後丁',
         'quote_locator': {'line': 806, 'char_start': 21022, 'char_end': 21049},
         'sequence': ({'stem': '甲', 'order': 1}, {'stem': '丁', 'order': 2},),
@@ -1176,6 +1261,7 @@ ENTRIES = (
     {
         'day_master': '庚', 'month_branch': '巳', 'month_label': '四月',
         'section': {'line': 819, 'char_start': 21348, 'char_end': 21623},
+        'source_section_id': 'bazi.section.s140',
         'quote': '四月庚金,长生於巳,巳内有戊,丙不熔金,故不畏火炎,丙亦可作用,但先壬水,方得中和,故曰群金生夏,喜用勾陈,次取戊土,丙火佐之',
         'quote_locator': {'line': 819, 'char_start': 21348, 'char_end': 21411},
         'sequence': ({'stem': '壬', 'order': 1}, {'stem': '戊', 'order': 2}, {'stem': '丙', 'order': 3},),
@@ -1194,6 +1280,7 @@ ENTRIES = (
     {
         'day_master': '庚', 'month_branch': '午', 'month_label': '五月',
         'section': {'line': 825, 'char_start': 21629, 'char_end': 21830},
+        'source_section_id': 'bazi.section.s141',
         'quote': '五月庚金,丁火旺烈,庚金败地,专用壬水,癸又次之。',
         'quote_locator': {'line': 825, 'char_start': 21629, 'char_end': 21654},
         'sequence': ({'stem': '壬', 'order': 1}, {'stem': '癸', 'order': 2},),
@@ -1206,6 +1293,7 @@ ENTRIES = (
     {
         'day_master': '庚', 'month_branch': '未', 'month_label': '六月',
         'section': {'line': 831, 'char_start': 21836, 'char_end': 22039},
+        'source_section_id': 'bazi.section.s142',
         'quote': '六月庚金,三伏生寒,顽钝极矣,先用丁火,次取甲木。',
         'quote_locator': {'line': 831, 'char_start': 21836, 'char_end': 21861},
         'sequence': ({'stem': '丁', 'order': 1}, {'stem': '甲', 'order': 2},),
@@ -1224,6 +1312,7 @@ ENTRIES = (
     {
         'day_master': '庚', 'month_branch': '申', 'month_label': '七月',
         'section': {'line': 848, 'char_start': 22048, 'char_end': 22286},
+        'source_section_id': 'bazi.section.s143',
         'quote': '七月庚金,刚锐极矣,专用丁火煆炼,次取木引丁,故曰,秋金锐锐最为奇,壬癸相逢总不宜',
         'quote_locator': {'line': 848, 'char_start': 22048, 'char_end': 22089},
         'sequence': ({'stem': '丁', 'order': 1}, {'stem': '甲', 'order': 2},),
@@ -1242,6 +1331,7 @@ ENTRIES = (
     {
         'day_master': '庚', 'month_branch': '酉', 'month_label': '八月',
         'section': {'line': 853, 'char_start': 22292, 'char_end': 22534},
+        'source_section_id': 'bazi.section.s144',
         'quote': '八月庚金,刚锐支退,用丁甲,丙不可少',
         'quote_locator': {'line': 853, 'char_start': 22292, 'char_end': 22310},
         'sequence': ({'stem': '丁', 'order': 1}, {'stem': '甲', 'order': 2}, {'stem': '丙', 'order': 3},),
@@ -1254,6 +1344,7 @@ ENTRIES = (
     {
         'day_master': '庚', 'month_branch': '戌', 'month_label': '九月',
         'section': {'line': 869, 'char_start': 22543, 'char_end': 22767},
+        'source_section_id': 'bazi.section.s145',
         'quote': '九月庚金,戊土司令,最怕土厚埋金,宜先用甲疏,後用壬洗,则金自出矣,忌见己土浊壬。',
         'quote_locator': {'line': 869, 'char_start': 22543, 'char_end': 22584},
         'sequence': ({'stem': '甲', 'order': 1}, {'stem': '壬', 'order': 2},),
@@ -1266,6 +1357,7 @@ ENTRIES = (
     {
         'day_master': '庚', 'month_branch': '亥', 'month_label': '十月',
         'section': {'line': 884, 'char_start': 22776, 'char_end': 22944},
+        'source_section_id': 'bazi.section.s146',
         'quote': '十月庚金,水冷性寒,非丁莫造,非丙不暖。',
         'quote_locator': {'line': 884, 'char_start': 22776, 'char_end': 22796},
         'sequence': ({'stem': '丁', 'order': 1}, {'stem': '丙', 'order': 2},),
@@ -1278,6 +1370,7 @@ ENTRIES = (
     {
         'day_master': '庚', 'month_branch': '子', 'month_label': '十一月',
         'section': {'line': 897, 'char_start': 22954, 'char_end': 23256},
+        'source_section_id': 'bazi.section.s147',
         'quote': '十一月庚金,天气严寒,仍取丁甲,次取丙火照暖,或丁甲两透,丙在支中,必主科甲',
         'quote_locator': {'line': 897, 'char_start': 22954, 'char_end': 22992},
         'sequence': ({'stem': '丁', 'order': 1}, {'stem': '甲', 'order': 2}, {'stem': '丙', 'order': 3},),
@@ -1290,6 +1383,7 @@ ENTRIES = (
     {
         'day_master': '庚', 'month_branch': '丑', 'month_label': '十二月',
         'section': {'line': 912, 'char_start': 23266, 'char_end': 23419},
+        'source_section_id': 'bazi.section.s148',
         'quote': '十二月庚金,寒气太重,且多湿泥,愈寒愈冻,先取丙火解冻,次取丁火炼金,甲亦不可少。',
         'quote_locator': {'line': 912, 'char_start': 23266, 'char_end': 23307},
         'sequence': ({'stem': '丙', 'order': 1}, {'stem': '丁', 'order': 2}, {'stem': '甲', 'order': 3},),
@@ -1302,6 +1396,7 @@ ENTRIES = (
     {
         'day_master': '辛', 'month_branch': '寅', 'month_label': '正月',
         'section': {'line': 926, 'char_start': 23434, 'char_end': 23756},
+        'source_section_id': 'bazi.section.s149',
         'quote': '故正月辛金,先己後壬,己为君,庚为佐',
         'quote_locator': {'line': 929, 'char_start': 23671, 'char_end': 23689},
         'sequence': ({'stem': '己', 'order': 1}, {'stem': '壬', 'order': 2}, {'stem': '庚', 'order': 3},),
@@ -1314,6 +1409,7 @@ ENTRIES = (
     {
         'day_master': '辛', 'month_branch': '卯', 'month_label': '二月',
         'section': {'line': 938, 'char_start': 23765, 'char_end': 24153},
+        'source_section_id': 'bazi.section.s150',
         'quote': '二月辛金,阳和之际,壬水为尊,见戊己为病,得甲制伏,则辛金不致埋没,壬水不致混浊',
         'quote_locator': {'line': 938, 'char_start': 23765, 'char_end': 23805},
         'sequence': ({'stem': '壬', 'order': 1},),
@@ -1326,6 +1422,7 @@ ENTRIES = (
     {
         'day_master': '辛', 'month_branch': '辰', 'month_label': '三月',
         'section': {'line': 962, 'char_start': 24162, 'char_end': 24394},
+        'source_section_id': 'bazi.section.s151',
         'quote': '三月辛金,戊土司令,辛承正气,母旺子相,先壬後甲',
         'quote_locator': {'line': 962, 'char_start': 24162, 'char_end': 24186},
         'sequence': ({'stem': '壬', 'order': 1}, {'stem': '甲', 'order': 2},),
@@ -1338,6 +1435,7 @@ ENTRIES = (
     {
         'day_master': '辛', 'month_branch': '巳', 'month_label': '四月',
         'section': {'line': 968, 'char_start': 24400, 'char_end': 24612},
+        'source_section_id': 'bazi.section.s152',
         'quote': '四月辛金,时道首夏,忌丙火之燥烈,喜壬水之洗淘',
         'quote_locator': {'line': 968, 'char_start': 24400, 'char_end': 24423},
         'sequence': ({'stem': '壬', 'order': 1},),
@@ -1350,6 +1448,7 @@ ENTRIES = (
     {
         'day_master': '辛', 'month_branch': '午', 'month_label': '五月',
         'section': {'line': 979, 'char_start': 24621, 'char_end': 24907},
+        'source_section_id': 'bazi.section.s153',
         'quote': '五月辛金,丁火司权,辛金失令,阴柔之极,不宜煆炼,须己壬兼用,何也,己为泥沙,壬为湖海,己无壬不湿,辛无己不生,故壬己并用,无壬,癸亦可用,但癸力小',
         'quote_locator': {'line': 979, 'char_start': 24621, 'char_end': 24695},
         'sequence': ({'stem': '己', 'order': 1}, {'stem': '壬', 'order': 2},),
@@ -1370,6 +1469,7 @@ ENTRIES = (
     {
         'day_master': '辛', 'month_branch': '未', 'month_label': '六月',
         'section': {'line': 990, 'char_start': 24916, 'char_end': 25151},
+        'source_section_id': 'bazi.section.s154',
         'quote': '六月辛金,己土当权,辅助太多,恐掩金光,先用壬水,取庚佐之,壬庚两透,科甲功名',
         'quote_locator': {'line': 990, 'char_start': 24916, 'char_end': 24955},
         'sequence': ({'stem': '壬', 'order': 1}, {'stem': '庚', 'order': 2},),
@@ -1388,6 +1488,7 @@ ENTRIES = (
     {
         'day_master': '辛', 'month_branch': '申', 'month_label': '七月',
         'section': {'line': 1001, 'char_start': 25160, 'char_end': 25362},
+        'source_section_id': 'bazi.section.s155',
         'quote': '七月辛金,壬不在多,故书曰,水浅金多,号曰体全之象,壬水为尊,甲戊酌用可也,癸水不可为用。',
         'quote_locator': {'line': 1005, 'char_start': 25299, 'char_end': 25344},
         'sequence': ({'stem': '壬', 'order': 1},),
@@ -1400,6 +1501,7 @@ ENTRIES = (
     {
         'day_master': '辛', 'month_branch': '酉', 'month_label': '八月',
         'section': {'line': 1013, 'char_start': 25371, 'char_end': 25925},
+        'source_section_id': 'bazi.section.s156',
         'quote': '八月辛金,当权得令,旺之极矣,专用壬水淘洗',
         'quote_locator': {'line': 1013, 'char_start': 25371, 'char_end': 25392},
         'sequence': ({'stem': '壬', 'order': 1},),
@@ -1418,6 +1520,7 @@ ENTRIES = (
     {
         'day_master': '辛', 'month_branch': '戌', 'month_label': '九月',
         'section': {'line': 1035, 'char_start': 25934, 'char_end': 26248},
+        'source_section_id': 'bazi.section.s157',
         'quote': '九月辛金,成土司令,母旺子相,须甲疏土,壬泄旺金,先壬後甲,壬甲两透,桃洞之仙',
         'quote_locator': {'line': 1035, 'char_start': 25934, 'char_end': 25973},
         'sequence': ({'stem': '壬', 'order': 1}, {'stem': '甲', 'order': 2},),
@@ -1430,6 +1533,7 @@ ENTRIES = (
     {
         'day_master': '辛', 'month_branch': '亥', 'month_label': '十月',
         'section': {'line': 1053, 'char_start': 26257, 'char_end': 26457},
+        'source_section_id': 'bazi.section.s158',
         'quote': '十月辛金,时值小阳,阳渐升,寒气将降,先用壬水,次取丙火,壬丙两透,金榜题名',
         'quote_locator': {'line': 1053, 'char_start': 26257, 'char_end': 26295},
         'sequence': ({'stem': '壬', 'order': 1}, {'stem': '丙', 'order': 2},),
@@ -1442,6 +1546,7 @@ ENTRIES = (
     {
         'day_master': '辛', 'month_branch': '子', 'month_label': '十一月',
         'section': {'line': 1059, 'char_start': 26464, 'char_end': 26688},
+        'source_section_id': 'bazi.section.s159',
         'quote': '十一月辛金,癸水司令,为寒冬雨露,切忌癸出冻金,而困丙火,壬丙两透,不见戊癸,衣锦腰金',
         'quote_locator': {'line': 1059, 'char_start': 26464, 'char_end': 26507},
         'sequence': ({'stem': '壬', 'order': 1}, {'stem': '丙', 'order': 2},),
@@ -1454,6 +1559,7 @@ ENTRIES = (
     {
         'day_master': '辛', 'month_branch': '丑', 'month_label': '十二月',
         'section': {'line': 1065, 'char_start': 26695, 'char_end': 26892},
+        'source_section_id': 'bazi.section.s160',
         'quote': '十二月辛金,寒冻之极,先丙後壬,炳不能解冻,无壬不能洗淘,丙壬两透,金马玉堂之客',
         'quote_locator': {'line': 1065, 'char_start': 26695, 'char_end': 26735},
         'sequence': ({'stem': '丙', 'order': 1}, {'stem': '壬', 'order': 2}, {'stem': '戊', 'order': 3}, {'stem': '己', 'order': 4},),
@@ -1472,6 +1578,7 @@ ENTRIES = (
     {
         'day_master': '壬', 'month_branch': '寅', 'month_label': '正月',
         'section': {'line': 1093, 'char_start': 27426, 'char_end': 27683},
+        'source_section_id': 'bazi.section.s161',
         'quote': '正月壬水,汪洋之象,能并百川之流,然水性柔弱,宜用庚金之源,庶不致汪洋无度',
         'quote_locator': {'line': 1093, 'char_start': 27426, 'char_end': 27463},
         'sequence': ({'stem': '庚', 'order': 1}, {'stem': '丙', 'order': 2},),
@@ -1490,6 +1597,7 @@ ENTRIES = (
     {
         'day_master': '壬', 'month_branch': '卯', 'month_label': '二月',
         'section': {'line': 1106, 'char_start': 27692, 'char_end': 27914},
+        'source_section_id': 'bazi.section.s162',
         'quote': '二月壬水,寒气初除,有并流之象,不用丙暖,专取戊土辛金,二月壬水,先戊後辛,庚金次之。',
         'quote_locator': {'line': 1106, 'char_start': 27692, 'char_end': 27735},
         'sequence': ({'stem': '戊', 'order': 1}, {'stem': '辛', 'order': 2}, {'stem': '庚', 'order': 3},),
@@ -1502,6 +1610,7 @@ ENTRIES = (
     {
         'day_master': '壬', 'month_branch': '辰', 'month_label': '三月',
         'section': {'line': 1113, 'char_start': 27920, 'char_end': 28113},
+        'source_section_id': 'bazi.section.s163',
         'quote': '三月壬水,戊土司权,死有推山塞海之患,先用甲疏季土,次取庚金。',
         'quote_locator': {'line': 1113, 'char_start': 27920, 'char_end': 27951},
         'sequence': ({'stem': '甲', 'order': 1}, {'stem': '庚', 'order': 2},),
@@ -1514,6 +1623,7 @@ ENTRIES = (
     {
         'day_master': '壬', 'month_branch': '巳', 'month_label': '四月',
         'section': {'line': 1125, 'char_start': 28122, 'char_end': 28373},
+        'source_section_id': 'bazi.section.s164',
         'quote': '四月壬水,丙火司权,水弱极矣,专取壬水比肩为助,次取辛金发源,且暗合丙火,庚金为佐。',
         'quote_locator': {'line': 1125, 'char_start': 28122, 'char_end': 28164},
         'sequence': ({'stem': '壬', 'order': 1}, {'stem': '辛', 'order': 2}, {'stem': '庚', 'order': 3},),
@@ -1526,6 +1636,7 @@ ENTRIES = (
     {
         'day_master': '壬', 'month_branch': '午', 'month_label': '五月',
         'section': {'line': 1142, 'char_start': 28382, 'char_end': 28535},
+        'source_section_id': 'bazi.section.s165',
         'quote': '五月壬水,丁旺壬弱,取癸为用,取庚为佐,无庚不能发水,无癸不能伤丁,五月壬水,辛癸亦可参用,其理与四月皆同。',
         'quote_locator': {'line': 1142, 'char_start': 28382, 'char_end': 28436},
         'sequence': ({'stem': '癸', 'order': 1}, {'stem': '庚', 'order': 2},),
@@ -1538,6 +1649,7 @@ ENTRIES = (
     {
         'day_master': '壬', 'month_branch': '未', 'month_label': '六月',
         'section': {'line': 1154, 'char_start': 28544, 'char_end': 28733},
+        'source_section_id': 'bazi.section.s166',
         'quote': '六月壬水,先辛後甲,次取癸水。',
         'quote_locator': {'line': 1154, 'char_start': 28573, 'char_end': 28588},
         'sequence': ({'stem': '辛', 'order': 1}, {'stem': '甲', 'order': 2}, {'stem': '癸', 'order': 3},),
@@ -1556,6 +1668,7 @@ ENTRIES = (
     {
         'day_master': '壬', 'month_branch': '申', 'month_label': '七月',
         'section': {'line': 1159, 'char_start': 28739, 'char_end': 29026},
+        'source_section_id': 'bazi.section.s167',
         'quote': '七月壬水,庚金司令,壬得申之长生,源流自远,转弱为强,专用戊土,次取丁火佐戊制庚',
         'quote_locator': {'line': 1159, 'char_start': 28739, 'char_end': 28779},
         'sequence': ({'stem': '戊', 'order': 1}, {'stem': '丁', 'order': 2},),
@@ -1568,6 +1681,7 @@ ENTRIES = (
     {
         'day_master': '壬', 'month_branch': '酉', 'month_label': '八月',
         'section': {'line': 1174, 'char_start': 29035, 'char_end': 29297},
+        'source_section_id': 'bazi.section.s168',
         'quote': '八月壬水,栽用甲木,庚金次之,用甲者,水妻木子。',
         'quote_locator': {'line': 1178, 'char_start': 29210, 'char_end': 29234},
         'sequence': ({'stem': '甲', 'order': 1}, {'stem': '庚', 'order': 2},),
@@ -1586,6 +1700,7 @@ ENTRIES = (
     {
         'day_master': '壬', 'month_branch': '戌', 'month_label': '九月',
         'section': {'line': 1192, 'char_start': 29306, 'char_end': 29516},
+        'source_section_id': 'bazi.section.s169',
         'quote': '九月壬水,栽用甲木,次用丙火,用土者,火妻土子。',
         'quote_locator': {'line': 1196, 'char_start': 29459, 'char_end': 29483},
         'sequence': ({'stem': '甲', 'order': 1}, {'stem': '丙', 'order': 2},),
@@ -1598,6 +1713,7 @@ ENTRIES = (
     {
         'day_master': '壬', 'month_branch': '亥', 'month_label': '十月',
         'section': {'line': 1206, 'char_start': 29525, 'char_end': 29775},
+        'source_section_id': 'bazi.section.s170',
         'quote': '十月壬水,专用戊丙,次取庚金。',
         'quote_locator': {'line': 1209, 'char_start': 29727, 'char_end': 29742},
         'sequence': ({'stem': '戊', 'order': 1}, {'stem': '丙', 'order': 2}, {'stem': '庚', 'order': 3},),
@@ -1610,6 +1726,7 @@ ENTRIES = (
     {
         'day_master': '壬', 'month_branch': '子', 'month_label': '十一月',
         'section': {'line': 1219, 'char_start': 29785, 'char_end': 30032},
+        'source_section_id': 'bazi.section.s171',
         'quote': '十一月壬水,阳刃帮身,较前更旺,先取戊土,次用丙火,丙戊两透,富贵荣华',
         'quote_locator': {'line': 1219, 'char_start': 29785, 'char_end': 29820},
         'sequence': ({'stem': '戊', 'order': 1}, {'stem': '丙', 'order': 2},),
@@ -1622,6 +1739,7 @@ ENTRIES = (
     {
         'day_master': '壬', 'month_branch': '丑', 'month_label': '十二月',
         'section': {'line': 1234, 'char_start': 30042, 'char_end': 30307},
+        'source_section_id': 'bazi.section.s172',
         'quote': '腊月壬水,先取丙火,丁甲为佐,故水冷金寒爱丙丁,用火者,木妻火子。',
         'quote_locator': {'line': 1239, 'char_start': 30222, 'char_end': 30255},
         'sequence': ({'stem': '丙', 'order': 1}, {'stem': '丁', 'order': 2}, {'stem': '甲', 'order': 3},),
@@ -1640,6 +1758,7 @@ ENTRIES = (
     {
         'day_master': '癸', 'month_branch': '寅', 'month_label': '正月',
         'section': {'line': 1244, 'char_start': 30319, 'char_end': 30584},
+        'source_section_id': 'bazi.section.s173',
         'quote': '正月癸水,值三阳之後,雨露之精,其性至柔,先用辛金,生癸水之源,次用丙火照暖,名阴阳和合,万物发生,辛丙两透,金榜有名。',
         'quote_locator': {'line': 1244, 'char_start': 30319, 'char_end': 30379},
         'sequence': ({'stem': '辛', 'order': 1}, {'stem': '丙', 'order': 2},),
@@ -1658,6 +1777,7 @@ ENTRIES = (
     {
         'day_master': '癸', 'month_branch': '卯', 'month_label': '二月',
         'section': {'line': 1251, 'char_start': 30590, 'char_end': 30784},
+        'source_section_id': 'bazi.section.s174',
         'quote': '二月葵水,不刚不柔,乙木司令,泄弱元神,专用庚金为用,辛金次之,庚辛俱透,无丁出干者,贵由科甲,无庚辛者常人。',
         'quote_locator': {'line': 1251, 'char_start': 30590, 'char_end': 30645},
         'sequence': ({'stem': '庚', 'order': 1}, {'stem': '辛', 'order': 2},),
@@ -1670,6 +1790,7 @@ ENTRIES = (
     {
         'day_master': '癸', 'month_branch': '辰', 'month_label': '三月',
         'section': {'line': 1265, 'char_start': 30793, 'char_end': 31087},
+        'source_section_id': 'bazi.section.s175',
         'quote': '三月癸水,要分清明谷雨,清明後,火气未炽,专用丙火,为阴阳合谐,谷雨後,虽用丙火,尚宜辛甲佐之',
         'quote_locator': {'line': 1265, 'char_start': 30793, 'char_end': 30840},
         'sequence': ({'stem': '丙', 'order': 1},),
@@ -1688,6 +1809,7 @@ ENTRIES = (
     {
         'day_master': '癸', 'month_branch': '巳', 'month_label': '四月',
         'section': {'line': 1284, 'char_start': 31096, 'char_end': 31277},
+        'source_section_id': 'bazi.section.s176',
         'quote': '四月癸水,喜辛金为用,无辛用庚,若辛高透,不见丁火,加以壬透,主科名荣贵,声播四夷',
         'quote_locator': {'line': 1284, 'char_start': 31096, 'char_end': 31137},
         'sequence': ({'stem': '辛', 'order': 1},),
@@ -1708,6 +1830,7 @@ ENTRIES = (
     {
         'day_master': '癸', 'month_branch': '午', 'month_label': '五月',
         'section': {'line': 1287, 'char_start': 31283, 'char_end': 31515},
+        'source_section_id': 'bazi.section.s177',
         'quote': '五月癸水,至弱无根,必须庚辛为生身之本,但丁火司权,金难敌火,安能滋养癸水,宜见比劫,方得辛金之用,五月癸水,庚辛壬参酌并用可也。',
         'quote_locator': {'line': 1287, 'char_start': 31283, 'char_end': 31348},
         'sequence': (),
@@ -1720,6 +1843,7 @@ ENTRIES = (
     {
         'day_master': '癸', 'month_branch': '未', 'month_label': '六月',
         'section': {'line': 1292, 'char_start': 31521, 'char_end': 31702},
+        'source_section_id': 'bazi.section.s178',
         'quote': '六月癸水,有上下月之分,下半月庚辛有气,上半月庚辛休囚,凡六癸日,多不验者,何也,俗士不知此理,因未中有乙巳同宫,破而不破,故癸水不能从杀,所以专用庚辛',
         'quote_locator': {'line': 1292, 'char_start': 31521, 'char_end': 31597},
         'sequence': ({'stem': '庚', 'order': 1}, {'stem': '辛', 'order': 2},),
@@ -1738,6 +1862,7 @@ ENTRIES = (
     {
         'day_master': '癸', 'month_branch': '申', 'month_label': '七月',
         'section': {'line': 1302, 'char_start': 31711, 'char_end': 31948},
+        'source_section_id': 'bazi.section.s179',
         'quote': '七月癸水,正母旺子相之时,癸虽死申,殊不知申中有庚生之,名死处逢生,弱中复强,即运行西北,亦不死也,但庚司令,刚锐极矣,必取丁火为用',
         'quote_locator': {'line': 1302, 'char_start': 31711, 'char_end': 31777},
         'sequence': ({'stem': '丁', 'order': 1},),
@@ -1750,6 +1875,7 @@ ENTRIES = (
     {
         'day_master': '癸', 'month_branch': '酉', 'month_label': '八月',
         'section': {'line': 1315, 'char_start': 31957, 'char_end': 32077},
+        'source_section_id': 'bazi.section.s180',
         'quote': '八月癸水,辛金虚灵,非顽金可比,正金白水清,故取辛金为用,丙火佐之,名水暖金温',
         'quote_locator': {'line': 1315, 'char_start': 31957, 'char_end': 31996},
         'sequence': ({'stem': '辛', 'order': 1}, {'stem': '丙', 'order': 2},),
@@ -1762,6 +1888,7 @@ ENTRIES = (
     {
         'day_master': '癸', 'month_branch': '戌', 'month_label': '九月',
         'section': {'line': 1325, 'char_start': 32086, 'char_end': 32258},
+        'source_section_id': 'bazi.section.s181',
         'quote': '九月癸水,失令无根,戊土司权,克制太过,专用辛金发水之源,要比肩滋甲制戊方妙。',
         'quote_locator': {'line': 1325, 'char_start': 32086, 'char_end': 32125},
         'sequence': ({'stem': '辛', 'order': 1}, {'stem': '甲', 'order': 2},),
@@ -1780,6 +1907,7 @@ ENTRIES = (
     {
         'day_master': '癸', 'month_branch': '亥', 'month_label': '十月',
         'section': {'line': 1338, 'char_start': 32267, 'char_end': 32472},
+        'source_section_id': 'bazi.section.s182',
         'quote': '十月癸水,旺中有弱,何也,因亥摇木,泄散元神,宜用庚辛为妙,得庚辛两透,不见丁伤者,功名有准。',
         'quote_locator': {'line': 1338, 'char_start': 32267, 'char_end': 32314},
         'sequence': ({'stem': '庚', 'order': 1}, {'stem': '辛', 'order': 2},),
@@ -1792,6 +1920,7 @@ ENTRIES = (
     {
         'day_master': '癸', 'month_branch': '子', 'month_label': '十一月',
         'section': {'line': 1352, 'char_start': 32482, 'char_end': 32719},
+        'source_section_id': 'bazi.section.s183',
         'quote': '十一月癸水,值冰冻之时,金水无交欢之象,专用丙火解冻,庶不致成冰,又要辛金滋扶,无丙有辛,不妙',
         'quote_locator': {'line': 1352, 'char_start': 32482, 'char_end': 32529},
         'sequence': ({'stem': '丙', 'order': 1}, {'stem': '辛', 'order': 2},),
@@ -1804,6 +1933,7 @@ ENTRIES = (
     {
         'day_master': '癸', 'month_branch': '丑', 'month_label': '十二月',
         'section': {'line': 1359, 'char_start': 32726, 'char_end': 33066},
+        'source_section_id': 'bazi.section.s184',
         'quote': '十二月癸水,寒极成冰,万物不能舒泰,宜丙火解冻,或丙透年时,加以壬透,支中多戊,名水辅阳光,主显达名臣',
         'quote_locator': {'line': 1359, 'char_start': 32726, 'char_end': 32777},
         'sequence': ({'stem': '丙', 'order': 1},),
@@ -1876,7 +2006,7 @@ def tiaohou_lookup(day_master, month_branch, visible_stems, hidden_stems):
                 'day_master': day_master, 'month_branch': month_branch,
                 'system': 'tiaohou', 'source_id': SOURCE_ID, 'evidence_level': 'C',
                 'research_only': True, 'public_enabled': False, 'ai_enabled': False,
-                'evidence_binding': 'pending_phase1_rule_registration',
+                'evidence_binding': 'registered_phase1_phase2',
                 'scope': '本 Variant 已审定十日主分月条目共 119 条；乙木十二月条目在审定快照中不存在（乙木段在十一月条目后结束），该组合未审定，不以其他月份条目或其他典籍补齐。',
                 'limitations': list(LIMITATIONS)}
     branches = []
@@ -1906,7 +2036,7 @@ def tiaohou_lookup(day_master, month_branch, visible_stems, hidden_stems):
             'related': copy.deepcopy(entry['related']),
             'notes': list(entry['notes']),
             'research_only': True, 'public_enabled': False, 'ai_enabled': False,
-            'evidence_binding': 'pending_phase1_rule_registration',
+            'evidence_binding': 'registered_phase1_phase2',
             'limitations': list(LIMITATIONS)}
 
 
