@@ -701,6 +701,14 @@ jobs:
       # the projection strip list. It reads only in-tree files (no
       # web/ reads, per the E0359 assembly lesson).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0133_staged_opening_phase1.py' -v
+      # TJ-013.3 staged-opening phase 1 implementation (E0372): the
+      # public presentation builder over pure-lookup statements with
+      # a synthetic execution view (Golden G1-G8 content, tamper
+      # classes, projection scoping, client contract gates, guarded
+      # frontend wiring pins). The real-bundle companion
+      # test_tj0133_xiyong_public_sealed.py runs only in the offline
+      # acceptance (assembled backend), never here.
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0133_xiyong_public_presentation.py' -v
       # TJ-018.3 P1 Sanxing Canonical promotion (E0329) public
       # contracts: governance register continuation (Canonical
       # chapter/section/term built for Lun Sanxing with the 11

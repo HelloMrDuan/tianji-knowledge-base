@@ -216,3 +216,84 @@
 
 - 产出：本审定文档（docs/product/TJ0133_STAGED_OPENING_PHASE1.md）、公开治理测试（tests/test_tj0133_staged_opening_phase1.py，已按名接入 validate.yml，钉：审定在册、两 Variant 与 readable Variant 现行门控标志逐字未变、scenario_engine/api 对四研究对象的引用仍为 0、engine 客户端四键门禁在册、投影剥离表三原料键在册、台账行/事件）、台账事件 E0371 与 TASK_STATUS 的 TJ-013.3 行续写。
 - 未实施声明：本批未改动任何运行代码，未新建呈现对象，未翻转任何门控或标志，未改动裁决规则与冲突呈现语义；§3–§8 的全部形态均为对实现批 E0372 的裁定契约，不构成任何已开放能力的主张。TJ-013.3 行状态保持「阻塞」：公开呈现前置（用户分阶段开放裁定）已由本审定承接，但实现、正式验收与部署均未发生，跨体系裁决前置（TJ-013.2）仍未清。
+
+## 12 实施记录（E0372，2026-11-01，append-only 追加）
+
+本节由实现批 E0372 追加，§0–§11 审定原文未改动一字。实现基线：main `6db7b5789de05b820760a9c777bff56d56e86a80`（E0371 已合并，台账 371 事件），密封钉 `26b63e64bed736b08a7dcd686f6a75de733fd44ba9eec9195248e69730485329`，正式验收基线为开工直读的部署管线对 `6db7b578` 的 acceptance 记录：SUCCESS、总测 2908（public-git-checkout 15 + public-only 24 + private-backend 2869，skip 5）。本批无密封资产变更、无换代（验收复跑知识清单仍为同一钉）。
+
+### 12.1 实施五问答复
+
+1. **呈现由谁构建**：服务端场景层专属开启门（`scenario_engine._bazi_profile`）在同一 chart 执行上恰开启调候、病药两 assessment，纯确定性构建器 `bazi_xiyong_public.public_xiyong_presentation`（新模块）从该次执行的两份陈述与执行记录派生呈现对象；不调用模型、不经 ExplanationService、前端不拼装。
+2. **证据从哪来**：`phase1_rule_id` 由构建器机械派生——在该 Phase2 步的 evidence_ids 内定位 `original_text` 与条目/对引文逐字相等的唯一记录，取其 `section_id`，再于场景层自同一知识包构造的引用索引（`_xiyong_phase1_refs`，自 EvidenceResolver 读两步合同的 `phase1_rule_refs` 与各 Phase1 规则 `source_refs`）中求唯一归属规则；并以「归属规则全部 refs 的记录同属条目所在章」与「记录章题以日主起首」交叉核对。呈现层无任何按日主静态查表拼造证据字段的代码路径。
+3. **构建失败怎么办**（§3.3 二择一处置，本批选定并明示）：**场景请求报错**。构建器任一核对不符即 raise，`_bazi_profile` 不吞异常，不返回缺键的半成品信封；处置由密封专项 `FailureDispositionTests` 钉住（mock 构建器抛错时期望 `execute_scenario` 抛错、无信封产出）。
+4. **与基线的差异面**：恰为 §7 第 3/5/9 三项翻转（见 §12.3 对照）；bazi-profile 信封差异恰为封闭清单（见 §12.4 第 4 项）；其余场景逐封套零改动（密封专项实测九场景）。
+5. **如何验证**：Golden G1–G11 全量落地（§12.5）；等价比对封闭清单深等价；机上全配方复跑 SUCCESS 0 失败、增量逐项对平 2908 基线（§12.6）；真实 API 对平在密封专项内以 TestClient 对组装后端实测（G11）。
+
+### 12.2 落地清单（文件级）
+
+- 新增 `src/tianji_kb/bazi_xiyong_public.py`：构建器 `public_xiyong_presentation` + 投影用形态校验器 `is_valid_public_presentation`；定稿文案（范围声明、限制四条、N1/N2/效力行）以模块常量与模板落文，公开专项逐字钉住。
+- `src/tianji_kb/scenario_engine.py`：`_bazi_profile` 开启门（见 §12.3 第 2/3 项与 §12.7 决定一、二）与 `_xiyong_phase1_refs` 引用索引构造；文件其余部分未动。
+- `src/tianji_kb/public_projection.py`：定域放行（见 §12.3 第 5 项）；剥离表新增 `xiyong_presentation` 全域 pop 一行与校验回填。
+- 前端 `web/visual-prototype/src/public/`：`api.ts` 新增 `executeBaziProfileScenario` 及其专用响应断言（见 §12.7 决定五）；`BaziProfilePage.tsx` 新增呈现节（第 2 层）、第 3 层两体系短引子块、第 4 层范围声明与限制并入、第 176 行文案收窄；`bazi-profile.css` 新增呈现节样式（沿旺衰节视觉规格）。
+- 测试：`tests/test_tj0133_xiyong_public_presentation.py`（公开专项 20 测）+ `tests/golden_tj0133_xiyong_public.json`（9 例）；`tests/test_tj0133_xiyong_public_sealed.py`（密封专项 9 测，仅离线验收）；`tests/test_tj0133_staged_opening_phase1.py` 两处状态转换钉按 §7 更新（见 §12.3）；浏览器专项 `web/visual-prototype/tests/tj0133-xiyong-presentation.spec.ts`（2 测）+ 工作流 `.github/workflows/tj0133-xiyong-presentation-playwright.yml`；`validate.yml` 按名接入公开专项。
+- 台账：TASK_HISTORY 追加 E0372；TASK_STATUS 仅 TJ-013.3 行续写（状态保持「阻塞」）。
+
+### 12.3 §7 门控翻转清单十项实际落地对照
+
+| # | 审定目标态 | 实际落地 | 证据 |
+| --- | --- | --- | --- |
+| 1 | engine 客户端四研究键门禁不变 | `engine.py` 未改动一字；密封专项以真实域执行复测四键逐字报错（含 conflict/readable 两键值无关门禁） | `ClientGateRealPathTests` |
+| 2 | `_bazi_profile` 输入契约不变 | 契约校验代码未动；另在开启门前对 `strength_variant == 'bazi-strength-adjudication-v1'` 显式以基线原文报错（见 §12.7 决定一），夹带研究键与裁定变体的拒绝行为与基线逐字一致，公开专项钉住 | `ClientGateTests`（公开） |
+| 3 | 服务端开启门新增（恰两 assessment） | `_bazi_profile` 服务端构造执行输入、恰置 `tiaohou_variant`/`bingyao_variant` 两键并以 `allow_research=True` 执行同一 chart；信封 trace 恰 +2 步、rule_matches 恰 +2 条（等价比对实测） | 密封 `EquivalenceTests` |
+| 4 | 两 Variant 与 readable Variant 标志不翻转 | 三模块未改动；治理测试逐字钉（含功能层断言）保持通过 | 治理测试 `test_variants_keep_research_flags_unflipped`、`test_variant_statements_functionally_research_only` |
+| 5 | 投影定域放行（原料键剥离不变） | 三原料键 + conflict 键 pop 保留，新增 `xiyong_presentation` 全域 pop；唯一放行 = 信封 `scenario_id == 'bazi-profile'` 且 `is_valid_public_presentation` 通过的逐字副本回填 `result`；其余场景/形态不符/域路径 chart 容器均剥离，公开专项四例钉住 | `ProjectionScopeTests`（公开）+ 密封真实信封投影对平 |
+| 6 | readable 及其 chart 级联门不变 | `bazi_xiyong_readable.py`、`bazi_chart.py` 未改动；公开路径不调用 readable（呈现节文本由新构建器自两份陈述独立生成） | 文件零 diff（PR 文件清单） |
+| 7 | `claim_capabilities` 不变 | 未改动 | 文件零 diff |
+| 8 | ExplanationService / AI 通道不变 | 未改动；新对象 `ai_enabled=False` 恒在，形态校验器钉住 | 构建器常量 + `is_valid_public_presentation` |
+| 9 | 页面文案收窄（176 行必改） | 第 176 行改为「不自动定格局；调候与病药只呈现已注册依据，不作统一喜用结论」；117/313 行经复核逐字保留（其口径为「通用喜用神结论未建成」，与本阶段呈现证据依据不冲突，属只许收窄而非必改）；244 行旺衰边界文案未动 | 公开专项 `FrontendWiringTests`（带存在性守卫）+ 浏览器专项 |
+| 10 | 扶抑、格局用神保持关闭 | 呈现对象无两体系段与键；仅范围声明一处以「尚未建成」语境提及（§4.6 第 2 项豁免口径）；G9 全域扫描与 G10 键集递归扫描钉住 | `test_no_banned_content_anywhere`、`test_no_research_or_unopened_system_keys` |
+
+审定批治理测试的两处状态转换钉（§7 预告）已更新并注明依据 E0371：(1) 零引用钉改为——场景层引用 tiaohou/bingyao/xiyong_presentation 与构建器为审定内行为，readable_hints/conflict_presentation 在场景层仍零引用，api.py 六 token 仍全零；(2) 剥离表钉新增 xiyong_presentation 全域 pop 与定域放行三断言（三原料键 pop 保留）。
+
+### 12.4 §9 验收清单八项逐项结果
+
+1. **契约差异恰为 §7 所裁**：成立，见 §12.3 十项对照；七项不变项中 engine/契约/标志/claim/AI 五项有测试或零 diff 证据，readable 级联与 claim 为文件零 diff。
+2. **字段与 §4 逐字对平**：成立。顶层键集封闭（形态校验器按 §4.1 键集恒等校验）；调候块 sequence/branches 逐字、branches 只含已编码分支（Golden 断言 unencoded/related 引文不入对象）；病药块两对恒带 determination=None、medicine_effect_status='unadjudicated'、efficacy_state='not_judgeable'；关系段只取调候×病药（旺衰 incomparable 与扶抑/格局 absent 事实不入，由查表构造法保证：关系段只读两块已呈现字段）；§4.6 禁入十项由 G9/G10 扫描 + 形态校验 + 投影剥离共同钉住；§5 三类暂不可判各有形态测试（N1=G3、N2=G2/G6 conflict 项、N3=范围声明常量 + 对级 efficacy_state + 条目级限制条目）。
+3. **Golden G1–G11 落地**：成立，见 §12.5；公开专项已按名接入 validate.yml；refs 恰等入密封专项（`BundleReferenceIndexTests`：调候 10 规则恰 r042–r051、refs 对恰 120；病药 r040 恰 4 对全锚 s071；并与独立 EvidenceResolver 读数逐项对平）。
+4. **等价比对**：成立。封闭差异清单 = result 新增 `xiyong_presentation` + `tiaohou_assessment` + `bingyao_assessment` 三键、trace +2 步、rule_matches +2 条、evidence 新增条目（必为两步绑定集的子集）；清单外差异 0——密封 `EquivalenceTests` 以 4 组输入（含页面实际发送的 strength_variant）逐封套深等价实测，`production_scope` 经还原后逐字相等（见 §12.7 决定二）；其余九场景信封与投影递归扫描无呈现键与原料键（`OtherScenariosUnchangedTests`）。前端既有行为除 §4.7 文案与新节外零改动（页面 diff 仅限新增状态、提交后场景拉取与三处呈现插入）。
+5. **机上全配方复跑**：见 §12.6。本批未触密封资产（PR 文件清单无 data/ 与密封路径），无换代。
+6. **前端同批落地**：成立。呈现节真实渲染两块 lines + 关系段 + 关闭行；第 3 层短引取自呈现对象 evidence（与 evidence.quote 逐字一致由对象同一性保证）；浏览器专项为 **stub 契约**性质并已如实标注——回放响应录制自组装后真实后端（2026-11-01，G1 盘，生产 runtime），专项头注与工作流步骤名均明示；本地真实 Chromium + 真实 dev server 实跑 2/2 通过。页面全域无 Rule ID/Trace ID 文案（呈现节只渲染 lines 与结构化转写，技术 id 不入页面）。
+7. **台账**：E0372 已追加（归属 TJ-013.3、状态「阻塞」、后三列「—」），TASK_STATUS 仅动 TJ-013.3 行；关账对平清单见 §12.8，供 E0373 消费。
+8. **§3.3 处置明示**：选定「场景请求报错」，见 §12.1 第 3 问与密封 `FailureDispositionTests`。
+
+### 12.5 Golden G1–G11 落地与推导记录
+
+- G1–G6 沿在册同盘（事实取自组装后真实执行的 trace 步输出：四柱、十神、藏干逐项录入 Golden 的 facts 段）；期望 lines 按 §4 定稿模板逐行手工核对后钉入（每行干名/次序/位置/角色与 facts 段逐项对位，§6.2 第 4 项）。
+- **G7 构造推导**（本批新构造）：1949-01-01T01:00+08:00，真实历法得 戊子/甲子/辛卯/己丑，辛日主子月。病药第一对：主体财 = 月干甲（正财）显，病之比劫（庚/辛）四柱显干未见 → `peer_god_not_visible`；第二对：主体食伤（癸）仅藏于子支（藏干事实），显干未见 → `subject_foodwound_not_visible`（藏干不触发，沿病药显干限定）。两对未触发行齐备；对象中「无病」仅出现于否定式「未触发不等于无病」——§8 G7「无『无病』字样」的本批解释：禁的是断言式无病/有病判断，审定 §4.3/§5 强制的否定式护栏行保留，此解释在此登记。
+- **G8 构造推导**（本批新构造，分支 `wuyue_fa_gui_yong_ding`，条件 = 癸缺席）：正例 1950-06-08T05:00+08:00 得 庚寅/壬午/甲戌/丁卯，甲日主午月，癸于四柱天干与全部藏干（寅甲丙戊/午丁己/戌戊辛丁/卯乙）均未见 → applied=True，分支序列 [丁1 透时柱， 庚2 透年柱]；对照例 1949-06-13T01:00+08:00 得 己丑/庚午/甲戌/乙丑，癸藏于年、时两丑支 → applied=False，主序列为准。两例条目节均为 s080、同属 r042；甲×午另有 unencoded 分支 1 条，Golden 断言其引文不入对象。G4（丙×寅）unencoded 1 条、G6（甲×戌）related 1 条同样以引文缺席断言钉住。
+- G9：Golden 全 9 例对象的系统自撰文本（lines、关系行、条件事实、范围外文本）全域扫描零命中（逐字原文 quote 与条目 order_basis 为注册文本、由逐字钉管理而豁免措辞扫描——辛×子条目原文含「切忌」即其例；范围声明为唯一登记豁免语境且以恒等常量钉住）；新增页面自撰文案（关系转写标签、节标题、边界行）经浏览器专项与源码钉核对不含禁入词。
+- G10：键集递归扫描（公开专项）+ 客户端契约拒绝（公开专项，拒绝发生在执行前）+ 真实域路径四键拒绝（密封专项）+ life 等九场景零泄漏（密封专项）。
+- G11：篡改四类在公开专项以合成视图实测（改 quote 一字、改记录 section_id、改 Phase1 归属至同体系另一规则——由同章性核对捕获、删 evidence 绑定），另加 rule_match 证据漂移与陈述标志翻转两例；真实 API 对平在密封专项（TestClient 对组装后端：响应呈现对象与场景层执行逐字相等、evidence 引文在同一信封内按步绑定唯一定位）。
+
+### 12.6 复跑与计数对平
+
+- 基线（开工直读正式验收，`6db7b578`）：SUCCESS 2908（15 + 24 + 2869），skip 5。
+- 本批复跑（机上组装全配方 `accept_offline.py --suite all`，对象 = 本批分支 HEAD 的真实 git checkout + 现行密封快照）：SUCCESS、0 失败，总测 **2937**（private-backend 2898），skip 6。增量 +29 逐项对平：公开专项新模块 +20（其中前端源码守卫 1 测在组装树无 web/ 而 skip，故 skip +1）、密封专项新模块 +9；治理钉更新为断言形态转换、测数不变（7）；其余模块逐项与基线一致。知识清单钉不变（`26b63e64…`），无换代。
+- 复跑过程实录（不得省略）：首轮复跑（HEAD `9f9b5c0d`）后端分区 FAILED（errors=2，git-checkout 15 与 public-only 24 全过）：`test_life_integrated_report` 与 `test_tj0252_life_condition_markers_sealed` 的两个 life 失败关闭用例以 `patch.object(scenario_engine, "execute")` 注入二参替身 `(domain, inputs)`，本批开启门按引擎真实签名传 `allow_research` 关键字参数，替身抛 TypeError——根因为替身签名与引擎签名不一致，非断言失败。修复见 §12.7 决定六；修复后两模块于持久组装树先行复绿（17 测 OK），全配方于修复后 HEAD 复跑得上段 SUCCESS 2937（本节计数以该轮为准）。
+- 分支复跑仅作对账；可引用计数以部署管线对合并 SHA 的正式 acceptance 记录为准（关账批 E0373 对平）。
+
+### 12.7 实施决定与审定外发现（均已在上文各节登记，此处汇总备查）
+
+- **决定一（开启门防泄漏）**：若 `_bazi_profile` 整体改走 `allow_research=True`，客户端 `strength_variant='bazi-strength-adjudication-v1'` 将由基线的 engine 报错变为直达 chart 裁定，违反 §7 第 2 项「夹带行为与基线逐字一致」。处置：开启门前显式以基线原文（`Bounded strength adjudication requires explicit research mode`）拒绝该值；其余 strength 值仍经 chart 既有校验，行为不变。此为保住审定不变项的必要接线，非契约扩张。
+- **决定二（production_scope 还原）**：开门后 chart 向 `production_scope` 尾部追加两 assessment 的研究条款，且条款文本随执行 runtime 而异（公开源码为英文条款、生产 runtime 为中文条款），不得硬编码。处置：同请求以原输入再行一次未开门执行取基线 scope，断言开门 scope 以其为真前缀且严格更长，随后还原基线值；任一关系不符即 fail-closed。等价清单因此字面成立。
+- **决定三（关系段关闭行的承载）**：「各体系陈述并列呈现，系统不作统一裁定。」以顶层字段 `relations_closing_line` 承载（§4.1 仅对 blocks 声明键集封闭，顶层字段表未列此行），前端在关系段末渲染。
+- **决定四（前端数据路径与审定 §2.6 的事实出入）**：实测 `BaziProfilePage` 走域端点 `/api/v1/public/execute` 而非场景端点，审定 §2.6 对页面数据路径的设想与现行实现不符。处置（加法式）：后端严格按审定落场景层；页面既有域执行渲染逐字不动，另经新增 `executeBaziProfileScenario` 拉取场景信封渲染新节；场景调用失败时新节缺席、既有行为不变。页面不直接消费研究对象，呈现对象仍是唯一新增消费面。
+- **决定五（前端响应断言）**：`api.ts` 既有 `assertScenarioResponse` 只服务八个 production_limited 场景（LIMITED_SCOPES 无 bazi-profile），故为本场景新增专用断言 `assertBaziProfileScenarioResponse`（校验 production/public_release=true 的发布契约形态），既有断言函数未改动。
+- **决定六（既有测试替身签名保真修复，复跑发现）**：`test_life_integrated_report.py` 与 `test_tj0252_life_condition_markers_sealed.py` 各一处 `scenario_engine.execute` 替身由二参 `(domain, inputs)` 改为 `(domain, inputs, *args, **kwargs)` 并透传原函数——引擎 `execute(domain, inputs, variant=None, *, allow_research=False)` 的真实签名本含该参数，替身须与被替身者同签名，才不误伤合法的服务端门控调用（life 经 `_bazi_profile` 组合命盘基础，开启门在其调用链内）。两处篡改逻辑、断言与期望异常逐字未动，不属放宽断言；其余五处同类替身（career/daily/romance/yearly 流）不经 `_bazi_profile`，全量实测未受影响、未动。
+
+### 12.8 E0373 关账对平清单（供关账批逐项消费）
+
+1. 部署管线对合并 SHA 的正式 acceptance：SUCCESS 且总测 = 2937（或与 §12.6 增量逐项对平后的解释值）；deploys.log 出现该 SHA 的 DEPLOYED 且 pin 仍为 `26b63e64…` 系（本批无密封变更，pin 不应变化）。
+2. 生产实测：`POST /api/v1/scenarios/public`（bazi-profile，G1 盘）响应含 `xiyong_presentation` 且与 §12.5 G1 期望 lines 逐字一致；公开响应无四原料键。
+3. WBS 验收口径对平（TJ-013.3 行文「适用范围明确的用户可读提示」）：本阶段呈现的每条解释均源自同请求 Phase2 执行记录并经 Golden G1–G11 钉住——「前端只有真实经过 Phase2/Golden 的条件才出现解释」在本阶段范围内成立；行状态处置建议材料：第一阶段（调候+病药可读呈现）子项已达「已部署验收」口径，但 TJ-013.3 本体仍含跨体系裁决（TJ-013.2 未建）与扶抑/格局（U1/U3 暂缓）未清前置，行总体是否维持「阻塞」由 E0373 按此事实决定，本批不预判。
+4. 用户否决面：本批前端新增为既有八字页内的新节呈现（非新增控件），随本 PR 交付报告向用户呈报；第二阶段 TJ-017.3 未启动，不在本批范围。

@@ -1,0 +1,1045 @@
+{
+ "schema": "tj0133-xiyong-public-presentation-golden-v1",
+ "note": "Golden for TJ-013.3 phase-1 public presentation (E0372). Facts were taken from real assembled executions of the registered charts (probe runs against the production runtime, 2026-11-01); every expected line was reviewed by hand against the facts and the adjudicated line formats in docs/product/TJ0133_STAGED_OPENING_PHASE1.md §8. G7/G8 charts were constructed for this batch: G7 1949-01-01T01:00 (辛 day master, both bingyao pairs not_triggered for two distinct registered reasons; the 食伤 gods exist only in hidden stems and never trigger); G8 1950-06-08T05:00 (甲×午 with 癸 absent from every stem) and its control 1949-06-13T01:00 (癸 hidden in both 丑 pillars, branch not applied).",
+ "cases": [
+  {
+   "id": "G1-support-first-pick-is-medicine",
+   "birth": "1960-03-07T01:30:00+08:00",
+   "zone": "Asia/Shanghai",
+   "facts": {
+    "day_master": "甲",
+    "month_branch": "卯",
+    "tiaohou": {
+     "visible_stems": [
+      "庚",
+      "己",
+      "甲",
+      "乙"
+     ],
+     "hidden_stems": [
+      [
+       "癸"
+      ],
+      [
+       "乙"
+      ],
+      [
+       "丁",
+       "己"
+      ],
+      [
+       "己",
+       "癸",
+       "辛"
+      ]
+     ]
+    },
+    "bingyao": {
+     "visible_gods": [
+      {
+       "pillar": "year",
+       "stem": "庚",
+       "ten_god": "七杀"
+      },
+      {
+       "pillar": "month",
+       "stem": "己",
+       "ten_god": "正财"
+      },
+      {
+       "pillar": "hour",
+       "stem": "乙",
+       "ten_god": "劫财"
+      }
+     ]
+    }
+   },
+   "view": {
+    "entry": {
+     "section_id": "bazi.section.s077",
+     "chapter_id": "bazi.chapter.qiongtong_jia",
+     "chapter_title": "甲木分月条目"
+    },
+    "bingyao_chapter_id": "bazi.chapter.shenfeng_bingyao"
+   },
+   "expected": {
+    "tiaohou_state": "presented",
+    "tiaohou_lines": [
+     "调候体系（《穷通宝鉴》甲木二月条）：原文取用顺序为：庚（第1取，透于年柱）。",
+     "取用顺序的原文依据：原文以「庚金得所」陈述庚为当月取用,未明示次取;「但要财资之」为资助条件,不列为次取。"
+    ],
+    "bingyao_lines": [
+     "病药体系（《神峰通考》）：按原文两组病药对逐对陈述，两对不合并为单一结论。",
+     "第一对（所论之神财、病为比劫、药为官杀）：所论之神财见于月柱干己（正财）；病之比劫见于时柱干乙（劫财）；药之官杀见于年柱干庚（七杀）。",
+     "第一对只陈述原文病药对的结构候选：药是否能去病，古籍病药说本身未给出可执行裁定，本系统不作判断。去病效力暂不可判。",
+     "第二对（所论之神食伤、病为印、药为财）：所论之神食伤在本盘显干中未见，该对未触发；未触发不等于无病。"
+    ],
+    "relations": [
+     {
+      "stem": "乙",
+      "bingyao": {
+       "role": "disease",
+       "pair_id": "wealth_peer_officer"
+      },
+      "kind": "one_sided"
+     },
+     {
+      "stem": "己",
+      "bingyao": {
+       "role": "subject",
+       "pair_id": "wealth_peer_officer"
+      },
+      "kind": "one_sided"
+     },
+     {
+      "stem": "庚",
+      "tiaohou": {
+       "role": "primary_pick",
+       "order": 1
+      },
+      "bingyao": {
+       "role": "medicine",
+       "pair_id": "wealth_peer_officer"
+      },
+      "kind": "support"
+     }
+    ],
+    "branches": [],
+    "pair_statuses": [
+     "triggered",
+     "not_triggered"
+    ],
+    "tiaohou_phase1_rule_id": "bazi.rule.r042",
+    "entry_section_id": "bazi.section.s077",
+    "unencoded_branch_count": 0,
+    "related_count": 0
+   }
+  },
+  {
+   "id": "G2-conflict-first-pick-is-disease",
+   "birth": "1963-06-08T11:30:00+08:00",
+   "zone": "Asia/Shanghai",
+   "facts": {
+    "day_master": "壬",
+    "month_branch": "午",
+    "tiaohou": {
+     "visible_stems": [
+      "癸",
+      "戊",
+      "壬",
+      "丙"
+     ],
+     "hidden_stems": [
+      [
+       "乙"
+      ],
+      [
+       "丁",
+       "己"
+      ],
+      [
+       "丁",
+       "己"
+      ],
+      [
+       "丁",
+       "己"
+      ]
+     ]
+    },
+    "bingyao": {
+     "visible_gods": [
+      {
+       "pillar": "year",
+       "stem": "癸",
+       "ten_god": "劫财"
+      },
+      {
+       "pillar": "month",
+       "stem": "戊",
+       "ten_god": "七杀"
+      },
+      {
+       "pillar": "hour",
+       "stem": "丙",
+       "ten_god": "偏财"
+      }
+     ]
+    }
+   },
+   "view": {
+    "entry": {
+     "section_id": "bazi.section.s165",
+     "chapter_id": "bazi.chapter.qiongtong_ren",
+     "chapter_title": "壬水分月条目"
+    },
+    "bingyao_chapter_id": "bazi.chapter.shenfeng_bingyao"
+   },
+   "expected": {
+    "tiaohou_state": "presented",
+    "tiaohou_lines": [
+     "调候体系（《穷通宝鉴》壬水五月条）：原文取用顺序为：癸（第1取，透于年柱）、庚（第2取，盘中未见）。",
+     "取用顺序的原文依据：原文「取癸为用，取庚为佐」：用先佐次；「辛癸亦可参用」之辛为参酌，不入序列。"
+    ],
+    "bingyao_lines": [
+     "病药体系（《神峰通考》）：按原文两组病药对逐对陈述，两对不合并为单一结论。",
+     "第一对（所论之神财、病为比劫、药为官杀）：所论之神财见于时柱干丙（偏财）；病之比劫见于年柱干癸（劫财）；药之官杀见于月柱干戊（七杀）。",
+     "第一对只陈述原文病药对的结构候选：药是否能去病，古籍病药说本身未给出可执行裁定，本系统不作判断。去病效力暂不可判。",
+     "第二对（所论之神食伤、病为印、药为财）：所论之神食伤在本盘显干中未见，该对未触发；未触发不等于无病。"
+    ],
+    "relations": [
+     {
+      "stem": "丙",
+      "bingyao": {
+       "role": "subject",
+       "pair_id": "wealth_peer_officer"
+      },
+      "kind": "one_sided"
+     },
+     {
+      "stem": "庚",
+      "tiaohou": {
+       "role": "primary_pick",
+       "order": 2
+      },
+      "kind": "one_sided"
+     },
+     {
+      "stem": "戊",
+      "bingyao": {
+       "role": "medicine",
+       "pair_id": "wealth_peer_officer"
+      },
+      "kind": "one_sided"
+     },
+     {
+      "stem": "癸",
+      "tiaohou": {
+       "role": "primary_pick",
+       "order": 1
+      },
+      "bingyao": {
+       "role": "disease",
+       "pair_id": "wealth_peer_officer"
+      },
+      "kind": "conflict",
+      "judgeable": false,
+      "not_judgeable_line": "干癸的综合取用暂不可判：调候取用点名此干，病药以此干所属神类为病，方向相反；两体系事实只并列呈现，不作统一裁定。"
+     }
+    ],
+    "branches": [],
+    "pair_statuses": [
+     "triggered",
+     "not_triggered"
+    ],
+    "tiaohou_phase1_rule_id": "bazi.rule.r050",
+    "entry_section_id": "bazi.section.s165",
+    "unencoded_branch_count": 0,
+    "related_count": 0
+   }
+  },
+  {
+   "id": "G3-tiaohou-entry-absent",
+   "birth": "1950-01-20T11:30:00+08:00",
+   "zone": "Asia/Shanghai",
+   "facts": {
+    "day_master": "乙",
+    "month_branch": "丑",
+    "tiaohou": {
+     "visible_stems": [
+      "己",
+      "丁",
+      "乙",
+      "壬"
+     ],
+     "hidden_stems": [
+      [
+       "己",
+       "癸",
+       "辛"
+      ],
+      [
+       "己",
+       "癸",
+       "辛"
+      ],
+      [
+       "乙"
+      ],
+      [
+       "丁",
+       "己"
+      ]
+     ]
+    },
+    "bingyao": {
+     "visible_gods": [
+      {
+       "pillar": "year",
+       "stem": "己",
+       "ten_god": "偏财"
+      },
+      {
+       "pillar": "month",
+       "stem": "丁",
+       "ten_god": "食神"
+      },
+      {
+       "pillar": "hour",
+       "stem": "壬",
+       "ten_god": "正印"
+      }
+     ]
+    }
+   },
+   "view": {
+    "entry": null,
+    "bingyao_chapter_id": "bazi.chapter.shenfeng_bingyao"
+   },
+   "expected": {
+    "tiaohou_state": "not_judgeable",
+    "tiaohou_lines": [
+     "调候体系（《穷通宝鉴》）：日主乙、月支丑的调候条目在审定《穷通宝鉴》文本中不存在，该组合的调候取用暂不可判；不以其他月份条目或其他典籍补齐。"
+    ],
+    "bingyao_lines": [
+     "病药体系（《神峰通考》）：按原文两组病药对逐对陈述，两对不合并为单一结论。",
+     "第一对（所论之神财、病为比劫、药为官杀）：所论之神财见于年柱干己（偏财），但病之比劫在本盘显干中未见，该对未触发；未触发不等于无病。",
+     "第二对（所论之神食伤、病为印、药为财）：所论之神食伤见于月柱干丁（食神）；病之印见于时柱干壬（正印）；药之财见于年柱干己（偏财）。",
+     "第二对只陈述原文病药对的结构候选：药是否能去病，古籍病药说本身未给出可执行裁定，本系统不作判断。去病效力暂不可判。"
+    ],
+    "relations": [],
+    "branches": [],
+    "pair_statuses": [
+     "not_triggered",
+     "triggered"
+    ],
+    "tiaohou_phase1_rule_id": null,
+    "entry_section_id": null,
+    "unencoded_branch_count": 0,
+    "related_count": 0
+   }
+  },
+  {
+   "id": "G4-pivot-overlap-subject",
+   "birth": "1950-02-10T17:30:00+08:00",
+   "zone": "Asia/Shanghai",
+   "facts": {
+    "day_master": "丙",
+    "month_branch": "寅",
+    "tiaohou": {
+     "visible_stems": [
+      "庚",
+      "戊",
+      "丙",
+      "丁"
+     ],
+     "hidden_stems": [
+      [
+       "甲",
+       "丙",
+       "戊"
+      ],
+      [
+       "甲",
+       "丙",
+       "戊"
+      ],
+      [
+       "癸"
+      ],
+      [
+       "辛"
+      ]
+     ]
+    },
+    "bingyao": {
+     "visible_gods": [
+      {
+       "pillar": "year",
+       "stem": "庚",
+       "ten_god": "偏财"
+      },
+      {
+       "pillar": "month",
+       "stem": "戊",
+       "ten_god": "食神"
+      },
+      {
+       "pillar": "hour",
+       "stem": "丁",
+       "ten_god": "劫财"
+      }
+     ]
+    }
+   },
+   "view": {
+    "entry": {
+     "section_id": "bazi.section.s098",
+     "chapter_id": "bazi.chapter.qiongtong_bing",
+     "chapter_title": "丙火分月条目"
+    },
+    "bingyao_chapter_id": "bazi.chapter.shenfeng_bingyao"
+   },
+   "expected": {
+    "tiaohou_state": "presented",
+    "tiaohou_lines": [
+     "调候体系（《穷通宝鉴》丙火正月条）：原文取用顺序为：壬（第1取，盘中未见）、庚（第2取，透于年柱）。",
+     "取用顺序的原文依据：原文「取壬为尊，庚金佐之」：尊先佐次。"
+    ],
+    "bingyao_lines": [
+     "病药体系（《神峰通考》）：按原文两组病药对逐对陈述，两对不合并为单一结论。",
+     "第一对（所论之神财、病为比劫、药为官杀）：所论之神财见于年柱干庚（偏财）；病之比劫见于时柱干丁（劫财）；药之官杀在本盘显干中未见。",
+     "第一对只陈述原文病药对的结构候选：药是否能去病，古籍病药说本身未给出可执行裁定，本系统不作判断。去病效力暂不可判。",
+     "第二对（所论之神食伤、病为印、药为财）：所论之神食伤见于月柱干戊（食神），但病之印在本盘显干中未见，该对未触发；未触发不等于无病。"
+    ],
+    "relations": [
+     {
+      "stem": "丁",
+      "bingyao": {
+       "role": "disease",
+       "pair_id": "wealth_peer_officer"
+      },
+      "kind": "one_sided"
+     },
+     {
+      "stem": "壬",
+      "tiaohou": {
+       "role": "primary_pick",
+       "order": 1
+      },
+      "kind": "one_sided"
+     },
+     {
+      "stem": "庚",
+      "tiaohou": {
+       "role": "primary_pick",
+       "order": 2
+      },
+      "bingyao": {
+       "role": "subject",
+       "pair_id": "wealth_peer_officer"
+      },
+      "kind": "pivot_overlap"
+     }
+    ],
+    "branches": [],
+    "pair_statuses": [
+     "triggered",
+     "not_triggered"
+    ],
+    "tiaohou_phase1_rule_id": "bazi.rule.r044",
+    "entry_section_id": "bazi.section.s098",
+    "unencoded_branch_count": 1,
+    "related_count": 0
+   }
+  },
+  {
+   "id": "G5-second-pair-triggered",
+   "birth": "1952-08-16T05:30:00+08:00",
+   "zone": "Asia/Shanghai",
+   "facts": {
+    "day_master": "甲",
+    "month_branch": "申",
+    "tiaohou": {
+     "visible_stems": [
+      "壬",
+      "戊",
+      "甲",
+      "丁"
+     ],
+     "hidden_stems": [
+      [
+       "戊",
+       "乙",
+       "癸"
+      ],
+      [
+       "庚",
+       "壬",
+       "戊"
+      ],
+      [
+       "丁",
+       "己"
+      ],
+      [
+       "乙"
+      ]
+     ]
+    },
+    "bingyao": {
+     "visible_gods": [
+      {
+       "pillar": "year",
+       "stem": "壬",
+       "ten_god": "偏印"
+      },
+      {
+       "pillar": "month",
+       "stem": "戊",
+       "ten_god": "偏财"
+      },
+      {
+       "pillar": "hour",
+       "stem": "丁",
+       "ten_god": "伤官"
+      }
+     ]
+    }
+   },
+   "view": {
+    "entry": {
+     "section_id": "bazi.section.s081",
+     "chapter_id": "bazi.chapter.qiongtong_jia",
+     "chapter_title": "甲木分月条目"
+    },
+    "bingyao_chapter_id": "bazi.chapter.shenfeng_bingyao"
+   },
+   "expected": {
+    "tiaohou_state": "presented",
+    "tiaohou_lines": [
+     "调候体系（《穷通宝鉴》甲木七月条）：原文取用顺序为：丁（第1取，透于时柱）、庚（第2取，仅藏于月柱）。",
+     "取用顺序的原文依据：原文「丁火为尊,庚金次之」明示先次,并明示「庚金不可少」。"
+    ],
+    "bingyao_lines": [
+     "病药体系（《神峰通考》）：按原文两组病药对逐对陈述，两对不合并为单一结论。",
+     "第一对（所论之神财、病为比劫、药为官杀）：所论之神财见于月柱干戊（偏财），但病之比劫在本盘显干中未见，该对未触发；未触发不等于无病。",
+     "第二对（所论之神食伤、病为印、药为财）：所论之神食伤见于时柱干丁（伤官）；病之印见于年柱干壬（偏印）；药之财见于月柱干戊（偏财）。",
+     "第二对只陈述原文病药对的结构候选：药是否能去病，古籍病药说本身未给出可执行裁定，本系统不作判断。去病效力暂不可判。"
+    ],
+    "relations": [
+     {
+      "stem": "丁",
+      "tiaohou": {
+       "role": "primary_pick",
+       "order": 1
+      },
+      "bingyao": {
+       "role": "subject",
+       "pair_id": "foodwound_seal_wealth"
+      },
+      "kind": "pivot_overlap"
+     },
+     {
+      "stem": "壬",
+      "bingyao": {
+       "role": "disease",
+       "pair_id": "foodwound_seal_wealth"
+      },
+      "kind": "one_sided"
+     },
+     {
+      "stem": "庚",
+      "tiaohou": {
+       "role": "primary_pick",
+       "order": 2
+      },
+      "kind": "one_sided"
+     },
+     {
+      "stem": "戊",
+      "bingyao": {
+       "role": "medicine",
+       "pair_id": "foodwound_seal_wealth"
+      },
+      "kind": "one_sided"
+     }
+    ],
+    "branches": [],
+    "pair_statuses": [
+     "not_triggered",
+     "triggered"
+    ],
+    "tiaohou_phase1_rule_id": "bazi.rule.r042",
+    "entry_section_id": "bazi.section.s081",
+    "unencoded_branch_count": 0,
+    "related_count": 0
+   }
+  },
+  {
+   "id": "G6-second-pair-triggered-medicine-absent",
+   "birth": "1950-10-16T17:30:00+08:00",
+   "zone": "Asia/Shanghai",
+   "facts": {
+    "day_master": "甲",
+    "month_branch": "戌",
+    "tiaohou": {
+     "visible_stems": [
+      "庚",
+      "丙",
+      "甲",
+      "癸"
+     ],
+     "hidden_stems": [
+      [
+       "甲",
+       "丙",
+       "戊"
+      ],
+      [
+       "戊",
+       "辛",
+       "丁"
+      ],
+      [
+       "庚",
+       "壬",
+       "戊"
+      ],
+      [
+       "辛"
+      ]
+     ]
+    },
+    "bingyao": {
+     "visible_gods": [
+      {
+       "pillar": "year",
+       "stem": "庚",
+       "ten_god": "七杀"
+      },
+      {
+       "pillar": "month",
+       "stem": "丙",
+       "ten_god": "食神"
+      },
+      {
+       "pillar": "hour",
+       "stem": "癸",
+       "ten_god": "正印"
+      }
+     ]
+    }
+   },
+   "view": {
+    "entry": {
+     "section_id": "bazi.section.s083",
+     "chapter_id": "bazi.chapter.qiongtong_jia",
+     "chapter_title": "甲木分月条目"
+    },
+    "bingyao_chapter_id": "bazi.chapter.shenfeng_bingyao"
+   },
+   "expected": {
+    "tiaohou_state": "presented",
+    "tiaohou_lines": [
+     "调候体系（《穷通宝鉴》甲木九月条）：原文取用顺序为：丁（第1取，仅藏于月柱）、癸（第2取，透于时柱）。",
+     "取用顺序的原文依据：原文「端用丁癸」按列举顺序定先次;同月另一段「独爱丁火,壬癸滋扶」将壬列于滋扶而非端用,壬不入序列(见 related)。"
+    ],
+    "bingyao_lines": [
+     "病药体系（《神峰通考》）：按原文两组病药对逐对陈述，两对不合并为单一结论。",
+     "第一对（所论之神财、病为比劫、药为官杀）：所论之神财在本盘显干中未见，该对未触发；未触发不等于无病。",
+     "第二对（所论之神食伤、病为印、药为财）：所论之神食伤见于月柱干丙（食神）；病之印见于时柱干癸（正印）；药之财在本盘显干中未见。",
+     "第二对只陈述原文病药对的结构候选：药是否能去病，古籍病药说本身未给出可执行裁定，本系统不作判断。去病效力暂不可判。"
+    ],
+    "relations": [
+     {
+      "stem": "丁",
+      "tiaohou": {
+       "role": "primary_pick",
+       "order": 1
+      },
+      "kind": "one_sided"
+     },
+     {
+      "stem": "丙",
+      "bingyao": {
+       "role": "subject",
+       "pair_id": "foodwound_seal_wealth"
+      },
+      "kind": "one_sided"
+     },
+     {
+      "stem": "癸",
+      "tiaohou": {
+       "role": "primary_pick",
+       "order": 2
+      },
+      "bingyao": {
+       "role": "disease",
+       "pair_id": "foodwound_seal_wealth"
+      },
+      "kind": "conflict",
+      "judgeable": false,
+      "not_judgeable_line": "干癸的综合取用暂不可判：调候取用点名此干，病药以此干所属神类为病，方向相反；两体系事实只并列呈现，不作统一裁定。"
+     }
+    ],
+    "branches": [],
+    "pair_statuses": [
+     "not_triggered",
+     "triggered"
+    ],
+    "tiaohou_phase1_rule_id": "bazi.rule.r042",
+    "entry_section_id": "bazi.section.s083",
+    "unencoded_branch_count": 0,
+    "related_count": 1
+   }
+  },
+  {
+   "id": "G7-both-pairs-not-triggered",
+   "birth": "1949-01-01T01:00:00+08:00",
+   "zone": "Asia/Shanghai",
+   "facts": {
+    "day_master": "辛",
+    "month_branch": "子",
+    "tiaohou": {
+     "visible_stems": [
+      "戊",
+      "甲",
+      "辛",
+      "己"
+     ],
+     "hidden_stems": [
+      [
+       "癸"
+      ],
+      [
+       "癸"
+      ],
+      [
+       "乙"
+      ],
+      [
+       "己",
+       "癸",
+       "辛"
+      ]
+     ]
+    },
+    "bingyao": {
+     "visible_gods": [
+      {
+       "pillar": "year",
+       "stem": "戊",
+       "ten_god": "正印"
+      },
+      {
+       "pillar": "month",
+       "stem": "甲",
+       "ten_god": "正财"
+      },
+      {
+       "pillar": "hour",
+       "stem": "己",
+       "ten_god": "偏印"
+      }
+     ]
+    }
+   },
+   "view": {
+    "entry": {
+     "section_id": "bazi.section.s159",
+     "chapter_id": "bazi.chapter.qiongtong_xin",
+     "chapter_title": "辛金分月条目"
+    },
+    "bingyao_chapter_id": "bazi.chapter.shenfeng_bingyao"
+   },
+   "expected": {
+    "tiaohou_state": "presented",
+    "tiaohou_lines": [
+     "调候体系（《穷通宝鉴》辛金十一月条）：原文取用顺序为：壬（第1取，盘中未见）、丙（第2取，盘中未见）。",
+     "取用顺序的原文依据：原文「壬丙两透」并列陈述，未分先次，按列举顺序编号（壬先、丙次）；下文「冬月辛金，须丙温暖」为丙之必要性说明，不改序，如此登记。"
+    ],
+    "bingyao_lines": [
+     "病药体系（《神峰通考》）：按原文两组病药对逐对陈述，两对不合并为单一结论。",
+     "第一对（所论之神财、病为比劫、药为官杀）：所论之神财见于月柱干甲（正财），但病之比劫在本盘显干中未见，该对未触发；未触发不等于无病。",
+     "第二对（所论之神食伤、病为印、药为财）：所论之神食伤在本盘显干中未见，该对未触发；未触发不等于无病。"
+    ],
+    "relations": [
+     {
+      "stem": "丙",
+      "tiaohou": {
+       "role": "primary_pick",
+       "order": 2
+      },
+      "kind": "one_sided"
+     },
+     {
+      "stem": "壬",
+      "tiaohou": {
+       "role": "primary_pick",
+       "order": 1
+      },
+      "kind": "one_sided"
+     }
+    ],
+    "branches": [],
+    "pair_statuses": [
+     "not_triggered",
+     "not_triggered"
+    ],
+    "tiaohou_phase1_rule_id": "bazi.rule.r049",
+    "entry_section_id": "bazi.section.s159",
+    "unencoded_branch_count": 0,
+    "related_count": 0
+   }
+  },
+  {
+   "id": "G8-branch-condition-applies",
+   "birth": "1950-06-08T05:00:00+08:00",
+   "zone": "Asia/Shanghai",
+   "facts": {
+    "day_master": "甲",
+    "month_branch": "午",
+    "tiaohou": {
+     "visible_stems": [
+      "庚",
+      "壬",
+      "甲",
+      "丁"
+     ],
+     "hidden_stems": [
+      [
+       "甲",
+       "丙",
+       "戊"
+      ],
+      [
+       "丁",
+       "己"
+      ],
+      [
+       "戊",
+       "辛",
+       "丁"
+      ],
+      [
+       "乙"
+      ]
+     ]
+    },
+    "bingyao": {
+     "visible_gods": [
+      {
+       "pillar": "year",
+       "stem": "庚",
+       "ten_god": "七杀"
+      },
+      {
+       "pillar": "month",
+       "stem": "壬",
+       "ten_god": "偏印"
+      },
+      {
+       "pillar": "hour",
+       "stem": "丁",
+       "ten_god": "伤官"
+      }
+     ]
+    }
+   },
+   "view": {
+    "entry": {
+     "section_id": "bazi.section.s080",
+     "chapter_id": "bazi.chapter.qiongtong_jia",
+     "chapter_title": "甲木分月条目"
+    },
+    "bingyao_chapter_id": "bazi.chapter.shenfeng_bingyao"
+   },
+   "expected": {
+    "tiaohou_state": "presented",
+    "tiaohou_lines": [
+     "调候体系（《穷通宝鉴》甲木五月条）：原文取用顺序为：癸（第1取，盘中未见）、丁（第2取，透于时柱）、庚（第3取，透于年柱）。",
+     "条目分支（条件成立）：癸未见于本盘，原文在此情形下改以下列取用顺序为准：丁（第1取，透于时柱）、庚（第2取，透于年柱）。",
+     "取用顺序的原文依据：原文「五月先癸後丁庚金次之」明示三级先次(节区为五六月合论段)。"
+    ],
+    "bingyao_lines": [
+     "病药体系（《神峰通考》）：按原文两组病药对逐对陈述，两对不合并为单一结论。",
+     "第一对（所论之神财、病为比劫、药为官杀）：所论之神财在本盘显干中未见，该对未触发；未触发不等于无病。",
+     "第二对（所论之神食伤、病为印、药为财）：所论之神食伤见于时柱干丁（伤官）；病之印见于月柱干壬（偏印）；药之财在本盘显干中未见。",
+     "第二对只陈述原文病药对的结构候选：药是否能去病，古籍病药说本身未给出可执行裁定，本系统不作判断。去病效力暂不可判。"
+    ],
+    "relations": [
+     {
+      "stem": "丁",
+      "tiaohou": {
+       "role": "primary_pick",
+       "order": 2
+      },
+      "bingyao": {
+       "role": "subject",
+       "pair_id": "foodwound_seal_wealth"
+      },
+      "kind": "pivot_overlap"
+     },
+     {
+      "stem": "壬",
+      "bingyao": {
+       "role": "disease",
+       "pair_id": "foodwound_seal_wealth"
+      },
+      "kind": "one_sided"
+     },
+     {
+      "stem": "庚",
+      "tiaohou": {
+       "role": "primary_pick",
+       "order": 3
+      },
+      "kind": "one_sided"
+     },
+     {
+      "stem": "癸",
+      "tiaohou": {
+       "role": "primary_pick",
+       "order": 1
+      },
+      "kind": "one_sided"
+     }
+    ],
+    "branches": [
+     {
+      "id": "wuyue_fa_gui_yong_ding",
+      "applied": true
+     }
+    ],
+    "pair_statuses": [
+     "not_triggered",
+     "triggered"
+    ],
+    "tiaohou_phase1_rule_id": "bazi.rule.r042",
+    "entry_section_id": "bazi.section.s080",
+    "unencoded_branch_count": 1,
+    "related_count": 0
+   }
+  },
+  {
+   "id": "G8-branch-condition-not-applies",
+   "birth": "1949-06-13T01:00:00+08:00",
+   "zone": "Asia/Shanghai",
+   "facts": {
+    "day_master": "甲",
+    "month_branch": "午",
+    "tiaohou": {
+     "visible_stems": [
+      "己",
+      "庚",
+      "甲",
+      "乙"
+     ],
+     "hidden_stems": [
+      [
+       "己",
+       "癸",
+       "辛"
+      ],
+      [
+       "丁",
+       "己"
+      ],
+      [
+       "戊",
+       "辛",
+       "丁"
+      ],
+      [
+       "己",
+       "癸",
+       "辛"
+      ]
+     ]
+    },
+    "bingyao": {
+     "visible_gods": [
+      {
+       "pillar": "year",
+       "stem": "己",
+       "ten_god": "正财"
+      },
+      {
+       "pillar": "month",
+       "stem": "庚",
+       "ten_god": "七杀"
+      },
+      {
+       "pillar": "hour",
+       "stem": "乙",
+       "ten_god": "劫财"
+      }
+     ]
+    }
+   },
+   "view": {
+    "entry": {
+     "section_id": "bazi.section.s080",
+     "chapter_id": "bazi.chapter.qiongtong_jia",
+     "chapter_title": "甲木分月条目"
+    },
+    "bingyao_chapter_id": "bazi.chapter.shenfeng_bingyao"
+   },
+   "expected": {
+    "tiaohou_state": "presented",
+    "tiaohou_lines": [
+     "调候体系（《穷通宝鉴》甲木五月条）：原文取用顺序为：癸（第1取，仅藏于年柱、时柱）、丁（第2取，仅藏于月柱、日柱）、庚（第3取，透于月柱）。",
+     "条目分支（条件不成立）：癸见于本盘，仍以主序列为准；分支取用顺序为：丁（第1取，仅藏于月柱、日柱）、庚（第2取，透于月柱）。",
+     "取用顺序的原文依据：原文「五月先癸後丁庚金次之」明示三级先次(节区为五六月合论段)。"
+    ],
+    "bingyao_lines": [
+     "病药体系（《神峰通考》）：按原文两组病药对逐对陈述，两对不合并为单一结论。",
+     "第一对（所论之神财、病为比劫、药为官杀）：所论之神财见于年柱干己（正财）；病之比劫见于时柱干乙（劫财）；药之官杀见于月柱干庚（七杀）。",
+     "第一对只陈述原文病药对的结构候选：药是否能去病，古籍病药说本身未给出可执行裁定，本系统不作判断。去病效力暂不可判。",
+     "第二对（所论之神食伤、病为印、药为财）：所论之神食伤在本盘显干中未见，该对未触发；未触发不等于无病。"
+    ],
+    "relations": [
+     {
+      "stem": "丁",
+      "tiaohou": {
+       "role": "primary_pick",
+       "order": 2
+      },
+      "kind": "one_sided"
+     },
+     {
+      "stem": "乙",
+      "bingyao": {
+       "role": "disease",
+       "pair_id": "wealth_peer_officer"
+      },
+      "kind": "one_sided"
+     },
+     {
+      "stem": "己",
+      "bingyao": {
+       "role": "subject",
+       "pair_id": "wealth_peer_officer"
+      },
+      "kind": "one_sided"
+     },
+     {
+      "stem": "庚",
+      "tiaohou": {
+       "role": "primary_pick",
+       "order": 3
+      },
+      "bingyao": {
+       "role": "medicine",
+       "pair_id": "wealth_peer_officer"
+      },
+      "kind": "support"
+     },
+     {
+      "stem": "癸",
+      "tiaohou": {
+       "role": "primary_pick",
+       "order": 1
+      },
+      "kind": "one_sided"
+     }
+    ],
+    "branches": [
+     {
+      "id": "wuyue_fa_gui_yong_ding",
+      "applied": false
+     }
+    ],
+    "pair_statuses": [
+     "triggered",
+     "not_triggered"
+    ],
+    "tiaohou_phase1_rule_id": "bazi.rule.r042",
+    "entry_section_id": "bazi.section.s080",
+    "unencoded_branch_count": 1,
+    "related_count": 0
+   }
+  }
+ ]
+}

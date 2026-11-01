@@ -299,6 +299,33 @@ export async function executeRomanceScenario(input: {
 }
 
 
+function assertBaziProfileScenarioResponse(data: unknown): ScenarioExecuteResponse {
+  // bazi-profile is a full production scenario (not one of the eight
+  // production_limited structure scenarios above): validate its own
+  // published contract shape.
+  if (!isRecord(data) || data.scenario_id !== "bazi-profile" ||
+      data.deterministic !== true || data.public_release !== true ||
+      data.status !== "production" || !isRecord(data.result) ||
+      !isRecord(data.evidence) || !Array.isArray(data.rule_matches) ||
+      !Array.isArray(data.trace) || !Array.isArray(data.warnings) ||
+      !Array.isArray(data.limitations)) invalidResponse();
+  return data as ScenarioExecuteResponse;
+}
+
+
+export async function executeBaziProfileScenario(input: {
+  value: string;
+  zone?: string;
+  strength_variant?: string;
+}): Promise<ScenarioExecuteResponse> {
+  const data = await requestJson("/api/v1/scenarios/public", {
+      scenario_id: "bazi-profile",
+      input,
+  });
+  return assertBaziProfileScenarioResponse(data);
+}
+
+
 export async function executeCareerScenario(input: {
   birth_value: string;
   birth_zone?: string;
