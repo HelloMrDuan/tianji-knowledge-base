@@ -690,6 +690,17 @@ jobs:
       # (test_romance_spouse_star_pairing.py) needs the sealed
       # runtime and runs in offline acceptance only, NOT public CI.
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0222_spouse_star_e0360_public.py' -v
+      # TJ-013.3 staged opening phase 1 adjudication (E0371): the
+      # opening contract is registered (presentation scoped to the
+      # registered tiaohou/bingyao evidence only, new scoped public
+      # object, no Variant flag flips); this public test pins the
+      # adjudication document, the unflipped research flags of both
+      # Variants and the readable-hints Variant (source literals plus
+      # pure-function behaviour), the zero research-object references
+      # in scenario_engine/api, the engine client research gates and
+      # the projection strip list. It reads only in-tree files (no
+      # web/ reads, per the E0359 assembly lesson).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0133_staged_opening_phase1.py' -v
       # TJ-018.3 P1 Sanxing Canonical promotion (E0329) public
       # contracts: governance register continuation (Canonical
       # chapter/section/term built for Lun Sanxing with the 11
