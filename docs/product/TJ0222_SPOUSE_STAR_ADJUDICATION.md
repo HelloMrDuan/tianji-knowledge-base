@@ -196,3 +196,10 @@ G6 至 G10 落点：G6 对上表全部（出生，年份）组合断言 role 缺
 - 观察未改一项：桃花页底部「下一层」文案仍含「仍需补配偶星」字样（指完整报告层面的配偶星效力与完整夫妻宫作用，与本批位置级配对非同一事），不在审定差异面内，本批未动，留待父级在后续页面文案批次处置。
 - CI 修复一项（b0084 移动端无障碍套件）：本批首个 Head 的公开 CI 中 b0084-mobile-a11y-chromium 失败（同提交重跑仍失败，排除纯偶发）；本地同套件在基线与本批代码上均通过，差异定位到新增 select 在 romance 输入网格内缺少与同页 input 一致的 width:100% 盒模型规则、在 CI 字体度量下窄视口存在溢出风险（合盘页同类 select 正是靠该规则免疫）。修复为给 `.romance-input-grid select` 与同页 label small 补齐与 input 一致的样式规则（romance-structure.css），未改动任何测试断言；修复后本地 b0084 全套与 b028 全套复跑通过，CI 结果以 PR 最新 Head 的复跑为准。
 - 主线验收根因定位与同类修复（重要披露）：合并后管线对基线 6b8964ef 的正式离线验收连续三次 ACCEPTANCE_FAILED（06:22、07:13、08:05 UTC，服务未受影响）。本批以官方 assemble_private_backend 组装树复现定位：后端套件唯一错误为 E0359 审定测试 setUpClass 无条件读取 web/visual-prototype/src/public/birthProfile.ts，而组装后端树按构造不含 web/ 目录（其余 2833 测中仅此 1 error；本批手工组装树因整树复制含 web/ 而未暴露）。该缺陷为 E0359 引入、与本批代码无关，但同坑也存在于本批新公开测试（读页面、api.ts、stub spec、validate.yml 四个组装树外文件）。修复（本批一并提交）：两文件均改为存在性守卫——文件在场时全部断言逐字不变（公开 CI 在真实检出按名执行、本地真实检出 11 测全过），组装树内缺席时对应测试如实 skip 并注明原因（组装树实测：审定模块 5 过 1 skip、本批公开模块的文档与引擎与台账断言在基线组装树上仅因基线无本批内容而失败、环境类断言 2 skip 0 error）。未改动任何断言强度，未改验收工具与组装脚本。基线 6b8964ef 在修正组装（含 coverage 重生）下全套 2839 测通过、本批分支的官方脚本复跑结果见 §9.6；main 的正式验收将在本 PR 合并后由管线对合并 SHA 重新执行。
+
+### 9.6 分支 Head 全配方复跑与基线对平
+
+- 复跑对象：本 PR 分支 Head `4d023202`（真实 git 检出、origin 为 GitHub、工作树干净，accept_offline 自检通过），配方与管线同：`scripts/accept_offline.py --suite all`、快照为现行 live 密封快照、钉 `26b63e64…`。结果 **SUCCESS**：public-git-checkout 15 测、public-only 24 测（skipped 1，为存量）、private-backend 2855 测（254 模块）——0 failures、0 errors；private-backend 的 3 个 skipped 恰为 §9.5 守卫的三条（审定 birthProfile 钉、本批公开测试的前端钉与 validate 接入钉），均在公开 CI 的真实检出上全量执行。总计 2894 测。
+- 增量对平：74e48d83 正式验收 2872（15 加 24 加 2833）为最近正式基线；本批 Head 与之差 +22，恰为 E0359 审定模块 +6 与本批新增 +16（配偶星配对 Golden 11 加公开治理 5），模块数 252 到 254 恰 +2，无清单外增量。基线 6b8964ef 的正式验收因 §9.5 的 E0359 组装缺陷三次失败、未产生正式总数；其套件内容在本批修正组装下实测 2839 测全过（后端套件口径），管线对合并 SHA 的正式验收将给出最终正式基线。
+- 公开 CI：PR #537 在 Head `05e00e4a`（本节提交前的代码与测试终版）全部 check 完成且零失败（含 code、b028-booklet-chromium、b0084-mobile-a11y-chromium、atomic-task-tracking、gate-public-data、frontend-build）；其后两个提交仅为测试守卫与治理文档（§9.5、§9.6），不含运行代码与前端变更，最终 Head 的 CI 以 PR 页面为准。
+- 本批止于 PR #537，未自行合并；合并、正式验收、部署与关账（E0361）由父级执行。
