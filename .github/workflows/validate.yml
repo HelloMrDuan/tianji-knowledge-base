@@ -1104,4 +1104,10 @@ jobs:
       # (offline acceptance only, NOT public CI: it executes the life
       # scenario against the assembled production runtime).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0252_life_condition_markers.py' -v
+      # TJ-025.2 (E0362): the life-overview dayun exit copy must match the
+      # registered facts after the E0346/E0348 dayun registrations
+      # (direction and conversions registered, efficacy unbuilt, overview
+      # composition unapproved); pins the corrected wording verbatim and
+      # the no-logic-change boundary (flags and reason category fixed).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0252_dayun_copy_e0362.py' -v
       - run: python scripts/audit_public_asset_changes.py --inventory

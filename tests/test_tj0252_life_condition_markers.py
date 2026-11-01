@@ -44,7 +44,14 @@ def current_facts():
         "foundation": strength_context["reading"],
         "career": "流年结构上下文。",
         "romance": "夫妻宫结构上下文。这些不是正缘、婚期或感情走向判断。",
-        "dayun": "大运方向、起运岁数、交运日期及岁运效力尚无完成审核的生产规则。",
+        # E0362: mirror updated to the current real _life wording verbatim
+        # (E0358 audit §8 found the previous sentence stale after the
+        # E0346/E0348 dayun registrations; see
+        # docs/product/TJ0252_DAYUN_COPY_FIX.md §2 item 6 / §3).
+        "dayun": ("大运方向与起运换算已有完成审核的注册规则（方向据三命分段；"
+                  "起运换算有三命、神峰两套口径分别注册，只给出交运时刻区间，"
+                  "不折算单点岁数或日期），但尚未批准接入本总览；"
+                  "岁运效力仍无完成审核的生产规则，本总览不推算或伪造大运时间线。"),
         "boundary": "尚无证据将它们合成为事业、收入、婚恋吉凶或人生定论。",
         "dayun_timeline_approved": False,
         "personal_prediction": False,
