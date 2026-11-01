@@ -80,3 +80,13 @@
 - 治理维持名单余 3 项：siling-yin-pilot（扩月或 24 小时计日约定转正，待用户裁定）、dayun-compose / dayun-timeline-view（inherited 终局形态）。
 - 注册五条件第五项（部署验收绑定）待关账 E0353 终局核对；公开开放与 AI 仍关闭。
 - 后续队列：阳刃「凶/㓙」校勘勘误登记批、土根消费接入实现批（按 E0257 审定契约）。
+## 9 关账记录（E0353，append-only 补记）
+
+- 实施批终局：PR #529 已合并，Merge SHA `82e87f30059c2952bf5fc3f3052edba4318d59e4`（main 现行 HEAD）。
+- 正式验收终局核对（直读管线 acceptance-82e87f30059c2952bf5fc3f3052edba4318d59e4 记录）：result SUCCESS，分项 public-git-checkout 15 / public-only 24（skipped 1）/ private-backend 2798，合计 2837 测，failures 与 errors 均为 0；密封快照 237 文件 / 16,722,816 字节 / manifest `26b63e64bed736b08a7dcd686f6a75de733fd44ba9eec9195248e69730485329`，与本批暂存快照 staged-v3 三元组一致。基线口径链：2811（神峰批 57918549）→ 2816（设计批 e2900875，DEPLOYED 2026-10-31T22:59:47Z、pin 746c5f3a…）→ 2817（设计修订批 3dd83b6f，DEPLOYED 2026-10-31T23:05:24Z、pin 01ee254f…）→ 2837（本批，增量 20 = 密封新测 14 + 公开新测 6）。
+- 部署终局核对（deploys.log）：2026-11-01T02:39:51Z DEPLOYED，pin `0fc78a1c02a18a7ce1a6630cb286496a640dc32d221766669fd68a913eba65f5`，health 与 bazi 探针 ok（ACCEPTED 2026-11-01T02:39:21Z）。
+- 换代实际执行记录：父级于合并前先行执行——旧快照备份于 `secure/tianji-knowledge-pre-tiaohou-backup`（manifest `380bb73e…`）；live 快照由最终暂存快照 staged-v3 换入，`diff -r` 逐字一致；cicd 钉（cicd/env/trusted-acceptance 的 TRUSTED_MANIFEST_SHA256）由 `380bb73e…` 改为 `26b63e64…`。换代 before/after：237 文件 / 16,272,294 字节 / `380bb73e…` → 237 文件 / 16,722,816 字节 / `26b63e64…`。
+- 注册翻转终局核对：tiaohou-qiongtong-v1 已翻转 registered（Phase1 首规则 bazi.rule.r042、additional r043–r051、Phase2 步 bazi.phase2.tiaohou_assessment）；治理维持名单 4 降至 3（余 siling-yin-pilot 待用户裁定、dayun-compose 与 dayun-timeline-view 为 inherited 终局形态）；密封计数终值：经典 6、节 184、术语 39、规则 51、步 43、Golden 210。注册成立第五条件（部署验收绑定）终局核对完成，翻转已随合并生效。
+- 语义守恒终局核对：调候查表语义与产出值逐字不变（等价比对 228 封套封闭清单外零差异）；合化不变量在新 bundle 上关键词零命中全过；公开开放与 AI 仍关闭，用户可见能力零变化。
+- 机上清理记录（关账批执行）：已删除 `/data/workspace/tiaohou-e0352` 下组装与暂存副本（final-tree、public、snaproot、staged-v1、staged-v2、staged-v3、tmp）；日志（repro1.log、repro2.log、repro3.log）与脚本（run_repro.sh、run_repro1.sh、run_repro2.sh、run_repro3.sh、apply_sealed.py）及著录文件（tiaohou_entities.json、tiaohou_golden.json）保留。清理后 live manifest 复核仍为 `26b63e64…`、备份目录完好；/data 已用 78% 降至 76%（20G 总量、可用 4.4G 升至 4.9G）。
+- TJ-018.2 保持阻塞、TJ-018.3 保持待做；后续队列：阳刃「凶/㓙」校勘勘误登记批、土根消费接入实现批（按 E0257 审定契约）。
