@@ -1286,7 +1286,18 @@ SEALED_MEASUREMENTS = {
 # counterweight window); all four texts verified for this
 # batch to contain none of the HEHUA_KEYWORDS and no 五合,
 # so the keyword pins below are unchanged.
-'phase1_sections_total': 74,
+# E0352 (governance tiaohou Canonical construction): +110
+# for the new Canonical sections bazi.section.s075-s184
+# (Qiongtong Baojian: zonglun anchor + 109 entry sections);
+# all 110 texts and names verified in the E0352 sealed run
+# to contain none of the HEHUA_KEYWORDS and no 五合 -- the
+# Bing-Mao entry section s099 takes the adjudicated window
+# [8668,8852) precisely because its full span's tail
+# carries the one snapshot-level 化格 occurrence counted
+# in snapshot_keyword_counts below (that tail is
+# registered unbuilt text, not a section), so the keyword
+# pins below are unchanged.
+'phase1_sections_total': 184,
 'phase1_sections_with_hehua_keywords': 0,
 'phase1_sections_with_wuhe': ['bazi.section.s010'],
 # E0333 (TJ-018.3 execution-binding batch 1): +1 for the new
@@ -1312,7 +1323,10 @@ SEALED_MEASUREMENTS = {
 # E0348: +2 Phase1 rules bazi.rule.r040/r041 (bingyao
 # assessment / Shenfeng dayun conversion) and +2 Phase2 rules
 # below for their steps; none carries hehua content either.
-'phase1_rules_total': 41,
+# E0352: +10 Phase1 rules bazi.rule.r042-r051 (per-stem
+# tiaohou lookup statements) and +1 Phase2 rule below for
+# its step; none carries hehua content either.
+'phase1_rules_total': 51,
 'phase1_concepts_total': 18,
 'phase1_hehua_concepts': 0,
 'phase1_concept_ids': [
@@ -1337,7 +1351,8 @@ SEALED_MEASUREMENTS = {
 ],
 # E0348: +2 Phase2 rules (bingyao_assessment /
 # dayun_shenfeng_conversion steps).
-'phase2_rules_total': 42,
+# E0352: +1 Phase2 rule (tiaohou_assessment step).
+'phase2_rules_total': 43,
 'foundations_stem_combinations': [['甲', '己', '土'],
 ['乙', '庚', '金'], ['丙', '辛', '水'], ['丁', '壬', '木'],
 ['戊', '癸', '火']],

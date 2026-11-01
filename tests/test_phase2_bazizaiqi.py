@@ -69,8 +69,8 @@ class ZaqiRegistrationTests(unittest.TestCase):
         cls.steps = {r['id']: r for r in cls.contract['rules']}
 
     def test_counts_and_registration(self):
-        self.assertEqual(len(self.bundle['sections']), 74)
-        self.assertEqual(len(self.bundle['chapters']), 33)
+        self.assertEqual(len(self.bundle['sections']), 184)
+        self.assertEqual(len(self.bundle['chapters']), 44)
         # E0344: +1 term (ren_true_pattern), +1 rule (r037),
         # +1 contract step; sections/chapters unchanged.
         # E0346: +3 sections (s068/s069/s070), +2 chapters,
@@ -78,9 +78,10 @@ class ZaqiRegistrationTests(unittest.TestCase):
         # E0348: +1 classic (shenfeng), +4 sections
         # (s071/s072/s073/s074), +4 chapters, +2 terms, +2 rules
         # (r040/r041), +2 contract steps.
-        self.assertEqual(len(self.bundle['terms']), 38)
-        self.assertEqual(len(self.bundle['rules']), 41)
-        self.assertEqual(len(self.contract['rules']), 42)
+        # E0352 (governance tiaohou Canonical construction): +1 classic (qiongtong), +11 chapters, +110 sections (s075-s184), +1 term (tiaohou), +10 rules (r042-r051), +1 contract step, +30 Golden cases (210).
+        self.assertEqual(len(self.bundle['terms']), 39)
+        self.assertEqual(len(self.bundle['rules']), 51)
+        self.assertEqual(len(self.contract['rules']), 43)
         self.assertEqual(self.sections[ZAQI_SECTION]['source_id'],
                          DITIANSUI)
         self.assertEqual(self.sections[ZAQI_SECTION]['chapter_id'],
@@ -183,7 +184,7 @@ class ZaqiRegistrationTests(unittest.TestCase):
         results = {c['id']: c for c in run_cases(ROOT, 'bazi')}
         # E0344: +15 ren-yin Golden cases (163 total).
         # E0348: +11 Shenfeng-expansion Golden cases (180 total).
-        self.assertEqual(len(results), 180)
+        self.assertEqual(len(results), 210)
         for case_id in GOLDEN_IDS:
             self.assertIn(case_id, results)
             self.assertIn(STEP, results[case_id]['rule_ids'])
@@ -223,7 +224,9 @@ class ZaqiRegistrationTests(unittest.TestCase):
         self.assertNotIn('pattern-zaqi', governance.MAINTAINED_ITEMS)
         # E0344: ren-pattern-yin-true-v1 flipped too (six
         # maintained).
-        self.assertEqual(len(governance.MAINTAINED_ITEMS), 4)
+        # E0352: tiaohou-qiongtong-v1 flipped too (three
+        # maintained).
+        self.assertEqual(len(governance.MAINTAINED_ITEMS), 3)
         record = governance.GOVERNANCE_ZAQI_RECORD
         self.assertEqual(record['event'], 'E0342')
         self.assertEqual(record['phase1_rules_added'], ['bazi.rule.r036'])

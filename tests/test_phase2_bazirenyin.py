@@ -96,11 +96,12 @@ class RenRegistrationTests(unittest.TestCase):
         # E0348: +1 classic (shenfeng), +4 sections
         # (s071/s072/s073/s074), +4 chapters, +2 terms, +2 rules
         # (r040/r041), +2 contract steps.
-        self.assertEqual(len(self.bundle['sections']), 74)
-        self.assertEqual(len(self.bundle['chapters']), 33)
-        self.assertEqual(len(self.bundle['terms']), 38)
-        self.assertEqual(len(self.bundle['rules']), 41)
-        self.assertEqual(len(self.contract['rules']), 42)
+        # E0352 (governance tiaohou Canonical construction): +1 classic (qiongtong), +11 chapters, +110 sections (s075-s184), +1 term (tiaohou), +10 rules (r042-r051), +1 contract step, +30 Golden cases (210).
+        self.assertEqual(len(self.bundle['sections']), 184)
+        self.assertEqual(len(self.bundle['chapters']), 44)
+        self.assertEqual(len(self.bundle['terms']), 39)
+        self.assertEqual(len(self.bundle['rules']), 51)
+        self.assertEqual(len(self.contract['rules']), 43)
         for section_id in (DEF_SECTION, PROC_SECTION, SEG_SECTION):
             self.assertEqual(self.sections[section_id]['source_id'],
                              DITIANSUI)
@@ -163,7 +164,7 @@ class RenRegistrationTests(unittest.TestCase):
     def test_golden_cases_fire_the_registered_step(self):
         results = {c['id']: c for c in run_cases(ROOT, 'bazi')}
         # E0348: +11 Shenfeng-expansion Golden cases (180 total).
-        self.assertEqual(len(results), 180)
+        self.assertEqual(len(results), 210)
         for case_id in GOLDEN_IDS:
             self.assertIn(case_id, results)
             self.assertIn(STEP, results[case_id]['rule_ids'])
@@ -269,7 +270,9 @@ class RenRegistrationTests(unittest.TestCase):
                       governance.FLIPPED_ITEMS)
         self.assertNotIn('ren-pattern-yin-true-v1',
                          governance.MAINTAINED_ITEMS)
-        self.assertEqual(len(governance.MAINTAINED_ITEMS), 4)
+        # E0352: tiaohou-qiongtong-v1 flipped too (three
+        # maintained).
+        self.assertEqual(len(governance.MAINTAINED_ITEMS), 3)
         record = governance.GOVERNANCE_REN_RECORD
         self.assertEqual(record['event'], 'E0344')
         self.assertEqual(record['phase1_rules_added'], ['bazi.rule.r037'])

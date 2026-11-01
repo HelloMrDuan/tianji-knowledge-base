@@ -85,14 +85,18 @@ class DayunSanmingRegistrationTests(unittest.TestCase):
         # E0348 (Shenfeng Canonical expansion): +4 chapters
         # (33), +4 sections (74), +2 terms (38), +2 rules (41),
         # +2 execution steps (42), +11 Golden cases (180).
-        self.assertEqual(len(knowledge['chapters']), 33)
-        self.assertEqual(len(knowledge['sections']), 74)
-        self.assertEqual(len(knowledge['terms']), 38)
-        self.assertEqual(len(knowledge['rules']), 41)
+        # E0352 (governance tiaohou Canonical construction):
+        # +11 chapters (44), +110 sections (184), +1 term (39),
+        # +10 rules (51), +1 execution step (43), +30 Golden
+        # cases (210).
+        self.assertEqual(len(knowledge['chapters']), 44)
+        self.assertEqual(len(knowledge['sections']), 184)
+        self.assertEqual(len(knowledge['terms']), 39)
+        self.assertEqual(len(knowledge['rules']), 51)
         execution = read_json(
             ROOT / 'data/canonical/bazi/phase2_execution.json')
-        self.assertEqual(len(execution['rules']), 42)
-        self.assertEqual(len(self.cases), 180)
+        self.assertEqual(len(execution['rules']), 43)
+        self.assertEqual(len(self.cases), 210)
 
     def test_sections_hold_the_s3_slices(self):
         sections = {s['id']: s for s in self.bundle['sections']}
@@ -196,7 +200,7 @@ class DayunSanmingRegistrationTests(unittest.TestCase):
         results = {c['id']: c for c in run_cases(ROOT, 'bazi')}
         # E0348: 169 + 11 new Golden cases (6 bingyao, 5 Shenfeng
         # conversion).
-        self.assertEqual(len(results), 180)
+        self.assertEqual(len(results), 210)
         for case_id in GOLDEN_IDS:
             self.assertIn(DIR_STEP, results[case_id]['rule_ids'],
                           case_id)

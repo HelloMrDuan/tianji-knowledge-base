@@ -136,9 +136,12 @@ class GanzhiRegistrationTests(unittest.TestCase):
         # +3 sections (s068/s069/s070), +2 rules (r038/r039).
         # E0348 (Shenfeng Canonical expansion): +4 chapters,
         # +4 sections (s071/s072/s073/s074), +2 rules (r040/r041).
-        self.assertEqual(len(self.bundle['sections']), 74)
-        self.assertEqual(len(self.bundle['chapters']), 33)
-        self.assertEqual(len(self.bundle['rules']), 41)
+        # E0352 (governance tiaohou Canonical construction):
+        # +11 chapters, +110 sections (s075-s184), +10 rules
+        # (r042-r051).
+        self.assertEqual(len(self.bundle['sections']), 184)
+        self.assertEqual(len(self.bundle['chapters']), 44)
+        self.assertEqual(len(self.bundle['rules']), 51)
         for section_id in ('bazi.section.s061', 'bazi.section.s062'):
             self.assertIn(section_id, self.sections)
             self.assertEqual(self.sections[section_id]['source_id'], APPLIED)
@@ -342,7 +345,9 @@ class GanzhiRegistrationTests(unittest.TestCase):
         # E0342: pattern-zaqi flipped too (seven maintained).
         # E0344: ren-pattern-yin-true-v1 flipped too (six
         # maintained).
-        self.assertEqual(len(governance.MAINTAINED_ITEMS), 4)
+        # E0352: tiaohou-qiongtong-v1 flipped too (three
+        # maintained).
+        self.assertEqual(len(governance.MAINTAINED_ITEMS), 3)
         record = governance.TJ0183_P2_RECORD
         self.assertEqual(record['event'], 'E0335')
         self.assertEqual(record['phase1_rules_added'],

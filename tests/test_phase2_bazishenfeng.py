@@ -95,15 +95,16 @@ class ShenfengExpansionRegistrationTests(unittest.TestCase):
     def test_counts(self):
         knowledge = read_json(
             ROOT / 'data/canonical/bazi/phase1_knowledge.json')
-        self.assertEqual(len(knowledge['classics']), 5)
-        self.assertEqual(len(knowledge['chapters']), 33)
-        self.assertEqual(len(knowledge['sections']), 74)
-        self.assertEqual(len(knowledge['terms']), 38)
-        self.assertEqual(len(knowledge['rules']), 41)
+        # E0352 (governance tiaohou Canonical construction): +1 classic (qiongtong), +11 chapters, +110 sections (s075-s184), +1 term (tiaohou), +10 rules (r042-r051), +1 contract step, +30 Golden cases (210).
+        self.assertEqual(len(knowledge['classics']), 6)
+        self.assertEqual(len(knowledge['chapters']), 44)
+        self.assertEqual(len(knowledge['sections']), 184)
+        self.assertEqual(len(knowledge['terms']), 39)
+        self.assertEqual(len(knowledge['rules']), 51)
         execution = read_json(
             ROOT / 'data/canonical/bazi/phase2_execution.json')
-        self.assertEqual(len(execution['rules']), 42)
-        self.assertEqual(len(self.cases), 180)
+        self.assertEqual(len(execution['rules']), 43)
+        self.assertEqual(len(self.cases), 210)
 
     def test_classic_mirrors_existing_structure(self):
         classics = {c['id']: c for c in self.bundle['classics']}
@@ -230,7 +231,7 @@ class ShenfengExpansionRegistrationTests(unittest.TestCase):
 
     def test_golden_cases_fire_the_registered_steps(self):
         results = {c['id']: c for c in run_cases(ROOT, 'bazi')}
-        self.assertEqual(len(results), 180)
+        self.assertEqual(len(results), 210)
         for case_id in BINGYAO_GOLDEN_IDS:
             self.assertIn(BINGYAO_STEP,
                           results[case_id]['rule_ids'], case_id)
