@@ -1,0 +1,196 @@
+# TJ-017.3 分阶段开放第二阶段：独立性复核与开放契约审定（E0374）
+
+## 0 授权与范围
+
+- 授权来源：用户 2026-11-01 分阶段开放裁定的第二阶段——第一阶段（TJ-013.3 喜用可读呈现）已独立验收通过（正式验收 2937、部署与生产实测三项全过，关账 E0373 在册）后，TJ-017.3 大运公开启动；开工必须先复核其是否真正独立于 TJ-017.2 跨规则调用与扶抑 U1/U3：独立部分按已注册证据开放，依赖未完成规则的预测与解释继续保持关闭，不允许为了公开大运而绕过跨规则调用门禁。
+- 本批范围：仅复核与审定——产出独立性复核全文与实现批 E0375 的字段级开放契约；不实现任何呈现逻辑、不翻转任何公开开关、不改动任何运行代码。关账预留 E0376。
+- 任务定义以 WBS 为准：TJ-017.3 原文行「用户可读时间轴视图 | 允许方法选择与来源；未知/争议交运年份用空态，而不是拟制时间」；TJ-017.2 原文行「原局＋大运＋流年跨规则调用 | 依赖 M2，真实测试需覆盖合冲作用、未判定和相反意见」。两行与本批任务书一致，无冲突。
+- 明确不启动（用户同次裁定）：扶抑 U1/U3（暂缓维持）、长生冲突群、siling-yin-pilot、B002、TJ-018.2、TJ-019.2、TJ-028.1、合化 P-D1/P-D2、三刑 B2/B5——本批一概不碰。
+
+## 1 开工核实与基线实测
+
+- GitHub API main HEAD = `562c21f7b2f1cbea2ca9b4cfddb8a363e509950f`（第一阶段关账 PR #546 合并），与任务书基线一致；台账末号 E0373（373 事件）；密封钉 `26b63e64…`（237 文件 / 16,722,816 字节）；正式验收基线 2937（9a672e76）。
+- TASK_STATUS 现行行：TJ-017.3「阻塞」，备注记第一阶段研究级视图模型完成（`bazi_dayun_timeline_view` 消费 TJ-017.4 组合结果构造双口径时间轴视图、落点后端研究层不接公开页面、公开投影已加防御剥离），公开开放待「密封 Phase1 注册与分阶段开放裁定」两前置——本批开工时两前置均已解除：密封 Phase1 注册已由 E0346（三命分段）与 E0348（神峰分段）完成，分阶段开放裁定已由用户 2026-11-01 给出并完成第一阶段。TJ-017.2 行「阻塞」，定义与状态未动。
+- 视图模块实测（`src/tianji_kb/bazi_dayun_timeline_view.py`，503 行）：纯确定性呈现层，消费 `classical_dayun_timeline`（TJ-017.4）组合结果逐字构造视图——方向块、计数块、时长块、逐运条目（含起始区间逐字复制）、notices、sources（只呈现组合结果实际携带的引文）；恒 `research_only=True、public_enabled=False、ai_enabled=False`，`evidence_binding='inherited_registered_phase1_phase2'`；输入 fail-closed（治理标志被篡改、方向未过自校验、字段缺失或形态不符一律 ValueError）；年龄不呈现（AGE_PRESENTATION='not_presented'）。
+- 组合入口实测（`src/tianji_kb/bazi_dayun_compose.py`）：调用链为 四柱（provider 历法）→ `classical_direction`（TJ-017.1，结果随即 `validate_classical_direction` 复算防伪）→ `adjacent_jie_distance`（相邻节实历测量）→ `sanming_convert_measurement` → `candidate_sequence`（月柱邻接序列）→ 按 period_index 与换算交运区间对齐；神峰并列块经 `include_shenfeng=True` 独立给出、永不合并。`traditional_role` 必须显式传入（缺席即拒绝、永不推断）；全链无任何对格局、喜用、旺衰或跨规则模块的调用（见 §2.3）。
+- 公开面实测：`public_projection.py` 对 `dayun_timeline_view`、`dayun_timeline_views` 与三注册块 `dayun_classical_direction`、`dayun_sanming_conversion`、`dayun_shenfeng_conversion` 均有防御性剥离；`classical_dayun_timeline` 与视图函数在 src 内无任何生产调用方（仅治理登记引用），组合与视图现为研究层直调入口，未接线任何场景。
+
+## 2 独立性复核
+
+### 2.1 复核方法
+
+逐项盘点 TJ-017.3 的候选公开面，对每一项实测三件事：（a）证据是否已注册（治理登记 `bazi_registration_governance.py` 的 dayun-classical-variants 行与 Canonical/Phase1/Phase2/Golden 实体）；（b）执行依赖是否只落在已注册证据与 provider 历法事实上（读实际代码调用链与门控，不凭文档印象）；（c）结论是否需要 TJ-017.2 跨规则组合（原局×大运×流年作用判断）或旺衰/喜用/效力判断（U1/U3 与未建面）。三项全过判「独立」；任一不过判「依赖未完成规则」或「契约上不存在」，逐项列明依赖点。
+
+### 2.2 证据链实测（注册面）
+
+- 治理登记 dayun-classical-variants 行 disposition = `registered`，两分段齐备：三命分段（E0346）= 方向 Phase1 `bazi.rule.r038`（引文恰 2 条）+ Phase2 `bazi.phase2.dayun_classical_direction`（validated）、三命换算 Phase1 `bazi.rule.r039`（引文恰 8 条，`handover_decade` 以 S3 应用形绑定——逐运交运区间在注册换算范围内）+ Phase2 `bazi.phase2.dayun_sanming_conversion`（validated）、密封 Golden 6 例；神峰分段（E0348）= 换算 Phase1 `bazi.rule.r041`（source_refs 恰为实际消费的 3 条例算引文 sf_ex1/sf_ex3/sf_ex4）+ Phase2 `bazi.phase2.dayun_shenfeng_conversion`（validated）、密封 Golden 5 例。Canonical 实体：三命节 s068/s069/s070 与术语 dayun_direction/dayun_handover、神峰新经典节 s073 与术语 dayun_shenfeng_conversion。
+- dayun-compose 与 dayun-timeline-view 两治理行复测：disposition = `maintained_pending`、reason_class = `inherited_pending`，终局形态理由在册（治理恰等不变量：组合/视图层不产生独立规则，复用底层规则 id 即重复计数、新造 id 即空注册；底层全段已注册、本层只继承披露，`evidence_binding` 终局记 `inherited_registered_phase1_phase2`）。**对公开面的含义**：开放是呈现层的定域放行（沿第一阶段先例：新呈现 Variant 承载公开对象、源 Variant 与治理行标志一律不翻转），不以翻转该两行或其 `public_enabled` 标志达成；该两行在本阶段后保持 inherited 终局形态不变。
+- 注册 Golden 真实命例（公开治理文档在册、期望手工推导）：Q1 = 1958-08-15T19:30:00+08:00 男命（戊戌/庚申/甲子/甲戌）顺行、三命时长区间 [2840, 2850) 日；Q2 = 1949-01-04T09:30:00+08:00 女命（戊子/甲子/甲午/己巳）逆行、[3340, 3350) 日；Q3/Q4 = 1959-06-15T10:30:00+08:00 同盘（己亥/庚午/戊辰/丁巳）女命顺行 [2730, 2740) 日、男命逆行 [1030, 1040) 日（首运交运区间 [1966-12-05, 1966-12-15) 手算在册）；ADV001 = 2000-02-04T20:40:24+08:00 女命恰逢节 elapsed 0 → unresolved。
+
+### 2.3 执行链实测（为何开放路径是组合+视图、而非 chart 路径）
+
+- 组合链的每一步依赖：四柱与相邻节测量为 provider 历法事实（测量 Variant `bazi-dayun-adjacent-jie-research-v1` 只测实历、非规则裁断）；方向与两换算为已注册函数且方向结果在组合内即经复算自校验；序列为月柱六十甲子邻接的确定性展开（见 §2.4 第 4 项的附带披露）。链上不存在对 TJ-017.2 本体（合冲作用、跨规则裁决）、扶抑、格局、调候、病药或旺衰模块的任何调用——以模块 import 与调用点全域实测为准。
+- chart 路径（`operations/bazi_chart.py` 的 `dayun_classical_role` / `dayun_sanming_measurement` / `dayun_shenfeng_measurement` 显式输入声明）不是本阶段的开放路径，两条实测理由：（a）其换算消费的是调用方供入的 measurement 声明而非由出生时刻现算的测量，单凭出生时刻与 role 不能在该路径内产出已注册换算；（b）engine 的 `dayun_jie_distance` 路径在源码内明示「This is NOT a reviewed Dayun Phase2 Rule or classical Evidence... explicitly excluded from RuleMatch」——经该路径拼出的时间线不具注册证据资格。由出生时刻产出注册证据时间线的唯一在册路径是 TJ-017.4 组合入口（其内部执行的正是已注册的方向/换算函数与自校验门）。故 §3 的服务端门裁定走组合+视图，engine 客户端研究门禁逐字不动。
+- 人生总览实测（`scenario_engine.py`）：`dayun_timeline_approved` 在组合层两处硬编码 False（integration_provenance 与 integrated_reading），大运维可用性由该旗标派生、reason/exit_text 为 E0362 订正在册文案（明示「尚未批准接入本总览」）；`_life` 以自有输入调用 `_bazi_profile`，从不传 role（与 E0360 的 `_life` 不转发先例同形）。
+
+### 2.4 候选公开面逐项判定
+
+| # | 候选面 | 判定 | 依据与依赖点 |
+| --- | --- | --- | --- |
+| 1 | 大运方向（顺/逆、计数目标节、方向规则引文） | **独立** | r038 + Phase2 validated + Golden 6 例；只依赖年柱干支与显式 role；结果经复算自校验防伪 |
+| 2 | 三命换算（起运时长区间、逐运交运时刻区间） | **独立** | r039（含 handover_decade 绑定）+ Phase2 validated；输入为 provider 历法测量事实；产出恒区间、防舍入为原文禁令 |
+| 3 | 神峰换算（时长区间、首运起始区间） | **独立（限首运）** | r041 + Phase2 validated + Golden 5 例；首运区间为组合层导出并在数据内以 derivation 标明；第二运起组合层不提供（not_provided 空态），无可开放之物 |
+| 4 | 逐运干支序列与十神事实标签 | **独立（附披露）** | 给定已注册方向后自月柱的六十甲子邻接展开为确定性历法事实；序列模块自身为研究 Variant（`bazi-dayun-month-sequence-research-v1`，其独立「用作大运」口径未审），但在 TJ-017.4 已审组合内行恒为候选行、方向来自已注册 Variant、时间对齐来自已注册换算，且行内 natal_interaction / luck_assessment 恒 None（构造性不存在作用与评价内容）；呈现只限干支/干/支/十神事实标签，序列 Variant id 在证据对象中如实披露 |
+| 5 | 方法选择（三命/神峰）与来源呈现 | **独立** | WBS 明文「允许方法选择与来源」；两口径分立呈现、永不合并，为注册分立口径本身 |
+| 6 | 人生总览大运维 | **不在本阶段范围（保持关闭）** | 其可用性是人生总览组合层硬编码批准常量，位于 integrated_reading 组合面内（该面另含跨规则审计维）；翻转它是对总览组合的批准决定、非 TJ-017.3 时间轴视图的开放，且 E0362 在册文案明示未批准接入。依赖点：总览组合层批准（与 TJ-017.2 相邻）——本阶段不裁、不翻 |
+| 7 | 大运×流年、大运×原局作用判断、岁运效力/吉凶 | **依赖未完成规则（保持关闭）** | 作用判断即 TJ-017.2 跨规则调用本体（未建、依赖 M2）；岁运效力无任何已建规则。组合与视图内此两类内容构造性不存在（恒 None / 零文案），开放面不得新增 |
+| 8 | 单点交运日期、起运岁数/年龄数值 | **契约上不存在（禁入）** | 已注册换算只产区间（纲领硬规则：起运精度不足返回区间、不得伪造精确日期）；年龄折算无原典口径（TJ-017.1 审源：虚岁/实岁五书零命中），视图 AGE_PRESENTATION 恒 not_presented |
+
+### 2.5 复核结论
+
+TJ-017.3 的时间轴视图面（第 1–5 项）在证据与执行上真正独立于 TJ-017.2 与 U1/U3：其全部用户可见事实均可追溯到已注册的 r038/r039/r041 与对应 Phase2 步、密封 Golden 及 provider 历法事实，执行链不经任何跨规则或旺衰喜用模块。第 6–8 项不开放：人生总览大运维保持关闭（组合层批准未给）、作用与效力面保持关闭（TJ-017.2 与未建规则）、单点与年龄不存在。§3 起的开放契约只覆盖第 1–5 项。
+
+## 3 呈现面裁定
+
+### 3.1 落点
+
+开放落点为既有场景 `bazi-profile`（八字命理）的场景结果内新对象 `dayun_presentation`（呈现 Variant `dayun-public-presentation-v1`），沿第一阶段定域放行先例：只在 bazi-profile 信封放行、其他场景与端点零放行。不新造场景、不改首页架构、不改 bazi-profile 既有结果的任何既有键。
+
+### 3.2 输入面裁定：新增可选输入 traditional_role（结论 ii）
+
+方向由「年干阴阳 × 传统角色」决定，role 是显式历史分类标签、组合入口强制显式传入（缺席即拒绝）。三案裁定：
+
+- (i) 无需新输入、自洽导出——**否决**，两条独立证据同 E0359 Q2：命盘事实无 role 数据（组合入口明示 never inferred；由日干阴阳反推属虚构映射且与登记的 role_basis 冲突）；出生档案 BirthInput 字段穷举无性别字段，产品内唯一的性别控件经 TJ-031.8 审计确认后端无承接、非档案字段。
+- (ii) 新增可选输入——**采纳**：`_bazi_profile` 契约可选集恰新增 `traditional_role` 一键，值域与校验、非 None 才透传的形态同形于合盘 `_compatibility`（已在产）与桃花 `_romance`（E0360）两先例；缺省永不代填；缺席时整块 `dayun_presentation` 缺席（非置空）；role 逐请求使用、不落盘、不进档案 schema、不进 URL。
+- (iii) 输入不足、本项收敛——**不取**：在产先例两处齐备、fail-closed 形态可完全复用，输入缺口经 (ii) 即不存在。
+- 产品面影响（单独标明，供父级合并审读）：八字命理页新增一个可选控件「传统大运口径（可选）」（缺省未选择、仅已选时发送）与时间轴只读呈现（方法切换三命/神峰），**必须与后端契约在 E0375 同批落地**（TJ-031.8「无承接控件」红线）；文案只作传统定位口径与事实呈现、零解释性文案。相容性：role 不读出生档案、不参与出生值派生、不能绕过 _regionNeedsConfirm 地区确认流程；出生时间输入契约正交不变；`_life` 不转发 role（其调用 `_bazi_profile` 的输入不变），人生总览路径由构造保证无 dayun 呈现（另有 §7 零泄漏钉）。
+
+### 3.3 执行路径裁定（生产开启门）
+
+服务端专属门，沿第一阶段 §3.2 形态落于 `_bazi_profile`：
+
+- 客户端契约：必填 {value}、可选 {strength_variant, zone, traditional_role}（恰增一键）；客户端仍不得命名任何研究键（dayun_classical_role、dayun_sanming_measurement、dayun_shenfeng_measurement、组合/视图键名），engine 客户端研究门禁逐字不变，组合与视图不经 domain 端点到达。
+- role 缺席时：门不执行，结果信封与基线逐字等价（组合为独立确定性函数、不经 execute()，无需第一阶段的 scope 双执行守卫；以 G6 深等价钉死）。
+- role 在场时：先按先例校验值域（非法即契约错误、计算前拒绝）；服务端以固定常量调用 `classical_dayun_timeline_views(value, zone=zone, traditional_role=role)`——periods=8、birth_time_precision='second'、include_shenfeng=True 均为服务端常量、不可由客户端选择；同一组合结果派生双方法视图后交 §3.4 构建器校验并生成呈现对象。
+- fail-closed（沿第一阶段 §3.3 处置）：构建器校验任一不过即整请求失败，不返回缺呈现的部分成功信封；组合自身抛错（恰逢节以外的校验失败）同样整请求失败——恰逢节不是错误、按 §5 空态契约呈现。
+
+### 3.4 构建器裁定
+
+新模块 `src/tianji_kb/bazi_dayun_public.py`，函数 `public_dayun_presentation(sanming_view, shenfeng_view, *, execution)`，Variant `dayun-public-presentation-v1`。execution 恒携带同请求的组合结果（`execution['composition']`），构建器以组合结果为执行记录独立校验两视图（见 §6.2），不信任视图自报。构建器只做投影与校验：不重算方向/换算、不改区间端点、不生成任何视图外文本（范围声明与限制为 §4.4 定稿常量）。
+
+## 4 内容契约（字段级）
+
+### 4.1 顶层对象 dayun_presentation
+
+| 字段 | 形态 |
+| --- | --- |
+| variant | 恒 `dayun-public-presentation-v1` |
+| status | `presented` 或 `unresolved`（镜像组合 status：converted → presented；unresolved → §5 空态） |
+| role | {traditional_role, selection}，selection 恒 `explicit_historical_category_not_inferred_identity` |
+| methods | {sanming: 方法视图， shenfeng: 方法视图}，两视图派生自同一次组合（同请求） |
+| method_options | 视图 method_options 逐字投影：[{id, label, variant, source_id, selectable}] |
+| evidence | §4.3 证据对象 |
+| scope | §4.4 范围声明（定稿常量） |
+| limitations | §4.4 限制（定稿常量） |
+
+### 4.2 方法视图（methods.<method>，自 dayun_timeline_view 输出投影）
+
+- method（sanming/shenfeng）、status（converted/unresolved）、reason（仅 unresolved 时在场，逐字取自组合）。
+- natal：{pillars: {year, month, day, hour, day_master}}——视图 natal 的出生回显三字段（input_value、zone、local_datetime）**不投影**（最小化：用户自有输入、呈现无需、隐私卫生）；traditional_role 与 selection 已由顶层 role 承载、不重复。
+- direction：{value（forward/backward）, label（顺行/逆行）, counting_target, counted_jie, rule_quote}，逐字投影。
+- duration：三命 = {method, variant, status, interval_days, decomposition, counting, approximate, rounding_applied（恒 False）, rounding_policy}；神峰 = {method, variant, status, interval_days, text_result_days, counting: {whole_days, counting_target}, granularity_note, approximate（恒 False）}；unresolved 时附 reason。
+- entries[]：{period_index, ganzhi, stem, branch, ten_god_relative_to_natal_day_stem, state, start_interval}；state ∈ interval / unresolved / not_provided；start_interval 在 interval 态为对象、其余态恒 null 并附 start_interval_status 逐字。三命 interval 对象 = {earliest, latest, max_inclusive, basis, method, variant}；神峰首运 interval 对象 = {earliest, latest, max_inclusive, derivation, decade_shifts, method, variant}（derivation 标明组合层导出）。全部端点逐字复制、开闭不变。
+- notices[]：{code, text}，封闭集合恰为视图五 notice（methods_presented_separately、zero_jie_boundary、approximate_birth_time、shenfeng_decade_shifts_not_provided、shenfeng_zero_day_count）按视图规则出现者。
+- sources[]：{method, role, variant, source_id, quotes}，quotes 为组合结果实际携带的引文对象逐字（三命 direction_rule 块引文 id 恰为 direction_rule 与 vol11_direction_witness、converted 时另有 handover_basis 块；神峰 conversion_examples 块引文 id 恰为 sf_ex1/sf_ex3/sf_ex4）。
+
+### 4.3 证据对象（顶层 evidence，恒带）
+
+- composition_chain：组合 composition_chain 逐字（四 Variant id）。
+- rules：恰三条 {phase1_rule_id, phase2_step_id, variant, source_id}——（r038, bazi.phase2.dayun_classical_direction, dayun-direction-classical-v1, bazi.source.sanmingtonghui-applied）、（r039, bazi.phase2.dayun_sanming_conversion, dayun-conversion-sanming-v1, bazi.source.sanmingtonghui-applied）、（r041, bazi.phase2.dayun_shenfeng_conversion, dayun-conversion-shenfeng-v1, bazi.source.shenfeng）。
+- sequence_disclosure：{variant: bazi-dayun-month-sequence-research-v1, ten_god_rule_id: bazi.phase2.ten_gods}——序列事实层的出处如实披露（见 §2.4 第 4 项）。
+- validation：{direction_self_validated: True, interval_fidelity: 'verbatim_from_composition', quote_sets: 'exact_registered_citation_sets'}——均为构建器在本请求的实际校验结论；任一不成立时构建器抛错而非置 False（§6.2）。
+
+### 4.4 范围声明与限制（定稿语义，E0375 逐字落文并以测试钉住）
+
+- scope 语义：本呈现只包含已注册古典规则算出的大运方向、起运换算与逐运干支序列事实；三命时级与神峰日级为两套分立注册口径、并列呈现、永不合并；交运时间只给出区间。
+- 与喜用呈现的关系：`dayun_presentation` 与 `xiyong_presentation` 为相互独立的两个对象，任一不构成对另一的结论；本呈现不含旺衰、喜用、格局或调候/病药结论。
+- limitations 语义：不呈现任何年龄数值（古典起运为实历时长、年龄折算无原典口径）；神峰口径逐运起始区间只提供首运、第二运起为空态而非平移拟制；恰逢节时交运时间呈空态；本呈现不是吉凶判断、不预测任何现实事件。
+
+### 4.5 禁入项穷举（公开对象与页面呈现面全域适用）
+
+岁运效力与吉凶/运势评价词；单点交运日期字段与「起运岁数」及任何年龄数值；两口径区间的合并、平均、中点或择一改写；神峰第二运起的十年平移区间；大运与原局/流年的合冲刑害作用判断及一切解释性文案；十神的解释性文案（事实标签本身除外）；扶抑/调候/病药/格局结论（dayun 对象内）；流年叠加呈现；预测语义（官运、财运、婚期、灾祸等）；评分、百分比、指数；由任何身份数据推断 role 的路径；role 的落盘、入 URL、入档案字段。
+
+## 5 暂不可判契约
+
+- 恰逢节（组合 status=unresolved）：顶层 status='unresolved'；方向块照常呈现（方向已注册且已算出）；两方法 duration 呈 unresolved 与 reason 逐字；全部 entries state='unresolved'、start_interval=null；notices 含 zero_jie_boundary。页面语义为「交运时间暂不可判」，不得以任何近似值填充。
+- 神峰整日计数为零：三命方法照常 presented；神峰方法 status='unresolved'、附 reason 与 shenfeng_zero_day_count notice；两方法状态独立、互不拖累。
+- 神峰第二运起：state='not_provided' 为常态空态（非不可判、非错误），附 shenfeng_decade_shifts_not_provided notice。
+- 两口径结果不同：不是冲突态——两套是分立注册约定，按 §4 并列呈现并附 methods_presented_separately notice；页面默认显示三命视图（主注册口径、沿视图默认 method），神峰一键可达；系统不替用户合并或裁定何者为准。
+- 出生时刻精度：本阶段 precision 为服务端常量 'second'，approximate 恒 False；若未来开放精度输入须另行审定，本契约不预授权。
+- 非法 role、缺 value 等输入错误走既有契约错误路径，不是暂不可判；role 缺席走整块缺席（§3.2），不是置空对象。
+
+## 6 可追溯验收契约
+
+### 6.1 追溯链（每条用户可见事实 → 注册证据 + 同请求执行记录）
+
+- 方向事实 → r038 / `bazi.phase2.dayun_classical_direction` + 方向块 rule_quote（组合结果携带的应用文本引文）；执行记录 = 同请求组合结果的 direction 块，且其自校验（validate_classical_direction 复算）在本请求内已通过（组合入口内建、视图校验复行）。
+- 三命换算事实（时长与逐运区间） → r039 / `bazi.phase2.dayun_sanming_conversion` + sources 的 handover_basis 引文（converted 时）；区间端点逐字等于同请求组合结果 sequence_time_alignment 的 start_interval。
+- 神峰换算事实 → r041 / `bazi.phase2.dayun_shenfeng_conversion` + sources 的 sf_ex1/sf_ex3/sf_ex4 例算引文；首运区间逐字等于组合并列块 first_period_start_interval 并带 derivation 标明。
+- 序列事实 → 月柱邻接展开（sequence_disclosure 披露 Variant）+ 十神标签规则 `bazi.phase2.ten_gods`；条目逐字等于组合 sequence rows 与对齐表（period_index 一一对应）。
+- 引文集合恰等：三命方向引文 id 集 {direction_rule, vol11_direction_witness}、神峰引文 id 集 {sf_ex1, sf_ex3, sf_ex4} 为注册引用集，构建器逐一断言，多一少一皆 fail-closed。
+
+### 6.2 构建器校验方法与测试落点（E0375 必须落地）
+
+构建器对两视图与 execution['composition'] 逐项核对，任一不过抛错（整请求 fail-closed）：（a）两视图与组合的 variant 链、治理标志集（research_only=True、public_enabled=False、ai_enabled=False、evidence_binding 终局形态）恰等；（b）两方法的 natal、direction、counting 逐字相等（同一次组合的构造性不变量，跨方法篡改在此检出）；（c）entries 与组合 sequence/alignment 逐行对应、区间端点逐字相等；（d）引文 id 集恰等注册集且引文文本逐字等于组合携带文本；（e）direction 块经 validate_classical_direction 复算通过；（f）投影后对象全域禁入扫描（§4.5 字段名与词表）无命中、且无 age/start_date/end_date 一类单点或年龄字段。
+测试落点：公开构建器测试（合成组合/视图输入、纯函数，入公开 CI 按名接入）覆盖投影形态与篡改类；密封伴随测试（真实 bundle、真实出生时刻，只入离线验收、绝不在公开 CI 冒称执行）覆盖 G1–G5 的真实盘期望；场景与 API 测试覆盖 G6/G9/G10。
+
+## 7 门控翻转清单（现状 → 目标态，E0375 逐项落地）
+
+1. `_bazi_profile` 客户端可选集 {strength_variant, zone} → 恰增 traditional_role 一键；其余契约逐字不变。
+2. `_bazi_profile` 服务端门：无 dayun 门 → 新增 role 门控的服务端组合+构建器门（§3.3）；role 缺席零执行。
+3. public_projection 剥离表：新增 `dayun_presentation` 全域剥离 + 形态校验后的定域放行（仅 bazi-profile 信封、仅第 §4 形态的对象）；既有 dayun 剥离（dayun_timeline_view、dayun_timeline_views、三注册块）逐字不变、继续全域剥离。
+4. 新模块 `bazi_dayun_public.py` 与新 Variant `dayun-public-presentation-v1`：无 → 建（呈现层新对象，不注册 Phase1/Phase2 规则）。
+5. 源 Variant 与组合/视图治理标志（direction、conversion 三命、conversion 神峰、compose、timeline-view）：research_only=True、public_enabled=False、ai_enabled=False 与 evidence_binding 终局形态——**不翻转、逐字不变**。
+6. 治理登记三行（dayun-classical-variants=registered、dayun-compose 与 dayun-timeline-view=inherited 终局形态）：**不变**。
+7. engine.execute 客户端研究门禁（dayun_classical_role、dayun_sanming_measurement、dayun_shenfeng_measurement 需 research 模式，及 dayun_jie_distance 等其余大运研究键）：**逐字不变**。
+8. `_life` 与人生总览大运维：代码不变、`dayun_timeline_approved` 两处恒 False、E0362 文案不变、`_life` 不转发 role（构造 + 测试钉）。
+9. 前端 BaziProfilePage：新增可选控件与时间轴只读呈现（与后端同批）；未选 role 时页面行为逐字不变。
+10. validate.yml：新增公开测试按名接入；密封伴随测试不入公开 CI（沿在册分区规则）。
+
+## 8 Golden 判据设计（E0375 落地，真实出生时刻、期望手工推导）
+
+- G1 顺行·三命全形态：1958-08-15T19:30:00+08:00、male → direction=forward/顺行；duration interval_days [2840, 2850)；entries 8 运起始区间逐字等于组合对齐表；sources 引文集恰等；evidence 三规则齐备。
+- G2 逆行·女命：1949-01-04T09:30:00+08:00、female → backward/逆行；时长 [3340, 3350)。
+- G3 同盘 role 对照：1959-06-15T10:30:00+08:00 同盘，female → forward、[2730, 2740)、首运交运 [1966-12-05, 1966-12-15)；male → backward、[1030, 1040)——证明 role 为输入而非命盘导出。
+- G4 神峰方法形态：G1 命例神峰视图——时长与首运区间与已注册神峰期望一致、首运 interval 带 derivation；第 2–8 运 state=not_provided、无区间。
+- G5 恰逢节空态：2000-02-04T20:40:24+08:00、female → 顶层 unresolved；方向 backward 在场；全部 entries 无区间；reason 与 notice 逐字。
+- G6 role 缺席深等价：真实命例语料（在实现批治理记录中先行登记清单）逐封套与基线深等价、无 dayun_presentation 键。
+- G7 禁入扫描：呈现对象与页面文案对 §4.5 词表/字段名全域扫描零命中；无年龄字段、无单点日期字段。
+- G8 篡改 fail-closed：区间端点改字、治理标志翻转、引文文本改字、跨方法 natal 不一致四类篡改，构建器逐类抛错且场景无部分信封返回。
+- G9 真实 API 对平：POST /api/v1/scenarios/public（bazi-profile + role）返回的 dayun_presentation 与构建器直出逐字一致；其余场景携 traditional_role 键仍按各自契约拒绝（未知键）。
+- G10 零泄漏：life/yearly/romance/career 四场景在携 role 尝试下信封与基线逐字不变；全部公开响应（含 bazi-profile）无 dayun_timeline_view、dayun_classical_direction、dayun_sanming_conversion、dayun_shenfeng_conversion 键；人生总览大运维仍 not_available 且文案逐字不变。
+- G11 方法切换一致性：同一命例两方法视图的 natal、direction、counting 逐字相等（同一次组合）。
+
+## 9 实现批（E0375）验收清单
+
+1. 契约差异恰为 §3.2/§7 所裁：`_bazi_profile` 可选集恰增 traditional_role 一键、校验同形于合盘/桃花先例；`_life` 与其他场景零改动；engine 门禁零改动。
+2. 构建器字段与 §4 逐字对平（键名、取值域、定稿文案、条目行序）；§6.2 六类校验均有测试落点；§5 空态三形态（恰逢节、神峰零日、神峰 not_provided）均有测试落点。
+3. 等价比对：role 缺席语料（真实命例清单先行登记于实现批治理记录）新旧两树逐封套深等价、清单外差异 0；role 在场差异严格限于新键 dayun_presentation 与其投影放行。
+4. Golden G1–G11 全部落地并通过；公开新专项按名接入 validate.yml，密封伴随专项只入离线验收且如实标注；既有 bazi-profile、人生总览、桃花/合盘 role 相关测试不作修改地通过（若必须改动任何既有断言，停工报告父级，不得放宽）。
+5. 机上全配方复跑（scripts/accept_offline.py --suite all）SUCCESS、0 失败：基线为实现批开工时直读的最新正式验收总数（本审定基线 2937），增量逐项对平；本审定不涉密封资产，实现批原则上无换代——若实现中发现密封侧依赖，停工报告。
+6. 前端同批落地 §3.2 控件与时间轴呈现，浏览器契约测试按名更新并如实标注 stub/真实性质；控件与呈现文案过 §4.5 禁入自查。
+7. 台账：E0375 事件归属 TJ-017.3、状态保持「阻塞」不变（人生总览大运维与跨规则面未开放，本任务不因本阶段关账）；关账批 E0376 在正式验收与部署记录齐备后另行派发，TJ-017.3 行的最终处置由关账批按 WBS 原文逐项对平后决定，本审定不预判。
+
+## 10 仍不可判断范围
+
+- 大运与原局、流年的全部作用判断（合冲刑害、应期、效力）属 TJ-017.2 跨规则调用，未建；本阶段开放不包含、不暗示其任何部分。
+- 人生总览大运维保持 not_available：总览组合层批准未给（`dayun_timeline_approved` 恒 False），其开放须另行裁定，不在本阶段。
+- 事业财运场景的大运消费（TJ-023.3）不在本阶段，未接线。
+- 神峰口径第二运起的起始区间在注册证据内不存在（组合层不导出），本阶段与任何后续阶段均不得以十年平移拟制，除非另有来源经准入链注册。
+- 单点交运日期与起运岁数在已注册契约内不存在：换算只产区间、年龄无原典口径；呈现层永不折算。
+- TJ-017.3 呈现面以外的扶抑、长生冲突与其余不启动清单九项，状态一律不变。
+
+## 11 本批产出与边界
+
+- 产出：本审定文档（docs/product/TJ0173_STAGED_OPENING_PHASE2.md）、公开治理测试（tests/test_tj0173_staged_opening_phase2.py，已按名接入 validate.yml）、台账事件 E0374 与 TASK_STATUS 的 TJ-017.3 行续写。
+- 未实施声明：本批未改动 scenario_engine.py、public_projection.py、engine.py 及任何运行代码，未新增场景输入，未翻转任何 Variant 或治理标志；§3–§8 的全部形态均为对实现批 E0375 的裁定契约，不构成任何已实现能力的主张。
