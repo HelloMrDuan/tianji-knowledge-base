@@ -245,3 +245,52 @@ TJ-017.3 的时间轴视图面（第 1–5 项）在证据与执行上真正独�
 
 基线（开工三核实直读）：main HEAD ed71b32605682c080dab38e5a5bb4b559a419c8f、台账末号 E0374、机上 cicd 钉 26b63e64bed736b08a7dcd686f6a75de733fd44ba9eec9195248e69730485329；管线对 ed71b326 的正式验收 SUCCESS 总数 2945（public-git-checkout 15 + public-only 24 + private-backend 2906，证据 acceptance-ed71b32605682c080dab38e5a5bb4b559a419c8f.json），即审定基线 2937 + 审定批 8 公开测。
 机上全配方复跑（scripts/accept_offline.py --suite all，密封快照同钉）：复跑树 d5c648b65e0b5b3311d2c8b05070897b68be3bc8 与 PR 头的全部代码、测试与前端内容逐字一致（PR 头仅在此基础上追加本治理记录与台账三文件，该三文件的专项测试与台账门禁已在本批实跑 PASS，见本节末）——SUCCESS、0 失败 0 错误，总数 2978（15 + 24 + private-backend 2939）。增量 +33 逐项对平：新增公开专项 test_tj0173_dayun_public_presentation 21 测 + 密封专项 test_tj0173_dayun_public_sealed 12 测，均落 private-backend 分区；审定批公开测按 §7 更新后仍 8 测、净增 0；private-backend skipped 5 → 6（+1 为公开专项的前端源码守卫测在组装树无 web/ 时按 E0359 先例跳过，本机与公开 CI 均实跑通过）。Playwright 专项本地实跑 2/2 通过（fixture 为本批组装树真实后端录制），第一阶段 Playwright 专项同页回归 2/2 通过。台账门禁：scripts/check_task_tracking.py plain 与 --base ed71b32605682c080dab38e5a5bb4b559a419c8f 双模式 PASS（375 事件、PR change 恰 TJ-017.3 一行）。本批止于 PR，不自行合并；正式验收与部署由管线在合并后产生，关账 E0376 另行对平。
+
+## 13 关账（E0376，2026-11-02，append-only 追加）
+
+本节由关账批 E0376 追加，§0–§12 原文一字未动。关账基线：实现 PR #548 已合并，Merge SHA `e893bc2005cfbc1cd4235f114804e393bf76442d`，台账 375 事件；本节逐项消费 §9 第 7 项预留的关账对平（正式验收、部署记录、生产实测、行状态处置）。
+
+### 13.1 合并与公开 CI
+
+- PR #548 于 2026-11-01T17:45:40Z 合并，Merge SHA `e893bc2005cfbc1cd4235f114804e393bf76442d`（本批开工经 API 复核 main HEAD 与 PR merged 状态一致，PR 头 `71923b8e972d590278733564f6bc67ab49331282`）。
+- 公开 CI：合并提交的 check runs 共 20 项，19 success + 1 skipped、0 failure（run 41333111242）。
+
+### 13.2 正式验收终局核对
+
+- 部署管线正式验收记录 `acceptance-e893bc2005cfbc1cd4235f114804e393bf76442d.json`（机上 deployment-evidence/tj-core-01 直读）：**SUCCESS**，`total_tests_run = 2978`、`total_skipped = 7`、failures/errors 均为 0；分项 = public-git-checkout 15（skipped 0）+ public-only 24（skipped 1）+ private-backend 2939（skipped 6、261 模块）。
+- 对平：正式基线 2945（`ed71b326`，15 + 24 + 2906、skip 5）+ 33 = 2978，与 §12.6 实现批复跑逐项一致（新增公开专项 21 测 + 密封专项 12 测均落 private-backend 分区，2906 → 2939；private-backend skipped 5 → 6，增量恰为公开专项前端源码守卫测在组装树无 web/ 时按 E0359 先例跳过）。
+- 密封口径未动：验收记录内 `knowledge_file_count = 237`、`knowledge_total_bytes = 16722816`、`knowledge_manifest_sha256 = 26b63e64bed736b08a7dcd686f6a75de733fd44ba9eec9195248e69730485329`，机上 cicd 钉复核同值，无换代。
+
+### 13.3 部署终局核对
+
+- `deploys.log`：ACCEPTED 2026-11-01T18:06:17Z；**DEPLOYED 2026-11-01T18:06:47Z**，image `tianji-api:cicd-prerelease-e893bc20`、web `ghcr.io/hellomrduan/tianji-web:e893bc2005cfbc1cd4235f114804e393bf76442d`、health+bazi ok、port 8080、pin `3e5d801089a90a25d73e4aa63db345d46964d37bffa63c938d43beeea55af615`。
+- pin 口径说明（防误读，沿 E0373 先例）：deploys.log 的 pin 为部署 bundle 钉，本批因 src 变更（新构建器、服务端门、投影放行）由前值 `d9cbbf03…` 变为 `3e5d8010…`；密封知识清单钉仍为 `26b63e64…`（§13.2），两钉不混同。
+
+### 13.4 生产实测（第二阶段独立验收）
+
+- 方法：部署完成后，经机上生产服务（127.0.0.1:8080，即部署管线同源核验的生产实例）真实调用 `POST /api/v1/scenarios/public`，探针脚本 `prod_probe_e0376.py` 与输出 `prod_probe_e0376_out.json` 留机上 `/data/workspace/`；共 59 项断言，**全部通过**（含 /health rag_ready）。出生时刻均为在册 Golden 公开例。断言口径按公开投影后形态设定（沿 E0373 教训）：`dayun_presentation` 为定域放行后逐字保留的呈现对象、其内 id 为 §4 契约内容，trace/rule_matches 通道的匿名化不属本阶段改动面，未按场景层口径断言。
+- (a) G1 盘（1958-08-15T19:30:00+08:00、traditional_role=male）：HTTP 200，`result.dayun_presentation` 在位；顶层恰八键、variant = `dayun-public-presentation-v1`、status = presented、role 块逐字（selection 恒 explicit_historical_category_not_inferred_identity）；方向 forward/顺行、counting_target = future_jie、counted_jie = 白露、natal 四柱（戊戌/庚申/甲子/甲戌、甲）与 Golden 逐字一致；三命 duration interval_days = [2840, 2850)（max_inclusive False）、8 运条目（干支、十神、起止区间端点）与 Golden 逐字全等、state 恒 interval；两方法 natal 与 direction 逐字相等（G11 形态）。
+- (a) 续·两口径分立与证据对象：神峰 duration interval_days = [2760, 2880)、text_result_days = 2760；首运 start_interval = [1966-03-06T19:30:00+08:00, 1966-07-04T19:30:00+08:00) 且 derivation = composition_level_birth_plus_shenfeng_duration_interval、decade_shifts = not_provided_for_shenfeng_at_composition_level 逐字在位；notices 恰为三命 {methods_presented_separately}、神峰 {methods_presented_separately, shenfeng_decade_shifts_not_provided}；evidence.rules 恰三条 (r038, bazi.phase2.dayun_classical_direction)、(r039, bazi.phase2.dayun_sanming_conversion)、(r041, bazi.phase2.dayun_shenfeng_conversion)，sequence_disclosure = {variant: bazi-dayun-month-sequence-research-v1, ten_god_rule_id: bazi.phase2.ten_gods}、validation 三项逐字、composition_chain 恰四 Variant（dayun-direction-classical-v1、bazi-dayun-adjacent-jie-research-v1、dayun-conversion-sanming-v1、bazi-dayun-month-sequence-research-v1）；引文 id 集恰等（三命 {direction_rule, vol11_direction_witness, handover_decade}、神峰 {sf_ex1, sf_ex3, sf_ex4}）；scope 两条与 limitations 四条与构建器定稿常量逐字一致；method_options 两口径 selectable 恒 True。每条用户可见事实均可回溯至上述注册证据与同请求组合执行记录（composition_chain 与 validation 为同请求校验结论）。
+- (b) 同盘不带 role：HTTP 200，`dayun_presentation` 整块缺席；将 (a) 响应全域剥除该键后与本响应逐叶深等价（差异 0）——role 缺席路径与基线逐字一致的生产面复核。
+- (c) 空态两形态：神峰第二运起（(a) 内）entries 2–8 恒 state = not_provided、start_interval = null；G5 恰逢节盘（2000-02-04T20:40:24+08:00、female）顶层 status = unresolved、方向 backward 照常呈现、两方法 duration 均 unresolved 且 reason 逐字（三命 zero_jie_boundary_convention_unreviewed、神峰 zero_day_count_not_exemplified_in_text）、8 运条目恒 unresolved 且无区间、干支序列与 Golden 逐字一致、两方法 notices 均含 zero_jie_boundary。
+- (d) 零泄漏全量扫描：四份响应（(a)/(b)/(c) 与 life）全域键扫描——研究键 dayun_timeline_view、dayun_timeline_views、dayun_classical_direction、dayun_sanming_conversion、dayun_shenfeng_conversion 零出现（evidence.rules 内的 phase2_step_id 为 §4.3 契约值、非键泄漏）；作用键 natal_interaction、luck_assessment 零出现；(a)/(b)/(c) 含 fuyi、useful_god、strength 子串的键零出现；两份呈现对象内无 age 类与 start_date/end_date 单点字段。`life` 响应（同 G1 盘、target_year 2026）：无 dayun_presentation 键；dayun_timeline_approved 共 3 处、全 False；condition_markers 的 dayun_timeline 维 condition = not_available、reason 与 exit_text 与 E0362 订正文案逐字一致，integrated_reading.dayun 同文逐字在位——人生总览大运维文案与旗标逐字不变。
+
+### 13.5 WBS 验收口径对平与行状态处置
+
+- WBS 原文实测：TJ-017.3 =「用户可读时间轴视图」，验收口径 =「允许方法选择与来源；未知/争议交运年份用空态，而不是拟制时间」；任务分界同表实测——跨规则调用属 TJ-017.2（「原局＋大运＋流年跨规则调用」）、组合与序列对齐属 TJ-017.4（明示「与 TJ-017.3 显示面无涉」的反向分界），人生总览大运维属总览组合层批准面（E0362 文案在册、本阶段 §2.4 第 6 项判不在本阶段范围）。
+- 逐条对平：(1) 用户可读时间轴视图——bazi-profile 定域 `dayun_presentation` 只读时间轴已部署，§13.4 (a) 生产实测真实可达（用户显式选择传统口径后呈现实测全形态，缺席整块缺席）；(2) 允许方法选择与来源——method_options 两口径并列可选（默认三命、神峰一键可达），sources 引文逐字随呈现、evidence 三规则齐备，§13.4 (a) 已逐项核实；(3) 未知/争议交运年份用空态而不是拟制时间——恰逢节 unresolved（§13.4 (c) 生产实测）、神峰零日 unresolved、神峰二运起 not_provided，全程无单点交运日期、无年龄数值、无十年平移区间（§13.4 (d) 扫描佐证）。三条口径在本阶段审定范围（§2.4 第 1–5 项）内全部成立。
+- 余项判定：§2.4 第 6–8 项不属本行本体——第 6 项人生总览大运维是总览组合层的批准决定（§13.4 (d) 已核实其保持关闭、文案与旗标不变，其开放须另行裁定）；第 7 项作用与岁运效力是 TJ-017.2 本体与未建规则；第 8 项单点与年龄在已注册契约内不存在。三者均不构成 TJ-017.3 的未清余项。与第一阶段 E0373 处置的区别：TJ-013.3 的本体建成面含四对象、本阶段只开放其二，未开放段各有本行内未清前置，故行保持阻塞；TJ-017.3 的本体口径与本阶段开放面恰等，无本行内余面。行备注历史亦印证：研究级视图本体已于 E0220 关账，此后保持阻塞的唯一原因是「公开开放待分阶段开放裁定」——该裁定已经用户作出、本阶段已执行并经正式验收与生产实测独立核实。
+- **行状态处置：TJ-017.3 关账为「已部署验收」**（E0376 事件状态与 TASK_STATUS 行状态均据此填写）。本结论与 §13.6 的第二阶段子项关闭结论分别表述、依据不同：子项关闭是分阶段开放第二阶段工作项的阶段结论，行关账是 WBS 本行口径逐条对平的结论，二者分别成立。
+- 状态钉转换（如实记录）：审定批公开治理测试 `test_tj0173_staged_opening_phase2.py` 的台账断言含 TJ-017.3 行状态钉「阻塞」（审定时点形态）；本批行关账使该钉按状态转换先例（同 E0360 契约钉转换形态）在本 PR 内同步转换为「已部署验收」，测试内注释注明依据（审定 §9 第 7 项将行最终处置留待关账批决定、§13.5 本节对平结论），其余断言逐字未动；该测试其余 7 测与本批全部公开测试在 PR CI 的处理见合并记录。
+
+### 13.6 第二阶段关闭结论与分阶段开放两阶段总收束
+
+- **分阶段开放第二阶段（TJ-017.3 大运公开，范围严格限于独立性复核判独立的五面）关闭**：审定 E0374 → 实现 E0375 → 合并 #548 → 正式验收 SUCCESS 2978 → 部署（bundle pin `3e5d8010…`、密封清单钉 `26b63e64…` 不变）→ 生产实测 59 项全过。普通用户现已能在八字页（显式选择传统大运口径后）看到有证据（方向、换算、序列逐条可回溯 r038/r039/r041 注册证据与同请求组合执行记录）、有边界（范围声明与限制随呈现同出、不含年龄、单点日期与作用判断）、能解释（两套注册口径分立并列、来源引文逐字、未知与争议以空态如实呈现）的大运时间轴；恰逢节等暂不可判形态按契约呈空态，无任何拟制填充；未修改底层裁决规则、未翻转任何源 Variant 与治理标志、未解锁扶抑 U1/U3、未绕过 TJ-017.2 跨规则门禁（作用面在呈现内构造性不存在）。
+- **两阶段总收束**：用户 2026-11-01 裁定的分阶段开放两阶段均已执行并各自独立验收完毕——第一阶段 TJ-013.3 喜用可读呈现（调候 + 病药，E0373 关账）与第二阶段 TJ-017.3 大运公开（本关账），普通用户已实际获得两面有证据、有边界、能解释的结果呈现，均为呈现层定域放行、证据绑定、fail-closed，不动底层裁决。两阶段之外保持关闭且状态不变的面：扶抑 U1/U3（用户暂缓维持）、TJ-017.2 跨规则调用（未建）、人生总览大运维（组合层批准未给）、TJ-013.3 旺衰段与冲突段（其行保持阻塞）、长生冲突群（未裁）、siling-yin-pilot 扩月、B002、TJ-018.2、TJ-019.2、TJ-028.1、合化 P-D1/P-D2、三刑 B2/B5 等不启动清单各项；后续任何开放须另行裁定，本关账不预判。
+- 用户否决面：§12.5 前端新增可选控件「传统大运口径（可选）」已随实现批与本关账向用户呈报，沿 E0360 先例留否决口（后端门控以 role 缺席为缺省安全态，撤下控件不影响其余部分）；本关账不另设否决项。
+
+### 13.7 机上清理与环境记录
+
+- 清理：机上未见实现批专属组装/暂存目录（实现批复跑位于部署管线托管的检出与组装面内，`platform-deploy` 为部署代理自有目录、不在本批清理范围）；本批探针脚本与输出（`prod_probe_e0376.py`、`prod_probe_e0376_out.json`）及管线等待日志（`wait_accept_e0376.log`）按先例保留于机上 `/data/workspace/`；核实时 /data 已用 38%、余 13G。
+- 环境记录：本批等待管线期间发生一次 VM 替换，本机 `/root/.ssh` 被清空、SSH 一度被出口代理 reset，且本机 /tmp 内首版探针脚本随替换丢失；已按 AGENTS.md 在册程序自 `~/.ssh/config` 还原 `/root/.ssh/config` 并核对网关指纹 `SHA256:DQYkbhc9iBYcfVvhXZBsT9qhzAyLvLIyjmm57Vimfxk` 逐字一致后恢复，探针已于 `~/workspace` 持久路径重写（断言与期望未变）并复跑全过；机上部署管线、验收进程与等待脚本未受影响（验收文件由机上等待脚本记录落盘），本节全部数字均以恢复后前台直读为准。
+- 本批止于 PR，未自行合并；合并由父级执行。
