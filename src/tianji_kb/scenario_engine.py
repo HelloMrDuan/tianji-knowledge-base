@@ -464,18 +464,142 @@ def _yearly(inputs):
     }
 
 
+def _spouse_star_year_pairing(natal, traditional_role, target_year,
+                              flow_ganzhi, annual_structure):
+    """Position-level pairing of spouse-star lens candidates with the flow year.
+
+    TJ-022.2 adjudication (E0359) Q1: the only lawful pairing facts are
+    stem identity, branch identity, and the reviewed six-harmony / harm /
+    clash relations between a candidate position and the target-year
+    ganzhi. No strength, favourability, efficacy, or relationship-outcome
+    semantics are produced. Fail-closed per E/F conditions in the
+    adjudication: a missing lens (F2) or unresolved lens evidence (F3)
+    raises instead of degrading to an empty block, and any annual hit
+    whose natal branch disagrees with the candidate pillar branch (F4)
+    raises.
+    """
+    result_chart = natal["result"]
+    lens = result_chart.get("traditional_spouse_star_lens")
+    if lens is None:
+        raise ValueError("Reviewed spouse star lens is missing")
+    lens_rule = next(
+        (rule for rule in natal["rule_matches"]
+         if rule["rule_id"] == "bazi.phase2.spouse_star_lens"),
+        None,
+    )
+    if (lens_rule is None or not lens_rule.get("evidence_ids") or
+            any(eid not in natal["evidence"] for eid in lens_rule["evidence_ids"])):
+        raise ValueError("Reviewed spouse star lens evidence is missing")
+    lens_evidence_ids = list(lens_rule["evidence_ids"])
+
+    flow_stem = flow_ganzhi[0]
+    flow_branch = flow_ganzhi[1]
+    pillar_branches = {
+        pillar["name"]: pillar["branch"]["value"]
+        for pillar in result_chart["pillars"]
+    }
+    hits_by_pillar = {}
+    for hit in annual_structure["hits"]:
+        hits_by_pillar.setdefault(hit["natal_pillar"], []).append(hit)
+
+    positions = [("visible", row) for row in lens["visible_positions"]]
+    positions += [("hidden", row) for row in lens["hidden_positions"]]
+    pairings = []
+    block_evidence_ids = list(lens_evidence_ids)
+    hit_rule_ids = []
+    for position_kind, row in positions:
+        pillar = row["pillar"]
+        branch = pillar_branches[pillar]
+        base = {
+            "position_kind": position_kind,
+            "pillar": pillar,
+            "branch": branch,
+            "stem": row["stem"],
+            "ten_god": row["ten_god"],
+        }
+        if flow_stem == row["stem"]:
+            pairings.append({
+                **base,
+                "relation": "same_stem",
+                "rule_id": None,
+                "evidence_ids": list(lens_evidence_ids),
+            })
+        if flow_branch == branch:
+            pairings.append({
+                **base,
+                "relation": "same_branch",
+                "rule_id": None,
+                "evidence_ids": list(lens_evidence_ids),
+            })
+        for hit in hits_by_pillar.get(pillar, []):
+            if hit["natal_branch"] != branch:
+                raise ValueError(
+                    "Spouse star relation inconsistent with natal pillar branch")
+            pairings.append({
+                **base,
+                "relation": hit["relation_type"],
+                "rule_id": hit["rule_id"],
+                "evidence_ids": list(hit["evidence_ids"]),
+            })
+            if hit["rule_id"] not in hit_rule_ids:
+                hit_rule_ids.append(hit["rule_id"])
+            for eid in hit["evidence_ids"]:
+                if eid not in block_evidence_ids:
+                    block_evidence_ids.append(eid)
+
+    if not positions:
+        pairing_state = "no_candidates"
+    elif not pairings:
+        pairing_state = "no_pair_hits"
+    else:
+        pairing_state = "paired"
+    block = {
+        "scope": "reviewed_spouse_star_positions_and_year_pairs",
+        "traditional_role": traditional_role,
+        "role_basis": "user_selected_traditional_lens",
+        "candidate_ten_gods": copy.deepcopy(lens["candidate_ten_gods"]),
+        "candidate_positions": {
+            "visible": copy.deepcopy(lens["visible_positions"]),
+            "hidden": copy.deepcopy(lens["hidden_positions"]),
+        },
+        "target_year": {
+            "year": target_year,
+            "ganzhi": flow_ganzhi,
+            "stem": flow_stem,
+            "branch": flow_branch,
+        },
+        "pairs_checked": len(positions),
+        "pairings": pairings,
+        "pairing_state": pairing_state,
+        "evidence_ids": block_evidence_ids,
+        "reviewed_rule_ids": ["bazi.phase2.spouse_star_lens", *hit_rule_ids],
+        "interpretation_allowed": False,
+        "limitations": "只观察配偶星候选位置与目标流年干支的同一性与已审六合、六害、六冲；无命中不代表配偶星缺失或婚恋缺失，不判断婚期、正缘、吉凶、合化或旺衰喜忌。",
+    }
+    return block, block_evidence_ids
+
+
 def _romance(inputs):
-    _require_with_optional(inputs, {"birth_value", "target_year"}, {"birth_zone"})
+    _require_with_optional(inputs, {"birth_value", "target_year"}, {"birth_zone", "traditional_role"})
     birth_value = inputs["birth_value"]
     target_year = inputs["target_year"]
     if not isinstance(birth_value, str):
         raise ValueError("birth_value must be an ISO datetime string")
     if type(target_year) is not int or not 1900 <= target_year <= 2100:
         raise ValueError("target_year must be an integer from 1900 through 2100")
+    # TJ-022.2 (E0359) Q2 verdict (ii): one new optional per-request
+    # traditional_role, validated and forwarded exactly like the
+    # compatibility precedent; absent means absent (never backfilled),
+    # and any present non-"male"/"female" value fails closed (F1).
+    traditional_role = inputs.get("traditional_role")
+    if traditional_role is not None and traditional_role not in ("male", "female"):
+        raise ValueError("traditional role must be male or female")
 
     natal_input = {"value": birth_value, "include_xianchi": True, "include_relations": True}
     if "birth_zone" in inputs:
         natal_input["zone"] = inputs["birth_zone"]
+    if traditional_role is not None:
+        natal_input["traditional_role"] = traditional_role
     natal = execute("bazi", natal_input)
     xianchi = copy.deepcopy(natal["result"]["xianchi_lookup"])
     xianchi_rule = next(
@@ -529,6 +653,15 @@ def _romance(inputs):
         "interpretation_allowed": False,
         "limitations": "只观察日支位置与流年地支的六合、六害、六冲；无关系命中不代表婚恋缺失，不判断合化、婚期或吉凶。",
     }
+    # E0: with no explicit role the pairing block, its rule match and its
+    # trace step are entirely absent and the envelope is unchanged.
+    pairing = None
+    pairing_evidence_ids = []
+    if traditional_role is not None:
+        pairing, pairing_evidence_ids = _spouse_star_year_pairing(
+            natal, traditional_role, target_year, flow_ganzhi, annual_structure)
+        for eid in pairing_evidence_ids:
+            evidence[eid] = copy.deepcopy(natal["evidence"][eid])
     activation = {
         "year_branch_basis": {
             "target_branch": xianchi["targets"]["year_branch"],
@@ -563,6 +696,8 @@ def _romance(inputs):
         "spouse_palace_year_relations": spouse_palace,
         "release_scope": "xianchi_structure_only",
     }
+    if pairing is not None:
+        result["spouse_star_year_pairing"] = pairing
     rule_match = {
         "rule_id": "bazi.scenario.xianchi_structure",
         "derived_from_rule_id": "bazi.phase2.xianchi_lookup",
@@ -624,6 +759,20 @@ def _romance(inputs):
                 },
                 "evidence_ids": spouse_evidence_ids,
             },
+            *([{
+                "rule_id": "bazi.scenario.spouse_star_year_pairing",
+                "derived_from_rule_ids": pairing["reviewed_rule_ids"],
+                "variant": "ziping-structural-v1",
+                "matched": True,
+                "kind": "scenario_composition",
+                "evidence_scope": "已审配偶星候选位置与流年干支同一性及六合、六冲、六害；无婚恋断语。",
+                "facts": {
+                    "traditional_role": traditional_role,
+                    "pairs_checked": pairing["pairs_checked"],
+                    "pairings": copy.deepcopy(pairing["pairings"]),
+                },
+                "evidence_ids": pairing_evidence_ids,
+            }] if pairing is not None else []),
         ],
         "trace": [
             *trace,
@@ -637,6 +786,16 @@ def _romance(inputs):
                 },
                 "evidence_ids": spouse_evidence_ids,
             },
+            *([{
+                "step": "reviewed_spouse_star_target_year_pairing",
+                "derived_from_rule_ids": pairing["reviewed_rule_ids"],
+                "facts": {
+                    "traditional_role": traditional_role,
+                    "target_year_branch": flow_branch,
+                    "pairings": copy.deepcopy(pairing["pairings"]),
+                },
+                "evidence_ids": pairing_evidence_ids,
+            }] if pairing is not None else []),
         ],
         "evidence": evidence,
         "warnings": [
@@ -646,7 +805,9 @@ def _romance(inputs):
             "年支与日支两个起查基准分别展示，不裁定其中任何一个为唯一标准。",
             "目标年份是否落在咸池目标支，只表示固定查表结构命中，不等同于桃花旺、恋爱发生或婚姻结果。",
             "《三命通会》相关纳音附加条件尚未纳入自动规则。",
-            "夫妻宫仅以日支位置配对已审六合、六冲、六害；三合、刑、破、合化效力、配偶星、旺衰喜忌、大运和紫微等未组合裁定。",
+            ("夫妻宫仅以日支位置配对已审六合、六冲、六害；配偶星仅以候选位置与流年干支作同一性及已审六合、六冲、六害配对；三合、刑、破、合化效力、旺衰喜忌、大运和紫微等未组合裁定。"
+             if pairing is not None else
+             "夫妻宫仅以日支位置配对已审六合、六冲、六害；三合、刑、破、合化效力、配偶星、旺衰喜忌、大运和紫微等未组合裁定。"),
             "AI 不参与本场景计算。",
         ],
     }

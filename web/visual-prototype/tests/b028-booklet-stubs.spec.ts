@@ -206,6 +206,87 @@ test("TJ-022.3 romance page shows two bases separately and truly recalculates on
   expect(years).toEqual([2026, 2027]);
 });
 
+function romancePairingStub(year: number) {
+  const base = romanceStub(year) as any;
+  base.result.spouse_star_year_pairing = {
+    scope: "reviewed_spouse_star_positions_and_year_pairs",
+    role_basis: "user_selected_traditional_lens",
+    traditional_role: "female",
+    candidate_ten_gods: ["正官", "七杀"],
+    candidate_positions: {
+      visible: [{ pillar: "hour", stem: "庚", ten_god: "正官" }],
+      hidden: [],
+    },
+    target_year: { year, ganzhi: "丙午", stem: "丙", branch: "午" },
+    pairs_checked: 1,
+    pairings: [
+      {
+        position_kind: "visible",
+        pillar: "hour",
+        branch: "午",
+        stem: "庚",
+        ten_god: "正官",
+        relation: "same_branch",
+        rule_id: null,
+        evidence_ids: ["E01"],
+      },
+    ],
+    pairing_state: "paired",
+    reviewed_rule_ids: ["bazi.phase2.spouse_star_lens"],
+    evidence_ids: ["E01"],
+    interpretation_allowed: false,
+    limitations:
+      "只观察配偶星候选位置与目标流年干支的同一性与已审六合、六害、六冲；无命中不代表配偶星缺失或婚恋缺失，不判断婚期、正缘、吉凶、合化或旺衰喜忌。",
+  };
+  return base;
+}
+
+// Stub-level frontend wiring only (E0360): proves the optional role
+// control sends traditional_role solely when explicitly selected and
+// that a well-formed pairing block renders as position facts. Real
+// pairing computation is covered by backend tests, not by this spec.
+test("TJ-022.2 romance page sends traditional_role only when selected and renders the pairing block", async ({ page }) => {
+  const bodies: Array<Record<string, unknown>> = [];
+  await page.route("**/api/v1/scenarios/public", async (route) => {
+    const body = route.request().postDataJSON() as {
+      scenario_id: string;
+      input: { target_year: number; traditional_role?: string };
+    };
+    if (body?.scenario_id === "romance") {
+      bodies.push(body.input as Record<string, unknown>);
+      const json = body.input.traditional_role
+        ? romancePairingStub(body.input.target_year)
+        : romanceStub(body.input.target_year);
+      return route.fulfill({ status: 200, json });
+    }
+    return route.continue();
+  });
+  await page.goto("/romance-structure");
+  await page.getByRole("button", { name: "填入示例" }).click();
+  await page.getByLabel("观察年份").fill("2026");
+  await page.getByRole("button", { name: "查看桃花结构" }).click();
+  await expect(page.locator(".romance-result")).toBeVisible();
+  // Default (unselected): the request carries no role key at all and
+  // no pairing section renders.
+  expect(bodies).toHaveLength(1);
+  expect(bodies[0]).not.toHaveProperty("traditional_role");
+  await expect(page.getByLabel("配偶星候选位置与流年干支配对")).toHaveCount(0);
+
+  await page.getByLabel("传统配偶星口径（可选）").selectOption("female");
+  await page.getByRole("button", { name: "查看桃花结构" }).click();
+  expect(bodies).toHaveLength(2);
+  expect(bodies[1].traditional_role).toBe("female");
+  const section = page.getByLabel("配偶星候选位置与流年干支配对");
+  await expect(section).toBeVisible();
+  await expect(section).toContainText("传统口径候选十神：正官、七杀");
+  await expect(section).toContainText("共核对 1 个候选位置");
+  await expect(section).toContainText("地支相同");
+  await expect(section).toContainText("时柱显干 庚（正官）");
+  await expect(section).toContainText("不判断婚期、正缘、吉凶");
+  await expect(section).not.toContainText("正缘将至");
+  await expect(section).not.toContainText("桃花指数");
+});
+
 function lifeStub() {
   return {
     scenario_id: "life",

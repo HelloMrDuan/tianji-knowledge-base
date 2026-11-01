@@ -13,6 +13,8 @@ const relationNames: Record<string, string> = {
   six_harmony: "六合",
   harm: "六害",
   clash: "六冲",
+  same_branch: "地支相同",
+  same_stem: "天干相同",
 };
 
 const pillarNames: Record<string, string> = {
@@ -43,6 +45,7 @@ function basisLabel(value: string) {
 export function RomanceStructurePage() {
   const [date, setDate] = useState(() => toSolarDateString(readSavedBirthProfile()));
   const [time, setTime] = useState(() => readSavedBirthProfile().time);
+  const [role, setRole] = useState<"" | "male" | "female">("");
   const [targetYear, setTargetYear] = useState(readSavedTargetYear);
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
   const [error, setError] = useState("");
@@ -72,7 +75,12 @@ export function RomanceStructurePage() {
     setResult(null);
     try {
       if (!isValidTargetYear(targetYear)) throw new Error("请选择 1901 至 2098 年的公历年份");
-      const response = await executeRomanceScenario({
+      const romanceInput: {
+        birth_value: string;
+        birth_zone?: string;
+        target_year: number;
+        traditional_role?: "male" | "female";
+      } = {
         birth_value: (() => {
         const currentProfile = readSavedBirthProfile();
         const initialSolar = toSolarDateString(currentProfile);
@@ -86,7 +94,10 @@ export function RomanceStructurePage() {
       })(),
         target_year: targetYear,
         birth_zone: toApiZone(readSavedBirthProfile()),
-      });
+      };
+      // 仅当用户显式选择传统口径时才发送；未选择时请求与既往逐字一致。
+      if (role) romanceInput.traditional_role = role;
+      const response = await executeRomanceScenario(romanceInput);
       if (version !== requestVersion.current) return;
       (() => {
         const currentProfile = readSavedBirthProfile();
@@ -120,6 +131,10 @@ export function RomanceStructurePage() {
   const flowYear = payload.target_year || {};
   const spousePalace = payload.spouse_palace_year_relations;
   const spouseRelations: Array<any> = Array.isArray(spousePalace?.relations) ? spousePalace.relations : [];
+  const spousePairing = payload.spouse_star_year_pairing;
+  const pairingRows: Array<any> = Array.isArray(spousePairing?.pairings) ? spousePairing.pairings : [];
+  const pairingVisible: Array<any> = Array.isArray(spousePairing?.candidate_positions?.visible) ? spousePairing.candidate_positions.visible : [];
+  const pairingHidden: Array<any> = Array.isArray(spousePairing?.candidate_positions?.hidden) ? spousePairing.candidate_positions.hidden : [];
   const evidence = result
     ? Object.entries(result.evidence).map(([id, value]) => displayEvidence(id, value))
         .filter((item): item is NonNullable<typeof item> => item !== null)
@@ -176,6 +191,15 @@ export function RomanceStructurePage() {
               <input type="number" min={MIN_TARGET_YEAR} max={MAX_TARGET_YEAR} step={1} value={targetYear}
                 onChange={(event) => { invalidateResult(); setTargetYear(Number(event.target.value)); }}
                 required />
+            </label>
+            <label>
+              <span>传统配偶星口径（可选）</span>
+              <select value={role} onChange={(e) => { invalidateResult(); setRole(e.target.value as "" | "male" | "female"); }}>
+                <option value="">不启用</option>
+                <option value="female">传统女命口径 · 看官杀</option>
+                <option value="male">传统男命口径 · 看财星</option>
+              </select>
+              <small>只用于传统配偶星定位观察，不代表婚恋结论；不启用时不做配偶星配对。</small>
             </label>
           </div>
           <div className="romance-entry-note">
@@ -310,6 +334,57 @@ export function RomanceStructurePage() {
                 <p>当前未命中本版已审核的六合、六冲、六害成对规则；不代表婚恋缺失或没有其他结构关系。</p>
               )}
               <p className="romance-spouse-boundary">日支位置不等于完整婚姻判断；没有裁定合化、生克效力、配偶星、婚期或吉凶。</p>
+            </section>
+          )}
+
+          {spousePairing && (
+            <section className="romance-natal romance-spouse-pairing" aria-label="配偶星候选位置与流年干支配对">
+              <div className="result-section-heading">
+                <div><span>星</span><h2>配偶星候选位置 × {targetYear} 流年干支</h2></div>
+                <small>位置级配对 · 不作婚恋预测</small>
+              </div>
+              <p>
+                传统口径候选十神：{(spousePairing.candidate_ten_gods || []).join("、")}。
+                显干候选 {pairingVisible.length} 处、藏干候选 {pairingHidden.length} 处，共核对 {spousePairing.pairs_checked} 个候选位置；
+                流年干支 <strong>{spousePairing.target_year?.ganzhi}</strong>。
+              </p>
+              {pairingRows.length ? (
+                <div className="romance-spouse-hits">
+                  {pairingRows.map((item, index) => {
+                    const linked = Array.isArray(item.evidence_ids)
+                      ? item.evidence_ids.map((id: string) => evidenceById.get(id))
+                          .filter((ref: any) => ref !== undefined)
+                      : [];
+                    return (
+                      <article key={item.relation + "-" + item.pillar + "-" + item.stem + "-" + index}>
+                        <strong>{relationNames[item.relation] || item.relation}</strong>
+                        <span>
+                          {pillarNames[item.pillar] || item.pillar}
+                          {item.position_kind === "hidden" ? "藏干" : "显干"} {item.stem}（{item.ten_god}）
+                          ↔ 流年 {item.relation === "same_stem" ? spousePairing.target_year?.stem : spousePairing.target_year?.branch}
+                        </span>
+                        <small>{item.rule_id ? `规则：${item.rule_id}` : "同一性为位置事实，无规则命中"}</small>
+                        {linked.length ? (
+                          <details>
+                            <summary>查看对应古籍短引（{linked.length}）</summary>
+                            {linked.map((ref: any) => (
+                              <blockquote key={ref.id}>
+                                <b>{ref.title} · {ref.grade}</b>
+                                <p>{ref.quote}{ref.excerpt ? "（节选）" : ""}</p>
+                              </blockquote>
+                            ))}
+                          </details>
+                        ) : <p className="romance-source-missing">缺少可核验的短引，不追加推断。</p>}
+                      </article>
+                    );
+                  })}
+                </div>
+              ) : spousePairing.pairing_state === "no_candidates" ? (
+                <p>所选传统口径下，原局显干与藏干中未见候选十神位置。</p>
+              ) : (
+                <p>候选位置与流年干支未见天干、地支同一性，也未命中已审六合、六害、六冲。</p>
+              )}
+              <p className="romance-spouse-boundary">{spousePairing.limitations}</p>
             </section>
           )}
 
