@@ -78,7 +78,7 @@
 | TJ-021.2 | M4 | 不匹配/服务失败/禁用 AI 的用户友好空态 | 已合并 | [公开 #307](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/307) | 2026-10-25 | #307 已合并 |
 | TJ-021.3 | M4 | 真实浏览器语义与文字可读性 | 已合并 | [公开 #316](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/316) | 2026-10-25 | #316 已合并；夜主题对比度修复 + 390px 可读性断言已在主干 |
 | TJ-022.1 | M5 | 桃花两套咸池与原局关系证据独立 | 已合并 | [公开 #334](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/334) | 2026-10-25 | #334 已合并；桃花两套咸池验证（年支/日支分别查表+独立激活+不相加成概率）已在主干；新增 3 项测试由离线受控验收执行，公开 CI 不冒称 |
-| TJ-022.2 | M5 | 经审配偶宫/星与年运条件 | 阻塞 | — | — | 阻塞核实（[B033] 审计批，见 E0275）：配偶宫（日支）×流年经审成对结构已在主干并经正式验收执行（interpretation_allowed=false）；配偶星未参与桃花年运（仅合盘透镜且另有冲突登记未裁）、旺衰喜忌条件被 M2 阻塞（TJ-013.1 与 TJ-013.2），维持阻塞，见 docs/product/M4_M5_LEFTOVER_TASK_AUDIT.md |
+| TJ-022.2 | M5 | 经审配偶宫/星与年运条件 | 阻塞 | — | — | 阻塞核实（[B033] 审计批，见 E0275）：配偶宫（日支）×流年经审成对结构已在主干并经正式验收执行（interpretation_allowed=false）；配偶星未参与桃花年运（仅合盘透镜且另有冲突登记未裁）、旺衰喜忌条件被 M2 阻塞（TJ-013.1 与 TJ-013.2），维持阻塞，见 docs/product/M4_M5_LEFTOVER_TASK_AUDIT.md；配偶星结构面审定完成（E0359，见 docs/product/TJ0222_SPOUSE_STAR_ADJUDICATION.md）：配对只许位置级事实、Q2 裁定新增可选输入 traditional_role（沿合盘先例、缺席即缺席），实现批 E0360 待派；喜忌面维持阻塞 |
 | TJ-022.3 | M5 | 桃花场景结果书卷化 | 已合并 | [公开 #338](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/338) | 2026-10-25 | #338 已合并；桃花书卷化验证（普通语言条件摘要+两套方法独立展示+目标年真实重算）已在主干；桩 spec 公开 CI 执行、真实后端 spec 离线受控验收，公开 CI 不冒称 |
 | TJ-023.1 | M5 | 财官食印比劫位置/事件条件聚合 | 已合并 | [公开 #334](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/334) | 2026-10-25 | #334 已合并；财官食印聚合验证（五组十神数量与真实位置保留+缺旺衰不写升职破财）已在主干；新增 2 项测试由离线受控验收执行，公开 CI 不冒称 |
 | TJ-023.2 | M5 | “事业”与“财运”两个可见视图 | 已合并 | [公开 #309](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/309) | 2026-10-25 | #309 已合并 |
