@@ -663,6 +663,20 @@ jobs:
       # recorded in the audit document (offline, NOT re-run in
       # public CI).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_program_remainder_audit_e0358.py' -v
+      # TJ-022.2 spouse-star structural-face adjudication
+      # (E0359): adjudication only -- Q1 pins the pairing to
+      # position-level facts (branch/stem identity plus reviewed
+      # six-harmony/harm/clash relations; strength/favorability,
+      # efficacy, marriage-prediction semantics and scores all
+      # prohibited), Q2 rules (ii) a new OPTIONAL traditional_role
+      # input for the romance scenario along the compatibility
+      # per-person precedent (absent = pairing block entirely
+      # absent, fail-closed), with the product-surface impact
+      # flagged separately in the adjudication document. The
+      # batch implements NOTHING: this test pins the adjudication
+      # on file, the current romance contract verbatim unchanged,
+      # and the TJ-022.2 ledger row still blocked.
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0222_spouse_star_adjudication.py' -v
       # TJ-018.3 P1 Sanxing Canonical promotion (E0329) public
       # contracts: governance register continuation (Canonical
       # chapter/section/term built for Lun Sanxing with the 11
