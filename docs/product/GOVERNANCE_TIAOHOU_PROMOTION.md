@@ -6,6 +6,8 @@
 
 治理 pending-8 审计（E0341）将 tiaohou-qiongtong-v1 归为「缺 Canonical 经典建制」类，须先立设计审定批；设计批 E0350 已定稿并经 E0351 修订（窗口节解法 A）。本批按设计实施：新建 Canonical 经典 `bazi.classic.qiongtong`、11 章、110 节、术语 1 条、Phase1 规则 r042–r051、Phase2 步 `bazi.phase2.tiaohou_assessment`，治理行翻转为 registered。范围外（未做）：siling 试点任何变更、扶抑 U1/U3、tiaohou 查表语义与判定、harness 契约、合化不变量口径、场景接线与公开开放、AI。
 
+注（基线口径订正）：任务书给定的基线总数 2811 是神峰批（E0348）的验收总数；本批开工直读管线 deployment-evidence 验收 JSON，设计批合并 e2900875 = SUCCESS 2816（DEPLOYED 2026-10-31T22:59:47Z、pin 746c5f3a…）、本批基线 3dd83b6f = SUCCESS 2817（public-git-checkout 15、public-only 24 且 skipped 1、private-backend 2778；DEPLOYED 2026-10-31T23:05:24Z、pin 01ee254f…）——设计两批各增公开测试 5/1 测。故本批增量对平基线 = 2817（§7 按此对平）。
+
 ## 1 五问答复
 
 （1）真正补齐的专业判断是什么？——无新增判断。补齐的是调候 Variant 的证据注册：《穷通宝鉴》此前不在密封 Canonical 五经典内（渊海子平、三命通会、协纪辨方书、滴天髓阐微、神峰通考），TJ-013.1 已审定的 119 条条目引文 0 条可在 Canonical 验证，evidence_binding 为 pending_phase1_rule_registration。本批按设计建经典、建节、按干注册规则，使调候条目陈述（只陈述原文先次之序与盘面存在性）成为可由 EvidenceResolver 逐条复核、由 ExecutionTrace 留痕、由密封 Golden 真实 fire 的注册产出。查表不产生任何吉凶、强弱、格局或喜用裁决，注册前后产出值逐字不变（§5）。
@@ -66,8 +68,8 @@
 
 ## 7 实施记录与换代清单
 
-- 机上全配方复跑（accept_offline --suite all，本批最终代码 + 暂存快照 + 新钉）：{{REPRO}}。
-- 换代清单（交付父级，合并前先行换代）：暂存快照 237 文件 / {{BYTES_AFTER}} 字节 / manifest SHA256 `{{MANIFEST_AFTER}}`（旧值 237 / 16,272,294 / `380bb73e34babc30bcc80e5ad7f296175f6be206af6a77f1abb4a07b94da654b`）；私有检出根 manifest 与 import_public_snapshot EXPECTED（237 / {{BYTES_AFTER}}）已同步重生 verify 通过；live 快照备份名建议 `secure/tianji-knowledge-pre-tiaohou-backup`；cicd 钉改 `TRUSTED_MANIFEST_SHA256={{MANIFEST_AFTER}}`（父级合并前先行，本批不动 live 与 cicd 钉）。
+- 机上全配方复跑（accept_offline --suite all，本批代码 + 暂存快照 + 新钉）：复跑 #1（代码 9e8af3fa + 暂存快照 v1）private-backend 非零退出——失败面经本地同配方定位为未迁移计数钉（合化 SEALED_MEASUREMENTS 三总数、Phase1 可执行规则集与来源集、五组密封注册测试计数族、phase1 coverage 工件未再生成），已在第二提交 90be62a5 逐项迁移并再生成覆盖工件；复跑 #2（代码 90be62a5 + 暂存快照 v2 + 钉 `2b046a847dda3956975eb232fedb12d63bc49cb4bfb6ecd84a86dc1a1a11fcd1`）**SUCCESS、exit=0、0 失败**：总测试 2837、skipped 1（public-git-checkout 15、public-only 24 且 skipped 1、private-backend 2798）；对基线正式验收 2817（同为 15 + 24/2772 口径之订正值，见 §0 注）增量 +20 = 密封新测 14（test_phase2_bazitiaohou）+ 公开新测 6（test_governance_tiaohou_promotion_public）；Phase 2 校验 80 步 79 validated、238 Golden 用例全过；Phase4 freeze PASS。
+- 换代清单（交付父级，合并前先行换代）：暂存快照 237 文件 / 16,722,816 字节 / manifest SHA256 `2b046a847dda3956975eb232fedb12d63bc49cb4bfb6ecd84a86dc1a1a11fcd1`（旧值 237 / 16,272,294 / `380bb73e34babc30bcc80e5ad7f296175f6be206af6a77f1abb4a07b94da654b`）；私有检出根 manifest 与 import_public_snapshot EXPECTED（237 / 16,722,816）已同步重生 verify 通过；live 快照备份名建议 `secure/tianji-knowledge-pre-tiaohou-backup`；cicd 钉改 `TRUSTED_MANIFEST_SHA256=2b046a847dda3956975eb232fedb12d63bc49cb4bfb6ecd84a86dc1a1a11fcd1`（父级合并前先行，本批不动 live 与 cicd 钉）。
 - 密封变更文件恰 5 件：data/canonical/bazi/phase1_knowledge.json、data/canonical/bazi/phase2_execution.json、data/canonical/bazi/phase2_golden.json、data/coverage/phase1.json、data/product/knowledge_coverage.json。
 - 台账：E0352（归属 TJ-018.2、状态「阻塞」不变、后三列「—」）；TASK_STATUS 仅动 TJ-018.2 行。
 
