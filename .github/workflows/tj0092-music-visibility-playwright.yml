@@ -1,0 +1,35 @@
+name: TJ-009.2 Music Visibility Playwright
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/tj0092-music-visibility-playwright.yml"
+      - "web/visual-prototype/**"
+      - "docs/product/TASK_STATUS.md"
+      - "docs/product/TASK_HISTORY.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  music-visibility-playwright:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: web/visual-prototype/package-lock.json
+      - name: Install frontend
+        working-directory: web/visual-prototype
+        run: npm ci
+      - name: Install Chromium
+        working-directory: web/visual-prototype
+        run: npx playwright install --with-deps chromium
+      - name: Run real-browser music visibility tests (real component and audio element; only the browser visibility signal is simulated — see spec header)
+        working-directory: web/visual-prototype
+        run: CI=true npm test -- tests/tj0092-music-visibility.spec.ts
