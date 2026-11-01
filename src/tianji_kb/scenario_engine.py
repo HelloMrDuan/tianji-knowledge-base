@@ -10,6 +10,9 @@ from datetime import date, timedelta
 from .bazi_adjudication import ADJUDICATION_VARIANT
 from .bazi_bingyao import VARIANT as _BINGYAO_VARIANT
 from .bazi_core import ten_god, stem_five_combination, reviewed_branch_pair_relations
+from .bazi_dayun_compose import classical_dayun_timeline
+from .bazi_dayun_public import public_dayun_presentation
+from .bazi_dayun_timeline_view import dayun_timeline_view
 from .bazi_tiaohou import VARIANT as _TIAOHOU_VARIANT
 from .bazi_xiyong_public import (
     BINGYAO_STEP_ID as _BINGYAO_STEP_ID,
@@ -115,10 +118,51 @@ def _xiyong_phase1_refs():
     return refs
 
 
+def _dayun_public_gate(value, zone, traditional_role):
+    """Server-side-only gate (TJ-017.3 phase 2, adjudication §3.3).
+
+    One composition with server-fixed constants (periods=8,
+    birth_time_precision='second', include_shenfeng=True — none of
+    them client-selectable), both method views derived from that same
+    composition, and the public builder validating the views against
+    the composition it is handed as the execution record. This is the
+    exact composition the registered views entry
+    ``classical_dayun_timeline_views`` performs internally; it is
+    spelled out here so the builder can hold the same request's
+    composition. Any failure raises and fails the whole scenario
+    request — no partial, presentation-less success (§3.3).
+    """
+    composition = classical_dayun_timeline(
+        value, zone=zone, traditional_role=traditional_role, periods=8,
+        birth_time_precision="second", include_shenfeng=True)
+    return public_dayun_presentation(
+        dayun_timeline_view(composition, method="sanming"),
+        dayun_timeline_view(composition, method="shenfeng"),
+        execution={"composition": composition})
+
+
 def _bazi_profile(inputs):
-    _require_with_optional(inputs, {"value"}, {"strength_variant", "zone"})
+    _require_with_optional(
+        inputs, {"value"},
+        {"strength_variant", "zone", "traditional_role"})
     if not isinstance(inputs["value"], str):
         raise ValueError("value must be an ISO datetime string")
+    # TJ-017.3 phase 2 (adjudication §3.2): the optional traditional
+    # role is validated before any computation, exactly like the
+    # compatibility and romance precedents; it is never defaulted,
+    # never inferred, and is used per-request only (never persisted).
+    traditional_role = inputs.get("traditional_role")
+    if traditional_role is not None \
+            and traditional_role not in ("male", "female"):
+        raise ValueError("traditional_role must be male or female")
+    # The role is a scenario-layer input for the dayun gate below
+    # only: it must not flow into the domain execution, where the
+    # same key would switch on the spouse-star lens and change the
+    # chart itself. The domain executions keep the baseline inputs
+    # verbatim, so a role-present envelope differs from baseline
+    # exactly by the new dayun_presentation key (adjudication §9.3).
+    domain_inputs = {key: value for key, value in inputs.items()
+                     if key != "traditional_role"}
     if inputs.get("strength_variant") == ADJUDICATION_VARIANT:
         # Baseline behavior verbatim: without the server-side gate this
         # value reaches the engine's client gate and fails with exactly
@@ -132,7 +176,7 @@ def _bazi_profile(inputs):
     # so the presentation, the trace and the evidence are one request's
     # records. Clients can neither name these keys (contract above) nor
     # reach them through the domain endpoint (engine gate unchanged).
-    exec_inputs = dict(inputs)
+    exec_inputs = dict(domain_inputs)
     exec_inputs["tiaohou_variant"] = _TIAOHOU_VARIANT
     exec_inputs["bingyao_variant"] = _BINGYAO_VARIANT
     raw = execute("bazi", exec_inputs, allow_research=True)
@@ -145,7 +189,7 @@ def _bazi_profile(inputs):
     # the same inputs once without the gate, require the gated scope to
     # extend that baseline, and restore the baseline. Fail-closed on
     # any other relationship.
-    baseline_scope = execute("bazi", inputs)["result"].get(
+    baseline_scope = execute("bazi", domain_inputs)["result"].get(
         "production_scope")
     gated_scope = result.get("production_scope")
     if not isinstance(baseline_scope, str) \
@@ -168,6 +212,12 @@ def _bazi_profile(inputs):
             "phase1_rule_refs": _xiyong_phase1_refs(),
         })
     result["xiyong_presentation"] = presentation
+    # TJ-017.3 phase 2: with no role selected the gate never runs and
+    # the envelope stays byte-identical to the baseline; with a role
+    # the dayun presentation is attached (fail-closed, §3.3).
+    if traditional_role is not None:
+        result["dayun_presentation"] = _dayun_public_gate(
+            inputs["value"], inputs.get("zone"), traditional_role)
     return _normalize_raw("bazi-profile", raw)
 
 

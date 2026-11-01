@@ -97,29 +97,37 @@ class StagedOpeningPhase2AdjudicationTests(unittest.TestCase):
             self.assertIn(anchor, self.governance)
 
     def test_scenario_contract_and_public_surface_unchanged(self):
-        # 审定批未实现钉（实现批按 §7 更新）：bazi-profile 契约逐字
-        # 未增 traditional_role；场景层与 API 层无 dayun 呈现引用；
-        # 构建器模块尚不存在。
+        # 【实现批 E0375 按审定 §7 翻转行 1–2 有意更新】原钉（审定批
+        # 未实现形态：契约未增键、无呈现引用、构建器不存在）已由本批
+        # 翻转为实现形态：契约增可选 traditional_role；场景层新增服
+        # 务端专属门（固定常量调用）；构建器模块存在。研究方法仍不
+        # 经场景层直达（engine 客户端门禁另测在册）。
         self.assertIn(
-            '_require_with_optional(inputs, {"value"}, '
-            '{"strength_variant", "zone"})', self.scenario)
+            '_require_with_optional(\n        inputs, {"value"},\n'
+            '        {"strength_variant", "zone", "traditional_role"})',
+            self.scenario)
         for token in ("dayun_presentation", "bazi_dayun_public",
-                      "public_dayun_presentation",
-                      "classical_dayun_timeline"):
-            self.assertNotIn(token, self.scenario, token)
-            self.assertNotIn(token, self.api, token)
-        self.assertFalse(PUBLIC_BUILDER.exists())
+                      "public_dayun_presentation"):
+            self.assertIn(token, self.scenario, token)
+        self.assertTrue(PUBLIC_BUILDER.exists())
+        # API 层不特判新呈现键：放行只发生在投影定域（§3.1）。
+        self.assertNotIn("dayun_presentation", self.api)
 
     def test_projection_strip_list_baseline(self):
-        # 既有 dayun 研究键全域剥离在册（审定基线）；新呈现键尚未进
-        # 剥离表（实现批按 §7 第 3 项新增全域剥离 + 定域放行）。
+        # 【实现批 E0375 按审定 §7 翻转行 3 有意更新】新呈现键已进
+        # 全域剥离 + 定域放行：投影表含 dayun_presentation 的容器剥
+        # 离与 bazi-profile 定域放行源码形；放行逐字性与畸形剥离的
+        # 行为实测在 test_tj0173_dayun_public_presentation 的
+        # ProjectionScopeTests（合成有效呈现）钉住。
         for key in ("dayun_timeline_view", "dayun_timeline_views",
                     "dayun_classical_direction",
                     "dayun_sanming_conversion",
                     "dayun_shenfeng_conversion"):
             self.assertIn("container.pop('%s', None)" % key,
                           self.projection, key)
-        self.assertNotIn("dayun_presentation", self.projection)
+        self.assertIn("container.pop('dayun_presentation', None)",
+                      self.projection)
+        self.assertIn("'dayun_presentation'", self.projection)
 
     def test_engine_client_research_gates_registered(self):
         for message in (

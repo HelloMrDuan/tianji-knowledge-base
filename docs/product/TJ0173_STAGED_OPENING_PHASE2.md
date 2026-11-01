@@ -194,3 +194,54 @@ TJ-017.3 的时间轴视图面（第 1–5 项）在证据与执行上真正独�
 
 - 产出：本审定文档（docs/product/TJ0173_STAGED_OPENING_PHASE2.md）、公开治理测试（tests/test_tj0173_staged_opening_phase2.py，已按名接入 validate.yml）、台账事件 E0374 与 TASK_STATUS 的 TJ-017.3 行续写。
 - 未实施声明：本批未改动 scenario_engine.py、public_projection.py、engine.py 及任何运行代码，未新增场景输入，未翻转任何 Variant 或治理标志；§3–§8 的全部形态均为对实现批 E0375 的裁定契约，不构成任何已实现能力的主张。
+
+## 12 实现记录（E0375，实现批 append-only 追加）
+
+本节由实现批 E0375 在审定契约（§1–§11）之后追加，只记录实测结果，不改动审定原文任何一句。实现分支 tj0173-phase2-impl-e0375，基线 main ed71b32605682c080dab38e5a5bb4b559a419c8f（审定 PR #547 已合并、台账 374 事件、密封钉 26b63e64bed736b08a7dcd686f6a75de733fd44ba9eec9195248e69730485329 不变、无密封资产变更、无换代）。
+
+### 12.1 §6.1 五项追溯链答复（逐项：实现位置 + 测试落点）
+
+1. 方向事实 → r038：构建器（src/tianji_kb/bazi_dayun_public.py）自同请求组合结果的 direction 块逐字投影 label/counting_target/counted_jie/rule_quote，并以 validate_classical_direction 在构建时复算（不过即抛错）；evidence.rules 第一条恒为 (bazi.rule.r038, bazi.phase2.dayun_classical_direction, dayun-direction-classical-v1, bazi.source.sanmingtonghui-applied)。测试落点：公开专项 GoldenFormTests（合成组合+真实 classical_direction）与密封专项 RealChainGoldenTests（真实链五例 direction 逐字对平注册 Golden）。
+2. 三命换算事实 → r039：duration 与 entries 的 start_interval 逐字取自同请求组合的 sanming_conversion 与 sequence_time_alignment，构建器逐行对平（ganzhi/十神/端点/basis/method/variant），handover_basis 引文（handover_decade）converted 时随 sources 呈现且文本逐字等于组合携带文本。测试落点：密封专项逐例断言 8 运端点、decomposition 与 counting 对平本批 Golden（tests/golden_tj0173_dayun_public.json，期望锚定注册 Golden 并由 3 运扩展至 8 运、手工复核）；篡改类 test_interval_endpoint_altered 钉端点改字必抛错。
+3. 神峰换算事实 → r041：duration 逐字取自组合并列块，首运 start_interval 逐字等于 first_period_start_interval 并带 derivation=composition_level_birth_plus_shenfeng_duration_interval 与 decade_shifts=not_provided_for_shenfeng_at_composition_level；二运起条目恒 not_provided（视图派生形态，构建器断言与组合行对平，伪造十年平移在 test_shenfeng_decade_shift_fabricated 钉为抛错）。引文 sf_ex1/sf_ex3/sf_ex4 逐字对平组合携带文本。
+4. 序列事实 → 月柱邻接展开 + bazi.phase2.ten_gods：evidence.sequence_disclosure 恒为 {variant: bazi-dayun-month-sequence-research-v1, ten_god_rule_id: bazi.phase2.ten_gods}；条目 ganzhi/stem/branch/十神逐行对平组合 sequence rows 与对齐表（period_index 一一对应，构建器断言）。
+5. 引文集合恰等：构建器对每方法 sources 的引文 id 集与注册集逐一断言（三命方向块 {direction_rule, vol11_direction_witness}、converted 另 handover 块 {handover_decade}、神峰块 {sf_ex1, sf_ex3, sf_ex4}），多一少一或文本改字皆抛错；evidence.validation 恒为 {direction_self_validated: True, interval_fidelity: 'verbatim_from_composition', quote_sets: 'exact_registered_citation_sets'}（任一不成立抛错而非置 False）。测试落点：公开专项 test_quote_text_altered、密封专项逐例引文 id 序断言。
+
+### 12.2 §9 验收清单七项逐项结果
+
+1. 契约差异：_bazi_profile 可选集恰增 traditional_role 一键（{strength_variant, zone, traditional_role}）；role 值域在任何计算前校验（非法值 ValueError 先于执行）；role 自 domain execute 输入剥离（engine 的 traditional_role 转发会触发配偶星透镜、改变命盘本体，不属封闭差异清单——剥离后 role 在场与缺席的命盘、xiyong 呈现与信封其余部分逐字一致，由密封 G6 钉住）；_life 与其他场景函数零改动（git diff 仅 _bazi_profile 一处场景函数变更，另加模块级 _dayun_public_gate）；engine 门禁零改动（git diff 不含 engine.py）。
+2. 构建器与 §4 逐字对平：顶层键恰八键、方法视图字段集、duration 两形态、entries 三态、notices 封闭五码、scope 两条与 limitations 四条定稿文本均与 §4 一致（父级逐节亲核用）；§6.2 六类校验 (a)–(f) 均有测试落点（公开专项 TamperTests 五测 + 构建器内校验 + BannedContentTests）；§5 空态三形态均有落点：恰逢节（G5 密封+公开合成）、神峰零日（S1 密封+公开合成）、神峰 not_provided（G4 断言）。
+3. 等价比对：G6 语料 8 例（清单见 §12.4）role 缺席与 role 在场（剥离新键后）逐封套深等价（密封专项）；新旧两树比对结果见 §12.4。
+4. Golden G1–G11 全部落地：G1–G5+神峰零日密封真实链、G6 密封等价、G7 公开禁入扫描、G8 公开篡改类、G9 密封 API 对平、G10 密封四场景、G11 公开+密封两方法一致性；公开新专项 test_tj0173_dayun_public_presentation.py 已按名接入 validate.yml；密封伴随 test_tj0173_dayun_public_sealed.py 只入离线验收、文件头如实标注；既有断言唯一改动 = 审定批自身两处现状钉按 §7 有意更新（test_scenario_contract_and_public_surface_unchanged、test_projection_strip_list_baseline，注释注明依据），其余既有测试不作修改地通过（全配方复跑 0 失败为证）。
+5. 机上全配方复跑：见 §12.6（基线、总数、增量逐项对平）；无密封变更、无换代（git diff 不含 data/ 与密封资产路径；机上 cicd 钉复核仍为 26b63e64…）。
+6. 前端同批落地：八字页新增可选控件与时间轴只读呈现（默认三命、两口径分立切换、unresolved 呈「交运时间暂不可判」）；Playwright stub 专项 tj0173-dayun-presentation.spec.ts + 专属 workflow 已按名落地，fixture 为组装后真实后端录制的 Q1 真实响应（文件头如实标注 stub 契约性质）；页面文案三处按现状收窄（hero、能力边界卡、说明与限制节），呈现对象与页面文案过 §4.5 禁入自查（公开专项 BannedContentTests 扫描呈现对象；页面呈现节只转写呈现对象字段）。
+7. 台账：本批事件 E0375 归属 TJ-017.3、状态「阻塞」不变；TASK_STATUS 仅 TJ-017.3 一行续写；门禁 check_task_tracking.py plain 与 --base ed71b326… 双模式 PASS（实测见 §12.6）。
+
+### 12.3 §7 翻转清单十项实际落地对照
+
+1. _bazi_profile 可选集增 traditional_role：已落地（scenario_engine.py）。
+2. 新增服务端门 _dayun_public_gate：已落地——固定常量 periods=8、precision='second'、include_shenfeng=True 调 classical_dayun_timeline 一次 + dayun_timeline_view 两次 + 构建器；role 缺席零执行（门只在 role 在场时调用）。
+3. public_projection 新增 dayun_presentation 全域剥离 + 定域放行：已落地——沿第一阶段 xiyong 先例（懒 import is_valid_public_dayun_presentation、容器循环剥离、仅 bazi-profile 的 result 容器校验后回挂逐字对象）；既有五研究键剥离逐字不变。
+4. 新模块 bazi_dayun_public.py + Variant dayun-public-presentation-v1：已建。
+5. 源 Variant/治理标志不翻转：未动（bazi_dayun_compose.py、bazi_dayun_timeline_view.py、bazi_dayun_classical.py、bazi_dayun_sequence.py 均不在 git diff 内）。
+6. 治理登记三行不变：未动（bazi_registration_governance.py 不在 diff 内）。
+7. engine 客户端研究门禁逐字不变：未动（engine.py 不在 diff 内）；公开专项 ClientGateTests 钉研究键仍被契约拒绝。
+8. _life 与 dayun_timeline_approved 两处恒 False、E0362 文案不变、_life 不转发 role：未动（_life 不在 diff 内）；密封 G10 钉四场景携 role 行为（契约绑定场景拒绝未知键、role 自有场景信封零 dayun 键）与人生总览 limitations 文案逐字在场、旗标全 False。
+9. 前端同批落地：已落地（api.ts 输入类型、BaziProfilePage 控件/呈现节/文案收窄、bazi-profile.css 样式）；未选 role 时请求不携带该键（Playwright 专项断言请求体），页面既有行为不变（既有 Playwright 与前端卫生测试不作修改地通过）。
+10. validate.yml 按名新增公开测试一行（附注释块）；密封专项不入公开 CI：已落地。
+
+### 12.4 G6 语料清单与等价比对结果
+
+语料（全部真实出生时刻、Asia/Shanghai）：1958-08-15T19:30:00+08:00、1949-01-04T09:30:00+08:00、1959-06-15T10:30:00+08:00、2000-02-04T20:40:24+08:00、1958-09-07T19:30:00+08:00、1975-05-20T08:15:00+08:00、1988-11-02T23:45:00+08:00、2001-02-28T06:00:00+08:00（同登记于 tests/golden_tj0173_dayun_public.json 的 equivalence_corpus）。
+
+等价比对实测（机上双组装树，同一密封快照、同一 runtime 构建）：基线树（ed71b326 组装）与实现树（本批分支组装）各导出 17 个信封——语料 8 例 role 缺席 bazi-profile（strength_variant 在场）+ yearly、romance（缺席与携自有 role 各一）、career、life、compatibility（双 role）、daily、weekly、monthly——逐封套深等价、差异 0；role 在场差异严格限于 bazi-profile 信封 result 内新键 dayun_presentation（密封 G6 钉：同树 role 在场信封剥离新键后与 role 缺席信封逐字相等，语料 8 例 × 双 role 全过）。
+
+
+### 12.5 前端新增可选控件的用户呈报事项
+
+八字命理页出生资料表单内新增可选控件「传统大运口径（可选）」（下拉：不启用/传统男命口径/传统女命口径），同合盘/桃花既有 role 控件先例：缺省未选择、仅用户显式选择时随本次计算请求发送 traditional_role、不写入出生资料档案、不进 URL、逐请求不落盘；未选择时不呈现大运时间轴、页面行为与此前逐字一致。说明小字：「只用于按传统口径呈现大运方向与交运区间；不选择时不呈现大运时间轴。该选择只随本次计算发送，不保存。」本事项随实现批 PR 呈报用户，沿 E0360 先例留否决口：用户若反对，撤下该控件即可（后端门控以 role 缺席为缺省安全态，撤控件不影响其余部分）。
+
+### 12.6 验收数字
+
+基线（开工三核实直读）：main HEAD ed71b32605682c080dab38e5a5bb4b559a419c8f、台账末号 E0374、机上 cicd 钉 26b63e64bed736b08a7dcd686f6a75de733fd44ba9eec9195248e69730485329；管线对 ed71b326 的正式验收 SUCCESS 总数 2945（public-git-checkout 15 + public-only 24 + private-backend 2906，证据 acceptance-ed71b32605682c080dab38e5a5bb4b559a419c8f.json），即审定基线 2937 + 审定批 8 公开测。
+机上全配方复跑（scripts/accept_offline.py --suite all，密封快照同钉）：复跑树 d5c648b65e0b5b3311d2c8b05070897b68be3bc8 与 PR 头的全部代码、测试与前端内容逐字一致（PR 头仅在此基础上追加本治理记录与台账三文件，该三文件的专项测试与台账门禁已在本批实跑 PASS，见本节末）——SUCCESS、0 失败 0 错误，总数 2978（15 + 24 + private-backend 2939）。增量 +33 逐项对平：新增公开专项 test_tj0173_dayun_public_presentation 21 测 + 密封专项 test_tj0173_dayun_public_sealed 12 测，均落 private-backend 分区；审定批公开测按 §7 更新后仍 8 测、净增 0；private-backend skipped 5 → 6（+1 为公开专项的前端源码守卫测在组装树无 web/ 时按 E0359 先例跳过，本机与公开 CI 均实跑通过）。Playwright 专项本地实跑 2/2 通过（fixture 为本批组装树真实后端录制），第一阶段 Playwright 专项同页回归 2/2 通过。台账门禁：scripts/check_task_tracking.py plain 与 --base ed71b32605682c080dab38e5a5bb4b559a419c8f 双模式 PASS（375 事件、PR change 恰 TJ-017.3 一行）。本批止于 PR，不自行合并；正式验收与部署由管线在合并后产生，关账 E0376 另行对平。
