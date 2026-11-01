@@ -126,7 +126,9 @@ class SatisfiabilityRegisterTests(unittest.TestCase):
 
 class GoldenConsistencyTests(unittest.TestCase):
     def test_cases_are_real_and_derived(self):
-        self.assertEqual(len(CASES), 7)
+        # 7 S2 cases + 4 E0355 earth-consumption cases (executed in
+        # test_tj0112_earth_consumption_integration_sealed.py).
+        self.assertEqual(len(CASES), 11)
         for case in CASES.values():
             self.assertTrue(case['derivation'])
             self.assertEqual(len(case['expected_pillars']), 4)

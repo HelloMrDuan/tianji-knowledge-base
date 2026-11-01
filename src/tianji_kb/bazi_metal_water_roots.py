@@ -1013,6 +1013,31 @@ METAL_YOU_SATISFIABILITY = {
                      '一、二独立承担，不改判。',
   'conclusion_verdict': 'chart_unrealizable_unchanged',
   'runtime_verdict_surface_changed': False},
+ 'integration_e0355': {
+  'event': 'E0355',
+  'scope': '土根消费接入实现（按 E0257 契约 bazi-earth-root-'
+           'consumption-contract-v1）',
+  'wiring': 'bazi_action_conditions.registered_eligible 对土显干改'
+            '查契约格级白名单：仅戊×巳、己×午两格（per_stem_listed '
+            '禄位）计资格；待定八格恒阻断、无分支回退；未分级八格'
+            '按契约裁定不计资格（禁止以排除法机械接入）；无根六格'
+            '不计资格。密封政策未改（仍无土集），日根 effective '
+            '口径与藏干资格口径均未接入。',
+  'channel_3_status': 'retired_as_independent_channel',
+  'channel_3_basis': '接入落地后通道三不再是独立证明通道（其预登记'
+                     '的复核条件已由 E0257 订正＋本批接入两步满足）'
+                     '：禄位两格在含巳/午支的盘中确可满足土显干资格'
+                     '。但全酉盘（通道一所迫）上任何根位支只能是酉'
+                     '：戊×酉为 no_root、己×酉为 '
+                     'conflicted_pending，均非白名单格，故接入不为'
+                     '本形态打开任何真实盘通道。',
+  'conclusion_verdict': 'chart_unrealizable_unchanged',
+  'conclusion_basis': '不可满足结论自本批起由通道一（藏干唯一支）与'
+                      '通道二（全酉显干干对）两条历法通道独立承担'
+                      '，逐项复核不变（见 CHANNEL3_REVIEW_E0257 与 '
+                      'bazi_earth_roots.'
+                      'EARTH_CONSUMPTION_INTEGRATION_E0355 的判定面'
+                      '对账）。'},
  'factor_layer_note': '本形态的 scope 评估逻辑由因子层测试覆盖（合成'
                       '因子输入，标注 factor-level，沿 commanding 批'
                       'FactorLayerTests 先例）：因子层基线八条件可全'

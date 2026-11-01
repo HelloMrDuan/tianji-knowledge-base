@@ -8,8 +8,13 @@ blocked, ungraded structural cells must be adjudicated NOT eligible
 cells must be fact-consumption only, the S2 channel-three review must
 leave channels one/two and the unrealizable conclusion unchanged
 while restating channel three, the surface audit must cover all
-seven predicates plus D-1 with zero earth-root consumption, and no
-runtime module may import the earth register (zero wiring).
+seven predicates plus D-1 with zero earth-root consumption, and --
+as adjudicated at E0257 -- no runtime module imported the earth
+register (zero wiring). E0355 state transition: the contract's one
+adjudicated landing point (registered_eligible in
+bazi_action_conditions) is now wired to this contract's whitelist;
+the wiring-locus test below pins the new state exactly (one locus,
+contract-derived whitelist, the other runtime modules still clean).
 """
 import inspect
 import unittest
@@ -191,9 +196,20 @@ class SurfaceAuditTests(unittest.TestCase):
                 s['earth_root_consumption'].startswith('none'),
                 s['surface'])
 
-    def test_no_runtime_wiring_anywhere(self):
-        for name in ('bazi_action_conditions.py', 'bazi_adjudication.py',
-                     'bazi_strength.py', 'bazi_pattern.py'):
+    def test_wiring_locus_is_exactly_the_contract_surface(self):
+        # E0355 state transition (was test_no_runtime_wiring_anywhere
+        # at E0257, when zero wiring was the adjudicated state): the
+        # contract's single landing point is now wired, and ONLY
+        # there. bazi_action_conditions derives its earth whitelist
+        # from this contract record; it must not consume the raw
+        # grading table (the exclusion shape over EARTH_ROOT_TABLES
+        # is the contract's forbidden mechanical integration), and
+        # the other runtime modules stay entirely clean.
+        text = (SRC / 'bazi_action_conditions.py').read_text('utf-8')
+        self.assertIn('EARTH_CONSUMPTION_CONTRACT', text)
+        self.assertNotIn('EARTH_ROOT_TABLES', text)
+        for name in ('bazi_adjudication.py', 'bazi_strength.py',
+                     'bazi_pattern.py'):
             text = (SRC / name).read_text('utf-8')
             self.assertNotIn('bazi_earth_roots', text, name)
             self.assertNotIn('EARTH_ROOT_TABLES', text, name)

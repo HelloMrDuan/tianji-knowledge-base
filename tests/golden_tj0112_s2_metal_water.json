@@ -202,6 +202,110 @@
    "id": "tj0112-s2-metal-near-miss-geng-stem-combination",
    "source_birth": "1981-09-09T00:30:00+08:00",
    "zone": "Asia/Shanghai"
+  },
+  {
+   "derivation": "Hand derivation (E0355 positive, Wu/Ji whitelist). 1928 Wu-Chen year, Wu-Wu month (five-tiger), 1928-06-10 is a Xin-Si day, a Xin day's Chou hour stem is Ji (five-rat). Day master Xin (metal). Month gate false (Wu, not You). Support-only false: Chen hides Yi (wealth), Wu hides Ding (control). Resource visible true (all three visible stems are earth); peer visible false (no metal visible stem). Day roots: Xin's only root position is Chou (hour), graded light_listed_conflicted in the S1 register, never register-effective -- false. All-visible-roots TRUE, and only through the E0257 contract whitelist wired at E0355: a visible stem's root positions are the chart's same-element root presences, so both earth stems see position branches {Chen, Wu, Si, Chou}. For Wu the cells are Chen (structural_present_ungraded), Wu (conflicted_pending), Si (per-stem-listed Lu -- counts) and Chou (ungraded); for Ji they are Chen (ungraded), Wu (per-stem-listed Lu -- counts), Si (conflicted_pending) and Chou (ungraded). Before the wiring this condition was false. No-unresolved-interactions false (Chou-Wu six-harm). The form does not fire; verdict indeterminate.",
+   "expect": {
+    "classification": "indeterminate",
+    "scope_conditions": {
+     "all_positions_support_only": false,
+     "all_visible_have_registered_roots": true,
+     "effective_day_roots_registered": false,
+     "metal_day_master": true,
+     "no_unresolved_interactions": false,
+     "reviewed_same_element_month_you": false,
+     "visible印_present": true,
+     "visible比_present": false
+    },
+    "sufficient_predicate": null
+   },
+   "expected_pillars": [
+    "戊辰",
+    "戊午",
+    "辛巳",
+    "己丑"
+   ],
+   "id": "tj0112-e0355-metal-earth-wu-listed",
+   "source_birth": "1928-06-10T01:30:00+08:00",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "derivation": "Hand derivation (E0355 positive, Ji whitelist). 1929 Ji-Si year and month (five-tiger), 1929-05-25 is a Geng-Wu day, a Geng day's Mao hour stem is Ji (five-rat). Day master Geng (metal). Month gate false (Si, not You). Support-only false: Si hides Bing (control). Resource visible true (three Ji stems); peer visible false (no metal visible stem). Day roots: Geng's root positions are Si (year) and Si (month), both graded per_stem_listed in the S1 register with clean facts -- register-effective, true. All-visible-roots TRUE through the whitelist: every visible Ji sees earth root-presence branches {Si, Wu}; the Ji cells are Si (conflicted_pending) and Wu (per-stem-listed Lu -- counts). Before the wiring this condition was false. No-unresolved-interactions true. The form does not fire (month gate and support-only fail); verdict indeterminate.",
+   "expect": {
+    "classification": "indeterminate",
+    "scope_conditions": {
+     "all_positions_support_only": false,
+     "all_visible_have_registered_roots": true,
+     "effective_day_roots_registered": true,
+     "metal_day_master": true,
+     "no_unresolved_interactions": true,
+     "reviewed_same_element_month_you": false,
+     "visible印_present": true,
+     "visible比_present": false
+    },
+    "sufficient_predicate": null
+   },
+   "expected_pillars": [
+    "己巳",
+    "己巳",
+    "庚午",
+    "己卯"
+   ],
+   "id": "tj0112-e0355-metal-earth-ji-listed",
+   "source_birth": "1929-05-25T05:30:00+08:00",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "derivation": "Hand derivation (E0355 ungraded-blocked). 1924 Jia-Zi year, Wu-Chen month (five-tiger: Jia year Chen month starts Wu), 1924-04-12 is a Xin-You day, a Xin day's Mao hour stem is Xin (five-rat). Day master Xin (metal). Month gate false (Chen, not You). Support-only false: Zi hides Gui (drain). Resource visible true (Wu month stem); peer visible true (Xin hour stem). Day roots: Xin's root at You is graded per_stem_listed but is touched by the Mao-You six-clash, so it is not register-effective -- false. All-visible-roots FALSE with exactly one blocking stem: Jia is eligible through its Mao policy position and Xin through You (per-stem-listed), while Wu's ONLY root position is Chen -- a structural_present_ungraded cell, which the E0257 contract adjudicates NOT eligible. This is the cell an exclusion-shaped wiring would have miscounted as eligible. No-unresolved-interactions false (Mao-You clash). Verdict indeterminate; the envelope is byte-identical before and after the E0355 wiring.",
+   "expect": {
+    "classification": "indeterminate",
+    "scope_conditions": {
+     "all_positions_support_only": false,
+     "all_visible_have_registered_roots": false,
+     "effective_day_roots_registered": false,
+     "metal_day_master": true,
+     "no_unresolved_interactions": false,
+     "reviewed_same_element_month_you": false,
+     "visible印_present": true,
+     "visible比_present": true
+    },
+    "sufficient_predicate": null
+   },
+   "expected_pillars": [
+    "甲子",
+    "戊辰",
+    "辛酉",
+    "辛卯"
+   ],
+   "id": "tj0112-e0355-metal-earth-wu-ungraded",
+   "source_birth": "1924-04-12T05:30:00+08:00",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "derivation": "Hand derivation (E0355 pending-blocked). 1928 Wu-Chen year, Wu-Wu month, 1928-06-19 is a Geng-Yin day, a Geng day's Mao hour stem is Ji. Day master Geng (metal). Month gate false. Support-only false: Yin hides Jia (wealth) and Bing (control). Resource visible true; peer visible false. Day roots: no branch hides Geng in this chart -- false. All-visible-roots FALSE: Ji passes via its Wu whitelist cell, but Wu's root-presence branches are {Chen, Wu, Yin} -- Chen is structural_present_ungraded, and Wu and Yin are conflicted_pending cells of the Tu Changsheng conflict (sanming-juan2.tu-changsheng), which stay blocked with no branch fallback under the contract. No-unresolved-interactions false (Mao-Chen six-harm). Verdict indeterminate.",
+   "expect": {
+    "classification": "indeterminate",
+    "scope_conditions": {
+     "all_positions_support_only": false,
+     "all_visible_have_registered_roots": false,
+     "effective_day_roots_registered": false,
+     "metal_day_master": true,
+     "no_unresolved_interactions": false,
+     "reviewed_same_element_month_you": false,
+     "visible印_present": true,
+     "visible比_present": false
+    },
+    "sufficient_predicate": null
+   },
+   "expected_pillars": [
+    "戊辰",
+    "戊午",
+    "庚寅",
+    "己卯"
+   ],
+   "id": "tj0112-e0355-metal-earth-wu-pending",
+   "source_birth": "1928-06-19T05:30:00+08:00",
+   "zone": "Asia/Shanghai"
   }
  ],
  "note": "Every case is a real birth instant; pillars are the engine-computed pillars for that instant (hand-derived independently below and cross-checked against the perpetual-calendar pillars). No hand-assembled pillar sets. Derivations state, per case, the hand computation of every scope condition of the new predicates from the S1 register (bazi_metal_water_roots) and the executed factor facts. The two unrealizable entries register constructive proofs, not failed searches.",
