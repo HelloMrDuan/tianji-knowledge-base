@@ -250,6 +250,7 @@ def project_execution(data):
     # evidence/source keys by design) and re-attached untouched below.
     # Every other carrier, shape or scenario is stripped as usual.
     scoped_presentation = None
+    scoped_dayun_presentation = None
     if data.get('scenario_id') == 'bazi-profile' \
             and isinstance(data.get('result'), dict):
         candidate = data['result'].get('xiyong_presentation')
@@ -263,6 +264,17 @@ def project_execution(data):
             from .bazi_xiyong_public import is_valid_public_presentation
             if is_valid_public_presentation(candidate):
                 scoped_presentation = copy.deepcopy(candidate)
+        # TJ-017.3 staged-opening phase 2 (adjudication E0374,
+        # implementation E0375): the same scoped-release discipline
+        # for the dayun presentation — only a bazi-profile envelope,
+        # only in exactly the adjudicated §4 shape.
+        dayun_candidate = data['result'].get('dayun_presentation')
+        if dayun_candidate is not None:
+            from .bazi_dayun_public import (
+                is_valid_public_dayun_presentation,
+            )
+            if is_valid_public_dayun_presentation(dayun_candidate):
+                scoped_dayun_presentation = copy.deepcopy(dayun_candidate)
     aliases = _Aliases(data['evidence'])
     result = {key: _public_facts(value, aliases)
               for key, value in data.items()
@@ -301,6 +313,8 @@ def project_execution(data):
             # every container here; the single validated bazi-profile
             # copy lifted above is the only one re-attached (below).
             container.pop('xiyong_presentation', None)
+            # TJ-017.3 phase 2: same for the dayun presentation key.
+            container.pop('dayun_presentation', None)
             # TJ-012.3 Slice A: the 禄刃 route exclusion is research-only
             # (pending Phase1 registration); never let it reach a public
             # response either.
@@ -340,6 +354,10 @@ def project_execution(data):
     if scoped_presentation is not None \
             and isinstance(result.get('result'), dict):
         result['result']['xiyong_presentation'] = scoped_presentation
+    if scoped_dayun_presentation is not None \
+            and isinstance(result.get('result'), dict):
+        result['result']['dayun_presentation'] = \
+            scoped_dayun_presentation
     return result
 
 

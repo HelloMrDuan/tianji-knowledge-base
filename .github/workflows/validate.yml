@@ -724,6 +724,15 @@ jobs:
       # test_tj0133_xiyong_public_sealed.py runs only in the offline
       # acceptance (assembled backend), never here.
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0133_xiyong_public_presentation.py' -v
+      # TJ-017.3 staged-opening phase 2 implementation (E0375): the
+      # public dayun presentation builder over synthetic compositions
+      # in the registered shape with the real view function (Golden
+      # G1/G4/G5 forms, the Shenfeng zero-day form, banned-content
+      # scan, tamper classes, projection scoping, client contract
+      # gates, guarded frontend wiring pins). The real-chain companion
+      # test_tj0173_dayun_public_sealed.py runs only in the offline
+      # acceptance (assembled backend), never here.
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0173_dayun_public_presentation.py' -v
       # TJ-018.3 P1 Sanxing Canonical promotion (E0329) public
       # contracts: governance register continuation (Canonical
       # chapter/section/term built for Lun Sanxing with the 11

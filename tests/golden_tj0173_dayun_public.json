@@ -1,0 +1,671 @@
+{
+ "cases": [
+  {
+   "birth": "1958-08-15T19:30:00+08:00",
+   "direction": {
+    "counted_jie": {
+     "at": "1958-09-08T11:58:49+08:00",
+     "name": "白露"
+    },
+    "counting_target": "future_jie",
+    "label": "顺行",
+    "value": "forward"
+   },
+   "id": "G1-Q1-forward-male-1958",
+   "pillars": {
+    "day": "甲子",
+    "day_master": "甲",
+    "hour": "甲戌",
+    "month": "庚申",
+    "year": "戊戌"
+   },
+   "role": "male",
+   "sanming": {
+    "counting": {
+     "sub_shichen_remainder_seconds": 1729,
+     "whole_shichen_counted": 284,
+     "sub_shichen_remainder_handling": "interval_upper_bound_only_not_proportionally_converted"
+    },
+    "decomposition": {
+     "remainder_days": 320,
+     "remainder_months_of_30_days": null,
+     "remainder_shichen": 32,
+     "whole_year_units": 7,
+     "remainder_doctrine": "surplus_or_deficit_against_whole_year_units_carries_linearly_at_10_days_per_shichen_never_discarded_never_rounded"
+    },
+    "entries": [
+     [
+      "辛酉",
+      "正官",
+      "1966-05-25T19:30:00+08:00",
+      "1966-06-04T19:30:00+08:00"
+     ],
+     [
+      "壬戌",
+      "偏印",
+      "1976-05-25T19:30:00+08:00",
+      "1976-06-04T19:30:00+08:00"
+     ],
+     [
+      "癸亥",
+      "正印",
+      "1986-05-25T19:30:00+08:00",
+      "1986-06-04T19:30:00+08:00"
+     ],
+     [
+      "甲子",
+      "比肩",
+      "1996-05-25T19:30:00+08:00",
+      "1996-06-04T19:30:00+08:00"
+     ],
+     [
+      "乙丑",
+      "劫财",
+      "2006-05-25T19:30:00+08:00",
+      "2006-06-04T19:30:00+08:00"
+     ],
+     [
+      "丙寅",
+      "食神",
+      "2016-05-25T19:30:00+08:00",
+      "2016-06-04T19:30:00+08:00"
+     ],
+     [
+      "丁卯",
+      "伤官",
+      "2026-05-25T19:30:00+08:00",
+      "2026-06-04T19:30:00+08:00"
+     ],
+     [
+      "戊辰",
+      "偏财",
+      "2036-05-25T19:30:00+08:00",
+      "2036-06-04T19:30:00+08:00"
+     ]
+    ],
+    "interval_days": {
+     "max_days": 2850,
+     "max_inclusive": false,
+     "min_days": 2840
+    },
+    "notice_codes": [
+     "methods_presented_separately"
+    ]
+   },
+   "shenfeng": {
+    "first_interval": {
+     "earliest": "1966-03-06T19:30:00+08:00",
+     "latest": "1966-07-04T19:30:00+08:00",
+     "max_inclusive": false
+    },
+    "interval_days": {
+     "max_days": 2880,
+     "max_inclusive": false,
+     "min_days": 2760
+    },
+    "notice_codes": [
+     "methods_presented_separately",
+     "shenfeng_decade_shifts_not_provided"
+    ],
+    "text_result_days": 2760,
+    "whole_days": 23
+   },
+   "status": "presented",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "birth": "1949-01-04T09:30:00+08:00",
+   "direction": {
+    "counted_jie": {
+     "at": "1948-12-07T12:37:37+08:00",
+     "name": "大雪"
+    },
+    "counting_target": "past_jie",
+    "label": "逆行",
+    "value": "backward"
+   },
+   "id": "G2-Q2-backward-female-1949",
+   "pillars": {
+    "day": "甲午",
+    "day_master": "甲",
+    "hour": "己巳",
+    "month": "甲子",
+    "year": "戊子"
+   },
+   "role": "female",
+   "sanming": {
+    "counting": {
+     "sub_shichen_remainder_seconds": 3143,
+     "whole_shichen_counted": 334,
+     "sub_shichen_remainder_handling": "interval_upper_bound_only_not_proportionally_converted"
+    },
+    "decomposition": {
+     "remainder_days": 100,
+     "remainder_months_of_30_days": null,
+     "remainder_shichen": 10,
+     "whole_year_units": 9,
+     "remainder_doctrine": "surplus_or_deficit_against_whole_year_units_carries_linearly_at_10_days_per_shichen_never_discarded_never_rounded"
+    },
+    "entries": [
+     [
+      "癸亥",
+      "正印",
+      "1958-02-26T09:30:00+08:00",
+      "1958-03-08T09:30:00+08:00"
+     ],
+     [
+      "壬戌",
+      "偏印",
+      "1968-02-26T09:30:00+08:00",
+      "1968-03-08T09:30:00+08:00"
+     ],
+     [
+      "辛酉",
+      "正官",
+      "1978-02-26T09:30:00+08:00",
+      "1978-03-08T09:30:00+08:00"
+     ],
+     [
+      "庚申",
+      "七杀",
+      "1988-02-26T09:30:00+08:00",
+      "1988-03-08T09:30:00+08:00"
+     ],
+     [
+      "己未",
+      "正财",
+      "1998-02-26T09:30:00+08:00",
+      "1998-03-08T09:30:00+08:00"
+     ],
+     [
+      "戊午",
+      "偏财",
+      "2008-02-26T09:30:00+08:00",
+      "2008-03-08T09:30:00+08:00"
+     ],
+     [
+      "丁巳",
+      "伤官",
+      "2018-02-26T09:30:00+08:00",
+      "2018-03-08T09:30:00+08:00"
+     ],
+     [
+      "丙辰",
+      "食神",
+      "2028-02-26T09:30:00+08:00",
+      "2028-03-08T09:30:00+08:00"
+     ]
+    ],
+    "interval_days": {
+     "max_days": 3350,
+     "max_inclusive": false,
+     "min_days": 3340
+    },
+    "notice_codes": [
+     "methods_presented_separately"
+    ]
+   },
+   "shenfeng": {
+    "first_interval": {
+     "earliest": "1957-11-18T09:30:00+08:00",
+     "latest": "1958-03-18T09:30:00+08:00",
+     "max_inclusive": false
+    },
+    "interval_days": {
+     "max_days": 3360,
+     "max_inclusive": false,
+     "min_days": 3240
+    },
+    "notice_codes": [
+     "methods_presented_separately",
+     "shenfeng_decade_shifts_not_provided"
+    ],
+    "text_result_days": 3240,
+    "whole_days": 27
+   },
+   "status": "presented",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "birth": "1959-06-15T10:30:00+08:00",
+   "direction": {
+    "counted_jie": {
+     "at": "1959-07-08T05:19:52+08:00",
+     "name": "小暑"
+    },
+    "counting_target": "future_jie",
+    "label": "顺行",
+    "value": "forward"
+   },
+   "id": "G3-Q3-forward-female-1959",
+   "pillars": {
+    "day": "戊辰",
+    "day_master": "戊",
+    "hour": "丁巳",
+    "month": "庚午",
+    "year": "己亥"
+   },
+   "role": "female",
+   "sanming": {
+    "counting": {
+     "sub_shichen_remainder_seconds": 2992,
+     "whole_shichen_counted": 273,
+     "sub_shichen_remainder_handling": "interval_upper_bound_only_not_proportionally_converted"
+    },
+    "decomposition": {
+     "remainder_days": 210,
+     "remainder_months_of_30_days": 7,
+     "remainder_shichen": 21,
+     "whole_year_units": 7,
+     "remainder_doctrine": "surplus_or_deficit_against_whole_year_units_carries_linearly_at_10_days_per_shichen_never_discarded_never_rounded"
+    },
+    "entries": [
+     [
+      "辛未",
+      "伤官",
+      "1966-12-05T10:30:00+08:00",
+      "1966-12-15T10:30:00+08:00"
+     ],
+     [
+      "壬申",
+      "偏财",
+      "1976-12-05T10:30:00+08:00",
+      "1976-12-15T10:30:00+08:00"
+     ],
+     [
+      "癸酉",
+      "正财",
+      "1986-12-05T10:30:00+08:00",
+      "1986-12-15T10:30:00+08:00"
+     ],
+     [
+      "甲戌",
+      "七杀",
+      "1996-12-05T10:30:00+08:00",
+      "1996-12-15T10:30:00+08:00"
+     ],
+     [
+      "乙亥",
+      "正官",
+      "2006-12-05T10:30:00+08:00",
+      "2006-12-15T10:30:00+08:00"
+     ],
+     [
+      "丙子",
+      "偏印",
+      "2016-12-05T10:30:00+08:00",
+      "2016-12-15T10:30:00+08:00"
+     ],
+     [
+      "丁丑",
+      "正印",
+      "2026-12-05T10:30:00+08:00",
+      "2026-12-15T10:30:00+08:00"
+     ],
+     [
+      "戊寅",
+      "比肩",
+      "2036-12-05T10:30:00+08:00",
+      "2036-12-15T10:30:00+08:00"
+     ]
+    ],
+    "interval_days": {
+     "max_days": 2740,
+     "max_inclusive": false,
+     "min_days": 2730
+    },
+    "notice_codes": [
+     "methods_presented_separately"
+    ]
+   },
+   "shenfeng": {
+    "first_interval": {
+     "earliest": "1966-09-06T10:30:00+08:00",
+     "latest": "1967-01-04T10:30:00+08:00",
+     "max_inclusive": false
+    },
+    "interval_days": {
+     "max_days": 2760,
+     "max_inclusive": false,
+     "min_days": 2640
+    },
+    "notice_codes": [
+     "methods_presented_separately",
+     "shenfeng_decade_shifts_not_provided"
+    ],
+    "text_result_days": 2640,
+    "whole_days": 22
+   },
+   "status": "presented",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "birth": "1959-06-15T10:30:00+08:00",
+   "direction": {
+    "counted_jie": {
+     "at": "1959-06-06T19:00:03+08:00",
+     "name": "芒种"
+    },
+    "counting_target": "past_jie",
+    "label": "逆行",
+    "value": "backward"
+   },
+   "id": "G3-Q4-backward-male-1959",
+   "pillars": {
+    "day": "戊辰",
+    "day_master": "戊",
+    "hour": "丁巳",
+    "month": "庚午",
+    "year": "己亥"
+   },
+   "role": "male",
+   "sanming": {
+    "counting": {
+     "sub_shichen_remainder_seconds": 5397,
+     "whole_shichen_counted": 103,
+     "sub_shichen_remainder_handling": "interval_upper_bound_only_not_proportionally_converted"
+    },
+    "decomposition": {
+     "remainder_days": 310,
+     "remainder_months_of_30_days": null,
+     "remainder_shichen": 31,
+     "whole_year_units": 2,
+     "remainder_doctrine": "surplus_or_deficit_against_whole_year_units_carries_linearly_at_10_days_per_shichen_never_discarded_never_rounded"
+    },
+    "entries": [
+     [
+      "己巳",
+      "劫财",
+      "1962-04-10T10:30:00+08:00",
+      "1962-04-20T10:30:00+08:00"
+     ],
+     [
+      "戊辰",
+      "比肩",
+      "1972-04-10T10:30:00+08:00",
+      "1972-04-20T10:30:00+08:00"
+     ],
+     [
+      "丁卯",
+      "正印",
+      "1982-04-10T10:30:00+08:00",
+      "1982-04-20T10:30:00+08:00"
+     ],
+     [
+      "丙寅",
+      "偏印",
+      "1992-04-10T10:30:00+08:00",
+      "1992-04-20T10:30:00+08:00"
+     ],
+     [
+      "乙丑",
+      "正官",
+      "2002-04-10T10:30:00+08:00",
+      "2002-04-20T10:30:00+08:00"
+     ],
+     [
+      "甲子",
+      "七杀",
+      "2012-04-10T10:30:00+08:00",
+      "2012-04-20T10:30:00+08:00"
+     ],
+     [
+      "癸亥",
+      "正财",
+      "2022-04-10T10:30:00+08:00",
+      "2022-04-20T10:30:00+08:00"
+     ],
+     [
+      "壬戌",
+      "偏财",
+      "2032-04-10T10:30:00+08:00",
+      "2032-04-20T10:30:00+08:00"
+     ]
+    ],
+    "interval_days": {
+     "max_days": 1040,
+     "max_inclusive": false,
+     "min_days": 1030
+    },
+    "notice_codes": [
+     "methods_presented_separately"
+    ]
+   },
+   "shenfeng": {
+    "first_interval": {
+     "earliest": "1962-01-30T10:30:00+08:00",
+     "latest": "1962-05-30T10:30:00+08:00",
+     "max_inclusive": false
+    },
+    "interval_days": {
+     "max_days": 1080,
+     "max_inclusive": false,
+     "min_days": 960
+    },
+    "notice_codes": [
+     "methods_presented_separately",
+     "shenfeng_decade_shifts_not_provided"
+    ],
+    "text_result_days": 960,
+    "whole_days": 8
+   },
+   "status": "presented",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "birth": "2000-02-04T20:40:24+08:00",
+   "direction": {
+    "counted_jie": {
+     "at": "2000-02-04T20:40:24+08:00",
+     "name": "立春"
+    },
+    "counting_target": "past_jie",
+    "label": "逆行",
+    "value": "backward"
+   },
+   "id": "G5-ADV001-zero-jie-2000",
+   "pillars": {
+    "day": "壬辰",
+    "day_master": "壬",
+    "hour": "庚戌",
+    "month": "戊寅",
+    "year": "庚辰"
+   },
+   "role": "female",
+   "sanming": {
+    "entries_ganzhi": [
+     [
+      "丁丑",
+      "正财"
+     ],
+     [
+      "丙子",
+      "偏财"
+     ],
+     [
+      "乙亥",
+      "伤官"
+     ],
+     [
+      "甲戌",
+      "食神"
+     ],
+     [
+      "癸酉",
+      "劫财"
+     ],
+     [
+      "壬申",
+      "比肩"
+     ],
+     [
+      "辛未",
+      "正印"
+     ],
+     [
+      "庚午",
+      "偏印"
+     ]
+    ],
+    "notice_codes": [
+     "methods_presented_separately",
+     "zero_jie_boundary"
+    ],
+    "reason": "zero_jie_boundary_convention_unreviewed",
+    "status": "unresolved"
+   },
+   "shenfeng": {
+    "notice_codes": [
+     "methods_presented_separately",
+     "zero_jie_boundary",
+     "shenfeng_decade_shifts_not_provided",
+     "shenfeng_zero_day_count"
+    ],
+    "reason": "zero_day_count_not_exemplified_in_text",
+    "status": "unresolved"
+   },
+   "status": "unresolved",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "birth": "1958-09-07T19:30:00+08:00",
+   "derivation": "Birth 16:28:49 before the registered Q1 jie （白露 1958-09-08T11:58:49): elapsed 59329 s > 0, so the Sanming conversion converts (8 whole shichen + 1729 s remainder -> [80, 90) days), while the Shenfeng whole-day count is 0, which the registered Shenfeng text does not exemplify -> Shenfeng unresolved only (adjudication §5 second form). Pillars verified with sxtwl; sequence is the forward adjacency from 庚申 with ten gods relative to day master 丁.",
+   "direction": {
+    "counted_jie": {
+     "at": "1958-09-08T11:58:49+08:00",
+     "name": "白露"
+    },
+    "counting_target": "future_jie",
+    "label": "顺行",
+    "value": "forward"
+   },
+   "id": "S1-shenfeng-zero-day-1958",
+   "pillars": {
+    "day": "丁亥",
+    "day_master": "丁",
+    "hour": "庚戌",
+    "month": "庚申",
+    "year": "戊戌"
+   },
+   "role": "male",
+   "sanming": {
+    "counting": {
+     "sub_shichen_remainder_seconds": 1729,
+     "whole_shichen_counted": 8,
+     "sub_shichen_remainder_handling": "interval_upper_bound_only_not_proportionally_converted"
+    },
+    "decomposition": {
+     "remainder_days": 80,
+     "remainder_months_of_30_days": null,
+     "remainder_shichen": 8,
+     "whole_year_units": 0,
+     "remainder_doctrine": "surplus_or_deficit_against_whole_year_units_carries_linearly_at_10_days_per_shichen_never_discarded_never_rounded"
+    },
+    "entries": [
+     [
+      "辛酉",
+      "偏财",
+      "1958-11-26T19:30:00+08:00",
+      "1958-12-06T19:30:00+08:00"
+     ],
+     [
+      "壬戌",
+      "正官",
+      "1968-11-26T19:30:00+08:00",
+      "1968-12-06T19:30:00+08:00"
+     ],
+     [
+      "癸亥",
+      "七杀",
+      "1978-11-26T19:30:00+08:00",
+      "1978-12-06T19:30:00+08:00"
+     ],
+     [
+      "甲子",
+      "正印",
+      "1988-11-26T19:30:00+08:00",
+      "1988-12-06T19:30:00+08:00"
+     ],
+     [
+      "乙丑",
+      "偏印",
+      "1998-11-26T19:30:00+08:00",
+      "1998-12-06T19:30:00+08:00"
+     ],
+     [
+      "丙寅",
+      "劫财",
+      "2008-11-26T19:30:00+08:00",
+      "2008-12-06T19:30:00+08:00"
+     ],
+     [
+      "丁卯",
+      "比肩",
+      "2018-11-26T19:30:00+08:00",
+      "2018-12-06T19:30:00+08:00"
+     ],
+     [
+      "戊辰",
+      "伤官",
+      "2028-11-26T19:30:00+08:00",
+      "2028-12-06T19:30:00+08:00"
+     ]
+    ],
+    "interval_days": {
+     "max_days": 90,
+     "max_inclusive": false,
+     "min_days": 80
+    },
+    "notice_codes": [
+     "methods_presented_separately"
+    ]
+   },
+   "shenfeng": {
+    "notice_codes": [
+     "methods_presented_separately",
+     "shenfeng_decade_shifts_not_provided",
+     "shenfeng_zero_day_count"
+    ],
+    "reason": "zero_day_count_not_exemplified_in_text",
+    "status": "unresolved"
+   },
+   "status": "presented",
+   "zone": "Asia/Shanghai"
+  }
+ ],
+ "equivalence_corpus": [
+  {
+   "birth": "1958-08-15T19:30:00+08:00",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "birth": "1949-01-04T09:30:00+08:00",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "birth": "1959-06-15T10:30:00+08:00",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "birth": "2000-02-04T20:40:24+08:00",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "birth": "1958-09-07T19:30:00+08:00",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "birth": "1975-05-20T08:15:00+08:00",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "birth": "1988-11-02T23:45:00+08:00",
+   "zone": "Asia/Shanghai"
+  },
+  {
+   "birth": "2001-02-28T06:00:00+08:00",
+   "zone": "Asia/Shanghai"
+  }
+ ],
+ "task": "TJ-017.3 staged-opening phase 2 (implementation E0375): public dayun presentation Golden anchors. All births are real instants; expectations are anchored to the registered Golden files golden_tj0174_dayun_compose.json / golden_tj0173_dayun_timeline_view.json / golden_tj0171_dayun_classical.json (hand-derived there) and extended from 3 to 8 periods by the registered deterministic rules (sexagenary adjacency for the sequence, calendar-decade shifts for handovers, whole-day x120 for the Shenfeng duration). The Shenfeng first-period intervals were derived by birth + duration interval and cross-checked by hand for Q1 (matches the registered view Golden verbatim) and Q3."
+}

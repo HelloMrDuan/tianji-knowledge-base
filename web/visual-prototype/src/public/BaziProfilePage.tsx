@@ -34,6 +34,20 @@ const bingyaoPairOrdinals: Record<string, string> = {
   foodwound_seal_wealth: "第二对",
 };
 
+// TJ-017.3 第二阶段：大运呈现的口径标签与暂不可判原因转写（只转写
+// 呈现对象字段，不生成任何新判断；两口径分立呈现，永不合并）。
+const dayunMethodLabels: Record<string, string> = {
+  sanming: "三命通会口径",
+  shenfeng: "神峰通考口径",
+};
+
+const dayunReasonLabels: Record<string, string> = {
+  zero_jie_boundary_convention_unreviewed:
+    "出生时刻恰逢节气交界，交运换算口径尚未裁定",
+  zero_day_count_not_exemplified_in_text:
+    "本口径以整日计数，本盘整日数为零，原文未给出此情形的示例",
+};
+
 function relationLine(item: any): string {
   const parts: string[] = [];
   if (item.tiaohou) parts.push(`调候取用顺序第 ${item.tiaohou.order} 位`);
@@ -64,6 +78,11 @@ export function BaziProfilePage() {
   const [inputError, setInputError] = useState("");
   const [result, setResult] = useState<ExecuteResponse | null>(null);
   const [xiyong, setXiyong] = useState<any>(null);
+  // TJ-017.3 第二阶段：传统大运口径为可选逐请求输入，缺省不选择；
+  // 不写入出生资料档案、不进 URL。
+  const [dayunRole, setDayunRole] = useState<"" | "male" | "female">("");
+  const [dayun, setDayun] = useState<any>(null);
+  const [dayunMethod, setDayunMethod] = useState<"sanming" | "shenfeng">("sanming");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const requestVersion = useRef(0);
@@ -81,6 +100,7 @@ export function BaziProfilePage() {
     requestVersion.current += 1;
     setResult(null);
     setXiyong(null);
+    setDayun(null);
     setError("");
     setLoading(false);
   }
@@ -111,19 +131,24 @@ export function BaziProfilePage() {
     setError("");
     setResult(null);
     setXiyong(null);
+    setDayun(null);
     try {
       const response = await executeBazi({ value: toApiValue(profile), zone: toApiZone(profile), strength_variant: "ditiansui-root-visibility-v1" });
       if (version !== requestVersion.current) return;
       saveBirthProfile(profile);
       setResult(response);
-      // TJ-013.3 第一阶段：同一出生输入另取场景信封中的呈现对象；
+      // TJ-013.3 第一阶段 + TJ-017.3 第二阶段：同一出生输入另取场景
+      // 信封中的呈现对象；传统口径仅在用户显式选择时随请求发送。
       // 场景调用失败只令呈现节缺席，本页既有结果与行为不变。
       try {
-        const scenario = await executeBaziProfileScenario({ value: toApiValue(profile), zone: toApiZone(profile), strength_variant: "ditiansui-root-visibility-v1" });
+        const scenarioInput: { value: string; zone?: string; strength_variant?: string; traditional_role?: "male" | "female" } = { value: toApiValue(profile), zone: toApiZone(profile), strength_variant: "ditiansui-root-visibility-v1" };
+        if (dayunRole) scenarioInput.traditional_role = dayunRole;
+        const scenario = await executeBaziProfileScenario(scenarioInput);
         if (version !== requestVersion.current) return;
         setXiyong(scenario.result?.xiyong_presentation ?? null);
+        setDayun(scenario.result?.dayun_presentation ?? null);
       } catch {
-        if (version === requestVersion.current) setXiyong(null);
+        if (version === requestVersion.current) { setXiyong(null); setDayun(null); }
       }
     } catch (err) {
       if (version === requestVersion.current)
@@ -157,7 +182,8 @@ export function BaziProfilePage() {
           <h1>先把四柱看清，再谈后面的事。</h1>
           <p>
             当前正式能力只计算四柱、日主、十神与藏干，并把规则和典籍依据一起返回。
-            已可核验月支藏干、通根候选和透藏位置；但通用旺衰、喜用神、大运起运仍未完成证据裁定，因此这里不会提前生成断语。
+            已可核验月支藏干、通根候选和透藏位置；已注册的大运方向与交运区间可在下方按传统口径查看（须先选择传统口径）；
+            但通用旺衰与完整喜用神结论仍未完成证据裁定，因此这里不会提前生成断语。
           </p>
         </div>
         <div className="bazi-scope-card">
@@ -196,6 +222,21 @@ export function BaziProfilePage() {
             value={profile}
             onChange={(p) => { invalidateResult(); setProfile(p); setInputError(""); }}
           />
+          {/* TJ-017.3 第二阶段：可选传统大运口径（同合盘/桃花先例的
+              历史类别显式选择）；缺省不选择，不选择时不呈现大运。 */}
+          <div className="bazi-dayun-role">
+            <label htmlFor="bazi-dayun-role">传统大运口径（可选）</label>
+            <select
+              id="bazi-dayun-role"
+              value={dayunRole}
+              onChange={(e) => { invalidateResult(); setDayunRole(e.target.value as "" | "male" | "female"); }}
+            >
+              <option value="">不启用</option>
+              <option value="male">传统男命口径</option>
+              <option value="female">传统女命口径</option>
+            </select>
+            <small>只用于按传统口径呈现大运方向与交运区间；不选择时不呈现大运时间轴。该选择只随本次计算发送，不保存。</small>
+          </div>
           {inputError && <p className="question-error" role="alert">{inputError}</p>}
 
           <div className="bazi-input-note">
@@ -218,7 +259,7 @@ export function BaziProfilePage() {
             <li>不选择喜用神</li>
             <li>不自动定格局；调候与病药只呈现已注册依据，不作统一喜用结论</li>
             <li>不输出婚恋、事业、财富吉凶</li>
-            <li>不计算大运起运岁数</li>
+            <li>大运只呈现已注册的方向与交运区间，不折算起运岁数、不判断大运吉凶</li>
           </ul>
           <p>这些能力会在规则、证据和 Golden Cases 完成后逐项开放。</p>
         </aside>
@@ -325,6 +366,93 @@ export function BaziProfilePage() {
             </section>
           )}
 
+          {dayun && (
+            <section className="bazi-dayun-presentation" aria-label="大运方向与交运区间">
+              <span className="eyebrow">大运时间轴 · 两口径分立呈现</span>
+              <h3>大运方向与交运区间，按哪种口径数？</h3>
+              <div className="bazi-dayun-switch" role="tablist" aria-label="大运口径切换">
+                {(["sanming", "shenfeng"] as const).map((method) => (
+                  <button
+                    key={method}
+                    type="button"
+                    role="tab"
+                    aria-selected={dayunMethod === method}
+                    className={dayunMethod === method ? "active" : ""}
+                    onClick={() => setDayunMethod(method)}
+                  >
+                    {dayunMethodLabels[method]}
+                  </button>
+                ))}
+              </div>
+              {(() => {
+                const view = dayun.methods[dayunMethod];
+                const pillars = view.natal.pillars;
+                return (
+                  <div className="bazi-dayun-method">
+                    <p>
+                      四柱 {pillars.year} · {pillars.month} · {pillars.day} · {pillars.hour}，日主 {pillars.day_master}；
+                      大运方向：{view.direction.label}（{view.direction.counting_target === "future_jie" ? "数至出生后之节" : "数至出生前之节"}：{view.direction.counted_jie.name} {view.direction.counted_jie.at}）。
+                    </p>
+                    {view.status === "unresolved" ? (
+                      <p className="bazi-dayun-not-judgeable">
+                        交运时间暂不可判：{dayunReasonLabels[view.reason] || view.reason}。
+                      </p>
+                    ) : (
+                      <>
+                        {view.method === "sanming" ? (
+                          <p>
+                            交运时长区间 {view.duration.interval_days.min_days}–{view.duration.interval_days.max_days} 日（不含上限）：
+                            共数 {view.duration.counting.whole_shichen_counted} 个时辰，计 {view.duration.decomposition.whole_year_units} 年单位又 {view.duration.decomposition.remainder_shichen} 时辰，折 {view.duration.decomposition.remainder_days} 日
+                            {view.duration.decomposition.remainder_months_of_30_days != null ? `，其中含 ${view.duration.decomposition.remainder_months_of_30_days} 个整月` : ""}；未作舍入。
+                          </p>
+                        ) : (
+                          <p>
+                            交运时长区间 {view.duration.interval_days.min_days}–{view.duration.interval_days.max_days} 日（不含上限）：
+                            整日 {view.duration.counting.whole_days} 日，原文折算 {view.duration.text_result_days} 日。{view.duration.granularity_note}
+                          </p>
+                        )}
+                        <ol className="bazi-dayun-entries">
+                          {view.entries.map((entry: any) => (
+                            <li key={entry.period_index}>
+                              <strong>第 {entry.period_index} 运 {entry.ganzhi}</strong>
+                              <span>（{entry.ten_god_relative_to_natal_day_stem}）</span>
+                              {entry.state === "interval" && (
+                                <span>交运区间：{entry.start_interval.earliest} 至 {entry.start_interval.latest}（不含上限）</span>
+                              )}
+                              {entry.state === "not_provided" && (
+                                <span>交运区间未提供：本口径只呈现首运交运区间。</span>
+                              )}
+                              {entry.state === "unresolved" && (
+                                <span>交运时间暂不可判。</span>
+                              )}
+                            </li>
+                          ))}
+                        </ol>
+                      </>
+                    )}
+                    {view.notices.map((notice: any) => (
+                      <p key={notice.code} className="bazi-dayun-notice">{notice.text}</p>
+                    ))}
+                    <details>
+                      <summary>查看本口径的方向依据原文</summary>
+                      <blockquote>
+                        <b>{view.direction.rule_quote.quote}</b>
+                      </blockquote>
+                      {view.sources.flatMap((block: any) => block.quotes
+                        .filter((q: any) => q.id !== view.direction.rule_quote.id)
+                        .map((q: any) => (
+                          <blockquote key={q.id}><p>{q.quote}</p></blockquote>
+                        )))}
+                    </details>
+                  </div>
+                );
+              })()}
+              {dayun.scope.map((line: string, i: number) => (
+                <p key={`ds-${i}`} className="bazi-dayun-scope">{line}</p>
+              ))}
+            </section>
+          )}
+
           <div className="bazi-result-columns">
             <section className="live-section">
               <div className="result-section-heading"><div><span>三</span><h2>规则命中</h2></div></div>
@@ -392,7 +520,8 @@ export function BaziProfilePage() {
               分界约定：年柱以立春交节为界，立春之前出生仍按上一年计算；日柱以午夜 0 点为界，晚上 23 点后的夜子时归当日，不顺延到次日。
             </p>
             <p className="limitation-note">
-              以上为传统文化观察，不构成科学验证的未来预测。旺衰、喜用神、大运等需充分裁定，当前暂不提供结论。
+              以上为传统文化观察，不构成科学验证的未来预测。旺衰与完整喜用神结论需充分裁定，当前暂不提供；
+              大运仅呈现已注册方向与交运区间，不作吉凶判断。
             </p>
             {xiyong && (
               <>
@@ -402,6 +531,9 @@ export function BaziProfilePage() {
                 ))}
               </>
             )}
+            {dayun && dayun.limitations.map((l: string, i: number) => (
+              <p key={`dy-${i}`} className="limitation-note">ℹ️ {l}</p>
+            ))}
           </section>
 
           <details className="trace-section bazi-trace">

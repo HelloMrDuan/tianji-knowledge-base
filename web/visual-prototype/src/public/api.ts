@@ -317,6 +317,9 @@ export async function executeBaziProfileScenario(input: {
   value: string;
   zone?: string;
   strength_variant?: string;
+  // TJ-017.3 第二阶段：传统大运口径为逐请求可选输入，仅在用户显式
+  // 选择时发送；缺席时服务端不呈现大运时间轴。
+  traditional_role?: "male" | "female";
 }): Promise<ScenarioExecuteResponse> {
   const data = await requestJson("/api/v1/scenarios/public", {
       scenario_id: "bazi-profile",

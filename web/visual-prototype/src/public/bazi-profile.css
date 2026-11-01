@@ -146,3 +146,23 @@
   margin: 0;
   line-height: 1.5;
 }
+
+/* TJ-017.3 第二阶段：大运呈现（只读时间轴，两口径分立） */
+.bazi-dayun-role{margin-top:14px;display:flex;flex-direction:column;gap:6px}
+.bazi-dayun-role label{font-size:13px;font-weight:600;color:#456c4e}
+.bazi-dayun-role select{max-width:260px;padding:7px 10px;border:1px solid #c4cebb;border-radius:6px;background:#fbfaf4;color:#333;font-size:14px}
+.bazi-dayun-role small{font-size:12px;color:#7c7b6f;line-height:1.6}
+.bazi-dayun-presentation{margin:16px 0;border:1px solid #c4cebb;border-radius:8px;background:linear-gradient(125deg,#f9f7ec,#edf1e7);padding:23px;color:#3f5949}
+.bazi-dayun-presentation h3{font:23px "Noto Serif CJK SC",serif;font-weight:500;margin:7px 0 12px}
+.bazi-dayun-switch{display:flex;gap:8px;margin:10px 0 14px}
+.bazi-dayun-switch button{padding:6px 14px;border-radius:999px;border:1px solid #aeb9a4;background:#fbfaf4;color:#456c4e;font-size:13px;cursor:pointer}
+.bazi-dayun-switch button.active{background:#456c4e;color:#f5f2e4;border-color:#456c4e}
+.bazi-dayun-method>p{font-size:13px;line-height:1.85;margin:8px 0}
+.bazi-dayun-entries{list-style:none;margin:12px 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.bazi-dayun-entries li{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:baseline;border-top:1px solid #d6ddce;padding-top:8px;font-size:13px;line-height:1.7}
+.bazi-dayun-entries strong{font-size:15px;color:#33473a}
+.bazi-dayun-not-judgeable{color:#966e4e}
+.bazi-dayun-notice{color:#5d7263}
+.bazi-dayun-scope{color:#7c7b6f;font-size:12px;border-top:1px solid #d6ddce;padding-top:10px;line-height:1.7}
+.bazi-dayun-method details{margin-top:12px}
+.bazi-dayun-method blockquote{margin:8px 0;padding:10px 14px;border-left:3px solid #aeb9a4;background:#fbfaf4;font-size:13px;line-height:1.8}
