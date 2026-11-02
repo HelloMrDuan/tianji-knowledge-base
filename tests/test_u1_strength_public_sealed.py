@@ -495,5 +495,184 @@ class EquivalenceAndLeakageSealedTests(unittest.TestCase):
         self.assertIn("SYNTHETIC", public_test)
 
 
+class GateExceptionLayerSealedTests(unittest.TestCase):
+    """Remediation 2026-11-02: layered pilot failure handling in
+    _strength_public_gate. The old blanket ``except Exception`` is
+    deleted; each layer below pins one branch through the real gate
+    or the real pilot, never through a synthetic verdict."""
+
+    JIA_BIRTH = BING_YIN["tj0112-bingyin-positive-jia-segment"][
+        "source_birth"]
+
+    def test_jie_derivation_failure_propagates_no_presentation(self):
+        import tianji_kb.scenario_engine as engine_module
+
+        original = engine_module._strength_jie_facts
+
+        def _boom(value):
+            raise RuntimeError("simulated provider identity failure")
+
+        engine_module._strength_jie_facts = _boom
+        try:
+            with self.assertRaises(RuntimeError):
+                execute_scenario("bazi-profile",
+                                 {"value": self.JIA_BIRTH, "zone": ZONE})
+        finally:
+            engine_module._strength_jie_facts = original
+
+    def test_provider_identity_failure_inside_derivation_propagates(self):
+        import tianji_kb.calendar_provider_guard as guard
+        from tianji_kb.scenario_engine import _strength_jie_facts
+
+        original = guard.provider_identity
+
+        def _boom():
+            raise RuntimeError("simulated provider identity mismatch")
+
+        guard.provider_identity = _boom
+        try:
+            with self.assertRaises(RuntimeError):
+                _strength_jie_facts(self.JIA_BIRTH)
+        finally:
+            guard.provider_identity = original
+
+    def test_unexpected_pilot_exception_propagates(self):
+        import tianji_kb.bazi_siling_pilot as pilot_module
+        from tianji_kb.scenario_engine import _strength_public_gate
+
+        original = pilot_module.yin_siling_pilot
+
+        def _boom(*args, **kwargs):
+            raise RuntimeError("simulated pilot program fault")
+
+        pilot_module.yin_siling_pilot = _boom
+        try:
+            with self.assertRaises(RuntimeError):
+                _strength_public_gate(self.JIA_BIRTH, ZONE)
+        finally:
+            pilot_module.yin_siling_pilot = original
+
+    def test_pilot_birth_shape_value_error_is_not_a_trigger(self):
+        import tianji_kb.bazi_siling_pilot as pilot_module
+        from tianji_kb.scenario_engine import _strength_public_gate
+
+        original = pilot_module.yin_siling_pilot
+
+        def _raise_value(*args, **kwargs):
+            raise ValueError("simulated naive birth")
+
+        pilot_module.yin_siling_pilot = _raise_value
+        try:
+            result = _strength_public_gate(self.JIA_BIRTH, ZONE)
+        finally:
+            pilot_module.yin_siling_pilot = original
+        self.assertEqual(result["status"], "not_judgeable")
+        self.assertNotIn("classification", result)
+        self.assertTrue(is_valid_public_strength_presentation(result))
+
+    def test_precision_insufficient_blocks_f4_with_gate_reason_in_place(
+            self):
+        case = BING_YIN["tj0112-bingyin-positive-jia-segment"]
+        envelope = _gate_envelope(case["source_birth"])
+        facts = _jie_facts(case["window"])
+        facts["lichun"] = dict(facts["lichun"], precision="minute")
+        pilot = yin_siling_pilot(
+            case["source_birth"], version_id=YIN_META["pilot_version_id"],
+            jie_facts=facts)
+        self.assertEqual(pilot["status"], "uncertain")
+        self.assertEqual(pilot["reason"], "jie_precision_insufficient")
+        combined = strength_assessment_changsheng(envelope, pilot)
+        gate = combined["changsheng_segment_gate"]
+        self.assertFalse(gate["gate_passed"])
+        self.assertEqual(gate["pilot_status"], "uncertain")
+        self.assertEqual(gate["pilot_reason"], "jie_precision_insufficient")
+        result = _presentation(envelope, combined)
+        self.assertEqual(result["status"], "not_judgeable")
+        self.assertNotIn("classification", result)
+        self.assertTrue(is_valid_public_strength_presentation(result))
+        # Same outcome through the scenario gate with minute-precision
+        # Jie facts: F4 does not trigger, the request still succeeds
+        # with a valid not_judgeable presentation.
+        import tianji_kb.scenario_engine as engine_module
+
+        original = engine_module._strength_jie_facts
+        minute_facts = _jie_facts(case["window"])
+        minute_facts["lichun"] = dict(minute_facts["lichun"],
+                                      precision="minute")
+        engine_module._strength_jie_facts = lambda value: minute_facts
+        try:
+            _, presented = _scenario_presentation(case["source_birth"])
+        finally:
+            engine_module._strength_jie_facts = original
+        self.assertEqual(presented["status"], "not_judgeable")
+        self.assertNotIn("classification", presented)
+        self.assertTrue(
+            is_valid_public_strength_presentation(presented))
+
+    def test_non_jia_segments_do_not_trigger_through_new_gate(self):
+        for case_id in ("tj0112-bingyin-gate-excluded-wu-segment",
+                        "tj0112-bingyin-gate-excluded-bing-segment"):
+            case = BING_YIN[case_id]
+            with self.subTest(case=case_id):
+                _, result = _scenario_presentation(case["source_birth"])
+                self.assertEqual(result["status"], "not_judgeable")
+                self.assertNotIn("classification", result)
+                self.assertTrue(
+                    is_valid_public_strength_presentation(result))
+
+    def test_f4_chart_drift_still_fails_closed(self):
+        case = BING_YIN["tj0112-bingyin-positive-jia-segment"]
+        envelope = _gate_envelope(case["source_birth"])
+        pilot = yin_siling_pilot(
+            case["source_birth"], version_id=YIN_META["pilot_version_id"],
+            jie_facts=_jie_facts(case["window"]))
+        self.assertEqual(pilot["status"], "computed")
+        combined = strength_assessment_changsheng(envelope, pilot)
+        execution = {
+            "trace": envelope["trace"],
+            "rule_matches": envelope["rule_matches"],
+            "evidence": envelope["evidence"],
+        }
+        drifted = copy.deepcopy(execution)
+        for step in drifted["trace"]:
+            if step["rule_id"] == "bazi.phase2.pillars":
+                step["output"]["day_master"] = {"stem": "乙"}
+        with self.assertRaises(ValueError):
+            public_strength_presentation(copy.deepcopy(combined), drifted)
+
+
+class NotJudgeableEnvelopeSealedTests(unittest.TestCase):
+    """Remediation 2026-11-02, single-key rule: every bazi-profile
+    envelope gains exactly strength_presentation, including a
+    not_judgeable chart. A not_judgeable envelope is therefore NOT
+    byte-identical to the pre-B envelope -- it differs exactly by
+    that one key, carries no classification, and is not a
+    determination of any kind."""
+
+    def test_not_judgeable_envelope_differs_by_exactly_one_key(self):
+        from tianji_kb.engine import execute as domain_execute
+
+        birth = BING_WU["tj0112-bingwu-abstain-clashed-root"][
+            "source_birth"]
+        gated = execute_scenario("bazi-profile",
+                                 {"value": birth, "zone": ZONE})
+        base = domain_execute("bazi", {"value": birth, "zone": ZONE})
+        result = dict(gated["result"])
+        strength = result.pop("strength_presentation")
+        self.assertEqual(strength["status"], "not_judgeable")
+        self.assertNotIn("classification", strength)
+        self.assertTrue(is_valid_public_strength_presentation(strength))
+        result.pop("xiyong_presentation")
+        result.pop("tiaohou_assessment")
+        result.pop("bingyao_assessment")
+        self.assertEqual(result, base["result"])
+        projected = project_execution(gated)
+        self.assertEqual(projected["result"]["strength_presentation"],
+                         strength)
+        self.assertNotIn(
+            "classification",
+            projected["result"]["strength_presentation"])
+
+
 if __name__ == "__main__":
     unittest.main()

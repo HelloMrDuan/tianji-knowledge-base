@@ -553,6 +553,28 @@ class ProjectionScopeTests(unittest.TestCase):
             self._envelope("bazi-profile", forged))
         self.assertNotIn("strength_presentation", projected["result"])
 
+    def test_not_judgeable_release_is_verbatim_and_single_key(self):
+        # Single-key rule (remediation 2026-11-02): a not_judgeable
+        # envelope is NOT byte-identical to the pre-B envelope -- it
+        # differs exactly by strength_presentation, carries no
+        # classification, and is released verbatim on bazi-profile.
+        assessment, view = _synthetic_view("乙", "丑")
+        presentation = public_strength_presentation(assessment, view)
+        self.assertEqual(presentation["status"], "not_judgeable")
+        self.assertEqual(presentation["reason"], "out_of_scope")
+        self.assertNotIn("classification", presentation)
+        self.assertTrue(
+            is_valid_public_strength_presentation(presentation))
+        envelope = self._envelope("bazi-profile", presentation)
+        envelope["result"]["plain_key"] = "plain_value"
+        projected = project_execution(envelope)
+        self.assertEqual(projected["result"]["strength_presentation"],
+                         presentation)
+        self.assertEqual(projected["result"]["plain_key"], "plain_value")
+        self.assertEqual(set(projected["result"].keys()),
+                         {"plain_key", "strength_presentation",
+                          "strength_assessment"})
+
 
 class ClientGateTests(unittest.TestCase):
     BIRTH = "1960-03-07T01:30:00+08:00"
@@ -565,6 +587,24 @@ class ClientGateTests(unittest.TestCase):
         self.assertEqual(
             str(caught.exception),
             "Bounded strength adjudication requires explicit research mode")
+
+    def test_pilot_failure_layers_are_named_not_blanket(self):
+        # Remediation 2026-11-02: the old blanket
+        # ``except Exception: pilot = None`` in _strength_public_gate
+        # is deleted. Jie derivation failures propagate, pilot status
+        # blocks decide F4, and only the pilot's documented
+        # birth-shape ValueError maps to a non-trigger.
+        from pathlib import Path
+        source = (Path(__file__).resolve().parents[1] / "src"
+                  / "tianji_kb" / "scenario_engine.py").read_text(
+                      encoding="utf-8")
+        gate = source.split("def _strength_public_gate")[1].split(
+            "def _bazi_profile")[0]
+        # Code shape, not prose: the comment itself names the old
+        # handler, so assert on the code line form (colon + newline).
+        self.assertNotIn("except Exception:\n", gate)
+        self.assertIn("except ValueError:", gate)
+        self.assertIn("jie_facts = _strength_jie_facts(value)", gate)
 
     def test_gate_is_server_side_only_by_source(self):
         # The gate builds its own inputs from the birth value alone;

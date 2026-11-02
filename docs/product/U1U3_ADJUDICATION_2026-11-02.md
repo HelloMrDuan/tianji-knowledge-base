@@ -21,9 +21,9 @@
 - Batch C：仅实施准备（本文件 §公开契约摘要 与 §Batch C 前端契约
   准备）。Batch C 前端实施仍被阻断，须待 Batch B 通过独立验收并获
   批准后才可启动。
-- 不动台账三文件（TASK_STATUS.md、TASK_HISTORY.md、
-  DETAILED_DELIVERY_BACKLOG_V1.md），不声称任何事件号（PR 未合并，
-  不得入账）。
+- 台账（整改 2026-11-02）：仅改 TJ-013.3 一行并追加事件 E0377
+  （2026-11-02，状态仍阻塞，PR #550 待审未合并，不含合并 SHA、
+  CI 成功记录与部署状态，TJ-013.3 不关账）；其余台账行与 WBS 不动。
 
 ## Q1 限制条件（公开面必须同时满足）
 
@@ -51,6 +51,19 @@ TJ-023.3 事业财运岁运合用；AI 自由断命。所有未解锁项目保�
   scenario_id == bazi-profile 且校验全等通过时由投影逐字放行，其余
   场景、其余键一律剥离。研究本体 `strength_assessment` 保持
   research_only / public_enabled=False / ai_enabled=False，永不外泄。
+- 信封唯一口径（整改 2026-11-02）：每个 bazi-profile 信封都新增
+  且仅新增 `strength_presentation` 一键（含 not_judgeable 与
+  conflict 状态）；其余键与改前深等价。未命中命盘信封不是逐字
+  不变——它恰差该一键；not_judgeable 不是任何确定结论。
+- 寅月试点异常分层（整改 2026-11-02）：Jie 衍生失败（provider
+  身份/版本异常、节气窗口异常、出生不可解析）向上传播、整请求
+  失败，永不落入 pilot=None；试点返回的状态块（computed /
+  not_applicable / uncertain / rejected，含 provider 声明不符与
+  回放不符）由组合函数记为 changsheng_segment_gate，F4 不触发、
+  不是系统错误；试点仅有的文档化抛错为出生形态 ValueError
+  （naive/亚秒/不可解析），对应 F4 不触发、裁决维持 trace 原判
+  （永不为弱）；其他异常向上传播、整请求失败；证据或输入漂移
+  经构建器 ValueError 失败。
 - 服务端定域门控：在 `_bazi_profile` 内由独立强度门执行（仿 dayun
   门形态，主门 xiyong/dayun 执行一字不动）；绝不接受客户端传入的
   strength_variant，现行对客户端该参数的拒绝原样保留。

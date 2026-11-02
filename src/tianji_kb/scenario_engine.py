@@ -196,16 +196,20 @@ def _strength_public_gate(value, zone):
     """Server-side-only strength gate (U1 Batch B).
 
     An independent gate execution, in the dayun gate's shape: the main
-    xiyong/dayun execution above is untouched, so its outputs stay
-    byte-identical with or without this gate. Server-fixed inputs only
-    (strength_variant is the adjudication variant; no client parameter
-    reaches it -- the client refusal in ``_bazi_profile`` stands). The
-    F4 pilot runs only for 丙×寅 charts, where the segment gate can
-    matter; a pilot that cannot be derived or computed leaves the
-    combined verdict exactly as the trace alone yields it (changsheng
-    not triggered, never weak), per the F4 combination contract. Any
-    other failure raises and fails the whole scenario request -- no
-    partial, presentation-less success -- exactly like the xiyong gate.
+    xiyong/dayun execution above is untouched. Envelope rule (U1
+    Batch B single-key rule): the gate adds exactly one key,
+    ``strength_presentation``, to every bazi-profile envelope, and
+    every other key stays byte-identical -- a not_judgeable envelope
+    is NOT byte-identical to the pre-B envelope, it differs exactly
+    by that one key. Server-fixed inputs only (strength_variant is
+    the adjudication variant; no client parameter reaches it -- the
+    client refusal in ``_bazi_profile`` stands). The F4 pilot runs
+    only for 丙×寅 charts, where the segment gate can matter; a pilot
+    that cannot be derived or computed leaves the combined verdict
+    exactly as the trace alone yields it (changsheng not triggered,
+    never weak), per the F4 combination contract. Any other failure
+    raises and fails the whole scenario request -- no partial,
+    presentation-less success -- exactly like the xiyong gate.
     """
     from .bazi_adjudication import strength_assessment_changsheng
     from .bazi_siling_pilot import yin_siling_pilot
@@ -224,12 +228,31 @@ def _strength_public_gate(value, zone):
         else pillars["day_master"]
     month_branch = pillars["ganzhi"][1][1]
     if day_master == "丙" and month_branch == "寅":
-        pilot = None
+        # Layered pilot handling (U1 Batch B remediation): the old
+        # blanket ``except Exception: pilot = None`` hid system
+        # faults as quiet non-triggers and is deleted. The layers:
+        # - _strength_jie_facts() derives the Jie window itself: a
+        #   provider identity/version failure, a Jie window anomaly,
+        #   or an unparseable birth raises here and fails the whole
+        #   request; it is never swallowed into pilot=None.
+        # - yin_siling_pilot() returns a status block for every
+        #   pilot-level outcome (computed / not_applicable /
+        #   uncertain / rejected, including provider-claim mismatch
+        #   and replay mismatch): the combination function records
+        #   it as changsheng_segment_gate and F4 simply does not
+        #   trigger. These are not system errors.
+        # - The pilot's only documented raises are birth-shape
+        #   rejections (naive / sub-second / unparseable instant):
+        #   the pilot cannot compute for this birth, so F4 does not
+        #   trigger and the verdict stands as the trace alone yields
+        #   it (never weak). Any other exception escapes and fails
+        #   the whole request.
+        jie_facts = _strength_jie_facts(value)
         try:
             pilot = yin_siling_pilot(
                 value, version_id="ditiansui-yuanshuo",
-                jie_facts=_strength_jie_facts(value))
-        except Exception:
+                jie_facts=jie_facts)
+        except ValueError:
             pilot = None
         assessment = strength_assessment_changsheng(envelope, pilot)
     return public_strength_presentation(
@@ -259,8 +282,10 @@ def _bazi_profile(inputs):
     # only: it must not flow into the domain execution, where the
     # same key would switch on the spouse-star lens and change the
     # chart itself. The domain executions keep the baseline inputs
-    # verbatim, so a role-present envelope differs from baseline
-    # exactly by the new dayun_presentation key (adjudication §9.3).
+    # verbatim, so a role-present envelope differs from the domain
+    # baseline exactly by the three presentation keys -- xiyong and
+    # strength (unconditional, U1 Batch B single-key rule) plus
+    # dayun (role-gated, adjudication §9.3).
     domain_inputs = {key: value for key, value in inputs.items()
                      if key != "traditional_role"}
     if inputs.get("strength_variant") == ADJUDICATION_VARIANT:
@@ -318,9 +343,12 @@ def _bazi_profile(inputs):
     # exactly like a xiyong builder failure (no partial success).
     result["strength_presentation"] = _strength_public_gate(
         inputs["value"], inputs.get("zone"))
-    # TJ-017.3 phase 2: with no role selected the gate never runs and
-    # the envelope stays byte-identical to the baseline; with a role
-    # the dayun presentation is attached (fail-closed, §3.3).
+    # TJ-017.3 phase 2: with no role selected the dayun gate never
+    # runs; against the pre-B envelope the no-role envelope differs
+    # exactly by the strength_presentation key (U1 Batch B single-key
+    # rule -- a not_judgeable envelope is not byte-identical to the
+    # pre-B envelope, it differs exactly by that one key). With a
+    # role the dayun presentation is attached (fail-closed, §3.3).
     if traditional_role is not None:
         result["dayun_presentation"] = _dayun_public_gate(
             inputs["value"], inputs.get("zone"), traditional_role)
