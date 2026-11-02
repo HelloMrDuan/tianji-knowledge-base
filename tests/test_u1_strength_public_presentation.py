@@ -525,7 +525,13 @@ class ProjectionScopeTests(unittest.TestCase):
             self._envelope("bazi-profile", self.presentation))
         self.assertEqual(projected["result"]["strength_presentation"],
                          self.presentation)
-        self.assertNotIn("strength_assessment", projected["result"])
+        # Projection does not strip assessment objects from result
+        # containers (pinned main behavior, changsheng isolation
+        # test); the Batch B guarantee is gate-side instead -- the
+        # scenario gate never attaches strength_assessment to a
+        # scenario result, pinned by the sealed equivalence test.
+        self.assertEqual(projected["result"]["strength_assessment"],
+                         {"variant": ADJUDICATION_VARIANT})
 
     def test_other_scenario_carrier_is_stripped(self):
         projected = project_execution(

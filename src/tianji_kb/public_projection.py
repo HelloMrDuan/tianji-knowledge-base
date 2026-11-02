@@ -330,13 +330,19 @@ def project_execution(data):
             container.pop('dayun_presentation', None)
             # U1 Batch B: same for the strength presentation key.
             # Note the research strength assessment itself is NOT
-            # popped here: in a chart container it stays under the
-            # TJ-011.3 display policy (classification stripped,
-            # display_state research_only -- pinned by
-            # test_tj0113_strength_display), and a scenario result
-            # container never carries it (the strength gate never
-            # attaches it). The result-container pop below covers a
-            # forged scenario carrier without touching chart policy.
+            # popped anywhere here: in a chart container it stays
+            # under the TJ-011.3 display policy (classification
+            # stripped, display_state research_only -- pinned by
+            # test_tj0113_strength_display), and in a result
+            # container it likewise passes through unchanged --
+            # pinned by
+            # test_tj0112_bing_yin_changsheng
+            # .test_public_projection_and_display_isolation.
+            # The Batch B guarantee is gate-side instead: the
+            # strength gate never attaches strength_assessment to
+            # a scenario result (pinned by the sealed equivalence
+            # test), so the pass-through is unreachable from the
+            # public scenario path.
             container.pop('strength_presentation', None)
             # TJ-012.3 Slice A: the 禄刃 route exclusion is research-only
             # (pending Phase1 registration); never let it reach a public
@@ -385,12 +391,6 @@ def project_execution(data):
             and isinstance(result.get('result'), dict):
         result['result']['strength_presentation'] = \
             scoped_strength_presentation
-    # U1 Batch B: a scenario result container never legitimately
-    # carries the research strength assessment (see above); drop it
-    # if a forged carrier smuggles one in. Chart containers keep the
-    # TJ-011.3 neutered form, untouched.
-    if isinstance(result.get('result'), dict):
-        result['result'].pop('strength_assessment', None)
     return result
 
 
