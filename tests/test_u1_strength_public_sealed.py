@@ -221,12 +221,13 @@ class NearMissSealedTests(unittest.TestCase):
         self.assertNotIn("classification", result)
         self.assertTrue(is_valid_public_strength_presentation(result))
 
-    def test_clashed_root_interaction_is_conflict(self):
+    def test_clashed_root_interaction_is_not_judgeable(self):
+        # 子午冲弃判：未解决的支作用是谓词条件未满足，不是未裁定
+        # 冲突；按任务书口径，not_judgeable 与 indeterminate 均可，
+        # 本呈现取 not_judgeable，且绝不出分类。
         case = BING_WU["tj0112-bingwu-abstain-clashed-root"]
         result = _presentation(_gate_envelope(case["source_birth"]))
-        self.assertEqual(result["status"], "conflict")
-        self.assertIn("interaction_effect_unresolved",
-                      result["blocker_reasons"])
+        self.assertEqual(result["status"], "not_judgeable")
         self.assertNotIn("classification", result)
 
     def test_month_not_hai_and_nonwood_day_master_no_classification(self):

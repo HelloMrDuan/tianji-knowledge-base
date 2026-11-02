@@ -300,6 +300,27 @@ class NotJudgeableAndConflictTests(unittest.TestCase):
         self.assertEqual(result["status"], "not_judgeable")
         self.assertEqual(result["reason"], "insufficient_evidence")
 
+    def test_effectiveness_gap_alone_is_not_judgeable(self):
+        # A lone root_availability_not_effective blocker (e.g. a
+        # fire-form chart whose segment gate did not pass) is a
+        # predicate condition not satisfied, not a conflict.
+        assessment, view = _synthetic_view(
+            "丙", "寅", relation="generates_me", root_presence=True,
+            predicate_id=None,
+            blockers=[{"reason": "root_availability_not_effective"},
+                      {"reason": "outside_reviewed_sufficient_conditions"}])
+        result = public_strength_presentation(assessment, view)
+        self.assertEqual(result["status"], "not_judgeable")
+
+    def test_unresolved_interaction_alone_is_not_judgeable(self):
+        assessment, view = _synthetic_view(
+            "丙", "午", relation="same_element", root_presence=True,
+            predicate_id=None,
+            blockers=[{"reason": "interaction_effect_unresolved"},
+                      {"reason": "outside_reviewed_sufficient_conditions"}])
+        result = public_strength_presentation(assessment, view)
+        self.assertEqual(result["status"], "not_judgeable")
+
     def test_out_of_scope_day_month(self):
         assessment, view = _synthetic_view(
             "甲", "子", relation="same_element", root_presence=True,

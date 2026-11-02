@@ -22,10 +22,12 @@ writes 身旺/身弱， never carries a useful_god, a 扶抑 direction, a
 格局 verdict, a 吉凶 verdict or a prediction. A chart that matches no
 predicate yields ``not_judgeable`` (never weak) -- including when the
 verdict carries only the assessment's no-match marker
-``outside_reviewed_sufficient_conditions``; a chart barred by a
-blocking conflict id or any other blocker yields ``conflict`` (never
-a classification); a builder failure yields no object at all (never
-an empty success).
+``outside_reviewed_sufficient_conditions``, an effectiveness gap
+(``root_availability_not_effective``), or an unresolved interaction:
+those are predicate conditions not satisfied, not conflicts. Only a
+blocking conflict id, a root-type source conflict, or a factor
+integrity failure yields ``conflict`` (never a classification); a
+builder failure yields no object at all (never an empty success).
 
 Predicate surface (existing eight families only; nothing here registers,
 modifies or re-derives a predicate -- the bounded assessment remains the
@@ -133,8 +135,11 @@ _NOT_JUDGEABLE_KEYS = _COMMON_KEYS | frozenset(("reason",))
 _CONFLICT_KEYS = _COMMON_KEYS | frozenset(("conflict_ids", "blocker_reasons"))
 _NOT_JUDGEABLE_REASONS = frozenset((
     "no_predicate_matched", "out_of_scope", "insufficient_evidence"))
+# Condition names carry Chinese stems (e.g. visible印_present), so the
+# shape check must not assume ASCII names; the builder itself verifies
+# each fact_ref exactly against the executed trace.
 _FACT_REF_RE = re.compile(
-    r"^#/trace/\d+/output/[a-z_]+_scope_conditions/[a-z_0-9]+$")
+    r"^#/trace/\d+/output/[^/]+_scope_conditions/[^/]+$")
 
 
 def _fail(message):
@@ -302,14 +307,23 @@ def public_strength_presentation(assessment, execution):
     # The bounded assessment appends the marker
     # ``outside_reviewed_sufficient_conditions`` to every verdict
     # that matches no predicate: it is the no-match signal, not a
-    # conflict. Only a blocking conflict id or a blocker with any
-    # other reason makes the state a conflict; the marker alone (or
-    # no blockers at all) is not_judgeable.
-    real_blockers = [b for b in blockers if isinstance(b, dict)
-                     and b.get("reason") not in (
-                         None, "outside_reviewed_sufficient_conditions")]
-    if why is None and (conflict_ids or real_blockers):
-        blocker_reasons = sorted({b["reason"] for b in real_blockers
+    # conflict. Effectiveness gaps and unresolved interactions are
+    # likewise predicate conditions not satisfied (a fire-form chart
+    # whose segment gate did not pass, for example, carries exactly
+    # the wood-scoped availability blockers the gate would have
+    # reconciled -- calling that a conflict would mislabel a
+    # near miss). Only a blocking conflict id, a root-type source
+    # conflict, or a factor integrity failure makes the state a
+    # conflict; everything else without a verdict is not_judgeable.
+    _CONFLICT_BLOCKER_REASONS = (
+        "root_type_source_conflict", "factor_chain_inconsistent",
+        "derived_principal_replay_mismatch",
+        "derived_root_availability_replay_mismatch",
+        "factor_variant_mismatch")
+    conflict_blockers = [b for b in blockers if isinstance(b, dict)
+                         and b.get("reason") in _CONFLICT_BLOCKER_REASONS]
+    if why is None and (conflict_ids or conflict_blockers):
+        blocker_reasons = sorted({b["reason"] for b in conflict_blockers
                                   if isinstance(b.get("reason"), str)})
         result = _base(day_master, month_branch, "conflict")
         result["conflict_ids"] = list(conflict_ids)
