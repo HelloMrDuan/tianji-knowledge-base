@@ -733,6 +733,15 @@ jobs:
       # test_tj0173_dayun_public_sealed.py runs only in the offline
       # acceptance (assembled backend), never here.
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0173_dayun_public_presentation.py' -v
+      # U1 Batch B (user adjudication 2026-11-02, Q1=A): the public
+      # strength presentation builder over a synthetic execution view
+      # (seven triggerable predicate forms, the four statuses,
+      # tamper classes including the metal forgery rule and the F4
+      # segment gate, projection scoping, client contract gates). The
+      # real-execution companion test_u1_strength_public_sealed.py
+      # runs only in the offline acceptance (assembled backend),
+      # never here.
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_u1_strength_public_presentation.py' -v
       # TJ-018.3 P1 Sanxing Canonical promotion (E0329) public
       # contracts: governance register continuation (Canonical
       # chapter/section/term built for Lun Sanxing with the 11
