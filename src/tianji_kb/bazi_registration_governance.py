@@ -1665,7 +1665,8 @@ REGISTRATION_INVENTORY = [
     {
         'item': 'f4-changsheng-design',
         'subject': 'F4 丙×寅长生形态设计（changsheng_visible_support）',
-        'disclosure_sites': ['src/tianji_kb/bazi_fire_si_yin_morphology.py'],
+        'disclosure_sites': ['src/tianji_kb/bazi_fire_si_yin_morphology.py',
+                             'src/tianji_kb/bazi_strength_public.py'],
         'disposition': 'not_a_candidate',
         'reason': '审定成立但未实现（实现门为司令扩月用户裁定），无运行'
                   '时产出与披露可翻转。',

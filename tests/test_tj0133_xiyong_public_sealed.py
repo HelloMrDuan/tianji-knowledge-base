@@ -25,6 +25,9 @@ from tianji_kb.api import create_app
 from tianji_kb.bazi_conflict_presentation import (
     VARIANT as CONFLICT_VARIANT,
 )
+from tianji_kb.bazi_strength_public import (
+    is_valid_public_strength_presentation,
+)
 from tianji_kb.bazi_xiyong_public import (
     BINGYAO_STEP_ID,
     TIAOHOU_STEP_ID,
@@ -163,7 +166,16 @@ class BundleReferenceIndexTests(unittest.TestCase):
 
 
 class EquivalenceTests(unittest.TestCase):
-    """§9 #4: the gate adds exactly the closed difference list."""
+    """§9 #4: the gate adds exactly the closed difference list.
+
+    U1 Batch B (user adjudication 2026-11-02, recorded in
+    docs/product/U1U3_ADJUDICATION_2026-11-02.md; no ledger event
+    claimed for the unmerged PR) adds exactly one further key,
+    strength_presentation, to the bazi-profile result. The closed
+    list below is therefore the xiyong presentation plus the
+    strength presentation, each validated by its own closed-key
+    validator; no other key may differ.
+    """
 
     INPUTS = (
         {"value": "1960-03-07T01:30:00+08:00", "zone": "Asia/Shanghai"},
@@ -182,6 +194,9 @@ class EquivalenceTests(unittest.TestCase):
                 presentation = result.pop("xiyong_presentation")
                 self.assertTrue(
                     is_valid_public_presentation(presentation))
+                strength = result.pop("strength_presentation")
+                self.assertTrue(
+                    is_valid_public_strength_presentation(strength))
                 tiaohou = result.pop("tiaohou_assessment")
                 bingyao = result.pop("bingyao_assessment")
                 self.assertEqual(result, base["result"])

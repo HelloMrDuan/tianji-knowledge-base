@@ -251,6 +251,7 @@ def project_execution(data):
     # Every other carrier, shape or scenario is stripped as usual.
     scoped_presentation = None
     scoped_dayun_presentation = None
+    scoped_strength_presentation = None
     if data.get('scenario_id') == 'bazi-profile' \
             and isinstance(data.get('result'), dict):
         candidate = data['result'].get('xiyong_presentation')
@@ -275,6 +276,18 @@ def project_execution(data):
             )
             if is_valid_public_dayun_presentation(dayun_candidate):
                 scoped_dayun_presentation = copy.deepcopy(dayun_candidate)
+        # U1 Batch B (user adjudication 2026-11-02, Q1=A): the same
+        # scoped-release discipline for the strength presentation --
+        # only a bazi-profile envelope, only in exactly the adjudicated
+        # shape; anything else is stripped below.
+        strength_candidate = data['result'].get('strength_presentation')
+        if strength_candidate is not None:
+            from .bazi_strength_public import (
+                is_valid_public_strength_presentation,
+            )
+            if is_valid_public_strength_presentation(strength_candidate):
+                scoped_strength_presentation = copy.deepcopy(
+                    strength_candidate)
     aliases = _Aliases(data['evidence'])
     result = {key: _public_facts(value, aliases)
               for key, value in data.items()
@@ -315,6 +328,22 @@ def project_execution(data):
             container.pop('xiyong_presentation', None)
             # TJ-017.3 phase 2: same for the dayun presentation key.
             container.pop('dayun_presentation', None)
+            # U1 Batch B: same for the strength presentation key.
+            # Note the research strength assessment itself is NOT
+            # popped anywhere here: in a chart container it stays
+            # under the TJ-011.3 display policy (classification
+            # stripped, display_state research_only -- pinned by
+            # test_tj0113_strength_display), and in a result
+            # container it likewise passes through unchanged --
+            # pinned by
+            # test_tj0112_bing_yin_changsheng
+            # .test_public_projection_and_display_isolation.
+            # The Batch B guarantee is gate-side instead: the
+            # strength gate never attaches strength_assessment to
+            # a scenario result (pinned by the sealed equivalence
+            # test), so the pass-through is unreachable from the
+            # public scenario path.
+            container.pop('strength_presentation', None)
             # TJ-012.3 Slice A: the 禄刃 route exclusion is research-only
             # (pending Phase1 registration); never let it reach a public
             # response either.
@@ -358,6 +387,10 @@ def project_execution(data):
             and isinstance(result.get('result'), dict):
         result['result']['dayun_presentation'] = \
             scoped_dayun_presentation
+    if scoped_strength_presentation is not None \
+            and isinstance(result.get('result'), dict):
+        result['result']['strength_presentation'] = \
+            scoped_strength_presentation
     return result
 
 
