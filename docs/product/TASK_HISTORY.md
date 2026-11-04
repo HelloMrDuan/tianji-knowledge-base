@@ -522,3 +522,4 @@
 5. GitHub PR 必须运行 `python scripts/check_task_tracking.py --base <base-commit>`，确认本次恰好一个任务、一个新事件。PR 合并成功后再以**同一任务**单独做关账更新，补齐实际 main SHA。
 
 **验收警戒线**：WBS 全部子任务数量 ≠ 已完成功能数量；公开 PR 合并 ≠ 私有 Canonical 完成；静态截图 ≠ 人工视觉还原；推送成功 ≠ 生产部署完成。
+| E0378 | 2026-11-04 | TJ-013.3 | 阻塞 | U1 Batch B 后端子项关账：实现 PR #550 已合并（Merge SHA 1dc0ee0310495af7d5ebdaaed87fb3a874a527f6），正式验收 SUCCESS（3047 运行、7 跳过、0 失败，public-git-checkout 15、public-only 24、private-backend 3008，Phase1 8 域 1254 实体，Phase2 80 规则、79 已验证、238 Golden，受信 manifest 26b63e64 不变），DEPLOYED 2026-11-03T01:55:16Z（bundle pin 7a5a7f5e），生产 API 实测通过（七类谓词、金×酉负例、F4 分段、近失、冲突，调候/病药/大运不变，其他场景无新键，零泄漏）；本行保持阻塞，余项为旺衰段前端呈现（Batch C PR #551 待审）与冲突段，本事件不宣布 TJ-013.3 关账 | — | — | — |
