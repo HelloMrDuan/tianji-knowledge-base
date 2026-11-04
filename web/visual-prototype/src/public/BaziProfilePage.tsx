@@ -48,6 +48,31 @@ const dayunReasonLabels: Record<string, string> = {
     "本口径以整日计数，本盘整日数为零，原文未给出此情形的示例",
 };
 
+// TJ-013.3 U1 Batch C：已审强弱形态事实的呈现转写（只转写呈现对象
+// 字段，不生成任何新判断）。谓词描述只转述日主×月份形态，永不写
+// 身旺/身弱；规则 id、证据哈希、Trace 一律不渲染（门控执行证据
+// 在场景信封中无法解析为引文，且用户 brief 明令不展示技术字段），
+// 只渲染注册状态与同请求绑定条数。金×酉谓词按后端证明永不呈现，
+// 此处映射仅为防御未知形态不崩溃。
+const strengthPredicateLabels: Record<string, string> = {
+  pure_support: "纯粹支持形态",
+  pure_generating_support: "生扶支持形态",
+  isolated_control: "孤立受制形态",
+  commanding_visible_support: "司令显现支持形态",
+  lu_visible_support: "禄位显现支持形态",
+  changsheng_visible_support: "长生显现支持形态（司令甲段）",
+  pure_support_metal: "纯粹支持形态",
+  pure_generating_support_water: "生扶支持形态",
+};
+
+// not_judgeable 在一切用户文案中都是无确定结论：只转述后端原因，
+// 永不写成弱或倾向性暗示。
+const strengthReasonLabels: Record<string, string> = {
+  no_predicate_matched: "本盘未命中任何已审充分谓词",
+  out_of_scope: "本盘的日主与月份组合不在已审谓词范围内",
+  insufficient_evidence: "本盘的谓词条件证据不足",
+};
+
 function relationLine(item: any): string {
   const parts: string[] = [];
   if (item.tiaohou) parts.push(`调候取用顺序第 ${item.tiaohou.order} 位`);
@@ -83,6 +108,11 @@ export function BaziProfilePage() {
   const [dayunRole, setDayunRole] = useState<"" | "male" | "female">("");
   const [dayun, setDayun] = useState<any>(null);
   const [dayunMethod, setDayunMethod] = useState<"sanming" | "shenfeng">("sanming");
+  // TJ-013.3 U1 Batch C：强度呈现取自同一场景信封；场景调用失败时
+  // 只令强度节进入错误态，不以暂不可判掩盖（xiyong/dayun 的既有
+  // 缺席行为不变）。
+  const [strengthPresentation, setStrengthPresentation] = useState<any>(null);
+  const [strengthLoadError, setStrengthLoadError] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const requestVersion = useRef(0);
@@ -101,6 +131,8 @@ export function BaziProfilePage() {
     setResult(null);
     setXiyong(null);
     setDayun(null);
+    setStrengthPresentation(null);
+    setStrengthLoadError(false);
     setError("");
     setLoading(false);
   }
@@ -132,6 +164,8 @@ export function BaziProfilePage() {
     setResult(null);
     setXiyong(null);
     setDayun(null);
+    setStrengthPresentation(null);
+    setStrengthLoadError(false);
     try {
       const response = await executeBazi({ value: toApiValue(profile), zone: toApiZone(profile), strength_variant: "ditiansui-root-visibility-v1" });
       if (version !== requestVersion.current) return;
@@ -139,7 +173,8 @@ export function BaziProfilePage() {
       setResult(response);
       // TJ-013.3 第一阶段 + TJ-017.3 第二阶段：同一出生输入另取场景
       // 信封中的呈现对象；传统口径仅在用户显式选择时随请求发送。
-      // 场景调用失败只令呈现节缺席，本页既有结果与行为不变。
+      // 场景调用失败只令 xiyong/dayun 呈现节缺席（既有行为不变），
+      // 但强度节必须进入错误态，不得以暂不可判掩盖执行失败。
       try {
         const scenarioInput: { value: string; zone?: string; strength_variant?: string; traditional_role?: "male" | "female" } = { value: toApiValue(profile), zone: toApiZone(profile), strength_variant: "ditiansui-root-visibility-v1" };
         if (dayunRole) scenarioInput.traditional_role = dayunRole;
@@ -147,8 +182,10 @@ export function BaziProfilePage() {
         if (version !== requestVersion.current) return;
         setXiyong(scenario.result?.xiyong_presentation ?? null);
         setDayun(scenario.result?.dayun_presentation ?? null);
+        setStrengthPresentation(scenario.result?.strength_presentation ?? null);
+        setStrengthLoadError(false);
       } catch {
-        if (version === requestVersion.current) { setXiyong(null); setDayun(null); }
+        if (version === requestVersion.current) { setXiyong(null); setDayun(null); setStrengthPresentation(null); setStrengthLoadError(true); }
       }
     } catch (err) {
       if (version === requestVersion.current)
@@ -453,6 +490,63 @@ export function BaziProfilePage() {
             </section>
           )}
 
+          {/* TJ-013.3 U1 Batch C：独立的已审强弱形态事实区，与调候、
+              病药、大运区块分离，不混成统一喜用结论。只转写后端
+              strength_presentation，前端不计算任何命理；无该键的旧
+              信封、或未知状态一律不渲染本节（不崩溃、不臆测）。 */}
+          {strengthPresentation && strengthPresentation.status === "presented" && (
+            <section className="bazi-strength-presentation" aria-label="已审强弱形态事实">
+              <span className="eyebrow">已审强弱形态事实 · 仅限一个已审谓词</span>
+              <h3>{strengthPresentation.statement}</h3>
+              <p>谓词：{strengthPredicateLabels[strengthPresentation.predicate_id] || "已审充分谓词命中"}</p>
+              <p>日主：{strengthPresentation.day_master} · 月支：{strengthPresentation.month_branch}</p>
+              <p>限定形态：{strengthPresentation.classification === "strong" ? "强形态" : strengthPresentation.classification === "weak" ? "弱形态" : "—"}</p>
+              <p>规则来源：{strengthPresentation.rule_registration === "registered" ? "已注册的充分谓词" : "待第一阶段规则注册的充分谓词"}</p>
+              {strengthPresentation.segment_gate && (
+                <p>司令段门：{strengthPresentation.segment_gate.segment_stem}段已通过。</p>
+              )}
+              <p>证据绑定：同请求执行记录已核验（证据条目 {Array.isArray(strengthPresentation.evidence_ids) ? strengthPresentation.evidence_ids.length : 0} 条）。</p>
+              <p>该结论只覆盖这一个已审形态，不覆盖全盘。</p>
+              <p className="bazi-strength-scope">{strengthPresentation.scope_statement}</p>
+              {strengthPresentation.limitations.map((l: string, i: number) => (
+                <p key={`sl-${i}`} className="bazi-strength-scope">{l}</p>
+              ))}
+            </section>
+          )}
+
+          {strengthPresentation && strengthPresentation.status === "not_judgeable" && (
+            <section className="bazi-strength-presentation" aria-label="已审强弱形态事实暂不可判">
+              <span className="eyebrow">已审强弱形态事实 · 暂不可判</span>
+              <h3>暂不可判</h3>
+              <p className="bazi-strength-not-judgeable">{strengthReasonLabels[strengthPresentation.reason] || "本盘暂不可判"}；未命中不等于弱。</p>
+              <p>暂不可判，不作任何强弱结论。</p>
+              <p className="bazi-strength-scope">{strengthPresentation.scope_statement}</p>
+              {strengthPresentation.limitations.map((l: string, i: number) => (
+                <p key={`sl-${i}`} className="bazi-strength-scope">{l}</p>
+              ))}
+            </section>
+          )}
+
+          {strengthPresentation && strengthPresentation.status === "conflict" && (
+            <section className="bazi-strength-presentation" aria-label="已审强弱形态事实未裁定冲突">
+              <span className="eyebrow">已审强弱形态事实 · 未裁定冲突</span>
+              <h3>暂不可判</h3>
+              <p className="bazi-strength-not-judgeable">本盘存在未裁定的冲突，暂不可判；不作任何强弱结论。</p>
+              <p className="bazi-strength-scope">{strengthPresentation.scope_statement}</p>
+              {strengthPresentation.limitations.map((l: string, i: number) => (
+                <p key={`sl-${i}`} className="bazi-strength-scope">{l}</p>
+              ))}
+            </section>
+          )}
+
+          {!strengthPresentation && strengthLoadError && (
+            <section className="bazi-strength-presentation" aria-label="已审强弱形态事实加载失败">
+              <span className="eyebrow">已审强弱形态事实 · 加载失败</span>
+              <h3>加载失败</h3>
+              <p className="bazi-strength-error" role="alert">强弱形态事实加载失败，请稍后重试。这不是暂不可判：本次请求未能完成计算。</p>
+            </section>
+          )}
+
           <div className="bazi-result-columns">
             <section className="live-section">
               <div className="result-section-heading"><div><span>三</span><h2>规则命中</h2></div></div>
@@ -534,6 +628,14 @@ export function BaziProfilePage() {
             {dayun && dayun.limitations.map((l: string, i: number) => (
               <p key={`dy-${i}`} className="limitation-note">ℹ️ {l}</p>
             ))}
+            {strengthPresentation && (
+              <>
+                <p className="limitation-note">ℹ️ {strengthPresentation.scope_statement}</p>
+                {strengthPresentation.limitations.map((l: string, i: number) => (
+                  <p key={`st-${i}`} className="limitation-note">ℹ️ {l}</p>
+                ))}
+              </>
+            )}
           </section>
 
           <details className="trace-section bazi-trace">

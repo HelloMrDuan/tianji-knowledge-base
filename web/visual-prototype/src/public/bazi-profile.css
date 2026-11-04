@@ -166,3 +166,12 @@
 .bazi-dayun-scope{color:#7c7b6f;font-size:12px;border-top:1px solid #d6ddce;padding-top:10px;line-height:1.7}
 .bazi-dayun-method details{margin-top:12px}
 .bazi-dayun-method blockquote{margin:8px 0;padding:10px 14px;border-left:3px solid #aeb9a4;background:#fbfaf4;font-size:13px;line-height:1.8}
+
+/* TJ-013.3 U1 Batch C：已审强弱形态事实独立区，沿用调候/病药呈现节
+   的盒式样式与移动端继承（无新增断点，820px/500px 行为与整页一致）。 */
+.bazi-strength-presentation{margin:16px 0;border:1px solid #c4cebb;border-radius:8px;background:linear-gradient(125deg,#f9f7ec,#edf1e7);padding:23px;color:#3f5949}
+.bazi-strength-presentation h3{font:23px "Noto Serif CJK SC",serif;font-weight:500;margin:7px 0 12px}
+.bazi-strength-presentation>p{font-size:13px;line-height:1.85;margin:8px 0}
+.bazi-strength-presentation .bazi-strength-not-judgeable{color:#966e4e}
+.bazi-strength-presentation .bazi-strength-scope{color:#7c7b6f;font-size:12px}
+.bazi-strength-presentation .bazi-strength-error{color:#8b4739}
