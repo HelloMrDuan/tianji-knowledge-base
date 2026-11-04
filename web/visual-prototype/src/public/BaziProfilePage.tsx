@@ -50,10 +50,11 @@ const dayunReasonLabels: Record<string, string> = {
 
 // TJ-013.3 U1 Batch C：已审强弱形态事实的呈现转写（只转写呈现对象
 // 字段，不生成任何新判断）。谓词描述只转述日主×月份形态，永不写
-// 身旺/身弱；规则 id、证据哈希、Trace 一律不渲染（门控执行证据
-// 在场景信封中无法解析为引文，且用户 brief 明令不展示技术字段），
-// 只渲染注册状态与同请求绑定条数。金×酉谓词按后端证明永不呈现，
-// 此处映射仅为防御未知形态不崩溃。
+// 身旺/身弱；默认阅读流中规则 id、证据哈希、Trace 一律不渲染
+// （门控执行证据在场景信封中无法解析为引文，且用户 brief 明令
+// 默认视图不展示技术字段），只渲染注册状态与同请求绑定条数；
+// 完整技术信息只放在页底默认折叠的“专业审计视图”内。金×酉谓词
+// 按后端证明永不呈现，此处映射仅为防御未知形态不崩溃。
 const strengthPredicateLabels: Record<string, string> = {
   pure_support: "纯粹支持形态",
   pure_generating_support: "生扶支持形态",
@@ -314,6 +315,8 @@ export function BaziProfilePage() {
 
       {result && (
         <section className="bazi-live-result">
+          <section className="bazi-overview" aria-label="命盘概览">
+            <span className="eyebrow">命盘概览</span>
           <header className="bazi-result-head">
             <div>
               <span className="eyebrow">真实 API · {result.variant}</span>
@@ -325,7 +328,6 @@ export function BaziProfilePage() {
             </div>
             <span className="live-badge">确定性结果</span>
           </header>
-
           <div className="bazi-pillars">
             {pillars.map((item: any) => (
               <article key={item.name} className={item.name === "day" ? "day-pillar" : ""}>
@@ -348,6 +350,73 @@ export function BaziProfilePage() {
               </article>
             ))}
           </div>
+          </section>
+
+          {/* UX overhaul：命盘结构分析是默认阅读顺序第 2 位（命盘概览之后、
+              调候病药之前）。只转写后端 strength_presentation，前端不计算
+              任何命理；无该键的旧信封、或未知状态一律不渲染本节。 */}
+          {strengthPresentation && strengthPresentation.status === "presented" && (
+            <section className="bazi-strength-presentation" aria-label="命盘结构分析">
+              <span className="eyebrow">命盘结构 · 仅限一个已审局部形态</span>
+              <h3>命盘结构分析</h3>
+              <p>日主{strengthPresentation.day_master}生于{strengthPresentation.month_branch}月，命中了一个已审的局部形态：{strengthPredicateLabels[strengthPresentation.predicate_id] || "已审充分谓词命中"}。</p>
+              <p>限定形态：{strengthPresentation.classification === "strong" ? "强形态" : strengthPresentation.classification === "weak" ? "弱形态" : "—"}</p>
+              <p>规则来源：{strengthPresentation.rule_registration === "registered" ? "已注册的充分谓词" : "待第一阶段规则注册的充分谓词"}</p>
+              {strengthPresentation.segment_gate && (
+                <p>司令段门：{strengthPresentation.segment_gate.segment_stem}段已通过。</p>
+              )}
+              {strengthPresentation.day_master === "丙" && strengthPresentation.month_branch === "午" && strengthPresentation.predicate_id === "commanding_visible_support" && (
+                <p>就本盘而言，这表示丙日主在午月满足了一项已审的支持条件——仅此而已，不再推出其他结论。</p>
+              )}
+              <p>该结论只覆盖这一个已审形态，不覆盖全盘。</p>
+              <p className="bazi-strength-scope">{strengthPresentation.scope_statement}</p>
+              {strengthPresentation.limitations.map((l: string, i: number) => (
+                <p key={`sl-${i}`} className="bazi-strength-scope">{l}</p>
+              ))}
+              <details className="bazi-evidence-entry">
+                <summary>查看判断依据（证据条目 {Array.isArray(strengthPresentation.evidence_ids) ? strengthPresentation.evidence_ids.length : 0} 条）</summary>
+                <p>来源说明：同请求执行记录已核验（证据条目 {Array.isArray(strengthPresentation.evidence_ids) ? strengthPresentation.evidence_ids.length : 0} 条）。</p>
+                <p>本呈现对象未附带原文引文文本，因此这里不列出引文。</p>
+                <p>说明：{strengthPresentation.scope_statement}</p>
+                {strengthPresentation.limitations.map((l: string, i: number) => (
+                  <p key={`sl-ev-${i}`} className="bazi-evidence-boundary">适用边界：{l}</p>
+                ))}
+              </details>
+            </section>
+          )}
+
+          {strengthPresentation && strengthPresentation.status === "not_judgeable" && (
+            <section className="bazi-strength-presentation" aria-label="命盘结构分析·暂不可判">
+              <span className="eyebrow">命盘结构 · 暂不可判</span>
+              <h3>命盘结构分析</h3>
+              <p className="bazi-strength-not-judgeable">{strengthReasonLabels[strengthPresentation.reason] || "本盘暂不可判"}；未命中不等于弱。</p>
+              <p>暂不可判，不作任何强弱结论。</p>
+              <p className="bazi-strength-scope">{strengthPresentation.scope_statement}</p>
+              {strengthPresentation.limitations.map((l: string, i: number) => (
+                <p key={`sl-${i}`} className="bazi-strength-scope">{l}</p>
+              ))}
+            </section>
+          )}
+
+          {strengthPresentation && strengthPresentation.status === "conflict" && (
+            <section className="bazi-strength-presentation" aria-label="命盘结构分析·未裁定冲突">
+              <span className="eyebrow">命盘结构 · 未裁定冲突</span>
+              <h3>命盘结构分析</h3>
+              <p className="bazi-strength-not-judgeable">本盘存在未裁定的冲突，暂不可判；不作任何强弱结论。</p>
+              <p className="bazi-strength-scope">{strengthPresentation.scope_statement}</p>
+              {strengthPresentation.limitations.map((l: string, i: number) => (
+                <p key={`sl-${i}`} className="bazi-strength-scope">{l}</p>
+              ))}
+            </section>
+          )}
+
+          {!strengthPresentation && strengthLoadError && (
+            <section className="bazi-strength-presentation" aria-label="命盘结构分析·加载失败">
+              <span className="eyebrow">命盘结构 · 加载失败</span>
+              <h3>命盘结构分析</h3>
+              <p className="bazi-strength-error" role="alert">强弱形态事实加载失败，请稍后重试。这不是暂不可判：本次请求未能完成计算。</p>
+            </section>
+          )}
 
           {strength && (
             <section className="bazi-strength-observations" aria-label="旺衰因素与通根候选">
@@ -363,8 +432,8 @@ export function BaziProfilePage() {
               <p>藏干在其他天干同字显现：
                 {strength.hidden_to_visible?.positions?.length || 0} 处。这不意味着该十神已经生效。</p>
               <p className="bazi-strength-boundary">尚不能据此判断身强身弱、喜用、格局或大运吉凶；不提供虚构的旺衰分数。</p>
-              <details>
-                <summary>查看旺衰因素规则引用的真实古籍依据</summary>
+              <details className="bazi-evidence-entry">
+                <summary>查看判断依据</summary>
                 {result.rule_matches.flatMap((rule) => Array.isArray(rule.evidence_ids)
                   ? rule.evidence_ids.map((id: string) => evidenceById.get(id)).filter(Boolean)
                   : []).filter((item: any, index: number, rows: any[]) =>
@@ -384,10 +453,34 @@ export function BaziProfilePage() {
               {xiyong.blocks.tiaohou.lines.map((line: string, i: number) => (
                 <p key={`th-${i}`}>{line}</p>
               ))}
+              {xiyong.blocks.tiaohou.evidence?.quote && (
+                <details className="bazi-evidence-entry">
+                  <summary>查看判断依据：{xiyong.blocks.tiaohou.source_label}</summary>
+                  <p>来源：{xiyong.blocks.tiaohou.source_label}</p>
+                  <blockquote><p>{xiyong.blocks.tiaohou.evidence.quote}</p></blockquote>
+                  <p>说明：{xiyong.scope_statement}</p>
+                  {xiyong.limitations.map((l: string, i: number) => (
+                    <p key={`th-limit-${i}`} className="bazi-evidence-boundary">适用边界：{l}</p>
+                  ))}
+                </details>
+              )}
               <h4>病药（{xiyong.blocks.bingyao.source_label}）</h4>
               {xiyong.blocks.bingyao.lines.map((line: string, i: number) => (
                 <p key={`by-${i}`}>{line}</p>
               ))}
+              {xiyong.blocks.bingyao.evidence?.quotes?.length ? (
+                <details className="bazi-evidence-entry">
+                  <summary>查看判断依据：{xiyong.blocks.bingyao.source_label}</summary>
+                  <p>来源：{xiyong.blocks.bingyao.source_label}</p>
+                  {xiyong.blocks.bingyao.evidence.quotes.map((q: any, qi: number) => (
+                    <blockquote key={`byq-${qi}`}><p>{q.quote}</p></blockquote>
+                  ))}
+                  <p>说明：{xiyong.scope_statement}</p>
+                  {xiyong.limitations.map((l: string, i: number) => (
+                    <p key={`by-limit-${i}`} className="bazi-evidence-boundary">适用边界：{l}</p>
+                  ))}
+                </details>
+              ) : null}
               {xiyong.relations.length > 0 && (
                 <>
                   <h4>两体系点名对照</h4>
@@ -470,8 +563,8 @@ export function BaziProfilePage() {
                     {view.notices.map((notice: any) => (
                       <p key={notice.code} className="bazi-dayun-notice">{notice.text}</p>
                     ))}
-                    <details>
-                      <summary>查看本口径的方向依据原文</summary>
+                    <details className="bazi-evidence-entry">
+                      <summary>查看判断依据</summary>
                       <blockquote>
                         <b>{view.direction.rule_quote.quote}</b>
                       </blockquote>
@@ -490,63 +583,79 @@ export function BaziProfilePage() {
             </section>
           )}
 
-          {/* TJ-013.3 U1 Batch C：独立的已审强弱形态事实区，与调候、
-              病药、大运区块分离，不混成统一喜用结论。只转写后端
-              strength_presentation，前端不计算任何命理；无该键的旧
-              信封、或未知状态一律不渲染本节（不崩溃、不臆测）。 */}
-          {strengthPresentation && strengthPresentation.status === "presented" && (
-            <section className="bazi-strength-presentation" aria-label="已审强弱形态事实">
-              <span className="eyebrow">已审强弱形态事实 · 仅限一个已审谓词</span>
-              <h3>{strengthPresentation.statement}</h3>
-              <p>谓词：{strengthPredicateLabels[strengthPresentation.predicate_id] || "已审充分谓词命中"}</p>
-              <p>日主：{strengthPresentation.day_master} · 月支：{strengthPresentation.month_branch}</p>
-              <p>限定形态：{strengthPresentation.classification === "strong" ? "强形态" : strengthPresentation.classification === "weak" ? "弱形态" : "—"}</p>
-              <p>规则来源：{strengthPresentation.rule_registration === "registered" ? "已注册的充分谓词" : "待第一阶段规则注册的充分谓词"}</p>
-              {strengthPresentation.segment_gate && (
-                <p>司令段门：{strengthPresentation.segment_gate.segment_stem}段已通过。</p>
-              )}
-              <p>证据绑定：同请求执行记录已核验（证据条目 {Array.isArray(strengthPresentation.evidence_ids) ? strengthPresentation.evidence_ids.length : 0} 条）。</p>
-              <p>该结论只覆盖这一个已审形态，不覆盖全盘。</p>
-              <p className="bazi-strength-scope">{strengthPresentation.scope_statement}</p>
-              {strengthPresentation.limitations.map((l: string, i: number) => (
-                <p key={`sl-${i}`} className="bazi-strength-scope">{l}</p>
-              ))}
-            </section>
-          )}
+          {/* TJ-031.4（Track B F3）：当前分析边界是结果四层结构的第 4 层，
+              有结果即须在场，不再随 warnings/limitations 是否为空而消失；
+              分界约定在此明示，不用技术字段名。 */}
+          <section className="live-section result-limitations" aria-label="当前分析边界">
+            <h3>当前分析边界</h3>
+            {strengthPresentation && strengthPresentation.status === "presented" && (
+              <p className="bazi-boundary-state">命盘结构：已有结论的仅限这一个已审形态；其余命盘形态暂不可判。</p>
+            )}
+            {strengthPresentation && strengthPresentation.status === "not_judgeable" && (
+              <p className="bazi-boundary-state">命盘结构：暂不可判，不作任何强弱结论。</p>
+            )}
+            {strengthPresentation && strengthPresentation.status === "conflict" && (
+              <p className="bazi-boundary-state">命盘结构：存在未裁定冲突，暂不可判；不作任何强弱结论。</p>
+            )}
+            {!strengthPresentation && strengthLoadError && (
+              <p className="bazi-boundary-state">命盘结构：本次请求未能完成计算，这不是暂不可判。</p>
+            )}
+            {!strengthPresentation && !strengthLoadError && (
+              <p className="bazi-boundary-state">命盘结构：本次结果未附带已审强弱形态事实。</p>
+            )}
+            {result.warnings?.map((w: string, i: number) => (
+              <p key={`w-${i}`} className="limitation-warning">⚠️ {w}</p>
+            ))}
+            {result.limitations?.map((l: string, i: number) => (
+              <p key={`l-${i}`} className="limitation-note">ℹ️ {l}</p>
+            ))}
+            <p className="limitation-note">
+              分界约定：年柱以立春交节为界，立春之前出生仍按上一年计算；日柱以午夜 0 点为界，晚上 23 点后的夜子时归当日，不顺延到次日。
+            </p>
+            <p className="limitation-note">
+              以上为传统文化观察，不构成科学验证的未来预测。旺衰与完整喜用神结论需充分裁定，当前暂不提供；
+              大运仅呈现已注册方向与交运区间，不作吉凶判断。
+            </p>
+            {xiyong && (
+              <>
+                <p className="limitation-note">ℹ️ {xiyong.scope_statement}</p>
+                {xiyong.limitations.map((l: string, i: number) => (
+                  <p key={`xy-${i}`} className="limitation-note">ℹ️ {l}</p>
+                ))}
+              </>
+            )}
+            {dayun && dayun.limitations.map((l: string, i: number) => (
+              <p key={`dy-${i}`} className="limitation-note">ℹ️ {l}</p>
+            ))}
+            {strengthPresentation && (
+              <>
+                <p className="limitation-note">ℹ️ {strengthPresentation.scope_statement}</p>
+                {strengthPresentation.limitations.map((l: string, i: number) => (
+                  <p key={`st-${i}`} className="limitation-note">ℹ️ {l}</p>
+                ))}
+              </>
+            )}
+          </section>
 
-          {strengthPresentation && strengthPresentation.status === "not_judgeable" && (
-            <section className="bazi-strength-presentation" aria-label="已审强弱形态事实暂不可判">
-              <span className="eyebrow">已审强弱形态事实 · 暂不可判</span>
-              <h3>暂不可判</h3>
-              <p className="bazi-strength-not-judgeable">{strengthReasonLabels[strengthPresentation.reason] || "本盘暂不可判"}；未命中不等于弱。</p>
-              <p>暂不可判，不作任何强弱结论。</p>
-              <p className="bazi-strength-scope">{strengthPresentation.scope_statement}</p>
-              {strengthPresentation.limitations.map((l: string, i: number) => (
-                <p key={`sl-${i}`} className="bazi-strength-scope">{l}</p>
-              ))}
-            </section>
-          )}
+          <div className="bazi-next-card">
+            <div>
+              <span className="eyebrow">下一阶段</span>
+              <h3>从基础档案走向“流年 / 桃花 / 事业财运”</h3>
+              <p>这些场景会复用现在这份真实四柱结构，但必须等相应规则与证据补齐后才开放。</p>
+            </div>
+            <div className="bazi-journey-links">
+              <Link href="/life-overview">人生总览</Link>
+              <Link href="/yearly-structure">流年结构</Link>
+              <Link href="/romance-structure">桃花姻缘</Link>
+              <Link href="/career-wealth-structure">事业财运</Link>
+              <Link href="/daily-structure">今日结构</Link>
+            </div>
+          </div>
 
-          {strengthPresentation && strengthPresentation.status === "conflict" && (
-            <section className="bazi-strength-presentation" aria-label="已审强弱形态事实未裁定冲突">
-              <span className="eyebrow">已审强弱形态事实 · 未裁定冲突</span>
-              <h3>暂不可判</h3>
-              <p className="bazi-strength-not-judgeable">本盘存在未裁定的冲突，暂不可判；不作任何强弱结论。</p>
-              <p className="bazi-strength-scope">{strengthPresentation.scope_statement}</p>
-              {strengthPresentation.limitations.map((l: string, i: number) => (
-                <p key={`sl-${i}`} className="bazi-strength-scope">{l}</p>
-              ))}
-            </section>
-          )}
-
-          {!strengthPresentation && strengthLoadError && (
-            <section className="bazi-strength-presentation" aria-label="已审强弱形态事实加载失败">
-              <span className="eyebrow">已审强弱形态事实 · 加载失败</span>
-              <h3>加载失败</h3>
-              <p className="bazi-strength-error" role="alert">强弱形态事实加载失败，请稍后重试。这不是暂不可判：本次请求未能完成计算。</p>
-            </section>
-          )}
-
+          <section className="bazi-audit-view" aria-label="专业审计视图">
+            <details className="bazi-audit-details">
+              <summary>专业审计视图</summary>
+              <p className="bazi-audit-note">这里是完整的技术核查信息：规则命中、典籍依据与计算过程。平时不需要展开；展开后可见规则编号与原始记录。</p>
           <div className="bazi-result-columns">
             <section className="live-section">
               <div className="result-section-heading"><div><span>三</span><h2>规则命中</h2></div></div>
@@ -598,46 +707,6 @@ export function BaziProfilePage() {
               ))}
             </section>
           </div>
-
-          {/* TJ-031.4（Track B F3）：说明与限制是结果四层结构的第 4 层，
-              有结果即须在场，不再随 warnings/limitations 是否为空而消失；
-              分界约定在此明示，不用技术字段名。 */}
-          <section className="live-section result-limitations">
-            <div className="result-section-heading"><div><span>五</span><h2>说明与限制</h2></div></div>
-            {result.warnings?.map((w: string, i: number) => (
-              <p key={`w-${i}`} className="limitation-warning">⚠️ {w}</p>
-            ))}
-            {result.limitations?.map((l: string, i: number) => (
-              <p key={`l-${i}`} className="limitation-note">ℹ️ {l}</p>
-            ))}
-            <p className="limitation-note">
-              分界约定：年柱以立春交节为界，立春之前出生仍按上一年计算；日柱以午夜 0 点为界，晚上 23 点后的夜子时归当日，不顺延到次日。
-            </p>
-            <p className="limitation-note">
-              以上为传统文化观察，不构成科学验证的未来预测。旺衰与完整喜用神结论需充分裁定，当前暂不提供；
-              大运仅呈现已注册方向与交运区间，不作吉凶判断。
-            </p>
-            {xiyong && (
-              <>
-                <p className="limitation-note">ℹ️ {xiyong.scope_statement}</p>
-                {xiyong.limitations.map((l: string, i: number) => (
-                  <p key={`xy-${i}`} className="limitation-note">ℹ️ {l}</p>
-                ))}
-              </>
-            )}
-            {dayun && dayun.limitations.map((l: string, i: number) => (
-              <p key={`dy-${i}`} className="limitation-note">ℹ️ {l}</p>
-            ))}
-            {strengthPresentation && (
-              <>
-                <p className="limitation-note">ℹ️ {strengthPresentation.scope_statement}</p>
-                {strengthPresentation.limitations.map((l: string, i: number) => (
-                  <p key={`st-${i}`} className="limitation-note">ℹ️ {l}</p>
-                ))}
-              </>
-            )}
-          </section>
-
           <details className="trace-section bazi-trace">
             <summary>
               <span className="trace-icon"><Icon name="layers" size={19} /></span>
@@ -653,21 +722,8 @@ export function BaziProfilePage() {
               ))}
             </ol>
           </details>
-
-          <div className="bazi-next-card">
-            <div>
-              <span className="eyebrow">下一阶段</span>
-              <h3>从基础档案走向“流年 / 桃花 / 事业财运”</h3>
-              <p>这些场景会复用现在这份真实四柱结构，但必须等相应规则与证据补齐后才开放。</p>
-            </div>
-            <div className="bazi-journey-links">
-              <Link href="/life-overview">人生总览</Link>
-              <Link href="/yearly-structure">流年结构</Link>
-              <Link href="/romance-structure">桃花姻缘</Link>
-              <Link href="/career-wealth-structure">事业财运</Link>
-              <Link href="/daily-structure">今日结构</Link>
-            </div>
-          </div>
+            </details>
+          </section>
         </section>
       )}
     </div>
