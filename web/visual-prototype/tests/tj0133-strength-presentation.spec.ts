@@ -152,11 +152,14 @@ function dayunScenario() {
   return s;
 }
 
+// 以下两常量是默认视图实际渲染的转述后文案：后端 scope/limitations
+// 原文仍含“充分谓词”等工程措辞，前端在渲染时就地转述为通俗中文，
+// 后端文本本身未改；转述映射见 BaziProfilePage.tsx 的 plainUserText。
 const SCOPE_STATEMENT =
-  "本呈现仅陈述已审充分谓词的命中事实；不是全盘旺衰判断，不意味着喜用神或吉凶；未命中不等于弱。";
+  "本呈现仅陈述已审局部形态条件的命中事实；不是全盘旺衰判断，不意味着喜用神或吉凶；未命中不等于弱。";
 const LIMITATIONS = [
-  "仅限已审的八个充分谓词家族；其余命盘形态暂不可判。",
-  "金×酉谓词已注册但在真实历法命盘上构造性不可满足，不声称正例。",
+  "仅限已审的八个局部形态条件类型；其余命盘形态暂不可判。",
+  "金×酉这一类已通过审核但在真实历法命盘上构造性不可满足，不声称正例。",
 ];
 
 async function directChildSectionLabels(page: Page): Promise<(string | null)[]> {
@@ -177,10 +180,13 @@ test("presented strong renders the retitled structure section in reading order",
   await expect(section).toContainText("日主丙生于午月，命中了一个已审的局部形态：司令显现支持形态。");
   await expect(section).toContainText("就本盘而言，这表示丙日主在午月满足了一项已审的支持条件——仅此而已，不再推出其他结论。");
   await expect(section).toContainText("限定形态：强形态");
-  await expect(section).toContainText("规则来源：已注册的充分谓词");
-  await expect(section).toContainText(
-    `查看判断依据（证据条目 ${c.scenario.result.strength_presentation.evidence_ids.length} 条）`,
-  );
+  await expect(section).toContainText("规则来源：已通过审核的局部形态条件");
+  // 证据条数已从默认视图彻底移除：按钮只写“查看判断依据”，
+  // 来源说明只写“已核验”，不带任何条数。
+  await expect(section.locator(".bazi-evidence-entry > summary")).toContainText("查看判断依据");
+  await expect(section).not.toContainText("证据条目");
+  await expect(section).not.toContainText("证据记录数量");
+  await expect(section).toContainText("来源说明：同请求执行记录已核验。");
   await expect(section).toContainText("该结论只覆盖这一个已审形态，不覆盖全盘。");
   await expect(section).toContainText(SCOPE_STATEMENT);
   for (const line of LIMITATIONS) {
@@ -193,7 +199,8 @@ test("presented strong renders the retitled structure section in reading order",
   await expect(section).not.toContainText("bazi.phase2");
   await expect(section).not.toContainText("喜用神为");
 
-  // 默认阅读顺序：概览 → 结构 → 旺衰因素 → 调候病药 → 边界 → 审计。
+  // 默认阅读顺序：概览 → 结构 → 旺衰因素（默认折叠的扩展知识区，
+  // 仍为直接子节） → 调候病药 → 边界 → 审计。
   expect(await directChildSectionLabels(page)).toEqual([
     "命盘概览",
     "命盘结构分析",
@@ -238,7 +245,7 @@ test("not_judgeable shows 暂不可判 and no classification or lean", async ({ 
   await expect(section).toBeVisible();
   await expect(section).toHaveAttribute("aria-label", "命盘结构分析·暂不可判");
   await expect(section).toContainText("暂不可判");
-  await expect(section).toContainText("本盘未命中任何已审充分谓词；未命中不等于弱。");
+  await expect(section).toContainText("本盘未命中任何已审局部形态条件；未命中不等于弱。");
   await expect(section).toContainText("暂不可判，不作任何强弱结论。");
   await expect(section).not.toContainText("限定形态");
   await expect(section).not.toContainText("身弱");
@@ -367,7 +374,7 @@ test("evidence entries expand and collapse per conclusion", async ({ page }) => 
   await expect(strengthNote).toBeHidden();
   await strengthEntry.locator("summary").click();
   await expect(strengthNote).toBeVisible();
-  await expect(strengthEntry).toContainText("适用边界：仅限已审的八个充分谓词家族");
+  await expect(strengthEntry).toContainText("适用边界：仅限已审的八个局部形态条件类型");
   await strengthEntry.locator("summary").click();
   await expect(strengthNote).toBeHidden();
 
@@ -388,6 +395,106 @@ test("evidence entries expand and collapse per conclusion", async ({ page }) => 
   await expect(bingyaoEntry.locator("blockquote", { hasText: "如用财见比肩为病" })).toBeVisible();
   await bingyaoEntry.locator("summary").click();
   await expect(bingyaoEntry.locator("blockquote", { hasText: "如用财见比肩为病" })).toBeHidden();
+});
+
+
+test("final close-out: default view contains none of the banned engineering terms", async ({ page }) => {
+  const c = CASES.strong;
+  await stubApis(page, c.domain, c.scenario);
+  await submitCase(page, c);
+
+  // 默认视图各节（审计视图除外）一律不得出现工程术语与 Variant 名；
+  // 审计视图折叠在内，默认视图断言按节进行（见既有例的说明）。
+  const banned = [
+    "充分谓词",
+    "司令段门",
+    "证据条目",
+    "证据记录数量",
+    "ziping-structural-v1",
+    "strength-public-presentation-v1",
+    "ditiansui-root-visibility-v1",
+    "bazi-strength-adjudication-v1",
+    "Variant",
+  ];
+  for (const scope of [
+    ".bazi-overview",
+    ".bazi-strength-presentation",
+    ".bazi-xiyong-presentation",
+    ".result-limitations",
+  ]) {
+    const section = page.locator(scope);
+    for (const term of banned) {
+      await expect(section).not.toContainText(term);
+    }
+  }
+  // Variant 名只移到折叠的审计视图内：展开后可见，默认仍不可见。
+  await expect(page.locator(".bazi-audit-view .live-rule").first()).toBeHidden();
+  await page.locator(".bazi-audit-details > summary").click();
+  await expect(page.locator(".bazi-audit-view")).toContainText("计算版本：ziping-structural-v1");
+});
+
+test("final close-out: pending registration and segment gate render in plain wording", async ({ page }) => {
+  const scenario = JSON.parse(JSON.stringify(CASES.strong.scenario));
+  scenario.result.strength_presentation.rule_registration = "pending";
+  scenario.result.strength_presentation.segment_gate = { segment_stem: "甲" };
+  await stubApis(page, CASES.strong.domain, scenario);
+  await submitCase(page, CASES.strong);
+
+  const section = page.locator(".bazi-strength-presentation");
+  await expect(section).toContainText("规则来源：尚在审核登记中的局部形态条件");
+  await expect(section).toContainText("出生时刻已对照本月已核验的时段核查通过：甲段。");
+  await expect(section).not.toContainText("充分谓词");
+  await expect(section).not.toContainText("司令段门");
+  await expect(section).not.toContainText("待第一阶段规则注册");
+});
+
+test("final close-out: 旺衰因素 area is collapsed by default and expands on demand", async ({ page }) => {
+  const c = CASES.strong;
+  await stubApis(page, c.domain, c.scenario);
+  await submitCase(page, c);
+
+  const area = page.locator(".bazi-strength-observations .bazi-extended-details");
+  const open = await page.evaluate(
+    () => (document.querySelector(".bazi-extended-details") as HTMLDetailsElement | null)?.open,
+  );
+  expect(open).toBe(false);
+  await expect(area.locator("p", { hasText: "月支" }).first()).toBeHidden();
+  await area.locator("> summary").click();
+  await expect(area.locator("p", { hasText: "月支" }).first()).toBeVisible();
+  await expect(area).toContainText("通根候选");
+  await expect(area).toContainText("尚不能据此判断身强身弱");
+  await area.locator("> summary").click();
+  await expect(area.locator("p", { hasText: "月支" }).first()).toBeHidden();
+});
+
+test("final close-out: boundary section has no duplicated lines", async ({ page }) => {
+  const c = CASES.strong;
+  await stubApis(page, c.domain, c.scenario);
+  await submitCase(page, c);
+
+  const boundary = page.locator(".result-limitations");
+  const texts = await boundary.evaluate((el) =>
+    [...el.querySelectorAll("p")].map((p) => (p.textContent || "").trim()).filter(Boolean),
+  );
+  expect(new Set(texts).size).toBe(texts.length);
+  // 后端 limitations 自带的重复行（三刑行出现两次）只保留一次。
+  const sanxing = texts.filter((t) => t.includes("三刑存在明确流派分歧"));
+  expect(sanxing).toHaveLength(1);
+  // 不同事实一律保留：domain 限制、调候范围、强度转述范围、固定分界约定都在场。
+  await expect(boundary).toContainText("真太阳时未实现。");
+  await expect(boundary).toContainText("本呈现只含调候");
+  await expect(boundary).toContainText(SCOPE_STATEMENT);
+  await expect(boundary).toContainText("分界约定：年柱以立春交节为界");
+});
+
+test("final close-out: 下一阶段 promo card is deleted", async ({ page }) => {
+  const c = CASES.strong;
+  await stubApis(page, c.domain, c.scenario);
+  await submitCase(page, c);
+
+  await expect(page.locator(".bazi-next-card")).toHaveCount(0);
+  await expect(page.locator(".bazi-live-result")).not.toContainText("下一阶段");
+  await expect(page.locator(".bazi-live-result")).not.toContainText("从基础档案走向");
 });
 
 test("dayun section still renders with unchanged content (shape fixture)", async ({ page }) => {
