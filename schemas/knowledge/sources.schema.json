@@ -52,8 +52,31 @@
             "minLength": 1
           },
           "commit": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{40}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "provenance_kind": {
             "type": "string",
-            "pattern": "^[0-9a-f]{40}$"
+            "enum": [
+              "github",
+              "library_scan"
+            ],
+            "default": "github"
+          },
+          "catalog_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "pdf_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
           },
           "path": {
             "type": "string",
@@ -125,7 +148,36 @@
             ]
           }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "if": {
+          "properties": {
+            "provenance_kind": {
+              "const": "library_scan"
+            }
+          },
+          "required": [
+            "provenance_kind"
+          ]
+        },
+        "then": {
+          "properties": {
+            "commit": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "catalog_id",
+            "pdf_sha256"
+          ]
+        },
+        "else": {
+          "properties": {
+            "commit": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{40}$"
+            }
+          }
+        }
       }
     }
   },
