@@ -2142,6 +2142,30 @@
       "kind": "classical",
       "rights_basis": "由公有领域快照（bazi.source.sanmingtonghui）经本平台正式应用批生成的应用文本；仅保存并引用公有领域古籍原文，不取得电子仓库现代编辑内容的版权许可。",
       "review_scope": "TJ-018.3 晋级 P1（E0329）登记：本来源为 TJ-018.3 正式应用批（E0298）产出的《三命通会》正式应用文本 S3（阶段一 PUA 86 映射524 处经全核应用、阶段二 603 条订正按文件序应用、origin 位点图往返复原 S0，应用报告 sanming_formal_application_report_v1.json 在案）。登记目的仅为《论三刑》Canonical 建节（bazi.section.s060）提供 PUA 归零的文本依据：快照 S0 对应切片含 PUA 8 处，与 Canonical 全域 section 文本零 PUA 不变量冲突；S3 切片（字符 71874–74853）PUA 归零且 018-B 登记引文 11 条逐字在场。本登记不构成整书晋级：整书 canonical_ready=false 不变，快照 S0 仍为原文依据，RD-12 并列与两处永久缺口在 S3 中原样保留（UD-1/UD-2 A 方案），余节晋级仍须逐节审定后另行援引。"
+    },
+    {
+      "source_id": "bazi.source.zipingzhenquan",
+      "title": "子平真詮（1925 上海世界圖書館版）",
+      "author": "沈孝瞻",
+      "era": "清代沈孝瞻撰；作者归属有争议（《耕寸集》说），1925 上海世界圖書館版",
+      "repository": "National Library of China",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/f/fe/NLC416-11jh010455-35296_%E5%AD%90%E5%B9%B3%E7%9C%9F%E8%A9%AE.pdf",
+      "commit": null,
+      "provenance_kind": "library_scan",
+      "catalog_id": "NLC416-11jh010455-35296",
+      "pdf_sha256": "71402a780b0351b54edf121a51bc4a4a4ce5896496c35b954563ee06f1a6f620",
+      "path": "NLC416-11jh010455-35296_子平真詮.pdf",
+      "license": "Public-Domain (pre-modern text only)",
+      "public_domain": true,
+      "retrieved_at": "2026-11-05",
+      "content_path": "data/quarantine/public_domain_snapshots/nlc416/zipingzhenquan_1925_ch16.txt",
+      "content_format": "text",
+      "sha256": "98576342cd8c4fb092a7bec5c1e86b7b02c051cb14a9c6a7f632f5a42b647966",
+      "blob_sha": null,
+      "evidence_level": "C",
+      "kind": "classical",
+      "rights_basis": "1925 世界圖書館重印清代沈孝瞻原文；Commons 标 PD-scan；附录与徐乐吾評注排除在外（評注美国保护至 2032-01-01）",
+      "review_scope": "仅第 16 章：扫描 41–43 页（原书 32–34 页），逐字核对 300-dpi 渲染；引文逐字保留快照字形；疑似印误按原样＋疑读＋证据分记；附录、评注排除。底本文件页：https://commons.wikimedia.org/wiki/File:NLC416-11jh010455-35296_子平真詮.pdf"
     }
   ]
 }

@@ -1291,13 +1291,11 @@ SEALED_MEASUREMENTS = {
 # (Qiongtong Baojian: zonglun anchor + 109 entry sections);
 # all 110 texts and names verified in the E0352 sealed run
 # to contain none of the HEHUA_KEYWORDS and no 五合 -- the
-# Bing-Mao entry section s099 takes the adjudicated window
-# [8668,8852) precisely because its full span's tail
-# carries the one snapshot-level 化格 occurrence counted
-# in snapshot_keyword_counts below (that tail is
-# registered unbuilt text, not a section), so the keyword
-# pins below are unchanged.
-'phase1_sections_total': 184,
+# E0382 (TJ-012.3《子平真詮》准入): +1 for the new Canonical
+# section bazi.section.s185 (ziping zaqi); its text and name were
+# verified to contain none of the HEHUA_KEYWORDS and no 五合, so
+# the keyword pins below are unchanged.
+'phase1_sections_total': 185,
 'phase1_sections_with_hehua_keywords': 0,
 'phase1_sections_with_wuhe': ['bazi.section.s010'],
 # E0333 (TJ-018.3 execution-binding batch 1): +1 for the new

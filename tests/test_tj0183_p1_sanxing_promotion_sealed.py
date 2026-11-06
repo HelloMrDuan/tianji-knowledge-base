@@ -57,7 +57,8 @@ class CanonicalBuildTests(unittest.TestCase):
         bundle = self.bundle
         # E0348: +1 classic (bazi.classic.shenfeng).
         # E0352: +1 classic (bazi.classic.qiongtong).
-        self.assertEqual(len(bundle['classics']), 6)
+        # E0382: +1 classic (bazi.classic.zipingzhenquan).
+        self.assertEqual(len(bundle['classics']), 7)
         # E0335 (TJ-018.3 execution-binding batch 2): +2 chapters
         # and +2 sections for the two juan-2 ganzhi sections
         # (s061/s062) and +3 rules (r032/r033/r034).
@@ -78,8 +79,10 @@ class CanonicalBuildTests(unittest.TestCase):
         # +11 chapters and +110 sections (s075-s184, Qiongtong
         # Baojian), +1 term (bazi.term.tiaohou), +10 rules
         # (r042-r051).
-        self.assertEqual(len(bundle['chapters']), 44)
-        self.assertEqual(len(bundle['sections']), 184)
+        # E0382 (TJ-012.3《子平真詮》准入): +1 chapter and
+        # +1 section (s185, ziping zaqi).
+        self.assertEqual(len(bundle['chapters']), 45)
+        self.assertEqual(len(bundle['sections']), 185)
         self.assertEqual(len(bundle['terms']), 39)
         # E0333 (TJ-018.3 execution-binding batch 1): +1 rule for
         # bazi.rule.r031 (sanxing structural facts); E0335 adds

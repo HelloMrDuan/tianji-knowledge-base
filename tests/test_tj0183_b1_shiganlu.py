@@ -351,8 +351,9 @@ class PreviousRegistersRegressionTest(unittest.TestCase):
 
 class ScopeRegistrationTest(unittest.TestCase):
     def test_census_unchanged(self) -> None:
-        # 本批不新增 Source：登记表维持 102 条（C:96 / D:6）
-        self.assertEqual(len(SOURCES), 102)
+        # E0382（TJ-012.3《子平真詮》准入）：登记表 102→103 条
+        # （C:96→C:97、D:6 不变）；本批本身不新增 Source。
+        self.assertEqual(len(SOURCES), 103)
 
     def test_scope_fragments_present(self) -> None:
         by_id = {s["source_id"]: s for s in SOURCES}

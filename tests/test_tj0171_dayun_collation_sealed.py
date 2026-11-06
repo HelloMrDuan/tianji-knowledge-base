@@ -134,12 +134,13 @@ class CoveragePinTest(unittest.TestCase):
 class RegistrationCensusTest(unittest.TestCase):
     def test_source_census_unchanged(self) -> None:
         # TJ-018.3 P1 普查同步：登记 bazi.source.sanmingtonghui-applied（C 级）后登记表 101→102 条、C:95→C:96，非放宽断言。
-        self.assertEqual(len(SOURCES), 102)
+        # TJ-012.3 普查同步：登记 bazi.source.zipingzhenquan（《子平真詮》1925 上海世界圖書館版，C 级）后登记表 102→103 条、C:96→C:97，非放宽断言。
+        self.assertEqual(len(SOURCES), 103)
         grades: dict[str, int] = {}
         for source in SOURCES:
             grade = source["evidence_level"]
             grades[grade] = grades.get(grade, 0) + 1
-        self.assertEqual(grades, {"C": 96, "D": 6})
+        self.assertEqual(grades, {"C": 97, "D": 6})
 
     def test_review_scope_additions_present(self) -> None:
         by_id = {s["source_id"]: s for s in SOURCES}

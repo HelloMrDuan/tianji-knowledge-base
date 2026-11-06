@@ -89,8 +89,10 @@ class DayunSanmingRegistrationTests(unittest.TestCase):
         # +11 chapters (44), +110 sections (184), +1 term (39),
         # +10 rules (51), +1 execution step (43), +30 Golden
         # cases (210).
-        self.assertEqual(len(knowledge['chapters']), 44)
-        self.assertEqual(len(knowledge['sections']), 184)
+        # E0382 (TJ-012.3《子平真詮》准入): +1 chapter, +1 section (s185),
+        # no new terms/rules.
+        self.assertEqual(len(knowledge['chapters']), 45)
+        self.assertEqual(len(knowledge['sections']), 185)
         self.assertEqual(len(knowledge['terms']), 39)
         self.assertEqual(len(knowledge['rules']), 51)
         execution = read_json(

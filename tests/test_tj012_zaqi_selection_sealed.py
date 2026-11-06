@@ -69,14 +69,17 @@ class QuoteVerbatimTests(unittest.TestCase):
         sources = json.loads(
             (ROOT / 'config/knowledge_sources.json').read_text('utf-8'))
         entries = {s['source_id']: s for s in sources['sources']}
-        self.assertEqual(len(entries), 102, 'census count must not change')
+        self.assertEqual(len(entries), 103, 'census count must not change')
         from collections import Counter
         self.assertEqual(
             Counter(s['evidence_level'] for s in entries.values()),
         # TJ-018.3 P1 普查同步：登记 bazi.source.
         # sanmingtonghui-applied（C 级）后 C:95 变 C:96
         # （登记表共 102 条），非放宽断言。
-            Counter({'C': 96, 'D': 6}), 'census grades must not change')
+        # TJ-012.3 普查同步：登记 bazi.source.zipingzhenquan
+        # （《子平真詮》1925 上海世界圖書館版，C 级）后 C:96 变 C:97
+        # （登记表共 103 条），非放宽断言。
+            Counter({'C': 97, 'D': 6}), 'census grades must not change')
         ditiansui = entries['bazi.source.ditiansui-spouse']
         self.assertIn('影响遥系', ditiansui['review_scope'])
         self.assertIn('33161', ditiansui['review_scope'])
