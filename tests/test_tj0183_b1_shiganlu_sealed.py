@@ -6,7 +6,7 @@
 逐字等值 + 全文计数复核；PUA / 防 / 己 / 已 / 巳 / 戌 / 戍全量
 扫描与登记逐位对账；S0→S3 差异恰 17 处与残余防 1 处对账；
 密封校勘 11 条与候选池 3 条在本窗口的处置对账；Slice A 定义句
-引文在快照上逐字复核；来源普查（102 条）与既有六册在本环境
+引文在快照上逐字复核；来源普查（103 条）与既有六册在本环境
 一并回归。
 """
 
@@ -220,7 +220,10 @@ class SealedAssetReconciliationTest(unittest.TestCase):
 
 class RegistrationCensusSealedTest(unittest.TestCase):
     def test_source_census_and_scope(self) -> None:
-        self.assertEqual(len(SOURCES), 102)
+        # TJ-012.3 普查同步：登记 bazi.source.zipingzhenquan
+        # （《子平真詮》1925 上海世界圖書館版，C 级）后登记表 102→103 条、
+        # C:96→C:97，非放宽断言。
+        self.assertEqual(len(SOURCES), 103)
         by_id = {s["source_id"]: s for s in SOURCES}
         sanming = by_id["bazi.source.sanmingtonghui"]["review_scope"]
         for needle in ("论十干禄", "74911", "77454", "TJ-018.3-B1",

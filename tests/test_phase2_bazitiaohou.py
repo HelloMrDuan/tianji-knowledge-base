@@ -74,11 +74,12 @@ class RegistrationTests(unittest.TestCase):
         self.assertEqual(sorted(e['id'] for e in sections),
                          SECTIONS)
         # Bazi bundle totals after the flip.
+        # E0382 (TJ-012.3《子平真詮》准入): +1 classic (zipingzhenquan), +1 chapter, +1 section (s185).
         knowledge = read_json(
             ROOT / 'data/canonical/bazi/phase1_knowledge.json')
-        self.assertEqual(len(knowledge['classics']), 6)
-        self.assertEqual(len(knowledge['chapters']), 44)
-        self.assertEqual(len(knowledge['sections']), 184)
+        self.assertEqual(len(knowledge['classics']), 7)
+        self.assertEqual(len(knowledge['chapters']), 45)
+        self.assertEqual(len(knowledge['sections']), 185)
         self.assertEqual(len(knowledge['terms']), 39)
         self.assertEqual(len(knowledge['rules']), 51)
 

@@ -108,7 +108,7 @@ class GanzhiExecBindPublicTests(unittest.TestCase):
                                  'pure_support_metal',
                                  'ren-pattern-yin-true-v1',
                                  'sanxing-branch-fact-v1', 'tiaohou-qiongtong-v1']))
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 3)  # E0352: tiaohou flipped
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 4)  # E0352: tiaohou flipped; E0382: ziping-zaqi-ch16 maintained
         for item in ROWS:
             self.assertNotIn(item, gov.MAINTAINED_ITEMS)
 

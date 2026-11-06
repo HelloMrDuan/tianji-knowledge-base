@@ -141,7 +141,7 @@ class InventoryDispositionTests(unittest.TestCase):
                           'sanxing-branch-fact-v1', 'tiaohou-qiongtong-v1'])
         self.assertNotIn('sanxing-branch-fact-v1',
                          gov.MAINTAINED_ITEMS)
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 3)  # E0352: tiaohou flipped
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 4)  # E0352: tiaohou flipped; E0382: ziping-zaqi-ch16 maintained
 
 
 class ConfigRegistrationTests(unittest.TestCase):

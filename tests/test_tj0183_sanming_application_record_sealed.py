@@ -1,6 +1,6 @@
 """TJ-018.3 三命通会「PUA＋校勘正式应用批」（E0298）密封专项。
 
-在新快照口径（237 文件）下核验应用产物：应用文本与报告文件存在且
+在新快照口径（239 文件）下核验应用产物：应用文本与报告文件存在且
 哈希/字节合公开登记；快照本体与冻结五件逐字未动；报告自哈希按其
 登记规则复算；报告内部阶段链（S1/444 检查点/S3）、603 条逐条记录
 完备性与豁免集、链式归因 66 条构成、附件完备性（159 核销、76 携
@@ -161,7 +161,8 @@ class ApplicationRecordSealedTest(unittest.TestCase):
 
     def test_assembled_snapshot_triple(self):
         files = [p for p in DATA.rglob("*") if p.is_file()]
-        self.assertEqual(len(files), 237)
+        # TJ-012.3 普查同步：E0382 准入后暂存快照 237→239 文件（新增 TXT 与转录工作单两件），C:96→C:97，非放宽断言。
+        self.assertEqual(len(files), 239)
         # 组装树的 data/product/knowledge_coverage.json 与
         # knowledge_dependencies.json 由 build_product_coverage 在
         # 组装后原地重生，字节与快照原件不同，全树字节求和不等于
@@ -179,6 +180,10 @@ class ApplicationRecordSealedTest(unittest.TestCase):
             "zhougong_reviewed_excerpts.txt", "zhouyi_combined.txt"]))
         reg = self.report["product_registration"]
         self.assertEqual(reg["applied_text"]["sha256"], PINS["S3"])
+        # 注意：此处 237 不是暂存快照现值，而是 E0298 冻结报告自身登记的
+        # 应用后 manifest（237 文件 / 15,883,200 字节，见报告
+        # product_registration.snapshot_manifest_after；报告为冻结件，
+        # 不得改写）；现快照文件数只由上文 len(files) == 239 钉住。
         self.assertEqual(
             reg["snapshot_manifest_after"]["files"], 237)
         self.assertEqual(

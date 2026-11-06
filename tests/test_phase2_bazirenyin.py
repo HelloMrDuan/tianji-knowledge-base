@@ -97,8 +97,10 @@ class RenRegistrationTests(unittest.TestCase):
         # (s071/s072/s073/s074), +4 chapters, +2 terms, +2 rules
         # (r040/r041), +2 contract steps.
         # E0352 (governance tiaohou Canonical construction): +1 classic (qiongtong), +11 chapters, +110 sections (s075-s184), +1 term (tiaohou), +10 rules (r042-r051), +1 contract step, +30 Golden cases (210).
-        self.assertEqual(len(self.bundle['sections']), 184)
-        self.assertEqual(len(self.bundle['chapters']), 44)
+        # E0382 (TJ-012.3《子平真詮》准入): +1 chapter, +1 section (s185),
+        # no new terms/rules.
+        self.assertEqual(len(self.bundle['sections']), 185)
+        self.assertEqual(len(self.bundle['chapters']), 45)
         self.assertEqual(len(self.bundle['terms']), 39)
         self.assertEqual(len(self.bundle['rules']), 51)
         self.assertEqual(len(self.contract['rules']), 43)
@@ -272,7 +274,9 @@ class RenRegistrationTests(unittest.TestCase):
                          governance.MAINTAINED_ITEMS)
         # E0352: tiaohou-qiongtong-v1 flipped too (three
         # maintained).
-        self.assertEqual(len(governance.MAINTAINED_ITEMS), 3)
+        # E0382: ziping-zaqi-ch16 maintained too (four
+        # maintained).
+        self.assertEqual(len(governance.MAINTAINED_ITEMS), 4)
         record = governance.GOVERNANCE_REN_RECORD
         self.assertEqual(record['event'], 'E0344')
         self.assertEqual(record['phase1_rules_added'], ['bazi.rule.r037'])

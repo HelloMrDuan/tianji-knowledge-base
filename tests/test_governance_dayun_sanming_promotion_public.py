@@ -144,14 +144,15 @@ class DayunSanmingPromotionPublicTests(unittest.TestCase):
         # rows remain in terminal inherited form).
         self.assertIn('bingyao-shenfeng-v1', gov.FLIPPED_ITEMS)
         # E0352: tiaohou-qiongtong-v1 flipped as well (flipped
-        # 12; maintained three -- siling-yin-pilot and the two
-        # inherited rows remain).
+        # 12; maintained four -- siling-yin-pilot, ziping-zaqi-ch16
+        # and the two inherited rows remain).
         self.assertEqual(len(gov.FLIPPED_ITEMS), 12)
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 3)
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 4)
         self.assertEqual(sorted(gov.MAINTAINED_ITEMS),
                          sorted(['dayun-compose',
                                  'dayun-timeline-view',
-                                 'siling-yin-pilot']))
+                                 'siling-yin-pilot',
+                                 'ziping-zaqi-ch16']))
 
     def test_segment_disclosure_flips(self):
         direction = dc.classical_direction('甲子',
