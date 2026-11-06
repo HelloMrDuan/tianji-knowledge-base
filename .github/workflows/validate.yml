@@ -30,6 +30,14 @@ jobs:
       # This MUST execute test assertions, not just compileall.
       - run: python -m pip install 'jsonschema>=4.18,<5'
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_b004_public_parser_contract.py' -v
+      # Knowledge-source schema provenance (E0381, TJ-012.3): only the
+      # schema-only provenance_kind test runs in public CI. The rest of
+      # test_knowledge.py needs sealed data/ (validate_protected_files /
+      # validate_knowledge) and runs in the offline-acceptance backend
+      # partition only -- a whole-file discover step here would fail
+      # on a public checkout. This method-scoped step covers the new
+      # schema test without pulling the sealed-dependent tests in.
+      - run: PYTHONPATH=src python -m unittest tests.test_knowledge.KnowledgeGovernanceTests.test_sources_schema_provenance_kind -v
       # B012 public execution gate + projection contract: no private
       # Canonical/RAG data required. This MUST execute test assertions,
       # not just compileall. Real-engine tests live in
