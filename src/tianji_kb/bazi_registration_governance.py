@@ -1269,6 +1269,86 @@ GOVERNANCE_TIAOHOU_RECORD = {
         'unchanged.',
 }
 
+# TJ-012.3《子平真詮》来源准入＋Ch16 平行登记批（E0382，用户
+# 2026-11-05 授权 Option 1、2026-11-06 四项裁定）：新来源
+# bazi.source.zipingzhenquan（library_scan，NLC416）登记入
+# config/knowledge_sources.json；密封 Canonical 建新经典／新章／
+# 新节 bazi.section.s185（Ch16 全文 821 字，密封 TXT 逐字等值）；
+# 公开模块 bazi_ziping_zaqi.py 登记 20 条引文与三向衝突并列。
+# 形制与 TJ0183_P1_RECORD 同构：只建 Canonical 節，不建 Phase1
+# 規則、不建 Phase2 步，evidence_binding 維持 pending。
+TJ0123_ZIPING_ZAQI_RECORD = {
+    'batch': 'TJ-012.3《子平真詮》来源准入＋Ch16 平行登记批',
+    'event': 'E0382',
+    'date': '2026-11-06',
+    'document': 'docs/product/TJ0123_ZIPING_ZHENQUAN_ADMISSION.md',
+    'canonical_chapters_added': ['bazi.chapter.ziping_zaqi'],
+    'canonical_sections_added': ['bazi.section.s185'],
+    'canonical_terms_added': [],
+    'classic_source_ids_added': {
+        'bazi.classic.zipingzhenquan': ['bazi.source.zipingzhenquan'],
+    },
+    'public_config_registrations': [
+        'config/knowledge_sources.json: bazi.source.zipingzhenquan'
+        '（1925 上海世界圖書館版《子平真詮》，library_scan：'
+        'commit null、catalog_id NLC416-11jh010455-35296、'
+        'pdf_sha256 71402a78…f620；content_path 指向密封 TXT、'
+        'sha256 98576342…f647966、blob_sha null；C 级）',
+        'config/phase2_source_audit.json: 同源谱系行（'
+        'lineage_group NLC416-11jh010455-35296，无 GitHub 谱系，'
+        '不与任何 GitHub 来源同组、不投独立票，edition/authority '
+        'unverified、grade_ceiling C）'],
+    'phase1_rules_added': [],
+    'phase2_rules_added': [],
+    'golden_cases_added': [],
+    'quotes_verified': [
+        'B-16-01', 'B-16-02', 'B-16-03', 'B-16-04', 'B-16-05',
+        'B-16-06', 'B-16-07', 'B-16-08', 'B-16-09', 'B-16-10',
+        'B-16-11', 'B-16-12', 'B-16-13', 'B-16-14', 'B-16-15',
+        'B-16-16', 'B-16-17', 'B-16-18', 'B-16-19', 'B-16-20'],
+    'registration_disposition': 'maintained_pending'
+        '（execution_binding_structure）：教义不可执行（清／有情／'
+        '無情／會支皆无阈值、无判定程序，作者自限例证不可穷举），'
+        '本模块无执行面、不经 ExecutionTrace；登记一个无执行步'
+        '的规则即空注册，不建 Phase1 规则、不建 Phase2 步，'
+        'evidence_binding 维持 pending；Canonical 建节消除了本'
+        '切片的 canonical_evidence_absent 面，剩余缺口只有执行'
+        '绑定结构一项。',
+    'sealed_files_changed': [
+        'data/quarantine/public_domain_snapshots/nlc416/'
+        'zipingzhenquan_1925_ch16.txt',
+        'data/quarantine/public_domain_snapshots/nlc416/'
+        'zipingzhenquan_1925_ch16_worksheet.md',
+        'data/canonical/bazi/phase1_knowledge.json'],
+    'sealed_file_sha256_after': {
+        'data/quarantine/public_domain_snapshots/nlc416/'
+        'zipingzhenquan_1925_ch16.txt':
+            '98576342cd8c4fb092a7bec5c1e86b7b02c051cb14a9c6a7f632f5a42b647966'},
+    'sealed_file_sha256_note': '其余两文件（工作单、'
+        'phase1_knowledge.json）的逐文件 SHA256 以机上暂存快照 '
+        'manifest（eca717ef…）为准，由离线验收复核；公开侧不'
+        '推算、不补写。',
+    'snapshot_files_before': 237,
+    'snapshot_files_after': 239,
+    'snapshot_bytes_before': 16722816,
+    'snapshot_bytes_after': 16739253,
+    'manifest_sha256_before':
+        '26b63e64bed736b08a7dcd686f6a75de733fd44ba9eec9195248e69730485329',
+    'manifest_sha256_after':
+        'eca717ef4b8bf8e08de00e2b24ac4ecddfa2dbe815a141b7e19d63668699d2ff',
+    'pin_record': '新钉值（manifest_sha256_after）须与本 PR 合并'
+                  '同步换位 live 快照并更新可信机 cicd/env/'
+                  'trusted-acceptance 与私有构建脚本钉值；本批未'
+                  '先行换钉（live 快照仍为 26b63e64…、pin 未动，'
+                  '暂存快照只用于机上复跑），回退路径不变（恢复'
+                  '旧快照目录 + 旧钉值）。',
+    'verdict_surface_change': '无：纯登记批；pattern_zaqi、'
+                              'pattern_route、tiaohou、bingyao、'
+                              'dayun 输出逐字不变；新模块无执行面、'
+                              '不接 chart；来源普查由 102 条（C:96／'
+                              'D:6）变 103 条（C:97／D:6）。',
+}
+
 REASON_CLASSES = {
     'canonical_evidence_absent':
         '定义性原典锚点在密封 Canonical 中无对应 section（或经典不在 '
@@ -1710,6 +1790,30 @@ REGISTRATION_INVENTORY = [
                   'sufficient_rule、不进任何裁决输入，组名与教'
                   '义状态（B2/B5）逐字不变。',
         'unlock_path': None,
+    },
+    {
+        'item': 'ziping-zaqi-ch16',
+        'subject': '《子平真詮》Ch16 雜氣教義平行登記（TJ-012.3）',
+        'disclosure_sites': ['src/tianji_kb/bazi_ziping_zaqi.py'],
+        'disposition': 'maintained_pending',
+        'reason_class': 'execution_binding_structure',
+        'reason': 'P1 批（E0382）建成 Canonical section '
+                  'bazi.section.s185（子平真詮 Ch16 全文 821 字，'
+                  '密封 TXT 逐字等值、零 PUA）与新经典 '
+                  'bazi.classic.zipingzhenquan、新章 '
+                  'bazi.chapter.ziping_zaqi；20 条引文逐字绑定，'
+                  '11 条与 Slice B 一般臂直接对立、2 条事实层'
+                  '一致、B-16-17 与三命喜沖刑方向相反，三向并列'
+                  '不裁定。教义不可执行（清／有情／無情／會支皆'
+                  '无阈值、无判定程序，作者自限例证不可穷举），'
+                  '本模块无执行面、不经 ExecutionTrace；登记一个'
+                  '无执行步的规则即空注册（沿 '
+                  'ren-pattern-yin-true-v1 同类处置），故不建 '
+                  'Phase1 规则、不建 Phase2 步，evidence_binding '
+                  '维持 pending。',
+        'unlock_path': '若用户裁定 Ch16 某条教义可执行化并审定其'
+                       '阈值／判定程序、且接入 ExecutionTrace 后，'
+                       '再行注册；当前维持研究级平行登记。',
     },
 ]
 

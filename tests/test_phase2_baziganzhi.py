@@ -139,8 +139,10 @@ class GanzhiRegistrationTests(unittest.TestCase):
         # E0352 (governance tiaohou Canonical construction):
         # +11 chapters, +110 sections (s075-s184), +10 rules
         # (r042-r051).
-        self.assertEqual(len(self.bundle['sections']), 184)
-        self.assertEqual(len(self.bundle['chapters']), 44)
+        # E0382 (TJ-012.3《子平真詮》准入): +1 chapter, +1 section (s185),
+        # no new terms/rules.
+        self.assertEqual(len(self.bundle['sections']), 185)
+        self.assertEqual(len(self.bundle['chapters']), 45)
         self.assertEqual(len(self.bundle['rules']), 51)
         for section_id in ('bazi.section.s061', 'bazi.section.s062'):
             self.assertIn(section_id, self.sections)
@@ -347,7 +349,9 @@ class GanzhiRegistrationTests(unittest.TestCase):
         # maintained).
         # E0352: tiaohou-qiongtong-v1 flipped too (three
         # maintained).
-        self.assertEqual(len(governance.MAINTAINED_ITEMS), 3)
+        # E0382: ziping-zaqi-ch16 maintained too (four
+        # maintained).
+        self.assertEqual(len(governance.MAINTAINED_ITEMS), 4)
         record = governance.TJ0183_P2_RECORD
         self.assertEqual(record['event'], 'E0335')
         self.assertEqual(record['phase1_rules_added'],

@@ -109,9 +109,10 @@ class ZaqiPromotionPublicTests(unittest.TestCase):
                                  'sanxing-branch-fact-v1',
                                  'tiaohou-qiongtong-v1']))
         # E0352: tiaohou-qiongtong-v1 flipped as well (twelve
-        # flipped; three maintained -- siling-yin-pilot and the
-        # two inherited rows).
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 3)
+        # flipped; four maintained -- siling-yin-pilot,
+        # ziping-zaqi-ch16 and the two inherited rows).
+        # E0382: ziping-zaqi-ch16 maintained too (four maintained).
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 4)
         self.assertNotIn('pattern-zaqi', gov.MAINTAINED_ITEMS)
 
     def test_statement_disclosure_flipped(self):

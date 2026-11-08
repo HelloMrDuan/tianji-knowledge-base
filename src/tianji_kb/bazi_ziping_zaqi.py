@@ -1,0 +1,503 @@
+"""《子平真詮》第十六章《論雜氣如何取用》平行登記（TJ-012.3，E0382）。
+
+授權：用戶 2026-11-05 裁定（Option 1）准入 1925 上海世界圖書館版
+《子平真詮》為獨立來源、授權 Ch16 最小平登記批；2026-11-06 四項裁定
+（Schema 修訂先行 E0381、TXT 人工轉錄、密封建節納入本批、命名確認）
+已全部落實。Schema 修訂 PR #554 已合併（main 4640f960）。
+
+本模塊是純數據平行登記，無任何判定邏輯、無執行面：
+- 只登記 Ch16 正文 20 條核取短引（B-16-01–B-16-20）及其與 Slice B
+  （pattern_zaqi，原注層）、三命卷五《論雜氣》的逐條對照；三說
+  （原注／三命／子平真詮）并列、不裁定、不以一說壓一說。
+- 不定義清／濁閾值、不定義有情／無情分數、不由透干／會支自動立格、
+  不登記未裁定的庫啟／沖動／沖克效力、不給成敗／真假／用神結論。
+- 不接 operations/bazi_chart、不進 ExecutionTrace、不進 RuleMatch
+  與 Evidence；determination 恒 None；evidence_binding 恒 pending；
+  research_only，public_enabled False，ai_enabled False。
+- 底本只及 Ch16：第十七章、附錄（偉人星命錄、萬年書）、徐樂吾評注
+  一律不在本模塊；全章 821 字正文永駐密封快照，公開側只登核取短引
+  （每條 ≤14 字、彼此不連續，覆蓋約三成，餘皆闕文；沿 Slice B 短引＋locator 形制）。
+
+層：本版 Ch16 三頁全為大字正文、無小字注、無夾注，無注釋層可排除；
+引文層標「正文」。原注／任氏曰分層屬滴天髓，不移用於本書。
+
+B-16-19 印本訂正（300-dpi 渲染核驗，詳見治理文檔）：證據表該條引文
+誤增兩字——「又」後多一「如」，「並透」後多一「。」；印本無此二字。
+本模塊、Golden 與密封 TXT 一律從印本；誤寫兩字已落賬，不另立異文。
+
+字符定位：20 條核取短引 locator 為密封 TXT 實測字符偏移（0-based，左閉
+右開），各在 TXT 中恰出現一次；彼此不連續（最小闕文 4 字），公開覆蓋約三成；
+跨頁「似」（索引 555）僅存密封，不在任何公開短引內。
+"""
+
+ZIPING_SOURCE_ID = 'bazi.source.zipingzhenquan'
+ZIPING_SECTION_ID = 'bazi.section.s185'
+ZIPING_CHAPTER_ID = 'bazi.chapter.ziping_zaqi'
+ZIPING_CLASSIC_ID = 'bazi.classic.zipingzhenquan'
+ZIPING_VARIANT = 'ziping-zaqi-ch16-v1'
+ZIPING_TXT_PATH = ('data/quarantine/public_domain_snapshots/nlc416/'
+                   'zipingzhenquan_1925_ch16.txt')
+ZIPING_TXT_SHA256 = ('98576342cd8c4fb092a7bec5c1e86b7b02c051cb14a9c6a7f'
+                     '632f5a42b647966')
+ZIPING_TXT_BYTES = 2464
+ZIPING_TXT_CHARS = 821
+ZIPING_PDF_SHA256 = ('71402a780b0351b54edf121a51bc4a4a4ce5896496c35b95'
+                     '4563ee06f1a6f620')
+ZIPING_PDF_BYTES = 7126096
+ZIPING_PDF_PAGES = 287
+
+# 20 條 Ch16 核取短引：每條取判讀關鍵短語一句，locator
+# 跨度恰等引文長度；短引之間皆闕文，公開覆蓋約三成、不可拼出全章，
+# 全文永駐密封快照。形制沿 Slice B 的 ZAQI_QUOTES。逐條對照（slice_b / sanming）見
+# ZIPING_ZAQI_ITEM_VERDICTS；'agree' 僅及事實層，'contradict' 為直接
+# 對立，'partial_same' 為同名異則，'tension' 為方向相反，'none' 為無
+# 登記對照。
+ZIPING_ZAQI_QUOTES = (
+    {
+        'id': 'B-16-01',
+        'source_id': ZIPING_SOURCE_ID,
+        'source_section_id': ZIPING_SECTION_ID,
+        'layer': '正文',
+        'quote': '所藏者多用神不一',
+        'locator': {'char_start': 16, 'char_end': 24},
+    },
+    {
+        'id': 'B-16-02',
+        'source_id': ZIPING_SOURCE_ID,
+        'source_section_id': ZIPING_SECTION_ID,
+        'layer': '正文',
+        'quote': '如辰本藏戊。而又為水庫。',
+        'locator': {'char_start': 32, 'char_end': 44},
+    },
+    {
+        'id': 'B-16-03',
+        'source_id': ZIPING_SOURCE_ID,
+        'source_section_id': ZIPING_SECTION_ID,
+        'layer': '正文',
+        'quote': '透干會支。取其清者用之。',
+        'locator': {'char_start': 64, 'char_end': 76},
+    },
+    {
+        'id': 'B-16-04',
+        'source_id': ZIPING_SOURCE_ID,
+        'source_section_id': ZIPING_SECTION_ID,
+        'layer': '正文',
+        'quote': '透戊則用偏財',
+        'locator': {'char_start': 93, 'char_end': 99},
+    },
+    {
+        'id': 'B-16-05',
+        'source_id': ZIPING_SOURCE_ID,
+        'source_section_id': ZIPING_SECTION_ID,
+        'layer': '正文',
+        'quote': '則用水印是也',
+        'locator': {'char_start': 134, 'char_end': 140},
+    },
+    {
+        'id': 'B-16-06',
+        'source_id': ZIPING_SOURCE_ID,
+        'source_section_id': ZIPING_SECTION_ID,
+        'layer': '正文',
+        'quote': '兼透則兼用',
+        'locator': {'char_start': 147, 'char_end': 152},
+    },
+    {
+        'id': 'B-16-07',
+        'source_id': ZIPING_SOURCE_ID,
+        'source_section_id': ZIPING_SECTION_ID,
+        'layer': '正文',
+        'quote': '何謂有情。順而相成者是也。',
+        'locator': {'char_start': 187, 'char_end': 200},
+    },
+    {
+        'id': 'B-16-08',
+        'source_id': ZIPING_SOURCE_ID,
+        'source_section_id': ZIPING_SECTION_ID,
+        'layer': '正文',
+        'quote': '印綬之格也。清而不雜。',
+        'locator': {'char_start': 221, 'char_end': 232},
+    },
+    {
+        'id': 'B-16-09',
+        'source_id': ZIPING_SOURCE_ID,
+        'source_section_id': ZIPING_SECTION_ID,
+        'layer': '正文',
+        'quote': '去辰中暗土。以清官。',
+        'locator': {'char_start': 274, 'char_end': 284},
+    },
+    {
+        'id': 'B-16-10',
+        'source_id': ZIPING_SOURCE_ID,
+        'source_section_id': ZIPING_SECTION_ID,
+        'layer': '正文',
+        'quote': '財生官。是兩干並透。',
+        'locator': {'char_start': 322, 'char_end': 332},
+    },
+    {
+        'id': 'B-16-11',
+        'source_id': ZIPING_SOURCE_ID,
+        'source_section_id': ZIPING_SECTION_ID,
+        'layer': '正文',
+        'quote': '何為無情。逆而相背者是也。',
+        'locator': {'char_start': 341, 'char_end': 354},
+    },
+    {
+        'id': 'B-16-12',
+        'source_id': ZIPING_SOURCE_ID,
+        'source_section_id': ZIPING_SECTION_ID,
+        'layer': '正文',
+        'quote': '亥卯以成傷官之局',
+        'locator': {'char_start': 369, 'char_end': 377},
+    },
+    {
+        'id': 'B-16-13',
+        'source_id': ZIPING_SOURCE_ID,
+        'source_section_id': ZIPING_SECTION_ID,
+        'layer': '正文',
+        'quote': '戊癸作合。財印兩失。',
+        'locator': {'char_start': 417, 'char_end': 427},
+    },
+    {
+        'id': 'B-16-14',
+        'source_id': ZIPING_SOURCE_ID,
+        'source_section_id': ZIPING_SECTION_ID,
+        'layer': '正文',
+        'quote': '月支又會寅會午。以成傷官局。',
+        'locator': {'char_start': 476, 'char_end': 490},
+    },
+    {
+        'id': 'B-16-15',
+        'source_id': ZIPING_SOURCE_ID,
+        'source_section_id': ZIPING_SECTION_ID,
+        'layer': '正文',
+        'quote': '印綬本喜洩身為秀。',
+        'locator': {'char_start': 535, 'char_end': 544},
+    },
+    {
+        'id': 'B-16-16',
+        'source_id': ZIPING_SOURCE_ID,
+        'source_section_id': ZIPING_SECTION_ID,
+        'layer': '正文',
+        'quote': '則透丙亦無所碍',
+        'locator': {'char_start': 581, 'char_end': 588},
+    },
+    {
+        'id': 'B-16-17',
+        'source_id': ZIPING_SOURCE_ID,
+        'source_section_id': ZIPING_SECTION_ID,
+        'layer': '正文',
+        'quote': '透壬為印',
+        'locator': {'char_start': 596, 'char_end': 600},
+    },
+    {
+        'id': 'B-16-18',
+        'source_id': ZIPING_SOURCE_ID,
+        'source_section_id': ZIPING_SECTION_ID,
+        'layer': '正文',
+        'quote': '透干與會支相剋矣',
+        'locator': {'char_start': 697, 'char_end': 705},
+    },
+    {
+        'id': 'B-16-19',
+        'source_id': ZIPING_SOURCE_ID,
+        'source_section_id': ZIPING_SECTION_ID,
+        'layer': '正文',
+        'quote': '透戊為食',
+        'locator': {'char_start': 734, 'char_end': 738},
+    },
+    {
+        'id': 'B-16-20',
+        'source_id': ZIPING_SOURCE_ID,
+        'source_section_id': ZIPING_SECTION_ID,
+        'layer': '正文',
+        'quote': '如此之類',
+        'locator': {'char_start': 800, 'char_end': 804},
+    },
+)
+
+# 逐條對照裁定。'usable_as_evidence' 為 False 者，其機制／理由句不可引
+# （verdict 本身字形清晰可讀）；其餘條目全文可引。
+ZIPING_ZAQI_ITEM_VERDICTS = (
+    {
+        'id': 'B-16-01',
+        'slice_b': 'agree',
+        'sanming': 'agree',
+        'usable_as_evidence': True,
+        'note': '雜氣定義（所藏多、用神不一）；事實層與三命卷五 zq.definition 一致。',
+    },
+    {
+        'id': 'B-16-02',
+        'slice_b': 'agree',
+        'sanming': 'agree',
+        'usable_as_evidence': True,
+        'note': '辰藏乙戊癸為 zq.definition 復述；餘三者俱有及於戌丑未。',
+    },
+    {
+        'id': 'B-16-03',
+        'slice_b': 'contradict',
+        'sanming': 'none',
+        'usable_as_evidence': True,
+        'note': '總綱：透干會支取其清者用之；與 Slice B 一般臂（只錄「取土为格」原文、不可言雜氣財官、無會支通道）直接對立。',
+    },
+    {
+        'id': 'B-16-04',
+        'slice_b': 'contradict',
+        'sanming': 'partial_same',
+        'usable_as_evidence': True,
+        'note': '甲×辰透戊／癸／乙用偏財／正印／月劫；與 Slice B 一般臂對立；與 zq.toulu 同透出命名、異規則種類（彼言富貴、此言用神／格）。',
+    },
+    {
+        'id': 'B-16-05',
+        'slice_b': 'contradict',
+        'sanming': 'none',
+        'usable_as_evidence': True,
+        'note': '會支定義（甲×辰申子會局用水印）：新通道；Slice B 無會支通道，三命亦無會支取用規則。',
+    },
+    {
+        'id': 'B-16-06',
+        'slice_b': 'contradict',
+        'sanming': 'none',
+        'usable_as_evidence': True,
+        'note': '兼用（兼透則兼用、透會並用）；效力上與 Slice B 多透並列不代選對立，且兼用所命雜氣用神為一般臂所禁。',
+    },
+    {
+        'id': 'B-16-07',
+        'slice_b': 'contradict',
+        'sanming': 'none',
+        'usable_as_evidence': True,
+        'note': '有情定義（順而相成）並附吉／不吉；效力上與 Slice B 不給清濁／成敗／吉凶對立。',
+    },
+    {
+        'id': 'B-16-08',
+        'slice_b': 'contradict',
+        'sanming': 'none',
+        'usable_as_evidence': True,
+        'note': '有情例一（甲×辰癸印＋子申會局）：命名印綬之格＋清，與 Slice B 一般臂對立。',
+    },
+    {
+        'id': 'B-16-09',
+        'slice_b': 'contradict',
+        'sanming': 'none',
+        'usable_as_evidence': True,
+        'note': '有情例二（丙×辰癸官＋乙印，去辰中暗土以清官）：命名官＋清；去暗土機制為新說，非土根分級。',
+    },
+    {
+        'id': 'B-16-10',
+        'slice_b': 'contradict',
+        'sanming': 'partial_same',
+        'usable_as_evidence': False,
+        'note': '有情例三（甲×丑辛官）：形式上與 Slice B 一般臂對立，但會支成立句存疑（V-01），機制不可引；verdict 可讀。與 zq.jialing 甲×丑例同辛官／己財命名。',
+    },
+    {
+        'id': 'B-16-11',
+        'slice_b': 'none',
+        'sanming': 'none',
+        'usable_as_evidence': True,
+        'note': '無情定義（逆而相背）；無登記對照，為新分級。',
+    },
+    {
+        'id': 'B-16-12',
+        'slice_b': 'contradict',
+        'sanming': 'none',
+        'usable_as_evidence': True,
+        'note': '無情例一（壬×未己官、亥卯傷官局）：為 Slice B 棄判處下無情 verdict。',
+    },
+    {
+        'id': 'B-16-13',
+        'slice_b': 'contradict',
+        'sanming': 'none',
+        'usable_as_evidence': True,
+        'note': '無情例二（甲×辰戊財＋壬／癸印：戊癸作合、壞印）：作合／壞印機制為新說。',
+    },
+    {
+        'id': 'B-16-14',
+        'slice_b': 'contradict',
+        'sanming': 'none',
+        'usable_as_evidence': True,
+        'note': '無情例三（甲×戌辛官＋丁傷官、寅午傷官局）：為 Slice B 棄判處下無情 verdict。',
+    },
+    {
+        'id': 'B-16-15',
+        'slice_b': 'none',
+        'sanming': 'none',
+        'usable_as_evidence': True,
+        'note': '二階翻轉首例上半（甲×辰壬印＋丙，似成格而火能生土）：似成格→不成格；無登記成格謂詞可對立。',
+    },
+    {
+        'id': 'B-16-16',
+        'slice_b': 'none',
+        'sanming': 'none',
+        'usable_as_evidence': False,
+        'note': '二階翻轉首例下半＋救應條件：機制句存疑（V-02），不可引；僅 verdict 與救應條件可讀。',
+    },
+    {
+        'id': 'B-16-17',
+        'slice_b': 'none',
+        'sanming': 'tension',
+        'usable_as_evidence': True,
+        'note': '二階翻轉次例（甲×辰壬印、戌沖辰壞印）：與 Slice B 無沖規則對照；與三命卷五 zq.xiji 喜透露沖刑／刑沖則發方向相反（有界：Ch16 例專指壬透印格，三命喜沖刑為雜氣格通論）。',
+    },
+    {
+        'id': 'B-16-18',
+        'slice_b': 'none',
+        'sanming': 'none',
+        'usable_as_evidence': False,
+        'note': '轉有情例一（癸×辰戊官、申子水局剋財）：所剋者轉向為新說；理由句存疑（V-03），不可引；verdict（無傷）可讀。',
+    },
+    {
+        'id': 'B-16-19',
+        'slice_b': 'none',
+        'sanming': 'none',
+        'usable_as_evidence': True,
+        'note': '轉有情例二（丙×辰戊食＋壬煞）：美格／愈貴為新說；引文從印本（見模塊頭注）。',
+    },
+    {
+        'id': 'B-16-20',
+        'slice_b': 'none',
+        'sanming': 'none',
+        'usable_as_evidence': True,
+        'note': '作者自限：例證不可窮舉、只供類推；本章自認非封閉可執行規則集。',
+    },
+)
+
+# 疑字／異文三重記錄：原文＋疑讀＋依據；一律不按推測更正。
+# V-01–V-04 存疑；V-05–V-07 照錄。
+ZIPING_ZAQI_VARIANTS = (
+    {
+        'id': 'V-01',
+        'item_id': 'B-16-10',
+        'original': '或己或酉。會何全局。',
+        'doubtful_reading': '會合全局（何疑為合之讹）',
+        'evidence': '何字形清晰（亻＋可）；「會何」無文法義，語義須會合；疑點在會支成立句本身，故 B-16-10 會支機制不可引。',
+        'status': 'doubtful',
+    },
+    {
+        'id': 'V-02',
+        'item_id': 'B-16-16',
+        'original': '而火能生土。似又清辰中之戊。印格不清。',
+        'doubtful_reading': '清疑為生之讹（「似又生辰中之戊」）；或似為衍字',
+        'evidence': '清、似字形皆清晰；火生土與清辰中之戊方向相反，句法晦澀；B-16-16 機制句不可引，僅 verdict 與救應條件可讀。先前 Phase 2 漏錄頁末「似」，本次恢復。',
+        'status': 'doubtful',
+    },
+    {
+        'id': 'V-03',
+        'item_id': 'B-16-18',
+        'original': '譬如月規用官。何傷之有。',
+        'doubtful_reading': '譬如月令用官（規疑為令之讹）',
+        'evidence': '規字形清晰（夫＋見）；語義須月令，「月規」無成義；疑點在無傷理由句本身，故 B-16-18 理由不可引，verdict 可讀。',
+        'status': 'doubtful',
+    },
+    {
+        'id': 'V-04',
+        'item_id': 'B-16-20',
+        'original': '在即此為例。傍悟而已。',
+        'doubtful_reading': '祇即此為例／僅即此為例（在疑為祇／僅之讹）',
+        'evidence': '在字形清晰；語義須僅／祇；僅影響結語措辭，不涉任何操作句。',
+        'status': 'doubtful',
+    },
+    {
+        'id': 'V-05',
+        'item_id': 'B-16-17',
+        'original': '而支逢戌竝。',
+        'doubtful_reading': '竝＝并之異體，義同：戌與辰並見',
+        'evidence': '竝為并之標準異體，語義無礙；照錄，不「改正」為并。',
+        'status': 'as_printed',
+    },
+    {
+        'id': 'V-06',
+        'item_id': 'B-16-17',
+        'original': '二者為朋沖。／印格下成。',
+        'doubtful_reading': '朋＝朋輩（兩土支互沖）；下成＝格不成',
+        'evidence': '兩字字形清晰，照印本讀解自洽；保留印本字形。',
+        'status': 'as_printed',
+    },
+    {
+        'id': 'V-07',
+        'item_id': 'B-16-04',
+        'original': '透乙則用月劫是也。',
+        'doubtful_reading': '月劫＝月令所供之劫（乙為甲之劫，出自月令）',
+        'evidence': '月劫於 300-dpi 全頁及放大重讀皆清晰；術語雖罕見但自洽，不歸併為劫財。',
+        'status': 'as_printed',
+    },
+)
+
+# 三向衝突點（沿 Slice B 的 ZAQI_CONFLICT_POINTS 形制）：原注／三命／
+# 子平真詮 Ch16 并列、不裁定。
+ZIPING_ZAQI_CONFLICT_POINTS = (
+    '總綱對立：Ch16 以透干會支取其清者用之（B-16-03），直接命名雜氣財官印；原注 Slice B 一般臂只錄「取土为格」原文、不可言雜氣財官，且無會支通道。11 條（B-16-03–B-16-10、B-16-12–B-16-14）與 Slice B 一般臂直接對立。',
+    '兼用與有情分級：Ch16 許兼透兼用、透會並用（B-16-06），並以有情／無情附吉／不吉（B-16-07、B-16-11）；Slice B 多透並列不代選、不給清濁／成敗／吉凶，determination 全域 None。',
+    '三向并列：原注（不可言雜氣財官）／三命（雜氣格為正式格名）之外，Ch16 為第三立場——既非原注臂，亦非三命立場（三命無有情分級、無會支取用、沖之向與 B-16-17 相反）。',
+    '沖之向相反：B-16-17 戌沖辰壞印（土動、印格下成）；三命卷五 zq.xiji 喜透露沖刑、玄機賦刑沖則發。重疊面有界：Ch16 例專指壬透印格，三命喜沖刑為雜氣格通論（景鑒以身旺為條件）。不裁定。',
+    '事實層一致二處：雜氣定義所藏多、用神不一（B-16-01）與辰藏乙戊癸（B-16-02）與三命卷五 zq.definition 同文事實；一致僅及事實層，不延伸為規則一致。',
+    '章外張力（僅備錄，不屬本批登記）：Ch 8「是建祿月劫之格。非用而即用神也。」與 Slice A 祿刃路線（月逢祿刃無格可取）方向不同；Ch 8 不在本批範圍內，不裁定、不改 Slice A。',
+)
+
+ZIPING_ZAQI_CONFLICT_SUMMARY = {
+    'oppositions_to_slice_b': 11,
+    'opposing_items': ['B-16-03', 'B-16-04', 'B-16-05', 'B-16-06',
+                       'B-16-07', 'B-16-08', 'B-16-09', 'B-16-10',
+                       'B-16-12', 'B-16-13', 'B-16-14'],
+    'fact_consistencies': 2,
+    'consistent_items': ['B-16-01', 'B-16-02'],
+    'sanming_tension_items': ['B-16-17'],
+    'unusable_mechanism_items': ['B-16-10', 'B-16-16', 'B-16-18'],
+    'third_position': '子平真詮 Ch16 既非原注臂、亦非三命立場，為三向並列之第三支。',
+}
+
+ZIPING_ZAQI_ADJUDICATION_NOTES = (
+    'B1 句讀與層：登記節為子平真詮 Ch16《論雜氣如何取用》正文（掃描 41–43，原書 32–34），本版此三頁全為大字正文、無小字注、無夾注，故無注釋層可排除；層標「正文」，非原注／任氏曰分層（該分層屬滴天髓，不移用）。',
+    'B2 字符定位：20 條核取短引 locator 為密封 TXT 實測字符偏移，各在 TXT 中恰出現一次；彼此不連續，公開覆蓋約三成，餘皆闕文；跨頁「似」（555 處）僅存密封。',
+    'B3 印本形式（B-16-19）：證據表引文誤增兩字——開頭「又」後多一「如」、「並透」後多一「。」；300-dpi 渲染核驗印本無此二字；凡引 B-16-19 一律以印本為準，公開側只登核取短引「透戊為食」。',
+    'B4 異文三記：7 項異文按原樣＋疑讀＋證據分記（V-01–V-04 存疑，V-05–V-07 照錄）；任何疑字均不按推測更正；B-16-10 會支句、B-16-16 機制句、B-16-18 理由句不可引，verdict 本身可讀。',
+    'B5 三向并列：原注／三命／子平真詮 Ch16 三說并列、不裁定、不以一說壓一說；任一四季月盤面均標記（衝突是選格框架之爭，不繫於個盤構成）。',
+    'B6 與 Slice A／B 共存：本登記與 pattern_zaqi、pattern_route 并列、互不改寫；本模塊無執行面，不接 operations/bazi_chart、不進 ExecutionTrace、不進 RuleMatch 與 Evidence，evidence_binding 恒 pending。',
+)
+
+ZIPING_ZAQI_LIMITATIONS = (
+    '本登記是平行衝突教義登記，不是定格：不給格名、真假、成敗、清濁、用神或喜忌；determination 恒 None。',
+    '清（B-16-03、B-16-08、B-16-09；印格不清 B-16-16）：無定義、無閾值、無檢驗法；既是選用標準又是結論，不可獨立驗證。',
+    '有情／無情（B-16-07、B-16-11 及全部例證）：「順而相成／逆而相背」本身為未定義謂詞；無事實類型、無閾值、無判定程序；二階例證（B-16-15–B-16-19）顯示一階有情可被推翻，無翻轉規則。',
+    '會支（B-16-05、B-16-08、B-16-10、B-16-12、B-16-14、B-16-16、B-16-18）：未定義何種支組算數；僅申子（水）、亥卯（木）、寅午（火）有例，無通用三合規則；丑月例會支句本身存疑（V-01）。',
+    '兼用次序（B-16-06）：多用並存時無主次規則；限兼用的有情檢驗無閾值。',
+    '去暗土（B-16-09）、作合／壞印（B-16-13）、土動（B-16-17）、所剋者轉向（B-16-18、B-16-19）：均無可執行事實類型與判定準則。',
+    '成格／印格不清／印格下成／美格／愈貴（B-16-15–B-16-19）與吉／不吉（B-16-07）：無成格謂詞、無美貴量表、無吉凶分級事實類型。',
+    '作者自限（B-16-20）：「如此之類」——章內自認例證不可窮舉、只供類推；不得把 B-16-01–B-16-19 抽為封閉可執行規則集。',
+    '方向 A（TJ-011.2）零增量：全章日主僅甲、丙、壬、癸，無戊／己日主例；戊／己僅為藏干或他日之十神對象；土根分級、有效根標準、日主強弱形態皆無新句。',
+)
+
+ZIPING_ZAQI_REGISTRATION = {
+    'item': 'ziping-zaqi-ch16',
+    'source_id': ZIPING_SOURCE_ID,
+    'source_section_id': ZIPING_SECTION_ID,
+    'chapter_id': ZIPING_CHAPTER_ID,
+    'classic_id': ZIPING_CLASSIC_ID,
+    'research_only': True,
+    'public_enabled': False,
+    'ai_enabled': False,
+    'determination': None,
+    'evidence_binding': 'pending',
+    'conflict_present': True,
+    'scope': ('只登記子平真詮 Ch16 雜氣教義原文與三向衝突并列；'
+              '不定格名、真假、成敗、清濁、用神或吉凶。'),
+}
+
+
+def ziping_zaqi_quote(item_id):
+    """Return a copy of one registered Ch16 quote by id (fail-closed)."""
+    for quote in ZIPING_ZAQI_QUOTES:
+        if quote['id'] == item_id:
+            return dict(quote, locator=dict(quote['locator']))
+    raise ValueError('Unknown ziping zaqi quote id: %r' % (item_id,))
+
+
+def ziping_zaqi_verdict(item_id):
+    """Return a copy of one item's Slice B / Sanming verdict (fail-closed)."""
+    for verdict in ZIPING_ZAQI_ITEM_VERDICTS:
+        if verdict['id'] == item_id:
+            return dict(verdict)
+    raise ValueError('Unknown ziping zaqi item id: %r' % (item_id,))
+
+
+def ziping_zaqi_registration():
+    """Return a copy of the registration posture (no determination)."""
+    return dict(ZIPING_ZAQI_REGISTRATION)

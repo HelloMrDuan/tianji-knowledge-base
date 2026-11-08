@@ -96,9 +96,10 @@ class ShenfengExpansionRegistrationTests(unittest.TestCase):
         knowledge = read_json(
             ROOT / 'data/canonical/bazi/phase1_knowledge.json')
         # E0352 (governance tiaohou Canonical construction): +1 classic (qiongtong), +11 chapters, +110 sections (s075-s184), +1 term (tiaohou), +10 rules (r042-r051), +1 contract step, +30 Golden cases (210).
-        self.assertEqual(len(knowledge['classics']), 6)
-        self.assertEqual(len(knowledge['chapters']), 44)
-        self.assertEqual(len(knowledge['sections']), 184)
+        # E0382 (TJ-012.3《子平真詮》准入): +1 classic (zipingzhenquan), +1 chapter, +1 section (s185).
+        self.assertEqual(len(knowledge['classics']), 7)
+        self.assertEqual(len(knowledge['chapters']), 45)
+        self.assertEqual(len(knowledge['sections']), 185)
         self.assertEqual(len(knowledge['terms']), 39)
         self.assertEqual(len(knowledge['rules']), 51)
         execution = read_json(

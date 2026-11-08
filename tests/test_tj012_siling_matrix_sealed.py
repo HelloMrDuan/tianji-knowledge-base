@@ -86,7 +86,7 @@ class QuoteSliceTest(unittest.TestCase):
 
 class RegistrationCensusTest(unittest.TestCase):
     def test_source_census_unchanged(self) -> None:
-        self.assertEqual(len(SOURCES), 102)
+        self.assertEqual(len(SOURCES), 103)
         grades: dict[str, int] = {}
         for source in SOURCES:
             grade = source["evidence_level"]
@@ -94,7 +94,10 @@ class RegistrationCensusTest(unittest.TestCase):
         # TJ-018.3 P1 普查同步：登记 bazi.source.sanmingtonghui-applied
         # （《三命通会》正式应用文本，C 级）后来源普查由 C:95 变 C:96
         # （登记表共 102 条），同上口径。
-        self.assertEqual(grades, {"C": 96, "D": 6})
+        # TJ-012.3 普查同步：登记 bazi.source.zipingzhenquan
+        # （《子平真詮》1925 上海世界圖書館版，C 级）后来源普查由 C:96 变 C:97
+        # （登记表共 103 条），同上口径。
+        self.assertEqual(grades, {"C": 97, "D": 6})
 
     def test_review_scope_additions_present(self) -> None:
         by_id = {s["source_id"]: s for s in SOURCES}

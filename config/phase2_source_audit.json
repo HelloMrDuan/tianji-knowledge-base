@@ -824,6 +824,14 @@
       "authority_status": "unverified",
       "grade_ceiling": "C",
       "review_basis": "TJ-018.3 正式应用批（E0298）自 bazi.source.sanmingtonghui 应用生成的应用文本：PUA 86 映射经全核（E0296）后应用、603 条订正按文件序应用、origin 位点图往返复原 S0、应用报告在案；与 S0 同属 garychowcmu/daizhigev20 谱系（同一 lineage_group，不投独立票）；本行只支撑《论三刑》建节引用（bazi.section.s060），整书底本链未核、canonical_ready=false 不变。"
+    },
+    {
+      "source_id": "bazi.source.zipingzhenquan",
+      "lineage_group": "NLC416-11jh010455-35296",
+      "edition_status": "unverified",
+      "authority_status": "unverified",
+      "grade_ceiling": "C",
+      "review_basis": "1925 上海世界圖書館版《子平真詮》国家图书馆扫描件（NLC416-11jh010455-35296，PDF SHA256 71402a780b0351b54edf121a51bc4a4a4ce5896496c35b954563ee06f1a6f620，287 页）：第 16 章《论杂气如何取用》三页（扫描 41–43，原书 32–34）人工转录 TXT（SHA256 98576342cd8c4fb092a7bec5c1e86b7b02c051cb14a9c6a7f632f5a42b647966，821 字）逐字核对 300-dpi 渲染；无 GitHub 谱系，不与任何 GitHub 来源同组，不投独立票；本行只支撑 Ch16 平行登记（bazi.section.s185），其余章节、附录、评注未核，grade_ceiling C。"
     }
   ],
   "claim_comparisons": [

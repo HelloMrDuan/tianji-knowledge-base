@@ -123,14 +123,15 @@ class ShenfengExpansionPublicTests(unittest.TestCase):
 
     def test_flipped_and_maintained_sets(self):
         # E0352: tiaohou-qiongtong-v1 flipped as well (flipped
-        # 12; maintained three).
+        # 12; maintained four).
         self.assertEqual(len(gov.FLIPPED_ITEMS), 12)
         self.assertIn('bingyao-shenfeng-v1', gov.FLIPPED_ITEMS)
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 3)
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 4)
         self.assertEqual(sorted(gov.MAINTAINED_ITEMS),
                          sorted(['dayun-compose',
                                  'dayun-timeline-view',
-                                 'siling-yin-pilot']))
+                                 'siling-yin-pilot',
+                                 'ziping-zaqi-ch16']))
 
     def test_bingyao_disclosure_flipped(self):
         out = by.bingyao_lookup('甲', [

@@ -246,7 +246,8 @@ class ApplicationRecordPublicTest(unittest.TestCase):
             ar.PRODUCTS["snapshot_manifest_after"]["sha256"]}
         self.assertEqual(found, expected)
         # TJ-018.3 P1 普查同步：登记 bazi.source.sanmingtonghui-applied（C 级）后登记表 101→102 条、C:95→C:96，非放宽断言。
-        self.assertEqual(len(SOURCES["sources"]), 102)
+        # TJ-012.3 普查同步：登记 bazi.source.zipingzhenquan（《子平真詮》1925 上海世界圖書館版，C 级）后登记表 102→103 条、C:96→C:97，非放宽断言。
+        self.assertEqual(len(SOURCES["sources"]), 103)
 
 
 if __name__ == "__main__":

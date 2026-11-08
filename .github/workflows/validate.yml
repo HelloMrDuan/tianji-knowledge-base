@@ -765,6 +765,38 @@ jobs:
       # acceptance only, NOT public CI: it reads the sealed
       # bundle and snapshot).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0183_p1_sanxing_promotion_public.py' -v
+      # TJ-012.3《子平真詮》准入＋Ch16 平行登记 (E0382) public
+      # contracts: the new library_scan source record
+      # (bazi.source.zipingzhenquan, NLC416) is schema-legal and
+      # the census moved 102 -> 103 (C:96 -> C:97, D:6 unchanged);
+      # the governance record (TJ0123_ZIPING_ZAQI_RECORD) and the
+      # inventory row (ziping-zaqi-ch16, maintained_pending /
+      # execution_binding_structure) pin the staged manifest
+      # before/after; the 20 Ch16 quotes are non-contiguous
+      # kernels (one operative phrase per item, each <=14 chars,
+      # min gap 4 chars, total coverage 174 of 821 chars) matching
+      # the Golden transcription verbatim with locator spans equal
+      # to quote lengths, each occurring exactly once in the sealed
+      # TXT; the non-tiling regression pins first start 16, last
+      # end 804 and the coverage cap; the B-16-19 print form (no
+      # 如 after 又, no 。 after 並透) is verified in the sealed
+      # environment with only the kernel registered publicly and
+      # the wrong forms guarded absent in public; the 7 variants
+      # are recorded as printed + doubtful reading + evidence
+      # (never silently corrected), the 11 Slice B oppositions stay
+      # a parallel conflict (never auto-resolved), determination
+      # stays None, evidence_binding stays pending, and no sealed
+      # section text (boundary-crossing probe, Ch17 body, wrong
+      # B-16-19 forms) appears in the module, Golden, governance
+      # register or governance document; the module has no
+      # execution wiring.
+      # Sealed-side verification lives in
+      # test_tj0123_ziping_zaqi_sealed.py (offline acceptance
+      # only, NOT public CI: it reads the sealed bundle and
+      # snapshot, and scans all public files for maximal verbatim
+      # substrings of the sealed TXT to assert the chapter cannot
+      # be reconstructed).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0123_ziping_zaqi_public.py' -v
       # TJ-018.3 execution-binding batch 1 (E0333) public
       # contracts: the batch record (Phase1 bazi.rule.r031,
       # Phase2 fact step bazi.phase2.branch_punishment_facts,
