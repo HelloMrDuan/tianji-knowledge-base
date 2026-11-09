@@ -147,11 +147,13 @@ class DayunSanmingPromotionPublicTests(unittest.TestCase):
         # 12; maintained four -- siling-yin-pilot, ziping-zaqi-ch16
         # and the two inherited rows remain).
         self.assertEqual(len(gov.FLIPPED_ITEMS), 12)
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 4)
+        # E0384: siling-si-pilot maintained too (five maintained).
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 5)
         self.assertEqual(sorted(gov.MAINTAINED_ITEMS),
                          sorted(['dayun-compose',
                                  'dayun-timeline-view',
                                  'siling-yin-pilot',
+                                 'siling-si-pilot',
                                  'ziping-zaqi-ch16']))
 
     def test_segment_disclosure_flips(self):

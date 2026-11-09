@@ -44,8 +44,9 @@ SILING_MATRIX_STATEMENT = {'is_unified_table': False,
          'research_only，不得隐式采用任一口径（含同书的三命 T1 或 T2）。',
  'production_policy': '不得按未裁定分日表输出司令、得令或整体旺衰（既有政策不变）。',
  'only_authorized_cell': '寅月 × '
-                         '滴天髓原注口径：任氏分支试点经用户裁定授权（C+E，2026-10-27）；其余口径在寅月仍为 '
-                         'conflict 并列。寅月试点 Variant 为第二步，本批只登记。'}
+                         '滴天髓原注口径：任氏分支试点经用户裁定授权（C+E，2026-10-27）；巳月 × '
+                         '三命 T1 口径：三命 T1 试点经用户裁定授权（Option B，2026-11-09）；其余口径在寅月与巳月仍为 '
+                         'conflict 并列。寅月试点 Variant 为第二步，巳月试点 Variant 随 Option B 批同行；其余月份仍无授权格。'}
 
 SILING_MONTHS = ['寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥', '子', '丑']
 
@@ -541,22 +542,29 @@ SILING_MATRIX = {'ditiansui-yuanshuo': {'寅': {'status': 'segments_registered',
                       'gaps': []},
                 '巳': {'status': 'segments_registered',
                       'quotes': ['sm.t1_table'],
-                      'adjudication_status': 'conflict',
+                      'adjudication_status': 'pilot_authorized_sanming_t1',
                       'research_only': True,
                       'segments': [{'stem': '戊',
                                     'days': 7,
+                                    'day_span': [1, 7],
+                                    'basis': '戊土七日',
                                     'verbatim_designation': '戊土',
                                     'glyph_note': None},
                                    {'stem': '庚',
                                     'days': 5,
+                                    'day_span': [8, 12],
+                                    'basis': '庚金长生五日',
                                     'verbatim_designation': '庚金',
                                     'glyph_note': None},
                                    {'stem': '丙',
                                     'days': 18,
+                                    'day_span': [13, 30],
+                                    'basis': '丙火一十八日',
                                     'verbatim_designation': '丙火',
                                     'glyph_note': None}],
                       'recorded_sum': 30,
                       'sum_consistent': True,
+                      'quote_excerpt': '巳中有戊土七日庚金长生五日丙火一十八日',
                       'differences': ['干日数集合 {戊 7, 庚 5, 丙 18} 与 T2 '
                                       '全同（全矩阵最接近一格）',
                                       '但滴天髓命例（巳戊至少 10 日）与神峰歌断（巳土 5 日）另有冲突'],
@@ -1212,6 +1220,37 @@ SILING_CALCULATION_CONVENTION = {'id': 'siling-calculation-convention',
  'calendar_rules_ref': '节气精度、时区与历史夏令时处理遵循已验收的日历规则（TJ-015/Provider '
                        '契约），本约定不改变之。',
  'note': '本对象只登记约定本身；寅月试点 Variant 的实现与测试为 Slice C 第二步，不在本批。'}
+
+SILING_SI_CALCULATION_CONVENTION = {'id': 'siling-si-calculation-convention',
+ 'version': 'v1',
+ 'status': 'registered',
+ 'decision': {'authority': 'user_ruling',
+              'date': '2026-11-09',
+              'decision': 'Option B',
+              'text': '用户 2026-11-09 选项 B 附条件批准：仅授权巳月三命 T1 口径试点（戊 7 日、庚 5 日、丙 18 日），'
+                      'T2 仅同书内证、不作独立证据票；C1（任氏曰巳月命例）与 C2（神峰《节气歌断》）冲突并列待审，'
+                      'C1「立夏后十天」语义待审；登记仅三十日，[t0+30d, 芒种) 一律不确定；不得据此推导其他十一月，'
+                      '不解锁 Slice D 八格真假。'},
+ 'scope': {'school_branch': '《三命通会》T1 表',
+           'version_id': 'sanming-t1',
+           'months': ['巳'],
+           'statement': '仅适用于巳月三命 T1 口径试点；不得据此推导其他十一月。'},
+ 't0': '节气计算 provider 返回并经 provider 身份验证的立夏精确瞬时（既有日历 provider 契约不变）。',
+ 'elapsed_basis': '以真实经过时间计（real elapsed time），不用本地日期相减。',
+ 'segments': [{'stem': '戊', 'interval': '[t0, t0+7*24h)'},
+              {'stem': '庚', 'interval': '[t0+7*24h, t0+12*24h)'},
+              {'stem': '丙', 'interval': '[t0+12*24h, t0+30*24h)'}],
+ 'interval_convention': '左闭右开（[start, end)）。',
+ 'beyond_next_jie': '下一交节之后本约定不再适用（Variant 不适用）。',
+ 'beyond_registered_segments': '登记仅三十日（戊 7＋庚 5＋丙 18）；实际立夏→芒种窗口约 31.17 日，'
+                               '[t0+30*24h, 下一交节) 不属登记分段，一律返回不确定，不得以外推补足。',
+ 'disclaimer': '「连续24小时计日」是本次授权的程序计算约定，不是已证实的传统文献唯一解释；不得表述为古籍明示内容。',
+ 'fail_closed': ['节气瞬时精度不足时，返回不确定或拒绝裁定，不得强行给出唯一司令。',
+                 'provider 不匹配（身份未核验）时，返回不确定或拒绝裁定。',
+                 '落入现有日历精度警戒区间时，返回不确定或拒绝裁定。'],
+ 'calendar_rules_ref': '节气精度、时区与历史夏令时处理遵循已验收的日历规则（TJ-015/Provider '
+                       '契约），本约定不改变之。',
+ 'note': '本对象只登记约定本身；巳月试点 Variant 的实现与测试见 bazi_siling_si_pilot.py（与本登记同批）。'}
 
 SILING_ADJUDICATION_NOTES = ['R1 矩阵性质：本批只登记证据，不作任何司令计算；仓库内不存在按天数推司令的代码路径（本模块为纯数据、零函数）。',
  'R2 T1/T2 分离：三命同书同节两表互相矛盾（12 月中 10 月实质分歧），分别登记为 sanming-t1 / '

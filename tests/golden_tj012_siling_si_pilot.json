@@ -1,0 +1,477 @@
+{
+  "cases": [
+    {
+      "id": "g01_before_lixia_1s",
+      "birth": "2025-05-05T05:57:12+00:00",
+      "checklist": "1 立夏前一秒",
+      "derivation": "t0-1s，窗口外（前），不外推。",
+      "expected_status": "not_applicable",
+      "expected_reason": "before_lixia",
+      "expected_commander": null,
+      "version_id": "sanming-t1",
+      "window": "2025"
+    },
+    {
+      "id": "g02_at_lixia",
+      "birth": "2025-05-05T05:57:13+00:00",
+      "checklist": "2 立夏精确瞬时",
+      "derivation": "elapsed=0，左闭 [t0, t0+7d) 属第一段戊。",
+      "expected_status": "computed",
+      "expected_reason": null,
+      "expected_commander": "戊",
+      "version_id": "sanming-t1",
+      "window": "2025"
+    },
+    {
+      "id": "g03_day7_minus_1s",
+      "birth": "2025-05-12T05:57:12+00:00",
+      "checklist": "3 第七日切换前一秒",
+      "derivation": "elapsed=604799s < 604800s，仍第一段戊。",
+      "expected_status": "computed",
+      "expected_reason": null,
+      "expected_commander": "戊",
+      "version_id": "sanming-t1",
+      "window": "2025"
+    },
+    {
+      "id": "g04_day7_exact",
+      "birth": "2025-05-12T05:57:13+00:00",
+      "checklist": "3 第七日切换时刻",
+      "derivation": "elapsed=604800s，左闭右开进入第二段 [t0+7d, t0+12d) 庚。",
+      "expected_status": "computed",
+      "expected_reason": null,
+      "expected_commander": "庚",
+      "version_id": "sanming-t1",
+      "window": "2025"
+    },
+    {
+      "id": "g05_day10_pinned_conflict",
+      "birth": "2025-05-15T05:57:13+00:00",
+      "checklist": "4 第十日（C1 冲突钉位）",
+      "derivation": "elapsed=864000s，第二段庚；C1 任氏曰命例称立夏后十天仍戊土司令（戊段至少十日），与 T1 戊段七日冲突——本例钉住冲突，不以 C1 改动分段，仍判庚。",
+      "expected_status": "computed",
+      "expected_reason": null,
+      "expected_commander": "庚",
+      "version_id": "sanming-t1",
+      "window": "2025"
+    },
+    {
+      "id": "g06_day12_minus_1s",
+      "birth": "2025-05-17T05:57:12+00:00",
+      "checklist": "5 第十二日切换前一秒",
+      "derivation": "elapsed=1036799s < 1036800s，仍第二段庚。",
+      "expected_status": "computed",
+      "expected_reason": null,
+      "expected_commander": "庚",
+      "version_id": "sanming-t1",
+      "window": "2025"
+    },
+    {
+      "id": "g07_day12_exact",
+      "birth": "2025-05-17T05:57:13+00:00",
+      "checklist": "5 第十二日切换时刻",
+      "derivation": "elapsed=1036800s，进入第三段 [t0+12d, t0+30d) 丙。",
+      "expected_status": "computed",
+      "expected_reason": null,
+      "expected_commander": "丙",
+      "version_id": "sanming-t1",
+      "window": "2025"
+    },
+    {
+      "id": "g08_day30_minus_1s",
+      "birth": "2025-06-04T05:57:12+00:00",
+      "checklist": "6 第三十日尾界前一秒",
+      "derivation": "elapsed=2591999s < 2592000s，仍第三段丙。",
+      "expected_status": "computed",
+      "expected_reason": null,
+      "expected_commander": "丙",
+      "version_id": "sanming-t1",
+      "window": "2025"
+    },
+    {
+      "id": "g09_day30_exact",
+      "birth": "2025-06-04T05:57:13+00:00",
+      "checklist": "6 第三十日尾界时刻",
+      "derivation": "elapsed=2592000s，已过登记三十日；实际窗口约 31.17 日，尾段 [t0+30d, 芒种) 不属登记分段，返回不确定，不得外推。",
+      "expected_status": "uncertain",
+      "expected_reason": "beyond_registered_segments",
+      "expected_commander": null,
+      "version_id": "sanming-t1",
+      "window": "2025"
+    },
+    {
+      "id": "g10_mangzhong_minus_1s",
+      "birth": "2025-06-05T09:56:31+00:00",
+      "checklist": "7 下一交节前一秒",
+      "derivation": "芒种-1s，仍在 [t0, 芒种) 内但已过登记三十日，尾段不确定。",
+      "expected_status": "uncertain",
+      "expected_reason": "beyond_registered_segments",
+      "expected_commander": null,
+      "version_id": "sanming-t1",
+      "window": "2025"
+    },
+    {
+      "id": "g11_at_mangzhong",
+      "birth": "2025-06-05T09:56:32+00:00",
+      "checklist": "7 下一交节时刻",
+      "derivation": "右开：birth == 芒种已出窗口，Variant 不再适用。",
+      "expected_status": "not_applicable",
+      "expected_reason": "at_or_after_next_jie",
+      "expected_commander": null,
+      "version_id": "sanming-t1",
+      "window": "2025"
+    },
+    {
+      "id": "g12_at_lixia_2026",
+      "birth": "2026-05-05T11:48:44+00:00",
+      "checklist": "8 跨年 2026 立夏精确瞬时",
+      "derivation": "elapsed=0，第一段戊。",
+      "expected_status": "computed",
+      "expected_reason": null,
+      "expected_commander": "戊",
+      "version_id": "sanming-t1",
+      "window": "2026"
+    },
+    {
+      "id": "g13_day12_2026",
+      "birth": "2026-05-17T11:48:44+00:00",
+      "checklist": "8 跨年 2026 第十二日切换",
+      "derivation": "elapsed=1036800s，第三段丙。",
+      "expected_status": "computed",
+      "expected_reason": null,
+      "expected_commander": "丙",
+      "version_id": "sanming-t1",
+      "window": "2026"
+    },
+    {
+      "id": "g14_day30_2026",
+      "birth": "2026-06-04T11:48:44+00:00",
+      "checklist": "8 跨年 2026 第三十日尾界",
+      "derivation": "elapsed=2592000s，已过登记三十日，尾段不确定。",
+      "expected_status": "uncertain",
+      "expected_reason": "beyond_registered_segments",
+      "expected_commander": null,
+      "version_id": "sanming-t1",
+      "window": "2026"
+    },
+    {
+      "id": "g15_at_mangzhong_2026",
+      "birth": "2026-06-05T15:48:21+00:00",
+      "checklist": "8 跨年 2026 下一交节时刻",
+      "derivation": "birth == 芒种已出窗口，Variant 不再适用。",
+      "expected_status": "not_applicable",
+      "expected_reason": "at_or_after_next_jie",
+      "expected_commander": null,
+      "version_id": "sanming-t1",
+      "window": "2026"
+    },
+    {
+      "id": "g16_dst_era_1988_plus08",
+      "birth": "1988-05-15T14:01:43+08:00",
+      "checklist": "9 历史 DST 年份窗口，+08:00 表示",
+      "derivation": "1988 年 5 月为中国夏令时实行期，正确偏移 +09:00；本串以 +08:00 表示同一绝对瞬时（t0+10d，1988-05-15T06:01:43Z），elapsed=864000s，第二段庚。按 UTC 瞬时判定，不按所称偏移字符串。",
+      "expected_status": "computed",
+      "expected_reason": null,
+      "expected_commander": "庚",
+      "version_id": "sanming-t1",
+      "window": "1988"
+    },
+    {
+      "id": "g17_dst_era_1988_same_instant_plus09",
+      "birth": "1988-05-15T15:01:43+09:00",
+      "checklist": "9 同一瞬时的 +09:00 表示",
+      "derivation": "与 g16 为同一绝对瞬时（1988-05-15T06:01:43Z）的 +09:00 表示（中国夏令时月份所用偏移），结果须同为庚。",
+      "expected_status": "computed",
+      "expected_reason": null,
+      "expected_commander": "庚",
+      "version_id": "sanming-t1",
+      "window": "1988"
+    },
+    {
+      "id": "g18_version_sanming_t2",
+      "birth": "2025-05-08T05:57:13+00:00",
+      "checklist": "10 非试点口径 T2",
+      "derivation": "T2 为同书内证，不作独立证据票，不得冒充试点结果。",
+      "expected_status": "rejected",
+      "expected_reason": "not_pilot_version",
+      "expected_commander": null,
+      "version_id": "sanming-t2",
+      "window": "2025"
+    },
+    {
+      "id": "g19_version_ditiansui",
+      "birth": "2025-05-08T05:57:13+00:00",
+      "checklist": "10 非试点口径 滴天髓原注",
+      "derivation": "滴天髓原注口径无巳月分日表且非本试点口径。",
+      "expected_status": "rejected",
+      "expected_reason": "not_pilot_version",
+      "expected_commander": null,
+      "version_id": "ditiansui-yuanshuo",
+      "window": "2025"
+    },
+    {
+      "id": "g20_version_yuanhai",
+      "birth": "2025-05-08T05:57:13+00:00",
+      "checklist": "10 非试点口径 渊海总诀",
+      "derivation": "渊海巳月无日数且非试点口径。",
+      "expected_status": "rejected",
+      "expected_reason": "not_pilot_version",
+      "expected_commander": null,
+      "version_id": "yuanhai-zongjue",
+      "window": "2025"
+    },
+    {
+      "id": "g21_version_shenfeng",
+      "birth": "2025-05-08T05:57:13+00:00",
+      "checklist": "10 非试点口径 神峰图版",
+      "derivation": "神峰图版不可复原且非试点口径。",
+      "expected_status": "rejected",
+      "expected_reason": "not_pilot_version",
+      "expected_commander": null,
+      "version_id": "shenfeng-diagram",
+      "window": "2025"
+    },
+    {
+      "id": "g22_version_unknown",
+      "birth": "2025-05-08T05:57:13+00:00",
+      "checklist": "10 未知版本",
+      "derivation": "未登记版本一律拒绝。",
+      "expected_status": "rejected",
+      "expected_reason": "not_pilot_version",
+      "expected_commander": null,
+      "version_id": "ziping-zhengge-v9",
+      "window": "2025"
+    },
+    {
+      "id": "g23_forged_lixia_off_by_1s",
+      "birth": "2025-05-08T05:57:13+00:00",
+      "checklist": "11 伪造节气瞬时（差一秒）",
+      "derivation": "声明立夏被 +1s 篡改，与钉定 provider 回放逐秒不一致，拒绝。",
+      "expected_status": "rejected",
+      "expected_reason": "provider_replay_mismatch",
+      "expected_commander": null,
+      "version_id": "sanming-t1",
+      "window": "2025",
+      "jie_override": {
+        "lixia_at": "2025-05-05T13:57:14+08:00"
+      }
+    },
+    {
+      "id": "g24_provider_version_mismatch",
+      "birth": "2025-05-08T05:57:13+00:00",
+      "checklist": "11 非法 provider（版本）",
+      "derivation": "声明 provider 版本非钉定 1.4.8，身份未核验，拒绝。",
+      "expected_status": "rejected",
+      "expected_reason": "provider_identity_unverified",
+      "expected_commander": null,
+      "version_id": "sanming-t1",
+      "window": "2025",
+      "jie_override": {
+        "provider_version": "1.4.7"
+      }
+    },
+    {
+      "id": "g25_provider_identity_not_verified",
+      "birth": "2025-05-08T05:57:13+00:00",
+      "checklist": "11 非法 provider（未核验声明）",
+      "derivation": "identity_verified 非 True，拒绝。",
+      "expected_status": "rejected",
+      "expected_reason": "provider_identity_unverified",
+      "expected_commander": null,
+      "version_id": "sanming-t1",
+      "window": "2025",
+      "jie_override": {
+        "provider_identity_verified": false
+      }
+    },
+    {
+      "id": "g26_lixia_precision_minute",
+      "birth": "2025-05-08T05:57:13+00:00",
+      "checklist": "11 节气精度不足",
+      "derivation": "立夏精度只声明分钟级，不强行给出唯一司令，返回不确定。",
+      "expected_status": "uncertain",
+      "expected_reason": "jie_precision_insufficient",
+      "expected_commander": null,
+      "version_id": "sanming-t1",
+      "window": "2025",
+      "jie_override": {
+        "lixia_precision": "minute"
+      }
+    },
+    {
+      "id": "g27_birth_precision_unknown",
+      "birth": "2025-05-08T05:57:13+00:00",
+      "checklist": "11 输入时间不确定",
+      "derivation": "出生时刻精度声明 unknown，返回不确定。",
+      "expected_status": "uncertain",
+      "expected_reason": "birth_time_precision_insufficient",
+      "expected_commander": null,
+      "version_id": "sanming-t1",
+      "window": "2025",
+      "birth_time_precision": "unknown"
+    },
+    {
+      "id": "g28_precision_warning_flag",
+      "birth": "2025-05-08T05:57:13+00:00",
+      "checklist": "11 落入精度警戒区间声明",
+      "derivation": "调用方声明落入警戒区间，按 convention fail-closed 返回不确定。",
+      "expected_status": "uncertain",
+      "expected_reason": "precision_warning_interval",
+      "expected_commander": null,
+      "version_id": "sanming-t1",
+      "window": "2025",
+      "jie_override": {
+        "precision_warning": true
+      }
+    },
+    {
+      "id": "g29_missing_next_jie",
+      "birth": "2025-05-08T05:57:13+00:00",
+      "checklist": "11 缺失原典/事实引用（窗口不完整）",
+      "derivation": "缺失下一交节声明，窗口不完整，拒绝。",
+      "expected_status": "rejected",
+      "expected_reason": "jie_facts_incomplete",
+      "expected_commander": null,
+      "version_id": "sanming-t1",
+      "window": "2025",
+      "jie_override": {
+        "drop_next_jie": true
+      }
+    },
+    {
+      "id": "g30_source_claim_mismatch",
+      "birth": "2025-05-08T05:57:13+00:00",
+      "checklist": "11 伪造来源声明",
+      "derivation": "来源声明把 sm.t1_table 冒名登记到滴天髓来源，与登记引用不一致，拒绝。",
+      "expected_status": "rejected",
+      "expected_reason": "source_claim_mismatch",
+      "expected_commander": null,
+      "version_id": "sanming-t1",
+      "window": "2025",
+      "jie_override": {
+        "source_ref": {
+          "source_id": "bazi.source.ditiansui-spouse",
+          "source_section_id": null
+        }
+      }
+    },
+    {
+      "id": "g31_summer_birth_after_mangzhong",
+      "birth": "2025-07-01T12:00:00+08:00",
+      "checklist": "12 非巳月输入",
+      "derivation": "7 月出生远在芒种之后，试点窗口不适用，绝不以 2025 立夏外推。",
+      "expected_status": "not_applicable",
+      "expected_reason": "at_or_after_next_jie",
+      "expected_commander": null,
+      "version_id": "sanming-t1",
+      "window": "2025"
+    },
+    {
+      "id": "g32_pre_lixia_spring_birth",
+      "birth": "2025-04-15T12:00:00+08:00",
+      "checklist": "12 非巳月输入（辰月）",
+      "derivation": "立夏前辰月出生，不属本窗；不得用上一年度窗口倒推（调用方未提供且试点不外推）。",
+      "expected_status": "not_applicable",
+      "expected_reason": "before_lixia",
+      "expected_commander": null,
+      "version_id": "sanming-t1",
+      "window": "2025"
+    }
+  ],
+  "jie_windows": {
+    "2025": {
+      "lixia": {
+        "term": "立夏",
+        "at": "2025-05-05T13:57:13+08:00",
+        "precision": "second"
+      },
+      "next_jie": {
+        "term": "芒种",
+        "at": "2025-06-05T17:56:32+08:00",
+        "precision": "second"
+      }
+    },
+    "2026": {
+      "lixia": {
+        "term": "立夏",
+        "at": "2026-05-05T19:48:44+08:00",
+        "precision": "second"
+      },
+      "next_jie": {
+        "term": "芒种",
+        "at": "2026-06-05T23:48:21+08:00",
+        "precision": "second"
+      }
+    },
+    "1988": {
+      "lixia": {
+        "term": "立夏",
+        "at": "1988-05-05T15:01:43+09:00",
+        "precision": "second"
+      },
+      "next_jie": {
+        "term": "芒种",
+        "at": "1988-06-05T19:14:53+09:00",
+        "precision": "second"
+      }
+    }
+  },
+  "meta": {
+    "derivation_method": "全部期望由人工按登记 calculation_convention（siling-si-calculation-convention v1）从 t0 以真实经过秒数手工推导：[t0, t0+604800s) 戊、[t0+604800s, t0+1036800s) 庚、[t0+1036800s, t0+2592000s) 丙、[t0+2592000s, 芒种) 不确定、芒种及之后不适用，左闭右开。未使用待测程序的任何输出作为预期。",
+    "t0_provenance": {
+      "2025": {
+        "cross_checks": [
+          "钉定 provider lunar-python==1.4.8 年度节气表同法取得；登记 convention 以 provider 核验瞬时为 t0 的指定来源"
+        ],
+        "hand_derived_boundaries_utc": {
+          "t0_plus_12d": "2025-05-17T05:57:13+00:00",
+          "t0_plus_30d": "2025-06-04T05:57:13+00:00",
+          "t0_plus_7d": "2025-05-12T05:57:13+00:00"
+        },
+        "lixia_provider_wall": "2025-05-05 13:57:13 (Asia/Shanghai)",
+        "lixia_utc": "2025-05-05T05:57:13+00:00",
+        "next_jie_provider_wall": "2025-06-05 17:56:32 (Asia/Shanghai)",
+        "next_jie_utc": "2025-06-05T09:56:32+00:00",
+        "window_days": 31.17
+      },
+      "2026": {
+        "cross_checks": [
+          "钉定 provider lunar-python==1.4.8 年度节气表同法取得"
+        ],
+        "hand_derived_boundaries_utc": {
+          "t0_plus_12d": "2026-05-17T11:48:44+00:00",
+          "t0_plus_30d": "2026-06-04T11:48:44+00:00",
+          "t0_plus_7d": "2026-05-12T11:48:44+00:00"
+        },
+        "lixia_provider_wall": "2026-05-05 19:48:44 (Asia/Shanghai)",
+        "lixia_utc": "2026-05-05T11:48:44+00:00",
+        "next_jie_provider_wall": "2026-06-05 23:48:21 (Asia/Shanghai)",
+        "next_jie_utc": "2026-06-05T15:48:21+00:00",
+        "window_days": 31.17
+      },
+      "1988": {
+        "cross_checks": [
+          "钉定 provider lunar-python==1.4.8 年度节气表同法取得；登记 convention 以 provider 核验瞬时为 t0 的指定来源",
+          "1988 年为中国夏令时年份（1986–1991 实行期），立夏与芒种均在夏令时段内，窗口内偏移恒 +09:00；g16/g17 以 +08:00 与 +09:00 两种表示给出同一绝对瞬时，按 UTC 瞬时判定，不按所称偏移字符串"
+        ],
+        "hand_derived_boundaries_utc": {
+          "t0_plus_12d": "1988-05-17T06:01:43+00:00",
+          "t0_plus_30d": "1988-06-04T06:01:43+00:00",
+          "t0_plus_7d": "1988-05-12T06:01:43+00:00"
+        },
+        "lixia_provider_wall": "1988-05-05 15:01:43 (Asia/Shanghai, +09:00)",
+        "lixia_utc": "1988-05-05T06:01:43+00:00",
+        "next_jie_provider_wall": "1988-06-05 19:14:53 (Asia/Shanghai, +09:00)",
+        "next_jie_utc": "1988-06-05T10:14:53+00:00",
+        "window_days": 31.17
+      }
+    },
+    "task": "TJ-012.3 Slice C 巳月试点",
+    "variant": "bazi-siling-si-pilot-v1"
+  },
+  "provider": {
+    "identity_verified": true,
+    "name": "lunar-python",
+    "version": "1.4.8"
+  }
+}

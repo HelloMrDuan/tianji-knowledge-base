@@ -370,6 +370,11 @@ def project_execution(data):
             # internal research display only per the C+E ruling);
             # never let a pilot block reach a public response either.
             container.pop('siling_pilot', None)
+            # TJ-012.3 Slice C 巳月试点: the 巳月 siling pilot is a
+            # research-only Variant (pending Phase1 registration,
+            # internal research display only per the Option B ruling);
+            # never let a pilot block reach a public response either.
+            container.pop('siling_si_pilot', None)
             # TJ-012.3 Slice D-1: the Ren-branch 寅月 true-pattern
             # determination is a research-only composition (pending
             # Phase1 registration); never let it reach a public

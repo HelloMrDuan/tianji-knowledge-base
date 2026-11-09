@@ -1734,6 +1734,22 @@ REGISTRATION_INVENTORY = [
                        'ExecutionTrace 后，再行注册；当前维持研究级。',
     },
     {
+        'item': 'siling-si-pilot',
+        'subject': '司令巳月试点 Variant bazi-siling-si-pilot-v1',
+        'disclosure_sites': ['src/tianji_kb/bazi_siling_si_pilot.py'],
+        'disposition': 'maintained_pending',
+        'reason_class': 'execution_binding_structure',
+        'reason': '独立 Variant、不经 ExecutionTrace；bazi Phase2 契约'
+                  '为单一 Variant（ziping-structural-v1），试点无法以'
+                  '自身 Variant 登记执行规则。且其定义性计算约定'
+                  '（连续 24 小时计日）是用户裁定的暂定程序约定、非'
+                  '原典规则，登记为 Phase1 原典规则即属误标；其原典'
+                  '锚点 sm.t1_table 巳月分句已由矩阵格登记覆盖，C1/C2 '
+                  '冲突并列待审。',
+        'unlock_path': '试点若转正（用户裁定扩月/约定转正）并接入 '
+                       'ExecutionTrace 后，再行注册；当前维持研究级。',
+    },
+    {
         'item': 'siling-matrix-register',
         'subject': '分日司令冲突矩阵登记（bazi_siling_matrix）',
         'disclosure_sites': ['src/tianji_kb/bazi_siling_matrix.py'],

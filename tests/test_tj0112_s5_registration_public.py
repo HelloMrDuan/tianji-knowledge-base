@@ -118,7 +118,8 @@ class InventoryCoverageTests(unittest.TestCase):
                           'sanxing-branch-fact-v1',
                           'tiaohou-qiongtong-v1'])
         # E0382: ziping-zaqi-ch16 maintained too (four maintained).
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 4)
+        # E0384: siling-si-pilot maintained too (five maintained).
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 5)
 
 
 class FuyiRegisterStaysUnwiredTests(unittest.TestCase):

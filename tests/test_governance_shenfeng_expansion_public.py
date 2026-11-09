@@ -126,11 +126,13 @@ class ShenfengExpansionPublicTests(unittest.TestCase):
         # 12; maintained four).
         self.assertEqual(len(gov.FLIPPED_ITEMS), 12)
         self.assertIn('bingyao-shenfeng-v1', gov.FLIPPED_ITEMS)
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 4)
+        # E0384: siling-si-pilot maintained too (five maintained).
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 5)
         self.assertEqual(sorted(gov.MAINTAINED_ITEMS),
                          sorted(['dayun-compose',
                                  'dayun-timeline-view',
                                  'siling-yin-pilot',
+                                 'siling-si-pilot',
                                  'ziping-zaqi-ch16']))
 
     def test_bingyao_disclosure_flipped(self):

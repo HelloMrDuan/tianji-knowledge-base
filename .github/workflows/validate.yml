@@ -207,6 +207,23 @@ jobs:
       # test_tj012_siling_pilot_sealed.py (offline acceptance only,
       # NOT public CI: it reads the sealed snapshot files).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj012_siling_pilot.py' -v
+      # TJ-012.3 Slice C 巳月试点 public contracts: hand-derived
+      # Golden boundary table (±1s at lixia / day-7 / day-12 / day-30 /
+      # next jie, pinned day-10 C1 conflict case, cross-year 2025+2026,
+      # cross-timezone same instant in the 1988 DST era, registered
+      # tail [t0+30d, mangzhong) uncertain), registration-consumption
+      # pins (segment bounds parsed from the registered convention,
+      # disclaimer verbatim, tampered registration fails closed),
+      # top-level C1/C2 conflict markers, non-pilot versions and
+      # non-si inputs never masquerading as pilot results, forged /
+      # uncertain inputs failing closed, determination-None and
+      # forbidden-key sweeps, projection strip. The pilot replays Jie
+      # instants from the pinned provider (lunar-python installed
+      # above). Snapshot-verbatim quote checks and assembled-env replay
+      # live in test_tj012_siling_si_pilot_sealed.py (offline
+      # acceptance only, NOT public CI: it reads the sealed snapshot
+      # files).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj012_siling_si_pilot.py' -v
       # TJ-012.3 Slice D-1 ren yin true-pattern public contracts:
       # registered quotes/notes vs Golden transcription (s054 shared
       # with Slice A), pure lookup judgement-order matrix (month gate,

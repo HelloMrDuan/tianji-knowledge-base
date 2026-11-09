@@ -351,7 +351,8 @@ class GanzhiRegistrationTests(unittest.TestCase):
         # maintained).
         # E0382: ziping-zaqi-ch16 maintained too (four
         # maintained).
-        self.assertEqual(len(governance.MAINTAINED_ITEMS), 4)
+        # E0384: siling-si-pilot maintained too (five maintained).
+        self.assertEqual(len(governance.MAINTAINED_ITEMS), 5)
         record = governance.TJ0183_P2_RECORD
         self.assertEqual(record['event'], 'E0335')
         self.assertEqual(record['phase1_rules_added'],

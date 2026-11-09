@@ -122,7 +122,8 @@ class RenPromotionPublicTests(unittest.TestCase):
         # flipped; four maintained -- siling-yin-pilot,
         # ziping-zaqi-ch16 and the two inherited rows).
         # E0382: ziping-zaqi-ch16 maintained too (four maintained).
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 4)
+        # E0384: siling-si-pilot maintained too (five maintained).
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 5)
         self.assertNotIn('ren-pattern-yin-true-v1',
                          gov.MAINTAINED_ITEMS)
 
