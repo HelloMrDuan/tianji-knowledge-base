@@ -238,6 +238,22 @@ jobs:
       # test_tj012_ren_yin_true_sealed.py (offline acceptance only,
       # NOT public CI: pattern candidates need sealed Canonical data).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj012_ren_yin_true.py' -v
+      # TJ-012.3 Slice D-1 寅月 research-execution link public contracts:
+      # the research gate's trigger / non-entry conditions (non-寅月
+      # and 巳月 births never enter), its opt-in-only shape (not a
+      # registered scenario, not called by the production bazi-profile
+      # path), the live pilot step with the ±1s segment-boundary flip
+      # pair, Jie replay mismatch rejection, uncertain / forged /
+      # non-寅月 pilot results abstaining at the composition layer,
+      # the silent-drop input contract (pilot without the legal
+      # pattern variant fails closed), and the projection strip.
+      # Real-chart end-to-end coverage of all fifteen Golden cases
+      # through the gate, byte equality with direct chart composition,
+      # sealed silent-drop regressions, protected-semantics pins and
+      # the F4 non-contamination check live in
+      # test_tj012_d1_yin_research_link_sealed.py (offline acceptance
+      # only, NOT public CI: pattern candidates need sealed data).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj012_d1_yin_research_link.py' -v
       # TJ-012.3 Slice D prerequisite yuanhai zhengguan-group section
       # registration public contracts: pure-data register mirrored
       # against Golden, three-section registration forms (two full

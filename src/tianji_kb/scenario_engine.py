@@ -264,6 +264,118 @@ def _strength_public_gate(value, zone):
         })
 
 
+def _ren_yin_research_pilot(value, zone):
+    """Live-pilot step of the D-1 research gate (TJ-012.3, Option A).
+
+    Returns (month_branch, pilot) where month_branch comes from the
+    same calendar path ``engine.prepare_inputs`` uses
+    (``calendar_for_zone``) and pilot is the live
+    ``yin_siling_pilot()`` result for a 寅月 birth, or None for any
+    other month (the pilot is never run outside the 寅月 legal range).
+    Jie facts are derived by ``_strength_jie_facts`` -- the same
+    provider-identity + annual-table replay the F4 gate uses -- so a
+    derivation failure raises here and fails the whole request, never
+    swallowed into a non-entry. The pilot's only documented raises
+    are birth-shape rejections (naive / sub-second / unparseable
+    instant): like the F4 gate's pilot layer, those map to pilot=None
+    (the birth cannot compute), and any other exception escapes.
+    """
+    from .bazi_siling_pilot import yin_siling_pilot
+    from .calendar_tz import calendar_for_zone
+
+    cal = calendar_for_zone(value, zone)
+    month_branch = cal["month_ganzhi"][1]
+    if month_branch != "寅":
+        return month_branch, None
+    jie_facts = _strength_jie_facts(value)
+    try:
+        pilot = yin_siling_pilot(
+            value, version_id="ditiansui-yuanshuo",
+            jie_facts=jie_facts)
+    except ValueError:
+        pilot = None
+    return month_branch, pilot
+
+
+def ren_yin_research_execution(value, zone=None):
+    """Research-only D-1 寅月 execution gate (TJ-012.3, user Option A
+    2026-11-09).
+
+    Opt-in research entry ONLY: it is not registered in SCENARIOS,
+    not reachable through ``execute_scenario()``, and not called by
+    ``_bazi_profile`` or any production path. Ordinary production
+    requests never execute it; a research caller invokes it directly
+    with a real birth instant.
+
+    The gate enters (entered=True) ONLY when ALL hold: a real birth
+    instant is available; the executed month branch is 寅; the Jie
+    window is provider-verified (``_strength_jie_facts``); the live
+    寅月 pilot returns a computed result for the registered Ren
+    version; the request is this explicit research call. The legal
+    pilot result is then passed as ``ren_yin_pilot_result`` into the
+    existing research-mode ``execute("bazi", ...)`` with the
+    registered pattern variant, so the D-1 trace, RuleMatch and
+    Evidence in the returned envelope are the direct-call records --
+    no new rule, no new judgement, no month expansion, no 巳月 D-1.
+
+    Returns a research-only record: ``entered``, ``reason``,
+    ``month_branch``, ``pilot`` (the live pilot block, or None when
+    the gate did not run it), ``envelope`` (the research execute
+    envelope, or None when not entered) and ``determination`` (the
+    D-1 block, or None), plus research_only / public_enabled /
+    ai_enabled flags. Non-entry reasons: ``month_not_yin``,
+    ``birth_uncomputable``, ``pilot_<status>``.
+    """
+    from .bazi_pattern import PATTERN_VARIANT as _PATTERN_VARIANT
+    from .bazi_siling_pilot import SILING_PILOT_VARIANT
+
+    if not isinstance(value, str):
+        raise ValueError("value must be an ISO datetime string")
+    record = {"entered": False, "reason": None, "month_branch": None,
+              "pilot": None, "envelope": None, "determination": None,
+              "research_only": True, "public_enabled": False,
+              "ai_enabled": False}
+    month_branch, pilot = _ren_yin_research_pilot(value, zone)
+    record["month_branch"] = month_branch
+    if month_branch != "寅":
+        record["reason"] = "month_not_yin"
+        return record
+    if pilot is None:
+        record["reason"] = "birth_uncomputable"
+        return record
+    record["pilot"] = pilot
+    if pilot.get("variant") != SILING_PILOT_VARIANT:
+        raise ValueError(
+            "Ren yin research gate received a non-pilot result")
+    if pilot.get("status") != "computed":
+        record["reason"] = "pilot_%s" % pilot["status"]
+        return record
+    if pilot.get("month_branch") != "寅" \
+            or pilot.get("scope_month_branch") != "寅":
+        raise ValueError(
+            "Ren yin research gate pilot month does not match 寅月")
+    exec_inputs = {"value": value,
+                   "pattern_variant": _PATTERN_VARIANT,
+                   "ren_yin_pilot_result": pilot}
+    if zone is not None:
+        exec_inputs["zone"] = zone
+    envelope = execute("bazi", exec_inputs, allow_research=True)
+    block = envelope["result"].get("pattern_determination_ren_yin")
+    if not isinstance(block, dict):
+        raise ValueError(
+            "Ren yin research execution produced no D-1 determination")
+    block_pilot = block.get("pilot") or {}
+    if block_pilot.get("status") != "computed" \
+            or block_pilot.get("commander") != pilot.get("commander"):
+        raise ValueError(
+            "Ren yin research execution D-1 pilot does not match "
+            "the live pilot")
+    record["entered"] = True
+    record["envelope"] = envelope
+    record["determination"] = block
+    return record
+
+
 def _bazi_profile(inputs):
     _require_with_optional(
         inputs, {"value"},

@@ -41,6 +41,16 @@ def chart(year_ganzhi, month_ganzhi, day_ganzhi, hour_ganzhi, include_xianchi=Fa
         raise ValueError("include_punishment_facts must be boolean")
     if ren_yin_pilot_result is not None and not isinstance(ren_yin_pilot_result, dict):
         raise ValueError("ren_yin_pilot_result must be an explicit pilot result object")
+    # TJ-012.3 D-1 research-link fix (E0385): the D-1 block below sits
+    # inside `if pattern_variant is not None:`, while this validation
+    # is independent -- a caller passing ren_yin_pilot_result without
+    # the legal pattern variant used to have its D-1 silently dropped.
+    # Fail closed with an explicit ValueError instead, per the
+    # codebase's existing input-contract discipline. No judgement
+    # semantics change: the check only guards the input contract.
+    if ren_yin_pilot_result is not None and pattern_variant != PATTERN_VARIANT:
+        raise ValueError(
+            "ren_yin_pilot_result requires the registered pattern variant")
     if dayun_classical_role is not None and dayun_classical_role not in ("male", "female"):
         raise ValueError("dayun_classical_role must be male or female")
     if dayun_sanming_measurement is not None and not isinstance(dayun_sanming_measurement, dict):
