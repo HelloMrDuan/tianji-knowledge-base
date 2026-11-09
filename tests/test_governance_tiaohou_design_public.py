@@ -163,11 +163,12 @@ class TiaohouDesignPublicTests(unittest.TestCase):
                          'bazi.phase2.tiaohou_assessment')
         self.assertIsNone(row['unlock_path'])
         self.assertIn('tiaohou-qiongtong-v1', gov.FLIPPED_ITEMS)
-        # E0382: ziping-zaqi-ch16 maintained too (four maintained).
+        # E0382: ziping-zaqi-ch16 maintained too; E0384: siling-si-pilot
+        # maintained too (five maintained).
         self.assertEqual(
             gov.MAINTAINED_ITEMS,
             ['dayun-compose', 'dayun-timeline-view',
-             'siling-yin-pilot', 'ziping-zaqi-ch16'])
+             'siling-yin-pilot', 'siling-si-pilot', 'ziping-zaqi-ch16'])
 
     def test_module_semantics_unchanged(self):
         self.assertEqual(th.VARIANT, 'tiaohou-qiongtong-v1')

@@ -357,10 +357,12 @@ class RecordConsistencyTests(unittest.TestCase):
         self.assertTrue(row['unlock_path'])
         self.assertIn('bazi.section.s185', row['reason'])
         # E0382: the maintained set grows from three to four.
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 4)
+        # E0384: siling-si-pilot maintained too (five maintained).
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 5)
         self.assertEqual(gov.MAINTAINED_ITEMS,
                          ['dayun-compose', 'dayun-timeline-view',
-                          'siling-yin-pilot', 'ziping-zaqi-ch16'])
+                          'siling-yin-pilot', 'siling-si-pilot',
+                          'ziping-zaqi-ch16'])
 
 
 class DocumentAndLeakTests(unittest.TestCase):

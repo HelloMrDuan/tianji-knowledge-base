@@ -236,6 +236,11 @@ class AdjudicationSweepTest(unittest.TestCase):
                 if (version_id, month) == ("ditiansui-yuanshuo", "寅"):
                     self.assertEqual(cell_["adjudication_status"],
                                      "pilot_authorized_ren_branch")
+                elif (version_id, month) == ("sanming-t1", "巳"):
+                    # E0384: 巳月三命 T1 试点经用户裁定授权（Option B，
+                    # 2026-11-09）；其余格仍为 conflict。
+                    self.assertEqual(cell_["adjudication_status"],
+                                     "pilot_authorized_sanming_t1")
                 else:
                     self.assertEqual(cell_["adjudication_status"],
                                      "conflict",

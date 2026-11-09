@@ -12,7 +12,7 @@
     "is_authorized_computation_table": false,
     "text": "本登记为五口径并列的分日司令冲突矩阵，不是已授权的统一计算表；未裁定月份一律 conflict / research_only，不得隐式采用任一口径（含同书的三命 T1 或 T2）。",
     "production_policy": "不得按未裁定分日表输出司令、得令或整体旺衰（既有政策不变）。",
-    "only_authorized_cell": "寅月 × 滴天髓原注口径：任氏分支试点经用户裁定授权（C+E，2026-10-27）；其余口径在寅月仍为 conflict 并列。寅月试点 Variant 为第二步，本批只登记。"
+    "only_authorized_cell": "寅月 × 滴天髓原注口径：任氏分支试点经用户裁定授权（C+E，2026-10-27）；巳月 × 三命 T1 口径：三命 T1 试点经用户裁定授权（Option B，2026-11-09）；其余口径在寅月与巳月仍为 conflict 并列。寅月试点 Variant 为第二步，巳月试点 Variant 随 Option B 批同行；其余月份仍无授权格。"
   },
   "months": [
     "寅",
@@ -830,30 +830,46 @@
         "quotes": [
           "sm.t1_table"
         ],
-        "adjudication_status": "conflict",
+        "adjudication_status": "pilot_authorized_sanming_t1",
         "research_only": true,
         "segments": [
           {
             "stem": "戊",
             "days": 7,
             "verbatim_designation": "戊土",
-            "glyph_note": null
+            "glyph_note": null,
+            "day_span": [
+              1,
+              7
+            ],
+            "basis": "戊土七日"
           },
           {
             "stem": "庚",
             "days": 5,
             "verbatim_designation": "庚金",
-            "glyph_note": null
+            "glyph_note": null,
+            "day_span": [
+              8,
+              12
+            ],
+            "basis": "庚金长生五日"
           },
           {
             "stem": "丙",
             "days": 18,
             "verbatim_designation": "丙火",
-            "glyph_note": null
+            "glyph_note": null,
+            "day_span": [
+              13,
+              30
+            ],
+            "basis": "丙火一十八日"
           }
         ],
         "recorded_sum": 30,
         "sum_consistent": true,
+        "quote_excerpt": "巳中有戊土七日庚金长生五日丙火一十八日",
         "differences": [
           "干日数集合 {戊 7, 庚 5, 丙 18} 与 T2 全同（全矩阵最接近一格）",
           "但滴天髓命例（巳戊至少 10 日）与神峰歌断（巳土 5 日）另有冲突"
