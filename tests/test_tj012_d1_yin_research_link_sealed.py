@@ -97,8 +97,16 @@ class RealChartGateTests(unittest.TestCase):
                     case['pillars'])
                 # The gate envelope's D-1 block equals the direct
                 # chart composition over the same pillars and the
-                # same live pilot, byte for byte.
-                pilot = _live_pilot(case)
+                # same live pilot, byte for byte. The pilot compared
+                # here must be the one the gate itself used
+                # (record['pilot']): _live_pilot(case) re-applies
+                # the case's caller-side jie_override, which the
+                # gate never sees — for s2-pilot-uncertain that
+                # override makes the pilot uncertain (abstained)
+                # while the gate's own pilot is computed
+                # (determined), so comparing against it would
+                # equate two different pilot inputs.
+                pilot = record['pilot']
                 direct = chart(
                     *case['pillars'], pattern_variant=PATTERN_VARIANT,
                     ren_yin_pilot_result=pilot)
@@ -116,7 +124,19 @@ class RealChartGateTests(unittest.TestCase):
                 for eid in match['evidence_ids']:
                     self.assertIn(eid, envelope['evidence'])
                 # Fields equal the hand-derived Golden expectations.
-                want = case['expected']
+                # s2 is the two-layer case: its own expected is the
+                # caller-declared-uncertainty outcome (abstained),
+                # but the gate carries no precision-warning
+                # declaration, so the gate-layer expectation is t2's
+                # (same pillars/segment) - see the link Golden's
+                # expected_gate and
+                # test_s2_birth_enters_without_caller_warning.
+                if case['id'] == 's2-pilot-uncertain':
+                    want = next(
+                        c['expected'] for c in REN_GOLDEN['cases']
+                        if c['id'] == 't2-bing-qisha')
+                else:
+                    want = case['expected']
                 self.assertEqual(block['status'], want['status'])
                 self.assertEqual(block['decision_step'],
                                  want['decision_step'])
