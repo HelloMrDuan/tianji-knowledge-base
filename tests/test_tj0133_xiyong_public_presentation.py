@@ -342,6 +342,58 @@ class GoldenPresentationTests(unittest.TestCase):
             self.assertFalse(keys & forbidden, (case["id"], keys))
 
 
+class MultiLineQuoteTests(unittest.TestCase):
+    """Regression (found by the TJ-012.3 Stage B sealed test, 2026-11-10):
+    the 辛×寅 tiaohou entry quotes its closing sentence, which sits on
+    line 929 of a section starting at line 926. The locator check used
+    to require quote line == section first line and rejected this
+    genuine entry, so _bazi_profile raised for the 2025-02-21 辛 birth.
+    Character containment plus exact length is the invariant; a quote
+    on a later line inside the same section span must present."""
+
+    def test_xin_yin_closing_sentence_quote_presents(self):
+        from tianji_kb.bazi_tiaohou import entry_for
+        entry = entry_for("辛", "寅")
+        # Pin the precondition: the quote really is on a later line
+        # than the section's first line.
+        self.assertEqual(entry["section"]["line"], 926)
+        self.assertEqual(entry["quote_locator"]["line"], 929)
+        self.assertEqual(
+            entry["quote_locator"]["char_end"]
+            - entry["quote_locator"]["char_start"],
+            len(entry["quote"]))
+        case = {
+            "facts": {
+                "day_master": "辛", "month_branch": "寅",
+                # The n2 Golden birth's own pillar stems (乙巳/戊寅/
+                # 辛酉/戊子) and hidden stems.
+                "tiaohou": {
+                    "visible_stems": ["乙", "戊", "辛", "戊"],
+                    "hidden_stems": [["丙", "庚", "戊"], ["甲", "丙", "戊"],
+                                     ["辛"], ["癸"]]},
+                "bingyao": {"visible_gods": [
+                    {"pillar": "year", "stem": "戊", "ten_god": "正印"},
+                    {"pillar": "month", "stem": "甲", "ten_god": "正财"},
+                    {"pillar": "hour", "stem": "己", "ten_god": "偏印"}]},
+            },
+            # Synthetic view (see module docstring): the section id is
+            # the real one (bazi.section.s149); the chapter id/title
+            # are the synthetic stand-in, consistent within the view.
+            "view": {"entry": {
+                "section_id": "bazi.section.s149",
+                "chapter_id": "bazi.chapter.qiongtong_xin",
+                "chapter_title": "辛金分月条目"},
+                "bingyao_chapter_id": "bazi.chapter.shenfeng_bingyao"},
+            "expected": {
+                "tiaohou_phase1_rule_id": "bazi.rule.synthetic-s149"},
+        }
+        presentation = _build(case)
+        self.assertEqual(
+            presentation["blocks"]["tiaohou"]["state"], "presented")
+        self.assertIn(entry["quote"],
+                      json.dumps(presentation, ensure_ascii=False))
+
+
 class TamperTests(unittest.TestCase):
     """§6.2: four tamper classes against the G1 synthetic view."""
 

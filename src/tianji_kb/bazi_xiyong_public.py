@@ -330,8 +330,13 @@ def _tiaohou_block(statement, view, step, records):
     span = entry.get("section")
     _require(isinstance(locator, dict) and isinstance(span, dict),
              "tiaohou entry locator malformed")
-    _require(span.get("line") == locator.get("line")
-             and span.get("char_start") <= locator.get("char_start")
+    # The section span covers the whole registered entry, which may run
+    # over several source lines; the quoted sentence may sit on a later
+    # line inside that span (e.g. 辛×寅 quotes the closing sentence on
+    # line 929 of a section starting at line 926). The invariant is
+    # character containment plus exact length, not line equality with
+    # the section's first line.
+    _require(span.get("char_start") <= locator.get("char_start")
              and locator.get("char_end") <= span.get("char_end")
              and locator.get("char_end") - locator.get("char_start") == len(quote),
              "tiaohou entry quote locator drifted from its section span")
