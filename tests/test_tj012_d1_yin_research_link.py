@@ -208,13 +208,25 @@ class GateOptInTests(unittest.TestCase):
 
     def test_production_bazi_profile_does_not_call_gate(self):
         # Source-shape pin, in the F4 precedent: the production
-        # scenario function must not invoke the research gate.
+        # scenario function must not invoke the research gate
+        # directly -- no raw research record reaches _bazi_profile.
+        # TJ-012.3 Stage B (user 2026-11-10, limited exception to
+        # the U1 pattern-field ban) adds exactly one authorized
+        # indirection: _bazi_profile calls _pattern_public_gate,
+        # which consumes the research gate server-side and attaches
+        # only the validated presentation object.
         source = (ROOT / 'src' / 'tianji_kb' / 'scenario_engine.py'
                   ).read_text(encoding='utf-8')
         profile = source.split('def _bazi_profile')[1].split(
             'def _question')[0]
         self.assertNotIn('ren_yin_research_execution', profile)
         self.assertNotIn('_ren_yin_research_pilot', profile)
+        self.assertNotIn('pattern_determination_ren_yin', profile)
+        self.assertEqual(profile.count('_pattern_public_gate('), 1)
+        gate = source.split('def _pattern_public_gate')[1].split(
+            '\ndef ')[0]
+        self.assertIn('ren_yin_research_execution', gate)
+        self.assertIn('public_pattern_presentation', gate)
 
 
 class LivePilotStepTests(unittest.TestCase):
