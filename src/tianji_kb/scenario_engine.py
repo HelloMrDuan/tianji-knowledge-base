@@ -264,6 +264,35 @@ def _strength_public_gate(value, zone):
         })
 
 
+def _pattern_public_gate(value, zone, pillars):
+    """Server-side-only pattern gate (TJ-012.3 Stage B, user 2026-11-10).
+
+    The single authorized consumer of the D-1 research gate inside a
+    production path. It reuses the research gate's own records --
+    real birth instant, provider-verified Jie window, live 寅月
+    pilot, D-1 determination -- and attaches exactly one key,
+    ``pattern_presentation``, to the bazi-profile envelope. The
+    research envelope itself (raw D-1 block, pilot block, trace,
+    sealed text) is discarded here: only the validated presentation
+    object built by ``bazi_pattern_public`` reaches the result. A
+    non-entered gate still yields a presentation (not_judgeable),
+    never a missing key; any builder failure raises and fails the
+    whole request, exactly like the strength gate.
+    """
+    from .bazi_pattern_public import public_pattern_presentation
+
+    record = ren_yin_research_execution(value, zone)
+    execution = None
+    if record["entered"]:
+        envelope = record["envelope"]
+        execution = {
+            "trace": envelope["trace"],
+            "rule_matches": envelope["rule_matches"],
+            "evidence": envelope["evidence"],
+        }
+    return public_pattern_presentation(record, execution, pillars)
+
+
 def _ren_yin_research_pilot(value, zone):
     """Live-pilot step of the D-1 research gate (TJ-012.3, Option A).
 
@@ -301,11 +330,17 @@ def ren_yin_research_execution(value, zone=None):
     """Research-only D-1 寅月 execution gate (TJ-012.3, user Option A
     2026-11-09).
 
-    Opt-in research entry ONLY: it is not registered in SCENARIOS,
-    not reachable through ``execute_scenario()``, and not called by
-    ``_bazi_profile`` or any production path. Ordinary production
-    requests never execute it; a research caller invokes it directly
-    with a real birth instant.
+    Opt-in research entry: it is not registered in SCENARIOS and not
+    reachable through ``execute_scenario()``. Ordinary requests never
+    receive its research envelope directly, and no ordinary caller
+    invokes it. The single authorized consumer inside a production
+    path is ``_pattern_public_gate`` (TJ-012.3 Stage B, user
+    2026-11-10): it reuses this gate's reviewed computation
+    server-side and attaches only the whitelist-validated
+    ``pattern_presentation`` object; the research envelope itself
+    (raw D-1 block, pilot block, trace, sealed text) is discarded
+    there and never reaches a public response. A research caller may
+    still invoke it directly with a real birth instant.
 
     The gate enters (entered=True) ONLY when ALL hold: a real birth
     instant is available; the executed month branch is 寅; the Jie
@@ -455,6 +490,16 @@ def _bazi_profile(inputs):
     # exactly like a xiyong builder failure (no partial success).
     result["strength_presentation"] = _strength_public_gate(
         inputs["value"], inputs.get("zone"))
+    # TJ-012.3 Stage B (user 2026-11-10, limited exception to the U1
+    # pattern-field ban): the independent pattern gate attaches the
+    # validated pattern presentation. It reuses the D-1 research gate
+    # server-side (same birth instant, provider verification, 寅月
+    # pilot, D-1 determination) and attaches only the dedicated
+    # presentation object; the research raw envelope never reaches
+    # the result. A builder failure fails the whole request exactly
+    # like a strength builder failure (no partial success).
+    result["pattern_presentation"] = _pattern_public_gate(
+        inputs["value"], inputs.get("zone"), result["pillars"])
     # TJ-017.3 phase 2: with no role selected the dayun gate never
     # runs; against the pre-B envelope the no-role envelope differs
     # exactly by the strength_presentation key (U1 Batch B single-key

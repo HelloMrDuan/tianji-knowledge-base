@@ -252,6 +252,7 @@ def project_execution(data):
     scoped_presentation = None
     scoped_dayun_presentation = None
     scoped_strength_presentation = None
+    scoped_pattern_presentation = None
     if data.get('scenario_id') == 'bazi-profile' \
             and isinstance(data.get('result'), dict):
         candidate = data['result'].get('xiyong_presentation')
@@ -288,6 +289,26 @@ def project_execution(data):
             if is_valid_public_strength_presentation(strength_candidate):
                 scoped_strength_presentation = copy.deepcopy(
                     strength_candidate)
+        # TJ-012.3 Stage B (user 2026-11-10, limited exception to
+        # the U1 pattern-field ban): the same scoped-release
+        # discipline for the pattern presentation -- only a
+        # bazi-profile envelope, only in exactly the adjudicated
+        # shape; anything else is stripped below. The research raw
+        # block stays stripped (see the pop below). The release is
+        # an allowlist projection, never a verbatim copy: the public
+        # shape carries no internal reference fields (rule_ids /
+        # source_sections / evidence_ids / source_ids), because the
+        # D-1 evidence is not in the public envelope's admitted
+        # evidence -- aliasing it would dangle.
+        pattern_candidate = data['result'].get('pattern_presentation')
+        if pattern_candidate is not None:
+            from .bazi_pattern_public import (
+                is_valid_public_pattern_presentation,
+                to_public_pattern_presentation,
+            )
+            if is_valid_public_pattern_presentation(pattern_candidate):
+                scoped_pattern_presentation = \
+                    to_public_pattern_presentation(pattern_candidate)
     aliases = _Aliases(data['evidence'])
     result = {key: _public_facts(value, aliases)
               for key, value in data.items()
@@ -344,6 +365,12 @@ def project_execution(data):
             # test), so the pass-through is unreachable from the
             # public scenario path.
             container.pop('strength_presentation', None)
+            # TJ-012.3 Stage B: same for the pattern presentation
+            # key. The research D-1 determination itself stays
+            # stripped by the pop below (it is never lifted); the
+            # single validated bazi-profile copy lifted above is
+            # the only one re-attached (below).
+            container.pop('pattern_presentation', None)
             # TJ-012.3 Slice A: the 禄刃 route exclusion is research-only
             # (pending Phase1 registration); never let it reach a public
             # response either.
@@ -396,6 +423,10 @@ def project_execution(data):
             and isinstance(result.get('result'), dict):
         result['result']['strength_presentation'] = \
             scoped_strength_presentation
+    if scoped_pattern_presentation is not None \
+            and isinstance(result.get('result'), dict):
+        result['result']['pattern_presentation'] = \
+            scoped_pattern_presentation
     return result
 
 

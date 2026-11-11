@@ -254,6 +254,21 @@ jobs:
       # test_tj012_d1_yin_research_link_sealed.py (offline acceptance
       # only, NOT public CI: pattern candidates need sealed data).
       - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj012_d1_yin_research_link.py' -v
+      # TJ-012.3 Stage B (user 2026-11-10, limited exception to the
+      # U1 pattern-field ban): the public pattern presentation
+      # builder over fact-shape stub traces (t1 positive, n1
+      # commander-not-visible, D5 比肩格 / 劫财格 not public, s3
+      # abstention), the live gate's non-entry conditions (non-寅月
+      # and 巳月 births), pilot replay/uncertain/forged/version
+      # failures, the eight-name whitelist, the evidence binding,
+      # and the projection scoped release. Real-chart end-to-end
+      # coverage of all fifteen Golden cases through _bazi_profile,
+      # the production-API no-leak check and the U1/tiaohou/
+      # bingyao/dayun no-regression check live in
+      # test_tj0123_pattern_public_sealed.py (offline acceptance
+      # only, NOT public CI: the bazi-profile execution needs
+      # sealed data).
+      - run: PYTHONPATH=src python -m unittest discover -s tests -p 'test_tj0123_pattern_public.py' -v
       # TJ-012.3 Slice D prerequisite yuanhai zhengguan-group section
       # registration public contracts: pure-data register mirrored
       # against Golden, three-section registration forms (two full

@@ -342,6 +342,101 @@ class GoldenPresentationTests(unittest.TestCase):
             self.assertFalse(keys & forbidden, (case["id"], keys))
 
 
+class MultiLineQuoteTests(unittest.TestCase):
+    """Regression (found by the TJ-012.3 Stage B sealed test, 2026-11-10):
+    the 辛×寅 tiaohou entry quotes its closing sentence, which sits on
+    line 929 of a section starting at line 926. The locator check used
+    to require quote line == section first line and rejected this
+    genuine entry, so _bazi_profile raised for the 2025-02-21 辛 birth.
+    Character containment plus exact length is the invariant; a quote
+    on a later line inside the same section span must present."""
+
+    def _xin_yin_case(self):
+        return {
+            "facts": {
+                "day_master": "辛", "month_branch": "寅",
+                # The n2 Golden birth's own pillar stems (乙巳/戊寅/
+                # 辛酉/戊子) and hidden stems.
+                "tiaohou": {
+                    "visible_stems": ["乙", "戊", "辛", "戊"],
+                    "hidden_stems": [["丙", "庚", "戊"], ["甲", "丙", "戊"],
+                                     ["辛"], ["癸"]]},
+                "bingyao": {"visible_gods": [
+                    {"pillar": "year", "stem": "戊", "ten_god": "正印"},
+                    {"pillar": "month", "stem": "甲", "ten_god": "正财"},
+                    {"pillar": "hour", "stem": "己", "ten_god": "偏印"}]},
+            },
+            # Synthetic view (see module docstring): the section id is
+            # the real one (bazi.section.s149); the chapter id/title
+            # are the synthetic stand-in, consistent within the view.
+            "view": {"entry": {
+                "section_id": "bazi.section.s149",
+                "chapter_id": "bazi.chapter.qiongtong_xin",
+                "chapter_title": "辛金分月条目"},
+                "bingyao_chapter_id": "bazi.chapter.shenfeng_bingyao"},
+            "expected": {
+                "tiaohou_phase1_rule_id": "bazi.rule.synthetic-s149"},
+        }
+
+    def test_xin_yin_closing_sentence_quote_presents(self):
+        from tianji_kb.bazi_tiaohou import entry_for
+        entry = entry_for("辛", "寅")
+        # Pin the precondition: the quote really is on a later line
+        # than the section's first line.
+        self.assertEqual(entry["section"]["line"], 926)
+        self.assertEqual(entry["quote_locator"]["line"], 929)
+        self.assertEqual(
+            entry["quote_locator"]["char_end"]
+            - entry["quote_locator"]["char_start"],
+            len(entry["quote"]))
+        case = self._xin_yin_case()
+        presentation = _build(case)
+        self.assertEqual(
+            presentation["blocks"]["tiaohou"]["state"], "presented")
+        self.assertIn(entry["quote"],
+                      json.dumps(presentation, ensure_ascii=False))
+
+    def test_quote_from_another_section_is_rejected(self):
+        """Gap A (2026-11-11): removing the line-equality constraint
+        must not admit a wrong source. Citing another section's
+        genuine sentence (with its own locator) as this entry's quote
+        must fail: the quoted content has to lie inside the specified
+        source section span."""
+        from tianji_kb.bazi_tiaohou import entry_for
+        case = self._xin_yin_case()
+        tiaohou, bingyao = _statements(case)
+        yi_entry = entry_for("乙", "寅")
+        self.assertNotEqual(yi_entry["quote"], tiaohou["entry"]["quote"])
+        self.assertNotEqual(yi_entry["quote_locator"],
+                            tiaohou["entry"]["quote_locator"])
+        tiaohou["entry"]["quote"] = yi_entry["quote"]
+        tiaohou["entry"]["quote_locator"] = dict(yi_entry["quote_locator"])
+        view = _synthetic_view(case, tiaohou, bingyao)
+        with self.assertRaises(ValueError):
+            public_xiyong_presentation(tiaohou, bingyao, execution=view)
+
+    def test_duplicate_quote_text_is_rejected(self):
+        """Gap A (2026-11-11): the quote must resolve to exactly one
+        record. The same sentence registered under a second section
+        must fail closed instead of silently picking one location."""
+        case = self._xin_yin_case()
+        tiaohou, bingyao = _statements(case)
+        view = _synthetic_view(case, tiaohou, bingyao)
+        dup_id = TIAOHOU_STEP_ID + "#dup"
+        view["evidence"][dup_id] = _record(
+            "bazi.source.qiongtong", "bazi.section.s150",
+            "bazi.chapter.qiongtong_xin", "辛金分月条目",
+            tiaohou["entry"]["quote"], TIAOHOU_STEP_ID)
+        for step in view["trace"]:
+            if step["rule_id"] == TIAOHOU_STEP_ID:
+                step["evidence_ids"] = step["evidence_ids"] + [dup_id]
+        for match in view["rule_matches"]:
+            if match["rule_id"] == TIAOHOU_STEP_ID:
+                match["evidence_ids"] = match["evidence_ids"] + [dup_id]
+        with self.assertRaises(ValueError):
+            public_xiyong_presentation(tiaohou, bingyao, execution=view)
+
+
 class TamperTests(unittest.TestCase):
     """§6.2: four tamper classes against the G1 synthetic view."""
 

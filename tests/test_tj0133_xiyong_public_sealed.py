@@ -25,6 +25,9 @@ from tianji_kb.api import create_app
 from tianji_kb.bazi_conflict_presentation import (
     VARIANT as CONFLICT_VARIANT,
 )
+from tianji_kb.bazi_pattern_public import (
+    is_valid_public_pattern_presentation,
+)
 from tianji_kb.bazi_strength_public import (
     is_valid_public_strength_presentation,
 )
@@ -171,9 +174,12 @@ class EquivalenceTests(unittest.TestCase):
     U1 Batch B (user adjudication 2026-11-02, recorded in
     docs/product/U1U3_ADJUDICATION_2026-11-02.md; no ledger event
     claimed for the unmerged PR) adds exactly one further key,
-    strength_presentation, to the bazi-profile result. The closed
-    list below is therefore the xiyong presentation plus the
-    strength presentation, each validated by its own closed-key
+    strength_presentation, to the bazi-profile result. TJ-012.3
+    Stage B (user 2026-11-10, limited exception to the U1
+    pattern-field ban) adds exactly one further key,
+    pattern_presentation. The closed list below is therefore the
+    xiyong presentation plus the strength presentation plus the
+    pattern presentation, each validated by its own closed-key
     validator; no other key may differ.
     """
 
@@ -197,6 +203,9 @@ class EquivalenceTests(unittest.TestCase):
                 strength = result.pop("strength_presentation")
                 self.assertTrue(
                     is_valid_public_strength_presentation(strength))
+                pattern = result.pop("pattern_presentation")
+                self.assertTrue(
+                    is_valid_public_pattern_presentation(pattern))
                 tiaohou = result.pop("tiaohou_assessment")
                 bingyao = result.pop("bingyao_assessment")
                 self.assertEqual(result, base["result"])

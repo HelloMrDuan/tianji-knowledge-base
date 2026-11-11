@@ -91,6 +91,29 @@ const strengthReasonLabels: Record<string, string> = {
   insufficient_evidence: "本盘的谓词条件证据不足",
 };
 
+// TJ-012.3 Stage B：任氏寅月局部真格研究结果的呈现转写（只转写
+// 呈现对象字段，不生成任何新判断）。只转述后端 pattern_presentation；
+// 暂不可判与不作呈现只转述后端原因，永不写成假格或改写格名；格名
+// 只在后端已呈现时原样显示。范围说明始终在场，不得省略。
+const patternReasonLabels: Record<string, string> = {
+  month_not_yin: "本盘不在寅月，不属于任氏寅月局部真格研究范围",
+  birth_uncomputable: "出生时刻无法核验司令段",
+  pilot_uncertain: "司令试点未确立，暂不可判",
+  pilot_rejected: "司令试点未通过核验，暂不可判",
+  pilot_not_applicable: "司令试点不适用，暂不可判",
+  pattern_name_not_public: "本盘的格名暂不在公开呈现范围内",
+  luren_route_precedence: "本盘月逢禄刃，月令格局路线已关闭，本次不作呈现",
+  pilot_result_unverifiable: "司令试点结果无法核验，本次不作呈现",
+  pilot_not_computed: "司令试点未确立，本次不作呈现",
+  commander_not_month_hidden: "司令不在月支藏干中，本次不作呈现",
+};
+
+const patternPillarLabels: Record<string, string> = {
+  year: "年干",
+  month: "月干",
+  hour: "时干",
+};
+
 function relationLine(item: any): string {
   const parts: string[] = [];
   if (item.tiaohou) parts.push(`调候取用顺序第 ${item.tiaohou.order} 位`);
@@ -131,6 +154,9 @@ export function BaziProfilePage() {
   // 缺席行为不变）。
   const [strengthPresentation, setStrengthPresentation] = useState<any>(null);
   const [strengthLoadError, setStrengthLoadError] = useState(false);
+  // TJ-012.3 Stage B：格局局部呈现取自同一场景信封；场景调用失败时
+  // 与强度节同一错误态（xiyong/dayun 的既有缺席行为不变）。
+  const [patternPresentation, setPatternPresentation] = useState<any>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const requestVersion = useRef(0);
@@ -150,6 +176,7 @@ export function BaziProfilePage() {
     setXiyong(null);
     setDayun(null);
     setStrengthPresentation(null);
+    setPatternPresentation(null);
     setStrengthLoadError(false);
     setError("");
     setLoading(false);
@@ -183,6 +210,7 @@ export function BaziProfilePage() {
     setXiyong(null);
     setDayun(null);
     setStrengthPresentation(null);
+    setPatternPresentation(null);
     setStrengthLoadError(false);
     try {
       const response = await executeBazi({ value: toApiValue(profile), zone: toApiZone(profile), strength_variant: "ditiansui-root-visibility-v1" });
@@ -201,9 +229,10 @@ export function BaziProfilePage() {
         setXiyong(scenario.result?.xiyong_presentation ?? null);
         setDayun(scenario.result?.dayun_presentation ?? null);
         setStrengthPresentation(scenario.result?.strength_presentation ?? null);
+        setPatternPresentation(scenario.result?.pattern_presentation ?? null);
         setStrengthLoadError(false);
       } catch {
-        if (version === requestVersion.current) { setXiyong(null); setDayun(null); setStrengthPresentation(null); setStrengthLoadError(true); }
+        if (version === requestVersion.current) { setXiyong(null); setDayun(null); setStrengthPresentation(null); setPatternPresentation(null); setStrengthLoadError(true); }
       }
     } catch (err) {
       if (version === requestVersion.current)
@@ -240,6 +269,14 @@ export function BaziProfilePage() {
     : null;
   const boundaryStrengthLimitations = strengthPresentation
     ? (strengthPresentation.limitations || []).map(plainUserText).filter(firstBoundaryLine)
+    : [];
+  // TJ-012.3 Stage B：格局局部呈现的范围与限制同样进入当前分析边界，
+  // 与强度节同一去重规则；范围说明始终在场。
+  const boundaryPatternScope = patternPresentation
+    ? (firstBoundaryLine(plainUserText(patternPresentation.scope_statement)) ? plainUserText(patternPresentation.scope_statement) : null)
+    : null;
+  const boundaryPatternLimitations = patternPresentation
+    ? (patternPresentation.limitations || []).map(plainUserText).filter(firstBoundaryLine)
     : [];
 
   return (
@@ -454,6 +491,63 @@ export function BaziProfilePage() {
             </section>
           )}
 
+          {/* TJ-012.3 Stage B：格局局部研究是命盘结构分析内的一小节，
+              与强度节同一版式、不是独立大卡。只转写后端
+              pattern_presentation，前端不计算任何命理；无该键的旧信封、
+              或未知状态一律不渲染本节。范围说明始终在场，以免误认
+              为全盘格局判断。 */}
+          {patternPresentation && patternPresentation.status === "presented" && patternPresentation.outcome === "true_pattern" && (
+            <section className="bazi-strength-presentation" aria-label="命盘结构分析·格局局部研究">
+              <span className="eyebrow">命盘结构 · 任氏寅月局部真格研究结果</span>
+              <h4>任氏寅月局部真格研究结果</h4>
+              <p>日主{patternPresentation.day_master}生于寅月，{patternPresentation.statement}</p>
+              <p>格名：{patternPresentation.pattern}</p>
+              <p>司令{patternPresentation.commander?.stem}（{patternPresentation.commander?.ten_god}）透于{(patternPresentation.commander?.visible_pillars || []).map((p: string) => patternPillarLabels[p] || p).join("、")}。</p>
+              <p>该结论只覆盖这一个已审局部事实，不覆盖全盘格局。</p>
+              <p className="bazi-strength-scope">{plainUserText(patternPresentation.scope_statement)}</p>
+              {patternPresentation.limitations.map((l: string, i: number) => (
+                <p key={`pl-${i}`} className="bazi-strength-scope">{plainUserText(l)}</p>
+              ))}
+            </section>
+          )}
+
+          {patternPresentation && patternPresentation.status === "presented" && patternPresentation.outcome === "commander_not_visible" && (
+            <section className="bazi-strength-presentation" aria-label="命盘结构分析·格局局部研究">
+              <span className="eyebrow">命盘结构 · 任氏寅月局部真格研究结果</span>
+              <h4>任氏寅月局部真格研究结果</h4>
+              <p>日主{patternPresentation.day_master}生于寅月，{patternPresentation.statement}</p>
+              <p>该结论只覆盖这一个已审局部事实，不覆盖全盘格局。</p>
+              <p className="bazi-strength-scope">{plainUserText(patternPresentation.scope_statement)}</p>
+              {patternPresentation.limitations.map((l: string, i: number) => (
+                <p key={`pl-${i}`} className="bazi-strength-scope">{plainUserText(l)}</p>
+              ))}
+            </section>
+          )}
+
+          {patternPresentation && patternPresentation.status === "not_judgeable" && (
+            <section className="bazi-strength-presentation" aria-label="命盘结构分析·格局局部研究·暂不可判">
+              <span className="eyebrow">命盘结构 · 任氏寅月局部真格研究结果</span>
+              <h4>任氏寅月局部真格研究结果</h4>
+              <p className="bazi-strength-not-judgeable">{patternReasonLabels[patternPresentation.reason] || "本盘暂不可判"}；暂不可判，不作任何格局结论。</p>
+              <p className="bazi-strength-scope">{plainUserText(patternPresentation.scope_statement)}</p>
+              {patternPresentation.limitations.map((l: string, i: number) => (
+                <p key={`pl-${i}`} className="bazi-strength-scope">{plainUserText(l)}</p>
+              ))}
+            </section>
+          )}
+
+          {patternPresentation && patternPresentation.status === "abstained" && (
+            <section className="bazi-strength-presentation" aria-label="命盘结构分析·格局局部研究·不作呈现">
+              <span className="eyebrow">命盘结构 · 任氏寅月局部真格研究结果</span>
+              <h4>任氏寅月局部真格研究结果</h4>
+              <p className="bazi-strength-not-judgeable">{patternReasonLabels[patternPresentation.reason] || "本次不作呈现"}；不作任何格局结论。</p>
+              <p className="bazi-strength-scope">{plainUserText(patternPresentation.scope_statement)}</p>
+              {patternPresentation.limitations.map((l: string, i: number) => (
+                <p key={`pl-${i}`} className="bazi-strength-scope">{plainUserText(l)}</p>
+              ))}
+            </section>
+          )}
+
           {strength && (
             <section className="bazi-strength-observations" aria-label="旺衰因素与通根候选">
               {/* 最终收尾：本区从主阅读流改为默认折叠的扩展知识区，
@@ -644,6 +738,15 @@ export function BaziProfilePage() {
             {!strengthPresentation && !strengthLoadError && (
               <p className="bazi-boundary-state">命盘结构：本次结果未附带已审强弱形态事实。</p>
             )}
+            {patternPresentation && patternPresentation.status === "presented" && (
+              <p className="bazi-boundary-state">格局局部研究：已有结论的仅限任氏寅月这一个局部真格事实；其余格局暂不可判。</p>
+            )}
+            {patternPresentation && patternPresentation.status === "not_judgeable" && (
+              <p className="bazi-boundary-state">格局局部研究：暂不可判，不作任何格局结论。</p>
+            )}
+            {patternPresentation && patternPresentation.status === "abstained" && (
+              <p className="bazi-boundary-state">格局局部研究：本次不作呈现，不作任何格局结论。</p>
+            )}
             {boundaryDomainWarnings.map((w: string, i: number) => (
               <p key={`w-${i}`} className="limitation-warning">⚠️ {w}</p>
             ))}
@@ -673,6 +776,14 @@ export function BaziProfilePage() {
                 <p className="limitation-note">ℹ️ {boundaryStrengthScope}</p>
                 {boundaryStrengthLimitations.map((l: string, i: number) => (
                   <p key={`st-${i}`} className="limitation-note">ℹ️ {l}</p>
+                ))}
+              </>
+            )}
+            {patternPresentation && boundaryPatternScope && (
+              <>
+                <p className="limitation-note">ℹ️ {boundaryPatternScope}</p>
+                {boundaryPatternLimitations.map((l: string, i: number) => (
+                  <p key={`pt-${i}`} className="limitation-note">ℹ️ {l}</p>
                 ))}
               </>
             )}
