@@ -294,15 +294,21 @@ def project_execution(data):
         # discipline for the pattern presentation -- only a
         # bazi-profile envelope, only in exactly the adjudicated
         # shape; anything else is stripped below. The research raw
-        # block stays stripped (see the pop below).
+        # block stays stripped (see the pop below). The release is
+        # an allowlist projection, never a verbatim copy: the public
+        # shape carries no internal reference fields (rule_ids /
+        # source_sections / evidence_ids / source_ids), because the
+        # D-1 evidence is not in the public envelope's admitted
+        # evidence -- aliasing it would dangle.
         pattern_candidate = data['result'].get('pattern_presentation')
         if pattern_candidate is not None:
             from .bazi_pattern_public import (
                 is_valid_public_pattern_presentation,
+                to_public_pattern_presentation,
             )
             if is_valid_public_pattern_presentation(pattern_candidate):
-                scoped_pattern_presentation = copy.deepcopy(
-                    pattern_candidate)
+                scoped_pattern_presentation = \
+                    to_public_pattern_presentation(pattern_candidate)
     aliases = _Aliases(data['evidence'])
     result = {key: _public_facts(value, aliases)
               for key, value in data.items()

@@ -354,14 +354,8 @@ class BuilderPositiveTests(unittest.TestCase):
             'month_branch': '寅',
             'commander': {'stem': '戊', 'ten_god': '正财',
                           'visible_pillars': ['hour']},
-            'rule_ids': ['renshi.zhenge_definition',
-                         'renshi.siling_true_false_procedure'],
-            'source_sections': ['bazi.section.s053',
-                                'bazi.section.s054'],
             'school': '任氏分支',
             'scope_month_branch': '寅',
-            'evidence_ids': ['d1e1', 'd1e2', 'd1e3'],
-            'source_ids': [PERMITTED_SOURCE],
             'scope_statement': out['scope_statement'],
             'limitations': out['limitations'],
         })
@@ -369,6 +363,22 @@ class BuilderPositiveTests(unittest.TestCase):
         self.assertEqual(
             set(_all_keys(out)) & FORBIDDEN_KEYS, set(),
             'a presented object carries no verdict-shaped key')
+        # The public shape carries no internal reference fields:
+        # the D-1 evidence is not in the public envelope's admitted
+        # evidence, so no rule/evidence/source id may be named here
+        # at all -- aliasing would dangle. The binding stays
+        # server-side (builder validation against the research
+        # envelope); the public object names no identifier that
+        # could point at it.
+        for key in ('rule_ids', 'source_sections', 'evidence_ids',
+                    'source_ids'):
+            self.assertNotIn(key, out)
+        dumped = json.dumps(out, ensure_ascii=False)
+        self.assertNotIn('renshi.', dumped)
+        self.assertNotIn('bazi.source.', dumped)
+        self.assertNotIn('bazi.section.', dumped)
+        for evidence_id in ('d1e1', 'd1e2', 'd1e3'):
+            self.assertNotIn(evidence_id, dumped)
         # The scope/limitations text names 假格 only as a forbidden
         # output; the conclusion itself never states it.
         self.assertNotIn('假格', out['statement'])
@@ -382,7 +392,9 @@ class BuilderPositiveTests(unittest.TestCase):
                     'adjudication_notes', 'scope_limits',
                     'determination', 'fact_refs', 'consumed_rule_ids',
                     'evidence_binding', 'research_only',
-                    'public_enabled', 'ai_enabled'):
+                    'public_enabled', 'ai_enabled',
+                    'rule_ids', 'source_sections', 'evidence_ids',
+                    'source_ids'):
             self.assertNotIn(key, out)
 
 
@@ -616,13 +628,34 @@ class WhitelistTests(unittest.TestCase):
 
 
 class EvidenceTests(unittest.TestCase):
-    def test_evidence_ids_exist_and_are_permitted(self):
-        # (10) Evidence IDs must actually exist in the execution
-        # evidence and comply with the public boundary (the single
-        # registered classical source of the r037 refs).
+    def test_public_object_carries_no_reference_fields(self):
+        # (10) The public object carries NO reference fields: no
+        # rule_ids / source_sections / evidence_ids / source_ids.
+        # The evidence binding is server-side only -- the builder
+        # still requires the D-1 step's evidence to exist in the
+        # execution evidence and to come from the single permitted
+        # source (see the fail-closed tests below), but the public
+        # object names no identifier that could point at it: the
+        # D-1 evidence is not in the public envelope's admitted
+        # evidence, so an alias would be unbound.
         out = _present(T1)
-        self.assertEqual(out['evidence_ids'], ['d1e1', 'd1e2', 'd1e3'])
-        self.assertEqual(out['source_ids'], [PERMITTED_SOURCE])
+        for key in ('rule_ids', 'source_sections', 'evidence_ids',
+                    'source_ids'):
+            self.assertNotIn(key, out)
+        dumped = json.dumps(out, ensure_ascii=False)
+        self.assertNotIn('renshi.', dumped)
+        self.assertNotIn('bazi.source.', dumped)
+        self.assertNotIn('bazi.section.', dumped)
+        for evidence_id in ('d1e1', 'd1e2', 'd1e3'):
+            self.assertNotIn(evidence_id, dumped)
+        # The allowlist projection of a valid object is the object
+        # itself, key for key, and a fresh dict (never the input).
+        from tianji_kb.bazi_pattern_public import (
+            to_public_pattern_presentation,
+        )
+        projected = to_public_pattern_presentation(out)
+        self.assertEqual(projected, out)
+        self.assertIsNot(projected, out)
 
     def test_missing_evidence_fails_closed(self):
         _, execution, record, pillars = _build_case(
@@ -663,6 +696,157 @@ class EvidenceTests(unittest.TestCase):
             '正官格'
         with self.assertRaises(ValueError):
             public_pattern_presentation(record, execution, pillars)
+
+
+def _sibling_strength_presentation():
+    """Validator-valid strength fixture (not_judgeable form), built
+    from the strength module's own pinned constants. A projection
+    fixture, not a builder output: the projection's admission
+    contract is its validator, and the test asserts validity with
+    the real validator before projecting.
+    """
+    from tianji_kb.bazi_strength_public import (
+        LIMITATIONS as STRENGTH_LIMITATIONS,
+        SCOPE_STATEMENT as STRENGTH_SCOPE,
+        VARIANT as STRENGTH_VARIANT,
+    )
+    return {
+        'variant': STRENGTH_VARIANT,
+        'status': 'not_judgeable',
+        'day_master': '乙', 'month_branch': '寅',
+        'scope_statement': STRENGTH_SCOPE,
+        'limitations': list(STRENGTH_LIMITATIONS),
+        'reason': 'no_predicate_matched',
+    }
+
+
+def _sibling_xiyong_presentation():
+    """Validator-valid xiyong fixture, built from the xiyong
+    module's own pinned constants (projection fixture, not a
+    builder output; the lines are labelled fixture rows, not
+    classical quotes)."""
+    from tianji_kb.bazi_xiyong_public import (
+        BINGYAO_SOURCE_ID,
+        LIMITATIONS as XIYONG_LIMITATIONS,
+        NO_UNIFIED_VERDICT_LINE,
+        PAIR_IDS,
+        PRESENTATION_SCOPE,
+        SCOPE_STATEMENT as XIYONG_SCOPE,
+        TIAOHOU_SOURCE_ID,
+        VARIANT as XIYONG_VARIANT,
+    )
+    return {
+        'variant': XIYONG_VARIANT,
+        'presentation_scope': PRESENTATION_SCOPE,
+        'day_master': '甲', 'month_branch': '卯',
+        'blocks': {
+            'tiaohou': {
+                'system': 'tiaohou', 'source_label': '《穷通宝鉴》',
+                'state': 'presented',
+                'lines': ['调候体系呈现（合成夹具行，非引文）。'],
+                'evidence': {'source_id': TIAOHOU_SOURCE_ID}},
+            'bingyao': {
+                'system': 'bingyao', 'source_label': '《神峰通考》',
+                'lines': ['病药体系呈现（合成夹具行，非引文）。'],
+                'evidence': {'source_id': BINGYAO_SOURCE_ID},
+                'pairs': [{'pair_id': pair_id, 'determination': None,
+                           'medicine_effect_status': 'unadjudicated',
+                           'efficacy_state': 'not_judgeable'}
+                          for pair_id in PAIR_IDS]},
+        },
+        'relations': [],
+        'relations_closing_line': NO_UNIFIED_VERDICT_LINE,
+        'unified_verdict': None,
+        'public_enabled': True, 'ai_enabled': False,
+        'scope_statement': XIYONG_SCOPE,
+        'limitations': list(XIYONG_LIMITATIONS),
+    }
+
+
+def _sibling_dayun_presentation():
+    """Validator-valid dayun fixture (unresolved form), built from
+    the dayun modules' own pinned constants and the registered
+    classical direction (projection fixture, not a builder output).
+    The counted jie is the G1 Golden case's real counted jie; the
+    direction rule quote is the registered quote returned by
+    ``classical_direction`` itself.
+    """
+    from tianji_kb.bazi_dayun_classical import (
+        CONVERSION_VARIANT,
+        SANMING_SOURCE_ID,
+        SHENFENG_CONVERSION_VARIANT,
+        SHENFENG_SOURCE_ID,
+        classical_direction,
+    )
+    from tianji_kb.bazi_dayun_public import (
+        EXPECTED_CHAIN,
+        LIMITATIONS as DAYUN_LIMITATIONS,
+        ROLE_SELECTION,
+        RULES,
+        SCOPE,
+        SEQUENCE_DISCLOSURE,
+        VALIDATION_RECORD,
+        VARIANT as DAYUN_VARIANT,
+    )
+    direction = classical_direction('戊戌', traditional_role='male')
+    view_direction = {
+        'value': direction['direction'], 'label': '顺行',
+        'counting_target': direction['counting_target'],
+        'counted_jie': {'at': '1958-09-08T11:58:49+08:00',
+                        'name': '白露'},
+        'rule_quote': direction['rule_quote'],
+    }
+    reason = 'zero_jie_distance'
+
+    def method(name, variant, source_id):
+        return {
+            'method': name, 'status': 'unresolved', 'reason': reason,
+            'natal': {'pillars': {
+                'year': '戊戌', 'month': '庚申', 'day': '甲子',
+                'hour': '甲戌', 'day_master': '甲'}},
+            'direction': view_direction,
+            'duration': {'status': 'unresolved', 'variant': variant,
+                         'reason': reason},
+            'entries': [{
+                'period_index': 1, 'ganzhi': '辛酉', 'stem': '辛',
+                'branch': '酉',
+                'ten_god_relative_to_natal_day_stem': '正官',
+                'state': 'unresolved', 'start_interval': None,
+                'start_interval_status': 'unresolved: zero_jie'}],
+            'notices': [{
+                'code': 'methods_presented_separately',
+                'text': ('三命时级与神峰日级是两种独立口径，本视图一次呈现一种，'
+                         '所选口径见 method 字段；两口径永不合并、不取平均。')}],
+            'sources': [{'method': name, 'role': 'direction_rule',
+                         'variant': variant, 'source_id': source_id,
+                         'quotes': [direction['rule_quote']]}],
+        }
+
+    return {
+        'variant': DAYUN_VARIANT, 'status': 'unresolved',
+        'role': {'traditional_role': 'male',
+                 'selection': ROLE_SELECTION},
+        'methods': {
+            'sanming': method('sanming', CONVERSION_VARIANT,
+                              SANMING_SOURCE_ID),
+            'shenfeng': method('shenfeng', SHENFENG_CONVERSION_VARIANT,
+                               SHENFENG_SOURCE_ID),
+        },
+        'method_options': [
+            {'id': 'sanming', 'label': '三命时级',
+             'variant': CONVERSION_VARIANT,
+             'source_id': SANMING_SOURCE_ID, 'selectable': True},
+            {'id': 'shenfeng', 'label': '神峰日级',
+             'variant': SHENFENG_CONVERSION_VARIANT,
+             'source_id': SHENFENG_SOURCE_ID, 'selectable': True},
+        ],
+        'evidence': {
+            'composition_chain': list(EXPECTED_CHAIN),
+            'rules': [dict(rule) for rule in RULES],
+            'sequence_disclosure': dict(SEQUENCE_DISCLOSURE),
+            'validation': dict(VALIDATION_RECORD)},
+        'scope': list(SCOPE), 'limitations': list(DAYUN_LIMITATIONS),
+    }
 
 
 class ProjectionTests(unittest.TestCase):
@@ -734,6 +918,131 @@ class ProjectionTests(unittest.TestCase):
         self.assertNotIn('ren_yin_true_pattern', dumped)
         self.assertNotIn('ren-pattern-yin-true-v1', dumped)
         self.assertNotIn('siling-yin-pilot', dumped)
+        # The public shape carries no internal reference fields:
+        # no renshi rule id and no D-1 evidence id anywhere.
+        self.assertNotIn('renshi.', dumped)
+        for evidence_id in ('d1e1', 'd1e2', 'd1e3'):
+            self.assertNotIn(evidence_id, dumped)
+
+    def test_forged_reference_fields_are_stripped(self):
+        # A forged candidate carrying any of the four internal
+        # reference fields (here with a forged evidence id) is
+        # rejected by the closed-shape validator AND stripped by
+        # the projection: no pattern_presentation reaches the
+        # public response.
+        from tianji_kb.bazi_pattern_public import (
+            to_public_pattern_presentation,
+        )
+        out = _present(T1)
+        forged = copy.deepcopy(out)
+        forged['rule_ids'] = ['renshi.zhenge_definition',
+                              'renshi.siling_true_false_procedure']
+        forged['source_sections'] = ['bazi.section.s053',
+                                     'bazi.section.s054']
+        forged['evidence_ids'] = ['forged-evidence-1']
+        forged['source_ids'] = [PERMITTED_SOURCE]
+        self.assertFalse(is_valid_public_pattern_presentation(forged))
+        with self.assertRaises(ValueError):
+            to_public_pattern_presentation(forged)
+        projected = project_execution(
+            self._envelope('bazi-profile', forged))
+        self.assertNotIn('pattern_presentation', projected['result'])
+        dumped = json.dumps(projected, ensure_ascii=False)
+        self.assertNotIn('forged-evidence-1', dumped)
+        self.assertNotIn('renshi.', dumped)
+
+    def test_projected_evidence_aliases_resolve_in_same_envelope(self):
+        # KEY resolvability assertion (public part): the pattern
+        # object carries no reference fields, and every E-alias
+        # referenced in the projected rule_matches resolves to a
+        # key in the projected evidence map -- real public evidence
+        # in the SAME envelope. (D-1 evidence is not in that map,
+        # which is why the pattern object names no evidence at all.)
+        out = _present(T1)
+        envelope = {
+            'scenario_id': 'bazi-profile',
+            'result': {'pillars': [], 'pattern_presentation': out},
+            'chart': {},
+            'evidence': {
+                'ev-public-1': {
+                    'classic_title': '公开证据一',
+                    'original_text': '公开证据原文一',
+                    'evidence_level': 'C'},
+                'ev-public-2': {
+                    'classic_title': '公开证据二',
+                    'original_text': '公开证据原文二',
+                    'evidence_level': 'C'},
+            },
+            'rule_matches': [
+                {'rule_id': 'bazi.phase2.pillars', 'matched': True,
+                 'kind': 'executed_calculation',
+                 'evidence_scope': 'registered',
+                 'evidence_ids': ['ev-public-1']},
+                {'rule_id': 'bazi.phase2.ten_gods', 'matched': True,
+                 'kind': 'executed_calculation',
+                 'evidence_scope': 'registered',
+                 'evidence_ids': ['ev-public-2']},
+            ],
+            'trace': [{}, {}],
+        }
+        projected = project_execution(copy.deepcopy(envelope))
+        presentation = projected['result']['pattern_presentation']
+        for key in ('rule_ids', 'source_sections', 'evidence_ids',
+                    'source_ids'):
+            self.assertNotIn(key, presentation)
+        evidence_keys = set(projected['evidence'])
+        self.assertEqual(evidence_keys, {'E01', 'E02'})
+        for row in projected['rule_matches']:
+            for alias in row.get('evidence_ids', []):
+                self.assertIn(alias, evidence_keys,
+                              'unbound evidence alias in rule_matches')
+        dumped = json.dumps(projected, ensure_ascii=False)
+        self.assertNotIn('renshi.', dumped)
+        self.assertNotIn('ev-public-1', dumped)
+        self.assertNotIn('ev-public-2', dumped)
+
+    def test_other_presentations_pass_through_unchanged(self):
+        # The other three scoped releases are untouched by this
+        # fix: valid xiyong / dayun / strength presentations
+        # projected alongside the pattern candidate come back
+        # exactly equal to their pre-projection validated objects.
+        from tianji_kb.bazi_dayun_public import (
+            is_valid_public_dayun_presentation,
+        )
+        from tianji_kb.bazi_strength_public import (
+            is_valid_public_strength_presentation,
+        )
+        from tianji_kb.bazi_xiyong_public import (
+            is_valid_public_presentation,
+        )
+        pattern = _present(T1)
+        xiyong = _sibling_xiyong_presentation()
+        dayun = _sibling_dayun_presentation()
+        strength = _sibling_strength_presentation()
+        self.assertTrue(is_valid_public_presentation(xiyong))
+        self.assertTrue(is_valid_public_dayun_presentation(dayun))
+        self.assertTrue(
+            is_valid_public_strength_presentation(strength))
+        self.assertTrue(is_valid_public_pattern_presentation(pattern))
+        envelope = {
+            'scenario_id': 'bazi-profile',
+            'result': {'pillars': [],
+                       'xiyong_presentation': xiyong,
+                       'dayun_presentation': dayun,
+                       'strength_presentation': strength,
+                       'pattern_presentation': pattern},
+            'chart': {},
+            'evidence': {}, 'rule_matches': [], 'trace': [],
+        }
+        projected = project_execution(copy.deepcopy(envelope))
+        self.assertEqual(projected['result']['xiyong_presentation'],
+                         xiyong)
+        self.assertEqual(projected['result']['dayun_presentation'],
+                         dayun)
+        self.assertEqual(projected['result']['strength_presentation'],
+                         strength)
+        self.assertEqual(projected['result']['pattern_presentation'],
+                         pattern)
 
 
 class OptInTests(unittest.TestCase):

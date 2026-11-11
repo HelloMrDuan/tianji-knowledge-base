@@ -152,15 +152,15 @@ class RealProfileGateTests(unittest.TestCase):
                     self.assertEqual(
                         presentation['commander']['visible_pillars'],
                         visible)
-                    self.assertEqual(
-                        presentation['evidence_ids'],
-                        sorted(presentation['evidence_ids']))
-                    self.assertEqual(presentation['source_ids'],
-                                     ['bazi.source.ditiansui-spouse'])
-                    self.assertEqual(
-                        presentation['rule_ids'],
-                        ['renshi.zhenge_definition',
-                         'renshi.siling_true_false_procedure'])
+                    # The public shape carries no internal reference
+                    # fields: no rule/evidence/source ids are named
+                    # on any presented case. The binding stays
+                    # server-side (the builder still requires the
+                    # D-1 step's evidence to bind the permitted
+                    # source; see the public fail-closed tests).
+                    for key in ('rule_ids', 'source_sections',
+                                'evidence_ids', 'source_ids'):
+                        self.assertNotIn(key, presentation)
                 elif status == 'not_judgeable':
                     self.assertEqual(presentation['reason'], second)
                     self.assertNotIn('pattern', presentation)
@@ -216,6 +216,26 @@ class ProductionLeakTests(unittest.TestCase):
         self.assertNotIn('siling-yin-pilot', dumped)
         self.assertNotIn('pattern_determination_ren_yin',
                          projected['result'])
+        # The public shape carries no internal reference fields:
+        # no renshi rule id and no real D-1 evidence id anywhere
+        # in the projected envelope (ids taken from the gate's own
+        # D-1 trace step, not hardcoded).
+        self.assertNotIn('renshi.', dumped)
+        record = ren_yin_research_execution(
+            case['source_birth']['value'], ZONE)
+        d1_step = next(
+            step for step in record['envelope']['trace']
+            if step['rule_id'] == 'bazi.phase2.ren_yin_true_pattern')
+        for evidence_id in d1_step['evidence_ids']:
+            self.assertNotIn(evidence_id, dumped)
+        # Every E-alias referenced in the projected rule_matches
+        # resolves to a key in the projected evidence map -- real
+        # public evidence in the SAME envelope.
+        evidence_keys = set(projected['evidence'])
+        for row in projected['rule_matches']:
+            for alias in row.get('evidence_ids', []):
+                self.assertIn(alias, evidence_keys,
+                              'unbound evidence alias in rule_matches')
         # The D5 name never reaches a public response.
         a2 = next(c for c in REN_GOLDEN['cases']
                   if c['id'] == 'a2-wu-daymaster-pos')

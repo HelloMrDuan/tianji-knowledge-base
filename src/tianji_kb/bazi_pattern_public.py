@@ -47,7 +47,21 @@ envelope: trace steps, rule matches, evidence records) and the live
 pilot the gate itself used. Any forged, drifted or incompletely
 bound input fails closed with ``ValueError``; the scenario layer
 turns that into a failed request rather than a partial presentation.
+
+The public shape carries NO internal reference fields (no
+``rule_ids`` / ``source_sections`` / ``evidence_ids`` /
+``source_ids``). That binding is server-side audit only: the
+builder still consumes the real D-1 trace, RuleMatch, and Evidence
+from the research envelope and still fails closed when they do not
+bind to the permitted source, but the public object must not name
+them -- the D-1 evidence is NOT in the public envelope's admitted
+evidence map, so an E-alias would be unbound and an R-alias would
+dangle (no R-registry exists in the public response; D-1 rules are
+absent from the public ``rule_matches``). The projection enforces
+the same boundary with the allowlist ``to_public_pattern_presentation``.
 """
+
+import copy
 
 from .bazi_pattern import (
     EXPOSABLE_PILLARS,
@@ -112,9 +126,8 @@ _COMMON_KEYS = frozenset((
     "variant", "title", "status", "day_master", "month_branch",
     "scope_statement", "limitations"))
 _PRESENTED_KEYS = _COMMON_KEYS | frozenset((
-    "outcome", "statement", "pattern", "commander", "rule_ids",
-    "source_sections", "school", "scope_month_branch",
-    "evidence_ids", "source_ids"))
+    "outcome", "statement", "pattern", "commander",
+    "school", "scope_month_branch"))
 _NOT_JUDGEABLE_KEYS = _COMMON_KEYS | frozenset(("reason",))
 _ABSTAINED_KEYS = _COMMON_KEYS | frozenset(("reason", "decision_step"))
 
@@ -458,13 +471,8 @@ def public_pattern_presentation(record, execution, pillars):
             "ten_god": ten_god,
             "visible_pillars": [],
         }
-        result["rule_ids"] = [DEFINITION_RULE_ID, PROCEDURE_RULE_ID]
-        result["source_sections"] = [DEFINITION_SECTION_ID,
-                                     PROCEDURE_SECTION_ID]
         result["school"] = SCHOOL
         result["scope_month_branch"] = SCOPE_MONTH_BRANCH
-        result["evidence_ids"] = sorted(step_evidence)
-        result["source_ids"] = source_ids
         return result
     if true_false != "true":
         _fail("determination true_false outside the reviewed states")
@@ -491,13 +499,8 @@ def public_pattern_presentation(record, execution, pillars):
         "ten_god": ten_god,
         "visible_pillars": list(visible),
     }
-    result["rule_ids"] = [DEFINITION_RULE_ID, PROCEDURE_RULE_ID]
-    result["source_sections"] = [DEFINITION_SECTION_ID,
-                                 PROCEDURE_SECTION_ID]
     result["school"] = SCHOOL
     result["scope_month_branch"] = SCOPE_MONTH_BRANCH
-    result["evidence_ids"] = sorted(step_evidence)
-    result["source_ids"] = source_ids
     return result
 
 
@@ -507,9 +510,17 @@ def is_valid_public_pattern_presentation(obj):
     Mirrors the strength validator: exact top-level key set per
     status (and per outcome for presented), verbatim variant/title/
     scope/limitations, the eight-name whitelist, the reason enums,
-    and the commander/rule/source consistency that can be checked
-    without the execution record. Anything else is stripped by the
-    projection.
+    and the commander consistency that can be checked without the
+    execution record. Anything else is stripped by the projection.
+
+    The public shape carries NO internal reference fields: no
+    ``rule_ids`` / ``source_sections`` / ``evidence_ids`` /
+    ``source_ids``. The exact key-set check above forbids them -- a
+    candidate carrying any of them is invalid. The rule/evidence
+    binding is validated server-side only, by the builder against
+    the research envelope; the D-1 evidence is not in the public
+    envelope's admitted evidence, so no alias for it can resolve
+    there, and aliasing it would fabricate resolvability.
     """
     if not isinstance(obj, dict):
         return False
@@ -574,24 +585,9 @@ def is_valid_public_pattern_presentation(obj):
                 return False
         else:
             return False
-        if obj.get("rule_ids") != [DEFINITION_RULE_ID,
-                                   PROCEDURE_RULE_ID]:
-            return False
-        if obj.get("source_sections") != [DEFINITION_SECTION_ID,
-                                          PROCEDURE_SECTION_ID]:
-            return False
         if obj.get("school") != SCHOOL:
             return False
         if obj.get("scope_month_branch") != SCOPE_MONTH_BRANCH:
-            return False
-        if not isinstance(obj.get("evidence_ids"), list) \
-                or not obj["evidence_ids"] \
-                or not all(isinstance(e, str) for e in obj["evidence_ids"]):
-            return False
-        if not isinstance(obj.get("source_ids"), list) \
-                or not obj["source_ids"] \
-                or not all(s in PERMITTED_SOURCE_IDS
-                           for s in obj["source_ids"]):
             return False
     elif status == "not_judgeable":
         if obj.get("reason") not in NOT_JUDGEABLE_REASONS:
@@ -606,3 +602,27 @@ def is_valid_public_pattern_presentation(obj):
         if "pattern" in obj or "commander" in obj:
             return False
     return True
+
+
+def to_public_pattern_presentation(candidate):
+    """Allowlist projection of a validated presentation candidate.
+
+    Returns a fresh dict containing ONLY the keys the candidate's
+    status allows (per ``_PRESENTED_KEYS`` / ``_NOT_JUDGEABLE_KEYS`` /
+    ``_ABSTAINED_KEYS``), built key by key -- never a verbatim copy.
+    A candidate that fails the closed-shape validator (including one
+    carrying any internal reference field -- ``rule_ids`` /
+    ``source_sections`` / ``evidence_ids`` / ``source_ids``) raises
+    ``ValueError``; the projection layer treats that as "strip the
+    key", never as a partial release.
+    """
+    if not is_valid_public_pattern_presentation(candidate):
+        _fail("candidate is not a valid public pattern presentation")
+    status = candidate["status"]
+    if status == "presented":
+        keys = _PRESENTED_KEYS
+    elif status == "not_judgeable":
+        keys = _NOT_JUDGEABLE_KEYS
+    else:
+        keys = _ABSTAINED_KEYS
+    return {key: copy.deepcopy(candidate[key]) for key in sorted(keys)}

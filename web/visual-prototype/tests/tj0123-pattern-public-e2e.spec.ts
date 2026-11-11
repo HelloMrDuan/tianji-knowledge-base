@@ -176,6 +176,78 @@ test.describe("TJ-012.3 pattern_presentation real-backend E2E (24c15350)", () =>
     for (const forbidden of FORBIDDEN_STRINGS) {
       expect(joined).not.toContain(forbidden);
     }
+    // Public-identifier boundary (independent-review remediation):
+    // the public shape carries no internal reference fields, and no
+    // renshi rule id or raw D-1 evidence hash appears anywhere in
+    // the API response. The D-1 evidence hashes lived only inside
+    // pattern_presentation.evidence_ids, so the 64-hex check is
+    // scoped to that object; renshi. is checked response-wide.
+    expect(joined).not.toContain("renshi.");
+    const parsed = JSON.parse(apiBodies[apiBodies.length - 1]) as {
+      result?: { pattern_presentation?: Record<string, unknown> };
+    };
+    const presentation = parsed.result?.pattern_presentation;
+    expect(presentation).toBeDefined();
+    for (const key of ["rule_ids", "source_sections", "evidence_ids", "source_ids"]) {
+      expect(presentation).not.toHaveProperty(key);
+    }
+    expect(JSON.stringify(presentation)).not.toMatch(/[0-9a-f]{64}/);
+  });
+
+  test("(8) public evidence references resolve in the same envelope", async ({ page }) => {
+    // Every evidence reference in the public presentation must both
+    // follow the public identifier rules AND correspond to real
+    // public evidence: pattern_presentation carries no reference
+    // fields, and every E-alias referenced in the response's
+    // rule_matches resolves to a key in the response's evidence
+    // map (same envelope). D-1 evidence is not in that map, which
+    // is why the pattern object names no evidence at all.
+    let apiBody = "";
+    page.on("response", async (response) => {
+      if (
+        response.url().includes("/api/v1/scenarios/public") &&
+        response.request().method() === "POST"
+      ) {
+        try {
+          apiBody = await response.text();
+        } catch {
+          /* response already consumed; ignore */
+        }
+      }
+    });
+    await submitBirth(page, "2024-02-11", "04:00");
+    expect(apiBody).toContain('"pattern_presentation"');
+    const parsed = JSON.parse(apiBody) as {
+      result?: { pattern_presentation?: Record<string, unknown> };
+      evidence?: Record<string, unknown>;
+      rule_matches?: Array<{ evidence_ids?: unknown }>;
+    };
+    const presentation = parsed.result?.pattern_presentation;
+    expect(presentation).toBeDefined();
+    for (const key of ["rule_ids", "source_sections", "evidence_ids", "source_ids"]) {
+      expect(presentation).not.toHaveProperty(key);
+    }
+    expect(JSON.stringify(presentation)).not.toMatch(/[0-9a-f]{64}/);
+    expect(apiBody).not.toContain("renshi.");
+    const evidenceKeys = new Set(Object.keys(parsed.evidence ?? {}));
+    expect(evidenceKeys.size).toBeGreaterThan(0);
+    const rows = parsed.rule_matches ?? [];
+    expect(rows.length).toBeGreaterThan(0);
+    let checkedAliases = 0;
+    for (const row of rows) {
+      const aliases = row.evidence_ids;
+      if (aliases === undefined) {
+        continue;
+      }
+      expect(Array.isArray(aliases)).toBe(true);
+      for (const alias of aliases as unknown[]) {
+        expect(typeof alias).toBe("string");
+        expect(alias as string).toMatch(/^E\d+$/);
+        expect(evidenceKeys.has(alias as string)).toBe(true);
+        checkedAliases += 1;
+      }
+    }
+    expect(checkedAliases).toBeGreaterThan(0);
   });
 
   test("(7a) desktop 1280px — no abnormal horizontal overflow", async ({ page }) => {
