@@ -58,6 +58,14 @@ LINK_GOLDEN = json.loads(
     (ROOT / 'tests/golden_tj012_d1_yin_research_link.json').read_text('utf-8'))
 ZONE = 'Asia/Shanghai'
 PERMITTED_SOURCE = 'bazi.source.ditiansui-spouse'
+# The three real D-1 evidence ids from the pre-fix leak (24-hex
+# each). Canonical examples for the real-format negative cases
+# below: a leak check that only matches 64-hex can never see them.
+REAL_D1_EVIDENCE_IDS = (
+    '0be25913fc33877ef6785063',
+    'bbff4fab36d936c000cd0603',
+    'd67f8ceb3924cb5ad859a2e9',
+)
 FORBIDDEN_KEYS = {
     'score', 'scores', 'rating', 'weight', 'weights', 'useful_god',
     'favorable', 'favourable', 'recommended', 'recommendation',
@@ -950,6 +958,43 @@ class ProjectionTests(unittest.TestCase):
         dumped = json.dumps(projected, ensure_ascii=False)
         self.assertNotIn('forged-evidence-1', dumped)
         self.assertNotIn('renshi.', dumped)
+
+    def test_forged_real_format_d1_evidence_ids_are_stripped(self):
+        # Real-format negative case: a forged candidate carrying the
+        # actual 24-hex D-1 evidence ids (the three ids from the
+        # pre-fix leak) and raw renshi.* rule ids is rejected by the
+        # closed-shape validator AND stripped by the projection: no
+        # pattern_presentation reaches the public response, and no
+        # real id or renshi. string survives anywhere in the
+        # projected JSON. The pre-remediation 64-hex-only leak check
+        # could never have matched these ids; this test pins the
+        # real format at the production-code level (validator +
+        # projection), while the Playwright spec's test (6b) pins
+        # the same format at the leak-regex level.
+        from tianji_kb.bazi_pattern_public import (
+            to_public_pattern_presentation,
+        )
+        for evidence_id in REAL_D1_EVIDENCE_IDS:
+            self.assertRegex(evidence_id, r'^[0-9a-f]{24}$')
+        out = _present(T1)
+        forged = copy.deepcopy(out)
+        forged['rule_ids'] = ['renshi.zhenge_definition',
+                              'renshi.siling_true_false_procedure']
+        forged['source_sections'] = ['bazi.section.s053',
+                                     'bazi.section.s054']
+        forged['evidence_ids'] = list(REAL_D1_EVIDENCE_IDS)
+        forged['source_ids'] = [PERMITTED_SOURCE]
+        self.assertFalse(is_valid_public_pattern_presentation(forged))
+        with self.assertRaises(ValueError):
+            to_public_pattern_presentation(forged)
+        projected = project_execution(
+            self._envelope('bazi-profile', forged))
+        self.assertNotIn('pattern_presentation', projected['result'])
+        dumped = json.dumps(projected, ensure_ascii=False)
+        for evidence_id in REAL_D1_EVIDENCE_IDS:
+            self.assertNotIn(evidence_id, dumped)
+        self.assertNotIn('renshi.', dumped)
+        self.assertNotIn('bazi.section.', dumped)
 
     def test_projected_evidence_aliases_resolve_in_same_envelope(self):
         # KEY resolvability assertion (public part): the pattern

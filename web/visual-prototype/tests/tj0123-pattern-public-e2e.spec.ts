@@ -9,9 +9,9 @@
  * forwards /api there). No route stubs, no mocks, no fixture responses:
  * every assertion below reads the live page rendered from the live API.
  * Backend under test: tj0123-pattern-public-presentation @
- * 24c15350c8e6963cc38d9354452c368433fa88ac (E0387, Gap A), assembled on the
- * trusted machine and served on :8001, forwarded locally via
- * `ssh -L 8000:127.0.0.1:8001 instabox-machine`.
+ * c800e44cb753a236cf76905094496d5c730f0131 (PR #560 merge, E0387),
+ * assembled on the trusted machine and served on :8001, forwarded
+ * locally via `ssh -L 8000:127.0.0.1:8001 instabox-machine`.
  *
  * Run locally with:
  *   npm test -- tests/tj0123-pattern-public-e2e.spec.ts
@@ -35,6 +35,15 @@ const FORBIDDEN_STRINGS = [
 // The pattern section lives inside 命盘结构分析. Presented outcomes share
 // one aria-label; not_judgeable / abstained carry a suffixed label.
 const PATTERN_SECTION = 'section[aria-label^="命盘结构分析·格局局部研究"]';
+
+// Leak check for internal identifiers inside pattern_presentation.
+// The real D-1 evidence ids are 24-hex (the three ids seen in the
+// pre-fix leak); a 64-hex-only check can never match them, so both
+// formats are checked. The 24-hex alternative is bounded on both
+// sides, so it matches exactly-24-hex tokens, not a slice of a longer
+// hash (a 64-hex hash is caught by the first alternative instead).
+const LEAK_HEX =
+  /(?:[0-9a-f]{64}|(?<![0-9a-f])[0-9a-f]{24}(?![0-9a-f]))/;
 
 async function submitBirth(page: Page, date: string, time: string) {
   // The form uses separate 年/月/日/时/分 dropdowns (no date/time
@@ -62,7 +71,7 @@ async function submitBirth(page: Page, date: string, time: string) {
   return section;
 }
 
-test.describe("TJ-012.3 pattern_presentation real-backend E2E (24c15350)", () => {
+test.describe("TJ-012.3 pattern_presentation real-backend E2E (c800e44c)", () => {
   test.setTimeout(180000);
 
   test("(1) 正财格成立 — presented true_pattern with scope note", async ({ page }) => {
@@ -180,8 +189,11 @@ test.describe("TJ-012.3 pattern_presentation real-backend E2E (24c15350)", () =>
     // the public shape carries no internal reference fields, and no
     // renshi rule id or raw D-1 evidence hash appears anywhere in
     // the API response. The D-1 evidence hashes lived only inside
-    // pattern_presentation.evidence_ids, so the 64-hex check is
-    // scoped to that object; renshi. is checked response-wide.
+    // pattern_presentation.evidence_ids, so the hex check is scoped
+    // to that object; renshi. is checked response-wide. The real
+    // D-1 evidence ids are 24-hex, so LEAK_HEX checks both the
+    // 64-hex and the real 24-hex formats (test (6b) proves the
+    // 24-hex alternative actually fires on the real ids).
     expect(joined).not.toContain("renshi.");
     const parsed = JSON.parse(apiBodies[apiBodies.length - 1]) as {
       result?: { pattern_presentation?: Record<string, unknown> };
@@ -191,7 +203,64 @@ test.describe("TJ-012.3 pattern_presentation real-backend E2E (24c15350)", () =>
     for (const key of ["rule_ids", "source_sections", "evidence_ids", "source_ids"]) {
       expect(presentation).not.toHaveProperty(key);
     }
-    expect(JSON.stringify(presentation)).not.toMatch(/[0-9a-f]{64}/);
+    expect(JSON.stringify(presentation)).not.toMatch(LEAK_HEX);
+  });
+
+  test("(6b) leak check detects real-format 24-hex D-1 evidence ids", async () => {
+    // Mutation-style negative case for the leak check itself: feed
+    // the check a presentation carrying the real 24-hex D-1 evidence
+    // ids (the three ids from the pre-fix leak) and raw renshi.*
+    // rule ids, and assert the check FIRES on it. If the regex
+    // regressed to 64-hex-only, this test fails -- the check would
+    // be vacuous against the real format. Runs without the backend:
+    // the object is constructed here, only the check logic is
+    // exercised. The clean control below guards the other side:
+    // a well-formed presentation must NOT trip the check.
+    const leaking = {
+      variant: "bazi-pattern-public-presentation-v1",
+      status: "presented",
+      outcome: "true_pattern",
+      statement: "司令戊透于时干，真格成立。",
+      pattern: "正财格",
+      rule_ids: [
+        "renshi.zhenge_definition",
+        "renshi.siling_true_false_procedure",
+      ],
+      evidence_ids: [
+        "0be25913fc33877ef6785063",
+        "bbff4fab36d936c000cd0603",
+        "d67f8ceb3924cb5ad859a2e9",
+      ],
+      source_ids: ["bazi.source.ditiansui-spouse"],
+    };
+    const dumped = JSON.stringify(leaking);
+    // The leak IS detected: the same not.toMatch(LEAK_HEX) check
+    // used in (6)/(8) would fail on this object.
+    expect(dumped).toMatch(LEAK_HEX);
+    for (const id of leaking.evidence_ids) {
+      expect(id).toMatch(/^[0-9a-f]{24}$/);
+      expect(dumped).toContain(id);
+    }
+    expect(dumped).toContain("renshi.");
+    // Control: the same shape without the reference fields does
+    // not trip the check (no false positive on real presentation
+    // text, e.g. the variant string).
+    const clean = {
+      variant: "bazi-pattern-public-presentation-v1",
+      title: "任氏寅月局部真格研究结果",
+      status: "presented",
+      outcome: "true_pattern",
+      statement: "司令戊透于时干，真格成立。",
+      pattern: "正财格",
+      day_master: "乙",
+      month_branch: "寅",
+      commander: { stem: "戊", ten_god: "正财", visible_pillars: ["hour"] },
+      school: "任氏分支",
+      scope_month_branch: "寅",
+      scope_statement: "仅陈述任氏分支寅月局部真格研究结果，不是全盘格局判断。",
+      limitations: ["未呈现不等于假格。"],
+    };
+    expect(JSON.stringify(clean)).not.toMatch(LEAK_HEX);
   });
 
   test("(8) public evidence references resolve in the same envelope", async ({ page }) => {
@@ -227,7 +296,7 @@ test.describe("TJ-012.3 pattern_presentation real-backend E2E (24c15350)", () =>
     for (const key of ["rule_ids", "source_sections", "evidence_ids", "source_ids"]) {
       expect(presentation).not.toHaveProperty(key);
     }
-    expect(JSON.stringify(presentation)).not.toMatch(/[0-9a-f]{64}/);
+    expect(JSON.stringify(presentation)).not.toMatch(LEAK_HEX);
     expect(apiBody).not.toContain("renshi.");
     const evidenceKeys = new Set(Object.keys(parsed.evidence ?? {}));
     expect(evidenceKeys.size).toBeGreaterThan(0);
