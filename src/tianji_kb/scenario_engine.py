@@ -330,11 +330,17 @@ def ren_yin_research_execution(value, zone=None):
     """Research-only D-1 寅月 execution gate (TJ-012.3, user Option A
     2026-11-09).
 
-    Opt-in research entry ONLY: it is not registered in SCENARIOS,
-    not reachable through ``execute_scenario()``, and not called by
-    ``_bazi_profile`` or any production path. Ordinary production
-    requests never execute it; a research caller invokes it directly
-    with a real birth instant.
+    Opt-in research entry: it is not registered in SCENARIOS and not
+    reachable through ``execute_scenario()``. Ordinary requests never
+    receive its research envelope directly, and no ordinary caller
+    invokes it. The single authorized consumer inside a production
+    path is ``_pattern_public_gate`` (TJ-012.3 Stage B, user
+    2026-11-10): it reuses this gate's reviewed computation
+    server-side and attaches only the whitelist-validated
+    ``pattern_presentation`` object; the research envelope itself
+    (raw D-1 block, pilot block, trace, sealed text) is discarded
+    there and never reaches a public response. A research caller may
+    still invoke it directly with a real birth instant.
 
     The gate enters (entered=True) ONLY when ALL hold: a real birth
     instant is available; the executed month branch is 寅; the Jie
