@@ -31,25 +31,43 @@ an oversight):
 * A string containing ``renshi.*`` is a violation anywhere: no
   reviewed public shape carries a Ren-variant id.
 * A string containing ``bazi.source.*`` / ``bazi.section.*`` is a
-  violation anywhere EXCEPT a bound citation: the field must be
-  one of the approved citation fields for its subtree
-  (xiyong: ``source_id`` / ``section_id`` / ``section_ids``;
-  dayun: ``source_id`` / ``source_section_id``) AND the parent
-  object must be a legitimate citation container that binds the
-  citation to a displayed quote (or, for the two pinned dayun
-  structures that carry no quote, to the method / rule it
-  identifies). A citation field in a nested object that carries
-  no such binding -- an unreviewed nested citation, a forged
-  citation whose quote is missing or under a non-contract key,
-  a citation with an empty quote -- is a violation, even inside
-  an xiyong / dayun subtree. Position alone never exempts.
-  The xiyong citations are bound to a displayed 120-char quote
-  and validated by the xiyong builder against Phase1 refs
-  (adjudicated TJ-013.3 shape); the dayun citations are bound to
-  a displayed rule quote or source list and are part of the
-  reviewed dayun public shape (staged opening Phase 2, TJ-017.3).
-  A raw source id in a prose line, a raw hash, or a ``renshi.*``
-  id anywhere still fails.
+  violation anywhere EXCEPT a bound citation at a reviewed path:
+  the field must be one of the approved citation fields for its
+  subtree (xiyong: ``source_id`` / ``section_id`` / ``section_ids``;
+  dayun: ``source_id`` / ``source_section_id``), the value's path
+  must be one of the reviewed citation paths (xiyong
+  ``blocks.*.evidence`` and its ``quotes[*]`` items; dayun
+  ``methods.*.direction.rule_quote``,
+  ``methods.*.sources[*]`` and its ``quotes[*]`` items,
+  ``method_options[*]``, ``evidence.rules[*]``), AND the parent
+  object must carry the binding that path requires (a displayed
+  quote or quotes list, or the method / rule the source
+  identifies). A citation in an unreviewed subtree -- even one
+  that carries a forged quote or a forged method-option shape --
+  is a violation, because no nested object can buy an exemption
+  by merely adding a quote. The xiyong citations are bound to a
+  displayed 120-char quote and validated by the xiyong builder
+  against Phase1 refs (adjudicated TJ-013.3 shape); the dayun
+  citations are bound to a displayed rule quote or source list
+  and are part of the reviewed dayun public shape (staged
+  opening Phase 2, TJ-017.3). A raw source id in a prose line,
+  a raw hash, or a ``renshi.*`` id anywhere still fails.
+* An ``E`` alias in an identifier list must resolve inside the
+  current public evidence map (the envelope's top-level
+  ``evidence`` map) when one is present -- including an
+  explicitly empty map, which resolves nothing: ``E999`` and any
+  other alias with no entry in the map is a violation, not a
+  dangling reference. Only a scan with no evidence context at
+  all (a single presentation, no ``evidence`` key) skips the
+  resolvability check and verifies format only.
+* JSON key names are scanned like values: a dict key carrying a
+  raw 24/64-hex token or a ``renshi.*`` / ``bazi.source.*`` /
+  ``bazi.section.*`` reference is a violation. ``rule_matches``.
+  ``rule_id`` must be a public R alias (``R\\d+``): a regression
+  to a raw ``bazi.phase2.*`` / ``bazi.rule.*`` id is a violation.
+  Reviewed scalar registry ids (strength / xiyong
+  ``phase1_rule_id`` / ``phase2_step_id``) are different keys and
+  are untouched by that check.
 * NOT flagged (reviewed shapes, kept by design): the scalar
   ``phase1_rule_id`` / ``phase2_step_id`` registry ids on the
   strength and xiyong presentations, the xiyong
@@ -92,6 +110,59 @@ _XIYONG_CITATION_KEYS = frozenset(
 _DAYUN_CITATION_KEYS = frozenset(
     {"source_id", "source_section_id"})
 
+# Public R alias for rule_matches[].rule_id (public_projection._Aliases).
+_R_ALIAS_RE = re.compile(r"^R\d+$")
+
+# Reviewed citation paths, as the suffix of the value's path after the
+# presentation key (``xiyong_presentation`` / ``dayun_presentation``).
+# A citation is exempt ONLY at one of these reviewed paths, and only
+# when its parent carries the binding for that path's kind. Any other
+# path -- an unreviewed subtree that happens to carry a quote, a
+# forged method option, a stray citation field -- is flagged, even
+# when the parent looks like a citation container. Binding kinds:
+# "quote" (parent must carry a displayed quote or quotes list),
+# "method_option" (parent must be a method_options item),
+# "rule" (parent must be an evidence.rules item).
+_REVIEWED_CITATION_SUFFIXES = (
+    # xiyong evidence object (tiaohou: quote; bingyao: quotes list).
+    (re.compile(
+        r"^\.blocks\.[^.]+\.evidence\.(source_id|section_id)$"),
+     "quote"),
+    (re.compile(
+        r"^\.blocks\.[^.]+\.evidence\.section_ids\[\d+\]$"),
+     "quote"),
+    # xiyong quotes item inside bingyao evidence.
+    (re.compile(
+        r"^\.blocks\.[^.]+\.evidence\.quotes\[\d+\]\."
+        r"(source_id|section_id|source_section_id)$"),
+     "quote"),
+    # xiyong bingyao pair rule (carries a displayed quote).
+    (re.compile(
+        r"^\.blocks\.[^.]+\.pairs\[\d+\]\.rule\."
+        r"(source_id|section_id|source_section_id)$"),
+     "quote"),
+    # dayun rule_quote.
+    (re.compile(
+        r"^\.methods\.[^.]+\.direction\.rule_quote\."
+        r"(source_id|source_section_id)$"),
+     "quote"),
+    # dayun sources item.
+    (re.compile(
+        r"^\.methods\.[^.]+\.sources\[\d+\]\.source_id$"),
+     "quote"),
+    # dayun quotes item.
+    (re.compile(
+        r"^\.methods\.[^.]+\.sources\[\d+\]\.quotes\[\d+\]\."
+        r"(source_id|source_section_id)$"),
+     "quote"),
+    # dayun method_options item.
+    (re.compile(r"^\.method_options\[\d+\]\.source_id$"),
+     "method_option"),
+    # dayun evidence.rules item.
+    (re.compile(r"^\.evidence\.rules\[\d+\]\.source_id$"),
+     "rule"),
+)
+
 
 def find_public_boundary_violations(value):
     """All raw-internal-identifier violations in ``value``.
@@ -101,8 +172,9 @@ def find_public_boundary_violations(value):
     presentation object, or any nested value inside one.
     """
     violations = []
-    evidence_keys = _public_evidence_keys(value)
-    _scan(value, "$", False, False, None, None, evidence_keys, violations)
+    evidence_keys, has_evidence_map = _public_evidence_map(value)
+    _scan(value, "$", False, False, None, None, evidence_keys,
+          has_evidence_map, violations)
     return violations
 
 
@@ -118,21 +190,34 @@ def find_raw_hash_tokens(text):
     return RAW_HASH_TOKEN_RE.findall(text)
 
 
-def _public_evidence_keys(value):
-    """The E-alias keys of the envelope's top-level public evidence
-    map (``project_execution`` writes it as ``evidence``), or an
-    empty set when no such map is present (a sub-object, or a map
-    with no E-alias keys). Only E-alias keys are collected, so a
-    nested ``evidence`` object of another shape (dayun, xiyong)
-    contributes nothing."""
+def _public_evidence_map(value):
+    """The envelope's top-level public evidence map.
+
+    Returns ``(evidence_keys, has_map)``. ``evidence_keys`` is the
+    set of E-alias keys in the map. ``has_map`` is True when the
+    value explicitly carries a public evidence map -- an ``evidence``
+    dict that is empty or keyed by E-aliases. A non-empty
+    ``evidence`` object with no E-alias keys (a dayun / xiyong
+    evidence object, not the public map) is not a map at all, and
+    a value with no ``evidence`` key has no evidence context.
+
+    The distinction matters: a whole envelope that explicitly
+    declares an empty evidence map (``"evidence": {}``) must reject
+    every unresolvable E reference, while a single presentation
+    scanned with no evidence context at all cannot resolve
+    references and is checked for format only.
+    """
     if not isinstance(value, dict):
-        return set()
+        return set(), False
     evidence = value.get("evidence")
     if not isinstance(evidence, dict):
-        return set()
-    return {key for key in evidence
+        return set(), False
+    keys = {key for key in evidence
             if isinstance(key, str) and _PUBLIC_ALIAS_RE.match(key)
             and key.startswith("E")}
+    if evidence and not keys:
+        return set(), False
+    return keys, True
 
 
 def _has_bound_quote(parent):
@@ -157,21 +242,46 @@ def _has_bound_quote(parent):
     return False
 
 
-def _is_bound_citation(parent, key, in_xiyong, in_dayun):
-    """True only if this citation field sits in a legitimate
-    citation container.
+def _citation_binding_kind(path, in_xiyong, in_dayun):
+    """The binding kind of a citation at ``path``, or None.
 
-    Position alone never exempts: the field must be an approved
-    citation key for its subtree AND the parent object must carry
-    the binding the public contract requires -- a displayed quote
-    (xiyong evidence, dayun ``rule_quote`` / quotes item, dayun
-    sources item), or, for the two pinned dayun structures that
-    carry no quote, the method / rule the source identifies
-    (``method_options`` item: ``id`` + ``label`` + ``selectable``;
-    ``evidence.rules`` item: ``phase1_rule_id`` +
-    ``phase2_step_id``). A citation in a nested object with none
-    of these bindings is an unreviewed / forged / missing-quote
-    citation and is flagged.
+    The path must be at one of the reviewed citation paths
+    (``_REVIEWED_CITATION_SUFFIXES``), taken as the suffix after
+    the presentation key. Any other path -- an unreviewed subtree
+    that happens to carry a quote, a forged method option, a stray
+    citation field -- has no reviewed binding, however
+    citation-like its parent looks.
+    """
+    if in_xiyong:
+        marker = ".xiyong_presentation"
+    elif in_dayun:
+        marker = ".dayun_presentation"
+    else:
+        return None
+    idx = path.rfind(marker)
+    if idx < 0:
+        return None
+    suffix = path[idx + len(marker):]
+    for pattern, kind in _REVIEWED_CITATION_SUFFIXES:
+        if pattern.match(suffix):
+            return kind
+    return None
+
+
+def _is_bound_citation(parent, key, path, in_xiyong, in_dayun):
+    """True only if this citation field sits at a reviewed path
+    AND its parent carries the binding that path requires.
+
+    Path-locked: the field must be an approved citation key for
+    its subtree AND the value's path must be one of the reviewed
+    citation paths. Binding-verified: for a quote path the parent
+    must carry a displayed quote or quotes list; for a
+    method_options path the parent must be a method item
+    (``id`` + ``label`` + ``selectable``); for an evidence.rules
+    path the parent must be a rule item (``phase1_rule_id`` +
+    ``phase2_step_id``). A citation at an unreviewed path, or at
+    a reviewed path without its binding, is flagged -- no nested
+    object can buy an exemption by merely adding a quote.
     """
     if not isinstance(parent, dict):
         return False
@@ -181,24 +291,29 @@ def _is_bound_citation(parent, key, in_xiyong, in_dayun):
         return False
     if not (in_xiyong or in_dayun):
         return False
-    if _has_bound_quote(parent):
-        return True
-    if (in_dayun and isinstance(parent.get("id"), str)
-            and isinstance(parent.get("label"), str)
-            and "selectable" in parent):
-        return True
-    if (in_dayun and isinstance(parent.get("phase1_rule_id"), str)
-            and isinstance(parent.get("phase2_step_id"), str)):
-        return True
+    kind = _citation_binding_kind(path, in_xiyong, in_dayun)
+    if kind is None:
+        return False
+    if kind == "quote":
+        return _has_bound_quote(parent)
+    if kind == "method_option":
+        return (isinstance(parent.get("id"), str)
+                and isinstance(parent.get("label"), str)
+                and "selectable" in parent)
+    if kind == "rule":
+        return (isinstance(parent.get("phase1_rule_id"), str)
+                and isinstance(parent.get("phase2_step_id"), str))
     return False
 
 
-def _check_identifier(item, key, path, evidence_keys, violations):
+def _check_identifier(item, key, path, evidence_keys, has_evidence_map,
+                      violations):
     """One entry of an identifier list.
 
     Must be a public alias string (``E\\d+`` / ``R\\d+``), and an
     ``E`` alias must resolve inside the current public evidence
-    map when one is present. A non-string entry, a wrong-prefix
+    map when one is present -- including an explicitly empty map,
+    which resolves nothing. A non-string entry, a wrong-prefix
     alias, and an unresolvable ``E`` alias are all violations.
     """
     if not isinstance(item, str):
@@ -210,7 +325,7 @@ def _check_identifier(item, key, path, evidence_keys, violations):
         violations.append(
             "unresolved identifier %r in %s at %s" % (item, key, path))
         return
-    if (item.startswith("E") and evidence_keys
+    if (item.startswith("E") and has_evidence_map
             and item not in evidence_keys):
         violations.append(
             "identifier %r in %s does not resolve in the public "
@@ -218,9 +333,43 @@ def _check_identifier(item, key, path, evidence_keys, violations):
         return
 
 
+def _check_key_name(key, path, violations):
+    """A JSON key name must not carry a banned stable identifier.
+
+    Keys are scanned like values: a raw 24/64-hex token or a
+    ``renshi.*`` / ``bazi.source.*`` / ``bazi.section.*`` reference
+    hiding in a key name is a violation. Reviewed field names
+    (``phase1_rule_id``, ``source_id``, ``evidence_ids`` ...) carry
+    no banned prefix and are unaffected.
+    """
+    if not isinstance(key, str):
+        return
+    token = RAW_HASH_TOKEN_RE.search(key)
+    if token is not None:
+        violations.append(
+            "raw hash token %r in key at %s" % (token.group(0), path))
+        return
+    for prefix in _INTERNAL_ID_PREFIXES:
+        if prefix in key:
+            violations.append(
+                "raw internal identifier %r in key at %s" % (key, path))
+            return
+
+
 def _scan(value, path, in_xiyong, in_dayun, key, parent, evidence_keys,
-          violations):
+          has_evidence_map, violations):
     if isinstance(value, str):
+        # rule_matches[].rule_id must be a public R alias: a
+        # regression to a raw bazi.phase2.* / bazi.rule.* id is a
+        # leak. Reviewed scalar registry ids (strength / xiyong
+        # phase1_rule_id, phase2_step_id) are different keys and
+        # are untouched by this check.
+        if key == "rule_id" and ".rule_matches[" in path:
+            if not _R_ALIAS_RE.match(value):
+                violations.append(
+                    "rule_matches rule_id %r is not a public R alias "
+                    "at %s" % (value, path))
+                return
         token = RAW_HASH_TOKEN_RE.search(value)
         if token is not None:
             violations.append(
@@ -229,7 +378,7 @@ def _scan(value, path, in_xiyong, in_dayun, key, parent, evidence_keys,
         for prefix in _INTERNAL_ID_PREFIXES:
             if prefix in value:
                 if prefix.startswith("bazi.") and _is_bound_citation(
-                        parent, key, in_xiyong, in_dayun):
+                        parent, key, path, in_xiyong, in_dayun):
                     return
                 violations.append(
                     "raw internal identifier %r at %s" % (value, path))
@@ -240,14 +389,17 @@ def _scan(value, path, in_xiyong, in_dayun, key, parent, evidence_keys,
             for index, item in enumerate(value):
                 _check_identifier(
                     item, key, "%s[%d]" % (path, index), evidence_keys,
-                    violations)
+                    has_evidence_map, violations)
         else:
             for index, item in enumerate(value):
                 _scan(item, "%s[%d]" % (path, index), in_xiyong, in_dayun,
-                      key, parent, evidence_keys, violations)
+                      key, parent, evidence_keys, has_evidence_map,
+                      violations)
         return
     if isinstance(value, dict):
         for child_key, item in value.items():
+            _check_key_name(child_key, "%s.%s" % (path, child_key),
+                            violations)
             if (child_key in _IDENTIFIER_LIST_FIELDS
                     and not isinstance(item, list)):
                 violations.append(
@@ -256,5 +408,6 @@ def _scan(value, path, in_xiyong, in_dayun, key, parent, evidence_keys,
             _scan(item, "%s.%s" % (path, child_key),
                   in_xiyong or child_key == "xiyong_presentation",
                   in_dayun or child_key == "dayun_presentation",
-                  child_key, value, evidence_keys, violations)
+                  child_key, value, evidence_keys, has_evidence_map,
+                  violations)
         return

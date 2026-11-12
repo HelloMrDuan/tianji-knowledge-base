@@ -603,6 +603,103 @@ class SharedCheckNegativeControlTests(unittest.TestCase):
         violations = find_public_boundary_violations(envelope)
         self.assertTrue(any("42" in v for v in violations))
 
+    def test_unreviewed_xiyong_subtree_with_forged_quote_is_flagged(self):
+        # Path-locked citation exemption: an unreviewed subtree
+        # that carries a forged quote and a source id is NOT a
+        # bound citation, even though its parent looks like a
+        # citation container. The exemption is locked to the
+        # reviewed paths (xiyong blocks.*.evidence and its
+        # quotes[*] / pairs[*].rule items).
+        envelope = {"result": {"xiyong_presentation": {"unreviewed": {
+            "quote": "伪造引文",
+            "source_id": "bazi.source.fake-unbound"}}}}
+        violations = find_public_boundary_violations(envelope)
+        self.assertTrue(any(
+            "bazi.source.fake-unbound" in v for v in violations))
+
+    def test_unreviewed_dayun_subtree_with_forged_quote_is_flagged(self):
+        # Same path-lock for a dayun unreviewed subtree: a forged
+        # quote does not buy an exemption outside the reviewed
+        # dayun citation paths.
+        envelope = {"result": {"dayun_presentation": {"unreviewed": {
+            "quote": "伪造引文",
+            "source_id": "bazi.source.fake-unbound"}}}}
+        violations = find_public_boundary_violations(envelope)
+        self.assertTrue(any(
+            "bazi.source.fake-unbound" in v for v in violations))
+
+    def test_unreviewed_dayun_method_option_shape_is_flagged(self):
+        # A forged method-option shape in an unreviewed dayun
+        # subtree (id + label + selectable, exactly the pinned
+        # method_options binding) is still a violation: the
+        # exemption is locked to the reviewed
+        # dayun_presentation.method_options[*] path.
+        envelope = _dayun_envelope()
+        envelope["result"]["dayun_presentation"]["unreviewed"] = {
+            "id": "fake", "label": "fake", "selectable": True,
+            "source_id": "bazi.source.fake-unbound"}
+        violations = find_public_boundary_violations(envelope)
+        self.assertTrue(any(
+            "bazi.source.fake-unbound" in v for v in violations))
+
+    def test_unresolvable_e_alias_in_empty_evidence_map_is_flagged(self):
+        # An explicitly empty public evidence map resolves
+        # nothing: E999 -- and any other E alias, even a
+        # real-looking E01 -- in the map is a dangling reference.
+        # This is the empty-map case, distinct from scanning a
+        # single presentation with no evidence context at all.
+        for alias in ("E999", "E01"):
+            envelope = {"evidence": {}, "rule_matches": [
+                {"evidence_ids": [alias]}]}
+            violations = find_public_boundary_violations(envelope)
+            self.assertTrue(any(alias in v for v in violations),
+                            alias)
+
+    def test_raw_hash_in_json_key_name_is_flagged(self):
+        # A raw 24-hex token hiding in a JSON key name (not a
+        # value) is a violation: the scanner covers keys too.
+        envelope = _clean_envelope()
+        envelope["result"]["pattern_presentation"][
+            REAL_IDS["pillars"]] = "x"
+        violations = find_public_boundary_violations(envelope)
+        self.assertTrue(any(REAL_IDS["pillars"] in v
+                            for v in violations))
+
+    def test_renshi_in_json_key_name_is_flagged(self):
+        # A renshi.* reference hiding in a JSON key name is a
+        # violation.
+        envelope = _clean_envelope()
+        envelope["result"]["pattern_presentation"][
+            "renshi.pattern.yin-true-v1"] = "x"
+        violations = find_public_boundary_violations(envelope)
+        self.assertTrue(any("renshi.pattern.yin-true-v1" in v
+                            for v in violations))
+
+    def test_rule_matches_rule_id_must_be_r_alias(self):
+        # rule_matches[].rule_id must be a public R alias: a
+        # regression to a raw bazi.phase2.* or bazi.rule.* id is
+        # a violation. A valid R alias stays clean.
+        for raw_id in ("bazi.phase2.dayun_classical_direction",
+                       "bazi.rule.r038"):
+            envelope = _clean_envelope()
+            envelope["rule_matches"][0]["rule_id"] = raw_id
+            violations = find_public_boundary_violations(envelope)
+            self.assertTrue(any(raw_id in v for v in violations),
+                            raw_id)
+        envelope = _clean_envelope()
+        envelope["rule_matches"][0]["rule_id"] = "R01"
+        self.assertEqual(
+            find_public_boundary_violations(envelope), [])
+
+    def test_reviewed_strength_rule_ids_are_not_flagged(self):
+        # Reviewed scalar registry ids (strength / xiyong
+        # phase1_rule_id, phase2_step_id) are different keys from
+        # rule_matches rule_id and are untouched by the R-alias
+        # constraint: the clean envelope (which carries them)
+        # stays clean.
+        self.assertEqual(
+            find_public_boundary_violations(_clean_envelope()), [])
+
 
 class CleanEnvelopeTests(unittest.TestCase):
     def test_approved_shapes_pass_together(self):
