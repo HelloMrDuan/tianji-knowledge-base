@@ -474,7 +474,7 @@ class ValidatorTests(unittest.TestCase):
         # exact key-set check forbids them, so a stale object can
         # never be released through the scoped projection.
         forged = copy.deepcopy(self.valid)
-        forged["evidence_ids"] = ["014d74071e5e7b84f6c920fa"]
+        forged["evidence_ids"] = ["2de9b3df332b7474f2d0365e"]
         forged["source_ids"] = ["bazi.source.ditiansui-spouse"]
         self.assertFalse(is_valid_public_strength_presentation(forged))
 
@@ -495,7 +495,7 @@ class ValidatorTests(unittest.TestCase):
             to_public_strength_presentation,
         )
         forged = copy.deepcopy(self.valid)
-        forged["evidence_ids"] = ["014d74071e5e7b84f6c920fa"]
+        forged["evidence_ids"] = ["2de9b3df332b7474f2d0365e"]
         forged["source_ids"] = ["bazi.source.ditiansui-spouse"]
         with self.assertRaises(ValueError):
             to_public_strength_presentation(forged)
@@ -603,13 +603,13 @@ class ProjectionScopeTests(unittest.TestCase):
         # fix) is rejected by the closed-shape validator, so the
         # scoped release strips the key entirely -- never a partial
         # release of the facts minus the references, never the raw
-        # ids. The real-format ids below are the production c1 ids,
-        # already public in the repo's Playwright fixtures.
+        # ids. The synthetic 24-hex ids below carry only the
+        # production format, never a real sealed-store key.
         forged = copy.deepcopy(self.presentation)
         forged["evidence_ids"] = [
-            "014d74071e5e7b84f6c920fa",
-            "09612a7f3b13c33702e85962",
-            "0c0020008f674c25659d72d8"]
+            "2de9b3df332b7474f2d0365e",
+            "53aff91937e8d1b517f63675",
+            "7bc5a5bc4d38fb75489e9b13"]
         forged["source_ids"] = ["bazi.source.ditiansui-spouse",
                                 "bazi.source.xieji-relations",
                                 "bazi.source.yuanhai"]
@@ -618,7 +618,7 @@ class ProjectionScopeTests(unittest.TestCase):
         projected = project_execution(
             self._envelope("bazi-profile", forged))
         self.assertNotIn("strength_presentation", projected["result"])
-        self.assertNotIn("014d74071e5e7b84f6c920fa",
+        self.assertNotIn("2de9b3df332b7474f2d0365e",
                          str(projected))
 
     def test_not_judgeable_release_is_verbatim_and_single_key(self):

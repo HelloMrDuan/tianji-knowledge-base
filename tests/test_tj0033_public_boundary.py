@@ -60,16 +60,17 @@ from tianji_kb.public_boundary import (
 
 ROOT = Path(__file__).resolve().parents[1]
 
-# Real-format 24-hex evidence ids from the production c1 envelope
-# (already public in the repo's Playwright fixtures). Used ONLY as
-# internal-view keys here, to prove the builder never leaks the
-# format it is fed.
+# Purely synthetic 24-hex evidence ids (random, no production key).
+# They carry ONLY the production format, never a real internal
+# stable pointer: the builder is fed these so the test proves it
+# never leaks the format it consumes, without copying any real
+# sealed-store key into the public repo.
 REAL_IDS = {
-    "pillars": "014d74071e5e7b84f6c920fa",
-    "principal": "09612a7f3b13c33702e85962",
-    "roots": "0c0020008f674c25659d72d8",
-    "effects": "1243f3c6b37c20ddab616ff2",
-    "gate": "15b2bf0508ba0070ac999867",
+    "pillars": "2de9b3df332b7474f2d0365e",
+    "principal": "53aff91937e8d1b517f63675",
+    "roots": "7bc5a5bc4d38fb75489e9b13",
+    "effects": "8b14003e9b8272b089c13cf9",
+    "gate": "f4505cedbc37540832f2d913",
 }
 REAL_SOURCES = {
     "pillars": "bazi.source.ditiansui-spouse",
@@ -381,13 +382,33 @@ def _dayun_envelope():
                     },
                 },
                 "method_options": [
-                    {"source_id": "bazi.source.sanmingtonghui"},
-                    {"source_id": "bazi.source.shenfeng"},
+                    {"id": "sanming", "label": "三命时级",
+                     "variant": "dayun-conversion-sanming-v1",
+                     "source_id": "bazi.source.sanmingtonghui",
+                     "selectable": True},
+                    {"id": "shenfeng", "label": "神峰日级",
+                     "variant": "dayun-conversion-shenfeng-v1",
+                     "source_id": "bazi.source.shenfeng",
+                     "selectable": True},
                 ],
                 "evidence": {"rules": [
-                    {"source_id":
-                        "bazi.source.sanmingtonghui-applied"},
-                    {"source_id": "bazi.source.shenfeng"},
+                    {"phase1_rule_id": "bazi.rule.r038",
+                     "phase2_step_id":
+                         "bazi.phase2.dayun_classical_direction",
+                     "variant": "dayun-direction-classical-v1",
+                     "source_id":
+                         "bazi.source.sanmingtonghui-applied"},
+                    {"phase1_rule_id": "bazi.rule.r039",
+                     "phase2_step_id":
+                         "bazi.phase2.dayun_sanming_conversion",
+                     "variant": "dayun-conversion-sanming-v1",
+                     "source_id":
+                         "bazi.source.sanmingtonghui-applied"},
+                    {"phase1_rule_id": "bazi.rule.r041",
+                     "phase2_step_id":
+                         "bazi.phase2.dayun_shenfeng_conversion",
+                     "variant": "dayun-conversion-shenfeng-v1",
+                     "source_id": "bazi.source.shenfeng"},
                 ]},
             },
         },
@@ -423,7 +444,7 @@ class SharedCheckNegativeControlTests(unittest.TestCase):
     def test_old_shape_strength_is_flagged(self):
         violations = find_public_boundary_violations(_old_shape_strength())
         self.assertTrue(violations, "check must flag the old shape")
-        self.assertTrue(any("014d74071e5e7b84f6c920fa" in v
+        self.assertTrue(any(REAL_IDS["pillars"] in v
                             for v in violations))
         self.assertTrue(any("bazi.source.ditiansui-spouse" in v
                             for v in violations))
@@ -502,6 +523,85 @@ class SharedCheckNegativeControlTests(unittest.TestCase):
         violations = find_public_boundary_violations(envelope)
         self.assertTrue(any("renshi.pattern.yin-true-v1" in v
                             for v in violations))
+
+    def test_unreviewed_nested_citation_is_flagged(self):
+        # Position alone never exempts: a source id nested inside
+        # an unreviewed object (no quote, no method/rule binding)
+        # is a violation even inside a dayun subtree.
+        envelope = _dayun_envelope()
+        envelope["result"]["dayun_presentation"]["methods"]["sanming"][
+            "direction"]["notes"] = {
+                "source_id": "bazi.source.sanmingtonghui-applied"}
+        violations = find_public_boundary_violations(envelope)
+        self.assertTrue(any(
+            "bazi.source.sanmingtonghui-applied" in v
+            for v in violations))
+
+    def test_forged_citation_without_contract_quote_is_flagged(self):
+        # A citation object that mimics a rule quote but carries
+        # the displayed text under a non-contract key (``text``
+        # instead of ``quote``) is not bound per the public
+        # contract: the source id is a violation.
+        envelope = _dayun_envelope()
+        envelope["result"]["dayun_presentation"]["methods"]["sanming"][
+            "direction"]["rule_quote"] = {
+                "source_id": "bazi.source.sanmingtonghui-applied",
+                "source_section_id": "bazi.section.s068",
+                "text": "大运以月令为纲。"}
+        violations = find_public_boundary_violations(envelope)
+        self.assertTrue(any(
+            "bazi.source.sanmingtonghui-applied" in v
+            for v in violations))
+
+    def test_citation_with_missing_or_empty_quote_is_flagged(self):
+        # A citation field with no displayed quote bound to it --
+        # the quote key removed, or an empty quote -- is a
+        # violation: a citation is only exempt when it is bound
+        # to an actual displayed quote.
+        for quote_value in (None, ""):
+            envelope = _dayun_envelope()
+            rule_quote = envelope["result"]["dayun_presentation"][
+                "methods"]["sanming"]["direction"]["rule_quote"]
+            if quote_value is None:
+                del rule_quote["quote"]
+            else:
+                rule_quote["quote"] = quote_value
+            violations = find_public_boundary_violations(envelope)
+            self.assertTrue(any(
+                "bazi.source.sanmingtonghui-applied" in v
+                for v in violations), quote_value)
+
+    def test_unresolvable_e_alias_is_flagged(self):
+        # An E alias with no entry in the current public evidence
+        # map (here only E01 exists) is a dangling reference, not
+        # a valid public alias.
+        envelope = _clean_envelope()
+        envelope["rule_matches"][0]["evidence_ids"] = ["E999"]
+        violations = find_public_boundary_violations(envelope)
+        self.assertTrue(any("E999" in v for v in violations))
+
+    def test_wrong_alias_prefix_is_flagged(self):
+        # Only E/R ordinals are public aliases: a wrong prefix
+        # (X01) or a lowercase alias (e01) is a violation.
+        for bad_alias in ("X01", "e01", "E-1"):
+            envelope = _clean_envelope()
+            envelope["rule_matches"][0]["evidence_ids"] = [bad_alias]
+            violations = find_public_boundary_violations(envelope)
+            self.assertTrue(any(bad_alias in v for v in violations),
+                            bad_alias)
+
+    def test_non_list_identifier_field_is_flagged(self):
+        # An identifier list field given as a bare string (not a
+        # list) is a type violation, as is a non-string entry
+        # inside the list.
+        envelope = _clean_envelope()
+        envelope["rule_matches"][0]["evidence_ids"] = "E01"
+        violations = find_public_boundary_violations(envelope)
+        self.assertTrue(any("evidence_ids" in v for v in violations))
+        envelope = _clean_envelope()
+        envelope["rule_matches"][0]["evidence_ids"] = ["E01", 42]
+        violations = find_public_boundary_violations(envelope)
+        self.assertTrue(any("42" in v for v in violations))
 
 
 class CleanEnvelopeTests(unittest.TestCase):
