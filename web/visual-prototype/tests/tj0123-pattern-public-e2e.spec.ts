@@ -9,9 +9,11 @@
  * forwards /api there). No route stubs, no mocks, no fixture responses:
  * every assertion below reads the live page rendered from the live API.
  * Backend under test: tj0123-pattern-public-presentation @
- * 24c15350c8e6963cc38d9354452c368433fa88ac (E0387, Gap A), assembled on the
+ * c800e44cb753a236cf76905094496d5c730f0131 (E0387, Gap A; PR #560 merge SHA,
+ * deployed 2026-11-11T06:40:33Z), assembled on the
  * trusted machine and served on :8001, forwarded locally via
- * `ssh -L 8000:127.0.0.1:8001 instabox-machine`.
+ * `ssh -L 8000:127.0.0.1:8001 instabox-machine`. The production run uses
+ * the deployed web container instead (see playwright.prod.config.ts).
  *
  * Run locally with:
  *   npm test -- tests/tj0123-pattern-public-e2e.spec.ts
@@ -22,6 +24,15 @@
 import { test, expect, type Page } from "@playwright/test";
 
 const SCREENSHOTS = "/home/hatch/workspace/tj0123-pattern-public-e2e/screenshots";
+
+// Evidence-hash boundary: the real D-1 evidence IDs are 24 lowercase hex
+// chars, so a 64-hex-only check misses them. The 64-hex alternative covers
+// the longer digest form. Either form inside pattern_presentation is a leak
+// (the public shape carries no evidence IDs at all). The check stays scoped
+// to the presentation object: a response-wide 24-hex check would also match
+// the pre-existing strength_presentation.evidence_ids raw hashes (outside
+// the #560 scope; see TJ-003.3 leak red-line), so it must not be widened.
+const EVIDENCE_HASH_RE = /[0-9a-f]{24}|[0-9a-f]{64}/;
 
 // Research raw fields that must never reach the public page or the public
 // API responses (D-1 research block, live pilot result, D-1 trace).
@@ -62,7 +73,7 @@ async function submitBirth(page: Page, date: string, time: string) {
   return section;
 }
 
-test.describe("TJ-012.3 pattern_presentation real-backend E2E (24c15350)", () => {
+test.describe("TJ-012.3 pattern_presentation real-backend E2E (c800e44c)", () => {
   test.setTimeout(180000);
 
   test("(1) 正财格成立 — presented true_pattern with scope note", async ({ page }) => {
@@ -179,9 +190,9 @@ test.describe("TJ-012.3 pattern_presentation real-backend E2E (24c15350)", () =>
     // Public-identifier boundary (independent-review remediation):
     // the public shape carries no internal reference fields, and no
     // renshi rule id or raw D-1 evidence hash appears anywhere in
-    // the API response. The D-1 evidence hashes lived only inside
-    // pattern_presentation.evidence_ids, so the 64-hex check is
-    // scoped to that object; renshi. is checked response-wide.
+    // the API response. The D-1 evidence hashes are 24-hex, so the
+    // check below is EVIDENCE_HASH_RE (24-hex or 64-hex), scoped to
+    // the presentation object; renshi. is checked response-wide.
     expect(joined).not.toContain("renshi.");
     const parsed = JSON.parse(apiBodies[apiBodies.length - 1]) as {
       result?: { pattern_presentation?: Record<string, unknown> };
@@ -191,7 +202,39 @@ test.describe("TJ-012.3 pattern_presentation real-backend E2E (24c15350)", () =>
     for (const key of ["rule_ids", "source_sections", "evidence_ids", "source_ids"]) {
       expect(presentation).not.toHaveProperty(key);
     }
-    expect(JSON.stringify(presentation)).not.toMatch(/[0-9a-f]{64}/);
+    expect(JSON.stringify(presentation)).not.toMatch(EVIDENCE_HASH_RE);
+  });
+
+  test("(6n) leak check can fail — real-format 24-hex / renshi IDs are caught", async () => {
+    // Negative control for the leak detection in test (6)/(8): the check
+    // must TRIGGER on a presentation carrying real-format evidence
+    // identifiers, so a passing run is not a vacuous pass. The 24-hex
+    // value below is format-real but synthetic — the actual D-1 evidence
+    // hashes are sealed and never appear in the public repo. The renshi
+    // rule id is already public as a forbidden string above.
+    const tainted24 = {
+      variant: "bazi-pattern-public-presentation-v1",
+      status: "presented",
+      evidence_ids: ["0123456789abcdef01234567"],
+    };
+    expect(JSON.stringify(tainted24)).toMatch(EVIDENCE_HASH_RE);
+    const taintedRenshi = {
+      variant: "bazi-pattern-public-presentation-v1",
+      rule_ids: ["renshi.zhenge_definition"],
+    };
+    expect(JSON.stringify(taintedRenshi)).toContain("renshi.");
+    // The 64-hex digest form is still caught.
+    expect(
+      JSON.stringify({ evidence_ids: ["a".repeat(64)] }),
+    ).toMatch(EVIDENCE_HASH_RE);
+    // Positive control: a clean presentation still passes the check.
+    const clean = {
+      variant: "bazi-pattern-public-presentation-v1",
+      status: "presented",
+      pattern: "正财格",
+    };
+    expect(JSON.stringify(clean)).not.toMatch(EVIDENCE_HASH_RE);
+    expect(JSON.stringify(clean)).not.toContain("renshi.");
   });
 
   test("(8) public evidence references resolve in the same envelope", async ({ page }) => {
@@ -227,7 +270,7 @@ test.describe("TJ-012.3 pattern_presentation real-backend E2E (24c15350)", () =>
     for (const key of ["rule_ids", "source_sections", "evidence_ids", "source_ids"]) {
       expect(presentation).not.toHaveProperty(key);
     }
-    expect(JSON.stringify(presentation)).not.toMatch(/[0-9a-f]{64}/);
+    expect(JSON.stringify(presentation)).not.toMatch(EVIDENCE_HASH_RE);
     expect(apiBody).not.toContain("renshi.");
     const evidenceKeys = new Set(Object.keys(parsed.evidence ?? {}));
     expect(evidenceKeys.size).toBeGreaterThan(0);
