@@ -47,6 +47,7 @@ from tianji_kb.bazi_strength_public import (
     public_strength_presentation,
 )
 from tianji_kb.engine import execute
+from tianji_kb.public_boundary import find_public_boundary_violations
 from tianji_kb.public_projection import project_execution
 from tianji_kb.scenario_engine import (
     _strength_jie_facts,
@@ -177,8 +178,17 @@ class PresentedSealedTests(unittest.TestCase):
                 self.assertEqual(result["phase2_step_id"], phase2)
                 self.assertEqual(result["scope_statement"], SCOPE_STATEMENT)
                 self.assertTrue(all(c["met"] for c in result["conditions"]))
-                self.assertTrue(result["evidence_ids"])
-                self.assertTrue(result["source_ids"])
+                # TJ-003.3: the real presented object carries no
+                # evidence / source reference fields -- the binding
+                # is verified inside the builder and stays server-side
+                # audit only. The internal evidence binding itself is
+                # still exercised (a forged / unbound evidence id
+                # fails closed; see the public tamper tests).
+                self.assertNotIn("evidence_ids", result)
+                self.assertNotIn("source_ids", result)
+                self.assertEqual(
+                    find_public_boundary_violations(result), [],
+                    case["id"])
 
     def test_scenario_gate_presents_the_same_facts(self):
         for case, predicate_id, classification, _, _ in PRESENTED:

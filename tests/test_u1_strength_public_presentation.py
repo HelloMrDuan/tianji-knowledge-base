@@ -239,6 +239,15 @@ class PresentedTests(unittest.TestCase):
             self.assertEqual(result["limitations"], list(LIMITATIONS))
             self.assertEqual(len(result["conditions"]), 2)
             self.assertTrue(all(c["met"] for c in result["conditions"]))
+            # TJ-003.3: the public object carries no evidence / source
+            # reference fields -- the binding is verified inside the
+            # builder and stays server-side audit only. The presented
+            # shape is exactly 13 keys (14 with the changsheng gate).
+            self.assertNotIn("evidence_ids", result)
+            self.assertNotIn("source_ids", result)
+            expected_keys = 14 if predicate_id == \
+                "changsheng_visible_support" else 13
+            self.assertEqual(len(result), expected_keys)
             _scan_banned(result)
 
     def test_changsheng_carries_segment_gate(self):
@@ -459,6 +468,38 @@ class ValidatorTests(unittest.TestCase):
         self.assertTrue(
             is_valid_public_strength_presentation(self.valid))
 
+    def test_reference_fields_fail(self):
+        # TJ-003.3: a presented object carrying the pre-fix internal
+        # reference fields is not a valid public presentation -- the
+        # exact key-set check forbids them, so a stale object can
+        # never be released through the scoped projection.
+        forged = copy.deepcopy(self.valid)
+        forged["evidence_ids"] = ["014d74071e5e7b84f6c920fa"]
+        forged["source_ids"] = ["bazi.source.ditiansui-spouse"]
+        self.assertFalse(is_valid_public_strength_presentation(forged))
+
+    def test_allowlist_projection_keeps_valid_object_whole(self):
+        # TJ-003.3: the projection is an allowlist (never a verbatim
+        # copy); on a valid object it returns exactly the same keys
+        # and values, as a fresh dict.
+        from tianji_kb.bazi_strength_public import (
+            to_public_strength_presentation,
+        )
+        projected = to_public_strength_presentation(
+            copy.deepcopy(self.valid))
+        self.assertEqual(projected, self.valid)
+        self.assertIsNot(projected, self.valid)
+
+    def test_allowlist_projection_rejects_stale_reference_fields(self):
+        from tianji_kb.bazi_strength_public import (
+            to_public_strength_presentation,
+        )
+        forged = copy.deepcopy(self.valid)
+        forged["evidence_ids"] = ["014d74071e5e7b84f6c920fa"]
+        forged["source_ids"] = ["bazi.source.ditiansui-spouse"]
+        with self.assertRaises(ValueError):
+            to_public_strength_presentation(forged)
+
     def test_extra_key_fails(self):
         forged = copy.deepcopy(self.valid)
         forged["useful_god"] = "甲"
@@ -521,6 +562,9 @@ class ProjectionScopeTests(unittest.TestCase):
             is_valid_public_strength_presentation(self.presentation))
 
     def test_bazi_profile_release_is_verbatim(self):
+        # TJ-003.3: the release is an allowlist projection, never a
+        # verbatim copy; on a valid object its output equals the
+        # validated input exactly.
         projected = project_execution(
             self._envelope("bazi-profile", self.presentation))
         self.assertEqual(projected["result"]["strength_presentation"],
@@ -552,6 +596,30 @@ class ProjectionScopeTests(unittest.TestCase):
         projected = project_execution(
             self._envelope("bazi-profile", forged))
         self.assertNotIn("strength_presentation", projected["result"])
+
+    def test_stale_reference_fields_are_stripped(self):
+        # TJ-003.3: a pre-fix presented object carrying raw evidence
+        # ids / source ids (the exact production shape before this
+        # fix) is rejected by the closed-shape validator, so the
+        # scoped release strips the key entirely -- never a partial
+        # release of the facts minus the references, never the raw
+        # ids. The real-format ids below are the production c1 ids,
+        # already public in the repo's Playwright fixtures.
+        forged = copy.deepcopy(self.presentation)
+        forged["evidence_ids"] = [
+            "014d74071e5e7b84f6c920fa",
+            "09612a7f3b13c33702e85962",
+            "0c0020008f674c25659d72d8"]
+        forged["source_ids"] = ["bazi.source.ditiansui-spouse",
+                                "bazi.source.xieji-relations",
+                                "bazi.source.yuanhai"]
+        self.assertFalse(
+            is_valid_public_strength_presentation(forged))
+        projected = project_execution(
+            self._envelope("bazi-profile", forged))
+        self.assertNotIn("strength_presentation", projected["result"])
+        self.assertNotIn("014d74071e5e7b84f6c920fa",
+                         str(projected))
 
     def test_not_judgeable_release_is_verbatim_and_single_key(self):
         # Single-key rule (remediation 2026-11-02): a not_judgeable
