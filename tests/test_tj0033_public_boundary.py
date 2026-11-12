@@ -330,6 +330,70 @@ def _clean_envelope():
     }
 
 
+def _dayun_envelope():
+    """Minimal dayun presentation in the reviewed public shape.
+
+    Citation fields (``source_id`` / ``source_section_id``) carry
+    the classical source and section for each displayed rule
+    quote -- the same bound-citation role as the xiyong fields,
+    part of the reviewed dayun public shape (staged opening
+    Phase 2, TJ-017.3). Scan fixture only: the dayun shape itself
+    is pinned in its own test files.
+    """
+    return {
+        "scenario_id": "bazi-profile",
+        "status": "ok",
+        "result": {
+            "dayun_presentation": {
+                "methods": {
+                    "sanming": {
+                        "direction": {"rule_quote": {
+                            "source_id":
+                                "bazi.source.sanmingtonghui-applied",
+                            "source_section_id": "bazi.section.s068",
+                            "quote": "大运以月令为纲。",
+                        }},
+                        "sources": [{
+                            "source_id":
+                                "bazi.source.sanmingtonghui-applied",
+                            "quotes": [{
+                                "source_id":
+                                    "bazi.source.sanmingtonghui-applied",
+                                "source_section_id": "bazi.section.s068",
+                                "quote": "大运以月令为纲。",
+                            }],
+                        }],
+                    },
+                    "shenfeng": {
+                        "direction": {"rule_quote": {
+                            "source_id": "bazi.source.shenfeng",
+                            "source_section_id": "bazi.section.s073",
+                            "quote": "大运顺逆有定。",
+                        }},
+                        "sources": [{
+                            "source_id": "bazi.source.shenfeng",
+                            "quotes": [{
+                                "source_id": "bazi.source.shenfeng",
+                                "source_section_id": "bazi.section.s073",
+                                "quote": "大运顺逆有定。",
+                            }],
+                        }],
+                    },
+                },
+                "method_options": [
+                    {"source_id": "bazi.source.sanmingtonghui"},
+                    {"source_id": "bazi.source.shenfeng"},
+                ],
+                "evidence": {"rules": [
+                    {"source_id":
+                        "bazi.source.sanmingtonghui-applied"},
+                    {"source_id": "bazi.source.shenfeng"},
+                ]},
+            },
+        },
+    }
+
+
 class StrengthBuilderBoundaryTests(unittest.TestCase):
     def test_real_format_internal_ids_never_reach_the_public_object(self):
         assessment, view = _real_format_view()
@@ -401,6 +465,42 @@ class SharedCheckNegativeControlTests(unittest.TestCase):
             "lines"] = ["见 bazi.source.qiongtong 原文。"]
         violations = find_public_boundary_violations(envelope)
         self.assertTrue(any("bazi.source.qiongtong" in v
+                            for v in violations))
+
+    def test_dayun_citation_fields_are_exempt(self):
+        # The dayun citation fields are part of the reviewed
+        # dayun public shape (staged opening Phase 2, TJ-017.3):
+        # bound citations for displayed rule quotes, not leaks.
+        self.assertEqual(
+            find_public_boundary_violations(_dayun_envelope()), [])
+
+    def test_dayun_exemption_is_field_scoped_not_subtree_scoped(self):
+        # A raw source id in a dayun prose line is still a
+        # violation: only the bound-citation fields are exempt.
+        envelope = _dayun_envelope()
+        envelope["result"]["dayun_presentation"]["methods"]["sanming"][
+            "direction"]["rule_quote"]["quote"] = \
+            "见 bazi.source.sanmingtonghui-applied 原文。"
+        violations = find_public_boundary_violations(envelope)
+        self.assertTrue(any(
+            "bazi.source.sanmingtonghui-applied" in v
+            for v in violations))
+
+    def test_dayun_citation_fields_still_flag_hash_and_renshi(self):
+        # The dayun exemption covers only bazi.source/section in
+        # the citation fields: a raw hash or a renshi id there
+        # still fails.
+        envelope = _dayun_envelope()
+        envelope["result"]["dayun_presentation"]["method_options"][0][
+            "source_id"] = "a1b2c3d4e5f6a7b8c9d0e1f2"
+        violations = find_public_boundary_violations(envelope)
+        self.assertTrue(any("a1b2c3d4e5f6a7b8c9d0e1f2" in v
+                            for v in violations))
+        envelope = _dayun_envelope()
+        envelope["result"]["dayun_presentation"]["method_options"][0][
+            "source_id"] = "renshi.pattern.yin-true-v1"
+        violations = find_public_boundary_violations(envelope)
+        self.assertTrue(any("renshi.pattern.yin-true-v1" in v
                             for v in violations))
 
 

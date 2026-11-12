@@ -32,6 +32,14 @@ an oversight):
   against Phase1 refs (adjudicated TJ-013.3 shape). The exemption
   is field-scoped, not subtree-scoped -- prose lines inside the
   xiyong presentation still fail on a raw source id.
+* The same bound-citation logic covers the dayun presentation's
+  citation fields (``source_id`` / ``source_section_id`` inside a
+  ``dayun_presentation`` subtree): each such citation is bound to
+  a displayed rule quote or source list and is part of the
+  reviewed dayun public shape (staged opening Phase 2, TJ-017.3).
+  The exemption is field-scoped, not subtree-scoped -- a raw
+  source id in a dayun prose line, a raw hash, or a ``renshi.*``
+  id anywhere in the dayun presentation still fails.
 * NOT flagged (reviewed shapes, kept by design): the scalar
   ``phase1_rule_id`` / ``phase2_step_id`` registry ids on the
   strength and xiyong presentations, the xiyong
@@ -70,6 +78,10 @@ _PUBLIC_ALIAS_RE = re.compile(r"^[ER]\d+$")
 _XIYONG_CITATION_KEYS = frozenset(
     {"source_id", "section_id", "section_ids"})
 
+# Approved bound-citation fields, dayun_presentation subtree only.
+_DAYUN_CITATION_KEYS = frozenset(
+    {"source_id", "source_section_id"})
+
 
 def find_public_boundary_violations(value):
     """All raw-internal-identifier violations in ``value``.
@@ -79,7 +91,7 @@ def find_public_boundary_violations(value):
     presentation object, or any nested value inside one.
     """
     violations = []
-    _scan(value, "$", False, None, violations)
+    _scan(value, "$", False, False, None, violations)
     return violations
 
 
@@ -95,7 +107,7 @@ def find_raw_hash_tokens(text):
     return RAW_HASH_TOKEN_RE.findall(text)
 
 
-def _scan(value, path, in_xiyong, key, violations):
+def _scan(value, path, in_xiyong, in_dayun, key, violations):
     if isinstance(value, str):
         token = RAW_HASH_TOKEN_RE.search(value)
         if token is not None:
@@ -104,8 +116,9 @@ def _scan(value, path, in_xiyong, key, violations):
             return
         for prefix in _INTERNAL_ID_PREFIXES:
             if prefix in value:
-                if prefix.startswith("bazi.") and in_xiyong \
-                        and key in _XIYONG_CITATION_KEYS:
+                if prefix.startswith("bazi.") and (
+                        (in_xiyong and key in _XIYONG_CITATION_KEYS)
+                        or (in_dayun and key in _DAYUN_CITATION_KEYS)):
                     return
                 violations.append(
                     "raw internal identifier %r at %s" % (value, path))
@@ -121,15 +134,17 @@ def _scan(value, path, in_xiyong, key, violations):
                         "unresolved identifier %r in %s at %s"
                         % (item, key, item_path))
                 else:
-                    _scan(item, item_path, in_xiyong, key, violations)
+                    _scan(item, item_path, in_xiyong, in_dayun, key,
+                          violations)
         else:
             for index, item in enumerate(value):
-                _scan(item, "%s[%d]" % (path, index), in_xiyong, key,
-                      violations)
+                _scan(item, "%s[%d]" % (path, index), in_xiyong, in_dayun,
+                      key, violations)
         return
     if isinstance(value, dict):
         for child_key, item in value.items():
             _scan(item, "%s.%s" % (path, child_key),
                   in_xiyong or child_key == "xiyong_presentation",
+                  in_dayun or child_key == "dayun_presentation",
                   child_key, violations)
         return
