@@ -62,6 +62,17 @@ The research assessment itself (``strength_assessment``) stays
 research_only / public_enabled=False / ai_enabled=False and is never
 released; only the validated presentation object is lifted by the
 projection, and only for the bazi-profile envelope.
+
+TJ-003.3: the public object carries no evidence / source reference
+fields (``evidence_ids`` / ``source_ids``). The bound evidence lists
+are verified mechanically by this builder against the same request's
+executed trace and evidence records -- a presented verdict without
+bound evidence still fails closed -- but the binding itself is
+server-side audit only: the D-1 evidence is not in the public
+envelope's admitted evidence, so aliasing the raw ids would dangle,
+and the raw ids (``sha256(reference)[:24]`` keys into the sealed
+canonical evidence store) must not reach a public response. The
+same rule as the pattern presentation (TJ-012.3 Stage B).
 """
 
 import copy
@@ -128,8 +139,7 @@ _COMMON_KEYS = frozenset((
     "scope_statement", "limitations"))
 _PRESENTED_KEYS = _COMMON_KEYS | frozenset((
     "statement", "classification", "predicate_id", "phase1_rule_id",
-    "phase2_step_id", "rule_registration", "conditions",
-    "evidence_ids", "source_ids"))
+    "phase2_step_id", "rule_registration", "conditions"))
 _PRESENTED_CHANGSHENG_KEYS = _PRESENTED_KEYS | frozenset(("segment_gate",))
 _NOT_JUDGEABLE_KEYS = _COMMON_KEYS | frozenset(("reason",))
 _CONFLICT_KEYS = _COMMON_KEYS | frozenset(("conflict_ids", "blocker_reasons"))
@@ -450,8 +460,11 @@ def public_strength_presentation(assessment, execution):
     result["phase2_step_id"] = phase2_step_id
     result["rule_registration"] = registration
     result["conditions"] = conditions
-    result["evidence_ids"] = evidence_ids
-    result["source_ids"] = source_ids
+    # TJ-003.3: the bound evidence_ids / source_ids are verified
+    # above (drift check, fail-closed empty check) and stay
+    # server-side audit only -- they are NOT copied onto the public
+    # object. The D-1 evidence is not in the public envelope's
+    # admitted evidence, so aliasing the raw ids would dangle.
     if predicate_id == "changsheng_visible_support":
         # The segment gate is not a trace fact: it enters only through
         # the combination function's validated pilot claim on the same
@@ -495,7 +508,10 @@ def is_valid_public_strength_presentation(obj):
     Mirrors the xiyong/dayun validators: exact top-level key set per
     status, verbatim variant/statement/scope/limitations, and the
     predicate-scope and gate consistency that can be checked without
-    the execution record. Anything else is stripped by the projection.
+    the execution record. The exact key-set check above forbids any
+    internal reference field (``evidence_ids`` / ``source_ids``):
+    a candidate carrying one is not a valid public presentation.
+    Anything else is stripped by the projection.
     """
     if not isinstance(obj, dict):
         return False
@@ -557,11 +573,9 @@ def is_valid_public_strength_presentation(obj):
                     or not isinstance(condition.get("fact_ref"), str) \
                     or not _FACT_REF_RE.match(condition["fact_ref"]):
                 return False
-        if not isinstance(obj.get("evidence_ids"), list) \
-                or not obj["evidence_ids"] \
-                or not isinstance(obj.get("source_ids"), list) \
-                or not obj["source_ids"]:
-            return False
+        # TJ-003.3: no evidence / source reference fields on the
+        # public object -- the exact key-set check above already
+        # forbids them; there is nothing further to require here.
         if predicate_id == "changsheng_visible_support":
             gate = obj.get("segment_gate")
             if not isinstance(gate, dict) \
@@ -594,3 +608,31 @@ def is_valid_public_strength_presentation(obj):
         if "classification" in obj or "predicate_id" in obj:
             return False
     return True
+
+
+def to_public_strength_presentation(candidate):
+    """Allowlist projection of a validated presentation candidate.
+
+    Returns a fresh dict containing ONLY the keys the candidate's
+    status allows (per ``_PRESENTED_KEYS`` /
+    ``_PRESENTED_CHANGSHENG_KEYS`` / ``_NOT_JUDGEABLE_KEYS`` /
+    ``_CONFLICT_KEYS``), built key by key -- never a verbatim copy.
+    A candidate that fails the closed-shape validator (including one
+    carrying any internal reference field -- ``evidence_ids`` /
+    ``source_ids``) raises ``ValueError``; the projection layer
+    treats that as "strip the key", never as a partial release.
+    Mirrors ``to_public_pattern_presentation`` (TJ-012.3 Stage B).
+    """
+    if not is_valid_public_strength_presentation(candidate):
+        _fail("candidate is not a valid public strength presentation")
+    status = candidate["status"]
+    if status == "presented":
+        if candidate.get("predicate_id") == "changsheng_visible_support":
+            keys = _PRESENTED_CHANGSHENG_KEYS
+        else:
+            keys = _PRESENTED_KEYS
+    elif status == "not_judgeable":
+        keys = _NOT_JUDGEABLE_KEYS
+    else:
+        keys = _CONFLICT_KEYS
+    return {key: copy.deepcopy(candidate[key]) for key in sorted(keys)}

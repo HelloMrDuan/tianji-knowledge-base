@@ -280,15 +280,21 @@ def project_execution(data):
         # U1 Batch B (user adjudication 2026-11-02, Q1=A): the same
         # scoped-release discipline for the strength presentation --
         # only a bazi-profile envelope, only in exactly the adjudicated
-        # shape; anything else is stripped below.
+        # shape; anything else is stripped below. TJ-003.3: the
+        # release is an allowlist projection, never a verbatim copy:
+        # the public shape carries no internal reference fields
+        # (``evidence_ids`` / ``source_ids``), because the D-1
+        # evidence is not in the public envelope's admitted evidence
+        # -- aliasing it would dangle. Mirrors the pattern release.
         strength_candidate = data['result'].get('strength_presentation')
         if strength_candidate is not None:
             from .bazi_strength_public import (
                 is_valid_public_strength_presentation,
+                to_public_strength_presentation,
             )
             if is_valid_public_strength_presentation(strength_candidate):
-                scoped_strength_presentation = copy.deepcopy(
-                    strength_candidate)
+                scoped_strength_presentation = \
+                    to_public_strength_presentation(strength_candidate)
         # TJ-012.3 Stage B (user 2026-11-10, limited exception to
         # the U1 pattern-field ban): the same scoped-release
         # discipline for the pattern presentation -- only a
