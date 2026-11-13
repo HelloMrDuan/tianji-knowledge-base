@@ -105,7 +105,18 @@ class ExplanationService:
         except (RetrievalUnavailable,OSError,ValueError) as error:raise ExplanationFailure('retrieval_unavailable') from error
         if not rows:raise ExplanationFailure('insufficient_evidence')
         context=context_for(raw,rows,self.prompt_version)
-        try:reply=await asyncio.wait_for(self.provider.explain(copy.deepcopy(context)),timeout=self.timeout)
+        # TJ-028.1 privacy boundary: only the SANITIZED copy reaches the
+        # model (sealed evidence text capped at the public-boundary length,
+        # birth instants / credentials stripped). The reply is validated
+        # against the REAL context, so citations keep binding to the real
+        # evidence (a quote from the truncated text is still a substring of
+        # the full text) and chart facts are never re-anchored to a redacted
+        # copy. If sanitization ever redacts a fact value, validation fails
+        # closed rather than proceeding with a mismatched fact.
+        from .model_client import sanitize_context
+        provider_key=getattr(self.provider,'settings',{}).get('key') if isinstance(getattr(self.provider,'settings',None),dict) else None
+        model_context=sanitize_context(context,api_key=provider_key)
+        try:reply=await asyncio.wait_for(self.provider.explain(copy.deepcopy(model_context)),timeout=self.timeout)
         except asyncio.TimeoutError as error:raise ExplanationFailure('provider_timeout') from error
         except Exception as error:raise ExplanationFailure('provider_failed') from error
         return validate_reply(reply,context)

@@ -3,6 +3,7 @@ import json,math,os
 from urllib.parse import urlsplit
 import httpx
 from .explanation import ExplanationFailure
+from .model_client import MAX_ATTEMPTS,ControlledModelClient
 
 DRIVERS=('disabled','json-http','openai-compatible')
 
@@ -39,22 +40,16 @@ def provider_configured():
     except (ExplanationFailure,ValueError):return False
 
 class HttpProvider:
-    def __init__(self,settings,*,transport=None):
-        self.settings=settings;self.transport=transport
+    # max_attempts defaults to 1 (no retry): model discovery already bounds
+    # its own attempts and must stop after one list/probe failure. The
+    # explanation path opts into bounded retry via provider_from_environment.
+    def __init__(self,settings,*,transport=None,max_attempts=1):
+        self.settings=settings;self.transport=transport;self.max_attempts=max_attempts
     async def request(self,method,url,body=None):
-        # Preserve inherited TLS CA and proxy configuration; never follow credential redirects.
-        async with httpx.AsyncClient(timeout=self.settings['timeout'],trust_env=True,transport=self.transport,
-                                     follow_redirects=False) as client:
-            async with client.stream(method,url,json=body,headers={'Authorization':'Bearer '+self.settings['key'],
-                    'Accept':'application/json'}) as response:
-                response.raise_for_status()
-                if 300<=response.status_code<400:raise ValueError('Provider redirects are not followed')
-                parts=[];size=0
-                async for block in response.aiter_bytes():
-                    size+=len(block)
-                    if size>262144:raise ValueError('Provider response exceeds allowed size')
-                    parts.append(block)
-                return json.loads(b''.join(parts))
+        # Controlled transport: bounded retry for transient failures only,
+        # typed errors, redacted logs. The key is sent only as a header.
+        client=ControlledModelClient(self.settings,transport=self.transport,max_attempts=self.max_attempts)
+        return await client.request(method,url,body)
 
     async def post(self,url,body):return await self.request('POST',url,body)
     async def get(self,url):return await self.request('GET',url)
@@ -80,4 +75,5 @@ def provider_from_environment():
     settings=settings_from_environment()
     if settings is None:return None
     factory=JsonHttpProvider if settings['driver']=='json-http' else OpenAICompatibleProvider
-    return factory(settings)
+    # Explanation path only: bounded retry (transient failures, max 3 attempts).
+    return factory(settings,max_attempts=MAX_ATTEMPTS)
