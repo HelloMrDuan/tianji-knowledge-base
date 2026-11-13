@@ -339,5 +339,211 @@ class ManifestSelfConsistencyTests(unittest.TestCase):
         self.assertIsNotNone(bv._manifest_self_consistent(manifest))
 
 
+class InventoryTests(unittest.TestCase):
+    """The private artifact delivery chain inventory."""
+
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp(prefix="tj0053-inventory-"))
+        self.base = self.tmp / "platform-deploy"
+        self._build_base()
+
+    def tearDown(self):
+        shutil.rmtree(self.tmp, ignore_errors=True)
+
+    def _build_base(self):
+        files = {"data/canonical/a.json": b'{"k": 1}',
+                 "data/canonical/b.json": b'{"k": 2}'}
+        snap = self.base / "secure" / "tianji-knowledge"
+        _write_snapshot(snap, files)
+        _write_snapshot(self.base / "secure" / "tianji-knowledge-pre-a",
+                        {"data/canonical/a.json": b'{"k": 1}'})
+        # The cicd pin is the SHA256 of the live manifest file.
+        manifest_path = snap / "private-data-manifest.json"
+        pin = _sha(manifest_path.read_bytes())
+        env = self.base / "cicd" / "env"
+        env.mkdir(parents=True)
+        (env / "trusted-acceptance").write_text(
+            "trusted manifest SHA256: %s\n" % pin, encoding="utf-8")
+        (env / "off-machine-backup.json").write_text(
+            json.dumps({"target": "operator-vault:tianji-2026-11-12",
+                        "last_verified": "2026-11-12"}), encoding="utf-8")
+        # The private build script the deploy agent invokes.
+        build = self.base / "tianji"
+        build.mkdir(parents=True)
+        script = build / "build-sealed-for.sh"
+        script.write_text("#!/bin/sh\n# sealed build\n", encoding="utf-8")
+        script.chmod(0o755)
+        # deploys.log + state (one DEPLOYED pair).
+        evid = self.base / "deployment-evidence" / "tj-core-01"
+        evid.mkdir(parents=True)
+        sha = "b" * 40
+        (evid / "deploys.log").write_text(
+            _log_line(sha=sha, result="DEPLOYED",
+                      image="tianji-api:cicd-prerelease-bbbbbbbb",
+                      detail="health+bazi ok",
+                      ts="2026-11-12T00:01:00+00:00") + "\n",
+            encoding="utf-8")
+        state = self.base / "cicd" / "state"
+        state.mkdir(parents=True)
+        (state / "tianji-prerelease.sha").write_text(sha, encoding="utf-8")
+        (state / "tianji-prerelease.api-image").write_text(
+            "tianji-api:cicd-prerelease-bbbbbbbb", encoding="utf-8")
+        (state / "tianji-prerelease.web-image").write_text(
+            "ghcr.io/hellomrduan/tianji-web:" + sha, encoding="utf-8")
+        # Admin DB.
+        admin = self.base / "data" / "tianji-admin"
+        admin.mkdir(parents=True)
+        (admin / "tianji_admin.db").write_bytes(
+            b"SQLite format 3\x00" + b"\x00" * 100)
+        # Private repo: real git repo, clean tree.
+        self._init_private_repo()
+        self._sha = sha
+
+    def _init_private_repo(self):
+        repo = self.base / "projects" / "tianji-private-knowledge"
+        repo.mkdir(parents=True)
+        if not HAVE_GIT:
+            return
+        subprocess.run(["git", "init", "-q", str(repo)], check=True)
+        subprocess.run(["git", "-C", str(repo), "config", "user.email",
+                        "test@example.invalid"], check=True)
+        subprocess.run(["git", "-C", str(repo), "config", "user.name",
+                        "test"], check=True)
+        (repo / "README.md").write_text("private\n", encoding="utf-8")
+        subprocess.run(["git", "-C", str(repo), "add", "."], check=True)
+        subprocess.run(["git", "-C", str(repo), "commit", "-qm", "init"],
+                       check=True)
+
+    def _inventory(self):
+        images = {
+            "tianji-api:cicd-prerelease-bbbbbbbb",
+            "ghcr.io/hellomrduan/tianji-web:" + self._sha,
+            "tianji-api:sealed-82b119e",
+            "tianji-web:static-82b119e",
+        }
+        with patch.object(bv, "_docker_images", return_value=images):
+            return bv.inventory(self.base)
+
+    def _names(self, result):
+        return [a["name"] for a in result["artifacts"]]
+
+    def test_healthy_chain_has_no_unresolvable_links(self):
+        result = self._inventory()
+        self.assertEqual(result["unresolvable"], [],
+                         msg=json.dumps(result, indent=2))
+        self.assertEqual(self._names(result), [
+            "live_snapshot", "cicd_pin", "private_build_script",
+            "private_repo", "deploys_log", "admin_db", "ghcr_web_image"])
+        by_name = {a["name"]: a for a in result["artifacts"]}
+        # Every artifact carries a pin and a last-verified timestamp.
+        for name, artifact in by_name.items():
+            self.assertTrue(artifact["pin"], name)
+            self.assertTrue(artifact["last_verified"]
+                            or name == "private_repo", name)
+        # The live snapshot pin equals the cicd pin (the chain binds).
+        self.assertEqual(by_name["live_snapshot"]["pin"],
+                         by_name["cicd_pin"]["pin"])
+        self.assertEqual(by_name["deploys_log"]["pin"], self._sha)
+        self.assertEqual(by_name["ghcr_web_image"]["pin"],
+                         "ghcr.io/hellomrduan/tianji-web:" + self._sha)
+
+    def test_inventory_is_read_only(self):
+        def fingerprint():
+            out = []
+            for path in sorted(self.base.rglob("*")):
+                if path.is_file():
+                    out.append((str(path.relative_to(self.base)),
+                                path.stat().st_size,
+                                _sha(path.read_bytes())))
+            return out
+        before = fingerprint()
+        self._inventory()
+        self.assertEqual(before, fingerprint())
+
+    def test_each_missing_artifact_is_unresolvable(self):
+        cases = [
+            ("live_snapshot",
+             self.base / "secure" / "tianji-knowledge"
+             / "private-data-manifest.json"),
+            ("cicd_pin",
+             self.base / "cicd" / "env" / "trusted-acceptance"),
+            ("private_build_script",
+             self.base / "tianji" / "build-sealed-for.sh"),
+            ("private_repo",
+             self.base / "projects" / "tianji-private-knowledge"),
+            ("deploys_log",
+             self.base / "deployment-evidence" / "tj-core-01" / "deploys.log"),
+            ("admin_db",
+             self.base / "data" / "tianji-admin" / "tianji_admin.db"),
+            ("ghcr_web_image",
+             self.base / "cicd" / "state" / "tianji-prerelease.web-image"),
+        ]
+        for name, path in cases:
+            if path.is_dir():
+                shutil.rmtree(path)
+            else:
+                path.unlink()
+            result = self._inventory()
+            self.assertIn(name, " ".join(result["unresolvable"]), name)
+            # Rebuild the whole base from scratch for the next case.
+            shutil.rmtree(self.base)
+            self._build_base()
+
+    def test_snapshot_pin_mismatch_is_unresolvable(self):
+        # The cicd pin records a different manifest SHA256 than the
+        # live snapshot carries: the chain link is broken.
+        (self.base / "cicd" / "env" / "trusted-acceptance").write_text(
+            "trusted manifest SHA256: %s\n" % ("e" * 64), encoding="utf-8")
+        result = self._inventory()
+        self.assertIn("live_snapshot", " ".join(result["unresolvable"]))
+        failed = [a for a in result["artifacts"]
+                  if a["name"] == "live_snapshot"][0]
+        self.assertEqual(failed["status"], "fail")
+        self.assertIn("!= cicd pin", failed["detail"])
+
+    def test_malformed_web_image_ref_is_unresolvable(self):
+        (self.base / "cicd" / "state" / "tianji-prerelease.web-image").write_text(
+            "not-a-ghcr-image", encoding="utf-8")
+        result = self._inventory()
+        self.assertIn("ghcr_web_image", " ".join(result["unresolvable"]))
+
+    def test_missing_docker_is_skip_not_unresolvable(self):
+        # Without docker the web image presence cannot be checked,
+        # but the recorded ref is still a resolvable chain link.
+        with patch.object(bv, "_docker_images", return_value=None):
+            result = bv.inventory(self.base)
+        by_name = {a["name"]: a for a in result["artifacts"]}
+        self.assertEqual(by_name["ghcr_web_image"]["status"], "skip")
+        self.assertEqual(result["unresolvable"], [])
+
+    def test_inventory_cli_exit_codes(self):
+        with patch.object(bv, "_docker_images",
+                          return_value={
+                              "tianji-api:cicd-prerelease-bbbbbbbb",
+                              "ghcr.io/hellomrduan/tianji-web:" + self._sha,
+                              "tianji-api:sealed-82b119e",
+                              "tianji-web:static-82b119e"}), \
+                patch.object(sys, "argv",
+                             ["backup_verification.py", "--base",
+                              str(self.base), "--inventory"]):
+            self.assertEqual(bv.main(), 0)
+        (self.base / "cicd" / "env" / "trusted-acceptance").unlink()
+        with patch.object(bv, "_docker_images",
+                          return_value={
+                              "tianji-api:cicd-prerelease-bbbbbbbb",
+                              "ghcr.io/hellomrduan/tianji-web:" + self._sha,
+                              "tianji-api:sealed-82b119e",
+                              "tianji-web:static-82b119e"}), \
+                patch.object(sys, "argv",
+                             ["backup_verification.py", "--base",
+                              str(self.base), "--inventory"]):
+            self.assertEqual(bv.main(), 1)
+        with patch.object(sys, "argv",
+                          ["backup_verification.py", "--base",
+                           str(self.tmp / "does-not-exist"),
+                           "--inventory"]):
+            self.assertEqual(bv.main(), 2)
+
+
 if __name__ == "__main__":
     unittest.main()

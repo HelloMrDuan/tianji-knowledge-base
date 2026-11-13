@@ -383,6 +383,193 @@ def check_off_machine_backup(base: Path) -> dict:
                       % (data["target"], data["last_verified"])}
 
 
+def _file_pin(path: Path) -> str | None:
+    """SHA256 of a file, or None when it cannot be read."""
+    try:
+        return _hash(path)
+    except OSError:
+        return None
+
+
+def _mtime_iso(path: Path) -> str | None:
+    """File mtime as an ISO timestamp, or None when it cannot be read."""
+    try:
+        import datetime
+        return datetime.datetime.fromtimestamp(
+            path.stat().st_mtime, tz=datetime.timezone.utc).isoformat().replace(
+                "+00:00", "Z")
+    except OSError:
+        return None
+
+
+def _trusted_pin(base: Path) -> str | None:
+    """The cicd pin: the first 64-hex SHA256 in trusted-acceptance."""
+    record = base / "cicd" / "env" / "trusted-acceptance"
+    try:
+        text = record.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return None
+    # DIGEST is anchored for fullmatch validation; a pin search must
+    # find the 64-hex anywhere in the record (the deploy agent uses
+    # grep -oE '[0-9a-f]{64}' the same way).
+    match = re.search(r"[0-9a-f]{64}", text)
+    return match.group(0) if match else None
+
+
+def inventory(base: Path) -> dict:
+    """Map every private artifact to location, pin, last-verified.
+
+    One entry per artifact in the private delivery chain: the live
+    snapshot, the cicd pin, the private build script, the private
+    repo, deploys.log, the admin DB, and the GHCR web image. Each
+    entry carries its location (relative to the base), its pin /
+    manifest value, its last-verified timestamp, and a status.
+    "unresolvable" lists every artifact whose location or pin
+    cannot be resolved (missing file, unreadable record, malformed
+    pin, or a pin that does not match the artifact it must bind
+    to). A "skip" is not unresolvable: it means the check needs a
+    tool that is unavailable here (docker), and the entry says so.
+    """
+    if not base.is_dir():
+        return {"artifacts": [], "unresolvable": ["base dir missing: %s" % base],
+                "error": "base dir missing: %s" % base}
+    artifacts: list[dict] = []
+
+    def entry(name, location, pin, last_verified, status, detail):
+        artifacts.append({"name": name, "location": str(location),
+                          "pin": pin, "last_verified": last_verified,
+                          "status": status, "detail": detail})
+
+    # Live snapshot: the manifest file is the pin; it must also
+    # match the cicd pin (the trusted manifest SHA256).
+    snap = base / "secure" / "tianji-knowledge"
+    snap_manifest = snap / MANIFEST_NAME
+    snap_pin = _file_pin(snap_manifest) if snap_manifest.is_file() else None
+    trusted = _trusted_pin(base)
+    if snap_pin is None:
+        entry("live_snapshot", "secure/tianji-knowledge", None, None,
+              "fail", "manifest missing or unreadable: %s" % snap_manifest)
+    else:
+        check = check_snapshot(base, full=False)
+        if check["status"] != "pass":
+            entry("live_snapshot", "secure/tianji-knowledge", snap_pin,
+                  _mtime_iso(snap_manifest), "fail", check["detail"])
+        elif trusted is not None and snap_pin != trusted:
+            entry("live_snapshot", "secure/tianji-knowledge", snap_pin,
+                  _mtime_iso(snap_manifest), "fail",
+                  "manifest SHA256 %s != cicd pin %s"
+                  % (snap_pin[:16], trusted[:16]))
+        else:
+            entry("live_snapshot", "secure/tianji-knowledge", snap_pin,
+                  _mtime_iso(snap_manifest), "pass",
+                  "manifest self-consistent%s"
+                  % ("; matches cicd pin" if trusted else
+                     "; cicd pin not recorded"))
+
+    # Cicd pin: the trusted manifest SHA256 in trusted-acceptance.
+    pin_path = base / "cicd" / "env" / "trusted-acceptance"
+    if trusted is None:
+        entry("cicd_pin", "cicd/env/trusted-acceptance", None,
+              _mtime_iso(pin_path) if pin_path.is_file() else None,
+              "fail", "no 64-hex trusted manifest SHA256 recorded")
+    else:
+        entry("cicd_pin", "cicd/env/trusted-acceptance", trusted,
+              _mtime_iso(pin_path), "pass",
+              "trusted manifest SHA256 %s" % trusted[:16])
+
+    # Private build script: the script the deploy agent invokes.
+    script = base / "tianji" / "build-sealed-for.sh"
+    script_pin = _file_pin(script) if script.is_file() else None
+    if script_pin is None:
+        entry("private_build_script", "tianji/build-sealed-for.sh", None,
+              None, "fail", "build script missing: %s" % script)
+    else:
+        import os
+        executable = os.access(script, os.X_OK)
+        entry("private_build_script", "tianji/build-sealed-for.sh",
+              script_pin, _mtime_iso(script),
+              "pass" if executable else "fail",
+              "build script present%s"
+              % ("" if executable else "; NOT executable"))
+
+    # Private repo: git HEAD is the pin; a dirty tree is a gap.
+    repo = base / "projects" / "tianji-private-knowledge"
+    repo_check = check_private_repo(base)
+    head = None
+    if (repo / ".git").exists():
+        try:
+            out = subprocess.run(
+                ["git", "-C", str(repo), "rev-parse", "HEAD"],
+                capture_output=True, text=True, timeout=30, check=False)
+            if out.returncode == 0:
+                head = out.stdout.strip()
+        except (OSError, subprocess.SubprocessError):
+            head = None
+    entry("private_repo", "projects/tianji-private-knowledge", head,
+          None, repo_check["status"], repo_check["detail"])
+
+    # deploys.log: the last DEPLOYED SHA is the pin.
+    log_check = check_deploys_log(base)
+    log = base / "deployment-evidence" / "tj-core-01" / "deploys.log"
+    last_sha = None
+    last_ts = None
+    if log.is_file():
+        rows, errors = _parse_deploys_log(log)
+        deployed = [r for r in rows if r.get("result") == "DEPLOYED"]
+        if deployed and not errors:
+            last_sha = str(deployed[-1].get("sha"))
+            last_ts = str(deployed[-1].get("ts"))
+    entry("deploys_log", "deployment-evidence/tj-core-01/deploys.log",
+          last_sha, last_ts, log_check["status"], log_check["detail"])
+
+    # Admin DB: presence + size is the pin (a hash would be
+    # expensive and the DB changes on every deploy; the bind-mount
+    # target existing is the chain link).
+    db = base / "data" / "tianji-admin" / "tianji_admin.db"
+    if not db.is_file():
+        entry("admin_db", "data/tianji-admin/tianji_admin.db", None, None,
+              "fail", "audit DB target missing: %s" % db)
+    else:
+        entry("admin_db", "data/tianji-admin/tianji_admin.db",
+              "size=%d" % db.stat().st_size, _mtime_iso(db), "pass",
+              "audit DB present (%d bytes)" % db.stat().st_size)
+
+    # GHCR web image: the ref recorded in the state file is the pin.
+    web_state = base / "cicd" / "state" / "tianji-prerelease.web-image"
+    web_ref = None
+    if web_state.is_file():
+        web_ref = web_state.read_text(encoding="utf-8").strip() or None
+    if web_ref is None:
+        entry("ghcr_web_image", "cicd/state/tianji-prerelease.web-image",
+              None, None, "fail", "web image state file missing or empty")
+    elif not web_ref.startswith("ghcr.io/hellomrduan/tianji-web:"):
+        entry("ghcr_web_image", "cicd/state/tianji-prerelease.web-image",
+              web_ref, _mtime_iso(web_state), "fail",
+              "web image ref is not a GHCR tianji-web image: %s" % web_ref)
+    else:
+        images = _docker_images()
+        if images is None:
+            entry("ghcr_web_image",
+                  "cicd/state/tianji-prerelease.web-image", web_ref,
+                  _mtime_iso(web_state), "skip",
+                  "ref recorded (%s); docker unavailable, local "
+                  "presence not checked" % web_ref)
+        elif web_ref not in images:
+            entry("ghcr_web_image",
+                  "cicd/state/tianji-prerelease.web-image", web_ref,
+                  _mtime_iso(web_state), "fail",
+                  "recorded web image not present locally: %s" % web_ref)
+        else:
+            entry("ghcr_web_image",
+                  "cicd/state/tianji-prerelease.web-image", web_ref,
+                  _mtime_iso(web_state), "pass",
+                  "recorded web image present locally")
+
+    unresolvable = ["%s: %s" % (a["name"], a["detail"])
+                    for a in artifacts if a["status"] == "fail"]
+    return {"artifacts": artifacts, "unresolvable": unresolvable}
+
+
 def verify(base: Path, full: bool = False,
            min_root_gb: int = MIN_FREE_ROOT_GB,
            min_data_gb: int = MIN_FREE_DATA_GB) -> dict:
@@ -415,11 +602,35 @@ def main() -> int:
                         help="Deployment base dir (default: %(default)s)")
     parser.add_argument("--full", action="store_true",
                         help="Re-hash every snapshot file (slower)")
+    parser.add_argument("--inventory", action="store_true",
+                        help="Print the private artifact delivery chain "
+                             "(location, pin, last-verified per artifact) "
+                             "instead of the gap checks; exit 1 when any "
+                             "link is unresolvable")
     parser.add_argument("--json", action="store_true",
                         help="Emit JSON instead of a human summary")
     parser.add_argument("--min-root-gb", type=int, default=MIN_FREE_ROOT_GB)
     parser.add_argument("--min-data-gb", type=int, default=MIN_FREE_DATA_GB)
     args = parser.parse_args()
+    if args.inventory:
+        result = inventory(args.base)
+        if args.json:
+            print(json.dumps(result, ensure_ascii=False, indent=2))
+        else:
+            for artifact in result["artifacts"]:
+                print("[%s] %s: %s (pin %s, last verified %s)"
+                      % (artifact["status"].upper(), artifact["name"],
+                         artifact["detail"], artifact["pin"],
+                         artifact["last_verified"]))
+            if result["unresolvable"]:
+                print("UNRESOLVABLE (%d):" % len(result["unresolvable"]))
+                for item in result["unresolvable"]:
+                    print("  - %s" % item)
+            else:
+                print("All chain links resolvable.")
+        if "error" in result:
+            return 2
+        return 1 if result["unresolvable"] else 0
     result = verify(args.base, full=args.full,
                     min_root_gb=args.min_root_gb,
                     min_data_gb=args.min_data_gb)
