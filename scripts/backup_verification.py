@@ -41,13 +41,23 @@ import re
 import shutil
 import subprocess
 import sys
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 MANIFEST_NAME = "private-data-manifest.json"
 SNAPSHOT_SCHEMA = "private-data-snapshot-v2"
 DIGEST = re.compile(r"[0-9a-f]{64}\Z")
 PROTECTED_API = "tianji-api:sealed-82b119e"
 PROTECTED_WEB = "tianji-web:static-82b119e"
+# The stable deploy channel. Preview channels ("preview-*") are never a
+# stable rollback pair and never the "last DEPLOYED" for state checks.
+STABLE_CHANNEL = "prerelease"
+# Manifest file paths use the private-data-snapshot-v2 layout
+# (scripts/private_data_snapshot.py): data/<area>/..., one of the
+# snapshot areas. This mirrors that module's _safe_relative rule;
+# keep in sync (tests cross-check the two validators).
+_MANIFEST_AREAS = ("audit", "canonical", "coverage", "index", "product",
+                   "quarantine", "reference", "registry", "research",
+                   "state", "upstream")
 # Deploy agent thresholds (scripts/deploy-agent-tj.sh ensure_disk_tj):
 # root filesystem >= 4 GiB free, /data >= 2 GiB free.
 MIN_FREE_ROOT_GB = 4
@@ -60,6 +70,29 @@ def _hash(path: Path) -> str:
         for chunk in iter(lambda: reader.read(1024 * 1024), b""):
             sha.update(chunk)
     return sha.hexdigest()
+
+
+def _safe_manifest_path(value: object) -> str:
+    """Validate a manifest file path. Returns it, or raises ValueError.
+
+    Same rule as scripts/private_data_snapshot._safe_relative (the
+    canonical rule for private-data-snapshot-v2 manifests): a relative
+    posix path under data/<area>/ with at least three parts, no empty,
+    "." or ".." part, no backslash, no NUL, in canonical posix form.
+    A path that fails here must never be joined to a snapshot dir:
+    traversal (".."), an absolute path, or a non-data prefix could
+    escape the isolated tree.
+    """
+    if (not isinstance(value, str) or not value or "\\" in value
+            or "\x00" in value):
+        raise ValueError("Unsafe manifest path")
+    parts = value.split("/")
+    if (len(parts) < 3 or parts[0] != "data"
+            or parts[1] not in _MANIFEST_AREAS
+            or any(p in ("", ".", "..") for p in parts)
+            or PurePosixPath(value).as_posix() != value):
+        raise ValueError("Unsafe manifest path")
+    return value
 
 
 def _manifest_self_consistent(manifest: dict) -> str | None:
@@ -77,8 +110,11 @@ def _manifest_self_consistent(manifest: dict) -> str | None:
         if not isinstance(row, dict):
             return "malformed manifest entry"
         path, size, sha = row.get("path"), row.get("bytes"), row.get("sha256")
-        if (not isinstance(path, str) or not path or "\\" in path
-                or path in seen or type(size) is not int or size < 0
+        try:
+            _safe_manifest_path(path)
+        except ValueError:
+            return "unsafe manifest path: %r" % (path,)
+        if (path in seen or type(size) is not int or size < 0
                 or not isinstance(sha, str) or not DIGEST.fullmatch(sha)):
             return "invalid or duplicated manifest entry: %r" % (path,)
         seen.add(path)
@@ -113,6 +149,9 @@ def check_snapshot(base: Path, full: bool) -> dict:
         manifest["schema_version"])
     for row in manifest["files"]:
         target = snap / row["path"]
+        if target.is_symlink():
+            return {"name": "live_snapshot", "status": "fail",
+                    "detail": "manifested file is a symlink: %s" % row["path"]}
         if not target.is_file():
             return {"name": "live_snapshot", "status": "fail",
                     "detail": "manifested file missing: %s" % row["path"]}
@@ -180,7 +219,12 @@ def _parse_deploys_log(path: Path) -> tuple[list[dict], list[str]]:
 
 
 def check_deploys_log(base: Path) -> dict:
-    """Span, result counts, and last DEPLOYED vs recorded state."""
+    """Span, result counts, and last stable DEPLOYED vs recorded state.
+
+    Only the stable channel (prerelease) counts: a newer preview-channel
+    DEPLOYED must never become the "last DEPLOYED" the recorded state is
+    compared against.
+    """
     log = base / "deployment-evidence" / "tj-core-01" / "deploys.log"
     if not log.is_file():
         return {"name": "deploys_log", "status": "fail",
@@ -195,21 +239,22 @@ def check_deploys_log(base: Path) -> dict:
     counts: dict[str, int] = {}
     for row in rows:
         counts[row.get("result", "?")] = counts.get(row.get("result", "?"), 0) + 1
-    deployed = [r for r in rows if r.get("result") == "DEPLOYED"]
+    deployed = [r for r in rows if r.get("result") == "DEPLOYED"
+                and r.get("channel") == STABLE_CHANNEL]
     if not deployed:
         return {"name": "deploys_log", "status": "fail",
-                "detail": "%d lines, no DEPLOYED entry; counts %s"
-                          % (len(rows), counts)}
+                "detail": "%d lines, no stable (%s) DEPLOYED entry; counts %s"
+                          % (len(rows), STABLE_CHANNEL, counts)}
     last = deployed[-1]
     state = base / "cicd" / "state" / "tianji-prerelease.sha"
-    detail = ("%d lines %s..%s; counts %s; last DEPLOYED %s at %s"
+    detail = ("%d lines %s..%s; counts %s; last stable DEPLOYED %s at %s"
               % (len(rows), rows[0].get("ts"), rows[-1].get("ts"),
                  counts, str(last.get("sha"))[:12], last.get("ts")))
     if state.is_file():
         recorded = state.read_text(encoding="utf-8").strip()
         if recorded and recorded != last.get("sha"):
             return {"name": "deploys_log", "status": "fail",
-                    "detail": detail + "; recorded state %s != last DEPLOYED %s"
+                    "detail": detail + "; recorded state %s != last stable DEPLOYED %s"
                               % (recorded[:12], str(last.get("sha"))[:12])}
     return {"name": "deploys_log", "status": "pass", "detail": detail}
 
@@ -266,7 +311,7 @@ def check_rollback_history(base: Path) -> dict:
         return {"name": "rollback_history", "status": "fail",
                 "detail": "; ".join(errors[:5])}
     rolled = [r for r in rows if r.get("result") == "FAILED_ROLLED_BACK"]
-    stable = [r for r in rolled if r.get("channel") == "prerelease"]
+    stable = [r for r in rolled if r.get("channel") == STABLE_CHANNEL]
     preview = [r for r in rolled if str(r.get("channel", "")).startswith("preview-")]
     detail = "%d rollbacks total (%d stable, %d preview)" % (
         len(rolled), len(stable), len(preview))
@@ -508,14 +553,16 @@ def inventory(base: Path) -> dict:
     entry("private_repo", "projects/tianji-private-knowledge", head,
           None, repo_check["status"], repo_check["detail"])
 
-    # deploys.log: the last DEPLOYED SHA is the pin.
+    # deploys.log: the last stable DEPLOYED SHA is the pin. A newer
+    # preview-channel DEPLOYED must never become the stable pin.
     log_check = check_deploys_log(base)
     log = base / "deployment-evidence" / "tj-core-01" / "deploys.log"
     last_sha = None
     last_ts = None
     if log.is_file():
         rows, errors = _parse_deploys_log(log)
-        deployed = [r for r in rows if r.get("result") == "DEPLOYED"]
+        deployed = [r for r in rows if r.get("result") == "DEPLOYED"
+                    and r.get("channel") == STABLE_CHANNEL]
         if deployed and not errors:
             last_sha = str(deployed[-1].get("sha"))
             last_ts = str(deployed[-1].get("ts"))

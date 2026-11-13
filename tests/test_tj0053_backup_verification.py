@@ -274,6 +274,50 @@ class BackupVerificationFixture(unittest.TestCase):
         self.assertEqual(failed["status"], "fail")
         self.assertIn("B002", failed["detail"])
 
+    def test_symlinked_manifested_file_is_a_gap(self):
+        target = (self.base / "secure" / "tianji-knowledge"
+                  / "data" / "canonical" / "a.json")
+        outside = self.tmp / "outside.json"
+        outside.write_bytes(b'{"k": 9}')
+        target.unlink()
+        os.symlink(outside, target)
+        result = self._verify()
+        failed = [c for c in result["checks"]
+                  if c["name"] == "live_snapshot"][0]
+        self.assertEqual(failed["status"], "fail")
+        self.assertIn("symlink", failed["detail"])
+
+    def test_deploys_log_ignores_preview_for_last_stable(self):
+        # A newer preview DEPLOYED must not displace the last stable
+        # DEPLOYED the recorded state is compared against.
+        evid = self.base / "deployment-evidence" / "tj-core-01" / "deploys.log"
+        sha_new = "b" * 40
+        lines = evid.read_text(encoding="utf-8").splitlines()
+        lines.append(_log_line(sha="c" * 40, result="DEPLOYED",
+                               channel="preview-round1",
+                               image="tianji-api:preview-c",
+                               ts="2026-11-12T00:05:00+00:00"))
+        evid.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        result = self._verify()
+        passed = [c for c in result["checks"]
+                  if c["name"] == "deploys_log"][0]
+        self.assertEqual(passed["status"], "pass")
+        self.assertIn("last stable DEPLOYED %s" % sha_new[:12],
+                      passed["detail"])
+
+    def test_deploys_log_fails_when_only_preview_deployed(self):
+        evid = self.base / "deployment-evidence" / "tj-core-01" / "deploys.log"
+        lines = [_log_line(sha="c" * 40, result="DEPLOYED",
+                           channel="preview-round1",
+                           image="tianji-api:preview-c",
+                           ts="2026-11-12T00:05:00+00:00")]
+        evid.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        result = self._verify()
+        failed = [c for c in result["checks"]
+                  if c["name"] == "deploys_log"][0]
+        self.assertEqual(failed["status"], "fail")
+        self.assertIn("no stable", failed["detail"])
+
     def test_disk_threshold_override_forces_gap(self):
         result = self._verify(min_root_gb=10 ** 6, min_data_gb=10 ** 6)
         self.assertIn("disk", " ".join(result["gaps"]))
@@ -337,6 +381,72 @@ class ManifestSelfConsistencyTests(unittest.TestCase):
         row = {"path": "data/canonical/a.json", "bytes": 3, "sha256": "zz"}
         manifest = _manifest([row])
         self.assertIsNotNone(bv._manifest_self_consistent(manifest))
+
+    def test_traversal_path_fails(self):
+        row = {"path": "data/canonical/../../evil.json", "bytes": 3,
+               "sha256": _sha(b"abc")}
+        manifest = _manifest([row])
+        self.assertIn("unsafe manifest path",
+                      bv._manifest_self_consistent(manifest))
+
+    def test_absolute_path_fails(self):
+        row = {"path": "/etc/passwd", "bytes": 3, "sha256": _sha(b"abc")}
+        manifest = _manifest([row])
+        self.assertIn("unsafe manifest path",
+                      bv._manifest_self_consistent(manifest))
+
+    def test_dot_path_fails(self):
+        row = {"path": "data/canonical/./a.json", "bytes": 3,
+               "sha256": _sha(b"abc")}
+        manifest = _manifest([row])
+        self.assertIn("unsafe manifest path",
+                      bv._manifest_self_consistent(manifest))
+
+    def test_wrong_area_fails(self):
+        row = {"path": "data/unknown/a.json", "bytes": 3,
+               "sha256": _sha(b"abc")}
+        manifest = _manifest([row])
+        self.assertIn("unsafe manifest path",
+                      bv._manifest_self_consistent(manifest))
+        row = {"path": "other/canonical/a.json", "bytes": 3,
+               "sha256": _sha(b"abc")}
+        manifest = _manifest([row])
+        self.assertIn("unsafe manifest path",
+                      bv._manifest_self_consistent(manifest))
+
+    def test_shallow_path_fails(self):
+        row = {"path": "data/a.json", "bytes": 3, "sha256": _sha(b"abc")}
+        manifest = _manifest([row])
+        self.assertIn("unsafe manifest path",
+                      bv._manifest_self_consistent(manifest))
+
+    def test_backslash_path_fails(self):
+        row = {"path": "data\\canonical\\a.json", "bytes": 3,
+               "sha256": _sha(b"abc")}
+        manifest = _manifest([row])
+        self.assertIn("unsafe manifest path",
+                      bv._manifest_self_consistent(manifest))
+
+    def test_safe_manifest_path_matches_private_data_snapshot(self):
+        # The bv validator must stay identical to the canonical rule in
+        # scripts/private_data_snapshot._safe_relative.
+        from scripts.private_data_snapshot import AREAS, _safe_relative
+        self.assertEqual(bv._MANIFEST_AREAS, AREAS)
+        valid = ["data/canonical/a.json", "data/quarantine/x/y/z.txt",
+                 "data/state/s.json"]
+        invalid = ["data/canonical/../../evil.json", "/etc/passwd",
+                   "data/canonical/./a.json", "data/unknown/a.json",
+                   "other/canonical/a.json", "data/a.json",
+                   "data\\canonical\\a.json", "", "data//canonical/a.json",
+                   "data/canonical/a.json/", "data/canonical/a.json\x00"]
+        for path in valid:
+            self.assertEqual(bv._safe_manifest_path(path), path)
+            self.assertEqual(_safe_relative(path), path)
+        for path in invalid:
+            with self.assertRaises(ValueError, msg=path):
+                bv._safe_manifest_path(path)
+            with self.assertRaises(ValueError, msg=path):
+                _safe_relative(path)
 
 
 class InventoryTests(unittest.TestCase):
@@ -595,6 +705,20 @@ class InventoryTests(unittest.TestCase):
                            str(self.tmp / "does-not-exist"),
                            "--inventory"]):
             self.assertEqual(bv.main(), 2)
+
+    def test_inventory_deploys_log_pin_is_last_stable(self):
+        # A newer preview DEPLOYED must not become the stable pin.
+        evid = self.base / "deployment-evidence" / "tj-core-01" / "deploys.log"
+        lines = evid.read_text(encoding="utf-8").splitlines()
+        lines.append(_log_line(sha="c" * 40, result="DEPLOYED",
+                               channel="preview-round1",
+                               image="tianji-api:preview-c",
+                               ts="2026-11-12T00:05:00+00:00"))
+        evid.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        result = self._inventory()
+        by_name = {a["name"]: a for a in result["artifacts"]}
+        self.assertEqual(by_name["deploys_log"]["pin"], self._sha)
+        self.assertEqual(by_name["deploys_log"]["status"], "pass")
 
 
 if __name__ == "__main__":

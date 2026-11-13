@@ -15,24 +15,32 @@ Steps:
    and verify the restored manifest is byte-identical to the source
    manifest (manifest file bytes, file_count, total_bytes, and
    every file's SHA256). A restore that does not reproduce the
-   manifest exactly is a FAIL.
+   manifest exactly is a FAIL. The scratch dir must be a new
+   dedicated empty directory outside the deployment base (never the
+   base itself, never inside it, never a symlink); a pre-existing
+   restored dir is never deleted or overwritten. The source tree
+   must contain no symlink, and every manifest path must be a safe
+   relative path (data/<area>/...) -- traversal, absolute paths,
+   and links are rejected before any copy.
 2. rollback -- read the recorded state (current sha/api-image/
-   web-image) and the previous healthy pair (the last DEPLOYED pair
-   in deploys.log before the current SHA; the protected rollback
-   pair when there is none), reconstruct the exact env file the
-   deploy agent writes on rollback (TIANJI_PRIVATE_API_IMAGE,
-   TIANJI_PUBLIC_WEB_IMAGE, TIANJI_HOST_PORT), write it to
-   scratch/rollback.env, and verify it parses back to the
-   previous pair.
-3. health_gate -- evaluate the deploy agent's gate against a
-   service endpoint: /health must return rag_ready true; the
-   running images (from the image provider) must equal the
-   rollback pair; a real bazi execute probe must return
-   "pillars". The image provider defaults to docker inspect on
-   the stable container names; --image-provider file:<path>
-   reads a recorded {"api": ..., "web": ...} pair instead
-   (for a drill against a stub service). --api-url overrides
-   the service endpoint (default http://127.0.0.1:8080).
+   web-image) and the previous healthy pair (the last stable-channel
+   DEPLOYED pair before the current deploy row in deploys.log; the
+   protected rollback pair when there is none). Preview-channel
+   records are never eligible. When the recorded state SHA has no
+   matching stable DEPLOYED row the drill fails closed instead of
+   guessing. Reconstruct the exact env file the deploy agent writes
+   on rollback (TIANJI_PRIVATE_API_IMAGE, TIANJI_PUBLIC_WEB_IMAGE,
+   TIANJI_HOST_PORT), write it to scratch/rollback.env, and verify
+   it parses back to the previous pair.
+3. health_gate -- three separately reported sub-results: current
+   production health (/health rag_ready + a real bazi execute probe
+   against the currently-running service), rollback-pair
+   availability (the rollback pair images are shown available), and
+   actual post-rollback health (NOT performed by this drill: it
+   requires an actual rollback with separate user authorization).
+   A PASS here verifies current health and rollback-pair
+   availability only; it must never be reported as a production
+   rollback verification.
 4. evidence -- write scratch/drill-evidence.json with the source
    SHA, the restored manifest fingerprint, per-step pass/fail,
    and timestamps.
@@ -40,11 +48,7 @@ Steps:
 Exit code: 0 = every step passed, 1 = at least one step failed,
 2 = the base or scratch dir is unusable. A step that cannot run
 (e.g. no rotation backup, docker unavailable) is a FAIL with a
-precise reason, never silently skipped -- except the health gate's
-image-identity sub-check, which is reported as "skip" only when
-an explicit --image-provider file is used AND the file is absent
-(the drill then verifies the env file + /health + execute probe,
-and records the image check as not-verified).
+precise reason, never silently skipped.
 """
 from __future__ import annotations
 
@@ -80,6 +84,42 @@ BAZI_PROBE = {
               "day_ganzhi": "甲子", "hour_ganzhi": "甲子"},
 }
 WEB_IMAGE_RE = re.compile(r"web=([^\s;]+)")
+# The stable deploy channel (see scripts/backup_verification.py).
+STABLE_CHANNEL = bv.STABLE_CHANNEL
+
+
+def _validate_scratch(base: Path, scratch: Path) -> str | None:
+    """Fail-closed scratch isolation. Returns an error, or None when safe.
+
+    The scratch dir must be an absolute path outside the deployment
+    base, not a symlink, and either new or an existing empty
+    directory. It must never be the base itself, inside the base
+    (which would put the restored copy on the live snapshot or a
+    rotation backup), or contain the base. resolve() follows every
+    symlink component that exists, so a scratch under a symlinked
+    parent is caught here before anything is created or written.
+    """
+    if not scratch.is_absolute():
+        return "scratch must be an absolute path: %s" % scratch
+    if scratch.is_symlink():
+        return "scratch is a symlink: %s" % scratch
+    base_resolved = base.resolve()
+    # resolve() (non-strict) resolves every symlink component that
+    # exists, so a scratch under a symlinked parent is caught too.
+    scratch_resolved = scratch.resolve()
+    if (scratch_resolved == base_resolved
+            or scratch_resolved.is_relative_to(base_resolved)
+            or base_resolved.is_relative_to(scratch_resolved)):
+        return ("scratch must be outside the deployment base: %s "
+                "(resolves to %s, base is %s)"
+                % (scratch, scratch_resolved, base_resolved))
+    if scratch.exists():
+        if not scratch.is_dir():
+            return "scratch exists and is not a directory: %s" % scratch
+        if any(scratch.iterdir()):
+            return ("scratch is not empty; use a new dedicated empty "
+                    "directory: %s" % scratch)
+    return None
 
 
 def _now() -> str:
@@ -119,9 +159,15 @@ def step_restore(base: Path, scratch: Path, source: str) -> dict:
         if src is None:
             return _step("restore", "fail",
                          "no tianji-knowledge-pre-* backup dir found")
+    if src.is_symlink():
+        return _step("restore", "fail",
+                     "source dir is a symlink: %s" % src)
     if not src.is_dir():
         return _step("restore", "fail", "source dir missing: %s" % src)
     manifest_path = src / MANIFEST_NAME
+    if manifest_path.is_symlink():
+        return _step("restore", "fail",
+                     "source manifest is a symlink: %s" % manifest_path)
     if not manifest_path.is_file():
         return _step("restore", "fail",
                      "source manifest missing: %s" % manifest_path)
@@ -133,9 +179,24 @@ def step_restore(base: Path, scratch: Path, source: str) -> dict:
     if error:
         return _step("restore", "fail",
                      "source manifest not self-consistent: %s" % error)
+    # Reject any symlink in the source tree before copying: copytree
+    # follows symlinks, so a linked file or dir would read content
+    # from outside the snapshot into the restored tree.
+    for node in sorted(src.rglob("*")):
+        if node.is_symlink():
+            return _step("restore", "fail",
+                         "source tree contains a symlink: %s"
+                         % node.relative_to(src))
     restored = scratch / "restored"
-    if restored.exists():
-        shutil.rmtree(restored)
+    if restored.is_symlink() or restored.exists():
+        # Never delete or overwrite a pre-existing restored dir: the
+        # scratch dir must be a new dedicated empty directory, and a
+        # pre-existing restored tree may hold data the operator did
+        # not ask us to destroy.
+        return _step("restore", "fail",
+                     "restored dir already exists in scratch; refusing to "
+                     "overwrite or delete a pre-existing directory: %s"
+                     % restored)
     try:
         shutil.copytree(src, restored)
     except OSError as exc:
@@ -143,15 +204,28 @@ def step_restore(base: Path, scratch: Path, source: str) -> dict:
                      "copy to scratch failed: %s" % type(exc).__name__)
     # 1. The restored manifest file must be byte-identical.
     restored_manifest = restored / MANIFEST_NAME
+    if restored_manifest.is_symlink():
+        return _step("restore", "fail",
+                     "restored manifest is a symlink after copy")
     if not restored_manifest.is_file():
         return _step("restore", "fail",
                      "restored manifest missing after copy")
     if _manifest_bytes(restored_manifest) != _manifest_bytes(manifest_path):
         return _step("restore", "fail",
                      "restored manifest bytes differ from source")
-    # 2. Re-hash every restored file against the manifest.
+    # 2. Re-hash every restored file against the manifest. Each row path
+    #    is re-validated here (defense in depth: the manifest was already
+    #    validated, but a path is trusted only after this check).
     for row in manifest["files"]:
+        try:
+            bv._safe_manifest_path(row["path"])
+        except ValueError:
+            return _step("restore", "fail",
+                         "unsafe manifest path: %r" % (row["path"],))
         target = restored / row["path"]
+        if target.is_symlink():
+            return _step("restore", "fail",
+                         "restored file is a symlink: %s" % row["path"])
         if not target.is_file():
             return _step("restore", "fail",
                          "restored file missing: %s" % row["path"])
@@ -161,6 +235,23 @@ def step_restore(base: Path, scratch: Path, source: str) -> dict:
         if _hash(target) != row["sha256"]:
             return _step("restore", "fail",
                          "restored SHA256 mismatch: %s" % row["path"])
+    # 3. Exact membership: the restored tree must contain exactly the
+    #    manifested files (plus the manifest itself). An extra file means
+    #    the source backup is not the manifest's backup, and a file
+    #    count / SHA comparison alone cannot prove the source path.
+    expected = {row["path"] for row in manifest["files"]}
+    for node in sorted(restored.rglob("*")):
+        if node.is_symlink():
+            return _step("restore", "fail",
+                         "restored tree contains a symlink: %s"
+                         % node.relative_to(restored))
+        if node.is_file():
+            rel = node.relative_to(restored).as_posix()
+            if rel == MANIFEST_NAME:
+                continue
+            if rel not in expected:
+                return _step("restore", "fail",
+                             "restored tree has unmanifested file: %s" % rel)
     detail = ("%s %s restored to scratch: %d files, %d bytes, "
               "manifest %s byte-identical, full re-hash OK"
               % (label, src.name, manifest["file_count"],
@@ -169,30 +260,56 @@ def step_restore(base: Path, scratch: Path, source: str) -> dict:
     return _step("restore", "pass", detail)
 
 
-def _previous_deployed_pair(base: Path, current_sha: str) -> dict | None:
-    """The last DEPLOYED pair before the current SHA, or None.
+def _previous_deployed_pair(base: Path, current_sha: str) -> tuple[dict | None, str | None]:
+    """The previous stable healthy pair, or (None, error).
+
+    Returns (pair, None) with the last stable-channel (prerelease)
+    DEPLOYED record BEFORE the current deploy row in log order, or
+    (None, None) when there is no earlier stable pair (the caller
+    then uses the protected rollback pair). Preview-channel records
+    are never eligible: a newer preview DEPLOYED must not become the
+    stable rollback pair. Returns (None, error) when the log parses
+    but the recorded state SHA has no matching stable DEPLOYED row
+    -- the state and the log disagree, so the previous pair cannot
+    be determined and the drill fails closed rather than guessing.
 
     The api image is the entry's "image" field; the web image is
     the web=... token inside its "detail" field.
     """
     log = base / "deployment-evidence" / "tj-core-01" / "deploys.log"
     if not log.is_file():
-        return None
+        return None, None
     rows, errors = bv._parse_deploys_log(log)
     if errors:
-        return None
-    deployed = [r for r in rows if r.get("result") == "DEPLOYED"]
-    earlier = [r for r in deployed if r.get("sha") != current_sha]
-    if not earlier:
-        return None
-    last = earlier[-1]
+        return None, None
+    stable = [r for r in rows
+              if r.get("result") == "DEPLOYED"
+              and r.get("channel") == STABLE_CHANNEL]
+    if not stable:
+        return None, None
+    if not current_sha:
+        # No recorded current deploy: nothing to anchor on; the
+        # protected rollback pair is the safe fallback.
+        return None, None
+    current_idx = None
+    for i, row in enumerate(stable):
+        if row.get("sha") == current_sha:
+            current_idx = i  # last match wins: the most recent deploy of it
+    if current_idx is None:
+        return None, ("recorded state SHA %s has no matching stable "
+                      "DEPLOYED row in deploys.log; refusing to guess the "
+                      "previous pair (state/log mismatch)"
+                      % current_sha[:12])
+    if current_idx == 0:
+        return None, None
+    last = stable[current_idx - 1]
     api = last.get("image") or ""
     match = WEB_IMAGE_RE.search(str(last.get("detail") or ""))
     web = match.group(1) if match else ""
     if not api or not web:
-        return None
+        return None, None
     return {"sha": str(last.get("sha")), "api": api, "web": web,
-            "ts": str(last.get("ts"))}
+            "ts": str(last.get("ts"))}, None
 
 
 def step_rollback(base: Path, scratch: Path) -> tuple[dict, dict | None]:
@@ -206,7 +323,9 @@ def step_rollback(base: Path, scratch: Path) -> tuple[dict, dict | None]:
     sha_path = state / "tianji-prerelease.sha"
     if sha_path.is_file():
         current_sha = sha_path.read_text(encoding="utf-8").strip()
-    pair = _previous_deployed_pair(base, current_sha)
+    pair, error = _previous_deployed_pair(base, current_sha)
+    if error:
+        return (_step("rollback", "fail", error), None)
     if pair is None:
         pair = {"sha": "", "api": PROTECTED_API, "web": PROTECTED_WEB,
                 "ts": "", "fallback": "protected rollback pair"}
@@ -313,9 +432,38 @@ def _http_json(url: str, payload: dict | None = None,
 
 def step_health_gate(api_url: str, pair: dict,
                      image_provider: str) -> dict:
-    """The deploy agent's gate: rag_ready + image identity + bazi probe."""
+    """Three separately reported sub-results; see the module docstring.
+
+    1. current_production_health: the currently-running service answers
+       /health with rag_ready true and the bazi execute probe returns
+       "pillars".
+    2. rollback_pair_availability: the rollback pair is shown available
+       (docker: both pair images present in `docker images`; file: the
+       recorded pair equals the rollback pair). The running images are
+       reported alongside, but a service running the CURRENT pair is
+       normal production state, not a failure.
+    3. post_rollback_health: NOT performed by this drill. Verifying
+       health after an actual rollback requires a real rollback with
+       separate user authorization; a PASS here must never be reported
+       as a production rollback verification.
+    """
     base = api_url.rstrip("/")
-    # 1. /health must return rag_ready true (poll, like the agent).
+    sub = {
+        "current_production_health": {"status": "not_checked", "detail": ""},
+        "rollback_pair_availability": {"status": "not_checked", "detail": ""},
+        "post_rollback_health": {
+            "status": "not_performed",
+            "detail": ("Actual post-rollback health was not verified by "
+                       "this drill; it requires an actual rollback with "
+                       "separate user authorization.")},
+    }
+
+    def _fail(detail: str) -> dict:
+        step = _step("health_gate", "fail", detail)
+        step.update(sub)
+        return step
+
+    # 1. Current production health: /health rag_ready (poll, like the agent).
     rag_ready = False
     health_status = 0
     for _ in range(HEALTH_ATTEMPTS):
@@ -325,29 +473,94 @@ def step_health_gate(api_url: str, pair: dict,
             break
         time.sleep(HEALTH_INTERVAL_S)
     if not rag_ready:
-        return _step("health_gate", "fail",
-                     "/health did not return rag_ready true "
+        sub["current_production_health"] = {
+            "status": "fail",
+            "detail": "/health did not return rag_ready true (last HTTP %s)"
+                      % health_status}
+        return _fail("/health did not return rag_ready true "
                      "(last HTTP %s)" % health_status)
-    # 2. The running images must equal the rollback pair.
+    # 2. Rollback pair availability. The image provider reports the
+    #    RUNNING images (docker inspect, or a recorded file pair).
     api, web, note = _image_provider(image_provider)
     if api is None or web is None:
-        return _step("health_gate", "fail",
-                     "image identity not verifiable: %s" % note)
-    if api != pair["api"] or web != pair["web"]:
-        return _step("health_gate", "fail",
-                     "running images (%s, %s) != rollback pair (%s, %s)"
-                     % (api, web, pair["api"], pair["web"]))
-    # 3. A real bazi execute probe must return "pillars".
+        sub["current_production_health"] = {
+            "status": "pass", "detail": "/health rag_ready true"}
+        sub["rollback_pair_availability"] = {
+            "status": "fail",
+            "detail": "image identity not verifiable: %s" % note}
+        return _fail("image identity not verifiable: %s" % note)
+    running = "%s, %s" % (api, web)
+    on_rollback_pair = api == pair["api"] and web == pair["web"]
+    if image_provider.startswith("file:"):
+        # A recorded file pair is the only availability evidence this
+        # provider offers: it establishes the rollback pair only when
+        # the recorded pair IS the rollback pair.
+        if not on_rollback_pair:
+            sub["current_production_health"] = {
+                "status": "pass", "detail": "/health rag_ready true"}
+            sub["rollback_pair_availability"] = {
+                "status": "fail",
+                "detail": ("recorded running images (%s) != rollback pair "
+                           "(%s, %s); rollback pair availability not "
+                           "established by the recorded pair"
+                           % (running, pair["api"], pair["web"]))}
+            return _fail("recorded running images (%s) != rollback pair "
+                         "(%s, %s); rollback pair availability not "
+                         "established by the recorded pair"
+                         % (running, pair["api"], pair["web"]))
+        sub["rollback_pair_availability"] = {
+            "status": "pass",
+            "detail": ("recorded pair equals the rollback pair (%s); the "
+                       "pair was available when recorded" % running)}
+    else:
+        # Docker: availability is the pair's presence in `docker images`,
+        # independent of which pair is currently running.
+        images = bv._docker_images()
+        if images is None:
+            sub["current_production_health"] = {
+                "status": "pass", "detail": "/health rag_ready true"}
+            sub["rollback_pair_availability"] = {
+                "status": "fail",
+                "detail": "docker images unavailable; rollback pair "
+                          "availability cannot be verified"}
+            return _fail("docker images unavailable; rollback pair "
+                         "availability cannot be verified")
+        missing = [img for img in (pair["api"], pair["web"])
+                   if img not in images]
+        if missing:
+            sub["current_production_health"] = {
+                "status": "pass", "detail": "/health rag_ready true"}
+            sub["rollback_pair_availability"] = {
+                "status": "fail",
+                "detail": "rollback pair image not available in docker: %s"
+                          % ", ".join(missing)}
+            return _fail("rollback pair image not available in docker: %s"
+                         % ", ".join(missing))
+        sub["rollback_pair_availability"] = {
+            "status": "pass",
+            "detail": "both rollback pair images present in docker"}
+    # 3. The bazi execute probe (part of current production health).
     status, body = _http_json(base + "/api/v1/public/execute",
                               payload=BAZI_PROBE, timeout=10)
     text = body if isinstance(body, str) else json.dumps(body or {})
     if status != 200 or '"pillars"' not in text:
-        return _step("health_gate", "fail",
-                     "bazi execute probe failed (HTTP %s)" % status)
-    return _step("health_gate", "pass",
-                 "/health rag_ready true; running images match the "
-                 "rollback pair (%s); bazi execute returned pillars "
-                 "(image source: %s)" % (pair["api"], note))
+        sub["current_production_health"] = {
+            "status": "fail",
+            "detail": "bazi execute probe failed (HTTP %s)" % status}
+        return _fail("bazi execute probe failed (HTTP %s)" % status)
+    sub["current_production_health"] = {
+        "status": "pass",
+        "detail": "/health rag_ready true; bazi execute returned pillars"}
+    detail = ("/health rag_ready true; rollback pair available (%s); bazi "
+              "execute returned pillars; running images (%s)%s the rollback "
+              "pair (normal production state when they differ); "
+              "post-rollback health NOT verified (requires an actual "
+              "rollback with separate authorization) (image source: %s)"
+              % (pair["api"], running,
+                 " equal" if on_rollback_pair else " differ from", note))
+    step = _step("health_gate", "pass", detail)
+    step.update(sub)
+    return step
 
 
 def run_drill(base: Path, scratch: Path, source: str, api_url: str,
@@ -358,6 +571,11 @@ def run_drill(base: Path, scratch: Path, source: str, api_url: str,
         return {"result": "FAIL", "started_at": started,
                 "finished_at": _now(),
                 "error": "base dir missing: %s" % base, "steps": []}
+    scratch_error = _validate_scratch(base, scratch)
+    if scratch_error is not None:
+        return {"result": "FAIL", "started_at": started,
+                "finished_at": _now(),
+                "error": scratch_error, "steps": []}
     scratch.mkdir(parents=True, exist_ok=True)
     steps: list[dict] = []
     restore = step_restore(base, scratch, source)
@@ -369,8 +587,20 @@ def run_drill(base: Path, scratch: Path, source: str, api_url: str,
         health = step_health_gate(api_url, pair, image_provider)
         steps.append(health)
     else:
-        steps.append(_step("health_gate", "fail",
-                           "skipped: rollback step did not produce a pair"))
+        health = _step("health_gate", "fail",
+                       "skipped: rollback step did not produce a pair")
+        health["current_production_health"] = {
+            "status": "not_performed",
+            "detail": "health gate skipped: rollback step did not produce a pair"}
+        health["rollback_pair_availability"] = {
+            "status": "not_performed",
+            "detail": "health gate skipped: rollback step did not produce a pair"}
+        health["post_rollback_health"] = {
+            "status": "not_performed",
+            "detail": ("Actual post-rollback health was not verified by "
+                       "this drill; it requires an actual rollback with "
+                       "separate user authorization.")}
+        steps.append(health)
     result = "PASS" if all(s["status"] == "pass" for s in steps) else "FAIL"
     evidence = {
         "drill": "recovery",
@@ -383,6 +613,22 @@ def run_drill(base: Path, scratch: Path, source: str, api_url: str,
         "api_url": api_url,
         "image_provider": image_provider,
         "steps": steps,
+        # The three health sub-results, reported separately (see
+        # step_health_gate): a PASS verifies current production health
+        # and rollback-pair availability only, never an actual
+        # production rollback.
+        "current_production_health": health.get(
+            "current_production_health",
+            {"status": "not_performed", "detail": ""}),
+        "rollback_pair_availability": health.get(
+            "rollback_pair_availability",
+            {"status": "not_performed", "detail": ""}),
+        "post_rollback_health": health.get(
+            "post_rollback_health",
+            {"status": "not_performed",
+             "detail": ("Actual post-rollback health was not verified by "
+                        "this drill; it requires an actual rollback with "
+                        "separate user authorization.")}),
     }
     # Attach the restored manifest fingerprint and the rollback pair.
     restored_manifest = scratch / "restored" / MANIFEST_NAME
