@@ -538,6 +538,58 @@ class InventoryTests(unittest.TestCase):
                              ["backup_verification.py", "--base",
                               str(self.base), "--inventory"]):
             self.assertEqual(bv.main(), 1)
+
+    def test_malformed_snapshot_manifest_is_unresolvable(self):
+        (self.base / "secure" / "tianji-knowledge"
+         / "private-data-manifest.json").write_text(
+            "{not json", encoding="utf-8")
+        result = self._inventory()
+        self.assertIn("live_snapshot", " ".join(result["unresolvable"]))
+        failed = [a for a in result["artifacts"]
+                  if a["name"] == "live_snapshot"][0]
+        self.assertEqual(failed["status"], "fail")
+
+    def test_cicd_pin_without_hex_is_unresolvable(self):
+        (self.base / "cicd" / "env" / "trusted-acceptance").write_text(
+            "no manifest hash recorded here\n", encoding="utf-8")
+        result = self._inventory()
+        self.assertIn("cicd_pin", " ".join(result["unresolvable"]))
+        failed = [a for a in result["artifacts"]
+                  if a["name"] == "cicd_pin"][0]
+        self.assertEqual(failed["status"], "fail")
+        self.assertIn("no 64-hex", failed["detail"])
+
+    def test_malformed_deploys_log_is_unresolvable(self):
+        (self.base / "deployment-evidence" / "tj-core-01" / "deploys.log"
+         ).write_text("{not json}\n{\"also\": \"broken\"}\n",
+                      encoding="utf-8")
+        result = self._inventory()
+        self.assertIn("deploys_log", " ".join(result["unresolvable"]))
+        failed = [a for a in result["artifacts"]
+                  if a["name"] == "deploys_log"][0]
+        self.assertEqual(failed["status"], "fail")
+
+    def test_non_executable_build_script_is_unresolvable(self):
+        script = self.base / "tianji" / "build-sealed-for.sh"
+        script.chmod(0o644)
+        result = self._inventory()
+        self.assertIn("private_build_script",
+                      " ".join(result["unresolvable"]))
+        failed = [a for a in result["artifacts"]
+                  if a["name"] == "private_build_script"][0]
+        self.assertEqual(failed["status"], "fail")
+        self.assertIn("NOT executable", failed["detail"])
+
+    def test_recorded_web_image_absent_from_docker_is_unresolvable(self):
+        # Docker is present but the recorded web image is not in it.
+        with patch.object(bv, "_docker_images",
+                          return_value={"tianji-api:something-else"}):
+            result = bv.inventory(self.base)
+        self.assertIn("ghcr_web_image", " ".join(result["unresolvable"]))
+        failed = [a for a in result["artifacts"]
+                  if a["name"] == "ghcr_web_image"][0]
+        self.assertEqual(failed["status"], "fail")
+        self.assertIn("not present locally", failed["detail"])
         with patch.object(sys, "argv",
                           ["backup_verification.py", "--base",
                            str(self.tmp / "does-not-exist"),

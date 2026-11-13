@@ -353,6 +353,164 @@ class RecoveryDrillFixture(unittest.TestCase):
         self.assertEqual(evidence["result"], "FAIL")
         self.assertEqual(evidence["steps"][2]["status"], "fail")
 
+    def test_health_gate_fails_when_image_provider_file_missing(self):
+        with StubService() as service:
+            evidence = self._run(source="backup", api_url=service.url,
+                                 image_provider="file:%s"
+                                 % (self.tmp / "no-such-pair.json"))
+        self.assertEqual(evidence["result"], "FAIL")
+        gate = evidence["steps"][2]
+        self.assertEqual(gate["status"], "fail")
+        self.assertIn("image-provider file missing", gate["detail"])
+
+    def test_health_gate_fails_when_image_provider_file_unreadable(self):
+        bad = self.tmp / "bad-pair.json"
+        bad.write_text("{not json", encoding="utf-8")
+        with StubService() as service:
+            evidence = self._run(source="backup", api_url=service.url,
+                                 image_provider="file:%s" % bad)
+        self.assertEqual(evidence["result"], "FAIL")
+        gate = evidence["steps"][2]
+        self.assertEqual(gate["status"], "fail")
+        self.assertIn("image-provider file unreadable", gate["detail"])
+
+    def test_health_gate_fails_when_image_provider_file_lacks_api_web(self):
+        partial = self.tmp / "partial-pair.json"
+        partial.write_text(json.dumps({"api": "tianji-api:x"}),
+                           encoding="utf-8")
+        with StubService() as service:
+            evidence = self._run(source="backup", api_url=service.url,
+                                 image_provider="file:%s" % partial)
+        self.assertEqual(evidence["result"], "FAIL")
+        gate = evidence["steps"][2]
+        self.assertEqual(gate["status"], "fail")
+        self.assertIn("lacks api/web", gate["detail"])
+
+    def test_health_gate_fails_when_image_provider_spec_unknown(self):
+        with StubService() as service:
+            evidence = self._run(source="backup", api_url=service.url,
+                                 image_provider="bogus-spec")
+        self.assertEqual(evidence["result"], "FAIL")
+        gate = evidence["steps"][2]
+        self.assertEqual(gate["status"], "fail")
+        self.assertIn("unknown image-provider spec", gate["detail"])
+
+    def test_health_gate_fails_when_docker_unavailable(self):
+        # No docker binary: the image-identity sub-check cannot run.
+        with StubService() as service, \
+                patch.object(rd.shutil, "which", return_value=None):
+            evidence = self._run(source="backup", api_url=service.url,
+                                 image_provider="docker")
+        self.assertEqual(evidence["result"], "FAIL")
+        gate = evidence["steps"][2]
+        self.assertEqual(gate["status"], "fail")
+        self.assertIn("docker inspect unavailable", gate["detail"])
+
+    def test_restore_fails_when_live_source_missing(self):
+        shutil.rmtree(self.base / "secure" / "tianji-knowledge")
+        with StubService() as service:
+            provider = self._pair_file(
+                "tianji-api:cicd-prerelease-aaaaaaaa",
+                "ghcr.io/hellomrduan/tianji-web:" + self.prev_sha)
+            evidence = self._run(source="live", api_url=service.url,
+                                 image_provider=provider)
+        self.assertEqual(evidence["result"], "FAIL")
+        restore = evidence["steps"][0]
+        self.assertEqual(restore["status"], "fail")
+        self.assertIn("source dir missing", restore["detail"])
+
+    def test_restore_fails_when_manifest_unreadable(self):
+        manifest = (self.base / "secure"
+                    / "tianji-knowledge-pre-2026-11-11"
+                    / "private-data-manifest.json")
+        manifest.write_text("{not json", encoding="utf-8")
+        with StubService() as service:
+            provider = self._pair_file(
+                "tianji-api:cicd-prerelease-aaaaaaaa",
+                "ghcr.io/hellomrduan/tianji-web:" + self.prev_sha)
+            evidence = self._run(source="backup", api_url=service.url,
+                                 image_provider=provider)
+        self.assertEqual(evidence["result"], "FAIL")
+        restore = evidence["steps"][0]
+        self.assertEqual(restore["status"], "fail")
+        self.assertIn("manifest unreadable", restore["detail"])
+
+    def test_restore_fails_when_manifest_not_self_consistent(self):
+        manifest_path = (self.base / "secure"
+                         / "tianji-knowledge-pre-2026-11-11"
+                         / "private-data-manifest.json")
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        manifest["file_count"] = 99
+        manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+        with StubService() as service:
+            provider = self._pair_file(
+                "tianji-api:cicd-prerelease-aaaaaaaa",
+                "ghcr.io/hellomrduan/tianji-web:" + self.prev_sha)
+            evidence = self._run(source="backup", api_url=service.url,
+                                 image_provider=provider)
+        self.assertEqual(evidence["result"], "FAIL")
+        restore = evidence["steps"][0]
+        self.assertEqual(restore["status"], "fail")
+        self.assertIn("not self-consistent", restore["detail"])
+
+    def test_rollback_falls_back_when_deploys_log_malformed(self):
+        evid = self.base / "deployment-evidence" / "tj-core-01" / "deploys.log"
+        evid.write_text("{not json}\n{\"also\": \"broken\"}\n",
+                        encoding="utf-8")
+        with StubService() as service:
+            provider = self._pair_file(bv.PROTECTED_API, bv.PROTECTED_WEB)
+            evidence = self._run(source="backup", api_url=service.url,
+                                 image_provider=provider)
+        self.assertEqual(evidence["result"], "PASS")
+        self.assertEqual(evidence["rollback_pair"]["api"], bv.PROTECTED_API)
+        self.assertEqual(evidence["rollback_pair"]["web"], bv.PROTECTED_WEB)
+
+    def test_rollback_falls_back_when_deployed_entry_lacks_web_token(self):
+        evid = self.base / "deployment-evidence" / "tj-core-01" / "deploys.log"
+        lines = [
+            _log_line(sha=self.prev_sha, result="DEPLOYED",
+                      image="tianji-api:cicd-prerelease-aaaaaaaa",
+                      detail="health+bazi ok; no web token here",
+                      ts="2026-11-12T00:00:00+00:00"),
+            _log_line(sha=self.cur_sha, result="DEPLOYED",
+                      image="tianji-api:cicd-prerelease-bbbbbbbb",
+                      detail="health+bazi ok; port 8080; "
+                             "web=ghcr.io/hellomrduan/tianji-web:"
+                             + self.cur_sha,
+                      ts="2026-11-12T00:01:00+00:00"),
+        ]
+        evid.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        with StubService() as service:
+            provider = self._pair_file(bv.PROTECTED_API, bv.PROTECTED_WEB)
+            evidence = self._run(source="backup", api_url=service.url,
+                                 image_provider=provider)
+        self.assertEqual(evidence["result"], "PASS")
+        self.assertEqual(evidence["rollback_pair"]["api"], bv.PROTECTED_API)
+
+    def test_rollback_falls_back_when_deployed_entry_lacks_image(self):
+        evid = self.base / "deployment-evidence" / "tj-core-01" / "deploys.log"
+        lines = [
+            _log_line(sha=self.prev_sha, result="DEPLOYED",
+                      image="",
+                      detail="health+bazi ok; port 8080; "
+                             "web=ghcr.io/hellomrduan/tianji-web:"
+                             + self.prev_sha,
+                      ts="2026-11-12T00:00:00+00:00"),
+            _log_line(sha=self.cur_sha, result="DEPLOYED",
+                      image="tianji-api:cicd-prerelease-bbbbbbbb",
+                      detail="health+bazi ok; port 8080; "
+                             "web=ghcr.io/hellomrduan/tianji-web:"
+                             + self.cur_sha,
+                      ts="2026-11-12T00:01:00+00:00"),
+        ]
+        evid.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        with StubService() as service:
+            provider = self._pair_file(bv.PROTECTED_API, bv.PROTECTED_WEB)
+            evidence = self._run(source="backup", api_url=service.url,
+                                 image_provider=provider)
+        self.assertEqual(evidence["result"], "PASS")
+        self.assertEqual(evidence["rollback_pair"]["api"], bv.PROTECTED_API)
+
     def test_main_exit_codes(self):
         with StubService() as service:
             provider = self._pair_file(
