@@ -335,17 +335,126 @@ class PrivacyTests(unittest.TestCase):
 
 class LogSafetyTests(unittest.TestCase):
     def test_safe_url_strips_query_and_userinfo(self):
-        # Log lines carry only host/path: a credential smuggled into a
-        # URL query or userinfo must never reach a log record.
+        # Log lines carry only scheme + hostname (+ a safe numeric port):
+        # a credential smuggled into a URL path, query or userinfo must
+        # never reach a log record. The path is dropped entirely, not
+        # allow-listed — settings_from_environment allows arbitrary paths.
         self.assertEqual(
             _safe_url("https://user:secret@model.example.test/v1/explain?api_key=abc&x=1"),
-            "https://model.example.test/v1/explain",
+            "https://model.example.test",
         )
         self.assertEqual(
             _safe_url("https://model.example.test/v1/explain"),
-            "https://model.example.test/v1/explain",
+            "https://model.example.test",
         )
-        self.assertEqual(_safe_url("https://model.example.test/v1/explain?k=v"), "https://model.example.test/v1/explain")
+        self.assertEqual(_safe_url("https://model.example.test/v1/explain?k=v"), "https://model.example.test")
+        # A port is purely numeric and cannot contain a key, so it is kept.
+        self.assertEqual(
+            _safe_url("https://model.example.test:8443/v1/explain"),
+            "https://model.example.test:8443",
+        )
+        self.assertEqual(
+            _safe_url("https://user:pw@model.example.test:8443/v1/k?api_key=abc#frag"),
+            "https://model.example.test:8443",
+        )
+
+
+class LogPathLeakTests(unittest.TestCase):
+    """Negative tests for the _safe_url path leak (PR #567 HOLD).
+
+    A test-only fake key is placed SIMULTANEOUSLY in settings["key"], the
+    URL path, the URL query and the URL userinfo. The URL path also carries
+    a second distinct secret fragment, and the request body carries a
+    private string plus a birth instant. On a 401, a retried 503 and a
+    network exception, the captured logs must contain NONE of them — only
+    the safe scheme://host[:port] form. These tests FAIL against the old
+    _safe_url (which kept the path) and PASS against the new one.
+    """
+
+    FAKE_KEY = "test-only-key-9f3a7b"
+    SECRET_FRAGMENT = "secret-fragment-xyz"
+    BODY_SECRET = "secret-body-xyz"
+    LEAKY_URL = (
+        "https://leakuser:test-only-key-9f3a7b@model.example.test:8443"
+        "/v1/secret-fragment-xyz/test-only-key-9f3a7b/explain"
+        "?api_key=test-only-key-9f3a7b&trace=secret-fragment-xyz"
+    )
+    SAFE_HOST = "https://model.example.test:8443"
+
+    def _leaky_client(self, handler, max_attempts=MAX_ATTEMPTS):
+        settings = dict(SETTINGS)
+        settings["endpoint"] = self.LEAKY_URL
+        settings["key"] = self.FAKE_KEY
+        return ControlledModelClient(
+            settings, transport=httpx.MockTransport(handler),
+            max_attempts=max_attempts, backoff_base=0.0,
+            sleep=lambda seconds: asyncio.sleep(0),
+        )
+
+    def _leaky_body(self):
+        return {
+            "a": 1,
+            "private_note": self.BODY_SECRET,
+            "note": "born " + BIRTH,
+        }
+
+    def _assert_logs_clean(self, joined):
+        # Leak assertions FIRST: on the old _safe_url these fail because the
+        # log line carries the path (which holds the fake key and the secret
+        # fragment). Then the safe-host assertion proves a log line WAS
+        # emitted, so the absence assertions above are not vacuous.
+        self.assertNotIn(self.FAKE_KEY, joined)
+        self.assertNotIn(self.SECRET_FRAGMENT, joined)
+        self.assertNotIn(self.BODY_SECRET, joined)
+        self.assertNotIn(BIRTH, joined)
+        self.assertNotIn("leakuser", joined)
+        self.assertNotIn("api_key", joined)
+        self.assertNotIn("/v1/", joined)
+        # The log line WAS emitted (safe host present).
+        self.assertIn(self.SAFE_HOST, joined)
+
+    def test_auth_failure_logs_never_contain_key_in_path(self):
+        client = self._leaky_client(
+            lambda request: httpx.Response(401, json={"error": "nope"})
+        )
+        with self.assertLogs("tianji_kb.model_client", level="WARNING") as logs:
+            with self.assertRaises(ModelClientError) as error:
+                run(client.post(self.LEAKY_URL, self._leaky_body()))
+        self.assertEqual(error.exception.code, "auth")
+        joined = "\n".join(logs.output)
+        self.assertIn("auth", joined)
+        self._assert_logs_clean(joined)
+
+    def test_server_error_retry_logs_never_contain_key_in_path(self):
+        calls = []
+        client = self._leaky_client(
+            lambda request: (calls.append(request), httpx.Response(503, json={"error": "down"}))[1]
+        )
+        with self.assertLogs("tianji_kb.model_client", level="WARNING") as logs:
+            with self.assertRaises(ModelClientError) as error:
+                run(client.post(self.LEAKY_URL, self._leaky_body()))
+        self.assertEqual(error.exception.code, "server")
+        self.assertEqual(len(calls), MAX_ATTEMPTS)
+        joined = "\n".join(logs.output)
+        self.assertIn("server", joined)
+        self._assert_logs_clean(joined)
+
+    def test_network_error_logs_never_contain_key_in_path(self):
+        calls = []
+
+        def handler(request):
+            calls.append(request)
+            raise httpx.ConnectError("unreachable", request=request)
+
+        client = self._leaky_client(handler)
+        with self.assertLogs("tianji_kb.model_client", level="WARNING") as logs:
+            with self.assertRaises(ModelClientError) as error:
+                run(client.post(self.LEAKY_URL, self._leaky_body()))
+        self.assertEqual(error.exception.code, "network")
+        self.assertEqual(len(calls), MAX_ATTEMPTS)
+        joined = "\n".join(logs.output)
+        self.assertIn("network", joined)
+        self._assert_logs_clean(joined)
 
 
 class BlockedWithoutCredentialsTests(unittest.TestCase):

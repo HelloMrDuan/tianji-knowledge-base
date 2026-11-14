@@ -266,8 +266,23 @@ class ControlledModelClient:
 
 
 def _safe_url(url):
-    """URL host/path for logs, without any query string or userinfo."""
+    """Log display for a URL: scheme + hostname only (plus a safe port).
+
+    The path, query, fragment and userinfo are never logged: a credential
+    can be smuggled into any of them (settings_from_environment allows an
+    arbitrary endpoint path), and the log must never record it. A port is
+    purely numeric and cannot contain a key, so it is kept when explicitly
+    present. This only changes the log display string; the real HTTP
+    request still uses the full URL.
+    """
     from urllib.parse import urlsplit
 
     parts = urlsplit(str(url))
-    return f"{parts.scheme}://{parts.hostname or ''}{parts.path}"
+    host = parts.hostname or ""
+    try:
+        port = parts.port
+    except ValueError:
+        port = None
+    if port is not None:
+        return f"{parts.scheme}://{host}:{port}"
+    return f"{parts.scheme}://{host}"
