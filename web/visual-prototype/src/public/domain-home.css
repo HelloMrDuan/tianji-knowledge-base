@@ -747,11 +747,25 @@
   .domain-home .breadcrumb {
     padding: 19px 0 15px;
   }
+  /* TJ-008.1: seven tool tabs must stay on one row on mobile. Wrapping
+     to a second row (5 + 2) wastes vertical space and looks broken; a
+     horizontally scrollable single row is the standard tab-bar pattern
+     and keeps the page free of horizontal overflow (the scroll is
+     contained inside the switcher, not the document). */
   .domain-switcher {
     gap: 6px;
     padding-bottom: 16px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .domain-switcher::-webkit-scrollbar {
+    display: none;
   }
   .domain-switcher a {
+    flex: none;
+    white-space: nowrap;
     padding: 7px 9px;
     font-size: 12px;
   }

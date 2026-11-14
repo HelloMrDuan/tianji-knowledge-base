@@ -1,0 +1,465 @@
+{
+  "pages": [
+    {
+      "name": "bazi-profile",
+      "viewport": "1440",
+      "title": "八字基础档案 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "bazi-profile-1440.png"
+    },
+    {
+      "name": "daily-structure",
+      "viewport": "1440",
+      "title": "今日运势 · 结构版 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "daily-structure-1440.png"
+    },
+    {
+      "name": "weekly-structure",
+      "viewport": "1440",
+      "title": "本周运势 · 结构版 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "weekly-structure-1440.png"
+    },
+    {
+      "name": "monthly-structure",
+      "viewport": "1440",
+      "title": "本月运势 · 结构版 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "monthly-structure-1440.png"
+    },
+    {
+      "name": "yearly-structure",
+      "viewport": "1440",
+      "title": "流年结构 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "yearly-structure-1440.png"
+    },
+    {
+      "name": "romance-structure",
+      "viewport": "1440",
+      "title": "桃花姻缘 · 结构内测 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "romance-structure-1440.png"
+    },
+    {
+      "name": "career-wealth-structure",
+      "viewport": "1440",
+      "title": "事业财运 · 结构内测 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "career-wealth-structure-1440.png"
+    },
+    {
+      "name": "compatibility-structure",
+      "viewport": "1440",
+      "title": "缘分合盘 · 结构版 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "compatibility-structure-1440.png"
+    },
+    {
+      "name": "ask",
+      "viewport": "1440",
+      "title": "一事占问 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "ask-1440.png"
+    },
+    {
+      "name": "dream-culture",
+      "viewport": "1440",
+      "title": "梦象文化查阅 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "dream-culture-1440.png"
+    },
+    {
+      "name": "life-overview",
+      "viewport": "1440",
+      "title": "人生总览 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "life-overview-1440.png"
+    },
+    {
+      "name": "tool-bazi",
+      "viewport": "1440",
+      "title": "八字 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "tool-bazi-1440.png"
+    },
+    {
+      "name": "tool-liuyao",
+      "viewport": "1440",
+      "title": "六爻 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "tool-liuyao-1440.png"
+    },
+    {
+      "name": "tool-qimen",
+      "viewport": "1440",
+      "title": "奇门遁甲 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "tool-qimen-1440.png"
+    },
+    {
+      "name": "tool-ziwei",
+      "viewport": "1440",
+      "title": "紫微斗数 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "tool-ziwei-1440.png"
+    },
+    {
+      "name": "tool-liuren",
+      "viewport": "1440",
+      "title": "大六壬 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "tool-liuren-1440.png"
+    },
+    {
+      "name": "tool-yijing",
+      "viewport": "1440",
+      "title": "周易 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "tool-yijing-1440.png"
+    },
+    {
+      "name": "tool-fengshui",
+      "viewport": "1440",
+      "title": "风水 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "tool-fengshui-1440.png"
+    },
+    {
+      "name": "bazi-profile-result",
+      "viewport": "1440",
+      "title": "八字基础档案 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "bazi-profile-result-1440.png",
+      "result": true
+    },
+    {
+      "name": "bazi-profile",
+      "viewport": "360",
+      "title": "八字基础档案 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "bazi-profile-360.png"
+    },
+    {
+      "name": "daily-structure",
+      "viewport": "360",
+      "title": "今日运势 · 结构版 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "daily-structure-360.png"
+    },
+    {
+      "name": "weekly-structure",
+      "viewport": "360",
+      "title": "本周运势 · 结构版 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "weekly-structure-360.png"
+    },
+    {
+      "name": "monthly-structure",
+      "viewport": "360",
+      "title": "本月运势 · 结构版 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "monthly-structure-360.png"
+    },
+    {
+      "name": "yearly-structure",
+      "viewport": "360",
+      "title": "流年结构 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "yearly-structure-360.png"
+    },
+    {
+      "name": "romance-structure",
+      "viewport": "360",
+      "title": "桃花姻缘 · 结构内测 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "romance-structure-360.png"
+    },
+    {
+      "name": "career-wealth-structure",
+      "viewport": "360",
+      "title": "事业财运 · 结构内测 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "career-wealth-structure-360.png"
+    },
+    {
+      "name": "compatibility-structure",
+      "viewport": "360",
+      "title": "缘分合盘 · 结构版 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "compatibility-structure-360.png"
+    },
+    {
+      "name": "ask",
+      "viewport": "360",
+      "title": "一事占问 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "ask-360.png"
+    },
+    {
+      "name": "dream-culture",
+      "viewport": "360",
+      "title": "梦象文化查阅 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "dream-culture-360.png"
+    },
+    {
+      "name": "life-overview",
+      "viewport": "360",
+      "title": "人生总览 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "life-overview-360.png"
+    },
+    {
+      "name": "tool-bazi",
+      "viewport": "360",
+      "title": "八字 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "tool-bazi-360.png"
+    },
+    {
+      "name": "tool-liuyao",
+      "viewport": "360",
+      "title": "六爻 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "tool-liuyao-360.png"
+    },
+    {
+      "name": "tool-qimen",
+      "viewport": "360",
+      "title": "奇门遁甲 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "tool-qimen-360.png"
+    },
+    {
+      "name": "tool-ziwei",
+      "viewport": "360",
+      "title": "紫微斗数 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "tool-ziwei-360.png"
+    },
+    {
+      "name": "tool-liuren",
+      "viewport": "360",
+      "title": "大六壬 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "tool-liuren-360.png"
+    },
+    {
+      "name": "tool-yijing",
+      "viewport": "360",
+      "title": "周易 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "tool-yijing-360.png"
+    },
+    {
+      "name": "tool-fengshui",
+      "viewport": "360",
+      "title": "风水 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "tool-fengshui-360.png"
+    },
+    {
+      "name": "bazi-profile-result",
+      "viewport": "360",
+      "title": "八字基础档案 · 有据可寻",
+      "overflow": {
+        "scrollWidth": 360,
+        "clientWidth": 360,
+        "overflowX": false
+      },
+      "errors": [],
+      "file": "bazi-profile-result-360.png",
+      "result": true
+    }
+  ],
+  "failures": [],
+  "ok": 38,
+  "total": 38
+}
