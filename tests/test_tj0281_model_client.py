@@ -14,13 +14,16 @@ import unittest
 from unittest.mock import patch
 
 import httpx
+from fastapi.testclient import TestClient
 
-from tianji_kb.ai_providers import provider_from_environment
+from tianji_kb.ai_providers import provider_configured, provider_from_environment
+from tianji_kb.api import EXAMPLES, create_app
 from tianji_kb.explanation import ExplanationService, validate_reply
 from tianji_kb.model_client import (
     MAX_ATTEMPTS,
     ControlledModelClient,
     ModelClientError,
+    _safe_url,
     classify_exception,
     classify_status,
     is_retryable,
@@ -225,6 +228,16 @@ class RetryTests(unittest.TestCase):
         self.assertEqual(error.exception.code, "server")
         self.assertEqual(len(calls), 1)
 
+    def test_invalid_max_attempts_rejected(self):
+        # max_attempts <= 0 would leave the request loop unentered and
+        # `raise last_error` would raise None (TypeError) instead of a
+        # typed model error. Reject it at construction, fail closed.
+        for bad in (0, -1):
+            with self.assertRaises(ValueError):
+                ControlledModelClient(SETTINGS, max_attempts=bad)
+        client = ControlledModelClient(SETTINGS, max_attempts=1)
+        self.assertEqual(client.max_attempts, 1)
+
 
 class PrivacyTests(unittest.TestCase):
     def test_sanitize_truncates_evidence_to_120(self):
@@ -239,6 +252,31 @@ class PrivacyTests(unittest.TestCase):
         clean = sanitize_context(synthetic_context())
         self.assertEqual(len(clean["rag"][0]["text"]), 120)
         self.assertEqual(clean["rag"][0]["evidence_ids"], ["E001"])
+
+    def test_sanitize_handles_real_retriever_row_shape(self):
+        # Exact row shape CanonicalRetriever.retrieve produces
+        # (rag_context.py): text is the only sealed text; the other
+        # fields are ids/metadata and must survive untouched.
+        context = synthetic_context()
+        context["rag"] = [{
+            "id": "row-1",
+            "entity_id": "entity-1",
+            "domain": "yijing",
+            "variant": "test-variant",
+            "source_variant": None,
+            "text": "y" * 483,
+            "evidence_ids": ["E001"],
+            "scope": "contextual classical quotation; not permission to recompute the chart",
+        }]
+        clean = sanitize_context(context)
+        self.assertEqual(len(clean["rag"][0]["text"]), 120)
+        self.assertEqual(clean["rag"][0]["entity_id"], "entity-1")
+        self.assertEqual(clean["rag"][0]["domain"], "yijing")
+        self.assertEqual(clean["rag"][0]["evidence_ids"], ["E001"])
+        self.assertEqual(
+            clean["rag"][0]["scope"],
+            "contextual classical quotation; not permission to recompute the chart",
+        )
 
     def test_sanitize_removes_birth_instant(self):
         clean = sanitize_context(synthetic_context())
@@ -293,6 +331,63 @@ class PrivacyTests(unittest.TestCase):
         self.assertEqual(redacted["nested"]["ok"], "fine")
         self.assertTrue(len(redacted["long"]) <= 81)
         self.assertTrue(redacted["long"].endswith("…"))
+
+
+class LogSafetyTests(unittest.TestCase):
+    def test_safe_url_strips_query_and_userinfo(self):
+        # Log lines carry only host/path: a credential smuggled into a
+        # URL query or userinfo must never reach a log record.
+        self.assertEqual(
+            _safe_url("https://user:secret@model.example.test/v1/explain?api_key=abc&x=1"),
+            "https://model.example.test/v1/explain",
+        )
+        self.assertEqual(
+            _safe_url("https://model.example.test/v1/explain"),
+            "https://model.example.test/v1/explain",
+        )
+        self.assertEqual(_safe_url("https://model.example.test/v1/explain?k=v"), "https://model.example.test/v1/explain")
+
+
+class BlockedWithoutCredentialsTests(unittest.TestCase):
+    def test_provider_from_environment_returns_none_without_credentials(self):
+        ai_keys = [key for key in os.environ if key.startswith("TIANJI_AI_")]
+        with patch.dict(os.environ, {}, clear=False):
+            for key in ai_keys:
+                os.environ.pop(key, None)
+            os.environ["TIANJI_AI_PROVIDER"] = "disabled"
+            self.assertIsNone(provider_from_environment())
+            self.assertFalse(provider_configured())
+
+    def test_explain_without_credentials_returns_provider_not_configured(self):
+        # The explain path must return a clear BLOCKED, never a simulated
+        # success, and must not change the deterministic chart. This needs
+        # the built production runtime, so it runs in sealed acceptance
+        # and skips (honestly, not as a pass) in a plain public checkout.
+        ai_keys = [key for key in os.environ if key.startswith("TIANJI_AI_")]
+        with patch.dict(os.environ, {}, clear=False):
+            for key in ai_keys:
+                os.environ.pop(key, None)
+            os.environ["TIANJI_AI_PROVIDER"] = "disabled"
+            client = TestClient(create_app())
+            plain = client.post(
+                "/api/v1/execute",
+                json={"domain": "yijing", "input": EXAMPLES["yijing"]},
+            )
+            if plain.status_code == 503 and plain.json().get("detail", {}).get("code") == "runtime_unavailable":
+                self.skipTest("production runtime not built in this checkout; sealed acceptance covers this path")
+            self.assertEqual(plain.status_code, 200)
+            plain = plain.json()
+            explained = client.post(
+                "/api/v1/execute",
+                json={"domain": "yijing", "input": EXAMPLES["yijing"], "explain": True},
+            )
+            self.assertEqual(explained.status_code, 200)
+            data = explained.json()
+            self.assertEqual(data["explanation_status"], "failed")
+            self.assertEqual(data["explanation_error"], "provider_not_configured")
+            self.assertIsNone(data["explanation"])
+            for key in ["chart", "trace", "evidence", "rule_matches"]:
+                self.assertEqual(data[key], plain[key])
 
 
 class WiringTests(unittest.TestCase):

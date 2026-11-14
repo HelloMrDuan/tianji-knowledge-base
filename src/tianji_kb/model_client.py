@@ -182,6 +182,8 @@ class ControlledModelClient:
 
     def __init__(self, settings, *, transport=None, max_attempts=MAX_ATTEMPTS,
                  backoff_base=0.1, sleep=None):
+        if type(max_attempts) is not int or max_attempts < 1:
+            raise ValueError("max_attempts must be a positive integer")
         self.settings = settings
         self.transport = transport
         self.max_attempts = max_attempts
