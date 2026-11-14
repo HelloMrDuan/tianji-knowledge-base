@@ -116,6 +116,70 @@ class GoldenTranscriptionTests(unittest.TestCase):
         self.assertTrue(all(LIMITATIONS))
 
 
+class LimitationsRegistrationStatusTests(unittest.TestCase):
+    """The strength LIMITATIONS entry must state the real Phase1/Phase2
+    registration status of the eight sufficient predicates.
+
+    r032 (巳 lu), r033 (酉 metal) and r034 (子 water) completed sealed
+    Phase1/Phase2 registration (E0335); only 寅 changsheng is still
+    pending Phase1/Phase2 rule registration. The entry previously
+    claimed all four were pending, which mis-stated the platform's
+    real scope to users. These tests pin the corrected wording and
+    cross-check it against the authoritative predicate table in
+    bazi_strength_public, so a revert or a future registration change
+    fails loudly instead of silently re-stating the wrong scope.
+    """
+
+    # predicate_id -> short name used in the LIMITATIONS wording.
+    _SHORT_NAMES = {
+        'pure_support': '卯 pure',
+        'pure_generating_support': '亥 generating',
+        'isolated_control': '酉 isolated',
+        'commanding_visible_support': '午 commanding',
+        'lu_visible_support': '巳 lu',
+        'pure_support_metal': '酉 metal',
+        'pure_generating_support_water': '子 water',
+        'changsheng_visible_support': '寅 changsheng',
+    }
+
+    def _strength_entry(self):
+        return next(e for e in LIMITATIONS if '旺衰裁定现有 8 条' in e)
+
+    def test_stale_four_pending_claim_is_gone(self):
+        entry = self._strength_entry()
+        self.assertNotIn(
+            '巳 lu、酉 metal、子 water、寅 changsheng 四条尚待注册', entry)
+
+    def test_seven_registered_one_pending(self):
+        entry = self._strength_entry()
+        self.assertIn('七条已完成密封 Phase1/Phase2 注册', entry)
+        self.assertIn('寅 changsheng 一条尚待注册', entry)
+
+    def test_limitations_agree_with_predicate_table(self):
+        from tianji_kb.bazi_strength_public import PREDICATES
+        registered = {pid for pid, row in PREDICATES.items()
+                      if row[5] == 'registered'}
+        pending = {pid for pid, row in PREDICATES.items()
+                   if row[5] != 'registered'}
+        self.assertEqual(len(PREDICATES), 8)
+        self.assertEqual(len(registered), 7)
+        self.assertEqual(pending, {'changsheng_visible_support'})
+        entry = self._strength_entry()
+        # Split the parenthetical into the registered group (before
+        # "七条已完成") and the pending group (before "一条尚待注册").
+        # Every registered family must be named in the registered group
+        # and none of them in the pending group; the only pending
+        # family is 寅 changsheng.
+        self.assertIn('七条已完成', entry)
+        registered_group = entry.split('七条已完成')[0]
+        pending_group = entry.split('七条已完成')[1].split('一条尚待注册')[0]
+        for pid in sorted(registered):
+            self.assertIn(self._SHORT_NAMES[pid], registered_group)
+            self.assertNotIn(self._SHORT_NAMES[pid], pending_group)
+        self.assertIn(
+            self._SHORT_NAMES['changsheng_visible_support'], pending_group)
+
+
 class PresentationGoldenTests(unittest.TestCase):
     def test_every_case_matches_hand_derived_expectation(self):
         for case in GOLDEN['cases']:
