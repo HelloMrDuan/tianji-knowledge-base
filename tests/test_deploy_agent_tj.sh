@@ -48,6 +48,11 @@ case "$cmd" in
   compose)
     args="$*"
     proj=$(printf '%s' "$args" | sed -n 's/.*-p \([^ ]*\).*/\1/p')
+    # Stable path has no -p: its compose file (deploy/compose.yml) uses
+    # project "tianji", matching the agent's inspect names
+    # tianji-tianji-web-1 / tianji-tianji-api-1. The preview compose file
+    # (deploy-preview-compose.yml) always carries -p, so no overlap.
+    if [ -z "$proj" ]; then case "$args" in *deploy/compose.yml*) proj=tianji;; esac; fi
     envf=$(printf '%s' "$args" | sed -n 's/.*--env-file \([^ ]*\).*/\1/p')
     # Action is not the last word: the agent calls "up -d" / "down".
     action=""
@@ -59,6 +64,18 @@ case "$cmd" in
       mv "$CASE_DIR/containers.tmp" "$CASE_DIR/containers.txt"
       echo "$cname $img" >> "$CASE_DIR/containers.txt"
       grep -qx "$img" "$CASE_DIR/images.txt" 2>/dev/null || echo "$img" >> "$CASE_DIR/images.txt"
+      # Stable env files also carry the sealed API image; record the API
+      # container the same way so the agent's inspect gate is exercised.
+      # Preview env files have no TIANJI_PRIVATE_API_IMAGE, so this is
+      # skipped for previews.
+      api_img=$(grep '^TIANJI_PRIVATE_API_IMAGE=' "$envf" 2>/dev/null | cut -d= -f2 || true)
+      if [ -n "$api_img" ]; then
+        aname="${proj}-tianji-api-1"
+        grep -v "^${aname} " "$CASE_DIR/containers.txt" 2>/dev/null > "$CASE_DIR/containers.tmp" || true
+        mv "$CASE_DIR/containers.tmp" "$CASE_DIR/containers.txt"
+        echo "$aname $api_img" >> "$CASE_DIR/containers.txt"
+        grep -qx "$api_img" "$CASE_DIR/images.txt" 2>/dev/null || echo "$api_img" >> "$CASE_DIR/images.txt"
+      fi
     elif [ "$action" = "down" ]; then
       grep -v "^${proj}-" "$CASE_DIR/containers.txt" 2>/dev/null > "$CASE_DIR/containers.tmp" || true
       mv "$CASE_DIR/containers.tmp" "$CASE_DIR/containers.txt"
@@ -216,6 +233,56 @@ case_preview_rollback() {
   ! grep -q 'tianji-prerelease' "$CASE_DIR/docker.log"
 }
 
+# TJ-005.3: stable-channel rollback. Pre-seeds the previous healthy pair,
+# a cache-hit offline-acceptance evidence for the new SHA, the trusted
+# manifest record, the preflight dirs, and a stub sealed build; then the
+# health gate fails (CURL_HEALTH=fail) and the agent must restore the
+# previous pair. This proves the rollback logic is wired; it does NOT
+# prove a real-machine stable rollback (the harness header says simulation
+# never counts as real-machine acceptance).
+case_stable_rollback() {
+  local old new tsha pin
+  old=$(SHA40 a); new=$(SHA40 b)
+  tsha=$(printf 'e%.0s' $(seq 1 64))
+  pin=$(printf 'd%.0s' $(seq 1 64))
+  # Previous healthy pair (state the agent reads for prev_api/prev_web).
+  echo "$old" > "$STATE/tianji-prerelease.sha"
+  echo "tianji-api:cicd-prerelease-aaaaaaaa" > "$STATE/tianji-prerelease.api-image"
+  echo "ghcr.io/hellomrduan/tianji-web:$old" > "$STATE/tianji-prerelease.web-image"
+  # Preflight prerequisites: private + public clones, snapshot, trusted
+  # manifest record.
+  mkdir -p "$BASE/projects/tianji-private-knowledge/.git" \
+    "$BASE/projects/tianji-knowledge-base/.git" \
+    "$BASE/secure/tianji-knowledge" "$BASE/tianji"
+  printf '%s' "$tsha" > "$CICD/env/trusted-acceptance"
+  # Cache-hit offline acceptance for the new SHA (no real accept run).
+  cat > "$EVID/acceptance-$new.json" <<JSONEOF
+{"result": "SUCCESS", "mode": "offline-controlled", "public_sha": "$new", "knowledge_manifest_sha256": "$tsha", "suite": "all"}
+JSONEOF
+  # Stub sealed build: reports the PIN the agent greps for.
+  printf '#!/usr/bin/env bash\necho "sealed ok sha=$1 pin=%s"\n' "$pin" \
+    > "$BASE/tianji/build-sealed-for.sh"
+  chmod +x "$BASE/tianji/build-sealed-for.sh"
+  deploy_tianji prerelease main 8080 "$CICD/env/tianji-prerelease.env" ""
+  grep -q 'ACCEPTED' "$LOG"
+  grep -q "sealed ok sha=$new" "$CICD/build/tianji-build.log"
+  grep -q 'FAILED_ROLLED_BACK' "$LOG"
+  grep -q '"channel": "prerelease"' "$LOG"
+  # State still records the previous pair, never the failed new SHA.
+  [ "$(cat "$STATE/tianji-prerelease.sha")" = "$old" ]
+  [ "$(cat "$STATE/tianji-prerelease.api-image")" = "tianji-api:cicd-prerelease-aaaaaaaa" ]
+  [ "$(cat "$STATE/tianji-prerelease.web-image")" = "ghcr.io/hellomrduan/tianji-web:$old" ]
+  # Env file rewritten to the previous pair.
+  grep -q "TIANJI_PRIVATE_API_IMAGE=tianji-api:cicd-prerelease-aaaaaaaa" "$CICD/env/tianji-prerelease.env"
+  grep -q "TIANJI_PUBLIC_WEB_IMAGE=ghcr.io/hellomrduan/tianji-web:$old" "$CICD/env/tianji-prerelease.env"
+  # Compose up ran twice (deploy attempt + rollback), both containers
+  # restored to the previous pair, and no preview was touched.
+  [ "$(grep -c 'compose -f deploy/compose.yml' "$CASE_DIR/docker.log")" = "2" ]
+  [ "$(docker inspect tianji-tianji-web-1 --format '{{.Config.Image}}')" = "ghcr.io/hellomrduan/tianji-web:$old" ]
+  [ "$(docker inspect tianji-tianji-api-1 --format '{{.Config.Image}}')" = "tianji-api:cicd-prerelease-aaaaaaaa" ]
+  ! grep -q 'tianji-preview' "$CASE_DIR/docker.log"
+}
+
 case_preview_no_prev_fail() {
   deploy_preview demo demo-branch
   grep -q '"result": "FAILED"' "$LOG"
@@ -273,6 +340,7 @@ run_case "stable refuses non-main branch" case_stable_refusal
 run_case "stable main passes guard to preflight" case_stable_main_passthrough
 run_case "preview first deploy success + publish" case_preview_success "GIT_LSREMOTE_SHA=$SHA_A"
 run_case "preview health fail rolls back to previous preview" case_preview_rollback "GIT_LSREMOTE_SHA=$(SHA40 b)" "CURL_HEALTH=fail"
+run_case "stable health fail rolls back to previous pair" case_stable_rollback "GIT_LSREMOTE_SHA=$(SHA40 b)" "CURL_HEALTH=fail"
 run_case "preview health fail without previous removes preview" case_preview_no_prev_fail "GIT_LSREMOTE_SHA=$SHA_A" "CURL_HEALTH=fail"
 run_case "preview capacity refusal" case_capacity "MAX_PREVIEWS=2" "GIT_LSREMOTE_SHA=$SHA_A"
 run_case "preview reconcile idempotent" case_reconcile_idempotent "GIT_LSREMOTE_SHA=$SHA_A"

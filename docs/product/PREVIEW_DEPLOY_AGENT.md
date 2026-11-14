@@ -80,8 +80,9 @@ docker compose -p tianji-preview-feature-xyz -f "$CICD/deploy-preview-compose.ym
   实际镜像 + 健康检查结果。
 - **稳定验收门禁不变。** 预览通道不改变稳定通道的离线密封验收、
   SHA/PIN、健康与回滚要求；稳定通道 49904972 之后的验收失败已查清
-  （026.5 缺失审计 DB 部署接线，#351 已补，稳定已更新到 c96bfcb5），fail-closed
-  停在原版本是门禁的正确行为。
+  （026.5 缺失审计 DB 部署接线，#351 已补，稳定当时（2026-10-25）
+  已更新到 c96bfcb5），fail-closed 停在原版本是门禁的正确行为。
+  （c96bfcb5 是 2026-10-25 的状态，见 §8 的 2026-11-12 现状核对。）
 - **预览不绕过密封验收。** 预览后端就是已验收的稳定密封后端；
   预览从不构建、从不推送密封镜像。
 - **容量是护栏不是承诺。** 默认上限 5 个预览；机器实际能撑几个以
@@ -152,3 +153,36 @@ chown 10001:10001 /data/workspace/platform-deploy/data/tianji-admin
 `FAILED_ROLLED_BACK` 并回滚到上一健康对（回滚对是 026.5 之前的镜像，
 不读审计库，故不受影响）；操作员修正目录属主后，timer 下一轮自动重试。
 若 override 文件本身写失败，代理在 `up` 之前就记 `FAILED` 中止，服务不动。
+
+## 8. 现状核对（2026-11-12，TJ-005.3 审计；时点记录，非永久状态）
+
+以下值均为 2026-11-12 在 tj-core-01 上只读核对的实测值，过期即失效，
+以机上 `deploys.log` 与 state 文件为准。
+
+- **稳定**：已部署 `7be2bdea`（#562/E0388 合并，2026-11-12 01:33:09Z
+  `DEPLOYED`，pin `e8a526aa…`）；main 当前头 `bc4e127`（#561/E0389），
+  代理下一 2 分钟周期自动对齐。代理在周期开始时快照 main 头，周期内
+  不重验——周期内 main 推进时，部署的是周期开始时的头，下一轮再追上。
+- **密封快照**：`private-data-snapshot-v2`，239 文件 / 16,739,253 字节，
+  manifest sha256 `eca717ef…`；实机 live 树与 pinned snapshot 0 差异。
+- **预览**：round1 在 `:8101`，web 仍为 `c96bfcb5`（2026-10-25 起未变）。
+- **代理脚本一致**：机上 `$CICD/deploy-agent-tj.sh` 与仓库
+  `scripts/deploy-agent-tj.sh` 的 SHA256 相同（`8e3d7aab…`），
+  `deploy-preview-compose.yml` 亦同（`401ad9e9…`）。
+- **回滚历史**（`deploys.log` 全量 1223 行）：`FAILED_ROLLED_BACK`
+  仅 1 次，且为 preview-round1（2026-10-25，恢复 web `c96bfcb5`，
+  稳定未动）；**稳定通道回滚从未在生产中发生**。回滚深度一对
+  （当前 + 上一健康对），受保护回滚对 `sealed-82b119e` / `static-82b119e`。
+  仓库模拟 `tests/test_deploy_agent_tj.sh` 新增 `case_stable_rollback`
+  （共 13 例），证明稳定回滚逻辑已接线；模拟不代替真实机器回滚验收。
+- **备份**：13 个 `tianji-knowledge-pre-*` 轮转目录各带有效 manifest，
+  是唯一的版本化副本，但都在同一磁盘上。**无机外备份**：密封知识、
+  证据日志、审计库、state 文件均无机外副本；B002 冻结，待用户授权。
+  私有仓库 HEAD `708f5f2`（#76 TJ-016.2），live 树 21 条未提交/未追踪
+  记录（2026-11-12 01:41Z 实测），不是当前 live 状态的备份。只读核对工具
+  `scripts/backup_verification.py`（+ 17 例测试）如实报告这些缺口。
+- **健康门禁**：稳定部署门禁要求 `rag_ready:true` + 镜像核对 + 真实
+  bazi 探针；`scripts/health_check.py`（TJ-027.2）已补 `rag_ready`
+  断言（TJ-005.3），`scripts/check_api.py` 早已要求 `rag_ready`。
+- **磁盘**：`/` 9.5G 可用，`/data` 6.3G 可用，满足代理门禁
+  （`/` ≥ 4G、`/data` ≥ 2G）。

@@ -24,7 +24,8 @@ class HealthCheckTests(unittest.TestCase):
     def setUp(self):
         self.server = ThreadingHTTPServer(("127.0.0.1", 0), _Handler)
         self.server.routes = {
-            "/health": (200, "application/json", b'{"status":"ok","engine":"ready"}'),
+            "/health": (200, "application/json",
+                        b'{"status":"ok","engine":"ready","rag_ready":true}'),
             "/api/v1/capabilities": (
                 200, "application/json",
                 b'{"api_version":"v1","domains":[{"domain":"bazi"}]}'),
@@ -54,6 +55,17 @@ class HealthCheckTests(unittest.TestCase):
     def test_api_200_with_unready_engine_fails(self):
         self.server.routes["/health"] = (
             200, "application/json", b'{"status":"degraded","engine":"ready"}')
+        self.assertFalse(self.probe("/health", "api/health"))
+
+    def test_api_200_with_rag_not_ready_fails(self):
+        # TJ-005.3: the deploy gate requires rag_ready:true; a 200 with a
+        # ready engine but an unready (or absent) retrieval index fails.
+        self.server.routes["/health"] = (
+            200, "application/json",
+            b'{"status":"ok","engine":"ready","rag_ready":false}')
+        self.assertFalse(self.probe("/health", "api/health"))
+        self.server.routes["/health"] = (
+            200, "application/json", b'{"status":"ok","engine":"ready"}')
         self.assertFalse(self.probe("/health", "api/health"))
 
     def test_capabilities_200_without_domains_fails(self):

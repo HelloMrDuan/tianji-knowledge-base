@@ -78,6 +78,12 @@ def _verify(url, name):
         if name == "api/health":
             if payload.get("status") != "ok" or payload.get("engine") != "ready":
                 raise ValueError("API engine not ready")
+            # The deploy gate (scripts/deploy-agent-tj.sh) and
+            # scripts/check_api.py both require rag_ready:true: the
+            # reviewed runtime's retrieval index must match the catalog.
+            # A healthy engine with an unready index must not pass.
+            if payload.get("rag_ready") is not True:
+                raise ValueError("API retrieval index not ready")
         elif name in ("api/capabilities", "gateway/capabilities"):
             domains = payload.get("domains")
             if not isinstance(domains, list) or not domains:
