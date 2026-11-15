@@ -52,17 +52,27 @@ function safeServerMessage(input: unknown): string | null {
   // No control characters, markup, path fragments or backend diagnostics.
   if (!message || message.length > 120 || /[\r\n\t<>\x00-\x1f]/.test(message)) return null;
   if (/(https?:\/\/|www\.|[a-z]:[\\/]|\/(?:api|home|var|src)\/|\.py\b|\.ts\b|\.js\b|trace|stack|rule[_\s-]?id|evidence[_\s-]?id|token|exception|keyerror|internal|file\s|line\s?\d|\bsha\b|数据库堆栈|内部路径|规则编号)/i.test(message)) return null;
+  // A custom message is only shown when it is a Chinese user-facing
+  // message: it must contain CJK characters, and CJK must not be
+  // outnumbered by Latin letters, so a plain-English technical message
+  // (e.g. a backend diagnostic) can never pass as a business message.
+  const cjk = (message.match(/[\u4e00-\u9fff]/g) || []).length;
+  const latin = (message.match(/[A-Za-z]/g) || []).length;
+  if (cjk === 0 || cjk < latin) return null;
   return message;
 }
 function userMessageFor(status: number, detail: unknown): string {
+  // Server errors (5xx) always show the generic friendly message for the
+  // status; the server's own text is never displayed, so no raw technical
+  // message can leak to the user.
+  if (status === 503) return "服务暂时繁忙，请稍后重试。";
+  if (status >= 500) return "服务端出现问题，请稍后重试。";
   const parsed = isRecord(detail) ? detail : null;
   const first = Array.isArray(detail) ? detail[0] : null;
   // Custom Chinese business messages from the reviewed API are preferable to generic status text.
   const custom = safeServerMessage(parsed?.message) ?? safeServerMessage(isRecord(first) ? first.msg : null);
   if (custom) return custom;
   if (status === 400 || status === 422) return "输入内容有误，请检查后重试。";
-  if (status === 503) return "服务暂时繁忙，请稍后重试。";
-  if (status >= 500) return "服务端出现问题，请稍后重试。";
   return "请求失败，请稍后重试。";
 }
 
