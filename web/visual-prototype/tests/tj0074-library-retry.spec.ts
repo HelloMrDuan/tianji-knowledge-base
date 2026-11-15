@@ -66,7 +66,9 @@ test("retry after HTTP 503 preserves saved birth profile and clears the old erro
   await page.getByLabel("查看日期").fill("2026-10-15");
   const submit = page.locator('form button[type="submit"]').first();
   await submit.click();
-  await expect(page.getByRole("alert")).toContainText("服务暂不可用");
+  // TJ-029.1: 5xx always shows the generic Chinese status message, never
+  // the server's own text (even when it is a Chinese message).
+  await expect(page.getByRole("alert")).toContainText("服务暂时繁忙，请稍后重试。");
   await expect(page.locator(".daily-result")).toHaveCount(0);
   expect(await page.evaluate(() => localStorage.getItem("tianji.profile.birth.v1"))).toBe(original);
   await submit.click();

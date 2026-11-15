@@ -20,7 +20,7 @@ function resultFor(id: string, target: string) {
   };
 }
 
-test("503 reviewed Chinese message and retry preserve birth inputs, clear old error", async ({ page }) => {
+test("503 shows generic Chinese message and retry preserve birth inputs, clear old error", async ({ page }) => {
   await saveSample(page);
   const stored = await page.evaluate(() => localStorage.getItem("tianji.profile.birth.v1"));
   const sent: string[] = [];
@@ -29,6 +29,8 @@ test("503 reviewed Chinese message and retry preserve birth inputs, clear old er
     expect(req.scenario_id).toBe("daily");
     sent.push(req.input.target_date);
     if (sent.length === 1) {
+      // TJ-029.1: 5xx never shows the server's own text, even when it is
+      // a Chinese message — the generic status message is always used.
       await route.fulfill({ status: 503, contentType: "application/json",
         body: JSON.stringify({ detail: { message: "服务暂不可用" } }) });
     } else {
@@ -40,7 +42,7 @@ test("503 reviewed Chinese message and retry preserve birth inputs, clear old er
   await page.getByLabel("查看日期").fill("2026-10-15");
   const submit = page.locator('form button[type="submit"]').first();
   await submit.click();
-  await expect(page.getByRole("alert")).toContainText("服务暂不可用");
+  await expect(page.getByRole("alert")).toHaveText("服务暂时繁忙，请稍后重试。");
   await expect(page.locator(".daily-result")).toHaveCount(0);
   await expect(page.getByLabel("出生日期")).toHaveValue("2000-01-07");
   await submit.click();
@@ -118,6 +120,82 @@ test("service technical details are not copied into public alert", async ({ page
   await page.goto("/daily-structure");
   await page.locator('form button[type="submit"]').first().click();
   await expect(page.getByRole("alert")).toHaveText("服务端出现问题，请稍后重试。");
+  expect(requested).toBe(1);
+});
+
+// TJ-029.1 (E0399): a 503 whose body carries the real production-runtime
+// diagnostic must show the generic Chinese 503 message, never the English
+// technical text. The message below passes the old keyword blacklist
+// (no banned keyword), so it proves the 5xx-always-generic fix.
+test("503 English runtime diagnostic shows generic Chinese fallback, not the English text", async ({ page }) => {
+  await saveSample(page);
+  let requested = 0;
+  await page.route("**/api/v1/scenarios/public", async route => {
+    requested++;
+    await route.fulfill({ status: 503, contentType: "application/json",
+      body: JSON.stringify({ detail: { message: "Build the reviewed production runtime before serving requests" } }) });
+  });
+  await page.goto("/daily-structure");
+  await page.locator('form button[type="submit"]').first().click();
+  const alert = page.getByRole("alert");
+  await expect(alert).toHaveText("服务暂时繁忙，请稍后重试。");
+  await expect(alert).not.toContainText("Build");
+  await expect(page.locator(".daily-result")).toHaveCount(0);
+  expect(requested).toBe(1);
+});
+
+// TJ-029.1 (E0399): a 500 with an English technical message that passes
+// the old keyword blacklist must show the generic 5xx Chinese message.
+test("500 English technical message shows generic 5xx Chinese fallback", async ({ page }) => {
+  await saveSample(page);
+  let requested = 0;
+  await page.route("**/api/v1/scenarios/public", async route => {
+    requested++;
+    await route.fulfill({ status: 500, contentType: "application/json",
+      body: JSON.stringify({ detail: { message: "Service runtime assembly is incomplete, please retry" } }) });
+  });
+  await page.goto("/daily-structure");
+  await page.locator('form button[type="submit"]').first().click();
+  const alert = page.getByRole("alert");
+  await expect(alert).toHaveText("服务端出现问题，请稍后重试。");
+  await expect(alert).not.toContainText("Service runtime");
+  await expect(page.locator(".daily-result")).toHaveCount(0);
+  expect(requested).toBe(1);
+});
+
+// TJ-029.1 (E0399): a 422 carrying a legitimate Chinese business message
+// still shows that message (no regression for 4xx custom messages).
+test("422 Chinese business message is still shown", async ({ page }) => {
+  await saveSample(page);
+  let requested = 0;
+  await page.route("**/api/v1/scenarios/public", async route => {
+    requested++;
+    await route.fulfill({ status: 422, contentType: "application/json",
+      body: JSON.stringify({ detail: { message: "输入内容有误，请检查出生日期。" } }) });
+  });
+  await page.goto("/daily-structure");
+  await page.locator('form button[type="submit"]').first().click();
+  await expect(page.getByRole("alert")).toHaveText("输入内容有误，请检查出生日期。");
+  await expect(page.locator(".daily-result")).toHaveCount(0);
+  expect(requested).toBe(1);
+});
+
+// TJ-029.1 (E0399): a 422 carrying an English technical message (FastAPI
+// validation shape) must not leak it; the 422 friendly fallback is used.
+test("422 English technical message is not leaked", async ({ page }) => {
+  await saveSample(page);
+  let requested = 0;
+  await page.route("**/api/v1/scenarios/public", async route => {
+    requested++;
+    await route.fulfill({ status: 422, contentType: "application/json",
+      body: JSON.stringify({ detail: [{ loc: ["body", "input"], type: "missing", msg: "Field required" }] }) });
+  });
+  await page.goto("/daily-structure");
+  await page.locator('form button[type="submit"]').first().click();
+  const alert = page.getByRole("alert");
+  await expect(alert).toHaveText("输入内容有误，请检查后重试。");
+  await expect(alert).not.toContainText("Field required");
+  await expect(page.locator(".daily-result")).toHaveCount(0);
   expect(requested).toBe(1);
 });
 
