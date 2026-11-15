@@ -77,28 +77,73 @@ PREDICATE_LABELS = {
     'pure_support': '纯生扶',
     'pure_generating_support': '生扶从旺',
     'isolated_control': '孤立受克',
+    'lu_visible_support': '禄月显纯生扶',
+    'pure_support_metal': '金纯生扶',
+    'pure_generating_support_water': '水纯生扶',
 }
 
 # 裁定出口有两种形态（见 bazi_adjudication）：pure_support、
 # isolated_control、pure_generating_support（S5 治理批注册
-# bazi.rule.r029）与 commanding_visible_support（S5 注册
-# bazi.rule.r030）经各自已注册的 trace rule 发出，why 只带
-# sufficient_rule；lu_visible_support、pure_support_metal、
-# pure_generating_support_water 尚待 Phase1/Phase2 注册，经有限
-# 出口（r026）发出，why 带 sufficient_predicate 且 sufficient_rule
-# 为 None。渲染器按此映射派生谓词，两形态并存且不一致时
-# fail-closed。commanding_visible_support 的谓词名不在
-# PREDICATE_LABELS 内（本层未审其条件键转写），其裁决在本层仍
-# fail-closed，与注册前行为一致。
+# bazi.rule.r029）、commanding_visible_support（S5 注册
+# bazi.rule.r030）与 lu_visible_support（TJ-018.3 批注册
+# bazi.rule.r032）、pure_support_metal（同批 bazi.rule.r033）、
+# pure_generating_support_water（同批 bazi.rule.r034）经各自已注册
+# 的 trace rule 发出，why 只带 sufficient_rule；仅
+# changsheng_visible_support 尚待 Phase1/Phase2 注册，经有限出口
+# （r026）发出，why 带 sufficient_predicate 且 sufficient_rule 为
+# None。渲染器按此映射派生谓词，两形态并存且不一致时 fail-closed。
+# commanding_visible_support 与 changsheng_visible_support 的谓词名
+# 不在 PREDICATE_LABELS 内（本层未审其条件键转写），其裁决在本层
+# 仍 fail-closed，与注册前行为一致。
 RULE_TO_PREDICATE = {
     'bazi.phase2.strength_pure_support': 'pure_support',
     'bazi.phase2.strength_isolated_control': 'isolated_control',
     'bazi.phase2.strength_pure_generating_support': 'pure_generating_support',
     'bazi.phase2.strength_commanding_visible_support': 'commanding_visible_support',
+    'bazi.phase2.strength_lu_visible_support': 'lu_visible_support',
+    'bazi.phase2.strength_pure_support_metal': 'pure_support_metal',
+    'bazi.phase2.strength_pure_generating_support_water': 'pure_generating_support_water',
+}
+
+# HOLD-2 (E0398 review): the three predicates registered by TJ-018.3
+# batch 2 (lu/metal/water) render ONLY with their exact registered
+# trace rule. A statement carrying one of these predicate names with
+# sufficient_rule None, an unknown rule, or a rule pointing at another
+# predicate is a forgery and must fail closed here — the predicate-name
+# fallback must never rescue it. The three older predicates keep their
+# existing fallback semantics (unchanged).
+NEW_REGISTERED_PREDICATES = frozenset((
+    'lu_visible_support', 'pure_support_metal',
+    'pure_generating_support_water'))
+
+# HOLD-2 (E0398 review, item 5): the complete verified condition set
+# each new predicate must carry. Keys mirror, in order, the scope
+# condition dicts in bazi_action_conditions (lu_conditions 9 keys,
+# metal/water_conditions 8 keys each); the real adjudication builds
+# why.conditions by iterating those dicts, so a real verdict always
+# carries exactly this set. A statement missing any of them (or
+# carrying an extra one) is a forgery and must fail closed here.
+REQUIRED_CONDITIONS = {
+    'lu_visible_support': frozenset((
+        'fire_day_master_bing', 'reviewed_lu_command_month',
+        'visible_positions_support_only', 'visible_resource_present',
+        'visible_peer_present', 'effective_heavy_day_roots',
+        'all_visible_have_reviewed_roots', 'no_unresolved_interactions',
+        'hidden_layer_convention_applied')),
+    'pure_support_metal': frozenset((
+        'metal_day_master', 'reviewed_same_element_month_you',
+        'all_positions_support_only', 'visible印_present',
+        'visible比_present', 'effective_day_roots_registered',
+        'all_visible_have_registered_roots', 'no_unresolved_interactions')),
+    'pure_generating_support_water': frozenset((
+        'water_day_master', 'reviewed_same_element_month_zi',
+        'all_positions_support_only', 'visible印_present',
+        'visible比_present', 'effective_day_roots_registered',
+        'all_visible_have_registered_roots', 'no_unresolved_interactions')),
 }
 
 # 已审充分谓词条件键的自然语言转写（一一对应 bazi_action_conditions
-# 三组 scope 条件字典的键；未知键 fail-closed，不临场造词）。
+# 各 scope 条件字典的键；未知键 fail-closed，不临场造词）。
 CONDITION_LABELS = {
     'wood_day_master': '日主为木',
     'reviewed_same_element_month': '月支本气与日主同行',
@@ -114,6 +159,19 @@ CONDITION_LABELS = {
     'visible_earth_metal_only': '显干五行仅为土与金',
     'month_principal_exposed_with_root': '月支本气透于月干且有已审根位',
     'no_unresolved_interactions': '无未决的作用关系',
+    'fire_day_master_bing': '日主为火',
+    'reviewed_lu_command_month': '月支巳为日主禄位',
+    'visible_positions_support_only': '显干位置的作用均为生扶',
+    'visible_resource_present': '显干见印',
+    'visible_peer_present': '显干见比劫',
+    'effective_heavy_day_roots': '日主根均为重根位有效根',
+    'hidden_layer_convention_applied': '藏干仅作根位事实（治理约定）',
+    'metal_day_master': '日主为金',
+    'reviewed_same_element_month_you': '月支酉本气与日主同行',
+    'water_day_master': '日主为水',
+    'reviewed_same_element_month_zi': '月支子本气与日主同行',
+    'effective_day_roots_registered': '日主根均为已登记有效根',
+    'all_visible_have_registered_roots': '显干各有已登记根位',
 }
 
 CLASSIFICATION_LABELS = {'strong': '强', 'weak': '弱',
@@ -318,6 +376,12 @@ def _strength_lines(statement):
         predicate = rule_predicate
     if predicate not in PREDICATE_LABELS:
         raise ValueError('Unsupported strength sufficient predicate for readable hints')
+    if predicate in NEW_REGISTERED_PREDICATES:
+        if why.get('sufficient_rule') is None \
+                or RULE_TO_PREDICATE.get(why.get('sufficient_rule')) != predicate:
+            raise ValueError(
+                'New registered strength predicate requires its exact '
+                'registered sufficient rule')
     conditions = why.get('conditions')
     if not isinstance(conditions, list) or not conditions:
         raise ValueError('Strength verdict requires its verified conditions')
@@ -327,6 +391,13 @@ def _strength_lines(statement):
         if key not in CONDITION_LABELS or row.get('met') is not True:
             raise ValueError('Strength verdict conditions must be known and met')
         labels.append(CONDITION_LABELS[key])
+    if predicate in NEW_REGISTERED_PREDICATES:
+        provided = {row.get('condition') for row in conditions
+                    if isinstance(row, dict)}
+        if provided != REQUIRED_CONDITIONS[predicate]:
+            raise ValueError(
+                'New registered strength predicate requires its complete '
+                'verified conditions')
     return [
         f"旺衰裁定体系：本盘日主旺衰裁定为「{CLASSIFICATION_LABELS[classification]}」。",
         f"裁定命中的已审充分谓词为「{PREDICATE_LABELS[predicate]}」，"
