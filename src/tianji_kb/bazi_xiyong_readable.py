@@ -105,6 +105,17 @@ RULE_TO_PREDICATE = {
     'bazi.phase2.strength_pure_generating_support_water': 'pure_generating_support_water',
 }
 
+# HOLD-2 (E0398 review): the three predicates registered by TJ-018.3
+# batch 2 (lu/metal/water) render ONLY with their exact registered
+# trace rule. A statement carrying one of these predicate names with
+# sufficient_rule None, an unknown rule, or a rule pointing at another
+# predicate is a forgery and must fail closed here — the predicate-name
+# fallback must never rescue it. The three older predicates keep their
+# existing fallback semantics (unchanged).
+NEW_REGISTERED_PREDICATES = frozenset((
+    'lu_visible_support', 'pure_support_metal',
+    'pure_generating_support_water'))
+
 # 已审充分谓词条件键的自然语言转写（一一对应 bazi_action_conditions
 # 各 scope 条件字典的键；未知键 fail-closed，不临场造词）。
 CONDITION_LABELS = {
@@ -339,6 +350,12 @@ def _strength_lines(statement):
         predicate = rule_predicate
     if predicate not in PREDICATE_LABELS:
         raise ValueError('Unsupported strength sufficient predicate for readable hints')
+    if predicate in NEW_REGISTERED_PREDICATES:
+        if why.get('sufficient_rule') is None \
+                or RULE_TO_PREDICATE.get(why.get('sufficient_rule')) != predicate:
+            raise ValueError(
+                'New registered strength predicate requires its exact '
+                'registered sufficient rule')
     conditions = why.get('conditions')
     if not isinstance(conditions, list) or not conditions:
         raise ValueError('Strength verdict requires its verified conditions')

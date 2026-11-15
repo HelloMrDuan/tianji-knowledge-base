@@ -455,6 +455,73 @@ class RegisteredPredicateRenderingTests(unittest.TestCase):
                     readable_hints(tiaohou, bingyao, strength,
                                    presentation)
 
+    # A different registered rule per new predicate, for the wrong-rule
+    # negative: the rule must point at another registered predicate so
+    # the predicate/rule contradiction is what rejects it.
+    WRONG_RULE = {
+        'lu_visible_support': 'bazi.phase2.strength_pure_support',
+        'pure_support_metal': 'bazi.phase2.strength_lu_visible_support',
+        'pure_generating_support_water':
+            'bazi.phase2.strength_pure_support_metal',
+    }
+    UNKNOWN_RULE = 'bazi.phase2.strength_unregistered_example'
+
+    def _strength_with_rule(self, predicate, sufficient_rule,
+                            sufficient_predicate=None):
+        """Strength statement for one new predicate with an explicit rule.
+
+        sufficient_predicate None means the key is absent (the real
+        registered-verdict shape); any other value is carried verbatim,
+        so the forged forms can be built exactly.
+        """
+        _, conditions = self.REGISTERED[predicate]
+        why = {'sufficient_rule': sufficient_rule,
+               'conditions': [{'condition': key, 'met': True}
+                              for key in conditions],
+               'all_required_conditions_verified': True}
+        if sufficient_predicate is not None:
+            why['sufficient_predicate'] = sufficient_predicate
+        return {'variant': ADJUDICATION_VARIANT, 'classification': 'strong',
+                'decision_status': 'reviewed_sufficient_rule_matched',
+                'why_not_indeterminate': why,
+                'input_kind': 'synthetic_registered_predicate_rule_identity',
+                'research_only': True, 'public_enabled': False,
+                'ai_enabled': False}
+
+    def _render_strength(self, strength):
+        case = CASES['support-first-pick-is-medicine']
+        tiaohou = _tiaohou_statement(case)
+        bingyao = _bingyao_statement(case)
+        presentation = conflict_presentation(tiaohou, bingyao, strength)
+        return readable_hints(tiaohou, bingyao, strength, presentation)
+
+    def test_new_predicates_require_exact_registered_rule(self):
+        # HOLD-2: each new predicate renders only with its exact
+        # registered sufficient_rule. A forged statement carrying the
+        # predicate name with a missing, unknown, or wrong rule must
+        # fail closed. The valid form carries the correct rule plus
+        # the matching predicate name.
+        for predicate, expected in self.EXPECTED_LINES.items():
+            rule, _ = self.REGISTERED[predicate]
+            with self.subTest(predicate=predicate, form='valid'):
+                strength = self._strength_with_rule(
+                    predicate, rule, sufficient_predicate=predicate)
+                out = self._render_strength(strength)
+                sections = {s['system']: s for s in out['sections']}
+                self.assertEqual(sections['strength']['lines'], expected)
+            for form, forged_rule, pattern in (
+                    ('missing-rule', None, 'exact registered sufficient'),
+                    ('unknown-rule', self.UNKNOWN_RULE,
+                     'exact registered sufficient'),
+                    ('wrong-rule', self.WRONG_RULE[predicate],
+                     'contradicts its sufficient rule')):
+                with self.subTest(predicate=predicate, form=form):
+                    strength = self._strength_with_rule(
+                        predicate, forged_rule,
+                        sufficient_predicate=predicate)
+                    with self.assertRaisesRegex(ValueError, pattern):
+                        self._render_strength(strength)
+
 
 class FailClosedTests(unittest.TestCase):
     def setUp(self):
