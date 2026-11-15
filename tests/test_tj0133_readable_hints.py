@@ -26,7 +26,8 @@ from tianji_kb.bazi_conflict_presentation import (
 from tianji_kb.bazi_tiaohou import VARIANT as TIAOHOU_VARIANT, tiaohou_lookup
 from tianji_kb.bazi_xiyong_readable import (
     ABSENT_LINES, BINGYAO_HEADER, CONDITION_LABELS, LIMITATIONS,
-    PREDICATE_LABELS, RELATION_SCOPE_LINE, VARIANT, readable_hints)
+    PREDICATE_LABELS, RELATION_SCOPE_LINE, STRENGTH_SCOPE_LINE,
+    VARIANT, readable_hints)
 from tianji_kb.engine import execute
 from tianji_kb.operations.bazi_chart import chart as bazi_chart
 from tianji_kb.public_projection import project_execution
@@ -146,7 +147,9 @@ class GoldenTranscriptionTests(unittest.TestCase):
     def test_template_tables_cover_golden_vocabulary(self):
         self.assertEqual(set(PREDICATE_LABELS),
                          {'pure_support', 'pure_generating_support',
-                          'isolated_control'})
+                          'isolated_control', 'lu_visible_support',
+                          'pure_support_metal',
+                          'pure_generating_support_water'})
         for case in GOLDEN['cases']:
             for key in case['expected_strength']['conditions']:
                 self.assertIn(key, CONDITION_LABELS)
@@ -305,6 +308,152 @@ class PresentedNoConflictBranchTests(unittest.TestCase):
             '跨体系关系呈现状态：无冲突。无 conflict；已建三体系均已陈述。')
         self.assertEqual(sections['conflict_presentation']['status'],
                          'presented_no_conflict')
+
+
+class RegisteredPredicateRenderingTests(unittest.TestCase):
+    """TJ-018.3 batch 2 (E0335) registered lu/metal/water predicates.
+
+    RENDERER-BRANCH LOGIC ONLY, not a chart claim: the strength
+    statements below are synthetic, mirroring the REAL post-E0335
+    verdict shapes (registered trace rule in sufficient_rule, no
+    sufficient_predicate; the real condition keys from the
+    adjudication, all met, in register order). The real verdicts for
+    the lu witness (1927-05-12T12:00:00+08:00) and the water witness
+    (1981-12-21T00:30:00+08:00) are executed and verified in
+    test_tj0133_readable_hints_sealed.py. Metal has no real-chart
+    witness (constructively unsatisfiable on real calendar charts,
+    per the S2 register), so its case is renderer-shape only. On old
+    code every render below raises ValueError.
+    """
+
+    # predicate -> (sufficient_rule, condition keys in register order)
+    REGISTERED = {
+        'lu_visible_support': (
+            'bazi.phase2.strength_lu_visible_support',
+            ['fire_day_master_bing', 'reviewed_lu_command_month',
+             'visible_positions_support_only', 'visible_resource_present',
+             'visible_peer_present', 'effective_heavy_day_roots',
+             'all_visible_have_reviewed_roots', 'no_unresolved_interactions',
+             'hidden_layer_convention_applied']),
+        'pure_support_metal': (
+            'bazi.phase2.strength_pure_support_metal',
+            ['metal_day_master', 'reviewed_same_element_month_you',
+             'all_positions_support_only', 'visible印_present',
+             'visible比_present', 'effective_day_roots_registered',
+             'all_visible_have_registered_roots',
+             'no_unresolved_interactions']),
+        'pure_generating_support_water': (
+            'bazi.phase2.strength_pure_generating_support_water',
+            ['water_day_master', 'reviewed_same_element_month_zi',
+             'all_positions_support_only', 'visible印_present',
+             'visible比_present', 'effective_day_roots_registered',
+             'all_visible_have_registered_roots',
+             'no_unresolved_interactions']),
+    }
+
+    EXPECTED_LINES = {
+        'lu_visible_support': [
+            '旺衰裁定体系：本盘日主旺衰裁定为「强」。',
+            '裁定命中的已审充分谓词为「禄月显纯生扶」，其条件全部成立：'
+            '日主为火、月支巳为日主禄位、显干位置的作用均为生扶、显干见印、'
+            '显干见比劫、日主根均为重根位有效根、显干各有已审根位、'
+            '无未决的作用关系、藏干仅作根位事实（治理约定）。',
+            STRENGTH_SCOPE_LINE],
+        'pure_support_metal': [
+            '旺衰裁定体系：本盘日主旺衰裁定为「强」。',
+            '裁定命中的已审充分谓词为「金纯生扶」，其条件全部成立：'
+            '日主为金、月支酉本气与日主同行、全部位置的作用均为生扶、'
+            '显干见印、显干见比劫、日主根均为已登记有效根、'
+            '显干各有已登记根位、无未决的作用关系。',
+            STRENGTH_SCOPE_LINE],
+        'pure_generating_support_water': [
+            '旺衰裁定体系：本盘日主旺衰裁定为「强」。',
+            '裁定命中的已审充分谓词为「水纯生扶」，其条件全部成立：'
+            '日主为水、月支子本气与日主同行、全部位置的作用均为生扶、'
+            '显干见印、显干见比劫、日主根均为已登记有效根、'
+            '显干各有已登记根位、无未决的作用关系。',
+            STRENGTH_SCOPE_LINE],
+    }
+
+    def _render_registered(self, predicate):
+        rule, conditions = self.REGISTERED[predicate]
+        strength = {
+            'variant': ADJUDICATION_VARIANT, 'classification': 'strong',
+            'decision_status': 'reviewed_sufficient_rule_matched',
+            'why_not_indeterminate': {
+                'sufficient_rule': rule,
+                'conditions': [{'condition': key, 'met': True}
+                               for key in conditions],
+                'all_required_conditions_verified': True},
+            'input_kind': 'synthetic_registered_predicate_for_renderer_tests',
+            'research_only': True, 'public_enabled': False,
+            'ai_enabled': False}
+        case = CASES['support-first-pick-is-medicine']
+        tiaohou = _tiaohou_statement(case)
+        bingyao = _bingyao_statement(case)
+        presentation = conflict_presentation(tiaohou, bingyao, strength)
+        out = readable_hints(tiaohou, bingyao, strength, presentation)
+        return {s['system']: s for s in out['sections']}
+
+    def test_registered_predicates_render(self):
+        for predicate, expected in self.EXPECTED_LINES.items():
+            with self.subTest(predicate=predicate):
+                sections = self._render_registered(predicate)
+                self.assertEqual(sections['strength']['lines'], expected)
+
+    def test_untranscribed_predicates_still_fail_closed(self):
+        # commanding (registered r030) and changsheng (pending r026)
+        # have no predicate label in this layer: their condition keys
+        # are unreviewed for transcription, so the renderer must keep
+        # refusing them rather than guessing labels. Each case mirrors
+        # its real verdict shape: commanding carries only
+        # sufficient_rule; changsheng carries sufficient_predicate
+        # with sufficient_rule None (bounded exit).
+        case = CASES['support-first-pick-is-medicine']
+        tiaohou = _tiaohou_statement(case)
+        bingyao = _bingyao_statement(case)
+        fire_conditions = [
+            'fire_day_master_bing', 'visible_positions_support_only',
+            'visible_resource_present', 'visible_peer_present',
+            'effective_heavy_day_roots',
+            'all_visible_have_reviewed_roots',
+            'no_unresolved_interactions',
+            'hidden_layer_convention_applied']
+        for why in (
+                {'sufficient_rule':
+                 'bazi.phase2.strength_commanding_visible_support',
+                 'conditions': [
+                     {'condition': key, 'met': True}
+                     for key in ['fire_day_master_bing',
+                                  'reviewed_same_element_command_month']
+                     + fire_conditions[1:]],
+                 'all_required_conditions_verified': True},
+                {'sufficient_rule': None,
+                 'sufficient_predicate': 'changsheng_visible_support',
+                 'predicate_rule_registration':
+                     'pending_phase1_rule_registration',
+                 'conditions': [
+                     {'condition': key, 'met': True}
+                     for key in ['fire_day_master_bing',
+                                  'reviewed_generating_changsheng_month']
+                     + fire_conditions[1:]],
+                 'all_required_conditions_verified': True}):
+            strength = {
+                'variant': ADJUDICATION_VARIANT,
+                'classification': 'strong',
+                'decision_status': 'reviewed_sufficient_rule_matched',
+                'why_not_indeterminate': why,
+                'input_kind': 'synthetic_untranscribed_predicate',
+                'research_only': True, 'public_enabled': False,
+                'ai_enabled': False}
+            presentation = conflict_presentation(tiaohou, bingyao,
+                                                 strength)
+            with self.subTest(
+                    rule=why.get('sufficient_rule') or 'bounded-exit'):
+                with self.assertRaisesRegex(
+                        ValueError, 'Unsupported strength sufficient'):
+                    readable_hints(tiaohou, bingyao, strength,
+                                   presentation)
 
 
 class FailClosedTests(unittest.TestCase):
