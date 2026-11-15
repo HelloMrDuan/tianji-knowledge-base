@@ -116,6 +116,32 @@ NEW_REGISTERED_PREDICATES = frozenset((
     'lu_visible_support', 'pure_support_metal',
     'pure_generating_support_water'))
 
+# HOLD-2 (E0398 review, item 5): the complete verified condition set
+# each new predicate must carry. Keys mirror, in order, the scope
+# condition dicts in bazi_action_conditions (lu_conditions 9 keys,
+# metal/water_conditions 8 keys each); the real adjudication builds
+# why.conditions by iterating those dicts, so a real verdict always
+# carries exactly this set. A statement missing any of them (or
+# carrying an extra one) is a forgery and must fail closed here.
+REQUIRED_CONDITIONS = {
+    'lu_visible_support': frozenset((
+        'fire_day_master_bing', 'reviewed_lu_command_month',
+        'visible_positions_support_only', 'visible_resource_present',
+        'visible_peer_present', 'effective_heavy_day_roots',
+        'all_visible_have_reviewed_roots', 'no_unresolved_interactions',
+        'hidden_layer_convention_applied')),
+    'pure_support_metal': frozenset((
+        'metal_day_master', 'reviewed_same_element_month_you',
+        'all_positions_support_only', 'visible印_present',
+        'visible比_present', 'effective_day_roots_registered',
+        'all_visible_have_registered_roots', 'no_unresolved_interactions')),
+    'pure_generating_support_water': frozenset((
+        'water_day_master', 'reviewed_same_element_month_zi',
+        'all_positions_support_only', 'visible印_present',
+        'visible比_present', 'effective_day_roots_registered',
+        'all_visible_have_registered_roots', 'no_unresolved_interactions')),
+}
+
 # 已审充分谓词条件键的自然语言转写（一一对应 bazi_action_conditions
 # 各 scope 条件字典的键；未知键 fail-closed，不临场造词）。
 CONDITION_LABELS = {
@@ -365,6 +391,13 @@ def _strength_lines(statement):
         if key not in CONDITION_LABELS or row.get('met') is not True:
             raise ValueError('Strength verdict conditions must be known and met')
         labels.append(CONDITION_LABELS[key])
+    if predicate in NEW_REGISTERED_PREDICATES:
+        provided = {row.get('condition') for row in conditions
+                    if isinstance(row, dict)}
+        if provided != REQUIRED_CONDITIONS[predicate]:
+            raise ValueError(
+                'New registered strength predicate requires its complete '
+                'verified conditions')
     return [
         f"旺衰裁定体系：本盘日主旺衰裁定为「{CLASSIFICATION_LABELS[classification]}」。",
         f"裁定命中的已审充分谓词为「{PREDICATE_LABELS[predicate]}」，"

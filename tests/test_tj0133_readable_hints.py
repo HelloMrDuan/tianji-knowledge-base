@@ -522,6 +522,60 @@ class RegisteredPredicateRenderingTests(unittest.TestCase):
                     with self.assertRaisesRegex(ValueError, pattern):
                         self._render_strength(strength)
 
+    # A condition key from another predicate, for the extra-condition
+    # negative: it is a known label, so only the completeness check
+    # (not the unknown-key check) can reject it.
+    FOREIGN_CONDITION = {
+        'lu_visible_support': 'metal_day_master',
+        'pure_support_metal': 'fire_day_master_bing',
+        'pure_generating_support_water': 'fire_day_master_bing',
+    }
+
+    def _strength_with_conditions(self, predicate, conditions):
+        """Strength statement for one new predicate, explicit condition keys.
+
+        Carries the correct registered rule and matching predicate name,
+        so only the condition set varies: the real verdict shape has the
+        full required set; a truncated or extended set is a forgery.
+        """
+        rule, _ = self.REGISTERED[predicate]
+        why = {'sufficient_rule': rule,
+               'sufficient_predicate': predicate,
+               'conditions': [{'condition': key, 'met': True}
+                              for key in conditions],
+               'all_required_conditions_verified': True}
+        return {'variant': ADJUDICATION_VARIANT, 'classification': 'strong',
+                'decision_status': 'reviewed_sufficient_rule_matched',
+                'why_not_indeterminate': why,
+                'input_kind': 'synthetic_registered_predicate_completeness',
+                'research_only': True, 'public_enabled': False,
+                'ai_enabled': False}
+
+    def test_new_predicates_require_complete_verified_conditions(self):
+        # HOLD-2 item 5: each new predicate renders only with its
+        # complete verified condition set. A statement missing a
+        # required condition, or carrying a foreign one, must fail
+        # closed even when every listed condition is known and met.
+        for predicate, expected in self.EXPECTED_LINES.items():
+            _, conditions = self.REGISTERED[predicate]
+            with self.subTest(predicate=predicate, form='valid'):
+                strength = self._strength_with_conditions(
+                    predicate, conditions)
+                out = self._render_strength(strength)
+                sections = {s['system']: s for s in out['sections']}
+                self.assertEqual(sections['strength']['lines'], expected)
+            for form, forged in (
+                    ('missing-last', conditions[:-1]),
+                    ('missing-first', conditions[1:]),
+                    ('extra-foreign',
+                     conditions + [self.FOREIGN_CONDITION[predicate]])):
+                with self.subTest(predicate=predicate, form=form):
+                    strength = self._strength_with_conditions(
+                        predicate, forged)
+                    with self.assertRaisesRegex(
+                            ValueError, 'complete verified conditions'):
+                        self._render_strength(strength)
+
 
 class FailClosedTests(unittest.TestCase):
     def setUp(self):
