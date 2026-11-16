@@ -268,7 +268,12 @@ test.describe("TJ-006.1 P0-F: real UI coverage", () => {
 
 test.describe("TJ-006.1 P0-6: additional forced assertions", () => {
   test("lunar save -> daily change time only -> submit preserves lunar", async ({ page }) => {
-    // [前端流程测试，非真实后端计算]
+    // E0404: uses the real backend. An earlier version stubbed
+    // /api/v1/scenarios/public with {ok:true, stub:"frontend-flow-only"},
+    // but the frontend validates the scenario response shape
+    // (assertScenarioResponse) and only saves the updated profile after a
+    // successful response, so the stub made the save never run and the test
+    // saw the old 12:00. The real flow saves 14:30 (verified 2026-11-16).
     // 八字页保存农历 2000-04-15
     await page.goto("/bazi-profile");
     await page.getByRole("tab", { name: "农历" }).click();
@@ -280,11 +285,12 @@ test.describe("TJ-006.1 P0-6: additional forced assertions", () => {
     await page.getByRole("button", { name: "保存资料" }).click();
     await page.waitForTimeout(500);
 
-    // 拦截请求（仅前端流程，不冒充后端）
+    // Record the real request body via a request listener (no stubbing).
     let requestBody: any = null;
-    await page.route("**/api/v1/scenarios/public", async (route) => {
-      try { requestBody = route.request().postDataJSON(); } catch {}
-      await route.fulfill({ status: 200, body: JSON.stringify({ ok: true, stub: "frontend-flow-only" }) });
+    page.on("request", (request) => {
+      if (request.url().includes("/api/v1/scenarios/public") && request.method() === "POST") {
+        try { requestBody = request.postDataJSON(); } catch {}
+      }
     });
 
     // 今日运势页：只改时间为 14:30，然后实际提交
@@ -295,7 +301,7 @@ test.describe("TJ-006.1 P0-6: additional forced assertions", () => {
     await page.waitForTimeout(300);
     const submitBtn = page.locator('button[type="submit"]').first();
     await submitBtn.click();
-    await page.waitForTimeout(1500);
+    await expect(page.locator(".daily-result")).toBeVisible({ timeout: 30000 });
 
     // 强制断言：请求已发出
     expect(requestBody).not.toBeNull();

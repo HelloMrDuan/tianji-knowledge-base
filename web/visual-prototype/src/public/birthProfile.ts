@@ -162,6 +162,26 @@ export function validateBirthInput(input: BirthInput): ValidationResult {
   return { ok: true };
 }
 
+/**
+ * E0404: date/time plausibility only (no region check). Used when loading a
+ * legacy value so an impossible date/time (e.g. 2000-02-30 / 25:99) is
+ * rejected instead of prefilling the form, while a legacy value whose only
+ * problem is an unknown timezone still loads with _regionNeedsConfirm for
+ * the user to confirm on the bazi page.
+ */
+function isPlausibleDateTime(profile: BirthProfile): boolean {
+  const { year, month, day, time, timeUnknown } = profile;
+  if (!year || year < MIN_YEAR || year > MAX_YEAR) return false;
+  if (!month || month < 1 || month > 12) return false;
+  if (!day || day < 1 || day > solarDaysInMonth(year, month)) return false;
+  if (!timeUnknown && time) {
+    if (!/^\d{2}:\d{2}$/.test(time)) return false;
+    const [h, mi] = time.split(":").map(Number);
+    if (h > 23 || mi > 59) return false;
+  }
+  return true;
+}
+
 /** 读取本地资料 */
 export function readSavedBirthProfile(): BirthProfile {
   try {
@@ -186,7 +206,7 @@ export function readSavedBirthProfile(): BirthProfile {
       };
       const region = (oldTz && tzToRegion[oldTz]) || "中国大陆";
       const needsConfirm = !oldTz || !tzToRegion[oldTz];
-      return {
+      const converted = {
         calendarType: "solar",
         year: y || 0,
         month: m || 0,
@@ -198,6 +218,16 @@ export function readSavedBirthProfile(): BirthProfile {
         // 标记需要用户确认地区（如果原时区未知）
         ...(needsConfirm ? { _regionNeedsConfirm: true } : {}),
       } as BirthProfile;
+      // E0404: validate the converted legacy value like the new format.
+      // Without this, a malformed legacy value (e.g. 2000-02-30 / 25:99)
+      // prefilled the form with an impossible date/time instead of being
+      // rejected. A valid legacy value with a known timezone still passes;
+      // an unknown timezone still returns the profile with
+      // _regionNeedsConfirm (validateBirthInput rejects it for calculation,
+      // but the form keeps the values for the user to confirm).
+      // So only reject when the date/time itself is impossible.
+      if (!isPlausibleDateTime(converted)) return { ...EMPTY_PROFILE };
+      return converted;
     }
     const profile: BirthProfile = {
       calendarType: parsed.calendarType === "lunar" ? "lunar" : "solar",

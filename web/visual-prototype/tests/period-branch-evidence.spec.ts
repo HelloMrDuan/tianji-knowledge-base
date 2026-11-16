@@ -16,8 +16,12 @@ test("real daily -> weekly -> monthly calculation shows audited branch dates and
     await expect(daily.first()).toContainText("证据等级");
   }
 
-  expect(await page.evaluate(() => localStorage.getItem("tianji.profile.birth.v1")))
-    .toBe('{"date":"2000-01-07","time":"12:00"}');
+  // E0404: the saved profile is the structured format
+  // {calendarType, year, month, day, isLeapMonth, time, timeUnknown, region}
+  // (the old {"date","time"} shape was replaced when lunar/leap/region
+  // support landed). Assert the parsed fields, not the old string.
+  const savedDaily = await page.evaluate(() => JSON.parse(localStorage.getItem("tianji.profile.birth.v1") || "null"));
+  expect(savedDaily).toMatchObject({ calendarType: "solar", year: 2000, month: 1, day: 7, time: "12:00" });
 
   await page.goto("/weekly-structure");
   await expect(page.getByLabel("出生日期")).toHaveValue("2000-01-07");
