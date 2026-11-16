@@ -34,12 +34,24 @@
  * because fillSample does not set a traditional_role. This spec selects
  * the "female" role (传统女命口径 · 看官杀), which makes the backend
  * return spouse_star_year_pairing, and measures the paragraph for real.
+ *
+ * HOLD fix (ChatGPT #578 review): the first version of measureCardText
+ * skipped any element with children (el.children.length > 0), so the
+ * plain text of a <p> containing a nested <strong> and the direct text of
+ * a <span> containing an <i> were never measured. This version measures
+ * visible TEXT NODES (TreeWalker, SHOW_TEXT): each text node's parent
+ * element supplies the computed color, so a <p>'s direct text and its
+ * nested <strong> are measured separately and neither is double-counted
+ * (a text node belongs to exactly one parent, and the parent's
+ * textContent is never used). The horizontal-overflow check now runs
+ * immediately after each page renders, at every viewport, instead of
+ * once at the end of the loop.
  */
 import { test, expect, type Page } from "@playwright/test";
 
 const MIN_RATIO = 4.5;
 
-type NodeRow = { sel: string; text: string; ratio: number };
+type NodeRow = { sel: string; parentTag: string; text: string; ratio: number };
 
 async function measureCardText(page: Page, cardSel: string): Promise<NodeRow[]> {
   return await page.evaluate((sel) => {
@@ -56,34 +68,65 @@ async function measureCardText(page: Page, cardSel: string): Promise<NodeRow[]> 
       };
       return 0.2126 * f(c.r) + 0.7152 * f(c.g) + 0.0722 * f(c.b);
     };
+    // Effective background for a text node: composite the background
+    // colors from its parent element up through the ancestors (outermost
+    // first), starting from white. Transparent layers blend with what is
+    // below; the innermost opaque layer wins.
+    const effectiveBg = (el: Element) => {
+      const chain: string[] = [];
+      let node: Element | null = el;
+      while (node && node !== document.documentElement) {
+        chain.push(getComputedStyle(node).backgroundColor);
+        node = node.parentElement;
+      }
+      chain.push(getComputedStyle(document.documentElement).backgroundColor);
+      chain.push(getComputedStyle(document.body).backgroundColor);
+      let acc = { r: 255, g: 255, b: 255 };
+      for (let i = chain.length - 1; i >= 0; i--) {
+        const p = parse(chain[i]);
+        if (!p || p.a <= 0) continue;
+        acc = { r: p.r * p.a + acc.r * (1 - p.a), g: p.g * p.a + acc.g * (1 - p.a), b: p.b * p.a + acc.b * (1 - p.a) };
+      }
+      return acc;
+    };
+    const isVisible = (el: Element) => {
+      const cs = getComputedStyle(el);
+      if (cs.display === "none" || cs.visibility === "hidden") return false;
+      return true;
+    };
     const rows: NodeRow[] = [];
+    const seen = new Set<string>();
     for (const card of Array.from(document.querySelectorAll(sel))) {
-      for (const el of Array.from(card.querySelectorAll("*"))) {
-        const cs = getComputedStyle(el);
-        const text = (el.textContent || "").trim();
-        if (!text || el.children.length > 0) continue;
-        if (cs.display === "none" || cs.visibility === "hidden") continue;
-        const color = parse(cs.color)!;
-        const chain: string[] = [];
-        let node: Element | null = el;
-        while (node && node !== document.documentElement) {
-          chain.push(getComputedStyle(node).backgroundColor);
-          node = node.parentElement;
-        }
-        chain.push(getComputedStyle(document.documentElement).backgroundColor);
-        chain.push(getComputedStyle(document.body).backgroundColor);
-        let acc = { r: 255, g: 255, b: 255 };
-        for (let i = chain.length - 1; i >= 0; i--) {
-          const p = parse(chain[i]);
-          if (!p || p.a <= 0) continue;
-          acc = { r: p.r * p.a + acc.r * (1 - p.a), g: p.g * p.a + acc.g * (1 - p.a), b: p.b * p.a + acc.b * (1 - p.a) };
-        }
-        const l1 = lum(color), l2 = lum(acc);
+      const walker = document.createTreeWalker(card, NodeFilter.SHOW_TEXT);
+      let node: Text | null;
+      while ((node = walker.nextNode() as Text | null)) {
+        const text = (node.nodeValue || "").trim();
+        if (!text) continue;
+        const parent = node.parentElement;
+        if (!parent) continue;
+        if (!isVisible(parent)) continue;
+        // Skip text that is not actually rendered (e.g. inside a closed
+        // <details>): its range has a zero box.
+        const range = document.createRange();
+        range.selectNodeContents(node);
+        const rect = range.getBoundingClientRect();
+        if (rect.width === 0 && rect.height === 0) continue;
+        const color = parse(getComputedStyle(parent).color);
+        if (!color) continue;
+        const bg = effectiveBg(parent);
+        const l1 = lum(color), l2 = lum(bg);
         const ratio = (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
-        let path = el.tagName.toLowerCase();
-        const cls = (el.getAttribute("class") || "").split(" ")[0];
+        let path = parent.tagName.toLowerCase();
+        const cls = (parent.getAttribute("class") || "").split(" ")[0];
         if (cls) path += "." + cls;
-        rows.push({ sel: path, text: text.slice(0, 20), ratio: Math.round(ratio * 100) / 100 });
+        const rounded = Math.round(ratio * 100) / 100;
+        // Dedupe identical (parent, text, ratio) measurements so the same
+        // rendered text is not counted twice; a different ratio (different
+        // background) is a different measurement and is kept.
+        const key = `${path}|${text}|${rounded}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        rows.push({ sel: path, parentTag: parent.tagName.toLowerCase(), text: text.slice(0, 40), ratio: rounded });
       }
     }
     return rows;
@@ -94,6 +137,37 @@ function assertAllContrast(rows: NodeRow[], pageName: string) {
   expect(rows.length, `${pageName}: pillar card must contain visible text`).toBeGreaterThan(0);
   const failing = rows.filter((r) => r.ratio < MIN_RATIO);
   expect(failing, `${pageName}: failing text nodes: ${JSON.stringify(failing)}`).toEqual([]);
+}
+
+// Assert that both the plain (direct) text of a container and its nested
+// styled text were actually measured — a test must not pass with an empty
+// plain-text set. plainTags are the container tags whose direct text must
+// appear (e.g. "p" for the romance paragraph, "span" for a bazi-branch
+// span); nestedTags are the nested styled tags (e.g. "strong", "i").
+function assertPlainAndNested(rows: NodeRow[], pageName: string, plainTags: string[], nestedTags: string[]) {
+  for (const tag of plainTags) {
+    const found = rows.filter((r) => r.parentTag === tag);
+    expect(found.length, `${pageName}: expected plain text under <${tag}> to be measured, got none`).toBeGreaterThan(0);
+    const failing = found.filter((r) => r.ratio < MIN_RATIO);
+    expect(failing, `${pageName}: plain <${tag}> text failing: ${JSON.stringify(failing)}`).toEqual([]);
+  }
+  for (const tag of nestedTags) {
+    const found = rows.filter((r) => r.parentTag === tag);
+    expect(found.length, `${pageName}: expected nested <${tag}> text to be measured, got none`).toBeGreaterThan(0);
+    const failing = found.filter((r) => r.ratio < MIN_RATIO);
+    expect(failing, `${pageName}: nested <${tag}> text failing: ${JSON.stringify(failing)}`).toEqual([]);
+  }
+}
+
+async function assertNoOverflow(page: Page, pageName: string) {
+  const dims = await page.evaluate(() => {
+    const de = document.documentElement;
+    return { scrollWidth: de.scrollWidth, clientWidth: de.clientWidth };
+  });
+  expect(
+    dims.scrollWidth <= dims.clientWidth + 1,
+    `${pageName}: horizontal overflow (scrollWidth ${dims.scrollWidth} > clientWidth ${dims.clientWidth})`,
+  ).toBe(true);
 }
 
 const SAMPLE_GANZHI = ["己卯", "丁丑", "甲子", "庚午"];
@@ -110,9 +184,13 @@ for (const width of [360, 390, 768, 1440]) {
     const baziRows = await measureCardText(page, ".bazi-pillars");
     expect(baziRows.length).toBeGreaterThanOrEqual(12);
     assertAllContrast(baziRows, "bazi-pillars");
+    // The bazi-branch span holds direct text plus a nested <i>; both must
+    // be measured (the old element-based measurement skipped the span).
+    assertPlainAndNested(baziRows, "bazi-pillars", ["span"], ["strong", "i"]);
     for (const ganzhi of SAMPLE_GANZHI) {
       await expect(page.locator(".bazi-pillars strong", { hasText: ganzhi }).first()).toBeVisible();
     }
+    await assertNoOverflow(page, `bazi-profile @${width}px`);
 
     // Life overview: same birth data, target year 2026.
     await page.goto("/life-overview");
@@ -124,9 +202,11 @@ for (const width of [360, 390, 768, 1440]) {
     const lifeRows = await measureCardText(page, ".life-pillars");
     expect(lifeRows.length).toBeGreaterThanOrEqual(12);
     assertAllContrast(lifeRows, "life-pillars");
+    assertPlainAndNested(lifeRows, "life-pillars", ["small", "em"], ["strong"]);
     for (const ganzhi of SAMPLE_GANZHI) {
       await expect(page.locator(".life-pillars strong", { hasText: ganzhi }).first()).toBeVisible();
     }
+    await assertNoOverflow(page, `life-overview @${width}px`);
 
     // Compatibility: two-person sample.
     await page.goto("/compatibility-structure");
@@ -137,9 +217,8 @@ for (const width of [360, 390, 768, 1440]) {
     const compatRows = await measureCardText(page, ".compat-pillars");
     expect(compatRows.length).toBeGreaterThanOrEqual(12);
     assertAllContrast(compatRows, "compat-pillars");
-
-    // No horizontal overflow on any of the three pages.
-    expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1)).toBe(false);
+    assertPlainAndNested(compatRows, "compat-pillars", ["small", "span"], ["strong"]);
+    await assertNoOverflow(page, `compatibility-structure @${width}px`);
   });
 }
 
@@ -158,9 +237,13 @@ test("romance spouse-pairing paragraph renders with a role and reads clearly", a
   const pairingRows = await measureCardText(page, ".romance-spouse-pairing > p");
   expect(pairingRows.length).toBeGreaterThan(0);
   assertAllContrast(pairingRows, "romance-spouse-pairing");
+  // The paragraph's plain text ("传统口径候选十神……流年干支") lives in
+  // direct text nodes of the <p> alongside a nested <strong>; both must
+  // be measured (the old measurement skipped the <p> entirely).
+  assertPlainAndNested(pairingRows, "romance-spouse-pairing", ["p"], ["strong"]);
   // The pairing paragraph names the candidate ten-gods and the flow year.
   await expect(page.locator(".romance-spouse-pairing > p").first()).toContainText("传统口径候选十神");
-  expect(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1)).toBe(false);
+  await assertNoOverflow(page, "romance-structure @360px");
 });
 
 test("E0403 natal cards do not regress (romance + career + yearly)", async ({ page }) => {
@@ -180,6 +263,7 @@ test("E0403 natal cards do not regress (romance + career + yearly)", async ({ pa
     const rows = await measureCardText(page, card);
     expect(rows.length).toBeGreaterThan(0);
     assertAllContrast(rows, `${card} (E0403 no-regression)`);
+    await assertNoOverflow(page, `${route} @360px`);
   }
 });
 
