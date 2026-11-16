@@ -777,6 +777,24 @@
   font-size: 12px;
   color: #889078;
 }
+/* TJ-029.1 E0402: light result cards (.live-section / .daily-section) use an
+   opaque paper background, but .result-section-heading h2 has no color rule
+   and inherits night gold #f0d6a0 (1.39:1); the numeral #a8864e (3.34:1) and
+   small #889078 (3.27:1) also fail AA. Pin dark ink on these cards only.
+   Dark backgrounds are untouched: every rule requires a light-card ancestor.
+   Values reuse the E0400/E0401 verified palette. */
+.live-section .result-section-heading h2,
+.daily-section .result-section-heading h2 {
+  color: #315943;
+}
+.live-section .result-section-heading > div > span,
+.daily-section .result-section-heading > div > span {
+  color: #7d6033;
+}
+.live-section .result-section-heading > small,
+.daily-section .result-section-heading > small {
+  color: #6b7264;
+}
 .result-basic {
   border: 1px solid #d8ddcd;
   border-radius: 5px;
