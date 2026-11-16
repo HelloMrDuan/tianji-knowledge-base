@@ -784,15 +784,21 @@
    Dark backgrounds are untouched: every rule requires a light-card ancestor.
    Values reuse the E0400/E0401 verified palette. */
 .live-section .result-section-heading h2,
-.daily-section .result-section-heading h2 {
+.daily-section .result-section-heading h2,
+.romance-natal .result-section-heading h2,
+.career-natal .result-section-heading h2 {
   color: #315943;
 }
 .live-section .result-section-heading > div > span,
-.daily-section .result-section-heading > div > span {
+.daily-section .result-section-heading > div > span,
+.romance-natal .result-section-heading > div > span,
+.career-natal .result-section-heading > div > span {
   color: #7d6033;
 }
 .live-section .result-section-heading > small,
-.daily-section .result-section-heading > small {
+.daily-section .result-section-heading > small,
+.romance-natal .result-section-heading > small,
+.career-natal .result-section-heading > small {
   color: #6b7264;
 }
 .result-basic {
