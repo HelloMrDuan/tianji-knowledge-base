@@ -35,6 +35,11 @@ function displayEvidence(id: string, row: Record<string, any>) {
     excerpt: row.original_text_excerpt === true || row.classic_title_excerpt === true };
 }
 
+const dayunMethodLabels: Record<string, string> = {
+  sanming: "三命口径",
+  shenfeng: "神峰口径",
+};
+
 export function CareerWealthStructurePage() {
   const [date, setDate] = useState(() => toSolarDateString(readSavedBirthProfile()));
   const [time, setTime] = useState(() => readSavedBirthProfile().time);
@@ -43,6 +48,11 @@ export function CareerWealthStructurePage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [view, setView] = useState<"career" | "wealth">("career"); // TJ-023.2: dual view, same underlying run
+  // T-D1 (E0409): optional traditional dayun role, same precedent as
+  // bazi-profile; the role is sent only when explicitly selected.
+  const [dayunRole, setDayunRole] = useState<"" | "male" | "female">("");
+  const [dayun, setDayun] = useState<any>(null);
+  const [dayunMethod, setDayunMethod] = useState<"sanming" | "shenfeng">("sanming");
   const requestVersion = useRef(0);
 
   useEffect(() => () => { requestVersion.current += 1; }, []);
@@ -50,6 +60,7 @@ export function CareerWealthStructurePage() {
   function invalidateResult() {
     requestVersion.current += 1;
     setResult(null);
+    setDayun(null);
     setError("");
     setLoading(false);
   }
@@ -68,7 +79,17 @@ export function CareerWealthStructurePage() {
     setResult(null);
     try {
       if (!isValidTargetYear(targetYear)) throw new Error("请选择 1901 至 2098 年的公历年份");
-      const response = await executeCareerScenario({
+      // T-D1: traditional_role is an optional scenario input; the
+      // typed executor signature does not list it yet, so the input
+      // is built as a wider variable (assignable to the narrower
+      // parameter type) and the key is only present when explicitly
+      // selected. No api.ts change in this slice.
+      const careerInput: {
+        birth_value: string;
+        birth_zone?: string;
+        target_year: number;
+        traditional_role?: "male" | "female";
+      } = {
         birth_value: (() => {
         const currentProfile = readSavedBirthProfile();
         const initialSolar = toSolarDateString(currentProfile);
@@ -82,8 +103,11 @@ export function CareerWealthStructurePage() {
       })(),
         target_year: targetYear,
         birth_zone: toApiZone(readSavedBirthProfile()),
-      });
+      };
+      if (dayunRole) careerInput.traditional_role = dayunRole;
+      const response = await executeCareerScenario(careerInput);
       if (version !== requestVersion.current) return;
+      setDayun(response.result?.dayun_presentation ?? null);
       (() => {
         const currentProfile = readSavedBirthProfile();
         const initialSolar = toSolarDateString(currentProfile);
@@ -165,6 +189,21 @@ export function CareerWealthStructurePage() {
                 required />
             </label>
           </div>
+          {/* T-D1 (E0409): optional traditional dayun role, same
+              precedent as bazi-profile; not selected means no dayun. */}
+          <div className="bazi-dayun-role">
+            <label htmlFor="career-dayun-role">传统大运口径（可选）</label>
+            <select
+              id="career-dayun-role"
+              value={dayunRole}
+              onChange={(e) => { invalidateResult(); setDayunRole(e.target.value as "" | "male" | "female"); }}
+            >
+              <option value="">不启用</option>
+              <option value="male">传统男命口径</option>
+              <option value="female">传统女命口径</option>
+            </select>
+            <small>只用于按传统口径呈现大运首运方向与交运区间；不选择时不呈现大运。该选择只随本次计算发送，不保存。</small>
+          </div>
           <div className="career-entry-note">
             <Icon name="shield" size={16} />
             <span>只统计确定性结构位置，不比较旺衰、月令权重，也不把数量换算成“好坏分数”。</span>
@@ -244,6 +283,56 @@ export function CareerWealthStructurePage() {
                   ) : null;
                 })}
               </details>
+            </section>
+          )}
+
+          {/* T-D1 (E0409): first-period dayun only. The presentation
+              carries eight entries; only the first has an interval,
+              periods 2-8 are not_provided, and no starting age is
+              ever shown. */}
+          {dayun && (
+            <section className="bazi-dayun-presentation" aria-label="大运首运方向与交运区间">
+              <span className="eyebrow">大运首运 · 两口径分立呈现</span>
+              <h3>大运首运方向与交运区间</h3>
+              <div className="bazi-dayun-switch" role="tablist" aria-label="大运口径切换">
+                {(["sanming", "shenfeng"] as const).map((method) => (
+                  <button
+                    key={method}
+                    type="button"
+                    role="tab"
+                    aria-selected={dayunMethod === method}
+                    className={dayunMethod === method ? "active" : ""}
+                    onClick={() => setDayunMethod(method)}
+                  >
+                    {dayunMethodLabels[method]}
+                  </button>
+                ))}
+              </div>
+              {(() => {
+                const view = dayun.methods[dayunMethod];
+                const first = view.entries[0];
+                return (
+                  <div className="bazi-dayun-method">
+                    <p>
+                      大运方向：{view.direction.label}（{view.direction.counting_target === "future_jie" ? "数至出生后之节" : "数至出生前之节"}：{view.direction.counted_jie.name} {view.direction.counted_jie.at}）。
+                    </p>
+                    <p>
+                      <strong>第 1 运 {first.ganzhi}</strong>
+                      <span>（{first.ten_god_relative_to_natal_day_stem}）</span>
+                      {first.state === "interval" && (
+                        <span>交运区间：{first.start_interval.earliest} 至 {first.start_interval.latest}（不含上限）</span>
+                      )}
+                      {first.state === "unresolved" && (
+                        <span>交运时间暂不可判。</span>
+                      )}
+                    </p>
+                    <p className="bazi-dayun-notice">第 2–8 运未提供：本口径只呈现首运交运区间。不折算起运岁数或日期；大运时间轴整体仍未获批。</p>
+                    {view.notices.map((notice: any) => (
+                      <p key={notice.code} className="bazi-dayun-notice">{notice.text}</p>
+                    ))}
+                  </div>
+                );
+              })()}
             </section>
           )}
 

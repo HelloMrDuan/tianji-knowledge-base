@@ -538,9 +538,17 @@ class ProjectionScopeTests(unittest.TestCase):
             self.assertNotIn(key, projected["result"])
 
     def test_other_scenario_carrier_is_stripped(self):
-        projected = project_execution(
-            self._envelope("life", self.presentation))
-        self.assertNotIn("dayun_presentation", projected["result"])
+        # T-D1 (E0409): career and life now release the dayun
+        # presentation; any other scenario carrier is still stripped.
+        for scenario_id in ("career", "life"):
+            projected = project_execution(
+                self._envelope(scenario_id, self.presentation))
+            self.assertEqual(projected["result"]["dayun_presentation"],
+                             self.presentation)
+        for scenario_id in ("yearly", "romance", "daily"):
+            projected = project_execution(
+                self._envelope(scenario_id, self.presentation))
+            self.assertNotIn("dayun_presentation", projected["result"])
 
     def test_domain_chart_carrier_is_stripped(self):
         envelope = self._envelope("bazi-profile", self.presentation,
