@@ -282,16 +282,32 @@ class SpouseStarPairingApiTests(unittest.TestCase):
         self.assertNotIn("spouse_star_year_pairing",
                          without_role.json()["result"])
 
-    def test_g10_life_envelope_has_no_pairing_and_rejects_role(self):
+    def test_g10_life_envelope_has_no_pairing_and_role_returns_dayun_only(self):
+        # T-D1 (E0409, state-transition pin): _life now accepts the
+        # optional traditional_role ONLY for the first-period dayun
+        # gate (user adjudication 2026-11-17). The E0359 substance is
+        # preserved: the role is never forwarded to _romance inside
+        # _life, so a life envelope never carries a
+        # spouse_star_year_pairing, with or without a role. The role
+        # now returns a first-period dayun presentation instead of a
+        # contract rejection.
         birth, year, _ = CASE_A
         env = scenario_engine.execute_scenario(
             "life", {"birth_value": birth, "target_year": year})
         self.assertNotIn("spouse_star_year_pairing",
                          json.dumps(env, ensure_ascii=False))
-        with self.assertRaises(ValueError):
-            scenario_engine.execute_scenario("life", {
-                "birth_value": birth, "target_year": year,
-                "traditional_role": "male"})
+        self.assertNotIn("dayun_presentation", env["result"])
+        env_role = scenario_engine.execute_scenario("life", {
+            "birth_value": birth, "target_year": year,
+            "traditional_role": "male"})
+        self.assertNotIn("spouse_star_year_pairing",
+                         json.dumps(env_role, ensure_ascii=False))
+        self.assertIn("dayun_presentation", env_role["result"])
+        entries = env_role["result"]["dayun_presentation"]["methods"]["sanming"]["entries"]
+        self.assertEqual(len(entries), 8)
+        self.assertEqual(entries[0]["state"], "interval")
+        self.assertTrue(all(
+            entry["state"] == "not_provided" for entry in entries[1:]))
 
 
 if __name__ == "__main__":
