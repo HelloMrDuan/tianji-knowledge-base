@@ -395,7 +395,7 @@ export function LifeOverviewPage() {
                         <span>交运时间暂不可判。</span>
                       )}
                     </p>
-                    <p className="bazi-dayun-notice">第 2–8 运未提供：本口径只呈现首运交运区间。不折算起运岁数或日期；大运时间轴整体仍未获批。</p>
+                    <p className="bazi-dayun-notice">第 2–8 运尚未在本场景开放：本口径只呈现首运交运区间。不折算起运岁数或日期；大运时间轴整体仍未获批。</p>
                     {view.notices.map((notice: any) => (
                       <p key={notice.code} className="bazi-dayun-notice">{notice.text}</p>
                     ))}

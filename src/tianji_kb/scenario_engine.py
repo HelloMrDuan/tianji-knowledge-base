@@ -11,7 +11,10 @@ from .bazi_adjudication import ADJUDICATION_VARIANT
 from .bazi_bingyao import VARIANT as _BINGYAO_VARIANT
 from .bazi_core import ten_god, stem_five_combination, reviewed_branch_pair_relations
 from .bazi_dayun_compose import classical_dayun_timeline
-from .bazi_dayun_public import public_dayun_presentation
+from .bazi_dayun_public import (
+    is_valid_public_dayun_presentation,
+    public_dayun_presentation,
+)
 from .bazi_dayun_timeline_view import dayun_timeline_view
 from .bazi_tiaohou import VARIANT as _TIAOHOU_VARIANT
 from .bazi_xiyong_public import (
@@ -139,6 +142,38 @@ def _dayun_public_gate(value, zone, traditional_role):
         dayun_timeline_view(composition, method="sanming"),
         dayun_timeline_view(composition, method="shenfeng"),
         execution={"composition": composition})
+
+
+def _first_period_dayun_for_career_life(presentation):
+    """Scene-scoped first-period trim (T-D1 fix, E0410).
+
+    The shared gate returns the full presentation: sanming carries
+    real intervals for all 8 periods, shenfeng only the first (E0375
+    design, enforced by the shared validator which forbids
+    sanming + not_provided). The career and life scenes open only
+    the first period, so this boundary builds an INDEPENDENT copy
+    for those two scenes: sanming periods 2-8 become ``unresolved``
+    with their real intervals cleared and a per-entry status that
+    says they are not opened in this scene -- the shared builder
+    DID compute them, the scene just withholds them. Shenfeng is
+    left untouched (its periods 2-8 are already not_provided).
+    The shared builder, its validator and the bazi-profile path are
+    never touched here. The trimmed object must still pass the real
+    public-structure validation, otherwise the scenario fails
+    closed instead of silently presenting an unvalidated object.
+    """
+    trimmed = copy.deepcopy(presentation)
+    for entry in trimmed["methods"]["sanming"]["entries"][1:]:
+        entry["state"] = "unresolved"
+        entry["start_interval"] = None
+        entry["start_interval_status"] = (
+            "unresolved: sanming periods 2-8 are not opened in the "
+            "career and life scenes; the shared builder computed "
+            "their intervals but this scene withholds them")
+    if not is_valid_public_dayun_presentation(trimmed):
+        raise ValueError(
+            "scene-scoped dayun presentation failed public validation")
+    return trimmed
 
 
 def _strength_jie_facts(value):
@@ -1809,15 +1844,20 @@ def _career(inputs):
             "evidence_ids": evidence_ids,
         },
     ]
-    # T-D1 (E0409): first-period dayun only, role-gated, reusing the
-    # bazi-profile gate (_dayun_public_gate). Periods 2-8 stay
-    # not_provided and no starting age is ever computed or shown
-    # (precision adjudication A). The presentation builder bans
-    # start/end age and date keys, so a starting age cannot leak
-    # through this wiring.
+    # T-D1 (E0409, fixed E0410): first-period dayun only, role-gated,
+    # reusing the bazi-profile gate (_dayun_public_gate). The shared
+    # gate returns sanming intervals for all 8 periods; the career
+    # scene opens only the first, so the presentation is trimmed at
+    # this boundary (sanming periods 2-8 become unresolved with their
+    # intervals cleared -- see _first_period_dayun_for_career_life).
+    # No starting age is ever computed or shown (precision
+    # adjudication A). The presentation builder bans start/end age
+    # and date keys, so a starting age cannot leak through this
+    # wiring.
     if traditional_role is not None:
-        result["dayun_presentation"] = _dayun_public_gate(
-            birth_value, inputs.get("birth_zone"), traditional_role)
+        result["dayun_presentation"] = _first_period_dayun_for_career_life(
+            _dayun_public_gate(
+                birth_value, inputs.get("birth_zone"), traditional_role))
     # The dayun limitation must track the wiring: with a role the
     # first period is presented, so only periods 2-8 remain unincluded.
     dayun_limitation = (
@@ -2709,14 +2749,15 @@ def _life(inputs):
             "这些不是正缘、婚期或感情走向判断。"
         ),
         "cross_rule": cross_rule_audit["reading"],
-        # T-D1 (E0409): with a role the first-period dayun is now
-        # presented (hoisted from the career section below); periods
-        # 2-8 stay unprovided and no starting age is computed.
-        # Without a role the E0362 wording stays verbatim: the full
-        # dayun timeline is still not approved for this overview.
+        # T-D1 (E0409, copy fixed E0410): with a role the first-period
+        # dayun is now presented (hoisted from the career section
+        # below); periods 2-8 are not opened in this scene and no
+        # starting age is computed. Without a role the E0362 wording
+        # stays verbatim: the full dayun timeline is still not
+        # approved for this overview.
         "dayun": (
             "已按所选传统口径呈现大运首运（方向与交运区间，两口径分立）；"
-            "第 2–8 运未提供，不折算起运岁数或日期；"
+            "第 2–8 运尚未在本场景开放，不折算起运岁数或日期；"
             "岁运效力仍无完成审核的生产规则，本总览不推算或伪造大运时间线。"
             if traditional_role is not None else
             "大运方向与起运换算已有完成审核的注册规则（方向据三命分段；"
@@ -2804,11 +2845,13 @@ def _life(inputs):
             item["scenario_section"] = section_id
             trace.append(item)
 
-    # T-D1 (E0409): hoist the career section's first-period dayun
-    # presentation to this report's top level (computed once, by the
-    # career section above, from this request's own birth instant and
-    # role). The full timeline stays unapproved: both
-    # dayun_timeline_approved flags remain False below.
+    # T-D1 (E0409, trim fixed E0410): hoist the career section's
+    # first-period dayun presentation to this report's top level
+    # (computed once, by the career section above, from this
+    # request's own birth instant and role -- the same trimmed
+    # object is embedded in the career section below, so the two
+    # can never disagree). The full timeline stays unapproved: all
+    # three dayun_timeline_approved flags remain False below.
     dayun_presentation = career["result"].get("dayun_presentation")
     return {
         "scenario_id": "life",

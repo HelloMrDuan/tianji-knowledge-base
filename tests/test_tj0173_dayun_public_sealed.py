@@ -39,6 +39,12 @@ LIFE_LIMITATION = (
     "八字旺衰、喜用、格局与大运真实起运仍未获得生产审核，"
     "报告不得给出这些结论。")
 
+# Scene-scoped trim (E0410): sanming periods 2-8 are unresolved
+# (intervals cleared, status names the scene scope); shenfeng
+# periods 2-8 stay not_provided. The shared validator forbids
+# sanming + not_provided (E0375).
+TRIMMED_STATE = {"sanming": "unresolved", "shenfeng": "not_provided"}
+
 
 def _all_keys(value):
     if isinstance(value, dict):
@@ -332,10 +338,11 @@ class OtherScenariosTests(unittest.TestCase):
                 execute_scenario(scenario_id, inputs)
 
     def test_career_and_life_accept_role_and_present_first_period_only(self):
-        # T-D1 (E0409): career and life accept traditional_role and
-        # return the public dayun presentation (first period only,
-        # periods 2-8 not_provided, no starting age anywhere). The
-        # full-timeline flags stay False.
+        # T-D1 (E0409, trim fixed E0410): career and life accept
+        # traditional_role and return the public dayun presentation
+        # (first period only; sanming periods 2-8 unresolved with
+        # intervals cleared, shenfeng periods 2-8 not_provided, no
+        # starting age anywhere). The full-timeline flags stay False.
         for scenario_id in ("career", "life"):
             envelope = execute_scenario(scenario_id, {
                 "birth_value": self.BIRTH, "target_year": 2026,
@@ -353,7 +360,8 @@ class OtherScenariosTests(unittest.TestCase):
                 self.assertEqual(entries[0]["period_index"], 1)
                 self.assertEqual(entries[0]["state"], "interval")
                 for entry in entries[1:]:
-                    self.assertEqual(entry["state"], "not_provided")
+                    self.assertEqual(entry["state"], TRIMMED_STATE[method])
+                    self.assertIsNone(entry["start_interval"])
             blob = json.dumps(envelope["result"], ensure_ascii=False)
             for banned in ("start_age", "end_age", "start_date",
                            "end_date"):

@@ -307,7 +307,9 @@ class SpouseStarPairingApiTests(unittest.TestCase):
         self.assertEqual(len(entries), 8)
         self.assertEqual(entries[0]["state"], "interval")
         self.assertTrue(all(
-            entry["state"] == "not_provided" for entry in entries[1:]))
+            entry["state"] == "unresolved" for entry in entries[1:]))
+        self.assertTrue(all(
+            entry["start_interval"] is None for entry in entries[1:]))
 
 
 if __name__ == "__main__":
