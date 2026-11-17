@@ -21,7 +21,7 @@ import { PeriodStructurePage } from "./PeriodStructurePage";
 import { CompatibilityStructurePage } from "./CompatibilityStructurePage";
 import { ThemeToggle } from "./ThemeToggle";
 import { useTheme } from "./theme";
-import { onBirthProfileCleared } from "./birthProfile";
+import { onLocalDataCleared } from "./localData";
 import "./public.css";
 import "./theme.css";
 
@@ -40,13 +40,16 @@ export function PublicApp() {
   const resultPage = domainPages.find((item) => path === `/${item.id}/result`);
   const [favorite, setFavorite] = useState(initialFavorite);
   const [notice, setNotice] = useState("");
-  const [theme, setTheme] = useTheme(); // TJ-008.6 双主题：深青夜景默认
+  const [theme, setTheme, resetThemeSilently] = useTheme(); // TJ-008.6 双主题：深青夜景默认
 
   // One listener covers EVERY mounted scene, including compatibility and result screens.
-  // Another tab removing the personal birth profile invalidates in-memory profile
-  // snapshots, results and pending callbacks by remounting the current route.
-  // Unrelated theme, music and favorite preferences are intentionally untouched.
-  useEffect(() => onBirthProfileCleared(() => {
+  // Another tab removing any registered local key (birth profile or the
+  // TJ-029.2 clear-all) invalidates in-memory profile snapshots, results
+  // and pending callbacks by remounting the current route.
+  // The birth-profile key is one of the registered keys, so a birth-only
+  // clear keeps the previous behaviour; a clear-all also reloads tabs
+  // even when no birth profile was stored.
+  useEffect(() => onLocalDataCleared(() => {
     window.location.reload();
   }), []);
 
@@ -130,7 +133,7 @@ export function PublicApp() {
           ) : path === "/dream-culture" ? (
             <DreamCulturePage />
           ) : path === "/bazi-profile" ? (
-            <BaziProfilePage />
+            <BaziProfilePage onClearAllThemeReset={resetThemeSilently} />
           ) : path === "/yearly-structure" ? (
             <YearlyStructurePage />
           ) : path === "/romance-structure" ? (

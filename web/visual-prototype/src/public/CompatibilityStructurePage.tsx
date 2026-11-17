@@ -1,9 +1,9 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeCompatibilityScenario, type ScenarioExecuteResponse } from "./api";
-import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
+import { readSavedBirthProfile, saveBirthProfile, clearBirthProfile } from "./birthProfile";
 import { toApiValue, toApiZone, fromLegacy, toSolarDateString, isConvertedFromLunar, fromSolarEdit, withUpdatedTime, regionToTimezone, REGION_OPTIONS } from "./birthProfile";
 import "./compatibility-structure.css";
 
@@ -22,7 +22,9 @@ function evidenceLabel(id: string, value: Record<string, any>) {
 }
 
 export function CompatibilityStructurePage() {
-  const saved = useMemo(readSavedBirthProfile, []);
+  // TJ-029.2 P1: A 方档案用 state 而不用 useMemo，页内清除后可就地重置；
+  // 其他标签页清除时由 PublicApp 重载整页（重新读取档案）。
+  const [saved, setSaved] = useState(() => readSavedBirthProfile());
   const [aName, setAName] = useState("我");
   const [bName, setBName] = useState("对方");
   const [aDate, setADate] = useState(() => toSolarDateString(saved));
@@ -38,8 +40,19 @@ export function CompatibilityStructurePage() {
   const [error, setError] = useState("");
   const requestVersion = useRef(0);
   const [resultNames, setResultNames] = useState({a: "我", b: "对方"});
+  // TJ-029.2 P1: 页内清除本机资料后的回执
+  const [clearNote, setClearNote] = useState("");
 
   useEffect(() => () => { requestVersion.current += 1; }, []);
+
+  function clearSavedProfile() {
+    invalidateResult();
+    clearBirthProfile();
+    setSaved({ calendarType: "solar", year: 0, month: 0, day: 0, isLeapMonth: false, time: "", timeUnknown: false, region: "中国大陆" });
+    setADate("");
+    setATime("");
+    setClearNote("已清除本机保存的出生资料。对方资料仅用于本次合盘计算，本就不保存到本机。");
+  }
 
   function invalidateResult() {
     requestVersion.current += 1;
@@ -243,7 +256,9 @@ export function CompatibilityStructurePage() {
           >
             清空对方资料
           </button>
+          <button type="button" className="sample-fill" onClick={clearSavedProfile}>清除本机资料</button>
         </div>
+        {clearNote && <p className="compat-clear-note" role="status">{clearNote}</p>}
         {error && <p className="question-error compat-error" role="alert">{error}</p>}
       </form>
 

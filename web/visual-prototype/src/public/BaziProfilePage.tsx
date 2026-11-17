@@ -4,6 +4,8 @@ import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeBazi, executeBaziProfileScenario, type ExecuteResponse } from "./api";
 import { readSavedBirthProfile, saveBirthProfile, clearBirthProfile, toApiValue, toApiZone, validateBirthInput, onBirthProfileCleared, type BirthProfile } from "./birthProfile";
+import { clearAllLocalData, presentLocalDataLabels } from "./localData";
+import { resetThemeDomToDefault } from "./theme";
 import { BirthInputFields } from "./BirthInputFields";
 import "./bazi-profile.css";
 
@@ -139,7 +141,12 @@ function displayEvidence(id: string, value: Record<string, any>) {
   };
 }
 
-export function BaziProfilePage() {
+export function BaziProfilePage({
+  onClearAllThemeReset,
+}: {
+  /** TJ-029.2: 全部清除时把主题 React 状态静默回默认（不写回存储）。 */
+  onClearAllThemeReset?: () => void;
+}) {
   const [profile, setProfile] = useState<BirthProfile>(() => readSavedBirthProfile());
   const [inputError, setInputError] = useState("");
   const [result, setResult] = useState<ExecuteResponse | null>(null);
@@ -159,6 +166,10 @@ export function BaziProfilePage() {
   const [patternPresentation, setPatternPresentation] = useState<any>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  // TJ-029.2 P1: 统一清除全部本机资料（两步确认 + 回执）
+  const [confirmClearAll, setConfirmClearAll] = useState(false);
+  const [clearAllPreview, setClearAllPreview] = useState<string[]>([]);
+  const [clearAllNote, setClearAllNote] = useState("");
   const requestVersion = useRef(0);
 
   useEffect(() => () => { requestVersion.current += 1; }, []);
@@ -180,6 +191,26 @@ export function BaziProfilePage() {
     setStrengthLoadError(false);
     setError("");
     setLoading(false);
+  }
+
+  function startClearAll() {
+    setClearAllPreview(presentLocalDataLabels());
+    setConfirmClearAll(true);
+    setClearAllNote("");
+  }
+
+  function doClearAll() {
+    const cleared = clearAllLocalData();
+    invalidateResult();
+    setProfile({ calendarType: "solar", year: 0, month: 0, day: 0, isLeapMonth: false, time: "", timeUnknown: false, region: "中国大陆" });
+    setInputError("");
+    // 可见主题同步回默认；只改 DOM 不写回存储，否则默认主题会重建该键
+    resetThemeDomToDefault();
+    // 同步 React 主题状态，使切换按钮标签立即回到“夜景”；静默重置
+    // 不触发持久化，否则默认主题会重新写入 localStorage
+    onClearAllThemeReset?.();
+    setConfirmClearAll(false);
+    setClearAllNote(cleared.length > 0 ? `已清除本机全部资料：${cleared.join("、")}。` : "本机未保存任何天机资料，无需清除。");
   }
 
   function fillSample() {
@@ -326,8 +357,21 @@ export function BaziProfilePage() {
                 }
               }}>保存资料</button>
               <button type="button" className="sample-fill" onClick={() => { invalidateResult(); clearBirthProfile(); setProfile({ calendarType: "solar", year: 0, month: 0, day: 0, isLeapMonth: false, time: "", timeUnknown: false, region: "中国大陆" }); setInputError(""); }}>清除本机资料</button>
+              <button type="button" className="sample-fill" onClick={startClearAll}>清除全部本机资料</button>
             </div>
           </div>
+
+          {confirmClearAll && (
+            <div className="bazi-clear-all-confirm" role="group" aria-label="确认清除全部本机资料">
+              <p>{clearAllPreview.length > 0 ? `将清除本机保存的：${clearAllPreview.join("、")}。` : "本机未保存任何天机资料。"}</p>
+              <p>此操作只影响本浏览器，不影响其他设备；清除后主题、收藏与音乐偏好恢复默认。</p>
+              <div className="bazi-profile-actions">
+                <button type="button" className="sample-fill" onClick={doClearAll}>确认清除</button>
+                <button type="button" className="sample-fill" onClick={() => setConfirmClearAll(false)}>取消</button>
+              </div>
+            </div>
+          )}
+          {clearAllNote && <p className="bazi-clear-all-note" role="status">{clearAllNote}</p>}
 
           <BirthInputFields
             value={profile}
