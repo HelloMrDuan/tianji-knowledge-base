@@ -62,8 +62,12 @@ test("[real-backend] B006 no predictions, mobile OK", async ({ page }) => {
     // No compatibility percentages
     expect(bodyText).not.toMatch(/\d+\s*%/);
     expect(bodyText).not.toMatch(/缘分.*\d+分/);
-    // No marriage predictions
-    expect(bodyText).not.toMatch(/必.*结婚|婚姻.*预测|何时.*婚/);
+    // No marriage predictions. Bounded window: the classical quote
+    // ("不必专执官星而论夫", arguing AGAINST mechanical spouse judgment)
+    // and the boundary note ("不输出……结婚时间") sit paragraphs apart on
+    // this page, so an unbounded `.*` joins them into a false positive.
+    // A real prediction phrase keeps both words in one clause (<=12 chars).
+    expect(bodyText).not.toMatch(/必.{0,12}结婚|婚姻.{0,12}预测|何时.{0,12}婚/);
 
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     expect(overflow, `${width}px overflow`).toBeLessThanOrEqual(1);
