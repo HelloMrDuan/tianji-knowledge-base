@@ -801,6 +801,41 @@
 .career-natal .result-section-heading > small {
   color: #6b7264;
 }
+/* TJ-029.1 Line C: the three remaining four-pillar cards (.bazi-pillars,
+   .life-pillars, .compat-pillars) share the structure of the fixed
+   .romance-pillars / .yearly-pillars grids (E0403): a pillar label, a
+   ganzhi <strong>, and a ten-god. Their ganzhi <strong> has no color rule
+   and inherits night gold #f0d6a0 (1.25-1.40:1 on the opaque paper article
+   backgrounds #fbfaf4 / #fffef9 / #fffdf8 / #edf2e8); the bazi stem/branch
+   values and hidden-stem spans inherit gold the same way. The life/compat
+   labels use mid-grey (#8d9486 2.75-3.10:1, #8b9384 2.80-3.13:1, #a18a60
+   2.92-3.29:1). One grouped rule pins the verified E0403 palette on these
+   three cards only; .romance-pillars / .yearly-pillars already carry the
+   same colors in their page CSS and are left untouched. Dark backgrounds
+   are untouched: every selector requires a pillar-card ancestor (the
+   .life-result-head h2, which joins the four ganzhi on the dark page
+   background, keeps its gold by design). The bazi labels (#66705f,
+   4.57-4.96:1) and ten-god values (#49634f, #566d5c) already pass AA and
+   are left unchanged. */
+.bazi-pillars article>strong,
+.bazi-pillars .bazi-stem b,
+.bazi-pillars .bazi-branch b,
+.bazi-pillars .bazi-branch>div span,
+.life-pillars article strong,
+.compat-pillars article strong {
+  color: #315943;
+}
+/* The label selectors use the article-qualified form on purpose: the page
+   CSS files (loaded after public.css) already set these labels to mid-grey
+   with equal specificity (.life-pillars small, .compat-pillars span), so a
+   bare .life-pillars small rule here would lose the cascade. The qualified
+   form wins regardless of load order. */
+.life-pillars article small,
+.life-pillars article em,
+.compat-pillars article small,
+.compat-pillars article span {
+  color: #5a6b5c;
+}
 .result-basic {
   border: 1px solid #d8ddcd;
   border-radius: 5px;
