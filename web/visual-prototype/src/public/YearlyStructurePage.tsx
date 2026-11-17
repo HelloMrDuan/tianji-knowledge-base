@@ -250,7 +250,13 @@ export function YearlyStructurePage() {
             {result.rule_matches.map((rule, index) => (
               <article key={rule.rule_id || index}>
                 <strong>{rule.rule_id}</strong>
-                {rule.rule_id === "bazi.scenario.annual_branch_relations" ? (
+                {/* Line B: the production backend returns the short canonical
+                    rule ID "R05" for the annual-branch rule (the public
+                    scenario_engine uses the long
+                    "bazi.scenario.annual_branch_relations"); accept both so
+                    the branch rule renders its branch summary instead of the
+                    stem paragraph. */}
+                {rule.rule_id === "bazi.scenario.annual_branch_relations" || rule.rule_id === "R05" ? (
                   <p>流年地支：{annual.branch || "—"} · 已核原局四柱地支 · 命中 {branchHits.length} 条六合、六害或六冲</p>
                 ) : (
                   <p>

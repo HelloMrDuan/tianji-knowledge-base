@@ -18,7 +18,10 @@ test("birth chart and life report display the same reviewed strength facts with 
   const factors = page.getByLabel("旺衰因素与通根候选");
   await expect(factors).toContainText("通根候选");
   await expect(factors).toContainText("身强身弱");
-  await factors.locator("summary").click();
+  // Line B: the section has two summaries — the outer "旺衰因素与通根候选"
+  // and a nested "查看判断依据" inside the evidence details. Click the
+  // outer one (first in DOM order) to expand the section.
+  await factors.locator("summary").first().click();
   await expect(factors.locator("blockquote p").first()).not.toBeEmpty();
 
   await page.goto("/life-overview");
@@ -69,8 +72,13 @@ test("life uses the same validated local birth profile as yearly and supports cl
   await page.goto("/yearly-structure");
   await expect(page.getByLabel("出生日期")).toHaveValue("");
   await expect(page.getByLabel("出生时间")).toHaveValue("");
+});
 
-  // A malformed saved date must never repopulate the Life form.
+// Line B: split out from the test above — the local test browser exhausts
+// resources after ~4-5 page loads in one session (ERR_INSUFFICIENT_RESOURCES
+// / blank render), so the malformed-value check runs as its own test.
+test("a malformed saved date must never repopulate the Life form", async ({ page }) => {
+  await page.goto("/");
   await page.evaluate(() => localStorage.setItem("tianji.profile.birth.v1",
     JSON.stringify({ date: "2000-02-31", time: "12:00" })));
   await page.goto("/life-overview");
