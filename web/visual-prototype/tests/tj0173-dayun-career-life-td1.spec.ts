@@ -71,7 +71,7 @@ test("[real-backend] T-D1 career: role renders first-period dayun only", async (
   await expect(section).toBeVisible();
   await expect(section).toContainText("大运首运方向与交运区间");
   await expect(section).toContainText("第 1 运");
-  await expect(section).toContainText("第 2–8 运未提供");
+  await expect(section).toContainText("第 2–8 运尚未在本场景开放");
   await expect(section).toContainText("不折算起运岁数或日期");
   // No computed starting age is rendered anywhere on the page.
   const bodyText = await page.locator("body").textContent();
@@ -80,7 +80,7 @@ test("[real-backend] T-D1 career: role renders first-period dayun only", async (
   // Method switch: Shenfeng shows its own first-period interval.
   await section.getByRole("tab", { name: "神峰口径" }).click();
   await expect(section).toContainText("第 1 运");
-  await expect(section).toContainText("第 2–8 运未提供");
+  await expect(section).toContainText("第 2–8 运尚未在本场景开放");
 });
 
 test("[real-backend] T-D1 career: no role means no dayun section", async ({ page }) => {
@@ -112,14 +112,14 @@ test("[real-backend] T-D1 life: role renders first-period dayun only", async ({ 
   await expect(section).toBeVisible();
   await expect(section).toContainText("大运首运方向与交运区间");
   await expect(section).toContainText("第 1 运");
-  await expect(section).toContainText("第 2–8 运未提供");
+  await expect(section).toContainText("第 2–8 运尚未在本场景开放");
   await expect(section).toContainText("不折算起运岁数或日期");
   const bodyText = await page.locator("body").textContent();
   expect(bodyText).not.toMatch(/起运\s*\d+\s*岁|\d+\s*岁起运|第 1 运[^。]*\d+ 岁/);
 
   await section.getByRole("tab", { name: "神峰口径" }).click();
   await expect(section).toContainText("第 1 运");
-  await expect(section).toContainText("第 2–8 运未提供");
+  await expect(section).toContainText("第 2–8 运尚未在本场景开放");
 });
 
 test("[real-backend] T-D1 life: no role means no dayun section", async ({ page }) => {

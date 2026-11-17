@@ -3,13 +3,15 @@
 The career and life scenarios accept the optional traditional_role
 (bazi-profile precedent, TJ-017.3 phase 2) and return the public
 dayun_presentation -- FIRST PERIOD ONLY -- when a role is given.
-Without a role there is no dayun anywhere in either result. Periods
-2-8 stay not_provided and no starting age is ever computed or shown
-(precision adjudication A, 2026-11-17). The full dayun timeline
-stays unapproved: both dayun_timeline_approved flags remain False.
-The public projection releases the dayun presentation for career and
-life (same validated shape as bazi-profile); every other scenario
-still has it stripped.
+Without a role there is no dayun anywhere in either result. The
+scene-scoped trim (E0410) clears the sanming periods 2-8 intervals
+(state ``unresolved`` with a status naming the scene scope) while
+shenfeng periods 2-8 stay ``not_provided``; no starting age is ever
+computed or shown (precision adjudication A, 2026-11-17). The full
+dayun timeline stays unapproved: all three
+dayun_timeline_approved flags remain False. The public projection
+releases the dayun presentation for career and life (same validated
+shape as bazi-profile); every other scenario still has it stripped.
 
 Runs in the offline acceptance (assembled tree with the sealed
 runtime), not in public CI -- like the other real-engine scenario
@@ -60,6 +62,25 @@ def _flag_values(value, key):
             yield from _flag_values(item, key)
 
 
+def _flag_paths(value, key, path=""):
+    if isinstance(value, dict):
+        for name, item in value.items():
+            if name == key:
+                yield path + "/" + name
+            yield from _flag_paths(item, key, path + "/" + name)
+    elif isinstance(value, list):
+        for index, item in enumerate(value):
+            yield from _flag_paths(item, key, path + f"[{index}]")
+
+
+# Scene-scoped trim (E0410): sanming periods 2-8 are unresolved
+# (intervals cleared, status names the scene scope); shenfeng
+# periods 2-8 stay not_provided. The shared validator forbids
+# sanming + not_provided (E0375), so not_provided is not an
+# available state for sanming entries at all.
+TRIMMED_STATE = {"sanming": "unresolved", "shenfeng": "not_provided"}
+
+
 class CareerDayunTests(unittest.TestCase):
     def test_role_returns_first_period_only(self):
         envelope = execute_scenario("career", {
@@ -81,7 +102,7 @@ class CareerDayunTests(unittest.TestCase):
             self.assertEqual(entries[0]["state"], "interval")
             self.assertIsNotNone(entries[0]["start_interval"])
             for entry in entries[1:]:
-                self.assertEqual(entry["state"], "not_provided")
+                self.assertEqual(entry["state"], TRIMMED_STATE[method])
                 self.assertIsNone(entry["start_interval"])
 
     def test_no_role_means_no_dayun(self):
@@ -125,7 +146,9 @@ class CareerDayunTests(unittest.TestCase):
         entries = presentation["methods"]["sanming"]["entries"]
         self.assertEqual(entries[0]["state"], "interval")
         self.assertTrue(all(
-            e["state"] == "not_provided" for e in entries[1:]))
+            e["state"] == "unresolved" for e in entries[1:]))
+        self.assertTrue(all(
+            e["start_interval"] is None for e in entries[1:]))
 
     def test_api_without_role_has_no_dayun(self):
         client = TestClient(create_app())
@@ -153,7 +176,9 @@ class LifeDayunTests(unittest.TestCase):
             self.assertEqual(len(entries), 8)
             self.assertEqual(entries[0]["state"], "interval")
             self.assertTrue(all(
-                e["state"] == "not_provided" for e in entries[1:]))
+                e["state"] == TRIMMED_STATE[method] for e in entries[1:]))
+            self.assertTrue(all(
+                e["start_interval"] is None for e in entries[1:]))
         # The career section inside the report carries the same
         # presentation (same request, same role).
         self.assertEqual(
@@ -166,7 +191,7 @@ class LifeDayunTests(unittest.TestCase):
             "traditional_role": "male"})
         dayun_text = envelope["result"]["integrated_reading"]["dayun"]
         self.assertIn("大运首运", dayun_text)
-        self.assertIn("第 2–8 运未提供", dayun_text)
+        self.assertIn("第 2–8 运尚未在本场景开放", dayun_text)
         self.assertIn("不折算起运岁数或日期", dayun_text)
 
     def test_no_role_keeps_e0362_wording_verbatim(self):
@@ -185,7 +210,10 @@ class LifeDayunTests(unittest.TestCase):
             envelope = execute_scenario("life", inputs)
             flags = list(_flag_values(
                 envelope, "dayun_timeline_approved"))
-            self.assertEqual(len(flags), 2)
+            # Three flags, not two: integrated_reading, the dayun
+            # condition marker basis, and integration_provenance.
+            # The provenance flag predates T-D1 and must stay.
+            self.assertEqual(len(flags), 3)
             self.assertTrue(all(flag is False for flag in flags))
 
     def test_no_starting_age_anywhere(self):
@@ -268,7 +296,163 @@ class FrontendWiringTests(unittest.TestCase):
             self.assertIn("traditional_role", page, page_name)
             # First period only; periods 2-8 and starting age are
             # never shown.
-            self.assertIn("第 2–8 运未提供", page, page_name)
+            self.assertIn("第 2–8 运尚未在本场景开放", page, page_name)
+
+
+class SceneScopedTrimSafetyTests(unittest.TestCase):
+    """E0410 safety regressions for the scene-scoped trim.
+
+    The trim lives only at the career/life output boundary: the
+    shared builder still computes the full sanming intervals, the
+    bazi-profile presentation is unchanged, and only the two scenes
+    withhold periods 2-8 -- as ``unresolved`` with the real
+    intervals cleared, never as a claim that the underlying data
+    was not computed.
+    """
+
+    def _full_builder_intervals(self):
+        # bazi-profile returns the shared gate output untrimmed:
+        # the real sanming intervals for periods 2-8.
+        envelope = execute_scenario("bazi-profile", {
+            "value": BIRTH, "traditional_role": "male"})
+        presentation = envelope["result"]["dayun_presentation"]
+        self.assertTrue(
+            is_valid_public_dayun_presentation(presentation))
+        intervals = []
+        for entry in presentation["methods"]["sanming"]["entries"][1:]:
+            self.assertEqual(entry["state"], "interval")
+            self.assertIsNotNone(entry["start_interval"])
+            intervals.append(entry["start_interval"]["earliest"])
+            intervals.append(entry["start_interval"]["latest"])
+        return presentation, intervals
+
+    def test_sanming_periods_2_to_8_leak_no_real_intervals(self):
+        # (a) No real interval -- neither the interval objects nor
+        # any of their datetimes -- may appear anywhere in the
+        # trimmed career/life presentations.
+        _, real_intervals = self._full_builder_intervals()
+        self.assertTrue(real_intervals)
+        for scenario_id in ("career", "life"):
+            envelope = execute_scenario(scenario_id, {
+                "birth_value": BIRTH, "target_year": 2026,
+                "traditional_role": "male"})
+            trimmed = envelope["result"]["dayun_presentation"]
+            self.assertTrue(
+                is_valid_public_dayun_presentation(trimmed))
+            for entry in trimmed["methods"]["sanming"]["entries"][1:]:
+                self.assertEqual(entry["state"], "unresolved")
+                self.assertIsNone(entry["start_interval"])
+                self.assertIn(
+                    "not opened in the career and life scenes",
+                    entry["start_interval_status"])
+                self.assertIn(
+                    "shared builder computed",
+                    entry["start_interval_status"])
+            blob = json.dumps(trimmed, ensure_ascii=False)
+            for value in real_intervals:
+                self.assertNotIn(value, blob, scenario_id)
+            # The nested career section inside life carries the same
+            # trimmed object, not a second copy with full intervals.
+            if scenario_id == "life":
+                nested = envelope["result"]["career"]["dayun_presentation"]
+                self.assertEqual(nested, trimmed)
+
+    def test_shared_builder_result_unchanged(self):
+        # (b) The original shared builder result is unchanged: the
+        # same request still yields sanming intervals for all 8
+        # periods through bazi-profile.
+        presentation, _ = self._full_builder_intervals()
+        entries = presentation["methods"]["sanming"]["entries"]
+        self.assertEqual(len(entries), 8)
+        self.assertTrue(all(
+            e["state"] == "interval" for e in entries))
+
+    def test_bazi_profile_full_presentation_unchanged(self):
+        # (c) bazi-profile keeps its original full presentation:
+        # sanming intervals for periods 2-8, shenfeng first period
+        # only, and the presentation still validates.
+        presentation, _ = self._full_builder_intervals()
+        shenfeng = presentation["methods"]["shenfeng"]["entries"]
+        self.assertEqual(shenfeng[0]["state"], "interval")
+        self.assertTrue(all(
+            e["state"] == "not_provided" for e in shenfeng[1:]))
+        self.assertEqual(
+            presentation["role"]["traditional_role"], "male")
+
+    def test_projected_trimmed_dayun_validates(self):
+        # (d) The career/life public projection passes real
+        # public-structure validation on the TRIMMED object.
+        for scenario_id in ("career", "life"):
+            envelope = execute_scenario(scenario_id, {
+                "birth_value": BIRTH, "target_year": 2026,
+                "traditional_role": "female"})
+            projected = project_execution(envelope)
+            presentation = projected["result"]["dayun_presentation"]
+            self.assertTrue(
+                is_valid_public_dayun_presentation(presentation))
+            sanming = presentation["methods"]["sanming"]["entries"]
+            self.assertTrue(all(
+                e["state"] == "unresolved" for e in sanming[1:]))
+
+    def test_no_role_means_no_dayun_at_api_level(self):
+        # (e) Without a role the whole dayun block is absent from
+        # both scenes, including at the public API level.
+        client = TestClient(create_app())
+        for scenario_id in ("career", "life"):
+            response = client.post("/api/v1/scenarios/public", json={
+                "scenario_id": scenario_id,
+                "input": {"birth_value": BIRTH, "target_year": 2026},
+            })
+            self.assertEqual(response.status_code, 200)
+            self.assertNotIn(
+                "dayun_presentation", response.json()["result"])
+
+    def test_all_three_dayun_timeline_flags_are_false(self):
+        # (f) Exactly three dayun_timeline_approved flags, all
+        # False -- integrated_reading, the dayun condition marker
+        # basis, and integration_provenance (which must stay).
+        expected = {
+            "/result/integrated_reading/dayun_timeline_approved",
+            "/result/condition_markers[5]/basis/dayun_timeline_approved",
+            "/result/integration_provenance/dayun_timeline_approved",
+        }
+        for role in (None, "male"):
+            inputs = {"birth_value": BIRTH, "target_year": 2026}
+            if role is not None:
+                inputs["traditional_role"] = role
+            envelope = execute_scenario("life", inputs)
+            paths = set(_flag_paths(envelope, "dayun_timeline_approved"))
+            self.assertEqual(paths, expected)
+            self.assertTrue(all(
+                flag is False
+                for flag in _flag_values(
+                    envelope, "dayun_timeline_approved")))
+
+    def test_no_starting_age_or_fortune_judgment(self):
+        # (g) No starting age is produced anywhere, and the trimmed
+        # presentation still carries its no-age and
+        # no-fortune-judgment limitations.
+        for scenario_id in ("career", "life"):
+            envelope = execute_scenario(scenario_id, {
+                "birth_value": BIRTH, "target_year": 2026,
+                "traditional_role": "male"})
+            keys = set(_all_keys(envelope["result"]))
+            for banned in ("start_age", "end_age", "start_date",
+                           "end_date"):
+                self.assertNotIn(banned, keys, scenario_id)
+            presentation = envelope["result"]["dayun_presentation"]
+            self.assertIn(
+                "不呈现任何年龄数值：古典起运为实历时长，年龄折算无原典口径。",
+                presentation["limitations"])
+            self.assertIn(
+                "本呈现不是吉凶判断，不预测任何现实事件。",
+                presentation["limitations"])
+        life = execute_scenario("life", {
+            "birth_value": BIRTH, "target_year": 2026,
+            "traditional_role": "male"})
+        self.assertIn(
+            "不折算起运岁数",
+            life["result"]["integrated_reading"]["dayun"])
 
 
 if __name__ == "__main__":
