@@ -266,17 +266,6 @@ def project_execution(data):
             from .bazi_xiyong_public import is_valid_public_presentation
             if is_valid_public_presentation(candidate):
                 scoped_presentation = copy.deepcopy(candidate)
-        # TJ-017.3 staged-opening phase 2 (adjudication E0374,
-        # implementation E0375): the same scoped-release discipline
-        # for the dayun presentation — only a bazi-profile envelope,
-        # only in exactly the adjudicated §4 shape.
-        dayun_candidate = data['result'].get('dayun_presentation')
-        if dayun_candidate is not None:
-            from .bazi_dayun_public import (
-                is_valid_public_dayun_presentation,
-            )
-            if is_valid_public_dayun_presentation(dayun_candidate):
-                scoped_dayun_presentation = copy.deepcopy(dayun_candidate)
         # U1 Batch B (user adjudication 2026-11-02, Q1=A): the same
         # scoped-release discipline for the strength presentation --
         # only a bazi-profile envelope, only in exactly the adjudicated
@@ -315,6 +304,21 @@ def project_execution(data):
             if is_valid_public_pattern_presentation(pattern_candidate):
                 scoped_pattern_presentation = \
                     to_public_pattern_presentation(pattern_candidate)
+    # T-D1 (E0409): the same scoped-release discipline for the dayun
+    # presentation, extended beyond bazi-profile to the career and
+    # life scenarios (first period only, role-gated, exactly the
+    # adjudicated §4 shape). Only the dayun key is extended;
+    # xiyong/strength/pattern stay bazi-profile-only above. Any
+    # other carrier is stripped below as usual.
+    if data.get('scenario_id') in ('bazi-profile', 'career', 'life') \
+            and isinstance(data.get('result'), dict):
+        dayun_candidate = data['result'].get('dayun_presentation')
+        if dayun_candidate is not None:
+            from .bazi_dayun_public import (
+                is_valid_public_dayun_presentation,
+            )
+            if is_valid_public_dayun_presentation(dayun_candidate):
+                scoped_dayun_presentation = copy.deepcopy(dayun_candidate)
     aliases = _Aliases(data['evidence'])
     result = {key: _public_facts(value, aliases)
               for key, value in data.items()

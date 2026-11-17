@@ -1571,13 +1571,21 @@ def _monthly(inputs):
 
 
 def _career(inputs):
-    _require_with_optional(inputs, {"birth_value", "target_year"}, {"birth_zone"})
+    _require_with_optional(inputs, {"birth_value", "target_year"}, {"birth_zone", "traditional_role"})
     birth_value = inputs["birth_value"]
     target_year = inputs["target_year"]
     if not isinstance(birth_value, str):
         raise ValueError("birth_value must be an ISO datetime string")
     if type(target_year) is not int or not 1900 <= target_year <= 2100:
         raise ValueError("target_year must be an integer from 1900 through 2100")
+    # T-D1 (E0409): optional traditional role, validated before any
+    # computation, never defaulted, never inferred, used per-request
+    # only for the first-period dayun gate below (bazi-profile
+    # precedent, TJ-017.3 phase 2). No role means no dayun.
+    traditional_role = inputs.get("traditional_role")
+    if traditional_role is not None \
+            and traditional_role not in ("male", "female"):
+        raise ValueError("traditional_role must be male or female")
 
     natal_input = {"value": birth_value}
     if "birth_zone" in inputs:
@@ -1801,6 +1809,22 @@ def _career(inputs):
             "evidence_ids": evidence_ids,
         },
     ]
+    # T-D1 (E0409): first-period dayun only, role-gated, reusing the
+    # bazi-profile gate (_dayun_public_gate). Periods 2-8 stay
+    # not_provided and no starting age is ever computed or shown
+    # (precision adjudication A). The presentation builder bans
+    # start/end age and date keys, so a starting age cannot leak
+    # through this wiring.
+    if traditional_role is not None:
+        result["dayun_presentation"] = _dayun_public_gate(
+            birth_value, inputs.get("birth_zone"), traditional_role)
+    # The dayun limitation must track the wiring: with a role the
+    # first period is presented, so only periods 2-8 remain unincluded.
+    dayun_limitation = (
+        "尚未纳入格局、喜用神、身强身弱、大运第 2–8 运、流年支互动、行业映射与紫微交叉判断。"
+        if traditional_role is not None else
+        "尚未纳入格局、喜用神、身强身弱、大运、流年支互动、行业映射与紫微交叉判断。"
+    )
     return {
         "scenario_id": "career",
         "status": "production_limited",
@@ -1816,7 +1840,7 @@ def _career(inputs):
         "limitations": [
             "财星、官杀、食伤、印星、比劫仅按已验证十神映射聚合其出现位置，不比较旺衰、月令权重或组合成败。",
             "五组释义仅是已审十神生克关系与明藏位置说明，不等于实际作用效力；目标年天干十神不等同于升职、赚钱、失业或投资风险。",
-            "尚未纳入格局、喜用神、身强身弱、大运、流年支互动、行业映射与紫微交叉判断。",
+            dayun_limitation,
             "不输出事业指数、财运指数、收入金额或投资建议。",
             "AI 不参与本场景计算。",
         ],
@@ -2446,13 +2470,22 @@ def _life_condition_markers(*, strength_context, cross_rule_audit,
 
 
 def _life(inputs):
-    _require_with_optional(inputs, {"birth_value", "target_year"}, {"birth_zone"})
+    _require_with_optional(inputs, {"birth_value", "target_year"}, {"birth_zone", "traditional_role"})
     birth_value = inputs["birth_value"]
     target_year = inputs["target_year"]
     if not isinstance(birth_value, str):
         raise ValueError("birth_value must be an ISO datetime string")
     if type(target_year) is not int or not 1900 <= target_year <= 2100:
         raise ValueError("target_year must be an integer from 1900 through 2100")
+    # T-D1 (E0409): optional traditional role, validated before any
+    # computation, never defaulted, never inferred, used per-request
+    # only to pass the first-period dayun gate through to the career
+    # section (bazi-profile precedent, TJ-017.3 phase 2). No role
+    # means no dayun anywhere in this report.
+    traditional_role = inputs.get("traditional_role")
+    if traditional_role is not None \
+            and traditional_role not in ("male", "female"):
+        raise ValueError("traditional_role must be male or female")
 
     birth_zone = inputs.get("birth_zone")
     profile_input = {"value": birth_value, "strength_variant": "ditiansui-root-visibility-v1"}
@@ -2462,7 +2495,10 @@ def _life(inputs):
     scenario_zone = {"birth_zone": birth_zone} if birth_zone is not None else {}
     yearly = _yearly({"birth_value": birth_value, "target_year": target_year, **scenario_zone})
     romance = _romance({"birth_value": birth_value, "target_year": target_year, **scenario_zone})
-    career = _career({"birth_value": birth_value, "target_year": target_year, **scenario_zone})
+    career_input = {"birth_value": birth_value, "target_year": target_year, **scenario_zone}
+    if traditional_role is not None:
+        career_input["traditional_role"] = traditional_role
+    career = _career(career_input)
 
     sections = {"profile": profile, "yearly": yearly,
                 "romance": romance, "career": career}
@@ -2673,7 +2709,16 @@ def _life(inputs):
             "这些不是正缘、婚期或感情走向判断。"
         ),
         "cross_rule": cross_rule_audit["reading"],
+        # T-D1 (E0409): with a role the first-period dayun is now
+        # presented (hoisted from the career section below); periods
+        # 2-8 stay unprovided and no starting age is computed.
+        # Without a role the E0362 wording stays verbatim: the full
+        # dayun timeline is still not approved for this overview.
         "dayun": (
+            "已按所选传统口径呈现大运首运（方向与交运区间，两口径分立）；"
+            "第 2–8 运未提供，不折算起运岁数或日期；"
+            "岁运效力仍无完成审核的生产规则，本总览不推算或伪造大运时间线。"
+            if traditional_role is not None else
             "大运方向与起运换算已有完成审核的注册规则（方向据三命分段；"
             "起运换算有三命、神峰两套口径分别注册，只给出交运时刻区间，"
             "不折算单点岁数或日期），但尚未批准接入本总览；"
@@ -2759,6 +2804,12 @@ def _life(inputs):
             item["scenario_section"] = section_id
             trace.append(item)
 
+    # T-D1 (E0409): hoist the career section's first-period dayun
+    # presentation to this report's top level (computed once, by the
+    # career section above, from this request's own birth instant and
+    # role). The full timeline stays unapproved: both
+    # dayun_timeline_approved flags remain False below.
+    dayun_presentation = career["result"].get("dayun_presentation")
     return {
         "scenario_id": "life",
         "status": "production_limited",
@@ -2781,6 +2832,8 @@ def _life(inputs):
             "romance": copy.deepcopy(romance["result"]),
             "career": copy.deepcopy(career["result"]),
             "release_scope": "deterministic_aggregate_only",
+            **({"dayun_presentation": dayun_presentation}
+               if dayun_presentation is not None else {}),
         },
         "rule_matches": rule_matches,
         "trace": trace,

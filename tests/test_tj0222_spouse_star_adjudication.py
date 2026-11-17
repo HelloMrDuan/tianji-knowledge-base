@@ -117,7 +117,29 @@ class SpouseStarAdjudicationTests(unittest.TestCase):
         life_start = self.engine.index("def _life(inputs):")
         life_end = self.engine.index("\ndef ", life_start + 10)
         life = self.engine[life_start:life_end]
-        self.assertNotIn("traditional_role", life)
+        # T-D1 (E0409, state-transition pin per this adjudication's
+        # own §6 pattern: pins are intentionally updated to the new
+        # contract shape, with the basis noted): _life now accepts the
+        # optional traditional_role ONLY for the first-period dayun
+        # gate (user adjudication 2026-11-17, dayun starting-age
+        # precision A). The E0359 substance is preserved and pinned
+        # more precisely below: the role is forwarded to _career
+        # (dayun) and NEVER to _romance, so the romance section inside
+        # life stays in the role-absent form and life never carries a
+        # spouse_star_year_pairing.
+        self.assertIn(
+            '_require_with_optional(inputs, {"birth_value", "target_year"}, {"birth_zone", "traditional_role"})',
+            life,
+        )
+        self.assertIn('traditional_role not in ("male", "female")', life)
+        self.assertIn(
+            'romance = _romance({"birth_value": birth_value, "target_year": target_year, **scenario_zone})',
+            life,
+        )
+        self.assertIn(
+            'career_input["traditional_role"] = traditional_role',
+            life,
+        )
         # The lens itself keeps its registered basis and strict role.
         self.assertIn("user_selected_traditional_lens", self.core)
         self.assertIn('if traditional_role not in ("male", "female"):', self.core)

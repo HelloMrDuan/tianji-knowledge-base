@@ -322,16 +322,50 @@ class OtherScenariosTests(unittest.TestCase):
         self.assertTrue(all(flag is False for flag in flags), flags)
 
     def test_contract_bound_scenarios_reject_role(self):
+        # T-D1 (E0409): career and life now accept traditional_role
+        # (first-period dayun wiring); only yearly still rejects it.
         for scenario_id, inputs in (
             ("yearly", {"birth_value": self.BIRTH, "target_year": 2026,
                         "traditional_role": "male"}),
-            ("career", {"birth_value": self.BIRTH, "target_year": 2026,
-                        "traditional_role": "male"}),
-            ("life", {"birth_value": self.BIRTH, "target_year": 2026,
-                      "traditional_role": "male"}),
         ):
             with self.assertRaises(ValueError, msg=scenario_id):
                 execute_scenario(scenario_id, inputs)
+
+    def test_career_and_life_accept_role_and_present_first_period_only(self):
+        # T-D1 (E0409): career and life accept traditional_role and
+        # return the public dayun presentation (first period only,
+        # periods 2-8 not_provided, no starting age anywhere). The
+        # full-timeline flags stay False.
+        for scenario_id in ("career", "life"):
+            envelope = execute_scenario(scenario_id, {
+                "birth_value": self.BIRTH, "target_year": 2026,
+                "traditional_role": "male"})
+            presentation = envelope["result"]["dayun_presentation"]
+            self.assertTrue(
+                is_valid_public_dayun_presentation(presentation))
+            self.assertEqual(
+                set(presentation),
+                {"variant", "status", "role", "methods",
+                 "method_options", "evidence", "scope", "limitations"})
+            for method in ("sanming", "shenfeng"):
+                entries = presentation["methods"][method]["entries"]
+                self.assertEqual(len(entries), 8)
+                self.assertEqual(entries[0]["period_index"], 1)
+                self.assertEqual(entries[0]["state"], "interval")
+                for entry in entries[1:]:
+                    self.assertEqual(entry["state"], "not_provided")
+            blob = json.dumps(envelope["result"], ensure_ascii=False)
+            for banned in ("start_age", "end_age", "start_date",
+                           "end_date"):
+                self.assertNotIn(banned, blob)
+            flags = list(_flag_values(envelope, "dayun_timeline_approved"))
+            self.assertTrue(all(flag is False for flag in flags), flags)
+
+    def test_career_and_life_without_role_have_no_dayun(self):
+        for scenario_id in ("career", "life"):
+            envelope = execute_scenario(scenario_id, {
+                "birth_value": self.BIRTH, "target_year": 2026})
+            self.assertNotIn("dayun_presentation", envelope["result"])
 
     def test_role_owning_scenarios_stay_clean(self):
         # romance/compatibility own an adjudicated traditional_role
