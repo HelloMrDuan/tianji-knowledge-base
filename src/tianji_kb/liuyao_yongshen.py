@@ -8,10 +8,14 @@ the framework foundation. Every other unadjudicated doctrine rule
 continues to abstain (fail-closed).
 
 What this module DOES:
-- A fixed taxonomy of question-type categories (``QUESTION_TYPES``), each
-  with an evidence record. The taxonomy groups questions by the classical
-  six-relative (六亲) system the registered chart already computes; the
-  grouping is a category for structured input, NOT a useful-god mapping.
+- A fixed taxonomy of neutral question-type categories (``QUESTION_TYPES``),
+  each with a name, a description, and an evidence record. The taxonomy
+  does NOT group any type under a six-relative (六亲) category yet: the
+  ``relative_category`` field is a pending-review slot, None for every
+  type in this foundation, and may only be set after per-item classical
+  evidence is registered through the governance chain and separately
+  approved. A grouping, even if approved later, is a category for
+  structured input, NOT a useful-god mapping.
 - A validated structured-input schema (``validate_question_input``).
 - An abstention contract (``assess``): the framework MUST refuse — return
   an explicit abstention, never a verdict — whenever no approved
@@ -73,26 +77,32 @@ _ALLOWED_FIELDS = frozenset(
     ("question_type", "yao_values", "value", "zone", "traditional_role")
 )
 
-# The six-relative grouping a question type belongs to. This is a
-# CATEGORY for structured input, not a useful-god mapping: it says which
-# six-relative the question is grouped under, never which line is the
-# useful god for a specific question, and never what verdict follows.
-# A None category means the grouping itself is unresolved in the
-# foundation (it depends on the asker's traditional_role or on the
-# question's focus); such a type always abstains with reason
-# "ambiguous_category".
+# The six-relative grouping of a question type, if any. In this
+# foundation EVERY type is None: no grouping has been approved for any
+# type, because each type's classical_citation is still None and the
+# user approved only the framework direction, not any per-item
+# six-relative association. A grouping may only be set after per-item
+# evidence review + SEPARATE approval; until then a None category means
+# the grouping is pending review, and such a type always abstains with
+# reason "ambiguous_category". A grouping, even if approved later, is a
+# CATEGORY for structured input, not a useful-god mapping: it never says
+# which line is the useful god for a specific question, and never what
+# verdict follows.
 QUESTION_TYPES = {
     "career": {
         "id": "career",
         "name": "事业官职",
         "description": "求官、升职、事业发展类问题。",
-        "relative_category": "官鬼",
-        "relative_category_note": "事业官职类问题按六亲归入官鬼一组（仅为分类，不是用神映射）。",
+        "relative_category": None,
+        "relative_category_note": (
+            "事业官职类问题的六亲归属尚未审定，基础层不预设；"
+            "须待逐项证据审核与另行批准后方可确定。"
+        ),
         "evidence": {
             "source": CHART_VARIANT,
             "source_title": CHART_VARIANT_TITLE,
             "version": "v1",
-            "locator": "六亲·官鬼",
+            "locator": "六亲·未定（待审核）",
             "classical_citation": None,
             "status": "framework_only",
         },
@@ -101,13 +111,16 @@ QUESTION_TYPES = {
         "id": "wealth",
         "name": "求财经营",
         "description": "求财、生意、投资经营类问题。",
-        "relative_category": "妻财",
-        "relative_category_note": "求财经营类问题按六亲归入妻财一组（仅为分类，不是用神映射）。",
+        "relative_category": None,
+        "relative_category_note": (
+            "求财经营类问题的六亲归属尚未审定，基础层不预设；"
+            "须待逐项证据审核与另行批准后方可确定。"
+        ),
         "evidence": {
             "source": CHART_VARIANT,
             "source_title": CHART_VARIANT_TITLE,
             "version": "v1",
-            "locator": "六亲·妻财",
+            "locator": "六亲·未定（待审核）",
             "classical_citation": None,
             "status": "framework_only",
         },
@@ -152,13 +165,16 @@ QUESTION_TYPES = {
         "id": "examination",
         "name": "考试求学",
         "description": "考试、升学、文书成绩类问题。",
-        "relative_category": "父母",
-        "relative_category_note": "考试求学类问题按六亲归入父母一组（仅为分类，不是用神映射）。",
+        "relative_category": None,
+        "relative_category_note": (
+            "考试求学类问题的六亲归属尚未审定，基础层不预设；"
+            "须待逐项证据审核与另行批准后方可确定。"
+        ),
         "evidence": {
             "source": CHART_VARIANT,
             "source_title": CHART_VARIANT_TITLE,
             "version": "v1",
-            "locator": "六亲·父母",
+            "locator": "六亲·未定（待审核）",
             "classical_citation": None,
             "status": "framework_only",
         },
@@ -167,13 +183,16 @@ QUESTION_TYPES = {
         "id": "legal",
         "name": "官司诉讼",
         "description": "官司、诉讼、纠纷类问题。",
-        "relative_category": "官鬼",
-        "relative_category_note": "官司诉讼类问题按六亲归入官鬼一组（仅为分类，不是用神映射）。",
+        "relative_category": None,
+        "relative_category_note": (
+            "官司诉讼类问题的六亲归属尚未审定，基础层不预设；"
+            "须待逐项证据审核与另行批准后方可确定。"
+        ),
         "evidence": {
             "source": CHART_VARIANT,
             "source_title": CHART_VARIANT_TITLE,
             "version": "v1",
-            "locator": "六亲·官鬼",
+            "locator": "六亲·未定（待审核）",
             "classical_citation": None,
             "status": "framework_only",
         },
@@ -200,13 +219,16 @@ QUESTION_TYPES = {
         "id": "lost_property",
         "name": "失物寻物",
         "description": "失物、寻物类问题。",
-        "relative_category": "妻财",
-        "relative_category_note": "失物寻物类问题按六亲归入妻财一组（仅为分类，不是用神映射）。",
+        "relative_category": None,
+        "relative_category_note": (
+            "失物寻物类问题的六亲归属尚未审定，基础层不预设；"
+            "须待逐项证据审核与另行批准后方可确定。"
+        ),
         "evidence": {
             "source": CHART_VARIANT,
             "source_title": CHART_VARIANT_TITLE,
             "version": "v1",
-            "locator": "六亲·妻财",
+            "locator": "六亲·未定（待审核）",
             "classical_citation": None,
             "status": "framework_only",
         },
@@ -316,10 +338,12 @@ def assess(data):
     - "unknown_question_type": the type is not in the taxonomy
       (unreachable after validation; kept for defence in depth).
     - "ambiguous_category": the type's six-relative grouping is
-      unresolved in the foundation (depends on the asker's
-      traditional_role or on the question's focus).
-    - "no_approved_mapping": the type is grouped, but no useful-god
-      mapping has been approved for it.
+      unresolved in the foundation — in this foundation every type
+      abstains with this reason, because no grouping has been approved
+      for any type yet (each type's classical citation is still None).
+    - "no_approved_mapping": retained for the future state where a
+      type's grouping has been approved but no useful-god mapping has;
+      unreachable in this foundation because no grouping is approved.
     """
     normalized = validate_question_input(data)
     question_type = normalized["question_type"]

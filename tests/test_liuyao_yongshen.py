@@ -61,23 +61,19 @@ class QuestionTypeTaxonomyTests(unittest.TestCase):
             self.assertIsNone(evidence["classical_citation"])
             self.assertEqual(evidence["status"], "framework_only")
 
-    def test_relative_category_is_a_grouping_not_a_mapping(self):
-        grouped = {
-            "career": "官鬼",
-            "wealth": "妻财",
-            "examination": "父母",
-            "legal": "官鬼",
-            "lost_property": "妻财",
-        }
-        for type_id, category in grouped.items():
-            self.assertEqual(QUESTION_TYPES[type_id]["relative_category"], category)
-        # Gender/focus-dependent types are explicitly unresolved in the
-        # foundation; the framework must not guess their grouping.
-        for type_id in ("marriage", "health", "travel"):
-            self.assertIsNone(QUESTION_TYPES[type_id]["relative_category"])
-            self.assertTrue(
-                QUESTION_TYPES[type_id]["relative_category_note"].strip()
-            )
+    def test_relative_category_is_pending_review_for_all_types(self):
+        # ChatGPT HOLD 2026-11-18: no six-relative grouping is approved
+        # for any type yet (each classical_citation is still None), so
+        # every type's relative_category must be None and its note must
+        # say the grouping awaits per-item evidence review + separate
+        # approval. No unapproved association may be pinned as a
+        # contract.
+        for type_id, record in QUESTION_TYPES.items():
+            self.assertIsNone(record["relative_category"], msg=type_id)
+            note = record["relative_category_note"]
+            self.assertTrue(isinstance(note, str) and note.strip(), msg=type_id)
+            self.assertIn("须待逐项证据审核与另行批准", note, msg=type_id)
+            self.assertNotIn("归入", note, msg=type_id)
 
     def test_list_returns_a_copy(self):
         listed = list_question_types()
@@ -164,11 +160,14 @@ class StructuredInputValidationTests(unittest.TestCase):
 
 
 class AbstentionContractTests(unittest.TestCase):
-    def test_every_grouped_type_abstains_without_mapping(self):
-        for type_id in ("career", "wealth", "examination", "legal", "lost_property"):
+    def test_all_types_abstain_pending_review(self):
+        # Every type abstains with "ambiguous_category": no grouping is
+        # approved for any type yet, so assess() never reaches a mapping
+        # decision. No verdict, no useful god, ever.
+        for type_id in EXPECTED_TYPES:
             result = assess(dict(GOOD_INPUT, question_type=type_id))
             self.assertEqual(result["status"], "abstained")
-            self.assertEqual(result["reason"], "no_approved_mapping")
+            self.assertEqual(result["reason"], "ambiguous_category")
             self.assertEqual(result["question_type"], type_id)
             self.assertIsNone(result["verdict"])
             self.assertIsNone(result["useful_god"])
@@ -176,14 +175,6 @@ class AbstentionContractTests(unittest.TestCase):
             self.assertEqual(
                 result["evidence"]["source"], "liuyao/jingfang-eight-palaces-v1"
             )
-
-    def test_ambiguous_types_abstain_with_ambiguous_category(self):
-        for type_id in ("marriage", "health", "travel"):
-            result = assess(dict(GOOD_INPUT, question_type=type_id))
-            self.assertEqual(result["status"], "abstained")
-            self.assertEqual(result["reason"], "ambiguous_category")
-            self.assertIsNone(result["verdict"])
-            self.assertIsNone(result["useful_god"])
 
     def test_ambiguous_type_still_abstains_when_role_is_given(self):
         # Even with a traditional_role, the foundation does not resolve
