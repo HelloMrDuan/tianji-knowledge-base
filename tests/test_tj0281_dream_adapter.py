@@ -351,6 +351,58 @@ class AdapterTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(result["status"], "provider_failed")
         self.assertEqual(result["claims"], [])
 
+    async def test_provider_exception_text_never_leaks(self):
+        # Simulated secrets only: the provider exception carries a fake
+        # key and a full URL. Neither fragment may reach the returned
+        # object, which must carry the fixed non-sensitive reason.
+        for message in (
+            "request failed: api_key=sk-test-9f8e7d6c5b4a",
+            "request to https://provider.example.com/v1/chat"
+            "?api_key=sk-test-9f8e7d6c5b4a failed",
+        ):
+            provider = LabelledTestDoubleDreamProvider(RuntimeError(message))
+            with patch.dict(os.environ, self._configured(), clear=True):
+                adapter = DreamModelAdapter(
+                    provider, config=load_dream_provider_config()
+                )
+                result = await adapter.explain(
+                    "我梦见自己死了", _retrieval_fixture()
+                )
+            self.assertEqual(result["status"], "provider_failed", msg=message)
+            self.assertFalse(result["ai_enabled"])
+            self.assertEqual(result["claims"], [])
+            self.assertEqual(
+                result["reason"], "model provider request failed"
+            )
+            blob = json.dumps(result, ensure_ascii=False)
+            self.assertNotIn("sk-test-9f8e7d6c5b4a", blob)
+            self.assertNotIn("provider.example.com", blob)
+            self.assertEqual(provider.calls, 1)
+
+    async def test_explain_refuses_when_key_leaks_into_context(self):
+        # The simulated provider key is embedded in the retrieval payload,
+        # so sanitize_context raises ModelClientError while the context is
+        # built. The full explain() call must close into a safe refusal
+        # with zero provider calls, not let the exception escape.
+        retrieval = _retrieval_fixture()
+        retrieval["evidence"][EVIDENCE_ID]["original_text"] = "test-key-123"
+        provider = LabelledTestDoubleDreamProvider()
+        with patch.dict(os.environ, self._configured(), clear=True):
+            adapter = DreamModelAdapter(
+                provider, config=load_dream_provider_config()
+            )
+            result = await adapter.explain("我梦见自己死了", retrieval)
+        self.assertEqual(result["status"], "context_rejected")
+        self.assertFalse(result["ai_enabled"])
+        self.assertFalse(result["personal_prediction"])
+        self.assertEqual(result["claims"], [])
+        self.assertEqual(
+            result["reason"], "the dream context could not be prepared safely"
+        )
+        self.assertEqual(provider.calls, 0)
+        blob = json.dumps(result, ensure_ascii=False)
+        self.assertNotIn("test-key-123", blob)
+
     async def test_malformed_reply_is_refusal(self):
         provider = LabelledTestDoubleDreamProvider({"nope": True})
         with patch.dict(os.environ, self._configured(), clear=True):

@@ -13,6 +13,8 @@ Fail-closed contract:
   ``'abstained_no_reviewed_interpretation'`` (no model call).
 - Provider failure / timeout / malformed reply / citation mismatch /
   diagnosis / personal prediction -> a refusal status, never model text.
+- Context that fails the credential safety check -> a refusal status
+  (``'context_rejected'``), never model text.
 - Every result carries ``ai_enabled=False`` and
   ``personal_prediction=False``: this adapter does NOT enable public
   AI. Its ``'explained'`` output is a research-stage draft for later
@@ -29,13 +31,16 @@ environment -- and this module never claims otherwise.
 import asyncio
 import copy
 import json
+import logging
 import re
 
 from jsonschema import Draft202012Validator, ValidationError
 
 from .ai_providers import provider_from_environment
 from .dream_provider_config import load_dream_provider_config
-from .model_client import sanitize_context
+from .model_client import ModelClientError, sanitize_context
+
+logger = logging.getLogger(__name__)
 
 # The user narrative is truncated to the same 500 characters the public
 # dream-research request already allows (api.AdminDreamResearchRequest).
@@ -295,7 +300,7 @@ def validate_dream_reply(reply, context):
             if eid not in evidence:
                 raise DreamAdapterError(
                     "citation_rejected",
-                    f"evidence_id {eid} is not in the audited evidence",
+                    "model reply cites evidence not in the audited evidence",
                 )
         for quote in claim["quotes"]:
             record = evidence.get(quote["evidence_id"])
@@ -318,7 +323,7 @@ def validate_dream_reply(reply, context):
             if title not in allowed_titles:
                 raise DreamAdapterError(
                     "citation_rejected",
-                    f"classical title {title} is not in the audited evidence",
+                    "model reply cites a classical title not in the audited evidence",
                 )
         _check_diagnosis(claim["text"])
         _check_prediction(claim["text"])
@@ -410,6 +415,16 @@ class DreamModelAdapter:
             context = build_dream_context(
                 dream_text, retrieval, api_key=settings.get("key")
             )
+        except ModelClientError:
+            # The shared sanitizer failed closed (e.g. the provider key
+            # appears in the payload). Return the unified safe refusal;
+            # never echo the exception: even its fixed message must not
+            # reach the caller.
+            logger.warning("dream context failed the safety check")
+            return _refusal(
+                "context_rejected",
+                "the dream context could not be prepared safely",
+            )
         except DreamAdapterError as error:
             return _refusal(error.code, str(error))
         timeout = self._timeout
@@ -421,8 +436,12 @@ class DreamModelAdapter:
             )
         except asyncio.TimeoutError:
             return _refusal("provider_timeout", "model call timed out")
-        except Exception as error:  # noqa: BLE001 - provider failures are refusals
-            return _refusal("provider_failed", f"model call failed: {error}")
+        except Exception:  # noqa: BLE001 - provider failures are refusals
+            # Fixed reason only: a provider/transport exception may carry
+            # a full URL, query parameters, or a credential, so its text
+            # must never reach the returned object.
+            logger.warning("dream model provider call failed")
+            return _refusal("provider_failed", "model provider request failed")
         try:
             claims = validate_dream_reply(reply, context)
         except DreamAdapterError as error:
