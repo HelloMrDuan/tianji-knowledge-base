@@ -3,8 +3,9 @@
  * end-to-end. No stubs: the pages call the real backend through the
  * SSH tunnel (127.0.0.1:8000) and the vite dev server serves this
  * worktree's pages. Each test captures the real scenario response
- * and asserts both the API contract (first period only, periods 2-8
- * not_provided, no starting age anywhere) and the rendered section.
+ * and asserts both the API contract (first period only; sanming
+ * periods 2-8 `unresolved`, shenfeng periods 2-8 `not_provided`,
+ * no starting age anywhere) and the rendered section.
  *
  * SEQUENCING NOTE: the role tests can only pass once this slice has
  * merged AND deployed -- production still runs the old contract
@@ -43,8 +44,12 @@ function assertFirstPeriodOnly(body: any) {
     expect(entries[0].period_index).toBe(1);
     expect(entries[0].state).toBe("interval");
     expect(entries[0].start_interval).toBeTruthy();
+    // Adjudicated contract (E0410 / #584): sanming 2-8 are `unresolved`
+    // (real intervals cleared; the shared validator forbids sanming +
+    // not_provided), shenfeng 2-8 stay `not_provided`.
+    const laterState = method === "sanming" ? "unresolved" : "not_provided";
     for (const entry of entries.slice(1)) {
-      expect(entry.state).toBe("not_provided");
+      expect(entry.state).toBe(laterState);
       expect(entry.start_interval).toBeNull();
     }
   }
