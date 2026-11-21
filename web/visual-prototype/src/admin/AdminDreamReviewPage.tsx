@@ -68,7 +68,16 @@ export function AdminDreamReviewPage() {
 
   async function refresh(token: string) {
     const list = await listAdminDrafts(token);
-    setDrafts(list.drafts.filter((draft) => parseDreamReviewResult(draft) !== null));
+    // A draft is a dream review draft when its server-persisted
+    // marker says so, even if its editable body was tampered with
+    // (kind removed / plain text / other kind): it stays visible
+    // here so a reviewer can roll it back, and the server still
+    // refuses to approve or publish it.
+    setDrafts(
+      list.drafts.filter(
+        (draft) => draft.review_kind === "dream_ai" || parseDreamReviewResult(draft) !== null,
+      ),
+    );
     setStorageNote(list.storage_note);
   }
 
@@ -203,12 +212,13 @@ export function AdminDreamReviewPage() {
         </section>
       )}
 
-      {detail && selected && (
+      {detail && (
         <section className="admin-card" aria-label="审核草稿详情">
           <h2>{detail.title}</h2>
           <p className="drafts-item-meta">
             {detail.id} · 状态 {STATUS_LABELS[detail.status]} · 版本 {detail.versions.length}
           </p>
+          {selected ? (
           <div className="admin-dream-results">
             <p><strong>梦境叙述：</strong>{selected.dream_text}</p>
             {selected.elements.map((element) => (
@@ -245,6 +255,11 @@ export function AdminDreamReviewPage() {
               <p>本草稿仅供人工审核（TJ-028.3），不是公开答案，不作个人预测；公开 AI 仍处于关闭状态。</p>
             </details>
           </div>
+          ) : (
+            <p role="alert" className="drafts-error">
+              草稿正文已损坏或不再是解梦审核正文，无法批准或发布；可回滚到更早的版本恢复。
+            </p>
+          )}
 
           <h3>审核记录</h3>
           <ul className="drafts-transitions">

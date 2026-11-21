@@ -605,6 +605,11 @@ export type AdminDraft = {
   body: string;
   author_role: string;
   status: "draft" | "submitted" | "approved" | "rejected" | "published";
+  // Server-persisted immutable draft-type marker (TJ-028.3
+  // closeout): "dream_ai" for AI dream review drafts, null for
+  // ordinary drafts. The review list keys on it, never on the
+  // editable body's kind field.
+  review_kind?: string | null;
   created_at: string;
   updated_at: string;
   transitions: AdminDraftTransition[];

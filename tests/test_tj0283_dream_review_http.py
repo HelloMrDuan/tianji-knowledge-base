@@ -18,10 +18,12 @@ import copy
 import os
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from fastapi.testclient import TestClient
 
 from tianji_kb.api import create_app
+from tianji_kb.rag_context import RetrievalUnavailable
 
 ROLE_TOKENS = {
     "user-token": "user",
@@ -70,6 +72,42 @@ def _explained_result():
     }
 
 
+def _retrieval_fixture():
+    """The server-side audited retrieval for _explained_result().
+
+    The trusted evidence record is identical to the submitted one,
+    and the matched interpretation matches the submitted element.
+    The review-drafts endpoint and the approve/publish gate re-run
+    this retrieval server-side; tests patch
+    ``tianji_kb.api.retrieve_dream_culture`` with it (the audited
+    index is sealed data, unavailable in this environment).
+    """
+    return {
+        "domain": "dream",
+        "mode": "research",
+        "status": "reviewed_interpretation_candidates",
+        "public_enabled": False,
+        "ai_enabled": False,
+        "matched_interpretations": [
+            {
+                "term_id": "dream.term.death",
+                "symbol": "死亡",
+                "scene": "见人死自死",
+                "source": "周公解梦",
+                "evidence_ids": [EID],
+            }
+        ],
+        "evidence": {
+            EID: {
+                "source_id": "dream.source.zhougong-scenes",
+                "original_text": QUOTE,
+                "classic_title": "周公解梦（电子本题名）",
+                "locator": "周公解梦·十八、哀乐 病死 歌唱",
+            }
+        },
+    }
+
+
 def _client(db_path=None):
     if db_path is None:
         fd, db_path = tempfile.mkstemp(suffix=".db")
@@ -91,6 +129,12 @@ def _auth(token):
 class ReviewDraftHttpTests(unittest.TestCase):
     def setUp(self):
         self.client = _client()
+        self._retrieve_patcher = patch(
+            "tianji_kb.api.retrieve_dream_culture",
+            return_value=_retrieval_fixture(),
+        )
+        self._retrieve_patcher.start()
+        self.addCleanup(self._retrieve_patcher.stop)
 
     def _create(self, token="editor-token", result=None):
         return self.client.post(
@@ -104,6 +148,7 @@ class ReviewDraftHttpTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200, response.text)
         draft = response.json()["draft"]
         self.assertEqual(draft["status"], "draft")
+        self.assertEqual(draft["review_kind"], "dream_ai")
         self.assertIn("AI 解梦研究草稿", draft["title"])
         self.assertIn("dream_ai_review", draft["body"])
         self.assertEqual(draft["versions"][0]["action"], "create")
@@ -128,6 +173,165 @@ class ReviewDraftHttpTests(unittest.TestCase):
         response = self._create(result=result)
         self.assertEqual(response.status_code, 422)
         self.assertEqual(response.json()["detail"]["code"], "invalid_citation")
+
+    def test_create_rejects_fully_forged_but_self_consistent_evidence(self):
+        # A payload that is internally consistent (the forged quote
+        # is verbatim against the forged record, the forged element
+        # cites the forged id) but matches nothing in the audited
+        # retrieval: it passed the old self-consistency check and
+        # must now fail against the trusted retrieval.
+        fake_id = "f" * 24
+        fake_text = "伪造原文见人死皆吉"
+        result = _explained_result()
+        result["elements"][0]["evidence_ids"] = [fake_id]
+        result["claims"][0]["text"] = f"《周公解梦》载“{fake_text}”，此条仅言传统说法。"
+        result["claims"][0]["evidence_ids"] = [fake_id]
+        result["claims"][0]["quotes"] = [{"evidence_id": fake_id, "text": fake_text}]
+        result["evidence"] = {
+            fake_id: {
+                "source_id": "dream.source.forged",
+                "original_text": fake_text,
+                "classic_title": "周公解梦（电子本题名）",
+                "locator": "伪造·一",
+            }
+        }
+        response = self._create(result=result)
+        self.assertEqual(response.status_code, 422, response.text)
+        self.assertEqual(response.json()["detail"]["code"], "untrusted_evidence")
+
+    def test_create_refuses_without_trusted_retrieval(self):
+        # No audited retrieval runtime: refuse, never downgrade to
+        # client self-attestation.
+        with patch(
+            "tianji_kb.api.retrieve_dream_culture",
+            side_effect=RetrievalUnavailable("unavailable"),
+        ):
+            response = self._create()
+        self.assertEqual(response.status_code, 503, response.text)
+        self.assertEqual(
+            response.json()["detail"]["code"], "reviewed_retrieval_unavailable"
+        )
+
+    def test_approve_refuses_without_trusted_retrieval(self):
+        draft_id = self._create().json()["draft"]["id"]
+        self.client.post(
+            f"/api/v1/admin/drafts/{draft_id}/submit", headers=_auth("editor-token")
+        )
+        with patch(
+            "tianji_kb.api.retrieve_dream_culture",
+            side_effect=RetrievalUnavailable("unavailable"),
+        ):
+            blocked = self.client.post(
+                f"/api/v1/admin/drafts/{draft_id}/approve",
+                json={"reason": "试图通过。"},
+                headers=_auth("reviewer-token"),
+            )
+        self.assertEqual(blocked.status_code, 503, blocked.text)
+        self.assertEqual(
+            blocked.json()["detail"]["code"], "reviewed_retrieval_unavailable"
+        )
+
+    def test_create_sets_immutable_marker(self):
+        draft = self._create().json()["draft"]
+        self.assertEqual(draft["review_kind"], "dream_ai")
+        # PATCH can change the body but never the marker.
+        edited = self.client.patch(
+            f"/api/v1/admin/drafts/{draft['id']}",
+            json={"title": "AI 解梦研究草稿：改标题"},
+            headers=_auth("editor-token"),
+        )
+        self.assertEqual(edited.status_code, 200, edited.text)
+        self.assertEqual(edited.json()["draft"]["review_kind"], "dream_ai")
+
+    def test_ai_draft_kind_tampering_cannot_use_ordinary_path(self):
+        import json
+
+        def _tampered_draft(mutate):
+            draft_id = self._create().json()["draft"]["id"]
+            draft = self.client.get(
+                f"/api/v1/admin/drafts/{draft_id}", headers=_auth("editor-token")
+            ).json()["draft"]
+            body = mutate(draft["body"])
+            edited = self.client.patch(
+                f"/api/v1/admin/drafts/{draft_id}",
+                json={"body": body},
+                headers=_auth("editor-token"),
+            )
+            self.assertEqual(edited.status_code, 200, edited.text)
+            self.client.post(
+                f"/api/v1/admin/drafts/{draft_id}/submit",
+                headers=_auth("editor-token"),
+            )
+            return draft_id
+
+        def _remove_kind(body):
+            parsed = json.loads(body)
+            del parsed["kind"]
+            return json.dumps(parsed, ensure_ascii=False)
+
+        def _plain_text(body):
+            return "plain text, not a dream draft"
+
+        def _other_kind(body):
+            parsed = json.loads(body)
+            parsed["kind"] = "other_kind"
+            return json.dumps(parsed, ensure_ascii=False)
+
+        for mutate in (_remove_kind, _plain_text, _other_kind):
+            draft_id = _tampered_draft(mutate)
+            blocked = self.client.post(
+                f"/api/v1/admin/drafts/{draft_id}/approve",
+                json={"reason": "试图通过普通路径批准。"},
+                headers=_auth("reviewer-token"),
+            )
+            self.assertEqual(blocked.status_code, 422, blocked.text)
+            self.assertEqual(
+                blocked.json()["detail"]["code"], "invalid_dream_review_content"
+            )
+            publish_blocked = self.client.post(
+                f"/api/v1/admin/drafts/{draft_id}/publish",
+                headers=_auth("publisher-token"),
+            )
+            self.assertEqual(publish_blocked.status_code, 422, publish_blocked.text)
+            self.assertEqual(
+                publish_blocked.json()["detail"]["code"],
+                "invalid_dream_review_content",
+            )
+
+    def test_rollback_preserves_marker_and_restores_review(self):
+        import json
+
+        draft_id = self._create().json()["draft"]["id"]
+        draft = self.client.get(
+            f"/api/v1/admin/drafts/{draft_id}", headers=_auth("editor-token")
+        ).json()["draft"]
+        parsed = json.loads(draft["body"])
+        del parsed["kind"]
+        self.client.patch(
+            f"/api/v1/admin/drafts/{draft_id}",
+            json={"body": json.dumps(parsed, ensure_ascii=False)},
+            headers=_auth("editor-token"),
+        )
+        rolled_back = self.client.post(
+            f"/api/v1/admin/drafts/{draft_id}/rollback",
+            json={"version": 1},
+            headers=_auth("publisher-token"),
+        )
+        self.assertEqual(rolled_back.status_code, 200, rolled_back.text)
+        restored = rolled_back.json()["draft"]
+        self.assertEqual(restored["status"], "draft")
+        self.assertEqual(restored["review_kind"], "dream_ai")
+        self.assertIn("dream_ai_review", restored["body"])
+        self.client.post(
+            f"/api/v1/admin/drafts/{draft_id}/submit", headers=_auth("editor-token")
+        )
+        approved = self.client.post(
+            f"/api/v1/admin/drafts/{draft_id}/approve",
+            json={"reason": "回滚后重新审核，通过。"},
+            headers=_auth("reviewer-token"),
+        )
+        self.assertEqual(approved.status_code, 200, approved.text)
+        self.assertEqual(approved.json()["draft"]["status"], "approved")
 
     def test_full_review_flow_approve_then_publish(self):
         draft_id = self._create().json()["draft"]["id"]
@@ -276,6 +480,7 @@ class ReviewDraftHttpTests(unittest.TestCase):
             f"/api/v1/admin/drafts/{draft_id}", headers=_auth("reviewer-token")
         ).json()["draft"]
         self.assertEqual(record["status"], "approved")
+        self.assertEqual(record["review_kind"], "dream_ai")
         self.assertEqual(record["transitions"][-1]["reason"], "证据链完整，通过。")
         self.assertEqual(len(record["versions"]), 3)
 
@@ -286,6 +491,7 @@ class ReviewDraftHttpTests(unittest.TestCase):
             headers=_auth("editor-token"),
         )
         draft_id = created.json()["draft"]["id"]
+        self.assertIsNone(created.json()["draft"]["review_kind"])
         self.client.post(
             f"/api/v1/admin/drafts/{draft_id}/submit", headers=_auth("editor-token")
         )

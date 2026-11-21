@@ -23,10 +23,11 @@ from .operations.dream_knowledge import (retrieve as retrieve_dream_culture,
 from .dream_ai_service import explain_dream
 from .dream_model_adapter import DreamAdapterError
 from .dream_review import (
+    DREAM_REVIEW_MARKER,
     DreamReviewError,
     build_dream_review_draft,
-    is_dream_review_body,
-    parse_dream_review_body,
+    extract_dream_review_result,
+    validate_result_against_retrieval,
     validate_review_reason,
 )
 from .rag_context import RetrievalUnavailable
@@ -525,17 +526,65 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,ad
         # can never reach the approval flow. Role operation 'draft'
         # (editor, reviewer, publisher); the audit record carries the
         # draft id only, never the dream content.
+        #
+        # ChatGPT final review (2026-11-21): client-submitted
+        # evidence is never trusted on its own. The server re-runs
+        # the audited retrieval for the submitted dream text and
+        # verifies every element, evidence record and claim quote
+        # against it; a fully forged but internally consistent
+        # payload fails (422 untrusted_evidence / invalid_citation).
+        # With no audited retrieval available the draft is refused
+        # (503), never downgraded to client self-attestation. The
+        # created draft carries the server-persisted immutable
+        # DREAM_REVIEW_MARKER, so its AI type can never be edited
+        # away later.
         what = 'dream-review-draft:create'
         role = check_draft_role(authorization, 'draft', what)
+        dream_text = request.get('dream_text') if isinstance(request, dict) else None
+        if not isinstance(dream_text, str) or not dream_text.strip():
+            app.state.audit_log.record(role, what, 'denied', 'invalid_review_body')
+            raise HTTPException(
+                422,
+                detail={'code': 'invalid_review_body',
+                        'message': 'review draft needs an ai-explain result object'},
+            )
         try:
-            title, body = build_dream_review_draft(request)
+            retrieval = retrieve_dream_culture(dream_text)
+        except RetrievalUnavailable:
+            app.state.audit_log.record(role, what, 'denied', 'reviewed_retrieval_unavailable')
+            raise HTTPException(
+                503,
+                detail={'code': 'reviewed_retrieval_unavailable',
+                        'message': 'Reviewed dream evidence index is unavailable'},
+            )
+        except (ValueError, TypeError):
+            app.state.audit_log.record(role, what, 'denied', 'invalid_dream_input')
+            raise HTTPException(
+                422,
+                detail={'code': 'invalid_dream_input',
+                        'message': 'Dream narrative is not valid for this research variant'},
+            )
+        if (retrieval.get('mode') != 'research' or retrieval.get('public_enabled') is not False
+                or retrieval.get('ai_enabled') is not False):
+            app.state.audit_log.record(role, what, 'denied', 'dream_research_contract_mismatch')
+            raise HTTPException(503, detail={'code': 'dream_research_contract_mismatch',
+                                             'message': 'Dream release restrictions not satisfied'})
+        try:
+            title, body = build_dream_review_draft(request, retrieval=retrieval)
         except DreamReviewError as error:
             app.state.audit_log.record(role, what, 'denied', error.code)
+            if error.code == 'trusted_retrieval_unavailable':
+                raise HTTPException(
+                    503,
+                    detail={'code': 'reviewed_retrieval_unavailable',
+                            'message': 'Reviewed dream evidence index is unavailable'},
+                ) from error
             raise HTTPException(
                 422,
                 detail={'code': error.code, 'message': str(error)},
             ) from error
-        draft = app.state.draft_store.create(title, body, role)
+        draft = app.state.draft_store.create(title, body, role,
+                                             review_kind=DREAM_REVIEW_MARKER)
         app.state.audit_log.record(role, what, 'allowed', draft['id'])
         return _draft_response(draft)
 
@@ -767,11 +816,16 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,ad
         # maps to a batch-1 write operation (DRAFT_ACTION_OPERATION);
         # unknown actions are rejected before any state is touched
         # (fail-closed) and audited as denied attempts.
-        # TJ-028.3: dream review drafts carry a gate here. At approve
-        # and publish the body is re-validated against its own
-        # embedded evidence, so a body edited while in 'draft' status
-        # cannot reach 'approved' or 'published' with broken evidence
-        # or invalid citations. Approve/reject of a dream draft also
+        # TJ-028.3: dream review drafts carry a gate here. A draft
+        # is a dream draft exactly when its server-persisted record
+        # carries the DREAM_REVIEW_MARKER (never the editable body's
+        # kind field), so no PATCH or rollback can clear the AI
+        # review constraints. At approve and publish the body is
+        # re-verified against a fresh server-side audited retrieval
+        # (elements, evidence records and claim quotes must match
+        # the trusted retrieval; with no retrieval available the
+        # draft is refused, never downgraded to client
+        # self-attestation). Approve/reject of a dream draft also
         # require a human reason, recorded on the transition and the
         # audit record. Plain-text drafts keep the old behaviour.
         operation = DRAFT_ACTION_OPERATION.get(action)
@@ -785,10 +839,36 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,ad
         role = check_draft_role(authorization, operation, what)
         reason = request.reason if request is not None else None
         existing = app.state.draft_store.get(draft_id)
-        is_dream_draft = bool(existing) and is_dream_review_body(existing['body'])
+        is_dream_draft = bool(existing) and existing.get('review_kind') == DREAM_REVIEW_MARKER
         if is_dream_draft and action in ('approve', 'publish'):
+            # A marker draft whose body no longer parses as a dream
+            # review body (kind removed, plain text, other kind)
+            # cannot take the ordinary approval path: it fails here.
             try:
-                parse_dream_review_body(existing['body'])
+                result = extract_dream_review_result(existing['body'])
+            except DreamReviewError as error:
+                app.state.audit_log.record(role, what, 'denied', error.code)
+                raise HTTPException(422, detail={'code': 'invalid_dream_review_content', 'message': str(error)}) from error
+            if result is None:
+                app.state.audit_log.record(role, what, 'denied', 'invalid_dream_review_content')
+                raise HTTPException(422, detail={'code': 'invalid_dream_review_content',
+                                                 'message': 'AI dream draft body is not a dream review body'})
+            try:
+                retrieval = retrieve_dream_culture(result['dream_text'])
+            except RetrievalUnavailable:
+                app.state.audit_log.record(role, what, 'denied', 'reviewed_retrieval_unavailable')
+                raise HTTPException(503, detail={'code': 'reviewed_retrieval_unavailable',
+                                                 'message': 'Reviewed dream evidence index is unavailable'})
+            except (ValueError, TypeError) as error:
+                app.state.audit_log.record(role, what, 'denied', 'invalid_dream_review_content')
+                raise HTTPException(422, detail={'code': 'invalid_dream_review_content', 'message': str(error)}) from error
+            if (retrieval.get('mode') != 'research' or retrieval.get('public_enabled') is not False
+                    or retrieval.get('ai_enabled') is not False):
+                app.state.audit_log.record(role, what, 'denied', 'dream_research_contract_mismatch')
+                raise HTTPException(503, detail={'code': 'dream_research_contract_mismatch',
+                                                 'message': 'Dream release restrictions not satisfied'})
+            try:
+                validate_result_against_retrieval(result, retrieval)
             except DreamReviewError as error:
                 app.state.audit_log.record(role, what, 'denied', error.code)
                 raise HTTPException(422, detail={'code': 'invalid_dream_review_content', 'message': str(error)}) from error
