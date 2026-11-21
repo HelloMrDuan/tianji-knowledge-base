@@ -267,6 +267,25 @@ class ServiceTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(result["verdict"], "citation_rejected")
         self.assertEqual(result["claims"], [])
 
+    async def test_empty_quotes_refused(self):
+        # Closeout (ChatGPT review of PR #588): a claim with no quote
+        # must not pass. Every passing claim needs at least one real
+        # verbatim quote (schema minItems: 1 on claims[].quotes); an
+        # empty quotes array is an invalid model response and the
+        # refusal carries no claims and no evidence.
+        reply = _valid_reply()
+        reply["claims"][0]["quotes"] = []
+        provider = LabelledTestDoubleDreamProvider(reply)
+        result, provider = await self._run(
+            "我梦见自己死了", _retrieval_fixture(), provider
+        )
+        self.assertEqual(result["verdict"], "invalid_model_response")
+        self.assertEqual(result["claims"], [])
+        self.assertEqual(result["evidence"], {})
+        self.assertEqual(provider.calls, 1)
+        blob = json.dumps(result, ensure_ascii=False)
+        self.assertNotIn("此条仅言梦中见人死自死的传统说法", blob)
+
     async def test_insufficient_evidence_abstains(self):
         # Case 7: no audited candidates -> abstain, zero model calls.
         retrieval = _retrieval_fixture()

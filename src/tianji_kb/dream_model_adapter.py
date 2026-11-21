@@ -95,6 +95,7 @@ DREAM_REPLY_SCHEMA = {
                     },
                     "quotes": {
                         "type": "array",
+                        "minItems": 1,
                         "maxItems": 6,
                         "items": {
                             "type": "object",
