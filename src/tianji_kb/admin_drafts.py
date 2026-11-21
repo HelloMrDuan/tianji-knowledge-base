@@ -91,6 +91,22 @@ _TRANSITIONS = {
 STORAGE_NOTE = ('草稿仅保存在进程内存中，服务重启后丢失；'
                 '持久化存储另行决策。')
 
+# Review reasons (TJ-028.3): a transition may carry one short human
+# reason (who decided, why). Stored only when supplied, so older
+# records keep their exact shape.
+MAX_TRANSITION_REASON_CHARS = 500
+
+
+def _validate_reason(reason):
+    if reason is None:
+        return None
+    if not isinstance(reason, str) or not reason.strip():
+        raise InvalidTransitionError('transition reason must be a non-empty string')
+    if len(reason) > MAX_TRANSITION_REASON_CHARS:
+        raise InvalidTransitionError(
+            'transition reason is too long (max 500 characters)')
+    return reason.strip()
+
 
 class DraftNotFoundError(Exception):
     """No draft with the requested id exists in this store."""
@@ -215,12 +231,14 @@ class DraftStore:
         _snapshot(record, 'edit', role if role is not None else 'unknown', now)
         return copy.deepcopy(record)
 
-    def transition(self, draft_id, action, role):
+    def transition(self, draft_id, action, role, reason=None):
         """Apply a state-machine action and return the record.
 
         Unknown actions and illegal (status, action) pairs raise
         InvalidTransitionError; unknown ids raise DraftNotFoundError.
         Both are fail-closed: the stored record is untouched.
+        ``reason`` (TJ-028.3) is an optional short human reason
+        recorded on the transition entry when supplied.
         """
         record = self._drafts.get(draft_id)
         if record is None:
@@ -230,11 +248,14 @@ class DraftStore:
             raise InvalidTransitionError(
                 f"cannot {action!r} a draft in status "
                 f"{record['status']!r}")
+        reason = _validate_reason(reason)
         now = _now()
         record['status'] = nxt
         record['updated_at'] = now
-        record['transitions'].append(
-            {'action': action, 'role': role, 'at': now})
+        entry = {'action': action, 'role': role, 'at': now}
+        if reason is not None:
+            entry['reason'] = reason
+        record['transitions'].append(entry)
         _snapshot(record, action, role, now)
         return copy.deepcopy(record)
 

@@ -585,6 +585,9 @@ export type AdminDraftTransition = {
   role: string;
   at: string;
   version?: number;
+  // TJ-028.3: short human reason recorded on the transition (and the
+  // audit record) when supplied; absent on older transitions.
+  reason?: string;
 };
 
 export type AdminDraftVersion = {
@@ -698,11 +701,61 @@ export async function actOnAdminDraft(
   token: string,
   id: string,
   action: AdminDraftAction,
+  reason?: string,
 ): Promise<AdminDraftResponse> {
   const data = await draftRequest(
     token,
     `/api/v1/admin/drafts/${id}/${action}`,
-    { method: "POST" },
+    {
+      method: "POST",
+      body: JSON.stringify(reason === undefined ? {} : { reason }),
+    },
+  );
+  if (typeof (data?.draft as AdminDraft | undefined)?.id !== "string") {
+    throw new Error("服务端未返回草稿，拒绝展示。");
+  }
+  return data as unknown as AdminDraftResponse;
+}
+
+/**
+ * TJ-028.3: dream review drafts. A review draft is an ordinary draft
+ * whose body is JSON {"kind": "dream_ai_review", "result": ...}; the
+ * helpers below only parse that marker client-side — the server
+ * re-validates the embedded result at creation and at approve/publish
+ * time. The role token is component state only, never persisted.
+ */
+export type DreamReviewResult = AdminDreamAiExplainResponse["result"];
+
+export function parseDreamReviewResult(
+  draft: AdminDraft,
+): DreamReviewResult | null {
+  try {
+    const parsed = JSON.parse(draft.body) as Record<string, unknown>;
+    if (parsed?.kind !== "dream_ai_review") {
+      return null;
+    }
+    const result = parsed.result as DreamReviewResult | undefined;
+    if (
+      !result ||
+      typeof result !== "object" ||
+      result.verdict !== "explained"
+    ) {
+      return null;
+    }
+    return result;
+  } catch {
+    return null;
+  }
+}
+
+export async function saveDreamReviewDraft(
+  token: string,
+  result: DreamReviewResult,
+): Promise<AdminDraftResponse> {
+  const data = await draftRequest(
+    token,
+    "/api/v1/admin/research/dream/review-drafts",
+    { method: "POST", body: JSON.stringify(result) },
   );
   if (typeof (data?.draft as AdminDraft | undefined)?.id !== "string") {
     throw new Error("服务端未返回草稿，拒绝展示。");

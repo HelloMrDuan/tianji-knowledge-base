@@ -3,6 +3,7 @@ import type { FormEvent } from "react";
 import {
   runAdminDreamAiExplain,
   runAdminDreamResearch,
+  saveDreamReviewDraft,
   type AdminDreamAiExplainResponse,
   type AdminDreamResearchResponse,
 } from "./adminApi";
@@ -32,6 +33,10 @@ export function AdminDreamResearchPage() {
   const [aiResult, setAiResult] = useState<AdminDreamAiExplainResponse | null>(null);
   const [aiError, setAiError] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
+  const [roleToken, setRoleToken] = useState("");
+  const [draftId, setDraftId] = useState("");
+  const [draftError, setDraftError] = useState("");
+  const [draftSaving, setDraftSaving] = useState(false);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -67,6 +72,28 @@ export function AdminDreamResearchPage() {
       setAiError(cause instanceof Error ? cause.message : "AI 解释失败。");
     } finally {
       setAiLoading(false);
+    }
+  }
+
+  async function saveAsReviewDraft() {
+    setDraftError("");
+    setDraftId("");
+    if (!aiPayload || aiPayload.verdict !== "explained") {
+      setDraftError("只有已生成的解释草稿可以进入人工审核，拒判结果不能保存。");
+      return;
+    }
+    if (!roleToken.trim()) {
+      setDraftError("请输入角色令牌（编辑及以上角色）以保存审核草稿。");
+      return;
+    }
+    setDraftSaving(true);
+    try {
+      const saved = await saveDreamReviewDraft(roleToken.trim(), aiPayload);
+      setDraftId(saved.draft.id);
+    } catch (cause) {
+      setDraftError(cause instanceof Error ? cause.message : "保存审核草稿失败。");
+    } finally {
+      setDraftSaving(false);
     }
   }
 
@@ -156,6 +183,21 @@ export function AdminDreamResearchPage() {
           ))
         ) : (
           <p className="admin-dream-refusal">未生成解释：{VERDICT_LABELS[aiPayload.verdict] || aiPayload.verdict}{aiPayload.reason ? `（${aiPayload.reason}）` : ""}不会返回无依据的解读。</p>
+        )}
+        {aiPayload.verdict === "explained" && (
+          <div className="admin-dream-review-save">
+            <label>
+              <span>角色令牌（编辑及以上，用于保存审核草稿，仅本次使用）</span>
+              <input aria-label="角色令牌" type="password" autoComplete="off"
+                value={roleToken} onChange={(event) => setRoleToken(event.target.value)}
+                placeholder="TIANJI_ADMIN_ROLE_TOKENS 中的令牌" />
+            </label>
+            <button type="button" onClick={saveAsReviewDraft} disabled={draftSaving}>
+              {draftSaving ? "正在保存审核草稿…" : "保存为审核草稿"}
+            </button>
+            {draftId && <p role="status">已保存为审核草稿：{draftId}。请前往“解梦审核”页面提交审核。</p>}
+            {draftError && <p role="alert" className="admin-dream-error">{draftError}</p>}
+          </div>
         )}
         <details>
           <summary>解释边界及限制</summary>

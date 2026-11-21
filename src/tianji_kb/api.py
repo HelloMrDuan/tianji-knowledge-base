@@ -22,6 +22,13 @@ from .operations.dream_knowledge import (retrieve as retrieve_dream_culture,
                                           public_source_title as dream_public_source_title)
 from .dream_ai_service import explain_dream
 from .dream_model_adapter import DreamAdapterError
+from .dream_review import (
+    DreamReviewError,
+    build_dream_review_draft,
+    is_dream_review_body,
+    parse_dream_review_body,
+    validate_review_reason,
+)
 from .rag_context import RetrievalUnavailable
 from .governance import school_conflicts,reviewed_rules,reviewed_evidence,reviewed_classics,reviewed_chapters,reviewed_terms,reviewed_sources,reviewed_layers,reviewed_algorithms,provider_configuration,prompt_registry
 from .admin_scopes import ADMIN_READ_SCOPES,parse_admin_scopes,resolve_admin_access
@@ -119,6 +126,13 @@ class AdminDraftEditRequest(BaseModel):
 class AdminDraftRollbackRequest(BaseModel):
     model_config=ConfigDict(extra='forbid')
     version:int
+
+class AdminDraftActionRequest(BaseModel):
+    # TJ-028.3: optional short human reason recorded on the
+    # transition (and the audit record). Required for approve/reject
+    # of dream review drafts; optional everywhere else.
+    model_config=ConfigDict(extra='forbid')
+    reason:str|None=None
 
 class ExplanationQuote(BaseModel):
     model_config=ConfigDict(extra='forbid')
@@ -501,6 +515,30 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,ad
         return {'api_version':'v1','read_only':True,'public_release':False,
                 'research_only':True,'ai_enabled':False,'result':result}
 
+    @app.post('/api/v1/admin/research/dream/review-drafts',tags=['admin'])
+    def admin_research_dream_review_draft(request: dict,
+                                          authorization: str | None = Header(default=None)):
+        # TJ-028.3: save an ai-explain result as a review draft in the
+        # existing draft store. Only an explained result with valid
+        # claims and evidence may enter review: refusals, incomplete
+        # evidence and invalid citations are rejected here (422) and
+        # can never reach the approval flow. Role operation 'draft'
+        # (editor, reviewer, publisher); the audit record carries the
+        # draft id only, never the dream content.
+        what = 'dream-review-draft:create'
+        role = check_draft_role(authorization, 'draft', what)
+        try:
+            title, body = build_dream_review_draft(request)
+        except DreamReviewError as error:
+            app.state.audit_log.record(role, what, 'denied', error.code)
+            raise HTTPException(
+                422,
+                detail={'code': error.code, 'message': str(error)},
+            ) from error
+        draft = app.state.draft_store.create(title, body, role)
+        app.state.audit_log.record(role, what, 'allowed', draft['id'])
+        return _draft_response(draft)
+
     @app.get('/api/v1/admin/governance/conflicts',tags=['admin'])
     def admin_governance_conflicts(authorization: str | None = Header(default=None)):
         require_admin_read_token(authorization,scope='governance')
@@ -722,11 +760,20 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,ad
         return _draft_response(draft)
 
     @app.post('/api/v1/admin/drafts/{draft_id}/{action}', tags=['admin'])
-    def admin_draft_act(draft_id: str, action: str, authorization: str | None = Header(default=None)):
+    def admin_draft_act(draft_id: str, action: str,
+                        request: AdminDraftActionRequest | None = None,
+                        authorization: str | None = Header(default=None)):
         # TJ-026.4 batch 2: submit/approve/reject/publish. The action
         # maps to a batch-1 write operation (DRAFT_ACTION_OPERATION);
         # unknown actions are rejected before any state is touched
         # (fail-closed) and audited as denied attempts.
+        # TJ-028.3: dream review drafts carry a gate here. At approve
+        # and publish the body is re-validated against its own
+        # embedded evidence, so a body edited while in 'draft' status
+        # cannot reach 'approved' or 'published' with broken evidence
+        # or invalid citations. Approve/reject of a dream draft also
+        # require a human reason, recorded on the transition and the
+        # audit record. Plain-text drafts keep the old behaviour.
         operation = DRAFT_ACTION_OPERATION.get(action)
         what = f'draft:{action}:{draft_id}'
         if operation is None:
@@ -736,15 +783,30 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,ad
             app.state.audit_log.record(_role_name_for(authorization), what, 'denied', 'unknown_action')
             raise HTTPException(403, detail={'code': 'admin_forbidden', 'message': f'Unknown draft action {action}'})
         role = check_draft_role(authorization, operation, what)
+        reason = request.reason if request is not None else None
+        existing = app.state.draft_store.get(draft_id)
+        is_dream_draft = bool(existing) and is_dream_review_body(existing['body'])
+        if is_dream_draft and action in ('approve', 'publish'):
+            try:
+                parse_dream_review_body(existing['body'])
+            except DreamReviewError as error:
+                app.state.audit_log.record(role, what, 'denied', error.code)
+                raise HTTPException(422, detail={'code': 'invalid_dream_review_content', 'message': str(error)}) from error
+        if is_dream_draft and action in ('approve', 'reject'):
+            try:
+                reason = validate_review_reason(reason)
+            except DreamReviewError as error:
+                app.state.audit_log.record(role, what, 'denied', error.code)
+                raise HTTPException(422, detail={'code': 'missing_review_reason', 'message': str(error)}) from error
         try:
-            draft = app.state.draft_store.transition(draft_id, action, role)
+            draft = app.state.draft_store.transition(draft_id, action, role, reason=reason)
         except DraftNotFoundError:
             app.state.audit_log.record(role, what, 'denied', 'draft_not_found')
             raise HTTPException(404, detail={'code': 'draft_not_found', 'message': f'No draft with id {draft_id}'})
         except InvalidTransitionError as error:
             app.state.audit_log.record(role, what, 'denied', 'invalid_transition')
             raise HTTPException(422, detail={'code': 'invalid_draft_transition', 'message': str(error)}) from error
-        app.state.audit_log.record(role, what, 'allowed')
+        app.state.audit_log.record(role, what, 'allowed', reason)
         return _draft_response(draft)
 
     @app.post('/api/v1/scenarios/public',response_model=ScenarioExecuteResponse,tags=['public-execution'])

@@ -21,7 +21,14 @@ retrieval into the business result the research endpoint returns:
   affirmative conclusion: a refused result never also claims an
   explanation.
 - ``claims`` / ``evidence``: validated model claims with their
-  citations, present only when the verdict is ``'explained'``.
+  citations, present only when the verdict is ``'explained'``. The
+  evidence map is the union of the claim-cited records and the
+  retrieval records for every id the ``elements`` cite: the
+  adapter's outcome only carries the ids the model cited, while a
+  matched scene's rule may resolve to more than one reviewed
+  source ref, so without the union an element could cite evidence
+  the result does not carry, and the review gate (TJ-028.3)
+  rightly refuses such a result as incomplete evidence.
 - ``ai_enabled`` is always False and ``personal_prediction`` is
   always False: this service never enables public AI and never
   returns a personal prediction. An ``'explained'`` result is a
@@ -133,6 +140,26 @@ async def explain_dream(dream_text, retrieval, *, provider=None, config=None,
     adapter = DreamModelAdapter(provider, config=config, timeout=timeout)
     outcome = await adapter.explain(narrative, retrieval)
     explained = outcome.get("status") == "explained"
+    evidence = {}
+    if explained:
+        # The adapter's outcome evidence only covers the ids the model
+        # cited, but the elements cite the retrieval's full evidence
+        # ids for each matched scene. The result evidence is therefore
+        # the union, so every citation the result presents is
+        # resolvable from the result itself. An element id with no
+        # record in the retrieval evidence is dropped, never presented
+        # untraceable; an element left with no ids is dropped with it.
+        evidence = copy.deepcopy(outcome.get("evidence") or {})
+        retrieval_evidence = retrieval.get("evidence") or {}
+        for element in elements:
+            kept = []
+            for eid in element.get("evidence_ids") or []:
+                if eid in retrieval_evidence:
+                    kept.append(eid)
+                    if eid not in evidence:
+                        evidence[eid] = copy.deepcopy(retrieval_evidence[eid])
+            element["evidence_ids"] = kept
+        elements = [element for element in elements if element.get("evidence_ids")]
     return {
         "dream_text": narrative,
         "elements": elements,
@@ -140,7 +167,7 @@ async def explain_dream(dream_text, retrieval, *, provider=None, config=None,
         "ai_enabled": False,
         "personal_prediction": False,
         "claims": copy.deepcopy(outcome.get("claims") or []) if explained else [],
-        "evidence": copy.deepcopy(outcome.get("evidence") or {}) if explained else {},
+        "evidence": evidence,
         "limitations": list(retrieval.get("limitations") or []),
         "reason": outcome.get("reason"),
     }
