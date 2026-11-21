@@ -13,9 +13,12 @@ Modes:
   zero real model calls. No authorization record is needed.
 - ``--mode real``: a real provider run. Requires ``--authorization
   <record>`` (placed by the operator after the user approves the run)
-  plus an HTTPS, non-loopback endpoint and the pinned model. The
-  runner validates and single-use-claims the record; it never
-  authors one.
+  plus the approved AMD gateway
+  (``https://developer.amd.com.cn/radeon/api/v1/chat/completions``)
+  and the pinned model. The runner validates the record (including
+  its binding to the fixed suite and case scope), reads the live
+  ``/usage`` quota, and single-use-claims the record in the fixed
+  directory next to it; it never authors one.
 
 Exit codes: 0 = the run completed every case (case pass/fail is in
 the report, not the exit code); 2 = the run stopped early (a
@@ -24,11 +27,15 @@ budget); 1 = a pre-flight refusal (zero provider calls) or a usage
 error.
 
 The provider configuration comes only from the trusted process
-environment (``TIANJI_AI_*``), exactly like the admin endpoint. For a
-real run the operator sets ``TIANJI_AI_MAX_OUTPUT_TOKENS`` to the run
-cap (default 384) before starting. No credential is ever printed or
-written by this script: the summary records the model name and the
-endpoint host only.
+environment (``TIANJI_AI_*``), exactly like the admin endpoint. The
+runner clamps the output cap to ``--max-output-tokens`` (default
+384) itself; the operator does not need to set
+``TIANJI_AI_MAX_OUTPUT_TOKENS``. The pts budget is an
+estimate-based cap (see ``dream_real_eval``): the pre-flight
+worst-case estimate, a live quota read, a running estimate gate and
+the attempt cap are the executable controls. No credential is ever
+printed or written by this script: the summary records the model
+name and the endpoint host only.
 """
 import argparse
 import asyncio
@@ -63,10 +70,6 @@ def main(argv=None):
         "--authorization", default=None,
         help="authorization record path (required in real mode)",
     )
-    parser.add_argument(
-        "--claims-dir", default=None,
-        help="directory for the single-use authorization claim (default: next to the record)",
-    )
     parser.add_argument("--max-points", type=float, default=DEFAULT_MAX_POINTS)
     parser.add_argument("--max-requests", type=int, default=DEFAULT_MAX_REQUESTS)
     parser.add_argument(
@@ -89,7 +92,6 @@ def main(argv=None):
             per_call_timeout=args.per_call_timeout,
             max_seconds=args.max_seconds,
             authorization_path=args.authorization,
-            claims_dir=args.claims_dir,
             case_ids=list(args.case_ids),
         )
         provider_config = load_dream_provider_config()
