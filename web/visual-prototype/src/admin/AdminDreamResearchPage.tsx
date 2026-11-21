@@ -1,7 +1,27 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
-import { runAdminDreamResearch, type AdminDreamResearchResponse } from "./adminApi";
+import {
+  runAdminDreamAiExplain,
+  runAdminDreamResearch,
+  type AdminDreamAiExplainResponse,
+  type AdminDreamResearchResponse,
+} from "./adminApi";
 import "./dream-research.css";
+
+/** Research-draft verdict labels. A refusal never also shows claims. */
+const VERDICT_LABELS: Record<string, string> = {
+  explained: "已生成研究草稿",
+  abstained_no_reviewed_interpretation: "无已审核解读，已弃判",
+  not_configured: "未配置模型提供方，未调用模型",
+  provider_timeout: "模型调用超时，已拒判",
+  provider_rate_limited: "模型调用受限（429），已拒判",
+  provider_failed: "模型调用失败，已拒判",
+  invalid_model_response: "模型回复不符合契约，已拒判",
+  citation_rejected: "模型引用未通过证据校验，已拒判",
+  diagnosis_rejected: "模型回复含诊断内容，已拒判",
+  prediction_rejected: "模型回复含个人预测，已拒判",
+  context_rejected: "上下文未通过安全检查，已拒判",
+};
 
 export function AdminDreamResearchPage() {
   const [token, setToken] = useState("");
@@ -9,6 +29,9 @@ export function AdminDreamResearchPage() {
   const [result, setResult] = useState<AdminDreamResearchResponse | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [aiResult, setAiResult] = useState<AdminDreamAiExplainResponse | null>(null);
+  const [aiError, setAiError] = useState("");
+  const [aiLoading, setAiLoading] = useState(false);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -29,14 +52,33 @@ export function AdminDreamResearchPage() {
     }
   }
 
+  async function explainWithAi() {
+    setAiError("");
+    setAiResult(null);
+    if (!token.trim() || narrative.trim().length < 2 || narrative.length > 500) {
+      setAiError("请输入后台令牌与 2—500 字梦境描述。");
+      return;
+    }
+    setAiLoading(true);
+    try {
+      const next = await runAdminDreamAiExplain(token.trim(), narrative.trim());
+      setAiResult(next);
+    } catch (cause) {
+      setAiError(cause instanceof Error ? cause.message : "AI 解释失败。");
+    } finally {
+      setAiLoading(false);
+    }
+  }
+
   const payload = result?.result;
   const matches = payload?.matched_interpretations || [];
+  const aiPayload = aiResult?.result;
   return (
     <div className="admin-dream-workspace">
       <header className="admin-dream-hero">
         <span>内部工具 · 固定原文 / 文化检索</span>
         <h1>解梦知识检索实验台</h1>
-        <p>使用现有已审核梦象与真实 RAG 检索，不生成命理预测，不调用 AI，不开放公众访问。输入结果只显示当前有证据支持的传统文化条目。</p>
+        <p>使用现有已审核梦象与真实 RAG 检索，不生成命理预测，不开放公众访问。检索本身不调用 AI；「AI 解释」是显式的独立研究动作，仅生成待人工审核的草稿，证据不足或模型异常时拒判。输入结果只显示当前有证据支持的传统文化条目。</p>
       </header>
 
       <form className="admin-dream-form" onSubmit={submit}>
@@ -56,9 +98,13 @@ export function AdminDreamResearchPage() {
           <button type="submit" disabled={loading}>
             {loading ? "正在检索已审核资料…" : "检索真实梦象知识"}
           </button>
-          <button type="button" onClick={() => { setNarrative(""); setResult(null); setError(""); }}>清空检索</button>
+          <button type="button" onClick={explainWithAi} disabled={aiLoading}>
+            {aiLoading ? "正在生成研究草稿…" : "AI 解释（研究草稿）"}
+          </button>
+          <button type="button" onClick={() => { setNarrative(""); setResult(null); setError(""); setAiResult(null); setAiError(""); }}>清空检索</button>
         </div>
         {error && <p role="alert" className="admin-dream-error">{error}</p>}
+        {aiError && <p role="alert" className="admin-dream-error">{aiError}</p>}
       </form>
 
       {!result && <section className="admin-dream-status">
@@ -85,6 +131,36 @@ export function AdminDreamResearchPage() {
           <summary>证据边界及限制</summary>
           <ul>{(payload?.limitations || []).map((rule) => <li key={rule}>{rule}</li>)}</ul>
           <p>本工具不输出整本 RAW/Quarantine 原文，不据文化文本预测健康、财富或婚姻。</p>
+        </details>
+      </section>}
+
+      {aiPayload && <section className="admin-dream-results" aria-live="polite">
+        <header>
+          <h2>AI 解释 · 研究草稿</h2>
+          <span className="admin-dream-verdict">{VERDICT_LABELS[aiPayload.verdict] || aiPayload.verdict}</span>
+        </header>
+        {aiPayload.verdict === "explained" ? (
+          aiPayload.claims.map((claim, index) => (
+            <article key={index} className="admin-dream-result">
+              <p>{claim.text}</p>
+              {claim.quotes.map((quote) => (
+                <blockquote key={quote.evidence_id}>{quote.text}</blockquote>
+              ))}
+              <small>{claim.citations.map((citation) => {
+                const ref = citation.source_ref as Record<string, unknown>;
+                const title = typeof ref.classic_title === "string" ? ref.classic_title : "";
+                const locator = typeof ref.locator === "string" ? ref.locator : "";
+                return `${title} ${locator}`.trim();
+              }).join("；")} · {claim.evidence_ids.length} 个可追溯来源</small>
+            </article>
+          ))
+        ) : (
+          <p className="admin-dream-refusal">未生成解释：{VERDICT_LABELS[aiPayload.verdict] || aiPayload.verdict}{aiPayload.reason ? `（${aiPayload.reason}）` : ""}不会返回无依据的解读。</p>
+        )}
+        <details>
+          <summary>解释边界及限制</summary>
+          <ul>{(aiPayload.limitations || []).map((rule) => <li key={rule}>{rule}</li>)}</ul>
+          <p>本草稿仅供人工审核（TJ-028.3），不是公开答案，不作个人预测；公开 AI 仍处于关闭状态。</p>
         </details>
       </section>}
     </div>

@@ -22,6 +22,8 @@
 .admin-dream-result blockquote{border-left:3px solid #b69e6b;margin:12px 0;padding-left:12px;color:#5f704e;font-family:serif}
 .admin-dream-result small{color:#889388;font-size:11px;overflow-wrap:anywhere}
 .admin-dream-empty{padding:13px;background:#f4f0e7}
+.admin-dream-verdict{display:inline-block;font-size:12px;color:#385d46;background:#eef2e8;border:1px solid #d9dfd3;border-radius:20px;padding:4px 12px}
+.admin-dream-refusal{padding:13px;background:#f4f0e7}
 .admin-dream-results details{border-top:1px solid #e0e5dc;padding-top:15px;color:#596c5f;font-size:12px}
 .admin-dream-results li{margin:8px 0;line-height:1.7}
 @media(max-width:600px){.admin-dream-hero,.admin-dream-form,.admin-dream-status,.admin-dream-results{padding:18px}.admin-dream-hero h1{font-size:23px}}

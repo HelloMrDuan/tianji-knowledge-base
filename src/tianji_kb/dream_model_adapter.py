@@ -11,8 +11,13 @@ Fail-closed contract:
 - No provider configured -> status ``'not_configured'`` (no model call).
 - Retrieval has no audited candidates -> status
   ``'abstained_no_reviewed_interpretation'`` (no model call).
-- Provider failure / timeout / malformed reply / citation mismatch /
-  diagnosis / personal prediction -> a refusal status, never model text.
+- Provider failure / timeout / rate limit (429) / malformed or
+  non-JSON reply / citation mismatch / diagnosis / personal
+  prediction -> a refusal status, never model text. A 429 is
+  reported as ``'provider_rate_limited'`` and a non-JSON or
+  wrongly shaped provider reply as ``'invalid_model_response'``,
+  so the caller can tell a contract failure from a transport
+  failure.
 - Context that fails the credential safety check -> a refusal status
   (``'context_rejected'``), never model text.
 - Every result carries ``ai_enabled=False`` and
@@ -90,6 +95,7 @@ DREAM_REPLY_SCHEMA = {
                     },
                     "quotes": {
                         "type": "array",
+                        "minItems": 1,
                         "maxItems": 6,
                         "items": {
                             "type": "object",
@@ -436,6 +442,28 @@ class DreamModelAdapter:
             )
         except asyncio.TimeoutError:
             return _refusal("provider_timeout", "model call timed out")
+        except ModelClientError as error:
+            # The transport already classifies the failure: a 429 is a
+            # rate limit (a distinct refusal so the caller can retry
+            # later), a transport timeout is a timeout, anything else is
+            # a generic provider failure. The error text is never
+            # returned: it may carry a URL or a credential.
+            if error.code == "rate_limit":
+                return _refusal(
+                    "provider_rate_limited", "model provider rate limit reached"
+                )
+            if error.code == "timeout":
+                return _refusal("provider_timeout", "model call timed out")
+            logger.warning("dream model provider call failed")
+            return _refusal("provider_failed", "model provider request failed")
+        except (json.JSONDecodeError, KeyError, IndexError, TypeError, ValueError):
+            # The provider answered, but the reply is not a usable model
+            # response (non-JSON content, wrong shape, tool calls). This
+            # is a contract failure of the reply, not a transport
+            # failure. No provider text is returned.
+            return _refusal(
+                "invalid_model_response", "model reply is not a valid response"
+            )
         except Exception:  # noqa: BLE001 - provider failures are refusals
             # Fixed reason only: a provider/transport exception may carry
             # a full URL, query parameters, or a credential, so its text
