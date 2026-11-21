@@ -168,11 +168,11 @@ each one needs.
 ## Production public AI: still off (verified)
 
 - Production is still ``f444ff5b`` (#587): the deploy agent's
-  offline acceptance failed for ``522fe5eb`` (#588, 7 attempts)
-  and ``4e784353`` (#589, 4 attempts) and was mid-attempt on
-  ``1e311aa3`` (#590) at audit time, so none of the three merges
-  has deployed. The running service is untouched by those
-  failures (fail-closed).
+  offline acceptance failed for ``522fe5eb`` (#588, 7 attempts),
+  ``4e784353`` (#589, 4 attempts), and ``1e311aa3`` (#590, failed
+  2026-11-21 15:10 UTC) -- three merges in a row, none deployed.
+  The running service is untouched by those failures
+  (fail-closed).
 - ``/health`` on the production backend returns 200 with
   ``explanation_configured: false``; ``ai_enabled`` is a literal
   ``False`` in the merged code. Public AI is off.
@@ -183,10 +183,13 @@ each one needs.
    the user's approval of the application in
    ``docs/phase4/DREAM_REAL_EVAL.md``).
 2. **Deploy-acceptance failure**: find why the offline acceptance
-   unittest step fails for ``522fe5eb`` / ``4e784353`` (GitHub CI is
-   green for the same SHAs) and clear it, or production stays on
-   ``f444ff5b``. Under investigation in this round; do not deploy
-   by hand.
+   unittest step fails for ``522fe5eb`` / ``4e784353`` / ``1e311aa3``
+   (GitHub CI is green for the same SHAs) and clear it, or
+   production stays on ``f444ff5b``. A full-partition repro is
+   running on the trusted machine to identify the failing test;
+   the failure is a new regression (it starts at ``522fe5eb``,
+   the first SHA after the passing ``f444ff5b`` baseline), not a
+   baseline problem. Do not deploy by hand.
 3. **Public-surface decision**: gated user-facing AI explain entry
    or curated published-explanations page, with research-mode
    labelling and the four-layer plain-Chinese presentation.
