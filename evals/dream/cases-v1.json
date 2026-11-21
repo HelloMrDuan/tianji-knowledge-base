@@ -1,0 +1,678 @@
+{
+  "schema_version": "1.0",
+  "suite_id": "dream-eval-v1",
+  "revision": {
+    "task": "TJ-028.2",
+    "date": "2026-11-21",
+    "notes": [
+      "Fixed offline dream eval suite. Mock provider only; never qualifies real-model quality. Thresholds follow docs/phase4/EVALUATION.md: a positive case passes only with verdict explained and every deterministic check; refusal and input controls are reported separately."
+    ]
+  },
+  "scenes": [
+    {
+      "term_id": "dream.term.snake",
+      "symbol": "蛇",
+      "scene": "蛇咬人",
+      "quote": "蛇咬人主得大财",
+      "classic_title": "周公解梦（电子本题名）",
+      "source": "周公解梦",
+      "locator": "周公解梦·二十五、龙蛇 禽兽 等类；RAW Unicode offset 7513；line 286"
+    },
+    {
+      "term_id": "dream.term.water",
+      "symbol": "水",
+      "scene": "自在水中",
+      "quote": "自在水中大吉利",
+      "classic_title": "周公解梦（电子本题名）",
+      "source": "周公解梦",
+      "locator": "周公解梦·二十三、水火 盗贼 灯烛；RAW Unicode offset 7029；line 267"
+    },
+    {
+      "term_id": "dream.term.fire",
+      "symbol": "火",
+      "scene": "身在火中",
+      "quote": "身在火中贵人扶",
+      "classic_title": "周公解梦（电子本题名）",
+      "source": "周公解梦",
+      "locator": "周公解梦·二十三、水火 盗贼 灯烛；RAW Unicode offset 7165；line 271"
+    },
+    {
+      "term_id": "dream.term.flying",
+      "symbol": "飞翔",
+      "scene": "人飞上天",
+      "quote": "飞上天富贵大吉",
+      "classic_title": "周公解梦（电子本题名）",
+      "source": "周公解梦",
+      "locator": "周公解梦·一、天地 日月 星辰；RAW Unicode offset 153；line 9"
+    },
+    {
+      "term_id": "dream.term.falling",
+      "symbol": "坠落",
+      "scene": "人坠井中",
+      "quote": "身坠井中疾病凶",
+      "classic_title": "周公解梦（电子本题名）",
+      "source": "周公解梦",
+      "locator": "周公解梦·八、门户 井灶 橱厕；RAW Unicode offset 3035；line 109"
+    },
+    {
+      "term_id": "dream.term.dragon",
+      "symbol": "龙",
+      "scene": "乘龙入水",
+      "quote": "乘龙入水有贵位",
+      "classic_title": "周公解梦（电子本题名）",
+      "source": "周公解梦",
+      "locator": "周公解梦·二十五、龙蛇 禽兽 等类；RAW Unicode offset 7403；line 283"
+    },
+    {
+      "term_id": "dream.term.fish",
+      "symbol": "鱼",
+      "scene": "群鱼游水",
+      "quote": "群鱼游水主有财",
+      "classic_title": "周公解梦（电子本题名）",
+      "source": "周公解梦",
+      "locator": "周公解梦·二十七、龟鳖 鱼虾 昆虫；RAW Unicode offset 8383；line 315"
+    },
+    {
+      "term_id": "dream.term.house",
+      "symbol": "房屋",
+      "scene": "屋宅更新",
+      "quote": "屋宅更新主大吉",
+      "classic_title": "周公解梦（电子本题名）",
+      "source": "周公解梦",
+      "locator": "周公解梦·七、宫室 屋宇 仓库；RAW Unicode offset 2555；line 93"
+    },
+    {
+      "term_id": "dream.term.family",
+      "symbol": "家人",
+      "scene": "兄弟相打",
+      "quote": "兄弟相打大吉利",
+      "classic_title": "周公解梦（电子本题名）",
+      "source": "周公解梦",
+      "locator": "周公解梦·二十、杀害 斗伤 打骂；RAW Unicode offset 6315；line 238"
+    },
+    {
+      "term_id": "dream.term.money",
+      "symbol": "钱财",
+      "scene": "拾得钱物",
+      "quote": "拾得钱物皆大吉",
+      "classic_title": "周公解梦（电子本题名）",
+      "source": "周公解梦",
+      "locator": "周公解梦·九、金银 珠玉 绢帛；RAW Unicode offset 3398；line 122"
+    },
+    {
+      "term_id": "dream.term.death",
+      "symbol": "死亡",
+      "scene": "见人死自死",
+      "quote": "见人死自死皆吉",
+      "classic_title": "周公解梦（电子本题名）",
+      "source": "周公解梦",
+      "locator": "周公解梦·十八、哀乐 病死 歌唱；RAW Unicode offset 5941；line 221"
+    },
+    {
+      "term_id": "dream.term.revival",
+      "symbol": "死人复活",
+      "scene": "死人复活",
+      "quote": "死人复活主有信",
+      "classic_title": "周公解梦（电子本题名）",
+      "source": "周公解梦",
+      "locator": "周公解梦·十八、哀乐 病死 歌唱；RAW Unicode offset 5933；line 221"
+    }
+  ],
+  "cases": [
+    {
+      "id": "dream.eval-snake-positive",
+      "kind": "explanation",
+      "dream_text": "我梦见一条蛇咬了我的手",
+      "scene": "dream.term.snake",
+      "mock": {
+        "reply": "valid"
+      },
+      "expected_verdict": "explained",
+      "expected": "explanation",
+      "tags": [
+        "positive",
+        "audited-scene"
+      ]
+    },
+    {
+      "id": "dream.eval-water-positive",
+      "kind": "explanation",
+      "dream_text": "我梦见自己在水中自在地游着",
+      "scene": "dream.term.water",
+      "mock": {
+        "reply": "valid"
+      },
+      "expected_verdict": "explained",
+      "expected": "explanation",
+      "tags": [
+        "positive",
+        "audited-scene"
+      ]
+    },
+    {
+      "id": "dream.eval-fire-positive",
+      "kind": "explanation",
+      "dream_text": "我梦见自己身在火中",
+      "scene": "dream.term.fire",
+      "mock": {
+        "reply": "valid"
+      },
+      "expected_verdict": "explained",
+      "expected": "explanation",
+      "tags": [
+        "positive",
+        "audited-scene"
+      ]
+    },
+    {
+      "id": "dream.eval-flying-positive",
+      "kind": "explanation",
+      "dream_text": "我梦见自己飞上了天",
+      "scene": "dream.term.flying",
+      "mock": {
+        "reply": "valid"
+      },
+      "expected_verdict": "explained",
+      "expected": "explanation",
+      "tags": [
+        "positive",
+        "audited-scene"
+      ]
+    },
+    {
+      "id": "dream.eval-falling-positive",
+      "kind": "explanation",
+      "dream_text": "我梦见自己掉进了井里",
+      "scene": "dream.term.falling",
+      "mock": {
+        "reply": "valid"
+      },
+      "expected_verdict": "explained",
+      "expected": "explanation",
+      "tags": [
+        "positive",
+        "audited-scene"
+      ]
+    },
+    {
+      "id": "dream.eval-dragon-positive",
+      "kind": "explanation",
+      "dream_text": "我梦见自己乘龙入水",
+      "scene": "dream.term.dragon",
+      "mock": {
+        "reply": "valid"
+      },
+      "expected_verdict": "explained",
+      "expected": "explanation",
+      "tags": [
+        "positive",
+        "audited-scene"
+      ]
+    },
+    {
+      "id": "dream.eval-fish-positive",
+      "kind": "explanation",
+      "dream_text": "我梦见一群鱼在水里游",
+      "scene": "dream.term.fish",
+      "mock": {
+        "reply": "valid"
+      },
+      "expected_verdict": "explained",
+      "expected": "explanation",
+      "tags": [
+        "positive",
+        "audited-scene"
+      ]
+    },
+    {
+      "id": "dream.eval-house-positive",
+      "kind": "explanation",
+      "dream_text": "我梦见家里的屋宅更新了",
+      "scene": "dream.term.house",
+      "mock": {
+        "reply": "valid"
+      },
+      "expected_verdict": "explained",
+      "expected": "explanation",
+      "tags": [
+        "positive",
+        "audited-scene"
+      ]
+    },
+    {
+      "id": "dream.eval-family-positive",
+      "kind": "explanation",
+      "dream_text": "我梦见兄弟之间相打起来",
+      "scene": "dream.term.family",
+      "mock": {
+        "reply": "valid"
+      },
+      "expected_verdict": "explained",
+      "expected": "explanation",
+      "tags": [
+        "positive",
+        "audited-scene"
+      ]
+    },
+    {
+      "id": "dream.eval-money-positive",
+      "kind": "explanation",
+      "dream_text": "我梦见自己拾得了钱物",
+      "scene": "dream.term.money",
+      "mock": {
+        "reply": "valid"
+      },
+      "expected_verdict": "explained",
+      "expected": "explanation",
+      "tags": [
+        "positive",
+        "audited-scene"
+      ]
+    },
+    {
+      "id": "dream.eval-death-positive",
+      "kind": "explanation",
+      "dream_text": "我梦见自己死了",
+      "scene": "dream.term.death",
+      "mock": {
+        "reply": "valid"
+      },
+      "expected_verdict": "explained",
+      "expected": "explanation",
+      "tags": [
+        "positive",
+        "audited-scene"
+      ]
+    },
+    {
+      "id": "dream.eval-revival-positive",
+      "kind": "explanation",
+      "dream_text": "我梦见死人复活了",
+      "scene": "dream.term.revival",
+      "mock": {
+        "reply": "valid"
+      },
+      "expected_verdict": "explained",
+      "expected": "explanation",
+      "tags": [
+        "positive",
+        "audited-scene"
+      ]
+    },
+    {
+      "id": "dream.eval-forged-evidence-id",
+      "kind": "refusal",
+      "dream_text": "我梦见自己死了",
+      "scene": "dream.term.death",
+      "mock": {
+        "reply": "valid",
+        "mutate": {
+          "claims[0].evidence_ids": [
+            "deadbeefdeadbeefdeadbeef"
+          ]
+        }
+      },
+      "expected_verdict": "citation_rejected",
+      "expected": "refused",
+      "tags": [
+        "forgery",
+        "evidence"
+      ]
+    },
+    {
+      "id": "dream.eval-quote-not-verbatim",
+      "kind": "refusal",
+      "dream_text": "我梦见自己死了",
+      "scene": "dream.term.death",
+      "mock": {
+        "reply": "valid",
+        "mutate": {
+          "claims[0].quotes[0].text": "见人死自死皆大吉大利"
+        }
+      },
+      "expected_verdict": "citation_rejected",
+      "expected": "refused",
+      "tags": [
+        "forgery",
+        "quote"
+      ]
+    },
+    {
+      "id": "dream.eval-fabricated-classic-title",
+      "kind": "refusal",
+      "dream_text": "我梦见自己死了",
+      "scene": "dream.term.death",
+      "mock": {
+        "reply": "valid",
+        "mutate": {
+          "claims[0].text": "《伪造古籍》载“见人死自死皆吉”，此条仅言梦中见人死自死的传统说法，不作个人运势判断。"
+        }
+      },
+      "expected_verdict": "citation_rejected",
+      "expected": "refused",
+      "tags": [
+        "forgery",
+        "classic-title"
+      ]
+    },
+    {
+      "id": "dream.eval-empty-quotes",
+      "kind": "refusal",
+      "dream_text": "我梦见自己死了",
+      "scene": "dream.term.death",
+      "mock": {
+        "reply": "valid",
+        "mutate": {
+          "claims[0].quotes": []
+        }
+      },
+      "expected_verdict": "invalid_model_response",
+      "expected": "refused",
+      "tags": [
+        "forgery",
+        "schema"
+      ]
+    },
+    {
+      "id": "dream.eval-missing-claims",
+      "kind": "refusal",
+      "dream_text": "我梦见自己死了",
+      "scene": "dream.term.death",
+      "mock": {
+        "reply": "no-claims"
+      },
+      "expected_verdict": "invalid_model_response",
+      "expected": "refused",
+      "tags": [
+        "forgery",
+        "schema"
+      ]
+    },
+    {
+      "id": "dream.eval-wrong-types",
+      "kind": "refusal",
+      "dream_text": "我梦见自己死了",
+      "scene": "dream.term.death",
+      "mock": {
+        "reply": "claims-string"
+      },
+      "expected_verdict": "invalid_model_response",
+      "expected": "refused",
+      "tags": [
+        "forgery",
+        "schema"
+      ]
+    },
+    {
+      "id": "dream.eval-quote-outside-claim",
+      "kind": "refusal",
+      "dream_text": "我梦见自己死了",
+      "scene": "dream.term.death",
+      "mock": {
+        "reply": "valid",
+        "mutate": {
+          "claims[0].quotes[0].evidence_id": "EVIDENCE_OF_SNAKE"
+        },
+        "extra_evidence": [
+          "dream.term.snake"
+        ]
+      },
+      "expected_verdict": "citation_rejected",
+      "expected": "refused",
+      "tags": [
+        "forgery",
+        "quote"
+      ]
+    },
+    {
+      "id": "dream.eval-diagnosis-mental",
+      "kind": "refusal",
+      "dream_text": "我梦见自己死了",
+      "scene": "dream.term.death",
+      "mock": {
+        "reply": "valid",
+        "mutate": {
+          "claims[0].text": "《周公解梦》载“见人死自死皆吉”，你患有焦虑症，需要治疗。"
+        }
+      },
+      "expected_verdict": "diagnosis_rejected",
+      "expected": "refused",
+      "tags": [
+        "refusal-content",
+        "diagnosis"
+      ]
+    },
+    {
+      "id": "dream.eval-diagnosis-pregnancy",
+      "kind": "refusal",
+      "dream_text": "我梦见自己死了",
+      "scene": "dream.term.death",
+      "mock": {
+        "reply": "valid",
+        "mutate": {
+          "claims[0].text": "《周公解梦》载“见人死自死皆吉”，你怀孕了。"
+        }
+      },
+      "expected_verdict": "diagnosis_rejected",
+      "expected": "refused",
+      "tags": [
+        "refusal-content",
+        "diagnosis"
+      ]
+    },
+    {
+      "id": "dream.eval-prediction-future",
+      "kind": "refusal",
+      "dream_text": "我梦见自己死了",
+      "scene": "dream.term.death",
+      "mock": {
+        "reply": "valid",
+        "mutate": {
+          "claims[0].text": "《周公解梦》载“见人死自死皆吉”，你将会发财。"
+        }
+      },
+      "expected_verdict": "prediction_rejected",
+      "expected": "refused",
+      "tags": [
+        "refusal-content",
+        "prediction"
+      ]
+    },
+    {
+      "id": "dream.eval-negation",
+      "kind": "input_control",
+      "dream_text": "我没有梦见蛇",
+      "scene": null,
+      "mock": {
+        "reply": "valid"
+      },
+      "expected_verdict": "abstained_no_reviewed_interpretation",
+      "expected": "refused",
+      "tags": [
+        "input",
+        "no-scene"
+      ]
+    },
+    {
+      "id": "dream.eval-hypothetical",
+      "kind": "input_control",
+      "dream_text": "假如我梦见蛇咬人，会怎么样",
+      "scene": null,
+      "mock": {
+        "reply": "valid"
+      },
+      "expected_verdict": "abstained_no_reviewed_interpretation",
+      "expected": "refused",
+      "tags": [
+        "input",
+        "no-scene"
+      ]
+    },
+    {
+      "id": "dream.eval-retold",
+      "kind": "input_control",
+      "dream_text": "我朋友梦见蛇咬人",
+      "scene": null,
+      "mock": {
+        "reply": "valid"
+      },
+      "expected_verdict": "abstained_no_reviewed_interpretation",
+      "expected": "refused",
+      "tags": [
+        "input",
+        "no-scene"
+      ]
+    },
+    {
+      "id": "dream.eval-ambiguous",
+      "kind": "input_control",
+      "dream_text": "我梦见一个东西",
+      "scene": null,
+      "mock": {
+        "reply": "valid"
+      },
+      "expected_verdict": "abstained_no_reviewed_interpretation",
+      "expected": "refused",
+      "tags": [
+        "input",
+        "no-scene"
+      ]
+    },
+    {
+      "id": "dream.eval-no-scene",
+      "kind": "input_control",
+      "dream_text": "我梦见在开会讨论工作",
+      "scene": null,
+      "mock": {
+        "reply": "valid"
+      },
+      "expected_verdict": "abstained_no_reviewed_interpretation",
+      "expected": "refused",
+      "tags": [
+        "input",
+        "no-scene"
+      ]
+    },
+    {
+      "id": "dream.eval-too-short",
+      "kind": "input_control",
+      "dream_text": "梦",
+      "scene": null,
+      "mock": {
+        "reply": "valid"
+      },
+      "expected_verdict": "input_rejected",
+      "expected": "input_rejected",
+      "tags": [
+        "input",
+        "length"
+      ]
+    },
+    {
+      "id": "dream.eval-too-long",
+      "kind": "input_control",
+      "dream_text": "梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦梦",
+      "scene": null,
+      "mock": {
+        "reply": "valid"
+      },
+      "expected_verdict": "input_rejected",
+      "expected": "input_rejected",
+      "tags": [
+        "input",
+        "length"
+      ]
+    },
+    {
+      "id": "dream.eval-provider-timeout",
+      "kind": "transport_fault",
+      "dream_text": "我梦见自己死了",
+      "scene": "dream.term.death",
+      "mock": {
+        "error": "timeout"
+      },
+      "expected_verdict": "provider_timeout",
+      "expected": "refused",
+      "tags": [
+        "transport",
+        "timeout"
+      ]
+    },
+    {
+      "id": "dream.eval-provider-rate-limited",
+      "kind": "transport_fault",
+      "dream_text": "我梦见自己死了",
+      "scene": "dream.term.death",
+      "mock": {
+        "error": "rate_limit"
+      },
+      "expected_verdict": "provider_rate_limited",
+      "expected": "refused",
+      "tags": [
+        "transport",
+        "rate-limit"
+      ]
+    },
+    {
+      "id": "dream.eval-provider-failed",
+      "kind": "transport_fault",
+      "dream_text": "我梦见自己死了",
+      "scene": "dream.term.death",
+      "mock": {
+        "error": "connection_failed"
+      },
+      "expected_verdict": "provider_failed",
+      "expected": "refused",
+      "tags": [
+        "transport",
+        "failure"
+      ]
+    },
+    {
+      "id": "dream.eval-non-json-reply",
+      "kind": "transport_fault",
+      "dream_text": "我梦见自己死了",
+      "scene": "dream.term.death",
+      "mock": {
+        "error": "non_json"
+      },
+      "expected_verdict": "invalid_model_response",
+      "expected": "refused",
+      "tags": [
+        "transport",
+        "contract"
+      ]
+    },
+    {
+      "id": "dream.eval-not-configured",
+      "kind": "transport_fault",
+      "dream_text": "我梦见自己死了",
+      "scene": "dream.term.death",
+      "mock": {
+        "error": "not_configured"
+      },
+      "expected_verdict": "not_configured",
+      "expected": "refused",
+      "tags": [
+        "transport",
+        "config"
+      ]
+    },
+    {
+      "id": "dream.eval-isolation",
+      "kind": "isolation",
+      "dream_text": "我梦见一条蛇咬了我的手",
+      "scene": "dream.term.snake",
+      "second_dream_text": "我梦见自己死了",
+      "second_scene": "dream.term.death",
+      "mock": {
+        "reply": "valid"
+      },
+      "expected_verdict": "explained",
+      "expected": "explanation",
+      "tags": [
+        "isolation"
+      ]
+    }
+  ]
+}
