@@ -91,6 +91,44 @@ _TRANSITIONS = {
 STORAGE_NOTE = ('草稿仅保存在进程内存中，服务重启后丢失；'
                 '持久化存储另行决策。')
 
+# Review reasons (TJ-028.3): a transition may carry one short human
+# reason (who decided, why). Stored only when supplied, so older
+# records keep their exact shape.
+MAX_TRANSITION_REASON_CHARS = 500
+
+
+def _validate_reason(reason):
+    if reason is None:
+        return None
+    if not isinstance(reason, str) or not reason.strip():
+        raise InvalidTransitionError('transition reason must be a non-empty string')
+    if len(reason) > MAX_TRANSITION_REASON_CHARS:
+        raise InvalidTransitionError(
+            'transition reason is too long (max 500 characters)')
+    return reason.strip()
+
+
+# TJ-028.3: the server-persisted immutable draft-type marker. A
+# draft's ``review_kind`` is set only at creation (the review-drafts
+# endpoint passes the AI dream marker; ordinary creation passes
+# None) and is never changed by edit(), transition() or rollback():
+# those operations touch title/body/status only. The API layer
+# decides whether a draft is an AI dream draft from this field
+# alone, never from the editable body's ``kind`` field, so no
+# client edit can clear or bypass the AI review constraints.
+MAX_REVIEW_KIND_CHARS = 64
+
+
+def _validate_review_kind(review_kind):
+    if review_kind is None:
+        return None
+    if not isinstance(review_kind, str) or not review_kind.strip():
+        raise InvalidDraftInputError('review_kind must be a non-empty string')
+    if len(review_kind) > MAX_REVIEW_KIND_CHARS:
+        raise InvalidDraftInputError(
+            'review_kind is too long (max 64 characters)')
+    return review_kind.strip()
+
 
 class DraftNotFoundError(Exception):
     """No draft with the requested id exists in this store."""
@@ -158,10 +196,16 @@ class DraftStore:
         self._drafts = {}
         self._seq = 0
 
-    def create(self, title, body, author_role):
-        """Create a draft in 'draft' status and return its record."""
+    def create(self, title, body, author_role, review_kind=None):
+        """Create a draft in 'draft' status and return its record.
+
+        ``review_kind`` is the server-persisted immutable draft-type
+        marker (None for ordinary drafts); it is set here and never
+        changed afterwards.
+        """
         title = _validate_text(title, 'title')
         body = _validate_text(body, 'body')
+        review_kind = _validate_review_kind(review_kind)
         self._seq += 1
         draft_id = f'D-{self._seq}'
         now = _now()
@@ -171,6 +215,7 @@ class DraftStore:
             'body': body,
             'author_role': author_role,
             'status': 'draft',
+            'review_kind': review_kind,
             'created_at': now,
             'updated_at': now,
             'transitions': [
@@ -215,12 +260,14 @@ class DraftStore:
         _snapshot(record, 'edit', role if role is not None else 'unknown', now)
         return copy.deepcopy(record)
 
-    def transition(self, draft_id, action, role):
+    def transition(self, draft_id, action, role, reason=None):
         """Apply a state-machine action and return the record.
 
         Unknown actions and illegal (status, action) pairs raise
         InvalidTransitionError; unknown ids raise DraftNotFoundError.
         Both are fail-closed: the stored record is untouched.
+        ``reason`` (TJ-028.3) is an optional short human reason
+        recorded on the transition entry when supplied.
         """
         record = self._drafts.get(draft_id)
         if record is None:
@@ -230,11 +277,14 @@ class DraftStore:
             raise InvalidTransitionError(
                 f"cannot {action!r} a draft in status "
                 f"{record['status']!r}")
+        reason = _validate_reason(reason)
         now = _now()
         record['status'] = nxt
         record['updated_at'] = now
-        record['transitions'].append(
-            {'action': action, 'role': role, 'at': now})
+        entry = {'action': action, 'role': role, 'at': now}
+        if reason is not None:
+            entry['reason'] = reason
+        record['transitions'].append(entry)
         _snapshot(record, action, role, now)
         return copy.deepcopy(record)
 
