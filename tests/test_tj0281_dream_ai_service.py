@@ -198,6 +198,44 @@ class ServiceTests(unittest.IsolatedAsyncioTestCase):
         self.assertIsNone(result["reason"])
         self.assertEqual(provider.calls, 1)
 
+    async def test_evidence_covers_all_element_ids(self):
+        # E0417 (TJ-028.3 gate): a matched scene's rule may resolve to
+        # more than one reviewed source ref, while the model cites only
+        # one of them. The result evidence must still carry every id
+        # the elements cite, so the result is self-traceable.
+        second_id = "c3d4e5f6a7b8c9d0e1f2a3b4"
+        retrieval = _retrieval_fixture()
+        retrieval["matched_interpretations"][0]["evidence_ids"] = [
+            EVIDENCE_ID,
+            second_id,
+        ]
+        retrieval["evidence"][second_id] = {
+            **retrieval["evidence"][EVIDENCE_ID],
+            "section_id": "dream.section.death-2",
+            "original_text": "见人死自死皆吉，死人复活主有信",
+        }
+        result, _ = await self._run("我梦见自己死了", retrieval)
+        self.assertEqual(result["verdict"], "explained")
+        self.assertEqual(
+            result["elements"][0]["evidence_ids"], [EVIDENCE_ID, second_id]
+        )
+        self.assertIn(EVIDENCE_ID, result["evidence"])
+        self.assertIn(second_id, result["evidence"])
+
+    async def test_element_id_without_retrieval_record_is_dropped(self):
+        # E0417: an element id with no record in the retrieval evidence
+        # is never presented untraceable.
+        retrieval = _retrieval_fixture()
+        retrieval["matched_interpretations"][0]["evidence_ids"] = [
+            EVIDENCE_ID,
+            "deadbeef" * 3,
+        ]
+        result, _ = await self._run("我梦见自己死了", retrieval)
+        self.assertEqual(result["verdict"], "explained")
+        self.assertEqual(result["elements"][0]["evidence_ids"], [EVIDENCE_ID])
+        self.assertIn(EVIDENCE_ID, result["evidence"])
+        self.assertNotIn("deadbeef" * 3, result["evidence"])
+
     async def test_missing_required_fields(self):
         # Case 2: the reply omits the required claims field.
         reply = {"domain": "dream", "variant": "traditional", "mode": "research"}

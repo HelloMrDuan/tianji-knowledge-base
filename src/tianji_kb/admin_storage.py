@@ -21,7 +21,9 @@ Tables (one file, created on first open):
                        never reuses rowids, so ids never repeat,
                        even after restart.
   drafts            — current draft state: id, seq (creation order),
-                       title, body, author_role, status, created_at,
+                       title, body, author_role, status, review_kind
+                       (server-persisted immutable draft-type marker,
+                       NULL for ordinary drafts), created_at,
                        updated_at. The current row is mutable through
                        edit/transition/rollback exactly as the
                        in-memory store allows; history lives in the
@@ -61,6 +63,8 @@ from .admin_drafts import (
     DraftNotFoundError,
     InvalidTransitionError,
     _TRANSITIONS,
+    _validate_reason,
+    _validate_review_kind,
     _validate_text,
 )
 
@@ -88,6 +92,7 @@ CREATE TABLE IF NOT EXISTS drafts (
     body TEXT NOT NULL,
     author_role TEXT NOT NULL,
     status TEXT NOT NULL,
+    review_kind TEXT,
     created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL
 );
@@ -107,9 +112,21 @@ CREATE TABLE IF NOT EXISTS draft_transitions (
     action TEXT NOT NULL,
     role TEXT NOT NULL,
     at TEXT NOT NULL,
-    version INTEGER
+    version INTEGER,
+    reason TEXT
 );
 """
+
+# TJ-028.3 migration: databases created before the review-reason
+# column existed gain it on first open (ALTER TABLE is safe for
+# existing rows: the new column is NULL until a reason is recorded).
+# TJ-028.3 closeout adds the immutable draft-type marker the same
+# way: databases created before it gain a NULL review_kind column
+# on first open (NULL means an ordinary draft).
+_MIGRATIONS = (
+    ("draft_transitions", "reason", "ALTER TABLE draft_transitions ADD COLUMN reason TEXT"),
+    ("drafts", "review_kind", "ALTER TABLE drafts ADD COLUMN review_kind TEXT"),
+)
 
 
 def _now():
@@ -123,6 +140,10 @@ def _connect(path):
     conn = sqlite3.connect(path, timeout=30.0, check_same_thread=False)
     conn.row_factory = sqlite3.Row
     conn.executescript(_SCHEMA)
+    for table, column, statement in _MIGRATIONS:
+        columns = {row[1] for row in conn.execute(f"PRAGMA table_info({table})")}
+        if column not in columns:
+            conn.execute(statement)
     conn.commit()
     return conn
 
@@ -209,7 +230,7 @@ class SqliteDraftStore:
             ' FROM draft_versions WHERE draft_id = ? ORDER BY version ASC',
             (draft_id,)).fetchall()
         transition_rows = self._conn.execute(
-            'SELECT action, role, at, version'
+            'SELECT action, role, at, version, reason'
             ' FROM draft_transitions WHERE draft_id = ? ORDER BY seq ASC',
             (draft_id,)).fetchall()
         transitions = []
@@ -217,6 +238,8 @@ class SqliteDraftStore:
             item = {'action': t['action'], 'role': t['role'], 'at': t['at']}
             if t['version'] is not None:
                 item['version'] = t['version']
+            if t['reason'] is not None:
+                item['reason'] = t['reason']
             transitions.append(item)
         return {
             'id': draft_id,
@@ -224,6 +247,7 @@ class SqliteDraftStore:
             'body': row['body'],
             'author_role': row['author_role'],
             'status': row['status'],
+            'review_kind': row['review_kind'],
             'created_at': row['created_at'],
             'updated_at': row['updated_at'],
             'transitions': transitions,
@@ -249,18 +273,25 @@ class SqliteDraftStore:
             ' VALUES (?, ?, ?, ?, ?, ?, ?)',
             (draft_id, self._next_version(draft_id), title, body, action, role, at))
 
-    def create(self, title, body, author_role):
-        """Create a draft in 'draft' status and return its record."""
+    def create(self, title, body, author_role, review_kind=None):
+        """Create a draft in 'draft' status and return its record.
+
+        ``review_kind`` is the server-persisted immutable draft-type
+        marker (None for ordinary drafts); it is set here and never
+        changed afterwards (edit/transition/rollback never touch
+        the column).
+        """
         title = _validate_text(title, 'title')
         body = _validate_text(body, 'body')
+        review_kind = _validate_review_kind(review_kind)
         now = _now()
         with self._lock, self._conn:
             cur = self._conn.execute('INSERT INTO draft_id_seq DEFAULT VALUES')
             draft_id = f'D-{cur.lastrowid}'
             self._conn.execute(
-                'INSERT INTO drafts (id, seq, title, body, author_role, status, created_at, updated_at)'
-                ' VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-                (draft_id, cur.lastrowid, title, body, author_role, 'draft', now, now))
+                'INSERT INTO drafts (id, seq, title, body, author_role, status, review_kind, created_at, updated_at)'
+                ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                (draft_id, cur.lastrowid, title, body, author_role, 'draft', review_kind, now, now))
             self._conn.execute(
                 'INSERT INTO draft_versions (draft_id, version, title, body, action, role, at)'
                 ' VALUES (?, 1, ?, ?, ?, ?, ?)',
@@ -311,12 +342,14 @@ class SqliteDraftStore:
                            role if role is not None else 'unknown', now)
             return self._record_for_row(self._get_row(draft_id))
 
-    def transition(self, draft_id, action, role):
+    def transition(self, draft_id, action, role, reason=None):
         """Apply a state-machine action and return the record.
 
         Unknown actions and illegal (status, action) pairs raise
         InvalidTransitionError; unknown ids raise DraftNotFoundError.
         Both are fail-closed: the stored record is untouched.
+        ``reason`` (TJ-028.3) is an optional short human reason
+        recorded on the transition row when supplied.
         """
         with self._lock, self._conn:
             row = self._get_row(draft_id)
@@ -327,14 +360,15 @@ class SqliteDraftStore:
                 raise InvalidTransitionError(
                     f"cannot {action!r} a draft in status "
                     f"{row['status']!r}")
+            reason = _validate_reason(reason)
             now = _now()
             self._conn.execute(
                 'UPDATE drafts SET status = ?, updated_at = ? WHERE id = ?',
                 (nxt, now, draft_id))
             self._conn.execute(
-                'INSERT INTO draft_transitions (draft_id, action, role, at, version)'
-                ' VALUES (?, ?, ?, ?, NULL)',
-                (draft_id, action, role, now))
+                'INSERT INTO draft_transitions (draft_id, action, role, at, version, reason)'
+                ' VALUES (?, ?, ?, ?, NULL, ?)',
+                (draft_id, action, role, now, reason))
             self._snapshot(draft_id, row['title'], row['body'], action, role, now)
             return self._record_for_row(self._get_row(draft_id))
 
