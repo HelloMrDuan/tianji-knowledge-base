@@ -436,6 +436,75 @@ export async function runAdminDreamResearch(
   return data as AdminDreamResearchResponse;
 }
 
+export type AdminDreamAiClaim = {
+  text: string;
+  evidence_ids: string[];
+  quotes: { evidence_id: string; text: string }[];
+  citations: { evidence_id: string; source_ref: Record<string, unknown> }[];
+};
+
+export type AdminDreamAiElement = {
+  term_id: string;
+  symbol: string;
+  scene: string;
+  source: string;
+  evidence_ids: string[];
+  interpretation: string;
+  original_text_short_quote: string;
+  evidence_level: string;
+};
+
+export type AdminDreamAiExplainResponse = {
+  api_version: "v1";
+  read_only: true;
+  public_release: false;
+  research_only: true;
+  ai_enabled: false;
+  result: {
+    dream_text: string;
+    elements: AdminDreamAiElement[];
+    verdict: string;
+    ai_enabled: false;
+    personal_prediction: false;
+    claims: AdminDreamAiClaim[];
+    evidence: Record<string, Record<string, unknown>>;
+    limitations: string[];
+    reason: string | null;
+  };
+};
+
+export async function runAdminDreamAiExplain(
+  token: string,
+  dreamText: string,
+): Promise<AdminDreamAiExplainResponse> {
+  const response = await fetch(`${apiBase}/api/v1/admin/research/dream/ai-explain`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ dream_text: dreamText }),
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    const detail = (data?.detail ?? {}) as Record<string, unknown>;
+    const code = typeof detail.code === "string" ? detail.code : undefined;
+    if (code === "reviewed_retrieval_unavailable") {
+      throw new AdminApiError(
+        response.status,
+        "已审核梦象检索索引不可用，请先验证生产运行时。",
+        code,
+      );
+    }
+    throwAdminError(response, data);
+  }
+  if (data?.public_release !== false || data?.research_only !== true ||
+      data?.ai_enabled !== false || data?.result?.ai_enabled !== false) {
+    throw new Error("服务端未遵守解梦研究权限合同，拒绝展示。");
+  }
+  return data as AdminDreamAiExplainResponse;
+}
+
 export type AdminWriteProbeOperation = "draft" | "approve" | "publish";
 
 export type AdminWriteProbeResponse = {

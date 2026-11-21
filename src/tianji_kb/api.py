@@ -20,6 +20,8 @@ from .public_projection import project_execution,PUBLIC_EXECUTION_DOMAINS,PUBLIC
 from .calendar_tz import precision_note_for
 from .operations.dream_knowledge import (retrieve as retrieve_dream_culture,
                                           public_source_title as dream_public_source_title)
+from .dream_ai_service import explain_dream
+from .dream_model_adapter import DreamAdapterError
 from .rag_context import RetrievalUnavailable
 from .governance import school_conflicts,reviewed_rules,reviewed_evidence,reviewed_classics,reviewed_chapters,reviewed_terms,reviewed_sources,reviewed_layers,reviewed_algorithms,provider_configuration,prompt_registry
 from .admin_scopes import ADMIN_READ_SCOPES,parse_admin_scopes,resolve_admin_access
@@ -458,6 +460,46 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,ad
                                            'message':'Dream release restrictions not satisfied'})
         return {'api_version':'v1','read_only':True,'public_release':False,
                 'research_only':True,'result':result}
+
+    @app.post('/api/v1/admin/research/dream/ai-explain',tags=['admin'])
+    async def admin_research_dream_ai_explain(request: AdminDreamResearchRequest,
+                                              authorization: str | None = Header(default=None)):
+        # Research-only AI dream explanation (TJ-028.1 sub-slice). The
+        # audited lookup runs first, exactly as in the retrieval-only
+        # endpoint; the controlled adapter then drafts an explanation
+        # over the audited evidence. The result is a research draft for
+        # later human review (TJ-028.3), never a public answer:
+        # ai_enabled is False in every response, and with no provider
+        # configured the adapter refuses without any model call.
+        require_admin_read_token(authorization,scope='research')
+        try:
+            retrieval = await run_in_threadpool(retrieve_dream_culture, request.dream_text)
+        except RetrievalUnavailable:
+            raise HTTPException(
+                503,
+                detail={'code':'reviewed_retrieval_unavailable',
+                        'message':'Reviewed dream evidence index is unavailable'},
+            )
+        except (ValueError, TypeError):
+            raise HTTPException(
+                422,
+                detail={'code':'invalid_dream_input',
+                        'message':'Dream narrative is not valid for this research variant'},
+            )
+        if (retrieval.get('mode') != 'research' or retrieval.get('public_enabled') is not False
+                or retrieval.get('ai_enabled') is not False):
+            raise HTTPException(503,detail={'code':'dream_research_contract_mismatch',
+                                           'message':'Dream release restrictions not satisfied'})
+        try:
+            result = await explain_dream(request.dream_text, retrieval)
+        except DreamAdapterError:
+            raise HTTPException(
+                422,
+                detail={'code':'invalid_dream_input',
+                        'message':'Dream narrative is not valid for this research variant'},
+            )
+        return {'api_version':'v1','read_only':True,'public_release':False,
+                'research_only':True,'ai_enabled':False,'result':result}
 
     @app.get('/api/v1/admin/governance/conflicts',tags=['admin'])
     def admin_governance_conflicts(authorization: str | None = Header(default=None)):
