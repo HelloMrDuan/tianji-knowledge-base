@@ -27,6 +27,7 @@ from fastapi.testclient import TestClient
 from tianji_kb.admin_audit import AuditLog
 from tianji_kb.admin_drafts import DraftStore
 from tianji_kb.api import create_app
+from tianji_kb.runtime_catalog import RuntimeUnavailable
 
 ENDPOINT = "/api/v1/admin/research/dream/ai-explain"
 TOKEN = "test-admin-token"
@@ -333,16 +334,24 @@ class AdminDreamAiExplainHttpTests(unittest.TestCase):
         self.assertEqual(self.state.calls, 0)
 
     def test_unavailable_runtime_fails_closed(self):
-        # Without the retrieval patch, the local public checkout has no
-        # production runtime (sealed Canonical data is absent), so
-        # retrieve() raises RuntimeUnavailable. The endpoint maps that
-        # ValueError to 422, the same mapping the existing admin
-        # research endpoint uses; it never reaches the adapter and
-        # never calls a model.
+        # Simulate an unavailable runtime directly: the premise must
+        # not depend on whether the checkout happens to contain sealed
+        # Canonical data. In the assembled acceptance tree the runtime
+        # IS available, so relying on the environment made this test
+        # fail there (real retrieval succeeded and the mock reply was
+        # citation_rejected) while it passed in public CI. Patching
+        # retrieve() to raise RuntimeUnavailable exercises the same
+        # 422 fail-closed mapping in every environment: the endpoint
+        # maps that ValueError to invalid_dream_input, never reaches
+        # the adapter and never calls a model.
         self._retrieve_patch.stop()
         try:
-            with patch.dict(os.environ, self._env(), clear=True):
-                response = self._post(self._client())
+            with patch(
+                "tianji_kb.api.retrieve_dream_culture",
+                side_effect=RuntimeUnavailable("production runtime unavailable"),
+            ):
+                with patch.dict(os.environ, self._env(), clear=True):
+                    response = self._post(self._client())
         finally:
             self._retrieve_patch.start()
         self.assertEqual(response.status_code, 422, response.text)
