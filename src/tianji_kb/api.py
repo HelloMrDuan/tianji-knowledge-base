@@ -80,6 +80,44 @@ class PublicDreamCultureResponse(BaseModel):
     unreviewed_topics: list[PublicDreamInputTopic] = Field(default_factory=list)
     notice: str = '仅展示已审核传统占梦条目，不代表个人运势、健康或未来事件。'
 
+class PublicDreamInterpretSymbol(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    symbol: str
+    scene: str
+    matched_texts: list[str]
+    cultural_reading: str
+    short_quote: str
+    source_title: str
+    evidence_level: str
+
+class PublicDreamRelation(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    kind: Literal['same_source']
+    source_title: str
+    scenes: list[str]
+    note: str
+
+class PublicDreamAiInterpretation(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    status: Literal['not_enabled']
+    enabled: Literal[False] = False
+    message: str = 'AI 解读尚未启用。本页展示的是已审传统梦文化检索结果，不是 AI 生成；待公开 AI 获批后才会在此呈现受控 AI 解读。'
+
+class PublicDreamInterpretResponse(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    api_version: Literal['v1'] = 'v1'
+    status: Literal['reviewed_cultural_matches', 'no_reviewed_interpretation']
+    public_release: Literal[True] = True
+    cultural_reference_only: Literal[True] = True
+    ai_enabled: Literal[False] = False
+    personal_prediction: Literal[False] = False
+    symbols: list[PublicDreamInterpretSymbol]
+    relations: list[PublicDreamRelation]
+    unreviewed_topics: list[PublicDreamInputTopic] = Field(default_factory=list)
+    boundaries: list[str]
+    notice: str = '仅展示已审核传统占梦条目，不代表个人运势、健康或未来事件。'
+    ai_interpretation: PublicDreamAiInterpretation = PublicDreamAiInterpretation(status='not_enabled')
+
 class AdminDreamResearchRequest(BaseModel):
     model_config = ConfigDict(extra='forbid')
     dream_text: StrictStr = Field(min_length=2, max_length=500)
@@ -449,6 +487,112 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,ad
         response=PublicDreamCultureResponse(
             status='reviewed_cultural_matches' if matches else 'no_reviewed_interpretation',
             matches=matches, unreviewed_topics=input_topics)
+        return JSONResponse(content=response.model_dump(),headers={'Cache-Control':'no-store'})
+
+    @app.post('/api/v1/dream/interpret',response_model=PublicDreamInterpretResponse,
+              tags=['public-dream'])
+    async def public_dream_interpret(request: PublicDreamCultureRequest):
+        # User-facing dream interpretation (TJ-028.1 user slice). Same
+        # reviewed retrieval and the same fail-closed contract as the
+        # public cultural lookup above, projected for the new user page:
+        # typed symbols, deterministic same-source relations, explicit
+        # boundaries, and a typed AI-interpretation slot that stays
+        # not_enabled while ai_enabled is False. The caller's narrative
+        # is never echoed back and never stored.
+        if len(request.dream_text.strip()) < 2:
+            raise HTTPException(422,detail={'code':'invalid_dream_input',
+                                            'message':'Describe the dream in 2–500 characters'})
+        try:
+            reviewed = await run_in_threadpool(retrieve_dream_culture, request.dream_text.strip())
+        except RetrievalUnavailable:
+            raise HTTPException(503,detail={'code':'reviewed_retrieval_unavailable',
+                                            'message':'Reviewed dream lookup temporarily unavailable'})
+        except (ValueError,TypeError):
+            raise HTTPException(422,detail={'code':'invalid_dream_input',
+                                            'message':'Invalid dream narrative'})
+        if (reviewed.get('mode') != 'research' or reviewed.get('public_enabled') is not False
+                or reviewed.get('ai_enabled') is not False or reviewed.get('chart_generated') is not False):
+            raise HTTPException(503,detail={'code':'dream_review_contract_mismatch',
+                                            'message':'Reviewed cultural lookup unavailable'})
+        symbols=[]
+        for candidate in reviewed['matched_interpretations']:
+            if (candidate.get('match_kind') != 'reviewed_cultural_scene_retrieval'
+                    or candidate.get('personal_prediction') is not False
+                    or not candidate.get('evidence_ids')
+                    or not all(eid in reviewed['evidence'] for eid in candidate['evidence_ids'])
+                    or not isinstance(candidate.get('symbol'), str) or not candidate['symbol']):
+                raise HTTPException(503,detail={'code':'dream_evidence_contract_mismatch',
+                                                'message':'Reviewed cultural lookup unavailable'})
+            # Only echo exact portions of this caller's narrative that the
+            # reviewed scene matcher actually marked as input evidence.
+            matched_texts = []
+            for hit in candidate.get('input_matches', []):
+                for span in hit.get('input_spans', []):
+                    start, end, quote = span.get('start'), span.get('end'), span.get('text')
+                    if (type(start) is not int or type(end) is not int
+                            or not isinstance(quote, str) or not quote
+                            or start < 0 or end > len(request.dream_text.strip())
+                            or end <= start or request.dream_text.strip()[start:end] != quote):
+                        raise HTTPException(503,detail={'code':'dream_input_evidence_mismatch',
+                                                        'message':'Reviewed cultural lookup unavailable'})
+                    if quote not in matched_texts:
+                        matched_texts.append(quote)
+            if not matched_texts:
+                raise HTTPException(503,detail={'code':'dream_input_evidence_missing',
+                                                'message':'Reviewed cultural lookup unavailable'})
+            symbols.append(PublicDreamInterpretSymbol(
+                symbol=candidate['symbol'],
+                scene=candidate['scene'],
+                matched_texts=matched_texts,
+                cultural_reading=candidate['interpretation'],
+                short_quote=candidate['original_text_short_quote'],
+                source_title=dream_public_source_title(reviewed['evidence'], candidate),
+                evidence_level=candidate['evidence_level'],
+            ))
+        # Relations are provenance only: symbols sharing one reviewed
+        # source title are grouped; nothing else is linked. A shared
+        # source never implies a shared meaning.
+        grouped: dict[str, list[str]] = {}
+        for symbol in symbols:
+            if symbol.source_title:
+                grouped.setdefault(symbol.source_title, []).append(symbol.scene)
+        relations = [
+            PublicDreamRelation(
+                kind='same_source', source_title=title, scenes=scenes,
+                note=f'以下梦象均出自同一典籍“{title}”，出处相同，含义各自独立。')
+            for title, scenes in grouped.items() if len(scenes) >= 2
+        ]
+        input_topics = []
+        for item in reviewed.get('unreviewed_input_topics', []):
+            if (not isinstance(item, dict)
+                    or item.get('label') not in ('考试', '怀孕', '结婚', '工作', '被追', '故人')
+                    or item.get('status') != 'input_observation_only'
+                    or item.get('reviewed_interpretation_available') is not False
+                    or item.get('evidence_ids') != []):
+                raise HTTPException(503, detail={'code':'unreviewed_topic_contract_mismatch'})
+            original = request.dream_text.strip()
+            texts = []
+            for span in item.get('input_spans', []):
+                start, end, quote = span.get('start'), span.get('end'), span.get('text')
+                if (type(start) is not int or type(end) is not int
+                        or not isinstance(quote, str) or not quote or
+                        start < 0 or end <= start or end > len(original)
+                        or original[start:end] != quote):
+                    raise HTTPException(503, detail={'code':'unreviewed_topic_input_mismatch'})
+                if quote not in texts:
+                    texts.append(quote)
+            if not texts:
+                raise HTTPException(503, detail={'code':'unreviewed_topic_input_missing'})
+            input_topics.append(PublicDreamInputTopic(label=item['label'], matched_texts=texts))
+        boundaries = reviewed.get('limitations')
+        if (not isinstance(boundaries, list) or not boundaries
+                or not all(isinstance(line, str) and line for line in boundaries)):
+            raise HTTPException(503,detail={'code':'dream_review_contract_mismatch',
+                                            'message':'Reviewed cultural lookup unavailable'})
+        response=PublicDreamInterpretResponse(
+            status='reviewed_cultural_matches' if symbols else 'no_reviewed_interpretation',
+            symbols=symbols, relations=relations, unreviewed_topics=input_topics,
+            boundaries=list(boundaries))
         return JSONResponse(content=response.model_dump(),headers={'Cache-Control':'no-store'})
 
     @app.post('/api/v1/admin/research/dream',tags=['admin'])
