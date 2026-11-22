@@ -97,7 +97,7 @@ test("real two-scene dream shows both symbols and their shared-source relation",
   await expect(page.locator(".dream-interpret-symbol").last()).toContainText("拾得钱物皆大吉");
   await expect(page.locator(".dream-interpret-relations")).toContainText("出处相同，含义各自独立");
   await expect(page.locator(".dream-interpret-explore")).toBeVisible();
-  await expect(page.getByRole("button", { name: "填入飞天梦境示例" })).toBeVisible();
+  await expect(page.locator(".dream-interpret-explore").getByRole("button", { name: "填入飞天梦境示例" })).toBeVisible();
   await expect(page.getByRole("button", { name: "再解一梦" })).toBeVisible();
 });
 
