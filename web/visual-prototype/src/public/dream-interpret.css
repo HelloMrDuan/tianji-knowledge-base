@@ -1,0 +1,109 @@
+.dream-interpret-page { padding-bottom: 56px; }
+.dream-interpret-page .breadcrumb { padding: 26px 0 6px; }
+.dream-interpret-hero { position: relative; overflow: hidden; padding: 44px 48px 40px; margin: 16px 0 28px;
+  background: var(--entry-surface); border: 1px solid var(--entry-border); border-radius: 8px; }
+.dream-interpret-hero h1 { font-weight: 500; font-size: clamp(30px, 4.5vw, 47px); letter-spacing: 2px; margin: 10px 0 16px; color: var(--ink); }
+.dream-interpret-hero p { max-width: 690px; line-height: 2; color: var(--ink-soft); position: relative; z-index: 1; }
+.dream-interpret-stamp { position: absolute; right: 52px; top: 20px; color: var(--gold); opacity: .3;
+  font: 158px/1.4 "Noto Serif CJK SC", serif; pointer-events: none; }
+
+.dream-interpret-examples { margin: 0 0 28px; padding: 25px 28px 20px; border: 1px solid var(--hair); border-radius: 8px; background: var(--entry-surface); }
+.dream-interpret-examples-head { display: flex; justify-content: space-between; align-items: end; gap: 22px; margin-bottom: 20px; }
+.dream-interpret-examples-head h2 { margin: 8px 0 0; font: 26px/1.4 "Noto Serif CJK SC", serif; font-weight: 500; color: var(--ink); }
+.dream-interpret-examples-head p { max-width: 355px; margin: 0; color: var(--ink-soft); font-size: 12px; line-height: 1.9; }
+.dream-interpret-examples-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 11px; }
+.dream-interpret-example-item { min-width: 0; display: flex; align-items: center; gap: 10px; padding: 14px 12px; cursor: pointer; border-radius: 7px; border: 1px solid var(--hair); background: var(--paper); color: var(--ink); text-align: left; font: inherit; transition: background .15s, border-color .15s, transform .15s; }
+.dream-interpret-example-item:hover { border-color: var(--gold); transform: translateY(-1px); }
+.dream-interpret-example-item:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.dream-interpret-example-item[aria-pressed="true"] { border-color: var(--gold); background: var(--entry-surface); }
+.dream-interpret-example-glyph { flex: 0 0 33px; height: 37px; display: grid; place-items: center; border-radius: 5px; background: var(--entry-surface); color: var(--ink-soft); font: 21px/1.2 "Noto Serif CJK SC", serif; }
+.dream-interpret-example-copy { display: grid; min-width: 0; gap: 3px; }
+.dream-interpret-example-copy strong { font-size: 14px; font-weight: 600; letter-spacing: 1px; }
+.dream-interpret-example-copy small { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 11px; color: var(--ink-soft); }
+.dream-interpret-example-arrow { margin-left: auto; font-size: 13px; color: var(--ink-soft); }
+
+.dream-interpret-layout { display: grid; grid-template-columns: minmax(0, 2fr) minmax(230px, 1fr); gap: 20px; }
+.dream-interpret-form, .dream-interpret-aside { background: var(--entry-surface); padding: 28px; border: 1px solid var(--hair); border-radius: 7px; }
+.dream-interpret-form label { display: block; font: 20px "Noto Serif CJK SC", serif; margin-bottom: 13px; color: var(--ink); }
+.dream-interpret-form textarea { width: 100%; box-sizing: border-box; resize: vertical; min-height: 150px; padding: 14px 16px; border: 1px solid var(--entry-border); border-radius: 7px; background: var(--paper); color: var(--ink); font: inherit; line-height: 1.9; }
+.dream-interpret-form textarea:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.dream-interpret-form-bottom { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin: 12px 0 16px; font-size: 12px; color: var(--ink-soft); }
+.dream-interpret-ai-state { padding: 4px 10px; border: 1px solid var(--hair); border-radius: 20px; background: var(--paper); }
+.dream-interpret-actions { display: flex; justify-content: flex-end; gap: 10px; }
+.dream-interpret-actions .button { flex: 0 0 auto; }
+.dream-interpret-error { margin: 14px 0 0; padding: 12px 14px; border: 1px solid var(--entry-border); border-radius: 7px; background: var(--paper); color: var(--ink); }
+.dream-interpret-aside h2 { font: 22px/1.4 "Noto Serif CJK SC", serif; font-weight: 500; color: var(--ink); margin: 8px 0 12px; }
+.dream-interpret-aside p { line-height: 1.9; color: var(--ink-soft); font-size: 14px; }
+.dream-interpret-aside a { color: var(--gold); }
+
+.dream-interpret-placeholder, .dream-interpret-loading { margin-top: 24px; padding: 26px 28px; border: 1px dashed var(--entry-border); border-radius: 8px; background: var(--entry-surface); }
+.dream-interpret-placeholder strong, .dream-interpret-loading strong { display: block; font-size: 17px; color: var(--ink); margin-bottom: 8px; }
+.dream-interpret-placeholder p, .dream-interpret-loading p { margin: 0; color: var(--ink-soft); line-height: 1.9; }
+
+.dream-interpret-results { margin-top: 28px; }
+.dream-interpret-result-head { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 18px; }
+.dream-interpret-result-head h2 { margin: 8px 0 0; font: 28px/1.4 "Noto Serif CJK SC", serif; font-weight: 500; color: var(--ink); }
+.dream-interpret-result-head > span { color: var(--ink-soft); font-size: 13px; white-space: nowrap; }
+
+.dream-interpret-summary { padding: 22px 26px; margin-bottom: 20px; border: 1px solid var(--hair); border-radius: 8px; background: var(--entry-surface); }
+.dream-interpret-summary p { margin: 10px 0 8px; font: 19px/1.9 "Noto Serif CJK SC", serif; color: var(--ink); }
+.dream-interpret-summary small { color: var(--ink-soft); line-height: 1.8; }
+
+.dream-interpret-empty { padding: 26px 28px; border: 1px solid var(--hair); border-radius: 8px; background: var(--entry-surface); }
+.dream-interpret-empty h3 { margin: 0 0 10px; font-size: 19px; color: var(--ink); }
+.dream-interpret-empty p { margin: 0; color: var(--ink-soft); line-height: 1.9; }
+
+.dream-interpret-symbols { display: grid; gap: 16px; }
+.dream-interpret-symbol { padding: 24px 26px; border: 1px solid var(--hair); border-radius: 8px; background: var(--paper); box-shadow: var(--shadow-sm); }
+.dream-interpret-symbol-index { font-size: 12px; letter-spacing: 2px; color: var(--ink-soft); }
+.dream-interpret-symbol h3 { margin: 8px 0 12px; font: 22px/1.4 "Noto Serif CJK SC", serif; font-weight: 500; color: var(--ink); }
+.dream-interpret-symbol p { line-height: 1.9; color: var(--ink); }
+.dream-interpret-input-proof { font-size: 14px; }
+.dream-interpret-symbol blockquote { margin: 14px 0; padding: 12px 16px; border-left: 3px solid var(--gold); background: var(--entry-surface); color: var(--ink); }
+.dream-interpret-symbol small { color: var(--ink-soft); line-height: 1.8; }
+
+.dream-interpret-relations, .dream-interpret-sources, .dream-interpret-ai, .dream-interpret-boundaries, .dream-interpret-explore { margin-top: 22px; padding: 22px 26px; border: 1px solid var(--hair); border-radius: 8px; background: var(--entry-surface); }
+.dream-interpret-relations h3, .dream-interpret-sources h3, .dream-interpret-ai h3, .dream-interpret-boundaries h3, .dream-interpret-explore h3 { margin: 8px 0 12px; font: 20px/1.4 "Noto Serif CJK SC", serif; font-weight: 500; color: var(--ink); }
+.dream-interpret-relations p, .dream-interpret-ai p { margin: 8px 0 0; color: var(--ink-soft); line-height: 1.9; }
+.dream-interpret-relation { padding: 12px 0; border-top: 1px solid var(--hair); }
+.dream-interpret-relation:first-of-type { border-top: 0; padding-top: 4px; }
+.dream-interpret-relation strong { color: var(--ink); }
+.dream-interpret-sources ul, .dream-interpret-boundaries ul { margin: 0; padding-left: 20px; }
+.dream-interpret-sources li { margin: 10px 0; line-height: 1.9; color: var(--ink); }
+.dream-interpret-sources li span { display: block; color: var(--ink-soft); }
+.dream-interpret-sources li small { color: var(--ink-soft); }
+.dream-interpret-boundaries li { margin: 8px 0; line-height: 1.9; color: var(--ink-soft); }
+.dream-interpret-notice { margin: 14px 0 0; padding-top: 12px; border-top: 1px solid var(--hair); color: var(--ink-soft); line-height: 1.9; }
+
+.dream-interpret-unreviewed { margin-top: 22px; padding: 22px 26px; border: 1px solid var(--hair); border-radius: 8px; background: var(--entry-surface); }
+.dream-interpret-unreviewed h3 { margin: 0 0 8px; font-size: 18px; color: var(--ink); }
+.dream-interpret-unreviewed p { margin: 0 0 12px; color: var(--ink-soft); line-height: 1.9; }
+.dream-interpret-unreviewed ul { margin: 0; padding: 0; list-style: none; }
+.dream-interpret-unreviewed li { display: flex; flex-wrap: wrap; gap: 4px 12px; padding: 10px 0; border-top: 1px solid var(--hair); color: var(--ink); }
+.dream-interpret-unreviewed li small { width: 100%; color: var(--ink-soft); }
+
+.dream-interpret-explore p { margin: 12px 0 0; color: var(--ink-soft); font-size: 12px; }
+.dream-interpret-again { margin-top: 22px; display: flex; justify-content: flex-end; }
+
+@media (max-width: 1000px) {
+  .dream-interpret-examples-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .dream-interpret-layout { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 730px) {
+  .dream-interpret-hero { padding: 32px 22px; }
+  .dream-interpret-examples { padding: 20px 16px 17px; }
+  .dream-interpret-examples-head { display: block; }
+  .dream-interpret-examples-head h2 { font-size: 22px; }
+  .dream-interpret-examples-head p { margin-top: 9px; }
+  .dream-interpret-examples-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .dream-interpret-example-item { gap: 7px; padding: 10px 8px; }
+  .dream-interpret-example-glyph { flex-basis: 28px; height: 32px; font-size: 17px; }
+  .dream-interpret-example-arrow { display: none; }
+  .dream-interpret-form, .dream-interpret-aside { padding: 20px 16px; }
+  .dream-interpret-actions { flex-direction: column-reverse; }
+  .dream-interpret-actions .button { width: 100%; justify-content: center; }
+  .dream-interpret-symbol, .dream-interpret-summary, .dream-interpret-relations,
+  .dream-interpret-sources, .dream-interpret-ai, .dream-interpret-boundaries,
+  .dream-interpret-explore, .dream-interpret-unreviewed, .dream-interpret-empty { padding: 18px 16px; }
+  .dream-interpret-again .button { width: 100%; justify-content: center; }
+}

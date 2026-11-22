@@ -472,3 +472,102 @@ export async function lookupDreamCulture(dreamText: string): Promise<DreamCultur
   }
   return data as DreamCultureResponse;
 }
+
+export type DreamInterpretSymbol = {
+  symbol: string;
+  scene: string;
+  matched_texts: string[];
+  cultural_reading: string;
+  short_quote: string;
+  source_title: string;
+  evidence_level: string;
+};
+
+export type DreamInterpretRelation = {
+  kind: "same_source";
+  source_title: string;
+  scenes: string[];
+  note: string;
+};
+
+export type DreamAiInterpretation = {
+  status: "not_enabled";
+  enabled: false;
+  message: string;
+};
+
+export type DreamInterpretResponse = {
+  api_version: "v1";
+  status: "reviewed_cultural_matches" | "no_reviewed_interpretation";
+  public_release: true;
+  cultural_reference_only: true;
+  ai_enabled: false;
+  personal_prediction: false;
+  symbols: DreamInterpretSymbol[];
+  relations: DreamInterpretRelation[];
+  unreviewed_topics: DreamUnreviewedTopic[];
+  boundaries: string[];
+  notice: string;
+  ai_interpretation: DreamAiInterpretation;
+};
+
+function isNonEmptyString(value: unknown): value is string {
+  return typeof value === "string" && value.length > 0;
+}
+
+function isDreamInterpretSymbol(value: unknown): value is DreamInterpretSymbol {
+  if (!value || typeof value !== "object") return false;
+  const item = value as DreamInterpretSymbol;
+  return isNonEmptyString(item.symbol) && isNonEmptyString(item.scene) &&
+    Array.isArray(item.matched_texts) && item.matched_texts.length > 0 &&
+    item.matched_texts.every(isNonEmptyString) &&
+    isNonEmptyString(item.cultural_reading) && isNonEmptyString(item.short_quote) &&
+    typeof item.source_title === "string" && isNonEmptyString(item.evidence_level);
+}
+
+function isDreamInterpretRelation(value: unknown): value is DreamInterpretRelation {
+  if (!value || typeof value !== "object") return false;
+  const item = value as DreamInterpretRelation;
+  return item.kind === "same_source" && isNonEmptyString(item.source_title) &&
+    Array.isArray(item.scenes) && item.scenes.length >= 2 &&
+    item.scenes.every(isNonEmptyString) && isNonEmptyString(item.note);
+}
+
+export async function interpretDream(dreamText: string): Promise<DreamInterpretResponse> {
+  let data: any;
+  try {
+    data = await requestJson("/api/v1/dream/interpret", { dream_text: dreamText });
+  } catch (err) {
+    if (err instanceof ApiError && err.status === 422) {
+      throw new ApiError("server", "请输入 2—500 字的梦境叙述。", 422);
+    }
+    if (err instanceof ApiError && err.status === 503) {
+      throw new ApiError("server", "梦象查阅服务暂时不可用，请稍后再试。", 503);
+    }
+    throw err;
+  }
+  if (data?.api_version !== "v1" || data?.public_release !== true ||
+      data?.cultural_reference_only !== true || data?.ai_enabled !== false ||
+      data?.personal_prediction !== false ||
+      !["reviewed_cultural_matches", "no_reviewed_interpretation"].includes(data?.status) ||
+      !Array.isArray(data?.symbols) || !data.symbols.every(isDreamInterpretSymbol) ||
+      !Array.isArray(data?.relations) || !data.relations.every(isDreamInterpretRelation) ||
+      !Array.isArray(data?.unreviewed_topics) ||
+      !data.unreviewed_topics.every((item: unknown) => {
+        if (!item || typeof item !== "object") return false;
+        const topic = item as DreamUnreviewedTopic;
+        return ["考试", "怀孕", "结婚", "工作", "被追", "故人"].includes(topic.label) &&
+          Array.isArray(topic.matched_texts) && topic.matched_texts.length > 0 &&
+          topic.matched_texts.every((s) => typeof s === "string" && s.length > 0);
+      }) ||
+      !Array.isArray(data?.boundaries) || data.boundaries.length === 0 ||
+      !data.boundaries.every((s: unknown) => typeof s === "string" && s.length > 0) ||
+      typeof data?.notice !== "string" || data.notice.length === 0 ||
+      data?.ai_interpretation?.status !== "not_enabled" ||
+      data?.ai_interpretation?.enabled !== false ||
+      typeof data?.ai_interpretation?.message !== "string" ||
+      data.ai_interpretation.message.length === 0) {
+    throw new ApiError("invalid", "服务端解梦合同不匹配，拒绝展示结果。");
+  }
+  return data as DreamInterpretResponse;
+}
