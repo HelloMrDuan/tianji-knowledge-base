@@ -23,7 +23,7 @@
 /* TJ-0422 phase 2 slice A: year stepper + dayun location section. */
 .yearly-input-grid>.yearly-year-field{min-width:0}
 .yearly-year-field>span:first-child{display:block;font-size:12px;color:#506356;margin-bottom:6px}
-.yearly-year-stepper{display:flex;gap:8px;align-items:stretch}
+.yearly-year-stepper{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch}
 .yearly-year-stepper input{flex:1;min-width:0}
 .yearly-year-step{flex:none;padding:8px 10px;border:1px solid #cfd6c7;border-radius:4px;background:#fbfaf4;color:#315a43;font-size:12px;cursor:pointer;white-space:nowrap}
 .yearly-year-step:hover:not(:disabled){border-color:#73917a;background:#e6eee3}
