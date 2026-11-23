@@ -135,19 +135,40 @@ class StagedOpeningPhase1AdjudicationTests(unittest.TestCase):
             self.assertIn(message, self.engine)
 
     def test_projection_strips_raw_research_statements(self):
-        # 状态转换钉（E0372 按审定 §7 第 5 项有意更新，依据 E0371）：
+        # 状态转换钉（E0372 按审定 §7 第 5 项有意更新，依据 E0371；
+        # TJ-0422 第二阶段按任务书把 strength/xiyong/pattern 三项
+        # presentation 提升进 _life/_career 后再次精确更新——不是
+        # 放宽：旧的单场景等式形态已不存在，定域放行改认
+        # bazi-profile / career / life 三个信封，四键共用同一精确
+        # 授权范围，任何第四场景、任何未过形态校验的对象仍被剥离）。
         # 三原料键剥离保留，xiyong_presentation 加入全域剥离表；唯
-        # 一放行是经形态校验、且只认 bazi-profile 信封的定域回填。
+        # 一放行是经形态校验、且只认上述三信封的定域回填。
         for key in ("tiaohou_assessment", "bingyao_assessment",
                     "readable_hints", "conflict_presentation",
                     "xiyong_presentation"):
             self.assertIn(f"container.pop('{key}', None)",
                           self.projection, key)
         self.assertIn("is_valid_public_presentation", self.projection)
-        self.assertIn("data.get('scenario_id') == 'bazi-profile'",
-                      self.projection)
-        self.assertIn("result['result']['xiyong_presentation']",
-                      self.projection)
+        # 精确授权范围：四键的定域放行共用同一三场景元组，且该
+        # 元组在投影中恰出现两次（xiyong/strength/pattern 分支与
+        # dayun 分支各一次）；旧的单场景等式形态必须已消失。
+        self.assertEqual(
+            self.projection.count(
+                "data.get('scenario_id') in "
+                "('bazi-profile', 'career', 'life')"),
+            2)
+        self.assertNotIn("data.get('scenario_id') == 'bazi-profile'",
+                         self.projection)
+        # 四键均经各自的形态校验、且仅经定域回填重新挂回。
+        for validator in ("is_valid_public_presentation",
+                          "is_valid_public_strength_presentation",
+                          "is_valid_public_pattern_presentation",
+                          "is_valid_public_dayun_presentation"):
+            self.assertIn(validator, self.projection, validator)
+        for key in ("xiyong_presentation", "dayun_presentation",
+                    "strength_presentation", "pattern_presentation"):
+            self.assertIn(f"result['result']['{key}']",
+                          self.projection, key)
 
     def test_ledger_records_adjudication(self):
         event_lines = [line for line in self.history.splitlines()

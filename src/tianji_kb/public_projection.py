@@ -315,9 +315,9 @@ def project_execution(data):
     # T-D1 (E0409): the same scoped-release discipline for the dayun
     # presentation, extended beyond bazi-profile to the career and
     # life scenarios (first period only, role-gated, exactly the
-    # adjudicated §4 shape). Only the dayun key is extended;
-    # xiyong/strength/pattern stay bazi-profile-only above. Any
-    # other carrier is stripped below as usual.
+    # adjudicated §4 shape). TJ-0422 phase 2: the xiyong/strength/
+    # pattern release above now shares this same three-scenario
+    # scope. Any other carrier is stripped below as usual.
     if data.get('scenario_id') in ('bazi-profile', 'career', 'life') \
             and isinstance(data.get('result'), dict):
         dayun_candidate = data['result'].get('dayun_presentation')
