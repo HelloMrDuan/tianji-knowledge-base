@@ -113,6 +113,9 @@ test("[real-backend] T-D1 life: role renders first-period dayun only", async ({ 
   expect(captured.status).toBe(200);
   assertFirstPeriodOnly(captured.body);
 
+  // E0422: the dayun section now lives on life-overview screen 3.
+  await page.getByRole("tab", { name: "③ 大运流年", exact: true }).click();
+
   const section = page.locator(".bazi-dayun-presentation");
   await expect(section).toBeVisible();
   await expect(section).toContainText("大运首运方向与交运区间");

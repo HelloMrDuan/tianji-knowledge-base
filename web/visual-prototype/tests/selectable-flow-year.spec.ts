@@ -53,6 +53,8 @@ test("life overview shows evidence-backed annual branch interactions from actual
   await page.getByLabel("观察年份").fill("2026");
   await page.getByRole("button", { name: /生成人生总览|生成我的人生总览/ }).click();
   await expect(page.locator(".life-result")).toBeVisible();
+  // E0422: annual branch relations now live on life-overview screen 3.
+  await page.getByRole("tab", { name: "③ 大运流年", exact: true }).click();
   await expect(page.locator(".life-annual-relations h3")).toContainText("流年地支 午");
   await expect(page.locator(".life-annual-hit")).toHaveCount(2);
   const evidence = page.locator(".life-annual-hit details");
@@ -77,11 +79,15 @@ test("life report uses real career structural readings and day-branch relationsh
   await page.getByLabel("观察年份").fill("2026");
   await page.getByRole("button", { name: /生成人生总览|生成我的人生总览/ }).click();
   await expect(page.locator(".life-result")).toBeVisible();
+  // E0422: the spouse report now lives on life-overview screen 5.
+  await page.getByRole("tab", { name: "⑤ 桃花姻缘", exact: true }).click();
   const marriage = page.getByLabel("夫妻宫流年关系解读");
   await expect(marriage).toContainText("日支是");
   await expect(marriage.locator(".life-spouse-relation")).toContainText("六冲");
   await marriage.locator(".life-spouse-relation details summary").first().click();
   await expect(marriage.locator(".life-spouse-relation blockquote p").first()).not.toBeEmpty();
+  // E0422: the annual ten-god card now lives on life-overview screen 4.
+  await page.getByRole("tab", { name: "④ 事业财运", exact: true }).click();
   const career = page.getByLabel("流年十神解释卡");
   await expect(career.getByRole("heading")).toContainText("2026");
   await expect(career).toContainText("食伤");
@@ -96,7 +102,10 @@ test("life report uses real career structural readings and day-branch relationsh
   await expect(page.locator(".life-career-reading")).toHaveCount(0);
   await page.getByRole("button", { name: /生成人生总览|生成我的人生总览/ }).click();
   await expect(page.locator(".life-result")).toBeVisible();
+  // E0422: spouse report on screen 5, career card on screen 4.
+  await page.getByRole("tab", { name: "⑤ 桃花姻缘", exact: true }).click();
   await expect(page.getByLabel("夫妻宫流年关系解读").locator(".life-spouse-relation")).toContainText("六害");
+  await page.getByRole("tab", { name: "④ 事业财运", exact: true }).click();
   await expect(page.getByLabel("流年十神解释卡")).toContainText("2027");
   expect(scenarios).toContainEqual({ scenario: "life", year: 2027 });
 });
