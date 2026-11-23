@@ -1622,7 +1622,13 @@ def _career(inputs):
             and traditional_role not in ("male", "female"):
         raise ValueError("traditional_role must be male or female")
 
-    natal_input = {"value": birth_value}
+    # TJ-0422 phase 2: include_relations is required for the
+    # annual branch structure below (_annual_branch_structure
+    # reuses the reviewed branch-relation rules, exactly as
+    # _yearly does); the career Ten-God computation itself is
+    # unchanged -- it still reads only the ten-gods and
+    # hidden-stems rules.
+    natal_input = {"value": birth_value, "include_relations": True}
     if "birth_zone" in inputs:
         natal_input["zone"] = inputs["birth_zone"]
     natal = execute("bazi", natal_input)
@@ -1669,6 +1675,15 @@ def _career(inputs):
     flow_ten_god = ten_god(day_master, flow_stem)
     flow_group = _ten_god_group(flow_ten_god)
 
+    # TJ-0422 phase 2: the flow-branch structure is the same
+    # reviewed object _yearly returns for this target year --
+    # July 1 sampling plus _annual_branch_structure over the
+    # same natal execution -- with interpretation_allowed False
+    # and no joint-efficacy judgment. A missing reviewed
+    # relation rule fails the whole request here, exactly as
+    # in _yearly (never a partial annual reading).
+    branch_structure = _annual_branch_structure(natal, flow_branch)
+
     source_rules = [
         next(rule for rule in natal["rule_matches"] if rule["rule_id"] == "bazi.phase2.ten_gods"),
         next(rule for rule in natal["rule_matches"] if rule["rule_id"] == "bazi.phase2.hidden_stems"),
@@ -1684,6 +1699,15 @@ def _career(inputs):
         for eid in rule["evidence_ids"]:
             if eid not in evidence_ids:
                 evidence_ids.append(eid)
+    # The branch structure's citations join the envelope evidence
+    # so the annual reading's branch facts never dangle: every
+    # evidence id the reading cites resolves in this envelope.
+    for eid in branch_structure["evidence_ids"]:
+        if eid not in evidence_ids:
+            if eid not in natal["evidence"]:
+                raise ValueError(
+                    "Reviewed annual branch citation was not resolved")
+            evidence_ids.append(eid)
     evidence = {eid: copy.deepcopy(natal["evidence"][eid]) for eid in evidence_ids}
 
     # Traditional five-element Ten-God direction, not a score or efficacy
@@ -1772,6 +1796,12 @@ def _career(inputs):
         ),
         "evidence_ids": list(evidence_ids),
         "source_rule_ids": ["bazi.phase2.ten_gods", "bazi.phase2.hidden_stems"],
+        # TJ-0422 phase 2: flow-branch facts only -- the same
+        # reviewed 六合/六害/六冲 structure _yearly returns for
+        # this year (interpretation_allowed False). The boundary
+        # above still stands: no joint efficacy, luck, or event
+        # judgment is made from the stem and branch facts together.
+        "annual_branch_interactions": copy.deepcopy(branch_structure),
         "interpretation_level": "reviewed_structural_cross_context_only",
         "personal_prediction": False,
     }
@@ -1819,6 +1849,23 @@ def _career(inputs):
         },
         "evidence_ids": evidence_ids,
     }
+    # TJ-0422 phase 2: the branch-structure composition, in the
+    # same shape _yearly returns for the same target year.
+    branch_rule_match = {
+        "rule_id": "bazi.scenario.annual_branch_relations",
+        "derived_from_rule_ids": branch_structure["rule_ids"],
+        "variant": "ziping-structural-v1",
+        "matched": True,
+        "kind": "scenario_composition",
+        "evidence_scope": "仅复用已验证六合、六害、六冲规则的地支成对结构，不推断作用强弱和吉凶。",
+        "facts": {
+            "flow_branch": flow_branch,
+            "hits": copy.deepcopy(branch_structure["hits"]),
+            "counts": copy.deepcopy(branch_structure["counts"]),
+            "evaluated_pairs": 4,
+        },
+        "evidence_ids": list(branch_structure["evidence_ids"]),
+    }
     trace = [
         {
             "step": "natal_ten_god_locations",
@@ -1843,6 +1890,16 @@ def _career(inputs):
             },
             "evidence_ids": evidence_ids,
         },
+        {
+            "step": "reviewed_flow_year_natal_branch_pairs",
+            "derived_from_rule_ids": branch_structure["rule_ids"],
+            "facts": {
+                "flow_branch": flow_branch,
+                "hits": copy.deepcopy(branch_structure["hits"]),
+                "counts": copy.deepcopy(branch_structure["counts"]),
+            },
+            "evidence_ids": list(branch_structure["evidence_ids"]),
+        },
     ]
     # T-D1 (E0409, fixed E0410): first-period dayun only, role-gated,
     # reusing the bazi-profile gate (_dayun_public_gate). The shared
@@ -1858,6 +1915,27 @@ def _career(inputs):
         result["dayun_presentation"] = _first_period_dayun_for_career_life(
             _dayun_public_gate(
                 birth_value, inputs.get("birth_zone"), traditional_role))
+    # TJ-0422 phase 2: lift the three adjudicated presentations
+    # from the bazi-profile envelope for this same birth instant
+    # -- the validated objects themselves, never recomputed or
+    # re-derived here. The career scene attaches no new judgment
+    # to them: strength stays the strict-limited U1 presentation,
+    # xiyong stays the parallel TJ-013.2 presentation with a None
+    # unified verdict, pattern stays the 寅月 D-1 whitelist. No
+    # role is passed: the profile gate must not compute a dayun
+    # here (career already gates its own first-period dayun
+    # above), and the profile envelope is otherwise discarded.
+    _profile = _bazi_profile({
+        "value": birth_value,
+        "strength_variant": "ditiansui-root-visibility-v1",
+        **({"zone": inputs["birth_zone"]} if "birth_zone" in inputs else {}),
+    })
+    result["strength_presentation"] = \
+        _profile["result"]["strength_presentation"]
+    result["xiyong_presentation"] = \
+        _profile["result"]["xiyong_presentation"]
+    result["pattern_presentation"] = \
+        _profile["result"]["pattern_presentation"]
     # The dayun limitation must track the wiring: with a role the
     # first period is presented, so only periods 2-8 remain unincluded.
     dayun_limitation = (
@@ -1871,7 +1949,7 @@ def _career(inputs):
         "public_release": False,
         "deterministic": True,
         "result": result,
-        "rule_matches": [rule_match],
+        "rule_matches": [rule_match, branch_rule_match],
         "trace": trace,
         "evidence": evidence,
         "warnings": [
@@ -1881,6 +1959,12 @@ def _career(inputs):
             "财星、官杀、食伤、印星、比劫仅按已验证十神映射聚合其出现位置，不比较旺衰、月令权重或组合成败。",
             "五组释义仅是已审十神生克关系与明藏位置说明，不等于实际作用效力；目标年天干十神不等同于升职、赚钱、失业或投资风险。",
             dayun_limitation,
+            # TJ-0422 phase 2: the dayun_limitation wording above
+            # stays verbatim (pinned); this line corrects its
+            # reading now that the three limited presentations and
+            # the flow-branch structure are attached as separate
+            # fields -- they are presented, not judged, here.
+            "旺衰、喜用、格局与流年支结构仅以已裁定的有限公开呈现另列，不作确定方向、全局强弱、从格、格局用神或岁运效力判断。",
             "不输出事业指数、财运指数、收入金额或投资建议。",
             "AI 不参与本场景计算。",
         ],
@@ -2853,6 +2937,16 @@ def _life(inputs):
     # can never disagree). The full timeline stays unapproved: all
     # three dayun_timeline_approved flags remain False below.
     dayun_presentation = career["result"].get("dayun_presentation")
+    # TJ-0422 phase 2: lift the three adjudicated presentations
+    # from this request's own bazi-profile section -- the same
+    # validated objects the profile gate built, never recomputed
+    # here. The career section below carries its own equal copy
+    # (it lifts from its own profile call for the same birth);
+    # the two must agree exactly. The old factor display in
+    # profile.strength_context is untouched by this lift.
+    strength_presentation = profile["result"]["strength_presentation"]
+    xiyong_presentation = profile["result"]["xiyong_presentation"]
+    pattern_presentation = profile["result"]["pattern_presentation"]
     return {
         "scenario_id": "life",
         "status": "production_limited",
@@ -2875,6 +2969,9 @@ def _life(inputs):
             "romance": copy.deepcopy(romance["result"]),
             "career": copy.deepcopy(career["result"]),
             "release_scope": "deterministic_aggregate_only",
+            "strength_presentation": strength_presentation,
+            "xiyong_presentation": xiyong_presentation,
+            "pattern_presentation": pattern_presentation,
             **({"dayun_presentation": dayun_presentation}
                if dayun_presentation is not None else {}),
         },
