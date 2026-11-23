@@ -194,10 +194,15 @@ class LiftedPresentationsTests(unittest.TestCase):
                     _collect(item, f"{path}[{index}]")
 
         _collect(life, "/result")
-        self.assertEqual(paths, [
+        # The order is dict-traversal order and carries no
+        # meaning (the nested career copy precedes the top level
+        # in the sealed run); the exact multiset is the pin: the
+        # role appears exactly twice, both inside a
+        # dayun_presentation, nowhere else.
+        self.assertEqual(sorted(paths), sorted([
             "/result/dayun_presentation/role/traditional_role",
             "/result/career/dayun_presentation/role/traditional_role",
-        ])
+        ]))
 
 
 class CareerAnnualBranchTests(unittest.TestCase):
