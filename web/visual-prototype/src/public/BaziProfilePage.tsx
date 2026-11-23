@@ -7,6 +7,18 @@ import { readSavedBirthProfile, saveBirthProfile, clearBirthProfile, toApiValue,
 import { clearAllLocalData, presentLocalDataLabels } from "./localData";
 import { resetThemeDomToDefault } from "./theme";
 import { BirthInputFields } from "./BirthInputFields";
+import { DayunTimeline } from "./DayunTimeline";
+import {
+  consumePendingDayunReturn,
+  getDayunPresentation,
+  getSelectedDayunMethod,
+  getSelectedPeriodIndex,
+  setDayunPresentation,
+  setSelectedDayunMethod,
+  setSelectedPeriodIndex,
+  subscribe as subscribeYearContext,
+  type DayunPresentation,
+} from "./yearContext";
 import "./bazi-profile.css";
 
 const pillarNames: Record<string, string> = {
@@ -36,18 +48,12 @@ const bingyaoPairOrdinals: Record<string, string> = {
   foodwound_seal_wealth: "第二对",
 };
 
-// TJ-017.3 第二阶段：大运呈现的口径标签与暂不可判原因转写（只转写
-// 呈现对象字段，不生成任何新判断；两口径分立呈现，永不合并）。
+// TJ-017.3 第二阶段：大运呈现的口径标签（只转写呈现对象字段，
+// 不生成任何新判断；两口径分立呈现，永不合并）。暂不可判原因
+// 转写随时间线组件移入 DayunTimeline.tsx。
 const dayunMethodLabels: Record<string, string> = {
   sanming: "三命通会口径",
   shenfeng: "神峰通考口径",
-};
-
-const dayunReasonLabels: Record<string, string> = {
-  zero_jie_boundary_convention_unreviewed:
-    "出生时刻恰逢节气交界，交运换算口径尚未裁定",
-  zero_day_count_not_exemplified_in_text:
-    "本口径以整日计数，本盘整日数为零，原文未给出此情形的示例",
 };
 
 // TJ-013.3 U1 Batch C：已审强弱形态事实的呈现转写（只转写呈现对象
@@ -155,7 +161,14 @@ export function BaziProfilePage({
   // 不写入出生资料档案、不进 URL。
   const [dayunRole, setDayunRole] = useState<"" | "male" | "female">("");
   const [dayun, setDayun] = useState<any>(null);
-  const [dayunMethod, setDayunMethod] = useState<"sanming" | "shenfeng">("sanming");
+  const [dayunMethod, setDayunMethod] = useState<"sanming" | "shenfeng">(() => getSelectedDayunMethod());
+  // TJ-0422 phase 2 slice A: session-shared dayun state (yearContext).
+  // storedDayun lets the yearly page's "back to my dayun" link land on
+  // the timeline even though a fresh calculation has not run in this
+  // mount; it is cleared whenever the birth input changes, so it can
+  // never outlive the birth data it was computed from.
+  const [storedDayun, setStoredDayun] = useState<DayunPresentation | null>(() => getDayunPresentation());
+  const [selectedPeriodIndex, setSelectedPeriodIndexState] = useState<number | null>(() => getSelectedPeriodIndex());
   // TJ-013.3 U1 Batch C：强度呈现取自同一场景信封；场景调用失败时
   // 只令强度节进入错误态，不以暂不可判掩盖（xiyong/dayun 的既有
   // 缺席行为不变）。
@@ -174,6 +187,23 @@ export function BaziProfilePage({
 
   useEffect(() => () => { requestVersion.current += 1; }, []);
 
+  // TJ-0422 phase 2 slice A: stay in sync with session-shared dayun
+  // state (timeline selection, method tab, stored presentation).
+  useEffect(() => subscribeYearContext(() => {
+    setStoredDayun(getDayunPresentation());
+    setSelectedPeriodIndexState(getSelectedPeriodIndex());
+    setDayunMethod(getSelectedDayunMethod());
+  }), []);
+
+  // TJ-0422 phase 2 slice A: a return from the yearly page's
+  // "返回所属大运" link scrolls the timeline into view (one-shot).
+  useEffect(() => {
+    if (!consumePendingDayunReturn()) return;
+    requestAnimationFrame(() => {
+      document.querySelector(".bazi-dayun-presentation")?.scrollIntoView({ behavior: "instant", block: "start" });
+    });
+  }, []);
+
   // TJ-006.3: 其他标签页清除资料时，本页同步清空
   useEffect(() => onBirthProfileCleared(() => {
     invalidateResult();
@@ -191,6 +221,10 @@ export function BaziProfilePage({
     setStrengthLoadError(false);
     setError("");
     setLoading(false);
+    // TJ-0422 phase 2 slice A: the birth input changed, so the
+    // session-shared dayun presentation is stale and must not survive.
+    setDayunPresentation(null);
+    setSelectedPeriodIndex(null);
   }
 
   function startClearAll() {
@@ -262,8 +296,12 @@ export function BaziProfilePage({
         setStrengthPresentation(scenario.result?.strength_presentation ?? null);
         setPatternPresentation(scenario.result?.pattern_presentation ?? null);
         setStrengthLoadError(false);
+        // TJ-0422 phase 2 slice A: share the full dayun presentation
+        // with the yearly page for this session only (never persisted).
+        setDayunPresentation(scenario.result?.dayun_presentation ?? null);
+        setSelectedPeriodIndex(null);
       } catch {
-        if (version === requestVersion.current) { setXiyong(null); setDayun(null); setStrengthPresentation(null); setPatternPresentation(null); setStrengthLoadError(true); }
+        if (version === requestVersion.current) { setXiyong(null); setDayun(null); setStrengthPresentation(null); setPatternPresentation(null); setStrengthLoadError(true); setDayunPresentation(null); setSelectedPeriodIndex(null); }
       }
     } catch (err) {
       if (version === requestVersion.current)
@@ -309,6 +347,47 @@ export function BaziProfilePage({
   const boundaryPatternLimitations = patternPresentation
     ? (patternPresentation.limitations || []).map(plainUserText).filter(firstBoundaryLine)
     : [];
+
+  // TJ-0422 phase 2 slice A: the dayun section (method tabs + the
+  // interactive timeline). Rendered from a fresh calculation, or —
+  // when sessionOnly — from the session-shared presentation after a
+  // return from the yearly page, before any new calculation here.
+  function renderDayunSection(presentation: DayunPresentation, sessionOnly: boolean) {
+    return (
+      <section className="bazi-dayun-presentation" aria-label="大运方向与交运区间">
+        <span className="eyebrow">大运时间轴 · 两口径分立呈现</span>
+        <h3>大运方向与交运区间，按哪种口径数？</h3>
+        {sessionOnly && (
+          <p className="bazi-dayun-session-note">
+            这是本次会话中保存的大运呈现（出生资料未变）。重新生成基础档案可刷新；修改出生资料后本呈现即失效。
+          </p>
+        )}
+        <div className="bazi-dayun-switch" role="tablist" aria-label="大运口径切换">
+          {(["sanming", "shenfeng"] as const).map((method) => (
+            <button
+              key={method}
+              type="button"
+              role="tab"
+              aria-selected={dayunMethod === method}
+              className={dayunMethod === method ? "active" : ""}
+              onClick={() => setSelectedDayunMethod(method)}
+            >
+              {dayunMethodLabels[method]}
+            </button>
+          ))}
+        </div>
+        <DayunTimeline
+          presentation={presentation}
+          method={dayunMethod}
+          selectedPeriodIndex={selectedPeriodIndex}
+          onSelectPeriod={(periodIndex) => setSelectedPeriodIndex(periodIndex)}
+        />
+        {(presentation.scope || []).map((line: string, i: number) => (
+          <p key={`ds-${i}`} className="bazi-dayun-scope">{line}</p>
+        ))}
+      </section>
+    );
+  }
 
   return (
     <div className="bazi-profile-page">
@@ -675,92 +754,7 @@ export function BaziProfilePage({
             </section>
           )}
 
-          {dayun && (
-            <section className="bazi-dayun-presentation" aria-label="大运方向与交运区间">
-              <span className="eyebrow">大运时间轴 · 两口径分立呈现</span>
-              <h3>大运方向与交运区间，按哪种口径数？</h3>
-              <div className="bazi-dayun-switch" role="tablist" aria-label="大运口径切换">
-                {(["sanming", "shenfeng"] as const).map((method) => (
-                  <button
-                    key={method}
-                    type="button"
-                    role="tab"
-                    aria-selected={dayunMethod === method}
-                    className={dayunMethod === method ? "active" : ""}
-                    onClick={() => setDayunMethod(method)}
-                  >
-                    {dayunMethodLabels[method]}
-                  </button>
-                ))}
-              </div>
-              {(() => {
-                const view = dayun.methods[dayunMethod];
-                const pillars = view.natal.pillars;
-                return (
-                  <div className="bazi-dayun-method">
-                    <p>
-                      四柱 {pillars.year} · {pillars.month} · {pillars.day} · {pillars.hour}，日主 {pillars.day_master}；
-                      大运方向：{view.direction.label}（{view.direction.counting_target === "future_jie" ? "数至出生后之节" : "数至出生前之节"}：{view.direction.counted_jie.name} {view.direction.counted_jie.at}）。
-                    </p>
-                    {view.status === "unresolved" ? (
-                      <p className="bazi-dayun-not-judgeable">
-                        交运时间暂不可判：{dayunReasonLabels[view.reason] || view.reason}。
-                      </p>
-                    ) : (
-                      <>
-                        {view.method === "sanming" ? (
-                          <p>
-                            交运时长区间 {view.duration.interval_days.min_days}–{view.duration.interval_days.max_days} 日（不含上限）：
-                            共数 {view.duration.counting.whole_shichen_counted} 个时辰，计 {view.duration.decomposition.whole_year_units} 年单位又 {view.duration.decomposition.remainder_shichen} 时辰，折 {view.duration.decomposition.remainder_days} 日
-                            {view.duration.decomposition.remainder_months_of_30_days != null ? `，其中含 ${view.duration.decomposition.remainder_months_of_30_days} 个整月` : ""}；未作舍入。
-                          </p>
-                        ) : (
-                          <p>
-                            交运时长区间 {view.duration.interval_days.min_days}–{view.duration.interval_days.max_days} 日（不含上限）：
-                            整日 {view.duration.counting.whole_days} 日，原文折算 {view.duration.text_result_days} 日。{view.duration.granularity_note}
-                          </p>
-                        )}
-                        <ol className="bazi-dayun-entries">
-                          {view.entries.map((entry: any) => (
-                            <li key={entry.period_index}>
-                              <strong>第 {entry.period_index} 运 {entry.ganzhi}</strong>
-                              <span>（{entry.ten_god_relative_to_natal_day_stem}）</span>
-                              {entry.state === "interval" && (
-                                <span>交运区间：{entry.start_interval.earliest} 至 {entry.start_interval.latest}（不含上限）</span>
-                              )}
-                              {entry.state === "not_provided" && (
-                                <span>交运区间未提供：本口径只呈现首运交运区间。</span>
-                              )}
-                              {entry.state === "unresolved" && (
-                                <span>交运时间暂不可判。</span>
-                              )}
-                            </li>
-                          ))}
-                        </ol>
-                      </>
-                    )}
-                    {view.notices.map((notice: any) => (
-                      <p key={notice.code} className="bazi-dayun-notice">{notice.text}</p>
-                    ))}
-                    <details className="bazi-evidence-entry">
-                      <summary>查看判断依据</summary>
-                      <blockquote>
-                        <b>{view.direction.rule_quote.quote}</b>
-                      </blockquote>
-                      {view.sources.flatMap((block: any) => block.quotes
-                        .filter((q: any) => q.id !== view.direction.rule_quote.id)
-                        .map((q: any) => (
-                          <blockquote key={q.id}><p>{q.quote}</p></blockquote>
-                        )))}
-                    </details>
-                  </div>
-                );
-              })()}
-              {dayun.scope.map((line: string, i: number) => (
-                <p key={`ds-${i}`} className="bazi-dayun-scope">{line}</p>
-              ))}
-            </section>
-          )}
+          {dayun && renderDayunSection(dayun, false)}
 
           {/* TJ-031.4（Track B F3）：当前分析边界是结果四层结构的第 4 层，
               有结果即须在场，不再随 warnings/limitations 是否为空而消失；
@@ -908,6 +902,10 @@ export function BaziProfilePage({
           </section>
         </section>
       )}
+
+      {/* TJ-0422 phase 2 slice A: return from the yearly page lands on
+          the session-shared timeline before any new calculation here. */}
+      {!result && storedDayun && renderDayunSection(storedDayun, true)}
     </div>
   );
 }

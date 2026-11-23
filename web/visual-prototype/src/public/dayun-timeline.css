@@ -1,0 +1,26 @@
+/* TJ-0422 phase 2 slice A: interactive dayun timeline (bazi-profile page). */
+.dayun-timeline{list-style:none;margin:12px 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.dayun-timeline li{margin:0;padding:0}
+.dayun-timeline-entry{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:baseline;width:100%;box-sizing:border-box;text-align:left;border:1px solid #d6ddce;border-radius:6px;background:#fbfaf4;padding:10px 12px;font-size:13px;line-height:1.7;color:#3f5949;cursor:pointer}
+.dayun-timeline-entry:hover{border-color:#73917a;background:#eef2e8}
+.dayun-timeline-entry:focus-visible{outline:2px solid #456c4e;outline-offset:2px}
+.dayun-timeline-entry.selected{border-color:#456c4e;background:#e6eee3;box-shadow:inset 3px 0 0 #456c4e}
+.dayun-timeline-entry strong{font-size:15px;color:#33473a}
+.dayun-current-badge,.dayun-ambiguous-badge{display:inline-block;border-radius:999px;padding:1px 9px;font-size:11px;line-height:1.7}
+.dayun-current-badge{background:#456c4e;color:#f5f2e4}
+.dayun-ambiguous-badge{background:#f5eddc;border:1px solid #c7b384;color:#836737}
+.dayun-detail{margin-top:14px;border-top:1px solid #d6ddce;padding-top:14px}
+.dayun-detail h4{font:19px "Noto Serif CJK SC",serif;font-weight:500;margin:0 0 8px;color:#33473a}
+.dayun-detail>p{font-size:13px;line-height:1.85;margin:8px 0}
+.dayun-ambiguous-note{color:#836737}
+.dayun-year-links{margin-top:12px;border-top:1px solid #d6ddce;padding-top:12px}
+.dayun-year-links>span{font-size:12px;color:#456c4e}
+.dayun-year-links>div{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.dayun-year-links a{display:inline-block;min-height:30px;padding:3px 11px;border:1px solid #bfccb8;border-radius:4px;color:#315a43;background:#fffdf6;font-size:12px;text-decoration:none}
+.dayun-year-links a:hover,.dayun-year-links a:focus-visible{border-color:#73917a;background:#e6eee3}
+.dayun-year-links small{display:block;font-size:11px;color:#5d6b5e;line-height:1.7;margin-top:8px}
+.dayun-detail-links{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:baseline}
+.dayun-detail-links a{display:inline-block;min-height:30px;padding:3px 11px;border:1px solid #bfccb8;border-radius:4px;color:#315a43;background:#fffdf6;font-size:12px;text-decoration:none}
+.dayun-detail-links a:hover,.dayun-detail-links a:focus-visible{border-color:#73917a;background:#e6eee3}
+.dayun-detail-links small{font-size:11px;color:#5d6b5e;line-height:1.7}
+@media(max-width:500px){.dayun-timeline-entry{font-size:12px}.dayun-year-links>div{gap:6px}}
