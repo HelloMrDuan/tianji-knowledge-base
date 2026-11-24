@@ -8,6 +8,7 @@
  */
 
 import { lunarToSolar, validateLunarDate } from "./lunarConvert";
+import { clearDayunCache, computeDayunFingerprint } from "./yearContext";
 
 const KEY = "tianji.profile.birth.v1";
 
@@ -249,11 +250,61 @@ export function readSavedBirthProfile(): BirthProfile {
 /** 保存本地资料 */
 export function saveBirthProfile(profile: BirthProfile): boolean {
   if (!validateBirthInput(profile).ok) return false;
+  // ChatGPT re-review finding on PR #594 (dayun cache binding): the
+  // session dayun presentation is computed from the saved birth data.
+  // When the saved data actually changes, the cached presentation is
+  // stale and must not survive — clear it here (write-side; the
+  // read-side fingerprint check in yearContext is the second line of
+  // defence). Identical re-saves leave the cache alone. This is the
+  // single save funnel every page goes through, so no per-page edit
+  // is needed. The comparison covers exactly the computation inputs
+  // (calendar, date, leap flag, time, time-unknown flag, region);
+  // _regionNeedsConfirm is a local confirm flag, not an input.
+  const before = (() => {
+    try {
+      const raw = localStorage.getItem(KEY);
+      if (!raw) return null;
+      return canonicalBirthKey(readSavedBirthProfile());
+    } catch {
+      return null;
+    }
+  })();
   try {
     localStorage.setItem(KEY, JSON.stringify(profile));
-    return true;
   } catch {
     return false;
+  }
+  if (before !== canonicalBirthKey(profile)) clearDayunCache();
+  return true;
+}
+
+/** 出生资料中决定计算结果的字段（见 saveBirthProfile 的注释）。 */
+function canonicalBirthKey(profile: BirthProfile): string {
+  return JSON.stringify([
+    profile.calendarType,
+    profile.year,
+    profile.month,
+    profile.day,
+    profile.isLeapMonth,
+    profile.time,
+    profile.timeUnknown,
+    profile.region,
+  ]);
+}
+
+/**
+ * Fingerprint of the currently saved birth data, in the same form the
+ * session dayun cache is bound to (yearContext.computeDayunFingerprint
+ * over the API instant + zone). Null when there is no valid saved
+ * birth data (empty, invalid, or unknown time) — the dayun cache
+ * must then read as empty.
+ */
+export function getSavedBirthFingerprint(): string | null {
+  try {
+    const profile = readSavedBirthProfile();
+    return computeDayunFingerprint(toApiValue(profile), toApiZone(profile));
+  } catch {
+    return null;
   }
 }
 
@@ -263,6 +314,8 @@ export function clearBirthProfile(): void {
   } catch {
     // best-effort
   }
+  // No birth data on record: no session dayun can belong to it.
+  clearDayunCache();
 }
 
 export function hasSavedBirthProfile(): boolean {

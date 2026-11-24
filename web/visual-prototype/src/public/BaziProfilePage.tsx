@@ -3,12 +3,13 @@ import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeBazi, executeBaziProfileScenario, type ExecuteResponse } from "./api";
-import { readSavedBirthProfile, saveBirthProfile, clearBirthProfile, toApiValue, toApiZone, validateBirthInput, onBirthProfileCleared, type BirthProfile } from "./birthProfile";
+import { readSavedBirthProfile, saveBirthProfile, clearBirthProfile, getSavedBirthFingerprint, toApiValue, toApiZone, validateBirthInput, onBirthProfileCleared, type BirthProfile } from "./birthProfile";
 import { clearAllLocalData, presentLocalDataLabels } from "./localData";
 import { resetThemeDomToDefault } from "./theme";
 import { BirthInputFields } from "./BirthInputFields";
 import { DayunTimeline } from "./DayunTimeline";
 import {
+  computeDayunFingerprint,
   consumePendingDayunReturn,
   getDayunPresentation,
   getSelectedDayunMethod,
@@ -166,8 +167,11 @@ export function BaziProfilePage({
   // storedDayun lets the yearly page's "back to my dayun" link land on
   // the timeline even though a fresh calculation has not run in this
   // mount; it is cleared whenever the birth input changes, so it can
-  // never outlive the birth data it was computed from.
-  const [storedDayun, setStoredDayun] = useState<DayunPresentation | null>(() => getDayunPresentation());
+  // never outlive the birth data it was computed from. Reads are
+  // fingerprint-checked against the saved birth data (PR #594
+  // re-review fix): a presentation computed from other birth data
+  // reads back as null here.
+  const [storedDayun, setStoredDayun] = useState<DayunPresentation | null>(() => getDayunPresentation(getSavedBirthFingerprint()));
   const [selectedPeriodIndex, setSelectedPeriodIndexState] = useState<number | null>(() => getSelectedPeriodIndex());
   // TJ-013.3 U1 Batch C：强度呈现取自同一场景信封；场景调用失败时
   // 只令强度节进入错误态，不以暂不可判掩盖（xiyong/dayun 的既有
@@ -190,7 +194,7 @@ export function BaziProfilePage({
   // TJ-0422 phase 2 slice A: stay in sync with session-shared dayun
   // state (timeline selection, method tab, stored presentation).
   useEffect(() => subscribeYearContext(() => {
-    setStoredDayun(getDayunPresentation());
+    setStoredDayun(getDayunPresentation(getSavedBirthFingerprint()));
     setSelectedPeriodIndexState(getSelectedPeriodIndex());
     setDayunMethod(getSelectedDayunMethod());
   }), []);
@@ -223,7 +227,7 @@ export function BaziProfilePage({
     setLoading(false);
     // TJ-0422 phase 2 slice A: the birth input changed, so the
     // session-shared dayun presentation is stale and must not survive.
-    setDayunPresentation(null);
+    setDayunPresentation(null, null);
     setSelectedPeriodIndex(null);
   }
 
@@ -297,11 +301,18 @@ export function BaziProfilePage({
         setPatternPresentation(scenario.result?.pattern_presentation ?? null);
         setStrengthLoadError(false);
         // TJ-0422 phase 2 slice A: share the full dayun presentation
-        // with the yearly page for this session only (never persisted).
-        setDayunPresentation(scenario.result?.dayun_presentation ?? null);
+        // with the yearly page for this session only (never persisted),
+        // bound to the exact birth inputs it was computed from (PR #594
+        // re-review fix: fingerprint-checked on read).
+        setDayunPresentation(
+          scenario.result?.dayun_presentation ?? null,
+          scenario.result?.dayun_presentation
+            ? computeDayunFingerprint(toApiValue(profile), toApiZone(profile))
+            : null,
+        );
         setSelectedPeriodIndex(null);
       } catch {
-        if (version === requestVersion.current) { setXiyong(null); setDayun(null); setStrengthPresentation(null); setPatternPresentation(null); setStrengthLoadError(true); setDayunPresentation(null); setSelectedPeriodIndex(null); }
+        if (version === requestVersion.current) { setXiyong(null); setDayun(null); setStrengthPresentation(null); setPatternPresentation(null); setStrengthLoadError(true); setDayunPresentation(null, null); setSelectedPeriodIndex(null); }
       }
     } catch (err) {
       if (version === requestVersion.current)

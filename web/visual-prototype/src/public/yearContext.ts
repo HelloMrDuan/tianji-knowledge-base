@@ -21,6 +21,21 @@
  *   below are thin wrappers over that key, so every page that reads
  *   the key stays in sync.
  *
+ * Birth-data binding (ChatGPT re-review finding on PR #594): the
+ * session dayun presentation is bound to the birth data it was
+ * computed from by a fingerprint of the exact backend inputs
+ * (API instant + zone). A reader must pass the fingerprint of the
+ * birth data currently on record; a mismatch (or no valid birth
+ * data) invalidates the cache instead of serving the old dayun as
+ * the new data's dayun. The birth-data save entry point clears the
+ * cache when the saved data actually changes (see birthProfile.ts),
+ * so the yearly page re-reads an empty cache right after a birth
+ * change. The traditional role is deliberately NOT part of the
+ * fingerprint: it is never persisted by design, so no reader could
+ * recompute it — and every bazi submit rewrites the cache with the
+ * role actually used, so a role-only change can never leave a stale
+ * cache behind.
+ *
  * No dayun, year, or role value is ever computed here: the timeline
  * and the yearly location only read fields the backend returned
  * (period_index / ganzhi / stem / branch /
@@ -102,10 +117,40 @@ export const BRANCH_ELEMENTS: Record<string, string> = {
 // ---------------------------------------------------------------------------
 
 let dayunPresentation: DayunPresentation | null = null;
+/** Fingerprint of the birth inputs the stored presentation was computed from (see computeDayunFingerprint). */
+let dayunFingerprint: string | null = null;
 let selectedPeriodIndex: number | null = null;
 let selectedDayunMethod: DayunMethod = DEFAULT_DAYUN_METHOD;
 let pendingYearRequest: number | null = null;
 let pendingDayunReturn = false;
+
+/**
+ * Deterministic fingerprint of the birth inputs a dayun presentation
+ * was computed from: the backend API instant (toApiValue) + zone
+ * (toApiZone). Exactly the inputs that determine the dayun; the
+ * traditional role is excluded by design (see the module header).
+ */
+export function computeDayunFingerprint(value: string, zone: string): string {
+  return JSON.stringify([value, zone]);
+}
+
+function invalidateDayunCacheSilently(): void {
+  dayunPresentation = null;
+  dayunFingerprint = null;
+  selectedPeriodIndex = null;
+  pendingYearRequest = null;
+  pendingDayunReturn = false;
+}
+
+/**
+ * Drop the whole session dayun state: presentation, fingerprint,
+ * selected period, and one-shot flags. Notifies subscribers so pages
+ * re-read an empty cache at once.
+ */
+export function clearDayunCache(): void {
+  invalidateDayunCacheSilently();
+  notify();
+}
 
 const listeners = new Set<() => void>();
 function notify(): void {
@@ -134,14 +179,34 @@ if (typeof window !== "undefined") {
   window.addEventListener("storage", () => notify());
 }
 
-/** The full dayun presentation from the last bazi-profile calculation, or null. */
-export function getDayunPresentation(): DayunPresentation | null {
+/**
+ * The full dayun presentation from the last bazi-profile calculation,
+ * but ONLY when it was computed from the birth data `expectedFingerprint`
+ * describes. Pass the fingerprint of the birth data currently on record
+ * (birthProfile.getSavedBirthFingerprint()); null means there is no
+ * valid birth data on record. A mismatch (or no valid birth data)
+ * invalidates the cache — silently, so a getter called from a
+ * subscriber never re-enters notify() — and returns null, so the
+ * caller shows "no dayun yet" instead of the old data's dayun.
+ */
+export function getDayunPresentation(expectedFingerprint: string | null): DayunPresentation | null {
+  if (dayunPresentation === null) return null;
+  if (expectedFingerprint === null || expectedFingerprint !== dayunFingerprint) {
+    invalidateDayunCacheSilently();
+    return null;
+  }
   return dayunPresentation;
 }
 
-/** Store (or clear with null) the dayun presentation. Session memory only. */
-export function setDayunPresentation(presentation: DayunPresentation | null): void {
+/**
+ * Store (or clear with null) the dayun presentation, bound to the
+ * birth inputs it was computed from (`fingerprint`, from
+ * computeDayunFingerprint over the exact request inputs; null when
+ * clearing). Session memory only.
+ */
+export function setDayunPresentation(presentation: DayunPresentation | null, fingerprint: string | null): void {
   dayunPresentation = presentation;
+  dayunFingerprint = presentation === null ? null : fingerprint;
   if (presentation === null) selectedPeriodIndex = null;
   notify();
 }

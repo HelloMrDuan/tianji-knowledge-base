@@ -20,7 +20,7 @@ import {
   type DayunPresentation,
 } from "./yearContext";
 import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
-import { toApiValue, toApiZone, fromLegacy, toSolarDateString, isConvertedFromLunar, fromSolarEdit, withUpdatedTime } from "./birthProfile";
+import { toApiValue, toApiZone, fromLegacy, toSolarDateString, isConvertedFromLunar, fromSolarEdit, withUpdatedTime, getSavedBirthFingerprint } from "./birthProfile";
 import "./yearly-structure.css";
 
 const relationNames: Record<string, string> = {
@@ -66,8 +66,12 @@ export function YearlyStructurePage() {
   const [loading, setLoading] = useState(false);
   // TJ-0422 phase 2 slice A: session-shared dayun presentation (set by
   // the bazi page) and the method tab selected there; used only to
-  // locate this year inside the returned intervals.
-  const [dayunPresentation, setDayunPresentation] = useState<DayunPresentation | null>(() => getDayunPresentation());
+  // locate this year inside the returned intervals. Reads are
+  // fingerprint-checked against the saved birth data (PR #594
+  // re-review fix): when the birth data changed on this page, the
+  // old presentation reads back as null and the section shows
+  // "尚未查看大运" instead of the old data's dayun.
+  const [dayunPresentation, setDayunPresentation] = useState<DayunPresentation | null>(() => getDayunPresentation(getSavedBirthFingerprint()));
   const [dayunMethod, setDayunMethod] = useState<DayunMethod>(() => getSelectedDayunMethod());
   const requestVersion = useRef(0);
 
@@ -80,7 +84,7 @@ export function YearlyStructurePage() {
       const next = getSelectedYear();
       return prev === next ? prev : next;
     });
-    setDayunPresentation(getDayunPresentation());
+    setDayunPresentation(getDayunPresentation(getSavedBirthFingerprint()));
     setDayunMethod(getSelectedDayunMethod());
   }), []);
 

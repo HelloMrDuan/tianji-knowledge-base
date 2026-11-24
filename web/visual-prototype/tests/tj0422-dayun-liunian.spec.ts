@@ -14,12 +14,16 @@
  * - 真实端到端行为（真实后端大运呈现 + 流年结构）由本文件末尾
  *   明确跳过的测试钉住，待可信机环境复验；本地无后端
  *   （127.0.0.1:8000 无服务），不得把本专项的通过说成真实
- *   后端已验证。
+ *   后端已验证。新增的跨页缓存回归用 TIANJI_E2E_RUNTIME_BACKEND
+ *   环境门控（与 tj0422-career-life.spec.ts 同款）：可信机设
+ *   置该变量时运行，本地跳过。
  */
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { expect, test, type Page } from "@playwright/test";
+
+const RUNTIME_BACKEND = process.env.TIANJI_E2E_RUNTIME_BACKEND || "";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const domainFixture = JSON.parse(
@@ -258,6 +262,64 @@ test("timeline year link opens yearly page for that year, locates it in its dayu
   await expect(page.locator(".bazi-dayun-presentation")).toContainText("本次会话中保存的大运呈现");
   await expect(page.locator('.dayun-timeline [data-period="7"] button')).toHaveAttribute("aria-pressed", "true");
   await expect(page.locator(".dayun-detail")).toContainText("第 7 运 丁卯");
+});
+
+test("changing birth data on the yearly page invalidates the session dayun cache (stub linkage)", async ({ page }) => {
+  // PR #594 re-review fix: the session dayun cache is bound to the
+  // birth data it was computed from. Changing the birth data on the
+  // yearly page must not leave the old dayun served as the new data's
+  // dayun. This stub test exercises the linkage (cache write on the
+  // bazi page, save-triggered clear, fingerprint-checked read); the
+  // yearly result body itself is a stub, so no assertion is made on
+  // its content — only on the dayun-location section.
+  const captured: { scenarioInputs: any[]; yearlyYears: number[] } = { scenarioInputs: [], yearlyYears: [] };
+  await stubBaziAndYearly(page, captured);
+  await submitQ1WithRole(page);
+
+  await page.locator('.dayun-timeline [data-period="7"] button').click();
+  await page.locator(".dayun-year-links a", { hasText: "2027 年" }).click();
+  await expect(page).toHaveURL(/\/yearly-structure$/);
+  await expect(page.locator(".yearly-result")).toBeVisible();
+  const location = page.locator(".yearly-dayun-location");
+  await expect(location).toContainText("2027 年 · 第 7 运 丁卯");
+
+  // Switch the birth data on this page to the 2000 sample and resubmit.
+  await page.getByLabel("出生日期").fill("2000-01-07");
+  await page.getByLabel("出生时间").fill("12:00");
+  await page.getByRole("button", { name: "查看 2027 流年结构" }).click();
+  await expect(page.locator(".yearly-result")).toBeVisible();
+  // The 1958 dayun must not be served as the 2000 data's dayun:
+  // the section falls back to the no-presentation entry.
+  await expect(location).toContainText("尚未查看大运");
+  await expect(location).not.toContainText("丁卯");
+});
+
+test("real backend: changing birth data on the yearly page invalidates the session dayun cache", async ({ page }) => {
+  test.skip(!RUNTIME_BACKEND, "needs a runtime-capable test backend (TIANJI_E2E_RUNTIME_BACKEND)");
+  // 1. Compute the dayun for the 1958 birth data on the bazi page.
+  await submitQ1WithRole(page);
+  await expect(page.locator(".dayun-timeline button")).toHaveCount(8);
+  await expect(page.locator(".dayun-detail")).toContainText("第 7 运 丁卯");
+
+  // 2. Follow the 2027 year link: 2027 locates in the 1958 dayun.
+  await page.locator('.dayun-timeline [data-period="7"] button').click();
+  await page.locator(".dayun-year-links a", { hasText: "2027 年" }).click();
+  await expect(page).toHaveURL(/\/yearly-structure$/);
+  await expect(page.locator(".yearly-result")).toBeVisible();
+  const location = page.locator(".yearly-dayun-location");
+  await expect(location).toContainText("2027 年 · 第 7 运 丁卯");
+
+  // 3. Change the birth data on the yearly page to the 2000 sample and resubmit.
+  await page.getByLabel("出生日期").fill("2000-01-07");
+  await page.getByLabel("出生时间").fill("12:00");
+  await page.getByRole("button", { name: "查看 2027 流年结构" }).click();
+  await expect(page.locator(".yearly-result")).toBeVisible();
+  // The yearly result is recomputed for the 2000 data (annual ganzhi 丁未, day master 甲).
+  await expect(page.locator(".yearly-result")).toContainText("丁未");
+
+  // 4. The 1958 dayun must NOT be served as the 2000 data's dayun.
+  await expect(location).toContainText("尚未查看大运");
+  await expect(location).not.toContainText("丁卯");
 });
 
 test("yearly page without a dayun presentation shows the entry, makes no API call, and fabricates nothing", async ({ page }) => {
