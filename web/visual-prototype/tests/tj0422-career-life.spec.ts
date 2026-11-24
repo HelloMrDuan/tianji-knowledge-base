@@ -59,6 +59,9 @@ test("career page loads with no API calls and shows the empty state", async ({ p
 });
 
 test("career submit with no backend shows a friendly error and never fires the lazy dayun call", async ({ page }) => {
+  // Premise is "no backend": with a runtime-capable backend the
+  // submit succeeds and no alert appears, so skip there.
+  test.skip(!!RUNTIME_BACKEND, "assumes no backend is reachable (TIANJI_E2E_RUNTIME_BACKEND unset)");
   const calls = await collectScenarioRequests(page);
   await page.goto("/career-wealth-structure");
   await page.getByRole("button", { name: "填入示例" }).click();
@@ -101,6 +104,9 @@ test("birth profile prefill is reused across the career and life pages without r
 });
 
 test("life submit with no backend shows a friendly error and no screens", async ({ page }) => {
+  // Premise is "no backend": with a runtime-capable backend the
+  // submit succeeds and no alert appears, so skip there.
+  test.skip(!!RUNTIME_BACKEND, "assumes no backend is reachable (TIANJI_E2E_RUNTIME_BACKEND unset)");
   await page.goto("/life-overview");
   await page.getByRole("button", { name: "填入示例" }).click();
   await page.getByLabel("观察年份").fill("2026");
@@ -131,7 +137,11 @@ test.describe("real backend", () => {
 
     // Layer B: no bazi-profile call yet — the timeline is lazy.
     expect(calls.filter((call) => call.scenario === "bazi-profile")).toEqual([]);
-    const layerB = page.getByLabel("当前大运");
+    // Once the timeline opens, a second element carries the same
+    // label (the current-period div inside DayunTimeline), so
+    // getByLabel resolves to two elements. The Layer B section is
+    // the only region with that name.
+    const layerB = page.getByRole("region", { name: "当前大运" });
     await expect(layerB).toContainText("查看完整 8 运时间线");
     await layerB.getByRole("button", { name: "查看完整 8 运时间线" }).click();
     await expect(page.locator(".slice-dayun-entries li")).toHaveCount(8, { timeout: 30000 });
@@ -144,7 +154,12 @@ test.describe("real backend", () => {
     const layerC = page.getByLabel("指定流年");
     await expect(layerC).toContainText("流年地支 午");
     await expect(layerC).toContainText("已核对 4 组地支");
-    await expect(layerC).toContainText("年度十神与原局综合解读");
+    // "年度十神与原局综合解读" is the section's aria-label, not
+    // visible text, so toContainText can never match it. Assert the
+    // section itself plus its visible headline instead (the real
+    // backend renders "2026年食神 · 食伤视角" for this sample).
+    await expect(page.locator("section.career-annual-reading")).toBeVisible();
+    await expect(layerC).toContainText("2026年食神 · 食伤视角");
 
     // Year stepper re-requests immediately and updates all layers.
     await layerC.getByRole("button", { name: "2027 年 →" }).click();
@@ -216,6 +231,9 @@ test.describe("real backend", () => {
 
     // Year stepper on the overview re-requests and syncs every screen.
     await page.getByRole("button", { name: "2027 年 →" }).click();
+    // .life-highlights only renders on screen ①; the stepper leaves
+    // the active screen at ⑤, so switch back before waiting for it.
+    await nav.getByRole("tab", { name: "① 命盘概况" }).click();
     await expect(page.locator(".life-highlights")).toBeVisible({ timeout: 30000 });
     expect(calls).toContainEqual({ scenario: "life", year: 2027, role: "female" });
     await expect(page.getByLabel("命盘概况")).toContainText("2027");
