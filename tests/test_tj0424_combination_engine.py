@@ -1703,6 +1703,8 @@ class NewInputFailClosedTests(unittest.TestCase):
                               "factor_variant": "unknown"})
 
     def test_pattern_broken_state_rejected(self):
+        # 第三批集成：broken 只认伤官见官一途；正官格破格无已审通道，
+        # 仍拒收（合法的伤官破格见 test_tj0424_broken_integration）。
         broken = self._pattern_v2()
         broken["results"]["zhengguan"]["state"] = "broken"
         with self.assertRaises(ValueError):

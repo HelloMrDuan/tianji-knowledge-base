@@ -1228,9 +1228,11 @@ class PatternTests(unittest.TestCase):
         self.assertEqual(out['gaps'][0]['gap_id'],
                          'no_pattern_yields_yongshen')
 
-    def test_not_provided_and_broken_refused(self):
+    def test_not_provided_and_broken_outside_channel_refused(self):
         self.assertEqual(evaluate_pattern_xiyong(None)['status'],
                          'not_provided')
+        # 第三批集成：broken 只认伤官见官一途；七杀格破格无已审通道，
+        # 仍拒收（合法的伤官破格见新文件 BrokenContractTests）。
         bad = copy.deepcopy(PATTERN_A)
         bad['results']['qisha']['state'] = 'broken'
         with self.assertRaises(ValueError):

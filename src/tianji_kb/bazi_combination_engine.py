@@ -37,7 +37,9 @@
 
 - 格局：直接消费格局引擎 v2（``bazi-pattern-engine-v2``）的
   ``evaluate_all`` 输出——每格状态、条件事实证据、Variant 信息、
-  D-1 成立证据原样转述；``broken`` 永不输出，只具名破格缺口。
+  D-1 成立证据原样转述；``broken`` 只经伤官见官一途输出，按契约
+  验收后单列破格登记（破格依据与原成立身份随记录携带），永不计入
+  成立；其余只具名破格缺口。
 - 旺衰：直接消费旺衰引擎（``bazi-strength-engine-v1``）的
   ``assess_strength`` 输出——古典分类、现代评分/分项、Q5/Q6
   不确定性标记、从格候选屏、分歧解释原样转述；不确定性传导，
@@ -300,7 +302,8 @@ LIMITATIONS = (
     "旺衰不确定性全程传导：土/丁日主得地未校准（Q5）、四库月得令记零"
     "（Q6）、balanced 只是现代模型中间带（Q9）、从格候选恒不等于成立"
     "（Q4）、古典与现代分歧不强制统一；组合层不把任何一项洗成确定结论。",
-    "格局 broken 永不输出：每格只具名破格缺口；D-1 成立只认任氏寅月"
+    "格局 broken 只经伤官见官一途输出（按契约验收，只作破格登记，"
+    "永不计入成立）；其余每格只具名破格缺口；D-1 成立只认任氏寅月"
     "真格，不外推其他月份与流派；官杀混杂与杂气的多 Variant 并列，"
     "不统一、不代选。",
     "喜用引擎格局变体已统一为 v2（C1，2026-11-25）：combine() 直接"
@@ -860,11 +863,47 @@ def _summarize_strength_assessment(assessment, day_master, month_branch):
     }
 
 
+def _validate_broken_pattern_result(key, result, evidence_ids):
+    """破格输入契约（第三批集成，与喜用引擎同口径）：只认唯一已审
+    古典破格通道——伤官见官（任氏寅月真格成立的伤官格＋正官在场）。
+
+    逐项核对：格键须为 ``shangguan``；rule_ids 须含 Ren D-1 规则；
+    证据 id 须含原成立身份 ``ren_yin_true_pattern`` 与破格证据
+    ``shangguan_sees_officer_broken``；additive 结构化字段须在场且
+    与证据一致。任一项漂移即 fail-closed。
+    """
+    if key != "shangguan":
+        _fail("pattern result broken outside the reviewed "
+              "shangguan channel")
+    rule_ids = result.get("rule_ids") or []
+    if not isinstance(rule_ids, list) \
+            or any(type(item) is not str for item in rule_ids) \
+            or "bazi.phase2.ren_yin_true_pattern" not in rule_ids:
+        _fail("pattern result broken lacks the reviewed ren_yin rule")
+    if not {"ren_yin_true_pattern",
+            "shangguan_sees_officer_broken"} <= set(evidence_ids):
+        _fail("pattern result broken lacks establishment or breaking "
+              "evidence")
+    if result.get("broken_condition") != "shangguan_sees_officer":
+        _fail("pattern result broken_condition drifted")
+    broken_evidence_ids = result.get("broken_evidence_ids")
+    if type(broken_evidence_ids) is not list \
+            or any(type(item) is not str for item in broken_evidence_ids) \
+            or "shangguan_sees_officer_broken" not in broken_evidence_ids:
+        _fail("pattern result broken_evidence_ids drifted")
+    if result.get("original_state") != "established":
+        _fail("pattern result broken original_state drifted")
+    if result.get("original_pattern") != result.get("pattern"):
+        _fail("pattern result broken original_pattern drifted")
+
+
 def _summarize_pattern_v2(pattern, day_master, month_branch):
     """原样转述 evaluate_all（v2）输出的可消费摘要（不重算、不合并）。
 
     每格状态、条件事实证据 id、Variant 信息、D-1 成立证据照录；
-    ``broken`` 若出现一律拒收（格局引擎永不输出 broken）。
+    ``broken`` 只经伤官见官一途输出：按契约验收后单列 ``broken``
+    （破格依据与原成立身份随记录携带），永不计入 ``established``；
+    通道外或字段漂移的 broken 一律拒收。
     """
     statement = _validate_engine_statement(
         pattern, PATTERN_ENGINE_VARIANT_V2, "pattern",
@@ -877,6 +916,7 @@ def _summarize_pattern_v2(pattern, day_master, month_branch):
     established = []
     candidates = []
     conflicts = []
+    broken = []
     broken_gaps = {}
     for key in sorted(results):
         result = results[key]
@@ -886,8 +926,6 @@ def _summarize_pattern_v2(pattern, day_master, month_branch):
         if state not in ("candidate", "established", "broken",
                          "conflict", "not_judgeable"):
             _fail("pattern result state drifted")
-        if state == "broken":
-            _fail("pattern engine never emits broken; refusing input")
         by_state[state] = by_state.get(state, 0) + 1
         record = {
             "pattern_key": key,
@@ -910,6 +948,16 @@ def _summarize_pattern_v2(pattern, day_master, month_branch):
         elif state == "conflict":
             record["evidence"] = copy.deepcopy(result.get("evidence") or [])
             conflicts.append(record)
+        elif state == "broken":
+            _validate_broken_pattern_result(
+                key, result, record["evidence_ids"])
+            record["evidence"] = copy.deepcopy(result.get("evidence") or [])
+            record["broken_condition"] = result.get("broken_condition")
+            record["broken_evidence_ids"] = list(
+                result.get("broken_evidence_ids"))
+            record["original_state"] = result.get("original_state")
+            record["original_pattern"] = result.get("original_pattern")
+            broken.append(record)
     return {
         "status": "consumed",
         "input_kind": "pattern_engine_v2",
@@ -919,6 +967,7 @@ def _summarize_pattern_v2(pattern, day_master, month_branch):
         "established": established,
         "candidates": candidates,
         "conflicts": conflicts,
+        "broken": broken,
         "broken_gaps": broken_gaps,
         "statement": statement,
     }
@@ -1447,6 +1496,8 @@ def _xiyong_contract(*, strength, tiaohou, bingyao, pattern, natal,
     # 格局用神：原样转述格局候选输出；定格字段恒为空，否则拒收。
     # 第二批：传入格局引擎 v2 输出时，消费其逐格状态与成立证据摘要；
     # 任何格都不输出用神（密封树中全部格的 useful_god 恒未审）。
+    # 第三批集成：broken 单列（破格依据与原成立身份随记录携带），
+    # 永不进入 established / eligible。
     if pattern_v2 is not None:
         eligible = []
         for record in pattern_v2["established"]:
@@ -1477,6 +1528,25 @@ def _xiyong_contract(*, strength, tiaohou, bingyao, pattern, natal,
                            "useful_god 恒未审：本契约不输出格局用神，只列"
                            "条件事实证据。"),
             })
+        broken_records = []
+        for record in pattern_v2["broken"]:
+            broken_records.append({
+                "pattern_key": record["pattern_key"],
+                "pattern": record["pattern"],
+                "state": "broken",
+                "rule_ids": list(record["rule_ids"]),
+                "evidence_ids": list(record["evidence_ids"]),
+                "broken_condition": record["broken_condition"],
+                "broken_evidence_ids":
+                    list(record["broken_evidence_ids"]),
+                "original_state": record["original_state"],
+                "original_pattern": record["original_pattern"],
+                "useful_god": None,
+                "useful_god_status": "no_reviewed_yongshen_rule",
+                "reason": ("原格局已破格（伤官见官）：原为伤官格（任氏寅月"
+                           "真格成立），正官在场破格，成立前提不再满足，"
+                           "不输出格局用神，只列破格依据与原成立身份。"),
+            })
         systems["pattern_yongshen"] = {
             "system": "pattern_yongshen",
             "status": "presented_from_pattern_v2",
@@ -1488,6 +1558,7 @@ def _xiyong_contract(*, strength, tiaohou, bingyao, pattern, natal,
                 {"pattern_key": c["pattern_key"], "pattern": c["pattern"],
                  "evidence_ids": list(c["evidence_ids"])}
                 for c in pattern_v2["conflicts"]],
+            "broken": broken_records,
             "broken_gaps": copy.deepcopy(pattern_v2["broken_gaps"]),
             "pattern": None,
             "useful_god": None,
@@ -1593,11 +1664,17 @@ def _xiyong_contract(*, strength, tiaohou, bingyao, pattern, natal,
         }
     if pattern_v2 is not None:
         established = [e["pattern"] for e in pattern_v2["established"]]
+        broken = [e["pattern"] for e in pattern_v2["broken"]]
+        note = ("流年格局用神推演未获批：原局已成立 %s，但格局用神逐格"
+                "规则未审，流年格局用神无可调用的规则。"
+                % ("、".join(established) if established else "无格"))
+        if broken:
+            note += ("原局 %s 已破格（伤官见官），不作成立计；"
+                     % "、".join(broken))
         references["pattern_yongshen"] = {
-            "note": ("流年格局用神推演未获批：原局已成立 %s，但格局用神逐格"
-                     "规则未审，流年格局用神无可调用的规则。"
-                     % ("、".join(established) if established else "无格")),
+            "note": note,
             "established_patterns": established,
+            "broken_patterns": broken,
         }
     else:
         references["pattern_yongshen"] = {

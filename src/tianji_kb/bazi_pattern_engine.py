@@ -113,10 +113,17 @@ classical ``broken`` channel (伤官见官 on a D-1 established 伤官格),
 two additive classical evidence ids (``guansha_zhifu_trigger``,
 ``zaqi_earth_conversion_mapping``), and gap/gate status annotations.
 Variant stays v2. Downstream note: the xiyong C1 check and the
-combination engine still refuse a ``broken`` pattern input
-(fail-closed, by design) -- a ``broken`` result is consumable by
-neither until that refusal is coordinated with those routes; this
-batch does not touch those files.
+combination engine now consume a ``broken`` pattern input per the
+batch-3 integration contract -- state in STATES, variant v2,
+governance flags research_only / public=False / ai=False, day stem /
+month branch consistent, rule_ids carrying the reviewed Ren D-1 rule,
+evidence carrying ``ren_yin_true_pattern`` +
+``shangguan_sees_officer_broken``, and the additive structured fields
+(``broken_condition`` / ``broken_evidence_ids`` /
+``original_state='established'`` / ``original_pattern``) on the broken
+result itself. A broken result is consumed only as broken: it never
+enters an established list, never yields a pattern useful god, and its
+pattern-yongshen branch abstains with the breaking reason stated.
 """
 
 from .bazi_core import hidden_stems, reviewed_relations, ten_god
@@ -444,10 +451,11 @@ def _ev(evidence_id, detail):
     return {'id': evidence_id, 'detail': detail}
 
 
-def _result(ctx, pattern_key, state, evidence, limitations, *, rule_ids=()):
+def _result(ctx, pattern_key, state, evidence, limitations, *, rule_ids=(),
+              broken_info=None):
     name = PATTERN_NAMES.get(pattern_key) or EXTRA_PATTERN_NAMES[pattern_key]
     modern, extra_evidence = _modern_assessment(ctx, pattern_key, state)
-    return {
+    out = {
         'pattern': name,
         'pattern_key': pattern_key,
         'state': state,
@@ -467,6 +475,23 @@ def _result(ctx, pattern_key, state, evidence, limitations, *, rule_ids=()):
         'day_stem': ctx.day_stem,
         'month_branch': ctx.month_branch,
     }
+    # Broken contract (batch 3 integration): a ``broken`` result must
+    # always carry its structured breaking basis and original identity
+    # (additive keys, so downstream can consume it as broken -- never
+    # as established). ``broken_info`` on a non-broken result, or a
+    # broken result without it, is an internal inconsistency: fail
+    # closed rather than emit a bare broken verdict.
+    if broken_info is not None:
+        if state != 'broken':
+            raise ValueError('broken_info given for a non-broken result')
+        for field in ('broken_condition', 'broken_evidence_ids',
+                      'original_state', 'original_pattern'):
+            if field not in broken_info:
+                raise ValueError('broken result lacks %s' % field)
+        out.update(broken_info)
+    elif state == 'broken':
+        raise ValueError('broken result lacks broken_info')
+    return out
 
 
 def _modern_strength_or_abstain(pillars, day_stem):
@@ -2153,7 +2178,14 @@ def _food_evaluator(ctx, pattern_key, god):
                  '月份与流派。',
                  '破格缺口（其余）：伤尽程度标尺仍未裁定；'
                  '本格 broken 通道仅伤官见官一途。'],
-                rule_ids=['bazi.phase2.ren_yin_true_pattern'])
+                rule_ids=['bazi.phase2.ren_yin_true_pattern'],
+                broken_info={
+                    'broken_condition': 'shangguan_sees_officer',
+                    'broken_evidence_ids':
+                        ['shangguan_sees_officer_broken'],
+                    'original_state': 'established',
+                    'original_pattern': god,
+                })
         # Established but no 正官 in 支干: no break; fall through to
         # the established branch below.
     if established is not None and established[0] == god + '格':

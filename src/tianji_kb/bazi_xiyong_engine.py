@@ -64,7 +64,10 @@
   但密封树中全部格的 ``useful_god`` 恒未审，故任何格都不输出用神——
   输出为「无已审用神规则」的确定结论，附该格的结构依据（格神、
   显干位置）与未覆盖原因；无资格的格不输出用神，只记原因。
-  ``broken`` 永不输出。第三批扩充有资格格的结构依据输出
+  ``broken`` 只经伤官见官一途输出（任氏寅月真格成立的伤官格＋
+  正官在场）：按契约验收后记 ineligible，破格依据与原成立身份随
+  记录携带，永不计入成立、永不输出格局用神。第三批扩充有资格格的
+  结构依据输出
   （``structure_basis``：格神五行与相对日主的关系、显干计数与月柱
   在场、证据全文、逐格 limitations、按状态计数、引擎 ``counts`` 与
   ``earth_gate`` 原样转述并校验），不新立任何格局用神规则。
@@ -1718,11 +1721,50 @@ def evaluate_bingyao_xiyong(bingyao, *, pillars=None):
                             'severity_threshold_undefined']}
 
 
+def _validate_broken_pattern_result(key, result, evidence):
+    """破格输入契约（第三批集成）：只认唯一已审古典破格通道。
+
+    伤官见官（任氏寅月真格成立的伤官格＋正官在场）。逐项核对：
+    格键须为 ``shangguan``；rule_ids 须含 Ren D-1 规则；证据须含
+    原成立身份 ``ren_yin_true_pattern`` 与破格证据
+    ``shangguan_sees_officer_broken``；additive 结构化字段须在场且
+    与证据一致（``broken_condition`` 为 ``shangguan_sees_officer``、
+    ``broken_evidence_ids`` 含破格证据 id、
+    ``original_state`` 为 ``established``、
+    ``original_pattern`` 与本格 pattern 名一致）。任一项漂移即
+    fail-closed：通道外、缺证据、缺字段的 broken 一律拒收。
+    """
+    if key != 'shangguan':
+        _fail('pattern result broken outside the reviewed '
+              'shangguan channel')
+    rule_ids = result.get('rule_ids') or []
+    if 'bazi.phase2.ren_yin_true_pattern' not in rule_ids:
+        _fail('pattern result broken lacks the reviewed ren_yin rule')
+    evidence_ids = {item['id'] for item in evidence}
+    if not {'ren_yin_true_pattern',
+            'shangguan_sees_officer_broken'} <= evidence_ids:
+        _fail('pattern result broken lacks establishment or breaking '
+              'evidence')
+    if result.get('broken_condition') != 'shangguan_sees_officer':
+        _fail('pattern result broken_condition drifted')
+    broken_evidence_ids = result.get('broken_evidence_ids')
+    if type(broken_evidence_ids) is not list \
+            or any(type(item) is not str for item in broken_evidence_ids) \
+            or 'shangguan_sees_officer_broken' not in broken_evidence_ids:
+        _fail('pattern result broken_evidence_ids drifted')
+    if result.get('original_state') != 'established':
+        _fail('pattern result broken original_state drifted')
+    if result.get('original_pattern') != result.get('pattern'):
+        _fail('pattern result broken original_pattern drifted')
+
+
 def evaluate_pattern_xiyong(pattern, *, pillars=None, day_master=None):
     """格局用神：消费格局引擎 evaluate_all 输出，只对有资格的格列依据。
 
     有资格 = state 为 established，或 state 为 candidate 且 rule_ids
-    含 validated 候选规则。任何格的 useful_god 恒为 None（密封树中
+    含 validated 候选规则。state 为 broken 的格按破格契约验收后记
+    ineligible（原格局已破格，成立前提不再满足），永不进入 eligible、
+    永不输出格局用神。任何格的 useful_god 恒为 None（密封树中
     全部格的用神未审），本函数只输出该确定结论与结构依据，不捏造用神。
     """
     base = {'system': 'pattern_yongshen', 'research_only': True,
@@ -1804,8 +1846,6 @@ def evaluate_pattern_xiyong(pattern, *, pillars=None, day_master=None):
         if state not in ('candidate', 'established', 'broken', 'conflict',
                          'not_judgeable'):
             _fail('pattern result state drifted')
-        if state == 'broken':
-            _fail('pattern engine never emits broken; refusing input')
         rule_ids = result.get('rule_ids') or []
         if not isinstance(rule_ids, list) \
                 or any(type(item) is not str for item in rule_ids):
@@ -1843,6 +1883,10 @@ def evaluate_pattern_xiyong(pattern, *, pillars=None, day_master=None):
                 or any(type(gap) is not str or not gap
                        for gap in broken_gaps):
             _fail('pattern result broken_gaps drifted')
+        # 破格契约验收（第三批集成）：只认伤官见官一途，逐项核对破格
+        # 条件、破格证据与原成立身份；通道外或字段漂移的 broken 拒收。
+        if state == 'broken':
+            _validate_broken_pattern_result(key, result, evidence)
         god = PATTERN_TEN_GODS.get(key)
         visible_positions = []
         if god is not None and normalized is not None:
@@ -1865,6 +1909,15 @@ def evaluate_pattern_xiyong(pattern, *, pillars=None, day_master=None):
             'evidence_ids': [item['id'] for item in evidence],
             'broken_gaps': list(broken_gaps),
         }
+        if state == 'broken':
+            # 破格依据与原成立身份随记录下游携带，任何环节不得丢弃。
+            record.update({
+                'broken_condition': result.get('broken_condition'),
+                'broken_evidence_ids':
+                    list(result.get('broken_evidence_ids')),
+                'original_state': result.get('original_state'),
+                'original_pattern': result.get('original_pattern'),
+            })
         if is_eligible:
             god_relation = PATTERN_GOD_RELATIONS.get(god)
             day_element = stem_element(pattern_day)
@@ -1899,6 +1952,10 @@ def evaluate_pattern_xiyong(pattern, *, pillars=None, day_master=None):
                           '无资格输出格局用神。')
             elif state == 'conflict':
                 reason = '流派冲突未裁定（官杀去留/杂气换算未审）：不输出用神。'
+            elif state == 'broken':
+                reason = ('原格局已破格（伤官见官）：原为伤官格（任氏寅月'
+                          '真格成立），正官在场破格，成立前提不再满足，'
+                          '不输出格局用神。')
             else:
                 reason = '无已审依据：不输出用神。'
             record.update({'reason': reason})
@@ -1935,8 +1992,9 @@ def evaluate_pattern_xiyong(pattern, *, pillars=None, day_master=None):
     limitations = [
         '成立的唯一通道是任氏寅月真格；候选只认 validated 候选规则；'
         '观察级候选、冲突、未可判一律无资格。',
-        '破格恒不输出：无逐格破格条件句；破格缺口只见各结果的 broken_gaps '
-        '具名表（登记，不立规则）。',
+        '破格只经伤官见官一途输出（任氏寅月真格成立＋正官在场）；破格'
+        '结果只作破格登记，永不计入成立、不输出格局用神；其余破格缺口'
+        '只见各结果的 broken_gaps 具名表（登记，不立规则）。',
         '戊×巳 / 己×午土日主成格不可建（TJ-011.2），一律不作格局裁定。',
         '格神显干位置只是结构依据，不是用神结论；不得据格神反推用神。',
         '结构依据（structure_basis：格神五行与相对日主的关系、显干计数与'
