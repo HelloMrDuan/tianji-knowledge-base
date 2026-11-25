@@ -30,8 +30,31 @@
 2. 条件判断层：每条关系附触发条件与前提（已满足 / 未满足 /
    无法判定），引用所消费的已审规则 ID。
 3. 效力层（``effects``）：只写有依据的效力；本模块无任何已审跨层
-   效力规则可用（TJ-017.2 与 TJ-023.3 均阻塞），故每条效力一律
+   效力规则可用（TJ-017.2 与 TJ-023.3 均阻塞），故无依据的效力一律
    abstain 并写明理由，绝不把缺少依据的效力判断写成已经完成。
+
+第二批（TJ-0425，P0-4 岁运组合引擎扩展，B3/B4）：
+
+- 格局：直接消费格局引擎 v2（``bazi-pattern-engine-v2``）的
+  ``evaluate_all`` 输出——每格状态、条件事实证据、Variant 信息、
+  D-1 成立证据原样转述；``broken`` 永不输出，只具名破格缺口。
+- 旺衰：直接消费旺衰引擎（``bazi-strength-engine-v1``）的
+  ``assess_strength`` 输出——古典分类、现代评分/分项、Q5/Q6
+  不确定性标记、从格候选屏、分歧解释原样转述；不确定性传导，
+  不在组合层洗成确定结论。
+- 喜用：直接消费喜用引擎（``bazi-xiyong-engine-v1``）的
+  ``evaluate_xiyong`` 输出——四体系与流年喜用年度契约（6 项已
+  实现对照）原样转述，取代旧的 4 项契约；待批 5 项保持 pending。
+  未传入喜用引擎输出时，仍用旧的四体系契约（向后兼容）。
+- 关系补齐：三对关系完整枚举；大运×流年对内仅两支、无可形成
+  之组，另以 ``dayun_x_flow_x_natal`` scope 枚举跨三层之组
+  （须同时含大运支与流年支者，只记未被两对 scope 覆盖之组）。
+- 效力层：有规则依据的，改为带依据的条件结论（``status`` 为
+  ``conditional``，``verdict`` 为存在性/模型口径事实标签，绝非
+  吉凶或效力断言）；无依据的保持 abstain 并具名缺口。条件结论
+  只有四种：流年/大运干与已成立格局之格神同十神、与扶抑现代候
+  选干同字、与原局调候序列同字、Q3-A 模型口径（冲/害/六合在原
+  局现代模型内只记录、score_adjustment 恒为 0）。
 
 喜用神综合分析契约（``xiyong``）：扶抑、调候、病药、格局用神四体系
 并列输出，各体系原样消费现有输出，不新造判断；
@@ -66,6 +89,48 @@ RULE_BINGYAO_ASSESSMENT = "bazi.phase2.bingyao_assessment"
 RULE_STRENGTH_FACTORS = "ditiansui-root-visibility-v1"
 RULE_PATTERN_CANDIDATES = "bazi-pattern-structure-candidates-v1"
 RULE_FUYI_SLICE = "bazi-fuyi-slice-adjudication-v1"
+
+# 第二批消费的引擎变体（只作输入校验，不 import 对应模块；本模块
+# 仍只依赖 foundations，公开检出可执行）。
+STRENGTH_ENGINE_VARIANT = "bazi-strength-engine-v1"
+PATTERN_ENGINE_VARIANT_V2 = "bazi-pattern-engine-v2"
+XIYONG_ENGINE_VARIANT = "bazi-xiyong-engine-v1"
+ANNUAL_CONTRACT_VARIANT = "bazi-xiyong-annual-contract-v1"
+RULE_STRENGTH_ENGINE = STRENGTH_ENGINE_VARIANT
+RULE_PATTERN_ENGINE_V2 = PATTERN_ENGINE_VARIANT_V2
+RULE_XIYONG_ENGINE = XIYONG_ENGINE_VARIANT
+RULE_MODERN_STRENGTH_MODEL = "strength_model_modern_v1"
+# 喜用引擎格局体系的有资格规则（与 bazi_xiyong_engine 的
+# VALIDATED_CANDIDATE_RULE_IDS 同值；此处只作消费端核对，不重定规则）。
+VALIDATED_PATTERN_RULE_IDS = frozenset((
+    "bazi.phase2.official_pattern_candidates",
+    "bazi.phase2.resource_pattern_candidates",
+    "bazi.phase2.ren_yin_true_pattern",
+))
+# 流年喜用年度契约：喜用引擎的 6 项已实现对照（取代旧契约的 4 项）。
+ANNUAL_IMPLEMENTED = (
+    "flow_year_ganzhi_and_ten_god",
+    "flow_stem_presence_against_natal_tiaohou_sequence",
+    "flow_stem_ten_god_role_against_bingyao_pairs",
+    "rule_call_structure",
+    "flow_stem_presence_against_fuyi_modern_candidates",
+    "flow_stem_presence_against_pattern_basis",
+)
+ANNUAL_PENDING = (
+    "annual_tiaohou_derivation",
+    "annual_bingyao_derivation",
+    "annual_fuyi_derivation",
+    "annual_pattern_yongshen_derivation",
+    "unified_annual_verdict",
+)
+# 条件结论的 verdict 标签（只作存在性 / 模型口径事实标签，绝非
+# 吉凶、强弱、格局或效力断言）。
+CONDITIONAL_VERDICTS = (
+    "stem_matches_established_pattern_god",
+    "stem_matches_fuyi_modern_candidate",
+    "stem_matches_natal_tiaohou_sequence",
+    "model_treatment_recorded_only",
+)
 
 PILLAR_NAMES = ("year", "month", "day", "hour")
 
@@ -152,6 +217,22 @@ LIMITATIONS = (
     "推演待对应规则获批，契约只含数据与调用结构。",
     "本引擎不注册 Phase1/Phase2 rule，不进 RuleMatch 与 Evidence； "
     "恒 research_only=True、public_enabled=False、ai_enabled=False。",
+    "条件结论（status conditional）只陈述存在性事实或现代工程模型的 "
+    "处理口径，绝非跨层效力断言：流年/大运干与格神、扶抑现代候选干、"
+    "调候序列同字只记同字事实；Q3-A 只记冲/害/六合在原局现代模型内"
+    "只记录、score_adjustment 恒为 0，跨层冲/害/合的效力仍未裁定。",
+    "旺衰不确定性全程传导：土/丁日主得地未校准（Q5）、四库月得令记零"
+    "（Q6）、balanced 只是现代模型中间带（Q9）、从格候选恒不等于成立"
+    "（Q4）、古典与现代分歧不强制统一；组合层不把任何一项洗成确定结论。",
+    "格局 broken 永不输出：每格只具名破格缺口；D-1 成立只认任氏寅月"
+    "真格，不外推其他月份与流派；官杀混杂与杂气的多 Variant 并列，"
+    "不统一、不代选。",
+    "喜用引擎 evaluate_pattern_xiyong 仍校验格局 v1 变体，与格局引擎"
+    " v2 不一致：combine() 直接消费 v2 格局输出，xiyong 侧的格局体系"
+    "须由调用方另行对齐；本引擎不伪造 v1 格局输入。",
+    "大运×流年对内仅两支，三合/方位会需三支，组关系在本对内无可形成"
+    "之组；跨三层之组只记同时含大运支与流年支者，见 "
+    "dayun_x_flow_x_natal scope。",
 )
 
 
@@ -458,8 +539,12 @@ def _branch_pair_relations(counter, scope, side_a, side_b, *, period_index,
 
 
 def _group_relations(counter, scope, branches_with_sides, *, period_index,
-                     mapping_condition):
-    """三合 / 方位会：只在该 scope 的地支集合上评估，不跨 scope 借支。"""
+                     mapping_condition, required_branches=None):
+    """三合 / 方位会：只在该 scope 的地支集合上评估，不跨 scope 借支。
+
+    ``required_branches`` 非空时，只输出同时含全部指定支的组（用于
+    跨三层 scope：只记未被两对 scope 覆盖、同时含大运支与流年支之组）。
+    """
     rows = []
     present = {}
     for branch, side in branches_with_sides:
@@ -471,6 +556,9 @@ def _group_relations(counter, scope, branches_with_sides, *, period_index,
              RULE_DIRECTIONAL_MEETINGS)):
         for members, result_element in table:
             if not all(member in present for member in members):
+                continue
+            if required_branches is not None and not set(
+                    required_branches).issubset(set(members)):
                 continue
             counter[0] += 1
             rows.append({
@@ -528,6 +616,369 @@ def _mapping_condition(current_period_index, current_period_basis,
         basis=current_period_basis)
 
 
+def _validate_engine_statement(statement, variant, label, *,
+                               day_master=None, month_branch=None,
+                               flag_style="enabled"):
+    """校验一个引擎输出字典的变体、治理旗标与日主/月支一致性。
+
+    ``flag_style`` 为 ``"enabled"`` 时核 ``public_enabled`` /
+    ``ai_enabled``（旺衰/喜用引擎）；为 ``"public"`` 时核 ``public`` /
+    ``ai``（格局引擎 v2）。只校验，不重算。
+    """
+    if not isinstance(statement, dict):
+        _fail("%s statement must be an object" % label)
+    if statement.get("variant") != variant:
+        _fail("%s statement variant drifted" % label)
+    if statement.get("research_only") is not True:
+        _fail("%s statement research_only drifted" % label)
+    if flag_style == "enabled":
+        if statement.get("public_enabled") is not False:
+            _fail("%s statement public_enabled drifted" % label)
+        if statement.get("ai_enabled") is not False:
+            _fail("%s statement ai_enabled drifted" % label)
+    else:
+        if statement.get("public") is not False:
+            _fail("%s statement public drifted" % label)
+        if statement.get("ai") is not False:
+            _fail("%s statement ai drifted" % label)
+    if day_master is not None:
+        actual = statement.get("day_master", statement.get("day_stem"))
+        if actual != day_master:
+            _fail("%s statement disagrees on the day master" % label)
+    if month_branch is not None and statement.get(
+            "month_branch") != month_branch:
+        _fail("%s statement disagrees on the month branch" % label)
+    return copy.deepcopy(statement)
+
+
+def _summarize_strength_assessment(assessment, day_master, month_branch):
+    """原样转述 assess_strength 输出的可消费摘要（不重算、不合并）。
+
+    古典分类、现代评分/分项、Q5/Q6 不确定性标记、从格候选屏、
+    古典/现代分歧关系全部照录；modern 为 None（未启用）时照录 None。
+    """
+    statement = _validate_engine_statement(
+        assessment, STRENGTH_ENGINE_VARIANT, "strength assessment",
+        day_master=day_master, month_branch=month_branch)
+    classical = statement.get("classical")
+    modern = statement.get("modern")
+    if not isinstance(classical, dict):
+        _fail("strength assessment classical layer malformed")
+    if modern is not None and not isinstance(modern, dict):
+        _fail("strength assessment modern layer malformed")
+    if modern is not None:
+        if modern.get("model_id") != RULE_MODERN_STRENGTH_MODEL:
+            _fail("strength assessment modern model_id drifted")
+        if modern.get("model_kind") != "modern_engineering":
+            _fail("strength assessment modern model_kind drifted")
+        if modern.get("verdict") not in (
+                "strong", "weak", "balanced", "abstain"):
+            _fail("strength assessment modern verdict drifted")
+    agreement = statement.get("agreement") or {}
+    matched = classical.get("matched_predicate")
+    cong = None
+    interactions = None
+    if modern is not None:
+        cong_block = modern.get("cong_candidates")
+        if isinstance(cong_block, dict):
+            cong = {
+                "candidates": [
+                    {"kind": c.get("kind"), "name_cn": c.get("name_cn"),
+                     "establishment": c.get("establishment"),
+                     "verdict": c.get("verdict")}
+                    for c in cong_block.get("candidates") or []],
+                "screen_triggered": cong_block.get("screen_triggered"),
+                "screen_kinds": list(
+                    cong_block.get("screen_kinds") or []),
+                "screen_reason": cong_block.get("screen_reason"),
+            }
+        inter_block = modern.get("interaction_effects")
+        if isinstance(inter_block, dict):
+            interactions = {
+                "records": [
+                    {"kind": r.get("kind"), "name_cn": r.get("name_cn"),
+                     "effect_on_strength": r.get("effect_on_strength"),
+                     "score_adjustment": r.get("score_adjustment")}
+                    for r in inter_block.get("records") or []],
+                "score_adjustment_total": inter_block.get(
+                    "score_adjustment_total"),
+            }
+    components = None
+    if modern is not None and isinstance(modern.get("components"), dict):
+        components = {
+            key: {"score": value.get("score"),
+                  "basis": value.get("basis"),
+                  "conditions": list(value.get("conditions") or [])}
+            for key, value in modern["components"].items()
+            if isinstance(value, dict)}
+    return {
+        "status": "consumed",
+        "input_kind": "strength_assessment",
+        "variant": STRENGTH_ENGINE_VARIANT,
+        "classical": {
+            "classification": classical.get("classification"),
+            "matched_predicate": (
+                matched.get("predicate_id")
+                if isinstance(matched, dict) else None),
+            "matched_predicate_verification": (
+                matched.get("verification")
+                if isinstance(matched, dict) else None),
+            "blockers": list(classical.get("blockers") or []),
+        },
+        "modern": None if modern is None else {
+            "model_id": modern.get("model_id"),
+            "model_kind": modern.get("model_kind"),
+            "verdict": modern.get("verdict"),
+            "score": modern.get("score"),
+            "score_band": modern.get("score_band"),
+            "classification_status": modern.get("classification_status"),
+            "definite_classification": modern.get(
+                "definite_classification"),
+            "uncertainty_flags": list(
+                modern.get("uncertainty_flags") or []),
+            "abstain_reason": modern.get("abstain_reason"),
+            "abstain_detail": modern.get("abstain_detail"),
+            "components": components,
+            "cong_candidates": cong,
+            "interaction_effects": interactions,
+        },
+        "agreement": {
+            "classical": agreement.get("classical"),
+            "modern": agreement.get("modern"),
+            "relationship": agreement.get("relationship"),
+            "note": agreement.get("note"),
+        },
+        "statement": statement,
+    }
+
+
+def _summarize_pattern_v2(pattern, day_master, month_branch):
+    """原样转述 evaluate_all（v2）输出的可消费摘要（不重算、不合并）。
+
+    每格状态、条件事实证据 id、Variant 信息、D-1 成立证据照录；
+    ``broken`` 若出现一律拒收（格局引擎永不输出 broken）。
+    """
+    statement = _validate_engine_statement(
+        pattern, PATTERN_ENGINE_VARIANT_V2, "pattern",
+        day_master=day_master, month_branch=month_branch,
+        flag_style="public")
+    results = statement.get("results")
+    if not isinstance(results, dict) or not results:
+        _fail("pattern statement results malformed")
+    by_state = {}
+    established = []
+    candidates = []
+    conflicts = []
+    broken_gaps = {}
+    for key in sorted(results):
+        result = results[key]
+        if not isinstance(result, dict):
+            _fail("pattern result must be an object")
+        state = result.get("state")
+        if state not in ("candidate", "established", "broken",
+                         "conflict", "not_judgeable"):
+            _fail("pattern result state drifted")
+        if state == "broken":
+            _fail("pattern engine never emits broken; refusing input")
+        by_state[state] = by_state.get(state, 0) + 1
+        record = {
+            "pattern_key": key,
+            "pattern": result.get("pattern"),
+            "state": state,
+            "evidence_ids": [e.get("id") for e in
+                             (result.get("evidence") or [])
+                             if isinstance(e, dict)],
+            "rule_ids": list(result.get("rule_ids") or []),
+        }
+        gaps = [line for line in (result.get("limitations") or [])
+                if "破格缺口" in str(line)]
+        if gaps:
+            broken_gaps[key] = list(gaps)
+        if state == "established":
+            record["evidence"] = copy.deepcopy(result.get("evidence") or [])
+            established.append(record)
+        elif state == "candidate":
+            candidates.append(record)
+        elif state == "conflict":
+            record["evidence"] = copy.deepcopy(result.get("evidence") or [])
+            conflicts.append(record)
+    return {
+        "status": "consumed",
+        "input_kind": "pattern_engine_v2",
+        "variant": PATTERN_ENGINE_VARIANT_V2,
+        "counts": dict(by_state),
+        "earth_gate": statement.get("earth_gate"),
+        "established": established,
+        "candidates": candidates,
+        "conflicts": conflicts,
+        "broken_gaps": broken_gaps,
+        "statement": statement,
+    }
+
+
+def _xiyong_from_engine(xiyong, day_master, month_branch):
+    """原样转述 evaluate_xiyong 输出（四体系＋流年年度契约）。
+
+    只校验变体、治理旗标、日主/月支与年度契约的 6 项已实现对照；
+    待批 5 项须保持 pending，否则拒收（漂移即 fail-closed）。
+    """
+    statement = _validate_engine_statement(
+        xiyong, XIYONG_ENGINE_VARIANT, "xiyong",
+        day_master=day_master, month_branch=month_branch)
+    if statement.get("unified_verdict") is not None:
+        _fail("xiyong statement carries a unified verdict")
+    systems = statement.get("systems")
+    if not isinstance(systems, dict) or set(systems) != {
+            "fuyi", "tiaohou", "bingyao", "pattern_yongshen"}:
+        _fail("xiyong statement systems malformed")
+    annual = statement.get("annual_xiyong")
+    if annual is not None:
+        if not isinstance(annual, dict):
+            _fail("xiyong annual contract malformed")
+        if annual.get("variant") != ANNUAL_CONTRACT_VARIANT:
+            _fail("xiyong annual contract variant drifted")
+        implemented = annual.get("implemented") or []
+        if not set(ANNUAL_IMPLEMENTED).issubset(set(implemented)):
+            _fail("xiyong annual contract implemented items drifted")
+        if set(annual.get("pending") or []) != set(ANNUAL_PENDING):
+            _fail("xiyong annual contract pending items drifted")
+        if annual.get("derivation") is not None:
+            _fail("xiyong annual contract carries a derivation")
+        if annual.get("unified_verdict") is not None:
+            _fail("xiyong annual contract carries a unified verdict")
+    return statement
+
+
+def _conditional_conclusions(relation, *, day_master, fuyi_candidate_stems,
+                             tiaohou_sequence_stems,
+                             established_pattern_gods,
+                             strength_assessment_present):
+    """一条关系可得的条件结论（存在性 / 模型口径事实），无则为空。
+
+    只对非原局侧（大运/流年）的干作存在性核对；原局侧干本身即扶抑
+    候选干的来源，不作同字核对。返回的每条结论都带依据与“不是效力
+    断言”的明记；调用方只在结论非空时改写 effect。
+    """
+    conclusions = []
+    scope = relation["scope"]
+    kind = relation["kind"]
+    sides = []
+    if scope in ("dayun_x_natal", "flow_x_natal"):
+        sides = [("non_natal", relation["side_a"])]
+    elif scope == "dayun_x_flow":
+        sides = [("dayun", relation["side_a"]),
+                 ("flow_year", relation["side_b"])]
+    else:  # 组关系（side_a/side_b 为 None）不在此核对。
+        sides = []
+    if kind in ("stem_five_element", "stem_five_combination"):
+        for side_label, side in sides:
+            if side is None:
+                continue
+            stem = side["stem"]
+            ten_god = side["stem_ten_god"]
+            for god in established_pattern_gods:
+                if ten_god == god:
+                    conclusions.append({
+                        "verdict": "stem_matches_established_pattern_god",
+                        "side": side_label, "stem": stem,
+                        "ten_god": ten_god, "pattern_god": god,
+                        "reason": ("该侧干 %s（%s）与已成立格局之格神 %s 同"
+                                   "十神：只记同十神存在性事实，不等于格局"
+                                   "效力、格神得用或大运/流年吉凶。"
+                                   % (stem, ten_god, god)),
+                        "basis": {"pattern_god": god,
+                                  "rule_ids": [
+                                      "bazi.phase2.ren_yin_true_pattern"]},
+                    })
+            if stem in (fuyi_candidate_stems or ()):
+                conclusions.append({
+                    "verdict": "stem_matches_fuyi_modern_candidate",
+                    "side": side_label, "stem": stem,
+                    "ten_god": ten_god,
+                    "reason": ("该侧干 %s 与原局扶抑现代层候选干同字：只记"
+                               "同字存在性事实；现代扶抑规则待裁定"
+                               "（proposed_pending_adjudication），不等"
+                               "于大运/流年扶抑效力成立。" % stem),
+                    "basis": {"model_id": "fuyi-modern-rules-v1",
+                              "model_kind": "modern_engineering"},
+                })
+            if stem in (tiaohou_sequence_stems or ()):
+                conclusions.append({
+                    "verdict": "stem_matches_natal_tiaohou_sequence",
+                    "side": side_label, "stem": stem,
+                    "ten_god": ten_god,
+                    "reason": ("该侧干 %s 在原局调候序列中：只记存在性"
+                               "事实，不据此取大运/流年调候用神；流年"
+                               "调候推演未获批。" % stem),
+                    "basis": {"rule_ids": [
+                        RULE_TIAOHOU_ASSESSMENT]},
+                })
+    if kind in ("branch_clash", "branch_harm", "branch_six_harmony") \
+            and strength_assessment_present:
+        conclusions.append({
+            "verdict": "model_treatment_recorded_only",
+            "side": None, "stem": None,
+            "ten_god": None,
+            "reason": ("Q3-A 工程模型口径：此类关系（%s）在原局现代模型"
+                       "内只记录作用条件与局限，score_adjustment 恒为 0；"
+                       "跨层冲/害/合的实际效力仍未裁定（TJ-017.2），本条"
+                       "只陈述模型处理口径，不作跨层效力断言。"
+                       % {"branch_clash": "冲", "branch_harm": "害",
+                          "branch_six_harmony": "六合"}[kind]),
+            "basis": {"model_id": RULE_MODERN_STRENGTH_MODEL,
+                      "model_kind": "modern_engineering",
+                      "rule": "Q3-A interaction_conditions",
+                      "score_adjustment": 0},
+        })
+    return conclusions
+
+
+def _apply_conditional_effects(relations, *, day_master,
+                               fuyi_candidate_stems,
+                               tiaohou_sequence_stems,
+                               established_pattern_gods,
+                               strength_assessment_present):
+    """对全部关系逐条计算条件结论；有结论者改写 effect 为 conditional。
+
+    返回 (conditional_count, conditional_list)。无新输入时（各引用皆
+    空且未传入旺衰评估），全部关系保持 abstain，旧行为不变。
+    """
+    conditional = []
+    for relation in relations:
+        conclusions = _conditional_conclusions(
+            relation, day_master=day_master,
+            fuyi_candidate_stems=fuyi_candidate_stems,
+            tiaohou_sequence_stems=tiaohou_sequence_stems,
+            established_pattern_gods=established_pattern_gods,
+            strength_assessment_present=strength_assessment_present)
+        if not conclusions:
+            continue
+        verdicts = []
+        rule_ids = []
+        for conclusion in conclusions:
+            if conclusion["verdict"] not in verdicts:
+                verdicts.append(conclusion["verdict"])
+            for rule_id in (conclusion.get("basis") or {}).get(
+                    "rule_ids", ()):
+                if rule_id not in rule_ids:
+                    rule_ids.append(rule_id)
+        relation["effect"] = {
+            "verdict": verdicts[0],
+            "status": "conditional",
+            "reason": "；".join(c["reason"] for c in conclusions),
+            "rule_ids": rule_ids,
+            "basis": {"not_an_efficacy_verdict": True,
+                      "conclusions": copy.deepcopy(conclusions)},
+            "conditional_conclusions": copy.deepcopy(conclusions),
+        }
+        conditional.append({
+            "relation_id": relation["id"], "scope": relation["scope"],
+            "kind": relation["kind"], "verdicts": verdicts,
+            "conclusions": copy.deepcopy(conclusions),
+        })
+    return len(conditional), conditional
+
+
 def _validate_system_statement(statement, *, variant, system, label):
     if not isinstance(statement, dict):
         _fail("%s statement must be an object" % label)
@@ -545,7 +996,8 @@ def _validate_system_statement(statement, *, variant, system, label):
 
 
 def _xiyong_contract(*, strength, tiaohou, bingyao, pattern, natal,
-                     flow, day_master):
+                     flow, day_master, strength_assessment=None,
+                     pattern_v2=None):
     systems = {}
 
     # 扶抑：零行可建（S4 审定）。即使传入已审强弱因素，也只原样转述，
@@ -575,6 +1027,38 @@ def _xiyong_contract(*, strength, tiaohou, bingyao, pattern, natal,
         fuyi["consumed_strength_factors"] = copy.deepcopy(strength)
         fuyi["strength_note"] = ("已审强弱因素原样转述：overall_strength 恒为 None，"
                                  "只含月令/通根/透干等结构事实，不作强弱分类。")
+    if strength_assessment is not None:
+        # 新形态旺衰评估：古典分类、现代评分与 Q5/Q6 不确定性照录；
+        # 扶抑本身仍零行可建——评估只作参照，不推出扶抑方向。
+        summary = strength_assessment
+        modern = summary.get("modern") or {}
+        fuyi["consumed_strength_assessment"] = {
+            "classical_classification": summary["classical"]["classification"],
+            "classical_matched_predicate": summary["classical"][
+                "matched_predicate"],
+            "modern_verdict": modern.get("verdict"),
+            "modern_score": modern.get("score"),
+            "modern_classification_status": modern.get(
+                "classification_status"),
+            "modern_definite_classification": modern.get(
+                "definite_classification"),
+            "modern_uncertainty_flags": list(
+                modern.get("uncertainty_flags") or []),
+            "modern_abstain_reason": modern.get("abstain_reason"),
+            "agreement_relationship": summary["agreement"]["relationship"],
+        }
+        assessment_note = (
+            "另消费旺衰引擎评估：古典分类 %s、现代 %s（%s 分，分类状态 %s，"
+            "不确定性 %s）；不确定性传导进扶抑，现代扶抑方向候选由 "
+            "evaluate_fuyi 计算，本契约不重算、不给方向。"
+            % (summary["classical"]["classification"],
+               modern.get("verdict"), modern.get("score"),
+               modern.get("classification_status"),
+               ",".join(modern.get("uncertainty_flags") or []) or "无"))
+        fuyi["strength_note"] = (
+            fuyi.get("strength_note", "") + assessment_note
+            if strength is not None
+            else "未传入旧形态强弱因素。" + assessment_note)
     systems["fuyi"] = fuyi
 
     # 调候：原样转述 tiaohou_lookup 输出。
@@ -638,7 +1122,55 @@ def _xiyong_contract(*, strength, tiaohou, bingyao, pattern, natal,
         }
 
     # 格局用神：原样转述格局候选输出；定格字段恒为空，否则拒收。
-    if pattern is None:
+    # 第二批：传入格局引擎 v2 输出时，消费其逐格状态与成立证据摘要；
+    # 任何格都不输出用神（密封树中全部格的 useful_god 恒未审）。
+    if pattern_v2 is not None:
+        eligible = []
+        for record in pattern_v2["established"]:
+            eligible.append({
+                "pattern_key": record["pattern_key"],
+                "pattern": record["pattern"],
+                "state": "established",
+                "rule_ids": list(record["rule_ids"]),
+                "evidence_ids": list(record["evidence_ids"]),
+                "useful_god": None,
+                "useful_god_status": "no_reviewed_yongshen_rule",
+                "reason": ("该格已成立（任氏寅月真格），但密封树中全部格的 "
+                           "useful_god 恒未审：本契约不输出格局用神，只列"
+                           "成立证据。"),
+            })
+        for record in pattern_v2["candidates"]:
+            if not set(record["rule_ids"]) & VALIDATED_PATTERN_RULE_IDS:
+                continue
+            eligible.append({
+                "pattern_key": record["pattern_key"],
+                "pattern": record["pattern"],
+                "state": "candidate",
+                "rule_ids": list(record["rule_ids"]),
+                "evidence_ids": list(record["evidence_ids"]),
+                "useful_god": None,
+                "useful_god_status": "no_reviewed_yongshen_rule",
+                "reason": ("该格有 validated 候选规则，但密封树中全部格的 "
+                           "useful_god 恒未审：本契约不输出格局用神，只列"
+                           "条件事实证据。"),
+            })
+        systems["pattern_yongshen"] = {
+            "system": "pattern_yongshen",
+            "status": "presented_from_pattern_v2",
+            "statement": copy.deepcopy(pattern_v2["statement"]),
+            "counts": dict(pattern_v2["counts"]),
+            "established": [e["pattern"] for e in pattern_v2["established"]],
+            "eligible": eligible,
+            "conflicts": [
+                {"pattern_key": c["pattern_key"], "pattern": c["pattern"],
+                 "evidence_ids": list(c["evidence_ids"])}
+                for c in pattern_v2["conflicts"]],
+            "broken_gaps": copy.deepcopy(pattern_v2["broken_gaps"]),
+            "pattern": None,
+            "useful_god": None,
+            "determination": None,
+        }
+    elif pattern is None:
         systems["pattern_yongshen"] = {
             "system": "pattern_yongshen", "status": "not_provided",
             "pattern": None, "useful_god": None,
@@ -724,12 +1256,30 @@ def _xiyong_contract(*, strength, tiaohou, bingyao, pattern, natal,
             "pairs": None,
             "note": "未传入原局病药输出，流年病药对照待原局病药传入后方可列举。",
         }
-    references["fuyi"] = {
-        "note": "流年扶抑推演未获批：原局扶抑已零行可建，流年扶抑无可调用的规则。",
-    }
-    references["pattern_yongshen"] = {
-        "note": "流年格局用神推演未获批：原局定格未完成，流年格局用神无可调用的规则。",
-    }
+    if strength_assessment is not None:
+        modern = strength_assessment.get("modern") or {}
+        references["fuyi"] = {
+            "note": ("流年扶抑推演未获批：原局扶抑已零行可建；旺衰评估已消费"
+                     "（古典 %s、现代 %s %s 分）只作参照，不据此取流年扶抑用神。"
+                     % (strength_assessment["classical"]["classification"],
+                        modern.get("verdict"), modern.get("score"))),
+        }
+    else:
+        references["fuyi"] = {
+            "note": "流年扶抑推演未获批：原局扶抑已零行可建，流年扶抑无可调用的规则。",
+        }
+    if pattern_v2 is not None:
+        established = [e["pattern"] for e in pattern_v2["established"]]
+        references["pattern_yongshen"] = {
+            "note": ("流年格局用神推演未获批：原局已成立 %s，但格局用神逐格"
+                     "规则未审，流年格局用神无可调用的规则。"
+                     % ("、".join(established) if established else "无格")),
+            "established_patterns": established,
+        }
+    else:
+        references["pattern_yongshen"] = {
+            "note": "流年格局用神推演未获批：原局定格未完成，流年格局用神无可调用的规则。",
+        }
     annual_xiyong = {
         "status": "contract_only_pending_rules",
         "implemented": [
@@ -765,18 +1315,23 @@ def _xiyong_contract(*, strength, tiaohou, bingyao, pattern, natal,
 
 def combine(natal_pillars, day_master, dayun_periods, target_year, *,
             strength=None, tiaohou=None, bingyao=None, pattern=None,
-            current_period_index=None, current_period_basis=None,
-            variant=VARIANT):
+            xiyong=None, current_period_index=None,
+            current_period_basis=None, variant=VARIANT):
     """组合原局、大运、流年三层，返回结构化 dict。
 
     ``natal_pillars``：四柱（ganzhi 字符串或 chart_from_pillars 形态的
     pillar 对象，年/月/日/时顺序）；``day_master``：日干；
     ``dayun_periods``：``candidate_sequence`` 行列表；
     ``target_year``：公历目标年份（1900..2098）。
-    ``strength``/``tiaohou``/``bingyao``/``pattern``：已审体系输出
-    （缺省为 None，即该体系未传入）。``current_period_index`` 与
-    ``current_period_basis`` 须成对出现：调用方显式指定当期运及其依据
-    （如已审交运区间），引擎只记录、不推导期位映射。
+    ``strength``：旧形态强弱因素（``factors()`` 输出）或新形态旺衰
+    评估（``assess_strength`` 输出）；``tiaohou``/``bingyao``：
+    已审调候/病药输出；``pattern``：旧形态格局候选输出或格局引擎
+    v2 的 ``evaluate_all`` 输出；``xiyong``：喜用引擎的
+    ``evaluate_xiyong`` 输出（传入时四体系与流年年度契约原样消费
+    该输出，取代旧契约）。各体系缺省为 None，即该体系未传入。
+    ``current_period_index`` 与 ``current_period_basis`` 须成对出现：
+    调用方显式指定当期运及其依据（如已审交运区间），引擎只记录、
+    不推导期位映射。
     """
     if variant != VARIANT:
         raise ValueError("Unsupported combination engine variant")
@@ -794,6 +1349,33 @@ def combine(natal_pillars, day_master, dayun_periods, target_year, *,
             row["period_index"] for row in dayun}:
         _fail("current_period_index does not match any supplied dayun period")
     flow = _flow_year(target_year, day_master)
+    month_branch = natal[1]["branch"]
+
+    # 输入形态分流（只认两种已登记形态，余者 fail-closed）。
+    strength_factors = None
+    strength_assessment = None
+    if strength is not None:
+        if not isinstance(strength, dict):
+            _fail("strength must be an object")
+        if strength.get("variant") == STRENGTH_ENGINE_VARIANT:
+            strength_assessment = _summarize_strength_assessment(
+                strength, day_master, month_branch)
+        elif strength.get("factor_variant") == RULE_STRENGTH_FACTORS:
+            strength_factors = strength
+        else:
+            _fail("strength input variant drifted")
+    pattern_legacy = None
+    pattern_v2 = None
+    if pattern is not None:
+        if not isinstance(pattern, dict):
+            _fail("pattern must be an object")
+        if pattern.get("variant") == PATTERN_ENGINE_VARIANT_V2:
+            pattern_v2 = _summarize_pattern_v2(
+                pattern, day_master, month_branch)
+        elif pattern.get("variant") == RULE_PATTERN_CANDIDATES:
+            pattern_legacy = pattern
+        else:
+            _fail("pattern input variant drifted")
 
     natal_sides = [
         _side("natal", pillar=row["name"], stem=row["stem"],
@@ -863,6 +1445,29 @@ def combine(natal_pillars, day_master, dayun_periods, target_year, *,
             period_index=period["period_index"],
             mapping_condition=mapping))
 
+    # 4) 跨三层之组（逐运）：原局四支＋大运支＋流年支中，同时含大运支
+    # 与流年支的三合/方位会。只记两对 scope 覆盖不到之组；大运×流年
+    # 对内仅两支，组关系在本对内无可形成之组（见 not_evaluated）。
+    for period in dayun:
+        dayun_side = _side("dayun", period_index=period["period_index"],
+                           stem=period["stem"], branch=period["branch"],
+                           stem_ten_god=period["stem_ten_god"])
+        mapping = _mapping_condition(
+            current_period_index, current_period_basis,
+            period["period_index"])
+        branches = [(period["branch"], dayun_side),
+                    (flow["branch"], flow_side)]
+        branches.extend(
+            (row["branch"], _side(
+                "natal", pillar=row["name"], stem=row["stem"],
+                branch=row["branch"], stem_ten_god=row["stem_ten_god"]))
+             for row in natal)
+        relations.extend(_group_relations(
+            counter, "dayun_x_flow_x_natal", branches,
+            period_index=period["period_index"],
+            mapping_condition=mapping,
+            required_branches=(period["branch"], flow["branch"])))
+
     counts_by_scope = {}
     counts_by_kind = {}
     condition_statuses = {}
@@ -874,10 +1479,138 @@ def combine(natal_pillars, day_master, dayun_periods, target_year, *,
         for condition in relation["conditions"]:
             condition_statuses[condition["status"]] = (
                 condition_statuses.get(condition["status"], 0) + 1)
+    period_count = len(dayun)
+    scope_coverage = {
+        "dayun_x_natal": {
+            "stem_pairs_enumerated": 4 * period_count,
+            "branch_pairs_enumerated": 4 * period_count,
+            "group_evaluated": True,
+            "group_branches": "natal_four_plus_dayun",
+            "relations": counts_by_scope.get("dayun_x_natal", 0),
+        },
+        "flow_x_natal": {
+            "stem_pairs_enumerated": 4,
+            "branch_pairs_enumerated": 4,
+            "group_evaluated": True,
+            "group_branches": "natal_four_plus_flow",
+            "relations": counts_by_scope.get("flow_x_natal", 0),
+        },
+        "dayun_x_flow": {
+            "stem_pairs_enumerated": period_count,
+            "branch_pairs_enumerated": period_count,
+            "group_evaluated": True,
+            "group_branches": "dayun_plus_flow_only_two_branches_no_group_formable",
+            "relations": counts_by_scope.get("dayun_x_flow", 0),
+        },
+        "dayun_x_flow_x_natal": {
+            "stem_pairs_enumerated": 0,
+            "branch_pairs_enumerated": 0,
+            "group_evaluated": True,
+            "group_branches": "natal_four_plus_dayun_plus_flow_spanning_only",
+            "relations": counts_by_scope.get("dayun_x_flow_x_natal", 0),
+        },
+    }
 
-    xiyong = _xiyong_contract(
-        strength=strength, tiaohou=tiaohou, bingyao=bingyao, pattern=pattern,
-        natal=natal, flow=flow, day_master=day_master)
+    if xiyong is not None:
+        xiyong_out = _xiyong_from_engine(
+            xiyong, day_master, month_branch)
+        xiyong_block = {
+            "variant": XIYONG_ENGINE_VARIANT,
+            "systems": copy.deepcopy(xiyong_out["systems"]),
+            "annual_xiyong": copy.deepcopy(xiyong_out["annual_xiyong"]),
+            "unified_verdict": None,
+            "unified_verdict_status": xiyong_out.get(
+                "unified_verdict_status",
+                "abstain_by_adjudication_TJ-013.2-A"),
+            "unified_verdict_note": xiyong_out.get(
+                "unified_verdict_note",
+                "TJ-013.2 裁决 A：四体系并列呈现、统一裁决拒判；"
+                "本契约永不输出统一喜用神。"),
+        }
+    else:
+        legacy = _xiyong_contract(
+            strength=strength_factors, tiaohou=tiaohou, bingyao=bingyao,
+            pattern=pattern_legacy, natal=natal, flow=flow,
+            day_master=day_master,
+            strength_assessment=strength_assessment,
+            pattern_v2=pattern_v2)
+        xiyong_block = legacy
+
+    # 条件结论的引用：扶抑现代候选干、调候序列干、已成立格之格神。
+    fuyi_candidate_stems = []
+    tiaohou_sequence_stems = []
+    if xiyong is not None:
+        fuyi_system = xiyong_block["systems"]["fuyi"]
+        modern = fuyi_system.get("modern") or {}
+        fuyi_candidate_stems = [
+            g["stem"] for g in (modern.get("candidate_stems") or [])
+            if isinstance(g, dict) and g.get("stem") in STEMS]
+        tiaohou_system = xiyong_block["systems"]["tiaohou"]
+        tiaohou_sequence_stems = [
+            c["stem"] for c in (tiaohou_system.get("candidates") or [])
+            if isinstance(c, dict) and c.get("stem") in STEMS]
+    else:
+        if tiaohou is not None:
+            tiaohou_sequence_stems = list(
+                xiyong_block["systems"]["tiaohou"].get(
+                    "sequence_stems") or [])
+    established_pattern_gods = []
+    if pattern_v2 is not None:
+        for record in pattern_v2["established"]:
+            name = record["pattern"] or ""
+            god = name[:-1] if name.endswith("格") else name
+            if god and god not in established_pattern_gods:
+                established_pattern_gods.append(god)
+    conditional_count, conditional_list = _apply_conditional_effects(
+        relations, day_master=day_master,
+        fuyi_candidate_stems=fuyi_candidate_stems,
+        tiaohou_sequence_stems=tiaohou_sequence_stems,
+        established_pattern_gods=established_pattern_gods,
+        strength_assessment_present=strength_assessment is not None)
+    abstain_count = len(relations) - conditional_count
+    verdict_counts = {"abstain": abstain_count}
+    if conditional_count:
+        verdict_counts["conditional"] = conditional_count
+
+    if strength_assessment is not None:
+        strength_block = strength_assessment
+    elif strength_factors is not None:
+        strength_block = {
+            "status": "consumed",
+            "input_kind": "strength_factors",
+            "variant": RULE_STRENGTH_FACTORS,
+            "overall_strength": strength_factors.get("overall_strength"),
+            "root_positions_present": bool(
+                (strength_factors.get("root_candidates") or {}).get(
+                    "present_structurally")),
+            "root_position_count": len(
+                (strength_factors.get("root_candidates") or {}).get(
+                    "positions") or []),
+            "note": ("旧形态强弱因素：只含月令/通根/透干等结构事实，"
+                     "overall_strength 恒为 None，不作强弱分类；新形态"
+                     "评估（assess_strength）未传入。"),
+        }
+    else:
+        strength_block = {
+            "status": "not_provided",
+            "note": "未传入强弱输出，本引擎不补强弱判断。",
+        }
+    if pattern_v2 is not None:
+        pattern_block = pattern_v2
+    elif pattern_legacy is not None:
+        pattern_block = {
+            "status": "consumed",
+            "input_kind": "legacy_pattern_candidates",
+            "variant": RULE_PATTERN_CANDIDATES,
+            "statement": copy.deepcopy(pattern_legacy),
+            "note": ("旧形态格局候选输出：只作结构观察，不含逐格状态与"
+                     "成立证据；新形态评估（evaluate_all v2）未传入。"),
+        }
+    else:
+        pattern_block = {
+            "status": "not_provided",
+            "note": "未传入格局输出，本引擎不补格局判断。",
+        }
 
     consumed = {
         RULE_PILLARS, RULE_TEN_GODS, RULE_STEM_COMBINATIONS,
@@ -885,14 +1618,29 @@ def combine(natal_pillars, day_master, dayun_periods, target_year, *,
         RULE_TRIPLE_HARMONIES, RULE_DIRECTIONAL_MEETINGS,
         RULE_DAYUN_SEQUENCE,
     }
-    if strength is not None:
+    if strength_factors is not None:
         consumed.add(RULE_STRENGTH_FACTORS)
+    if strength_assessment is not None:
+        consumed.add(RULE_STRENGTH_ENGINE)
+        consumed.add(RULE_MODERN_STRENGTH_MODEL)
     if tiaohou is not None:
         consumed.add(RULE_TIAOHOU_ASSESSMENT)
     if bingyao is not None:
         consumed.add(RULE_BINGYAO_ASSESSMENT)
-    if pattern is not None:
+    if pattern_legacy is not None:
         consumed.add(RULE_PATTERN_CANDIDATES)
+    if pattern_v2 is not None:
+        consumed.add(RULE_PATTERN_ENGINE_V2)
+    if xiyong is not None:
+        consumed.add(RULE_XIYONG_ENGINE)
+        xiyong_systems = xiyong_block["systems"]
+        if xiyong_systems["tiaohou"].get("status") != "not_provided":
+            consumed.add(RULE_TIAOHOU_ASSESSMENT)
+        if xiyong_systems["bingyao"].get("status") != "not_provided":
+            consumed.add(RULE_BINGYAO_ASSESSMENT)
+        if xiyong_systems["fuyi"].get("basis") is not None:
+            consumed.add(RULE_STRENGTH_ENGINE)
+            consumed.add(RULE_MODERN_STRENGTH_MODEL)
 
     return {
         "variant": VARIANT,
@@ -919,23 +1667,38 @@ def combine(natal_pillars, day_master, dayun_periods, target_year, *,
             "counts_by_scope": counts_by_scope,
             "counts_by_kind": counts_by_kind,
             "condition_status_counts": condition_statuses,
+            "scope_coverage": scope_coverage,
             "not_evaluated": [
                 {"kind": "branch_punishment",
                  "reason": ("刑不在已审地支关系表中（canonical "
                             "foundations_v1.json 的 earthly_branch_relations "
                             "无刑表），本引擎不评估刑。")},
+                {"kind": "branch_group_dayun_x_flow",
+                 "reason": ("大运×流年每运仅两支，三合/方位会需三支，组关"
+                            "系在本对内无可形成之组；跨三层之组另见 "
+                            "dayun_x_flow_x_natal scope。")},
             ],
         },
         "effects": {
             "overall_effect": None,
-            "all_abstained": True,
-            "abstain_count": len(relations),
-            "verdict_counts": {"abstain": len(relations)},
-            "note": _ABSTAIN_EFFECT_REASON,
+            "all_abstained": conditional_count == 0,
+            "abstain_count": abstain_count,
+            "conditional_count": conditional_count,
+            "conditional_effects": conditional_list,
+            "verdict_counts": verdict_counts,
+            "note": (
+                _ABSTAIN_EFFECT_REASON if conditional_count == 0 else
+                "效力层：无依据者仍 abstain（TJ-017.2/TJ-023.3 阻塞）；有"
+                "依据者只给条件结论（存在性事实或 Q3-A 模型口径），"
+                "conditional_conclusions 逐条附依据；条件结论不是跨层"
+                "效力断言，overall_effect 恒为 None。"),
         },
-        "xiyong": xiyong,
+        "strength": strength_block,
+        "pattern": pattern_block,
+        "xiyong": xiyong_block,
         "consumed_rule_ids": sorted(consumed),
         "limitations": list(LIMITATIONS),
-        "scope": ("原局×大运、流年×原局、大运×流年的干支结构关系与条件列举；"
-                  "效力一律拒判；喜用四体系并列、统一裁决恒为 None。"),
+        "scope": ("原局×大运、流年×原局、大运×流年、跨三层之组的干支结构"
+                  "关系与条件列举；效力无依据者拒判、有依据者只给条件结论；"
+                  "喜用四体系并列、统一裁决恒为 None。"),
     }

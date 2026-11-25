@@ -15,8 +15,19 @@
 历法 provider 与密封数据时守卫跳过，不伪造通过）。
 本文件只依赖标准库与 ``tianji_kb.foundations`` 之外的引擎模块本身；
 引擎只 import ``foundations``，故公开检出可直接运行。
+
+第二批（TJ-0425，P0-4）：新增 ``LiveEngineInputsTests``（机上实时
+构建 assess_strength / evaluate_all / evaluate_xiyong 输出并传入
+combine；公开检出无密封模块时跳过，不伪造通过）、
+``ThreeLayerGroupTests``（跨三层之组，公开可跑）与
+``NewInputFailClosedTests``（新形态输入漂移拒收，公开可跑）。
+第三算例 C：2023-02-12T16:00:00+08:00，四柱 癸卯/甲寅/辛丑/丙申，
+日主辛，D-1 正官格成立（任氏寅月真格，trace 路径 + 司令试点）；
+大运为 candidate_sequence forward 前 3 运（乙卯/丙辰/丁巳）；
+流年 2026（丙午）。
 """
 import json
+from pathlib import Path
 import unittest
 
 from tianji_kb.bazi_combination_engine import (
@@ -334,8 +345,32 @@ class RealCaseBTests(unittest.TestCase):
         self.assertEqual(pair_refs[0]["flow_ten_god_role_in_pair"], "none")
         self.assertEqual(pair_refs[1]["flow_ten_god_role_in_pair"], "subject")
         for relation in output["structural_relations"]:
-            self.assertEqual(relation["effect"]["status"], "abstain")
-            self.assertIsNone(relation["effect"]["verdict"])
+            if relation["effect"]["status"] == "conditional":
+                self.assertEqual(
+                    relation["effect"]["verdict"],
+                    "stem_matches_natal_tiaohou_sequence")
+                self.assertTrue(relation["effect"]["basis"]
+                                ["not_an_efficacy_verdict"])
+            else:
+                self.assertEqual(relation["effect"]["status"], "abstain")
+                self.assertIsNone(relation["effect"]["verdict"])
+        # 第二批：大运二壬在原局调候序列（壬/甲）中，5 条大运×原局天干
+        # 关系（第 2 运 4 条 five_element＋1 条丁壬五合）与 1 条大运×流年
+        # 天干关系（第 2 运）得条件结论；其余 22 条仍 abstain。
+        # 条件结论只记同字存在性事实，不是大运效力断言。
+        effects = output["effects"]
+        self.assertIsNone(effects["overall_effect"])
+        self.assertFalse(effects["all_abstained"])
+        self.assertEqual(effects["conditional_count"], 6)
+        self.assertEqual(effects["abstain_count"], 22)
+        self.assertEqual(effects["verdict_counts"],
+                         {"abstain": 22, "conditional": 6})
+        self.assertEqual(
+            {c["relation_id"] for c in effects["conditional_effects"]},
+            {"R007", "R009", "R010", "R011", "R012", "R026"})
+        self.assertTrue(all(
+            c["verdicts"] == ["stem_matches_natal_tiaohou_sequence"]
+            for c in effects["conditional_effects"]))
 
 
 class CounterexampleTests(unittest.TestCase):
@@ -617,6 +652,602 @@ class CrossCheckTests(unittest.TestCase):
             for right in STEMS:
                 self.assertEqual(ten_god_for(left, right),
                                  bc.ten_god(left, right))
+
+
+class LiveEngineInputsTests(unittest.TestCase):
+    """第二批接线：机上实时构建三路引擎输出并传入 combine()。
+
+    公开检出无密封模块时整类跳过（不伪造通过）。注意一个已知的
+    跨路不一致（OPEN，待裁定/对齐）：喜用引擎
+    ``evaluate_pattern_xiyong`` 仍校验格局 v1 变体，而格局引擎已
+    升为 v2，故此处 ``evaluate_xiyong`` 传入 ``pattern=None``（其
+    pattern_yongshen 体系为 not_provided），格局 v2 输出另由
+    combine() 的 ``pattern`` 参数直接消费；见
+    ``test_xiyong_pattern_v1_pin_rejects_v2``。
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        try:
+            from tianji_kb import bazi_bingyao as _by  # noqa: F401
+            from tianji_kb import bazi_core as _bc  # noqa: F401
+            from tianji_kb import bazi_tiaohou as _th  # noqa: F401
+            from tianji_kb.bazi_dayun_sequence import (  # noqa: F401
+                candidate_sequence as _cs)
+            from tianji_kb.bazi_pattern import (  # noqa: F401
+                PATTERN_VARIANT as _pv)
+            from tianji_kb.bazi_pattern_engine import (  # noqa: F401
+                evaluate_all as _ea,
+                evaluate_patterns_from_trace as _ept)
+            from tianji_kb.bazi_siling_pilot import (  # noqa: F401
+                yin_siling_pilot as _pilot)
+            from tianji_kb.bazi_strength_engine import (  # noqa: F401
+                assess_strength as _assess)
+            from tianji_kb.bazi_xiyong_engine import (  # noqa: F401
+                evaluate_xiyong as _ex)
+            from tianji_kb.operations.bazi_chart import (  # noqa: F401
+                chart as _chart_op)
+        except Exception as error:  # noqa: BLE001 - 密封依赖缺失即跳过
+            raise unittest.SkipTest(
+                "live engine modules unavailable: %s" % error)
+        cls.core = _bc
+        # 函数赋给类属性会被绑定为方法（多传 self），须包 staticmethod。
+        cls.assess = staticmethod(_assess)
+        cls.evaluate_all = staticmethod(_ea)
+        cls.evaluate_from_trace = staticmethod(_ept)
+        cls.pattern_variant = _pv
+        cls.pilot_fn = staticmethod(_pilot)
+        cls.chart_op = staticmethod(_chart_op)
+        cls.tiaohou_fn = staticmethod(_th.tiaohou_lookup)
+        cls.bingyao_fn = staticmethod(_by.bingyao_lookup)
+        cls.dayun_fn = staticmethod(_cs)
+        cls.xiyong_fn = staticmethod(_ex)
+        root = Path(__file__).resolve().parents[1]
+        cls.ren_yin_golden = json.loads(
+            (root / "tests/golden_tj012_ren_yin_true.json")
+            .read_text(encoding="utf-8"))
+
+    def _build(self, birth, target_year, *, trace_pattern=False):
+        chart = self.core.chart_from_datetime(birth)
+        pillars = chart["pillars"]
+        day_master = chart["day_master"]["stem"]
+        ganzhi = [p["ganzhi"] for p in pillars]
+        strength = self.assess(pillars, day_master)
+        if trace_pattern:
+            year = birth[:4]
+            window = self.ren_yin_golden["jie_windows"][year]
+            pilot = self.pilot_fn(
+                birth, version_id="ditiansui-yuanshuo",
+                jie_facts={
+                    "provider": dict(self.ren_yin_golden["provider"]),
+                    "lichun": dict(window["lichun"]),
+                    "next_jie": dict(window["next_jie"])})
+            out = self.chart_op(
+                *ganzhi, pattern_variant=self.pattern_variant,
+                ren_yin_pilot_result=pilot)
+            pattern = self.evaluate_from_trace(
+                {"trace": out["trace"], "evidence": out["evidence"]},
+                pilot_result=pilot)
+        else:
+            pattern = self.evaluate_all(
+                self.core.chart_from_pillars(*ganzhi))
+        visible = [p["stem"]["value"] for p in pillars]
+        hidden = [[h["stem"] for h in p["branch"]["hidden_stems"]]
+                 for p in pillars]
+        tiaohou = self.tiaohou_fn(
+            day_master, pillars[1]["branch"]["value"], visible, hidden)
+        visible_gods = [
+            {"pillar": name, "stem": pillars[i]["stem"]["value"],
+             "ten_god": pillars[i]["stem"]["ten_god"]}
+            for i, name in ((0, "year"), (1, "month"), (3, "hour"))]
+        bingyao = self.bingyao_fn(day_master, visible_gods)
+        sequence = self.dayun_fn(
+            pillars[1]["ganzhi"], day_master, direction="forward",
+            periods=3)
+        dayun = [{"candidate_ganzhi": r["candidate_ganzhi"],
+                  "period_index": r["period_index"],
+                  "ten_god": r["ten_god_relative_to_natal_day_stem"]}
+                 for r in sequence["rows"]]
+        xiyong = self.xiyong_fn(
+            day_master=day_master,
+            month_branch=pillars[1]["branch"]["value"],
+            pillars=ganzhi, strength=strength, tiaohou=tiaohou,
+            bingyao=bingyao, pattern=None, flow_year=target_year)
+        combined = combine(pillars, day_master, dayun, target_year,
+                           strength=strength, tiaohou=tiaohou,
+                           bingyao=bingyao, pattern=pattern,
+                           xiyong=xiyong)
+        return {"chart": chart, "ganzhi": ganzhi,
+                "day_master": day_master, "strength": strength,
+                "pattern": pattern, "tiaohou": tiaohou,
+                "bingyao": bingyao, "dayun": dayun, "xiyong": xiyong,
+                "combined": combined}
+
+    def _verdict_counter(self, output):
+        counter = {}
+        for entry in output["effects"]["conditional_effects"]:
+            for verdict in entry["verdicts"]:
+                counter[verdict] = counter.get(verdict, 0) + 1
+        return counter
+
+    def test_full_inputs_case_a(self):
+        built = self._build("1958-08-15T19:30:00+08:00", 1988)
+        self.assertEqual(built["dayun"], CASE_A_DAYUN)
+        out = built["combined"]
+        self.assertEqual(out["relation_summary"]["total"], 30)
+        self.assertEqual(out["effects"]["verdict_counts"],
+                         {"abstain": 23, "conditional": 7})
+        self.assertEqual(self._verdict_counter(out),
+                         {"model_treatment_recorded_only": 7})
+        self.assertEqual(
+            {c["relation_id"]
+             for c in out["effects"]["conditional_effects"]},
+            {"R002", "R006", "R015", "R019", "R023", "R026", "R028"})
+        # 旺衰：古典 indeterminate、现代 weak -21（definite），分项照录。
+        strength = out["strength"]
+        self.assertEqual(strength["classical"]["classification"],
+                         "indeterminate")
+        self.assertIsNone(strength["classical"]["matched_predicate"])
+        modern = strength["modern"]
+        self.assertEqual(modern["verdict"], "weak")
+        self.assertEqual(modern["score"], -21)
+        self.assertEqual(modern["classification_status"], "definite")
+        self.assertEqual(modern["definite_classification"], "weak")
+        self.assertEqual(modern["uncertainty_flags"], [])
+        self.assertEqual(
+            {k: v["score"] for k, v in modern["components"].items()},
+            {"de_ling": -15, "de_di": 0, "de_shi": 10,
+             "shengfu_hidden": 4, "kexiehao": -20})
+        self.assertEqual(modern["components"]["de_ling"]["basis"],
+                         "principal_qi_庚_controls_me")
+        self.assertEqual(strength["agreement"]["relationship"],
+                         "classical_indeterminate")
+        self.assertEqual(
+            modern["cong_candidates"]["candidates"], [])
+        self.assertFalse(
+            modern["cong_candidates"]["screen_triggered"])
+        # 格局：3 候选（七杀/偏印/偏财），无成立、无冲突。
+        pattern = out["pattern"]
+        self.assertEqual(pattern["counts"],
+                         {"not_judgeable": 9, "candidate": 3})
+        self.assertEqual(pattern["established"], [])
+        self.assertEqual(
+            {c["pattern_key"] for c in pattern["candidates"]},
+            {"qisha", "pianyin", "piancai"})
+        # 喜用：年度契约 6 项已实现（含新增 2 项），待批 5 项不变。
+        xiyong = out["xiyong"]
+        self.assertEqual(xiyong["variant"], "bazi-xiyong-engine-v1")
+        self.assertIsNone(xiyong["unified_verdict"])
+        annual = xiyong["annual_xiyong"]
+        self.assertEqual(annual["implemented"], [
+            "flow_year_ganzhi_and_ten_god",
+            "flow_stem_presence_against_natal_tiaohou_sequence",
+            "flow_stem_ten_god_role_against_bingyao_pairs",
+            "rule_call_structure",
+            "flow_stem_presence_against_fuyi_modern_candidates",
+            "flow_stem_presence_against_pattern_basis",
+        ])
+        self.assertEqual(annual["pending"], [
+            "annual_tiaohou_derivation", "annual_bingyao_derivation",
+            "annual_fuyi_derivation",
+            "annual_pattern_yongshen_derivation",
+            "unified_annual_verdict",
+        ])
+        self.assertEqual(
+            annual["flow_references"]["fuyi"]
+            ["natal_fuyi_modern_candidate_stems"], ["甲"])
+        self.assertFalse(
+            annual["flow_references"]["fuyi"]
+            ["flow_stem_in_natal_fuyi_modern_candidates"])
+        # 扶抑现代层：weak→生扶，候选干甲（时干）；流年干戊不在其中。
+        fuyi_modern = xiyong["systems"]["fuyi"]["modern"]
+        self.assertEqual(fuyi_modern["direction_cn"], "生扶")
+        self.assertEqual(
+            [g["stem"] for g in fuyi_modern["candidate_stems"]], ["甲"])
+        for rule_id in ("bazi-strength-engine-v1",
+                        "bazi-pattern-engine-v2",
+                        "bazi-xiyong-engine-v1",
+                        "strength_model_modern_v1"):
+            self.assertIn(rule_id, out["consumed_rule_ids"])
+
+    def test_full_inputs_case_b_uncertainty_propagates(self):
+        built = self._build("1959-06-15T10:30:00+08:00", 1970)
+        self.assertEqual(built["dayun"], CASE_B_DAYUN)
+        out = built["combined"]
+        self.assertEqual(out["relation_summary"]["total"], 28)
+        self.assertEqual(out["effects"]["verdict_counts"],
+                         {"abstain": 16, "conditional": 12})
+        self.assertEqual(self._verdict_counter(out), {
+            "model_treatment_recorded_only": 6,
+            "stem_matches_natal_tiaohou_sequence": 6})
+        # 旺衰：土日主 Q5 暂定分——balanced 53 只作研究性暂定分，
+        # definite_classification 恒 None，不确定性传导进组合层。
+        modern = out["strength"]["modern"]
+        self.assertEqual(modern["verdict"], "balanced")
+        self.assertEqual(modern["score"], 53)
+        self.assertEqual(modern["classification_status"],
+                         "provisional_incomplete")
+        self.assertIsNone(modern["definite_classification"])
+        self.assertEqual(modern["uncertainty_flags"],
+                         ["earth_de_di_uncalibrated"])
+        self.assertEqual(
+            {k: v["score"] for k, v in modern["components"].items()},
+            {"de_ling": 20, "de_di": 15, "de_shi": 20,
+             "shengfu_hidden": 10, "kexiehao": -12})
+        self.assertEqual(out["strength"]["agreement"]["relationship"],
+                         "modern_provisional")
+        # 扶抑现代层 balanced 不给方向；不确定性标记随喜用层传导。
+        fuyi = out["xiyong"]["systems"]["fuyi"]
+        self.assertEqual(fuyi["status"], "not_judgeable")
+        self.assertEqual(fuyi["modern"]["status"],
+                         "indeterminate_direction")
+        self.assertIn("earth_de_di_uncalibrated",
+                      fuyi["modern"]["uncertainty"])
+        self.assertIn("balanced_middle_band_only",
+                      fuyi["uncertainty"])
+        # 格局：仅正印候选。
+        self.assertEqual(out["pattern"]["counts"],
+                         {"not_judgeable": 11, "candidate": 1})
+        self.assertEqual(
+            [c["pattern_key"] for c in out["pattern"]["candidates"]],
+            ["zhengyin"])
+
+    def test_full_inputs_case_c_established_pattern_consumable(self):
+        built = self._build("2023-02-12T16:00:00+08:00", 2026,
+                            trace_pattern=True)
+        self.assertEqual(built["ganzhi"], ["癸卯", "甲寅", "辛丑", "丙申"])
+        self.assertEqual(built["dayun"], [
+            {"candidate_ganzhi": "乙卯", "period_index": 1,
+             "ten_god": "偏财"},
+            {"candidate_ganzhi": "丙辰", "period_index": 2,
+             "ten_god": "正官"},
+            {"candidate_ganzhi": "丁巳", "period_index": 3,
+             "ten_god": "七杀"},
+        ])
+        out = built["combined"]
+        self.assertEqual(out["flow_year"]["ganzhi"], "丙午")
+        self.assertEqual(out["flow_year"]["stem_ten_god"], "正官")
+        self.assertEqual(out["relation_summary"]["total"], 26)
+        self.assertEqual(out["relation_summary"]["counts_by_scope"],
+                         {"dayun_x_natal": 17, "flow_x_natal": 6,
+                          "dayun_x_flow": 3})
+        self.assertEqual(out["effects"]["verdict_counts"],
+                         {"abstain": 9, "conditional": 17})
+        self.assertEqual(self._verdict_counter(out), {
+            "stem_matches_established_pattern_god": 13,
+            "model_treatment_recorded_only": 4})
+        # D-1 正官格成立可被岁运组合消费：大运二丙、流年丙与格神同十神。
+        pattern = out["pattern"]
+        self.assertEqual(pattern["counts"],
+                         {"established": 1, "not_judgeable": 8,
+                          "candidate": 3})
+        self.assertEqual(
+            [e["pattern"] for e in pattern["established"]], ["正官"])
+        self.assertIn("ren_yin_true_pattern",
+                      pattern["established"][0]["evidence_ids"])
+        self.assertIn("ren_yin_rule",
+                      pattern["established"][0]["evidence_ids"])
+        self.assertNotIn("broken", pattern["counts"])
+        god_matches = [
+            c for c in out["effects"]["conditional_effects"]
+            if c["verdicts"] == ["stem_matches_established_pattern_god"]]
+        self.assertEqual(len(god_matches), 13)
+        self.assertTrue(all(
+            c["conclusions"][0]["pattern_god"] == "正官"
+            for c in god_matches))
+        # 旺衰现代层因合化未决而弃判：丙辛五合在场，components 为 None。
+        modern = out["strength"]["modern"]
+        self.assertEqual(modern["verdict"], "abstain")
+        self.assertEqual(modern["abstain_reason"],
+                         "transformation_candidate_unresolved")
+        self.assertIsNone(modern["score"])
+        self.assertIsNone(modern["components"])
+        self.assertEqual(out["strength"]["agreement"]["relationship"],
+                         "modern_abstains")
+        # 喜用：调候序列己/壬/庚，流年丙不在其中；扶抑现代层亦弃判。
+        self.assertEqual(
+            [c["stem"] for c in
+             out["xiyong"]["systems"]["tiaohou"]["candidates"]],
+            ["己", "壬", "庚"])
+        self.assertFalse(
+            out["xiyong"]["annual_xiyong"]["flow_references"]["tiaohou"]
+            ["flow_stem_in_natal_tiaohou_sequence"])
+        self.assertEqual(
+            out["xiyong"]["systems"]["fuyi"]["modern"]["status"],
+            "abstain")
+
+    def test_full_inputs_case_a_flow_1984_fuyi_candidate_match(self):
+        # 流年 1984 甲子：流年干甲与扶抑现代候选干同字，E2 触发。
+        built = self._build("1958-08-15T19:30:00+08:00", 1984)
+        out = built["combined"]
+        self.assertEqual(out["flow_year"]["ganzhi"], "甲子")
+        self.assertEqual(out["relation_summary"]["total"], 24)
+        self.assertEqual(out["effects"]["verdict_counts"],
+                         {"abstain": 14, "conditional": 10})
+        self.assertEqual(self._verdict_counter(out), {
+            "stem_matches_fuyi_modern_candidate": 7,
+            "model_treatment_recorded_only": 3})
+        self.assertEqual(
+            {c["relation_id"]
+             for c in out["effects"]["conditional_effects"]
+             if c["verdicts"] == ["stem_matches_fuyi_modern_candidate"]},
+            {"R018", "R019", "R020", "R021", "R022", "R023", "R024"})
+        self.assertTrue(
+            out["xiyong"]["annual_xiyong"]["flow_references"]["fuyi"]
+            ["flow_stem_in_natal_fuyi_modern_candidates"])
+
+    def test_no_xiyong_path_keeps_legacy_annual_contract(self):
+        # 未传 xiyong 输出时：旧 4 项契约＋新形态评估/格局摘要照录。
+        built = self._build("1958-08-15T19:30:00+08:00", 1988)
+        out = combine(built["chart"]["pillars"], "甲", built["dayun"],
+                      1988, strength=built["strength"],
+                      tiaohou=built["tiaohou"],
+                      bingyao=built["bingyao"],
+                      pattern=built["pattern"])
+        self.assertEqual(
+            out["xiyong"]["annual_xiyong"]["implemented"], [
+                "flow_year_ganzhi_and_ten_god",
+                "flow_stem_presence_against_natal_tiaohou_sequence",
+                "flow_stem_ten_god_role_against_bingyao_pairs",
+                "rule_call_structure",
+            ])
+        fuyi = out["xiyong"]["systems"]["fuyi"]
+        self.assertEqual(fuyi["status"], "not_buildable")
+        self.assertEqual(
+            fuyi["consumed_strength_assessment"]["modern_verdict"],
+            "weak")
+        self.assertEqual(
+            fuyi["consumed_strength_assessment"]["modern_score"], -21)
+        pattern_block = out["xiyong"]["systems"]["pattern_yongshen"]
+        self.assertEqual(pattern_block["status"],
+                         "presented_from_pattern_v2")
+        self.assertEqual(
+            [e["pattern_key"] for e in pattern_block["eligible"]],
+            ["pianyin"])
+        self.assertIsNone(pattern_block["useful_god"])
+        self.assertEqual(out["effects"]["verdict_counts"],
+                         {"abstain": 23, "conditional": 7})
+        # C 盘同路径：已成立正官格列入有资格格，但仍无已审用神。
+        built_c = self._build("2023-02-12T16:00:00+08:00", 2026,
+                              trace_pattern=True)
+        out_c = combine(built_c["chart"]["pillars"], "辛",
+                        built_c["dayun"], 2026,
+                        strength=built_c["strength"],
+                        tiaohou=built_c["tiaohou"],
+                        bingyao=built_c["bingyao"],
+                        pattern=built_c["pattern"])
+        pattern_c = out_c["xiyong"]["systems"]["pattern_yongshen"]
+        self.assertEqual(pattern_c["established"], ["正官"])
+        self.assertEqual(
+            [(e["pattern_key"], e["state"])
+             for e in pattern_c["eligible"]],
+            [("zhengguan", "established"),
+             ("zhengyin", "candidate")])
+        self.assertIsNone(pattern_c["useful_god"])
+        self.assertEqual(out_c["effects"]["verdict_counts"],
+                         {"abstain": 9, "conditional": 17})
+
+    def test_scope_coverage_and_not_evaluated(self):
+        built = self._build("1958-08-15T19:30:00+08:00", 1988)
+        summary = built["combined"]["relation_summary"]
+        self.assertEqual(summary["scope_coverage"]["dayun_x_natal"],
+                         {"stem_pairs_enumerated": 12,
+                          "branch_pairs_enumerated": 12,
+                          "group_evaluated": True,
+                          "group_branches": "natal_four_plus_dayun",
+                          "relations": 17})
+        self.assertEqual(summary["scope_coverage"]["flow_x_natal"],
+                         {"stem_pairs_enumerated": 4,
+                          "branch_pairs_enumerated": 4,
+                          "group_evaluated": True,
+                          "group_branches": "natal_four_plus_flow",
+                          "relations": 7})
+        self.assertEqual(summary["scope_coverage"]["dayun_x_flow"],
+                         {"stem_pairs_enumerated": 3,
+                          "branch_pairs_enumerated": 3,
+                          "group_evaluated": True,
+                          "group_branches":
+                              "dayun_plus_flow_only_two_branches_no_group_formable",
+                          "relations": 6})
+        self.assertEqual(
+            summary["scope_coverage"]["dayun_x_flow_x_natal"],
+            {"stem_pairs_enumerated": 0,
+             "branch_pairs_enumerated": 0,
+             "group_evaluated": True,
+             "group_branches":
+                 "natal_four_plus_dayun_plus_flow_spanning_only",
+             "relations": 0})
+        self.assertEqual(
+            {row["kind"] for row in summary["not_evaluated"]},
+            {"branch_punishment", "branch_group_dayun_x_flow"})
+        self.assertFalse([r for r in built["combined"]["structural_relations"]
+                          if "punishment" in r["kind"]])
+
+    def test_xiyong_pattern_v1_pin_rejects_v2(self):
+        # OPEN：喜用引擎仍校验格局 v1 变体，格局引擎已升 v2。
+        # 本测试只记录现状，不伪造 v1 输入；待两路对齐后删除。
+        built = self._build("1958-08-15T19:30:00+08:00", 1988)
+        with self.assertRaises(ValueError):
+            self.xiyong_fn(
+                day_master="甲", month_branch="申",
+                pillars=built["ganzhi"], strength=built["strength"],
+                tiaohou=built["tiaohou"], bingyao=built["bingyao"],
+                pattern=built["pattern"], flow_year=1988)
+
+
+class ThreeLayerGroupTests(unittest.TestCase):
+    """跨三层之组：只记同时含大运支与流年支之组（公开可跑）。"""
+
+    def test_spanning_triple_harmony_case_b_1997(self):
+        # B 盘：原局巳（时支）＋大运三酉＋流年丁丑＝巳酉丑三合金。
+        output = combine(CASE_B_PILLARS, "戊", CASE_B_DAYUN, 1997)
+        self.assertEqual(output["flow_year"]["ganzhi"], "丁丑")
+        spanning = _relations(output, "dayun_x_flow_x_natal")
+        self.assertEqual(len(spanning), 1)
+        self.assertEqual(spanning[0]["kind"], "branch_triple_harmony")
+        self.assertEqual(spanning[0]["detail"]["branches"],
+                         ["巳", "酉", "丑"])
+        self.assertEqual(
+            spanning[0]["detail"]["traditional_result_element"], "金")
+        self.assertEqual(spanning[0]["period_index"], 3)
+        self.assertEqual(spanning[0]["effect"]["status"], "abstain")
+        self.assertEqual(output["relation_summary"]["total"], 30)
+        self.assertEqual(
+            output["relation_summary"]["counts_by_scope"]
+            ["dayun_x_flow_x_natal"], 1)
+
+    def test_no_spanning_group_in_batch1_cases(self):
+        # 第一批两例均无跨三层之组：评估已执行，命中为 0，不是未评估。
+        for output in (_combine_a(), _combine_b()):
+            self.assertEqual(
+                _relations(output, "dayun_x_flow_x_natal"), [])
+            self.assertEqual(
+                output["relation_summary"]["scope_coverage"]
+                ["dayun_x_flow_x_natal"]["relations"], 0)
+
+
+class NewInputFailClosedTests(unittest.TestCase):
+    """新形态输入漂移一律拒收（公开可跑，手造最小漂移输入）。"""
+
+    def _assessment(self, **overrides):
+        base = {
+            "variant": "bazi-strength-engine-v1",
+            "day_master": "甲", "month_branch": "申",
+            "research_only": True, "public_enabled": False,
+            "ai_enabled": False,
+            "classical": {"classification": "indeterminate",
+                          "matched_predicate": None, "blockers": []},
+            "modern": {"model_id": "strength_model_modern_v1",
+                       "model_kind": "modern_engineering",
+                       "verdict": "weak", "score": -21,
+                       "classification_status": "definite",
+                       "definite_classification": "weak",
+                       "uncertainty_flags": [],
+                       "abstain_reason": None,
+                       "components": {}, "cong_candidates": None,
+                       "interaction_effects": None},
+            "agreement": {"classical": "indeterminate",
+                          "modern": "weak",
+                          "relationship": "classical_indeterminate",
+                          "note": ""},
+        }
+        base.update(overrides)
+        return base
+
+    def _pattern_v2(self, **overrides):
+        base = {
+            "variant": "bazi-pattern-engine-v2",
+            "day_stem": "甲", "month_branch": "申",
+            "research_only": True, "public": False, "ai": False,
+            "results": {
+                "zhengguan": {"pattern": "正官", "pattern_key": "zhengguan",
+                              "state": "candidate", "evidence": [],
+                              "limitations": [], "rule_ids": []},
+            },
+        }
+        base.update(overrides)
+        return base
+
+    def _xiyong(self, **overrides):
+        base = {
+            "variant": "bazi-xiyong-engine-v1",
+            "day_master": "甲", "month_branch": "申",
+            "research_only": True, "public_enabled": False,
+            "ai_enabled": False,
+            "systems": {
+                "fuyi": {"system": "fuyi", "status": "not_provided"},
+                "tiaohou": {"system": "tiaohou",
+                            "status": "not_provided"},
+                "bingyao": {"system": "bingyao",
+                            "status": "not_provided"},
+                "pattern_yongshen": {"system": "pattern_yongshen",
+                                     "status": "not_provided"},
+            },
+            "annual_xiyong": {
+                "variant": "bazi-xiyong-annual-contract-v1",
+                "status": "contract_only_pending_rules",
+                "implemented": [
+                    "flow_year_ganzhi_and_ten_god",
+                    "flow_stem_presence_against_natal_tiaohou_sequence",
+                    "flow_stem_ten_god_role_against_bingyao_pairs",
+                    "rule_call_structure",
+                    "flow_stem_presence_against_fuyi_modern_candidates",
+                    "flow_stem_presence_against_pattern_basis",
+                ],
+                "pending": [
+                    "annual_tiaohou_derivation",
+                    "annual_bingyao_derivation",
+                    "annual_fuyi_derivation",
+                    "annual_pattern_yongshen_derivation",
+                    "unified_annual_verdict",
+                ],
+                "derivation": None, "unified_verdict": None,
+            },
+            "unified_verdict": None,
+        }
+        base.update(overrides)
+        return base
+
+    def test_strength_variant_drift_rejected(self):
+        with self.assertRaises(ValueError):
+            combine(CASE_A_PILLARS, "甲", CASE_A_DAYUN, 1988,
+                    strength=self._assessment(
+                        variant="bazi-strength-engine-v9"))
+        with self.assertRaises(ValueError):
+            combine(CASE_A_PILLARS, "甲", CASE_A_DAYUN, 1988,
+                    strength=self._assessment(day_master="乙"))
+        with self.assertRaises(ValueError):
+            combine(CASE_A_PILLARS, "甲", CASE_A_DAYUN, 1988,
+                    strength={"variant": "unknown",
+                              "factor_variant": "unknown"})
+
+    def test_pattern_broken_state_rejected(self):
+        broken = self._pattern_v2()
+        broken["results"]["zhengguan"]["state"] = "broken"
+        with self.assertRaises(ValueError):
+            combine(CASE_A_PILLARS, "甲", CASE_A_DAYUN, 1988,
+                    pattern=broken)
+        with self.assertRaises(ValueError):
+            combine(CASE_A_PILLARS, "甲", CASE_A_DAYUN, 1988,
+                    pattern=self._pattern_v2(
+                        variant="bazi-pattern-engine-v1"))
+
+    def test_xiyong_drift_rejected(self):
+        with self.assertRaises(ValueError):
+            combine(CASE_A_PILLARS, "甲", CASE_A_DAYUN, 1988,
+                    xiyong=self._xiyong(
+                        variant="bazi-xiyong-engine-v9"))
+        with self.assertRaises(ValueError):
+            combine(CASE_A_PILLARS, "甲", CASE_A_DAYUN, 1988,
+                    xiyong=self._xiyong(unified_verdict="甲"))
+        annual = self._xiyong()
+        annual["annual_xiyong"] = dict(
+            annual["annual_xiyong"],
+            implemented=["flow_year_ganzhi_and_ten_god"])
+        with self.assertRaises(ValueError):
+            combine(CASE_A_PILLARS, "甲", CASE_A_DAYUN, 1988,
+                    xiyong=annual)
+        annual = self._xiyong()
+        annual["annual_xiyong"] = dict(
+            annual["annual_xiyong"], pending=[])
+        with self.assertRaises(ValueError):
+            combine(CASE_A_PILLARS, "甲", CASE_A_DAYUN, 1988,
+                    xiyong=annual)
+
+    def test_minimal_new_inputs_are_consumed(self):
+        output = combine(CASE_A_PILLARS, "甲", CASE_A_DAYUN, 1988,
+                         strength=self._assessment(),
+                         pattern=self._pattern_v2(),
+                         xiyong=self._xiyong())
+        self.assertEqual(output["strength"]["modern"]["verdict"], "weak")
+        self.assertEqual(output["strength"]["modern"]["score"], -21)
+        self.assertEqual(output["pattern"]["counts"], {"candidate": 1})
+        self.assertEqual(output["xiyong"]["variant"],
+                         "bazi-xiyong-engine-v1")
+        self.assertIsNone(output["xiyong"]["unified_verdict"])
+        # 最小输入无调候/扶抑候选/成立格：Q3-A 仍使冲害合得条件结论。
+        self.assertEqual(output["effects"]["verdict_counts"],
+                         {"abstain": 23, "conditional": 7})
 
 
 if __name__ == "__main__":

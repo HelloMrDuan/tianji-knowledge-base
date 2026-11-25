@@ -146,6 +146,18 @@ class LongitudeCorrectionTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             longitude_correction_minutes(120.0, 200.0)
 
+    def test_longitude_correction_wraps_at_dateline(self):
+        # +180 and -180 are the same meridian: zero correction either way.
+        self.assertAlmostEqual(
+            longitude_correction_minutes(180.0, -180.0), 0.0, places=9)
+        self.assertAlmostEqual(
+            longitude_correction_minutes(-180.0, 180.0), 0.0, places=9)
+        # Neighbours across the dateline differ by 4 min per degree.
+        self.assertAlmostEqual(
+            longitude_correction_minutes(179.9, 120.0)
+            - longitude_correction_minutes(-179.9, 120.0),
+            -0.8, places=6)
+
 
 class ApparentSolarTimeTests(unittest.TestCase):
     def test_beijing_spring_equinox(self):
@@ -335,3 +347,388 @@ class ApparentSolarTimeTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+# ======================================================================
+# TJ-0424 batch 2, P1: research-grade charting entry
+# (src/tianji_kb/bazi_true_solar_chart.py).
+#
+# The jieqi instants asserted below are recomputed INDEPENDENTLY in
+# each test from the pinned provider (lunar-python 1.4.8), the same
+# provider the calendar adapter uses -- they are not read from the
+# module under test. The expected pillar changes were likewise read
+# off real chart_from_datetime runs, not invented: e.g. Urumqi
+# 2026-02-04 05:00 CST charts 丙午/庚寅/己酉 while the converted
+# 02:36 instant charts 乙巳/己丑/己酉.
+# ======================================================================
+
+from lunar_python import Solar as _LunarSolar
+
+from tianji_kb.bazi_core import chart_from_datetime
+from tianji_kb.bazi_true_solar_chart import (
+    ENTRY_ID,
+    JIEQI_UNCERTAINTY_WINDOW_MINUTES,
+    compare_standard_vs_true_solar,
+    true_solar_chart,
+)
+
+EST = timezone(timedelta(hours=-5))
+
+
+def _independent_jieqi_utc(y, m, d, hh, mm, ss, name):
+    """Jieqi instant (UTC) from the pinned provider, independent of the entry.
+
+    ``(y, m, d, hh, mm, ss)`` is a Shanghai wall-clock reading near the
+    term; the provider's jieqi solar times are +08:00, mirroring
+    ``tianji_kb.calendar``.
+    """
+    lunar = _LunarSolar.fromYmdHms(y, m, d, hh, mm, ss).getLunar()
+    for term in (lunar.getPrevJieQi(False), lunar.getNextJieQi()):
+        if term.getName() == name:
+            wall = datetime.strptime(term.getSolar().toYmdHms(),
+                                     "%Y-%m-%d %H:%M:%S")
+            return wall.replace(tzinfo=CST).astimezone(timezone.utc)
+    raise AssertionError("term %s not adjacent to %d-%02d-%02d" % (name, y, m, d))
+
+
+def _pillars(chart):
+    return {item["name"]: item["ganzhi"] for item in chart["pillars"]}
+
+
+class TrueSolarChartDefaultOffTests(unittest.TestCase):
+    def test_entry_is_off_by_default(self):
+        """No flag -> ValueError, no chart; explicit opt-in works."""
+        birth = datetime(2026, 3, 20, 12, 0, tzinfo=CST)
+        with self.assertRaises(ValueError) as ctx:
+            true_solar_chart(birth, 116.4074, 8)
+        self.assertIn("use_true_solar_time=True", str(ctx.exception))
+        ok = true_solar_chart(birth, 116.4074, 8, use_true_solar_time=True)
+        self.assertEqual(ok["status"], "ok")
+        self.assertTrue(ok["input"]["use_true_solar_time"])
+
+    def test_entry_contract_flags(self):
+        r = true_solar_chart(datetime(2026, 3, 20, 12, 0, tzinfo=CST),
+                             116.4074, 8, use_true_solar_time=True)
+        self.assertEqual(r["entry"], ENTRY_ID)
+        self.assertEqual(r["method"], "modern_engineering")
+        self.assertTrue(r["research_only"])
+        self.assertFalse(r["public"])
+        self.assertFalse(r["ai"])
+        self.assertTrue(r["standard_time_convention_unchanged"])
+        self.assertIn("NOAA", r["astronomical_basis"])
+        self.assertIn("Neither", r["comparison_note"])
+        self.assertIn("unchanged", r["comparison_note"])
+
+
+class TrueSolarChartComparisonTests(unittest.TestCase):
+    def test_beijing_no_pillar_change_and_standard_chart_untouched(self):
+        """Beijing noon: correction -21.9 min moves no pillar.
+
+        The standard chart in the result is exactly
+        chart_from_datetime(birth); the solar chart is exactly
+        chart_from_datetime(apparent). Nothing is merged.
+        """
+        birth = datetime(2026, 3, 20, 12, 0, tzinfo=CST)
+        r = compare_standard_vs_true_solar(birth, 116.4074, 8)
+        self.assertEqual(_pillars(r["standard_time_chart"]),
+                         _pillars(chart_from_datetime(birth)))
+        apparent = r["conversion"]["apparent_solar_time"]
+        self.assertEqual(_pillars(r["true_solar_time_chart"]),
+                         _pillars(chart_from_datetime(apparent)))
+        self.assertFalse(r["differences"]["any_pillar_changed"])
+        for name in ("year", "month", "day", "hour"):
+            self.assertFalse(r["differences"]["pillars"][name]["changed"])
+        self.assertFalse(r["jieqi"]["crossed"])
+        self.assertFalse(r["jieqi"]["within_precision_budget"])
+        self.assertEqual(r["differences"]["solar_term"]["standard"], "惊蛰")
+        self.assertEqual(r["differences"]["solar_term"]["true_solar"], "惊蛰")
+
+    def test_compare_accepts_iso_string_input(self):
+        r = compare_standard_vs_true_solar("2026-03-20T12:00:00+08:00",
+                                           116.4074, 8)
+        self.assertEqual(r["status"], "ok")
+        self.assertEqual(r["input"]["birth_local_time"],
+                         "2026-03-20T12:00:00+08:00")
+
+    def test_cross_day_backwards_urumqi_changes_day_pillar(self):
+        """Urumqi 2026-01-01 00:30 CST -> previous day: day pillar changes."""
+        birth = datetime(2026, 1, 1, 0, 30, tzinfo=CST)
+        r = compare_standard_vs_true_solar(birth, 87.62, 8)
+        self.assertEqual(r["conversion"]["date_shift_days"], -1)
+        self.assertTrue(r["differences"]["day_pillar_changed"])
+        self.assertTrue(r["differences"]["chart_date"]["changed"])
+        self.assertEqual(r["differences"]["chart_date"]["standard"], "2026-01-01")
+        self.assertEqual(r["differences"]["chart_date"]["true_solar"], "2025-12-31")
+        self.assertNotEqual(r["differences"]["pillars"]["day"]["standard"],
+                            r["differences"]["pillars"]["day"]["true_solar"])
+
+    def test_cross_day_forwards_new_york_local_date_only(self):
+        """New York 2026-11-03 23:58 EST -> next LOCAL day, same pillar day.
+
+        The conversion moves the local wall date forward a day
+        (date_shift_days == +1), but pillars are computed from the
+        Shanghai-converted instant, and both instants fall on Nov 4
+        in Shanghai (12:58 -> 13:18 CST). A local-date shift therefore
+        does NOT by itself change the day pillar; the day pillar
+        changes only when the Shanghai date changes (next test).
+        """
+        birth = datetime(2026, 11, 3, 23, 58, tzinfo=EST)
+        r = compare_standard_vs_true_solar(birth, -74.0060, -5)
+        self.assertEqual(r["conversion"]["date_shift_days"], 1)
+        self.assertEqual(r["differences"]["chart_date"]["true_solar"], "2026-11-04")
+        self.assertFalse(r["differences"]["chart_date"]["changed"])
+        self.assertFalse(r["differences"]["day_pillar_changed"])
+
+    def test_cross_day_forwards_new_york_shanghai_midnight(self):
+        """New York 2026-11-03 10:50 EST: Shanghai 23:50 -> 00:10 next day.
+
+        The local date does NOT shift (10:50 -> 11:10 EST), but the
+        Shanghai-converted instant crosses midnight, so the day pillar
+        genuinely changes. Local date shift and pillar-day change are
+        two different boundaries and are reported separately.
+        """
+        birth = datetime(2026, 11, 3, 10, 50, tzinfo=EST)
+        r = compare_standard_vs_true_solar(birth, -74.0060, -5)
+        self.assertEqual(r["conversion"]["date_shift_days"], 0)
+        self.assertTrue(r["differences"]["chart_date"]["changed"])
+        self.assertEqual(r["differences"]["chart_date"]["standard"], "2026-11-03")
+        self.assertEqual(r["differences"]["chart_date"]["true_solar"], "2026-11-04")
+        self.assertTrue(r["differences"]["day_pillar_changed"])
+
+
+class TrueSolarChartBoundaryTests(unittest.TestCase):
+    def test_longitude_plus_180_and_minus_180(self):
+        """Dateline extremes: lon +/-180 on its own meridian -> EoT only.
+
+        The same absolute instant is used on both sides (2026-03-20
+        12:00 +12:00 == 2026-03-19 12:00 -12:00 == 00:00 UTC), so the
+        equation of time must agree exactly. tz +12 wraps its meridian
+        from +180 to -180 (the same meridian); the wrapped longitude
+        difference then gives a zero correction on both sides.
+        """
+        instant_east = datetime(2026, 3, 20, 12, 0,
+                                tzinfo=timezone(timedelta(hours=12)))
+        instant_west = datetime(2026, 3, 19, 12, 0,
+                                tzinfo=timezone(timedelta(hours=-12)))
+        self.assertEqual(instant_east.astimezone(timezone.utc),
+                         instant_west.astimezone(timezone.utc))
+        r_east = compare_standard_vs_true_solar(instant_east, 180.0, 12)
+        self.assertEqual(r_east["conversion"]["standard_meridian_deg"], -180.0)
+        self.assertAlmostEqual(
+            r_east["conversion"]["longitude_correction_minutes"], 0.0, places=9)
+        self.assertAlmostEqual(
+            r_east["conversion"]["total_correction_minutes"],
+            r_east["conversion"]["equation_of_time_minutes"], places=9)
+        r_west = compare_standard_vs_true_solar(instant_west, -180.0, -12)
+        self.assertEqual(r_west["conversion"]["standard_meridian_deg"], -180.0)
+        self.assertAlmostEqual(
+            r_west["conversion"]["longitude_correction_minutes"], 0.0, places=9)
+        # Same instant, same EoT on both sides of the dateline.
+        self.assertAlmostEqual(
+            r_east["conversion"]["equation_of_time_minutes"],
+            r_west["conversion"]["equation_of_time_minutes"], places=9)
+
+    def test_longitude_dateline_continuity(self):
+        """No 24-hour jump at the dateline: 179.9 vs -179.9 differ by 0.8 min.
+
+        Before the wrapped-difference fix, lon -180 against meridian
+        120 gave -1200 min while lon +180 gave +240 min -- a 1440-min
+        discontinuity for the same meridian. Both extremes now give
+        +240 min, and neighbours 0.2 degrees apart differ by 0.8 min.
+        """
+        birth = datetime(2026, 3, 20, 12, 0, tzinfo=CST)
+        r_plus = compare_standard_vs_true_solar(birth, 180.0, 8)
+        r_minus = compare_standard_vs_true_solar(birth, -180.0, 8)
+        self.assertAlmostEqual(
+            r_plus["conversion"]["longitude_correction_minutes"], 240.0,
+            places=9)
+        self.assertAlmostEqual(
+            r_minus["conversion"]["longitude_correction_minutes"], 240.0,
+            places=9)
+        self.assertEqual(r_plus["conversion"]["apparent_solar_time"],
+                         r_minus["conversion"]["apparent_solar_time"])
+        r_east = compare_standard_vs_true_solar(birth, 179.9, 8)
+        r_west = compare_standard_vs_true_solar(birth, -179.9, 8)
+        gap = abs(r_east["conversion"]["longitude_correction_minutes"]
+                  - r_west["conversion"]["longitude_correction_minutes"])
+        self.assertAlmostEqual(gap, 0.8, places=6)
+
+    def test_timezone_plus_14_and_minus_12(self):
+        """tz +14 wraps its meridian to -150; tz -12 keeps -180."""
+        birth = datetime(2026, 3, 20, 12, 0, tzinfo=timezone.utc)
+        r = compare_standard_vs_true_solar(
+            birth, -150.0, 14,
+            standard_meridian_deg=None)
+        self.assertEqual(r["conversion"]["standard_meridian_deg"], -150.0)
+        self.assertAlmostEqual(
+            r["conversion"]["longitude_correction_minutes"], 0.0, places=9)
+        r = compare_standard_vs_true_solar(birth, -180.0, -12)
+        self.assertEqual(r["conversion"]["standard_meridian_deg"], -180.0)
+        self.assertAlmostEqual(
+            r["conversion"]["longitude_correction_minutes"], 0.0, places=9)
+
+    def test_explicit_historical_meridian_is_not_guessed(self):
+        """Caller-supplied historical meridian changes the correction.
+
+        1926 Shanghai, lon 121.4737: meridian 121.4737 (caller-supplied
+        historical value) zeroes the longitude correction, while the
+        default 15 * tz_offset meridian (120) gives +5.89 min. The
+        module asserts nothing about actual history; it only applies
+        the parameters it is given, and never invents them.
+        """
+        birth = datetime(1926, 6, 15, 12, 0, tzinfo=CST)
+        r_hist = compare_standard_vs_true_solar(
+            birth, 121.4737, 8, standard_meridian_deg=121.4737)
+        self.assertAlmostEqual(
+            r_hist["conversion"]["longitude_correction_minutes"], 0.0, places=9)
+        r_default = compare_standard_vs_true_solar(birth, 121.4737, 8)
+        self.assertAlmostEqual(
+            r_default["conversion"]["longitude_correction_minutes"],
+            5.8948, places=3)
+        self.assertNotEqual(
+            r_hist["conversion"]["total_correction_minutes"],
+            r_default["conversion"]["total_correction_minutes"])
+
+    def test_explicit_dst_offset_governs(self):
+        """tz_offset=+9 (DST in force) governs meridian and UTC instant."""
+        birth = datetime(2026, 3, 20, 12, 0, tzinfo=CST)
+        r = compare_standard_vs_true_solar(birth, 120.0, 9)
+        self.assertEqual(r["conversion"]["tz_offset_hours"], 9.0)
+        self.assertEqual(r["conversion"]["standard_meridian_deg"], 135.0)
+        self.assertAlmostEqual(
+            r["conversion"]["longitude_correction_minutes"], -60.0, places=9)
+
+    def test_eot_extreme_days_at_entry_level(self):
+        """11 Feb (EoT minimum) and 3 Nov (EoT maximum) via the entry."""
+        r_feb = compare_standard_vs_true_solar(
+            datetime(2026, 2, 11, 12, 0, tzinfo=UTC), 0.0, 0)
+        self.assertAlmostEqual(
+            r_feb["conversion"]["total_correction_minutes"], -14.2, delta=0.5)
+        r_nov = compare_standard_vs_true_solar(
+            datetime(2026, 11, 3, 12, 0, tzinfo=UTC), 0.0, 0)
+        self.assertAlmostEqual(
+            r_nov["conversion"]["total_correction_minutes"], 16.5, delta=0.5)
+
+
+class TrueSolarChartJieqiTests(unittest.TestCase):
+    def test_jieqi_crossed_backwards_lichun_urumqi(self):
+        """Urumqi 2026-02-04 05:00 CST: apparent 02:36, before 立春.
+
+        Standard chart is after 立春 (丙午/庚寅); the solar chart is
+        before it (乙巳/己丑). Year AND month pillars change; the day
+        pillar (己酉) does not.
+        """
+        birth = datetime(2026, 2, 4, 5, 0, tzinfo=CST)
+        r = compare_standard_vs_true_solar(birth, 87.62, 8)
+        d = r["differences"]["pillars"]
+        self.assertEqual(d["year"]["standard"], "丙午")
+        self.assertEqual(d["year"]["true_solar"], "乙巳")
+        self.assertEqual(d["month"]["standard"], "庚寅")
+        self.assertEqual(d["month"]["true_solar"], "己丑")
+        self.assertEqual(d["day"]["standard"], "己酉")
+        self.assertEqual(d["day"]["true_solar"], "己酉")
+        self.assertTrue(d["hour"]["changed"])
+        self.assertTrue(r["differences"]["year_pillar_changed"])
+        self.assertTrue(r["differences"]["month_pillar_changed"])
+        j = r["jieqi"]
+        self.assertTrue(j["crossed"])
+        self.assertEqual(j["crossed_term"], "立春")
+        self.assertEqual(j["standard_solar_term"], "立春")
+        self.assertEqual(j["true_solar_solar_term"], "大寒")
+        expected = _independent_jieqi_utc(2026, 2, 4, 5, 0, 0, "立春")
+        got = datetime.fromisoformat(j["crossed_at_utc"])
+        self.assertLess(abs((got - expected).total_seconds()), 60.0)
+        # Input 05:00 is 57.9 min after the 04:02:08 boundary.
+        self.assertAlmostEqual(j["minutes_from_input_to_boundary"],
+                               -57.87, delta=1.0)
+        self.assertFalse(j["within_precision_budget"])
+
+    def test_jieqi_crossed_forwards_lidong_new_york(self):
+        """New York 2026-11-07 04:40 EST: apparent 05:00, past 立冬.
+
+        立冬 is 2026-11-07 17:52:05 +08:00 = 04:52:05 EST; the
+        standard instant (04:40 EST) is before it, the converted
+        instant (05:00 EST) after it. Month pillar changes.
+        """
+        birth = datetime(2026, 11, 7, 4, 40, tzinfo=EST)
+        r = compare_standard_vs_true_solar(birth, -74.0060, -5)
+        j = r["jieqi"]
+        self.assertTrue(j["crossed"])
+        self.assertEqual(j["crossed_term"], "立冬")
+        self.assertEqual(j["standard_solar_term"], "霜降")
+        self.assertEqual(j["true_solar_solar_term"], "立冬")
+        expected = _independent_jieqi_utc(2026, 11, 7, 12, 0, 0, "立冬")
+        got = datetime.fromisoformat(j["crossed_at_utc"])
+        self.assertLess(abs((got - expected).total_seconds()), 60.0)
+        self.assertTrue(r["differences"]["month_pillar_changed"])
+        # Converted instant is ~8.3 min past the boundary: outside the
+        # +/-1 min precision budget, so the attribution is settled.
+        self.assertFalse(j["within_precision_budget"])
+        self.assertGreater(j["nearest_boundary_minutes"], 2.0)
+
+    def test_jieqi_near_boundary_flagged_uncertain(self):
+        """Converted instants within 2 min of 立春 are flagged, not settled.
+
+        Urumqi 06:26 -> apparent 04:02:37, 0.5 min AFTER 立春 (not
+        crossed, but inside the window); Urumqi 06:24 -> apparent
+        04:00:37, 1.5 min BEFORE 立春 (crossed AND inside the window).
+        Expected distances are recomputed independently here from the
+        provider instant and the already-tested conversion.
+        """
+        lichun = _independent_jieqi_utc(2026, 2, 4, 5, 0, 0, "立春")
+        for wall_hh, wall_mm, expect_crossed in ((6, 26, False), (6, 24, True)):
+            with self.subTest(wall="%02d:%02d" % (wall_hh, wall_mm)):
+                birth = datetime(2026, 2, 4, wall_hh, wall_mm, tzinfo=CST)
+                r = compare_standard_vs_true_solar(birth, 87.62, 8)
+                apparent = r["conversion"]["apparent_solar_time"]
+                expected_distance = abs(
+                    (apparent.astimezone(timezone.utc) - lichun)
+                    .total_seconds()) / 60.0
+                self.assertAlmostEqual(r["jieqi"]["nearest_boundary_minutes"],
+                                       expected_distance, delta=0.1)
+                self.assertEqual(r["jieqi"]["nearest_boundary_term"], "立春")
+                self.assertEqual(r["jieqi"]["crossed"], expect_crossed)
+                self.assertTrue(r["jieqi"]["within_precision_budget"])
+                self.assertLess(
+                    r["jieqi"]["nearest_boundary_minutes"],
+                    JIEQI_UNCERTAINTY_WINDOW_MINUTES)
+                self.assertIn("NOT settled", r["jieqi"]["note"])
+
+    def test_jieqi_far_from_boundary_not_flagged(self):
+        """A mid-month birth is far from any jieqi: no uncertainty flag."""
+        r = compare_standard_vs_true_solar(
+            datetime(2026, 3, 20, 12, 0, tzinfo=CST), 116.4074, 8)
+        self.assertFalse(r["jieqi"]["within_precision_budget"])
+        self.assertGreater(r["jieqi"]["nearest_boundary_minutes"], 60.0)
+
+
+class TrueSolarChartFailClosedTests(unittest.TestCase):
+    def test_fail_closed_inputs(self):
+        birth = datetime(2026, 3, 20, 12, 0, tzinfo=CST)
+        with self.assertRaises(ValueError):
+            compare_standard_vs_true_solar(
+                datetime(2026, 3, 20, 12, 0), 116.4074, 8)
+        with self.assertRaises(ValueError):
+            compare_standard_vs_true_solar(birth, 181.0, 8)
+        with self.assertRaises(ValueError):
+            compare_standard_vs_true_solar(birth, 116.4074, 15)
+        with self.assertRaises(ValueError):
+            compare_standard_vs_true_solar(birth, 116.4074, 8.001)
+        with self.assertRaises(ValueError):
+            compare_standard_vs_true_solar(
+                birth, 116.4074, 8, standard_meridian_deg=200.0)
+
+    def test_converted_instant_out_of_supported_range(self):
+        """Urumqi 1900-01-01 00:05 converts back into 1899: refused."""
+        with self.assertRaises(ValueError) as ctx:
+            compare_standard_vs_true_solar(
+                datetime(1900, 1, 1, 0, 5, tzinfo=CST), 87.62, 8)
+        self.assertIn("outside the supported calendar range",
+                      str(ctx.exception))
+
+    def test_invalid_day_boundary_rejected(self):
+        with self.assertRaises(ValueError):
+            compare_standard_vs_true_solar(
+                datetime(2026, 3, 20, 12, 0, tzinfo=CST), 116.4074, 8,
+                day_boundary="noon")
+

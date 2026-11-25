@@ -36,7 +36,9 @@ Definitions (NOAA sign convention):
   EoT is about -14.2 min near 11 Feb and about +16.4 min near 3 Nov.
 * Longitude correction (minutes) = 4 * (longitude - standard meridian),
   where the standard meridian is 15 degrees per hour of time-zone
-  offset east of Greenwich. East longitude is positive.
+  offset east of Greenwich. East longitude is positive. The
+  longitude difference is wrapped to [-180, 180), so the correction
+  is continuous across the dateline (+180 and -180 are one meridian).
 * Apparent solar time = local standard (wall-clock) time
   + longitude correction + EoT.
 
@@ -175,14 +177,28 @@ def equation_of_time_minutes(utc_dt):
     return eot
 
 
+def _longitude_difference_deg(longitude_deg, meridian_deg):
+    """Signed longitude difference in degrees, wrapped to [-180, 180).
+
+    Longitude is circular: +180 and -180 are the same meridian, so a
+    plain subtraction has a 1440-minute discontinuity at the dateline
+    (lon 179.9 vs -179.9 would differ by a full day). Wrapping the
+    difference keeps the correction continuous across the dateline.
+    """
+    return ((float(longitude_deg) - float(meridian_deg) + 180.0) % 360.0) - 180.0
+
+
 def longitude_correction_minutes(longitude_deg, standard_meridian_deg):
     """Longitude correction in minutes: 4 * (longitude - meridian).
 
-    East longitude positive, meridian in degrees east. Pure function.
+    East longitude positive, meridian in degrees east. The difference
+    is wrapped to [-180, 180) so the correction is continuous across
+    the dateline (+180 and -180 are the same meridian). Pure function.
     """
     _check_longitude(longitude_deg, "longitude_deg")
     _check_meridian(standard_meridian_deg)
-    return 4.0 * (float(longitude_deg) - float(standard_meridian_deg))
+    return 4.0 * _longitude_difference_deg(
+        longitude_deg, standard_meridian_deg)
 
 
 def _check_longitude(value, name):
@@ -247,9 +263,10 @@ def apparent_solar_time(dt, longitude_deg, tz_offset, *,
         IST, -5 for EST). Must already include any daylight saving in
         force at ``dt``; this function never guesses DST or history.
     standard_meridian_deg : float, optional.
-        Standard meridian in degrees east. Defaults to 15 * tz_offset.
-        Pass explicitly when the historical standard meridian differs
-        from 15 * tz_offset.
+        Standard meridian in degrees east. Defaults to 15 * tz_offset,
+        wrapped into [-180, 180] (so tz_offset=+14 gives -150, the
+        same meridian as +210). Pass explicitly when the historical
+        standard meridian differs from 15 * tz_offset.
 
     Returns a structured dict (see module docstring). The apparent
     solar time is an aware datetime in a fixed-offset zone of
@@ -264,7 +281,9 @@ def apparent_solar_time(dt, longitude_deg, tz_offset, *,
     _check_longitude(longitude_deg, "longitude_deg")
     offset_hours = _tz_offset_hours(tz_offset)
     if standard_meridian_deg is None:
-        meridian = 15.0 * offset_hours
+        # 15 degrees per hour, wrapped into [-180, 180]: tz_offset=+14
+        # names the same meridian as +210 degrees, i.e. -150.
+        meridian = ((15.0 * offset_hours + 180.0) % 360.0) - 180.0
     else:
         _check_meridian(standard_meridian_deg)
         meridian = float(standard_meridian_deg)
@@ -277,7 +296,7 @@ def apparent_solar_time(dt, longitude_deg, tz_offset, *,
     local_tz = timezone(timedelta(hours=offset_hours))
 
     eot = equation_of_time_minutes(utc_dt)
-    lon_corr = 4.0 * (float(longitude_deg) - meridian)
+    lon_corr = 4.0 * _longitude_difference_deg(longitude_deg, meridian)
     total = lon_corr + eot
     apparent = dt.astimezone(local_tz) + timedelta(minutes=total)
     # Re-anchor the fixed-offset zone (astimezone already yields it;

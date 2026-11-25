@@ -24,6 +24,11 @@ What this module DOES:
   assessment abstains.
 - The useful-god mapping registry (``USEFUL_GOD_MAPPINGS``), which exists
   as a data structure but is EMPTY. No mapping is applied anywhere.
+- A definition-only registry for yuejian / richen
+  (``YUEJIAN_RICHEN_DEFINITIONS``) plus ``record_month_day_context``:
+  user adjudication 2026-11-25 Q14 keeps r008/r009 as definitions with
+  no executable mapping; the only calibre is recording the month branch
+  and day ganzhi verbatim, with ``derived_conclusions`` always None.
 
 What this module NEVER does (hard limits):
 - Implement ZERO specific useful-god mappings (never "for a career
@@ -55,8 +60,10 @@ from datetime import datetime
 __all__ = [
     "QUESTION_TYPES",
     "USEFUL_GOD_MAPPINGS",
+    "YUEJIAN_RICHEN_DEFINITIONS",
     "list_question_types",
     "get_useful_god_mapping",
+    "record_month_day_context",
     "validate_question_input",
     "assess",
 ]
@@ -240,6 +247,89 @@ QUESTION_TYPES = {
 # approval and must NEVER be added without that approval. Nothing in
 # this module reads a mapping, and assess() never returns one.
 USEFUL_GOD_MAPPINGS = {}
+
+# --- Yuejian / richen: definition registration ONLY (Q14) -------------
+# User adjudication 2026-11-25 Q14 (TJ-0424 batch 2, P1 liuyao):
+# liuyao.rule.r008 (yuejian / 月建) and liuyao.rule.r009 (richen / 日辰)
+# keep their current definitions while the search for an executable
+# basis continues; they are NOT permanently closed, but they have NO
+# executable calibre today, so NO mapping is built from them. The
+# minimum calibre is recording the inputs verbatim -- nothing is
+# derived from them. The two definition sentences below are the
+# registered excerpts, quoted from the evidence pack:
+# - r008 / liuyao.section.s008 (增删卜易, chars [19189,19212)):
+#   「月將卽是月建又為月令。掌一月之權﹐司三旬之令。」
+# - r009 / liuyao.section.s009 (增删卜易, chars [21358,21374)):
+#   「日辰為六爻之主宰﹐司四時之旺相。」
+# Both rules are partially_structured with EMPTY operation parameters,
+# no Phase2 rule, no Phase2 evidence record, and no Golden. The only
+# registered yuejian effect sentence (s012, on fei/fu shen) belongs to
+# r011/r012 (a later batch), and the richen-adjacent ripo sentence
+# (s021) belongs to r020 (a later batch); neither is used here.
+YUEJIAN_RICHEN_DEFINITIONS = {
+    "yuejian": {
+        "rule_id": "liuyao.rule.r008",
+        "term": "liuyao.term.t008",
+        "name": "月建",
+        "definition": "月將卽是月建又為月令。掌一月之權﹐司三旬之令。",
+        "section_id": "liuyao.section.s008",
+        "locator": "增删卜易 chars [19189,19212)",
+        "execution_status": "partially_structured",
+        "status": "definition_only",
+        "mapping": None,
+    },
+    "richen": {
+        "rule_id": "liuyao.rule.r009",
+        "term": "liuyao.term.t009",
+        "name": "日辰",
+        "definition": "日辰為六爻之主宰﹐司四時之旺相。",
+        "section_id": "liuyao.section.s009",
+        "locator": "增删卜易 chars [21358,21374)",
+        "execution_status": "partially_structured",
+        "status": "definition_only",
+        "mapping": None,
+    },
+}
+
+# Local sixty-cycle tables (stdlib only, no data file): this module stays
+# pure stdlib so its tests run locally and in public CI. The strings
+# below are the same fixed traditional symbols as foundations.CYCLE.
+_YUEJIAN_RICHEN_STEMS = "甲乙丙丁戊己庚辛壬癸"
+_YUEJIAN_RICHEN_BRANCHES = "子丑寅卯辰巳午未申酉戌亥"
+_YUEJIAN_RICHEN_CYCLE = tuple(
+    _YUEJIAN_RICHEN_STEMS[i % 10] + _YUEJIAN_RICHEN_BRANCHES[i % 12]
+    for i in range(60)
+)
+
+
+def record_month_day_context(month_branch, day_ganzhi):
+    """Record the month-branch / day-ganzhi context verbatim (Q14).
+
+    Minimum calibre for yuejian/richen: the inputs are recorded exactly
+    as given, with their definition records attached, and NO conclusion
+    is derived -- ``derived_conclusions`` is always None. There is no
+    wang/shuai (旺衰), sheng/ke (生克), or yongshen conclusion here,
+    because no registered calibre exists for one. Changing the month
+    branch changes only the recorded ``month_branch`` field; no line
+    fact changes (cf. evidence-pack proposed Golden M1/M2, D1/D2).
+    Raises ValueError for a month branch outside the twelve branches
+    or a day ganzhi outside the sixty-cycle.
+    """
+    if not isinstance(month_branch, str) or month_branch not in _YUEJIAN_RICHEN_BRANCHES:
+        raise ValueError("month_branch must be one earthly branch")
+    if not isinstance(day_ganzhi, str) or day_ganzhi not in _YUEJIAN_RICHEN_CYCLE:
+        raise ValueError("day_ganzhi must be a sixty-cycle ganzhi string")
+    return {
+        "month_branch": month_branch,
+        "day_ganzhi": day_ganzhi,
+        "yuejian": deepcopy(YUEJIAN_RICHEN_DEFINITIONS["yuejian"]),
+        "richen": deepcopy(YUEJIAN_RICHEN_DEFINITIONS["richen"]),
+        "derived_conclusions": None,
+        "note": (
+            "月建/日辰仅作定义登记与原样记录；无旺衰、生克、用神结论。"
+            "可执行依据仍在寻找中，不作为永久关闭事项。"
+        ),
+    }
 
 
 def list_question_types():
