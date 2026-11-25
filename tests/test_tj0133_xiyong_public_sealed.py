@@ -267,8 +267,25 @@ class OtherScenariosUnchangedTests(unittest.TestCase):
             "person_b_birth_value": "2000-02-01T12:00:00+08:00"},
     }
 
-    def test_no_presentation_or_raw_statements_anywhere(self):
-        for scenario_id, inputs in self.SAMPLES.items():
+    def test_only_profile_career_life_carry_xiyong_presentation(self):
+        # TJ-0422 phase 2 (E0422): the scoped release extends to
+        # career and life -- they lift the identical validated
+        # xiyong presentation from the bazi-profile gate for the
+        # same birth instant. Every other scenario still carries
+        # no presentation and no raw statements; the raw
+        # assessments stay stripped everywhere. (State-conversion
+        # note, mirroring the public staged-opening test update:
+        # not a loosening -- the stripped set is exact and the
+        # carried objects must validate and equal the profile
+        # objects.)
+        stripped = {scenario_id: inputs
+                    for scenario_id, inputs in self.SAMPLES.items()
+                    if scenario_id not in ("career", "life")}
+        # The split is exhaustive: every sampled scenario is
+        # either stripped or carried, none dropped.
+        self.assertEqual(set(stripped) | {"career", "life"},
+                         set(self.SAMPLES))
+        for scenario_id, inputs in stripped.items():
             with self.subTest(scenario=scenario_id):
                 envelope = execute_scenario(scenario_id, inputs)
                 keys = set(_all_keys(envelope))
@@ -280,6 +297,29 @@ class OtherScenariosUnchangedTests(unittest.TestCase):
                 self.assertNotIn("xiyong_presentation", projected_keys)
                 for key in RAW_KEYS:
                     self.assertNotIn(key, projected_keys)
+        profile = execute_scenario("bazi-profile", {
+            "value": "2000-01-07T12:00:00+08:00",
+            "zone": "Asia/Shanghai"})
+        profile_presentation = profile["result"]["xiyong_presentation"]
+        self.assertTrue(
+            is_valid_public_presentation(profile_presentation))
+        for scenario_id in ("career", "life"):
+            with self.subTest(scenario=scenario_id):
+                envelope = execute_scenario(
+                    scenario_id, self.SAMPLES[scenario_id])
+                presentation = envelope["result"]["xiyong_presentation"]
+                self.assertTrue(
+                    is_valid_public_presentation(presentation))
+                self.assertEqual(presentation, profile_presentation)
+                keys = set(_all_keys(envelope))
+                self.assertNotIn("tiaohou_assessment", keys)
+                self.assertNotIn("bingyao_assessment", keys)
+                projected = project_execution(copy.deepcopy(envelope))
+                self.assertEqual(
+                    projected["result"]["xiyong_presentation"],
+                    profile_presentation)
+                for key in RAW_KEYS:
+                    self.assertNotIn(key, projected["result"])
 
 
 class ClientGateRealPathTests(unittest.TestCase):

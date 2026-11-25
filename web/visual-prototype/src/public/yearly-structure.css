@@ -20,6 +20,20 @@
 .yearly-branch-source blockquote{margin:0;font-size:12px;line-height:1.8;color:#405846;white-space:pre-wrap;overflow-wrap:anywhere}
 .yearly-branch-evidence-missing{margin-top:12px!important;font-size:11px!important;color:#8b623f!important}
 
+/* TJ-0422 phase 2 slice A: year stepper + dayun location section. */
+.yearly-input-grid>.yearly-year-field{min-width:0}
+.yearly-year-field>span:first-child{display:block;font-size:12px;color:#506356;margin-bottom:6px}
+.yearly-year-stepper{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch}
+.yearly-year-stepper input{flex:1;min-width:0}
+.yearly-year-step{flex:none;padding:8px 10px;border:1px solid #cfd6c7;border-radius:4px;background:#fbfaf4;color:#315a43;font-size:12px;cursor:pointer;white-space:nowrap}
+.yearly-year-step:hover:not(:disabled){border-color:#73917a;background:#e6eee3}
+.yearly-year-step:disabled{opacity:.45;cursor:default}
+.yearly-dayun-location{margin:0 0 18px;border:1px solid #d9dfd0;border-radius:7px;background:#fffdf6;padding:20px 23px}
+.yearly-dayun-location h2{font-size:19px;font-weight:500;margin:6px 0 8px;color:#315943}
+.yearly-dayun-location p{font-size:13px;line-height:1.85;color:#526a58;margin:8px 0}
+.yearly-dayun-location a{color:#315a43}
+@media(max-width:820px){.yearly-dayun-location{padding:18px}}
+
 /* TJ-008.4: at <=360px widths the entry sample button lands under (career)
    or within 4px of (daily/yearly) the fixed bottom nav at 360x800;
    trimming top padding lifts it clear with margin. 390px+ untouched. */

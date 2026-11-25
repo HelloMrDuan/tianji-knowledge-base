@@ -168,6 +168,9 @@
 .bazi-dayun-not-judgeable{color:#966e4e}
 .bazi-dayun-notice{color:#5d7263}
 .bazi-dayun-scope{color:#5d6b5e;font-size:12px;border-top:1px solid #d6ddce;padding-top:10px;line-height:1.7}
+/* TJ-0422 phase 2 slice A: session-shared presentation note (return
+   from the yearly page, before any new calculation on this page). */
+.bazi-dayun-session-note{color:#5d6b5e;font-size:12px;line-height:1.7;border:1px dashed #c4cebb;border-radius:6px;background:#fbfaf4;padding:8px 12px}
 .bazi-dayun-method details{margin-top:12px}
 .bazi-dayun-method blockquote{margin:8px 0;padding:10px 14px;border-left:3px solid #aeb9a4;background:#fbfaf4;font-size:13px;line-height:1.8}
 

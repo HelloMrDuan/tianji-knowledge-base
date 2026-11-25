@@ -249,11 +249,17 @@ def project_execution(data):
     # out verbatim before the fact projection runs (the projection drops
     # evidence/source keys by design) and re-attached untouched below.
     # Every other carrier, shape or scenario is stripped as usual.
+    # TJ-0422 phase 2: the same scoped-release discipline extends to
+    # the career and life envelopes, which lift the identical
+    # validated objects from the bazi-profile gate for the same
+    # birth instant (strength / xiyong / pattern). Only these three
+    # scenarios may carry them, and only in exactly the adjudicated
+    # shapes; anything else is stripped below.
     scoped_presentation = None
     scoped_dayun_presentation = None
     scoped_strength_presentation = None
     scoped_pattern_presentation = None
-    if data.get('scenario_id') == 'bazi-profile' \
+    if data.get('scenario_id') in ('bazi-profile', 'career', 'life') \
             and isinstance(data.get('result'), dict):
         candidate = data['result'].get('xiyong_presentation')
         if candidate is not None:
@@ -268,7 +274,8 @@ def project_execution(data):
                 scoped_presentation = copy.deepcopy(candidate)
         # U1 Batch B (user adjudication 2026-11-02, Q1=A): the same
         # scoped-release discipline for the strength presentation --
-        # only a bazi-profile envelope, only in exactly the adjudicated
+        # only a bazi-profile, career or life envelope (TJ-0422
+        # phase 2 extension), only in exactly the adjudicated
         # shape; anything else is stripped below. TJ-003.3: the
         # release is an allowlist projection, never a verbatim copy:
         # the public shape carries no internal reference fields
@@ -287,7 +294,8 @@ def project_execution(data):
         # TJ-012.3 Stage B (user 2026-11-10, limited exception to
         # the U1 pattern-field ban): the same scoped-release
         # discipline for the pattern presentation -- only a
-        # bazi-profile envelope, only in exactly the adjudicated
+        # bazi-profile, career or life envelope (TJ-0422 phase 2
+        # extension), only in exactly the adjudicated
         # shape; anything else is stripped below. The research raw
         # block stays stripped (see the pop below). The release is
         # an allowlist projection, never a verbatim copy: the public
@@ -307,9 +315,9 @@ def project_execution(data):
     # T-D1 (E0409): the same scoped-release discipline for the dayun
     # presentation, extended beyond bazi-profile to the career and
     # life scenarios (first period only, role-gated, exactly the
-    # adjudicated §4 shape). Only the dayun key is extended;
-    # xiyong/strength/pattern stay bazi-profile-only above. Any
-    # other carrier is stripped below as usual.
+    # adjudicated §4 shape). TJ-0422 phase 2: the xiyong/strength/
+    # pattern release above now shares this same three-scenario
+    # scope. Any other carrier is stripped below as usual.
     if data.get('scenario_id') in ('bazi-profile', 'career', 'life') \
             and isinstance(data.get('result'), dict):
         dayun_candidate = data['result'].get('dayun_presentation')
@@ -354,8 +362,9 @@ def project_execution(data):
             container.pop('conflict_presentation', None)
             container.pop('readable_hints', None)
             # TJ-013.3 phase 1: the presentation key is stripped from
-            # every container here; the single validated bazi-profile
-            # copy lifted above is the only one re-attached (below).
+            # every container here; the single validated copy lifted
+            # above (bazi-profile, career or life only) is the only
+            # one re-attached (below).
             container.pop('xiyong_presentation', None)
             # TJ-017.3 phase 2: same for the dayun presentation key.
             container.pop('dayun_presentation', None)
@@ -378,8 +387,9 @@ def project_execution(data):
             # TJ-012.3 Stage B: same for the pattern presentation
             # key. The research D-1 determination itself stays
             # stripped by the pop below (it is never lifted); the
-            # single validated bazi-profile copy lifted above is
-            # the only one re-attached (below).
+            # single validated copy lifted above (bazi-profile,
+            # career or life only) is the only one re-attached
+            # (below).
             container.pop('pattern_presentation', None)
             # TJ-012.3 Slice A: the 禄刃 route exclusion is research-only
             # (pending Phase1 registration); never let it reach a public

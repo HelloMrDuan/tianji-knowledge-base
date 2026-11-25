@@ -282,6 +282,19 @@ export type ScenarioExecuteResponse = {
   limitations: string[];
 };
 
+/**
+ * TJ-0422 phase 2 slice A: the dayun presentation types live in
+ * yearContext.ts (the session-state owner); re-exported here so the
+ * career/life consumers share one contract. The presentation itself
+ * is only ever read from a scenario result, never built here.
+ */
+export type {
+  DayunPresentation,
+  DayunMethodView,
+  DayunEntry,
+  DayunMethod,
+} from "./yearContext";
+
 export async function executeYearlyScenario(input: {
   birth_value: string;
   birth_zone?: string;
@@ -343,6 +356,9 @@ export async function executeCareerScenario(input: {
   birth_value: string;
   birth_zone?: string;
   target_year: number;
+  // TJ-0422 phase 2 slice A: optional traditional dayun role, same
+  // precedent as bazi-profile; sent only when explicitly selected.
+  traditional_role?: "male" | "female";
 }): Promise<ScenarioExecuteResponse> {
   const data = await requestJson("/api/v1/scenarios/public", {
       scenario_id: "career",
@@ -356,6 +372,9 @@ export async function executeLifeScenario(input: {
   birth_value: string;
   birth_zone?: string;
   target_year: number;
+  // TJ-0422 phase 2 slice A: optional traditional dayun role, same
+  // precedent as bazi-profile; sent only when explicitly selected.
+  traditional_role?: "male" | "female";
 }): Promise<ScenarioExecuteResponse> {
   const data = await requestJson("/api/v1/scenarios/public", {
       scenario_id: "life",

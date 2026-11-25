@@ -4,9 +4,23 @@ import { ConsumerResultSummary } from "./ConsumerResultSummary";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
 import { executeYearlyScenario, type ScenarioExecuteResponse } from "./api";
-import { readSavedTargetYear, saveTargetYear, isValidTargetYear, MIN_TARGET_YEAR, MAX_TARGET_YEAR } from "./targetYear";
+import { isValidTargetYear, MIN_TARGET_YEAR, MAX_TARGET_YEAR } from "./targetYear";
+import {
+  BRANCH_ELEMENTS,
+  consumePendingYearRequest,
+  getDayunPresentation,
+  getSelectedDayunMethod,
+  getSelectedYear,
+  locateYearInDayun,
+  requestDayunReturn,
+  setSelectedYear,
+  STEM_ELEMENTS,
+  subscribe as subscribeYearContext,
+  type DayunMethod,
+  type DayunPresentation,
+} from "./yearContext";
 import { readSavedBirthProfile, saveBirthProfile } from "./birthProfile";
-import { toApiValue, toApiZone, fromLegacy, toSolarDateString, isConvertedFromLunar, fromSolarEdit, withUpdatedTime } from "./birthProfile";
+import { toApiValue, toApiZone, fromLegacy, toSolarDateString, isConvertedFromLunar, fromSolarEdit, withUpdatedTime, getSavedBirthFingerprint } from "./birthProfile";
 import "./yearly-structure.css";
 
 const relationNames: Record<string, string> = {
@@ -38,16 +52,54 @@ function displayEvidence(id: string, source: Record<string, any>) {
   };
 }
 
+const dayunMethodLabels: Record<DayunMethod, string> = {
+  sanming: "三命通会",
+  shenfeng: "神峰通考",
+};
+
 export function YearlyStructurePage() {
   const [date, setDate] = useState(() => toSolarDateString(readSavedBirthProfile()));
   const [time, setTime] = useState(() => readSavedBirthProfile().time);
-  const [targetYear, setTargetYear] = useState(readSavedTargetYear);
+  const [targetYear, setTargetYear] = useState(getSelectedYear);
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  // TJ-0422 phase 2 slice A: session-shared dayun presentation (set by
+  // the bazi page) and the method tab selected there; used only to
+  // locate this year inside the returned intervals. Reads are
+  // fingerprint-checked against the saved birth data (PR #594
+  // re-review fix): when the birth data changed on this page, the
+  // old presentation reads back as null and the section shows
+  // "尚未查看大运" instead of the old data's dayun.
+  const [dayunPresentation, setDayunPresentation] = useState<DayunPresentation | null>(() => getDayunPresentation(getSavedBirthFingerprint()));
+  const [dayunMethod, setDayunMethod] = useState<DayunMethod>(() => getSelectedDayunMethod());
   const requestVersion = useRef(0);
 
   useEffect(() => () => { requestVersion.current += 1; }, []);
+
+  // TJ-0422 phase 2 slice A: stay in sync with the shared year key and
+  // the session dayun state (e.g. after a timeline year link).
+  useEffect(() => subscribeYearContext(() => {
+    setTargetYear((prev) => {
+      const next = getSelectedYear();
+      return prev === next ? prev : next;
+    });
+    setDayunPresentation(getDayunPresentation(getSavedBirthFingerprint()));
+    setDayunMethod(getSelectedDayunMethod());
+  }), []);
+
+  // TJ-0422 phase 2 slice A: a timeline year link arms a one-shot
+  // request; on arrival the yearly scenario is loaded for that year
+  // at once (birth data is reused from the saved profile, never
+  // re-entered). Without a saved birth profile only the year field
+  // is set and the user submits as before.
+  useEffect(() => {
+    const pending = consumePendingYearRequest();
+    if (pending === null) return;
+    if (!readSavedBirthProfile().year) return;
+    void requestYearly(pending);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function invalidateResult() {
     requestVersion.current += 1;
@@ -62,14 +114,13 @@ export function YearlyStructurePage() {
     setTime("12:00");
   }
 
-  async function submit(event: FormEvent) {
-    event.preventDefault();
+  async function requestYearly(year: number) {
     const version = ++requestVersion.current;
     setLoading(true);
     setError("");
     setResult(null);
     try {
-      if (!isValidTargetYear(targetYear)) throw new Error("请选择 1901 至 2098 年的公历年份");
+      if (!isValidTargetYear(year)) throw new Error("请选择 1901 至 2098 年的公历年份");
       const response = await executeYearlyScenario({
         birth_value: (() => {
         const currentProfile = readSavedBirthProfile();
@@ -82,7 +133,7 @@ export function YearlyStructurePage() {
         }
         return toApiValue(fromSolarEdit(date, time, currentProfile.region, currentProfile));
       })(),
-        target_year: targetYear,
+        target_year: year,
         birth_zone: toApiZone(readSavedBirthProfile()),
       });
       if (version !== requestVersion.current) return;
@@ -98,7 +149,7 @@ export function YearlyStructurePage() {
         }
         saveBirthProfile(fromSolarEdit(date, time, currentProfile.region, currentProfile));
       })();
-      saveTargetYear(targetYear);
+      setSelectedYear(year);
       setResult(response);
     } catch (err) {
       if (version === requestVersion.current)
@@ -106,6 +157,22 @@ export function YearlyStructurePage() {
     } finally {
       if (version === requestVersion.current) setLoading(false);
     }
+  }
+
+  async function submit(event: FormEvent) {
+    event.preventDefault();
+    await requestYearly(targetYear);
+  }
+
+  // TJ-0422 phase 2 slice A: step to the previous/next year. The year
+  // is written to the shared key and the scenario is re-requested at
+  // once when a result is already on screen; the birth date/time
+  // edits on this page are left untouched (no unsaved change is lost).
+  async function changeYear(next: number) {
+    if (!isValidTargetYear(next) || next === targetYear) return;
+    setTargetYear(next);
+    setSelectedYear(next);
+    if (result) await requestYearly(next);
   }
 
   const annual = result?.result?.target_year || {};
@@ -118,6 +185,9 @@ export function YearlyStructurePage() {
         .filter((item): item is NonNullable<typeof item> => item !== null)
     : [];
   const evidenceById = new Map(evidence.map((item) => [item.id, item]));
+  // TJ-0422 phase 2 slice A: locate this year inside the session-shared
+  // dayun presentation (returned intervals only; never computed here).
+  const yearLocation = locateYearInDayun(dayunPresentation, dayunMethod, targetYear);
 
   return (
     <div className="yearly-page">
@@ -144,7 +214,10 @@ export function YearlyStructurePage() {
       </section>
 
       <section className="yearly-entry">
-        <form onSubmit={submit}>
+        {/* TJ-0422 phase 2 slice A: noValidate lets the friendly
+            in-page year error show instead of the native bubble;
+            the input's validity flags are unchanged. */}
+        <form onSubmit={submit} noValidate>
           <div className="yearly-entry-head">
             <div>
               <span className="eyebrow">输入出生资料</span>
@@ -161,12 +234,37 @@ export function YearlyStructurePage() {
               <span>出生时间</span>
               <input type="time" value={time} onChange={(e) => { invalidateResult(); setTime(e.target.value); }} required />
             </label>
-            <label className="yearly-fixed-year">
+            <div className="yearly-fixed-year yearly-year-field">
               <span>目标年份</span>
-              <input type="number" min={MIN_TARGET_YEAR} max={MAX_TARGET_YEAR} step={1} value={targetYear}
-                onChange={(event) => { invalidateResult(); setTargetYear(Number(event.target.value)); }}
-                required />
-            </label>
+              <span className="yearly-year-stepper">
+                <button
+                  type="button"
+                  className="yearly-year-step"
+                  aria-label="上一年"
+                  disabled={targetYear <= MIN_TARGET_YEAR}
+                  onClick={() => void changeYear(targetYear - 1)}
+                >
+                  ‹ 上一年
+                </button>
+                <input type="number" aria-label="目标年份" min={MIN_TARGET_YEAR} max={MAX_TARGET_YEAR} step={1} value={targetYear}
+                  onChange={(event) => {
+                    invalidateResult();
+                    const next = Number(event.target.value);
+                    setTargetYear(next);
+                    if (isValidTargetYear(next)) setSelectedYear(next);
+                  }}
+                  required />
+                <button
+                  type="button"
+                  className="yearly-year-step"
+                  aria-label="下一年"
+                  disabled={targetYear >= MAX_TARGET_YEAR}
+                  onClick={() => void changeYear(targetYear + 1)}
+                >
+                  下一年 ›
+                </button>
+              </span>
+            </div>
           </div>
           <div className="yearly-entry-note">
             <Icon name="shield" size={16} />
@@ -191,6 +289,85 @@ export function YearlyStructurePage() {
           </ul>
           <p>旺衰、喜用、格局、桃花、事业、财富、健康、应期均未进入当前公开结论。</p>
         </aside>
+      </section>
+
+      {/* TJ-0422 phase 2 slice A: which dayun this year falls in, from
+          the session-shared presentation only. Shown before any
+          calculation, because locating needs no API call. */}
+      <section className="yearly-dayun-location" aria-label="所属大运">
+        <span className="eyebrow">所属大运 · {dayunMethodLabels[dayunMethod]}口径</span>
+        {yearLocation.status === "no_presentation" && (
+          <>
+            <h2>尚未查看大运</h2>
+            <p>
+              本页不知道 {targetYear} 年处在哪段大运：大运呈现只在八字命理页选择传统口径并计算后，才会保存在本次会话中；这里不编造。
+            </p>
+            <p>
+              <Link href="/bazi-profile">先在八字命理页选择传统大运口径查看完整大运</Link>
+            </p>
+          </>
+        )}
+        {yearLocation.status === "located" && (
+          <>
+            <h2>{targetYear} 年 · 第 {yearLocation.periodIndex} 运 {yearLocation.ganzhi}</h2>
+            <p>
+              按{dayunMethodLabels[dayunMethod]}口径，{targetYear} 年处于第 {yearLocation.periodIndex} 运（{yearLocation.ganzhi}，相对日主{yearLocation.tenGod}）。
+              另一口径的定位可能不同，可在八字命理页切换口径查看。
+            </p>
+            <p>
+              <Link href="/bazi-profile" onClick={() => requestDayunReturn(yearLocation.periodIndex)}>返回所属大运</Link>
+            </p>
+          </>
+        )}
+        {yearLocation.status === "ambiguous" && (
+          <>
+            <h2>{targetYear} 年 · 交运年，所属大运不唯一</h2>
+            <p>
+              按{dayunMethodLabels[dayunMethod]}口径，{targetYear} 年内有第 {yearLocation.toPeriodIndex} 运的交运区间：
+              {yearLocation.fromPeriodIndex !== null
+                ? `第 ${yearLocation.fromPeriodIndex} 运${yearLocation.fromGanzhi ? ` ${yearLocation.fromGanzhi}` : ""}与第 ${yearLocation.toPeriodIndex} 运 ${yearLocation.toGanzhi}之间`
+                : `首运开始之前与第 ${yearLocation.toPeriodIndex} 运 ${yearLocation.toGanzhi}之间`}，
+              可能处于交运前后，不强行定归属。
+            </p>
+            <p>
+              <Link href="/bazi-profile" onClick={() => requestDayunReturn(yearLocation.toPeriodIndex)}>查看第 {yearLocation.toPeriodIndex} 运</Link>
+            </p>
+          </>
+        )}
+        {yearLocation.status === "before_first" && (
+          <>
+            <h2>{targetYear} 年 · 尚未进入首运</h2>
+            <p>
+              按{dayunMethodLabels[dayunMethod]}口径，{targetYear} 年在首运交运区间之前，尚未进入首运。
+            </p>
+            <p>
+              <Link href="/bazi-profile">在八字命理页查看完整大运</Link>
+            </p>
+          </>
+        )}
+        {yearLocation.status === "not_provided" && (
+          <>
+            <h2>{targetYear} 年 · 所属大运无法定位</h2>
+            <p>
+              按{dayunMethodLabels[dayunMethod]}口径，本口径只提供首运交运区间（第 {yearLocation.lastKnownPeriodIndex} 运 {yearLocation.lastKnownGanzhi}之后未提供），
+              {targetYear} 年的所属大运无法定位，不以十年平移拟制。
+            </p>
+            <p>
+              <Link href="/bazi-profile">在八字命理页查看完整大运</Link>
+            </p>
+          </>
+        )}
+        {yearLocation.status === "unresolved" && (
+          <>
+            <h2>{targetYear} 年 · 交运时间暂不可判</h2>
+            <p>
+              按{dayunMethodLabels[dayunMethod]}口径，交运时间暂不可判（出生时刻恰逢节气交界，交运换算口径尚未裁定），{targetYear} 年的所属大运无法定位。
+            </p>
+            <p>
+              <Link href="/bazi-profile">在八字命理页查看完整大运</Link>
+            </p>
+          </>
+        )}
       </section>
 
       {!result && !loading && (
@@ -223,8 +400,12 @@ export function YearlyStructurePage() {
             <article className="yearly-flow-card">
               <small>{targetYear} 流年干支</small>
               <strong>{annual.ganzhi || "—"}</strong>
-              <div><span>天干</span><b>{annual.stem || "—"}</b></div>
-              <div><span>地支</span><b>{annual.branch || "—"}</b></div>
+              {/* TJ-0422 phase 2 slice A: annual stem/branch elements are
+                  a fixed display lookup (see yearContext); the ganzhi,
+                  ten-god and branch relations all come from this same
+                  scenario result — nothing is computed in the browser. */}
+              <div><span>天干</span><b>{annual.stem || "—"}{annual.stem && STEM_ELEMENTS[annual.stem] ? `（${STEM_ELEMENTS[annual.stem]}）` : ""}</b></div>
+              <div><span>地支</span><b>{annual.branch || "—"}{annual.branch && BRANCH_ELEMENTS[annual.branch] ? `（${BRANCH_ELEMENTS[annual.branch]}）` : ""}</b></div>
               <div><span>相对日主</span><b>{annual.stem_ten_god || "—"}</b></div>
               <p>{annual.year_boundary || ""}</p>
             </article>
