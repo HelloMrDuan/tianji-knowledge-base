@@ -121,6 +121,7 @@
 | TJ-031.13 | M7 | 风水二十四山独立核对（第二轮） | 已合并 | [公开 #373](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/373) · `b12c56725ef15646fc146a987c96646073cdfab1` | 2026-10-26 | 关账（批次 [B030]）：核对任务无功能 PR，本行 PR 栏为本收尾登记 PR、SHA 栏为核对时生产稳定 main 提交；扇区边界 72/72、中心角全字段 24/24，生产差异 0；period 元运维持未验证 |
 | TJ-031.14 | M7 | 用九/用六生产接线修复（指纹例外） | 已部署验收 | [公开 #372](https://github.com/HelloMrDuan/tianji-knowledge-base/pull/372) · `91eb1ae48148643cd00da49d3588578c3210e7b7` · [CI 通过](https://github.com/HelloMrDuan/tianji-knowledge-base/actions/runs/40287369985) | 2026-10-26 | 关账：PR #372 已合并（Merge 91eb1ae48148643cd00da49d3588578c3210e7b7）；机上验收 SUCCESS 1179 测（failures 0、errors 0、1 既存 skip 不计通过），新专项 test_tj03114_special_use 与 test_phase4_review、test_phase2_liuyao 均真实执行通过；稳定已部署 DEPLOYED 2026-10-26T08:00:17Z，pin 44593769ff1bfa290a3e272d3ceef20315d373df0c430dd72f7183cf0a76f4c7；生产复探 4/4（全 9 用九、全 6 用六均逐字返回且带 special_use_scope，单动与全 7 对照无该字段）；接线缺口闭环 |
 | TJ-031.15 | M7 | 核心引擎第一批：已审确定性排盘链（紫微 6 条 + 六壬九宗门 9 条）接线核对与锁定 | 已提交PR | — | 2026-11-25 | PR 待合并与正式验收；密封验收待用户单独授权后补记 |
+| TJ-031.16 | M7 | 核心引擎第二批：旺衰/格局/喜用/组合/六爻旬空月破/真太阳时研究引擎 | 已提交PR | — | 2026-11-26 | PR 待合并与正式验收；密封验收已预授权，待推送后执行并补记 |
 
 ## 进度计算与正确读法
 
