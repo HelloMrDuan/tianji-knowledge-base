@@ -348,6 +348,27 @@ class YuejianRichenRecordTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             record_month_day_context("寅", "甲子 ")
 
+    def test_record_rejects_empty_and_multi_char_branches(self):
+        # Regression (ChatGPT review, batch 3): ``in`` on the branches
+        # string is a substring test, so "" and contiguous pairs
+        # ("寅卯", "子丑") were wrongly accepted. Only exactly one
+        # legal branch character is accepted now.
+        for bad_branch in ("", "寅卯", "子丑", "甲", "寅 ", " 寅"):
+            with self.subTest(branch=bad_branch):
+                with self.assertRaises(ValueError):
+                    record_month_day_context(bad_branch, "甲子")
+        with self.assertRaises(ValueError):
+            record_month_day_context(None, "甲子")
+
+    def test_record_accepts_each_single_branch(self):
+        # Positive control: every one of the twelve branches records.
+        for branch in "子丑寅卯辰巳午未申酉戌亥":
+            with self.subTest(branch=branch):
+                record = record_month_day_context(branch, "甲子")
+                self.assertEqual(record["month_branch"], branch)
+                self.assertEqual(record["day_ganzhi"], "甲子")
+                self.assertIsNone(record["derived_conclusions"])
+
 
 @unittest.skipUnless(DATA_PRESENT, "needs assembled runtime with data/canonical")
 class ChartIntegrationTests(unittest.TestCase):

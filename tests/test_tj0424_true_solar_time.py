@@ -224,6 +224,33 @@ class ApparentSolarTimeTests(unittest.TestCase):
         self.assertAlmostEqual(r0["longitude_correction_minutes"], -480.0,
                                places=9)
 
+    def test_same_instant_same_apparent_whatever_representation(self):
+        """Regression (ChatGPT review, batch 3): one physical instant,
+        one apparent solar time, whatever representation it is written
+        in. The equation of time used to be evaluated at
+        wall-minus-offset while the shift was applied to dt's own
+        instant, so the same birth gave different apparent times
+        (and, near a jieqi moment, different solar terms) depending
+        on whether it was written +08:00, UTC or -05:00.
+        """
+        reps = (
+            datetime(2024, 2, 11, 16, 27, 7, tzinfo=CST),
+            datetime(2024, 2, 11, 8, 27, 7, tzinfo=UTC),
+            datetime(2024, 2, 11, 3, 27, 7,
+                     tzinfo=timezone(timedelta(hours=-5))),
+        )
+        results = [apparent_solar_time(rep, 121.47, 8) for rep in reps]
+        keys = ("apparent_solar_time", "input_date", "apparent_date",
+                "date_shifted", "date_shift_days",
+                "longitude_correction_minutes",
+                "equation_of_time_minutes", "total_correction_minutes",
+                "julian_day")
+        first = {key: results[0][key] for key in keys}
+        for rep, result in zip(reps[1:], results[1:]):
+            with self.subTest(rep=rep.isoformat()):
+                self.assertEqual(
+                    {key: result[key] for key in keys}, first)
+
     def test_date_shift_backwards(self):
         """Urumqi 87.62E, 2026-01-01 00:30 CST -> previous day ~22:17."""
         r = apparent_solar_time(
@@ -251,11 +278,16 @@ class ApparentSolarTimeTests(unittest.TestCase):
         self.assertEqual(r["apparent_date"], "2026-11-04")
 
     def test_explicit_tz_offset_is_authoritative(self):
-        """dt.tzinfo (+8) is NOT trusted: tz_offset=+9 governs.
+        """tz_offset=+9 governs the meridian and the returned zone.
 
-        Same wall reading 12:00, lon 120E: with tz_offset 9 the
-        standard meridian is 135E, so the longitude correction is
-        exactly -60 min and UTC is 03:00, not 04:00.
+        Same instant 12:00+08:00 (04:00Z), lon 120E: with tz_offset 9
+        the standard meridian is 135E, so the longitude correction is
+        exactly -60 min. The instant itself is dt's own (04:00Z):
+        the equation of time and the Julian Day are evaluated at
+        that instant, not at wall-minus-offset (03:00Z). (Batch 3
+        correction: the old docstring claimed UTC was 03:00, but the
+        asserted apparent value already pinned the 04:00Z instant;
+        the EoT/JD pins below make the instant explicit.)
         """
         r = apparent_solar_time(
             datetime(2026, 3, 20, 12, 0, tzinfo=CST), 120.0, 9)
@@ -267,6 +299,15 @@ class ApparentSolarTimeTests(unittest.TestCase):
                           tzinfo=timezone(timedelta(hours=9)))
         delta = abs((r["apparent_solar_time"] - expect).total_seconds())
         self.assertLess(delta, 60.0)
+        self.assertAlmostEqual(
+            r["equation_of_time_minutes"],
+            equation_of_time_minutes(
+                datetime(2026, 3, 20, 4, 0, tzinfo=UTC)),
+            places=9)
+        self.assertAlmostEqual(
+            r["julian_day"],
+            datetime(2026, 3, 20, 4, 0, tzinfo=UTC).timestamp()
+            / 86400.0 + 2440587.5, places=9)
 
     def test_standard_meridian_override(self):
         """Explicit meridian 121.4737E zeroes the longitude correction."""
@@ -590,7 +631,13 @@ class TrueSolarChartBoundaryTests(unittest.TestCase):
             r_default["conversion"]["total_correction_minutes"])
 
     def test_explicit_dst_offset_governs(self):
-        """tz_offset=+9 (DST in force) governs meridian and UTC instant."""
+        """tz_offset=+9 (DST in force) governs the meridian.
+
+        The instant is dt's own; tz_offset names the civil zone
+        (meridian 135E here) and the zone of the returned apparent
+        time. (Batch 3 correction: the old docstring claimed it
+        also governed the UTC instant.)
+        """
         birth = datetime(2026, 3, 20, 12, 0, tzinfo=CST)
         r = compare_standard_vs_true_solar(birth, 120.0, 9)
         self.assertEqual(r["conversion"]["tz_offset_hours"], 9.0)
@@ -1802,3 +1849,65 @@ class RepresentationInvarianceTests(unittest.TestCase):
                 self.assertEqual(
                     r["jieqi"]["standard_solar_term"]
                     != r["jieqi"]["true_solar_solar_term"], between)
+
+    def test_same_instant_same_solar_term_across_representations(self):
+        """Regression (ChatGPT review, batch 3): the true-solar chart
+        of one physical instant must not depend on how the instant
+        was written. The birth is aimed so the +08:00-representation
+        apparent instant lands 1 s BEFORE 立春 2026 (Urumqi lon
+        87.62, tz 8): before the fix the UTC representation put the
+        apparent instant ~2 s later, AFTER 立春, so the two
+        representations reported different solar terms (大寒 vs 立春)
+        -- and different year/month pillars -- for the same birth.
+        After the fix both agree.
+        """
+        lichun = _independent_jieqi_utc(2026, 2, 4, 5, 0, 0, "立春")
+        probe = apparent_solar_time(
+            datetime(2026, 2, 4, 6, 25, 0, tzinfo=CST), 87.62, 8)
+        app_utc = probe["apparent_solar_time"].astimezone(timezone.utc)
+        target = lichun - timedelta(seconds=1)
+        birth = (datetime(2026, 2, 4, 6, 25, 0, tzinfo=CST)
+                 .astimezone(timezone.utc) + (target - app_utc))
+        reps = (birth.astimezone(CST), birth.astimezone(timezone.utc))
+        seen_terms = set()
+        seen_pillars = set()
+        seen_apparent = set()
+        for rep in reps:
+            with self.subTest(rep=rep.isoformat()):
+                r = compare_standard_vs_true_solar(rep, 87.62, 8)
+                seen_terms.add(
+                    (r["jieqi"]["standard_solar_term"],
+                     r["jieqi"]["true_solar_solar_term"]))
+                seen_pillars.add((
+                    tuple(sorted(
+                        _pillars(r["standard_time_chart"]).items())),
+                    tuple(sorted(
+                        _pillars(r["true_solar_time_chart"]).items()))))
+                seen_apparent.add(
+                    r["conversion"]["apparent_solar_time"])
+        self.assertEqual(len(seen_terms), 1)
+        self.assertEqual(len(seen_pillars), 1)
+        self.assertEqual(len(seen_apparent), 1)
+        # The aimed case really is the near-boundary one: the
+        # standard instant is after 立春, the converted instant
+        # just before it -- a designed crossing, identical in both
+        # representations.
+        (std_term, sol_term), = seen_terms
+        self.assertEqual(std_term, "立春")
+        self.assertEqual(sol_term, "大寒")
+
+    def test_near_boundary_no_crossing_keeps_term(self):
+        """Near-jieqi-boundary control: a birth 30 min after 立春
+        2026 (Beijing lon 116.4074, tz 8) corrects ~28 min back, so
+        the converted instant is still ~2 min after 立春: the solar
+        term must not flip, in either representation.
+        """
+        birth = datetime(2026, 2, 4, 4, 32, 8, tzinfo=CST)
+        for rep in (birth, birth.astimezone(timezone.utc)):
+            with self.subTest(rep=rep.isoformat()):
+                r = compare_standard_vs_true_solar(rep, 116.4074, 8)
+                self.assertFalse(r["jieqi"]["crossed"])
+                self.assertEqual(r["jieqi"]["standard_solar_term"], "立春")
+                self.assertEqual(r["jieqi"]["true_solar_solar_term"], "立春")
+                self.assertFalse(r["differences"]["month_pillar_changed"])
+                self.assertFalse(r["differences"]["year_pillar_changed"])

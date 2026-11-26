@@ -376,7 +376,11 @@ def record_month_day_context(month_branch, day_ganzhi):
     Raises ValueError for a month branch outside the twelve branches
     or a day ganzhi outside the sixty-cycle.
     """
-    if not isinstance(month_branch, str) or month_branch not in _YUEJIAN_RICHEN_BRANCHES:
+    # Exact single-branch check: ``in`` on the branches string is a
+    # substring test, so "" and contiguous pairs ("寅卯", "子丑") would
+    # wrongly pass. Only exactly one legal branch character is accepted.
+    if (not isinstance(month_branch, str) or len(month_branch) != 1
+            or month_branch not in _YUEJIAN_RICHEN_BRANCHES):
         raise ValueError("month_branch must be one earthly branch")
     if not isinstance(day_ganzhi, str) or day_ganzhi not in _YUEJIAN_RICHEN_CYCLE:
         raise ValueError("day_ganzhi must be a sixty-cycle ganzhi string")

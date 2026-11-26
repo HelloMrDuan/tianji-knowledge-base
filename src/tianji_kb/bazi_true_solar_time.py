@@ -46,12 +46,16 @@ Definitions (NOAA sign convention):
 * Apparent solar time = local standard (wall-clock) time
   + longitude correction + EoT.
 
-Inputs are explicit: the caller supplies the local wall time, the
+Inputs are explicit: the caller supplies the birth instant (a
+timezone-aware datetime, which defines the absolute instant), the
 longitude, and the time-zone offset. Historical time zones are NEVER
 guessed -- a historical zone must be passed in as ``tz_offset``
 (and, where the historical standard meridian differs from
 15 * tz_offset, as ``standard_meridian_deg``). Daylight saving must
-already be reflected in the supplied ``tz_offset``.
+already be reflected in the supplied ``tz_offset``. The equation
+of time is always evaluated at the input instant itself, so the
+same physical instant gives the same result whatever time
+representation it was written in.
 
 IANA tzdb validation (T3, approved 2026-11-25)
 -----------------------------------------------
@@ -301,11 +305,14 @@ def apparent_solar_time(dt, longitude_deg, tz_offset, *,
     Parameters
     ----------
     dt : datetime, timezone-aware.
-        The local wall-clock time. Only the wall-clock reading is used,
-        together with the explicit ``tz_offset``; ``dt.tzinfo`` is
-        required (naive datetimes are refused) but its own UTC offset
-        is NOT trusted -- the explicit ``tz_offset`` is authoritative,
-        so that historical zones can be supplied without guessing.
+        The birth instant. ``dt`` defines the absolute instant;
+        ``tz_offset`` names the civil zone whose wall reading the
+        conversion is expressed in (the wall reading is ``dt``
+        expressed in that zone). Naive datetimes are refused (a
+        wall-clock reading without a zone is ambiguous). Historical
+        zones are supplied as ``tz_offset`` (and
+        ``standard_meridian_deg`` where it differs from
+        15 * tz_offset), never guessed.
     longitude_deg : float.
         Longitude in degrees, east positive, west negative, [-180, 180].
     tz_offset : float or timedelta.
@@ -338,12 +345,23 @@ def apparent_solar_time(dt, longitude_deg, tz_offset, *,
         _check_meridian(standard_meridian_deg)
         meridian = float(standard_meridian_deg)
 
-    # Wall-clock reading + explicit offset -> absolute instant (UTC).
-    # dt.tzinfo is deliberately not used for the conversion.
-    wall = dt.replace(tzinfo=None)
-    utc_dt = (wall - timedelta(hours=offset_hours)).replace(
-        tzinfo=timezone.utc)
+    # The absolute instant is dt itself: an aware datetime IS its
+    # instant, whatever representation it was written in. Every
+    # quantity below is derived from this one instant, so the same
+    # physical instant gives the same result in any representation
+    # (T4 invariant: one physical instant, one solar term).
+    # The previous code evaluated the equation of time at
+    # wall-minus-offset while applying the shift to dt's own
+    # instant, so the EoT sat away from the true instant by the
+    # representation gap (up to ~30 s of solar time) whenever
+    # dt's own offset differed from tz_offset -- and the same
+    # birth could land on either side of a jieqi moment depending
+    # on how it was written. tz_offset still names the civil
+    # zone: the wall reading is dt expressed in that zone, and
+    # the apparent time is returned in that zone.
+    utc_dt = dt.astimezone(timezone.utc)
     local_tz = timezone(timedelta(hours=offset_hours))
+    wall = utc_dt.astimezone(local_tz).replace(tzinfo=None)
 
     eot = equation_of_time_minutes(utc_dt)
     lon_corr = 4.0 * _longitude_difference_deg(longitude_deg, meridian)
@@ -373,9 +391,10 @@ def apparent_solar_time(dt, longitude_deg, tz_offset, *,
         "method": METHOD_ID,
         "astronomical_basis": ASTRONOMICAL_BASIS,
         "calendar_basis": (
-            "Gregorian calendar; UTC derived from the explicit tz_offset "
-            "parameter (historical zones are never guessed); the input "
-            "datetime's own tzinfo offset is not trusted."
+            "Gregorian calendar; the UTC instant is the input "
+            "datetime's own instant (the same physical instant in "
+            "any representation); historical zones are never guessed "
+            "-- tz_offset must be supplied explicitly."
         ),
         "precision_limits": PRECISION_LIMITS,
         "method_note": METHOD_NOTE,
