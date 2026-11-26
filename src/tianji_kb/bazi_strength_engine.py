@@ -279,7 +279,7 @@ CLASSICAL_LIMITATIONS = (
     '呈现为已验证正例。',
     '分日司令不进入古典层（裁决层 excluded_dependencies 含 '
     'dated_commander）；巳月/寅月试点判定只供现代层得令参考，不改古典谓词。',
-    '三刑事实不进入本层（bazi_sanxing_facts 事实层不解锁任何 '
+    '三刑事实不进入本层（三刑事实层不解锁任何 '
     'determination，也不进 unresolved_interactions）。',
 )
 
