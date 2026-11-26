@@ -397,15 +397,31 @@ if __name__ == "__main__":
 # The jieqi instants asserted below are recomputed INDEPENDENTLY in
 # each test from the pinned provider (lunar-python 1.4.8), the same
 # provider the calendar adapter uses -- they are not read from the
-# module under test. The expected pillar changes were likewise read
-# off real chart_from_datetime runs, not invented: e.g. Urumqi
-# 2026-02-04 05:00 CST charts 丙午/庚寅/己酉 while the converted
-# 02:36 instant charts 乙巳/己丑/己酉.
+# module under test. The expected pillars were likewise read off the
+# pinned provider directly (``calendar()`` for the true instant's
+# year/month/day/hour, plus the research day/hour derivation from
+# the apparent solar time as a LOCAL reading), not invented.
+#
+# CORRECTED SEMANTICS (2026-11-26, true-solar defect fix): the
+# apparent solar time is a local wall-clock reading at the
+# birthplace, NOT a second physical instant. The year pillar, the
+# month pillar and the solar term are fixed by the TRUE birth
+# instant on both sides; only the day pillar (local solar date vs
+# Shanghai date) and the hour pillar (local solar shichen vs
+# Shanghai shichen) may differ. The earlier tests asserted the
+# opposite -- that the correction moves a birth across 立春 and
+# changes its year/month pillars -- because the old code fed the
+# converted reading to ``chart_from_datetime`` as if it were an
+# instant. Those expectations were wrong and are corrected here,
+# with the reason stated in each test's docstring. E.g. Urumqi
+# 2026-02-04 05:00 CST charts 丙午/庚寅/己酉/丁卯 under the
+# standard caliber and 丙午/庚寅/己酉/乙丑 under the research
+# caliber: same year/month/term, only the hour pillar moves.
 # ======================================================================
 
 from lunar_python import Solar as _LunarSolar
 
-from tianji_kb.bazi_core import chart_from_datetime
+from tianji_kb.bazi_core import chart_from_datetime, chart_from_pillars
 from tianji_kb.bazi_true_solar_chart import (
     ENTRY_ID,
     JIEQI_UNCERTAINTY_WINDOW_MINUTES,
@@ -466,16 +482,20 @@ class TrueSolarChartComparisonTests(unittest.TestCase):
         """Beijing noon: correction -21.9 min moves no pillar.
 
         The standard chart in the result is exactly
-        chart_from_datetime(birth); the solar chart is exactly
-        chart_from_datetime(apparent). Nothing is merged.
+        chart_from_datetime(birth). The research chart is the
+        uniform recompute from the true instant's year/month
+        pillars plus the research day/hour pillars -- here
+        identical to the standard four, because the local solar
+        date and shichen agree with the Shanghai reading.
+        Nothing is merged.
         """
         birth = datetime(2026, 3, 20, 12, 0, tzinfo=CST)
         r = compare_standard_vs_true_solar(birth, 116.4074, 8)
         self.assertEqual(_pillars(r["standard_time_chart"]),
                          _pillars(chart_from_datetime(birth)))
-        apparent = r["conversion"]["apparent_solar_time"]
         self.assertEqual(_pillars(r["true_solar_time_chart"]),
-                         _pillars(chart_from_datetime(apparent)))
+                         {"year": "丙午", "month": "辛卯",
+                          "day": "癸巳", "hour": "戊午"})
         self.assertFalse(r["differences"]["any_pillar_changed"])
         for name in ("year", "month", "day", "hour"):
             self.assertFalse(r["differences"]["pillars"][name]["changed"])
@@ -492,7 +512,15 @@ class TrueSolarChartComparisonTests(unittest.TestCase):
                          "2026-03-20T12:00:00+08:00")
 
     def test_cross_day_backwards_urumqi_changes_day_pillar(self):
-        """Urumqi 2026-01-01 00:30 CST -> previous day: day pillar changes."""
+        """Urumqi 2026-01-01 00:30 CST -> previous LOCAL day: day pillar changes.
+
+        The apparent solar time is 2025-12-31 22:17 at the
+        birthplace, so the research day pillar follows the local
+        solar date (2025-12-31, 甲戌） while the standard day pillar
+        follows the Shanghai date of the true instant (2026-01-01,
+        乙亥）. Year/month/term are fixed by the true instant and
+        do not change.
+        """
         birth = datetime(2026, 1, 1, 0, 30, tzinfo=CST)
         r = compare_standard_vs_true_solar(birth, 87.62, 8)
         self.assertEqual(r["conversion"]["date_shift_days"], -1)
@@ -500,18 +528,23 @@ class TrueSolarChartComparisonTests(unittest.TestCase):
         self.assertTrue(r["differences"]["chart_date"]["changed"])
         self.assertEqual(r["differences"]["chart_date"]["standard"], "2026-01-01")
         self.assertEqual(r["differences"]["chart_date"]["true_solar"], "2025-12-31")
-        self.assertNotEqual(r["differences"]["pillars"]["day"]["standard"],
-                            r["differences"]["pillars"]["day"]["true_solar"])
+        self.assertEqual(r["differences"]["pillars"]["day"]["standard"], "乙亥")
+        self.assertEqual(r["differences"]["pillars"]["day"]["true_solar"], "甲戌")
+        self.assertFalse(r["differences"]["year_pillar_changed"])
+        self.assertFalse(r["differences"]["month_pillar_changed"])
+        self.assertFalse(r["jieqi"]["crossed"])
 
     def test_cross_day_forwards_new_york_local_date_only(self):
         """New York 2026-11-03 23:58 EST -> next LOCAL day, same pillar day.
 
         The conversion moves the local wall date forward a day
-        (date_shift_days == +1), but pillars are computed from the
-        Shanghai-converted instant, and both instants fall on Nov 4
-        in Shanghai (12:58 -> 13:18 CST). A local-date shift therefore
-        does NOT by itself change the day pillar; the day pillar
-        changes only when the Shanghai date changes (next test).
+        (date_shift_days == +1), and the Shanghai date of the true
+        instant is Nov 4 too (23:58 EST = Nov 4 12:58 Shanghai), so
+        the research local solar date (Nov 4) and the Shanghai date
+        (Nov 4) agree: the day pillar does NOT change. A local-date
+        shift therefore does NOT by itself change the day pillar;
+        the day pillar changes only when the local solar date
+        differs from the Shanghai date of the true instant.
         """
         birth = datetime(2026, 11, 3, 23, 58, tzinfo=EST)
         r = compare_standard_vs_true_solar(birth, -74.0060, -5)
@@ -520,21 +553,39 @@ class TrueSolarChartComparisonTests(unittest.TestCase):
         self.assertFalse(r["differences"]["chart_date"]["changed"])
         self.assertFalse(r["differences"]["day_pillar_changed"])
 
-    def test_cross_day_forwards_new_york_shanghai_midnight(self):
-        """New York 2026-11-03 10:50 EST: Shanghai 23:50 -> 00:10 next day.
+    def test_cross_day_forwards_new_york_local_date_unchanged(self):
+        """New York 2026-11-03 10:50 EST: day pillar does NOT change.
 
-        The local date does NOT shift (10:50 -> 11:10 EST), but the
-        Shanghai-converted instant crosses midnight, so the day pillar
-        genuinely changes. Local date shift and pillar-day change are
-        two different boundaries and are reported separately.
+        CORRECTED (2026-11-26, true-solar defect fix): the old test
+        asserted the day pillar changes 辛巳 -> 壬午 here, because
+        the old code read the day pillar off the Shanghai date of
+        the apparent-as-instant (11:10 EST as an instant is 00:10
+        Shanghai, Nov 4). That was the defect: the apparent solar
+        time is a LOCAL wall-clock reading at the birthplace
+        (11:10 EST, Nov 3), not a second instant to re-convert to
+        Shanghai. The research day pillar follows the local solar
+        date (Nov 3, 辛巳）, the same date as the Shanghai date of
+        the true instant (23:50 Nov 3), so the day pillar is
+        unchanged. Only the shichen moves (戊子 -> 甲午）.
         """
         birth = datetime(2026, 11, 3, 10, 50, tzinfo=EST)
         r = compare_standard_vs_true_solar(birth, -74.0060, -5)
         self.assertEqual(r["conversion"]["date_shift_days"], 0)
-        self.assertTrue(r["differences"]["chart_date"]["changed"])
+        self.assertFalse(r["differences"]["chart_date"]["changed"])
         self.assertEqual(r["differences"]["chart_date"]["standard"], "2026-11-03")
-        self.assertEqual(r["differences"]["chart_date"]["true_solar"], "2026-11-04")
-        self.assertTrue(r["differences"]["day_pillar_changed"])
+        self.assertEqual(r["differences"]["chart_date"]["true_solar"], "2026-11-03")
+        self.assertFalse(r["differences"]["day_pillar_changed"])
+        self.assertEqual(
+            r["differences"]["pillars"]["day"]["standard"], "辛巳")
+        self.assertEqual(
+            r["differences"]["pillars"]["day"]["true_solar"], "辛巳")
+        self.assertTrue(r["differences"]["hour_pillar_changed"])
+        self.assertEqual(
+            r["differences"]["pillars"]["hour"]["standard"], "戊子")
+        self.assertEqual(
+            r["differences"]["pillars"]["hour"]["true_solar"], "甲午")
+        self.assertFalse(r["differences"]["year_pillar_changed"])
+        self.assertFalse(r["differences"]["month_pillar_changed"])
 
 
 class TrueSolarChartBoundaryTests(unittest.TestCase):
@@ -658,83 +709,122 @@ class TrueSolarChartBoundaryTests(unittest.TestCase):
 
 
 class TrueSolarChartJieqiTests(unittest.TestCase):
-    def test_jieqi_crossed_backwards_lichun_urumqi(self):
-        """Urumqi 2026-02-04 05:00 CST: apparent 02:36, before 立春.
+    def test_jieqi_fixed_lichun_urumqi(self):
+        """Urumqi 2026-02-04 05:00 CST: year/month/term fixed by the true instant.
 
-        Standard chart is after 立春 (丙午/庚寅); the solar chart is
-        before it (乙巳/己丑). Year AND month pillars change; the day
-        pillar (己酉) does not.
+        CORRECTED (2026-11-26, true-solar defect fix): the old test
+        asserted the correction moves the birth across 立春, so the
+        year pillar changes 丙午 -> 乙巳 and the month pillar 庚寅 ->
+        己丑. That was the defect: the apparent solar time (02:36
+        local) is a wall-clock reading at the birthplace, not a
+        second instant, so it cannot move the birth across 立春.
+        The true instant (05:00) is after 立春 (04:02:08), so both
+        readings carry 丙午/庚寅 and the term 立春. Only the hour
+        pillar moves (丁卯 -> 乙丑, 卯时 -> 丑时）; the day pillar
+        (己酉） does not.
         """
         birth = datetime(2026, 2, 4, 5, 0, tzinfo=CST)
         r = compare_standard_vs_true_solar(birth, 87.62, 8)
         d = r["differences"]["pillars"]
         self.assertEqual(d["year"]["standard"], "丙午")
-        self.assertEqual(d["year"]["true_solar"], "乙巳")
+        self.assertEqual(d["year"]["true_solar"], "丙午")
         self.assertEqual(d["month"]["standard"], "庚寅")
-        self.assertEqual(d["month"]["true_solar"], "己丑")
+        self.assertEqual(d["month"]["true_solar"], "庚寅")
         self.assertEqual(d["day"]["standard"], "己酉")
         self.assertEqual(d["day"]["true_solar"], "己酉")
+        self.assertEqual(d["hour"]["standard"], "丁卯")
+        self.assertEqual(d["hour"]["true_solar"], "乙丑")
         self.assertTrue(d["hour"]["changed"])
-        self.assertTrue(r["differences"]["year_pillar_changed"])
-        self.assertTrue(r["differences"]["month_pillar_changed"])
+        self.assertFalse(r["differences"]["year_pillar_changed"])
+        self.assertFalse(r["differences"]["month_pillar_changed"])
         j = r["jieqi"]
-        self.assertTrue(j["crossed"])
-        self.assertEqual(j["crossed_term"], "立春")
+        self.assertFalse(j["crossed"])
+        self.assertIsNone(j["crossed_term"])
+        self.assertIsNone(j["crossed_at_utc"])
         self.assertEqual(j["standard_solar_term"], "立春")
-        self.assertEqual(j["true_solar_solar_term"], "大寒")
+        self.assertEqual(j["true_solar_solar_term"], "立春")
+        self.assertEqual(j["nearest_boundary_term"], "立春")
         expected = _independent_jieqi_utc(2026, 2, 4, 5, 0, 0, "立春")
-        got = datetime.fromisoformat(j["crossed_at_utc"])
-        self.assertLess(abs((got - expected).total_seconds()), 60.0)
-        # Input 05:00 is 57.9 min after the 04:02:08 boundary.
+        # Input 05:00 is 57.9 min after the 04:02:08 boundary; the
+        # signed distance is measured from the TRUE instant.
         self.assertAlmostEqual(j["minutes_from_input_to_boundary"],
                                -57.87, delta=1.0)
+        self.assertAlmostEqual(j["nearest_boundary_minutes"],
+                               57.87, delta=1.0)
         self.assertFalse(j["within_precision_budget"])
 
-    def test_jieqi_crossed_forwards_lidong_new_york(self):
-        """New York 2026-11-07 04:40 EST: apparent 05:00, past 立冬.
+    def test_jieqi_fixed_lidong_new_york(self):
+        """New York 2026-11-07 04:40 EST: year/month/term fixed by the true instant.
 
-        立冬 is 2026-11-07 17:52:05 +08:00 = 04:52:05 EST; the
-        standard instant (04:40 EST) is before it, the converted
-        instant (05:00 EST) after it. Month pillar changes.
+        CORRECTED (2026-11-26, true-solar defect fix): the old test
+        asserted the correction moves the birth across 立冬
+        (04:52:05 EST), so the month pillar changes. The apparent
+        solar time (05:00 EST) is a local reading, not a second
+        instant: the true instant (04:40 EST) is before 立冬， so
+        both readings carry the term 霜降 and the pillars 丙午/戊戌.
+        Only the hour pillar moves (乙酉 -> 己卯, 酉时 -> 卯时）.
         """
         birth = datetime(2026, 11, 7, 4, 40, tzinfo=EST)
         r = compare_standard_vs_true_solar(birth, -74.0060, -5)
         j = r["jieqi"]
-        self.assertTrue(j["crossed"])
-        self.assertEqual(j["crossed_term"], "立冬")
+        self.assertFalse(j["crossed"])
+        self.assertIsNone(j["crossed_term"])
         self.assertEqual(j["standard_solar_term"], "霜降")
-        self.assertEqual(j["true_solar_solar_term"], "立冬")
-        expected = _independent_jieqi_utc(2026, 11, 7, 12, 0, 0, "立冬")
-        got = datetime.fromisoformat(j["crossed_at_utc"])
-        self.assertLess(abs((got - expected).total_seconds()), 60.0)
-        self.assertTrue(r["differences"]["month_pillar_changed"])
-        # Converted instant is ~8.3 min past the boundary: outside the
+        self.assertEqual(j["true_solar_solar_term"], "霜降")
+        self.assertEqual(j["nearest_boundary_term"], "立冬")
+        # Input 04:40 EST is 12.1 min before the 04:52:05 EST boundary;
+        # the signed distance is measured from the TRUE instant.
+        self.assertAlmostEqual(j["minutes_from_input_to_boundary"],
+                               12.08, delta=1.0)
+        self.assertAlmostEqual(j["nearest_boundary_minutes"],
+                               12.08, delta=1.0)
+        self.assertFalse(r["differences"]["month_pillar_changed"])
+        self.assertFalse(r["differences"]["year_pillar_changed"])
+        d = r["differences"]["pillars"]
+        self.assertEqual(d["month"]["standard"], "戊戌")
+        self.assertEqual(d["month"]["true_solar"], "戊戌")
+        self.assertEqual(d["day"]["standard"], "乙酉")
+        self.assertEqual(d["day"]["true_solar"], "乙酉")
+        self.assertEqual(d["hour"]["standard"], "乙酉")
+        self.assertEqual(d["hour"]["true_solar"], "己卯")
+        # The true instant is ~12.1 min from the boundary: outside the
         # +/-1 min precision budget, so the attribution is settled.
         self.assertFalse(j["within_precision_budget"])
         self.assertGreater(j["nearest_boundary_minutes"], 2.0)
 
     def test_jieqi_near_boundary_flagged_uncertain(self):
-        """Converted instants within 2 min of 立春 are flagged, not settled.
+        """True instants within 2 min of 立春 are flagged, not settled.
 
-        Urumqi 06:26 -> apparent 04:02:37, 0.5 min AFTER 立春 (not
-        crossed, but inside the window); Urumqi 06:24 -> apparent
-        04:00:37, 1.5 min BEFORE 立春 (crossed AND inside the window).
-        Expected distances are recomputed independently here from the
-        provider instant and the already-tested conversion.
+        CORRECTED (2026-11-26, true-solar defect fix): the window is
+        anchored at the TRUE instant's distance to the true jieqi
+        boundary, never at the corrected reading. The old test aimed
+        the CORRECTED reading at the boundary (Urumqi 06:24/06:26,
+        whose true instants are ~140 min past 立春 and so were never
+        inside the window under the corrected anchor). The new cases
+        put the TRUE instant itself near 立春： 04:00:30 (1.6 min
+        BEFORE) and 04:03:00 (0.9 min AFTER), Beijing lon. Expected
+        distances are recomputed independently here from the provider
+        instant and the TRUE instant.
         """
         lichun = _independent_jieqi_utc(2026, 2, 4, 5, 0, 0, "立春")
-        for wall_hh, wall_mm, expect_crossed in ((6, 26, False), (6, 24, True)):
-            with self.subTest(wall="%02d:%02d" % (wall_hh, wall_mm)):
-                birth = datetime(2026, 2, 4, wall_hh, wall_mm, tzinfo=CST)
-                r = compare_standard_vs_true_solar(birth, 87.62, 8)
-                apparent = r["conversion"]["apparent_solar_time"]
+        for wall_hh, wall_mm, wall_ss, expect_term in (
+                (4, 0, 30, "大寒"), (4, 3, 0, "立春")):
+            with self.subTest(wall="%02d:%02d:%02d"
+                              % (wall_hh, wall_mm, wall_ss)):
+                birth = datetime(2026, 2, 4, wall_hh, wall_mm, wall_ss,
+                                 tzinfo=CST)
+                r = compare_standard_vs_true_solar(birth, 116.4074, 8)
                 expected_distance = abs(
-                    (apparent.astimezone(timezone.utc) - lichun)
+                    (birth.astimezone(timezone.utc) - lichun)
                     .total_seconds()) / 60.0
                 self.assertAlmostEqual(r["jieqi"]["nearest_boundary_minutes"],
                                        expected_distance, delta=0.1)
                 self.assertEqual(r["jieqi"]["nearest_boundary_term"], "立春")
-                self.assertEqual(r["jieqi"]["crossed"], expect_crossed)
+                self.assertFalse(r["jieqi"]["crossed"])
+                self.assertEqual(r["jieqi"]["standard_solar_term"],
+                                 expect_term)
+                self.assertEqual(r["jieqi"]["true_solar_solar_term"],
+                                 expect_term)
                 self.assertTrue(r["jieqi"]["within_precision_budget"])
                 self.assertLess(
                     r["jieqi"]["nearest_boundary_minutes"],
@@ -766,7 +856,14 @@ class TrueSolarChartFailClosedTests(unittest.TestCase):
                 birth, 116.4074, 8, standard_meridian_deg=200.0)
 
     def test_converted_instant_out_of_supported_range(self):
-        """Urumqi 1900-01-01 00:05 converts back into 1899: refused."""
+        """Urumqi 1900-01-01 00:05: research local date 1899-12-31, refused.
+
+        (Wording corrected 2026-11-26: the refusal is the
+        research-caliber local solar date falling outside the
+        supported calendar range 1900..2099, not a converted instant
+        as such. The standard-time chart is unaffected and no chart
+        is returned.)
+        """
         with self.assertRaises(ValueError) as ctx:
             compare_standard_vs_true_solar(
                 datetime(1900, 1, 1, 0, 5, tzinfo=CST), 87.62, 8)
@@ -934,11 +1031,17 @@ class MoreLongitudeTimezoneTests(unittest.TestCase):
 
 
 class TrueSolarChartMoreJieqiTests(unittest.TestCase):
-    def test_jieqi_crossed_backwards_xiaoshu_urumqi(self):
-        """Urumqi 2026-07-07 11:00 CST: apparent ~08:46, before 小暑.
+    def test_jieqi_fixed_xiaoshu_urumqi(self):
+        """Urumqi 2026-07-07 11:00 CST: year/month/term fixed by the true instant.
 
-        Month pillar changes 乙未 -> 甲午 (小暑 is a 节); year and
-        day pillars do not change; hour pillar changes 丙午 -> 甲辰.
+        CORRECTED (2026-11-26, true-solar defect fix): the old test
+        asserted the correction moves the birth across 小暑， so the
+        month pillar changes 乙未 -> 甲午. The apparent solar time
+        (~08:46 local) is a wall-clock reading, not a second
+        instant: the true instant (11:00) is after 小暑
+        (09:56:57), so both readings carry 乙未 and the term 小暑.
+        Only the hour pillar moves (丙午 -> 甲辰， 午时 -> 辰时）;
+        the day pillar (壬午） does not.
         """
         birth = datetime(2026, 7, 7, 11, 0, tzinfo=CST)
         r = compare_standard_vs_true_solar(birth, 87.62, 8)
@@ -946,90 +1049,110 @@ class TrueSolarChartMoreJieqiTests(unittest.TestCase):
         self.assertEqual(d["year"]["standard"], "丙午")
         self.assertEqual(d["year"]["true_solar"], "丙午")
         self.assertEqual(d["month"]["standard"], "乙未")
-        self.assertEqual(d["month"]["true_solar"], "甲午")
+        self.assertEqual(d["month"]["true_solar"], "乙未")
         self.assertEqual(d["day"]["standard"], "壬午")
         self.assertEqual(d["day"]["true_solar"], "壬午")
         self.assertEqual(d["hour"]["standard"], "丙午")
         self.assertEqual(d["hour"]["true_solar"], "甲辰")
         j = r["jieqi"]
-        self.assertTrue(j["crossed"])
-        self.assertEqual(j["crossed_term"], "小暑")
+        self.assertFalse(j["crossed"])
+        self.assertIsNone(j["crossed_term"])
         self.assertEqual(j["standard_solar_term"], "小暑")
-        self.assertEqual(j["true_solar_solar_term"], "夏至")
-        expected = _independent_jieqi_utc(2026, 7, 7, 12, 0, 0, "小暑")
-        got = datetime.fromisoformat(j["crossed_at_utc"])
-        self.assertLess(abs((got - expected).total_seconds()), 60.0)
-        # Input 11:00 is 63.1 min after the 09:56:57 boundary.
+        self.assertEqual(j["true_solar_solar_term"], "小暑")
+        self.assertEqual(j["nearest_boundary_term"], "小暑")
+        # Input 11:00 is 63.1 min after the 09:56:57 boundary; the
+        # signed distance is measured from the TRUE instant, and the
+        # nearest-boundary distance is the same number now (it was
+        # 71.4 min measured from the corrected reading).
         self.assertAlmostEqual(j["minutes_from_input_to_boundary"],
                                -63.05, delta=1.0)
         self.assertFalse(j["within_precision_budget"])
-        self.assertAlmostEqual(j["nearest_boundary_minutes"], 71.4, delta=2.0)
+        self.assertAlmostEqual(j["nearest_boundary_minutes"], 63.05, delta=1.0)
 
-    def test_jieqi_crossed_backwards_daxue_urumqi(self):
-        """Urumqi 2026-12-07 11:30 CST: apparent ~09:29, before 大雪.
+    def test_jieqi_fixed_daxue_urumqi(self):
+        """Urumqi 2026-12-07 11:30 CST: year/month/term fixed by the true instant.
 
-        Month pillar changes 庚子 -> 己亥 (大雪 is a 节); day pillar
-        does not change; hour pillar changes 壬午 -> 辛巳.
+        CORRECTED (2026-11-26, true-solar defect fix): the old test
+        asserted the correction moves the birth across 大雪， so the
+        month pillar changes 庚子 -> 己亥. The true instant (11:30)
+        is after 大雪 (10:52:32), so both readings carry 庚子 and
+        the term 大雪. Only the hour pillar moves (壬午 -> 辛巳）;
+        the day pillar (乙卯） does not.
         """
         birth = datetime(2026, 12, 7, 11, 30, tzinfo=CST)
         r = compare_standard_vs_true_solar(birth, 87.62, 8)
         d = r["differences"]["pillars"]
         self.assertEqual(d["month"]["standard"], "庚子")
-        self.assertEqual(d["month"]["true_solar"], "己亥")
+        self.assertEqual(d["month"]["true_solar"], "庚子")
         self.assertEqual(d["day"]["standard"], "乙卯")
         self.assertEqual(d["day"]["true_solar"], "乙卯")
         self.assertEqual(d["hour"]["standard"], "壬午")
         self.assertEqual(d["hour"]["true_solar"], "辛巳")
         j = r["jieqi"]
-        self.assertTrue(j["crossed"])
-        self.assertEqual(j["crossed_term"], "大雪")
+        self.assertFalse(j["crossed"])
+        self.assertIsNone(j["crossed_term"])
         self.assertEqual(j["standard_solar_term"], "大雪")
-        self.assertEqual(j["true_solar_solar_term"], "小雪")
-        expected = _independent_jieqi_utc(2026, 12, 7, 12, 0, 0, "大雪")
-        got = datetime.fromisoformat(j["crossed_at_utc"])
-        self.assertLess(abs((got - expected).total_seconds()), 60.0)
-        # Input 11:30 is 37.5 min after the 10:52:32 boundary.
+        self.assertEqual(j["true_solar_solar_term"], "大雪")
+        self.assertEqual(j["nearest_boundary_term"], "大雪")
+        # Input 11:30 is 37.5 min after the 10:52:32 boundary; the
+        # signed distance is measured from the TRUE instant, and the
+        # nearest-boundary distance is the same number now (it was
+        # 83.5 min measured from the corrected reading).
         self.assertAlmostEqual(j["minutes_from_input_to_boundary"],
                                -37.47, delta=1.0)
         self.assertFalse(j["within_precision_budget"])
-        self.assertAlmostEqual(j["nearest_boundary_minutes"], 83.5, delta=2.0)
+        self.assertAlmostEqual(j["nearest_boundary_minutes"], 37.47, delta=1.0)
 
-    def test_jieqi_crossed_forwards_lichun_tokyo(self):
-        """Tokyo 2026-02-04 05:01 JST: apparent ~05:06, past 立春.
+    def test_jieqi_fixed_lichun_tokyo(self):
+        """Tokyo 2026-02-04 05:01 JST: year/month/term fixed by the true instant.
 
-        Forward 立春 crossing: year AND month pillars change
-        together (乙巳/己丑 -> 丙午/庚寅); day and hour pillars do
-        not change (己酉 / 丙寅 on both sides).
+        CORRECTED (2026-11-26, true-solar defect fix): the old test
+        asserted the correction moves the birth across 立春
+        (05:02:08 JST), so the year AND month pillars change
+        together (乙巳/己丑 -> 丙午/庚寅）. The apparent solar time
+        (~05:06 JST) is a local reading, not a second instant: the
+        true instant (05:01 JST) is BEFORE 立春， so both readings
+        carry 乙巳/己丑 and the term 大寒. Only the hour pillar
+        moves (丙寅 -> 丁卯, 寅时 -> 卯时）; the day pillar (己酉）
+        does not. The true instant is 1.1 min before 立春， inside
+        the provisional window, so the month attribution is NOT
+        settled (it was "settled" before, measured from the
+        corrected reading 4.1 min past the boundary).
         """
         birth = datetime(2026, 2, 4, 5, 1, tzinfo=JST)
         r = compare_standard_vs_true_solar(birth, 139.767, 9)
         d = r["differences"]["pillars"]
         self.assertEqual(d["year"]["standard"], "乙巳")
-        self.assertEqual(d["year"]["true_solar"], "丙午")
+        self.assertEqual(d["year"]["true_solar"], "乙巳")
         self.assertEqual(d["month"]["standard"], "己丑")
-        self.assertEqual(d["month"]["true_solar"], "庚寅")
+        self.assertEqual(d["month"]["true_solar"], "己丑")
         self.assertEqual(d["day"]["standard"], "己酉")
         self.assertEqual(d["day"]["true_solar"], "己酉")
         self.assertEqual(d["hour"]["standard"], "丙寅")
-        self.assertEqual(d["hour"]["true_solar"], "丙寅")
+        self.assertEqual(d["hour"]["true_solar"], "丁卯")
         j = r["jieqi"]
-        self.assertTrue(j["crossed"])
-        self.assertEqual(j["crossed_term"], "立春")
+        self.assertFalse(j["crossed"])
+        self.assertIsNone(j["crossed_term"])
         self.assertEqual(j["standard_solar_term"], "大寒")
-        self.assertEqual(j["true_solar_solar_term"], "立春")
+        self.assertEqual(j["true_solar_solar_term"], "大寒")
         # Input 05:01 JST is 1.1 min before the 05:02:08 JST boundary.
         self.assertAlmostEqual(j["minutes_from_input_to_boundary"],
                                1.13, delta=1.0)
-        # Converted instant is ~4.1 min past the boundary: settled.
-        self.assertFalse(j["within_precision_budget"])
-        self.assertGreater(j["nearest_boundary_minutes"], 2.0)
+        # True instant inside the window: NOT settled.
+        self.assertTrue(j["within_precision_budget"])
+        self.assertLess(j["nearest_boundary_minutes"], 2.0)
+        self.assertIn("NOT settled", j["note"])
 
-    def test_qi_crossed_backwards_chunfen_month_unchanged(self):
-        """Urumqi 2026-03-20 23:30 CST: apparent ~21:13, before 春分.
+    def test_qi_fixed_chunfen_month_unchanged(self):
+        """Urumqi 2026-03-20 23:30 CST: term fixed too, month unchanged.
 
-        春分 is a 中气: the solar term changes (春分 -> 惊蛰) but
-        the month pillar does NOT change (辛卯 on both sides). The
-        hour pillar changes 壬子 -> 癸亥; the day pillar does not.
+        CORRECTED (2026-11-26, true-solar defect fix): the old test
+        asserted the solar term changes 春分 -> 惊蛰 while the month
+        pillar stays 辛卯 (a 中气 crossing). No crossing ever
+        happens now: the true instant (23:30) is after 春分
+        (22:45:59), so both readings carry the term 春分 and the
+        month pillar 辛卯. Only the hour pillar moves (壬子 -> 癸亥）;
+        the day pillar (癸巳） does not.
         """
         birth = datetime(2026, 3, 20, 23, 30, tzinfo=CST)
         r = compare_standard_vs_true_solar(birth, 87.62, 8)
@@ -1041,23 +1164,31 @@ class TrueSolarChartMoreJieqiTests(unittest.TestCase):
         self.assertEqual(d["hour"]["standard"], "壬子")
         self.assertEqual(d["hour"]["true_solar"], "癸亥")
         j = r["jieqi"]
-        self.assertTrue(j["crossed"])
-        self.assertEqual(j["crossed_term"], "春分")
+        self.assertFalse(j["crossed"])
+        self.assertIsNone(j["crossed_term"])
         self.assertEqual(j["standard_solar_term"], "春分")
-        self.assertEqual(j["true_solar_solar_term"], "惊蛰")
+        self.assertEqual(j["true_solar_solar_term"], "春分")
         self.assertFalse(r["differences"]["month_pillar_changed"])
         self.assertTrue(r["differences"]["hour_pillar_changed"])
-        # Input 23:30 is 44.0 min after the 22:45:59 boundary.
+        # Input 23:30 is 44.0 min after the 22:45:59 boundary; the
+        # signed distance is measured from the TRUE instant, and the
+        # nearest-boundary distance is the same number now (it was
+        # 92.9 min measured from the corrected reading).
         self.assertAlmostEqual(j["minutes_from_input_to_boundary"],
                                -44.02, delta=1.0)
         self.assertFalse(j["within_precision_budget"])
-        self.assertAlmostEqual(j["nearest_boundary_minutes"], 92.9, delta=2.0)
+        self.assertAlmostEqual(j["nearest_boundary_minutes"], 44.02, delta=1.0)
 
-    def test_qi_crossed_backwards_xiazhi_month_unchanged(self):
-        """Urumqi 2026-06-21 17:30 CST: apparent ~15:19, before 夏至.
+    def test_qi_fixed_xiazhi_month_unchanged(self):
+        """Urumqi 2026-06-21 17:30 CST: term fixed too, month unchanged.
 
-        夏至 is a 中气: term changes (夏至 -> 芒种), month pillar
-        stays 甲午, day pillar stays 丙寅, hour changes 丁酉 -> 丙申.
+        CORRECTED (2026-11-26, true-solar defect fix): the old test
+        asserted the solar term changes 夏至 -> 芒种 while the month
+        pillar stays 甲午 (a 中气 crossing). No crossing ever
+        happens now: the true instant (17:30) is after 夏至
+        (16:24:30), so both readings carry the term 夏至 and the
+        month pillar 甲午. Only the hour pillar moves (丁酉 -> 丙申）;
+        the day pillar (丙寅） does not.
         """
         birth = datetime(2026, 6, 21, 17, 30, tzinfo=CST)
         r = compare_standard_vs_true_solar(birth, 87.62, 8)
@@ -1069,50 +1200,70 @@ class TrueSolarChartMoreJieqiTests(unittest.TestCase):
         self.assertEqual(d["hour"]["standard"], "丁酉")
         self.assertEqual(d["hour"]["true_solar"], "丙申")
         j = r["jieqi"]
-        self.assertTrue(j["crossed"])
-        self.assertEqual(j["crossed_term"], "夏至")
+        self.assertFalse(j["crossed"])
+        self.assertIsNone(j["crossed_term"])
         self.assertEqual(j["standard_solar_term"], "夏至")
-        self.assertEqual(j["true_solar_solar_term"], "芒种")
+        self.assertEqual(j["true_solar_solar_term"], "夏至")
         self.assertFalse(r["differences"]["month_pillar_changed"])
         # Input 17:30 is 65.5 min after the 16:24:30 boundary.
         self.assertAlmostEqual(j["minutes_from_input_to_boundary"],
                                -65.5, delta=1.0)
         self.assertFalse(j["within_precision_budget"])
-        self.assertAlmostEqual(j["nearest_boundary_minutes"], 65.8, delta=2.0)
+        self.assertAlmostEqual(j["nearest_boundary_minutes"], 65.5, delta=1.0)
 
-    def test_qi_crossed_forwards_qiufen_only_term_changes(self):
-        """Tokyo 2026-09-23 08:50 JST: apparent ~09:16, past 秋分.
+    def test_qiufen_tokyo_term_fixed_hour_changes(self):
+        """Tokyo 2026-09-23 08:50 JST: term fixed, only the hour moves.
 
-        秋分 is a 中气: only the solar term changes (白露 -> 秋分).
-        All four pillars are identical on both sides.
+        CORRECTED (2026-11-26, true-solar defect fix): the old test
+        asserted only the solar term changes (白露 -> 秋分） and all
+        four pillars are identical (a 中气 crossing). No crossing
+        ever happens now: the true instant (08:50 JST) is before
+        秋分 (09:05:14 JST), so both readings carry the term 白露.
+        The year/month/day pillars are identical (丙午/丁酉/庚子）,
+        but the hour pillar DOES move (庚辰 -> 辛巳）: the Shanghai
+        shichen of the true instant is 辰时 (08:16 Shanghai) while
+        the local solar shichen is 巳时 (09:16 JST).
         """
         birth = datetime(2026, 9, 23, 8, 50, tzinfo=JST)
         r = compare_standard_vs_true_solar(birth, 139.767, 9)
         d = r["differences"]["pillars"]
-        for name in ("year", "month", "day", "hour"):
-            self.assertEqual(d[name]["standard"], d[name]["true_solar"],
-                             name)
+        self.assertEqual(d["year"]["standard"], "丙午")
+        self.assertEqual(d["year"]["true_solar"], "丙午")
         self.assertEqual(d["month"]["standard"], "丁酉")
+        self.assertEqual(d["month"]["true_solar"], "丁酉")
         self.assertEqual(d["day"]["standard"], "庚子")
+        self.assertEqual(d["day"]["true_solar"], "庚子")
         self.assertEqual(d["hour"]["standard"], "庚辰")
-        self.assertFalse(r["differences"]["any_pillar_changed"])
+        self.assertEqual(d["hour"]["true_solar"], "辛巳")
+        self.assertTrue(r["differences"]["hour_pillar_changed"])
+        self.assertTrue(r["differences"]["any_pillar_changed"])
+        self.assertFalse(r["differences"]["year_pillar_changed"])
+        self.assertFalse(r["differences"]["month_pillar_changed"])
+        self.assertFalse(r["differences"]["day_pillar_changed"])
         j = r["jieqi"]
-        self.assertTrue(j["crossed"])
-        self.assertEqual(j["crossed_term"], "秋分")
+        self.assertFalse(j["crossed"])
+        self.assertIsNone(j["crossed_term"])
         self.assertEqual(j["standard_solar_term"], "白露")
-        self.assertEqual(j["true_solar_solar_term"], "秋分")
+        self.assertEqual(j["true_solar_solar_term"], "白露")
         # Input 08:50 JST is 15.2 min before the 09:05:14 JST boundary.
         self.assertAlmostEqual(j["minutes_from_input_to_boundary"],
                                15.23, delta=1.0)
         self.assertFalse(j["within_precision_budget"])
-        self.assertAlmostEqual(j["nearest_boundary_minutes"], 11.5, delta=2.0)
+        self.assertAlmostEqual(j["nearest_boundary_minutes"], 15.23, delta=1.0)
 
     def test_cross_day_backwards_sydney_local_date_only(self):
         """Sydney 2026-01-01 00:30 +11: local date shifts back a day.
 
-        The local date shifts (date_shift_days == -1) but both
-        instants fall on 2025-12-31 in Shanghai, so the day pillar
-        does NOT change; only the hour pillar changes (乙亥 -> 甲戌).
+        The local date shifts (date_shift_days == -1) but the
+        Shanghai date of the true instant is 2025-12-31 too (00:30
+        +11 = 21:30 Shanghai, Dec 31), so the research local solar
+        date (Dec 31) and the Shanghai date (Dec 31) agree and the
+        day pillar does NOT change (甲戌 on both sides). Only the
+        hour pillar changes (乙亥 -> 甲子）: the Shanghai shichen is
+        亥时 (21:30) while the local solar shichen is 子时 (23:31).
+        (The old test asserted the hour changes 乙亥 -> 甲戌 -- the
+        戌时 reading came from the Shanghai time of the
+        apparent-as-instant, the defect fixed 2026-11-26.)
         """
         birth = datetime(2026, 1, 1, 0, 30,
                          tzinfo=timezone(timedelta(hours=11)))
@@ -1128,52 +1279,86 @@ class TrueSolarChartMoreJieqiTests(unittest.TestCase):
         self.assertEqual(d["day"]["standard"], "甲戌")
         self.assertEqual(d["day"]["true_solar"], "甲戌")
         self.assertEqual(d["hour"]["standard"], "乙亥")
-        self.assertEqual(d["hour"]["true_solar"], "甲戌")
+        self.assertEqual(d["hour"]["true_solar"], "甲子")
         self.assertFalse(r["jieqi"]["crossed"])
 
-    def test_cross_day_backwards_honolulu_no_pillar_change(self):
-        """Honolulu 2026-01-01 00:20 -10: local date shifts, no pillar.
+    def test_cross_day_backwards_honolulu_day_follows_local_date(self):
+        """Honolulu 2026-01-01 00:20 -10: day follows the LOCAL solar date.
 
-        Local date shifts back a day (date_shift_days == -1), yet
-        all four pillars are identical: both instants fall on
-        2026-01-01 in Shanghai, far from every boundary.
+        CORRECTED (2026-11-26, true-solar defect fix): the old test
+        asserted no pillar changes at all here. The Shanghai date of
+        the true instant is 2026-01-01 (00:20 -10 = 18:20 Shanghai),
+        but the local solar date at the birthplace is 2025-12-31
+        (apparent 23:45, Dec 31), so the research day pillar is 甲戌
+        while the standard day pillar is 乙亥 -- the day pillar
+        genuinely changes, for the right reason (local solar date vs
+        Shanghai date). The hour pillar changes too (乙酉 -> 甲子）.
+        Year/month/term are fixed by the true instant (乙巳/戊子/冬至
+        on both sides).
         """
         birth = datetime(2026, 1, 1, 0, 20,
                          tzinfo=timezone(timedelta(hours=-10)))
         r = compare_standard_vs_true_solar(birth, -157.858, -10)
         self.assertEqual(r["conversion"]["date_shift_days"], -1)
-        self.assertFalse(r["differences"]["any_pillar_changed"])
+        self.assertTrue(r["differences"]["chart_date"]["changed"])
+        self.assertEqual(r["differences"]["chart_date"]["standard"],
+                         "2026-01-01")
+        self.assertEqual(r["differences"]["chart_date"]["true_solar"],
+                         "2025-12-31")
+        self.assertTrue(r["differences"]["day_pillar_changed"])
         d = r["differences"]["pillars"]
         self.assertEqual(d["year"]["standard"], "乙巳")
+        self.assertEqual(d["year"]["true_solar"], "乙巳")
         self.assertEqual(d["month"]["standard"], "戊子")
+        self.assertEqual(d["month"]["true_solar"], "戊子")
         self.assertEqual(d["day"]["standard"], "乙亥")
+        self.assertEqual(d["day"]["true_solar"], "甲戌")
         self.assertEqual(d["hour"]["standard"], "乙酉")
+        self.assertEqual(d["hour"]["true_solar"], "甲子")
         self.assertFalse(r["jieqi"]["crossed"])
 
     def test_zi_start_day_boundary_contrast(self):
         """NY 2026-11-03 10:50 EST under midnight vs zi-start.
 
-        Shanghai 23:50 -> 00:10 next day. Under the midnight
-        convention the day pillar changes (辛巳 -> 壬午); under
-        zi-start the day starts at 23:00, so both instants are
-        already on the next day and the day pillar is 壬午 on both
-        sides. Same birth, same conversion, different day boundary.
+        CORRECTED (2026-11-26, true-solar defect fix): the old test
+        asserted the day pillar changes under midnight (辛巳 -> 壬午）
+        and is unchanged under zi-start (壬午 on both sides) -- both
+        readings came from the Shanghai date of the
+        apparent-as-instant (00:10 Nov 4). Under the corrected
+        semantics the research day pillar follows the LOCAL solar
+        date (Nov 3) in both conventions, so under midnight the day
+        pillar is UNCHANGED (辛巳 on both sides: Shanghai Nov 3,
+        local Nov 3), while under zi-start it CHANGES (壬午 -> 辛巳）:
+        the Shanghai reading (23:50 Nov 3) is already past the 23:00
+        zi-start boundary, so the standard day is Nov 4, but the
+        local solar reading (11:10 Nov 3) is before it, so the
+        research day is Nov 3. Same birth, same conversion,
+        different day boundary -- and the contrast runs the other
+        way round from the old (wrong) expectation.
         """
         birth = datetime(2026, 11, 3, 10, 50, tzinfo=EST)
         r_mid = compare_standard_vs_true_solar(
             birth, -74.0060, -5, day_boundary="midnight")
-        self.assertTrue(r_mid["differences"]["day_pillar_changed"])
+        self.assertFalse(r_mid["differences"]["day_pillar_changed"])
         self.assertEqual(
             r_mid["differences"]["pillars"]["day"]["standard"], "辛巳")
         self.assertEqual(
-            r_mid["differences"]["pillars"]["day"]["true_solar"], "壬午")
+            r_mid["differences"]["pillars"]["day"]["true_solar"], "辛巳")
+        self.assertEqual(
+            r_mid["differences"]["pillars"]["hour"]["standard"], "戊子")
+        self.assertEqual(
+            r_mid["differences"]["pillars"]["hour"]["true_solar"], "甲午")
         r_zi = compare_standard_vs_true_solar(
             birth, -74.0060, -5, day_boundary="zi-start")
-        self.assertFalse(r_zi["differences"]["day_pillar_changed"])
+        self.assertTrue(r_zi["differences"]["day_pillar_changed"])
         self.assertEqual(
             r_zi["differences"]["pillars"]["day"]["standard"], "壬午")
         self.assertEqual(
-            r_zi["differences"]["pillars"]["day"]["true_solar"], "壬午")
+            r_zi["differences"]["pillars"]["day"]["true_solar"], "辛巳")
+        self.assertEqual(
+            r_zi["differences"]["pillars"]["hour"]["standard"], "庚子")
+        self.assertEqual(
+            r_zi["differences"]["pillars"]["hour"]["true_solar"], "甲午")
         # The conversion itself is identical under both conventions.
         self.assertEqual(r_mid["conversion"], r_zi["conversion"])
 
@@ -1203,14 +1388,24 @@ class PillarAdapterTests(unittest.TestCase):
                              116.4074, 8)["standard_time_chart"])
 
     def test_adapter_copies_charts_verbatim(self):
-        """Adapter rows are the real charts' pillar dicts, not recomputed."""
+        """Adapter rows are the real charts' pillar dicts, not recomputed.
+
+        CORRECTED (2026-11-26, true-solar defect fix): the standard
+        side is still chart_from_datetime(birth), but the research
+        side is NO LONGER chart_from_datetime(apparent) -- that was
+        the defect (the apparent reading fed in as an instant). It is
+        the uniform recompute from the true instant's year/month
+        pillars plus the research day/hour pillars, checked here
+        against an independent chart_from_pillars call with the
+        hand-derived four ganzhi (丙午/庚寅/己酉/乙丑）.
+        """
         birth = datetime(2026, 2, 4, 5, 0, tzinfo=CST)
         r = compare_pillars(birth, 87.62, 8)
-        apparent = r["conversion"]["apparent_solar_time"]
         std_pillars = {item["name"]: item
                        for item in chart_from_datetime(birth)["pillars"]}
         sol_pillars = {item["name"]: item
-                       for item in chart_from_datetime(apparent)["pillars"]}
+                       for item in chart_from_pillars(
+                           "丙午", "庚寅", "己酉", "乙丑")["pillars"]}
         for row in r["pillar_comparison"]["pillars"]:
             self.assertEqual(row["standard"], std_pillars[row["name"]])
             self.assertEqual(row["true_solar"], sol_pillars[row["name"]])
@@ -1238,45 +1433,74 @@ class PillarAdapterTests(unittest.TestCase):
         self.assertFalse(pc["derived"]["branch_relations_changed"])
         self.assertFalse(pc["derived"]["taohua_changed"])
         self.assertIn("立春", rows["year"]["reason"])
+        self.assertIn("cannot change", rows["year"]["reason"])
         self.assertIn("No jieqi was crossed", rows["month"]["reason"])
-        self.assertIn("Shanghai date is unchanged",
+        self.assertIn("matches the Shanghai date",
                       rows["day"]["reason"])
         self.assertIn("shichen is unchanged", rows["hour"]["reason"])
         # Boundary distances: next shichen 13:00 is 60 min after the
-        # standard instant, ~82 min after the converted instant.
+        # standard instant, ~82 min after the apparent solar time.
         self.assertAlmostEqual(
             rows["hour"]["detail"]
             ["minutes_from_standard_instant_to_next_shichen_boundary"],
             60.0, delta=2.0)
         self.assertAlmostEqual(
             rows["hour"]["detail"]
-            ["minutes_from_converted_instant_to_next_shichen_boundary"],
+            ["minutes_from_apparent_solar_time_to_next_shichen_boundary"],
             81.9, delta=2.0)
         self.assertAlmostEqual(
             rows["day"]["detail"]
-            ["minutes_from_standard_instant_to_next_boundary"],
+            ["minutes_from_standard_instant_to_next_shanghai_boundary"],
             720.0, delta=2.0)
+        self.assertAlmostEqual(
+            rows["day"]["detail"]
+            ["minutes_from_apparent_solar_time_to_next_local_boundary"],
+            741.9, delta=2.0)
 
-    def test_adapter_lichun_urumqi_year_month_together(self):
-        """Urumqi 立春 crossing: year+month change together, reasons say why."""
+    def test_adapter_lichun_urumqi_year_month_fixed(self):
+        """Urumqi 立春 case: year+month FIXED by the true instant, reasons say why.
+
+        CORRECTED (2026-11-26, true-solar defect fix): the old test
+        (test_adapter_lichun_urumqi_year_month_together) asserted
+        the year and month pillars change together because the
+        correction crosses 立春. That was the defect: the apparent
+        solar time (02:36 local) is a wall-clock reading, not a
+        second instant, so the true instant (05:00, after 立春
+        04:02:08) fixes both readings at 丙午/庚寅. Only the hour
+        pillar changes (丁卯 -> 乙丑, 卯时 -> 丑时）; the day pillar
+        (己酉） does not. The year/month ten-god readings are
+        therefore unchanged too (same ganzhi, same day master 己）.
+        The branch relations and taohua still change, because the
+        hour branch moves 卯 -> 丑 (the 卯酉 clash on the standard
+        side is gone on the research side, and the taohua match on
+        the year-branch basis is gone with it).
+        """
         birth = datetime(2026, 2, 4, 5, 0, tzinfo=CST)
         r = compare_pillars(birth, 87.62, 8)
         pc = r["pillar_comparison"]
         rows = self._rows(r)
-        self.assertTrue(pc["year_and_month_changed_together"])
-        self.assertTrue(rows["year"]["changed"])
-        self.assertTrue(rows["month"]["changed"])
+        self.assertFalse(pc["year_and_month_changed_together"])
+        self.assertFalse(rows["year"]["changed"])
+        self.assertFalse(rows["month"]["changed"])
         self.assertFalse(rows["day"]["changed"])
         self.assertTrue(rows["hour"]["changed"])
+        self.assertEqual(rows["year"]["standard"]["ganzhi"], "丙午")
+        self.assertEqual(rows["year"]["true_solar"]["ganzhi"], "丙午")
+        self.assertEqual(rows["month"]["standard"]["ganzhi"], "庚寅")
+        self.assertEqual(rows["month"]["true_solar"]["ganzhi"], "庚寅")
         self.assertIn("立春", rows["year"]["reason"])
-        self.assertIn("only at 立春", rows["year"]["reason"])
-        self.assertIn("节", rows["month"]["reason"])
-        self.assertEqual(rows["month"]["detail"]["crossed_term"], "立春")
-        self.assertEqual(rows["month"]["detail"]["crossed_term_kind"], "节")
-        self.assertIn("Shanghai date is unchanged", rows["day"]["reason"])
+        self.assertIn("cannot change", rows["year"]["reason"])
+        self.assertIn("No jieqi was crossed", rows["month"]["reason"])
+        self.assertIsNone(rows["month"]["detail"]["crossed_term"])
+        self.assertIsNone(rows["month"]["detail"]["crossed_term_kind"])
+        self.assertEqual(rows["month"]["detail"]["nearest_boundary_term"],
+                         "立春")
+        self.assertEqual(rows["month"]["detail"]["nearest_boundary_term_kind"],
+                         "节")
+        self.assertIn("matches the Shanghai date", rows["day"]["reason"])
         self.assertIn("shichen changed", rows["hour"]["reason"])
         # Standard 05:00 is 卯时 (丁卯）; the ~143 min backward
-        # conversion lands ~02:36, i.e. 丑时 (乙丑）.
+        # correction lands ~02:36 local, i.e. 丑时 (乙丑）.
         self.assertIn("卯时", rows["hour"]["reason"])
         self.assertIn("丑时", rows["hour"]["reason"])
         # Day master is 己 on both sides: ten-god readings agree
@@ -1284,58 +1508,105 @@ class PillarAdapterTests(unittest.TestCase):
         self.assertFalse(pc["day_master"]["changed"])
         self.assertEqual(pc["day_master"]["standard"]["stem"], "己")
         self.assertFalse(rows["day"]["ten_god_reading_changed"])
-        self.assertTrue(rows["year"]["ten_god_reading_changed"])
+        self.assertFalse(rows["year"]["ten_god_reading_changed"])
+        self.assertFalse(rows["month"]["ten_god_reading_changed"])
+        self.assertTrue(rows["hour"]["ten_god_reading_changed"])
         self.assertTrue(pc["derived"]["branch_relations_changed"])
         self.assertTrue(pc["derived"]["taohua_changed"])
         self.assertTrue(pc["month_attribution_settled"])
-        self.assertIn("changed together", pc["note"])
+        self.assertNotIn("changed together", pc["note"])
 
     def test_adapter_lichun_forward_tokyo(self):
-        """Tokyo forward 立春 crossing: same together-flag, hour unchanged."""
+        """Tokyo forward 立春 case: year/month fixed, hour moves, month undetermined.
+
+        CORRECTED (2026-11-26, true-solar defect fix): the old test
+        asserted the year and month pillars change together because
+        the correction crosses 立春 (05:02:08 JST). The true instant
+        (05:01 JST) is BEFORE 立春， so both readings carry 乙巳/己丑
+        and the term 大寒. The hour pillar DOES move (丙寅 -> 丁卯）:
+        the Shanghai shichen is 寅时 (04:01 Shanghai) while the
+        local solar shichen is 卯时 (05:06 JST). The true instant is
+        1.1 min before 立春， inside the provisional window, so the
+        month attribution is NOT settled (the old test asserted it
+        settled, measured from the corrected reading 4.1 min past
+        the boundary).
+        """
         birth = datetime(2026, 2, 4, 5, 1, tzinfo=JST)
         r = compare_pillars(birth, 139.767, 9)
         pc = r["pillar_comparison"]
         rows = self._rows(r)
-        self.assertTrue(pc["year_and_month_changed_together"])
-        self.assertTrue(rows["year"]["changed"])
-        self.assertTrue(rows["month"]["changed"])
+        self.assertFalse(pc["year_and_month_changed_together"])
+        self.assertFalse(rows["year"]["changed"])
+        self.assertFalse(rows["month"]["changed"])
         self.assertFalse(rows["day"]["changed"])
-        self.assertFalse(rows["hour"]["changed"])
+        self.assertTrue(rows["hour"]["changed"])
+        self.assertEqual(rows["hour"]["standard"]["ganzhi"], "丙寅")
+        self.assertEqual(rows["hour"]["true_solar"]["ganzhi"], "丁卯")
         self.assertIn("立春", rows["year"]["reason"])
+        self.assertIn("cannot change", rows["year"]["reason"])
         self.assertIn("寅时", rows["hour"]["reason"])
+        self.assertIn("卯时", rows["hour"]["reason"])
         self.assertAlmostEqual(
             rows["hour"]["detail"]
             ["minutes_from_standard_instant_to_next_shichen_boundary"],
             59.0, delta=2.0)
-        self.assertTrue(pc["month_attribution_settled"])
+        self.assertFalse(pc["month_attribution_settled"])
+        self.assertEqual(pc["month_attribution"], "undetermined")
+        self.assertIn("月令归属未定", pc["note"])
+        self.assertFalse(
+            rows["year"]["detail"]["attribution_settled"])
 
-    def test_adapter_qi_crossing_chunfen(self):
-        """春分 crossing: term changes, month pillar does not (中气)."""
+    def test_adapter_chunfen_term_fixed(self):
+        """春分 case: term fixed too, month pillar does not change.
+
+        CORRECTED (2026-11-26, true-solar defect fix): the old test
+        asserted the conversion crosses 春分 (a 中气 term), so the
+        term changes but the month pillar does not. No crossing ever
+        happens now: the true instant (23:30) is after 春分, so both
+        readings carry the term 春分 and the month pillar 辛卯. The
+        month reason therefore says no jieqi was crossed, and the
+        crossed-* detail fields are None.
+        """
         birth = datetime(2026, 3, 20, 23, 30, tzinfo=CST)
         r = compare_pillars(birth, 87.62, 8)
         pc = r["pillar_comparison"]
         rows = self._rows(r)
         self.assertFalse(rows["month"]["changed"])
         self.assertTrue(rows["hour"]["changed"])
-        self.assertIn("中气", rows["month"]["reason"])
-        self.assertIn("month pillar changes only at 节 boundaries",
-                      rows["month"]["reason"])
-        self.assertEqual(rows["month"]["detail"]["crossed_term"], "春分")
-        self.assertEqual(rows["month"]["detail"]["crossed_term_kind"], "气")
+        self.assertIn("No jieqi was crossed", rows["month"]["reason"])
+        self.assertIsNone(rows["month"]["detail"]["crossed_term"])
+        self.assertIsNone(rows["month"]["detail"]["crossed_term_kind"])
+        self.assertEqual(rows["month"]["detail"]["nearest_boundary_term"],
+                         "春分")
+        self.assertEqual(rows["month"]["detail"]["nearest_boundary_term_kind"],
+                         "气")
         self.assertFalse(pc["year_and_month_changed_together"])
         self.assertTrue(pc["month_attribution_settled"])
 
-    def test_adapter_qi_crossing_qiufen_only_term_changes(self):
-        """秋分 forward crossing: no pillar changes at all."""
+    def test_adapter_qiufen_term_fixed_hour_changes(self):
+        """秋分 case: term fixed, only the hour pillar changes.
+
+        CORRECTED (2026-11-26, true-solar defect fix): the old test
+        asserted 秋分 is crossed forward and no pillar changes at
+        all. No crossing ever happens now: the true instant (08:50
+        JST) is before 秋分， so both readings carry the term 白露.
+        The hour pillar DOES change (庚辰 -> 辛巳）: the Shanghai
+        shichen is 辰时 while the local solar shichen is 巳时.
+        """
         birth = datetime(2026, 9, 23, 8, 50, tzinfo=JST)
         r = compare_pillars(birth, 139.767, 9)
         pc = r["pillar_comparison"]
         rows = self._rows(r)
-        for name in ("year", "month", "day", "hour"):
-            self.assertFalse(rows[name]["changed"], name)
-        self.assertTrue(r["jieqi"]["crossed"])
-        self.assertEqual(r["jieqi"]["crossed_term"], "秋分")
-        self.assertIn("中气", rows["month"]["reason"])
+        self.assertFalse(rows["year"]["changed"])
+        self.assertFalse(rows["month"]["changed"])
+        self.assertFalse(rows["day"]["changed"])
+        self.assertTrue(rows["hour"]["changed"])
+        self.assertEqual(rows["hour"]["standard"]["ganzhi"], "庚辰")
+        self.assertEqual(rows["hour"]["true_solar"]["ganzhi"], "辛巳")
+        self.assertFalse(r["jieqi"]["crossed"])
+        self.assertEqual(r["jieqi"]["standard_solar_term"], "白露")
+        self.assertEqual(r["jieqi"]["true_solar_solar_term"], "白露")
+        self.assertIn("No jieqi was crossed", rows["month"]["reason"])
         self.assertTrue(pc["month_attribution_settled"])
 
     def test_adapter_day_master_change_cascade(self):
@@ -1344,6 +1615,9 @@ class PillarAdapterTests(unittest.TestCase):
         The day-master change recomputes the ten-god reading of
         every pillar: the year and month pillars are unchanged as
         ganzhi, yet their ten-god readings differ between the sides.
+        The day pillar changes because the local solar date
+        (2025-12-31) differs from the Shanghai date of the true
+        instant (2026-01-01) -- the reason says so explicitly.
         """
         birth = datetime(2026, 1, 1, 0, 30, tzinfo=CST)
         r = compare_pillars(birth, 87.62, 8)
@@ -1356,30 +1630,41 @@ class PillarAdapterTests(unittest.TestCase):
         self.assertEqual(rows["day"]["standard"]["ganzhi"], "乙亥")
         self.assertEqual(rows["day"]["true_solar"]["ganzhi"], "甲戌")
         self.assertTrue(rows["hour"]["changed"])
+        self.assertEqual(rows["hour"]["standard"]["ganzhi"], "丙子")
+        self.assertEqual(rows["hour"]["true_solar"]["ganzhi"], "乙亥")
         # Unchanged pillars, changed ten-god readings: the cascade.
         self.assertFalse(rows["year"]["changed"])
         self.assertTrue(rows["year"]["ten_god_reading_changed"])
         self.assertFalse(rows["month"]["changed"])
         self.assertTrue(rows["month"]["ten_god_reading_changed"])
         self.assertIn("recomputed", pc["note"])
-        self.assertIn("Shanghai date changed", rows["day"]["reason"])
+        self.assertIn("local solar date", rows["day"]["reason"])
         self.assertIn("2025-12-31", rows["day"]["reason"])
+        self.assertIn("2026-01-01", rows["day"]["reason"])
 
     def test_adapter_within_budget_month_undetermined(self):
         """Within the 2-minute window: 月令归属未定 (status quo, T1).
 
-        Urumqi 06:24 -> apparent 04:00:37, 1.5 min BEFORE 立春
-        (crossed AND inside the window); Urumqi 06:26 -> apparent
-        04:02:37, 0.5 min AFTER 立春 (not crossed, inside the
-        window). Both keep the month attribution undetermined.
+        CORRECTED (2026-11-26, true-solar defect fix): the window is
+        anchored at the TRUE instant, never at the corrected reading.
+        The old cases (Urumqi 06:24/06:26) aimed the CORRECTED
+        reading at 立春 while their true instants were ~140 min past
+        it, so they were never inside the window under the corrected
+        anchor. The new cases put the TRUE instant itself near 立春：
+        04:00:30 (1.6 min BEFORE) and 04:03:00 (0.9 min AFTER),
+        Beijing lon. Both keep the month attribution undetermined.
         """
-        for wall_hh, wall_mm, expect_crossed in ((6, 24, True),
-                                                 (6, 26, False)):
-            with self.subTest(wall="%02d:%02d" % (wall_hh, wall_mm)):
-                birth = datetime(2026, 2, 4, wall_hh, wall_mm, tzinfo=CST)
-                r = compare_pillars(birth, 87.62, 8)
+        for wall_hh, wall_mm, wall_ss, expect_term in (
+                (4, 0, 30, "大寒"), (4, 3, 0, "立春")):
+            with self.subTest(wall="%02d:%02d:%02d"
+                              % (wall_hh, wall_mm, wall_ss)):
+                birth = datetime(2026, 2, 4, wall_hh, wall_mm, wall_ss,
+                                 tzinfo=CST)
+                r = compare_pillars(birth, 116.4074, 8)
                 pc = r["pillar_comparison"]
-                self.assertEqual(r["jieqi"]["crossed"], expect_crossed)
+                self.assertFalse(r["jieqi"]["crossed"])
+                self.assertEqual(r["jieqi"]["standard_solar_term"],
+                                 expect_term)
                 self.assertTrue(r["jieqi"]["within_precision_budget"])
                 self.assertFalse(pc["month_attribution_settled"])
                 self.assertEqual(pc["month_attribution"], "undetermined")
@@ -1389,23 +1674,45 @@ class PillarAdapterTests(unittest.TestCase):
                 self.assertFalse(
                     self._rows(r)["year"]["detail"]["attribution_settled"])
 
-    def test_adapter_zi_start_day_unchanged(self):
-        """NY case under zi-start: day row unchanged, reason names 23:00."""
+    def test_adapter_zi_start_day_contrast(self):
+        """NY case under midnight vs zi-start: the contrast runs the other way.
+
+        CORRECTED (2026-11-26, true-solar defect fix): the old test
+        asserted the day row is unchanged under zi-start and changed
+        under midnight, both readings taken from the Shanghai date of
+        the apparent-as-instant. Under the corrected semantics the
+        research day pillar follows the LOCAL solar date (Nov 3) in
+        both conventions: under midnight the day row is UNCHANGED
+        (辛巳 on both sides), while under zi-start it CHANGES
+        (壬午 -> 辛巳） because the Shanghai reading (23:50 Nov 3)
+        is already past the 23:00 zi-start boundary while the local
+        solar reading (11:10 Nov 3) is not.
+        """
         birth = datetime(2026, 11, 3, 10, 50, tzinfo=EST)
         r_zi = compare_pillars(birth, -74.0060, -5, day_boundary="zi-start")
         rows_zi = self._rows(r_zi)
-        self.assertFalse(rows_zi["day"]["changed"])
+        self.assertTrue(rows_zi["day"]["changed"])
+        self.assertEqual(rows_zi["day"]["standard"]["ganzhi"], "壬午")
+        self.assertEqual(rows_zi["day"]["true_solar"]["ganzhi"], "辛巳")
         self.assertIn("23:00", rows_zi["day"]["reason"])
+        self.assertIn("local solar date", rows_zi["day"]["reason"])
         self.assertEqual(
-            rows_zi["day"]["detail"]["governing_boundary"],
-            "shanghai_zi_start_23h")
+            rows_zi["day"]["detail"]["standard_basis"], "shanghai_date")
+        self.assertEqual(
+            rows_zi["day"]["detail"]["true_solar_basis"], "local_solar_date")
+        self.assertEqual(
+            rows_zi["day"]["detail"]["standard_day_date"], "2026-11-04")
+        self.assertEqual(
+            rows_zi["day"]["detail"]["true_solar_day_date"], "2026-11-03")
         r_mid = compare_pillars(birth, -74.0060, -5, day_boundary="midnight")
         rows_mid = self._rows(r_mid)
-        self.assertTrue(rows_mid["day"]["changed"])
+        self.assertFalse(rows_mid["day"]["changed"])
         self.assertIn("00:00", rows_mid["day"]["reason"])
+        self.assertIn("matches the Shanghai date", rows_mid["day"]["reason"])
         self.assertEqual(
-            rows_mid["day"]["detail"]["governing_boundary"],
-            "shanghai_midnight")
+            rows_mid["day"]["detail"]["standard_day_date"], "2026-11-03")
+        self.assertEqual(
+            rows_mid["day"]["detail"]["true_solar_day_date"], "2026-11-03")
 
     def test_adapter_rejects_bad_input(self):
         with self.assertRaises(ValueError):
@@ -1469,9 +1776,14 @@ class PillarAdapterHelperTests(unittest.TestCase):
 # T4: the research API entry research_dual_time_chart (function
 # level) plus the admin-backend comparison function compare_pillars;
 # the key invariant is representation invariance -- the same
-# physical instant always carries the same solar term, and a term
-# changes between the two charts only when a jieqi moment lies
-# strictly between the standard and the converted instants.
+# physical instant always carries the same solar term, year pillar
+# and month pillar, because those are fixed by the true instant and
+# the correction moves only the local solar reading used for the
+# research day/hour pillars. (Corrected 2026-11-26: the earlier
+# formulation -- a term changes only when a jieqi moment lies
+# between the standard and the converted instants -- treated the
+# converted reading as a second instant; no jieqi is ever crossed
+# by the correction now.)
 # ======================================================================
 
 from tianji_kb.bazi_true_solar_chart import (
@@ -1498,31 +1810,37 @@ class T1WindowEdgeTests(unittest.TestCase):
                       JIEQI_WINDOW_ADJUDICATION)
 
     def test_window_edge_flip_at_lichun(self):
-        """Sweep wall 06:23-06:28 across 立春: flag flips at 2.0 min.
+        """Sweep the TRUE instant 04:00-04:05 across 立春: flag flips at 2.0 min.
 
-        Urumqi 2026-02-04, lon 87.62: each wall minute moves the
-        apparent instant ~1 min. The flag must equal
-        (nearest_boundary_minutes < 2.0) at every step, must be
-        True on both sides of the boundary while inside, and must
-        flip to False once the converted instant is 2+ min away --
-        on both the before and the after side.
+        CORRECTED (2026-11-26, true-solar defect fix): the window is
+        anchored at the TRUE instant's distance to the true jieqi
+        boundary, never at the corrected reading. The old sweep moved
+        the wall time 06:23-06:28 (Urumqi) so the CORRECTED reading
+        crossed 立春； those true instants are ~140 min past 立春 and
+        were never inside the window under the corrected anchor. The
+        new sweep moves the true instant itself across 立春
+        (04:02:08) in 1-minute steps, Beijing lon (longitude is
+        irrelevant to the window now -- the anchor is the instant).
+        The flag must equal (nearest_boundary_minutes < 2.0) at every
+        step, must be True on both sides of the boundary while
+        inside, and must flip to False once the true instant is 2+
+        min away -- on both the before and the after side.
         """
         lichun = _independent_jieqi_utc(2026, 2, 4, 5, 0, 0, "立春")
         seen_inside = seen_outside = 0
-        for wall_mm in (23, 24, 25, 26, 27, 28):
-            with self.subTest(wall="06:%02d" % wall_mm):
-                birth = datetime(2026, 2, 4, 6, wall_mm, tzinfo=CST)
-                r = compare_standard_vs_true_solar(birth, 87.62, 8)
+        for wall_mm in (0, 1, 2, 3, 4, 5):
+            with self.subTest(wall="04:%02d" % wall_mm):
+                birth = datetime(2026, 2, 4, 4, wall_mm, tzinfo=CST)
+                r = compare_standard_vs_true_solar(birth, 116.4074, 8)
                 j = r["jieqi"]
                 self.assertEqual(j["nearest_boundary_term"], "立春")
                 self.assertEqual(j["uncertainty_window_status"],
                                  "provisional")
                 self.assertIn("T1", j["uncertainty_window_adjudication"])
                 # Distance recomputed independently from the provider
-                # instant and the already-tested conversion.
-                apparent = r["conversion"]["apparent_solar_time"]
+                # instant and the TRUE instant.
                 expected_distance = abs(
-                    (apparent.astimezone(timezone.utc) - lichun)
+                    (birth.astimezone(timezone.utc) - lichun)
                     .total_seconds()) / 60.0
                 self.assertAlmostEqual(j["nearest_boundary_minutes"],
                                        expected_distance, delta=0.1)
@@ -1540,14 +1858,21 @@ class T1WindowEdgeTests(unittest.TestCase):
         self.assertGreater(seen_outside, 0)
 
     def test_just_outside_window_is_settled(self):
-        """Wall 06:28 -> apparent ~04:04:37, ~2.5 min past 立春: settled."""
-        birth = datetime(2026, 2, 4, 6, 28, tzinfo=CST)
-        r = compare_standard_vs_true_solar(birth, 87.62, 8)
+        """True instant 04:04:30 -> 2.4 min past 立春: settled.
+
+        CORRECTED (2026-11-26, true-solar defect fix): the old case
+        (Urumqi 06:28, corrected reading ~04:04:37) measured the
+        window from the corrected reading. The window is anchored at
+        the TRUE instant now: 04:04:30 is 2.37 min past 立春, outside
+        the window, so the attribution is settled.
+        """
+        birth = datetime(2026, 2, 4, 4, 4, 30, tzinfo=CST)
+        r = compare_standard_vs_true_solar(birth, 116.4074, 8)
         self.assertFalse(r["jieqi"]["within_precision_budget"])
         self.assertGreater(r["jieqi"]["nearest_boundary_minutes"], 2.0)
         self.assertEqual(r["jieqi"]["uncertainty_window_status"],
                          "provisional")
-        pc = compare_pillars(birth, 87.62, 8)["pillar_comparison"]
+        pc = compare_pillars(birth, 116.4074, 8)["pillar_comparison"]
         self.assertTrue(pc["month_attribution_settled"])
 
 
@@ -1579,11 +1904,17 @@ class T2DatelineCrossDayTests(unittest.TestCase):
     def test_dateline_cross_day_chart_dates(self):
         """Chart-level: the -179.9 side changes Shanghai day, +179.9 not.
 
-        Standard instant 00:05 UTC is 08:05 Shanghai Mar 20. The
-        -179.9 converted instant is Mar 19 11:58 UTC (19:58 Shanghai
-        Mar 19): the day pillar changes. The +179.9 converted
-        instant is Mar 20 11:57 UTC (19:57 Shanghai Mar 20): the
-        Shanghai date -- and the day pillar -- do not change.
+        CORRECTED (2026-11-26, true-solar defect fix): the day change
+        follows the LOCAL solar date, not the Shanghai date of the
+        apparent-as-instant. Standard instant 00:05 UTC is 08:05
+        Shanghai Mar 20 (day 癸巳）. The -179.9 apparent reading is
+        Mar 19 11:58 UTC: the local solar date is Mar 19, so the
+        research day pillar is 壬辰. The +179.9 apparent reading is
+        Mar 20 11:57 UTC: the local solar date is Mar 20, so the
+        research day pillar stays 癸巳. The hour pillars move on
+        both sides (丙辰 -> 丙午 west, 丙辰 -> 戊午 east) because the
+        local solar shichen (午时） differs from the Shanghai shichen
+        (辰时）.
         """
         birth = datetime(2026, 3, 20, 0, 5, tzinfo=UTC)
         r_west = compare_standard_vs_true_solar(birth, -179.9, 0)
@@ -1593,9 +1924,25 @@ class T2DatelineCrossDayTests(unittest.TestCase):
             r_west["differences"]["chart_date"]["standard"], "2026-03-20")
         self.assertEqual(
             r_west["differences"]["chart_date"]["true_solar"], "2026-03-19")
+        self.assertEqual(
+            r_west["differences"]["pillars"]["day"]["standard"], "癸巳")
+        self.assertEqual(
+            r_west["differences"]["pillars"]["day"]["true_solar"], "壬辰")
+        self.assertEqual(
+            r_west["differences"]["pillars"]["hour"]["standard"], "丙辰")
+        self.assertEqual(
+            r_west["differences"]["pillars"]["hour"]["true_solar"], "丙午")
         r_east = compare_standard_vs_true_solar(birth, 179.9, 0)
         self.assertFalse(r_east["differences"]["day_pillar_changed"])
         self.assertFalse(r_east["differences"]["chart_date"]["changed"])
+        self.assertEqual(
+            r_east["differences"]["pillars"]["day"]["standard"], "癸巳")
+        self.assertEqual(
+            r_east["differences"]["pillars"]["day"]["true_solar"], "癸巳")
+        self.assertEqual(
+            r_east["differences"]["pillars"]["hour"]["standard"], "丙辰")
+        self.assertEqual(
+            r_east["differences"]["pillars"]["hour"]["true_solar"], "戊午")
 
     def test_same_instant_plus_minus_180_same_apparent(self):
         """T2: lon +180 and -180 are one meridian -- identical result."""
@@ -1809,13 +2156,19 @@ class RepresentationInvarianceTests(unittest.TestCase):
         for chart in charts[1:]:
             self.assertEqual(_pillars(chart), first)
 
-    def test_term_changes_iff_boundary_between_instants(self):
-        """T4: a term changes only when a jieqi moment lies between.
+    def test_term_fixed_by_true_instant(self):
+        """T4: the term is fixed by the true instant in every case.
 
-        For each case the between-check is computed independently
-        from the pinned provider (prev/next jieqi around each
-        endpoint); the entry's crossed flag and the two charts'
-        solar terms must agree with it exactly.
+        CORRECTED (2026-11-26, true-solar defect fix): the old test
+        asserted the term changes exactly when a jieqi moment lies
+        strictly between the standard instant and the converted
+        instant -- i.e. it treated the converted reading as a second
+        instant. No jieqi is ever crossed by the correction now: the
+        term, the year pillar and the month pillar are fixed by the
+        true instant, so ``crossed`` is False and both charts carry
+        the same term in every case. The independent check is kept:
+        the shared term must equal the provider's term at the TRUE
+        instant (prev/next jieqi around the true instant only).
         """
         cases = (
             (datetime(2026, 2, 4, 5, 0, tzinfo=CST), 87.62, 8),
@@ -1826,49 +2179,39 @@ class RepresentationInvarianceTests(unittest.TestCase):
         for birth, lon, tz in cases:
             with self.subTest(birth=birth.isoformat()):
                 r = compare_standard_vs_true_solar(birth, lon, tz)
-                std_utc = birth.astimezone(timezone.utc)
-                app_utc = r["conversion"]["apparent_solar_time"].astimezone(
-                    timezone.utc)
-                lo, hi = (std_utc, app_utc) if std_utc < app_utc \
-                    else (app_utc, std_utc)
-                moments = set()
-                for endpoint in (std_utc, app_utc):
-                    shanghai = endpoint.astimezone(CST)
-                    lunar = _LunarSolar.fromYmdHms(
-                        shanghai.year, shanghai.month, shanghai.day,
-                        shanghai.hour, shanghai.minute,
-                        shanghai.second).getLunar()
-                    for term in (lunar.getPrevJieQi(False),
-                                 lunar.getNextJieQi()):
-                        wall = datetime.strptime(
-                            term.getSolar().toYmdHms(), "%Y-%m-%d %H:%M:%S")
-                        moments.add(wall.replace(tzinfo=CST).astimezone(
-                            timezone.utc))
-                between = any(lo < moment < hi for moment in moments)
-                self.assertEqual(r["jieqi"]["crossed"], between)
+                self.assertFalse(r["jieqi"]["crossed"])
+                self.assertIsNone(r["jieqi"]["crossed_term"])
                 self.assertEqual(
-                    r["jieqi"]["standard_solar_term"]
-                    != r["jieqi"]["true_solar_solar_term"], between)
+                    r["jieqi"]["standard_solar_term"],
+                    r["jieqi"]["true_solar_solar_term"])
+                self.assertFalse(r["differences"]["year_pillar_changed"])
+                self.assertFalse(r["differences"]["month_pillar_changed"])
+                # Independent provider term at the TRUE instant.
+                shanghai = birth.astimezone(CST)
+                lunar = _LunarSolar.fromYmdHms(
+                    shanghai.year, shanghai.month, shanghai.day,
+                    shanghai.hour, shanghai.minute,
+                    shanghai.second).getLunar()
+                self.assertEqual(
+                    r["jieqi"]["standard_solar_term"],
+                    lunar.getPrevJieQi(False).getName())
 
     def test_same_instant_same_solar_term_across_representations(self):
-        """Regression (ChatGPT review, batch 3): the true-solar chart
-        of one physical instant must not depend on how the instant
-        was written. The birth is aimed so the +08:00-representation
-        apparent instant lands 1 s BEFORE 立春 2026 (Urumqi lon
-        87.62, tz 8): before the fix the UTC representation put the
-        apparent instant ~2 s later, AFTER 立春, so the two
-        representations reported different solar terms (大寒 vs 立春)
-        -- and different year/month pillars -- for the same birth.
-        After the fix both agree.
+        """Regression (ChatGPT review, batch 3; corrected 2026-11-26):
+        the research chart of one physical instant must not depend
+        on how the instant was written.
+
+        The old version of this test aimed the APPARENT reading 1 s
+        before 立春 2026 and asserted the standard term is 立春 while
+        the research term is 大寒 -- i.e. it asserted the defect
+        (one birth, two terms). Under the corrected semantics both
+        terms are fixed by the TRUE instant: the birth below is after
+        立春， so both readings carry 立春， the same year/month
+        pillars, the same day pillar and the same apparent solar
+        time, in either representation (+08:00 or UTC).
         """
-        lichun = _independent_jieqi_utc(2026, 2, 4, 5, 0, 0, "立春")
-        probe = apparent_solar_time(
-            datetime(2026, 2, 4, 6, 25, 0, tzinfo=CST), 87.62, 8)
-        app_utc = probe["apparent_solar_time"].astimezone(timezone.utc)
-        target = lichun - timedelta(seconds=1)
-        birth = (datetime(2026, 2, 4, 6, 25, 0, tzinfo=CST)
-                 .astimezone(timezone.utc) + (target - app_utc))
-        reps = (birth.astimezone(CST), birth.astimezone(timezone.utc))
+        birth = datetime(2026, 2, 4, 5, 0, tzinfo=CST)
+        reps = (birth, birth.astimezone(timezone.utc))
         seen_terms = set()
         seen_pillars = set()
         seen_apparent = set()
@@ -1888,19 +2231,21 @@ class RepresentationInvarianceTests(unittest.TestCase):
         self.assertEqual(len(seen_terms), 1)
         self.assertEqual(len(seen_pillars), 1)
         self.assertEqual(len(seen_apparent), 1)
-        # The aimed case really is the near-boundary one: the
-        # standard instant is after 立春, the converted instant
-        # just before it -- a designed crossing, identical in both
-        # representations.
+        # The birth is after 立春: both terms are 立春 on both sides.
         (std_term, sol_term), = seen_terms
         self.assertEqual(std_term, "立春")
-        self.assertEqual(sol_term, "大寒")
+        self.assertEqual(sol_term, "立春")
 
     def test_near_boundary_no_crossing_keeps_term(self):
         """Near-jieqi-boundary control: a birth 30 min after 立春
         2026 (Beijing lon 116.4074, tz 8) corrects ~28 min back, so
-        the converted instant is still ~2 min after 立春: the solar
-        term must not flip, in either representation.
+        the apparent reading is still ~2 min after 立春.
+
+        (Docstring corrected 2026-11-26: the term is fixed by the
+        TRUE instant, 30 min after 立春 -- the corrected reading's
+        position relative to the boundary is irrelevant now. The
+        assertions are unchanged: no crossing, term 立春 on both
+        sides, year/month pillars unchanged.)
         """
         birth = datetime(2026, 2, 4, 4, 32, 8, tzinfo=CST)
         for rep in (birth, birth.astimezone(timezone.utc)):
@@ -1911,3 +2256,177 @@ class RepresentationInvarianceTests(unittest.TestCase):
                 self.assertEqual(r["jieqi"]["true_solar_solar_term"], "立春")
                 self.assertFalse(r["differences"]["month_pillar_changed"])
                 self.assertFalse(r["differences"]["year_pillar_changed"])
+
+
+# ======================================================================
+# True-solar defect fix (2026-11-26): physical-instant counterexamples.
+#
+# Each test below pins the corrected semantics with one birth whose
+# OLD (defective) reading changed the year/month pillars or the solar
+# term, and asserts the corrected reading instead: the SAME physical
+# instant carries the SAME year pillar, month pillar and solar term
+# under both calibers, and ONLY the research-caliber day/hour
+# readings (local solar date / shichen) may differ. Every test here
+# FAILS on the old code (the old code reported different year/month
+# pillars or terms for the same birth) and PASSES on the fixed code.
+# Expected pillars were derived independently from the pinned
+# provider (``calendar()`` for the true instant plus the research
+# day/hour derivation from the apparent solar time as a LOCAL
+# reading), not from the module under test.
+# ======================================================================
+
+
+class TrueSolarPhysicalInstantCounterexampleTests(unittest.TestCase):
+    def test_urumqi_large_longitude_gap(self):
+        """乌鲁木齐 (large longitude gap, -143 min): year/month/term fixed.
+
+        The old code reported 乙巳/己丑/大寒 for the research chart
+        (the converted 02:36 reading fed in as an instant, before
+        立春）. The corrected code reports 丙午/庚寅/立春 on both
+        sides: the true instant (05:00) is after 立春. Only the hour
+        pillar differs (丁卯 -> 乙丑）.
+        """
+        birth = datetime(2026, 2, 4, 5, 0, tzinfo=CST)
+        r = compare_standard_vs_true_solar(birth, 87.62, 8)
+        d = r["differences"]["pillars"]
+        for name, expected in (("year", "丙午"), ("month", "庚寅"),
+                               ("day", "己酉")):
+            self.assertEqual(d[name]["standard"], expected, name)
+            self.assertEqual(d[name]["true_solar"], expected, name)
+        self.assertEqual(d["hour"]["standard"], "丁卯")
+        self.assertEqual(d["hour"]["true_solar"], "乙丑")
+        self.assertFalse(r["jieqi"]["crossed"])
+        self.assertEqual(r["jieqi"]["standard_solar_term"], "立春")
+        self.assertEqual(r["jieqi"]["true_solar_solar_term"], "立春")
+
+    def test_tokyo_year_month_term_fixed(self):
+        """东京 (forward correction, +5 min): year/month/term fixed.
+
+        The old code reported 丙午/庚寅/立春 for the research chart
+        (the converted ~05:06 JST reading fed in as an instant,
+        past 立春 05:02:08 JST). The corrected code reports 乙巳/己丑/
+        大寒 on both sides: the true instant (05:01 JST) is before
+        立春. Only the hour pillar differs (丙寅 -> 丁卯, 寅时 -> 卯时）.
+        """
+        birth = datetime(2026, 2, 4, 5, 1, tzinfo=JST)
+        r = compare_standard_vs_true_solar(birth, 139.767, 9)
+        d = r["differences"]["pillars"]
+        for name, expected in (("year", "乙巳"), ("month", "己丑"),
+                               ("day", "己酉")):
+            self.assertEqual(d[name]["standard"], expected, name)
+            self.assertEqual(d[name]["true_solar"], expected, name)
+        self.assertEqual(d["hour"]["standard"], "丙寅")
+        self.assertEqual(d["hour"]["true_solar"], "丁卯")
+        self.assertFalse(r["jieqi"]["crossed"])
+        self.assertEqual(r["jieqi"]["standard_solar_term"], "大寒")
+        self.assertEqual(r["jieqi"]["true_solar_solar_term"], "大寒")
+
+    def test_cross_day_honolulu_local_date_only_day_moves(self):
+        """跨日 (Honolulu, local date back a day): only day/hour move.
+
+        The old code reported NO pillar change at all (both readings
+        fell on 2026-01-01 in Shanghai). The corrected code reports
+        the day pillar changing 乙亥 -> 甲戌 -- for the right reason:
+        the Shanghai date of the true instant is 2026-01-01 while
+        the local solar date is 2025-12-31. Year/month/term are
+        fixed (乙巳/戊子/冬至 on both sides).
+        """
+        birth = datetime(2026, 1, 1, 0, 20,
+                         tzinfo=timezone(timedelta(hours=-10)))
+        r = compare_standard_vs_true_solar(birth, -157.858, -10)
+        d = r["differences"]["pillars"]
+        for name, expected in (("year", "乙巳"), ("month", "戊子")):
+            self.assertEqual(d[name]["standard"], expected, name)
+            self.assertEqual(d[name]["true_solar"], expected, name)
+        self.assertEqual(d["day"]["standard"], "乙亥")
+        self.assertEqual(d["day"]["true_solar"], "甲戌")
+        self.assertEqual(d["hour"]["standard"], "乙酉")
+        self.assertEqual(d["hour"]["true_solar"], "甲子")
+        self.assertFalse(r["jieqi"]["crossed"])
+        self.assertEqual(r["jieqi"]["standard_solar_term"], "冬至")
+        self.assertEqual(r["jieqi"]["true_solar_solar_term"], "冬至")
+
+    def test_cross_day_new_york_local_date_agrees(self):
+        """跨日 (New York 10:50 EST): day does NOT move although Shanghai would.
+
+        The old code reported the day pillar changing 辛巳 -> 壬午
+        (the apparent-as-instant is 00:10 Shanghai, Nov 4). The
+        corrected code reports 辛巳 on both sides: the local solar
+        date (Nov 3) agrees with the Shanghai date of the true
+        instant (Nov 3). Only the hour pillar differs (戊子 -> 甲午）.
+        """
+        birth = datetime(2026, 11, 3, 10, 50, tzinfo=EST)
+        r = compare_standard_vs_true_solar(birth, -74.0060, -5)
+        d = r["differences"]["pillars"]
+        for name, expected in (("year", "丙午"), ("month", "戊戌"),
+                               ("day", "辛巳")):
+            self.assertEqual(d[name]["standard"], expected, name)
+            self.assertEqual(d[name]["true_solar"], expected, name)
+        self.assertEqual(d["hour"]["standard"], "戊子")
+        self.assertEqual(d["hour"]["true_solar"], "甲午")
+        self.assertFalse(r["jieqi"]["crossed"])
+
+    def test_around_lichun_before_and_after(self):
+        """立春前后: two TRUE instants straddling 立春 differ; each agrees with itself.
+
+        The year/month pillars move ONLY between the two births
+        (their true instants straddle 立春 04:02:08), never between
+        the two calibers of one birth. Before (04:00:30): 乙巳/己丑/
+        大寒 on both sides. After (04:03:00): 丙午/庚寅/立春 on both
+        sides. Both births are inside the provisional window, so
+        both month attributions are undetermined.
+        """
+        before = datetime(2026, 2, 4, 4, 0, 30, tzinfo=CST)
+        after = datetime(2026, 2, 4, 4, 3, 0, tzinfo=CST)
+        r_before = compare_standard_vs_true_solar(before, 116.4074, 8)
+        r_after = compare_standard_vs_true_solar(after, 116.4074, 8)
+        for r, year, month, term in (
+                (r_before, "乙巳", "己丑", "大寒"),
+                (r_after, "丙午", "庚寅", "立春")):
+            with self.subTest(term=term):
+                d = r["differences"]["pillars"]
+                self.assertEqual(d["year"]["standard"], year)
+                self.assertEqual(d["year"]["true_solar"], year)
+                self.assertEqual(d["month"]["standard"], month)
+                self.assertEqual(d["month"]["true_solar"], month)
+                self.assertEqual(d["day"]["standard"], "己酉")
+                self.assertEqual(d["day"]["true_solar"], "己酉")
+                self.assertFalse(r["jieqi"]["crossed"])
+                self.assertEqual(r["jieqi"]["standard_solar_term"], term)
+                self.assertEqual(r["jieqi"]["true_solar_solar_term"], term)
+                self.assertTrue(r["jieqi"]["within_precision_budget"])
+        # The two births differ from EACH OTHER in year/month: only
+        # the true instant moves the year/month pillars.
+        self.assertNotEqual(
+            _pillars(r_before["standard_time_chart"])["year"],
+            _pillars(r_after["standard_time_chart"])["year"])
+        self.assertNotEqual(
+            _pillars(r_before["standard_time_chart"])["month"],
+            _pillars(r_after["standard_time_chart"])["month"])
+
+    def test_same_instant_two_longitudes_same_year_month(self):
+        """Same physical instant, two longitudes: year/month/term identical.
+
+        One birth (2026-02-04 05:00 CST) charted with the Urumqi
+        longitude (correction -143 min) and with the Tokyo longitude
+        (correction +65 min, tz 8): the year/month/term are identical
+        in all four readings, because they are fixed by the true
+        instant. Only the research hour differs (乙丑 vs 丁卯）,
+        because the local solar shichen differs.
+        """
+        birth = datetime(2026, 2, 4, 5, 0, tzinfo=CST)
+        r_urumqi = compare_standard_vs_true_solar(birth, 87.62, 8)
+        r_tokyo_lon = compare_standard_vs_true_solar(birth, 139.767, 8)
+        for r in (r_urumqi, r_tokyo_lon):
+            d = r["differences"]["pillars"]
+            for name, expected in (("year", "丙午"), ("month", "庚寅"),
+                                   ("day", "己酉")):
+                self.assertEqual(d[name]["standard"], expected, name)
+                self.assertEqual(d[name]["true_solar"], expected, name)
+            self.assertEqual(r["jieqi"]["standard_solar_term"], "立春")
+            self.assertEqual(r["jieqi"]["true_solar_solar_term"], "立春")
+            self.assertFalse(r["jieqi"]["crossed"])
+        self.assertEqual(
+            r_urumqi["differences"]["pillars"]["hour"]["true_solar"], "乙丑")
+        self.assertEqual(
+            r_tokyo_lon["differences"]["pillars"]["hour"]["true_solar"], "丁卯")

@@ -7,11 +7,14 @@ conditions): this module wires the pure conversion in
 any other existing charting/engines file. It is a separate, explicitly
 opt-in research entry point:
 
-* ``true_solar_chart(...)`` -- one birth instant, charted from the
-  apparent-solar-time-converted instant. It is OFF by default: the
-  caller must pass ``use_true_solar_time=True`` explicitly, otherwise
-  it raises ``ValueError``. The existing standard-time charting
-  convention is never substituted, re-wired, or re-defaulted.
+* ``true_solar_chart(...)`` -- one birth instant, charted under the
+  research caliber: the year pillar, the month pillar and the solar
+  term are fixed by the TRUE birth instant, and only the day/hour
+  pillars are read off the apparent (true) solar time -- the local
+  solar date and shichen at the birthplace. It is OFF by default:
+  the caller must pass ``use_true_solar_time=True`` explicitly,
+  otherwise it raises ``ValueError``. The existing standard-time
+  charting convention is never substituted, re-wired, or re-defaulted.
 * ``compare_standard_vs_true_solar(...)`` -- the same birth instant
   charted BOTH ways, side by side, with every difference stated
   explicitly. Calling it is itself the explicit opt-in to computing
@@ -35,23 +38,32 @@ What the entry states explicitly (fail-closed, never silent)
   historical standard meridian differs from 15 * tz_offset, as
   ``standard_meridian_deg``. Daylight saving must already be
   reflected in the supplied ``tz_offset``.
-* Date shift: the conversion may move the charted instant onto the
-  previous or the next calendar date (e.g. Urumqi moves back a day,
-  New York moves forward a day). Both dates and the shift in days
-  are reported, and any day/hour pillar change is listed.
-* Jieqi (solar-term) boundary: if the standard-time instant and the
-  converted instant fall on different sides of a jieqi moment, the
-  crossed term, its exact instant, and the signed distance from the
-  input instant to that boundary are reported, together with the
-  resulting month-pillar (month-commander) change. Because the NOAA
-  approximation carries a stated +/-1 minute budget in the equation
-  of time, an instant whose converted value lands within the
-  provisional 2-minute window of any jieqi moment is flagged
+* Date shift: the conversion may move the LOCAL solar date onto the
+  previous or the next calendar date at the birthplace (e.g. Urumqi
+  moves back a day, New York moves forward a day). The Shanghai date
+  of the true instant never moves. Both dates and the shift in days
+  are reported, and any day/hour pillar change under the research
+  caliber is listed. A day-pillar change here means the local solar
+  date differs from the Shanghai date of the true instant -- never
+  that a shifted instant was re-converted to Shanghai.
+* Jieqi (solar-term) boundary: the correction NEVER crosses a jieqi.
+  The solar term, the year pillar and the month pillar are fixed by
+  the true birth instant on both sides, because the apparent solar
+  time is a local wall-clock reading at the birthplace, not a second
+  physical instant (defect fixed 2026-11-26: the earlier code fed the
+  converted reading to ``chart_from_datetime`` as if it were an
+  instant, so one birth could change year/month pillars by the
+  correction). Because the NOAA approximation carries a stated +/-1
+  minute budget in the equation of time, a true instant within the
+  provisional 2-minute window of a true jieqi moment is flagged
   ``within_precision_budget``: its month-pillar attribution is NOT
-  treated as settled by this entry. T1 (2026-11-25): the 2-minute
-  window is PROVISIONAL (NOAA +/-1 min budget + 1 min margin) --
-  it is a research working window, explicitly NOT a proven maximum
-  error, and near-boundary cases are verified in the tests.
+  treated as settled by this entry. The window is anchored at the
+  TRUE instant -- the distance from the true instant to the nearest
+  true jieqi boundary -- never at the corrected reading. T1
+  (2026-11-25): the 2-minute window is PROVISIONAL (NOAA +/-1 min
+  budget + 1 min margin) -- it is a research working window,
+  explicitly NOT a proven maximum error, and near-boundary cases are
+  verified in the tests.
 * Precision: see ``bazi_true_solar_time.PRECISION_LIMITS``. The
   entry adds no precision of its own; it only surfaces the
   conversion's stated limits next to the chart it produces.
@@ -67,27 +79,29 @@ never asserted from a term table in this module.
 
 Batch 3 (TJ-0424) adds the research-only pillar adapter
 (:func:`pillar_comparison` / :func:`compare_pillars`). The adapter
-reuses the two real charts' deterministic derivations -- the four
-pillars, the day master, the hidden stems (藏干) and the ten gods
-(十神) -- without recomputing any of them and without touching the
-existing charting code. For each pillar it states, side by side,
-the standard-time reading and the true-solar-time reading, whether
-it changed, and WHY: the governing boundary for that pillar
-(立春 for the year pillar, the nearest jieqi for the month pillar,
-the Shanghai day boundary for the day pillar, the shichen boundary
-for the hour pillar), the distance to that boundary, and what
-crossing it did or did not do. A month pillar changes only when a
-节 (jie) term is crossed: crossing a 中气 (qi) term changes the
-solar term but leaves the month pillar unchanged, and the adapter
-says so explicitly instead of implying a month change. When the day
-pillar changes, the day master changes with it, so the ten-god
-reading of every stem and hidden stem is recomputed against the new
-day master by the existing charting code; the adapter surfaces that
-cascade rather than hiding it. A converted instant inside the
-stated jieqi precision window keeps the status quo: the month
+states, for each pillar, the standard-time reading and the
+research-caliber reading side by side, whether it changed, and WHY:
+the year and month pillars are governed by the true instant's jieqi
+attribution and can never change under the correction; the day
+pillar is governed by the local solar date at the birthplace versus
+the Shanghai date of the true instant; the hour pillar is governed
+by the local solar shichen versus the Shanghai shichen. The four
+research pillars, the day master, the hidden stems (藏干) and the
+ten gods (十神) are recomputed uniformly by ``chart_from_pillars``
+from one consistent input (true instant's year/month + research
+day/hour) -- never spliced from two inconsistent charts. A month
+pillar changes only when a 节 (jie) term is crossed, and no jieqi is
+ever crossed by the correction: the term is the same on both sides.
+When the day pillar changes, the day master changes with it, so the
+ten-god reading of every stem and hidden stem is recomputed against
+the new day master by the existing charting code; the adapter
+surfaces that cascade rather than hiding it. A true instant inside
+the stated jieqi precision window keeps the status quo: the month
 attribution is flagged 月令归属未定 (not settled). The window is
 2 minutes, PROVISIONAL per T1 adjudication 2026-11-25 (NOAA +/-1
-min budget + 1 min margin) -- not a proven maximum error.
+min budget + 1 min margin) -- not a proven maximum error -- and it
+is anchored at the TRUE instant's distance to the nearest true
+jieqi boundary, never at the corrected reading.
 
 Batch 3, T4 (adjudicated 2026-11-25): the research-only research
 API entry :func:`research_dual_time_chart` charts one birth instant
@@ -99,17 +113,21 @@ for admin-backend consumption). It is function-level only: no
 public page, no public execution endpoint, and the existing public
 default charting convention is untouched. Representation
 invariance: the same physical instant always carries the same
-solar term whatever time representation it is written in -- a term
-changes between the two charts only when a jieqi moment lies
-strictly between the standard instant and the converted instant,
-never because the time was re-expressed.
+solar term whatever time representation it is written in -- the
+term, the year pillar and the month pillar are fixed by the true
+instant on both sides, and the correction moves only the local
+solar reading used for the research day/hour pillars. A term can
+differ between two DIFFERENT birth instants only when a jieqi
+moment lies between them; re-expressing one instant never changes
+its term.
 """
 
 from datetime import datetime, timedelta, timezone
 
 from lunar_python import Solar
 
-from .bazi_core import chart_from_datetime
+from .bazi_core import chart_from_datetime, chart_from_pillars
+from .calendar import hour_pillar
 from .bazi_true_solar_time import (
     ASTRONOMICAL_BASIS,
     METHOD_ID as CONVERSION_METHOD_ID,
@@ -231,89 +249,171 @@ def _pillar_map(chart):
             for item in chart["pillars"]}
 
 
-def _jieqi_analysis(standard_instant, apparent_instant,
-                    standard_chart, solar_chart):
-    """Explicit jieqi-boundary analysis for the two charted instants.
+def _jieqi_analysis(standard_instant, standard_chart):
+    """Jieqi analysis anchored at the TRUE birth instant only.
 
-    Returns a dict stating whether a jieqi moment was crossed, which
-    term and when, the signed distance from the input instant to the
-    crossed boundary, and whether the converted instant lands within
-    the stated precision budget of any jieqi moment.
+    The solar-term attribution of a birth is a function of the
+    physical instant: the apparent solar time is a local wall-clock
+    reading at the birthplace, not a second instant, so the
+    correction can never move a birth across a jieqi moment and the
+    two charts always carry the same term. ``crossed`` is therefore
+    always False and the crossed-* fields are always None; they are
+    kept so the result structure stays stable for readers of this
+    entry.
+
+    The uncertainty window (T1, provisional 2 minutes) is anchored
+    at the TRUE instant: ``nearest_boundary_minutes`` is the distance
+    from the true input instant to the nearest true jieqi boundary,
+    ``minutes_from_input_to_boundary`` is that distance signed
+    (positive: the boundary is ahead of the true instant; negative:
+    it is past), and ``within_precision_budget`` flags a birth that
+    close to a boundary as not settled. The anchor is the true
+    instant, never the corrected reading: the conversion's +/-1
+    minute budget cannot move the birth itself, so measuring from
+    the corrected reading would misstate how close the birth really
+    is to the boundary.
     """
-    std_term = standard_chart["calendar"]["solar_term"]
-    sol_term = solar_chart["calendar"]["solar_term"]
+    term = standard_chart["calendar"]["solar_term"]
     std_utc = standard_instant.astimezone(timezone.utc)
-    app_utc = apparent_instant.astimezone(timezone.utc)
 
     neighbours = {}
-    for name, moment in (_jieqi_neighbours(std_utc)
-                         + _jieqi_neighbours(app_utc)):
+    for name, moment in _jieqi_neighbours(std_utc):
         neighbours.setdefault(name, moment)
-
-    crossed = std_term != sol_term
-    crossed_term = None
-    crossed_at_utc = None
-    minutes_from_input_to_boundary = None
-    if crossed:
-        # The term that started between the two instants is the one
-        # whose start lies strictly between them; equivalently it is
-        # the later term's start when moving forward, the earlier
-        # term's start when moving backward.
-        if app_utc > std_utc:
-            crossed_term = sol_term
-        else:
-            crossed_term = std_term
-        crossed_at_utc = neighbours.get(crossed_term)
-        if crossed_at_utc is not None:
-            minutes_from_input_to_boundary = (
-                (crossed_at_utc - std_utc).total_seconds() / 60.0)
 
     nearest_term = None
     nearest_minutes = None
+    nearest_signed = None
     for name, moment in neighbours.items():
-        distance = abs((app_utc - moment).total_seconds()) / 60.0
-        if nearest_minutes is None or distance < nearest_minutes:
-            nearest_minutes = distance
+        signed = (moment - std_utc).total_seconds() / 60.0
+        if nearest_minutes is None or abs(signed) < nearest_minutes:
+            nearest_minutes = abs(signed)
+            nearest_signed = signed
             nearest_term = name
     within_budget = (
         nearest_minutes is not None
         and nearest_minutes < JIEQI_UNCERTAINTY_WINDOW_MINUTES)
 
+    if within_budget:
+        note = (
+            "The solar-time correction never crosses a jieqi: the "
+            "solar term, the year pillar and the month pillar are "
+            "fixed by the true birth instant on both sides, because "
+            "the apparent solar time is a local wall-clock reading "
+            "at the birthplace, not a second physical instant. The "
+            "nearest true jieqi boundary is %s, %.1f minutes from "
+            "the true input instant. When within_precision_budget "
+            "is true, the true instant lies within the provisional "
+            "2-minute window (T1, 2026-11-25; NOAA +/-1 min budget "
+            "+ 1 min margin) of that boundary, so the month-pillar "
+            "attribution is NOT settled by this entry and must not "
+            "be presented as a definite month commander. The window "
+            "is provisional, not a proven maximum error."
+            % (nearest_term, nearest_minutes))
+    else:
+        note = (
+            "The solar-time correction never crosses a jieqi: the "
+            "solar term, the year pillar and the month pillar are "
+            "fixed by the true birth instant on both sides. The "
+            "nearest true jieqi boundary, %s, is %.1f minutes from "
+            "the true input instant -- outside the provisional "
+            "2-minute window (T1, 2026-11-25); the window is "
+            "provisional, not a proven maximum error."
+            % (nearest_term, nearest_minutes))
+
     return {
-        "crossed": crossed,
-        "crossed_term": crossed_term,
-        "crossed_at_utc": (
-            crossed_at_utc.isoformat() if crossed_at_utc is not None
-            else None),
-        "crossed_at_local": (
-            crossed_at_utc.astimezone(_SHANGHAI).isoformat()
-            if crossed_at_utc is not None else None),
-        "minutes_from_input_to_boundary": minutes_from_input_to_boundary,
-        "standard_solar_term": std_term,
-        "true_solar_solar_term": sol_term,
+        "crossed": False,
+        "crossed_term": None,
+        "crossed_at_utc": None,
+        "crossed_at_local": None,
+        "minutes_from_input_to_boundary": nearest_signed,
+        "standard_solar_term": term,
+        "true_solar_solar_term": term,
         "nearest_boundary_term": nearest_term,
         "nearest_boundary_minutes": nearest_minutes,
         "within_precision_budget": within_budget,
         "uncertainty_window_minutes": JIEQI_UNCERTAINTY_WINDOW_MINUTES,
         "uncertainty_window_status": JIEQI_WINDOW_STATUS,
         "uncertainty_window_adjudication": JIEQI_WINDOW_ADJUDICATION,
-        "note": (
-            "A crossed jieqi changes the month pillar (and, across "
-            "立春, the year pillar): the two charts below show the "
-            "actual pillars for each instant. When "
-            "within_precision_budget is true, the converted instant "
-            "lies within the provisional 2-minute window "
-            "(T1, 2026-11-25; NOAA +/-1 min budget + 1 min margin) "
-            "of a jieqi moment, so the month-pillar attribution of "
-            "the true-solar chart is NOT settled by this entry and "
-            "must not be presented as a definite month commander. "
-            "The window is provisional, not a proven maximum error."
-            if within_budget else
-            "No jieqi moment lies within the provisional 2-minute "
-            "window (T1, 2026-11-25) of the converted instant; the "
-            "window is provisional, not a proven maximum error."
-        ),
+        "note": note,
     }
+
+
+def _noon_lunar(research_date):
+    """Pinned-provider lunar reading of a calendar date, at noon.
+
+    Noon is used so the reading is unambiguous under either
+    day-boundary convention (the midnight / zi-start conventions
+    differ only at 23:00-24:00); the zi-start shift is applied by
+    the caller through the date itself. Verified against
+    ``calendar()``: the day ganzhi read here is identical to the
+    day ganzhi of ``chart_from_datetime`` for noon Shanghai on the
+    same date.
+    """
+    return Solar.fromYmdHms(
+        research_date.year, research_date.month, research_date.day,
+        12, 0, 0).getLunar()
+
+
+def _research_chart(standard_chart, apparent, day_boundary):
+    """Recompute the research-caliber chart from one consistent input.
+
+    WHY NOT ``chart_from_datetime(apparent)``: the apparent solar
+    time is a local wall-clock reading at the birthplace, NOT a
+    second physical instant. Feeding it to ``chart_from_datetime``
+    as if it were an instant re-converts it to Shanghai and lets
+    the correction move the year pillar, the month pillar and the
+    solar term of the same birth -- the defect fixed here
+    (2026-11-26): one physical instant must keep one jieqi
+    attribution, whatever its solar-time reading.
+
+    The research chart is therefore built from a single consistent
+    input: the year and month pillars of the TRUE instant (taken
+    from the standard chart), plus the day and hour pillars read
+    off the local apparent solar time -- the research-caliber local
+    day boundary (the local solar date at the birthplace) and
+    shichen (the local solar time of day, with the hour stem from
+    the research day stem by 日上起时). All derived fields (day
+    master, ten gods, hidden stems, branch relations, taohua) are
+    then recomputed from those four pillars by ``chart_from_pillars``;
+    nothing is spliced from two inconsistent charts.
+    """
+    std_pillars = _pillar_map(standard_chart)
+    research_date = apparent.date()
+    if day_boundary == "zi-start" and apparent.hour >= 23:
+        research_date = research_date + timedelta(days=1)
+    if not 1900 <= research_date.year <= 2099:
+        raise ValueError(
+            "research-caliber local solar date %s is outside the "
+            "supported calendar range (1900..2099): the true-solar "
+            "research chart cannot be built; the standard-time "
+            "chart is unaffected and no chart is returned"
+            % (research_date.isoformat(),))
+    lunar = _noon_lunar(research_date)
+    day_ganzhi = lunar.getDayInGanZhiExact2()
+    shichen_branch = _SHICHEN_BRANCHES[((apparent.hour + 1) // 2) % 12]
+    hour_ganzhi = hour_pillar(day_ganzhi[0], shichen_branch)
+    result = chart_from_pillars(
+        std_pillars["year"], std_pillars["month"],
+        day_ganzhi, hour_ganzhi)
+    result["calendar"] = {
+        **standard_chart["calendar"],
+        "local_datetime": apparent.isoformat(),
+        "day_ganzhi": day_ganzhi,
+        "hour_ganzhi": hour_ganzhi,
+        "lunar_year": lunar.getYear(),
+        "lunar_month": lunar.getMonth(),
+        "lunar_day": lunar.getDay(),
+        "research_day_date": research_date.isoformat(),
+        "calendar_note": (
+            "Research-caliber reading: the year/month pillars and "
+            "the solar term are fixed by the true birth instant; "
+            "only the day/hour pillars follow the local apparent "
+            "solar time (local solar date and shichen at the "
+            "birthplace). local_datetime above IS that apparent "
+            "solar time -- a local wall-clock reading, not a second "
+            "physical instant."),
+    }
+    return result
 
 
 def _build(birth, longitude_deg, tz_offset, *,
@@ -326,15 +426,7 @@ def _build(birth, longitude_deg, tz_offset, *,
 
     standard_chart = chart_from_datetime(
         instant, day_boundary=day_boundary)
-    try:
-        solar_chart = chart_from_datetime(
-            apparent, day_boundary=day_boundary)
-    except ValueError as exc:
-        raise ValueError(
-            "true-solar converted instant %s is outside the supported "
-            "calendar range (1900..2099) or otherwise unchartable: %s; "
-            "the standard-time chart is unaffected and no chart is "
-            "returned" % (apparent.isoformat(), exc)) from exc
+    solar_chart = _research_chart(standard_chart, apparent, day_boundary)
 
     std_pillars = _pillar_map(standard_chart)
     sol_pillars = _pillar_map(solar_chart)
@@ -346,8 +438,7 @@ def _build(birth, longitude_deg, tz_offset, *,
         }
         for name in _PILLAR_NAMES
     }
-    jieqi = _jieqi_analysis(
-        instant, apparent, standard_chart, solar_chart)
+    jieqi = _jieqi_analysis(instant, standard_chart)
     differences = {
         "pillars": pillar_differences,
         "solar_term": {
@@ -395,13 +486,22 @@ def _build(birth, longitude_deg, tz_offset, *,
         "comparison_note": (
             "The standard-time chart and the true-solar-time chart are "
             "two separate results for the same birth instant under two "
-            "different, explicitly labelled conventions. Neither "
-            "overwrites the other, and the standard-time chart is "
-            "identical to chart_from_datetime(birth): the existing "
-            "standard-time charting convention is unchanged. The "
-            "true-solar chart is a modern-engineering research variant "
-            "only; it carries no classical verdict and must not be "
-            "presented as the birth chart."
+            "different, explicitly labelled conventions. The year "
+            "pillar, the month pillar and the solar term are fixed by "
+            "the true birth instant on BOTH sides: the solar-time "
+            "correction never moves them, because the apparent solar "
+            "time is a local wall-clock reading at the birthplace, "
+            "not a second physical instant. Only the day and hour "
+            "readings differ: the research caliber reads the day "
+            "boundary and the shichen off the local apparent solar "
+            "time, while the standard caliber reads them off the "
+            "Shanghai time of the true instant. Neither overwrites "
+            "the other, and the standard-time chart is identical to "
+            "chart_from_datetime(birth): the existing standard-time "
+            "charting convention is unchanged. The true-solar chart "
+            "is a modern-engineering research variant only; it "
+            "carries no classical verdict and must not be presented "
+            "as the birth chart."
         ),
         "standard_time_convention_unchanged": True,
     }
@@ -410,18 +510,29 @@ def _build(birth, longitude_deg, tz_offset, *,
 # ======================================================================
 # Batch 3 (TJ-0424): research-only pillar adapter.
 #
-# The adapter reuses the two real charts' deterministic derivations
-# (four pillars, day master, hidden stems, ten gods) -- it reads them
-# out of the comparison result and never recomputes them, and it
-# never touches the existing charting code. For each pillar it states
-# the standard-time reading and the true-solar-time reading side by
-# side, whether it changed, and why: the governing boundary, the
-# distance to it, and what crossing it did or did not do.
+# The adapter reads the two charts out of the comparison result --
+# the standard chart from ``chart_from_datetime`` and the research
+# chart recomputed by ``chart_from_pillars`` from the true instant's
+# year/month pillars plus the research-caliber day/hour pillars --
+# and states, for each pillar, the standard-time reading and the
+# research reading side by side, whether it changed, and why. The
+# adapter itself recomputes nothing: every stem, branch, hidden
+# stem and ten god is copied verbatim from the chart that computed
+# it. The year and month pillars are governed by the true instant's
+# jieqi attribution and can never change under the correction; the
+# day pillar is governed by the local solar date at the birthplace
+# versus the Shanghai date of the true instant; the hour pillar is
+# governed by the local solar shichen versus the Shanghai shichen.
 # ======================================================================
 
 
-def _shanghai_wall(chart):
-    """Shanghai wall-clock datetime of a chart (aware, +08:00)."""
+def _calendar_wall(chart):
+    """Wall-clock datetime of a chart's ``calendar.local_datetime``.
+
+    For the standard chart this is the Shanghai reading of the true
+    instant; for the research chart it IS the apparent solar time
+    (a local wall-clock reading at the birthplace, not an instant).
+    """
     return datetime.fromisoformat(chart["calendar"]["local_datetime"])
 
 
@@ -503,13 +614,20 @@ def _ten_god_reading(pillar):
     return tuple(reading)
 
 
-def _year_reason(std_wall, sol_wall, std_utc, app_utc, jieqi, changed):
-    """Reason annotation for the year pillar (governed by 立春)."""
+def _year_reason(std_utc, jieqi):
+    """Reason annotation for the year pillar (governed by 立春).
+
+    The year pillar is fixed by the true birth instant: the
+    solar-time correction moves only the local solar reading used
+    for the day/hour pillars, so it can never cross 立春 and the
+    year pillar can never change between the two readings. The
+    distance stated is from the TRUE instant to the nearest 立春.
+    """
     lichun_list = _lichun_near(std_utc)
     nearest = None
     nearest_signed = None
     for moment in lichun_list:
-        signed = _minutes_between(moment, app_utc)
+        signed = _minutes_between(moment, std_utc)
         if nearest_signed is None or abs(signed) < abs(nearest_signed):
             nearest = moment
             nearest_signed = signed
@@ -520,194 +638,183 @@ def _year_reason(std_wall, sol_wall, std_utc, app_utc, jieqi, changed):
         "governing_boundary": "lichun",
         "nearest_lichun_utc": (
             nearest.isoformat() if nearest is not None else None),
-        "minutes_from_converted_instant_to_nearest_lichun": nearest_signed,
+        # Renamed 2026-11-26 (true-solar defect fix): the distance is
+        # measured from the TRUE instant, not from the converted
+        # reading (old key: minutes_from_converted_instant_to_nearest_lichun).
+        "minutes_from_true_instant_to_nearest_lichun": nearest_signed,
         "attribution_settled": not within_window,
     }
-    if changed:
-        crossed_at = jieqi["crossed_at_utc"]
-        if jieqi["crossed_term"] == "立春" and crossed_at is not None:
-            minutes = jieqi["minutes_from_input_to_boundary"]
-            if minutes is None:
-                distance = "an unrecorded distance from that boundary"
-            elif minutes <= 0:
-                distance = "%.1f minutes after that boundary" % (-minutes,)
-            else:
-                distance = "%.1f minutes before that boundary" % (minutes,)
-            reason = (
-                "The year pillar changed because the conversion crossed "
-                "立春 at %s (UTC): the year pillar changes only at 立春. "
-                "The input instant was %s."
-                % (crossed_at, distance))
-        else:
-            reason = (
-                "The year pillar changed, but the crossed term is %r, "
-                "not 立春: this is unexpected against the calendar "
-                "provider's year computation and is flagged, not "
-                "explained away." % (jieqi["crossed_term"],))
-        if within_window:
-            reason += (
-                " The converted instant lies within the stated "
-                "precision window of 立春, so the year attribution is "
-                "NOT settled.")
+    if nearest is None:
+        reason = (
+            "The year pillar is fixed by the true birth instant, so "
+            "it cannot change between the two readings; no 立春 "
+            "instant was found near the birth instant.")
     else:
-        if nearest is None:
-            reason = (
-                "立春 was not crossed, so the year pillar is unchanged; "
-                "no 立春 instant was found near the birth instant.")
-        else:
-            side = "after" if nearest_signed >= 0 else "before"
-            reason = (
-                "立春 was not crossed, so the year pillar is unchanged: "
-                "the nearest 立春 (%s UTC) is %.1f minutes %s the "
-                "converted instant."
-                % (nearest.isoformat(), abs(nearest_signed), side))
-        if within_window:
-            reason += (
-                " The converted instant lies within the stated "
-                "precision window of 立春, so the year attribution is "
-                "NOT settled.")
+        side = "after" if nearest_signed >= 0 else "before"
+        reason = (
+            "The year pillar is fixed by the true birth instant: "
+            "the solar-time correction moves only the local solar "
+            "reading used for the day/hour pillars, so it can never "
+            "cross 立春 and the year pillar cannot change. The "
+            "nearest 立春 (%s UTC) is %.1f minutes %s the true "
+            "instant."
+            % (nearest.isoformat(), abs(nearest_signed), side))
+    if within_window:
+        reason += (
+            " The true instant lies within the stated precision "
+            "window of 立春, so the year attribution is NOT settled.")
     return reason, detail
 
 
-def _month_reason(jieqi, changed):
-    """Reason annotation for the month pillar (governed by jieqi)."""
+def _month_reason(jieqi):
+    """Reason annotation for the month pillar (governed by jieqi).
+
+    The month pillar is fixed by the true birth instant's jieqi
+    attribution: the correction never crosses a jieqi, so the month
+    pillar can never change between the two readings. The distances
+    stated are from the TRUE instant to the nearest true jieqi
+    boundary. The crossed-* fields are retained as None for
+    structure stability: no crossing ever occurs under the
+    corrected semantics.
+    """
     detail = {
         "governing_boundary": "jieqi",
-        "crossed_term": jieqi["crossed_term"],
-        "crossed_term_kind": (
-            "节" if jieqi["crossed_term"] in _JIE_TERMS else
-            ("气" if jieqi["crossed_term"] is not None else None)),
-        "crossed_at_utc": jieqi["crossed_at_utc"],
+        "crossed_term": None,
+        "crossed_term_kind": None,
+        "crossed_at_utc": None,
         "nearest_boundary_term": jieqi["nearest_boundary_term"],
+        "nearest_boundary_term_kind": (
+            "节" if jieqi["nearest_boundary_term"] in _JIE_TERMS else
+            ("气" if jieqi["nearest_boundary_term"] is not None else None)),
         "nearest_boundary_minutes": jieqi["nearest_boundary_minutes"],
         "attribution_settled": not jieqi["within_precision_budget"],
     }
-    if changed:
-        if jieqi["crossed_term"] in _JIE_TERMS:
-            reason = (
-                "The month pillar changed because the conversion "
-                "crossed %s at %s (UTC): %s is a 节 term, and the "
-                "month pillar changes at 节 boundaries."
-                % (jieqi["crossed_term"], jieqi["crossed_at_utc"],
-                   jieqi["crossed_term"]))
-        elif jieqi["crossed_term"] is not None:
-            reason = (
-                "The month pillar changed while the crossed term is "
-                "%s, a 中气 term: a month-pillar change across a 中气 "
-                "crossing is not expected from the calendar provider "
-                "and is flagged, not explained away."
-                % (jieqi["crossed_term"],))
-        else:
-            reason = (
-                "The month pillar changed, but no crossed term was "
-                "recorded: flagged, not explained away.")
-        if jieqi["within_precision_budget"]:
-            reason += (
-                " The converted instant lies within the stated "
-                "precision window of a jieqi moment, so the month "
-                "attribution is NOT settled (月令归属未定).")
-    elif jieqi["crossed"]:
-        if jieqi["crossed_term"] in _JIE_TERMS:
-            reason = (
-                "The conversion crossed %s at %s (UTC), a 节 term, "
-                "but the month pillar is unchanged: flagged as "
-                "unexpected against the calendar provider's month "
-                "computation, not explained away."
-                % (jieqi["crossed_term"], jieqi["crossed_at_utc"]))
-        else:
-            reason = (
-                "The conversion crossed %s at %s (UTC), a 中气 term: "
-                "the solar term changed, but the month pillar changes "
-                "only at 节 boundaries, so the month pillar is "
-                "unchanged."
-                % (jieqi["crossed_term"], jieqi["crossed_at_utc"]))
-        if jieqi["within_precision_budget"]:
-            reason += (
-                " The converted instant lies within the stated "
-                "precision window of a jieqi moment, so the month "
-                "attribution is NOT settled (月令归属未定).")
-    else:
-        reason = (
-            "No jieqi was crossed, so the month pillar is unchanged: "
-            "the nearest boundary, %s, is %.1f minutes from the "
-            "converted instant."
-            % (jieqi["nearest_boundary_term"],
-               jieqi["nearest_boundary_minutes"]))
-        if jieqi["within_precision_budget"]:
-            reason += (
-                " The converted instant lies within the stated "
-                "precision window of a jieqi moment, so the month "
-                "attribution is NOT settled (月令归属未定).")
+    reason = (
+        "No jieqi was crossed: the month pillar is fixed by the "
+        "true birth instant, and the solar-time correction never "
+        "crosses a jieqi, so the month pillar cannot change. The "
+        "true instant carries the solar term %s; the nearest "
+        "boundary, %s (%s), is %.1f minutes from the true instant."
+        % (jieqi["standard_solar_term"],
+           jieqi["nearest_boundary_term"],
+           detail["nearest_boundary_term_kind"],
+           jieqi["nearest_boundary_minutes"]))
+    if jieqi["within_precision_budget"]:
+        reason += (
+            " The true instant lies within the stated precision "
+            "window of a jieqi moment, so the month attribution is "
+            "NOT settled (月令归属未定).")
     return reason, detail
 
 
-def _day_reason(std_wall, sol_wall, day_boundary, changed,
+def _day_reason(std_wall, app_wall, day_boundary, changed,
                 std_ganzhi, sol_ganzhi):
-    """Reason annotation for the day pillar (Shanghai day boundary)."""
+    """Reason annotation for the day pillar.
+
+    The standard day pillar follows the Shanghai date of the true
+    instant; the research day pillar follows the LOCAL solar date
+    at the birthplace (the date of the apparent solar time). The day
+    pillar changes only when those two dates differ -- never because
+    a shifted instant was re-converted to Shanghai. ``std_wall`` is
+    the Shanghai wall reading of the true instant; ``app_wall`` is
+    the apparent solar time itself (a local wall-clock reading at
+    the birthplace, not an instant).
+    """
     next_std, label = _next_day_boundary(std_wall, day_boundary)
-    next_sol, _ = _next_day_boundary(sol_wall, day_boundary)
+    next_app, _ = _next_day_boundary(app_wall, day_boundary)
+    # Effective day dates: under zi-start a reading at/after 23:00
+    # already belongs to the next day, so the date governing the day
+    # pillar is the wall date + 1 on that side.
+    std_date = std_wall.date()
+    if day_boundary == "zi-start" and std_wall.hour >= 23:
+        std_date = std_date + timedelta(days=1)
+    research_date = app_wall.date()
+    if day_boundary == "zi-start" and app_wall.hour >= 23:
+        research_date = research_date + timedelta(days=1)
     detail = {
-        "governing_boundary": (
-            "shanghai_zi_start_23h" if day_boundary == "zi-start"
-            else "shanghai_midnight"),
+        "standard_basis": "shanghai_date",
+        "true_solar_basis": "local_solar_date",
+        "standard_day_date": std_date.isoformat(),
+        "true_solar_day_date": research_date.isoformat(),
         "day_boundary": day_boundary,
         "boundary_label": label,
-        "standard_shanghai_date": std_wall.date().isoformat(),
-        "true_solar_shanghai_date": sol_wall.date().isoformat(),
-        "minutes_from_standard_instant_to_next_boundary":
+        "minutes_from_standard_instant_to_next_shanghai_boundary":
             _minutes_between(std_wall, next_std),
-        "minutes_from_converted_instant_to_next_boundary":
-            _minutes_between(sol_wall, next_sol),
+        # Renamed 2026-11-26 (true-solar defect fix): the distance is
+        # measured from the apparent solar time as a local reading,
+        # not from a converted instant (old key:
+        # minutes_from_converted_instant_to_next_boundary).
+        "minutes_from_apparent_solar_time_to_next_local_boundary":
+            _minutes_between(app_wall, next_app),
     }
     if changed:
         reason = (
-            "The Shanghai date changed %s -> %s: the %s day boundary "
-            "was crossed, so the day pillar changed %s -> %s. The "
-            "day pillar follows the Shanghai date under the %s "
-            "convention."
-            % (detail["standard_shanghai_date"],
-               detail["true_solar_shanghai_date"], label,
-               std_ganzhi, sol_ganzhi, day_boundary))
+            "The day pillar changed %s -> %s: under the %s convention "
+            "(day starts at %s) the standard day is %s (Shanghai "
+            "time %s) while the research day is %s (apparent solar "
+            "time %s). The research day pillar follows the local "
+            "solar date, not the Shanghai date of a shifted instant."
+            % (std_ganzhi, sol_ganzhi, day_boundary, label,
+               detail["standard_day_date"], std_wall.strftime("%H:%M"),
+               detail["true_solar_day_date"],
+               app_wall.strftime("%H:%M")))
     else:
         reason = (
-            "The Shanghai date is unchanged (%s), so the day pillar "
-            "is unchanged: the next %s day boundary is %.1f minutes "
-            "after the converted instant (%.1f minutes after the "
-            "standard instant)."
-            % (detail["standard_shanghai_date"], label,
-               detail["minutes_from_converted_instant_to_next_boundary"],
-               detail["minutes_from_standard_instant_to_next_boundary"]))
+            "The local solar date at the birthplace (%s) matches the "
+            "Shanghai date of the true instant (%s) under the %s "
+            "convention, so the day pillar is unchanged: the next %s "
+            "local-solar day boundary is %.1f minutes after the "
+            "apparent solar time (%.1f minutes after the true "
+            "instant to the next Shanghai boundary)."
+            % (detail["true_solar_day_date"],
+               detail["standard_day_date"], day_boundary, label,
+               detail["minutes_from_apparent_solar_time_to_next_local_boundary"],
+               detail["minutes_from_standard_instant_to_next_shanghai_boundary"]))
     return reason, detail
 
 
-def _hour_reason(std_wall, sol_wall, changed,
+def _hour_reason(std_wall, app_wall, changed,
                  std_branch, sol_branch, std_ganzhi, sol_ganzhi):
-    """Reason annotation for the hour pillar (shichen boundary)."""
+    """Reason annotation for the hour pillar (shichen boundary).
+
+    The standard shichen is read off the Shanghai time of the true
+    instant; the research shichen is read off the apparent solar
+    time at the birthplace. ``app_wall`` is the apparent solar time
+    itself (a local wall-clock reading, not an instant).
+    """
     next_std, hour_std = _next_shichen_boundary(std_wall)
-    next_sol, hour_sol = _next_shichen_boundary(sol_wall)
+    next_app, hour_app = _next_shichen_boundary(app_wall)
     detail = {
         "governing_boundary": "shichen",
         "standard_shichen_branch": std_branch,
         "true_solar_shichen_branch": sol_branch,
         "minutes_from_standard_instant_to_next_shichen_boundary":
             _minutes_between(std_wall, next_std),
-        "minutes_from_converted_instant_to_next_shichen_boundary":
-            _minutes_between(sol_wall, next_sol),
-        "next_shichen_boundary_local": next_sol.isoformat(),
+        # Renamed 2026-11-26 (true-solar defect fix): the distance is
+        # measured from the apparent solar time as a local reading,
+        # not from a converted instant (old key:
+        # minutes_from_converted_instant_to_next_shichen_boundary).
+        "minutes_from_apparent_solar_time_to_next_shichen_boundary":
+            _minutes_between(app_wall, next_app),
+        "next_shichen_boundary_local": next_app.isoformat(),
     }
     if changed:
         reason = (
-            "The shichen changed %s时 -> %s时: a shichen boundary "
-            "was crossed, so the hour pillar changed %s -> %s."
-            % (std_branch, sol_branch, std_ganzhi, sol_ganzhi))
+            "The shichen changed %s时 -> %s时: the apparent solar "
+            "time at the birthplace (%s local) falls in a different "
+            "shichen from the Shanghai time of the true instant "
+            "(%s), so the hour pillar changed %s -> %s."
+            % (std_branch, sol_branch,
+               app_wall.strftime("%H:%M"), std_wall.strftime("%H:%M"),
+               std_ganzhi, sol_ganzhi))
     else:
         reason = (
             "The shichen is unchanged (%s时), so the hour pillar is "
             "unchanged: the next shichen boundary (%02d:00) is %.1f "
-            "minutes after the converted instant (%.1f minutes after "
-            "the standard instant)."
-            % (std_branch, hour_sol,
-               detail["minutes_from_converted_instant_to_next_shichen_boundary"],
+            "minutes after the apparent solar time (%.1f minutes "
+            "after the true instant in Shanghai time)."
+            % (std_branch, hour_app,
+               detail["minutes_from_apparent_solar_time_to_next_shichen_boundary"],
                detail["minutes_from_standard_instant_to_next_shichen_boundary"]))
     return reason, detail
 
@@ -717,14 +824,16 @@ def pillar_comparison(comparison):
 
     ``comparison`` is the result dict of
     :func:`compare_standard_vs_true_solar` (or :func:`true_solar_chart`
-    / :func:`compare_pillars`). The adapter reads the two real charts
-    out of it -- four pillars, day master, hidden stems, ten gods,
-    branch relations, taohua -- and states, for each pillar, the
-    standard-time reading and the true-solar-time reading side by
-    side, whether it changed, and why (governing boundary, distance
-    to it, what crossing it did or did not do). Nothing is recomputed
-    here: every stem, branch, hidden stem and ten god is copied
-    verbatim from the chart that computed it.
+    / :func:`compare_pillars`). The adapter reads the two charts out
+    of it -- the standard chart from ``chart_from_datetime`` and the
+    research chart recomputed by ``chart_from_pillars`` from the true
+    instant's year/month pillars plus the research-caliber day/hour
+    pillars -- and states, for each pillar, the standard-time reading
+    and the research reading side by side, whether it changed, and
+    why (governing boundary, distance to it, what crossing it did or
+    did not do). Nothing is recomputed here: every stem, branch,
+    hidden stem and ten god is copied verbatim from the chart that
+    computed it.
 
     The result is research_only / public=False / ai=False, exactly
     like the entry it adapts. It adds no public field and changes no
@@ -744,10 +853,12 @@ def pillar_comparison(comparison):
     sol_pillars = _pillar_map(sol_chart)
     std_rows = {item["name"]: item for item in std_chart["pillars"]}
     sol_rows = {item["name"]: item for item in sol_chart["pillars"]}
-    std_wall = _shanghai_wall(std_chart)
-    sol_wall = _shanghai_wall(sol_chart)
+    std_wall = _calendar_wall(std_chart)
+    # The research chart's calendar local_datetime IS the apparent
+    # solar time: a local wall-clock reading at the birthplace, not
+    # the Shanghai reading of a shifted instant.
+    app_wall = _calendar_wall(sol_chart)
     std_utc = std_wall.astimezone(timezone.utc)
-    app_utc = sol_wall.astimezone(timezone.utc)
 
     std_dm = std_chart["day_master"]
     sol_dm = sol_chart["day_master"]
@@ -760,17 +871,16 @@ def pillar_comparison(comparison):
             _ten_god_reading(std_rows[name])
             != _ten_god_reading(sol_rows[name]))
         if name == "year":
-            reason, detail = _year_reason(
-                std_wall, sol_wall, std_utc, app_utc, jieqi, changed)
+            reason, detail = _year_reason(std_utc, jieqi)
         elif name == "month":
-            reason, detail = _month_reason(jieqi, changed)
+            reason, detail = _month_reason(jieqi)
         elif name == "day":
             reason, detail = _day_reason(
-                std_wall, sol_wall, day_boundary, changed,
+                std_wall, app_wall, day_boundary, changed,
                 std_pillars[name], sol_pillars[name])
         else:
             reason, detail = _hour_reason(
-                std_wall, sol_wall, changed,
+                std_wall, app_wall, changed,
                 std_rows[name]["branch"]["value"],
                 sol_rows[name]["branch"]["value"],
                 std_pillars[name], sol_pillars[name])
@@ -803,17 +913,13 @@ def pillar_comparison(comparison):
             "sides; any ten-god difference comes from a changed stem "
             "or branch, not from a changed day master."
             % (std_dm["stem"],))
-    if together:
-        derived_note_parts.append(
-            "The year pillar and the month pillar changed together: "
-            "the crossed term is 立春, which governs both.")
     if not month_settled:
         derived_note_parts.append(
-            "月令归属未定: the converted instant lies within the "
-            "stated jieqi precision window, so the month-pillar "
-            "attribution is NOT settled by this entry (status quo; "
-            "the window is provisional per T1 (2026-11-25), not a "
-            "proven maximum error).")
+            "月令归属未定: the true instant lies within the stated "
+            "jieqi precision window, so the month-pillar attribution "
+            "is NOT settled by this entry (status quo; the window is "
+            "provisional per T1 (2026-11-25), not a proven maximum "
+            "error).")
 
     return {
         "adapter": ADAPTER_ID,
@@ -844,8 +950,11 @@ def pillar_comparison(comparison):
         "note": " ".join(derived_note_parts),
         "reuse_note": (
             "Every stem, branch, hidden stem and ten god above is "
-            "copied verbatim from the two real charts produced by "
-            "chart_from_datetime; this adapter recomputes nothing "
+            "copied verbatim from the standard chart produced by "
+            "chart_from_datetime and from the research chart "
+            "recomputed by chart_from_pillars from the true "
+            "instant's year/month pillars plus the research-caliber "
+            "day/hour pillars; this adapter recomputes nothing "
             "and changes no production computation."),
     }
 
@@ -1017,7 +1126,15 @@ def research_dual_time_chart(birth, longitude_deg, *, tz_name=None,
 def true_solar_chart(birth, longitude_deg, tz_offset, *,
                      standard_meridian_deg=None, day_boundary="midnight",
                      use_true_solar_time=False):
-    """Chart one birth instant from its apparent (true) solar time.
+    """Chart one birth instant under the research caliber.
+
+    The year pillar, the month pillar and the solar term are fixed
+    by the TRUE birth instant; only the day/hour pillars are read
+    off the apparent (true) solar time -- the local solar date and
+    shichen at the birthplace. The apparent solar time is a local
+    wall-clock reading, not a second physical instant, so it can
+    never move the year/month pillars or the solar term of the same
+    birth (defect fixed 2026-11-26).
 
     Parameters are the same as :func:`bazi_core.chart_from_datetime`
     for the birth instant, plus the explicit conversion parameters of
