@@ -77,6 +77,13 @@
   恒为 None。格局变体 pin 为 v2（C1，用户裁定 2026-11-25：喜用侧
   接通格局引擎 v2，逐项校验变体、输入结构、字段语义与兼容性）。
 
+第四批（TJ-0426 Lane 2）只加三张就绪度登记，不改任何规则：
+``BINGYAO_UNENCODED_DISPOSITIONS``（已登记未编码两对的逐项处置：均
+不可编码，各有具名阻塞与解锁路径）、``ANNUAL_PENDING_READINESS``
+（流年 pending 5 项逐项的消缺前提；第 5 项统一裁决永不立）、
+``PATTERN_YONGSHEN_RULE_READINESS``（14 格逐格用神规则就绪度，
+``useful_god`` 恒 None）。三者均以加法键随输出携带，不改既有字段语义。
+
 四体系结果独立输出；每体系输出必含结论、输入依据、适用条件、
 局限/不确定性标记。流年喜用（``evaluate_annual_xiyong``）接入组合
 引擎 ``contract_only_pending_rules`` 已实现的 4 项（流年干支与十神、
@@ -447,6 +454,31 @@ BINGYAO_REGISTERED_DEFINITIONS = (
              '实际克效未裁定。'},
 )
 
+# --- 已登记未编码病药对子的逐项处置（第四批，TJ-0426 Lane 2）---------
+# 对 BINGYAO_REGISTERED_NOT_ENCODED_PAIRS 的两项逐项复核后的处置结论：
+# 两项均不可编码（cannot_encode），各有具名阻塞与解锁路径；不是编码遗
+# 漏未处理，而是复核后确定编码被阻塞。本表只登记处置，不编码、不产
+# 药神候选；两对的 ``status``（registered_not_encoded /
+# registered_tension）保持不变。
+BINGYAO_UNENCODED_DISPOSITIONS = (
+    {'pair_id': 'earth_heavy_unencoded',
+     'disposition': 'cannot_encode',
+     'blocker': 'premise_undefined_and_strength_verdict',
+     'detail': '示例一（土重）结论句的前提「四柱纯土水」无操作定义，'
+               '且分日主结论为旺弱味断语（分日主断语未经旺弱裁定不可编码）。',
+     'unlock': '「四柱纯土水」的操作定义审定 + 分日主旺弱裁定（TJ-011.2 线）；'
+               '未审定前不编码。',
+     'reviewed_in': 'TJ-0426-Lane2'},
+    {'pair_id': 'officer_strength_tension',
+     'disposition': 'cannot_encode',
+     'blocker': 'depends_on_unadjudicated_strength_and_ununified_calibre',
+     'detail': '正官格节「惟官星太弱太旺，方为有病」口径：病系于官星太弱太旺，'
+               '依赖旺弱裁定且直通用神，与定义节存在性口径并存未统一；'
+               '该口径无药神类（medicine_god_class 为 None），不成对子形态。',
+     'unlock': '旺弱裁定 + 两口径统一审定；未统一前不编码、不据此句升级候选为用神结论。',
+     'reviewed_in': 'TJ-0426-Lane2'},
+)
+
 # --- 格局用神结构依据：格神十神 -> 相对日主的五行关系（第三批）---------
 # 与 ten_god_for 同一十神定义（五行关系＋阴阳同异性）之关系侧；
 # 格神元素由关系反推，不另立关系表。
@@ -456,6 +488,62 @@ PATTERN_GOD_RELATIONS = {
     '正财': 'i_control', '偏财': 'i_control',
     '食神': 'i_generate', '伤官': 'i_generate',
 }
+
+# --- 格局用神逐格规则就绪度（第四批，TJ-0426 Lane 2；P-06/X-04）-------
+# 十二格加比肩／劫财两格常驻，共 14 格的逐格用神规则就绪登记：
+# 全部格 ``useful_god`` 恒未审（``rule_status`` 恒
+# ``pending_evidence_review``），只登记每格距逐格规则尚缺的证据。
+# 有 validated 候选规则的格（正官 Golden 20／印绶 Golden 42／任氏 D-1）
+# 只表示可列结构依据，不等于格局用神已经成立。本表只登记就绪度，
+# 不编码任何用神结论；逐格规则获批时逐项提请（X6）。
+PATTERN_YONGSHEN_RULE_READINESS = (
+    {'pattern_key': 'zhengguan', 'pattern': '正官', 'pattern_god': '正官',
+     'rule_status': 'pending_evidence_review', 'useful_god': None,
+     'evidence_needed': '已有 validated 候选规则（正官 Golden 20，结构依据可列）；'
+                        '逐格用神取法原文（来源+版本+可定位文本）待证据审查。'},
+    {'pattern_key': 'qisha', 'pattern': '七杀', 'pattern_god': '七杀',
+     'rule_status': 'pending_evidence_review', 'useful_god': None,
+     'evidence_needed': '无 validated 候选规则；逐格用神取法原文待证据审查。'},
+    {'pattern_key': 'zhengyin', 'pattern': '正印', 'pattern_god': '正印',
+     'rule_status': 'pending_evidence_review', 'useful_god': None,
+     'evidence_needed': '已有 validated 候选规则（印绶 Golden 42，结构依据可列）；'
+                        '逐格用神取法原文（来源+版本+可定位文本）待证据审查。'},
+    {'pattern_key': 'pianyin', 'pattern': '偏印', 'pattern_god': '偏印',
+     'rule_status': 'pending_evidence_review', 'useful_god': None,
+     'evidence_needed': '已有 validated 候选规则（印绶 Golden 42，结构依据可列）；'
+                        '逐格用神取法原文（来源+版本+可定位文本）待证据审查。'},
+    {'pattern_key': 'zhengcai', 'pattern': '正财', 'pattern_god': '正财',
+     'rule_status': 'pending_evidence_review', 'useful_god': None,
+     'evidence_needed': '无 validated 候选规则；逐格用神取法原文待证据审查。'},
+    {'pattern_key': 'piancai', 'pattern': '偏财', 'pattern_god': '偏财',
+     'rule_status': 'pending_evidence_review', 'useful_god': None,
+     'evidence_needed': '无 validated 候选规则；逐格用神取法原文待证据审查。'},
+    {'pattern_key': 'shishen', 'pattern': '食神', 'pattern_god': '食神',
+     'rule_status': 'pending_evidence_review', 'useful_god': None,
+     'evidence_needed': '无 validated 候选规则；逐格用神取法原文待证据审查。'},
+    {'pattern_key': 'shangguan', 'pattern': '伤官', 'pattern_god': '伤官',
+     'rule_status': 'pending_evidence_review', 'useful_god': None,
+     'evidence_needed': '已有任氏寅月真格（D-1，结构依据可列）；'
+                        '逐格用神取法原文（来源+版本+可定位文本）待证据审查。'},
+    {'pattern_key': 'jianlu', 'pattern': '建禄', 'pattern_god': None,
+     'rule_status': 'pending_evidence_review', 'useful_god': None,
+     'evidence_needed': '《论禄》未逐节登记；成格规则与用神取法均待证据。'},
+    {'pattern_key': 'yangren', 'pattern': '阳刃', 'pattern_god': None,
+     'rule_status': 'pending_evidence_review', 'useful_god': None,
+     'evidence_needed': '《论禄》未逐节登记；成格规则与用神取法均待证据。'},
+    {'pattern_key': 'zaqi', 'pattern': '杂气', 'pattern_god': None,
+     'rule_status': 'pending_evidence_review', 'useful_god': None,
+     'evidence_needed': '三 Variant 并列冲突未裁定；土格换算未裁定；用神取法待证据。'},
+    {'pattern_key': 'special', 'pattern': '特殊格局', 'pattern_god': None,
+     'rule_status': 'pending_evidence_review', 'useful_god': None,
+     'evidence_needed': '从格/化气成立规则未裁定（合化 P-D1 待裁定）；用神取法待证据。'},
+    {'pattern_key': 'bijian', 'pattern': '比肩', 'pattern_god': '比肩',
+     'rule_status': 'pending_evidence_review', 'useful_god': None,
+     'evidence_needed': '仅任氏 D-1 机械换算名，无独立用神取法证据；公开白名单外。'},
+    {'pattern_key': 'jiecai', 'pattern': '劫财', 'pattern_god': '劫财',
+     'rule_status': 'pending_evidence_review', 'useful_god': None,
+     'evidence_needed': '仅任氏 D-1 机械换算名，无独立用神取法证据；公开白名单外。'},
+)
 
 # --- 流年 pending 逐项所缺底层规则（第三批）-------------------------------
 # 5 项无一可实现：逐项明记所缺的底层规则与所涉裁定，不推演、不改
@@ -481,6 +569,43 @@ ANNUAL_PENDING_DETAIL = (
      'missing_underlying_rule': '统一裁决规则（四体系如何合并为统一流年喜用）',
      'blocked_by_adjudication': 'TJ-013.2 裁决 A（四体系并列呈现、统一裁决恒拒判）',
      'note': '统一裁决恒拒判，流年统一结论永不输出。'},
+)
+
+# --- 流年 pending 逐项就绪度（第四批，TJ-0426 Lane 2）------------------
+# 对 ANNUAL_PENDING_DETAIL 的 5 项逐项登记「消缺前提」：前 4 项各有具名
+# 的缺失底层规则与解锁路径（仍无一可实现，derivation 恒 None）；第 5 项
+# 永不立（prerequisite_status='never'）。本表只登记就绪度，不推演、
+# 不改 implemented / pending 清单（组合引擎 pin 住两清单）。
+ANNUAL_PENDING_READINESS = (
+    {'item': 'annual_tiaohou_derivation',
+     'prerequisite': '流年调候推演规则（流年干支如何取调候用神）',
+     'prerequisite_status': 'missing',
+     'unlock': '流年干支→调候取用的推演规则登记 + 证据审查（以 X-02 审定条目'
+               '为原局基础；原局三分口径已批，流年推演规则本身仍未立）',
+     'derivation': None},
+    {'item': 'annual_bingyao_derivation',
+     'prerequisite': '流年病药推演规则（流年干支如何触发病药对）+ 药去病效力裁定',
+     'prerequisite_status': 'blocked_by_unadjudicated_effect',
+     'unlock': '药去病效力裁定 + 流年触发规则登记；效力恒未裁定前不推演',
+     'derivation': None},
+    {'item': 'annual_fuyi_derivation',
+     'prerequisite': '流年扶抑推演规则（流年干支如何取扶抑用神）',
+     'prerequisite_status': 'missing',
+     'unlock': '流年干支→扶抑方向的推演规则登记 + 证据审查（现代扶抑规则本身'
+               '已批为研究模型，流年推演规则本身仍未立）',
+     'derivation': None},
+    {'item': 'annual_pattern_yongshen_derivation',
+     'prerequisite': '格局用神逐格规则（P-06）',
+     'prerequisite_status': 'blocked_by_unreviewed_rules',
+     'unlock': '逐格用神规则证据就绪后逐项提请批准（X6 方向已批，具体规则待审）',
+     'derivation': None},
+    {'item': 'unified_annual_verdict',
+     'prerequisite': '统一裁决规则（四体系如何合并为统一流年喜用）',
+     'prerequisite_status': 'never',
+     'unlock': None,
+     'derivation': None,
+     'note': 'TJ-013.2 裁决 A：四体系并列呈现、统一裁决恒拒判；统一裁决永不立，'
+             '不得提请。'},
 )
 
 # 流年喜用：组合引擎契约已实现的 4 项 + 本引擎新增的 2 项同类存在性对照。
@@ -1573,6 +1698,9 @@ def evaluate_bingyao_xiyong(bingyao, *, pillars=None):
                 'registered_not_encoded_pairs': [
                     dict(item)
                     for item in BINGYAO_REGISTERED_NOT_ENCODED_PAIRS],
+                'registered_not_encoded_dispositions': [
+                    dict(item)
+                    for item in BINGYAO_UNENCODED_DISPOSITIONS],
                 'registered_definitions': [
                     dict(item) for item in BINGYAO_REGISTERED_DEFINITIONS],
                 'conditions': [_condition(
@@ -1711,6 +1839,8 @@ def evaluate_bingyao_xiyong(bingyao, *, pillars=None):
             'pairs': pairs, 'gaps': gaps,
             'registered_not_encoded_pairs': [
                 dict(item) for item in BINGYAO_REGISTERED_NOT_ENCODED_PAIRS],
+            'registered_not_encoded_dispositions': [
+                dict(item) for item in BINGYAO_UNENCODED_DISPOSITIONS],
             'registered_definitions': [
                 dict(item) for item in BINGYAO_REGISTERED_DEFINITIONS],
             'basis': {'bingyao_variant': BINGYAO_VARIANT,
@@ -1773,6 +1903,8 @@ def evaluate_pattern_xiyong(pattern, *, pillars=None, day_master=None):
         return {**base, 'status': 'not_provided', 'conclusion': None,
                 'eligible': [], 'ineligible': [], 'counts': {},
                 'counts_by_state': {},
+                'yongshen_rule_readiness': [
+                    dict(item) for item in PATTERN_YONGSHEN_RULE_READINESS],
                 'gaps': [], 'basis': None,
                 'conditions': [_condition(
                     'pattern_input', '未传入已审格局输出', 'not_satisfied')],
@@ -2011,6 +2143,8 @@ def evaluate_pattern_xiyong(pattern, *, pillars=None, day_master=None):
                        'ineligible': len(ineligible),
                        'total': len(results)},
             'counts_by_state': counts_by_state,
+            'yongshen_rule_readiness': [
+                dict(item) for item in PATTERN_YONGSHEN_RULE_READINESS],
             'yongshen_rule_development': {
                 'status': 'approved_in_direction',
                 'adjudication': 'X6 (2026-11-25)',
@@ -2150,6 +2284,8 @@ def evaluate_annual_xiyong(systems, target_year, *, day_master):
         'implemented': list(ANNUAL_IMPLEMENTED),
         'pending': list(ANNUAL_PENDING),
         'pending_detail': [dict(item) for item in ANNUAL_PENDING_DETAIL],
+        'pending_readiness': [dict(item)
+                              for item in ANNUAL_PENDING_READINESS],
         'pending_reason': ('流年喜用完整推演待对应规则获批后接入；现阶段只列'
                            '数据契约与调用结构，不推演任何流年喜用。'),
         'flow_year': {

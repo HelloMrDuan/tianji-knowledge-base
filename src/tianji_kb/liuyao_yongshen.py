@@ -95,6 +95,33 @@ Evidence) before any mapping for that type can be approved; until then
 ``classical_citation`` is None and the type's ``status`` is
 ``framework_only``. A type without verified evidence cannot be used for
 a mapping, and a type without an approved mapping always abstains.
+Batch 4 (TJ-0426 Lane 4, 2026-11-27 -- evidence first, mapping later):
+- L-01/L-02 career evidence CONSTRUCTED (evidence pack 05,
+  ``~/workspace/tj-core-engine-batch2-liuyao-evidence/05-career-yongshen.md``):
+  the career -> 官鬼取法句 is located character-exact in both books'
+  取用章 (增删卜易 用神章第八 官鬼行; 卜筮正宗 用神分類定例第一 官鬼行)
+  plus a 纲领句 and two real 占功名 cases (C1 positive, C2 代占 negative).
+  The quoted sentences are NOT registered sections yet, so the registry
+  stays EMPTY, ``relative_category`` stays None for every type, and
+  ``assess()`` still abstains for all 8 types. Registration through the
+  governance chain + separate per-item user approval are both still
+  required before any mapping is filled in. Marriage (male asks wife /
+  female asks husband) and health (disease itself vs medicine) stay
+  recorded as pending 口径, never preset.
+- L-03: ``ROLE_EVIDENCE`` registers r013-r018 verbatim (definitions,
+  locators, pair tables for r017/r018). Role EFFICACY is not built:
+  it waits for an approved L-01 mapping; ``roles_for_element`` stays
+  ``framework_only``.
+- L-04: ``SISH_WANGXIANG_CHAPTER`` records that the 四時旺相 chapter
+  text is LOCATED (增删卜易 line 532) but UNREGISTERED, with no 死 state
+  attested; the mapping table stays None and ``assess_wangshuai`` still
+  abstains.
+- L-08: ``RESPONSE_TIMING_GAP`` records 应期 as not started (prerequisites:
+  approved L-01 mapping + L-04 wangshuai). No 应期 condition is built.
+- r020 narrow scope (明记): the 日破 "弱" precondition depends on the
+  unbuilt wangshuai layer (L-04), so r020's trigger surface is extremely
+  narrow -- see ``WEAK_PRECONDITION_NARROW_SCOPE_NOTE``. It must never be
+  presented as "日冲即日破" or as routinely applicable.
 """
 
 from copy import deepcopy
@@ -120,9 +147,11 @@ __all__ = [
     "line_roles_relative_to_element",
     "list_mapping_slots",
     "list_question_types",
+    "list_role_evidence",
     "mapping_slot",
     "month_day_structure",
     "record_month_day_context",
+    "role_evidence",
     "assess_wangshuai",
     "roles_for_element",
     "validate_question_input",
@@ -1129,3 +1158,228 @@ def line_roles_relative_to_element(line_branches, yongshen_element):
             "角色不推出吉凶与效力。"
         ),
     }
+
+
+# --- Batch 4 (TJ-0426 Lane 4): L-03 role evidence registration -------
+# r013-r018, registered verbatim from the sealed Phase1 registry
+# (data/canonical/liuyao/phase1_knowledge.json, schema 1.0). Each entry
+# was verified character-for-character against the classical text file
+# on 2026-11-27 (see evidence pack 05 §8.1): the登记 locator interval
+# and the text at that offset agree exactly for all six rules. All six
+# are partially_structured with EMPTY operation parameters, no Phase2
+# rule and no Golden. This registry is DEFINITION registration only:
+# it records what the classical sentences SAY; it builds no role
+# efficacy. The efficacy layer waits for an approved L-01 mapping
+# (no approved mapping exists yet), so every entry carries
+# ``efficacy`` = "not_approved" and the framework stays framework_only.
+# Pair tables (r017/r018): the eight branch-change pairs are transcribed
+# exactly as written in the registered sentences, INCLUDING the variant
+# character 醜 (U+91DC) where the original uses it (r017 pair 2
+# 醜變辰, r018 pair 8 醜變戌) versus 丑 (U+4E11) elsewhere. The pairs
+# are data, not a rule: no function here classifies a line as 进神/退神
+# with any effect.
+ROLE_EVIDENCE = {
+    "liuyao.rule.r013": {
+        "rule_id": "liuyao.rule.r013",
+        "name": "用神",
+        "definition": "用神﹐卽前各類之用神也。",
+        "section_id": "liuyao.section.s013",
+        "locator": "增删卜易 chars [15722,15734)",
+        "school": "增删卜易",
+        "execution_status": "partially_structured",
+        "status": "registered_definition_only",
+        "efficacy": "not_approved",
+        "term_ref": "liuyao.term.t015",
+        "note": (
+            "定义句只指向“前各類之用神”，不含任何一类的取法；"
+            "逐类取法在取用章（未登记），见证据包 05 §2。"
+        ),
+    },
+    "liuyao.rule.r014": {
+        "rule_id": "liuyao.rule.r014",
+        "name": "原神",
+        "definition": "元神﹐生用神之神卽為元神。",
+        "section_id": "liuyao.section.s014",
+        "locator": "增删卜易 chars [15734,15747)",
+        "school": "增删卜易",
+        "execution_status": "partially_structured",
+        "status": "registered_definition_only",
+        "efficacy": "not_approved",
+        "term_ref": "liuyao.term.t016",
+        "note": "定义：生用神之神即为原神（元素生克关系，见 roles_for_element）。",
+    },
+    "liuyao.rule.r015": {
+        "rule_id": "liuyao.rule.r015",
+        "name": "忌神",
+        "definition": "忌神克用神之爻也。",
+        "section_id": "liuyao.section.s015",
+        "locator": "增删卜易 chars [15747,15756)",
+        "school": "增删卜易",
+        "execution_status": "partially_structured",
+        "status": "registered_definition_only",
+        "efficacy": "not_approved",
+        "term_ref": "liuyao.term.t017",
+        "note": "定义：克用神之爻为忌神（元素克制关系，见 roles_for_element）。",
+    },
+    "liuyao.rule.r016": {
+        "rule_id": "liuyao.rule.r016",
+        "name": "仇神",
+        "definition": "仇神者克元神而生忌神也。",
+        "section_id": "liuyao.section.s016",
+        "locator": "增删卜易 chars [15756,15768)",
+        "school": "增删卜易",
+        "execution_status": "partially_structured",
+        "status": "registered_definition_only",
+        "efficacy": "not_approved",
+        "term_ref": "liuyao.term.t018",
+        "note": "定义：克原神而生忌神者为仇神（元素关系，见 roles_for_element）。",
+    },
+    "liuyao.rule.r017": {
+        "rule_id": "liuyao.rule.r017",
+        "name": "进神",
+        "definition": (
+            "凡卦中亥變子，醜變辰，寅變卯，辰變未，巳變午，未變戌，"
+            "申變酉，戌變丑，乃進神也"
+        ),
+        "section_id": "liuyao.section.s017",
+        "locator": "卜筮正宗 chars [29889,29928)",
+        "school": "卜筮正宗",
+        "execution_status": "partially_structured",
+        "status": "registered_definition_only",
+        "efficacy": "not_approved",
+        "term_ref": "liuyao.term.t019",
+        "pairs": (
+            ("亥", "子"), ("醜", "辰"), ("寅", "卯"), ("辰", "未"),
+            ("巳", "午"), ("未", "戌"), ("申", "酉"), ("戌", "丑"),
+        ),
+        "note": (
+            "八对变爻支对，原文照录（含異體字 醜）；只作数据登记，"
+            "不立进神效力。"
+        ),
+    },
+    "liuyao.rule.r018": {
+        "rule_id": "liuyao.rule.r018",
+        "name": "退神",
+        "definition": (
+            "凡卦中子變亥，戌變未，酉變申，未變辰，午變巳，辰變丑，"
+            "卯變寅，醜變戌，乃退神也"
+        ),
+        "section_id": "liuyao.section.s018",
+        "locator": "卜筮正宗 chars [29942,29981)",
+        "school": "卜筮正宗",
+        "execution_status": "partially_structured",
+        "status": "registered_definition_only",
+        "efficacy": "not_approved",
+        "term_ref": "liuyao.term.t020",
+        "pairs": (
+            ("子", "亥"), ("戌", "未"), ("酉", "申"), ("未", "辰"),
+            ("午", "巳"), ("辰", "丑"), ("卯", "寅"), ("醜", "戌"),
+        ),
+        "note": (
+            "八对变爻支对，原文照录（含異體字 醜）；只作数据登记，"
+            "不立退神效力。"
+        ),
+    },
+}
+
+
+def role_evidence(rule_id):
+    """Return a deep copy of the registered evidence for r013-r018.
+
+    Raises ValueError for an unknown rule id. The record is definition
+    registration only: ``efficacy`` is "not_approved" for every rule,
+    and no role effect is computed anywhere from it.
+    """
+    if not isinstance(rule_id, str) or rule_id not in ROLE_EVIDENCE:
+        raise ValueError("unknown liuyao role rule: %r" % (rule_id,))
+    return deepcopy(ROLE_EVIDENCE[rule_id])
+
+
+def list_role_evidence():
+    """Return the registered evidence for r013-r018 in rule order."""
+    return [role_evidence(rule_id) for rule_id in sorted(ROLE_EVIDENCE)]
+
+
+# --- Batch 4 (TJ-0426 Lane 4): L-04 四時旺相 chapter candidate -------
+# The chapter TITLE is registered only as an existence note in
+# SISH_WANGXIANG_EVIDENCE (增删卜易 line 532 per the earlier pack; this
+# batch's re-measurement puts the title at line 531, chars
+# [18808,18817) -- the character interval is authoritative and the
+# one-line difference is recorded, not silently corrected). The main
+# TEXT below is LOCATED but NOT a registered section: it exists in the
+# classical file at line 532, chars [18818,19181) (363 characters), and
+# this record is the first to pin it down. It states only four states
+# (旺/相/休/囚: 17/9/8/8 occurrences); 死 occurs 0 times. Secondary
+# ("次之") and 余气 qualifications are present in the text. Even after
+# a future governance registration, a month -> 旺/相/休/囚/死 mapping
+# table would still need adjudication of the missing 死 state and of
+# the secondary/余气 readings -- so ``mapping_table`` stays None and
+# ``assess_wangshuai`` still abstains. Nothing here is a rule.
+SISH_WANGXIANG_CHAPTER = {
+    "chapter": "四時旺相章第十五",
+    "source": "增删卜易",
+    "source_commit": "53291663a4c733c4cbdfa174a8d3075475c07fd3",
+    "title_locator": "增删卜易 chars [18808,18817), 第 531 行（实测；先前记为 532 行，见注）",
+    "title_locator_note": (
+        "证据包 01 §3 与 SISH_WANGXIANG_EVIDENCE 写作“第 532 行章题”；"
+        "本批实测章题在第 531 行，正文在第 532 行。字符区间无差，"
+        "以字符区间为准，行号差如实记录，不静默修正。"
+    ),
+    "text_locator": "增删卜易 chars [18818,19181), 第 532 行，363 字",
+    "registration_status": "text_located_unregistered",
+    "states_attested": ("旺", "相", "休", "囚"),
+    "states_missing": ("死",),
+    "state_counts": {"旺": 17, "相": 9, "休": 8, "囚": 8, "死": 0},
+    "qualifications_noted": (
+        "次之（次旺）与餘气限定写法存在于正文中；注册后仍须裁定其算法口径。"
+    ),
+    "mapping_table": None,
+    "status": "no_registered_basis",
+    "note": (
+        "四時旺相章正文已定位、未登记：无月建到旺/相/休/囚/死的映射表，"
+        "且正文无死态；故任何旺衰效力结论目前无依据。"
+    ),
+}
+
+
+# --- Batch 4 (TJ-0426 Lane 4): L-08 应期 gap -------------------------
+# 应期 (yingqi) is NOT started in this batch. There is no approved
+# 应期 condition; the prerequisites are an approved L-01 useful-god
+# mapping AND the L-04 wangshuai layer, neither of which exists yet.
+# Case narratives that mention a response time (e.g. evidence-pack-05
+# case C1, "辰年出仕") are case text, not validated 应期 conditions,
+# and must never be used to reverse-derive an 应期 rule.
+RESPONSE_TIMING_GAP = {
+    "status": "not_started",
+    "approved_conditions": 0,
+    "prerequisites": (
+        "approved L-01 useful-god mapping",
+        "L-04 wangshuai efficacy layer",
+    ),
+    "prerequisite_status": {
+        "approved L-01 useful-god mapping": "unmet",
+        "L-04 wangshuai efficacy layer": "unmet",
+    },
+    "note": (
+        "应期本次只登记缺口，不启动；以前置（L-01 + L-04）为前提。"
+        "案例中的应期叙述不是已审应期条件，不得反推。"
+    ),
+}
+
+
+# --- Batch 4 (TJ-0426 Lane 4): r020 narrow-scope note ----------------
+# 日破 (liuyao.rule.r020, implemented conditionally in
+# liuyao_empty_break.day_break_assessment) requires ALL THREE
+# preconditions: clash with the day branch AND static AND weak
+# ("爻之衰而靜者﹐沖之則為日破"). The "弱" (weak) precondition has no
+# computable calibre: it depends on the unbuilt wangshuai layer (L-04),
+# so it can only come from an explicitly caller-supplied weak fact,
+# and is otherwise undetermined -- never defaulted to weak or not-weak.
+# r020's trigger surface is therefore extremely narrow in current
+# capability, and must never be presented as "日冲即日破" or as a
+# routinely applicable rule.
+WEAK_PRECONDITION_NARROW_SCOPE_NOTE = (
+    "日破 r020 的“弱”前提依赖未建的旺衰层（L-04）：弱事实须由调用方"
+    "显式提供已确立的衰事实，否则判未定；三前提（冲日支 + 静 + 弱）"
+    "缺一即不触发，触发面极窄，不得夸大 r020 的可用范围。"
+)

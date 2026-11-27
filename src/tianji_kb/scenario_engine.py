@@ -25,6 +25,17 @@ from .bazi_xiyong_public import (
 from .calendar import calendar
 from .engine import execute
 from .resolver import EvidenceResolver
+from .unified_compute import (
+    UnifiedComputePinError,
+    assemble_birth,
+    assemble_pair,
+    cached_execute,
+    trim_for_bazi_profile,
+    trim_for_career,
+    trim_for_compatibility,
+    trim_for_life,
+    trim_for_romance,
+)
 
 SCENARIOS = [
     {
@@ -99,6 +110,55 @@ def _require_with_optional(inputs, required, optional):
     keys = set(inputs)
     if not set(required).issubset(keys) or not keys.issubset(set(required) | set(optional)):
         raise ValueError("Scenario input fields do not match the reviewed contract")
+
+
+def _unified_assembly(birth_value, *, zone=None, traditional_role=None,
+                      target_year=None):
+    """Build the unified compute entry for one birth instant (Lane 6).
+
+    The entry is research-only augmentation on top of the existing
+    builders: if it cannot be built in this checkout (sealed runtime /
+    provider unavailable), the page proceeds exactly as before and the
+    assembly is simply absent. A variant-pin drift
+    (:class:`UnifiedComputePinError`) is never swallowed -- it is a
+    real integrity failure and fails the request loud.
+    """
+    try:
+        return assemble_birth(
+            birth_value, zone=zone, traditional_role=traditional_role,
+            target_year=target_year)
+    except UnifiedComputePinError:
+        raise
+    except Exception:
+        return None
+
+
+def _assert_unified_chart(trim, pillars, day_master):
+    """Fail closed if a builder's own chart disagrees with the entry.
+
+    ``trim`` is a per-page trim of the unified assembly; ``pillars`` /
+    ``day_master`` come from the builder's own execution. Any drift
+    between the two chartings of the same birth instant fails the
+    request instead of stitching conflicting charts into one page.
+    """
+    if trim is None:
+        return
+    if [pillar["ganzhi"] for pillar in pillars] != list(
+            trim["chart"]["ganzhi"]):
+        raise ValueError(
+            "Unified assembly chart drift: pillars disagree")
+    if day_master != trim["chart"]["day_master"]:
+        raise ValueError(
+            "Unified assembly chart drift: day master disagrees")
+
+
+def _assert_unified_flow_year(trim, flow_ganzhi):
+    """Fail closed if a builder's flow-year ganzhi disagrees with the entry."""
+    if trim is None or trim.get("flow_year") is None:
+        return
+    if trim["flow_year"]["ganzhi"] != flow_ganzhi:
+        raise ValueError(
+            "Unified assembly flow-year drift: ganzhi disagrees")
 
 
 def _xiyong_phase1_refs():
@@ -253,7 +313,7 @@ def _strength_public_gate(value, zone):
     gate_inputs = {"value": value, "strength_variant": ADJUDICATION_VARIANT}
     if zone is not None:
         gate_inputs["zone"] = zone
-    envelope = execute("bazi", gate_inputs, allow_research=True)
+    envelope = cached_execute("bazi", gate_inputs, allow_research=True)
     assessment = envelope["result"]["strength_assessment"]
     steps = {step["rule_id"]: step["output"]
              for step in envelope["trace"]}
@@ -429,7 +489,7 @@ def ren_yin_research_execution(value, zone=None):
                    "ren_yin_pilot_result": pilot}
     if zone is not None:
         exec_inputs["zone"] = zone
-    envelope = execute("bazi", exec_inputs, allow_research=True)
+    envelope = cached_execute("bazi", exec_inputs, allow_research=True)
     block = envelope["result"].get("pattern_determination_ren_yin")
     if not isinstance(block, dict):
         raise ValueError(
@@ -483,11 +543,24 @@ def _bazi_profile(inputs):
     # so the presentation, the trace and the evidence are one request's
     # records. Clients can neither name these keys (contract above) nor
     # reach them through the domain endpoint (engine gate unchanged).
+    # Lane 6 (U-01): assemble the unified compute entry for this birth
+    # instant (one shared charting + research assembly). The entry is
+    # research-only augmentation: the gates below still build every
+    # public presentation, and the entry never contributes a public
+    # field. If the entry cannot be built here, the page proceeds
+    # exactly as before (see _unified_assembly).
+    _assembly = _unified_assembly(
+        inputs["value"], zone=inputs.get("zone"))
+    _trim = trim_for_bazi_profile(_assembly) \
+        if _assembly is not None else None
     exec_inputs = dict(domain_inputs)
     exec_inputs["tiaohou_variant"] = _TIAOHOU_VARIANT
     exec_inputs["bingyao_variant"] = _BINGYAO_VARIANT
-    raw = execute("bazi", exec_inputs, allow_research=True)
+    raw = cached_execute("bazi", exec_inputs, allow_research=True)
     result = raw["result"]
+    # Lane 6: the builder's own charting must agree with the entry's
+    # single charting of the same birth instant; any drift fails closed.
+    _assert_unified_chart(_trim, result["pillars"], result["day_master"])
     # Attaching the two assessments makes the chart append their
     # research clauses to production_scope (the clause text belongs to
     # the executing runtime and differs between the public source and
@@ -496,7 +569,7 @@ def _bazi_profile(inputs):
     # the same inputs once without the gate, require the gated scope to
     # extend that baseline, and restore the baseline. Fail-closed on
     # any other relationship.
-    baseline_scope = execute("bazi", domain_inputs)["result"].get(
+    baseline_scope = cached_execute("bazi", domain_inputs)["result"].get(
         "production_scope")
     gated_scope = result.get("production_scope")
     if not isinstance(baseline_scope, str) \
@@ -804,7 +877,10 @@ def _yearly(inputs):
     natal_input = {"value": birth_value, "include_relations": True}
     if "birth_zone" in inputs:
         natal_input["zone"] = inputs["birth_zone"]
-    natal = execute("bazi", natal_input)
+    # Lane 6 (U-01): this natal execution is identical to _career's, so
+    # the unified entry's de-duplicated execute serves both pages from
+    # one charting; the envelope is byte-identical either way.
+    natal = cached_execute("bazi", natal_input)
     # July 1 is deliberately inside the target solar-term year. The response
     # reports this convention instead of pretending a Gregorian Jan-1 boundary.
     reference = f"{target_year:04d}-07-01T12:00:00+08:00"
@@ -1049,12 +1125,24 @@ def _romance(inputs):
     if traditional_role is not None and traditional_role not in ("male", "female"):
         raise ValueError("traditional role must be male or female")
 
+    # Lane 6 (U-01): unified entry anchor (same birth + target year).
+    # The entry is research-only augmentation; the romance structure
+    # below is built exactly as before, and the entry never contributes
+    # a public field.
+    _assembly = _unified_assembly(
+        birth_value, zone=inputs.get("birth_zone"),
+        traditional_role=traditional_role, target_year=target_year)
+    _trim = trim_for_romance(_assembly) if _assembly is not None else None
     natal_input = {"value": birth_value, "include_xianchi": True, "include_relations": True}
     if "birth_zone" in inputs:
         natal_input["zone"] = inputs["birth_zone"]
     if traditional_role is not None:
         natal_input["traditional_role"] = traditional_role
-    natal = execute("bazi", natal_input)
+    natal = cached_execute("bazi", natal_input)
+    # Lane 6: this page's own charting must agree with the entry's
+    # single charting of the same birth instant; any drift fails closed.
+    _assert_unified_chart(
+        _trim, natal["result"]["pillars"], natal["result"]["day_master"])
     xianchi = copy.deepcopy(natal["result"]["xianchi_lookup"])
     xianchi_rule = next(
         rule for rule in natal["rule_matches"] if rule["rule_id"] == "bazi.phase2.xianchi_lookup"
@@ -1076,6 +1164,8 @@ def _romance(inputs):
     target_calendar = calendar(reference)
     flow_ganzhi = target_calendar["year_ganzhi"]
     flow_branch = flow_ganzhi[1]
+    # Lane 6: this page's flow-year ganzhi must agree with the entry's.
+    _assert_unified_flow_year(_trim, flow_ganzhi)
     annual_structure = _annual_branch_structure(natal, flow_branch)
     natal_day_branch = next(
         pillar["branch"]["value"] for pillar in natal["result"]["pillars"]
@@ -1628,11 +1718,23 @@ def _career(inputs):
     # _yearly does); the career Ten-God computation itself is
     # unchanged -- it still reads only the ten-gods and
     # hidden-stems rules.
+    # Lane 6 (U-01): unified entry anchor (same birth + target year).
+    # The entry is research-only augmentation; the career structure
+    # below is built exactly as before, and the entry never contributes
+    # a public field.
+    _assembly = _unified_assembly(
+        birth_value, zone=inputs.get("birth_zone"),
+        traditional_role=traditional_role, target_year=target_year)
+    _trim = trim_for_career(_assembly) if _assembly is not None else None
     natal_input = {"value": birth_value, "include_relations": True}
     if "birth_zone" in inputs:
         natal_input["zone"] = inputs["birth_zone"]
-    natal = execute("bazi", natal_input)
+    natal = cached_execute("bazi", natal_input)
     result_chart = natal["result"]
+    # Lane 6: this page's own charting must agree with the entry's
+    # single charting of the same birth instant; any drift fails closed.
+    _assert_unified_chart(
+        _trim, result_chart["pillars"], result_chart["day_master"])
     groups = {
         group_id: {
             "label": meta["label"],
@@ -1672,6 +1774,8 @@ def _career(inputs):
     flow_ganzhi = target_calendar["year_ganzhi"]
     flow_stem, flow_branch = flow_ganzhi
     day_master = result_chart["day_master"]["stem"]
+    # Lane 6: this page's flow-year ganzhi must agree with the entry's.
+    _assert_unified_flow_year(_trim, flow_ganzhi)
     flow_ten_god = ten_god(day_master, flow_stem)
     flow_group = _ten_god_group(flow_ten_god)
 
@@ -2080,6 +2184,22 @@ def _compatibility(inputs):
         if role is not None and role not in ("male", "female"):
             raise ValueError("traditional role must be male or female")
 
+    # Lane 6 (U-01): unified pair entry (one shared charting per
+    # person + research assembly each). The entry is research-only
+    # augmentation; the cross-chart structure below is built exactly as
+    # before, and the entry never contributes a public field.
+    _pair = None
+    try:
+        _pair = assemble_pair(
+            person_a_birth_value, person_b_birth_value,
+            zone_a=inputs.get("person_a_zone"),
+            zone_b=inputs.get("person_b_zone"))
+    except UnifiedComputePinError:
+        raise
+    except Exception:
+        _pair = None
+    _trim_pair = trim_for_compatibility(_pair) \
+        if _pair is not None else None
     a_input = {"value": person_a_birth_value, "include_xianchi": True, "include_relations": True}
     b_input = {"value": person_b_birth_value, "include_xianchi": True, "include_relations": True}
     if "person_a_zone" in inputs:
@@ -2090,8 +2210,17 @@ def _compatibility(inputs):
         a_input["traditional_role"] = person_a_role
     if person_b_role is not None:
         b_input["traditional_role"] = person_b_role
-    person_a = execute("bazi", a_input)
-    person_b = execute("bazi", b_input)
+    person_a = cached_execute("bazi", a_input)
+    person_b = cached_execute("bazi", b_input)
+    # Lane 6: each person's own charting must agree with the entry's
+    # single charting of the same birth instant; any drift fails closed.
+    if _trim_pair is not None:
+        _assert_unified_chart(
+            _trim_pair["person_a"], person_a["result"]["pillars"],
+            person_a["result"]["day_master"])
+        _assert_unified_chart(
+            _trim_pair["person_b"], person_b["result"]["pillars"],
+            person_b["result"]["day_master"])
     chart_a = person_a["result"]
     chart_b = person_b["result"]
 
@@ -2611,6 +2740,15 @@ def _life(inputs):
             and traditional_role not in ("male", "female"):
         raise ValueError("traditional_role must be male or female")
 
+    # Lane 6 (U-01): unified entry anchor (same birth + target year).
+    # The four sections below are still built exactly as before; the
+    # entry only anchors their identity (one charting, one target year)
+    # and carries the research assembly. It never contributes a public
+    # field.
+    _assembly = _unified_assembly(
+        birth_value, zone=inputs.get("birth_zone"),
+        traditional_role=traditional_role, target_year=target_year)
+    _trim = trim_for_life(_assembly) if _assembly is not None else None
     birth_zone = inputs.get("birth_zone")
     profile_input = {"value": birth_value, "strength_variant": "ditiansui-root-visibility-v1"}
     if birth_zone is not None:
@@ -2663,6 +2801,16 @@ def _life(inputs):
                 or annual.get("ganzhi") != target["ganzhi"]
                 or annual.get("branch") != target["branch"]):
             raise ValueError("Scenario year facts disagree: Cross-scenario target-year identity mismatch")
+
+    # Lane 6: the four sections must also agree with the entry's single
+    # charting / target year; any drift fails closed.
+    if _trim is not None:
+        _assert_unified_chart(_trim, pillars, day_master)
+        anchor = _trim["identity_anchor"]
+        if anchor["target_year"] != target_year \
+                or anchor["target_ganzhi"] != target["ganzhi"] \
+                or anchor["target_branch"] != target["branch"]:
+            raise ValueError("Unified assembly target-year drift")
 
     year_basis = romance_result["target_year_activation"]["year_branch_basis"]
     day_basis = romance_result["target_year_activation"]["day_branch_basis"]

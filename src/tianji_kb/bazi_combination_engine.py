@@ -77,6 +77,30 @@
   内两路第三批改动尚未落地，可消费的仍是第二批已稳定的契约
   （喜用 v1、格局 v2、旺衰 v1）。
 
+第四批（TJ-0426，Lane 3，D-01～D-05；本 lane 独占本模块）：
+
+- D-01 跨层效力（TJ-017.2 真定义）：效力规则逐条立项——当前无
+  任何已审跨层效力规则，故注册表恒为空（``EFFECT_RULE_GAP_CATALOG``
+  只登记候选效力问题与具名缺口，不登记规则）；``evaluate_cross_layer_effect``
+  对任何效力问题一律 abstain；``combine()`` 的 ``effects`` 增
+  ``cross_layer_efficacy`` 块，``overall_effect`` 恒 None 不可绕过。
+- D-02 期位映射：调用方显式指定当期运的校验口径——新增
+  ``current_period_basis_kind``（闭合三种依据口径；区间口径的依据
+  须带区间，否则拒收）；输出增 ``dayun.period_year_mapping_detail``
+ （逐运期位状态 + 起运岁数/交运单点日期恒不计算的明记）。
+- D-03 流年边界：只做消费侧边界对照——调用方可传入
+  ``bazi-annual-lichun-boundary-v1`` 输出（``flow_boundary``），本
+  引擎只核对四边界干支与十神是否与六十甲子公式一致，不推导立春
+  交界、不接进组合引擎；未传入时 ``flow_year.boundary_check`` 记
+  not_checked。
+- D-04 刑与三合组：刑表登记由 Lane 1 先行（S-06），本引擎仍不评估
+  刑（``relation_summary.punishment_status`` 具名缺口 S-06/D-04）；
+  跨三层组状态单列（C5 已批：组关系本身不产生条件结论）。
+- D-05 事业/总览 2–8 运：本次不做呈现扩展；只核对组合引擎 8 运
+  数据完整可用（``dayun.sequence_completeness``）。
+- 以上新增均为加法：不改既有关系枚举、条件结论、LIMITATIONS 已决
+  条目（C2–C6）与 PATTERN_ENGINE_VARIANT_V2 pin。
+
 2026-11-25 14:41 第二轮 33 问全部裁定，第三批限制解除：
 
 - C2 已批：冲/害/六合作为跨层结构条件结论（Q3-A 口径），只作
@@ -193,6 +217,56 @@ TEN_GODS = frozenset((
     "比肩", "劫财", "正印", "偏印", "食神", "伤官",
     "正官", "七杀", "正财", "偏财",
 ))
+
+# --- 第四批（TJ-0426，Lane 3，D-01～D-05）-------------------------------
+# D-03：流年边界对照的 Variant（消费侧核对，不推导立春交界）。
+FLOW_BOUNDARY_VARIANT = "bazi-annual-lichun-boundary-v1"
+# D-02：调用方显式指定当期运时，依据口径的闭合种类。区间口径
+# （TJ-017.1/017.4）不动；起运岁数与交运单点日期永不计算。
+PERIOD_BASIS_KINDS = (
+    "dayun_compose_interval",  # bazi_dayun_compose 的交运时刻区间
+    "golden_reference",  # 已审 Golden 引用的交运区间
+    "caller_attested",  # 调用方自证（无区间，不冒充已审区间）
+)
+# D-01：跨层效力（TJ-017.2 真定义）候选问题与具名缺口登记。本表只
+# 登记“问题＋缺口”，不登记规则——当前无任何已审跨层效力规则，
+# 注册表恒为空；有已审规则时逐条立项（独立 Golden + 证据绑定），
+# 本表对应条目才转为规则，不得把本表本身当作规则。
+EFFECT_RULE_GAP_CATALOG = (
+    {"rule_id": "pattern_god_supported_by_dayun_or_flow",
+     "question": "大运/流年干与已成立格局之格神同十神，是否支持该格",
+     "gap": "TJ-017.2: no reviewed rule for pattern-god support"},
+    {"rule_id": "fuyi_candidate_supported_by_dayun_or_flow",
+     "question": "大运/流年干与扶抑现代候选干同字，是否成立扶抑效力",
+     "gap": "TJ-017.2: no reviewed rule for fuyi-candidate support"},
+    {"rule_id": "tiaohou_sequence_supported_by_dayun_or_flow",
+     "question": "大运/流年干在原局调候序列中，是否成立调候效力",
+     "gap": "TJ-017.2: no reviewed rule for tiaohou-sequence support"},
+    {"rule_id": "bingyao_medicine_effective_in_dayun_or_flow",
+     "question": "大运/流年干属已触发病药对的药神类，是否药已去病",
+     "gap": "TJ-017.2/TJ-023.3: medicine effect unadjudicated"},
+    {"rule_id": "clash_harm_harmony_effect_across_layers",
+     "question": "跨层冲/害/六合的结构事实，是否产生实际效力",
+     "gap": "TJ-017.2: no reviewed rule for cross-layer clash/harm/harmony effect"},
+    {"rule_id": "triple_harmony_effect_across_layers",
+     "question": "跨层三合/方位会的结构事实，是否产生实际效力",
+     "gap": "TJ-017.2: no reviewed rule for cross-layer triple-harmony effect"},
+    {"rule_id": "dayun_flow_interaction_effect",
+     "question": "大运与流年之间的干支关系，是否产生岁运交互效力",
+     "gap": "TJ-017.2: no reviewed rule for dayun-flow interaction effect"},
+)
+# D-04：刑未评估的状态登记（刑表登记由 Lane 1 先行，S-06；本引擎
+# 不自造刑表、不评估刑）。
+PUNISHMENT_STATUS = {
+    "kind": "branch_punishment",
+    "status": "not_evaluated",
+    "table_available": False,
+    "gap": "S-06/D-04",
+    "branch_pairs_examined_for_punishment": 0,
+    "reason": ("刑不在已审地支关系表中（canonical foundations_v1.json 的 "
+               "earthly_branch_relations 无刑表）；刑表登记由 Lane 1 先行"
+               "（S-06），本引擎不自行补刑表、不评估刑。"),
+}
 
 # 地支本气五行转录表：子水、丑土、寅木、卯木、辰土、巳火、午火、
 # 未土、申金、酉金、戌土、亥水。来源与关系表同源（canonical
@@ -725,6 +799,236 @@ def _mapping_condition(current_period_index, current_period_basis,
         "非调用方指定的当期运：本关系只作逐运结构列举，不指定当期",
         "not_satisfied", [RULE_DAYUN_SEQUENCE],
         basis=current_period_basis)
+
+
+# --- 第四批（TJ-0426，Lane 3）新增入口 ---------------------------------
+# D-01 / D-02 / D-03 / D-04 / D-05：只加新能力，不改既有输出值。
+
+def cross_layer_effect_rules():
+    """跨层效力规则注册表（D-01，TJ-017.2 真定义）。
+
+    当前无任何已审跨层效力规则：注册表恒为空，overall_effect 恒
+    None；候选效力问题只登记具名缺口。有已审规则时逐条立项（独立
+    Golden + 证据绑定），本函数对应条目才转为规则。
+    """
+    return {
+        "variant": VARIANT,
+        "status": "no_reviewed_rules",
+        "rules_registered": [],
+        "rules_count": 0,
+        "overall_effect": None,
+        "candidate_gaps": [dict(entry)
+                           for entry in EFFECT_RULE_GAP_CATALOG],
+        "note": ("无已审跨层效力规则：TJ-017.2（原局＋大运＋流年跨规则"
+                 "调用）与 TJ-023.3（流年用神）均阻塞；前置条件（M2 实"
+                 "质：TJ-013.2 冲突裁决、扶抑/格局用神）仍未就绪。结构"
+                 "事实本身不推效力，条件结论只记存在性事实。"),
+    }
+
+
+def evaluate_cross_layer_effect(rule_id, context=None):
+    """对一个跨层效力问题作答（D-01）。
+
+    无已审规则时一律 abstain 并具名缺口，绝不把缺少依据的效力判断
+    写成已经完成；未登记的问题同样 abstain（不凭空立项）。
+    ``context`` 若给出须为 dict（只作形状核对，不据之推导效力）。
+    """
+    if context is not None and not isinstance(context, dict):
+        _fail("cross-layer effect context must be an object")
+    if type(rule_id) is not str or not rule_id:
+        _fail("cross-layer effect rule_id must be a non-empty string")
+    for entry in EFFECT_RULE_GAP_CATALOG:
+        if entry["rule_id"] == rule_id:
+            return {
+                "verdict": None,
+                "status": "abstain",
+                "rule_id": rule_id,
+                "gap": entry["gap"],
+                "reason": ("无已审跨层效力规则（TJ-017.2）：%s；结构事实"
+                           "本身不推效力，故拒判。" % entry["question"]),
+                "rule_ids": [],
+            }
+    return {
+        "verdict": None,
+        "status": "abstain",
+        "rule_id": rule_id,
+        "gap": "TJ-017.2-unregistered_rule",
+        "reason": ("该效力问题未登记为已审规则（TJ-017.2）：无证据的"
+                   "效力一律 abstain，不凭空立项，故拒判。"),
+        "rule_ids": [],
+    }
+
+
+def validate_current_period(current_period_index, dayun_periods,
+                            current_period_basis, *, basis_kind=None):
+    """校验调用方显式指定的当期运（D-02）。
+
+    校验口径：当期运与依据须成对出现；序号须在所给序列内；序号不得
+    重复；依据须为非空字符串；``basis_kind`` 若给出须属闭合种类；
+    ``dayun_compose_interval`` 口径的依据须带区间（须含区间括号），
+    只有文字、无区间的依据拒收。起运岁数与交运单点日期永不计算，
+    故返回值恒记 ``start_age_computed=False`` 与
+    ``handover_single_date_computed=False``。
+    """
+    if type(dayun_periods) is not list or not dayun_periods:
+        _fail("dayun_periods must be a non-empty list of sequence rows")
+    indices = []
+    for row in dayun_periods:
+        if not isinstance(row, dict):
+            _fail("dayun period must be a sequence row object")
+        index = row.get("period_index")
+        if type(index) is not int or not 1 <= index <= 12:
+            _fail("dayun period_index must be an integer from 1 to 12")
+        if index in indices:
+            _fail("dayun period_index duplicated")
+        indices.append(index)
+    if basis_kind is not None and basis_kind not in PERIOD_BASIS_KINDS:
+        _fail("current_period_basis_kind must be one of %r"
+              % (PERIOD_BASIS_KINDS,))
+    if (current_period_index is None) != (current_period_basis is None):
+        _fail("current_period_index and current_period_basis must be "
+              "given together")
+    if current_period_index is None:
+        return {
+            "status": "not_determined",
+            "period_index": None,
+            "basis": None,
+            "basis_kind": basis_kind,
+            "start_age_computed": False,
+            "handover_single_date_computed": False,
+            "note": ("未指定当期运：流年落在哪一运未确定；起运岁数与交"
+                     "运单点日期不在本引擎计算范围。"),
+        }
+    if current_period_basis is not None and (
+            type(current_period_basis) is not str
+            or not current_period_basis):
+        _fail("current_period_basis must be a non-empty string")
+    if current_period_index not in indices:
+        _fail("current_period_index does not match any supplied dayun "
+              "period")
+    if basis_kind == "dayun_compose_interval" and (
+            "[" not in current_period_basis
+            or ")" not in current_period_basis):
+        _fail("dayun_compose_interval basis must carry a handover "
+              "interval")
+    return {
+        "status": "caller_selected",
+        "period_index": current_period_index,
+        "basis": current_period_basis,
+        "basis_kind": basis_kind,
+        "start_age_computed": False,
+        "handover_single_date_computed": False,
+        "note": ("调用方显式指定当期运及其依据，本引擎只记录、不推导"
+                 "期位映射；起运岁数与交运单点日期不在本引擎计算范围。"),
+    }
+
+
+def check_flow_year_boundary(boundary, target_year, day_master):
+    """消费侧流年边界对照（D-03）。
+
+    ``boundary`` 为调用方传入的 ``bazi-annual-lichun-boundary-v1``
+    输出（Variant + day_master + rows）。本函数只核对：Variant 与
+    日主一致；目标年份有且仅一行；起止区间严格递增；区间内干支与
+    四边界干支（起前/起时/止前/止时）符合六十甲子公式
+    ``CYCLE[(year-4)%60]`` 及其前后年；十神与已审十神规则一致。
+    任一项不符即 fail-closed（ValueError）。不推导立春交界，不调
+    用历法 provider，不接进组合引擎的流年推导。
+    """
+    if not isinstance(boundary, dict):
+        _fail("flow boundary output must be an object")
+    if boundary.get("variant") != FLOW_BOUNDARY_VARIANT:
+        _fail("flow boundary variant drifted")
+    if boundary.get("day_master") != day_master:
+        _fail("flow boundary disagrees on the day master")
+    rows = boundary.get("rows")
+    if type(rows) is not list or not rows:
+        _fail("flow boundary rows malformed")
+    matches = [row for row in rows
+               if isinstance(row, dict)
+               and row.get("gregorian_lichun_year") == target_year]
+    if len(matches) != 1:
+        _fail("flow boundary has no unique row for the target year")
+    row = matches[0]
+    try:
+        from datetime import datetime as _datetime
+        start = _datetime.fromisoformat(row["start_inclusive"])
+        end = _datetime.fromisoformat(row["end_exclusive"])
+    except (KeyError, TypeError, ValueError):
+        _fail("flow boundary start/end instants malformed")
+    if start.tzinfo is None or end.tzinfo is None or not start < end:
+        _fail("flow boundary interval is not strictly increasing")
+    expected = CYCLE[(target_year - 4) % 60]
+    prev_expected = CYCLE[(target_year - 5) % 60]
+    next_expected = CYCLE[(target_year - 3) % 60]
+    checks = (
+        ("ganzhi_in_interval", row.get("ganzhi_in_interval"), expected),
+        ("ganzhi_one_second_before_start",
+         row.get("ganzhi_one_second_before_start"), prev_expected),
+        ("ganzhi_at_start", row.get("ganzhi_at_start"), expected),
+        ("ganzhi_one_second_before_end",
+         row.get("ganzhi_one_second_before_end"), expected),
+        ("ganzhi_at_end", row.get("ganzhi_at_end"), next_expected),
+        ("year_stem", row.get("year_stem"), expected[0]),
+        ("year_branch", row.get("year_branch"), expected[1]),
+        ("ten_god_relative_to_natal_day_stem",
+         row.get("ten_god_relative_to_natal_day_stem"),
+         ten_god_for(day_master, expected[0])),
+    )
+    for field, actual, wanted in checks:
+        if actual != wanted:
+            _fail("flow boundary %s disagrees with the sexagenary "
+                  "cycle formula" % field)
+    return {
+        "status": "checked_match",
+        "target_year": target_year,
+        "ganzhi": expected,
+        "boundary_variant": FLOW_BOUNDARY_VARIANT,
+        "checks": ["variant", "day_master", "start_before_end",
+                   "ganzhi_in_interval", "boundary_ganzhi_sequence",
+                   "ten_god"],
+        "note": ("边界对照通过：区间内干支与四边界干支均与六十甲子公"
+                 "式一致；本对照不推导立春交界，交界瞬时以传入的边界"
+                 "行为准。"),
+    }
+
+
+def punishment_status():
+    """刑未评估的状态登记（D-04）。"""
+    return copy.deepcopy(PUNISHMENT_STATUS)
+
+
+def dayun_sequence_completeness(dayun_periods):
+    """核对组合引擎的 8 运数据完整可用（D-05）。
+
+    只核对序号完备性（1–8 运是否齐全），不作呈现扩展：事业/总览页
+    仍只呈现首运（#594 已定产品边界），2–8 运呈现扩展不在本批。
+    """
+    if type(dayun_periods) is not list or not dayun_periods:
+        _fail("dayun_periods must be a non-empty list of sequence rows")
+    present = []
+    for row in dayun_periods:
+        if not isinstance(row, dict):
+            _fail("dayun period must be a sequence row object")
+        index = row.get("period_index")
+        if type(index) is not int or not 1 <= index <= 12:
+            _fail("dayun period_index must be an integer from 1 to 12")
+        if index in present:
+            _fail("dayun period_index duplicated")
+        present.append(index)
+    present.sort()
+    missing = [index for index in range(1, 9) if index not in present]
+    return {
+        "periods_present": present,
+        "periods_expected": 8,
+        "complete": not missing,
+        "missing_period_indices": missing,
+        "presentation_note": ("事业/总览页仍只呈现首运（#594 已定产品边"
+                              "界）；本批不扩展 2–8 运呈现，只核对组合引"
+                              "擎 8 运数据完整可用。"),
+        "data_note": ("8 运干支数据由 candidate_sequence（periods=8）"
+                      "给出时完整可用；少于 8 运的输入只作逐运列举，缺"
+                      "失运不补。"),
+    }
 
 
 def _validate_engine_statement(statement, variant, label, *,
@@ -1716,7 +2020,8 @@ def _xiyong_contract(*, strength, tiaohou, bingyao, pattern, natal,
 def combine(natal_pillars, day_master, dayun_periods, target_year, *,
             strength=None, tiaohou=None, bingyao=None, pattern=None,
             xiyong=None, current_period_index=None,
-            current_period_basis=None, variant=VARIANT):
+            current_period_basis=None, variant=VARIANT,
+            current_period_basis_kind=None, flow_boundary=None):
     """组合原局、大运、流年三层，返回结构化 dict。
 
     ``natal_pillars``：四柱（ganzhi 字符串或 chart_from_pillars 形态的
@@ -1731,7 +2036,11 @@ def combine(natal_pillars, day_master, dayun_periods, target_year, *,
     该输出，取代旧契约）。各体系缺省为 None，即该体系未传入。
     ``current_period_index`` 与 ``current_period_basis`` 须成对出现：
     调用方显式指定当期运及其依据（如已审交运区间），引擎只记录、
-    不推导期位映射。
+    不推导期位映射。``current_period_basis_kind``（D-02）若给出须
+    属 ``PERIOD_BASIS_KINDS`` 闭合种类；区间口径的依据须带区间。
+    ``flow_boundary``（D-03）若给出须为
+    ``bazi-annual-lichun-boundary-v1`` 输出，本引擎只作消费侧边界
+    对照，不推导立春交界。
     """
     if variant != VARIANT:
         raise ValueError("Unsupported combination engine variant")
@@ -1742,6 +2051,16 @@ def combine(natal_pillars, day_master, dayun_periods, target_year, *,
     if current_period_basis is not None and (
             type(current_period_basis) is not str or not current_period_basis):
         _fail("current_period_basis must be a non-empty string")
+    if current_period_basis_kind is not None \
+            and current_period_basis_kind not in PERIOD_BASIS_KINDS:
+        _fail("current_period_basis_kind must be one of %r"
+              % (PERIOD_BASIS_KINDS,))
+    if current_period_basis_kind == "dayun_compose_interval" \
+            and current_period_basis is not None \
+            and ("[" not in current_period_basis
+                 or ")" not in current_period_basis):
+        _fail("dayun_compose_interval basis must carry a handover "
+              "interval")
 
     natal = _normalize_pillars(natal_pillars, day_master)
     dayun = _normalize_dayun(dayun_periods, day_master)
@@ -1749,6 +2068,23 @@ def combine(natal_pillars, day_master, dayun_periods, target_year, *,
             row["period_index"] for row in dayun}:
         _fail("current_period_index does not match any supplied dayun period")
     flow = _flow_year(target_year, day_master)
+    # D-03：流年边界只作消费侧对照（未传入记 not_checked，不补推导）。
+    if flow_boundary is None:
+        flow["boundary_check"] = {
+            "status": "not_checked",
+            "boundary_variant": FLOW_BOUNDARY_VARIANT,
+            "reason": ("未传入立春边界行：流年干支只按六十甲子表推导，"
+                       "立春交界不在此推导范围；精确边界以 "
+                       "bazi-annual-lichun-boundary-v1 为准。"),
+        }
+    else:
+        flow["boundary_check"] = check_flow_year_boundary(
+            flow_boundary, target_year, day_master)
+    # D-02：期位映射校验口径（只记录、不推导；起运岁数与交运单点
+    # 日期永不计算）。
+    period_mapping = validate_current_period(
+        current_period_index, dayun, current_period_basis,
+        basis_kind=current_period_basis_kind)
     month_branch = natal[1]["branch"]
 
     # 输入形态分流（只认两种已登记形态，余者 fail-closed）。
@@ -2093,9 +2429,28 @@ def combine(natal_pillars, day_master, dayun_periods, target_year, *,
             "periods": copy.deepcopy(dayun),
             "current_period_index": current_period_index,
             "current_period_basis": current_period_basis,
+            "current_period_basis_kind": current_period_basis_kind,
             "period_year_mapping": (
                 "caller_selected" if current_period_index is not None
                 else "not_determined"),
+            # D-02：逐运期位状态（只记录、不推导；起运岁数与交运单
+            # 点日期永不计算）。D-05：8 运数据完备性核对。
+            "period_year_mapping_detail": {
+                "status": period_mapping["status"],
+                "basis_kind": current_period_basis_kind,
+                "start_age_computed": False,
+                "handover_single_date_computed": False,
+                "per_period": [
+                    {"period_index": row["period_index"],
+                     "mapping": (
+                         "current"
+                         if row["period_index"] == current_period_index
+                         else "other"
+                         if current_period_index is not None
+                         else "undetermined")}
+                    for row in dayun],
+            },
+            "sequence_completeness": dayun_sequence_completeness(dayun),
         },
         "flow_year": flow,
         "structural_relations": relations,
@@ -2105,6 +2460,20 @@ def combine(natal_pillars, day_master, dayun_periods, target_year, *,
             "counts_by_kind": counts_by_kind,
             "condition_status_counts": condition_statuses,
             "scope_coverage": scope_coverage,
+            # D-04：刑未评估（缺口 S-06/D-04）与跨三层组状态（C5 已
+            # 批：组关系本身不产生条件结论）。只加新键，不改既有
+            # scope_coverage 条目。
+            "punishment_status": punishment_status(),
+            "cross_layer_group_status": {
+                "scope": "dayun_x_flow_x_natal",
+                "groups_produce_conditional_conclusions": False,
+                "basis": ("C5 已批（2026-11-25）：跨三层组 scope 保留，"
+                          "组关系本身不产生条件结论。"),
+                "spanning_group_relations": counts_by_scope.get(
+                    "dayun_x_flow_x_natal", 0),
+                "note": ("跨三层之组只记同时含大运支与流年支者；组关系"
+                         "为结构事实，不据之产生条件结论或效力断言。"),
+            },
             "not_evaluated": [
                 {"kind": "branch_punishment",
                  "reason": ("刑不在已审地支关系表中（canonical "
@@ -2123,6 +2492,31 @@ def combine(natal_pillars, day_master, dayun_periods, target_year, *,
             "conditional_count": conditional_count,
             "conditional_effects": conditional_list,
             "verdict_counts": verdict_counts,
+            # D-01：跨层效力注册表（TJ-017.2 真定义）。当前无已审跨
+            # 层效力规则，注册表恒为空；8 种条件结论逐条登记为存在
+            # 性事实，不是效力断言；overall_effect 恒 None。
+            "cross_layer_efficacy": {
+                "status": "no_reviewed_rules",
+                "rules_registered": [],
+                "overall_effect": None,
+                "conditional_verdicts": [
+                    {"verdict": verdict,
+                     "occurrences": sum(
+                         1 for entry in conditional_list
+                         if verdict in entry["verdicts"]),
+                     "treated_as_efficacy": False,
+                     "note": ("只记存在性事实或现代工程模型的处理口径，"
+                              "不是跨层效力断言。")}
+                    for verdict in CONDITIONAL_VERDICTS],
+                "abstain_gaps": [
+                    "TJ-017.2: no reviewed cross-layer efficacy rule",
+                    "TJ-023.3: annual yongshen derivation blocked",
+                ],
+                "note": (
+                    _ABSTAIN_EFFECT_REASON if conditional_count == 0 else
+                    "效力层：无依据者仍 abstain（TJ-017.2/TJ-023.3 阻塞）；"
+                    "条件结论只记存在性事实，overall_effect 恒为 None。"),
+            },
             "note": (
                 _ABSTAIN_EFFECT_REASON if conditional_count == 0 else
                 "效力层：无依据者仍 abstain（TJ-017.2/TJ-023.3 阻塞）；有"

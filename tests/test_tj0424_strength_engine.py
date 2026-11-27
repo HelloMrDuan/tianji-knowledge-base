@@ -1,4 +1,4 @@
-"""TJ-0424 旺衰引擎测试：古典 7 谓词（因素层）＋现代工程化模型。
+"""TJ-0424 旺衰引擎测试：古典 8 谓词（因素层）＋现代工程化模型。
 
 Offline assembled acceptance only (NOT public CI): chart-based cases
 execute real births through the production calendar chain and the
@@ -7,7 +7,7 @@ bare worktree has no data/canonical. Run in the worktree with
 ``PYTHONPATH=src python -m unittest tests.test_tj0424_strength_engine``.
 
 Coverage:
-- the 7 classical predicates reproduce their public Golden verdicts
+- the 8 classical predicates reproduce their public Golden verdicts
   (51-case sweep over the six Golden files: wood Hai, Bing-Wu,
   S2 metal/water, Bing-Si lu, F4 design, fire morphology);
 - the lu scope conditions equal the Golden expected_conditions verbatim;
@@ -39,6 +39,7 @@ from pathlib import Path
 from unittest import mock
 
 from tianji_kb.bazi_core import chart_from_datetime
+from tianji_kb.bazi_siling_pilot import yin_siling_pilot
 from tianji_kb.bazi_siling_si_pilot import (
     _provider_jie_instant, si_siling_pilot)
 from tianji_kb.bazi_strength_engine import (
@@ -115,6 +116,22 @@ def si_pilot_for_1927():
                            version_id='sanming-t1', jie_facts=facts)
 
 
+F4_GOLDEN_BINGYIN = json.loads(
+    (ROOT / 'tests' / 'golden_tj0112_bing_yin_changsheng.json')
+    .read_text('utf-8'))
+
+
+def yin_pilot_for(birth, window):
+    w = F4_GOLDEN_BINGYIN['jie_windows'][window]
+    facts = {'provider': dict(F4_GOLDEN_BINGYIN['provider']),
+             'lichun': dict(w['lichun']),
+             'next_jie': dict(w['next_jie'])}
+    return yin_siling_pilot(
+        birth,
+        version_id=F4_GOLDEN_BINGYIN['meta']['pilot_version_id'],
+        jie_facts=facts)
+
+
 def synthetic_pillars(ganzhi):
     """Hand-built pillar dicts (factor-level only, never a real chart)."""
     names = ('year', 'month', 'day', 'hour')
@@ -125,22 +142,44 @@ def synthetic_pillars(ganzhi):
 class EngineShapeTests(unittest.TestCase):
     def test_variant_and_predicate_register(self):
         self.assertEqual(ENGINE_VARIANT, 'bazi-strength-engine-v1')
-        self.assertEqual(len(PREDICATES), 7)
+        self.assertEqual(len(PREDICATES), 8)
         self.assertEqual(
             [p['predicate_id'] for p in PREDICATES],
             ['pure_support', 'isolated_control',
              'pure_generating_support', 'commanding_visible_support',
              'lu_visible_support', 'pure_support_metal',
-             'pure_generating_support_water'])
+             'pure_generating_support_water',
+             'changsheng_visible_support'])
         # Sealed validation states as verified on the trusted machine
         # 2026-11-25 (sealed phase2_execution.json): only metal pending.
+        # TJ-0426 Lane 1: the F4 changsheng predicate is likewise
+        # pending (its Phase1/Phase2 rule registration is not yet
+        # sealed); its phase1_rule_id / phase2_step_id are None and
+        # its sealed_golden_ids are empty by design (no sealed ids
+        # are published in the public checkout) — the public Golden
+        # refs carry the witness cases instead.
         states = {p['predicate_id']: p['sealed_validation']
                   for p in PREDICATES}
         self.assertEqual(states['pure_support_metal'], 'pending')
+        self.assertEqual(states['changsheng_visible_support'], 'pending')
         for pid, state in states.items():
-            if pid != 'pure_support_metal':
+            if pid not in ('pure_support_metal',
+                           'changsheng_visible_support'):
                 self.assertEqual(state, 'validated', pid)
         for spec in PREDICATES:
+            if spec['predicate_id'] == 'changsheng_visible_support':
+                self.assertIsNone(spec['phase1_rule_id'], spec)
+                self.assertIsNone(spec['phase2_step_id'], spec)
+                self.assertEqual(spec['sealed_golden_ids'], [])
+                self.assertEqual(
+                    spec['registration_status'],
+                    'pending_phase1_rule_registration')
+                self.assertEqual(
+                    spec['anchor_registration'],
+                    'bazi_fire_si_yin_morphology.FORM_BING_YIN')
+                self.assertTrue(spec['segment_gated'])
+                self.assertTrue(spec['public_golden_refs'], spec)
+                continue
             self.assertTrue(spec['sealed_golden_ids'], spec)
             self.assertTrue(spec['public_golden_refs'], spec)
             self.assertTrue(spec['phase1_rule_id'], spec)
@@ -192,7 +231,7 @@ class EngineShapeTests(unittest.TestCase):
         self.assertTrue(out['modern']['research_only'])
         self.assertFalse(out['modern']['public_enabled'])
         self.assertFalse(out['modern']['ai_enabled'])
-        self.assertEqual(len(out['evidence_chain']), 8)  # 7 + modern
+        self.assertEqual(len(out['evidence_chain']), 9)  # 8 + modern
 
 
 class ClassicalGoldenTests(unittest.TestCase):
@@ -259,16 +298,32 @@ class ClassicalGoldenTests(unittest.TestCase):
                              'indeterminate', birth_key)
             self.assertIsNone(out['classical']['matched_predicate'])
 
-    def test_changsheng_not_wired(self):
-        # 丙×寅长生形态待注册、无段门：因素层九条件纵满足也不触发。
+    def test_changsheng_segment_gated(self):
+        # TJ-0426 Lane 1 (S-02): F4 丙×寅已在因素层登记，但只在显式
+        # 寅月试点结果过司令甲段门时触发。无试点时九条件纵满足也不触发。
         for birth_key in ('f4_positive', 'f4_first_segment'):
             out, _ = run_birth(BIRTHS[birth_key])
+            entry = self.predicate(out, 'changsheng_visible_support')
+            self.assertTrue(all(entry['conditions'].values()), birth_key)
+            self.assertFalse(entry['met'], birth_key)
+            self.assertEqual(entry['segment_gate']['gate_outcome'],
+                             'pilot_claim_unverifiable', birth_key)
             self.assertEqual(out['classical']['classification'],
                              'indeterminate', birth_key)
-            self.assertNotIn(
-                'changsheng_visible_support',
-                [e['predicate_id']
-                 for e in out['classical']['predicates']])
+        # 甲段试点：正例触发；戊段试点：九条件全真但段门阻断。
+        pilot = yin_pilot_for(BIRTHS['f4_positive'], '2034')
+        self.assertEqual(pilot['segment']['stem'], '甲')
+        out, _ = run_birth(BIRTHS['f4_positive'], siling_yin_pilot=pilot)
+        self.assertEqual(out['classical']['classification'], 'strong')
+        self.assertEqual(
+            out['classical']['matched_predicate']['predicate_id'],
+            'changsheng_visible_support')
+        pilot = yin_pilot_for(BIRTHS['f4_first_segment'], '2014')
+        self.assertEqual(pilot['segment']['stem'], '戊')
+        out, _ = run_birth(BIRTHS['f4_first_segment'],
+                           siling_yin_pilot=pilot)
+        self.assertEqual(out['classical']['classification'],
+                         'indeterminate')
 
     def test_whole_golden_sweep(self):
         """All 51 public Golden cases reproduce their verdicts."""
@@ -394,7 +449,7 @@ class ModernModelTests(unittest.TestCase):
         out, _ = run_birth(BIRTHS['water_positive'], include_modern=False)
         self.assertIsNone(out['modern'])
         self.assertEqual(out['agreement']['relationship'], 'not_comparable')
-        self.assertEqual(len(out['evidence_chain']), 7)
+        self.assertEqual(len(out['evidence_chain']), 8)  # 8, no modern
 
 
 class CounterProofTests(unittest.TestCase):
@@ -474,10 +529,22 @@ class EvidenceChainTests(unittest.TestCase):
         out, _ = run_birth(BIRTHS['lu_positive'])
         for entry in out['evidence_chain']:
             if entry['decision'] == 'classical_predicate':
-                self.assertTrue(entry['phase1_rule_id'])
-                self.assertTrue(entry['phase2_step_id'])
-                self.assertTrue(entry['sealed_golden_ids'])
-                self.assertTrue(entry['public_golden_refs'])
+                if entry['predicate_id'] == 'changsheng_visible_support':
+                    # Pending Phase1/Phase2 registration by design:
+                    # no rule ids, no sealed Golden ids; the public
+                    # Golden refs and the pending status carry instead.
+                    self.assertIsNone(entry['phase1_rule_id'])
+                    self.assertIsNone(entry['phase2_step_id'])
+                    self.assertEqual(entry['sealed_golden_ids'], [])
+                    self.assertEqual(
+                        entry['predicate_rule_registration'],
+                        'pending_phase1_rule_registration')
+                    self.assertTrue(entry['public_golden_refs'])
+                else:
+                    self.assertTrue(entry['phase1_rule_id'])
+                    self.assertTrue(entry['phase2_step_id'])
+                    self.assertTrue(entry['sealed_golden_ids'])
+                    self.assertTrue(entry['public_golden_refs'])
                 self.assertTrue(entry['conditions'])
                 self.assertIn('month_branch', entry['factor_refs'])
                 self.assertIn('root_positions', entry['factor_refs'])
@@ -1236,7 +1303,7 @@ class DivergenceTests(unittest.TestCase):
         self.assertEqual(explained['modern'], 'strong')
         self.assertEqual(explained['relationship'], 'classical_indeterminate')
         closest = explained['closest_predicates']
-        self.assertEqual(len(closest), 7)
+        self.assertEqual(len(closest), 8)
         counts = [c['failed_condition_count'] for c in closest]
         self.assertEqual(counts, sorted(counts))
         self.assertEqual(closest[0]['predicate_id'],
