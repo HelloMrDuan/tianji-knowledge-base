@@ -841,7 +841,14 @@ class ChartIntegrationTests(unittest.TestCase):
             CASE_C1["changed_branches"],
         )
         self.assertEqual(result["lines"][2]["relative"], "官鬼")
-        self.assertEqual(result["lines"][2]["najia"], "亥水")
+        # 旧期望 "亥水" 是错的：它把原案例文字「官鬼亥水」（六亲＋地支＋五行
+        # 的散文写法）直接抄进了 najia 字段。排盘输出契约中 najia 是干支形
+        # （与已锁定的 tj0424 测试甲子/壬午/壬戌一致），地支与五行是独立字段；
+        # 此处不断言 "亥水"，改为干支形精确断言＋地支、五行独立断言。排盘输出
+        # 本身正确，不改引擎来迎合错误测试。
+        self.assertEqual(result["lines"][2]["najia"], "己亥")
+        self.assertEqual(result["lines"][2]["najia"][1], "亥")
+        self.assertEqual(result["lines"][2]["element"], "水")
 
     def test_c2_via_chart(self):
         from tianji_kb.operations.liuyao_chart import chart

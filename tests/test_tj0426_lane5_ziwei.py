@@ -143,7 +143,10 @@ class ZiweiAnchorSealedTests(unittest.TestCase):
         self.assertEqual(len(run_cases(domain='ziwei')), 3)
         result = chart('甲子', 1, 1, '子')['result']
         self.assertEqual(result['bureau'], {'element': '火', 'number': 6})
-        self.assertEqual(result['life_palace'], '酉')
+        # 旧期望 '酉' 是错的：酉是紫微星落宫（major_stars['紫微'] == '酉'，
+        # 锚点「丙寅火六局、酉宫紫微」），不是命宫。命宫干支为丙寅，其支即寅；
+        # 与已锁定的 b014 公式及仓库锚点一致。只修正测试期望，不改排盘输出。
+        self.assertEqual(result['life_palace'], '寅')
         self.assertEqual(result['life_ganzhi'], '丙寅')
         self.assertEqual(result['major_stars']['紫微'], '酉')
         self.assertEqual(result['mutagen_variant'], 'iztro-default-v2')
@@ -151,7 +154,7 @@ class ZiweiAnchorSealedTests(unittest.TestCase):
         self.assertEqual(four_transformations('壬', 'iztro-default-v2')['化科'], '左辅')
         with self.assertRaises(ValueError):
             four_transformations('壬', 'unreviewed-quanshu-reading')
-        # 大限候选算术与整盘输出一致：命宫酉、火六局、甲阳干男顺行。
+        # 大限候选算术与整盘输出一致：命宫寅、火六局、甲阳干男顺行。
         periods = decade_periods(bureau_number=result['bureau']['number'],
                                  life_palace_branch=result['life_palace'],
                                  year_stem='甲', sex='男')
