@@ -2278,6 +2278,20 @@ def combine(natal_pillars, day_master, dayun_periods, target_year, *,
                 "TJ-013.2 裁决 A：四体系并列呈现、统一裁决拒判；"
                 "本契约永不输出统一喜用神。"),
         }
+        # 引擎路径的流年格局用神对照须与本地旧契约同形：喜用引擎的
+        # annual_xiyong 只报存在性对照，不列 established / broken；
+        # 组合层在此补列（与 _xiyong_contract 的 pattern_v2 分支同源），
+        # 否则两路输出的 flow_references 形状不一致。pattern_v2 未
+        # 传入时不补（与旧契约的无 pattern 分支一致）。
+        if pattern_v2 is not None and isinstance(
+                xiyong_block.get("annual_xiyong"), dict):
+            refs = xiyong_block["annual_xiyong"].get("flow_references")
+            if isinstance(refs, dict) and isinstance(
+                    refs.get("pattern_yongshen"), dict):
+                refs["pattern_yongshen"]["established_patterns"] = [
+                    e["pattern"] for e in pattern_v2["established"]]
+                refs["pattern_yongshen"]["broken_patterns"] = [
+                    e["pattern"] for e in pattern_v2["broken"]]
     else:
         legacy = _xiyong_contract(
             strength=strength_factors, tiaohou=tiaohou, bingyao=bingyao,
@@ -2420,6 +2434,10 @@ def combine(natal_pillars, day_master, dayun_periods, target_year, *,
         "research_only": True,
         "public_enabled": False,
         "ai_enabled": False,
+        # 顶层镜像：与 effects.overall_effect 同值，恒 None（无已审
+        # 跨层效力规则；cross_layer_efficacy 亦同值）；统一入口的
+        # 装配直接读此键，见 test_combination_overall_effect_stays_none。
+        "overall_effect": None,
         "natal": {
             "pillars": copy.deepcopy(natal),
             "day_master": day_master,

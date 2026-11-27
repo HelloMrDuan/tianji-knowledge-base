@@ -2889,6 +2889,10 @@ def evaluate_all(chart, *, official=None, resource=None, route=None,
         'research_only': True,
         'public': False,
         'ai': False,
+        # Pin 契约键（unified_compute._check_research_flags 严格要求
+        # is False）：与 public / ai 同值显式声明，None 即未声明。
+        'public_enabled': False,
+        'ai_enabled': False,
         'scope': ('十二格逐格评估（研究用）加比肩 / 劫财两格常驻：成立只认'
                   '任氏寅月真格；候选附各格已登记条件事实（在场可算、'
                   '效力未裁定；第三批新增暗藏官杀、透藏区分、例句结构'

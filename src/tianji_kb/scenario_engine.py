@@ -29,7 +29,6 @@ from .unified_compute import (
     UnifiedComputePinError,
     assemble_birth,
     assemble_pair,
-    cached_execute,
     trim_for_bazi_profile,
     trim_for_career,
     trim_for_compatibility,
@@ -313,7 +312,7 @@ def _strength_public_gate(value, zone):
     gate_inputs = {"value": value, "strength_variant": ADJUDICATION_VARIANT}
     if zone is not None:
         gate_inputs["zone"] = zone
-    envelope = cached_execute("bazi", gate_inputs, allow_research=True)
+    envelope = execute("bazi", gate_inputs, allow_research=True)
     assessment = envelope["result"]["strength_assessment"]
     steps = {step["rule_id"]: step["output"]
              for step in envelope["trace"]}
@@ -489,7 +488,7 @@ def ren_yin_research_execution(value, zone=None):
                    "ren_yin_pilot_result": pilot}
     if zone is not None:
         exec_inputs["zone"] = zone
-    envelope = cached_execute("bazi", exec_inputs, allow_research=True)
+    envelope = execute("bazi", exec_inputs, allow_research=True)
     block = envelope["result"].get("pattern_determination_ren_yin")
     if not isinstance(block, dict):
         raise ValueError(
@@ -556,7 +555,7 @@ def _bazi_profile(inputs):
     exec_inputs = dict(domain_inputs)
     exec_inputs["tiaohou_variant"] = _TIAOHOU_VARIANT
     exec_inputs["bingyao_variant"] = _BINGYAO_VARIANT
-    raw = cached_execute("bazi", exec_inputs, allow_research=True)
+    raw = execute("bazi", exec_inputs, allow_research=True)
     result = raw["result"]
     # Lane 6: the builder's own charting must agree with the entry's
     # single charting of the same birth instant; any drift fails closed.
@@ -569,7 +568,7 @@ def _bazi_profile(inputs):
     # the same inputs once without the gate, require the gated scope to
     # extend that baseline, and restore the baseline. Fail-closed on
     # any other relationship.
-    baseline_scope = cached_execute("bazi", domain_inputs)["result"].get(
+    baseline_scope = execute("bazi", domain_inputs)["result"].get(
         "production_scope")
     gated_scope = result.get("production_scope")
     if not isinstance(baseline_scope, str) \
@@ -880,7 +879,7 @@ def _yearly(inputs):
     # Lane 6 (U-01): this natal execution is identical to _career's, so
     # the unified entry's de-duplicated execute serves both pages from
     # one charting; the envelope is byte-identical either way.
-    natal = cached_execute("bazi", natal_input)
+    natal = execute("bazi", natal_input)
     # July 1 is deliberately inside the target solar-term year. The response
     # reports this convention instead of pretending a Gregorian Jan-1 boundary.
     reference = f"{target_year:04d}-07-01T12:00:00+08:00"
@@ -1138,7 +1137,7 @@ def _romance(inputs):
         natal_input["zone"] = inputs["birth_zone"]
     if traditional_role is not None:
         natal_input["traditional_role"] = traditional_role
-    natal = cached_execute("bazi", natal_input)
+    natal = execute("bazi", natal_input)
     # Lane 6: this page's own charting must agree with the entry's
     # single charting of the same birth instant; any drift fails closed.
     _assert_unified_chart(
@@ -1729,7 +1728,7 @@ def _career(inputs):
     natal_input = {"value": birth_value, "include_relations": True}
     if "birth_zone" in inputs:
         natal_input["zone"] = inputs["birth_zone"]
-    natal = cached_execute("bazi", natal_input)
+    natal = execute("bazi", natal_input)
     result_chart = natal["result"]
     # Lane 6: this page's own charting must agree with the entry's
     # single charting of the same birth instant; any drift fails closed.
@@ -2210,8 +2209,8 @@ def _compatibility(inputs):
         a_input["traditional_role"] = person_a_role
     if person_b_role is not None:
         b_input["traditional_role"] = person_b_role
-    person_a = cached_execute("bazi", a_input)
-    person_b = cached_execute("bazi", b_input)
+    person_a = execute("bazi", a_input)
+    person_b = execute("bazi", b_input)
     # Lane 6: each person's own charting must agree with the entry's
     # single charting of the same birth instant; any drift fails closed.
     if _trim_pair is not None:

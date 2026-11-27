@@ -58,13 +58,37 @@ YIJING_GAPS = {
 def load_classic_corpus():
     """Load the sealed classical core (64 records) as a lookup corpus.
 
+    The classic-core file carries the texts (judgment / line
+    statements / special use) but no binary key; the bit string
+    (``binary_bottom_to_top``) lives in the sealed relations file
+    (``hexagram_relations_v1.json``), joined here on the King Wen
+    ``number`` (1..64, verified identical in both files). No bit
+    string is hard-coded: both sides are read from sealed data at
+    runtime, and a missing or duplicate join key fails loudly.
+
     Raises FileNotFoundError when the public checkout has no data/;
     that is an environment limitation, not a reading rule.
     """
     core = json.loads((ROOT / 'data/canonical/yijing/zhouyi_classic_core.json').read_text())
+    relations = json.loads((ROOT / 'data/canonical/yijing/hexagram_relations_v1.json').read_text())
+    bits_by_number = {}
+    for record in relations['records']:
+        number = record['number']
+        if number in bits_by_number:
+            raise ValueError(
+                'Duplicate hexagram number %r in the relations file'
+                % (number,))
+        bits_by_number[number] = record['binary_bottom_to_top']
     corpus = {}
     for record in core['records']:
-        bits = record['binary_bottom_to_top']
+        number = record['number']
+        if number not in bits_by_number:
+            raise ValueError(
+                'Classic core record %r has no binary key in the relations file'
+                % (number,))
+        bits = bits_by_number[number]
+        if bits in corpus:
+            raise ValueError('Duplicate hexagram bits %r' % (bits,))
         corpus[bits] = {'judgment': record['judgment'],
                         'lines': {i + 1: line for i, line in enumerate(record['lines'])},
                         'special_use': record.get('special_use')}

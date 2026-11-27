@@ -1,9 +1,10 @@
 """Qimen inference layer — structural facts only, no verdicts.
 
 O-02 (TJ-0426 Lane 5). The plate itself (局数/地盘/九星/八门/八神)
-is computed by operations/qimen_chart.py under ruleset
-`qfdk-table-exact-term-v1` (转盘). This module adds the inference
-layer's scaffolding:
+is computed by operations/qimen_chart.py under chart variant
+`qfdk-exact-term-midnight-v2` (exact-term bureaus from the qfdk
+table `qfdk-table-exact-term-v1`, with coherent midnight day/hour
+pillars). This module adds the inference layer's scaffolding:
 
 - A variant registry: only the qfdk exact-term rotating-plate variant
   is implemented. 置闰 / 超接 / 飞盘 are registered as UNMERGED and
@@ -26,6 +27,12 @@ VARIANT_REGISTRY = {
     'qfdk-table-exact-term-v1': {
         'status': 'implemented', 'plate': '转盘', 'evidence_level': 'C',
         'note': '固定 qfdk 表；节气按准确时刻，非上游整日切换。'},
+    # operations/qimen_chart.chart() stamps this chart variant (not
+    # the bureau-table ruleset) as the chart result's ruleset, so the
+    # inference layer must recognise it to restate a real chart.
+    'qfdk-exact-term-midnight-v2': {
+        'status': 'implemented', 'plate': '转盘', 'evidence_level': 'C',
+        'note': 'qfdk 表（局数表 v1）+ 准确节气时刻与子夜日界一致的日时柱。'},
     '置闰': {'status': 'unmerged', 'evidence_level': 'D',
              'note': '置闰 variant 未登记、未合并；调用即拒绝。'},
     '超接': {'status': 'unmerged', 'evidence_level': 'D',
@@ -86,7 +93,10 @@ def structural_summary(chart_result):
     chief_names = [name for name, palace in star_positions.items() if palace == chief_palace]
     if not chief_names:
         raise ValueError('No star at the chief star palace %r' % (chief_palace,))
-    return {'variant': VARIANT, 'ruleset': IMPLEMENTED_RULESET,
+    # The summary restates the chart's own validated ruleset (v1
+    # fixture -> v1, midnight-v2 chart -> v2); it never relabels a
+    # chart as the other variant.
+    return {'variant': VARIANT, 'ruleset': chart_result['ruleset'],
             'research_only': True, 'public': False, 'ai': False,
             'evidence_level': 'C', 'verdict': None, 'determination': None,
             'bureau': {'solar_term': chart_result['solar_term'], 'dun': chart_result['dun'],

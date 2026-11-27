@@ -15,10 +15,14 @@
 五页公开输出的入口前后对照：本地无法执行 ``execute_scenario``
 （公开检出无密封 ``data/``，``execute("bazi")`` 报
 RuntimeUnavailable；改动前亦然——不是本 lane 引入的限制），故不
-在此谎称跑过五页。对照依据为：(a) ``scenario_engine.py`` 的 diff
-删除行全是 9 处 ``execute → cached_execute`` 等值替换，其余全是
-新增行，公开字段构造代码零改动；(b) 下面的缓存等值性机制测试；
-(c) 密封环境的正式验收复核五页（见回报）。
+在此谎称跑过五页。对照依据为：(a) 场景 builder 仍直接调
+``execute("bazi", ...)``（与 batch 4 之前一致；#598 修复把 batch 4
+的 9 处 ``execute → cached_execute`` 换回去了，因为
+``cached_execute`` 直调 ``engine.execute``，绕过了 fail-closed
+测试所 patch 的 ``scenario_engine.execute`` 缝，使 6 处拒判测试
+失效——见回报；统一入口自身仍用 ``cached_execute`` 做单次排盘）；
+(b) 下面的缓存等值性机制测试；(c) 密封环境的正式验收复核五页
+（见回报）。
 """
 
 import copy
