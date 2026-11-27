@@ -37,18 +37,26 @@ import unittest
 from pathlib import Path
 
 from tianji_kb.foundations import CYCLE
+import tianji_kb.liuyao_empty_break as empty_break
 from tianji_kb.liuyao_empty_break import (
     CALIBRE,
+    EMPTY_HANDLING_EVIDENCE,
     GAPS,
     MONTH_BRANCH_BY_LUNAR_MONTH,
     MONTH_BREAK_BY_LUNAR_MONTH,
+    RIPO_RULE,
     XUN_TABLE,
+    XUN_TABLE_PROVENANCE,
     broken_branch_for_month,
+    day_break_assessment,
+    day_clash_flags,
     empty_branches_for_day,
     empty_flags_for_day,
+    empty_handling_evidence,
     line_empty_flags,
     month_break_flags,
     xun_head_for_day,
+    yao_is_static,
 )
 from tianji_kb.liuyao_yongshen import (
     USEFUL_GOD_MAPPINGS,
@@ -266,10 +274,14 @@ class NoFortuneOrYingqiTests(unittest.TestCase):
                 "yuepo_moving_vs_static",
                 "yuepo_unbreaking",
                 "yingqi",
-                "ripo",
+                "ripo_weakness_verdict",
                 "yongshen",
             ),
         )
+        # Stage 2 (L5): the conditional ripo rule IS computed now.
+        self.assertIn("day_clash_flags", CALIBRE["computes"])
+        self.assertIn("day_break_assessment", CALIBRE["computes"])
+        self.assertIn("liuyao.rule.r020", CALIBRE["ripo_rules"])
 
     def test_gaps_record_what_is_still_missing(self):
         for key in (
@@ -335,6 +347,27 @@ class YuejianRichenRecordTests(unittest.TestCase):
             record_month_day_context("寅", "甲丑")
         with self.assertRaises(ValueError):
             record_month_day_context("寅", "甲子 ")
+
+    def test_record_rejects_empty_and_multi_char_branches(self):
+        # Regression (ChatGPT review, batch 3): ``in`` on the branches
+        # string is a substring test, so "" and contiguous pairs
+        # ("寅卯", "子丑") were wrongly accepted. Only exactly one
+        # legal branch character is accepted now.
+        for bad_branch in ("", "寅卯", "子丑", "甲", "寅 ", " 寅"):
+            with self.subTest(branch=bad_branch):
+                with self.assertRaises(ValueError):
+                    record_month_day_context(bad_branch, "甲子")
+        with self.assertRaises(ValueError):
+            record_month_day_context(None, "甲子")
+
+    def test_record_accepts_each_single_branch(self):
+        # Positive control: every one of the twelve branches records.
+        for branch in "子丑寅卯辰巳午未申酉戌亥":
+            with self.subTest(branch=branch):
+                record = record_month_day_context(branch, "甲子")
+                self.assertEqual(record["month_branch"], branch)
+                self.assertEqual(record["day_ganzhi"], "甲子")
+                self.assertIsNone(record["derived_conclusions"])
 
 
 @unittest.skipUnless(DATA_PRESENT, "needs assembled runtime with data/canonical")
@@ -422,6 +455,251 @@ class ChartIntegrationTests(unittest.TestCase):
                     empty_branches_for_day(day),
                 )
 
+    def test_chart_branches_feed_day_break_assessment(self):
+        from tianji_kb.operations.liuyao_chart import chart
+
+        # Static Qian, day 甲子 (branch 子): line 4 (午) day-clashes and
+        # is static, weakness unknown -> undetermined, never forced.
+        result = chart([7] * 6, "甲子", "午")["result"]
+        branches = [line["najia"][1] for line in result["lines"]]
+        assessment = day_break_assessment(branches, "甲子", [7] * 6)
+        self.assertEqual(assessment["undetermined_lines"], [4])
+        self.assertEqual(assessment["day_break_lines"], [])
+        self.assertIsNone(assessment["lines"][3]["day_break"])
+        # Same chart, weakness explicitly established -> day-break line 4.
+        decided = day_break_assessment(
+            branches, "甲子", [7] * 6,
+            [False, False, False, True, False, False],
+        )
+        self.assertEqual(decided["day_break_lines"], [4])
+        # Day 己丑 (branch 丑) clashes 未: no 未 line -> nothing at all.
+        result = chart([7] * 6, "己丑", "午")["result"]
+        branches = [line["najia"][1] for line in result["lines"]]
+        assessment = day_break_assessment(branches, "己丑", [7] * 6)
+        self.assertEqual(assessment["undetermined_lines"], [])
+        self.assertEqual(assessment["day_break_lines"], [])
+
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class SixXunCompleteValidationTests(unittest.TestCase):
+    """L2 DECIDED 2026-11-25: sixty-cycle derivation approved, fully validated."""
+
+    def test_each_xun_covers_exactly_ten_consecutive_days(self):
+        heads = ["甲子", "甲戌", "甲申", "甲午", "甲辰", "甲寅"]
+        for i, head in enumerate(heads):
+            with self.subTest(xun_head=head):
+                days = CYCLE[i * 10:(i + 1) * 10]
+                self.assertEqual(len(days), 10)
+                self.assertEqual(days[0], head)
+                self.assertTrue(all(xun_head_for_day(d) == head for d in days))
+
+    def test_empty_branches_are_exactly_the_two_branches_missing_from_the_xun(self):
+        # In each ten-day xun the ten day branches cover ten distinct
+        # branches; the two empty branches are exactly the other two.
+        all_branches = {"子", "丑", "寅", "卯", "辰", "巳",
+                        "午", "未", "申", "酉", "戌", "亥"}
+        for i in range(6):
+            days = CYCLE[i * 10:(i + 1) * 10]
+            with self.subTest(xun_index=i, head=days[0]):
+                day_branches = {d[1] for d in days}
+                self.assertEqual(len(day_branches), 10)
+                empty = set(empty_branches_for_day(days[0]))
+                self.assertEqual(len(empty), 2)
+                self.assertEqual(day_branches | empty, all_branches)
+                self.assertEqual(day_branches & empty, set())
+
+    def test_each_branch_is_empty_in_exactly_one_xun_ten_days(self):
+        counts = {}
+        for day in CYCLE:
+            for branch in empty_branches_for_day(day):
+                counts[branch] = counts.get(branch, 0) + 1
+        self.assertEqual(len(counts), 12)
+        for branch, count in counts.items():
+            with self.subTest(branch=branch):
+                self.assertEqual(count, 10)
+
+    def test_derived_rows_carry_approved_derivation_status(self):
+        for head in ("甲戌", "甲申", "甲午", "甲辰", "甲寅"):
+            with self.subTest(xun_head=head):
+                row = XUN_TABLE_PROVENANCE[head]
+                self.assertEqual(
+                    row["derivation_status"], "approved_L2_2026-11-25"
+                )
+                self.assertIn("L2 已批准", row["note"])
+                self.assertIn("循环派生、未逐条登记", row["note"])
+
+    def test_registered_row_still_exactly_one_and_unchanged(self):
+        registered = [
+            head for head, row in XUN_TABLE_PROVENANCE.items()
+            if row["registration"] == "registered_per_row"
+        ]
+        self.assertEqual(registered, ["甲子"])
+        self.assertNotIn(
+            "derivation_status", XUN_TABLE_PROVENANCE["甲子"]
+        )
+
+
+class DayBreakTests(unittest.TestCase):
+    """L5 DECIDED 2026-11-25: ripo conditional rule (r020)."""
+
+    def test_ripo_rule_record_carries_registered_basis(self):
+        self.assertEqual(RIPO_RULE["rule_id"], "liuyao.rule.r020")
+        self.assertEqual(RIPO_RULE["section_id"], "liuyao.section.s021")
+        self.assertIn("21469,21482", RIPO_RULE["locator"])
+        self.assertIn("衰而靜", RIPO_RULE["definition"])
+        self.assertEqual(
+            RIPO_RULE["preconditions"],
+            ("day_clash", "line_static", "line_weak"),
+        )
+        self.assertEqual(RIPO_RULE["not_parallel_to"], "liuyao.rule.r019 (yuepo)")
+
+    def test_yao_is_static_splits_moving_from_static(self):
+        self.assertTrue(yao_is_static(7))
+        self.assertTrue(yao_is_static(8))
+        self.assertFalse(yao_is_static(6))
+        self.assertFalse(yao_is_static(9))
+        for bad in (5, 10, "7", None):
+            with self.subTest(bad=bad):
+                with self.assertRaises(ValueError):
+                    yao_is_static(bad)
+
+    def test_day_clash_flags_are_structure_not_ripo(self):
+        # Day 甲子 (branch 子) clashes only the 午 line of Qian branches.
+        self.assertEqual(
+            day_clash_flags(QIAN_BRANCHES, "甲子"),
+            [False, False, False, True, False, False],
+        )
+        # Day 午 clashes only the 子 line.
+        self.assertEqual(
+            day_clash_flags(QIAN_BRANCHES, "甲午"),
+            [True, False, False, False, False, False],
+        )
+        # Day 丑 clashes 未: no 未 line here, so no clash at all.
+        self.assertEqual(
+            day_clash_flags(QIAN_BRANCHES, "己丑"), [False] * 6
+        )
+
+    def test_clashed_static_line_with_unknown_weak_is_undetermined(self):
+        # The honest fail-closed core of L5: clash + static, weakness
+        # unknown (no wangshuai calibre) -> day_break None, never forced.
+        result = day_break_assessment(
+            QIAN_BRANCHES, "甲子", [7, 7, 7, 7, 7, 7]
+        )
+        line4 = result["lines"][3]
+        self.assertTrue(line4["day_clash"])
+        self.assertTrue(line4["is_static"])
+        self.assertIsNone(line4["weak"])
+        self.assertIsNone(line4["day_break"])
+        self.assertEqual(line4["status"], "undetermined_weak_unknown")
+        self.assertEqual(result["undetermined_lines"], [4])
+        self.assertEqual(result["day_break_lines"], [])
+        self.assertIsNone(result["verdict"])
+
+    def test_explicit_weak_flag_decides_the_clashed_static_line(self):
+        base = [7, 7, 7, 7, 7, 7]
+        weak = [False, False, False, True, False, False]
+        result = day_break_assessment(QIAN_BRANCHES, "甲子", base, weak)
+        self.assertEqual(result["day_break_lines"], [4])
+        self.assertEqual(result["lines"][3]["status"], "day_break")
+        self.assertEqual(result["undetermined_lines"], [])
+        not_weak = [False, False, False, False, False, False]
+        result = day_break_assessment(QIAN_BRANCHES, "甲子", base, not_weak)
+        self.assertEqual(result["day_break_lines"], [])
+        self.assertEqual(result["lines"][3]["status"], "not_day_break_not_weak")
+        self.assertFalse(result["lines"][3]["day_break"])
+
+    def test_moving_line_is_never_day_break_even_when_weak(self):
+        # Line 4 moving (9) + clashed + explicitly weak -> NOT day-break:
+        # r020 requires 靜.
+        result = day_break_assessment(
+            QIAN_BRANCHES, "甲子", [7, 7, 7, 9, 7, 7],
+            [False, False, False, True, False, False],
+        )
+        self.assertFalse(result["lines"][3]["day_break"])
+        self.assertEqual(result["lines"][3]["status"], "not_day_break_moving")
+        self.assertEqual(result["day_break_lines"], [])
+
+    def test_unclashed_line_is_never_day_break(self):
+        result = day_break_assessment(
+            QIAN_BRANCHES, "甲子", [7, 7, 7, 7, 7, 7],
+            [True, True, True, True, True, True],
+        )
+        for i, line in enumerate(result["lines"]):
+            with self.subTest(position=line["position"]):
+                if i != 3:
+                    self.assertFalse(line["day_break"])
+                    self.assertEqual(line["status"], "not_day_break")
+
+    def test_ripo_is_strictly_separate_from_yuepo(self):
+        # Same clash pair (子午), opposite directions: 午月 breaks 子
+        # lines; 子日 clashes 午 lines. The two flags never coincide on
+        # Qian branches, and day_break reads only the day branch.
+        month_flags = month_break_flags(QIAN_BRANCHES, "午")
+        day_result = day_break_assessment(
+            QIAN_BRANCHES, "甲子", [7, 7, 7, 7, 7, 7],
+            [True, True, True, True, True, True],
+        )
+        self.assertEqual(month_flags, [True, False, False, False, False, False])
+        self.assertEqual(
+            [ln["day_clash"] for ln in day_result["lines"]],
+            [False, False, False, True, False, False],
+        )
+        self.assertEqual(day_result["day_break_lines"], [4])
+        # A month input alone can never produce a day-break: the
+        # assessment takes a day ganzhi, and a 午 day breaks 子 lines.
+        other = day_break_assessment(
+            QIAN_BRANCHES, "甲午", [7, 7, 7, 7, 7, 7],
+            [True, True, True, True, True, True],
+        )
+        self.assertEqual(other["day_break_lines"], [1])
+
+    def test_day_break_assessment_rejects_malformed_input(self):
+        with self.assertRaises(ValueError):
+            day_break_assessment(QIAN_BRANCHES, "甲子", [7] * 5)
+        with self.assertRaises(ValueError):
+            day_break_assessment(QIAN_BRANCHES, "甲子", [7, 7, 7, 7, 7, 5])
+        with self.assertRaises(ValueError):
+            day_break_assessment(QIAN_BRANCHES, "甲丑", [7] * 6)
+        with self.assertRaises(ValueError):
+            day_break_assessment(QIAN_BRANCHES, "甲子", [7] * 6, [True] * 5)
+        with self.assertRaises(ValueError):
+            day_break_assessment(
+                QIAN_BRANCHES, "甲子", [7] * 6, [True] * 5 + ["weak"]
+            )
+
+
+class EmptyHandlingEvidenceTests(unittest.TestCase):
+    """L3 DECIDED 2026-11-25: evidence calibre built, nothing implemented."""
+
+    def test_every_candidate_records_no_registered_basis(self):
+        self.assertEqual(
+            set(EMPTY_HANDLING_EVIDENCE),
+            {"chukong", "tianshi", "zhiri", "hezhu_chongkai_empty",
+             "yuepo_unbreaking"},
+        )
+        for key, record in EMPTY_HANDLING_EVIDENCE.items():
+            with self.subTest(key=key):
+                self.assertEqual(record["status"], "no_registered_basis")
+                self.assertTrue(record["searched"])
+                self.assertTrue(record["needed"])
+                self.assertTrue(record["name"])
+
+    def test_evidence_accessor_returns_a_copy(self):
+        record = empty_handling_evidence()
+        record["chukong"]["status"] = "tampered"
+        self.assertEqual(
+            EMPTY_HANDLING_EVIDENCE["chukong"]["status"],
+            "no_registered_basis",
+        )
+
+    def test_no_chukong_tianshi_unbreaking_callable_exists(self):
+        names = {name.lower() for name in dir(empty_break)}
+        for forbidden in ("chukong", "tianshi", "yingqi", "unbreak"):
+            with self.subTest(forbidden=forbidden):
+                self.assertFalse(
+                    any(forbidden in name for name in names),
+                    "module must not define %r" % forbidden,
+                )

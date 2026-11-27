@@ -37,7 +37,9 @@
 
 - 格局：直接消费格局引擎 v2（``bazi-pattern-engine-v2``）的
   ``evaluate_all`` 输出——每格状态、条件事实证据、Variant 信息、
-  D-1 成立证据原样转述；``broken`` 永不输出，只具名破格缺口。
+  D-1 成立证据原样转述；``broken`` 只经伤官见官一途输出，按契约
+  验收后单列破格登记（破格依据与原成立身份随记录携带），永不计入
+  成立；其余只具名破格缺口。
 - 旺衰：直接消费旺衰引擎（``bazi-strength-engine-v1``）的
   ``assess_strength`` 输出——古典分类、现代评分/分项、Q5/Q6
   不确定性标记、从格候选屏、分歧解释原样转述；不确定性传导，
@@ -55,6 +57,55 @@
   只有四种：流年/大运干与已成立格局之格神同十神、与扶抑现代候
   选干同字、与原局调候序列同字、Q3-A 模型口径（冲/害/六合在原
   局现代模型内只记录、score_adjustment 恒为 0）。
+
+第三批（P0-4 岁运组合效力判断扩展）：
+
+- 条件结论扩至八种：新增病药三角色（已触发病药对的主体/病/药
+  之神类，``bazi.phase2.bingyao_assessment`` 已登记，《神峰通考》
+  定义节示例二、三两对）与格局候选格神（候选格之格神同十神，
+  只认 validated 候选规则、只认十神格名）；四种新增结论一律只
+  陈述存在性事实——药在场不等于病已去（medicine_effect_status
+  恒未裁定），病在场不等于害已成，候选恒不等于成立。
+- 结构层补齐：地支关系行补齐五行方向事实（地支本气转录表，
+  密封交叉核对）；天干行补 ``same_stem``、地支行补
+  ``same_branch``；``scope_coverage`` 每对补齐已审关系命中/未
+  命中对数（已审三表互不重叠，每对至多一行）。
+- 仍不动（待裁定 C2–C6，见 LIMITATIONS）：Q3-A 跨层口径（C2）
+  与扶抑现代规则待批（C3，E2 不升级为已批结论）；C 盘大运方向
+  forward 只是明示假设（C4）；跨三层 scope 保留与否（C5）；合
+  化弃判传导（C6）。本批不消费喜用/格局两路的新增输出——工作区
+  内两路第三批改动尚未落地，可消费的仍是第二批已稳定的契约
+  （喜用 v1、格局 v2、旺衰 v1）。
+
+2026-11-25 14:41 第二轮 33 问全部裁定，第三批限制解除：
+
+- C2 已批：冲/害/六合作为跨层结构条件结论（Q3-A 口径），只作
+  结构条件结论，不直接推导实际效力；跨层效力本身仍未裁定。
+- C3/X1 已批：``fuyi-modern-rules-v1`` 为已批研究模型，E2 条件
+  结论（与扶抑现代候选干同字）为已批研究模型结论，仍只记存在
+  性事实，不作古典扶抑断言；喜用路模型对象的状态字段更新由喜
+  用路负责，本引擎只消费其 candidate_stems 输出。
+- C4 已批：forward 可作为明确指定的研究算例参数；实际排盘须
+  用已裁定的大运方向规则，不得把未知角色默认成顺行，也不得混
+  淆日干与方向规则规定的年干输入；本引擎不推导方向，只消费调
+  用方提供的 sequence 行。
+- C5 已批：``dayun_x_flow_x_natal`` 三层组合 scope 保留；证据去
+  重——跨层组与两对 scope 的组无重叠，组关系本身不产生条件结论。
+- C6 已批：弃判传导——现代旺衰弃判时，依赖该结果的效力分支弃
+  判；本引擎的 Q3-A 模型口径结论只在现代层实际评分时发出
+  （components 非空），现代弃判时不发；独立的调候、病药、格局
+  结论不受影响。
+- C1 待喜用路：格局 pin 由 v1 升 v2 由喜用路负责；接通后移除
+  ``pattern=None`` 的临时限制，接通前须验证输入结构、版本、字
+  段语义与兼容性。
+- C1 已接通（2026-11-25）：喜用路 pin 已升 v2，``pattern=None``
+  临时限制已移除；本地已验证输入结构（顶层三子变体 +
+  strength_overall + counts + earth_gate；逐格 variant / 日主 /
+  月支 / 治理旗标 / broken_gaps）、版本（v2 接受、v1 拒收）、字
+  段语义（有资格门控与 combine() 一致，useful_god 恒 None，
+  annual 清单不变）与兼容性（pattern=None 仍可用）；机上实时
+  接通（真实 chart → evaluate_all → evaluate_xiyong → combine）
+  待验证。
 
 喜用神综合分析契约（``xiyong``）：扶抑、调候、病药、格局用神四体系
 并列输出，各体系原样消费现有输出，不新造判断；
@@ -124,12 +175,39 @@ ANNUAL_PENDING = (
     "unified_annual_verdict",
 )
 # 条件结论的 verdict 标签（只作存在性 / 模型口径事实标签，绝非
-# 吉凶、强弱、格局或效力断言）。
+# 吉凶、强弱、格局或效力断言）。第三批新增四种：病药三角色与格局
+# 候选格神（见模块 docstring 第三批）。
 CONDITIONAL_VERDICTS = (
     "stem_matches_established_pattern_god",
     "stem_matches_fuyi_modern_candidate",
     "stem_matches_natal_tiaohou_sequence",
     "model_treatment_recorded_only",
+    "stem_matches_bingyao_subject_god",
+    "stem_matches_bingyao_disease_god",
+    "stem_matches_bingyao_medicine_god",
+    "stem_matches_pattern_candidate_god",
+)
+
+# 十神全集（只作病药角色类与格局候选格神的合法性核对）。
+TEN_GODS = frozenset((
+    "比肩", "劫财", "正印", "偏印", "食神", "伤官",
+    "正官", "七杀", "正财", "偏财",
+))
+
+# 地支本气五行转录表：子水、丑土、寅木、卯木、辰土、巳火、午火、
+# 未土、申金、酉金、戌土、亥水。来源与关系表同源（canonical
+# seed.json 的 earthly_branches 行本气列）；本模块不 import 需要
+# seed.json 的 foundations.branch_element（公开检出无该文件），
+# 故在此转录，密封环境下的专项测试逐项核对转录与 seed 表一致，
+# 漂移即失败。只用于地支关系行的五行方向事实，不作效力判断。
+BRANCH_ELEMENTS = {
+    "子": "水", "丑": "土", "寅": "木", "卯": "木",
+    "辰": "土", "巳": "火", "午": "火", "未": "土",
+    "申": "金", "酉": "金", "戌": "土", "亥": "水",
+}
+# 已审地支对关系种（六合/害/冲三表互不重叠，每对至多命中一行）。
+BRANCH_PAIR_KINDS = (
+    "branch_six_harmony", "branch_harm", "branch_clash",
 )
 
 PILLAR_NAMES = ("year", "month", "day", "hour")
@@ -224,15 +302,41 @@ LIMITATIONS = (
     "旺衰不确定性全程传导：土/丁日主得地未校准（Q5）、四库月得令记零"
     "（Q6）、balanced 只是现代模型中间带（Q9）、从格候选恒不等于成立"
     "（Q4）、古典与现代分歧不强制统一；组合层不把任何一项洗成确定结论。",
-    "格局 broken 永不输出：每格只具名破格缺口；D-1 成立只认任氏寅月"
+    "格局 broken 只经伤官见官一途输出（按契约验收，只作破格登记，"
+    "永不计入成立）；其余每格只具名破格缺口；D-1 成立只认任氏寅月"
     "真格，不外推其他月份与流派；官杀混杂与杂气的多 Variant 并列，"
     "不统一、不代选。",
-    "喜用引擎 evaluate_pattern_xiyong 仍校验格局 v1 变体，与格局引擎"
-    " v2 不一致：combine() 直接消费 v2 格局输出，xiyong 侧的格局体系"
-    "须由调用方另行对齐；本引擎不伪造 v1 格局输入。",
+    "喜用引擎格局变体已统一为 v2（C1，2026-11-25）：combine() 直接"
+    "消费 v2 格局输出，xiyong 侧格局体系亦消费同一 v2 输出；本地"
+    "已验证输入结构/版本/字段语义与兼容性（v2 接受、v1 拒收、"
+    "pattern=None 仍可用），机上实时接通待验证。",
     "大运×流年对内仅两支，三合/方位会需三支，组关系在本对内无可形成"
     "之组；跨三层之组只记同时含大运支与流年支者，见 "
     "dayun_x_flow_x_natal scope。",
+    "第三批条件结论（病药三角色、格局候选格神）只陈述存在性事实："
+    "药神类在场不等于病已去（medicine_effect_status 恒未裁定），"
+    "病神类在场不等于害已成，格局候选格神同十神不等于格已成立；"
+    "条件结论不是跨层效力断言，overall_effect 恒为 None。",
+    "冲/害/六合作为跨层结构条件结论已批（C2，2026-11-25）：Q3-A "
+    "口径只作结构条件结论，不直接推导实际效力；跨层效力本身仍未"
+    "裁定（TJ-017.2），效力层不输出吉凶断言。",
+    "扶抑现代规则（fuyi-modern-rules-v1）已批为研究模型（C3/X1，"
+    "2026-11-25）：依赖它的条件结论（E2）为已批研究模型结论，仍"
+    "只记同字存在性事实，不作古典扶抑断言；喜用路模型对象的状态"
+    "字段更新由喜用路负责，本引擎只消费其 candidate_stems 输出。",
+    "C 盘大运方向 forward 为明确指定的研究算例参数（C4，"
+    "2026-11-25）：实际排盘须用已裁定的大运方向规则，不得把未知"
+    "角色默认成顺行，也不得混淆日干与方向规则规定的年干输入；本"
+    "引擎不推导方向，只消费调用方提供的 sequence 行，不输出方向"
+    "推断。",
+    "跨三层组 scope（dayun_x_flow_x_natal）已批保留（C5，"
+    "2026-11-25）：只记同时含大运支与流年支之组；证据去重——跨"
+    "层组与两对 scope 的组无重叠（成员必含大运支与流年支），不将"
+    "重复结构关系计为多份独立作用；组关系本身不产生条件结论。",
+    "弃判传导已批（C6，2026-11-25）：现代旺衰弃判时，依赖该结果"
+    "的现代扶抑及效力分支弃判——本引擎的 Q3-A 模型口径结论只在现"
+    "代层实际评分时发出（components 非空），现代弃判时不发；独立"
+    "的调候、病药、格局结论不受影响。",
 )
 
 
@@ -471,6 +575,7 @@ def _stem_pair_relations(counter, scope, side_a, side_b, *, period_index,
         "kind": "stem_five_element",
         "detail": {
             "stems": [side_a["stem"], side_b["stem"]],
+            "same_stem": side_a["stem"] == side_b["stem"],
             "elements": [side_a["stem_element"], side_b["stem_element"]],
             "direction_from_a_to_b": _five_element_direction(
                 side_a["stem_element"], side_b["stem_element"]),
@@ -513,7 +618,13 @@ def _branch_pair_relations(counter, scope, side_a, side_b, *, period_index,
         if key not in table:
             continue
         counter[0] += 1
-        detail = {"branches": [side_a["branch"], side_b["branch"]]}
+        detail = {"branches": [side_a["branch"], side_b["branch"]],
+                  "same_branch": side_a["branch"] == side_b["branch"],
+                  "elements": [BRANCH_ELEMENTS[side_a["branch"]],
+                               BRANCH_ELEMENTS[side_b["branch"]]],
+                  "direction_from_a_to_b": _five_element_direction(
+                      BRANCH_ELEMENTS[side_a["branch"]],
+                      BRANCH_ELEMENTS[side_b["branch"]])}
         if kind == "branch_six_harmony":
             detail["traditional_result_element"] = table[key]
         rows.append({
@@ -752,11 +863,47 @@ def _summarize_strength_assessment(assessment, day_master, month_branch):
     }
 
 
+def _validate_broken_pattern_result(key, result, evidence_ids):
+    """破格输入契约（第三批集成，与喜用引擎同口径）：只认唯一已审
+    古典破格通道——伤官见官（任氏寅月真格成立的伤官格＋正官在场）。
+
+    逐项核对：格键须为 ``shangguan``；rule_ids 须含 Ren D-1 规则；
+    证据 id 须含原成立身份 ``ren_yin_true_pattern`` 与破格证据
+    ``shangguan_sees_officer_broken``；additive 结构化字段须在场且
+    与证据一致。任一项漂移即 fail-closed。
+    """
+    if key != "shangguan":
+        _fail("pattern result broken outside the reviewed "
+              "shangguan channel")
+    rule_ids = result.get("rule_ids") or []
+    if not isinstance(rule_ids, list) \
+            or any(type(item) is not str for item in rule_ids) \
+            or "bazi.phase2.ren_yin_true_pattern" not in rule_ids:
+        _fail("pattern result broken lacks the reviewed ren_yin rule")
+    if not {"ren_yin_true_pattern",
+            "shangguan_sees_officer_broken"} <= set(evidence_ids):
+        _fail("pattern result broken lacks establishment or breaking "
+              "evidence")
+    if result.get("broken_condition") != "shangguan_sees_officer":
+        _fail("pattern result broken_condition drifted")
+    broken_evidence_ids = result.get("broken_evidence_ids")
+    if type(broken_evidence_ids) is not list \
+            or any(type(item) is not str for item in broken_evidence_ids) \
+            or "shangguan_sees_officer_broken" not in broken_evidence_ids:
+        _fail("pattern result broken_evidence_ids drifted")
+    if result.get("original_state") != "established":
+        _fail("pattern result broken original_state drifted")
+    if result.get("original_pattern") != result.get("pattern"):
+        _fail("pattern result broken original_pattern drifted")
+
+
 def _summarize_pattern_v2(pattern, day_master, month_branch):
     """原样转述 evaluate_all（v2）输出的可消费摘要（不重算、不合并）。
 
     每格状态、条件事实证据 id、Variant 信息、D-1 成立证据照录；
-    ``broken`` 若出现一律拒收（格局引擎永不输出 broken）。
+    ``broken`` 只经伤官见官一途输出：按契约验收后单列 ``broken``
+    （破格依据与原成立身份随记录携带），永不计入 ``established``；
+    通道外或字段漂移的 broken 一律拒收。
     """
     statement = _validate_engine_statement(
         pattern, PATTERN_ENGINE_VARIANT_V2, "pattern",
@@ -769,6 +916,7 @@ def _summarize_pattern_v2(pattern, day_master, month_branch):
     established = []
     candidates = []
     conflicts = []
+    broken = []
     broken_gaps = {}
     for key in sorted(results):
         result = results[key]
@@ -778,8 +926,6 @@ def _summarize_pattern_v2(pattern, day_master, month_branch):
         if state not in ("candidate", "established", "broken",
                          "conflict", "not_judgeable"):
             _fail("pattern result state drifted")
-        if state == "broken":
-            _fail("pattern engine never emits broken; refusing input")
         by_state[state] = by_state.get(state, 0) + 1
         record = {
             "pattern_key": key,
@@ -802,6 +948,16 @@ def _summarize_pattern_v2(pattern, day_master, month_branch):
         elif state == "conflict":
             record["evidence"] = copy.deepcopy(result.get("evidence") or [])
             conflicts.append(record)
+        elif state == "broken":
+            _validate_broken_pattern_result(
+                key, result, record["evidence_ids"])
+            record["evidence"] = copy.deepcopy(result.get("evidence") or [])
+            record["broken_condition"] = result.get("broken_condition")
+            record["broken_evidence_ids"] = list(
+                result.get("broken_evidence_ids"))
+            record["original_state"] = result.get("original_state")
+            record["original_pattern"] = result.get("original_pattern")
+            broken.append(record)
     return {
         "status": "consumed",
         "input_kind": "pattern_engine_v2",
@@ -811,6 +967,7 @@ def _summarize_pattern_v2(pattern, day_master, month_branch):
         "established": established,
         "candidates": candidates,
         "conflicts": conflicts,
+        "broken": broken,
         "broken_gaps": broken_gaps,
         "statement": statement,
     }
@@ -849,15 +1006,167 @@ def _xiyong_from_engine(xiyong, day_master, month_branch):
     return statement
 
 
+# 病药十神类成员表：与已登记病药规则的五类一致（财/比劫/食伤/
+# 官杀/印）。字典形角色块只凭 ``god_class`` 定类，``gods`` 行只作
+# 交叉核对——结论只认神类（与 ``subject_gods`` 列表形同值），不因
+# 某成员是否在盘现身而缩小类。
+_BINGYAO_GOD_CLASSES = {
+    "财": ("正财", "偏财"),
+    "比劫": ("比肩", "劫财"),
+    "食伤": ("食神", "伤官"),
+    "官杀": ("正官", "七杀"),
+    "印": ("正印", "偏印"),
+}
+
+
+def _bingyao_god_list(value, label):
+    """核对一则病药角色类，归一化为十神名列表，否则 fail-closed。
+
+    接受三种已登记形态（同值，不同写法不得产出不同结论）：
+    十神名列表、十神名元组（原生 ``bingyao_lookup`` 的规则常量即
+    元组——机上实测 2026-11-25）、字典块 ``{god_class, gods}``
+    （原生每对的 ``subject`` / ``disease_candidate`` /
+    ``medicine_candidate`` 块）。字典形以 ``god_class`` 定类并返
+    回该类全部成员，``gods`` 行须非空且每行十神均属该类，否则拒收。
+    """
+    if isinstance(value, dict):
+        god_class = value.get("god_class")
+        members = _BINGYAO_GOD_CLASSES.get(god_class)
+        if members is None:
+            _fail("%s carries an unknown god class" % label)
+        gods = value.get("gods")
+        if type(gods) is not list or not gods:
+            _fail("%s dict block must carry non-empty gods rows" % label)
+        for row in gods:
+            if not isinstance(row, dict) \
+                    or row.get("ten_god") not in members:
+                _fail("%s dict block attests a god outside its class"
+                      % label)
+        return list(members)
+    if type(value) not in (list, tuple) or not value:
+        _fail("%s must be a non-empty list of ten gods" % label)
+    for god in value:
+        if god not in TEN_GODS:
+            _fail("%s carries an unknown ten god" % label)
+    return list(value)
+
+
+def _bingyao_role_gods(value, pair, block_key, label):
+    """取一则病药角色类：类表优先，缺失时退到对级字典块。
+
+    ``value`` 为 ``rule``/平铺形态的类表（列表/元组/字典皆可）；
+    ``value`` 为 None 时取 ``pair[block_key]`` 字典块（原生
+    ``subject`` / ``disease_candidate`` / ``medicine_candidate``）；
+    两者皆无则 fail-closed——不凭空补类（药不在盘且无类表时，
+    药类不可知，拒收而非拟制）。
+    """
+    if value is not None:
+        return _bingyao_god_list(value, label)
+    block = pair.get(block_key)
+    if isinstance(block, dict):
+        return _bingyao_god_list(block, label)
+    _fail("%s is missing" % label)
+
+
+def _bingyao_triggered_roles_from_pairs(pairs):
+    """从病药 pairs 提取已触发对的主体/病/药三角色类。
+
+    接受三种已登记形态：原局病药输出（每对嵌 ``rule``，三类在
+    ``rule`` 内——原生规则常量为元组）、喜用引擎病药体系（每对平
+    铺三类与 ``rule_id``），以及类表缺失时退到对级字典块（每对的
+    ``subject`` / ``disease_candidate`` / ``medicine_candidate``，
+    ``{god_class, gods}``）。三种形态对同一对产出同一角色类；
+    只取 status 为 triggered 的对；未触发对不输出角色（未触发不是
+    「无病」）。medicine_effect_status 须为未裁定，否则拒收（本
+    函数的结论文案以「药去病效力恒未裁定」为前提）。
+    """
+    if type(pairs) is not list:
+        _fail("bingyao pairs must be a list")
+    roles = []
+    for pair in pairs:
+        if not isinstance(pair, dict):
+            _fail("bingyao pair must be an object")
+        pair_id = pair.get("pair_id")
+        if type(pair_id) is not str or not pair_id:
+            _fail("bingyao pair_id malformed")
+        status = pair.get("status")
+        if status not in ("triggered", "not_triggered"):
+            _fail("bingyao pair status drifted")
+        if status != "triggered":
+            continue
+        rule = pair.get("rule")
+        if isinstance(rule, dict):
+            rule_id = rule.get("id")
+            subject = rule.get("subject_gods")
+            disease = rule.get("disease_gods")
+            medicine = rule.get("medicine_gods")
+        elif "rule" not in pair:
+            rule_id = pair.get("rule_id")
+            subject = pair.get("subject_gods")
+            disease = pair.get("disease_gods")
+            medicine = pair.get("medicine_gods")
+        else:
+            _fail("bingyao pair rule malformed")
+        if type(rule_id) is not str or not rule_id:
+            _fail("bingyao pair rule id malformed")
+        effect_status = pair.get("medicine_effect_status")
+        if effect_status not in (None, "unadjudicated"):
+            _fail("bingyao pair carries an adjudicated medicine effect")
+        roles.append({
+            "pair_id": pair_id,
+            "rule_id": rule_id,
+            "subject_gods": _bingyao_role_gods(
+                subject, pair, "subject", "bingyao subject"),
+            "disease_gods": _bingyao_role_gods(
+                disease, pair, "disease_candidate", "bingyao disease"),
+            "medicine_gods": _bingyao_role_gods(
+                medicine, pair, "medicine_candidate", "bingyao medicine"),
+            "medicine_status": pair.get("medicine_status"),
+        })
+    return roles
+
+
+def _pattern_candidate_gods(pattern_v2):
+    """从格局 v2 候选格提取格神（只认 validated 规则、只认十神格名）。
+
+    非十神格名（如从格/化气格类）不映射为十神，不输出结论；
+    无 validated 规则的候选格不输出结论。候选恒不等于成立。
+    """
+    gods = []
+    if pattern_v2 is None:
+        return gods
+    for record in pattern_v2["candidates"]:
+        validated = sorted(
+            set(record["rule_ids"]) & VALIDATED_PATTERN_RULE_IDS)
+        if not validated:
+            continue
+        name = record["pattern"] or ""
+        god = name[:-1] if name.endswith("格") else name
+        if god not in TEN_GODS:
+            continue
+        gods.append({
+            "pattern_key": record["pattern_key"],
+            "pattern": name,
+            "god": god,
+            "rule_ids": validated,
+        })
+    return gods
+
+
 def _conditional_conclusions(relation, *, day_master, fuyi_candidate_stems,
                              tiaohou_sequence_stems,
                              established_pattern_gods,
-                             strength_assessment_present):
+                             modern_strength_active,
+                             bingyao_roles=(),
+                             pattern_candidate_gods=()):
     """一条关系可得的条件结论（存在性 / 模型口径事实），无则为空。
 
     只对非原局侧（大运/流年）的干作存在性核对；原局侧干本身即扶抑
     候选干的来源，不作同字核对。返回的每条结论都带依据与“不是效力
-    断言”的明记；调用方只在结论非空时改写 effect。
+    断言”的明记；调用方只在结论非空时改写 effect。第三批新增：
+    病药三角色（已触发对的主体/病/药类）与格局候选格神（候选≠成立）。
+    Q3-A 模型口径结论只在现代旺衰层实际评分时发出（C6 弃判传导：
+    现代弃判则该分支弃判）；调候、病药、格局结论独立，不受其影响。
     """
     conclusions = []
     scope = relation["scope"]
@@ -890,15 +1199,36 @@ def _conditional_conclusions(relation, *, day_master, fuyi_candidate_stems,
                                   "rule_ids": [
                                       "bazi.phase2.ren_yin_true_pattern"]},
                     })
+            for entry in pattern_candidate_gods:
+                if ten_god == entry["god"]:
+                    conclusions.append({
+                        "verdict": "stem_matches_pattern_candidate_god",
+                        "side": side_label, "stem": stem,
+                        "ten_god": ten_god,
+                        "pattern_god": entry["god"],
+                        "pattern_key": entry["pattern_key"],
+                        "pattern": entry["pattern"],
+                        "reason": ("该侧干 %s（%s）与格局候选格 %s 之格神"
+                                   " %s 同十神：只记同十神存在性事实；候选"
+                                   "恒不等于成立，不等于格局效力、格神得"
+                                   "用或大运/流年吉凶。"
+                                   % (stem, ten_god, entry["pattern"],
+                                      entry["god"])),
+                        "basis": {"pattern_key": entry["pattern_key"],
+                                  "pattern": entry["pattern"],
+                                  "state": "candidate",
+                                  "rule_ids": list(entry["rule_ids"])},
+                    })
             if stem in (fuyi_candidate_stems or ()):
                 conclusions.append({
                     "verdict": "stem_matches_fuyi_modern_candidate",
                     "side": side_label, "stem": stem,
                     "ten_god": ten_god,
                     "reason": ("该侧干 %s 与原局扶抑现代层候选干同字：只记"
-                               "同字存在性事实；现代扶抑规则待裁定"
-                               "（proposed_pending_adjudication），不等"
-                               "于大运/流年扶抑效力成立。" % stem),
+                               "同字存在性事实；现代扶抑规则为已批研究模型"
+                               "（fuyi-modern-rules-v1，C3/X1），本结论不"
+                               "等于大运/流年扶抑效力成立，也不作古典扶抑"
+                               "断言。" % stem),
                     "basis": {"model_id": "fuyi-modern-rules-v1",
                               "model_kind": "modern_engineering"},
                 })
@@ -913,8 +1243,46 @@ def _conditional_conclusions(relation, *, day_master, fuyi_candidate_stems,
                     "basis": {"rule_ids": [
                         RULE_TIAOHOU_ASSESSMENT]},
                 })
+            for role_entry in bingyao_roles:
+                role = None
+                if ten_god in role_entry["subject_gods"]:
+                    role = "subject"
+                elif ten_god in role_entry["disease_gods"]:
+                    role = "disease"
+                elif ten_god in role_entry["medicine_gods"]:
+                    role = "medicine"
+                if role is None:
+                    continue
+                role_cn = {"subject": "所论之神",
+                           "disease": "病神",
+                           "medicine": "药神"}[role]
+                caveat = {
+                    "subject": "不等于所论已定或病药去留有断",
+                    "disease": "病在场不等于害已成，去病效力恒未裁定",
+                    "medicine": ("药在场不等于病已去"
+                                 "（medicine_effect_status 恒未裁定）"
+                                 "，不据此断大运/流年病药去留"),
+                }[role]
+                conclusions.append({
+                    "verdict": "stem_matches_bingyao_%s_god" % role,
+                    "side": side_label, "stem": stem,
+                    "ten_god": ten_god,
+                    "pair_id": role_entry["pair_id"],
+                    "role": role,
+                    "reason": ("该侧干 %s（%s）属已触发病药对 %s 的%s类："
+                               "只记角色存在性事实；%s；流年病药推演未获批。"
+                               % (stem, ten_god, role_entry["pair_id"],
+                                  role_cn, caveat)),
+                    "basis": {"pair_id": role_entry["pair_id"],
+                              "role": role,
+                              "ten_god": ten_god,
+                              "medicine_status":
+                                  role_entry["medicine_status"],
+                              "rule_ids": [RULE_BINGYAO_ASSESSMENT,
+                                           role_entry["rule_id"]]},
+                })
     if kind in ("branch_clash", "branch_harm", "branch_six_harmony") \
-            and strength_assessment_present:
+            and modern_strength_active:
         conclusions.append({
             "verdict": "model_treatment_recorded_only",
             "side": None, "stem": None,
@@ -937,11 +1305,13 @@ def _apply_conditional_effects(relations, *, day_master,
                                fuyi_candidate_stems,
                                tiaohou_sequence_stems,
                                established_pattern_gods,
-                               strength_assessment_present):
+                               modern_strength_active,
+                               bingyao_roles=(),
+                               pattern_candidate_gods=()):
     """对全部关系逐条计算条件结论；有结论者改写 effect 为 conditional。
 
     返回 (conditional_count, conditional_list)。无新输入时（各引用皆
-    空且未传入旺衰评估），全部关系保持 abstain，旧行为不变。
+    空且现代旺衰层未实际评分），全部关系保持 abstain，旧行为不变。
     """
     conditional = []
     for relation in relations:
@@ -950,7 +1320,9 @@ def _apply_conditional_effects(relations, *, day_master,
             fuyi_candidate_stems=fuyi_candidate_stems,
             tiaohou_sequence_stems=tiaohou_sequence_stems,
             established_pattern_gods=established_pattern_gods,
-            strength_assessment_present=strength_assessment_present)
+            modern_strength_active=modern_strength_active,
+            bingyao_roles=bingyao_roles,
+            pattern_candidate_gods=pattern_candidate_gods)
         if not conclusions:
             continue
         verdicts = []
@@ -1124,6 +1496,8 @@ def _xiyong_contract(*, strength, tiaohou, bingyao, pattern, natal,
     # 格局用神：原样转述格局候选输出；定格字段恒为空，否则拒收。
     # 第二批：传入格局引擎 v2 输出时，消费其逐格状态与成立证据摘要；
     # 任何格都不输出用神（密封树中全部格的 useful_god 恒未审）。
+    # 第三批集成：broken 单列（破格依据与原成立身份随记录携带），
+    # 永不进入 established / eligible。
     if pattern_v2 is not None:
         eligible = []
         for record in pattern_v2["established"]:
@@ -1154,6 +1528,25 @@ def _xiyong_contract(*, strength, tiaohou, bingyao, pattern, natal,
                            "useful_god 恒未审：本契约不输出格局用神，只列"
                            "条件事实证据。"),
             })
+        broken_records = []
+        for record in pattern_v2["broken"]:
+            broken_records.append({
+                "pattern_key": record["pattern_key"],
+                "pattern": record["pattern"],
+                "state": "broken",
+                "rule_ids": list(record["rule_ids"]),
+                "evidence_ids": list(record["evidence_ids"]),
+                "broken_condition": record["broken_condition"],
+                "broken_evidence_ids":
+                    list(record["broken_evidence_ids"]),
+                "original_state": record["original_state"],
+                "original_pattern": record["original_pattern"],
+                "useful_god": None,
+                "useful_god_status": "no_reviewed_yongshen_rule",
+                "reason": ("原格局已破格（伤官见官）：原为伤官格（任氏寅月"
+                           "真格成立），正官在场破格，成立前提不再满足，"
+                           "不输出格局用神，只列破格依据与原成立身份。"),
+            })
         systems["pattern_yongshen"] = {
             "system": "pattern_yongshen",
             "status": "presented_from_pattern_v2",
@@ -1165,6 +1558,7 @@ def _xiyong_contract(*, strength, tiaohou, bingyao, pattern, natal,
                 {"pattern_key": c["pattern_key"], "pattern": c["pattern"],
                  "evidence_ids": list(c["evidence_ids"])}
                 for c in pattern_v2["conflicts"]],
+            "broken": broken_records,
             "broken_gaps": copy.deepcopy(pattern_v2["broken_gaps"]),
             "pattern": None,
             "useful_god": None,
@@ -1270,11 +1664,17 @@ def _xiyong_contract(*, strength, tiaohou, bingyao, pattern, natal,
         }
     if pattern_v2 is not None:
         established = [e["pattern"] for e in pattern_v2["established"]]
+        broken = [e["pattern"] for e in pattern_v2["broken"]]
+        note = ("流年格局用神推演未获批：原局已成立 %s，但格局用神逐格"
+                "规则未审，流年格局用神无可调用的规则。"
+                % ("、".join(established) if established else "无格"))
+        if broken:
+            note += ("原局 %s 已破格（伤官见官），不作成立计；"
+                     % "、".join(broken))
         references["pattern_yongshen"] = {
-            "note": ("流年格局用神推演未获批：原局已成立 %s，但格局用神逐格"
-                     "规则未审，流年格局用神无可调用的规则。"
-                     % ("、".join(established) if established else "无格")),
+            "note": note,
             "established_patterns": established,
+            "broken_patterns": broken,
         }
     else:
         references["pattern_yongshen"] = {
@@ -1511,6 +1911,21 @@ def combine(natal_pillars, day_master, dayun_periods, target_year, *,
         },
     }
 
+    # 每对已审地支关系命中/未命中对数：三表互不重叠，每对至多一行，
+    # 故命中数即该 scope 的地支关系行数；未命中对仍计为已枚举（只
+    # 是无已审关系行），不是未评估。
+    for scope_name, coverage in scope_coverage.items():
+        examined = coverage["branch_pairs_enumerated"]
+        with_relation = sum(
+            1 for relation in relations
+            if relation["scope"] == scope_name
+            and relation["kind"] in BRANCH_PAIR_KINDS)
+        without = examined - with_relation
+        if without < 0:
+            _fail("branch relation rows exceed examined branch pairs")
+        coverage["branch_pairs_with_reviewed_relation"] = with_relation
+        coverage["branch_pairs_without_reviewed_relation"] = without
+
     if xiyong is not None:
         xiyong_out = _xiyong_from_engine(
             xiyong, day_master, month_branch)
@@ -1536,9 +1951,13 @@ def combine(natal_pillars, day_master, dayun_periods, target_year, *,
             pattern_v2=pattern_v2)
         xiyong_block = legacy
 
-    # 条件结论的引用：扶抑现代候选干、调候序列干、已成立格之格神。
+    # 条件结论的引用：扶抑现代候选干、调候序列干、已成立格之格神、
+    # 病药已触发对的三角色类、格局候选格之格神。病药角色来源优先
+    # 喜用引擎的病药体系（xiyong 传入时），否则用原局病药输出；
+    # 两路形态均经 _bingyao_triggered_roles_from_pairs 严格核对。
     fuyi_candidate_stems = []
     tiaohou_sequence_stems = []
+    bingyao_roles = []
     if xiyong is not None:
         fuyi_system = xiyong_block["systems"]["fuyi"]
         modern = fuyi_system.get("modern") or {}
@@ -1549,11 +1968,19 @@ def combine(natal_pillars, day_master, dayun_periods, target_year, *,
         tiaohou_sequence_stems = [
             c["stem"] for c in (tiaohou_system.get("candidates") or [])
             if isinstance(c, dict) and c.get("stem") in STEMS]
+        bingyao_system = xiyong_block["systems"]["bingyao"]
+        if isinstance(bingyao_system.get("pairs"), list) \
+                and bingyao_system["pairs"]:
+            bingyao_roles = _bingyao_triggered_roles_from_pairs(
+                bingyao_system["pairs"])
     else:
         if tiaohou is not None:
             tiaohou_sequence_stems = list(
                 xiyong_block["systems"]["tiaohou"].get(
                     "sequence_stems") or [])
+        if bingyao is not None:
+            bingyao_roles = _bingyao_triggered_roles_from_pairs(
+                bingyao["pairs"])
     established_pattern_gods = []
     if pattern_v2 is not None:
         for record in pattern_v2["established"]:
@@ -1561,12 +1988,22 @@ def combine(natal_pillars, day_master, dayun_periods, target_year, *,
             god = name[:-1] if name.endswith("格") else name
             if god and god not in established_pattern_gods:
                 established_pattern_gods.append(god)
+    pattern_candidate_gods = _pattern_candidate_gods(pattern_v2)
+    # C6 弃判传导：Q3-A 模型口径结论只在现代旺衰层实际评分时发出。
+    # 现代层弃判（modern 为 None 或 components 为 None）时该分支弃
+    # 判；调候、病药、格局结论独立，不受其影响。
+    modern_strength_active = (
+        strength_assessment is not None
+        and strength_assessment.get("modern") is not None
+        and strength_assessment["modern"].get("components") is not None)
     conditional_count, conditional_list = _apply_conditional_effects(
         relations, day_master=day_master,
         fuyi_candidate_stems=fuyi_candidate_stems,
         tiaohou_sequence_stems=tiaohou_sequence_stems,
         established_pattern_gods=established_pattern_gods,
-        strength_assessment_present=strength_assessment is not None)
+        modern_strength_active=modern_strength_active,
+        bingyao_roles=bingyao_roles,
+        pattern_candidate_gods=pattern_candidate_gods)
     abstain_count = len(relations) - conditional_count
     verdict_counts = {"abstain": abstain_count}
     if conditional_count:
@@ -1689,7 +2126,8 @@ def combine(natal_pillars, day_master, dayun_periods, target_year, *,
             "note": (
                 _ABSTAIN_EFFECT_REASON if conditional_count == 0 else
                 "效力层：无依据者仍 abstain（TJ-017.2/TJ-023.3 阻塞）；有"
-                "依据者只给条件结论（存在性事实或 Q3-A 模型口径），"
+                "依据者只给条件结论（格神/扶抑候选干/调候序列/病药角色"
+                "的存在性事实，或 Q3-A 模型口径），"
                 "conditional_conclusions 逐条附依据；条件结论不是跨层"
                 "效力断言，overall_effect 恒为 None。"),
         },

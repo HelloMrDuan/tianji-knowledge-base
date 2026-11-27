@@ -25,12 +25,25 @@ combine；公开检出无密封模块时跳过，不伪造通过）、
 日主辛，D-1 正官格成立（任氏寅月真格，trace 路径 + 司令试点）；
 大运为 candidate_sequence forward 前 3 运（乙卯/丙辰/丁巳）；
 流年 2026（丙午）。
+
+第三批（P0-4 效力判断扩展）：条件结论由四种扩至八种——新增病药
+三角色（已触发对的主体/病/药类）与格局候选格神（只认 validated
+规则、只认十神格名）；地支关系行补齐五行方向事实（本气转录表），
+天干行补 same_stem、地支行补 same_branch；scope_coverage 补齐每对
+已审关系命中/未命中对数。凡新增结论皆只陈述存在性事实，overall
+_effect 恒 None。
+
+2026-11-25 14:41 第二轮 33 问全部裁定：C2/C3/C4/C5/C6 已批（见引擎
+LIMITATIONS）；C1 已接通（喜用路 pin 已升 v2，``_build`` 传入真实
+格局 v2 输出；本地验证通过，机上实时接通待验证）。
 """
 import json
 from pathlib import Path
 import unittest
 
 from tianji_kb.bazi_combination_engine import (
+    BRANCH_ELEMENTS,
+    CONDITIONAL_VERDICTS,
     VARIANT,
     combine,
     ten_god_for,
@@ -167,19 +180,42 @@ class RealCaseATests(unittest.TestCase):
         output = _combine_a()
         for relation in output["structural_relations"]:
             with self.subTest(relation=relation["id"]):
-                self.assertIsNone(relation["effect"]["verdict"])
-                self.assertEqual(relation["effect"]["status"], "abstain")
-                self.assertTrue(relation["effect"]["reason"])
                 statuses = {c["status"] for c in relation["conditions"]}
                 self.assertIn("satisfied", statuses)
                 self.assertIn("cannot_judge", statuses)
                 self.assertTrue(all(c["rule_ids"]
                                     for c in relation["conditions"]))
+                if relation["effect"]["status"] == "conditional":
+                    self.assertIn(relation["effect"]["verdict"],
+                                  CONDITIONAL_VERDICTS)
+                    self.assertTrue(relation["effect"]["basis"]
+                                    ["not_an_efficacy_verdict"])
+                    self.assertTrue(
+                        relation["effect"]["conditional_conclusions"])
+                else:
+                    self.assertEqual(relation["effect"]["status"], "abstain")
+                    self.assertIsNone(relation["effect"]["verdict"])
         effects = output["effects"]
         self.assertIsNone(effects["overall_effect"])
-        self.assertTrue(effects["all_abstained"])
-        self.assertEqual(effects["abstain_count"], 30)
-        self.assertEqual(effects["verdict_counts"], {"abstain": 30})
+        self.assertFalse(effects["all_abstained"])
+        # 第三批：病药角色结论——大运辛（正官，药神类）5 条、流年戊
+        # （偏财，所论之神类）8 条，R025 两侧各中一类故只计一次；
+        # 其余 18 条（地支关系与组关系）仍 abstain。
+        self.assertEqual(effects["abstain_count"], 18)
+        self.assertEqual(effects["conditional_count"], 12)
+        self.assertEqual(effects["verdict_counts"],
+                         {"abstain": 18, "conditional": 12})
+        self.assertEqual(
+            {c["relation_id"] for c in effects["conditional_effects"]},
+            {"R001", "R003", "R004", "R005", "R018", "R020", "R021",
+             "R022", "R025", "R027", "R029", "R030"})
+        mentions = {}
+        for entry in effects["conditional_effects"]:
+            for verdict in entry["verdicts"]:
+                mentions[verdict] = mentions.get(verdict, 0) + 1
+        self.assertEqual(mentions, {
+            "stem_matches_bingyao_medicine_god": 5,
+            "stem_matches_bingyao_subject_god": 8})
         # 大运×流年未指定当期运，期位前提一律无法判定。
         for relation in _relations(output, "dayun_x_flow"):
             mapping = [c for c in relation["conditions"]
@@ -192,6 +228,17 @@ class RealCaseATests(unittest.TestCase):
         self.assertEqual(
             output["relation_summary"]["not_evaluated"][0]["kind"],
             "branch_punishment")
+        # 第三批结构补齐：地支行带本气五行方向事实，天干行标同干。
+        clash = _relations(output, "flow_x_natal", "branch_clash")[0]
+        self.assertEqual(clash["detail"]["branches"], ["辰", "戌"])
+        self.assertEqual(clash["detail"]["elements"], ["土", "土"])
+        self.assertEqual(clash["detail"]["direction_from_a_to_b"], "same")
+        self.assertFalse(clash["detail"]["same_branch"])
+        same_stem = [r for r in output["structural_relations"]
+                     if r["kind"] == "stem_five_element"
+                     and r["detail"]["same_stem"]]
+        self.assertEqual(len(same_stem), 1)
+        self.assertEqual(same_stem[0]["detail"]["stems"], ["戊", "戊"])
 
     def test_xiyong_contract_case_a(self):
         output = _combine_a()
@@ -346,9 +393,14 @@ class RealCaseBTests(unittest.TestCase):
         self.assertEqual(pair_refs[1]["flow_ten_god_role_in_pair"], "subject")
         for relation in output["structural_relations"]:
             if relation["effect"]["status"] == "conditional":
-                self.assertEqual(
-                    relation["effect"]["verdict"],
-                    "stem_matches_natal_tiaohou_sequence")
+                verdicts = [c["verdict"] for c in relation["effect"]
+                            ["conditional_conclusions"]]
+                self.assertTrue(all(
+                    verdict in (
+                        "stem_matches_natal_tiaohou_sequence",
+                        "stem_matches_bingyao_medicine_god",
+                        "stem_matches_bingyao_subject_god")
+                    for verdict in verdicts))
                 self.assertTrue(relation["effect"]["basis"]
                                 ["not_an_efficacy_verdict"])
             else:
@@ -356,21 +408,40 @@ class RealCaseBTests(unittest.TestCase):
                 self.assertIsNone(relation["effect"]["verdict"])
         # 第二批：大运二壬在原局调候序列（壬/甲）中，5 条大运×原局天干
         # 关系（第 2 运 4 条 five_element＋1 条丁壬五合）与 1 条大运×流年
-        # 天干关系（第 2 运）得条件结论；其余 22 条仍 abstain。
-        # 条件结论只记同字存在性事实，不是大运效力断言。
+        # 天干关系（第 2 运）得条件结论；第三批：病药第二对已触发，
+        # 辛/庚（食伤，所论之神类）11 条、壬/癸（财，药神类）12 条；
+        # 条件结论只记存在性事实，不是大运效力断言。
         effects = output["effects"]
         self.assertIsNone(effects["overall_effect"])
         self.assertFalse(effects["all_abstained"])
-        self.assertEqual(effects["conditional_count"], 6)
-        self.assertEqual(effects["abstain_count"], 22)
+        self.assertEqual(effects["conditional_count"], 21)
+        self.assertEqual(effects["abstain_count"], 7)
         self.assertEqual(effects["verdict_counts"],
-                         {"abstain": 22, "conditional": 6})
+                         {"abstain": 7, "conditional": 21})
         self.assertEqual(
             {c["relation_id"] for c in effects["conditional_effects"]},
-            {"R007", "R009", "R010", "R011", "R012", "R026"})
+            {"R001", "R002", "R004", "R005", "R007", "R009", "R010",
+             "R011", "R012", "R014", "R015", "R016", "R017", "R019",
+             "R020", "R021", "R022", "R024", "R025", "R026", "R027"})
+        mentions = {}
+        for entry in effects["conditional_effects"]:
+            for verdict in entry["verdicts"]:
+                mentions[verdict] = mentions.get(verdict, 0) + 1
+        self.assertEqual(mentions, {
+            "stem_matches_bingyao_subject_god": 11,
+            "stem_matches_natal_tiaohou_sequence": 6,
+            "stem_matches_bingyao_medicine_god": 12})
+        # 药神类在场但药不在盘（medicine_status absent）：结论只记
+        # 药神类存在性，不据此称药已到、病已去。
+        medicine = [c for e in effects["conditional_effects"]
+                    for c in e["conclusions"]
+                    if c["verdict"]
+                    == "stem_matches_bingyao_medicine_god"]
+        self.assertEqual(len(medicine), 12)
         self.assertTrue(all(
-            c["verdicts"] == ["stem_matches_natal_tiaohou_sequence"]
-            for c in effects["conditional_effects"]))
+            c["pair_id"] == "foodwound_seal_wealth" for c in medicine))
+        self.assertTrue(all(
+            c["basis"]["medicine_status"] == "absent" for c in medicine))
 
 
 class CounterexampleTests(unittest.TestCase):
@@ -396,18 +467,46 @@ class CounterexampleTests(unittest.TestCase):
 
     def test_present_medicine_does_not_prove_effect(self):
         # 算例 A 病药第一对药候选已 present，但去病效力仍未裁定，
-        # 且组合效力层仍全部 abstain——存在药候选不等于药已去病。
+        # 且组合效力层 overall_effect 恒为 None——存在药候选不等于
+        # 药已去病。第三批：药神类在场只得存在性条件结论（大运辛
+        # 5 条），结论本身亦明记不是效力断言。
         output = _combine_a()
         pairs = output["xiyong"]["systems"]["bingyao"]["pairs"]
         self.assertEqual(pairs[0]["medicine_status"], "candidate_present")
         self.assertEqual(pairs[0]["medicine_effect_status"], "unadjudicated")
-        self.assertTrue(all(r["effect"]["status"] == "abstain"
-                            for r in output["structural_relations"]))
+        self.assertIsNone(output["effects"]["overall_effect"])
+        self.assertEqual(output["effects"]["verdict_counts"],
+                         {"abstain": 18, "conditional": 12})
+        medicine_entries = [
+            entry for entry in output["effects"]["conditional_effects"]
+            if "stem_matches_bingyao_medicine_god" in entry["verdicts"]]
+        self.assertEqual(len(medicine_entries), 5)
+        for entry in medicine_entries:
+            conclusions = [c for c in entry["conclusions"]
+                           if c["verdict"]
+                           == "stem_matches_bingyao_medicine_god"]
+            self.assertEqual(len(conclusions), 1)
+            conclusion = conclusions[0]
+            self.assertEqual(conclusion["pair_id"],
+                             "wealth_peer_officer")
+            self.assertEqual(conclusion["role"], "medicine")
+            self.assertIn("不等于病已去", conclusion["reason"])
+            self.assertIn("bazi.phase2.bingyao_assessment",
+                          conclusion["basis"]["rule_ids"])
+            self.assertIn("shenfeng.wealth_peer_officer",
+                          conclusion["basis"]["rule_ids"])
+        for relation in output["structural_relations"]:
+            if relation["effect"]["status"] == "conditional":
+                self.assertTrue(relation["effect"]["basis"]
+                                ["not_an_efficacy_verdict"])
 
     def test_ganzhi_string_pillars_agree_with_structured_pillars(self):
         structured = _combine_a()
         plain = combine(["戊戌", "庚申", "甲子", "甲戌"], "甲",
-                        CASE_A_DAYUN, 1988)
+                        CASE_A_DAYUN, 1988,
+                        strength=_FIXTURES["A"]["strength"],
+                        tiaohou=_FIXTURES["A"]["tiaohou"],
+                        bingyao=_FIXTURES["A"]["bingyao"])
         self.assertEqual(plain["relation_summary"],
                          structured["relation_summary"])
         self.assertEqual(plain["structural_relations"],
@@ -432,8 +531,8 @@ class CallerSelectedPeriodTests(unittest.TestCase):
                 self.assertEqual(mapping["status"], "not_satisfied")
         # 指定当期运只改期位前提的标注，不改变关系总数与效力。
         self.assertEqual(output["relation_summary"]["total"], 30)
-        self.assertTrue(all(r["effect"]["status"] == "abstain"
-                            for r in output["structural_relations"]))
+        self.assertEqual(output["effects"]["verdict_counts"],
+                         {"abstain": 18, "conditional": 12})
 
 
 class FailClosedTests(unittest.TestCase):
@@ -652,18 +751,23 @@ class CrossCheckTests(unittest.TestCase):
             for right in STEMS:
                 self.assertEqual(ten_god_for(left, right),
                                  bc.ten_god(left, right))
+        # 第三批：地支本气转录表须与 seed.json 的 earthly_branches
+        # 行本气列逐项一致（公开检出无 seed.json，本测试只在机上跑）。
+        from tianji_kb.bazi_combination_engine import BRANCH_ELEMENTS
+        from tianji_kb.foundations import branch_element
+        for branch in BRANCHES:
+            self.assertEqual(BRANCH_ELEMENTS[branch],
+                             branch_element(branch))
 
 
 class LiveEngineInputsTests(unittest.TestCase):
     """第二批接线：机上实时构建三路引擎输出并传入 combine()。
 
-    公开检出无密封模块时整类跳过（不伪造通过）。注意一个已知的
-    跨路不一致（OPEN，待裁定/对齐）：喜用引擎
-    ``evaluate_pattern_xiyong`` 仍校验格局 v1 变体，而格局引擎已
-    升为 v2，故此处 ``evaluate_xiyong`` 传入 ``pattern=None``（其
-    pattern_yongshen 体系为 not_provided），格局 v2 输出另由
-    combine() 的 ``pattern`` 参数直接消费；见
-    ``test_xiyong_pattern_v1_pin_rejects_v2``。
+    公开检出无密封模块时整类跳过（不伪造通过）。C1 已接通
+    （2026-11-25）：喜用引擎格局 pin 已升 v2，``evaluate_xiyong``
+    传入真实格局 v2 输出；本地已验证输入结构/版本/字段语义与
+    兼容性（见 /tmp/c1_verify.py 式验证：v2 接受、v1 拒收、
+    pattern=None 仍可用），机上实时接通待验证。
     """
 
     @classmethod
@@ -752,7 +856,7 @@ class LiveEngineInputsTests(unittest.TestCase):
             day_master=day_master,
             month_branch=pillars[1]["branch"]["value"],
             pillars=ganzhi, strength=strength, tiaohou=tiaohou,
-            bingyao=bingyao, pattern=None, flow_year=target_year)
+            bingyao=bingyao, pattern=pattern, flow_year=target_year)
         combined = combine(pillars, day_master, dayun, target_year,
                            strength=strength, tiaohou=tiaohou,
                            bingyao=bingyao, pattern=pattern,
@@ -775,14 +879,24 @@ class LiveEngineInputsTests(unittest.TestCase):
         self.assertEqual(built["dayun"], CASE_A_DAYUN)
         out = built["combined"]
         self.assertEqual(out["relation_summary"]["total"], 30)
+        # 裁定后新期望（X1/C3 已批，E2 条件结论点火，verdict 由 abstain
+        # 为主转为 conditional 为主）：机上实测 2026-11-25。
         self.assertEqual(out["effects"]["verdict_counts"],
-                         {"abstain": 23, "conditional": 7})
+                         {"abstain": 7, "conditional": 23})
+        # 裁定后新期望：病药三角色（主体 8、药 5）与格局候选格神（5）
+        # 随 X1/C3 点火加入原有 7 条模型口径结论；机上实测 2026-11-25。
         self.assertEqual(self._verdict_counter(out),
-                         {"model_treatment_recorded_only": 7})
+                         {"model_treatment_recorded_only": 7,
+                          "stem_matches_bingyao_medicine_god": 5,
+                          "stem_matches_bingyao_subject_god": 8,
+                          "stem_matches_pattern_candidate_god": 5})
         self.assertEqual(
             {c["relation_id"]
              for c in out["effects"]["conditional_effects"]},
-            {"R002", "R006", "R015", "R019", "R023", "R026", "R028"})
+            {"R001", "R002", "R003", "R004", "R005", "R006", "R008",
+             "R009", "R010", "R011", "R015", "R018", "R019", "R020",
+             "R021", "R022", "R023", "R025", "R026", "R027", "R028",
+             "R029", "R030"})
         # 旺衰：古典 indeterminate、现代 weak -21（definite），分项照录。
         strength = out["strength"]
         self.assertEqual(strength["classical"]["classification"],
@@ -807,9 +921,10 @@ class LiveEngineInputsTests(unittest.TestCase):
         self.assertFalse(
             modern["cong_candidates"]["screen_triggered"])
         # 格局：3 候选（七杀/偏印/偏财），无成立、无冲突。
+        # A1 后新期望：bijian/jiecai 常驻 not_judgeable，结果数 12→14。
         pattern = out["pattern"]
         self.assertEqual(pattern["counts"],
-                         {"not_judgeable": 9, "candidate": 3})
+                         {"not_judgeable": 11, "candidate": 3})
         self.assertEqual(pattern["established"], [])
         self.assertEqual(
             {c["pattern_key"] for c in pattern["candidates"]},
@@ -855,10 +970,16 @@ class LiveEngineInputsTests(unittest.TestCase):
         self.assertEqual(built["dayun"], CASE_B_DAYUN)
         out = built["combined"]
         self.assertEqual(out["relation_summary"]["total"], 28)
+        # 裁定后新期望（X1/C3 已批，E2 条件结论点火）：机上实测
+        # 2026-11-25。
         self.assertEqual(out["effects"]["verdict_counts"],
-                         {"abstain": 16, "conditional": 12})
+                         {"abstain": 1, "conditional": 27})
+        # 裁定后新期望：病药三角色（主体 11、药 12）加入原有 6+6；
+        # 机上实测 2026-11-25。
         self.assertEqual(self._verdict_counter(out), {
             "model_treatment_recorded_only": 6,
+            "stem_matches_bingyao_medicine_god": 12,
+            "stem_matches_bingyao_subject_god": 11,
             "stem_matches_natal_tiaohou_sequence": 6})
         # 旺衰：土日主 Q5 暂定分——balanced 53 只作研究性暂定分，
         # definite_classification 恒 None，不确定性传导进组合层。
@@ -883,11 +1004,19 @@ class LiveEngineInputsTests(unittest.TestCase):
                          "indeterminate_direction")
         self.assertIn("earth_de_di_uncalibrated",
                       fuyi["modern"]["uncertainty"])
-        self.assertIn("balanced_middle_band_only",
-                      fuyi["uncertainty"])
-        # 格局：仅正印候选。
+        # X8 裁定后新期望（用户裁定 2026-11-25）：balanced 只是现代模
+        # 型分数区间，本身不代表输入证据不足，不入 uncertainty；只
+        # 传导 Q5/Q6 条件缺失。机上实测 2026-11-25。
+        self.assertEqual(fuyi["uncertainty"],
+                         ["classical_strength_indeterminate",
+                          "ding_de_di_uncalibrated",
+                          "earth_de_di_uncalibrated",
+                          "tomb_de_ling_zero_provisional"])
+        self.assertNotIn("balanced_middle_band_only",
+                         fuyi["uncertainty"])
+        # 格局：仅正印候选。A1 后新期望：bijian/jiecai 常驻，结果数 12→14。
         self.assertEqual(out["pattern"]["counts"],
-                         {"not_judgeable": 11, "candidate": 1})
+                         {"not_judgeable": 13, "candidate": 1})
         self.assertEqual(
             [c["pattern_key"] for c in out["pattern"]["candidates"]],
             ["zhengyin"])
@@ -911,15 +1040,20 @@ class LiveEngineInputsTests(unittest.TestCase):
         self.assertEqual(out["relation_summary"]["counts_by_scope"],
                          {"dayun_x_natal": 17, "flow_x_natal": 6,
                           "dayun_x_flow": 3})
+        # C6 弃判传导：现代旺衰层弃判（components 为 None），Q3-A 模型
+        # 口径结论不发；13 条成立格神结论（独立）不受影响。
         self.assertEqual(out["effects"]["verdict_counts"],
-                         {"abstain": 9, "conditional": 17})
+                         {"abstain": 13, "conditional": 13})
         self.assertEqual(self._verdict_counter(out), {
-            "stem_matches_established_pattern_god": 13,
-            "model_treatment_recorded_only": 4})
+            "stem_matches_established_pattern_god": 13})
+        # C4：forward 是 _build 向 candidate_sequence 明确指定的研究
+        # 算例参数；combine() 本身不推导、不记录方向。
+        self.assertNotIn("direction", out["dayun"])
         # D-1 正官格成立可被岁运组合消费：大运二丙、流年丙与格神同十神。
+        # A1 后新期望：bijian/jiecai 常驻 not_judgeable，结果数 12→14。
         pattern = out["pattern"]
         self.assertEqual(pattern["counts"],
-                         {"established": 1, "not_judgeable": 8,
+                         {"established": 1, "not_judgeable": 10,
                           "candidate": 3})
         self.assertEqual(
             [e["pattern"] for e in pattern["established"]], ["正官"])
@@ -962,15 +1096,25 @@ class LiveEngineInputsTests(unittest.TestCase):
         out = built["combined"]
         self.assertEqual(out["flow_year"]["ganzhi"], "甲子")
         self.assertEqual(out["relation_summary"]["total"], 24)
+        # 裁定后新期望（X1/C3 已批，E2 条件结论点火）：机上实测
+        # 2026-11-25。
         self.assertEqual(out["effects"]["verdict_counts"],
-                         {"abstain": 14, "conditional": 10})
+                         {"abstain": 6, "conditional": 18})
+        # 裁定后新期望：E2（7）与模型口径（3）不变，病药（病 7、药 5）
+        # 与格局候选格神（5）加入；机上实测 2026-11-25。
         self.assertEqual(self._verdict_counter(out), {
             "stem_matches_fuyi_modern_candidate": 7,
+            "stem_matches_bingyao_disease_god": 7,
+            "stem_matches_bingyao_medicine_god": 5,
+            "stem_matches_pattern_candidate_god": 5,
             "model_treatment_recorded_only": 3})
+        # E2 仍在 R018–R024 点火；现每条关系可带多条 verdict（病药/
+        # 格局结论同条并存），故以包含判定，不再要求 verdicts 恰为
+        # 单条 E2。
         self.assertEqual(
             {c["relation_id"]
              for c in out["effects"]["conditional_effects"]
-             if c["verdicts"] == ["stem_matches_fuyi_modern_candidate"]},
+             if "stem_matches_fuyi_modern_candidate" in c["verdicts"]},
             {"R018", "R019", "R020", "R021", "R022", "R023", "R024"})
         self.assertTrue(
             out["xiyong"]["annual_xiyong"]["flow_references"]["fuyi"]
@@ -1005,8 +1149,10 @@ class LiveEngineInputsTests(unittest.TestCase):
             [e["pattern_key"] for e in pattern_block["eligible"]],
             ["pianyin"])
         self.assertIsNone(pattern_block["useful_god"])
+        # 裁定后新期望（无 xiyong 路径亦消费病药角色与格局候选格神）：
+        # 机上实测 2026-11-25；C 盘 {13, 13} 不变（同日实测）。
         self.assertEqual(out["effects"]["verdict_counts"],
-                         {"abstain": 23, "conditional": 7})
+                         {"abstain": 7, "conditional": 23})
         # C 盘同路径：已成立正官格列入有资格格，但仍无已审用神。
         built_c = self._build("2023-02-12T16:00:00+08:00", 2026,
                               trace_pattern=True)
@@ -1024,8 +1170,9 @@ class LiveEngineInputsTests(unittest.TestCase):
             [("zhengguan", "established"),
              ("zhengyin", "candidate")])
         self.assertIsNone(pattern_c["useful_god"])
+        # C6：现代旺衰弃判，Q3-A 模型口径结论不发；成立格神结论独立。
         self.assertEqual(out_c["effects"]["verdict_counts"],
-                         {"abstain": 9, "conditional": 17})
+                         {"abstain": 13, "conditional": 13})
 
     def test_scope_coverage_and_not_evaluated(self):
         built = self._build("1958-08-15T19:30:00+08:00", 1988)
@@ -1035,20 +1182,26 @@ class LiveEngineInputsTests(unittest.TestCase):
                           "branch_pairs_enumerated": 12,
                           "group_evaluated": True,
                           "group_branches": "natal_four_plus_dayun",
-                          "relations": 17})
+                          "relations": 17,
+                          "branch_pairs_with_reviewed_relation": 3,
+                          "branch_pairs_without_reviewed_relation": 9})
         self.assertEqual(summary["scope_coverage"]["flow_x_natal"],
                          {"stem_pairs_enumerated": 4,
                           "branch_pairs_enumerated": 4,
                           "group_evaluated": True,
                           "group_branches": "natal_four_plus_flow",
-                          "relations": 7})
+                          "relations": 7,
+                          "branch_pairs_with_reviewed_relation": 2,
+                          "branch_pairs_without_reviewed_relation": 2})
         self.assertEqual(summary["scope_coverage"]["dayun_x_flow"],
                          {"stem_pairs_enumerated": 3,
                           "branch_pairs_enumerated": 3,
                           "group_evaluated": True,
                           "group_branches":
                               "dayun_plus_flow_only_two_branches_no_group_formable",
-                          "relations": 6})
+                          "relations": 6,
+                          "branch_pairs_with_reviewed_relation": 2,
+                          "branch_pairs_without_reviewed_relation": 1})
         self.assertEqual(
             summary["scope_coverage"]["dayun_x_flow_x_natal"],
             {"stem_pairs_enumerated": 0,
@@ -1056,23 +1209,43 @@ class LiveEngineInputsTests(unittest.TestCase):
              "group_evaluated": True,
              "group_branches":
                  "natal_four_plus_dayun_plus_flow_spanning_only",
-             "relations": 0})
+             "relations": 0,
+             "branch_pairs_with_reviewed_relation": 0,
+             "branch_pairs_without_reviewed_relation": 0})
         self.assertEqual(
             {row["kind"] for row in summary["not_evaluated"]},
             {"branch_punishment", "branch_group_dayun_x_flow"})
         self.assertFalse([r for r in built["combined"]["structural_relations"]
                           if "punishment" in r["kind"]])
 
-    def test_xiyong_pattern_v1_pin_rejects_v2(self):
-        # OPEN：喜用引擎仍校验格局 v1 变体，格局引擎已升 v2。
-        # 本测试只记录现状，不伪造 v1 输入；待两路对齐后删除。
+    def test_xiyong_pattern_v2_pin_accepted(self):
+        # C1 已接通：喜用引擎接受格局 v2 输出（有资格门控与 combine()
+        # 一致，useful_god 恒 None）；v1 变体则拒收。
         built = self._build("1958-08-15T19:30:00+08:00", 1988)
+        pattern_system = built["xiyong"]["systems"]["pattern_yongshen"]
+        self.assertEqual(pattern_system["status"], "presented")
+        self.assertEqual(
+            [e["pattern_key"] for e in pattern_system["eligible"]],
+            ["pianyin"])
+        self.assertEqual(
+            [(e["pattern_key"], e["state"], e["pattern_god"])
+             for e in pattern_system["eligible"]],
+            [("pianyin", "candidate", "偏印")])
+        self.assertTrue(all(e["useful_god"] is None
+                            for e in pattern_system["eligible"]))
+        # A1 后新期望：bijian/jiecai 常驻，结果数 12→14。
+        self.assertEqual(pattern_system["counts"],
+                         {"eligible": 1, "ineligible": 13, "total": 14})
+        self.assertEqual(pattern_system["counts_by_state"],
+                         {"candidate": 3, "not_judgeable": 11})
+        self.assertIsNone(built["xiyong"]["unified_verdict"])
+        v1 = dict(built["pattern"], variant="bazi-pattern-engine-v1")
         with self.assertRaises(ValueError):
             self.xiyong_fn(
                 day_master="甲", month_branch="申",
                 pillars=built["ganzhi"], strength=built["strength"],
                 tiaohou=built["tiaohou"], bingyao=built["bingyao"],
-                pattern=built["pattern"], flow_year=1988)
+                pattern=v1, flow_year=1988)
 
 
 class ThreeLayerGroupTests(unittest.TestCase):
@@ -1096,6 +1269,36 @@ class ThreeLayerGroupTests(unittest.TestCase):
             output["relation_summary"]["counts_by_scope"]
             ["dayun_x_flow_x_natal"], 1)
 
+    def test_spanning_case_b_1997_with_fixtures(self):
+        # 同盘带原局夹具：流年丁（正印）为已触发第二对的病神类，
+        # 大运辛/庚为所论之神类、壬/癸为药神类；组关系本身仍 abstain。
+        output = combine(CASE_B_PILLARS, "戊", CASE_B_DAYUN, 1997,
+                         strength=_FIXTURES["B"]["strength"],
+                         tiaohou=_FIXTURES["B"]["tiaohou"],
+                         bingyao=_FIXTURES["B"]["bingyao"])
+        self.assertEqual(output["relation_summary"]["total"], 30)
+        effects = output["effects"]
+        self.assertEqual(effects["verdict_counts"],
+                         {"abstain": 8, "conditional": 22})
+        mentions = {}
+        for entry in effects["conditional_effects"]:
+            for verdict in entry["verdicts"]:
+                mentions[verdict] = mentions.get(verdict, 0) + 1
+        self.assertEqual(mentions, {
+            "stem_matches_bingyao_subject_god": 5,
+            "stem_matches_natal_tiaohou_sequence": 7,
+            "stem_matches_bingyao_medicine_god": 13,
+            "stem_matches_bingyao_disease_god": 8})
+        self.assertEqual(
+            {c["relation_id"] for c in effects["conditional_effects"]},
+            {"R001", "R002", "R004", "R005", "R007", "R009", "R010",
+             "R011", "R012", "R014", "R015", "R016", "R017", "R019",
+             "R020", "R021", "R023", "R024", "R025", "R027", "R028",
+             "R029"})
+        spanning = _relations(output, "dayun_x_flow_x_natal")
+        self.assertEqual(len(spanning), 1)
+        self.assertEqual(spanning[0]["effect"]["status"], "abstain")
+
     def test_no_spanning_group_in_batch1_cases(self):
         # 第一批两例均无跨三层之组：评估已执行，命中为 0，不是未评估。
         for output in (_combine_a(), _combine_b()):
@@ -1104,6 +1307,304 @@ class ThreeLayerGroupTests(unittest.TestCase):
             self.assertEqual(
                 output["relation_summary"]["scope_coverage"]
                 ["dayun_x_flow_x_natal"]["relations"], 0)
+
+
+class Batch3ConditionalTests(unittest.TestCase):
+    """第三批：病药角色/格局候选格神条件结论与结构层补齐（公开可跑）。"""
+
+    def _verdict_mentions(self, output):
+        mentions = {}
+        for entry in output["effects"]["conditional_effects"]:
+            for verdict in entry["verdicts"]:
+                mentions[verdict] = mentions.get(verdict, 0) + 1
+        return mentions
+
+    def test_disease_role_via_flow_1984_case_a(self):
+        # 流年 1984 甲子：流年干甲（比肩）为已触发第一对的病神类，
+        # 4 条流年×原局天干关系与 3 条大运×流年天干关系（流年侧）
+        # 得病神结论；大运辛药神类 5 条不变。
+        output = combine(CASE_A_PILLARS, "甲", CASE_A_DAYUN, 1984,
+                         strength=_FIXTURES["A"]["strength"],
+                         tiaohou=_FIXTURES["A"]["tiaohou"],
+                         bingyao=_FIXTURES["A"]["bingyao"])
+        self.assertEqual(output["flow_year"]["ganzhi"], "甲子")
+        self.assertEqual(output["relation_summary"]["total"], 24)
+        self.assertEqual(output["effects"]["verdict_counts"],
+                         {"abstain": 13, "conditional": 11})
+        self.assertEqual(self._verdict_mentions(output), {
+            "stem_matches_bingyao_medicine_god": 5,
+            "stem_matches_bingyao_disease_god": 7})
+        disease = [c for e in output["effects"]["conditional_effects"]
+                   for c in e["conclusions"]
+                   if c["verdict"] == "stem_matches_bingyao_disease_god"]
+        self.assertEqual(len(disease), 7)
+        self.assertTrue(all(c["pair_id"] == "wealth_peer_officer"
+                            and c["role"] == "disease" for c in disease))
+        self.assertTrue(all("病在场不等于害已成" in c["reason"]
+                            for c in disease))
+        # 同干标识：流年甲与原局日/时甲同干。
+        same = [r for r in output["structural_relations"]
+                if r["kind"] == "stem_five_element"
+                and r["detail"]["same_stem"]]
+        self.assertEqual({r["detail"]["stems"][0] for r in same}, {"甲"})
+        self.assertTrue(all(r["detail"]["stems"] == ["甲", "甲"]
+                            for r in same))
+
+    def test_branch_element_facts_case_a(self):
+        output = _combine_a()
+        # 地支行一律带本气五行与方向事实；午未合保留有争议的原文。
+        for relation in output["structural_relations"]:
+            if relation["kind"].startswith("branch_") \
+                    and relation["kind"] not in (
+                        "branch_triple_harmony",
+                        "branch_directional_meeting"):
+                detail = relation["detail"]
+                self.assertEqual(
+                    [BRANCH_ELEMENTS[b] for b in detail["branches"]],
+                    detail["elements"])
+                self.assertIn(detail["direction_from_a_to_b"],
+                              ("same", "generates", "generated_by",
+                               "controls", "controlled_by"))
+                self.assertEqual(
+                    detail["same_branch"],
+                    detail["branches"][0] == detail["branches"][1])
+        harmony = _relations(output, "dayun_x_flow",
+                             "branch_six_harmony", 1)[0]
+        self.assertEqual(harmony["detail"]["branches"], ["酉", "辰"])
+        self.assertEqual(harmony["detail"]["elements"], ["金", "土"])
+        self.assertEqual(harmony["detail"]["direction_from_a_to_b"],
+                         "generated_by")  # 土生金：辰土生酉金。
+        self.assertEqual(harmony["detail"]["traditional_result_element"],
+                         "金")
+
+    def test_scope_coverage_hit_counts_case_a(self):
+        output = _combine_a()
+        coverage = output["relation_summary"]["scope_coverage"]
+        self.assertEqual(coverage["dayun_x_natal"], {
+            "stem_pairs_enumerated": 12,
+            "branch_pairs_enumerated": 12,
+            "group_evaluated": True,
+            "group_branches": "natal_four_plus_dayun",
+            "relations": 17,
+            "branch_pairs_with_reviewed_relation": 3,
+            "branch_pairs_without_reviewed_relation": 9})
+        self.assertEqual(coverage["flow_x_natal"], {
+            "stem_pairs_enumerated": 4,
+            "branch_pairs_enumerated": 4,
+            "group_evaluated": True,
+            "group_branches": "natal_four_plus_flow",
+            "relations": 7,
+            "branch_pairs_with_reviewed_relation": 2,
+            "branch_pairs_without_reviewed_relation": 2})
+        self.assertEqual(coverage["dayun_x_flow"], {
+            "stem_pairs_enumerated": 3,
+            "branch_pairs_enumerated": 3,
+            "group_evaluated": True,
+            "group_branches":
+                "dayun_plus_flow_only_two_branches_no_group_formable",
+            "relations": 6,
+            "branch_pairs_with_reviewed_relation": 2,
+            "branch_pairs_without_reviewed_relation": 1})
+        self.assertEqual(coverage["dayun_x_flow_x_natal"], {
+            "stem_pairs_enumerated": 0,
+            "branch_pairs_enumerated": 0,
+            "group_evaluated": True,
+            "group_branches":
+                "natal_four_plus_dayun_plus_flow_spanning_only",
+            "relations": 0,
+            "branch_pairs_with_reviewed_relation": 0,
+            "branch_pairs_without_reviewed_relation": 0})
+
+    def test_pattern_candidate_god_minimal_inputs(self):
+        # 最小输入＋正印候选格（validated 资源规则）：大运癸（正印）
+        # 7 条天干关系得候选格神结论；无 validated 规则的正官候选
+        # 不产生结论；非十神格名（从财格）亦不产生结论。
+        helper = NewInputFailClosedTests(
+            "test_minimal_new_inputs_are_consumed")
+        pattern = helper._pattern_v2()
+        pattern["results"]["zhengyin"] = {
+            "pattern": "正印", "pattern_key": "zhengyin",
+            "state": "candidate", "evidence": [], "limitations": [],
+            "rule_ids": ["bazi.phase2.resource_pattern_candidates"]}
+        pattern["results"]["zhengguan"] = {
+            "pattern": "正官", "pattern_key": "zhengguan",
+            "state": "candidate", "evidence": [], "limitations": [],
+            "rule_ids": []}
+        pattern["results"]["cong"] = {
+            "pattern": "从财格", "pattern_key": "cong",
+            "state": "candidate", "evidence": [], "limitations": [],
+            "rule_ids": ["bazi.phase2.official_pattern_candidates"]}
+        output = combine(CASE_A_PILLARS, "甲", CASE_A_DAYUN, 1988,
+                         strength=helper._assessment(),
+                         pattern=pattern, xiyong=helper._xiyong())
+        self.assertEqual(output["effects"]["verdict_counts"],
+                         {"abstain": 16, "conditional": 14})
+        self.assertEqual(self._verdict_mentions(output), {
+            "model_treatment_recorded_only": 7,
+            "stem_matches_pattern_candidate_god": 7})
+        candidate = [c for e in output["effects"]["conditional_effects"]
+                     for c in e["conclusions"]
+                     if c["verdict"]
+                     == "stem_matches_pattern_candidate_god"]
+        self.assertEqual(len(candidate), 7)
+        self.assertTrue(all(c["pattern_key"] == "zhengyin"
+                            and c["pattern"] == "正印"
+                            and c["pattern_god"] == "正印"
+                            for c in candidate))
+        self.assertTrue(all("候选恒不等于成立" in c["reason"]
+                            for c in candidate))
+        self.assertTrue(all(
+            c["basis"]["rule_ids"]
+            == ["bazi.phase2.resource_pattern_candidates"]
+            for c in candidate))
+
+    def test_bingyao_drift_is_rejected(self):
+        helper = NewInputFailClosedTests(
+            "test_minimal_new_inputs_are_consumed")
+        # 病药对带已裁定的药效，一律拒收（结论以效力恒未裁定为前提）。
+        drifted = json.loads(json.dumps(_FIXTURES["A"]["bingyao"]))
+        drifted["pairs"][0]["medicine_effect_status"] = "cured"
+        with self.assertRaises(ValueError):
+            _combine_a(bingyao=drifted)
+        # 角色类含未知十神，一律拒收。
+        drifted = json.loads(json.dumps(_FIXTURES["A"]["bingyao"]))
+        drifted["pairs"][0]["rule"]["medicine_gods"] = ["正官", "天医"]
+        with self.assertRaises(ValueError):
+            _combine_a(bingyao=drifted)
+        # 喜用引擎路径的病药体系形态漂移亦拒收。
+        xiyong = helper._xiyong()
+        xiyong["systems"]["bingyao"] = {
+            "system": "bingyao", "status": "presented",
+            "pairs": [{"pair_id": "wealth_peer_officer",
+                       "status": "triggered",
+                       "subject_gods": ["正财", "偏财"],
+                       "disease_gods": ["比肩", "劫财"],
+                       "medicine_gods": ["正官", "天医"],
+                       "medicine_status": "candidate_present",
+                       "medicine_effect_status": "unadjudicated",
+                       "rule_id": "shenfeng.wealth_peer_officer"}]}
+        with self.assertRaises(ValueError):
+            combine(CASE_A_PILLARS, "甲", CASE_A_DAYUN, 1988,
+                    strength=helper._assessment(),
+                    pattern=helper._pattern_v2(), xiyong=xiyong)
+
+    def test_bingyao_pair_shapes_are_equivalent(self):
+        # 病药角色类三种写法同值：列表（夹具 JSON 形）、元组（原生
+        # bingyao_lookup 规则常量形——机上实测 2026-11-25，未修前
+        # _bingyao_god_list 只认 list 而拒收）、字典块（对级
+        # subject/disease_candidate/medicine_candidate，
+        # {god_class, gods}）。三种写法对同一盘须产出同一病药结论；
+        # 字典块以 god_class 定类，gods 行只作交叉核对。
+        def _bingyao_conclusions(output):
+            return sorted(
+                (e["relation_id"], c["verdict"], c["stem"],
+                 c["ten_god"], c["pair_id"], c["role"])
+                for e in output["effects"]["conditional_effects"]
+                for c in e["conclusions"]
+                if c["verdict"].startswith("stem_matches_bingyao_"))
+
+        baseline = _combine_a()
+        base_counts = baseline["effects"]["verdict_counts"]
+        base_conclusions = _bingyao_conclusions(baseline)
+        self.assertTrue(base_conclusions)
+
+        tuple_shaped = json.loads(json.dumps(_FIXTURES["A"]["bingyao"]))
+        for pair in tuple_shaped["pairs"]:
+            rule = pair["rule"]
+            for key in ("subject_gods", "disease_gods", "medicine_gods"):
+                rule[key] = tuple(rule[key])
+        out_tuple = _combine_a(bingyao=tuple_shaped)
+        self.assertEqual(out_tuple["effects"]["verdict_counts"],
+                         base_counts)
+        self.assertEqual(_bingyao_conclusions(out_tuple),
+                         base_conclusions)
+
+        dict_shaped = json.loads(json.dumps(_FIXTURES["A"]["bingyao"]))
+        for pair in dict_shaped["pairs"]:
+            rule = pair["rule"]
+            for key in ("subject_gods", "disease_gods", "medicine_gods"):
+                del rule[key]
+        out_dict = _combine_a(bingyao=dict_shaped)
+        self.assertEqual(out_dict["effects"]["verdict_counts"],
+                         base_counts)
+        self.assertEqual(_bingyao_conclusions(out_dict),
+                         base_conclusions)
+
+        # 字典块所载之神不在其类中，一律拒收。
+        bad_dict = json.loads(json.dumps(dict_shaped))
+        bad_dict["pairs"][0]["subject"]["gods"][0]["ten_god"] = "比肩"
+        with self.assertRaises(ValueError):
+            _combine_a(bingyao=bad_dict)
+        # 字典形且药不在盘时药类不可知（无类表、无药候选块），拒收
+        # 而非拟制药类：B 盘已触发对 medicine_candidate 为 None。
+        dict_b = json.loads(json.dumps(_FIXTURES["B"]["bingyao"]))
+        for pair in dict_b["pairs"]:
+            rule = pair["rule"]
+            for key in ("subject_gods", "disease_gods", "medicine_gods"):
+                del rule[key]
+        with self.assertRaises(ValueError):
+            _combine_b(bingyao=dict_b)
+
+    def test_limitations_record_batch3_blockers(self):
+        output = _combine_a()
+        text = "\n".join(output["limitations"])
+        for marker in ("C2", "C3", "C4", "C5", "C6",
+                       "已批为研究模型", "已批保留",
+                       "overall_effect 恒为 None"):
+            self.assertIn(marker, text)
+        self.assertNotIn("proposed_pending_adjudication", text)
+        self.assertIsNone(output["effects"]["overall_effect"])
+
+    def test_c6_abstention_propagates_to_model_treatment(self):
+        # C6：现代旺衰弃判（components 为 None）时，Q3-A 模型口径结论
+        # 不发；无其他引用时效力层全 abstain。
+        helper = NewInputFailClosedTests(
+            "test_minimal_new_inputs_are_consumed")
+        assessment = helper._assessment()
+        assessment["modern"] = dict(
+            assessment["modern"], verdict="abstain", score=None,
+            classification_status="abstain",
+            definite_classification=None,
+            abstain_reason="transformation_candidate_unresolved",
+            components=None, cong_candidates=None,
+            interaction_effects=None)
+        output = combine(CASE_A_PILLARS, "甲", CASE_A_DAYUN, 1988,
+                         strength=assessment,
+                         pattern=helper._pattern_v2(),
+                         xiyong=helper._xiyong())
+        self.assertEqual(output["strength"]["modern"]["verdict"], "abstain")
+        self.assertIsNone(output["strength"]["modern"]["components"])
+        self.assertEqual(output["effects"]["verdict_counts"],
+                         {"abstain": 30})
+        self.assertTrue(output["effects"]["all_abstained"])
+        self.assertEqual(output["effects"]["conditional_effects"], [])
+        self.assertIsNone(output["effects"]["overall_effect"])
+
+    def test_c5_spanning_groups_are_not_double_counted(self):
+        # C5：跨层组与两对 scope 的组无重叠，组关系本身不产生条件结论，
+        # 不将重复结构关系计为多份独立作用。
+        output = combine(CASE_B_PILLARS, "戊", CASE_B_DAYUN, 1997,
+                         strength=_FIXTURES["B"]["strength"],
+                         tiaohou=_FIXTURES["B"]["tiaohou"],
+                         bingyao=_FIXTURES["B"]["bingyao"])
+        groups = [r for r in output["structural_relations"]
+                  if r["kind"] in ("branch_triple_harmony",
+                                   "branch_directional_meeting")]
+        branch_sets = [tuple(sorted(r["detail"]["branches"]))
+                       for r in groups]
+        self.assertEqual(len(branch_sets), len(set(branch_sets)))
+        spanning = _relations(output, "dayun_x_flow_x_natal")
+        self.assertEqual(len(spanning), 1)
+        self.assertEqual(spanning[0]["detail"]["branches"],
+                         ["巳", "酉", "丑"])
+        self.assertNotIn(
+            tuple(sorted(spanning[0]["detail"]["branches"])),
+            [tuple(sorted(r["detail"]["branches"]))
+             for r in groups if r["scope"] != "dayun_x_flow_x_natal"])
+        self.assertEqual(spanning[0]["effect"]["status"], "abstain")
+        self.assertFalse([
+            e for e in output["effects"]["conditional_effects"]
+            if e["scope"] == "dayun_x_flow_x_natal"])
 
 
 class NewInputFailClosedTests(unittest.TestCase):
@@ -1202,6 +1703,8 @@ class NewInputFailClosedTests(unittest.TestCase):
                               "factor_variant": "unknown"})
 
     def test_pattern_broken_state_rejected(self):
+        # 第三批集成：broken 只认伤官见官一途；正官格破格无已审通道，
+        # 仍拒收（合法的伤官破格见 test_tj0424_broken_integration）。
         broken = self._pattern_v2()
         broken["results"]["zhengguan"]["state"] = "broken"
         with self.assertRaises(ValueError):
