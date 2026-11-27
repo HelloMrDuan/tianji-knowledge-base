@@ -1,15 +1,15 @@
 """合化（天干五合化气）成立规则登记（TJ-0426 Lane 2，P-05）。
 
 纯登记模块：只转录已审定的合化材料，不产生任何化气成立／从化／
-化格判定，不接线、不被任何可执行路径 import（与审定批
-``bazi_hehua_fact_adjudication`` 同例：登记不等于实现）。
+化格判定，不接线、不被任何可执行路径 import（与合化事实层审定登记
+同例：登记不等于实现）。
 
 来源链（逐项可核）：
 - 三命卷二合化组三节校勘续册（018-C）：四种条件表述登记为
   conflict 并列（``HEHUA_CONDITION_VARIANTS``，status=conflict，
   adjudication=None）；逐对月条件全表见 ``HEHUA_PAIRS``。
 - TJ-012.3 合化审源与事实层设计审定登记
-  （``bazi_hehua_fact_adjudication``，E0270）：四表述、条件要素
+  （合化事实层审定登记，E0270）：四表述、条件要素
   矩阵、真冲突 C1–C4（C5 为未登记章内张力）、逐项可执行性判定
   P1–P18、切片结论 SLICE_SPEC=None、阻塞与待裁定登记 B1–B6。
   本模块逐项转录上述登记，转录漂移由专项测试核对。
@@ -46,7 +46,6 @@
 from .foundations import BRANCHES, STEMS
 
 HEHUA_RULES_VARIANT = 'bazi-hehua-rules-v1'
-HEHUA_ADJUDICATION_REGISTER = 'bazi-hehua-fact-adjudication-v1'
 HEHUA_CONDITION_REGISTER = (
     'bazi_sanming_juan2_hehua_collation.HEHUA_CONDITION_VARIANTS')
 
@@ -57,7 +56,7 @@ ESTABLISHMENT_RULES = ()
 
 
 # --- F1 逐对月条件全表 --------------------------------------------------
-# 转录自 bazi_hehua_fact_adjudication.PAIR_CONDITION_TABLE（与 018-C
+# 转录自合化事实层审定登记 PAIR_CONDITION_TABLE（与 018-C
 # 登记逐项对应）。``element`` 为名册化元素（表字段，不判断化成）；
 # ``primary_months``／``secondary_months`` 为 F1 本局月集／其次一月
 # （月支）；``blocker_stem_f1``／``blocker_stem_f3_duhua`` 为同一功能
@@ -108,7 +107,7 @@ _HEHUA_PAIR_BY_STEMS = {
 
 
 # --- 条件表述登记 -------------------------------------------------------
-# 转录自 bazi_hehua_fact_adjudication.FORMULATION_REGISTER。F1–F4 已
+# 转录自合化事实层审定登记 FORMULATION_REGISTER。F1–F4 已
 # 登记（018-C，conflict 并列，adjudication=None）；F5/F6 未登记
 # （只有审计条目 P05，缺口 B4）；HX 为相关 doctrine（对象是日主从化，
 # 与化气格不是同一裁定对象）。
@@ -209,7 +208,7 @@ HEHUA_FORMULATIONS = (
 
 
 # --- 冲突结构 -----------------------------------------------------------
-# 转录自 bazi_hehua_fact_adjudication.CONFLICT_ANALYSIS。C1–C4 为已登记
+# 转录自合化事实层审定登记 CONFLICT_ANALYSIS。C1–C4 为已登记
 # 表述间的真冲突；C5 为未登记的章内张力（不计入四项，只作结构登记）。
 HEHUA_CONFLICTS = (
     {'id': 'C1', 'title': 'F1 月集 vs F4 化月集合（同要素、不同集合）',
@@ -280,7 +279,7 @@ HEHUA_DETAIL_DIFFERENCES = (
 
 
 # --- 逐项可执行性判定 -----------------------------------------------------
-# 转录自 bazi_hehua_fact_adjudication.PROPOSITION_AUDIT（P1–P18）。
+# 转录自合化事实层审定登记 PROPOSITION_AUDIT（P1–P18）。
 # ``verdict`` 取值：fact_ready（已执行）／fact_ready_as_presence_only
 # （在场可算、效力不可算）／adjudication_required（须裁定）／
 # blocked_by_unresolved_token（未审记号阻断）／
@@ -328,7 +327,7 @@ HEHUA_PROPOSITIONS = (
 
 
 # --- 阻塞与待裁定登记 -----------------------------------------------------
-# 转录自 bazi_hehua_fact_adjudication.PENDING_ITEMS（B1–B6）。
+# 转录自合化事实层审定登记 PENDING_ITEMS（B1–B6）。
 HEHUA_PENDING_ITEMS = (
     {'id': 'B1',
      'item': '化气成立条件表述的采用（F1/F2/F3/F4 取舍与组合，含 C2 阻字字集、'
