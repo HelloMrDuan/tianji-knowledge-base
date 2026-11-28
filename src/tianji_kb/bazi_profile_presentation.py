@@ -627,8 +627,8 @@ def _section_xiyong(pillars, day_master, month_branch, research, public):
     # Q2=C: the fuyi modern reference lives in the separate
     # fuyi_research section, not here; this section stays public-only.
     research_reference = None
-    # S4：此处不得运行时读取扶抑切片审定记录（零接线，禁止 import
-    # bazi_fuyi_slice_adjudication）；已裁定关闭态（可建行数 0 行）
+    # S4：此处不得运行时读取扶抑切片审定记录（零接线，禁止导入
+    # 扶抑切片审定登记）；已裁定关闭态（可建行数 0 行）
     # 由下文 FUYI_CLASSICAL_LINE 字面陈述，记录漂移由
     # test_tj0131_fuyi_slice 钉死，不在此设运行时守卫。
     if presentation is None:
