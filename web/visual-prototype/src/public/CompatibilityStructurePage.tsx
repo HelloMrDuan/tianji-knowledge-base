@@ -347,21 +347,25 @@ export function CompatibilityStructurePage() {
     setProfiles(null);
     setProfilesLoading(false);
     setProfilesError(false);
-    // Both birth values are computed once here and reused for the
-    // compatibility call and the per-person profile lifts below, so
-    // all three requests describe the same two birth instants.
-    const aBirth = (() => {
-      const initialSolar = toSolarDateString(saved);
-      if (aDate === initialSolar && aTime === saved.time) {
-        return toApiValue(saved);
-      }
-      if (aDate === initialSolar) {
-        return toApiValue(withUpdatedTime(saved, aTime));
-      }
-      return toApiValue(fromSolarEdit(aDate, aTime, saved.region, saved));
-    })();
-    const bBirth = toApiValue(fromSolarEdit(bDate, bTime, bRegion));
     try {
+      // Both birth values are computed once here and reused for the
+      // compatibility call and the per-person profile lifts below, so
+      // all three requests describe the same two birth instants.
+      // They stay inside try: toApiValue throws on invalid input
+      // (e.g. a region spanning multiple time zones) and the catch
+      // below must surface it as the form alert instead of letting
+      // the submit die silently.
+      const aBirth = (() => {
+        const initialSolar = toSolarDateString(saved);
+        if (aDate === initialSolar && aTime === saved.time) {
+          return toApiValue(saved);
+        }
+        if (aDate === initialSolar) {
+          return toApiValue(withUpdatedTime(saved, aTime));
+        }
+        return toApiValue(fromSolarEdit(aDate, aTime, saved.region, saved));
+      })();
+      const bBirth = toApiValue(fromSolarEdit(bDate, bTime, bRegion));
       const input: {
         person_a_birth_value: string;
         person_b_birth_value: string;
