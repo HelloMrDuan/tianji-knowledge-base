@@ -68,6 +68,17 @@ FIFO，内存总量恒 ≤ 24 条，永不无界增长；每层满时逐出最�
 ``project_formal``）一律返回深拷贝：调用方对返回值的原地修改
 永不污染缓存，一次请求也永不通过共享对象污染另一次请求。
 
+请求作用域（TJ-0427 P1 硬化）：生产请求须在请求边界进入
+``unified_compute_request_scope()``——进入时三层缓存均为本次请求
+新建的空缓存，退出时（正常返回或异常）全部清空，出生瞬时与完整
+计算结果不跨请求保留；不同线程 / asyncio 任务的并发请求各自持有
+自己的 contextvars 上下文，永不互相串数据。同一请求内的重复
+装配仍命中本请求缓存；未进入作用域的直接调用沿用模块级缓存
+（兼容 fallback，仅供测试与离线脚本使用，不得用于多用户服务）。
+上限与 FIFO 逐出规则在作用域内同样适用（每层 8 条，总量 ≤ 24 条）。
+``unified_compute_request_scope_active()`` 报告当前上下文是否处
+于一次请求作用域内。
+
 正式投影（TJ-0427 Lane G）：:func:`project_formal` 是从装配到
 正式（公开安全）视图的唯一显式投影函数，只输出 allowlist 字段
 （出生瞬时 / 时区 / 目标年 + 排盘四柱 + 流年干支结构事实），
@@ -82,6 +93,7 @@ FIFO，内存总量恒 ≤ 24 条，永不无界增长；每层满时逐出最�
 SkipTest，不谎称通过。
 """
 
+import contextvars
 import copy
 import json
 
@@ -115,6 +127,73 @@ _YEAR_CACHE = {}
 _EXECUTE_CACHE = {}
 
 
+# 请求作用域（TJ-0427 P1 硬化）：三层缓存的条目只属于一次请求。
+# 进入 ``unified_compute_request_scope()`` 后，当前上下文内的全部
+# 装配与 ``cached_execute`` 调用读写该作用域自有的三份空缓存；
+# 退出时（正常返回或异常）三份缓存全部清空，出生瞬时与完整计算
+# 结果不再保留，作用域外的调用者永远看不到作用域内的条目。
+# 未进入作用域时沿用上面的模块级缓存（直接调用 / 旧测试的兼容
+# fallback；生产请求路径必须进入作用域，见
+# ``unified_compute_request_scope``）。
+class _RequestScope:
+    __slots__ = ('core', 'year', 'execute')
+
+    def __init__(self):
+        self.core = {}
+        self.year = {}
+        self.execute = {}
+
+
+_REQUEST_SCOPE = contextvars.ContextVar(
+    'unified_compute_request_scope', default=None)
+
+
+def _current_caches():
+    """当前生效的三层缓存：作用域内为作用域自有缓存，否则为模块级缓存。"""
+    scope = _REQUEST_SCOPE.get()
+    if scope is None:
+        return _CORE_CACHE, _YEAR_CACHE, _EXECUTE_CACHE
+    return scope.core, scope.year, scope.execute
+
+
+class unified_compute_request_scope:
+    """一次请求的缓存作用域（context manager）。
+
+    进入时为本次请求新建三份空缓存（出生层 / 目标年层 / execute
+    去重层），作用域内的装配与 ``cached_execute`` 只读写这三份；
+    退出时（正常返回或异常）三份缓存全部清空，出生瞬时与完整
+    计算结果不保留，作用域外的调用者看不到作用域内的任何条目。
+    嵌套进入时内层是全新的空缓存，退出只清空内层并恢复外层。
+    不同线程 / asyncio 任务各自持有自己的 contextvars 上下文，
+    因此并发请求天然隔离：一个请求的出生数据永不进入另一个
+    请求的缓存。
+
+    生产请求路径必须在请求边界进入本作用域；未进入作用域的直接
+    调用沿用模块级缓存（兼容 fallback，仅供测试与离线脚本使用，
+    不得用于多用户服务）。进入作用域返回该作用域对象（测试可用
+    它断言退出后三份缓存均已清空）。
+    """
+
+    def __enter__(self):
+        self._scope = _RequestScope()
+        self._token = _REQUEST_SCOPE.set(self._scope)
+        return self._scope
+
+    def __exit__(self, exc_type, exc, tb):
+        try:
+            self._scope.core.clear()
+            self._scope.year.clear()
+            self._scope.execute.clear()
+        finally:
+            _REQUEST_SCOPE.reset(self._token)
+        return False
+
+
+def unified_compute_request_scope_active():
+    """当前上下文是否处于一次请求作用域内（生命周期可观测性）。"""
+    return _REQUEST_SCOPE.get() is not None
+
+
 class UnifiedComputePinError(ValueError):
     """引擎输出变体漂移：调用方不得吞掉，必须 loud 失败。"""
 
@@ -124,10 +203,15 @@ class UnifiedComputeInputError(ValueError):
 
 
 def clear_unified_compute_cache():
-    """清空入口的全部模块内缓存（测试隔离用；不碰任何引擎状态）。"""
-    _CORE_CACHE.clear()
-    _YEAR_CACHE.clear()
-    _EXECUTE_CACHE.clear()
+    """清空当前生效的全部三层缓存（测试隔离用；不碰任何引擎状态）。
+
+    作用域内只清空该作用域的缓存，作用域外的缓存不受影响；
+    作用域外清空模块级缓存。
+    """
+    core, year, execute = _current_caches()
+    core.clear()
+    year.clear()
+    execute.clear()
 
 
 # 失效维度哨兵：invalidate 调用中 traditional_role / target_year
@@ -136,11 +220,15 @@ _ANY_DIMENSION = object()
 
 
 def unified_compute_cache_info():
-    """报告三层缓存的条数与上限（生命周期可观测性；只读）。"""
+    """报告当前生效的三层缓存的条数与上限（生命周期可观测性；只读）。
+
+    作用域内报告该作用域的条数，作用域外报告模块级缓存的条数。
+    """
+    core, year, execute = _current_caches()
     return {
-        'core_entries': len(_CORE_CACHE),
-        'year_entries': len(_YEAR_CACHE),
-        'execute_entries': len(_EXECUTE_CACHE),
+        'core_entries': len(core),
+        'year_entries': len(year),
+        'execute_entries': len(execute),
         'max_entries_per_cache': _CACHE_MAX_ENTRIES,
         'max_entries_total': 3 * _CACHE_MAX_ENTRIES,
     }
@@ -149,8 +237,9 @@ def unified_compute_cache_info():
 def invalidate_unified_compute_cache(birth_value, *, zone=None,
                                      traditional_role=_ANY_DIMENSION,
                                      target_year=_ANY_DIMENSION):
-    """按 key 失效一个出生瞬时的缓存条目；返回实际删除的条数。
+    """按 key 失效当前生效缓存中一个出生瞬时的条目；返回实际删除的条数。
 
+    作用域内只失效该作用域的条目，作用域外失效模块级缓存的条目。
     删除：出生层 ``(birth_value, zone)`` 条目；该出生 / 时区下的
     目标年层条目（``traditional_role`` / ``target_year`` 未给定时
     不限定该维度，即删除该出生 / 时区下的全部目标年层条目；显式
@@ -162,11 +251,12 @@ def invalidate_unified_compute_cache(birth_value, *, zone=None,
     """
     _validate_birth_value(birth_value)
     removed = 0
+    core_cache, year_cache, execute_cache = _current_caches()
     core_key = _canonical_key([birth_value, zone])
-    if core_key is not None and core_key in _CORE_CACHE:
-        del _CORE_CACHE[core_key]
+    if core_key is not None and core_key in core_cache:
+        del core_cache[core_key]
         removed += 1
-    for key in list(_YEAR_CACHE):
+    for key in list(year_cache):
         try:
             parts = json.loads(key)
         except ValueError:
@@ -181,9 +271,9 @@ def invalidate_unified_compute_cache(birth_value, *, zone=None,
         if target_year is not _ANY_DIMENSION \
                 and parts[3] != target_year:
             continue
-        del _YEAR_CACHE[key]
+        del year_cache[key]
         removed += 1
-    for key in list(_EXECUTE_CACHE):
+    for key in list(execute_cache):
         try:
             parts = json.loads(key)
         except ValueError:
@@ -197,7 +287,7 @@ def invalidate_unified_compute_cache(birth_value, *, zone=None,
             continue
         if zone is not None and inputs.get('zone') != zone:
             continue
-        del _EXECUTE_CACHE[key]
+        del execute_cache[key]
         removed += 1
     return removed
 
@@ -232,10 +322,11 @@ def cached_execute(domain, inputs, allow_research=False):
     from .engine import execute
 
     key = _canonical_key([domain, inputs, allow_research])
-    if key is not None and key in _EXECUTE_CACHE:
-        return copy.deepcopy(_EXECUTE_CACHE[key])
+    _, _, execute_cache = _current_caches()
+    if key is not None and key in execute_cache:
+        return copy.deepcopy(execute_cache[key])
     result = execute(domain, inputs, allow_research=allow_research)
-    _cache_put(_EXECUTE_CACHE, key, result)
+    _cache_put(execute_cache, key, result)
     return copy.deepcopy(result)
 
 
@@ -459,9 +550,10 @@ def _assemble_birth_core(birth_value, zone):
     由调用方决定是否降级为无装配页（公开输出永不因此改变）。
     """
     _validate_birth_value(birth_value)
+    core_cache, _, _ = _current_caches()
     key = _canonical_key([birth_value, zone])
-    if key is not None and key in _CORE_CACHE:
-        return copy.deepcopy(_CORE_CACHE[key])
+    if key is not None and key in core_cache:
+        return copy.deepcopy(core_cache[key])
 
     from .bazi_bingyao import bingyao_lookup
     from .bazi_pattern_engine import evaluate_all
@@ -561,7 +653,7 @@ def _assemble_birth_core(birth_value, zone):
             'errors': errors,
         },
     }
-    _cache_put(_CORE_CACHE, key, core)
+    _cache_put(core_cache, key, core)
     return copy.deepcopy(core)
 
 
@@ -583,10 +675,11 @@ def _assemble_year_layer(core, *, traditional_role, target_year):
     """
     birth_value = core['birth_value']
     zone = core['zone']
+    _, year_cache, _ = _current_caches()
     key = _canonical_key([birth_value, zone, traditional_role,
                           target_year])
-    if key is not None and key in _YEAR_CACHE:
-        return copy.deepcopy(_YEAR_CACHE[key])
+    if key is not None and key in year_cache:
+        return copy.deepcopy(year_cache[key])
 
     from .bazi_core import ten_god
     from .calendar import calendar
@@ -726,7 +819,7 @@ def _assemble_year_layer(core, *, traditional_role, target_year):
         'combination_note': combination_note,
         'errors': errors,
     }
-    _cache_put(_YEAR_CACHE, key, layer)
+    _cache_put(year_cache, key, layer)
     return copy.deepcopy(layer)
 
 

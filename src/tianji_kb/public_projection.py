@@ -361,10 +361,21 @@ def project_execution(data):
         'life': ('life_presentation', 'life_presentation',
                  'is_valid_life_presentation',
                  'to_public_life_presentation'),
+        # TJ-031.19 (E0427): the true-solar comparison is released
+        # only on its own scenario, only in exactly its validated
+        # allowlisted shape (bazi_true_solar_public). The raw
+        # research record is stripped from every container below;
+        # the single validated copy lifted here is the only one
+        # re-attached. The scenario itself is not in the SCENARIOS
+        # registry (no page of its own); the public endpoint
+        # dispatches it to execute_true_solar_scenario.
+        'true-solar': ('true_solar_comparison', 'bazi_true_solar_public',
+                       'is_valid_public_true_solar_comparison',
+                       'to_public_true_solar_comparison'),
     }
     _released_presentations = {}
     if data.get('scenario_id') in ('bazi-profile', 'career', 'romance',
-                                    'compatibility', 'life') \
+                                    'compatibility', 'life', 'true-solar') \
             and isinstance(data.get('result'), dict):
         _release_key, _release_module, _validator_name, \
             _converter_name = _TJ03119_RELEASES[data.get('scenario_id')]
@@ -389,6 +400,8 @@ def project_execution(data):
         'compatibility_presentation')
     scoped_life_presentation = _released_presentations.get(
         'life_presentation')
+    scoped_true_solar_comparison = _released_presentations.get(
+        'true_solar_comparison')
     aliases = _Aliases(data['evidence'])
     result = {key: _public_facts(value, aliases)
               for key, value in data.items()
@@ -463,6 +476,12 @@ def project_execution(data):
             container.pop('romance_presentation', None)
             container.pop('compatibility_presentation', None)
             container.pop('life_presentation', None)
+            # TJ-031.19 (E0427): same for the true-solar comparison
+            # key. The raw research record is stripped from every
+            # container here; the single validated allowlisted copy
+            # lifted above (the true-solar scenario only) is the
+            # only one re-attached (below).
+            container.pop('true_solar_comparison', None)
             # TJ-012.3 Slice A: the 禄刃 route exclusion is research-only
             # (pending Phase1 registration); never let it reach a public
             # response either.
@@ -547,6 +566,14 @@ def project_execution(data):
             and isinstance(result.get('result'), dict):
         result['result']['life_presentation'] = \
             scoped_life_presentation
+    # TJ-031.19 (E0427): re-attach the validated allowlisted
+    # true-solar comparison, only on its own scenario (lifted
+    # above). Any other carrier -- including a forged copy on a
+    # registered scenario -- stays stripped.
+    if scoped_true_solar_comparison is not None \
+            and isinstance(result.get('result'), dict):
+        result['result']['true_solar_comparison'] = \
+            scoped_true_solar_comparison
     return result
 
 

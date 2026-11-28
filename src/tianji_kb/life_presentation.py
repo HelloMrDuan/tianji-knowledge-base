@@ -773,16 +773,20 @@ def to_public_life_presentation(obj):
     return copy.deepcopy(obj)
 
 
-def build_life_presentation_for(birth_value, target_year, *,
-                                birth_zone=None, traditional_role=None,
-                                partner_birth_value=None,
-                                partner_zone=None,
-                                partner_traditional_role=None):
-    """Live wrapper: execute the life scenario, assemble the unified
+def _build_life_presentation_for(birth_value, target_year, *,
+                                 birth_zone=None, traditional_role=None,
+                                 partner_birth_value=None,
+                                 partner_zone=None,
+                                 partner_traditional_role=None):
+    """Live wrapper body: execute the life scenario, assemble the unified
     entry, build the sibling presentations and present them.
 
-    Lazy engine imports keep this module importable without the
-    sealed runtime. A sealed-runtime failure propagates (the caller
+    Runs inside the request scope entered by the public
+    :func:`build_life_presentation_for` — the direct
+    ``assemble_birth`` call below is therefore in the same scope (and
+    shares the same per-request cache) as the two ``execute_scenario``
+    calls in this body, instead of falling back to the ambient
+    module-level caches. A sealed-runtime failure propagates (the caller
     decides whether it is a skip or a failure); a presentation
     rejection raises ``ValueError``.
     """
@@ -828,3 +832,43 @@ def build_life_presentation_for(birth_value, target_year, *,
         life_envelope, life_trim=life_trim, combination=combination,
         full_dayun_presentation=full_dayun, romance=romance_theme,
         compatibility=compatibility_theme)
+
+
+def build_life_presentation_for(birth_value, target_year, *,
+                                birth_zone=None, traditional_role=None,
+                                partner_birth_value=None,
+                                partner_zone=None,
+                                partner_traditional_role=None):
+    """Live wrapper: one request scope for the whole life overview.
+
+    This is the one serving-path caller that reaches the unified
+    compute caches WITHOUT going through ``execute_scenario``: the
+    direct ``assemble_birth`` call in the body below runs after
+    ``execute_scenario("life", ...)`` returns, so a scope entered
+    only inside ``execute_scenario`` would already have exited and
+    that assembly would fall back to the ambient module-level caches
+    (retained across requests). Entering the scope here — around the
+    entire body — keeps the direct assembly, both ``execute_scenario``
+    calls (which reuse this scope instead of nesting a fresh one) and
+    the compatibility sub-build in a single per-request scope, evicted
+    on exit including on exception. Lazy engine imports keep this
+    module importable without the sealed runtime.
+    """
+    from .unified_compute import (
+        unified_compute_request_scope,
+        unified_compute_request_scope_active,
+    )
+
+    kwargs = {
+        "birth_zone": birth_zone,
+        "traditional_role": traditional_role,
+        "partner_birth_value": partner_birth_value,
+        "partner_zone": partner_zone,
+        "partner_traditional_role": partner_traditional_role,
+    }
+    if unified_compute_request_scope_active():
+        return _build_life_presentation_for(
+            birth_value, target_year, **kwargs)
+    with unified_compute_request_scope():
+        return _build_life_presentation_for(
+            birth_value, target_year, **kwargs)

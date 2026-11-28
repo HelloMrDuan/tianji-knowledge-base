@@ -1,0 +1,124 @@
+{
+  "domain": "bazi",
+  "variant": "ziping-structural-v1",
+  "mode": "production",
+  "deterministic": true,
+  "chart": {
+    "pillars": [
+      {
+        "name": "year",
+        "ganzhi": "甲辰",
+        "stem": {
+          "value": "甲",
+          "ten_god": "比肩"
+        },
+        "branch": {
+          "value": "辰",
+          "hidden_stems": [
+            {
+              "stem": "戊"
+            },
+            {
+              "stem": "乙"
+            },
+            {
+              "stem": "癸"
+            }
+          ]
+        }
+      },
+      {
+        "name": "month",
+        "ganzhi": "戊辰",
+        "stem": {
+          "value": "戊",
+          "ten_god": "比肩"
+        },
+        "branch": {
+          "value": "辰",
+          "hidden_stems": [
+            {
+              "stem": "戊"
+            },
+            {
+              "stem": "乙"
+            },
+            {
+              "stem": "癸"
+            }
+          ]
+        }
+      },
+      {
+        "name": "day",
+        "ganzhi": "戊午",
+        "stem": {
+          "value": "戊",
+          "ten_god": "比肩"
+        },
+        "branch": {
+          "value": "午",
+          "hidden_stems": [
+            {
+              "stem": "丁"
+            },
+            {
+              "stem": "己"
+            }
+          ]
+        }
+      },
+      {
+        "name": "hour",
+        "ganzhi": "甲寅",
+        "stem": {
+          "value": "甲",
+          "ten_god": "比肩"
+        },
+        "branch": {
+          "value": "寅",
+          "hidden_stems": [
+            {
+              "stem": "甲"
+            },
+            {
+              "stem": "丙"
+            },
+            {
+              "stem": "戊"
+            }
+          ]
+        }
+      }
+    ],
+    "day_master": {
+      "stem": "戊",
+      "element": "土",
+      "polarity": "阳"
+    },
+    "stem_ten_gods": {},
+    "hidden_stems": {},
+    "limitations": [],
+    "production_scope": "结构排盘",
+    "strength_factors": null
+  },
+  "rule_matches": [],
+  "trace": [],
+  "evidence": {},
+  "warnings": [],
+  "limitations": [],
+  "explanation": null,
+  "explanation_status": "disabled",
+  "explanation_error": null,
+  "calendar": {
+    "local_datetime": "2024-02-11T16:27:07+08:00",
+    "solar_term": "立春",
+    "solar_term_started_at": "2024-02-04 16:26:53+08:00",
+    "year_ganzhi": "甲辰",
+    "month_ganzhi": "戊辰",
+    "day_ganzhi": "戊午",
+    "hour_ganzhi": "甲寅",
+    "day_boundary": "midnight",
+    "calendar_provider": "lunar-python==1.4.8"
+  }
+}

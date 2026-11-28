@@ -42,6 +42,8 @@ from .unified_compute import (
     trim_for_compatibility,
     trim_for_life,
     trim_for_romance,
+    unified_compute_request_scope,
+    unified_compute_request_scope_active,
 )
 
 SCENARIOS = [
@@ -3295,9 +3297,116 @@ _EXECUTORS = {
 }
 
 
+# TJ-031.19 (E0427): the true-solar comparison scenario.
+#
+# Deliberately NOT a SCENARIOS registry entry and NOT in _EXECUTORS:
+# it is a research sub-feature of the bazi-profile page (the
+# on-demand "真太阳时对照" section), not a standalone product
+# scenario -- it has no page and no route of its own, and the
+# registry is pinned by test_b016_scenario_gate_table to exactly
+# the page-bearing scenarios (one gate-table row, one real page and
+# one key spec per registry id). Registering it there would force
+# a fictitious page/route into the admin gate tables. The public
+# scenario endpoint (api.py) dispatches scenario_id "true-solar"
+# here directly; the rest of that handler (unverified-period
+# boundary, public projection, response shape) is shared with the
+# registered scenarios. GET /api/v1/scenarios therefore does not
+# list it, and the internal /scenarios/execute endpoint does not
+# execute it either -- the comparison is served only through the
+# public scenario endpoint, as a research-only record.
+#
+# The executor itself is a thin contract shell around the existing
+# research entry: it validates the closed input contract, calls
+# research_dual_time_chart (which owns the solar-time math, the
+# tzdb resolution/validation and every fail-closed check), and
+# returns the record untouched inside the envelope. The default
+# charting path is never touched -- this scenario never changes
+# the standard chart; it only returns the comparison. The record
+# carries research_only=True, public=False, ai=False throughout,
+# and the public projection (public_projection.py) releases only
+# the allowlisted fields of it (see bazi_true_solar_public.py).
+def execute_true_solar_scenario(inputs):
+    """Run the true-solar comparison for one birth instant.
+
+    Input contract (closed -- anything else is rejected):
+    required ``value`` (birth datetime string, timezone-aware),
+    ``longitude_deg`` (number in [-180, 180]); optional exactly
+    one time-zone source, ``tz_name`` (IANA zone, resolved and
+    validated against tzdb for the instant) or ``tz_offset``
+    (explicit hours, whole minutes, [-12, +14]). The underlying
+    research entry raises ValueError on every invalid input
+    (naive/malformed birth, out-of-range longitude, unknown zone,
+    LMT-era zone, tzdb mismatch, missing zone source) -- the
+    request fails closed with no partial or fabricated result.
+    """
+    # Imported here, not at module level: the research entry's
+    # import chain reaches the calendar module (lunar_python),
+    # which this module's top-level import surface does not carry.
+    from .bazi_true_solar_chart import research_dual_time_chart
+    _require_with_optional(
+        inputs, ["value", "longitude_deg"], ["tz_name", "tz_offset"])
+    value = inputs["value"]
+    longitude_deg = inputs["longitude_deg"]
+    if not isinstance(value, str):
+        raise ValueError(
+            "true-solar value must be a birth datetime string")
+    if isinstance(longitude_deg, bool) \
+            or not isinstance(longitude_deg, (int, float)):
+        raise ValueError("longitude_deg must be a number of degrees")
+    tz_name = inputs.get("tz_name")
+    tz_offset = inputs.get("tz_offset")
+    if tz_name is not None and not isinstance(tz_name, str):
+        raise ValueError("tz_name must be an IANA zone name string")
+    if tz_offset is not None and (
+            isinstance(tz_offset, bool)
+            or not isinstance(tz_offset, (int, float))):
+        raise ValueError("tz_offset must be hours as a number")
+    record = research_dual_time_chart(
+        value, longitude_deg, tz_name=tz_name, tz_offset=tz_offset)
+    return {
+        "scenario_id": "true-solar",
+        "status": "production_limited",
+        "public_release": False,
+        "deterministic": True,
+        "result": {
+            "release_scope": "true_solar_comparison_only",
+            "true_solar_comparison": record,
+        },
+        "rule_matches": [],
+        "trace": [{"step": "true_solar_comparison"}],
+        "evidence": {},
+        "warnings": [],
+        "limitations": [
+            "真太阳时对照是研究入口（true-solar-chart-research-v1）："
+            "同一出生时刻按标准时间与真太阳时两种口径排盘对照，"
+            "只作研究比较，不替换公开排盘；不作任何古典结论。",
+            "AI 不参与本对照计算。",
+        ],
+    }
+
+
 def execute_scenario(scenario_id, inputs):
+    """Run one scenario request inside a unified-compute request scope.
+
+    This is the single choke point every scenario passes through
+    (both API endpoints reach it via ``run_in_threadpool``), so the
+    scope is entered here, synchronously, in the same thread that
+    performs the computation: no cross-thread contextvars propagation
+    is relied on. One request gets one fresh scope — its
+    ``assemble_birth`` / ``assemble_pair`` / ``cached_execute`` calls
+    share that request's caches and nothing is retained afterwards
+    (the scope evicts everything on exit, including on exception).
+    A caller that already entered a scope (e.g.
+    ``build_life_presentation_for``) is reused instead of nested, so
+    a multi-step request shares one cache instead of recomputing per
+    step. Unknown / not-yet-executable scenarios are rejected before
+    any scope is entered.
+    """
     if scenario_id not in _BY_ID:
         raise ValueError("Unknown scenario")
     if scenario_id not in _EXECUTORS:
         raise ValueError("Scenario is not executable yet")
-    return _EXECUTORS[scenario_id](inputs)
+    if unified_compute_request_scope_active():
+        return _EXECUTORS[scenario_id](inputs)
+    with unified_compute_request_scope():
+        return _EXECUTORS[scenario_id](inputs)

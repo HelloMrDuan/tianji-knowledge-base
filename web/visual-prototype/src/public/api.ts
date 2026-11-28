@@ -351,6 +351,89 @@ export async function executeBaziProfileScenario(input: {
   return assertBaziProfileScenarioResponse(data);
 }
 
+/**
+ * TJ-031.19 P0-3：真太阳时对照（研究入口）的按需计算。
+ *
+ * 复用后端已有的 research_dual_time_chart / compare_pillars 计算
+ * （src/tianji_kb/bazi_true_solar_chart.py）：同一出生时刻按标准时间
+ * 与真太阳时两种口径排盘，附逐柱对照（是否变化及变化原因）。默认
+ * 排盘口径不因此改变——本调用只返回对照记录，从不替换标准排盘。
+ *
+ * 端点状态（截至本次前端改动）：后端场景注册表仍是封闭的，
+ * research_dual_time_chart 目前只是函数级入口，没有任何公开端点
+ * 暴露它；因此本次调用在服务端接线完成前会按既有失败路径返回
+ * 请求失败，页面如实显示错误态、绝不伪造对照结果。后端接线时按
+ * 场景 API 的既有模式加一个 `true-solar` 场景即可：输入
+ * { value, longitude_deg, tz_name? | tz_offset? }，结果在
+ * `result.true_solar_comparison` 中返回研究记录原样（或直接返回
+ * 研究记录本身）；两种信封本函数都接受，但记录本身必须通过
+ * 下面的严格校验（research_only、入口标识、四柱对照齐全），
+ * 否则按数据格式异常拒绝。
+ */
+export type TrueSolarComparison = {
+  entry: string;
+  research_only: boolean;
+  public: boolean;
+  ai: boolean;
+  status: string;
+  input: Record<string, any>;
+  conversion: Record<string, any>;
+  standard_time_chart: Record<string, any>;
+  true_solar_time_chart: Record<string, any>;
+  differences: Record<string, any>;
+  jieqi: Record<string, any>;
+  pillar_comparison: {
+    adapter: string;
+    research_only: boolean;
+    day_master: Record<string, any>;
+    pillars: Array<Record<string, any>>;
+    month_attribution: string;
+    month_attribution_settled: boolean;
+    derived: Record<string, any>;
+    note: string;
+  };
+  tz_validation?: Record<string, any>;
+  provenance?: Record<string, any>;
+  research_api?: string;
+  comparison_note?: string;
+};
+
+function assertTrueSolarComparison(data: unknown): TrueSolarComparison {
+  // 两种信封：场景信封（result.true_solar_comparison）或研究记录本身。
+  const record = isRecord(data) && isRecord(data.result)
+    ? data.result.true_solar_comparison
+    : data;
+  if (!isRecord(record) || record.entry !== "true-solar-chart-research-v1" ||
+      record.research_only !== true || !isRecord(record.conversion) ||
+      !isRecord(record.standard_time_chart) ||
+      !isRecord(record.true_solar_time_chart) ||
+      !isRecord(record.differences) || !isRecord(record.jieqi) ||
+      !isRecord(record.pillar_comparison) ||
+      !Array.isArray(record.pillar_comparison.pillars) ||
+      record.pillar_comparison.pillars.length !== 4 ||
+      record.pillar_comparison.pillars.some((row: unknown) =>
+        !isRecord(row) || typeof row.name !== "string" ||
+        !isRecord(row.standard) || !isRecord(row.true_solar) ||
+        typeof row.changed !== "boolean" ||
+        typeof row.reason !== "string")) invalidResponse();
+  return record as TrueSolarComparison;
+}
+
+export async function executeTrueSolarComparison(input: {
+  value: string;
+  longitude_deg: number;
+  // 出生地时区：IANA 区名与显式 UTC 偏移二选一；区名由服务端按
+  // tzdb 解析校验，偏移由调用方显式承担（与后端入口的约定一致）。
+  tz_name?: string;
+  tz_offset?: number;
+}): Promise<TrueSolarComparison> {
+  const data = await requestJson("/api/v1/scenarios/public", {
+      scenario_id: "true-solar",
+      input,
+  });
+  return assertTrueSolarComparison(data);
+}
+
 
 export async function executeCareerScenario(input: {
   birth_value: string;

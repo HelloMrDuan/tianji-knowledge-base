@@ -202,7 +202,9 @@ test("presented strong renders the retitled structure section in reading order",
   // 默认阅读顺序：概览 → 结构 → 研究列：现代强度模型（Q1=C，2026-11-28
   // 批准的独立研究栏目） → 五行分布与日主（详批第 1 节） → 旺衰因素
   // （默认折叠的扩展知识区，仍为直接子节） → 调候病药 → 扶抑现代层
-  // 研究（Q2=C，2026-11-28 批准的独立研究栏目） → 边界 → 审计。
+  // 研究（Q2=C，2026-11-28 批准的独立研究栏目） → 真太阳时对照
+  // （研究）（P0-3：占位 details 改为带标题的真实对照节，故进入
+  // 阅读顺序；未计算时只含输入表单，不含对照结果） → 边界 → 审计。
   expect(await directChildSectionLabels(page)).toEqual([
     "命盘概览",
     "命盘结构分析",
@@ -211,6 +213,7 @@ test("presented strong renders the retitled structure section in reading order",
     "旺衰因素与通根候选",
     "调候与病药取用依据",
     "扶抑现代层研究",
+    "真太阳时对照（研究）",
     "当前分析边界",
     "专业审计视图",
   ]);

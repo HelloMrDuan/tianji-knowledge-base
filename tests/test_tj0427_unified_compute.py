@@ -5,6 +5,12 @@
 不改任何引擎 pin、不改任何公开 presentation allowlist、不晋升
 任何研究字段、不调用 AI。
 
+P1（ChatGPT 终审，TJ-0427）：``RequestScopeTests`` /
+``RequestScopeExecuteTests`` 覆盖请求作用域的进入 / 退出 /
+嵌套 / 异常 / 并发隔离与退出后零残留——同一请求内重复装配仍
+命中缓存，两并发请求（不同出生数据）互不串数据，作用域退出
+后不保留任何出生数据与完整计算结果。
+
 分三类，诚实区分：
 
 * 纯本地测试（无密封数据可跑）：缓存机制 / key 维度 / 投影 /
@@ -39,6 +45,7 @@
 import copy
 import hashlib
 import json
+import threading
 import unittest
 from unittest import mock
 
@@ -709,6 +716,243 @@ class StubEngineAssemblyTests(unittest.TestCase):
         self.assertTrue(
             {'dayun', 'dayun_status', 'flow_boundary'}
             <= set(uc.RESEARCH_FIELD_NAMES))
+
+
+class RequestScopeTests(unittest.TestCase):
+    """请求作用域（TJ-0427 P1）：一次请求的缓存生命周期与并发隔离。
+
+    只测入口自身的 scope 机制：stub 引擎（与
+    ``StubEngineAssemblyTests`` 同一套 patcher，只替换计算，不替换
+    入口的缓存 / scope 代码）。断言：(a) 同一请求内重复装配仍命中
+    缓存；(b) 两并发请求（不同出生数据）互不串数据；(c) 作用域
+    退出后不保留任何出生数据与完整计算结果。
+    """
+
+    def setUp(self):
+        clear_unified_compute_cache()
+        self.natal_calls = []
+        self.patchers = _stub_engine_patchers(self.natal_calls)
+        for patcher in self.patchers:
+            patcher.start()
+
+    def tearDown(self):
+        for patcher in reversed(self.patchers):
+            patcher.stop()
+        clear_unified_compute_cache()
+
+    def _ambient_dump(self):
+        """模块级三层缓存的整体 dump：断言退出后零残留用。"""
+        return json.dumps(
+            [uc._CORE_CACHE, uc._YEAR_CACHE, uc._EXECUTE_CACHE],
+            sort_keys=True, ensure_ascii=False, default=str)
+
+    def test_scope_active_flag(self):
+        self.assertFalse(uc.unified_compute_request_scope_active())
+        with uc.unified_compute_request_scope():
+            self.assertTrue(uc.unified_compute_request_scope_active())
+        self.assertFalse(uc.unified_compute_request_scope_active())
+
+    def test_same_request_reuse_inside_scope(self):
+        with uc.unified_compute_request_scope():
+            first = uc.assemble_birth(F2_BIRTH, traditional_role='male',
+                                      target_year=2025)
+            second = uc.assemble_birth(F2_BIRTH, traditional_role='male',
+                                       target_year=2025)
+            self.assertEqual(len(self.natal_calls), 1)
+            self.assertEqual(first, second)
+            self.assertIsNot(first, second)
+            info = unified_compute_cache_info()
+            self.assertEqual(info['core_entries'], 1)
+            self.assertEqual(info['year_entries'], 1)
+        # 作用域外看不到作用域内的条目。
+        self.assertEqual(unified_compute_cache_info()['core_entries'], 0)
+        self.assertEqual(unified_compute_cache_info()['year_entries'], 0)
+
+    def test_scope_evicted_on_exit_and_recompute_after(self):
+        with uc.unified_compute_request_scope() as scope:
+            uc.assemble_birth(F2_BIRTH, traditional_role='male',
+                              target_year=2025)
+            self.assertEqual(len(scope.core), 1)
+            self.assertEqual(len(scope.year), 1)
+            dumped = json.dumps([scope.core, scope.year, scope.execute],
+                                sort_keys=True, ensure_ascii=False)
+            self.assertIn(F2_BIRTH, dumped)
+        # 退出后三份作用域缓存全部清空，模块级缓存亦无残留。
+        self.assertEqual(scope.core, {})
+        self.assertEqual(scope.year, {})
+        self.assertEqual(scope.execute, {})
+        self.assertEqual(unified_compute_cache_info(), {
+            'core_entries': 0, 'year_entries': 0, 'execute_entries': 0,
+            'max_entries_per_cache': 8, 'max_entries_total': 24})
+        self.assertNotIn(F2_BIRTH, self._ambient_dump())
+        # 退出后再次装配必须重新计算（不是“看不见但仍留着”）。
+        uc.assemble_birth(F2_BIRTH, traditional_role='male',
+                          target_year=2025)
+        self.assertEqual(len(self.natal_calls), 2)
+
+    def test_scope_evicted_on_exception(self):
+        scope = None
+        with self.assertRaises(RuntimeError):
+            with uc.unified_compute_request_scope() as scope:
+                uc.assemble_birth(F2_BIRTH)
+                raise RuntimeError('request failed')
+        self.assertEqual(scope.core, {})
+        self.assertEqual(scope.year, {})
+        self.assertEqual(scope.execute, {})
+        self.assertFalse(uc.unified_compute_request_scope_active())
+        self.assertEqual(unified_compute_cache_info()['core_entries'], 0)
+        self.assertNotIn(F2_BIRTH, self._ambient_dump())
+
+    def test_nested_scope_is_fresh_and_outer_survives(self):
+        with uc.unified_compute_request_scope():
+            uc.assemble_birth(F2_BIRTH)
+            self.assertEqual(len(self.natal_calls), 1)
+            with uc.unified_compute_request_scope():
+                # 内层全新空缓存：同一出生瞬时也要重新计算。
+                uc.assemble_birth(F2_BIRTH)
+                self.assertEqual(len(self.natal_calls), 2)
+            # 内层退出只清空内层，外层缓存仍命中。
+            uc.assemble_birth(F2_BIRTH)
+            self.assertEqual(len(self.natal_calls), 2)
+        self.assertEqual(unified_compute_cache_info()['core_entries'], 0)
+        self.assertNotIn(F2_BIRTH, self._ambient_dump())
+
+    def test_clear_inside_scope_does_not_touch_ambient(self):
+        uc.assemble_birth(F2_BIRTH)
+        self.assertEqual(len(self.natal_calls), 1)
+        self.assertEqual(unified_compute_cache_info()['core_entries'], 1)
+        with uc.unified_compute_request_scope():
+            uc.assemble_birth(F2B_BIRTH)
+            self.assertEqual(len(self.natal_calls), 2)
+            self.assertEqual(
+                unified_compute_cache_info()['core_entries'], 1)
+            clear_unified_compute_cache()
+            self.assertEqual(
+                unified_compute_cache_info()['core_entries'], 0)
+            # 作用域内清空后同一出生瞬时重新计算。
+            uc.assemble_birth(F2B_BIRTH)
+            self.assertEqual(len(self.natal_calls), 3)
+        # 退出后模块级缓存仍保留 F2 的条目（未进作用域的直接调用
+        # 沿用模块级 fallback；生产请求须进作用域）。
+        self.assertEqual(unified_compute_cache_info()['core_entries'], 1)
+        self.assertIn(F2_BIRTH, self._ambient_dump())
+        self.assertNotIn(F2B_BIRTH, self._ambient_dump())
+
+    def test_invalidate_inside_scope_only_touches_scope(self):
+        with uc.unified_compute_request_scope():
+            uc.assemble_birth(F2_BIRTH, traditional_role='male',
+                              target_year=2025)
+            removed = invalidate_unified_compute_cache(F2_BIRTH)
+            self.assertGreaterEqual(removed, 2)
+            self.assertEqual(
+                unified_compute_cache_info()['core_entries'], 0)
+            uc.assemble_birth(F2_BIRTH, traditional_role='male',
+                              target_year=2025)
+            self.assertEqual(len(self.natal_calls), 2)
+        self.assertEqual(unified_compute_cache_info()['core_entries'], 0)
+        self.assertNotIn(F2_BIRTH, self._ambient_dump())
+
+    def test_concurrent_scopes_are_isolated(self):
+        barrier = threading.Barrier(2)
+        results = {}
+        errors = {}
+
+        def run(name, birth):
+            try:
+                with uc.unified_compute_request_scope():
+                    barrier.wait(timeout=10)
+                    results[name] = uc.assemble_birth(
+                        birth, traditional_role='male', target_year=2025)
+            except Exception as exc:  # noqa: BLE001 - 回主线程断言
+                errors[name] = exc
+
+        threads = [
+            threading.Thread(target=run, args=('a', F2_BIRTH)),
+            threading.Thread(target=run, args=('b', F2B_BIRTH)),
+        ]
+        for thread in threads:
+            thread.start()
+        for thread in threads:
+            thread.join(timeout=30)
+        self.assertEqual(errors, {})
+        self.assertEqual(results['a']['chart']['ganzhi'], F2_GANZHI)
+        self.assertEqual(results['a']['chart']['day_master']['stem'], '乙')
+        self.assertEqual(results['b']['chart']['ganzhi'], F2B_GANZHI)
+        self.assertEqual(results['b']['chart']['day_master']['stem'], '丙')
+        # 两个并发请求各算一次自己的出生瞬时，无串算、无复用错 birth。
+        self.assertEqual(len(self.natal_calls), 2)
+        called_births = sorted(call[1]['value']
+                               for call in self.natal_calls)
+        self.assertEqual(called_births, sorted([F2_BIRTH, F2B_BIRTH]))
+        # 两线程退出后无任何残留。
+        self.assertEqual(unified_compute_cache_info()['core_entries'], 0)
+        self.assertEqual(unified_compute_cache_info()['year_entries'], 0)
+        self.assertNotIn(F2_BIRTH, self._ambient_dump())
+        self.assertNotIn(F2B_BIRTH, self._ambient_dump())
+
+    def test_scope_does_not_leak_to_unscoped_thread(self):
+        barrier = threading.Barrier(2)
+        errors = {}
+
+        def worker():
+            try:
+                barrier.wait(timeout=10)
+                # 工作线程未进入作用域：看不到主线程作用域内的条目，
+                # 必须重新计算（natal_calls +1）。
+                uc.assemble_birth(F2_BIRTH)
+            except Exception as exc:  # noqa: BLE001 - 回主线程断言
+                errors['worker'] = exc
+
+        thread = threading.Thread(target=worker)
+        with uc.unified_compute_request_scope():
+            uc.assemble_birth(F2_BIRTH)
+            self.assertEqual(len(self.natal_calls), 1)
+            thread.start()
+            barrier.wait(timeout=10)
+            thread.join(timeout=30)
+        self.assertEqual(errors, {})
+        self.assertEqual(len(self.natal_calls), 2)
+
+
+class RequestScopeExecuteTests(unittest.TestCase):
+    """``cached_execute`` 的去重层同样按请求作用域隔离。"""
+
+    def setUp(self):
+        clear_unified_compute_cache()
+
+    def tearDown(self):
+        clear_unified_compute_cache()
+
+    def test_cached_execute_is_scoped(self):
+        import tianji_kb.engine as engine
+
+        calls = []
+        sentinel = {'result': {'pillars': [{'ganzhi': '甲辰'}]},
+                    'trace': [], 'rule_matches': [], 'evidence': {}}
+        real_execute = engine.execute
+
+        def fake_execute(domain, inputs, allow_research=False):
+            calls.append((domain, dict(inputs), allow_research))
+            return copy.deepcopy(sentinel)
+
+        engine.execute = fake_execute
+        try:
+            inputs = {'value': F2_BIRTH, 'include_relations': True}
+            with uc.unified_compute_request_scope():
+                first = uc.cached_execute('bazi', inputs)
+                second = uc.cached_execute('bazi', inputs)
+                self.assertEqual(len(calls), 1)
+                self.assertEqual(first, second)
+                self.assertIsNot(first, second)
+                self.assertEqual(
+                    unified_compute_cache_info()['execute_entries'], 1)
+            # 退出后去重层已清空：同一输入重新执行。
+            uc.cached_execute('bazi', inputs)
+            self.assertEqual(len(calls), 2)
+            self.assertEqual(
+                unified_compute_cache_info()['execute_entries'], 1)
+        finally:
+            engine.execute = real_execute
 
 
 class DayunFailureTests(unittest.TestCase):
