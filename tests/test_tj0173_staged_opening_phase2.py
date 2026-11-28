@@ -141,9 +141,19 @@ class StagedOpeningPhase2AdjudicationTests(unittest.TestCase):
             self.assertIn(message, self.engine)
 
     def test_life_overview_dayun_approval_stays_closed(self):
-        # 人生总览大运维不在本阶段：两处硬编码旗标恒 False 在册。
+        # TJ-031.19 (E0427, Q3=A, adjudicated 2026-11-28): the full
+        # 8-period dayun timeline is approved for life-overview when
+        # a traditional_role is given. The two approval flags no
+        # longer stay hardcoded False; they follow the established
+        # role gate (traditional_role is not None), exactly like the
+        # dayun_presentation gate. No hardcoded flag remains in
+        # either direction.
         self.assertEqual(
-            self.scenario.count('"dayun_timeline_approved": False'), 2)
+            self.scenario.count(
+                '"dayun_timeline_approved": traditional_role is not None'),
+            2)
+        self.assertNotIn('"dayun_timeline_approved": False',
+                         self.scenario)
         self.assertNotIn('"dayun_timeline_approved": True',
                          self.scenario)
 
