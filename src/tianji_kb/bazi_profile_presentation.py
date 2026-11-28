@@ -93,7 +93,6 @@ new rule, and the tests pin it branch by branch.
 import copy
 
 from .bazi_dayun_public import is_valid_public_dayun_presentation
-from .bazi_fuyi_slice_adjudication import ADJUDICATION_VERDICT as _FUYI_VERDICT
 from .bazi_pattern_public import (
     PUBLIC_PATTERN_NAMES,
     is_valid_public_pattern_presentation,
@@ -628,15 +627,10 @@ def _section_xiyong(pillars, day_master, month_branch, research, public):
     # Q2=C: the fuyi modern reference lives in the separate
     # fuyi_research section, not here; this section stays public-only.
     research_reference = None
-    fuyi_buildable = _FUYI_VERDICT.get("buildable_count")
-    if fuyi_buildable != 0:
-        # The adjudicated closed state is 0; any other value means
-        # the record this builder was written against has changed --
-        # say so instead of repeating a stale "0 行" claim.
-        undecided.append(
-            "扶抑古典方向可建行数登记为 %s 行，与本详批所依据的已裁定"
-            "状态（0 行）不一致，本节古典扶抑方向暂不可判。"
-            % (fuyi_buildable,))
+    # S4：此处不得运行时读取扶抑切片审定记录（零接线，禁止 import
+    # bazi_fuyi_slice_adjudication）；已裁定关闭态（可建行数 0 行）
+    # 由下文 FUYI_CLASSICAL_LINE 字面陈述，记录漂移由
+    # test_tj0131_fuyi_slice 钉死，不在此设运行时守卫。
     if presentation is None:
         lines = ["调候与病药公开呈现未附带，本节暂不可判。"]
         undecided.append("未传入喜用 phase-1 公开呈现，调候与病药暂不可判。")
