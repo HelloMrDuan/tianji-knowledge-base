@@ -290,6 +290,23 @@ def response_for(raw):
         calendar=raw.get('input_calendar') or raw['result'].get('calendar'))
 
 
+# TJ-031.19 (E0427 closing fix): the explicit, named admission
+# point for public sub-functions of a registered scenario on POST
+# /api/v1/scenarios/public. "true-solar" is a research sub-function
+# of bazi-profile, NOT a 12th scenario: it has no page of its own
+# and no SCENARIOS registry entry (B016 pins the registry to
+# exactly 11 page-bearing scenarios). Only an id named here may
+# bypass the registry check, and each id maps to exactly one
+# executor; every other unregistered id is rejected with
+# unsupported_public_scenario, so no arbitrary scenario_id can
+# reach an executor. Admit a new sub-function here only by a
+# reviewed admission decision -- never by adding another inline
+# dispatch in the handler.
+PUBLIC_SCENARIO_SUBFUNCTIONS = {
+    "true-solar": execute_true_solar_scenario,
+}
+
+
 def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,admin_read_scopes=None,admin_role_tokens=None,admin_audit_log=None,admin_draft_store=None,admin_db_path=None):
     app=FastAPI(title='Tianji deterministic knowledge API',version='1.0.0',
         description='Canonical calculation → RuleMatch → trace → Evidence; AI may explain but may not compute charts.')
@@ -1073,18 +1090,16 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,ad
     async def public_scenario_request(request:ScenarioExecuteRequest,response:Response):
         available={item['id']:item for item in scenario_registry()}
         scenario=available.get(request.scenario_id)
-        if request.scenario_id=='true-solar':
-            # TJ-031.19 (E0427): the true-solar comparison is a
-            # research sub-feature of the bazi-profile page, not a
-            # standalone product scenario, so it is deliberately NOT
-            # in the SCENARIOS registry (B016 pins the registry to
-            # page-bearing scenarios) and is dispatched here, to
-            # execute_true_solar_scenario. Everything below the
-            # dispatch -- the unverified-period boundary, the public
-            # projection and the response shape -- is shared with
-            # the registered scenarios.
+        subfunction=PUBLIC_SCENARIO_SUBFUNCTIONS.get(request.scenario_id)
+        if subfunction is not None:
+            # Admitted sub-function (see PUBLIC_SCENARIO_SUBFUNCTIONS):
+            # dispatched to its one named executor, never to the
+            # registry path. Everything below the dispatch -- the
+            # unverified-period boundary, the public projection and
+            # the response shape -- is shared with the registered
+            # scenarios.
             try:
-                raw=await run_in_threadpool(execute_true_solar_scenario,dict(request.input))
+                raw=await run_in_threadpool(subfunction,dict(request.input))
             except RuntimeUnavailable:raise
             except (ValueError,TypeError) as error:
                 raise HTTPException(422,detail={'code':'invalid_scenario_input','message':str(error)}) from error
@@ -1101,7 +1116,10 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,ad
         # other pre-existing rejection keep their exact behaviour.
         if scenario_unverified_period_years(dict(request.input),request.scenario_id):
             raise HTTPException(422,detail={'code':UNVERIFIED_PERIOD_CODE,'message':UNVERIFIED_PERIOD_MESSAGE})
-        if request.scenario_id=='true-solar' and _true_solar_unverified_period_years(dict(request.input)):
+        # The boundary helper is true-solar-specific and the
+        # allowlist currently holds exactly that one entry; a
+        # second admission must bring its own boundary check.
+        if request.scenario_id in PUBLIC_SCENARIO_SUBFUNCTIONS and _true_solar_unverified_period_years(dict(request.input)):
             raise HTTPException(422,detail={'code':UNVERIFIED_PERIOD_CODE,'message':UNVERIFIED_PERIOD_MESSAGE})
         result=ScenarioExecuteResponse.model_validate(project_execution(raw))
         for note in _scenario_precision_notes(dict(request.input),request.scenario_id):

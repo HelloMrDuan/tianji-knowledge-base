@@ -46,7 +46,11 @@ from unittest.mock import patch
 
 from fastapi.testclient import TestClient
 
-from tianji_kb.api import _true_solar_unverified_period_years, create_app
+from tianji_kb.api import (
+    PUBLIC_SCENARIO_SUBFUNCTIONS,
+    _true_solar_unverified_period_years,
+    create_app,
+)
 from tianji_kb.bazi_true_solar_chart import ENTRY_ID
 from tianji_kb.bazi_true_solar_public import (
     is_valid_public_true_solar_comparison,
@@ -82,10 +86,15 @@ URUMQI = {"value": "2026-01-01T00:30:00+08:00",
 # (test_cross_day_forwards_new_york_local_date_unchanged).
 NEW_YORK = {"value": "2026-11-03T10:50:00-05:00",
             "longitude_deg": -74.006, "tz_offset": -5}
-# (b) The frontend's own P0-3 input: no pillar changes.
+# (b) The frontend's own P0-3 input: no pillar changes. The chart
+# below is the standard-time chart for the 2024-02-11T16:27:00+08:00
+# input itself (year 甲辰, month 丙寅, day 乙巳, hour 甲申) — the
+# sealed executor returns exactly this in repro22, and the local
+# pure calendar agrees; the previous value belonged to a
+# ~2024-04-14 chart, not this input.
 BEIJING = {"value": "2024-02-11T16:27:00+08:00",
            "longitude_deg": 116.4, "tz_name": "Asia/Shanghai"}
-BEIJING_GANZHI = ["甲辰", "戊辰", "戊午", "甲寅"]
+BEIJING_GANZHI = ["甲辰", "丙寅", "乙巳", "甲申"]
 
 
 def _pillar(name, ganzhi, ten_god, branch, hidden):
@@ -858,6 +867,94 @@ class TrueSolarHttpTests(unittest.TestCase):
         self.assertEqual(response.status_code, 422)
         self.assertEqual(response.json()["detail"]["code"],
                          "unverified_birth_period")
+
+
+class TrueSolarAdmissionTests(unittest.TestCase):
+    """TJ-031.19 / E0427 closing fix: true-solar admission.
+
+    True-solar is NOT a 12th scenario and has no page: it stays out
+    of the SCENARIOS registry (exactly 11, pinned by test_b016) and
+    reaches an executor only through the one named admission point,
+    PUBLIC_SCENARIO_SUBFUNCTIONS in tianji_kb.api -- an explicit
+    id -> executor table. A dedicated endpoint was rejected: it
+    would duplicate the shared post-execution boundary/projection
+    logic and force a frontend contract change, while the allowlist
+    leaves the frontend call (POST /api/v1/scenarios/public,
+    scenario_id "true-solar") untouched.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.client = cls.enterClassContext(TestClient(create_app()))
+
+    def test_allowlist_admits_exactly_true_solar(self):
+        self.assertEqual(set(PUBLIC_SCENARIO_SUBFUNCTIONS),
+                         {"true-solar"})
+        self.assertIs(PUBLIC_SCENARIO_SUBFUNCTIONS["true-solar"],
+                      execute_true_solar_scenario)
+        rows = {item["id"]: item for item in registry()}
+        self.assertEqual(len(rows), 11)
+        self.assertNotIn("true-solar", rows)
+        with self.assertRaises(ValueError):
+            execute_scenario("true-solar", dict(BEIJING))
+
+    def test_allowed_true_solar_call_succeeds_over_http(self):
+        # Stubbed at the research entry, not the executor: the
+        # request must pass admission, execute, project, and return
+        # the frontend-shaped comparison -- locally, where the
+        # sealed chart computation is absent.
+        record = _raw_record()
+        with patch(
+                "tianji_kb.bazi_true_solar_chart."
+                "research_dual_time_chart",
+                return_value=record):
+            response = self.client.post(
+                "/api/v1/scenarios/public",
+                json={"scenario_id": "true-solar",
+                      "input": dict(BEIJING)})
+        self.assertEqual(response.status_code, 200)
+        body = response.json()
+        self.assertEqual(body["scenario_id"], "true-solar")
+        self.assertIs(body["public_release"], False)
+        _assert_frontend_shape(
+            self, body["result"]["true_solar_comparison"])
+        self.assertEqual(find_public_boundary_violations(body), [])
+
+    def test_unapproved_scenario_ids_are_rejected(self):
+        # Near-misses must not ride the admission point, and a
+        # registered-but-not-public scenario (dream) must not pass
+        # the registry-status gate either.
+        for scenario_id in (
+                "true-solar2", "true-solar-chart", "TRUE-SOLAR",
+                "true_solar", "bazi-profile-true-solar", "nope",
+                "dream"):
+            with self.subTest(scenario_id=scenario_id):
+                response = self.client.post(
+                    "/api/v1/scenarios/public",
+                    json={"scenario_id": scenario_id,
+                          "input": dict(BEIJING)})
+                self.assertEqual(response.status_code, 422)
+                self.assertEqual(
+                    response.json()["detail"]["code"],
+                    "unsupported_public_scenario")
+
+    def test_true_solar_invalid_input_still_422s(self):
+        response = self.client.post(
+            "/api/v1/scenarios/public",
+            json={"scenario_id": "true-solar",
+                  "input": {"value": BEIJING["value"],
+                            "longitude_deg": 200,
+                            "tz_name": "Asia/Shanghai"}})
+        self.assertEqual(response.status_code, 422)
+        self.assertEqual(response.json()["detail"]["code"],
+                         "invalid_scenario_input")
+
+    def test_registry_endpoint_still_lists_exactly_eleven(self):
+        response = self.client.get("/api/v1/scenarios")
+        self.assertEqual(response.status_code, 200)
+        ids = [item["id"] for item in response.json()["scenarios"]]
+        self.assertEqual(len(ids), 11)
+        self.assertNotIn("true-solar", ids)
 
 
 if __name__ == "__main__":

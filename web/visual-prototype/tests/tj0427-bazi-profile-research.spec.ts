@@ -64,6 +64,23 @@ async function submitBirth(page: Page) {
   await expect(page.locator(".bazi-live-result")).toBeVisible();
 }
 
+// 深拷贝 SCENARIO 夹具并改写两块研究参考（sections 是按 id 查找
+// 的列表），供弃判/0 分等渲染分支测试使用；只改研究参考字段，
+// 不改四柱与已审呈现。
+function cloneScenarioWithResearch(
+  mutate: (strength: Record<string, any>, fuyi: Record<string, any>) => void,
+) {
+  const body = JSON.parse(JSON.stringify(SCENARIO));
+  const sections = body.result.profile_presentation
+    .sections as Array<Record<string, any>>;
+  const strength = sections.find((s) => s.id === "strength")
+    ?.research_reference as Record<string, any>;
+  const fuyi = sections.find((s) => s.id === "fuyi_research")
+    ?.research_reference as Record<string, any>;
+  mutate(strength, fuyi);
+  return body;
+}
+
 test("P0-1 现代强度模型显示真实分数与分项", async ({ page }) => {
   await stubBaziApis(page, SCENARIO);
   await submitBirth(page);
@@ -130,6 +147,99 @@ test("P0-2 扶抑现代层显示候选方向与候选干", async ({ page }) => {
   await expect(page.locator(".bazi-live-result")).not.toContainText(
     "不列候选干",
   );
+});
+
+test("P0-1/P0-2 模型弃判且无分时显示中文弃判原因，不渲染空白分数", async ({ page }) => {
+  // 弃判夹具：以后端真实弃判形状改写两块研究参考——强度 verdict
+  // abstain、score null、abstain_detail 为引擎中文原因句；扶抑
+  // input_verdict abstain、input_score null、reason 为后端 fuyi
+  // 层弃判说明（内含 abstain_reason）。
+  const abstainBody = cloneScenarioWithResearch((strength, fuyi) => {
+    strength.verdict = "abstain";
+    strength.score = null;
+    strength.score_band = null;
+    strength.classification_status = "abstain";
+    strength.components = [];
+    strength.abstain_reason = "transformation_candidate_unresolved";
+    strength.abstain_detail =
+      "在场合化结构（天干五合 1 组 / 地支三合 0 组）效力未裁定；化气是否成立无依据，现代模型不评分。";
+    fuyi.input_verdict = "abstain";
+    fuyi.input_score = null;
+    fuyi.status = "abstain";
+    fuyi.direction = null;
+    fuyi.direction_cn = null;
+    fuyi.direction_elements = [];
+    fuyi.ten_god_classes = [];
+    fuyi.candidate_stems = null;
+    fuyi.confidence = null;
+    fuyi.formation_reasons = [];
+    fuyi.reason =
+      "现代模型弃判（transformation_candidate_unresolved），现代层不给扶抑方向。";
+  });
+  await stubBaziApis(page, abstainBody);
+  await submitBirth(page);
+
+  const strength = page.locator(
+    ".bazi-detail-section[aria-label='研究列：现代强度模型']",
+  );
+  await expect(strength).toBeVisible();
+  await expect(strength).toContainText("现代模型弃判");
+  await expect(strength).toContainText(
+    "在场合化结构（天干五合 1 组 / 地支三合 0 组）效力未裁定",
+  );
+  await expect(strength).not.toContainText("abstain， 分");
+  await expect(strength).not.toContainText("模型结论：");
+  await expect(strength).not.toContainText("总分 0 分");
+
+  const fuyi = page.locator(
+    ".bazi-detail-section[aria-label='扶抑现代层研究']",
+  );
+  await expect(fuyi).toBeVisible();
+  await expect(fuyi).toContainText(
+    "当前模型强度方向：现代强度模型弃判，未给出模型分数",
+  );
+  await expect(fuyi).toContainText(
+    "现代模型弃判（transformation_candidate_unresolved），现代层不给扶抑方向。",
+  );
+  await expect(fuyi).not.toContainText("abstain， 分");
+  await expect(fuyi).not.toContainText("（abstain，");
+  await expect(fuyi).not.toContainText("0 分");
+});
+
+test("P0-1/P0-2 真正的 0 分正常显示为 0，不触发弃判提示", async ({ page }) => {
+  // 0 分夹具：只把两处分数改成 0（verdict 保持 strong），验证
+  // null 与 0 的分支只按 typeof === "number" 区分。
+  const zeroBody = cloneScenarioWithResearch((strength, fuyi) => {
+    strength.score = 0;
+    strength.score_band = null;
+    strength.components = [
+      {
+        key: "de_ling",
+        label: "得令",
+        name_cn: "得令",
+        score: 0,
+        detail: "月支 辰，本气/司令关系计分",
+      },
+    ];
+    fuyi.input_score = 0;
+    fuyi.reason = "现代模型 strong（0 分）：方向 泄耗克。";
+  });
+  await stubBaziApis(page, zeroBody);
+  await submitBirth(page);
+
+  const strength = page.locator(
+    ".bazi-detail-section[aria-label='研究列：现代强度模型']",
+  );
+  await expect(strength).toContainText("总分 0 分");
+  await expect(strength).not.toContainText("现代模型弃判");
+  await expect(strength).not.toContainText("未给出分数");
+
+  const fuyi = page.locator(
+    ".bazi-detail-section[aria-label='扶抑现代层研究']",
+  );
+  await expect(fuyi).toContainText("（strong，0 分）");
+  await expect(fuyi).not.toContainText("现代强度模型弃判");
+  await expect(fuyi).not.toContainText("未给出模型分数");
 });
 
 test("P0-1/P0-2 研究层未返回时如实说明未附带", async ({ page }) => {

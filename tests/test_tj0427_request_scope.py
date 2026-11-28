@@ -33,6 +33,18 @@ Honest classes, following the batch-5 lane test discipline:
   acceptance, not claimed here; the batch-5 equivalence snapshots
   in ``test_tj0427_unified_compute`` are the byte-identical guard
   and must keep passing unchanged.
+* Sealed-aware guard: the six tests that pin the
+  ``RuntimeUnavailable`` shape skip when sealed ``data/`` is
+  present (``SEALED_SEED``, the same detection
+  ``test_tj0427_bazi_profile_presentation`` uses): in the sealed
+  tree the engine is real, the romance request succeeds, and the
+  exception-shape expectation cannot hold. The guard skips only
+  that environment-blind expectation — the scope assertions
+  (entry, eviction on exit including on exception, no
+  cross-request leak) still run in full in the public checkout
+  and CI, where the engine is absent. It must never be widened
+  to the tests that do not pin the exception shape (unknown
+  scenario, event-loop propagation, the life-wrapper tests).
 * No computation result is stubbed into a pass: the stub engines
   only replace sealed computation (same fakes as the P1 file); the
   scope entry / reuse / eviction code under test is real.
@@ -40,6 +52,7 @@ Honest classes, following the batch-5 lane test discipline:
 
 import copy
 import unittest
+from pathlib import Path
 from unittest import mock
 
 from starlette.concurrency import run_in_threadpool
@@ -49,6 +62,28 @@ from tianji_kb import unified_compute as uc
 from tianji_kb.life_presentation import build_life_presentation_for
 from tianji_kb.runtime_catalog import RuntimeUnavailable
 from tianji_kb.scenario_engine import execute_scenario
+
+# Sealed-data detection, same as
+# test_tj0427_bazi_profile_presentation.SEALED_SEED: present in the
+# sealed assembled tree, absent in the public checkout and CI.
+REPO_ROOT = Path(__file__).resolve().parents[1]
+SEALED_SEED = REPO_ROOT / "data" / "canonical" / "seed.json"
+
+
+def _skip_when_sealed_engine_present(test):
+    """Skip a test that pins the local ``RuntimeUnavailable`` shape.
+
+    Only the exception-shape expectation is environment-blind: with
+    sealed ``data/`` present the engine is real and the request
+    succeeds, so asserting ``RuntimeUnavailable`` there would fail
+    deterministically (repro22: 6 failures). The scope assertions
+    themselves are untouched and run wherever the engine is absent.
+    """
+    if SEALED_SEED.exists():
+        test.skipTest(
+            "sealed data/ is present, so the sealed engine runs and "
+            "the RuntimeUnavailable shape pinned here does not apply; "
+            "the scope assertions run in the public checkout / CI")
 
 F2_BIRTH = '2024-02-11T16:27:07+08:00'
 F2B_BIRTH = '2024-03-11T10:00:00+08:00'
@@ -215,6 +250,7 @@ class ExecuteScenarioScopeTests(_ScopeTestBase):
     """The scope is entered on the real scenario entry point."""
 
     def test_romance_request_runs_unified_compute_inside_a_scope(self):
+        _skip_when_sealed_engine_present(self)
         # Locally the sealed engine raises AFTER the unified
         # assembly; that is the expected shape, not a test failure.
         with self.assertRaises(RuntimeUnavailable):
@@ -229,6 +265,7 @@ class ExecuteScenarioScopeTests(_ScopeTestBase):
         self.assert_no_retention()
 
     def test_two_sequential_requests_recompute_independently(self):
+        _skip_when_sealed_engine_present(self)
         for birth in (F2_BIRTH, F2B_BIRTH):
             with self.assertRaises(RuntimeUnavailable):
                 execute_scenario("romance", {"birth_value": birth,
@@ -241,6 +278,7 @@ class ExecuteScenarioScopeTests(_ScopeTestBase):
         self.assertEqual(self.scope_seen, [True, True])
 
     def test_same_birth_twice_recomputes_per_request(self):
+        _skip_when_sealed_engine_present(self)
         for _ in range(2):
             with self.assertRaises(RuntimeUnavailable):
                 execute_scenario("romance", {"birth_value": F2_BIRTH,
@@ -258,6 +296,7 @@ class ExecuteScenarioScopeTests(_ScopeTestBase):
         self.assert_no_retention()
 
     def test_execute_scenario_reuses_ambient_scope(self):
+        _skip_when_sealed_engine_present(self)
         # A caller that already entered a scope (the life wrapper)
         # must be reused, not nested: the assembly stays visible in
         # the ambient scope until the caller exits it.
@@ -279,6 +318,7 @@ class ThreadpoolServingPathTests(_ScopeTestBase,
     ...)`` as used by both ``/api/v1/scenarios/*`` endpoints."""
 
     async def test_run_in_threadpool_execute_scenario_is_scoped(self):
+        _skip_when_sealed_engine_present(self)
         with self.assertRaises(RuntimeUnavailable):
             await run_in_threadpool(
                 execute_scenario, "romance",
@@ -309,6 +349,7 @@ class ThreadpoolServingPathTests(_ScopeTestBase,
         self.assert_no_retention()
 
     async def test_two_threadpool_requests_do_not_share_cache(self):
+        _skip_when_sealed_engine_present(self)
         for birth in (F2_BIRTH, F2B_BIRTH):
             with self.assertRaises(RuntimeUnavailable):
                 await run_in_threadpool(

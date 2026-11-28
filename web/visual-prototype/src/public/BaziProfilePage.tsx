@@ -483,6 +483,15 @@ const [profilePresentation, setProfilePresentation] = useState<any>(null);
   const modernStrength = modernStrengthSection?.research_reference ?? null;
   const fuyiResearchSection = profileSection("fuyi_research");
   const fuyiResearch = fuyiResearchSection?.research_reference ?? null;
+  // 弃判/缺分显示：分数只认数字（typeof === "number"），null 与
+  // undefined 一律按无分处理；真正的 0 分仍是数字，正常显示为 0，
+  // 绝不把 null 转成 0，也绝不因 0 触发弃判分支。
+  const modernStrengthHasScore =
+    modernStrength !== null && typeof modernStrength.score === "number";
+  const modernStrengthAbstainReason =
+    modernStrength?.abstain_detail || modernStrength?.abstain_reason || null;
+  const fuyiHasInputScore =
+    fuyiResearch !== null && typeof fuyiResearch.input_score === "number";
   // 当前分析边界去重：同一边界句只保留首次出现（后端 limitations
   // 本身含重复行，如三刑行出现两次）；不同事实一律保留。去重只看
   // 转述后的默认视图文本，调候/病药/大运原文行不在此集合内。
@@ -825,7 +834,7 @@ const [profilePresentation, setProfilePresentation] = useState<any>(null);
             <p>现代强度模型是独立的研究列，与已审结论分开呈现，互不覆盖；现代模型结论永不改写已审结论。</p>
             <p>模型分数是工程模型内部总分（总分域 [-35, 105]），不是百分位，不是概率，不是古典旺衰定论，不作科学预测。</p>
             <p>未校准条件：土日主与丁日主得地分只计余根、未校准；四库月得令分记 0 是缺失条件的暂定处理，不代表已证明月令无作用。</p>
-            {modernStrength && modernStrength.verdict !== "abstain" && (
+            {modernStrength && modernStrength.verdict !== "abstain" && modernStrengthHasScore && (
               <>
                 <p>模型：{modernStrength.model_id || "现代强度模型"}（研究模型，不是古典结论）。</p>
                 <p>模型结论：{modernVerdictLabels[modernStrength.verdict] || modernStrength.verdict}（{modernStrength.verdict}），总分 {modernStrength.score} 分（总分域 [{modernStrength.score_range?.[0] ?? -35}, {modernStrength.score_range?.[1] ?? 105}]{modernStrength.score_band ? `，分数档位 ${modernStrength.score_band}` : ""}）。</p>
@@ -858,10 +867,12 @@ const [profilePresentation, setProfilePresentation] = useState<any>(null);
                 )}
               </>
             )}
+            {modernStrength && modernStrength.verdict !== "abstain" && !modernStrengthHasScore && (
+              <p>现代模型未给出分数，暂不呈现分数。</p>
+            )}
             {modernStrength && modernStrength.verdict === "abstain" && (
               <>
-                <p>现代模型弃判{modernStrength.abstain_reason ? `（${modernStrength.abstain_reason}）` : ""}；不输出模型分数与分项。</p>
-                {modernStrength.abstain_detail && <p>{modernStrength.abstain_detail}</p>}
+                <p>现代模型弃判{modernStrengthAbstainReason ? `（${modernStrengthAbstainReason}）` : "（未注明原因）"}；不输出模型分数与分项。</p>
                 {(modernStrength.uncertainty_lines || []).map((line: string, i: number) => (
                   <p key={`mu-${i}`} className="bazi-detail-undecided">{line}</p>
                 ))}
@@ -1085,7 +1096,11 @@ const [profilePresentation, setProfilePresentation] = useState<any>(null);
             <p>扶抑古典层：十行方向表逐行核对后可建行数为 0 行（已裁定关闭），不给方向结论。</p>
             {fuyiResearch && (
               <>
-                {fuyiResearch.input_verdict ? (
+                {fuyiResearch.input_verdict === "abstain" ? (
+                  <p>当前模型强度方向：现代强度模型弃判，未给出模型分数；该结论只是工程模型输出，不是古典旺衰定论。</p>
+                ) : fuyiResearch.input_verdict && !fuyiHasInputScore ? (
+                  <p>当前模型强度方向：现代强度模型结论为 {modernVerdictLabels[fuyiResearch.input_verdict] || fuyiResearch.input_verdict}（{fuyiResearch.input_verdict}），未给出模型分数；该结论只是工程模型输出，不是古典旺衰定论。</p>
+                ) : fuyiResearch.input_verdict ? (
                   <p>当前模型强度方向：现代强度模型结论为 {modernVerdictLabels[fuyiResearch.input_verdict] || fuyiResearch.input_verdict}（{fuyiResearch.input_verdict}，{fuyiResearch.input_score} 分）；该结论只是工程模型输出，不是古典旺衰定论。</p>
                 ) : (
                   <p>当前模型强度方向：现代层未给模型强度方向。</p>
