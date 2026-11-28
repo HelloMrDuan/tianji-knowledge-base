@@ -34,6 +34,13 @@ allowlist 与 :mod:`tests.test_tj0426_unified_compute` 的隔离测试）。
   server-fixed 常量），流年边界取自 ``annual_lichun_boundaries``；
   当期运未显式指定时记为未确定（D-02），组合引擎只记录、不推导。
   无口径或无目标年时组合块为 None 并具名原因。
+* 大运（Q3=A，2026-11-28）：显式口径给出时即服务完整 8 运序列
+  （``assembly['dayun']['timeline']``，``candidate_sequence``
+  periods=8 + 逐运起运区间对齐，与目标年无关——八字页无目标年
+  也能拿到）；无口径时为 None 并具名原因。流年查询数据：目标年
+  干支（``flow_year``）+ 该年立春边界区间（``flow_boundary``，
+  ``annual_lichun_boundaries`` 原样输出）。本入口只提供序列与
+  边界供调用方查询，永不自行判定当期运（D-02）。
 * 流年：目标年干支取自与各页同一的 July-1 参考日历口径
   （``calendar(f"{year}-07-01T12:00:00+08:00")``），不另立边界。
 
@@ -44,10 +51,41 @@ allowlist 与 :mod:`tests.test_tj0426_unified_compute` 的隔离测试）。
 
 多页复用：同一出生瞬时的出生层装配在模块内按
 ``(birth_value, zone)`` 缓存一次（上限 8 条，FIFO；返回深拷贝），
-目标年层（流年 / 年度喜用 / 组合）按
+目标年层（大运 8 运序列 / 流年 / 流年边界 / 年度喜用 / 组合）按
 ``(birth_value, zone, traditional_role, target_year)`` 缓存；五页
 通过裁剪函数消费同一份装配，出生时刻与目标年在五页间无漂移。
 缓存只认确定性输入全量作 key；装配失败不污染缓存。
+
+缓存生命周期（TJ-0427 Lane G，工程硬化；行为与上限不动）：
+三层缓存（出生层 / 目标年层 / ``execute`` 去重层）各自上限 8 条
+FIFO，内存总量恒 ≤ 24 条，永不无界增长；每层满时逐出最先插入
+的条目（``_cache_put``，重放同一 key 不改变其插入顺序）。
+``clear_unified_compute_cache()`` 清空全部三层；
+``invalidate_unified_compute_cache(birth_value, ...)`` 按 key 逐条
+失效（出生层 + 对应目标年层 + 同一出生瞬时的 ``execute`` 去重
+条目）；``unified_compute_cache_info()`` 报告各层条数与上限。
+全部返回路径（装配 / 目标年层 / 裁剪 / ``cached_execute`` /
+``project_formal``）一律返回深拷贝：调用方对返回值的原地修改
+永不污染缓存，一次请求也永不通过共享对象污染另一次请求。
+
+请求作用域（TJ-0427 P1 硬化）：生产请求须在请求边界进入
+``unified_compute_request_scope()``——进入时三层缓存均为本次请求
+新建的空缓存，退出时（正常返回或异常）全部清空，出生瞬时与完整
+计算结果不跨请求保留；不同线程 / asyncio 任务的并发请求各自持有
+自己的 contextvars 上下文，永不互相串数据。同一请求内的重复
+装配仍命中本请求缓存；未进入作用域的直接调用沿用模块级缓存
+（兼容 fallback，仅供测试与离线脚本使用，不得用于多用户服务）。
+上限与 FIFO 逐出规则在作用域内同样适用（每层 8 条，总量 ≤ 24 条）。
+``unified_compute_request_scope_active()`` 报告当前上下文是否处
+于一次请求作用域内。
+
+正式投影（TJ-0427 Lane G）：:func:`project_formal` 是从装配到
+正式（公开安全）视图的唯一显式投影函数，只输出 allowlist 字段
+（出生瞬时 / 时区 / 目标年 + 排盘四柱 + 流年干支结构事实），
+研究字段（``RESEARCH_FIELD_NAMES``，源自各裁剪的研究块 +
+``natal_envelope`` + 公开 presentation 键）一律不得进入。
+既有 ``trim_*`` 函数仍是研究块的强制执行点，本函数不削弱它们，
+也不产生任何公开 presentation 对象（公开面仍只走既有四门控）。
 
 本模块顶层只 import 标准库：全部引擎 import 均在函数内懒加载，
 公开检出（无密封 ``data/``）下仍可 import，纯函数部分（pin、
@@ -55,6 +93,7 @@ allowlist 与 :mod:`tests.test_tj0426_unified_compute` 的隔离测试）。
 SkipTest，不谎称通过。
 """
 
+import contextvars
 import copy
 import json
 
@@ -88,6 +127,73 @@ _YEAR_CACHE = {}
 _EXECUTE_CACHE = {}
 
 
+# 请求作用域（TJ-0427 P1 硬化）：三层缓存的条目只属于一次请求。
+# 进入 ``unified_compute_request_scope()`` 后，当前上下文内的全部
+# 装配与 ``cached_execute`` 调用读写该作用域自有的三份空缓存；
+# 退出时（正常返回或异常）三份缓存全部清空，出生瞬时与完整计算
+# 结果不再保留，作用域外的调用者永远看不到作用域内的条目。
+# 未进入作用域时沿用上面的模块级缓存（直接调用 / 旧测试的兼容
+# fallback；生产请求路径必须进入作用域，见
+# ``unified_compute_request_scope``）。
+class _RequestScope:
+    __slots__ = ('core', 'year', 'execute')
+
+    def __init__(self):
+        self.core = {}
+        self.year = {}
+        self.execute = {}
+
+
+_REQUEST_SCOPE = contextvars.ContextVar(
+    'unified_compute_request_scope', default=None)
+
+
+def _current_caches():
+    """当前生效的三层缓存：作用域内为作用域自有缓存，否则为模块级缓存。"""
+    scope = _REQUEST_SCOPE.get()
+    if scope is None:
+        return _CORE_CACHE, _YEAR_CACHE, _EXECUTE_CACHE
+    return scope.core, scope.year, scope.execute
+
+
+class unified_compute_request_scope:
+    """一次请求的缓存作用域（context manager）。
+
+    进入时为本次请求新建三份空缓存（出生层 / 目标年层 / execute
+    去重层），作用域内的装配与 ``cached_execute`` 只读写这三份；
+    退出时（正常返回或异常）三份缓存全部清空，出生瞬时与完整
+    计算结果不保留，作用域外的调用者看不到作用域内的任何条目。
+    嵌套进入时内层是全新的空缓存，退出只清空内层并恢复外层。
+    不同线程 / asyncio 任务各自持有自己的 contextvars 上下文，
+    因此并发请求天然隔离：一个请求的出生数据永不进入另一个
+    请求的缓存。
+
+    生产请求路径必须在请求边界进入本作用域；未进入作用域的直接
+    调用沿用模块级缓存（兼容 fallback，仅供测试与离线脚本使用，
+    不得用于多用户服务）。进入作用域返回该作用域对象（测试可用
+    它断言退出后三份缓存均已清空）。
+    """
+
+    def __enter__(self):
+        self._scope = _RequestScope()
+        self._token = _REQUEST_SCOPE.set(self._scope)
+        return self._scope
+
+    def __exit__(self, exc_type, exc, tb):
+        try:
+            self._scope.core.clear()
+            self._scope.year.clear()
+            self._scope.execute.clear()
+        finally:
+            _REQUEST_SCOPE.reset(self._token)
+        return False
+
+
+def unified_compute_request_scope_active():
+    """当前上下文是否处于一次请求作用域内（生命周期可观测性）。"""
+    return _REQUEST_SCOPE.get() is not None
+
+
 class UnifiedComputePinError(ValueError):
     """引擎输出变体漂移：调用方不得吞掉，必须 loud 失败。"""
 
@@ -97,10 +203,93 @@ class UnifiedComputeInputError(ValueError):
 
 
 def clear_unified_compute_cache():
-    """清空入口的全部模块内缓存（测试隔离用；不碰任何引擎状态）。"""
-    _CORE_CACHE.clear()
-    _YEAR_CACHE.clear()
-    _EXECUTE_CACHE.clear()
+    """清空当前生效的全部三层缓存（测试隔离用；不碰任何引擎状态）。
+
+    作用域内只清空该作用域的缓存，作用域外的缓存不受影响；
+    作用域外清空模块级缓存。
+    """
+    core, year, execute = _current_caches()
+    core.clear()
+    year.clear()
+    execute.clear()
+
+
+# 失效维度哨兵：invalidate 调用中 traditional_role / target_year
+# 取此值表示“不限定该维度”，与显式传入 None（只匹配 None）区分。
+_ANY_DIMENSION = object()
+
+
+def unified_compute_cache_info():
+    """报告当前生效的三层缓存的条数与上限（生命周期可观测性；只读）。
+
+    作用域内报告该作用域的条数，作用域外报告模块级缓存的条数。
+    """
+    core, year, execute = _current_caches()
+    return {
+        'core_entries': len(core),
+        'year_entries': len(year),
+        'execute_entries': len(execute),
+        'max_entries_per_cache': _CACHE_MAX_ENTRIES,
+        'max_entries_total': 3 * _CACHE_MAX_ENTRIES,
+    }
+
+
+def invalidate_unified_compute_cache(birth_value, *, zone=None,
+                                     traditional_role=_ANY_DIMENSION,
+                                     target_year=_ANY_DIMENSION):
+    """按 key 失效当前生效缓存中一个出生瞬时的条目；返回实际删除的条数。
+
+    作用域内只失效该作用域的条目，作用域外失效模块级缓存的条目。
+    删除：出生层 ``(birth_value, zone)`` 条目；该出生 / 时区下的
+    目标年层条目（``traditional_role`` / ``target_year`` 未给定时
+    不限定该维度，即删除该出生 / 时区下的全部目标年层条目；显式
+    传入 None 时只匹配该维度为 None 的条目）；以及 ``execute``
+    去重层中 natal 输入 ``value`` 为该出生瞬时的条目（``zone``
+    给定时还须 ``zone`` 匹配）。不存在的 key 计 0，不报错。
+    输入非法（出生瞬时形状）时 raise
+    :class:`UnifiedComputeInputError`，不静默跳过。
+    """
+    _validate_birth_value(birth_value)
+    removed = 0
+    core_cache, year_cache, execute_cache = _current_caches()
+    core_key = _canonical_key([birth_value, zone])
+    if core_key is not None and core_key in core_cache:
+        del core_cache[core_key]
+        removed += 1
+    for key in list(year_cache):
+        try:
+            parts = json.loads(key)
+        except ValueError:
+            continue
+        if not isinstance(parts, list) or len(parts) != 4:
+            continue
+        if parts[0] != birth_value or parts[1] != zone:
+            continue
+        if traditional_role is not _ANY_DIMENSION \
+                and parts[2] != traditional_role:
+            continue
+        if target_year is not _ANY_DIMENSION \
+                and parts[3] != target_year:
+            continue
+        del year_cache[key]
+        removed += 1
+    for key in list(execute_cache):
+        try:
+            parts = json.loads(key)
+        except ValueError:
+            continue
+        if not isinstance(parts, list) or len(parts) != 3:
+            continue
+        inputs = parts[1]
+        if not isinstance(inputs, dict):
+            continue
+        if inputs.get('value') != birth_value:
+            continue
+        if zone is not None and inputs.get('zone') != zone:
+            continue
+        del execute_cache[key]
+        removed += 1
+    return removed
 
 
 def _canonical_key(payload):
@@ -133,10 +322,11 @@ def cached_execute(domain, inputs, allow_research=False):
     from .engine import execute
 
     key = _canonical_key([domain, inputs, allow_research])
-    if key is not None and key in _EXECUTE_CACHE:
-        return copy.deepcopy(_EXECUTE_CACHE[key])
+    _, _, execute_cache = _current_caches()
+    if key is not None and key in execute_cache:
+        return copy.deepcopy(execute_cache[key])
     result = execute(domain, inputs, allow_research=allow_research)
-    _cache_put(_EXECUTE_CACHE, key, result)
+    _cache_put(execute_cache, key, result)
     return copy.deepcopy(result)
 
 
@@ -360,9 +550,10 @@ def _assemble_birth_core(birth_value, zone):
     由调用方决定是否降级为无装配页（公开输出永不因此改变）。
     """
     _validate_birth_value(birth_value)
+    core_cache, _, _ = _current_caches()
     key = _canonical_key([birth_value, zone])
-    if key is not None and key in _CORE_CACHE:
-        return copy.deepcopy(_CORE_CACHE[key])
+    if key is not None and key in core_cache:
+        return copy.deepcopy(core_cache[key])
 
     from .bazi_bingyao import bingyao_lookup
     from .bazi_pattern_engine import evaluate_all
@@ -462,23 +653,33 @@ def _assemble_birth_core(birth_value, zone):
             'errors': errors,
         },
     }
-    _cache_put(_CORE_CACHE, key, core)
+    _cache_put(core_cache, key, core)
     return copy.deepcopy(core)
 
 
 def _assemble_year_layer(core, *, traditional_role, target_year):
-    """目标年层装配（缓存单位）：流年 + 年度喜用 + 组合。
+    """目标年层装配（缓存单位）：大运 + 流年 + 年度喜用 + 组合。
 
-    组合只在传统口径与目标年同时给出时装配；当期运未显式指定时
-    记未确定（D-02），不推导期位。流年边界只作消费侧对照（D-03）。
-    任一步骤失败只记入 ``errors``，组合块为 None，不拖垮其余层。
+    大运（Q3=A，2026-11-28）：显式传统口径给出时即装配完整的
+    8 运序列（``classical_dayun_timeline(periods=8)`` 的同一组合，
+    与 ``_dayun_public_gate`` 同一套 server-fixed 常量），不依赖
+    目标年——八字页无目标年也要能拿到 8 运数据；无口径时记为
+    未装配并具名原因，口径永不推断。流年查询数据：目标年干支
+    （``flow_year``）+ 该年的立春边界区间（``flow_boundary``，
+    ``annual_lichun_boundaries`` 原样输出，只作查询与对照，不产
+    生任何推断）。组合只在传统口径与目标年同时给出时装配；当期
+    运未显式指定时记未确定（D-02），不推导期位——本入口只提供
+    8 运序列与流年边界供调用方查询，永不自行判定当期运。
+    任一步骤失败只记入 ``errors``，对应块为 None，不拖垮其余层；
+    组合 pin 漂移仍 raise（调用方不得吞掉）。
     """
     birth_value = core['birth_value']
     zone = core['zone']
+    _, year_cache, _ = _current_caches()
     key = _canonical_key([birth_value, zone, traditional_role,
                           target_year])
-    if key is not None and key in _YEAR_CACHE:
-        return copy.deepcopy(_YEAR_CACHE[key])
+    if key is not None and key in year_cache:
+        return copy.deepcopy(year_cache[key])
 
     from .bazi_core import ten_god
     from .calendar import calendar
@@ -486,7 +687,54 @@ def _assemble_year_layer(core, *, traditional_role, target_year):
     day_master = core['chart']['day_master']['stem'] \
         if isinstance(core['chart']['day_master'], dict) \
         else core['chart']['day_master']
-    errors = list(core['research']['errors'])
+    # 深拷贝：年层 errors 条目不得与出生层装配共享同一 dict 对象，
+    # 否则一次请求的 errors 原地修改会透过共享对象污染另一层缓存。
+    errors = copy.deepcopy(core['research']['errors'])
+
+    # 大运 8 运序列：只认显式传统口径，与目标年无关。
+    dayun = None
+    dayun_note = None
+    if traditional_role is not None:
+        try:
+            from .bazi_dayun_compose import classical_dayun_timeline
+
+            timeline = classical_dayun_timeline(
+                birth_value, zone=zone,
+                traditional_role=traditional_role, periods=8,
+                birth_time_precision='second', include_shenfeng=True)
+            if timeline.get('status') != 'converted':
+                dayun_note = ('dayun_timeline_unresolved: %s'
+                              % timeline.get('reason'))
+                errors.append({'block': 'dayun', 'reason': dayun_note})
+            else:
+                dayun = {
+                    'status': 'assembled',
+                    'periods': 8,
+                    'traditional_role': traditional_role,
+                    'timeline': copy.deepcopy(timeline),
+                }
+        except Exception as exc:  # noqa: BLE001 - 只记，不拖垮装配
+            dayun_note = 'dayun_uncomputable: %s' % str(exc)[:300]
+            errors.append({'block': 'dayun', 'reason': dayun_note})
+    else:
+        dayun_note = (
+            'traditional_role_not_given: no dayun direction, '
+            '8-period sequence not assembled')
+
+    # 流年边界区间：只认目标年，与口径无关；失败只记，不拖垮流年。
+    flow_boundary = None
+    flow_boundary_error = None
+    if target_year is not None:
+        try:
+            from .bazi_annual_reference import \
+                annual_lichun_boundaries
+
+            flow_boundary = annual_lichun_boundaries(
+                day_master, [target_year])
+        except Exception as exc:  # noqa: BLE001 - 只记，不拖垮装配
+            flow_boundary_error = str(exc)[:300]
+            errors.append({'block': 'flow_boundary',
+                           'reason': flow_boundary_error})
 
     flow_year = None
     annual_xiyong = None
@@ -519,24 +767,19 @@ def _assemble_year_layer(core, *, traditional_role, target_year):
                            'reason': str(exc)[:300]})
         if traditional_role is not None:
             try:
-                from .bazi_annual_reference import \
-                    annual_lichun_boundaries
                 from .bazi_combination_engine import combine
-                from .bazi_dayun_compose import classical_dayun_timeline
 
-                timeline = classical_dayun_timeline(
-                    birth_value, zone=zone,
-                    traditional_role=traditional_role, periods=8,
-                    birth_time_precision='second', include_shenfeng=True)
-                if timeline.get('status') != 'converted':
+                if dayun is None:
                     errors.append({
                         'block': 'combination',
-                        'reason': 'dayun_timeline_unresolved: %s'
-                                  % timeline.get('reason')})
+                        'reason': 'dayun_unavailable: %s' % dayun_note})
+                elif flow_boundary is None:
+                    errors.append({
+                        'block': 'combination',
+                        'reason': 'flow_boundary_unavailable: %s'
+                                  % flow_boundary_error})
                 else:
-                    dayun_rows = timeline['sequence']['rows']
-                    boundary = annual_lichun_boundaries(
-                        day_master, [target_year])
+                    dayun_rows = dayun['timeline']['sequence']['rows']
                     combination = combine(
                         core['chart']['pillars'], day_master, dayun_rows,
                         target_year,
@@ -545,7 +788,7 @@ def _assemble_year_layer(core, *, traditional_role, target_year):
                         bingyao=core['research']['bingyao'],
                         pattern=core['research']['pattern'],
                         xiyong=core['research']['xiyong'],
-                        flow_boundary=boundary)
+                        flow_boundary=flow_boundary)
                     validate_engine_pins(combination=combination)
             except UnifiedComputePinError:
                 raise
@@ -563,7 +806,12 @@ def _assemble_year_layer(core, *, traditional_role, target_year):
     layer = {
         'target_year': target_year,
         'traditional_role': traditional_role,
+        'dayun': dayun,
+        'dayun_status': (
+            'assembled' if dayun is not None else 'not_assembled'),
+        'dayun_note': dayun_note,
         'flow_year': flow_year,
+        'flow_boundary': flow_boundary,
         'annual_xiyong': annual_xiyong,
         'combination': combination,
         'combination_status': (
@@ -571,7 +819,7 @@ def _assemble_year_layer(core, *, traditional_role, target_year):
         'combination_note': combination_note,
         'errors': errors,
     }
-    _cache_put(_YEAR_CACHE, key, layer)
+    _cache_put(year_cache, key, layer)
     return copy.deepcopy(layer)
 
 
@@ -592,7 +840,10 @@ def assemble_birth(birth_value, *, zone=None, traditional_role=None,
     assembly = copy.deepcopy(core)
     assembly['traditional_role'] = traditional_role
     assembly['target_year'] = target_year
+    assembly['dayun'] = layer['dayun']
+    assembly['dayun_status'] = layer['dayun_status']
     assembly['flow_year'] = layer['flow_year']
+    assembly['flow_boundary'] = layer['flow_boundary']
     assembly['annual_xiyong'] = layer['annual_xiyong']
     assembly['combination'] = layer['combination']
     assembly['combination_status'] = layer['combination_status']
@@ -662,37 +913,47 @@ def _base_trim(assembly, page):
 
 
 def trim_for_bazi_profile(assembly):
-    """bazi-profile 所需字段：排盘 + 强度 / 格局 / 喜用研究块。
+    """bazi-profile 所需字段：排盘 + 强度 / 格局 / 喜用研究块 + 大运。
 
-    不含 target_year / flow_year / combination（本页无流年）。
-    公开 presentation（strength / pattern / dayun / xiyong 四门控）
-    不在本裁剪内，由各门控另行构建。
+    大运（Q3=A）：口径给出时含完整 8 运序列（``dayun``），无口径
+    时为 None；不含 target_year / flow_year / combination（本页
+    无流年）。公开 presentation（strength / pattern / dayun /
+    xiyong 四门控）不在本裁剪内，由各门控另行构建。
     """
     trim = _base_trim(assembly, 'bazi-profile')
+    trim['dayun'] = copy.deepcopy(assembly.get('dayun'))
+    trim['dayun_status'] = assembly.get('dayun_status')
     return trim
 
 
 def trim_for_career(assembly):
-    """career 所需字段：排盘 + 研究块 + 流年 + 组合。"""
+    """career 所需字段：排盘 + 研究块 + 大运 + 流年 + 组合。"""
     trim = _base_trim(assembly, 'career')
     trim['target_year'] = assembly['target_year']
+    trim['dayun'] = copy.deepcopy(assembly.get('dayun'))
+    trim['dayun_status'] = assembly.get('dayun_status')
     trim['flow_year'] = copy.deepcopy(assembly.get('flow_year'))
+    trim['flow_boundary'] = copy.deepcopy(assembly.get('flow_boundary'))
     return trim
 
 
 def trim_for_romance(assembly):
-    """romance 所需字段：排盘 + 研究块 + 流年（无组合消费）。"""
+    """romance 所需字段：排盘 + 研究块 + 流年（含流年边界查询数据）。"""
     trim = _base_trim(assembly, 'romance')
     trim['target_year'] = assembly['target_year']
     trim['flow_year'] = copy.deepcopy(assembly.get('flow_year'))
+    trim['flow_boundary'] = copy.deepcopy(assembly.get('flow_boundary'))
     return trim
 
 
 def trim_for_life(assembly):
-    """life 所需字段：排盘 + 研究块 + 流年 + 组合 + 四源一致性锚点。"""
+    """life 所需字段：排盘 + 研究块 + 大运 + 流年 + 组合 + 四源一致性锚点。"""
     trim = _base_trim(assembly, 'life')
     trim['target_year'] = assembly['target_year']
+    trim['dayun'] = copy.deepcopy(assembly.get('dayun'))
+    trim['dayun_status'] = assembly.get('dayun_status')
     trim['flow_year'] = copy.deepcopy(assembly.get('flow_year'))
+    trim['flow_boundary'] = copy.deepcopy(assembly.get('flow_boundary'))
     trim['identity_anchor'] = {
         'pillars': copy.deepcopy(assembly['chart']['pillars']),
         'day_master': copy.deepcopy(assembly['chart']['day_master']),
@@ -717,6 +978,103 @@ def trim_for_compatibility(pair_assembly):
                                'compatibility-person-a'),
         'person_b': _base_trim(pair_assembly['person_b'],
                                'compatibility-person-b'),
+    }
+
+
+# ---------------------------------------------------------------------------
+# 正式投影（TJ-0427 Lane G）：装配 → 公开安全视图的唯一显式投影
+# ---------------------------------------------------------------------------
+# allowlist：正式视图只含这三组字段。排盘四柱与流年干支是结构事实；
+# ``stem_ten_god`` 是流年干与日主的十神结构事实（与四柱十神同类），
+# 不是任何引擎的 verdict。以下字段一律排除（即使装配里有）：
+# 全部研究输出、``traditional_role``（输入口径，不属计算事实）、
+# ``variant``（研究入口变体）、``identity_anchor``（裁剪 artifact）、
+# ``calendar_provider`` / ``year_boundary``（流年层内部口径说明）。
+FORMAL_PROJECTION_TOP_KEYS = frozenset(
+    ('birth_value', 'zone', 'target_year', 'chart', 'flow_year'))
+FORMAL_PROJECTION_CHART_KEYS = frozenset(
+    ('pillars', 'day_master', 'month_branch', 'ganzhi'))
+FORMAL_PROJECTION_FLOW_YEAR_KEYS = frozenset(
+    ('year', 'ganzhi', 'stem', 'branch', 'stem_ten_god'))
+
+# 研究字段名全集：正式投影中任何位置都不得出现。来源：研究块裁剪
+# （``_research_trim`` 的全部输出键）+ 装配 ``research`` 字典的其余
+# 键（``tiaohou`` / ``bingyao`` 不在裁剪内，但仍是研究输出）+
+# 装配容器（``research`` / ``natal_envelope``）+ 内部装配专属字段
+# （``dayun`` / ``dayun_status`` / ``flow_boundary``：其源模块自带
+# ``research_only=True``，只在内部装配与裁剪内流通，永不投影）+
+# 公开 presentation 键（本入口永不产生，列入是纵深防御：投影一旦
+# 误含即被测试捕获）。
+RESEARCH_FIELD_NAMES = frozenset((
+    'strength', 'pattern', 'pattern_d1', 'xiyong', 'annual_xiyong',
+    'combination', 'combination_status', 'combination_note', 'pilots',
+    'errors', 'tiaohou', 'bingyao', 'research_only', 'public_enabled',
+    'ai_enabled', 'research', 'natal_envelope',
+    'dayun', 'dayun_status', 'flow_boundary',
+    'strength_presentation', 'pattern_presentation',
+    'dayun_presentation', 'xiyong_presentation',
+))
+
+
+def project_formal(assembly):
+    """从研究装配投影出正式（公开安全）视图。
+
+    只输出 allowlist 字段（见 ``FORMAL_PROJECTION_*_KEYS``），返回
+    全深拷贝；研究字段永不进入。本函数不产生公开 presentation
+    对象——公开面仍只走既有四门控；它只回答“装配里哪些事实是
+    公开安全的”。装配形状非法（缺 ``chart`` / 四柱字段 / 流年
+    干支）时 raise :class:`UnifiedComputeInputError`（fail-closed，
+    不返回残缺视图）。
+    """
+    if not isinstance(assembly, dict):
+        raise UnifiedComputeInputError(
+            'project_formal needs an assembly object')
+    chart = assembly.get('chart')
+    if not isinstance(chart, dict):
+        raise UnifiedComputeInputError(
+            'project_formal needs an assembly with a chart')
+    for key in ('pillars', 'day_master', 'month_branch', 'ganzhi'):
+        if key not in chart:
+            raise UnifiedComputeInputError(
+                'project_formal: chart is missing %r' % key)
+    birth_value = assembly.get('birth_value')
+    if birth_value is None:
+        raise UnifiedComputeInputError(
+            'project_formal: assembly is missing birth_value')
+    _validate_birth_value(birth_value)
+    flow = assembly.get('flow_year')
+    flow_view = None
+    if flow is not None:
+        if not isinstance(flow, dict) or 'ganzhi' not in flow \
+                or 'year' not in flow:
+            raise UnifiedComputeInputError(
+                'project_formal: flow_year is missing year/ganzhi')
+        flow_view = {
+            key: copy.deepcopy(flow[key])
+            for key in FORMAL_PROJECTION_FLOW_YEAR_KEYS if key in flow}
+    return {
+        'birth_value': birth_value,
+        'zone': assembly.get('zone'),
+        'target_year': assembly.get('target_year'),
+        'chart': {
+            key: copy.deepcopy(chart[key])
+            for key in FORMAL_PROJECTION_CHART_KEYS},
+        'flow_year': flow_view,
+    }
+
+
+def project_formal_pair(pair_assembly):
+    """合盘装配的正式投影：两人各一份 :func:`project_formal`。"""
+    if not isinstance(pair_assembly, dict):
+        raise UnifiedComputeInputError(
+            'project_formal_pair needs a pair assembly object')
+    for key in ('person_a', 'person_b'):
+        if key not in pair_assembly:
+            raise UnifiedComputeInputError(
+                'project_formal_pair: pair assembly is missing %r' % key)
+    return {
+        'person_a': project_formal(pair_assembly['person_a']),
+        'person_b': project_formal(pair_assembly['person_b']),
     }
 
 

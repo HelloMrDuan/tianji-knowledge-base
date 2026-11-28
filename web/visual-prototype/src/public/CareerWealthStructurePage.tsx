@@ -556,6 +556,364 @@ function sliceRenderFullDayun(props: {
 }
 
 
+// TJ-0427 Lane B: plain-language career summary ("白话解读").
+// Renders the four sections of career-presentation-v1
+// (src/tianji_kb/career_presentation.py) from the envelope fields
+// that builder consumes. The builder is not wired into
+// scenario_engine.py yet (another lane owns that file), so when the
+// backend later attaches `career_presentation` to the envelope this
+// renderer prefers its sections verbatim; until then it derives the
+// same four sections from the fields already present here. Either
+// way it invents nothing: counts, intervals and statuses are copied
+// from the backend, and everything uncomputable is stated as
+// 暂不可判 in plain Chinese. No scores, no income predictions.
+type CareerPlainSection = {
+  id: string;
+  title: string;
+  caliber: string;
+  status: string;
+  content: any;
+  undecided_conditions: string[];
+};
+
+type CareerPlainPresentation = {
+  variant: string;
+  sections: CareerPlainSection[];
+  scope_statement: string;
+  limitations: string[];
+};
+
+const careerPlainGroupLabels: Record<string, string> = {
+  wealth: "财星",
+  authority: "官杀",
+  output: "食伤",
+  resource: "印星",
+  peers: "比劫",
+};
+
+function careerPlainGroupLine(groupId: string, group: any): string {
+  const label = careerPlainGroupLabels[groupId] || groupId;
+  const tenGods = Array.isArray(group?.ten_gods) ? group.ten_gods.join(" · ") : "";
+  const visible = typeof group?.visible_count === "number" ? group.visible_count : 0;
+  const hidden = typeof group?.hidden_count === "number" ? group.hidden_count : 0;
+  const visiblePart = visible > 0 ? `天干明见 ${visible} 处` : "天干未明见";
+  const hiddenPart = hidden > 0 ? `地支藏干 ${hidden} 处` : "地支藏干未见";
+  const presence = visible === 0 && hidden === 0
+    ? "当前四柱已审位置中未见；不能推论现实能力或财富缺失。"
+    : "仅为不同层级的结构位置，不表示已经发挥作用。";
+  return `${label}（${tenGods}）：${visiblePart}，${hiddenPart}。${presence}`;
+}
+
+// TJ-0427 Lane B, Q3=A (2026-11-28): full 8-period timeline.
+// One normalized period view, fed either by the builder's
+// dayun_timeline section (hidden stems + natal relations included)
+// or by the lazy full dayun presentation (intervals + ten-gods
+// only; hidden stems and relations arrive with the wired builder).
+// Interval precision only: no age is ever shown or computed.
+type CareerPlainDayunPeriod = {
+  period_index: number;
+  ganzhi: string;
+  stem_ten_god: string;
+  state: string;
+  interval: { earliest: string; latest: string } | null;
+  hiddenStems: Array<{ stem: string; ten_god: string }> | null;
+  relationsTotal: number | null;
+  relationsCounts: Record<string, number> | null;
+  queryYear: number | null;
+};
+
+function careerPlainIntervalText(entry: {
+  state: string;
+  start_interval?: { earliest: string; latest: string } | null;
+}): string {
+  const interval = entry.start_interval ?? null;
+  if (interval) {
+    return `交运区间 ${interval.earliest} 至 ${interval.latest}（不含上限）`;
+  }
+  return entry.state === "unresolved"
+    ? "交运时间暂不可判"
+    : "交运区间未提供";
+}
+
+function careerPlainQueryYear(entry: {
+  start_interval?: { earliest: string; latest: string } | null;
+}): number | null {
+  const earliest = entry.start_interval?.earliest;
+  if (typeof earliest !== "string" || earliest.length < 4) return null;
+  const year = Number(earliest.slice(0, 4));
+  return Number.isInteger(year) ? year : null;
+}
+
+function careerPlainPeriodLine(entry: {
+  period_index: number;
+  ganzhi: string;
+  stem_ten_god: string;
+  state: string;
+  start_interval?: { earliest: string; latest: string } | null;
+}): string {
+  return `第 ${entry.period_index} 运 ${entry.ganzhi}（${entry.stem_ten_god}），${careerPlainIntervalText(entry)}。`;
+}
+
+function renderCareerPlainPresentation(props: {
+  careerPresentation: CareerPlainPresentation | null;
+  groups: Record<string, any>;
+  flowYear: any;
+  targetYear: number;
+  dayun: any;
+  fullDayun: SliceDayunPresentation | null;
+  fullDayunLoading: boolean;
+  dayunMethod: "sanming" | "shenfeng";
+  onDayunMethodChange: (method: "sanming" | "shenfeng") => void;
+  onLoadFullDayun: () => void;
+  selectedPeriod: number | null;
+  onSelectPeriod: (period: number | null) => void;
+  onQueryLiunian: (year: number) => void;
+  strengthPresentation: SliceStrengthPresentation | null;
+  patternPresentation: SlicePatternPresentation | null;
+}) {
+  const { careerPresentation, groups, flowYear, targetYear, dayun,
+    fullDayun, fullDayunLoading, dayunMethod, onDayunMethodChange,
+    onLoadFullDayun, selectedPeriod, onSelectPeriod, onQueryLiunian,
+    strengthPresentation, patternPresentation } = props;
+  const groupOrder = ["wealth", "authority", "output", "resource", "peers"];
+  const strengthLine = !strengthPresentation
+    ? "旺衰呈现未附带。"
+    : strengthPresentation.status === "presented"
+      ? "命中了一个已审的局部旺衰形态，只覆盖这一个形态，不覆盖全盘。"
+      : strengthPresentation.status === "conflict"
+        ? "存在未裁定的冲突，暂不可判。"
+        : "未命中已审的局部旺衰形态，暂不可判；未命中不等于弱。";
+  const patternLine = !patternPresentation
+    ? "格局呈现未附带。"
+    : patternPresentation.status === "presented"
+      ? `任氏寅月局部真格研究结果：${patternPresentation.statement || "只覆盖这一个已审局部事实"}`
+      : "格局暂不可判，不作任何格局结论。";
+  const dayunSection = careerPresentation?.sections.find(
+    (s) => s.id === "dayun_timeline");
+  const builderPeriods: CareerPlainDayunPeriod[] | null =
+    dayunSection?.status === "presented"
+      ? (dayunSection.content?.methods?.[dayunMethod]?.entries ?? [])
+          .map((entry: any) => ({
+            period_index: entry.period_index,
+            ganzhi: entry.ganzhi,
+            stem_ten_god: entry.stem_ten_god,
+            state: entry.state,
+            interval: entry.start_interval ?? null,
+            hiddenStems: entry.hidden_stems_status === "available"
+              ? entry.hidden_stems ?? null
+              : null,
+            relationsTotal: entry.natal_relations?.total ?? null,
+            relationsCounts: entry.natal_relations?.counts_by_kind
+              ?? null,
+            queryYear: entry.liunian_query?.available
+              ? entry.liunian_query.query_year ?? null
+              : null,
+          }))
+      : null;
+  const effectiveBuilder = builderPeriods?.length ? builderPeriods : null;
+  const fullPeriods: CareerPlainDayunPeriod[] | null =
+    !effectiveBuilder && fullDayun
+      ? (fullDayun.methods[dayunMethod]?.entries ?? [])
+          .map((entry: SliceDayunEntry) => ({
+            period_index: entry.period_index,
+            ganzhi: entry.ganzhi,
+            stem_ten_god: entry.ten_god_relative_to_natal_day_stem,
+            state: entry.state,
+            interval: entry.start_interval
+              ? { earliest: entry.start_interval.earliest,
+                  latest: entry.start_interval.latest }
+              : null,
+            hiddenStems: null,
+            relationsTotal: null,
+            relationsCounts: null,
+            queryYear: careerPlainQueryYear(entry),
+          }))
+      : null;
+  const timelinePeriods = effectiveBuilder ?? fullPeriods;
+  const selectedEntry = timelinePeriods?.find(
+    (entry) => entry.period_index === selectedPeriod) ?? null;
+  const firstPeriodLines = dayun
+    ? (["sanming", "shenfeng"] as const)
+        .map((method) => {
+          const first = dayun.methods?.[method]?.entries?.[0];
+          return first ? careerPlainPeriodLine({
+            period_index: first.period_index,
+            ganzhi: first.ganzhi,
+            stem_ten_god: first.ten_god_relative_to_natal_day_stem,
+            state: first.state,
+            start_interval: first.start_interval ?? null,
+          }) : null;
+        })
+        .filter((line): line is string => line !== null)
+    : [];
+  const linkage = careerPresentation?.sections.find((s) => s.id === "natal_luck_linkage");
+  const linkageLines = linkage
+    ? [
+        `跨层效力：${linkage.content?.overall_effect === null ? "无已审规则，暂不可判" : "暂不可判"}。`,
+        linkage.content?.conditional_count != null
+          ? `条件结论（只记存在性事实，不是效力断言）：${linkage.content.conditional_count} 条。`
+          : "条件结论未装配。",
+      ]
+    : [
+        "原局与大运、流年的相互作用效力暂不可判：目前没有已审的跨层效力规则，本页只并列大运时间线与流年干支两组已算事实，不作效力判断。",
+      ];
+  const undecided = (sectionId: string, fallback: string[]): string[] => {
+    const found = careerPresentation?.sections.find((s) => s.id === sectionId);
+    return found && found.undecided_conditions.length
+      ? found.undecided_conditions
+      : fallback;
+  };
+  return (
+    <section className="career-layer career-plain" aria-label="白话解读">
+      <div className="slice-layer-head">
+        <span className="eyebrow">白话解读</span>
+        <h2>四句话：能说的先说，不能说的明说</h2>
+        <p>下面四段只转述本次计算已经算出的结构事实，不加预测、不打分；凡是还没算出来的，一律写“暂不可判”。</p>
+      </div>
+      <section className="career-plain-block" aria-label="原局十神位置">
+        <h3>一、原局十神在什么位置</h3>
+        {groupOrder.map((groupId) => (
+          <p key={groupId}>{careerPlainGroupLine(groupId, groups[groupId] || {})}</p>
+        ))}
+        <p>{targetYear} 年流年天干为{flowYear.stem_ten_god || "—"}，归入{flowYear.structure_group_label || "—"}结构；只表示十神关系命中，不判定吉凶或应期。</p>
+        <p>旺衰：{strengthLine}</p>
+        <p>格局：{patternLine}</p>
+        <p>喜用：调候与病药两体系并列呈现，统一裁决弃判；扶抑、格局用神等其他取用判断尚未建成，暂不可判。</p>
+        <details className="slice-evidence-entry">
+          <summary>还有哪些暂不可判</summary>
+          {undecided("natal_ten_gods", [
+            "全盘旺衰：除已审谓词命中外暂不可判（未命中不等于弱）。",
+            "格局：除 D-1 任氏寅月局部真格外，逐格成立与破格暂不可判。",
+            "格局用神：14 格全部待证据审查，暂不可判。",
+            "从格、化气成立：无已审规则，只有候选，暂不可判。",
+          ]).map((line, i) => (
+            <p key={`n-${i}`}>{line}</p>
+          ))}
+        </details>
+      </section>
+      <section className="career-plain-block" aria-label="大运 8 运时间线">
+        <h3>二、大运 8 运时间线</h3>
+        {timelinePeriods ? (
+          <>
+            <div className="slice-dayun-switch" role="tablist" aria-label="大运口径切换">
+              {(["sanming", "shenfeng"] as const).map((m) => (
+                <button
+                  key={m}
+                  type="button"
+                  role="tab"
+                  aria-selected={dayunMethod === m}
+                  className={dayunMethod === m ? "active" : ""}
+                  onClick={() => { onSelectPeriod(null); onDayunMethodChange(m); }}
+                >
+                  {dayunMethodLabels[m]}
+                </button>
+              ))}
+            </div>
+            <ol className="career-plain-periods">
+              {timelinePeriods.map((entry) => (
+                <li key={entry.period_index}
+                    className={selectedPeriod === entry.period_index ? "selected" : ""}>
+                  <button type="button" onClick={() => onSelectPeriod(
+                    selectedPeriod === entry.period_index ? null : entry.period_index)}>
+                    <strong>第 {entry.period_index} 运 {entry.ganzhi}</strong>
+                    <span>（{entry.stem_ten_god}）</span>
+                    <span>{careerPlainIntervalText(entry)}</span>
+                  </button>
+                </li>
+              ))}
+            </ol>
+            {selectedEntry ? (
+              <div className="career-plain-period-detail" aria-label="所选大运详情">
+                <h4>第 {selectedEntry.period_index} 运 {selectedEntry.ganzhi}（{selectedEntry.stem_ten_god}）</h4>
+                <p>{careerPlainIntervalText(selectedEntry)}</p>
+                {selectedEntry.hiddenStems ? (
+                  <p>该运地支藏干：{selectedEntry.hiddenStems.map((h) => `${h.stem}·${h.ten_god}`).join("、")}。只列藏干位置，不作效力判断。</p>
+                ) : (
+                  <p>该运地支藏干随正式接线（career_presentation）附带；此处只列已返回的干支与区间。</p>
+                )}
+                {selectedEntry.relationsTotal != null ? (
+                  <p>与原局的结构关系：共 {selectedEntry.relationsTotal} 条{selectedEntry.relationsCounts
+                    ? `（${Object.entries(selectedEntry.relationsCounts).map(([kind, count]) => `${kind} ${count}`).join("、")}）`
+                    : ""}；只记已审关系事实，不推效力。</p>
+                ) : (
+                  <p>与原局的结构关系随正式接线附带；此处不另算。</p>
+                )}
+                {selectedEntry.queryYear != null ? (
+                  <>
+                    <button type="button" className="button primary slice-dayun-load"
+                      onClick={() => onQueryLiunian(selectedEntry.queryYear!)}>
+                      查该运起始年（{selectedEntry.queryYear} 年）流年
+                    </button>
+                    <p>{targetYear} 年流年干支为 {flowYear.ganzhi || "—"}。流年与所选大运只并列呈现，不作相互作用或效力判断。</p>
+                  </>
+                ) : (
+                  <p>本运无交运区间，未提供流年查询入口。</p>
+                )}
+              </div>
+            ) : (
+              <p>点一运查看它的区间、藏干与原局关系，并可查该运起始年的流年；流年与大运的相互作用效力暂不可判。</p>
+            )}
+            <p>交运时间只给区间，不折算起运岁数或单点日期；神峰口径第 2–8 运区间未提供（已注册设计，非本场景扣留）。</p>
+          </>
+        ) : firstPeriodLines.length ? (
+          <>
+            {firstPeriodLines.map((line, i) => (
+              <p key={`fp-${i}`}>{line}</p>
+            ))}
+            <p>完整 8 运时间线尚未加载：点下面的按钮加载同一出生资料的完整时间线（与“当前大运”时间线同源）。</p>
+            <button type="button" className="button primary slice-dayun-load"
+              onClick={onLoadFullDayun} disabled={fullDayunLoading}>
+              {fullDayunLoading ? "正在加载完整大运…" : "加载完整 8 运时间线"}
+            </button>
+          </>
+        ) : (
+          <p>未选择传统大运口径，因此不呈现大运。如需查看 8 运时间线，请选择口径后重新计算。</p>
+        )}
+        <details className="slice-evidence-entry">
+          <summary>还有哪些暂不可判</summary>
+          {undecided("dayun_timeline", [
+            "起运岁数不折算、不呈现；交运时间只给区间，不给单点日期。",
+            "神峰口径第 2–8 运区间未提供：日级十年平移未推导。",
+            "当期运未显式指定时记为未确定，不由本呈现推导。",
+            "大运与原局、流年的相互作用效力未裁定，见第三节。",
+          ]).map((line, i) => (
+            <p key={`d-${i}`}>{line}</p>
+          ))}
+        </details>
+      </section>
+      <section className="career-plain-block" aria-label="原局与大运流年的关联">
+        <h3>三、原局和大运流年怎么关联</h3>
+        {linkageLines.map((line, i) => (
+          <p key={`l-${i}`}>{line}</p>
+        ))}
+        <details className="slice-evidence-entry">
+          <summary>还有哪些暂不可判</summary>
+          {undecided("natal_luck_linkage", [
+            "跨层效力（原局＋大运＋流年跨规则调用）：无已审规则，暂不可判。",
+            "流年喜用推演：暂不可判。",
+            "地支刑：刑表不存在，不评估。",
+          ]).map((line, i) => (
+            <p key={`k-${i}`}>{line}</p>
+          ))}
+        </details>
+      </section>
+      <section className="career-plain-block" aria-label="不能下的结论">
+        <h3>四、不能下的结论</h3>
+        <ul>
+          <li>不预测收入、财富多少、升职、跳槽或投资结果。</li>
+          <li>不输出事业指数、财运指数或任何分数。</li>
+          <li>不推荐行业、职业方向或具体岗位。</li>
+          <li>六爻事业官职用神映射未获批，不作问占口径呈现。</li>
+        </ul>
+        {careerPresentation && (
+          <p className="slice-scope">{careerPresentation.scope_statement}</p>
+        )}
+      </section>
+    </section>
+  );
+}
+
+
 export function CareerWealthStructurePage() {
   const [date, setDate] = useState(() => toSolarDateString(readSavedBirthProfile()));
   const [time, setTime] = useState(() => readSavedBirthProfile().time);
@@ -569,6 +927,10 @@ export function CareerWealthStructurePage() {
   const [dayunRole, setDayunRole] = useState<"" | "male" | "female">("");
   const [dayun, setDayun] = useState<any>(null);
   const [dayunMethod, setDayunMethod] = useState<"sanming" | "shenfeng">("sanming");
+  // TJ-0427 Lane B, Q3=A: selected dayun period in the plain-language
+  // timeline; selecting a period never creates a judgment, it only
+  // shows that period's already-computed facts + liunian query entry.
+  const [selectedDayunPeriod, setSelectedDayunPeriod] = useState<number | null>(null);
   // TJ-0422 phase 2 slice B: full 8-period timeline comes from a lazy,
   // single bazi-profile call on the same birth input (never eager: the
   // T-D1 capture in tj0173-dayun-career-life-td1.spec.ts reads the last
@@ -589,6 +951,7 @@ export function CareerWealthStructurePage() {
     setFullDayun(null);
     setFullDayunError(false);
     setFullDayunLoading(false);
+    setSelectedDayunPeriod(null);
     setSubmittedBirth(null);
     setError("");
     setLoading(false);
@@ -948,6 +1311,24 @@ export function CareerWealthStructurePage() {
             {sliceRenderPattern(patternPresentation)}
           </section>
 
+          {renderCareerPlainPresentation({
+            careerPresentation: (payload as any).career_presentation ?? null,
+            groups,
+            flowYear,
+            targetYear,
+            dayun,
+            fullDayun,
+            fullDayunLoading,
+            dayunMethod,
+            onDayunMethodChange: setDayunMethod,
+            onLoadFullDayun: loadFullDayun,
+            selectedPeriod: selectedDayunPeriod,
+            onSelectPeriod: setSelectedDayunPeriod,
+            onQueryLiunian: (year) => { void runCalculation(year); },
+            strengthPresentation,
+            patternPresentation,
+          })}
+
           <section className="career-layer" aria-label="当前大运">
             <div className="slice-layer-head">
               <span className="eyebrow">第二层</span>
@@ -1004,7 +1385,7 @@ export function CareerWealthStructurePage() {
                         <span>交运时间暂不可判。</span>
                       )}
                     </p>
-                    <p className="bazi-dayun-notice">第 2–8 运尚未在本场景开放：本口径只呈现首运交运区间。不折算起运岁数或日期；大运时间轴整体仍未获批。</p>
+                    <p className="bazi-dayun-notice">本块只呈现首运方向与交运区间；完整 8 运时间线见上方“白话解读”与下方“当前大运”时间线（Q3=A，2026-11-28）。不折算起运岁数或单点日期。</p>
                     {view.notices.map((notice: any) => (
                       <p key={notice.code} className="bazi-dayun-notice">{notice.text}</p>
                     ))}

@@ -15,3 +15,18 @@
 .romance-spouse-hits blockquote p{font-size:12px;line-height:1.8;color:#635b51;white-space:pre-wrap;overflow-wrap:anywhere}
 .romance-source-missing{font-size:11px;color:#98644c}
 .romance-spouse-palace>.romance-spouse-boundary{font-size:11px;color:#5a6b5c;margin:12px 0 0}
+
+.romance-presentation-section{margin-top:16px}
+.romance-presentation-section>.result-section-heading{margin-bottom:10px}
+.romance-section-basis{font-size:12px;line-height:1.9;color:#667268;margin:0 0 14px}
+.romance-section-undecided{font-size:11px;line-height:1.9;color:#5a6b5c;margin:14px 0 0;border-top:1px solid #e5e1dc;padding-top:12px}
+.romance-section-undecided a{color:#875b4e}
+.romance-candidate-overview{font-size:12px;line-height:1.9;color:#667268;margin:12px 0 0}
+.romance-hidden-stems{font-size:10px !important;line-height:1.7 !important;color:#7a7268 !important;margin-top:6px}
+.romance-linkage-facts{margin:4px 0 0;display:grid;gap:0}
+.romance-linkage-facts>div{display:grid;grid-template-columns:130px 1fr;gap:14px;border-top:1px solid #e3ddd6;padding:11px 0;font-size:12px;line-height:1.8}
+.romance-linkage-facts>div:first-child{border-top:0}
+.romance-linkage-facts dt{color:#888079;font-weight:400}
+.romance-linkage-facts dd{margin:0;color:#5c695d}
+.romance-linkage-facts dd a{color:#875b4e}
+@media(max-width:500px){.romance-linkage-facts>div{grid-template-columns:1fr;gap:2px}}

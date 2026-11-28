@@ -6,6 +6,24 @@ from unittest.mock import patch
 from fastapi.testclient import TestClient
 from tianji_kb.api import create_app
 
+
+def _phase2_occurrences(value, key=None):
+    """(key, value) pairs carrying 'bazi.phase2.' anywhere below value.
+
+    The key is the dict key (or enclosing list field) the string sits
+    under, so the caller can allow only the reviewed registry fields.
+    """
+    if isinstance(value, str):
+        if 'bazi.phase2.' in value:
+            yield key, value
+    elif isinstance(value, dict):
+        for child_key, item in value.items():
+            yield from _phase2_occurrences(item, child_key)
+    elif isinstance(value, list):
+        for item in value:
+            yield from _phase2_occurrences(item, key)
+
+
 class ProjectionSmoke(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -105,7 +123,28 @@ class ProjectionSmoke(unittest.TestCase):
         serialized=json.dumps(safe,ensure_ascii=False)
         for identifier in full['evidence']:
             self.assertNotIn(identifier,serialized)
-        self.assertNotIn('bazi.phase2.',serialized)
+        # The matrix and the presentation's relations section carry
+        # only public R aliases: the compat presentation translates
+        # each cross-matrix hit's rule id through the evidence
+        # matrix's first-encounter mapping (the same mapping the
+        # projection assigns). The only 'bazi.phase2.' occurrences
+        # left in the envelope are the reviewed registry ids inside
+        # the embedded xiyong presentations (phase2_step_id /
+        # consumed_rule_ids), which public_boundary.py explicitly
+        # keeps by design -- a raw rule id in any other field is
+        # still a leak.
+        for key in ("relation_evidence_matrix", "cross_relation_matrix"):
+            self.assertNotIn(
+                'bazi.phase2.',
+                json.dumps(safe['result'][key], ensure_ascii=False))
+        relations = safe['result']['compatibility_presentation'][
+            'sections'][1]
+        self.assertNotIn(
+            'bazi.phase2.', json.dumps(relations, ensure_ascii=False))
+        for found_key, found_value in _phase2_occurrences(safe):
+            self.assertIn(found_key,
+                          ('phase2_step_id', 'consumed_rule_ids'),
+                          found_value)
 
     def test_projection_strips_injected_private_paths_in_nested_results(self):
         from tianji_kb.public_projection import project_execution

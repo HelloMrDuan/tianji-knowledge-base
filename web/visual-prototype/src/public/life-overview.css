@@ -130,3 +130,25 @@
 @media (max-width: 768px) {
   .slice-hub-cards{grid-template-columns:repeat(2,1fr)}
 }
+
+/* TJ-0427 Lane E: life presentation panel (life-presentation-v1). */
+.life-presentation{margin:0 0 20px;padding:24px;border:1px solid #bec9b4;border-radius:7px;background:linear-gradient(130deg,#faf9ee,#eaf0e4)}
+.life-presentation h2{font:22px "Noto Serif CJK SC",serif;font-weight:500;color:#355943;margin:9px 0 12px}
+.life-presentation h3{font-size:16px;color:#355943;margin:20px 0 8px}
+.life-presentation h4{font-size:15px;color:#355943;margin:14px 0 6px}
+.life-presentation>p{font-size:13px;line-height:1.9;color:#445d49;margin:9px 0}
+.life-presentation-unified p{font-size:13px;line-height:1.9;color:#445d49;margin:6px 0}
+.life-presentation-themes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+.life-presentation-themes article{border:1px solid #d8ddd0;border-radius:7px;background:#fffdf8;padding:16px}
+.life-presentation-themes article p{font-size:12px;line-height:1.8;color:#445d49;margin:6px 0}
+.life-presentation-themes article strong{display:block;font-size:13px;color:#355943;margin-top:8px}
+.life-presentation-themes article span{font-size:11px;color:#8e9486;margin-left:8px}
+.life-presentation-stages{list-style:none;margin:14px 0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.life-presentation-stages li button{width:100%;border:1px solid #cfd6c7;border-radius:7px;background:#fffef9;color:#506356;padding:10px 12px;font-size:13px;cursor:pointer;text-align:left}
+.life-presentation-stages li.active button{border-color:#335b44;background:#eef2e8}
+.life-presentation-stages li button strong{display:block;color:#355943}
+.life-presentation-stages li button span{font-size:11px;color:#8e9486}
+.life-presentation-stages li button em{font-style:normal;color:#fff;background:#335b44;border-radius:10px;padding:1px 8px;margin-left:6px;font-size:11px}
+.life-presentation-stage-detail{margin:12px 0;padding:16px 18px;border:1px solid #bec9b4;border-radius:7px;background:#fffdf8}
+.life-presentation-stage-detail p{font-size:13px;line-height:1.9;color:#445d49;margin:6px 0}
+@media (max-width: 768px){.life-presentation{padding:18px}.life-presentation-themes{grid-template-columns:1fr}.life-presentation-stages{grid-template-columns:repeat(2,1fr)}}

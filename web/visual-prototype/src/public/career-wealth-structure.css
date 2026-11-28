@@ -101,3 +101,22 @@
 @media (max-width: 768px) {
   .slice-hub-cards{grid-template-columns:repeat(2,1fr)}
 }
+
+/* TJ-0427 Lane B, Q3=A: plain-language 8-period timeline. */
+.career-plain-block{margin:0 0 20px;padding:24px;border:1px solid #bec9b4;border-radius:7px;background:linear-gradient(130deg,#faf9ee,#eaf0e4)}
+.career-plain-block h3{font:20px "Noto Serif CJK SC",serif;font-weight:500;color:#355943;margin:0 0 12px}
+.career-plain-block>p{font-size:13px;line-height:1.9;color:#445d49;margin:6px 0}
+.career-plain-block ul{font-size:13px;line-height:1.9;color:#445d49;margin:6px 0;padding-left:20px}
+.career-plain-periods{list-style:none;margin:14px 0;padding:0;display:grid;gap:8px}
+.career-plain-periods li{border:1px solid #d8ddd0;border-radius:7px;background:#f5f3ea}
+.career-plain-periods li.selected{border-color:#335b44;background:#eef2e8}
+.career-plain-periods li button{display:block;width:100%;text-align:left;border:0;background:none;padding:12px 14px;font-size:13px;line-height:1.8;color:#445d49;cursor:pointer}
+.career-plain-periods li button strong{color:#355943}
+.career-plain-periods li button span{display:block}
+.career-plain-period-detail{margin:14px 0;padding:18px 20px;border:1px solid #bec9b4;border-radius:7px;background:#fffdf8}
+.career-plain-period-detail h4{font-size:15px;color:#355943;margin:0 0 8px}
+.career-plain-period-detail p{font-size:13px;line-height:1.9;color:#445d49;margin:6px 0}
+@media (max-width: 768px) {
+  .career-plain-block{padding:18px}
+  .career-plain-period-detail{padding:14px}
+}

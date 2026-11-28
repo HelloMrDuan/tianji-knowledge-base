@@ -1,0 +1,558 @@
+{
+  "entry": "true-solar-chart-research-v1",
+  "method": "modern_engineering",
+  "conversion_method": "noaa-solar-calculator-approx-v1",
+  "astronomical_basis": "NOAA Global Monitoring Laboratory Solar Calculator equations (gml.noaa.gov/grad/solcalc/solareqns.PDF), implementing the low-precision solar-position algorithm of Jean Meeus, Astronomical Algorithms, 2nd ed., ch. 25 and ch. 28. Equation of time uses the NOAA sign convention (apparent minus mean solar time).",
+  "research_only": true,
+  "public": false,
+  "ai": false,
+  "status": "ok",
+  "input": {
+    "birth_local_time": "2024-02-11T16:27:07+08:00",
+    "longitude_deg": 116.4,
+    "tz_offset_hours": 8,
+    "standard_meridian_deg": 120.0,
+    "day_boundary": "midnight",
+    "use_true_solar_time": true
+  },
+  "conversion": {
+    "apparent_solar_time": "2024-02-11T15:58:29.284754+08:00",
+    "input_local_time": "2024-02-11T16:27:07+08:00",
+    "input_date": "2024-02-11",
+    "apparent_date": "2024-02-11",
+    "date_shifted": false,
+    "date_shift_days": 0,
+    "longitude_deg": 116.4,
+    "tz_offset_hours": 8.0,
+    "standard_meridian_deg": 120.0,
+    "longitude_correction_minutes": -14.399999999999977,
+    "equation_of_time_minutes": -14.228587425271362,
+    "total_correction_minutes": -28.62858742527134,
+    "optional_conversion": true,
+    "current_standard_time_convention_unchanged": true,
+    "research_only": true,
+    "public": false,
+    "ai": false,
+    "status": "ok",
+    "method": "noaa-solar-calculator-approx-v1",
+    "astronomical_basis": "NOAA Global Monitoring Laboratory Solar Calculator equations (gml.noaa.gov/grad/solcalc/solareqns.PDF), implementing the low-precision solar-position algorithm of Jean Meeus, Astronomical Algorithms, 2nd ed., ch. 25 and ch. 28. Equation of time uses the NOAA sign convention (apparent minus mean solar time)."
+  },
+  "standard_time_chart": {
+    "pillars": [
+      {
+        "name": "year",
+        "ganzhi": "甲辰",
+        "stem": {
+          "value": "甲",
+          "ten_god": "比肩"
+        },
+        "branch": {
+          "value": "辰",
+          "hidden_stems": [
+            {
+              "stem": "戊"
+            },
+            {
+              "stem": "乙"
+            },
+            {
+              "stem": "癸"
+            }
+          ]
+        }
+      },
+      {
+        "name": "month",
+        "ganzhi": "戊辰",
+        "stem": {
+          "value": "戊",
+          "ten_god": "比肩"
+        },
+        "branch": {
+          "value": "辰",
+          "hidden_stems": [
+            {
+              "stem": "戊"
+            },
+            {
+              "stem": "乙"
+            },
+            {
+              "stem": "癸"
+            }
+          ]
+        }
+      },
+      {
+        "name": "day",
+        "ganzhi": "戊午",
+        "stem": {
+          "value": "戊",
+          "ten_god": "比肩"
+        },
+        "branch": {
+          "value": "午",
+          "hidden_stems": [
+            {
+              "stem": "丁"
+            },
+            {
+              "stem": "己"
+            }
+          ]
+        }
+      },
+      {
+        "name": "hour",
+        "ganzhi": "甲寅",
+        "stem": {
+          "value": "甲",
+          "ten_god": "比肩"
+        },
+        "branch": {
+          "value": "寅",
+          "hidden_stems": [
+            {
+              "stem": "甲"
+            },
+            {
+              "stem": "丙"
+            },
+            {
+              "stem": "戊"
+            }
+          ]
+        }
+      }
+    ],
+    "day_master": {
+      "stem": "戊",
+      "element": "土",
+      "polarity": "阳"
+    },
+    "calendar": {
+      "local_datetime": "2024-02-11T16:27:07+08:00"
+    }
+  },
+  "true_solar_time_chart": {
+    "pillars": [
+      {
+        "name": "year",
+        "ganzhi": "甲辰",
+        "stem": {
+          "value": "甲",
+          "ten_god": "比肩"
+        },
+        "branch": {
+          "value": "辰",
+          "hidden_stems": [
+            {
+              "stem": "戊"
+            },
+            {
+              "stem": "乙"
+            },
+            {
+              "stem": "癸"
+            }
+          ]
+        }
+      },
+      {
+        "name": "month",
+        "ganzhi": "戊辰",
+        "stem": {
+          "value": "戊",
+          "ten_god": "比肩"
+        },
+        "branch": {
+          "value": "辰",
+          "hidden_stems": [
+            {
+              "stem": "戊"
+            },
+            {
+              "stem": "乙"
+            },
+            {
+              "stem": "癸"
+            }
+          ]
+        }
+      },
+      {
+        "name": "day",
+        "ganzhi": "戊午",
+        "stem": {
+          "value": "戊",
+          "ten_god": "比肩"
+        },
+        "branch": {
+          "value": "午",
+          "hidden_stems": [
+            {
+              "stem": "丁"
+            },
+            {
+              "stem": "己"
+            }
+          ]
+        }
+      },
+      {
+        "name": "hour",
+        "ganzhi": "甲寅",
+        "stem": {
+          "value": "甲",
+          "ten_god": "比肩"
+        },
+        "branch": {
+          "value": "寅",
+          "hidden_stems": [
+            {
+              "stem": "甲"
+            },
+            {
+              "stem": "丙"
+            },
+            {
+              "stem": "戊"
+            }
+          ]
+        }
+      }
+    ],
+    "day_master": {
+      "stem": "戊",
+      "element": "土",
+      "polarity": "阳"
+    },
+    "calendar": {
+      "local_datetime": "2024-02-11T15:58:29.284754+08:00"
+    }
+  },
+  "differences": {
+    "pillars": {
+      "year": {
+        "standard": "甲辰",
+        "true_solar": "甲辰",
+        "changed": false
+      },
+      "month": {
+        "standard": "戊辰",
+        "true_solar": "戊辰",
+        "changed": false
+      },
+      "day": {
+        "standard": "戊午",
+        "true_solar": "戊午",
+        "changed": false
+      },
+      "hour": {
+        "standard": "甲寅",
+        "true_solar": "甲寅",
+        "changed": false
+      }
+    },
+    "solar_term": {
+      "standard": "立春",
+      "true_solar": "立春",
+      "changed": false
+    },
+    "chart_date": {
+      "standard": "2024-02-11",
+      "true_solar": "2024-02-11",
+      "changed": false
+    },
+    "any_pillar_changed": false,
+    "month_pillar_changed": false,
+    "year_pillar_changed": false,
+    "day_pillar_changed": false,
+    "hour_pillar_changed": false
+  },
+  "jieqi": {
+    "crossed": false,
+    "crossed_term": null,
+    "crossed_at_utc": null,
+    "crossed_at_local": null,
+    "minutes_from_input_to_boundary": -10080.0,
+    "standard_solar_term": "立春",
+    "true_solar_solar_term": "立春",
+    "nearest_boundary_term": "立春",
+    "nearest_boundary_minutes": 10080.0,
+    "within_precision_budget": false,
+    "uncertainty_window_minutes": 2.0,
+    "uncertainty_window_status": "provisional",
+    "uncertainty_window_adjudication": "T1 (2026-11-25): 2-minute provisional research window (NOAA +/-1 min equation-of-time budget + 1 min margin); provisional, not a proven maximum error",
+    "note": "The solar-time correction never crosses a jieqi: the solar term, the year pillar and the month pillar are fixed by the true birth instant on both sides. The nearest true jieqi boundary, 立春, is 10080.0 minutes from the true input instant -- outside the provisional 2-minute window (T1, 2026-11-25); the window is provisional, not a proven maximum error."
+  },
+  "pillar_comparison": {
+    "adapter": "true-solar-pillar-adapter-v1",
+    "entry": "true-solar-chart-research-v1",
+    "method": "modern_engineering",
+    "research_only": true,
+    "public": false,
+    "ai": false,
+    "status": "ok",
+    "day_master": {
+      "standard": {
+        "stem": "戊",
+        "element": "土",
+        "polarity": "阳"
+      },
+      "true_solar": {
+        "stem": "戊",
+        "element": "土",
+        "polarity": "阳"
+      },
+      "changed": false
+    },
+    "pillars": [
+      {
+        "name": "year",
+        "standard": {
+          "name": "year",
+          "ganzhi": "甲辰",
+          "stem": {
+            "value": "甲",
+            "ten_god": "比肩"
+          },
+          "branch": {
+            "value": "辰",
+            "hidden_stems": [
+              {
+                "stem": "戊"
+              },
+              {
+                "stem": "乙"
+              },
+              {
+                "stem": "癸"
+              }
+            ]
+          }
+        },
+        "true_solar": {
+          "name": "year",
+          "ganzhi": "甲辰",
+          "stem": {
+            "value": "甲",
+            "ten_god": "比肩"
+          },
+          "branch": {
+            "value": "辰",
+            "hidden_stems": [
+              {
+                "stem": "戊"
+              },
+              {
+                "stem": "乙"
+              },
+              {
+                "stem": "癸"
+              }
+            ]
+          }
+        },
+        "changed": false,
+        "ten_god_reading_changed": false,
+        "reason": "The year pillar is fixed by the true birth instant: the solar-time correction moves only the local solar reading used for the day/hour pillars, so it can never cross 立春 and the year pillar cannot change. The nearest 立春 (2024-02-04T08:27:07+00:00 UTC) is 10080.0 minutes after the true instant.",
+        "detail": {
+          "governing_boundary": "lichun"
+        }
+      },
+      {
+        "name": "month",
+        "standard": {
+          "name": "month",
+          "ganzhi": "戊辰",
+          "stem": {
+            "value": "戊",
+            "ten_god": "比肩"
+          },
+          "branch": {
+            "value": "辰",
+            "hidden_stems": [
+              {
+                "stem": "戊"
+              },
+              {
+                "stem": "乙"
+              },
+              {
+                "stem": "癸"
+              }
+            ]
+          }
+        },
+        "true_solar": {
+          "name": "month",
+          "ganzhi": "戊辰",
+          "stem": {
+            "value": "戊",
+            "ten_god": "比肩"
+          },
+          "branch": {
+            "value": "辰",
+            "hidden_stems": [
+              {
+                "stem": "戊"
+              },
+              {
+                "stem": "乙"
+              },
+              {
+                "stem": "癸"
+              }
+            ]
+          }
+        },
+        "changed": false,
+        "ten_god_reading_changed": false,
+        "reason": "No jieqi was crossed: the month pillar is fixed by the true birth instant, and the solar-time correction never crosses a jieqi, so the month pillar cannot change. The true instant carries the solar term 立春; the nearest boundary, 立春, is 10080.0 minutes from the true instant.",
+        "detail": {
+          "governing_boundary": "jieqi"
+        }
+      },
+      {
+        "name": "day",
+        "standard": {
+          "name": "day",
+          "ganzhi": "戊午",
+          "stem": {
+            "value": "戊",
+            "ten_god": "比肩"
+          },
+          "branch": {
+            "value": "午",
+            "hidden_stems": [
+              {
+                "stem": "丁"
+              },
+              {
+                "stem": "己"
+              }
+            ]
+          }
+        },
+        "true_solar": {
+          "name": "day",
+          "ganzhi": "戊午",
+          "stem": {
+            "value": "戊",
+            "ten_god": "比肩"
+          },
+          "branch": {
+            "value": "午",
+            "hidden_stems": [
+              {
+                "stem": "丁"
+              },
+              {
+                "stem": "己"
+              }
+            ]
+          }
+        },
+        "changed": false,
+        "ten_god_reading_changed": false,
+        "reason": "The local solar date at the birthplace (2024-02-11) matches the Shanghai date of the true instant (2024-02-11) under the midnight convention, so the day pillar is unchanged: the next 00:00 local-solar day boundary is 481.5 minutes after the apparent solar time (452.9 minutes after the true instant to the next Shanghai boundary).",
+        "detail": {
+          "governing_boundary": "day_boundary"
+        }
+      },
+      {
+        "name": "hour",
+        "standard": {
+          "name": "hour",
+          "ganzhi": "甲寅",
+          "stem": {
+            "value": "甲",
+            "ten_god": "比肩"
+          },
+          "branch": {
+            "value": "寅",
+            "hidden_stems": [
+              {
+                "stem": "甲"
+              },
+              {
+                "stem": "丙"
+              },
+              {
+                "stem": "戊"
+              }
+            ]
+          }
+        },
+        "true_solar": {
+          "name": "hour",
+          "ganzhi": "甲寅",
+          "stem": {
+            "value": "甲",
+            "ten_god": "比肩"
+          },
+          "branch": {
+            "value": "寅",
+            "hidden_stems": [
+              {
+                "stem": "甲"
+              },
+              {
+                "stem": "丙"
+              },
+              {
+                "stem": "戊"
+              }
+            ]
+          }
+        },
+        "changed": false,
+        "ten_god_reading_changed": false,
+        "reason": "The shichen is unchanged (申时), so the hour pillar is unchanged: the next shichen boundary (17:00) is 61.5 minutes after the apparent solar time (32.9 minutes after the true instant in Shanghai time).",
+        "detail": {
+          "governing_boundary": "shichen"
+        }
+      }
+    ],
+    "year_and_month_changed_together": false,
+    "month_attribution": "settled",
+    "month_attribution_settled": true,
+    "derived": {
+      "branch_relations_changed": false,
+      "taohua_changed": false
+    },
+    "note": "The day master is unchanged (戊), so the ten-god readings are taken against the same day master on both sides.",
+    "reuse_note": "Every stem, branch, hidden stem and ten god above is copied verbatim from the fixture pillars on both sides; this adapter fixture recomputes nothing."
+  },
+  "research_api": "true-solar-research-api-v1",
+  "tz_validation": {
+    "tz_name": "Asia/Shanghai",
+    "instant": "2024-02-11T08:27:07+00:00",
+    "tzdb_offset_hours": 8.0,
+    "tzdb_offset": "+08:00",
+    "tzdb_offset_is_whole_minutes": true,
+    "supplied_offset_hours": null,
+    "supplied_offset": null,
+    "matches": true,
+    "status": "resolved_from_tzdb",
+    "tzdb_version": "2026e",
+    "coverage": "IANA time-zone database (zoneinfo, system tzdata) as shipped with this runtime; the exact version is reported per call by tzdb_version(). Coverage differs per zone: most zones record transitions only from the late 19th / early 20th century, and before a zone's first recorded transition the tzdb offset is local mean time (LMT), derived from longitude, approximate, and not a civil standard. tzdb is a compiled, versioned secondary source: historical offsets are revised between versions, so agreement with tzdb is a consistency check, not proof that an offset is historically correct.",
+    "uncertainty": "Offset resolved from IANA tzdb at this instant; resolution is a lookup, not proof of historical correctness (tzdb version 2026e).",
+    "method": "iana-tzdb-validation-v1",
+    "research_only": true,
+    "public": false,
+    "ai": false
+  },
+  "provenance": {
+    "research_api": "true-solar-research-api-v1",
+    "entry": "true-solar-chart-research-v1",
+    "adapter": "true-solar-pillar-adapter-v1",
+    "conversion_method": "noaa-solar-calculator-approx-v1",
+    "tzdb_version": "2026e",
+    "jieqi_window_minutes": 2.0,
+    "jieqi_window_status": "provisional"
+  },
+  "comparison_note": "The standard-time chart and the true-solar-time chart are two separate results for the same birth instant under two different, explicitly labelled conventions. Neither overwrites the other, and the standard-time chart is identical to chart_from_datetime(birth).",
+  "standard_time_convention_unchanged": true
+}

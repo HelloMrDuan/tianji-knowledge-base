@@ -15,7 +15,7 @@ from .ai_providers import provider_from_environment,provider_configured,timeout_
 from .runtime_catalog import load_catalog
 from .resolver import ROOT
 from .prompts import DEFAULT_PROMPT,PROMPTS
-from .scenario_engine import execute_scenario,registry as scenario_registry
+from .scenario_engine import execute_scenario,execute_true_solar_scenario,registry as scenario_registry
 from .public_projection import project_execution,PUBLIC_EXECUTION_DOMAINS,PUBLIC_SCENARIO_STATES,calendar_local_year,scenario_birth_instants,scenario_unverified_period_years,unverified_period_year,UNVERIFIED_PERIOD_CODE,UNVERIFIED_PERIOD_MESSAGE
 from .calendar_tz import precision_note_for
 from .operations.dream_knowledge import (retrieve as retrieve_dream_culture,
@@ -243,6 +243,42 @@ def _scenario_precision_notes(inputs,scenario_id):
     return notes
 
 
+def _true_solar_unverified_period_years(inputs):
+    # TJ-031.7 (true-solar, TJ-031.19/E0427): the same 1900-1948
+    # public boundary as the registered scenarios, for the
+    # true-solar input shape. scenario_birth_instants does not
+    # cover it (the input carries tz_name/tz_offset, not the
+    # registered birth-field pairs), so the local civil year is
+    # computed here in the request's own time-zone frame: the IANA
+    # zone when tz_name is given, else the explicit fixed offset.
+    # Inputs that cannot be parsed are skipped: this runs only
+    # after a successful execution, whose own validation already
+    # rejected any incoherent birth input.
+    from datetime import datetime as _datetime
+    from zoneinfo import ZoneInfo as _ZoneInfo
+    value=inputs.get('value')
+    if not isinstance(value,str):
+        return []
+    try:instant=_datetime.fromisoformat(value)
+    except ValueError:return []
+    if instant.tzinfo is None:
+        return []
+    zone=inputs.get('tz_name')
+    try:
+        if isinstance(zone,str) and zone:
+            frame=_ZoneInfo(zone)
+        elif isinstance(inputs.get('tz_offset'),(int,float)):
+            from datetime import timedelta as _timedelta
+            from datetime import timezone as _timezone
+            frame=_timezone(_timedelta(
+                hours=float(inputs['tz_offset'])))
+        else:
+            frame=_ZoneInfo('Asia/Shanghai')
+        year=instant.astimezone(frame).year
+    except Exception:return []
+    return [year] if unverified_period_year(year) else []
+
+
 def response_for(raw):
     warnings=[]
     if raw['mode']=='research':warnings.append('研究模式：实验或待核约定不代表已审 Canonical，不得自动晋级。')
@@ -252,6 +288,23 @@ def response_for(raw):
         trace=[{**step,'variant':raw['variant']} for step in raw['trace']],evidence=raw['evidence'],
         warnings=warnings,limitations=[raw['scope'],*raw['unresolved']],
         calendar=raw.get('input_calendar') or raw['result'].get('calendar'))
+
+
+# TJ-031.19 (E0427 closing fix): the explicit, named admission
+# point for public sub-functions of a registered scenario on POST
+# /api/v1/scenarios/public. "true-solar" is a research sub-function
+# of bazi-profile, NOT a 12th scenario: it has no page of its own
+# and no SCENARIOS registry entry (B016 pins the registry to
+# exactly 11 page-bearing scenarios). Only an id named here may
+# bypass the registry check, and each id maps to exactly one
+# executor; every other unregistered id is rejected with
+# unsupported_public_scenario, so no arbitrary scenario_id can
+# reach an executor. Admit a new sub-function here only by a
+# reviewed admission decision -- never by adding another inline
+# dispatch in the handler.
+PUBLIC_SCENARIO_SUBFUNCTIONS = {
+    "true-solar": execute_true_solar_scenario,
+}
 
 
 def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,admin_read_scopes=None,admin_role_tokens=None,admin_audit_log=None,admin_draft_store=None,admin_db_path=None):
@@ -1037,17 +1090,36 @@ def create_app(provider=None,*,explanation_timeout=None,admin_read_token=None,ad
     async def public_scenario_request(request:ScenarioExecuteRequest,response:Response):
         available={item['id']:item for item in scenario_registry()}
         scenario=available.get(request.scenario_id)
-        if scenario is None or scenario['status'] not in PUBLIC_SCENARIO_STATES:
+        subfunction=PUBLIC_SCENARIO_SUBFUNCTIONS.get(request.scenario_id)
+        if subfunction is not None:
+            # Admitted sub-function (see PUBLIC_SCENARIO_SUBFUNCTIONS):
+            # dispatched to its one named executor, never to the
+            # registry path. Everything below the dispatch -- the
+            # unverified-period boundary, the public projection and
+            # the response shape -- is shared with the registered
+            # scenarios.
+            try:
+                raw=await run_in_threadpool(subfunction,dict(request.input))
+            except RuntimeUnavailable:raise
+            except (ValueError,TypeError) as error:
+                raise HTTPException(422,detail={'code':'invalid_scenario_input','message':str(error)}) from error
+        elif scenario is None or scenario['status'] not in PUBLIC_SCENARIO_STATES:
             raise HTTPException(422,detail={'code':'unsupported_public_scenario'})
-        try:
-            raw=await run_in_threadpool(execute_scenario,request.scenario_id,dict(request.input))
-        except RuntimeUnavailable:raise
-        except (ValueError,TypeError) as error:
-            raise HTTPException(422,detail={'code':'invalid_scenario_input','message':str(error)}) from error
+        else:
+            try:
+                raw=await run_in_threadpool(execute_scenario,request.scenario_id,dict(request.input))
+            except RuntimeUnavailable:raise
+            except (ValueError,TypeError) as error:
+                raise HTTPException(422,detail={'code':'invalid_scenario_input','message':str(error)}) from error
         # TJ-031.7: the 1900-1948 public boundary is enforced only
         # after a successful execution, so the tz audit and every
         # other pre-existing rejection keep their exact behaviour.
         if scenario_unverified_period_years(dict(request.input),request.scenario_id):
+            raise HTTPException(422,detail={'code':UNVERIFIED_PERIOD_CODE,'message':UNVERIFIED_PERIOD_MESSAGE})
+        # The boundary helper is true-solar-specific and the
+        # allowlist currently holds exactly that one entry; a
+        # second admission must bring its own boundary check.
+        if request.scenario_id in PUBLIC_SCENARIO_SUBFUNCTIONS and _true_solar_unverified_period_years(dict(request.input)):
             raise HTTPException(422,detail={'code':UNVERIFIED_PERIOD_CODE,'message':UNVERIFIED_PERIOD_MESSAGE})
         result=ScenarioExecuteResponse.model_validate(project_execution(raw))
         for note in _scenario_precision_notes(dict(request.input),request.scenario_id):

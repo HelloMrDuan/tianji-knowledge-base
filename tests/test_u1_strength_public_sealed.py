@@ -653,17 +653,20 @@ class GateExceptionLayerSealedTests(unittest.TestCase):
 
 class NotJudgeableEnvelopeSealedTests(unittest.TestCase):
     """Remediation 2026-11-02, presentation-keys rule: every
-    bazi-profile envelope gains exactly the two presentation keys
+    bazi-profile envelope gains exactly the presentation keys
     (strength_presentation since U1 Batch B, pattern_presentation
-    since TJ-012.3 Stage B, user 2026-11-10), including a
-    not_judgeable chart. A not_judgeable envelope is therefore NOT
-    byte-identical to the pre-B envelope -- it differs exactly by
-    those keys, carries no classification, and is not a
-    determination of any kind."""
+    since TJ-012.3 Stage B, user 2026-11-10, profile_presentation
+    since TJ-031.19 batch 5), including a not_judgeable chart. A
+    not_judgeable envelope is therefore NOT byte-identical to the
+    pre-B envelope -- it differs exactly by those keys, carries no
+    classification, and is not a determination of any kind."""
 
     def test_not_judgeable_envelope_differs_by_exactly_the_presentation_keys(self):
         from tianji_kb.bazi_pattern_public import (
             is_valid_public_pattern_presentation,
+        )
+        from tianji_kb.bazi_profile_presentation import (
+            is_valid_bazi_profile_presentation,
         )
         from tianji_kb.engine import execute as domain_execute
 
@@ -679,6 +682,8 @@ class NotJudgeableEnvelopeSealedTests(unittest.TestCase):
         self.assertTrue(is_valid_public_strength_presentation(strength))
         pattern = result.pop("pattern_presentation")
         self.assertTrue(is_valid_public_pattern_presentation(pattern))
+        profile = result.pop("profile_presentation")
+        self.assertTrue(is_valid_bazi_profile_presentation(profile))
         result.pop("xiyong_presentation")
         result.pop("tiaohou_assessment")
         result.pop("bingyao_assessment")
@@ -688,6 +693,8 @@ class NotJudgeableEnvelopeSealedTests(unittest.TestCase):
                          strength)
         self.assertEqual(projected["result"]["pattern_presentation"],
                          pattern)
+        self.assertEqual(projected["result"]["profile_presentation"],
+                         profile)
         self.assertNotIn(
             "classification",
             projected["result"]["strength_presentation"])

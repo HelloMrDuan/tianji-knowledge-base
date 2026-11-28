@@ -153,7 +153,10 @@ class GoldenBoundaryTest(unittest.TestCase):
         self.assertEqual(out['commander'], '庚')
         self.assertEqual(out['elapsed_seconds'], 10 * 86400)
         conflicts = {m['id']: m for m in out['conflicts']}
-        self.assertEqual(conflicts['C1']['status'], 'pending_review')
+        # 用户裁定 2026-11-27 ②选项 A：C1 以任氏命例为准，状态不再是
+        # pending_review；分段计算与 Golden 不变。
+        self.assertEqual(conflicts['C1']['status'],
+                         '以任氏命例为准，戊段下限十日，与 T1 七日冲突不调和')
         self.assertIn('立夏后十天', conflicts['C1']['summary'])
 
     def test_dst_cases_are_the_same_instant(self) -> None:
@@ -245,7 +248,9 @@ class RegistrationConsumptionTest(unittest.TestCase):
         self.assertEqual(c1['layer'], '任氏曰')
         self.assertEqual(c1['locator'],
                          {'char_start': 108938, 'char_end': 108974})
-        self.assertEqual(c1['status'], 'pending_review')
+        # 用户裁定 2026-11-27 ②选项 A：C1 以任氏命例为准；C2 仍待审。
+        self.assertEqual(c1['status'],
+                         '以任氏命例为准，戊段下限十日，与 T1 七日冲突不调和')
         c2 = conflicts['C2']
         self.assertEqual(c2['quote_id'], 'sf.geduan_song')
         self.assertEqual(c2['source_id'], 'bazi.source.shenfeng')
@@ -263,8 +268,12 @@ class RegistrationConsumptionTest(unittest.TestCase):
             out = _run(case)
             self.assertEqual([m['id'] for m in out['conflicts']],
                              ['C1', 'C2'])
-            self.assertTrue(all(m['status'] == 'pending_review'
-                                for m in out['conflicts']))
+            # C1 已按用户裁定 2026-11-27 ②选项 A 定性，C2 仍待审。
+            markers = {m['id']: m for m in out['conflicts']}
+            self.assertEqual(markers['C1']['status'],
+                             '以任氏命例为准，戊段下限十日，'
+                             '与 T1 七日冲突不调和')
+            self.assertEqual(markers['C2']['status'], 'pending_review')
 
     def test_tail_states_the_registration_gap(self) -> None:
         # The 30-day registration vs the ~31.17-day replayed window

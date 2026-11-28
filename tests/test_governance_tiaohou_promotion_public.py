@@ -56,10 +56,11 @@ class TiaohouPromotionPublicTests(unittest.TestCase):
         self.assertEqual(len(gov.FLIPPED_ITEMS), 12)
         # E0382: ziping-zaqi-ch16 maintained too; E0384: siling-si-pilot
         # maintained too (five maintained).
+        # E0427: siling-mao-pilot maintained too (six maintained).
         self.assertEqual(gov.MAINTAINED_ITEMS,
                          ['dayun-compose', 'dayun-timeline-view',
                           'siling-yin-pilot', 'siling-si-pilot',
-                          'ziping-zaqi-ch16'])
+                          'siling-mao-pilot', 'ziping-zaqi-ch16'])
 
     def test_implementation_record(self):
         self.assertEqual(RECORD['event'], 'E0352')

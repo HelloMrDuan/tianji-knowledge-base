@@ -567,6 +567,154 @@ function sliceRenderFullDayun(props: {
 }
 
 
+// TJ-0427 Lane E: render the life presentation (life-presentation-v1)
+// when the backend serves it (payload.life_presentation). Transcription
+// only: every string is a backend field, a fixed label, or a count of
+// backend-provided facts. The frontend computes no divination and
+// never converts a research candidate into a life judgement. When the
+// presentation is absent, the page renders exactly as before.
+const lifeThemeTitles: Record<string, string> = {
+  bazi: "八字详批",
+  career: "事业财运",
+  romance: "桃花姻缘",
+  compatibility: "缘分合盘",
+};
+
+function lifeThemeSummary(key: string, theme: any) {
+  if (!theme || typeof theme !== "object") return null;
+  if (theme.status === "not_presented" || theme.status === "not_applicable") {
+    return (
+      <article key={key}>
+        <h4>{lifeThemeTitles[key] || key}</h4>
+        <p>{theme.reason || "未呈现。"}</p>
+      </article>
+    );
+  }
+  const sections = Array.isArray(theme.sections) ? theme.sections : [];
+  return (
+    <article key={key}>
+      <h4>{lifeThemeTitles[key] || key}</h4>
+      {sections.map((section: any) => (
+        <div key={section.id}>
+          <strong>{section.title}</strong>
+          {typeof section.status === "string" && <span>{section.status}</span>}
+          {Array.isArray(section.lines) && section.lines.slice(0, 2).map((line: string, i: number) => (
+            <p key={i}>{line}</p>
+          ))}
+          {Array.isArray(section.facts) && section.facts.slice(0, 3).map((fact: any, i: number) => (
+            <p key={i}>{fact.label}：{fact.value}</p>
+          ))}
+        </div>
+      ))}
+    </article>
+  );
+}
+
+function LifePresentationPanel({ presentation }: { presentation: any }) {
+  const unified = presentation.unified || {};
+  const themes = presentation.themes || {};
+  const stages = Array.isArray(presentation.stages) ? presentation.stages : [];
+  const dayun = presentation.dayun || {};
+  const targetStage = stages.find((s: any) => s.target_year_here) || stages[0] || null;
+  const [selectedPeriod, setSelectedPeriod] = useState<number | null>(
+    targetStage ? targetStage.period_index : null,
+  );
+  const selected = stages.find((s: any) => s.period_index === selectedPeriod) || targetStage;
+  const hiddenStemsText = (hidden: any) => {
+    if (!Array.isArray(hidden) || !hidden.length) return null;
+    return hidden.map((h: any) => (typeof h === "string" ? h : `${h.stem}（${h.ten_god}）`)).join("、");
+  };
+  return (
+    <section className="life-presentation" aria-label="人生总览呈现">
+      <span className="eyebrow">life-presentation-v1 · 聚合呈现</span>
+      <h2>四路已审结果，一张总览</h2>
+      <p>以下内容复用八字、事业、桃花、合盘四个模块的实际计算结果，不另算一套；只聚合已审结构事实，不作综合判断。</p>
+      <div className="life-presentation-unified">
+        <p>四柱：{Array.isArray(unified.pillars) ? unified.pillars.join(" · ") : "—"}</p>
+        <p>
+          日主 {unified.day_master?.stem || "—"}
+          {unified.day_master?.element ? `（${unified.day_master.element}）` : ""}
+          <span> · </span>
+          目标年 {unified.target_year}（{unified.target_year_ganzhi || "—"}）
+          <span> · </span>
+          {unified.caliber || ""}
+        </p>
+        {unified.note && <p>{unified.note}</p>}
+      </div>
+      <h3>四个主题</h3>
+      <div className="life-presentation-themes">
+        {["bazi", "career", "romance", "compatibility"].map((key) => lifeThemeSummary(key, themes[key]))}
+      </div>
+      <h3>人生阶段（完整 8 运）</h3>
+      {dayun.status === "not_presented" ? (
+        <p>{dayun.reason || "大运未呈现：未选择传统大运口径。"}</p>
+      ) : (
+        <>
+          <p>{dayun.note || ""}</p>
+          <ol className="life-presentation-stages">
+            {stages.map((stage: any) => (
+              <li key={stage.period_index} className={stage.period_index === selected?.period_index ? "active" : ""}>
+                <button type="button" onClick={() => setSelectedPeriod(stage.period_index)}>
+                  <strong>第 {stage.period_index} 运 {stage.ganzhi}</strong>
+                  <span>{stage.stem_ten_god || ""}</span>
+                  {stage.target_year_here && <em>目标年</em>}
+                </button>
+              </li>
+            ))}
+          </ol>
+          {selected && (
+            <div className="life-presentation-stage-detail" aria-label="所选大运详情">
+              <p><strong>第 {selected.period_index} 运 {selected.ganzhi}</strong>（{selected.stem_ten_god || "—"}）</p>
+              {selected.start_interval && (
+                <p>交运区间：{selected.start_interval.earliest} 至 {selected.start_interval.latest}（不含上限）</p>
+              )}
+              {selected.start_interval_status && <p>{selected.start_interval_status}</p>}
+              {hiddenStemsText(selected.hidden_stems) && <p>藏干：{hiddenStemsText(selected.hidden_stems)}</p>}
+              {selected.hidden_stems_status === "not_available" && <p>藏干未提供：本运地支无已审藏干复用。</p>}
+              {selected.natal_relations && typeof selected.natal_relations.total === "number" && (
+                <p>
+                  与原局关系：{selected.natal_relations.total} 条
+                  {selected.natal_relations.counts_by_kind
+                    ? `（${Object.entries(selected.natal_relations.counts_by_kind).map(([kind, count]) => `${kind}${count}`).join("、")}）`
+                    : ""}
+                </p>
+              )}
+              {selected.liunian_query?.available && typeof selected.liunian_query.query_year === "number" && (
+                <p>流年查询入口：{selected.liunian_query.query_year} 年</p>
+              )}
+              {selected.liunian_query?.has_entry && <p>本运有流年查询入口。</p>}
+              {selected.target_year_here && selected.target_year_facts && (
+                <div>
+                  <p>目标年 {selected.target_year_facts.yearly?.year}（{selected.target_year_facts.yearly?.ganzhi}）在本运。</p>
+                  {Array.isArray(selected.target_year_facts.romance_linkage_facts)
+                    && selected.target_year_facts.romance_linkage_facts.map((fact: any, i: number) => (
+                      <p key={i}>{fact.label}：{fact.value}</p>
+                    ))}
+                </div>
+              )}
+              {selected.target_year_containment === "not_within" && (
+                <p>目标年不在本运区间内。</p>
+              )}
+            </div>
+          )}
+        </>
+      )}
+      <details className="slice-evidence-entry">
+        <summary>查看本总览的范围与限制</summary>
+        {presentation.boundary && <p>{presentation.boundary}</p>}
+        {presentation.scope_statement && <p>{presentation.scope_statement}</p>}
+        {Array.isArray(presentation.limitations) && presentation.limitations.map((line: string, i: number) => (
+          <p key={i}>{line}</p>
+        ))}
+        {Array.isArray(presentation.undecided) && presentation.undecided.map((item: any) => (
+          <p key={item.item}>{item.item}：{item.reason}</p>
+        ))}
+      </details>
+    </section>
+  );
+}
+
+
 export function LifeOverviewPage() {
   const initial = readSavedBirthProfile();
   const [date, setDate] = useState(() => toSolarDateString(initial));
@@ -737,6 +885,10 @@ export function LifeOverviewPage() {
   const strengthPresentation = (payload.strength_presentation ?? null) as SliceStrengthPresentation | null;
   const xiyongPresentation = (payload.xiyong_presentation ?? null) as SliceXiyongPresentation | null;
   const patternPresentation = (payload.pattern_presentation ?? null) as SlicePatternPresentation | null;
+  // TJ-0427 Lane E: the life presentation (life-presentation-v1), when
+  // the backend serves it. Absent until the scenario wiring lands;
+  // the page falls back to the existing envelope rendering.
+  const lifePresentation = (payload.life_presentation ?? null) as any;
   // 天干五行分布只统计四柱天干自带的五行字段（后端原字段），地支五
   // 行不在本呈现内；只作位置统计，不据此判断旺衰。
   const stemElementCounts = pillars.reduce((acc: Record<string, number>, item: any) => {
@@ -897,6 +1049,7 @@ export function LifeOverviewPage() {
 
           {screen === "overview" && (
             <section className="slice-life-screen" aria-label="命盘概况">
+          {lifePresentation && <LifePresentationPanel presentation={lifePresentation} />}
           <div className="life-highlights">
             {highlights.map((item: any) => (
               <article key={item.id}>
@@ -1087,7 +1240,7 @@ export function LifeOverviewPage() {
                         <span>交运时间暂不可判。</span>
                       )}
                     </p>
-                    <p className="bazi-dayun-notice">第 2–8 运尚未在本场景开放：本口径只呈现首运交运区间。不折算起运岁数或日期；大运时间轴整体仍未获批。</p>
+                    <p className="bazi-dayun-notice">本块只呈现首运方向与交运区间；完整 8 运时间线见本屏上方完整时间线与第 1 屏总览呈现（Q3=A，2026-11-28）。不折算起运岁数或单点日期。</p>
                     {view.notices.map((notice: any) => (
                       <p key={notice.code} className="bazi-dayun-notice">{notice.text}</p>
                     ))}

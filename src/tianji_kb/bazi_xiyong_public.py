@@ -351,17 +351,37 @@ def _tiaohou_block(statement, view, step, records):
     block["state"] = "presented"
     block["month_label"] = statement["month_label"]
     sequence = copy.deepcopy(statement.get("sequence"))
-    _validate_sequence(sequence, label="tiaohou entry")
+    # A matched entry may legitimately carry no unconditional order:
+    # the engine states this explicitly in the entry's order_basis
+    # (three attested entries: 丙×亥, 丁×午, 癸×午) and refuses to
+    # fabricate a sequence. Present the matched-but-unordered fact;
+    # never call it malformed and never invent an order.
+    empty_sequence = sequence == []
+    if not empty_sequence:
+        _validate_sequence(sequence, label="tiaohou entry")
     block["sequence"] = sequence
     label = (f"{statement['day_master']}"
              f"{stem_element(statement['day_master'])}")
-    lines = [
-        f"调候体系（《穷通宝鉴》{label}{statement['month_label']}条）："
-        f"原文取用顺序为：{_sequence_items_text(sequence)}。"]
+    if empty_sequence:
+        lines = [
+            f"调候体系（《穷通宝鉴》{label}{statement['month_label']}条）："
+            "原文已匹配该月条，但本月条无无条件取用顺序陈述，"
+            "本呈现不拟制取用顺序；暂不作取用顺序结论。"]
+    else:
+        lines = [
+            f"调候体系（《穷通宝鉴》{label}{statement['month_label']}条）："
+            f"原文取用顺序为：{_sequence_items_text(sequence)}。"]
     presence_by_stem = {item["stem"]: item["presence"] for item in sequence}
     branches = []
     raw_branches = statement.get("branches")
     _require(isinstance(raw_branches, list), "tiaohou branches malformed")
+    if empty_sequence:
+        # All three attested unordered entries carry no branches; a
+        # branch on an unordered entry is an unreviewed shape and
+        # fails closed instead of being presented against no main
+        # sequence.
+        _require(not raw_branches,
+                 "tiaohou matched entry without a sequence carries branches")
     for branch in raw_branches:
         _require(isinstance(branch, dict), "tiaohou branch malformed")
         branch_quote = branch.get("quote")

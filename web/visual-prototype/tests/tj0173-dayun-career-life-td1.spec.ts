@@ -3,9 +3,16 @@
  * end-to-end. No stubs: the pages call the real backend through the
  * SSH tunnel (127.0.0.1:8000) and the vite dev server serves this
  * worktree's pages. Each test captures the real scenario response
- * and asserts both the API contract (first period only; sanming
- * periods 2-8 `unresolved`, shenfeng periods 2-8 `not_provided`,
- * no starting age anywhere) and the rendered section.
+ * and asserts both the API contract (the legacy dayun_presentation
+ * field is first period only; sanming periods 2-8 `unresolved`,
+ * shenfeng periods 2-8 `not_provided`, no starting age anywhere)
+ * and the rendered section.
+ *
+ * TJ-031.19 (E0427, Q3=A, 2026-11-28): the legacy field stays
+ * first-period-only, but the full 8-period timeline is now presented
+ * via the career_presentation / life_presentation (period 2 carries
+ * a real interval there, not the trim's `unresolved`). The role tests
+ * assert both contracts.
  *
  * SEQUENCING NOTE: the role tests can only pass once this slice has
  * merged AND deployed -- production still runs the old contract
@@ -59,7 +66,35 @@ function assertFirstPeriodOnly(body: any) {
   }
 }
 
-test("[real-backend] T-D1 career: role renders first-period dayun only", async ({ page }) => {
+// TJ-031.19 (E0427, Q3=A): the full 8-period timeline is presented
+// via the career presentation -- period 2 carries a real interval
+// there, not the legacy field's `unresolved` trim.
+function assertFullTimelineInCareerPresentation(body: any) {
+  const presentation = body?.result?.career_presentation;
+  expect(presentation, "career_presentation present").toBeTruthy();
+  const section = presentation.sections.find((s: any) => s.id === "dayun_timeline");
+  expect(section, "dayun_timeline section present").toBeTruthy();
+  expect(section.status).toBe("presented");
+  const entries = section.content.methods.sanming.entries;
+  expect(entries).toHaveLength(8);
+  expect(entries[1].state).toBe("interval");
+  expect(entries[1].start_interval).toBeTruthy();
+  expect(entries[7].state).toBe("interval");
+  expect(entries[7].start_interval).toBeTruthy();
+}
+
+// TJ-031.19 (E0427, Q3=A): the full 8-period timeline is presented
+// via the life presentation -- 8 stages, each with a real interval.
+function assertFullTimelineInLifePresentation(body: any) {
+  const presentation = body?.result?.life_presentation;
+  expect(presentation, "life_presentation present").toBeTruthy();
+  expect(presentation.dayun.status).toBe("presented");
+  expect(presentation.stages).toHaveLength(8);
+  expect(presentation.stages[1].start_interval).toBeTruthy();
+  expect(presentation.stages[7].start_interval).toBeTruthy();
+}
+
+test("[real-backend] T-D1 career: role renders first-period legacy field + full 8-period timeline", async ({ page }) => {
   const captured = await captureScenarioResponse(page);
   await page.goto("/career-wealth-structure");
   await page.getByRole("button", { name: "填入示例", exact: true }).click();
@@ -71,13 +106,15 @@ test("[real-backend] T-D1 career: role renders first-period dayun only", async (
   expect(captured.input?.traditional_role).toBe("male");
   expect(captured.status).toBe(200);
   assertFirstPeriodOnly(captured.body);
+  assertFullTimelineInCareerPresentation(captured.body);
 
   const section = page.locator(".bazi-dayun-presentation");
   await expect(section).toBeVisible();
   await expect(section).toContainText("大运首运方向与交运区间");
   await expect(section).toContainText("第 1 运");
-  await expect(section).toContainText("第 2–8 运尚未在本场景开放");
-  await expect(section).toContainText("不折算起运岁数或日期");
+  await expect(section).toContainText("本块只呈现首运方向与交运区间");
+  await expect(section).toContainText("完整 8 运时间线见上方");
+  await expect(section).toContainText("不折算起运岁数");
   // No computed starting age is rendered anywhere on the page.
   const bodyText = await page.locator("body").textContent();
   expect(bodyText).not.toMatch(/起运\s*\d+\s*岁|\d+\s*岁起运|第 1 运[^。]*\d+ 岁/);
@@ -85,7 +122,7 @@ test("[real-backend] T-D1 career: role renders first-period dayun only", async (
   // Method switch: Shenfeng shows its own first-period interval.
   await section.getByRole("tab", { name: "神峰口径" }).click();
   await expect(section).toContainText("第 1 运");
-  await expect(section).toContainText("第 2–8 运尚未在本场景开放");
+  await expect(section).toContainText("本块只呈现首运方向与交运区间");
 });
 
 test("[real-backend] T-D1 career: no role means no dayun section", async ({ page }) => {
@@ -101,7 +138,7 @@ test("[real-backend] T-D1 career: no role means no dayun section", async ({ page
   await expect(page.locator(".bazi-dayun-presentation")).toHaveCount(0);
 });
 
-test("[real-backend] T-D1 life: role renders first-period dayun only", async ({ page }) => {
+test("[real-backend] T-D1 life: role renders first-period legacy field + full 8-period timeline", async ({ page }) => {
   const captured = await captureScenarioResponse(page);
   await page.goto("/life-overview");
   await page.getByRole("button", { name: "填入示例", exact: true }).click();
@@ -112,6 +149,7 @@ test("[real-backend] T-D1 life: role renders first-period dayun only", async ({ 
   expect(captured.input?.traditional_role).toBe("female");
   expect(captured.status).toBe(200);
   assertFirstPeriodOnly(captured.body);
+  assertFullTimelineInLifePresentation(captured.body);
 
   // E0422: the dayun section now lives on life-overview screen 3.
   await page.getByRole("tab", { name: "③ 大运流年", exact: true }).click();
@@ -120,14 +158,15 @@ test("[real-backend] T-D1 life: role renders first-period dayun only", async ({ 
   await expect(section).toBeVisible();
   await expect(section).toContainText("大运首运方向与交运区间");
   await expect(section).toContainText("第 1 运");
-  await expect(section).toContainText("第 2–8 运尚未在本场景开放");
-  await expect(section).toContainText("不折算起运岁数或日期");
+  await expect(section).toContainText("本块只呈现首运方向与交运区间");
+  await expect(section).toContainText("完整 8 运时间线见本屏上方完整时间线");
+  await expect(section).toContainText("不折算起运岁数");
   const bodyText = await page.locator("body").textContent();
   expect(bodyText).not.toMatch(/起运\s*\d+\s*岁|\d+\s*岁起运|第 1 运[^。]*\d+ 岁/);
 
   await section.getByRole("tab", { name: "神峰口径" }).click();
   await expect(section).toContainText("第 1 运");
-  await expect(section).toContainText("第 2–8 运尚未在本场景开放");
+  await expect(section).toContainText("本块只呈现首运方向与交运区间");
 });
 
 test("[real-backend] T-D1 life: no role means no dayun section", async ({ page }) => {

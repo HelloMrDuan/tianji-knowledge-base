@@ -50,13 +50,35 @@ test("B name, birth date, time, region and role never overwrite personal A", asy
   expect(JSON.stringify(saved)).not.toContain("另一位");
 });
 
+function previewBaziProfileResponse() {
+  return {
+    scenario_id: "bazi-profile",
+    status: "production",
+    deterministic: true,
+    public_release: true,
+    result: {},
+    evidence: {}, rule_matches: [], trace: [], warnings: [], limitations: [],
+  };
+}
+
 test("real UI request uses different exact A and B instants and independent roles (stubbed response)", async ({ page }) => {
   await savePersonalProfile(page);
   let sent: Record<string, any> | null = null;
   await page.route(apiScenario, async route => {
-    sent = route.request().postDataJSON();
+    const body = route.request().postDataJSON();
+    if ((body as any)?.scenario_id === "compatibility") {
+      sent = body;
+      await route.fulfill({ status: 200, contentType: "application/json",
+        body: JSON.stringify(previewCompatibilityResponse()) });
+      return;
+    }
+    // TJ-0427 Lane D: after a compatibility result the page also lifts
+    // each person's approved presentations from bazi-profile on this
+    // same endpoint. Only the compatibility request is captured above;
+    // the lifts get a valid bazi-profile-shaped stub so they complete
+    // instead of failing response validation.
     await route.fulfill({ status: 200, contentType: "application/json",
-      body: JSON.stringify(previewCompatibilityResponse()) });
+      body: JSON.stringify(previewBaziProfileResponse()) });
   });
   await page.goto("/compatibility-structure");
   const a = page.locator(".compat-person-input").nth(0);

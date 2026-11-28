@@ -28,6 +28,9 @@ from tianji_kb.bazi_conflict_presentation import (
 from tianji_kb.bazi_pattern_public import (
     is_valid_public_pattern_presentation,
 )
+from tianji_kb.bazi_profile_presentation import (
+    is_valid_bazi_profile_presentation,
+)
 from tianji_kb.bazi_strength_public import (
     is_valid_public_strength_presentation,
 )
@@ -177,10 +180,13 @@ class EquivalenceTests(unittest.TestCase):
     strength_presentation, to the bazi-profile result. TJ-012.3
     Stage B (user 2026-11-10, limited exception to the U1
     pattern-field ban) adds exactly one further key,
-    pattern_presentation. The closed list below is therefore the
-    xiyong presentation plus the strength presentation plus the
-    pattern presentation, each validated by its own closed-key
-    validator; no other key may differ.
+    pattern_presentation. TJ-031.19 (E0427, batch 5) adds exactly
+    one further key, profile_presentation, the plain-language
+    bazi-profile presentation. The closed list below is therefore
+    the xiyong presentation plus the strength presentation plus the
+    pattern presentation plus the profile presentation, each
+    validated by its own closed-key validator; no other key may
+    differ.
     """
 
     INPUTS = (
@@ -206,6 +212,9 @@ class EquivalenceTests(unittest.TestCase):
                 pattern = result.pop("pattern_presentation")
                 self.assertTrue(
                     is_valid_public_pattern_presentation(pattern))
+                profile = result.pop("profile_presentation")
+                self.assertTrue(
+                    is_valid_bazi_profile_presentation(profile))
                 tiaohou = result.pop("tiaohou_assessment")
                 bingyao = result.pop("bingyao_assessment")
                 self.assertEqual(result, base["result"])

@@ -200,7 +200,11 @@ class TrimTests(unittest.TestCase):
         trim = trim_for_bazi_profile(_synthetic_assembly())
         self.assertEqual(set(trim), {
             'variant', 'page', 'research_only', 'public_enabled',
-            'ai_enabled', 'chart', 'research'})
+            'ai_enabled', 'chart', 'research',
+            # Q3=A (2026-11-28): the full 8-period dayun timeline is
+            # served on bazi-profile too; these two keys are the
+            # authorized additive change for that.
+            'dayun', 'dayun_status'})
         self.assertEqual(trim['page'], 'bazi-profile')
         self.assertNotIn('target_year', trim)
         self.assertNotIn('flow_year', trim)

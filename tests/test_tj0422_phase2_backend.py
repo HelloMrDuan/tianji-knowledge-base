@@ -181,6 +181,14 @@ class LiftedPresentationsTests(unittest.TestCase):
         # the dayun presentation itself carries by design (once at
         # the top level, once in the nested career copy); no other
         # part of the report (profile section included) stores it.
+        # TJ-031.19 (E0427, Q3=A): the life presentation carries it
+        # in exactly two more documented places -- its unified birth
+        # block (which states the caliber the timeline was computed
+        # under) and the embedded bazi theme's dayun section, whose
+        # "public" field is the validated gate object itself. The
+        # exact multiset is the pin: the role appears exactly four
+        # times, all inside a dayun presentation or the life
+        # presentation's unified block, nowhere else.
         paths = []
 
         def _collect(value, path):
@@ -197,11 +205,14 @@ class LiftedPresentationsTests(unittest.TestCase):
         # The order is dict-traversal order and carries no
         # meaning (the nested career copy precedes the top level
         # in the sealed run); the exact multiset is the pin: the
-        # role appears exactly twice, both inside a
-        # dayun_presentation, nowhere else.
+        # role appears exactly four times, all inside a
+        # dayun_presentation or the life presentation's unified
+        # block, nowhere else.
         self.assertEqual(sorted(paths), sorted([
             "/result/dayun_presentation/role/traditional_role",
             "/result/career/dayun_presentation/role/traditional_role",
+            "/result/life_presentation/unified/traditional_role",
+            "/result/life_presentation/themes/bazi/sections[5]/public/role/traditional_role",
         ]))
 
 
@@ -356,7 +367,11 @@ class HardBoundaryTests(unittest.TestCase):
             for banned in BANNED_JUDGMENT_KEYS:
                 self.assertNotIn(banned, keys)
 
-    def test_life_dayun_timeline_flags_still_three_and_false(self):
+    def test_life_dayun_timeline_flags_are_three_and_role_conditional(self):
+        # TJ-031.19 (E0427, Q3=A): the full 8-period timeline is
+        # approved for the life overview exactly when a traditional
+        # role is given, so all three flags are False without a role
+        # and True with one. The count stays exactly three.
         flags = []
 
         def _collect(value):
@@ -369,11 +384,11 @@ class HardBoundaryTests(unittest.TestCase):
                 for item in value:
                     _collect(item)
 
-        for role in (None, "male"):
+        for role, expected_value in ((None, False), ("male", True)):
             flags.clear()
             _collect(_life(role)["result"])
             self.assertEqual(len(flags), 3)
-            self.assertTrue(all(flag is False for flag in flags))
+            self.assertTrue(all(flag is expected_value for flag in flags))
 
     def test_invalid_role_rejected_for_career_and_life(self):
         for scenario_id in ("career", "life"):

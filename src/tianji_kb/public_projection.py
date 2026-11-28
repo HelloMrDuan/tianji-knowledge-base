@@ -9,6 +9,7 @@ reaches this layer, it will not be exposed publicly unless the variant is
 in the server-side PUBLIC_STRENGTH_VARIANTS allowlist.
 """
 import copy
+import importlib
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
@@ -327,6 +328,80 @@ def project_execution(data):
             )
             if is_valid_public_dayun_presentation(dayun_candidate):
                 scoped_dayun_presentation = copy.deepcopy(dayun_candidate)
+    # TJ-031.19 (E0427): the same scoped-release discipline for the
+    # five plain-language presentations -- one per scenario page,
+    # each released only on its own scenario and only in exactly
+    # its validated shape; any other carrier is stripped below as
+    # usual. The release is an allowlist projection, never a verbatim
+    # copy (each module's to_public_* builds the public shape).
+    # The gate is a single tuple-membership check and dispatch goes
+    # through the release table below -- the scoped-release discipline
+    # pins scenario gating to tuple form (see
+    # test_projection_strips_raw_research_statements), so no
+    # single-scenario equality check may appear here. Imports stay
+    # inside the branch, as above (importlib keeps the import lazy:
+    # the builders' import chains reach the calendar module, which
+    # the public CI installs only after this module's early
+    # projection-contract steps).
+    _TJ03119_RELEASES = {
+        'bazi-profile': ('profile_presentation',
+                         'bazi_profile_presentation',
+                         'is_valid_bazi_profile_presentation',
+                         'to_public_bazi_profile_presentation'),
+        'career': ('career_presentation', 'career_presentation',
+                   'is_valid_career_presentation',
+                   'to_public_career_presentation'),
+        'romance': ('romance_presentation', 'romance_presentation',
+                    'is_valid_romance_presentation',
+                    'to_public_romance_presentation'),
+        'compatibility': ('compatibility_presentation',
+                          'compatibility_presentation',
+                          'is_valid_compatibility_presentation',
+                          'to_public_compatibility_presentation'),
+        'life': ('life_presentation', 'life_presentation',
+                 'is_valid_life_presentation',
+                 'to_public_life_presentation'),
+        # TJ-031.19 (E0427): the true-solar comparison is released
+        # only on its own scenario, only in exactly its validated
+        # allowlisted shape (bazi_true_solar_public). The raw
+        # research record is stripped from every container below;
+        # the single validated copy lifted here is the only one
+        # re-attached. The scenario itself is not in the SCENARIOS
+        # registry (no page of its own); the public endpoint
+        # dispatches it to execute_true_solar_scenario.
+        'true-solar': ('true_solar_comparison', 'bazi_true_solar_public',
+                       'is_valid_public_true_solar_comparison',
+                       'to_public_true_solar_comparison'),
+    }
+    _released_presentations = {}
+    if data.get('scenario_id') in ('bazi-profile', 'career', 'romance',
+                                    'compatibility', 'life', 'true-solar') \
+            and isinstance(data.get('result'), dict):
+        _release_key, _release_module, _validator_name, \
+            _converter_name = _TJ03119_RELEASES[data.get('scenario_id')]
+        _release_candidate = data['result'].get(_release_key)
+        if _release_candidate is not None:
+            _release_module_obj = importlib.import_module(
+                '.' + _release_module, __package__)
+            _release_validator = getattr(
+                _release_module_obj, _validator_name)
+            if _release_validator(_release_candidate):
+                _release_converter = getattr(
+                    _release_module_obj, _converter_name)
+                _released_presentations[_release_key] = \
+                    _release_converter(_release_candidate)
+    scoped_profile_presentation = _released_presentations.get(
+        'profile_presentation')
+    scoped_career_presentation = _released_presentations.get(
+        'career_presentation')
+    scoped_romance_presentation = _released_presentations.get(
+        'romance_presentation')
+    scoped_compatibility_presentation = _released_presentations.get(
+        'compatibility_presentation')
+    scoped_life_presentation = _released_presentations.get(
+        'life_presentation')
+    scoped_true_solar_comparison = _released_presentations.get(
+        'true_solar_comparison')
     aliases = _Aliases(data['evidence'])
     result = {key: _public_facts(value, aliases)
               for key, value in data.items()
@@ -391,6 +466,22 @@ def project_execution(data):
             # career or life only) is the only one re-attached
             # (below).
             container.pop('pattern_presentation', None)
+            # TJ-031.19 (E0427): same for the five plain-language
+            # presentation keys. Each is stripped from every
+            # container here; the single validated copy lifted above
+            # (its own scenario only) is the only one re-attached
+            # (below).
+            container.pop('profile_presentation', None)
+            container.pop('career_presentation', None)
+            container.pop('romance_presentation', None)
+            container.pop('compatibility_presentation', None)
+            container.pop('life_presentation', None)
+            # TJ-031.19 (E0427): same for the true-solar comparison
+            # key. The raw research record is stripped from every
+            # container here; the single validated allowlisted copy
+            # lifted above (the true-solar scenario only) is the
+            # only one re-attached (below).
+            container.pop('true_solar_comparison', None)
             # TJ-012.3 Slice A: the 禄刃 route exclusion is research-only
             # (pending Phase1 registration); never let it reach a public
             # response either.
@@ -422,6 +513,12 @@ def project_execution(data):
             # internal research display only per the Option B ruling);
             # never let a pilot block reach a public response either.
             container.pop('siling_si_pilot', None)
+            # TJ-012.3 Slice C 卯月试点 (E0427): the 卯月 siling pilot
+            # is a research-only Variant (pending Phase1 registration,
+            # internal research display only per the 2026-11-27
+            # ruling ① option A); never let a pilot block reach a
+            # public response either.
+            container.pop('siling_mao_pilot', None)
             # TJ-012.3 Slice D-1: the Ren-branch 寅月 true-pattern
             # determination is a research-only composition (pending
             # Phase1 registration); never let it reach a public
@@ -447,6 +544,36 @@ def project_execution(data):
             and isinstance(result.get('result'), dict):
         result['result']['pattern_presentation'] = \
             scoped_pattern_presentation
+    # TJ-031.19 (E0427): re-attach the five scoped presentations,
+    # each only on its own scenario (lifted above).
+    if scoped_profile_presentation is not None \
+            and isinstance(result.get('result'), dict):
+        result['result']['profile_presentation'] = \
+            scoped_profile_presentation
+    if scoped_career_presentation is not None \
+            and isinstance(result.get('result'), dict):
+        result['result']['career_presentation'] = \
+            scoped_career_presentation
+    if scoped_romance_presentation is not None \
+            and isinstance(result.get('result'), dict):
+        result['result']['romance_presentation'] = \
+            scoped_romance_presentation
+    if scoped_compatibility_presentation is not None \
+            and isinstance(result.get('result'), dict):
+        result['result']['compatibility_presentation'] = \
+            scoped_compatibility_presentation
+    if scoped_life_presentation is not None \
+            and isinstance(result.get('result'), dict):
+        result['result']['life_presentation'] = \
+            scoped_life_presentation
+    # TJ-031.19 (E0427): re-attach the validated allowlisted
+    # true-solar comparison, only on its own scenario (lifted
+    # above). Any other carrier -- including a forged copy on a
+    # registered scenario -- stays stripped.
+    if scoped_true_solar_comparison is not None \
+            and isinstance(result.get('result'), dict):
+        result['result']['true_solar_comparison'] = \
+            scoped_true_solar_comparison
     return result
 
 

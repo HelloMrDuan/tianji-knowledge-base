@@ -241,6 +241,12 @@ class AdjudicationSweepTest(unittest.TestCase):
                     # 2026-11-09）；其余格仍为 conflict。
                     self.assertEqual(cell_["adjudication_status"],
                                      "pilot_authorized_sanming_t1")
+                elif (version_id, month) == ("sanming-t1", "卯"):
+                    # 2026-11-27 用户裁定①选项 A：卯月三命 T1 试点授权
+                    # （甲 7 日、乙 23 日；乙段有效域止于春分）；其余格
+                    # 仍为 conflict。
+                    self.assertEqual(cell_["adjudication_status"],
+                                     "pilot_authorized_sanming_t1")
                 else:
                     self.assertEqual(cell_["adjudication_status"],
                                      "conflict",
