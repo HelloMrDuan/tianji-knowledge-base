@@ -9,6 +9,7 @@ reaches this layer, it will not be exposed publicly unless the variant is
 in the server-side PUBLIC_STRENGTH_VARIANTS allowlist.
 """
 import copy
+import importlib
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
@@ -332,68 +333,62 @@ def project_execution(data):
     # each released only on its own scenario and only in exactly
     # its validated shape; any other carrier is stripped below as
     # usual. The release is an allowlist projection, never a verbatim
-    # copy (each module's to_public_* builds the public shape);
-    # imports stay inside the branch, as above.
-    scoped_profile_presentation = None
-    scoped_career_presentation = None
-    scoped_romance_presentation = None
-    scoped_compatibility_presentation = None
-    scoped_life_presentation = None
-    if isinstance(data.get('result'), dict):
-        if data.get('scenario_id') == 'bazi-profile':
-            profile_candidate = data['result'].get('profile_presentation')
-            if profile_candidate is not None:
-                from .bazi_profile_presentation import (
-                    is_valid_bazi_profile_presentation,
-                    to_public_bazi_profile_presentation,
-                )
-                if is_valid_bazi_profile_presentation(profile_candidate):
-                    scoped_profile_presentation = \
-                        to_public_bazi_profile_presentation(
-                            profile_candidate)
-        if data.get('scenario_id') == 'career':
-            career_candidate = data['result'].get('career_presentation')
-            if career_candidate is not None:
-                from .career_presentation import (
-                    is_valid_career_presentation,
-                    to_public_career_presentation,
-                )
-                if is_valid_career_presentation(career_candidate):
-                    scoped_career_presentation = \
-                        to_public_career_presentation(career_candidate)
-        if data.get('scenario_id') == 'romance':
-            romance_candidate = data['result'].get('romance_presentation')
-            if romance_candidate is not None:
-                from .romance_presentation import (
-                    is_valid_romance_presentation,
-                    to_public_romance_presentation,
-                )
-                if is_valid_romance_presentation(romance_candidate):
-                    scoped_romance_presentation = \
-                        to_public_romance_presentation(romance_candidate)
-        if data.get('scenario_id') == 'compatibility':
-            compatibility_candidate = data['result'].get(
-                'compatibility_presentation')
-            if compatibility_candidate is not None:
-                from .compatibility_presentation import (
-                    is_valid_compatibility_presentation,
-                    to_public_compatibility_presentation,
-                )
-                if is_valid_compatibility_presentation(
-                        compatibility_candidate):
-                    scoped_compatibility_presentation = \
-                        to_public_compatibility_presentation(
-                            compatibility_candidate)
-        if data.get('scenario_id') == 'life':
-            life_candidate = data['result'].get('life_presentation')
-            if life_candidate is not None:
-                from .life_presentation import (
-                    is_valid_life_presentation,
-                    to_public_life_presentation,
-                )
-                if is_valid_life_presentation(life_candidate):
-                    scoped_life_presentation = \
-                        to_public_life_presentation(life_candidate)
+    # copy (each module's to_public_* builds the public shape).
+    # The gate is a single tuple-membership check and dispatch goes
+    # through the release table below -- the scoped-release discipline
+    # pins scenario gating to tuple form (see
+    # test_projection_strips_raw_research_statements), so no
+    # single-scenario equality check may appear here. Imports stay
+    # inside the branch, as above (importlib keeps the import lazy:
+    # the builders' import chains reach the calendar module, which
+    # the public CI installs only after this module's early
+    # projection-contract steps).
+    _TJ03119_RELEASES = {
+        'bazi-profile': ('profile_presentation',
+                         'bazi_profile_presentation',
+                         'is_valid_bazi_profile_presentation',
+                         'to_public_bazi_profile_presentation'),
+        'career': ('career_presentation', 'career_presentation',
+                   'is_valid_career_presentation',
+                   'to_public_career_presentation'),
+        'romance': ('romance_presentation', 'romance_presentation',
+                    'is_valid_romance_presentation',
+                    'to_public_romance_presentation'),
+        'compatibility': ('compatibility_presentation',
+                          'compatibility_presentation',
+                          'is_valid_compatibility_presentation',
+                          'to_public_compatibility_presentation'),
+        'life': ('life_presentation', 'life_presentation',
+                 'is_valid_life_presentation',
+                 'to_public_life_presentation'),
+    }
+    _released_presentations = {}
+    if data.get('scenario_id') in ('bazi-profile', 'career', 'romance',
+                                    'compatibility', 'life') \
+            and isinstance(data.get('result'), dict):
+        _release_key, _release_module, _validator_name, \
+            _converter_name = _TJ03119_RELEASES[data.get('scenario_id')]
+        _release_candidate = data['result'].get(_release_key)
+        if _release_candidate is not None:
+            _release_module_obj = importlib.import_module(
+                '.' + _release_module, __package__)
+            _release_validator = getattr(
+                _release_module_obj, _validator_name)
+            if _release_validator(_release_candidate):
+                _release_converter = getattr(
+                    _release_module_obj, _converter_name)
+                _released_presentations[_release_key] = \
+                    _release_converter(_release_candidate)
+    scoped_profile_presentation = _released_presentations.get(
+        'profile_presentation')
+    scoped_career_presentation = _released_presentations.get(
+        'career_presentation')
+    scoped_romance_presentation = _released_presentations.get(
+        'romance_presentation')
+    scoped_compatibility_presentation = _released_presentations.get(
+        'compatibility_presentation')
+    scoped_life_presentation = _released_presentations.get(
+        'life_presentation')
     aliases = _Aliases(data['evidence'])
     result = {key: _public_facts(value, aliases)
               for key, value in data.items()
