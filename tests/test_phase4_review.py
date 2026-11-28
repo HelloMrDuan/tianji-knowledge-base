@@ -98,10 +98,38 @@ class ReviewTests(unittest.TestCase):
         # field, line or constant changed. The #191 entry below therefore
         # pins this new reviewed current hash for the same one file; the
         # historical hash stays in the manifest.
+        # TJ-031.18 / E0426: liuren.py adds a standalone research-grade
+        # compiled entry for the nine-method initial transmission and the
+        # complete three-transmission compilation (+263/-0, additions
+        # only). Original calculation functions are unmodified, production
+        # liuren_chart.py is unmodified, no public adjudication is added,
+        # and no existing school rule is changed. Same treatment: the
+        # historical hash stays in the manifest, the reviewed current hash
+        # is pinned here only, for this one file. Review note (verbatim):
+        # TJ-031.18 / E0426 新增独立研究级九宗门初传及完整三传编译入口，
+        # 原有计算函数未修改，生产 liuren_chart.py 未修改，不增加公开裁决，
+        # 不改变现有流派规则。
+        # TJ-031.18 / E0426: ziwei.py adds registration-only entries for
+        # Ziwei divergences and gaps (+62/-0, additions only): Ren-year
+        # Sihua divergence, Kui-Yue song divergence, and changsheng /
+        # daxian / miaowang gaps, all status unresolved with determination
+        # None, plus two copy-returning read functions. Original Sihua
+        # table and chart computation are unmodified, no public
+        # adjudication is added, and no existing school rule is changed.
+        # Same treatment: the historical hash stays in the manifest, the
+        # reviewed current hash is pinned here only, for this one file.
+        # Review note (verbatim):
+        # TJ-031.18 / E0426 新增紫微分歧与缺口登记——壬年四化分歧、魁钺歌分歧、
+        # 长生／大限／庙旺缺口，仅登记不裁决，原有四化表与排盘计算未修改，
+        # 不增加公开裁决，不改变现有流派规则。
         reviewed_classic_extension = {
             'src/tianji_kb/operations/liuyao_chart.py': {
                 'historical': '39f8bbea8e81b2d7eed3a18edf093231c5b0003974ce6a8e7b5ebf9452094171',
                 'current': '19b5b1142fade5796042f717846565d99f6f5be8df6c1b448fcfc844a9cdc8d3',
+            },
+            'src/tianji_kb/operations/liuren.py': {
+                'historical': '39bbcfa818a456598dd0cd370899f199e6dcb2e35f58bd808c5d3bbd3fd287ef',
+                'current': 'fbc1284487cb642f2da5c7ef7bb16a851c44b3bf980a8d74c9350cce7403cb56',
             },
             'src/tianji_kb/operations/liuren_chart.py': {
                 'historical': '4c380a3cd8f435632dc83165210d438e03b49bd98938f3c12f6012ac0a1c07a4',
@@ -110,6 +138,10 @@ class ReviewTests(unittest.TestCase):
             'src/tianji_kb/operations/qimen.py': {
                 'historical': '97165238a0cc4de9af4b5a7fdf8b52f972668f98da0c7c4f059dfb0192fee400',
                 'current': '6a311f100d1e1890b9de1d6abdef618e3a48e46733950618ed1f70f0772622c8',
+            },
+            'src/tianji_kb/operations/ziwei.py': {
+                'historical': '7731286e53662f59942fd7a00c36a01db7a3da75e55ab9a67fc6ffee94dc058f',
+                'current': 'febe82ec3ed25f051c3f9d6f2fdf8555f2be41a4699c944d7636290c228b987d',
             },
         }
         for name, expected in frozen.items():

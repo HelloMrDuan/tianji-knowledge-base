@@ -205,8 +205,15 @@ def _run_unittest_modules(modules: list[str], cwd: Path, env: dict,
 
     Returns {modules, tests_run, failures, errors, skipped}.
     """
-    result = _run([sys.executable, "-m", "unittest", "-v", *modules],
-                  cwd=cwd, env=env, capture=True)
+    try:
+        result = _run([sys.executable, "-m", "unittest", "-v", *modules],
+                      cwd=cwd, env=env, capture=True)
+    except subprocess.CalledProcessError as exc:
+        # Do not swallow the itemized failure list: a re-run in another tree
+        # may not reproduce this tree's state (e.g. regenerated reports).
+        output = (exc.stdout or "") + (exc.stderr or "")
+        print(f"{label}: FAILED -- unittest output:\n{output}", file=sys.stderr)
+        raise
     output = result.stdout + result.stderr
     # Parse unittest -v output for accurate counts.
     tests_run = failures = errors = skipped = 0
