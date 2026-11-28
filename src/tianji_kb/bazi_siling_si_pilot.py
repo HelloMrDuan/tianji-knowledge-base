@@ -52,8 +52,9 @@ C1「立夏后十天」语义待审。不得据此推导其他十一月；巳月
   ValueError。
 - P6 冲突标记：输出顶层 ``conflicts`` 字段具名并列 C1 与 C2（含
   引文 id、来源与字符定位、待审状态），另见 adjudication_notes；
-  C1「立夏后十天」语义保持 pending_review，绝不自动确认为完整
-  分段表；C3–C7 继续平行登记，本试点不择任一学派为最终正确口径。
+  C1 以任氏命例为准，戊段下限十日，与 T1 七日冲突不调和（用户
+  裁定 2026-11-27 ②，选项 A），绝不自动确认为完整分段表；C3–C7
+  继续平行登记，本试点不择任一学派为最终正确口径。
 - P7 引文边界：全表引文 sm.t1_table（十二月全表，316 字）只存于
   登记；本试点输出仅载巳月分句引文（19 字，见 provenance 的 quote
   与 quote_locator），全表不随输出重复；分段 basis 三条短语即该分句
@@ -94,7 +95,7 @@ PILOT_LIMITATIONS = (
     '原文以日序（第几日）表述；日序与真实经过时间的换算原文未明示，本试点采用的「连续24小时计日」是用户裁定的程序计算约定（见 provenance 的 disclaimer 原文），不是已证实的传统文献唯一解释。',
     '节气瞬时来自钉定 provider 并经年度节气表回放核验；provider 身份核验只及已安装发行版元数据与钉定版本相等，天文精度未经独立验证（TJ-015.2 冻结参照只支持分钟级比对）。',
     '登记仅三十日（戊 7＋庚 5＋丙 18）；实际立夏→芒种窗口约 31.17 日，[t0+30d, 芒种) 不属登记分段，一律返回不确定，不得以外推补足。',
-    'C1（任氏曰巳月命例）与 C2（神峰《节气歌断》）与 T1 巳月分段冲突，并列待审；C1「立夏后十天」语义待审，本试点不以其名义改动分段；C3–C7 继续平行登记，不择任一学派为最终正确口径。',
+    'C1（任氏曰巳月命例）与 C2（神峰《节气歌断》）与 T1 巳月分段冲突，并列待审；C1 以任氏命例为准，戊段下限十日，与 T1 七日冲突不调和，本试点不以其名义改动分段；C3–C7 继续平行登记，不择任一学派为最终正确口径。',
     '本 Variant 尚无密封 Phase1/Phase2 rule 注册（evidence_binding=pending_phase1_rule_registration），不进 RuleMatch 与 Evidence；研究级内部使用，不接任何公开场景，公开投影整体剥离。',
 )
 
@@ -104,7 +105,7 @@ PILOT_ADJUDICATION_NOTES = (
     'P3 精度警戒无既有数值结构，做成显式输入声明（precision_warning / precision_warning_interval）；声明落入即 uncertain。',
     'P4 独立研究模块（不附 bazi_chart，避免改变既有 Variant 输出面）；公开投影防御性剥离 siling_si_pilot 键。',
     'P5 状态四分：computed / not_applicable / rejected / uncertain；后三者 commander 恒 None，窗口外绝不外推；登记外尾段 [t0+30d, 芒种) 为 uncertain，不以外推补足。',
-    'P6 冲突并列：顶层 conflicts 字段具名 C1（任氏曰巳月命例 dt.case_si_wu）与 C2（神峰《节气歌断》 sf.geduan_song），两者皆 pending_review；C1「立夏后十天」语义待审。',
+    'P6 冲突并列：顶层 conflicts 字段具名 C1（任氏曰巳月命例 dt.case_si_wu）与 C2（神峰《节气歌断》 sf.geduan_song），C1 以任氏命例为准，戊段下限十日，与 T1 七日冲突不调和，C2 仍 pending_review；C1「立夏后十天」语义已按命例为准定性，不自动确认为完整分段表。',
     'P7 引文边界：输出仅载巳月分句引文（19 字）；全表引文 sm.t1_table 只存于登记，不随输出重复。',
 )
 
@@ -113,8 +114,12 @@ _CONFLICT_SPECS = (
     {'id': 'C1',
      'quote_id': 'dt.case_si_wu',
      'registered_in': ('ditiansui-yuanshuo', '巳'),
+     # 用户裁定 2026-11-27 ②，选项 A：C1 以任氏命例为准。只改本标记的
+     # 状态与文案，不改分段计算、不改 Golden、不改 Variant、不重写 T1 戊段。
+     'status': '以任氏命例为准，戊段下限十日，与 T1 七日冲突不调和',
      'summary': '任氏曰巳月命例称立夏后十天仍戊土司令（戊段至少十日），与三命 T1 巳月戊段七日冲突；'
-                '「立夏后十天」语义待审，未自动确认为完整分段表。'},
+                'C1 以任氏命例为准，戊段下限十日，与 T1 七日冲突不调和；'
+                '未自动确认为完整分段表。'},
     {'id': 'C2',
      'quote_id': 'sf.geduan_song',
      'registered_in': ('shenfeng-diagram', '巳'),
@@ -141,7 +146,7 @@ def _read_conflicts():
         marker = {'id': spec['id'],
                   'quote_id': spec['quote_id'],
                   'summary': spec['summary'],
-                  'status': 'pending_review'}
+                  'status': spec.get('status', 'pending_review')}
         if quote is None:
             marker['source_id'] = None
             marker['source_section_id'] = None

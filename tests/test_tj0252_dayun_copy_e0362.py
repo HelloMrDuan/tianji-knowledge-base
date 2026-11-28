@@ -11,6 +11,15 @@ opening). Source-text pins are used because the wording is built inside
 _life(), whose end-to-end run needs the sealed runtime (offline
 acceptance); the sealed marker suite covers the live consistency.
 
+TJ-031.19 (E0427, Q3=A, user adjudication 2026-11-28): the full
+8-period timeline IS now approved for this overview, role-gated, so
+the "尚未批准接入本总览" blanket non-approval is superseded: the
+no-role exit now states the selection state (no role -> no dayun;
+select a role -> full timeline), and the two composition flags are
+True exactly when a role was given. The efficacy boundary (no
+starting age, no cross-layer efficacy, no fabricated timeline)
+and the no-role reason category are unchanged.
+
 Assembly guard (E0360 precedent): the assembled backend tree has no
 web/ directory by construction, so the frontend sweep below skips
 honestly there and runs in full on real checkouts (public CI / local);
@@ -32,8 +41,9 @@ OLD_DAYUN = ("大运方向、起运岁数、交运日期及岁运效力尚无完
              "本总览不推算或伪造大运时间线。")
 NEW_DAYUN = ("大运方向与起运换算已有完成审核的注册规则（方向据三命分段；"
              "起运换算有三命、神峰两套口径分别注册，只给出交运时刻区间，"
-             "不折算单点岁数或日期），但尚未批准接入本总览；"
-             "岁运效力仍无完成审核的生产规则，本总览不推算或伪造大运时间线。")
+             "不折算单点岁数或日期）；未选择传统口径，本总览不呈现大运，"
+             "选定口径后呈现完整 8 运时间线；岁运效力仍无完成审核的"
+             "生产规则，本总览不推算或伪造大运时间线。")
 
 
 class DayunCopyE0362Tests(unittest.TestCase):
@@ -62,10 +72,16 @@ class DayunCopyE0362Tests(unittest.TestCase):
         self.assertIn("岁运效力仍无完成审核的生产规则", NEW_DAYUN)
 
     def test_not_open_substance_is_preserved(self):
-        # Registration must never be worded as public opening or wiring.
-        self.assertIn("但尚未批准接入本总览", NEW_DAYUN)
+        # TJ-031.19 (E0427, Q3=A): the timeline is available
+        # role-gated, never unconditionally. The no-role text states
+        # the selection state and the role-gated availability; the
+        # superseded blanket "尚未批准接入本总览" must not return,
+        # and neither may any unconditional-opening wording.
+        self.assertIn("未选择传统口径，本总览不呈现大运", NEW_DAYUN)
+        self.assertIn("选定口径后呈现完整 8 运时间线", NEW_DAYUN)
         self.assertIn("本总览不推算或伪造大运时间线。", NEW_DAYUN)
-        for forbidden in ("已接入本总览", "已开放", "现已提供大运时间线"):
+        for forbidden in ("已接入本总览", "已开放", "现已提供大运时间线",
+                          "尚未批准接入本总览"):
             self.assertNotIn(forbidden, NEW_DAYUN)
 
     def test_registration_facts_behind_the_wording_exist(self):
@@ -76,11 +92,18 @@ class DayunCopyE0362Tests(unittest.TestCase):
                      "bazi.phase2.dayun_shenfeng_conversion"):
             self.assertIn(step, DAYUN_CLASSICAL)
 
-    def test_no_logic_change_boundary_flags_and_reason_category(self):
-        # The composition flags stay hard-coded False and the dayun marker
-        # keeps its reason category: this batch changes wording only.
+    def test_flags_role_conditional_and_reason_category_preserved(self):
+        # TJ-031.19 (E0427, Q3=A): the two composition flags are
+        # True exactly when a role was given -- the hard-coded False
+        # form is gone. The dayun marker's no-role reason category
+        # ("no_approved_production_rule") is unchanged: without a
+        # role the dimension still has no approved production rule.
         self.assertEqual(
-            ENGINE.count('"dayun_timeline_approved": False'), 2)
+            ENGINE.count('"dayun_timeline_approved": False'), 0)
+        self.assertEqual(
+            ENGINE.count(
+                '"dayun_timeline_approved": traditional_role is not None'),
+            2)
         self.assertIn('"no_approved_production_rule"', ENGINE)
         self.assertIn("dayun_timeline_approved", ENGINE)
 

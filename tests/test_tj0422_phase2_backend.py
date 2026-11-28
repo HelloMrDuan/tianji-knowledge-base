@@ -181,6 +181,14 @@ class LiftedPresentationsTests(unittest.TestCase):
         # the dayun presentation itself carries by design (once at
         # the top level, once in the nested career copy); no other
         # part of the report (profile section included) stores it.
+        # TJ-031.19 (E0427, Q3=A): the life presentation carries it
+        # in exactly two more documented places -- its unified birth
+        # block (which states the caliber the timeline was computed
+        # under) and the embedded bazi theme's dayun section, whose
+        # "public" field is the validated gate object itself. The
+        # exact multiset is the pin: the role appears exactly four
+        # times, all inside a dayun presentation or the life
+        # presentation's unified block, nowhere else.
         paths = []
 
         def _collect(value, path):
@@ -197,11 +205,14 @@ class LiftedPresentationsTests(unittest.TestCase):
         # The order is dict-traversal order and carries no
         # meaning (the nested career copy precedes the top level
         # in the sealed run); the exact multiset is the pin: the
-        # role appears exactly twice, both inside a
-        # dayun_presentation, nowhere else.
+        # role appears exactly four times, all inside a
+        # dayun_presentation or the life presentation's unified
+        # block, nowhere else.
         self.assertEqual(sorted(paths), sorted([
             "/result/dayun_presentation/role/traditional_role",
             "/result/career/dayun_presentation/role/traditional_role",
+            "/result/life_presentation/unified/traditional_role",
+            "/result/life_presentation/themes/bazi/sections[5]/public/role/traditional_role",
         ]))
 
 

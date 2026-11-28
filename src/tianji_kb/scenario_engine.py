@@ -16,6 +16,10 @@ from .bazi_dayun_public import (
     public_dayun_presentation,
 )
 from .bazi_dayun_timeline_view import dayun_timeline_view
+from .bazi_profile_presentation import (
+    build_bazi_profile_presentation,
+    to_public_bazi_profile_presentation,
+)
 from .bazi_tiaohou import VARIANT as _TIAOHOU_VARIANT
 from .bazi_xiyong_public import (
     BINGYAO_STEP_ID as _BINGYAO_STEP_ID,
@@ -23,8 +27,12 @@ from .bazi_xiyong_public import (
     public_xiyong_presentation,
 )
 from .calendar import calendar
+from .career_presentation import build_career_presentation
+from .compatibility_presentation import build_compatibility_presentation
 from .engine import execute
+from .life_presentation import build_life_presentation
 from .resolver import EvidenceResolver
+from .romance_presentation import build_romance_presentation
 from .unified_compute import (
     UnifiedComputePinError,
     assemble_birth,
@@ -547,9 +555,12 @@ def _bazi_profile(inputs):
     # research-only augmentation: the gates below still build every
     # public presentation, and the entry never contributes a public
     # field. If the entry cannot be built here, the page proceeds
-    # exactly as before (see _unified_assembly).
+    # exactly as before (see _unified_assembly). TJ-031.19 (E0427,
+    # Q3=A): the role is forwarded so the entry's trim carries the
+    # full 8-period dayun for this page's presentation.
     _assembly = _unified_assembly(
-        inputs["value"], zone=inputs.get("zone"))
+        inputs["value"], zone=inputs.get("zone"),
+        traditional_role=traditional_role)
     _trim = trim_for_bazi_profile(_assembly) \
         if _assembly is not None else None
     exec_inputs = dict(domain_inputs)
@@ -616,6 +627,27 @@ def _bazi_profile(inputs):
     if traditional_role is not None:
         result["dayun_presentation"] = _dayun_public_gate(
             inputs["value"], inputs.get("zone"), traditional_role)
+    # TJ-031.19 (E0427, Q1/Q2/Q3): attach the plain-language detailed
+    # bazi presentation, built from this request's own unified trim
+    # plus the four gated public presentations above (strength,
+    # pattern, xiyong, and dayun when a role was given). The builder
+    # fails the request on any drift or invalid lift (fail-closed
+    # §3.3); when the unified entry is absent the page proceeds
+    # exactly as before (no presentation key).
+    if _trim is not None:
+        _profile_source = copy.deepcopy(_trim)
+        _profile_source["strength_presentation"] = \
+            result["strength_presentation"]
+        _profile_source["pattern_presentation"] = \
+            result["pattern_presentation"]
+        _profile_source["xiyong_presentation"] = \
+            result["xiyong_presentation"]
+        if traditional_role is not None:
+            _profile_source["dayun_presentation"] = \
+                result["dayun_presentation"]
+        result["profile_presentation"] = \
+            to_public_bazi_profile_presentation(
+                build_bazi_profile_presentation(_profile_source))
     return _normalize_raw("bazi-profile", raw)
 
 
@@ -1279,7 +1311,7 @@ def _romance(inputs):
             "evidence_ids": evidence_ids,
         },
     ]
-    return {
+    envelope = {
         "scenario_id": "romance",
         "status": "production_limited",
         "public_release": False,
@@ -1354,6 +1386,13 @@ def _romance(inputs):
             "AI 不参与本场景计算。",
         ],
     }
+    # TJ-031.19 (E0427): attach the plain-language romance
+    # presentation, built from this request's own envelope. The
+    # builder fails the request on any drift or banned wording
+    # (fail-closed); the page never returns a partial presentation.
+    envelope["result"]["romance_presentation"] = \
+        build_romance_presentation(envelope)
+    return envelope
 
 
 _TEN_GOD_GROUPS = {
@@ -2004,20 +2043,26 @@ def _career(inputs):
             "evidence_ids": list(branch_structure["evidence_ids"]),
         },
     ]
-    # T-D1 (E0409, fixed E0410): first-period dayun only, role-gated,
-    # reusing the bazi-profile gate (_dayun_public_gate). The shared
-    # gate returns sanming intervals for all 8 periods; the career
-    # scene opens only the first, so the presentation is trimmed at
-    # this boundary (sanming periods 2-8 become unresolved with their
-    # intervals cleared -- see _first_period_dayun_for_career_life).
-    # No starting age is ever computed or shown (precision
-    # adjudication A). The presentation builder bans start/end age
-    # and date keys, so a starting age cannot leak through this
-    # wiring.
+    # T-D1 (E0409, fixed E0410): first-period dayun only on the
+    # legacy dayun_presentation field, role-gated, reusing the
+    # bazi-profile gate (_dayun_public_gate). The shared gate returns
+    # sanming intervals for all 8 periods; the legacy field opens
+    # only the first, so the presentation is trimmed at this boundary
+    # (sanming periods 2-8 become unresolved with their intervals
+    # cleared -- see _first_period_dayun_for_career_life). No
+    # starting age is ever computed or shown (precision adjudication
+    # A). The presentation builder bans start/end age and date keys,
+    # so a starting age cannot leak through this wiring. TJ-031.19
+    # (E0427, Q3=A): the full gate is retained in _full_dayun for
+    # the career presentation below -- the full 8-period timeline
+    # reaches the page ONLY through that presentation, never by
+    # widening this legacy field.
+    _full_dayun = None
     if traditional_role is not None:
+        _full_dayun = _dayun_public_gate(
+            birth_value, inputs.get("birth_zone"), traditional_role)
         result["dayun_presentation"] = _first_period_dayun_for_career_life(
-            _dayun_public_gate(
-                birth_value, inputs.get("birth_zone"), traditional_role))
+            _full_dayun)
     # TJ-0422 phase 2: lift the three adjudicated presentations
     # from the bazi-profile envelope for this same birth instant
     # -- the validated objects themselves, never recomputed or
@@ -2039,10 +2084,27 @@ def _career(inputs):
         _profile["result"]["xiyong_presentation"]
     result["pattern_presentation"] = \
         _profile["result"]["pattern_presentation"]
+    # TJ-031.19 (E0427, Q3=A): attach the plain-language career
+    # presentation. The legacy dayun_presentation field above stays
+    # first-period-trimmed by contract; the full 8-period timeline
+    # reaches the presentation ONLY through the full gate passed
+    # here. The combination block is this request's unified-entry
+    # block (or None when the entry did not assemble one). The
+    # builder fails the request on any drift (fail-closed).
+    result["career_presentation"] = build_career_presentation(
+        result,
+        combination=(_assembly.get("combination")
+                     if _assembly is not None else None),
+        combination_note=(_assembly.get("combination_note")
+                          if _assembly is not None else None),
+        full_dayun_presentation=_full_dayun)
     # The dayun limitation must track the wiring: with a role the
-    # first period is presented, so only periods 2-8 remain unincluded.
+    # first period is presented on the legacy field AND the full
+    # 8-period timeline is presented via the career presentation,
+    # so periods 2-8 no longer belong in the unincluded list.
+    # Without a role no dayun is presented at all (unchanged).
     dayun_limitation = (
-        "尚未纳入格局、喜用神、身强身弱、大运第 2–8 运、流年支互动、行业映射与紫微交叉判断。"
+        "尚未纳入格局、喜用神、身强身弱、流年支互动、行业映射与紫微交叉判断。"
         if traditional_role is not None else
         "尚未纳入格局、喜用神、身强身弱、大运、流年支互动、行业映射与紫微交叉判断。"
     )
@@ -2516,7 +2578,7 @@ def _compatibility(inputs):
             },
             "evidence_ids": evidence_ids,
         })
-    return {
+    envelope = {
         "scenario_id": "compatibility",
         "status": "production_limited",
         "public_release": False,
@@ -2543,6 +2605,46 @@ def _compatibility(inputs):
             "AI 不参与本场景计算。",
         ],
     }
+    # TJ-031.19 (E0427): attach the plain-language compatibility
+    # presentation. Each person's lift bundle is built from that
+    # person's own bazi-profile envelope for this request (the
+    # validated presentations themselves, never recomputed here),
+    # with the dayun bundle first-period-trimmed by contract --
+    # Q3=A does not cover compatibility, so the full timeline is
+    # never passed to this builder. The within-chart relations
+    # come from each person's own chart reviewed_relations (passed
+    # in, never re-derived). The builder fails the request on any
+    # drift or banned token (fail-closed).
+    def _compat_bundle(birth_value, zone, role):
+        _profile = _bazi_profile({
+            "value": birth_value,
+            "strength_variant": "ditiansui-root-visibility-v1",
+            **({"zone": zone} if zone is not None else {}),
+            **({"traditional_role": role} if role is not None else {}),
+        })
+        _dayun_first = None
+        if role is not None:
+            _dayun_first = _first_period_dayun_for_career_life(
+                _profile["result"]["dayun_presentation"])
+        return {
+            "profile_result": _profile["result"],
+            "dayun_first_period": _dayun_first,
+        }
+
+    envelope["result"]["compatibility_presentation"] = \
+        build_compatibility_presentation(
+            result,
+            person_a=_compat_bundle(
+                person_a_birth_value, inputs.get("person_a_zone"),
+                person_a_role),
+            person_b=_compat_bundle(
+                person_b_birth_value, inputs.get("person_b_zone"),
+                person_b_role),
+            natal_relations={
+                "person_a": chart_a["reviewed_relations"],
+                "person_b": chart_b["reviewed_relations"],
+            })
+    return envelope
 
 
 def _dedupe_strings(items):
@@ -2731,9 +2833,12 @@ def _life(inputs):
         raise ValueError("target_year must be an integer from 1900 through 2100")
     # T-D1 (E0409): optional traditional role, validated before any
     # computation, never defaulted, never inferred, used per-request
-    # only to pass the first-period dayun gate through to the career
-    # section (bazi-profile precedent, TJ-017.3 phase 2). No role
-    # means no dayun anywhere in this report.
+    # only to pass the dayun gate through to the career section
+    # (bazi-profile precedent, TJ-017.3 phase 2). No role means no
+    # dayun anywhere in this report. TJ-031.19 (E0427, Q3=A): with
+    # a role the full 8-period timeline is presented via the life
+    # presentation below; the legacy dayun_presentation field stays
+    # first-period-trimmed.
     traditional_role = inputs.get("traditional_role")
     if traditional_role is not None \
             and traditional_role not in ("male", "female"):
@@ -2964,7 +3069,10 @@ def _life(inputs):
         ],
         "independent_evidence_claim": False,
         "strength_classification_approved": False,
-        "dayun_timeline_approved": False,
+        # TJ-031.19 (E0427, Q3=A): the full 8-period timeline is
+        # approved for this overview when a role is given; without
+        # a role there is no direction and no timeline.
+        "dayun_timeline_approved": traditional_role is not None,
         "interpretation_allowed": False,
         "scope": "cross_scenario_source_identity_and_composition_only",
     }
@@ -2980,21 +3088,26 @@ def _life(inputs):
             "这些不是正缘、婚期或感情走向判断。"
         ),
         "cross_rule": cross_rule_audit["reading"],
-        # T-D1 (E0409, copy fixed E0410): with a role the first-period
-        # dayun is now presented (hoisted from the career section
-        # below); periods 2-8 are not opened in this scene and no
-        # starting age is computed. Without a role the E0362 wording
-        # stays verbatim: the full dayun timeline is still not
-        # approved for this overview.
+        # TJ-031.19 (E0427, Q3=A): with a role the full 8-period
+        # timeline is presented via the life presentation below
+        # (intervals only, no starting ages, no cross-layer
+        # efficacy); the legacy dayun_presentation field stays
+        # first-period-trimmed. Without a role no dayun is
+        # presented; selecting a role presents the full timeline.
+        # (The E0362 "尚未批准接入本总览" wording is superseded
+        # by this adjudication: the timeline IS now approved for
+        # this overview, role-gated.)
         "dayun": (
-            "已按所选传统口径呈现大运首运（方向与交运区间，两口径分立）；"
-            "第 2–8 运尚未在本场景开放，不折算起运岁数或日期；"
-            "岁运效力仍无完成审核的生产规则，本总览不推算或伪造大运时间线。"
+            "已按所选传统口径呈现完整 8 运大运时间线（方向与交运区间，"
+            "两口径分立，见人生总览呈现）；每运只给交运区间，不折算"
+            "起运岁数或日期；岁运效力仍无完成审核的生产规则，本总览"
+            "不推算或伪造大运时间线。"
             if traditional_role is not None else
             "大运方向与起运换算已有完成审核的注册规则（方向据三命分段；"
             "起运换算有三命、神峰两套口径分别注册，只给出交运时刻区间，"
-            "不折算单点岁数或日期），但尚未批准接入本总览；"
-            "岁运效力仍无完成审核的生产规则，本总览不推算或伪造大运时间线。"
+            "不折算单点岁数或日期）；未选择传统口径，本总览不呈现大运，"
+            "选定口径后呈现完整 8 运时间线；岁运效力仍无完成审核的"
+            "生产规则，本总览不推算或伪造大运时间线。"
         ),
         "boundary": (
             "月令与通根候选、流年十神、夫妻宫关系属于不同传统观察层次；"
@@ -3003,7 +3116,9 @@ def _life(inputs):
         "evidence_ids": combined_evidence,
         "personal_prediction": False,
         "interpretation_level": "reviewed_cross_scenario_structure_only",
-        "dayun_timeline_approved": False,
+        # TJ-031.19 (E0427, Q3=A): mirrors the provenance flag --
+        # True exactly when a role was given (see above).
+        "dayun_timeline_approved": traditional_role is not None,
         "strength_classification_approved": False,
     }
 
@@ -3081,8 +3196,11 @@ def _life(inputs):
     # (computed once, by the career section above, from this
     # request's own birth instant and role -- the same trimmed
     # object is embedded in the career section below, so the two
-    # can never disagree). The full timeline stays unapproved: all
-    # three dayun_timeline_approved flags remain False below.
+    # can never disagree). TJ-031.19 (E0427, Q3=A): the legacy
+    # field stays first-period-trimmed; the full 8-period timeline
+    # is presented via the life presentation below, and the three
+    # dayun_timeline_approved flags are True exactly when a role
+    # was given.
     dayun_presentation = career["result"].get("dayun_presentation")
     # TJ-0422 phase 2: lift the three adjudicated presentations
     # from this request's own bazi-profile section -- the same
@@ -3094,7 +3212,7 @@ def _life(inputs):
     strength_presentation = profile["result"]["strength_presentation"]
     xiyong_presentation = profile["result"]["xiyong_presentation"]
     pattern_presentation = profile["result"]["pattern_presentation"]
-    return {
+    envelope = {
         "scenario_id": "life",
         "status": "production_limited",
         "public_release": False,
@@ -3138,6 +3256,29 @@ def _life(inputs):
             "AI 不参与本总览计算。",
         ]),
     }
+    # TJ-031.19 (E0427, Q3=A): attach the plain-language life
+    # presentation, reusing the sibling presentations built by
+    # this request's own sections (bazi theme from the unified
+    # trim, career theme from the career section, romance theme
+    # from the romance section already built above -- _life calls
+    # _romance without a role, so no pairing is ever rebuilt
+    # here). The full dayun gate is recomputed once here from the
+    # same birth instant, zone and role the career section already
+    # ran -- a deterministic local recomputation of the same gate,
+    # not a separate engine. The builder fails the request on any
+    # drift (fail-closed).
+    _full_dayun = None
+    if traditional_role is not None:
+        _full_dayun = _dayun_public_gate(
+            birth_value, birth_zone, traditional_role)
+    envelope["result"]["life_presentation"] = build_life_presentation(
+        envelope,
+        life_trim=_trim,
+        combination=(_assembly.get("combination")
+                     if _assembly is not None else None),
+        full_dayun_presentation=_full_dayun,
+        romance=romance["result"]["romance_presentation"])
+    return envelope
 
 
 _EXECUTORS = {

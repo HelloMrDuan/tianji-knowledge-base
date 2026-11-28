@@ -44,20 +44,31 @@ def current_facts():
         "foundation": strength_context["reading"],
         "career": "流年结构上下文。",
         "romance": "夫妻宫结构上下文。这些不是正缘、婚期或感情走向判断。",
-        # E0362: mirror updated to the current real _life wording verbatim
-        # (E0358 audit §8 found the previous sentence stale after the
-        # E0346/E0348 dayun registrations; see
-        # docs/product/TJ0252_DAYUN_COPY_FIX.md §2 item 6 / §3).
+        # TJ-031.19 (E0427, Q3=A): mirror updated to the current real
+        # _life no-role wording verbatim -- the E0362 "尚未批准接入
+        # 本总览" blanket non-approval is superseded (the timeline
+        # is approved, role-gated); see test_tj0252_dayun_copy_e0362.
         "dayun": ("大运方向与起运换算已有完成审核的注册规则（方向据三命分段；"
                   "起运换算有三命、神峰两套口径分别注册，只给出交运时刻区间，"
-                  "不折算单点岁数或日期），但尚未批准接入本总览；"
-                  "岁运效力仍无完成审核的生产规则，本总览不推算或伪造大运时间线。"),
+                  "不折算单点岁数或日期）；未选择传统口径，本总览不呈现大运，"
+                  "选定口径后呈现完整 8 运时间线；岁运效力仍无完成审核的"
+                  "生产规则，本总览不推算或伪造大运时间线。"),
         "boundary": "尚无证据将它们合成为事业、收入、婚恋吉凶或人生定论。",
         "dayun_timeline_approved": False,
         "personal_prediction": False,
         "interpretation_level": "reviewed_cross_scenario_structure_only",
     }
     return strength_context, cross_rule_audit, provenance, reading
+
+
+# TJ-031.19 (E0427, Q3=A): mirror of the real _life WITH-ROLE dayun
+# exit verbatim -- the full 8-period timeline is presented via the
+# life presentation; the marker below must carry this text, not the
+# no-role text above.
+ROLE_DAYUN = ("已按所选传统口径呈现完整 8 运大运时间线（方向与交运区间，"
+              "两口径分立，见人生总览呈现）；每运只给交运区间，不折算"
+              "起运岁数或日期；岁运效力仍无完成审核的生产规则，本总览"
+              "不推算或伪造大运时间线。")
 
 
 def build(facts=None):
@@ -139,6 +150,25 @@ class LifeConditionMarkerBuilderTests(unittest.TestCase):
                          ["ev-strength"])
         self.assertEqual(markers["cross_rule_synthesis"]["evidence_ids"],
                          ["ev-pair"])
+
+    def test_role_dayun_text_flows_into_marker(self):
+        # TJ-031.19 (E0427, Q3=A): with a role both flags are True,
+        # so the dayun marker is available and carries the role
+        # exit text verbatim as both reason and exit_text.
+        sc, cra, prov, reading = current_facts()
+        prov = dict(prov, dayun_timeline_approved=True)
+        reading = dict(reading, dayun=ROLE_DAYUN,
+                       dayun_timeline_approved=True)
+        markers = {m["dimension"]: m
+                   for m in build((sc, cra, prov, reading))}
+        marker = markers["dayun_timeline"]
+        self.assertEqual(marker["condition"], "available")
+        self.assertEqual(marker["statement"], AVAILABLE)
+        self.assertIsNone(marker["reason_category"])
+        self.assertEqual(marker["reason"], ROLE_DAYUN)
+        self.assertEqual(marker["exit_text"], ROLE_DAYUN)
+        self.assertEqual(marker["basis"],
+                         {"dayun_timeline_approved": True})
 
     def test_markers_flip_only_when_source_facts_flip(self):
         sc, cra, prov, reading = current_facts()

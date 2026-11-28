@@ -506,7 +506,7 @@ SILING_MATRIX = {'ditiansui-yuanshuo': {'寅': {'status': 'segments_registered',
                       'gaps': ['干日数合计 30 日与节气月实际长度（29–31 日）之间的关系原文未言。']},
                 '卯': {'status': 'segments_registered',
                       'quotes': ['sm.t1_table'],
-                      'adjudication_status': 'conflict',
+                      'adjudication_status': 'pilot_authorized_sanming_t1',
                       'research_only': True,
                       'segments': [{'stem': '甲',
                                     'days': 7,
@@ -1251,6 +1251,35 @@ SILING_SI_CALCULATION_CONVENTION = {'id': 'siling-si-calculation-convention',
  'calendar_rules_ref': '节气精度、时区与历史夏令时处理遵循已验收的日历规则（TJ-015/Provider '
                        '契约），本约定不改变之。',
  'note': '本对象只登记约定本身；巳月试点 Variant 的实现与测试见 bazi_siling_si_pilot.py（与本登记同批）。'}
+
+SILING_MAO_CALCULATION_CONVENTION = {'id': 'siling-mao-calculation-convention',
+ 'version': 'v1',
+ 'status': 'registered',
+ 'decision': {'authority': 'user_ruling',
+              'date': '2026-11-27',
+              'decision': '裁定①，选项 A',
+              'text': '用户 2026-11-27 裁定①选项 A：批准卯月 × 三命 T1 试点 '
+                      '（甲 7 日、乙 23 日）；乙段有效域止于春分，春分及之后'
+                      '一律 not_applicable；不得据此推导其他十一月，不解锁 '
+                      'Slice D 八格真假。'},
+ 'scope': {'school_branch': '《三命通会》T1 表',
+           'version_id': 'sanming-t1',
+           'months': ['卯'],
+           'statement': '仅适用于卯月三命 T1 口径试点；不得据此推导其他十一月。'},
+ 't0': '节气计算 provider 返回并经 provider 身份验证的惊蛰精确瞬时（既有日历 provider 契约不变）。',
+ 'elapsed_basis': '以真实经过时间计（real elapsed time），不用本地日期相减。',
+ 'segments': [{'stem': '甲', 'interval': '[t0, t0+7*24h)'},
+              {'stem': '乙', 'interval': '[t0+7*24h, t0+30*24h)'}],
+ 'interval_convention': '左闭右开（[start, end)）。',
+ 'beyond_next_jie': '下一交节（春分）及之后本约定不再适用（Variant 不适用）；'
+                   '乙段注册段界虽至 t0+30d，其有效计算域止于春分。',
+ 'disclaimer': '「连续24小时计日」是本次授权的程序计算约定，不是已证实的传统文献唯一解释；不得表述为古籍明示内容。',
+ 'fail_closed': ['节气瞬时精度不足时，返回不确定或拒绝裁定，不得强行给出唯一司令。',
+                 'provider 不匹配（身份未核验）时，返回不确定或拒绝裁定。',
+                 '落入现有日历精度警戒区间时，返回不确定或拒绝裁定。'],
+ 'calendar_rules_ref': '节气精度、时区与历史夏令时处理遵循已验收的日历规则（TJ-015/Provider '
+                       '契约），本约定不改变之。',
+ 'note': '本对象登记于矩阵；卯月试点 Variant 自矩阵读取本约定（见 bazi_siling_mao_pilot.py）。'}
 
 SILING_ADJUDICATION_NOTES = ['R1 矩阵性质：本批只登记证据，不作任何司令计算；仓库内不存在按天数推司令的代码路径（本模块为纯数据、零函数）。',
  'R2 T1/T2 分离：三命同书同节两表互相矛盾（12 月中 10 月实质分歧），分别登记为 sanming-t1 / '

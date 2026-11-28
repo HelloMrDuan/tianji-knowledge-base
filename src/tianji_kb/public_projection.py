@@ -327,6 +327,73 @@ def project_execution(data):
             )
             if is_valid_public_dayun_presentation(dayun_candidate):
                 scoped_dayun_presentation = copy.deepcopy(dayun_candidate)
+    # TJ-031.19 (E0427): the same scoped-release discipline for the
+    # five plain-language presentations -- one per scenario page,
+    # each released only on its own scenario and only in exactly
+    # its validated shape; any other carrier is stripped below as
+    # usual. The release is an allowlist projection, never a verbatim
+    # copy (each module's to_public_* builds the public shape);
+    # imports stay inside the branch, as above.
+    scoped_profile_presentation = None
+    scoped_career_presentation = None
+    scoped_romance_presentation = None
+    scoped_compatibility_presentation = None
+    scoped_life_presentation = None
+    if isinstance(data.get('result'), dict):
+        if data.get('scenario_id') == 'bazi-profile':
+            profile_candidate = data['result'].get('profile_presentation')
+            if profile_candidate is not None:
+                from .bazi_profile_presentation import (
+                    is_valid_bazi_profile_presentation,
+                    to_public_bazi_profile_presentation,
+                )
+                if is_valid_bazi_profile_presentation(profile_candidate):
+                    scoped_profile_presentation = \
+                        to_public_bazi_profile_presentation(
+                            profile_candidate)
+        if data.get('scenario_id') == 'career':
+            career_candidate = data['result'].get('career_presentation')
+            if career_candidate is not None:
+                from .career_presentation import (
+                    is_valid_career_presentation,
+                    to_public_career_presentation,
+                )
+                if is_valid_career_presentation(career_candidate):
+                    scoped_career_presentation = \
+                        to_public_career_presentation(career_candidate)
+        if data.get('scenario_id') == 'romance':
+            romance_candidate = data['result'].get('romance_presentation')
+            if romance_candidate is not None:
+                from .romance_presentation import (
+                    is_valid_romance_presentation,
+                    to_public_romance_presentation,
+                )
+                if is_valid_romance_presentation(romance_candidate):
+                    scoped_romance_presentation = \
+                        to_public_romance_presentation(romance_candidate)
+        if data.get('scenario_id') == 'compatibility':
+            compatibility_candidate = data['result'].get(
+                'compatibility_presentation')
+            if compatibility_candidate is not None:
+                from .compatibility_presentation import (
+                    is_valid_compatibility_presentation,
+                    to_public_compatibility_presentation,
+                )
+                if is_valid_compatibility_presentation(
+                        compatibility_candidate):
+                    scoped_compatibility_presentation = \
+                        to_public_compatibility_presentation(
+                            compatibility_candidate)
+        if data.get('scenario_id') == 'life':
+            life_candidate = data['result'].get('life_presentation')
+            if life_candidate is not None:
+                from .life_presentation import (
+                    is_valid_life_presentation,
+                    to_public_life_presentation,
+                )
+                if is_valid_life_presentation(life_candidate):
+                    scoped_life_presentation = \
+                        to_public_life_presentation(life_candidate)
     aliases = _Aliases(data['evidence'])
     result = {key: _public_facts(value, aliases)
               for key, value in data.items()
@@ -391,6 +458,16 @@ def project_execution(data):
             # career or life only) is the only one re-attached
             # (below).
             container.pop('pattern_presentation', None)
+            # TJ-031.19 (E0427): same for the five plain-language
+            # presentation keys. Each is stripped from every
+            # container here; the single validated copy lifted above
+            # (its own scenario only) is the only one re-attached
+            # (below).
+            container.pop('profile_presentation', None)
+            container.pop('career_presentation', None)
+            container.pop('romance_presentation', None)
+            container.pop('compatibility_presentation', None)
+            container.pop('life_presentation', None)
             # TJ-012.3 Slice A: the 禄刃 route exclusion is research-only
             # (pending Phase1 registration); never let it reach a public
             # response either.
@@ -422,6 +499,12 @@ def project_execution(data):
             # internal research display only per the Option B ruling);
             # never let a pilot block reach a public response either.
             container.pop('siling_si_pilot', None)
+            # TJ-012.3 Slice C 卯月试点 (E0427): the 卯月 siling pilot
+            # is a research-only Variant (pending Phase1 registration,
+            # internal research display only per the 2026-11-27
+            # ruling ① option A); never let a pilot block reach a
+            # public response either.
+            container.pop('siling_mao_pilot', None)
             # TJ-012.3 Slice D-1: the Ren-branch 寅月 true-pattern
             # determination is a research-only composition (pending
             # Phase1 registration); never let it reach a public
@@ -447,6 +530,28 @@ def project_execution(data):
             and isinstance(result.get('result'), dict):
         result['result']['pattern_presentation'] = \
             scoped_pattern_presentation
+    # TJ-031.19 (E0427): re-attach the five scoped presentations,
+    # each only on its own scenario (lifted above).
+    if scoped_profile_presentation is not None \
+            and isinstance(result.get('result'), dict):
+        result['result']['profile_presentation'] = \
+            scoped_profile_presentation
+    if scoped_career_presentation is not None \
+            and isinstance(result.get('result'), dict):
+        result['result']['career_presentation'] = \
+            scoped_career_presentation
+    if scoped_romance_presentation is not None \
+            and isinstance(result.get('result'), dict):
+        result['result']['romance_presentation'] = \
+            scoped_romance_presentation
+    if scoped_compatibility_presentation is not None \
+            and isinstance(result.get('result'), dict):
+        result['result']['compatibility_presentation'] = \
+            scoped_compatibility_presentation
+    if scoped_life_presentation is not None \
+            and isinstance(result.get('result'), dict):
+        result['result']['life_presentation'] = \
+            scoped_life_presentation
     return result
 
 

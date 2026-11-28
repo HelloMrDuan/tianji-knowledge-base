@@ -124,9 +124,13 @@ function romanceStub(year: number) {
       },
       xianchi: {
         targets: { year_branch: "子", day_branch: "酉" },
+        // Real lookup for 己卯/丁丑/甲子/庚午: the year-branch target
+        // 子 sits on the DAY pillar (甲子); the day-branch target 酉
+        // has no pillar at all -- exactly one match. The stub must
+        // not encode a lookup the real backend would never produce
+        // (Lane C fixture documents the same correction).
         natal_matches: [
-          { basis: "year_branch", pillar: "year" },
-          { basis: "day_branch", pillar: "day" },
+          { basis: "year_branch", pillar: "day" },
         ],
       },
       target_year_activation: {
@@ -186,6 +190,10 @@ test("TJ-022.3 romance page shows two bases separately and truly recalculates on
   await expect(result).toContainText("日支目标 酉");
   await expect(result).toContainText("年支起查");
   await expect(result).toContainText("日支起查");
+  // The stub's matches follow the real lookup: 年支目标子 hits the
+  // day pillar; 日支目标酉 has no pillar, so no day-basis match.
+  await expect(result).toContainText("原局位置：日柱");
+  await expect(result).toContainText("未见结构命中");
   // 2026 display: 丙午 + 子午六冲.
   await expect(page.locator(".romance-result-head")).toContainText("丙午");
   await expect(page.locator(".romance-result-head")).toContainText("流年地支 午");

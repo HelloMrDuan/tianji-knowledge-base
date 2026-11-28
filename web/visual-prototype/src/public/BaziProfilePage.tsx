@@ -14,6 +14,7 @@ import {
   getDayunPresentation,
   getSelectedDayunMethod,
   getSelectedPeriodIndex,
+  locateCurrentPeriod,
   setDayunPresentation,
   setSelectedDayunMethod,
   setSelectedPeriodIndex,
@@ -122,6 +123,20 @@ const patternPillarLabels: Record<string, string> = {
   month: "月干",
   hour: "时干",
 };
+
+// TJ-031.19 Lane A：五行分布只对已返回的四柱作确定性计数（天干、
+// 地支、藏干的固定五行配属），与渲染藏干同属已返回数据的呈现，
+// 前端不计算任何命理、不作旺衰/喜用/格局/吉凶判断。
+const STEM_ELEMENTS: Record<string, string> = {
+  甲: "木", 乙: "木", 丙: "火", 丁: "火", 戊: "土",
+  己: "土", 庚: "金", 辛: "金", 壬: "水", 癸: "水",
+};
+const BRANCH_ELEMENTS: Record<string, string> = {
+  寅: "木", 卯: "木", 巳: "火", 午: "火", 申: "金",
+  酉: "金", 亥: "水", 子: "水", 辰: "土", 戌: "土",
+  丑: "土", 未: "土",
+};
+const FIVE_ELEMENTS = ["木", "火", "土", "金", "水"];
 
 function relationLine(item: any): string {
   const parts: string[] = [];
@@ -363,7 +378,31 @@ export function BaziProfilePage({
   // interactive timeline). Rendered from a fresh calculation, or —
   // when sessionOnly — from the session-shared presentation after a
   // return from the yearly page, before any new calculation here.
+  // TJ-031.19 Lane A + 2026-11-28 Q3=A: the timeline itself already
+  // renders all 8 sanming periods, method switching, period
+  // selection, end-from-next-start, and per-period liunian links
+  // (DayunTimeline, shared). The supplement below adds only what the
+  // timeline does not carry: the selected period's branch hidden
+  // stems, reused from the natal chart only when the dayun branch
+  // matches a natal branch; otherwise honestly not listed. No age
+  // interval is produced: the public dayun object carries no age
+  // field and no start age is converted here.
   function renderDayunSection(presentation: DayunPresentation, sessionOnly: boolean) {
+    const dayunEntries = [...(presentation.methods[dayunMethod]?.entries || [])].sort((a: any, b: any) => a.period_index - b.period_index);
+    const dayunCurrent = locateCurrentPeriod(presentation, dayunMethod);
+    const effectivePeriodIndex = selectedPeriodIndex
+      ?? (dayunCurrent.status === "current" ? dayunCurrent.periodIndex : null)
+      ?? (dayunCurrent.status === "ambiguous" ? dayunCurrent.toPeriodIndex : null)
+      ?? dayunEntries[0]?.period_index
+      ?? null;
+    const effectiveEntry = dayunEntries.find((entry: any) => entry.period_index === effectivePeriodIndex) ?? null;
+    const effectiveBranchHidden = (!sessionOnly && pillars.length === 4 && effectiveEntry)
+      ? (() => {
+          const match = pillars.find((item: any) => item.branch?.value === effectiveEntry.branch);
+          const hidden = match?.branch?.hidden_stems || [];
+          return hidden.length > 0 ? hidden.map((h: any) => h.stem).join("、") : null;
+        })()
+      : null;
     return (
       <section className="bazi-dayun-presentation" aria-label="大运方向与交运区间">
         <span className="eyebrow">大运时间轴 · 两口径分立呈现</span>
@@ -393,6 +432,17 @@ export function BaziProfilePage({
           selectedPeriodIndex={selectedPeriodIndex}
           onSelectPeriod={(periodIndex) => setSelectedPeriodIndex(periodIndex)}
         />
+        {!sessionOnly && effectiveEntry && (
+          <div className="bazi-dayun-supplement" aria-label={`第 ${effectiveEntry.period_index} 运补充`}>
+            <p>
+              第 {effectiveEntry.period_index} 运补充：地支 {effectiveEntry.branch}
+              {effectiveBranchHidden
+                ? `藏干 ${effectiveBranchHidden}（与原局同支的已核验藏干）。`
+                : "藏干未包含在本次公开呈现内，暂不列出（藏干只取与原局同支的已核验数据）。"}
+            </p>
+            <p>年龄区间不呈现：公开大运对象不含年龄字段，不折算起运年龄。流年入口见上方时间线（进入流年页查看其中某年）。</p>
+          </div>
+        )}
         {(presentation.scope || []).map((line: string, i: number) => (
           <p key={`ds-${i}`} className="bazi-dayun-scope">{line}</p>
         ))}
@@ -625,6 +675,23 @@ export function BaziProfilePage({
             </section>
           )}
 
+          {/* TJ-031.19 Lane A + 2026-11-28 Q1=C：研究列：现代强度模型。
+              与上方的已审结论分开呈现、互不覆盖。模型分数是工程模型
+              内部总分（总分域 [-35, 105]），不是百分位，不是概率，
+              不是古典旺衰定论，不作科学预测。分项为得令 / 得地 /
+              得势（显干生扶） / 得助（藏干生扶） / 克泄耗；未校准条件
+              （土/丁得地未校准、四库月得令记零）须随模型结果一并说明。
+              本次公开结果未附带研究层输出，故这里不列模型分数与分项。 */}
+          <section className="bazi-detail-section bazi-research-column" aria-label="研究列：现代强度模型">
+            <span className="eyebrow">命盘结构 · 研究列（与已审结论分开呈现）</span>
+            <h3>研究列：现代强度模型</h3>
+            <p>现代强度模型是独立的研究列，与已审结论分开呈现，互不覆盖；现代模型结论永不改写已审结论。</p>
+            <p>模型分数是工程模型内部总分（总分域 [-35, 105]），不是百分位，不是概率，不是古典旺衰定论，不作科学预测。</p>
+            <p>分项：得令、得地、得势（显干生扶）、得助（藏干生扶）、克泄耗；每项分数为该因素对模型结果的贡献。</p>
+            <p>未校准条件：土日主与丁日主得地分只计余根、未校准；四库月得令分记 0 是缺失条件的暂定处理，不代表已证明月令无作用。</p>
+            <p className="bazi-detail-undecided">本次公开结果未附带研究层输出，本节不列模型分数与分项；模型结果须随研究层输出返回后方可呈现。</p>
+          </section>
+
           {/* TJ-012.3 Stage B：格局局部研究是命盘结构分析内的一小节，
               与强度节同一版式、不是独立大卡。只转写后端
               pattern_presentation，前端不计算任何命理；无该键的旧信封、
@@ -681,6 +748,46 @@ export function BaziProfilePage({
               ))}
             </section>
           )}
+
+          {/* TJ-031.19 Lane A：五行分布与日主（详批第 1 节）。只对已返
+              回的四柱作确定性计数，不作任何旺衰/喜用/格局/吉凶判断；
+              无四柱数据时不渲染本节。 */}
+          {pillars.length === 4 && (() => {
+            const stemCounts: Record<string, number> = { 木: 0, 火: 0, 土: 0, 金: 0, 水: 0 };
+            const branchCounts: Record<string, number> = { 木: 0, 火: 0, 土: 0, 金: 0, 水: 0 };
+            const hiddenCounts: Record<string, number> = { 木: 0, 火: 0, 土: 0, 金: 0, 水: 0 };
+            pillars.forEach((item: any) => {
+              const stemEl = STEM_ELEMENTS[item.stem?.value];
+              if (stemEl) stemCounts[stemEl] += 1;
+              const branchEl = BRANCH_ELEMENTS[item.branch?.value];
+              if (branchEl) branchCounts[branchEl] += 1;
+              (item.branch?.hidden_stems || []).forEach((hidden: any) => {
+                const hiddenEl = STEM_ELEMENTS[hidden.stem];
+                if (hiddenEl) hiddenCounts[hiddenEl] += 1;
+              });
+            });
+            const dayElement = STEM_ELEMENTS[chart.day_master?.stem] || "";
+            const sameStems = pillars
+              .map((item: any) => item.stem?.value)
+              .filter((stem: string) => STEM_ELEMENTS[stem] === dayElement);
+            return (
+              <section className="bazi-detail-section" aria-label="五行分布与日主">
+                <span className="eyebrow">命盘结构 · 确定性计数</span>
+                <h3>五行分布与日主</h3>
+                <p>日主{chart.day_master?.stem || "—"}属{dayElement || "—"}；天干中与日主同五行的干有 {sameStems.length} 个{sameStems.length ? `（${sameStems.join("、")}）` : ""}。</p>
+                <div className="bazi-five-elements">
+                  {FIVE_ELEMENTS.map((element) => (
+                    <div key={element}>
+                      <b>{element}</b>
+                      <span>天干 {stemCounts[element]} · 地支 {branchCounts[element]} · 藏干 {hiddenCounts[element]}</span>
+                      <span>合计 {stemCounts[element] + branchCounts[element] + hiddenCounts[element]}</span>
+                    </div>
+                  ))}
+                </div>
+                <p className="bazi-strength-scope">以上只是确定性计数，不作旺衰、喜用、格局或吉凶判断。</p>
+              </section>
+            );
+          })()}
 
           {strength && (
             <section className="bazi-strength-observations" aria-label="旺衰因素与通根候选">
@@ -762,10 +869,44 @@ export function BaziProfilePage({
                   <p className="bazi-xiyong-closing">{xiyong.relations_closing_line}</p>
                 </>
               )}
+              {/* TJ-031.19 Lane A：扶抑与统一喜用结论（详批第 4 节的已裁定
+                  口径）。古典扶抑方向可建行数为 0 行是已裁定状态，不重
+                  提、不补方向；统一喜用结论恒为暂不可判。现代扶抑候选
+                  只在研究层，未随本次公开结果返回，这里只作研究参考说明。 */}
+              <p>扶抑古典方向：十行方向表逐行核对后可建行数为 0 行（已裁定关闭），本节不给出任何扶抑古典方向结论。</p>
+              <p>统一喜用结论：暂不可判（系统不据此给出统一的取用结论）。</p>
+              <details className="bazi-research-note">
+                <summary>研究参考：现代扶抑候选（未接入公开面）</summary>
+                <p>现代扶抑层只给候选干作研究参考，不是古典结论，不作公开判断；本次公开结果未附带研究层候选，故这里不列候选干。</p>
+              </details>
             </section>
           )}
 
+          {/* TJ-031.19 Lane A + 2026-11-28 Q2=C：扶抑现代层研究（研究）。
+              与公开的调候/病药节分开的独立研究节：当前模型强度方向、
+              扶抑候选方向、候选干、候选形成理由、已审的调候/病药结果、
+              各体系差异。候选不是确定用神；格局用神暂不可判，14 格
+              就绪表不公开呈现；统一喜用结论暂不可判。候选方向与候选
+              干未随本次公开结果返回，故这里不列具体候选。 */}
+          <section className="bazi-detail-section bazi-research-column" aria-label="扶抑现代层研究">
+            <span className="eyebrow">喜用 · 研究（与公开呈现分开）</span>
+            <h3>扶抑现代层研究</h3>
+            <p>调候体系（已审）：{xiyong ? (xiyong.blocks.tiaohou.state === "presented" ? "取用顺序见上节。" : "条目在审定文本中不存在，该组合调候暂不可判。") : "公开呈现未附带，暂不可判。"}</p>
+            <p>病药体系（已审）：{xiyong ? "两对结构候选，去病效力未裁定，见上节。" : "公开呈现未附带，暂不可判。"}</p>
+            <p>扶抑古典层：十行方向表逐行核对后可建行数为 0 行（已裁定关闭），不给方向结论。</p>
+            <p>扶抑现代层：候选方向与候选干是研究模型候选，不是确定用神；本次公开结果未附带研究层输出，故这里不列具体候选方向与候选干。</p>
+            <p>三体系口径不同，并列呈现，不合并为统一结论；统一喜用结论暂不可判。</p>
+            <p>格局用神：暂不可判；14 格就绪表不公开呈现，用神恒未审，不捏造用神。</p>
+          </section>
+
           {dayun && renderDayunSection(dayun, false)}
+
+          {/* TJ-031.19 Lane A：真太阳时对照（研究，详批第 5 节）。公开
+              排盘口径不变；未提供出生地经纬度时不作对照、不替换公开排盘。 */}
+          <details className="bazi-research-note" aria-label="真太阳时对照（研究）">
+            <summary>真太阳时对照（研究）</summary>
+            <p>未提供出生地经纬度，未作真太阳时对照；公开排盘口径不变（北京时间，午夜 0 点为日界）。真太阳时排盘是研究入口，不是公开排盘口径。</p>
+          </details>
 
           {/* TJ-031.4（Track B F3）：当前分析边界是结果四层结构的第 4 层，
               有结果即须在场，不再随 warnings/limitations 是否为空而消失；
@@ -796,6 +937,8 @@ export function BaziProfilePage({
             {patternPresentation && patternPresentation.status === "abstained" && (
               <p className="bazi-boundary-state">格局局部研究：本次不作呈现，不作任何格局结论。</p>
             )}
+            {/* TJ-031.19 Lane A：破格只认伤官见官一途，其余古典破格通道暂无。 */}
+            <p className="bazi-boundary-state">格局破格：除伤官见官外，暂无其他已审古典破格通道；其余破格缺口只作登记，不作破格结论。</p>
             {boundaryDomainWarnings.map((w: string, i: number) => (
               <p key={`w-${i}`} className="limitation-warning">⚠️ {w}</p>
             ))}

@@ -2,16 +2,19 @@
 
 The career and life scenarios accept the optional traditional_role
 (bazi-profile precedent, TJ-017.3 phase 2) and return the public
-dayun_presentation -- FIRST PERIOD ONLY -- when a role is given.
-Without a role there is no dayun anywhere in either result. The
-scene-scoped trim (E0410) clears the sanming periods 2-8 intervals
-(state ``unresolved`` with a status naming the scene scope) while
-shenfeng periods 2-8 stay ``not_provided``; no starting age is ever
-computed or shown (precision adjudication A, 2026-11-17). The full
-dayun timeline stays unapproved: all three
-dayun_timeline_approved flags remain False. The public projection
-releases the dayun presentation for career and life (same validated
-shape as bazi-profile); every other scenario still has it stripped.
+dayun_presentation -- FIRST PERIOD ONLY on the legacy field -- when a
+role is given. Without a role there is no dayun anywhere in either
+result. The scene-scoped trim (E0410) clears the sanming periods 2-8
+intervals (state ``unresolved`` with a status naming the scene
+scope) while shenfeng periods 2-8 stay ``not_provided``; no starting
+age is ever computed or shown (precision adjudication A, 2026-11-17).
+TJ-031.19 (E0427, Q3=A, user adjudication 2026-11-28): the full
+8-period timeline IS now approved for career and life -- presented
+via the career_presentation / life_presentation, never by widening
+the legacy field -- and the three dayun_timeline_approved flags are
+True exactly when a role was given. The public projection releases
+the dayun presentation for career and life (same validated shape as
+bazi-profile); every other scenario still has it stripped.
 
 Runs in the offline acceptance (assembled tree with the sealed
 runtime), not in public CI -- like the other real-engine scenario
@@ -33,12 +36,16 @@ from tianji_kb.scenario_engine import execute_scenario
 
 ROOT = Path(__file__).resolve().parents[1]
 BIRTH = "2000-01-07T12:00:00+08:00"
-# E0362 verbatim copy for the no-role life dayun exit.
+# TJ-031.19 (E0427, Q3=A): no-role life dayun exit. The E0362
+# "尚未批准接入本总览" wording is superseded: the timeline IS now
+# approved for this overview, role-gated, so the no-role text states
+# the selection state instead of a blanket non-approval.
 NO_ROLE_DAYUN = (
     "大运方向与起运换算已有完成审核的注册规则（方向据三命分段；"
     "起运换算有三命、神峰两套口径分别注册，只给出交运时刻区间，"
-    "不折算单点岁数或日期），但尚未批准接入本总览；"
-    "岁运效力仍无完成审核的生产规则，本总览不推算或伪造大运时间线。")
+    "不折算单点岁数或日期）；未选择传统口径，本总览不呈现大运，"
+    "选定口径后呈现完整 8 运时间线；岁运效力仍无完成审核的"
+    "生产规则，本总览不推算或伪造大运时间线。")
 
 
 def _all_keys(value):
@@ -112,11 +119,23 @@ class CareerDayunTests(unittest.TestCase):
         self.assertIn("尚未纳入格局、喜用神、身强身弱、大运、",
                       envelope["limitations"][2])
 
-    def test_role_limitation_names_periods_2_to_8(self):
+    def test_role_limitation_drops_periods_2_to_8(self):
+        # TJ-031.19 (E0427, Q3=A): with a role the full 8-period
+        # timeline is presented via the career presentation, so
+        # periods 2-8 no longer belong in the unincluded list.
         envelope = execute_scenario("career", {
             "birth_value": BIRTH, "target_year": 2026,
             "traditional_role": "female"})
-        self.assertIn("大运第 2–8 运", envelope["limitations"][2])
+        self.assertNotIn("大运第 2–8 运", envelope["limitations"][2])
+        section = next(
+            item for item in
+            envelope["result"]["career_presentation"]["sections"]
+            if item["id"] == "dayun_timeline")
+        self.assertEqual(section["status"], "presented")
+        entries = section["content"]["methods"]["sanming"]["entries"]
+        self.assertEqual(len(entries), 8)
+        self.assertEqual(entries[1]["state"], "interval")
+        self.assertIsNotNone(entries[1]["start_interval"])
 
     def test_no_starting_age_anywhere(self):
         envelope = execute_scenario("career", {
@@ -185,25 +204,42 @@ class LifeDayunTests(unittest.TestCase):
             envelope["result"]["career"]["dayun_presentation"],
             presentation)
 
-    def test_role_dayun_exit_names_first_period(self):
+    def test_role_dayun_exit_names_full_timeline(self):
+        # TJ-031.19 (E0427, Q3=A): with a role the life dayun exit
+        # names the full 8-period timeline (presented via the life
+        # presentation); the first-period-only phrasing is gone.
         envelope = execute_scenario("life", {
             "birth_value": BIRTH, "target_year": 2026,
             "traditional_role": "male"})
         dayun_text = envelope["result"]["integrated_reading"]["dayun"]
-        self.assertIn("大运首运", dayun_text)
-        self.assertIn("第 2–8 运尚未在本场景开放", dayun_text)
+        self.assertIn("完整 8 运大运时间线", dayun_text)
+        self.assertNotIn("大运首运", dayun_text)
+        self.assertNotIn("第 2–8 运尚未在本场景开放", dayun_text)
         self.assertIn("不折算起运岁数或日期", dayun_text)
+        self.assertEqual(
+            envelope["result"]["life_presentation"]["dayun"]["status"],
+            "presented")
+        self.assertEqual(
+            len(envelope["result"]["life_presentation"]["stages"]), 8)
 
-    def test_no_role_keeps_e0362_wording_verbatim(self):
+    def test_no_role_keeps_q3a_no_role_wording(self):
+        # TJ-031.19 (E0427, Q3=A): the E0362 wording is superseded
+        # (see the NO_ROLE_DAYUN note above); the no-role exit now
+        # states the selection state, verbatim.
         envelope = execute_scenario("life", {
             "birth_value": BIRTH, "target_year": 2026})
         self.assertNotIn("dayun_presentation", envelope["result"])
         self.assertEqual(
             envelope["result"]["integrated_reading"]["dayun"],
             NO_ROLE_DAYUN)
+        self.assertEqual(
+            envelope["result"]["life_presentation"]["dayun"]["status"],
+            "not_presented")
 
-    def test_full_timeline_flags_stay_false(self):
-        for role in (None, "male"):
+    def test_full_timeline_flags_are_role_conditional(self):
+        # TJ-031.19 (E0427, Q3=A): the three flags are True exactly
+        # when a role was given, False without one.
+        for role, expected in ((None, False), ("male", True)):
             inputs = {"birth_value": BIRTH, "target_year": 2026}
             if role is not None:
                 inputs["traditional_role"] = role
@@ -214,7 +250,7 @@ class LifeDayunTests(unittest.TestCase):
             # condition marker basis, and integration_provenance.
             # The provenance flag predates T-D1 and must stay.
             self.assertEqual(len(flags), 3)
-            self.assertTrue(all(flag is False for flag in flags))
+            self.assertTrue(all(flag is expected for flag in flags))
 
     def test_no_starting_age_anywhere(self):
         envelope = execute_scenario("life", {
@@ -294,9 +330,12 @@ class FrontendWiringTests(unittest.TestCase):
             self.assertIn("传统大运口径（可选）", page, page_name)
             # The role is sent only when explicitly selected.
             self.assertIn("traditional_role", page, page_name)
-            # First period only; periods 2-8 and starting age are
-            # never shown.
-            self.assertIn("第 2–8 运尚未在本场景开放", page, page_name)
+            # TJ-031.19 (E0427, Q3=A): the first-period block says
+            # so itself and points at the full 8-period timeline;
+            # the "第 2–8 运尚未在本场景开放" claim is gone.
+            self.assertIn("本块只呈现首运方向与交运区间", page, page_name)
+            self.assertIn("完整 8 运时间线见", page, page_name)
+            self.assertNotIn("第 2–8 运尚未在本场景开放", page, page_name)
 
 
 class SceneScopedTrimSafetyTests(unittest.TestCase):
@@ -407,16 +446,17 @@ class SceneScopedTrimSafetyTests(unittest.TestCase):
             self.assertNotIn(
                 "dayun_presentation", response.json()["result"])
 
-    def test_all_three_dayun_timeline_flags_are_false(self):
+    def test_all_three_dayun_timeline_flags_are_role_conditional(self):
         # (f) Exactly three dayun_timeline_approved flags, all
-        # False -- integrated_reading, the dayun condition marker
-        # basis, and integration_provenance (which must stay).
+        # False without a role and all True with one (TJ-031.19,
+        # E0427, Q3=A) -- integrated_reading, the dayun condition
+        # marker basis, and integration_provenance (which must stay).
         expected = {
             "/result/integrated_reading/dayun_timeline_approved",
             "/result/condition_markers[5]/basis/dayun_timeline_approved",
             "/result/integration_provenance/dayun_timeline_approved",
         }
-        for role in (None, "male"):
+        for role, expected_value in ((None, False), ("male", True)):
             inputs = {"birth_value": BIRTH, "target_year": 2026}
             if role is not None:
                 inputs["traditional_role"] = role
@@ -424,7 +464,7 @@ class SceneScopedTrimSafetyTests(unittest.TestCase):
             paths = set(_flag_paths(envelope, "dayun_timeline_approved"))
             self.assertEqual(paths, expected)
             self.assertTrue(all(
-                flag is False
+                flag is expected_value
                 for flag in _flag_values(
                     envelope, "dayun_timeline_approved")))
 

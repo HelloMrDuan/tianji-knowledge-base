@@ -221,6 +221,7 @@ export function RomanceStructurePage() {
             <li>不判断正缘、烂桃花或婚姻吉凶</li>
             <li>不根据古籍旧式断语推断性格、疾病</li>
             <li>不使用 AI 补齐缺失规则</li>
+            <li>不由流年结构推断大运影响</li>
           </ul>
           <p>当前夫妻宫仅观察日支位置与流年的已审六合、六冲、六害，不代表现实婚恋结果。其他体系继续补充。</p>
         </aside>
@@ -241,7 +242,7 @@ export function RomanceStructurePage() {
           <ConsumerResultSummary scenario="romance" response={result} />
           <header className="romance-result-head">
             <div>
-              <span className="eyebrow">真实 Scenario Engine · production_limited</span>
+              <span className="eyebrow">结构事实 · 不作婚恋推断</span>
               <h2>
                 年支目标 {targets.year_branch || "—"}
                 <span> · </span>
@@ -254,6 +255,16 @@ export function RomanceStructurePage() {
             </div>
             <span className="romance-limited">结构内测</span>
           </header>
+
+          <section className="romance-presentation-section" aria-label="桃花、配偶星与夫妻宫">
+            <div className="result-section-heading">
+              <div><span>一</span><h2>桃花、配偶星与夫妻宫</h2></div>
+              <small>结构事实 · 两套基准分别展示</small>
+            </div>
+            <p className="romance-section-basis">
+              依据：已审咸池查表（年支、日支两套基准分别展示）与夫妻宫日支配对；
+              配偶星仅在用户显式选择传统口径时配对。只陈述结构事实，不作婚恋推断。
+            </p>
 
           <div className="romance-basis-grid">
             <article>
@@ -311,10 +322,12 @@ export function RomanceStructurePage() {
                           .filter((ref: any) => ref !== undefined)
                       : [];
                     return (
-                      <article key={item.rule_id + "-" + index}>
+                      <article key={item.relation_type + "-" + index}>
                         <strong>{relationNames[item.relation_type] || item.relation_type}</strong>
                         <span>{item.natal_branch} ↔ {item.flow_branch}</span>
-                        <small>规则：{item.rule_id}</small>
+                        {typeof item.traditional_result_element === "string" && item.traditional_result_element && (
+                          <small>传统合化结果五行：{item.traditional_result_element}（合化效力未评估）</small>
+                        )}
                         {linked.length ? (
                           <details>
                             <summary>查看对应古籍短引（{linked.length}）</summary>
@@ -348,6 +361,19 @@ export function RomanceStructurePage() {
                 显干候选 {pairingVisible.length} 处、藏干候选 {pairingHidden.length} 处，共核对 {spousePairing.pairs_checked} 个候选位置；
                 流年干支 <strong>{spousePairing.target_year?.ganzhi}</strong>。
               </p>
+              {(pairingVisible.length > 0 || pairingHidden.length > 0) && (
+                <p className="romance-candidate-overview">
+                  候选位置总览：
+                  {pairingVisible.length > 0 && (
+                    <>显干 {pairingVisible.map((row: any) => `${pillarNames[row.pillar] || row.pillar} ${row.stem}（${row.ten_god}）`).join("、")}</>
+                  )}
+                  {pairingVisible.length > 0 && pairingHidden.length > 0 && "；"}
+                  {pairingHidden.length > 0 && (
+                    <>藏干 {pairingHidden.map((row: any) => `${pillarNames[row.pillar] || row.pillar} ${row.stem}（${row.ten_god}）`).join("、")}</>
+                  )}
+                  。未配对的位置也一并列出，不代表缺失。
+                </p>
+              )}
               {pairingRows.length ? (
                 <div className="romance-spouse-hits">
                   {pairingRows.map((item, index) => {
@@ -363,7 +389,9 @@ export function RomanceStructurePage() {
                           {item.position_kind === "hidden" ? "藏干" : "显干"} {item.stem}（{item.ten_god}）
                           ↔ 流年 {item.relation === "same_stem" ? spousePairing.target_year?.stem : spousePairing.target_year?.branch}
                         </span>
-                        <small>{item.rule_id ? `规则：${item.rule_id}` : "同一性为位置事实，无规则命中"}</small>
+                        {item.relation === "six_harmony" && typeof item.traditional_result_element === "string" && item.traditional_result_element && (
+                          <small>传统合化结果五行：{item.traditional_result_element}（合化效力未评估）</small>
+                        )}
                         {linked.length ? (
                           <details>
                             <summary>查看对应古籍短引（{linked.length}）</summary>
@@ -388,25 +416,66 @@ export function RomanceStructurePage() {
             </section>
           )}
 
-          <section className="romance-natal">
+          </section>
+
+          <section className="romance-natal romance-presentation-section" aria-label="原局婚姻关系结构">
             <div className="result-section-heading">
-              <div><span>一</span><h2>你的原局四柱</h2></div>
-              <small>只用于结构定位</small>
+              <div><span>二</span><h2>原局婚姻关系结构</h2></div>
+              <small>四柱、日主与藏干 · 只陈述结构</small>
             </div>
+            {typeof natal.day_master?.stem === "string" && natal.day_master.stem && (
+              <p className="romance-section-basis">
+                日主 {natal.day_master.stem}{typeof natal.day_master?.element === "string" && natal.day_master.element ? `（${natal.day_master.element}）` : ""}，
+                日支 {spousePalace?.natal_day_branch || "—"} 为传统夫妻宫位置。
+              </p>
+            )}
             <div className="romance-pillars">
               {pillars.map((item: any) => (
                 <article key={item.name} className={item.name === "day" ? "day-pillar" : ""}>
                   <small>{pillarNames[item.name] || item.name}</small>
                   <strong>{item.ganzhi}</strong>
                   <span>{item.stem?.ten_god}</span>
+                  {Array.isArray(item.branch?.hidden_stems) && item.branch.hidden_stems.length > 0 && (
+                    <span className="romance-hidden-stems">
+                      藏干：{item.branch.hidden_stems.map((hidden: any) => `${hidden.stem}（${hidden.ten_god}）`).join("、")}
+                    </span>
+                  )}
                 </article>
               ))}
             </div>
+            <p className="romance-section-undecided">
+              夫妻宫喜忌、配偶星强弱与婚姻关系质量暂不可判：没有已获批的推理输出，
+              旺衰、格局、喜用推理均未接入本页；日支位置与候选位置不等于完整婚姻判断。
+            </p>
+          </section>
+
+          <section className="romance-natal romance-presentation-section" aria-label="流年联动与大运">
+            <div className="result-section-heading">
+              <div><span>三</span><h2>流年联动与大运</h2></div>
+              <small>目标年结构联动 · 大运见八字命理页</small>
+            </div>
+            <p className="romance-section-basis">
+              依据：目标年流年干支与原局结构的配对事实；大运不在本场景计算范围内。
+            </p>
+            <dl className="romance-linkage-facts">
+              <div><dt>目标年</dt><dd>{targetYear} 年 {flowYear.ganzhi || "—"}（流年地支 {flowYear.branch || "—"}）</dd></div>
+              <div><dt>咸池目标年激活</dt><dd>两个基准中命中 {Number(activation.year_branch_basis?.matched === true) + Number(activation.day_branch_basis?.matched === true)} 项</dd></div>
+              <div><dt>夫妻宫 × 流年</dt><dd>{spouseRelations.length ? spouseRelations.map((item: any) => `${relationNames[item.relation_type] || item.relation_type}（${item.natal_branch} ↔ ${item.flow_branch}${typeof item.traditional_result_element === "string" && item.traditional_result_element ? `；传统合化结果五行：${item.traditional_result_element}，合化效力未评估` : ""}）`).join("、") : "未命中已审六合、六冲、六害"}</dd></div>
+              {spousePairing && (
+                <div><dt>配偶星 × 流年</dt><dd>{pairingRows.length ? `命中 ${pairingRows.length} 处配对` : spousePairing.pairing_state === "no_candidates" ? "所选传统口径下未见候选十神位置" : "未见配对命中"}</dd></div>
+              )}
+              <div><dt>流年边界口径</dt><dd>太阳年；参考日固定为 7 月 1 日，以稳定选取年度地支。</dd></div>
+            </dl>
+            <p className="romance-section-undecided">
+              大运联动暂不可判：本场景不计算大运，大运与婚姻的组合规则尚未获批；
+              大运时间轴请见<Link href="/bazi-profile">八字命理页</Link>，本页不由流年结构推断大运影响。
+              本呈现不推断结婚年份或具体时间。
+            </p>
           </section>
 
           <div className="romance-two-columns">
             <section className="live-section">
-              <div className="result-section-heading"><div><span>二</span><h2>典籍依据</h2></div></div>
+              <div className="result-section-heading"><div><span>四</span><h2>典籍依据</h2></div></div>
               {evidence.map((item) => (
                 <article className="live-evidence" key={item.id}>
                   <div><strong>{item.title}</strong><span>{item.grade}</span></div>
@@ -417,35 +486,21 @@ export function RomanceStructurePage() {
             </section>
 
             <section className="live-section romance-limits">
-              <div className="result-section-heading"><div><span>三</span><h2>边界与下一步</h2></div></div>
+              <div className="result-section-heading"><div><span>五</span><h2>边界与下一步</h2></div></div>
               {result.limitations.map((item, index) => <p key={index}>{item}</p>)}
               {result.warnings.map((item, index) => <div className="live-warning" key={index}>{item}</div>)}
             </section>
           </div>
 
-          <details className="trace-section romance-trace">
-            <summary>
-              <span className="trace-icon"><Icon name="layers" size={19} /></span>
-              <div><strong>查看计算过程</strong><small>咸池查表 → 目标年 → 双基准命中</small></div>
-              <Icon name="chevron" size={18} />
-            </summary>
-            <ol>
-              {result.trace.map((step, index) => (
-                <li key={index}>
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  {step.step || step.rule_id || JSON.stringify(step)}
-                </li>
-              ))}
-            </ol>
-          </details>
-
           <div className="romance-next">
             <span>合</span>
             <div>
-              <h3>下一层才是真正的“桃花姻缘报告”</h3>
+              <h3>目前没有已获批的桃花姻缘推理输出</h3>
               <p>
-                本版已加入有来源的日支—流年六合、六害、六冲；仍需补配偶星、完整夫妻宫作用及其他传统体系，再考虑紫微交叉证据。
-                这些完成前，本页只叫“结构内测”。
+                本页完整呈现了已审核的结构计算：两套咸池查表、夫妻宫日支配对、
+                配偶星全部候选位置与流年配对、四柱藏干，以及目标年的结构联动。
+                旺衰、格局、喜用、组合推理均未接入本页公开呈现，配偶星与桃花推理的
+                公开口径须另行提请晋升——在那之前，本页只陈述结构事实，不作婚恋推断。
               </p>
             </div>
           </div>

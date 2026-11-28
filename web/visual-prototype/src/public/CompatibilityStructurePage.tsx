@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { Icon } from "../shared/Icon";
 import { Link } from "../shared/router";
-import { executeCompatibilityScenario, type ScenarioExecuteResponse } from "./api";
+import { executeBaziProfileScenario, executeCompatibilityScenario, type ScenarioExecuteResponse } from "./api";
 import { readSavedBirthProfile, saveBirthProfile, clearBirthProfile } from "./birthProfile";
 import { toApiValue, toApiZone, fromLegacy, toSolarDateString, isConvertedFromLunar, fromSolarEdit, withUpdatedTime, regionToTimezone, REGION_OPTIONS } from "./birthProfile";
 import "./compatibility-structure.css";
@@ -10,6 +10,261 @@ import "./compatibility-structure.css";
 const pillarNames: Record<string, string> = {
   year: "年柱", month: "月柱", day: "日柱", hour: "时柱",
 };
+
+// TJ-0427 Lane D: condensed transcription-only renderers for the three
+// lifted bazi-profile presentations and the first-period dayun. The
+// label maps mirror BaziProfilePage / CareerWealthStructurePage (same
+// backend contract, same wording); the frontend computes no divination
+// and never presents a research candidate as a compatibility verdict.
+// Pattern yongshen stays undecided: no readiness table is shown here
+// and no pattern-yongshen conclusion is ever fabricated.
+const compatStrengthPredicateLabels: Record<string, string> = {
+  pure_support: "纯粹支持形态",
+  pure_generating_support: "生扶支持形态",
+  isolated_control: "孤立受制形态",
+  commanding_visible_support: "司令显现支持形态",
+  lu_visible_support: "禄位显现支持形态",
+  changsheng_visible_support: "长生显现支持形态（司令甲段）",
+  pure_support_metal: "纯粹支持形态",
+  pure_generating_support_water: "生扶支持形态",
+};
+
+const compatStrengthReasonLabels: Record<string, string> = {
+  no_predicate_matched: "本盘未命中任何已审局部形态条件",
+  out_of_scope: "本盘的日主与月份组合不在已审谓词范围内",
+  insufficient_evidence: "本盘的谓词条件证据不足",
+};
+
+const compatPatternReasonLabels: Record<string, string> = {
+  month_not_yin: "本盘不在寅月，不属于任氏寅月局部真格研究范围",
+  birth_uncomputable: "出生时刻无法核验司令段",
+  pilot_uncertain: "司令试点未确立，暂不可判",
+  pilot_rejected: "司令试点未通过核验，暂不可判",
+  pilot_not_applicable: "司令试点不适用，暂不可判",
+  pattern_name_not_public: "本盘的格名暂不在公开呈现范围内",
+  luren_route_precedence: "本盘月逢禄刃，月令格局路线已关闭，本次不作呈现",
+  pilot_result_unverifiable: "司令试点结果无法核验，本次不作呈现",
+  pilot_not_computed: "司令试点未确立，本次不作呈现",
+  commander_not_month_hidden: "司令不在月支藏干中，本次不作呈现",
+};
+
+const compatPatternPillarLabels: Record<string, string> = {
+  year: "年干",
+  month: "月干",
+  hour: "时干",
+};
+
+const compatRelationKindLabels: Record<string, string> = {
+  support: "两体系同向",
+  conflict: "两体系方向相反",
+  pivot_overlap: "两体系同指所论之神",
+  one_sided: "仅一方点名",
+};
+
+const compatBingyaoRoleLabels: Record<string, string> = {
+  subject: "病药所论之神",
+  disease: "病药判为病之神",
+  medicine: "病药判为药之神",
+};
+
+const compatBingyaoPairOrdinals: Record<string, string> = {
+  wealth_peer_officer: "第一对",
+  foodwound_seal_wealth: "第二对",
+};
+
+const compatDayunMethodLabels: Record<string, string> = {
+  sanming: "三命口径",
+  shenfeng: "神峰口径",
+};
+
+function compatRelationLine(item: any): string {
+  const parts: string[] = [];
+  if (item.tiaohou) parts.push(`调候取用顺序第 ${item.tiaohou.order} 位`);
+  if (item.bingyao) {
+    parts.push(
+      `${compatBingyaoRoleLabels[item.bingyao.role] || "病药点名"}（${compatBingyaoPairOrdinals[item.bingyao.pair_id] || ""}）`,
+    );
+  }
+  return `干${item.stem}：${compatRelationKindLabels[item.kind] || item.kind}。${parts.join("；")}。`;
+}
+
+function compatScopeDetails(p: any, keyPrefix: string) {
+  return (
+    <details className="compat-scope-details">
+      <summary>查看范围与限制</summary>
+      {typeof p.scope_statement === "string" && p.scope_statement && (
+        <p>{p.scope_statement}</p>
+      )}
+      {Array.isArray(p.limitations) && p.limitations.map((line: string, i: number) => (
+        <p key={`${keyPrefix}-${i}`}>{line}</p>
+      ))}
+    </details>
+  );
+}
+
+function renderCompatStrength(p: any) {
+  if (!p) return null;
+  if (p.status === "presented") {
+    return (
+      <div className="compat-pres-block">
+        <h4>命盘结构分析</h4>
+        <p>日主{p.day_master}生于{p.month_branch}月，命中了一个已审的局部形态：{compatStrengthPredicateLabels[p.predicate_id || ""] || "已审局部形态条件命中"}。</p>
+        <p>限定形态：{p.classification === "strong" ? "强形态" : p.classification === "weak" ? "弱形态" : "—"}</p>
+        <p>规则来源：{p.rule_registration === "registered" ? "已通过审核的局部形态条件" : "尚在审核登记中的局部形态条件"}</p>
+        {p.segment_gate && (
+          <p>出生时刻已对照本月已核验的时段核查通过：{p.segment_gate.segment_stem}段。</p>
+        )}
+        <p>该结论只覆盖这一个已审形态，不覆盖全盘。</p>
+        {compatScopeDetails(p, "s")}
+      </div>
+    );
+  }
+  if (p.status === "not_judgeable") {
+    return (
+      <div className="compat-pres-block">
+        <h4>命盘结构分析</h4>
+        <p>{compatStrengthReasonLabels[p.reason || ""] || "本盘暂不可判"}；未命中不等于弱。</p>
+        <p>暂不可判，不作任何强弱结论。</p>
+        {compatScopeDetails(p, "s")}
+      </div>
+    );
+  }
+  if (p.status === "conflict") {
+    return (
+      <div className="compat-pres-block">
+        <h4>命盘结构分析</h4>
+        <p>本盘存在未裁定的冲突，暂不可判；不作任何强弱结论。</p>
+        {(p.blocker_reasons || []).map((reason: string, i: number) => (
+          <p key={`cb-${i}`}>{reason}</p>
+        ))}
+        {compatScopeDetails(p, "s")}
+      </div>
+    );
+  }
+  return null;
+}
+
+function renderCompatPattern(p: any) {
+  if (!p) return null;
+  if (p.status === "presented") {
+    return (
+      <div className="compat-pres-block">
+        <h4>任氏寅月局部真格研究结果</h4>
+        <p>日主{p.day_master}生于寅月，{p.statement}</p>
+        {p.outcome === "true_pattern" && p.pattern && <p>格名：{p.pattern}</p>}
+        {p.commander && (
+          <p>司令{p.commander.stem}（{p.commander.ten_god}）透于{(p.commander.visible_pillars || []).map((pillar: string) => compatPatternPillarLabels[pillar] || pillar).join("、")}。</p>
+        )}
+        <p>该结论只覆盖这一个已审局部事实，不覆盖全盘格局。</p>
+        {compatScopeDetails(p, "p")}
+      </div>
+    );
+  }
+  if (p.status === "not_judgeable") {
+    return (
+      <div className="compat-pres-block">
+        <h4>任氏寅月局部真格研究结果</h4>
+        <p>{compatPatternReasonLabels[p.reason || ""] || "本盘暂不可判"}；暂不可判，不作任何格局结论。</p>
+        {compatScopeDetails(p, "p")}
+      </div>
+    );
+  }
+  if (p.status === "abstained") {
+    return (
+      <div className="compat-pres-block">
+        <h4>任氏寅月局部真格研究结果</h4>
+        <p>{compatPatternReasonLabels[p.reason || ""] || "本次不作呈现"}；不作任何格局结论。</p>
+        {compatScopeDetails(p, "p")}
+      </div>
+    );
+  }
+  return null;
+}
+
+function renderCompatXiyongBlock(block: any, heading: string) {
+  if (!block) return null;
+  const lines = Array.isArray(block.lines) ? block.lines : [];
+  return (
+    <div>
+      <h4>{heading}（{block.source_label || heading}）</h4>
+      {lines.length ? lines.map((line: string, i: number) => (
+        <p key={`${heading}-${i}`}>{line}</p>
+      )) : <p>本次没有呈现条目。</p>}
+      {block.evidence?.quote && (
+        <details className="compat-scope-details">
+          <summary>查看判断依据：{block.source_label}</summary>
+          <blockquote><p>{block.evidence.quote}</p></blockquote>
+        </details>
+      )}
+      {Array.isArray(block.evidence?.quotes) && block.evidence.quotes.length > 0 && (
+        <details className="compat-scope-details">
+          <summary>查看判断依据：{block.source_label}</summary>
+          {block.evidence.quotes.map((q: any, qi: number) => (
+            <blockquote key={`q-${qi}`}><p>{q.quote}</p></blockquote>
+          ))}
+        </details>
+      )}
+    </div>
+  );
+}
+
+function renderCompatXiyong(x: any) {
+  if (!x) return null;
+  const relations = Array.isArray(x.relations) ? x.relations : [];
+  return (
+    <div className="compat-pres-block">
+      <h4>调候与病药：原文依据怎么说？</h4>
+      {renderCompatXiyongBlock(x.blocks?.tiaohou, "调候")}
+      {renderCompatXiyongBlock(x.blocks?.bingyao, "病药")}
+      {relations.length > 0 && (
+        <>
+          <h4>两体系点名对照</h4>
+          {relations.map((item: any) => (
+            <p key={item.stem}>{compatRelationLine(item)}</p>
+          ))}
+          {relations.map((item: any) => item.not_judgeable_line ? (
+            <p key={`nj-${item.stem}`}>{item.not_judgeable_line}</p>
+          ) : null)}
+          {typeof x.relations_closing_line === "string" && x.relations_closing_line && (
+            <p>{x.relations_closing_line}</p>
+          )}
+        </>
+      )}
+      <p><strong>统一裁决：弃判。</strong>两体系并列呈现，不作统一裁决；扶抑、格局用神等其他取用判断尚未建成，暂不可判。</p>
+      {compatScopeDetails(x, "x")}
+    </div>
+  );
+}
+
+// 首运呈现：只取两口径各自的第 1 运区间，第 2–8 运在本页不展开。
+// 与服务端 _first_period_dayun_for_career_life 同一口径：只呈现首运，
+// 不折算起运岁数，不输出单点日期。
+function renderCompatFirstDayun(dayun: any, method: "sanming" | "shenfeng") {
+  if (!dayun) return null;
+  const view = dayun.methods?.[method];
+  if (!view) return <p>本口径暂无大运呈现。</p>;
+  if (view.status === "unresolved") {
+    return <p>交运时间暂不可判：{view.reason || "本口径未能换算交运区间"}。不以近似值填充。</p>;
+  }
+  const first = Array.isArray(view.entries) ? view.entries[0] : null;
+  if (!first) return <p>本口径暂无大运呈现。</p>;
+  return (
+    <div>
+      <p>
+        <strong>第 1 运 {first.ganzhi}</strong>
+        <span>（{first.ten_god_relative_to_natal_day_stem}）</span>
+      </p>
+      {first.state === "interval" && first.start_interval ? (
+        <p>交运区间：{first.start_interval.earliest} 至 {first.start_interval.latest}（不含上限）</p>
+      ) : first.state === "not_provided" ? (
+        <p>交运区间未提供：本口径只呈现首运交运区间。</p>
+      ) : (
+        <p>交运时间暂不可判。</p>
+      )}
+      <p>第 2–8 运在本页未展开。</p>
+    </div>
+  );
+}
 
 
 function evidenceLabel(id: string, value: Record<string, any>) {
@@ -38,6 +293,15 @@ export function CompatibilityStructurePage() {
   const [result, setResult] = useState<ScenarioExecuteResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  // TJ-0427 Lane D: each person's approved presentations, lifted from a
+  // bazi-profile envelope for the same birth input (exactly as the
+  // career page lifts them server-side). A failed lift only puts the
+  // pattern/xiyong/dayun sections into an error state -- it never
+  // masks itself as not_judgeable and never blocks the compat result.
+  const [profiles, setProfiles] = useState<{ a: ScenarioExecuteResponse | null; b: ScenarioExecuteResponse | null } | null>(null);
+  const [profilesLoading, setProfilesLoading] = useState(false);
+  const [profilesError, setProfilesError] = useState(false);
+  const [dayunMethod, setDayunMethod] = useState<"sanming" | "shenfeng">("sanming");
   const requestVersion = useRef(0);
   const [resultNames, setResultNames] = useState({a: "我", b: "对方"});
   // TJ-029.2 P1: 页内清除本机资料后的回执
@@ -59,6 +323,9 @@ export function CompatibilityStructurePage() {
     setResult(null);
     setError("");
     setLoading(false);
+    setProfiles(null);
+    setProfilesLoading(false);
+    setProfilesError(false);
   }
 
   function fillSample() {
@@ -77,6 +344,23 @@ export function CompatibilityStructurePage() {
     setLoading(true);
     setError("");
     setResult(null);
+    setProfiles(null);
+    setProfilesLoading(false);
+    setProfilesError(false);
+    // Both birth values are computed once here and reused for the
+    // compatibility call and the per-person profile lifts below, so
+    // all three requests describe the same two birth instants.
+    const aBirth = (() => {
+      const initialSolar = toSolarDateString(saved);
+      if (aDate === initialSolar && aTime === saved.time) {
+        return toApiValue(saved);
+      }
+      if (aDate === initialSolar) {
+        return toApiValue(withUpdatedTime(saved, aTime));
+      }
+      return toApiValue(fromSolarEdit(aDate, aTime, saved.region, saved));
+    })();
+    const bBirth = toApiValue(fromSolarEdit(bDate, bTime, bRegion));
     try {
       const input: {
         person_a_birth_value: string;
@@ -86,18 +370,9 @@ export function CompatibilityStructurePage() {
         person_a_traditional_role?: "male" | "female";
         person_b_traditional_role?: "male" | "female";
       } = {
-        person_a_birth_value: (() => {
-          const initialSolar = toSolarDateString(saved);
-          if (aDate === initialSolar && aTime === saved.time) {
-            return toApiValue(saved);
-          }
-          if (aDate === initialSolar) {
-            return toApiValue(withUpdatedTime(saved, aTime));
-          }
-          return toApiValue(fromSolarEdit(aDate, aTime, saved.region, saved));
-        })(),
+        person_a_birth_value: aBirth,
         person_a_zone: toApiZone(saved),
-        person_b_birth_value: toApiValue(fromSolarEdit(bDate, bTime, bRegion)),
+        person_b_birth_value: bBirth,
         person_b_zone: regionToTimezone(bRegion),
       };
       if (aRole) input.person_a_traditional_role = aRole;
@@ -116,6 +391,32 @@ export function CompatibilityStructurePage() {
       })();
       setResultNames({a: aName.trim() || "我", b: bName.trim() || "对方"});
       setResult(next);
+      // Lift each person's approved presentations (strength / pattern /
+      // xiyong / first-period dayun) from bazi-profile for the same
+      // birth input. The traditional role is only sent when the user
+      // explicitly selected it, so dayun appears only then.
+      setProfilesLoading(true);
+      const [aProfile, bProfile] = await Promise.allSettled([
+        executeBaziProfileScenario({
+          value: aBirth,
+          zone: toApiZone(saved),
+          strength_variant: "ditiansui-root-visibility-v1",
+          ...(aRole ? { traditional_role: aRole } : {}),
+        }),
+        executeBaziProfileScenario({
+          value: bBirth,
+          zone: regionToTimezone(bRegion),
+          strength_variant: "ditiansui-root-visibility-v1",
+          ...(bRole ? { traditional_role: bRole } : {}),
+        }),
+      ]);
+      if (version !== requestVersion.current) return;
+      setProfiles({
+        a: aProfile.status === "fulfilled" ? aProfile.value : null,
+        b: bProfile.status === "fulfilled" ? bProfile.value : null,
+      });
+      setProfilesError(aProfile.status === "rejected" || bProfile.status === "rejected");
+      setProfilesLoading(false);
     } catch (err) {
       if (version === requestVersion.current)
         setError(err instanceof Error ? err.message : "合盘结构计算失败。");
@@ -177,7 +478,9 @@ export function CompatibilityStructurePage() {
           <h1>把两个人放在同一张结构图里看。</h1>
           <p>
             当前比较双方真实四柱、双方日主互看十神、日主五合、日支六合/六害/六冲、传统配偶宫结构位，
-            并把双方四柱之间已审核的合/冲/害命中分层展示。你也可以主动开启传统配偶星观察，但系统不会替你推断口径。
+            并把双方四柱之间已审核的合/冲/害命中分层展示。下方同时并列双方已批准的有限呈现
+            （旺衰局部形态、寅月真格、调候病药）与各自首运；合盘本身不作推断。
+            你也可以主动开启传统配偶星观察，但系统不会替你推断口径。
           </p>
         </div>
         <div className="compat-mark" aria-hidden="true">
@@ -289,8 +592,10 @@ export function CompatibilityStructurePage() {
               <small>双方视角独立 · 仅供传统文化参考</small>
             </div>
             <p>
-              {resultNames.a} 的日主为 {a.day_master?.stem || "—"}，
-              {resultNames.b} 的日主为 {b.day_master?.stem || "—"}。
+              {resultNames.a} 的日主为 {a.day_master?.stem || "—"}
+              {a.day_master?.polarity && a.day_master?.element ? `（${a.day_master.polarity}${a.day_master.element}）` : ""}，
+              {resultNames.b} 的日主为 {b.day_master?.stem || "—"}
+              {b.day_master?.polarity && b.day_master?.element ? `（${b.day_master.polarity}${b.day_master.element}）` : ""}。
               从 {resultNames.a} 看 {resultNames.b}，两位日主对应 {relations.a_sees_b?.ten_god || "—"}；
               从 {resultNames.b} 看 {resultNames.a}，对应 {relations.b_sees_a?.ten_god || "—"}。
             </p>
@@ -298,6 +603,9 @@ export function CompatibilityStructurePage() {
               本次已审核的双方四柱交叉结构命中 {crossMatrixHits.length} 处；
               双方日支关系命中 {spouseRelations.length} 处。
               这些是实际排盘与固定规则对应的观察，不是缘分评分，也不代表现实婚姻结果。
+            </p>
+            <p>
+              双方格局、喜用与大运见下方第五、六节；合盘推理的边界见第七节。
             </p>
             <p className="compat-note">
               下面可分别查看双方四柱、关系矩阵和真实古籍依据。缺乏审核证据的婚期、正缘和感情吉凶不作推断。
@@ -309,16 +617,22 @@ export function CompatibilityStructurePage() {
               <section key={person.id}>
                 <div className="compat-person-head">
                   <span>{person.id.toUpperCase()}</span>
-                  <div><small>{person.name}</small><strong>日主 {person.data.day_master?.stem || "—"}</strong></div>
+                  <div><small>{person.name}</small><strong>日主 {person.data.day_master?.stem || "—"}{person.data.day_master?.polarity && person.data.day_master?.element ? ` · ${person.data.day_master.polarity}${person.data.day_master.element}` : ""}</strong></div>
                 </div>
                 <div className="compat-pillars">
-                  {(person.data.pillars || []).map((pillar: any) => (
-                    <article key={pillar.name} className={pillar.name === "day" ? "day-pillar" : ""}>
-                      <small>{pillarNames[pillar.name] || pillar.name}</small>
-                      <strong>{pillar.ganzhi}</strong>
-                      <span>{pillar.stem?.ten_god}</span>
-                    </article>
-                  ))}
+                  {(person.data.pillars || []).map((pillar: any) => {
+                    const hidden = Array.isArray(pillar.branch?.hidden_stems) ? pillar.branch.hidden_stems : [];
+                    return (
+                      <article key={pillar.name} className={pillar.name === "day" ? "day-pillar" : ""}>
+                        <small>{pillarNames[pillar.name] || pillar.name}</small>
+                        <strong>{pillar.ganzhi}</strong>
+                        <span>{pillar.stem?.ten_god}{pillar.stem?.element ? ` · ${pillar.stem.element}` : ""}</span>
+                        {hidden.length > 0 && (
+                          <em className="compat-hidden-stems">藏干 {hidden.map((h: any) => `${h.stem} ${h.ten_god}`).join(" · ")}</em>
+                        )}
+                      </article>
+                    );
+                  })}
                 </div>
                 <p className="compat-palace-line">
                   <span>传统配偶宫结构位</span>
@@ -336,10 +650,24 @@ export function CompatibilityStructurePage() {
                   <div className="compat-spouse-stars">
                     <small>传统配偶星观察</small>
                     <strong>{(person.data.traditional_spouse_star_lens.candidate_ten_gods || []).join(" · ")}</strong>
-                    <span>
-                      明见 {(person.data.traditional_spouse_star_lens.visible_positions || []).length} 处 ·
-                      藏干 {(person.data.traditional_spouse_star_lens.hidden_positions || []).length} 处
-                    </span>
+                    {(() => {
+                      const lens = person.data.traditional_spouse_star_lens;
+                      const visible = Array.isArray(lens.visible_positions) ? lens.visible_positions : [];
+                      const hidden = Array.isArray(lens.hidden_positions) ? lens.hidden_positions : [];
+                      return (
+                        <>
+                          {visible.length > 0 && (
+                            <span>明见 {visible.map((pos: any) => `${pillarNames[pos.pillar] || pos.pillar}${pos.stem} ${pos.ten_god}`).join("、")}</span>
+                          )}
+                          {hidden.length > 0 && (
+                            <span>藏干 {hidden.map((pos: any) => `${pillarNames[pos.pillar] || pos.pillar}（${pos.branch}藏干）${pos.stem} ${pos.ten_god}`).join("、")}</span>
+                          )}
+                          {visible.length === 0 && hidden.length === 0 && (
+                            <span>明见 0 处 · 藏干 0 处</span>
+                          )}
+                        </>
+                      );
+                    })()}
                     <em>仅定位候选星位，不代表真实配偶、正缘或婚姻质量。</em>
                   </div>
                 )}
@@ -400,6 +728,9 @@ export function CompatibilityStructurePage() {
             <p className="compat-note">
               “合 / 害 / 冲”都只表示固定结构命中；原局三合也只表示完整三支组合。这里不把这些结构翻译成适合、不适合、感情好坏、争执或分手风险。
             </p>
+            <p className="compat-note">
+              地支刑：未评估。刑表不存在，不自造刑表，不作任何刑相关结论。
+            </p>
           </section>
 
           <section className="compat-section">
@@ -446,6 +777,10 @@ export function CompatibilityStructurePage() {
               <span>日柱核心 <b>{crossMatrix.summary?.core || 0}</b></span>
               <span>日柱相关 <b>{crossMatrix.summary?.day_context || 0}</b></span>
               <span>其他辅助 <b>{crossMatrix.summary?.supplemental || 0}</b></span>
+              <span>天干五合 <b>{crossMatrix.summary?.stem_five_combination || 0}</b></span>
+              <span>地支六合 <b>{crossMatrix.summary?.six_harmony || 0}</b></span>
+              <span>六害 <b>{crossMatrix.summary?.harm || 0}</b></span>
+              <span>六冲 <b>{crossMatrix.summary?.clash || 0}</b></span>
             </div>
             <div className="compat-matrix-groups">
               {[
@@ -483,7 +818,100 @@ export function CompatibilityStructurePage() {
 
           <section className="compat-section">
             <div className="result-section-heading">
-              <div><span>五</span><h2>关系证据矩阵</h2></div>
+              <div><span>五</span><h2>双方格局与喜用</h2></div>
+              <small>已批准的有限呈现 · 两人并列，不作综合结论</small>
+            </div>
+            <p className="compat-note">
+              以下取自两人各自八字命理页的已批准公开呈现：U1 最小公开旺衰、D-1 任氏寅月真格白名单、调候与病药 phase-1。
+              格局用神仍未裁定，本页不呈现任何格局用神结论。
+            </p>
+            <div className="compat-person-presentations">
+              {[
+                { id: "a", name: resultNames.a, profile: profiles?.a ?? null, roleSelected: Boolean(aRole) },
+                { id: "b", name: resultNames.b, profile: profiles?.b ?? null, roleSelected: Boolean(bRole) },
+              ].map((person) => (
+                <article key={person.id} className="compat-presentation-card">
+                  <header><strong>{person.name}</strong><small>日主 {person.profile?.result?.strength_presentation?.day_master || person.profile?.result?.pattern_presentation?.day_master || "—"}</small></header>
+                  {profilesLoading && !person.profile && <p>正在加载…</p>}
+                  {profilesError && !person.profile && (
+                    <p className="compat-pres-error" role="alert">个人呈现加载失败，请稍后重试。这不是暂不可判：本次请求未能完成计算。</p>
+                  )}
+                  {person.profile && (
+                    <>
+                      {renderCompatStrength(person.profile.result?.strength_presentation)}
+                      {renderCompatPattern(person.profile.result?.pattern_presentation)}
+                      {renderCompatXiyong(person.profile.result?.xiyong_presentation)}
+                    </>
+                  )}
+                </article>
+              ))}
+            </div>
+            <p className="compat-note">
+              双方格局与喜用只并列呈现，不作综合结论；目前没有已批准的合盘推理输出。
+            </p>
+          </section>
+
+          <section className="compat-section">
+            <div className="result-section-heading">
+              <div><span>六</span><h2>双方大运 · 只看首运</h2></div>
+              <small>与事业、总览页同一口径 · 第 2–8 运不展开</small>
+            </div>
+            <div className="compat-dayun-switch" role="tablist" aria-label="大运口径切换">
+              {(["sanming", "shenfeng"] as const).map((m) => (
+                <button
+                  key={m}
+                  type="button"
+                  role="tab"
+                  aria-selected={dayunMethod === m}
+                  className={dayunMethod === m ? "active" : ""}
+                  onClick={() => setDayunMethod(m)}
+                >
+                  {compatDayunMethodLabels[m]}
+                </button>
+              ))}
+            </div>
+            <div className="compat-person-presentations">
+              {[
+                { id: "a", name: resultNames.a, profile: profiles?.a ?? null, roleSelected: Boolean(aRole) },
+                { id: "b", name: resultNames.b, profile: profiles?.b ?? null, roleSelected: Boolean(bRole) },
+              ].map((person) => (
+                <article key={person.id} className="compat-presentation-card">
+                  <header><strong>{person.name}</strong><small>{compatDayunMethodLabels[dayunMethod]}</small></header>
+                  {profilesLoading && !person.profile && <p>正在加载…</p>}
+                  {profilesError && !person.profile && (
+                    <p className="compat-pres-error" role="alert">个人呈现加载失败，请稍后重试。这不是暂不可判：本次请求未能完成计算。</p>
+                  )}
+                  {!person.roleSelected && person.profile && (
+                    <p>未选择传统大运口径，因此不呈现大运。本页不默认、不推断口径。</p>
+                  )}
+                  {person.roleSelected && person.profile && (
+                    <>
+                      {renderCompatFirstDayun(person.profile.result?.dayun_presentation, dayunMethod)}
+                      <p className="compat-note">交运时间只给区间，不折算起运岁数或单点日期。</p>
+                    </>
+                  )}
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section className="compat-section compat-boundary">
+            <div className="result-section-heading">
+              <div><span>七</span><h2>合盘推理边界</h2></div>
+              <small>本页能说什么，到这里为止</small>
+            </div>
+            <p>
+              目前没有已批准的合盘推理输出。本页只并列双方结构事实与已批准的有限呈现，不作综合结论，
+              不输出缘分高低、正缘结论、结婚时间或分手风险。
+            </p>
+            <p className="compat-note">
+              格局用神仍未裁定：除 D-1 白名单外，格局用神逐格规则待证据审查，本页不呈现任何格局用神结论，也不展示内部就绪表。
+            </p>
+          </section>
+
+          <section className="compat-section">
+            <div className="result-section-heading">
+              <div><span>八</span><h2>关系证据矩阵</h2></div>
               <small>Fact → Rule → Evidence</small>
             </div>
             <div className="compat-matrix">
@@ -495,7 +923,7 @@ export function CompatibilityStructurePage() {
                       {item.status === "matched" ? "命中" : item.status === "observed" ? "已观察" : "未命中"}
                     </span>
                   </div>
-                  <p>Evidence {(item.evidence_ids || []).length} 条 · 解释权限：关闭</p>
+                  <p>古籍依据 {(item.evidence_ids || []).length} 条 · 不作解释</p>
                   {(() => {
                     const refs = Array.isArray(item.evidence_ids)
                       ? item.evidence_ids.map((id: string) => evidenceById.get(id))
@@ -523,7 +951,7 @@ export function CompatibilityStructurePage() {
 
           <div className="compat-two-columns">
             <section className="compat-section">
-              <div className="result-section-heading"><div><span>六</span><h2>典籍依据</h2></div></div>
+              <div className="result-section-heading"><div><span>九</span><h2>典籍依据</h2></div></div>
               {evidence.map((item) => (
                 <article className="live-evidence" key={item.id}>
                   <div><strong>{item.title}</strong><span>{item.grade}</span></div>
@@ -532,7 +960,7 @@ export function CompatibilityStructurePage() {
               ))}
             </section>
             <section className="compat-section">
-              <div className="result-section-heading"><div><span>七</span><h2>当前不能说什么</h2></div></div>
+              <div className="result-section-heading"><div><span>十</span><h2>当前不能说什么</h2></div></div>
               <div className="compat-limit-list">
                 {result.limitations.map((item, index) => <p key={index}>{item}</p>)}
               </div>
@@ -555,7 +983,7 @@ export function CompatibilityStructurePage() {
           <details className="trace-section compat-trace">
             <summary>
               <span className="trace-icon"><Icon name="layers" size={19} /></span>
-              <div><strong>查看双人计算过程</strong><small>{result.trace.length} 个 deterministic steps</small></div>
+              <div><strong>查看双人计算过程</strong><small>{result.trace.length} 个计算步骤</small></div>
               <Icon name="chevron" size={18} />
             </summary>
             <ol>

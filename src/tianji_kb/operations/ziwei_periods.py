@@ -18,6 +18,19 @@ Gates (fail-closed):
 - Bureau numbers are only 2..6 (水二/木三/金四/土五/火六局）.
 - Leap lunar months are already rejected by the chart layer; this
   module takes an already-computed chart result, never a raw date.
+- The annual step direction (``annual_palace`` / ``annual_palaces_for_decade``)
+  must be caller-specified ('branch_plus' / 'branch_minus'); it is
+  never defaulted.
+- 四化壬年分歧 and 魁钺歌分歧 stay unresolved and isolated (see
+  ``period_disputes``): this module computes NO 四化 mapping and NO
+  天魁/天钺 palace, and produces no 庙旺 claim and no 吉凶断语.
+
+Batch 5 (TJ-0427 Lane F) additions, same candidate calibre:
+- ``decade_for_age``: which decade period contains a given age.
+- ``annual_palaces_for_decade``: the ten annual palaces inside one
+  decade, under the caller-specified annual step convention.
+- ``period_disputes``: surfaces the two unresolved disputes from
+  operations/ziwei.py at call time; registration only, never a ruling.
 """
 
 from .ziwei_chart import PALACES, bureau_for, ziwei_position
@@ -125,6 +138,112 @@ def annual_palace(*, life_palace_branch, birth_year_branch, target_year_branch, 
                       'annual_palace': PALACES[(life_index - palace_index) % 12],
                       'annual_palace_branch': BRANCHES[palace_index],
                       'year_offset': offset})
+
+
+def decade_for_age(*, bureau_number, life_palace_branch, year_stem, sex,
+                   age, count=12):
+    """Candidate: which decade period contains a given age.
+
+    Reuses ``decade_periods`` (same direction and start-age rules).
+    Returns the flagged envelope with ``decade`` set to the containing
+    period, or ``status`` 'not_applicable' with ``decade`` None when
+    the age falls before the first decade or beyond the ``count``
+    covered decades — never silently clamped to the nearest decade.
+    ``age`` must be a non-negative integer; a non-integer or negative
+    age raises ValueError.
+    """
+    if type(age) is not int or age < 0:
+        raise ValueError('Expected non-negative integer age')
+    result = decade_periods(bureau_number=bureau_number,
+                            life_palace_branch=life_palace_branch,
+                            year_stem=year_stem, sex=sex, count=count)
+    for period in result['periods']:
+        if period['age_start'] <= age <= period['age_end']:
+            return _envelope({'status': 'computed',
+                              'age': age,
+                              'decade': dict(period),
+                              'direction': result['direction'],
+                              'decade_start_age': result['decade_start_age'],
+                              'life_palace_branch': life_palace_branch})
+    covered = result['periods']
+    return _envelope({'status': 'not_applicable',
+                      'reason': 'age_outside_covered_decades',
+                      'age': age,
+                      'decade': None,
+                      'direction': result['direction'],
+                      'decade_start_age': result['decade_start_age'],
+                      'covered_age_range': [covered[0]['age_start'],
+                                            covered[-1]['age_end']],
+                      'life_palace_branch': life_palace_branch})
+
+
+def annual_palaces_for_decade(*, life_palace_branch, birth_year_branch,
+                              decade_start_year_branch, convention, count=10):
+    """Candidate: the annual palaces inside one decade.
+
+    The decade's first year has branch ``decade_start_year_branch``;
+    each following year steps one year-branch forward (the year-branch
+    cycle itself is fixed; only the PALACE step direction is the
+    uncollated choice, so ``convention`` stays a REQUIRED explicit
+    caller choice — 'branch_plus' or 'branch_minus' — exactly as in
+    ``annual_palace``). No Gregorian year is ever derived here; all
+    year identities are explicit branches. Returns the flagged
+    envelope with one entry per year (``year_offset_in_decade`` 0..9).
+    """
+    for label, branch in (('life_palace_branch', life_palace_branch),
+                          ('birth_year_branch', birth_year_branch),
+                          ('decade_start_year_branch', decade_start_year_branch)):
+        if branch not in list(BRANCHES):
+            raise ValueError('Unknown branch for %s' % label)
+    if convention not in ('branch_plus', 'branch_minus'):
+        raise ValueError("Expected explicit convention 'branch_plus' or 'branch_minus'; "
+                         'the annual step direction is uncollated and never defaulted')
+    if type(count) is not int or count < 1:
+        raise ValueError('Expected positive year count')
+    start_index = BRANCHES.index(decade_start_year_branch)
+    years = []
+    for i in range(count):
+        target = BRANCHES[(start_index + i) % 12]
+        one = annual_palace(life_palace_branch=life_palace_branch,
+                            birth_year_branch=birth_year_branch,
+                            target_year_branch=target,
+                            convention=convention)
+        years.append({'year_offset_in_decade': i,
+                      'target_year_branch': target,
+                      'annual_palace': one['annual_palace'],
+                      'annual_palace_branch': one['annual_palace_branch'],
+                      'year_offset': one['year_offset']})
+    return _envelope({'life_palace_branch': life_palace_branch,
+                      'birth_year_branch': birth_year_branch,
+                      'decade_start_year_branch': decade_start_year_branch,
+                      'convention': convention,
+                      'years': years})
+
+
+def period_disputes():
+    """Return the two unresolved period-layer disputes (registration only).
+
+    Reads ``operations/ziwei.py`` at call time: the 壬年四化分歧
+    (iztro software table vs the isolated candidate containing
+    「壬梁紫府武」) and the 魁钺歌分歧 （古籍「丙丁猪狗」 vs 现代
+    「丙丁猪鸡」). Both stay ``unresolved`` with ``determination``
+    None. This module computes NO 四化 mapping and NO 天魁/天钺
+    palace; the disputes are surfaced so a caller can gate on them,
+    never resolved here.
+    """
+    from .ziwei import (FOUR_TRANSFORMATIONS_REN_DISPUTE, KUIYUE_DISPUTE)
+    ren = dict(FOUR_TRANSFORMATIONS_REN_DISPUTE,
+               isolated_candidate=dict(
+                   FOUR_TRANSFORMATIONS_REN_DISPUTE['isolated_candidate']))
+    kuiyue = dict(KUIYUE_DISPUTE)
+    return _envelope({
+        'four_transformations_ren_year': ren,
+        'kuiyue_song': kuiyue,
+        'computed_sihua': None,
+        'computed_kuiyue_palaces': None,
+        'note': ('四化壬年分歧与魁钺歌分歧均未裁决、保持隔离；本模块不计算'
+                 '四化映射，不计算天魁/天钺落宫，不作庙旺与吉凶断语。'),
+    })
 
 
 def anchor_check():
