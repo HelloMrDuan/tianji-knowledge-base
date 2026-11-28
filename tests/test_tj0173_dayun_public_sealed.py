@@ -20,6 +20,9 @@ from tianji_kb.api import create_app
 from tianji_kb.bazi_dayun_public import (
     is_valid_public_dayun_presentation,
 )
+from tianji_kb.bazi_profile_presentation import (
+    is_valid_bazi_profile_presentation,
+)
 from tianji_kb.scenario_engine import _dayun_public_gate, execute_scenario
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -255,6 +258,10 @@ class RoleAbsentEquivalenceTests(unittest.TestCase):
                         "ditiansui-root-visibility-v1"})
                 self.assertNotIn("dayun_presentation",
                                  baseline["result"])
+                base_profile = baseline["result"].pop(
+                    "profile_presentation")
+                self.assertTrue(
+                    is_valid_bazi_profile_presentation(base_profile))
                 for role in ("male", "female"):
                     with_role = execute_scenario("bazi-profile", {
                         "value": item["birth"], "zone": item["zone"],
@@ -266,6 +273,36 @@ class RoleAbsentEquivalenceTests(unittest.TestCase):
                     self.assertTrue(
                         is_valid_public_dayun_presentation(
                             presentation))
+                    # Q3=A (user adjudication 2026-11-28): with a
+                    # role the profile presentation's dayun section
+                    # flips to presented with the full 8-period
+                    # timeline, so the two envelopes now differ by
+                    # exactly that section; everything else stays
+                    # byte-identical to the role-absent baseline.
+                    with_profile = with_role["result"].pop(
+                        "profile_presentation")
+                    self.assertTrue(
+                        is_valid_bazi_profile_presentation(
+                            with_profile))
+                    self.assertEqual(
+                        [s["id"] for s in with_profile["sections"]],
+                        [s["id"] for s in base_profile["sections"]])
+                    for w_sec, b_sec in zip(with_profile["sections"],
+                                            base_profile["sections"]):
+                        if w_sec["id"] == "dayun":
+                            self.assertEqual(
+                                (w_sec["title"], w_sec["caliber"],
+                                 w_sec["basis"]),
+                                (b_sec["title"], b_sec["caliber"],
+                                 b_sec["basis"]))
+                            self.assertEqual(w_sec["status"],
+                                           "presented")
+                            self.assertEqual(b_sec["status"],
+                                           "not_provided")
+                            self.assertIsNotNone(w_sec["periods"])
+                            self.assertIsNone(b_sec["periods"])
+                        else:
+                            self.assertEqual(w_sec, b_sec)
                     self.assertEqual(with_role, baseline)
 
 
@@ -342,7 +379,10 @@ class OtherScenariosTests(unittest.TestCase):
         # traditional_role and return the public dayun presentation
         # (first period only; sanming periods 2-8 unresolved with
         # intervals cleared, shenfeng periods 2-8 not_provided, no
-        # starting age anywhere). The full-timeline flags stay False.
+        # starting age anywhere). TJ-031.19 (E0427, Q3=A): with a
+        # role the full 8-period timeline is approved for the
+        # overview, so the three flags are True; the legacy field
+        # above stays first-period-trimmed.
         for scenario_id in ("career", "life"):
             envelope = execute_scenario(scenario_id, {
                 "birth_value": self.BIRTH, "target_year": 2026,
@@ -367,7 +407,13 @@ class OtherScenariosTests(unittest.TestCase):
                            "end_date"):
                 self.assertNotIn(banned, blob)
             flags = list(_flag_values(envelope, "dayun_timeline_approved"))
-            self.assertTrue(all(flag is False for flag in flags), flags)
+            if scenario_id == "life":
+                self.assertEqual(len(flags), 3)
+                self.assertTrue(all(flag is True for flag in flags), flags)
+            else:
+                # The career envelope carries no timeline flags at
+                # all (they live in the life integrated report).
+                self.assertEqual(flags, [])
 
     def test_career_and_life_without_role_have_no_dayun(self):
         for scenario_id in ("career", "life"):

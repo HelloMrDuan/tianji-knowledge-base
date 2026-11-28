@@ -367,7 +367,11 @@ class HardBoundaryTests(unittest.TestCase):
             for banned in BANNED_JUDGMENT_KEYS:
                 self.assertNotIn(banned, keys)
 
-    def test_life_dayun_timeline_flags_still_three_and_false(self):
+    def test_life_dayun_timeline_flags_are_three_and_role_conditional(self):
+        # TJ-031.19 (E0427, Q3=A): the full 8-period timeline is
+        # approved for the life overview exactly when a traditional
+        # role is given, so all three flags are False without a role
+        # and True with one. The count stays exactly three.
         flags = []
 
         def _collect(value):
@@ -380,11 +384,11 @@ class HardBoundaryTests(unittest.TestCase):
                 for item in value:
                     _collect(item)
 
-        for role in (None, "male"):
+        for role, expected_value in ((None, False), ("male", True)):
             flags.clear()
             _collect(_life(role)["result"])
             self.assertEqual(len(flags), 3)
-            self.assertTrue(all(flag is False for flag in flags))
+            self.assertTrue(all(flag is expected_value for flag in flags))
 
     def test_invalid_role_rejected_for_career_and_life(self):
         for scenario_id in ("career", "life"):

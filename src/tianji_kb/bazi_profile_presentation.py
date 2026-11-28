@@ -152,6 +152,11 @@ _BANNED_KEYS = frozenset((
     "weights", "thresholds", "cong_candidates",
     "yongshen_rule_readiness", "interaction_effects",
     "direction_derivation"))
+
+# Citation-id fields removed from embedded xiyong / dayun copies by
+# strip_public_citation_ids (see its docstring).
+_STRIPPED_CITATION_KEYS = frozenset((
+    "source_id", "section_id", "section_ids", "source_section_id"))
 TRUE_SOLAR_LABEL = (
     "研究对照：真太阳时排盘是研究入口，不是公开排盘口径；"
     "公开排盘口径不变（北京时间，午夜 0 点为日界）。")
@@ -330,6 +335,33 @@ def _section_five_elements(pillars, day_master):
         },
         "research_reference": None,
     }
+
+
+def strip_public_citation_ids(value):
+    """Deep copy of ``value`` with every citation-id field removed.
+
+    The xiyong / dayun presentations carry bound citations
+    (``source_id`` / ``section_id`` / ``section_ids`` /
+    ``source_section_id``) that the public-boundary check
+    (``public_boundary.py``) exempts ONLY under a
+    ``xiyong_presentation`` / ``dayun_presentation`` key. A profile
+    (or compatibility) section embeds those presentations under a
+    different key (``public`` / ``person_a`` / ``person_b``), where
+    the exemption does not apply, so the embedded copies carry the
+    same reviewed content with the raw source / section references
+    removed. Block-level source labels (《穷通宝鉴》/《神峰通考》),
+    method labels and the plain-language lines already state the
+    source. The scalar registry ids (``phase1_rule_id`` /
+    ``phase2_step_id``) and ``consumed_rule_ids`` are reviewed
+    shapes (``public_boundary.py``) and are kept.
+    """
+    if isinstance(value, dict):
+        return {key: strip_public_citation_ids(item)
+                for key, item in value.items()
+                if key not in _STRIPPED_CITATION_KEYS}
+    if isinstance(value, list):
+        return [strip_public_citation_ids(item) for item in value]
+    return copy.deepcopy(value)
 
 
 def _lift_public(public, key, validator, projector, label,
@@ -578,9 +610,11 @@ def _section_pattern(pillars, day_master, month_branch, research, public):
     elif presentation["status"] == "not_judgeable":
         reason = presentation.get("reason")
         if reason == "pattern_name_not_public":
-            lines = ["本盘的格名暂不在公开呈现范围内（比肩格、劫财格"
-                     "不在 8 格名白名单内），暂不可判；不改写格名，"
-                     "不作任何格局结论。"]
+            # The D5 name must never reach a public response: the
+            # grid name itself is not in the 8-name whitelist, so
+            # the line states the exclusion without naming it.
+            lines = ["本盘的格名暂不在公开呈现范围内（不在 8 格名白名单内），"
+                     "暂不可判；不改写格名，不作任何格局结论。"]
         else:
             lines = ["本盘暂不可判，不作任何格局结论；"
                      "暂不可判不等于假格。"]
@@ -620,7 +654,7 @@ def _section_xiyong(pillars, day_master, month_branch, research, public):
     presentation = _lift_public(
         public, "xiyong_presentation",
         is_valid_public_xiyong_presentation,
-        lambda candidate: copy.deepcopy(candidate), "xiyong",
+        strip_public_citation_ids, "xiyong",
         day_master, month_branch)
     undecided = []
     lines = []
@@ -925,7 +959,7 @@ def _section_dayun(pillars, day_master, month_branch, research, public):
     presentation = _lift_public(
         public, "dayun_presentation",
         is_valid_public_dayun_presentation,
-        lambda candidate: copy.deepcopy(candidate), "dayun",
+        strip_public_citation_ids, "dayun",
         day_master, month_branch)
     undecided = []
     periods = None

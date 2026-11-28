@@ -51,6 +51,7 @@ import copy
 import json
 
 from .bazi_branch_punishment import PUNISHMENT_TABLE
+from .bazi_profile_presentation import strip_public_citation_ids
 
 PRESENTATION_VERSION = "compatibility-presentation-v1"
 
@@ -166,15 +167,69 @@ def _natal_relations_block(reviewed, key):
             for name in _NATAL_RELATION_KEYS}
 
 
+def _opaque_rule_aliases(compatibility_result):
+    """Map raw phase2 rule ids to the public R aliases.
+
+    Mirrors ``public_projection._Aliases``: walk the result's
+    relation_evidence_matrix in order and assign R01, R02, ... in
+    first-encounter order over derived_from_rule_ids. The projection
+    assigns the same aliases when it rewrites the matrix, so a hit
+    translated here matches the projected top-level
+    cross_relation_matrix hit exactly. A hit whose rule has no alias
+    in the matrix is a drift and fails closed at the call site.
+    """
+    aliases = {}
+    matrix = compatibility_result.get("relation_evidence_matrix")
+    if not isinstance(matrix, list):
+        _fail("compatibility result without relation evidence matrix")
+    for item in matrix:
+        if not isinstance(item, dict):
+            continue
+        for rule_id in item.get("derived_from_rule_ids") or []:
+            if rule_id not in aliases:
+                aliases[rule_id] = "R%02d" % (len(aliases) + 1)
+    return aliases
+
+
+def _translated_matrix_hits(matrix, aliases):
+    """Cross-pillar hits with raw rule ids replaced by public aliases.
+
+    Everything else in each hit is copied verbatim from the scenario
+    output; only the ``rule_id`` is translated, so the presentation
+    copy matches the projected top-level cross_relation_matrix hit
+    exactly. A hit whose rule has no alias in the evidence matrix
+    is a drift and fails closed.
+    """
+    hits = matrix.get("hits")
+    if not isinstance(hits, list):
+        _fail("cross-pillar matrix without hits")
+    out = []
+    for hit in hits:
+        if not isinstance(hit, dict):
+            _fail("cross-pillar matrix hit must be a mapping")
+        rule_id = hit.get("rule_id")
+        if rule_id not in aliases:
+            _fail("cross-pillar matrix hit rule has no public alias: "
+                  + str(rule_id))
+        row = copy.deepcopy(hit)
+        row["rule_id"] = aliases[rule_id]
+        out.append(row)
+    return out
+
+
 def _relations_facts(compatibility_result, natal_relations=None):
     """Structure facts only, copied from the scenario result.
 
     Nothing here is recomputed and nothing is interpreted: the ten-god
     views, five-combinations, day-branch relations, xianchi crossover,
     natal triple harmonies and the cross-pillar matrix are the
-    scenario's own outputs, verbatim. The within-chart relations
-    come from each person's own chart ``reviewed_relations`` (passed
-    in, never re-derived here -- see ``_natal_relations_block``).
+    scenario's own outputs. The cross-pillar hits are copied with
+    one exception: each hit's raw rule id is replaced by the public
+    R alias from the evidence matrix (see _opaque_rule_aliases), so
+    no raw internal identifier reaches the presentation. The
+    within-chart relations come from each person's own chart
+    ``reviewed_relations`` (passed in, never re-derived here -- see
+    ``_natal_relations_block``).
     """
     for key in ("day_master_relations", "xianchi_cross_matches",
                 "reviewed_cross_relations", "cross_relation_matrix"):
@@ -184,6 +239,10 @@ def _relations_facts(compatibility_result, natal_relations=None):
     reviewed = compatibility_result["reviewed_cross_relations"]
     matrix = compatibility_result["cross_relation_matrix"]
     cross = compatibility_result["xianchi_cross_matches"]
+    # The matrix hits' raw rule ids are translated to the public
+    # aliases (same mapping the projection assigns), so no raw
+    # internal identifier reaches the presentation.
+    aliases = _opaque_rule_aliases(compatibility_result)
     if natal_relations is not None \
             and not isinstance(natal_relations, dict):
         _fail("natal relations must be a mapping")
@@ -215,7 +274,7 @@ def _relations_facts(compatibility_result, natal_relations=None):
                 natal.get("person_b"), "person_b"),
         },
         "cross_pillar_relation_matrix": {
-            "hits": copy.deepcopy(matrix.get("hits")),
+            "hits": _translated_matrix_hits(matrix, aliases),
             "summary": copy.deepcopy(matrix.get("summary")),
             "tier_policy": copy.deepcopy(matrix.get("tier_policy")),
         },
@@ -264,6 +323,13 @@ def _person_presentations(bundle, key):
                           "reason": _NOT_PROVIDED_REASON}
         elif not isinstance(presentation, dict):
             _fail(key + " " + name + " must be a mapping")
+        elif short == "xiyong":
+            # The standalone xiyong presentation carries bound
+            # citations exempt only under its own key; the embedded
+            # copy here carries the same content with the raw source
+            # / section references removed (same treatment as the
+            # bazi-profile builder's embedded copy).
+            out[short] = strip_public_citation_ids(presentation)
         else:
             out[short] = copy.deepcopy(presentation)
     xiyong = out["xiyong"]
@@ -282,7 +348,10 @@ def _person_presentations(bundle, key):
     elif not isinstance(dayun, dict):
         _fail(key + " dayun_first_period must be a mapping")
     else:
-        out["dayun_first_period"] = copy.deepcopy(dayun)
+        # Same citation stripping as the xiyong copy above: the
+        # trimmed dayun presentation's bound citations are exempt
+        # only under a dayun_presentation key, not here.
+        out["dayun_first_period"] = strip_public_citation_ids(dayun)
     return out
 
 
@@ -329,8 +398,7 @@ def build_compatibility_presentation(compatibility_result, *,
         ),
         _section(
             "relations", "双方结构关系",
-            "已审核结构规则：十神、咸池、五合、六合、六害、六冲、"
-            "三合（bazi.phase2.*）",
+            "已审核结构规则：十神、咸池、五合、六合、六害、六冲、三合",
             "structure_fact",
             ["地支刑未评估（刑表不存在）；跨盘拼接三合口径未定义；"
              "合、害、冲只表示固定结构命中，不作感情结论；原局内部"

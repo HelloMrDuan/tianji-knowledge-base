@@ -1497,7 +1497,8 @@ def _conditional_conclusions(relation, *, day_master, fuyi_candidate_stems,
                         "ten_god": ten_god, "pattern_god": god,
                         "reason": ("该侧干 %s（%s）与已成立格局之格神 %s 同"
                                    "十神：只记同十神存在性事实，不等于格局"
-                                   "效力、格神得用或大运/流年吉凶。"
+                                   "效力、格神得用，大运/流年的相互作用"
+                                   "效力仍未裁定。"
                                    % (stem, ten_god, god)),
                         "basis": {"pattern_god": god,
                                   "rule_ids": [
@@ -1515,7 +1516,7 @@ def _conditional_conclusions(relation, *, day_master, fuyi_candidate_stems,
                         "reason": ("该侧干 %s（%s）与格局候选格 %s 之格神"
                                    " %s 同十神：只记同十神存在性事实；候选"
                                    "恒不等于成立，不等于格局效力、格神得"
-                                   "用或大运/流年吉凶。"
+                                   "用，大运/流年的相互作用效力仍未裁定。"
                                    % (stem, ten_god, entry["pattern"],
                                       entry["god"])),
                         "basis": {"pattern_key": entry["pattern_key"],

@@ -119,7 +119,27 @@ def _synthetic_compatibility_result():
                                "branches": ["巳", "酉"],
                                "traditional_result_element": "金"}]},
         },
-        "relation_evidence_matrix": [],
+        # The fixture matrix carries the cross-pillar row the builder
+        # reads (derived_from_rule_ids only -- the builder translates
+        # each matrix hit's rule id through this first-encounter
+        # mapping); the row's facts are not read here.
+        "relation_evidence_matrix": [
+            {
+                "id": "cross-pillar-relation-matrix",
+                "label": "双方四柱跨柱关系矩阵",
+                "scope": "cross",
+                "status": "matched",
+                "facts": {},
+                "derived_from_rule_ids": [
+                    "bazi.phase2.stem_five_combinations",
+                    "bazi.phase2.branch_six_harmonies",
+                    "bazi.phase2.branch_six_harms",
+                    "bazi.phase2.branch_six_clashes",
+                ],
+                "evidence_ids": [],
+                "interpretation_allowed": False,
+            },
+        ],
         "cross_relation_matrix": {
             "hits": [{"tier": "core",
                       "relation_type": "six_harmony",
@@ -484,9 +504,19 @@ class LiveCompatibilityPresentationTests(unittest.TestCase):
         self.assertEqual(
             facts["cross_pillar_relation_matrix"]["summary"],
             result["cross_relation_matrix"]["summary"])
+        # The presentation hits carry the public R aliases, not the
+        # scenario's raw rule ids (same mapping the projection
+        # assigns to the top-level matrix); everything else in each
+        # hit is copied verbatim.
+        from tianji_kb.compatibility_presentation import (
+            _opaque_rule_aliases,
+            _translated_matrix_hits,
+        )
+        aliases = _opaque_rule_aliases(result)
         self.assertEqual(
             facts["cross_pillar_relation_matrix"]["hits"],
-            result["cross_relation_matrix"]["hits"])
+            _translated_matrix_hits(result["cross_relation_matrix"],
+                                    aliases))
         self.assertEqual(facts["punishment"]["status"], "not_evaluated")
 
     def test_live_natal_relations_match_the_chart_output(self):
@@ -532,33 +562,61 @@ class LiveCompatibilityPresentationTests(unittest.TestCase):
         from tianji_kb.bazi_pattern_public import (
             is_valid_public_pattern_presentation,
         )
+        from tianji_kb.bazi_profile_presentation import (
+            strip_public_citation_ids,
+        )
         from tianji_kb.bazi_strength_public import (
             is_valid_public_strength_presentation,
         )
         from tianji_kb.bazi_xiyong_public import (
             is_valid_public_presentation as is_valid_xiyong,
         )
+        from tianji_kb.public_boundary import (
+            find_public_boundary_violations,
+        )
+        from tianji_kb.scenario_engine import execute_scenario
         presentation = self._live_presentation(with_roles=False)
-        for key in ("person_a", "person_b"):
+        self.assertEqual(find_public_boundary_violations(presentation), [])
+        for key, birth in (("person_a", F2_BIRTH),
+                           ("person_b", B_BIRTH)):
             person = presentation["sections"][2]["facts"][key]
             self.assertTrue(is_valid_public_strength_presentation(
                 person["strength"]))
             self.assertTrue(is_valid_public_pattern_presentation(
                 person["pattern"]))
-            self.assertTrue(is_valid_xiyong(person["xiyong"]))
+            # The embedded xiyong is the citation-stripped form of
+            # the standalone presentation: same reviewed content,
+            # with the raw source / section references removed (they
+            # are exempt only under a xiyong_presentation key, see
+            # public_boundary.py). The standalone object itself
+            # still validates as the approved gate.
+            standalone = execute_scenario(
+                "bazi-profile", {"value": birth})["result"][
+                    "xiyong_presentation"]
+            self.assertTrue(is_valid_xiyong(standalone))
+            self.assertEqual(
+                person["xiyong"],
+                strip_public_citation_ids(standalone))
             self.assertIsNone(person["xiyong"]["unified_verdict"])
 
     def test_live_dayun_is_first_period_only(self):
-        from tianji_kb.bazi_dayun_public import (
-            is_valid_public_dayun_presentation,
+        from tianji_kb.public_boundary import (
+            find_public_boundary_violations,
         )
         presentation = self._live_presentation(with_roles=True)
+        self.assertEqual(find_public_boundary_violations(presentation), [])
         dayun = presentation["sections"][3]["facts"]
         self.assertEqual(dayun["periods_opened"], "first_only")
         for key in ("person_a", "person_b"):
             first = dayun[key]
-            self.assertTrue(
-                is_valid_public_dayun_presentation(first))
+            # The embedded copy is the citation-stripped form of the
+            # trimmed dayun presentation (same treatment as the
+            # bazi-profile builder's embedded copy): the full
+            # validated object is verified upstream by the trim
+            # helper, and the embedded copy must carry no raw source
+            # / section reference (pinned by the boundary scan
+            # above, not by the dayun validator, which requires the
+            # reviewed citation fields).
             sanming = first["methods"]["sanming"]
             self.assertEqual(len(sanming["entries"]), 8)
             for entry in sanming["entries"][1:]:
