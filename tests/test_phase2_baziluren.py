@@ -289,7 +289,8 @@ class LurenRegistrationTests(unittest.TestCase):
         # E0382: ziping-zaqi-ch16 maintained too (four
         # maintained).
         # E0384: siling-si-pilot maintained too (five maintained).
-        self.assertEqual(len(governance.MAINTAINED_ITEMS), 5)
+        # E0427: siling-mao-pilot maintained too (six maintained).
+        self.assertEqual(len(governance.MAINTAINED_ITEMS), 6)
         record = governance.TJ0183_B2_RECORD
         self.assertEqual(record['event'], 'E0339')
         self.assertEqual(record['phase1_rules_added'], ['bazi.rule.r035'])

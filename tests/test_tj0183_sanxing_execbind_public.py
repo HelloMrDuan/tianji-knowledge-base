@@ -139,7 +139,7 @@ class InventoryFlipTests(unittest.TestCase):
                           'sanxing-branch-fact-v1', 'tiaohou-qiongtong-v1'])
         self.assertNotIn('sanxing-branch-fact-v1',
                          gov.MAINTAINED_ITEMS)
-        self.assertEqual(len(gov.MAINTAINED_ITEMS), 5)  # E0352: tiaohou flipped; E0382: ziping-zaqi-ch16 maintained; E0384: siling-si-pilot maintained
+        self.assertEqual(len(gov.MAINTAINED_ITEMS), 6)  # E0352: tiaohou flipped; E0382: ziping-zaqi-ch16 maintained; E0384: siling-si-pilot maintained; E0427: siling-mao-pilot maintained
 
 
 class DisclosureFlipTests(unittest.TestCase):
