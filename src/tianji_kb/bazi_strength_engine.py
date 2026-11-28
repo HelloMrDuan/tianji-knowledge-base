@@ -6,14 +6,17 @@
 两层严格区分，绝不强制统一：
 
 * 古典层（``classical``）：消费 :func:`bazi_strength.factors` 的因素
-  输出与公开登记表（火根表、金/水根表、土根消费契约），按 7 条已审
+  输出与公开登记表（火根表、金/水根表、土根消费契约），按 8 条已审
   窄形态充分谓词逐条求值。求值口径是**因素层**（factor level）：
   它复现各谓词在 ``bazi_action_conditions`` 登记的条件键，但不执行
   密封裁决链（``strength_assessment`` 仍是唯一能发出密封裁决的出口，
   须在装配运行时上执行）。因此本层命中只报告
   ``verification="factor_level_only"``，并逐条附密封 validation 状态
-  与 Golden 引用；命中不等于密封裁决已发出。7 条之外（丙×寅长生
-  形态待注册、从格、喜用、格局、吉凶）一律不判。
+  与 Golden 引用；命中不等于密封裁决已发出。8 条之外（从格、喜用、
+  格局、吉凶）一律不判。第 8 条是丙×寅长生形态
+  （``changsheng_visible_support``，F4）：九条件复用火形态因素层
+  代理口径，另须显式寅月试点结果过司令甲段门（用户裁定乙
+  segment-tightened，2026-10-28）；无试点结果时恒不触发。
 * 现代层（``modern``，``strength_model_modern_v1``）：对因素贡献做
   确定性评分。权重与阈值全写在 :data:`MODERN_WEIGHTS` 与
   :data:`MODERN_THRESHOLDS`，输出恒标 ``model_kind="modern_engineering"``、
@@ -51,10 +54,12 @@ Fail-closed 弃判（现代层）：戊×巳 / 己×午（TJ-011.2 UNBUILDABLE�
 
 import copy
 
+from . import bazi_siling_matrix as _siling_matrix
 from .bazi_core import PILLAR_NAMES, foundations, reviewed_relations
 from .bazi_earth_roots import EARTH_CONSUMPTION_CONTRACT
 from .bazi_fire_morphology import (
     BING_ALL_ROOT_BRANCHES, BING_HEAVY_ROOT_BRANCHES, BING_ROOT_POSITIONS)
+from .bazi_fire_si_yin_morphology import FORM_BING_YIN
 from .bazi_metal_water_roots import (
     HEAVY_ROOT_BRANCHES as MW_HEAVY_ROOT_BRANCHES,
     METAL_WATER_ROOT_TABLES)
@@ -64,6 +69,100 @@ from .foundations import BRANCHES, CONTROLS, GENERATES, STEMS, stem_element
 ENGINE_VARIANT = 'bazi-strength-engine-v1'
 MODERN_MODEL_ID = 'strength_model_modern_v1'
 SI_PILOT_VARIANT = 'bazi-siling-si-pilot-v1'
+
+# TJ-0426 Lane 1 (S-02): F4 丙×寅长生形态的因素层段门。口径与裁决层
+# bazi_adjudication 的 CHANGSHENG_* 常量逐字一致（乙 segment-tightened，
+# 用户裁定 2026-10-28），因素层只复用口径，不改裁决层、不执行密封链。
+YIN_PILOT_VARIANT = 'bazi-siling-yin-pilot-v1'
+YIN_SEGMENT_READING = 'segment_tightened'
+YIN_SEGMENT_STEM = '甲'
+CHANGSHENG_ANCHOR_TYPES = {c['key']: c['anchor_type']
+                           for c in FORM_BING_YIN['conditions']}
+CHANGSHENG_ANCHOR_REGISTRATION = \
+    'bazi_fire_si_yin_morphology.FORM_BING_YIN'
+
+# TJ-0426 Lane 1 (S-01): 火线 F1–F7 处置总表中未进入因素层的形态。
+# 逐条登记处置状态与阻断理由：F2 丁线 blocked_by_conflict、F5
+# not_buildable（裁定结论，不是暂缓）、F6 无定义不可建、F7 不独立
+# 成形态。F1/F3 已是谓词 commanding/lu_visible_support；F4 见
+# PREDICATES。无其他已审 scope 可扩充——bazi_action_conditions
+# 登记的 8 个 scope（pure/generating/commanding/lu/changsheng/
+# metal/water/isolated）至此全部进入因素层。
+UNREGISTERED_CLASSICAL_FORMS = (
+    {
+        'form_id': 'F2', 'name_cn': '丁 × 午月 强',
+        'predicate_id': None, 'status': 'blocked_by_conflict',
+        'conflict_id': 'sanming-juan2.ding-changsheng',
+        'register_ref': 'bazi_fire_morphology.DING_BLOCK',
+        'blocking_reason': '丁长生位两说并列未裁定（酉 vs 寅）：丁的'
+                           '根位集合因长生位未定而不可视为齐备；'
+                           '本批不设计任何丁谓词。',
+    },
+    {
+        'form_id': 'F5', 'name_cn': '火 × 子月 弱（isolated 型）',
+        'predicate_id': None, 'status': 'not_buildable',
+        'conflict_id': None,
+        'register_ref': 'bazi_fire_morphology.F5_ZI_WEAK_REVIEW',
+        'blocking_reason': '六条可满足、一条构造性不可满足（月干即'
+                           '月本气：子月干永不为癸）、替代无锚点；'
+                           '按红线关闭，重开须新锚点证据。',
+    },
+    {
+        'form_id': 'F6', 'name_cn': '衰极从弱型（任意月）',
+        'predicate_id': None, 'status': 'not_buildable_no_definition',
+        'conflict_id': None,
+        'register_ref': 'bazi_fire_morphology.F_DISPOSITIONS',
+        'blocking_reason': '《滴天髓阐微》无从弱（衰极）定义段：全书'
+                           '「从弱」仅名目与古例套语，不满足定义要件。',
+    },
+    {
+        'form_id': 'F7', 'name_cn': '轻根参与型（未/戌根影响强弱边界）',
+        'predicate_id': None, 'status': 'not_standalone',
+        'conflict_id': None,
+        'register_ref': 'bazi_fire_morphology.F_DISPOSITIONS',
+        'blocking_reason': '不独立成形态：未/戌轻根只作 F1 的根事实'
+                           '与阻断事实进入根位登记，不另立谓词。',
+    },
+)
+
+# TJ-0426 Lane 1 (S-05): 从格成立规则缺口登记。五种从格的成立规则
+# 全部未审：候选屏只覆盖强/弱/财三向（见 identify_cong_candidates），
+# 从杀/从儿连候选屏都没有。候选恒不等于成立；本表只登记缺口，不
+# 编码任何成立条件。成立规则的证据就绪后逐项立项（古典成立规则由
+# 格局引擎 Lane 2 的 evaluate_special 承接，本 lane 只消费候选屏）。
+CONG_ESTABLISHMENT_GAPS = (
+    {
+        'kind': 'cong_qiang', 'name_cn': '从强', 'screen': 'present',
+        'establishment_rule': None, 'status': 'unregistered',
+        'evidence_needed': '从强成立条件逐条登记：极旺门槛、月令/根'
+                           '位/显干合取条件与 Golden。',
+    },
+    {
+        'kind': 'cong_ruo', 'name_cn': '从弱', 'screen': 'present',
+        'establishment_rule': None, 'status': 'unregistered',
+        'evidence_needed': '从弱成立条件逐条登记：无根无扶之外，须'
+                           '有从弱定义段（F6 已证《滴天髓阐微》无'
+                           '此定义，须另寻来源）与 Golden。',
+    },
+    {
+        'kind': 'cong_cai', 'name_cn': '从财', 'screen': 'present',
+        'establishment_rule': None, 'status': 'unregistered',
+        'evidence_needed': '从财成立条件逐条登记：财向显干合取条件、'
+                           '财得令得地门槛与 Golden。',
+    },
+    {
+        'kind': 'cong_sha', 'name_cn': '从杀', 'screen': 'absent',
+        'establishment_rule': None, 'status': 'unregistered',
+        'evidence_needed': '从杀候选屏与成立条件均未立：须先登记'
+                           '候选识别条件，再立成立规则与 Golden。',
+    },
+    {
+        'kind': 'cong_er', 'name_cn': '从儿', 'screen': 'absent',
+        'establishment_rule': None, 'status': 'unregistered',
+        'evidence_needed': '从儿候选屏与成立条件均未立：须先登记'
+                           '候选识别条件，再立成立规则与 Golden。',
+    },
+)
 
 # 因素层代理根集：木/水/金的已审根支取自公开材料——木集引
 # bazi_action_conditions 注释所引原文「如甲乙逢亥寅卯之类是也」；
@@ -76,7 +175,7 @@ _WATER_REVIEWED_ROOTS = frozenset(('亥', '子'))
 _GOLD_REVIEWED_ROOTS = frozenset(('酉',))
 
 # 月支本气（principal qi）取 canonical 藏干表首干，并在每次求值时与
-# 7 条谓词所涉已审本气交叉核对；任一不符即 registration_integrity_failure。
+# 8 条谓词所涉已审本气交叉核对；任一不符即 registration_integrity_failure。
 # 四库（辰/未/戌/丑）本气未审：现代层得令分在该月恒为 0 并标注依据。
 _REVIEWED_PRINCIPAL_QI = {
     '卯': '乙', '亥': '壬', '酉': '辛', '子': '癸', '巳': '丙', '午': '丁',
@@ -132,7 +231,7 @@ MODERN_THRESHOLDS = {
 # TJ-011.2 UNBUILDABLE：土日主在两格上无任何可执行形态规则。
 _EARTH_UNBUILDABLE = frozenset((('戊', '巳'), ('己', '午')))
 
-# 7 条古典窄形态充分谓词。sealed_validation / sealed_golden_* 为
+# 8 条古典窄形态充分谓词。sealed_validation / sealed_golden_* 为
 # 2026-11-25 机上密封核实值（密封 phase2_execution.json；
 # 另见 ~/workspace/tj-sealed-audit-20261125.txt）；public_golden_refs
 # 为公开 Golden 文件中的见证用例 id。条件键与
@@ -266,19 +365,62 @@ PREDICATES = (
             'visible比_present', 'effective_day_roots_registered',
             'all_visible_have_registered_roots', 'no_unresolved_interactions'],
     },
+    {
+        # TJ-0426 Lane 1 (S-02): F4 丙×寅长生形态，因素层登记。
+        # 九条件与裁决层 FORM_BING_YIN 登记逐条一致（条件键顺序 =
+        # 登记顺序）；另须段门：显式寅月试点结果 computed 且司令段
+        # 为甲（乙 segment-tightened）。九条件全真而段门未过时不
+        # 触发——段门不是第十个条件，是独立的门（见 segment_gate）。
+        # 密封 Phase1/Phase2 规则注册仍 pending：phase1_rule_id /
+        # phase2_step_id 为 None，sealed_golden_ids 为空（密封 Golden
+        # id 未在公开检出中发布）；public_golden_refs 承载见证用例。
+        'predicate_id': 'changsheng_visible_support',
+        'name_cn': '丙寅长生印月显纯生扶强',
+        'phase1_rule_id': None,
+        'phase2_step_id': None,
+        'registration_status': 'pending_phase1_rule_registration',
+        'anchor_registration': CHANGSHENG_ANCHOR_REGISTRATION,
+        'segment_gated': True,
+        'classification': 'strong',
+        'sealed_validation': 'pending',
+        'sealed_golden_ids': [],
+        'public_golden_refs': [
+            'tests/golden_tj0112_f34_si_yin.json'
+            '#tj0112-f4-positive-both-readings',
+            'tests/golden_tj0112_f34_si_yin.json'
+            '#tj0112-f4-gate-sensitivity-first-segment',
+            'tests/golden_tj0112_bing_yin_changsheng.json'
+            '#tj0112-bingyin-positive-jia-segment',
+            'tests/golden_tj0112_bing_yin_changsheng.json'
+            '#tj0112-bingyin-gate-excluded-wu-segment',
+            'tests/golden_tj0112_bing_yin_changsheng.json'
+            '#tj0112-bingyin-gate-excluded-bing-segment'],
+        'condition_keys': [
+            'fire_day_master_bing',
+            'reviewed_generating_changsheng_month',
+            'visible_positions_support_only',
+            'visible_resource_present', 'visible_peer_present',
+            'effective_heavy_day_roots',
+            'all_visible_have_reviewed_roots',
+            'no_unresolved_interactions',
+            'hidden_layer_convention_applied'],
+    },
 )
 
 CLASSICAL_LIMITATIONS = (
     '古典层是因素层求值，不是密封裁决：命中谓词须经装配运行时上的 '
     'strength_assessment（bazi-strength-adjudication-v1）发出密封裁决，'
     '本层命中本身不构成裁决。',
-    '仅 7 条已审窄形态充分谓词；其余形态（丙×寅长生形态待注册、从格、'
-    '喜用、格局、吉凶）一律暂不可判，不由本层推断。',
+    '仅 8 条已审窄形态充分谓词；其余形态（从格、喜用、格局、吉凶）'
+    '一律暂不可判，不由本层推断。丙×寅长生形态已登记为第 8 条，但'
+    '只在显式寅月试点结果过司令甲段门时触发；九条件全真而段门未过'
+    '时不触发。',
     '金×酉谓词 validation pending（密封 Golden 仅 2 条负例），且已证在'
     '真实历法命盘上构造性不可满足：本层命中只作因素层条件核对，绝不'
     '呈现为已验证正例。',
     '分日司令不进入古典层（裁决层 excluded_dependencies 含 '
-    'dated_commander）；巳月/寅月试点判定只供现代层得令参考，不改古典谓词。',
+    'dated_commander）；巳月试点判定只供现代层得令参考，不改古典谓词。'
+    '寅月试点只作 F4 谓词自身的段门（须显式试点结果），不作一般得令依据。',
     '三刑事实不进入本层（三刑事实层不解锁任何 '
     'determination，也不进 unresolved_interactions）。',
 )
@@ -457,8 +599,134 @@ def _heavy_roots_for(day_master):
     return set()  # 土：无已审重根集
 
 
-def _classical_layer(pillars, summary, day_master):
-    """Factor-level evaluation of the 7 registered sufficient predicates."""
+def _validate_yin_pilot(pilot, month_branch):
+    """Validate an explicit Yin-pilot block for the F4 segment gate.
+
+    Mirrors the identity-pin checks of the adjudication layer's
+    ``_changsheng_pilot_claim`` (``bazi_adjudication``), at factor
+    level: the pilot block is a caller-supplied claim, not executed
+    evidence; its identity pins are checked against the live Slice C
+    registration (convention id/version, scope version_id, s024
+    source/section, registered segment table), and the claimed
+    segment must agree with the claimed commander and with the
+    registered interval for its index. The commander's own
+    recomputation is the pilot module's contract, not repeated here.
+
+    Returns the gate dict: ``gate_outcome`` is one of
+    ``segment_jia`` / ``segment_not_jia`` / ``pilot_not_computed`` /
+    ``pilot_claim_unverifiable`` / ``not_yin_month``; ``gate_passed``
+    is true only for ``segment_jia``.
+    """
+    gate = {
+        'pilot_variant': YIN_PILOT_VARIANT,
+        'reading': YIN_SEGMENT_READING,
+        'required_segment_stem': YIN_SEGMENT_STEM,
+        'claim_verifiable': False,
+        'pilot_status': None,
+        'pilot_reason': None,
+        'segment_stem': None,
+        'segment_index': None,
+        'registered_interval': None,
+        'calculation_convention': None,
+        'gate_passed': False,
+        'gate_outcome': 'pilot_claim_unverifiable',
+    }
+    try:
+        conv = _siling_matrix.SILING_CALCULATION_CONVENTION
+        gate['calculation_convention'] = {'id': conv['id'],
+                                          'version': conv['version']}
+    except (AttributeError, KeyError, TypeError):
+        gate['pilot_reason'] = 'pilot_registration_unreadable'
+        return gate
+    if month_branch != '寅':
+        gate['pilot_reason'] = 'month_not_yin'
+        gate['gate_outcome'] = 'not_yin_month'
+        return gate
+    if not isinstance(pilot, dict):
+        gate['pilot_reason'] = 'pilot_result_missing'
+        return gate
+    if pilot.get('variant') != YIN_PILOT_VARIANT:
+        gate['pilot_reason'] = 'pilot_variant_mismatch'
+        return gate
+    if pilot.get('research_only') is not True \
+            or pilot.get('public_enabled') is not False \
+            or pilot.get('ai_enabled') is not False:
+        gate['pilot_reason'] = 'pilot_governance_flags_mismatch'
+        return gate
+    if pilot.get('evidence_binding') \
+            != 'pending_phase1_rule_registration':
+        gate['pilot_reason'] = 'pilot_binding_mismatch'
+        return gate
+    status = pilot.get('status')
+    if status not in ('computed', 'not_applicable', 'rejected',
+                      'uncertain'):
+        gate['pilot_reason'] = 'pilot_status_unknown'
+        return gate
+    gate['pilot_status'] = status
+    gate['pilot_reason'] = pilot.get('reason')
+    if status != 'computed':
+        gate['claim_verifiable'] = True
+        gate['gate_outcome'] = 'pilot_not_computed'
+        return gate
+    commander = pilot.get('commander')
+    if commander not in STEMS:
+        gate['pilot_status'] = None
+        gate['pilot_reason'] = 'pilot_commander_invalid'
+        return gate
+    segment = pilot.get('segment')
+    if not isinstance(segment, dict) \
+            or segment.get('stem') != commander \
+            or segment.get('index') not in (1, 2, 3):
+        gate['pilot_status'] = None
+        gate['pilot_reason'] = 'pilot_segment_invalid'
+        return gate
+    provenance = pilot.get('provenance')
+    if not isinstance(provenance, dict):
+        gate['pilot_status'] = None
+        gate['pilot_reason'] = 'pilot_provenance_missing'
+        return gate
+    try:
+        version_id = conv['scope']['version_id']
+        cell = _siling_matrix.SILING_MATRIX[version_id]['寅']
+        quote = {row['id']: row for row in _siling_matrix.SILING_QUOTES}[
+            cell['quotes'][0]]
+        registered_segment = conv['segments'][segment['index'] - 1]
+    except (KeyError, IndexError, TypeError):
+        gate['pilot_status'] = None
+        gate['pilot_reason'] = 'pilot_registration_unreadable'
+        return gate
+    if provenance.get('calculation_convention') != {
+            'id': conv['id'], 'version': conv['version']} \
+            or provenance.get('version_id') != version_id \
+            or provenance.get('source_id') != quote['source_id'] \
+            or provenance.get('source_section_id') \
+            != quote['source_section_id']:
+        gate['pilot_status'] = None
+        gate['pilot_reason'] = 'pilot_provenance_mismatch'
+        return gate
+    if registered_segment['stem'] != commander \
+            or segment.get('registered_interval') \
+            != registered_segment['interval']:
+        gate['pilot_status'] = None
+        gate['pilot_reason'] = 'pilot_segment_mismatch'
+        return gate
+    if pilot.get('scope_month_branch') != '寅' \
+            or pilot.get('month_branch') != '寅':
+        gate['pilot_status'] = None
+        gate['pilot_reason'] = 'pilot_scope_mismatch'
+        return gate
+    gate['claim_verifiable'] = True
+    gate['segment_stem'] = segment['stem']
+    gate['segment_index'] = segment['index']
+    gate['registered_interval'] = segment['registered_interval']
+    gate['gate_outcome'] = 'segment_jia' \
+        if segment['stem'] == YIN_SEGMENT_STEM else 'segment_not_jia'
+    gate['gate_passed'] = gate['gate_outcome'] == 'segment_jia'
+    return gate
+
+
+def _classical_layer(pillars, summary, day_master, siling_yin_pilot=None):
+    """Factor-level evaluation of the 8 registered sufficient predicates."""
     day_element = stem_element(day_master)
     month_branch = summary['month_branch']
     principal_relation = summary['principal_relation']
@@ -631,6 +899,21 @@ def _classical_layer(pillars, summary, day_master):
         'all_visible_have_registered_roots': mw_have_registered_roots(),
         'no_unresolved_interactions': no_interactions,
     }
+    # TJ-0426 Lane 1 (S-02): F4 丙×寅长生形态。九条件与 commanding/lu
+    # 形态逐条复用同一 fire_conditions 计算事实，只改月份条件：寅月
+    # 本气甲为生我（generating month），且寅为日主丙的逐干长生位。
+    # 月份条件的段门收紧（乙 segment-tightened）不在 conditions 内：
+    # 它是独立的 segment_gate，见下方的结果循环。
+    evaluated['changsheng_visible_support'] = {
+        'fire_day_master_bing': fire_conditions['fire_day_master_bing'],
+        'reviewed_generating_changsheng_month':
+            month_branch == '寅'
+            and principal_relation == 'generates_me',
+        **{k: v for k, v in fire_conditions.items()
+           if k != 'fire_day_master_bing'},
+    }
+
+    yin_gate = _validate_yin_pilot(siling_yin_pilot, month_branch)
 
     results = []
     matched = None
@@ -641,7 +924,9 @@ def _classical_layer(pillars, summary, day_master):
                 'registration_integrity_failure: condition keys of %s '
                 'drifted from the registered scope'
                 % spec['predicate_id'])
-        met = all(conditions.values())
+        gate = yin_gate if spec.get('segment_gated') else None
+        met = all(conditions.values()) and (
+            gate is None or gate['gate_passed'])
         entry = {
             'predicate_id': spec['predicate_id'],
             'name_cn': spec['name_cn'],
@@ -655,6 +940,11 @@ def _classical_layer(pillars, summary, day_master):
             'met': met,
             'verification': 'factor_level_only',
         }
+        if gate is not None:
+            entry['segment_gate'] = dict(gate)
+            entry['registration_status'] = spec['registration_status']
+            entry['anchor_registration'] = spec['anchor_registration']
+            entry['anchor_types'] = dict(CHANGSHENG_ANCHOR_TYPES)
         if spec['predicate_id'] == 'pure_support_metal':
             entry['notes'] = (
                 'validation pending；密封 Golden 仅 2 条负例；'
@@ -672,6 +962,9 @@ def _classical_layer(pillars, summary, day_master):
     blockers = []
     if matched is None:
         blockers.append('outside_reviewed_sufficient_conditions')
+    if all(evaluated['changsheng_visible_support'].values()) \
+            and not yin_gate['gate_passed']:
+        blockers.append('changsheng_segment_gate_not_passed')
     if (day_master, month_branch) in _EARTH_UNBUILDABLE:
         blockers.append('earth_form_unbuildable_tj0112')
     return {
@@ -682,6 +975,10 @@ def _classical_layer(pillars, summary, day_master):
                           else 'indeterminate',
         'matched_predicate': matched,
         'predicates': results,
+        'changsheng_segment_gate': dict(yin_gate),
+        'unregistered_forms': [
+            {'form_id': form['form_id'], 'status': form['status']}
+            for form in UNREGISTERED_CLASSICAL_FORMS],
         'blockers': blockers,
         'limitations': list(CLASSICAL_LIMITATIONS),
     }
@@ -867,6 +1164,11 @@ def identify_cong_candidates(pillars, day_master):
         'screen_reason': 'cong_candidate_unresolved' if screen_triggered
                          else None,
         'screen_detail': candidates[0]['detail'] if screen_triggered else None,
+        # TJ-0426 Lane 1 (S-05): 成立规则缺口登记——候选屏命中永不等
+        # 于成立；五种从格的成立规则全部未审（从杀/从儿连候选屏都
+        # 没有），见 CONG_ESTABLISHMENT_GAPS。
+        'establishment_gaps': [dict(gap)
+                               for gap in CONG_ESTABLISHMENT_GAPS],
         'note': ('候选屏与成立规则严格分离：本函数只输出候选识别，'
                  '永不输出从格成立/不成立的裁决。'),
     }
@@ -1124,6 +1426,18 @@ def _modern_layer(pillars, summary, day_master, classical, siling_si_pilot,
             '权重按 MODERN_WEIGHTS[de_ling][%s]=%d' % (
                 de_ling_relation, de_ling)]
 
+    # TJ-0426 Lane 1 (S-04): 四库月本气取证状态（输出-only，不改分）。
+    # 四库月得令分记 0 是暂定处理；此处同时报出 canonical 藏干表首干
+    # （结构事实）并标 unreviewed，使缺口可检查、不把 0 洗成已证无作用。
+    tomb_principal_qi = None
+    if month_branch in _TOMB_BRANCHES:
+        tomb_principal_qi = {
+            'branch': month_branch,
+            'canonical_first_hidden_stem': _principal_qi(month_branch),
+            'status': 'unreviewed',
+            'note': '四库本气未审：得令分记 0 是缺失条件的暂定处理，'
+                    '不代表已证明月令无作用。'}
+
     # 得地：重根 / 余根 / 同干根，逐根列出贡献与计入/封顶状态。
     heavy = _heavy_roots_for(day_master)
     heavy_count = sum(1 for row in roots if row['branch'] in heavy)
@@ -1204,6 +1518,38 @@ def _modern_layer(pillars, summary, day_master, classical, siling_si_pilot,
                            '得地分只计余根，未校准。')
         de_di_conditions.append('Q5：丁日主得地未校准，只计余根；分数为研究性'
                                 '暂定分，不输出确定旺衰分类。')
+
+    # TJ-0426 Lane 1 (S-04): 得地校准状态（输出-only，不改分）。土/丁
+    # 日主只计余根是未校准的暂定处理：此处显式报出重根集未审、所计
+    # 根的范围与所据契约/冲突登记，使暂定分数永不被洗成确定分类。
+    if day_element == '土':
+        de_di_calibration = {
+            'heavy_root_set': 'unreviewed',
+            'counted': 'other_roots_only',
+            'contract': 'bazi-earth-root-consumption-contract-v1',
+            'eligible_visible_cells': sorted(
+                ('%s×%s' % cell for cell in _EARTH_ELIGIBLE_ROOT_CELLS),
+                key=lambda cell: (STEMS.index(cell[0]),
+                                 BRANCHES.index(cell[2]))),
+            'day_root_effectiveness': 'unreviewed',
+            'note': '土日主无已审重根集：得地分只计余根，未校准；'
+                    '日根有效性（register_effective）未审。',
+        }
+    elif day_master == '丁':
+        de_di_calibration = {
+            'heavy_root_set': 'unreviewed',
+            'counted': 'other_roots_only',
+            'conflict_id': 'sanming-juan2.ding-changsheng',
+            'register_ref': 'bazi_fire_morphology.DING_BLOCK',
+            'note': '丁日主火重根集未审（丁长生冲突未裁定）：得地分'
+                    '只计余根，未校准。',
+        }
+    else:
+        de_di_calibration = {
+            'heavy_root_set': sorted(heavy),
+            'counted': 'heavy_and_other',
+            'note': '重根集已审（见 de_di conditions）。',
+        }
 
     # 得势 / 藏干生扶 / 克泄耗，逐干列出贡献与计入/下限状态。
     visible_support_rows = [
@@ -1321,7 +1667,8 @@ def _modern_layer(pillars, summary, day_master, classical, siling_si_pilot,
                         'detail': '月支 %s，本气/司令关系计分'
                                   % month_branch,
                         'sources': de_ling_sources,
-                        'conditions': de_ling_conditions},
+                        'conditions': de_ling_conditions,
+                        'tomb_principal_qi': tomb_principal_qi},
             'de_di': {'score': de_di,
                       'basis': 'heavy_roots_%d_other_roots_%d_same_stem_%s'
                                % (heavy_count, other_count,
@@ -1329,7 +1676,8 @@ def _modern_layer(pillars, summary, day_master, classical, siling_si_pilot,
                       'detail': '通根 %d 处（重根 %d，余根 %d）'
                                 % (len(roots), heavy_count, other_count),
                       'sources': de_di_sources,
-                      'conditions': de_di_conditions},
+                      'conditions': de_di_conditions,
+                      'calibration': de_di_calibration},
             'de_shi': {'score': de_shi, 'basis': 'visible_support_%d'
                        % visible_support,
                        'detail': '显干生扶 %d 干' % visible_support,
@@ -1413,7 +1761,7 @@ def _divergence_block(classical, modern, summary):
                 'sealed_validation': entry['sealed_validation']})
         closest.sort(key=lambda row: row['failed_condition_count'])
         nearest = closest[0] if closest else None
-        reasons.append('古典层暂不可判：7 条已审谓词无一命中；最接近的谓词 '
+        reasons.append('古典层暂不可判：8 条已审谓词无一命中；最接近的谓词 '
                        '%s 有 %d 个条件未满足（%s）。'
                        % (nearest['predicate_id'],
                           nearest['failed_condition_count'],
@@ -1486,6 +1834,7 @@ def divergence_explanation(assessment):
 
 
 def assess_strength(pillars, day_master, *, siling_si_pilot=None,
+                    siling_yin_pilot=None,
                     include_modern=True, modern_weights=None,
                     modern_thresholds=None):
     """Assess one chart's strength: classical factor-level predicates
@@ -1497,7 +1846,12 @@ def assess_strength(pillars, day_master, *, siling_si_pilot=None,
     the day pillar's stem. ``siling_si_pilot``: an already-computed
     ``si_siling_pilot`` result dict for this birth instant, required
     by the modern model for 巳月 charts; the classical layer never
-    consumes it. ``modern_weights`` / ``modern_thresholds``: optional
+    consumes it. ``siling_yin_pilot``: an already-computed
+    ``yin_siling_pilot`` result dict for this birth instant, required
+    by the classical F4 changsheng predicate (``bazi-siling-yin-
+    pilot-v1``) for 寅月 charts; without it the predicate never fires
+    (fail-closed), and the classical layer never consumes it for any
+    other month. ``modern_weights`` / ``modern_thresholds``: optional
     partial overrides for sensitivity runs (see
     :func:`sensitivity_analysis`); the pinned v1 tables are never mutated.
     Returns a research-only dict (see module docstring).
@@ -1508,7 +1862,8 @@ def assess_strength(pillars, day_master, *, siling_si_pilot=None,
         raise RuntimeError('registration_integrity_failure: unexpected '
                            'strength factor variant')
     summary = _summarize_factors(pillars, day_master, factor_output)
-    classical = _classical_layer(pillars, summary, day_master)
+    classical = _classical_layer(pillars, summary, day_master,
+                                 siling_yin_pilot=siling_yin_pilot)
     modern = _modern_layer(pillars, summary, day_master, classical,
                            siling_si_pilot,
                            weights=modern_weights,
@@ -1558,7 +1913,7 @@ def assess_strength(pillars, day_master, *, siling_si_pilot=None,
                       for p in pillars]
     evidence_chain = []
     for entry in classical['predicates']:
-        evidence_chain.append({
+        chain_entry = {
             'decision': 'classical_predicate',
             'predicate_id': entry['predicate_id'],
             'phase1_rule_id': entry['phase1_rule_id'],
@@ -1576,7 +1931,14 @@ def assess_strength(pillars, day_master, *, siling_si_pilot=None,
                 'interactions_present':
                     summary['interactions']['present'],
             },
-        })
+        }
+        if 'segment_gate' in entry:
+            chain_entry['segment_gate'] = dict(entry['segment_gate'])
+            chain_entry['predicate_rule_registration'] = \
+                entry['registration_status']
+            chain_entry['anchor_registration'] = \
+                entry['anchor_registration']
+        evidence_chain.append(chain_entry)
     if modern is not None:
         evidence_chain.append({
             'decision': 'modern_model',

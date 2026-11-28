@@ -48,7 +48,12 @@ combine the month-hidden candidate with those gates; P4 modern root
 grades, an extreme-weak band and a triple-harmony assembly screen
 (branches present + transforming stem visible) feed modern 从格
 assessments; P5 modern broken flags (财旺破印 / 制伏太过 / 偏印夺食 /
-比劫分夺) are presence/score flags only, never classical ``broken``.
+比劫分夺 / 财多化官) are presence/score flags only, never classical
+``broken``, and the P6 modern 伤尽标尺 grades 伤官 exhaustion from 官杀
+presence (exposed vs hidden). The ``BROKEN_GAPS`` status annotations
+track which gaps have such a modern flag/scale (``modern_flag_only``)
+and which have a resolved classical channel (``partially_resolved``,
+only 伤官见官); every other gap stays open with no status.
 The modern layer is additive: classical ``state`` is untouched except
 for the single 伤官见官 channel above, and no modern verdict is ever
 presented as a classical rule.
@@ -210,7 +215,8 @@ BROKEN_GAPS = {
          'missing_basis': '制伏太过阈值：制之太过的程度词无标尺',
          'missing_golden': '无：已审 Golden 均不含制伏太过破格条件',
          'status': 'modern_flag_only',
-         'modern_flag': '现代制伏太过旗标（pattern-modern-p6-v1）：'
+         'modern_flag': '现代制伏太过旗标 control_moderation_modern'
+                        '（pattern-modern-p6-v1）：'
                         '制伏在场数 >= 2 且 >= 2 倍七杀在场数；'
                         '古典太过阈值仍无。'},
         {'id': 'bg-qisha-shenwang-naming',
@@ -229,7 +235,7 @@ BROKEN_GAPS = {
          'missing_basis': '财破印效力：财多乘旺、财来乘旺的程度与破印效力均未裁定',
          'missing_golden': '无：已审 Golden 均不含财破印破格条件',
          'status': 'modern_flag_only',
-         'modern_flag': '现代财旺破印旗标（pattern-modern-p6-v1）：'
+         'modern_flag': '现代财旺破印旗标 wealth_breaks_seal_modern（pattern-modern-p6-v1）：'
                         '财在场数 >= 3 且现代身旺门为 strong；'
                         '古典财多 / 乘旺程度与破印效力仍无。'},
         {'id': 'bg-resource-shangguan-breaks-seal',
@@ -243,7 +249,7 @@ BROKEN_GAPS = {
          'missing_basis': '财破印效力：财多乘旺、财来乘旺的程度与破印效力均未裁定',
          'missing_golden': '无：已审 Golden 均不含财破印破格条件',
          'status': 'modern_flag_only',
-         'modern_flag': '现代财旺破印旗标（pattern-modern-p6-v1）：'
+         'modern_flag': '现代财旺破印旗标 wealth_breaks_seal_modern（pattern-modern-p6-v1）：'
                         '财在场数 >= 3 且现代身旺门为 strong；'
                         '古典财多 / 乘旺程度与破印效力仍无。'},
         {'id': 'bg-resource-shangguan-breaks-seal',
@@ -265,13 +271,17 @@ BROKEN_GAPS = {
          'missing_basis': '比劫分夺效力：只恐兄弟姊妹有夺之的分夺效力未裁定',
          'missing_golden': '无：已审 Golden 均不含分夺破格条件',
          'status': 'modern_flag_only',
-         'modern_flag': '现代比劫分夺旗标（pattern-modern-p6-v1）：'
+         'modern_flag': '现代比劫分夺旗标 robbery_divides_wealth_modern（pattern-modern-p6-v1）：'
                         '比劫在场即标旗；古典分夺效力仍无。'},
         {'id': 'bg-wealth-many-officer',
          'quotes': ('yh.zc_many_transform_officer',),
          'missing_basis': '财多化官效力：财多自化作官的身健门与化官效力均未裁定',
          'missing_golden': '无：已审 Golden 均不含财多化官破格条件',
-         'gate': 'p6-shenwang-gate'},
+         'gate': 'p6-shenwang-gate',
+         'status': 'modern_flag_only',
+         'modern_flag': '现代财多化官旗标 wealth_turns_officer_modern（pattern-modern-p6-v1）：'
+                        '财在场数 >= 3 且现代身旺门为 strong；'
+                        '古典身健门与化官效力仍无。'},
         {'id': 'bg-wealth-timely',
          'quotes': ('yh.zc_timely',),
          'missing_basis': '财得时阈值：财要得时的得时判断无阈值、无已裁定规则',
@@ -283,13 +293,17 @@ BROKEN_GAPS = {
          'missing_basis': '比劫分夺效力：只恐兄弟姊妹有夺之的分夺效力未裁定',
          'missing_golden': '无：已审 Golden 均不含分夺破格条件',
          'status': 'modern_flag_only',
-         'modern_flag': '现代比劫分夺旗标（pattern-modern-p6-v1）：'
+         'modern_flag': '现代比劫分夺旗标 robbery_divides_wealth_modern（pattern-modern-p6-v1）：'
                         '比劫在场即标旗；古典分夺效力仍无。'},
         {'id': 'bg-wealth-many-officer',
          'quotes': ('yh.zc_many_transform_officer',),
          'missing_basis': '财多化官效力：财多自化作官的身健门与化官效力均未裁定',
          'missing_golden': '无：已审 Golden 均不含财多化官破格条件',
-         'gate': 'p6-shenwang-gate'},
+         'gate': 'p6-shenwang-gate',
+         'status': 'modern_flag_only',
+         'modern_flag': '现代财多化官旗标 wealth_turns_officer_modern（pattern-modern-p6-v1）：'
+                        '财在场数 >= 3 且现代身旺门为 strong；'
+                        '古典身健门与化官效力仍无。'},
         {'id': 'bg-wealth-timely',
          'quotes': ('yh.zc_timely',),
          'missing_basis': '财得时阈值：财要得时的得时判断无阈值、无已裁定规则',
@@ -301,7 +315,7 @@ BROKEN_GAPS = {
          'missing_basis': '倒食夺食效力：偏印夺食的效力未裁定',
          'missing_golden': '无：已审 Golden 均不含倒食夺食破格条件',
          'status': 'modern_flag_only',
-         'modern_flag': '现代偏印夺食旗标（pattern-modern-p6-v1）：'
+         'modern_flag': '现代偏印夺食旗标 seal_seizes_food_modern（pattern-modern-p6-v1）：'
                         '偏印在场即标旗（偏印克食神为五行结构事实）；'
                         '古典夺食效力仍无。'},
         {'id': 'bg-food-single-unclear',
@@ -321,12 +335,20 @@ BROKEN_GAPS = {
          'status': 'partially_resolved',
          'resolved_channel': '任氏寅月真格成立的伤官格 + 正官在场（支干）'
                              '→ classical broken（yh.sw_pattern_no_officer；'
-                             '“官星”从窄读为正官，七杀在场 alone 不破格）'},
+                             '“官星”从窄读为正官，七杀在场 alone 不破格）',
+         'modern_flag': '现代伤官见官旗标 shangguan_sees_officer_modern（pattern-modern-p6-v1）：'
+                        '正官在场即标旗（未成立前提下只作现代旗标）；'
+                        '古典通道只在任氏寅月真格成立前提下输出 broken。'},
         {'id': 'bg-food-shangjin-scale',
          'quotes': ('yh.sw_exhaust_core',),
          'missing_basis': '伤尽程度标尺：伤官务要伤尽的程度词无标尺',
          'missing_golden': '无：已审 Golden 均不含伤尽破格条件',
-         'gate': 'p6-shangjin-scale'},
+         'gate': 'p6-shangjin-scale',
+         'status': 'modern_flag_only',
+         'modern_flag': '现代伤尽标尺（pattern-modern-p6-v1；等级 exhausted_modern / not_exhausted_modern）：'
+                        '伤官在场且官杀全无为 exhausted_modern；'
+                        '官杀在场（透/藏）即 not_exhausted_modern；'
+                        '古典伤尽程度标尺仍无。'},
     ],
     'jianlu': [
         {'id': 'bg-luren-no-rule',
@@ -2867,6 +2889,10 @@ def evaluate_all(chart, *, official=None, resource=None, route=None,
         'research_only': True,
         'public': False,
         'ai': False,
+        # Pin 契约键（unified_compute._check_research_flags 严格要求
+        # is False）：与 public / ai 同值显式声明，None 即未声明。
+        'public_enabled': False,
+        'ai_enabled': False,
         'scope': ('十二格逐格评估（研究用）加比肩 / 劫财两格常驻：成立只认'
                   '任氏寅月真格；候选附各格已登记条件事实（在场可算、'
                   '效力未裁定；第三批新增暗藏官杀、透藏区分、例句结构'

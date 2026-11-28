@@ -1762,11 +1762,12 @@ REGISTRATION_INVENTORY = [
         'item': 'f4-changsheng-design',
         'subject': 'F4 丙×寅长生形态设计（changsheng_visible_support）',
         'disclosure_sites': ['src/tianji_kb/bazi_fire_si_yin_morphology.py',
-                             'src/tianji_kb/bazi_strength_public.py'],
+                             'src/tianji_kb/bazi_strength_public.py',
+                             'src/tianji_kb/bazi_strength_engine.py'],
         'disposition': 'not_a_candidate',
-        'reason': '审定成立但未实现（实现门为司令扩月用户裁定），无运行'
-                  '时产出与披露可翻转。',
-        'unlock_path': '用户裁定司令扩月后先实现，再议注册。',
+        'reason': '审定成立；因素层谓词已实现（段门控，TJ-031.18），'
+                  'Phase1/Phase2 规则注册仍 pending，注册后方可翻转。',
+        'unlock_path': 'Phase1/Phase2 规则注册落地后翻转。',
     },
     {
         'item': 'fuyi-slice-adjudication-register',
